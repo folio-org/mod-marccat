@@ -19,7 +19,7 @@
         <postgresrunner.port>5434</postgresrunner.port>
         <!-- Postgres port for Jenkins CI build environment https://issues.folio.org/browse/METADATA-10 -->
         <postgres.port>5433</postgres.port>
-        <vertx-version>3.4.1</vertx-version>
+        <vertx-version>3.4.2</vertx-version>
     </properties>
 
     <developers>
@@ -82,6 +82,16 @@
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-web</artifactId>
+            <version>${vertx-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-sql-common</artifactId>
+            <version>${vertx-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-jdbc-client</artifactId>
             <version>${vertx-version}</version>
         </dependency>
         <dependency>
