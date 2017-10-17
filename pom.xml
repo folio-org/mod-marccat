@@ -45,6 +45,11 @@
 
     <repositories>
         <repository>
+            <id>JBoss releases</id>
+            <name>JBoss Releases</name>
+            <url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
+        </repository>
+        <repository>
             <id>folio-nexus</id>
             <name>FOLIO Maven repository</name>
             <url>https://repository.folio.org/repository/maven-folio</url>
@@ -70,9 +75,14 @@
 
     <dependencies>
         <dependency>
+            <groupId>net.sf.hibernate</groupId>
+            <artifactId>hibernate</artifactId>
+            <version>2.1.8</version>
+        </dependency>
+        <dependency>
             <groupId>org.folio</groupId>
             <artifactId>domain-models-runtime</artifactId>
-            <version>${raml-module-builder.version}</version>
+            <version>14.0.0</version>
         </dependency>
         <dependency>
             <groupId>io.vertx</groupId>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="librisuite.hibernate">
+	<class name="CasActvSpot"  schema="custom"  table="CAS_ACTV_SPOT">	
+		<id name="sourceId">
+			<column name="SRC_ID" not-null="true"/>
+			<generator class="assigned"/>
+		</id>	
+		<property name="active">
+			<column name="ACTIVE" sql-type="CHAR (1)"/>
+		</property>	
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="librisuite.hibernate">
+	<class name="CIR_INVTRY_LGL_SRCH" table="CIR_INVTRY_LGL_SRCH">
+		<composite-id name="key" class="InventoryLogicalSearchKey">
+			<key-property name="copyIdNumber" column="CPY_ID_NBR" />
+			<key-property name="inventorySearchNumber" column="INVTRY_SRCH_NBR"/>
+		</composite-id> 
+	</class>
+</hibernate-mapping>

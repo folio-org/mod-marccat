@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="librisuite.hibernate">
+	<class name="LIB_DTE_CLSE" table="LIB_DTE_CLSE">
+		<composite-id name="key" class="LibraryDateClosedKey">
+			<key-property name="organisationNumber" column="ORG_NBR"/>
+			<key-property name="libraryDateCloseDate" column="LIB_DTE_CLSE_DTE"/>
+		</composite-id>
+		<property name="generalIndicator">
+			<column name="GNRL_IND" sql-type="CHAR (1)" not-null="true"/>
+		</property>
+	</class>	
+</hibernate-mapping>

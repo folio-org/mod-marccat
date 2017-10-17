@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="librisuite.hibernate">
+  <class  schema="custom"  name="T_FILES_HRCY" table="T_FILES_HRCY">
+	 <composite-id>
+		<key-property name="natureLevel" column="NTR_LVL" />
+  	 </composite-id>	
+		<property name="parentNatureLevel">
+			<column name="PARNT_NTR_LVL" not-null="true"/>
+		</property>
+		
+	</class>
+</hibernate-mapping>

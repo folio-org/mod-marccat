@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping package="librisuite.hibernate">
+<class name="T_ITM_DSPLY" table="T_ITM_DSPLY" mutable="false">
+    <id name="code" column="CDE_VLU_NBR">
+    	<generator class="assigned"/>
+    </id>
+    <property name="frmt">
+            <column name="FRMT"/>
+    </property> 
+    <property name="labelled">
+            <column name="LBL"/> 
+	</property>            
+</class>
+</hibernate-mapping>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+<class 
+    name="librisuite.hibernate.S_INVTRY" 
+    table="S_INVTRY"
+>
+    <id name="mainLibrary">
+    	<column name="ORG_NBR"/>
+    	<generator class="assigned"/>
+	</id>
+	<property name="nextNumber">
+		<column name="INVTRY_NXT_NBR"/>
+	</property>
+</class>
+</hibernate-mapping>

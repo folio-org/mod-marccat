@@ -11,43 +11,67 @@ import io.vertx.ext.jdbc.impl.JDBCClientImpl;
 import io.vertx.ext.sql.ResultSet;
 import io.vertx.ext.sql.SQLClient;
 import io.vertx.ext.sql.SQLConnection;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.SessionFactory;
+import net.sf.hibernate.cfg.Configuration;
+import net.sf.hibernate.connection.ConnectionProvider;
+import org.folio.cataloging.integration.hibernate.LOAN_INTER_BRNCH;
+import org.folio.cataloging.integration.hibernate.USR_ACNT;
 import org.folio.rest.jaxrs.model.Template;
+import org.folio.rest.jaxrs.model.TemplateCollection;
 import org.folio.rest.jaxrs.resource.TemplatesResource;
+import org.folio.rest.tools.utils.TenantTool;
 
 import javax.ws.rs.core.Response;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Map;
+import java.util.Properties;
+
+import static org.folio.rest.tools.utils.TenantTool.tenantId;
 
 public class TemplateResource implements TemplatesResource{
     @Override
     public void getTemplates(String query, String orderBy, Order order, int offset, int limit, String lang, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
-        final JsonObject config =
-                new JsonObject()
-                    .put("url", "jdbc:postgresql://192.168.0.158:5432/olidb_sv1")
-                    .put("port", 5432)
-                    .put("user", "amicus")
-                    .put("password", "oracle")
-                    .put("database", "olidb_sv1");
-
-
-        JDBCClient client = JDBCClient.createShared(vertxContext.owner(), config);
+        final SQLClient client = JDBCClient.createShared(
+                vertxContext.owner(),
+                (JsonObject) vertxContext.owner()
+                    .sharedData()
+                    .getLocalMap("KEY")
+                    .computeIfAbsent(
+                            TenantTool.tenantId(okapiHeaders),
+                            t -> new JsonObject()
+                                    .put("url", "jdbc:postgresql://192.168.0.158:5432/olidb_sv1")
+                                    .put("port", 5432)
+                                    .put("user", "amicus")
+                                    .put("password", "oracle")
+                                    .put("database", "olidb_sv1")));
 
         client.getConnection(operation -> {
-            if (operation.succeeded()) {
+            try (final Connection connection = operation.result().unwrap()) {
+                final Configuration configuration = new Configuration();
+                configuration.setProperty("hibernate.dialect", "net.sf.hibernate.dialect.PostgreSQLDialect");
+                configuration.setProperty("dialect", "net.sf.hibernate.dialect.PostgreSQLDialect");
+                configuration.setProperty("show_sql", "true");
+                configuration.configure("/hibernate.cfg.xml");
 
-                SQLConnection connection = operation.result();
+                SessionFactory factory = configuration.buildSessionFactory();
+                final Session session = factory.openSession(connection);
 
-                connection.query("SELECT BIB_ITM_NBR FROM BIB_ITM LIMIT 10", res2 -> {
-                    if (res2.succeeded()) {
+                USR_ACNT user = (USR_ACNT) session.get(USR_ACNT.class, new Integer(1));
 
-                        ResultSet rs = res2.result();
-                        rs.getResults().forEach(System.out::println);
-                        asyncResultHandler.handle(Future.succeededFuture(GetTemplatesResponse.withJsonOK(null)));
-                    }
-                });
-            } else {
-                // Failed to get connection - deal with it
+                System.out.println(user);
+
+                session.close();
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
         });
+
+
+        asyncResultHandler.handle(Future.succeededFuture(GetTemplatesResponse.withJsonOK(null)));
+        System.out.println("OKOKOK");
     }
 
     @Override

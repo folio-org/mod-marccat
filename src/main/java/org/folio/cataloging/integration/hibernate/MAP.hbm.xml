@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+<class 
+    name="librisuite.business.cataloguing.bibliographic.Map" 
+    table="MAP"
+>
+
+    <composite-id>
+        <key-property 
+            name="bibItemNumber" 
+            column="BIB_ITM_NBR" 
+        />
+        <key-property 
+            name="keyNumber" 
+            column="MAP_KEY_NBR" 
+        />
+        <key-property 
+            name="userViewString" 
+            column="USR_VW_IND" 
+        />
+    </composite-id>    
+    <property name="generalMaterialDesignationCode">
+            <column name="GMD_CDE"/>
+    </property>
+    <property name="specificMaterialDesignationCode">
+            <column name="MAP_SMD_CDE"/>
+    </property>
+    <property name="mapColourCode">
+            <column name="MAP_CLR_CDE"/>
+    </property>
+     <property name="mapPhysicalMediumCode">
+            <column name="MAP_PHSCL_MDM_CDE"/>
+    </property>
+    <property name="mapTypeOfReproductionCode">
+            <column name="MAP_RPDTN_TYP_CDE"/>
+    </property>
+     <property name="mapProductionDetailsCode">
+            <column name="MAP_PRDTN_DTL_CDE"/>
+    </property>
+    <property name="mapPolarityCode">
+            <column name="MAP_PLRTY_CDE"/>
+    </property>
+    <property name="obsolete1">
+            <column name="ORGNL_VS_RPDTN_ASPCT_CDE"/>
+    </property>
+
+
+    <!-- associations -->
+
+</class>
+</hibernate-mapping>

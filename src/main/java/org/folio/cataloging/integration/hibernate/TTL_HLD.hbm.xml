@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="librisuite.hibernate">
+	<class name="TTL_HLD" table="TTL_HLD">
+		<id name="titleHoldNumber" type="int">
+			<column name="TTL_HLD_NBR" not-null="true"/>
+			<generator class="native">
+				<param name="sequence">TTL_HLD_SEQUENCE</param>
+			</generator>	
+		</id>
+		<property name="borrowerNumber">
+			<column name="BRWR_NBR" sql-type="NUMBER (11)" not-null="true"/>
+		</property>
+		<property name="bibItemNumber">
+			<column name="BIB_ITM_NBR" sql-type="NUMBER (11)" not-null="true"/>
+		</property>
+		<property name="priorityNumber">
+			<column name="PRTY_NBR" sql-type="NUMBER (6)" not-null="true"/>
+		</property>
+		<property name="titleHoldCreationDate">
+			<column name="TTL_HLD_CRT_DTE" sql-type="DATE" not-null="true"/>
+		</property>
+		<property name="titleTimeHoldIndicator">
+			<column name="TTL_HLD_TM_DTE_IND" sql-type="CHAR (1)" not-null="true"/>
+		</property>
+		<property name="titleHoldPrintIndicator">
+			<column name="TTL_HLD_PRNT_IND" sql-type="CHAR (1)" not-null="true"/>
+		</property>
+		<property name="pickupLocationOrganisationNumber">
+			<column name="TTL_HLD_LCTN_ORG_NBR" sql-type="NUMBER (11)" not-null="true"/>
+		</property>
+		<property name="copyBranchNumber">
+			<column name="CPY_BRNCH_ORG_NBR" sql-type="NUMBER (11)" />
+		</property>
+	</class>
+</hibernate-mapping>

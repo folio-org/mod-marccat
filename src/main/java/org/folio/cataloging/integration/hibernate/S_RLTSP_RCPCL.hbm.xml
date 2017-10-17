@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="librisuite.hibernate">
+<class name="RelationReciprocal" table="S_RLTSP_RCPCL">
+    <composite-id>
+        <key-property name="relationshipTypeCode" column="RLTSP_TYP_CDE"/>
+        <key-property name="relationshipReciprocalTypeCode" column="RLTSP_RCPCL_TYP_CDE"/>
+    </composite-id>
+</class>
+</hibernate-mapping>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+<class 
+    name="librisuite.hibernate.T_TRLTN" 
+    table="T_TRLTN"
+    mutable="false"
+>
+
+    <composite-id>
+        <key-property name="stringNumber" 
+            column="STR_NBR" type="long"/>
+        <key-property name="languageNumber" 
+            column="LNG_CDE"/>
+    </composite-id>    
+    <property name="text"> 
+            <column name="LBL_STR_TXT" length="192"/>
+	</property>            
+</class>
+</hibernate-mapping>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="librisuite.hibernate">
+	<class name="CasFiltriImport"  schema="custom"  table="CAS_FLTR_IMP">	
+		<composite-id>
+	        <key-property name="idFonte" column="SRC_ID"/>
+	        <key-property name="idFiltro" column="FLTR_ID"/>
+	    </composite-id>	
+		<property name="valFiltro">
+			<column name="FILTER" sql-type="VARCHAR2 (128)"/>
+		</property>
+		<!-- <joined-subclass
+				name="CasFiltri"
+				table="T_CAS_FLTR">
+			<key column="FLTR_ID"/>
+			<property name="idFiltro" column="FLTR_ID"/>
+			<property name="nomeFiltro" column="DESCR"/>
+			<property name="tipoFiltro" column="FLTR_TYP"/>
+		</joined-subclass> -->
+	</class>
+</hibernate-mapping>

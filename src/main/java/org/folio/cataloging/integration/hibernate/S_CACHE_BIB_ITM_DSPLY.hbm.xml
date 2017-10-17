@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+<class 
+    name="librisuite.hibernate.Cache" 
+    table="S_CACHE_BIB_ITM_DSPLY"
+>
+
+    <composite-id>
+        <key-property name="bibItemNumber" 
+            column="BIB_ITM_NBR"/>
+        <key-property name="cataloguingView" 
+            column="TRSTN_VW_NBR"/>
+    </composite-id>    
+    <property name="formOfItemCode"> 
+		<column name="FORM_OF_ITM_1_CDE"/>
+	</property>
+    <property name="languageOfCataloguingCode"> 
+		<column name="LANG_OF_CTLGG_CDE"/>
+	</property>
+    <property name="itemRecordTypeCode"> 
+		<column name="ITM_REC_TYP_CDE"/>
+	</property>
+    <property name="relationshipCode"> 
+		<column name="RLTSP_CDE"/>
+	</property>
+    <property name="locationCode"> 
+		<column name="LCTN_CDE"/>
+	</property>
+    <property name="titleVolumeNumberDescription"> 
+		<column name="TTL_VOL_NBR_1_DSC"/>
+	</property>
+    <property name="Date1"> 
+		<column name="ITM_DTE_1_DSC"/>
+	</property>
+    <property name="Date2">
+		<column name="ITM_DTE_2_DSC"/>
+	</property>
+    <property name="titleHeadingMainSortForm"> 
+		<column name="TTL_HDG_MAIN_SRT_FORM"/>
+	</property>
+    <property name="mainEntrySortForm"> 
+		<column name="MAIN_ENTRY_SRT_FORM"/>
+	</property>
+    <property name="codeTableAbreviatedName">
+		<column name="CDE_TBL_ABRVT_NME"/>
+	</property>
+    <property name="nameMainEntryStringText"> 
+		<column name="NME_MAIN_ENTRY_STRNG_TXT"/>
+	</property>
+    <property name="titleHeadingUniformStringText"> 
+		<column name="TTL_HDG_UNFRM_STRNG_TXT"/>
+	</property>
+    <property name="titleHeadingMainStringText"> 
+		<column name="TTL_HDG_MAIN_STRNG_TXT"/>
+	</property>
+    <property name="editionStrngTxt"> 
+		<column name="BIB_NTE_EDTN_STRNG_TXT"/>
+	</property>
+    <property name="publisherStrngTxt">
+		<column name="BIB_NTE_IPRNT_STRNG_TXT"/>
+	</property>
+    <property name="collationStrngTxt">
+		<column name="BIB_NTE_EXTNT_STRNG_TXT"/>
+	</property>
+    <property name="titleHeadingSeriesStringText">
+		<column name="TTL_HDG_SRS_STRNG_TXT"/>
+	</property>
+</class>
+</hibernate-mapping>

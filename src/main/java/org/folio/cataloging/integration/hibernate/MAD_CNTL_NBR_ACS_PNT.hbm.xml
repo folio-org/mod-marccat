@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="librisuite.business.cataloguing.mades">
+<class name="MadesControlNumberAccessPoint" table="MAD_CNTL_NBR_ACS_PNT">
+		<composite-id>
+			<key-property name="headingNumber" column="CNTL_KEY_NBR"/>
+			<key-property name="madItemNumber" column="MAD_ITM_NBR"/>
+			<key-property name="madUserView" column="MAD_USR_VW_CDE"/>
+			<key-property name="functionCode" column="CNTL_NBR_FNCTN_CDE"/>
+		</composite-id>
+		<property name="validationCode">
+			<column name="CNTL_NBR_VLDTN_CDE"/>
+		</property>
+	</class>
+</hibernate-mapping>

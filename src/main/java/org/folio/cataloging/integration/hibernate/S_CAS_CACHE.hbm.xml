@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping package="librisuite.hibernate">
+<class   name="CasCache"  schema="custom"  table="S_CAS_CACHE">
+    <composite-id>
+        <key-property name="bibItemNumber" 
+            column="BIB_ITM_NBR"/>
+     </composite-id>    
+    <property name="levelCard"> 
+		<column name="REC_LVL"/>
+	</property>
+	<property name="ntrLevel"> 
+		<column name="NTR_LVL"/>
+	</property>
+	<property name="digCheck"> 
+		<column name="DIG_CHK"/>
+	</property>
+   <property name="priceList"> 
+		<column name="PRICE_LST"/>
+	</property>
+	<property name="priceListDate"> 
+		<column name="PRICE_LST_DATE"/>
+	</property>
+	<property name="pageNumber"> 
+		<column name="PAG_NBR"/>
+	</property>
+	<property name="weightGrams"> 
+		<column name="WEIGHT_GR"/>
+	</property>
+	<property name="codeVendor"> 
+		<column name="ID_VNDR"/>
+	</property>
+	<property name="flagReiteration"> 
+		<column name="RECURR"/>
+	</property>
+	<property name="flagNTI"> 
+		<column name="NTI"/>
+	</property>
+	<property name="statusDisponibilit"> 
+		<column name="AVLBLTY_STATUS"/>
+	</property>
+	<property name="dateDisponibilit"> 
+		<column name="AVLBLTY_DATE"/>
+	</property>
+	<property name="codeWeeklyConsignmentFirst"> 
+		<column name="SHPNG_WK_CODE_1"/>
+	</property>
+	<property name="codeMonthlyConsignmentFirst"> 
+		<column name="SHPNG_MNTH_CODE_1"/>
+	</property>
+	<property name="codeWeeklyConsignmentSecond"> 
+		<column name="SHPNG_WK_CODE_2"/>
+	</property>
+	<property name="codeMonthlyConsignmentSecond"> 
+		<column name="SHPNG_MNTH_CODE_2"/>
+	</property>
+	<property name="heighBookMillimeters"> 
+		<column name="BOOK_HGHT_MM"/>
+	</property>
+	<property name="printFourCover"> 
+		<column name="PRNT_4_CVR "/>
+	</property>
+	<property name="dataSource"> 
+		<column name="DATA_SOURCE"/>
+	</property>
+	<property name="pagMin"> 
+		<column name="PAG_MIN"/>
+	</property>
+	<property name="pagMax"> 
+		<column name="PAG_MAX"/>
+	</property>
+	<property name="onlineCheck"> 
+		<column name="ONLINE_CHK"/>
+	</property>
+	<property name="continuazCheck"> 
+		<column name="CONTINUAZ_CHK"/>
+	</property>
+	<property name="mdrFgl"> 
+		<column name="MDR_FGL"/>
+	</property>	
+	<property name="lstPriceDtIni"> 
+		<column name="LST_PRICE_DT_INI"/>
+	</property>
+	<property name="lstPriceDtFin"> 
+		<column name="LST_PRICE_DT_FIN"/>
+	</property>
+	<property name="lstDtCrt"> 
+		<column name="LST_DT_CRT"/>
+	</property>
+	<property name="lstUser"> 
+		<column name="LST_USER"/>
+	</property>
+	<property name="lstNote"> 
+		<column name="LST_NOTE"/>
+	</property>
+	<property name="lstCurcy"> 
+		<column name="LST_CURCY"/>
+	</property>
+	<property name="lstType"> 
+		<column name="LST_TYPE"/>
+	</property>
+	<property name="idPublisher"> 
+		<column name="ID_PUBL"/>
+	</property>
+	<property name="productCategory"> 
+		<column name="PRODUCT_CATEGORY"/>
+	</property>
+		<property name="checkNCORE"> 
+		<column name="NCORE"/>
+	</property>
+	<property name="checkNTOCSB"> 
+		<column name="NTOCSB"/>
+	</property>
+</class>
+</hibernate-mapping>

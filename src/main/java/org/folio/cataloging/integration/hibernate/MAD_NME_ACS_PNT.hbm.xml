@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="librisuite.business.cataloguing.mades">
+<class name="MadesNameAccessPoint" table="MAD_NME_ACS_PNT">
+		<composite-id>
+			<key-property name="headingNumber" column="NME_HDG_NBR"/>
+			<key-property name="madItemNumber" column="MAD_ITM_NBR"/>
+			<key-property name="nameTitleHeadingNumber" column="NME_TTL_HDG_NBR"/>
+			<key-property name="madUserView" column="MAD_USR_VW_CDE"/>
+			<key-property name="functionCode" column="NME_FNCTN_CDE"/>
+		</composite-id>
+		<property name="workRelatorCode">
+			<column name="NME_WRK_RLTR_CDE"/>
+		</property>
+		<property name="materialSpecified">
+			<column name="MTRL_SPCFY_TXT"/>
+		</property>
+		<property name="institution">
+			<column name="INTTN_WHICH_FLD_APLY_CDE"/>
+		</property>
+		<property name="workRelatorStringtext">
+			<column name="NME_WRK_RLTR_STRNG_TXT"/>
+		</property>
+		<property name="otherSubfields">
+			<column name="NME_OTHER_SBFLDS"/>
+		</property>
+		<property name="sequenceNumber">
+			<column name="NME_SEQ_NBR"/>
+		</property>
+	</class>	
+</hibernate-mapping>

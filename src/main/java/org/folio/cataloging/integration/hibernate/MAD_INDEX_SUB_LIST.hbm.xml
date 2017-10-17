@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="librisuite.hibernate">
+	<class name="MadIndexSubList"  schema="olisuite"  table="MAD_INDEX_SUB_LIST">
+		<id name="listKey">
+			<column name="LIST_KEY" />
+			<generator class="assigned"/>
+		</id>
+		<property name="indexValueCode">
+			<column name="INDEX_VLU_CDE"/>
+		</property>
+		<property name="indexSubValueCode">
+			<column name="SUB_VLU_CDE"/>
+		</property>
+		<property name="indexSubName">
+			<column name="INDEX_SUB_NAME"/>
+		</property>
+		<property name="indexSearchCode">
+			<column name="INDEX_SEARCH_CODE"/>
+		</property>
+		<property name="indexType">
+			<column name="INDEX_TYPE"/>
+		</property>
+		<property name="language">
+			<column name="INDEX_LANGUAGE"/>
+		</property>
+	</class>
+</hibernate-mapping>

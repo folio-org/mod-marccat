@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="librisuite.business.cataloguing.mades">
+<class name="MAD_SHLF_LIST_ACS_PNT" table="MAD_SHLF_LIST_ACS_PNT">
+	<composite-id >
+		<key-property name="shelfListKeyNumber" column="SHLF_LIST_KEY_NBR" />
+		<key-property name="madItemNumber" column="MAD_ITM_NBR" />
+  	</composite-id>		
+		<property name="mainLibraryNumber">
+			<column name="ORG_NBR" sql-type="NUMBER (11)" not-null="true"/>
+		</property>
+	</class>
+</hibernate-mapping>

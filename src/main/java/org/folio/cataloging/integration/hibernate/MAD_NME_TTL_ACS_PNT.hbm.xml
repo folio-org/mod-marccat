@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="librisuite.business.cataloguing.mades">
+<class name="MadesNameTitleAccessPoint" table="MAD_NME_TTL_ACS_PNT">
+		<composite-id>
+			<key-property name="madItemNumber" column="MAD_ITM_NBR"/>
+			<key-property name="headingNumber" column="NME_TTL_HDG_NBR"/>
+			<key-property name="madUserView" column="MAD_USR_VW_CDE"/>
+		</composite-id>
+		<property name="functionCode" column="NME_TTL_FNCTN_CDE"/>
+		<property name="secondaryFunctionCode">
+			<column name="NME_TTL_SCDRY_FNCTN_CDE"/>
+		</property>
+		<property name="SeriesIssnHeadingNumber">
+			<column name="NME_TTL_SRS_ISSN_NBR"/>
+		</property>
+		<property name="institution">
+			<column name="INTTN_WHICH_FLD_APLY_CDE"/>
+		</property>
+		<property name="volumeNumberDescription">
+			<column name="NME_TTL_VOL_NBR_DSC"/>
+		</property>
+		<property name="materialSpecified">
+			<column name="MTRL_SPCFY_TXT"/>
+		</property>
+	</class>
+</hibernate-mapping>

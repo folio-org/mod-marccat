@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+<class 
+    name="librisuite.hibernate.CLCTN_ACS_PNT" 
+    table="CLCTN_ACS_PNT"
+>
+
+    <composite-id>
+        <key-property name="collectionNumber" 
+            column="CLCTN_CDE"/>
+        <key-property name="bibItemNumber" 
+            column="BIB_ITM_NBR"/>
+    </composite-id>    
+</class>
+</hibernate-mapping>
