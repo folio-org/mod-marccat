@@ -1,0 +1,9 @@
+{
+  "host": "localhost",
+  "port": 5432,
+  "maxPoolSize": 50,
+  "username": "tenant01_mod_configuration",
+  "password": "t1t1t1",
+  "database": "postgres",
+  "queryTimeout": 10000
+}
