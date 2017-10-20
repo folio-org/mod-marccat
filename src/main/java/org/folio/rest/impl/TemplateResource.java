@@ -58,7 +58,6 @@ public class TemplateResource implements TemplatesResource{
                         session = factory.openSession(connection);
 
                         session.get(USR_ACNT.class, "LICIUS");
-                        session.get(USR_ACNT.class, 1);
 
                         asyncResultHandler.handle(Future.succeededFuture(GetTemplatesResponse.withJsonOK(null)));
                     } catch (final SQLException exception) {
