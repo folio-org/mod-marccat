@@ -14,6 +14,13 @@ public class Log {
     }
 
     public void debug(final String message, final Object ... values) {
-        logger.debug(values == null ? message : String.format(message, values));
+        if (logger.isDebugEnabled()) {
+            logger.debug(values == null ? message : String.format(message, values));
+        }
     }
+
+    public void error(final String message, final Throwable cause) {
+        logger.error(message, cause);
+    }
+
 }
