@@ -6,7 +6,7 @@ import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.ext.jdbc.JDBCClient;
 import io.vertx.ext.sql.SQLClient;
-import librisuite.hibernate.USR_ACNT;
+import librisuite.hibernate.Template;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.SessionFactory;
@@ -67,13 +67,12 @@ public class TemplateResource implements TemplatesResource{
      *
      * The last three params come from the RMB generated code. The first two are up to the developer.
      */
-    @Override
-    public void getTemplates(String query, String orderBy, Order order, int offset, int limit, String lang, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
+    public void getTemplate(String query, String orderBy, Order order, int offset, int limit, String lang, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
         doGet( (session, future) -> {
             // This is the adapter core, where we need to call the existing logic and provide a valuable result in output
             try {
-                final USR_ACNT account = (USR_ACNT) session.get(USR_ACNT.class, "LICIUS");
-                future.complete(account);
+                final Template template = (Template) session.get(Template.class, "LICIUS");
+                future.complete(template);
             } catch (Exception exception) {
                 LOGGER.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
                 future.fail(exception);
@@ -83,15 +82,16 @@ public class TemplateResource implements TemplatesResource{
             // Most probably this code will be the always same, we can see if it can be isolated somewhere, therefore
             // avoiding duplication and redundancy.
             if (operation.succeeded()) {
-                // Example: do something with result
-                System.out.println(operation.result().getLastLogonDate());
+                // Do something with result
+                // ...
+                // ...
                 asyncResultHandler.handle(
                         Future.succeededFuture(
-                                GetTemplatesResponse.withJsonOK(null)));
+                                GetTemplateResponse.withJsonOK(null)));
             } else {
                 asyncResultHandler.handle(
                         Future.succeededFuture(
-                                GetTemplatesResponse.withPlainInternalServerError(
+                                GetTemplateResponse.withPlainInternalServerError(
                                         PublicMessageCatalog.INTERNAL_SERVER_ERROR)));
             }
         }, asyncResultHandler, okapiHeaders, vertxContext);
@@ -104,7 +104,7 @@ public class TemplateResource implements TemplatesResource{
      */
     public void doGet(
         final PieceOfExistingLogicAdapter adapter,
-        final Handler<AsyncResult<USR_ACNT>> resultHandler,
+        final Handler<AsyncResult<Template>> resultHandler,
         final Handler<AsyncResult<Response>> asyncResultHandler,
         final Map<String, String> okapiHeaders,
         final Context ctx) throws Exception {
@@ -118,8 +118,6 @@ public class TemplateResource implements TemplatesResource{
             response.bodyHandler(body -> {
                 final SQLClient client = JDBCClient.createShared(ctx.owner(), datasourceConfiguration(body));
                 client.getConnection(operation -> {
-
-
                         ctx.executeBlocking(
                                 future -> {
                                     Session session = null;
@@ -161,6 +159,9 @@ public class TemplateResource implements TemplatesResource{
     // Other RMb generated methods
 
     @Override
+    public void getTemplates(String query, String orderBy, Order order, int offset, int limit, String lang, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
+    }
+        @Override
     public void postTemplates(String lang, Template entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
 
     }
