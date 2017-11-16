@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="librisuite.hibernate">
+	<class name="CIRTN_HLD" table="CIRTN_HLD">
+		<id name="copyIdNumber">
+			<column name="CPY_ID_NBR" not-null="true"/>
+			<generator class="assigned"/>
+		</id>
+		<property name="organisationNumber">
+			<column name="ORG_NBR" sql-type="NUMBER (11)" not-null="true"/>
+		</property>
+		<property name="bibItemNumber">
+			<column name="BIB_ITM_NBR" sql-type="NUMBER (11)" not-null="true"/>
+		</property>
+		<property name="personNumber">
+			<column name="PRSN_NBR" sql-type="NUMBER (11)" not-null="true"/>
+		</property>
+		<property name="circulationHoldingLocationOrganisationNumber">
+			<column name="CIRTN_HLD_LCTN_ORG_NBR" sql-type="NUMBER(11)" not-null="true"/>
+		</property>
+		<property name="circulationHoldingTypeCode">
+			<column name="CIRTN_HLD_TYP_CDE" sql-type="NUMBER (6)" not-null="true"/>
+		</property>
+		<property name="circulationHoldingCreationDate">
+			<column name="CIRTN_HLD_CRTE_DTE" sql-type="DATE"/>
+		</property>
+		<property name="circulationHolginShelfDate">
+			<column name="CIRTN_HLD_SHLF_DTE" sql-type="DATE"/>
+		</property>
+		<property name="timeHoldingStratmentDate">
+			<column name="TME_HLD_STRT_DTE" sql-type="DATE"/>
+		</property>
+		<property name="timeHoldingEndDate">
+			<column name="TME_HLD_END_DTE" sql-type="DATE" />
+		</property>
+		<property name="timeHoldingStatusIndex">
+			<column name="TME_HLD_STUS_IND" sql-type="CHAR (1)"/>
+		</property>
+		<property name="circulationHoldingPrintIndex">
+			<column name="CIRTN_HLD_PRNT_IND" sql-type="CHAR (1)"/>
+		</property>
+		<property name="branchOrganisationNumber">
+			<column name="BRNCH_ORG_NBR" sql-type="NUMBER" not-null="true"/>
+		</property>
+	</class>
+</hibernate-mapping>

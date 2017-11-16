@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+<class 
+    name="librisuite.hibernate.LOADING_MARC_RECORDS" 
+    table="LOADING_MARC_RECORDS"
+    mutable="false"
+>
+
+    <composite-id>
+        <key-property 
+            name="sequence" 
+            column="REC_NBR"/>
+        <key-property 
+            name="loadingStatisticsNumber" 
+            column="LDG_STATS_NBR"/>
+    </composite-id>    
+
+    <property
+        name="oldBibItemNumber"
+        column="OLD_BIB_ITM_NBR"/>
+    <property
+        name="BibItemNumber"
+        column="NEW_BIB_ITM_NBR"/>
+</class>
+</hibernate-mapping>

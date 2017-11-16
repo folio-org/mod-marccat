@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+    
+<hibernate-mapping>
+
+<class 
+    name="com.casalini.hibernate.model.CasDataXfer" 
+     schema="custom" 
+    table="CAS_DATA_XFER"
+    lazy="false"
+>
+	<id
+        name="bibItmNbr"
+        type="java.lang.Long"
+        column="BIB_ITM_NBR"
+    >
+     <generator class="assigned" />
+    </id>
+    
+    <property name="transactionId">
+		<column name="TRANSACTION_ID" sql-type="VARCHAR2 (40)"/>
+	</property>
+	
+	<property name="operator">
+		<column name="OPERATOR" sql-type="VARCHAR2 (20)"/>
+	</property>
+	
+	<property name="xferDate">
+		<column name="XFER_DATE" sql-type="DATE"/>
+	</property>
+	
+	
+</class>
+
+</hibernate-mapping>
+
+

@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping package="librisuite.hibernate">
+<class name="CollectionCustomerArch"  schema="custom"  table="T_CLCTN_CST_ARCH">    
+    <composite-id>
+		<key-property name="idCollection" column="CLCTN_CST_CDE" />
+  	</composite-id>		
+    <property name="customerId"> 
+		<column name="CSTMR_CDE"/>
+	</property>
+     <property name="nameIta"> 
+		<column name="NME_CST_CDE"/>
+	</property>
+     <property name="idCollectionMST"> 
+		<column name="CLCTN_MST_CDE"/>
+	</property>
+	<property name="statusCode"> 
+		<column name="STUS_CDE"/>
+	</property>
+	<property name="dateCreation"> 
+		<column name="CRTN_DTE"/>
+	</property>
+	<property name="dateCancel"> 
+		<column name="CNCL_DTE"/>
+	</property>
+	<property name="typologyCode"> 
+		<column name="TPLG_CDE"/>
+	</property>
+	<property name="upgrade"> 
+		<column name="UPGRD"/>
+	</property>
+	<property name="userCreate"> 
+		<column name="USR_CRTD"/>
+	</property>
+	<property name="userModify"> 
+		<column name="USR_MDFY"/>
+	</property>
+	<property name="dateModify"> 
+		<column name="MDFY_DTE"/>
+	</property>
+	<property name="year"> 
+		<column name="YEAR"/>
+	</property>
+	<property name="dateIniVal"> 
+		<column name="DT_INI_VAL"/>
+	</property>
+	<property name="dateFinVal"> 
+		<column name="DT_FIN_VAL"/>
+	</property>
+	<property name="dateType"> 
+		<column name="DT_TYPE"/>
+	</property>
+	<property name="dateCancelColl"> 
+		<column name="CANCEL_DTE"/>
+	</property>
+	<property name="userCancel"> 
+		<column name="CANCEL_USR_NME"/>
+	</property>
+</class>
+</hibernate-mapping>

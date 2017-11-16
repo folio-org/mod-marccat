@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+	
+<hibernate-mapping package="librisuite.hibernate">
+	<class name="PublCdeHdg"  schema="custom"  table="PUBL_CDE_HDG">
+		<composite-id>
+			<key-property name="hdrNumber" column="HDG_NBR" />
+	  	</composite-id>		
+	 	<property name="publisherCode"> 
+			<column name="CODICE_EDITORE"/>
+		</property>  	
+	</class>
+</hibernate-mapping>

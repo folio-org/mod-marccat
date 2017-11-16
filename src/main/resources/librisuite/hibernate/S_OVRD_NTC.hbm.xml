@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="librisuite.hibernate">
+	<class name="S_OVRD_NTC" table="S_OVRD_NTC">
+		<id name="OverdueNoticeNumber">
+			<column name="OVRD_NTC_NBR" not-null="true"/>
+			<generator class="native">
+				<param name="sequence">S_OVRD_NTC_SEQUENCE</param>
+			</generator>
+		</id>
+		<property name="copyIdNumber">
+			<column name="CPY_ID_NBR" sql-type="NUMBER (11)" not-null="true"/>
+		</property>
+		<property name="borrowerNumber">
+			<column name="BRWR_NBR" sql-type="NUMBER (11)" not-null="true"/>
+		</property>
+		<property name="overdueNoticeType">
+			<column name="OVRD_TYP_CDE" sql-type="NUMBER(6)" not-null="true"/>
+		</property>
+		<property name="ActivityTimeDate">
+			<column name="ACTVTY_TME_DTE" sql-type="DATE"  not-null="true"/>
+		</property>
+		<property name="overdueNoticePrintInd">
+			<column name="OVRD_NTC_PRNT_IND" sql-type="CHAR (1)" not-null="true"/>
+		</property>
+		<property name="emailInd">
+			<column name="EMAIL_IND" sql-type="CHAR (1)" not-null="true"/>
+		</property>
+	</class>
+</hibernate-mapping>

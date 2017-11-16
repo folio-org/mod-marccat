@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+    
+<hibernate-mapping>
+<!-- 
+    Created by the Middlegen Hibernate plugin 2.2
+
+    http://boss.bekk.no/boss/middlegen/
+    http://www.hibernate.org/
+-->
+
+<class 
+    name="com.casalini.hibernate.model.CasRecordCache" 
+    table="CAS_RECORD_CACHE"
+    lazy="false"
+>
+
+    <composite-id name="comp_id" class="com.casalini.hibernate.model.CasRecordCachePK">
+        <key-property 
+            name="bibItmNbr" 
+            column="BIB_ITM_NBR" 
+            type="java.lang.Long"
+            length="11"
+        />
+        <key-property 
+            name="usrVwCde" 
+            column="USR_VW_CDE" 
+            type="java.math.BigDecimal"
+            length="22"
+        />
+    </composite-id>    
+
+    <property
+        name="recordBin"
+        type="java.lang.Object"
+        column="RECORD_BIN"
+        length="4000"
+    />
+
+    <!-- Associations -->
+    <!-- derived association(s) for compound key -->
+    <!-- end of derived association(s) -->
+  
+
+</class>
+</hibernate-mapping>

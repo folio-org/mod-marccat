@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping package="librisuite.hibernate">
+	<class name="AUT" table="AUT">
+    	<id name="amicusNumber">
+        	<column name="AUT_NBR"/>
+        	<generator class="assigned"/>
+    	</id>
+        <property name="headingNumber">
+            <column name="HDG_NBR"/>
+        </property>
+        <property name="headingType">
+            <column name="HDG_TYP_CDE"/>
+        </property>
+        <property name="recordStatusCode">
+            <column name="AUT_REC_STUS_CDE"/>
+        </property>
+        <property name="encodingLevel">
+            <column name="AUT_ENCDG_LVL_CDE"/>
+        </property>
+        <property name="dateOfLastTransaction">
+            <column name="TRSTN_DTE_TME"/>
+        </property>
+        <property name="enteredOnFileDate">
+            <column name="ENTR_ON_FLE_DTE"/>
+        </property>
+        <property name="subjectDescriptor">
+            <column name="AUT_SBJCT_DSCTR_CDE"/>
+        </property>
+        <property name="romanizationScheme">
+            <column name="AUT_RMNZT_SCHM_CDE"/>
+        </property>
+        <property name="bilingualUsage">
+            <column name="AUT_BLNGL_USG_CDE"/>
+        </property>
+        <property name="recordType">
+            <column name="AUT_REC_TYP_CDE"/>
+        </property>
+        <property name="cataloguingRules">
+            <column name="AUT_CTLGG_RLE_CDE"/>
+        </property>
+        <property name="subjectSystem">
+            <column name="AUT_SBJCT_SYS_CDE"/>
+        </property>
+        <property name="seriesType">
+            <column name="AUT_SRS_TYP_CDE"/>
+        </property>
+        <property name="seriesNumbering">
+            <column name="AUT_SRS_NBRG_CDE"/>
+        </property>
+        <property name="mainAddedEntryIndicator">
+            <column name="AUT_MAIN_ADD_ENTRY_IND"/>
+        </property>
+        <property name="subjectEntryIndicator">
+            <column name="AUT_SBJCT_ENTRY_IND"/>
+        </property>
+        <property name="seriesEntryIndicator">
+            <column name="AUT_SRS_ENTRY_IND"/>
+        </property>
+        <property name="subDivisionType">
+            <column name="AUT_SUB_DIV_TYP_CDE"/>
+        </property>
+        <property name="governmentAgency">
+            <column name="AUT_GOVT_AGNCY_CDE"/>
+        </property>
+        <property name="referenceStatus">
+            <column name="AUT_REF_STUS_CDE"/>
+        </property>
+        <property name="conferenceOrMeeting">
+            <column name="AUT_CONF_MTG_CDE"/>
+        </property>
+        <property name="recordRevision">
+            <column name="AUT_REC_RVSN_CDE"/>
+        </property>
+        <property name="nonUniqueName">
+            <column name="AUT_NON_UNQ_NME_CDE"/>
+        </property>
+        <property name="headingStatus">
+            <column name="AUT_HDG_STUS_CDE"/>
+        </property>
+        <property name="headingLanguage">
+            <column name="AUT_HDG_LANG_CDE"/>
+        </property>
+        <property name="recordModification">
+            <column name="AUT_REC_MDFTN_CDE"/>
+        </property>
+        <property name="cataloguingSourceCode">
+            <column name="AUT_CTLGG_SRC_CDE"/>
+        </property>
+        <property name="languageOfCataloguing">
+            <column name="LANG_OF_CTLGG_CDE"/>
+        </property>
+        <property name="typeOfDateTimeCode">
+            <column name="TYP_OF_DTE_TME_CDE"/>
+        </property>
+        <property name="verificationLevel">
+            <column name="VRFTN_LVL_CDE"/>
+        </property>
+        <property name="authenticationCenterStringText">
+            <column name="AUT_ATHCT_CNTR_STRNG_CDE"/>
+        </property>
+        <property name="cataloguingSourceStringText">
+            <column name="CTLGG_SRC_STRNG_TXT"/>
+        </property>
+        <property name="geographicAreaStringText">
+            <column name="GEOG_AREA_STRNG_TXT"/>
+        </property>
+        <property name="timePeriodStringText">
+            <column name="TME_PRD_STRNG_TXT"/>
+        </property>
+		<property name="variableHeadingStringText">
+			<column name="VRBL_HDG_STRNG_TXT"/>
+		</property>
+	</class>
+</hibernate-mapping>

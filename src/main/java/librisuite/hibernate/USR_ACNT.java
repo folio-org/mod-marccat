@@ -1,3 +1,10 @@
+/*
+ * (c) LibriCore
+ * 
+ * Created on Jun 21, 2004
+ * 
+ * USR_ACNT.java
+ */
 package librisuite.hibernate;
 
 import java.io.Serializable;
@@ -6,7 +13,21 @@ import java.util.Date;
 import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.Session;
 
-public class USR_ACNT implements Serializable{
+import com.libricore.librisuite.common.HibernateUtil;
+
+import librisuite.business.common.DataAccessException;
+import librisuite.business.common.Persistence;
+import librisuite.business.common.PersistenceState;
+
+/**
+ * @author paulm
+ * @version $Revision: 1.4 $, $Date: 2005/07/14 13:32:57 $
+ * @since 1.0
+ */
+public class USR_ACNT implements Serializable, Persistence {
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private int orderNumber;
@@ -37,6 +58,15 @@ public class USR_ACNT implements Serializable{
 	private int displayLimit;
 	private Integer defaultAuthorityModel;
 	private Integer defaultBibliographicModel;
+	private PersistenceState persistenceState = new PersistenceState();
+
+	public void cancelChanges() {
+		persistenceState.cancelChanges();
+	}
+
+	public void confirmChanges() {
+		persistenceState.confirmChanges();
+	}
 
 	@Override
 	public boolean equals(Object obj) {
@@ -53,6 +83,20 @@ public class USR_ACNT implements Serializable{
 		} else if (!name.equals(other.name))
 			return false;
 		return true;
+	}
+
+	@Override
+	public void evict() throws DataAccessException {
+		persistenceState.evict(this);
+	}
+
+	public void evict(Object obj) throws DataAccessException {
+		persistenceState.evict(obj);
+	}
+
+	@Override
+	public void generateNewKey() throws DataAccessException {
+		// do nothing
 	}
 
 	/**
@@ -82,6 +126,9 @@ public class USR_ACNT implements Serializable{
 		return communicationsAccessType;
 	}
 
+	public HibernateUtil getDAO() {
+		return persistenceState.getDAO();
+	}
 
 	/**
 	 * Getter for databasePreferenceOrder
@@ -289,6 +336,10 @@ public class USR_ACNT implements Serializable{
 		return systemKeyNumber;
 	}
 
+	public int getUpdateStatus() {
+		return persistenceState.getUpdateStatus();
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -302,6 +353,25 @@ public class USR_ACNT implements Serializable{
 	 * 
 	 * @return accountActiveIndicator
 	 */
+	public boolean isAccountActiveIndicator() {
+		return accountActiveIndicator;
+	}
+
+	public boolean isChanged() {
+		return persistenceState.isChanged();
+	}
+
+	public boolean isDeleted() {
+		return persistenceState.isDeleted();
+	}
+
+	public boolean isNew() {
+		return persistenceState.isNew();
+	}
+
+	public boolean isRemoved() {
+		return persistenceState.isRemoved();
+	}
 
 	/**
 	 * Getter for showResultsIndicator
@@ -311,6 +381,39 @@ public class USR_ACNT implements Serializable{
 	public boolean isShowResultsIndicator() {
 		return showResultsIndicator;
 	}
+
+	public void markChanged() {
+		persistenceState.markChanged();
+	}
+
+	public void markDeleted() {
+		persistenceState.markDeleted();
+	}
+
+	public void markNew() {
+		persistenceState.markNew();
+	}
+
+	public void markUnchanged() {
+		persistenceState.markUnchanged();
+	}
+
+	public boolean onDelete(Session arg0) throws CallbackException {
+		return persistenceState.onDelete(arg0);
+	}
+
+	public void onLoad(Session arg0, Serializable arg1) {
+		persistenceState.onLoad(arg0, arg1);
+	}
+
+	public boolean onSave(Session arg0) throws CallbackException {
+		return persistenceState.onSave(arg0);
+	}
+
+	public boolean onUpdate(Session arg0) throws CallbackException {
+		return persistenceState.onUpdate(arg0);
+	}
+
 	/**
 	 * Setter for accountActiveIndicator
 	 * 
@@ -318,10 +421,6 @@ public class USR_ACNT implements Serializable{
 	 */
 	public void setAccountActiveIndicator(boolean b) {
 		accountActiveIndicator = b;
-	}
-
-	public boolean isAccountActiveIndicator() {
-		return accountActiveIndicator;
 	}
 
 	/**
@@ -566,5 +665,12 @@ public class USR_ACNT implements Serializable{
 		systemKeyNumber = i;
 	}
 
+	public void setUpdateStatus(int i) {
+		persistenceState.setUpdateStatus(i);
+	}
+
+	public String toString() {
+		return persistenceState.toString();
+	}
 
 }

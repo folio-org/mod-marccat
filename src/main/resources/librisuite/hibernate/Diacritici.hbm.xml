@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+    
+<hibernate-mapping>
+
+<class 
+    name="librisuite.hibernate.Diacritici" 
+    schema="amicus"
+    table="Diacritici"
+    lazy="false"
+>
+	<id
+        name="idCarattere"
+        type="java.lang.Integer"
+        column="ID_CARATTERE"
+    >
+     <generator class="assigned" />
+    </id>
+	
+	<property name="setCarattere">
+		<column name="SET_CARATTERE" sql-type="VARCHAR2 (50)"/>
+	</property>
+	<property name="font">
+		<column name="FONT" sql-type="VARCHAR2 (50)"/>
+	</property>
+		<property name="carattere">
+		<column name="CARATTERE" sql-type="VARCHAR2 (10)"/>
+	</property>
+		<property name="nomeCarattere">
+		<column name="NOME_CARATTERE" sql-type="VARCHAR2 (100)"/>
+	</property>
+		<property name="codiceUnicode">
+		<column name="CODICE_UNICODE" sql-type="VARCHAR2 (10)"/>
+	</property>
+		<property name="codiceUtf8">
+		<column name="CODICE_UTF8" sql-type="VARCHAR2 (10)"/>
+	</property>	
+</class>
+
+</hibernate-mapping>
+
+

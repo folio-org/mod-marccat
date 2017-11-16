@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="librisuite.hibernate">
+	<class name="CasFonti"  schema="custom"  table="T_CAS_SRC">	
+		<id name="idFonte">
+			<column name="SRC_ID" not-null="true" sql-type="VARCHAR2 (3)"/>
+			<generator class="assigned"/>
+		</id>	
+		<property name="nomeFonte">
+			<column name="DESCR" sql-type="VARCHAR2 (128)"/>
+		</property>		
+	</class>
+</hibernate-mapping>

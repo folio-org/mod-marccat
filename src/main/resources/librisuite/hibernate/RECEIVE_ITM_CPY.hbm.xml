@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+<class name="librisuite.hibernate.ReceiveItemCopy" table="RECEIVE_ITM_CPY">
+
+    <composite-id>
+        <key-property 
+            name="receiveItemNumber" 
+            column="RECEIVE_ITM_NBR"/>
+        <key-property 
+            name="copyNumber" 
+            column="CPY_ID_NBR"/>
+    </composite-id>    
+</class>
+</hibernate-mapping>

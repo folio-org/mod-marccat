@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+<class 
+    name="librisuite.business.cataloguing.bibliographic.MotionPicture" 
+    table="MP"
+>
+
+    <composite-id>
+        <key-property name="bibItemNumber" 
+            column="BIB_ITM_NBR"/>
+        <key-property name="KeyNumber" 
+            column="MP_KEY_NBR"/>
+        <key-property name="userViewString" 
+            column="USR_VW_IND" length="16"/>
+    </composite-id>    
+    <property name="generalMaterialDesignationCode"> 
+            <column name="GMD_CDE"/>
+    </property>
+    <property name="specificMaterialDesignationCode"> 
+            <column name="MP_SMD_CDE"/>
+    </property>
+    <property name="colourCode"> 
+            <column name="MP_CLR_CDE"/>
+    </property>
+    <property name="presentationFormatCode"> 
+            <column name="MP_PRSTN_FRMT_CDE"/>
+    </property>
+    <property name="includesSoundCode">
+            <column name="SND_MDM_OR_SEPRT_CDE"/>
+    </property>
+    <property name="mediumForSoundCode"> 
+            <column name="MDM_FOR_SND_CDE"/>
+    </property>
+    <property name="dimensionsCode"> 
+            <column name="MP_DMNSN_CDE"/>
+    </property>
+    <property name="configurationCode"> 
+            <column name="MP_CONFIG"/>
+    </property>
+    <property name="productionElementsCode"> 
+            <column name="MP_PROD_ELEM"/>
+    </property>
+    <property name="polarityCode"> 
+            <column name="MP_POS_NEG"/>
+    </property>
+    <property name="generationCode"> 
+            <column name="MP_GNRTN"/>
+    </property>
+    <property name="baseOfFilmCode"> 
+            <column name="MP_BSE_FLM"/>
+    </property>
+    <property name="refinedCategoriesOfColourCode"> 
+            <column name="MP_RF_CLR"/>
+    </property>
+    <property name="kindOfColourStockCode"> 
+            <column name="MP_CLR_STCK"/>
+    </property>
+    <property name="deteriorationStageCode"> 
+            <column name="MP_DTRTN_STGE"/>
+    </property>
+    <property name="completenessCode"> 
+            <column name="MP_CMPLT"/>
+    </property>
+    <property name="inspectionDate"> 
+            <column name="MP_INSPCTN_DTE" length="6"/>
+    </property>
+    <property name="obsolete1"> 
+            <column name="ORGNL_VS_RPDTN_ASPCT_CDE"/>
+    </property>
+</class>
+</hibernate-mapping>

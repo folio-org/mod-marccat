@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="librisuite.hibernate">
+ 	<class name="HLD_RCALL_QUEUE" table="HLD_RCALL_QUEUE">
+		<composite-id name="key" class="HoldingRecallQueueKey">
+			<key-property name="bibItemNumber" column="BIB_ITM_NBR" />
+			<key-property name="personNumber" column="PRSN_NBR"/>
+			<key-property name="organisationNumber" column="ORG_NBR"/>
+		</composite-id>
+		<property name="holdingRecallQueueTypeCode">
+			<column name="HLD_RCALL_QUEUE_TYP_CDE" sql-type="CHAR (1)"/>
+		</property>
+	</class>
+</hibernate-mapping>

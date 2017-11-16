@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping package="librisuite.hibernate">
+<class  name="SubjectTerm"  schema="olisuite"  table="SBJCT_TRM_TYP">
+    <composite-id>
+        <key-property name="headingNumber" 
+            column="HDG_NBR"/>
+        <key-property name="codeTerm" 
+            column="TRM_CDE"/>
+     </composite-id>    
+    
+</class>
+</hibernate-mapping>

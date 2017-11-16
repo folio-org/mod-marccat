@@ -1,0 +1,150 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="librisuite.hibernate">
+	<class name="LV_DATABASE" table="LV_DATABASE">
+		<id name="databaseNumber" type="int">
+			<column name="DB_NBR" not-null="true"/>
+			<generator class="assigned"/>
+		</id>
+		<property name="databaseName">
+			<column name="NAME" sql-type="VARCHAR2 (256)" not-null="true"/>
+		</property>
+		<property name="databaseDescription">
+			<column name="DESCRIPTION" sql-type="VARCHAR2 (1024)" />
+		</property>
+		<property name="databaseAuthentication">
+			<column name="AUTHENTICATION" sql-type="VARCHAR2 (256)" not-null="true"/>
+		</property>
+		<property name="databaseAddress">
+			<column name="ADDRESS" sql-type="VARCHAR2 (256)" not-null="true"/>
+		</property>
+		<property name="databasePort">
+			<column name="PORT" sql-type="NUMBER (11)" not-null="true"/>
+		</property>
+		<property name="databaseProtocol">
+			<column name="PROTOCOL" sql-type="CHAR (1)" not-null="true"/>
+		</property>
+		<property name="serverUnicode">
+			<column name="SRV_UNICODE" sql-type="NUMBER (1)" not-null="true"/>
+		</property>
+		<property name="serverLogin">
+			<column name="SRV_LOGIN" sql-type="NUMBER (1)" not-null="true"/>
+		</property>
+		<property name="serverTruncation">
+			<column name="SRV_TRUNCATION" sql-type="NUMBER (1)" not-null="true"/>
+		</property>
+		<property name="serverSearch">
+			<column name="SRV_SEARCH" sql-type="NUMBER (1)" not-null="true"/>
+		</property>
+		<property name="serverPresent">
+			<column name="SRV_PRESENT" sql-type="NUMBER (1)" not-null="true"/>
+		</property>
+		<property name="serverDeleteResultSet">
+			<column name="SRV_DELETE_RESULT_SET" sql-type="NUMBER (1)" not-null="true"/>
+		</property>
+		<property name="serverResourceReport">
+			<column name="SRV_RESOURCE_REPORT" sql-type="NUMBER (1)" not-null="true"/>
+		</property>
+		<property name="serverTriggerResourceControl">
+			<column name="SRV_TRIG_RSRC_CTRL" sql-type="NUMBER (1)" not-null="true"/>
+		</property>
+		<property name="serverResourceControl">
+			<column name="SRV_RESOURCE_CONTROL" sql-type="NUMBER (1)" not-null="true"/>
+		</property>
+		<property name="serverAccessControl">
+			<column name="SRV_ACCESS_CONTROL" sql-type="NUMBER (1)" not-null="true"/>
+		</property>
+		<property name="serverScan">
+			<column name="SRV_SCAN" sql-type="NUMBER (1)" not-null="true"/>
+		</property>
+		<property name="serverSort">
+			<column name="SRV_SORT" sql-type="NUMBER (1)" not-null="true"/>
+		</property>
+		<property name="serverExtebdedServices">
+			<column name="SRV_EXTENDED_SERVICES" sql-type="NUMBER (1)" not-null="true"/>
+		</property>
+		<property name="serverLevel1Segmentation">
+			<column name="SRV_LEVEL_1_SEGMENTATION" sql-type="NUMBER (1)" not-null="true"/>
+		</property>
+		<property name="serverLevel2Segmentation">
+			<column name="SRV_LEVEL_2_SEGMENTATION" sql-type="NUMBER (1)" not-null="true"/>
+		</property>
+		<property name="serverConcurrentResultSets">
+			<column name="SRV_CONCURRENT_RESULT_SETS" sql-type="NUMBER (1)" not-null="true"/>
+		</property>
+		<property name="serverNamedResultSets">
+			<column name="SRV_NAMED_RESULT_SETS" sql-type="NUMBER (1)" not-null="true"/>
+		</property>
+		<property name="serverEncapsulation">
+			<column name="SRV_ENCAPSULATION" sql-type="NUMBER (1)" not-null="true"/>
+		</property>
+		<property name="serverResultSetCountParameteInSortReponse">
+			<column name="SRV_RSLTCNT_IN_SRT_RSPNS" sql-type="NUMBER (1)" not-null="true"/>
+		</property>
+		<property name="serverNegotiationModel">
+			<column name="SRV_NEGOTIATION_MODEL" sql-type="NUMBER (1)" not-null="true"/>
+		</property>
+		<property name="serverDuplicateDetection">
+			<column name="SRV_DUPLICATE_DETECTION" sql-type="NUMBER (1)" not-null="true"/>
+		</property>
+		<property name="attibute">
+			<column name="ATTRIBUTE" sql-type="VARCHAR2 (32)" not-null="true"/>
+		</property>
+		<property name="recordSyntax">
+			<column name="RECORD_SYNTAX" sql-type="NUMBER (11)" not-null="true"/>
+		</property>
+		<property name="specification1">
+			<column name="SPEC_1" sql-type="VARCHAR2 (1)" />
+		</property>
+		<property name="specification2">
+			<column name="SPEC_2" sql-type="VARCHAR2 (1)" />
+		</property>
+		<property name="specification3">
+			<column name="SPEC_3" sql-type="VARCHAR2 (1)" />
+		</property>
+		<property name="specification4">
+			<column name="SPEC_4" sql-type="VARCHAR2 (1)" />
+		</property>
+		<property name="specification5">
+			<column name="SPEC_5" sql-type="VARCHAR2 (1)" />
+		</property>
+		<property name="urlDescription">
+			<column name="URL_DESCRIPTION" sql-type="VARCHAR2 (1024)" />
+		</property>
+		<property name="longDescription">
+			<column name="LONG_DESCRIPTION" sql-type="VARCHAR2 (1024)" />
+		</property>
+		<property name="deletionIndicator">
+			<column name="DELETION_INDICATOR" sql-type="NUMBER (1)" not-null="true"/>
+		</property>
+		<property name="showActiveDatabase">
+			<column name="SHOW_ACTIVE_DATABASE" sql-type="NUMBER (1)" />
+		</property>
+		<property name="allowedIpAddresses">
+			<column name="ALLOWED_IP_ADDRESSES" sql-type="VARCHAR2 (2000)" />
+		</property>
+		<property name="alternativeAccess">
+			<column name="ALT_ACCESS" sql-type="NUMBER (6)" />
+		</property>
+		<property name="characterSetScanRequest">
+			<column name="CHAR_SET_SCAN_REQUEST" sql-type="VARCHAR2 (32)" />
+		</property>
+		<property name="characterSetScanResponseTerm">
+			<column name="CHAR_SET_SCAN_RESPONSE_TERM" sql-type="VARCHAR2 (32)" />
+		</property>
+		<property name="characterSetScanResponseDisplayTerm">
+			<column name="CHAR_SET_SCAN_RESPONSE_DSP_TRM" sql-type="VARCHAR2 (32)" />
+		</property>
+		<property name="characterSetSearchRequest">
+			<column name="CHAR_SET_SEARCH_REQUEST" sql-type="VARCHAR2 (32)" />
+		</property>
+		<property name="chararacterSetPresentResponse">
+			<column name="CHAR_SET_PRESENT_RESPONSE" sql-type="VARCHAR2 (32)" />
+		</property>
+		<property name="limitSearchByPqf">
+			<column name="LIMIT_SEARCH_BY_PQF" sql-type="VARCHAR2 (200)" />
+		</property>
+	</class>
+</hibernate-mapping>

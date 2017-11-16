@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="librisuite.hibernate">
+	<class name="RdaMarcTagDisplay"  schema="olisuite"  table="S_RDA_TAG_MARC_DSPLY">
+		<cache usage="read-only"/>
+		<composite-id>
+			<key-property name="marcTag"             column="MARC_TAG_NBR" />
+			<key-property name="language"            column="LANGID" />
+			<key-property name="marcFirstIndicator"  column="MARC_TAG_1ST_IND"/>
+			<key-property name="marcSecondIndicator" column="MARC_TAG_2ND_IND"/>
+			<key-property name="marcFbrType"         column="MARC_FBR_TYPE"/>
+			<key-property name="marcTagSubfieldCode"  column="MARC_TAG_SBFLD_CDE"/>
+    	</composite-id>
+    	<property name="marcTagNumberText">
+			<column name="MARC_TAG_NUMBER_TXT" sql-type="VARCHAR2(1080)" not-null="false"/>
+		</property>
+		<property name="marcTagDescription">
+			<column name="MARC_TAG_STRNG_TXT" sql-type="VARCHAR2(1080)" not-null="true"/>
+		</property>
+		 <property name="marcTagPunctuation">
+			<column name="MARC_TAG_PNCTN" sql-type="VARCHAR2(1080)" />
+		</property>
+	  </class>
+</hibernate-mapping>

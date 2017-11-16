@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping>
+	<class
+		name="librisuite.business.cataloguing.authority.AuthorityModel"
+		table="AUTHORITY_MODEL">
+		<id name="id">
+			<column name="ID" not-null="true"/>
+			<generator class="native">
+				<param name="sequence">AUTHORITY_MODEL_SEQUENCE</param>
+			</generator>
+		</id>
+		<property name="label" column="LABEL"/>
+		<property name="xmlFields" column="XML_FIELDS" type="librisuite.business.common.hibernate.StringClobType"/>
+		<property name="wemiFirstGroup" column="FRBR_TYPE_FIRST"/>
+		<property name="wemiSecondGroup" column="FRBR_TYPE_SECOND"/>
+		<property name="wemiThirdGroup" column="FRBR_TYPE_THIRD"/>
+		
+	</class>
+</hibernate-mapping>

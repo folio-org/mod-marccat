@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+    
+<hibernate-mapping>
+
+<class 
+    name="com.casalini.hibernate.model.CasQltyRec" 
+     schema="custom" 
+    table="CAS_QLTY_REC"
+    lazy="false"
+>
+	<id
+        name="bibItmNbr"
+        type="java.lang.Integer"
+        column="BIB_ITM_NBR"
+    >
+     <generator class="assigned" />
+    </id>
+	
+	<property name="transactionId">
+		<column name="TRANSACTION_ID" sql-type="NUMBER"/>
+	</property>
+	
+</class>
+
+</hibernate-mapping>
+
+

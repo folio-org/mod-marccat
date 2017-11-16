@@ -6,7 +6,7 @@ import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.ext.jdbc.JDBCClient;
 import io.vertx.ext.sql.SQLClient;
-import librisuite.hibernate.Template;
+//import librisuite.hibernate.Template;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.SessionFactory;
@@ -66,7 +66,7 @@ public class TemplateResource implements TemplatesResource{
      * </ul>
      *
      * The last three params come from the RMB generated code. The first two are up to the developer.
-     */
+
     public void getTemplate(String query, String orderBy, Order order, int offset, int limit, String lang, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
         doGet( (session, future) -> {
             // This is the adapter core, where we need to call the existing logic and provide a valuable result in output
@@ -81,10 +81,9 @@ public class TemplateResource implements TemplatesResource{
             // This is the adapter operation result management
             // Most probably this code will be the always same, we can see if it can be isolated somewhere, therefore
             // avoiding duplication and redundancy.
-            if (operation.succeeded()) {
-                // Do something with result
-                // ...
-                // ...
+            /*
+            //            if (operation.succeeded()) {
+
                 asyncResultHandler.handle(
                         Future.succeededFuture(
                                 GetTemplateResponse.withJsonOK(null)));
@@ -93,10 +92,11 @@ public class TemplateResource implements TemplatesResource{
                         Future.succeededFuture(
                                 GetTemplateResponse.withPlainInternalServerError(
                                         PublicMessageCatalog.INTERNAL_SERVER_ERROR)));
-            }
-        }, asyncResultHandler, okapiHeaders, vertxContext);
-    }
 
+            }
+        });// , //asyncResultHandler, okapiHeaders, vertxContext);
+    }
+*/
     /**
      * This is the method where we are trying to hide the complexity of mixing non-blocking and blocking code.
      * This is called doGet because it handles GET methods, and I guess we will create one method for each

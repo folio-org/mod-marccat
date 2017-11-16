@@ -1,0 +1,96 @@
+/*
+ * (c) LibriCore
+ * 
+ * Created on Dec 22, 2004
+ * 
+ * DAOPublisherTag.java
+ */
+package librisuite.business.cataloguing.bibliographic;
+
+import java.util.Iterator;
+
+import librisuite.business.common.DataAccessException;
+import librisuite.business.common.Persistence;
+import net.sf.hibernate.Hibernate;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.type.Type;
+
+import com.libricore.librisuite.common.HibernateUtil;
+import com.libricore.librisuite.common.TransactionalHibernateOperation;
+
+/**
+ * Although PublisherTag implements Persistence, it is in fact not mapped to a table
+ * through Hibernate.  Instead it delegates persistence to its constituent access points
+ * @author paulm
+ * @version $Revision: 1.4 $, $Date: 2005/12/21 08:30:32 $
+ * @since 1.0
+ */
+public class DAOPublisherTag extends HibernateUtil {
+
+	/* (non-Javadoc)
+	 * @see com.libricore.librisuite.common.HibernateUtil#delete(librisuite.business.common.Persistence)
+	 */
+	public void delete(Persistence po) throws DataAccessException {
+		if (!(po instanceof PublisherTag)) {
+			throw new IllegalArgumentException("I can only persist PublisherTag objects");
+		}
+		PublisherTag aPub = (PublisherTag) po;
+		Iterator iter = aPub.getAccessPoints().iterator();
+		PublisherAccessPoint apf;
+		while (iter.hasNext()) {
+			apf = (PublisherAccessPoint) iter.next();
+			apf.markDeleted();
+			super.delete(apf);
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see com.libricore.librisuite.common.HibernateUtil#save(librisuite.business.common.Persistence)
+	 */
+	public void save(final Persistence po) throws DataAccessException {
+		if (!(po instanceof PublisherTag)) {
+			throw new IllegalArgumentException("I can only persist PublisherTag objects");
+		}
+		new TransactionalHibernateOperation() {
+			public void doInHibernateTransaction(Session s)
+				throws HibernateException, DataAccessException {
+				PublisherTag aPub = (PublisherTag) po;
+				/*
+				 * The approach taken to saving publisher tags is to first delete all existing
+				 * apfs for this tag and then to add back the new ones.
+				 */
+				s.delete(
+					"from PublisherAccessPoint as apf "
+						+ " where apf.bibItemNumber = ? and "
+						+ " apf.userViewString = ? ",
+					new Object[] {
+						new Integer(aPub.getItemNumber()),
+						aPub.getUserViewString()},
+					new Type[] { Hibernate.INTEGER, Hibernate.STRING });
+
+				Iterator iter = aPub.getAccessPoints().iterator();
+				PublisherAccessPoint apf;
+				while (iter.hasNext()) {
+					apf = (PublisherAccessPoint) iter.next();
+					apf.setBibItemNumber(aPub.getItemNumber());
+					apf.setUserViewString(aPub.getUserViewString());
+					apf.markNew();
+					persistByStatus(apf);
+				}
+			}
+		}
+		.execute();
+	}
+
+	/* (non-Javadoc)
+	 * @see com.libricore.librisuite.common.HibernateUtil#update(librisuite.business.common.Persistence)
+	 */
+	public void update(Persistence p) throws DataAccessException {
+		/*
+		 * Since we are deleting and re-adding, save and update are the same
+		 */
+		save(p);
+	}
+
+}

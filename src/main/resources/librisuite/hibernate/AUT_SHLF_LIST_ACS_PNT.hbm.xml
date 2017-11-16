@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+
+<class 
+    name="librisuite.business.cataloguing.authority.AuthorityShelfListAccessPoint" 
+    table="AUT_SHLF_LIST_ACS_PNT"
+>
+
+    <composite-id>
+        <key-property 
+            name="itemNumber" column="AUT_NBR"/>
+        <key-property 
+            name="headingNumber" 
+            column="SHLF_LIST_KEY_NBR"/>
+        <key-property 
+            name="mainLibraryNumber" 
+            column="ORG_NBR"/>
+        <key-property 
+            name="functionCode" 
+            column="AUT_SHLF_LIST_FNCTN_CDE"/>
+    </composite-id>    
+    <property name="institution" 
+            column="INTTN_WHICH_FLD_APLY_CDE"/>
+    <property name="volumeDate" 
+            column="AUT_VOL_DTE"/>
+</class>
+</hibernate-mapping>

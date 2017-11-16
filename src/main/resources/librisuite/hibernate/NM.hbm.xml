@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+<class 
+    name="librisuite.business.cataloguing.bibliographic.NotatedMusic" 
+    table="NM"
+>
+
+    <composite-id>
+        <key-property name="bibItemNumber" 
+            column="BIB_ITM_NBR"/>
+        <key-property name="KeyNumber" 
+            column="NM_KEY_NBR"/>
+        <key-property name="userViewString" 
+            column="USR_VW_IND" length="16"/>
+    </composite-id>    
+    <property name="generalMaterialDesignationCode"> 
+            <column name="GMD_CDE"/>
+    </property>
+    <property name="specificMaterialDesignationCode"> 
+            <column name="NM_SMD_CDE"/>
+    </property>
+</class>
+</hibernate-mapping>

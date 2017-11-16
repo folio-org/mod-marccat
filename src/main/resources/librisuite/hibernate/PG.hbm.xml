@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+<class 
+    name="librisuite.business.cataloguing.bibliographic.ProjectedGraphic" 
+    table="PG"
+>
+
+    <composite-id>
+        <key-property name="bibItemNumber" 
+            column="BIB_ITM_NBR"/>
+        <key-property name="KeyNumber" 
+            column="PG_KEY_NBR"/>
+        <key-property name="userViewString" 
+            column="USR_VW_IND" length="16"/>
+    </composite-id>    
+    <property name="generalMaterialDesignationCode"> 
+            <column name="GMD_CDE"/>
+    </property>
+    <property name="specificMaterialDesignationCode">  
+            <column name="PG_SMD_CDE"/>
+    </property>
+    <property name="colourCode">  
+            <column name="PG_CLR_CDE"/>
+    </property>
+    <property name="baseOfEmulsionCode">  
+            <column name="PG_BSE_OF_EMLSN_MTRL_CDE"/>
+    </property>
+    <property name="soundOnMediumOrSeparateCode">  
+            <column name="SND_MDM_OR_SEPRT_CDE"/>
+    </property>
+     <property name="mediumForSoundCode">  
+            <column name="MDM_FOR_SND_CDE"/>
+    </property>
+     <property name="dimensionsCode">  
+            <column name="PG_DMNSN_CDE"/>
+    </property>
+    <property name="secondarySupportMaterialCode">  
+            <column name="PG_SCDRY_SPRT_MTRL_CDE"/>
+    </property>
+    <property name="obsolete1">  
+            <column name="ORGNL_VS_RPDTN_ASPCT_CDE"/>
+    </property>
+</class>
+</hibernate-mapping>

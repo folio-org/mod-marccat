@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+<class 
+    name="librisuite.business.authorisation.ModuleAuthorisation" 
+    table="ACNT_APLTN_LIST_ACS_PNT"
+>
+
+    <composite-id>
+        <key-property name="moduleCode" 
+            column="APLTN_LIST_KEY_NME" length="3"/>
+        <key-property name="userAccount" 
+            column="USR_NME" length="12"/>
+    </composite-id>    
+    <property name="authorisationLevel">
+            <column name="APLTN_AUTH_LVL_KEY_NBR"/>
+	</property>            
+</class>
+</hibernate-mapping>

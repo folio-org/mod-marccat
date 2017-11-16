@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="librisuite.hibernate">
+	<class name="S_PATCH_HISTORY" table="S_PATCH_HISTORY">
+		 <composite-id>
+        <key-property 
+            name="servicePackNumber" 
+            column="SERVICE_PACK_NUMBER" 
+        />
+        <key-property 
+            name="releaseNumber" 
+            column="RELEASE_NUMBER" 
+        />
+ 
+    </composite-id>  
+	</class>
+</hibernate-mapping>

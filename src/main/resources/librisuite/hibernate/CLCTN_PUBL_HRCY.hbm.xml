@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+	
+<hibernate-mapping package="librisuite.hibernate">
+  <class  schema="custom"  name="CLCTN_PUBL_HRCY" table="CLCTN_PUBL_HRCY">
+		<id name="collectionCode" type="int">
+			<column name="CLCTN_PUBL_CDE" not-null="true"/>
+			<generator class="assigned"/>
+		</id>
+		<property name="parentCollectionCode">
+			<column name="PARNT_CLCTN_PUBL_CDE" not-null="true"/>
+		</property>	
+	</class>
+</hibernate-mapping>

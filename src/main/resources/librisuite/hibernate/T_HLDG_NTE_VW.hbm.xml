@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="librisuite.hibernate">
+	<class name="T_HLDG_NTE_VW" table="T_HLDG_NTE_VW">
+		<id name="code">
+			<column name="CDE_VLU_NBR" not-null="true"/>
+			<generator class="assigned"/>
+		</id>
+		<property name="sequence">
+			<column name="TBL_SEQ_NBR" sql-type="NUMBER (6)" not-null="true"/>
+		</property>
+		<property name="repeteable">
+			<column name="REPEATABLE" sql-type="NUMBER (1)" not-null="true"/>
+		</property>
+		<property name="languageCode">
+			<column name="LNG_CDE" sql-type="NUMBER (3)" not-null="true"/>
+		</property>
+		<property name="labelStringText">
+			<column name="LBL_STR_TXT" sql-type="VARCHAR2 (192)" />
+		</property>
+		<property name="lastUpdateDate">
+			<column name="LST_UPD_DTE" sql-type="DATE" not-null="true"/>
+		</property>
+		<property name="tableObsoletoIndex">
+			<column name="TBL_OBS_IND" sql-type="NUMBER(1)" not-null="true"/>
+		</property>
+		<property name="tableObsoletoDate">
+			<column name="TBL_OBS_DTE" sql-type="DATE" not-null="true"/>
+		</property>
+	</class>
+</hibernate-mapping>

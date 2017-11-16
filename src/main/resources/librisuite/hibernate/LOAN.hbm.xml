@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="librisuite.hibernate">
+	<class name="LOAN" table="LOAN">
+		<id name="loanNumber">
+			<column name="LOAN_NBR" not-null="true"/>
+			<generator class="native">
+				<param name="sequence">LOAN_SEQUENCE</param>
+			</generator>	
+		</id>
+		<property name="borrowerNumber">
+			<column name="BRWR_NBR" sql-type="NUMBER (11)" not-null="true"/>
+		</property>
+		<property name="copyIdNumber">
+			<column name="CPY_ID_NBR" sql-type="NUMBER (11)" not-null="true"/>
+		</property>
+		<property name="loanStatisticsTypeCode">
+			<column name="LOAN_STATS_TYP_CDE" sql-type="NUMBER(6)" not-null="true"/>
+		</property>
+	</class>
+</hibernate-mapping>

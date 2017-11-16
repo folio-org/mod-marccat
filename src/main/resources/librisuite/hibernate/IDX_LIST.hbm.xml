@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="librisuite.hibernate">
+	<class name="IndexList"  schema="olisuite"  table="IDX_LIST">
+		<composite-id name="key" class="IndexListKey">
+			<key-property name="keyNumber" column="IDX_LIST_KEY_NBR" />
+			<key-property name="typeCode" column="IDX_LIST_TYP_CDE" length="3"/>
+			<key-property name="language" column="LANGID" />
+		</composite-id>
+		<property name="characterUserInterfaceSequenceNumber">
+			<column name="CHUI_ORDR_SEQ_NBR"/>
+		</property>
+		<property name="characterUserInterfaceSCNSequenceNumber">
+			<column name="CHUI_SCN_ORDR_SEQ_NBR"/>
+		</property>
+		<property name="completenessAttribute">
+			<column name="ATRBT_CMPNS_NBR"/>
+		</property>
+		<property name="truncationAttribute">
+			<column name="ATRBT_TRNTN_NBR"/>
+		</property>
+		<property name="structureAttribute">
+			<column name="ATRBT_STRCT_NBR"/>
+		</property>
+		<property name="positionAttribute">
+			<column name="ATRBT_PSTN_NBR"/>
+		</property>
+		<property name="relationAttribute">
+			<column name="ATRBT_RLTN_NBR"/>
+		</property>
+		<property name="useAttribute">
+			<column name="ATRBT_USE_NBR"/>
+		</property>
+		<property name="languageCode">
+			<column name="IDX_LIST_ABRVT_CDE"/>
+		</property>
+		<property name="sortFormMainTypeCode">
+			<column name="IDX_SRT_MAIN_TYP_CDE"/>
+		</property>
+		<property name="sortFormSubTypeCode">
+			<column name="IDX_SRT_FORM_SUB_TYP_CDE"/>
+		</property>
+		<property name="sortFormTypeCode">
+			<column name="IDX_SRT_FORM_TYP_CDE"/>
+		</property>
+		<property name="sortFormFunctionCode">
+			<column name="IDX_SRT_FORM_FNCTN_CDE"/>
+		</property>
+		<property name="sortFormSkipInFiling">
+			<column name="IDX_SRT_SKP_FLNG_CDE"/>
+		</property>
+		<property name="browseTypeCode">
+			<column name="IDX_LIST_BRWS_TYP_CDE"/>
+		</property>
+		<property name="nameTitleColumnYesNo">
+			<column name="IDX_LIST_NME_TTL_COL_IND"/>
+		</property>
+		<property name="crossReferenceColumnYesNo">
+			<column name="IDX_LIST_REF_COL_IND"/>
+		</property>
+		<property name="authorityColumnYesNo">
+			<column name="IDX_LIST_AUT_COL_IND"/>
+		</property>
+		<property name="browseCode">
+			<column name="IDX_LIST_BRWS_CDE"/>
+		</property>
+		<property name="browseProcedureName">
+			<column name="IDX_LIST_BRWSB_PROC_NME"/>
+		</property>
+		<property name="languageDescription">
+			<column name="IDX_LIST_NME"/>
+		</property>
+		<property name="codeTableName">
+			<column name="IDX_LIST_CDE_TBL_NME"/>
+		</property>
+		<property name="accessPointTableName">
+			<column name="IDX_LIST_ACS_PNT_TBL_NME"/>
+		</property>
+		<property name="accessPointKeyName">
+			<column name="IDX_LIST_ACS_PNT_KEY_NME"/>
+		</property>
+		<!-- modifica barbara 26/04/2007 per distinguere indici di mades da quelli di LC -->
+		<property name="codeLibriCatMades">
+			<column name="IDX_LIST_LC_MAD_CDE"/>
+		</property>
+	</class>
+</hibernate-mapping>
+
+

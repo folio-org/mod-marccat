@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="librisuite.hibernate">
+	<class name="LOAN_INTER_LIB" table="LOAN_INTER_LIB">
+		<id name="loanInterLibNumber">
+			<column name="LOAN_INTER_LIB_NBR" not-null="true"/>
+			<generator class="native">
+				<param name="sequence">LOAN_INTER_LIB_SEQUENCE</param>
+			</generator>
+		</id>
+		<property name="borrowerNumber">
+			<column name="BRWR_NBR" sql-type="NUMBER (11)" not-null="true"/>
+		</property>
+		<property name="copyIdNumber">
+			<column name="CPY_ID_NBR" sql-type="NUMBER (11)" not-null="true"/>
+		</property>
+		<property name="bibItemNumber">
+			<column name="BIB_ITM_NBR" sql-type="NUMBER (11)" not-null="true"/>
+		</property>
+		<property name="CopyUnlabeledNumber">
+			<column name="CPY_UNLBLD_NBR" sql-type="NUMBER (11)" not-null="true"/>
+		</property>
+		<property name="loanPrd">
+			<column name="LOAN_PRD_CDE" sql-type="CHAR (1)" not-null="true"/>
+		</property>
+		<property name="requestTyp">
+			<column name="RQST_TYP_CDE" sql-type="NUMBER (6)" not-null="true"/>
+		</property>
+		<property name="borrowerNote">
+			<column name="BRWR_NOTE" sql-type="VARCHAR2 (60)" />
+		</property>
+		<property name="orgNumberOrgn">
+			<column name="ORG_NBR_ORGN" sql-type="NUMBER (11)" not-null="true"/>
+		</property>
+		<property name="orgNumberRequest">
+			<column name="ORG_NBR_RQST" sql-type="NUMBER (11)" not-null="true"/>
+		</property>
+		<property name="branchOrgNumberOrgn">
+			<column name="BRNCH_ORG_NBR_ORGN" sql-type="NUMBER (11)" not-null="true"/>
+		</property>
+		<property name="branchOrgNumberRequest">
+			<column name="BRNCH_ORG_NBR_RQST" sql-type="NUMBER (11)" not-null="true"/>
+		</property>
+		<property name="statusGoingToSend">
+			<column name="SND_STUS_IND" sql-type="CHAR(1)"/>
+		</property>
+		<property name="statusGoingToRecive">
+			<column name="SND_RCV_IND" sql-type="CHAR (1)"/>
+		</property>
+		<property name="dateLastTransaction">
+			<column name="LST_TRNST_DTE" sql-type="DATE" not-null="true"/>
+		</property>
+		<property name="loanStatisticsTypeCode">
+			<column name="LOAN_STATS_TYP_CDE" sql-type="NUMBER (6)" not-null="true"/>
+		</property>
+		
+	</class>
+</hibernate-mapping>
