@@ -27,7 +27,6 @@ public class CodeTableGrid {
 	
 	/**
 	 * Aggiunge una nuova colonna in una specifica lingua
-	 * @param iso3Lang
 	 * @param codeTableList
 	 */
 	public void add(Locale locale, List/*<ValueLabelElement>*/ codeTableList ){

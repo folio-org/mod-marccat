@@ -15,14 +15,9 @@ import librisuite.bean.cataloguing.heading.HeadingBean;
 import librisuite.bean.searching.SearchBean;
 import librisuite.bean.searching.SearchTypeBean;
 import librisuite.business.authorisation.AuthorisationException;
-import librisuite.business.authorisation.MadesAuthority;
 import librisuite.business.authorisation.Permission;
 import librisuite.business.cataloguing.common.Catalog;
-import librisuite.business.cataloguing.mades.IntegrationConstants;
 import librisuite.hibernate.T_ITM_DSPLY;
-
-import org.apache.struts.Globals;
-
 /**
  * This Class holds methods to set and get objects from a HttpSession MIKE:
  * added mades view
@@ -31,7 +26,8 @@ import org.apache.struts.Globals;
  */
 public final class SessionUtils {
 
-	private static String CURRENT_LOCALE_NAME = Globals.LOCALE_KEY;
+	// TODO: ANDREA: REMOVED Globals.LOCALE_KEY
+	private static String CURRENT_LOCALE_NAME = Locale.ITALIAN.toString();
 
 	private static String USER_PROFILE_NAME = "userProfile";
 
@@ -138,9 +134,6 @@ public final class SessionUtils {
 
 	/**
 	 * Gets the UserProfile bound to an HttpSession
-	 * 
-	 * @param session
-	 *            An HttpSession
 	 * @return The UserProfile bound to the session or null if no UserProfile is
 	 *         bound to the session
 	 * @throws IllegalArgumentException
@@ -287,22 +280,9 @@ public final class SessionUtils {
 	 * @return
 	 */
 	public static int getCataloguingViewForHeadings(HttpServletRequest request) {
-		if(SearchBean.getInstance(request).isMades()){
-			return IntegrationConstants.MADES_COMMON_HEADING_VIEW;
-		}
 		return getCataloguingView(request);
 	}
-	
-	/**
-	 * MIKE: added for Mades
-	 * @param request
-	 * @return
-	 */
-	public static int getMadesAuthorisationLevel(HttpServletRequest request) {
-		int newAuthLevelCode = ((MadesAuthority)getUserProfile(request).getAuthorisationAgent()).getMadesAuthorisationLevel();
-		return newAuthLevelCode;
-	}
-	
+
 	public static Map updateMap(HttpServletRequest request, Map properties)  {
 		// Iterator of parameter names
 		Enumeration names = request.getParameterNames();
@@ -322,9 +302,6 @@ public final class SessionUtils {
 	 * MIKE: normally if you create or edit a NameTitle if you wish to create 
 	 * its name or title the HeadingBean is replaced in session without any control.
 	 * This method help to fix the problem
-	 * see also LoadHeadingAction
-	 * @param request
-	 * @param headingBean
 	 */
 	public static void popHeadingBean(HttpSession session) {
 		HeadingBean headingBean = (HeadingBean)session.getAttribute(HEADING_BEAN_SESSION_NAME);
@@ -335,5 +312,4 @@ public final class SessionUtils {
 			session.removeAttribute(HEADING_BEAN_SESSION_NAME);
 		}
 	}
-
 }

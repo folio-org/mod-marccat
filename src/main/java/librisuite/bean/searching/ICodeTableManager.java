@@ -6,9 +6,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import librisuite.business.authorisation.AuthorisationException;
 import librisuite.business.common.DataAccessException;
+import librisuite.form.LibrisuiteForm;
 import net.sf.hibernate.HibernateException;
 
-import org.apache.struts.action.ActionForm;
 
 public interface ICodeTableManager {
 
@@ -22,10 +22,10 @@ public interface ICodeTableManager {
 	 */
 	public abstract void onBeforeLeavingCopy(HttpServletRequest request) throws DataAccessException, CodeTableException;
 
-	public abstract void initTable(HttpServletRequest request, CodeTableEditBean bean, ActionForm form, Locale currentLocale) throws CodeTableException, HibernateException, DataAccessException, ClassNotFoundException,
+	public abstract void initTable(HttpServletRequest request, CodeTableEditBean bean, LibrisuiteForm form, Locale currentLocale) throws CodeTableException, HibernateException, DataAccessException, ClassNotFoundException,
 			AuthorisationException;
 
-	public abstract void initEquivalentTable(HttpServletRequest request, CodeTableGridBean bean, ActionForm form, Locale currentLocale) throws CodeTableException, HibernateException, DataAccessException, ClassNotFoundException,
+	public abstract void initEquivalentTable(HttpServletRequest request, CodeTableGridBean bean, LibrisuiteForm form, Locale currentLocale) throws CodeTableException, HibernateException, DataAccessException, ClassNotFoundException,
 	AuthorisationException;
 
 }

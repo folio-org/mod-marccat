@@ -6,10 +6,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import librisuite.business.authorisation.AuthorisationException;
 import librisuite.business.common.DataAccessException;
+import librisuite.form.LibrisuiteForm;
 import librisuite.form.searching.CodeTablesForm;
 import net.sf.hibernate.HibernateException;
-
-import org.apache.struts.action.ActionForm;
 
 import com.libricore.librisuite.common.HibernateSessionProvider;
 
@@ -32,7 +31,7 @@ public class BibliographicTableManager implements ICodeTableManager {
 	/* (non-Javadoc)
 	 * @see librisuite.bean.searching.ITagManager#initTable(librisuite.bean.searching.CodeTableEditBean, librisuite.form.searching.CodeTablesForm, java.util.Locale)
 	 */
-	public void initTable(HttpServletRequest request, CodeTableEditBean bean, ActionForm form, Locale currentLocale) throws CodeTableException, HibernateException, DataAccessException, ClassNotFoundException, AuthorisationException {
+	public void initTable(HttpServletRequest request, CodeTableEditBean bean, LibrisuiteForm form, Locale currentLocale) throws CodeTableException, HibernateException, DataAccessException, ClassNotFoundException, AuthorisationException {
 		String fieldName = ((CodeTablesForm) form).getCurrentFieldName();
 		String tableName = bean.getCodeTableName(fieldName);
 		Class clazz = HibernateSessionProvider.getInstance().getHibernateClassName(tableName);
@@ -45,7 +44,7 @@ public class BibliographicTableManager implements ICodeTableManager {
 	}
 	
 
-	public void initEquivalentTable(HttpServletRequest request, CodeTableGridBean bean, ActionForm form, Locale currentLocale) throws CodeTableException, HibernateException, DataAccessException,
+	public void initEquivalentTable(HttpServletRequest request, CodeTableGridBean bean, LibrisuiteForm form, Locale currentLocale) throws CodeTableException, HibernateException, DataAccessException,
 			ClassNotFoundException, AuthorisationException {
 		String fieldName = ((CodeTablesForm) form).getCurrentFieldName();
 		String tableName = bean.getCodeTableName(fieldName);

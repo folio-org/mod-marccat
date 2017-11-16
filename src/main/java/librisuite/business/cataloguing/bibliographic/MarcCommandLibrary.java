@@ -6,7 +6,6 @@ import librisuite.business.cataloguing.common.AccessPoint;
 import librisuite.business.cataloguing.common.Browsable;
 import librisuite.business.cataloguing.common.CatalogItem;
 import librisuite.business.cataloguing.common.Tag;
-import librisuite.business.cataloguing.mades.IntegrationConstants;
 import librisuite.business.common.DataAccessException;
 import librisuite.business.common.LibrisuiteUtils;
 import librisuite.business.common.SortFormException;

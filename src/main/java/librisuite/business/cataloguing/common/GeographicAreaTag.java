@@ -55,7 +55,8 @@ public abstract class GeographicAreaTag extends VariableHeaderUsingItemEntity {
 				if (sf!=null && !sf.getContent().trim().equals(""))
 					if (sf.getCode().equals("a")) {
 						if(sf.getContent().length()<7)
-						 	sf.setContent(ViolinStrings.Strings.leftJustify(sf.getContent(), 7, '-'));
+							throw new IllegalArgumentException("Refactor => GeographicAreaTag::59");
+						 	// sf.setContent(ViolinStrings.Strings.leftJustify(sf.getContent(), 7, '-'));
 					}
 			}
 		

@@ -162,8 +162,6 @@ public class SerialsControlManager {
 	}
 
 	/**
-	 * @param subscriptions
-	 *            the subscriptions to set
 	 */
 	public void setOrders(List orders) {
 		this.orders = orders;

@@ -2307,7 +2307,8 @@ public void saveAuthorityRecord() throws DataAccessException,
 						digitalDoiBean.setAnnullaDoi("YES");
 						digitalDoiBean.setCreaDOI("NO");
 						digitalDoiBean.setDOIEsistente("");
-						digitalDoiBean.httpPost();
+						// TODO: ANDREA COMMENTATO
+						// digitalDoiBean.httpPost();
 					}
 				}
 				// -----------> Cancellazione fisica del file e

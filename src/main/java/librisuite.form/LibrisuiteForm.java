@@ -13,8 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionMapping;
 
 /**
  * This abstract class can be used as a super class for all ActionForms.
@@ -24,7 +22,7 @@ import org.apache.struts.action.ActionMapping;
  * @version $Revision: 1.2 $, $Date: 2004/08/30 14:26:28 $
  * @since 1.0
  */
-public abstract class LibrisuiteForm extends ActionForm {
+public abstract class LibrisuiteForm  {
 
 	private static Log logger = LogFactory.getLog(LibrisuiteForm.class);
 
@@ -38,20 +36,6 @@ public abstract class LibrisuiteForm extends ActionForm {
 	 * for displaying the correct error message.
 	 */
 	private String errorId = new String("");
-
-	/* (non-Javadoc)
-	 * @see org.apache.struts.action.ActionForm#reset(org.apache.struts.action.ActionMapping, javax.servlet.http.HttpServletRequest)
-	 */
-	public void reset(
-		ActionMapping actionMapping,
-		HttpServletRequest httpServletRequest) {
-		try {
-			httpServletRequest.setCharacterEncoding("UTF-8");
-		} catch (UnsupportedEncodingException unsupportedEncodingException) {
-			logger.error(unsupportedEncodingException);
-		}
-		super.reset(actionMapping, httpServletRequest);
-	}
 
 	/**
 	 * Getter for error

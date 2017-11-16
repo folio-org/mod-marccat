@@ -29,6 +29,11 @@ import librisuite.business.common.RecordNotFoundException;
 import librisuite.hibernate.CNTL_NBR;
 
 
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.NameValuePair;
+import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -358,7 +363,7 @@ public class DigitalDoiBean extends LibrisuiteBean
 		setUrl_1("");
 		setUrl_2("");
 	}
-/*
+
 	public String httpPost() throws HttpException, IOException, RequiredFieldsException 
 	{
 
@@ -411,9 +416,8 @@ public class DigitalDoiBean extends LibrisuiteBean
 		
 		return codiceDOI;
 	}
-*/
-/*
-	private NameValuePair [] loadArtParameters() 
+
+	private NameValuePair[] loadArtParameters()
 	{
 		NameValuePair [] listaParameters = new NameValuePair[20];
 		NameValuePair element = null;
@@ -615,7 +619,7 @@ public class DigitalDoiBean extends LibrisuiteBean
 		}
 		return errorList;
 	}
-	*/
+
 	public String getTitle() {
 		return title;
 	}

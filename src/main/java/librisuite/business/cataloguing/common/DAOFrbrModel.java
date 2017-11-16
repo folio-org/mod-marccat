@@ -26,7 +26,6 @@ public class DAOFrbrModel extends HibernateUtil
 	private static final Log logger = LogFactory.getLog(DAOFrbrModel.class);
 	/**
 	 * Il metodo legge dal modello dei record bibliografici il tipo di WEMI data la LABEL
-	 * @param label
 	 * @return
 	 * @throws DataAccessException
 	 */

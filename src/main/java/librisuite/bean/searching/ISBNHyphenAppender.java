@@ -35,7 +35,6 @@ public class ISBNHyphenAppender {
      * In an ISBN-10 with hyphens, these hyphens separate the number of the
      * group (similar but no equal to country), the number of the editor, the
      * number of the title and the "checksum" number.
-     * @param ISBN-10 ISBN to which hyphens are to be added
      * @return the ISBN-10 with the added hyphens
      * @throws NullPointerException if the ISBN-10 provided is {@code null}
      * @throws IllegalArgumentException if the length of the ISBN-10 provided is
@@ -140,7 +139,6 @@ public class ISBNHyphenAppender {
      * In an ISBN-13 with hyphens, these hyphens separate the first three
      * digits, the number of the group (similar but no equal to country), the
      * number of the editor, the number of the title and the "checksum" number.
-     * @param ISBN-13 ISBN to which hyphens are to be added
      * @return the ISBN-13 with the added hyphens
      * @throws NullPointerException if the ISBN-13 provided is {@code null}
      * @throws IllegalArgumentException if the length of the ISBN-13 provided is
@@ -166,7 +164,6 @@ public class ISBNHyphenAppender {
     /**
      * Right pad a {@code String} with the specified {@code character}. The
      * string is padded to the size of {@code maxLength}.
-     * @param the String to pad
      * @param character the character to pad with
      * @param maxLength the size to pad to
      * @return right padded {@code String} or original {@code String} if no
