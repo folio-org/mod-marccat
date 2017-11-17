@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonObject;
 /**
  * Booch utility which acts as a central points for collecting static functions.
  *
- * @author agazzarini
+ * @author Andrea Gazzarini
  * @since 1.0
  */
 public abstract class F {

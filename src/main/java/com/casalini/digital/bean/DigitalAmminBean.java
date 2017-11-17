@@ -1444,7 +1444,7 @@ public class DigitalAmminBean extends LibrisuiteBean
 //	public void associateRecordToCollectionDigital() throws DataAccessException	
 //	{		
 //		DAOCollectionCSTAccessPoint daoCollectionCustom = new DAOCollectionCSTAccessPoint();
-//		daoCollection " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_CUSTOMER_KEY) + ".save(bibNumber, new String[]{IGlobalConst.COLLECTION_DIGITAL_STANDARD}, new Date(), new Date());				
+//		daoCollection " + System.getProperty(org.folio.cataloging.Global.SCHEMA_CUSTOMER_KEY) + ".save(bibNumber, new String[]{IGlobalConst.COLLECTION_DIGITAL_STANDARD}, new Date(), new Date());
 //	}
 	
 	@SuppressWarnings("unchecked")

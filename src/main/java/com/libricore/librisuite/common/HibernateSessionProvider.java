@@ -1,6 +1,5 @@
 package com.libricore.librisuite.common;
 
-import java.io.File;
 import java.util.Iterator;
 
 import librisuite.business.common.Defaults;
@@ -18,7 +17,7 @@ import net.sf.hibernate.mapping.Property;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.atc.weloan.shared.Global;
+import org.folio.cataloging.Global;
 
 public class HibernateSessionProvider
 {

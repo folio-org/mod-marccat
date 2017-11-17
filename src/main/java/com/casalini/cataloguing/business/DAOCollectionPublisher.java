@@ -20,6 +20,7 @@ import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
 
 import com.libricore.librisuite.common.HibernateUtil;
+import org.folio.cataloging.Global;
 
 public class DAOCollectionPublisher extends HibernateUtil 
 {	
@@ -162,7 +163,7 @@ public class DAOCollectionPublisher extends HibernateUtil
 		CollectionPublisher co =null;
 		try {
 			connection = s.connection();
-			query = "Select * from   " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_CUSTOMER_KEY) + ".T_CLCTN_PUBL where  " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_CUSTOMER_KEY) + ".T_CLCTN_PUBL.CLCTN_PUBL_CDE="	+ idCollection;
+			query = "Select * from   " + System.getProperty(Global.SCHEMA_CUSTOMER_KEY) + ".T_CLCTN_PUBL where  " + System.getProperty(Global.SCHEMA_CUSTOMER_KEY) + ".T_CLCTN_PUBL.CLCTN_PUBL_CDE="	+ idCollection;
 		    stmt = connection.prepareStatement(query);
 			rs = stmt.executeQuery();
 			l = new ArrayList();
@@ -536,7 +537,7 @@ public class DAOCollectionPublisher extends HibernateUtil
 
 		try {
 			connection = s.connection();
-			query = "Select distinct ct.* from   " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_CUSTOMER_KEY) + ".CLCTN_PUBL_ACS_PNT apf,  " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_CUSTOMER_KEY) + ".T_CLCTN_PUBL ct where apf.BIB_ITM_NBR ="+itemNumber
+			query = "Select distinct ct.* from   " + System.getProperty(Global.SCHEMA_CUSTOMER_KEY) + ".CLCTN_PUBL_ACS_PNT apf,  " + System.getProperty(Global.SCHEMA_CUSTOMER_KEY) + ".T_CLCTN_PUBL ct where apf.BIB_ITM_NBR ="+itemNumber
 			       +"  and ct.CLCTN_PUBL_CDE = apf.CLCTN_PUBL_CDE";
 		    stmt = connection.prepareStatement(query);
 			rs = stmt.executeQuery();

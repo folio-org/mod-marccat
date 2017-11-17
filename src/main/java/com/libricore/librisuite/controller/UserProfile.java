@@ -86,14 +86,10 @@ public class UserProfile {
 	/**
 	 * It depends upon the starting application "mad"
 	 * TODO _MIKE: Both mades and LibriCat cataloguing view can be active simultaneously
-	 * @param aUserAccount
 	 * @return
 	 */
 	public int getRealUserView(int uaView ) {
 		int realView = uaView;
-		if("mad".equalsIgnoreCase(startApp)){
-			realView = convert(uaView);
-		}
 		return realView;
 	}
 	

@@ -3,16 +3,7 @@
   "title": "Logical View Schema",
   "type": "object",
   "properties": {
-    "id": {
-      "type": "string"
-    },
     "code": {
-      "type": "string"
-    },
-    "language": {
-      "type": "string"
-    },
-    "shortDescription": {
       "type": "string"
     },
     "longDescription": {

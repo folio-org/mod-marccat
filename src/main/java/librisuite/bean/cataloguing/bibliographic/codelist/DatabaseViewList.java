@@ -18,7 +18,6 @@ public class DatabaseViewList extends CodeListBean {
 	/**
 	 * Class constructor
 	 *
-	 * @param clazz
 	 * @since 1.0
 	 */
 	public DatabaseViewList() {

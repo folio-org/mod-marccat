@@ -6,11 +6,8 @@
       "type": "array",
       "items": {
         "type": "object",
-        "$ref": "logical-view.json"
+        "$ref": "logicalView"
       }
-    },
-    "num_found": {
-      "type": "integer"
     }
   },
   "required": [

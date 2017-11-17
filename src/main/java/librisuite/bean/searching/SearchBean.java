@@ -37,9 +37,7 @@ public abstract class SearchBean extends LibrisuiteBean {
 
 	private static Log logger = LogFactory.getLog(SearchBean.class);
 
-	private SearchEngine searchEngine =
-		SearchEngineFactory.getInstance(
-			Defaults.getClazz("searchEngine.class"));
+	private SearchEngine searchEngine = SearchEngineFactory.getInstance(Defaults.getClazz("searchEngine.class"));
 
 	private boolean simpleSearch = true;
 
@@ -49,7 +47,6 @@ public abstract class SearchBean extends LibrisuiteBean {
 
 	private boolean browseIndexes = false;
 
-	// MIKE: Added mades case
 	private int currentSearchingView = -2;
 
 	private SearchHistoryBean searchHistoryBean;
@@ -60,7 +57,7 @@ public abstract class SearchBean extends LibrisuiteBean {
 
 	//pm 2011 - maintain locale locally
 	private Locale locale = Locale.getDefault();
-	
+
 	public Locale getLocale() {
 		return locale;
 	}
@@ -85,10 +82,7 @@ public abstract class SearchBean extends LibrisuiteBean {
 	public boolean isBibliographic() {
 		return currentSearchingView > View.AUTHORITY;
 	}
-	public boolean isMades() {
-		return currentSearchingView < View.AUTHORITY;
-	}
-	public boolean isAuthoriry() {
+	public boolean isAuthority() {
 		return currentSearchingView == View.AUTHORITY;
 	}
 	

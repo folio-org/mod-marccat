@@ -27,6 +27,7 @@ import org.apache.commons.logging.LogFactory;
 import com.casalini.cataloguing.bean.RuleCollectionCSTBean;
 import com.libricore.librisuite.common.HibernateUtil;
 import com.libricore.librisuite.common.TransactionalHibernateOperation;
+import org.folio.cataloging.Global;
 
 public class DAOCollectionRuleCST extends HibernateUtil 
 {
@@ -168,7 +169,7 @@ public class DAOCollectionRuleCST extends HibernateUtil
 		/**
 		 * Se non ci sono records da inserire, significa che TUTTI i records della collection source devono alimentare 
          * la collection target. La procedura viene richiamata lo stesso con typ=0 per fare solo la cancelazione della 
-         *  " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_CUSTOMER_KEY) + ".CLCTN_CST_RULE_RECORD per l'id regola		
+         *  " + System.getProperty(org.folio.cataloging.Global.SCHEMA_CUSTOMER_KEY) + ".CLCTN_CST_RULE_RECORD per l'id regola
 		 */
 		if(tmpList.size()==0){
 			tmpTable = new CLCTN_RULE_TMP(new Integer(0),new Long(0),idRule);
@@ -259,7 +260,7 @@ public class DAOCollectionRuleCST extends HibernateUtil
 			insertTmpTable(item.getRecordCollectionList(), item.getRuleId());
 //-------->	Chiama la procedura di aggiornamento delle tabelle CLCNT_CST_RULE_REL e CLCNT_CST_RULE_RECORD
 			Connection connection = s.connection();
-			proc = connection.prepareCall("{call  " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_CUSTOMER_KEY) + ".CAS_CLCTN.CLCTN_CST_RULE_UPD}");
+			proc = connection.prepareCall("{call  " + System.getProperty(Global.SCHEMA_CUSTOMER_KEY) + ".CAS_CLCTN.CLCTN_CST_RULE_UPD}");
 			proc.execute();
 
 //-------->	Se tutto ok COMMIT

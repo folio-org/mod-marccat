@@ -26,6 +26,7 @@ import org.apache.commons.logging.LogFactory;
 
 import com.casalini.cataloguing.form.CollectionsMasterForm;
 import com.libricore.librisuite.common.HibernateUtil;
+import org.folio.cataloging.Global;
 
 public class DAOCollectionMaster extends HibernateUtil 
 {
@@ -145,7 +146,7 @@ public class DAOCollectionMaster extends HibernateUtil
 		CollectionMaster co =null;
 		try {
 			connection = s.connection();
-			query = "Select * from   " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_CUSTOMER_KEY) + ".T_CLCTN_MST where  " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_CUSTOMER_KEY) + ".T_CLCTN_MST.CLCTN_MST_CDE="	+ idCollection;
+			query = "Select * from   " + System.getProperty(Global.SCHEMA_CUSTOMER_KEY) + ".T_CLCTN_MST where  " + System.getProperty(Global.SCHEMA_CUSTOMER_KEY) + ".T_CLCTN_MST.CLCTN_MST_CDE="	+ idCollection;
 		    stmt = connection.prepareStatement(query);
 			rs = stmt.executeQuery();
 			l = new ArrayList();
@@ -676,7 +677,7 @@ public class DAOCollectionMaster extends HibernateUtil
 
 		try {
 			connection = s.connection();
-			query = "Select distinct ct.* from   " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_CUSTOMER_KEY) + ".CLCTN_MST_ACS_PNT apf,  " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_CUSTOMER_KEY) + ".T_CLCTN_MST ct where apf.BIB_ITM_NBR ="
+			query = "Select distinct ct.* from   " + System.getProperty(Global.SCHEMA_CUSTOMER_KEY) + ".CLCTN_MST_ACS_PNT apf,  " + System.getProperty(Global.SCHEMA_CUSTOMER_KEY) + ".T_CLCTN_MST ct where apf.BIB_ITM_NBR ="
 					+itemNumber
 					+"  and ct.CLCTN_MST_CDE = apf.CLCTN_MST_CDE";
 		    stmt = connection.prepareStatement(query);

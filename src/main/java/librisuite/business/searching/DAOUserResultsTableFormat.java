@@ -12,6 +12,7 @@ import net.sf.hibernate.Session;
 import com.atc.weloan.shared.integration.AbstractDAO;
 import com.atc.weloan.shared.model.ConfigurationBrowseColumn;
 import com.libricore.librisuite.common.HibernateUtil;
+import org.folio.cataloging.Global;
 
 public class DAOUserResultsTableFormat extends HibernateUtil 
 {	
@@ -24,7 +25,7 @@ public class DAOUserResultsTableFormat extends HibernateUtil
 		
 		try {
 			connection = currentSession().connection();
-			stmt = connection.prepareStatement("SELECT ID_FRMT FROM  " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".USER_RESULTS_FORMAT WHERE USR_NME = ?");
+			stmt = connection.prepareStatement("SELECT ID_FRMT FROM  " + System.getProperty(Global.SCHEMA_SUITE_KEY) + ".USER_RESULTS_FORMAT WHERE USR_NME = ?");
 			stmt.setString(1, AbstractDAO.fixedCharPadding(userName, 12));
 			rs = stmt.executeQuery();
 			while(rs.next())
@@ -70,7 +71,7 @@ public class DAOUserResultsTableFormat extends HibernateUtil
 		Session session = currentSession();
 		try {
 			connection = session.connection();
-			stmt = connection.prepareStatement("INSERT INTO  " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".USER_RESULTS_FORMAT (USR_NME,ID_FRMT) VALUES (?,?)");
+			stmt = connection.prepareStatement("INSERT INTO  " + System.getProperty(Global.SCHEMA_SUITE_KEY) + ".USER_RESULTS_FORMAT (USR_NME,ID_FRMT) VALUES (?,?)");
 			stmt.setString(1, AbstractDAO.fixedCharPadding(userName, 12));
 			stmt.setString(2, format);
 			stmt.executeUpdate();
@@ -97,7 +98,7 @@ public class DAOUserResultsTableFormat extends HibernateUtil
 		
 		try {
 			connection = session.connection();
-			stmt = connection.prepareStatement("UPDATE  " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".USER_RESULTS_FORMAT SET ID_FRMT=? WHERE USR_NME=?");
+			stmt = connection.prepareStatement("UPDATE  " + System.getProperty(Global.SCHEMA_SUITE_KEY) + ".USER_RESULTS_FORMAT SET ID_FRMT=? WHERE USR_NME=?");
 			stmt.setString(1, format);
 			stmt.setString(2, AbstractDAO.fixedCharPadding(userName, 12));
 			stmt.executeUpdate();
@@ -128,7 +129,7 @@ public class DAOUserResultsTableFormat extends HibernateUtil
 		
 		try {
 			connection = currentSession().connection();
-			stmt = connection.prepareStatement("SELECT * FROM  " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".USER_BROWSE_RESULTS_COLUMN WHERE USR_NME = ?");
+			stmt = connection.prepareStatement("SELECT * FROM  " + System.getProperty(Global.SCHEMA_SUITE_KEY) + ".USER_BROWSE_RESULTS_COLUMN WHERE USR_NME = ?");
 			stmt.setString(1, AbstractDAO.fixedCharPadding(userName, 12));
 			rs = stmt.executeQuery();
 			while(rs.next())
@@ -178,7 +179,7 @@ public class DAOUserResultsTableFormat extends HibernateUtil
 		Session session = currentSession();
 		try {
 			connection = session.connection();
-			stmt = connection.prepareStatement("INSERT INTO  " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".USER_BROWSE_RESULTS_COLUMN (USR_NME,ATRTY_TYP,LVL_TYP,NT_TYP,REF_TYP,DOC_TYP,IND_TYP,ACC_TYP) VALUES (?,?,?,?,?,?,?,?)");
+			stmt = connection.prepareStatement("INSERT INTO  " + System.getProperty(Global.SCHEMA_SUITE_KEY) + ".USER_BROWSE_RESULTS_COLUMN (USR_NME,ATRTY_TYP,LVL_TYP,NT_TYP,REF_TYP,DOC_TYP,IND_TYP,ACC_TYP) VALUES (?,?,?,?,?,?,?,?)");
 			stmt.setString(1, AbstractDAO.fixedCharPadding(bean.getUser(), 12));
 			stmt.setString(2, bean.getAutorityColumn());
 			stmt.setString(3, bean.getLevelColumn());
@@ -216,7 +217,7 @@ public class DAOUserResultsTableFormat extends HibernateUtil
 		int updated = 0;
 		try {
 			connection = session.connection();
-			stmt = connection.prepareStatement("UPDATE  " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".USER_BROWSE_RESULTS_COLUMN SET ATRTY_TYP=?,LVL_TYP=?,NT_TYP=?,REF_TYP=?,DOC_TYP=?,IND_TYP=?,ACC_TYP=? WHERE USR_NME=?");
+			stmt = connection.prepareStatement("UPDATE  " + System.getProperty(Global.SCHEMA_SUITE_KEY) + ".USER_BROWSE_RESULTS_COLUMN SET ATRTY_TYP=?,LVL_TYP=?,NT_TYP=?,REF_TYP=?,DOC_TYP=?,IND_TYP=?,ACC_TYP=? WHERE USR_NME=?");
 			
 			stmt.setString(1, bean.getAutorityColumn());
 			stmt.setString(2, bean.getLevelColumn());

@@ -151,7 +151,7 @@ public class DAODiscard extends DAOCopy {
 			stmt.setInt(5, discardTyp);
 			stmt.setInt(6, cpy.getLocationNameCode());
 		    stmt.execute();
-		//Update se esiste già il record solo delle due info DSCRD_CDE, DSCRD_DTE
+		//Update se esiste gia il record solo delle due info DSCRD_CDE, DSCRD_DTE
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			logAndWrap(e);
@@ -190,7 +190,7 @@ public class DAODiscard extends DAOCopy {
 			stmt.setInt(1, discardTyp);
 			stmt.setInt (2, copyIdNumber);
 		    stmt.execute();
-		//Update se esiste già il record solo delle due info DSCRD_CDE, DSCRD_DTE
+		//Update se esiste gia il record solo delle due info DSCRD_CDE, DSCRD_DTE
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			logAndWrap(e);
@@ -225,7 +225,7 @@ public class DAODiscard extends DAOCopy {
 		    stmt = connection.prepareStatement ("UPDATE INVTRY set  NOTE_STRNG  ='"+ messaggio+"'"+"||to_char(sysdate,'dd/mm/yyyy') where CPY_ID_NBR = ?");
 			stmt.setInt (1, copyIdNumber);
 		    stmt.execute();
-		//Update se esiste già il record solo delle due info DSCRD_CDE, DSCRD_DTE
+		//Update se esiste gia il record solo delle due info DSCRD_CDE, DSCRD_DTE
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			logAndWrap(e);

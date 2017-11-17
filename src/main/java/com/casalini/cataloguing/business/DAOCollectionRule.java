@@ -28,6 +28,7 @@ import org.apache.commons.logging.LogFactory;
 import com.casalini.cataloguing.bean.RuleCollectionMSTBean;
 import com.libricore.librisuite.common.HibernateUtil;
 import com.libricore.librisuite.common.TransactionalHibernateOperation;
+import org.folio.cataloging.Global;
 
 public class DAOCollectionRule extends HibernateUtil 
 {
@@ -266,7 +267,7 @@ public class DAOCollectionRule extends HibernateUtil
 //			selectTmp();
 //-------->	Chiama la procedura di aggiornamento delle tabelle CLCNT_MST_RULE_REL e CLCNT_MST_RULE_RECORD
 			Connection connection = s.connection();
-			proc = connection.prepareCall("{call  " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_CUSTOMER_KEY) + ".CAS_CLCTN.CLCTN_MST_RULE_UPD}");
+			proc = connection.prepareCall("{call  " + System.getProperty(Global.SCHEMA_CUSTOMER_KEY) + ".CAS_CLCTN.CLCTN_MST_RULE_UPD}");
 			proc.execute();
 //-------->	Se tutto ok COMMIT			
 			tx.commit();
@@ -323,7 +324,7 @@ public class DAOCollectionRule extends HibernateUtil
 //					}
 //					selectTmp();
 //					Connection connection = s.connection();
-//					proc = connection.prepareCall("{call  " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_CUSTOMER_KEY) + ".CLCTN_MST_RULE_UPD}");
+//					proc = connection.prepareCall("{call  " + System.getProperty(org.folio.cataloging.Global.SCHEMA_CUSTOMER_KEY) + ".CLCTN_MST_RULE_UPD}");
 //					proc.execute();
 //				} catch (HibernateException e) {
 //					logAndWrap(e);

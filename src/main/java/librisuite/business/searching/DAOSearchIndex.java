@@ -28,6 +28,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.libricore.librisuite.common.HibernateUtil;
+import org.folio.cataloging.Global;
 
 /** 
  * @author hansv
@@ -154,7 +155,7 @@ public class DAOSearchIndex extends HibernateUtil
 			Connection connection = s.connection();
 			stmt =	connection.prepareStatement(
 					"Select b.INDEX_SEARCH_CODE, b.INDEX_NAME, c.INDEX_TRLTN_NBR "
-					+ "from  " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".INDEX_MAIN_LIST_TBL c,  " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".INDEX_TRLTN_TBL b "
+					+ "from  " + System.getProperty(Global.SCHEMA_SUITE_KEY) + ".INDEX_MAIN_LIST_TBL c,  " + System.getProperty(Global.SCHEMA_SUITE_KEY) + ".INDEX_TRLTN_TBL b "
 					+ "where c.INDEX_TYPE = '" + indexType + "'"
 					+ " and b.IDX_LIST_LC_MAD_CDE = 'LC'"
 					+ " and c.INDEX_TRLTN_NBR = b.TRLTN_KEY_NBR "
@@ -205,7 +206,7 @@ public class DAOSearchIndex extends HibernateUtil
 			Connection connection = s.connection();
 			stmt =	connection.prepareStatement(		
 				    "select b.INDEX_SEARCH_CODE, b.INDEX_NAME"
-				    + " from  " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".INDEX_SUB_LIST_TBL a,  " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".INDEX_MAIN_LIST_TBL c,  " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".INDEX_TRLTN_TBL b"
+				    + " from  " + System.getProperty(Global.SCHEMA_SUITE_KEY) + ".INDEX_SUB_LIST_TBL a,  " + System.getProperty(Global.SCHEMA_SUITE_KEY) + ".INDEX_MAIN_LIST_TBL c,  " + System.getProperty(Global.SCHEMA_SUITE_KEY) + ".INDEX_TRLTN_TBL b"
 				    + " where a.INDEX_VLU_CDE = c.INDEX_VLU_CDE"
 				    + " and a.INDEX_TRLTN_NBR = b.TRLTN_KEY_NBR"
 				    + " and c.INDEX_TRLTN_NBR = " + main  

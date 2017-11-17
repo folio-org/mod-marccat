@@ -7,7 +7,7 @@
         </layout>
     </appender>
     <category name="net.sf" additivity="false">
-        <priority value="ERROR"/>
+        <priority value="DEBUG"/>
         <appender-ref ref="CONSOLE"/>
     </category>
     <category name="org.folio">

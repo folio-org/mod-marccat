@@ -19,6 +19,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.libricore.librisuite.common.HibernateUtil;
+import org.folio.cataloging.Global;
 
 public class DAOFrbrModel extends HibernateUtil 
 {
@@ -160,14 +161,14 @@ public class DAOFrbrModel extends HibernateUtil
 		try {
 			Session session = currentSession();
 			connection = session.connection();
-			stmt = connection.prepareStatement("UPDATE " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".FRBR_ACS_PNT set FRBR_HDG_TYP_CDE=? where B_BIB_ITM_NBR=?");
+			stmt = connection.prepareStatement("UPDATE " + System.getProperty(Global.SCHEMA_SUITE_KEY) + ".FRBR_ACS_PNT set FRBR_HDG_TYP_CDE=? where B_BIB_ITM_NBR=?");
 			stmt.setInt(1, frbrFirstGroupValue);
 			stmt.setInt(2, amicusNumber);
 			int updateRows = stmt.executeUpdate();
 			
 			if(updateRows == 0)
 			{
-				stmt = connection.prepareStatement("INSERT INTO " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".FRBR_ACS_PNT (FRBR_HDG_TYP_CDE,B_BIB_ITM_NBR) VALUES (?,?)");
+				stmt = connection.prepareStatement("INSERT INTO " + System.getProperty(Global.SCHEMA_SUITE_KEY) + ".FRBR_ACS_PNT (FRBR_HDG_TYP_CDE,B_BIB_ITM_NBR) VALUES (?,?)");
 				stmt.setInt(1, frbrFirstGroupValue);
 				stmt.setInt(2, amicusNumber);
 				stmt.executeUpdate();
@@ -192,14 +193,14 @@ public class DAOFrbrModel extends HibernateUtil
 		try {
 			Session session = currentSession();
 			connection = session.connection();
-			stmt = connection.prepareStatement("UPDATE " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".FRBR_ACS_PNT set FRBR_HDG_TYP_CDE=? where A_BIB_ITM_NBR=?");
+			stmt = connection.prepareStatement("UPDATE " + System.getProperty(Global.SCHEMA_SUITE_KEY) + ".FRBR_ACS_PNT set FRBR_HDG_TYP_CDE=? where A_BIB_ITM_NBR=?");
 			stmt.setInt(1, frbrFirstGroupValue);
 			stmt.setInt(2, amicusNumber);
 			int updateRows = stmt.executeUpdate();
 			
 			if(updateRows == 0)
 			{
-				stmt = connection.prepareStatement("INSERT INTO " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".FRBR_ACS_PNT (FRBR_HDG_TYP_CDE,A_BIB_ITM_NBR) VALUES (?,?)");
+				stmt = connection.prepareStatement("INSERT INTO " + System.getProperty(Global.SCHEMA_SUITE_KEY) + ".FRBR_ACS_PNT (FRBR_HDG_TYP_CDE,A_BIB_ITM_NBR) VALUES (?,?)");
 				stmt.setInt(1, frbrFirstGroupValue);
 				stmt.setInt(2, amicusNumber);
 				stmt.executeUpdate();
@@ -217,8 +218,8 @@ public class DAOFrbrModel extends HibernateUtil
 		}
 	}
 	
-	private final static String SELECT_AUTHORITY_TYPE = "SELECT FRBR_HDG_TYP_CDE FROM " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".FRBR_ACS_PNT WHERE A_BIB_ITM_NBR=?";
-	private final static String SELECT_BIBLIOGRAPHIC_TYPE = "SELECT FRBR_HDG_TYP_CDE FROM " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".FRBR_ACS_PNT WHERE B_BIB_ITM_NBR=?";
+	private final static String SELECT_AUTHORITY_TYPE = "SELECT FRBR_HDG_TYP_CDE FROM " + System.getProperty(Global.SCHEMA_SUITE_KEY) + ".FRBR_ACS_PNT WHERE A_BIB_ITM_NBR=?";
+	private final static String SELECT_BIBLIOGRAPHIC_TYPE = "SELECT FRBR_HDG_TYP_CDE FROM " + System.getProperty(Global.SCHEMA_SUITE_KEY) + ".FRBR_ACS_PNT WHERE B_BIB_ITM_NBR=?";
 	public Integer getWemiFlag(Integer amicusNumber,boolean authority) throws DataAccessException 
 	{
 		Connection connection = null;
@@ -265,7 +266,7 @@ public class DAOFrbrModel extends HibernateUtil
 		try {
 			Session session = currentSession();
 			connection = session.connection();
-			stmt = connection.prepareStatement("SELECT STRING_TEXT FROM " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".T_FRBR where TBL_VLU_CDE=?");
+			stmt = connection.prepareStatement("SELECT STRING_TEXT FROM " + System.getProperty(Global.SCHEMA_SUITE_KEY) + ".T_FRBR where TBL_VLU_CDE=?");
 			stmt.setInt(1, wemiCode);
 			
 			rs = stmt.executeQuery();
@@ -296,7 +297,7 @@ public class DAOFrbrModel extends HibernateUtil
 		try {
 			Session session = currentSession();
 			connection = session.connection();
-			stmt = connection.prepareStatement("SELECT STRING_TEXT FROM " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".T_FRBR where TBL_VLU_CDE=? and LANGID='"+locale.getISO3Language()+"'");
+			stmt = connection.prepareStatement("SELECT STRING_TEXT FROM " + System.getProperty(Global.SCHEMA_SUITE_KEY) + ".T_FRBR where TBL_VLU_CDE=? and LANGID='"+locale.getISO3Language()+"'");
 			stmt.setInt(1, wemiCode);
 			
 			rs = stmt.executeQuery();
@@ -335,7 +336,7 @@ public class DAOFrbrModel extends HibernateUtil
 				resultField = "A." + resultField  + "=? OR B." + resultField + "=?";
 			}
 			else resultField = resultField + "=?";
-			stmt = connection.prepareStatement("SELECT a.EXP_BIB_ITM_NBR FROM " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".frbr_exp_mnf_rlt a left outer join " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".frbr_wrk_exp_rlt b on a.exp_bib_itm_nbr=b.exp_bib_itm_nbr where " + resultField);
+			stmt = connection.prepareStatement("SELECT a.EXP_BIB_ITM_NBR FROM " + System.getProperty(Global.SCHEMA_SUITE_KEY) + ".frbr_exp_mnf_rlt a left outer join " + System.getProperty(Global.SCHEMA_SUITE_KEY) + ".frbr_wrk_exp_rlt b on a.exp_bib_itm_nbr=b.exp_bib_itm_nbr where " + resultField);
 			
 			stmt.setInt(1, amicusNumber);
 			if(entity == 2 || entity == 4)
@@ -374,7 +375,7 @@ public class DAOFrbrModel extends HibernateUtil
 		try {
 			Session session = currentSession();
 			connection = session.connection();
-			stmt = connection.prepareStatement("SELECT EXP_BIB_ITM_NBR FROM " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".FRBR_WRK_EXP_RLT where WRK_BIB_ITM_NBR=?");
+			stmt = connection.prepareStatement("SELECT EXP_BIB_ITM_NBR FROM " + System.getProperty(Global.SCHEMA_SUITE_KEY) + ".FRBR_WRK_EXP_RLT where WRK_BIB_ITM_NBR=?");
 			stmt.setInt(1, amicusNumber);
 			
 			rs = stmt.executeQuery();
@@ -408,7 +409,7 @@ public class DAOFrbrModel extends HibernateUtil
 		try {
 			Session session = currentSession();
 			connection = session.connection();
-			stmt = connection.prepareStatement("SELECT EXP_BIB_ITM_NBR FROM " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".FRBR_EXP_MNF_RLT where MNF_BIB_ITM_NBR=?");
+			stmt = connection.prepareStatement("SELECT EXP_BIB_ITM_NBR FROM " + System.getProperty(Global.SCHEMA_SUITE_KEY) + ".FRBR_EXP_MNF_RLT where MNF_BIB_ITM_NBR=?");
 			stmt.setInt(1, amicusNumber);
 			
 			rs = stmt.executeQuery();
@@ -440,7 +441,7 @@ public class DAOFrbrModel extends HibernateUtil
 		try {
 			Session session = currentSession();
 			connection = session.connection();
-			stmt = connection.prepareStatement("SELECT MNF_BIB_ITM_NBR FROM " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".FRBR_EXP_MNF_RLT where EXP_BIB_ITM_NBR=?");
+			stmt = connection.prepareStatement("SELECT MNF_BIB_ITM_NBR FROM " + System.getProperty(Global.SCHEMA_SUITE_KEY) + ".FRBR_EXP_MNF_RLT where EXP_BIB_ITM_NBR=?");
 			stmt.setInt(1, expressionAmicusNumber);
 			
 			rs = stmt.executeQuery();
@@ -499,7 +500,7 @@ public class DAOFrbrModel extends HibernateUtil
 				resultField = "A." + resultField  + "=? OR B." + resultField + "=?";
 			}else resultField = resultField + "=?";
 			
-			stmt = connection.prepareStatement("SELECT WRK_BIB_ITM_NBR FROM " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".FRBR_WRK_EXP_RLT A LEFT OUTER JOIN " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".FRBR_EXP_MNF_RLT B ON A.EXP_BIB_ITM_NBR=B.EXP_BIB_ITM_NBR WHERE " + resultField);
+			stmt = connection.prepareStatement("SELECT WRK_BIB_ITM_NBR FROM " + System.getProperty(Global.SCHEMA_SUITE_KEY) + ".FRBR_WRK_EXP_RLT A LEFT OUTER JOIN " + System.getProperty(Global.SCHEMA_SUITE_KEY) + ".FRBR_EXP_MNF_RLT B ON A.EXP_BIB_ITM_NBR=B.EXP_BIB_ITM_NBR WHERE " + resultField);
 			stmt.setInt(1, amicusNumber);
 			
 			if(entity == 2 || entity == 4)
@@ -576,7 +577,7 @@ public class DAOFrbrModel extends HibernateUtil
 //			connection = session.connection();
 //			String amicusNumberToRelatedField = getField(getWemiFlag(amicusNumberToRelated));
 //			String amicusNumberSelectedField = getField(getWemiFlag(amicusNumberSelected));
-//			stmt = connection.prepareStatement("INSERT INTO " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".FRBR_EXP_MNF_RLT (" + amicusNumberToRelatedField + "," +amicusNumberSelectedField+") VALUES (?,?)");
+//			stmt = connection.prepareStatement("INSERT INTO " + System.getProperty(org.folio.cataloging.Global.SCHEMA_SUITE_KEY) + ".FRBR_EXP_MNF_RLT (" + amicusNumberToRelatedField + "," +amicusNumberSelectedField+") VALUES (?,?)");
 //			stmt.setInt(1, amicusNumberToRelated);
 //			stmt.setInt(2, amicusNumberSelected);
 //			stmt.executeUpdate();
@@ -601,7 +602,7 @@ public class DAOFrbrModel extends HibernateUtil
 //			connection = session.connection();
 //			String amicusNumberToRelatedField = getField(getWemiFlag(amicusNumberToRelated));
 //			String amicusNumberSelectedField = getField(getWemiFlag(amicusNumberSelected));
-//			stmt = connection.prepareStatement("INSERT INTO " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".FRBR_WRK_EXP_RLT (" + amicusNumberToRelatedField + "," +amicusNumberSelectedField+") VALUES (?,?)");
+//			stmt = connection.prepareStatement("INSERT INTO " + System.getProperty(org.folio.cataloging.Global.SCHEMA_SUITE_KEY) + ".FRBR_WRK_EXP_RLT (" + amicusNumberToRelatedField + "," +amicusNumberSelectedField+") VALUES (?,?)");
 //			stmt.setInt(1, amicusNumberToRelated);
 //			stmt.setInt(2, amicusNumberSelected);
 //			stmt.executeUpdate();
@@ -644,7 +645,7 @@ public class DAOFrbrModel extends HibernateUtil
 //			connection = session.connection();
 //			String amicusNumberToRelatedField = getField(getWemiFlag(amicusNumberToRelated));
 //			String amicusNumberSelectedField = getField(getWemiFlag(amicusNumberSelected));
-//			stmt = connection.prepareStatement("SELECT * FROM  " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".FRBR_EXP_MNF_RLT where " + amicusNumberToRelatedField + "=? AND " + amicusNumberSelectedField +"=?");
+//			stmt = connection.prepareStatement("SELECT * FROM  " + System.getProperty(org.folio.cataloging.Global.SCHEMA_SUITE_KEY) + ".FRBR_EXP_MNF_RLT where " + amicusNumberToRelatedField + "=? AND " + amicusNumberSelectedField +"=?");
 //			stmt.setInt(1, amicusNumberToRelated);
 //			stmt.setInt(2, amicusNumberSelected);
 //			
@@ -677,7 +678,7 @@ public class DAOFrbrModel extends HibernateUtil
 //			connection = session.connection();
 //			String amicusNumberToRelatedField = getField(getWemiFlag(amicusNumberToRelated));
 //			String amicusNumberSelectedField = getField(getWemiFlag(amicusNumberSelected));
-//			stmt = connection.prepareStatement("SELECT * FROM  " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".FRBR_WRK_EXP_RLT where " + amicusNumberToRelatedField + "=? AND " + amicusNumberSelectedField +"=?");
+//			stmt = connection.prepareStatement("SELECT * FROM  " + System.getProperty(org.folio.cataloging.Global.SCHEMA_SUITE_KEY) + ".FRBR_WRK_EXP_RLT where " + amicusNumberToRelatedField + "=? AND " + amicusNumberSelectedField +"=?");
 //			stmt.setInt(1, amicusNumberToRelated);
 //			stmt.setInt(2, amicusNumberSelected);
 //			
@@ -711,7 +712,7 @@ public class DAOFrbrModel extends HibernateUtil
 			try {
 				Session session = currentSession();
 				connection = session.connection();
-				stmt = connection.prepareStatement("SELECT A_BIB_ITM_NBR from " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".FRBR_ACS_PNT WHERE A_BIB_ITM_NBR=?");
+				stmt = connection.prepareStatement("SELECT A_BIB_ITM_NBR from " + System.getProperty(Global.SCHEMA_SUITE_KEY) + ".FRBR_ACS_PNT WHERE A_BIB_ITM_NBR=?");
 				stmt.setInt(1, amicusNumber);
 				rs = stmt.executeQuery();
 				result = rs.next(); 
@@ -800,7 +801,7 @@ public class DAOFrbrModel extends HibernateUtil
 		try {
 			Session session = currentSession();
 			connection = session.connection();
-			stmt = connection.prepareStatement("SELECT * FROM " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".F_HDG_REL WHERE BIB_ITM_NBR =? AND RLT_CODE = ? AND TYPE=?");
+			stmt = connection.prepareStatement("SELECT * FROM " + System.getProperty(Global.SCHEMA_SUITE_KEY) + ".F_HDG_REL WHERE BIB_ITM_NBR =? AND RLT_CODE = ? AND TYPE=?");
 			stmt.setInt(1, amicusNumber);
 			stmt.setString(2, code);
 			stmt.setInt(3, isAuthority == true ? 0 : 1);
@@ -833,7 +834,7 @@ public class DAOFrbrModel extends HibernateUtil
 		try {
 			Session session = currentSession();
 			connection = session.connection();
-			stmt = connection.prepareStatement("SELECT * FROM " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".F_RECORD_REL WHERE RLT_CODE = ? AND ((BIB_ITM_NBR  =? AND TYPE=?) OR (BIB_ITM_NBR_REL=? AND TYPE_REL =?))");
+			stmt = connection.prepareStatement("SELECT * FROM " + System.getProperty(Global.SCHEMA_SUITE_KEY) + ".F_RECORD_REL WHERE RLT_CODE = ? AND ((BIB_ITM_NBR  =? AND TYPE=?) OR (BIB_ITM_NBR_REL=? AND TYPE_REL =?))");
 											
 			stmt.setString(1, code);
 			stmt.setInt(2, amicusNumber);

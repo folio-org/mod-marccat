@@ -37,6 +37,7 @@ import net.sf.hibernate.type.Type;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.Global;
 
 /**
  * Manages access to table S_BIB_MARC_IND_DB_CRLTN -- the correlation between AMICUS
@@ -196,8 +197,8 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 	public static final String SELECT_CLASSIFICATION_TAG_LABELS = 
 		"SELECT AA.TBL_SEQ_NBR, AA.TYP_VLU_CDE, aa.FNCTN_VLU_CDE, AA.TBL_VLU_OBSLT_IND, AA.SHORT_STRING_TEXT, AA.STRING_TEXT, AA.LANGID"
 		+ " FROM "
-		+ System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) +".S_BIB_CLSTN_TYP_FNCTN AA," 
-		+ System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) +".S_BIB_MARC_IND_DB_CRLTN BC"
+		+ System.getProperty(Global.SCHEMA_SUITE_KEY) +".S_BIB_CLSTN_TYP_FNCTN AA,"
+		+ System.getProperty(Global.SCHEMA_SUITE_KEY) +".S_BIB_MARC_IND_DB_CRLTN BC"
 		+ " WHERE BC.MARC_TAG_CAT_CDE = ?"
 		+ " AND BC.MARC_TAG_1ST_IND <> '@'" 
 		+ " AND BC.MARC_TAG_2ND_IND <> '@'" 
@@ -362,9 +363,6 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 	
 	/**
 	 * Return the label for the tag to display
-	 * @param tag
-	 * @param firstIndicator
-	 * @param secondIndicator
 	 * @return MarcTagDisplay
 	 * @throws DataAccessException
 	 */

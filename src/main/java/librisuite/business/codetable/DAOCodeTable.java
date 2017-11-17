@@ -38,6 +38,7 @@ import org.apache.commons.logging.LogFactory;
 
 import com.libricore.librisuite.common.HibernateUtil;
 import com.libricore.librisuite.common.TransactionalHibernateOperation;
+import org.folio.cataloging.Global;
 
 @SuppressWarnings("unchecked")
 public class DAOCodeTable extends HibernateUtil 
@@ -47,7 +48,40 @@ public class DAOCodeTable extends HibernateUtil
 	private static final String ALPHABETICAL_ORDER = " order by ct.longText ";
 	private static final String SEQUENCE_ORDER = " order by ct.sequence ";
 	private String defaultListOrder = Defaults.getBoolean("labels.alphabetical.order", true)?ALPHABETICAL_ORDER:SEQUENCE_ORDER;
-		
+
+	public List<ValueLabelElement> getList(final Session session, Class c, Locale locale) throws DataAccessException {
+		List listCodeTable = null;
+
+		logger.debug("getList(" + c.getName() + ", " + locale.getDisplayName() + ")");
+		try {
+			listCodeTable =
+					session.find(
+							"from "
+									+ c.getName()
+									+ " as ct "
+									+ " where ct.language = ?"
+									+" and ct.obsoleteIndicator = '0'"
+									+" and ct.system = 0"
+									+" and ct.code >= -1"
+									+ " order by ct.code ",
+							new Object[] { locale.getISO3Language()},
+							new Type[] { Hibernate.STRING });
+		} catch (HibernateException e) {
+			logAndWrap(e);
+		}
+		logger.debug("Got codetable for " + c.getName());
+		List result = new ArrayList();
+		Iterator iterator = listCodeTable.iterator();
+
+		while (iterator.hasNext()) {
+			CodeTable element = (CodeTable) iterator.next();
+			if (element.getLanguage().equals(locale.getISO3Language())) {
+				result.add(new ValueLabelElement(element.getCodeString().trim(), element.getLongText()));
+			}
+		}
+		return result;
+	}
+
 	public List getList(Class c) throws DataAccessException 
 	{
 		List listCodeTable = null;
@@ -1006,7 +1040,7 @@ public class DAOCodeTable extends HibernateUtil
 	}
 	
 	private final String SELECT_RDA_CARRIER_LIST = /*"SELECT * FROM OLISUITE.T_RDA_CARRIER WHERE LANGID = ? ORDER BY STRING_TEXT";*/
-		"SELECT * FROM "+System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY)+".T_RDA_CARRIER WHERE LANGID = ? ORDER BY STRING_TEXT";
+		"SELECT * FROM "+System.getProperty(Global.SCHEMA_SUITE_KEY)+".T_RDA_CARRIER WHERE LANGID = ? ORDER BY STRING_TEXT";
 					
 	/**
 	 * Metodo fatto perche' in questa tabella (CUSTOM.T_RDA_CARRIER) ci sono più righe con lo stesso ValueCode ma con label diverse 

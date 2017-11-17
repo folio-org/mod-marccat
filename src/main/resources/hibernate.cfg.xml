@@ -8,5 +8,6 @@
 	<property name="show_sql">false</property>
 		<mapping resource="librisuite/hibernate/T_ITM_DSPLY.hbm.xml"/>
 		<mapping resource="librisuite/hibernate/USR_ACNT.hbm.xml"/>
+		<mapping resource="librisuite/hibernate/DB_LIST.hbm.xml"/>
 	</session-factory>
 </hibernate-configuration>

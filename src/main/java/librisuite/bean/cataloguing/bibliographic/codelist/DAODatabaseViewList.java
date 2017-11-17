@@ -29,7 +29,7 @@ public class DAODatabaseViewList extends DAOCodeTable {
 	/* (non-Javadoc)
 	 * @see librisuite.business.codetable.DAOCodeTable#getList(java.lang.Class, java.util.Locale)
 	 */
-	public List getList(Class c, Locale locale) throws DataAccessException {
+	public List<Object> getList(Class c, Locale locale) throws DataAccessException {
 		List listCodeTable = null;
 	
 		logger.debug("getList(" + c.getName() + ", " + locale.getDisplayName() + ")");

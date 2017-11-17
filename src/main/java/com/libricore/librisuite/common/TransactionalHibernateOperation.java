@@ -18,7 +18,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Class comment
+ * Class comment 2005/10/12
  * @author janick
  */
 public abstract class TransactionalHibernateOperation {

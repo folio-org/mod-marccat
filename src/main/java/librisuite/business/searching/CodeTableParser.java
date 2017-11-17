@@ -54,7 +54,7 @@ public class CodeTableParser
 	public static String getStringText(String tbl_vlu_cde, String code,	String lingua) 
 	{
 		List subdivisionType = null;
-		/* Se non è Casalini non eeseguire alcuna trasformazione */
+
 		if (!isCasalini)
 			return tbl_vlu_cde;
 		if (code.equals("b"))

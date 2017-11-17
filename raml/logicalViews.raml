@@ -8,8 +8,8 @@ documentation:
     content: This documents the API calls that can be made to manage logical view within the cataloging module.
 
 schemas:
-  - template: !include schemas/logicalView.json
-  - templateCollection: !include schemas/logicalViewCollection.json
+  - logicalView: !include schemas/logicalView.json
+  - logicalViewCollection: !include schemas/logicalViewCollection.json
   - errors: !include ../raml-util/schemas/errors.schema
   - error.schema: !include ../raml-util/schemas/error.schema
   - parameters.schema: !include ../raml-util/schemas/parameters.schema
@@ -31,19 +31,15 @@ resourceTypes:
 /logical-views:
   type:
     collection:
-      exampleCollection: !include examples/logicalViewCollection.example
-      exampleItem: !include examples/logicalView.example
-      schemaCollection: templateCollection
-      schemaItem: template
+      exampleCollection: !include examples/logicalViewCollection.json
+      exampleItem: !include examples/logicalView.json
+      schemaCollection: logicalViewCollection
+      schemaItem: logicalView
   get:
-    is: [
-      searchable: {description: "with valid searchable fields", example: "active=true"},
-    ]
-    description: Return a list of logical views filtered by language
   /{viewId}:
     type:
       collection-item:
-        exampleItem: !include examples/logicalView.example
-        schema: template
+        exampleItem: !include examples/logicalView.json
+        schema: logicalView
     get:
       description: Get a single logical view

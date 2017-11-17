@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -29,6 +28,7 @@ import org.apache.commons.logging.LogFactory;
 import com.libricore.librisuite.common.HibernateUtil;
 import com.libricore.librisuite.common.TransactionalHibernateOperation;
 import com.libricore.patterns.PredictionPattern.PopulationEntry;
+import org.folio.cataloging.Global;
 
 public class DAOPredictionPattern extends HibernateUtil {
 
@@ -258,7 +258,7 @@ public class DAOPredictionPattern extends HibernateUtil {
 								+ order.getAmicusNumber();
 					}
 
-					existsClause = " (SELECT SRL_CPY_ID_NBR, PUB_DTE FROM " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".SRL_PRT b "
+					existsClause = " (SELECT SRL_CPY_ID_NBR, PUB_DTE FROM " + System.getProperty(Global.SCHEMA_SUITE_KEY) + ".SRL_PRT b "
 							+ " WHERE b.SRL_CPY_ID_NBR = SRL_LGCL_CPY_ID.SRL_CPY_ID_NBR AND "
 							+ " b.PUB_DTE = S_WRK_PRED_PAT.PUB_DTE) ";
 
@@ -271,14 +271,14 @@ public class DAOPredictionPattern extends HibernateUtil {
 								+ existsClause
 								+ ")"
 								+ " AND srl_prt.cpy_id_nbr is null AND srl_prt.recvd_dte is null ";
-						stmt = conn.prepareStatement("DELETE FROM " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".SRL_PRT "
+						stmt = conn.prepareStatement("DELETE FROM " + System.getProperty(Global.SCHEMA_SUITE_KEY) + ".SRL_PRT "
 								+ " WHERE " + deleteClause);
 						stmt.execute();
 					}
 
 					whereClause = whereClause + " AND NOT EXISTS "
 							+ existsClause;
-					sql = " INSERT INTO " + System.getProperty(com.atc.weloan.shared.Global.SCHEMA_SUITE_KEY) + ".SRL_PRT ( " + "        SRL_PRT_NBR, "
+					sql = " INSERT INTO " + System.getProperty(Global.SCHEMA_SUITE_KEY) + ".SRL_PRT ( " + "        SRL_PRT_NBR, "
 							+ "        SRL_CPY_ID_NBR, "
 							+ "        SRL_CPY_STUS_CDE, "
 							+ "        PUB_DTE, " + "        TYPE, "
