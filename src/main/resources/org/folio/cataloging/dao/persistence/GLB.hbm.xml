@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+
+<class 
+    name="org.folio.cataloging.business.cataloguing.bibliographic.Globe"
+    table="GLB"
+>
+
+    <composite-id>
+        <key-property name="bibItemNumber" 
+            column="BIB_ITM_NBR"/>
+        <key-property name="keyNumber" 
+            column="GLB_KEY_NBR"/>
+        <key-property name="userViewString" 
+            column="USR_VW_IND" length="16"/>
+    </composite-id>    
+    <property name="generalMaterialDesignationCode"> 
+            <column name="GMD_CDE"/>
+    </property>
+    <property name="specificMaterialDesignationCode">
+            <column name="GLB_SMD_CDE"/>
+    </property>
+    <property name="obsolete1">
+            <column name="GLB_ORGNL_RPDTN_CDE"/>
+    </property>
+    <property name="colourCode">
+            <column name="GLB_CLR_CDE"/>
+    </property>
+    <property name="physicalMediumCode">
+            <column name="GLB_PHSCL_MDM_CDE"/>
+    </property>
+    <property name="typeOfReproductionCode">
+            <column name="GLB_RPDTN_TYP_CDE"/>
+    </property>
+    <property name="obsolete2">
+            <column name="ORGNL_VS_RPDTN_ASPCT_CDE"/>
+    </property>
+
+</class>
+</hibernate-mapping>

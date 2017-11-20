@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="librisuite.hibernate">
+
+	<class name="TAG_MODEL"  schema="olisuite"  table="TAG_MODEL">
+	<composite-id name="key" class="org.folio.cataloging.dao.persistence.ModelTagKey" >
+		<key-property name="sequence" column="TBL_SEQ_NBR" />
+		<key-property name="language" column="LANGID" />
+  	  </composite-id>
+  	   <property name="code">
+			<column name="TBL_VLU_CDE" not-null="true"/>
+		</property>
+		<property name="keyGroup">
+			<column name="TAG_GRP_MDL_FK" not-null="true"/>
+		</property>
+		<property name="obsoleteIndicator">
+			<column name="TBL_VLU_OBSLT_IND" sql-type="CHAR (1)" not-null="true"/>
+		</property>
+		<property name="descriptionText">
+			<column name="MDL_DSC_TEXT " not-null="true"/>
+		</property>
+		<property name="sampleText">
+			<column name="MDL_SMPL_TEXT" not-null="true"/>
+		</property>
+		<property name="patternText">
+			<column name="MDL_PTTRN_TEXT" not-null="true"/>
+		</property>
+	</class>
+</hibernate-mapping>

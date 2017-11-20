@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+<class 
+    name="org.folio.cataloging.business.cataloguing.bibliographic.VideoRecording"
+    table="VR"
+>
+
+    <composite-id>
+        <key-property name="bibItemNumber" 
+            column="BIB_ITM_NBR"/>
+        <key-property name="KeyNumber" 
+            column="VR_KEY_NBR"/>
+        <key-property name="userViewString" 
+            column="USR_VW_IND" length="16"/>
+    </composite-id>    
+    <property name="generalMaterialDesignationCode"> 
+            <column name="GMD_CDE"/>
+	</property>            
+    <property name="specificMaterialDesignationCode">
+    		<column name="VR_SMD_CDE"/>
+	</property>            
+    <property name="colourCode"> 
+            <column name="VR_CLR_CDE"/>
+	</property>            
+    <property name="formatCode"> 
+            <column name="VR_FRMT_CDE"/>
+	</property>            
+    <property name="includesSoundCode"> 
+            <column name="SND_MDM_OR_SEPRT_CDE"/>
+	</property>            
+    <property name="mediumForSoundCode"> 
+            <column name="MDM_FOR_SND_CDE"/>
+ 	</property>            
+    <property name="dimensionsCode"> 
+            <column name="VR_DMNSN_CDE"/>
+	</property>            
+    <property name="configurationCode"> 
+            <column name="VR_PLYBC_CHNL_CFGTN_CDE"/>
+	</property>            
+    <property name="obsolete1"> 
+            <column name="ORGNL_VS_RPDTN_ASPCT_CDE"/>
+	</property>            
+</class>
+</hibernate-mapping>

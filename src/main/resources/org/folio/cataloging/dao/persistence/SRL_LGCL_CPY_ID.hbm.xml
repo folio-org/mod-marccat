@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+<class name="org.folio.cataloging.dao.persistence.SerialLogicalCopy" table="SRL_LGCL_CPY_ID">
+
+    <id name="serialCopyNumber" column="SRL_CPY_ID_NBR">
+        <generator class="assigned" />
+    </id>
+
+    <property
+        name="label"
+        type="java.lang.String"
+        column="SRL_CPY_LBL"
+        length="150"
+    />
+    <property
+        name="routingListNumber"
+        type="int"
+        column="RTNG_LST_NBR"
+        not-null="true"
+        length="11"
+    />
+    <property
+        name="peopleListNumber"
+        type="int"
+        column="PPL_LST_NBR"
+        not-null="true"
+        length="11"
+    />
+    <property
+        name="bindingInstructionNumber"
+        type="int"
+        column="BNDG_INSTR_NBR"
+        not-null="true"
+        length="11"
+    />
+    <property
+        name="orderNumber"
+        type="int"
+        column="ORDR_NBR"
+        not-null="true"
+        length="11"
+    />
+    <property
+        name="deliveryDelay"
+        column="DLV_DLY"
+        length="2"
+    />
+    <property
+        name="autoClaim"
+        type="boolean"
+        column="AUTO_CLAIM"
+        length="1"
+    />
+    <property
+        name="orderItemNumber"
+        type="int"
+        column="ORDR_ITM_NBR"
+        not-null="true"
+        length="11"
+    />
+    <property
+        name="createCopiesIndicator"
+        type="boolean"
+        column="CREATE_CPYS_IND"
+        not-null="true"
+        length="1"
+    />
+    <property name="shelfListKeyNumber" column="SHLF_LIST_KEY_NBR"/>
+    <property name="branchNumber" column="BRNCH_ORG_NBR"/>
+    <property name="locationCode" column="LCTN_NME_CDE"/>
+    <property name="loanPeriod" column="LOAN_PRD_CDE"/>
+</class>
+</hibernate-mapping>

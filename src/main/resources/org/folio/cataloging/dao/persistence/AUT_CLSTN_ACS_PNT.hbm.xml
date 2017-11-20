@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+
+<class 
+    name="org.folio.cataloging.business.cataloguing.authority.AuthorityClassificationAccessPoint"
+    table="AUT_CLSTN_ACS_PNT"
+>
+
+    <composite-id>
+        <key-property 
+            name="itemNumber" 
+            column="AUT_NBR"/>
+        <key-property 
+            name="headingNumber" 
+            column="CLSTN_KEY_NBR"/>
+        <key-property 
+            name="functionCode" 
+            column="AUT_CLS_FNCTN_CDE"/>
+    </composite-id>    
+    <property 
+            name="volumeDate" 
+            column="AUT_VOL_DTE"/>
+
+</class>
+</hibernate-mapping>

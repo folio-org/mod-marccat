@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+<class 
+    name="org.folio.cataloging.dao.persistence.LOADING_MARC_FILE"
+    table="LOADING_MARC_FILE"
+>
+
+    <id name="fileNumber" column="FILE_NBR">
+        <generator class="sequence">
+        	<param name="sequence">loading_marc_file_seq</param>
+        </generator>
+    </id>
+
+    <property
+        name="fileName" 
+        column="FILENAME"
+        length="128"
+    />
+    <property
+        name="blob"
+        column="DATA"
+    />
+    <property
+        name="loadingStatisticsNumber"
+        column="LDG_STATS_NBR"
+    />
+</class>
+</hibernate-mapping>

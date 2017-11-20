@@ -5,16 +5,18 @@ import io.vertx.core.Context;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 
+import static org.folio.cataloging.F.datasourceConfiguration;
+import static org.folio.cataloging.Global.HCONFIGURATION;
+import static org.folio.cataloging.bean.cataloguing.bibliographic.codelist.CodeListsBean.getDatabaseViewList;
+
 import io.vertx.ext.jdbc.JDBCClient;
 import io.vertx.ext.sql.SQLClient;
-import static librisuite.bean.cataloguing.bibliographic.codelist.CodeListsBean.getDatabaseViewList;
-
-import librisuite.business.codetable.ValueLabelElement;
-import librisuite.business.common.DataAccessException;
-import librisuite.hibernate.DB_LIST;
 import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
 import net.sf.hibernate.SessionFactory;
+import org.folio.cataloging.business.codetable.ValueLabelElement;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.dao.persistence.DB_LIST;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.integration.PieceOfExistingLogicAdapter;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
@@ -34,11 +36,9 @@ import java.util.Map;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
-import static org.folio.cataloging.F.datasourceConfiguration;
-import static org.folio.cataloging.Global.HCONFIGURATION;
 
-public class LogicalViewAPI extends BaseResource implements LogicalViewsResource {
-    private final static Log LOGGER = new Log(LogicalViewAPI.class);
+public class LogicalViewAPI extends CatalogingResource implements LogicalViewsResource {
+    protected final Log logger = new Log(getClass());
 
     private Function<ValueLabelElement, View> adapter = source -> {
         final View logicalView = new View();
@@ -62,7 +62,7 @@ public class LogicalViewAPI extends BaseResource implements LogicalViewsResource
                                 .collect(toList()));
                 future.complete(container);
             } catch (final Exception exception) {
-                LOGGER.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+                logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
                 future.fail(exception);
             }
         }, operation -> {
@@ -101,5 +101,67 @@ public class LogicalViewAPI extends BaseResource implements LogicalViewsResource
     @Override
     public void putLogicalViewsByViewId(String viewId, String lang, View entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
         throw new IllegalArgumentException();
+    }
+
+    public void doGet(
+            final PieceOfExistingLogicAdapter adapter,
+            final Handler<AsyncResult<LogicalViewCollection>> resultHandler,
+            final Handler<AsyncResult<Response>> asyncResultHandler,
+            final Map<String, String> okapiHeaders,
+            final Context ctx) throws Exception {
+        final ConfigurationsClient configuration =
+                new ConfigurationsClient(
+                        "127.0.0.1",
+                        8085,
+                        TenantTool.tenantId(okapiHeaders));
+
+        configuration.getEntries("module==CATALOGING and configName==datasource", 0, 4, "en", response -> {
+            response.bodyHandler(body -> {
+                final SQLClient client = JDBCClient.createShared(ctx.owner(), datasourceConfiguration(body));
+                client.getConnection(operation -> {
+                    ctx.executeBlocking(
+                            future -> {
+                                Session session = null;
+                                try (final Connection connection = operation.result().unwrap()) {
+                                    final SessionFactory factory = HCONFIGURATION.buildSessionFactory();
+                                    session = factory.openSession(connection);
+
+                                    adapter.execute(session, future);
+
+                                } catch (final SQLException exception) {
+                                    logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+                                    asyncResultHandler.handle(
+                                            Future.succeededFuture(
+                                                    LogicalViewsResource.GetLogicalViewsResponse.withPlainInternalServerError(
+                                                            PublicMessageCatalog.INTERNAL_SERVER_ERROR)));
+                                } catch (final Exception exception) {
+                                    logger.error(MessageCatalog._00011_NWS_FAILURE, exception);
+                                    asyncResultHandler.handle(
+                                            Future.succeededFuture(
+                                                    LogicalViewsResource.GetLogicalViewsResponse.withPlainInternalServerError(
+                                                            PublicMessageCatalog.INTERNAL_SERVER_ERROR)));
+                                } finally {
+                                    if (session != null) {
+                                        try {
+                                            session.close();
+                                        } catch (final HibernateException ignore) {
+                                            // Ignore
+                                        }
+                                    }
+                                }
+                            },
+                            false,
+                            resultHandler);
+                });
+            });
+        });
+    }
+
+
+    public Response internalServerError(final String message) {
+        return Response.status(500)
+                .header("Content-Type", "application/json")
+                .entity(message)
+                .build();
     }
 }

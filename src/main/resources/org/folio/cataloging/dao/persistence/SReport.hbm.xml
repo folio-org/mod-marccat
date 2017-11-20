@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+<!-- 
+    Created by the Middlegen Hibernate plugin
+
+    http://boss.bekk.no/boss/middlegen/
+    http://hibernate.sourceforge.net/
+-->
+
+<class 
+    name="org.folio.cataloging.dao.persistence.SReport"
+    table="S_REPORT"
+>
+
+    <composite-id>
+        <key-property 
+            name="appNme" 
+            column="APP_NME" 
+            type="java.lang.String"
+            length="32"
+        />
+        <key-property 
+            name="compNme" 
+            column="COMP_NME" 
+            type="java.lang.String"
+            length="32"
+        />
+        <key-property 
+            name="reportCall" 
+            column="REPORT_CALL" 
+            type="java.lang.String"
+            length="255"
+        />
+        <key-property 
+            name="paramCall" 
+            column="PARAM_CALL" 
+            type="java.lang.String"
+            length="255"
+        />
+        <key-property 
+            name="menuEntry" 
+            column="MENU_ENTRY" 
+            type="java.lang.String"
+            length="32"
+        />
+        <key-property 
+            name="preview" 
+            column="PREVIEW" 
+            type="java.lang.String"
+            length="1"
+        />
+        <key-property 
+            name="printdlg" 
+            column="PRINTDLG" 
+            type="java.lang.String"
+            length="1"
+        />
+        <key-property 
+            name="sendByMail" 
+            column="SEND_BY_MAIL" 
+            type="java.lang.String"
+            length="1"
+        />
+        <key-property 
+            name="emailAddr" 
+            column="EMAIL_ADDR" 
+            type="java.lang.String"
+            length="255"
+        />
+    </composite-id>    
+
+
+    <!-- associations -->
+
+</class>
+</hibernate-mapping>

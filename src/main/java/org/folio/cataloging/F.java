@@ -26,4 +26,19 @@ public abstract class F {
                         new JsonObject(),
                         (r1, r2) -> r1.put(r2.getString("code"), r2.getValue("value")));
     }
+
+    /**
+     * Adds blank spaces to the given string until it reaches the given length.
+     * @param toPad	the string to pad.
+     * @param padLength the padding length.
+     * @return the padded string.
+     */
+    public static String fixedCharPadding(String toPad, int padLength) {
+        toPad = toPad.trim().replaceFirst("^0+", "");
+        StringBuilder builder = new StringBuilder(toPad);
+        for (int index = 0 , howManyTimes = (padLength - toPad.length()); index < howManyTimes; index++) {
+            builder.append(" ");
+        }
+        return builder.toString();
+    }
 }
