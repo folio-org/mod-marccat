@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping package="com.casalini.hibernate.model">
+	<class name="DigitalDOC"  schema="custom"  table="DIG_DOC">
+    	<composite-id>
+        	<key-property name="relativePath" column="REL_PATH"/>
+        	<key-property name="fileName" column="FILE_NAME"/>
+     	</composite-id>    
+    <property name="bibItemNumber"> 
+		<column name="BIB_ITM_NBR"/>
+	</property>
+	<property name="uploadDate"> 
+		<column name="UPLD_DTE"/>
+	</property>
+	<property name="fileSize"> 
+		<column name="FILE_SIZE"/>
+	</property>
+	<property name="userViewCode"> 
+		<column name="USR_VW_CDE"/>
+	</property>	
+ </class>
+</hibernate-mapping>

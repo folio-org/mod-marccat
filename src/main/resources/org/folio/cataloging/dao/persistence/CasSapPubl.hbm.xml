@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping package="com.casalini.hibernate.model">
+<class name="CasSapPubl"  schema="custom"  table="CAS_SAP_PUBL">
+    <composite-id>
+        <key-property name="codEditore" 
+            column="CODICE_EDITORE"/>
+     </composite-id>   
+ 	<property name="codEditoreBreve"> 
+		<column name="CODICE_EDITORE_BREVE"/>
+	</property> 
+    <property name="denEditore"> 
+		<column name="DENOMINAZIONE_EDITORE"/>
+	</property>
+   <property name="costoPagEdi"> 
+		<column name="COSTO_PAG_EDI"/>
+	</property>
+   <property name="costoPagCurcyEdi"> 
+		<column name="COSTO_PAG_CURCY_EDI"/>
+	</property>
+   <property name="costoArticoloEdi"> 
+		<column name="COSTO_ARTICOLO_EDI"/>
+	</property>
+   <property name="costoArticoloCurcyEdi"> 
+		<column name="COSTO_ARTICOLO_CURCY_EDI"/>
+	</property>
+   <property name="costoSezioneEdi"> 
+		<column name="COSTO_SEZIONE_EDI"/>
+	</property>
+   <property name="costoSezioneCurcyEdi"> 
+		<column name="COSTO_SEZIONE_CURCY_EDI"/>
+	</property>
+   <property name="costoRivistaEdi"> 
+		<column name="COSTO_RIVISTA_EDI"/>
+	</property>
+   <property name="costoRivistaCurcyEdi"> 
+		<column name="COSTO_RIVISTA_CURCY_EDI"/>
+	</property>
+   <property name="costoCapitoloEdi"> 
+		<column name="COSTO_CAPITOLO_EDI"/>
+	</property>		
+   <property name="costoCapitoloCurcyEdi"> 
+		<column name="COSTO_CAPITOLO_CURCY_EDI"/>
+	</property>
+	<property name="flagCopiaIncollaEdi"> 
+		<column name="AUT_COPIA_INCOLLA_EDI"/>
+	</property>
+	<property name="flagOperStampaEdi"> 
+		<column name="AUT_OPER_STAMPA_EDI"/>
+	</property>
+	<property name="numOperStampaEdi"> 
+		<column name="NUM_OPER_STAMPA_EDI"/>
+	</property>
+	<property name="flagFullText"> 
+		<column name="FLG_SRC_FULL_TEXT"/>
+	</property>
+</class>
+</hibernate-mapping>
