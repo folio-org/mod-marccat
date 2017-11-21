@@ -132,27 +132,18 @@ public class CasaliniCodeListsBean extends LibrisuiteBean
 	public static StatusAvailable getStatusAvailable() {
 		return statusAvailable;
 	}
-	
-//	private static WorkingCodeType workingCodeType = new WorkingCodeType();
-//	public static WorkingCodeType getWorkingCodeType() {
-//		return workingCodeType;
-//	}
-	
-//	20130805: aggiunta tabella di decodifica T_RDA_CONTENT
+
 	private static ContentType contentType = new ContentType();
-	
 	public static ContentType getContentType() {
 		return contentType;
 	}
-//	20130805: aggiunta tabella di decodifica T_RDA_MEDIA
+
 	private static MediaType mediaType = new MediaType();
-	
 	public static MediaType getMediaType() {
 		return mediaType;
 	}
-//	20130805: aggiunta tabella di decodifica T_RDA_CARRIER
+
 	private static CarrierType carrierType = new CarrierType();
-	
 	public static CarrierType getCarrierType() {
 		return carrierType;
 	}
