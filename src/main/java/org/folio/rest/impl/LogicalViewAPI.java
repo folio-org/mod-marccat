@@ -5,39 +5,28 @@ import io.vertx.core.Context;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 
-import static org.folio.cataloging.F.datasourceConfiguration;
-import static org.folio.cataloging.Global.HCONFIGURATION;
 import static org.folio.cataloging.bean.cataloguing.bibliographic.codelist.CodeListsBean.getDatabaseViewList;
 
-import io.vertx.ext.jdbc.JDBCClient;
-import io.vertx.ext.sql.SQLClient;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.SessionFactory;
 import org.folio.cataloging.business.codetable.ValueLabelElement;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.persistence.DB_LIST;
 import net.sf.hibernate.Session;
-import org.folio.cataloging.integration.PieceOfExistingLogicAdapter;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.cataloging.log.PublicMessageCatalog;
-import org.folio.rest.client.ConfigurationsClient;
 import org.folio.rest.jaxrs.model.LogicalViewCollection;
 import org.folio.rest.jaxrs.model.View;
 import org.folio.rest.jaxrs.resource.LogicalViewsResource;
-import org.folio.rest.tools.utils.TenantTool;
 
 import javax.ws.rs.core.Response;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
-import static org.folio.rest.impl.CatalogingHelper.doGet;
-import static org.folio.rest.impl.CatalogingHelper.internalServerError;
+import static org.folio.cataloging.integration.CatalogingHelper.doGet;
+import static org.folio.cataloging.integration.CatalogingHelper.internalServerError;
 
 public class LogicalViewAPI implements LogicalViewsResource {
     protected final Log logger = new Log(getClass());
@@ -55,11 +44,12 @@ public class LogicalViewAPI implements LogicalViewsResource {
             final Map<String, String> okapiHeaders,
             final Handler<AsyncResult<Response>> resultHandler,
             final Context vertxContext) throws Exception {
-        doGet((session, future) -> {
+        doGet((storageService, future) -> {
             try {
                 final LogicalViewCollection container = new LogicalViewCollection();
                 container.setViews(
-                        logicalViews(lang, session).stream()
+                        storageService.getLogicalViews(lang)
+                                .stream()
                                 .map(adapter)
                                 .collect(toList()));
                 future.complete(container);
@@ -79,10 +69,6 @@ public class LogicalViewAPI implements LogicalViewsResource {
                                         PublicMessageCatalog.INTERNAL_SERVER_ERROR)));
             }
         }, resultHandler, okapiHeaders, vertxContext);
-    }
-
-    public List<ValueLabelElement> logicalViews(final String lang, final Session session) throws DataAccessException {
-        return getDatabaseViewList().getDAO().getList(session, DB_LIST.class, Locale.forLanguageTag(lang));
     }
 
     @Override

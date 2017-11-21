@@ -1,4 +1,4 @@
-package org.folio.rest.impl;
+package org.folio.cataloging.integration;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Context;
@@ -9,7 +9,6 @@ import io.vertx.ext.sql.SQLClient;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.SessionFactory;
-import org.folio.cataloging.integration.PieceOfExistingLogicAdapter;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.cataloging.log.PublicMessageCatalog;
@@ -66,11 +65,13 @@ public abstract class CatalogingHelper {
                     ctx.executeBlocking(
                             future -> {
                                 Session session = null;
-                                try (final Connection connection = operation.result().unwrap()) {
-                                    final SessionFactory factory = HCONFIGURATION.buildSessionFactory();
-                                    session = factory.openSession(connection);
+                                try (final Connection connection = operation.result().unwrap();
+                                    final StorageService service =
+                                            new StorageService(
+                                                    HCONFIGURATION.buildSessionFactory()
+                                                            .openSession(connection))) {
 
-                                    adapter.execute(session, future);
+                                    adapter.execute(service, future);
 
                                 } catch (final SQLException exception) {
                                     LOGGER.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
