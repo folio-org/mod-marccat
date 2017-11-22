@@ -113,8 +113,8 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.commons.validator.routines.ISBNValidator;
 
 import org.folio.cataloging.IGlobalConst;
-import org.folio.cataloguing.bean.cas.CasaliniCodeListsBean;
-import org.folio.cataloguing.bean.cas.CasaliniContextBean;
+import org.folio.cataloging.bean.cas.CasaliniCodeListsBean;
+import org.folio.cataloging.bean.cas.CasaliniContextBean;
 import org.folio.cataloging.bean.digital.DigitalAmminBean;
 import org.folio.cataloging.bean.digital.DigitalDoiBean;
 import org.folio.cataloging.dao.DAOCasDigFiles;

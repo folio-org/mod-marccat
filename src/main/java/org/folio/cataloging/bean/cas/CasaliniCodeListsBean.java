@@ -1,4 +1,4 @@
-package org.folio.cataloguing.bean.cas;
+package org.folio.cataloging.bean.cas;
 
 import org.folio.cataloging.bean.LibrisuiteBean;
 import org.folio.cataloging.bean.cataloguing.bibliographic.codelist.CarrierType;

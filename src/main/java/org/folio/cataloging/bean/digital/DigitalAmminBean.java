@@ -54,9 +54,9 @@ import org.folio.cataloging.dao.persistence.T_VSL_MTRL_TYP;
 
 import org.apache.commons.httpclient.HttpException;
 
-import org.folio.cataloguing.bean.cas.CasaliniCodeListsBean;
-import org.folio.cataloguing.bean.cas.CasaliniContextBean;
-import org.folio.cataloguing.bean.cas.EditCasCacheBean;
+import org.folio.cataloging.bean.cas.CasaliniCodeListsBean;
+import org.folio.cataloging.bean.cas.CasaliniContextBean;
+import org.folio.cataloging.bean.cas.EditCasCacheBean;
 import org.folio.cataloging.dao.DAOCasDigAdmin;
 import org.folio.cataloging.business.digital.DigitalDoiException;
 import org.folio.cataloging.business.digital.DigitalLevelException;

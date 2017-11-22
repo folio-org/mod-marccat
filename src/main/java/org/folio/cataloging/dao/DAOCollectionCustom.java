@@ -29,7 +29,7 @@ import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.dao.persistence.T_CLCTN_CST_TYP;
 import org.folio.cataloging.dao.persistence.T_CLCTN_TYP;
 import org.folio.cataloging.dao.persistence.T_STS_CLCTN_TYP;
-import org.folio.cataloguing.form.CollectionsCustomForm;
+import org.folio.cataloging.form.CollectionsCustomForm;
 import org.folio.cataloging.dao.common.HibernateUtil;
 
 public class DAOCollectionCustom extends HibernateUtil 

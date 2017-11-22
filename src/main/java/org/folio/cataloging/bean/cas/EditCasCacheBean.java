@@ -1,4 +1,4 @@
-package org.folio.cataloguing.bean.cas;
+package org.folio.cataloging.bean.cas;
 
 import java.text.DateFormat;
 import java.text.ParsePosition;

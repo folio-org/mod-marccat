@@ -1,14 +1,13 @@
-package org.folio.cataloguing.form;
+package org.folio.cataloging.form;
 
 import org.folio.cataloging.form.LibrisuiteForm;
 
-
-public class CollectionsMasterForm extends LibrisuiteForm 
-{		
-	private static final long serialVersionUID = 383375516391523666L;
-
+public class CollectionsCustomForm extends LibrisuiteForm {
+		
+	private static final long serialVersionUID = 8492750305332422563L;
+	
 	private String modifyButton;
-	private String operation; 
+	private String operation;
 	private String statoPagina;
 	private String[] checkCollection;
 	private String searchButton;
@@ -16,18 +15,35 @@ public class CollectionsMasterForm extends LibrisuiteForm
 	private Integer selectIdCollection;
 	private String saveButton;
 	private String searchMSTButton;
-    private String searchNome;
-	private String searchId;
-	private String colonna;
-	private String status;
-    private String copyButton;
+    String searchNome;
+	String searchId;
+	String colonna;
+	String status;
 	private String openButton;
 	private String okButton;
-	private String selectMotherButton;
-	private String selectChildButton;
 	private String deleteButton;
 	private String visualButton;
 	private String typologyCode;
+//	20110221 inizio: bottone per gestione records per regole
+	private String ruleButton;
+	private String allRecordRuleButton;
+//	20110221 fine
+	
+	public String getAllRecordRuleButton() {
+		return allRecordRuleButton;
+	}
+	
+	public void setAllRecordRuleButton(String allRecordRuleButton) {
+		this.allRecordRuleButton = allRecordRuleButton;
+	}
+	
+	public String getRuleButton() {
+		return ruleButton;
+	}
+
+	public void setRuleButton(String ruleButton) {
+		this.ruleButton = ruleButton;
+	}
 	
 	public String getTypologyCode() {
 		return typologyCode;
@@ -45,32 +61,6 @@ public class CollectionsMasterForm extends LibrisuiteForm
 		this.deleteButton = deleteButton;
 	}
 
-	public String getSelectChildButton() {
-		return selectChildButton;
-	}
-
-	public void setSelectChildButton(String selectChildButton) {
-		this.selectChildButton = selectChildButton;
-	}
-
-	public String getSelectMotherButton() {
-		return selectMotherButton;
-	}
-
-	public void setSelectMotherButton(String selectMotherButton) {
-		this.selectMotherButton = selectMotherButton;
-	}
-
-	public String getCopyButton() {
-		return copyButton;
-	}
-
-	public void setCopyButton(String copyButton) {
-		this.copyButton = copyButton;
-	}
-
-	
-	
 	public String getStatoPagina() {
 		return statoPagina;
 	}
@@ -169,6 +159,7 @@ public class CollectionsMasterForm extends LibrisuiteForm
 		this.operation = operation;
 	}
 
+
 	public Integer getSelectIdCollection() {
 		return selectIdCollection;
 	}
@@ -200,5 +191,4 @@ public class CollectionsMasterForm extends LibrisuiteForm
 	public void setVisualButton(String visualButton) {
 		this.visualButton = visualButton;
 	}
-
 }

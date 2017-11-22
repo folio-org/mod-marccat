@@ -84,8 +84,8 @@ import org.folio.cataloging.dao.persistence.T_SKP_IN_FLNG_CNT;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import org.folio.cataloguing.bean.cas.CasaliniCodeListsBean;
-import org.folio.cataloguing.bean.cas.CasaliniContextBean;
+import org.folio.cataloging.bean.cas.CasaliniCodeListsBean;
+import org.folio.cataloging.bean.cas.CasaliniContextBean;
 import org.folio.cataloging.dao.DAOCasCache;
 import org.folio.cataloging.bean.digital.DigitalAmminBean;
 import org.folio.cataloging.bean.digital.DigitalDoiBean;

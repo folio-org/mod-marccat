@@ -100,7 +100,7 @@ import org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDDocume
 import org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDOutlineItem;
 
 import org.folio.cataloging.model.CART_ITEMS;
-import org.folio.cataloguing.bean.cas.CasaliniCodeListsBean;
+import org.folio.cataloging.bean.cas.CasaliniCodeListsBean;
 import org.folio.cataloging.dao.DAOCasCache;
 import org.folio.cataloging.dao.DAOCasDigFiles;
 import org.folio.cataloging.dao.DAODigital;

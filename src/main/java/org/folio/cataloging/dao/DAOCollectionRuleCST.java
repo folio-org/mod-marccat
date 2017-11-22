@@ -25,7 +25,7 @@ import net.sf.hibernate.type.Type;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import org.folio.cataloguing.bean.cas.RuleCollectionCSTBean;
+import org.folio.cataloging.bean.cas.RuleCollectionCSTBean;
 import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 import org.folio.cataloging.Global;

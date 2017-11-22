@@ -28,7 +28,7 @@ import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.dao.persistence.T_CLCTN_MST_TYP;
 import org.folio.cataloging.dao.persistence.T_CLCTN_TYP;
 import org.folio.cataloging.dao.persistence.T_STS_CLCTN_TYP;
-import org.folio.cataloguing.form.CollectionsMasterForm;
+import org.folio.cataloging.form.CollectionsMasterForm;
 import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.Global;
 

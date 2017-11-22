@@ -24,7 +24,7 @@ import org.folio.cataloging.dao.persistence.T_CAS_SDIV_GEOG_TYP;
 import org.folio.cataloging.dao.persistence.T_CAS_SDIV_PRTC_TYP;
 import org.folio.cataloging.dao.persistence.T_CAS_SDIV_TMPL_TYP;
 
-import org.folio.cataloguing.bean.cas.CasaliniCodeListsBean;
+import org.folio.cataloging.bean.cas.CasaliniCodeListsBean;
 import org.folio.cataloging.dao.DAOCasCache;
 
 /**
