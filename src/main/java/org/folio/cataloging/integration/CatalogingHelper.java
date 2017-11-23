@@ -6,15 +6,12 @@ import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.ext.jdbc.JDBCClient;
 import io.vertx.ext.sql.SQLClient;
-import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
-import net.sf.hibernate.SessionFactory;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.cataloging.log.PublicMessageCatalog;
 import org.folio.rest.client.ConfigurationsClient;
-import org.folio.rest.jaxrs.model.LogicalViewCollection;
-import org.folio.rest.jaxrs.resource.LogicalViewsResource;
+// import org.folio.rest.jaxrs.model.LogicalViewCollection;
 import org.folio.rest.tools.utils.TenantTool;
 
 import javax.ws.rs.core.Response;
@@ -40,7 +37,6 @@ public abstract class CatalogingHelper {
      * Provides a unified approach (within the cataloging module) for wrapping an existing blocking flow.
      *
      * @param adapter the bridge that carries on the existing logic.
-     * @param resultHandler the result handler.
      * @param asyncResultHandler the response handler.
      * @param okapiHeaders the incoming Okapi headers
      * @param ctx the vertx context.
@@ -48,7 +44,6 @@ public abstract class CatalogingHelper {
      */
     public static void doGet(
             final PieceOfExistingLogicAdapter adapter,
-            final Handler<AsyncResult<LogicalViewCollection>> resultHandler,
             final Handler<AsyncResult<Response>> asyncResultHandler,
             final Map<String, String> okapiHeaders,
             final Context ctx) throws Exception {
@@ -64,39 +59,42 @@ public abstract class CatalogingHelper {
                 client.getConnection(operation -> {
                     ctx.executeBlocking(
                             future -> {
-                                Session session = null;
                                 try (final Connection connection = operation.result().unwrap();
                                     final StorageService service =
                                             new StorageService(
-                                                    HCONFIGURATION.buildSessionFactory()
-                                                            .openSession(connection))) {
+                                                    HCONFIGURATION.buildSessionFactory().openSession(connection))) {
 
                                     adapter.execute(service, future);
-
                                 } catch (final SQLException exception) {
                                     LOGGER.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
                                     asyncResultHandler.handle(
                                             Future.succeededFuture(
-                                                    LogicalViewsResource.GetLogicalViewsResponse.withPlainInternalServerError(
+                                                    internalServerError(
                                                             PublicMessageCatalog.INTERNAL_SERVER_ERROR)));
                                 } catch (final Exception exception) {
                                     LOGGER.error(MessageCatalog._00011_NWS_FAILURE, exception);
                                     asyncResultHandler.handle(
                                             Future.succeededFuture(
-                                                    LogicalViewsResource.GetLogicalViewsResponse.withPlainInternalServerError(
+                                                    internalServerError(
                                                             PublicMessageCatalog.INTERNAL_SERVER_ERROR)));
-                                } finally {
-                                    if (session != null) {
-                                        try {
-                                            session.close();
-                                        } catch (final HibernateException ignore) {
-                                            // Ignore
-                                        }
-                                    }
                                 }
                             },
                             false,
-                            resultHandler);
+                            execution -> {
+                                if (execution.succeeded()) {
+                                    asyncResultHandler.handle(
+                                            Future.succeededFuture(
+                                                    Response
+                                                            .status(200)
+                                                            .header("Content-Type", "application/json")
+                                                            .entity(execution.result())
+                                                            .build()));
+                                } else {
+                                    asyncResultHandler.handle(
+                                            Future.succeededFuture(
+                                                    internalServerError(
+                                                            PublicMessageCatalog.INTERNAL_SERVER_ERROR)));
+                                }});
                 });
             });
         });

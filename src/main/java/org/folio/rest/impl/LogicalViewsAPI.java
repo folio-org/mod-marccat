@@ -66,17 +66,6 @@ public class LogicalViewsAPI implements LogicalViewsResource {
                 logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
                 return null;
             }
-        }, operation -> {
-            if (operation.succeeded()) {
-                resultHandler.handle(
-                        Future.succeededFuture(
-                                GetLogicalViewsResponse.withJsonOK(operation.result())));
-            } else {
-                resultHandler.handle(
-                        Future.succeededFuture(
-                                internalServerError(
-                                        PublicMessageCatalog.INTERNAL_SERVER_ERROR)));
-            }
         }, resultHandler, okapiHeaders, vertxContext);
     }
 
