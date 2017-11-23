@@ -22,15 +22,24 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
 import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 import static org.folio.cataloging.integration.CatalogingHelper.internalServerError;
 
+/**
+ * Logical views RESTful APIs.
+ *
+ * @author agazzarini
+ * @since 1.0
+ */
 public class LogicalViewsAPI implements LogicalViewsResource {
-    protected final Log logger = new Log(getClass());
+    protected final Log logger = new Log(LogicalViewsAPI.class);
 
+    // This is the adapter that converts existing value objects (logical views in this case)
+    // in OKAPI resources.
     private Function<ValueLabelElement, View> adapter = source -> {
         final View logicalView = new View();
         logicalView.setCode(source.getValue());
@@ -52,10 +61,10 @@ public class LogicalViewsAPI implements LogicalViewsResource {
                                 .stream()
                                 .map(adapter)
                                 .collect(toList()));
-                future.complete(container);
+                return container;
             } catch (final Exception exception) {
                 logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-                future.fail(exception);
+                return null;
             }
         }, operation -> {
             if (operation.succeeded()) {
