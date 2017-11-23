@@ -14,8 +14,7 @@ import net.sf.hibernate.Session;
  * @since 1.0
  */
 @FunctionalInterface
-public interface PieceOfExistingLogicAdapter {
-
+public interface PieceOfExistingLogicAdapter<T> {
     /**
      * Executes a piece of existing logic.
      *

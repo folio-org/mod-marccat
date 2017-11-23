@@ -28,7 +28,7 @@ import static java.util.stream.Collectors.toList;
 import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 import static org.folio.cataloging.integration.CatalogingHelper.internalServerError;
 
-public class LogicalViewAPI implements LogicalViewsResource {
+public class LogicalViewsAPI implements LogicalViewsResource {
     protected final Log logger = new Log(getClass());
 
     private Function<ValueLabelElement, View> adapter = source -> {
