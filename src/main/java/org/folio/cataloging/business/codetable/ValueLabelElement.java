@@ -1,80 +1,70 @@
-
-/*
- * (c) LibriCore
- * 
- * Created on Jul 20, 2004
- * 
- * ValueLabelElement.java (was CodeTableCharListElement.java)
- */
 package org.folio.cataloging.business.codetable;
 
 import java.io.Serializable;
-import java.util.Iterator;
 import java.util.List;
 
 /**
- * Holds a single entry for select/option lists where the valueProperty is a String
+ * Holds a single entry for select/option lists where the valueProperty is a String.
+ *
  * @author paulm
- * @version %I%, %G%
+ * @author agazzarini
  * @since 1.0
  */
 public class ValueLabelElement implements Comparable, Serializable {
 	private String value;
 	private String label;
-	
-	public static String decode(String value, List list) {
-		Iterator iter = list.iterator();
-		while (iter.hasNext()) {
-			ValueLabelElement anElem = (ValueLabelElement) iter.next();
-			if (anElem.getValue().equals(value)) {
-				return anElem.getLabel();
-			}
-		}
-		return null;
-	}
-	
-	public ValueLabelElement() {
-	}
-	
+
 	/**
-	 * 
-	 * Class constructor
+	 * Decodes the incoming value among a given set of key/value pairs.
 	 *
-	 * @param value
-	 * @param label
-	 * @since 1.0
+	 * @param value the search criterion.
+	 * @param elements the search set.
+	 * @return the label associated with the matching element, null otherwise.
 	 */
-	public ValueLabelElement(String value, String label){
+	public static String decode(final String value, final List<ValueLabelElement> elements) {
+		return elements.stream()
+				.filter(element -> element.getValue().equals(value))
+				.findFirst()
+				.map(ValueLabelElement::getLabel)
+				.orElse(null);
+	}
+	
+	public ValueLabelElement() {}
+
+	/**
+	 * Builds a new {@link ValueLabelElement} with the given pair.
+	 *
+	 * @param value the element value.
+	 * @param label the element label.
+	 */
+	public ValueLabelElement(final String value, final String label){
 		setValue(value);
 		setLabel(label);
 	}
-	
+
 	/**
-	 * 
-	 * Class constructor
+	 * Builds a new {@link ValueLabelElement} with the given pair.
 	 *
-	 * @param value
-	 * @param label
-	 * @since 1.0
+	 * @param value the element value.
+	 * @param label the element label.
 	 */
 	public ValueLabelElement(int value, String label){
 		setValue(String.valueOf(value));
 		setLabel(label);
 	}
-	
+
 	/**
-	 * 
-	 * Class constructor
+	 * Builds a new {@link ValueLabelElement} with the given pair.
 	 *
-	 * @param value
-	 * @param label
-	 * @since 1.0
+	 * @param value the element value.
+	 * @param label the element label.
 	 */
+
 	public ValueLabelElement(short value, String label){
 		setValue(String.valueOf(value));
 		setLabel(label);
 	}
-	
+
 	public String getLabel() {
 		return label;
 	}
@@ -83,45 +73,38 @@ public class ValueLabelElement implements Comparable, Serializable {
 		return value;
 	}
 
-	public void setLabel(String string) {
-		label = string;
+	public void setLabel(final String label) {
+		this.label = label;
 	}
 
-	public void setValue(String string) {
-		value = string;
+	public void setValue(final String value) {
+		this.value = value;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
+	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof ValueLabelElement) {
-			ValueLabelElement anElem = (ValueLabelElement)obj;
-			return this.getValue().equals(anElem.getValue()) &&
-					this.getLabel().equals(anElem.getLabel());
-		}
-		else {
-			return false;
-		}
+		return (obj instanceof ValueLabelElement)
+				&& ((ValueLabelElement)obj).value.equals(value)
+				&& ((ValueLabelElement)obj).label.equals(label);
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
+	@Override
 	public int hashCode() {
 		return (getValue() + getLabel()).hashCode();
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 * This "natural" order is based on alphabetic by label
-	 */
-	public int compareTo(Object o) {
+	@Override
+	public int compareTo(final Object o) {
 		return this.getLabel().compareTo(((ValueLabelElement)o).getLabel());
 	}
 
+	@Override
 	public String toString() {
-		return "("+ getValue() + "," + getLabel() + ")";
+		return new StringBuilder("(")
+				.append(getValue())
+				.append(",")
+				.append(getLabel())
+				.append(")")
+				.toString();
 	}
-
 }
