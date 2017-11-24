@@ -37,6 +37,7 @@ import org.apache.commons.logging.LogFactory;
  * @author wimc
  * 
  */
+@Deprecated
 public class HibernateUtil {
 
 	private static Log logger = LogFactory.getLog(HibernateUtil.class);
@@ -77,20 +78,24 @@ public class HibernateUtil {
 	}
 
 	public Session currentSession() throws DataAccessException {
-		try {
+		throw new IllegalArgumentException("Don't call me!");
+/*		try {
 			return HibernateSessionProvider.getInstance().currentSession();
 		} catch (HibernateException e) {
 			logAndWrap(e);
 			return null;
 		}
+*/
 	}
 
 	public void closeSession() throws DataAccessException {
-		try {
+		throw new IllegalArgumentException("Don't call me!");
+/*		try {
 			HibernateSessionProvider.getInstance().closeSession();
 		} catch (HibernateException e) {
 			logAndWrap(e);
 		}
+		*/
 	}
 
 	/**
@@ -101,8 +106,7 @@ public class HibernateUtil {
 	 *            the exception
 	 */
 	public void logAndWrap(Throwable e) throws DataAccessException {
-		logger.warn("HibernateException " + e);
-		throw new DataAccessException(e);
+		throw new IllegalArgumentException("Don't call me!");
 	}
 
 	/**
@@ -534,6 +538,9 @@ public class HibernateUtil {
 	}
 
 	private boolean isSessionAlive(String sessionId) {
+		throw new IllegalArgumentException("Don't call me!");
+/*
+
 		try {
 			Connection con = currentSession().connection();
 			ResultSet rs = con.createStatement().executeQuery(
@@ -547,9 +554,13 @@ public class HibernateUtil {
 		} catch (Exception e) {
 			return false;
 		}
+*/
 	}
 
 	private boolean isUserPresent(String user) {
+		throw new IllegalArgumentException("Don't call me!");
+/*
+
 		try {
 			Connection con = currentSession().connection();
 			ResultSet rs = con.createStatement().executeQuery(
@@ -563,9 +574,12 @@ public class HibernateUtil {
 		} catch (Exception e) {
 			return false;
 		}
+		*/
 	}
 
 	private Connection createNewDBSession() throws SQLException {
+		throw new IllegalArgumentException("Don't call me!");
+/*
 		Connection con = null;
 		try {
 
@@ -583,6 +597,7 @@ public class HibernateUtil {
 			e.printStackTrace();
 		}
 		return con;
+		*/
 	}
 
 	private String getSessionID(Connection con) throws SQLException {

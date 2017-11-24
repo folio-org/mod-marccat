@@ -2,8 +2,7 @@ package org.folio.cataloging.bean.cataloguing.bibliographic.codelist;
 
 import org.folio.cataloging.bean.LibrisuiteBean;
 
-public class CodeListsBean extends LibrisuiteBean 
-{
+public class CodeListsBean extends LibrisuiteBean {
 	private static AuthorityDisplayFormat authorityDisplayFormat =	new AuthorityDisplayFormat();
 	private static AuthorityEncodingLevel authorityEncodingLevel =	new AuthorityEncodingLevel();
 	private static AuthorityRecordStatus authorityRecordStatus =	new AuthorityRecordStatus();

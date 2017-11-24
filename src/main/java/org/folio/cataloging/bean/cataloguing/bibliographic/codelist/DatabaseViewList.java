@@ -13,19 +13,18 @@ import org.folio.cataloging.dao.DAODatabaseViewList;
  */
 public class DatabaseViewList extends CodeListBean {
 	/**
-	 * Class constructor
-	 *
-	 * @since 1.0
+	 * Builds a new {@link DatabaseViewList}.
 	 */
 	public DatabaseViewList() {
 		super(DB_LIST.class);
 	}
-	/* (non-Javadoc)
-	 * @see CodeListBean#getDAO()
+
+	/**
+	 * Returns the DAO associated with this bean.
+	 *
+	 * @return the DAO associated with this bean.
 	 */
 	public DAODatabaseViewList getDAO() {
 		return new DAODatabaseViewList();
 	}
-
-
 }

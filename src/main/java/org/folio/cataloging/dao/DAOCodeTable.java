@@ -6,10 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 import org.folio.cataloging.business.codetable.ValueLabelElement;
 import org.folio.cataloging.business.common.DataAccessException;
@@ -34,53 +31,54 @@ import net.sf.hibernate.Transaction;
 import net.sf.hibernate.expression.Expression;
 import net.sf.hibernate.type.Type;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 import org.folio.cataloging.Global;
+import org.folio.cataloging.log.Log;
+import org.folio.cataloging.log.MessageCatalog;
 
-@SuppressWarnings("unchecked")
-public class DAOCodeTable extends HibernateUtil 
-{
-	private static Log logger = LogFactory.getLog(DAOCodeTable.class);
+import static java.util.stream.Collectors.toList;
+
+public class DAOCodeTable extends HibernateUtil {
+	private Log logger = new Log(DAOCodeTable.class);
+
 	public static final int STEP = 10; /* Standard Amicus increment for CodeTables sequence column */
 	private static final String ALPHABETICAL_ORDER = " order by ct.longText ";
 	private static final String SEQUENCE_ORDER = " order by ct.sequence ";
 	private String defaultListOrder = Defaults.getBoolean("labels.alphabetical.order", true)?ALPHABETICAL_ORDER:SEQUENCE_ORDER;
 
-	public List<ValueLabelElement> getList(final Session session, Class c, Locale locale) throws DataAccessException {
-		List listCodeTable = null;
-
-		logger.debug("getList(" + c.getName() + ", " + locale.getDisplayName() + ")");
+	/**
+	 * TODO: JAVADOC
+	 * @param session
+	 * @param c
+	 * @param locale
+	 * @return
+	 */
+	public List<ValueLabelElement> getList(final Session session, final Class c, final Locale locale) {
 		try {
-			listCodeTable =
-					session.find(
-							"from "
-									+ c.getName()
-									+ " as ct "
-									+ " where ct.language = ?"
-									+" and ct.obsoleteIndicator = '0'"
-									+" and ct.system = 0"
-									+" and ct.code >= -1"
-									+ " order by ct.code ",
-							new Object[] { locale.getISO3Language()},
-							new Type[] { Hibernate.STRING });
-		} catch (HibernateException e) {
-			logAndWrap(e);
-		}
-		logger.debug("Got codetable for " + c.getName());
-		List result = new ArrayList();
-		Iterator iterator = listCodeTable.iterator();
+			// NOTE: two steps are required because Hibernate doesn't use generics and the inference type
+			// mechanism doesn't work.
+			final List<CodeTable> codeTables = session.find(
+					"from "
+							+ c.getName()
+							+ " as ct "
+							+ " where ct.language = ?"
+							+" and ct.obsoleteIndicator = '0'"
+							+" and ct.system = 0"
+							+" and ct.code >= -1"
+							+ " order by ct.code ",
+					new Object[] { locale.getISO3Language()},
+					new Type[] { Hibernate.STRING });
 
-		while (iterator.hasNext()) {
-			CodeTable element = (CodeTable) iterator.next();
-			if (element.getLanguage().equals(locale.getISO3Language())) {
-				result.add(new ValueLabelElement(element.getCodeString().trim(), element.getLongText()));
-			}
+			return codeTables
+					.stream()
+					.filter(codeTable -> codeTable.getLanguage().equals(locale.getISO3Language()))
+					.map(codeTable -> new ValueLabelElement(codeTable.getCodeString().trim(), codeTable.getLongText()))
+ 					.collect(toList());
+		} catch (final HibernateException exception) {
+			logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+			return Collections.emptyList();
 		}
-		return result;
 	}
 
 	public List getList(Class c) throws DataAccessException 
@@ -991,11 +989,6 @@ public class DAOCodeTable extends HibernateUtil
 			       sb.append("(").append(serie).append(")").append(" ");
 				result = sb.toString();
 			}
-
-			if (logger.isDebugEnabled()) {
-				logger.debug("About to query:" + sql);
-			}
-	
 		} catch (HibernateException e) {
 			logAndWrap(e);
 		} catch (SQLException e) {

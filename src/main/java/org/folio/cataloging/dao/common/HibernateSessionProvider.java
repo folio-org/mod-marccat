@@ -18,7 +18,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import org.folio.cataloging.Global;
-
+@Deprecated
 public class HibernateSessionProvider
 {
   private static String dialect = Defaults.getString("hibernate.dialect");
@@ -72,6 +72,9 @@ public class HibernateSessionProvider
   }
 
   public void closeSession() throws HibernateException {
+      throw new IllegalArgumentException("Don't call me!");
+/*
+
     Session session = (Session)sessionHolder.get();
     if (session != null) {
       sessionHolder.set(null);
@@ -80,9 +83,13 @@ public class HibernateSessionProvider
     } else {
       logger.info("No Hibernate Session to close");
     }
+    */
   }
 
   public Session currentSession() throws HibernateException {
+      throw new IllegalArgumentException("Don't call me!");
+/*
+
     Session session = (Session)sessionHolder.get();
 
     if (session == null) {
@@ -93,6 +100,7 @@ public class HibernateSessionProvider
       logger.info("New Hibernate Session Opened");
     }
     return session;
+    */
   }
 
   public Class getHibernateClassName(String tableName) {

@@ -1,0 +1,46 @@
+#%RAML 0.8
+title: Index
+version: v1
+baseUri: http://github.com/org/folio/mod-cataloging
+
+documentation:
+  - title: mod-cataloging API
+    content: This documents the API calls that can be made to manage browsing and searching indexes.
+
+schemas:
+  - index: !include schemas/index.json
+  - indexCollection: !include schemas/indexCollection.json
+  - errors: !include ../raml-util/schemas/errors.schema
+  - error.schema: !include ../raml-util/schemas/error.schema
+  - parameters.schema: !include ../raml-util/schemas/parameters.schema
+
+traits:
+  - secured: !include ../raml-util/traits/auth.raml
+  - language: !include ../raml-util/traits/language.raml
+  - validate: !include ../raml-util/traits/validation.raml
+
+resourceTypes:
+  - collection: !include ../raml-util/rtypes/collection.raml
+  - collection-item: !include ../raml-util/rtypes/item-collection.raml
+  - get-only: !include ../raml-util/rtypes/get-only.raml
+
+/indexes:
+  type:
+    collection:
+      exampleCollection: !include examples/logicalViewCollection.json
+      exampleItem: !include examples/logicalView.json
+      schemaCollection: indexCollection
+      schemaItem: index
+  get:
+    queryParameters:
+      category:
+        displayName: Category
+        description: the index category
+        required: true
+  /{code}:
+    type:
+      collection-item:
+        exampleItem: !include examples/logicalView.json
+        schema: index
+    get:
+      description: Get a single index
