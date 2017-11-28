@@ -49,7 +49,7 @@ public abstract class CatalogingHelper {
             final Context ctx) throws Exception {
         final ConfigurationsClient configuration =
                 new ConfigurationsClient(
-                        System.getProperty("config.server.listen.address", "127.0.0.1"),
+                        System.getProperty("config.server.listen.address", "192.168.0.158"),
                         Integer.parseInt(System.getProperty("config.server.listen.port", "8085")),
                         TenantTool.tenantId(okapiHeaders));
 
