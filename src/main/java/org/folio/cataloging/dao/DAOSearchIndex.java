@@ -10,10 +10,8 @@ package org.folio.cataloging.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import org.folio.cataloging.business.codetable.ValueLabelElement;
 import org.folio.cataloging.business.common.DataAccessException;
@@ -23,14 +21,14 @@ import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
+import static java.util.stream.Collectors.toList;
 import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.business.searching.IndexBean;
 import org.folio.cataloging.business.searching.SearchIndexElement;
+import org.folio.cataloging.log.MessageCatalog;
 
 /** 
  * @author hansv
@@ -40,34 +38,36 @@ import org.folio.cataloging.business.searching.SearchIndexElement;
 public class DAOSearchIndex extends HibernateUtil 
 {
 	private static final Log logger = LogFactory.getLog(DAOSearchIndex.class);
-	
-	public List getMainIndex(Locale locale,char indexType) throws DataAccessException 
+
+	/**
+	 * Returns a list of all categories belonging to the requested type.
+	 *
+	 * @param session the session of hibernate
+	 * @param indexType the index type, used here as a filter criterion.
+	 * @param locale the Locale, used here as a filter criterion.
+	 * @return a list of categories and descriptions for index type associated with the requested language.
+	 * @throws DataAccessException in case of data access failure.
+	 */
+	public List<ValueLabelElement> getMainIndex(final Session session,final String indexType, final Locale locale) throws DataAccessException
 	{
-		List l = null;
-		List result = new ArrayList();
-		Session s = currentSession();
 
 		try {
-			l =
-				s.find( 
-					"from IndexMainList as a " +
-					"where a.language = ? and a.indexType = '" + indexType +"' order by a.indexKey",
-					new Object[] {
-								locale.getISO3Language()},
-							new Type[] { Hibernate.STRING});
-		} catch (HibernateException e) {
-			logAndWrap(e);
+			final List<IndexMainList> indices =
+					session.find(
+						"from IndexMainList as a " +
+						"where a.language = ? and a.indexType = '" + indexType +"' order by a.indexKey",
+						new Object[] {locale.getISO3Language()}, new Type[] { Hibernate.STRING});
+			return indices
+					.stream()
+					.filter(index -> index.getLanguage().equals(locale.getISO3Language()))
+					.map(index -> new ValueLabelElement(String.valueOf(index.getIndexValueCode()),index.getIndexMainName()))
+					.collect(toList());
+
+		} catch (final HibernateException exception) {
+			logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+			return Collections.emptyList();
 		}
 
-		Iterator iter = l.iterator();
-		while (iter.hasNext()) {
-			IndexMainList aRow = (IndexMainList) iter.next();
-				result.add(
-					new ValueLabelElement(
-						new String("" + aRow.getIndexValueCode()),
-						aRow.getIndexMainName()));
-		}
-		return result;
 	}
 
 	public List getSubIndex(Locale locale, char indexType) throws DataAccessException 
