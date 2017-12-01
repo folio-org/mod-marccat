@@ -7,5 +7,6 @@
 	
 	<property name="show_sql">false</property>
 		<mapping resource="org/folio/cataloging/dao/persistence/DB_LIST.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/INDEX_MAIN_LIST.hbm.xml"/>
 	</session-factory>
 </hibernate-configuration>
