@@ -4,7 +4,9 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.cataloging.business.codetable.ValueLabelElement;
 import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.dao.DAOSearchIndex;
 import org.folio.cataloging.dao.persistence.DB_LIST;
+import org.folio.rest.jaxrs.resource.IndexCategoriesResource;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -43,6 +45,19 @@ public class StorageService implements Closeable {
      */
     public List<ValueLabelElement> getLogicalViews(final String lang) throws DataAccessException {
         return getDatabaseViewList().getDAO().getList(session, DB_LIST.class, Locale.forLanguageTag(lang));
+    }
+
+    /**
+     * Returns a list of all categories belonging to the requested type.
+     *
+     * @param type the index type, used here as a filter criterion.
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of categories by index type associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<ValueLabelElement> getIndexCategories(final IndexCategoriesResource.Type type, final String lang) throws DataAccessException {
+        DAOSearchIndex searchIndexDao = new DAOSearchIndex();
+        return searchIndexDao.getMainIndex(session,type.name(),Locale.forLanguageTag(lang));
     }
 
     @Override
