@@ -168,24 +168,24 @@ public class AdvancedSearchBean extends SearchBean {
 
 			DAOSearchIndex dao = new DAOSearchIndex();
 
-			try {
+			/*try {
 				bean.setIndexPrimaryList(
-					dao.getMainIndex(
+					dao.getMainIndex(request.getSession(false),
 						SessionUtils.getCurrentLocale(
 							request.getSession(false)),
-						'P'));
+						"P"));
 				bean.setIndexSecondaryList(
 					dao.getMainIndex(
-						SessionUtils.getCurrentLocale(
+							request.getSession(false),SessionUtils.getCurrentLocale(
 							request.getSession(false)),
-						'S'));
+						"S"));
 
-				/*modifica barbara 17/04/2007 per pagina di ricerca*/
+
 				bean.setIndexT('P');
 				
 			} catch (DataAccessException e) {
 				throw new RuntimeException("failed to load indexes", e);
-			}
+			}*/
 		}
 		bean.setSessionAttribute(request, SearchBean.class);
 		SearchBean.getInstance(request);
