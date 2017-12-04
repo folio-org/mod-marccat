@@ -11,11 +11,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import org.folio.cataloging.business.codetable.ValueLabelElement;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.persistence.IndexMainList;
+import org.folio.cataloging.dao.persistence.IndexMain;
 import org.folio.cataloging.dao.persistence.IndexSubList;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
@@ -31,12 +30,10 @@ import org.folio.cataloging.business.searching.SearchIndexElement;
 import org.folio.cataloging.log.MessageCatalog;
 
 /** 
- * @author hansv
- * @version %I%, %G%
+ * @author carment
  * @since 1.0
  */
-public class DAOSearchIndex extends HibernateUtil 
-{
+public class DAOSearchIndex extends HibernateUtil {
 	private static final Log logger = LogFactory.getLog(DAOSearchIndex.class);
 
 	/**
@@ -48,13 +45,12 @@ public class DAOSearchIndex extends HibernateUtil
 	 * @return a list of categories and descriptions for index type associated with the requested language.
 	 * @throws DataAccessException in case of data access failure.
 	 */
-	public List<ValueLabelElement> getMainIndex(final Session session,final String indexType, final Locale locale) throws DataAccessException
-	{
+	public List<ValueLabelElement> getIndexCategories(final Session session, final String indexType, final Locale locale) throws DataAccessException {
 
 		try {
-			final List<IndexMainList> indices =
+			final List<IndexMain> indices =
 					session.find(
-						"from IndexMainList as a " +
+						"from IndexMain as a " +
 						"where a.language = ? and a.indexType = '" + indexType +"' order by a.indexKey",
 						new Object[] {locale.getISO3Language()}, new Type[] { Hibernate.STRING});
 			return indices

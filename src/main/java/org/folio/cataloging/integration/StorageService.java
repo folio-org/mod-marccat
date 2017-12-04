@@ -21,6 +21,7 @@ import static org.folio.cataloging.bean.cataloguing.bibliographic.codelist.CodeL
  * this interface.
  *
  * @author agazzarini
+ * @author carment
  * @since 1.0
  */
 public class StorageService implements Closeable {
@@ -55,9 +56,9 @@ public class StorageService implements Closeable {
      * @return a list of categories by index type associated with the requested language.
      * @throws DataAccessException in case of data access failure.
      */
-    public List<ValueLabelElement> getIndexCategories(final IndexCategoriesResource.Type type, final String lang) throws DataAccessException {
+    public List<ValueLabelElement> getIndexCategories(final String type, final String lang) throws DataAccessException {
         DAOSearchIndex searchIndexDao = new DAOSearchIndex();
-        return searchIndexDao.getMainIndex(session,type.name(),Locale.forLanguageTag(lang));
+        return searchIndexDao.getIndexCategories(session, type, Locale.forLanguageTag(lang));
     }
 
     @Override

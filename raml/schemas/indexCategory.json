@@ -5,6 +5,9 @@
   "properties": {
     "code": {
       "type": "string"
+    },
+    "description": {
+      "type": "string"
     }
   },
   "additionalProperties": false
