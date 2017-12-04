@@ -6,6 +6,7 @@ import org.folio.rest.RestLauncher;
  * Main application entry point.
  *
  * @author Andrea Gazzarini
+ * @author Carmen Trazza
  * @since 1.0
  */
 public class ModCataloging extends RestLauncher{
