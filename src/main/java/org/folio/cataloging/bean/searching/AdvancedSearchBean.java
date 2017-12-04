@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- * 
- * Created on Aug 16, 2004
- * 
- * AdvancedSearchBean.java
- */
 package org.folio.cataloging.bean.searching;
 
 import java.net.SocketTimeoutException;
@@ -31,10 +24,9 @@ import org.folio.cataloging.business.controller.SessionUtils;
 import org.folio.cataloging.business.controller.UserProfile;
 
 /**
- * Manages presentation output for the browse frame
+ * Manages presentation output for the browse frame.
  * 
- * @author hansv
- * @version %I%, %G%
+ * @author carment
  * @since 1.0
  */
 public class AdvancedSearchBean extends SearchBean {
@@ -170,12 +162,12 @@ public class AdvancedSearchBean extends SearchBean {
 
 			/*try {
 				bean.setIndexPrimaryList(
-					dao.getMainIndex(request.getSession(false),
+					dao.getIndexCategories(request.getSession(false),
 						SessionUtils.getCurrentLocale(
 							request.getSession(false)),
 						"P"));
 				bean.setIndexSecondaryList(
-					dao.getMainIndex(
+					dao.getIndexCategories(
 							request.getSession(false),SessionUtils.getCurrentLocale(
 							request.getSession(false)),
 						"S"));
