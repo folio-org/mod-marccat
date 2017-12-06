@@ -15,7 +15,6 @@ import net.sf.hibernate.cfg.Configuration;
  */
 public abstract class Global  {
 	public static String SUBFIELD_DELIMITER = "\u001f";
-	public static String SWITCH_DATABASE = "switch.database";
 	public static String SCHEMA_CUSTOMER_KEY = "CUSTOM_KEY";
 	public static String SCHEMA_SUITE_KEY = "SUITE_KEY";
 

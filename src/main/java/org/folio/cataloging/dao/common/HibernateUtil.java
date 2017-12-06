@@ -539,65 +539,14 @@ public class HibernateUtil {
 
 	private boolean isSessionAlive(String sessionId) {
 		throw new IllegalArgumentException("Don't call me!");
-/*
-
-		try {
-			Connection con = currentSession().connection();
-			ResultSet rs = con.createStatement().executeQuery(
-					"SELECT count(*) from v$session where audsid = "
-							+ sessionId);
-			if (rs.next()) {
-				return rs.getInt(1) > 0;
-			} else {
-				return false;
-			}
-		} catch (Exception e) {
-			return false;
-		}
-*/
 	}
 
 	private boolean isUserPresent(String user) {
 		throw new IllegalArgumentException("Don't call me!");
-/*
-
-		try {
-			Connection con = currentSession().connection();
-			ResultSet rs = con.createStatement().executeQuery(
-					"SELECT count(*) from S_LCK_TBL where USR_NME = '" + user
-							+ "'");
-			if (rs.next()) {
-				return rs.getInt(1) > 0;
-			} else {
-				return false;
-			}
-		} catch (Exception e) {
-			return false;
-		}
-		*/
 	}
 
 	private Connection createNewDBSession() throws SQLException {
 		throw new IllegalArgumentException("Don't call me!");
-/*
-		Connection con = null;
-		try {
-
-			// Class.forName(Defaults
-			// .getString("hibernate.connection.driver_class"));
-			// con = DriverManager.getConnection(Defaults
-			// .getString("hibernate.connection.url"), Defaults
-			// .getString("hibernate.connection.username"), Defaults
-			// .getString("hibernate.connection.password"));
-			con = HibernateSessionProvider.getInstance().currentSession()
-					.connection();
-
-		} catch (HibernateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return con;
-		*/
 	}
 
 	private String getSessionID(Connection con) throws SQLException {
@@ -612,26 +561,11 @@ public class HibernateUtil {
 		}
 	}
 
-	protected String getHibernateTableName(Class c) throws DataAccessException {
-		try {
-			return HibernateSessionProvider.getInstance()
-					.getHibernateTableName(c);
-		} catch (HibernateException e) {
-			logAndWrap(e);
-			return null;
-		}
+	protected String getHibernateTableName(Class c) {
+		return HibernateSessionProvider.getHibernateTableName(c);
 	}
 
-	protected String getHibernateColumnName(Class c, String property)
-			throws DataAccessException {
-		try {
-			return HibernateSessionProvider.getInstance()
-					.getHibernateColumnName(c, property);
-		} catch (HibernateException e) {
-			logAndWrap(e);
-			return null;
-		}
-
+	protected String getHibernateColumnName(Class c, String property)  {
+			return HibernateSessionProvider.getHibernateColumnName(c, property);
 	}
-
 }

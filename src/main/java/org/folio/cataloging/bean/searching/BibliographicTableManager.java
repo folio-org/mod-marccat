@@ -34,7 +34,7 @@ public class BibliographicTableManager implements ICodeTableManager {
 	public void initTable(HttpServletRequest request, CodeTableEditBean bean, LibrisuiteForm form, Locale currentLocale) throws CodeTableException, HibernateException, DataAccessException, ClassNotFoundException, AuthorisationException {
 		String fieldName = ((CodeTablesForm) form).getCurrentFieldName();
 		String tableName = bean.getCodeTableName(fieldName);
-		Class clazz = HibernateSessionProvider.getInstance().getHibernateClassName(tableName);
+		Class clazz = HibernateSessionProvider.getHibernateClassName(tableName);
 
 		if (clazz != null) {
 			bean.init(clazz, tableName, currentLocale);
@@ -48,7 +48,7 @@ public class BibliographicTableManager implements ICodeTableManager {
 			ClassNotFoundException, AuthorisationException {
 		String fieldName = ((CodeTablesForm) form).getCurrentFieldName();
 		String tableName = bean.getCodeTableName(fieldName);
-		Class clazz = HibernateSessionProvider.getInstance().getHibernateClassName(tableName);
+		Class clazz = HibernateSessionProvider.getHibernateClassName(tableName);
 
 		if (clazz != null) {
 			bean.init(clazz, tableName, currentLocale);

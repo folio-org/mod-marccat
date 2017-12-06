@@ -59,8 +59,7 @@ import org.folio.cataloging.business.controller.SessionUtils;
 
 public class AuthorityEditBean extends EditBean {
 	private static final AuthorityCatalog authorityCatalog = new AuthorityCatalog();
-	private static final Log logger = LogFactory
-			.getLog(AuthorityEditBean.class);
+	private static final Log logger = LogFactory.getLog(AuthorityEditBean.class);
 
 	@Override
 	public List getFirstList() throws DataAccessException{
