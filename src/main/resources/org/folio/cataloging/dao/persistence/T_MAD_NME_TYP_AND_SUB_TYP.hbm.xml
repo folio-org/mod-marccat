@@ -3,7 +3,7 @@
     "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
 
-<hibernate-mapping package="librisuite.hibernate">
+<hibernate-mapping package="org.folio.cataloging.dao.persistence">
 	<class name="T_MAD_NME_TYP_AND_SUB_TYP"  schema="olisuite"  table="T_MAD_NME_TYP_AND_SUB_TYP">
 
     <composite-id>

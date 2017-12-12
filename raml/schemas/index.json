@@ -6,10 +6,22 @@
     "code": {
       "type": "string"
     },
+    "description": {
+      "type" : "string"
+    },
     "constraints": {
       "type": "array",
       "items": {
-        "type": "string"
+        "type": "object",
+        "properties" : {
+          "code": {
+            "type" : "string"
+          },
+          "label" : {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
       }
     }
   },

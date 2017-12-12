@@ -593,8 +593,8 @@ public class AdvancedSearchBean extends SearchBean {
 	/*modifica barbara 18/04/2007 per pagina ricerca*/
 	public List getIndexSubList(char indT, int ind) {
 		DAOSearchIndex dao = new DAOSearchIndex();
-
-			try {
+        return null;
+			/*try {
 				return
 					dao.getSubIndex(
 						SessionUtils.getCurrentLocale(
@@ -602,7 +602,7 @@ public class AdvancedSearchBean extends SearchBean {
 						indT, ind);
 			} catch (DataAccessException e) {
 				throw new RuntimeException("failed to load indexes", e);
-			}
+			}*/
 		}
 	/*modifica barbara 20/04/2007 per pagina ricerca*/
 	public ResultSet expertSearch(String cclQuery, Locale locale, int searchingView)

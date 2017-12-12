@@ -33,7 +33,14 @@ resourceTypes:
       schemaItem: index
   get:
     queryParameters:
-      category:
+      categoryType:
+        displayName: Type
+        description: the category's type (either primary or secondary)
+        required: true
+        example: P(rimary), (S)econdary
+        enum: [P,S]
+        default: P
+      categoryCode:
         displayName: Category
         description: the index category
         required: true

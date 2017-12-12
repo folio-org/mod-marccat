@@ -3,7 +3,7 @@
     "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
     
-<hibernate-mapping package="librisuite.hibernate">
+<hibernate-mapping package="org.folio.cataloging.dao.persistence">
 <class name="Inventory" table="INVTRY">
    <composite-id name="key" class="InventoryKey">
         <key-property name="inventoryNumber" column="INVTRY_NBR"/>
