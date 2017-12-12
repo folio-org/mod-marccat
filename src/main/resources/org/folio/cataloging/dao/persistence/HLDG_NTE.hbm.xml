@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC 
 	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
-<hibernate-mapping package="librisuite.hibernate">
+<hibernate-mapping package="org.folio.cataloging.dao.persistence">
 	<class name="HLDG_NTE" table="HLDG_NTE">
 		<composite-id name="key" class="CopyNoteKey">
 			<key-property name="copyIdNumber" column="HLDG_NBR" />

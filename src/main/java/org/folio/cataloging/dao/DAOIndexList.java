@@ -1,18 +1,9 @@
-/*
- * (c) LibriCore
- * 
- * Created on Jul 20, 2004
- * 
- * DAOIndexList.java
- */
 package org.folio.cataloging.dao;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 import org.folio.cataloging.business.codetable.IndexListElement;
+import org.folio.cataloging.business.codetable.ValueLabelElement;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
 import org.folio.cataloging.dao.persistence.IndexList;
@@ -26,10 +17,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.log.MessageCatalog;
+
+import static java.util.stream.Collectors.toList;
+
 /**
  * Provides data access to IDX_LIST table
- * @author paulm
- * @version %I%, %G%
+ *
+ * @author carment
  * @since 1.0
  */
 public class DAOIndexList extends HibernateUtil {
@@ -185,7 +180,6 @@ public class DAOIndexList extends HibernateUtil {
 	 * Get the IndexElementList for a expecific query
 	 * 
 	 * @param query
-	 * @param locale
 	 * @throws DataAccessException
 	 * @since 1.0
 	 */
@@ -219,39 +213,30 @@ public class DAOIndexList extends HibernateUtil {
 		}
 		return result;
 	}
-
-	public String getCodeTable(String key, Locale locale)
-		throws DataAccessException {
-		List codeTableList = new ArrayList();
-		String codeTable = new String("");
-		String query = new String();
-
-		query =
-			"select a.codeTableName from IndexList as a "
-				+ "where a.languageCode = '"
-				+ key
-				+ "'"
-				+ " and a.key.language = '"
-				+ locale.getISO3Language()
-				/*modifica Barbara 26/04/2007 - nella lista degli indici solo indici LC*/
-				+ "' and a.codeLibriCatMades = 'LC'";
-
+	/**
+	 * Returns the name of the code table used by the index
+	 *
+	 * @param session the session of hibernate
+	 * @param code the index name, used here as a filter criterion.
+	 * @param locale the Locale, used here as a filter criterion.
+	 * @return the name of the code table for index code associated with the requested language.
+	 * @throws DataAccessException in case of data access failure.
+	 */
+	public String getCodeTableName(final Session session, final String code, final Locale locale)
+			throws DataAccessException {
 		try {
-			codeTableList = currentSession().find(query);
-
-			if (codeTableList.size() > 0) {
-				if (codeTableList.get(0) != null) {
-					codeTable = codeTableList.get(0).toString();
-				}
-			}
-
-		} catch (HibernateException e) {
-			logAndWrap(e);
-		} catch (DataAccessException ae) {
-			logAndWrap(ae);
+			String query =
+					"select a.codeTableName from IndexList as a "
+							+ "where a.languageCode = '" + code + "'"
+							+ " and a.key.language = '" + locale.getISO3Language()
+							+ "' and a.codeLibriCatMades = 'LC'";
+			List<String> tableNameList = session.find(query);
+			Optional<String> firstElement = tableNameList.stream().filter(tableName -> tableName!=null).findFirst();
+			return firstElement.isPresent() ? firstElement.get() : "";
+		} catch (final HibernateException exception) {
+			logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+			return "";
 		}
-
-		return codeTable;
 	}
 
 	public String getCodeTable(String key) throws DataAccessException {

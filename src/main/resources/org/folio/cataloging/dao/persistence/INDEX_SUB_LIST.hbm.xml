@@ -2,8 +2,8 @@
 <!DOCTYPE hibernate-mapping PUBLIC 
 	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
-<hibernate-mapping package="librisuite.hibernate">
-	<class name="IndexSubList"  schema="olisuite"  table="INDEX_SUB_LIST">
+<hibernate-mapping package="org.folio.cataloging.dao.persistence">
+	<class name="IndexSub"  schema="olisuite"  table="INDEX_SUB_LIST">
 		<id name="listKey">
 			<column name="LIST_KEY" />
 			<generator class="assigned"/>

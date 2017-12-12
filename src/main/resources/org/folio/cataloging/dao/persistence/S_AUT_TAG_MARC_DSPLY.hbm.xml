@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC 
 	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
-<hibernate-mapping package="librisuite.hibernate">
+<hibernate-mapping package="org.folio.cataloging.dao.persistence">
 	<class name="AutMarcTagDisplay"  schema="olisuite"  table="S_AUT_TAG_MARC_DSPLY">
 		<cache usage="read-only"/>
 		<composite-id>

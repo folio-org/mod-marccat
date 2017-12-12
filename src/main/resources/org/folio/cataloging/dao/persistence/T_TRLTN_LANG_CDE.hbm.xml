@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC 
 	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
-<hibernate-mapping package="librisuite.hibernate">
+<hibernate-mapping package="org.folio.cataloging.dao.persistence">
 	<class name="T_TRLTN_LANG_CDE" table="T_TRLTN_LANG_CDE">
 		<id name="code">
 			<column name="TBL_VLU_CDE"/>

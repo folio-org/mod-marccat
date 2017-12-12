@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC 
 	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
-<hibernate-mapping package="librisuite.hibernate">
+<hibernate-mapping package="org.folio.cataloging.dao.persistence">
 	<class name="CPY_HLD" table="CPY_HLD">
 		<id name="copyHoldNumber" type="int">
 			<column name="CPY_HLD_NBR" not-null="true"/>

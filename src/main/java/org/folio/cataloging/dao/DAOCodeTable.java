@@ -39,6 +39,12 @@ import org.folio.cataloging.log.MessageCatalog;
 
 import static java.util.stream.Collectors.toList;
 
+/**
+ *
+ * @author carment
+ * @since 1.0
+ */
+
 public class DAOCodeTable extends HibernateUtil {
 	private Log logger = new Log(DAOCodeTable.class);
 
@@ -48,10 +54,10 @@ public class DAOCodeTable extends HibernateUtil {
 	private String defaultListOrder = Defaults.getBoolean("labels.alphabetical.order", true)?ALPHABETICAL_ORDER:SEQUENCE_ORDER;
 
 	/**
-	 * TODO: JAVADOC
-	 * @param session
-	 * @param c
-	 * @param locale
+	 * Returns a code table contains elements set key/value
+	 * @param session the session of hibernate
+	 * @param c the mapped class in the hibernate configuration.
+	 * @param locale the Locale, used here as a filter criterion.
 	 * @return
 	 */
 	public List<ValueLabelElement> getList(final Session session, final Class c, final Locale locale) {
@@ -64,8 +70,8 @@ public class DAOCodeTable extends HibernateUtil {
 							+ " as ct "
 							+ " where ct.language = ?"
 							+" and ct.obsoleteIndicator = '0'"
-							+" and ct.system = 0"
-							+" and ct.code >= -1"
+							/*+" and ct.system = 0"
+							+" and ct.code >= -1"*/
 							+ " order by ct.code ",
 					new Object[] { locale.getISO3Language()},
 					new Type[] { Hibernate.STRING });
