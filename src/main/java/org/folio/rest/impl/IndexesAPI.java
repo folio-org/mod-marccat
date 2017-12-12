@@ -19,6 +19,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 /**
  * Browsing and searching indexes API
  *
+ * @author carment
  * @since 1.0
  */
 public class IndexesAPI implements IndexesResource {
