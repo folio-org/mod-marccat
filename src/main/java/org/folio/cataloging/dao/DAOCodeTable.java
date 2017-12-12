@@ -39,6 +39,12 @@ import org.folio.cataloging.log.MessageCatalog;
 
 import static java.util.stream.Collectors.toList;
 
+/**
+ *
+ * @author carment
+ * @since 1.0
+ */
+
 public class DAOCodeTable extends HibernateUtil {
 	private Log logger = new Log(DAOCodeTable.class);
 
