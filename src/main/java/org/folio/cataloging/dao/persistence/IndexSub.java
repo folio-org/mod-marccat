@@ -3,8 +3,8 @@ package org.folio.cataloging.dao.persistence;
 import java.io.Serializable;
 
 /**
- * @author Hansv
- * @version $Revision: 1.1 $, $Date: 2005/09/02 13:18:08 $ 
+ * @author carment
+ * @since 1.0
  */
 public class IndexSub implements Serializable {
 	private int listKey;
