@@ -1,8 +1,3 @@
-/**
- * @author carment
- * @since 1.0
- */
-
 package org.folio.cataloging.dao;
 
 import java.util.*;
