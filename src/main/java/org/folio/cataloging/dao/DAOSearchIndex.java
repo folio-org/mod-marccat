@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- * 
- * Created on Jul 20, 2004
- * 
- * DAOIndexList.java
- */
 package org.folio.cataloging.dao;
 
 import java.sql.Connection;
