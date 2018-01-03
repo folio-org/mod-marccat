@@ -41,4 +41,14 @@ public abstract class F {
         }
         return builder.toString();
     }
+
+    /**
+     * Returns true if the given string is not null or empty.
+     *
+     * @param value the input string.
+     * @return true if the given string is not null or empty.
+     */
+    public static boolean isNotNullOrEmpty(final String value) {
+        return value != null && value.trim().length() != 0;
+    }
 }
