@@ -1,43 +1,26 @@
 package org.folio.cataloging.dao;
 
-import java.io.Serializable;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.*;
-
+import net.sf.hibernate.*;
+import net.sf.hibernate.expression.Expression;
+import net.sf.hibernate.type.Type;
+import org.folio.cataloging.Global;
 import org.folio.cataloging.business.codetable.ValueLabelElement;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.business.descriptor.Descriptor;
-import org.folio.cataloging.dao.persistence.CLSTN;
-import org.folio.cataloging.dao.persistence.CodeTable;
-import org.folio.cataloging.dao.persistence.SBJCT_HDG;
-import org.folio.cataloging.dao.persistence.T_LANG;
-import org.folio.cataloging.dao.persistence.T_LANG_OF_ACS_PNT;
-import org.folio.cataloging.dao.persistence.T_LANG_OF_ACS_PNT_SBJCT;
-import org.folio.cataloging.dao.persistence.T_LANG_OF_IDXG;
-import org.folio.cataloging.dao.persistence.T_LANG_OF_IDXG_LANG;
-import org.folio.cataloging.dao.persistence.T_SINGLE;
-import org.folio.cataloging.dao.persistence.T_SINGLE_CHAR;
-import org.folio.cataloging.dao.persistence.T_SINGLE_LONGCHAR;
-import net.sf.hibernate.Hibernate;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Query;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.Transaction;
-import net.sf.hibernate.expression.Expression;
-import net.sf.hibernate.type.Type;
-
 import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
-import org.folio.cataloging.Global;
+import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 
+import java.io.Serializable;
+import java.lang.InstantiationException;
+import java.sql.*;
+import java.util.*;
+
 import static java.util.stream.Collectors.toList;
+import static org.folio.cataloging.F.isNotNullOrEmpty;
 
 /**
  *
@@ -971,40 +954,37 @@ public class DAOCodeTable extends HibernateUtil {
 		return result;
 	}
 
-	public String getRecordInformation(Integer headingNumber,Integer amicusNumber,Integer mainLibrary) throws DataAccessException 
-	{
-		Session s = currentSession();
-		String result = "";
-		Statement st = null;
-		ResultSet rs = null;
+	public String getRecordInformation(
+			final Integer headingNumber,
+			final Integer amicusNumber,
+			final Integer mainLibrary) throws DataAccessException {
+		final Session s = currentSession();
 		try {
-			Connection con = s.connection();
-			String sql = "select * from s_cache_bib_itm_dsply where bib_itm_nbr=(select bib_itm_nbr from shlf_list_acs_pnt where bib_itm_nbr=" + amicusNumber + " and shlf_list_key_nbr=" + headingNumber + " and org_nbr="+mainLibrary+")";
-			st = con.createStatement();
-			rs = st.executeQuery(sql);
-			while(rs.next())
-			{
-				StringBuffer sb = new StringBuffer();
-				String serie=rs.getString("TTL_HDG_SRS_STRNG_TXT");
-				sb.append(rs.getString("TTL_HDG_MAIN_STRNG_TXT")).append(" ").
-				//append(rs.getString("NME_MAIN_ENTRY_STRNG_TXT")).append("\n").
-				append(rs.getString("BIB_NTE_EDTN_STRNG_TXT")).append(" ").
-				append(rs.getString("BIB_NTE_IPRNT_STRNG_TXT")).append(" ").
-				append(rs.getString("BIB_NTE_EXTNT_STRNG_TXT")).append("\n");
-				if(serie!=null && !serie.trim().equals(""))
-			       sb.append("(").append(serie).append(")").append(" ");
-				result = sb.toString();
+			final Connection con = s.connection();
+			final String sql = "select * from s_cache_bib_itm_dsply where bib_itm_nbr=" +
+					"(select bib_itm_nbr from shlf_list_acs_pnt where bib_itm_nbr=" +
+					amicusNumber + " and shlf_list_key_nbr=" +
+					headingNumber + " and org_nbr="+mainLibrary+")";
+			try (final Statement st = con.createStatement();
+				 final ResultSet rs = st.executeQuery(sql)) {
+				final StringBuffer sb = new StringBuffer();
+				while (rs.next()) {
+						sb.append(rs.getString("TTL_HDG_MAIN_STRNG_TXT")).append(" ")
+							//append(rs.getString("NME_MAIN_ENTRY_STRNG_TXT")).append("\n")
+						  .append(rs.getString("BIB_NTE_EDTN_STRNG_TXT")).append(" ")
+						  .append(rs.getString("BIB_NTE_IPRNT_STRNG_TXT")).append(" ")
+						  .append(rs.getString("BIB_NTE_EXTNT_STRNG_TXT")).append("\n");
+					final String serie = rs.getString("TTL_HDG_SRS_STRNG_TXT");
+					if (isNotNullOrEmpty(serie)) {
+						sb.append("(").append(serie).append(")").append(" ");
+					}
+				}
+				return sb.toString();
 			}
-		} catch (HibernateException e) {
-			logAndWrap(e);
-		} catch (SQLException e) {
-			logAndWrap(e);
+		} catch (final Exception exception) {
+			logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+			return "CHANGEME!";
 		}
-		finally{
-			try{rs.close();}catch (Exception e) {}
-			try{st.close();}catch (Exception e) {}
-		}
-		return result;
 	}
 	
 	public int countStandardNote(String code) throws DataAccessException 
