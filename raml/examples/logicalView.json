@@ -1,6 +1,4 @@
 {
     "code": 1,
-    "language": "eng",
-    "shortDescription": "Children",
-    "longDescription": "Logical View for Children books"
+    "description": "Children"
 }

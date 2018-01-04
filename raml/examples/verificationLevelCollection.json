@@ -1,0 +1,36 @@
+{
+  "verificationLevels": [
+    {
+      "code": "1",
+      "description": "Saved"
+    },
+    {
+      "code": "2",
+      "description": "Preliminary"
+    },
+    {
+      "code": "3",
+      "description": "Unverified"
+    },
+    {
+      "code": "4",
+      "description": "Unverified-national"
+    },
+    {
+      "code": "5",
+      "description": "Verified"
+    },
+    {
+      "code": "6",
+      "description": "Verified-national"
+    },
+    {
+      "code": "7",
+      "description": "Ver-nat (in process)"
+    },
+    {
+      "code": "8",
+      "description": "Authenticated"
+    }
+  ]
+}

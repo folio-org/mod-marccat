@@ -38,6 +38,7 @@ public class DAOCodeTable extends HibernateUtil {
 
 	/**
 	 * Returns a code table contains elements set key/value
+	 *
 	 * @param session the session of hibernate
 	 * @param c the mapped class in the hibernate configuration.
 	 * @param locale the Locale, used here as a filter criterion.
@@ -53,15 +54,12 @@ public class DAOCodeTable extends HibernateUtil {
 							+ " as ct "
 							+ " where ct.language = ?"
 							+" and ct.obsoleteIndicator = '0'"
-							/*+" and ct.system = 0"
-							+" and ct.code >= -1"*/
 							+ " order by ct.code ",
 					new Object[] { locale.getISO3Language()},
 					new Type[] { Hibernate.STRING });
 
 			return codeTables
 					.stream()
-					.filter(codeTable -> codeTable.getLanguage().equals(locale.getISO3Language()))
 					.map(codeTable -> new ValueLabelElement(codeTable.getCodeString().trim(), codeTable.getLongText()))
  					.collect(toList());
 		} catch (final HibernateException exception) {
@@ -370,7 +368,7 @@ public class DAOCodeTable extends HibernateUtil {
 	public String getLongText(char code, Class c, Locale locale) throws DataAccessException 
 	{
 		String result = new String("");
-		CodeTable ct = (CodeTable) load(c, code, locale);
+		CodeTable ct = load(c, code, locale);
 		
 		if(ct != null)	result = ct.getLongText();
 
@@ -380,7 +378,7 @@ public class DAOCodeTable extends HibernateUtil {
 	public String getLongText(short code, Class c, Locale locale) throws DataAccessException 
 	{
 		String result = new String("");
-		CodeTable ct = (CodeTable) load(c, code, locale);
+		CodeTable ct = load(c, code, locale);
 		result = ct.getLongText();
 		return result;
     }
@@ -388,7 +386,7 @@ public class DAOCodeTable extends HibernateUtil {
 	public String getLongText(String code, Class c, Locale locale) throws DataAccessException 
 	{
 		String result = new String("");
-		CodeTable ct = (CodeTable) load(c, code, locale);
+		CodeTable ct = load(c, code, locale);
 		result = ct.getLongText();
 		return result;
 	}
@@ -665,12 +663,8 @@ public class DAOCodeTable extends HibernateUtil {
 			.add( Expression.like("stringText", "%"+code+"%") )
 	        .add( Expression.eq("typeCode", new Short((short)29)))
 			.list();
-	
-			if (l.size() >= 1) {
-				return true;
-			} else {
-				return false;
-			}
+
+			return l.size() >= 1;
 		} catch (HibernateException e) {
 			logAndWrap(e);
 			return false;
@@ -941,7 +935,7 @@ public class DAOCodeTable extends HibernateUtil {
 	public String getShortText(String code, Class c, Locale locale) throws DataAccessException 
 	{
 		String result = new String("");
-		CodeTable ct = (CodeTable) load(c, code, locale);
+		CodeTable ct = load(c, code, locale);
 		result = ct.getShortText();
 		return result;
 	}
@@ -949,7 +943,7 @@ public class DAOCodeTable extends HibernateUtil {
 	public String getShortText(short code, Class c, Locale locale) throws DataAccessException 
 	{
 		String result = new String("");
-		CodeTable ct = (CodeTable) load(c, code, locale);
+		CodeTable ct = load(c, code, locale);
 		result = ct.getShortText();
 		return result;
 	}

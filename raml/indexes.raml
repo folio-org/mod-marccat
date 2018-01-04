@@ -34,16 +34,17 @@ resourceTypes:
   get:
     queryParameters:
       categoryType:
-        displayName: Type
+        displayName: Category type
         description: the category's type (either primary or secondary)
         required: true
         example: P(rimary), (S)econdary
         enum: [P,S]
         default: P
       categoryCode:
-        displayName: Category
-        description: the index category
+        displayName: Category code
+        description: the index category code
         required: true
+        type: integer
   /{code}:
     type:
       collection-item:

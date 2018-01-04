@@ -6,7 +6,9 @@ import io.vertx.core.Handler;
 import org.folio.cataloging.business.codetable.ValueLabelElement;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
-import org.folio.rest.jaxrs.model.*;
+import org.folio.rest.jaxrs.model.Constraint;
+import org.folio.rest.jaxrs.model.Index;
+import org.folio.rest.jaxrs.model.IndexCollection;
 import org.folio.rest.jaxrs.resource.IndexesResource;
 
 import javax.ws.rs.core.Response;
@@ -64,12 +66,12 @@ public class IndexesAPI implements IndexesResource {
     }
 
     @Override
-    public void getIndexes(CategoryType categoryType, String categoryCode,String lang,Map<String,String>okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler,Context vertxContext) throws Exception {
+    public void getIndexes(IndexesResource.CategoryType categoryType, int categoryCode, String lang, Map<String,String>okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
             doGet((storageService, future) -> {
         try {
             final IndexCollection container = new IndexCollection();
             container.setIndexes(
-                    storageService.getIndexes(categoryType.name(),categoryCode,lang)
+                    storageService.getIndexes(categoryType.name(), categoryCode, lang)
                             .stream()
                             .map(convertValueLabelToIndex)
                             .collect(toList()));

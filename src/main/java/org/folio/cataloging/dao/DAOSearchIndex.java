@@ -1,26 +1,27 @@
 package org.folio.cataloging.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.*;
-
-import org.folio.cataloging.business.codetable.ValueLabelElement;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.persistence.IndexMain;
-import org.folio.cataloging.dao.persistence.IndexSub;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import static java.util.stream.Collectors.toList;
-import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.Global;
+import org.folio.cataloging.business.codetable.ValueLabelElement;
+import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.searching.IndexBean;
 import org.folio.cataloging.business.searching.SearchIndexElement;
+import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.persistence.IndexMain;
+import org.folio.cataloging.dao.persistence.IndexSub;
 import org.folio.cataloging.log.MessageCatalog;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.*;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * @author carment
@@ -69,7 +70,7 @@ public class DAOSearchIndex extends HibernateUtil {
 	 * @return a list of categories and descriptions for index type associated with the requested language.
 	 * @throws DataAccessException in case of data access failure.
 	 */
-    public List<ValueLabelElement> getIndexes(final Session session, final String indexType, final String categoryCode, final Locale locale) throws DataAccessException {
+    public List<ValueLabelElement> getIndexes(final Session session, final String indexType, final int categoryCode, final Locale locale) throws DataAccessException {
         try {
             final List<IndexSub> indexCategories =
                     session.find(
@@ -79,7 +80,6 @@ public class DAOSearchIndex extends HibernateUtil {
                             new Object[]{locale.getISO3Language()}, new Type[]{Hibernate.STRING});
             return indexCategories
                     .stream()
-                    .filter(indexCategory -> indexCategory.getLanguage().equals(locale.getISO3Language()))
                     .map(indexCategory -> new ValueLabelElement(String.valueOf(indexCategory.getIndexSearchCode()), indexCategory.getIndexSubName()))
                     .collect(toList());
 

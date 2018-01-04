@@ -9,13 +9,16 @@ import org.folio.cataloging.dao.DAOIndexList;
 import org.folio.cataloging.dao.DAOSearchIndex;
 import org.folio.cataloging.dao.common.HibernateSessionProvider;
 import org.folio.cataloging.dao.persistence.DB_LIST;
+import org.folio.cataloging.dao.persistence.T_VRFTN_LVL;
+
 import java.io.Closeable;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
+import java.util.Optional;
 
-import static org.folio.cataloging.bean.cataloguing.bibliographic.codelist.CodeListsBean.getDatabaseViewList;
+import static java.util.Optional.ofNullable;
+import static org.folio.cataloging.F.locale;
 
 /**
  * Storage layer service.
@@ -47,7 +50,20 @@ public class StorageService implements Closeable {
      * @throws DataAccessException in case of data access failure.
      */
     public List<ValueLabelElement> getLogicalViews(final String lang) throws DataAccessException {
-        return getDatabaseViewList().getDAO().getList(session, DB_LIST.class, Locale.forLanguageTag(lang));
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, DB_LIST.class, locale(lang));
+    }
+
+    /**
+     * Returns the verification levels associated to the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the verification level associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<ValueLabelElement> getVerificationLevels(final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_VRFTN_LVL.class, locale(lang));
     }
 
     /**
@@ -59,8 +75,8 @@ public class StorageService implements Closeable {
      * @throws DataAccessException in case of data access failure.
      */
     public List<ValueLabelElement> getIndexCategories(final String type, final String lang) throws DataAccessException {
-        DAOSearchIndex searchIndexDao = new DAOSearchIndex();
-        return searchIndexDao.getIndexCategories(session, type, Locale.forLanguageTag(lang));
+        final DAOSearchIndex searchIndexDao = new DAOSearchIndex();
+        return searchIndexDao.getIndexCategories(session, type, locale(lang));
     }
 
     /**
@@ -71,9 +87,9 @@ public class StorageService implements Closeable {
      * @return a list of categories by index type associated with the requested language.
      * @throws DataAccessException in case of data access failure.
      */
-    public List<ValueLabelElement> getIndexes(final String type, final String categoryCode, final String lang) throws DataAccessException {
+    public List<ValueLabelElement> getIndexes(final String type, final int categoryCode, final String lang) throws DataAccessException {
         DAOSearchIndex searchIndexDao = new DAOSearchIndex();
-        return searchIndexDao.getIndexes(session, type, categoryCode, Locale.forLanguageTag(lang));
+        return searchIndexDao.getIndexes(session, type, categoryCode, locale(lang));
     }
 
     /**
@@ -86,11 +102,14 @@ public class StorageService implements Closeable {
      * @throws HibernateException
      */
     public List<ValueLabelElement> getIndexesByCode(final String code, final String lang) throws DataAccessException, HibernateException {
-        DAOIndexList daoIndex = new DAOIndexList();
-        String tableName = daoIndex.getCodeTableName(session,code,Locale.forLanguageTag(lang));
-        DAOCodeTable dao = new DAOCodeTable();
-        Class className  = HibernateSessionProvider.getHibernateClassName(tableName.toUpperCase());
-        return className!=null ? dao.getList(session,className, Locale.forLanguageTag(lang)) : new ArrayList<ValueLabelElement>();
+        final DAOIndexList daoIndex = new DAOIndexList();
+        final String tableName = daoIndex.getCodeTableName(session, code, locale(lang));
+
+        final DAOCodeTable dao = new DAOCodeTable();
+        final Optional<Class> className  = ofNullable(HibernateSessionProvider.getHibernateClassName(tableName));
+        return className.isPresent()
+                ? dao.getList(session, className.get(), locale(lang))
+                : Collections.emptyList();
     }
 
     /**
@@ -103,14 +122,14 @@ public class StorageService implements Closeable {
      */
     public String getIndexDescription(final String code, final String lang) throws DataAccessException {
         DAOSearchIndex searchIndexDao = new DAOSearchIndex();
-        return searchIndexDao.getIndexDescription(session, code, Locale.forLanguageTag(lang));
+        return searchIndexDao.getIndexDescription(session, code, locale(lang));
     }
 
     @Override
     public void close() throws IOException {
         try {
             session.close();
-        } catch (HibernateException exception) {
+        } catch (final HibernateException exception) {
             throw new IOException(exception);
         }
     }

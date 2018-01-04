@@ -1,2 +1,68 @@
 {
+  "views": [
+    {
+      "code": "-1",
+      "longDescription": "Authority Records"
+    },
+    {
+      "code": "0",
+      "longDescription": "Any AMICUS Database"
+    },
+    {
+      "code": "1",
+      "longDescription": "Bibliographic Records - View #1"
+    },
+    {
+      "code": "2",
+      "longDescription": "Bibliographic Records - View #2"
+    },
+    {
+      "code": "3",
+      "longDescription": "Bibliographic Records - View #3"
+    },
+    {
+      "code": "4",
+      "longDescription": "Bibliographic Records - View #4"
+    },
+    {
+      "code": "5",
+      "longDescription": "Bibliographic Records - View #5"
+    },
+    {
+      "code": "6",
+      "longDescription": "Bibliographic Records - View #6"
+    },
+    {
+      "code": "7",
+      "longDescription": "Bibliographic Records - View #7"
+    },
+    {
+      "code": "8",
+      "longDescription": "Bibliographic Records - View #8"
+    },
+    {
+      "code": "9",
+      "longDescription": "Bibliographic Records - View #9"
+    },
+    {
+      "code": "10",
+      "longDescription": "Bibliographic Records - View #10"
+    },
+    {
+      "code": "11",
+      "longDescription": "Bibliographic Records - View #11"
+    },
+    {
+      "code": "12",
+      "longDescription": "Bibliographic Records - View #12"
+    },
+    {
+      "code": "13",
+      "longDescription": "Bibliographic Records - View #13"
+    },
+    {
+      "code": "14",
+      "longDescription": "Bibliographic Records - View #14"
+    }
+  ]
 }

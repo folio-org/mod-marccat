@@ -1,31 +1,30 @@
 package org.folio.cataloging.bean.cataloguing.bibliographic.codelist;
 
+import org.folio.cataloging.bean.LocalisedBean;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.dao.DAOCodeTable;
+
 import java.util.List;
 import java.util.Locale;
 
-import org.folio.cataloging.bean.LocalisedBean;
-import org.folio.cataloging.dao.DAOCodeTable;
-import org.folio.cataloging.business.common.DataAccessException;
-
-@SuppressWarnings("unchecked")
-public abstract class CodeListBean extends LocalisedBean 
-{
+/**
+ *
+ */
+public abstract class CodeListBean extends LocalisedBean {
 	private static DAOCodeTable daoCodeTable = new DAOCodeTable();
 
 	public CodeListBean(Class clazz) {
 		super(clazz);
 	}
-	
-   @Override
-	public Object loadObject(Locale locale) 
-	{
-		List list = null;
+
+	// TODO: daocodetable is used outside StorageService
+    @Override
+	public Object loadObject(Locale locale) {
 		try {
-			list = daoCodeTable.getOptionList(getClazz(), locale);
+			return daoCodeTable.getOptionList(getClazz(), locale);
 		} catch (DataAccessException dataAccessException) {
 			throw new RuntimeException("Error retrieving codetable");
 		}
-		return list;
 	}
 
 	public List getCodeList(Locale locale) 
@@ -43,8 +42,7 @@ public abstract class CodeListBean extends LocalisedBean
 		return DAOCodeTable.getReversedOptionList((List) getObject(locale));
 	}
 	
-	public static List getRdaCarrierList(Locale locale) throws DataAccessException 
-	{
+	public static List getRdaCarrierList(Locale locale) throws DataAccessException  {
 		return daoCodeTable.getRdaCarrierList(locale);
 	}
 }

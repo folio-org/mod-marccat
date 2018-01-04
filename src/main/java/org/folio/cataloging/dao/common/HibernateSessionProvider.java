@@ -1,16 +1,15 @@
 package org.folio.cataloging.dao.common;
 
-import java.util.Optional;
-import java.util.Spliterator;
-
 import net.sf.hibernate.MappingException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.mapping.Column;
 import net.sf.hibernate.mapping.Component;
 import net.sf.hibernate.mapping.PersistentClass;
 import net.sf.hibernate.mapping.Property;
-
 import org.folio.cataloging.Global;
+
+import java.util.Optional;
+import java.util.Spliterator;
 
 import static java.util.Optional.ofNullable;
 import static java.util.Spliterators.spliteratorUnknownSize;
@@ -36,7 +35,7 @@ public class HibernateSessionProvider {
 				Spliterator.IMMUTABLE);
 
 	  return stream(iterator, false)
-		  .filter(clazz -> clazz.getTable().getName().equals(tableName))
+		  .filter(clazz -> clazz.getTable().getName().equals(tableName.toUpperCase()))
 		  .findFirst()
 		  .map(PersistentClass::getMappedClass)
 		  .orElse(null); // TODO: Optional
