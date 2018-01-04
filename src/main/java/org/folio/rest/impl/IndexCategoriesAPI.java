@@ -5,6 +5,7 @@ import io.vertx.core.Context;
 import io.vertx.core.Handler;
 import org.folio.cataloging.business.codetable.ValueLabelElement;
 import org.folio.cataloging.log.Log;
+import org.folio.cataloging.log.MessageCatalog;
 import org.folio.rest.jaxrs.model.Category;
 import org.folio.rest.jaxrs.model.IndexCategoryCollection;
 import org.folio.rest.jaxrs.resource.IndexCategoriesResource;
@@ -12,7 +13,6 @@ import org.folio.rest.jaxrs.resource.IndexCategoriesResource;
 import javax.ws.rs.core.Response;
 import java.util.Map;
 import java.util.function.Function;
-import org.folio.cataloging.log.MessageCatalog;
 
 import static java.util.stream.Collectors.toList;
 import static org.folio.cataloging.integration.CatalogingHelper.doGet;

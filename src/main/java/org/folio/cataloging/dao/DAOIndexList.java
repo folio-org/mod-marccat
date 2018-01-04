@@ -1,25 +1,20 @@
 package org.folio.cataloging.dao;
 
-import java.util.*;
-
-import org.folio.cataloging.business.codetable.IndexListElement;
-import org.folio.cataloging.business.codetable.ValueLabelElement;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.descriptor.SortFormParameters;
-import org.folio.cataloging.dao.persistence.IndexList;
-import org.folio.cataloging.dao.persistence.IndexListKey;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
+import org.folio.cataloging.business.codetable.IndexListElement;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.descriptor.SortFormParameters;
 import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.persistence.IndexList;
+import org.folio.cataloging.dao.persistence.IndexListKey;
 import org.folio.cataloging.log.MessageCatalog;
 
-import static java.util.stream.Collectors.toList;
+import java.util.*;
 
 /**
  * Provides data access to IDX_LIST table
@@ -230,8 +225,8 @@ public class DAOIndexList extends HibernateUtil {
 							+ "where a.languageCode = '" + code + "'"
 							+ " and a.key.language = '" + locale.getISO3Language()
 							+ "' and a.codeLibriCatMades = 'LC'";
-			List<String> tableNameList = session.find(query);
-			Optional<String> firstElement = tableNameList.stream().filter(tableName -> tableName!=null).findFirst();
+			final List<String> tableNameList = session.find(query);
+			final Optional<String> firstElement = tableNameList.stream().filter(Objects::nonNull).findFirst();
 			return firstElement.isPresent() ? firstElement.get() : "";
 		} catch (final HibernateException exception) {
 			logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);

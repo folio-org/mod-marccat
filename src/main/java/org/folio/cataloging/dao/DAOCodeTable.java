@@ -44,7 +44,7 @@ public class DAOCodeTable extends HibernateUtil {
 	 * @param locale the Locale, used here as a filter criterion.
 	 * @return
 	 */
-	public <T> List<ValueLabelElement> getList(final Session session, final Class c, final Locale locale) {
+	public List<ValueLabelElement> getList(final Session session, final Class c, final Locale locale) {
 		try {
 			// NOTE: two steps are required because Hibernate doesn't use generics and the inference type
 			// mechanism doesn't work.
@@ -60,7 +60,6 @@ public class DAOCodeTable extends HibernateUtil {
 
 			return codeTables
 					.stream()
-					.filter(codeTable -> codeTable.getLanguage().equals(locale.getISO3Language()))
 					.map(codeTable -> new ValueLabelElement(codeTable.getCodeString().trim(), codeTable.getLongText()))
  					.collect(toList());
 		} catch (final HibernateException exception) {

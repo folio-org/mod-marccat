@@ -2,32 +2,20 @@ package org.folio.rest.impl;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Context;
-import io.vertx.core.Future;
 import io.vertx.core.Handler;
-
-import static org.folio.cataloging.bean.cataloguing.bibliographic.codelist.CodeListsBean.getDatabaseViewList;
-
 import org.folio.cataloging.business.codetable.ValueLabelElement;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.persistence.DB_LIST;
-import net.sf.hibernate.Session;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
-import org.folio.cataloging.log.PublicMessageCatalog;
 import org.folio.rest.jaxrs.model.LogicalViewCollection;
 import org.folio.rest.jaxrs.model.View;
 import org.folio.rest.jaxrs.resource.LogicalViewsResource;
 
 import javax.ws.rs.core.Response;
-import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
 import static org.folio.cataloging.integration.CatalogingHelper.doGet;
-import static org.folio.cataloging.integration.CatalogingHelper.internalServerError;
 
 /**
  * Logical views RESTful APIs.

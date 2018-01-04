@@ -3,6 +3,8 @@ package org.folio.cataloging;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
 
+import java.util.Locale;
+
 /**
  * Booch utility which acts as a central points for collecting static functions.
  *
@@ -50,5 +52,15 @@ public abstract class F {
      */
     public static boolean isNotNullOrEmpty(final String value) {
         return value != null && value.trim().length() != 0;
+    }
+
+    /**
+     * Returns the locale associated with the given code.
+     *
+     * @param code the locale code.
+     * @return the locale associated with the given code, Locale#ENGLISH in case the code is empty or null.
+     */
+    public static Locale locale(final String code) {
+        return isNotNullOrEmpty(code) ? Locale.forLanguageTag(code) : Locale.ENGLISH;
     }
 }
