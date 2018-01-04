@@ -5,7 +5,6 @@ import java.util.Spliterator;
 
 import net.sf.hibernate.MappingException;
 import net.sf.hibernate.Session;
-import net.sf.hibernate.cfg.Configuration;
 import net.sf.hibernate.mapping.Column;
 import net.sf.hibernate.mapping.Component;
 import net.sf.hibernate.mapping.PersistentClass;
