@@ -177,6 +177,5 @@
 		<mapping resource="org/folio/cataloging/dao/persistence/T_CLCTN_CST_TYP.hbm.xml"/>
 		<mapping resource="org/folio/cataloging/dao/persistence/T_CLCTN_MST_TYP.hbm.xml"/>
 		<mapping resource="org/folio/cataloging/dao/persistence/T_CLCTN_PUBL_TYP.hbm.xml"/>
-
 	</session-factory>
 </hibernate-configuration>

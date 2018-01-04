@@ -9,13 +9,13 @@ import org.folio.cataloging.dao.DAOIndexList;
 import org.folio.cataloging.dao.DAOSearchIndex;
 import org.folio.cataloging.dao.common.HibernateSessionProvider;
 import org.folio.cataloging.dao.persistence.DB_LIST;
+import org.folio.cataloging.dao.persistence.T_VRFTN_LVL;
+
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import static org.folio.cataloging.bean.cataloguing.bibliographic.codelist.CodeListsBean.getDatabaseViewList;
 
 /**
  * Storage layer service.
@@ -47,7 +47,20 @@ public class StorageService implements Closeable {
      * @throws DataAccessException in case of data access failure.
      */
     public List<ValueLabelElement> getLogicalViews(final String lang) throws DataAccessException {
-        return getDatabaseViewList().getDAO().getList(session, DB_LIST.class, Locale.forLanguageTag(lang));
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, DB_LIST.class, Locale.forLanguageTag(lang));
+    }
+
+    /**
+     * Returns the verification levels associated to the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the verification level associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<ValueLabelElement> getVerificationLevels(final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_VRFTN_LVL.class, Locale.forLanguageTag(lang));
     }
 
     /**
@@ -59,7 +72,7 @@ public class StorageService implements Closeable {
      * @throws DataAccessException in case of data access failure.
      */
     public List<ValueLabelElement> getIndexCategories(final String type, final String lang) throws DataAccessException {
-        DAOSearchIndex searchIndexDao = new DAOSearchIndex();
+        final DAOSearchIndex searchIndexDao = new DAOSearchIndex();
         return searchIndexDao.getIndexCategories(session, type, Locale.forLanguageTag(lang));
     }
 
