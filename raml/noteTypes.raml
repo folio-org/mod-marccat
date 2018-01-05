@@ -35,11 +35,3 @@ resourceTypes:
       exampleItem: !include examples/noteType.json
       schemaCollection: noteTypeCollection
       schemaItem: noteType
-  get:
-  /{noteTypeId}:
-    type:
-      collection-item:
-        exampleItem: !include examples/noteType.json
-        schema: noteType
-    get:
-      description: Get a single note type

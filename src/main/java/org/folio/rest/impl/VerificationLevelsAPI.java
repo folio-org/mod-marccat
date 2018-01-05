@@ -51,6 +51,6 @@ public class VerificationLevelsAPI implements VerificationLevelsResource {
 
     @Override
     public void postVerificationLevels(String lang, VerificationLevel entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
-
+        throw new IllegalArgumentException();
     }
 }

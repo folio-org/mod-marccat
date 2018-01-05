@@ -65,18 +65,4 @@ public class NoteTypeAPI implements NoteTypesResource {
         throw new IllegalArgumentException();
     }
 
-    @Override
-    public void getNoteTypesByNoteTypeId(String noteTypeId, String lang, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
-        throw new IllegalArgumentException();
-    }
-
-    @Override
-    public void deleteNoteTypesByNoteTypeId(String noteTypeId, String lang, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
-        throw new IllegalArgumentException();
-    }
-
-    @Override
-    public void putNoteTypesByNoteTypeId(String noteTypeId, String lang, NoteType entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
-        throw new IllegalArgumentException();
-    }
 }
