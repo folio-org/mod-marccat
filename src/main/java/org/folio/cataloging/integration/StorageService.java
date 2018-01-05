@@ -8,6 +8,7 @@ import org.folio.cataloging.dao.DAOCodeTable;
 import org.folio.cataloging.dao.DAOIndexList;
 import org.folio.cataloging.dao.DAOSearchIndex;
 import org.folio.cataloging.dao.common.HibernateSessionProvider;
+import org.folio.cataloging.dao.persistence.BibliographicNoteType;
 import org.folio.cataloging.dao.persistence.DB_LIST;
 import org.folio.cataloging.dao.persistence.T_VRFTN_LVL;
 
@@ -52,6 +53,18 @@ public class StorageService implements Closeable {
     public List<ValueLabelElement> getLogicalViews(final String lang) throws DataAccessException {
         final DAOCodeTable dao = new DAOCodeTable();
         return dao.getList(session, DB_LIST.class, locale(lang));
+    }
+
+    /**
+     * Returns the note types associated to the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the note type associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<ValueLabelElement> getNoteTypes(final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, BibliographicNoteType.class, locale(lang));
     }
 
     /**
@@ -133,4 +146,6 @@ public class StorageService implements Closeable {
             throw new IOException(exception);
         }
     }
+
+
 }

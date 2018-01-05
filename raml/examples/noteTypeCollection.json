@@ -1,0 +1,1216 @@
+{
+  "noteTypes": [
+    {
+      "code": 1,
+      "description": "Copyright Article-Fee Code"
+    },
+    {
+      "code": 2,
+      "description": "Date/Time & Place of an Event-No date recorded, info not provide"
+    },
+    {
+      "code": 3,
+      "description": "Date/Time and Place of an Event - Single date, info not provided"
+    },
+    {
+      "code": 4,
+      "description": "Date/Time & Place of an Event-Multiple single dates, info not pr"
+    },
+    {
+      "code": 5,
+      "description": "Date/Time & Place of an Event-Range of dates, info not provided"
+    },
+    {
+      "code": 6,
+      "description": "Date/Time and Place of an Event - No date recorded, capture"
+    },
+    {
+      "code": 7,
+      "description": "Date/Time and Place of an Event - Single date, capture"
+    },
+    {
+      "code": 8,
+      "description": "Date/Time and Place of an Event - Multiple single dates, capture"
+    },
+    {
+      "code": 9,
+      "description": "Date/Time and Place of an Event - Range of dates, capture"
+    },
+    {
+      "code": 10,
+      "description": "Date/Time and Place of an Event - No date recorded, broadcast"
+    },
+    {
+      "code": 11,
+      "description": "Date/Time and Place of an Event - Single date, broadcast"
+    },
+    {
+      "code": 12,
+      "description": "Date/Time and Place of an Event-Multiple single dates, broadcast"
+    },
+    {
+      "code": 13,
+      "description": "Date/Time and Place of an Event - Range of dates, broadcast"
+    },
+    {
+      "code": 14,
+      "description": "Date/Time and Place of an Event - No date recorded, finding"
+    },
+    {
+      "code": 15,
+      "description": "Date/Time and Place of an Event - Single date, finding"
+    },
+    {
+      "code": 16,
+      "description": "Date/Time and Place of an Event - Multiple single dates, finding"
+    },
+    {
+      "code": 17,
+      "description": "Date/Time and Place of an Event - Range of dates, finding"
+    },
+    {
+      "code": 18,
+      "description": "Source of Acquisition"
+    },
+    {
+      "code": 19,
+      "description": "Edition Statement"
+    },
+    {
+      "code": 20,
+      "description": "Musical Presentation Statement"
+    },
+    {
+      "code": 21,
+      "description": "Cartographic Mathematical Data"
+    },
+    {
+      "code": 22,
+      "description": "Computer File Characteristics"
+    },
+    {
+      "code": 23,
+      "description": "Country of Producing Entity"
+    },
+    {
+      "code": 24,
+      "description": "Imprint"
+    },
+    {
+      "code": 35,
+      "description": "Physical Description"
+    },
+    {
+      "code": 36,
+      "description": "Playing Time"
+    },
+    {
+      "code": 38,
+      "description": "Current Publication Frequency"
+    },
+    {
+      "code": 40,
+      "description": "Former Publication Frequency"
+    },
+    {
+      "code": 41,
+      "description": "Physical Medium"
+    },
+    {
+      "code": 43,
+      "description": "Organization and Arrangement of Materials"
+    },
+    {
+      "code": 45,
+      "description": "Dates of Publ. and/or Sequential Designation - Formatted style"
+    },
+    {
+      "code": 46,
+      "description": "Dates of Publ. and/or Sequential Designation-Unformatted note"
+    },
+    {
+      "code": 47,
+      "description": "Series Untraced or Traced Differently - Not traced"
+    },
+    {
+      "code": 48,
+      "description": "Series Untraced or Traced Differently - Traced differently"
+    },
+    {
+      "code": 50,
+      "description": "General Note"
+    },
+    {
+      "code": 51,
+      "description": "With Note"
+    },
+    {
+      "code": 52,
+      "description": "Dissertation Note"
+    },
+    {
+      "code": 54,
+      "description": "Bibliography, etc. Note"
+    },
+    {
+      "code": 57,
+      "description": "Formatted Contents Note - Complete, enhanced content designation"
+    },
+    {
+      "code": 58,
+      "description": "Formatted Contents Note - Complete, basic content designation"
+    },
+    {
+      "code": 59,
+      "description": "Formatted Contents Note - Incomplete, enhanced content design"
+    },
+    {
+      "code": 60,
+      "description": "Formatted Contents Note - Incomplete, basic content design"
+    },
+    {
+      "code": 61,
+      "description": "Formatted Contents Note - Partial, enhanced content designation"
+    },
+    {
+      "code": 62,
+      "description": "Formatted Contents Note - Partial, basic content designation"
+    },
+    {
+      "code": 63,
+      "description": "Formatted Contents Note-No display constant generated, basic"
+    },
+    {
+      "code": 64,
+      "description": "Formatted Contents Note-No display constant generated, enhanced"
+    },
+    {
+      "code": 65,
+      "description": "Restrictions on access - no information"
+    },
+    {
+      "code": 66,
+      "description": "Scale Note for Graphic Material"
+    },
+    {
+      "code": 67,
+      "description": "Creation/Production Credits Note"
+    },
+    {
+      "code": 68,
+      "description": "Citation/Reference Note - Coverage for item in source is unknown"
+    },
+    {
+      "code": 69,
+      "description": "Citation/Reference Note-Coverage for item in source is complete"
+    },
+    {
+      "code": 70,
+      "description": "Citation/Reference Note-Coverage for item in source is selective"
+    },
+    {
+      "code": 71,
+      "description": "Citation/Reference Note-Specific loc in source cited is given"
+    },
+    {
+      "code": 72,
+      "description": "Citation/Reference Note - Specific loc in source is not given"
+    },
+    {
+      "code": 73,
+      "description": "Participant or Performer Note - No display constant generated"
+    },
+    {
+      "code": 74,
+      "description": "Participant or Performer Note - Cast"
+    },
+    {
+      "code": 78,
+      "description": "Type of Report and Period Covered Note"
+    },
+    {
+      "code": 79,
+      "description": "Numbering Peculiarities Note"
+    },
+    {
+      "code": 80,
+      "description": "Type of Computer File or Data Note - Information not provided"
+    },
+    {
+      "code": 81,
+      "description": "Type of Computer File or Data Note-No display constant generated"
+    },
+    {
+      "code": 84,
+      "description": "Date/Time and Place of Event Note"
+    },
+    {
+      "code": 85,
+      "description": "Summary, etc. - Information not provided"
+    },
+    {
+      "code": 86,
+      "description": "Summary, etc. - Subjec"
+    },
+    {
+      "code": 87,
+      "description": "Summary, etc. - No display constant generated"
+    },
+    {
+      "code": 88,
+      "description": "Target Audience Note - Information not provided"
+    },
+    {
+      "code": 89,
+      "description": "Target Audience Note - Reading grade level"
+    },
+    {
+      "code": 90,
+      "description": "Target Audience Note - Interest age level"
+    },
+    {
+      "code": 91,
+      "description": "Target Audience Note - Interest grade level"
+    },
+    {
+      "code": 92,
+      "description": "Target Audience Note - No display constant generated"
+    },
+    {
+      "code": 93,
+      "description": "Geographic Coverage Note - Information not provided"
+    },
+    {
+      "code": 94,
+      "description": "Geographic Coverage Note - No display constant generated"
+    },
+    {
+      "code": 96,
+      "description": "Preferred Cit of Describd Materials Nte-Information not provided"
+    },
+    {
+      "code": 97,
+      "description": "Preferrd Citation of Described Materials Nte-No display constant"
+    },
+    {
+      "code": 98,
+      "description": "Supplement Note"
+    },
+    {
+      "code": 100,
+      "description": "Additional Physical Forms Available Note"
+    },
+    {
+      "code": 101,
+      "description": "Reproduction Note"
+    },
+    {
+      "code": 102,
+      "description": "Original Version Note"
+    },
+    {
+      "code": 105,
+      "description": "Note about Location of Originals/Duplicates-Holder of originals"
+    },
+    {
+      "code": 106,
+      "description": "Note about Location of Originals/Duplicates-Holder of duplicates"
+    },
+    {
+      "code": 107,
+      "description": "Funding Information Note"
+    },
+    {
+      "code": 110,
+      "description": "System Details Note"
+    },
+    {
+      "code": 111,
+      "description": "Terms Governing Use and Reproduction Note"
+    },
+    {
+      "code": 112,
+      "description": "Immediate source of acquisition  - No information"
+    },
+    {
+      "code": 113,
+      "description": "Location of Associated Archival Materials Note"
+    },
+    {
+      "code": 114,
+      "description": "Biographical or Historical Note"
+    },
+    {
+      "code": 115,
+      "description": "Language Note"
+    },
+    {
+      "code": 116,
+      "description": "Former Title Complexity Note"
+    },
+    {
+      "code": 117,
+      "description": "Issuing Body Note"
+    },
+    {
+      "code": 120,
+      "description": "Cumulative Index/Finding Aids note - Information not provided"
+    },
+    {
+      "code": 121,
+      "description": "Cumulative Index/Finding Aids Note - Finding aids"
+    },
+    {
+      "code": 122,
+      "description": "Cumulative Index/Finding Aids Note-No display constant generated"
+    },
+    {
+      "code": 123,
+      "description": "Information about Documentation Note - Info not provided"
+    },
+    {
+      "code": 124,
+      "description": "Info about Documentation Note-No display constant generated"
+    },
+    {
+      "code": 125,
+      "description": "Ownership and custodial history - No information provided"
+    },
+    {
+      "code": 126,
+      "description": "Copy and Version Identification Note"
+    },
+    {
+      "code": 127,
+      "description": "Case File Characteristic Note - Information not provided"
+    },
+    {
+      "code": 128,
+      "description": "Case File Characteristics Note - Case file characteristics"
+    },
+    {
+      "code": 129,
+      "description": "Case File Characteristics Note - No display constant generated"
+    },
+    {
+      "code": 130,
+      "description": "Methodology Note - Information not provided"
+    },
+    {
+      "code": 131,
+      "description": "Methodology Note - No display constant generated"
+    },
+    {
+      "code": 133,
+      "description": "Linking Entry Complexity Note"
+    },
+    {
+      "code": 134,
+      "description": "Publications about Described Materials Note - Info not provided"
+    },
+    {
+      "code": 135,
+      "description": "Publications about Described Materials Note-No display constant"
+    },
+    {
+      "code": 136,
+      "description": "Action Note - no information provided"
+    },
+    {
+      "code": 137,
+      "description": "Accumulation and Frequency of Use Note"
+    },
+    {
+      "code": 138,
+      "description": "Exhibitions Note"
+    },
+    {
+      "code": 139,
+      "description": "Awards Note - Information not provided"
+    },
+    {
+      "code": 140,
+      "description": "Awards Note - No display constant generated"
+    },
+    {
+      "code": 141,
+      "description": "Local note 5901"
+    },
+    {
+      "code": 142,
+      "description": "Added Entry - System Details Access to Computer Files"
+    },
+    {
+      "code": 143,
+      "description": "Local note 5902"
+    },
+    {
+      "code": 144,
+      "description": "Local note 5903"
+    },
+    {
+      "code": 145,
+      "description": "Summary, etc. - Reviews"
+    },
+    {
+      "code": 146,
+      "description": "Target Audience Note - Special audience characteristics"
+    },
+    {
+      "code": 147,
+      "description": "Target Audience Note - Motivation/interest level"
+    },
+    {
+      "code": 148,
+      "description": "Email"
+    },
+    {
+      "code": 149,
+      "description": "File Transfer Protocol (FTP)"
+    },
+    {
+      "code": 150,
+      "description": "Remote Login (Telnet)"
+    },
+    {
+      "code": 151,
+      "description": "Method specified in subfield_2"
+    },
+    {
+      "code": 159,
+      "description": "Dates and/or sequential designation - Formatted, Not specified"
+    },
+    {
+      "code": 160,
+      "description": "Dates and/or Sequential Designation - Unformatted, Not specified"
+    },
+    {
+      "code": 161,
+      "description": "Dial-up"
+    },
+    {
+      "code": 162,
+      "description": "Security Classification Control # - Other"
+    },
+    {
+      "code": 163,
+      "description": "Security Classification Control # - Document"
+    },
+    {
+      "code": 164,
+      "description": "Security Classification Control # - Title"
+    },
+    {
+      "code": 165,
+      "description": "Security Classification Control # - Abstracts"
+    },
+    {
+      "code": 166,
+      "description": "Security Classification Control # - Contents note"
+    },
+    {
+      "code": 167,
+      "description": "Security Classification Control # - Author"
+    },
+    {
+      "code": 168,
+      "description": "Originator Dissemination Control"
+    },
+    {
+      "code": 173,
+      "description": "Address - No level specified, No type specified"
+    },
+    {
+      "code": 174,
+      "description": "Address - No level specified, Mailing"
+    },
+    {
+      "code": 175,
+      "description": "Address - No level specified, Type specified in subfield $i"
+    },
+    {
+      "code": 176,
+      "description": "Address - Primary, No type specified"
+    },
+    {
+      "code": 177,
+      "description": "Address - Primary, Mailing"
+    },
+    {
+      "code": 178,
+      "description": "Address - Primary, Type specified in subfield $i"
+    },
+    {
+      "code": 179,
+      "description": "Address - Secondary, No type specified"
+    },
+    {
+      "code": 180,
+      "description": "Address - Secondary, Mailing"
+    },
+    {
+      "code": 181,
+      "description": "Address - Secondary, Type specified in subfield $i"
+    },
+    {
+      "code": 182,
+      "description": "Hours, Etc. - Hours"
+    },
+    {
+      "code": 183,
+      "description": "Hours, Etc. - No display constant generated"
+    },
+    {
+      "code": 184,
+      "description": "Coded Cartographic Math Data - No Scale"
+    },
+    {
+      "code": 185,
+      "description": "Coded Cartographic Math Data - Outer Ring"
+    },
+    {
+      "code": 186,
+      "description": "Coded Cartographic Math Data - Exclusion Ring"
+    },
+    {
+      "code": 187,
+      "description": "Coded Mathematical Data - Single Scale"
+    },
+    {
+      "code": 188,
+      "description": "Coded Cartographic Math Data - Single Scale, Outer Ring"
+    },
+    {
+      "code": 189,
+      "description": "Coded Cartographic Math Data - Single Scale, Exclusion Ring"
+    },
+    {
+      "code": 190,
+      "description": "Coded Cartographic Math Data - Range of Scale"
+    },
+    {
+      "code": 191,
+      "description": "Coded Cartographic Math Data - Range of Scale, Outer Ring"
+    },
+    {
+      "code": 192,
+      "description": "Coded Cartographic Math Data - Range of Scale, Exclusion Ring"
+    },
+    {
+      "code": 200,
+      "description": "Local note 591"
+    },
+    {
+      "code": 201,
+      "description": "Local note 592"
+    },
+    {
+      "code": 202,
+      "description": "593 ## - Internal note"
+    },
+    {
+      "code": 203,
+      "description": "594 ## - Internal note"
+    },
+    {
+      "code": 204,
+      "description": "595 ## - Internal note"
+    },
+    {
+      "code": 205,
+      "description": "596 ## - Internal note"
+    },
+    {
+      "code": 206,
+      "description": "597 ## - Internal note"
+    },
+    {
+      "code": 207,
+      "description": "598 ## - AS note"
+    },
+    {
+      "code": 208,
+      "description": "599 ## - AS internal note"
+    },
+    {
+      "code": 209,
+      "description": "Local note 590 0b"
+    },
+    {
+      "code": 210,
+      "description": "Local note 590 8b"
+    },
+    {
+      "code": 211,
+      "description": "Local note 590 bb"
+    },
+    {
+      "code": 234,
+      "description": "Electronic Location and Access-HTTP/No info"
+    },
+    {
+      "code": 293,
+      "description": "Electronic Location and Access - Email/Resource"
+    },
+    {
+      "code": 294,
+      "description": "Electronic Location and Access-FTP/Resource"
+    },
+    {
+      "code": 295,
+      "description": "Electronic Location and Access-Telnet/Resource"
+    },
+    {
+      "code": 296,
+      "description": "Electronic Location and Access-Dial-up Resource"
+    },
+    {
+      "code": 297,
+      "description": "Electronic Location and Access-HTTP/Resource"
+    },
+    {
+      "code": 298,
+      "description": "Electronic Location and Access-Method Specified in Sub 2/Rsrc"
+    },
+    {
+      "code": 299,
+      "description": "Electronic Location and Access-Email/Version of Resource"
+    },
+    {
+      "code": 300,
+      "description": "Electronic Location and Access-FTP/Version of Resource"
+    },
+    {
+      "code": 301,
+      "description": "Electronic Location and Access-Telnet Version of Resource"
+    },
+    {
+      "code": 302,
+      "description": "Electronic Location and Access-Dial-up Version of Resource"
+    },
+    {
+      "code": 303,
+      "description": "Electronic Location and Access-HTTP/Version of Resource"
+    },
+    {
+      "code": 304,
+      "description": "Electronic Location and Access-Method in Sub 2/Version of Rsrc"
+    },
+    {
+      "code": 305,
+      "description": "Electronic Location and Access-Email/Related Resource"
+    },
+    {
+      "code": 306,
+      "description": "Electronic Location and Access-FTP/Related Resource"
+    },
+    {
+      "code": 307,
+      "description": "Electronic Location and Access-Telnet/Related Resource"
+    },
+    {
+      "code": 308,
+      "description": "Electronic Location and Access-Dial-up Related Resource"
+    },
+    {
+      "code": 309,
+      "description": "Electronic Location and Access-HTTP/Related Resource"
+    },
+    {
+      "code": 310,
+      "description": "Electronci Location and Access-Method in Sub 2/Related Resource"
+    },
+    {
+      "code": 311,
+      "description": "Electronic Location and Access-Email/No Display Constant"
+    },
+    {
+      "code": 312,
+      "description": "Electronic Location and Access-FTP/No Display Constant"
+    },
+    {
+      "code": 313,
+      "description": "Electronic Location and Access-Telnet/No Display Constant"
+    },
+    {
+      "code": 314,
+      "description": "Electronic Location and Access-Dial-up No Display Constant "
+    },
+    {
+      "code": 315,
+      "description": "Electronic Location and Access-HTTP/No Display Constant"
+    },
+    {
+      "code": 316,
+      "description": "Electronic Location and Access-Method in Sub 2/No Display Const"
+    },
+    {
+      "code": 335,
+      "description": "Planar Coordinate Data"
+    },
+    {
+      "code": 336,
+      "description": "Digital Graphic Representation"
+    },
+    {
+      "code": 337,
+      "description": "Data Quality Note"
+    },
+    {
+      "code": 338,
+      "description": "Summary, etc. - Scope and Content"
+    },
+    {
+      "code": 339,
+      "description": "Summary, etc. - Abstract"
+    },
+    {
+      "code": 340,
+      "description": "Location of Associated Archival materials - Associated Materials"
+    },
+    {
+      "code": 341,
+      "description": "Location of Associated Archive Materials - Related Materials"
+    },
+    {
+      "code": 342,
+      "description": "Biographical or Historical note - Biographical Sketch"
+    },
+    {
+      "code": 343,
+      "description": "Biographical or historical Note - Administrative Note"
+    },
+    {
+      "code": 344,
+      "description": "Entity and Attribute information Note"
+    },
+    {
+      "code": 345,
+      "description": "Electronic Location and Access - No Info - no Info"
+    },
+    {
+      "code": 346,
+      "description": "Electronic Location and Access - No Info - resource"
+    },
+    {
+      "code": 347,
+      "description": "Electronic Location and Access - No Info - Version of resource"
+    },
+    {
+      "code": 348,
+      "description": "Electronic Location and Access - No Info - Related resource"
+    },
+    {
+      "code": 349,
+      "description": "Electronic Location and Access - No Info - No display Constant"
+    },
+    {
+      "code": 350,
+      "description": "Geospatial ref data - Horizontal geographic"
+    },
+    {
+      "code": 351,
+      "description": "Geospatial ref data - Map protection"
+    },
+    {
+      "code": 352,
+      "description": "Geospatial ref data - Horizontal Grid"
+    },
+    {
+      "code": 353,
+      "description": "Geospatial ref data - Horizontal Local Planar "
+    },
+    {
+      "code": 354,
+      "description": "Geospatial ref data - Local "
+    },
+    {
+      "code": 355,
+      "description": "Geospatial ref data - Geodetic model"
+    },
+    {
+      "code": 356,
+      "description": "Geospatial ref data - Altitude"
+    },
+    {
+      "code": 357,
+      "description": "Geospatial ref data - Method spec in sub 2"
+    },
+    {
+      "code": 358,
+      "description": "Geospatial ref data - Depth"
+    },
+    {
+      "code": 359,
+      "description": "Geospatial ref data - Vertical Geographic"
+    },
+    {
+      "code": 360,
+      "description": "Geospatial ref data - vertical Map protection"
+    },
+    {
+      "code": 361,
+      "description": "Geospatial ref data - Grid"
+    },
+    {
+      "code": 362,
+      "description": "Geospatial ref data - Local planar"
+    },
+    {
+      "code": 363,
+      "description": "Geospatial ref data - Local"
+    },
+    {
+      "code": 364,
+      "description": "Geospatial ref data - Geodetic"
+    },
+    {
+      "code": 365,
+      "description": "Geospatial ref data - Altitude"
+    },
+    {
+      "code": 366,
+      "description": "Geospatial ref data - Method spec in sub 2"
+    },
+    {
+      "code": 367,
+      "description": "geospatial ref data - Depth"
+    },
+    {
+      "code": 368,
+      "description": "Study program info note -  Reading program"
+    },
+    {
+      "code": 369,
+      "description": "Study program info note -  No display constant generated"
+    },
+    {
+      "code": 370,
+      "description": "Security Classification Control # - Record"
+    },
+    {
+      "code": 371,
+      "description": "Normalized Date - not specified - not specified"
+    },
+    {
+      "code": 372,
+      "description": "Normalized Date - not specified - closed"
+    },
+    {
+      "code": 373,
+      "description": "Normalized Date - not specified - open"
+    },
+    {
+      "code": 374,
+      "description": "Normalized Date - starting info. - not specified"
+    },
+    {
+      "code": 375,
+      "description": "Normalized Date - starting info - closed"
+    },
+    {
+      "code": 376,
+      "description": "Normalized Date - starting info - open"
+    },
+    {
+      "code": 377,
+      "description": "Normalized Date - ending info - closed"
+    },
+    {
+      "code": 378,
+      "description": "Trade price"
+    },
+    {
+      "code": 379,
+      "description": "Trade availability information"
+    },
+    {
+      "code": 380,
+      "description": "Imprint - Binding information"
+    },
+    {
+      "code": 381,
+      "description": "Imprint - Intervening publisher"
+    },
+    {
+      "code": 382,
+      "description": "Imprint - Current/Latest publisher"
+    },
+    {
+      "code": 383,
+      "description": "Source of description"
+    },
+    {
+      "code": 384,
+      "description": "Content type"
+    },
+    {
+      "code": 385,
+      "description": "Media type"
+    },
+    {
+      "code": 386,
+      "description": "Carrier type"
+    },
+    {
+      "code": 387,
+      "description": "Record content licensor"
+    },
+    {
+      "code": 388,
+      "description": "Philatelic issue data"
+    },
+    {
+      "code": 389,
+      "description": "Form of work"
+    },
+    {
+      "code": 390,
+      "description": "Other distinguishing characteristics of work or expression"
+    },
+    {
+      "code": 391,
+      "description": "Medium of performance"
+    },
+    {
+      "code": 392,
+      "description": "Numeric designation of musical work"
+    },
+    {
+      "code": 393,
+      "description": "Key - relation to original work unknown"
+    },
+    {
+      "code": 394,
+      "description": "Key - original key"
+    },
+    {
+      "code": 395,
+      "description": "Key - transposed key"
+    },
+    {
+      "code": 396,
+      "description": "Restrictions on access - no restrictions"
+    },
+    {
+      "code": 397,
+      "description": "Restrictions on access - restrictions apply"
+    },
+    {
+      "code": 398,
+      "description": "Summary, etc. - Content advise"
+    },
+    {
+      "code": 399,
+      "description": "Immediate soure of acquisition - Private"
+    },
+    {
+      "code": 400,
+      "description": "Immediate source of acquisition - Not private"
+    },
+    {
+      "code": 401,
+      "description": "Copyright status - Information not provided"
+    },
+    {
+      "code": 402,
+      "description": "Copyright status - Private"
+    },
+    {
+      "code": 403,
+      "description": "Copyright status - Not private"
+    },
+    {
+      "code": 404,
+      "description": "Ownership and custodial history - Private"
+    },
+    {
+      "code": 405,
+      "description": "Ownership and custodial history - Not private"
+    },
+    {
+      "code": 406,
+      "description": "Action Note - Private"
+    },
+    {
+      "code": 407,
+      "description": "Action Note - Not Private"
+    },
+    {
+      "code": 408,
+      "description": "Replacement record information"
+    },
+    {
+      "code": 409,
+      "description": "Non-MARC information field"
+    },
+    {
+      "code": 410,
+      "description": "Detailed imprint - earliest - production"
+    },
+    {
+      "code": 411,
+      "description": "Detailed imprint - earliest - publication"
+    },
+    {
+      "code": 412,
+      "description": "Detailed imprint - earliest - distribution"
+    },
+    {
+      "code": 413,
+      "description": "Detailed imprint - earliest - manufacturing"
+    },
+    {
+      "code": 414,
+      "description": "Detailed imprint - earliest - copyright"
+    },
+    {
+      "code": 415,
+      "description": "Detailed imprint - intervening - production"
+    },
+    {
+      "code": 416,
+      "description": "Detailed imprint - intervening - publication"
+    },
+    {
+      "code": 417,
+      "description": "Detailed imprint - intervening - distribution"
+    },
+    {
+      "code": 418,
+      "description": "Detailed imprint - intervening - manufacturing"
+    },
+    {
+      "code": 419,
+      "description": "Detailed imprint - intervening - copyright"
+    },
+    {
+      "code": 420,
+      "description": "Detailed imprint - current/latest - production"
+    },
+    {
+      "code": 421,
+      "description": "Detailed imprint - current/latest - publication"
+    },
+    {
+      "code": 422,
+      "description": "Detailed imprint - current/latest - distribution"
+    },
+    {
+      "code": 423,
+      "description": "Detailed imprint - current/latest - manufacturing"
+    },
+    {
+      "code": 424,
+      "description": "Detailed imprint - current/latest - copyright"
+    },
+    {
+      "code": 425,
+      "description": "Sound characteristics"
+    },
+    {
+      "code": 426,
+      "description": "Projection characteristics of moving image"
+    },
+    {
+      "code": 427,
+      "description": "Video characteristics"
+    },
+    {
+      "code": 428,
+      "description": "Digital file characteristics"
+    },
+    {
+      "code": 429,
+      "description": "Associated MARC language"
+    },
+    {
+      "code": 430,
+      "description": "Associated other language"
+    },
+    {
+      "code": 431,
+      "description": "Medium of performance - no info - not intended for access"
+    },
+    {
+      "code": 432,
+      "description": "Medium of performance - no info - intended for access"
+    },
+    {
+      "code": 433,
+      "description": "Medium of performance - Medium - no information"
+    },
+    {
+      "code": 434,
+      "description": "Medium of performance - Medium - not intended for access"
+    },
+    {
+      "code": 435,
+      "description": "Medium of performance - Medium - intended for access"
+    },
+    {
+      "code": 436,
+      "description": "Medium of performance - Partial - no information"
+    },
+    {
+      "code": 437,
+      "description": "Medium of performance - Partial - not intended for access"
+    },
+    {
+      "code": 438,
+      "description": "Medium of performance - Partial - intended for access"
+    },
+    {
+      "code": 439,
+      "description": "Creator/contributor characteristics"
+    },
+    {
+      "code": 440,
+      "description": "Audience characteristics"
+    },
+    {
+      "code": 441,
+      "description": "Machine-generated metadata provenance - no info provided"
+    },
+    {
+      "code": 442,
+      "description": "Machine-generated metadata provenance - machine-generated"
+    },
+    {
+      "code": 443,
+      "description": "Machine-generated metadata provenance - partly machine-generated"
+    },
+    {
+      "code": 444,
+      "description": "Added Entry - Geographic Name"
+    },
+    {
+      "code": 445,
+      "description": "Added Entry - Hierarchical Place Name"
+    },
+    {
+      "code": 446,
+      "description": "Added Entry - Taxonomic Identification"
+    },
+    {
+      "code": 447,
+      "description": "Format of Notated Music"
+    },
+    {
+      "code": 448,
+      "description": "Associated Place"
+    },
+    {
+      "code": 449,
+      "description": "Time Period of Creation - no information provided"
+    },
+    {
+      "code": 450,
+      "description": "Time Period of Creation - Creation of work"
+    },
+    {
+      "code": 451,
+      "description": "Time Period of Creation - Creation of aggregate work"
+    }
+  ]
+}
