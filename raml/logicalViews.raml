@@ -35,11 +35,3 @@ resourceTypes:
       exampleItem: !include examples/logicalView.json
       schemaCollection: logicalViewCollection
       schemaItem: logicalView
-  get:
-  /{viewId}:
-    type:
-      collection-item:
-        exampleItem: !include examples/logicalView.json
-        schema: logicalView
-    get:
-      description: Get a single logical view
