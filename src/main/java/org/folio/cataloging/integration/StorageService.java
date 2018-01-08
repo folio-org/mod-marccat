@@ -10,6 +10,7 @@ import org.folio.cataloging.dao.DAOSearchIndex;
 import org.folio.cataloging.dao.common.HibernateSessionProvider;
 import org.folio.cataloging.dao.persistence.BibliographicNoteType;
 import org.folio.cataloging.dao.persistence.DB_LIST;
+import org.folio.cataloging.dao.persistence.T_AUT_HDG_SRC;
 import org.folio.cataloging.dao.persistence.T_VRFTN_LVL;
 
 import java.io.Closeable;
@@ -79,6 +80,11 @@ public class StorageService implements Closeable {
         return dao.getList(session, T_VRFTN_LVL.class, locale(lang));
     }
 
+    public List<ValueLabelElement> getAuthoritySources(final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_AUT_HDG_SRC.class, locale(lang));
+    }
+
     /**
      * Returns a list of all categories belonging to the requested type.
      *
@@ -146,6 +152,5 @@ public class StorageService implements Closeable {
             throw new IOException(exception);
         }
     }
-
 
 }
