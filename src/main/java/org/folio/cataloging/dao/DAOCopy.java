@@ -1,46 +1,25 @@
 package org.folio.cataloging.dao;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Types;
-import java.text.Format;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-
-import org.folio.cataloging.bean.cataloguing.copy.CopyListElement;
-import org.folio.cataloging.business.codetable.ValueLabelElement;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.LibrisuiteUtils;
-import org.folio.cataloging.business.common.RecordNotFoundException;
-import org.folio.cataloging.business.common.SortFormException;
-import org.folio.cataloging.business.common.UpdateStatus;
-import org.folio.cataloging.business.descriptor.SortFormParameters;
-import org.folio.cataloging.dao.persistence.CPY_ID;
-import org.folio.cataloging.dao.persistence.DiscardCopy;
-import org.folio.cataloging.dao.persistence.LCTN;
-import org.folio.cataloging.dao.persistence.SHLF_LIST;
-import org.folio.cataloging.dao.persistence.SHLF_LIST_ACS_PNT;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Query;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
+import org.folio.cataloging.bean.cataloguing.copy.CopyListElement;
+import org.folio.cataloging.business.codetable.Avp;
+import org.folio.cataloging.business.common.*;
+import org.folio.cataloging.business.descriptor.SortFormParameters;
 import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.util.StringText;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
-import org.folio.cataloging.dao.persistence.T_LOAN_PRD;
+import org.folio.cataloging.dao.persistence.*;
+import org.folio.cataloging.util.StringText;
+
+import java.sql.*;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import static org.folio.cataloging.F.fixedCharPadding;
 
@@ -753,7 +732,7 @@ public class DAOCopy extends HibernateUtil {
 		Object[] aRow;
 		while (iter.hasNext()) {
 			aRow = (Object[]) iter.next();
-			result.add(new ValueLabelElement(String.valueOf(aRow[0]),
+			result.add(new Avp(String.valueOf(aRow[0]),
 					(String) aRow[1]));
 		}
 		return result;
@@ -788,7 +767,7 @@ public class DAOCopy extends HibernateUtil {
 		Object[] aRow;
 		while (iter.hasNext()) {
 			aRow = (Object[]) iter.next();
-			result.add(new ValueLabelElement(String.valueOf(aRow[0]),
+			result.add(new Avp(String.valueOf(aRow[0]),
 					(String) aRow[1]));
 		}
 		return result;
@@ -808,7 +787,7 @@ public class DAOCopy extends HibernateUtil {
 		Object[] aRow;
 		while (iter.hasNext()) {
 			aRow = (Object[]) iter.next();
-			result.add(new ValueLabelElement(String.valueOf(aRow[0]),
+			result.add(new Avp(String.valueOf(aRow[0]),
 					(String) aRow[1]));
 		}
 		return result;
@@ -1910,21 +1889,21 @@ public class DAOCopy extends HibernateUtil {
 		}
 	}
 
-	public List<ValueLabelElement> getDescriptionSubfield4()
+	public List<Avp> getDescriptionSubfield4()
 			throws DataAccessException {
 		List raw = find("SELECT distinct a.code  FROM T_NME_WRK_RLTR as a ORDER BY a.code ASC");
-		List<ValueLabelElement> result = new ArrayList<ValueLabelElement>();
+		List<Avp> result = new ArrayList<Avp>();
 		Iterator iter = raw.iterator();
 		while (iter.hasNext()) {
 			String row = (String) iter.next();
-			result.add(new ValueLabelElement(row, row));
+			result.add(new Avp(row, row));
 		}
 		return result;
 	}
 
-	public List<ValueLabelElement> getDescriptionSubfieldE()
+	public List<Avp> getDescriptionSubfieldE()
 			throws DataAccessException {
-		List<ValueLabelElement> result = new ArrayList<ValueLabelElement>();
+		List<Avp> result = new ArrayList<Avp>();
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -1936,7 +1915,7 @@ public class DAOCopy extends HibernateUtil {
 
 			while (rs.next()) {
 				String row = rs.getString("TBL_LNG_ENG_TXT");
-				result.add(new ValueLabelElement(row, row));
+				result.add(new Avp(row, row));
 			}
 			return result;
 

@@ -1,28 +1,22 @@
 package org.folio.cataloging.dao;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import org.folio.cataloging.business.codetable.ValueLabelElement;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.persistence.CasActvSpot;
-import org.folio.cataloging.dao.persistence.CasFiltri;
-import org.folio.cataloging.dao.persistence.CasFiltriImport;
-import org.folio.cataloging.dao.persistence.CasFiltriImportSpot;
-import org.folio.cataloging.dao.persistence.CasFonti;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
 import net.sf.hibernate.type.Type;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.business.codetable.Avp;
+import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.in.Filtro;
 import org.folio.cataloging.business.in.Fonte;
+import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.persistence.*;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class DAOSearchImportSpot extends HibernateUtil {
 	
@@ -42,7 +36,7 @@ public class DAOSearchImportSpot extends HibernateUtil {
 		Iterator iter = l.iterator();
 		while (iter.hasNext()) {
 			CasFonti aRow = (CasFonti) iter.next();
-			listaFonti.add( new ValueLabelElement(aRow.getIdFonte(), aRow.getNomeFonte()) );
+			listaFonti.add( new Avp(aRow.getIdFonte(), aRow.getNomeFonte()) );
 		}
 		
 		return listaFonti;

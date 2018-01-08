@@ -1,5 +1,20 @@
 package org.folio.cataloging.dao;
 
+import net.sf.hibernate.*;
+import net.sf.hibernate.type.Type;
+import org.folio.cataloging.Global;
+import org.folio.cataloging.bean.cas.RuleCollectionMSTBean;
+import org.folio.cataloging.business.RuleListElement;
+import org.folio.cataloging.business.codetable.Avp;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
+import org.folio.cataloging.dao.persistence.CLCTN_MST_RULE;
+import org.folio.cataloging.dao.persistence.CLCTN_MST_RULE_REL;
+import org.folio.cataloging.dao.persistence.CLCTN_RULE_TMP;
+import org.folio.cataloging.log.Log;
+import org.folio.cataloging.log.MessageCatalog;
+
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -8,26 +23,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-
-import org.folio.cataloging.business.RuleListElement;
-import org.folio.cataloging.business.codetable.ValueLabelElement;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.persistence.CLCTN_MST_RULE;
-import org.folio.cataloging.dao.persistence.CLCTN_MST_RULE_REL;
-import org.folio.cataloging.dao.persistence.CLCTN_RULE_TMP;
-import net.sf.hibernate.Hibernate;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Query;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.Transaction;
-import net.sf.hibernate.type.Type;
-
-import org.folio.cataloging.bean.cas.RuleCollectionMSTBean;
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
-import org.folio.cataloging.Global;
-import org.folio.cataloging.log.Log;
-import org.folio.cataloging.log.MessageCatalog;
 
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
@@ -55,7 +50,7 @@ public class DAOCollectionRule extends HibernateUtil  {
 	 * @throws DataAccessException in case of data access failure.
 	 * TODO: Session needs to be injected from {@link org.folio.cataloging.integration.StorageService}
 	 */
-	public List loadAllRules(final Locale locale, final List<ValueLabelElement<String>> nrtLvlList) throws DataAccessException {
+	public List loadAllRules(final Locale locale, final List<Avp<String>> nrtLvlList) throws DataAccessException {
 		List result2 = new ArrayList();
 		try {
 			Session s = currentSession();

@@ -1,17 +1,13 @@
 package org.folio.cataloging;
 
+import org.folio.cataloging.business.codetable.Avp;
+import org.folio.cataloging.business.common.Defaults;
+
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.folio.cataloging.business.codetable.ValueLabelElement;
-import org.folio.cataloging.business.common.Defaults;
+import java.util.*;
 
 public interface IGlobalConst
 {
@@ -131,7 +127,7 @@ public interface IGlobalConst
 	
 	final static DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 	
-	final static ValueLabelElement URI_SOURCE_LOCAL = new ValueLabelElement("0","Local");
+	final static Avp URI_SOURCE_LOCAL = new Avp("0","Local");
 	final static String DEFAULT_URI_CLIENT = Defaults.getString("uri.client", "N/A client");
 	
 	final static String URI_LOCAL_HTTP = "http://";

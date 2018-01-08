@@ -1,20 +1,19 @@
 package org.folio.cataloging.dao;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-
-import org.folio.cataloging.business.codetable.ValueLabelElement;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.persistence.CodeTable;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.business.codetable.Avp;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.dao.persistence.CodeTable;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
 /**
  * pm 2011
  * Provides specific DAOCodeTable behaviour for DB_LIST.
@@ -56,7 +55,7 @@ public class DAODatabaseViewList extends DAOCodeTable {
 		while (iterator.hasNext()) {
 			CodeTable element = (CodeTable) iterator.next();
 			if (element.getLanguage().equals(locale.getISO3Language())) {
-				result.add(new ValueLabelElement(element.getCodeString().trim(), element.getLongText()));
+				result.add(new Avp(element.getCodeString().trim(), element.getLongText()));
 			}
 		}
 		return result;

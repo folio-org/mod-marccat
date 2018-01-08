@@ -1,31 +1,21 @@
 package org.folio.cataloging.business.searching;
 
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-
+import org.folio.cataloging.bean.cas.CasaliniCodeListsBean;
 import org.folio.cataloging.bean.cataloguing.bibliographic.codelist.CodeListsBean;
 import org.folio.cataloging.bean.cataloguing.bibliographic.codelist.GeographicSubdivisionType;
 import org.folio.cataloging.bean.cataloguing.bibliographic.codelist.SpecialSubdivisionType;
 import org.folio.cataloging.bean.cataloguing.bibliographic.codelist.TimeSubdivisionType;
 import org.folio.cataloging.business.cataloguing.bibliographic.BIB_ITM;
-import org.folio.cataloging.dao.DAOBibItem;
-import org.folio.cataloging.business.codetable.ValueLabelElement;
-import org.folio.cataloging.dao.DAOBibliographicCorrelation;
+import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.business.common.RecordNotFoundException;
-import org.folio.cataloging.dao.persistence.CasCache;
-import org.folio.cataloging.dao.persistence.LabelTagDisplay;
-import org.folio.cataloging.dao.persistence.RdaMarcTagDisplay;
-import org.folio.cataloging.dao.persistence.T_CAS_SDIV_GEOG_TYP;
-import org.folio.cataloging.dao.persistence.T_CAS_SDIV_PRTC_TYP;
-import org.folio.cataloging.dao.persistence.T_CAS_SDIV_TMPL_TYP;
-
-import org.folio.cataloging.bean.cas.CasaliniCodeListsBean;
+import org.folio.cataloging.dao.DAOBibItem;
+import org.folio.cataloging.dao.DAOBibliographicCorrelation;
 import org.folio.cataloging.dao.DAOCasCache;
+import org.folio.cataloging.dao.persistence.*;
+
+import java.util.*;
 
 /**
  * This class is invoked from the ResultSummary xslt in order to get the list of
@@ -65,7 +55,7 @@ public class CodeTableParser
 		if (subdivisionType != null) {
 			Iterator iter = subdivisionType.iterator();
 			while (iter.hasNext()) {
-				ValueLabelElement elemento = (ValueLabelElement) iter.next();
+				Avp elemento = (Avp) iter.next();
 				if (elemento.getValue().equals("" + tbl_vlu_cde))
 					return elemento.getLabel();
 			}
@@ -95,7 +85,7 @@ public class CodeTableParser
 		 if (encodingLevel != null) {
 			Iterator iter = encodingLevel.iterator();
 			while (iter.hasNext()) {
-				ValueLabelElement elemento = (ValueLabelElement) iter.next();
+				Avp elemento = (Avp) iter.next();
 				if (elemento.getValue().equals("" + tbl_vlu_cde))
 					return elemento.getLabel();
 			}
@@ -123,7 +113,7 @@ public class CodeTableParser
 		 if (encodingLevel != null) {
 			Iterator iter = encodingLevel.iterator();
 			while (iter.hasNext()) {
-				ValueLabelElement elemento = (ValueLabelElement) iter.next();
+				Avp elemento = (Avp) iter.next();
 				if (elemento.getValue().equals("" + tbl_vlu_cde))
 					return elemento.getLabel();
 			}
@@ -139,7 +129,7 @@ public class CodeTableParser
 		
 		Iterator iter = itemRecordType.iterator();
 		while (iter.hasNext()) {
-			ValueLabelElement elemento = (ValueLabelElement) iter.next();
+			Avp elemento = (Avp) iter.next();
 			if (elemento.getValue().equals("" + tbl_vlu_cde)){
 			  return elemento.getLabel();
 			}
@@ -153,7 +143,7 @@ public class CodeTableParser
 		itemRecordType = getItemBibliographicLevel(getLocale(lingua));
 		Iterator iter = itemRecordType.iterator();
 		while (iter.hasNext()) {
-			ValueLabelElement elemento = (ValueLabelElement) iter.next();
+			Avp elemento = (Avp) iter.next();
 		    if (elemento.getValue().equals("" + tbl_vlu_cde)){
 		      return elemento.getLabel();
 			}
@@ -174,7 +164,7 @@ public class CodeTableParser
 		
 		Iterator iter = typeRecord.iterator();
 		while (iter.hasNext()) {
-			ValueLabelElement elemento = (ValueLabelElement) iter.next();
+			Avp elemento = (Avp) iter.next();
 			if (elemento.getValue().equals("" + tbl_vlu_cde)){
 			  return elemento.getLabel();
 			}

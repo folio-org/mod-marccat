@@ -1,5 +1,16 @@
 package org.folio.cataloging.dao;
 
+import net.sf.hibernate.Hibernate;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.type.Type;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.business.codetable.Avp;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.View;
+import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.persistence.HDG_URI;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,19 +18,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import org.folio.cataloging.business.codetable.ValueLabelElement;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.dao.persistence.HDG_URI;
-import net.sf.hibernate.Hibernate;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.type.Type;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.dao.common.HibernateUtil;
 
 @SuppressWarnings("unchecked")
 public class DAOHeadingUri extends HibernateUtil 
@@ -53,12 +51,12 @@ public class DAOHeadingUri extends HibernateUtil
 	final static String SELECT_SOURCE_LIST_BY_HDG_CATEGORY = 
 		"SELECT TBL_VLU_CDE, STRING_TEXT FROM OLISUITE.T_SRC_URI_TYP WHERE LANGID = ? AND TBL_URI_CAT_CDE = ? AND TBL_VLU_OBSLT_IND = '0' ORDER BY STRING_TEXT";
 	
-	public List<ValueLabelElement> loadSourceUriListByHdgCategory(Locale locale, int hdgCategory) throws DataAccessException
+	public List<Avp> loadSourceUriListByHdgCategory(Locale locale, int hdgCategory) throws DataAccessException
 	{
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		List<ValueLabelElement> list = new ArrayList<ValueLabelElement>();
+		List<Avp> list = new ArrayList<Avp>();
 		
 		try {
 			connection = currentSession().connection();
@@ -69,7 +67,7 @@ public class DAOHeadingUri extends HibernateUtil
 
 			while (rs.next()) 
 			{
-				ValueLabelElement ve = new ValueLabelElement(rs.getString("TBL_VLU_CDE"),rs.getString("STRING_TEXT"));
+				Avp ve = new Avp(rs.getString("TBL_VLU_CDE"),rs.getString("STRING_TEXT"));
 				list.add(ve);
 			}
 

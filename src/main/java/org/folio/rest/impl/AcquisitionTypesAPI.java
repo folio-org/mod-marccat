@@ -3,7 +3,7 @@ package org.folio.rest.impl;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Context;
 import io.vertx.core.Handler;
-import org.folio.cataloging.business.codetable.ValueLabelElement;
+import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.rest.jaxrs.model.AcquisitionType;
@@ -24,11 +24,11 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
  * @since 1.0
  */
 
-public class AcquisitionTypeAPI implements AcquisitionTypesResource{
+public class AcquisitionTypesAPI implements AcquisitionTypesResource{
 
-    protected final Log logger = new Log(AcquisitionTypeAPI.class);
+    protected final Log logger = new Log(AcquisitionTypesAPI.class);
 
-    private Function<ValueLabelElement<String>, AcquisitionType> toAcquisitionType = source -> {
+    private Function<Avp<String>, AcquisitionType> toAcquisitionType = source -> {
         final AcquisitionType acquisitionType = new AcquisitionType();
         //TODO: handle type Integer for value element or null value in Integer.parseInt
         acquisitionType.setCode(Integer.parseInt(source.getValue()));

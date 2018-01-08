@@ -3,7 +3,7 @@ package org.folio.rest.impl;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Context;
 import io.vertx.core.Handler;
-import org.folio.cataloging.business.codetable.ValueLabelElement;
+import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.rest.jaxrs.model.LogicalViewCollection;
@@ -28,7 +28,7 @@ public class LogicalViewsAPI implements LogicalViewsResource {
 
     // This is the adapter that converts existing value objects (logical views in this case)
     // in OKAPI resources.
-    private Function<ValueLabelElement<String>, View> adapter = source -> {
+    private Function<Avp<String>, View> adapter = source -> {
         final View logicalView = new View();
         logicalView.setCode(source.getValue());
         logicalView.setLongDescription(source.getLabel());

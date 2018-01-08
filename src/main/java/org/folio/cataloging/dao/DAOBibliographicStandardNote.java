@@ -7,22 +7,20 @@
  */
 package org.folio.cataloging.dao;
 
-import java.util.List;
-
-import org.folio.cataloging.business.codetable.ValueLabelElement;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.persistence.StandardNoteAccessPoint;
-import org.folio.cataloging.dao.persistence.T_STD_NTE_TYP;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Query;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
+import org.folio.cataloging.business.codetable.Avp;
+import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.persistence.StandardNoteAccessPoint;
+import org.folio.cataloging.dao.persistence.T_STD_NTE_TYP;
+
+import java.util.List;
 
 
 public class DAOBibliographicStandardNote extends HibernateUtil {
@@ -64,8 +62,8 @@ public class DAOBibliographicStandardNote extends HibernateUtil {
 	
 	
 	
-	public ValueLabelElement getSTDDisplayString(short code, String language) throws DataAccessException{
-	ValueLabelElement val = new ValueLabelElement();
+	public Avp getSTDDisplayString(short code, String language) throws DataAccessException{
+	Avp val = new Avp();
 		List l = null;
 		try {
 			Session s = currentSession();

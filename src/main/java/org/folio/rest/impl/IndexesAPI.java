@@ -3,7 +3,7 @@ package org.folio.rest.impl;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Context;
 import io.vertx.core.Handler;
-import org.folio.cataloging.business.codetable.ValueLabelElement;
+import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.rest.jaxrs.model.Constraint;
@@ -28,14 +28,14 @@ public class IndexesAPI implements IndexesResource {
 
     protected final Log logger = new Log(IndexesAPI.class);
 
-    private Function<ValueLabelElement<String>, Index> convertValueLabelToIndex = source -> {
+    private Function<Avp<String>, Index> convertValueLabelToIndex = source -> {
         final Index index = new Index();
         index.setCode(source.getValue());
         index.setDescription(source.getLabel());
         return index;
     };
 
-    private Function<ValueLabelElement<String>, Constraint> convertValueLabelToConstraint = source -> {
+    private Function<Avp<String>, Constraint> convertValueLabelToConstraint = source -> {
         final Constraint constraint = new Constraint();
         constraint.setCode(source.getValue());
         constraint.setLabel(source.getLabel());

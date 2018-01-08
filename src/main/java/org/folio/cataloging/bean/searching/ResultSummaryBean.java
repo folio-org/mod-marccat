@@ -1,118 +1,56 @@
 package org.folio.cataloging.bean.searching;
 
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDDocumentOutline;
+import org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDOutlineItem;
+import org.folio.cataloging.bean.LibrisuiteBean;
+import org.folio.cataloging.bean.cas.CasaliniCodeListsBean;
+import org.folio.cataloging.bean.cataloguing.bibliographic.BibliographicEditBean;
+import org.folio.cataloging.bean.cataloguing.common.EditBean;
+import org.folio.cataloging.business.amicusSearchEngine.AmicusResultSet;
+import org.folio.cataloging.business.authorisation.AuthorisationException;
+import org.folio.cataloging.business.cataloguing.bibliographic.*;
+import org.folio.cataloging.business.cataloguing.common.CatalogItem;
+import org.folio.cataloging.business.cataloguing.common.CataloguingSourceTag;
+import org.folio.cataloging.business.cataloguing.common.Tag;
+import org.folio.cataloging.business.codetable.Avp;
+import org.folio.cataloging.business.common.*;
+import org.folio.cataloging.business.controller.SessionUtils;
+import org.folio.cataloging.business.controller.UserProfile;
+import org.folio.cataloging.business.digital.DigitalTagFormatException;
+import org.folio.cataloging.business.digital.FileManagerDo;
+import org.folio.cataloging.business.librivision.Record;
+import org.folio.cataloging.business.searching.NoResultsFoundException;
+import org.folio.cataloging.business.searching.ResultSet;
+import org.folio.cataloging.business.searching.WeightedAvpComparator;
+import org.folio.cataloging.dao.*;
+import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
+import org.folio.cataloging.dao.persistence.*;
+import org.folio.cataloging.exception.LibrisuiteException;
+import org.folio.cataloging.exception.RecordInUseException;
+import org.folio.cataloging.exception.ValidationException;
+import org.folio.cataloging.form.transfer.ResultSummaryForm;
+import org.folio.cataloging.model.CART_ITEMS;
+import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.util.ExtractorFieldTag;
+import org.folio.cataloging.util.StringText;
+import org.folio.cataloging.util.TagConstant;
+import org.marc4j.*;
+import org.marc4j.marc.DataField;
+import org.marc4j.marc.Leader;
+import org.marc4j.marc.MarcFactory;
+
+import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Types;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.Vector;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.folio.cataloging.bean.LibrisuiteBean;
-import org.folio.cataloging.bean.cataloguing.bibliographic.BibliographicEditBean;
-import org.folio.cataloging.bean.cataloguing.common.EditBean;
-import org.folio.cataloging.business.amicusSearchEngine.AmicusResultSet;
-import org.folio.cataloging.business.authorisation.AuthorisationException;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicCatalog;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicItem;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicNoteTag;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicRelationshipTag;
-import org.folio.cataloging.business.cataloguing.bibliographic.ClassificationAccessPoint;
-import org.folio.cataloging.business.cataloguing.bibliographic.ControlNumberAccessPoint;
-import org.folio.cataloging.dao.DAOBibItem;
-import org.folio.cataloging.dao.DAOBibliographicRelationship;
-import org.folio.cataloging.dao.DAOBibliographicStandardNote;
-import org.folio.cataloging.business.cataloguing.bibliographic.Equivalent;
-import org.folio.cataloging.business.cataloguing.bibliographic.MarcCommandLibrary;
-import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
-import org.folio.cataloging.business.cataloguing.bibliographic.MaterialDescription;
-import org.folio.cataloging.business.cataloguing.bibliographic.NameAccessPoint;
-import org.folio.cataloging.business.cataloguing.bibliographic.NewTagException;
-import org.folio.cataloging.business.cataloguing.bibliographic.PublisherManager;
-import org.folio.cataloging.business.cataloguing.bibliographic.TitleAccessPoint;
-import org.folio.cataloging.business.cataloguing.common.CatalogItem;
-import org.folio.cataloging.business.cataloguing.common.CataloguingSourceTag;
-import org.folio.cataloging.dao.DAOFrbrModel;
-import org.folio.cataloging.business.cataloguing.common.Tag;
-import org.folio.cataloging.dao.DAOCopy;
-import org.folio.cataloging.dao.DAOCodeTable;
-import org.folio.cataloging.business.codetable.ValueLabelElement;
-import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.dao.DAOCache;
-import org.folio.cataloging.dao.DAOLibrary;
-import org.folio.cataloging.dao.DAOOrganisationHierarchy;
-import org.folio.cataloging.dao.DAOSystemNextNumber;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.business.common.EquivalentException;
-import org.folio.cataloging.business.common.LibrisuiteUtils;
-import org.folio.cataloging.business.common.RecordNotFoundException;
-import org.folio.cataloging.business.common.SortFormException;
-import org.folio.cataloging.business.common.UploadFileDigitalException;
-import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.dao.DAOShelfList;
-import org.folio.cataloging.exception.LibrisuiteException;
-import org.folio.cataloging.exception.RecordInUseException;
-import org.folio.cataloging.exception.ValidationException;
-import org.folio.cataloging.business.librivision.Record;
-import org.folio.cataloging.dao.DAOSortCriteriaDetails;
-import org.folio.cataloging.business.searching.NoResultsFoundException;
-import org.folio.cataloging.business.searching.ResultSet;
-import org.folio.cataloging.business.searching.WeightedValueLabelComparator;
-import org.folio.cataloging.dao.persistence.CNTL_NBR;
-import org.folio.cataloging.dao.persistence.CPY_ID;
-import org.folio.cataloging.dao.persistence.CasCache;
-import org.folio.cataloging.dao.persistence.SortCriteriaDetails;
-import org.folio.cataloging.dao.persistence.T_AUT_DSPLY_FRMT;
-import org.folio.cataloging.dao.persistence.T_BIB_DSPLY_FRMT;
-import org.folio.cataloging.dao.persistence.T_DFLT_TRSLTN_NTE;
-import org.folio.cataloging.dao.persistence.T_ITM_BIB_LVL;
-import org.folio.cataloging.dao.persistence.T_ITM_DSPLY;
-import org.folio.cataloging.dao.persistence.T_ITM_DSPLY_FRMT;
-import org.folio.cataloging.dao.persistence.T_LANG_OF_ACS_PNT;
-import org.folio.cataloging.dao.persistence.T_TRSLTN_NTE_TYP;
-import org.folio.cataloging.util.ExtractorFieldTag;
-import org.folio.cataloging.util.TagConstant;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.marc4j.MarcException;
-import org.marc4j.MarcPermissiveStreamReader;
-import org.marc4j.MarcReader;
-import org.marc4j.MarcStreamWriter;
-import org.marc4j.MarcWriter;
-import org.marc4j.marc.DataField;
-import org.marc4j.marc.Leader;
-import org.marc4j.marc.MarcFactory;
-
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDDocumentOutline;
-import org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDOutlineItem;
-
-import org.folio.cataloging.model.CART_ITEMS;
-import org.folio.cataloging.bean.cas.CasaliniCodeListsBean;
-import org.folio.cataloging.dao.DAOCasCache;
-import org.folio.cataloging.dao.DAOCasDigFiles;
-import org.folio.cataloging.dao.DAODigital;
-import org.folio.cataloging.business.digital.DigitalTagFormatException;
-import org.folio.cataloging.business.digital.FileManagerDo;
-import org.folio.cataloging.dao.persistence.CasDigFiles;
-import org.folio.cataloging.form.transfer.ResultSummaryForm;
-import org.folio.cataloging.util.StringText;
-import org.folio.cataloging.model.Subfield;
-import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
-import org.folio.cataloging.business.controller.SessionUtils;
-import org.folio.cataloging.business.controller.UserProfile;
+import java.util.*;
 
 @SuppressWarnings("unchecked")
 public class ResultSummaryBean extends LibrisuiteBean 
@@ -2242,7 +2180,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 			StringText st = note.getStringText();
 			// Caricamento nota standard
 			if (note.isStandardNoteType()) {
-				ValueLabelElement valueElement = new DAOBibliographicStandardNote()
+				Avp valueElement = new DAOBibliographicStandardNote()
 						.getSTDDisplayString(note.getNoteStandard()
 								.getTypeCode(), lingua);
 				// Se trova la nota standard nell'altra lingua setta la nuova
@@ -2382,8 +2320,8 @@ public class ResultSummaryBean extends LibrisuiteBean
 		StringText text2 = new StringText();
 		try {
 			for (int i = 0; i < text.getNumberOfSubfields(); i++) {
-				ValueLabelElement<String> valueElement2 = null;
-				ValueLabelElement<String> valueElement = null;
+				Avp<String> valueElement2 = null;
+				Avp<String> valueElement = null;
 				T_TRSLTN_NTE_TYP t2 = null;
 				T_DFLT_TRSLTN_NTE t3 = null;
 				List result = null;
@@ -2438,9 +2376,9 @@ public class ResultSummaryBean extends LibrisuiteBean
 		languageOfIndexingList = list;
 	}
 
-	private ValueLabelElement getDefaultTranslation(String content,
-			String langOrig) throws DataAccessException {
-		ValueLabelElement t2 = null;
+	private Avp getDefaultTranslation(String content,
+                                      String langOrig) throws DataAccessException {
+		Avp t2 = null;
 
 		// List l2 = new
 		// DAOCodeTable().getDefaultNoteTranslationLanguage(langOrig);
@@ -2449,10 +2387,10 @@ public class ResultSummaryBean extends LibrisuiteBean
 			local = locale;
 		List l2 = CasaliniCodeListsBean.getNoteDefaultTranslation()
 				.getCodeList(local);
-		Collections.sort(l2, new WeightedValueLabelComparator());
+		Collections.sort(l2, new WeightedAvpComparator());
 		Iterator ite2 = l2.iterator();
 		while (ite2.hasNext()) {
-			ValueLabelElement t = (ValueLabelElement) ite2.next();
+			Avp t = (Avp) ite2.next();
 			if (content.indexOf(t.getLabel()) != -1) {
 				// E' uguale a ill.
 				if (t.getLabel().equals("ill.")
@@ -2472,19 +2410,19 @@ public class ResultSummaryBean extends LibrisuiteBean
 		return t2;
 	}
 
-	private ValueLabelElement getFullTranslation(String content, String langOrig)
+	private Avp getFullTranslation(String content, String langOrig)
 			throws DataAccessException {
-		ValueLabelElement t2 = null;
+		Avp t2 = null;
 
 		Locale local = getLocaleByISO3Language(langOrig);
 		if (local == null)
 			local = locale;
 		List l = CasaliniCodeListsBean.getNoteTranslation().getCodeList(local);
 		// List l = new DAOCodeTable().getNoteTranslationLanguage(langOrig);
-		Collections.sort(l, new WeightedValueLabelComparator());
+		Collections.sort(l, new WeightedAvpComparator());
 		Iterator ite = l.iterator();
 		while (ite.hasNext()) {
-			ValueLabelElement t = (ValueLabelElement) ite.next();
+			Avp t = (Avp) ite.next();
 			if (content.indexOf(t.getLabel()) != -1) {
 				t2 = t;
 				break;
@@ -2494,8 +2432,8 @@ public class ResultSummaryBean extends LibrisuiteBean
 	}
 
 	private void translationTag300(StringText text2, String content,
-			Subfield s, ValueLabelElement value, String lingua,
-			T_TRSLTN_NTE_TYP t2, T_DFLT_TRSLTN_NTE t3)
+                                   Subfield s, Avp value, String lingua,
+                                   T_TRSLTN_NTE_TYP t2, T_DFLT_TRSLTN_NTE t3)
 			throws DataAccessException {
 		if (content.indexOf(value.getLabel()) != -1) {
 			if (t2 != null) {

@@ -3,7 +3,7 @@ package org.folio.rest.impl;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Context;
 import io.vertx.core.Handler;
-import org.folio.cataloging.business.codetable.ValueLabelElement;
+import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.rest.jaxrs.model.Currency;
@@ -28,7 +28,7 @@ public class CurrenciesAPI implements CurrenciesResource {
     protected final Log logger = new Log(CurrenciesAPI.class);
 
 
-    private Function<ValueLabelElement<String>, Currency> toCurrency = source -> {
+    private Function<Avp<String>, Currency> toCurrency = source -> {
         final Currency currency = new Currency();
         //TODO: handle type Integer for value element or null value in Integer.parseInt
         currency.setCode(Integer.parseInt(source.getValue()));

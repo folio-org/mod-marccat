@@ -1,6 +1,6 @@
 package org.folio.cataloging.model;
 
-import org.folio.cataloging.business.codetable.ValueLabelElement;
+import org.folio.cataloging.business.codetable.Avp;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -22,15 +22,15 @@ public class CART_ITEMS implements Serializable
 	private String leaderPos6;
 	private String userName;
 	private boolean selected;
-	private List<ValueLabelElement> branchesList;
+	private List<Avp> branchesList;
 	private String branches;
 	private Date transactionDate;	
 
-	public List<ValueLabelElement> getBranchesList() {
+	public List<Avp> getBranchesList() {
 		return branchesList;
 	}
 
-	public void setBranchesList(List<ValueLabelElement> branchesList) {
+	public void setBranchesList(List<Avp> branchesList) {
 		this.branchesList = branchesList;
 	}
 

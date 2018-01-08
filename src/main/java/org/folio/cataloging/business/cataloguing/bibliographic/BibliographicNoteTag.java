@@ -1,32 +1,26 @@
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import org.folio.cataloging.business.cataloguing.common.OrderedTag;
-import org.folio.cataloging.business.codetable.ValueLabelElement;
-import org.folio.cataloging.business.common.ConfigHandler;
-import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.dao.DAOSystemNextNumber;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.PersistenceState;
-import org.folio.cataloging.business.common.PersistentObjectWithView;
-import org.folio.cataloging.business.descriptor.Descriptor;
-import org.folio.cataloging.business.marchelper.MarcHelperTag;
-import org.folio.cataloging.dao.persistence.BibliographicNoteType;
-import org.folio.cataloging.dao.persistence.StandardNoteAccessPoint;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.dao.common.LocalKeyGenerator;
-import org.folio.cataloging.util.StringText;
-import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.business.cataloguing.common.OrderedTag;
+import org.folio.cataloging.business.codetable.Avp;
+import org.folio.cataloging.business.common.*;
+import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.business.marchelper.MarcHelperTag;
 import org.folio.cataloging.dao.DAOBibliographicNoteTag;
 import org.folio.cataloging.dao.DAOBibliographicNotesOverflow;
 import org.folio.cataloging.dao.DAOBibliographicStandardNote;
+import org.folio.cataloging.dao.DAOSystemNextNumber;
+import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.common.LocalKeyGenerator;
+import org.folio.cataloging.dao.persistence.BibliographicNoteType;
+import org.folio.cataloging.dao.persistence.StandardNoteAccessPoint;
+import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.util.StringText;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * TODO: Javadoc
@@ -45,14 +39,14 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
 	public BibliographicNote note = new BibliographicNote();
 	public List deletedOverflowList = new ArrayList();
 	private Integer sequenceNumber;
-	private ValueLabelElement valueElement = null;
+	private Avp valueElement = null;
 	private StandardNoteAccessPoint noteStandard= null;
 	private ConfigHandler configHandler =ConfigHandler.getInstance();
 	
 	private static final int STANDARD_NOTE_MAX_LENGHT = 1024;
 	private static final int OVERFLOW_NOTE_MAX_LENGHT = 1000;
 	
-	public ValueLabelElement loadValueLabelElement(int userView, String lingua) 
+	public Avp loadValueLabelElement(int userView, String lingua)
 	{	
 		try {
 			DAOBibliographicStandardNote b = new DAOBibliographicStandardNote();
@@ -98,11 +92,11 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
 		this.noteStandard = noteStandard;
 	}
 	
-	public ValueLabelElement getValueElement() {
+	public Avp getValueElement() {
 		return valueElement;
 	}
 	
-	public void setValueElement(ValueLabelElement valueElement) {
+	public void setValueElement(Avp valueElement) {
 		this.valueElement = valueElement;
 	}
 	

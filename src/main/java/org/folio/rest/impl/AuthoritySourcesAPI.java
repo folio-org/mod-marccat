@@ -3,7 +3,7 @@ package org.folio.rest.impl;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Context;
 import io.vertx.core.Handler;
-import org.folio.cataloging.business.codetable.ValueLabelElement;
+import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.rest.jaxrs.model.AuthoritySource;
@@ -24,11 +24,11 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
  * @since 1.0
  */
 
-public class AuthoritySourceAPI implements AuthoritySourcesResource {
+public class AuthoritySourcesAPI implements AuthoritySourcesResource {
 
-    protected final Log logger = new Log(AuthoritySourceAPI.class);
+    protected final Log logger = new Log(AuthoritySourcesAPI.class);
 
-    private Function<ValueLabelElement<String>, AuthoritySource> toAuthoritySource = source -> {
+    private Function<Avp<String>, AuthoritySource> toAuthoritySource = source -> {
         final AuthoritySource authoritySource = new AuthoritySource();
         authoritySource.setCode(Integer.parseInt(source.getValue()));
         authoritySource.setDescription(source.getLabel());

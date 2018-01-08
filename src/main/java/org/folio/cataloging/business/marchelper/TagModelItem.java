@@ -1,49 +1,28 @@
-/*
- * Project LibriCat
- * (c) PrimeSource 2007
- * 
- * Author: michele.mercurio@primesource.it
- * Date: 05/ott/07 09:46:43
- * Source: librisuite.business.marchelper.MarcHelperSample
- */
-
 package org.folio.cataloging.business.marchelper;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
 import org.folio.cataloging.bean.cataloguing.bibliographic.codelist.CodeListsBean;
-import org.folio.cataloging.business.codetable.ValueLabelElement;
+import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.marchelper.parser.FieldValueReplacer;
 import org.folio.cataloging.business.marchelper.parser.PunctuationField;
 import org.folio.cataloging.business.marchelper.parser.PunctuationList;
 import org.folio.cataloging.business.marchelper.parser.SampleMatcher;
 import org.folio.cataloging.dao.persistence.TAG_MODEL;
-
 import org.folio.cataloging.util.StringText;
 
+import java.util.*;
+
 /**
+ * TODO: Javadoc + refactor
  * @author michelem
  *
  */
 public class TagModelItem {
-	
-	/**
-	 * This list is only used to retrieve the page values
-	 */
-	private List/*<KeyValueLabelElement>*/ instanceFields = null;
+	private List/*<KeyAvp>*/ instanceFields;
 	private Locale currentLocale;
-	
-	
+
 	private TAG_MODEL selectedModel = null;
 	
 	public TagModelItem(TAG_MODEL matchingModel, Locale locale, String variantCodes) {
-		super();
 		this.selectedModel = matchingModel;
 		initEmpty(locale, variantCodes);
 	}
@@ -62,18 +41,13 @@ public class TagModelItem {
 			populate(st, variantCodes, false);
 		}
 	}
-	
-//	public void replaceStringText(StringText st, Locale locale){
-//		init(st, locale);
-//	}
-//
-	
+
 	private void initEmpty(Locale locale, String variantCodes){
 		currentLocale = locale;
 		SampleMatcher matcher = new SampleMatcher();
 		Map fieldMap = new Hashtable();
 		matcher.populate(selectedModel, fieldMap, variantCodes);
-		List fieldLabels/*<KeyValueLabelElement>*/ = getFieldLabels(fieldMap, locale, variantCodes);
+		List fieldLabels/*<KeyAvp>*/ = getFieldLabels(fieldMap, locale, variantCodes);
 		instanceFields = fieldLabels;
 	}
 
@@ -119,20 +93,20 @@ public class TagModelItem {
 		this.models = models;
 	}
 
-	public List/*<KeyValueLabelElement>*/ getInstanceFields() {
+	public List<KeyAvp>  getInstanceFields() {
 		return instanceFields;
 	}
 
-	private List/*<KeyValueLabelElement>*/ getVariantFields() {
+	private List<KeyAvp> getVariantFields() {
 		// TODO _MIKE:
 		return instanceFields;
 	}
 
-	public List/*<KeyValueLabelElement>*/ getHeadingFields() {
+	public List<KeyAvp>  getHeadingFields() {
 		List hList = new ArrayList();
 		Iterator it = instanceFields.iterator();
 		while (it.hasNext()) {
-			KeyValueLabelElement elem = (KeyValueLabelElement) it.next();
+			KeyAvp elem = (KeyAvp) it.next();
 			if(!elem.isVariant()){
 				hList.add(elem);
 			}
@@ -160,13 +134,13 @@ public class TagModelItem {
 		List fields = getInstanceFields();
 		Iterator it = fields.iterator();
 		while (it.hasNext()) {
-			KeyValueLabelElement elem = (KeyValueLabelElement) it.next();
+			KeyAvp elem = (KeyAvp) it.next();
 			String value = (String) newValues.get(elem.getKey());
 			elem.setValue(value!=null?value:"");
 		}
 	}
 	
-	private List/*<KeyValueLabelElement>*/ getFieldLabels(Map fieldMap, Locale locale, String variantCodes) {
+	private List<KeyAvp>  getFieldLabels(Map fieldMap, Locale locale, String variantCodes) {
 		List labels = CodeListsBean.getMarcHelperLabel().getCodeList(locale);
 		List fieldLabels = new ArrayList();
 //		Iterator it = fieldMap.keySet().iterator();
@@ -175,7 +149,7 @@ public class TagModelItem {
 			PunctuationField key = (PunctuationField) it.next();
 			String value = (String) fieldMap.get(key.getValue());
 			String label = findLabel(labels, key.getValue());
-			KeyValueLabelElement mhField = new KeyValueLabelElement(key.getValue(), value, label);
+			KeyAvp mhField = new KeyAvp(key.getValue(), value, label);
 			mhField.setVariant(key.isVariant());
 			fieldLabels.add(mhField);
 		}
@@ -185,7 +159,7 @@ public class TagModelItem {
 	private String findLabel(List labels, String key) {
 		Iterator it = labels.iterator();
 		while (it.hasNext()) {
-			ValueLabelElement element = (ValueLabelElement) it.next();
+			Avp element = (Avp) it.next();
 			if(key.equals(element.getValue())){
 				return element.getLabel();
 			}
@@ -209,14 +183,14 @@ public class TagModelItem {
 		Map internal = new HashMap();
 		Iterator it = getInstanceFields().iterator();
 		while (it.hasNext()) {
-			KeyValueLabelElement elem = (KeyValueLabelElement) it.next();
+			KeyAvp elem = (KeyAvp) it.next();
 			internal.put(elem.getKey(), elem.getValue());
 		}
 		return internal;
 	}
 	/**
 	 * MIKE
-	 * @return true if no KeyValueLabelElement are present or all the value are empty
+	 * @return true if no KeyAvp are present or all the value are empty
 	 */
 	public boolean isEmpty(boolean checkVariant){
 		if(getInstanceFields().size()==0) {
@@ -224,7 +198,7 @@ public class TagModelItem {
 		}
 		Iterator it = getInstanceFields().iterator();
 		while(it.hasNext()){
-			KeyValueLabelElement s = (KeyValueLabelElement)it.next();
+			KeyAvp s = (KeyAvp)it.next();
 			if(s.isVariant() && !checkVariant) {
 				continue;
 			}
