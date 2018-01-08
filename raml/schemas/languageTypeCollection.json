@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "languageTypes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "$ref": "languageType"
+      }
+    }
+  },
+  "required": [
+    "languageTypes",
+    "total_records"
+  ]
+}
