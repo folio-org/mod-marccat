@@ -8,12 +8,7 @@ import org.folio.cataloging.dao.DAOCodeTable;
 import org.folio.cataloging.dao.DAOIndexList;
 import org.folio.cataloging.dao.DAOSearchIndex;
 import org.folio.cataloging.dao.common.HibernateSessionProvider;
-import org.folio.cataloging.dao.persistence.BibliographicNoteType;
-import org.folio.cataloging.dao.persistence.DB_LIST;
-import org.folio.cataloging.dao.persistence.T_LANG;
-import org.folio.cataloging.dao.persistence.T_ORDR_AQSTN_TYP;
-import org.folio.cataloging.dao.persistence.T_AUT_HDG_SRC;
-import org.folio.cataloging.dao.persistence.T_VRFTN_LVL;
+import org.folio.cataloging.dao.persistence.*;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -42,7 +37,7 @@ public class StorageService implements Closeable {
      *
      * @param session the Hibernate session, which will be used for gathering a connection to the RDBMS.
      */
-    public StorageService(final Session session) {
+    StorageService(final Session session) {
         this.session = session;
     }
 
@@ -77,7 +72,7 @@ public class StorageService implements Closeable {
      * @return a list of code / description tuples representing the acquisition type associated with the requested language.
      * @throws DataAccessException in case of data access failure.
      */
-    public List<ValueLabelElement> getAcquisitionTypes(final String lang) throws DataAccessException {
+    public List<ValueLabelElement<String>> getAcquisitionTypes(final String lang) throws DataAccessException {
         final DAOCodeTable dao = new DAOCodeTable();
         return dao.getList(session, T_ORDR_AQSTN_TYP.class, locale(lang));
     }
@@ -95,7 +90,7 @@ public class StorageService implements Closeable {
         return dao.getList(session, T_VRFTN_LVL.class, locale(lang));
     }
 
-    public List<ValueLabelElement> getAuthoritySources(final String lang) throws DataAccessException {
+    public List<ValueLabelElement<String>> getAuthoritySources(final String lang) throws DataAccessException {
         final DAOCodeTable dao = new DAOCodeTable();
         return dao.getList(session, T_AUT_HDG_SRC.class, locale(lang));
     }
@@ -107,7 +102,7 @@ public class StorageService implements Closeable {
      * @return a list of code / description tuples representing the language type associated with the requested language.
      * @throws DataAccessException in case of data access failure.
      */
-    public List<ValueLabelElement> getLanguageTypes(final String lang) throws DataAccessException {
+    public List<ValueLabelElement<String>> getLanguageTypes(final String lang) throws DataAccessException {
         final DAOCodeTable dao = new DAOCodeTable();
         return dao.getList(session, T_LANG.class, locale(lang));
     }
@@ -145,9 +140,8 @@ public class StorageService implements Closeable {
      * @param lang the language code, used here as a filter criterion.
      * @return a list of all constraints (optional) to the requested index.
      * @throws DataAccessException in case of data access failure.
-     * @throws HibernateException
      */
-    public List<ValueLabelElement<String>> getIndexesByCode(final String code, final String lang) throws DataAccessException, HibernateException {
+    public List<ValueLabelElement<String>> getIndexesByCode(final String code, final String lang) throws DataAccessException {
         final DAOIndexList daoIndex = new DAOIndexList();
         final String tableName = daoIndex.getCodeTableName(session, code, locale(lang));
 

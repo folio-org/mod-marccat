@@ -28,7 +28,7 @@ public class AcquisitionTypeAPI implements AcquisitionTypesResource{
 
     protected final Log logger = new Log(AcquisitionTypeAPI.class);
 
-    private Function<ValueLabelElement, AcquisitionType> toAcquisitionType = source -> {
+    private Function<ValueLabelElement<String>, AcquisitionType> toAcquisitionType = source -> {
         final AcquisitionType acquisitionType = new AcquisitionType();
         //TODO: handle type Integer for value element or null value in Integer.parseInt
         acquisitionType.setCode(Integer.parseInt(source.getValue()));

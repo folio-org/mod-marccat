@@ -28,7 +28,7 @@ public class AuthoritySourceAPI implements AuthoritySourcesResource {
 
     protected final Log logger = new Log(AuthoritySourceAPI.class);
 
-    private Function<ValueLabelElement, AuthoritySource> toAuthoritySource = source -> {
+    private Function<ValueLabelElement<String>, AuthoritySource> toAuthoritySource = source -> {
         final AuthoritySource authoritySource = new AuthoritySource();
         authoritySource.setCode(Integer.parseInt(source.getValue()));
         authoritySource.setDescription(source.getLabel());

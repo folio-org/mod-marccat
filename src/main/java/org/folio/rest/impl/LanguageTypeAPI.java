@@ -10,9 +10,11 @@ import org.folio.cataloging.log.MessageCatalog;
 import org.folio.rest.jaxrs.model.LanguageType;
 import org.folio.rest.jaxrs.model.LanguageTypeCollection;
 import org.folio.rest.jaxrs.resource.LanguageTypesResource;
+
 import javax.ws.rs.core.Response;
 import java.util.Map;
 import java.util.function.Function;
+
 import static java.util.stream.Collectors.toList;
 import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
@@ -27,7 +29,7 @@ public class LanguageTypeAPI implements LanguageTypesResource {
 
     protected final Log logger = new Log(LanguageTypeAPI.class);
 
-    private Function<ValueLabelElement, LanguageType> toLanguageType = source -> {
+    private Function<ValueLabelElement<String>, LanguageType> toLanguageType = source -> {
         final LanguageType languageType = new LanguageType();
         languageType.setCode(source.getValue());
         languageType.setDescription(source.getLabel());
