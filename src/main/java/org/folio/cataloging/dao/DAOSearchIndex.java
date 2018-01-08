@@ -39,7 +39,7 @@ public class DAOSearchIndex extends HibernateUtil {
 	 * @return a list of code and description for index code associated with the requested language.
 	 * @throws DataAccessException in case of data access failure.
 	 */
-    public List<ValueLabelElement> getIndexCategories(final Session session, final String indexType, final Locale locale) throws DataAccessException {
+    public List<ValueLabelElement<String>> getIndexCategories(final Session session, final String indexType, final Locale locale) throws DataAccessException {
 
         try {
             final List<IndexMain> indices =
@@ -49,8 +49,7 @@ public class DAOSearchIndex extends HibernateUtil {
                             new Object[]{locale.getISO3Language()}, new Type[]{Hibernate.STRING});
             return indices
                     .stream()
-                    .filter(index -> index.getLanguage().equals(locale.getISO3Language()))
-                    .map(index -> new ValueLabelElement(String.valueOf(index.getIndexValueCode()), index.getIndexMainName()))
+                    .map(index -> (ValueLabelElement<String>) new ValueLabelElement(index.getIndexValueCode(), index.getIndexMainName()))
                     .collect(toList());
 
         } catch (final HibernateException exception) {
@@ -70,7 +69,7 @@ public class DAOSearchIndex extends HibernateUtil {
 	 * @return a list of categories and descriptions for index type associated with the requested language.
 	 * @throws DataAccessException in case of data access failure.
 	 */
-    public List<ValueLabelElement> getIndexes(final Session session, final String indexType, final int categoryCode, final Locale locale) throws DataAccessException {
+    public List<ValueLabelElement<String>> getIndexes(final Session session, final String indexType, final int categoryCode, final Locale locale) throws DataAccessException {
         try {
             final List<IndexSub> indexCategories =
                     session.find(
@@ -80,7 +79,7 @@ public class DAOSearchIndex extends HibernateUtil {
                             new Object[]{locale.getISO3Language()}, new Type[]{Hibernate.STRING});
             return indexCategories
                     .stream()
-                    .map(indexCategory -> new ValueLabelElement(String.valueOf(indexCategory.getIndexSearchCode()), indexCategory.getIndexSubName()))
+                    .map(indexCategory -> (ValueLabelElement<String>) new ValueLabelElement(indexCategory.getIndexSearchCode(), indexCategory.getIndexSubName()))
                     .collect(toList());
 
         } catch (final HibernateException exception) {

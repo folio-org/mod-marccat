@@ -2149,28 +2149,28 @@ public class BibliographicEditBean extends EditBean {
 
 		if (encoding.trim().equalsIgnoreCase("m")) {
 			for (int i = 0; i < levels.size(); i++) {
-				ValueLabelElement element = (ValueLabelElement) levels.get(i);
+				ValueLabelElement<String> element = (ValueLabelElement) levels.get(i);
 				if ((element.getValue().equalsIgnoreCase("014"))
 						|| (element.getValue().equalsIgnoreCase("001")))
 					leaderLevels.add(element);
 			}
 		} else if (encoding.trim().equalsIgnoreCase("s")) {
 			for (int i = 0; i < levels.size(); i++) {
-				ValueLabelElement element = (ValueLabelElement) levels.get(i);
+				ValueLabelElement<String> element = (ValueLabelElement) levels.get(i);
 				if ((element.getValue().equalsIgnoreCase("011"))
 						|| (element.getValue().equalsIgnoreCase("001")))
 					leaderLevels.add(element);
 			}
 		} else if (encoding.trim().equalsIgnoreCase("a")) {
 			for (int i = 0; i < levels.size(); i++) {
-				ValueLabelElement element = (ValueLabelElement) levels.get(i);
+				ValueLabelElement<String> element = (ValueLabelElement) levels.get(i);
 				if ((element.getValue().equalsIgnoreCase("015"))
 						|| (element.getValue().equalsIgnoreCase("001")))
 					leaderLevels.add(element);
 			}
 		} else if (encoding.trim().equalsIgnoreCase("b")) {
 			for (int i = 0; i < levels.size(); i++) {
-				ValueLabelElement element = (ValueLabelElement) levels.get(i);
+				ValueLabelElement<String> element = (ValueLabelElement) levels.get(i);
 				if ((element.getValue().equalsIgnoreCase("012"))
 						|| (element.getValue().equalsIgnoreCase("013"))
 						|| (element.getValue().equalsIgnoreCase("001")))
@@ -2178,7 +2178,7 @@ public class BibliographicEditBean extends EditBean {
 			}
 		} else
 			for (int i = 0; i < levels.size(); i++) {
-				ValueLabelElement element = (ValueLabelElement) levels.get(i);
+				ValueLabelElement<String> element = (ValueLabelElement) levels.get(i);
 				if (element.getValue().equalsIgnoreCase("001"))
 					leaderLevels.add(element);
 			}
@@ -2204,7 +2204,7 @@ public class BibliographicEditBean extends EditBean {
 
 			if (getMdrFgl().equalsIgnoreCase("003")) { // Se livello figlia //
 				for (int i = 0; i < levels.size(); i++) {
-					ValueLabelElement element = (ValueLabelElement) levels
+					ValueLabelElement<String> element = (ValueLabelElement) levels
 							.get(i);
 					if ((element.getValue().equalsIgnoreCase("005"))
 							|| (element.getValue().equalsIgnoreCase("007"))
@@ -2214,7 +2214,7 @@ public class BibliographicEditBean extends EditBean {
 				}
 			} else { // Se livello madre o non specificato //
 				for (int i = 0; i < levels.size(); i++) {
-					ValueLabelElement element = (ValueLabelElement) levels
+					ValueLabelElement<String> element = (ValueLabelElement) levels
 							.get(i);
 					if ((element.getValue().equalsIgnoreCase("002"))
 							|| (element.getValue().equalsIgnoreCase("004"))
@@ -2235,7 +2235,7 @@ public class BibliographicEditBean extends EditBean {
 			// }
 		} else if (encoding.trim().equalsIgnoreCase("s")) {
 			for (int i = 0; i < levels.size(); i++) {
-				ValueLabelElement element = (ValueLabelElement) levels.get(i);
+				ValueLabelElement<String> element = (ValueLabelElement) levels.get(i);
 				if ((element.getValue().equalsIgnoreCase("002"))
 						|| (element.getValue().equalsIgnoreCase("003"))
 						|| (element.getValue().equalsIgnoreCase("004"))
@@ -2244,7 +2244,7 @@ public class BibliographicEditBean extends EditBean {
 			}
 		} else if (encoding.trim().equalsIgnoreCase("a")) {
 			for (int i = 0; i < levels.size(); i++) {
-				ValueLabelElement element = (ValueLabelElement) levels.get(i);
+				ValueLabelElement<String> element = (ValueLabelElement) levels.get(i);
 				if ((element.getValue().equalsIgnoreCase("005"))
 						|| (element.getValue().equalsIgnoreCase("007"))
 						|| (element.getValue().equalsIgnoreCase("008"))
@@ -2253,7 +2253,7 @@ public class BibliographicEditBean extends EditBean {
 			}
 		} else if (encoding.trim().equalsIgnoreCase("b")) {
 			for (int i = 0; i < levels.size(); i++) {
-				ValueLabelElement element = (ValueLabelElement) levels.get(i);
+				ValueLabelElement<String> element = (ValueLabelElement) levels.get(i);
 				if ((element.getValue().equalsIgnoreCase("005"))
 						|| (element.getValue().equalsIgnoreCase("008"))
 						|| (element.getValue().equalsIgnoreCase("009"))
@@ -2262,7 +2262,7 @@ public class BibliographicEditBean extends EditBean {
 			}
 		} else
 			for (int i = 0; i < levels.size(); i++) {
-				ValueLabelElement element = (ValueLabelElement) levels.get(i);
+				ValueLabelElement<String> element = (ValueLabelElement) levels.get(i);
 				if (element.getValue().equalsIgnoreCase("001"))
 					leaderLevels.add(element);
 			}
