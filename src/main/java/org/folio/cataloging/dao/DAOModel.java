@@ -1,18 +1,8 @@
-/*
- * (c) LibriCore
- * 
- * Created on Dec 20, 2005
- * 
- * DAOModel.java
- */
 package org.folio.cataloging.dao;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import org.folio.cataloging.business.cataloguing.common.Model;
 import org.folio.cataloging.business.codetable.ValueLabelElement;
@@ -24,44 +14,43 @@ import net.sf.hibernate.Session;
 
 import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
+import org.folio.cataloging.log.Log;
+
+import static java.util.stream.Collectors.toList;
 
 /**
- * abstract class for common implementations of DAOModels (Bib and Auth)
+ * Abstract class for common implementations of DAOModels (Bib and Auth).
+ *
+ * @author agazzarini
  * @author paulm
- * @version $Revision: 1.2 $, $Date: 2006/01/05 13:25:59 $
  * @since 1.0
  */
 public abstract class DAOModel extends HibernateUtil {
 
-	private static final Log logger = LogFactory.getLog(DAOModel.class);
+	private static final Log logger = new Log(DAOModel.class);
+
 	/**
-		 * retrieves a list of booleans representing whether a model in the list of all
-		 * models is currently in use by a bib item.  Used in Models page to prompt for
-		 * cascading delete, if required.
-		 * 
-		 * @since 1.0
-		 */
+	 * Retrieves a list of booleans representing whether a model in the list of all
+	 * models is currently in use by a bib item.  Used in Models page to prompt for
+	 * cascading delete, if required.
+	 *
+	 * @return a list of booleans representing whether a model in the list of all models is currently in use by a bib item.
+	 * @throws DataAccessException in case of data access failure.
+	 */
 	public List getModelUsageList() throws DataAccessException {
-		/*
-		 * TODO look at making this "set" retrieval rather than looping and/or
-		 * modifying the page logic so that the testing for delete is done on the
-		 * server rather than at the client
-		 */
-		List l = getModelList();
-		List result = new ArrayList();
-		Iterator iter = l.iterator();
-		ValueLabelElement aModel;
-		while (iter.hasNext()) {
-			aModel = (ValueLabelElement) iter.next();
-			result.add(
-				new Boolean(
-					getModelItemDAO().getModelUsage(
-						Integer.parseInt(aModel.getValue()))));
-		}
-		return result;
+		return getModelList().stream()
+				.map(avp -> getModelItemDAO().getModelUsage(Integer.parseInt(avp.getValue())))
+				.collect(toList());
 	}
 
-	public boolean getModelUsage(int modelId) throws DataAccessException {
+	/**
+	 * Retrieves a boolean representing whether a model in the list of all
+	 * models is currently in use by a bib item.
+	 *
+	 * @return a boolean representing whether a model in the list of all models is currently in use by a bib item.
+	 * @throws DataAccessException in case of data access failure.
+	 */
+	public boolean getModelUsage(final int modelId) throws DataAccessException {
 		return getModelItemDAO().getModelUsage(modelId);
 	}
 
@@ -99,7 +88,7 @@ public abstract class DAOModel extends HibernateUtil {
 		 * 
 		 * @since 1.0
 		 */
-	public List getModelList() throws DataAccessException {
+	public List<ValueLabelElement<String>> getModelList() throws DataAccessException {
 		return find(
 			" select new ValueLabelElement(m.id, m.label) "
 				+ " from "

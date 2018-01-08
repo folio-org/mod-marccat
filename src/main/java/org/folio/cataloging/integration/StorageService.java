@@ -50,7 +50,7 @@ public class StorageService implements Closeable {
      * @return a list of code / description tuples representing the logical view associated with the requested language.
      * @throws DataAccessException in case of data access failure.
      */
-    public List<ValueLabelElement> getLogicalViews(final String lang) throws DataAccessException {
+    public List<ValueLabelElement<String>> getLogicalViews(final String lang) throws DataAccessException {
         final DAOCodeTable dao = new DAOCodeTable();
         return dao.getList(session, DB_LIST.class, locale(lang));
     }
@@ -62,7 +62,7 @@ public class StorageService implements Closeable {
      * @return a list of code / description tuples representing the note type associated with the requested language.
      * @throws DataAccessException in case of data access failure.
      */
-    public List<ValueLabelElement> getNoteTypes(final String lang) throws DataAccessException {
+    public List<ValueLabelElement<String>> getNoteTypes(final String lang) throws DataAccessException {
         final DAOCodeTable dao = new DAOCodeTable();
         return dao.getList(session, BibliographicNoteType.class, locale(lang));
     }
@@ -74,7 +74,7 @@ public class StorageService implements Closeable {
      * @return a list of code / description tuples representing the verification level associated with the requested language.
      * @throws DataAccessException in case of data access failure.
      */
-    public List<ValueLabelElement> getVerificationLevels(final String lang) throws DataAccessException {
+    public List<ValueLabelElement<String>> getVerificationLevels(final String lang) throws DataAccessException {
         final DAOCodeTable dao = new DAOCodeTable();
         return dao.getList(session, T_VRFTN_LVL.class, locale(lang));
     }
@@ -87,7 +87,7 @@ public class StorageService implements Closeable {
      * @return a list of categories by index type associated with the requested language.
      * @throws DataAccessException in case of data access failure.
      */
-    public List<ValueLabelElement> getIndexCategories(final String type, final String lang) throws DataAccessException {
+    public List<ValueLabelElement<String>> getIndexCategories(final String type, final String lang) throws DataAccessException {
         final DAOSearchIndex searchIndexDao = new DAOSearchIndex();
         return searchIndexDao.getIndexCategories(session, type, locale(lang));
     }
@@ -100,7 +100,7 @@ public class StorageService implements Closeable {
      * @return a list of categories by index type associated with the requested language.
      * @throws DataAccessException in case of data access failure.
      */
-    public List<ValueLabelElement> getIndexes(final String type, final int categoryCode, final String lang) throws DataAccessException {
+    public List<ValueLabelElement<String>> getIndexes(final String type, final int categoryCode, final String lang) throws DataAccessException {
         DAOSearchIndex searchIndexDao = new DAOSearchIndex();
         return searchIndexDao.getIndexes(session, type, categoryCode, locale(lang));
     }
@@ -114,7 +114,7 @@ public class StorageService implements Closeable {
      * @throws DataAccessException in case of data access failure.
      * @throws HibernateException
      */
-    public List<ValueLabelElement> getIndexesByCode(final String code, final String lang) throws DataAccessException, HibernateException {
+    public List<ValueLabelElement<String>> getIndexesByCode(final String code, final String lang) throws DataAccessException, HibernateException {
         final DAOIndexList daoIndex = new DAOIndexList();
         final String tableName = daoIndex.getCodeTableName(session, code, locale(lang));
 

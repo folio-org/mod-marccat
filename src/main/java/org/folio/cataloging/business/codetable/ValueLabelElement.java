@@ -10,8 +10,8 @@ import java.util.List;
  * @author agazzarini
  * @since 1.0
  */
-public class ValueLabelElement implements Comparable, Serializable {
-	private String value;
+public class ValueLabelElement<V> implements Comparable<ValueLabelElement>, Serializable {
+	private V value;
 	private String label;
 
 	/**
@@ -37,39 +37,16 @@ public class ValueLabelElement implements Comparable, Serializable {
 	 * @param value the element value.
 	 * @param label the element label.
 	 */
-	public ValueLabelElement(final String value, final String label){
-		setValue(value);
-		setLabel(label);
-	}
-
-	/**
-	 * Builds a new {@link ValueLabelElement} with the given pair.
-	 *
-	 * @param value the element value.
-	 * @param label the element label.
-	 */
-	public ValueLabelElement(int value, String label){
-		setValue(String.valueOf(value));
-		setLabel(label);
-	}
-
-	/**
-	 * Builds a new {@link ValueLabelElement} with the given pair.
-	 *
-	 * @param value the element value.
-	 * @param label the element label.
-	 */
-
-	public ValueLabelElement(short value, String label){
-		setValue(String.valueOf(value));
-		setLabel(label);
+	public ValueLabelElement(final V value, final String label){
+		this.value = value;
+		this.label = label;
 	}
 
 	public String getLabel() {
 		return label;
 	}
 
-	public String getValue() {
+	public V getValue() {
 		return value;
 	}
 
@@ -77,7 +54,7 @@ public class ValueLabelElement implements Comparable, Serializable {
 		this.label = label;
 	}
 
-	public void setValue(final String value) {
+	public void setValue(final V value) {
 		this.value = value;
 	}
 
@@ -90,21 +67,18 @@ public class ValueLabelElement implements Comparable, Serializable {
 
 	@Override
 	public int hashCode() {
-		return (getValue() + getLabel()).hashCode();
+		return value.hashCode() + label.hashCode();
 	}
 
-	@Override
-	public int compareTo(final Object o) {
-		return this.getLabel().compareTo(((ValueLabelElement)o).getLabel());
-	}
 
 	@Override
 	public String toString() {
-		return new StringBuilder("(")
-				.append(getValue())
-				.append(",")
-				.append(getLabel())
-				.append(")")
-				.toString();
+		return "(" + value + " = " + label + ")";
+	}
+
+	@Override
+	public int compareTo(final ValueLabelElement pair) {
+		if (pair == null) return -1;
+		return label.compareTo(pair.getLabel());
 	}
 }

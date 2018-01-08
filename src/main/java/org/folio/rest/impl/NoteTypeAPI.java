@@ -31,7 +31,7 @@ public class NoteTypeAPI implements NoteTypesResource {
 
     // This is the adapter that converts existing value objects (logical views in this case)
     // in OKAPI resources.
-    private Function<ValueLabelElement, NoteType> toNoteType = source -> {
+    private Function<ValueLabelElement<String>, NoteType> toNoteType = source -> {
         final NoteType noteType = new NoteType();
         //TODO: handle type Integer for value element or null value in Integer.parseInt
         noteType.setCode(Integer.parseInt(source.getValue()));
