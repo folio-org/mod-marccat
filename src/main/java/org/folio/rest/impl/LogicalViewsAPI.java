@@ -61,19 +61,4 @@ public class LogicalViewsAPI implements LogicalViewsResource {
     public void postLogicalViews(String lang, View entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
         throw new IllegalArgumentException();
     }
-
-    @Override
-    public void getLogicalViewsByViewId(String viewId, String lang, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
-        throw new IllegalArgumentException();
-    }
-
-    @Override
-    public void deleteLogicalViewsByViewId(String viewId, String lang, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
-        throw new IllegalArgumentException();
-    }
-
-    @Override
-    public void putLogicalViewsByViewId(String viewId, String lang, View entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
-        throw new IllegalArgumentException();
-    }
 }
