@@ -1,0 +1,48 @@
+{
+  "acquisitionTypes": [
+    {
+      "code": 1,
+      "description": "Purchase"
+    },
+    {
+      "code": 2,
+      "description": "On approval"
+    },
+    {
+      "code": 3,
+      "description": "Gift"
+    },
+    {
+      "code": 4,
+      "description": "Loan"
+    },
+    {
+      "code": 5,
+      "description": "Exchange"
+    },
+    {
+      "code": 6,
+      "description": "Deferred"
+    },
+    {
+      "code": 7,
+      "description": "Interlibary loan"
+    },
+    {
+      "code": 8,
+      "description": "Standing order"
+    },
+    {
+      "code": 9,
+      "description": "Bindery order"
+    },
+    {
+      "code": 10,
+      "description": "Periodical claim"
+    },
+    {
+      "code": 11,
+      "description": "Continuation"
+    }
+  ]
+}

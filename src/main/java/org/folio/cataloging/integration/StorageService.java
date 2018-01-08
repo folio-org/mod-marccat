@@ -10,6 +10,7 @@ import org.folio.cataloging.dao.DAOSearchIndex;
 import org.folio.cataloging.dao.common.HibernateSessionProvider;
 import org.folio.cataloging.dao.persistence.BibliographicNoteType;
 import org.folio.cataloging.dao.persistence.DB_LIST;
+import org.folio.cataloging.dao.persistence.T_ORDR_AQSTN_TYP;
 import org.folio.cataloging.dao.persistence.T_AUT_HDG_SRC;
 import org.folio.cataloging.dao.persistence.T_VRFTN_LVL;
 
@@ -67,6 +68,19 @@ public class StorageService implements Closeable {
         final DAOCodeTable dao = new DAOCodeTable();
         return dao.getList(session, BibliographicNoteType.class, locale(lang));
     }
+
+    /**
+     * Returns the acquisition types associated with the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the acquisition type associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<ValueLabelElement> getAcquisitionTypes(final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_ORDR_AQSTN_TYP.class, locale(lang));
+    }
+
 
     /**
      * Returns the verification levels associated to the given language.
