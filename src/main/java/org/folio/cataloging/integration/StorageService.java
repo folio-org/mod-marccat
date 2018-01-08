@@ -10,6 +10,7 @@ import org.folio.cataloging.dao.DAOSearchIndex;
 import org.folio.cataloging.dao.common.HibernateSessionProvider;
 import org.folio.cataloging.dao.persistence.BibliographicNoteType;
 import org.folio.cataloging.dao.persistence.DB_LIST;
+import org.folio.cataloging.dao.persistence.T_LANG;
 import org.folio.cataloging.dao.persistence.T_ORDR_AQSTN_TYP;
 import org.folio.cataloging.dao.persistence.T_AUT_HDG_SRC;
 import org.folio.cataloging.dao.persistence.T_VRFTN_LVL;
@@ -97,6 +98,18 @@ public class StorageService implements Closeable {
     public List<ValueLabelElement> getAuthoritySources(final String lang) throws DataAccessException {
         final DAOCodeTable dao = new DAOCodeTable();
         return dao.getList(session, T_AUT_HDG_SRC.class, locale(lang));
+    }
+
+    /**
+     * Returns the language types associated to the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the language type associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<ValueLabelElement> getLanguageTypes(final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_LANG.class, locale(lang));
     }
 
     /**
