@@ -77,6 +77,17 @@ public class StorageService implements Closeable {
         return dao.getList(session, T_ORDR_AQSTN_TYP.class, locale(lang));
     }
 
+    /**
+     * Returns the currencies associated with the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the currency associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<ValueLabelElement<String>> getCurrencies(final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_CURCY_TYP.class, locale(lang));
+    }
 
     /**
      * Returns the verification levels associated to the given language.
