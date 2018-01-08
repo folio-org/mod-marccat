@@ -58,6 +58,6 @@ public class LanguageTypeAPI implements LanguageTypesResource {
 
     @Override
     public void postLanguageTypes(String lang, LanguageType entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
-
+        throw new IllegalArgumentException();
     }
 }
