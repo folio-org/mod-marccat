@@ -21,7 +21,7 @@ public class Fonte {
 	
 	//Nicola
 	/*public void addNewFiltro(String nome, String ragione){
-		this.filtri.add(new ValueLabelElement(ragione, nome));
+		this.filtri.add(new Avp(ragione, nome));
 	}*/
 	
 	//CAMELIA, AGGIUNGO UN NOUVO FILTRO ALLA FONTE

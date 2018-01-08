@@ -4,7 +4,7 @@ package org.folio.rest.impl;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Context;
 import io.vertx.core.Handler;
-import org.folio.cataloging.business.codetable.ValueLabelElement;
+import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.rest.jaxrs.model.LanguageType;
@@ -25,11 +25,11 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
  * @since 1.0
  */
 
-public class LanguageTypeAPI implements LanguageTypesResource {
+public class LanguageTypesAPI implements LanguageTypesResource {
 
-    protected final Log logger = new Log(LanguageTypeAPI.class);
+    protected final Log logger = new Log(LanguageTypesAPI.class);
 
-    private Function<ValueLabelElement<String>, LanguageType> toLanguageType = source -> {
+    private Function<Avp<String>, LanguageType> toLanguageType = source -> {
         final LanguageType languageType = new LanguageType();
         languageType.setCode(source.getValue());
         languageType.setDescription(source.getLabel());

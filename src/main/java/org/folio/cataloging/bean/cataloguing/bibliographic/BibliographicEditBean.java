@@ -1,132 +1,47 @@
 package org.folio.cataloging.bean.cataloguing.bibliographic;
 
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-
+import net.sf.hibernate.JDBCException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.validator.routines.ISBNValidator;
+import org.folio.cataloging.IGlobalConst;
 import org.folio.cataloging.action.cataloguing.bibliographic.SaveTagException;
+import org.folio.cataloging.bean.cas.CasaliniCodeListsBean;
+import org.folio.cataloging.bean.cas.CasaliniContextBean;
 import org.folio.cataloging.bean.cataloguing.bibliographic.codelist.CodeListsBean;
 import org.folio.cataloging.bean.cataloguing.common.EditBean;
 import org.folio.cataloging.bean.crossreference.CrossReferenceBean;
+import org.folio.cataloging.bean.digital.DigitalAmminBean;
+import org.folio.cataloging.bean.digital.DigitalDoiBean;
 import org.folio.cataloging.bean.marchelper.MarcHelperBean;
+import org.folio.cataloging.business.Command;
 import org.folio.cataloging.business.authorisation.AuthorisationException;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicCatalog;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicItem;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicLeader;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicNoteTag;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicRelationshipTag;
-import org.folio.cataloging.business.cataloguing.bibliographic.ChangeBib008TypeCommand;
-import org.folio.cataloging.business.cataloguing.bibliographic.ClassificationAccessPoint;
-import org.folio.cataloging.business.cataloguing.bibliographic.ControlNumberAccessPoint;
-import org.folio.cataloging.dao.DAOBibliographicCatalog;
-import org.folio.cataloging.business.cataloguing.bibliographic.ElectronicResource;
-import org.folio.cataloging.business.cataloguing.bibliographic.FixedField;
-import org.folio.cataloging.business.cataloguing.bibliographic.Globe;
-import org.folio.cataloging.business.cataloguing.bibliographic.Kit;
+import org.folio.cataloging.business.cataloguing.bibliographic.*;
 import org.folio.cataloging.business.cataloguing.bibliographic.Map;
-import org.folio.cataloging.business.cataloguing.bibliographic.MarcCommandLibrary;
-import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
-import org.folio.cataloging.business.cataloguing.bibliographic.MaterialDescription;
-import org.folio.cataloging.business.cataloguing.bibliographic.Microform;
-import org.folio.cataloging.business.cataloguing.bibliographic.MotionPicture;
-import org.folio.cataloging.business.cataloguing.bibliographic.NewTagException;
-import org.folio.cataloging.business.cataloguing.bibliographic.NonProjectedGraphic;
-import org.folio.cataloging.business.cataloguing.bibliographic.NotatedMusic;
-import org.folio.cataloging.business.cataloguing.bibliographic.NullPhysicalDescriptionObject;
-import org.folio.cataloging.business.cataloguing.bibliographic.ProjectedGraphic;
-import org.folio.cataloging.business.cataloguing.bibliographic.PublisherManager;
-import org.folio.cataloging.business.cataloguing.bibliographic.RemoteSensingImage;
-import org.folio.cataloging.business.cataloguing.bibliographic.SoundRecording;
-import org.folio.cataloging.business.cataloguing.bibliographic.TactileMaterial;
-import org.folio.cataloging.business.cataloguing.bibliographic.Text;
-import org.folio.cataloging.business.cataloguing.bibliographic.TitleAccessPoint;
-import org.folio.cataloging.business.cataloguing.bibliographic.Unspecified;
-import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
-import org.folio.cataloging.business.cataloguing.bibliographic.VideoRecording;
-import org.folio.cataloging.business.cataloguing.common.AccessPoint;
-import org.folio.cataloging.business.cataloguing.common.Browsable;
-import org.folio.cataloging.business.cataloguing.common.Catalog;
-import org.folio.cataloging.business.cataloguing.common.CatalogItem;
-import org.folio.cataloging.business.cataloguing.common.CataloguingSourceTag;
-import org.folio.cataloging.dao.DAOFrbrModel;
-import org.folio.cataloging.business.cataloguing.common.DateOfLastTransactionTag;
-import org.folio.cataloging.business.cataloguing.common.OrderedTag;
-import org.folio.cataloging.business.cataloguing.common.Tag;
-import org.folio.cataloging.dao.DAOCopy;
-import org.folio.cataloging.dao.DAOCodeTable;
-import org.folio.cataloging.dao.DAOGlobalVariable;
-import org.folio.cataloging.business.codetable.ValueLabelElement;
-import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.dao.DAOBibliographicCorrelation;
-import org.folio.cataloging.dao.DAOBibliographicValidation;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.DataAdminException;
-import org.folio.cataloging.business.common.DataDigAdminException;
-import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.business.common.DuplicateDescriptorException;
-import org.folio.cataloging.business.common.PublisherException;
-import org.folio.cataloging.business.common.RelationshipTagException;
-import org.folio.cataloging.business.common.View;
+import org.folio.cataloging.business.cataloguing.common.*;
+import org.folio.cataloging.business.codetable.Avp;
+import org.folio.cataloging.business.common.*;
 import org.folio.cataloging.business.common.filter.FilterManager;
 import org.folio.cataloging.business.common.filter.TagFilter;
 import org.folio.cataloging.business.common.group.BibliographicGroupManager;
 import org.folio.cataloging.business.common.group.TagGroup;
-import org.folio.cataloging.dao.DAODescriptor;
-import org.folio.cataloging.business.descriptor.Descriptor;
-import org.folio.cataloging.exception.DuplicateTagException;
-import org.folio.cataloging.exception.InvalidDescriptorException;
-import org.folio.cataloging.exception.LibrisuiteException;
-import org.folio.cataloging.exception.MandatoryTagException;
-import org.folio.cataloging.exception.NoHeadingSetException;
-import org.folio.cataloging.exception.RecordInUseException;
-import org.folio.cataloging.exception.ValidationException;
-import org.folio.cataloging.business.searching.CodeTableParser;
-import org.folio.cataloging.dao.DAOPublisher;
-import org.folio.cataloging.business.searching.DuplicateKeyException;
-import org.folio.cataloging.business.searching.NoResultsFoundException;
-import org.folio.cataloging.dao.persistence.BibliographicNoteType;
-import org.folio.cataloging.dao.persistence.CLSTN;
-import org.folio.cataloging.dao.persistence.CNTL_NBR;
-import org.folio.cataloging.dao.persistence.CasCache;
-import org.folio.cataloging.dao.persistence.Correlation;
-import org.folio.cataloging.dao.persistence.Diacritici;
-import org.folio.cataloging.dao.persistence.PUBL_HDG;
-import org.folio.cataloging.dao.persistence.PUBL_TAG;
-import org.folio.cataloging.dao.persistence.PublCdeHdg;
-import org.folio.cataloging.dao.persistence.T_CAS_DIG_LEVEL_TYP;
-import org.folio.cataloging.dao.persistence.T_CAS_LEVEL_TYP;
-import org.folio.cataloging.dao.persistence.T_CAS_MDR_FGL;
-import org.folio.cataloging.dao.persistence.T_DWY_TYP;
-import org.folio.cataloging.dao.persistence.T_PROGR_TYPE;
-import net.sf.hibernate.JDBCException;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.commons.validator.routines.ISBNValidator;
-
-import org.folio.cataloging.IGlobalConst;
-import org.folio.cataloging.bean.cas.CasaliniCodeListsBean;
-import org.folio.cataloging.bean.cas.CasaliniContextBean;
-import org.folio.cataloging.bean.digital.DigitalAmminBean;
-import org.folio.cataloging.bean.digital.DigitalDoiBean;
-import org.folio.cataloging.dao.DAOCasDigFiles;
-import org.folio.cataloging.dao.DAOCasFiles;
-import org.folio.cataloging.business.digital.PermalinkException;
-import org.folio.cataloging.dao.persistence.CasDigFiles;
-import org.folio.cataloging.dao.persistence.CasFiles;
-import org.folio.cataloging.business.Command;
-import org.folio.cataloging.util.StringText;
-import org.folio.cataloging.model.Subfield;
 import org.folio.cataloging.business.controller.SessionUtils;
 import org.folio.cataloging.business.controller.UserProfile;
+import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.business.digital.PermalinkException;
+import org.folio.cataloging.business.searching.CodeTableParser;
+import org.folio.cataloging.business.searching.DuplicateKeyException;
+import org.folio.cataloging.business.searching.NoResultsFoundException;
+import org.folio.cataloging.dao.*;
+import org.folio.cataloging.dao.persistence.*;
+import org.folio.cataloging.exception.*;
+import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.util.StringText;
+
+import javax.servlet.http.HttpServletRequest;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @SuppressWarnings("unchecked")
 public class BibliographicEditBean extends EditBean {
@@ -2004,10 +1919,10 @@ public class BibliographicEditBean extends EditBean {
 
 	// E N D T A G 0 0 6
 
-	private String getElement(List<ValueLabelElement> l, Object c) {
+	private String getElement(List<Avp> l, Object c) {
 		String value = null;
 		try {
-			for (ValueLabelElement element : l) {
+			for (Avp element : l) {
 				if (element.getValue().equals(String.valueOf(c))) {
 					value = element.getLabel();
 					break;
@@ -2085,19 +2000,19 @@ public class BibliographicEditBean extends EditBean {
 		return CodeListsBean.getMapColour().getCodeList(getLocale());
 	}
 
-	public List<ValueLabelElement> getDescriptionSubfield4() {
+	public List<Avp> getDescriptionSubfield4() {
 		try {
 			return new DAOCopy().getDescriptionSubfield4();
 		} catch (DataAccessException e) {
-			return new ArrayList<ValueLabelElement>();
+			return new ArrayList<Avp>();
 		}
 	}
 
-	public List<ValueLabelElement> getDescriptionSubfieldE() {
+	public List<Avp> getDescriptionSubfieldE() {
 		try {
 			return new DAOCopy().getDescriptionSubfieldE();
 		} catch (DataAccessException e) {
-			return new ArrayList<ValueLabelElement>();
+			return new ArrayList<Avp>();
 		}
 	}
 
@@ -2149,28 +2064,28 @@ public class BibliographicEditBean extends EditBean {
 
 		if (encoding.trim().equalsIgnoreCase("m")) {
 			for (int i = 0; i < levels.size(); i++) {
-				ValueLabelElement<String> element = (ValueLabelElement) levels.get(i);
+				Avp<String> element = (Avp) levels.get(i);
 				if ((element.getValue().equalsIgnoreCase("014"))
 						|| (element.getValue().equalsIgnoreCase("001")))
 					leaderLevels.add(element);
 			}
 		} else if (encoding.trim().equalsIgnoreCase("s")) {
 			for (int i = 0; i < levels.size(); i++) {
-				ValueLabelElement<String> element = (ValueLabelElement) levels.get(i);
+				Avp<String> element = (Avp) levels.get(i);
 				if ((element.getValue().equalsIgnoreCase("011"))
 						|| (element.getValue().equalsIgnoreCase("001")))
 					leaderLevels.add(element);
 			}
 		} else if (encoding.trim().equalsIgnoreCase("a")) {
 			for (int i = 0; i < levels.size(); i++) {
-				ValueLabelElement<String> element = (ValueLabelElement) levels.get(i);
+				Avp<String> element = (Avp) levels.get(i);
 				if ((element.getValue().equalsIgnoreCase("015"))
 						|| (element.getValue().equalsIgnoreCase("001")))
 					leaderLevels.add(element);
 			}
 		} else if (encoding.trim().equalsIgnoreCase("b")) {
 			for (int i = 0; i < levels.size(); i++) {
-				ValueLabelElement<String> element = (ValueLabelElement) levels.get(i);
+				Avp<String> element = (Avp) levels.get(i);
 				if ((element.getValue().equalsIgnoreCase("012"))
 						|| (element.getValue().equalsIgnoreCase("013"))
 						|| (element.getValue().equalsIgnoreCase("001")))
@@ -2178,7 +2093,7 @@ public class BibliographicEditBean extends EditBean {
 			}
 		} else
 			for (int i = 0; i < levels.size(); i++) {
-				ValueLabelElement<String> element = (ValueLabelElement) levels.get(i);
+				Avp<String> element = (Avp) levels.get(i);
 				if (element.getValue().equalsIgnoreCase("001"))
 					leaderLevels.add(element);
 			}
@@ -2204,7 +2119,7 @@ public class BibliographicEditBean extends EditBean {
 
 			if (getMdrFgl().equalsIgnoreCase("003")) { // Se livello figlia //
 				for (int i = 0; i < levels.size(); i++) {
-					ValueLabelElement<String> element = (ValueLabelElement) levels
+					Avp<String> element = (Avp) levels
 							.get(i);
 					if ((element.getValue().equalsIgnoreCase("005"))
 							|| (element.getValue().equalsIgnoreCase("007"))
@@ -2214,7 +2129,7 @@ public class BibliographicEditBean extends EditBean {
 				}
 			} else { // Se livello madre o non specificato //
 				for (int i = 0; i < levels.size(); i++) {
-					ValueLabelElement<String> element = (ValueLabelElement) levels
+					Avp<String> element = (Avp) levels
 							.get(i);
 					if ((element.getValue().equalsIgnoreCase("002"))
 							|| (element.getValue().equalsIgnoreCase("004"))
@@ -2225,7 +2140,7 @@ public class BibliographicEditBean extends EditBean {
 			}
 			// 20090826 fine
 			// for (int i = 0; i < levels.size(); i++) {
-			// ValueLabelElement element = (ValueLabelElement) levels.get(i);
+			// Avp element = (Avp) levels.get(i);
 			// if ((element.getValue().equalsIgnoreCase("002")) ||
 			// (element.getValue().equalsIgnoreCase("004")) ||
 			// (element.getValue().equalsIgnoreCase("006")) ||
@@ -2235,7 +2150,7 @@ public class BibliographicEditBean extends EditBean {
 			// }
 		} else if (encoding.trim().equalsIgnoreCase("s")) {
 			for (int i = 0; i < levels.size(); i++) {
-				ValueLabelElement<String> element = (ValueLabelElement) levels.get(i);
+				Avp<String> element = (Avp) levels.get(i);
 				if ((element.getValue().equalsIgnoreCase("002"))
 						|| (element.getValue().equalsIgnoreCase("003"))
 						|| (element.getValue().equalsIgnoreCase("004"))
@@ -2244,7 +2159,7 @@ public class BibliographicEditBean extends EditBean {
 			}
 		} else if (encoding.trim().equalsIgnoreCase("a")) {
 			for (int i = 0; i < levels.size(); i++) {
-				ValueLabelElement<String> element = (ValueLabelElement) levels.get(i);
+				Avp<String> element = (Avp) levels.get(i);
 				if ((element.getValue().equalsIgnoreCase("005"))
 						|| (element.getValue().equalsIgnoreCase("007"))
 						|| (element.getValue().equalsIgnoreCase("008"))
@@ -2253,7 +2168,7 @@ public class BibliographicEditBean extends EditBean {
 			}
 		} else if (encoding.trim().equalsIgnoreCase("b")) {
 			for (int i = 0; i < levels.size(); i++) {
-				ValueLabelElement<String> element = (ValueLabelElement) levels.get(i);
+				Avp<String> element = (Avp) levels.get(i);
 				if ((element.getValue().equalsIgnoreCase("005"))
 						|| (element.getValue().equalsIgnoreCase("008"))
 						|| (element.getValue().equalsIgnoreCase("009"))
@@ -2262,7 +2177,7 @@ public class BibliographicEditBean extends EditBean {
 			}
 		} else
 			for (int i = 0; i < levels.size(); i++) {
-				ValueLabelElement<String> element = (ValueLabelElement) levels.get(i);
+				Avp<String> element = (Avp) levels.get(i);
 				if (element.getValue().equalsIgnoreCase("001"))
 					leaderLevels.add(element);
 			}
@@ -3613,7 +3528,7 @@ public class BibliographicEditBean extends EditBean {
 			List subfields = st.getSubfieldList();
 			Iterator it = subfields.iterator();
 			while (it.hasNext()) {
-				ValueLabelElement valueElement = new ValueLabelElement();
+				Avp valueElement = new Avp();
 				Subfield sf = (Subfield) it.next();
 				String code = sf.getCode();
 				String content = sf.getContent();

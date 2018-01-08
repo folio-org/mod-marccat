@@ -1,41 +1,31 @@
 package org.folio.cataloging.bean.cas;
 
-import java.text.DateFormat;
-import java.text.Format;
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
-
-import javax.servlet.http.HttpServletRequest;
-
+import net.sf.hibernate.HibernateException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.validator.GenericValidator;
 import org.folio.cataloging.bean.LibrisuiteBean;
-import org.folio.cataloging.business.codetable.ValueLabelElement;
+import org.folio.cataloging.business.RuleListElement;
+import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.DateInputException;
+import org.folio.cataloging.business.controller.SessionUtils;
+import org.folio.cataloging.business.digital.RequiredFieldsException;
 import org.folio.cataloging.business.searching.DuplicateKeyException;
+import org.folio.cataloging.dao.DAOCollectionRule;
 import org.folio.cataloging.dao.persistence.CLCTN_MST_RULE;
 import org.folio.cataloging.dao.persistence.CLCTN_MST_RULE_RECORD;
 import org.folio.cataloging.dao.persistence.CLCTN_MST_RULE_REL;
 import org.folio.cataloging.dao.persistence.CLCTN_RULE_TMP;
 
-import net.sf.hibernate.HibernateException;
+import javax.servlet.http.HttpServletRequest;
+import java.text.DateFormat;
+import java.text.Format;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.commons.validator.GenericValidator;
-
-import org.folio.cataloging.dao.DAOCollectionRule;
-import org.folio.cataloging.business.RuleListElement;
-import org.folio.cataloging.business.digital.RequiredFieldsException;
-import org.folio.cataloging.business.controller.SessionUtils;
-
-public class RuleCollectionMSTBean extends LibrisuiteBean 
-{
+public class RuleCollectionMSTBean extends LibrisuiteBean {
 	private static final Log logger = LogFactory.getLog(RuleCollectionMSTBean.class);
 	Format formatter = new SimpleDateFormat("dd-MM-yyyy");
 	private static final Integer PROC_TYPE_COLLECTION = new Integer(1);
@@ -383,14 +373,14 @@ public class RuleCollectionMSTBean extends LibrisuiteBean
 		getNtrLvlList().clear();
 //---->	Imposto la tendina statica della natura livello
 		ResourceBundle bundle = ResourceBundle.getBundle("resources/casalini/collection", getLocale());
-		getNtrLvlList().add(new ValueLabelElement("", bundle.getString("ntr.lvl.not")));
-		getNtrLvlList().add(new ValueLabelElement("s", bundle.getString("ntr.lvl.s")));
-		getNtrLvlList().add(new ValueLabelElement("011", bundle.getString("ntr.lvl.011")));
-		getNtrLvlList().add(new ValueLabelElement("m", bundle.getString("ntr.lvl.m")));
-		getNtrLvlList().add(new ValueLabelElement("014", bundle.getString("ntr.lvl.014")));
-		getNtrLvlList().add(new ValueLabelElement("002", bundle.getString("ntr.lvl.002")));
-		getNtrLvlList().add(new ValueLabelElement("004", bundle.getString("ntr.lvl.004")));
-		getNtrLvlList().add(new ValueLabelElement("006", bundle.getString("ntr.lvl.006")));
+		getNtrLvlList().add(new Avp("", bundle.getString("ntr.lvl.not")));
+		getNtrLvlList().add(new Avp("s", bundle.getString("ntr.lvl.s")));
+		getNtrLvlList().add(new Avp("011", bundle.getString("ntr.lvl.011")));
+		getNtrLvlList().add(new Avp("m", bundle.getString("ntr.lvl.m")));
+		getNtrLvlList().add(new Avp("014", bundle.getString("ntr.lvl.014")));
+		getNtrLvlList().add(new Avp("002", bundle.getString("ntr.lvl.002")));
+		getNtrLvlList().add(new Avp("004", bundle.getString("ntr.lvl.004")));
+		getNtrLvlList().add(new Avp("006", bundle.getString("ntr.lvl.006")));
 	}
 
 	public void deleteItem(List itemList, int index) 

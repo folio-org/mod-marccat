@@ -4,7 +4,7 @@ import net.sf.hibernate.*;
 import net.sf.hibernate.expression.Expression;
 import net.sf.hibernate.type.Type;
 import org.folio.cataloging.Global;
-import org.folio.cataloging.business.codetable.ValueLabelElement;
+import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.business.descriptor.Descriptor;
@@ -44,7 +44,7 @@ public class DAOCodeTable extends HibernateUtil {
 	 * @param locale the Locale, used here as a filter criterion.
 	 * @return
 	 */
-	public List<ValueLabelElement<String>> getList(final Session session, final Class c, final Locale locale) {
+	public List<Avp<String>> getList(final Session session, final Class c, final Locale locale) {
 		try {
 			// NOTE: two steps are required because Hibernate doesn't use generics and the inference type
 			// mechanism doesn't work.
@@ -60,7 +60,7 @@ public class DAOCodeTable extends HibernateUtil {
 
 			return codeTables
 					.stream()
-					.map(codeTable -> (ValueLabelElement<String>) new ValueLabelElement(codeTable.getCodeString().trim(), codeTable.getLongText()))
+					.map(codeTable -> (Avp<String>) new Avp(codeTable.getCodeString().trim(), codeTable.getLongText()))
 					.collect(toList());
 		} catch (final HibernateException exception) {
 			logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
@@ -266,9 +266,9 @@ public class DAOCodeTable extends HibernateUtil {
 		while (iterator.hasNext()) {
 			CodeTable element = (CodeTable) iterator.next();
 			if (element.getLanguage().equals(locale.getISO3Language())) {
-				result.add(new ValueLabelElement(element.getCodeString(), element.getLongText()));
+				result.add(new Avp(element.getCodeString(), element.getLongText()));
 				//Natascia: bug 2711 (chiamata errata)
-				//result.add(new ValueLabelElement(element.getCodeString().trim(), element.getLongText()));
+				//result.add(new Avp(element.getCodeString().trim(), element.getLongText()));
 			}
 		}
 		return result;
@@ -286,11 +286,11 @@ public class DAOCodeTable extends HibernateUtil {
 		}
 		List result = new ArrayList();
 		Iterator iterator = raw.iterator();
-		ValueLabelElement element = null;
+		Avp element = null;
 		
 		while (iterator.hasNext()) {
-			element = (ValueLabelElement) iterator.next();
-			result.add(new ValueLabelElement(element.getLabel(),element.getLabel()));
+			element = (Avp) iterator.next();
+			result.add(new Avp(element.getLabel(),element.getLabel()));
 		}
 		return result;
 	}	
@@ -1023,12 +1023,12 @@ public class DAOCodeTable extends HibernateUtil {
 	 * @return
 	 * @throws DataAccessException
 	 */
-	public List<ValueLabelElement> getRdaCarrierList(Locale locale) throws DataAccessException
+	public List<Avp> getRdaCarrierList(Locale locale) throws DataAccessException
 	{
 		PreparedStatement statement = null;
 		ResultSet rs = null;
-		List<ValueLabelElement> list = new ArrayList<ValueLabelElement>();
-		ValueLabelElement element = null;		
+		List<Avp> list = new ArrayList<Avp>();
+		Avp element = null;
 		
 		try {
 			statement = currentSession().connection().prepareStatement(SELECT_RDA_CARRIER_LIST);
@@ -1036,7 +1036,7 @@ public class DAOCodeTable extends HibernateUtil {
 			rs = statement.executeQuery();
 			while (rs.next()) 
 			{
-				element = new ValueLabelElement(rs.getString("TBL_VLU_CDE"), rs.getString("STRING_TEXT"));
+				element = new Avp(rs.getString("TBL_VLU_CDE"), rs.getString("STRING_TEXT"));
 				list.add(element);
 			}
 

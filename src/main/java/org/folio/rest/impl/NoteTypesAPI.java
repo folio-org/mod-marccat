@@ -3,13 +3,11 @@ package org.folio.rest.impl;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Context;
 import io.vertx.core.Handler;
-import org.folio.cataloging.business.codetable.ValueLabelElement;
+import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
-import org.folio.rest.jaxrs.model.LogicalViewCollection;
 import org.folio.rest.jaxrs.model.NoteType;
 import org.folio.rest.jaxrs.model.NoteTypeCollection;
-import org.folio.rest.jaxrs.model.View;
 import org.folio.rest.jaxrs.resource.NoteTypesResource;
 
 import javax.ws.rs.core.Response;
@@ -26,12 +24,12 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
  * @since 1.0
  */
 
-public class NoteTypeAPI implements NoteTypesResource {
-    protected final Log logger = new Log(NoteTypeAPI.class);
+public class NoteTypesAPI implements NoteTypesResource {
+    protected final Log logger = new Log(NoteTypesAPI.class);
 
     // This is the adapter that converts existing value objects (logical views in this case)
     // in OKAPI resources.
-    private Function<ValueLabelElement<String>, NoteType> toNoteType = source -> {
+    private Function<Avp<String>, NoteType> toNoteType = source -> {
         final NoteType noteType = new NoteType();
         //TODO: handle type Integer for value element or null value in Integer.parseInt
         noteType.setCode(Integer.parseInt(source.getValue()));

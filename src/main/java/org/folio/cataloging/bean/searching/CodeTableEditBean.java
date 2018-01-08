@@ -1,38 +1,29 @@
 package org.folio.cataloging.bean.searching;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Properties;
-
-import javax.servlet.http.HttpServletRequest;
-
+import org.apache.commons.validator.GenericValidator;
 import org.folio.cataloging.business.authorisation.AuthorisationException;
 import org.folio.cataloging.business.authorisation.Permission;
-import org.folio.cataloging.dao.DAOCodeTable;
-import org.folio.cataloging.business.codetable.ValueLabelElement;
+import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
+import org.folio.cataloging.business.controller.SessionUtils;
+import org.folio.cataloging.dao.DAOCodeTable;
+import org.folio.cataloging.dao.DAONoteStandardSubdivision;
 import org.folio.cataloging.dao.persistence.BibliographicNoteType;
 import org.folio.cataloging.dao.persistence.CodeTable;
 import org.folio.cataloging.dao.persistence.T_CLCTN_CST_TYP;
 
-import org.apache.commons.validator.GenericValidator;
-
-import org.folio.cataloging.business.controller.SessionUtils;
-import org.folio.cataloging.dao.DAONoteStandardSubdivision;
+import javax.servlet.http.HttpServletRequest;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
 public class CodeTableEditBean extends CodeTableBean {
 
 	private String title;
 	private List/*<Locale>*/ localeList;
-	private ValueLabelElement selected;
+	private Avp selected;
 	private List/*<CodeTable>*/ items;
 	
 
@@ -128,7 +119,7 @@ public class CodeTableEditBean extends CodeTableBean {
 		return localeList;
 	}
 
-	public ValueLabelElement getSelected() {
+	public Avp getSelected() {
 		return selected;
 	}
 
@@ -139,7 +130,7 @@ public class CodeTableEditBean extends CodeTableBean {
 	}
 
 	public void select(int selectedIndex) throws DataAccessException {
-		selected = (ValueLabelElement) getCodeTable().get(selectedIndex);
+		selected = (Avp) getCodeTable().get(selectedIndex);
 		try {
 			List retrieved = daoCodeTable.getEntries(getClazz(), selected.getValue(), false);
 			Iterator it = retrieved.iterator();
@@ -280,7 +271,7 @@ public class CodeTableEditBean extends CodeTableBean {
 		if(isInsert()){
 			Iterator it = getCodeTable().iterator();
 			while (it.hasNext()) {
-				ValueLabelElement item = (ValueLabelElement) it.next();
+				Avp item = (Avp) it.next();
 				// MIKE: this control checks only for string format without any trims
 				if(item.getValue().equals(code)){
 					throw new CodeTableException(CodeTableException.CODE_ALREADY_PRESENT, true, code);
@@ -295,7 +286,7 @@ public class CodeTableEditBean extends CodeTableBean {
 			throw new CodeTableException(msgKey,true,null);
 		}
 	}
-	private void checkPresentString(List longLabels, List shortLabels, ValueLabelElement item ) throws CodeTableException{
+	private void checkPresentString(List longLabels, List shortLabels, Avp item ) throws CodeTableException{
 		for(int i=0; i<longLabels.size(); i++){
 			String s= (String)longLabels.get(i);
 			if(s.equalsIgnoreCase(item.getLabel())) {
@@ -369,7 +360,7 @@ public class CodeTableEditBean extends CodeTableBean {
 				item.setLanguage(((Locale)localeList.get(i)).getISO3Language());
 				items.add(item);
 			}
-			selected = new ValueLabelElement(); // dummy value
+			selected = new Avp(); // dummy value
 			insert = true;
 		} catch (DataAccessException e) {
 			throw new CodeTableException(getClazz(), e);
@@ -420,7 +411,7 @@ public class CodeTableEditBean extends CodeTableBean {
 	}
 	
 	public void addTemp(int selectedIndex)throws CodeTableException {
-		ValueLabelElement selectedTemp = (ValueLabelElement) getCodeTable().get(selectedIndex);
+		Avp selectedTemp = (Avp) getCodeTable().get(selectedIndex);
 		if(getTempCodeTableList().contains(selectedTemp))
 			throw new CodeTableException(CodeTableException.DUPLICATE_CODE,true, selectedTemp.getValue());
 		else

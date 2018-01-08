@@ -1,15 +1,7 @@
 package org.folio.cataloging.bean.cataloguing.authority;
 
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.action.cataloguing.bibliographic.SaveTagException;
 import org.folio.cataloging.bean.cataloguing.bibliographic.codelist.CodeListsBean;
 import org.folio.cataloging.bean.cataloguing.common.EditBean;
@@ -18,21 +10,9 @@ import org.folio.cataloging.business.cataloguing.authority.Authority008Tag;
 import org.folio.cataloging.business.cataloguing.authority.AuthorityCatalog;
 import org.folio.cataloging.business.cataloguing.authority.AuthorityHeadingTag;
 import org.folio.cataloging.business.cataloguing.authority.AuthorityItem;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicNoteTag;
-import org.folio.cataloging.business.cataloguing.bibliographic.ClassificationAccessPoint;
-import org.folio.cataloging.business.cataloguing.bibliographic.ControlNumberAccessPoint;
-import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
-import org.folio.cataloging.business.cataloguing.bibliographic.NewTagException;
-import org.folio.cataloging.business.cataloguing.common.AccessPoint;
-import org.folio.cataloging.business.cataloguing.common.Browsable;
-import org.folio.cataloging.business.cataloguing.common.Catalog;
-import org.folio.cataloging.business.cataloguing.common.CatalogItem;
-import org.folio.cataloging.dao.DAOFrbrModel;
-import org.folio.cataloging.business.cataloguing.common.DateOfLastTransactionTag;
-import org.folio.cataloging.business.cataloguing.common.Tag;
-import org.folio.cataloging.dao.DAOCodeTable;
-import org.folio.cataloging.business.codetable.ValueLabelElement;
-import org.folio.cataloging.dao.DAOAuthorityCorrelation;
+import org.folio.cataloging.business.cataloguing.bibliographic.*;
+import org.folio.cataloging.business.cataloguing.common.*;
+import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.DataAdminException;
 import org.folio.cataloging.business.common.DataDigAdminException;
@@ -40,22 +20,26 @@ import org.folio.cataloging.business.common.DuplicateDescriptorException;
 import org.folio.cataloging.business.common.filter.FilterManager;
 import org.folio.cataloging.business.common.filter.TagFilter;
 import org.folio.cataloging.business.common.group.TagGroup;
+import org.folio.cataloging.business.controller.SessionUtils;
 import org.folio.cataloging.business.descriptor.Descriptor;
-import org.folio.cataloging.exception.DuplicateTagException;
-import org.folio.cataloging.exception.InvalidDescriptorException;
-import org.folio.cataloging.exception.RecordInUseException;
-import org.folio.cataloging.exception.ValidationException;
+import org.folio.cataloging.business.digital.PermalinkException;
+import org.folio.cataloging.dao.DAOAuthorityCorrelation;
+import org.folio.cataloging.dao.DAOCodeTable;
+import org.folio.cataloging.dao.DAOFrbrModel;
 import org.folio.cataloging.dao.persistence.AUT;
 import org.folio.cataloging.dao.persistence.Correlation;
 import org.folio.cataloging.dao.persistence.PUBL_HDG;
 import org.folio.cataloging.dao.persistence.T_AUT_NTE_TYP;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.business.digital.PermalinkException;
+import org.folio.cataloging.exception.DuplicateTagException;
+import org.folio.cataloging.exception.InvalidDescriptorException;
+import org.folio.cataloging.exception.RecordInUseException;
+import org.folio.cataloging.exception.ValidationException;
 import org.folio.cataloging.util.StringText;
-import org.folio.cataloging.business.controller.SessionUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class AuthorityEditBean extends EditBean {
 	private static final AuthorityCatalog authorityCatalog = new AuthorityCatalog();
@@ -264,7 +248,7 @@ public class AuthorityEditBean extends EditBean {
 		if (hasHeadingTag) {
 			List myList = new ArrayList();
 			for (Object o : categories) {
-				ValueLabelElement e = (ValueLabelElement) o;
+				Avp e = (Avp) o;
 				if (e.getValue().equals("2") || e.getValue().equals("3")
 						|| e.getValue().equals("4")
 						|| e.getValue().equals("11")) {

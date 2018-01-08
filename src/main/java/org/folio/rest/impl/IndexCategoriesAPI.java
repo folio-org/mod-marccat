@@ -3,7 +3,7 @@ package org.folio.rest.impl;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Context;
 import io.vertx.core.Handler;
-import org.folio.cataloging.business.codetable.ValueLabelElement;
+import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.rest.jaxrs.model.Category;
@@ -28,7 +28,7 @@ public class IndexCategoriesAPI implements IndexCategoriesResource {
 
     // This is the convertValueLabelToCategory that converts existing value objects (logical categories in this case)
     // in OKAPI resources.
-    private Function<ValueLabelElement<String>, Category> convertValueLabelToCategory = source -> {
+    private Function<Avp<String>, Category> convertValueLabelToCategory = source -> {
         final Category category = new Category();
         category.setCode(source.getValue());
         return category;

@@ -7,7 +7,7 @@ import net.sf.hibernate.type.Type;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.Global;
-import org.folio.cataloging.business.codetable.ValueLabelElement;
+import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.searching.IndexBean;
 import org.folio.cataloging.business.searching.SearchIndexElement;
@@ -39,7 +39,7 @@ public class DAOSearchIndex extends HibernateUtil {
 	 * @return a list of code and description for index code associated with the requested language.
 	 * @throws DataAccessException in case of data access failure.
 	 */
-    public List<ValueLabelElement<String>> getIndexCategories(final Session session, final String indexType, final Locale locale) throws DataAccessException {
+    public List<Avp<String>> getIndexCategories(final Session session, final String indexType, final Locale locale) throws DataAccessException {
 
         try {
             final List<IndexMain> indices =
@@ -49,7 +49,7 @@ public class DAOSearchIndex extends HibernateUtil {
                             new Object[]{locale.getISO3Language()}, new Type[]{Hibernate.STRING});
             return indices
                     .stream()
-                    .map(index -> (ValueLabelElement<String>) new ValueLabelElement(index.getIndexValueCode(), index.getIndexMainName()))
+                    .map(index -> (Avp<String>) new Avp(index.getIndexValueCode(), index.getIndexMainName()))
                     .collect(toList());
 
         } catch (final HibernateException exception) {
@@ -69,7 +69,7 @@ public class DAOSearchIndex extends HibernateUtil {
 	 * @return a list of categories and descriptions for index type associated with the requested language.
 	 * @throws DataAccessException in case of data access failure.
 	 */
-    public List<ValueLabelElement<String>> getIndexes(final Session session, final String indexType, final int categoryCode, final Locale locale) throws DataAccessException {
+    public List<Avp<String>> getIndexes(final Session session, final String indexType, final int categoryCode, final Locale locale) throws DataAccessException {
         try {
             final List<IndexSub> indexCategories =
                     session.find(
@@ -79,7 +79,7 @@ public class DAOSearchIndex extends HibernateUtil {
                             new Object[]{locale.getISO3Language()}, new Type[]{Hibernate.STRING});
             return indexCategories
                     .stream()
-                    .map(indexCategory -> (ValueLabelElement<String>) new ValueLabelElement(indexCategory.getIndexSearchCode(), indexCategory.getIndexSubName()))
+                    .map(indexCategory -> (Avp<String>) new Avp(indexCategory.getIndexSearchCode(), indexCategory.getIndexSubName()))
                     .collect(toList());
 
         } catch (final HibernateException exception) {

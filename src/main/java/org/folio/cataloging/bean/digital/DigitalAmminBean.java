@@ -1,74 +1,40 @@
 package org.folio.cataloging.bean.digital;
 
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-
+import org.apache.commons.httpclient.HttpException;
 import org.folio.cataloging.bean.LibrisuiteBean;
+import org.folio.cataloging.bean.cas.CasaliniCodeListsBean;
+import org.folio.cataloging.bean.cas.CasaliniContextBean;
+import org.folio.cataloging.bean.cas.EditCasCacheBean;
 import org.folio.cataloging.bean.cataloguing.bibliographic.BibliographicEditBean;
 import org.folio.cataloging.bean.cataloguing.bibliographic.codelist.DigitalSalType;
 import org.folio.cataloging.bean.cataloguing.bibliographic.codelist.OnlinePolicyType;
 import org.folio.cataloging.bean.cataloguing.common.EditBean;
 import org.folio.cataloging.business.authorisation.AuthorisationException;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicItem;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicNoteTag;
-import org.folio.cataloging.business.cataloguing.bibliographic.ClassificationAccessPoint;
-import org.folio.cataloging.business.cataloguing.bibliographic.ControlNumberAccessPoint;
-import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
-import org.folio.cataloging.business.cataloguing.bibliographic.MaterialDescription;
-import org.folio.cataloging.business.cataloguing.bibliographic.NameAccessPoint;
-import org.folio.cataloging.business.cataloguing.bibliographic.NewTagException;
-import org.folio.cataloging.business.cataloguing.bibliographic.PublisherManager;
-import org.folio.cataloging.business.cataloguing.bibliographic.TitleAccessPoint;
+import org.folio.cataloging.business.cataloguing.bibliographic.*;
 import org.folio.cataloging.business.cataloguing.common.Tag;
-import org.folio.cataloging.dao.DAOCodeTable;
-import org.folio.cataloging.business.codetable.ValueLabelElement;
+import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.DateInputException;
-import org.folio.cataloging.exception.DuplicateTagException;
-import org.folio.cataloging.exception.RecordInUseException;
-import org.folio.cataloging.exception.ValidationException;
-import org.folio.cataloging.dao.persistence.T_BIB_HDR;
-import org.folio.cataloging.dao.persistence.T_CAS_SAL_TYP;
-import org.folio.cataloging.dao.persistence.T_CMPTR_FIL_TYP;
-import org.folio.cataloging.dao.persistence.T_CRTGC_FRMT;
-import org.folio.cataloging.dao.persistence.T_MSC_FORM_OR_TYP;
-import org.folio.cataloging.dao.persistence.T_NTR_OF_CNTNT;
-import org.folio.cataloging.dao.persistence.T_SRL_TYP;
-import org.folio.cataloging.dao.persistence.T_VSL_MTRL_TYP;
-
-import org.apache.commons.httpclient.HttpException;
-
-import org.folio.cataloging.bean.cas.CasaliniCodeListsBean;
-import org.folio.cataloging.bean.cas.CasaliniContextBean;
-import org.folio.cataloging.bean.cas.EditCasCacheBean;
-import org.folio.cataloging.dao.DAOCasDigAdmin;
+import org.folio.cataloging.business.controller.SessionUtils;
+import org.folio.cataloging.business.controller.UserProfile;
 import org.folio.cataloging.business.digital.DigitalDoiException;
 import org.folio.cataloging.business.digital.DigitalLevelException;
 import org.folio.cataloging.business.digital.PermalinkException;
 import org.folio.cataloging.business.digital.RequiredFieldsException;
+import org.folio.cataloging.dao.DAOCasDigAdmin;
+import org.folio.cataloging.dao.DAOCodeTable;
+import org.folio.cataloging.dao.persistence.*;
+import org.folio.cataloging.exception.DuplicateTagException;
+import org.folio.cataloging.exception.RecordInUseException;
+import org.folio.cataloging.exception.ValidationException;
 import org.folio.cataloging.form.digital.DigitalAmminForm;
-import org.folio.cataloging.dao.persistence.CasDgaPolicy;
-import org.folio.cataloging.dao.persistence.CasDigAdmin;
-import org.folio.cataloging.dao.persistence.CasSapPubl;
 import org.folio.cataloging.util.StringText;
-import org.folio.cataloging.business.controller.SessionUtils;
-import org.folio.cataloging.business.controller.UserProfile;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.text.*;
+import java.util.*;
 
 @SuppressWarnings("unchecked")
 public class DigitalAmminBean extends LibrisuiteBean  
@@ -381,12 +347,12 @@ public class DigitalAmminBean extends LibrisuiteBean
 		/* Per questa tendina bisogna concatenare alla descrizione anche il codice (tra parentesi) */
 		saleTypeList = new ArrayList();
 		List listSaleTypeDb = DAOCodeTable.asOptionList(new DAOCodeTable().getList(T_CAS_SAL_TYP.class,false), getLocale());
-		ValueLabelElement elemDb = null;
-		ValueLabelElement elemNew = null;
+		Avp elemDb = null;
+		Avp elemNew = null;
 		StringBuffer buffer = new StringBuffer();
 		for (int i = 0; i < listSaleTypeDb.size(); i++) {
-			elemDb = (ValueLabelElement)listSaleTypeDb.get(i);
-			elemNew = new ValueLabelElement(elemDb.getValue(), buffer.append(elemDb.getLabel() + " (" + elemDb.getValue()+ ")").toString());
+			elemDb = (Avp)listSaleTypeDb.get(i);
+			elemNew = new Avp(elemDb.getValue(), buffer.append(elemDb.getLabel() + " (" + elemDb.getValue()+ ")").toString());
 			saleTypeList.add(elemNew);
 			buffer.delete(0, buffer.length());
 		}
@@ -402,12 +368,12 @@ public class DigitalAmminBean extends LibrisuiteBean
 		/* Per questa tendina bisogna concatenare alla descrizione anche il codice (tra parentesi) */
 		onlinePolicyList = new ArrayList();
 		List listPolicyDb = onlinePolicyType.getCodeList(getLocale());
-		ValueLabelElement elemDb = null;
-		ValueLabelElement elemNew = null;
+		Avp elemDb = null;
+		Avp elemNew = null;
 		StringBuffer buffer = new StringBuffer();
 		for (int i = 0; i < listPolicyDb.size(); i++) {
-			elemDb = (ValueLabelElement)listPolicyDb.get(i);
-			elemNew = new ValueLabelElement(elemDb.getValue(), buffer.append(elemDb.getLabel() + " (" + elemDb.getValue()+ ")").toString());
+			elemDb = (Avp)listPolicyDb.get(i);
+			elemNew = new Avp(elemDb.getValue(), buffer.append(elemDb.getLabel() + " (" + elemDb.getValue()+ ")").toString());
 			onlinePolicyList.add(elemNew);
 			buffer.delete(0, buffer.length());
 		}

@@ -1,21 +1,20 @@
 package org.folio.cataloging.bean.searching;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Locale;
-
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.bean.cataloguing.bibliographic.codelist.CodeListsBean;
-import org.folio.cataloging.business.codetable.ValueLabelElement;
+import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
-import org.folio.cataloging.exception.InvalidDescriptorException;
-import org.folio.cataloging.dao.persistence.DescriptorKey;
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
-
 import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.persistence.DescriptorKey;
+import org.folio.cataloging.exception.InvalidDescriptorException;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Implements pattern Decorator about Descriptor to supply 
@@ -293,7 +292,7 @@ public class DescriptorDecorator
 	 */
 	public String getVerificationLevelText() 
 	{
-		String s = ValueLabelElement.decode(String.valueOf(getVerificationLevel()), getVerificationLevelList());
+		String s = Avp.decode(String.valueOf(getVerificationLevel()), getVerificationLevelList());
 		return s;
 	}
 	

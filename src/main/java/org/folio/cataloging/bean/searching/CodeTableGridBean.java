@@ -1,19 +1,17 @@
 package org.folio.cataloging.bean.searching;
 
+import org.folio.cataloging.business.authorisation.AuthorisationException;
+import org.folio.cataloging.business.authorisation.Permission;
+import org.folio.cataloging.business.codetable.Avp;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.controller.SessionUtils;
+import org.folio.cataloging.dao.DAOCodeTable;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.folio.cataloging.business.authorisation.AuthorisationException;
-import org.folio.cataloging.business.authorisation.Permission;
-import org.folio.cataloging.dao.DAOCodeTable;
-import org.folio.cataloging.business.codetable.ValueLabelElement;
-import org.folio.cataloging.business.common.DataAccessException;
-
-import org.folio.cataloging.business.controller.SessionUtils;
 
 public class CodeTableGridBean extends CodeTableEditBean {
 	
@@ -158,7 +156,7 @@ public class CodeTableGridBean extends CodeTableEditBean {
 	private final boolean isPresent(List row, String searchString) {
 		int nCols = row.size();
 		for(int c=0; c<nCols; c++){
-			ValueLabelElement element = (ValueLabelElement) row.get(c);
+			Avp element = (Avp) row.get(c);
 			if(element.getLabel().toLowerCase().indexOf(searchString)>=0){
 				return true;
 			}

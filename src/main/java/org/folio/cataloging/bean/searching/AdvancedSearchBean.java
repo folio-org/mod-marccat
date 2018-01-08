@@ -1,27 +1,24 @@
 package org.folio.cataloging.bean.searching;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.business.codetable.Avp;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.View;
+import org.folio.cataloging.business.controller.SessionUtils;
+import org.folio.cataloging.business.controller.UserProfile;
+import org.folio.cataloging.business.searching.NoResultsFoundException;
+import org.folio.cataloging.business.searching.ResultSet;
+import org.folio.cataloging.dao.DAORestrictions;
+import org.folio.cataloging.dao.DAOSearchIndex;
+import org.folio.cataloging.exception.LibrisuiteException;
+
+import javax.servlet.http.HttpServletRequest;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.folio.cataloging.business.codetable.ValueLabelElement;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.exception.LibrisuiteException;
-import org.folio.cataloging.dao.DAORestrictions;
-import org.folio.cataloging.dao.DAOSearchIndex;
-import org.folio.cataloging.business.searching.NoResultsFoundException;
-import org.folio.cataloging.business.searching.ResultSet;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.business.controller.SessionUtils;
-import org.folio.cataloging.business.controller.UserProfile;
 
 /**
  * Manages presentation output for the browse frame.
@@ -673,11 +670,11 @@ public class AdvancedSearchBean extends SearchBean {
 					DAORestrictions dao = new DAORestrictions();
 					List<RestrictionBean> list = dao.getRestrictions(username);
 		
-					List<ValueLabelElement> vl = new ArrayList<ValueLabelElement>();
+					List<Avp> vl = new ArrayList<Avp>();
 		
 					for(RestrictionBean bean: list)
 					{
-						vl.add(new ValueLabelElement(bean.getValue(),bean.getName()));
+						vl.add(new Avp(bean.getValue(),bean.getName()));
 					}
 		
 					setRestrictionsList(list);

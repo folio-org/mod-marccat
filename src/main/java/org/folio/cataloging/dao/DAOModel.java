@@ -1,20 +1,17 @@
 package org.folio.cataloging.dao;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import org.folio.cataloging.business.cataloguing.common.Model;
-import org.folio.cataloging.business.codetable.ValueLabelElement;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.ReferentialIntegrityException;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
-
+import org.folio.cataloging.business.cataloguing.common.Model;
+import org.folio.cataloging.business.codetable.Avp;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.ReferentialIntegrityException;
 import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 import org.folio.cataloging.log.Log;
+
+import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
@@ -88,9 +85,9 @@ public abstract class DAOModel extends HibernateUtil {
 		 * 
 		 * @since 1.0
 		 */
-	public List<ValueLabelElement<String>> getModelList() throws DataAccessException {
+	public List<Avp<String>> getModelList() throws DataAccessException {
 		return find(
-			" select new ValueLabelElement(m.id, m.label) "
+			" select new Avp(m.id, m.label) "
 				+ " from "
 				+ getPersistentClass().getName()
 				+ " as m "
@@ -104,7 +101,7 @@ public abstract class DAOModel extends HibernateUtil {
 	 */
 	public List getBibliographicModelList() throws DataAccessException {
 		return find(
-				" select new ValueLabelElement(m.id, m.label) "
+				" select new Avp(m.id, m.label) "
 				+ " from "
 				+ " BibliographicModel "
 				+ " as m "
@@ -118,7 +115,7 @@ public abstract class DAOModel extends HibernateUtil {
 	 */
 	public List getAuthorityModelList() throws DataAccessException {
 		return find(
-				" select new ValueLabelElement(m.id, m.label) "
+				" select new Avp(m.id, m.label) "
 				+ " from "
 				+ " AuthorityModel "
 				+ " as m "

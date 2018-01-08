@@ -1,18 +1,11 @@
 package org.folio.cataloging.bean.cataloguing.common;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.action.cataloguing.bibliographic.SaveTagException;
 import org.folio.cataloging.bean.LibrisuiteBean;
+import org.folio.cataloging.bean.cas.CasaliniCodeListsBean;
+import org.folio.cataloging.bean.cas.CasaliniContextBean;
 import org.folio.cataloging.bean.cataloguing.authority.AuthorityEditBean;
 import org.folio.cataloging.bean.cataloguing.bibliographic.BibliographicEditBean;
 import org.folio.cataloging.bean.cataloguing.bibliographic.StringTextEditBean;
@@ -20,85 +13,33 @@ import org.folio.cataloging.bean.cataloguing.bibliographic.StringTextEditBeanFor
 import org.folio.cataloging.bean.cataloguing.bibliographic.codelist.CodeListBean;
 import org.folio.cataloging.bean.cataloguing.bibliographic.codelist.CodeListsBean;
 import org.folio.cataloging.bean.cataloguing.copy.OntologyTypeBean;
+import org.folio.cataloging.bean.digital.DigitalAmminBean;
+import org.folio.cataloging.bean.digital.DigitalDoiBean;
 import org.folio.cataloging.bean.searching.BibliographicTableManager;
 import org.folio.cataloging.bean.searching.ICodeTableManager;
 import org.folio.cataloging.bean.searching.SearchTypeBean;
+import org.folio.cataloging.business.Command;
 import org.folio.cataloging.business.authorisation.AuthorisationException;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicNoteTag;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicRelationshipTag;
-import org.folio.cataloging.business.cataloguing.bibliographic.ChangeFixedFieldCommand;
-import org.folio.cataloging.business.cataloguing.bibliographic.ChangeTextCommand;
-import org.folio.cataloging.business.cataloguing.bibliographic.ChangeValuesCommand;
-import org.folio.cataloging.business.cataloguing.bibliographic.ChangeValuesIndicatorCommand;
-import org.folio.cataloging.business.cataloguing.bibliographic.ClassificationAccessPoint;
-import org.folio.cataloging.business.cataloguing.bibliographic.ControlNumberAccessPoint;
-import org.folio.cataloging.dao.DAOBibliographicRelationship;
-import org.folio.cataloging.business.cataloguing.bibliographic.DeleteTagCommand;
-import org.folio.cataloging.business.cataloguing.bibliographic.FixedFieldUsingItemEntity;
-import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
-import org.folio.cataloging.business.cataloguing.bibliographic.NewTagCommand;
-import org.folio.cataloging.business.cataloguing.bibliographic.NewTagException;
-import org.folio.cataloging.business.cataloguing.bibliographic.ReplaceDescriptorCommand;
-import org.folio.cataloging.business.cataloguing.bibliographic.ReplaceTagCommand;
-import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
-import org.folio.cataloging.business.cataloguing.common.Browsable;
-import org.folio.cataloging.business.cataloguing.common.Catalog;
-import org.folio.cataloging.business.cataloguing.common.CatalogItem;
-import org.folio.cataloging.business.cataloguing.common.CataloguingSourceTag;
-import org.folio.cataloging.business.cataloguing.common.Model;
-import org.folio.cataloging.business.cataloguing.common.OrderedTag;
-import org.folio.cataloging.business.cataloguing.common.Tag;
-import org.folio.cataloging.dao.DAOCodeTable;
-import org.folio.cataloging.business.codetable.ValueLabelElement;
-import org.folio.cataloging.business.common.ConfigHandler;
-import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.dao.DAOAuthorityCorrelation;
-import org.folio.cataloging.dao.DAOBibliographicCorrelation;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.DataAdminException;
-import org.folio.cataloging.business.common.DataDigAdminException;
-import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.business.common.DuplicateDescriptorException;
-import org.folio.cataloging.business.common.RelationshipTagException;
+import org.folio.cataloging.business.cataloguing.bibliographic.*;
+import org.folio.cataloging.business.cataloguing.common.*;
+import org.folio.cataloging.business.codetable.Avp;
+import org.folio.cataloging.business.common.*;
 import org.folio.cataloging.business.common.group.GroupManager;
-import org.folio.cataloging.dao.DAODescriptor;
+import org.folio.cataloging.business.controller.UserProfile;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.SkipInFiling;
-import org.folio.cataloging.dao.persistence.TTL_HDG;
-import org.folio.cataloging.exception.DuplicateTagException;
-import org.folio.cataloging.exception.InvalidDescriptorException;
-import org.folio.cataloging.exception.NoHeadingSetException;
-import org.folio.cataloging.exception.RecordInUseException;
-import org.folio.cataloging.exception.ValidationException;
+import org.folio.cataloging.business.digital.*;
+import org.folio.cataloging.dao.*;
+import org.folio.cataloging.dao.persistence.*;
+import org.folio.cataloging.exception.*;
 import org.folio.cataloging.form.cataloguing.bibliographic.EditTagForm;
-import org.folio.cataloging.dao.persistence.CNTL_NBR;
-import org.folio.cataloging.dao.persistence.CasCache;
-import org.folio.cataloging.dao.persistence.CodeTable;
-import org.folio.cataloging.dao.persistence.Correlation;
-import org.folio.cataloging.dao.persistence.CorrelationKey;
-import org.folio.cataloging.dao.persistence.PUBL_HDG;
-import org.folio.cataloging.dao.persistence.T_AUT_HDG_SRC;
-import org.folio.cataloging.dao.persistence.T_SINGLE;
-import org.folio.cataloging.dao.persistence.T_SKP_IN_FLNG_CNT;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.bean.cas.CasaliniCodeListsBean;
-import org.folio.cataloging.bean.cas.CasaliniContextBean;
-import org.folio.cataloging.dao.DAOCasCache;
-import org.folio.cataloging.bean.digital.DigitalAmminBean;
-import org.folio.cataloging.bean.digital.DigitalDoiBean;
-import org.folio.cataloging.business.digital.DigitalDoiException;
-import org.folio.cataloging.business.digital.DigitalFileSystemException;
-import org.folio.cataloging.business.digital.DigitalLevelException;
-import org.folio.cataloging.business.digital.FileManagerDo;
-import org.folio.cataloging.business.digital.PermalinkException;
-import org.folio.cataloging.business.digital.RequiredFieldsException;
-import org.folio.cataloging.business.Command;
-import org.folio.cataloging.util.StringText;
 import org.folio.cataloging.model.Subfield;
-import org.folio.cataloging.business.controller.UserProfile;
+import org.folio.cataloging.util.StringText;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 @SuppressWarnings("unchecked")
 public abstract class EditBean extends LibrisuiteBean {
@@ -689,7 +630,7 @@ public abstract class EditBean extends LibrisuiteBean {
 	}
 
 	public String getVerificationLevelText() {
-		return ValueLabelElement.decode(String.valueOf(getCatalogItem()
+		return Avp.decode(String.valueOf(getCatalogItem()
 				.getItemEntity().getVerificationLevel()),
 				getVerificationLevelList());
 	}
@@ -2774,7 +2715,7 @@ public void saveAuthorityRecord() throws DataAccessException,
 	 */
 	public List getCarrierValuesList() 
 	{
-		List<ValueLabelElement> list = new ArrayList<ValueLabelElement>();
+		List<Avp> list = new ArrayList<Avp>();
 		try {
 			/* Bug 5936 */
 //			list = CodeListBean.getRdaCarrierList(getLocale());

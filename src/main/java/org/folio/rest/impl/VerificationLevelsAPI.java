@@ -3,7 +3,7 @@ package org.folio.rest.impl;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Context;
 import io.vertx.core.Handler;
-import org.folio.cataloging.business.codetable.ValueLabelElement;
+import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.rest.jaxrs.model.VerificationLevel;
@@ -21,7 +21,7 @@ public class VerificationLevelsAPI implements VerificationLevelsResource {
 
     protected final Log logger = new Log(VerificationLevelsAPI.class);
 
-    private Function<ValueLabelElement<String>, VerificationLevel> toVerificationLevel = source -> {
+    private Function<Avp<String>, VerificationLevel> toVerificationLevel = source -> {
         final VerificationLevel verificationLevel = new VerificationLevel();
         verificationLevel.setCode(source.getValue());
         verificationLevel.setDescription(source.getLabel());

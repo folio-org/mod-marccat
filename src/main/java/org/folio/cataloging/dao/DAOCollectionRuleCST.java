@@ -1,34 +1,22 @@
 package org.folio.cataloging.dao;
 
+import net.sf.hibernate.*;
+import net.sf.hibernate.type.Type;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.Global;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
+import org.folio.cataloging.dao.persistence.CLCTN_CST_RULE;
+import org.folio.cataloging.dao.persistence.CLCTN_RULE_TMP;
+
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-
-import org.folio.cataloging.business.RuleCSTListElement;
-import org.folio.cataloging.business.codetable.ValueLabelElement;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.persistence.CLCTN_CST_RULE;
-import org.folio.cataloging.dao.persistence.CLCTN_RULE_TMP;
-import net.sf.hibernate.Hibernate;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Query;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.Transaction;
-import net.sf.hibernate.type.Type;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.bean.cas.RuleCollectionCSTBean;
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
-import org.folio.cataloging.Global;
 
 // TODO: Javadoc
 // TODO: Must be used within the StorageService

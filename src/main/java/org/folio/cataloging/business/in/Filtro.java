@@ -1,8 +1,8 @@
 package org.folio.cataloging.business.in;
 
-import java.util.ArrayList;
+import org.folio.cataloging.business.codetable.Avp;
 
-import org.folio.cataloging.business.codetable.ValueLabelElement;
+import java.util.ArrayList;
 
 public class Filtro {
 	private int idFiltro;
@@ -46,7 +46,7 @@ public class Filtro {
 			String[] v = valFiltro.split("\\/");	
 			ArrayList lista = new ArrayList();
 			for (int i = 0; i < v.length; i++) {
-				ValueLabelElement ve = new ValueLabelElement(v[i],v[i]);
+				Avp ve = new Avp(v[i],v[i]);
 				lista.add(ve);
 			}
 			this.valFiltroLista = lista;

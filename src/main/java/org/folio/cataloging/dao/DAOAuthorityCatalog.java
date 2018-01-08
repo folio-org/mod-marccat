@@ -7,6 +7,22 @@
  */
 package org.folio.cataloging.dao;
 
+import net.sf.hibernate.Hibernate;
+import net.sf.hibernate.type.Type;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.business.cataloguing.authority.*;
+import org.folio.cataloging.business.cataloguing.bibliographic.PersistsViaItem;
+import org.folio.cataloging.business.cataloguing.common.CatalogItem;
+import org.folio.cataloging.business.cataloguing.common.Tag;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.controller.UserProfile;
+import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.AUT;
+import org.folio.cataloging.dao.persistence.REF;
+import org.folio.cataloging.dao.persistence.ReferenceType;
+import org.folio.cataloging.dao.persistence.T_DUAL_REF;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,24 +30,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-
-import org.folio.cataloging.business.cataloguing.authority.*;
-import org.folio.cataloging.business.cataloguing.bibliographic.PersistsViaItem;
-import org.folio.cataloging.business.cataloguing.common.CatalogItem;
-import org.folio.cataloging.business.cataloguing.common.Tag;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.descriptor.Descriptor;
-import org.folio.cataloging.dao.persistence.AUT;
-import org.folio.cataloging.dao.persistence.REF;
-import org.folio.cataloging.dao.persistence.ReferenceType;
-import org.folio.cataloging.dao.persistence.T_DUAL_REF;
-import net.sf.hibernate.Hibernate;
-import net.sf.hibernate.type.Type;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.business.controller.UserProfile;
 
 /**
  * @author paulm
@@ -254,7 +252,7 @@ public class DAOAuthorityCatalog extends DAOCatalog {
 		throws DataAccessException {
 		return find(
 			"select distinct new "
-				+ "ValueLabelElement(ct.code, ct.longText) "
+				+ "Avp(ct.code, ct.longText) "
 				+ " from T_AUT_REF_HDG_TYP as ct, AuthorityCorrelation as db "
 				+ " where ct.code = db.key.marcTagCategoryCode "
 				+ " and db.key.headingType = ? "
