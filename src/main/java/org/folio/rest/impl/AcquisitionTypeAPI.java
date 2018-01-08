@@ -18,7 +18,7 @@ import static java.util.stream.Collectors.toList;
 import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
 /**
- * Note Types RESTful APIs.
+ * Acquisition Types RESTful APIs.
  *
  * @author aguercio
  * @since 1.0
@@ -28,8 +28,6 @@ public class AcquisitionTypeAPI implements AcquisitionTypesResource{
 
     protected final Log logger = new Log(AcquisitionTypeAPI.class);
 
-    // This is the adapter that converts existing value objects (logical views in this case)
-    // in OKAPI resources.
     private Function<ValueLabelElement, AcquisitionType> toAcquisitionType = source -> {
         final AcquisitionType acquisitionType = new AcquisitionType();
         //TODO: handle type Integer for value element or null value in Integer.parseInt

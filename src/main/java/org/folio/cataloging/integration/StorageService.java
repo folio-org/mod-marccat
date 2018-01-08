@@ -69,7 +69,7 @@ public class StorageService implements Closeable {
     }
 
     /**
-     * Returns the acquisition types associated to the given language.
+     * Returns the acquisition types associated with the given language.
      *
      * @param lang the language code, used here as a filter criterion.
      * @return a list of code / description tuples representing the acquisition type associated with the requested language.
