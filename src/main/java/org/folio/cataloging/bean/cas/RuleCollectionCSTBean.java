@@ -69,21 +69,16 @@ public class RuleCollectionCSTBean extends LibrisuiteBean
 	    return bean;
 	}
 
-	public List loadAllRules() throws DataAccessException
-	{
-		return dao.loadAllRules(getLocale(), getNtrLvlList(), getCustomerList());	
-	}
-
 	public void loadRule(int ruleId) throws DataAccessException
 	{
 		setItems(dao.loadRule(ruleId, getLocale()));
-		
+
 		if (items.size() == 0) {
 			addNew();
 		}
 		setCurrentItem((CLCTN_CST_RULE) items.get(items.size() - 1));
 	}
-	
+
 	public void addNew() throws DataAccessException 
 	{
 		CLCTN_CST_RULE newItem = new CLCTN_CST_RULE();

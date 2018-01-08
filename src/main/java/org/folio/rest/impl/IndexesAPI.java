@@ -28,16 +28,14 @@ public class IndexesAPI implements IndexesResource {
 
     protected final Log logger = new Log(IndexesAPI.class);
 
-    // This is the convertValueLabelToIndex that converts existing value objects (index in this case)
-    // in OKAPI resources.
-    private Function<ValueLabelElement, Index> convertValueLabelToIndex = source -> {
+    private Function<ValueLabelElement<String>, Index> convertValueLabelToIndex = source -> {
         final Index index = new Index();
         index.setCode(source.getValue());
         index.setDescription(source.getLabel());
         return index;
     };
 
-    private Function<ValueLabelElement, Constraint> convertValueLabelToConstraint = source -> {
+    private Function<ValueLabelElement<String>, Constraint> convertValueLabelToConstraint = source -> {
         final Constraint constraint = new Constraint();
         constraint.setCode(source.getValue());
         constraint.setLabel(source.getLabel());
@@ -46,7 +44,12 @@ public class IndexesAPI implements IndexesResource {
 
 
     @Override
-    public void getIndexesByCode(String code, String lang, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
+    public void getIndexesByCode(
+            final String code,
+            final String lang,
+            final Map<String, String> okapiHeaders,
+            final Handler<AsyncResult<Response>> asyncResultHandler,
+            final Context vertxContext) throws Exception {
         doGet((storageService, future) -> {
             try {
                 final Index container = new Index();
@@ -66,7 +69,12 @@ public class IndexesAPI implements IndexesResource {
     }
 
     @Override
-    public void getIndexes(IndexesResource.CategoryType categoryType, int categoryCode, String lang, Map<String,String>okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
+    public void getIndexes(
+            final IndexesResource.CategoryType categoryType,
+            final int categoryCode,
+            final String lang,
+            final Map<String,String>okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler,
+            final Context vertxContext) throws Exception {
             doGet((storageService, future) -> {
         try {
             final IndexCollection container = new IndexCollection();

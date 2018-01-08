@@ -21,7 +21,7 @@ public class VerificationLevelsAPI implements VerificationLevelsResource {
 
     protected final Log logger = new Log(VerificationLevelsAPI.class);
 
-    private Function<ValueLabelElement, VerificationLevel> toVerificationLevel = source -> {
+    private Function<ValueLabelElement<String>, VerificationLevel> toVerificationLevel = source -> {
         final VerificationLevel verificationLevel = new VerificationLevel();
         verificationLevel.setCode(source.getValue());
         verificationLevel.setDescription(source.getLabel());

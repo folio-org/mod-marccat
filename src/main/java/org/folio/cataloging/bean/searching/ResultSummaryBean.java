@@ -2382,8 +2382,8 @@ public class ResultSummaryBean extends LibrisuiteBean
 		StringText text2 = new StringText();
 		try {
 			for (int i = 0; i < text.getNumberOfSubfields(); i++) {
-				ValueLabelElement valueElement2 = null;
-				ValueLabelElement valueElement = null;
+				ValueLabelElement<String> valueElement2 = null;
+				ValueLabelElement<String> valueElement = null;
 				T_TRSLTN_NTE_TYP t2 = null;
 				T_DFLT_TRSLTN_NTE t3 = null;
 				List result = null;
