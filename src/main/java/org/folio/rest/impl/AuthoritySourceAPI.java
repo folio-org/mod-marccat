@@ -28,11 +28,8 @@ public class AuthoritySourceAPI implements AuthoritySourcesResource {
 
     protected final Log logger = new Log(AuthoritySourceAPI.class);
 
-    // This is the adapter that converts existing value objects (authority source in this case)
-    // in OKAPI resources.
     private Function<ValueLabelElement, AuthoritySource> toAuthoritySource = source -> {
         final AuthoritySource authoritySource = new AuthoritySource();
-        //TODO: handle type Integer for value element or null value in Integer.parseInt
         authoritySource.setCode(Integer.parseInt(source.getValue()));
         authoritySource.setDescription(source.getLabel());
         return authoritySource;
