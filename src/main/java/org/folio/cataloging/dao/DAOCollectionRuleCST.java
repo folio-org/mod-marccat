@@ -30,94 +30,13 @@ import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 import org.folio.cataloging.Global;
 
-public class DAOCollectionRuleCST extends HibernateUtil 
-{
+// TODO: Javadoc
+// TODO: Must be used within the StorageService
+public class DAOCollectionRuleCST extends HibernateUtil  {
 	private static Log logger = LogFactory.getLog(DAOCollectionRuleCST.class);
 	
 	public DAOCollectionRuleCST() {
 		super();
-	}
-	
-	/**
-	 * Il metodo legge tutte le regole esistenti  
-	 */
-	public List loadAllRules(Locale locale, List nrtLvlList, List customers) throws DataAccessException 
-	{
-		List result = new ArrayList();
-		List result2 = new ArrayList();
-		try {
-			Session s = currentSession();
-			Query q = s.createQuery("Select distinct ct from CLCTN_CST_RULE as ct order by ct.ruleId");
-			result = q.list();
-
-		} catch (HibernateException e) {
-			logAndWrap(e);
-		}
-		
-		Iterator iter = result.iterator();
-		while (iter.hasNext()) {
-			CLCTN_CST_RULE rawRule = (CLCTN_CST_RULE) iter.next();
-			RuleCSTListElement rawRuleListElement = new RuleCSTListElement(rawRule);
-			
-			String descLevel = "";
-			for (Iterator iterator = nrtLvlList.iterator(); iterator.hasNext();) {
-				ValueLabelElement valueLabelElement = (ValueLabelElement) iterator.next();
-				if (valueLabelElement.getValue().equalsIgnoreCase(rawRule.getLevel())){
-					descLevel=valueLabelElement.getLabel();
-				}
-			}
-			rawRuleListElement.setLevel(descLevel);
-			
-			String descCustomer = "";
-			for (Iterator iterator = customers.iterator(); iterator.hasNext();) {
-				ValueLabelElement valueLabelElement = (ValueLabelElement) iterator.next();
-				if (valueLabelElement.getValue().equalsIgnoreCase(rawRule.getCustomerCode())){
-					descCustomer=valueLabelElement.getLabel();
-				}
-			}
-			rawRuleListElement.setCustomerCode(descCustomer);
-			
-			
-			Format formatter = new SimpleDateFormat("dd-MM-yyyy");
-			if (rawRule.getDataProcessing() !=null){
-				rawRuleListElement.setDataProcessing(formatter.format(rawRule.getDataProcessing()));
-			}
-			if (rawRule.getDataInsert() !=null){
-				rawRuleListElement.setDataInsert(formatter.format(rawRule.getDataInsert()));
-			}
-			if (rawRule.getDataUpdate() !=null){
-				rawRuleListElement.setDataUpdate(formatter.format(rawRule.getDataUpdate()));
-			}
-			
-			rawRuleListElement.setDataType(rawRule.getDataType());
-			
-			if (RuleCollectionCSTBean.PUBBLICATION_DATE.equalsIgnoreCase(rawRule.getDataType())){
-				if (rawRule.getDataPublRange()!=null){
-					rawRuleListElement.setDataRange(rawRule.getDataPublRange());
-				}
-				if (rawRule.getDataEmbRange()!=null){
-					rawRuleListElement.setDataEmbRange(rawRule.getDataEmbRange());	
-				}
-			} else if (RuleCollectionCSTBean.UPLOAD_DATE.equalsIgnoreCase(rawRule.getDataType())){
-				StringBuffer buffer = new StringBuffer();
-				if (rawRule.getDataUploadFrom()!=null && rawRule.getDataUploadTo()!=null){
-					buffer.append(formatter.format(rawRule.getDataUploadFrom())).append(" / ").append(formatter.format(rawRule.getDataUploadTo()));
-					rawRuleListElement.setDataRange(buffer.toString());	
-				}
-				if (rawRule.getDataEmbFrom()!=null && rawRule.getDataEmbTo()!=null){
-					buffer.setLength(0);
-					buffer.append(formatter.format(rawRule.getDataEmbFrom())).append(" / ").append(formatter.format(rawRule.getDataEmbTo()));
-					rawRuleListElement.setDataEmbRange(buffer.toString());	
-				}
-			}
-			
-//			rawRuleListElement.setCustomerCode(rawRule.getCustomerCode());
-			rawRuleListElement.setCollectionSource(rawRule.getCollectionSource());
-			rawRuleListElement.setCollectionTarget(rawRule.getCollectionTarget());
-			
-			result2.add(rawRuleListElement);
-		}
-		return result2;
 	}
 	
 	/**

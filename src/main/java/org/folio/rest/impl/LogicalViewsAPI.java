@@ -28,7 +28,7 @@ public class LogicalViewsAPI implements LogicalViewsResource {
 
     // This is the adapter that converts existing value objects (logical views in this case)
     // in OKAPI resources.
-    private Function<ValueLabelElement, View> adapter = source -> {
+    private Function<ValueLabelElement<String>, View> adapter = source -> {
         final View logicalView = new View();
         logicalView.setCode(source.getValue());
         logicalView.setLongDescription(source.getLabel());

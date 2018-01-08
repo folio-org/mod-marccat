@@ -12,7 +12,7 @@ package org.folio.cataloging.exception;
  * @version $Revision: 1.3 $, $Date: 2004/07/12 10:15:16 $
  * @since 1.0
  */
-public class LibrisuiteException extends Exception {
+public class LibrisuiteException extends RuntimeException {
 
 	/**
 	 * @see Exception#Exception()

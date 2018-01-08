@@ -3,7 +3,6 @@ package org.folio.cataloging.dao;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -23,90 +22,91 @@ import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
 import net.sf.hibernate.type.Type;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import org.folio.cataloging.bean.cas.RuleCollectionMSTBean;
 import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 import org.folio.cataloging.Global;
+import org.folio.cataloging.log.Log;
+import org.folio.cataloging.log.MessageCatalog;
 
-public class DAOCollectionRule extends HibernateUtil 
-{
-	private static Log logger = LogFactory.getLog(DAOCollectionRule.class);
-	
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+public class DAOCollectionRule extends HibernateUtil  {
+	private static Log logger = new Log(DAOCollectionRule.class);
+
+	private final static ThreadLocal<SimpleDateFormat> FORMATTERS = new ThreadLocal() {
+		@Override
+		protected Object initialValue() {
+			final SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+			formatter.setLenient(false);
+			return formatter;
+		}
+	};
+
 	public DAOCollectionRule() {
 		super();
 	}
 	
 	/**
-	 * Il metodo legge tutte le regole esistenti  
+	 * Reads all configured rules.
+	 *
+	 * @return a list of configured rules.
+	 * @throws DataAccessException in case of data access failure.
+	 * TODO: Session needs to be injected from {@link org.folio.cataloging.integration.StorageService}
 	 */
-	public List loadAllRules(Locale locale, List nrtLvlList) throws DataAccessException 
-	{
-		List result = new ArrayList();
+	public List loadAllRules(final Locale locale, final List<ValueLabelElement<String>> nrtLvlList) throws DataAccessException {
 		List result2 = new ArrayList();
 		try {
 			Session s = currentSession();
-			Query q = s.createQuery("Select distinct ct from CLCTN_MST_RULE as ct order by ct.ruleId");
-			result = q.list();
+			Query query = s.createQuery("Select distinct ct from CLCTN_MST_RULE as ct order by ct.ruleId");
+			List<CLCTN_MST_RULE> rules = query.list();
+			return rules.stream()
+					.map(rawRule -> {
+						final RuleListElement item = new RuleListElement(rawRule);
+						nrtLvlList.stream()
+								.filter(avp -> avp.getValue().equalsIgnoreCase(rawRule.getLevel()))
+								.findFirst()
+								.ifPresent(avp -> item.setLevel(avp.getLabel()));
 
-		} catch (HibernateException e) {
-			logAndWrap(e);
+
+						if (rawRule.getDataProcessing() != null) {
+							item.setDataProcessing(FORMATTERS.get().format(rawRule.getDataProcessing()));
+						}
+
+						if (rawRule.getDataInsert() != null) {
+							item.setDataInsert(FORMATTERS.get().format(rawRule.getDataInsert()));
+						}
+
+						if (rawRule.getDataUpdate() != null) {
+							item.setDataUpdate(FORMATTERS.get().format(rawRule.getDataUpdate()));
+						}
+
+						if (RuleCollectionMSTBean.PUBBLICATION_DATE.equalsIgnoreCase(rawRule.getDataType())) {
+							if (rawRule.getDataPublRange() != null) {
+								item.setDataRange(rawRule.getDataPublRange());
+							}
+						} else if (RuleCollectionMSTBean.UPLOAD_DATE.equalsIgnoreCase(rawRule.getDataType())) {
+							if (rawRule.getDataUploadTo() != null && rawRule.getDataUploadFrom() != null) {
+								final StringBuilder buffer =
+										new StringBuilder()
+												.append(FORMATTERS.get().format(rawRule.getDataUploadFrom()))
+												.append(" / ")
+												.append(FORMATTERS.get().format(rawRule.getDataUploadTo()));
+								item.setDataRange(buffer.toString());
+							}
+						}
+
+						item.setCollSource(loadCollections(rawRule.getRuleId()).stream()
+								.map(CLCTN_MST_RULE_REL::getIdCollection)
+								.map(Object::toString)
+								.collect(joining(", ")));
+						return item;
+					}).collect(toList());
+		} catch (final HibernateException exception) {
+			logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+			throw new DataAccessException(exception);
 		}
-		
-		Iterator iter = result.iterator();
-		while (iter.hasNext()) {
-			CLCTN_MST_RULE rawRule = (CLCTN_MST_RULE) iter.next();
-			RuleListElement rawRuleListElement = new RuleListElement(rawRule);
-			
-			String descLevel = "";
-			for (Iterator iterator = nrtLvlList.iterator(); iterator.hasNext();) {
-				ValueLabelElement valueLabelElement = (ValueLabelElement) iterator.next();
-				if (valueLabelElement.getValue().equalsIgnoreCase(rawRule.getLevel())){
-					descLevel=valueLabelElement.getLabel();
-				}
-			}
-			rawRuleListElement.setLevel(descLevel);
-			
-			Format formatter = new SimpleDateFormat("dd-MM-yyyy");
-			if (rawRule.getDataProcessing() !=null){
-				rawRuleListElement.setDataProcessing(formatter.format(rawRule.getDataProcessing()));
-			}
-			if (rawRule.getDataInsert() !=null){
-				rawRuleListElement.setDataInsert(formatter.format(rawRule.getDataInsert()));
-			}
-			if (rawRule.getDataUpdate() !=null){
-				rawRuleListElement.setDataUpdate(formatter.format(rawRule.getDataUpdate()));
-			}
-			
-			if (RuleCollectionMSTBean.PUBBLICATION_DATE.equalsIgnoreCase(rawRule.getDataType())){
-				if (rawRule.getDataPublRange()!=null){
-					rawRuleListElement.setDataRange(rawRule.getDataPublRange());	
-				}
-			} else if (RuleCollectionMSTBean.UPLOAD_DATE.equalsIgnoreCase(rawRule.getDataType())){
-				if (rawRule.getDataUploadTo()!=null && rawRule.getDataUploadFrom()!=null){
-					StringBuffer buffer = new StringBuffer().append(formatter.format(rawRule.getDataUploadFrom())).append(" / ").append(formatter.format(rawRule.getDataUploadTo()));
-					rawRuleListElement.setDataRange(buffer.toString());
-				}
-			}			
-			
-			List collectionsRule = loadCollections(rawRule.getRuleId().intValue());
-			CLCTN_MST_RULE_REL collectionRule = null; 
-			StringBuffer buffer = new StringBuffer();
-			for (Iterator iterator = collectionsRule.iterator(); iterator.hasNext();) {
-				collectionRule = (CLCTN_MST_RULE_REL) iterator.next();
-				if (buffer.length()>0){
-					buffer.append(", ");
-				}
-				buffer.append(collectionRule.getIdCollection());
-			}
-			rawRuleListElement.setCollSource(buffer.toString());
-			
-			
-			result2.add(rawRuleListElement);
-		}
-		return result2;
 	}
 	
 	/**
@@ -222,25 +222,27 @@ public class DAOCollectionRule extends HibernateUtil
 	}
 	
 	/**
-	 * Il metodo legge tutte le collection associate alla regola passata
-	 * @param ruleId
-	 * @return
-	 * @throws DataAccessException
+	 * Returns the collections associated with the given rule identifier.
+	 *
+	 * @param ruleId the rule identifier.
+	 * @return the collections associated with the given rule identifier.
+	 * @throws DataAccessException in case of data access failure.
+	 * TODO: Use within {@link org.folio.cataloging.integration.StorageService}
 	 */	
-	public List loadCollections(int ruleId)  throws DataAccessException 
-	{
+	public List<CLCTN_MST_RULE_REL> loadCollections(final int ruleId)  {
 		List result = new ArrayList();
 		
 		try {
 			Session s = currentSession();
-			Query q = s.createQuery("Select distinct ct from CLCTN_MST_RULE_REL as ct where ct.ruleId = " 
-					+ ruleId + " order by ct.idCollection" );
-			result = q.list();
-
-		} catch (HibernateException e) {
-			logAndWrap(e);
+			final Query query = s.createQuery(
+					"Select distinct ct from CLCTN_MST_RULE_REL as ct where ct.ruleId = " +
+							ruleId +
+							" order by ct.idCollection" );
+			return query.list();
+		} catch (final HibernateException exception) {
+			logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+			throw new DataAccessException(exception);
 		}
-		return result;
 	}
 	
 	/**

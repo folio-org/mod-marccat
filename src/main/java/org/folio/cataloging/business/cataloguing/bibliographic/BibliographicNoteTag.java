@@ -28,9 +28,13 @@ import org.folio.cataloging.dao.DAOBibliographicNoteTag;
 import org.folio.cataloging.dao.DAOBibliographicNotesOverflow;
 import org.folio.cataloging.dao.DAOBibliographicStandardNote;
 
-@SuppressWarnings("unchecked")
-public class BibliographicNoteTag extends VariableField implements PersistentObjectWithView ,MarcHelperTag,OrderedTag 
-{	
+/**
+ * TODO: Javadoc
+ *
+ * @author paulm
+ * @author agazzarini
+ */
+public class BibliographicNoteTag extends VariableField implements PersistentObjectWithView ,MarcHelperTag,OrderedTag {
 	private static final long serialVersionUID = 5008624075912779670L;
 	private static final Log logger = LogFactory.getLog(BibliographicNoteTag.class);
 	private static final short bibliographicNoteCategory = 7;
@@ -533,19 +537,6 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
 	public String getKey() throws DataAccessException, MarcCorrelationException {
 		return getMarcEncoding().getMarcTag();
 	}
-	
-	public void updateStandardNoteAccessPoint() throws DataAccessException 
-	{
-		if (noteStandard == null) {
-			noteStandard = new StandardNoteAccessPoint();
-			noteStandard.isNew();
-		} else {
-			noteStandard.markChanged();
-		}
-		// valorizzazione campi
-		noteStandard.setTypeCode(new Short(valueElement.getValue()).shortValue());
-	}
-	
 	public void setDefaultNoteType()
 	{
 		short noteType=0;
