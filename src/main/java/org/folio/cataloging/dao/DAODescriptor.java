@@ -7,46 +7,27 @@
  */
 package org.folio.cataloging.dao;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Types;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Vector;
-
-import org.folio.cataloging.business.cataloguing.authority.AuthorityCatalog;
-import org.folio.cataloging.business.descriptor.Descriptor;
-import org.folio.cataloging.business.descriptor.SortFormParameters;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.LibrisuiteUtils;
-import org.folio.cataloging.business.common.Persistence;
-import org.folio.cataloging.business.common.ReferentialIntegrityException;
-import org.folio.cataloging.business.common.SortFormException;
-import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.business.searching.BrowseManager;
-import org.folio.cataloging.dao.persistence.DescriptorKey;
-import org.folio.cataloging.dao.persistence.HDG_URI;
-import org.folio.cataloging.dao.persistence.NME_HDG;
-import org.folio.cataloging.dao.persistence.NME_TTL_HDG;
-import org.folio.cataloging.dao.persistence.REF;
-import org.folio.cataloging.dao.persistence.ReferenceType;
-import org.folio.cataloging.dao.persistence.SBJCT_HDG;
-import org.folio.cataloging.dao.persistence.TTL_HDG;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Query;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.IGlobalConst;
+import org.folio.cataloging.Global;
+import org.folio.cataloging.business.cataloguing.authority.AuthorityCatalog;
+import org.folio.cataloging.business.common.*;
+import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.business.descriptor.SortFormParameters;
+import org.folio.cataloging.business.searching.BrowseManager;
 import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
+import org.folio.cataloging.dao.persistence.*;
+
+import java.sql.*;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Vector;
 
 /**
  * An abstract class representing separately indexed tables that access
@@ -1289,7 +1270,7 @@ public abstract class DAODescriptor extends HibernateUtil {
 	{
 		int result = 0;
 		List l = null;
-		Integer headingType = IGlobalConst.headingTypeMap.get(d.getCategory()+"");
+		Integer headingType = Global.headingTypeMap.get(d.getCategory()+"");
 		
 		if (searchingView == View.ANY) {
 			l = find(SELECT_URI_BY_ALL_VIEW,
@@ -1312,7 +1293,7 @@ public abstract class DAODescriptor extends HibernateUtil {
 	{
 		List<HDG_URI> list = null;
 		
-		Integer headingType = IGlobalConst.headingTypeMap.get(d.getCategory()+"");
+		Integer headingType = Global.headingTypeMap.get(d.getCategory()+"");
 		
 		if (searchingView == View.ANY) {
 			list = find(SELECT_URI_BY_ALL_VIEW.replace("SELECT COUNT(*)", ""),

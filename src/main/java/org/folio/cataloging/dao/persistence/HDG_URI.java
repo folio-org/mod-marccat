@@ -1,19 +1,17 @@
 package org.folio.cataloging.dao.persistence;
 
-import java.io.Serializable;
-import java.util.Date;
-
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
 import org.apache.commons.lang.builder.ToStringBuilder;
-
-import org.folio.cataloging.dao.DAOHeadingUri;
+import org.folio.cataloging.Global;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
-
-import org.folio.cataloging.IGlobalConst;
+import org.folio.cataloging.dao.DAOHeadingUri;
 import org.folio.cataloging.dao.common.HibernateUtil;
+
+import java.io.Serializable;
+import java.util.Date;
 
 public class HDG_URI implements Persistence
 {	
@@ -118,12 +116,12 @@ public class HDG_URI implements Persistence
 		
 	public String getCreationDateString() 
 	{
-		return (creationDate != null?IGlobalConst.formatter.format(creationDate):"");
+		return (creationDate != null? Global.formatter.format(creationDate):"");
 	}
 	
 	public String getLastUpdateDateString() 
 	{
-		return (lastUpdateDate != null?IGlobalConst.formatter.format(lastUpdateDate):"");
+		return (lastUpdateDate != null?Global.formatter.format(lastUpdateDate):"");
 	}
 
 	private PersistenceState persistenceState = new PersistenceState();
@@ -255,6 +253,6 @@ public class HDG_URI implements Persistence
 	
 	public boolean isEnableToAlternativeLabelsSearch() 
 	{			
-		return (IGlobalConst.sourcesEnabledToAlternativeLabelsSearch.contains(new Integer(sourceId))?true:false);
+		return (Global.sourcesEnabledToAlternativeLabelsSearch.contains(new Integer(sourceId))?true:false);
 	}
 }

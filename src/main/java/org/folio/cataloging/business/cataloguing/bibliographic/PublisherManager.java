@@ -7,37 +7,29 @@
  */
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-
-import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.LibrisuiteUtils;
-import org.folio.cataloging.business.common.PersistenceState;
-import org.folio.cataloging.business.common.PersistentObjectWithView;
-import org.folio.cataloging.business.common.UserViewHelper;
-import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.dao.DAODescriptor;
-import org.folio.cataloging.dao.DAOPublisherDescriptor;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.Global;
+import org.folio.cataloging.business.common.*;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.PublisherTagDescriptor;
+import org.folio.cataloging.dao.DAODescriptor;
+import org.folio.cataloging.dao.DAOPublisherDescriptor;
+import org.folio.cataloging.dao.DAOPublisherManager;
+import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.persistence.BibliographicNoteType;
 import org.folio.cataloging.dao.persistence.PUBL_HDG;
 import org.folio.cataloging.dao.persistence.PUBL_TAG;
 import org.folio.cataloging.dao.persistence.REF;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.dao.DAOPublisherManager;
+import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.util.StringText;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import org.folio.cataloging.IGlobalConst;
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.util.StringText;
-import org.folio.cataloging.model.Subfield;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Publishers differ from other access points in that multiple publisher headings
@@ -150,7 +142,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
 			lastPublTag.setOtherSubfields(s.getSubfieldsWithoutCodes("368efg").toString());
 			String otherFieldsText = s.getSubfieldsWithCodes("368efg").toString(); 
 			if (otherFieldsText != null && otherFieldsText.indexOf(Subfield.SUBFIELD_DELIMITER)>-1){
-				setStringTextForFastDigitPublisher(otherFieldsText.replaceAll(IGlobalConst.SUBFIELD_DELIMITER, IGlobalConst.SUBFIELD_DELIMITER_FOR_VIEW));
+				setStringTextForFastDigitPublisher(otherFieldsText.replaceAll(Global.SUBFIELD_DELIMITER, Global.SUBFIELD_DELIMITER_FOR_VIEW));
 			}else {
 				setStringTextForFastDigitPublisher(otherFieldsText);
 			}

@@ -1,52 +1,31 @@
-/*
- * Created on Nov 4, 2004
- *
- */
 package org.folio.cataloging.bean.cataloguing.heading;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
+import org.folio.cataloging.Global;
 import org.folio.cataloging.bean.LibrisuiteBean;
 import org.folio.cataloging.bean.searching.IsbnEditorBean;
 import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
 import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.cataloguing.common.Validation;
-import org.folio.cataloging.dao.DAOCodeTable;
-import org.folio.cataloging.dao.DAOGlobalVariable;
 import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.dao.DAOBibliographicValidation;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.DuplicateDescriptorException;
 import org.folio.cataloging.business.common.ErrorIsbnProcException;
-import org.folio.cataloging.dao.DAODescriptor;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.DescriptorFactory;
 import org.folio.cataloging.business.descriptor.MatchedHeadingInAnotherViewException;
-import org.folio.cataloging.dao.persistence.CLSTN;
-import org.folio.cataloging.dao.persistence.CNTL_NBR;
-import org.folio.cataloging.dao.persistence.DescriptorKey;
-import org.folio.cataloging.dao.persistence.NME_HDG;
-import org.folio.cataloging.dao.persistence.NME_TTL_HDG;
-import org.folio.cataloging.dao.persistence.SBJCT_HDG;
-import org.folio.cataloging.dao.persistence.TTL_HDG;
-import org.folio.cataloging.dao.persistence.T_AUT_HDG_SRC;
-import org.folio.cataloging.dao.persistence.T_BIB_TAG_CAT;
-import org.folio.cataloging.dao.persistence.T_LANG_OF_ACS_PNT;
-import org.folio.cataloging.dao.persistence.T_VRFTN_LVL;
-
-import org.folio.cataloging.IGlobalConst;
-import org.folio.cataloging.util.StringText;
+import org.folio.cataloging.dao.DAOBibliographicValidation;
+import org.folio.cataloging.dao.DAOCodeTable;
+import org.folio.cataloging.dao.DAODescriptor;
+import org.folio.cataloging.dao.DAOGlobalVariable;
+import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.util.StringText;
 
-@SuppressWarnings("unchecked")
+import java.io.IOException;
+import java.util.*;
+
 public abstract class HeadingBean extends LibrisuiteBean {
 	private static final Log logger = LogFactory.getLog(HeadingBean.class);
 	
@@ -80,7 +59,7 @@ public abstract class HeadingBean extends LibrisuiteBean {
 
 	public boolean isHeadingWithUri(String headingCategory)
 	{
-		Integer headingType = IGlobalConst.headingTypeMap.get(headingCategory);
+		Integer headingType = Global.headingTypeMap.get(headingCategory);
 		if (headingType != null){
 			
 		}

@@ -7,36 +7,25 @@
  */
 package org.folio.cataloging.bean.searching;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Stack;
-
-import javax.servlet.http.HttpServletRequest;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.Global;
 import org.folio.cataloging.business.cataloguing.authority.AuthorityCatalog;
 import org.folio.cataloging.business.cataloguing.bibliographic.NewTagException;
 import org.folio.cataloging.business.cataloguing.common.CatalogItem;
-import org.folio.cataloging.dao.DAOCodeTable;
 import org.folio.cataloging.business.codetable.IndexListElement;
-import org.folio.cataloging.dao.DAOBibliographicCorrelation;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.business.common.View;
+import org.folio.cataloging.business.controller.SessionUtils;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.searching.BrowseManager;
-import org.folio.cataloging.dao.DAOIndexList;
-import org.folio.cataloging.dao.DAOPublisher;
 import org.folio.cataloging.business.searching.InvalidBrowseIndexException;
+import org.folio.cataloging.dao.*;
 import org.folio.cataloging.dao.persistence.*;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.IGlobalConst;
-import org.folio.cataloging.dao.DAOCasSapPubl;
-import org.folio.cataloging.business.controller.SessionUtils;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
 /**
  * Manages presentation output for the browse frame
@@ -1023,20 +1012,15 @@ public class BrowseBean extends SearchBean {
 			setAuthCountList(z);
 		}
 		
-		//7P0=TI and 2P0=NA
 		if(getSelectedIndexKey().equals("7P0")||getSelectedIndexKey().equals("2P0")){
 			n = getBrowseManager().getDocCountNT(list, searchingView);
 			setNtCountList(n);
-		}	
-		
-		/* Bug 5424 */		
+		}
 		
 		isAbleUri = false;
 		if (list!=null && list.size()>0){
 			Descriptor descriptor = (Descriptor) list.get(0);
-			Integer headingType = IGlobalConst.headingTypeMap.get(descriptor.getCategory()+"");
-//			logger.info(" Categoria descrittore: " + descriptor.getCategory());
-//			logger.info(" Tipo heading da map: " + headingType);
+			Integer headingType = Global.headingTypeMap.get(descriptor.getCategory()+"");
 			if (headingType != null){
 				n = getBrowseManager().getDocCountUri(list, searchingView);
 				setUriCountList(n);

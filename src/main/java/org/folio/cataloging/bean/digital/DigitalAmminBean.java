@@ -365,7 +365,6 @@ public class DigitalAmminBean extends LibrisuiteBean
 	
 	public List getOnlinePolicyTypeList() throws DataAccessException
 	{
-		/* Per questa tendina bisogna concatenare alla descrizione anche il codice (tra parentesi) */
 		onlinePolicyList = new ArrayList();
 		List listPolicyDb = onlinePolicyType.getCodeList(getLocale());
 		Avp elemDb = null;
@@ -485,8 +484,7 @@ public class DigitalAmminBean extends LibrisuiteBean
 			casDgaPolicies  = (CasDgaPolicy)getListPoliciesToInsert().get(i);
 			casDgaPolicies.getDAO().persistByStatus(casDgaPolicies);
 		}
-		
-//---->	Refresh lista
+
 		setListPoliciesToInsert(new ArrayList());
 	}
 	
@@ -690,19 +688,17 @@ public class DigitalAmminBean extends LibrisuiteBean
 			getCurrentItem().setOpeStampa("0");
 		if (getCurrentItem().getItemTypeSale()==null)
 			getCurrentItem().setItemTypeSale("Z");
-		
-//----> 20100416 inizio: default dati listino 
+
 		if (getCurrentItem().getLstType()==null || getCurrentItem().getLstType().trim().length()==0)
 			getCurrentItem().setLstType("");
 			
 		if (getCurrentItem().getLstCurcy()==null || getCurrentItem().getLstCurcy().trim().length()==0)
 			getCurrentItem().setLstCurcy("EUR");
 		
-//----> 20100614 inizio: imposto default per policy online type 
+
 		if (getCurrentItem().getPolicyOnlineType()==null || getCurrentItem().getPolicyOnlineType().trim().length()==0)
 			getCurrentItem().setPolicyOnlineType("00");
-		
-//----> 20100416 fine		
+
 		
 		setListTag59(search59x(editBean));
 		
@@ -721,11 +717,6 @@ public class DigitalAmminBean extends LibrisuiteBean
 				if ((getCurrentItem().getIdFascicolo()==null)&& ((tag.getStringText().getSubfieldsWithCodes("d").getDisplayText().trim().length()>0))) {
 					getCurrentItem().setIdFascicolo(tag.getStringText().getSubfieldsWithCodes("d").getDisplayText().toString().trim());
 				}
-//				if ((getCurrentItem().getProgressivo()==null)&& ((tag.getStringText().getSubfieldsWithCodes("e").getDisplayText().trim().length()>0))) {
-//					getCurrentItem().setProgressivo(tag.getStringText().getSubfieldsWithCodes("e").getDisplayText().toString().trim());
-//				}
-				
-//				Devo controllare che siano numerici!!!
 				try {
 					if ((getCurrentItem().getPagineDa()==null)&& ((tag.getStringText().getSubfieldsWithCodes("f").getDisplayText().trim().length()>0))) {
 						getCurrentItem().setPagineDa(new Integer(tag.getStringText().getSubfieldsWithCodes("f").getDisplayText().toString()));
@@ -751,7 +742,6 @@ public class DigitalAmminBean extends LibrisuiteBean
 				}
 			}
 		}
-//--->	20100910 inizio: Se non e' presente, imposto il codice editore prendendolo dall' eventuale tag 998
 		setPublisher998("");
 		ClassificationAccessPoint t998 = (ClassificationAccessPoint ) editBean.getCatalogItem().findFirstTagByNumber("998");
 		if(t998!=null){
@@ -771,7 +761,6 @@ public class DigitalAmminBean extends LibrisuiteBean
 				setPublisherDisable(true);
 			}
 		}
-//---->	20110609: imposto ad "S" il flag presenza su web
 		if (getCurrentItem().getFlagWebStatus()==null)
 			getCurrentItem().setFlagWebStatus("S");
 	}
@@ -834,8 +823,7 @@ public class DigitalAmminBean extends LibrisuiteBean
 	public void updateCasCache(EditBean bean) throws DataAccessException 
 	{
 		ControlNumberAccessPoint tag097 = (ControlNumberAccessPoint) bean.getCatalogItem().findFirstTagByNumber("097");
-//----->Se non ci sono altri tag 097 nel record l'utente puo' modificare i check digital e natura livello
-		if (tag097 == null) {			
+		if (tag097 == null) {
 			EditCasCacheBean cacheBean = new EditCasCacheBean();
 			cacheBean.loadItems(bean.getCatalogItem().getAmicusNumber().intValue());
 			
@@ -874,8 +862,7 @@ public class DigitalAmminBean extends LibrisuiteBean
 		bean.setTagIndex(i);
 		bean.deleteTag();
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	public void insertTag591(EditBean bean, HttpServletRequest request) throws MarcCorrelationException, NewTagException, AuthorisationException, DataAccessException, ValidationException 
 	{	
 		if (verifyInsertT591()){
@@ -923,8 +910,7 @@ public class DigitalAmminBean extends LibrisuiteBean
 			((getCurrentItem().getVolume()     !=null) && (getCurrentItem().getVolume().trim().length()>0)) || 
 			((getCurrentItem().getCapitolo()   !=null) && (getCurrentItem().getCapitolo().trim().length()>0)) ||
 			((getCurrentItem().getIdFascicolo()!=null) && (getCurrentItem().getIdFascicolo().trim().length()>0)) || 
-//			((getCurrentItem().getProgressivo()!=null) && (getCurrentItem().getProgressivo().trim().length()>0)) || 
-			 (getCurrentItem().getPagineDa()!=null) || 
+			 (getCurrentItem().getPagineDa()!=null) ||
 			 (getCurrentItem().getPagineA()!=null) )
 			 isOk = true;
 		
@@ -970,8 +956,7 @@ public class DigitalAmminBean extends LibrisuiteBean
 		List sortPolicyList = new ArrayList(listPoliciesSap);
 		Collections.sort(sortPolicyList);
 		setListPolicies(sortPolicyList);
-		
-		//---->	Imposto i campi del bean per metterli nel form
+
 		DigitalPoliciesBean bean = null;
 		List priceList = new ArrayList();
 		List curcyList = new ArrayList();
@@ -995,7 +980,6 @@ public class DigitalAmminBean extends LibrisuiteBean
 		DAOCasDigAdmin dao = new DAOCasDigAdmin();
 		List listPolicyDga = dao.loadCasDgaPolicy(bibNumber);
 		List listDgaPoliciesBean = new ArrayList();
-//----> Trasformo la lista di CasDgaPolicy in lista di DigitalPoliciesBean
 		CasDgaPolicy casDgaPolicy = null;
 		DigitalPoliciesBean digitalPoliciesBean = null;
 		for (int i = 0; i < listPolicyDga.size(); i++) {
@@ -1005,9 +989,7 @@ public class DigitalAmminBean extends LibrisuiteBean
 		}	
 		
 		List listPoliciesSap = dao.loadPolicy(currentItem.getCodEditore());
-		
-//		20100521 inizio: controllo per far impostare la prima volta 
-//			il prezzo totale delle policy "P" non presenti in Cas_Sap_Policy 
+
 		String pagTot = defaultTotPages();
 		if (pagTot.trim().length()>0){
 			DigitalPoliciesBean bean = null;
@@ -1022,8 +1004,7 @@ public class DigitalAmminBean extends LibrisuiteBean
 				}
 			}
 		}
-//		20100521 fine
-		
+
 		for (int i = 0; i < listDgaPoliciesBean.size(); i++) {
 			digitalPoliciesBean  = (DigitalPoliciesBean)listDgaPoliciesBean.get(i);
 			if (listPoliciesSap.contains(digitalPoliciesBean)){
@@ -1034,13 +1015,11 @@ public class DigitalAmminBean extends LibrisuiteBean
 		Set result = new HashSet();
 		result.addAll(listDgaPoliciesBean);
 		result.addAll(listPoliciesSap);
-		
-//----> Ordino la lista per codice e tipo policy
+
 		List sortPolicyList = new ArrayList(result);
 		Collections.sort(sortPolicyList);
 		setListPolicies(sortPolicyList);	
-		
-//---->	Imposto i campi del bean per metterli nel form
+
 		DigitalPoliciesBean bean = null;
 		List priceList = new ArrayList();
 		List curcyList = new ArrayList();
@@ -1058,13 +1037,11 @@ public class DigitalAmminBean extends LibrisuiteBean
 		setPolicyStamps((String[]) stampsList.toArray((new String[0])));
 		setPolicyTotPrice((String[]) priceTotList.toArray((new String[0])));
 	}	
-	
-//  20100416 : imposto data creazione, data modifica e utente 
+
 	public void cntrDateUser(HttpServletRequest request) throws DateInputException
 	{
 		DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-		
-//		Se le date di validita' sono valorizzate entrambe
+
 		if (getCurrentItem().getlstPriceDtIniString().trim().length()>0 &&
 			getCurrentItem().getlstPriceDtFinString().trim().length()>0){
 			if (!getCurrentItem().getLstPriceDtFin().after(getCurrentItem().getLstPriceDtIni())){
@@ -1072,35 +1049,19 @@ public class DigitalAmminBean extends LibrisuiteBean
 			}
 		}
 
-//		Data creazione
+
 		if (getCurrentItem().getLstDtCrtString().trim().length()==0) {
 			getCurrentItem().setLstDtCrt(formatter.parse(formatter.format(new Date()), new ParsePosition(0)));
 		}
-//		Data aggiornamento
+
 		getCurrentItem().setPriceListDate(formatter.parse(formatter.format(new Date()), new ParsePosition(0)));
-//		Utente
+
 		UserProfile user = SessionUtils.getUserProfile(request.getSession(false));
 		getCurrentItem().setLstUser(user.getName());
 	}
 	
 	public void tag365(EditBean bean) throws DataAccessException, MarcCorrelationException, AuthorisationException, ValidationException, NewTagException
 	{
-//----> 20100813 inizio: Solo se il codice listino e' diverso da null devo scrivere il tag 365
-		
-//--->  Se almeno uno dei campi del listino base storico (esclusa la valuta) e' impostato devo scrivere il tag365
-//		if ((getCurrentItem().getLstType()!=null && getCurrentItem().getLstType().trim().length()>0) ||
-//		    (getCurrentItem().getLstNote()!=null && getCurrentItem().getLstNote().trim().length()>0) ||
-//		    (getCurrentItem().getlstPriceDtIniString()!=null) && (getCurrentItem().getlstPriceDtIniString().trim().length()>0) ||
-//		    (getCurrentItem().getlstPriceDtFinString()!=null) && (getCurrentItem().getlstPriceDtFinString().trim().length()>0) ||
-//		    (getCurrentItem().getPriceList()!=null && (Float.floatToIntBits(getCurrentItem().getPriceList().floatValue())!=0)) ){
-//			BibliographicNoteTag tag = searchTag365(bean);
-//			if (tag==null){
-//				insertTag365(bean);
-//			}else {
-//				removeTag(tag, bean);
-//				insertTag365(bean);
-//			}
-//		}
 		
 		if (getCurrentItem().getLstType()!=null && getCurrentItem().getLstType().trim().length()>0) {
 			BibliographicNoteTag tag = searchTag365(bean);
@@ -1112,12 +1073,8 @@ public class DigitalAmminBean extends LibrisuiteBean
 			}
 			setSaveRecord(true);
 		}
-//----> 20100813 fine
 	}
 
-	/**
-	 * 20101014: creazione del tag 300 se non esiste ed il range delle pagine da-a e' stato impostato
-	 */
 	public void tag300(EditBean bean) throws DataAccessException, MarcCorrelationException, AuthorisationException, ValidationException, NewTagException
 	{
 		BibliographicNoteTag t300 = (BibliographicNoteTag) bean.getCatalogItem().findFirstTagByNumber("300");
@@ -1162,13 +1119,6 @@ public class DigitalAmminBean extends LibrisuiteBean
 		return null;
 	}
 	
-//	public void removeTag(BibliographicNoteTag tag, EditBean bean) throws MarcCorrelationException, AuthorisationException, DataAccessException, ValidationException 
-//	{
-//		int i = bean.getCatalogItem().getTags().indexOf(tag);
-//		bean.setTagIndex(i);
-//		bean.deleteTag();
-//	}
-	
 	public void insertTag365(EditBean bean) throws MarcCorrelationException, NewTagException, AuthorisationException, DataAccessException, ValidationException 
 	{				
 			BibliographicNoteTag tag365 = (BibliographicNoteTag) bean.newTag(1, (short) 7);
@@ -1183,7 +1133,6 @@ public class DigitalAmminBean extends LibrisuiteBean
 				subfieldList.add("a");
 				subfields.add(getCurrentItem().getLstType());
 			}
-//--------> Deve scrivere il $b solo se impostato e diverso da zero
 			if (getCurrentItem().getPriceList()!=null) {
 				int appoPrice = Float.floatToIntBits(getCurrentItem().getPriceList().floatValue());
 				if (appoPrice!=0) {
@@ -1209,11 +1158,6 @@ public class DigitalAmminBean extends LibrisuiteBean
 			}			
 			
 			bean.changeText(new StringText(subfieldList, subfields));
-			
-//			bean.setNavigation(true);
-//			bean.sortTags(locale);
-//			bean.resetCommands();
-//			bean.saveRecord();
 	}
 	
 	public CasSapPubl getCurrentEditor() {
@@ -1250,11 +1194,10 @@ public class DigitalAmminBean extends LibrisuiteBean
 		}
 	}
 
-	public void removeTag998(EditBean bean) throws MarcCorrelationException, AuthorisationException, DataAccessException, ValidationException 
+	public void removeTag998(EditBean bean) throws AuthorisationException, DataAccessException, ValidationException
 	{
 		PublisherManager publisherManager = (PublisherManager) bean.getCatalogItem().findFirstTagByNumber("260");
 		ClassificationAccessPoint t998 = (ClassificationAccessPoint ) bean.getCatalogItem().findFirstTagByNumber("998");
-//----> Se non c'e' nussun tag260 e c'e' il tag998 lo cancello
 		if (publisherManager==null && t998!=null){
 			int i = bean.getCatalogItem().getTags().indexOf(t998);
 			bean.setTagIndex(i);
@@ -1296,7 +1239,6 @@ public class DigitalAmminBean extends LibrisuiteBean
 		//
 		
 		editBean.saveRecord();
-//----> 20100816 inizio: dopo il salvataggio intermedio deve ricaricare il record per ripulire il catalogItem (altrimenti duplicava il tag 260)		
 		BibliographicEditBean biblio = (BibliographicEditBean) editBean;
 		biblio.loadItem(editBean.getCatalogItem().getAmicusNumber().intValue(),cataloguingView);
 		biblio.sortTags(currentLocale);
@@ -1326,8 +1268,6 @@ public class DigitalAmminBean extends LibrisuiteBean
 		casalini.getCasCache().setCodeMonthlyConsignmentSecond(this.getCodeMonthlyConsignmentSecond());
 		casalini.getCasCache().setLevelCard(this.getLevelCard());
 		casalini.getCasCache().setStatusDisponibilit(this.getStatusDisponibilit());
-//		casalini.getCasCache().setWorkingCode(this.getWorkingCode());
-//		casalini.getCasCache().setNote(this.getNote());
 		casalini.getCasCache().markChanged();
 		casalini.getCasCache().getDAO().persistByStatus(casalini.getCasCache());
 	}
@@ -1345,7 +1285,6 @@ public class DigitalAmminBean extends LibrisuiteBean
 	
 	public boolean existTag856(EditBean editBean) throws PermalinkException
 	{
-		//DEVE contenere tag 856 42 $u
 		BibliographicNoteTag tag856;
 		
 		try
@@ -1371,49 +1310,7 @@ public class DigitalAmminBean extends LibrisuiteBean
 			
 		return true;
 	}
-	
-//	public boolean checkPreFilterApproval() throws DataAccessException
-//	{
-//		CasDigAdmin currentItem = this.getCurrentItem();
-//		DAOApproval dao = new DAOApproval();
-//		
-//		try
-//		{
-//			if (dao.getFilterPublisher(currentItem.getCodEditore())!=null)
-//			{
-//				return true;
-//			}
-//		} catch (RecordNotFoundException e)
-//		{
-//			//ignore exception
-//		}
-//		
-//		for (int i = 0; i < listPoliciesToInsert.size(); i++)
-//		{
-//			CasDgaPolicy casDgaPolicy  = (CasDgaPolicy)getListPoliciesToInsert().get(i);
-//			if (dao.existInPolicyFilter(casDgaPolicy.getIdPolicy()))
-//			{
-//				return true;
-//			}				
-//		}			
-//		
-//		return false;
-//		
-//	}
 
-	/**
-	 * This method associate the amicusNumber to collection digital
-	 * for FTP platform.
-	 * 
-	 * @throws DataAccessException in case of SQLException
-	 */
-//	public void associateRecordToCollectionDigital() throws DataAccessException	
-//	{		
-//		DAOCollectionCSTAccessPoint daoCollectionCustom = new DAOCollectionCSTAccessPoint();
-//		daoCollection " + System.getProperty(org.folio.cataloging.Global.SCHEMA_CUSTOMER_KEY) + ".save(bibNumber, new String[]{IGlobalConst.COLLECTION_DIGITAL_STANDARD}, new Date(), new Date());
-//	}
-	
-	@SuppressWarnings("unchecked")
 	public void copyFormToBean(DigitalAmminForm form) throws NumberFormatException
 	{
 		DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");

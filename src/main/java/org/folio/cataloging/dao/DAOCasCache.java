@@ -1,24 +1,17 @@
 package org.folio.cataloging.dao;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.List;
-
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.persistence.CasCache;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Query;
 import net.sf.hibernate.Session;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.IGlobalConst;
+import org.folio.cataloging.Global;
+import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.persistence.CasCache;
+
+import java.sql.*;
+import java.util.List;
 
 @SuppressWarnings("unchecked")
 public class DAOCasCache extends HibernateUtil 
@@ -34,7 +27,7 @@ public class DAOCasCache extends HibernateUtil
 		CasCache cache2;
 		if (loadCasCache(bibNumber).size() == 0) {
 			cache.setBibItemNumber(bibNumber);
-			cache.setLevelCard(cache.getLevelCard()==null?IGlobalConst.DEFAULT_LEVEL_CARD:cache.getLevelCard());
+			cache.setLevelCard(cache.getLevelCard()==null?Global.DEFAULT_LEVEL_CARD:cache.getLevelCard());
 			cache.setNtrLevel(cache.getNtrLevel()==null?"001":cache.getNtrLevel());
 			cache.setMdrFgl(cache.getMdrFgl()==null?"001":cache.getMdrFgl());
 //			cache.setWorkingCode(cache.getWorkingCode()==null?IGlobalConst.DEFAULT_WORKING_CODE:cache.getWorkingCode());
@@ -86,7 +79,7 @@ public class DAOCasCache extends HibernateUtil
 		} else {
 			cache2 = (CasCache) loadCasCache(bibNumber).get(0);		
 			cache2.setBibItemNumber(cache.getBibItemNumber());
-			cache2.setLevelCard(cache.getLevelCard()==null?IGlobalConst.DEFAULT_LEVEL_CARD:cache.getLevelCard());
+			cache2.setLevelCard(cache.getLevelCard()==null?Global.DEFAULT_LEVEL_CARD:cache.getLevelCard());
 			cache2.setNtrLevel(cache.getNtrLevel()==null?"001":cache.getNtrLevel());
 			cache2.setMdrFgl(cache.getMdrFgl()==null?"001":cache.getMdrFgl());
 //			cache2.setWorkingCode(cache.getWorkingCode()==null?IGlobalConst.DEFAULT_WORKING_CODE:cache.getWorkingCode());
@@ -183,7 +176,7 @@ public class DAOCasCache extends HibernateUtil
 			cas.setOnlineCheck("S".equalsIgnoreCase(cas.getOnlineCheck())?"S":"N");
 			cas.setPrintFourCover("S".equalsIgnoreCase(cas.getPrintFourCover())?"S":"N");
 			cas.setMdrFgl(cas.getMdrFgl()==null?"001":cas.getMdrFgl());
-			cas.setLevelCard(cas.getLevelCard()==null?IGlobalConst.DEFAULT_LEVEL_CARD:cas.getLevelCard());
+			cas.setLevelCard(cas.getLevelCard()==null? Global.DEFAULT_LEVEL_CARD:cas.getLevelCard());
 			cas.setNtrLevel(cas.getNtrLevel()==null?"001":cas.getNtrLevel());
 //			cas.setWorkingCode(cas.getWorkingCode()==null?IGlobalConst.DEFAULT_WORKING_CODE:cas.getWorkingCode());
 			cas.setStatusDisponibilit(cas.getStatusDisponibilit()==null?new Integer(99):cas.getStatusDisponibilit());

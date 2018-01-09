@@ -4,7 +4,7 @@ import net.sf.hibernate.JDBCException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.validator.routines.ISBNValidator;
-import org.folio.cataloging.IGlobalConst;
+import org.folio.cataloging.Global;
 import org.folio.cataloging.action.cataloguing.bibliographic.SaveTagException;
 import org.folio.cataloging.bean.cas.CasaliniCodeListsBean;
 import org.folio.cataloging.bean.cas.CasaliniContextBean;
@@ -5214,7 +5214,7 @@ public class BibliographicEditBean extends EditBean {
 		getCasaliniBean()
 				.getCasCache()
 				.setLevelCard(
-						getCasaliniBean().getCasCache().getLevelCard() == null ? IGlobalConst.DEFAULT_LEVEL_CARD
+						getCasaliniBean().getCasCache().getLevelCard() == null ? Global.DEFAULT_LEVEL_CARD
 								: getCasaliniBean().getCasCache()
 										.getLevelCard());
 		getCasaliniBean().getCasCache().setNtrLevel(
@@ -5223,7 +5223,6 @@ public class BibliographicEditBean extends EditBean {
 		getCasaliniBean().getCasCache().setMdrFgl(
 				getCasaliniBean().getCasCache().getMdrFgl() == null ? "001"
 						: getCasaliniBean().getCasCache().getMdrFgl());
-		// getCasaliniBean().getCasCache().setWorkingCode(getCasaliniBean().getCasCache().getWorkingCode()==null?IGlobalConst.DEFAULT_WORKING_CODE:getCasaliniBean().getCasCache().getWorkingCode());
 		getCasaliniBean()
 				.getCasCache()
 				.setStatusDisponibilit(
@@ -5236,7 +5235,7 @@ public class BibliographicEditBean extends EditBean {
 	@Override
 	public void saveTag856(HttpServletRequest request, String result,
 			EditBean bean, String tagSave) throws DataAccessException,
-			AuthorisationException, MarcCorrelationException,
+			AuthorisationException,
 			ValidationException, RecordInUseException {
 
 		BibliographicNoteTag tag856Save;
