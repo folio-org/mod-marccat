@@ -37,10 +37,10 @@ public class AcquisitionTypesAPI implements AcquisitionTypesResource{
     };
 
     @Override
-    public void getAcquisitionTypes(String lang,
-                                    Map<String, String> okapiHeaders,
-                                    Handler<AsyncResult<Response>> asyncResultHandler,
-                                    Context vertxContext) throws Exception {
+    public void getAcquisitionTypes(final String lang,
+                                    final Map<String, String> okapiHeaders,
+                                    final Handler<AsyncResult<Response>> asyncResultHandler,
+                                    final Context vertxContext) throws Exception {
         doGet((storageService, future) -> {
             try {
                 final AcquisitionTypeCollection container = new AcquisitionTypeCollection();
