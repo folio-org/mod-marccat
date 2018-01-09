@@ -101,6 +101,25 @@ public class StorageService implements Closeable {
         return dao.getList(session, T_VRFTN_LVL.class, locale(lang));
     }
 
+    /**
+     * Returns the shelf list types associated to the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the shelf list types associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getShelfListTypes(final String lang) {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_SHLF_LIST_TYP.class, locale(lang));
+    }
+
+    /**
+     * Returns the authority sources associated to the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the suthority sources associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
     public List<Avp<String>> getAuthoritySources(final String lang) throws DataAccessException {
         final DAOCodeTable dao = new DAOCodeTable();
         return dao.getList(session, T_AUT_HDG_SRC.class, locale(lang));
@@ -184,5 +203,6 @@ public class StorageService implements Closeable {
             throw new IOException(exception);
         }
     }
+
 
 }
