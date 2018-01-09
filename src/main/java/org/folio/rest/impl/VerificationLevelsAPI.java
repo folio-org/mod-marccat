@@ -17,6 +17,13 @@ import java.util.function.Function;
 import static java.util.stream.Collectors.toList;
 import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
+/**
+ * Verification Levels RESTful APIs.
+ *
+ * @author natasciab
+ * @since 1.0
+ */
+
 public class VerificationLevelsAPI implements VerificationLevelsResource {
 
     protected final Log logger = new Log(VerificationLevelsAPI.class);
