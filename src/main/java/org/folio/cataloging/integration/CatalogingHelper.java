@@ -6,12 +6,10 @@ import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.ext.jdbc.JDBCClient;
 import io.vertx.ext.sql.SQLClient;
-import net.sf.hibernate.Session;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.cataloging.log.PublicMessageCatalog;
 import org.folio.rest.client.ConfigurationsClient;
-// import org.folio.rest.jaxrs.model.LogicalViewCollection;
 import org.folio.rest.tools.utils.TenantTool;
 
 import javax.ws.rs.core.Response;
@@ -21,6 +19,8 @@ import java.util.Map;
 
 import static org.folio.cataloging.F.datasourceConfiguration;
 import static org.folio.cataloging.Global.HCONFIGURATION;
+
+// import org.folio.rest.jaxrs.model.LogicalViewCollection;
 
 /**
  * Helper functions used within the cataloging module.
@@ -71,7 +71,7 @@ public abstract class CatalogingHelper {
                                             Future.succeededFuture(
                                                     internalServerError(
                                                             PublicMessageCatalog.INTERNAL_SERVER_ERROR)));
-                                } catch (final Exception exception) {
+                                } catch (final Throwable exception) {
                                     LOGGER.error(MessageCatalog._00011_NWS_FAILURE, exception);
                                     asyncResultHandler.handle(
                                             Future.succeededFuture(

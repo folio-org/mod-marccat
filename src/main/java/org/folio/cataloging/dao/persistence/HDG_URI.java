@@ -116,12 +116,12 @@ public class HDG_URI implements Persistence
 		
 	public String getCreationDateString() 
 	{
-		return (creationDate != null? Global.formatter.format(creationDate):"");
+		return (creationDate != null? Global.FORMATTERS.get().format(creationDate):"");
 	}
 	
 	public String getLastUpdateDateString() 
 	{
-		return (lastUpdateDate != null?Global.formatter.format(lastUpdateDate):"");
+		return (lastUpdateDate != null? Global.FORMATTERS.get().format(lastUpdateDate):"");
 	}
 
 	private PersistenceState persistenceState = new PersistenceState();
