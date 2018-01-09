@@ -2,9 +2,7 @@ package org.folio.cataloging;
 
 import net.sf.hibernate.cfg.Configuration;
 import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.business.common.Defaults;
 
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
@@ -42,10 +40,18 @@ public abstract class Global  {
 		}
 	}
 
+	public static ThreadLocal<SimpleDateFormat> FORMATTERS = new ThreadLocal() {
+		@Override
+		protected SimpleDateFormat initialValue() {
+			final SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+			formatter.setLenient(false);
+			return formatter;
+		}
+	};
+
 	public final static String COLLECTION_DIGITAL_STANDARD = "70";
 	public final static String WORKING_CODE_FOR_APPROVAL = "000,005,009,";
 	public final static String AVAILABILITY_STATUS_CODE_FOR_APPROVAL = "0,9,";
-	public final boolean approvalEnabled =  Defaults.getBoolean("customer.casalini.approval", false);
 	public final static String NOT_APPLICABLE = "NA";
 	public final static String COMMA_DELIMITER = ",";
 	public final static String SEMICOLON_DELIMITER = ";";
@@ -116,7 +122,7 @@ public abstract class Global  {
 	public final static int MAX_LENGHT_FOR_TAG045_SUBFIELD_A = 192;
 	public final static int MAX_LENGHT_FOR_RULE_YEARS_LIST = 4000;
 
-	public final static String DEFAULT_CUSTOMER_COLLECTION = Defaults.getString("default.customer.collection", "");
+	//public final static String DEFAULT_CUSTOMER_COLLECTION = Defaults.getString("default.customer.collection", "");
 
 	public final static String DEFAULT_TYPOLOGY_FOR_CUSTOMER_COLLECTION = "PDC";
 	public final static String DEFAULT_TYPOLOGY_FOR_MASTER_COLLECTION = "PDM";
@@ -141,11 +147,7 @@ public abstract class Global  {
 		}
 	};
 
-	public final static DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-
 	public final static Avp URI_SOURCE_LOCAL = new Avp("0","Local");
-	public final static String DEFAULT_URI_CLIENT = Defaults.getString("uri.client", "N/A client");
-
 	public final static String URI_LOCAL_HTTP = "http://";
 
 	public final static Map<String,String> headingDescriptionTextMap = new HashMap<String, String>(){
@@ -158,10 +160,5 @@ public abstract class Global  {
 		}
 	};
 
-	/* Fonti LC_NAF, LCSH, ISNI, VIAF, FAST abilitate alla ricerca delle forme varianti */
 	public final static List<Integer> sourcesEnabledToAlternativeLabelsSearch  =  new ArrayList<Integer>(Arrays.asList(1,2,4,5,6));
-
-	public final static String RDF_SERVICE = Defaults.getString("url.rdf.service");
-
-	public final static int ROW_FOR_PAGE = 9;
 }
