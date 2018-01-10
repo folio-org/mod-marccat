@@ -14,7 +14,7 @@ import java.io.Serializable;
  * @version $Revision: 1.1 $, $Date: 2005/07/14 13:32:57 $
  * @since 1.0
  */
-public class T_ITM_DSPLY implements Serializable {
+public class T_ITM_DSPLY extends T_SINGLE_INT implements Serializable {
 	private short code = 2;
 	private String frmt = "Full";
 	private boolean labelled = false;
@@ -32,7 +32,7 @@ public class T_ITM_DSPLY implements Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public short getCode() {
@@ -40,7 +40,7 @@ public class T_ITM_DSPLY implements Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public String getFrmt() {
@@ -50,13 +50,13 @@ public class T_ITM_DSPLY implements Serializable {
 	public boolean isFull() {
 		return getFrmt().equals("Full");
 	}
-	
+
 	public boolean isBrief() {
 		return !isFull();
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean isLabelled() {
@@ -66,17 +66,18 @@ public class T_ITM_DSPLY implements Serializable {
 	public boolean isMarc() {
 		return !isLabelled();
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setCode(short s) {
 		code = s;
 	}
 
+	
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setFrmt(String string) {
@@ -84,7 +85,7 @@ public class T_ITM_DSPLY implements Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setLabelled(boolean b) {
