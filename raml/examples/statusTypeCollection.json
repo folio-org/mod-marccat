@@ -1,0 +1,28 @@
+{
+  "statusTypes": [
+    {
+      "code": "@",
+      "description": "Not specified"
+    },
+    {
+      "code": "2",
+      "description": "Accessioned"
+    },
+    {
+      "code": "3",
+      "description": "Catalogued"
+    },
+    {
+      "code": "4",
+      "description": "On order"
+    },
+    {
+      "code": "5",
+      "description": "In process"
+    },
+    {
+      "code": "6",
+      "description": "Lost"
+    }
+  ]
+}

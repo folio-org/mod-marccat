@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "statusTypes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "$ref": "statusType"
+      }
+    }
+  },
+  "required": [
+    "statusTypes",
+    "total_records"
+  ]
+}
