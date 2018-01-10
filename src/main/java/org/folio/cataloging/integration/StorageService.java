@@ -174,6 +174,18 @@ public class StorageService implements Closeable {
     }
 
     /**
+     * Returns the material types associated to the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the material type associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getMaterialTypes(final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_MTRL_TYP .class, locale(lang));
+    }
+
+    /**
      * Returns a list of all categories belonging to the requested type.
      *
      * @param type the index type, used here as a filter criterion.
