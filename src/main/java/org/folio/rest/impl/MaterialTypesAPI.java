@@ -19,9 +19,9 @@ import static java.util.stream.Collectors.toList;
 import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
 /**
- * ShelfList type RESTful APIs.
+ * Material type RESTful APIs.
  *
- * @author natasciab
+ * @author carment
  * @since 1.0
  */
 
