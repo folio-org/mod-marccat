@@ -1,0 +1,20 @@
+{
+  "recordDisplayFormats": [
+    {
+      "code": 1,
+      "description": "Full Labelled"
+    },
+    {
+      "code": 2,
+      "description": "Full Marc"
+    },
+    {
+      "code": 3,
+      "description": "Brief Labelled"
+    },
+    {
+      "code": 4,
+      "description": "Brief Marc"
+    }
+  ]
+}

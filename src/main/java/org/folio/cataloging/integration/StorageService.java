@@ -90,6 +90,18 @@ public class StorageService implements Closeable {
     }
 
     /**
+     * Returns the record display format associated with the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the record display format associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getRecordDisplayFormats(final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, RecordItemDisplay.class, locale(lang));
+    }
+
+    /**
      * Returns the verification levels associated to the given language.
      *
      * @param lang the language code, used here as a filter criterion.
@@ -123,6 +135,18 @@ public class StorageService implements Closeable {
     public List<Avp<String>> getStatusTypes(final String lang) {
         final DAOCodeTable dao = new DAOCodeTable();
         return dao.getList(session, T_HLDG_STUS_TYP.class, locale(lang));
+    }
+
+    /**
+     * Returns the series treatment types associated to the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the series treatment types associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getSeriesTreatmentTypes(String lang) {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_HLDG_SRS_TRMT.class, locale(lang));
     }
 
     /**
@@ -227,6 +251,5 @@ public class StorageService implements Closeable {
             throw new IOException(exception);
         }
     }
-
 
 }

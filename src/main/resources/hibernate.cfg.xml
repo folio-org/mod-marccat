@@ -181,5 +181,6 @@
 		<mapping resource="org/folio/cataloging/dao/persistence/T_AUT_HDG_SRC.hbm.xml"/>
 		<mapping resource="org/folio/cataloging/dao/persistence/T_CURCY_TYP.hbm.xml"/>
 		<mapping resource="org/folio/cataloging/dao/persistence/T_MTRL_TYP.hbm.xml"/>
-	</session-factory>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_ITM_DSPLY.hbm.xml"/>
+  </session-factory>
 </hibernate-configuration>
