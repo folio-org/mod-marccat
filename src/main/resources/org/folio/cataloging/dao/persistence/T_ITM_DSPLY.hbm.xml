@@ -2,9 +2,12 @@
 <!DOCTYPE hibernate-mapping PUBLIC
     "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
-    
-<hibernate-mapping package="org.folio.cataloging.dao.persistence">
-<class name="T_ITM_DSPLY" table="T_ITM_DSPLY"  schema="olisuite"  mutable="false">
+
+<hibernate-mapping>
+    <class
+            name="org.folio.cataloging.dao.persistence.RecordItemDisplay"
+            schema="olisuite"
+            table="T_ITM_DSPLY">
     <composite-id>
         <key-property name="code"  column="TBL_VLU_CDE"/>
         <key-property name="language" column="LANGID" />

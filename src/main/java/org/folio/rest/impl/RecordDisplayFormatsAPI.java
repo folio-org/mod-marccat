@@ -32,7 +32,7 @@ public class RecordDisplayFormatsAPI implements RecordDisplayFormatsResource{
 
     private Function<Avp<String>, RecordDisplayFormat> toRecordDisplayFormat = source -> {
         final RecordDisplayFormat recordDisplayFormat = new RecordDisplayFormat();
-        recordDisplayFormat.setCode(source.getValue());
+        recordDisplayFormat.setCode(Integer.parseInt(source.getValue()));
         recordDisplayFormat.setDescription(source.getLabel());
         return recordDisplayFormat;
     };

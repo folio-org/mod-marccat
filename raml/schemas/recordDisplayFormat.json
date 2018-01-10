@@ -4,7 +4,7 @@
   "type": "object",
   "properties": {
     "code": {
-      "type": "string"
+      "type": "integer"
     },
     "description": {
       "type": "string"
