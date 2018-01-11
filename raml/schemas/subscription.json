@@ -1,0 +1,14 @@
+{
+  "$schema" : "http://json-schema.org/draft-04/schema#",
+  "title": "Subscription Schema",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

@@ -59,7 +59,7 @@ public class CurrenciesAPI implements CurrenciesResource {
 
     @Override
     public void postCurrencies(String lang, Currency entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
-
+        throw new IllegalArgumentException();
     }
 
 

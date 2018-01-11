@@ -90,6 +90,19 @@ public class StorageService implements Closeable {
     }
 
     /**
+     * Returns the subscription associated with the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the subscription associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getSubscriptions(final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_HLDG_SBCPT_STUS.class, locale(lang));
+    }
+
+
+    /**
      * Returns the record display format associated with the given language.
      *
      * @param lang the language code, used here as a filter criterion.

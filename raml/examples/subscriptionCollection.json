@@ -1,0 +1,20 @@
+{
+  "subscriptions": [
+    {
+      "code": "",
+      "description": "Not applicable"
+    },
+    {
+      "code": "0",
+      "description": "Currently received"
+    },
+    {
+      "code": "1",
+      "description": "Not currently received"
+    },
+    {
+      "code": "2",
+      "description": "Uncertain"
+    }
+  ]
+}
