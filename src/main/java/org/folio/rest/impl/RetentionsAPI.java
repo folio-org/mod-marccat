@@ -33,7 +33,6 @@ public class RetentionsAPI implements RetentionsResource {
 
     private Function<Avp<String>, Retention> toRetention = source -> {
         final Retention retention = new Retention();
-        //TODO: handle type Integer for value element or null value in Integer.parseInt
         retention.setCode(Integer.parseInt(source.getValue()));
         retention.setDescription(source.getLabel());
         return retention;
