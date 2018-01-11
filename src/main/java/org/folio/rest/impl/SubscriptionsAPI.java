@@ -60,6 +60,6 @@ public class SubscriptionsAPI implements SubscriptionsResource {
 
     @Override
     public void postSubscriptions (String lang, Subscription entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
-
+        throw new IllegalArgumentException();
     }
 }
