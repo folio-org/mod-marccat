@@ -6,6 +6,9 @@ import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.ext.jdbc.JDBCClient;
 import io.vertx.ext.sql.SQLClient;
+import org.apache.http.HttpHeaders;
+import org.apache.http.HttpStatus;
+import org.apache.http.entity.ContentType;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.cataloging.log.PublicMessageCatalog;
@@ -16,11 +19,13 @@ import javax.ws.rs.core.Response;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Map;
+import java.util.Optional;
+import java.util.function.BooleanSupplier;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 import static org.folio.cataloging.F.datasourceConfiguration;
 import static org.folio.cataloging.Global.HCONFIGURATION;
-
-// import org.folio.rest.jaxrs.model.LogicalViewCollection;
 
 /**
  * Helper functions used within the cataloging module.
@@ -31,10 +36,10 @@ import static org.folio.cataloging.Global.HCONFIGURATION;
  * @since 1.0
  */
 public abstract class CatalogingHelper {
-    protected final static Log LOGGER = new Log(CatalogingHelper.class);
+    private final static Log LOGGER = new Log(CatalogingHelper.class);
 
     /**
-     * Provides a unified approach (within the cataloging module) for wrapping an existing blocking flow.
+     * Executes a GET request.
      *
      * @param adapter the bridge that carries on the existing logic.
      * @param asyncResultHandler the response handler.
@@ -47,16 +52,66 @@ public abstract class CatalogingHelper {
             final Handler<AsyncResult<Response>> asyncResultHandler,
             final Map<String, String> okapiHeaders,
             final Context ctx) throws Exception {
+        exec(adapter, asyncResultHandler, okapiHeaders, ctx, execution ->
+            Response
+                .status(HttpStatus.SC_OK)
+                .header(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.toString())
+                .entity(execution.result())
+                .build());
+    }
+
+    interface Valid<T> {
+        Optional<T> validate(Function<T, Optional<T>> validator);
+    }
+
+    /**
+     * Executes a PUT request.
+     *
+     * @param adapter the bridge that carries on the existing logic.
+     * @param asyncResultHandler the response handler.
+     * @param okapiHeaders the incoming Okapi headers
+     * @param ctx the vertx context.
+     * @param validator a validator function for the entity associated with this resource.
+     * @throws Exception in case of failure.
+     */
+    public static void doPut(
+            final PieceOfExistingLogicAdapter adapter,
+            final Handler<AsyncResult<Response>> asyncResultHandler,
+            final Map<String, String> okapiHeaders,
+            final Context ctx,
+            final BooleanSupplier validator) throws Exception {
+        if (validator.getAsBoolean()) {
+            exec(adapter, asyncResultHandler, okapiHeaders, ctx, execution -> Response.status(HttpStatus.SC_NO_CONTENT).build());
+        } else {
+            asyncResultHandler.handle(Future.succeededFuture(Response.status(HttpStatus.SC_BAD_REQUEST).build()));
+        }
+    }
+
+    /**
+     * Provides a unified approach (within the cataloging module) for wrapping an existing blocking flow.
+     *
+     * @param adapter the bridge that carries on the existing logic.
+     * @param resultHandler the response handler.
+     * @param okapiHeaders the incoming Okapi headers
+     * @param ctx the vertx context.
+     * @throws Exception in case of failure.
+     */
+    private static void exec(
+            final PieceOfExistingLogicAdapter adapter,
+            final Handler<AsyncResult<Response>> resultHandler,
+            final Map<String, String> okapiHeaders,
+            final Context ctx,
+            final Function<AsyncResult<Object>, Response> responseFactory) throws Exception {
         final ConfigurationsClient configuration =
                 new ConfigurationsClient(
                         System.getProperty("config.server.listen.address", "192.168.0.158"),
                         Integer.parseInt(System.getProperty("config.server.listen.port", "8085")),
                         TenantTool.tenantId(okapiHeaders));
 
-        configuration.getEntries("module==CATALOGING and configName==datasource", 0, 4, "en", response -> {
+        configuration.getEntries("module==CATALOGING and configName==datasource", 0, 4, "en", response ->
             response.bodyHandler(body -> {
                 final SQLClient client = JDBCClient.createShared(ctx.owner(), datasourceConfiguration(body));
-                client.getConnection(operation -> {
+                client.getConnection(operation ->
                     ctx.executeBlocking(
                             future -> {
                                 try (final Connection connection = operation.result().unwrap();
@@ -67,44 +122,35 @@ public abstract class CatalogingHelper {
                                     adapter.execute(service, future);
                                 } catch (final SQLException exception) {
                                     LOGGER.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-                                    asyncResultHandler.handle(
+                                    resultHandler.handle(
                                             Future.succeededFuture(
                                                     internalServerError(
                                                             PublicMessageCatalog.INTERNAL_SERVER_ERROR)));
                                 } catch (final Throwable exception) {
                                     LOGGER.error(MessageCatalog._00011_NWS_FAILURE, exception);
-                                    asyncResultHandler.handle(
+                                    resultHandler.handle(
                                             Future.succeededFuture(
                                                     internalServerError(
                                                             PublicMessageCatalog.INTERNAL_SERVER_ERROR)));
                                 }
                             },
                             false,
-                            execution -> {
-                                if (execution.succeeded()) {
-                                    asyncResultHandler.handle(
-                                            Future.succeededFuture(
-                                                    Response
-                                                            .status(200)
-                                                            .header("Content-Type", "application/json")
-                                                            .entity(execution.result())
-                                                            .build()));
-                                } else {
-                                    asyncResultHandler.handle(
-                                            Future.succeededFuture(
-                                                    internalServerError(
-                                                            PublicMessageCatalog.INTERNAL_SERVER_ERROR)));
-                                }});
-                });
-            });
-        });
+                            execution ->
+                                resultHandler.handle(
+                                        Future.succeededFuture(
+                                                execution.succeeded()
+                                                        ? responseFactory.apply(execution)
+                                                        : internalServerError(PublicMessageCatalog.INTERNAL_SERVER_ERROR)))));
+            }));
     }
 
-
-    public static Response internalServerError(final String message) {
-        return Response.status(500)
-                .header("Content-Type", "application/json")
-                .entity(message)
-                .build();
+    /**
+     * Generates a 500 (Internal Server Error) HTTP response.
+     *
+     * @param message the explanation message.
+     * @return a 500 (Internal Server Error) HTTP response.
+     */
+    private static Response internalServerError(final String message) {
+        return Response.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).entity(message).build();
     }
 }
