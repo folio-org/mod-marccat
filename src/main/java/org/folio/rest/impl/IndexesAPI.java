@@ -9,7 +9,7 @@ import org.folio.cataloging.log.MessageCatalog;
 import org.folio.rest.jaxrs.model.Constraint;
 import org.folio.rest.jaxrs.model.Index;
 import org.folio.rest.jaxrs.model.IndexCollection;
-import org.folio.rest.jaxrs.resource.IndexesResource;
+import org.folio.rest.jaxrs.resource.CatalogingIndexesResource;
 
 import javax.ws.rs.core.Response;
 import java.util.Map;
@@ -24,7 +24,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
  * @author carment
  * @since 1.0
  */
-public class IndexesAPI implements IndexesResource {
+public class IndexesAPI implements CatalogingIndexesResource {
 
     protected final Log logger = new Log(IndexesAPI.class);
 
@@ -44,7 +44,7 @@ public class IndexesAPI implements IndexesResource {
 
 
     @Override
-    public void getIndexesByCode(
+    public void getCatalogingIndexesByCode(
             final String code,
             final String lang,
             final Map<String, String> okapiHeaders,
@@ -69,8 +69,8 @@ public class IndexesAPI implements IndexesResource {
     }
 
     @Override
-    public void getIndexes(
-            final IndexesResource.CategoryType categoryType,
+    public void getCatalogingIndexes(
+            final CatalogingIndexesResource.CategoryType categoryType,
             final int categoryCode,
             final String lang,
             final Map<String,String>okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler,
@@ -92,17 +92,17 @@ public class IndexesAPI implements IndexesResource {
 }
 
     @Override
-    public void postIndexes(String lang, Index entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
+    public void postCatalogingIndexes(String lang, Index entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
         throw new IllegalArgumentException();
     }
 
     @Override
-    public void deleteIndexesByCode(String code, String lang, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
+    public void deleteCatalogingIndexesByCode(String code, String lang, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
         throw new IllegalArgumentException();
     }
 
     @Override
-    public void putIndexesByCode(String code, String lang, Index entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
+    public void putCatalogingIndexesByCode(String code, String lang, Index entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
         throw new IllegalArgumentException();
     }
 }

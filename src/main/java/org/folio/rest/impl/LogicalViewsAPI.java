@@ -8,7 +8,7 @@ import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.rest.jaxrs.model.LogicalViewCollection;
 import org.folio.rest.jaxrs.model.View;
-import org.folio.rest.jaxrs.resource.LogicalViewsResource;
+import org.folio.rest.jaxrs.resource.CatalogingLogicalViewsResource;
 
 import javax.ws.rs.core.Response;
 import java.util.Map;
@@ -23,7 +23,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
  * @author agazzarini
  * @since 1.0
  */
-public class LogicalViewsAPI implements LogicalViewsResource {
+public class LogicalViewsAPI implements CatalogingLogicalViewsResource {
     protected final Log logger = new Log(LogicalViewsAPI.class);
 
     // This is the adapter that converts existing value objects (logical views in this case)
@@ -36,7 +36,7 @@ public class LogicalViewsAPI implements LogicalViewsResource {
     };
 
     @Override
-    public void getLogicalViews(
+    public void getCatalogingLogicalViews(
             final String lang,
             final Map<String, String> okapiHeaders,
             final Handler<AsyncResult<Response>> resultHandler,
@@ -58,7 +58,7 @@ public class LogicalViewsAPI implements LogicalViewsResource {
     }
 
     @Override
-    public void postLogicalViews(String lang, View entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
+    public void postCatalogingLogicalViews(String lang, View entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
         throw new IllegalArgumentException();
     }
 }

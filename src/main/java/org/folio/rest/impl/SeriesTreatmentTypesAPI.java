@@ -8,7 +8,7 @@ import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.rest.jaxrs.model.SeriesTreatmentType;
 import org.folio.rest.jaxrs.model.SeriesTreatmentTypeCollection;
-import org.folio.rest.jaxrs.resource.SeriesTreatmentTypesResource;
+import org.folio.rest.jaxrs.resource.CatalogingSeriesTreatmentTypesResource;
 
 import javax.ws.rs.core.Response;
 import java.util.Map;
@@ -23,7 +23,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
  * @author natasciab
  * @since 1.0
  */
-public class SeriesTreatmentTypesAPI implements SeriesTreatmentTypesResource {
+public class SeriesTreatmentTypesAPI implements CatalogingSeriesTreatmentTypesResource {
 
     protected final Log logger = new Log(SeriesTreatmentTypesAPI.class);
 
@@ -35,7 +35,7 @@ public class SeriesTreatmentTypesAPI implements SeriesTreatmentTypesResource {
     };
 
     @Override
-    public void getSeriesTreatmentTypes(final String lang,
+    public void getCatalogingSeriesTreatmentTypes(final String lang,
                                         final Map<String, String> okapiHeaders,
                                         final Handler<AsyncResult<Response>> asyncResultHandler,
                                         final Context vertxContext) throws Exception {
@@ -57,7 +57,7 @@ public class SeriesTreatmentTypesAPI implements SeriesTreatmentTypesResource {
     }
 
     @Override
-    public void postSeriesTreatmentTypes(String lang, SeriesTreatmentType entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
+    public void postCatalogingSeriesTreatmentTypes(String lang, SeriesTreatmentType entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
         throw new IllegalArgumentException();
     }
 }

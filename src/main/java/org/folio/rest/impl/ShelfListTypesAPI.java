@@ -8,7 +8,7 @@ import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.rest.jaxrs.model.ShelfListType;
 import org.folio.rest.jaxrs.model.ShelfListTypeCollection;
-import org.folio.rest.jaxrs.resource.ShelfListTypesResource;
+import org.folio.rest.jaxrs.resource.CatalogingShelfListTypesResource;
 
 import javax.ws.rs.core.Response;
 import java.util.Map;
@@ -24,7 +24,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
  * @since 1.0
  */
 
-public class ShelfListTypesAPI implements ShelfListTypesResource {
+public class ShelfListTypesAPI implements CatalogingShelfListTypesResource {
 
     protected final Log logger = new Log(ShelfListTypesAPI.class);
 
@@ -36,7 +36,7 @@ public class ShelfListTypesAPI implements ShelfListTypesResource {
     };
 
     @Override
-    public void getShelfListTypes(final String lang,
+    public void getCatalogingShelfListTypes(final String lang,
                                   final Map<String, String> okapiHeaders,
                                   final Handler<AsyncResult<Response>> asyncResultHandler,
                                   final Context vertxContext) throws Exception {
@@ -57,7 +57,7 @@ public class ShelfListTypesAPI implements ShelfListTypesResource {
     }
 
     @Override
-    public void postShelfListTypes(String lang, ShelfListType entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
+    public void postCatalogingShelfListTypes(String lang, ShelfListType entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
         throw new IllegalArgumentException();
     }
 }

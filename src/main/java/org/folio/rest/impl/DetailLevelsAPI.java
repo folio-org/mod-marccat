@@ -10,7 +10,7 @@ import org.folio.rest.jaxrs.model.AcquisitionType;
 import org.folio.rest.jaxrs.model.AcquisitionTypeCollection;
 import org.folio.rest.jaxrs.model.DetailLevel;
 import org.folio.rest.jaxrs.model.DetailLevelCollection;
-import org.folio.rest.jaxrs.resource.DetailLevelsResource;
+import org.folio.rest.jaxrs.resource.CatalogingDetailLevelsResource;
 
 import javax.ws.rs.core.Response;
 import javax.xml.soap.Detail;
@@ -27,7 +27,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
  * @since 1.0
  */
 
-public class DetailLevelsAPI implements DetailLevelsResource {
+public class DetailLevelsAPI implements CatalogingDetailLevelsResource {
     protected final Log logger = new Log(DetailLevelsAPI.class);
 
     private Function<Avp<String>, DetailLevel> toDetailLevel = source -> {
@@ -38,7 +38,7 @@ public class DetailLevelsAPI implements DetailLevelsResource {
     };
 
     @Override
-    public void getDetailLevels(final String lang,
+    public void getCatalogingDetailLevels(final String lang,
                                 final Map<String, String> okapiHeaders,
                                 final Handler<AsyncResult<Response>> asyncResultHandler,
                                 final Context vertxContext) throws Exception {
@@ -60,7 +60,7 @@ public class DetailLevelsAPI implements DetailLevelsResource {
     }
 
     @Override
-    public void postDetailLevels(String lang, DetailLevel entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
+    public void postCatalogingDetailLevels(String lang, DetailLevel entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
 
     }
 }

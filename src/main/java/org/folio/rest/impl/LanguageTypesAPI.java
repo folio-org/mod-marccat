@@ -9,7 +9,7 @@ import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.rest.jaxrs.model.LanguageType;
 import org.folio.rest.jaxrs.model.LanguageTypeCollection;
-import org.folio.rest.jaxrs.resource.LanguageTypesResource;
+import org.folio.rest.jaxrs.resource.CatalogingLanguageTypesResource;
 
 import javax.ws.rs.core.Response;
 import java.util.Map;
@@ -25,7 +25,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
  * @since 1.0
  */
 
-public class LanguageTypesAPI implements LanguageTypesResource {
+public class LanguageTypesAPI implements CatalogingLanguageTypesResource {
 
     protected final Log logger = new Log(LanguageTypesAPI.class);
 
@@ -37,7 +37,7 @@ public class LanguageTypesAPI implements LanguageTypesResource {
     };
 
     @Override
-      public void getLanguageTypes(final String lang,
+      public void getCatalogingLanguageTypes(final String lang,
                                       final Map<String, String> okapiHeaders,
                                       final Handler<AsyncResult<Response>> asyncResultHandler,
                                       final Context vertxContext) throws Exception {
@@ -59,7 +59,7 @@ public class LanguageTypesAPI implements LanguageTypesResource {
 
 
     @Override
-    public void postLanguageTypes(String lang, LanguageType entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
+    public void postCatalogingLanguageTypes(String lang, LanguageType entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
         throw new IllegalArgumentException();
     }
 }

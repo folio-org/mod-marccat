@@ -8,7 +8,8 @@ import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.rest.jaxrs.model.AuthoritySource;
 import org.folio.rest.jaxrs.model.AuthoritySourceCollection;
-import org.folio.rest.jaxrs.resource.AuthoritySourcesResource;
+import org.folio.rest.jaxrs.resource.CatalogingAuthoritySourcesResource;
+import org.folio.rest.jaxrs.resource.CatalogingAuthoritySourcesResource;
 
 import javax.ws.rs.core.Response;
 import java.util.Map;
@@ -24,7 +25,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
  * @since 1.0
  */
 
-public class AuthoritySourcesAPI implements AuthoritySourcesResource {
+public class AuthoritySourcesAPI implements CatalogingAuthoritySourcesResource {
 
     protected final Log logger = new Log(AuthoritySourcesAPI.class);
 
@@ -36,7 +37,7 @@ public class AuthoritySourcesAPI implements AuthoritySourcesResource {
     };
 
     @Override
-    public void getAuthoritySources(final String lang,
+    public void getCatalogingAuthoritySources(final String lang,
                                     final Map<String, String> okapiHeaders,
                                     final Handler<AsyncResult<Response>> asyncResultHandler,
                                     final Context vertxContext) throws Exception {
@@ -59,7 +60,7 @@ public class AuthoritySourcesAPI implements AuthoritySourcesResource {
     }
 
     @Override
-    public void postAuthoritySources(final String lang,
+    public void postCatalogingAuthoritySources(final String lang,
                                      final AuthoritySource entity,
                                      final Map<String, String> okapiHeaders,
                                      final Handler<AsyncResult<Response>> asyncResultHandler,

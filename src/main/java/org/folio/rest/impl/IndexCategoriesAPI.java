@@ -8,7 +8,7 @@ import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.rest.jaxrs.model.Category;
 import org.folio.rest.jaxrs.model.IndexCategoryCollection;
-import org.folio.rest.jaxrs.resource.IndexCategoriesResource;
+import org.folio.rest.jaxrs.resource.CatalogingIndexCategoriesResource;
 
 import javax.ws.rs.core.Response;
 import java.util.Map;
@@ -23,7 +23,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
  * @author carment
  * @since 1.0
  */
-public class IndexCategoriesAPI implements IndexCategoriesResource {
+public class IndexCategoriesAPI implements CatalogingIndexCategoriesResource {
     protected final Log logger = new Log(IndexCategoriesAPI.class);
 
     // This is the convertValueLabelToCategory that converts existing value objects (logical categories in this case)
@@ -36,8 +36,8 @@ public class IndexCategoriesAPI implements IndexCategoriesResource {
 
 
     @Override
-    public void getIndexCategories(
-            final Type type,
+    public void getCatalogingIndexCategories(
+            final CatalogingIndexCategoriesResource.Type type,
             final String lang,
             final Map<String, String> okapiHeaders,
             final Handler<AsyncResult<Response>> asyncResultHandler,
@@ -59,7 +59,7 @@ public class IndexCategoriesAPI implements IndexCategoriesResource {
     }
 
     @Override
-    public void postIndexCategories(String lang, Category entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
+    public void postCatalogingIndexCategories(String lang, Category entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
       throw new IllegalArgumentException();
     }
 }

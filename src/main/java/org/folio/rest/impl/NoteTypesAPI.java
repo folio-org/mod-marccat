@@ -8,7 +8,7 @@ import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.rest.jaxrs.model.NoteType;
 import org.folio.rest.jaxrs.model.NoteTypeCollection;
-import org.folio.rest.jaxrs.resource.NoteTypesResource;
+import org.folio.rest.jaxrs.resource.CatalogingNoteTypesResource;
 
 import javax.ws.rs.core.Response;
 import java.util.Map;
@@ -24,7 +24,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
  * @since 1.0
  */
 
-public class NoteTypesAPI implements NoteTypesResource {
+public class NoteTypesAPI implements CatalogingNoteTypesResource {
     protected final Log logger = new Log(NoteTypesAPI.class);
 
     // This is the adapter that converts existing value objects (logical views in this case)
@@ -38,7 +38,7 @@ public class NoteTypesAPI implements NoteTypesResource {
     };
 
     @Override
-    public void getNoteTypes(final String lang,
+    public void getCatalogingNoteTypes(final String lang,
                              final Map<String, String> okapiHeaders,
                              final Handler<AsyncResult<Response>> asyncResultHandler,
                              final Context vertxContext) throws Exception {
@@ -59,7 +59,7 @@ public class NoteTypesAPI implements NoteTypesResource {
     }
 
     @Override
-    public void postNoteTypes(String lang, NoteType entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
+    public void postCatalogingNoteTypes(String lang, NoteType entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
         throw new IllegalArgumentException();
     }
 

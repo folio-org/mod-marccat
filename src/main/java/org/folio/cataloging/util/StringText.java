@@ -17,9 +17,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 
-@SuppressWarnings("unchecked")
-public class StringText implements Serializable 
-{
+public class StringText implements Serializable {
 	private static final long serialVersionUID = -486513419723833977L;
 	
 	private List subfieldList = new ArrayList();
@@ -27,23 +25,23 @@ public class StringText implements Serializable
 	public StringText() {
 	}
 
-	public StringText(Subfield a) {
+	public StringText(final Subfield a) {
 		this();
 		addSubfield(a);
 	}
 
-	public StringText(String stringTextString) {
+	public StringText(final String stringTextString) {
 		parse(stringTextString);
 	}
 
-	public StringText(List codes, List values) {
+	public StringText(final List<String> codes, final List<String> values) {
 		for (int i = 0; i < Math.min(codes.size(), values.size()); i++) {
 			this.subfieldList.add(
-				new Subfield((String) codes.get(i), (String) values.get(i)));
+				new Subfield(codes.get(i), values.get(i)));
 		}
 	}
 
-	public void parse(String stringTextString) {
+	public void parse(final String stringTextString) {
 		if (stringTextString != null) {
 			StringTokenizer tokenizer =
 				new StringTokenizer(

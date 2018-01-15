@@ -8,7 +8,7 @@ import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.rest.jaxrs.model.StatusType;
 import org.folio.rest.jaxrs.model.StatusTypeCollection;
-import org.folio.rest.jaxrs.resource.StatusTypesResource;
+import org.folio.rest.jaxrs.resource.CatalogingStatusTypesResource;
 
 import javax.ws.rs.core.Response;
 import java.util.Map;
@@ -23,7 +23,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
  * @author natasciab
  * @since 1.0
  */
-public class StatusTypesAPI implements StatusTypesResource {
+public class StatusTypesAPI implements CatalogingStatusTypesResource {
 
     protected final Log logger = new Log(StatusTypesAPI.class);
 
@@ -35,7 +35,7 @@ public class StatusTypesAPI implements StatusTypesResource {
     };
 
     @Override
-    public void getStatusTypes(final String lang,
+    public void getCatalogingStatusTypes(final String lang,
                                final Map<String, String> okapiHeaders,
                                final Handler<AsyncResult<Response>> asyncResultHandler,
                                final Context vertxContext) throws Exception {
@@ -56,7 +56,7 @@ public class StatusTypesAPI implements StatusTypesResource {
     }
 
     @Override
-    public void postStatusTypes(String lang, StatusType entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
+    public void postCatalogingStatusTypes(String lang, StatusType entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
         throw new IllegalArgumentException();
     }
 }

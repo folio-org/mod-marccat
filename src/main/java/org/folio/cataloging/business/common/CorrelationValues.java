@@ -1,6 +1,3 @@
-/*
- * Created on Nov 17, 2004
- */
 package org.folio.cataloging.business.common;
 
 import java.util.Arrays;
