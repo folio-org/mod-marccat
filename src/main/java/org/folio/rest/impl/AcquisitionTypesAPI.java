@@ -8,7 +8,8 @@ import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.rest.jaxrs.model.AcquisitionType;
 import org.folio.rest.jaxrs.model.AcquisitionTypeCollection;
-import org.folio.rest.jaxrs.resource.AcquisitionTypesResource;
+import org.folio.rest.jaxrs.resource.CatalogingAcquisitionTypesResource;
+import org.folio.rest.jaxrs.resource.CatalogingAcquisitionTypesResource;
 
 import javax.ws.rs.core.Response;
 import java.util.Map;
@@ -24,7 +25,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
  * @since 1.0
  */
 
-public class AcquisitionTypesAPI implements AcquisitionTypesResource{
+public class AcquisitionTypesAPI implements CatalogingAcquisitionTypesResource {
 
     protected final Log logger = new Log(AcquisitionTypesAPI.class);
 
@@ -37,7 +38,7 @@ public class AcquisitionTypesAPI implements AcquisitionTypesResource{
     };
 
     @Override
-    public void getAcquisitionTypes(final String lang,
+    public void getCatalogingAcquisitionTypes(final String lang,
                                     final Map<String, String> okapiHeaders,
                                     final Handler<AsyncResult<Response>> asyncResultHandler,
                                     final Context vertxContext) throws Exception {
@@ -59,7 +60,7 @@ public class AcquisitionTypesAPI implements AcquisitionTypesResource{
     }
 
     @Override
-    public void postAcquisitionTypes(String lang,
+    public void postCatalogingAcquisitionTypes(String lang,
                                      AcquisitionType entity,
                                      Map<String, String> okapiHeaders,
                                      Handler<AsyncResult<Response>> asyncResultHandler,

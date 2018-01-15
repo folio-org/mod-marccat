@@ -9,7 +9,7 @@ import org.folio.cataloging.log.MessageCatalog;
 
 import org.folio.rest.jaxrs.model.MaterialType;
 import org.folio.rest.jaxrs.model.MaterialTypeCollection;
-import org.folio.rest.jaxrs.resource.MaterialTypesResource;
+import org.folio.rest.jaxrs.resource.CatalogingMaterialTypesResource;
 
 import javax.ws.rs.core.Response;
 import java.util.Map;
@@ -25,7 +25,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
  * @since 1.0
  */
 
-public class MaterialTypesAPI implements MaterialTypesResource {
+public class MaterialTypesAPI implements CatalogingMaterialTypesResource {
 
     protected final Log logger = new Log(MaterialTypesAPI.class);
 
@@ -37,7 +37,7 @@ public class MaterialTypesAPI implements MaterialTypesResource {
     };
 
     @Override
-    public void getMaterialTypes(final String lang,
+    public void getCatalogingMaterialTypes(final String lang,
                                   final Map<String, String> okapiHeaders,
                                   final Handler<AsyncResult<Response>> asyncResultHandler,
                                   final Context vertxContext) throws Exception {
@@ -58,7 +58,7 @@ public class MaterialTypesAPI implements MaterialTypesResource {
     }
 
     @Override
-    public void postMaterialTypes(String lang, MaterialType entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
+    public void postCatalogingMaterialTypes(String lang, MaterialType entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
         throw new IllegalArgumentException();
     }
 }

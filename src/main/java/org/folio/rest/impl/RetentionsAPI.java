@@ -10,7 +10,7 @@ import org.folio.rest.jaxrs.model.AcquisitionType;
 import org.folio.rest.jaxrs.model.AcquisitionTypeCollection;
 import org.folio.rest.jaxrs.model.Retention;
 import org.folio.rest.jaxrs.model.RetentionCollection;
-import org.folio.rest.jaxrs.resource.RetentionsResource;
+import org.folio.rest.jaxrs.resource.CatalogingRetentionsResource;
 
 import javax.ws.rs.core.Response;
 import java.util.Map;
@@ -27,7 +27,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
  * @since 1.0
  */
 
-public class RetentionsAPI implements RetentionsResource {
+public class RetentionsAPI implements CatalogingRetentionsResource {
 
     protected final Log logger = new Log(RetentionsAPI.class);
 
@@ -39,7 +39,7 @@ public class RetentionsAPI implements RetentionsResource {
     };
 
     @Override
-    public void getRetentions(final String lang,
+    public void getCatalogingRetentions(final String lang,
                               final Map<String, String> okapiHeaders,
                               final Handler<AsyncResult<Response>> asyncResultHandler,
                               final Context vertxContext) throws Exception {
@@ -62,7 +62,7 @@ public class RetentionsAPI implements RetentionsResource {
     }
 
     @Override
-    public void postRetentions(String lang, Retention entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
+    public void postCatalogingRetentions(String lang, Retention entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
         throw new IllegalArgumentException();
     }
 }

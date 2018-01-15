@@ -8,7 +8,7 @@ import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.rest.jaxrs.model.VerificationLevel;
 import org.folio.rest.jaxrs.model.VerificationLevelCollection;
-import org.folio.rest.jaxrs.resource.VerificationLevelsResource;
+import org.folio.rest.jaxrs.resource.CatalogingVerificationLevelsResource;
 
 import javax.ws.rs.core.Response;
 import java.util.Map;
@@ -24,7 +24,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
  * @since 1.0
  */
 
-public class VerificationLevelsAPI implements VerificationLevelsResource {
+public class VerificationLevelsAPI implements CatalogingVerificationLevelsResource {
 
     protected final Log logger = new Log(VerificationLevelsAPI.class);
 
@@ -36,7 +36,7 @@ public class VerificationLevelsAPI implements VerificationLevelsResource {
     };
 
     @Override
-    public void getVerificationLevels(final String lang,
+    public void getCatalogingVerificationLevels(final String lang,
                                       final Map<String, String> okapiHeaders,
                                       final Handler<AsyncResult<Response>> asyncResultHandler,
                                       final Context vertxContext) throws Exception {
@@ -57,7 +57,7 @@ public class VerificationLevelsAPI implements VerificationLevelsResource {
     }
 
     @Override
-    public void postVerificationLevels(String lang, VerificationLevel entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
+    public void postCatalogingVerificationLevels(String lang, VerificationLevel entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
         throw new IllegalArgumentException();
     }
 }

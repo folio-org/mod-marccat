@@ -8,7 +8,7 @@ import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.rest.jaxrs.model.Currency;
 import org.folio.rest.jaxrs.model.CurrencyCollection;
-import org.folio.rest.jaxrs.resource.CurrenciesResource;
+import org.folio.rest.jaxrs.resource.CatalogingCurrenciesResource;
 
 import javax.ws.rs.core.Response;
 import java.util.Map;
@@ -24,7 +24,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
  * @since 1.0
  */
 
-public class CurrenciesAPI implements CurrenciesResource {
+public class CurrenciesAPI implements CatalogingCurrenciesResource {
     protected final Log logger = new Log(CurrenciesAPI.class);
 
 
@@ -37,7 +37,7 @@ public class CurrenciesAPI implements CurrenciesResource {
     };
 
     @Override
-    public void getCurrencies(final String lang,
+    public void getCatalogingCurrencies(final String lang,
                              final Map<String, String> okapiHeaders,
                              final Handler<AsyncResult<Response>> asyncResultHandler,
                              final Context vertxContext) throws Exception {
@@ -58,7 +58,7 @@ public class CurrenciesAPI implements CurrenciesResource {
     }
 
     @Override
-    public void postCurrencies(String lang, Currency entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
+    public void postCatalogingCurrencies(String lang, Currency entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
         throw new IllegalArgumentException();
     }
 
