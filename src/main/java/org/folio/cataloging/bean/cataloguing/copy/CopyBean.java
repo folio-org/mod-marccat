@@ -456,8 +456,6 @@ public class CopyBean extends LibrisuiteBean {
 		editingShelfList = shlf_list;
 	}
 
-	/* Bug 2292 */
-//	public void saveCopy() throws DataAccessException, EmptySubfieldException, InvalidShelfListTypeException, NoSubfieldCodeException, ValidationException, RecordInUseException
 	public void saveCopy(final Session session, final String userName) throws DataAccessException, ValidationException, RecordInUseException
 	{
 		DAOCopy dc = new DAOCopy();
@@ -520,11 +518,8 @@ public class CopyBean extends LibrisuiteBean {
 		 */
 		copy.validate();
 		copy.markChanged();
-		/* Bug 2292*/
-//		dc.saveCopy(copy, oldShelfList);
 		dc.saveCopy(session, copy, oldShelfList, userName);
 
-		// Aggiornamento Location Bug
 		DAOBibliographicCatalog dao = new DAOBibliographicCatalog();
 		dao.updateCacheTable(copy.getBibItemNumber(), cataloguingView);
 
@@ -786,9 +781,6 @@ public class CopyBean extends LibrisuiteBean {
 		bean.setLastBrowseTermSkip(getStringText().toDisplayString());
 		bean.setBrowseLinkMethod("pickShelf");
 		setCopyColumnVisible(true);
-		// bean.refresh(getStringText().toDisplayString(),
-		// SessionUtils.getCataloguingView(request),
-		// SessionUtils.getUsersMainLibrary(request));
 		bean.refresh(getStringText().toDisplayString(),
 				bean.getSearchingView(), SessionUtils
 						.getUsersMainLibrary(request));
@@ -853,18 +845,6 @@ public class CopyBean extends LibrisuiteBean {
 
 	}
 
-	/*
-	 * public void checkHeadingUsed() throws
-	 * DuplicateDescriptorException,DataAccessException{ CPY_ID copy =
-	 * getCopy(); DAOCopy dc = new DAOCopy(); int count=
-	 * dc.countShelfListAccessPoint(copy,getEditingShelfList()); if (count >1){
-	 * setDuplicateShelf(true); logger.debug("Count delle copie duplicate:
-	 * "+count+ " - Numero della collocazione da utilizzare:
-	 * "+copy.getShelfListKeyNumber()); throw new
-	 * DuplicateDescriptorException(); } logger.debug("Count delle copie
-	 * duplicate: "+count+ " - Numero della collocazione da utilizzare:
-	 * "+copy.getShelfListKeyNumber()); }
-	 */
 
 	public boolean isCopyColumnVisible() {
 		return copyColumnVisible;

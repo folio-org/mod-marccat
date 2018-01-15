@@ -33,7 +33,7 @@ public class DAOCollectionMaster extends HibernateUtil
 	}
 	private final DAOCodeTable daoCodeTable = new DAOCodeTable();
 
-	//TODO: refactoring all methods
+	//TODO: refactoring all methods (to populate MasterListElement use toMasterListElement)
 	public void persistCollectionMaster( CollectionMaster collection) throws DataAccessException 
 	{
 		CollectionMaster collection2;
@@ -253,10 +253,9 @@ public class DAOCollectionMaster extends HibernateUtil
 		return buffer.toString();
 	}
 	
-//	20110203 inizio: ordinamento lista
+
 	/**
-	 * Il metodo ordina la lista delle collection master tenendo conto 
-	 * non dei codici ma delle DESCRIZIONI di Status, Typology e Nome collection
+	 * Order by Status description or Typology description or collection Name
 	 */
 	public List sortMasterList(String orderType, String orderField, List result2) 
 	{
@@ -282,8 +281,7 @@ public class DAOCollectionMaster extends HibernateUtil
 		}
 		return result2;
 	}
-//	20110203 fine
-	
+
 	
 	public List getListMastersElement(Locale locale) throws DataAccessException 
 	{
@@ -351,11 +349,8 @@ public class DAOCollectionMaster extends HibernateUtil
 			rawMasterListElement.setCountMst(countCollectionFromRecordUses(rawMaster.getIdCollection()));*/
 			result2.add(rawMasterListElement);
 		}
-	
-//----> 20110203 inizio: visualizza le collection ordinate per descrizione nome e non per il codice numerico corrispondente al nome 
+
 		return sortMasterList(SORT_ASC_CODE, SORT_NAME_ITA_CODE, result2);
-//		return result2;		
-//----> 20110203 fine
 	}
 	
 	public List getListMastersElementByTypology(String typology,Locale locale) throws DataAccessException 
@@ -378,10 +373,8 @@ public class DAOCollectionMaster extends HibernateUtil
 			rawMasterListElement.setCountMst(countCollectionFromRecordUses(rawMaster.getIdCollection()));*/
 			result2.add(rawMasterListElement);
 		}
-//----> 20110203 inizio: visualizza le collection ordinate per descrizione nome e non per il codice numerico corrispondente al nome 
+
 		return sortMasterList(SORT_ASC_CODE, SORT_TYPOLOGY_CODE, result2);
-//		return result2;
-//----> 20110203 fine
 	}
 	
 	public List loadClientMaster(int collectionCode, String customerCode) throws DataAccessException 
@@ -438,7 +431,7 @@ public class DAOCollectionMaster extends HibernateUtil
 		return result;
 	}
 
-//	inizio
+
 	public void updateObj (CollectionMaster item) throws DataAccessException 
 	{
 		Connection connection = null;
@@ -473,7 +466,7 @@ public class DAOCollectionMaster extends HibernateUtil
 			if (item.getDateCreation()!=null)
 				stmt = connection.prepareStatement(query);
 			
-//-------->	20110131 inizio:
+
 			Date dataSqlIniVal = null;
 			Date dataSqlFinVal = null;
 			if (item.getDateIniVal()!=null){
@@ -482,7 +475,7 @@ public class DAOCollectionMaster extends HibernateUtil
 			if (item.getDateFinVal()!=null){
 				dataSqlFinVal = new Date(item.getDateFinVal().getTime());
 			}
-//-------->	20110131 fine
+
 			
 		    stmt.setInt(1, item.getNameIta());
 		    stmt.setInt(2, item.getStatusCode());
@@ -492,10 +485,10 @@ public class DAOCollectionMaster extends HibernateUtil
 		    stmt.setDate(6, dataSqlModify);
 		    stmt.setString(7, item.getUserModify());
 		    stmt.setInt(8, item.getYear());
-//--------> 20110131 inizio:
+
 		    stmt.setDate(9, dataSqlIniVal);
 		    stmt.setDate(10, dataSqlFinVal);
-//--------> 20110131 fine
+
 		    stmt.setInt(11, item.getIdCollection());
 		   
 			int row = stmt.executeUpdate();
@@ -522,14 +515,11 @@ public class DAOCollectionMaster extends HibernateUtil
 		Transaction tx = null;
 		try {
 			tx = s.beginTransaction();
-//-------->	Cancella collection master
+
 			s.delete("from CollectionMaster as i where i.idCollection =" + collectionMaster.getIdCollection());
 			
-//-------->	Cancella nome collection master eliminata
-//			deleteCollName(collectionMaster.getNameIta());			
-//			deleteCollName(nameColl);
 			s.delete("from T_CLCTN_MST_TYP as i where i.code =" + nameColl);
-//-------->	Se tutto ok COMMIT
+
 			tx.commit();
 		} catch (HibernateException e) {
 			logAndWrap(e);
@@ -647,15 +637,14 @@ public class DAOCollectionMaster extends HibernateUtil
 			else
 				rawMasterListElement.setHierarchy(false);
 			rawMasterListElement.setCountMst(countCollectionFromRecordUses(rawMaster.getIdCollection()));
-//-------->	20101014 inizio: devo memorizzare la data di associazione del record
 			rawMasterListElement.setDateAssociatedRecord(getRecordAssociatedDate(itemNumber, rawMaster.getIdCollection()));
-//-------->	20101014 fine */
+*/
 			result.add(rawMasterListElement);
 		}
 		return result;
 	}
 	
-//	20101014 inizio
+
 	public Date getRecordAssociatedDate(int itemNumber, int idCollection) throws DataAccessException 
 	{
 		Date dateCreation = null; 

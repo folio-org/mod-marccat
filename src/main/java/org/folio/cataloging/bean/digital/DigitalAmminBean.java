@@ -1461,7 +1461,7 @@ public class DigitalAmminBean extends LibrisuiteBean
 				stampsList.add(form.getPolicyStamps()[i]);
 			
 			if (form.getPageTot()!= null && form.getPageTot().trim().length()>0) {
-//				if (form.getPolicyPrice()[i]!=null && form.getPolicyPrice()[i].trim().length()>0 && "P".equalsIgnoreCase(((DigitalPoliciesBean)bean.getListPolicies().get(i)).getPolicyType())) {
+
 				if (form.getPolicyPrice()[i]!=null && form.getPolicyPrice()[i].trim().length()>0) {
 					if ("P".equalsIgnoreCase(((DigitalPoliciesBean)this.getListPolicies().get(i)).getPolicyType())) {
 						float result = Float.parseFloat(form.getPageTot()) * Float.parseFloat(form.getPolicyPrice()[i]);
@@ -1474,10 +1474,9 @@ public class DigitalAmminBean extends LibrisuiteBean
 				} else
 					priceTotList.add("");
 			}else {
-				//Carmen bug 1592: Per la politica I se non ci sono le pagine e c'e' un prezzo unitario, bisogna passargli quello
+
 				if ("I".equalsIgnoreCase(((DigitalPoliciesBean)this.getListPolicies().get(i)).getPolicyType())&& form.getPolicyPrice()[i]!=null )
 					priceTotList.add(form.getPolicyPrice()[i]);
-				//Se non ci sono pagine sia per la politica I oppure P (chiedere se servono le pagine per P)
 				else
 				   priceTotList.add(form.getPolicyTotPrice()[i]);
 			}
@@ -1513,8 +1512,6 @@ public class DigitalAmminBean extends LibrisuiteBean
 	    this.setCodeMonthlyConsignmentFirst(form.getCodeMonthlyConsignmentFirst());
 	    this.setCodeMonthlyConsignmentSecond(form.getCodeMonthlyConsignmentSecond());
 	    this.setLevelCard(form.getLevelCard());
-//	    this.setWorkingCode(form.getWorkingCode());
-//	    this.setNote(form.getNote());
 	    this.setStatusDisponibilit(Integer.valueOf(this.clearNullValueForInteger(form.getStatusDisponibilit())));
 	}
 }

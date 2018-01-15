@@ -14,7 +14,7 @@ public class PublisherListElement {
     String statusCode;
     boolean isHierarchy;
     int countPub; 
-//  20101014 inizio: data di associazione record --> se dal record associo le collezioni  
+
 	private Date dateAssociatedRecord;
      
     public String getPublCode() {

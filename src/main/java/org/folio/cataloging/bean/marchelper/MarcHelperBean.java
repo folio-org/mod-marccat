@@ -439,11 +439,9 @@ public class MarcHelperBean extends LibrisuiteBean {
 	 * @throws NoMatchException 
 	 */
 	private void beforeExitEditor(Map newValues) throws AuthorisationException, DataAccessException, NoMatchException, PunctuationParsingException {
-		// si lasciano i dati inseriti, è necessario dunque aggiornare:
-		// l'item corrente...
 		if(getEditor().isItemAvailable()) {
 			getEditor().refreshItem(newValues);
-			// ... e poi l'oggetto corrente che ne deriva...
+
 			StringText text = getEditor().getStringText();
 			//updateCurrentStringText(text);
 			if(isEditHeading()){

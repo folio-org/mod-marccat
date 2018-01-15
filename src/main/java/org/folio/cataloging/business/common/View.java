@@ -92,7 +92,7 @@ public class View {
 	}
 
 	/**
-	 * pm 2011 Builds a human readable string of view names based on the
+	 * Builds a human readable string of view names based on the
 	 * settings of the argument (e.g. 1010000000000000 --> "B1, B3"
 	 * 
 	 * @param userViewString

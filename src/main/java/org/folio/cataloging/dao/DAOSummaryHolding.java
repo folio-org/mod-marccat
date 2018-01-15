@@ -22,8 +22,7 @@ public class DAOSummaryHolding extends HibernateUtil
 			persistByStatus(aHldg);
 		}
 	}
-	
-	/* Natascia 27/06/2007: aggiunto metodo controllo num. di copie per PRN 223 */
+
 	public int countCopies(int amicusNumber, int orgNumber) throws DataAccessException 
 	{
 		List l = find("select count(*) from CPY_ID as c where c.organisationNumber = ?"
@@ -37,15 +36,12 @@ public class DAOSummaryHolding extends HibernateUtil
 			return 0;
 		}
 	}
-	
-	/* Natascia 27/06/2007: aggiunto metodo deleteRecord per PRN 223 */
+
 	public void deleteRecord(final int amicusNumber, final int orgNumber) throws DataAccessException 
 	{	
 		Session s = currentSession();	
 		try{			
-			/* numero copie = 1 perche' si tratta della copia corrente
-			*  che si sta eliminando (commit non ancora eseguito su transazione)
-			*/
+
 			if (countCopies(amicusNumber, orgNumber) == 1)
 			{
 				s.delete(
