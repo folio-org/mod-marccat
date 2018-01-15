@@ -7,19 +7,19 @@
  */
 package org.folio.cataloging.business.controller;
 
-import org.folio.cataloging.dao.DAOUserAccount;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.authorisation.AmicusAuthority;
 import org.folio.cataloging.business.authorisation.AuthorisationAgent;
 import org.folio.cataloging.business.authorisation.AuthorisationException;
 import org.folio.cataloging.business.authorisation.Permission;
-import org.folio.cataloging.dao.DAOOrganisationHierarchy;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
+import org.folio.cataloging.dao.DAOOrganisationHierarchy;
+import org.folio.cataloging.dao.DAOUserAccount;
+import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.persistence.ORG_HRCHY;
 import org.folio.cataloging.dao.persistence.T_ITM_DSPLY;
 import org.folio.cataloging.dao.persistence.USR_ACNT;
-
-import org.folio.cataloging.dao.common.HibernateUtil;
 
 /**
  * User information affecting application behaviour
@@ -35,12 +35,12 @@ public class UserProfile {
 	String startApp = Defaults.getString("starting.application");
 	private USR_ACNT aUserAccount;
     
-	public UserProfile(String name) throws DataAccessException {
+	public UserProfile(final Session session, String name) throws DataAccessException {
 		aUserAccount = new DAOUserAccount().load(name);
 		if(aUserAccount==null) {
 			throw new NullPointerException("User "+name+" not found in the database");
 		}
-		ORG_HRCHY anOrgHierarchy = new DAOOrganisationHierarchy().load(aUserAccount.getBranchLibrary());
+		ORG_HRCHY anOrgHierarchy = new DAOOrganisationHierarchy().load(session, aUserAccount.getBranchLibrary());
 		int realView = getRealUserView(aUserAccount);
 		setCataloguingView(realView);
 		

@@ -1,20 +1,18 @@
 package org.folio.cataloging.dao.persistence;
 
-import java.io.Serializable;
-import java.util.Locale;
-
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.dao.DAOCodeTable;
 import org.folio.cataloging.business.common.ChronologyConfigurationException;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
-
+import org.folio.cataloging.dao.DAOCodeTable;
 import org.folio.cataloging.dao.common.HibernateUtil;
+
+import java.io.Serializable;
+import java.util.Locale;
 
 public class SRL_PRED_PAT_DTL implements Persistence, Serializable {
 	/**
@@ -565,9 +563,9 @@ public class SRL_PRED_PAT_DTL implements Persistence, Serializable {
 		}
 	}
 
-	public String getPartTypeText(Locale locale) {
+	public String getPartTypeText(final Session session, final Locale locale) {
 		try {
-			return new DAOCodeTable().load(T_SRL_PRT_TYP.class, getPartType(),locale).getLongText();
+			return new DAOCodeTable().load(session, T_SRL_PRT_TYP.class, getPartType(), locale).getLongText();
 		} catch (DataAccessException e) {
 			return "";
 		}

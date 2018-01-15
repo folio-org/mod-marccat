@@ -268,6 +268,32 @@ public class StorageService implements Closeable {
         return searchIndexDao.getIndexDescription(session, code, locale(lang));
     }
 
+    /**
+     * Returns the frbr types associated to the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of frbr type associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getFrbrTypes(String lang) {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_FRBR.class, locale(lang));
+    }
+
+    /**
+     * Returns the description for frbr type entity.
+     *
+     * @param code the frbr code, used here as a filter criterion.
+     * @param lang the language code, used here as a filter criterion.
+     * @return the description for index code associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public String getFrbrDescriptionByCode(final String code, final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        final short s_code = Short.parseShort(code);
+        return dao.getLongText(session, s_code, T_FRBR.class, locale(lang));
+    }
+
     @Override
     public void close() throws IOException {
         try {

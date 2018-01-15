@@ -7,30 +7,23 @@
  */
 package org.folio.cataloging.business.cataloguing.common;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.MissingResourceException;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicCatalog;
-import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
 import org.folio.cataloging.business.cataloguing.bibliographic.NewTagException;
 import org.folio.cataloging.business.cataloguing.bibliographic.PersistsViaItem;
-import org.folio.cataloging.dao.DAOCodeTable;
 import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
+import org.folio.cataloging.business.controller.UserProfile;
+import org.folio.cataloging.dao.DAOCatalog;
+import org.folio.cataloging.dao.DAOCodeTable;
+import org.folio.cataloging.dao.DAOModel;
 import org.folio.cataloging.exception.RecordInUseException;
 import org.folio.cataloging.exception.ValidationException;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.dao.DAOCatalog;
-import org.folio.cataloging.dao.DAOModel;
 import org.w3c.dom.Element;
 
-import org.folio.cataloging.business.controller.UserProfile;
+import java.util.*;
 
 /**
  * @author paulm
@@ -112,7 +105,7 @@ public abstract class Catalog {
 			CorrelationValues correlationValues) throws NewTagException;
 
 	public CatalogItem getCatalogItem(Object[] key)
-			throws MarcCorrelationException, DataAccessException {
+			throws DataAccessException {
 		CatalogItem b = getCatalogDao().getCatalogItemByKey(key);
 		/* verify Marc Correlations */
 		for (int i = 0; i < b.getNumberOfTags(); i++) {
@@ -180,7 +173,7 @@ public abstract class Catalog {
 	}
 
 	public void saveCatalogItem(CatalogItem item) throws DataAccessException,
-			ValidationException, MarcCorrelationException {
+			ValidationException {
 		item.validate();
 		getCatalogDao().saveCatalogItem(item);
 	}
@@ -234,7 +227,7 @@ public abstract class Catalog {
 		return item;
 	}
 
-	public CatalogItem newCatalogItem(Object[] key) throws DataAccessException {
+	public CatalogItem newCatalogItem(final Object[] key) throws DataAccessException {
 		CatalogItem result = newCatalogItemWithoutAmicusNumber();
 		result.getItemEntity().generateNewKey();
 		return applyKeyToItem(result, key);
@@ -242,13 +235,13 @@ public abstract class Catalog {
 
 	abstract public CatalogItem applyKeyToItem(CatalogItem item, Object[] key);
 
-	public CatalogItem newCatalogItem(Model model, Object[] key)
+	public CatalogItem newCatalogItem(final Model model, final Object[] key)
 			throws DataAccessException {
 		CatalogItem item = newCatalogItem(key);
 		item.setModelItem(model);
 		return item;
 	}
-	public void lock(int itemNumber, String userName)
+	public void lock(final int itemNumber, final String userName)
 			throws DataAccessException, RecordInUseException {
 		getCatalogDao().lock(itemNumber, getLockingEntityType(), userName);
 	}

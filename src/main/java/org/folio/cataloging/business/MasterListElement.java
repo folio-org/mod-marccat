@@ -1,9 +1,9 @@
 package org.folio.cataloging.business;
 
 
-import java.sql.Date;
-
 import org.folio.cataloging.dao.persistence.CollectionMaster;
+
+import java.sql.Date;
 
 public class MasterListElement {
 	
@@ -70,7 +70,7 @@ public class MasterListElement {
 
 	public MasterListElement(CollectionMaster master) {
 		setMaster(master);
-		
+		this.idCollection = master.getIdCollection();
 	}
 
 	/**

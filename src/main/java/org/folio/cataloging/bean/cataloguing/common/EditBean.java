@@ -412,8 +412,7 @@ public abstract class EditBean extends LibrisuiteBean {
 	 * 
 	 */
 	public void changeCategory(short category) throws NewTagException,
-			AuthorisationException, DataAccessException,
-			MarcCorrelationException {
+			AuthorisationException, DataAccessException {
 		checkPermission(getCurrentTag().getRequiredEditPermission());
 		Tag t = getCatalog().getNewTag(getCatalogItem(), category);
 		checkPermission(t.getRequiredEditPermission());
@@ -427,8 +426,7 @@ public abstract class EditBean extends LibrisuiteBean {
 	 * 
 	 */
 	public void changeHeadingType(short headingType)
-			throws AuthorisationException, DataAccessException,
-			MarcCorrelationException {
+			throws AuthorisationException, DataAccessException {
 		checkPermission(getCurrentTag().getRequiredEditPermission());
 		Descriptor oldDescriptor = ((Browsable) getCurrentTag())
 				.getDescriptor();
@@ -447,8 +445,7 @@ public abstract class EditBean extends LibrisuiteBean {
 	 * 
 	 */
 	public void changeText(List codes, List subfields)
-			throws AuthorisationException, DataAccessException,
-			MarcCorrelationException {
+			throws AuthorisationException, DataAccessException {
 		changeText(new StringText(codes, subfields));
 	}
 
@@ -457,15 +454,14 @@ public abstract class EditBean extends LibrisuiteBean {
 	 * 
 	 */
 	public void changeText(StringText s) throws AuthorisationException,
-			DataAccessException, MarcCorrelationException {
+			DataAccessException {
 		Command c = new ChangeTextCommand(this, (VariableField) getCurrentTag(), s);
 		checkPermission(getCurrentTag().getRequiredEditPermission());
 		executeCommand(c);
 	}
 
 	public void changeValues(CorrelationValues v)
-			throws AuthorisationException, DataAccessException,
-			MarcCorrelationException {
+			throws AuthorisationException, DataAccessException {
 		checkPermission(getCurrentTag().getRequiredEditPermission());
 		logger.debug("about to change values for " + getCurrentTag() + " to "
 				+ v);
@@ -474,8 +470,7 @@ public abstract class EditBean extends LibrisuiteBean {
 	}
 
 	public void changeValuesIndicator(CorrelationValues v)
-			throws AuthorisationException, DataAccessException,
-			MarcCorrelationException {
+			throws AuthorisationException, DataAccessException {
 		checkPermission(getCurrentTag().getRequiredEditPermission());
 		logger.debug("about to change values for " + getCurrentTag() + " to "
 				+ v);
@@ -484,8 +479,7 @@ public abstract class EditBean extends LibrisuiteBean {
 	}
 
 	public void changeValues(int value1, int value2, int value3)
-			throws AuthorisationException, DataAccessException,
-			MarcCorrelationException {
+			throws AuthorisationException, DataAccessException {
 		changeValues(new CorrelationValues((short) value1, (short) value2,
 				(short) value3));
 	}
@@ -503,19 +497,12 @@ public abstract class EditBean extends LibrisuiteBean {
 		}
 	}
 
-	public void deleteRecord(UserProfile user) throws DataAccessException,
+	public void deleteRecord(final UserProfile user) throws DataAccessException,
 			RecordInUseException {
-		getCatalog().lock(getCatalogItem().getAmicusNumber().intValue(),
-				getUserName());
+		getCatalog().lock(getCatalogItem().getAmicusNumber().intValue(), getUserName());
 		getCatalog().deleteCatalogItem(getCatalogItem(), user);
-		// ----> 20100901 inizio: cancellazione automatica della S_CAS_CACHE
-		// ((DAOCasCache)
-		// getCasaliniBean().getCasCache().getDAO()).deleteCasCache(getCatalogItem().getAmicusNumber().intValue());
-		// ----> 20110804 inizio: bug produzione per nullPointerException
-		new DAOCasCache().deleteCasCache(getCatalogItem().getAmicusNumber()
-				.intValue());
-		// ----> 20110804 fine
-		// ----> 20100901 fine
+
+		new DAOCasCache().deleteCasCache(getCatalogItem().getAmicusNumber().intValue());
 		getCatalog().unlock(getCatalogItem().getAmicusNumber().intValue());
 	}
 
@@ -523,16 +510,14 @@ public abstract class EditBean extends LibrisuiteBean {
 	 * The current tag is to be deleted from the Item
 	 * 
 	 */
-	public void deleteTag() throws AuthorisationException, DataAccessException,
-			MarcCorrelationException {
+	public void deleteTag() throws AuthorisationException, DataAccessException {
 		checkPermission(getCurrentTag().getRequiredEditPermission());
 		Command c = new DeleteTagCommand(this);
 
 		executeCommand(c);
 	}
 
-	public void executeCommand(Command c) throws DataAccessException,
-			MarcCorrelationException {
+	public void executeCommand(Command c) throws DataAccessException {
 		c.execute();
 		while (commandList.size() > currentCommand) {
 			commandList.remove(commandList.size() - 1);
@@ -562,7 +547,7 @@ public abstract class EditBean extends LibrisuiteBean {
 	 * @throws ValidationException
 	 */
 	public abstract boolean checkTags() throws DataAccessException,
-	MarcCorrelationException, ValidationException ;
+            ValidationException ;
 
 
 
@@ -733,11 +718,11 @@ public abstract class EditBean extends LibrisuiteBean {
 	}
 
 	public abstract void loadItem(Object[] key)
-			throws MarcCorrelationException, DataAccessException,
+			throws DataAccessException,
 			RecordInUseException;
 
 	public abstract void loadItemDuplicate(Object[] key)
-			throws MarcCorrelationException, DataAccessException,
+			throws DataAccessException,
 			RecordInUseException;
 
 	/**
@@ -751,8 +736,7 @@ public abstract class EditBean extends LibrisuiteBean {
 	 * @throws MarcCorrelationException
 	 */
 	public Tag newTag(int tagIndex, short category) throws NewTagException,
-			AuthorisationException, DataAccessException,
-			MarcCorrelationException {
+			AuthorisationException, DataAccessException {
 		return newTag(tagIndex, category, null);
 	}
 
@@ -763,7 +747,7 @@ public abstract class EditBean extends LibrisuiteBean {
 	 */
 	public Tag newTag(int tagIndex, short category, CorrelationValues v)
 			throws NewTagException, AuthorisationException,
-			DataAccessException, MarcCorrelationException {
+			DataAccessException {
 		Tag t = getCatalog().getNewTag(getCatalogItem(), category, v);
 		checkPermission(t.getRequiredEditPermission());
 		Command c = new NewTagCommand(this, tagIndex, t);
@@ -774,8 +758,7 @@ public abstract class EditBean extends LibrisuiteBean {
 
 
 	public void newTagFromModel(int unusedTagIndex) throws NewTagException,
-			AuthorisationException, DataAccessException,
-			MarcCorrelationException {
+			AuthorisationException, DataAccessException {
 		Tag t = getCatalog().parseModelXmlElement(
 				getCatalogItem().getModelItem().getUnusedTagXmlFieldForAdding(
 						unusedTagIndex), getCatalogItem());
@@ -785,8 +768,7 @@ public abstract class EditBean extends LibrisuiteBean {
 		executeCommand(c);
 	}
 
-	public void redoCommand() throws DataAccessException,
-			MarcCorrelationException {
+	public void redoCommand() throws DataAccessException {
 		if (currentCommand < commandList.size()) {
 			Command c = (Command) commandList.get(currentCommand);
 			c.reExecute();
@@ -839,41 +821,34 @@ public abstract class EditBean extends LibrisuiteBean {
 	/*------------------
 	 * LABEL MANAGING
 	 *------------------*/
-	public String getShortLabel(int tagNum) throws DataAccessException,
-			MarcCorrelationException {
+	public String getShortLabel(int tagNum) throws DataAccessException {
 		return loadShortLabel(catalogItem.getTag(tagNum));
 	}
 
-	public String getUnusedShortLabel(int tagNum) throws DataAccessException,
-			MarcCorrelationException {
+	public String getUnusedShortLabel(int tagNum) throws DataAccessException {
 		return loadShortLabel((Tag) catalogItem.getModelItem()
 				.getUnusedModelTags().get(tagNum));
 	}
 
-	public String getCurrentShortLabel() throws DataAccessException, MarcCorrelationException 
-	{
+	public String getCurrentShortLabel() throws DataAccessException {
 		return loadShortLabel(getCurrentTag());
 	}
 
-	public String getLongLabel(int tagNum) throws DataAccessException, MarcCorrelationException 
-	{
+	public String getLongLabel(int tagNum) throws DataAccessException {
 //		return loadLongLabel(catalogItem.getTag(tagNum));
 		return loadShortLabelForScheda(catalogItem.getTag(tagNum));
 	}
 
-	public String getUnusedLongLabel(int tagNum) throws DataAccessException, MarcCorrelationException 
-	{
+	public String getUnusedLongLabel(int tagNum) throws DataAccessException {
 //		return loadLongLabel((Tag) catalogItem.getModelItem().getUnusedModelTags().get(tagNum));
 		return loadShortLabelForScheda((Tag) catalogItem.getModelItem().getUnusedModelTags().get(tagNum));
 	}
 
-	public String getCurrentLongLabel() throws DataAccessException,	MarcCorrelationException 
-	{
+	public String getCurrentLongLabel() throws DataAccessException {
 		return loadLongLabel(getCurrentTag());
 	}
 
-	public String getShortLabelWithoutTag(int tagNum) throws DataAccessException,	MarcCorrelationException 
-	{
+	public String getShortLabelWithoutTag(int tagNum) throws DataAccessException {
 		T_SINGLE ct = loadSelectedCodeTable(catalogItem.getTag(tagNum));
 		return  ct != null ? ct.getShortText() : "";
 	}
@@ -884,8 +859,7 @@ public abstract class EditBean extends LibrisuiteBean {
 	 * @throws DataAccessException
 	 * @throws MarcCorrelationException
 	 */
-	private String loadShortLabel(Tag processingTag) throws DataAccessException, MarcCorrelationException 
-	{
+	private String loadShortLabel(Tag processingTag) throws DataAccessException {
 		T_SINGLE ct =  loadSelectedCodeTable(processingTag);
 		String marcTag = processingTag.getMarcEncoding().getMarcTag();
 		if (ct == null) {
@@ -916,8 +890,7 @@ public abstract class EditBean extends LibrisuiteBean {
 	 * @throws DataAccessException
 	 * @throws MarcCorrelationException
 	 */
-	private String loadLongLabel(Tag processingTag) throws DataAccessException, MarcCorrelationException 
-	{
+	private String loadLongLabel(Tag processingTag) throws DataAccessException {
 		if (isLabelCached(processingTag)) {
 			return getCachedLabel(processingTag);
 		}
@@ -932,8 +905,7 @@ public abstract class EditBean extends LibrisuiteBean {
 	}
 	
 	/* Bug 4284 */
-	private String loadShortLabelForScheda(Tag processingTag) throws DataAccessException, MarcCorrelationException 
-	{
+	private String loadShortLabelForScheda(Tag processingTag) throws DataAccessException {
 		if (isLabelCached(processingTag)) {
 			return getCachedLabel(processingTag);
 		}
@@ -1004,7 +976,7 @@ public abstract class EditBean extends LibrisuiteBean {
 	 * 
 	 */
 	public void replaceCurrentTag(Tag t) throws AuthorisationException,
-			DataAccessException, MarcCorrelationException {
+			DataAccessException {
 		checkPermission(getCurrentTag().getRequiredEditPermission());
 		Command c = new ReplaceTagCommand(this, getCurrentTag(), t);
 		executeCommand(c);
@@ -1013,8 +985,8 @@ public abstract class EditBean extends LibrisuiteBean {
 		// ----> Anche per gli altri clienti deve scrivere la S_CAS_CACHE e
 		// scrivere la tabella CAS_FILES e CAS_DIG_FILES
 	public void saveRecord() throws DataAccessException,
-			AuthorisationException, MarcCorrelationException,
-			ValidationException {
+			AuthorisationException,
+            ValidationException {
 		getCatalog().getCatalogDao()
 		.setCasCache(casaliniBean.getCasCache());
 		if (casaliniBean.isEnabled()) {
@@ -1065,10 +1037,10 @@ public abstract class EditBean extends LibrisuiteBean {
 			if (tag082 != null) {
 				sequenceNumber = sequenceNumber + 1;
 				try {
-					((OrderedTag) tag082).setSequenceNumber(new Integer(
+					tag082.setSequenceNumber(new Integer(
 							sequenceNumber));
 				} catch (NumberFormatException e) {
-					((OrderedTag) tag082).setSequenceNumber(null);
+					tag082.setSequenceNumber(null);
 				}
 				tag082.markChanged();
 			}
@@ -1084,10 +1056,10 @@ public abstract class EditBean extends LibrisuiteBean {
 			if (tag084 != null) {
 				sequenceNumber = sequenceNumber + 1;
 				try {
-					((OrderedTag) tag084).setSequenceNumber(new Integer(
+					tag084.setSequenceNumber(new Integer(
 							sequenceNumber));
 				} catch (NumberFormatException e) {
-					((OrderedTag) tag084).setSequenceNumber(null);
+					tag084.setSequenceNumber(null);
 				}
 				tag084.markChanged();
 			}
@@ -1135,8 +1107,8 @@ public abstract class EditBean extends LibrisuiteBean {
 	// ----> Anche per gli altri clienti deve scrivere la S_CAS_CACHE e
 	// scrivere la tabella CAS_FILES e CAS_DIG_FILES
 public void saveAuthorityRecord() throws DataAccessException,
-		AuthorisationException, MarcCorrelationException,
-		ValidationException {
+		AuthorisationException,
+        ValidationException {
 	getCatalog().getCatalogDao()
 	.setCasCache(casaliniBean.getCasCache());
 
@@ -1238,7 +1210,7 @@ public void saveAuthorityRecord() throws DataAccessException,
 	 * @since 1.0
 	 */
 	public void setLocale(Locale locale) {
-		this.locale = locale;
+		EditBean.locale = locale;
 	}
 
 	/**
@@ -1266,8 +1238,7 @@ public void saveAuthorityRecord() throws DataAccessException,
 		thirdCorrelationList = list;
 	}
 
-	public void undoCommand() throws DataAccessException,
-			MarcCorrelationException {
+	public void undoCommand() throws DataAccessException {
 		if (currentCommand > 0) {
 			currentCommand--;
 			Command c = (Command) commandList.get(currentCommand);
@@ -1282,8 +1253,7 @@ public void saveAuthorityRecord() throws DataAccessException,
 	 * 
 	 */
 	public void updateDescriptorFromBrowse(Descriptor d)
-			throws AuthorisationException, DataAccessException,
-			MarcCorrelationException {
+			throws AuthorisationException, DataAccessException {
 		checkPermission(getCurrentTag().getRequiredEditPermission());
 		/*
 		 * Browse may return with a heading from a different view 
@@ -1300,7 +1270,7 @@ public void saveAuthorityRecord() throws DataAccessException,
 	}
 
 	public void validateCurrentTag() throws DataAccessException,
-			MarcCorrelationException, ValidationException {
+            ValidationException {
 		getCurrentTag().validate(getTagIndex());
 		getCatalogItem().checkRepeatability(getTagIndex());
 		// Natascia 4/7/2007 **prn 189
@@ -1309,7 +1279,7 @@ public void saveAuthorityRecord() throws DataAccessException,
 	}
 
 	public void validateCurrentTagHeading() throws DataAccessException,
-			MarcCorrelationException, ValidationException {
+            ValidationException {
 		getCurrentTag().validate(getTagIndex());
 		// Natascia 4/7/2007 **prn 189
 		checkParticularTag(getTagIndex());
@@ -1322,7 +1292,7 @@ public void saveAuthorityRecord() throws DataAccessException,
 	 * presenza di 100/110/111)
 	 */
 	public void checkParticularTag(int index) throws DataAccessException,
-			MarcCorrelationException, DuplicateTagException {
+            DuplicateTagException {
 		Tag t = getCatalogItem().getTag(index);
 		if (isPresentInArrTags(t.getMarcEncoding().getMarcTag())) {
 			if (!isAllowedTag(t.getMarcEncoding().getMarcTag()))
@@ -1370,8 +1340,7 @@ public void saveAuthorityRecord() throws DataAccessException,
 	 * 
 	 */
 	public void changeFixedFieldValues(FixedFieldUsingItemEntity ff)
-			throws AuthorisationException, DataAccessException,
-			MarcCorrelationException {
+			throws AuthorisationException, DataAccessException {
 		checkPermission("editHeader");
 		Command c = new ChangeFixedFieldCommand(this, ff);
 
@@ -1379,7 +1348,7 @@ public void saveAuthorityRecord() throws DataAccessException,
 	}
 
 	public void newItem(CatalogItem item, Locale locale)
-			throws DataAccessException, MarcCorrelationException {
+			throws DataAccessException {
 		setCatalogItem(item);
 		setCommandList(new ArrayList());
 		resetCommands();
@@ -1461,7 +1430,7 @@ public void saveAuthorityRecord() throws DataAccessException,
 		 */
 		Descriptor d = ((Browsable) getCurrentTag()).getDescriptor();
 		if (d instanceof TTL_HDG && !d.isNew())
-			return ((TTL_HDG) d).getSkipInFiling();
+			return d.getSkipInFiling();
 		else
 			return skipInFiling;
 	}
@@ -1636,20 +1605,15 @@ public void saveAuthorityRecord() throws DataAccessException,
 	 * TODO MIKE: riportare in MADES le implementazioni dei seguenti metodi
 	 * astratti:
 	 */
-	public abstract boolean isFixedField() throws DataAccessException,
-			MarcCorrelationException;
+	public abstract boolean isFixedField() throws DataAccessException;
 
-	public abstract boolean isAbleDeleteButton() throws DataAccessException,
-			MarcCorrelationException;
+	public abstract boolean isAbleDeleteButton() throws DataAccessException;
 
-	public abstract boolean isAbleNew991Button() throws DataAccessException,
-			MarcCorrelationException;
+	public abstract boolean isAbleNew991Button() throws DataAccessException;
 
-	public abstract boolean isAbleSubdivision99X() throws DataAccessException,
-			MarcCorrelationException;
+	public abstract boolean isAbleSubdivision99X() throws DataAccessException;
 
-	public abstract boolean isAbleDigital() throws DataAccessException,
-			MarcCorrelationException;
+	public abstract boolean isAbleDigital() throws DataAccessException;
 
 	public abstract boolean isAbleEquivalentNote();
 
@@ -1672,8 +1636,7 @@ public void saveAuthorityRecord() throws DataAccessException,
 	 * 
 	 * @author Carmen 20/11/2008
 	 */
-	public abstract boolean isSkipFiling() throws DataAccessException,
-			MarcCorrelationException;
+	public abstract boolean isSkipFiling() throws DataAccessException;
 
 	/*
 	 * no Authority
@@ -1689,8 +1652,7 @@ public void saveAuthorityRecord() throws DataAccessException,
 		this.cataloguingMode = cataloguingMode;
 	}
 
-	public void checkEmptyTags() throws SaveTagException, DataAccessException,
-			MarcCorrelationException {
+	public void checkEmptyTags() throws SaveTagException, DataAccessException {
 		Iterator itTags = getCatalogItem().getTags().iterator();
 		while (itTags.hasNext()) {
 			Tag tag = (Tag) itTags.next();
@@ -1725,7 +1687,7 @@ public void saveAuthorityRecord() throws DataAccessException,
 	 * @param tag
 	 */
 	public void changeCodeValidationISBN(Tag tag) {
-		if (((Browsable) tag) instanceof ControlNumberAccessPoint) {
+		if (tag instanceof ControlNumberAccessPoint) {
 			CNTL_NBR descr = (CNTL_NBR) ((Browsable) tag).getDescriptor();
 			if (descr.getTypeCode() == 9) {
 				ControlNumberAccessPoint tag1 = (ControlNumberAccessPoint) getCurrentTag();
@@ -1776,8 +1738,8 @@ public void saveAuthorityRecord() throws DataAccessException,
 	
 	public abstract void saveTag856(HttpServletRequest request, String result,
 			EditBean bean, String tagSave) throws DataAccessException,
-			AuthorisationException, MarcCorrelationException,
-			ValidationException, RecordInUseException;
+			AuthorisationException,
+            ValidationException, RecordInUseException;
 
 
 	public abstract void createTag982(HttpServletRequest request, Tag rootTag)
@@ -1786,7 +1748,7 @@ public void saveAuthorityRecord() throws DataAccessException,
 
 
 	public abstract void createEquivalentTag792(int amicuNumber)
-			throws MarcCorrelationException, DataAccessException,
+			throws DataAccessException,
 			RecordInUseException, NewTagException, AuthorisationException,
 			ValidationException;
 
@@ -1794,8 +1756,8 @@ public void saveAuthorityRecord() throws DataAccessException,
 			throws DataAccessException, NewTagException,
 			AuthorisationException, ValidationException;
 
-	public abstract void createTag092() throws MarcCorrelationException,
-			NewTagException, AuthorisationException, DataAccessException,
+	public abstract void createTag092() throws
+            NewTagException, AuthorisationException, DataAccessException,
 			ValidationException;
 
 	public abstract boolean isEquivalentEnabled();
@@ -1821,10 +1783,10 @@ public void saveAuthorityRecord() throws DataAccessException,
 	public abstract int getCanBeSorted(int index);
 
 	public abstract List/* <Tag> */getFilteredSubList(int index)
-			throws MarcCorrelationException, DataAccessException;
+			throws DataAccessException;
 
 	public abstract List getSubdivisionEncoding()
-			throws MarcCorrelationException, DataAccessException;
+			throws DataAccessException;
 
 	// inizio
 	public abstract List getDiacriticiList();
@@ -1880,7 +1842,7 @@ public void saveAuthorityRecord() throws DataAccessException,
 
 	public abstract void createTag097(HttpServletRequest request,
 			StringText text, String hierarchyType)
-			throws MarcCorrelationException, NewTagException,
+			throws NewTagException,
 			AuthorisationException, DataAccessException, ValidationException,
 			RecordInUseException;
 
@@ -1909,7 +1871,7 @@ public void saveAuthorityRecord() throws DataAccessException,
 			throws DataAccessException;
 
 	public abstract void aggiornaDoi(BibliographicNoteTag tag, String codiceDoi)
-			throws MarcCorrelationException, AuthorisationException,
+			throws AuthorisationException,
 			DataAccessException, ValidationException;
 
 	// Fine
@@ -2093,7 +2055,7 @@ public void saveAuthorityRecord() throws DataAccessException,
 	 * @throws DataAdminException
 	 * @throws NewTagException
 	 */
-	public void checkupdateCatLang(EditBean bean, StringText text, EditTagForm tagForm) throws MarcCorrelationException, DataAccessException, DataDigAdminException, DataAdminException, NewTagException 
+	public void checkupdateCatLang(EditBean bean, StringText text, EditTagForm tagForm) throws DataAccessException, DataDigAdminException, DataAdminException, NewTagException
 	{
 		String displayText = text.getSubfieldsWithCodes("b").getDisplayText().trim();
 
@@ -2130,7 +2092,7 @@ public void saveAuthorityRecord() throws DataAccessException,
 	 * @throws MarcCorrelationException
 	 * @throws DataAccessException
 	 */
-	private String getLanguageFromOldTag040(EditBean bean) throws MarcCorrelationException, DataAccessException 
+	private String getLanguageFromOldTag040(EditBean bean) throws DataAccessException
 	{
 		String langFromOldT040 = new String();
 
@@ -2282,13 +2244,13 @@ public void saveAuthorityRecord() throws DataAccessException,
 	public boolean isRelationshipTags() {
 		boolean present = false;
 
-		if ((BibliographicRelationshipTag) getCatalogItem()
+		if (getCatalogItem()
 				.findFirstTagByNumber("791") != null)
 			present = true;
-		else if ((BibliographicRelationshipTag) getCatalogItem()
+		else if (getCatalogItem()
 				.findFirstTagByNumber("792") != null)
 			present = true;
-		else if ((BibliographicRelationshipTag) getCatalogItem()
+		else if (getCatalogItem()
 				.findFirstTagByNumber("776") != null)
 			present = true;
 
@@ -2389,7 +2351,7 @@ public void saveAuthorityRecord() throws DataAccessException,
 	 */
 	public abstract void prepareItemForEditing(int recordView, Object[] key)
 			throws DataAccessException, AuthorisationException,
-			ValidationException, RecordInUseException, DuplicateTagException;
+			ValidationException, RecordInUseException;
 
 	public abstract boolean isElectronicResourceoOnTag008();
 
@@ -2527,7 +2489,7 @@ public void saveAuthorityRecord() throws DataAccessException,
 	}
 
 	/* Bug 4306 */
-	public boolean isAuthorTag() throws MarcCorrelationException, DataAccessException 
+	public boolean isAuthorTag() throws DataAccessException
 	{
 		boolean check = false;
 		if ("100".equalsIgnoreCase(getCurrentTag().getMarcEncoding().getMarcTag())
@@ -2563,7 +2525,7 @@ public void saveAuthorityRecord() throws DataAccessException,
 		this.frbrBrowsing = frbrBrowsing;
 	}
 	
-	public boolean isTag336_337_338() throws MarcCorrelationException, DataAccessException 
+	public boolean isTag336_337_338() throws DataAccessException
 	{
 		boolean check = false;
 		if ("336".equalsIgnoreCase(getCurrentTag().getMarcEncoding()
@@ -2639,8 +2601,8 @@ public void saveAuthorityRecord() throws DataAccessException,
 			}
 		}
 	}
-	public abstract void refreshCatalogItem() throws MarcCorrelationException,
-			DataAccessException, RecordInUseException;
+	public abstract void refreshCatalogItem() throws
+            DataAccessException, RecordInUseException;
 
 	public void onPostSaveTag(Tag rootTag) throws DataAccessException {
 		//Default implementation does nothing
@@ -2648,15 +2610,15 @@ public void saveAuthorityRecord() throws DataAccessException,
 
 	
 	public abstract void processPickedHeading(Descriptor d, String selectedIndex)
-			throws MarcCorrelationException, DuplicateDescriptorException, DataAccessException, AuthorisationException, ValidationException;
+			throws DataAccessException, AuthorisationException, ValidationException;
 
 	public void prepareItemForVisualizeCodes(int recordView, Object[] key)
 	throws DataAccessException, AuthorisationException,
-	ValidationException, RecordInUseException, DuplicateTagException {}
+	ValidationException, RecordInUseException {}
 		
 	public abstract void updateCasCacheBeforeSaveRecord() throws DataAccessException;
 	
-	public abstract void isISBNValid(Descriptor descr) throws DataAccessException, MarcCorrelationException, InvalidDescriptorException; 
+	public abstract void isISBNValid(Descriptor descr) throws DataAccessException, InvalidDescriptorException;
 	
 	public abstract List getNoteGroup();
 	
@@ -2668,11 +2630,11 @@ public void saveAuthorityRecord() throws DataAccessException,
 	 * @throws MarcCorrelationException
 	 * @throws ValidationException
 	 */
-	public void saveHeadingAndTag(Tag currentTag, ConfigHandler handler) throws DataAccessException, MarcCorrelationException, ValidationException 
+	public void saveHeadingAndTag(Tag currentTag, ConfigHandler handler) throws DataAccessException, ValidationException
 	 {
 		short saveTag = 0;
 		String marcTag = currentTag.getMarcEncoding().getMarcTag();
-		short category = (short)currentTag.getCategory();
+		short category = currentTag.getCategory();
 		if(handler.getValue("save_tag") != null)
 		   saveTag = Short.parseShort(handler.getValue("save_tag"));
 		if (saveTag == 1 && isTagsNotExcluded(marcTag) && category!=2 ) {
@@ -2726,7 +2688,7 @@ public void saveAuthorityRecord() throws DataAccessException,
 		return list;
 	}
 	
-	public abstract void loadItemWithoutLock(Object[] key)throws MarcCorrelationException,DataAccessException,RecordInUseException;
+	public abstract void loadItemWithoutLock(Object[] key)throws DataAccessException,RecordInUseException;
 	
 	/**
 	 * Bug 3900: il metodo prende il Locale relativo al tag040 $b, se non esiste o e' diverso da ita/eng prende quello del logim

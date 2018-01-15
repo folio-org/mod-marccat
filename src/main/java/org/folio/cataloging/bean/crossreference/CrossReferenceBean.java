@@ -1,35 +1,26 @@
 package org.folio.cataloging.bean.crossreference;
 
+import org.folio.cataloging.bean.LibrisuiteBean;
+import org.folio.cataloging.bean.cataloguing.bibliographic.codelist.CodeListsBean;
+import org.folio.cataloging.business.codetable.CodeTableTranslationLanguage;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.DeleteCrossReferenceException;
+import org.folio.cataloging.business.common.View;
+import org.folio.cataloging.business.controller.SessionUtils;
+import org.folio.cataloging.business.crossreference.CrossReferenceSummaryElement;
+import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.DAOCodeTable;
+import org.folio.cataloging.dao.DAODescriptor;
+import org.folio.cataloging.dao.persistence.*;
+import org.folio.cataloging.exception.IncompatibleCrossReferenceHeadingsException;
+import org.folio.cataloging.exception.NoHeadingSetException;
+import org.folio.cataloging.util.StringText;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.folio.cataloging.bean.LibrisuiteBean;
-import org.folio.cataloging.bean.cataloguing.bibliographic.codelist.CodeListsBean;
-import org.folio.cataloging.business.codetable.CodeTableTranslationLanguage;
-import org.folio.cataloging.dao.DAOCodeTable;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.DeleteCrossReferenceException;
-import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.business.crossreference.CrossReferenceSummaryElement;
-import org.folio.cataloging.dao.DAODescriptor;
-import org.folio.cataloging.business.descriptor.Descriptor;
-import org.folio.cataloging.exception.IncompatibleCrossReferenceHeadingsException;
-import org.folio.cataloging.exception.NoHeadingSetException;
-import org.folio.cataloging.dao.persistence.REF;
-import org.folio.cataloging.dao.persistence.ReferenceAttrTyp;
-import org.folio.cataloging.dao.persistence.ReferenceThsTyp;
-import org.folio.cataloging.dao.persistence.ReferenceType;
-import org.folio.cataloging.dao.persistence.THS_ATRIB;
-import org.folio.cataloging.dao.persistence.THS_REF;
-import org.folio.cataloging.dao.persistence.T_DUAL_REF;
-import org.folio.cataloging.dao.persistence.T_REF_PRNT_CNSTN;
-
-import org.folio.cataloging.util.StringText;
-import org.folio.cataloging.business.controller.SessionUtils;
 
 @SuppressWarnings("unchecked")
 public class CrossReferenceBean extends LibrisuiteBean 
@@ -43,6 +34,7 @@ public class CrossReferenceBean extends LibrisuiteBean
 	private boolean isThesaurus=false;
 	private boolean attribute=false;
 
+	//TODO refactoring code and check commented block
 	public static CrossReferenceBean getInstance(HttpServletRequest request) 
 	{
 		CrossReferenceBean bean = (CrossReferenceBean) getSessionAttribute(request, CrossReferenceBean.class);
@@ -93,15 +85,15 @@ public class CrossReferenceBean extends LibrisuiteBean
 		while (iter.hasNext()) 
 		{
 			REF ref = (REF) iter.next();
-			Descriptor hdg = (Descriptor) ref.getTargetDAO().load(ref.getTarget(), cataloguingView);
+			Descriptor hdg = ref.getTargetDAO().load(ref.getTarget(), cataloguingView);
 			CrossReferenceSummaryElement aSummaryElement =	new CrossReferenceSummaryElement();
 		
-			if(ref.getType() != null)
+			/*if(ref.getType() != null)
 				aSummaryElement.setDecodedType(cts.load(ReferenceType.class, ref.getType(), locale).getLongText());
 			
 			if(ref.getPrintConstant() != null)
 				aSummaryElement.setDecodedPrintConstant(cts.load(T_REF_PRNT_CNSTN.class,ref.getPrintConstant(),locale).getShortText());
-		
+		    */
 			if(hdg.getStringText() != null)
 				aSummaryElement.setTarget(new StringText(hdg.getStringText()).toDisplayString());
 		
@@ -132,14 +124,14 @@ public class CrossReferenceBean extends LibrisuiteBean
 		while (iter.hasNext()) 
 		{
 			REF ref = (REF) iter.next();
-			Descriptor hdg = (Descriptor) ref.getTargetDAO().load(ref.getTarget(), cataloguingView);
+			Descriptor hdg = ref.getTargetDAO().load(ref.getTarget(), cataloguingView);
 			CrossReferenceSummaryElement aSummaryElement = new CrossReferenceSummaryElement();
-			aSummaryElement.setDecodedType(cts.load(ReferenceThsTyp.class, ref.getType(), locale).getLongText());			
+			/*aSummaryElement.setDecodedType(cts.load(ReferenceThsTyp.class, ref.getType(), locale).getLongText());
 			aSummaryElement.setDecodedPrintConstant(cts.load(T_REF_PRNT_CNSTN.class,ref.getPrintConstant(),locale).getShortText());
 			aSummaryElement.setTarget(new StringText(hdg.getStringText()).toDisplayString());
 			aSummaryElement.setXRef(ref);
 			aSummaryElement.setDocTargetCounts(new Integer(((DAODescriptor) hdg.getDAO()).getDocCount(hdg,	cataloguingView)));
-			aSummaryElement.setTargetDescriptor(hdg);
+			aSummaryElement.setTargetDescriptor(hdg);*/
 			
 			result.add(aSummaryElement);
 		}
@@ -164,15 +156,15 @@ public class CrossReferenceBean extends LibrisuiteBean
 		while (iter.hasNext()) 
 		{
 			REF ref = (REF) iter.next();
-			Descriptor hdg = (Descriptor) ref.getTargetDAO().load(ref.getTarget());
+			Descriptor hdg = ref.getTargetDAO().load(ref.getTarget());
 			
 			CrossReferenceSummaryElement aSummaryElement = new CrossReferenceSummaryElement();
-			aSummaryElement.setDecodedType(cts.load(ReferenceThsTyp.class, ref.getType(), locale).getLongText());
+			/*aSummaryElement.setDecodedType(cts.load(ReferenceThsTyp.class, ref.getType(), locale).getLongText());
 			aSummaryElement.setDecodedPrintConstant(cts.load(T_REF_PRNT_CNSTN.class, ref.getPrintConstant(), locale).getShortText());
 			aSummaryElement.setTarget(new StringText(hdg.getStringText()).toDisplayString());
 			aSummaryElement.setXRef(ref);
 			aSummaryElement.setDocTargetCounts(new Integer(((DAODescriptor) hdg.getDAO()).getDocCount(hdg,	cataloguingView)));
-			aSummaryElement.setTargetDescriptor(hdg);
+			aSummaryElement.setTargetDescriptor(hdg);*/
 			
 			result.add(aSummaryElement);
 		}
@@ -198,14 +190,14 @@ public class CrossReferenceBean extends LibrisuiteBean
 		while (iter.hasNext()) 
 		{
 			THS_ATRIB ref = (THS_ATRIB) iter.next();
-			Descriptor hdg = (Descriptor) ref.getTargetDAO().load(ref.getTarget(), cataloguingView);
+			Descriptor hdg = ref.getTargetDAO().load(ref.getTarget(), cataloguingView);
 			CrossReferenceSummaryElement aSummaryElement = new CrossReferenceSummaryElement();
-			aSummaryElement.setDecodedType(cts.load(ReferenceAttrTyp.class, ref.getType(), locale).getLongText());
+			/*aSummaryElement.setDecodedType(cts.load(ReferenceAttrTyp.class, ref.getType(), locale).getLongText());
 			aSummaryElement.setDecodedPrintConstant(cts.load(T_REF_PRNT_CNSTN.class, ref.getPrintConstant(), locale).getShortText());
 			aSummaryElement.setTarget(new StringText(hdg.getStringText()).toDisplayString());
 			aSummaryElement.setXRef(ref);
 			aSummaryElement.setDocTargetCounts(new Integer(((DAODescriptor) hdg.getDAO()).getDocCount(hdg,	cataloguingView)));
-			aSummaryElement.setTargetDescriptor(hdg);
+			aSummaryElement.setTargetDescriptor(hdg);*/
 			
 			result.add(aSummaryElement);
 		}
@@ -231,15 +223,15 @@ public class CrossReferenceBean extends LibrisuiteBean
 		while (iter.hasNext()) 
 		{
 			THS_ATRIB ref = (THS_ATRIB) iter.next();
-			Descriptor hdg = (Descriptor) ref.getTargetDAO().load(ref.getTarget());
+			Descriptor hdg = ref.getTargetDAO().load(ref.getTarget());
 			
 			CrossReferenceSummaryElement aSummaryElement =	new CrossReferenceSummaryElement();
-			aSummaryElement.setDecodedType(cts.load(ReferenceAttrTyp.class, ref.getType(), locale).getLongText());
+			/*aSummaryElement.setDecodedType(cts.load(ReferenceAttrTyp.class, ref.getType(), locale).getLongText());
 			aSummaryElement.setDecodedPrintConstant(cts.load(T_REF_PRNT_CNSTN.class, ref.getPrintConstant(), locale).getShortText());
 			aSummaryElement.setTarget(new StringText(hdg.getStringText()).toDisplayString());
 			aSummaryElement.setXRef(ref);
 			aSummaryElement.setDocTargetCounts(new Integer(((DAODescriptor) hdg.getDAO()).getDocCount(hdg,	cataloguingView)));
-			aSummaryElement.setTargetDescriptor(hdg);
+			aSummaryElement.setTargetDescriptor(hdg);*/
 			
 			result.add(aSummaryElement);
 		}

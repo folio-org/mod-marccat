@@ -7,20 +7,18 @@
  */
 package org.folio.cataloging.dao.persistence;
 
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.Persistence;
+import org.folio.cataloging.business.common.PersistenceState;
+import org.folio.cataloging.dao.common.HibernateUtil;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
-import org.folio.cataloging.dao.DAOCodeTable;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Persistence;
-import org.folio.cataloging.business.common.PersistenceState;
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
-
-import org.folio.cataloging.dao.common.HibernateUtil;
 
 /**
  * @author paulm
@@ -169,12 +167,13 @@ public class SerialPart implements Persistence, Serializable {
 		return type;
 	}
 
+	//TODO refactoring
 	public String getPartTypeText(Locale locale) {
-		try {
+		/*try {
 			return new DAOCodeTable().load(T_SRL_PRT_TYP.class, getType(), locale).getLongText();
-		} catch (DataAccessException e) {
+		} catch (DataAccessException e) {*/
 			return "";
-		}
+		//}
 	}
 	/**
 	 * 

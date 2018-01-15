@@ -7,17 +7,16 @@
  */
 package org.folio.cataloging.dao.persistence;
 
-import java.io.Serializable;
-
 import org.folio.cataloging.business.common.ConfigHandler;
 import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.DAOShelfList;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
 import org.folio.cataloging.dao.DAOIndexList;
-
+import org.folio.cataloging.dao.DAOShelfList;
 import org.folio.cataloging.dao.common.HibernateUtil;
+
+import java.io.Serializable;
 
 /**
  * @author Usuario
@@ -25,6 +24,7 @@ import org.folio.cataloging.dao.common.HibernateUtil;
  * @since 1.0
  */
 public class SHLF_LIST extends Descriptor implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 	private int shelfListKeyNumber;
 	private int mainLibraryNumber;
@@ -123,8 +123,24 @@ public class SHLF_LIST extends Descriptor implements Serializable {
 	}
 
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getDAO()
+	 * @see librisuite.business.common.Persistence#generateNewKey()
 	 */
+	@Override
+	public void generateNewKey() throws DataAccessException {
+		//TODO add/passing "session" to descriptor
+
+		/*
+		 * The default implementation sets key.headingNumber to the new value.
+		 * SHLF_LIST differs from most descriptors in that the key field is not
+		 * used (since there are no user views)
+		 */
+			super.generateNewKey();
+			setShelfListKeyNumber(getKey().getHeadingNumber());
+	}
+
+	/* (non-Javadoc)
+         * @see librisuite.hibernate.Descriptor#getDAO()
+         */
 	public HibernateUtil getDAO() {
 		return new DAOShelfList();
 	}
@@ -176,19 +192,7 @@ public class SHLF_LIST extends Descriptor implements Serializable {
 	public void setCorrelationValues(CorrelationValues v) {
 		setTypeCode((char)v.getValue(1));
 	}
-	
-	/* (non-Javadoc)
-	 * @see librisuite.business.common.Persistence#generateNewKey()
-	 */
-	public void generateNewKey() throws DataAccessException {
-		/*
-		 * The default implementation sets key.headingNumber to the new value.
-		 * SHLF_LIST differs from most descriptors in that the key field is not
-		 * used (since there are no user views)
-		 */
-		super.generateNewKey();
-		setShelfListKeyNumber(getKey().getHeadingNumber());
-	}
+
 
 	/* (non-Javadoc)
 	 * @see librisuite.hibernate.Descriptor#getSortFormParameters()

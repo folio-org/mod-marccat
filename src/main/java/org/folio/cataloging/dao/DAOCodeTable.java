@@ -327,7 +327,7 @@ public class DAOCodeTable extends HibernateUtil {
 		return null;
 	}
 
-	public T_SINGLE_CHAR load(Class c, char code, Locale locale) throws DataAccessException 
+	public T_SINGLE_CHAR load(Session session, Class c, char code, Locale locale) throws DataAccessException
 	{
 		T_SINGLE_CHAR key;
 		try {
@@ -337,56 +337,49 @@ public class DAOCodeTable extends HibernateUtil {
 		} catch (Exception e) {
 			throw new RuntimeException("unable to create code table object");
 		}
-		return (T_SINGLE_CHAR) loadCodeTableEntry(c, key);
+		return (T_SINGLE_CHAR) loadCodeTableEntry(session, c, key);
 	}
 
-	public T_SINGLE load(Class c, short code, Locale locale) throws DataAccessException 
+	public T_SINGLE load(Session session, Class c, short code, Locale locale) throws DataAccessException
 	{
 		T_SINGLE key;
-		try {
+			try {
 			key = (T_SINGLE) c.newInstance();
 			key.setCode(code);
 			key.setLanguage(locale.getISO3Language());
 		} catch (Exception e) {
 			throw new RuntimeException("unable to create code table object");
 		}
-		return (T_SINGLE) loadCodeTableEntry(c, key);
+		return (T_SINGLE) loadCodeTableEntry(session, c, key);
 	}
 
-	private CodeTable loadCodeTableEntry(Class c, Serializable ser) throws DataAccessException 
+	private CodeTable loadCodeTableEntry(Session session, Class c, Serializable ser) throws DataAccessException
 	{
-		CodeTable result = (CodeTable) get(c, ser);
-		if(result != null)
-			logger.debug(
-				"Got codetable entry for "
-					+ c.getName() 
-					+ " ( value='" + result.getCodeString()
-					+ "', text='" + result.getLongText() + "')");
-		return result;
+		return (CodeTable) get(session, c, ser);
 	}
 	
-	public String getLongText(char code, Class c, Locale locale) throws DataAccessException 
+	public String getLongText(final Session session, final char code, final Class c, final Locale locale) throws DataAccessException
 	{
 		String result = new String("");
-		CodeTable ct = load(c, code, locale);
+		CodeTable ct = load(session, c, code, locale);
 		
 		if(ct != null)	result = ct.getLongText();
 
 		return result;
 	}
-	
-	public String getLongText(short code, Class c, Locale locale) throws DataAccessException 
+
+	public String getLongText(final Session session, final short code, final Class c, final Locale locale) throws DataAccessException
 	{
 		String result = new String("");
-		CodeTable ct = load(c, code, locale);
+		CodeTable ct = load(session, c, code, locale);
 		result = ct.getLongText();
 		return result;
-    }
-	
-	public String getLongText(String code, Class c, Locale locale) throws DataAccessException 
+	}
+
+	public String getLongText(final Session session, final String code, final Class c, final Locale locale) throws DataAccessException
 	{
 		String result = new String("");
-		CodeTable ct = load(c, code, locale);
+		CodeTable ct = load(session, c, code, locale);
 		result = ct.getLongText();
 		return result;
 	}
@@ -898,7 +891,7 @@ public class DAOCodeTable extends HibernateUtil {
 		return result;
 	}
 	
-	public T_SINGLE_LONGCHAR load(Class c, String code, Locale locale) throws DataAccessException 
+	public T_SINGLE_LONGCHAR load(final Session session, final Class c, final String code, final Locale locale) throws DataAccessException
 	{
 		T_SINGLE_LONGCHAR key;
 		try {
@@ -908,7 +901,7 @@ public class DAOCodeTable extends HibernateUtil {
 		} catch (Exception e) {
 			throw new RuntimeException("unable to create code table object");
 		}
-		return (T_SINGLE_LONGCHAR) loadCodeTableEntry(c, key);
+		return (T_SINGLE_LONGCHAR) loadCodeTableEntry(session, c, key);
 	}
 	
 	public List getCorrelationListFromSuggest(short category,String marcTag,Class codeTable) throws DataAccessException 
@@ -932,18 +925,18 @@ public class DAOCodeTable extends HibernateUtil {
 	 * Metodo che mi serve per leggere lo short text della tabella T_CAS_DIG_TYP 
 	 * in cui trovo la directory di riferimento per il repository digitale 
 	 */	
-	public String getShortText(String code, Class c, Locale locale) throws DataAccessException 
+	public String getShortText(final Session session, final String code, final Class c, final Locale locale) throws DataAccessException
 	{
 		String result = new String("");
-		CodeTable ct = load(c, code, locale);
+		CodeTable ct = load(session, c, code, locale);
 		result = ct.getShortText();
 		return result;
 	}
 	
-	public String getShortText(short code, Class c, Locale locale) throws DataAccessException 
+	public String getShortText(final Session session, final short code, final Class c, final Locale locale) throws DataAccessException
 	{
 		String result = new String("");
-		CodeTable ct = load(c, code, locale);
+		CodeTable ct = load(session, c, code, locale);
 		result = ct.getShortText();
 		return result;
 	}

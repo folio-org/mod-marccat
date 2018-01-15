@@ -5,6 +5,18 @@
  */
 package org.folio.cataloging.dao.common;
 
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.LockMode;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.type.Type;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.business.cataloguing.authority.AuthorityNote;
+import org.folio.cataloging.business.common.*;
+import org.folio.cataloging.dao.persistence.S_LCK_TBL;
+import org.folio.cataloging.exception.RecordInUseException;
+import org.folio.cataloging.log.MessageCatalog;
+
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -13,23 +25,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import org.folio.cataloging.business.cataloguing.authority.AuthorityNote;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.LibrisuiteUtils;
-import org.folio.cataloging.business.common.Persistence;
-import org.folio.cataloging.business.common.PersistenceState;
-import org.folio.cataloging.business.common.PersistentObjectWithView;
-import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.exception.RecordInUseException;
-import org.folio.cataloging.dao.persistence.S_LCK_TBL;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.LockMode;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.type.Type;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * Provides a base class of support utilities for DAO objects
@@ -293,36 +288,30 @@ public class HibernateUtil {
 	}
 
 	/**
-	 * Convenience method for currentSession().get(Class clazz, Serializable id)
-	 * If the get method of the Hibernate Session throws a HibernateException,
-	 * it wraps it in a DataAccessException
-	 * 
-	 * @param clazz
-	 *            a persistent class
-	 * @param id
-	 *            a valid identifier of an existing persistent instance of the
-	 *            class
+	 * Convenience method for session.get(Class clazz, Serializable id)
+	 *
+	 * @param session the current session
+	 *
+	 * @param clazz a persistent classaps it in a DataAccessException
+	 *
+	 * @param id  a valid identifier of an existing persistent instance of the class
+	 *
 	 * @return the persistent instance or null
-	 * @throws DataAccessException
 	 */
-	public Object get(Class clazz, Serializable id) throws DataAccessException {
-		try {
-			return currentSession().get(clazz, id);
-		} catch (HibernateException e) {
-			logAndWrap(e);
-			return null;
-		} catch (Exception e) {
-			logAndWrap(e);
+	public Object get(Session session, Class clazz, Serializable id) {
+		try	{
+			return session.get(clazz, id);
+		}catch (Exception exception) {
+			logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
 			return null;
 		}
-
 	}
 
 	/**
 	 * Convenience method for currentSession().get(Class clazz, Serializable id,
 	 * LockMode l) If the get method of the Hibernate Session throws a
 	 * HibernateException, it wraps it in a DataAccessException
-	 * 
+	 *
 	 * @param clazz
 	 *            a persistent class
 	 * @param id
@@ -467,6 +456,10 @@ public class HibernateUtil {
 			throws DataAccessException, RecordInUseException {
 		ResultSet rs = null;
 		Statement statement = null;
+
+		//TODO refactoring this
+		Session session = currentSession();
+
 		try {
 			if (getLockingSession() == null || getLockingSession().isClosed()) {
 				setLockingSession(createNewDBSession());
@@ -484,7 +477,7 @@ public class HibernateUtil {
 				// setLockingSessionId(getSessionID(getLockingSession()));
 			}
 			S_LCK_TBL myLock = new S_LCK_TBL(key, entityType);
-			S_LCK_TBL existingLock = (S_LCK_TBL) get(S_LCK_TBL.class, myLock);
+			S_LCK_TBL existingLock = (S_LCK_TBL) get(session, S_LCK_TBL.class, myLock);
 
 			if (existingLock != null) {
 				if (isSessionAlive(existingLock.getDbSession())
@@ -528,9 +521,16 @@ public class HibernateUtil {
 		}
 	}
 
+	/*
+	*
+	*/
 	public void unlock(int key, String entityType) throws DataAccessException {
 		S_LCK_TBL myLock = new S_LCK_TBL(key, entityType);
-		S_LCK_TBL existingLock = (S_LCK_TBL) get(S_LCK_TBL.class, myLock);
+
+		//TODO session
+		final Session session = currentSession();
+
+		S_LCK_TBL existingLock = (S_LCK_TBL) get(session, S_LCK_TBL.class, myLock);
 		if (existingLock != null) {
 			existingLock.markDeleted();
 			persistByStatus(existingLock);

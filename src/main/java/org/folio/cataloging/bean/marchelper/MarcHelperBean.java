@@ -1,14 +1,8 @@
 package org.folio.cataloging.bean.marchelper;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.action.cataloguing.bibliographic.SaveTagException;
-
 import org.folio.cataloging.bean.LibrisuiteBean;
 import org.folio.cataloging.bean.cataloguing.common.EditBean;
 import org.folio.cataloging.bean.cataloguing.heading.HeadingBean;
@@ -16,26 +10,23 @@ import org.folio.cataloging.business.authorisation.AuthorisationException;
 import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
 import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.controller.SessionUtils;
 import org.folio.cataloging.business.descriptor.Descriptor;
-import org.folio.cataloging.exception.DescriptorHasEmptySubfieldsException;
-import org.folio.cataloging.exception.NoHeadingSetException;
-import org.folio.cataloging.business.marchelper.MarcHelperException;
-import org.folio.cataloging.business.marchelper.MarcHelperManager;
-import org.folio.cataloging.business.marchelper.MarcHelperTag;
-import org.folio.cataloging.business.marchelper.NoMatchException;
-import org.folio.cataloging.business.marchelper.TagModelItem;
-import org.folio.cataloging.business.marchelper.TooManyModelsException;
+import org.folio.cataloging.business.marchelper.*;
 import org.folio.cataloging.business.marchelper.parser.PunctuationParsingException;
 import org.folio.cataloging.business.marchelper.parser.SampleMatcher;
 import org.folio.cataloging.dao.persistence.TAG_GRP_MODEL;
 import org.folio.cataloging.dao.persistence.TAG_MODEL;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.util.StringText;
+import org.folio.cataloging.exception.DescriptorHasEmptySubfieldsException;
+import org.folio.cataloging.exception.NoHeadingSetException;
 import org.folio.cataloging.model.Subfield;
-import org.folio.cataloging.business.controller.SessionUtils;
+import org.folio.cataloging.util.StringText;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class MarcHelperBean extends LibrisuiteBean {
 	private static final Log logger = LogFactory.getLog(MarcHelperBean.class);
@@ -148,7 +139,7 @@ public class MarcHelperBean extends LibrisuiteBean {
 		// MIKE: MarcHelper is active for authority and mades too and they can be toggled
 		bean.editBean = EditBean.getInstance(request);
 		// MIKE: always checks if HeadingBean is present: 
-		// TODO bean.headingBean = (HeadingBean) request.getSession(false).getAttribute(EditHeadingAction.HEADING_BEAN_SESSION_NAME);
+		// TODO bean.headingBean = (HeadingBean) request.getHttpSession(false).getAttribute(EditHeadingAction.HEADING_BEAN_SESSION_NAME);
 		return bean;
 	}
 
@@ -181,12 +172,12 @@ public class MarcHelperBean extends LibrisuiteBean {
 		}
 	}
 	
-	private void loadCurrentGroup() throws DataAccessException, MarcCorrelationException, NoMatchException, PunctuationParsingException{
+	private void loadCurrentGroup() throws DataAccessException, NoMatchException, PunctuationParsingException{
 		loadGroup(getMarcHelperTag());
 	}
 	
 	/* public only for test */
-	public void loadGroup(MarcHelperTag currentTag) throws DataAccessException, MarcCorrelationException, NoMatchException, PunctuationParsingException {
+	public void loadGroup(MarcHelperTag currentTag) throws DataAccessException, NoMatchException, PunctuationParsingException {
 		String tagNumber = currentTag.getKey();
 		int level = MarcHelperManager.BASIG_GROUP_LEVEL;
 //		if(ADVANCED.equals(mode)) {
@@ -239,7 +230,7 @@ public class MarcHelperBean extends LibrisuiteBean {
 	 * @throws NoMatchException 
 	 * @throws MarcHelperException
 	 */
-	private void createNewTagModelItem(TAG_GRP_MODEL filteredGroup) throws DataAccessException, MarcCorrelationException, NoMatchException, TooManyModelsException {
+	private void createNewTagModelItem(TAG_GRP_MODEL filteredGroup) throws DataAccessException, NoMatchException, TooManyModelsException {
 		TagModelItem tmi = manager.createTagModelItem(filteredGroup,getCurrentStringText(), getLocale(), getCurrentVariantCodes(), isEditHeading());
 		editor.setItem(tmi);
 	}
@@ -252,7 +243,7 @@ public class MarcHelperBean extends LibrisuiteBean {
 	 * @throws MarcCorrelationException
 	 * @throws MarcHelperException
 	 */
-	private void createEmptyTagModelItem(int groupNumber, int modelNumber) throws DataAccessException, MarcCorrelationException {
+	private void createEmptyTagModelItem(int groupNumber, int modelNumber) throws DataAccessException {
 		TAG_GRP_MODEL grp = currentGroup;
 		if(ADVANCED.equals(mode)){
 			grp = (TAG_GRP_MODEL) currentGroup.getChilds().get(groupNumber);
@@ -270,7 +261,7 @@ public class MarcHelperBean extends LibrisuiteBean {
 	 * @throws NoMatchException 
 	 * @throws MarcHelperException
 	 */
-	private void registerNewTagModelItem() throws DataAccessException, MarcCorrelationException, NoMatchException, TooManyModelsException {
+	private void registerNewTagModelItem() throws DataAccessException, NoMatchException, TooManyModelsException {
 		Tag tag = getCurrentTag();
 		if(tag instanceof MarcHelperTag && isTagMatchingOnlyOneModel()) {
 			createNewTagModelItem(getCurrentGroup());
@@ -294,7 +285,7 @@ public class MarcHelperBean extends LibrisuiteBean {
 	}
 	
 	
-	private void changeModel(int groupNumber, int modelNumber) throws DataAccessException, MarcCorrelationException, NoMatchException, TooManyModelsException {
+	private void changeModel(int groupNumber, int modelNumber) throws DataAccessException, NoMatchException, TooManyModelsException {
 		createEmptyTagModelItem(groupNumber, modelNumber);
 		Map values = editor.getTempValues();
 		if(values.isEmpty()){
@@ -304,7 +295,7 @@ public class MarcHelperBean extends LibrisuiteBean {
 		}
 	}
 	
-	private void currentChanged() throws DataAccessException, MarcCorrelationException {
+	private void currentChanged() throws DataAccessException {
 		if (isMarcHelperAvailable()) {
 			createFilters();
 		}
@@ -316,12 +307,12 @@ public class MarcHelperBean extends LibrisuiteBean {
 		editor.reset();
 	}
 
-	public void toAdvanced() throws DataAccessException, MarcCorrelationException, NoMatchException, PunctuationParsingException {
+	public void toAdvanced() throws DataAccessException, NoMatchException, PunctuationParsingException {
 		setMode(MarcHelperBean.ADVANCED);
 		loadCurrentGroup();
 	}
 
-	public void toBasic() throws DataAccessException, MarcCorrelationException, NoMatchException, PunctuationParsingException {
+	public void toBasic() throws DataAccessException, NoMatchException, PunctuationParsingException {
 		setMode(MarcHelperBean.BASIC);
 		loadCurrentGroup();
 	}
@@ -398,7 +389,7 @@ public class MarcHelperBean extends LibrisuiteBean {
 	 * @throws NoMatchException
 	 * @throws TooManyModelsException
 	 */
-	private void processMatch(StringText text) throws AuthorisationException, DataAccessException, MarcCorrelationException, NoMatchException, TooManyModelsException {
+	private void processMatch(StringText text) throws AuthorisationException, DataAccessException, NoMatchException, TooManyModelsException {
 		updateCurrentStringText(text);
 		currentChanged();
 	    registerNewTagModelItem();
@@ -411,7 +402,7 @@ public class MarcHelperBean extends LibrisuiteBean {
 	 * @throws NoMatchException
 	 * @throws PunctuationParsingException
 	 */
-	private void processNoMatch() throws DataAccessException, MarcCorrelationException, NoMatchException, PunctuationParsingException {
+	private void processNoMatch() throws DataAccessException, NoMatchException, PunctuationParsingException {
 		currentChanged();
 		currentGroup.setTagFilterActive(false);
 		// MIKE: why do not registerNewTagModelItem() ?
@@ -430,7 +421,7 @@ public class MarcHelperBean extends LibrisuiteBean {
 	 * @throws DataAccessException
 	 * @throws MarcCorrelationException
 	 */
-	private void updateCurrentStringText(StringText newStringText) throws AuthorisationException, DataAccessException, MarcCorrelationException {
+	private void updateCurrentStringText(StringText newStringText) throws AuthorisationException, DataAccessException {
 		if(isEditHeading()){
 			StringText hdgStringText = newStringText.getSubfieldsWithoutCodes(getCurrentVariantCodes());
 			headingBean.setStringText(hdgStringText);
@@ -447,7 +438,7 @@ public class MarcHelperBean extends LibrisuiteBean {
 	 * @throws PunctuationParsingException 
 	 * @throws NoMatchException 
 	 */
-	private void beforeExitEditor(Map newValues) throws AuthorisationException, DataAccessException, MarcCorrelationException, NoMatchException, PunctuationParsingException {
+	private void beforeExitEditor(Map newValues) throws AuthorisationException, DataAccessException, NoMatchException, PunctuationParsingException {
 		// si lasciano i dati inseriti, è necessario dunque aggiornare:
 		// l'item corrente...
 		if(getEditor().isItemAvailable()) {
@@ -506,7 +497,7 @@ public class MarcHelperBean extends LibrisuiteBean {
 	 * @throws PunctuationParsingException 
 	 * @throws AuthorisationException 
 	 */
-	public void onBrowse(Map newValues) throws DataAccessException, MarcCorrelationException, NoMatchException, TooManyModelsException, AuthorisationException, PunctuationParsingException {
+	public void onBrowse(Map newValues) throws DataAccessException, NoMatchException, TooManyModelsException, AuthorisationException, PunctuationParsingException {
 		if(isSmartHelperSelected()){
 //		  currentChanged();
 //		  registerNewTagModelItem();
@@ -524,7 +515,7 @@ public class MarcHelperBean extends LibrisuiteBean {
 	 * @throws AuthorisationException 
 	 * @throws PunctuationParsingException 
 	 */
-	public void onPickHdg() throws DataAccessException, MarcCorrelationException, NoMatchException, TooManyModelsException, AuthorisationException, PunctuationParsingException {
+	public void onPickHdg() throws DataAccessException, NoMatchException, TooManyModelsException, AuthorisationException, PunctuationParsingException {
 //		 //TODO: ottimizzare questo metodo in quanto viene fatto prima il checkMatchHdg();
 		if (isSmartHelperSelected()) {
 			// MIKE: it's correct to use getMarcHelperTag().getStringText()
@@ -553,7 +544,7 @@ public class MarcHelperBean extends LibrisuiteBean {
 	
 	
 	 
-	public void checkMatchHdg(Descriptor d) throws DataAccessException, MarcCorrelationException, NoMatchException, TooManyModelsException, AuthorisationException, PunctuationParsingException {
+	public void checkMatchHdg(Descriptor d) throws DataAccessException, NoMatchException, TooManyModelsException, AuthorisationException, PunctuationParsingException {
 		if (isSmartHelperSelected()) {
 			createFilters();
 			StringText descriptorStringText = new StringText(d.getStringText());
@@ -579,7 +570,7 @@ public class MarcHelperBean extends LibrisuiteBean {
 	 * @throws DataAccessException
 	 * @throws MarcCorrelationException
 	 */
-	public void onChangeCategory() throws DataAccessException, MarcCorrelationException {
+	public void onChangeCategory() throws DataAccessException {
 		if (isCanLoadGroup()) {
 			try {
 				loadCurrentGroup();
@@ -608,7 +599,7 @@ public class MarcHelperBean extends LibrisuiteBean {
 	 * @throws NoHeadingSetException 
 	 */
 	public void onChangeText(Map valori) throws SaveTagException, AuthorisationException,
-			DataAccessException, MarcCorrelationException, NoHeadingSetException {
+			DataAccessException, NoHeadingSetException {
 		// update editor...
 		getEditor().refreshItem(valori);
 		StringText mhStringText = getEditor().getStringText();
@@ -637,7 +628,7 @@ public class MarcHelperBean extends LibrisuiteBean {
 	 * @throws MarcCorrelationException
 	 * @throws MarcHelperException
 	 */
-	public void onNewTag() throws DataAccessException, MarcCorrelationException, MarcHelperException {
+	public void onNewTag() throws DataAccessException, MarcHelperException {
 		onEditTag();
 	}
 
@@ -646,7 +637,7 @@ public class MarcHelperBean extends LibrisuiteBean {
 	 * @throws MarcCorrelationException
 	 * @throws MarcHelperException
 	 */
-	public void onEditTag() throws DataAccessException, MarcCorrelationException, MarcHelperException {
+	public void onEditTag() throws DataAccessException, MarcHelperException {
 		reset();
 		Tag tag = getCurrentTag();
 		if (tag instanceof MarcHelperTag) {
@@ -663,7 +654,7 @@ public class MarcHelperBean extends LibrisuiteBean {
 		//setSmartHelperSelected(false);
 	}
 
-	public void onModelChanged(int groupNumber, int modelNumber) throws DataAccessException, MarcCorrelationException, NoMatchException, PunctuationParsingException, TooManyModelsException, AuthorisationException {
+	public void onModelChanged(int groupNumber, int modelNumber) throws DataAccessException, NoMatchException, PunctuationParsingException, TooManyModelsException, AuthorisationException {
 		changeModel(groupNumber, modelNumber) ;
 		StringText  text = getEditor().getStringText();
 		//updateCurrentStringText(text);
@@ -674,13 +665,13 @@ public class MarcHelperBean extends LibrisuiteBean {
 		getCurrentGroup().setTagFilterActive(false);
 	}
 
-	public void onChangeModel(Map valori) throws AuthorisationException, DataAccessException, MarcCorrelationException, NoMatchException, PunctuationParsingException {
+	public void onChangeModel(Map valori) throws AuthorisationException, DataAccessException, NoMatchException, PunctuationParsingException {
 		beforeExitEditor(valori);
 		getCurrentGroup().setTagFilterActive(true);
 	}
 
 	public void onNewModelSelected(int groupNumber, int modelNumber) throws DataAccessException,
-			MarcCorrelationException, NoMatchException, TooManyModelsException {
+            NoMatchException, TooManyModelsException {
 		if(getCurrentStringText().isEmpty()) {
 	    	createEmptyTagModelItem(groupNumber, modelNumber);
 	    } else {
@@ -703,7 +694,7 @@ public class MarcHelperBean extends LibrisuiteBean {
 	 * @throws MarcCorrelationException 
 	 * @throws DataAccessException 
 	 */
-	public void onSearchModel() throws DataAccessException, MarcCorrelationException, NoMatchException, PunctuationParsingException {
+	public void onSearchModel() throws DataAccessException, NoMatchException, PunctuationParsingException {
 		toBasic();
 		getCurrentGroup().setTagFilterActive(false);
 	}
@@ -716,7 +707,7 @@ public class MarcHelperBean extends LibrisuiteBean {
 	}
 
 
-	public void onSaveHeading(Map newValues) throws AuthorisationException, DataAccessException, MarcCorrelationException, NoMatchException, PunctuationParsingException, DescriptorHasEmptySubfieldsException {
+	public void onSaveHeading(Map newValues) throws AuthorisationException, DataAccessException, NoMatchException, PunctuationParsingException, DescriptorHasEmptySubfieldsException {
 		beforeExitEditor(newValues);
 		checkHeadingFieldsEmpty();
 	}
@@ -731,7 +722,7 @@ public class MarcHelperBean extends LibrisuiteBean {
 	 * @throws AuthorisationException
 	 * @throws TooManyModelsException
 	 */
-	public boolean onOpen(StringText newStringText) throws DataAccessException, MarcCorrelationException, NoMatchException, PunctuationParsingException, AuthorisationException, TooManyModelsException {
+	public boolean onOpen(StringText newStringText) throws DataAccessException, NoMatchException, PunctuationParsingException, AuthorisationException, TooManyModelsException {
 		boolean isMatchingOnlyOneModel = false;
 		// TODO _MIKE: la prima volta gli editor.tempValues sono assenti.
 		// Popolarli con lo StringText
@@ -753,8 +744,8 @@ public class MarcHelperBean extends LibrisuiteBean {
 		return isMatchingOnlyOneModel;
 	}
 
-	public void onEditHeading() throws AuthorisationException, DataAccessException, MarcCorrelationException,
-			NoMatchException, TooManyModelsException, PunctuationParsingException {
+	public void onEditHeading() throws AuthorisationException, DataAccessException,
+            NoMatchException, TooManyModelsException, PunctuationParsingException {
 		if (isMarcHelperAvailable() && isItemAvailable()) {
 			if (isMatchingSelectedModel()) {
 				 getEditor().getItem().populateExcludingVariants(getCurrentStringText(), getCurrentVariantCodes());
@@ -886,7 +877,7 @@ public class MarcHelperBean extends LibrisuiteBean {
 	 * @throws AuthorisationException
 	 * @throws TooManyModelsException
 	 */
-	public boolean isMatching(StringText newStringText) throws DataAccessException, MarcCorrelationException, NoMatchException, PunctuationParsingException, AuthorisationException, TooManyModelsException {
+	public boolean isMatching(StringText newStringText) throws DataAccessException, NoMatchException, PunctuationParsingException, AuthorisationException, TooManyModelsException {
 		loadCurrentGroup();
 		if (!newStringText.isEmpty()) {
 			return isStringTextMatchingOnlyOneModel(newStringText);

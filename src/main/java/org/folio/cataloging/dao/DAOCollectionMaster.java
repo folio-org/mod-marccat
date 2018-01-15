@@ -1,36 +1,23 @@
 package org.folio.cataloging.dao;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-
-import org.folio.cataloging.action.LibrisuiteAction;
-import org.folio.cataloging.business.*;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.persistence.CollectionMaster;
-import net.sf.hibernate.Hibernate;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Query;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.Transaction;
+import net.sf.hibernate.*;
 import net.sf.hibernate.type.Type;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
+import org.folio.cataloging.Global;
+import org.folio.cataloging.business.*;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.persistence.CollectionMaster;
 import org.folio.cataloging.dao.persistence.T_CLCTN_MST_TYP;
 import org.folio.cataloging.dao.persistence.T_CLCTN_TYP;
 import org.folio.cataloging.dao.persistence.T_STS_CLCTN_TYP;
 import org.folio.cataloging.form.CollectionsMasterForm;
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.Global;
+import org.folio.cataloging.log.MessageCatalog;
+
+import java.sql.*;
+import java.sql.Date;
+import java.util.*;
 
 public class DAOCollectionMaster extends HibernateUtil 
 {
@@ -44,7 +31,9 @@ public class DAOCollectionMaster extends HibernateUtil
 	public DAOCollectionMaster() {
 		super();
 	}
-	
+	private final DAOCodeTable daoCodeTable = new DAOCodeTable();
+
+	//TODO: refactoring all methods
 	public void persistCollectionMaster( CollectionMaster collection) throws DataAccessException 
 	{
 		CollectionMaster collection2;
@@ -180,14 +169,30 @@ public class DAOCollectionMaster extends HibernateUtil
 		}
 		return co;
 	}
-	
-//	public List orderMstCollection(String colonna, String tipoOrdinamento,Locale locale) throws DataAccessException
-	public List orderMstCollection(CollectionsMasterForm form, Locale locale) throws DataAccessException
+
+	private MasterListElement toMasterListElement (final Session session,
+												   final CollectionMaster source,
+												   final Locale locale) {
+
+		MasterListElement masterListElement = new MasterListElement(source);
+		masterListElement.setNameIta(daoCodeTable.getLongText(session, (short)source.getNameIta(),
+				T_CLCTN_MST_TYP.class, locale));
+		masterListElement.setStatusCode(daoCodeTable.getLongText(session, (short)source.getStatusCode(),
+				T_STS_CLCTN_TYP.class, locale));
+		masterListElement.setTypologyCode(daoCodeTable.getLongText(session, source.getTypologyCode(),
+				T_CLCTN_TYP.class, locale));
+		masterListElement.setHierarchy(hasHierarchy(session, source.getIdCollection()));
+		masterListElement.setCountMst(countCollectionFromRecordUses(source.getIdCollection()));
+		return masterListElement;
+	}
+
+    public List orderMstCollection(final CollectionsMasterForm form, final Locale locale) throws DataAccessException
 	{
 		List result = new ArrayList();
 		List result2 = new ArrayList();
 		
-		String query = workQuery(form.getTypologyCode(), form.getSearchNome(), form.getSearchId(), form.getColonna(), form.getStatus());
+		String query = workQuery(form.getTypologyCode(), form.getSearchNome(),
+				form.getSearchId(), form.getColonna(), form.getStatus());
 		
 		try {
 			Session s = currentSession();
@@ -198,15 +203,15 @@ public class DAOCollectionMaster extends HibernateUtil
 			while (iter.hasNext()) {
 				CollectionMaster rawMaster = (CollectionMaster) iter.next();
 				MasterListElement rawMasterListElement = new MasterListElement(rawMaster);
-				rawMasterListElement.setIdCollection(rawMaster.getIdCollection());
+				/*rawMasterListElement.setIdCollection(rawMaster.getIdCollection());
 				rawMasterListElement.setNameIta(LibrisuiteAction.getDaoCodeTable().getLongText((short)rawMaster.getNameIta(),T_CLCTN_MST_TYP.class,locale));
 				rawMasterListElement.setStatusCode(LibrisuiteAction.getDaoCodeTable().getLongText((short)rawMaster.getStatusCode(),T_STS_CLCTN_TYP.class,locale));
 				rawMasterListElement.setTypologyCode(LibrisuiteAction.getDaoCodeTable().getLongText(rawMaster.getTypologyCode(),T_CLCTN_TYP.class,locale));
-				if(loadHRCY(rawMaster.getIdCollection()).size()>0)
+				if(hasHierarchy(rawMaster.getIdCollection()).size()>0)
 					rawMasterListElement.setHierarchy(true);
 				else
 					rawMasterListElement.setHierarchy(false);
-				rawMasterListElement.setCountMst(countCollectionFromRecordUses(rawMaster.getIdCollection()));
+				rawMasterListElement.setCountMst(countCollectionFromRecordUses(rawMaster.getIdCollection()));*/
 				result2.add(rawMasterListElement);
 			}
 
@@ -288,15 +293,16 @@ public class DAOCollectionMaster extends HibernateUtil
 		while (iter.hasNext()) {
 			CollectionMaster rawMaster = (CollectionMaster) iter.next();
 			MasterListElement rawMasterListElement = new MasterListElement(rawMaster);
-			rawMasterListElement.setIdCollection(rawMaster.getIdCollection());
+
+			/*rawMasterListElement.setIdCollection(rawMaster.getIdCollection());
 			rawMasterListElement.setNameIta(LibrisuiteAction.getDaoCodeTable().getLongText((short)rawMaster.getNameIta(),T_CLCTN_MST_TYP.class,locale));
 			rawMasterListElement.setTypologyCode(LibrisuiteAction.getDaoCodeTable().getLongText(rawMaster.getTypologyCode(),T_CLCTN_TYP.class,locale));
 			rawMasterListElement.setStatusCode(LibrisuiteAction.getDaoCodeTable().getLongText((short)rawMaster.getStatusCode(),T_STS_CLCTN_TYP.class,locale));
-			if(loadHRCY(rawMaster.getIdCollection()).size()>0)
+			if(hasHierarchy(rawMaster.getIdCollection()).size()>0)
 				rawMasterListElement.setHierarchy(true);
 			else
 				rawMasterListElement.setHierarchy(false);
-			rawMasterListElement.setCountMst(countCollectionFromRecordUses(rawMaster.getIdCollection()));
+			rawMasterListElement.setCountMst(countCollectionFromRecordUses(rawMaster.getIdCollection()));*/
 			result.add(rawMasterListElement);
 		}
 		return result;
@@ -311,15 +317,15 @@ public class DAOCollectionMaster extends HibernateUtil
 		while (iter.hasNext()) {
 			CollectionMaster rawMaster = (CollectionMaster) iter.next();
 			MasterListElement rawMasterListElement = new MasterListElement(rawMaster);
-			rawMasterListElement.setIdCollection(rawMaster.getIdCollection());
+			/*rawMasterListElement.setIdCollection(rawMaster.getIdCollection());
 			rawMasterListElement.setNameIta(LibrisuiteAction.getDaoCodeTable().getLongText((short)rawMaster.getNameIta(),T_CLCTN_MST_TYP.class,locale));
 			rawMasterListElement.setTypologyCode(LibrisuiteAction.getDaoCodeTable().getLongText(rawMaster.getTypologyCode(),T_CLCTN_TYP.class,locale));
 			rawMasterListElement.setStatusCode(LibrisuiteAction.getDaoCodeTable().getLongText((short)rawMaster.getStatusCode(),T_STS_CLCTN_TYP.class,locale));
-			if(loadHRCY(rawMaster.getIdCollection()).size()>0)
+			if(hasHierarchy(rawMaster.getIdCollection()).size()>0)
 				rawMasterListElement.setHierarchy(true);
 			else
 				rawMasterListElement.setHierarchy(false);
-			rawMasterListElement.setCountMst(countCollectionFromRecordUses(rawMaster.getIdCollection()));
+			rawMasterListElement.setCountMst(countCollectionFromRecordUses(rawMaster.getIdCollection()));*/
 			result2.add(rawMasterListElement);
 		}
 		return result2;
@@ -334,15 +340,15 @@ public class DAOCollectionMaster extends HibernateUtil
 		while (iter.hasNext()) {
 			CollectionMaster rawMaster = (CollectionMaster) iter.next();
 			MasterListElement rawMasterListElement = new MasterListElement(rawMaster);
-			rawMasterListElement.setIdCollection(rawMaster.getIdCollection());
+			/*rawMasterListElement.setIdCollection(rawMaster.getIdCollection());
 			rawMasterListElement.setNameIta(LibrisuiteAction.getDaoCodeTable().getLongText((short)rawMaster.getNameIta(),T_CLCTN_MST_TYP.class,locale));
 			rawMasterListElement.setTypologyCode(LibrisuiteAction.getDaoCodeTable().getLongText(rawMaster.getTypologyCode(),T_CLCTN_TYP.class,locale));
 			rawMasterListElement.setStatusCode(LibrisuiteAction.getDaoCodeTable().getLongText((short)rawMaster.getStatusCode(),T_STS_CLCTN_TYP.class,locale));
-			if(loadHRCY(rawMaster.getIdCollection()).size()>0)
+			if(hasHierarchy(rawMaster.getIdCollection()).size()>0)
 				rawMasterListElement.setHierarchy(true);
 			else
 				rawMasterListElement.setHierarchy(false);
-			rawMasterListElement.setCountMst(countCollectionFromRecordUses(rawMaster.getIdCollection()));
+			rawMasterListElement.setCountMst(countCollectionFromRecordUses(rawMaster.getIdCollection()));*/
 			result2.add(rawMasterListElement);
 		}
 	
@@ -361,15 +367,15 @@ public class DAOCollectionMaster extends HibernateUtil
 		while (iter.hasNext()) {
 			CollectionMaster rawMaster = (CollectionMaster) iter.next();
 			MasterListElement rawMasterListElement = new MasterListElement(rawMaster);
-			rawMasterListElement.setIdCollection(rawMaster.getIdCollection());
+			/*rawMasterListElement.setIdCollection(rawMaster.getIdCollection());
 			rawMasterListElement.setNameIta(LibrisuiteAction.getDaoCodeTable().getLongText((short)rawMaster.getNameIta(),T_CLCTN_MST_TYP.class,locale));
 			rawMasterListElement.setTypologyCode(LibrisuiteAction.getDaoCodeTable().getLongText(rawMaster.getTypologyCode(),T_CLCTN_TYP.class,locale));
 			rawMasterListElement.setStatusCode(LibrisuiteAction.getDaoCodeTable().getLongText((short)rawMaster.getStatusCode(),T_STS_CLCTN_TYP.class,locale));
-			if(loadHRCY(rawMaster.getIdCollection()).size()>0)
+			if(hasHierarchy(rawMaster.getIdCollection()).size()>0)
 				rawMasterListElement.setHierarchy(true);
 			else
 				rawMasterListElement.setHierarchy(false);
-			rawMasterListElement.setCountMst(countCollectionFromRecordUses(rawMaster.getIdCollection()));
+			rawMasterListElement.setCountMst(countCollectionFromRecordUses(rawMaster.getIdCollection()));*/
 			result2.add(rawMasterListElement);
 		}
 //----> 20110203 inizio: visualizza le collection ordinate per descrizione nome e non per il codice numerico corrispondente al nome 
@@ -595,22 +601,20 @@ public class DAOCollectionMaster extends HibernateUtil
 		}
 	}
 	
-	public List loadHRCY(int collectionCode) throws DataAccessException 
+	public boolean hasHierarchy(final Session session, final int collectionCode) throws DataAccessException
 	{
-		List result = null;
 		try {
-			Session s = currentSession();
-			Query q = s.createQuery("select distinct ct "
+			Query q = session.createQuery("select distinct ct "
 					+ " from CLCTN_MST_HRCY as ct " 
 					+ " where ct.collectionCode ="
 					+ collectionCode);
 			q.setMaxResults(1);
-			result = q.list();
 
-		} catch (HibernateException e) {
-			logAndWrap(e);
+			return q.list().size() > 0;
+		} catch (HibernateException exception) {
+			logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
 		}
-		return result;
+		return false;
 	}
 	
 	public int countCollectionFromRecordUses(int idCollection) throws DataAccessException 
@@ -634,18 +638,18 @@ public class DAOCollectionMaster extends HibernateUtil
 		while (iter.hasNext()) {
 			CollectionMaster rawMaster = (CollectionMaster) iter.next();
 			MasterListElement rawMasterListElement = new MasterListElement(rawMaster);
-			rawMasterListElement.setIdCollection(rawMaster.getIdCollection());
+			/*rawMasterListElement.setIdCollection(rawMaster.getIdCollection());
 			rawMasterListElement.setNameIta(LibrisuiteAction.getDaoCodeTable().getLongText((short)rawMaster.getNameIta(),T_CLCTN_MST_TYP.class,locale));
 			rawMasterListElement.setTypologyCode(LibrisuiteAction.getDaoCodeTable().getLongText(rawMaster.getTypologyCode(),T_CLCTN_TYP.class,locale));
 			rawMasterListElement.setStatusCode(LibrisuiteAction.getDaoCodeTable().getLongText((short)rawMaster.getStatusCode(),T_STS_CLCTN_TYP.class,locale));
-			if(loadHRCY(rawMaster.getIdCollection()).size()>0)
+			if(hasHierarchy(rawMaster.getIdCollection()).size()>0)
 				rawMasterListElement.setHierarchy(true);
 			else
 				rawMasterListElement.setHierarchy(false);
 			rawMasterListElement.setCountMst(countCollectionFromRecordUses(rawMaster.getIdCollection()));
 //-------->	20101014 inizio: devo memorizzare la data di associazione del record
 			rawMasterListElement.setDateAssociatedRecord(getRecordAssociatedDate(itemNumber, rawMaster.getIdCollection()));
-//-------->	20101014 fine 
+//-------->	20101014 fine */
 			result.add(rawMasterListElement);
 		}
 		return result;

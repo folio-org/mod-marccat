@@ -7,18 +7,16 @@
  */
 package org.folio.cataloging.business.amicusSearchEngine;
 
+import org.folio.cataloging.business.authorisation.AuthorisationException;
+import org.folio.cataloging.business.common.Defaults;
+import org.folio.cataloging.business.common.SocketMessage;
+import org.folio.cataloging.business.controller.UserProfile;
+import org.folio.cataloging.dao.common.HibernateUtil;
+
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Locale;
-
-import org.folio.cataloging.business.authorisation.AuthorisationException;
-import org.folio.cataloging.dao.DAOGlobalVariable;
-import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.business.common.SocketMessage;
-
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.business.controller.UserProfile;
 
 /**
  * @author paulm
@@ -32,14 +30,11 @@ public class FindRequest extends SocketMessage {
 
 	private static int maxTempRecords;
 	static {
-		try {
-			maxTempRecords =
-				Integer.parseInt(
-					new DAOGlobalVariable().getValueByName(
-						"ir_max_temp_rec_cnt"));
-		} catch (Exception e) {
+		/*try {
+			maxTempRecords = Integer.parseInt(new DAOGlobalVariable().getValueByName("ir_max_temp_rec_cnt"));
+		} catch (Exception e) {*/
 			maxTempRecords = 20000;
-		}
+		//}
 	}
 	private String cclQuery;
 	private Locale locale;

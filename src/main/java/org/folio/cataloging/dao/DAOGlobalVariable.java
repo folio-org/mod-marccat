@@ -1,20 +1,18 @@
 package org.folio.cataloging.dao;
 
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
+import org.folio.cataloging.dao.persistence.S_SYS_GLBL_VRBL;
+
 import java.io.Serializable;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
-
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.persistence.S_SYS_GLBL_VRBL;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 
 /**
  * Provides access to S_SYS_GLBL_VRBL
@@ -27,10 +25,13 @@ public class DAOGlobalVariable extends HibernateUtil implements Serializable {
     private Log logger = LogFactory.getLog(DAOGlobalVariable.class);
     
 	//TODO null exception if variable doesn't exist
-	public String getValueByName(String name) throws DataAccessException 
+	public String getValueByName(final String name) throws DataAccessException
 	{
+		//TODO refactoring this
+		final Session session = currentSession();
+
 		String valueByName = null;
-		S_SYS_GLBL_VRBL ss =((S_SYS_GLBL_VRBL) get(S_SYS_GLBL_VRBL.class, name));
+		S_SYS_GLBL_VRBL ss =((S_SYS_GLBL_VRBL) get(session, S_SYS_GLBL_VRBL.class, name));
 		if(ss!=null){
 		  valueByName= ss.getValue();
 		}
@@ -48,9 +49,9 @@ public class DAOGlobalVariable extends HibernateUtil implements Serializable {
 		.execute();
 	}
 	
-	public void setValueByName(String name,String value) throws DataAccessException 
+	public void setValueByName(final Session session, final String name, final String value) throws DataAccessException
 	{	  
-		S_SYS_GLBL_VRBL sysGlobal = (S_SYS_GLBL_VRBL) get(S_SYS_GLBL_VRBL.class, name);
+		S_SYS_GLBL_VRBL sysGlobal = (S_SYS_GLBL_VRBL) get(session, S_SYS_GLBL_VRBL.class, name);
 		sysGlobal.setValue(value);
 		edit(sysGlobal);
 	}
@@ -66,7 +67,7 @@ public class DAOGlobalVariable extends HibernateUtil implements Serializable {
 		}
 		Iterator<S_SYS_GLBL_VRBL> iter = listAllKeys.iterator();
 		while (iter.hasNext()) {
-			S_SYS_GLBL_VRBL rawGlobalVar = (S_SYS_GLBL_VRBL) iter.next();
+			S_SYS_GLBL_VRBL rawGlobalVar = iter.next();
 			hash.put(rawGlobalVar.getName(),rawGlobalVar.getValue());
 		}
 		return hash;

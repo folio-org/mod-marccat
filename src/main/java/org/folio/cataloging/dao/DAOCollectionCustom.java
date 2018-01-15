@@ -1,36 +1,19 @@
 package org.folio.cataloging.dao;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-
-import org.folio.cataloging.action.LibrisuiteAction;
-import org.folio.cataloging.business.*;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.persistence.CollectionCustomer;
-import org.folio.cataloging.dao.persistence.CollectionCustomerArch;
-import net.sf.hibernate.Hibernate;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Query;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.Transaction;
+import net.sf.hibernate.*;
 import net.sf.hibernate.type.Type;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.dao.persistence.T_CLCTN_CST_TYP;
-import org.folio.cataloging.dao.persistence.T_CLCTN_TYP;
-import org.folio.cataloging.dao.persistence.T_STS_CLCTN_TYP;
-import org.folio.cataloging.form.CollectionsCustomForm;
+import org.folio.cataloging.business.*;
+import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.persistence.CollectionCustomer;
+import org.folio.cataloging.dao.persistence.CollectionCustomerArch;
+import org.folio.cataloging.form.CollectionsCustomForm;
+
+import java.sql.*;
+import java.sql.Date;
+import java.util.*;
 
 public class DAOCollectionCustom extends HibernateUtil 
 {
@@ -44,7 +27,8 @@ public class DAOCollectionCustom extends HibernateUtil
 	public DAOCollectionCustom() {
 		super();
 	}
-	
+
+	//TODO: refactoring all methods
 	public void persistCollectionCustom( CollectionCustomer collection) throws DataAccessException 
 	{
 		CollectionCustomer collection2;
@@ -274,29 +258,27 @@ public class DAOCollectionCustom extends HibernateUtil
 		return result;
 	}
 
-//	public List orderCstCollection(String colonna, String tipoOrdinamento,Locale locale) throws DataAccessException
+	//TODO: refactoring
 	public List orderCstCollection(CollectionsCustomForm form, Locale locale) throws DataAccessException
 	{
 		List result = new ArrayList();
 		List listAllCollection= null;
-//		String ordinamento= " order by ct."+ colonna+" "+tipoOrdinamento;
 		
 		String query = workQuery(form.getTypologyCode(), form.getSearchNome(), form.getSearchId(), form.getColonna(), form.getStatus());
 		
 		try {
 			Session s = currentSession();
-//			Query q = s.createQuery("select distinct ct from CollectionCustomer as ct "	+ ordinamento);
 			Query q = s.createQuery(query);
 			listAllCollection = q.list();
 			Iterator iter = listAllCollection.iterator();
 			while (iter.hasNext()) {
 				CollectionCustomer rawCustom = (CollectionCustomer) iter.next();
 				CustomListElement rawCustomListElement = new CustomListElement(rawCustom);
-				rawCustomListElement.setIdCollection(rawCustom.getIdCollection().intValue());
+				/*rawCustomListElement.setIdCollection(rawCustom.getIdCollection().intValue());
 				rawCustomListElement.setNameIta(LibrisuiteAction.getDaoCodeTable().getLongText((short)rawCustom.getNameIta(),T_CLCTN_CST_TYP.class,locale));
 				rawCustomListElement.setTypologyCode(LibrisuiteAction.getDaoCodeTable().getLongText(rawCustom.getTypologyCode(),T_CLCTN_TYP.class,locale));
 				rawCustomListElement.setStatusCode(LibrisuiteAction.getDaoCodeTable().getLongText(rawCustom.getStatusCode().shortValue(),T_STS_CLCTN_TYP.class,locale));
-				rawCustomListElement.setCountCst(countCollectionFromRecordUses(rawCustom.getIdCollection().intValue()));
+				rawCustomListElement.setCountCst(countCollectionFromRecordUses(rawCustom.getIdCollection().intValue()));*/
 				result.add(rawCustomListElement);
 			}
 		} catch (HibernateException e) {
@@ -374,11 +356,11 @@ public class DAOCollectionCustom extends HibernateUtil
 		while (iter.hasNext()) {
 			CollectionCustomer rawCustom = (CollectionCustomer) iter.next();
 			CustomListElement rawCustomListElement = new CustomListElement(rawCustom);
-			rawCustomListElement.setIdCollection(rawCustom.getIdCollection().intValue());
+			/*rawCustomListElement.setIdCollection(rawCustom.getIdCollection().intValue());
 			rawCustomListElement.setNameIta(LibrisuiteAction.getDaoCodeTable().getLongText((short)rawCustom.getNameIta(),T_CLCTN_CST_TYP.class,locale));
 			rawCustomListElement.setTypologyCode(LibrisuiteAction.getDaoCodeTable().getLongText(rawCustom.getTypologyCode(),T_CLCTN_TYP.class,locale));
 			rawCustomListElement.setStatusCode(LibrisuiteAction.getDaoCodeTable().getLongText(rawCustom.getStatusCode().shortValue(),T_STS_CLCTN_TYP.class,locale));
-			rawCustomListElement.setCountCst(countCollectionFromRecordUses(rawCustom.getIdCollection().intValue()));
+			rawCustomListElement.setCountCst(countCollectionFromRecordUses(rawCustom.getIdCollection().intValue()));*/
 			result.add(rawCustomListElement);
 		}
 		return result;
@@ -393,11 +375,11 @@ public class DAOCollectionCustom extends HibernateUtil
 		while (iter.hasNext()) {
 			CollectionCustomer rawCustom = (CollectionCustomer) iter.next();
 			CustomListElement rawCustomListElement = new CustomListElement(rawCustom);
-			rawCustomListElement.setIdCollection(rawCustom.getIdCollection().intValue());
+			/*rawCustomListElement.setIdCollection(rawCustom.getIdCollection().intValue());
 			rawCustomListElement.setNameIta(LibrisuiteAction.getDaoCodeTable().getLongText((short)rawCustom.getNameIta(),T_CLCTN_CST_TYP.class,locale));
 			rawCustomListElement.setTypologyCode(LibrisuiteAction.getDaoCodeTable().getLongText(rawCustom.getTypologyCode(),T_CLCTN_TYP.class,locale));
 			rawCustomListElement.setStatusCode(LibrisuiteAction.getDaoCodeTable().getLongText(rawCustom.getStatusCode().shortValue(),T_STS_CLCTN_TYP.class,locale));
-			rawCustomListElement.setCountCst(countCollectionFromRecordUses(rawCustom.getIdCollection().intValue()));
+			rawCustomListElement.setCountCst(countCollectionFromRecordUses(rawCustom.getIdCollection().intValue()));*/
 			result2.add(rawCustomListElement);
 		}
 		return result2;
@@ -412,11 +394,11 @@ public class DAOCollectionCustom extends HibernateUtil
 		while (iter.hasNext()) {
 			CollectionCustomer rawCustom = (CollectionCustomer) iter.next();
 			CustomListElement rawCustomListElement = new CustomListElement(rawCustom);
-			rawCustomListElement.setIdCollection(rawCustom.getIdCollection().intValue());
+			/*rawCustomListElement.setIdCollection(rawCustom.getIdCollection().intValue());
 			rawCustomListElement.setNameIta(LibrisuiteAction.getDaoCodeTable().getLongText((short)rawCustom.getNameIta(),T_CLCTN_CST_TYP.class,locale));
 			rawCustomListElement.setTypologyCode(LibrisuiteAction.getDaoCodeTable().getLongText(rawCustom.getTypologyCode(),T_CLCTN_TYP.class,locale));
 			rawCustomListElement.setStatusCode(LibrisuiteAction.getDaoCodeTable().getLongText(rawCustom.getStatusCode().shortValue(),T_STS_CLCTN_TYP.class,locale));
-			rawCustomListElement.setCountCst(countCollectionFromRecordUses(rawCustom.getIdCollection().intValue()));
+			rawCustomListElement.setCountCst(countCollectionFromRecordUses(rawCustom.getIdCollection().intValue()));*/
 			result2.add(rawCustomListElement);
 		}
 //---->  20110203 inizio: visualizza le collection ordinate per descrizione nome e non per il codice numerico corrispondente al nome 
@@ -434,11 +416,11 @@ public class DAOCollectionCustom extends HibernateUtil
 		while (iter.hasNext()) {
 			CollectionCustomer rawCustom = (CollectionCustomer) iter.next();
 			CustomListElement rawCustomListElement = new CustomListElement(rawCustom);
-			rawCustomListElement.setIdCollection(rawCustom.getIdCollection().intValue());
+			/*rawCustomListElement.setIdCollection(rawCustom.getIdCollection().intValue());
 			rawCustomListElement.setNameIta(LibrisuiteAction.getDaoCodeTable().getLongText((short)rawCustom.getNameIta(),T_CLCTN_CST_TYP.class,locale));
 			rawCustomListElement.setTypologyCode(LibrisuiteAction.getDaoCodeTable().getLongText(rawCustom.getTypologyCode(),T_CLCTN_TYP.class,locale));
 			rawCustomListElement.setStatusCode(LibrisuiteAction.getDaoCodeTable().getLongText(rawCustom.getStatusCode().shortValue(),T_STS_CLCTN_TYP.class,locale));
-			rawCustomListElement.setCountCst(countCollectionFromRecordUses(rawCustom.getIdCollection().intValue()));
+			rawCustomListElement.setCountCst(countCollectionFromRecordUses(rawCustom.getIdCollection().intValue()));*/
 			result2.add(rawCustomListElement);
 		}
 //---->  20110203 inizio: visualizza le collection ordinate per descrizione nome e non per il codice numerico corrispondente al nome 
@@ -505,14 +487,14 @@ public class DAOCollectionCustom extends HibernateUtil
 		while (iter.hasNext()) {
 			CollectionCustomer rawCustom = (CollectionCustomer) iter.next();
 			CustomListElement rawCustomListElement = new CustomListElement(rawCustom);
-			rawCustomListElement.setIdCollection(rawCustom.getIdCollection().intValue());
+			/*rawCustomListElement.setIdCollection(rawCustom.getIdCollection().intValue());
 			rawCustomListElement.setNameIta(LibrisuiteAction.getDaoCodeTable().getLongText((short)rawCustom.getNameIta(),T_CLCTN_CST_TYP.class,locale));
 			rawCustomListElement.setTypologyCode(LibrisuiteAction.getDaoCodeTable().getLongText(rawCustom.getTypologyCode(),T_CLCTN_TYP.class,locale));
 			rawCustomListElement.setStatusCode(LibrisuiteAction.getDaoCodeTable().getLongText(rawCustom.getStatusCode().shortValue(),T_STS_CLCTN_TYP.class,locale));
 			rawCustomListElement.setCountCst(countCollectionFromRecordUses(rawCustom.getIdCollection().intValue()));
 //-------->	 20101014 inizio: devo memorizzare la data di associazione del record 
 			rawCustomListElement.setDateAssociatedRecord(getRecordAssociatedDate(itemNumber, rawCustom.getIdCollection().intValue()));
-//-------->	 20101014 fine
+//-------->	 20101014 fine*/
 			result2.add(rawCustomListElement);
 		}
 		return result2;

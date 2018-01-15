@@ -24,7 +24,6 @@ import org.folio.cataloging.business.controller.UserProfile;
 import org.folio.cataloging.business.digital.DigitalTagFormatException;
 import org.folio.cataloging.business.digital.FileManagerDo;
 import org.folio.cataloging.business.librivision.Record;
-import org.folio.cataloging.business.searching.NoResultsFoundException;
 import org.folio.cataloging.business.searching.ResultSet;
 import org.folio.cataloging.business.searching.WeightedAvpComparator;
 import org.folio.cataloging.dao.*;
@@ -131,7 +130,9 @@ public class ResultSummaryBean extends LibrisuiteBean
 	private String recordURL;
 	private String wemiGroupDisplayText;
 	private int currentSearchingView = 0;
-	
+
+	//TODO verify commented blocks and methods if we'll use it
+
 	/* Bug 4321 */
 	private String[] checkRecordForCart;
 	
@@ -550,7 +551,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 		 * @throws DataAccessException 
 		 * @throws RecordNotFoundException 
 		 */
-		public boolean isSerial() throws RecordNotFoundException, DataAccessException {
+		public boolean isSerial() throws DataAccessException {
 			if (isBibliographic()) {
 				return T_ITM_BIB_LVL.isSerial(new DAOBibItem()
 					.load(getAmicusNumber(getRecordNumber() - 1), getRecordView())
@@ -574,18 +575,18 @@ public class ResultSummaryBean extends LibrisuiteBean
 		 * 
 		 * @return
 		 */
-		public String getRecordViewText() {
+		/*public String getRecordViewText() {
 			return View.getViewText(record.getRecordView(), locale);
-		}
+		}*/
 
 		/**
 		 * The record view as short text
 		 * 
 		 * @return
 		 */
-		public String getRecordCompleteViewText() {
+		/*public String getRecordCompleteViewText() {
 			return View.getCompleteViewText(record.getRecordView(), locale);
-		}
+		}*/
 
 	}
 
@@ -1232,14 +1233,14 @@ public class ResultSummaryBean extends LibrisuiteBean
 	}
 
 	private void initDisplayFormat() throws DataAccessException {
-		if (isBibliographic()) {
+		/*if (isBibliographic()) {
 			if (!(displayFormat instanceof T_BIB_DSPLY_FRMT)) {
 				displayFormat = (T_BIB_DSPLY_FRMT) new DAOCodeTable().load(T_BIB_DSPLY_FRMT.class, getDisplayFormat(), locale);
 			}
 		} else {
 			if (!(displayFormat instanceof T_AUT_DSPLY_FRMT)) {displayFormat = (T_AUT_DSPLY_FRMT) new DAOCodeTable().load(T_AUT_DSPLY_FRMT.class, getDisplayFormat(), locale);
 			}
-		}
+		}*/
 	}
 
 	private String getDisplayBrief(String resourceKey) {
@@ -1447,7 +1448,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 
 	public EditBean prepareItemForEditing(int itemIndex,
 			HttpServletRequest request) throws DataAccessException,
-			MarcCorrelationException, RecordInUseException,
+            RecordInUseException,
 			AuthorisationException {
 		int amicusNumber = getAmicusNumber(itemIndex);
 
@@ -1475,7 +1476,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 	
 	public EditBean prepareItemForVisualizeCodes(int itemIndex,
 			HttpServletRequest request) throws DataAccessException,
-			MarcCorrelationException, RecordInUseException,
+            RecordInUseException,
 			AuthorisationException {
 		int amicusNumber = getAmicusNumber(itemIndex);
 
@@ -1503,7 +1504,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 
 	public EditBean prepareAuthorityItemForEditing(int itemIndex,
 			HttpServletRequest request) throws DataAccessException,
-			MarcCorrelationException, RecordInUseException,
+            RecordInUseException,
 			AuthorisationException {
 		int amicusNumber = getAmicusNumber(itemIndex);
 
@@ -1527,7 +1528,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 
 	public EditBean prepareItemForEditingDuplicate(int itemIndex,
 			HttpServletRequest request) throws DataAccessException,
-			MarcCorrelationException, RecordInUseException {
+            RecordInUseException {
 		int amicusNumber = getAmicusNumber(itemIndex);
 
 		EditBean bean = super.prepareItemForEditingDuplicate(new Object[] {
@@ -1542,7 +1543,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 	}
 
 	public EditBean restoreItem(HttpServletRequest request)
-			throws DataAccessException, MarcCorrelationException {
+			throws DataAccessException {
 
 		EditBean bean = EditBean.getInstance(request);
 		bean.setCatalogItem(formerCatalogItem);
@@ -1579,9 +1580,8 @@ public class ResultSummaryBean extends LibrisuiteBean
 			throw new RuntimeException("Unable to parse record for openURL", e);
 			// return result;
 		}
-		;
 
-		logger.debug("result is " + result);
+        logger.debug("result is " + result);
 		return result;
 	}
 
@@ -1597,16 +1597,16 @@ public class ResultSummaryBean extends LibrisuiteBean
 		}
 	}
 
-	public void setDisplayFormat(short code) throws DataAccessException 
+	public void setDisplayFormat(short code) throws DataAccessException
 	{
 		short oldDisplayFormat = getDisplayFormat();
-		if (code != oldDisplayFormat) {
+		/*if (code != oldDisplayFormat) {
 			if (resultSet != null) {
 				displayFormat = resultSet.getDisplayFormat(code, locale);
 			} else {			
 				displayFormat = (T_BIB_DSPLY_FRMT) new DAOCodeTable().load(T_BIB_DSPLY_FRMT.class, code, locale);
 			}
-		}
+		}*/
 		if (oldDisplayFormat > 0) {
 			/*
 			 * If we're initialising the bean then the recordArrayList will be
@@ -1616,6 +1616,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 			setRecordArrayList(null);
 		}
 	}
+
 	public List getDisplayFormatList() {
 		return resultSet.getDisplayFormatList(locale);
 	}
@@ -1640,7 +1641,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 	 * @throws NewTagException
 	 * @throws ValidationException
 	 */
-	public void createOtherFormatRecord(int itemNumber,	HttpServletRequest request, int target) throws MarcCorrelationException, DataAccessException, RecordInUseException, AuthorisationException, NewTagException, ValidationException 
+	public void createOtherFormatRecord(final Session session, int itemNumber,	HttpServletRequest request, int target) throws DataAccessException, RecordInUseException, AuthorisationException, NewTagException, ValidationException
 	{
 		/* Genero una nuova id (amicus_nbr) per il record duplicato */
 		EditBean editBean = prepareItemForEditing(itemNumber, request);
@@ -1785,7 +1786,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 		}
 	}
 
-	public Tag duplicateTag020(Tag aTag, String amicusNumberNew, EditBean editBean, HttpServletRequest request) throws MarcCorrelationException, AuthorisationException, DataAccessException 
+	public Tag duplicateTag020(Tag aTag, String amicusNumberNew, EditBean editBean, HttpServletRequest request) throws AuthorisationException, DataAccessException
 	{
 		ControlNumberAccessPoint tag020 = (ControlNumberAccessPoint) aTag;
 		ControlNumberAccessPoint tag020new =null;
@@ -1817,8 +1818,8 @@ public class ResultSummaryBean extends LibrisuiteBean
 	private void createTag776Original(int target, EditBean editBean,
 			int cataloguingView, HttpServletRequest request)
 			throws NewTagException, AuthorisationException,
-			DataAccessException, MarcCorrelationException,
-			NumberFormatException, RecordInUseException {
+			DataAccessException,
+            NumberFormatException, RecordInUseException {
 		BibliographicRelationshipTag tag776 = (BibliographicRelationshipTag) editBean
 				.newTag(0, (short) 8);
 		CorrelationValues v = new CorrelationValues((short) 5, (short) 2,
@@ -1845,8 +1846,8 @@ public class ResultSummaryBean extends LibrisuiteBean
 				.getCataloguingView(request));
 	}
 
-	public void duplicateRecord(int itemNumber, HttpServletRequest request)
-			throws MarcCorrelationException, DataAccessException,
+	public void duplicateRecord(final Session session, int itemNumber, HttpServletRequest request)
+			throws DataAccessException,
 			RecordInUseException, AuthorisationException, NewTagException,
 			ValidationException {
 		// Genero una nuova id (amicus_nbr) per il record duplicato
@@ -1917,7 +1918,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 
 	public Tag duplicateTag097(Tag aTag, String amicusNumberNew,
 			EditBean editBean, HttpServletRequest request)
-			throws MarcCorrelationException, AuthorisationException,
+			throws AuthorisationException,
 			DataAccessException {
 		ControlNumberAccessPoint tag097 = (ControlNumberAccessPoint) aTag;
 		StringText text = tag097.getStringText();
@@ -2003,7 +2004,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 
 	public void createEquivalentRecord(int itemNumber, short indexingLanguage,
 			HttpServletRequest request, int target)
-			throws MarcCorrelationException, DataAccessException,
+			throws DataAccessException,
 			RecordInUseException, NewTagException, AuthorisationException,
 			EquivalentException, ValidationException {
 		DAOSystemNextNumber dao = new DAOSystemNextNumber();
@@ -2098,11 +2099,11 @@ public class ResultSummaryBean extends LibrisuiteBean
 
 	public String createEquivalentRecordForExport(int itemNumber,
 			short indexingLanguage, int target, int VW_T1)
-			throws MarcCorrelationException, DataAccessException,
+			throws DataAccessException,
 			RecordInUseException, NewTagException, AuthorisationException,
 			EquivalentException, UnsupportedEncodingException {
 		BibliographicCatalog catalog = new BibliographicCatalog();
-		CatalogItem item = (CatalogItem) catalog.getCatalogItem(new Object[] {
+		CatalogItem item = catalog.getCatalogItem(new Object[] {
 				new Integer(itemNumber), new Integer(VW_T1) });
 		String lingua = new DAOCodeTable()
 				.getLanguageOfIndexing(indexingLanguage);
@@ -2236,8 +2237,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 
 	private void getTag791LanguageOriginal(int target, EditBean editBean,
 			int cataloguingView) throws NewTagException,
-			AuthorisationException, DataAccessException,
-			MarcCorrelationException {
+			AuthorisationException, DataAccessException {
 		BibliographicRelationshipTag tag791 = (BibliographicRelationshipTag) editBean
 				.newTag(0, (short) 8);
 
@@ -2255,8 +2255,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 
 	private void getTag791LanguageOriginalExport(int target,
 			int cataloguingView, CatalogItem item) throws NewTagException,
-			AuthorisationException, DataAccessException,
-			MarcCorrelationException {
+			AuthorisationException, DataAccessException {
 		BibliographicRelationshipTag tag791 = new BibliographicRelationshipTag();
 		// BibliographicRelationshipTag tag791 = (BibliographicRelationshipTag)
 		// .newTag(0, (short) 8);
@@ -2275,7 +2274,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 
 	private void createTag092(int target, EditBean editBean, CatalogItem item,
 			HttpServletRequest request) throws NewTagException,
-			SortFormException, DataAccessException, AuthorisationException,
+            DataAccessException, AuthorisationException,
 			ValidationException {
 		CataloguingSourceTag cat040 = (CataloguingSourceTag) item
 				.findFirstTagByNumber("040");
@@ -2940,18 +2939,18 @@ public class ResultSummaryBean extends LibrisuiteBean
 		}
 	}
 
-	public void setNTIInTheBean() throws NoResultsFoundException,
-			LibrisuiteException {
+	public void setNTIInTheBean() throws
+            LibrisuiteException {
 		DAOCasCache daoCCache = new DAOCasCache();
 
 		int cont = 0;
 		CasCache cCache;
 		for (int i = 0; i < this.getRecordArrayList().size(); i++) {
 			try {
-				int recNumber = ((AmicusResultSet) this.getResultSet())
+				int recNumber = this.getResultSet()
 						.getAmicusNumber(i).intValue();
 
-				cCache = (CasCache) daoCCache.getCasCache(recNumber);
+				cCache = daoCCache.getCasCache(recNumber);
 				if (cCache != null && cCache.getFlagNTI() != null) {
 					if (cCache.getFlagNTI().equalsIgnoreCase("Y")) {
 						cont = cont + 1;
@@ -3296,7 +3295,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 	}
 
 	public String getAuthors(EditBean editBean)
-			throws MarcCorrelationException, DataAccessException {
+			throws DataAccessException {
 		StringBuffer buffer = new StringBuffer();
 		List appo = ((BibliographicItem) editBean.getCatalogItem())
 				.getOrderableNames();
@@ -3311,8 +3310,8 @@ public class ResultSummaryBean extends LibrisuiteBean
 		return buffer.toString();
 	}
 
-	public String getTitle(EditBean editBean) throws MarcCorrelationException,
-			DataAccessException {
+	public String getTitle(EditBean editBean) throws
+            DataAccessException {
 		String title = "";
 		TitleAccessPoint t245 = (TitleAccessPoint) editBean.getCatalogItem()
 				.findFirstTagByNumber("245");
@@ -3350,7 +3349,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 /*		if(!functionsDisabled)
 			return false;
 		boolean isOrdersForRecord = false;
-		OrderController orderController = (OrderController) request.getSession().getAttribute("orderController");
+		OrderController orderController = (OrderController) request.getHttpSession().getAttribute("orderController");
 		orderController.setAmicusNumber(String.valueOf(getAmicusNumber(0)));
 		isOrdersForRecord = orderController.isOrderForRecord(getAmicusNumber(0));
 		return isOrdersForRecord;
@@ -3402,7 +3401,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 	private String insertTags(String content,Integer amicusNumber,String symbolCode) throws DataAccessException, UnsupportedEncodingException {
 		org.marc4j.marc.Record result = null;
 		MarcReader reader = new MarcPermissiveStreamReader(new ByteArrayInputStream(content.getBytes()),true,false,"UTF-8");
-		result = (org.marc4j.marc.Record) reader.next();
+		result = reader.next();
 		
 		try{
 			setTag850(result,symbolCode);

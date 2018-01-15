@@ -7,24 +7,19 @@
  */
 package org.folio.cataloging.dao;
 
-import java.util.List;
-
-import org.folio.cataloging.business.cataloguing.bibliographic.BIB_ITM;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.dao.persistence.CPY_ID;
-import org.folio.cataloging.dao.persistence.Cache;
-import org.folio.cataloging.dao.persistence.Inventory;
-import org.folio.cataloging.dao.persistence.S_INVTRY;
-import org.folio.cataloging.dao.persistence.Vendor;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.LockMode;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-
+import org.folio.cataloging.business.cataloguing.bibliographic.BIB_ITM;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
+import org.folio.cataloging.dao.persistence.*;
+
+import java.util.List;
 
 /**
  * @author paulm
@@ -74,14 +69,10 @@ public class DAOInventory extends HibernateUtil {
 					+ " where s.copyNumber = ? ",
 				new Object[] { new Integer(item.getCopyNumber())},
 				new Type[] { Hibernate.INTEGER });
-		if (l.size() > 0 && ((Integer) l.get(0)).intValue() > 0) {
-			return true;
-		} else {
-			return false;
-		}
+        return l.size() > 0 && ((Integer) l.get(0)).intValue() > 0;
 	}
 
-	public void populateNewItem(Inventory item, int cataloguingView)
+	public void populateNewItem(final Inventory item, final int cataloguingView)
 		throws DataAccessException {
 		DAOCache dao = new DAOCache();
 		CPY_ID copy = new DAOCopy().load(item.getCopyNumber());
@@ -154,7 +145,10 @@ public class DAOInventory extends HibernateUtil {
 		}
 
 		if (vendorOrganisationNumber != null) {
-			Vendor v = (Vendor) get(Vendor.class, vendorOrganisationNumber);
+			//TODO fix session!
+			final Session session = currentSession();
+
+			Vendor v = (Vendor) get(session, Vendor.class, vendorOrganisationNumber);
 			item.setVendorName(v.getName());
 		}
 	}
