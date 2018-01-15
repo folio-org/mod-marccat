@@ -7,32 +7,28 @@
  */
 package org.folio.cataloging.dao.persistence;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.Iterator;
-
-import org.folio.cataloging.dao.DAOCopy;
-import org.folio.cataloging.dao.DAOGlobalVariable;
-import org.folio.cataloging.dao.DAOSystemNextNumber;
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
-import org.folio.cataloging.business.common.SortFormException;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
+import org.folio.cataloging.dao.DAOCopy;
+import org.folio.cataloging.dao.DAOGlobalVariable;
+import org.folio.cataloging.dao.DAOSystemNextNumber;
+import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.exception.EmptySubfieldException;
 import org.folio.cataloging.exception.InvalidShelfListTypeException;
-import org.folio.cataloging.exception.InvalidTransactionDateException;
 import org.folio.cataloging.exception.NoSubfieldCodeException;
 import org.folio.cataloging.exception.ValidationException;
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.util.StringText;
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.util.StringText;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.Iterator;
 
 /**
  * @author elena
@@ -328,15 +324,15 @@ public class CPY_ID implements Persistence, Serializable {
 		physicalCopyType = integer;
 	}
 
-	public void setShelfListKeyNumber(Integer integer) {
+	public void setShelfListKeyNumber(Integer shelfListKeyNumber) {
 		/*
 		 * The AMICUS database, for historic reasons?, has rows with both 0 and
 		 * null in this column -- both should be treated as null
 		 */
-		if (integer != null && integer.intValue() == 0) {
-			shelfListKeyNumber = null;
+		if ((shelfListKeyNumber != null) && (shelfListKeyNumber == 0)) {
+			this.shelfListKeyNumber = null;
 		} else {
-			shelfListKeyNumber = integer;
+			this.shelfListKeyNumber = shelfListKeyNumber;
 		}
 	}
 
@@ -520,9 +516,8 @@ public class CPY_ID implements Persistence, Serializable {
 	 * Performs validation of this object to ensure that it is ready to be saved
 	 * to the database. Throws exceptions for failed validations
 	 */
-	public void validate() throws EmptySubfieldException,
-			NoSubfieldCodeException, InvalidShelfListTypeException,
-			InvalidTransactionDateException, ValidationException {
+	public void validate() throws
+            ValidationException {
 
 		/*if (getTransactionDate() != null
 				&& getTransactionDate().before(getCreationDate())) {
@@ -563,8 +558,8 @@ public class CPY_ID implements Persistence, Serializable {
 		}
 	}
 
-	public String calculateSortForm(String s) throws SortFormException,
-			DataAccessException {
+	public String calculateSortForm(String s) throws
+            DataAccessException {
 		String sortForm = "";
 		if (s != null && s.length() > 0) {
 			SortFormParameters parms = new SortFormParameters(100, 105, 0, 0, 0);
@@ -664,8 +659,6 @@ public class CPY_ID implements Persistence, Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		final CPY_ID other = (CPY_ID) obj;
-		if (copyIdNumber != other.copyIdNumber)
-			return false;
-		return true;
-	}
+        return copyIdNumber == other.copyIdNumber;
+    }
 }

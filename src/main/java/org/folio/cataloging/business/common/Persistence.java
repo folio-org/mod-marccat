@@ -7,11 +7,10 @@
  */
 package org.folio.cataloging.business.common;
 
-import java.io.Serializable;
-
 import net.sf.hibernate.Lifecycle;
-
 import org.folio.cataloging.dao.common.HibernateUtil;
+
+import java.io.Serializable;
 
 /**
  * Implementing this interface indicates that the implementing 
@@ -27,42 +26,42 @@ public interface Persistence extends Lifecycle, Serializable {
 	 * Removes the object from the persistence session
 	 * @since 1.0
 	 */
-	public void evict() throws DataAccessException;
+    void evict() throws DataAccessException;
 	
 	/**
 	 * 
 	 */
-	public int getUpdateStatus();
+    int getUpdateStatus();
 
 	/**
 		 * 
 		 */
-	public void setUpdateStatus(int i);
+    void setUpdateStatus(int i);
 
-	public boolean isChanged();
+	boolean isChanged();
 
-	public boolean isDeleted();
+	boolean isDeleted();
 
-	public boolean isNew();
+	boolean isNew();
 
 	/**
 	 * If object is now UNCHANGED make it CHANGED (otherwise leave it alone)
 	 *
 	 */
-	public void markChanged();
+    void markChanged();
 
-	public void markNew();
+	void markNew();
 
-	public void markUnchanged();
+	void markUnchanged();
 
-	public void markDeleted();
+	void markDeleted();
 
 	/**
 		 * causes the object to generate new key values
 		 *
 		 */
-	public abstract void generateNewKey() throws DataAccessException;
+    void generateNewKey() throws DataAccessException;
 	
-	public abstract HibernateUtil getDAO();
+	HibernateUtil getDAO();
 
 }

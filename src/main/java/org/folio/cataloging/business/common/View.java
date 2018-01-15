@@ -7,10 +7,10 @@
  */
 package org.folio.cataloging.business.common;
 
-import java.util.Locale;
-
 import org.folio.cataloging.dao.DAOCodeTable;
 import org.folio.cataloging.dao.persistence.DB_LIST;
+
+import java.util.Locale;
 
 
 /**
@@ -84,7 +84,7 @@ public class View {
 	/**
 	 * Determines the equivalent integer value view from the (single) view string
 	 * 
-	 * @param cataloguingView -- the position to be set to '1' (1 indexing)
+	 * @param userViewString -- the position to be set to '1' (1 indexing)
 	 */
 
 	static public short toIntView(String userViewString) {
@@ -123,8 +123,9 @@ public class View {
 	 */
 	public static String getViewText(int view, Locale locale) {
 		try {
-			return new DAOCodeTable().load(DB_LIST.class, (short) (view),
-					locale).getShortText();
+			//TODO: session
+			DAOCodeTable dao = new DAOCodeTable();
+			return dao.load(dao.currentSession(), DB_LIST.class, (short) (view), locale).getShortText();
 		} catch (Exception e) {
 			return null;
 		}
@@ -140,7 +141,9 @@ public class View {
 	 */
 	public static String getCompleteViewText(int view, Locale locale) {
 		try {
-			return new DAOCodeTable().load(DB_LIST.class, (short) (view),
+			//TODO session
+			DAOCodeTable daoCodeTable = new DAOCodeTable();
+			return daoCodeTable.load(daoCodeTable.currentSession(), DB_LIST.class, (short) (view),
 					locale).getLongText();
 		} catch (Exception e) {
 			return null;

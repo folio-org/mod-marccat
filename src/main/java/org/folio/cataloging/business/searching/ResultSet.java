@@ -1,17 +1,18 @@
 package org.folio.cataloging.business.searching;
 
-import java.util.List;
-import java.util.Locale;
-
+import net.sf.hibernate.Session;
 import org.folio.cataloging.bean.cataloguing.bibliographic.codelist.CodeListsBean;
-import org.folio.cataloging.dao.DAOCodeTable;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.exception.LibrisuiteException;
 import org.folio.cataloging.business.librivision.Record;
+import org.folio.cataloging.dao.DAOCodeTable;
 import org.folio.cataloging.dao.persistence.T_AUT_DSPLY_FRMT;
 import org.folio.cataloging.dao.persistence.T_BIB_DSPLY_FRMT;
 import org.folio.cataloging.dao.persistence.T_ITM_DSPLY_FRMT;
+import org.folio.cataloging.exception.LibrisuiteException;
+
+import java.util.List;
+import java.util.Locale;
 
 @SuppressWarnings("unchecked")
 public abstract class ResultSet 
@@ -195,12 +196,12 @@ public abstract class ResultSet
 		}
 	}
 
-	public T_ITM_DSPLY_FRMT getDisplayFormat(short code, Locale locale)	throws DataAccessException 
+	public T_ITM_DSPLY_FRMT getDisplayFormat(final Session session, final short code, final Locale locale)	throws DataAccessException
 	{
 		if (isBibliographic() || isArchive()) {		
-			return (T_BIB_DSPLY_FRMT) new DAOCodeTable().load(T_BIB_DSPLY_FRMT.class, code, locale);
+			return (T_BIB_DSPLY_FRMT) new DAOCodeTable().load(session, T_BIB_DSPLY_FRMT.class, code, locale);
 		} else {
-			return (T_AUT_DSPLY_FRMT) new DAOCodeTable().load(T_AUT_DSPLY_FRMT.class, code,	locale);
+			return (T_AUT_DSPLY_FRMT) new DAOCodeTable().load(session, T_AUT_DSPLY_FRMT.class, code,	locale);
 		}
 	}
 }

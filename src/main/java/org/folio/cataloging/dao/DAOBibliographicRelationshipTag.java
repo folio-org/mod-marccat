@@ -7,24 +7,22 @@
  */
 package org.folio.cataloging.dao;
 
-import java.util.List;
-
+import net.sf.hibernate.Hibernate;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.type.Type;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicRelationship;
 import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicRelationshipTag;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.UpdateStatus;
-import org.folio.cataloging.dao.persistence.BibliographicRelationReciprocal;
-import net.sf.hibernate.Hibernate;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.type.Type;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
+import org.folio.cataloging.dao.persistence.BibliographicRelationReciprocal;
+
+import java.util.List;
 /**
   * @author hansv
  * @version $Revision: 1.6 $ $Date: 2007/04/09 09:58:07 $
@@ -36,7 +34,7 @@ public class DAOBibliographicRelationshipTag extends HibernateUtil {
 	/* (non-Javadoc)
 	 * @see HibernateUtil#delete(librisuite.business.common.Persistence)
 	 */
-	public void delete(Persistence po) throws DataAccessException {
+	public void delete(final Session session, final Persistence po) throws DataAccessException {
 		if (!(po instanceof BibliographicRelationshipTag)) {
 			throw new IllegalArgumentException("I can only persist BibliographicRelationshipTag objects");
 		}
@@ -47,11 +45,11 @@ public class DAOBibliographicRelationshipTag extends HibernateUtil {
 		 */
 		BibliographicRelationshipTag aRelation =
 			((BibliographicRelationshipTag) po).getOriginalTag();
-		evictAny(aRelation.getSourceRelationship());
+		evictAny(session, aRelation.getSourceRelationship());
 		aRelation.getSourceRelationship().markDeleted();
 		super.delete(aRelation.getSourceRelationship());
 		if (aRelation.getTargetRelationship() != null) {
-			evictAny(aRelation.getTargetRelationship());
+			evictAny(session, aRelation.getTargetRelationship());
 			aRelation.getTargetRelationship().markDeleted();
 			super.delete(aRelation.getTargetRelationship());
 		}
@@ -192,9 +190,9 @@ public class DAOBibliographicRelationshipTag extends HibernateUtil {
 		return -1;
 	}
 
-	private void evictAny(BibliographicRelationship aRelation) throws DataAccessException {
+	private void evictAny(final Session session, final BibliographicRelationship aRelation) throws DataAccessException {
 			BibliographicRelationship inCache = (BibliographicRelationship)
-				get(BibliographicRelationship.class, aRelation);
+				get(session, BibliographicRelationship.class, aRelation);
 			if (inCache != null) {
 				inCache.evict();
 			}

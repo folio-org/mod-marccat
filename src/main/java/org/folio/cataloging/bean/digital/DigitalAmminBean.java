@@ -1,6 +1,6 @@
 package org.folio.cataloging.bean.digital;
 
-import org.apache.commons.httpclient.HttpException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.bean.LibrisuiteBean;
 import org.folio.cataloging.bean.cas.CasaliniCodeListsBean;
 import org.folio.cataloging.bean.cas.CasaliniContextBean;
@@ -519,13 +519,13 @@ public class DigitalAmminBean extends LibrisuiteBean
 		this.titolo = titolo;
 	}
 	
-	public void setDataOfRecord(EditBean editBean) throws MarcCorrelationException, DataAccessException 
+	public void setDataOfRecord(final Session session, final EditBean editBean) throws DataAccessException
 	{
 		setTitolo(getTitleFromtag245(editBean));
 		
 		setAutore(getAuthorFromCatalogItem(editBean));	
 		
-		setDescrTag008(getDescrTag008(editBean));
+		setDescrTag008(getDescrTag008(session, editBean));
 	}
 	/**
 	 * Metodo che prende l'autore del tag 245
@@ -572,7 +572,7 @@ public class DigitalAmminBean extends LibrisuiteBean
 	 * @return descrizione del tag008
 	 * @throws DataAccessException
 	 */
-	public String getDescrTag008(EditBean editBean) throws DataAccessException
+	public String getDescrTag008(final Session session, final EditBean editBean) throws DataAccessException
 	{
 		DAOCodeTable daoCodeTable = new DAOCodeTable();
 		String text = new String();
@@ -585,49 +585,49 @@ public class DigitalAmminBean extends LibrisuiteBean
 		
 		if (t008.isBook()) {
 			category = 31;
-			type=daoCodeTable.getLongText(category, T_BIB_HDR.class, locale);
+			type=daoCodeTable.getLongText(session, category, T_BIB_HDR.class, locale);
 			for (int i = 0; i < t008.getNatureOfContentsCode().length(); i++) {
 				if (!(String.valueOf(t008.getNatureOfContentsChar()[i]).equalsIgnoreCase(" "))) {
-					text = text + " " + daoCodeTable.getLongText(t008.getNatureOfContentsChar()[i], T_NTR_OF_CNTNT.class, locale);
+					text = text + " " + daoCodeTable.getLongText(session, t008.getNatureOfContentsChar()[i], T_NTR_OF_CNTNT.class, locale);
 				}
 			}
 			
 		} else if (t008.isComputerFile()) {
 			category = 32;
-			type=daoCodeTable.getLongText(category, T_BIB_HDR.class, locale);
-			text = daoCodeTable.getLongText(t008.getComputerFileTypeCode().charValue(), T_CMPTR_FIL_TYP.class, locale);
+			type=daoCodeTable.getLongText(session, category, T_BIB_HDR.class, locale);
+			text = daoCodeTable.getLongText(session, t008.getComputerFileTypeCode().charValue(), T_CMPTR_FIL_TYP.class, locale);
 			
 		} else if (t008.isMap()) {
 			category = 33;
-			type=daoCodeTable.getLongText(category, T_BIB_HDR.class, locale);
+			type=daoCodeTable.getLongText(session, category, T_BIB_HDR.class, locale);
 			for (int i = 0; i < t008.getCartographicFormatCode().length(); i++) {
-				text = text + " " + daoCodeTable.getLongText(t008.getCartographicFormatChar()[i], T_CRTGC_FRMT.class, locale);
+				text = text + " " + daoCodeTable.getLongText(session, t008.getCartographicFormatChar()[i], T_CRTGC_FRMT.class, locale);
 			}
 			
 		} else if (t008.isMixedMaterial()) {
 			category = 34;
-			type=daoCodeTable.getLongText(category, T_BIB_HDR.class, locale);
+			type=daoCodeTable.getLongText(session, category, T_BIB_HDR.class, locale);
 			text = "";
 			
 		} else if (t008.isMusic()) {
 			category = 35;
-			type=daoCodeTable.getLongText(category, T_BIB_HDR.class, locale);
-			text = daoCodeTable.getLongText(t008.getMusicFormOfCompositionCode(), T_MSC_FORM_OR_TYP.class, locale);
+			type=daoCodeTable.getLongText(session, category, T_BIB_HDR.class, locale);
+			text = daoCodeTable.getLongText(session, t008.getMusicFormOfCompositionCode(), T_MSC_FORM_OR_TYP.class, locale);
 			
 		} else if (t008.isSerial()) {
 			category = 36;
-			type=daoCodeTable.getLongText(category, T_BIB_HDR.class, locale);
-			text = daoCodeTable.getLongText(t008.getSerialTypeCode().charValue(), T_SRL_TYP.class, locale);
+			type=daoCodeTable.getLongText(session, category, T_BIB_HDR.class, locale);
+			text = daoCodeTable.getLongText(session, t008.getSerialTypeCode().charValue(), T_SRL_TYP.class, locale);
 			for (int i = 0; i < t008.getNatureOfContentsCode().length(); i++) {
 				if (!(String.valueOf(t008.getNatureOfContentsChar()[i]).equalsIgnoreCase(" "))) {
-					text = text + " " + daoCodeTable.getLongText(t008.getNatureOfContentsChar()[i], T_NTR_OF_CNTNT.class, locale);
+					text = text + " " + daoCodeTable.getLongText(session, t008.getNatureOfContentsChar()[i], T_NTR_OF_CNTNT.class, locale);
 				}
 			}
 			
 		} else if (t008.isVisualMaterial()) {
 			category = 37;
-			type = daoCodeTable.getLongText(category, T_BIB_HDR.class, locale);
-			text = daoCodeTable.getLongText(t008.getVisualMaterialTypeCode().charValue(), T_VSL_MTRL_TYP.class, locale);
+			type = daoCodeTable.getLongText(session, category, T_BIB_HDR.class, locale);
+			text = daoCodeTable.getLongText(session, t008.getVisualMaterialTypeCode().charValue(), T_VSL_MTRL_TYP.class, locale);
 		}
 		
 		if (type.trim().length()>4){
@@ -793,7 +793,7 @@ public class DigitalAmminBean extends LibrisuiteBean
 		return mappa;
 	}
 	
-	public void workTag59x(EditBean bean, HttpServletRequest request) throws MarcCorrelationException, AuthorisationException, DataAccessException, NewTagException, ValidationException 
+	public void workTag59x(EditBean bean, HttpServletRequest request) throws AuthorisationException, DataAccessException, NewTagException, ValidationException
 	{
 		setSaveRecord(true);
 		if (!getListTag59().isEmpty()){
@@ -856,14 +856,14 @@ public class DigitalAmminBean extends LibrisuiteBean
 		}
 	}
 	
-	public void removeTag(BibliographicNoteTag tag, EditBean bean) throws MarcCorrelationException, AuthorisationException, DataAccessException, ValidationException 
+	public void removeTag(BibliographicNoteTag tag, EditBean bean) throws AuthorisationException, DataAccessException, ValidationException
 	{
 		int i = bean.getCatalogItem().getTags().indexOf(tag);
 		bean.setTagIndex(i);
 		bean.deleteTag();
 	}
 
-	public void insertTag591(EditBean bean, HttpServletRequest request) throws MarcCorrelationException, NewTagException, AuthorisationException, DataAccessException, ValidationException 
+	public void insertTag591(EditBean bean, HttpServletRequest request) throws NewTagException, AuthorisationException, DataAccessException, ValidationException
 	{	
 		if (verifyInsertT591()){
 			
@@ -917,7 +917,7 @@ public class DigitalAmminBean extends LibrisuiteBean
 		return isOk;
 	}
 	
-	public void insertTag592(EditBean bean, HttpServletRequest request) throws MarcCorrelationException, NewTagException, AuthorisationException, DataAccessException, ValidationException 
+	public void insertTag592(EditBean bean, HttpServletRequest request) throws NewTagException, AuthorisationException, DataAccessException, ValidationException
 	{
 		if ((getCurrentItem().getDescrizione()!=null) && (getCurrentItem().getDescrizione().trim().length()>0)) {
 			
@@ -1060,7 +1060,7 @@ public class DigitalAmminBean extends LibrisuiteBean
 		getCurrentItem().setLstUser(user.getName());
 	}
 	
-	public void tag365(EditBean bean) throws DataAccessException, MarcCorrelationException, AuthorisationException, ValidationException, NewTagException
+	public void tag365(EditBean bean) throws DataAccessException, AuthorisationException, ValidationException, NewTagException
 	{
 		
 		if (getCurrentItem().getLstType()!=null && getCurrentItem().getLstType().trim().length()>0) {
@@ -1075,7 +1075,7 @@ public class DigitalAmminBean extends LibrisuiteBean
 		}
 	}
 
-	public void tag300(EditBean bean) throws DataAccessException, MarcCorrelationException, AuthorisationException, ValidationException, NewTagException
+	public void tag300(EditBean bean) throws DataAccessException, AuthorisationException, ValidationException, NewTagException
 	{
 		BibliographicNoteTag t300 = (BibliographicNoteTag) bean.getCatalogItem().findFirstTagByNumber("300");
 		if (t300==null){
@@ -1119,7 +1119,7 @@ public class DigitalAmminBean extends LibrisuiteBean
 		return null;
 	}
 	
-	public void insertTag365(EditBean bean) throws MarcCorrelationException, NewTagException, AuthorisationException, DataAccessException, ValidationException 
+	public void insertTag365(EditBean bean) throws NewTagException, AuthorisationException, DataAccessException, ValidationException
 	{				
 			BibliographicNoteTag tag365 = (BibliographicNoteTag) bean.newTag(1, (short) 7);
 			CorrelationValues v = new CorrelationValues((short)378,(short) -1, (short) -1);
@@ -1209,7 +1209,7 @@ public class DigitalAmminBean extends LibrisuiteBean
 		}
 	}
 	
-	public void doiModify(EditBean editBean, HttpServletRequest request) throws NumberFormatException, DataAccessException, DigitalDoiException, DigitalLevelException, HttpException, RequiredFieldsException, IOException
+	public void doiModify(EditBean editBean, HttpServletRequest request) throws NumberFormatException, DataAccessException, DigitalDoiException, DigitalLevelException, RequiredFieldsException, IOException
 	{
 		DigitalDoiBean digitalDoiBean = new DigitalDoiBean(editBean, request);
 		String codiceDoi = editBean.getDoiCode();

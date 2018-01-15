@@ -7,11 +7,11 @@
  */
 package org.folio.cataloging.dao;
 
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.RecordNotFoundException;
-import org.folio.cataloging.dao.persistence.AUT;
-
 import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.persistence.AUT;
 
 /**
  * @author paulm
@@ -20,8 +20,8 @@ import org.folio.cataloging.dao.common.HibernateUtil;
  */
 public class DAOAUT extends HibernateUtil {
 //TODO add update to hdg_aut_cnt on add and delete
-	public AUT load(int id) throws DataAccessException {
-		AUT itm = (AUT) get(AUT.class, new Integer(id));
+	public AUT load(final Session session, final int id) throws DataAccessException {
+		AUT itm = (AUT) get(session, AUT.class, new Integer(id));
 		if (itm == null) {
 			throw new RecordNotFoundException();
 		}

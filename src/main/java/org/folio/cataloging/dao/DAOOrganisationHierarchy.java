@@ -7,36 +7,35 @@
  */
 package org.folio.cataloging.dao;
 
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.Defaults;
+import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.persistence.LIB;
+import org.folio.cataloging.dao.persistence.ORG_HRCHY;
+import org.folio.cataloging.dao.persistence.ORG_NME;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Vector;
 
-import org.folio.cataloging.dao.persistence.LIB;
-import org.folio.cataloging.dao.persistence.ORG_HRCHY;
-import org.folio.cataloging.dao.persistence.ORG_NME;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Defaults;
-
 /**
  * Handles data access to ORG
  * 
  * @author paulm, elena
+ * @author natasciab
  * @version %I%, %G%
  * @since 1.0
  */
 public class DAOOrganisationHierarchy extends HibernateUtil {
 	private Log logger = LogFactory.getLog(DAOOrganisationHierarchy.class);
 
-	public ORG_HRCHY load(int branchLibrary) throws DataAccessException {
-		return (ORG_HRCHY) get(ORG_HRCHY.class, new Integer(branchLibrary));
+	public ORG_HRCHY load(final Session session, final int branchLibrary) throws DataAccessException {
+		return (ORG_HRCHY) get(session, ORG_HRCHY.class, new Integer(branchLibrary));
 	}
 
 	/**
@@ -49,7 +48,7 @@ public class DAOOrganisationHierarchy extends HibernateUtil {
 	public String getLibOrBranchName(int orgNbr, Locale locale)
 		throws DataAccessException {
 
-		String result = new String("");
+		String result = "";
 
 		ORG_NME orgNmeRegister =
 			(ORG_NME) load(ORG_NME.class, new Integer(orgNbr));

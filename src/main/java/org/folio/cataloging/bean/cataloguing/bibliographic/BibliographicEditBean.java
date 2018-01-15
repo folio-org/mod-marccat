@@ -136,8 +136,7 @@ public class BibliographicEditBean extends EditBean {
 	 * 
 	 */
 	public void change008Type(BibliographicLeader ldr)
-			throws AuthorisationException, DataAccessException,
-			MarcCorrelationException {
+			throws AuthorisationException, DataAccessException {
 		// TODO is this working?
 		checkPermission("editHeader");
 		Command c = new ChangeBib008TypeCommand(this, ldr);
@@ -299,7 +298,7 @@ public class BibliographicEditBean extends EditBean {
 				ControlNumberAccessPoint f = (ControlNumberAccessPoint) getCurrentTag();
 				Set s = new DAOBibliographicValidation().load(f.getCategory(),
 						f.getCorrelationValues()).getValidSubfieldCodes();
-				s.retainAll(Arrays.asList(new String[] { "a", "y", "z" }));
+				s.retainAll(Arrays.asList("a", "y", "z"));
 				if (s.size() > 1) {
 					return s;
 				} else {
@@ -2985,9 +2984,12 @@ public class BibliographicEditBean extends EditBean {
 	}
 
 	public void loadItem(int itemNumber, int cataloguingView)
-			throws MarcCorrelationException, DataAccessException,
+			throws DataAccessException,
 			RecordInUseException {
-		theCatalog.lock(itemNumber, getUserName());
+
+		//TODO check and refactoring this line code
+		//theCatalog.lock(itemNumber, getUserName());
+
 		BibliographicItem item = (BibliographicItem) getCatalog()
 				.getCatalogItem(
 						new Object[] { new Integer(itemNumber),
@@ -2999,7 +3001,7 @@ public class BibliographicEditBean extends EditBean {
 	}
 
 	public void loadItemWithoutLock(int itemNumber, int cataloguingView)
-			throws MarcCorrelationException, DataAccessException,
+			throws DataAccessException,
 			RecordInUseException {
 		BibliographicItem item = (BibliographicItem) getCatalog()
 				.getCatalogItem(
@@ -3012,7 +3014,7 @@ public class BibliographicEditBean extends EditBean {
 	}
 
 	public void loadItemDuplicate(int itemNumber, int cataloguingView)
-			throws MarcCorrelationException, DataAccessException,
+			throws DataAccessException,
 			RecordInUseException {
 		BibliographicItem item = (BibliographicItem) getCatalog()
 				.getCatalogItem(
@@ -3029,20 +3031,20 @@ public class BibliographicEditBean extends EditBean {
 	 * 
 	 * @see librisuite.bean.cataloguing.EditBean#loadItem(java.lang.Object[])
 	 */
-	public void loadItem(Object[] key) throws MarcCorrelationException,
-			DataAccessException, RecordInUseException {
+	public void loadItem(Object[] key) throws
+            DataAccessException, RecordInUseException {
 		loadItem(((Integer) key[0]).intValue(), ((Integer) key[1]).intValue());
 	}
 
 	public void loadItemWithoutLock(Object[] key)
-			throws MarcCorrelationException, DataAccessException,
+			throws DataAccessException,
 			RecordInUseException {
 		loadItemWithoutLock(((Integer) key[0]).intValue(), ((Integer) key[1])
 				.intValue());
 	}
 
 	public void loadItemDuplicate(Object[] key)
-			throws MarcCorrelationException, DataAccessException,
+			throws DataAccessException,
 			RecordInUseException {
 		loadItemDuplicate(((Integer) key[0]).intValue(), ((Integer) key[1])
 				.intValue());
@@ -3127,12 +3129,9 @@ public class BibliographicEditBean extends EditBean {
 
 	/* Aggiungere gli altri tag */
 	public boolean isOrderable() {
-		if (isNamesOrderable() || isSubjectsOrderable() || isNoteOrderable()
-				|| isOrderableTitles() || isOrderableClassifications()
-				|| isOrderableControlNumbers() || isOrderableRelations())
-			return true;
-		else
-			return false;
+        return isNamesOrderable() || isSubjectsOrderable() || isNoteOrderable()
+                || isOrderableTitles() || isOrderableClassifications()
+                || isOrderableControlNumbers() || isOrderableRelations();
 	}
 
 	/**
@@ -3143,8 +3142,7 @@ public class BibliographicEditBean extends EditBean {
 	 * @since 1.0
 	 */
 	public void updateRelationshipFromSearch(int amicusNumber,
-			int cataloguingView) throws DataAccessException,
-			MarcCorrelationException {
+			int cataloguingView) throws DataAccessException {
 		BibliographicRelationshipTag tag = (BibliographicRelationshipTag) getCurrentTag();
 		//bug for ItemNumber == -1 in the tag
 		tag.setItemNumber(this.getCatalogItem().getAmicusNumber());
@@ -3157,17 +3155,12 @@ public class BibliographicEditBean extends EditBean {
 		setSearchingRelationship(false);
 	}
 
-	public boolean isAbleDeleteButton() throws DataAccessException,
-			MarcCorrelationException {
+	public boolean isAbleDeleteButton() throws DataAccessException {
 		String tagNbr = getCurrentTag().getMarcEncoding().getMarcTag();
-		if (tagNbr.equals("000") || tagNbr.equals("008"))
-			return false;
-		else
-			return true;
+        return !tagNbr.equals("000") && !tagNbr.equals("008");
 	}
 
-	public boolean isAbleNew991Button() throws DataAccessException,
-			MarcCorrelationException {
+	public boolean isAbleNew991Button() throws DataAccessException {
 		// String tagNbr = getCurrentTag().getMarcEncoding().getMarcTag();
 		// if(tagNbr.equals("082")&& this.getCasaliniBean().isEnabled())
 		// return true;
@@ -3178,27 +3171,19 @@ public class BibliographicEditBean extends EditBean {
 
 	public boolean isAbleEquivalentNote() {
 		short category = getCurrentTag().getCategory();
-		if (category == 7 && this.getCasaliniBean().isEnabled())
-			return true;
-		else
-			return false;
+        return category == 7 && this.getCasaliniBean().isEnabled();
 	}
 
-	public boolean isAbleSubdivision99X() throws DataAccessException,
-			MarcCorrelationException {
+	public boolean isAbleSubdivision99X() throws DataAccessException {
 		if (!isNavigation() && isCataloguingMode()
 				&& this.getCasaliniBean().isEnabled()) {
 			String tagNbr = getCurrentTag().getMarcEncoding().getMarcTag();
-			if (!tagNbr.equals("991"))
-				return false;
-			else
-				return true;
+            return tagNbr.equals("991");
 		}
 		return false;
 	}
 
-	public boolean isAbleDigital() throws DataAccessException,
-			MarcCorrelationException {
+	public boolean isAbleDigital() throws DataAccessException {
 		boolean isAble = false;
 		// ----> 20130121 inizio: deve farlo per tutti i clienti
 		// if (this.getCasaliniBean().isEnabled()) {
@@ -3218,8 +3203,7 @@ public class BibliographicEditBean extends EditBean {
 		return isAble;
 	}
 
-	public boolean isFixedField() throws DataAccessException,
-			MarcCorrelationException {
+	public boolean isFixedField() throws DataAccessException {
 		String tagNbr = getCurrentTag().getMarcEncoding().getMarcTag();
 		return tagNbr.equals("000") || tagNbr.equals("001")
 				|| tagNbr.equals("005") || tagNbr.equals("006")
@@ -3273,7 +3257,7 @@ public class BibliographicEditBean extends EditBean {
 		Iterator iter = tag.getPublisherTagUnits().iterator();
 		while (iter.hasNext()) {
 			PUBL_TAG pap = ((PUBL_TAG) iter.next());
-			PUBL_HDG pu = ((PUBL_HDG) pap.getDescriptor());
+			PUBL_HDG pu = pap.getDescriptor();
 			if (pu != null) {
 				if (pu.getKey().getHeadingNumber() == -1) {
 					if (!pap.getDate().equals(""))
@@ -3300,9 +3284,10 @@ public class BibliographicEditBean extends EditBean {
 		}
 	}
 
+	//TODO check and refactoring
 	public void isISBNValid(Descriptor descr) throws DataAccessException,
-			MarcCorrelationException, InvalidDescriptorException {
-		DAOGlobalVariable dgv = new DAOGlobalVariable();
+            InvalidDescriptorException {
+		/*DAOGlobalVariable dgv = new DAOGlobalVariable();
 		char value_hyphen = dgv.getValueByName("isbn_hyphen").charAt(0);
 		if (descr instanceof CNTL_NBR) {
 			if (((CNTL_NBR) descr).getTypeCode() == 9) {
@@ -3317,7 +3302,7 @@ public class BibliographicEditBean extends EditBean {
 					}
 				}
 			}
-		}
+		}*/
 	}
 
 	/**
@@ -3458,7 +3443,7 @@ public class BibliographicEditBean extends EditBean {
 
 	}
 
-	// 20110114: inizio
+	//TODO check and refactoring
 	public void createTag982(HttpServletRequest request, Tag rootTag)
 			throws DataAccessException, NewTagException,
 			AuthorisationException, ValidationException {
@@ -3487,6 +3472,7 @@ public class BibliographicEditBean extends EditBean {
 				subfields.add(dewey);
 
 				String descriptionDewey = null;
+				/*
 				try {
 					descriptionDewey = daoCodeTable.getLongText(dewey,
 							T_DWY_TYP.class, getLocale());
@@ -3494,7 +3480,7 @@ public class BibliographicEditBean extends EditBean {
 					descriptionDewey = ResourceBundle.getBundle(
 							"resources/cataloguing/bibliographic/editItem",
 							getLocale()).getString("missing.dsc");
-				}
+				}*/
 
 				subfieldList.add("b");
 				subfields.add(descriptionDewey);
@@ -3506,19 +3492,16 @@ public class BibliographicEditBean extends EditBean {
 						.makeSingleViewString(SessionUtils
 								.getCataloguingView(request)));
 
-				// validateCurrentTag();
-				// createStringTextEditBean();
 				sortTags(super.getLocale());
 				resetCommands();
-				// setNavigation(false);
 			}
 		}
 	}
 
 	// 20110114: fine
 
-	public List getSubdivisionEncoding() throws MarcCorrelationException,
-			DataAccessException {
+	public List getSubdivisionEncoding() throws
+            DataAccessException {
 		List li = new ArrayList();
 		String marcTag = this.getCurrentTag().getMarcEncoding().getMarcTag();
 		if (marcTag.equals("991")) {
@@ -3550,14 +3533,11 @@ public class BibliographicEditBean extends EditBean {
 		return li;
 	}
 
-	public boolean isSkipFiling() throws MarcCorrelationException,
-			DataAccessException {
+	public boolean isSkipFiling() throws
+            DataAccessException {
 		String marcTag = this.getCurrentTag().getMarcEncoding().getMarcTag();
-		if (getCurrentTag().getCategory() == 3
-				|| (getCurrentTag().getCategory() == 4 && marcTag.equals("630")))
-			return true;
-		else
-			return false;
+        return getCurrentTag().getCategory() == 3
+                || (getCurrentTag().getCategory() == 4 && marcTag.equals("630"));
 
 	}
 
@@ -3726,7 +3706,7 @@ public class BibliographicEditBean extends EditBean {
 	 * @throws DataAccessException
 	 */
 	public List/* <Tag> */getFilteredSubList(int index)
-			throws MarcCorrelationException, DataAccessException {
+			throws DataAccessException {
 		// il GroupManager funge anche da FilterManager
 		Tag tag = getCatalogItem().getTag(index);
 		FilterManager filterManager = (FilterManager) getGroupManager();
@@ -3746,10 +3726,7 @@ public class BibliographicEditBean extends EditBean {
 	public boolean isNoteStandard() {
 		boolean noteStandard = false;
 		BibliographicNoteTag tag = (BibliographicNoteTag) getCurrentTag();
-		if (tag.getValueElement() != null)
-			noteStandard = true;
-		else
-			noteStandard = false;
+        noteStandard = tag.getValueElement() != null;
 		return noteStandard;
 	}
 
@@ -3781,11 +3758,8 @@ public class BibliographicEditBean extends EditBean {
 
 	private final boolean isPresent(Diacritici diacritici, String searchString) {
 		String element = diacritici.getNomeCarattere();
-		if (element.toLowerCase().indexOf(searchString) >= 0) {
-			return true;
-		}
-		return false;
-	}
+        return element.toLowerCase().indexOf(searchString) >= 0;
+    }
 
 	// public void createEquivalentTag792(int amicuNumber) throws
 	// MarcCorrelationException, DataAccessException, RecordInUseException,
@@ -3810,9 +3784,9 @@ public class BibliographicEditBean extends EditBean {
 	// }
 
 	public void createEquivalentTag792(int amicuNumber)
-			throws MarcCorrelationException, DataAccessException,
+			throws DataAccessException,
 			RecordInUseException, NewTagException, AuthorisationException,
-			ValidationException, DuplicateTagException {
+			ValidationException {
 		amicuNumber = getCatalogItem().getAmicusNumber().intValue();
 		int cataloguingView = getCatalogItem().getUserView();
 		BibliographicRelationshipTag tag2 = (BibliographicRelationshipTag) getCatalogItem()
@@ -3842,8 +3816,8 @@ public class BibliographicEditBean extends EditBean {
 		}
 	}
 
-	public void createTag092() throws MarcCorrelationException,
-			NewTagException, AuthorisationException, DataAccessException,
+	public void createTag092() throws
+            NewTagException, AuthorisationException, DataAccessException,
 			ValidationException {
 		// //Creazione tag 092
 		if (!(getCasaliniBean() == null) && getCasaliniBean().isEnabled()) {
@@ -3885,10 +3859,9 @@ public class BibliographicEditBean extends EditBean {
 	}
 
 	public void createTag097(HttpServletRequest request, StringText text,
-			String hierarchyType) throws MarcCorrelationException,
-			NewTagException, AuthorisationException, DuplicateKeyException,
-			DataAccessException, ValidationException, RecordInUseException,
-			MandatoryTagException {
+			String hierarchyType) throws
+            NewTagException, AuthorisationException,
+            DataAccessException, ValidationException, RecordInUseException {
 		// ----> 20100617: poiche' la gestione del tag 097 non e' standard prima
 		// di creare il tag
 		// ----> devo essere sicura che non esista l'occorrenza sulla CAS_FILES
@@ -3963,7 +3936,8 @@ public class BibliographicEditBean extends EditBean {
 
 		saveRecord();
 
-		getCatalog().unlock(getCatalogItem().getAmicusNumber().intValue());
+		//TODO check and refactoring this block:
+		// getCatalog().unlock(getCatalogItem().getAmicusNumber().intValue());
 
 		/*
 		 * 20100816 inizio: dopo il salvataggio intermedio deve ricaricare il
@@ -3986,8 +3960,7 @@ public class BibliographicEditBean extends EditBean {
 	 * 
 	 */
 	private void createTag773ForComponentPart() throws NewTagException,
-			AuthorisationException, DataAccessException,
-			MarcCorrelationException {
+			AuthorisationException, DataAccessException {
 		ControlNumberAccessPoint tag097;
 		BibliographicRelationshipTag tag773 = (BibliographicRelationshipTag) getCatalogItem()
 				.findFirstTagByNumber("773");
@@ -4387,13 +4360,13 @@ public class BibliographicEditBean extends EditBean {
 	}
 
 	public void aggiornaDoi(BibliographicNoteTag tag856, String codiceDoi)
-			throws MarcCorrelationException, AuthorisationException,
+			throws AuthorisationException,
 			DataAccessException, ValidationException {
 		// --> ISTRUZIONE PER IMPOSTARE IL TAG CORRENTE CON QUELLO PASSATO!!!
 		int t = getCatalogItem().getTags().indexOf(tag856);
 		setTagIndex(t);
 
-		BibliographicNoteTag tagTesto = (BibliographicNoteTag) tag856;
+		BibliographicNoteTag tagTesto = tag856;
 		StringText text = tagTesto.getStringText();
 		Subfield sub = new Subfield("w", codiceDoi);
 		List lista = text.getSubfieldList();
@@ -4635,8 +4608,8 @@ public class BibliographicEditBean extends EditBean {
 		// setNavigation(false);
 	}
 
-	public String verifyTag260() throws MarcCorrelationException,
-			DataAccessException, NoResultsFoundException, PublisherException {
+	public String verifyTag260() throws
+            DataAccessException, NoResultsFoundException, PublisherException {
 		String publisherTag260 = new String("");
 		PublisherManager manager = getPublisher();
 		if (manager != null) {
@@ -4655,8 +4628,8 @@ public class BibliographicEditBean extends EditBean {
 		return publisherTag260;
 	}
 
-	public PublisherManager getPublisher() throws MarcCorrelationException,
-			DataAccessException {
+	public PublisherManager getPublisher() throws
+            DataAccessException {
 		PublisherManager manager = null;
 		DigitalDoiBean doiBean = new DigitalDoiBean();
 		List listTag260 = doiBean.searchTag260(this);
@@ -4753,14 +4726,11 @@ public class BibliographicEditBean extends EditBean {
 	 * @see EditBean#isSkipDeleteTags()
 	 */
 	public boolean getSkipDeleteTags(String marcTag)
-			throws MarcCorrelationException, DataAccessException {
+			throws DataAccessException {
 		// disability deletion tag 260 if the tag is 998
 		Tag aTag = this.getCatalogItem().findFirstTagByNumber("998");
-		if (marcTag.equals("097") || (marcTag.equals("260") && aTag != null)
-				|| marcTag.equals("856"))
-			return true;
-		else
-			return false;
+        return marcTag.equals("097") || (marcTag.equals("260") && aTag != null)
+                || marcTag.equals("856");
 	}
 
 	@Override
@@ -4811,7 +4781,7 @@ public class BibliographicEditBean extends EditBean {
 
 	public void prepareItemForEditing(int recordView, Object[] key)
 			throws DataAccessException, AuthorisationException,
-			ValidationException, RecordInUseException, DuplicateTagException {
+			ValidationException, RecordInUseException {
 		setCatalogItem(findOrCreateMyView(recordView, ((Integer) key[0])
 				.intValue(), ((Integer) key[1]).intValue()));
 		saveRecord();
@@ -4821,7 +4791,7 @@ public class BibliographicEditBean extends EditBean {
 
 	public void prepareItemForVisualizeCodes(int recordView, Object[] key)
 			throws DataAccessException, AuthorisationException,
-			ValidationException, RecordInUseException, DuplicateTagException {
+			ValidationException, RecordInUseException {
 		setCatalogItem(findOrCreateMyView(recordView, ((Integer) key[0])
 				.intValue(), ((Integer) key[1]).intValue()));
 		loadItemWithoutLock(key);
@@ -4851,8 +4821,8 @@ public class BibliographicEditBean extends EditBean {
 
 	@Override
 	public void processPickedHeading(Descriptor d, String selectedIndex)
-			throws MarcCorrelationException, DuplicateDescriptorException,
-			DataAccessException, AuthorisationException, ValidationException {
+			throws
+            DataAccessException, AuthorisationException, ValidationException {
 		String marcTag = getCurrentTag().getMarcEncoding().getMarcTag();
 		if (isSeries(selectedIndex, marcTag)) {
 			((TitleAccessPoint)getCurrentTag()).setSeriesIssnHeadingNumber(new Integer(d.getKey().getHeadingNumber()));
@@ -4878,7 +4848,7 @@ public class BibliographicEditBean extends EditBean {
 					// update the correlation settings
 					refreshCorrelation(tag.getCorrelation(1), tag
 							.getCorrelation(2), getLocale());
-					setSkipInFiling((short) d.getSkipInFiling());
+					setSkipInFiling(d.getSkipInFiling());
 					if (isAddCatalogItem())
 						validateCurrentTagHeading();
 					else
@@ -5107,18 +5077,19 @@ public class BibliographicEditBean extends EditBean {
 	 *      able subjects Mesh with value from S_SYS_GBL_VRBL 0=no subjects
 	 *      mesh/ 1=yes subjects mesh bug 3035: mesh
 	 */
+	//TODO check and refactoring
 	@Override
 	public boolean isAbleSubjectsMesh() {
 		DAOGlobalVariable dgv = new DAOGlobalVariable();
 		char value_mesh = 0;
 		boolean isSubjectsMesh = false;
-		try {
+		/*try {
 			value_mesh = dgv.getValueByName("subjects_mesh").charAt(0);
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 			return isSubjectsMesh;
 
-		}
+		}*/
 		if (value_mesh == '1' && getCurrentTag() != null) {
 			// controlla che sia tag 650 con ind. #2
 			try {
@@ -5267,22 +5238,23 @@ public class BibliographicEditBean extends EditBean {
 		if(tag.getItemNumber()== amicusNumber)throw new RelationshipTagException();
 	}
 	@Override
-	public void refreshCatalogItem() throws MarcCorrelationException,
-			DataAccessException, RecordInUseException {
-		/* Bug 4791 inizio */
+	//TODO check and refactoring
+	public void refreshCatalogItem() throws
+            DataAccessException, RecordInUseException {
+		/*
 		loadItem(getCatalogItem().getAmicusNumber().intValue(),
 				getCataloguingView());
 		sortTags(getLocale());
 		if (!isCallFromSaveTag()) {
 			getCatalog().unlock(getCatalogItem().getAmicusNumber().intValue());
 		}
-		/* Bug 4791 fine */
+		*/
 	}
 
 	// ----> Anche per gli altri clienti deve scrivere la S_CAS_CACHE e
 	// scrivere la tabella CAS_FILES e CAS_DIG_FILES
 	@Override
-	public void saveRecord() throws DataAccessException, AuthorisationException, MarcCorrelationException, ValidationException 
+	public void saveRecord() throws DataAccessException, AuthorisationException, ValidationException
 	{
 		getCatalog().getCatalogDao().setCasCache(getCasaliniBean().getCasCache());
 		if (getCasaliniBean().isEnabled()) {
@@ -5332,10 +5304,10 @@ public class BibliographicEditBean extends EditBean {
 			if (tag082 != null) {
 				sequenceNumber = sequenceNumber + 1;
 				try {
-					((OrderedTag) tag082).setSequenceNumber(new Integer(
+					tag082.setSequenceNumber(new Integer(
 							sequenceNumber));
 				} catch (NumberFormatException e) {
-					((OrderedTag) tag082).setSequenceNumber(null);
+					tag082.setSequenceNumber(null);
 				}
 				tag082.markChanged();
 			}
@@ -5351,10 +5323,10 @@ public class BibliographicEditBean extends EditBean {
 			if (tag084 != null) {
 				sequenceNumber = sequenceNumber + 1;
 				try {
-					((OrderedTag) tag084).setSequenceNumber(new Integer(
+					tag084.setSequenceNumber(new Integer(
 							sequenceNumber));
 				} catch (NumberFormatException e) {
-					((OrderedTag) tag084).setSequenceNumber(null);
+					tag084.setSequenceNumber(null);
 				}
 				tag084.markChanged();
 			}
@@ -5410,7 +5382,7 @@ public class BibliographicEditBean extends EditBean {
 
 	@Override
 	public boolean checkTags() throws DataAccessException,
-			MarcCorrelationException, ValidationException {
+            ValidationException {
 		// TODO Auto-generated method stub
 		return false;
 	}

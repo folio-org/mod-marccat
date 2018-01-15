@@ -7,12 +7,12 @@
  */
 package org.folio.cataloging.business.codetable;
 
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.dao.DAOTranslationLanguage;
+import org.folio.cataloging.dao.persistence.T_TRLTN_LANG_CDE;
+
 import java.util.List;
 import java.util.Locale;
-
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.persistence.T_TRLTN_LANG_CDE;
-import org.folio.cataloging.dao.DAOTranslationLanguage;
 
 /**
  * @author paulm
@@ -55,12 +55,12 @@ public class CodeTableTranslationLanguage{
 		else if (locale.getLanguage().compareTo("fr") == 0) {
 			language = 1;
 		}
-		
+
 		T_TRLTN_LANG_CDE c;
 
 			c =
-				(T_TRLTN_LANG_CDE) new DAOTranslationLanguage().load(
-					(language * 100000) + getCode());
+                    new DAOTranslationLanguage().load(
+                        (language * 100000) + getCode());
 		
 		return c.getText();
 	}

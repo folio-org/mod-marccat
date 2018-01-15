@@ -42,23 +42,21 @@ public class DAOCopy extends HibernateUtil {
 		}
 	};
 
-	public CPY_ID load(int CopyNumber) throws DataAccessException {
+	public CPY_ID load(int copyNumber) throws DataAccessException {
 		CPY_ID c = null;
 		try {
 
-			Session s = currentSession();
+			Session session = currentSession();
 
-			c = (CPY_ID) s.get(CPY_ID.class, new Integer(CopyNumber));
+			c = (CPY_ID) session.get(CPY_ID.class, new Integer(copyNumber));
 			if (c != null) {
 				if (c.getShelfListKeyNumber() != null) {
 					c.setShelfList(new DAOShelfList().load(c
 							.getShelfListKeyNumber().intValue()));
 				}
 			}
-			if ((new DAOGlobalVariable().getValueByName("barrcode"))
-					.equals("1")) {
+			if ((new DAOGlobalVariable().getValueByName("barrcode")).equals("1")) {
 				c.setBarcodeAssigned(true);
-
 			} else {
 				c.setBarcodeAssigned(false);
 
@@ -315,8 +313,9 @@ public class DAOCopy extends HibernateUtil {
 	 * @since 1.7
 	 */
 
-	public List getListCopiesElement(int amicusNumber, int mainLibrary,
-			Locale locale) throws DataAccessException {
+	public List getListCopiesElement(final Session session, final int amicusNumber,
+									 final int mainLibrary,
+									 final Locale locale) throws DataAccessException {
 		List listAllCopies = null;
 		List result = new ArrayList();
 		DAOOrganisationHierarchy doh = new DAOOrganisationHierarchy();
@@ -374,16 +373,11 @@ public class DAOCopy extends HibernateUtil {
 			 * @since 1.0
 			 */
 			rawCopyListElement.setLoanType(new DAOCodeTable().getLongText(
-					rawCopy.getLoanPrd(),
-					T_LOAN_PRD.class, locale));
-			rawCopyListElement.setCopyStatementText(rawCopy
-					.getCopyStatementText());
+					session, rawCopy.getLoanPrd(), T_LOAN_PRD.class, locale));
+			rawCopyListElement.setCopyStatementText(rawCopy.getCopyStatementText());
 			rawCopyListElement.setCopyRemarkNote(rawCopy.getCopyRemarkNote());
-
-			rawCopyListElement.setHowManyNotes(dcn.getCopyNotesList(
-					rawCopy.getCopyIdNumber(), locale).size());
-			rawCopyListElement.setHowManyInventory(dci
-					.getInventoryCount(rawCopy.getCopyIdNumber()));
+			rawCopyListElement.setHowManyNotes(dcn.getCopyNotesList(rawCopy.getCopyIdNumber(), locale).size());
+			rawCopyListElement.setHowManyInventory(dci.getInventoryCount(rawCopy.getCopyIdNumber()));
 			result.add(rawCopyListElement);
 		}
 		return result;
@@ -395,7 +389,7 @@ public class DAOCopy extends HibernateUtil {
 	 * @since 1.7
 	 */
 
-	public List getListCopiesElement(int mainLibrary, Locale locale)
+	public List getListCopiesElement(final Session session, final int mainLibrary, final Locale locale)
 			throws DataAccessException {
 		List listAllCopies = null;
 		List result = new ArrayList();
@@ -463,16 +457,11 @@ public class DAOCopy extends HibernateUtil {
 				 * 
 				 * @since 1.0
 				 */
-				rawCopyListElement.setLoanType(new DAOCodeTable().getLongText(
-						rawCopy.getLoanPrd(),
-						T_LOAN_PRD.class, locale));
-				rawCopyListElement.setCopyStatementText(rawCopy
-						.getCopyStatementText());
-				rawCopyListElement.setCopyRemarkNote(rawCopy
-						.getCopyRemarkNote());
+				rawCopyListElement.setLoanType(new DAOCodeTable().getLongText(session, rawCopy.getLoanPrd(), T_LOAN_PRD.class, locale));
+				rawCopyListElement.setCopyStatementText(rawCopy.getCopyStatementText());
+				rawCopyListElement.setCopyRemarkNote(rawCopy.getCopyRemarkNote());
 
-				rawCopyListElement.setHowManyNotes(dcn.getCopyNotesList(
-						rawCopy.getCopyIdNumber(), locale).size());
+				rawCopyListElement.setHowManyNotes(dcn.getCopyNotesList(rawCopy.getCopyIdNumber(), locale).size());
 				rawCopyListElement.setHowManyInventory(dci
 						.getInventoryCount(rawCopy.getCopyIdNumber()));
 
@@ -687,7 +676,7 @@ public class DAOCopy extends HibernateUtil {
 		try {
 			Session s = currentSession();
 
-			listAllCopies = (List) s.find(
+			listAllCopies = s.find(
 					"from CPY_ID ci where ci.copyIdNumber = ?",
 					new Object[] { new Integer(copyIdNumber) },
 					new Type[] { Hibernate.INTEGER });
@@ -797,8 +786,8 @@ public class DAOCopy extends HibernateUtil {
 	{
 		new TransactionalHibernateOperation() {
 			public void doInHibernateTransaction(Session s)
-					throws HibernateException, RecordNotFoundException,
-					DataAccessException {
+					throws HibernateException,
+                    DataAccessException {
 				// TODO make sure no circulation records (AMICUS doesn't)
 				CPY_ID copy = (CPY_ID) s.get(CPY_ID.class, new Integer(
 						copyNumber));
@@ -974,7 +963,10 @@ public class DAOCopy extends HibernateUtil {
 	 *            an optional SHLF_LIST object to be detached from this copy
 	 * @throws DataAccessException
 	 */
-	public void saveCopy(final CPY_ID copy, final SHLF_LIST oldShelfList, final String userName) throws DataAccessException 
+	public void saveCopy(final Session session,
+						 final CPY_ID copy,
+						 final SHLF_LIST oldShelfList,
+						 final String userName) throws DataAccessException
 	{
 		new TransactionalHibernateOperation() {
 			public void doInHibernateTransaction(Session s)
@@ -1032,8 +1024,7 @@ public class DAOCopy extends HibernateUtil {
 					}
 
 					persistByStatus(copy.getShelfList());
-					copy.setShelfListKeyNumber(new Integer(copy.getShelfList()
-							.getShelfListKeyNumber()));
+					copy.setShelfListKeyNumber(copy.getShelfList().getShelfListKeyNumber());
 				} else { // shelf list is null
 					logger.debug("setting key to null");
 					copy.setShelfListKeyNumber(null);
@@ -1047,7 +1038,7 @@ public class DAOCopy extends HibernateUtil {
 				saveCpyIdAgent(userName, copy.getCopyIdNumber());
 
 				persistByStatus(copy);
-				createSummaryHolding(copy);
+				createSummaryHolding(session, copy);
 			}
 		}.execute();
 	}
@@ -1064,8 +1055,8 @@ public class DAOCopy extends HibernateUtil {
 		return match;
 	}
 
-	private void createSummaryHolding(CPY_ID copy) throws DataAccessException {
-		new DAOSummaryHolding().createSummaryHoldingIfRequired(copy);
+	private void createSummaryHolding(final Session session, final CPY_ID copy) throws DataAccessException {
+		new DAOSummaryHolding().createSummaryHoldingIfRequired(session, copy);
 	}
 
 	public void attachShelfList(CPY_ID copy, SHLF_LIST shelf)
@@ -1193,7 +1184,7 @@ public class DAOCopy extends HibernateUtil {
 	}
 
 	public String calculateSortForm(String text, SortFormParameters parms)
-			throws DataAccessException, SortFormException {
+			throws DataAccessException {
 		String result = "";
 		int bufSize = 600;
 		int rc;

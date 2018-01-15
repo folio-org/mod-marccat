@@ -8,6 +8,7 @@
 package org.folio.cataloging.dao;
 
 import net.sf.hibernate.Hibernate;
+import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -75,7 +76,9 @@ public class DAOAuthorityCatalog extends DAOCatalog {
 
 		AuthorityItem item = new AuthorityItem();
 
-		AUT autItm = new DAOAUT().load(id);
+		//TODO fix session!
+		final Session session = currentSession();
+		AUT autItm = new DAOAUT().load(session, id);
 		item.setAutItmData(autItm);
 		return item;
 	}

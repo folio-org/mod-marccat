@@ -7,16 +7,15 @@
  */
 package org.folio.cataloging.dao;
 
-import java.util.List;
-
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.dao.persistence.USR_ACNT;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
-
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.persistence.USR_ACNT;
+
+import java.util.List;
 
 /**
  * provides data a ccess to USR_ACNT
@@ -58,8 +57,9 @@ public class DAOUserAccount extends HibernateUtil {
 		else return name;
 	}
 
-	public USR_ACNT load(String userAccount) throws DataAccessException {
-		return (USR_ACNT) get(USR_ACNT.class, padUserAccount(toStringUserAccount(userAccount)));
+	public USR_ACNT load(final String userAccount) throws DataAccessException {
+		final Session session = currentSession();
+		return (USR_ACNT) get(session, USR_ACNT.class, padUserAccount(toStringUserAccount(userAccount)));
 	}
 
 	public List getModuleAuthorisations(String userAccount)

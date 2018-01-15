@@ -7,7 +7,6 @@ import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.View;
 import org.folio.cataloging.business.controller.SessionUtils;
 import org.folio.cataloging.business.controller.UserProfile;
-import org.folio.cataloging.business.searching.NoResultsFoundException;
 import org.folio.cataloging.business.searching.ResultSet;
 import org.folio.cataloging.dao.DAORestrictions;
 import org.folio.cataloging.dao.DAOSearchIndex;
@@ -159,14 +158,14 @@ public class AdvancedSearchBean extends SearchBean {
 
 			/*try {
 				bean.setIndexPrimaryList(
-					dao.getIndexCategories(request.getSession(false),
+					dao.getIndexCategories(request.getHttpSession(false),
 						SessionUtils.getCurrentLocale(
-							request.getSession(false)),
+							request.getHttpSession(false)),
 						"P"));
 				bean.setIndexSecondaryList(
 					dao.getIndexCategories(
-							request.getSession(false),SessionUtils.getCurrentLocale(
-							request.getSession(false)),
+							request.getHttpSession(false),SessionUtils.getCurrentLocale(
+							request.getHttpSession(false)),
 						"S"));
 
 
@@ -564,7 +563,7 @@ public class AdvancedSearchBean extends SearchBean {
 		List operatorList,
 		Locale locale,
 		int searchingView)
-		throws NoResultsFoundException, LibrisuiteException,SocketTimeoutException {
+		throws LibrisuiteException,SocketTimeoutException {
 		logger.debug("Start search");
 		ResultSet resultSet;
 		resultSet =
@@ -595,7 +594,7 @@ public class AdvancedSearchBean extends SearchBean {
 				return
 					dao.getSubIndex(
 						SessionUtils.getCurrentLocale(
-							requestBean.getSession(false)),
+							requestBean.getHttpSession(false)),
 						indT, ind);
 			} catch (DataAccessException e) {
 				throw new RuntimeException("failed to load indexes", e);
@@ -603,7 +602,7 @@ public class AdvancedSearchBean extends SearchBean {
 		}
 	/*modifica barbara 20/04/2007 per pagina ricerca*/
 	public ResultSet expertSearch(String cclQuery, Locale locale, int searchingView)
-	throws NoResultsFoundException, LibrisuiteException {
+	throws LibrisuiteException {
 	logger.debug("Start search");
 	ResultSet resultSet;
 	resultSet =
@@ -615,7 +614,7 @@ public class AdvancedSearchBean extends SearchBean {
 	
 	/*modifica barbara 20/04/2007 per pagina ricerca*/
 	public ResultSet expertFrbrSearch(String cclQuery, Locale locale, int searchingView)
-	throws NoResultsFoundException, LibrisuiteException {
+	throws LibrisuiteException {
 	logger.debug("Start search");
 	ResultSet resultSet;
 	resultSet =
@@ -628,7 +627,7 @@ public class AdvancedSearchBean extends SearchBean {
 	
 	/*modifica barbara 20/04/2007 per pagina ricerca*/
 	public ResultSet expertSearch(String cclQuery, String complexQuery,Locale locale)
-	throws NoResultsFoundException, LibrisuiteException {
+	throws LibrisuiteException {
 	logger.debug("Start search");
 	ResultSet resultSet;
 	//pm 2011 -- change from parameter to locally maintained searchingView

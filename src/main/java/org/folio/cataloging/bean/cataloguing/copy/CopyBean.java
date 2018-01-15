@@ -1,61 +1,34 @@
 package org.folio.cataloging.bean.cataloguing.copy;
 
+import net.sf.hibernate.Session;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.bean.LibrisuiteBean;
+import org.folio.cataloging.bean.cataloguing.heading.ShelfListHeadingBean;
+import org.folio.cataloging.bean.searching.BrowseBean;
+import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
+import org.folio.cataloging.business.cataloguing.common.Validation;
+import org.folio.cataloging.business.common.*;
+import org.folio.cataloging.business.controller.SessionUtils;
+import org.folio.cataloging.business.controller.UserProfile;
+import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.business.descriptor.SortFormParameters;
+import org.folio.cataloging.dao.*;
+import org.folio.cataloging.dao.persistence.*;
+import org.folio.cataloging.exception.LibrisuiteException;
+import org.folio.cataloging.exception.RecordInUseException;
+import org.folio.cataloging.exception.ValidationException;
+import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.util.StringText;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import org.folio.cataloging.bean.LibrisuiteBean;
-import org.folio.cataloging.bean.cataloguing.heading.ShelfListHeadingBean;
-import org.folio.cataloging.bean.searching.BrowseBean;
-import org.folio.cataloging.dao.DAOBibliographicCatalog;
-import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
-import org.folio.cataloging.business.cataloguing.common.Validation;
-import org.folio.cataloging.dao.DAOCopy;
-import org.folio.cataloging.dao.DAOCodeTable;
-import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.dao.DAOBibliographicCorrelation;
-import org.folio.cataloging.dao.DAOBibliographicValidation;
-import org.folio.cataloging.dao.DAOLocation;
-import org.folio.cataloging.dao.DAOOrganisationHierarchy;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.DuplicateDescriptorException;
-import org.folio.cataloging.business.common.LibrisuiteUtils;
-import org.folio.cataloging.business.common.RecordNotFoundException;
-import org.folio.cataloging.business.common.SortFormException;
-import org.folio.cataloging.business.descriptor.Descriptor;
-import org.folio.cataloging.business.descriptor.SortFormParameters;
-import org.folio.cataloging.exception.EmptySubfieldException;
-import org.folio.cataloging.exception.InvalidShelfListTypeException;
-import org.folio.cataloging.exception.LibrisuiteException;
-import org.folio.cataloging.exception.NoSubfieldCodeException;
-import org.folio.cataloging.exception.RecordInUseException;
-import org.folio.cataloging.exception.ValidationException;
-import org.folio.cataloging.dao.DAOIndexList;
-import org.folio.cataloging.business.searching.InvalidBrowseIndexException;
-import org.folio.cataloging.dao.persistence.CLSTN;
-import org.folio.cataloging.dao.persistence.CPY_ID;
-import org.folio.cataloging.dao.persistence.SHLF_LIST;
-import org.folio.cataloging.dao.persistence.T_HLDG_LVL_OF_DTL;
-import org.folio.cataloging.dao.persistence.T_HLDG_SBCPT_STUS;
-import org.folio.cataloging.dao.persistence.T_HLDG_SRS_TRMT;
-import org.folio.cataloging.dao.persistence.T_HLDG_STUS_TYP;
-import org.folio.cataloging.dao.persistence.T_LOAN_PRD;
-import org.folio.cataloging.dao.persistence.T_SHLF_LIST_TYP;
-import org.folio.cataloging.dao.persistence.T_SRL_GENRETENTION;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.util.StringText;
-import org.folio.cataloging.model.Subfield;
-import org.folio.cataloging.business.controller.SessionUtils;
-import org.folio.cataloging.business.controller.UserProfile;
 
 public class CopyBean extends LibrisuiteBean {
 
@@ -72,7 +45,7 @@ public class CopyBean extends LibrisuiteBean {
 			bean.usersMainLibrary = SessionUtils.getUsersMainLibrary(request);
 			bean.userProfile = SessionUtils.getUserProfile(request);
 			bean.locale = SessionUtils.getCurrentLocale(request);
-			bean.session = request.getSession();
+			bean.httpSession = request.getSession();
 			bean.shelfHeadingBean = new ShelfListHeadingBean();
 			bean.shelfHeadingBean.setLocale(bean.locale);
 		}
@@ -87,7 +60,7 @@ public class CopyBean extends LibrisuiteBean {
 	private int usersMainLibrary;
 	private UserProfile userProfile;
 	private Locale locale;
-	private HttpSession session;
+	private HttpSession httpSession;
 	private String locationStringText;
 	private boolean isDuplicateShelf = false;
 	private boolean editMode = false;
@@ -222,8 +195,7 @@ public class CopyBean extends LibrisuiteBean {
 	}
 
 	/**
-	 * @param branchList
-	 *            The branchList to set.
+	 *    The branchList to set.
 	 */
 	public List getBranchList() {
 		List branchList = new ArrayList();
@@ -379,11 +351,8 @@ public class CopyBean extends LibrisuiteBean {
 	}
 
 	public boolean getIllCode() {
-		if ((getCopy() != null) && (getCopy().getIllCode() == '1')) {
-			return true;
-		}
-		return false;
-	}
+        return (getCopy() != null) && (getCopy().getIllCode() == '1');
+    }
 
 	public CPY_ID getCopy() {
 		return copy;
@@ -489,7 +458,7 @@ public class CopyBean extends LibrisuiteBean {
 
 	/* Bug 2292 */
 //	public void saveCopy() throws DataAccessException, EmptySubfieldException, InvalidShelfListTypeException, NoSubfieldCodeException, ValidationException, RecordInUseException
-	public void saveCopy(String userName) throws DataAccessException, EmptySubfieldException, InvalidShelfListTypeException, NoSubfieldCodeException, ValidationException, RecordInUseException
+	public void saveCopy(final Session session, final String userName) throws DataAccessException, ValidationException, RecordInUseException
 	{
 		DAOCopy dc = new DAOCopy();
 		SHLF_LIST oldShelfList = null;
@@ -553,7 +522,7 @@ public class CopyBean extends LibrisuiteBean {
 		copy.markChanged();
 		/* Bug 2292*/
 //		dc.saveCopy(copy, oldShelfList);
-		dc.saveCopy(copy, oldShelfList,userName);
+		dc.saveCopy(session, copy, oldShelfList, userName);
 
 		// Aggiornamento Location Bug
 		DAOBibliographicCatalog dao = new DAOBibliographicCatalog();
@@ -562,7 +531,7 @@ public class CopyBean extends LibrisuiteBean {
 		logger.debug("back from save");
 		// result = "copySaved";
 		// refresh copy from db (just to be sure we start correctly after save)
-		copy = (CPY_ID) dc.load(copy.getCopyIdNumber());
+		copy = dc.load(copy.getCopyIdNumber());
 		prepareForEditing(copy);
 		setDuplicateShelf(false);
 
@@ -583,7 +552,7 @@ public class CopyBean extends LibrisuiteBean {
 	 * @throws DuplicateDescriptorException
 	 */
 	private void checkHeadingUsed(CPY_ID copy, DAOCopy dc)
-			throws DataAccessException, DuplicateDescriptorException {
+			throws DataAccessException {
 		int count = dc.countCopyByShelf(copy, getEditingShelfList());
 		if (!isDuplicateShelf()) {
 			// CHECK SHELF DUPLICATE
@@ -644,8 +613,7 @@ public class CopyBean extends LibrisuiteBean {
 	 * @throws DataAccessException
 	 * @throws DuplicateDescriptorException
 	 */
-	private void checkShelflistAlreadyInUse() throws DataAccessException,
-			DuplicateDescriptorException {
+	private void checkShelflistAlreadyInUse() throws DataAccessException {
 		int count = new DAOCopy().countCopyByShelf(copy, getEditingShelfList());
 		if (count >= 1) {
 			setDuplicateShelf(true);
@@ -687,30 +655,30 @@ public class CopyBean extends LibrisuiteBean {
 		this.userProfile = userProfile;
 	}
 
-	public HttpSession getSession() {
-		return session;
+	public HttpSession getHttpSession() {
+		return httpSession;
 	}
 
-	public void setSession(HttpSession session) {
-		this.session = session;
+	public void setHttpSession(HttpSession httpSession) {
+		this.httpSession = httpSession;
 	}
 
-	public void editCopy(int copyIdNumber) throws MarcCorrelationException,
-			DataAccessException, RecordInUseException {
+	public void editCopy( final int copyIdNumber) throws
+            DataAccessException, RecordInUseException {
 		DAOCopy dc = new DAOCopy();
 		CPY_ID copy = dc.load(copyIdNumber);
 		editCopy(copy);
 	}
 
-	public void editCopy(CPY_ID copy) throws MarcCorrelationException,
-			DataAccessException, RecordInUseException {
+	public void editCopy(final CPY_ID copy) throws
+            DataAccessException, RecordInUseException {
 		DAOCopy dc = new DAOCopy();
 		DAOOrganisationHierarchy doh = new DAOOrganisationHierarchy();
 		if (copy == null) {
 			throw new RecordNotFoundException();
 		} else {
 			dc.lock(copy.getBibItemNumber(), "BI", userProfile.getName());
-			session.setAttribute("isLockCopy", true);
+			httpSession.setAttribute("isLockCopy", true);
 			prepareForEditing(copy);
 		}
 	}
@@ -743,7 +711,7 @@ public class CopyBean extends LibrisuiteBean {
 	}
 
 	public void duplicateCopy(int copyIdNumber, int mainLibrary)
-			throws MarcCorrelationException, DataAccessException {
+			throws DataAccessException {
 		DAOCopy dc = new DAOCopy();
 		CPY_ID copy = null;
 		// Asking if the copy exist or not
@@ -765,8 +733,8 @@ public class CopyBean extends LibrisuiteBean {
 		}
 	}
 
-	public void prepareForEditing(CPY_ID copy) throws MarcCorrelationException,
-			DataAccessException {
+	public void prepareForEditing(CPY_ID copy) throws
+            DataAccessException {
 		setCopy(copy);
 		SHLF_LIST shelf = copy.getShelfList();
 		if (shelf == null) {
@@ -802,8 +770,8 @@ public class CopyBean extends LibrisuiteBean {
 	}
 
 	public void scanShelfLists(HttpServletRequest request)
-			throws DataAccessException, InvalidBrowseIndexException,
-			LibrisuiteException {
+			throws
+            LibrisuiteException {
 		logger.debug("Setting browse parameters for shelf list scan");
 		BrowseBean bean = (BrowseBean) BrowseBean.getInstance(request);
 		bean.init(request.getLocale());
@@ -828,8 +796,8 @@ public class CopyBean extends LibrisuiteBean {
 	}
 
 	public void scanClassification(HttpServletRequest request)
-			throws DataAccessException, InvalidBrowseIndexException,
-			LibrisuiteException {
+			throws
+            LibrisuiteException {
 		logger.debug("Setting browse parameters for classification scan");
 		BrowseBean bean = (BrowseBean) BrowseBean.getInstance(request);
 		bean.init(request.getLocale());
@@ -851,8 +819,8 @@ public class CopyBean extends LibrisuiteBean {
 	}
 
 	public void newCopy(int amicusNumber, int usersMainLibrary,
-			int usersBranchLibrary) throws MarcCorrelationException,
-			DataAccessException {
+			int usersBranchLibrary) throws
+            DataAccessException {
 
 		CPY_ID copy = new CPY_ID();
 		setCopy(copy);
@@ -921,23 +889,23 @@ public class CopyBean extends LibrisuiteBean {
 	public void unlock() throws DataAccessException, RecordInUseException {
 		DAOCopy dc = new DAOCopy();
 		dc.unlock(copy.getBibItemNumber(), "BI");
-		getSession().setAttribute("isLockCopy", false);
+		getHttpSession().setAttribute("isLockCopy", false);
 	}
 
-	public void unlock(int bibitmNbr) throws DataAccessException,
+	public void unlock(final int bibitmNbr) throws DataAccessException,
 			RecordInUseException {
 		DAOCopy dc = new DAOCopy();
 		dc.unlock(bibitmNbr, "BI");
 	}
 
-	public void lock(DAOCopy dc) throws DataAccessException,
+	public void lock(final DAOCopy dc) throws DataAccessException,
 			RecordInUseException {
 		dc.lock(copy.getBibItemNumber(), "BI", getUserProfile().getName());
-		getSession().setAttribute("isLockCopy", true);
+		getHttpSession().setAttribute("isLockCopy", true);
 	}
 
-	public void setSortForm(String remarkNote) throws SortFormException,
-			DataAccessException {
+	public void setSortForm(String remarkNote) throws
+            DataAccessException {
 		String noteWithoutSubfiled = "";
 		if (remarkNote != null && remarkNote.length() > 0) {
 			if (remarkNote.substring(0, 1).equalsIgnoreCase("$")) {
@@ -962,7 +930,7 @@ public class CopyBean extends LibrisuiteBean {
 	}
 
 	public String calculateSortForm(String noteWithoutSubfiled)
-			throws SortFormException, DataAccessException {
+			throws DataAccessException {
 		String sortForm = "";
 		if (noteWithoutSubfiled != null && noteWithoutSubfiled.length() > 0) {
 			SortFormParameters parms = new SortFormParameters(100, 105, 0, 0, 0);
@@ -973,8 +941,7 @@ public class CopyBean extends LibrisuiteBean {
 	}
 
 	public void attachNonLabelledCopy(int amicusNumber, String barcodeNumber)
-			throws DataAccessException, MarcCorrelationException,
-			RecordNotFoundException {
+			throws DataAccessException {
 		logger.debug("looking for non-labelled barcode " + barcodeNumber);
 		CPY_ID copy = new DAOCopy().getNonLabelledCopy(barcodeNumber);
 
@@ -991,7 +958,7 @@ public class CopyBean extends LibrisuiteBean {
 	}
 
 	public String calculateShelfSortForm(String shelfText, char shelfTyp)
-			throws SortFormException, DataAccessException {
+			throws DataAccessException {
 		String sortForm = "";
 		if (!shelfText.isEmpty()) {
 			SortFormParameters parms = new SortFormParameters(200,

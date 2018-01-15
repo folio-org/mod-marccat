@@ -1,23 +1,22 @@
 package org.folio.cataloging.dao;
 
-import java.util.List;
-
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.persistence.CPY_ID;
-import org.folio.cataloging.dao.persistence.SMRY_HLDG;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-
+import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.persistence.CPY_ID;
+import org.folio.cataloging.dao.persistence.SMRY_HLDG;
+
+import java.util.List;
 
 public class DAOSummaryHolding extends HibernateUtil 
 {
-	public void createSummaryHoldingIfRequired(CPY_ID copy) throws DataAccessException 
+	public void createSummaryHoldingIfRequired(final Session session, final CPY_ID copy) throws DataAccessException
 	{
 		SMRY_HLDG aHldg = new SMRY_HLDG(copy);
-		if (get(SMRY_HLDG.class, aHldg) == null) 
+		if (get(session, SMRY_HLDG.class, aHldg) == null)
 		{
 			// SMRY_HLDG does not yet exist so save the default values
 			persistByStatus(aHldg);
