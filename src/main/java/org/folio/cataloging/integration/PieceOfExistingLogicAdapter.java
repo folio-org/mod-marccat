@@ -39,7 +39,6 @@ public interface PieceOfExistingLogicAdapter<T> {
                 error(PieceOfExistingLogicAdapter.class, MessageCatalog._00012_NULL_RESULT);
                 future.fail(new IllegalArgumentException());
             }
-        // TODO: maybe here we should provide a set of more explicit exceptions
         } catch (final Exception exception) {
             // Don't log here, the exception is supposed to be logged within the adapter.
             future.fail(exception);
