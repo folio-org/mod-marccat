@@ -1,0 +1,20 @@
+{
+    "retentions": [
+        {
+            "code": 0,
+            "description": "Unknown"
+        },
+        {
+            "code": 1,
+            "description": "Other general retention policy"
+        },
+        {
+            "code": 5,
+            "description": "Retained until replaced by cumulation,replacement vol., or rev."
+        },
+        {
+            "code": 8,
+            "description": "Permanently retained"
+        }
+    ]
+}
