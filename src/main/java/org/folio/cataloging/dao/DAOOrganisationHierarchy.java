@@ -91,18 +91,16 @@ public class DAOOrganisationHierarchy extends HibernateUtil {
 		try {
 			Session s = currentSession();
 
-			/*modifica barbara 11/04/2007 PRN 119*/
 			listList =
 				s.find(
 					"from ORG_HRCHY as o where o.PARNT_ORG_NBR = "
 						+ new Integer(parentOrgNbr)
 						+ "and o.ORG_NBR <> "
 						+ new Integer(parentOrgNbr));
-			//	String name = new String("");
 			Iterator iter = listList.iterator();
 			while (iter.hasNext()) {
 				ORG_HRCHY rawList = (ORG_HRCHY) iter.next();
-				//name = getLibOrBranchName(rawList.getORG_NBR());
+
 				ORG_NME orgNmeRegister =
 					(ORG_NME) s.get(
 						ORG_NME.class,

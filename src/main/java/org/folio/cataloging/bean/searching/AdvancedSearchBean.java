@@ -64,7 +64,7 @@ public class AdvancedSearchBean extends SearchBean {
 	
 	private String restrictionValue;
 	private String codeValue;
-//	20120229 inizio
+
 	private String wildCards;
 	
 	public String getWildCards() {
@@ -74,12 +74,9 @@ public class AdvancedSearchBean extends SearchBean {
 	public void setWildCards(String wildCards) {
 		this.wildCards = wildCards;
 	}	
-//	20120229 fine
-	
-	/*modifica barbara 18/04/2007 per pagina ricerca*/
+
 	private static HttpServletRequest requestBean=null;
-	
-	/*modifica barbara 17/04/2007 per pagina ricerca*/
+
 	private char indexT ;
 	public char getIndexT() {
 		return indexT;
@@ -89,7 +86,6 @@ public class AdvancedSearchBean extends SearchBean {
 		this.indexT = indexT;
 	}
 
-	/*modifica barbara 17/04/2007 per pagina ricerca*/
 	private int ind;
 	public int getInd() {
 		return ind;
@@ -99,7 +95,6 @@ public class AdvancedSearchBean extends SearchBean {
 		this.ind = ind;
 	}
 
-	/*modifica barbara 17/04/2007 per pagina ricerca*/
 	private String indValue;
 	public String getIndValue() {
 		return indValue;
@@ -109,7 +104,6 @@ public class AdvancedSearchBean extends SearchBean {
 		this.indValue = indValue;
 	}
 
-	/*modifica barbara 19/04/2007 per pagina ricerca*/
 	private List codeTableList = new ArrayList();
 	public List getCodeTableList() {
 		return codeTableList;
@@ -119,7 +113,6 @@ public class AdvancedSearchBean extends SearchBean {
 		this.codeTableList = codeTableList;
 	}
 
-	/*modifica barbara 20/04/2007 per pagina ricerca*/
 	private List undoList = new ArrayList();		
 	public List getUndoList() {
 		return undoList;
@@ -128,7 +121,7 @@ public class AdvancedSearchBean extends SearchBean {
 	public void setUndoList(List undoList) {
 		this.undoList = undoList;
 	}
-	/*modifica barbara 20/04/2007 per pagina ricerca*/
+
 	private int nextCommand = 0;
 	public int getNextCommand() {
 		return nextCommand;
@@ -147,7 +140,7 @@ public class AdvancedSearchBean extends SearchBean {
 			(AdvancedSearchBean) AdvancedSearchBean.getSessionAttribute(
 				request,
 				AdvancedSearchBean.class);
-		/*modifica barbara 18/04/2007 per pagina ricerca*/
+
 		requestBean=request;
 		if (bean == null) {
 			bean = new AdvancedSearchBean();
@@ -586,7 +579,6 @@ public class AdvancedSearchBean extends SearchBean {
 		return "advancedSearch";
 	}
 
-	/*modifica barbara 18/04/2007 per pagina ricerca*/
 	public List getIndexSubList(char indT, int ind) {
 		DAOSearchIndex dao = new DAOSearchIndex();
         return null;
@@ -600,7 +592,6 @@ public class AdvancedSearchBean extends SearchBean {
 				throw new RuntimeException("failed to load indexes", e);
 			}*/
 		}
-	/*modifica barbara 20/04/2007 per pagina ricerca*/
 	public ResultSet expertSearch(String cclQuery, Locale locale, int searchingView)
 	throws LibrisuiteException {
 	logger.debug("Start search");
@@ -612,7 +603,7 @@ public class AdvancedSearchBean extends SearchBean {
 	return resultSet;
 	}
 	
-	/*modifica barbara 20/04/2007 per pagina ricerca*/
+
 	public ResultSet expertFrbrSearch(String cclQuery, Locale locale, int searchingView)
 	throws LibrisuiteException {
 	logger.debug("Start search");
@@ -625,12 +616,11 @@ public class AdvancedSearchBean extends SearchBean {
 	}
 	
 	
-	/*modifica barbara 20/04/2007 per pagina ricerca*/
 	public ResultSet expertSearch(String cclQuery, String complexQuery,Locale locale)
 	throws LibrisuiteException {
 	logger.debug("Start search");
 	ResultSet resultSet;
-	//pm 2011 -- change from parameter to locally maintained searchingView
+
 	resultSet =
 		getSearchEngine().expertSearch(cclQuery, locale, getSearchingView());
 	resultSet.setComplexQuery(complexQuery);

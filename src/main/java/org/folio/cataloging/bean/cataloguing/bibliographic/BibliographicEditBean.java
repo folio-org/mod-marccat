@@ -96,8 +96,6 @@ public class BibliographicEditBean extends EditBean {
 	private String newSubfieldCode;
 	private int cataloguingView;
 
-	// private static DeweyClassificationType deweyClassificationType = new
-	// DeweyClassificationType();
 
 	public int getCataloguingView() {
 		return cataloguingView;
@@ -239,7 +237,6 @@ public class BibliographicEditBean extends EditBean {
 		return CodeListsBean.getComputerFileFormats().getCodeList(getLocale());
 	}
 
-	/* Bug 4119 */
 	public List getComputerFileFormCodeList() {
 		return CodeListsBean.getComputerFileForm().getCodeList(getLocale());
 	}
@@ -324,18 +321,6 @@ public class BibliographicEditBean extends EditBean {
 
 	public List getCountryList() {
 		return CodeListsBean.getMarcCountry().getCodeList(getLocale());
-
-		// TEST modo alternativo di caricare le tendine
-		// List marcCountry = null;
-		// try {
-		// marcCountry = DAOCodeTable.asOptionList(new
-		// DAOCodeTable().getList(T_MARC_CNTRY.class, false), Locale.ITALY);
-		// } catch (DataAccessException e) {
-		// logger.debug(
-		// "DataAccessException getting marc country list");
-		// return null;
-		// }
-		// return marcCountry;
 	}
 
 	public String getSomething(String s) {
@@ -538,7 +523,6 @@ public class BibliographicEditBean extends EditBean {
 				.getComputerTargetAudienceCode());
 	}
 
-	/* Bug 4119 */
 	public String getComputerFileFormCodeValue() {
 		MaterialDescription md = (MaterialDescription) getCatalogItem()
 				.findFirstTagByNumber("008");
@@ -629,7 +613,6 @@ public class BibliographicEditBean extends EditBean {
 		return getElement(getMusicFormatCodeList(), md.getMusicFormatCode());
 	}
 
-	/* Bug 4161 inizio */
 	public String getMusicPartsCodeValue() {
 		MaterialDescription md = (MaterialDescription) getCatalogItem()
 				.findFirstTagByNumber("008");
@@ -655,8 +638,6 @@ public class BibliographicEditBean extends EditBean {
 		return getElement(getMusicTranspositionArrangementCodeList(), md
 				.getMusicTranspositionArrangementCode());
 	}
-
-	/* Bug 4161 fine */
 
 	public String getMusicTextualMaterialCode1Value() {
 		MaterialDescription md = (MaterialDescription) getCatalogItem()
@@ -748,8 +729,6 @@ public class BibliographicEditBean extends EditBean {
 				.getRecordCataloguingSourceCode());
 	}
 
-	// TAG =007 Start Map Object
-
 	public String getSpecificMaterialDesignationCodeValue() {
 		Map map = (Map) getCatalogItem().findFirstTagByNumber("007");
 		return getElement(getMapSpecificMaterialDesignationCodeList(), map
@@ -783,8 +762,6 @@ public class BibliographicEditBean extends EditBean {
 		Map map = (Map) getCatalogItem().findFirstTagByNumber("007");
 		return getElement(getMapPolarityCodeList(), map.getMapPolarityCode());
 	}
-
-	// END TAG 007 Map Object
 
 	public String getErSpecificMaterialDesignationCodeValue() {
 		ElectronicResource type = (ElectronicResource) getCatalogItem()
@@ -2462,7 +2439,6 @@ public class BibliographicEditBean extends EditBean {
 		return CodeListsBean.getMusicTextualMaterial().getCodeList(getLocale());
 	}
 
-	/* Bug 4161 inizio */
 	public List getMusicPartsCodeList() {
 		return CodeListsBean.getMusicParts().getCodeList(getLocale());
 	}
@@ -2471,8 +2447,6 @@ public class BibliographicEditBean extends EditBean {
 		return CodeListsBean.getMusicTranspositionArrangement().getCodeList(
 				getLocale());
 	}
-
-	/* Bug 4161 fine */
 
 	public List getNatureOfContentList() {
 		return CodeListsBean.getNatureOfContent().getCodeList(getLocale());
@@ -3144,10 +3118,10 @@ public class BibliographicEditBean extends EditBean {
 	public void updateRelationshipFromSearch(int amicusNumber,
 			int cataloguingView) throws DataAccessException {
 		BibliographicRelationshipTag tag = (BibliographicRelationshipTag) getCurrentTag();
-		//bug for ItemNumber == -1 in the tag
+
 		tag.setItemNumber(this.getCatalogItem().getAmicusNumber());
 		tag.replaceTargetRelationship(amicusNumber, cataloguingView);
-		// update the correlation settings
+
 		refreshCorrelation(tag.getCorrelation(1), tag.getCorrelation(2),
 				getLocale());
 
@@ -3843,10 +3817,6 @@ public class BibliographicEditBean extends EditBean {
 		}
 	}
 
-	/**
-	 * BUG 3063: This method selects the default if the tag 773 bibliographic
-	 * level = 'a' or 'b' when you select the category of relations.
-	 */
 	public void setRelationForAnalytical() {
 		BibliographicLeader leader = (BibliographicLeader) getCatalogItem()
 				.findFirstTagByNumber("000");
@@ -3949,7 +3919,7 @@ public class BibliographicEditBean extends EditBean {
 	}
 
 	/**
-	 * Bug 1594 This method creates the tag 773 for the level 012 (Serial
+	 * This method creates the tag 773 for the level 012 (Serial
 	 * component part) or 013 (Serial article) or 015(Monographic component
 	 * part)
 	 * 
@@ -4579,11 +4549,7 @@ public class BibliographicEditBean extends EditBean {
 			int i = getCatalogItem().getTags().indexOf(t998);
 			setTagIndex(i);
 			deleteTag();
-			// setTagIndex(getCatalogItem().getNumberOfTags()-1);
-			// getCatalogItem().sortTags();
-			// refreshCorrelation(getCurrentTag().getCorrelation(1),getCurrentTag().getCorrelation(2),getLocale());
-			// setCurrentCommand(0);
-			// setNavigation(true);
+
 		}
 		ClassificationAccessPoint tag998 = (ClassificationAccessPoint) newTag(
 				1, (short) 6);
@@ -5039,7 +5005,6 @@ public class BibliographicEditBean extends EditBean {
 	/**
 	 * Checks if has electronic in FormOfItem
 	 */
-	// Nat: bug 1779
 	public boolean isElectronicResourceoOnTag008() {
 		MaterialDescription t008 = (MaterialDescription) getCatalogItem()
 				.findFirstTagByNumber("008");
@@ -5059,7 +5024,6 @@ public class BibliographicEditBean extends EditBean {
 		ControlNumberAccessPoint tag097 = (ControlNumberAccessPoint) getCatalogItem()
 				.findFirstTagByNumber("097");
 		if (tag097 != null) {
-			// controllo livello
 			StringText text = new StringText(tag097.getDescriptor()
 					.getStringText());
 			String digitalLevel = text.getSubfieldsWithCodes("b")
@@ -5091,7 +5055,7 @@ public class BibliographicEditBean extends EditBean {
 
 		}*/
 		if (value_mesh == '1' && getCurrentTag() != null) {
-			// controlla che sia tag 650 con ind. #2
+
 			try {
 				if (getCurrentTag().getMarcEncoding().getMarcTag()
 						.equals("650")
@@ -5156,16 +5120,11 @@ public class BibliographicEditBean extends EditBean {
 				"S".equalsIgnoreCase(getCasaliniBean().getCasCache()
 						.getCheckNTOCSB()) ? "S" : "N");
 
-		// if (isToSetOnReiterationFlag(getCatalogItem()))
-		// {
-		// getCasaliniBean().getCasCache().setFlagReiteration("S");
-		// }
-		// else
-		// {
+
 		getCasaliniBean().getCasCache().setFlagReiteration(
 				"S".equalsIgnoreCase(getCasaliniBean().getCasCache()
 						.getFlagReiteration()) ? "S" : "N");
-		// }
+
 
 		getCasaliniBean().getCasCache().setDigCheck(
 				"S".equalsIgnoreCase(getCasaliniBean().getCasCache()
@@ -5251,15 +5210,13 @@ public class BibliographicEditBean extends EditBean {
 		*/
 	}
 
-	// ----> Anche per gli altri clienti deve scrivere la S_CAS_CACHE e
-	// scrivere la tabella CAS_FILES e CAS_DIG_FILES
+
 	@Override
 	public void saveRecord() throws DataAccessException, AuthorisationException, ValidationException
 	{
 		getCatalog().getCatalogDao().setCasCache(getCasaliniBean().getCasCache());
 		if (getCasaliniBean().isEnabled()) {
 
-			// --------> Tag 097 cancellati
 			Tag aTag = null;
 
 			Iterator iter = getCatalogItem().getDeletedTags().iterator();
@@ -5279,7 +5236,7 @@ public class BibliographicEditBean extends EditBean {
 				}
 			}
 
-			// --------> Tag 097 inseriti
+			// --------> Tag 097
 			List tags097 = get097Tags();
 			for (int i = 0; i < tags097.size(); i++) {
 				ControlNumberAccessPoint tag097 = (ControlNumberAccessPoint) tags097
@@ -5295,7 +5252,6 @@ public class BibliographicEditBean extends EditBean {
 			}
 		}
 
-		// ----> 20101007 inizio: tag082 attribuzione sequence number
 		List tags082 = get082_084Tags("082");
 		int sequenceNumber = getMaxSequence().intValue();
 		for (int i = 0; i < tags082.size(); i++) {
@@ -5312,9 +5268,7 @@ public class BibliographicEditBean extends EditBean {
 				tag082.markChanged();
 			}
 		}
-		// ----> 20101007 fine
 
-		// ----> 20101027 inizio: tag084 attribuzione sequence number
 		List tags084 = get082_084Tags("084");
 		sequenceNumber = getMaxSequence().intValue();
 		for (int i = 0; i < tags084.size(); i++) {
@@ -5331,9 +5285,7 @@ public class BibliographicEditBean extends EditBean {
 				tag084.markChanged();
 			}
 		}
-		// ----> 20101007 fine
 
-		// --------> 20110214 inizio: controllo tag 982 e 082
 		List tags982List = get982Tags();
 		List tags082List = get082Tags();
 		Iterator it982 = null;

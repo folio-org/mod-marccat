@@ -366,12 +366,7 @@ public class DAOCopy extends HibernateUtil {
 									.toDisplayString());
 				}
 			}
-			/**
-			 * MODIFICA BARBARA - inserire nella lista delle copie il tipo
-			 * prestito e il posseduto
-			 * 
-			 * @since 1.0
-			 */
+
 			rawCopyListElement.setLoanType(new DAOCodeTable().getLongText(
 					session, rawCopy.getLoanPrd(), T_LOAN_PRD.class, locale));
 			rawCopyListElement.setCopyStatementText(rawCopy.getCopyStatementText());
@@ -451,12 +446,7 @@ public class DAOCopy extends HibernateUtil {
 								.toDisplayString());
 					}
 				}
-				/**
-				 * MODIFICA BARBARA - inserire nella lista delle copie il tipo
-				 * prestito e il posseduto
-				 * 
-				 * @since 1.0
-				 */
+
 				rawCopyListElement.setLoanType(new DAOCodeTable().getLongText(session, rawCopy.getLoanPrd(), T_LOAN_PRD.class, locale));
 				rawCopyListElement.setCopyStatementText(rawCopy.getCopyStatementText());
 				rawCopyListElement.setCopyRemarkNote(rawCopy.getCopyRemarkNote());
@@ -802,21 +792,16 @@ public class DAOCopy extends HibernateUtil {
 				// detach the shelflist
 				detachShelfList(copy, copy.getShelfList());
 
-				// Bug 2292: Scrive la tabella CPY_ID_AGENT
 				saveCpyIdAgent(userName, copy.getCopyIdNumber());
 
 				// delete the copy itself
 				s.delete(copy);
 
-				/*
-				 * Natascia 27/06/2007 : se non ci sono piu' copie per la
-				 * biblioteca selezionata, devo cancellare il tag 850 nella
-				 * tabella smry_hldg **PRN 223
-				 */
+
 				DAOSummaryHolding ds = new DAOSummaryHolding();
 				ds.deleteRecord(copy.getBibItemNumber(), copy
 						.getOrganisationNumber());
-				/* */
+
 
 			}
 		}.execute();
@@ -1033,8 +1018,7 @@ public class DAOCopy extends HibernateUtil {
 					copy.generateNewKey();
 					//copy.setCreationDate(new Date());
 				}
-				
-				// Bug 2292: Scrive la tabella CPY_ID_AGENT
+
 				saveCpyIdAgent(userName, copy.getCopyIdNumber());
 
 				persistByStatus(copy);
@@ -1930,7 +1914,7 @@ public class DAOCopy extends HibernateUtil {
 		}
 	}
 
-	/* Bug 2292 */
+
 	public void saveCpyIdAgent(String userName, int cpyIdNbr) throws DataAccessException 
 	{
 		Connection connection = null;

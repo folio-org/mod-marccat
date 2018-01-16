@@ -27,7 +27,7 @@ public class DAOGlobalVariable extends HibernateUtil implements Serializable {
 	//TODO null exception if variable doesn't exist
 	public String getValueByName(final String name) throws DataAccessException
 	{
-		//TODO refactoring this
+		//TODO refactoring session
 		final Session session = currentSession();
 
 		String valueByName = null;
