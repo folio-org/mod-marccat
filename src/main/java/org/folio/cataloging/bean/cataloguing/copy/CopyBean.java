@@ -709,9 +709,9 @@ public class CopyBean extends LibrisuiteBean {
 			throws DataAccessException {
 		DAOCopy dc = new DAOCopy();
 		CPY_ID copy = null;
-		// Asking if the copy exist or not
+
 		copy = dc.load(copyIdNumber);
-		logger.debug("copyID" + copyIdNumber + "loaded");
+
 		if (copy == null) {
 			throw new RecordNotFoundException();
 		} else {

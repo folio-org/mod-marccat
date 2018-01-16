@@ -87,7 +87,8 @@ public class CrossReferenceBean extends LibrisuiteBean
 			REF ref = (REF) iter.next();
 			Descriptor hdg = ref.getTargetDAO().load(ref.getTarget(), cataloguingView);
 			CrossReferenceSummaryElement aSummaryElement =	new CrossReferenceSummaryElement();
-		
+
+			//TODO Natascia: fix session
 			/*if(ref.getType() != null)
 				aSummaryElement.setDecodedType(cts.load(ReferenceType.class, ref.getType(), locale).getLongText());
 			
@@ -126,6 +127,7 @@ public class CrossReferenceBean extends LibrisuiteBean
 			REF ref = (REF) iter.next();
 			Descriptor hdg = ref.getTargetDAO().load(ref.getTarget(), cataloguingView);
 			CrossReferenceSummaryElement aSummaryElement = new CrossReferenceSummaryElement();
+			//TODO Natascia: fix session
 			/*aSummaryElement.setDecodedType(cts.load(ReferenceThsTyp.class, ref.getType(), locale).getLongText());
 			aSummaryElement.setDecodedPrintConstant(cts.load(T_REF_PRNT_CNSTN.class,ref.getPrintConstant(),locale).getShortText());
 			aSummaryElement.setTarget(new StringText(hdg.getStringText()).toDisplayString());
@@ -159,6 +161,7 @@ public class CrossReferenceBean extends LibrisuiteBean
 			Descriptor hdg = ref.getTargetDAO().load(ref.getTarget());
 			
 			CrossReferenceSummaryElement aSummaryElement = new CrossReferenceSummaryElement();
+			//TODO Natascia: fix session
 			/*aSummaryElement.setDecodedType(cts.load(ReferenceThsTyp.class, ref.getType(), locale).getLongText());
 			aSummaryElement.setDecodedPrintConstant(cts.load(T_REF_PRNT_CNSTN.class, ref.getPrintConstant(), locale).getShortText());
 			aSummaryElement.setTarget(new StringText(hdg.getStringText()).toDisplayString());
@@ -192,6 +195,7 @@ public class CrossReferenceBean extends LibrisuiteBean
 			THS_ATRIB ref = (THS_ATRIB) iter.next();
 			Descriptor hdg = ref.getTargetDAO().load(ref.getTarget(), cataloguingView);
 			CrossReferenceSummaryElement aSummaryElement = new CrossReferenceSummaryElement();
+			//TODO Natascia: fix session
 			/*aSummaryElement.setDecodedType(cts.load(ReferenceAttrTyp.class, ref.getType(), locale).getLongText());
 			aSummaryElement.setDecodedPrintConstant(cts.load(T_REF_PRNT_CNSTN.class, ref.getPrintConstant(), locale).getShortText());
 			aSummaryElement.setTarget(new StringText(hdg.getStringText()).toDisplayString());
@@ -226,6 +230,7 @@ public class CrossReferenceBean extends LibrisuiteBean
 			Descriptor hdg = ref.getTargetDAO().load(ref.getTarget());
 			
 			CrossReferenceSummaryElement aSummaryElement =	new CrossReferenceSummaryElement();
+			//TODO Natascia: fix session
 			/*aSummaryElement.setDecodedType(cts.load(ReferenceAttrTyp.class, ref.getType(), locale).getLongText());
 			aSummaryElement.setDecodedPrintConstant(cts.load(T_REF_PRNT_CNSTN.class, ref.getPrintConstant(), locale).getShortText());
 			aSummaryElement.setTarget(new StringText(hdg.getStringText()).toDisplayString());
