@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.BooleanSupplier;
 import java.util.function.Function;
-import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import static org.folio.cataloging.F.datasourceConfiguration;
 import static org.folio.cataloging.Global.HCONFIGURATION;
@@ -64,6 +64,39 @@ public abstract class CatalogingHelper {
         Optional<T> validate(Function<T, Optional<T>> validator);
     }
 
+
+
+    /**
+     * Executes a POST request.
+     *
+     * @param adapter the bridge that carries on the existing logic.
+     * @param asyncResultHandler the response handler.
+     * @param okapiHeaders the incoming Okapi headers
+     * @param ctx the vertx context.
+     * @param validator a validator function for the entity associated with this resource.
+     * @param id the identifier associated with the just created entity.
+     * @throws Exception in case of failure.
+     */
+    public static void doPost(
+            final PieceOfExistingLogicAdapter adapter,
+            final Handler<AsyncResult<Response>> asyncResultHandler,
+            final Map<String, String> okapiHeaders,
+            final Context ctx,
+            final BooleanSupplier validator,
+            final Supplier<String> id) throws Exception {
+        if (validator.getAsBoolean()) {
+            exec(adapter, asyncResultHandler, okapiHeaders, ctx, execution ->
+                    Response
+                            .status(HttpStatus.SC_CREATED)
+                            .header(HttpHeaders.LOCATION, id.get())
+                            .header(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.toString())
+                            .entity(execution.result())
+                            .build());
+        } else {
+            asyncResultHandler.handle(Future.succeededFuture(Response.status(HttpStatus.SC_UNPROCESSABLE_ENTITY).build()));
+        }
+    }
+
     /**
      * Executes a PUT request.
      *
@@ -85,6 +118,23 @@ public abstract class CatalogingHelper {
         } else {
             asyncResultHandler.handle(Future.succeededFuture(Response.status(HttpStatus.SC_BAD_REQUEST).build()));
         }
+    }
+
+    /**
+     * Executes a DELETE request.
+     *
+     * @param adapter the bridge that carries on the existing logic.
+     * @param asyncResultHandler the response handler.
+     * @param okapiHeaders the incoming Okapi headers
+     * @param ctx the vertx context.
+     * @throws Exception in case of failure.
+     */
+    public static void doDelete(
+            final PieceOfExistingLogicAdapter adapter,
+            final Handler<AsyncResult<Response>> asyncResultHandler,
+            final Map<String, String> okapiHeaders,
+            final Context ctx) throws Exception {
+        exec(adapter, asyncResultHandler, okapiHeaders, ctx, execution -> Response.status(HttpStatus.SC_NO_CONTENT).build());
     }
 
     /**
