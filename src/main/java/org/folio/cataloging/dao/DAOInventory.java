@@ -164,7 +164,6 @@ public class DAOInventory extends HibernateUtil {
 			public void doInHibernateTransaction(Session s)
 				throws HibernateException {
 				int i = nextNumber.getNextNumber() + 1;
-				//Modifica
 				nextNumber.setNextNumber(i);
 				s.update(nextNumber);
 			}

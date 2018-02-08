@@ -5,6 +5,7 @@
 <hibernate-mapping>
 	<class
 		name="org.folio.cataloging.business.cataloguing.bibliographic.BibliographicModel"
+		schema="olisuite"
 		table="BIBLIOGRAPHIC_MODEL">
 		<id name="id">
 			<column name="ID" not-null="true"/>
@@ -13,8 +14,7 @@
 			</generator>
 		</id>
 		<property name="label" column="LABEL"/>
-		<property name="xmlFields" column="XML_FIELDS" type="librisuite.business.common.hibernate.StringClobType"/>
+		<property name="xmlFields" column="XML_FIELDS" type="org.folio.cataloging.dao.common.StringClobType"/>
 		<property name="wemiFirstGroup" column="FRBR_TYPE_FIRST"/>
-		
 	</class>
 </hibernate-mapping>

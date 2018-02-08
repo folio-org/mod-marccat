@@ -1,41 +1,68 @@
-/*
- * Created on Nov 26, 2004
- */
 package org.folio.cataloging.business.common;
 
+import java.util.Map;
+
+import static java.util.Optional.ofNullable;
 
 /**
- * Class comment
- * @author janick
+ * Supertype layer for all map-backed object factories.
+ *
+ * @author paulm
+ * @since 1.0
  */
 public abstract class AbstractMapBackedFactory {
-	
+	/**
+	 * Clears the collected factories.
+	 */
 	public abstract void clear();
+
+	/**
+	 * Adds a new factory entry.
+	 *
+	 * @param key the factory identifier.
+	 * @param clazz the product type.
+	 */
 	public abstract void put(Integer key, Class clazz);
+
+	/**
+	 * Adds all the entries within the given map.
+	 *
+	 * @param entries the factory entries.
+	 */
+	public abstract void put(Map<Integer, Class> entries);
+
+	/**
+	 * Returns an instance of the product associated with the given factory identifier.
+	 *
+	 * @param key the factory identifier / key.
+	 * @return an instance of the product associated with the given factory identifier.
+	 */
 	protected abstract Object getInstance(Integer key);
 
-	protected Object newInstance(Class clazz) {
-		if (clazz == null) return null;
-		try {
-			return (clazz).newInstance();
-		} catch (InstantiationException e) {
-			throw new RuntimeException(
-				"Could not get a new instance of " + clazz.getName(),
-				e);
-		} catch (IllegalAccessException e) {
-			throw new RuntimeException(
-				"Could not get a new instance of " + clazz.getName(),
-				e);
-		}
+	/**
+	 * Instantiates a new object beloging to the given type.
+	 *
+	 * @param type the object / instance type.
+	 * @return a new object beloging to the given type.
+	 */
+	protected Object newInstance(final Class type) {
+		return ofNullable(type).map(clazz -> {
+			try {
+				return clazz.newInstance();
+			} catch (final Exception exception) {
+				throw new RuntimeException(exception);
+			}
+		});
 	}
-	
 
+	/**
+	 * Returns an instance of the product associated with the given factory identifier.
+	 *
+	 * @param key the factory identifier / key.
+	 * @return an instance of the product associated with the given factory identifier.
+	 */
 	public Object create(int key) {
-		Object o = getInstance(new Integer(key));
-		if (o != null) {
-			return o;
-		} else {
-			throw new RuntimeException("No Class found for key " + key );
-		}
-	}	
+		return ofNullable(getInstance(key))
+				.orElseThrow(() -> new RuntimeException("No Class found for key " + key ));
+	}
 }

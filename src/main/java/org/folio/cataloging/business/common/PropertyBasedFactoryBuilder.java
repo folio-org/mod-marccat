@@ -1,106 +1,106 @@
-/*
- * Created on Nov 25, 2004
- */
 package org.folio.cataloging.business.common;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Iterator;
+import java.util.AbstractMap;
+import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
-import java.util.StringTokenizer;
+
+import static java.lang.Class.forName;
+import static java.lang.Integer.parseInt;
+import static java.util.Arrays.asList;
+import static java.util.Arrays.stream;
+import static java.util.Optional.ofNullable;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
+import static java.util.stream.IntStream.range;
 
 /**
- * Class comment
+ * TODO:
+ *
  * @author janick
+ * @author paulm
+ * @author agazzarini
+ * @since 1.0
  */
 public class PropertyBasedFactoryBuilder {
-	
+
 	private static final char RANGE_INDICATOR = '-';
 	private static final String NUMBER_DELIMITER = ",";
 	private static final String PACKAGE_STRING_KEY = "package";
 
 	/**
-	 * @param fileName
-	 * @param factory
+	 * Loads the content of the given file (name) into the input factory.
+	 *
+	 * @param fileName the filename.
+	 * @param factory the target factory.
 	 */
-	public void load(String fileName, AbstractMapBackedFactory factory) {
-		factory.clear();
+	public void load(final String fileName, final AbstractMapBackedFactory factory) {
 		try {
+			factory.clear();
 			readProperties(getClass().getResourceAsStream(fileName), factory);
-		} catch (IOException e) {
-			throw new RuntimeException("Error reading properties from stream for file " + fileName, e);
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Error finding a class for a key in " + fileName, e);
+		} catch (final IOException exception) {
+			throw new RuntimeException("Error reading properties from stream for file " + fileName, exception);
+		} catch (final ClassNotFoundException exception) {
+			throw new RuntimeException("Error finding a class for a key in " + fileName, exception);
 		}
 	}
 
+	/**
+	 * Loads the given properties stream into the input factory.
+	 *
+	 * @param stream the properties stream.
+	 * @param factory the target factory.
+	 * @throws IOException in case of I/O failure.
+	 * @throws ClassNotFoundException in case a property refers to a class which is not found.
+	 */
+	private void readProperties(final InputStream stream, final AbstractMapBackedFactory factory) throws IOException, ClassNotFoundException {
+		final Properties properties = new Properties();
+		properties.load(stream);
 
-	private void readProperties(InputStream stream, AbstractMapBackedFactory factory) throws IOException, ClassNotFoundException {
-		Properties p = new Properties();
-		p.load(stream);
-		addAllNumberToClassMappings(p, factory);
+		final String packageString = properties.getProperty(PACKAGE_STRING_KEY);
+		properties.stringPropertyNames()
+				.stream()
+				.filter(name -> !PACKAGE_STRING_KEY.equals(name))
+				.forEach(name -> mapNumbers(integerKeys(properties.getProperty(name)), findClass(packageString, name), factory));
 	}
 
-	private void addAllNumberToClassMappings(Properties p, AbstractMapBackedFactory factory) throws ClassNotFoundException {
-		String packageString = p.getProperty(PACKAGE_STRING_KEY);
-		Enumeration e = p.propertyNames();
-		while (e.hasMoreElements()) {
-			String next = (String) e.nextElement();
-			if (!(PACKAGE_STRING_KEY.equals(next))) {
-				mapNumbers(getNumberList(p.getProperty(next)), findClass(packageString,next), factory);
-			}
+	private void mapNumbers(final List<Integer> keys, final Class clazz, final AbstractMapBackedFactory factory) {
+		factory.put(
+				keys.stream()
+					.map(key -> new AbstractMap.SimpleEntry<>(key, clazz))
+					.collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue)));
+	}
+
+	private List<Integer> integerKeys(final String value) {
+		return stream(value.split(NUMBER_DELIMITER))
+				.map(this::integersFromToken)
+				.flatMap(Collection::stream)
+				.collect(toList());
+	}
+
+	/**
+	 * Produces the integer keys from the given token.
+	 *
+	 * @param token the input token.
+	 */
+	private List<Integer> integersFromToken(final String token) {
+		final int dashIndex = token.indexOf(RANGE_INDICATOR);
+		return (dashIndex == -1)
+				? asList(Integer.valueOf(token))
+				: range(parseInt(token.substring(0, dashIndex)), parseInt(token.substring(dashIndex + 1)))
+					.mapToObj(Integer::valueOf)
+					.collect(toList());
+	}
+
+	private Class findClass(final String packageString, final String name) {
+		try {
+			return forName(ofNullable(packageString)
+					.map(pack -> pack + "." + name)
+					.orElse(name));
+		} catch (final Exception exception) {
+			throw new RuntimeException(exception);
 		}
 	}
-
-	private void mapNumbers(List list, Class clazz, AbstractMapBackedFactory factory) {
-		Iterator iterator = list.iterator();
-		while (iterator.hasNext()) {
-			factory.put((Integer)iterator.next(), clazz);
-		}
-	}
-
-	private String getFullClassName(String packageString, String next) {
-		if ((packageString == null) || ("".equals(packageString))) {
-			return next;
-		}else {
-			return packageString + "." + next;
-		}
-	}
-
-	private List getNumberList(String value) {
-		StringTokenizer tokenizer = new StringTokenizer(value,NUMBER_DELIMITER);
-		List list = new ArrayList();
-		while (tokenizer.hasMoreTokens()) {
-			addValueOrRangeToList(tokenizer.nextToken(),list);
-		}
-		return list;
-	}
-
-
-	private void addValueOrRangeToList(String string, List list) {
-		int dashIndex = string.indexOf(RANGE_INDICATOR);
-		if (dashIndex == -1) {
-			list.add(new Integer(string));
-		} else {
-			addRangeToList(string.substring(0,dashIndex), string.substring(dashIndex+1), list);
-		}
-	}
-
-
-	private void addRangeToList(String start, String stop, List list) {
-		for (int i = Integer.parseInt(start);
-			i <= Integer.parseInt(stop);
-			i++) {
-			list.add(new Integer(i));
-		}
-	}
-
-
-	private Class findClass(String packageString, String next) throws ClassNotFoundException {
-		return Class.forName(getFullClassName(packageString,next));
-	}
-	
 }

@@ -1,29 +1,22 @@
-/*
- * (c) LibriCore
- * 
- * Created on Nov 4, 2005
- * 
- * ItemEntity.java
- */
 package org.folio.cataloging.business.cataloguing.common;
+
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.Defaults;
+import org.folio.cataloging.business.common.Persistence;
+import org.folio.cataloging.business.common.PersistenceState;
 
 import java.io.Serializable;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.business.common.Persistence;
-import org.folio.cataloging.business.common.PersistenceState;
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
-
 /**
  * Abstract class representing the db entity that holds the catalogItem 
- * (i.e. BIB_ITM or AUT)
+ * (i.e. BIB_ITM or AUT).
+ *
  * @author paulm
- * @version $Revision: 1.3 $, $Date: 2005/12/12 12:54:36 $
  * @since 1.0
  */
 public abstract class ItemEntity implements Persistence, Serializable {

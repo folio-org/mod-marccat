@@ -13,9 +13,9 @@ public class MasterListElement {
     int idCollection;
     String statusCode;
     boolean isHierarchy;
-    //Aggiunto 12/10/2009
+
     int countMst; 
-//  20101014 inizio: data di associazione record --> se dal record associo le collezioni  
+
 	private Date dateAssociatedRecord;
      
      public boolean isHierarchy() {

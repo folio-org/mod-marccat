@@ -7,32 +7,27 @@
  */
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.folio.cataloging.business.cataloguing.common.AccessPoint;
 import org.folio.cataloging.business.cataloguing.common.OrderedTag;
 import org.folio.cataloging.business.common.ConfigHandler;
 import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.dao.DAOBibliographicCorrelation;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.business.common.LibrisuiteUtils;
-import org.folio.cataloging.dao.DAODescriptor;
-import org.folio.cataloging.dao.DAONameTitleDescriptor;
 import org.folio.cataloging.business.descriptor.Descriptor;
-import org.folio.cataloging.dao.persistence.NME_TTL_HDG;
-import org.folio.cataloging.dao.persistence.NameSubType;
-import org.folio.cataloging.dao.persistence.NameType;
-import org.folio.cataloging.dao.persistence.REF;
-import org.folio.cataloging.dao.persistence.T_NME_TTL_FNCTN;
-
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.util.StringText;
+import org.folio.cataloging.dao.DAOBibliographicCorrelation;
+import org.folio.cataloging.dao.DAODescriptor;
 import org.folio.cataloging.dao.DAONameTitleAccessPoint;
+import org.folio.cataloging.dao.DAONameTitleDescriptor;
+import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.persistence.*;
+import org.folio.cataloging.util.StringText;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.folio.cataloging.F.deepCopy;
 
 /**
  * @author paulm
@@ -283,7 +278,7 @@ public class NameTitleAccessPoint extends NameTitleComponent implements OrderedT
 		REF ref = dao.getCrossReferencesWithLanguage(d, cataloguingView,
 				indexingLanguage);
 		if (ref!=null) {
-			AccessPoint aTag = (AccessPoint) (LibrisuiteUtils.deepCopy(this));
+			AccessPoint aTag = (AccessPoint) deepCopy(this);
 			aTag.markNew();
 			aTag.setDescriptor(dao.load(ref.getTarget(), cataloguingView));
 			aTag.setHeadingNumber(new Integer(aTag.getDescriptor().getKey()

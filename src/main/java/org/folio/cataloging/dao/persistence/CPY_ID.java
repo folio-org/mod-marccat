@@ -73,10 +73,7 @@ public class CPY_ID implements Persistence, Serializable {
 	private Integer physicalCopyType;
 	private Character methodAdquisition = new Character(' ');
 	private PersistenceState persistenceState = new PersistenceState();
-	/*
-	 * modifica barbara 13/04/2007 rendere ineditabile il campo barcode nel caso
-	 * venga assegnato automaticamente dal sistema
-	 */
+
 	private boolean barcodeAssigned = false;
 
 	public String getBarCodeNumber() {
@@ -132,9 +129,6 @@ public class CPY_ID implements Persistence, Serializable {
 	}
 
 	public String getHoldingAcsnListCode() {
-		/**
-		 * Natascia 2/07/2007 ***PRN 226 aggiunto .trim()
-		 */
 		if (holdingAcsnListCode != null)
 			return holdingAcsnListCode.trim();
 		else
@@ -605,7 +599,7 @@ public class CPY_ID implements Persistence, Serializable {
 		}
 	}
 
-	/* modifica barbara 12/04/2007 PRN 116 */
+
 	public void deleteNewKey() throws DataAccessException {
 		DAOSystemNextNumber dao = new DAOSystemNextNumber();
 		setCopyIdNumber(dao.getPreviouwsNumber("HC"));
@@ -630,10 +624,7 @@ public class CPY_ID implements Persistence, Serializable {
 		return new DAOCopy();
 	}
 
-	/*
-	 * modifica barbara 13/04/2007 rendere ineditabile il campo barcode nel caso
-	 * venga assegnato automaticamente dal sistema
-	 */
+
 	public boolean isBarcodeAssigned() {
 		return barcodeAssigned;
 	}

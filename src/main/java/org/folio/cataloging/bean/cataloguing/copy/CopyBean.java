@@ -8,7 +8,10 @@ import org.folio.cataloging.bean.cataloguing.heading.ShelfListHeadingBean;
 import org.folio.cataloging.bean.searching.BrowseBean;
 import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
 import org.folio.cataloging.business.cataloguing.common.Validation;
-import org.folio.cataloging.business.common.*;
+import org.folio.cataloging.business.common.CorrelationValues;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.DuplicateDescriptorException;
+import org.folio.cataloging.business.common.RecordNotFoundException;
 import org.folio.cataloging.business.controller.SessionUtils;
 import org.folio.cataloging.business.controller.UserProfile;
 import org.folio.cataloging.business.descriptor.Descriptor;
@@ -29,6 +32,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import static org.folio.cataloging.F.deepCopy;
 
 public class CopyBean extends LibrisuiteBean {
 
@@ -456,8 +461,6 @@ public class CopyBean extends LibrisuiteBean {
 		editingShelfList = shlf_list;
 	}
 
-	/* Bug 2292 */
-//	public void saveCopy() throws DataAccessException, EmptySubfieldException, InvalidShelfListTypeException, NoSubfieldCodeException, ValidationException, RecordInUseException
 	public void saveCopy(final Session session, final String userName) throws DataAccessException, ValidationException, RecordInUseException
 	{
 		DAOCopy dc = new DAOCopy();
@@ -520,12 +523,9 @@ public class CopyBean extends LibrisuiteBean {
 		 */
 		copy.validate();
 		copy.markChanged();
-		/* Bug 2292*/
-//		dc.saveCopy(copy, oldShelfList);
 		dc.saveCopy(session, copy, oldShelfList, userName);
 
-		// Aggiornamento Location Bug
-		DAOBibliographicCatalog dao = new DAOBibliographicCatalog();
+		BibliographicCatalogDAO dao = new BibliographicCatalogDAO();
 		dao.updateCacheTable(copy.getBibItemNumber(), cataloguingView);
 
 		logger.debug("back from save");
@@ -714,14 +714,14 @@ public class CopyBean extends LibrisuiteBean {
 			throws DataAccessException {
 		DAOCopy dc = new DAOCopy();
 		CPY_ID copy = null;
-		// Asking if the copy exist or not
+
 		copy = dc.load(copyIdNumber);
-		logger.debug("copyID" + copyIdNumber + "loaded");
+
 		if (copy == null) {
 			throw new RecordNotFoundException();
 		} else {
 			String sortForm = copy.getShelfList().getSortForm();
-			copy = (CPY_ID) LibrisuiteUtils.deepCopy(copy);
+			copy = (CPY_ID) deepCopy(copy);
 			setCopy(copy);
 			copy.setBarCodeNumber("0");
 			copy.setCopyIdNumber(0);
@@ -786,9 +786,6 @@ public class CopyBean extends LibrisuiteBean {
 		bean.setLastBrowseTermSkip(getStringText().toDisplayString());
 		bean.setBrowseLinkMethod("pickShelf");
 		setCopyColumnVisible(true);
-		// bean.refresh(getStringText().toDisplayString(),
-		// SessionUtils.getCataloguingView(request),
-		// SessionUtils.getUsersMainLibrary(request));
 		bean.refresh(getStringText().toDisplayString(),
 				bean.getSearchingView(), SessionUtils
 						.getUsersMainLibrary(request));
@@ -853,18 +850,6 @@ public class CopyBean extends LibrisuiteBean {
 
 	}
 
-	/*
-	 * public void checkHeadingUsed() throws
-	 * DuplicateDescriptorException,DataAccessException{ CPY_ID copy =
-	 * getCopy(); DAOCopy dc = new DAOCopy(); int count=
-	 * dc.countShelfListAccessPoint(copy,getEditingShelfList()); if (count >1){
-	 * setDuplicateShelf(true); logger.debug("Count delle copie duplicate:
-	 * "+count+ " - Numero della collocazione da utilizzare:
-	 * "+copy.getShelfListKeyNumber()); throw new
-	 * DuplicateDescriptorException(); } logger.debug("Count delle copie
-	 * duplicate: "+count+ " - Numero della collocazione da utilizzare:
-	 * "+copy.getShelfListKeyNumber()); }
-	 */
 
 	public boolean isCopyColumnVisible() {
 		return copyColumnVisible;

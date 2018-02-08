@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- * 
- * Created on Nov 15, 2005
- * 
- * Catalog.java
- */
 package org.folio.cataloging.business.cataloguing.common;
 
 import org.apache.commons.logging.Log;
@@ -14,60 +7,65 @@ import org.folio.cataloging.business.cataloguing.bibliographic.NewTagException;
 import org.folio.cataloging.business.cataloguing.bibliographic.PersistsViaItem;
 import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.business.controller.UserProfile;
-import org.folio.cataloging.dao.DAOCatalog;
+import org.folio.cataloging.dao.CatalogDAO;
 import org.folio.cataloging.dao.DAOCodeTable;
-import org.folio.cataloging.dao.DAOModel;
+import org.folio.cataloging.dao.ModelDAO;
 import org.folio.cataloging.exception.RecordInUseException;
 import org.folio.cataloging.exception.ValidationException;
 import org.w3c.dom.Element;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 /**
+ * Supertype layer of all Catalogs impl.
+ *
  * @author paulm
- * @version $Revision: 1.8 $, $Date: 2006/12/14 10:31:07 $
+ * @author agazzarini
  * @since 1.0
  */
 public abstract class Catalog {
 
-	private static final Log logger = LogFactory.getLog(Catalog.class);
+	private final Log logger = LogFactory.getLog(getClass());
+	protected final static DAOCodeTable DAO_CODE_TABLE = new DAOCodeTable();
 
-	protected static DAOCodeTable daoCodeTable = new DAOCodeTable();
+	private final static Map<Integer, Catalog> VIEW_TO_INSTANCE_MAP = new HashMap();
 
-	private static Map viewToInstanceMap = new HashMap();
-
-	public static Catalog getInstanceByView(int cataloguingView) {
-		Catalog result = (Catalog)viewToInstanceMap.get(new Integer(cataloguingView));
-		if (result == null) {
-			Class clazz;
-			try {
-				clazz = Defaults.getClazz("catalog.implementation.view."
-						+ cataloguingView);
-			} catch (MissingResourceException e) {
-				clazz = null;
-			}
-			if (clazz == null) {
-				result = new BibliographicCatalog();
-			}
-			else {
-				try {
-					result = (Catalog)clazz.newInstance();
-				} catch (InstantiationException e) {
-					throw new RuntimeException(e);
-				} catch (IllegalAccessException e) {
-					throw new RuntimeException(e);
-				}
-			}
-			viewToInstanceMap.put(new Integer(cataloguingView), result);
-		}
-		return result;
+	/**
+	 * Returns the {@link Catalog} instance associated with the given view identifier.
+	 *
+	 * @param viewId the view identifier.
+	 * @return the {@link Catalog} instance associated with the given view identifier.
+	 */
+	public static Catalog getInstanceByView(final int viewId) {
+		return VIEW_TO_INSTANCE_MAP.computeIfAbsent(
+				viewId, id -> {
+					try {
+						return (Catalog) Class.forName("org.folio.cataloging.business.cataloguing.bibliographic." + id).newInstance();
+					} catch (final Throwable exception) {
+						return new BibliographicCatalog();
+					}
+				});
 	}
 
 	abstract public Model newModel(CatalogItem item);
 
-	abstract public DAOModel getModelDAO();
+	/**
+	 * Returns the {@link ModelDAO} associated with this instance.
+	 *
+	 * @return the {@link ModelDAO} associated with this instance.
+	 */
+	abstract public ModelDAO getModelDAO();
+
+	/**
+	 * Returns the {@link CatalogDAO} associated with this instance.
+	 *
+	 * @return the {@link CatalogDAO} associated with this instance.
+	 */
+	abstract public CatalogDAO getCatalogDao();
 
 	/**
 	 * gets a list of heading types that are applicable for the current
@@ -75,16 +73,14 @@ public abstract class Catalog {
 	 * 
 	 * @since 1.0
 	 */
-	abstract public List getValidHeadingTypeList(Tag t, Locale locale)
-			throws DataAccessException;
+	abstract public List getValidHeadingTypeList(Tag t, Locale locale) throws DataAccessException;
 
 	/**
 	 * change the heading type of an Authority Heading or Reference tag
 	 * 
 	 * @since 1.0
 	 */
-	abstract public void changeDescriptorType(CatalogItem item, int index,
-			short descriptorType);
+	abstract public void changeDescriptorType(CatalogItem item, int index, short descriptorType);
 
 	/**
 	 * A unique String representing the subclass type for use in jsp logic tags
@@ -104,76 +100,62 @@ public abstract class Catalog {
 	abstract public Tag getNewTag(CatalogItem item, short category,
 			CorrelationValues correlationValues) throws NewTagException;
 
-	public CatalogItem getCatalogItem(Object[] key)
-			throws DataAccessException {
-		CatalogItem b = getCatalogDao().getCatalogItemByKey(key);
-		/* verify Marc Correlations */
+	public CatalogItem getCatalogItem(final Object[] key) throws DataAccessException {
+		final CatalogItem b = getCatalogDao().getCatalogItemByKey(key);
+
 		for (int i = 0; i < b.getNumberOfTags(); i++) {
-		try{
-			b.getTag(i).getMarcEncoding();
-		}catch (Exception e) {
-			continue;
-		}
+			try {
+				b.getTag(i).getMarcEncoding();
+			} catch (Exception e) {
+				continue;
+			}
 		}
 		b.sortTags();
 		return b;
 	}
 
-	abstract public Tag getNewHeaderTag(CatalogItem item, short header)
-			throws NewTagException;
-
-	/**
-	 * 
-	 */
-	abstract public DAOCatalog getCatalogDao();
+	abstract public Tag getNewHeaderTag(CatalogItem item, short header) throws NewTagException;
 
 	abstract public List getTagCategories(Locale l) throws DataAccessException;
 
-	public final Tag getNewTag(CatalogItem item, short category)
-			throws NewTagException {
+	public final Tag getNewTag(CatalogItem item, short category) throws NewTagException {
 		return getNewTag(item, category, null);
 	}
 
-	protected static Object setItemIfNecessary(CatalogItem item, Object o) {
+	protected static Object setItemIfNecessary(final CatalogItem item, final Object o) {
 		if (o instanceof PersistsViaItem) {
 			((PersistsViaItem) o).setItemEntity(item.getItemEntity());
 		}
 		return o;
 	}
 
-	public final Tag getNewTag(CatalogItem item, short category,
-			short correlationValue1, short correlationValue2,
-			short correlationValue3) throws NewTagException {
-		return getNewTag(item, category, new CorrelationValues(
-				correlationValue1, correlationValue2,
-				correlationValue3));
+	public final Tag getNewTag(
+			final CatalogItem item,
+			final short category,
+			final short correlationValue1,
+			final short correlationValue2,
+			final short correlationValue3) throws NewTagException {
+		return getNewTag(
+				item,
+				category,
+				new CorrelationValues(correlationValue1, correlationValue2, correlationValue3));
 	}
 
 	/**
 	 * Ensures that after creating a new Item (usually from a model) that the
-	 * item has at least the required mandatory tags
+	 * item has at least the required mandatory tags.
 	 * 
 	 * @since 1.0
 	 */
-	abstract public void addRequiredTags(CatalogItem item)
-			throws NewTagException;
+	abstract public void addRequiredTags(CatalogItem item) throws NewTagException;
 
-	/**
-	 *modifica BARBARA 20/02/2007 PR0046 
-	 *creo i 4 tag obbligatori e non lo 005
-	 * 
-	 * @since 1.0
-	 */
-
-	abstract public void addRequiredTagsForModel(CatalogItem item)
-	throws NewTagException;
+	abstract public void addRequiredTagsForModel(CatalogItem item) throws NewTagException;
 
 	public void deleteCatalogItem(CatalogItem item,UserProfile user) throws DataAccessException {
 		getCatalogDao().deleteCatalogItem(item, user);
 	}
 
-	public void saveCatalogItem(CatalogItem item) throws DataAccessException,
-			ValidationException {
+	public void saveCatalogItem(CatalogItem item) throws DataAccessException, ValidationException {
 		item.validate();
 		getCatalogDao().saveCatalogItem(item);
 	}
@@ -183,9 +165,8 @@ public abstract class Catalog {
 	 * 
 	 * @since 1.0
 	 */
-	public Tag parseModelXmlElementAddToItem(Element xmlElement,
-			CatalogItem item) {
-		Tag tag = parseModelXmlElement(xmlElement, item);
+	public Tag parseModelXmlElementAddToItem(final Element xmlElement, final CatalogItem item) {
+		final Tag tag = parseModelXmlElement(xmlElement, item);
 		if (tag != null) {
 			item.addTag(tag);
 			setItemIfNecessary(item, tag);
@@ -201,15 +182,14 @@ public abstract class Catalog {
 	public Tag parseModelXmlElement(Element xmlElement, CatalogItem item) {
 		Tag tag = null;
 		try {
-			tag = getNewTag(item, Short.parseShort(xmlElement
-					.getAttribute("categoryCode")), Short.parseShort(xmlElement
-					.getAttribute("firstCorrelationValue")), Short
-					.parseShort(xmlElement
-							.getAttribute("secondCorrelationValue")), Short
-					.parseShort(xmlElement
-							.getAttribute("thirdCorrelationValue")));
+			tag = getNewTag(
+					item,
+					Short.parseShort(xmlElement.getAttribute("categoryCode")),
+					Short.parseShort(xmlElement.getAttribute("firstCorrelationValue")),
+					Short.parseShort(xmlElement.getAttribute("secondCorrelationValue")),
+					Short.parseShort(xmlElement.getAttribute("thirdCorrelationValue")));
 			tag.parseModelXmlElementContent(xmlElement);
-		} catch (NewTagException newTagException) {
+		} catch (final NewTagException newTagException) {
 			logger.error("", newTagException);
 		}
 		return tag;
@@ -235,21 +215,18 @@ public abstract class Catalog {
 
 	abstract public CatalogItem applyKeyToItem(CatalogItem item, Object[] key);
 
-	public CatalogItem newCatalogItem(final Model model, final Object[] key)
-			throws DataAccessException {
+	public CatalogItem newCatalogItem(final Model model, final Object[] key) throws DataAccessException {
 		CatalogItem item = newCatalogItem(key);
 		item.setModelItem(model);
 		return item;
 	}
-	public void lock(final int itemNumber, final String userName)
-			throws DataAccessException, RecordInUseException {
+	public void lock(final int itemNumber, final String userName) throws DataAccessException, RecordInUseException {
 		getCatalogDao().lock(itemNumber, getLockingEntityType(), userName);
 	}
 
-	public void unlock(int itemNumber) throws DataAccessException {
+	public void unlock(final int itemNumber) throws DataAccessException {
 		getCatalogDao().unlock(itemNumber, getLockingEntityType());
 	}
 
 	abstract public String getLockingEntityType();
-
 }

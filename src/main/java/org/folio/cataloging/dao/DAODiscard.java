@@ -7,39 +7,27 @@
  */
 package org.folio.cataloging.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.text.Format;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.bean.cataloguing.copy.CopyListElement;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.LibrisuiteUtils;
-import org.folio.cataloging.business.common.RecordNotFoundException;
-import org.folio.cataloging.dao.persistence.CPY_ID;
-import org.folio.cataloging.dao.persistence.DiscardCopy;
-import org.folio.cataloging.dao.persistence.DiscardInventory;
-import org.folio.cataloging.dao.persistence.Inventory;
-import org.folio.cataloging.dao.persistence.LCTN;
-import org.folio.cataloging.dao.persistence.SHLF_LIST;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Query;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-
-import org.folio.cataloging.util.StringText;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.bean.cataloguing.copy.CopyListElement;
+import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
+import org.folio.cataloging.dao.persistence.*;
+import org.folio.cataloging.util.StringText;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+import static org.folio.cataloging.F.deepCopy;
 
 /**
  * @author paulm
@@ -80,8 +68,8 @@ public class DAODiscard extends DAOCopy {
 
 		new TransactionalHibernateOperation() {
 			public void doInHibernateTransaction(Session s)
-					throws HibernateException, RecordNotFoundException,
-					DataAccessException {
+					throws HibernateException,
+                    DataAccessException {
 				CPY_ID copy = (CPY_ID) s.get(CPY_ID.class, new Integer(
 						copyNumber));
 				copy.setShelfList(shelf);
@@ -107,8 +95,8 @@ public class DAODiscard extends DAOCopy {
 
 		new TransactionalHibernateOperation() {
 			public void doInHibernateTransaction(Session s)
-					throws HibernateException, RecordNotFoundException,
-					DataAccessException {
+					throws HibernateException,
+                    DataAccessException {
 				saveDiscardInventory(copyNumber,  s);
 	
 			}
@@ -238,7 +226,7 @@ public class DAODiscard extends DAOCopy {
 		Iterator ite = dsItems.iterator();
 		while(ite.hasNext()){
 			Inventory inv = (Inventory)ite.next();
-			DiscardInventory ds = (DiscardInventory)LibrisuiteUtils.deepCopy(inv);
+			DiscardInventory ds = (DiscardInventory)deepCopy(inv);
 			s.save(ds);
 		}
 		

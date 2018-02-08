@@ -31,6 +31,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import static org.folio.cataloging.F.deepCopy;
+
 /**
  * Publishers differ from other access points in that multiple publisher headings
  * contribute to a single tag, controlled through the intermediate table PUBL_TAG.  This class then 
@@ -415,7 +417,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
 		Iterator ite = getPublisherTagUnits().iterator();
 		while(ite.hasNext()){
 			PUBL_TAG p = (PUBL_TAG)ite.next();
-			PUBL_HDG pu = ((PUBL_HDG)p.getDescriptor());
+			PUBL_HDG pu = p.getDescriptor();
 			  
 			if(pu!=null && pu.getKey().getHeadingNumber()==-1){
  			    pu.setNameStringText("");
@@ -589,7 +591,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
 	}
 	 
 	private void detachDescriptor(PUBL_TAG pap) {
-		PUBL_HDG publ_hdg = ((PUBL_HDG)pap.getDescriptor());
+		PUBL_HDG publ_hdg = pap.getDescriptor();
 		if(pap.getPublisherHeadingNumber()==null){
 		   publ_hdg.setNameStringText("");
 		   publ_hdg.setPlaceStringText("");
@@ -607,7 +609,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
 		DAOPublisherManager daoPu = new DAOPublisherManager();
 		List newTags = new ArrayList();
 		PUBL_TAG pu = null;
-		PublisherManager aTag = (PublisherManager) (LibrisuiteUtils.deepCopy(this));
+		PublisherManager aTag = (PublisherManager) (deepCopy(this));
 		PublisherAccessPoint apf = aTag.getApf();
 		List/*<PUBL_TAG>*/ publisherTagApp = new ArrayList/*<PUBL_TAG>*/();
 		

@@ -1,101 +1,59 @@
-/*
- * (c) LibriCore
- * 
- * $Author: Paulm $
- * $Date: 2006/05/24 13:33:38 $
- * $Locker:  $
- * $Name:  $
- * $Revision: 1.7 $
- * $Source: /source/LibriSuite/src/librisuite/business/cataloguing/bibliographic/BibliographicCatalog.java,v $
- * $State: Exp $
- */
 package org.folio.cataloging.business.cataloguing.bibliographic;
+
+import org.folio.cataloging.business.cataloguing.common.*;
+import org.folio.cataloging.business.common.*;
+import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.business.descriptor.PublisherTagDescriptor;
+import org.folio.cataloging.dao.BibliographicModelDAO;
+import org.folio.cataloging.dao.DAOCache;
+import org.folio.cataloging.dao.ModelDAO;
+import org.folio.cataloging.dao.persistence.PUBL_HDG;
+import org.folio.cataloging.dao.persistence.PUBL_TAG;
+import org.folio.cataloging.dao.persistence.T_BIB_TAG_CAT;
+import org.folio.cataloging.exception.ValidationException;
 
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
-import org.folio.cataloging.business.cataloguing.common.AccessPoint;
-import org.folio.cataloging.business.cataloguing.common.Catalog;
-import org.folio.cataloging.business.cataloguing.common.CatalogItem;
-import org.folio.cataloging.business.cataloguing.common.CataloguingSourceTag;
-import org.folio.cataloging.business.cataloguing.common.ControlNumberTag;
-import org.folio.cataloging.dao.DAOCatalog;
-import org.folio.cataloging.dao.DAOModel;
-import org.folio.cataloging.business.cataloguing.common.DateOfLastTransactionTag;
-import org.folio.cataloging.business.cataloguing.common.HeaderField;
-import org.folio.cataloging.business.cataloguing.common.ItemEntity;
-import org.folio.cataloging.business.cataloguing.common.Model;
-import org.folio.cataloging.business.cataloguing.common.Tag;
-import org.folio.cataloging.business.common.AbstractMapBackedFactory;
-import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.dao.DAOCache;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.LibrisuiteUtils;
-import org.folio.cataloging.business.common.MapBackedFactory;
-import org.folio.cataloging.business.common.PropertyBasedFactoryBuilder;
-import org.folio.cataloging.business.common.RecordNotFoundException;
-import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.business.descriptor.Descriptor;
-import org.folio.cataloging.business.descriptor.PublisherTagDescriptor;
-import org.folio.cataloging.exception.ValidationException;
-import org.folio.cataloging.dao.persistence.PUBL_HDG;
-import org.folio.cataloging.dao.persistence.PUBL_TAG;
-import org.folio.cataloging.dao.persistence.T_BIB_TAG_CAT;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.dao.DAOBibliographicCatalog;
-import org.folio.cataloging.dao.DAOBibliographicModel;
+import static org.folio.cataloging.F.deepCopy;
 
 /**
- * Class comment
+ * Bibliographic implementation of {@link Catalog} interface.
+ *
+ * @author paulm
  * @author janick
+ * @author agazzarini
  */
 public class BibliographicCatalog extends Catalog {
-	private static final DAOModel modelDAO = new DAOBibliographicModel();
 
-	protected static AbstractMapBackedFactory tagFactory;
+	private static final ModelDAO MODEL_DAO = new BibliographicModelDAO();
+	private static final BibliographicCatalogDAO CATALOG_DAO = new BibliographicCatalogDAO();
 
-	protected static AbstractMapBackedFactory fixedFieldFactory;
+	protected static AbstractMapBackedFactory TAG_FACTORY;
+	protected static AbstractMapBackedFactory FIXED_FIELDS_FACTORY;
 
-	private static final Log logger =
-		LogFactory.getLog(BibliographicCatalog.class);
-	private static final DAOBibliographicCatalog catalogDao =
-		new DAOBibliographicCatalog();
 	static {
-		tagFactory = new MapBackedFactory();
-		fixedFieldFactory = new MapBackedFactory();
-		PropertyBasedFactoryBuilder builder = new PropertyBasedFactoryBuilder();
+		TAG_FACTORY = new MapBackedFactory();
+		FIXED_FIELDS_FACTORY = new MapBackedFactory();
+		final PropertyBasedFactoryBuilder builder = new PropertyBasedFactoryBuilder();
 		builder.load(
-				"/org/folio/cataloging/business/cataloguing/bibliographic/tagFactory.properties",
-			tagFactory);
+				"/org/folio/cataloging/business/cataloguing/bibliographic/TAG_FACTORY.properties",
+				TAG_FACTORY);
 		builder.load(
-				"/org/folio/cataloging/business/cataloguing/bibliographic/fixedFieldFactory.properties",
-			fixedFieldFactory);
+				"/org/folio/cataloging/business/cataloguing/bibliographic/FIXED_FIELDS_FACTORY.properties",
+				FIXED_FIELDS_FACTORY);
 	}
 
-	/**
-	 * 
-	 */
-	public BibliographicCatalog() {
-		super();
+	@Override
+	public CatalogDAO getCatalogDao() {
+		return CATALOG_DAO;
 	}
 
-	/**
-	 * 
-	 */
-	public DAOCatalog getCatalogDao() {
-		return catalogDao;
-	}
-
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Catalog#getTagCateogires()
-	 */
-	public List getTagCategories(Locale l) throws DataAccessException {
-		/*modifica barbara 16/05/2007 prn 55*/
-		return daoCodeTable.getOptionListOrderAlphab(T_BIB_TAG_CAT.class, l);
+	@Override
+	public List getTagCategories(final Locale locale) throws DataAccessException {
+		return DAO_CODE_TABLE.getOptionListOrderAlphab(T_BIB_TAG_CAT.class, locale);
 	}
 
 	/**
@@ -104,28 +62,28 @@ public class BibliographicCatalog extends Catalog {
 	 * 
 	 * @since 1.0
 	 */
-	public void addRequiredTags(CatalogItem item) throws NewTagException {
-		BibliographicLeader leader = createRequiredLeaderTag(item);
+	public void addRequiredTags(final CatalogItem item) throws NewTagException {
+		final BibliographicLeader leader = createRequiredLeaderTag(item);
 		if (!item.getTags().contains(leader)) {
 			item.addTag(leader);
 		}
 
-		ControlNumberTag controlnumber = createRequiredControlNumberTag(item);
+		final ControlNumberTag controlnumber = createRequiredControlNumberTag(item);
 		if (!item.getTags().contains(controlnumber)) {
 			item.addTag(controlnumber);
 		}
 
-		DateOfLastTransactionTag dateTag = createRequiredDateOfLastTransactionTag(item);
+		final DateOfLastTransactionTag dateTag = createRequiredDateOfLastTransactionTag(item);
 		if (!item.getTags().contains(dateTag)) {
 			item.addTag(dateTag);
 		}
 
-		MaterialDescription mdTag = createRequiredMaterialDescriptionTag(item);
+		final MaterialDescription mdTag = createRequiredMaterialDescriptionTag(item);
 		if (!item.getTags().contains(mdTag)) {
 			item.addTag(mdTag);
 		}
 
-		CataloguingSourceTag source = createRequiredCataloguingSourceTag(item);
+		final CataloguingSourceTag source = createRequiredCataloguingSourceTag(item);
 		if (!item.getTags().contains(source)) {
 			item.addTag(source);
 		}
@@ -218,53 +176,36 @@ public class BibliographicCatalog extends Catalog {
 		return leader;
 	}
 
-	/* (non-Javadoc)
-	 * @see Catalog#getFixedFieldFactory()
-	 */
 	public AbstractMapBackedFactory getFixedFieldFactory() {
-		return fixedFieldFactory;
+		return FIXED_FIELDS_FACTORY;
 	}
 
-	/* (non-Javadoc)
-	 * @see Catalog#getTagFactory()
-	 */
 	public AbstractMapBackedFactory getTagFactory() {
-		return tagFactory;
+		return TAG_FACTORY;
 	}
 
-	public Tag getNewHeaderTag(CatalogItem item, short header)
-		throws NewTagException {
-		return (Tag) setItemIfNecessary(
-			item,
-			getFixedFieldFactory().create(header));
+	@Override
+	public Tag getNewHeaderTag(final CatalogItem item, final short header) throws NewTagException {
+		return (Tag) setItemIfNecessary(item, getFixedFieldFactory().create(header));
 	}
 
-	public Tag getNewTag(
-		CatalogItem item,
-		short category,
-		CorrelationValues correlationValues)
-		throws NewTagException {
+	@Override
+	public Tag getNewTag(final CatalogItem item, final short category, final CorrelationValues correlationValues) throws NewTagException {
 		Tag tag = (Tag) getTagFactory().create(category);
 		tag = (Tag) setItemIfNecessary(item, tag);
+
 		if (correlationValues != null) {
 			if (tag.correlationChangeAffectsKey(correlationValues)) {
 				if (tag instanceof HeaderField) {
-					tag =
-						(Tag) getFixedFieldFactory().create(
-							correlationValues.getValue(1));
+					tag = (Tag) getFixedFieldFactory().create(correlationValues.getValue(1));
 					tag = (Tag) setItemIfNecessary(item, tag);
 					tag.setCorrelation(1, correlationValues.getValue(1));
 				} else if (tag instanceof BibliographicNoteTag) {
-					/*Da creazione modello  al tag vanno settate le correlations*/
 					if (item.getAmicusNumber() == null) {
 						tag = new PublisherManager();
 						tag.setCorrelationValues(correlationValues);
 					} else {
-						
-						tag =
-							new PublisherManager(
-								item.getAmicusNumber().intValue(),
-								((BibliographicItem) item).getUserView());
+						tag = new PublisherManager(item.getAmicusNumber().intValue(), item.getUserView());
 						tag.setCorrelationValues(correlationValues);
 					}
 					tag = (Tag) setItemIfNecessary(item, tag);
@@ -280,61 +221,47 @@ public class BibliographicCatalog extends Catalog {
 		return tag;
 	}
 
-	/* (non-Javadoc)
-	 * @see Catalog#getNewItem()
-	 */
+	@Override
 	protected CatalogItem getNewItem() {
 		return new BibliographicItem();
 	}
 
-	/* (non-Javadoc)
-	 * @see Catalog#getNewItemEntity()
-	 */
+	@Override
 	protected ItemEntity getNewItemEntity() {
 		return new BIB_ITM();
 	}
 
-	public CatalogItem applyKeyToItem(CatalogItem item, Object[] key) {
-		int cataloguingView = ((Integer) key[0]).intValue();
+	@Override
+	public CatalogItem applyKeyToItem(final CatalogItem item, final Object[] key) {
+		int cataloguingView = (Integer) key[0];
 		BibliographicItem bibliographicItem = (BibliographicItem) item;
-		bibliographicItem.getBibItmData().setUserViewString(
-			View.makeSingleViewString(cataloguingView));
+		bibliographicItem.getBibItmData().setUserViewString(View.makeSingleViewString(cataloguingView));
 		bibliographicItem.setUserView(cataloguingView);
 		return bibliographicItem;
 	}
 
-	/* (non-Javadoc)
-	 * @see Catalog#getModelDAO()
-	 */
-	public DAOModel getModelDAO() {
-		return modelDAO;
+	@Override
+	public ModelDAO getModelDAO() {
+		return MODEL_DAO;
 	}
 
-	/* (non-Javadoc)
-	 * @see Catalog#newModel(CatalogItem)
-	 */
-	public Model newModel(CatalogItem item) {
+	@Override
+	public Model newModel(final CatalogItem item) {
 		return new BibliographicModel(item);
 	}
 
-	/* (non-Javadoc)
-	 * @see Catalog#addOneTag(CatalogItem)
-	 */
-	public void addDefaultTags(CatalogItem item) {
+	@Override
+	public void addDefaultTags(final CatalogItem item) {
 		try {
-			
-			
 			item.addTag(getNewTag(item,(short) 1,new ControlNumberAccessPoint().getCorrelationValues()));
 			item.addTag(getNewTag(item,(short) 1,new ClassificationAccessPoint().getCorrelationValues()));
-			
-			
 		} catch (NewTagException e) {
 			throw new RuntimeException("error creating bibliographic leader");
 		}
-
 	}
 
-	public void addDefaultTag(CatalogItem item) {
+	@Override
+	public void addDefaultTag(final CatalogItem item) {
 		try {
 			item.addTag(
 				getNewTag(
@@ -342,87 +269,72 @@ public class BibliographicCatalog extends Catalog {
 					(short) 1,
 					new BibliographicLeader().getCorrelationValues()));
 			item.addTag(getNewTag(item,(short) 1,new BibliographicLeader().getCorrelationValues()));
-
 		} catch (NewTagException e) {
 			throw new RuntimeException("error creating bibliographic leader");
 		}
 
 	}
 	
-	/* (non-Javadoc)
-	 * @see Catalog#getMarcTypeCode()
-	 */
+	@Override
 	public String getMarcTypeCode() {
 		return "B";
 	}
 
-	/* (non-Javadoc)
-	 * @see Catalog#changeDescriptorType(CatalogItem, int, short)
-	 */
-	public void changeDescriptorType(
-		CatalogItem item,
-		int index,
-		short descriptorType) {
+	@Override
+	public void changeDescriptorType(final CatalogItem item, final int index, final short descriptorType) {
 		// do nothing (not applicable to bib)
-
 	}
 
-	/* (non-Javadoc)
-	 * @see Catalog#getValidHeadingTypeList(Tag)
-	 */
-	public List getValidHeadingTypeList(Tag t, Locale locale) {
+	@Override
+	public List getValidHeadingTypeList(final Tag tag, final Locale locale) {
 		// not applicable to bibliographic tags
 		return null;
 	}
 
-	public void transferItems(Descriptor source, Descriptor target) throws DataAccessException 
-	{
-		catalogDao.transferItems(source, target);
+	// TODO: Is this method still in use?
+	public void transferItems(Descriptor source, Descriptor target) throws DataAccessException {
+		CATALOG_DAO.transferItems(source, target);
 	}
 	
-	public void attachEquivalentSubjects(BibliographicItem item) throws DataAccessException {
-		Collection newTags = catalogDao.getEquivalentSubjects(item);
+	public void attachEquivalentSubjects(final BibliographicItem item) throws DataAccessException {
+		final Collection newTags = CATALOG_DAO.getEquivalentSubjects(item);
 		item.getTags().addAll(newTags);
 		item.sortTags();
-
 	}
+
+	@Override
 	public String getLockingEntityType() {
 		return "BI";
 	}
 	
 	/**
-	 * pm 2011 Determines whether the given bib record exists in the cataloguing
-	 * view. If it does not, then the record in the searching view is duplicated
+	 * Determines whether the given bib record exists in the cataloguing view.
+	 * If it does not, then the record in the searching view is duplicated
 	 * to a new record in the cataloguing view
-
-	 * @param amicusNumber
-	 * @param cataloguingView
-	 * @throws DataAccessException
-	 * @throws ValidationException
+	 *
+	 * @param recordView the record view identifier.
+	 * @param amicusNumber the record identifier.
+	 * @param cataloguingView the cataloguing view identifier.
+	 * @throws DataAccessException in case of data access failure.
+	 * @throws ValidationException in case of validation failure while checking the entity.
 	 */
-	public CatalogItem findOrCreateMyView(int recordView, int amicusNumber,
-			int cataloguingView) throws DataAccessException {
-		logger.debug("findOrCreateMyView(" + recordView + ", " + amicusNumber
-				+ ", " + cataloguingView + ")");
-
+	public CatalogItem findOrCreateMyView(
+			final int recordView,
+			final int amicusNumber,
+			final int cataloguingView) throws DataAccessException {
 		if (recordView == cataloguingView) {
 			// nothing to do
-			return getCatalogItem(new Object[] { new Integer(amicusNumber),
-					new Integer(recordView) });
+			return getCatalogItem(new Object[] { amicusNumber, recordView });
 		}
 		try {
 			new DAOCache().load(amicusNumber, cataloguingView);
-			return getCatalogItem(new Object[] { new Integer(amicusNumber),
-					new Integer(cataloguingView) }); // no exception means
-														// record in this view
-														// already exists
-		} catch (RecordNotFoundException e) {
+			return getCatalogItem(new Object[] { amicusNumber, cataloguingView });
+		} catch (final RecordNotFoundException exception) {
 			// do nothing -- carry on creating record in myView
 		}
-		CatalogItem item = getCatalogItem(new Object[] {
-				new Integer(amicusNumber), new Integer(recordView) });
-		item = (CatalogItem) LibrisuiteUtils.deepCopy(item);
-		applyKeyToItem(item, new Object[] { new Integer(cataloguingView) });
+
+		final CatalogItem item = (CatalogItem) deepCopy(getCatalogItem(new Object[] { amicusNumber, recordView }));
+		applyKeyToItem(item, new Object[] { cataloguingView });
 		item.getItemEntity().markNew();
 		Iterator iter = item.getTags().iterator();
 		Tag aTag;
@@ -444,8 +356,7 @@ public class BibliographicCatalog extends Catalog {
 				Descriptor orig = apf.getDescriptor();
 				List/*<PUBL_TAG>*/ publTags = ((PublisherTagDescriptor)orig).getPublisherTagUnits();
 				Iterator/*<PUBL_TAG>*/ ite = publTags.iterator();
-				while(ite.hasNext())
-				{
+				while(ite.hasNext()) {
 					PUBL_TAG t =(PUBL_TAG)ite.next();
 					PUBL_HDG ph = null;
 					ph = (PUBL_HDG) t.getDescriptorDAO().findOrCreateMyView(

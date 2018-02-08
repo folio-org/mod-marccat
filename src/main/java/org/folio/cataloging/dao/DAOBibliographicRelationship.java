@@ -1,25 +1,23 @@
 package org.folio.cataloging.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.List;
-
-import org.folio.cataloging.business.cataloguing.bibliographic.*;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.searching.NoResultsFoundException;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Query;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
+import org.folio.cataloging.business.cataloguing.bibliographic.*;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.searching.NoResultsFoundException;
 import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.util.StringText;
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.util.StringText;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  * @author hansv
@@ -92,7 +90,7 @@ public class DAOBibliographicRelationship extends HibernateUtil
 	public StringText buildRelationStringText(int bibItemNumber, int userView) throws DataAccessException 
 	{
 		StringText stringText = new StringText();
-		DAOBibliographicCatalog catalog = new DAOBibliographicCatalog();
+		BibliographicCatalogDAO catalog = new BibliographicCatalogDAO();
 
 		BibliographicItem item = catalog.getBibliographicItemWithoutRelationships(bibItemNumber, userView);
 

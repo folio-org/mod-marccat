@@ -29,6 +29,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
+import static org.folio.cataloging.F.deepCopy;
+
 /**
  * An abstract class representing separately indexed tables that access
  * bibliographic items. (e.g. Name, Title, Subject, ...)
@@ -126,8 +128,7 @@ public abstract class DAODescriptor extends HibernateUtil {
 	 * 
 	 * @since 1.0
 	 */
-	public String calculateSortForm(Descriptor d) throws DataAccessException,
-			SortFormException {
+	public String calculateSortForm(Descriptor d) throws DataAccessException {
 
 		if ("".equals(d.getStringText())) {
 			return BLANK_SORTFORM;
@@ -144,7 +145,7 @@ public abstract class DAODescriptor extends HibernateUtil {
 	 * @since 1.0
 	 */
 	public String calculateSortForm(String s, String browseIndexKey)
-			throws DataAccessException, SortFormException {
+			throws DataAccessException {
 		if ("".equals(s)) {
 			return " ";
 		}
@@ -156,7 +157,7 @@ public abstract class DAODescriptor extends HibernateUtil {
 
 	// protected String calculateSortForm(String text, SortFormParameters parms)
 	public String calculateSortForm(String text, SortFormParameters parms)
-			throws DataAccessException, SortFormException {
+			throws DataAccessException {
 		String result = "";
 		int bufSize = 300;
 
@@ -605,7 +606,7 @@ public abstract class DAODescriptor extends HibernateUtil {
 	 */
 	public void updateCacheTable(Descriptor descriptor)
 			throws DataAccessException {
-		DAOBibliographicCatalog dao = new DAOBibliographicCatalog();
+		BibliographicCatalogDAO dao = new BibliographicCatalogDAO();
 		int cataloguingView = View.toIntView(descriptor.getUserViewString());
 		Iterator iter = getDocList(descriptor, cataloguingView).iterator();
 		while (iter.hasNext()) {
@@ -648,7 +649,7 @@ public abstract class DAODescriptor extends HibernateUtil {
 			return existing;
 		} else {
 			Descriptor onFile = load(headingNumber, onFileView);
-			Descriptor newDesc = (Descriptor) LibrisuiteUtils.deepCopy(onFile);
+			Descriptor newDesc = (Descriptor) deepCopy(onFile);
 			newDesc.setUserViewString(View
 					.makeSingleViewString(cataloguingView));
 			logger.debug("creating new heading with view: "
@@ -695,7 +696,7 @@ public abstract class DAODescriptor extends HibernateUtil {
 	}
 
 	public Descriptor getMatchingHeading(Descriptor d)
-			throws DataAccessException, SortFormException {
+			throws DataAccessException {
 		// regenerate sort form
 
 		d.setSortForm(calculateSortForm(d));
@@ -725,8 +726,8 @@ public abstract class DAODescriptor extends HibernateUtil {
 	 * @see HibernateUtil#delete(librisuite.business
 	 *      .common.Persistence)
 	 */
-	public void delete(Persistence p) throws ReferentialIntegrityException,
-			DataAccessException {
+	public void delete(Persistence p) throws
+            DataAccessException {
 		if (!(p instanceof Descriptor)) {
 			throw new IllegalArgumentException(
 					"I can only delete Descriptor objects");

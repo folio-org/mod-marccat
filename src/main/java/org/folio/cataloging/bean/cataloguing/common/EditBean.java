@@ -86,7 +86,7 @@ public abstract class EditBean extends LibrisuiteBean {
 	private boolean fastInsertUser;
 	private boolean headingToAdd;
 	private boolean autoCompleteActive;
-	// Nat: bug 2303
+
 	private boolean internalDoiPermitted = false;
 	private List<OntologyTypeBean> ontologyTypeList;
 
@@ -835,12 +835,10 @@ public abstract class EditBean extends LibrisuiteBean {
 	}
 
 	public String getLongLabel(int tagNum) throws DataAccessException {
-//		return loadLongLabel(catalogItem.getTag(tagNum));
 		return loadShortLabelForScheda(catalogItem.getTag(tagNum));
 	}
 
 	public String getUnusedLongLabel(int tagNum) throws DataAccessException {
-//		return loadLongLabel((Tag) catalogItem.getModelItem().getUnusedModelTags().get(tagNum));
 		return loadShortLabelForScheda((Tag) catalogItem.getModelItem().getUnusedModelTags().get(tagNum));
 	}
 
@@ -903,8 +901,7 @@ public abstract class EditBean extends LibrisuiteBean {
 		cacheLabel(processingTag, label);
 		return label;
 	}
-	
-	/* Bug 4284 */
+
 	private String loadShortLabelForScheda(Tag processingTag) throws DataAccessException {
 		if (isLabelCached(processingTag)) {
 			return getCachedLabel(processingTag);
@@ -921,11 +918,11 @@ public abstract class EditBean extends LibrisuiteBean {
 		return label;
 	}
 	
-	/* Bug 4284 */
+
 	private String buildLabelForScheda(String marcNumber, String marcInd1, String marcInd2, String textLabel, short category) 
 	{
 		StringBuilder builder = new StringBuilder();
-//		if (!textLabel.startsWith("00") && category != 7) {
+
 		if (!textLabel.startsWith("00")) {
 			builder.append(marcNumber).append(" ").append(marcInd1).append(marcInd2).append(" ").append("-").append(textLabel);
 		} else {
@@ -967,9 +964,6 @@ public abstract class EditBean extends LibrisuiteBean {
 		return result;
 	}
 
-	/*------------------
-	 * END LABEL MANAGING
-	 *------------------*/
 
 	/**
 	 * The current tag is to be replaced by the given tag
@@ -982,18 +976,13 @@ public abstract class EditBean extends LibrisuiteBean {
 		executeCommand(c);
 	}
 
-		// ----> Anche per gli altri clienti deve scrivere la S_CAS_CACHE e
-		// scrivere la tabella CAS_FILES e CAS_DIG_FILES
 	public void saveRecord() throws DataAccessException,
 			AuthorisationException,
             ValidationException {
 		getCatalog().getCatalogDao()
 		.setCasCache(casaliniBean.getCasCache());
 		if (casaliniBean.isEnabled()) {
-		
 
-
-		// --------> Tag 097 cancellati
 		Tag aTag = null;
 		
 		Iterator iter = getCatalogItem().getDeletedTags().iterator();
@@ -1002,7 +991,6 @@ public abstract class EditBean extends LibrisuiteBean {
 			if (aTag instanceof ControlNumberAccessPoint) {
 				if (aTag.getMarcEncoding().getMarcTag().equalsIgnoreCase("097")) {
 					if (aTag.getCorrelation(1) == 69)
-						// deleteDigitalHierarchy(getCatalogItem().getAmicusNumber().intValue());
 						deleteDigitalHierarchy((ControlNumberAccessPoint) aTag);
 					else {
 						ControlNumberAccessPoint tag = (ControlNumberAccessPoint) aTag;
@@ -1011,8 +999,7 @@ public abstract class EditBean extends LibrisuiteBean {
 				}
 			}
 		}
-		
-		// --------> Tag 097 inseriti
+
 		List tags097 = get097Tags();
 		for (int i = 0; i < tags097.size(); i++) {
 			ControlNumberAccessPoint tag097 = (ControlNumberAccessPoint) tags097
@@ -1027,8 +1014,7 @@ public abstract class EditBean extends LibrisuiteBean {
 			}
 		}
 	   }
-   	
-		// ----> 20101007 inizio: tag082 attribuzione sequence number
+
 		List tags082 = get082_084Tags("082");
 		int sequenceNumber = getMaxSequence().intValue();
 		for (int i = 0; i < tags082.size(); i++) {
@@ -1045,9 +1031,7 @@ public abstract class EditBean extends LibrisuiteBean {
 				tag082.markChanged();
 			}
 		}
-		// ----> 20101007 fine
 
-		// ----> 20101027 inizio: tag084 attribuzione sequence number
 		List tags084 = get082_084Tags("084");
 		sequenceNumber = getMaxSequence().intValue();
 		for (int i = 0; i < tags084.size(); i++) {
@@ -1064,9 +1048,7 @@ public abstract class EditBean extends LibrisuiteBean {
 				tag084.markChanged();
 			}
 		}
-		// ----> 20101007 fine
 
-		// --------> 20110214 inizio: controllo tag 982 e 082
 		List tags982List = get982Tags();
 		List tags082List = get082Tags();
 		Iterator it982 = null;
@@ -1102,20 +1084,11 @@ public abstract class EditBean extends LibrisuiteBean {
 		getCatalog().saveCatalogItem(getCatalogItem());
 
 		}
-	
-	
-	// ----> Anche per gli altri clienti deve scrivere la S_CAS_CACHE e
-	// scrivere la tabella CAS_FILES e CAS_DIG_FILES
-public void saveAuthorityRecord() throws DataAccessException,
-		AuthorisationException,
-        ValidationException {
-	getCatalog().getCatalogDao()
-	.setCasCache(casaliniBean.getCasCache());
 
+	public void saveAuthorityRecord() throws DataAccessException, AuthorisationException, ValidationException {
 
-
-
-	getCatalog().saveCatalogItem(getCatalogItem());
+		getCatalog().getCatalogDao().setCasCache(casaliniBean.getCasCache());
+		getCatalog().saveCatalogItem(getCatalogItem());
 
 	}
 
@@ -1147,7 +1120,6 @@ public void saveAuthorityRecord() throws DataAccessException,
 		return tags098;
 	}
 
-	// 20101007 inizio: recupero i tag082
 	public List get082_084Tags(String tagToSearch) throws DataAccessException {
 		List tagsToReturn = new ArrayList();
 		if ("082".equals(tagToSearch) || "084".equals(tagToSearch)) {
@@ -1178,15 +1150,10 @@ public void saveAuthorityRecord() throws DataAccessException,
 		return tagsToReturn;
 	}
 
-	// 20101007 fine
-
 	public void setCatalogItem(CatalogItem item) {
 		catalogItem = item;
 	}
 
-	/**
-	 * 
-	 */
 	public void setCommandList(List list) {
 		commandList = list;
 	}
@@ -1273,24 +1240,15 @@ public void saveAuthorityRecord() throws DataAccessException,
             ValidationException {
 		getCurrentTag().validate(getTagIndex());
 		getCatalogItem().checkRepeatability(getTagIndex());
-		// Natascia 4/7/2007 **prn 189
 		checkParticularTag(getTagIndex());
-
 	}
 
 	public void validateCurrentTagHeading() throws DataAccessException,
             ValidationException {
 		getCurrentTag().validate(getTagIndex());
-		// Natascia 4/7/2007 **prn 189
 		checkParticularTag(getTagIndex());
-
 	}
 
-	/*
-	 * Natascia 4/7/2007 **prn189 se il tag corrente e' un tag particolare, deve
-	 * escludere la presenza di altri tag particolari (es. tag 130 esclude la
-	 * presenza di 100/110/111)
-	 */
 	public void checkParticularTag(int index) throws DataAccessException,
             DuplicateTagException {
 		Tag t = getCatalogItem().getTag(index);
@@ -1300,9 +1258,6 @@ public void saveAuthorityRecord() throws DataAccessException,
 		}
 	}
 
-	/*
-	 * Natascia 4/7/2007 **prn 189
-	 */
 	private boolean isPresentInArrTags(String strTag) {
 
 		for (int i = 0; i < arrTags.length; i++) {
@@ -1312,9 +1267,6 @@ public void saveAuthorityRecord() throws DataAccessException,
 		return false;
 	}
 
-	/*
-	 * Natascia 4/7/2007 **prn 189
-	 */
 	private boolean isAllowedTag(String strTag) {
 
 		for (int i = 0; i < arrTags.length; i++) {
@@ -1354,10 +1306,7 @@ public void saveAuthorityRecord() throws DataAccessException,
 		resetCommands();
 		setTagIndex(0);
 		refreshCorrelation(
-		/*
-		 * getCurrentTag().getCorrelation(1), getCurrentTag().getCorrelation(2),
-		 */
-		/* modifica barbara */
+
 		item.getTag(0).getCorrelation(1), item.getTag(0).getCorrelation(2),
 				locale);
 		createStringTextEditBean();
@@ -1383,7 +1332,6 @@ public void saveAuthorityRecord() throws DataAccessException,
 		searchingRelationship = b;
 	}
 
-	/* modifica carmen */
 	public boolean isNavigation() {
 		return navigation;
 	}
@@ -1392,7 +1340,6 @@ public void saveAuthorityRecord() throws DataAccessException,
 		this.navigation = navigationMode;
 	}
 
-	/* modifica barbara 15/05/2007 skip in filing */
 	final public void populateLists(DAOCodeTable dao, Locale l)
 			throws DataAccessException {
 		onPopulateLists(dao, l);
@@ -1421,13 +1368,6 @@ public void saveAuthorityRecord() throws DataAccessException,
 	}
 
 	public short getSkipInFilingHeading() {
-		/*
-		 * Natascia 2/07/2007 ***PRN 224 non visualizzava correttamente lo
-		 * skipInFiling perche' il valore corretto e' quello della heading che
-		 * e' presente nel descrittore Mike 20/02/2008: questo Ã¨ giusto, ma
-		 * solo se il descrittore non sia quello di dummy appena creato e non
-		 * letto dalla base dati
-		 */
 		Descriptor d = ((Browsable) getCurrentTag()).getDescriptor();
 		if (d instanceof TTL_HDG && !d.isNew())
 			return d.getSkipInFiling();
@@ -1439,11 +1379,6 @@ public void saveAuthorityRecord() throws DataAccessException,
 		this.skipInFiling = skipInFiling;
 	}
 
-	/**
-	 * TODO _MIKE: promote to BibliographicEditBean
-	 * 
-	 * @throws NoHeadingSetException
-	 */
 	public void checkHeading() throws NoHeadingSetException {
 		if (isBrowsable() && isNoHeadingSet()) {
 			resetCommands();
@@ -1452,49 +1387,24 @@ public void saveAuthorityRecord() throws DataAccessException,
 		}
 	}
 
-	/**
-	 * 
-	 */
+
 	public void resetCommands() {
 		setCurrentCommand(0);
 	}
 
-	/**
-	 * TODO _MIKE: promote to BibliographicEditBean
-	 * 
-	 * @return
-	 */
 	public boolean isNoHeadingSet() {
 	
 		
 		if(getCurrentTag() instanceof VariableField){
-		/* Modificato da Carmen */
-		return /*
-				 * tagForm.getFixedSubfield(0).equals("") || 
-				 * 
-				 */
-		((VariableField) getCurrentTag()).getStringText().toDisplayString()
-				.equals("");
+			return ((VariableField) getCurrentTag()).getStringText().toDisplayString().equals("");
 		}
 		else if(getCurrentTag() instanceof Browsable ){
-			/* Modificato da Carmen */
-			return /*
-					 * tagForm.getFixedSubfield(0).equals("") || 
-					 * 
-					 */
-			((Browsable) getCurrentTag()).getHeadingNumber() == null;
-			}
-			
-		
+			return ((Browsable) getCurrentTag()).getHeadingNumber() == null;
+		}
+
 		return false;
 	}
 
-	/**
-	 * TODO _MIKE: promote to BibliographicEditBean
-	 * 
-	 * @param locale
-	 * @throws DataAccessException
-	 */
 	public void sortTags(Locale locale) throws DataAccessException {
 		setTagIndex(getCatalogItem().getNumberOfTags() - 1);
 		getCatalogItem().sortTags();
@@ -1601,10 +1511,6 @@ public void saveAuthorityRecord() throws DataAccessException,
 		this.lastBrowsedTerm = lastBrowsedTerm;
 	}
 
-	/*
-	 * TODO MIKE: riportare in MADES le implementazioni dei seguenti metodi
-	 * astratti:
-	 */
 	public abstract boolean isFixedField() throws DataAccessException;
 
 	public abstract boolean isAbleDeleteButton() throws DataAccessException;
@@ -1618,29 +1524,21 @@ public void saveAuthorityRecord() throws DataAccessException,
 	public abstract boolean isAbleEquivalentNote();
 
 	/**
-	 * aggiornamento tag 005 in duplica record
-	 * 
-	 * @author Carmen 23/11/2007
+	 * update tag 005 in duplicates record
 	 */
 	public abstract void updateT005DateOfLastTransaction();
 
 	/**
-	 * aggiornamento tag 008 nel modello posizione 00-05
-	 * 
-	 * @author Carmen 23/11/2007
+	 * update tag 008 into model 00-05 position
 	 */
 	public abstract void updateT008EnteredOnFileDate();
 
 	/**
-	 * restituisce true se nel tag Ã¨ presente lo skipInFiling
-	 * 
-	 * @author Carmen 20/11/2008
+	 * return true if skipInFiling is present
 	 */
 	public abstract boolean isSkipFiling() throws DataAccessException;
 
-	/*
-	 * no Authority
-	 */
+
 	public abstract void changeReciprocalOption(short reciprocalOption)
 			throws MarcCorrelationException;
 
@@ -1679,7 +1577,6 @@ public void saveAuthorityRecord() throws DataAccessException,
 			}
 
 		}
-		// sortTags(locale);
 
 	}
 
@@ -1788,10 +1685,7 @@ public void saveAuthorityRecord() throws DataAccessException,
 	public abstract List getSubdivisionEncoding()
 			throws DataAccessException;
 
-	// inizio
 	public abstract List getDiacriticiList();
-
-	// fine
 
 	public abstract String getNoteStandardText();
 
@@ -1858,7 +1752,6 @@ public void saveAuthorityRecord() throws DataAccessException,
 	public abstract void deleteHierarchy(ControlNumberAccessPoint tag)
 			throws DataAccessException;
 
-	// Inizio: Gestione tag856 e codice doi
 	public abstract List presenzaTag856Testo() throws DataAccessException;
 
 	public abstract List get856Tags() throws DataAccessException;
@@ -1874,7 +1767,6 @@ public void saveAuthorityRecord() throws DataAccessException,
 			throws AuthorisationException,
 			DataAccessException, ValidationException;
 
-	// Fine
 
 	public abstract void cntrHierarchyType();
 
@@ -1891,8 +1783,6 @@ public void saveAuthorityRecord() throws DataAccessException,
 			throws DataAccessException, DataAdminException,
 			DataDigAdminException;
 
-	// public abstract void controlDigAdminDataForDelete(int amicusNumber)
-	// throws DataAccessException, DataDigAdminException;
 	public abstract void controlDigAdminDataForDelete(int amicusNumber)
 			throws DataAccessException;
 
@@ -1961,13 +1851,10 @@ public void saveAuthorityRecord() throws DataAccessException,
 	}
 
 	public boolean isLevelDisable() {
-		// if ((!isPresentTag097()) &&
-		// (getCheckContinuaz().equalsIgnoreCase("S") ||
-		// (getCheckDigital().equalsIgnoreCase("S")))) {
 		if ((!isPresentTag097())
 				&& ("S".equalsIgnoreCase(getCheckContinuaz()) || ("S"
 						.equalsIgnoreCase(getCheckDigital())))) {
-			// setLevelDisable(false);
+
 			levelDisable = false;
 		}
 		return levelDisable;
@@ -2036,15 +1923,13 @@ public void saveAuthorityRecord() throws DataAccessException,
 		return CodeListsBean.getDigitalTyp().getCodeList(getLocale());
 	}
 
-	// 20100729 inizio: aggiunta tabella di decodifica T_FORMAT_REC come
-	// tendina
 	public List getFormatRecordTypeList() {
 		return CodeListsBean.getFormatRecordType().getCodeList(getLocale());
 	}
 
 	/**
-	 * Metodo che a seconda del $b del tag040 imposta un boolean per la
-	 * visualizzazione o no di DLA, DGA e tag097
+	 * Method that reads $b 040 and sets boolean value
+	 * if has to show DLA, DGA and 097 tag
 	 * 
 	 * @param bean
 	 * @param text
@@ -2059,12 +1944,10 @@ public void saveAuthorityRecord() throws DataAccessException,
 	{
 		String displayText = text.getSubfieldsWithCodes("b").getDisplayText().trim();
 
-		/* Se sta aggiungendo il $b lo trovo nel campo del form tagForm.getNewSubfieldCode() e non nello StringText */
 		if ("b".equalsIgnoreCase(tagForm.getNewSubfieldCode())	&& displayText.length() == 0) {
 			displayText = tagForm.getNewSubfieldContent().trim();
 		}
 
-		/* Se prima c'era ENG e l'utente ha digitato qualcosa di diverso da ENG deve controllare le schede e i tag097 */
 		if (getLanguageFromOldTag040(bean).equalsIgnoreCase(getDefaultLang())) {
 			if (displayText.length() > 0) {
 				if (!displayText.equalsIgnoreCase(getDefaultLang())) {
@@ -2074,7 +1957,6 @@ public void saveAuthorityRecord() throws DataAccessException,
 
 					verifyAdminData(bean);
 
-					/* Se i controlli sono andati bene e il nuovo $b e' diverso da ENG quindi devo aggiornare il flag che mi serve per controllarne la sua presenza */
 					bean.setDefaultCatLang(false);
 				} else
 					bean.setDefaultCatLang(true);
@@ -2085,10 +1967,10 @@ public void saveAuthorityRecord() throws DataAccessException,
 	}
 
 	/**
-	 * Metodo che recupera il $b del tag040
+	 * Gets $b of 040 tag
 	 * 
 	 * @param bean
-	 * @return a stringa che e' associata al $b
+	 * @return string associated
 	 * @throws MarcCorrelationException
 	 * @throws DataAccessException
 	 */
@@ -2107,7 +1989,7 @@ public void saveAuthorityRecord() throws DataAccessException,
 	}
 
 	/**
-	 * Metodo che controlla l'esistenza o dei dati DLA o dei dati DGA
+	 * Checks existence of DLA or DGA data
 	 * 
 	 * @param bean
 	 * @throws DataAccessException
@@ -2119,7 +2001,6 @@ public void saveAuthorityRecord() throws DataAccessException,
 		CasCache casCache = null;
 		casCache = bean.getCasaliniBean().loadCasCache(bean.getCatalogItem().getAmicusNumber().intValue());
 
-		/* Se il record e' digital controllo che non ci sia una scheda DGA associata */
 		if ("S".equalsIgnoreCase(bean.getCheckDigital())) {
 			DigitalAmminBean digitalAmminBean = new DigitalAmminBean();
 			digitalAmminBean.loadItems(bean.getCatalogItem().getAmicusNumber().intValue());
@@ -2127,7 +2008,7 @@ public void saveAuthorityRecord() throws DataAccessException,
 				throw new DataDigAdminException();
 			}
 		} else {
-			/* Se il record NON e' digital controllo che non ci sia una scheda DLA associata */
+
 			if (casCache != null && casCache.isExistAdminData())
 				throw new DataAdminException();
 		}
@@ -2138,33 +2019,23 @@ public void saveAuthorityRecord() throws DataAccessException,
 			DigitalFileSystemException {
 		FileManagerDo fileManagerDo = new FileManagerDo();
 
-		// ---> 20101102 inizio: Controllo se esiste la directory
-		// principale
 		if (!fileManagerDo.repositoryExsist(fileManagerDo.getDIGITAL_CONTEXT())) {
 			throw new DigitalFileSystemException();
 		}
-		// ---> 20101102 fine
 
 		String relativePath = new String("");
-		// Il path relativo della risorsa puo' essere non impostato se hanno
-		// caricato il documento nella root principale
+
 		if (relPath.trim().length() > 0)
 			relativePath = relPath + "/";
 
-		// String realPath = (fileManagerDo.getDIGITAL_CONTEXT() + relPath + "/"
-		// + fileName).trim();
 		String realPath = (fileManagerDo.getDIGITAL_CONTEXT() + relativePath + fileName)
 				.trim();
-
-		// System.out.println("Path per cancellazione : " + realPath);
-		// System.out.println("Operazione : " + operation);
 
 		fileManagerDo.deleteDigProc(relPath, fileName, operation);
 		File fileDelete = new File(realPath);
 		fileDelete.delete();
 	}
 
-	// 20100304 inizio: flag lingua catalogazione
 	public void setCatalogLanguage() {
 		setDefaultCatLang(false);
 		CataloguingSourceTag tag040 = (CataloguingSourceTag) getCatalogItem()
@@ -2178,7 +2049,6 @@ public void saveAuthorityRecord() throws DataAccessException,
 		}
 	}
 
-	// 20100304 fine
 
 	public void managementDeleteTags856(HttpServletRequest request)
 			throws DataAccessException, RelationshipTagException,
@@ -2187,8 +2057,6 @@ public void saveAuthorityRecord() throws DataAccessException,
 			DigitalLevelException {
 		List tags856 = get856Tags();
 		if (tags856 != null) {
-			// --------> 20100311 inizio: se il record ha relazioni e tags 856,
-			// non puo' essere cancellato
 			if (isRelationshipTags()) {
 				throw new RelationshipTagException();
 			}
@@ -2196,8 +2064,6 @@ public void saveAuthorityRecord() throws DataAccessException,
 			BibliographicNoteTag tag = null;
 			for (int i = 0; i < tags856.size(); i++) {
 				tag = (BibliographicNoteTag) tags856.get(i);
-				// -------------> 20100311: se ci sono 856 con DOI assegnato
-				// questo deve essere annullato
 				if (DIGITAL_TEXT_RESOURCE.equalsIgnoreCase(tag.getStringText()
 						.getSubfieldsWithCodes("3").getDisplayText().trim())
 						&& tag.getStringText().getSubfieldsWithCodes("w")
@@ -2211,19 +2077,13 @@ public void saveAuthorityRecord() throws DataAccessException,
 						digitalDoiBean.setAnnullaDoi("YES");
 						digitalDoiBean.setCreaDOI("NO");
 						digitalDoiBean.setDOIEsistente("");
-						// TODO: ANDREA COMMENTATO
+						// TODO: ANDREA Commented
 						// digitalDoiBean.httpPost();
 					}
 				}
-				// -----------> Cancellazione fisica del file e
-				// de-indicizzazione
-				// -----------> Vedo se esiste il $u inserito in automatico da
-				// WeCat
+
 				Subfield subfield = getUrl856FromWeCat(tag);
 				if (subfield != null) {
-					// System.out.println("$u Code : " + subfield.getCode());
-					// System.out.println("$u Content : " +
-					// subfield.getContent());
 					if (0 < subfield.getContentLength()
 							&& 0 < tag.getStringText().getSubfieldsWithCodes(
 									"f").getDisplayText().trim().length()) {
@@ -2257,8 +2117,6 @@ public void saveAuthorityRecord() throws DataAccessException,
 		return present;
 	}
 
-	// Prende il $u del tag856 inserito da WeCat quello che inizia con
-	// http://+(DIGITAL_NAME_HOST)
 	public Subfield getUrl856FromWeCat(BibliographicNoteTag tag856) {
 		Subfield subField = null;
 		// StringBuffer buffer = new
@@ -2274,7 +2132,6 @@ public void saveAuthorityRecord() throws DataAccessException,
 		return subField;
 	}
 
-	// Prende la lista delle url aggiuntive (inserite a mana) del tag856
 	public List getAdditionalUrl856(BibliographicNoteTag tag856) {
 		Subfield subField = null;
 		List subList = new ArrayList();
@@ -2658,14 +2515,10 @@ public void saveAuthorityRecord() throws DataAccessException,
 	}
 	
 	public List getContentValuesList() {
-		/* Bug 5936 */
-//		return CasaliniCodeListsBean.getContentType().getCodeList(getLocale());
 		return CasaliniCodeListsBean.getContentType().getCodeList(getLanguageFromTag040());
 	}
 
 	public List getMediaValuesList() {
-		/* Bug 5936 */
-//		return CasaliniCodeListsBean.getMediaType().getCodeList(getLocale());
 		return CasaliniCodeListsBean.getMediaType().getCodeList(getLanguageFromTag040());
 	}
 
@@ -2679,8 +2532,6 @@ public void saveAuthorityRecord() throws DataAccessException,
 	{
 		List<Avp> list = new ArrayList<Avp>();
 		try {
-			/* Bug 5936 */
-//			list = CodeListBean.getRdaCarrierList(getLocale());
 			list = CodeListBean.getRdaCarrierList(getLanguageFromTag040());
 		} catch (Exception e) {
 			logger.error("Problemi nel caricamento della lista T_RDA_CARRIER: " + e.getMessage());
@@ -2690,10 +2541,6 @@ public void saveAuthorityRecord() throws DataAccessException,
 	
 	public abstract void loadItemWithoutLock(Object[] key)throws DataAccessException,RecordInUseException;
 	
-	/**
-	 * Bug 3900: il metodo prende il Locale relativo al tag040 $b, se non esiste o e' diverso da ita/eng prende quello del logim
-	 * @return
-	 */
 	public Locale getLanguageFromTag040()
 	{
 		CataloguingSourceTag cat040 = (CataloguingSourceTag) getCatalogItem().findFirstTagByNumber("040");

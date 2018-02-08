@@ -27,7 +27,7 @@ import org.folio.cataloging.dao.persistence.USR_ACNT;
  */
 public class UserProfile {
 	private int cataloguingView;
-	// pm 2011
+
 	private int mainLibrary;
 	private AuthorisationAgent authorisationAgent;
 	private String name;
@@ -44,7 +44,7 @@ public class UserProfile {
 		int realView = getRealUserView(aUserAccount);
 		setCataloguingView(realView);
 		
-		// pm 2011
+
 		setSearchingView(aUserAccount.getDefaultSearchingView());
 		setDatabasePreferenceOrder(aUserAccount.getDatabasePreferenceOrder());
 		setDefaultRecordDisplay(aUserAccount.getDefaultRecordDisplay());
@@ -61,12 +61,12 @@ public class UserProfile {
 	// in UserProfileDAO -- and the underlying persistence was changed from Hibernate to JDBC -- Not sure why this 
 	// was done (check with Emiliano) and then eliminate the duplication and decide on the persistence model.
 	// -- in the meantime -- initialize a "new" USR_ACNT object within the default constructor
-//	Cammilletti inizio
+
 	public UserProfile()
 	{
 		aUserAccount = new USR_ACNT();
 	}
-//	Cammilletti fine
+
 	
 	/**
 	 * It depends upon the starting application "mad"
@@ -239,14 +239,12 @@ public class UserProfile {
 	}
 	
 	/**
-	 * pm 2011
 	 * @return
 	 */
 	public int getSearchingView() {
 		return aUserAccount.getDefaultSearchingView();
 	}
 	/**
-	 * pm 2011
 	 * @param searchingView
 	 */
 	public void setSearchingView(int searchingView) {
@@ -254,7 +252,6 @@ public class UserProfile {
 	}
 	
 	/**
-	 * pm 2011
 	 * @return the databasePreferenceOrder
 	 */
 	public int getDatabasePreferenceOrder() {
@@ -262,7 +259,6 @@ public class UserProfile {
 	}
 
 	/**
-	 * pm 2011
 	 * @param databasePreferenceOrder the databasePreferenceOrder to set
 	 */
 	public void setDatabasePreferenceOrder(int databasePreferenceOrder) {

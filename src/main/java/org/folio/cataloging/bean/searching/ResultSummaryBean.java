@@ -51,6 +51,8 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.*;
 
+import static org.folio.cataloging.F.deepCopy;
+
 @SuppressWarnings("unchecked")
 public class ResultSummaryBean extends LibrisuiteBean 
 {
@@ -133,7 +135,6 @@ public class ResultSummaryBean extends LibrisuiteBean
 
 	//TODO verify commented blocks and methods if we'll use it
 
-	/* Bug 4321 */
 	private String[] checkRecordForCart;
 	
 	public String[] getCheckRecordForCart() {
@@ -1047,10 +1048,10 @@ public class ResultSummaryBean extends LibrisuiteBean
 					styledDocumentISBD = styledDocumentISBD.replaceAll("\r", "");
 					xsltParameters.put("isbdString", styledDocumentISBD.trim());
 				}
-				/* Bug 4775 inizio */
+
 				xsltParameters.put("fbrType", ""+getFrbrType());
 				xsltParameters.put("lang", locale.getISO3Language());
-				/* Bug 4775 fine */
+
 				
 				logger.debug("Start XML Transformation");	
 				String styledDocument=null;
@@ -1680,7 +1681,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 			if (aTag.getMarcEncoding().getMarcTag().equalsIgnoreCase("008")) {
 				aTag.setItemNumber(item.getAmicusNumber().intValue());
 			}
-			//BUG 1587-1588 Eliminazione di tag e relativa modifica solo per il digital
+
 			if ("F2".equalsIgnoreCase(editBean.getFormatRecordType())) {
 				/* Solo per Casalini gestione tag 040 $b */
 				if (customerEnabled){
@@ -1733,7 +1734,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 
 		MaterialDescription t008 = (MaterialDescription) editBean.getCatalogItem().findFirstTagByNumber("008");
 		if (t008 != null) {
-			/* Se digitale */
+			/* if digital */
 			if ("F2".equalsIgnoreCase(editBean.getFormatRecordType())) {
 				t008.setFormOfItemCode(new Character('s'));
 			} else {
@@ -1741,10 +1742,8 @@ public class ResultSummaryBean extends LibrisuiteBean
 			}
 		}
 
-		/* Aggiornamento data di modifica tag 005 */
 		editBean.updateT005DateOfLastTransaction();
-		
-		/* Solo per casalini creazione tag 092 per i record equivalenti in duplicazione SOLO per casalini bug 3079 */
+
 		if (customerEnabled && editBean.isEquivalentEnabled() && editBean.isElectronicResourceoOnTag008()) {
 			createTag092(item.getAmicusNumber().intValue(), editBean, item,	request);
 		}
@@ -1755,7 +1754,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 	private void duplicateTag300(List tagOther, Tag aTag, Iterator iter) 
 	{
 		BibliographicNoteTag noteTag = (BibliographicNoteTag) aTag;
-		BibliographicNoteTag aTagNew = (BibliographicNoteTag) LibrisuiteUtils.deepCopy(aTag);
+		BibliographicNoteTag aTagNew = (BibliographicNoteTag) deepCopy(aTag);
 		StringText text = noteTag.getStringText();
 		Subfield sub = null;
 		List listaSub = text.getSubfieldList();
@@ -1769,7 +1768,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 	    }
 		
 		if (st.getSubfieldList().size()>0){
-			/* Rimozione punteggiatura ultimo subifield */
+
 			Subfield subfield = (Subfield) st.getSubfieldList().get(st.getSubfieldList().size()-1);
 			String cont = subfield.getContent();
 			if (cont.endsWith(" :") || cont.endsWith(" ;")) {
@@ -1850,13 +1849,12 @@ public class ResultSummaryBean extends LibrisuiteBean
 			throws DataAccessException,
 			RecordInUseException, AuthorisationException, NewTagException,
 			ValidationException {
-		// Genero una nuova id (amicus_nbr) per il record duplicato
+
 		EditBean editBean = prepareItemForEditing(itemNumber, request);
 		CatalogItem item = editBean.getCatalogItem();
 		item.getItemEntity().generateNewKey();
 		item.getItemEntity().markNew();
-		// Ciclo tutti i tag del cataologo e li marco come nuovi per cambiare il
-		// numero (amicus_nbr) del record nell'ACS_PNT
+
 		Tag aTag = null;
 		Tag newTag = null;
 		List listaTag097 = new ArrayList();
@@ -1870,21 +1868,16 @@ public class ResultSummaryBean extends LibrisuiteBean
 						item.getAmicusNumber().intValue());
 			}
 
-			// inizio - non deve duplicare il tag 856
-			// if(aTag.isRelationship())
 			if (aTag.isRelationship()
 					|| aTag.getMarcEncoding().getMarcTag().equalsIgnoreCase(
 							"856")
 					|| aTag.getMarcEncoding().getMarcTag().equalsIgnoreCase("092")
 					|| aTag.getMarcEncoding().getMarcTag().equalsIgnoreCase(
 							"997"))
-				// fine - non deve duplicare il tag 856
+
 				iter.remove();
 			else
 				aTag.markNew();
-			// logger.info("saving tag " + aTag+
-			// "isNew? "+aTag.isNew()+" an="+aTag.getItemNumber());
-			// inizio - impostazione tag097
 			if (aTag.getMarcEncoding().getMarcTag().equalsIgnoreCase("097")) {
 				listaTag097.add(duplicateTag097(aTag, item.getItemEntity()
 						.getAmicusNumber().toString(), editBean, request));
@@ -1897,16 +1890,12 @@ public class ResultSummaryBean extends LibrisuiteBean
 			newTag = (Tag) iterT097.next();
 			item.addTag(newTag);
 		}
-		// fine
 
-		// aggiornamento data di creazione del record tag 008
 		editBean.updateT008EnteredOnFileDate();
-		// aggiornamento data di modifica tag 005
+
 		editBean.updateT005DateOfLastTransaction();
 
-		// solo per casalini creazione tag 092 per i record equivalenti e tag
-		//in duplicazione SOLO per casalini bug 3079
-		if (customerEnabled && editBean.isEquivalentEnabled() && editBean.isElectronicResourceoOnTag008()) 
+		if (customerEnabled && editBean.isEquivalentEnabled() && editBean.isElectronicResourceoOnTag008())
 		{
 			createTag092(item.getAmicusNumber().intValue(), editBean, item,
 					request);
@@ -1991,10 +1980,8 @@ public class ResultSummaryBean extends LibrisuiteBean
 	}
 
 	public void setAmicusNumberSearch() {
-		// System.out.println("--------------> ccl query :" + getCclQuery());
+
 		if (!(getCclQuery().trim().equals(""))) {
-			// System.out.println("substring :" +
-			// getCclQuery().trim().substring(0, 2));
 			if (getCclQuery().trim().substring(0, 2).equalsIgnoreCase("AN"))
 				this.setAmicusNumberSearch(true);
 			else
@@ -2023,8 +2010,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 
 		item.getItemEntity().setLanguageOfCataloguing(lingua);
 		item.getItemEntity().markNew();
-		// Ciclo tutti i tag del cataologo e li marco come nuovi per cambiare il
-		// numero (amicus_nbr) del record nell'ACS_PNT
+
 		Tag aTag = null;
 		Tag newTag = null;
 		Tag newTag2 = null;
@@ -2068,7 +2054,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 					tag300, langOrig, item);
 			aTag.markNew();
 		}
-		/* Riversamento dei nuovi tag equivalenti nel Catalog Item */
+
 		Iterator iterTemp = temp.iterator();
 		while (iterTemp.hasNext()) {
 			newTag = (Tag) iterTemp.next();
@@ -2080,14 +2066,12 @@ public class ResultSummaryBean extends LibrisuiteBean
 			item.addTag(newTag2);
 		}
 
-		// Creazione tag 791 Equivalenza - E' nella lingua originale
+
 		getTag791LanguageOriginal(target, editBean, item.getUserView());
 		editBean.updateT008EnteredOnFileDate();
-		// Aggiornamento data di modifica tag 005
+
 		editBean.updateT005DateOfLastTransaction();
-		
-		// Creazione tag 092: solo per casalini
-		// in duplicazione SOLO per casalini bug 3079
+
 		if (customerEnabled && editBean.isEquivalentEnabled() && editBean.isElectronicResourceoOnTag008()) 
 		{
 			createTag092(target, editBean, item, request);
@@ -2133,10 +2117,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 						((PublisherManager) aTagNew).getApf().setBibItemNumber(
 								item.getAmicusNumber().intValue());
 					}
-					/*
-					 * viene rimosso il tag corrente e aggiunto uno nuovo
-					 * equivalente
-					 */
+
 					iter.remove();
 					aTagNew.markNew();
 					temp.add(aTagNew);
@@ -2153,7 +2134,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 			}
 			aTag.markNew();
 		}
-		/* Riversamento dei nuovi tag equivalenti nel Catalog Item */
+
 		Iterator iterTemp = temp.iterator();
 		while (iterTemp.hasNext()) {
 			newTag = (Tag) iterTemp.next();
@@ -2165,7 +2146,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 			item.addTag(newTag2);
 		}
 
-		// Creazione tag 791 Equivalenza - E' nella lingua originale
+
 		getTag791LanguageOriginalExport(target, item.getUserView(), item);
 		item.sortTags();
 		return new String(item.toMarc(), "UTF-8");
@@ -2194,13 +2175,13 @@ public class ResultSummaryBean extends LibrisuiteBean
 				else if (valueElement == null) {
 					// Default Note Standard
 					lingua = "und";
-					// Inizio tag 040 $b
+
 					CataloguingSourceTag cat040 = (CataloguingSourceTag) item
 							.findFirstTagByNumber("040");
 					StringText st2 = getStringText040(cat040.getStringText(),
 							lingua, item);
 					cat040.setStringText(st2);
-					// Fine tag 040
+
 					note.setNoteStandard(note.loadNoteStandard(cataloguingView,
 							lingua));
 
@@ -2211,8 +2192,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 				st = getTranslationNoteList(note.getStringText(), lingua,
 						langOrig);
 				if (st.getSubfieldList().size() > 0) {
-					BibliographicNoteTag aTagNew = (BibliographicNoteTag) LibrisuiteUtils
-							.deepCopy(aTag);
+					BibliographicNoteTag aTagNew = (BibliographicNoteTag) deepCopy(aTag);
 					aTagNew.getNote().setStringText(st);
 					iter.remove();
 					aTagNew.markNew();
@@ -2326,14 +2306,14 @@ public class ResultSummaryBean extends LibrisuiteBean
 				List result = null;
 				Subfield s = text.getSubfield(i);
 				String content = s.getContent();
-				/* Ricerca prima nella lista di default solo per la lingua ITA */
+
 				if (lingua.equals("eng"))
 					valueElement2 = getDefaultTranslation(content, langOrig);
-				/* Ricerca dopo nella lista completa lingua ITA */
+
 				if (valueElement2 == null) {
 					valueElement = getFullTranslation(content, langOrig);
 				}
-				// Ricerca del codice trovato (ITA) in inglese
+
 				if (valueElement2 != null)
 					result = new DAOCodeTable().getDefaultNoteTranslation(
 							valueElement2.getValue(), lingua);
@@ -2346,8 +2326,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 							t2 = (T_TRSLTN_NTE_TYP) result.get(0);
 						else
 							t3 = (T_DFLT_TRSLTN_NTE) result.get(0);
-						// Sostituzione nella nota del termine trovato in
-						// inglese
+
 						if (valueElement2 != null)
 							translationTag300(text2, content, s, valueElement2,
 									lingua, t2, t3);
@@ -2391,13 +2370,13 @@ public class ResultSummaryBean extends LibrisuiteBean
 		while (ite2.hasNext()) {
 			Avp t = (Avp) ite2.next();
 			if (content.indexOf(t.getLabel()) != -1) {
-				// E' uguale a ill.
+				// ill.
 				if (t.getLabel().equals("ill.")
 						&& content.trim().equals("ill.")) {
 					t2 = t;
 					break;
 				}
-				// Non è uguale a ill. e il content è composto anche da ill
+				// not ill.
 				else if (!t.getLabel().equals("ill.")
 						&& !content.trim().equals("ill.")) {
 					t2 = t;
@@ -2446,7 +2425,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 				if (content.indexOf(word_equivalent) != -1) {
 					String app = content;
 					app = app.replaceAll(value.getLabel(), "");
-					// controllo se c'è un altro termine uguale
+
 					if (app.indexOf(word_equivalent) != -1)
 						word_equivalent = "";
 
@@ -3585,7 +3564,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 		return frbrRecordArrayList;
 	}
 
-	/* Bug 4321 */
+
 	public CART_ITEMS loadRecordsForCart(int indexRecord, int branchId, String userName) 
 	{
 		Record record = getResultSet().getRecord()[indexRecord];

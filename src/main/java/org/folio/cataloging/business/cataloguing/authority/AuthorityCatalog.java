@@ -1,53 +1,20 @@
-/*
- * (c) LibriCore
- * 
- * Created on Nov 15, 2005
- * 
- * AuthorityCatalog.java
- */
 package org.folio.cataloging.business.cataloguing.authority;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.cataloguing.bibliographic.NewTagException;
 import org.folio.cataloging.business.cataloguing.bibliographic.PersistsViaItem;
-import org.folio.cataloging.business.cataloguing.common.AccessPoint;
-import org.folio.cataloging.business.cataloguing.common.Catalog;
-import org.folio.cataloging.business.cataloguing.common.CatalogItem;
-import org.folio.cataloging.business.cataloguing.common.CataloguingSourceTag;
-import org.folio.cataloging.business.cataloguing.common.ControlNumberTag;
-import org.folio.cataloging.dao.DAOCatalog;
-import org.folio.cataloging.dao.DAOModel;
-import org.folio.cataloging.business.cataloguing.common.DateOfLastTransactionTag;
-import org.folio.cataloging.business.cataloguing.common.HeaderField;
-import org.folio.cataloging.business.cataloguing.common.ItemEntity;
-import org.folio.cataloging.business.cataloguing.common.Model;
-import org.folio.cataloging.business.cataloguing.common.Tag;
-import org.folio.cataloging.business.common.AbstractMapBackedFactory;
-import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.MapBackedFactory;
-import org.folio.cataloging.business.common.PropertyBasedFactoryBuilder;
-import org.folio.cataloging.dao.DAODescriptor;
-import org.folio.cataloging.dao.DAONameDescriptor;
-import org.folio.cataloging.dao.DAONameTitleDescriptor;
-import org.folio.cataloging.dao.DAOSubjectDescriptor;
-import org.folio.cataloging.dao.DAOTitleDescriptor;
+import org.folio.cataloging.business.cataloguing.common.*;
+import org.folio.cataloging.business.common.*;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.DescriptorFactory;
+import org.folio.cataloging.dao.*;
 import org.folio.cataloging.dao.persistence.AUT;
 import org.folio.cataloging.dao.persistence.REF;
 import org.folio.cataloging.dao.persistence.ReferenceType;
 import org.folio.cataloging.dao.persistence.T_AUT_TAG_CAT;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.dao.DAOAuthorityCatalog;
-import org.folio.cataloging.dao.DAOAuthorityModel;
+import java.util.*;
 
 /**
  * @author paulm
@@ -59,7 +26,7 @@ public class AuthorityCatalog extends Catalog {
 	private static Log logger = LogFactory.getLog(AuthorityCatalog.class);
 	
 	public static final int CATALOGUING_VIEW = 1;
-	private static final DAOModel modelDAO = new DAOAuthorityModel();
+	private static final ModelDAO modelDAO = new AuthorityModelDAO();
 
 	private static Map daoByAutType = new HashMap();
 	static {
@@ -80,8 +47,8 @@ public class AuthorityCatalog extends Catalog {
 		autTypeByDescriptorType.put(new Short((short) 11), "MH");
 	}
 
-	private static final DAOAuthorityCatalog daoCatalog =
-		new DAOAuthorityCatalog();
+	private static final AuthorityCatalogDAO daoCatalog =
+		new AuthorityCatalogDAO();
 
 	protected static AbstractMapBackedFactory fixedFieldFactory;
 
@@ -99,10 +66,10 @@ public class AuthorityCatalog extends Catalog {
 		fixedFieldFactory = new MapBackedFactory();
 		PropertyBasedFactoryBuilder builder = new PropertyBasedFactoryBuilder();
 		builder.load(
-				"/org/folio/cataloging/business/cataloguing/authority/tagFactory.properties",
+				"/org/folio/cataloging/business/cataloguing/authority/TAG_FACTORY.properties",
 			tagFactory);
 		builder.load(
-				"/org/folio/cataloging/business/cataloguing/authority/fixedFieldFactory.properties",
+				"/org/folio/cataloging/business/cataloguing/authority/FIXED_FIELDS_FACTORY.properties",
 			fixedFieldFactory);
 	}
 
@@ -201,7 +168,7 @@ public class AuthorityCatalog extends Catalog {
 	/* (non-Javadoc)
 	 * @see Catalog#getCatalogDao()
 	 */
-	public DAOCatalog getCatalogDao() {
+	public CatalogDAO getCatalogDao() {
 		return daoCatalog;
 	}
 
@@ -216,7 +183,7 @@ public class AuthorityCatalog extends Catalog {
 	 * @see Catalog#getTagCategories(java.util.Locale)
 	 */
 	public List getTagCategories(Locale l) throws DataAccessException {
-		return daoCodeTable.getOptionList(T_AUT_TAG_CAT.class, l);
+		return DAO_CODE_TABLE.getOptionList(T_AUT_TAG_CAT.class, l);
 	}
 
 	/* (non-Javadoc)
@@ -364,7 +331,7 @@ public class AuthorityCatalog extends Catalog {
 	/* (non-Javadoc)
 	 * @see Catalog#getModelDAO()
 	 */
-	public DAOModel getModelDAO() {
+	public ModelDAO getModelDAO() {
 		return modelDAO;
 	}
 

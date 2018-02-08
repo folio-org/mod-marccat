@@ -1,29 +1,23 @@
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.business.cataloguing.common.ItemEntity;
+import org.folio.cataloging.business.common.*;
+import org.folio.cataloging.dao.DAORecordTypeMaterial;
+import org.folio.cataloging.dao.DAOSystemNextNumber;
+import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.persistence.RecordTypeMaterial;
+import org.folio.cataloging.dao.persistence.T_BIB_HDR;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import org.folio.cataloging.business.cataloguing.common.ItemEntity;
-import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.dao.DAOSystemNextNumber;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.business.common.LibrisuiteUtils;
-import org.folio.cataloging.business.common.PersistenceState;
-import org.folio.cataloging.business.common.PersistentObjectWithView;
-import org.folio.cataloging.business.common.UserViewHelper;
-import org.folio.cataloging.dao.persistence.RecordTypeMaterial;
-import org.folio.cataloging.dao.persistence.T_BIB_HDR;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.dao.DAORecordTypeMaterial;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
-import org.folio.cataloging.dao.common.HibernateUtil;
+import static org.folio.cataloging.F.*;
 
 @SuppressWarnings("unchecked")
 public class MaterialDescription extends FixedFieldUsingItemEntity implements PersistentObjectWithView 
@@ -928,11 +922,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#isAbleToBeDeleted()
 	 */
 	public boolean isAbleToBeDeleted() {
-		if (getMaterialDescription008Indicator() == '1') {
-			return false;
-		} else {
-			return true;
-		}
+        return getMaterialDescription008Indicator() != '1';
 	}
 
 	/* (non-Javadoc)
@@ -975,58 +965,58 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 				content.setAttribute("recordModifiedCode","" + getRecordModifiedCode());
 				content.setAttribute("recordCataloguingSourceCode","" + getRecordCataloguingSourceCode());
 			}
-			content.setAttribute("materialTypeCode",LibrisuiteUtils.asNullableString(getMaterialTypeCode()));
+			content.setAttribute("materialTypeCode", asNullableString(getMaterialTypeCode()));
 			content.setAttribute("materialDescription008Indicator","" + getMaterialDescription008Indicator());
 			content.setAttribute("bookIllustrationCode",getBookIllustrationCode());
-			content.setAttribute("targetAudienceCode",LibrisuiteUtils.asNullableString(getTargetAudienceCode()));
-			content.setAttribute("formOfItemCode",LibrisuiteUtils.asNullableString(getFormOfItemCode()));
+			content.setAttribute("targetAudienceCode", asNullableString(getTargetAudienceCode()));
+			content.setAttribute("formOfItemCode", asNullableString(getFormOfItemCode()));
 			content.setAttribute("natureOfContentsCode",getNatureOfContentsCode());
-			content.setAttribute("governmentPublicationCode",LibrisuiteUtils.asNullableString(getGovernmentPublicationCode()));	
-			content.setAttribute("conferencePublicationCode",LibrisuiteUtils.asNullableString(getConferencePublicationCode()));
-			content.setAttribute("bookFestschrift",LibrisuiteUtils.asNullableString(getBookFestschrift()));
-			content.setAttribute("bookIndexAvailabilityCode",LibrisuiteUtils.asNullableString(getBookIndexAvailabilityCode()));
-			content.setAttribute("bookLiteraryFormTypeCode",LibrisuiteUtils.asNullableString(getBookLiteraryFormTypeCode()));
-			content.setAttribute("bookBiographyCode",LibrisuiteUtils.asNullableString(getBookBiographyCode()));
-			content.setAttribute("bookMainEntryCode",LibrisuiteUtils.asNullableString(getBookMainEntryCode()));
+			content.setAttribute("governmentPublicationCode", asNullableString(getGovernmentPublicationCode()));
+			content.setAttribute("conferencePublicationCode", asNullableString(getConferencePublicationCode()));
+			content.setAttribute("bookFestschrift", asNullableString(getBookFestschrift()));
+			content.setAttribute("bookIndexAvailabilityCode", asNullableString(getBookIndexAvailabilityCode()));
+			content.setAttribute("bookLiteraryFormTypeCode", asNullableString(getBookLiteraryFormTypeCode()));
+			content.setAttribute("bookBiographyCode", asNullableString(getBookBiographyCode()));
+			content.setAttribute("bookMainEntryCode", asNullableString(getBookMainEntryCode()));
 			content.setAttribute("cartographicReliefCode",getCartographicReliefCode());
 			content.setAttribute("cartographicProjectionCode",getCartographicProjectionCode());
 			content.setAttribute("cartographicMeridianCode",getCartographicMeridianCode());
-			content.setAttribute("cartographicNarrativeTextCode",LibrisuiteUtils.asNullableString(getCartographicNarrativeTextCode()));
-			content.setAttribute("cartographicIndexAvailabilityCode",LibrisuiteUtils.asNullableString(getCartographicIndexAvailabilityCode()));
+			content.setAttribute("cartographicNarrativeTextCode", asNullableString(getCartographicNarrativeTextCode()));
+			content.setAttribute("cartographicIndexAvailabilityCode", asNullableString(getCartographicIndexAvailabilityCode()));
 			content.setAttribute("cartographicFormatCode",getCartographicFormatCode());
-			content.setAttribute("computerTargetAudienceCode",LibrisuiteUtils.asNullableString(getComputerTargetAudienceCode()));
-			content.setAttribute("computerFileTypeCode",LibrisuiteUtils.asNullableString(getComputerFileTypeCode()));
+			content.setAttribute("computerTargetAudienceCode", asNullableString(getComputerTargetAudienceCode()));
+			content.setAttribute("computerFileTypeCode", asNullableString(getComputerFileTypeCode()));
 			
 			/* Bug 4119 */
-			content.setAttribute("computerFileFormCode",LibrisuiteUtils.asNullableString(getComputerFileFormCode()));
+			content.setAttribute("computerFileFormCode", asNullableString(getComputerFileFormCode()));
 			
 			content.setAttribute("visualRunningTime", getVisualRunningTime());
-			content.setAttribute("visualTargetAudienceCode",LibrisuiteUtils.asNullableString(getVisualTargetAudienceCode()));
+			content.setAttribute("visualTargetAudienceCode", asNullableString(getVisualTargetAudienceCode()));
 			content.setAttribute("visualAccompanyingMaterialCode",getVisualAccompanyingMaterialCode());
-			content.setAttribute("visualMaterialTypeCode",LibrisuiteUtils.asNullableString(getVisualMaterialTypeCode()));
-			content.setAttribute("visualTechniqueCode",LibrisuiteUtils.asNullableString(getVisualTechniqueCode()));
-			content.setAttribute("visualTechniqueCode",	LibrisuiteUtils.asNullableString(getVisualTechniqueCode()));
-			content.setAttribute("serialFrequencyCode",LibrisuiteUtils.asNullableString(getSerialFrequencyCode()));
-			content.setAttribute("serialRegularityCode",LibrisuiteUtils.asNullableString(getSerialRegularityCode()));
-			content.setAttribute("serialISDSCenterCode",LibrisuiteUtils.asNullableString(getSerialISDSCenterCode()));
-			content.setAttribute("serialTypeCode",LibrisuiteUtils.asNullableString(getSerialTypeCode()));
-			content.setAttribute("serialFormOriginalItemCode",LibrisuiteUtils.asNullableString(getSerialFormOriginalItemCode()));
-			content.setAttribute("serialCumulativeIndexCode",LibrisuiteUtils.asNullableString(getSerialCumulativeIndexCode()));
-			content.setAttribute("serialOriginalAlphabetOfTitleCode",LibrisuiteUtils.asNullableString(getSerialOriginalAlphabetOfTitleCode()));
-			content.setAttribute("serialSuccessiveLatestCode",LibrisuiteUtils.asNullableString(getSerialSuccessiveLatestCode()));
-			content.setAttribute("serialTitlePageExistenceCode",LibrisuiteUtils.asNullableString(getSerialTitlePageExistenceCode()));
-			content.setAttribute("serialIndexAvailabilityCode",LibrisuiteUtils.asNullableString(getSerialIndexAvailabilityCode()));
+			content.setAttribute("visualMaterialTypeCode", asNullableString(getVisualMaterialTypeCode()));
+			content.setAttribute("visualTechniqueCode", asNullableString(getVisualTechniqueCode()));
+			content.setAttribute("visualTechniqueCode",	asNullableString(getVisualTechniqueCode()));
+			content.setAttribute("serialFrequencyCode", asNullableString(getSerialFrequencyCode()));
+			content.setAttribute("serialRegularityCode", asNullableString(getSerialRegularityCode()));
+			content.setAttribute("serialISDSCenterCode", asNullableString(getSerialISDSCenterCode()));
+			content.setAttribute("serialTypeCode", asNullableString(getSerialTypeCode()));
+			content.setAttribute("serialFormOriginalItemCode", asNullableString(getSerialFormOriginalItemCode()));
+			content.setAttribute("serialCumulativeIndexCode", asNullableString(getSerialCumulativeIndexCode()));
+			content.setAttribute("serialOriginalAlphabetOfTitleCode", asNullableString(getSerialOriginalAlphabetOfTitleCode()));
+			content.setAttribute("serialSuccessiveLatestCode", asNullableString(getSerialSuccessiveLatestCode()));
+			content.setAttribute("serialTitlePageExistenceCode", asNullableString(getSerialTitlePageExistenceCode()));
+			content.setAttribute("serialIndexAvailabilityCode", asNullableString(getSerialIndexAvailabilityCode()));
 			content.setAttribute("musicFormOfCompositionCode",getMusicFormOfCompositionCode());
-			content.setAttribute("musicFormatCode",LibrisuiteUtils.asNullableString(getMusicFormatCode()));
+			content.setAttribute("musicFormatCode", asNullableString(getMusicFormatCode()));
 			content.setAttribute("musicTextualMaterialCode",getMusicTextualMaterialCode());
 			content.setAttribute("musicLiteraryTextCode",getMusicLiteraryTextCode());
 			
 			/* Bug 4161 */
-			content.setAttribute("musicPartsCode",LibrisuiteUtils.asNullableString(getMusicPartsCode()));
-			content.setAttribute("musicTranspositionArrangementCode",LibrisuiteUtils.asNullableString(getMusicTranspositionArrangementCode()));
+			content.setAttribute("musicPartsCode", asNullableString(getMusicPartsCode()));
+			content.setAttribute("musicTranspositionArrangementCode", asNullableString(getMusicTranspositionArrangementCode()));
 			
-			content.setAttribute("cartographicMaterial",LibrisuiteUtils.asNullableString(getCartographicMaterial()));
-			content.setAttribute("visualOriginalHolding",LibrisuiteUtils.asNullableString(getVisualOriginalHolding()));
+			content.setAttribute("cartographicMaterial", asNullableString(getCartographicMaterial()));
+			content.setAttribute("visualOriginalHolding", asNullableString(getVisualOriginalHolding()));
 			content.setAttribute("formOfMaterial", getFormOfMaterial());			
 		}
 		return content;
@@ -1035,58 +1025,58 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 	public void parseModelXmlElementContent(Element xmlElement) 
 	{
 		Element content = (Element) xmlElement.getChildNodes().item(0);
-		setMaterialTypeCode(LibrisuiteUtils.characterFromXML(content.getAttribute("materialTypeCode")));
+		setMaterialTypeCode(characterFromXML(content.getAttribute("materialTypeCode")));
 		setMaterialDescription008Indicator(content.getAttribute("materialDescription008Indicator").charAt(0));
-		setBookIllustrationCode(LibrisuiteUtils.stringFromXML(content.getAttribute("bookIllustrationCode")));
-		setTargetAudienceCode(LibrisuiteUtils.characterFromXML(content.getAttribute("targetAudienceCode")));
-		setFormOfItemCode(LibrisuiteUtils.characterFromXML(content.getAttribute("formOfItemCode")));
-		setNatureOfContentsCode(LibrisuiteUtils.stringFromXML(content.getAttribute("natureOfContentsCode")));
-		setGovernmentPublicationCode(LibrisuiteUtils.characterFromXML(content.getAttribute("governmentPublicationCode")));
-		setConferencePublicationCode(LibrisuiteUtils.characterFromXML(content.getAttribute("conferencePublicationCode")));
-		setBookFestschrift(LibrisuiteUtils.characterFromXML(content.getAttribute("bookFestschrift")));
-		setBookIndexAvailabilityCode(LibrisuiteUtils.characterFromXML(content.getAttribute("bookIndexAvailabilityCode")));
-		setBookLiteraryFormTypeCode(LibrisuiteUtils.characterFromXML(content.getAttribute("bookLiteraryFormTypeCode")));
-		setBookBiographyCode(LibrisuiteUtils.characterFromXML(content.getAttribute("bookBiographyCode")));
-		setBookMainEntryCode(LibrisuiteUtils.characterFromXML(content.getAttribute("bookMainEntryCode")));
-		setCartographicReliefCode(LibrisuiteUtils.stringFromXML(content.getAttribute("cartographicReliefCode")));
-		setCartographicProjectionCode(LibrisuiteUtils.stringFromXML(content.getAttribute("cartographicProjectionCode")));
-		setCartographicMeridianCode(LibrisuiteUtils.stringFromXML(content.getAttribute("cartographicMeridianCode")));
-		setCartographicNarrativeTextCode(LibrisuiteUtils.characterFromXML(content.getAttribute("cartographicNarrativeTextCode")));
-		setCartographicIndexAvailabilityCode(LibrisuiteUtils.characterFromXML(content.getAttribute("cartographicIndexAvailabilityCode")));
-		setCartographicFormatCode(LibrisuiteUtils.stringFromXML(content.getAttribute("cartographicFormatCode")));
-		setComputerTargetAudienceCode(LibrisuiteUtils.characterFromXML(content.getAttribute("computerTargetAudienceCode")));
-		setComputerFileTypeCode(LibrisuiteUtils.characterFromXML(content.getAttribute("computerFileTypeCode")));
+		setBookIllustrationCode(stringFromXML(content.getAttribute("bookIllustrationCode")));
+		setTargetAudienceCode(characterFromXML(content.getAttribute("targetAudienceCode")));
+		setFormOfItemCode(characterFromXML(content.getAttribute("formOfItemCode")));
+		setNatureOfContentsCode(stringFromXML(content.getAttribute("natureOfContentsCode")));
+		setGovernmentPublicationCode(characterFromXML(content.getAttribute("governmentPublicationCode")));
+		setConferencePublicationCode(characterFromXML(content.getAttribute("conferencePublicationCode")));
+		setBookFestschrift(characterFromXML(content.getAttribute("bookFestschrift")));
+		setBookIndexAvailabilityCode(characterFromXML(content.getAttribute("bookIndexAvailabilityCode")));
+		setBookLiteraryFormTypeCode(characterFromXML(content.getAttribute("bookLiteraryFormTypeCode")));
+		setBookBiographyCode(characterFromXML(content.getAttribute("bookBiographyCode")));
+		setBookMainEntryCode(characterFromXML(content.getAttribute("bookMainEntryCode")));
+		setCartographicReliefCode(stringFromXML(content.getAttribute("cartographicReliefCode")));
+		setCartographicProjectionCode(stringFromXML(content.getAttribute("cartographicProjectionCode")));
+		setCartographicMeridianCode(stringFromXML(content.getAttribute("cartographicMeridianCode")));
+		setCartographicNarrativeTextCode(characterFromXML(content.getAttribute("cartographicNarrativeTextCode")));
+		setCartographicIndexAvailabilityCode(characterFromXML(content.getAttribute("cartographicIndexAvailabilityCode")));
+		setCartographicFormatCode(stringFromXML(content.getAttribute("cartographicFormatCode")));
+		setComputerTargetAudienceCode(characterFromXML(content.getAttribute("computerTargetAudienceCode")));
+		setComputerFileTypeCode(characterFromXML(content.getAttribute("computerFileTypeCode")));
 		
 		/* Bug 4119 */
-		setComputerFileFormCode(LibrisuiteUtils.characterFromXML(content.getAttribute("computerFileFormCode")));
+		setComputerFileFormCode(characterFromXML(content.getAttribute("computerFileFormCode")));
 		
-		setVisualRunningTime(LibrisuiteUtils.stringFromXML(content.getAttribute("visualRunningTime")));
-		setVisualTargetAudienceCode(LibrisuiteUtils.characterFromXML(content.getAttribute("visualTargetAudienceCode")));
-		setVisualAccompanyingMaterialCode(LibrisuiteUtils.stringFromXML(content.getAttribute("visualAccompanyingMaterialCode")));
-		setVisualMaterialTypeCode(LibrisuiteUtils.characterFromXML(content.getAttribute("visualMaterialTypeCode")));
-		setVisualTechniqueCode(LibrisuiteUtils.characterFromXML(content.getAttribute("visualTechniqueCode")));
-		setSerialFrequencyCode(LibrisuiteUtils.characterFromXML(content.getAttribute("serialFrequencyCode")));
-		setSerialRegularityCode(LibrisuiteUtils.characterFromXML(content.getAttribute("serialRegularityCode")));
-		setSerialISDSCenterCode(LibrisuiteUtils.characterFromXML(content.getAttribute("serialISDSCenterCode")));
-		setSerialFormOriginalItemCode(LibrisuiteUtils.characterFromXML(content.getAttribute("serialFormOriginalItemCode")));
-		setSerialFormOriginalItemCode(LibrisuiteUtils.characterFromXML(content.getAttribute("serialFormOriginalItemCode")));
-		setSerialOriginalAlphabetOfTitleCode(LibrisuiteUtils.characterFromXML(content.getAttribute("serialOriginalAlphabetOfTitleCode")));
-		setSerialOriginalAlphabetOfTitleCode(LibrisuiteUtils.characterFromXML(content.getAttribute("serialOriginalAlphabetOfTitleCode")));
-		setSerialSuccessiveLatestCode(LibrisuiteUtils.characterFromXML(content.getAttribute("serialSuccessiveLatestCode")));
-		setSerialTitlePageExistenceCode(LibrisuiteUtils.characterFromXML(content.getAttribute("serialTitlePageExistenceCode")));
-		setSerialIndexAvailabilityCode(LibrisuiteUtils.characterFromXML(content.getAttribute("serialIndexAvailabilityCode")));
-		setMusicFormOfCompositionCode(LibrisuiteUtils.stringFromXML(content.getAttribute("musicFormOfCompositionCode")));
-		setMusicFormatCode(LibrisuiteUtils.characterFromXML(content.getAttribute("musicFormatCode")));
-		setMusicTextualMaterialCode(LibrisuiteUtils.stringFromXML(content.getAttribute("musicTextualMaterialCode")));
-		setMusicLiteraryTextCode(LibrisuiteUtils.stringFromXML(content.getAttribute("musicLiteraryTextCode")));
+		setVisualRunningTime(stringFromXML(content.getAttribute("visualRunningTime")));
+		setVisualTargetAudienceCode(characterFromXML(content.getAttribute("visualTargetAudienceCode")));
+		setVisualAccompanyingMaterialCode(stringFromXML(content.getAttribute("visualAccompanyingMaterialCode")));
+		setVisualMaterialTypeCode(characterFromXML(content.getAttribute("visualMaterialTypeCode")));
+		setVisualTechniqueCode(characterFromXML(content.getAttribute("visualTechniqueCode")));
+		setSerialFrequencyCode(characterFromXML(content.getAttribute("serialFrequencyCode")));
+		setSerialRegularityCode(characterFromXML(content.getAttribute("serialRegularityCode")));
+		setSerialISDSCenterCode(characterFromXML(content.getAttribute("serialISDSCenterCode")));
+		setSerialFormOriginalItemCode(characterFromXML(content.getAttribute("serialFormOriginalItemCode")));
+		setSerialFormOriginalItemCode(characterFromXML(content.getAttribute("serialFormOriginalItemCode")));
+		setSerialOriginalAlphabetOfTitleCode(characterFromXML(content.getAttribute("serialOriginalAlphabetOfTitleCode")));
+		setSerialOriginalAlphabetOfTitleCode(characterFromXML(content.getAttribute("serialOriginalAlphabetOfTitleCode")));
+		setSerialSuccessiveLatestCode(characterFromXML(content.getAttribute("serialSuccessiveLatestCode")));
+		setSerialTitlePageExistenceCode(characterFromXML(content.getAttribute("serialTitlePageExistenceCode")));
+		setSerialIndexAvailabilityCode(characterFromXML(content.getAttribute("serialIndexAvailabilityCode")));
+		setMusicFormOfCompositionCode(stringFromXML(content.getAttribute("musicFormOfCompositionCode")));
+		setMusicFormatCode(characterFromXML(content.getAttribute("musicFormatCode")));
+		setMusicTextualMaterialCode(stringFromXML(content.getAttribute("musicTextualMaterialCode")));
+		setMusicLiteraryTextCode(stringFromXML(content.getAttribute("musicLiteraryTextCode")));
 		
 		/* Bug 4161 */
-		setMusicPartsCode(LibrisuiteUtils.characterFromXML(content.getAttribute("musicPartsCode")));
-		setMusicTranspositionArrangementCode(LibrisuiteUtils.characterFromXML(content.getAttribute("musicTranspositionArrangementCode")));
+		setMusicPartsCode(characterFromXML(content.getAttribute("musicPartsCode")));
+		setMusicTranspositionArrangementCode(characterFromXML(content.getAttribute("musicTranspositionArrangementCode")));
 		
-		setCartographicMaterial(LibrisuiteUtils.characterFromXML(content.getAttribute("cartographicMaterial")));
-		setVisualOriginalHolding(LibrisuiteUtils.characterFromXML(content.getAttribute("visualOriginalHolding")));
-		setFormOfMaterial(LibrisuiteUtils.stringFromXML(content.getAttribute("formOfMaterial")));
+		setCartographicMaterial(characterFromXML(content.getAttribute("cartographicMaterial")));
+		setVisualOriginalHolding(characterFromXML(content.getAttribute("visualOriginalHolding")));
+		setFormOfMaterial(stringFromXML(content.getAttribute("formOfMaterial")));
 		if (getMaterialDescription008Indicator() == '1') {
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
 			Date date =

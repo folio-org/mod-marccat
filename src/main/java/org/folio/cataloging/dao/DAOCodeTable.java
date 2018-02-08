@@ -273,7 +273,7 @@ public class DAOCodeTable extends HibernateUtil {
 	}
 	
 	/**
-	 * Il metodo ritorna una tendina (T_NME_WRK_RLTR) con Label-Label invece che Code-Label
+	 * Method returns (T_NME_WRK_RLTR) with Label-Label instead of Code-Label
 	 * @param raw
 	 * @return
 	 */
@@ -910,7 +910,6 @@ public class DAOCodeTable extends HibernateUtil {
 				+ codeTable.getName()
 				+ " as ct, BibliographicCorrelation as bc "
 				+ " where bc.key.marcTagCategoryCode = ? and "
-//					Natascia 13/06/2007: scommentate chiocciole
 				+ " bc.key.marcFirstIndicator <> '@' and "
 				+ " bc.key.marcSecondIndicator <> '@' and "
 				+ " bc.key.marcTag = ? and "
@@ -921,8 +920,8 @@ public class DAOCodeTable extends HibernateUtil {
 	}
 	
 	/**
-	 * Metodo che mi serve per leggere lo short text della tabella T_CAS_DIG_TYP 
-	 * in cui trovo la directory di riferimento per il repository digitale 
+	 * Reads short text from T_CAS_DIG_TYP table
+	 * with digital repository
 	 */	
 	public String getShortText(final Session session, final String code, final Class c, final Locale locale) throws DataAccessException
 	{
@@ -1009,8 +1008,8 @@ public class DAOCodeTable extends HibernateUtil {
 		"SELECT * FROM "+System.getProperty(Global.SCHEMA_SUITE_KEY)+".T_RDA_CARRIER WHERE LANGID = ? ORDER BY STRING_TEXT";
 					
 	/**
-	 * Metodo fatto perche' in questa tabella (CUSTOM.T_RDA_CARRIER) ci sono più righe con lo stesso ValueCode ma con label diverse 
-	 * (CodeTable non gestisce questa cosa)
+	 * Mathod to manage (CUSTOM.T_RDA_CARRIER)
+	 *
 	 * @param locale
 	 * @return
 	 * @throws DataAccessException
