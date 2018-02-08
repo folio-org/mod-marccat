@@ -267,8 +267,6 @@ public class DAOCodeTable extends HibernateUtil {
 			CodeTable element = (CodeTable) iterator.next();
 			if (element.getLanguage().equals(locale.getISO3Language())) {
 				result.add(new Avp(element.getCodeString(), element.getLongText()));
-				//Natascia: bug 2711 (chiamata errata)
-				//result.add(new Avp(element.getCodeString().trim(), element.getLongText()));
 			}
 		}
 		return result;
@@ -372,7 +370,8 @@ public class DAOCodeTable extends HibernateUtil {
 	{
 		String result = new String("");
 		CodeTable ct = load(session, c, code, locale);
-		result = ct.getLongText();
+		if(ct != null)	result = ct.getLongText();
+
 		return result;
 	}
 

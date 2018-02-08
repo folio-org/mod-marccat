@@ -4,6 +4,7 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.dao.DAOBibliographicCorrelation;
 import org.folio.cataloging.dao.DAOCodeTable;
 import org.folio.cataloging.dao.DAOIndexList;
 import org.folio.cataloging.dao.DAOSearchIndex;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.util.Optional.ofNullable;
+import static java.util.stream.Collectors.toList;
 import static org.folio.cataloging.F.locale;
 
 /**
@@ -249,6 +251,37 @@ public class StorageService implements Closeable {
     }
 
     /**
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @param className the heading class, used here as a filter criterion.
+     * @return  a list of heading item types by marc category code associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getItemTypesByCategoryCode(final String lang, Class className) throws DataAccessException {
+        DAOCodeTable daoCT = new DAOCodeTable();
+        return daoCT.getList(session, className, locale(lang))
+                .stream()
+                .collect(toList());
+    }
+
+    /**
+     *
+     * @param code the itemType code, used here as a filter criterion.
+     * @param lang the language code, used here as a filter criterion.
+     * @param subTypeClass the subType class, used here as a filter criterion.
+     * @return a list of subTypes by marc category and itemType code associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getSubTypesByCategoryCode(final String marcCategory, final Integer code, final String lang, Class subTypeClass) throws DataAccessException {
+        DAOBibliographicCorrelation daoBC = new DAOBibliographicCorrelation();
+        final short s_category = Short.parseShort(marcCategory);
+        return daoBC.getSecondCorrelationList(session, s_category, code.shortValue(), subTypeClass, locale(lang))
+                .stream()
+                .collect(toList());
+    }
+
+
+    /**
      * Returns the constraints (optional) to the requested index.
      *
      * @param code the index code, used here as a filter criterion.
@@ -306,6 +339,34 @@ public class StorageService implements Closeable {
         return dao.getLongText(session, s_code, T_FRBR.class, locale(lang));
     }
 
+    /**
+     * Returns the description for heading type entity.
+     *
+     * @param code the heading marc category code, used here as a filter criterion.
+     * @param lang the language code, used here as a filter criterion.
+     * @return the description for index code associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public String getHeadingDescriptionByCode(final String code, final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        final short s_code = Short.parseShort(code);
+        return dao.getLongText(session, s_code, T_BIB_TAG_CAT.class, locale(lang));
+    }
+
+    /**
+     * Returns the description for heading type entity.
+     *
+     * @param code the heading marc category code, used here as a filter criterion.
+     * @param lang the language code, used here as a filter criterion.
+     * @return the description for index code associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public String getSubTypeDescriptionByCode(final String code, final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        final short s_code = Short.parseShort(code);
+        return dao.getLongText(session, s_code, NameType.class, locale(lang));
+    }
+
     @Override
     public void close() throws IOException {
         try {
@@ -314,5 +375,6 @@ public class StorageService implements Closeable {
             throw new IOException(exception);
         }
     }
+
 
 }

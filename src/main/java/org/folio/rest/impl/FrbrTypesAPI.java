@@ -8,7 +8,7 @@ import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.rest.jaxrs.model.FrbrType;
 import org.folio.rest.jaxrs.model.FrbrTypeCollection;
-import org.folio.rest.jaxrs.resource.FrbrTypesResource;
+import org.folio.rest.jaxrs.resource.CatalogingFrbrTypesResource;
 
 import javax.ws.rs.core.Response;
 import java.util.Map;
@@ -24,7 +24,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
  * @since 1.0
  */
 
-public class FrbrTypesAPI implements FrbrTypesResource {
+public class FrbrTypesAPI implements CatalogingFrbrTypesResource {
 
     protected final Log logger = new Log(FrbrTypesAPI.class);
 
@@ -36,7 +36,7 @@ public class FrbrTypesAPI implements FrbrTypesResource {
     };
 
     @Override
-    public void getFrbrTypes(final String lang,
+    public void getCatalogingFrbrTypes(final String lang,
                              final Map<String, String> okapiHeaders,
                              final Handler<AsyncResult<Response>> asyncResultHandler,
                              final Context vertxContext) throws Exception {
@@ -57,7 +57,7 @@ public class FrbrTypesAPI implements FrbrTypesResource {
     }
 
     @Override
-    public void getFrbrTypesByCode(final String code,
+    public void getCatalogingFrbrTypesByCode(final String code,
                                    final String lang,
                                    final Map<String, String> okapiHeaders,
                                    final Handler<AsyncResult<Response>> asyncResultHandler,
@@ -65,11 +65,6 @@ public class FrbrTypesAPI implements FrbrTypesResource {
         doGet((storageService, future) -> {
             try {
                 final FrbrType frbrType = new FrbrType();
-                /*Integer icode = Integer.parseInt(code);
-                frbrType.setCode(icode);
-                frbrType.setDescription(
-                    storageService.getFrbrDescriptionByCode(icode, lang)
-                );*/
                 frbrType.setCode(Integer.parseInt(code));
                 frbrType.setDescription(
                         storageService.getFrbrDescriptionByCode(code, lang)
@@ -82,18 +77,20 @@ public class FrbrTypesAPI implements FrbrTypesResource {
         }, asyncResultHandler, okapiHeaders, vertxContext);
     }
 
+
+
     @Override
-    public void postFrbrTypes(String lang, FrbrType entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
+    public void postCatalogingFrbrTypes(String lang, FrbrType entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
         throw new IllegalArgumentException();
     }
 
     @Override
-    public void deleteFrbrTypesByCode(String code, String lang, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
+    public void deleteCatalogingFrbrTypesByCode(String code, String lang, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
         throw new IllegalArgumentException();
     }
 
     @Override
-    public void putFrbrTypesByCode(String code, String lang, FrbrType entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
+    public void putCatalogingFrbrTypesByCode(String code, String lang, FrbrType entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
         throw new IllegalArgumentException();
     }
 }
