@@ -13,18 +13,16 @@
  */
 package org.folio.cataloging.bean.cataloguing.common;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.folio.cataloging.business.controller.SessionUtils;
-import org.folio.cataloging.business.controller.UserProfile;
-
 import org.folio.cataloging.bean.LibrisuiteBean;
 import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicCatalog;
 import org.folio.cataloging.business.cataloguing.common.Catalog;
 import org.folio.cataloging.business.cataloguing.common.Model;
 import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.controller.SessionUtils;
+import org.folio.cataloging.business.controller.UserProfile;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author Wim Crols
@@ -36,7 +34,8 @@ public class ModelsBean extends LibrisuiteBean {
 	private String model = null;
 	
 	private UserProfile userProfile;
-	
+
+	// FIXME SESSION + USER PROFILE!
 	public static ModelsBean getInstance(HttpServletRequest request) {
 		ModelsBean bean = (ModelsBean) ModelsBean
 				.getSessionAttribute(request, ModelsBean.class);
@@ -61,14 +60,16 @@ public class ModelsBean extends LibrisuiteBean {
 	 * Getter for models
 	 */
 	public List getBibliographicAvailableModels() throws DataAccessException {
-		return getCatalog().getModelDAO().getBibliographicModelList();
+        throw new IllegalArgumentException("Don't call me!");
+//			return getCatalog().getModelDAO().getBibliographicModelList();
 	}
 	
 	/**
 	 * Getter for models
 	 */
 	public List getAuthorityAvailableModels() throws DataAccessException {
-		return getCatalog().getModelDAO().getAuthorityModelList();
+        throw new IllegalArgumentException("Don't call me!");
+	//	return getCatalog().getModelDAO().getAuthorityModelList();
 	}
 	
 	public Model load(int modelId) throws DataAccessException {

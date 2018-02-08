@@ -1,34 +1,5 @@
 package org.folio.cataloging.bean.digital;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.folio.cataloging.bean.LibrisuiteBean;
-import org.folio.cataloging.bean.cataloguing.common.EditBean;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicItem;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicNoteTag;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicRelationshipTag;
-import org.folio.cataloging.business.cataloguing.bibliographic.ControlNumberAccessPoint;
-import org.folio.cataloging.dao.DAOBibliographicCatalog;
-import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
-import org.folio.cataloging.business.cataloguing.bibliographic.MaterialDescription;
-import org.folio.cataloging.business.cataloguing.bibliographic.NameAccessPoint;
-import org.folio.cataloging.business.cataloguing.bibliographic.PublisherManager;
-import org.folio.cataloging.business.cataloguing.bibliographic.TitleAccessPoint;
-import org.folio.cataloging.business.cataloguing.common.Tag;
-import org.folio.cataloging.dao.DAOCache;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.business.common.RecordNotFoundException;
-import org.folio.cataloging.dao.persistence.CNTL_NBR;
-
-
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
@@ -36,15 +7,32 @@ import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.dao.DAOCasDigAdmin;
+import org.folio.cataloging.bean.LibrisuiteBean;
+import org.folio.cataloging.bean.cataloguing.common.EditBean;
+import org.folio.cataloging.business.cataloguing.bibliographic.*;
+import org.folio.cataloging.business.cataloguing.common.Tag;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.Defaults;
+import org.folio.cataloging.business.common.RecordNotFoundException;
+import org.folio.cataloging.business.controller.SessionUtils;
 import org.folio.cataloging.business.digital.DigitalDoiException;
 import org.folio.cataloging.business.digital.DigitalLevelException;
 import org.folio.cataloging.business.digital.RequiredFieldsException;
+import org.folio.cataloging.dao.BibliographicCatalogDAO;
+import org.folio.cataloging.dao.DAOCache;
+import org.folio.cataloging.dao.DAOCasDigAdmin;
+import org.folio.cataloging.dao.persistence.CNTL_NBR;
 import org.folio.cataloging.dao.persistence.CasDigAdmin;
-import org.folio.cataloging.util.StringText;
 import org.folio.cataloging.model.Subfield;
-import org.folio.cataloging.business.controller.SessionUtils;
+import org.folio.cataloging.util.StringText;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 @SuppressWarnings("unchecked")
 public class DigitalDoiBean extends LibrisuiteBean  
@@ -211,7 +199,7 @@ public class DigitalDoiBean extends LibrisuiteBean
 		}
 		
 		if ("".equals(codice) && !"".equals(getAmicusNumberMother())){
-			DAOBibliographicCatalog catalogDao = new DAOBibliographicCatalog();
+			BibliographicCatalogDAO catalogDao = new BibliographicCatalogDAO();
 			List lista =  catalogDao.loadAccessPointTags(ControlNumberAccessPoint.class, Integer.parseInt(getAmicusNumberMother()), SessionUtils.getCataloguingView(request)); 
 			for (int i = 0; i < lista.size(); i++) {
 				ControlNumberAccessPoint cntlNumber = (ControlNumberAccessPoint) lista.get(i);					

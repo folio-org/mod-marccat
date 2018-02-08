@@ -10,9 +10,8 @@ package org.folio.cataloging.business.cataloguing.authority;
 import org.folio.cataloging.business.cataloguing.common.Catalog;
 import org.folio.cataloging.business.cataloguing.common.CatalogItem;
 import org.folio.cataloging.business.cataloguing.common.Model;
-
+import org.folio.cataloging.dao.AuthorityModelDAO;
 import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.dao.DAOAuthorityModel;
 
 /**
  * Represents a Model/Template for initiating new Authority Items 
@@ -22,7 +21,7 @@ import org.folio.cataloging.dao.DAOAuthorityModel;
  */
 public class AuthorityModel extends Model {
 	private static final AuthorityCatalog theCatalog = new AuthorityCatalog();
-	private static final DAOAuthorityModel theDAO = new DAOAuthorityModel();
+	private static final AuthorityModelDAO theDAO = new AuthorityModelDAO();
 	
 	private String wemiSecondGroup;
 	private String wemiThirdGroup;

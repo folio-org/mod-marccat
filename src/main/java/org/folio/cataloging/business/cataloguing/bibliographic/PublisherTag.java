@@ -7,34 +7,28 @@
  */
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.business.common.*;
+import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.DAODescriptor;
+import org.folio.cataloging.dao.DAOPublisherDescriptor;
+import org.folio.cataloging.dao.DAOPublisherTag;
+import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.persistence.BibliographicNoteType;
+import org.folio.cataloging.dao.persistence.PUBL_HDG;
+import org.folio.cataloging.dao.persistence.REF;
+import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.util.StringText;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.LibrisuiteUtils;
-import org.folio.cataloging.business.common.PersistenceState;
-import org.folio.cataloging.business.common.PersistentObjectWithView;
-import org.folio.cataloging.business.common.UserViewHelper;
-import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.dao.DAODescriptor;
-import org.folio.cataloging.dao.DAOPublisherDescriptor;
-import org.folio.cataloging.business.descriptor.Descriptor;
-import org.folio.cataloging.dao.persistence.BibliographicNoteType;
-import org.folio.cataloging.dao.persistence.PUBL_HDG;
-import org.folio.cataloging.dao.persistence.REF;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.dao.DAOPublisherTag;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.util.StringText;
-import org.folio.cataloging.model.Subfield;
+import static org.folio.cataloging.F.deepCopy;
 
 /**
  * Publisher Tag differs from other access points in that multiple publisher access
@@ -677,7 +671,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 		List newTags = new ArrayList();
 		PublisherAccessPoint anApf = null;
 		List accessPointsApp = new ArrayList();
-		PublisherTag aTag = (PublisherTag) (LibrisuiteUtils.deepCopy(this));
+		PublisherTag aTag = (PublisherTag) deepCopy(this);
 		for (int i = 0; i < getAccessPoints().size(); i++) {
 			anApf = (PublisherAccessPoint) getAccessPoints().get(i);
 			Descriptor d = anApf.getDescriptor();

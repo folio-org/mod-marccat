@@ -33,3 +33,12 @@ resourceTypes:
       exampleItem: !include examples/acquisitionType.json
       schemaCollection: recordTemplateCollection
       schemaItem: recordTemplate
+  get:
+    queryParameters:
+      type:
+        displayName: Model type
+        description: the model's type (B)ibliographic, (A)uthority
+        required: true
+        example: (B)ibliographic, (A)uthority
+        enum: [B,A]
+        default: B

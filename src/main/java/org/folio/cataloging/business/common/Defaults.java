@@ -7,11 +7,7 @@
  */
 package org.folio.cataloging.business.common;
 
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * provides access to default values established in property pages
@@ -20,7 +16,16 @@ import java.util.ResourceBundle;
  * @since 1.0
  */
 public class Defaults {
-	
+
+	static public Class getClazz(String key) {
+		String result = getString(key);
+		try {
+			return Class.forName(result);
+		} catch (ClassNotFoundException e) {
+			return null;
+		}
+	}
+
 	static public String getString(String key){
 		ResourceBundle defaults =
 			ResourceBundle.getBundle("resources/defaultValues");
@@ -65,15 +70,6 @@ public class Defaults {
 			return getBoolean(key);
 		} catch (MissingResourceException e) {
 			return ifNotPresentValue;
-		}
-	}
-	
-	static public Class getClazz(String key) {
-		String result = getString(key);
-		try {
-			return Class.forName(result);
-		} catch (ClassNotFoundException e) {
-			return null;
 		}
 	}
 	

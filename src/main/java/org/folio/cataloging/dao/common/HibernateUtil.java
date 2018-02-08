@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import static org.folio.cataloging.F.deepCopy;
+
 /**
  * Provides a base class of support utilities for DAO objects
  * 
@@ -242,18 +244,15 @@ public class HibernateUtil {
 			return p;
 		}
 		final String myView = makeSingleViewString(userView);
-		final PersistentObjectWithView p3 = (PersistentObjectWithView) LibrisuiteUtils
-				.deepCopy(p);
+		final PersistentObjectWithView p3 = (PersistentObjectWithView) deepCopy(p);
 
 		if (p.getUserViewString().compareTo(myView) != 0) {
 			new TransactionalHibernateOperation() {
 				public void doInHibernateTransaction(Session s)
 						throws HibernateException {
 					s.delete(p);
-					PersistentObjectWithView p2 = (PersistentObjectWithView) LibrisuiteUtils
-							.deepCopy(p);
-					p2.setUserViewString(maskOutViewString(p
-							.getUserViewString(), userView));
+					PersistentObjectWithView p2 = (PersistentObjectWithView) deepCopy(p);
+					p2.setUserViewString(maskOutViewString(p.getUserViewString(), userView));
 					s.save(p2);
 					p3.setUserViewString(myView);
 					s.save(p3);

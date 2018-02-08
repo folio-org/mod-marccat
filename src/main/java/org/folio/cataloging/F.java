@@ -2,16 +2,25 @@ package org.folio.cataloging;
 
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
+import org.folio.cataloging.log.Log;
+import org.folio.cataloging.log.MessageCatalog;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Locale;
 
 /**
  * Booch utility which acts as a central points for collecting static functions.
  *
- * @author Andrea Gazzarini
+ * @author agazzarini
+ * @author paulm
  * @since 1.0
  */
 public abstract class F {
+    private final static Log LOGGER = new Log(F.class);
+
     /**
      * Retrieves the datasource configuration from the given buffer.
      * The incoming buffer is supposed to be the result of one or more calls to the mod-configuration module.
@@ -62,5 +71,68 @@ public abstract class F {
      */
     public static Locale locale(final String code) {
         return isNotNullOrEmpty(code) ? Locale.forLanguageTag(code) : Locale.ENGLISH;
+    }
+
+    /**
+     * Utility for making deep copies (vs. clone()'s shallow copies) of  objects.
+     * Objects are first serialized and then deserialized. Error
+     * checking is fairly minimal in this implementation. If an object is
+     * encountered that cannot be serialized (or that references an object
+     * that cannot be serialized) an error is printed to System.err and
+     * null is returned. Depending on your specific application, it might
+     * make more sense to have copy(...) re-throw the exception.
+     *
+     * A later version of this class includes some minor optimizations.
+     *
+     * @return a copy of the object, or null if the object cannot be serialized.
+     */
+    public static Object deepCopy(final Object orig) {
+        try(final ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            final ObjectOutputStream out = new ObjectOutputStream(bos)) {
+
+            out.writeObject(orig);
+            out.flush();
+            out.close();
+
+            final ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(bos.toByteArray()));
+            return in.readObject();
+        }
+        catch(final Exception exception) {
+            LOGGER.error(MessageCatalog._00013_IO_FAILURE, exception);
+            return null;
+        }
+    }
+
+    /**
+     * Returns the string version of the incoming object, or null (if the object is null).
+     *
+     * @param obj the input.
+     * @return the string version of the incoming object, or null.
+     */
+    public static String asNullableString(final Object obj) {
+        return (obj != null) ? String.valueOf(obj) : null;
+    }
+
+    /**
+     *
+     * @param s
+     * @return
+     */
+    public static Character characterFromXML(String s) {
+        if (s.length() == 0) {
+            return null;
+        }
+        else {
+            return new Character(s.charAt(0));
+        }
+    }
+
+    public static String stringFromXML(String s) {
+        if (s.length() == 0) {
+            return null;
+        }
+        else {
+            return s;
+        }
     }
 }

@@ -442,7 +442,7 @@ public class CodeTableEditBean extends CodeTableBean {
 	public List getNoteCodeList()
 	throws DataAccessException {
 		return DAOCodeTable.asOptionList(daoCodeTable.getCorrelatedList(BibliographicNoteType.class,true," and bc.key.marcSecondIndicator <> '@' and bc.databaseFirstValue = ct.code "), currentLocale);
-		//return daoCodeTable.getCorrelatedList(BibliographicNoteType.class,true," and bc.key.marcSecondIndicator <> '@' and bc.databaseFirstValue = ct.code ");
+		//return DAO_CODE_TABLE.getCorrelatedList(BibliographicNoteType.class,true," and bc.key.marcSecondIndicator <> '@' and bc.databaseFirstValue = ct.code ");
    }
    
   public int getNoteCode(int code) throws DataAccessException{

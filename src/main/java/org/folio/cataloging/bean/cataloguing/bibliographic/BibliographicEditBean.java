@@ -3058,7 +3058,7 @@ public class BibliographicEditBean extends EditBean {
 
 	public boolean isEquivalentSubjects() {
 		try {
-			return ((DAOBibliographicCatalog) getCatalog().getCatalogDao())
+			return ((BibliographicCatalogDAO) getCatalog().getCatalogDao())
 					.getEquivalentSubjects(getCatalogItem()).size() > 0;
 			// don't throw exception here since method is called from jsp
 		} catch (DataAccessException e) {
@@ -3448,7 +3448,7 @@ public class BibliographicEditBean extends EditBean {
 				String descriptionDewey = null;
 				/*
 				try {
-					descriptionDewey = daoCodeTable.getLongText(dewey,
+					descriptionDewey = DAO_CODE_TABLE.getLongText(dewey,
 							T_DWY_TYP.class, getLocale());
 				} catch (Exception e) {
 					descriptionDewey = ResourceBundle.getBundle(
@@ -4498,17 +4498,13 @@ public class BibliographicEditBean extends EditBean {
 		t.addNewTagUnit();
 
 		List date = new ArrayList(1);
-		date.add(new String(""));
+		date.add("");
 		t.setDates(date);
 		((PUBL_TAG) t.getPublisherTagUnits().get(0)).setDescriptor(publHdg);
 		t.saveEdits();
 		replaceCurrentTag(t);
-		// t =(PublisherManager) LibrisuiteUtils.deepCopy(getCurrentTag());
 		setRevisedPublisher(t);
 
-		// sortTags(super.getLocale());
-		// resetCommands();
-		// setNavigation(true);
 		setNavigation(false);
 	}
 
@@ -4516,10 +4512,6 @@ public class BibliographicEditBean extends EditBean {
 		return equivalentEnabled;
 	}
 
-	// --> 20100901 inizio: metodo che non permette la cancellazione del record
-	// se prima non si cancella la DGA associata
-	// public void controlDigAdminDataForDelete(int amicusNumber) throws
-	// DataAccessException, DataDigAdminException
 	public void controlDigAdminDataForDelete(int amicusNumber)
 			throws DataAccessException {
 		CasaliniContextBean casalini = getCasaliniBean();

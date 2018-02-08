@@ -1,25 +1,19 @@
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
 import org.folio.cataloging.business.cataloguing.common.Leader;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class BibliographicLeader extends Leader 
-{
+public class BibliographicLeader extends Leader {
 	private static final long serialVersionUID = 3947160281428397002L;
 
-	public BibliographicLeader() 
-	{
+	public BibliographicLeader() {
 		super();
 		setHeaderType((short) 15);
 	}
 
-	/* (non-Javadoc)
-	 * @see FixedField#getDisplayString()
-	 */
-	public String getDisplayString() 
-	{
+	@Override
+	public String getDisplayString() {
 		String result = "00000";
 		result = result
 				+ getRecordStatusCode()
@@ -35,8 +29,7 @@ public class BibliographicLeader extends Leader
 		return result;
 	}
 
-	public Element generateModelXmlElementContent(Document xmlDocument) 
-	{
+	public Element generateModelXmlElementContent(final Document xmlDocument) {
 		Element content = null;
 		if (xmlDocument != null) {
 			content = xmlDocument.createElement("content");
@@ -52,8 +45,7 @@ public class BibliographicLeader extends Leader
 		return content;
 	}
 
-	public void parseModelXmlElementContent(Element xmlElement) 
-	{
+	public void parseModelXmlElementContent(final Element xmlElement) {
 		Element content = (Element) xmlElement.getChildNodes().item(0);
 		setRecordStatusCode(content.getAttribute("recordStatusCode").charAt(0));
 		setItemRecordTypeCode(content.getAttribute("itemRecordTypeCode").charAt(0));
