@@ -1,0 +1,55 @@
+#%RAML 0.8
+title: FiTempl
+version: v1
+baseUri: http://github.com/org/folio/mod-cataloging
+
+documentation:
+  - title: mod-cataloging API
+    content: This documents the API calls that can be made to manage field templates within the cataloging module.
+
+schemas:
+  - fieldTemplate: !include schemas/fieldTemplate.json
+  - fieldTemplateCollection: !include schemas/fieldTemplateCollection.json
+  - errors: !include ../raml-util/schemas/errors.schema
+  - error.schema: !include ../raml-util/schemas/error.schema
+  - parameters.schema: !include ../raml-util/schemas/parameters.schema
+
+traits:
+  - secured: !include ../raml-util/traits/auth.raml
+  - orderable: !include ../raml-util/traits/orderable.raml
+  - pageable: !include ../raml-util/traits/pageable.raml
+  - searchable: !include ../raml-util/traits/searchable.raml
+  - language: !include ../raml-util/traits/language.raml
+  - validate: !include ../raml-util/traits/validation.raml
+
+resourceTypes:
+  - collection-item: !include ../raml-util/rtypes/item-collection.raml
+  - get-only: !include ../raml-util/rtypes/get-only.raml
+
+/cataloging/field-template:
+  type:
+      collection-item:
+        exampleItem: !include examples/fieldTemplate.json
+        schema: fieldTemplate
+  get:
+    queryParameters:
+      headingType:
+        displayName: Heading type
+        description: the heading type
+        required: true
+        type: string
+      itemType:
+        displayName: Item type
+        description: the item type
+        required: true
+        type: string
+      subItemType:
+        displayName: Sub-item type
+        description: the sub-item type
+        required: true
+        type: string
+      functionCode:
+        displayName: Function code
+        description: the function code
+        required: false
+        type: string

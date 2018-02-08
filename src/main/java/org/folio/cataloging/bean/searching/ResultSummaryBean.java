@@ -51,6 +51,8 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.*;
 
+import static org.folio.cataloging.F.deepCopy;
+
 @SuppressWarnings("unchecked")
 public class ResultSummaryBean extends LibrisuiteBean 
 {
@@ -1752,7 +1754,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 	private void duplicateTag300(List tagOther, Tag aTag, Iterator iter) 
 	{
 		BibliographicNoteTag noteTag = (BibliographicNoteTag) aTag;
-		BibliographicNoteTag aTagNew = (BibliographicNoteTag) LibrisuiteUtils.deepCopy(aTag);
+		BibliographicNoteTag aTagNew = (BibliographicNoteTag) deepCopy(aTag);
 		StringText text = noteTag.getStringText();
 		Subfield sub = null;
 		List listaSub = text.getSubfieldList();
@@ -2190,8 +2192,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 				st = getTranslationNoteList(note.getStringText(), lingua,
 						langOrig);
 				if (st.getSubfieldList().size() > 0) {
-					BibliographicNoteTag aTagNew = (BibliographicNoteTag) LibrisuiteUtils
-							.deepCopy(aTag);
+					BibliographicNoteTag aTagNew = (BibliographicNoteTag) deepCopy(aTag);
 					aTagNew.getNote().setStringText(st);
 					iter.remove();
 					aTagNew.markNew();

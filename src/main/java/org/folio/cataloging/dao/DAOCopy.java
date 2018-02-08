@@ -9,7 +9,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.bean.cataloguing.copy.CopyListElement;
 import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.business.common.*;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.RecordNotFoundException;
+import org.folio.cataloging.business.common.SortFormException;
+import org.folio.cataloging.business.common.UpdateStatus;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
 import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
@@ -21,6 +24,7 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static org.folio.cataloging.F.deepCopy;
 import static org.folio.cataloging.F.fixedCharPadding;
 
 @SuppressWarnings("unchecked")
@@ -991,8 +995,7 @@ public class DAOCopy extends HibernateUtil {
 						if (match != null) {
 							copy.setShelfList(match);
 						} else {
-							SHLF_LIST shelf = (SHLF_LIST) LibrisuiteUtils
-									.deepCopy(copy.getShelfList());
+							SHLF_LIST shelf = (SHLF_LIST) deepCopy(copy.getShelfList());
 							shelf.generateNewKey();
 							copy.setShelfList(shelf);
 							/*

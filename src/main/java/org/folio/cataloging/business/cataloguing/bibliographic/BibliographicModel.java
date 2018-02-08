@@ -16,9 +16,8 @@ package org.folio.cataloging.business.cataloguing.bibliographic;
 import org.folio.cataloging.business.cataloguing.common.Catalog;
 import org.folio.cataloging.business.cataloguing.common.CatalogItem;
 import org.folio.cataloging.business.cataloguing.common.Model;
-
+import org.folio.cataloging.dao.BibliographicModelDAO;
 import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.dao.DAOBibliographicModel;
 
 /**
  * @author wimc
@@ -52,7 +51,7 @@ public class BibliographicModel extends Model {
 	}
 
 	public HibernateUtil getDAO() {
-		return new DAOBibliographicModel();
+		return new BibliographicModelDAO();
 	}
 
 	/* (non-Javadoc)

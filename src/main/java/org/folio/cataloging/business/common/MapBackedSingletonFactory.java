@@ -7,39 +7,34 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Class comment
+ * Singleton map backed factory.
+ *
  * @author janick
+ * @since 1.0
  */
 public class MapBackedSingletonFactory extends AbstractMapBackedFactory {
 	
-	private Map map = new HashMap();
-	private Map singletons = new HashMap();
+	private Map<Integer, Object> map = new HashMap<>();
+	private Map<Class, Object> singletons = new HashMap<>();
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.descriptor.AbstractMapBackedFactory#put(java.lang.Object, java.lang.Class)
-	 */
-	public void put(Integer key, Class clazz) {
-		Object o = singletons.get(clazz);
-		if (o == null) {
-			o = newInstance(clazz);
-			singletons.put(clazz, o);
-		}
-		map.put(key,o);
+	@Override
+	public void put(final Integer key, final Class clazz) {
+		map.put(key, singletons.computeIfAbsent(clazz, k -> newInstance(k)));
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.descriptor.AbstractMapBackedFactory#getInstance(java.lang.Object)
-	 */
-	protected Object getInstance(Integer key) {
+	@Override
+	public void put(final Map<Integer, Class> entries) {
+		entries.forEach((key, clazz) -> put(key, clazz));
+	}
+
+	@Override
+	protected Object getInstance(final Integer key) {
 		return map.get(key);
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.descriptor.AbstractMapBackedFactory#clear()
-	 */
+	@Override
 	public void clear() {
 		map.clear();
 		singletons.clear();
 	}
-
 }

@@ -9,9 +9,9 @@ package org.folio.cataloging.business.cataloguing.bibliographic;
 
 import org.folio.cataloging.bean.cataloguing.bibliographic.BibliographicEditBean;
 import org.folio.cataloging.bean.cataloguing.common.ModelBean;
-import org.folio.cataloging.business.common.LibrisuiteUtils;
-
 import org.folio.cataloging.business.Command;
+
+import static org.folio.cataloging.F.deepCopy;
 
 /**
  * A command to change a leader where the resulting change also affects the 
@@ -55,7 +55,7 @@ public class ChangeBib008TypeCommand implements Command {
 	 */
 	public void execute() {
 		getBean().getBibliographicItem().setTag(getOldLeader(), getNewLeader());
-		setNew008((MaterialDescription)LibrisuiteUtils.deepCopy(getOld008()));
+		setNew008((MaterialDescription) deepCopy(getOld008()));
 		getNew008().setItemEntity(getNewLeader().getItemEntity());
 		getNew008().setToDefault();
 		getBean().getBibliographicItem().setTag(getOld008(), getNew008());

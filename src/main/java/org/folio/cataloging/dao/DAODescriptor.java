@@ -29,6 +29,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
+import static org.folio.cataloging.F.deepCopy;
+
 /**
  * An abstract class representing separately indexed tables that access
  * bibliographic items. (e.g. Name, Title, Subject, ...)
@@ -605,7 +607,7 @@ public abstract class DAODescriptor extends HibernateUtil {
 	 */
 	public void updateCacheTable(Descriptor descriptor)
 			throws DataAccessException {
-		DAOBibliographicCatalog dao = new DAOBibliographicCatalog();
+		BibliographicCatalogDAO dao = new BibliographicCatalogDAO();
 		int cataloguingView = View.toIntView(descriptor.getUserViewString());
 		Iterator iter = getDocList(descriptor, cataloguingView).iterator();
 		while (iter.hasNext()) {
@@ -648,7 +650,7 @@ public abstract class DAODescriptor extends HibernateUtil {
 			return existing;
 		} else {
 			Descriptor onFile = load(headingNumber, onFileView);
-			Descriptor newDesc = (Descriptor) LibrisuiteUtils.deepCopy(onFile);
+			Descriptor newDesc = (Descriptor) deepCopy(onFile);
 			newDesc.setUserViewString(View
 					.makeSingleViewString(cataloguingView));
 			logger.debug("creating new heading with view: "

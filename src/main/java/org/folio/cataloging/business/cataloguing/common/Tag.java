@@ -7,34 +7,32 @@
  */
 package org.folio.cataloging.business.cataloguing.common;
 
-import java.io.Serializable;
-import java.util.Iterator;
-import java.util.List;
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
+import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
+import org.folio.cataloging.business.common.CorrelationValues;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.PersistenceState;
+import org.folio.cataloging.dao.DAOCodeTable;
+import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.persistence.CorrelationKey;
+import org.folio.cataloging.dao.persistence.T_SINGLE;
+import org.folio.cataloging.exception.ValidationException;
+import org.folio.cataloging.model.Subfield;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.Serializable;
+import java.util.Iterator;
+import java.util.List;
 
-import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
-import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
-import org.folio.cataloging.dao.DAOCodeTable;
-import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.LibrisuiteUtils;
-import org.folio.cataloging.business.common.PersistenceState;
-import org.folio.cataloging.exception.ValidationException;
-import org.folio.cataloging.dao.persistence.CorrelationKey;
-import org.folio.cataloging.dao.persistence.T_SINGLE;
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.model.Subfield;
+import static org.folio.cataloging.F.deepCopy;
 
 /**
  * @author paulm
@@ -426,7 +424,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 	}
 
 	public Object clone() {
-		return LibrisuiteUtils.deepCopy(this);
+		return deepCopy(this);
 	}
 
 	public TagImpl getTagImpl() {

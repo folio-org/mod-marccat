@@ -1,30 +1,24 @@
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.business.common.*;
+import org.folio.cataloging.dao.DAOBibliographicRelationship;
+import org.folio.cataloging.dao.DAOBibliographicRelationshipTag;
+import org.folio.cataloging.dao.DAOSystemNextNumber;
+import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.persistence.BibliographicRelationPrintNote;
+import org.folio.cataloging.dao.persistence.BibliographicRelationReciprocal;
+import org.folio.cataloging.dao.persistence.BibliographicRelationType;
+import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.util.StringText;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.dao.DAOSystemNextNumber;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.business.common.LibrisuiteUtils;
-import org.folio.cataloging.business.common.PersistenceState;
-import org.folio.cataloging.business.common.PersistentObjectWithView;
-import org.folio.cataloging.business.common.SubfieldCodeComparator;
-import org.folio.cataloging.dao.persistence.BibliographicRelationPrintNote;
-import org.folio.cataloging.dao.persistence.BibliographicRelationReciprocal;
-import org.folio.cataloging.dao.persistence.BibliographicRelationType;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.util.StringText;
-import org.folio.cataloging.model.Subfield;
-import org.folio.cataloging.dao.DAOBibliographicRelationship;
-import org.folio.cataloging.dao.DAOBibliographicRelationshipTag;
+import static org.folio.cataloging.F.deepCopy;
 
 @SuppressWarnings({ "unchecked", "serial" })
 public class BibliographicRelationshipTag extends VariableField implements PersistentObjectWithView 
@@ -369,7 +363,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 	public void replaceTargetRelationship(int amicusNumber, int cataloguingView) throws DataAccessException 
 	{
 		getSourceRelationship().evict();
-		setSourceRelationship((BibliographicRelationship) LibrisuiteUtils.deepCopy(getSourceRelationship()));
+		setSourceRelationship((BibliographicRelationship) deepCopy(getSourceRelationship()));
 		getSourceRelationship().markNew();
 		setTargetBibItemNumber(amicusNumber);
 		buildReciprocalStringText(cataloguingView);
@@ -395,8 +389,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 	 */
 	public void setOriginalTag() {
 		originalTag = null;
-		originalTag = (BibliographicRelationshipTag) LibrisuiteUtils
-				.deepCopy(this);
+		originalTag = (BibliographicRelationshipTag) deepCopy(this);
 	}
 
 	/*

@@ -1,29 +1,24 @@
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.cataloguing.common.AccessPoint;
 import org.folio.cataloging.business.cataloguing.common.OrderedTag;
 import org.folio.cataloging.business.common.ConfigHandler;
 import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.dao.DAOBibliographicCorrelation;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.LibrisuiteUtils;
-import org.folio.cataloging.dao.DAODescriptor;
-import org.folio.cataloging.dao.DAONameDescriptor;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.marchelper.MarcHelperTag;
-import org.folio.cataloging.dao.persistence.NME_HDG;
-import org.folio.cataloging.dao.persistence.NameFunction;
-import org.folio.cataloging.dao.persistence.NameSubType;
-import org.folio.cataloging.dao.persistence.NameType;
-import org.folio.cataloging.dao.persistence.REF;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
+import org.folio.cataloging.dao.DAOBibliographicCorrelation;
+import org.folio.cataloging.dao.DAODescriptor;
+import org.folio.cataloging.dao.DAONameDescriptor;
+import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.util.StringText;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.folio.cataloging.F.deepCopy;
 
 @SuppressWarnings("unchecked")
 public class NameAccessPoint extends NameTitleComponent implements OrderedTag, MarcHelperTag, Equivalent 
@@ -227,7 +222,7 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag, M
 		return "3eiuox45";
 	}
 	
-	public String getKey() throws DataAccessException, MarcCorrelationException
+	public String getKey() throws DataAccessException
 	{
 		if(getMarcEncoding().getMarcTag().equals("700"))
 			return "100"+"."+getCorrelation(2);
@@ -246,7 +241,7 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag, M
 		Descriptor d = getDescriptor();
 		REF ref = dao.getCrossReferencesWithLanguage(d, cataloguingView, indexingLanguage);
 	    if (ref!=null) {
-			AccessPoint aTag =	(AccessPoint) (LibrisuiteUtils.deepCopy(this));
+			AccessPoint aTag =	(AccessPoint) deepCopy(this);
 			aTag.markNew();
 			aTag.setDescriptor(dao.load(ref.getTarget(),cataloguingView));
 			aTag.setHeadingNumber(new Integer(aTag.getDescriptor().getKey().getHeadingNumber()));

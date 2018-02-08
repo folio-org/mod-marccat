@@ -1,28 +1,23 @@
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.cataloguing.common.AccessPoint;
 import org.folio.cataloging.business.cataloguing.common.OrderedTag;
 import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.dao.DAOBibliographicCorrelation;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.business.common.LibrisuiteUtils;
+import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.DAOBibliographicCorrelation;
 import org.folio.cataloging.dao.DAODescriptor;
 import org.folio.cataloging.dao.DAOSubjectDescriptor;
-import org.folio.cataloging.business.descriptor.Descriptor;
-import org.folio.cataloging.dao.persistence.REF;
-import org.folio.cataloging.dao.persistence.SBJCT_HDG;
-import org.folio.cataloging.dao.persistence.SubjectFunction;
-import org.folio.cataloging.dao.persistence.SubjectSource;
-import org.folio.cataloging.dao.persistence.SubjectType;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
+import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.util.StringText;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.folio.cataloging.F.deepCopy;
 
 public class SubjectAccessPoint extends BibliographicAccessPoint implements OrderedTag, Equivalent 
 {
@@ -260,7 +255,7 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
 	    if (ref!=null) {
 			//REF aRef = (REF)refs.get(0);
 			/*Deve fare il replace del descrittore, non un nuovo tag altrimenti rimuovere il tag corrente*/
-			AccessPoint aTag =	(AccessPoint) (LibrisuiteUtils.deepCopy(this));
+			AccessPoint aTag =	(AccessPoint) deepCopy(this);
 			aTag.markNew();
 			aTag.setDescriptor(dao.load(ref.getTarget(),cataloguingView));
 			aTag.setHeadingNumber(new Integer(aTag.getDescriptor()

@@ -7,19 +7,10 @@
  */
 package org.folio.cataloging.business.cataloguing.common;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicModel;
 import org.folio.cataloging.business.cataloguing.bibliographic.NewTagException;
 import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
@@ -27,19 +18,21 @@ import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.dao.DAOModel;
+import org.folio.cataloging.dao.ModelDAO;
+import org.folio.cataloging.util.StringText;
+import org.folio.cataloging.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import org.folio.cataloging.util.StringText;
-import org.folio.cataloging.util.XmlUtils;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * Base class for template models for catalogItems
@@ -576,7 +569,7 @@ public abstract class Model implements Persistence, Serializable {
 	 * @since 1.0
 	 */
 	public boolean isLinkedToItems() throws DataAccessException {
-		return ((DAOModel) getDAO()).getModelUsage(getId());
+		return ((ModelDAO) getDAO()).getModelUsage(getId());
 	}
 
 	public CatalogItem toCatalogItem(int cataloguingView) {

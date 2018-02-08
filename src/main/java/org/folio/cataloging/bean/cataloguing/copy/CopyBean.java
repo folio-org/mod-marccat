@@ -8,7 +8,10 @@ import org.folio.cataloging.bean.cataloguing.heading.ShelfListHeadingBean;
 import org.folio.cataloging.bean.searching.BrowseBean;
 import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
 import org.folio.cataloging.business.cataloguing.common.Validation;
-import org.folio.cataloging.business.common.*;
+import org.folio.cataloging.business.common.CorrelationValues;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.DuplicateDescriptorException;
+import org.folio.cataloging.business.common.RecordNotFoundException;
 import org.folio.cataloging.business.controller.SessionUtils;
 import org.folio.cataloging.business.controller.UserProfile;
 import org.folio.cataloging.business.descriptor.Descriptor;
@@ -29,6 +32,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import static org.folio.cataloging.F.deepCopy;
 
 public class CopyBean extends LibrisuiteBean {
 
@@ -520,7 +525,7 @@ public class CopyBean extends LibrisuiteBean {
 		copy.markChanged();
 		dc.saveCopy(session, copy, oldShelfList, userName);
 
-		DAOBibliographicCatalog dao = new DAOBibliographicCatalog();
+		BibliographicCatalogDAO dao = new BibliographicCatalogDAO();
 		dao.updateCacheTable(copy.getBibItemNumber(), cataloguingView);
 
 		logger.debug("back from save");
@@ -716,7 +721,7 @@ public class CopyBean extends LibrisuiteBean {
 			throw new RecordNotFoundException();
 		} else {
 			String sortForm = copy.getShelfList().getSortForm();
-			copy = (CPY_ID) LibrisuiteUtils.deepCopy(copy);
+			copy = (CPY_ID) deepCopy(copy);
 			setCopy(copy);
 			copy.setBarCodeNumber("0");
 			copy.setCopyIdNumber(0);

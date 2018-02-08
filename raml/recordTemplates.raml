@@ -1,0 +1,44 @@
+#%RAML 0.8
+title: RecordTemplate
+version: v1
+baseUri: http://github.com/org/folio/mod-cataloging
+
+documentation:
+  - title: mod-cataloging API
+    content: This documents the API calls that can be made to manage record templates within the cataloging module.
+
+schemas:
+  - recordTemplate: !include schemas/recordTemplate.json
+  - recordTemplateCollection: !include schemas/recordTemplateCollection.json
+  - errors: !include ../raml-util/schemas/errors.schema
+  - error.schema: !include ../raml-util/schemas/error.schema
+  - parameters.schema: !include ../raml-util/schemas/parameters.schema
+
+traits:
+  - secured: !include ../raml-util/traits/auth.raml
+  - orderable: !include ../raml-util/traits/orderable.raml
+  - pageable: !include ../raml-util/traits/pageable.raml
+  - searchable: !include ../raml-util/traits/searchable.raml
+  - language: !include ../raml-util/traits/language.raml
+  - validate: !include ../raml-util/traits/validation.raml
+
+resourceTypes:
+  - collection: !include ../raml-util/rtypes/collection.raml
+  - collection-item: !include ../raml-util/rtypes/item-collection.raml
+
+/cataloging/record-templates:
+  type:
+    collection:
+      exampleCollection: !include examples/acquisitionTypeCollection.json
+      exampleItem: !include examples/acquisitionType.json
+      schemaCollection: recordTemplateCollection
+      schemaItem: recordTemplate
+  get:
+    queryParameters:
+      type:
+        displayName: Model type
+        description: the model's type (B)ibliographic, (A)uthority
+        required: true
+        example: (B)ibliographic, (A)uthority
+        enum: [B,A]
+        default: B
