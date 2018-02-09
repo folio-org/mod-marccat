@@ -4,10 +4,7 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.DAOBibliographicCorrelation;
-import org.folio.cataloging.dao.DAOCodeTable;
-import org.folio.cataloging.dao.DAOIndexList;
-import org.folio.cataloging.dao.DAOSearchIndex;
+import org.folio.cataloging.dao.*;
 import org.folio.cataloging.dao.common.HibernateSessionProvider;
 import org.folio.cataloging.dao.persistence.*;
 
@@ -266,7 +263,7 @@ public class StorageService implements Closeable {
 
     /**
      *
-     * @param code the itemType code, used here as a filter criterion.
+     * @param code the itemType code (first correlation), used here as a filter criterion.
      * @param lang the language code, used here as a filter criterion.
      * @param subTypeClass the subType class, used here as a filter criterion.
      * @return a list of subTypes by marc category and itemType code associated with the requested language.
@@ -376,5 +373,34 @@ public class StorageService implements Closeable {
         }
     }
 
+    /**
+     * Returns a list of {@link Avp} which represents a short version of the available bibliographic templates.
+     *
+     * @return a list of {@link Avp} which represents a short version of the available bibliographic templates.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<Integer>> getBibliographicRecordTemplates() throws DataAccessException {
+        final BibliographicModelDAO dao = new BibliographicModelDAO();
+        try {
+            return dao.getBibliographicModelList(session);
+        } catch (final HibernateException exception) {
+            throw new DataAccessException(exception);
+        }
+    }
+
+    /**
+     * Returns a list of {@link Avp} which represents a short version of the available bibliographic templates.
+     *
+     * @return a list of {@link Avp} which represents a short version of the available bibliographic templates.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<Integer>> getAuthorityRecordTemplates() throws DataAccessException {
+        final AuthorityModelDAO dao = new AuthorityModelDAO();
+        try {
+            return dao.getAuthorityModelList(session);
+        } catch (final HibernateException exception) {
+            throw new DataAccessException(exception);
+        }
+    }
 
 }

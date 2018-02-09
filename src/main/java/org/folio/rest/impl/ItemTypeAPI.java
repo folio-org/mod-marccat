@@ -3,8 +3,8 @@ package org.folio.rest.impl;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Context;
 import io.vertx.core.Handler;
+import org.folio.cataloging.Global;
 import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.dao.persistence.NameSubType;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.rest.jaxrs.model.ItemType;
@@ -12,7 +12,6 @@ import org.folio.rest.jaxrs.model.SubType;
 import org.folio.rest.jaxrs.resource.CatalogingItemTypesResource;
 
 import javax.ws.rs.core.Response;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -29,13 +28,6 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class ItemTypeAPI  implements CatalogingItemTypesResource {
 
     protected final Log logger = new Log(HeadingTypeAPI.class);
-
-    //put other marc category with associated subType class
-    HashMap<String, Class> subTypeClass = new HashMap<>();
-    {
-        subTypeClass.put("2", NameSubType.class);
-        subTypeClass.put("17", NameSubType.class);
-    }
 
     private Function<Avp<String>, SubType> toSubType = source -> {
         final SubType subType = new SubType();
@@ -55,16 +47,18 @@ public class ItemTypeAPI  implements CatalogingItemTypesResource {
         doGet((storageService, future) -> {
             try {
 
+                final String category = (marcCategory.equals("17") ? Global.NAME_CATEGORY_DEFAULT : marcCategory);
                 final int intCode = Integer.parseInt(code);
-                final Class className = subTypeClass.get(marcCategory);
+                final Class className = Global.subTypeClass.get(category);
                 final ItemType itemType = new ItemType();
                 itemType.setCode(intCode);
                 itemType.setDescription(storageService.getSubTypeDescriptionByCode(code, lang));
-                itemType.setSubTypes(storageService.getSubTypesByCategoryCode(marcCategory, intCode, lang, subTypeClass.get(marcCategory))
+                itemType.setSubTypes(storageService.getSubTypesByCategoryCode(category, intCode, lang, className)
                         .stream()
                         .map(toSubType)
                         .collect(toList()));
                 return itemType;
+
             } catch (final Exception exception) {
                 logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
                 return null;

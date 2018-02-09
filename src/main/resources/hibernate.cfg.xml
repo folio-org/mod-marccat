@@ -185,5 +185,6 @@
 		<mapping resource="org/folio/cataloging/dao/persistence/T_ITM_DSPLY.hbm.xml"/>
 		<mapping resource="org/folio/cataloging/dao/persistence/T_SRL_GENRETENTION.hbm.xml"/>
 		<mapping resource="org/folio/cataloging/dao/persistence/T_BIB_TAG_CAT.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/S_BIB_MARC_IND_DB_CRLTN.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

@@ -2,6 +2,9 @@ package org.folio.cataloging;
 
 import net.sf.hibernate.cfg.Configuration;
 import org.folio.cataloging.business.codetable.Avp;
+import org.folio.cataloging.dao.persistence.NameSubType;
+import org.folio.cataloging.dao.persistence.NameType;
+import org.folio.cataloging.dao.persistence.SubjectType;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -136,6 +139,7 @@ public abstract class Global  {
 	public final static String RELATOR_TERM_$e = "e";
 	public final static String INTRODUCTION_$i = "i";
 
+	//TODO: move to configuration module
 	public final static Map<String,Integer> headingTypeMap = new HashMap<String, Integer>()
 	{
 		{
@@ -159,6 +163,22 @@ public abstract class Global  {
 			put("8","nameTitles");
 		}
 	};
+
+	public final static Map<String, Class> subTypeClass = new HashMap<String, Class>(){
+		{
+			put("2", NameSubType.class);
+		}
+	};
+
+
+	public final static Map<String, Class> headingClassType = new HashMap<String, Class>(){
+		{
+			put("2", NameType.class);
+			put("18", SubjectType.class);
+		}
+	};
+
+	public final static String NAME_CATEGORY_DEFAULT = "2";
 
 	public final static List<Integer> sourcesEnabledToAlternativeLabelsSearch  =  new ArrayList<Integer>(Arrays.asList(1,2,4,5,6));
 }

@@ -35,10 +35,10 @@ resourceTypes:
       exampleItem: !include examples/headingType.json
       schemaCollection: headingTypeCollection
       schemaItem: headingType
-  /{marcCategory}:
-    type:
-      collection-item:
-        exampleItem: !include examples/headingType.json
-        schema: headingType
-    get:
-      description: Get a single heading type by marc_category
+  get:
+    queryParameters:
+      marcCategory:
+          displayName: MarcCategory
+          required: true
+          example: 17
+          default: 17
