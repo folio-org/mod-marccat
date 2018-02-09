@@ -103,12 +103,6 @@ public class BibliographicCatalog extends Catalog {
 	}
 
 
-	/**
-	 *modifica BARBARA 20/02/2007 PR0046 
-	 *creo i 4 tag obbligatori e non lo 005
-	 * 
-	 * @since 1.0
-	 */
 	public void addRequiredTagsForModel(CatalogItem item) throws NewTagException {
 		BibliographicLeader leader = createRequiredLeaderTag(item);
 		if (!item.getTags().contains(leader)) {

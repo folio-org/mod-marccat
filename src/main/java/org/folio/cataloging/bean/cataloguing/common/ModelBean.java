@@ -1,48 +1,28 @@
 package org.folio.cataloging.bean.cataloguing.common;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.bean.LibrisuiteBean;
 import org.folio.cataloging.bean.cataloguing.bibliographic.StringTextEditBean;
 import org.folio.cataloging.bean.cataloguing.bibliographic.StringTextEditBeanForModelEditing;
 import org.folio.cataloging.bean.cataloguing.bibliographic.codelist.CodeListsBean;
+import org.folio.cataloging.business.Command;
 import org.folio.cataloging.business.authorisation.AuthorisationException;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicLeader;
-import org.folio.cataloging.business.cataloguing.bibliographic.ChangeBib008TypeCommand;
-import org.folio.cataloging.business.cataloguing.bibliographic.ChangeFixedFieldCommand;
-import org.folio.cataloging.business.cataloguing.bibliographic.FixedFieldUsingItemEntity;
-import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
-import org.folio.cataloging.business.cataloguing.bibliographic.NewTagException;
-import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
-import org.folio.cataloging.business.cataloguing.common.Catalog;
-import org.folio.cataloging.business.cataloguing.common.CatalogItem;
-import org.folio.cataloging.business.cataloguing.common.Model;
-import org.folio.cataloging.business.cataloguing.common.Tag;
-import org.folio.cataloging.business.cataloguing.common.Validation;
-import org.folio.cataloging.dao.DAOCodeTable;
+import org.folio.cataloging.business.cataloguing.bibliographic.*;
+import org.folio.cataloging.business.cataloguing.common.*;
 import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.controller.SessionUtils;
+import org.folio.cataloging.dao.DAOCodeTable;
+import org.folio.cataloging.dao.persistence.T_SINGLE;
 import org.folio.cataloging.exception.DuplicateTagException;
 import org.folio.cataloging.exception.LibrisuiteException;
 import org.folio.cataloging.exception.ModelLabelNotSetException;
-import org.folio.cataloging.dao.persistence.T_SINGLE;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.business.Command;
 import org.folio.cataloging.util.StringText;
-import org.folio.cataloging.business.controller.SessionUtils;
 
-@SuppressWarnings("unchecked")
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
+
 public class ModelBean extends LibrisuiteBean 
 {
 	private static final Log logger = LogFactory.getLog(ModelBean.class);
