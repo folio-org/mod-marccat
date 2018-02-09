@@ -34,6 +34,7 @@ public class RecordTemplatesAPI implements CatalogingRecordTemplatesResource {
         return template;
 
     };
+
     @Override
     public void getCatalogingRecordTemplates(
             final CatalogingRecordTemplatesResource.Type type,
@@ -59,7 +60,22 @@ public class RecordTemplatesAPI implements CatalogingRecordTemplatesResource {
     }
 
     @Override
+    public void getCatalogingRecordTemplatesById(String id, String lang, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
+
+    }
+
+    @Override
     public void postCatalogingRecordTemplates(String lang, RecordTemplate entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
+
+    }
+
+    @Override
+    public void deleteCatalogingRecordTemplatesById(String id, String lang, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
+
+    }
+
+    @Override
+    public void putCatalogingRecordTemplatesById(String id, String lang, RecordTemplate entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
 
     }
 }
