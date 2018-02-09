@@ -53,25 +53,10 @@ public class ModelsBean extends LibrisuiteBean {
 	 * Getter for models
 	 */
 	public List getAvailableModels() throws DataAccessException {
-		return getCatalog().getModelDAO().getModelList();
+		throw new IllegalArgumentException("Don't call me!");
+//		return getCatalog().getModelDAO().getModelList();
 	}
-	
-	/**
-	 * Getter for models
-	 */
-	public List getBibliographicAvailableModels() throws DataAccessException {
-        throw new IllegalArgumentException("Don't call me!");
-//			return getCatalog().getModelDAO().getBibliographicModelList();
-	}
-	
-	/**
-	 * Getter for models
-	 */
-	public List getAuthorityAvailableModels() throws DataAccessException {
-        throw new IllegalArgumentException("Don't call me!");
-	//	return getCatalog().getModelDAO().getAuthorityModelList();
-	}
-	
+
 	public Model load(int modelId) throws DataAccessException {
 		return getCatalog().getModelDAO().load(modelId);
 	}

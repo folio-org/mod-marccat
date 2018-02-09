@@ -1,39 +1,33 @@
-/*
- * (c) LibriCore
- * 
- * Created on Oct 26, 2005
- * 
- * SearchTypeBean.java
- */
 package org.folio.cataloging.bean.searching;
-
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.folio.cataloging.bean.LibrisuiteBean;
 import org.folio.cataloging.business.cataloguing.common.Catalog;
-import org.folio.cataloging.business.common.DataAccessException;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Manages searching and cataloguing activities that vary by the type of catalog item
  * being searched/catalogued (i.e. bib or auth)
  * @author paulm
   * 
- * @version $Revision: 1.4 $, $Date: 2006/12/14 10:31:07 $
  * @since 1.0
  */
+@Deprecated
 public class SearchTypeBean extends LibrisuiteBean {
 
 	private int searchingView = 1;
-	
+
+	@Deprecated
 	public static SearchTypeBean getInstance(HttpServletRequest request) {
+		throw new IllegalArgumentException("Don't call me!");
+/*
 		SearchTypeBean bean = (SearchTypeBean)getSessionAttribute(request, SearchTypeBean.class);
 		if (bean == null) {
 			bean = new SearchTypeBean();
 			bean.setSessionAttribute(request, SearchTypeBean.class);
 		}
 		return bean;
+*/
 	}
 	
 
@@ -48,15 +42,4 @@ public class SearchTypeBean extends LibrisuiteBean {
 	public Catalog getCatalog() {
 		return Catalog.getInstanceByView(searchingView);
 	}
-	
-	public List getAvailableModels() throws DataAccessException {
-		return getCatalog().getModelDAO().getModelList();
-	}
-
-	// MIKE: used for dump.jsp
-	public String toString() {
-		return getClass().getName()+" searchingView="+searchingView;
-	}
-	
-
 }

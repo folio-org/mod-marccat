@@ -29,8 +29,8 @@ resourceTypes:
 /cataloging/record-templates:
   type:
     collection:
-      exampleCollection: !include examples/acquisitionTypeCollection.json
-      exampleItem: !include examples/acquisitionType.json
+      exampleCollection: !include examples/recordTemplateCollection.json
+      exampleItem: !include examples/recordTemplate.json
       schemaCollection: recordTemplateCollection
       schemaItem: recordTemplate
   get:
@@ -42,3 +42,10 @@ resourceTypes:
         example: (B)ibliographic, (A)uthority
         enum: [B,A]
         default: B
+  /{id}:
+    type:
+      collection-item:
+        exampleItem: !include examples/recordTemplate.json
+        schema: recordTemplate
+    get:
+      description: Get a single index
