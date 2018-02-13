@@ -63,6 +63,6 @@ public class RecordTypesAPI implements CatalogingRecordTypesResource {
 
     @Override
     public void postCatalogingRecordTypes(String lang, RecordType entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
-
+        throw new IllegalArgumentException();
     }
 }

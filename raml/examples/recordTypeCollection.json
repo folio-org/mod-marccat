@@ -1,5 +1,5 @@
 {
-  "acquisitionTypes": [
+  "recordTypes": [
     {
       "code": "a",
       "description": "Language material"
