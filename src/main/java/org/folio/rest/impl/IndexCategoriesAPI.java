@@ -28,7 +28,7 @@ public class IndexCategoriesAPI implements CatalogingIndexCategoriesResource {
 
     // This is the convertValueLabelToCategory that converts existing value objects (logical categories in this case)
     // in OKAPI resources.
-    private Function<Avp<String>, Category> convertValueLabelToCategory = source -> {
+    private Function<Avp<Integer>, Category> convertValueLabelToCategory = source -> {
         final Category category = new Category();
         category.setCode(source.getValue());
         return category;

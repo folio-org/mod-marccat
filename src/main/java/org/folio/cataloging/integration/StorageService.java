@@ -239,7 +239,7 @@ public class StorageService implements Closeable {
      * @return a list of categories by index type associated with the requested language.
      * @throws DataAccessException in case of data access failure.
      */
-    public List<Avp<String>> getIndexCategories(final String type, final String lang) throws DataAccessException {
+    public List<Avp<Integer>> getIndexCategories(final String type, final String lang) throws DataAccessException {
         final DAOSearchIndex searchIndexDao = new DAOSearchIndex();
         return searchIndexDao.getIndexCategories(session, type, locale(lang));
     }

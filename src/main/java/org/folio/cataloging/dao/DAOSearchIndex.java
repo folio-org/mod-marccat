@@ -39,7 +39,7 @@ public class DAOSearchIndex extends HibernateUtil {
 	 * @return a list of code and description for index code associated with the requested language.
 	 * @throws DataAccessException in case of data access failure.
 	 */
-    public List<Avp<String>> getIndexCategories(final Session session, final String indexType, final Locale locale) throws DataAccessException {
+    public List<Avp<Integer>> getIndexCategories(final Session session, final String indexType, final Locale locale) throws DataAccessException {
 
         try {
             final List<IndexMain> indices =
@@ -49,7 +49,7 @@ public class DAOSearchIndex extends HibernateUtil {
                             new Object[]{locale.getISO3Language()}, new Type[]{Hibernate.STRING});
             return indices
                     .stream()
-                    .map(index -> (Avp<String>) new Avp(index.getIndexValueCode(), index.getIndexMainName()))
+                    .map(index -> (Avp<Integer>) new Avp(index.getIndexValueCode(), index.getIndexMainName()))
                     .collect(toList());
 
         } catch (final HibernateException exception) {
