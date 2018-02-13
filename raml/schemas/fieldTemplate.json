@@ -3,30 +3,52 @@
   "title": "FieldTemplate",
   "type": "object",
   "properties": {
+    "fixed-field": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "variable-field": {
+      "type": "object",
+      "properties": {
+        "categoryCode": {
+          "type": "string"
+        },
+        "headingTypeCode": {
+          "type": "string"
+        },
+        "itemTypeCode": {
+          "type": "string"
+        },
+        "functionCode": {
+          "type": "string"
+        },
+        "ind1" : {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9
+        },
+        "ind2" : {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9
+        },
+        "subfields": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "[a-z|0-9]"
+          }
+        }
+      }
+    },
     "code": {
       "type": "string",
       "minLength": 3,
       "maxLength": 3
-    },
-    "ind1" : {
-      "type": "integer",
-      "minimum": 0,
-      "maximum": 9
-    },
-    "ind2" : {
-      "type": "integer",
-      "minimum": 0,
-      "maximum": 9
-    },
-    "value": {
-      "type": "string"
-    },
-    "subfields": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "pattern": "[a-z|0-9]"
-      }
     }
   },
   "additionalProperties": false

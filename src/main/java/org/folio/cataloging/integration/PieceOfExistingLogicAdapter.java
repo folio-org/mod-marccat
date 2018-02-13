@@ -8,6 +8,7 @@ import org.folio.rest.impl.LogicalViewsAPI;
 
 import java.util.Optional;
 
+import static java.util.Optional.ofNullable;
 import static org.folio.cataloging.log.Log.error;
 
 /**
@@ -22,7 +23,7 @@ import static org.folio.cataloging.log.Log.error;
  */
 @FunctionalInterface
 public interface PieceOfExistingLogicAdapter<T> {
-    final Log logger = new Log(PieceOfExistingLogicAdapter.class);
+    Log logger = new Log(PieceOfExistingLogicAdapter.class);
 
     /**
      * Executes a piece of existing logic.
@@ -32,7 +33,7 @@ public interface PieceOfExistingLogicAdapter<T> {
      */
     default void execute(final StorageService storageService, final Future future) {
         try {
-            final Optional<T> result = Optional.ofNullable(executeAndGet(storageService,future));
+            final Optional<T> result = ofNullable(executeAndGet(storageService,future));
             if (result.isPresent()) {
                 future.complete(result.get());
             } else {

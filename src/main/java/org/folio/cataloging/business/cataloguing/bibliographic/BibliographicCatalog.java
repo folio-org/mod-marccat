@@ -181,6 +181,11 @@ public class BibliographicCatalog extends Catalog {
 		return (Tag) setItemIfNecessary(item, getFixedFieldFactory().create(header));
 	}
 
+	public static void main(final String args []) {
+		BibliographicCatalog catalog = new BibliographicCatalog();
+		Tag tag = (Tag) catalog.getTagFactory().create(1);
+	}
+
 	@Override
 	public Tag getNewTag(final CatalogItem item, final short category, final CorrelationValues correlationValues) throws NewTagException {
 		Tag tag = (Tag) getTagFactory().create(category);

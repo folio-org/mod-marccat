@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- * 
- * Created on Dec 2, 2005
- * 
- * AccessPoint.java
- */
 package org.folio.cataloging.business.cataloguing.common;
 
 import java.util.Set;
@@ -26,7 +19,6 @@ import org.folio.cataloging.util.StringText;
 
 /**
  * @author paulm
- * @version $Revision: 1.3 $, $Date: 2006/01/05 13:25:59 $
  * @since 1.0
  */
 public abstract class AccessPoint extends VariableField implements Persistence, Browsable {
@@ -79,27 +71,17 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
 		return true;
 	}
 
-	/**
-		 * 
-		 */
 	public abstract Descriptor getDescriptor();
 
-	/**
-		 * 
-		 */
 	public abstract void setDescriptor(Descriptor descriptor);
 
-
-	/**
-			 * 
-			 */
 	public Integer getHeadingNumber() {
 		return headingNumber;
 	}
 
 	/**
-			 * @param i
-			 */
+	 * @param i
+	 */
 	public void setHeadingNumber(Integer i) {
 		headingNumber = i;
 	}
@@ -119,15 +101,13 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
 				setDescriptor(d);
 			}
 		}
-		setHeadingNumber(
-			new Integer(getDescriptor().getKey().getHeadingNumber()));
+		setHeadingNumber(new Integer(getDescriptor().getKey().getHeadingNumber()));
 	}
 
 	public Object clone() {
-		// return a shallow copy (apf only)
-		AccessPoint ap = (AccessPoint) super.clone();
+		final AccessPoint ap = (AccessPoint) super.clone();
 		ap.setDescriptor(this.getDescriptor());
-		return (Object) ap;
+		return ap;
 	}
 
 	public boolean equals(Object obj) {

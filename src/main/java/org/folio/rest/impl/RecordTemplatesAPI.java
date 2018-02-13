@@ -78,4 +78,30 @@ public class RecordTemplatesAPI implements CatalogingRecordTemplatesResource {
     public void putCatalogingRecordTemplatesById(String id, String lang, RecordTemplate entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
 
     }
+
+    @Override
+    public void getCatalogingRecordTemplatesBibliographicTemplate(
+            final String lang,
+            final Map<String, String> okapiHeaders,
+            final Handler<AsyncResult<Response>> asyncResultHandler,
+            final Context vertxContext) throws Exception {
+        doGet((storageService, future) -> {
+            try {
+                /*
+                final List<Avp<Integer>> templates =
+                        type == Type.A
+                                ? storageService.getAuthorityRecordTemplates()
+                                : storageService.getBibliographicRecordTemplates();
+
+                final RecordTemplateCollection collection = new RecordTemplateCollection();
+                collection.setRecordTemplates(templates.stream().map(toRecordTemplate).collect(toList()));
+                return collection;
+            */
+                return null;
+            } catch (final Exception exception) {
+                logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+                return null;
+            }
+        }, asyncResultHandler, okapiHeaders, vertxContext);
+    }
 }

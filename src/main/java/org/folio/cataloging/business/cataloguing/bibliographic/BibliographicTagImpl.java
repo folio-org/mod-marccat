@@ -28,8 +28,8 @@ import org.apache.commons.logging.LogFactory;
  * @author janick
  */
 public class BibliographicTagImpl extends TagImpl {
-	private static final Log logger = LogFactory
-			.getLog(BibliographicTagImpl.class);
+	private static final Log logger = LogFactory.getLog(BibliographicTagImpl.class);
+
 	private static final DAOBibliographicValidation daoValidation = new DAOBibliographicValidation();
 	private static final DAOBibliographicCorrelation daoCorrelation = new DAOBibliographicCorrelation();
 
@@ -43,14 +43,12 @@ public class BibliographicTagImpl extends TagImpl {
 	/**
 	 * @return the MARC tag and indicators for this tag
 	 */
-	public CorrelationKey getMarcEncoding(Tag t) throws DataAccessException,
-			MarcCorrelationException {
+	public CorrelationKey getMarcEncoding(Tag t) throws DataAccessException {
 		CorrelationKey key = daoCorrelation.getMarcEncoding(t.getCategory(), t
 				.getCorrelation(1), t.getCorrelation(2), t.getCorrelation(3));
 
 		if (key == null) {
-			logger
-					.warn("MarcCorrelationException in getMarcEncoding for values: ");
+			logger.warn("MarcCorrelationException in getMarcEncoding for values: ");
 			logger.warn("Corr_1: " + t.getCorrelation(1) + ", Corr_2: "
 					+ t.getCorrelation(2) + ", Corr_3: " + t.getCorrelation(3)
 					+ ", Category: " + t.getCategory());
