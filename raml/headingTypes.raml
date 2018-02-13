@@ -42,3 +42,10 @@ resourceTypes:
           required: true
           example: 17
           default: 17
+  /all:
+    type:
+      collection:
+        exampleCollection: !include examples/headingTypeCollection.json
+        exampleItem: !include examples/headingType.json
+        schemaCollection: headingTypeCollection
+        schemaItem: headingType

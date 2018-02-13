@@ -2,9 +2,7 @@ package org.folio.cataloging;
 
 import net.sf.hibernate.cfg.Configuration;
 import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.dao.persistence.NameSubType;
-import org.folio.cataloging.dao.persistence.NameType;
-import org.folio.cataloging.dao.persistence.SubjectType;
+import org.folio.cataloging.dao.persistence.*;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -164,17 +162,32 @@ public abstract class Global  {
 		}
 	};
 
-	public final static Map<String, Class> subTypeClass = new HashMap<String, Class>(){
+	public final static Map<String, Class> secondCorrelationClassMap = new HashMap<String, Class>(){
 		{
 			put("2", NameSubType.class);
+			put("3", TitleSecondaryFunction.class);
+			put("4", SubjectFunction.class);
+			put("5", ControlNumberFunction.class);
+			put("6", ClassificationFunction.class);
+			put("11", NameType.class);
 		}
 	};
 
 
-	public final static Map<String, Class> headingClassType = new HashMap<String, Class>(){
+	public final static Map<String, Class> firstCorrelationHeadingClassMap = new HashMap<String, Class>(){
 		{
 			put("2", NameType.class);
-			put("18", SubjectType.class);
+			put("17", NameType.class); //from heading
+			put("3", TitleFunction.class);
+			put("4", SubjectType.class);
+			put("18", SubjectType.class); //from heading
+			put("5", ControlNumberType.class);
+			put("19", ControlNumberType.class); //from heading
+			put("6", ClassificationType.class);
+			put("20", ClassificationType.class); //from heading
+			put("7", BibliographicNoteType.class); //note
+			put("8", BibliographicRelationType.class);//relationship
+			put("11", T_NME_TTL_FNCTN.class); //nt
 		}
 	};
 

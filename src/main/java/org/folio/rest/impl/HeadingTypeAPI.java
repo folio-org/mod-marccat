@@ -8,6 +8,7 @@ import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.rest.jaxrs.model.HeadingType;
+import org.folio.rest.jaxrs.model.HeadingTypeCollection;
 import org.folio.rest.jaxrs.model.ItemType;
 import org.folio.rest.jaxrs.resource.CatalogingHeadingTypesResource;
 
@@ -37,6 +38,13 @@ public class HeadingTypeAPI implements CatalogingHeadingTypesResource {
         return itemType;
     };
 
+    private Function<Avp<String>, HeadingType> toHeadingType = source -> {
+        final HeadingType headingType = new HeadingType();
+        headingType.setMarcCategory(Integer.parseInt(source.getValue()));
+        headingType.setDescription(source.getLabel());
+        return headingType;
+    };
+
     @Override
     public void getCatalogingHeadingTypes(final String marcCategory,
                                           final String lang,
@@ -45,15 +53,22 @@ public class HeadingTypeAPI implements CatalogingHeadingTypesResource {
                                           final Context vertxContext) throws Exception {
         doGet((storageService, future) -> {
             try {
-                //TODO : put default value for heading type name = 17 into configuration module!
-                final String category = (marcCategory.equals("17") ? Global.NAME_CATEGORY_DEFAULT : marcCategory);
 
-                final Class className = Global.headingClassType.get(category);
+                final String category = (marcCategory.equals("17") ? Global.NAME_CATEGORY_DEFAULT : marcCategory);
+                Class className = null;
+
+                try {
+                    className = Global.firstCorrelationHeadingClassMap.get(category);
+                }catch (NullPointerException exception){
+                    //TODO return 404 (not found)
+                    return null;
+                }
+
                 final HeadingType headingType = new HeadingType();
-                headingType.setMarcCategory(Integer.parseInt(category));
+                headingType.setMarcCategory(Integer.parseInt(marcCategory));
                 headingType.setDescription(getDescription(category, storageService.getHeadingDescriptionByCode(category, lang)));
 
-                headingType.setItemTypes(storageService.getItemTypesByCategoryCode(lang, className)
+                headingType.setItemTypes(storageService.getFirstCorrelation(lang, className)
                         .stream()
                         .map(toItemType)
                         .collect(toList()));
@@ -68,16 +83,42 @@ public class HeadingTypeAPI implements CatalogingHeadingTypesResource {
     }
 
     @Override
+    public void getCatalogingHeadingTypesAll(final String lang,
+                                             final Map<String, String> okapiHeaders,
+                                             final Handler<AsyncResult<Response>> asyncResultHandler,
+                                             final Context vertxContext) throws Exception {
+        doGet((storageService, future) -> {
+            try {
+                final HeadingTypeCollection headingTypeCollection = new HeadingTypeCollection();
+                headingTypeCollection.setHeadingTypes(
+                            storageService.getHeadingTypesList(lang)
+                                .stream()
+                                .map(toHeadingType)
+                                .collect(toList()));
+
+                return headingTypeCollection;
+
+            } catch (final Exception exception) {
+                logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+                return null;
+            }
+        }, asyncResultHandler, okapiHeaders, vertxContext);
+
+    }
+
+
+    @Override
     public void postCatalogingHeadingTypes(String lang, HeadingType entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
         throw new IllegalArgumentException();
     }
 
-    private String getDescription(String marcCategory, String desc){
-        if (marcCategory.equals("17"))
-            return "Name";
+    @Override
+    public void postCatalogingHeadingTypesAll(String lang, HeadingType entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
+        throw new IllegalArgumentException();
+    }
 
+    private String getDescription(final String marcCategory, final String desc){
         final Optional<String> description = Optional.ofNullable(desc);
         return description.isPresent() ? description.get() : description.orElse("");
-
     }
 }

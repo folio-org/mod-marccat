@@ -198,6 +198,16 @@ public class StorageService implements Closeable {
     }
 
     /**
+     *
+     * @param lang
+     * @return
+     */
+    public List<Avp<String>> getHeadingTypesList(String lang) {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_BIB_TAG_CAT.class, locale(lang));
+    }
+
+    /**
      * Returns the language types associated to the given language.
      *
      * @param lang the language code, used here as a filter criterion.
@@ -254,7 +264,7 @@ public class StorageService implements Closeable {
      * @return  a list of heading item types by marc category code associated with the requested language.
      * @throws DataAccessException in case of data access failure.
      */
-    public List<Avp<String>> getItemTypesByCategoryCode(final String lang, Class className) throws DataAccessException {
+    public List<Avp<String>> getFirstCorrelation(final String lang, Class className) throws DataAccessException {
         DAOCodeTable daoCT = new DAOCodeTable();
         return daoCT.getList(session, className, locale(lang))
                 .stream()
@@ -269,7 +279,7 @@ public class StorageService implements Closeable {
      * @return a list of subTypes by marc category and itemType code associated with the requested language.
      * @throws DataAccessException in case of data access failure.
      */
-    public List<Avp<String>> getSubTypesByCategoryCode(final String marcCategory, final Integer code, final String lang, Class subTypeClass) throws DataAccessException {
+    public List<Avp<String>> getSecondCorrelation(final String marcCategory, final Integer code, final String lang, Class subTypeClass) throws DataAccessException {
         DAOBibliographicCorrelation daoBC = new DAOBibliographicCorrelation();
         final short s_category = Short.parseShort(marcCategory);
         return daoBC.getSecondCorrelationList(session, s_category, code.shortValue(), subTypeClass, locale(lang))

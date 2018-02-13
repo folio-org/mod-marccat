@@ -49,11 +49,19 @@ public class ItemTypeAPI  implements CatalogingItemTypesResource {
 
                 final String category = (marcCategory.equals("17") ? Global.NAME_CATEGORY_DEFAULT : marcCategory);
                 final int intCode = Integer.parseInt(code);
-                final Class className = Global.subTypeClass.get(category);
+                Class className = null;
+
+                try {
+                    className = Global.secondCorrelationClassMap.get(category);
+                }catch (NullPointerException exception){
+                    //TODO return 404 (not found)
+                    return null;
+                }
+
                 final ItemType itemType = new ItemType();
                 itemType.setCode(intCode);
                 itemType.setDescription(storageService.getSubTypeDescriptionByCode(code, lang));
-                itemType.setSubTypes(storageService.getSubTypesByCategoryCode(category, intCode, lang, className)
+                itemType.setSubTypes(storageService.getSecondCorrelation(category, intCode, lang, className)
                         .stream()
                         .map(toSubType)
                         .collect(toList()));
@@ -68,6 +76,6 @@ public class ItemTypeAPI  implements CatalogingItemTypesResource {
 
     @Override
     public void postCatalogingItemTypes(String lang, ItemType entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
-
+        throw new IllegalArgumentException();
     }
 }

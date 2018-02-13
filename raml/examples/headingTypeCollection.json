@@ -1,53 +1,49 @@
 {
   "headingTypes": [
     {
-      "code": 1,
-      "description": "Work (A)"
+      "marcCategory": 1,
+      "description": "Header",
+      "item-types": []
     },
     {
-      "code": 2,
-      "description": "Expression (A)"
+      "marcCategory": 2,
+      "description": "Name",
+      "item-types": []
     },
     {
-      "code": 3,
-      "description": "Work (B)"
+      "marcCategory": 3,
+      "description": "Title",
+      "item-types": []
     },
     {
-      "code": 4,
-      "description": "Expression (B)"
+      "marcCategory": 4,
+      "description": "Subject",
+      "item-types": []
     },
     {
-      "code": 5,
-      "description": "Manifestation"
+      "marcCategory": 5,
+      "description": "Control Number",
+      "item-types": []
     },
     {
-      "code": 6,
-      "description": "Person"
+      "marcCategory": 6,
+      "description": "Classification Number",
+      "item-types": []
     },
     {
-      "code": 7,
-      "description": "Family"
+      "marcCategory": 7,
+      "description": "Note",
+      "item-types": []
     },
     {
-      "code": 8,
-      "description": "Corporate"
+      "marcCategory": 8,
+      "description": "Relationship",
+      "item-types": []
     },
     {
-      "code": 9,
-      "description": "Concept"
-    },
-    {
-      "code": 10,
-      "description": "Object"
-    },
-    {
-      "code": 11,
-      "description": "Place"
-    },
-    {
-      "code": 12,
-      "description": "Event"
+      "marcCategory": 11,
+      "description": "Name/Title",
+      "item-types": []
     }
   ]
 }
-
