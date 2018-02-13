@@ -35,3 +35,10 @@ resourceTypes:
       exampleItem: !include examples/verificationLevel.json
       schemaCollection: verificationLevelCollection
       schemaItem: verificationLevel
+  /{code}:
+    type:
+      collection-item:
+        exampleItem: !include examples/verificationLevel.json
+        schema: verificationLevel
+    get:
+      description: Get a single level

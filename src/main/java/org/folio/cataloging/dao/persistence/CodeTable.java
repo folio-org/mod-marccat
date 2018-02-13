@@ -14,7 +14,7 @@ import org.folio.cataloging.business.common.PersistenceState;
 
 public abstract class CodeTable implements Persistence 
 {
-	private boolean obsoleteIndicator;	
+	private char obsoleteIndicator;
 	private String shortText;
 	private String longText;
 	private String language;
@@ -30,7 +30,7 @@ public abstract class CodeTable implements Persistence
 		return longText;
 	}
 
-	public boolean isObsoleteIndicator() {
+	public char isObsoleteIndicator() {
 		return obsoleteIndicator;
 	}
 
@@ -42,7 +42,7 @@ public abstract class CodeTable implements Persistence
 		longText = string;
 	}
 
-	public void setObsoleteIndicator(boolean b) {
+	public void setObsoleteIndicator(char b) {
 		obsoleteIndicator = b;
 	}
 
