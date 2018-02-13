@@ -18,7 +18,7 @@ import static java.util.stream.Collectors.toList;
 import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
 /**
- * Acquisition Types RESTful APIs.
+ * Control Types RESTful APIs.
  *
  * @author aguercio
  * @since 1.0
