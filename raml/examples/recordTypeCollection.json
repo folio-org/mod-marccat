@@ -1,0 +1,12 @@
+{
+  "acquisitionTypes": [
+    {
+      "code": "a",
+      "description": "Language material"
+    },
+    {
+      "code": "d",
+      "description": "Music, manuscript"
+    }
+  ]
+}
