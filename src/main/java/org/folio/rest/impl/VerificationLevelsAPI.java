@@ -108,7 +108,8 @@ public class VerificationLevelsAPI implements CatalogingVerificationLevelsResour
             // Here each service should provide a body where the incoming entity is validated.
             // The function return true or false depending on the "congruency" of the entity.
             // Note that if you return false here, no other method will be called, a 400 BAD request will be returned.
-            return (F.isNotNullOrEmpty(code) &&  F.isNotNullOrEmpty(lang)  &&  F.isNotNullOrEmpty(entity.getDescription()));
+            //I can find empty code valid
+            return (code != null &&  F.isNotNullOrEmpty(lang)  &&  F.isNotNullOrEmpty(entity.getDescription()));
         });
     }
 }
