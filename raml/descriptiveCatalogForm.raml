@@ -1,15 +1,15 @@
 #%RAML 0.8
-title: Item Type
+title: Descriptive Catalog Form
 version: v1
 baseUri: http://github.com/org/folio/mod-cataloging
 
 documentation:
   - title: mod-cataloging API
-    content: This documents the API calls that can be made to manage item type within the cataloging module.
+    content: This documents the API calls that can be made to manage descriptive Catalog form within the cataloging module.
 
 schemas:
-  - itemType: !include schemas/itemType.json
-  - itemTypeCollection: !include schemas/itemTypeCollection.json
+  - descriptiveCatalogForm: !include schemas/descriptiveCatalogForm.json
+  - descriptiveCatalogFormCollection: !include schemas/descriptiveCatalogFormCollection.json
   - errors: !include ../raml-util/schemas/errors.schema
   - error.schema: !include ../raml-util/schemas/error.schema
   - parameters.schema: !include ../raml-util/schemas/parameters.schema
@@ -28,22 +28,10 @@ resourceTypes:
   - get-only: !include ../raml-util/rtypes/get-only.raml
   - post-empty-body: !include ../raml-util/rtypes/post-empty-body.raml
 
-/cataloging/item-types:
+/cataloging/descriptive-catalog-forms:
   type:
     collection:
-      exampleCollection: !include examples/itemTypeCollection.json
-      exampleItem: !include examples/itemType.json
-      schemaCollection: itemTypeCollection
-      schemaItem: itemType
-  get:
-    queryParameters:
-      marcCategory:
-        displayName: MarcCategory
-        required: true
-        example: 17
-        default: 17
-      code:
-        displayName: Code
-        required: true
-        example: 2
-        default: 2
+      exampleCollection: !include examples/descriptiveCatalogFormCollection.json
+      exampleItem: !include examples/descriptiveCatalogForm.json
+      schemaCollection: descriptiveCatalogFormCollection
+      schemaItem: descriptiveCatalogForm

@@ -61,6 +61,7 @@ public class HeadingTypeAPI implements CatalogingHeadingTypesResource {
                     className = Global.firstCorrelationHeadingClassMap.get(category);
                 }catch (NullPointerException exception){
                     //TODO return 404 (not found)
+                    logger.error(MessageCatalog._00012_NULL_RESULT, exception);
                     return null;
                 }
 
