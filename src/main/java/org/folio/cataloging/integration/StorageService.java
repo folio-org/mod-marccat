@@ -552,4 +552,17 @@ public class StorageService implements Closeable {
         return dao.getList(session, T_REC_MDFTN.class, locale(lang));
     }
 
+    /**
+     * Returns the catalog source associated with the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the catalog source associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getCatalogSources(final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_REC_CTLGG_SRC.class, locale(lang));
+    }
+
+
 }
