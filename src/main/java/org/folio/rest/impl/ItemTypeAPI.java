@@ -55,6 +55,7 @@ public class ItemTypeAPI  implements CatalogingItemTypesResource {
                     className = Global.secondCorrelationClassMap.get(category);
                 }catch (NullPointerException exception){
                     //TODO return 404 (not found)
+                    logger.error(MessageCatalog._00012_NULL_RESULT, exception);
                     return null;
                 }
 
