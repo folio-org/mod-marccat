@@ -287,19 +287,7 @@ public class StorageService implements Closeable {
     }
 
 
-    /**
-     *
-     * @param lang the language code, used here as a filter criterion.
-     * @param className the heading class, used here as a filter criterion.
-     * @return  a list of heading item types by marc category code associated with the requested language.
-     * @throws DataAccessException in case of data access failure.
-     */
-    public List<Avp<String>> getFirstCorrelation(final String lang, Class className) throws DataAccessException {
-        DAOCodeTable daoCT = new DAOCodeTable();
-        return daoCT.getList(session, className, locale(lang))
-                .stream()
-                .collect(toList());
-    }
+
 
     /**
      *
@@ -479,21 +467,6 @@ public class StorageService implements Closeable {
                 .collect(toList());
     }
 
-    /**
-     *
-     * @param code the itemType code (first correlation), used here as a filter criterion.
-     * @param lang the language code, used here as a filter criterion.
-     * @param subTypeClass the subType class, used here as a filter criterion.
-     * @return a list of subTypes by marc category and itemType code associated with the requested language.
-     * @throws DataAccessException in case of data access failure.
-     */
-    public List<Avp<String>> getSecondCorrelation(final String marcCategory, final Integer code, final String lang, Class subTypeClass) throws DataAccessException {
-        DAOBibliographicCorrelation daoBC = new DAOBibliographicCorrelation();
-        final short s_category = Short.parseShort(marcCategory);
-        return daoBC.getSecondCorrelationList(session, s_category, code.shortValue(), subTypeClass, locale(lang))
-                .stream()
-                .collect(toList());
-    }
     
     /**
      * Returns the descriptive catalog forms associated with the given language.
