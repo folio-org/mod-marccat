@@ -1,0 +1,12 @@
+{
+  "catalogSources": [
+    {
+      "code": "c",
+      "description": "Cooperative catalog"
+    },
+    {
+      "code": "r",
+      "description": "Reporting library"
+    }
+  ]
+}
