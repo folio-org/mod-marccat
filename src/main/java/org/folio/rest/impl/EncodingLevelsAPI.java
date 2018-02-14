@@ -6,11 +6,8 @@ import io.vertx.core.Handler;
 import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
-import org.folio.rest.jaxrs.model.AcquisitionType;
-import org.folio.rest.jaxrs.model.AcquisitionTypeCollection;
 import org.folio.rest.jaxrs.model.EncodingLevel;
 import org.folio.rest.jaxrs.model.EncodingLevelCollection;
-import org.folio.rest.jaxrs.resource.CatalogingAcquisitionTypesResource;
 import org.folio.rest.jaxrs.resource.CatalogingEncodingLevelsResource;
 
 import javax.ws.rs.core.Response;
