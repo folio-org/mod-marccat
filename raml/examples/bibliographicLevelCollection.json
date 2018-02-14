@@ -1,0 +1,12 @@
+{
+  "bibliographicLevels": [
+    {
+      "code": "c",
+      "description": "Collection"
+    },
+    {
+      "code": "d",
+      "description": "Subunit"
+    }
+  ]
+}
