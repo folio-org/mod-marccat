@@ -101,6 +101,42 @@ public class StorageService implements Closeable {
     }
 
     /**
+     * Returns the multipart resource level associated with the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the multipart resource level associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getMultipartResourceLevels(final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_ITM_LNK_REC.class, locale(lang));
+    }
+
+    /**
+     * Returns the control types associated with the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the control type associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getControlTypes(final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_ITM_CNTL_TYP.class, locale(lang));
+    }
+
+    /**
+     * Returns the encoding levels associated with the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the encoding level associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getEncodingLevels(final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_ITM_ENCDG_LVL.class, locale(lang));
+    }
+
+    /**
      * Returns the record types associated with the given language.
      *
      * @param lang the language code, used here as a filter criterion.
