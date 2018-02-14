@@ -1,0 +1,12 @@
+{
+  "descriptiveCatalogForms": [
+    {
+      "code": "u",
+      "description": "Unknown"
+    },
+    {
+      "code": "p",
+      "description": "Partial ISBD (OBS)"
+    }
+  ]
+}
