@@ -415,4 +415,16 @@ public class StorageService implements Closeable {
         final DAOCodeTable dao = new DAOCodeTable();
         return dao.getList(session, T_ITM_ENCDG_LVL.class, locale(lang));
     }
+
+    /**
+     * Returns the character encoding schemas associated with the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the character encoding schema associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getCharacterEncodingSchemas(final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_ITM_CCS.class, locale(lang));
+    }
 }
