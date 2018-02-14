@@ -1,10 +1,10 @@
 {
   "$schema" : "http://json-schema.org/draft-04/schema#",
-  "title": "Index Category",
+  "title": "Bibliographic Level Schema",
   "type": "object",
   "properties": {
     "code": {
-      "type": "integer"
+      "type": "string"
     },
     "description": {
       "type": "string"
