@@ -1,0 +1,12 @@
+{
+  "multipartResourceLevels": [
+    {
+      "code": "a",
+      "description": "Set"
+    },
+    {
+      "code": "b",
+      "description": "Part with ind. title"
+    }
+  ]
+}
