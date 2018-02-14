@@ -205,8 +205,8 @@ public class CodeTableEditBean extends CodeTableBean {
 		while (it.hasNext()) {
 			CodeTable item = (CodeTable) it.next();
 			if(!delimitator.equals("")&& ((String)longLabels.get(i)).indexOf(delimitator)==-1){
-			   item.setLongText(delimitator+(String)longLabels.get(i));
-			   item.setShortText(delimitator+(String)shortLabels.get(i));
+			   item.setLongText(delimitator+ longLabels.get(i));
+			   item.setShortText(delimitator+ shortLabels.get(i));
 			}
 			else{
 			  item.setLongText((String)longLabels.get(i));

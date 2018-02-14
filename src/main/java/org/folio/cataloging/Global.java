@@ -2,6 +2,7 @@ package org.folio.cataloging;
 
 import net.sf.hibernate.cfg.Configuration;
 import org.folio.cataloging.business.codetable.Avp;
+import org.folio.cataloging.dao.persistence.*;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -136,6 +137,7 @@ public abstract class Global  {
 	public final static String RELATOR_TERM_$e = "e";
 	public final static String INTRODUCTION_$i = "i";
 
+	//TODO: move to configuration module
 	public final static Map<String,Integer> headingTypeMap = new HashMap<String, Integer>()
 	{
 		{
@@ -159,6 +161,44 @@ public abstract class Global  {
 			put("8","nameTitles");
 		}
 	};
+
+	public final static Map<String, Class> thirdCorrelationHeadingClassMap = new HashMap<String, Class>(){
+		{
+			put("2", NameFunction.class);
+			put("4", SubjectSource.class);
+			put("11", NameSubType.class);
+		}
+	};
+
+	public final static Map<String, Class> secondCorrelationClassMap = new HashMap<String, Class>(){
+		{
+			put("2", NameSubType.class);
+			put("3", TitleSecondaryFunction.class);
+			put("4", SubjectFunction.class);
+			put("5", ControlNumberFunction.class);
+			put("6", ClassificationFunction.class);
+			put("11", NameType.class);
+		}
+	};
+
+	public final static Map<String, Class> firstCorrelationHeadingClassMap = new HashMap<String, Class>(){
+		{
+			put("2", NameType.class);
+			put("17", NameType.class); //from heading
+			put("3", TitleFunction.class);
+			put("4", SubjectType.class);
+			put("18", SubjectType.class); //from heading
+			put("5", ControlNumberType.class);
+			put("19", ControlNumberType.class); //from heading
+			put("6", ClassificationType.class);
+			put("20", ClassificationType.class); //from heading
+			put("7", BibliographicNoteType.class); //note
+			put("8", BibliographicRelationType.class);//relationship
+			put("11", T_NME_TTL_FNCTN.class); //nt
+		}
+	};
+
+	public final static String NAME_CATEGORY_DEFAULT = "2";
 
 	public final static List<Integer> sourcesEnabledToAlternativeLabelsSearch  =  new ArrayList<Integer>(Arrays.asList(1,2,4,5,6));
 }

@@ -16,7 +16,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.bean.cataloguing.copy.CopyListElement;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.RecordNotFoundException;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.util.StringText;
@@ -69,8 +68,8 @@ public class DAODiscard extends DAOCopy {
 
 		new TransactionalHibernateOperation() {
 			public void doInHibernateTransaction(Session s)
-					throws HibernateException, RecordNotFoundException,
-					DataAccessException {
+					throws HibernateException,
+                    DataAccessException {
 				CPY_ID copy = (CPY_ID) s.get(CPY_ID.class, new Integer(
 						copyNumber));
 				copy.setShelfList(shelf);
@@ -96,8 +95,8 @@ public class DAODiscard extends DAOCopy {
 
 		new TransactionalHibernateOperation() {
 			public void doInHibernateTransaction(Session s)
-					throws HibernateException, RecordNotFoundException,
-					DataAccessException {
+					throws HibernateException,
+                    DataAccessException {
 				saveDiscardInventory(copyNumber,  s);
 	
 			}

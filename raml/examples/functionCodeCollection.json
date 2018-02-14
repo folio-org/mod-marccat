@@ -1,0 +1,36 @@
+{
+  "functionCodes": [
+    {
+      "code": 2,
+      "description": "Library of Congress subject heading"
+    },
+    {
+      "code": 8,
+      "description": "Repertoire des vedettes-matiere"
+    },
+    {
+      "code": 7,
+      "description": "Canadian subject headings"
+    },
+    {
+      "code": 4,
+      "description": "National Library of Medicine subject heading"
+    },
+    {
+      "code": 5,
+      "description": "National Agricultural Library subject heading"
+    },
+    {
+      "code": 6,
+      "description": "Other subject heading"
+    },
+    {
+      "code": 9,
+      "description": "Subject heading or term (source specified in subfield 2)"
+    },
+    {
+      "code": 19,
+      "description": "LC Subject heading for children's literature"
+    }
+  ]
+}

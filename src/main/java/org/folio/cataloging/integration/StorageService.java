@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.util.Optional.ofNullable;
+import static java.util.stream.Collectors.toList;
 import static org.folio.cataloging.F.locale;
 
 /**
@@ -64,6 +65,19 @@ public class StorageService implements Closeable {
     }
 
     /**
+     * Returns the record status types associated with the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the record status type associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getRecordStatusTypes(final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_ITM_REC_STUS.class, locale(lang));
+    }
+
+
+    /**
      * Returns the acquisition types associated with the given language.
      *
      * @param lang the language code, used here as a filter criterion.
@@ -73,6 +87,30 @@ public class StorageService implements Closeable {
     public List<Avp<String>> getAcquisitionTypes(final String lang) throws DataAccessException {
         final DAOCodeTable dao = new DAOCodeTable();
         return dao.getList(session, T_ORDR_AQSTN_TYP.class, locale(lang));
+    }
+
+    /**
+     * Returns the multipart resource level associated with the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the multipart resource level associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getMultipartResourceLevels(final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_ITM_LNK_REC.class, locale(lang));
+    }
+
+    /**
+     * Returns the record types associated with the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the record type associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getRecordTypes(final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_ITM_REC_TYP.class, locale(lang));
     }
 
     /**
@@ -196,6 +234,8 @@ public class StorageService implements Closeable {
         return dao.getList(session, T_AUT_HDG_SRC.class, locale(lang));
     }
 
+
+
     /**
      * Returns the language types associated to the given language.
      *
@@ -228,7 +268,7 @@ public class StorageService implements Closeable {
      * @return a list of categories by index type associated with the requested language.
      * @throws DataAccessException in case of data access failure.
      */
-    public List<Avp<String>> getIndexCategories(final String type, final String lang) throws DataAccessException {
+    public List<Avp<Integer>> getIndexCategories(final String type, final String lang) throws DataAccessException {
         final DAOSearchIndex searchIndexDao = new DAOSearchIndex();
         return searchIndexDao.getIndexCategories(session, type, locale(lang));
     }
@@ -244,6 +284,38 @@ public class StorageService implements Closeable {
     public List<Avp<String>> getIndexes(final String type, final int categoryCode, final String lang) throws DataAccessException {
         DAOSearchIndex searchIndexDao = new DAOSearchIndex();
         return searchIndexDao.getIndexes(session, type, categoryCode, locale(lang));
+    }
+
+
+
+
+    /**
+     *
+     * @param code the itemType code (first correlation), used here as a filter criterion.
+     * @param lang the language code, used here as a filter criterion.
+     * @param subTypeClass the subType class, used here as a filter criterion.
+     * @return a list of subTypes by marc category and itemType code associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getSecondCorrelation(final String marcCategory, final Integer code, final String lang, Class subTypeClass) throws DataAccessException {
+        DAOBibliographicCorrelation daoBC = new DAOBibliographicCorrelation();
+        final short s_category = Short.parseShort(marcCategory);
+        return daoBC.getSecondCorrelationList(session, s_category, code.shortValue(), subTypeClass, locale(lang))
+                .stream()
+                .collect(toList());
+    }
+
+    public List<Avp<String>> getThirdCorrelation(final String marcCategory,
+                                                 final Integer code1,
+                                                 final Integer code2,
+                                                 final String lang,
+                                                 final Class className) {
+
+        DAOBibliographicCorrelation daoBC = new DAOBibliographicCorrelation();
+        final short s_category = Short.parseShort(marcCategory);
+        return daoBC.getThirdCorrelationList(session, s_category, code1.shortValue(), code2.shortValue(), className, locale(lang))
+                .stream()
+                .collect(toList());
     }
 
     /**
@@ -365,6 +437,154 @@ public class StorageService implements Closeable {
     public CodeTable getCodeTableByCode (final Class c, final CodeTable codeTable) throws DataAccessException {
         final DAOCodeTable dao = new DAOCodeTable();
         return dao.loadCodeTableEntry(session, c, codeTable);
+    }
+   /**
+     * Returns the description for heading type entity.
+     *
+     * @param code the heading marc category code, used here as a filter criterion.
+     * @param lang the language code, used here as a filter criterion.
+     * @return the description for index code associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public String getHeadingDescriptionByCode(final String code, final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        final short s_code = Short.parseShort(code);
+        return dao.getLongText(session, s_code, T_BIB_TAG_CAT.class, locale(lang));
+    }
+
+    /**
+     * Returns the description for heading type entity.
+     *
+     * @param code the heading marc category code, used here as a filter criterion.
+     * @param lang the language code, used here as a filter criterion.
+     * @return the description for index code associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public String getSubTypeDescriptionByCode(final String code, final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        final short s_code = Short.parseShort(code);
+        return dao.getLongText(session, s_code, NameType.class, locale(lang));
+    }
+
+    /**
+     * Gets the heading category.
+     * @param lang the language code, used here as a filter criterion.
+     * @return
+     */
+    public List<Avp<String>> getHeadingTypesList(String lang) {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_BIB_TAG_CAT.class, locale(lang));
+    }
+
+    /**
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @param className the heading class, used here as a filter criterion.
+     * @return  a list of heading item types by marc category code associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getFirstCorrelation(final String lang, Class className) throws DataAccessException {
+        DAOCodeTable daoCT = new DAOCodeTable();
+        return daoCT.getList(session, className, locale(lang))
+                .stream()
+                .collect(toList());
+    }
+
+    
+    /**
+     * Returns the descriptive catalog forms associated with the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the descriptive catalog forms associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getDescriptiveCatalogForms(final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_ITM_DSCTV_CTLG.class, locale(lang));
+    }
+
+    /**
+     * Returns the control types associated with the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the control type associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getControlTypes(final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_ITM_CNTL_TYP.class, locale(lang));
+    }
+
+    /**
+     * Returns the encoding levels associated with the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the encoding level associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getEncodingLevels(final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_ITM_ENCDG_LVL.class, locale(lang));
+    }
+
+    /**
+     * Returns the character encoding schemas associated with the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the character encoding schema associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getCharacterEncodingSchemas(final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_ITM_CCS.class, locale(lang));
+    }
+
+    /**
+     * Returns the bibliographic levels associated with the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the bibliographic level associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getBibliographicLevels(final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_ITM_BIB_LVL.class, locale(lang));
+    }
+
+    /**
+     * Returns the date types associated with the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the date type associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getDateTypes(final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_ITM_DTE_TYP.class, locale(lang));
+    }
+
+    /**
+     * Returns the modified record types associated with the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the modified record type associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getModifiedRecordTypes(final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_REC_MDFTN.class, locale(lang));
+    }
+
+    /**
+     * Returns the catalog source associated with the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the catalog source associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getCatalogSources(final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_REC_CTLGG_SRC.class, locale(lang));
     }
 
 

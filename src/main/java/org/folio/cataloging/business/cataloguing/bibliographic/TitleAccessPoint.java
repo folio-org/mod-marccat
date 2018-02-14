@@ -236,7 +236,7 @@ public class TitleAccessPoint extends NameTitleComponent implements MarcHelperTa
 		return VARIANT_CODES;
 	}
 
-	public String getKey() throws DataAccessException, MarcCorrelationException {
+	public String getKey() throws DataAccessException {
 		return getMarcEncoding().getMarcTag();
 	}
 	

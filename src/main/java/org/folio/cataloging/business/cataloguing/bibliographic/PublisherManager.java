@@ -417,7 +417,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
 		Iterator ite = getPublisherTagUnits().iterator();
 		while(ite.hasNext()){
 			PUBL_TAG p = (PUBL_TAG)ite.next();
-			PUBL_HDG pu = ((PUBL_HDG)p.getDescriptor());
+			PUBL_HDG pu = p.getDescriptor();
 			  
 			if(pu!=null && pu.getKey().getHeadingNumber()==-1){
  			    pu.setNameStringText("");
@@ -591,7 +591,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
 	}
 	 
 	private void detachDescriptor(PUBL_TAG pap) {
-		PUBL_HDG publ_hdg = ((PUBL_HDG)pap.getDescriptor());
+		PUBL_HDG publ_hdg = pap.getDescriptor();
 		if(pap.getPublisherHeadingNumber()==null){
 		   publ_hdg.setNameStringText("");
 		   publ_hdg.setPlaceStringText("");

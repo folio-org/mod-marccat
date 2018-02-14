@@ -13,32 +13,26 @@
  */
 package org.folio.cataloging.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.dao.persistence.AutMarcTagDisplay;
-import org.folio.cataloging.dao.persistence.BibliographicCorrelation;
-import org.folio.cataloging.dao.persistence.ClassificationFunction;
-import org.folio.cataloging.dao.persistence.Correlation;
-import org.folio.cataloging.dao.persistence.CorrelationKey;
-import org.folio.cataloging.dao.persistence.LabelTagDisplay;
-import org.folio.cataloging.dao.persistence.MarcTagDisplay;
-import org.folio.cataloging.dao.persistence.RdaMarcTagDisplay;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.Global;
+import org.folio.cataloging.business.codetable.Avp;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.Defaults;
+import org.folio.cataloging.dao.persistence.*;
+import org.folio.cataloging.log.MessageCatalog;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.*;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Manages access to table S_BIB_MARC_IND_DB_CRLTN -- the correlation between AMICUS
@@ -91,7 +85,6 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 				"from BibliographicCorrelation as bc "
 					+ "where bc.key.marcTag = ? and "
 					+ "(bc.key.marcFirstIndicator = ? or bc.key.marcFirstIndicator='S' )and "
-					//Natascia 13/06/2007: scommentate chiocciole
 					+ "bc.key.marcFirstIndicator <> '@' and "
 					+ "(bc.key.marcSecondIndicator = ? or bc.key.marcSecondIndicator='S')and "
 					+ "bc.key.marcSecondIndicator <> '@' and "
@@ -113,7 +106,6 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
  				"from BibliographicCorrelation as bc "
  					+ "where bc.key.marcTag = ? and "
  					+ "(bc.key.marcFirstIndicator = ? or bc.key.marcFirstIndicator='S' )and "
- 					//Natascia 13/06/2007: scommentate chiocciole
  					+ "bc.key.marcFirstIndicator <> '@' and "
  					+ "(bc.key.marcSecondIndicator = ? or bc.key.marcSecondIndicator='S')and "
  					+ "bc.key.marcSecondIndicator <> '@' order by bc.key.marcTagCategoryCode asc",
@@ -178,23 +170,66 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 		}
 	}
 
-	public List getSecondCorrelationList(short category,short value1,Class codeTable) throws DataAccessException 
+	@Deprecated
+	public List getSecondCorrelationList(short category,short value1,Class codeTable) throws DataAccessException
 	{
 		return find("Select distinct ct from "
 					+ codeTable.getName()
 					+ " as ct, BibliographicCorrelation as bc "
 					+ " where bc.key.marcTagCategoryCode = ? and "
-					//Natascia 13/06/2007: scommentate chiocciole
 					+ " bc.key.marcFirstIndicator <> '@' and "
 					+ " bc.key.marcSecondIndicator <> '@' and "
 					+ " bc.databaseFirstValue = ? and "
 					+ " bc.databaseSecondValue = ct.code and  "
-					+ "ct.obsoleteIndicator = 0  order by ct.sequence ",
+					+ "ct.obsoleteIndicator = '0'  order by ct.sequence ",
 				new Object[] { new Short(category), new Short(value1)},
 				new Type[] { Hibernate.SHORT, Hibernate.SHORT});
 	}
-	
-	/* Bug 4121 inizio */
+
+	/**
+	 * Get second correlation values by marc category and first correlation.
+	 *
+	 * @param session the hibernate session
+	 * @param category the marc category used as filter criterion
+	 * @param value1 the first correlation value used as filter criterion
+	 * @param classTable the mapped class in the hibernate configuration
+	 * @param locale the locale associated to language used as filter criterion
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public List<Avp<String>> getSecondCorrelationList(final Session session,
+													  final short category,
+                                                      final short value1,
+                                                      final Class classTable,
+                                                      final Locale locale) throws DataAccessException
+	{
+		try {
+
+            final List<CodeTable> codeTables = session.find("Select distinct ct from  "
+							+ classTable.getName()
+							+ " as ct, BibliographicCorrelation as bc "
+							+ " where bc.key.marcTagCategoryCode = ? and "
+							+ " bc.key.marcFirstIndicator <> '@' and "
+							+ " bc.key.marcSecondIndicator <> '@' and "
+							+ " bc.databaseFirstValue = ? and "
+							+ " bc.databaseSecondValue = ct.code and "
+							+ " ct.obsoleteIndicator = '0' and "
+                            + " ct.language = ? "
+                            + " order by ct.sequence ",
+                    new Object[]{new Short(category), new Short(value1), locale.getISO3Language()},
+                    new Type[]{Hibernate.SHORT, Hibernate.SHORT, Hibernate.STRING});
+
+			return codeTables
+					.stream()
+					.map(codeTable -> (Avp<String>) new Avp(codeTable.getCodeString().trim(), codeTable.getLongText()))
+					.collect(toList());
+
+		} catch (final HibernateException exception) {
+			logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+			return Collections.emptyList();
+		}
+	}
+
 	public static final String SELECT_CLASSIFICATION_TAG_LABELS = 
 		"SELECT AA.TBL_SEQ_NBR, AA.TYP_VLU_CDE, aa.FNCTN_VLU_CDE, AA.TBL_VLU_OBSLT_IND, AA.SHORT_STRING_TEXT, AA.STRING_TEXT, AA.LANGID"
 		+ " FROM "
@@ -229,7 +264,7 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 				item.setSequence(rs.getInt("TBL_SEQ_NBR"));
 //				item.setCode(rs.getShort("TYP_VLU_CDE"));
 				item.setCode(rs.getShort("FNCTN_VLU_CDE"));
-				item.setObsoleteIndicator(rs.getString("TBL_VLU_OBSLT_IND").charAt(0));
+				item.setObsoleteIndicator(rs.getString("TBL_VLU_OBSLT_IND").equals("1"));
 				item.setLanguage(rs.getString("LANGID"));
 				item.setShortText(rs.getString("SHORT_STRING_TEXT"));
 				item.setLongText(rs.getString("STRING_TEXT"));
@@ -247,8 +282,8 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 		}
 		return list;
 	}
-	/* Bug 4121 fine */
 
+	@Deprecated
 	public List getThirdCorrelationList(
 			short category,
 			short value1,
@@ -261,20 +296,63 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 					+ codeTable.getName()
 					+ " as ct, BibliographicCorrelation as bc "
 					+ " where bc.key.marcTagCategoryCode = ? and "
-//Natascia 13/06/2007: scommentate chiocciole					
 					+ " bc.key.marcFirstIndicator <> '@' and "
 					+ " bc.key.marcSecondIndicator <> '@' and "
 					+ " bc.databaseFirstValue = ? and "
 					+ " bc.databaseSecondValue = ? and "					
 					+ " bc.databaseThirdValue = ct.code and "
-//Natascia 25/06/2007: non visualizzo nella lista gli obsoleti
 					+ " ct.obsoleteIndicator = 0  order by ct.sequence ",
 				new Object[] {
 					new Short(category),
 					new Short(value1),
 					new Short(value2)},
 				new Type[] { Hibernate.SHORT, Hibernate.SHORT, Hibernate.SHORT });
+	}
+
+	/**
+	 * Gets third correlation values by marc category, first and second correlations.
+	 *
+	 * @param session the hibernate session
+	 * @param category the marc category used as filter criterion
+	 * @param value1 the first correlation value used as filter criterion
+	 * @param value2 the second correlation value used as filter criterion
+	 * @param classTable the mapped class in the hibernate configuration
+	 * @param locale the locale associated to language used as filter criterion
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public List<Avp<String>> getThirdCorrelationList(final Session session,
+													 final short category,
+													 final short value1,
+													 final short value2,
+													 final Class classTable,
+													 final Locale locale) throws DataAccessException {
+		try{
+				final List<CodeTable> codeTables = session.find(" select distinct ct from "
+						+ classTable.getName()
+						+ " as ct, BibliographicCorrelation as bc "
+						+ " where bc.key.marcTagCategoryCode = ? and "
+						+ " bc.key.marcFirstIndicator <> '@' and "
+						+ " bc.key.marcSecondIndicator <> '@' and "
+						+ " bc.databaseFirstValue = ? and "
+						+ " bc.databaseSecondValue = ? and "
+						+ " bc.databaseThirdValue = ct.code and "
+						+ " ct.obsoleteIndicator = '0' and "
+                        + " ct.language = ? "
+						+ " order by ct.sequence ",
+				new Object[] {new Short(category), new Short(value1), new Short(value2), locale.getISO3Language()},
+				new Type[] { Hibernate.SHORT, Hibernate.SHORT, Hibernate.SHORT, Hibernate.STRING });
+
+				return codeTables
+						.stream()
+						.map(codeTable -> (Avp<String>) new Avp(codeTable.getCodeString().trim(), codeTable.getLongText()))
+						.collect(toList());
+
+		} catch (final HibernateException exception) {
+			logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+			return Collections.emptyList();
 		}
+	}
 
 	public short getFirstAllowedValue2(
 			short category,
@@ -285,7 +363,6 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 			List l = find(
 				" from BibliographicCorrelation as bc "
 					+ " where bc.key.marcTagCategoryCode = ? and "
-//Natascia 13/06/2007: scommentate chiocciole					
 					+ " bc.key.marcFirstIndicator <> '@' and "
 					+ " bc.key.marcSecondIndicator <> '@' and "
 					+ " bc.databaseFirstValue = ? and "
@@ -436,7 +513,6 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 	{
 		List l = find(" from BibliographicCorrelation as bc "
 					+ " where bc.key.marcTagCategoryCode = ? and "
-					/* Natascia 13/06/2007: scommentate chiocciole */					
 					+ " bc.key.marcFirstIndicator <> '@' and "
 					+ " bc.key.marcSecondIndicator <> '@' and "
 					+ " bc.databaseFirstValue = ? and "
@@ -463,7 +539,7 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 		if (l.size() > 0) {
 			Iterator<BibliographicCorrelation> ite = l.iterator();
 			while (ite.hasNext()) {
-				short secondCorr = ((BibliographicCorrelation) ite.next()).getDatabaseSecondValue();
+				short secondCorr = ite.next().getDatabaseSecondValue();
 				if (secondCorr == value2) {
 					isPresent = true;
 				}

@@ -128,8 +128,7 @@ public abstract class DAODescriptor extends HibernateUtil {
 	 * 
 	 * @since 1.0
 	 */
-	public String calculateSortForm(Descriptor d) throws DataAccessException,
-			SortFormException {
+	public String calculateSortForm(Descriptor d) throws DataAccessException {
 
 		if ("".equals(d.getStringText())) {
 			return BLANK_SORTFORM;
@@ -146,7 +145,7 @@ public abstract class DAODescriptor extends HibernateUtil {
 	 * @since 1.0
 	 */
 	public String calculateSortForm(String s, String browseIndexKey)
-			throws DataAccessException, SortFormException {
+			throws DataAccessException {
 		if ("".equals(s)) {
 			return " ";
 		}
@@ -158,7 +157,7 @@ public abstract class DAODescriptor extends HibernateUtil {
 
 	// protected String calculateSortForm(String text, SortFormParameters parms)
 	public String calculateSortForm(String text, SortFormParameters parms)
-			throws DataAccessException, SortFormException {
+			throws DataAccessException {
 		String result = "";
 		int bufSize = 300;
 
@@ -697,7 +696,7 @@ public abstract class DAODescriptor extends HibernateUtil {
 	}
 
 	public Descriptor getMatchingHeading(Descriptor d)
-			throws DataAccessException, SortFormException {
+			throws DataAccessException {
 		// regenerate sort form
 
 		d.setSortForm(calculateSortForm(d));
@@ -727,8 +726,8 @@ public abstract class DAODescriptor extends HibernateUtil {
 	 * @see HibernateUtil#delete(librisuite.business
 	 *      .common.Persistence)
 	 */
-	public void delete(Persistence p) throws ReferentialIntegrityException,
-			DataAccessException {
+	public void delete(Persistence p) throws
+            DataAccessException {
 		if (!(p instanceof Descriptor)) {
 			throw new IllegalArgumentException(
 					"I can only delete Descriptor objects");

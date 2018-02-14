@@ -6,14 +6,12 @@ import io.vertx.core.Handler;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.rest.jaxrs.model.FieldTemplate;
-import org.folio.rest.jaxrs.model.FrbrTypeCollection;
 import org.folio.rest.jaxrs.resource.CatalogingFieldTemplateResource;
 
 import javax.ws.rs.core.Response;
 import java.util.Map;
 
 import static java.util.Arrays.asList;
-
 import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
 public class FieldTemplateAPI implements CatalogingFieldTemplateResource {

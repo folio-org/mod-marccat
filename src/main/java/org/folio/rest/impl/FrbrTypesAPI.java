@@ -65,11 +65,6 @@ public class FrbrTypesAPI implements CatalogingFrbrTypesResource {
         doGet((storageService, future) -> {
             try {
                 final FrbrType frbrType = new FrbrType();
-                /*Integer icode = Integer.parseInt(code);
-                frbrType.setCode(icode);
-                frbrType.setDescription(
-                    storageService.getFrbrDescriptionByCode(icode, lang)
-                );*/
                 frbrType.setCode(Integer.parseInt(code));
                 frbrType.setDescription(
                         storageService.getFrbrDescriptionByCode(code, lang)
@@ -81,6 +76,8 @@ public class FrbrTypesAPI implements CatalogingFrbrTypesResource {
             }
         }, asyncResultHandler, okapiHeaders, vertxContext);
     }
+
+
 
     @Override
     public void postCatalogingFrbrTypes(String lang, FrbrType entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
