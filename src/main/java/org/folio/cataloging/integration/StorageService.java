@@ -287,6 +287,19 @@ public class StorageService implements Closeable {
                 .collect(toList());
     }
 
+    public List<Avp<String>> getThirdCorrelation(final String marcCategory,
+                                                 final Integer code1,
+                                                 final Integer code2,
+                                                 final String lang,
+                                                 final Class className) {
+
+        DAOBibliographicCorrelation daoBC = new DAOBibliographicCorrelation();
+        final short s_category = Short.parseShort(marcCategory);
+        return daoBC.getThirdCorrelationList(session, s_category, code1.shortValue(), code2.shortValue(), className, locale(lang))
+                .stream()
+                .collect(toList());
+    }
+
 
     /**
      * Returns the constraints (optional) to the requested index.
