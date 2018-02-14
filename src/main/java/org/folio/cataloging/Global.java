@@ -162,6 +162,14 @@ public abstract class Global  {
 		}
 	};
 
+	public final static Map<String, Class> thirdCorrelationHeadingClassMap = new HashMap<String, Class>(){
+		{
+			put("2", NameFunction.class);
+			put("4", SubjectSource.class);
+			put("11", NameSubType.class);
+		}
+	};
+
 	public final static Map<String, Class> secondCorrelationClassMap = new HashMap<String, Class>(){
 		{
 			put("2", NameSubType.class);
@@ -172,7 +180,6 @@ public abstract class Global  {
 			put("11", NameType.class);
 		}
 	};
-
 
 	public final static Map<String, Class> firstCorrelationHeadingClassMap = new HashMap<String, Class>(){
 		{

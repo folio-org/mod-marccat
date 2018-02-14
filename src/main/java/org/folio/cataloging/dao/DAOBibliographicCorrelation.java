@@ -282,8 +282,8 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 		}
 		return list;
 	}
-	/* Bug 4121 fine */
 
+	@Deprecated
 	public List getThirdCorrelationList(
 			short category,
 			short value1,
@@ -307,7 +307,52 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 					new Short(value1),
 					new Short(value2)},
 				new Type[] { Hibernate.SHORT, Hibernate.SHORT, Hibernate.SHORT });
+	}
+
+	/**
+	 * Gets third correlation values by marc category, first and second correlations.
+	 *
+	 * @param session the hibernate session
+	 * @param category the marc category used as filter criterion
+	 * @param value1 the first correlation value used as filter criterion
+	 * @param value2 the second correlation value used as filter criterion
+	 * @param classTable the mapped class in the hibernate configuration
+	 * @param locale the locale associated to language used as filter criterion
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public List<Avp<String>> getThirdCorrelationList(final Session session,
+													 final short category,
+													 final short value1,
+													 final short value2,
+													 final Class classTable,
+													 final Locale locale) throws DataAccessException {
+		try{
+				final List<CodeTable> codeTables = session.find(" select distinct ct from "
+						+ classTable.getName()
+						+ " as ct, BibliographicCorrelation as bc "
+						+ " where bc.key.marcTagCategoryCode = ? and "
+						+ " bc.key.marcFirstIndicator <> '@' and "
+						+ " bc.key.marcSecondIndicator <> '@' and "
+						+ " bc.databaseFirstValue = ? and "
+						+ " bc.databaseSecondValue = ? and "
+						+ " bc.databaseThirdValue = ct.code and "
+						+ " ct.obsoleteIndicator = '0' and "
+                        + " ct.language = ? "
+						+ " order by ct.sequence ",
+				new Object[] {new Short(category), new Short(value1), new Short(value2), locale.getISO3Language()},
+				new Type[] { Hibernate.SHORT, Hibernate.SHORT, Hibernate.SHORT, Hibernate.STRING });
+
+				return codeTables
+						.stream()
+						.map(codeTable -> (Avp<String>) new Avp(codeTable.getCodeString().trim(), codeTable.getLongText()))
+						.collect(toList());
+
+		} catch (final HibernateException exception) {
+			logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+			return Collections.emptyList();
 		}
+	}
 
 	public short getFirstAllowedValue2(
 			short category,

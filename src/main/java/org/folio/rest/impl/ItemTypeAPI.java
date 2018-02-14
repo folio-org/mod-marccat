@@ -27,7 +27,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
 public class ItemTypeAPI  implements CatalogingItemTypesResource {
 
-    protected final Log logger = new Log(HeadingTypeAPI.class);
+    protected final Log logger = new Log(ItemTypeAPI.class);
 
     private Function<Avp<String>, SubType> toSubType = source -> {
         final SubType subType = new SubType();

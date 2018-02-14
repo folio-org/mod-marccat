@@ -288,6 +288,49 @@ public class StorageService implements Closeable {
 
 
     /**
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @param className the heading class, used here as a filter criterion.
+     * @return  a list of heading item types by marc category code associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getFirstCorrelation(final String lang, Class className) throws DataAccessException {
+        DAOCodeTable daoCT = new DAOCodeTable();
+        return daoCT.getList(session, className, locale(lang))
+                .stream()
+                .collect(toList());
+    }
+
+    /**
+     *
+     * @param code the itemType code (first correlation), used here as a filter criterion.
+     * @param lang the language code, used here as a filter criterion.
+     * @param subTypeClass the subType class, used here as a filter criterion.
+     * @return a list of subTypes by marc category and itemType code associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getSecondCorrelation(final String marcCategory, final Integer code, final String lang, Class subTypeClass) throws DataAccessException {
+        DAOBibliographicCorrelation daoBC = new DAOBibliographicCorrelation();
+        final short s_category = Short.parseShort(marcCategory);
+        return daoBC.getSecondCorrelationList(session, s_category, code.shortValue(), subTypeClass, locale(lang))
+                .stream()
+                .collect(toList());
+    }
+
+    public List<Avp<String>> getThirdCorrelation(final String marcCategory,
+                                                 final Integer code1,
+                                                 final Integer code2,
+                                                 final String lang,
+                                                 final Class className) {
+
+        DAOBibliographicCorrelation daoBC = new DAOBibliographicCorrelation();
+        final short s_category = Short.parseShort(marcCategory);
+        return daoBC.getThirdCorrelationList(session, s_category, code1.shortValue(), code2.shortValue(), className, locale(lang))
+                .stream()
+                .collect(toList());
+    }
+
+    /**
      * Returns the constraints (optional) to the requested index.
      *
      * @param code the index code, used here as a filter criterion.
