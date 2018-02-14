@@ -13,7 +13,6 @@ import org.folio.cataloging.business.cataloguing.bibliographic.*;
 import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.business.common.RecordNotFoundException;
 import org.folio.cataloging.business.controller.SessionUtils;
 import org.folio.cataloging.business.digital.DigitalDoiException;
 import org.folio.cataloging.business.digital.DigitalLevelException;
@@ -299,7 +298,7 @@ public class DigitalDoiBean extends LibrisuiteBean
 		return publisherManager;
 	}
 
-	public List searchTag260(EditBean bean) throws MarcCorrelationException, DataAccessException 
+	public List searchTag260(EditBean bean) throws DataAccessException
 	{
 		List tags = bean.getCatalogItem().getTags();
 		List tags260 = new ArrayList();
@@ -314,7 +313,7 @@ public class DigitalDoiBean extends LibrisuiteBean
 		return tags260;
 	}
 	
-	private String getTitleByAmicusNumber(int amicusNumber, int view) throws RecordNotFoundException, DataAccessException
+	private String getTitleByAmicusNumber(int amicusNumber, int view) throws DataAccessException
 	{
 		 String result = new String();
 		 DAOCache dcbid = new DAOCache();
@@ -352,7 +351,7 @@ public class DigitalDoiBean extends LibrisuiteBean
 		setUrl_2("");
 	}
 
-	public String httpPost() throws HttpException, IOException, RequiredFieldsException 
+	public String httpPost() throws IOException, RequiredFieldsException
 	{
 
 		messages = requiredFields();

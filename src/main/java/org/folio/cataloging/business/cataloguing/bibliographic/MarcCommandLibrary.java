@@ -5,11 +5,9 @@ import org.folio.cataloging.business.cataloguing.common.Browsable;
 import org.folio.cataloging.business.cataloguing.common.CatalogItem;
 import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.SortFormException;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.PublisherTagDescriptor;
 import org.folio.cataloging.dao.DAODescriptor;
-import org.folio.cataloging.dao.persistence.CorrelationKey;
 import org.folio.cataloging.dao.persistence.PUBL_HDG;
 import org.folio.cataloging.dao.persistence.PUBL_TAG;
 import org.folio.cataloging.util.StringText;
@@ -75,7 +73,7 @@ public class MarcCommandLibrary {
 		 * See the Subject with correlation 19, ?, 14
 		 */
 		try{
-			if ((CorrelationKey) ((Tag)tag).getMarcEncoding() == null)
+			if (((Tag)tag).getMarcEncoding() == null)
 				throw new MarcCorrelationException();		
 		}
 		catch (MarcCorrelationException me){
@@ -91,7 +89,7 @@ public class MarcCommandLibrary {
 		
 		/* -- End block -- */
 
-		((Browsable) tag).setHeadingNumber(
+		tag.setHeadingNumber(
 			new Integer(newDescriptor.getKey().getHeadingNumber()));
 	}
 
@@ -111,7 +109,7 @@ public class MarcCommandLibrary {
 		return newTag;
 	}
 
-	public static Descriptor createNewDescriptor(Descriptor currDescriptor, String headingView) throws SortFormException, DataAccessException{
+	public static Descriptor createNewDescriptor(Descriptor currDescriptor, String headingView) throws DataAccessException{
 		if(!currDescriptor.isNew()) return currDescriptor;
 		Descriptor matchDescriptor = ((DAODescriptor) currDescriptor
 				.getDAO()).getMatchingHeading(currDescriptor);
@@ -120,14 +118,14 @@ public class MarcCommandLibrary {
 				currDescriptor.generateNewKey();
 				currDescriptor.getKey().setUserViewString(headingView);
 			}
-			((DAODescriptor)currDescriptor.getDAO()).persistByStatus(currDescriptor);
+			currDescriptor.getDAO().persistByStatus(currDescriptor);
 			return currDescriptor;
 		} else {
 			return matchDescriptor;
 		}
 	}
 	
-	public static void setNewStringText(AccessPoint tag, StringText text, String headingView) throws SortFormException, DataAccessException{
+	public static void setNewStringText(AccessPoint tag, StringText text, String headingView) throws DataAccessException{
 		if(!tag.isNew()) throw new IllegalArgumentException("this method can be used only for new tags");
 		tag.getDescriptor().setUserViewString(headingView);
 		tag.setDescriptorStringText(text);
@@ -150,7 +148,7 @@ public class MarcCommandLibrary {
 		PublisherAccessPoint pap = tag.getAnyPublisher();
 		setNewStringText(pap, text, headingView);
 	}*/
-	public static void setNewStringText(PublisherManager tag, StringText text, String headingView) throws SortFormException, DataAccessException{
+	public static void setNewStringText(PublisherManager tag, StringText text, String headingView) throws DataAccessException{
 		if(!tag.isNew()) throw new IllegalArgumentException("this method can be used only for new publisher tags");
 		PublisherAccessPoint pap = tag.getApf();
 		setNewStringText(pap, text, headingView);

@@ -6,7 +6,6 @@ import net.sf.hibernate.Session;
 import org.folio.cataloging.business.cataloguing.common.Model;
 import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.ReferentialIntegrityException;
 import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 import org.folio.cataloging.log.Log;
@@ -63,7 +62,7 @@ public abstract class ModelDAO extends HibernateUtil {
 	abstract protected Class getPersistentClass();
 
 	public void delete(final Model model)
-		throws ReferentialIntegrityException, DataAccessException {
+		throws DataAccessException {
 		new TransactionalHibernateOperation() {
 			public void doInHibernateTransaction(Session session)
 				throws HibernateException {

@@ -922,11 +922,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#isAbleToBeDeleted()
 	 */
 	public boolean isAbleToBeDeleted() {
-		if (getMaterialDescription008Indicator() == '1') {
-			return false;
-		} else {
-			return true;
-		}
+        return getMaterialDescription008Indicator() != '1';
 	}
 
 	/* (non-Javadoc)
