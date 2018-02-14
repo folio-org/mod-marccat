@@ -184,6 +184,6 @@
 		<mapping resource="org/folio/cataloging/dao/persistence/T_MTRL_TYP.hbm.xml"/>
 		<mapping resource="org/folio/cataloging/dao/persistence/T_ITM_DSPLY.hbm.xml"/>
 		<mapping resource="org/folio/cataloging/dao/persistence/T_SRL_GENRETENTION.hbm.xml"/>
-		<mapping resource="org/folio/cataloging/dao/persistence/T_ITM_CCS.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_ITM_LNK_REC.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>
