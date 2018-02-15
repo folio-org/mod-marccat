@@ -1,21 +1,14 @@
-/*
- * (c) LibriCore
- * 
- * Created on Nov 3, 2005
- * 
- * Validation.java
- */
+
 package org.folio.cataloging.business.cataloguing.common;
+
+import org.folio.cataloging.business.common.SubfieldCodeComparator;
+import org.folio.cataloging.dao.persistence.ValidationKey;
+import org.folio.cataloging.util.StringText;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-
-import org.folio.cataloging.business.common.SubfieldCodeComparator;
-import org.folio.cataloging.dao.persistence.ValidationKey;
-
-import org.folio.cataloging.util.StringText;
 
 /**
  * @author paulm
