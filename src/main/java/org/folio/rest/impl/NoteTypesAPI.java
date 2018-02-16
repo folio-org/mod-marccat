@@ -27,26 +27,23 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class NoteTypesAPI implements CatalogingNoteTypesResource {
     protected final Log logger = new Log(NoteTypesAPI.class);
 
-    // This is the adapter that converts existing value objects (logical views in this case)
-    // in OKAPI resources.
     private Function<Avp<String>, NoteType> toNoteType = source -> {
         final NoteType noteType = new NoteType();
-        //TODO: handle type Integer for value element or null value in Integer.parseInt
         noteType.setCode(Integer.parseInt(source.getValue()));
         noteType.setDescription(source.getLabel());
         return noteType;
     };
 
     @Override
-    public void getCatalogingNoteTypes(final String lang,
-                             final Map<String, String> okapiHeaders,
-                             final Handler<AsyncResult<Response>> asyncResultHandler,
-                             final Context vertxContext) throws Exception {
+    public void getCatalogingNoteTypes(final String noteGroupType,
+                                        final String lang,
+                                        final Map<String, String> okapiHeaders,
+                                        final Handler<AsyncResult<Response>> asyncResultHandler,
+                                        final Context vertxContext) throws Exception {
         doGet((storageService, future) -> {
             try {
                 final NoteTypeCollection container = new NoteTypeCollection();
-                container.setNoteTypes(
-                        storageService.getNoteTypes(lang)
+                container.setNoteTypes(storageService.getNoteTypesByGroupTypeCode(noteGroupType, lang)
                                 .stream()
                                 .map(toNoteType)
                                 .collect(toList()));

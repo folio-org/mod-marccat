@@ -53,15 +53,17 @@ public class StorageService implements Closeable {
     }
 
     /**
-     * Returns the note types associated to the given language.
+     * Returns the note types associated to the given language
+     * and with the given note group type code.
      *
+     * @param noteGroupTypeCode the note group type used here as filter criterion.
      * @param lang the language code, used here as a filter criterion.
      * @return a list of code / description tuples representing the note type associated with the requested language.
      * @throws DataAccessException in case of data access failure.
      */
-    public List<Avp<String>> getNoteTypes(final String lang) throws DataAccessException {
-        final DAOCodeTable dao = new DAOCodeTable();
-        return dao.getList(session, BibliographicNoteType.class, locale(lang));
+    public List<Avp<String>> getNoteTypesByGroupTypeCode(final String noteGroupTypeCode, final String lang) throws DataAccessException {
+        final DAOBibliographicCorrelation daoBibliographicCorrelation = new DAOBibliographicCorrelation();
+        return daoBibliographicCorrelation.getFirstCorrelationByNoteGroupCode(session, noteGroupTypeCode, locale(lang));
     }
 
     /**
@@ -526,5 +528,15 @@ public class StorageService implements Closeable {
     public List<Avp<String>> getBibliographicLevels(final String lang) throws DataAccessException {
         final DAOCodeTable dao = new DAOCodeTable();
         return dao.getList(session, T_ITM_BIB_LVL.class, locale(lang));
+    }
+
+    /**
+     * Gets the note group type list.
+     * @param lang the language code, used here as a filter criterion.
+     * @return
+     */
+    public List<Avp<String>> getNoteGroupTypeList(String lang) {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, BibliographicNoteGroupType.class, locale(lang));
     }
 }

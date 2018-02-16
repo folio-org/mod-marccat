@@ -55,8 +55,10 @@ public class BibliographicEditBean extends EditBean {
 			"record.equivalent.enabled", false);
 
 	@Override
+	@Deprecated
 	public List getFirstList() throws DataAccessException{
-		return new DAOBibliographicCorrelation().getFirstCorrelationListFilter(BibliographicNoteType.class, true, getOptNoteGroup());
+		//return new DAOBibliographicCorrelation().getFirstCorrelationListFilter(BibliographicNoteType.class, true, getOptNoteGroup());
+		return null;
 	}
 	
 	/**

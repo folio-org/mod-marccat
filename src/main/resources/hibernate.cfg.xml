@@ -189,5 +189,6 @@
 		<mapping resource="org/folio/cataloging/dao/persistence/T_NME_TTL_FNCTN.hbm.xml"/>
 		<mapping resource="org/folio/cataloging/dao/persistence/T_ITM_LNK_REC.hbm.xml"/>
 		<mapping resource="org/folio/cataloging/dao/persistence/T_ITM_CCS.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_BIB_NTE_GRP_TYP.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

@@ -1,0 +1,32 @@
+{
+  "noteGroupTypes": [
+    {
+      "code": 0,
+      "description": "All"
+    },
+    {
+      "code": 10,
+      "description": "0XX"
+    },
+    {
+      "code": 200,
+      "description": "2XX"
+    },
+    {
+      "code": 300,
+      "description": "3XX"
+    },
+    {
+      "code": 400,
+      "description": "4XX"
+    },
+    {
+      "code": 500,
+      "description": "5XX"
+    },
+    {
+      "code": 800,
+      "description": "8XX"
+    }
+  ]
+}
