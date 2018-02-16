@@ -546,4 +546,42 @@ public class StorageService implements Closeable {
         final CorrelationValues correlationValues = new CorrelationValues(code1.shortValue(), code2.shortValue(), code3.shortValue());
         return daoBibliographicValidation.load(session, Short.parseShort(marcCategory), correlationValues);
     }
+    
+   /**
+     * Returns the date types associated with the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the date type associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getDateTypes(final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_ITM_DTE_TYP.class, locale(lang));
+    }
+
+    /**
+     * Returns the modified record types associated with the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the modified record type associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getModifiedRecordTypes(final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_REC_MDFTN.class, locale(lang));
+    }
+
+    /**
+     * Returns the catalog source associated with the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the catalog source associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getCatalogSources(final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_REC_CTLGG_SRC.class, locale(lang));
+    }
+
+
 }

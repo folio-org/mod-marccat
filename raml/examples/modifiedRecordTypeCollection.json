@@ -1,0 +1,12 @@
+{
+  "modifiedRecordTypes": [
+    {
+      "code": "r",
+      "description": "Rmnzd/prnt card scpt"
+    },
+    {
+      "code": "d",
+      "description": "No dash-on info"
+    }
+  ]
+}
