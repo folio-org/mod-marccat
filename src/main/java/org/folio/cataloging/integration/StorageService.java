@@ -2,7 +2,9 @@ package org.folio.cataloging.integration;
 
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
+import org.folio.cataloging.business.cataloguing.common.Validation;
 import org.folio.cataloging.business.codetable.Avp;
+import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.*;
 import org.folio.cataloging.dao.common.HibernateSessionProvider;
@@ -529,6 +531,23 @@ public class StorageService implements Closeable {
     }
 
     /**
+     *
+     * @param marcCategory the marc category used here as filter criterion.
+     * @param code1 the first correlation used here as filter criterion.
+     * @param code2 the second correlation used here as filter criterion.
+     * @param code3 the third correlation used here as filter criterion.
+     * @return Validation object containing subfield list.
+     */
+    public Validation getSubfieldsByCorrelations(final String marcCategory,
+                                                 final Integer code1,
+                                                 final Integer code2, final Integer code3) {
+
+        final DAOBibliographicValidation daoBibliographicValidation = new DAOBibliographicValidation();
+        final CorrelationValues correlationValues = new CorrelationValues(code1.shortValue(), code2.shortValue(), code3.shortValue());
+        return daoBibliographicValidation.load(session, Short.parseShort(marcCategory), correlationValues);
+    }
+    
+   /**
      * Returns the date types associated with the given language.
      *
      * @param lang the language code, used here as a filter criterion.

@@ -45,7 +45,7 @@ public class ItemTypeAPI  implements CatalogingItemTypesResource {
                                        final Context vertxContext) throws Exception {
 
         doGet((storageService, future) -> {
-            try {
+                try {
 
                 final String category = (marcCategory.equals("17") ? Global.NAME_CATEGORY_DEFAULT : marcCategory);
                 final int intCode = Integer.parseInt(code);
