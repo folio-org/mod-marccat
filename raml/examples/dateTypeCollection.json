@@ -1,0 +1,12 @@
+{
+  "dateTypes": [
+    {
+      "code": "s",
+      "description": "Single date"
+    },
+    {
+      "code": "t",
+      "description": "Actual/copyright dat"
+    }
+  ]
+}

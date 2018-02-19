@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "dateTypes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "$ref": "dateType"
+      }
+    }
+  },
+  "required": [
+    "dateTypes",
+    "total_records"
+  ]
+}
