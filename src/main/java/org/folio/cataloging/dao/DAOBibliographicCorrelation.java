@@ -1,16 +1,3 @@
-/*
- * (c) LibriCore
- * 
- * Created on Aug 6, 2004
- * 
- * $Author: Paulm $
- * $Date: 2007/02/13 09:17:59 $
- * $Locker:  $
- * $Name:  $
- * $Revision: 1.12 $
- * $Source: /source/LibriSuite/src/librisuite/business/common/DAOBibliographicCorrelation.java,v $
- * $State: Exp $
- */
 package org.folio.cataloging.dao;
 
 import net.sf.hibernate.Hibernate;
@@ -38,8 +25,10 @@ import static java.util.stream.Collectors.toList;
  * Manages access to table S_BIB_MARC_IND_DB_CRLTN -- the correlation between AMICUS
  * database encoding and MARC21 encoding
  * @author paulm
+ * @author natasciab
  * @version $Revision: 1.12 $, $Date: 2007/02/13 09:17:59 $
  */
+
 @SuppressWarnings("unchecked")
 public class DAOBibliographicCorrelation extends DAOCorrelation {
 	private static final Log logger =
@@ -547,50 +536,69 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 		}
 		return isPresent;
 	}
-	
+
 	/**
-	 * returns a filtered list for groups of tags as 2xx,3xx....
-	 * @param c
-	 * @param alphabeticOrder
-	 * @param rangTag
+	 * Loads first correlation list using note group code for tag range values.
+	 *
+	 * @param session the session of hibernate
+	 * @param noteGroupTypeCode the note group code used as filter criterion.
+	 * @param locale the Locale, used here as a filter criterion.
 	 * @return
 	 * @throws DataAccessException
 	 */
-	public  List getFirstCorrelationListFilter(Class c, boolean alphabeticOrder,short rangTag) throws DataAccessException {
-		List listCodeTable = null;
-		String rangeTagFrom="";
-		short rangeTagTo=0;
-		//Only Tag 0XX
-		if(rangTag==10)
-		  rangeTagFrom="010";
-		else
-		 rangeTagFrom=""+rangTag;
-		//Delta of 99 tag
-		if(rangTag!=0)
-			 rangeTagTo = (short) (rangTag+99);
-		//Filters
-		String filtro=" and bc.key.marcSecondIndicator <> '@' and bc.databaseFirstValue = ct.code ";
-		String filterTag=" and bc.key.marcTag between '" +rangeTagFrom+ "' and '"+rangeTagTo+"'";
-		if(rangTag==0)
-			filterTag="";
-		String order = SEQUENCE_ORDER;
-		if (alphabeticOrder)
-			order = ALPHABETICAL_ORDER;
-		try {
-			Session s = currentSession();
-			listCodeTable =
-				s.find("select distinct ct from "
-						+ c.getName()
-						+ " as ct, BibliographicCorrelation as bc "
-						+ " where ct.obsoleteIndicator = 0 and bc.key.marcTagCategoryCode= 7"
-						+ filterTag
-						+ filtro
-						+ order);
-		} catch (HibernateException e) {
-			logAndWrap(e);
-		}
-		logger.debug("Got codetable for " + c.getName());
-		return listCodeTable;
+	public List<Avp<String>> getFirstCorrelationByNoteGroupCode(final Session session, final String noteGroupTypeCode, final Locale locale) throws DataAccessException {
+
+		final String fromTag = (noteGroupTypeCode.length() == 2 ? "0"+noteGroupTypeCode : noteGroupTypeCode);
+		final String toTag = String.valueOf(Short.parseShort(noteGroupTypeCode) + 99);
+
+		final StringBuilder sqlFilter = new StringBuilder(" and bc.key.marcSecondIndicator <> '@' ")
+				                                  .append(" and bc.databaseFirstValue = ct.code ")
+				                                  .append(" and bc.key.marcTagCategoryCode = 7 ")
+												  .append(" and bc.key.marcTag between '").append(fromTag)
+											      .append("' and '").append(toTag).append("' ");
+
+		return getCorrelatedList(session, BibliographicNoteType.class, true, sqlFilter.toString(), locale);
 	}
 
+
+	/**
+	 * Generic method that gets first correlation using filter sql as criterion.
+	 *
+	 * @param session the session of hibernate
+	 * @param clazz the mapped class in the hibernate configuration.
+	 * @param alphabeticOrder true if alphabetical order
+	 * @param sqlFilter the sql filter added to query
+	 * @param locale the Locale, used here as a filter criterion.
+	 * @return
+	 * @throws DataAccessException in case of SQL exception.
+	 */
+	public List<Avp<String>> getCorrelatedList(final Session session,
+											   final Class clazz,
+											   final boolean alphabeticOrder,
+											   final String sqlFilter,
+											   final Locale locale) throws DataAccessException
+	{
+		final String sqlOrder = ( alphabeticOrder ? ALPHABETICAL_ORDER : SEQUENCE_ORDER );
+
+		try {
+			final List<CodeTable> codeTables = session.find("select distinct ct from "
+					+ clazz.getName()
+					+ " as ct, BibliographicCorrelation as bc "
+					+ " where ct.obsoleteIndicator = '0' "
+					+ " and ct.language = ? "
+					+ sqlFilter
+					+ sqlOrder,
+					new Object[] { locale.getISO3Language()},
+					new Type[] { Hibernate.STRING });
+
+			return codeTables
+					.stream()
+					.map(codeTable -> (Avp<String>) new Avp(codeTable.getCodeString().trim(), codeTable.getLongText()))
+					.collect(toList());
+
+		} catch (final HibernateException exception) {
+			logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+			return Collections.emptyList();
+		}
+	}
 }

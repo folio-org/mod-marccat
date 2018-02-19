@@ -106,8 +106,9 @@ public class DAOCodeTable extends HibernateUtil {
 		logger.debug("Got codetable for " + c.getName());
 		return listCodeTable;
 	}
-	
-	public List getCorrelatedList(Class c, boolean alphabeticOrder, String filtro) throws DataAccessException 
+
+	@Deprecated
+	public List getCorrelatedList(Class c, boolean alphabeticOrder, String filtro) throws DataAccessException
 	{
 		List listCodeTable = null;	
 		String order = SEQUENCE_ORDER;
@@ -910,22 +911,6 @@ public class DAOCodeTable extends HibernateUtil {
 			throw new RuntimeException("unable to create code table object");
 		}
 		return (T_SINGLE_LONGCHAR) loadCodeTableEntry(session, c, key);
-	}
-	
-	public List getCorrelationListFromSuggest(short category,String marcTag,Class codeTable) throws DataAccessException 
-	{
-		return find(
-			" select distinct ct from "
-				+ codeTable.getName()
-				+ " as ct, BibliographicCorrelation as bc "
-				+ " where bc.key.marcTagCategoryCode = ? and "
-				+ " bc.key.marcFirstIndicator <> '@' and "
-				+ " bc.key.marcSecondIndicator <> '@' and "
-				+ " bc.key.marcTag = ? and "
-				+ " bc.databaseFirstValue = ct.code and  "
-				+ "ct.obsoleteIndicator = 0  order by ct.sequence ",
-			new Object[] { new Short(category), new String(marcTag)},
-			new Type[] { Hibernate.SHORT, Hibernate.STRING });
 	}
 	
 	/**
