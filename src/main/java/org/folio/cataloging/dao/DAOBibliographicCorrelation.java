@@ -253,7 +253,7 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 				item.setSequence(rs.getInt("TBL_SEQ_NBR"));
 //				item.setCode(rs.getShort("TYP_VLU_CDE"));
 				item.setCode(rs.getShort("FNCTN_VLU_CDE"));
-				item.setObsoleteIndicator(rs.getString("TBL_VLU_OBSLT_IND").equals("1"));
+				item.setObsoleteIndicator((rs.getString("TBL_VLU_OBSLT_IND")).charAt(0));
 				item.setLanguage(rs.getString("LANGID"));
 				item.setShortText(rs.getString("SHORT_STRING_TEXT"));
 				item.setLongText(rs.getString("STRING_TEXT"));
