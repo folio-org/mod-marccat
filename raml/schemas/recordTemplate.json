@@ -46,18 +46,6 @@
       "items": {
         "type": "object",
         "properties": {
-          "categoryCode": {
-            "type": "string"
-          },
-          "headingTypeCode": {
-            "type": "string"
-          },
-          "itemTypeCode": {
-            "type": "string"
-          },
-          "functionCode": {
-            "type": "string"
-          },
           "code": {
             "type": "string",
             "minLength": 3,

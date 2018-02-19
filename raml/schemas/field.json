@@ -1,26 +1,20 @@
 {
   "$schema" : "http://json-schema.org/draft-04/schema#",
-  "title": "FieldTemplate",
+  "title": "Field",
   "type": "object",
   "properties": {
     "fixed-field": {
       "type": "object",
       "properties": {
+        "value": {
+          "type": "string"
+        }
       }
     },
     "variable-field": {
       "type": "object",
       "properties": {
         "categoryCode": {
-          "type": "string"
-        },
-        "headingTypeCode": {
-          "type": "string"
-        },
-        "itemTypeCode": {
-          "type": "string"
-        },
-        "functionCode": {
           "type": "string"
         },
         "ind1" : {
@@ -33,11 +27,22 @@
           "minimum": 0,
           "maximum": 9
         },
+        "code": {
+          "type": "string"
+        },
         "subfields": {
           "type": "array",
           "items": {
-            "type": "string",
-            "pattern": "[a-z|0-9]"
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "pattern": "[a-z|0-9]"
+              },
+              "value": {
+                "type": "string"
+              }
+            }
           }
         }
       }

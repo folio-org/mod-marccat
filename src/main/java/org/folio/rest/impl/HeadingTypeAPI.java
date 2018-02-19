@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
+import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
@@ -55,27 +56,19 @@ public class HeadingTypeAPI implements CatalogingHeadingTypesResource {
             try {
 
                 final String category = (marcCategory.equals("17") ? Global.NAME_CATEGORY_DEFAULT : marcCategory);
-                Class className = null;
+                return ofNullable(Global.firstCorrelationHeadingClassMap.get(category))
+                        .map(className -> {
+                            final HeadingType headingType = new HeadingType();
+                            headingType.setMarcCategory(Integer.parseInt(marcCategory));
+                            headingType.setDescription(getDescription(category, storageService.getHeadingDescriptionByCode(category, lang)));
 
-                try {
-                    className = Global.firstCorrelationHeadingClassMap.get(category);
-                }catch (NullPointerException exception){
-                    //TODO return 404 (not found)
-                    logger.error(MessageCatalog._00012_NULL_RESULT, exception);
-                    return null;
-                }
+                            headingType.setItemTypes(storageService.getFirstCorrelation(lang, className)
+                                    .stream()
+                                    .map(toItemType)
+                                    .collect(toList()));
 
-                final HeadingType headingType = new HeadingType();
-                headingType.setMarcCategory(Integer.parseInt(marcCategory));
-                headingType.setDescription(getDescription(category, storageService.getHeadingDescriptionByCode(category, lang)));
-
-                headingType.setItemTypes(storageService.getFirstCorrelation(lang, className)
-                        .stream()
-                        .map(toItemType)
-                        .collect(toList()));
-
-                return headingType;
-
+                            return headingType;
+                        }).orElse(null);
             } catch (final Exception exception) {
                 logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
                 return null;
@@ -119,7 +112,7 @@ public class HeadingTypeAPI implements CatalogingHeadingTypesResource {
     }
 
     private String getDescription(final String marcCategory, final String desc){
-        final Optional<String> description = Optional.ofNullable(desc);
+        final Optional<String> description = ofNullable(desc);
         return description.isPresent() ? description.get() : description.orElse("");
     }
 }
