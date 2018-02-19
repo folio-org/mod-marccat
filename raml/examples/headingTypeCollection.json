@@ -1,0 +1,49 @@
+{
+  "headingTypes": [
+    {
+      "marcCategory": 1,
+      "description": "Header",
+      "item-types": []
+    },
+    {
+      "marcCategory": 2,
+      "description": "Name",
+      "item-types": []
+    },
+    {
+      "marcCategory": 3,
+      "description": "Title",
+      "item-types": []
+    },
+    {
+      "marcCategory": 4,
+      "description": "Subject",
+      "item-types": []
+    },
+    {
+      "marcCategory": 5,
+      "description": "Control Number",
+      "item-types": []
+    },
+    {
+      "marcCategory": 6,
+      "description": "Classification Number",
+      "item-types": []
+    },
+    {
+      "marcCategory": 7,
+      "description": "Note",
+      "item-types": []
+    },
+    {
+      "marcCategory": 8,
+      "description": "Relationship",
+      "item-types": []
+    },
+    {
+      "marcCategory": 11,
+      "description": "Name/Title",
+      "item-types": []
+    }
+  ]
+}

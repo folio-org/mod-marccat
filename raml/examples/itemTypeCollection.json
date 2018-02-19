@@ -1,0 +1,21 @@
+{
+  "itemTypes": [
+    {
+      "code": 2,
+      "description": "Name Personal"
+    },
+    {
+      "code": 3,
+      "description": "Name Corporate"
+    },
+    {
+      "code": 4,
+      "description": "Name Conference/meeting"
+    },
+    {
+      "code": 5,
+      "description": "Name Uncontrolled"
+    }
+  ]
+}
+

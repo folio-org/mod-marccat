@@ -370,7 +370,8 @@ public class DAOCodeTable extends HibernateUtil {
 	{
 		String result = new String("");
 		CodeTable ct = load(session, c, code, locale);
-		result = ct.getLongText();
+		if(ct != null)	result = ct.getLongText();
+
 		return result;
 	}
 

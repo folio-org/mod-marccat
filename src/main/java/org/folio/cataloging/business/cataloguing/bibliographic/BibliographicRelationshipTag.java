@@ -458,13 +458,13 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 	{
 		Set set = new TreeSet(new SubfieldCodeComparator());
 		if (BibliographicRelationReciprocal.isBlind(getReciprocalOption())) {
-			set.addAll(Arrays.asList(new String[] { "a", "s", "t", "p", "b",
-					"c", "m", "d", "e", "f", "k", "n", "q","r", "u", "x", "z", "y",
-					"g", "w", "i","3","4" }));
+			set.addAll(Arrays.asList("a", "s", "t", "p", "b",
+                    "c", "m", "d", "e", "f", "k", "n", "q","r", "u", "x", "z", "y",
+                    "g", "w", "i","3","4"));
 		} else {
 			/* Bug 4122 */
 //			set.addAll(Arrays.asList(new String[] { "c", "g", "n","q","3","4" }));
-			set.addAll(Arrays.asList(new String[] { "c", "g", "i", "n","q","3","4" }));
+			set.addAll(Arrays.asList("c", "g", "i", "n","q","3","4"));
 		}
 		return set;
 	}

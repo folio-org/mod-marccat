@@ -15,6 +15,7 @@ import org.folio.rest.jaxrs.resource.CatalogingFieldTemplateResource;
 import javax.ws.rs.core.Response;
 import java.util.Map;
 
+import static java.util.Arrays.asList;
 import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
 public class FieldTemplateAPI implements CatalogingFieldTemplateResource {

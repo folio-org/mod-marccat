@@ -135,7 +135,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 	* @return the MARC tag and indicators for this tag
 	*/
 	public CorrelationKey getMarcEncoding()
-		throws DataAccessException, MarcCorrelationException {
+		throws DataAccessException {
 		return tagImpl.getMarcEncoding(this);
 	}
 
@@ -444,7 +444,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 	}
 
 	public Validation getValidation()
-		throws MarcCorrelationException, DataAccessException {
+		throws DataAccessException {
 		return tagImpl.getValidation(this);
 	}
 

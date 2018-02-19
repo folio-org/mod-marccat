@@ -1,0 +1,37 @@
+#%RAML 0.8
+title: multipart Resource Level
+version: v1
+baseUri: http://github.com/org/folio/mod-cataloging
+
+documentation:
+  - title: mod-cataloging API
+    content: This documents the API calls that can be made to manage multipart Resource level within the cataloging module.
+
+schemas:
+  - multipartResourceLevel: !include schemas/multipartResourceLevel.json
+  - multipartResourceLevelCollection: !include schemas/multipartResourceLevelCollection.json
+  - errors: !include ../raml-util/schemas/errors.schema
+  - error.schema: !include ../raml-util/schemas/error.schema
+  - parameters.schema: !include ../raml-util/schemas/parameters.schema
+
+traits:
+  - secured: !include ../raml-util/traits/auth.raml
+  - orderable: !include ../raml-util/traits/orderable.raml
+  - pageable: !include ../raml-util/traits/pageable.raml
+  - searchable: !include ../raml-util/traits/searchable.raml
+  - language: !include ../raml-util/traits/language.raml
+  - validate: !include ../raml-util/traits/validation.raml
+
+resourceTypes:
+  - collection: !include ../raml-util/rtypes/collection.raml
+  - collection-item: !include ../raml-util/rtypes/item-collection.raml
+  - get-only: !include ../raml-util/rtypes/get-only.raml
+  - post-empty-body: !include ../raml-util/rtypes/post-empty-body.raml
+
+/cataloging/multipart-resource-levels:
+  type:
+    collection:
+      exampleCollection: !include examples/multipartResourceLevelCollection.json
+      exampleItem: !include examples/multipartResourceLevel.json
+      schemaCollection: multipartResourceLevelCollection
+      schemaItem: multipartResourceLevel

@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "subfieldsTag": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "$ref": "subfieldsTag"
+      }
+    }
+  },
+  "required": [
+    "subfieldsTags",
+    "total_records"
+  ]
+}
