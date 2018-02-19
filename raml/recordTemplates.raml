@@ -25,6 +25,7 @@ traits:
 resourceTypes:
   - collection: !include ../raml-util/rtypes/collection.raml
   - collection-item: !include ../raml-util/rtypes/item-collection.raml
+  - read-only-entity: !include ../rtypes/read-only-entity.raml
 
 /cataloging/record-templates:
   type:
@@ -48,4 +49,11 @@ resourceTypes:
         exampleItem: !include examples/recordTemplate.json
         schema: recordTemplate
     get:
-      description: Get a single index
+      description: Get the record template associated with the given id
+  /bibliographic/template:
+    type:
+      read-only-entity:
+        exampleItem: !include examples/recordTemplate.json
+        schema: recordTemplate
+    get:
+        description: Get the default single index

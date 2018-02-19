@@ -52,7 +52,7 @@ public abstract class AbstractMapBackedFactory {
 			} catch (final Exception exception) {
 				throw new RuntimeException(exception);
 			}
-		});
+		}).orElseThrow(() -> new RuntimeException("Unable to create a valid instance of " + type));
 	}
 
 	/**
@@ -61,7 +61,7 @@ public abstract class AbstractMapBackedFactory {
 	 * @param key the factory identifier / key.
 	 * @return an instance of the product associated with the given factory identifier.
 	 */
-	public Object create(int key) {
+	public Object create(final int key) {
 		return ofNullable(getInstance(key))
 				.orElseThrow(() -> new RuntimeException("No Class found for key " + key ));
 	}

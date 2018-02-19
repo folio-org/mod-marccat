@@ -11,15 +11,18 @@ import org.folio.cataloging.dao.persistence.CorrelationKey;
 import org.folio.cataloging.util.StringText;
 
 /**
- * Marker for AccessPoints used by MarcHelper
+ * Marker for AccessPoints used by MarcHelper.
  * 
  * @author michelem
+ * @since 1.0
  *
  */
 public interface MarcHelperTag {
 	
 	/**
-	 * @return the AccessPoint's variant codes
+	 * Returns the AccessPoint's variant codes.
+	 *
+	 * @return the AccessPoint's variant codes.
 	 */
 	String getVariantCodes();
 	
@@ -50,5 +53,4 @@ public interface MarcHelperTag {
 	 * @throws MarcCorrelationException
 	 */
 	String getKey()throws DataAccessException, MarcCorrelationException;
-	
 }

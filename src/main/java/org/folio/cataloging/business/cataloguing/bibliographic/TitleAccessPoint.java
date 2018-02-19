@@ -23,14 +23,11 @@ import java.util.List;
 import static org.folio.cataloging.F.deepCopy;
 
 /**
- * MIKE: 20071218: now it implements MarcHelperTag
+ *
  * @author paulm
- * @version $Revision: 1.15 $, $Date: 2006/03/28 12:44:16 $
  * @since 1.0
  */
-@SuppressWarnings("unchecked")
-public class TitleAccessPoint extends NameTitleComponent implements MarcHelperTag,OrderedTag,Equivalent 
-{
+public class TitleAccessPoint extends NameTitleComponent implements MarcHelperTag, OrderedTag, Equivalent {
 	private static final long serialVersionUID = 1636144329543139231L;
 	
 	private String institution;
@@ -40,16 +37,11 @@ public class TitleAccessPoint extends NameTitleComponent implements MarcHelperTa
 	private String variantTitle;
 	private TTL_HDG descriptor = new TTL_HDG();
 	private static final String VARIANT_CODES = "3civ5";
-	//private int sequenceNumber;
 	private Integer sequenceNumber;
-	private ConfigHandler configHandler =ConfigHandler.getInstance();
+	private ConfigHandler configHandler = ConfigHandler.getInstance();
 
 	public TitleAccessPoint() {
-		super();
 		setDefaultTypeAndFunction();
-		/*setFunctionCode(Defaults.getShort("titleAccessPoint.functionCode"));
-		setSecondaryFunctionCode(
-			Defaults.getShort("titleAccessPoint.secondaryFunctionCode"));*/
 	}
 
 	public TitleAccessPoint(int itemNbr) {
@@ -64,25 +56,19 @@ public class TitleAccessPoint extends NameTitleComponent implements MarcHelperTa
 		institution = string;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	public boolean equals(Object obj) 
-	{
+	@Override
+	public boolean equals(final Object obj) {
 		if (!(obj instanceof TitleAccessPoint))
 			return false;
-		TitleAccessPoint other = (TitleAccessPoint) obj;
+		final TitleAccessPoint other = (TitleAccessPoint) obj;
 		return super.equals(obj)
 			&& (other.getFunctionCode() == this.getFunctionCode())
 			&& (other.nameTitleHeadingNumber == this.nameTitleHeadingNumber);
-		//TODO don't know if this is right
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
+	@Override
 	public int hashCode() {
-		return super.hashCode(); //TODO this is bad, should be changed
+		return super.hashCode();
 	}
 
 	public Descriptor getDescriptor() {
@@ -93,25 +79,18 @@ public class TitleAccessPoint extends NameTitleComponent implements MarcHelperTa
 		descriptor = (TTL_HDG) ttl_hdg;
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#getFirstCorrelationList(java.util.Locale)
-	 */
+	@Override
 	public List getFirstCorrelationList() throws DataAccessException {
 		return getDaoCodeTable().getList(TitleFunction.class,true);
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#getSecondCorrelationList(short, java.util.Locale)
-	 */
-	public List getSecondCorrelationList(short value1) throws DataAccessException 
-	{
+	@Override
+	public List getSecondCorrelationList(short value1) throws DataAccessException {
 		DAOBibliographicCorrelation dao = new DAOBibliographicCorrelation();
 		return dao.getSecondCorrelationList(getCategory(),value1,TitleSecondaryFunction.class);
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#getThirdCorrelationList(short, short, java.util.Locale)
-	 */
+	@Override
 	public List getThirdCorrelationList(short value1, short value2) throws DataAccessException {
 		return null;
 	}
@@ -148,40 +127,30 @@ public class TitleAccessPoint extends NameTitleComponent implements MarcHelperTa
 		volumeNumberDescription = string;
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#getRequiredEditPermission()
-	 */
+	@Override
 	public String getRequiredEditPermission() {
 		return "editTitle";
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#correlationChangeAffectsKey(librisuite.business.common.CorrelationValues)
-	 */
+	@Override
 	public boolean correlationChangeAffectsKey(CorrelationValues v) {
 		return (v.isValueDefined(1) && (v.getValue(1) != getFunctionCode()));
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#getCorrelationValues()
-	 */
-	public CorrelationValues getCorrelationValues() 
-	{
+	@Override
+	public CorrelationValues getCorrelationValues() {
 		return getDescriptor().getCorrelationValues().change(1, getFunctionCode()).change(2, getSecondaryFunctionCode());
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#setCorrelationValues(librisuite.business.common.CorrelationValues)
-	 */
+	@Override
 	public void setCorrelationValues(CorrelationValues v) {
 		setFunctionCode(v.getValue(1));
 		setSecondaryFunctionCode(v.getValue(2));
 		getDescriptor().setCorrelationValues(v);
 	}
-	
-	/* Bug 4122 */
-	public StringText getStringText() 
-	{
+
+	@Override
+	public StringText getStringText() {
 		StringText result = new StringText();
 		result.add(getAccessPointStringText().getSubfieldsWithCodes("i"));
 		if (getDescriptor() != null) {
@@ -191,9 +160,8 @@ public class TitleAccessPoint extends NameTitleComponent implements MarcHelperTa
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.AccessPoint#getAccessPointStringText()
-	 */
+	@Override
+
 	public StringText getAccessPointStringText() 
 	{
 		//TODO _JANICK to the Dark Side, this issn number leads
@@ -205,37 +173,33 @@ public class TitleAccessPoint extends NameTitleComponent implements MarcHelperTa
 		return text;
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.AccessPoint#setAccesspointStringText(org.folio.cataloging.util.StringText)
-	 */
-	public void setAccessPointStringText(StringText stringText) 
-	{
-		//		TODO _JANICK externalize codes
+	@Override
+	public void setAccessPointStringText(final StringText stringText) {
 		variantTitle = stringText.getSubfieldsWithCodes("ci").toString();
 		institution = stringText.getSubfieldsWithCodes("5").toString();
-		if(!stringText.getSubfieldsWithCodes("x").isEmpty() && this.getSeriesIssnHeadingNumber()!=null)
-		  	seriesIssnHeadingNumber=new Integer(this.getSeriesIssnHeadingNumber().intValue());
-		else
-		  	seriesIssnHeadingNumber=null;
-		volumeNumberDescription =
-		stringText.getSubfieldsWithCodes("v").toString();
+		if(!stringText.getSubfieldsWithCodes("x").isEmpty() && this.getSeriesIssnHeadingNumber()!=null) {
+			seriesIssnHeadingNumber = new Integer(this.getSeriesIssnHeadingNumber().intValue());
+		} else {
+			seriesIssnHeadingNumber = null;
+		}
+		volumeNumberDescription = stringText.getSubfieldsWithCodes("v").toString();
 	}
 
-	public void setDescriptorStringText(StringText stringText) {
+	public void setDescriptorStringText(final StringText stringText) {
 		getDescriptor().setStringText(
 			stringText.getSubfieldsWithoutCodes(VARIANT_CODES).toString());
 	}
-	/* (non-Javadoc)
-	 * @see TagInterface#getCategory()
-	 */
+	@Override
 	public short getCategory() {
 		return 3;
 	}
 
+	@Override
 	public String getVariantCodes() {
 		return VARIANT_CODES;
 	}
 
+	@Override
 	public String getKey() throws DataAccessException {
 		return getMarcEncoding().getMarcTag();
 	}
@@ -246,27 +210,18 @@ public class TitleAccessPoint extends NameTitleComponent implements MarcHelperTa
 	
 	}
 
-	/*public Integer getSequenceNumber() {
-		return new Integer(sequenceNumber);
-	}
-
-	public void setSequenceNumber(Integer integer) {
-		sequenceNumber = 0;
-		if (integer != null) {
-			sequenceNumber = integer.intValue();
-		}
-	}*/
-	
+	@Override
 	public void setSequenceNumber(Integer integer) {
 		sequenceNumber = integer;
 	}
-	
+
+	@Override
 	public Integer getSequenceNumber() {
 		return sequenceNumber;
 	}
-	
-	public List  replaceEquivalentDescriptor(short indexingLanguage, int cataloguingView) throws DataAccessException 
-	{
+
+	@Override
+	public List replaceEquivalentDescriptor(short indexingLanguage, int cataloguingView) throws DataAccessException {
 		DAODescriptor dao = new DAOTitleDescriptor();
 		List newTags = new ArrayList();
 		Descriptor d = getDescriptor();
@@ -278,11 +233,10 @@ public class TitleAccessPoint extends NameTitleComponent implements MarcHelperTa
 			aTag.setHeadingNumber(new Integer(aTag.getDescriptor().getKey().getHeadingNumber()));
 			newTags.add(aTag);
 		}
-	return newTags;
+		return newTags;
 	}
 	
-	public void setDefaultTypeAndFunction()
-	{
+	public void setDefaultTypeAndFunction() {
 		int typCode= new Integer(configHandler.findValue("t_ttl_fnctn_2nd_fnctn","titleAccessPoint.functionCode"));		
 		int type = configHandler.isParamOfGlobalVariable("t_ttl_fnctn_2nd_fnctn") ? this.getType(typCode) : typCode;
 		

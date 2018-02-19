@@ -3,6 +3,10 @@ package org.folio.rest.impl;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Context;
 import io.vertx.core.Handler;
+import org.folio.cataloging.business.cataloguing.common.Tag;
+import org.folio.cataloging.business.common.AbstractMapBackedFactory;
+import org.folio.cataloging.business.common.MapBackedFactory;
+import org.folio.cataloging.business.common.PropertyBasedFactoryBuilder;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.rest.jaxrs.model.FieldTemplate;
@@ -16,23 +20,32 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
 public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
 
+    protected static AbstractMapBackedFactory TAG_FACTORY = new MapBackedFactory();
+    protected static AbstractMapBackedFactory FIXED_FIELDS_FACTORY = new MapBackedFactory();
+
+    static {
+        final PropertyBasedFactoryBuilder builder = new PropertyBasedFactoryBuilder();
+        builder.load(
+                "/org/folio/cataloging/business/cataloguing/bibliographic/tagFactory.properties",
+                TAG_FACTORY);
+        builder.load(
+                "/org/folio/cataloging/business/cataloguing/bibliographic/fixedFieldFactory.properties",
+                FIXED_FIELDS_FACTORY);
+    }
+
     protected final Log logger = new Log(FrbrTypesAPI.class);
 
     @Override
     public void getCatalogingFieldTemplate(
-            final String headingType,
+            final int categoryCode,
+            final String headingTypeCode,
             final String itemType,
-            final String subItemType,
             final String functionCode,
             final String lang, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
          doGet((storageService, future) -> {
             try {
-                FieldTemplate template = new FieldTemplate();
-                template.setCode("001");
-                template.setInd1(1);
-                template.setInd2(0);
-                template.setSubfields(asList("a","b","c","d","x","0","1"));
-                return template;
+                Tag tag = (Tag) TAG_FACTORY.create(categoryCode);
+                return null;
             } catch (final Exception exception) {
                 logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
                 return null;

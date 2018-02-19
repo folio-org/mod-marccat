@@ -33,19 +33,19 @@ resourceTypes:
         schema: fieldTemplate
   get:
     queryParameters:
-      headingType:
+      categoryCode:
+        displayName: Heading category
+        description: the heading category
+        required: true
+        type: integer
+      headingTypeCode:
         displayName: Heading type
         description: the heading type
         required: true
         type: string
-      itemType:
-        displayName: Item type
+      itemTypeCode:
+        displayName: The item type
         description: the item type
-        required: true
-        type: string
-      subItemType:
-        displayName: Sub-item type
-        description: the sub-item type
         required: true
         type: string
       functionCode:

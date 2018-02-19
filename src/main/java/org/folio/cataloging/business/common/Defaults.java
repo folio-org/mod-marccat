@@ -15,6 +15,7 @@ import java.util.*;
  * @version $Revision: 1.3 $, $Date: 2006/07/11 08:01:06 $
  * @since 1.0
  */
+@Deprecated
 public class Defaults {
 
 	static public Class getClazz(String key) {
@@ -26,10 +27,21 @@ public class Defaults {
 		}
 	}
 
+	@Deprecated
 	static public String getString(String key){
+	    if ("material.bookIllustrationCode".equals(key)
+                || "material.formOfItemCode".equals(key)
+                || "material.natureOfContentsCode".equals(key)
+                || "material.targetAudienceCode".equals(key) ) {
+	        return "\\";
+        }
+
+		throw new IllegalArgumentException("DEPRECATED KEY: " + key);
+/*
 		ResourceBundle defaults =
 			ResourceBundle.getBundle("resources/defaultValues");
 		return defaults.getString(key);
+*/
 	}
 	
 	public static String getString(String key, String ifNotPresentValue) {
@@ -59,12 +71,17 @@ public class Defaults {
 		String result = getString(key);
 		return new Character(result.charAt(0));
 	}
-	
+	@Deprecated
 	static public boolean getBoolean(String key) {
+		if ("labels.alphabetical.order".equals(key)) {
+			return true;
+		} else throw new IllegalArgumentException("DEPRECATED KEY: " + key);
+/*
 		String result = getString(key);
 		return Boolean.valueOf(result).booleanValue();
+*/
 	}
-	
+	@Deprecated
 	static public boolean getBoolean(String key, boolean ifNotPresentValue) {
 		try {
 			return getBoolean(key);
