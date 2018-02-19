@@ -8,6 +8,21 @@
     },
     "description": {
       "type": "string"
+    },
+    "constraints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties" : {
+          "code": {
+            "type" : "string"
+          },
+          "label" : {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
     }
   },
   "additionalProperties": false

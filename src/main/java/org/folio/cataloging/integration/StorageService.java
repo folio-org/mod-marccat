@@ -418,6 +418,29 @@ public class StorageService implements Closeable {
     }
 
     /**
+     * update db with object c
+     * @param c
+     * @throws DataAccessException
+     */
+
+    public void updateCodeTable(final Object c) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        dao.updateCodeTable(c, session);
+    }
+
+    /**
+     * get single row from db by language and code
+     * @param c table class name
+     * @param codeTable
+     * @return
+     * @throws DataAccessException
+     */
+
+    public CodeTable getCodeTableByCode (final Class c, final CodeTable codeTable) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.loadCodeTableEntry(session, c, codeTable);
+    }
+   /**
      * Returns the description for heading type entity.
      *
      * @param code the heading marc category code, used here as a filter criterion.

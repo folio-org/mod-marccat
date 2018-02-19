@@ -351,7 +351,16 @@ public class DAOCodeTable extends HibernateUtil {
 		return (T_SINGLE) loadCodeTableEntry(session, c, key);
 	}
 
-	private CodeTable loadCodeTableEntry(Session session, Class c, Serializable ser) throws DataAccessException
+	/**
+	 *
+	 * @param session  hibernate session
+	 * @param c class bind to db table
+	 * @param ser oject to load
+	 * @return
+	 * @throws DataAccessException
+	 */
+
+	public CodeTable loadCodeTableEntry(Session session, Class c, Serializable ser) throws DataAccessException
 	{
 		return (CodeTable) get(session, c, ser);
 	}
@@ -1041,5 +1050,34 @@ public class DAOCodeTable extends HibernateUtil {
 			try{ statement.close(); } catch(Exception ex){}
 		}
 		return list;
-	} 	
+	}
+
+	/**
+	 * Perform update on database
+	 *
+	 * @param c table name class
+	 * @param session hibernate session
+	 * @throws DataAccessException
+	 */
+
+	public void updateCodeTable(final Object c, final Session session) {
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			session.update(c);
+			tx.commit();
+
+		} catch (HibernateException e) {
+			if (tx != null) {
+				try {
+					tx.rollback();
+				}  catch (final HibernateException exception) {
+					logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+					logger.error(exception.getMessage(), exception);
+					return;
+				}
+			}
+		}
+
+	}
 }
