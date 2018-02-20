@@ -7,10 +7,10 @@
  */
 package org.folio.cataloging.business.cataloguing.authority;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Set;
-
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
 import org.folio.cataloging.business.cataloguing.bibliographic.NameAccessPoint;
 import org.folio.cataloging.business.cataloguing.bibliographic.PersistsViaItem;
@@ -19,31 +19,22 @@ import org.folio.cataloging.business.cataloguing.common.AccessPoint;
 import org.folio.cataloging.business.cataloguing.common.Browsable;
 import org.folio.cataloging.business.cataloguing.common.ItemEntity;
 import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.dao.DAOAuthorityCorrelation;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.PersistentObjectWithView;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.DescriptorFactory;
 import org.folio.cataloging.business.descriptor.SkipInFiling;
-import org.folio.cataloging.exception.NoHeadingSetException;
-import org.folio.cataloging.dao.persistence.AUT;
-import org.folio.cataloging.dao.persistence.CorrelationKey;
-import org.folio.cataloging.dao.persistence.NME_HDG;
-import org.folio.cataloging.dao.persistence.NME_REF;
-import org.folio.cataloging.dao.persistence.NME_TTL_HDG;
-import org.folio.cataloging.dao.persistence.NameType;
-import org.folio.cataloging.dao.persistence.REF;
-import org.folio.cataloging.dao.persistence.T_DUAL_REF;
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.dao.DAOAuthorityCorrelation;
 import org.folio.cataloging.dao.DAOAuthorityReferenceTag;
+import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.persistence.*;
+import org.folio.cataloging.exception.NoHeadingSetException;
+import org.folio.cataloging.util.StringText;
 import org.w3c.dom.Element;
 
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.util.StringText;
+import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Represents Authority tags 4XX and 5XX.
@@ -177,7 +168,7 @@ public abstract class AuthorityReferenceTag
 		c = c.change(getRefTypeCorrelationPosition(), getReference().getType());
 		/*
 		 * subject correlation in bib uses pos 3 for source but authorities
-		 * does not use this value so set to undefined
+		 * does not use this stringValue so set to undefined
 		 */
 		for (int i = getRefTypeCorrelationPosition() + 1; i <= 3; i++) {
 			c = c.change(i, CorrelationValues.UNDEFINED);
@@ -314,14 +305,14 @@ public abstract class AuthorityReferenceTag
 	}
 
 	/*
-	 * The position of the referenceType correlation value varies by the type of
+	 * The position of the referenceType correlation stringValue varies by the type of
 	 * heading (3 for names, 1 for titles, etc.).  This attribute is set during the
 	 * call to getCorrelationValues (and should stay the same for any given instance).
 	 * @since 1.0
 	 */
 	protected int getRefTypeCorrelationPosition() {
 		if (refTypeCorrelationPosition == null) {
-			// set the value  by calling getCorrelationValues()
+			// set the stringValue  by calling getCorrelationValues()
 			getCorrelationValues();
 		}
 		return refTypeCorrelationPosition.intValue();

@@ -65,6 +65,16 @@ public class Log {
     /**
      * Logs out an error message.
      *
+     * @param message the message (with no placeholders).
+     * @param cause the exception cause.
+     */
+    public void error(final String message, final Throwable cause, final Object ... values) {
+        logger.error(String.format(message, values), cause);
+    }
+
+    /**
+     * Logs out an error message.
+     *
      * @param owner the class owner.
      * @param message the message (with no placeholders).
      */

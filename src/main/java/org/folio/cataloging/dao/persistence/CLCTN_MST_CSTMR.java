@@ -6,16 +6,15 @@
   */
 package org.folio.cataloging.dao.persistence;
 
-import java.io.Serializable;
-
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
-
 import org.folio.cataloging.dao.DAOCollectionMaster;
 import org.folio.cataloging.dao.common.HibernateUtil;
+
+import java.io.Serializable;
 
 
 public  class  CLCTN_MST_CSTMR implements Persistence{
@@ -82,7 +81,7 @@ public  class  CLCTN_MST_CSTMR implements Persistence{
 	}
 
 	public void generateNewKey() throws DataAccessException {
-		// MIKE: this value should be assigned when all the objects are available (eng, ita, etc...) 
+		// MIKE: this stringValue should be assigned when all the objects are available (eng, ita, etc...)
 		// sequence = ((DAOCodeTable)getDAO()).suggestNewKey((CodeTable)this);
 		
 	}

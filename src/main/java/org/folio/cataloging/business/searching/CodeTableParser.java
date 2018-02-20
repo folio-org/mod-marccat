@@ -434,7 +434,7 @@ public class CodeTableParser
 						marc.getMarcFbrType(),
 					   (marc.getMarcTagSubfieldCode()==null?null:marc.getMarcTagSubfieldCode().toString()));
 			value = marc.getMarcTagDescription() + "@" + marc.getMarcTagNumberText();
-			//System.out.println("VALUE: " +value +" Chiave: " +key+ " --- "+ marc);
+			//System.out.println("VALUE: " +stringValue +" Chiave: " +key+ " --- "+ marc);
 			//if(hashTags.containsKey(key)) System.out.println(">>>>>>>>>>> duplicata: "+ key);
 			hashTags.put(key,value);				
 		}

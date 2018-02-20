@@ -7,16 +7,14 @@
  */
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.bean.cataloguing.common.EditBean;
+import org.folio.cataloging.business.Command;
 import org.folio.cataloging.business.cataloguing.common.Browsable;
 import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.business.Command;
 
 /**
  * @author paulm
@@ -50,7 +48,7 @@ public class ChangeValuesCommand implements Command {
 	public void execute() throws DataAccessException {
 		/*
 		 * Changes in correlation values may result in changes to keys.  If this is
-		 * the case then a new tag needs to be created (with the new key value) and the
+		 * the case then a new tag needs to be created (with the new key stringValue) and the
 		 * old tag needs to be deleted.  However, if no change in key is required, then 
 		 * the existing tag can (must) be updated.
 		 * 
@@ -61,7 +59,7 @@ public class ChangeValuesCommand implements Command {
 		Tag tag = (Tag) getCurrentTag().clone();
 
 		/*
-		 * When the user changes the first correlation value, the lists for 2nd 
+		 * When the user changes the first correlation stringValue, the lists for 2nd
 		 * and 3rd values need to be reset to appropriate values for value1, 
 		 * then the tags settings for 2 and 3 need to be adjusted to the default 
 		 * for these new reset values.
@@ -75,7 +73,7 @@ public class ChangeValuesCommand implements Command {
 			 * The user has changed the value1 correlation
 			 */
 //			logger.debug(
-//				"changing value 1 from "
+//				"changing stringValue 1 from "
 //					+ getOldValue1()
 //					+ " to "
 //					+ getNewValue1());
@@ -91,7 +89,7 @@ public class ChangeValuesCommand implements Command {
 			 * The user has changed value2
 			 */
 //			logger.debug(
-//				"changing value 2 from "
+//				"changing stringValue 2 from "
 //					+ getOldValue2()
 //					+ " to "
 //					+ getNewValue2());
@@ -106,7 +104,7 @@ public class ChangeValuesCommand implements Command {
 			 * The user has changed value3
 			 */
 //			logger.debug(
-//				"changing value 3 from "
+//				"changing stringValue 3 from "
 //					+ getOldValue3()
 //					+ " to "
 //					+ getNewValue3());

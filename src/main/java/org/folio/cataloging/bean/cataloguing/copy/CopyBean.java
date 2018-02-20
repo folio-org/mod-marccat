@@ -626,7 +626,7 @@ public class CopyBean extends LibrisuiteBean {
 
 	/**
 	 * Detects if the edit version of the shelf list is the default supplied
-	 * value
+	 * stringValue
 	 * 
 	 * @since 1.0
 	 */

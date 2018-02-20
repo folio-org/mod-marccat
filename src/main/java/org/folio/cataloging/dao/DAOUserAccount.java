@@ -18,9 +18,9 @@ import org.folio.cataloging.dao.persistence.USR_ACNT;
 import java.util.List;
 
 /**
- * provides data a ccess to USR_ACNT
+ * Provides data access to USR_ACNT.
+ *
  * @author paulm
- * @version MIKE: Modified for Oracle 9.2 and later
  * @since 1.0
  */
 
@@ -34,7 +34,7 @@ public class DAOUserAccount extends HibernateUtil {
 	 * 
 	 * Oracle 9.1 not tested
 	 */
-	private static String padding =Defaults.getString("padding.user");
+	private static String padding = Defaults.getString("padding.user");
 	public static final String DEFAULT_LDAP_AUTH_BROKER = "2";
 	private static String broker =Defaults.getString("authentication.broker");
 	private static String ldapPrefix =Defaults.getString("username.ldap.prefix");
@@ -49,8 +49,14 @@ public class DAOUserAccount extends HibernateUtil {
 		} 
 		return stringName;
 	}
-	
-	private String padUserAccount(String name) {
+
+	// TODO pass Context and Session to this method (when needed)
+	// TODO the null reference needs to be replaced with the VertContext
+	// TODO The return type of this method is a future, not a boolean
+	private String padUserAccount(final String name) {
+		//Defaults.getBoolean("padding.user").handle(result -> {
+
+		//})
 		if(padding==null || "true".equalsIgnoreCase(padding.trim())){
 			return name.concat("            ").substring(0, 12);
 		}

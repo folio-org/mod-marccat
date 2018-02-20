@@ -7,6 +7,19 @@
  */
 package org.folio.cataloging.business.librivision;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.business.common.Defaults;
+import org.folio.cataloging.business.common.View;
+import org.folio.cataloging.business.searching.SearchEngine;
+import org.folio.cataloging.dao.DAOSortCriteriaDetails;
+import org.folio.cataloging.dao.persistence.SortCriteriaDetails;
+import org.folio.cataloging.exception.LibrisuiteException;
+import org.w3c.dom.Document;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -14,27 +27,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.exception.LibrisuiteException;
-import org.folio.cataloging.dao.DAOSortCriteriaDetails;
-import org.folio.cataloging.business.searching.SearchEngine;
-import org.folio.cataloging.dao.persistence.SortCriteriaDetails;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.w3c.dom.Document;
+import java.util.*;
 
 /**
  * This class contains methods for calling LibriVision actions
@@ -338,10 +331,10 @@ public class LVMessage {
 			hashtable.put("VALUE", new String(value, "ISO8859-1"));
 
 //			logger.info(
-//				"name / value = "
+//				"name / stringValue = "
 //					+ new String(name, "ISO8859-1")
 //					+ " / "
-//					+ new String(value, "ISO8859-1"));
+//					+ new String(stringValue, "ISO8859-1"));
 		} catch (Exception exception) {
 		}
 
@@ -614,7 +607,7 @@ public class LVMessage {
 	 * @param lvSessionId LibriVision session ID
 	 * @param login login
 	 * @param password password
-	 * @param sessionTimeOut session time out value
+	 * @param sessionTimeOut session time out stringValue
 	 * @param locale the locale in use
 	 *
 	 * @throws IOException

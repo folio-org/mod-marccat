@@ -1375,7 +1375,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 	}
 
 	/**
-	 * sortCriteria is the value selected from the T_SRT_CRTRIA list
+	 * sortCriteria is the stringValue selected from the T_SRT_CRTRIA list
 	 * 
 	 * @since 1.0
 	 */

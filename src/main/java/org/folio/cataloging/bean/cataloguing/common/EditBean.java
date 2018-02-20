@@ -1928,7 +1928,7 @@ public abstract class EditBean extends LibrisuiteBean {
 	}
 
 	/**
-	 * Method that reads $b 040 and sets boolean value
+	 * Method that reads $b 040 and sets boolean stringValue
 	 * if has to show DLA, DGA and 097 tag
 	 * 
 	 * @param bean
@@ -2415,8 +2415,8 @@ public abstract class EditBean extends LibrisuiteBean {
 	/**
 	 * Changes any non-numeric indicators from the correlation table (
 	 * S for skipinfiling and O for authoritySource at the time of writing)
-	 * to any value set on the form, and updates the corresponding tag field 
-	 * to reflect the set value.
+	 * to any stringValue set on the form, and updates the corresponding tag field
+	 * to reflect the set stringValue.
 	 *
 	 * @param indicator1
 	 * @param indicator2

@@ -342,7 +342,7 @@ public class BrowseBean extends SearchBean {
 	}
 	
 	/**
-	 * Finds the language dependent value from browseIndexList based on the
+	 * Finds the language dependent stringValue from browseIndexList based on the
 	 * given language independent representation (key)
 	 */
 	public String getLocalisedIndex(String browseIndexKey) {

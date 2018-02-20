@@ -7,36 +7,30 @@
  */
 package org.folio.cataloging.business.amicusSearchEngine;
 
-import java.io.IOException;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.colgate.Colgate;
 import org.folio.cataloging.business.colgate.ConversionOutRequest;
 import org.folio.cataloging.business.colgate.ConversionOutResponse;
-import org.folio.cataloging.dao.DAOCache;
-import org.folio.cataloging.dao.DAOLibrary;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.exception.ConnectException;
-import org.folio.cataloging.exception.LibrisuiteException;
+import org.folio.cataloging.business.controller.UserProfile;
 import org.folio.cataloging.business.librivision.MarcRecord;
 import org.folio.cataloging.business.librivision.Record;
 import org.folio.cataloging.business.searching.NoResultsFoundException;
 import org.folio.cataloging.business.searching.ResultSet;
 import org.folio.cataloging.business.searching.SearchEngine;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.business.controller.UserProfile;
+import org.folio.cataloging.dao.DAOCache;
+import org.folio.cataloging.dao.DAOLibrary;
 import org.folio.cataloging.dao.DAOSortResultSets;
+import org.folio.cataloging.exception.ConnectException;
+import org.folio.cataloging.exception.LibrisuiteException;
+
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.*;
 
 /**
  * @author paulm
@@ -145,7 +139,7 @@ public class AmicusSearchEngine implements SearchEngine {
 				 * in the list (as I was).
 				 * Even though the jsp shows for example "or" in position 0 and 
 				 * "no operator" in position 1, when it gets to this search, the 0th
-				 * value is always "and" and should be ignored.  The other "real" 
+				 * stringValue is always "and" and should be ignored.  The other "real"
 				 * operators are shifted down 1 position and the "no operator" is dropped
 				 * from the list.  So, whereas visually on the page it looks like the 
 				 * operator is placed after the term, in this list, the operator is placed
