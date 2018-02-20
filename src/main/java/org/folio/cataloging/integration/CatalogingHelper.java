@@ -172,7 +172,7 @@ public abstract class CatalogingHelper {
                                     final StorageService service =
                                             new StorageService(
                                                     HCONFIGURATION.buildSessionFactory().openSession(connection),
-                                                    configuration)) {
+                                                    ctx)) {
                                     adapter.execute(service, future);
                                 } catch (final SQLException exception) {
                                     LOGGER.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);

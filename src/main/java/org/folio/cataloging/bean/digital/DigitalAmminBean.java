@@ -36,7 +36,6 @@ import java.io.IOException;
 import java.text.*;
 import java.util.*;
 
-@SuppressWarnings("unchecked")
 public class DigitalAmminBean extends LibrisuiteBean  
 {	 
 	private int bibNumber; 
@@ -412,34 +411,6 @@ public class DigitalAmminBean extends LibrisuiteBean
 			bean.setLocale(SessionUtils.getCurrentLocale(request));
 		}
 		return bean;
-	}
-	
-	public void findEditor(String editor, boolean isPresentFruition) throws DataAccessException 
-	{
-		DAOCasDigAdmin dao = new DAOCasDigAdmin();
-		setItems(dao.loadCasSapPubl(editor));
-		if (items.size() == 0) {
-			CasSapPubl newItem = new CasSapPubl(editor);
-			getItems().add(newItem);
-			setCurrentEditor(newItem);
-		}
-		setCurrentEditor((CasSapPubl) items.get(items.size() - 1));
-		if(isPresentFruition)
-		   dao.loadPolicyAndFruitionType(getCurrentEditor().getCodEditore(),this.getCurrentItem());
-	}
-	
-	public void findEditorBreve(String editorBreve, boolean isPresentFruition) throws DataAccessException 
-	{
-		DAOCasDigAdmin dao = new DAOCasDigAdmin();
-		setItems(dao.loadCasSapPublBreve(editorBreve));
-		if (items.size() == 0) {
-			CasSapPubl newItem = new CasSapPubl();
-			getItems().add(newItem);
-			setCurrentEditor(newItem);
-		}
-		setCurrentEditor((CasSapPubl) items.get(items.size() - 1));
-		if(isPresentFruition)
-		  dao.loadPolicyAndFruitionType(getCurrentEditor().getCodEditore(),this.getCurrentItem());
 	}
 	
 	public void loadItems(int bibNumber)throws DataAccessException 
@@ -932,111 +903,7 @@ public class DigitalAmminBean extends LibrisuiteBean
 			subfields1.add(getCurrentItem().getDescrizione());
 			bean.changeText(new StringText(subfieldList1, subfields1));
 		}
-	}		
-	
-	public void loadPolicyForPublisherChange() throws DataAccessException
-	{
-		DAOCasDigAdmin dao = new DAOCasDigAdmin();
-		List listPoliciesSap = dao.loadPolicy(currentItem.getCodEditore());
-		
-		String pagTot = defaultTotPages();
-		if (pagTot.trim().length()>0){
-			DigitalPoliciesBean bean = null;
-			for (int i = 0; i < listPoliciesSap.size(); i++) {
-				bean = (DigitalPoliciesBean) listPoliciesSap.get(i);
-				if ("P".equalsIgnoreCase(bean.getPolicyType())) {
-					float result = Float.parseFloat(pagTot) * bean.getPolicyPrice().floatValue();
-					DecimalFormatSymbols symbols = new DecimalFormatSymbols();
-					symbols.setDecimalSeparator('.');
-					DecimalFormat formatter = new DecimalFormat("#########.##", symbols);
-					bean.setPolicyTotPrice(Float.valueOf(formatter.format(result)));
-				}
-			}
-		}
-		List sortPolicyList = new ArrayList(listPoliciesSap);
-		Collections.sort(sortPolicyList);
-		setListPolicies(sortPolicyList);
-
-		DigitalPoliciesBean bean = null;
-		List priceList = new ArrayList();
-		List curcyList = new ArrayList();
-		List stampsList = new ArrayList();
-		List priceTotList = new ArrayList();
-		for (int i = 0; i < getListPolicies().size(); i++) {
-			bean = (DigitalPoliciesBean) getListPolicies().get(i);
-			priceList.add(String.valueOf(bean.getPolicyPrice().floatValue()));
-			curcyList.add(bean.getPolicyCurcy());
-			stampsList.add(String.valueOf((bean.getPolicyStamps())));
-			priceTotList.add(String.valueOf(bean.getPolicyTotPrice().floatValue()));
-		}
-		setPolicyPrice((String[]) priceList.toArray((new String[0])));
-		setPolicyCurcy((String[]) curcyList.toArray((new String[0])));
-		setPolicyStamps((String[]) stampsList.toArray((new String[0])));
-		setPolicyTotPrice((String[]) priceTotList.toArray((new String[0])));
-	}	
-	
-	public void loadPolicy() throws DataAccessException 
-	{		
-		DAOCasDigAdmin dao = new DAOCasDigAdmin();
-		List listPolicyDga = dao.loadCasDgaPolicy(bibNumber);
-		List listDgaPoliciesBean = new ArrayList();
-		CasDgaPolicy casDgaPolicy = null;
-		DigitalPoliciesBean digitalPoliciesBean = null;
-		for (int i = 0; i < listPolicyDga.size(); i++) {
-			casDgaPolicy = (CasDgaPolicy)listPolicyDga.get(i);
-			digitalPoliciesBean = new DigitalPoliciesBean(casDgaPolicy);
-			listDgaPoliciesBean.add(digitalPoliciesBean);
-		}	
-		
-		List listPoliciesSap = dao.loadPolicy(currentItem.getCodEditore());
-
-		String pagTot = defaultTotPages();
-		if (pagTot.trim().length()>0){
-			DigitalPoliciesBean bean = null;
-			for (int i = 0; i < listPoliciesSap.size(); i++) {
-				bean = (DigitalPoliciesBean) listPoliciesSap.get(i);
-				if ("P".equalsIgnoreCase(bean.getPolicyType())) {
-					float result = Float.parseFloat(pagTot) * bean.getPolicyPrice().floatValue();
-					DecimalFormatSymbols symbols = new DecimalFormatSymbols();
-					symbols.setDecimalSeparator('.');
-					DecimalFormat formatter = new DecimalFormat("#########.##", symbols);
-					bean.setPolicyTotPrice(Float.valueOf(formatter.format(result)));
-				}
-			}
-		}
-
-		for (int i = 0; i < listDgaPoliciesBean.size(); i++) {
-			digitalPoliciesBean  = (DigitalPoliciesBean)listDgaPoliciesBean.get(i);
-			if (listPoliciesSap.contains(digitalPoliciesBean)){
-				listPoliciesSap.remove(digitalPoliciesBean);				
-			}
-		}
-		
-		Set result = new HashSet();
-		result.addAll(listDgaPoliciesBean);
-		result.addAll(listPoliciesSap);
-
-		List sortPolicyList = new ArrayList(result);
-		Collections.sort(sortPolicyList);
-		setListPolicies(sortPolicyList);	
-
-		DigitalPoliciesBean bean = null;
-		List priceList = new ArrayList();
-		List curcyList = new ArrayList();
-		List stampsList = new ArrayList();
-		List priceTotList = new ArrayList();
-		for (int i = 0; i < getListPolicies().size(); i++) {
-			bean = (DigitalPoliciesBean) getListPolicies().get(i);
-			priceList.add(String.valueOf(bean.getPolicyPrice().floatValue()));
-			curcyList.add(bean.getPolicyCurcy());
-			stampsList.add(String.valueOf((bean.getPolicyStamps())));
-			priceTotList.add(String.valueOf(bean.getPolicyTotPrice().floatValue()));
-		}
-		setPolicyPrice((String[]) priceList.toArray((new String[0])));
-		setPolicyCurcy((String[]) curcyList.toArray((new String[0])));
-		setPolicyStamps((String[]) stampsList.toArray((new String[0])));
-		setPolicyTotPrice((String[]) priceTotList.toArray((new String[0])));
-	}	
+	}
 
 	public void cntrDateUser(HttpServletRequest request) throws DateInputException
 	{

@@ -1,33 +1,16 @@
 package org.folio.cataloging.business.searching;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.common.BrowseFailedException;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.dao.DAOClassificationDescriptor;
-import org.folio.cataloging.dao.DAOControlNumberDescriptor;
-import org.folio.cataloging.dao.DAODescriptor;
-import org.folio.cataloging.dao.DAONameDescriptor;
-import org.folio.cataloging.dao.DAONameTitleNameDescriptor;
-import org.folio.cataloging.dao.DAONameTitleTitleDescriptor;
-import org.folio.cataloging.dao.DAOPublisherNameDescriptor;
-import org.folio.cataloging.dao.DAOPublisherPlaceDescriptor;
-import org.folio.cataloging.dao.DAOShelfList;
-import org.folio.cataloging.dao.DAOSubjectDescriptor;
-import org.folio.cataloging.dao.DAOThesaurusDescriptor;
-import org.folio.cataloging.dao.DAOTitleDescriptor;
 import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.*;
 import org.folio.cataloging.dao.persistence.HDG_URI;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.*;
 
 /**
  * 
@@ -144,7 +127,7 @@ public class BrowseManager
 		daoMap.put("55P3", DAOControlNumberDescriptor.class);
 		filterMap.put("55P3", " and hdg.typeCode = 98 ");
 
-		//TODO value 21 is probably obsolete (Canadian)
+		//TODO stringValue 21 is probably obsolete (Canadian)
 		daoMap.put("47P40", DAOClassificationDescriptor.class);
 		filterMap.put("47P40", " and hdg.typeCode = 21");
 
@@ -383,7 +366,7 @@ public class BrowseManager
 		// calculate the sortform of the search term
 		String searchTerm = dao.calculateSearchTerm(term, getBrowseIndex());
 		
-		// MIKE: moved Publisher block into DAOPublisherDescriptor to calculate first temp searchTerm value	
+		// MIKE: moved Publisher block into DAOPublisherDescriptor to calculate first temp searchTerm stringValue
 		List l = null;
 
 		try {
@@ -606,7 +589,7 @@ public class BrowseManager
 		String searchTerm = dao.calculateSearchTerm(term, getBrowseIndex());
 //		System.out.println("SEARCH TERM: "+searchTerm);
 		
-		// MIKE: moved Publisher block into DAOPublisherDescriptor to calculate first temp searchTerm value	
+		// MIKE: moved Publisher block into DAOPublisherDescriptor to calculate first temp searchTerm stringValue
 		List l = null;
 
 		try {

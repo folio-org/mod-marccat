@@ -1,13 +1,9 @@
 package org.folio.cataloging.business.searching;
 
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import java.util.*;
 
 /**
  * Helper class for implementers of the SearchEngine interface
@@ -59,7 +55,7 @@ public class SearchEngineHelper {
 				 * Don't be confused by the positions and values of the boolean
 				 * operators in the list (as I was). Even though the jsp shows
 				 * for example "or" in position 0 and "no operator" in position
-				 * 1, when it gets to this search, the 0th value is always "and"
+				 * 1, when it gets to this search, the 0th stringValue is always "and"
 				 * and should be ignored. The other "real" operators are shifted
 				 * down 1 position and the "no operator" is dropped from the
 				 * list. So, whereas visually on the page it looks like the

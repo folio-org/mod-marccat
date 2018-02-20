@@ -130,7 +130,7 @@ public class SHLF_LIST extends Descriptor implements Serializable {
 		//TODO add/passing "session" to descriptor
 
 		/*
-		 * The default implementation sets key.headingNumber to the new value.
+		 * The default implementation sets key.headingNumber to the new stringValue.
 		 * SHLF_LIST differs from most descriptors in that the key field is not
 		 * used (since there are no user views)
 		 */

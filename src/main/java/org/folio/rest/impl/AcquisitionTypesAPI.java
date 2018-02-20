@@ -9,7 +9,6 @@ import org.folio.cataloging.log.MessageCatalog;
 import org.folio.rest.jaxrs.model.AcquisitionType;
 import org.folio.rest.jaxrs.model.AcquisitionTypeCollection;
 import org.folio.rest.jaxrs.resource.CatalogingAcquisitionTypesResource;
-import org.folio.rest.jaxrs.resource.CatalogingAcquisitionTypesResource;
 
 import javax.ws.rs.core.Response;
 import java.util.Map;
@@ -31,7 +30,7 @@ public class AcquisitionTypesAPI implements CatalogingAcquisitionTypesResource {
 
     private Function<Avp<String>, AcquisitionType> toAcquisitionType = source -> {
         final AcquisitionType acquisitionType = new AcquisitionType();
-        //TODO: handle type Integer for value element or null value in Integer.parseInt
+        //TODO: handle type Integer for stringValue element or null stringValue in Integer.parseInt
         acquisitionType.setCode(Integer.parseInt(source.getValue()));
         acquisitionType.setDescription(source.getLabel());
         return acquisitionType;

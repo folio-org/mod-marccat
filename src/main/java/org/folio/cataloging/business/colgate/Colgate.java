@@ -4,23 +4,21 @@
  */
 package org.folio.cataloging.business.colgate;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.business.authentication.AuthenticationBroker;
+import org.folio.cataloging.business.authentication.AuthenticationException;
+import org.folio.cataloging.business.authentication.InvalidPasswordFormatException;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.dao.DAOGlobalVariable;
+import org.folio.cataloging.exception.ConnectException;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
-import org.folio.cataloging.business.authentication.AuthenticationBroker;
-import org.folio.cataloging.business.authentication.AuthenticationException;
-import org.folio.cataloging.business.authentication.InvalidPasswordFormatException;
-import org.folio.cataloging.dao.DAOGlobalVariable;
-import org.folio.cataloging.business.common.DataAccessException;
-
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.exception.ConnectException;
 
 /**
  * Maintains a Colgate session and supports sending requests and analysing responses
@@ -64,7 +62,7 @@ public class Colgate implements AuthenticationBroker {
 
 	/**
 	 * Converts a byte array to a String representing
-	 * the hex value of the byte array.
+	 * the hex stringValue of the byte array.
 	 * 
 	 * Makes use of Integer.toHexString but values returned 
 	 * are always of the form XX (i.e. two digits in uppercase.

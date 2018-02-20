@@ -24,7 +24,8 @@ import java.util.*;
  */
 // TODO: clean up (lot of unused fields)
 public abstract class Global  {
-	public static String SUBFIELD_DELIMITER = "\u001f";
+    public static final String EMPTY_STRING = "";
+    public static String SUBFIELD_DELIMITER = "\u001f";
 	public static String SCHEMA_CUSTOMER_KEY = "CUSTOM_KEY";
 	public static String SCHEMA_SUITE_KEY = "SUITE_KEY";
 

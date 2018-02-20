@@ -360,7 +360,7 @@ public class CodeTableEditBean extends CodeTableBean {
 				item.setLanguage(((Locale)localeList.get(i)).getISO3Language());
 				items.add(item);
 			}
-			selected = new Avp(); // dummy value
+			selected = new Avp(); // dummy stringValue
 			insert = true;
 		} catch (DataAccessException e) {
 			throw new CodeTableException(getClazz(), e);

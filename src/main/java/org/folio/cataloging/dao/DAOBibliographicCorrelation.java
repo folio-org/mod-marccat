@@ -9,7 +9,6 @@ import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.log.MessageCatalog;
 
@@ -28,14 +27,11 @@ import static java.util.stream.Collectors.toList;
  * @author natasciab
  * @version $Revision: 1.12 $, $Date: 2007/02/13 09:17:59 $
  */
-
-@SuppressWarnings("unchecked")
 public class DAOBibliographicCorrelation extends DAOCorrelation {
 	private static final Log logger =
 		LogFactory.getLog(DAOBibliographicCorrelation.class);
 	private static final String ALPHABETICAL_ORDER = " order by ct.longText ";
 	private static final String SEQUENCE_ORDER = " order by ct.sequence ";
-	private String defaultListOrder = Defaults.getBoolean("labels.alphabetical.order", true)?ALPHABETICAL_ORDER:SEQUENCE_ORDER;
 
 	/**
 	 * Returns the BibliographicCorrelation from BibliographicCorrelationKey
@@ -180,7 +176,7 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 	 *
 	 * @param session the hibernate session
 	 * @param category the marc category used as filter criterion
-	 * @param value1 the first correlation value used as filter criterion
+	 * @param value1 the first correlation stringValue used as filter criterion
 	 * @param classTable the mapped class in the hibernate configuration
 	 * @param locale the locale associated to language used as filter criterion
 	 * @return
@@ -303,8 +299,8 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 	 *
 	 * @param session the hibernate session
 	 * @param category the marc category used as filter criterion
-	 * @param value1 the first correlation value used as filter criterion
-	 * @param value2 the second correlation value used as filter criterion
+	 * @param value1 the first correlation stringValue used as filter criterion
+	 * @param value2 the second correlation stringValue used as filter criterion
 	 * @param classTable the mapped class in the hibernate configuration
 	 * @param locale the locale associated to language used as filter criterion
 	 * @return

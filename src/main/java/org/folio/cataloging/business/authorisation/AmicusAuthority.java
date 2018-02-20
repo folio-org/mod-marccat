@@ -7,18 +7,11 @@
  */
 package org.folio.cataloging.business.authorisation;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.folio.cataloging.dao.DAOUserAccount;
 import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.dao.DAOUserAccount;
 import org.folio.cataloging.dao.persistence.USR_ACNT;
+
+import java.util.*;
 
 /**
  * @author paulm
@@ -55,7 +48,7 @@ public class AmicusAuthority implements AuthorisationAgent {
 		ModuleAuthorisation anAuth;
 		while (iter.hasNext()) {
 			anAuth = (ModuleAuthorisation) iter.next();
-			//TODO add a column/table to join the permissionName to the value of the auth table			
+			//TODO add a column/table to join the permissionName to the stringValue of the auth table
 			if ("cat".equals(anAuth.getModuleCode())) {
 				if (anAuth.getAuthorisationLevel() > 0) {
 					addPermission("basicCataloguing");
@@ -118,7 +111,7 @@ public class AmicusAuthority implements AuthorisationAgent {
 		ModuleAuthorisation anAuth;
 		while (iter.hasNext()) {
 			anAuth = (ModuleAuthorisation) iter.next();
-			//TODO add a column/table to join the permissionName to the value of the auth table			
+			//TODO add a column/table to join the permissionName to the stringValue of the auth table
 			if ("cat".equals(anAuth.getModuleCode())) {
 				if (anAuth.getAuthorisationLevel() > 0) {
 					addPermission("basicCataloguing");

@@ -26,7 +26,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class IndexCategoriesAPI implements CatalogingIndexCategoriesResource {
     protected final Log logger = new Log(IndexCategoriesAPI.class);
 
-    // This is the convertValueLabelToCategory that converts existing value objects (logical categories in this case)
+    // This is the convertValueLabelToCategory that converts existing stringValue objects (logical categories in this case)
     // in OKAPI resources.
     private Function<Avp<Integer>, Category> convertValueLabelToCategory = source -> {
         final Category category = new Category();

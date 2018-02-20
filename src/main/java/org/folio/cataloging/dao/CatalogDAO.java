@@ -22,12 +22,8 @@ import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 
-//import DAOCasCache;
-
-public abstract class CatalogDAO extends HibernateUtil
-{
+public abstract class CatalogDAO extends HibernateUtil {
 	private static Log logger = LogFactory.getLog(CatalogDAO.class);
-	private static final boolean casaliniEnabled = Defaults.getBoolean("customer.casalini.enabled");
 	private CasCache casCache;
 
 	public CasCache getCasCache() {
