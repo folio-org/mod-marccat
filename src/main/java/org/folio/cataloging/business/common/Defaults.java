@@ -7,6 +7,14 @@
  */
 package org.folio.cataloging.business.common;
 
+import io.vertx.core.Context;
+import io.vertx.core.Future;
+import io.vertx.core.buffer.Buffer;
+import io.vertx.core.json.JsonObject;
+import org.folio.cataloging.Global;
+import org.folio.rest.client.ConfigurationsClient;
+
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 /**
@@ -28,22 +36,44 @@ public class Defaults {
 	}
 
 	@Deprecated
-	static public String getString(String key){
-	    if ("material.bookIllustrationCode".equals(key)
-                || "material.formOfItemCode".equals(key)
-                || "material.natureOfContentsCode".equals(key)
-                || "material.targetAudienceCode".equals(key) ) {
-	        return "\\";
+	static public Future<String> getString(final String key, final Context context) {
+        final Future<String> future = Future.future();
+	    try {
+            configuration(context)
+                    .getEntries("module==CATALOGING and configName==datasource and code==" + key, 0, 1, "en",
+                            response ->
+                                    response.bodyHandler(body -> {
+                                        final Optional<String> result = value(body);
+                                        if (result.isPresent()) {
+                                            future.complete(result.get());
+                                        } else {
+                                            future.fail(key);
+                                        }
+                                    }));
+        } catch (UnsupportedEncodingException exception) {
+	        logger.
+	        future.fail(exception);
+        } finally {
+	        return future;
         }
-
-		throw new IllegalArgumentException("DEPRECATED KEY: " + key);
-/*
-		ResourceBundle defaults =
-			ResourceBundle.getBundle("resources/defaultValues");
-		return defaults.getString(key);
-*/
 	}
-	
+
+    /**
+     * Retrieves a configuration attribute from the given buffer.
+     * The incoming buffer is supposed to be the result of one or more calls to the mod-configuration module.
+     *
+     * @param buffer the configuration as it comes from the mod-configuration module.
+     * @return the configuration attribute value.
+     */
+    public static Optional<String> value(final Buffer buffer) {
+        return new JsonObject(buffer.toString())
+                .getJsonArray("configs")
+                .stream()
+                .map(JsonObject.class::cast)
+                .findFirst()
+                .map(obj -> obj.getString("value"));
+    }
+
 	public static String getString(String key, String ifNotPresentValue) {
 		try {
 			return getString(key);
@@ -102,4 +132,7 @@ public class Defaults {
 		return elencoChiavi;
 	}
 
+	private static ConfigurationsClient configuration(final Context context) {
+        return context.get(Global.CONFIGURATION_CLIENT);
+    }
 }

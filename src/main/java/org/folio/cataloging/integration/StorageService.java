@@ -9,6 +9,7 @@ import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.*;
 import org.folio.cataloging.dao.common.HibernateSessionProvider;
 import org.folio.cataloging.dao.persistence.*;
+import org.folio.rest.client.ConfigurationsClient;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -32,14 +33,25 @@ import static org.folio.cataloging.F.locale;
 public class StorageService implements Closeable {
 
     private final Session session;
-
+    private final ConfigurationsClient configuration;
     /**
      * Builds a new {@link StorageService} with the given session.
      *
      * @param session the Hibernate session, which will be used for gathering a connection to the RDBMS.
+     * @param configuration the module configuration client.
      */
-    StorageService(final Session session) {
+    StorageService(final Session session, final ConfigurationsClient configuration) {
         this.session = session;
+        this.configuration = configuration;
+    }
+
+    /**
+     * Returns the configuration client associated with this module.
+     *
+     * @return the configuration client associated with this module.
+     */
+    public ConfigurationsClient configuration() {
+        return configuration;
     }
 
     /**

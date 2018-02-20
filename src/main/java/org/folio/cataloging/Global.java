@@ -28,6 +28,8 @@ public abstract class Global  {
 	public static String SCHEMA_CUSTOMER_KEY = "CUSTOM_KEY";
 	public static String SCHEMA_SUITE_KEY = "SUITE_KEY";
 
+	public static final String CONFIGURATION_CLIENT = "configuration.client";
+
 	public static Configuration HCONFIGURATION = new Configuration();
 	static
 	{
