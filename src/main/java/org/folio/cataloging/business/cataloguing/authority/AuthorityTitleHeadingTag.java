@@ -7,14 +7,13 @@
  */
 package org.folio.cataloging.business.cataloguing.authority;
 
-import java.util.List;
-
-import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
-import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.descriptor.SkipInFiling;
 import org.folio.cataloging.dao.persistence.CorrelationKey;
 import org.folio.cataloging.dao.persistence.TTL_HDG;
+import org.folio.cataloging.shared.CorrelationValues;
+
+import java.util.List;
 
 /**
  * @author paulm
@@ -46,20 +45,20 @@ public class AuthorityTitleHeadingTag
 	 * @see SkipInFiling#getSkipInFiling()
 	 */
 	public short getSkipInFiling() {
-		return ((TTL_HDG) getDescriptor()).getSkipInFiling();
+		return getDescriptor().getSkipInFiling();
 	}
 
 	/* (non-Javadoc)
 	 * @see SkipInFiling#setSkipInFiling(short)
 	 */
 	public void setSkipInFiling(short i) {
-		((TTL_HDG) getDescriptor()).setSkipInFiling(i);
+		getDescriptor().setSkipInFiling(i);
 	}
 	/* (non-Javadoc)
 	 * @see TagInterface#getMarcEncoding()
 	 */
 	public CorrelationKey getMarcEncoding()
-		throws DataAccessException, MarcCorrelationException {
+		throws DataAccessException {
 		return super.getMarcEncoding().changeSkipInFilingIndicator(
 			getSkipInFiling());
 	}

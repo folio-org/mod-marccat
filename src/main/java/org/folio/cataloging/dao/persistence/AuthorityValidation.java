@@ -7,7 +7,8 @@
  */
 package org.folio.cataloging.dao.persistence;
 
-import org.folio.cataloging.business.cataloguing.common.Validation;
+import org.folio.cataloging.shared.Validation;
+import org.folio.cataloging.shared.ValidationKey;
 
 /**
  * @author paulm

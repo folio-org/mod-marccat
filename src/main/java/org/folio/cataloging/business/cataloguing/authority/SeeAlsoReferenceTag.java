@@ -7,9 +7,9 @@
  */
 package org.folio.cataloging.business.cataloguing.authority;
 
-import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.dao.persistence.REF;
 import org.folio.cataloging.dao.persistence.ReferenceType;
+import org.folio.cataloging.shared.CorrelationValues;
 
 /**
  * @author paulm

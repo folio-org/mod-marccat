@@ -7,13 +7,13 @@
  */
 package org.folio.cataloging.business.cataloguing.common;
 
-import java.io.Serializable;
-import java.util.Set;
-
-import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.persistence.Correlation;
 import org.folio.cataloging.dao.persistence.CorrelationKey;
+import org.folio.cataloging.shared.Validation;
+
+import java.io.Serializable;
+import java.util.Set;
 
 /**
  * This class is the Abstract Implementation of the Tag interface
@@ -37,10 +37,10 @@ public abstract class TagImpl implements Serializable {
 	* @return the MARC tag and indicators for this tag
 	*/
 	abstract public CorrelationKey getMarcEncoding(Tag t)
-		throws DataAccessException, MarcCorrelationException;
+		throws DataAccessException;
 
 	abstract public Validation getValidation(Tag t)
-		throws MarcCorrelationException, DataAccessException;
+		throws DataAccessException;
 
 	/**
 	 * return the list of subfields that can be edited on the worksheet

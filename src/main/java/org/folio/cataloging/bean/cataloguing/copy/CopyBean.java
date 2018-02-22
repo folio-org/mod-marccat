@@ -7,8 +7,6 @@ import org.folio.cataloging.bean.LibrisuiteBean;
 import org.folio.cataloging.bean.cataloguing.heading.ShelfListHeadingBean;
 import org.folio.cataloging.bean.searching.BrowseBean;
 import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
-import org.folio.cataloging.business.cataloguing.common.Validation;
-import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.DuplicateDescriptorException;
 import org.folio.cataloging.business.common.RecordNotFoundException;
@@ -22,6 +20,8 @@ import org.folio.cataloging.exception.LibrisuiteException;
 import org.folio.cataloging.exception.RecordInUseException;
 import org.folio.cataloging.exception.ValidationException;
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.cataloging.shared.Validation;
 import org.folio.cataloging.util.StringText;
 
 import javax.servlet.http.HttpServletRequest;

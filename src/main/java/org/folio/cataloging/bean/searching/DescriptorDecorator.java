@@ -4,13 +4,13 @@ import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.Session;
 import org.folio.cataloging.bean.cataloguing.bibliographic.codelist.CodeListsBean;
 import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
 import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.persistence.DescriptorKey;
 import org.folio.cataloging.exception.InvalidDescriptorException;
+import org.folio.cataloging.shared.CorrelationValues;
 
 import java.io.Serializable;
 import java.util.List;
@@ -29,8 +29,8 @@ public class DescriptorDecorator
 	private String accessPointLanguage;
 	private boolean associated = false;
 	private String editoreHdg;
-	private String descriptionShelfList;;
-	/* 201107: aggiunto codice editore breve nello scorri di PU e PP */
+	private String descriptionShelfList;
+    /* 201107: aggiunto codice editore breve nello scorri di PU e PP */
 	private String shortPublisher;
 
 	public void setIndexingLanguage(String indexingLanguage) {

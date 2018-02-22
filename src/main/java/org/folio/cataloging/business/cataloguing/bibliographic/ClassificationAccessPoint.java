@@ -1,18 +1,17 @@
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
-import java.util.List;
-
 import org.folio.cataloging.business.cataloguing.common.OrderedTag;
-import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.dao.DAOBibliographicCorrelation;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.DAOBibliographicCorrelation;
 import org.folio.cataloging.dao.persistence.CLSTN;
 import org.folio.cataloging.dao.persistence.ClassificationType;
-
-import org.folio.cataloging.util.StringText;
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.cataloging.util.StringText;
+
+import java.util.List;
 
 /**
  * @author paulm

@@ -4,19 +4,17 @@
  */
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
-import java.util.List;
-
-import org.folio.cataloging.business.common.CorrelationValues;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.PublisherTagDescriptor;
 import org.folio.cataloging.dao.persistence.PublisherFunction;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
+import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
+
+import java.util.List;
 
 /**
  * @author paulm

@@ -7,6 +7,8 @@
  */
 package org.folio.cataloging.dao.persistence;
 
+import org.folio.cataloging.shared.ValidationKey;
+
 import java.io.Serializable;
 
 /**

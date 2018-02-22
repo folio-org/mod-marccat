@@ -1,26 +1,18 @@
 package org.folio.cataloging.bean.cataloguing.heading;
 
+import org.folio.cataloging.bean.cataloguing.bibliographic.codelist.CodeListsBean;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.DAOBibliographicCorrelation;
+import org.folio.cataloging.dao.DAOCodeTable;
+import org.folio.cataloging.dao.DAOSubjectTerm;
+import org.folio.cataloging.dao.persistence.*;
+import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.shared.CorrelationValues;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import org.folio.cataloging.bean.cataloguing.bibliographic.codelist.CodeListsBean;
-import org.folio.cataloging.dao.DAOSubjectTerm;
-import org.folio.cataloging.dao.DAOCodeTable;
-import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.dao.DAOBibliographicCorrelation;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.descriptor.Descriptor;
-import org.folio.cataloging.dao.persistence.SBJCT_HDG;
-import org.folio.cataloging.dao.persistence.SubjectSource;
-import org.folio.cataloging.dao.persistence.SubjectTerm;
-import org.folio.cataloging.dao.persistence.SubjectType;
-import org.folio.cataloging.dao.persistence.T_LANG_OF_ACS_PNT_SBJCT;
-import org.folio.cataloging.dao.persistence.T_SBJCT_HDG_SCDRY_SRC;
-import org.folio.cataloging.dao.persistence.T_SBJCT_TRM_TYP;
-import org.folio.cataloging.dao.persistence.T_SKP_IN_FLNG_CNT;
-
-import org.folio.cataloging.model.Subfield;
 
 @SuppressWarnings("unchecked")
 public class SubjectHeadingBean extends HeadingBean {

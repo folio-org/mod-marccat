@@ -9,7 +9,6 @@ import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.log.MessageCatalog;
 
@@ -22,20 +21,13 @@ import java.util.*;
 import static java.util.stream.Collectors.toList;
 
 /**
- * Manages access to table S_BIB_MARC_IND_DB_CRLTN -- the correlation between AMICUS
+ * Manages access to table S_BIB_MARC_IND_DB_CRLTN
  * database encoding and MARC21 encoding
  * @author paulm
- * @author natasciab
- * @version $Revision: 1.12 $, $Date: 2007/02/13 09:17:59 $
  */
 
-@SuppressWarnings("unchecked")
 public class DAOBibliographicCorrelation extends DAOCorrelation {
-	private static final Log logger =
-		LogFactory.getLog(DAOBibliographicCorrelation.class);
-	private static final String ALPHABETICAL_ORDER = " order by ct.longText ";
-	private static final String SEQUENCE_ORDER = " order by ct.sequence ";
-	private String defaultListOrder = Defaults.getBoolean("labels.alphabetical.order", true)?ALPHABETICAL_ORDER:SEQUENCE_ORDER;
+	private static final Log logger = LogFactory.getLog(DAOBibliographicCorrelation.class);
 
 	/**
 	 * Returns the BibliographicCorrelation from BibliographicCorrelationKey
@@ -43,8 +35,9 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 	 * @return a BibliographicCorrelation object containing or null when none found
 	 *
 	 */
-	public Correlation getBibliographicCorrelation(CorrelationKey bibliographicCorrelationKey)
-		throws DataAccessException {
+	@Deprecated
+	public Correlation getBibliographicCorrelation(CorrelationKey bibliographicCorrelationKey) throws DataAccessException {
+
 		return getBibliographicCorrelation(
 			bibliographicCorrelationKey.getMarcTag(),
 			bibliographicCorrelationKey.getMarcFirstIndicator(),
@@ -61,12 +54,11 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 	 * @return a BibliographicCorrelation object or null when none found
 	 *
 	 */
-	public Correlation getBibliographicCorrelation(
-		String tag,
-		char firstIndicator,
-		char secondIndicator,
-		short categoryCode)
-		throws DataAccessException {
+	public Correlation getBibliographicCorrelation( final Session session,
+													final String tag,
+													final char firstIndicator,
+													final char secondIndicator,
+													final short categoryCode) throws DataAccessException {
         List l=null;
         if(categoryCode!=0){
         	l =
@@ -113,6 +105,70 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
         if (l.size() >=1) {
             return (Correlation) l.get(0);
 		} 
+		else
+			return null;
+	}
+
+	/**
+	 * Returns the BibliographicCorrelation based on MARC encoding and category code
+	 * @param tag -- marc tag
+	 * @param firstIndicator -- marc first indicator
+	 * @param secondIndicator -- marc second indicator
+	 * @param categoryCode -- category code
+	 * @return a BibliographicCorrelation object or null when none found
+	 *
+	 */
+	@Deprecated
+	public Correlation getBibliographicCorrelation( String tag,
+													char firstIndicator,
+													char secondIndicator,
+													short categoryCode) throws DataAccessException {
+		List l=null;
+		if(categoryCode!=0){
+			l =
+					find(
+							"from BibliographicCorrelation as bc "
+									+ "where bc.key.marcTag = ? and "
+									+ "(bc.key.marcFirstIndicator = ? or bc.key.marcFirstIndicator='S' )and "
+									+ "bc.key.marcFirstIndicator <> '@' and "
+									+ "(bc.key.marcSecondIndicator = ? or bc.key.marcSecondIndicator='S')and "
+									+ "bc.key.marcSecondIndicator <> '@' and "
+									+ "bc.key.marcTagCategoryCode = ?",
+							new Object[] {
+									new String(tag),
+									new Character(firstIndicator),
+									new Character(secondIndicator),
+									new Short(categoryCode)},
+							new Type[] {
+									Hibernate.STRING,
+									Hibernate.CHARACTER,
+									Hibernate.CHARACTER,
+									Hibernate.SHORT });
+		}
+		else {
+			l =
+					find(
+							"from BibliographicCorrelation as bc "
+									+ "where bc.key.marcTag = ? and "
+									+ "(bc.key.marcFirstIndicator = ? or bc.key.marcFirstIndicator='S' )and "
+									+ "bc.key.marcFirstIndicator <> '@' and "
+									+ "(bc.key.marcSecondIndicator = ? or bc.key.marcSecondIndicator='S')and "
+									+ "bc.key.marcSecondIndicator <> '@' order by bc.key.marcTagCategoryCode asc",
+
+							new Object[] {
+									new String(tag),
+									new Character(firstIndicator),
+									new Character(secondIndicator)},
+							new Type[] {
+									Hibernate.STRING,
+									Hibernate.CHARACTER,
+									Hibernate.CHARACTER});
+		}
+
+		//if (l.size() == 1) {
+		if (l.size() >=1) {
+			return (Correlation) l.get(0);
+		}
 		else
 			return null;
 	}
@@ -522,6 +578,7 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 	 * @return
 	 * @throws DataAccessException
 	 */
+	//TODO: move this in storageService!
 	public boolean isPresentSecondCorrelation(List l, short value2) throws DataAccessException 
 	{
 		boolean isPresent = false;
@@ -578,8 +635,7 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 											   final String sqlFilter,
 											   final Locale locale) throws DataAccessException
 	{
-		final String sqlOrder = ( alphabeticOrder ? ALPHABETICAL_ORDER : SEQUENCE_ORDER );
-
+		final String sqlOrder = ( alphabeticOrder ? " order by ct.longText " : " order by ct.sequence " );
 		try {
 			final List<CodeTable> codeTables = session.find("select distinct ct from "
 					+ clazz.getName()

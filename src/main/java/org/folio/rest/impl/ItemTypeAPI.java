@@ -8,13 +8,14 @@ import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.rest.jaxrs.model.ItemType;
-import org.folio.rest.jaxrs.model.SubType;
+import org.folio.rest.jaxrs.model.ItemTypeCollection;
 import org.folio.rest.jaxrs.resource.CatalogingItemTypesResource;
 
 import javax.ws.rs.core.Response;
 import java.util.Map;
 import java.util.function.Function;
 
+import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
@@ -29,11 +30,11 @@ public class ItemTypeAPI  implements CatalogingItemTypesResource {
 
     protected final Log logger = new Log(ItemTypeAPI.class);
 
-    private Function<Avp<String>, SubType> toSubType = source -> {
-        final SubType subType = new SubType();
-        subType.setCode(Integer.parseInt(source.getValue()));
-        subType.setDescription(source.getLabel());
-        return subType;
+    private Function<Avp<String>, ItemType> toItemType = source -> {
+        final ItemType itemType = new ItemType();
+        itemType.setCode(Integer.parseInt(source.getValue()));
+        itemType.setDescription(source.getLabel());
+        return itemType;
     };
 
     @Override
@@ -45,28 +46,20 @@ public class ItemTypeAPI  implements CatalogingItemTypesResource {
                                        final Context vertxContext) throws Exception {
 
         doGet((storageService, future) -> {
-                try {
+            try {
 
                 final String category = (marcCategory.equals("17") ? Global.NAME_CATEGORY_DEFAULT : marcCategory);
                 final int intCode = Integer.parseInt(code);
-                Class className = null;
+                return ofNullable(Global.secondCorrelationClassMap.get(category))
+                            .map(className -> {
+                                final ItemTypeCollection container = new ItemTypeCollection();
+                                container.setItemTypes(storageService.getSecondCorrelation(category, intCode, lang, className)
+                                        .stream()
+                                        .map(toItemType)
+                                        .collect(toList()));
 
-                try {
-                    className = Global.secondCorrelationClassMap.get(category);
-                }catch (NullPointerException exception){
-                    //TODO return 404 (not found)
-                    logger.error(MessageCatalog._00012_NULL_RESULT, exception);
-                    return null;
-                }
-
-                final ItemType itemType = new ItemType();
-                itemType.setCode(intCode);
-                itemType.setDescription(storageService.getSubTypeDescriptionByCode(code, lang));
-                itemType.setSubTypes(storageService.getSecondCorrelation(category, intCode, lang, className)
-                        .stream()
-                        .map(toSubType)
-                        .collect(toList()));
-                return itemType;
+                                return container;
+                            }).orElse(null);
 
             } catch (final Exception exception) {
                 logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);

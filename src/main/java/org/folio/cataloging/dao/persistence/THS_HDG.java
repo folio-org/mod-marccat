@@ -3,17 +3,16 @@
  * */
 package org.folio.cataloging.dao.persistence;
 
-import java.io.Serializable;
-
 import org.folio.cataloging.business.cataloguing.bibliographic.SubjectAccessPoint;
-import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.dao.DAOThesaurusDescriptor;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.SkipInFiling;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
-
+import org.folio.cataloging.dao.DAOThesaurusDescriptor;
 import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.shared.CorrelationValues;
+
+import java.io.Serializable;
 
 /**
  * Hibernate class for table THS_HDG

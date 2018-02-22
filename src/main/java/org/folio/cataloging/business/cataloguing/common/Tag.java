@@ -13,7 +13,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
 import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
-import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.PersistenceState;
 import org.folio.cataloging.dao.DAOCodeTable;
@@ -22,6 +21,8 @@ import org.folio.cataloging.dao.persistence.CorrelationKey;
 import org.folio.cataloging.dao.persistence.T_SINGLE;
 import org.folio.cataloging.exception.ValidationException;
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.cataloging.shared.Validation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

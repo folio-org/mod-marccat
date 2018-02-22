@@ -8,10 +8,9 @@
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
 import org.folio.cataloging.business.cataloguing.common.ItemEntity;
-import org.folio.cataloging.business.common.CorrelationValues;
-
-import org.folio.cataloging.util.StringText;
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.cataloging.util.StringText;
 
 
 /**

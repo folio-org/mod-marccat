@@ -3,7 +3,6 @@ package org.folio.cataloging.business.cataloguing.bibliographic;
 import org.folio.cataloging.business.cataloguing.common.AccessPoint;
 import org.folio.cataloging.business.cataloguing.common.OrderedTag;
 import org.folio.cataloging.business.common.ConfigHandler;
-import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.marchelper.MarcHelperTag;
@@ -15,6 +14,7 @@ import org.folio.cataloging.dao.persistence.TTL_HDG;
 import org.folio.cataloging.dao.persistence.TitleFunction;
 import org.folio.cataloging.dao.persistence.TitleSecondaryFunction;
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
 
 import java.util.ArrayList;

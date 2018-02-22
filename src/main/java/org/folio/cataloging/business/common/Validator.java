@@ -11,20 +11,17 @@
  */
 package org.folio.cataloging.business.common;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.bean.cataloguing.copy.CopyBean;
+import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
+import org.folio.cataloging.shared.Validation;
+import org.folio.cataloging.util.StringText;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.bean.cataloguing.copy.CopyBean;
-import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
-import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
-import org.folio.cataloging.business.cataloguing.common.Validation;
-
-import org.folio.cataloging.util.StringText;
 
 
 /**
@@ -38,13 +35,13 @@ public abstract class Validator {
 
 	private static final Log logger = LogFactory.getLog(CopyBean.class);
 	
-	public List computeValidSubfieldList(VariableField f) throws MarcCorrelationException, DataAccessException {
+	public List computeValidSubfieldList(VariableField f) throws DataAccessException {
 		return computeValidSubfieldList(
 			getEditableSubfields(f),
 			computeRemainingValidSubfields(f));
 	}
 
-	public Set computeRemainingValidSubfields(VariableField f) throws MarcCorrelationException, DataAccessException {
+	public Set computeRemainingValidSubfields(VariableField f) throws DataAccessException {
 		Set remaining =
 			computeRemainingValidSubfields(
 				f.getStringText(),

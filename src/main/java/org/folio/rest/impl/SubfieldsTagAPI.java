@@ -4,10 +4,10 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Context;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
-import org.folio.cataloging.business.cataloguing.common.Validation;
 import org.folio.cataloging.integration.StorageService;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
+import org.folio.cataloging.shared.Validation;
 import org.folio.rest.jaxrs.model.SubfieldsTag;
 import org.folio.rest.jaxrs.resource.CatalogingSubfieldsTagResource;
 
@@ -53,6 +53,7 @@ public class SubfieldsTagAPI implements CatalogingSubfieldsTagResource {
                     subfieldsTag.setSubfields(stream(validation.getMarcValidSubfieldStringCode().split("")).collect(Collectors.toList()));
                     subfieldsTag.setRepeatable(stream(validation.getRepeatableSubfieldStringCode().split("")).collect(Collectors.toList()));
                     subfieldsTag.setTag(validation.getKey().getMarcTag());
+
 
                     return subfieldsTag;
 

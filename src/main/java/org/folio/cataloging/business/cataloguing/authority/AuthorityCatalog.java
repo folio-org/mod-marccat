@@ -5,7 +5,10 @@ import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.cataloguing.bibliographic.NewTagException;
 import org.folio.cataloging.business.cataloguing.bibliographic.PersistsViaItem;
 import org.folio.cataloging.business.cataloguing.common.*;
-import org.folio.cataloging.business.common.*;
+import org.folio.cataloging.business.common.AbstractMapBackedFactory;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.MapBackedFactory;
+import org.folio.cataloging.business.common.PropertyBasedFactoryBuilder;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.DescriptorFactory;
 import org.folio.cataloging.dao.*;
@@ -13,6 +16,7 @@ import org.folio.cataloging.dao.persistence.AUT;
 import org.folio.cataloging.dao.persistence.REF;
 import org.folio.cataloging.dao.persistence.ReferenceType;
 import org.folio.cataloging.dao.persistence.T_AUT_TAG_CAT;
+import org.folio.cataloging.shared.CorrelationValues;
 
 import java.util.*;
 

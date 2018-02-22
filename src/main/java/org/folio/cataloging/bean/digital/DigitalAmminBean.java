@@ -13,7 +13,6 @@ import org.folio.cataloging.business.authorisation.AuthorisationException;
 import org.folio.cataloging.business.cataloguing.bibliographic.*;
 import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.DateInputException;
 import org.folio.cataloging.business.controller.SessionUtils;
@@ -29,6 +28,7 @@ import org.folio.cataloging.exception.DuplicateTagException;
 import org.folio.cataloging.exception.RecordInUseException;
 import org.folio.cataloging.exception.ValidationException;
 import org.folio.cataloging.form.digital.DigitalAmminForm;
+import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
 
 import javax.servlet.http.HttpServletRequest;

@@ -4,7 +4,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.cataloguing.common.OrderedTag;
 import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.business.common.*;
+import org.folio.cataloging.business.common.ConfigHandler;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.PersistenceState;
+import org.folio.cataloging.business.common.PersistentObjectWithView;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.marchelper.MarcHelperTag;
 import org.folio.cataloging.dao.DAOBibliographicNoteTag;
@@ -16,6 +19,7 @@ import org.folio.cataloging.dao.common.LocalKeyGenerator;
 import org.folio.cataloging.dao.persistence.BibliographicNoteType;
 import org.folio.cataloging.dao.persistence.StandardNoteAccessPoint;
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
 
 import java.util.ArrayList;
@@ -78,10 +82,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
 	
 	public final boolean isStandardNoteType()
 	{
-		if(noteStandard!=null) 
-			return true;
-		else 
-			return false;
+        return noteStandard != null;
 	}
 	
 	public StandardNoteAccessPoint getNoteStandard() {
@@ -515,10 +516,8 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
 		if (getClass() != obj.getClass())
 			return false;
 		final BibliographicNoteTag other = (BibliographicNoteTag) obj;
-		if (noteNbr != other.noteNbr)
-			return false;
-		return true;
-	}
+        return noteNbr == other.noteNbr;
+    }
 
 	public Descriptor getDescriptor() {
 		return null;
@@ -528,7 +527,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
 		return null;
 	}
 
-	public String getKey() throws DataAccessException, MarcCorrelationException {
+	public String getKey() throws DataAccessException {
 		return getMarcEncoding().getMarcTag();
 	}
 	public void setDefaultNoteType()

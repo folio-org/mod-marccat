@@ -7,15 +7,14 @@
  */
 package org.folio.cataloging.business.cataloguing.authority;
 
-import java.util.List;
-
-import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.dao.persistence.CNTL_NBR;
 import org.folio.cataloging.dao.persistence.T_AUT_CNTL_NBR_TYP;
-
+import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
+
+import java.util.List;
 
 /**
  * @author paulm

@@ -1,25 +1,19 @@
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
-import java.util.List;
-
-import org.folio.cataloging.business.common.CorrelationValues;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.business.common.*;
+import org.folio.cataloging.dao.DAOBibliographicRelationship;
 import org.folio.cataloging.dao.DAOSystemNextNumber;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.business.common.PersistenceState;
-import org.folio.cataloging.business.common.PersistentObjectWithView;
-import org.folio.cataloging.business.common.UserViewHelper;
+import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.persistence.BibliographicRelationPrintNote;
 import org.folio.cataloging.dao.persistence.BibliographicRelationReciprocal;
 import org.folio.cataloging.dao.persistence.BibliographicRelationType;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.util.StringText;
 import org.folio.cataloging.model.Subfield;
-import org.folio.cataloging.dao.DAOBibliographicRelationship;
+import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.cataloging.util.StringText;
+
+import java.util.List;
 
 @SuppressWarnings("unused")
 public class BibliographicRelationship extends VariableField implements PersistentObjectWithView  

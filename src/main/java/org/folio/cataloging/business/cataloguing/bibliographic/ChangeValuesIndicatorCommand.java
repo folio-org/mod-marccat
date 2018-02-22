@@ -7,16 +7,14 @@
  */
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
-import org.folio.cataloging.bean.cataloguing.common.EditBean;
-import org.folio.cataloging.business.cataloguing.common.Browsable;
-import org.folio.cataloging.business.cataloguing.common.Tag;
-import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.business.common.DataAccessException;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
+import org.folio.cataloging.bean.cataloguing.common.EditBean;
 import org.folio.cataloging.business.Command;
+import org.folio.cataloging.business.cataloguing.common.Browsable;
+import org.folio.cataloging.business.cataloguing.common.Tag;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.shared.CorrelationValues;
 
 /**
  * @author paulm

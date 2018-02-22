@@ -5,7 +5,6 @@ import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicCatalog;
 import org.folio.cataloging.business.cataloguing.bibliographic.NewTagException;
 import org.folio.cataloging.business.cataloguing.bibliographic.PersistsViaItem;
-import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.controller.UserProfile;
 import org.folio.cataloging.dao.CatalogDAO;
@@ -13,6 +12,7 @@ import org.folio.cataloging.dao.DAOCodeTable;
 import org.folio.cataloging.dao.ModelDAO;
 import org.folio.cataloging.exception.RecordInUseException;
 import org.folio.cataloging.exception.ValidationException;
+import org.folio.cataloging.shared.CorrelationValues;
 import org.w3c.dom.Element;
 
 import java.util.HashMap;

@@ -7,18 +7,15 @@
  */
 package org.folio.cataloging.business.cataloguing.authority;
 
-import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
-import org.folio.cataloging.business.common.CorrelationValues;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.persistence.CorrelationKey;
 import org.folio.cataloging.dao.persistence.ReferenceType;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.w3c.dom.Element;
-
-import org.folio.cataloging.util.StringText;
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.cataloging.util.StringText;
+import org.w3c.dom.Element;
 
 /**
  * @author paulm
@@ -50,8 +47,7 @@ public class EquivalenceReference extends AuthorityReferenceTag {
 	}
 
 	@Override
-	public CorrelationKey getMarcEncoding() throws DataAccessException,
-			MarcCorrelationException {
+	public CorrelationKey getMarcEncoding() throws DataAccessException {
 		CorrelationKey key = super.getMarcEncoding();		
 		logger.debug("getMarcEncoding before source: " + key);
 		key = key.changeAuthoritySourceIndicator(getDescriptor().getAuthoritySourceCode());

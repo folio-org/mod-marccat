@@ -11,6 +11,7 @@ import org.folio.cataloging.dao.persistence.BibliographicRelationPrintNote;
 import org.folio.cataloging.dao.persistence.BibliographicRelationReciprocal;
 import org.folio.cataloging.dao.persistence.BibliographicRelationType;
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
 
 import java.util.Arrays;

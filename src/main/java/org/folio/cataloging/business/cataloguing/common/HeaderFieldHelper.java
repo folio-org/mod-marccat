@@ -7,12 +7,12 @@
  */
 package org.folio.cataloging.business.cataloguing.common;
 
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.dao.DAOCodeTable;
+import org.folio.cataloging.shared.CorrelationValues;
+
 import java.io.Serializable;
 import java.util.List;
-
-import org.folio.cataloging.dao.DAOCodeTable;
-import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.business.common.DataAccessException;
 
 /**
  * @author paulm

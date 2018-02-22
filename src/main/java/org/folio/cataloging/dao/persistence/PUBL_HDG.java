@@ -3,23 +3,21 @@
  * */
 package org.folio.cataloging.dao.persistence;
 
-import java.io.Serializable;
-
-import org.folio.cataloging.business.cataloguing.bibliographic.PublisherAccessPoint;
-import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.dao.DAOPublisherDescriptor;
-import org.folio.cataloging.business.descriptor.Descriptor;
-import org.folio.cataloging.business.descriptor.SortFormParameters;
-import org.folio.cataloging.exception.InvalidDescriptorException;
-import org.folio.cataloging.exception.MandatorySubfieldException;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
+import org.folio.cataloging.business.cataloguing.bibliographic.PublisherAccessPoint;
+import org.folio.cataloging.business.common.Defaults;
+import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.business.descriptor.SortFormParameters;
+import org.folio.cataloging.dao.DAOPublisherDescriptor;
 import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.util.StringText;
+import org.folio.cataloging.exception.InvalidDescriptorException;
+import org.folio.cataloging.exception.MandatorySubfieldException;
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.cataloging.util.StringText;
+
+import java.io.Serializable;
 
 /**
  * Hibernate class for table PUBL_HDG

@@ -34,6 +34,7 @@ import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.exception.*;
 import org.folio.cataloging.form.cataloguing.bibliographic.EditTagForm;
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
 
 import javax.servlet.http.HttpServletRequest;

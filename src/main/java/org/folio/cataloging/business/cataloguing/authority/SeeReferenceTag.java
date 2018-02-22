@@ -7,11 +7,10 @@
  */
 package org.folio.cataloging.business.cataloguing.authority;
 
-import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.dao.persistence.ReferenceType;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.dao.persistence.ReferenceType;
+import org.folio.cataloging.shared.CorrelationValues;
 
 /**
  * @author paulm

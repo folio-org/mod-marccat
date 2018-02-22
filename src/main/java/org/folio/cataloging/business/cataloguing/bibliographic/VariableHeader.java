@@ -7,14 +7,13 @@
  */
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
-import java.util.List;
-
 import org.folio.cataloging.business.cataloguing.common.HeaderField;
 import org.folio.cataloging.business.cataloguing.common.HeaderFieldHelper;
-import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
-
+import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
+
+import java.util.List;
 
 /**
  * @author paulm

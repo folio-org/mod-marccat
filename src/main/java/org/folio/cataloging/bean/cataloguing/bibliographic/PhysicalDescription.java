@@ -8,12 +8,11 @@
 package org.folio.cataloging.bean.cataloguing.bibliographic;
 
 import org.folio.cataloging.business.cataloguing.bibliographic.FixedField;
-import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.PersistenceState;
 import org.folio.cataloging.business.common.PersistentObjectWithView;
 import org.folio.cataloging.business.common.UserViewHelper;
-
 import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.shared.CorrelationValues;
 
 /**
  * @author paulm

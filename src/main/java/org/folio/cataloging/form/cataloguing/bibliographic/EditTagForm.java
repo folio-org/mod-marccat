@@ -1,13 +1,12 @@
 package org.folio.cataloging.form.cataloguing.bibliographic;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.form.LibrisuiteForm;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.form.LibrisuiteForm;
+import org.folio.cataloging.shared.CorrelationValues;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("unchecked")
 public class EditTagForm extends LibrisuiteForm 
@@ -285,7 +284,7 @@ public class EditTagForm extends LibrisuiteForm
 	}
 
 	public String getSubfield(int i) {
-		logger.debug("getSubfield" +(String)subfields.get(i));
+		logger.debug("getSubfield" + subfields.get(i));
 		return (String)subfields.get(i);
 	}
 

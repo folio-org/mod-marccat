@@ -9,6 +9,7 @@ import org.folio.cataloging.dao.persistence.PUBL_HDG;
 import org.folio.cataloging.dao.persistence.PUBL_TAG;
 import org.folio.cataloging.dao.persistence.T_BIB_TAG_CAT;
 import org.folio.cataloging.exception.ValidationException;
+import org.folio.cataloging.shared.CorrelationValues;
 
 import java.util.Collection;
 import java.util.Iterator;

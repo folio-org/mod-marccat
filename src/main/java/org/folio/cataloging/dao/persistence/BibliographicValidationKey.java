@@ -7,6 +7,8 @@
  */
 package org.folio.cataloging.dao.persistence;
 
+import org.folio.cataloging.shared.ValidationKey;
+
 /**
  * @author paulm
  * @version $Revision: 1.7 $, $Date: 2005/12/01 13:50:05 $

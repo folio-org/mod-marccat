@@ -7,10 +7,10 @@
  */
 package org.folio.cataloging.business.cataloguing.common;
 
-import java.util.List;
-
-import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.shared.CorrelationValues;
+
+import java.util.List;
 
 /**
  * @author paulm
@@ -18,15 +18,15 @@ import org.folio.cataloging.business.common.DataAccessException;
  * @since 1.0
  */
 public interface HeaderField {
-	public short getCategory();
-	public CorrelationValues getCorrelationValues();
-	public void setCorrelationValues(CorrelationValues v);
-	public List getFirstCorrelationList() throws DataAccessException;
-	public List getSecondCorrelationList(short value1)
+	short getCategory();
+	CorrelationValues getCorrelationValues();
+	void setCorrelationValues(CorrelationValues v);
+	List getFirstCorrelationList() throws DataAccessException;
+	List getSecondCorrelationList(short value1)
 		throws DataAccessException;
-	public abstract List getThirdCorrelationList(short value1, short value2)
+	List getThirdCorrelationList(short value1, short value2)
 		throws DataAccessException;
-	public short getHeaderType();
-	public void setHeaderType(short s);
-	public boolean isHeaderField();
+	short getHeaderType();
+	void setHeaderType(short s);
+	boolean isHeaderField();
 }

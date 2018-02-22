@@ -11,22 +11,19 @@
  */
 package org.folio.cataloging.bean.cataloguing.bibliographic;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.Validator;
+import org.folio.cataloging.dao.DAOBibliographicValidation;
+import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.cataloging.util.StringText;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
-import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
-import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.dao.DAOBibliographicValidation;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Validator;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.util.StringText;
 
 /**
  * Class comment
@@ -58,13 +55,13 @@ public abstract class StringTextEditBean {
     public abstract Validator getBibliographicValidator();
     
 	public StringTextEditBean(VariableField f)
-		throws MarcCorrelationException, DataAccessException {
+		throws DataAccessException {
 		logger.debug("StringTextEditBean"+f.getStringText());
 		setField(f);
 	}
 
 	private void populateSubfieldLists()
-		throws MarcCorrelationException, DataAccessException {
+		throws DataAccessException {
 			logger.debug("PopulatingSubfieldLists in StringTextEditBean");
 		if (field != null) {
 			remainingValidSubfields =
@@ -156,7 +153,7 @@ public abstract class StringTextEditBean {
 	 * @param field
 	 */
 	private void setField(VariableField field)
-		throws MarcCorrelationException, DataAccessException {
+		throws DataAccessException {
 		this.field = field;
 		populateSubfieldLists();
 	}

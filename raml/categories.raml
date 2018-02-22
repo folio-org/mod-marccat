@@ -1,15 +1,15 @@
 #%RAML 0.8
-title: Heading Type
+title: "Marc categories"
 version: v1
 baseUri: http://github.com/org/folio/mod-cataloging
 
 documentation:
   - title: mod-cataloging API
-    content: This documents the API calls that can be made to manage heading type within the cataloging module.
+    content: This documents the API calls that can be made to manage marc categories within the cataloging module.
 
 schemas:
-  - headingType: !include schemas/headingType.json
-  - headingTypeCollection: !include schemas/headingTypeCollection.json
+  - marcCategory: !include schemas/marcCategory.json
+  - marcCategoryCollection: !include schemas/marcCategoryCollection.json
   - errors: !include ../raml-util/schemas/errors.schema
   - error.schema: !include ../raml-util/schemas/error.schema
   - parameters.schema: !include ../raml-util/schemas/parameters.schema
@@ -28,17 +28,10 @@ resourceTypes:
   - get-only: !include ../raml-util/rtypes/get-only.raml
   - post-empty-body: !include ../raml-util/rtypes/post-empty-body.raml
 
-/cataloging/heading-types:
+/cataloging/categories:
   type:
     collection:
-      exampleCollection: !include examples/headingTypeCollection.json
-      exampleItem: !include examples/headingType.json
-      schemaCollection: headingTypeCollection
-      schemaItem: headingType
-  get:
-    queryParameters:
-      marcCategory:
-          displayName: MarcCategory
-          required: true
-          example: 17
-          default: 17
+      exampleCollection: !include examples/marcCategoryCollection.json
+      exampleItem: !include examples/marcCategory.json
+      schemaCollection: marcCategoryCollection
+      schemaItem: marcCategory

@@ -7,22 +7,20 @@
  */
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
-import java.util.List;
-
 import org.folio.cataloging.business.cataloguing.common.OrderedTag;
 import org.folio.cataloging.business.common.ConfigHandler;
-import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.dao.DAOBibliographicCorrelation;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.DAOBibliographicCorrelation;
 import org.folio.cataloging.dao.persistence.CNTL_NBR;
 import org.folio.cataloging.dao.persistence.ControlNumberFunction;
 import org.folio.cataloging.dao.persistence.ControlNumberType;
-
+import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.cataloging.util.StringText;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import org.folio.cataloging.util.StringText;
+import java.util.List;
 
 /**
  * @author paulm

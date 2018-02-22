@@ -2,19 +2,15 @@
   "itemTypes": [
     {
       "code": 2,
-      "description": "Name Personal"
+      "description": "Forename"
     },
     {
       "code": 3,
-      "description": "Name Corporate"
-    },
-    {
-      "code": 4,
-      "description": "Name Conference/meeting"
+      "description": "Surname"
     },
     {
       "code": 5,
-      "description": "Name Uncontrolled"
+      "description": "Name of family"
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "$schema" : "http://json-schema.org/draft-04/schema#",
-  "title": "Heading Type Schema",
+  "title": "Marc Category Schema",
   "type": "object",
   "properties": {
     "code": {

@@ -35,6 +35,7 @@ import org.folio.cataloging.exception.ValidationException;
 import org.folio.cataloging.form.transfer.ResultSummaryForm;
 import org.folio.cataloging.model.CART_ITEMS;
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.ExtractorFieldTag;
 import org.folio.cataloging.util.StringText;
 import org.folio.cataloging.util.TagConstant;

@@ -2,13 +2,13 @@ package org.folio.cataloging.integration;
 
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
-import org.folio.cataloging.business.cataloguing.common.Validation;
 import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.*;
 import org.folio.cataloging.dao.common.HibernateSessionProvider;
 import org.folio.cataloging.dao.persistence.*;
+import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.cataloging.shared.Validation;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -475,7 +475,7 @@ public class StorageService implements Closeable {
      * @param lang the language code, used here as a filter criterion.
      * @return
      */
-    public List<Avp<String>> getHeadingTypesList(String lang) {
+    public List<Avp<String>> getMarcCategories(String lang) {
         final DAOCodeTable dao = new DAOCodeTable();
         return dao.getList(session, T_BIB_TAG_CAT.class, locale(lang));
     }

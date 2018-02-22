@@ -15,6 +15,7 @@ import org.folio.cataloging.exception.LibrisuiteException;
 import org.folio.cataloging.exception.MandatoryTagException;
 import org.folio.cataloging.exception.ValidationException;
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.shared.Validation;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

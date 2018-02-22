@@ -7,25 +7,23 @@
  */
 package org.folio.cataloging.business.cataloguing.authority;
 
-import java.util.List;
-import java.util.Set;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.w3c.dom.Element;
-
 import org.folio.cataloging.business.cataloguing.bibliographic.PersistsViaItem;
 import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
 import org.folio.cataloging.business.cataloguing.common.Browsable;
 import org.folio.cataloging.business.cataloguing.common.ItemEntity;
-import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.AUT;
 import org.folio.cataloging.exception.NoHeadingSetException;
 import org.folio.cataloging.exception.ValidationException;
-import org.folio.cataloging.dao.persistence.AUT;
-
+import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
+import org.w3c.dom.Element;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author paulm
@@ -184,11 +182,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
 		 * once a heading has been selected, it cannot be changed. The user must
 		 * delete this authority and create a new one with a different heading
 		 */
-		if (getDescriptor().isNew()) {
-			return true;
-		} else {
-			return false;
-		}
+        return getDescriptor().isNew();
 	}
 
 	/*
