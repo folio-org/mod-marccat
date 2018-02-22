@@ -7,26 +7,22 @@
  */
 package org.folio.cataloging.bean.searching;
 
-import java.util.List;
-import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.bean.LibrisuiteBean;
 import org.folio.cataloging.bean.cataloguing.bibliographic.codelist.CodeListsBean;
+import org.folio.cataloging.business.amicusSearchEngine.AmicusSearchEngine;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.business.common.View;
+import org.folio.cataloging.business.controller.SessionUtils;
 import org.folio.cataloging.business.searching.NoResultsFoundException;
 import org.folio.cataloging.business.searching.ResultSet;
 import org.folio.cataloging.business.searching.SearchEngine;
-import org.folio.cataloging.business.searching.SearchEngineFactory;
 import org.folio.cataloging.dao.persistence.DB_LIST;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.business.controller.SessionUtils;
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * @author Wim Crols
@@ -37,7 +33,7 @@ public abstract class SearchBean extends LibrisuiteBean {
 
 	private static Log logger = LogFactory.getLog(SearchBean.class);
 
-	private SearchEngine searchEngine = SearchEngineFactory.getInstance(Defaults.getClazz("searchEngine.class"));
+	private SearchEngine searchEngine = new AmicusSearchEngine();
 
 	private boolean simpleSearch = true;
 

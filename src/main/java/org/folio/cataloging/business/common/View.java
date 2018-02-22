@@ -82,7 +82,7 @@ public class View {
 	}
 
 	/**
-	 * Determines the equivalent integer value view from the (single) view string
+	 * Determines the equivalent integer stringValue view from the (single) view string
 	 * 
 	 * @param userViewString -- the position to be set to '1' (1 indexing)
 	 */

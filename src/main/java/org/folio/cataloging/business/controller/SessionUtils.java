@@ -4,19 +4,18 @@
  */
 package org.folio.cataloging.business.controller;
 
-import java.util.Enumeration;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.folio.cataloging.bean.cataloguing.heading.HeadingBean;
 import org.folio.cataloging.bean.searching.SearchTypeBean;
 import org.folio.cataloging.business.authorisation.AuthorisationException;
 import org.folio.cataloging.business.authorisation.Permission;
 import org.folio.cataloging.business.cataloguing.common.Catalog;
 import org.folio.cataloging.dao.persistence.T_ITM_DSPLY;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.Enumeration;
+import java.util.Locale;
+import java.util.Map;
 /**
  * This Class holds methods to set and get objects from a HttpSession MIKE:
  * added mades view
@@ -57,7 +56,7 @@ public final class SessionUtils {
 			throw new IllegalArgumentException(
 					"Cannot set an attribute on a null session");
 		if (locale == null)
-			throw new IllegalArgumentException("the value of the "
+			throw new IllegalArgumentException("the stringValue of the "
 					+ CURRENT_LOCALE_NAME + " attribute should not be null");
 		session.setAttribute(CURRENT_LOCALE_NAME, locale);
 	}
@@ -109,7 +108,7 @@ public final class SessionUtils {
 			throw new IllegalArgumentException(
 					"Cannot set an attribute on a null session");
 		if (userProfile == null)
-			throw new IllegalArgumentException("the value of the "
+			throw new IllegalArgumentException("the stringValue of the "
 					+ USER_PROFILE_NAME + " attribute should not be null");
 		session.setAttribute(USER_PROFILE_NAME, userProfile);
 	}

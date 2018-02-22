@@ -831,7 +831,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 
 	public void setFormOfMaterialFromBibItem() {
 		/*
-		 * formOfMaterial is an artificial (non-persistent) value for material description
+		 * formOfMaterial is an artificial (non-persistent) stringValue for material description
 		 * that must be derived from other mtrl_dsc and bib_itm data (as coded below).
 		 */
 		DAORecordTypeMaterial dao = new DAORecordTypeMaterial();
@@ -866,7 +866,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 		/*
 		 * we override this item to establish the new values for bibHeader 
 		 * whenever the bibItm data changes (including new instances)
-		 * bib_header is an artificial (non-persistent) value for material description
+		 * bib_header is an artificial (non-persistent) stringValue for material description
 		 * that must be derived from other mtrl_dsc and bib_itm data (as coded below).
 		 */
 		super.setItemEntity(item);
@@ -884,7 +884,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 		} else {
 			/*
 			 * although the 006 values are not affected by bib_item values, we
-			 * need to establish the correct bib_header value for loaded items
+			 * need to establish the correct bib_header stringValue for loaded items
 			 */
 			DAORecordTypeMaterial dao = new DAORecordTypeMaterial();
 			RecordTypeMaterial rtm;

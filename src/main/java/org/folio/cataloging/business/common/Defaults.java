@@ -1,23 +1,92 @@
-/*
- * (c) LibriCore
- * 
- * Created on Aug 13, 2004
- * 
- * Defaults.java
- */
 package org.folio.cataloging.business.common;
 
-import java.util.*;
+import io.vertx.core.Context;
+import io.vertx.core.Future;
+import io.vertx.core.Handler;
+import io.vertx.core.buffer.Buffer;
+import io.vertx.core.json.JsonObject;
+import org.folio.cataloging.Global;
+import org.folio.cataloging.log.Log;
+import org.folio.cataloging.log.MessageCatalog;
+import org.folio.rest.client.ConfigurationsClient;
+
+import java.io.UnsupportedEncodingException;
+import java.util.MissingResourceException;
+import java.util.Optional;
+import java.util.function.Function;
 
 /**
- * provides access to default values established in property pages
+ * Provides access to default values established in configuration.
+ *
  * @author paulm
- * @version $Revision: 1.3 $, $Date: 2006/07/11 08:01:06 $
+ * @author agazzarini
  * @since 1.0
  */
-@Deprecated
+// TODO all old methods have been retained for retro-compatibility purposes, but they don't have to be called!
+// TODO old methods just raise an exception!
 public class Defaults {
+	private final static Log LOGGER = new Log(Defaults.class);
 
+	@Deprecated
+	static public String getString(String key){
+		/*
+		ResourceBundle defaults =
+				ResourceBundle.getBundle("resources/defaultValues");
+
+		return defaults.getString(key);
+		 */
+		throw new IllegalArgumentException("DON'T CALL ME!");
+	}
+
+	@Deprecated
+	public static String getString(String key, String ifNotPresentValue) {
+		try {
+			return getString(key);
+		} catch (MissingResourceException e) {
+			return ifNotPresentValue;
+		}
+	}
+
+	@Deprecated
+	static public short getShort(String key) {
+		String result = getString(key);
+		return (short)Integer.parseInt(result);
+	}
+
+	@Deprecated
+	static public int getInteger(String key) {
+		String result = getString(key);
+		return Integer.parseInt(result);
+	}
+
+	@Deprecated
+	static public char getChar(String key) {
+		String result = getString(key);
+		return result.charAt(0);
+	}
+
+	@Deprecated
+	static public Character getCharacter(String key) {
+		String result = getString(key);
+		return new Character(result.charAt(0));
+	}
+
+	@Deprecated
+	static public boolean getBoolean(String key) {
+		String result = getString(key);
+		return Boolean.valueOf(result).booleanValue();
+	}
+
+	@Deprecated
+	static public boolean getBoolean(String key, boolean ifNotPresentValue) {
+		try {
+			return getBoolean(key);
+		} catch (MissingResourceException e) {
+			return ifNotPresentValue;
+		}
+	}
+
+	@Deprecated
 	static public Class getClazz(String key) {
 		String result = getString(key);
 		try {
@@ -27,79 +96,211 @@ public class Defaults {
 		}
 	}
 
-	@Deprecated
-	static public String getString(String key){
-	    if ("material.bookIllustrationCode".equals(key)
-                || "material.formOfItemCode".equals(key)
-                || "material.natureOfContentsCode".equals(key)
-                || "material.targetAudienceCode".equals(key) ) {
-	        return "\\";
-        }
-
-		throw new IllegalArgumentException("DEPRECATED KEY: " + key);
-/*
-		ResourceBundle defaults =
-			ResourceBundle.getBundle("resources/defaultValues");
-		return defaults.getString(key);
-*/
+	/**
+	 * Returns a {@link Future} holding the configuration stringValue associated with the given key.
+	 *
+	 * @param key the configuration key.
+	 * @param context the Vertx context.
+	 * @return a {@link Future} holding the configuration stringValue associated with the given key.
+	 */
+	public static Future<String> getString(final String key, final Context context) {
+		final Future<String> future = Future.future();
+		return get(future, key, context, body -> {
+			final Optional<String> result = stringValue(body);
+			if (result.isPresent()) {
+				future.complete(result.get());
+			} else {
+				future.fail(key);
+			}
+		});
 	}
-	
-	public static String getString(String key, String ifNotPresentValue) {
+
+	/**
+	 * Returns a {@link Future} holding the configuration stringValue associated with the given key.
+	 *
+	 * @param key the configuration key.
+	 * @param defaultValue the default stringValue (in case the key is not found).
+	 * @param context the Vertx context.
+	 * @return a {@link Future} holding the configuration stringValue associated with the given key.
+	 */
+	public static Future<String> getString(final String key, String defaultValue, final Context context) {
+		final Future<String> future = Future.future();
+		return get(future, key, context, body -> {
+			final Optional<String> result = stringValue(body);
+			future.complete(result.orElse(defaultValue));
+		});
+	}
+
+	/**
+	 * Returns a {@link Future} holding the configuration stringValue associated with the given key.
+	 *
+	 * @param key the configuration key.
+	 * @param context the Vertx context.
+	 * @return a {@link Future} holding the configuration stringValue associated with the given key.
+	 */
+	public static Future<Integer> getInteger(final String key, final Context context) {
+		final Future<Integer> future = Future.future();
+		return get(future, key, context, body -> {
+			final Optional<Integer> result = intValue(body);
+			if (result.isPresent()) {
+				future.complete(result.get());
+			} else {
+				future.fail(key);
+			}
+		});
+	}
+
+	/**
+	 * Returns a {@link Future} holding the configuration stringValue associated with the given key.
+	 *
+	 * @param key the configuration key.
+	 * @param context the Vertx context.
+	 * @return a {@link Future} holding the configuration stringValue associated with the given key.
+	 */
+	public static Future<Character> getChar(final String key, final Context context) {
+		final Future<Character> future = Future.future();
+		return get(future, key, context, body -> {
+			final Optional<Character> result = charValue(body);
+			if (result.isPresent()) {
+				future.complete(result.get());
+			} else {
+				future.fail(key);
+			}
+		});
+	}
+
+	/**
+	 * Returns a {@link Future} holding the configuration stringValue associated with the given key.
+	 *
+	 * @param key the configuration key.
+	 * @param context the Vertx context.
+	 * @return a {@link Future} holding the configuration stringValue associated with the given key.
+	 */
+	public static Future<Boolean> getBoolean(final String key, final Context context) {
+		final Future<Boolean> future = Future.future();
+		return get(future, key, context, body -> {
+			final Optional<Boolean> result = booleanValue(body);
+			if (result.isPresent()) {
+				future.complete(result.get());
+			} else {
+				future.fail(key);
+			}
+		});
+	}
+
+	/**
+	 * Returns a {@link Future} holding the configuration stringValue associated with the given key.
+	 *
+	 * @param key the configuration key.
+	 * @param defaultValue the default stringValue (in case the key is not found).
+	 * @param context the Vertx context.
+	 * @return a {@link Future} holding the configuration stringValue associated with the given key.
+	 */
+	public static Future<Boolean> getString(final String key, boolean defaultValue, final Context context) {
+		final Future<Boolean> future = Future.future();
+		return get(future, key, context, body -> {
+			final Optional<Boolean> result = booleanValue(body);
+			future.complete(result.orElse(defaultValue));
+		});
+	}
+
+	/**
+	 * Returns the configuraton proxy used by this module.
+	 *
+	 * @param context the Vertx context.
+	 * @return the configuraton proxy used by this module.
+	 */
+	private static ConfigurationsClient configuration(final Context context) {
+        return context.get(Global.CONFIGURATION_CLIENT);
+    }
+
+	/**
+	 * Internal methods used for retrieving the configuration values.
+	 *
+	 * @param future the future that will hold the stringValue.
+	 * @param key the requested configuration key.
+	 * @param context the Vertx context.
+	 * @param handler the callback handler.
+	 * @param <T> the kind of result.
+	 * @return a {@link Future} holding the configuration stringValue associated with the given key.
+	 */
+	private static <T> Future<T> get(
+			final Future<T> future,
+			final String key,
+			final Context context,
+			final Handler<Buffer> handler) {
 		try {
-			return getString(key);
-		} catch (MissingResourceException e) {
-			return ifNotPresentValue;
+			configuration(context)
+					.getEntries(
+							"module==CATALOGING and code==" + key,
+							0,
+							1,
+							"en",
+							response -> response.bodyHandler(handler));
+		} catch (final UnsupportedEncodingException exception) {
+			LOGGER.error(MessageCatalog._00015_CFG_KEY_FAILURE, exception, key);
+			future.fail(exception);
 		}
-	}
-	
-	static public short getShort(String key) {
-		String result = getString(key);
-		return (short)Integer.parseInt(result);
+		return future;
 	}
 
-	static public int getInteger(String key) {
-		String result = getString(key);
-		return Integer.parseInt(result);
+	/**
+	 * Retrieves a configuration attribute from the given buffer.
+	 * The incoming buffer is supposed to be the result of one or more calls to the mod-configuration module.
+	 *
+	 * @param buffer the configuration as it comes from the mod-configuration module.
+	 * @return the configuration attribute stringValue.
+	 */
+	private static Optional<String> stringValue(final Buffer buffer) {
+		return value(buffer, obj -> obj.getString("value"));
 	}
 
-	static public char getChar(String key) {
-		String result = getString(key);
-		return result.charAt(0);
+	/**
+	 * Retrieves a configuration attribute from the given buffer.
+	 * The incoming buffer is supposed to be the result of one or more calls to the mod-configuration module.
+	 *
+	 * @param buffer the configuration as it comes from the mod-configuration module.
+	 * @return the configuration attribute stringValue.
+	 */
+	private static Optional<Integer> intValue(final Buffer buffer) {
+		return value(buffer, obj -> obj.getInteger("value"));
 	}
 
-	static public Character getCharacter(String key) {
-		String result = getString(key);
-		return new Character(result.charAt(0));
-	}
-	@Deprecated
-	static public boolean getBoolean(String key) {
-		if ("labels.alphabetical.order".equals(key)) {
-			return true;
-		} else throw new IllegalArgumentException("DEPRECATED KEY: " + key);
-/*
-		String result = getString(key);
-		return Boolean.valueOf(result).booleanValue();
-*/
-	}
-	@Deprecated
-	static public boolean getBoolean(String key, boolean ifNotPresentValue) {
-		try {
-			return getBoolean(key);
-		} catch (MissingResourceException e) {
-			return ifNotPresentValue;
-		}
-	}
-	
-	public static List/*<String>*/ getAllKeys(){
-		ResourceBundle defaults =
-			ResourceBundle.getBundle("resources/defaultValues");
-		List/*<String>*/ elencoChiavi = new ArrayList/*<String>*/();
-		Enumeration/*<String>*/ enm = defaults.getKeys();
-		while (enm.hasMoreElements()) {
-			String element = (String) enm.nextElement();
-			elencoChiavi.add(element);
-		}
-		return elencoChiavi;
+	/**
+	 * Retrieves a configuration attribute from the given buffer.
+	 * The incoming buffer is supposed to be the result of one or more calls to the mod-configuration module.
+	 *
+	 * @param buffer the configuration as it comes from the mod-configuration module.
+	 * @return the configuration attribute stringValue.
+	 */
+	private static Optional<Character> charValue(final Buffer buffer) {
+		return value(buffer, obj -> obj.getString("value").charAt(0));
 	}
 
+	/**
+	 * Retrieves a configuration attribute from the given buffer.
+	 * The incoming buffer is supposed to be the result of one or more calls to the mod-configuration module.
+	 *
+	 * @param buffer the configuration as it comes from the mod-configuration module.
+	 * @return the configuration attribute stringValue.
+	 */
+	private static Optional<Boolean> booleanValue(final Buffer buffer) {
+		return value(buffer, obj -> obj.getBoolean("value"));
+	}
+
+	/**
+	 * Retrieves a configuration attribute from the given buffer.
+	 * The incoming buffer is supposed to be the result of one or more calls to the mod-configuration module.
+	 *
+	 * @param buffer the configuration as it comes from the mod-configuration module.
+	 * @return the configuration attribute stringValue.
+	 */
+	private static <T> Optional<T> value(final Buffer buffer, final Function<JsonObject, T> mapper) {
+		return new JsonObject(buffer.toString())
+				.getJsonArray("configs")
+				.stream()
+				.map(JsonObject.class::cast)
+				.findFirst()
+				.map(mapper);
+	}
 }

@@ -190,7 +190,7 @@ public class TagModelItem {
 	}
 	/**
 	 * MIKE
-	 * @return true if no KeyAvp are present or all the value are empty
+	 * @return true if no KeyAvp are present or all the stringValue are empty
 	 */
 	public boolean isEmpty(boolean checkVariant){
 		if(getInstanceFields().size()==0) {

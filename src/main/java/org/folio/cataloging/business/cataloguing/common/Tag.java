@@ -113,19 +113,19 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 	}
 
 	/**
-	 * @param i - the correlation value wanted (1, 2, or 3)
-	 * @return the appropriate correlation value for determining MARC coding (-1 if no
-	 * value is available or known)
+	 * @param i - the correlation stringValue wanted (1, 2, or 3)
+	 * @return the appropriate correlation stringValue for determining MARC coding (-1 if no
+	 * stringValue is available or known)
 	 */
 	public short getCorrelation(int i) {
 		return getCorrelationValues().getValue(i);
 	}
 
 	/**
-	 * sets the given correlation value for this tag
+	 * sets the given correlation stringValue for this tag
 	 * 
 	 * @param i - the index to be set (1, 2, or 3)
-	 * @param s - the new value
+	 * @param s - the new stringValue
 	 * @since 1.0
 	 */
 	final public void setCorrelation(int i, short s) {
@@ -161,7 +161,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 	}
 
 	/**
-	 * After a change in correlation value 1, the available choices for values 2 and
+	 * After a change in correlation stringValue 1, the available choices for values 2 and
 	 * 3 are recalculated and the values are reset (to the first available valid choice)
 	 * @param s the new value1
 	 */
@@ -174,9 +174,9 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 	}
 
 	/**
-	 * After a change in correlation value 2, the available choices for values 3
-	 * are recalculated and the value is reset (to the first available valid choice)
-	 * @param s the new value 2
+	 * After a change in correlation stringValue 2, the available choices for values 3
+	 * are recalculated and the stringValue is reset (to the first available valid choice)
+	 * @param s the new stringValue 2
 	 */
 	public void updateSecondCorrelation(short s) throws DataAccessException {
 		setCorrelation(2, s);

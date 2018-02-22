@@ -44,16 +44,13 @@ import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-@SuppressWarnings("unchecked")
 public class BibliographicEditBean extends EditBean {
 
 	private static final Log logger = LogFactory
 			.getLog(BibliographicEditBean.class);
 	private static final BibliographicCatalog theCatalog = new BibliographicCatalog();
-	private static final String DIGITAL_TEXT_RESOURCE = Defaults
-			.getString("digital.text.resource");
-	private static boolean equivalentEnabled = Defaults.getBoolean(
-			"record.equivalent.enabled", false);
+	private static final String DIGITAL_TEXT_RESOURCE = Defaults.getString("digital.text.resource");
+	private static boolean equivalentEnabled = Defaults.getBoolean("record.equivalent.enabled", false);
 
 	@Override
 	@Deprecated
@@ -5033,7 +5030,7 @@ public class BibliographicEditBean extends EditBean {
 	 * (non-Javadoc)
 	 * 
 	 * @see EditBean#isAbleSubjectsMesh()
-	 *      able subjects Mesh with value from S_SYS_GBL_VRBL 0=no subjects
+	 *      able subjects Mesh with stringValue from S_SYS_GBL_VRBL 0=no subjects
 	 *      mesh/ 1=yes subjects mesh bug 3035: mesh
 	 */
 	//TODO check and refactoring

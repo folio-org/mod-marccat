@@ -503,7 +503,7 @@ public abstract class DAODescriptor extends HibernateUtil {
 		 * containing the count of authorities. This column is redundant and was
 		 * added for performance considerations. It is believed that the AMICUS
 		 * client did not maintain this column correctly. Nevertheless, we will
-		 * report the value from this column rather than re-calculating from the
+		 * report the stringValue from this column rather than re-calculating from the
 		 * database.
 		 * 
 		 * This method is implemented in the DAO because the other Browse counts

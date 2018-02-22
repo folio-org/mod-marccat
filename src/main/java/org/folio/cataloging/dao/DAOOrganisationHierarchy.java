@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- * 
- * Created on Jul 9, 2004
- * 
- * DAOOrganisationHierarchy.java
- */
 package org.folio.cataloging.dao;
 
 import net.sf.hibernate.HibernateException;
@@ -230,7 +223,7 @@ public class DAOOrganisationHierarchy extends HibernateUtil {
 						+ "  WHERE oh.ORG_NBR=oh.PARNT_ORG_NBR "
 						+ "    AND  oh.ORG_NBR=om.organisationNumber "
 						+ "    AND oh.ORG_NBR<>2147483647  ");
-			// the number 2147483647 is the max value for number in DB
+			// the number 2147483647 is the max stringValue for number in DB
 			logger.warn(" Liburutegiak : " + listList.size());
 			Iterator iter = listList.iterator();
 			while (iter.hasNext()) {

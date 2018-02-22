@@ -1,9 +1,5 @@
 package org.folio.cataloging.util;
 
-import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.marc4j.MarcReader;
 import org.marc4j.MarcStreamReader;
 import org.marc4j.marc.DataField;
@@ -11,11 +7,15 @@ import org.marc4j.marc.Leader;
 import org.marc4j.marc.Subfield;
 import org.marc4j.marc.VariableField;
 
+import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 public class ExtractorFieldTag implements TagConstant{
 
 	
 	/**
-	 * Get the complete string text from the first tag found and return the value
+	 * Get the complete string text from the first tag found and return the stringValue
 	 * @param content
 	 * @param sequenceTag
 	 * @return
@@ -44,7 +44,7 @@ public class ExtractorFieldTag implements TagConstant{
 	}
 	
 	/**
-	 * Get the complete string text from the first tag found and return the value
+	 * Get the complete string text from the first tag found and return the stringValue
 	 * @param content
 	 * @param sequenceTag
 	 * @return
@@ -74,7 +74,7 @@ public class ExtractorFieldTag implements TagConstant{
 	}
 	
 	/**
-	 * Get the value for a specific tag's subfield
+	 * Get the stringValue for a specific tag's subfield
 	 * @param content
 	 * @param tag
 	 * @param subfield
@@ -99,7 +99,7 @@ public class ExtractorFieldTag implements TagConstant{
 	}
 	
 	/**
-	 * Get the complete string text from the first tag found and return the value
+	 * Get the complete string text from the first tag found and return the stringValue
 	 * @param content
 	 * @param sequenceTag
 	 * @return

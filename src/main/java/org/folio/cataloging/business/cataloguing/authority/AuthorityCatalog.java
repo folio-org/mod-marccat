@@ -265,7 +265,7 @@ public class AuthorityCatalog extends Catalog {
 
 			/* if we were called with category == 16 (a generic Reference) then set
 			 * the reference to be an interfile type based on the heading type, otherwise
-			 * the value of category will correspond to the desired target descriptor
+			 * the stringValue of category will correspond to the desired target descriptor
 			 * type and we should create an appropriate reference class for this heading->
 			 * target combination (e.g. NME_NME_TTL_REF)
 			 */

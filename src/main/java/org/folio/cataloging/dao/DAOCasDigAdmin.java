@@ -1,27 +1,14 @@
 package org.folio.cataloging.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import net.sf.hibernate.*;
+import net.sf.hibernate.type.Type;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.RecordNotFoundException;
+import org.folio.cataloging.dao.common.HibernateUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.business.common.RecordNotFoundException;
-import net.sf.hibernate.Hibernate;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Query;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.Transaction;
-import net.sf.hibernate.type.Type;
-
-import org.folio.cataloging.bean.digital.DigitalPoliciesBean;
-import org.folio.cataloging.dao.persistence.CasDigAdmin;
-import org.folio.cataloging.dao.common.HibernateUtil;
-
-@SuppressWarnings("unchecked")
 public class DAOCasDigAdmin extends HibernateUtil
 {	
 	public DAOCasDigAdmin() {
@@ -166,91 +153,5 @@ public class DAOCasDigAdmin extends HibernateUtil
 		} catch (HibernateException e) {
 			logAndWrap(e);
 		}
-	}	
-	
-	/**
-	 * Medoto che legge tutte le policy disponibili dalla vista Sap
-	 * @return lista policy disponibili
-	 * @throws DataAccessException
-	 */
-	public List loadPolicy(String publisherCode) throws DataAccessException
-	{
-		List listPolicies = new ArrayList();
-		DigitalPoliciesBean policiesBean = null;
-		Connection connection = null;
-		PreparedStatement statement = null;
-		ResultSet rs = null;
-		
-		if (publisherCode !=null && publisherCode.trim().length()>0){
-			try {					
-				Class.forName("net.sourceforge.jtds.jdbc.Driver");
-				connection = DriverManager.getConnection(Defaults.getString("sql.server.policy.connection.url"),Defaults.getString("sql.server.policy.connection.username"), Defaults.getString("sql.server.policy.connection.password"));
-				statement = connection.prepareStatement("SELECT * FROM POLICY_EDITORI WHERE CARDCODE = ?");
-				statement.setString(1, publisherCode);
-				rs = statement.executeQuery();
-				while (rs.next()){
-					policiesBean = new DigitalPoliciesBean();
-					policiesBean.setPolicyCode(rs.getString("ITEMCODE"));
-					policiesBean.setPolicyName(rs.getString("ITEMNAME"));
-					policiesBean.setPolicyPrice(new Float(rs.getFloat("PRICE")));			
-					policiesBean.setPolicyCurcy(rs.getString("CURRENCY"));
-					policiesBean.setPolicyType(rs.getString("POLICYTYPE"));
-					policiesBean.setPolicyStamps(rs.getInt("COPY"));
-					policiesBean.setDgaPolicy(false);
-					/* 20100521 inizio: impostazione prezzo totale per policy di tipo "I" */				
-					if ("I".equalsIgnoreCase(policiesBean.getPolicyType())) {
-						policiesBean.setPolicyTotPrice(new Float(rs.getFloat("PRICE")));
-					}else {
-						policiesBean.setPolicyTotPrice(new Float(0));
-					}
-					listPolicies.add(policiesBean);
-				}
-			} catch(Throwable exception)
-			{ 
-				exception.printStackTrace();
-				throw new DataAccessException();
-				
-			} finally {
-				try{ rs.close(); } catch(Exception ex){}
-				try{ statement.close(); } catch(Exception ex){}
-				try{ connection.close(); } catch(Exception ex){}
-			}
-		}		
-		return listPolicies;
-	}
-	
-	
-	/**
-	 * the method set the default values from Policy and Fruition type for this publisher code
-	 * @throws DataAccessException
-	 */
-	public void loadPolicyAndFruitionType(String publisherCode,CasDigAdmin casDigA) throws DataAccessException
-	{	
-		Connection connection = null;
-		PreparedStatement statement = null;
-		ResultSet rs = null;
-			    
-		if (publisherCode !=null && publisherCode.trim().length()>0){
-			try {					
-				Class.forName("net.sourceforge.jtds.jdbc.Driver");
-				connection = DriverManager.getConnection(Defaults.getString("sql.server.policy.connection.url"),Defaults.getString("sql.server.policy.connection.username"), Defaults.getString("sql.server.policy.connection.password"));
-				statement = connection.prepareStatement("SELECT * FROM TIPOFRUIZIONE_EDITORI WHERE CARDCODE = ?");
-				statement.setString(1, publisherCode);
-				rs = statement.executeQuery();
-				while (rs.next()){
-					casDigA.setPolicyOnlineType(rs.getString("ITEMCODE"));
-				    casDigA.setSaleTypeId(new Integer(rs.getString("TIPOFRUIZIONE")));
-				}
-				
-			} catch(Throwable exception){ 
-				exception.printStackTrace();
-				throw new DataAccessException();
-				
-			} finally {
-				try{ rs.close(); } catch(Exception ex){}
-				try{ statement.close(); } catch(Exception ex){}
-				try{ connection.close(); } catch(Exception ex){}
-			}
-		}			
 	}
 }

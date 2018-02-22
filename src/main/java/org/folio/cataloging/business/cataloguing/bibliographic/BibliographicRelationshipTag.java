@@ -26,7 +26,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 {
 	private static final Log logger = LogFactory.getLog(BibliographicRelationshipTag.class);
 	private StringText reciprocalStringText = null;
-	private short reciprocalOption = -1; // value -1 triggers calculation on construction
+	private short reciprocalOption = -1; // stringValue -1 triggers calculation on construction
 	private BibliographicRelationshipTag originalTag = null;
 	public BibliographicRelationship sourceRelationship;
 	public BibliographicRelationship targetRelationship;

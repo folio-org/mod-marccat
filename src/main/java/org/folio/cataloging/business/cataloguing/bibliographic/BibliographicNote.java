@@ -4,18 +4,23 @@
  */
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
-import org.folio.cataloging.business.cataloguing.common.OrderedTag;
-import org.folio.cataloging.business.common.*;
-import org.folio.cataloging.dao.DAOBibliographicNote;
-import org.folio.cataloging.dao.DAOSystemNextNumber;
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.dao.persistence.BibliographicNoteType;
-import org.folio.cataloging.model.Subfield;
-import org.folio.cataloging.shared.CorrelationValues;
-import org.folio.cataloging.util.StringText;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.folio.cataloging.business.cataloguing.common.OrderedTag;
+import org.folio.cataloging.business.common.CorrelationValues;
+import org.folio.cataloging.dao.DAOSystemNextNumber;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.Defaults;
+import org.folio.cataloging.business.common.PersistenceState;
+import org.folio.cataloging.business.common.PersistentObjectWithView;
+import org.folio.cataloging.business.common.UserViewHelper;
+import org.folio.cataloging.dao.persistence.BibliographicNoteType;
+
+import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.util.StringText;
+import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.dao.DAOBibliographicNote;
 
 /**
  * Class comment

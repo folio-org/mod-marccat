@@ -7,18 +7,17 @@
  */
 package org.folio.cataloging.dao.persistence;
 
-import java.io.Serializable;
-
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.cataloguing.common.ItemEntity;
-import org.folio.cataloging.dao.DAOSystemNextNumber;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
-
+import org.folio.cataloging.dao.DAOSystemNextNumber;
 import org.folio.cataloging.dao.common.HibernateUtil;
+
+import java.io.Serializable;
 
 /**
  * @author paulm
@@ -55,13 +54,9 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	/**
 	 * Class constructor
 	 *
-	 * 
 	 * @since 1.0
 	 */
 	public AUT() {
-		/**
-		 * 
-		 */
 		setLanguageOfCataloguing(
 			Defaults.getString("authority.languageOfCataloguing"));
 		setCataloguingSourceStringText(

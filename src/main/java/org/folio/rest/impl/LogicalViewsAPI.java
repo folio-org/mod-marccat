@@ -26,7 +26,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class LogicalViewsAPI implements CatalogingLogicalViewsResource {
     protected final Log logger = new Log(LogicalViewsAPI.class);
 
-    // This is the adapter that converts existing value objects (logical views in this case)
+    // This is the adapter that converts existing stringValue objects (logical views in this case)
     // in OKAPI resources.
     private Function<Avp<String>, View> adapter = source -> {
         final View logicalView = new View();
