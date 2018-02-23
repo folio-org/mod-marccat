@@ -164,37 +164,45 @@ public abstract class CatalogingHelper {
 
         configuration.getEntries("module==CATALOGING and configName==datasource", 0, 4, "en", response ->
             response.bodyHandler(body -> {
-                final SQLClient client = JDBCClient.createShared(ctx.owner(), datasourceConfiguration(body));
-                client.getConnection(operation ->
-                    ctx.executeBlocking(
-                            future -> {
-                                try (final Connection connection = operation.result().unwrap();
-                                    final StorageService service =
-                                            new StorageService(
-                                                    HCONFIGURATION.buildSessionFactory().openSession(connection),
-                                                    ctx)) {
-                                    adapter.execute(service, future);
-                                } catch (final SQLException exception) {
-                                    LOGGER.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-                                    resultHandler.handle(
-                                            Future.succeededFuture(
-                                                    internalServerError(
-                                                            PublicMessageCatalog.INTERNAL_SERVER_ERROR)));
-                                } catch (final Throwable exception) {
-                                    LOGGER.error(MessageCatalog._00011_NWS_FAILURE, exception);
-                                    resultHandler.handle(
-                                            Future.succeededFuture(
-                                                    internalServerError(
-                                                            PublicMessageCatalog.INTERNAL_SERVER_ERROR)));
-                                }
-                            },
-                            false,
-                            execution ->
-                                resultHandler.handle(
-                                        Future.succeededFuture(
-                                                execution.succeeded()
-                                                        ? responseFactory.apply(execution)
-                                                        : internalServerError(PublicMessageCatalog.INTERNAL_SERVER_ERROR)))));
+                try {
+                    final SQLClient client = JDBCClient.createShared(ctx.owner(), datasourceConfiguration(body));
+                    client.getConnection(operation ->
+                            ctx.executeBlocking(
+                                    future -> {
+                                        try (final Connection connection = operation.result().unwrap();
+                                             final StorageService service =
+                                                     new StorageService(
+                                                             HCONFIGURATION.buildSessionFactory().openSession(connection),
+                                                             ctx)) {
+                                            adapter.execute(service, future);
+                                        } catch (final SQLException exception) {
+                                            LOGGER.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+                                            resultHandler.handle(
+                                                    Future.succeededFuture(
+                                                            internalServerError(
+                                                                    PublicMessageCatalog.INTERNAL_SERVER_ERROR)));
+                                        } catch (final Throwable exception) {
+                                            LOGGER.error(MessageCatalog._00011_NWS_FAILURE, exception);
+                                            resultHandler.handle(
+                                                    Future.succeededFuture(
+                                                            internalServerError(
+                                                                    PublicMessageCatalog.INTERNAL_SERVER_ERROR)));
+                                        }
+                                    },
+                                    false,
+                                    execution ->
+                                            resultHandler.handle(
+                                                    Future.succeededFuture(
+                                                            execution.succeeded()
+                                                                    ? responseFactory.apply(execution)
+                                                                    : internalServerError(PublicMessageCatalog.INTERNAL_SERVER_ERROR)))));
+                } catch (final Throwable throwable) {
+                    LOGGER.error(MessageCatalog._00011_NWS_FAILURE, throwable);
+                    resultHandler.handle(
+                            Future.succeededFuture(
+                                    internalServerError(
+                                            PublicMessageCatalog.INTERNAL_SERVER_ERROR)));
+                }
             }));
     }
 
