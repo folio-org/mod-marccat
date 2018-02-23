@@ -10,6 +10,8 @@ import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.*;
 import org.folio.cataloging.dao.common.HibernateSessionProvider;
 import org.folio.cataloging.dao.persistence.*;
+import org.folio.cataloging.log.Log;
+import org.folio.cataloging.log.MessageCatalog;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -34,6 +36,7 @@ public class StorageService implements Closeable {
 
     private final Session session;
     private final Context context;
+    private static final Log logger = new Log(StorageService.class);
     /**
      * Builds a new {@link StorageService} with the given session.
      *
@@ -412,6 +415,7 @@ public class StorageService implements Closeable {
         try {
             return dao.getBibliographicModelList(session);
         } catch (final HibernateException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
             throw new DataAccessException(exception);
         }
     }
@@ -427,6 +431,7 @@ public class StorageService implements Closeable {
         try {
             return dao.getAuthorityModelList(session);
         } catch (final HibernateException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
             throw new DataAccessException(exception);
         }
     }
