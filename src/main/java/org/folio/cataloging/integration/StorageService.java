@@ -454,33 +454,6 @@ public class StorageService implements Closeable {
         final DAOCodeTable dao = new DAOCodeTable();
         return dao.loadCodeTableEntry(session, c, codeTable);
     }
-   /**
-     * Returns the description for heading type entity.
-     *
-     * @param code the heading marc category code, used here as a filter criterion.
-     * @param lang the language code, used here as a filter criterion.
-     * @return the description for index code associated with the requested language.
-     * @throws DataAccessException in case of data access failure.
-     */
-    public String getHeadingDescriptionByCode(final String code, final String lang) throws DataAccessException {
-        final DAOCodeTable dao = new DAOCodeTable();
-        final short s_code = Short.parseShort(code);
-        return dao.getLongText(session, s_code, T_BIB_TAG_CAT.class, locale(lang));
-    }
-
-    /**
-     * Returns the description for heading type entity.
-     *
-     * @param code the heading marc category code, used here as a filter criterion.
-     * @param lang the language code, used here as a filter criterion.
-     * @return the description for index code associated with the requested language.
-     * @throws DataAccessException in case of data access failure.
-     */
-    public String getSubTypeDescriptionByCode(final String code, final String lang) throws DataAccessException {
-        final DAOCodeTable dao = new DAOCodeTable();
-        final short s_code = Short.parseShort(code);
-        return dao.getLongText(session, s_code, NameType.class, locale(lang));
-    }
 
     /**
      * Gets the heading category.
@@ -629,6 +602,17 @@ public class StorageService implements Closeable {
     public List<Avp<String>> getCatalogSources(final String lang) throws DataAccessException {
         final DAOCodeTable dao = new DAOCodeTable();
         return dao.getList(session, T_REC_CTLGG_SRC.class, locale(lang));
+    }
+
+    public CorrelationValues getFieldTemplate(final Integer category,
+                                              final String indicator1,
+                                              final String indicator2,
+                                              final String tagCode) throws DataAccessException {
+
+        final DAOBibliographicCorrelation daoBibliographicCorrelation = new DAOBibliographicCorrelation();
+        final BibliographicCorrelation bibliographicCorrelation = daoBibliographicCorrelation.getBibliographicCorrelation(session, tagCode, indicator1.charAt(0), indicator2.charAt(0), category.shortValue());
+        return bibliographicCorrelation.getValues();
+
     }
 
 

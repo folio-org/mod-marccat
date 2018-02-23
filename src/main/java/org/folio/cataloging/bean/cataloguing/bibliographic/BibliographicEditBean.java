@@ -289,11 +289,11 @@ public class BibliographicEditBean extends EditBean {
 	 * 
 	 * @since 1.0
 	 */
-	public Set getControlNumberValidationOptions() {
+	public List<String> getControlNumberValidationOptions() {
 		if (getCurrentTag() instanceof ControlNumberAccessPoint) {
 			try {
 				ControlNumberAccessPoint f = (ControlNumberAccessPoint) getCurrentTag();
-				Set s = new DAOBibliographicValidation().load(f.getCategory(),
+				List<String> s = new DAOBibliographicValidation().load(f.getCategory(),
 						f.getCorrelationValues()).getValidSubfieldCodes();
 				s.retainAll(Arrays.asList("a", "y", "z"));
 				if (s.size() > 1) {

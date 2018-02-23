@@ -202,6 +202,7 @@ public abstract class Global  {
 	};
 
 	public final static String NAME_CATEGORY_DEFAULT = "2";
+	public final static short CORRELATION_UNDEFINED = -1;
 
 	public final static List<Integer> sourcesEnabledToAlternativeLabelsSearch  =  new ArrayList<Integer>(Arrays.asList(1,2,4,5,6));
 }

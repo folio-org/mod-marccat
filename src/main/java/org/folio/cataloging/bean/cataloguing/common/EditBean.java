@@ -552,7 +552,7 @@ public abstract class EditBean extends LibrisuiteBean {
 
 
 
-	abstract public Set getControlNumberValidationOptions();
+	abstract public List<String> getControlNumberValidationOptions();
 
 	/**
 	 * 

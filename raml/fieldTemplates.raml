@@ -8,6 +8,7 @@ documentation:
     content: This documents the API calls that can be made to manage field templates within the cataloging module.
 
 schemas:
+  - variableField:  !include schemas/variableField.json
   - fieldTemplate: !include schemas/fieldTemplate.json
   - fieldTemplateCollection: !include schemas/fieldTemplateCollection.json
   - errors: !include ../raml-util/schemas/errors.schema
@@ -34,22 +35,28 @@ resourceTypes:
   get:
     queryParameters:
       categoryCode:
-        displayName: Heading category
-        description: the heading category
+        displayName: marc category
+        description: the marc category code
         required: true
         type: integer
-      headingTypeCode:
-        displayName: Heading type
-        description: the heading type
+      ind1:
+        displayName: First indicator
+        description: First indicator
         required: true
         type: string
-      itemTypeCode:
-        displayName: The item type
-        description: the item type
+        minLength: 1
+        maxLength: 1
+      ind2:
+        displayName: Second indicator
+        description: the second indicator
+        required: true
+        minLength: 1
+        maxLength: 1
+        type: string
+      code:
+        displayName: tag number
+        description: the tag number
         required: true
         type: string
-      functionCode:
-        displayName: Function code
-        description: the function code
-        required: false
-        type: string
+        minLength: 3
+        maxLength: 3

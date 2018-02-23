@@ -42,7 +42,7 @@ public class ConfigHandler implements Serializable{
     }
     
     public String getValue(String name){
-		String value= (String)getAllGlobalVariable().get(name);
+		String value= getAllGlobalVariable().get(name);
 		return value;
 	}
 	

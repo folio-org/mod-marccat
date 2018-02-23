@@ -80,6 +80,7 @@ public abstract class Validation {
 		return stream(repeatableSubfieldStringCode.split("")).collect(Collectors.toList());
 	}
 
+
 	/*public Set computeRemainingValidSubfields(StringText stringText) {
 		Set remainingValidSubfields = new TreeSet(new SubfieldCodeComparator());
 		remainingValidSubfields.addAll(getValidSubfieldCodes());

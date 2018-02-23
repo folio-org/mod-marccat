@@ -472,8 +472,8 @@ public class BrowseBean extends SearchBean {
 	private String getShortCodeByPublisherCode(List publishersWithShortCodeList, String hdgNumber) 
 	{
 		String shortCode = "";
-		DAOPublisher daoPublisher = new DAOPublisher(); ;
-		try {
+		DAOPublisher daoPublisher = new DAOPublisher();
+        try {
 			List publishersList = daoPublisher.loadHdg(hdgNumber);
 			if (publishersList!=null && publishersList.size()>0){
 				String publisherCode = ((PublCdeHdg)publishersList.get(0)).getPublisherCode();
@@ -551,8 +551,8 @@ public class BrowseBean extends SearchBean {
 	private void initBrowseIndexList(Locale l) throws DataAccessException 
 	{
 		DAOIndexList dao = new DAOIndexList();
-		setBrowseIndexList(dao.getBrowseIndex(l.ITALY)); 
-		setEditorBrowseIndexList(dao.getEditorBrowseIndex(l.ITALY));
+		setBrowseIndexList(dao.getBrowseIndex(Locale.ITALY));
+		setEditorBrowseIndexList(dao.getEditorBrowseIndex(Locale.ITALY));
 	}
 
 	/**
@@ -572,10 +572,7 @@ public class BrowseBean extends SearchBean {
 
 	public boolean isDewey()
 	{
-		if(this.getSelectedIndexKey().equals("24P5"))
-			return true;
-		else 
-			return false;
+        return this.getSelectedIndexKey().equals("24P5");
 	}
 
 	public boolean isNameTitle()
@@ -591,10 +588,7 @@ public class BrowseBean extends SearchBean {
 	 */
 	public boolean isPublisher()
 	{
-		if ((("PU       ").equalsIgnoreCase(selectedIndex)) || (("PP       ").equalsIgnoreCase(selectedIndex)))
-			return true;
-		else 
-			return false;
+        return (("PU       ").equalsIgnoreCase(selectedIndex)) || (("PP       ").equalsIgnoreCase(selectedIndex));
 	}
 	
 	/**
@@ -621,10 +615,7 @@ public class BrowseBean extends SearchBean {
 	}
 
 	public boolean isThesaurus(){
-		if(selectedIndex.equals("TH       "))
-			return true;
-		else 
-			return false;
+        return selectedIndex.equals("TH       ");
 	}
 
 	/**
@@ -1049,14 +1040,11 @@ public class BrowseBean extends SearchBean {
 	 */
 	public boolean isEditableIconsEnabled() 
 	{
-		if(getBrowseLinkMethod().equals("pickHdg") ||
-			getBrowseLinkMethod().equals("pickNameTitle") || 
-			getBrowseLinkMethod().equals("pickXref")||
-			getBrowseLinkMethod().equals("pickShelf")||
-			getBrowseLinkMethod().equals("pickPublisher"))
-			editableIconsEnabled = true;
-		else 
-			editableIconsEnabled = false;
+        editableIconsEnabled = getBrowseLinkMethod().equals("pickHdg") ||
+                getBrowseLinkMethod().equals("pickNameTitle") ||
+                getBrowseLinkMethod().equals("pickXref") ||
+                getBrowseLinkMethod().equals("pickShelf") ||
+                getBrowseLinkMethod().equals("pickPublisher");
 		
 		return editableIconsEnabled;
 	}

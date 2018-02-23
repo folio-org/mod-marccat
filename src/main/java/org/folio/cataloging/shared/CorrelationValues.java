@@ -7,6 +7,8 @@ import java.util.Arrays;
  *
  */
 public class CorrelationValues implements Cloneable {
+
+	//TODO evaluate if needs to move it in Global
 	public static final short UNDEFINED = -1;
 	private static final int NBR_VALUES = 3;
 	

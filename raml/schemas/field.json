@@ -12,40 +12,8 @@
       }
     },
     "variable-field": {
-      "type": "object",
-      "properties": {
-        "categoryCode": {
-          "type": "string"
-        },
-        "ind1" : {
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 9
-        },
-        "ind2" : {
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 9
-        },
-        "code": {
-          "type": "string"
-        },
-        "subfields": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "code": {
-                "type": "string",
-                "pattern": "[a-z|0-9]"
-              },
-              "value": {
-                "type": "string"
-              }
-            }
-          }
-        }
-      }
+      "type": "object"
+      // "$ref": "variableField" -- define include into raml
     },
     "code": {
       "type": "string",

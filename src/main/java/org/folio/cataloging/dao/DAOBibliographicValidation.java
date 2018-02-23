@@ -43,7 +43,7 @@ public class DAOBibliographicValidation extends DAOValidation {
 	 * @param category the marc category used as filter criterion
 	 * @param values the correlation values used as filter criterion
 	 * @return a BibliographicValidation object containing
-	 *  the MARC subfield list or null when none found
+	 *  the MARC subfield list or null when not found
 	 * @throws DataAccessException
 	 */
 	public BibliographicValidation load(final Session session, final short category, final CorrelationValues values) throws DataAccessException {

@@ -1,5 +1,7 @@
 package org.folio.cataloging.dao.persistence;
 
+import org.folio.cataloging.shared.CorrelationValues;
+
 import java.io.Serializable;
 
 /**
@@ -55,9 +57,9 @@ public class Correlation implements Serializable {
 		searchIndexTypeCode = s;
 	}
 
-	/*public CorrelationValues getValues() {
+	public CorrelationValues getValues() {
 		return new CorrelationValues(getDatabaseFirstValue(),
 				getDatabaseSecondValue(), getDatabaseThirdValue());
-	}*/
+	}
 
 }
