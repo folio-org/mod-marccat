@@ -61,7 +61,14 @@ public abstract class ModelDAO extends HibernateUtil {
 
 	abstract protected Class getPersistentClass();
 
-	public void delete(final Model model)
+	/**
+	 * Delete a model and a model item
+	 *
+	 * @param model the model
+	 * @param session the hibernate session
+	 * @throws DataAccessException in case of data access failure
+	 */
+	public void delete(final Model model, final Session session)
 		throws DataAccessException {
 		new TransactionalHibernateOperation() {
 			public void doInHibernateTransaction(Session session)
@@ -116,4 +123,5 @@ public abstract class ModelDAO extends HibernateUtil {
 				+ " org.folio.cataloging.business.cataloguing.authority.AuthorityModel "
 				+ " as m order by m.label");
 	}
+	//TODO manca il salva di Model
 }

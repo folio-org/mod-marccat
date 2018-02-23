@@ -7,11 +7,10 @@
  */
 package org.folio.cataloging.business.cataloguing.authority;
 
-import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.dao.persistence.ReferenceType;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.business.common.CorrelationValues;
+import org.folio.cataloging.dao.persistence.ReferenceType;
 
 /**
  * @author paulm
@@ -36,7 +35,7 @@ public class SeeReferenceTag extends SeeSeeAlsoReference {
 			logger.debug("super says no");
 			logger.debug("position is " + getRefTypeCorrelationPosition());
 			logger.debug(
-				"value is " + v.getValue(getRefTypeCorrelationPosition()));
+				"stringValue is " + v.getValue(getRefTypeCorrelationPosition()));
 			logger.debug(
 				"result is "
 					+ !ReferenceType.isSeenFrom(

@@ -1,34 +1,28 @@
 package org.folio.cataloging.business.descriptor;
 
-import java.io.Serializable;
-import java.util.Iterator;
-import java.util.Locale;
-import org.folio.cataloging.business.cataloguing.common.Browsable;
-import org.folio.cataloging.business.cataloguing.common.Tag;
-import org.folio.cataloging.business.common.ConfigHandler;
-import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.dao.DAODescriptor;
-import org.folio.cataloging.dao.DAOSystemNextNumber;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.business.common.DuplicateDescriptorException;
-import org.folio.cataloging.business.common.PersistenceState;
-import org.folio.cataloging.business.common.PersistentObjectWithView;
-import org.folio.cataloging.exception.DescriptorHasEmptySubfieldsException;
-import org.folio.cataloging.exception.DescriptorHasNoSubfieldsException;
-import org.folio.cataloging.exception.InvalidDescriptorException;
-import org.folio.cataloging.dao.DAOIndexList;
-import org.folio.cataloging.dao.persistence.DescriptorKey;
-import org.folio.cataloging.dao.persistence.T_AUT_HDG_SRC;
 import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.Session;
-
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.business.cataloguing.common.Browsable;
+import org.folio.cataloging.business.cataloguing.common.Tag;
+import org.folio.cataloging.business.common.*;
+import org.folio.cataloging.dao.DAODescriptor;
+import org.folio.cataloging.dao.DAOIndexList;
+import org.folio.cataloging.dao.DAOSystemNextNumber;
+import org.folio.cataloging.dao.persistence.DescriptorKey;
+import org.folio.cataloging.dao.persistence.T_AUT_HDG_SRC;
+import org.folio.cataloging.exception.DescriptorHasEmptySubfieldsException;
+import org.folio.cataloging.exception.DescriptorHasNoSubfieldsException;
+import org.folio.cataloging.exception.InvalidDescriptorException;
+import org.folio.cataloging.model.Subfield;
 import org.folio.cataloging.util.HtmlUtils;
 import org.folio.cataloging.util.StringText;
-import org.folio.cataloging.model.Subfield;
+
+import java.io.Serializable;
+import java.util.Iterator;
+import java.util.Locale;
 
 public abstract class Descriptor implements PersistentObjectWithView 
 {
@@ -97,7 +91,7 @@ public abstract class Descriptor implements PersistentObjectWithView
 
 	/**
 	 * A persistent member for subclasses that support Authorities. Otherwise,
-	 * the default value of 0 is returned.
+	 * the default stringValue of 0 is returned.
 	 * 
 	 * @return
 	 */
@@ -120,9 +114,9 @@ public abstract class Descriptor implements PersistentObjectWithView
 	abstract public CorrelationValues getCorrelationValues();
 
 	/**
-	 * @return the language independent (key) index value to be used when
+	 * @return the language independent (key) index stringValue to be used when
 	 *         browsing for entries of this type of Descriptor (e.g. Names ==
-	 *         "2P0"). The value returned should correspond to the value of
+	 *         "2P0"). The stringValue returned should correspond to the stringValue of
 	 *         IDX_LIST.IDX_LIST_KEY_NBR + IDX_LIST_TYPE_CDE
 	 * 
 	 */
@@ -150,7 +144,7 @@ public abstract class Descriptor implements PersistentObjectWithView
 	}
 
 	/**
-	 * @return the language independent index key value to be used when
+	 * @return the language independent index key stringValue to be used when
 	 *         searching by headingNumber for this type of Descriptor (e.g.
 	 *         Names == "227P" (NK index)).
 	 */

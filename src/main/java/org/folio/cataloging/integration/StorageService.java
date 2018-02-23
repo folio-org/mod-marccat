@@ -1,5 +1,6 @@
 package org.folio.cataloging.integration;
 
+import io.vertx.core.Context;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.cataloging.business.cataloguing.common.Validation;
@@ -32,14 +33,25 @@ import static org.folio.cataloging.F.locale;
 public class StorageService implements Closeable {
 
     private final Session session;
-
+    private final Context context;
     /**
      * Builds a new {@link StorageService} with the given session.
      *
      * @param session the Hibernate session, which will be used for gathering a connection to the RDBMS.
+     * @param context the vertx context.
      */
-    StorageService(final Session session) {
+    StorageService(final Session session, final Context context) {
         this.session = session;
+        this.context = context;
+    }
+
+    /**
+     * Returns the configuration client associated with this module.
+     *
+     * @return the configuration client associated with this module.
+     */
+    public Context context() {
+        return context;
     }
 
     /**

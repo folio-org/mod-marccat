@@ -568,9 +568,9 @@ public abstract class Model implements Persistence, Serializable {
 	 * 
 	 * @since 1.0
 	 */
-	public boolean isLinkedToItems() throws DataAccessException {
+	/*public boolean isLinkedToItems() throws DataAccessException {
 		return ((ModelDAO) getDAO()).getModelUsage(getId());
-	}
+	}*/
 
 	public CatalogItem toCatalogItem(int cataloguingView) {
 		CatalogItem item = null;

@@ -19,7 +19,7 @@ public class T_AUT_SHLF_LIST_TYP extends T_SINGLE_CHAR {
 	 */
 	 
 	 /*
-	  * getCodeString is overridden to return the (short) value of the character
+	  * getCodeString is overridden to return the (short) stringValue of the character
 	  * code.  This codetable is used in the context of a correlationList which
 	  * expects short values.
 	  */

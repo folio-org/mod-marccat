@@ -8,6 +8,8 @@
 package org.folio.cataloging.dao;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 import org.folio.cataloging.business.cataloguing.common.ModelItem;
 import org.folio.cataloging.business.common.DataAccessException;
@@ -22,12 +24,18 @@ import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 
 /**
  * @author paulm
- * @version $Revision: 1.1 $, $Date: 2005/12/21 08:30:33 $
  * @since 1.0
  */
 public abstract class DAOModelItem extends HibernateUtil {
 
-	public void delete(final ModelItem modelItem)
+	/**
+	 * Delete a model item
+	 *
+	 * @param modelItem the model item
+	 * @param session the hibernate session
+	 * @throws DataAccessException in case of data access failure
+	 */
+	public void delete(final ModelItem modelItem, final Session session)
 		throws ReferentialIntegrityException, DataAccessException {
 		new TransactionalHibernateOperation() {
 			public void doInHibernateTransaction(Session session)
@@ -38,21 +46,21 @@ public abstract class DAOModelItem extends HibernateUtil {
 		.execute();
 	}
 
-	public ModelItem load(int id) throws DataAccessException {
-		ModelItem modelItem = null;
-		List list =
-			find(
+	public ModelItem load(final int id, final Session session) throws DataAccessException {
+		List<ModelItem> list = find(
 				"from "
 					+ getPersistentClass().getName()
 					+ " as itm where itm.item = ? ",
 				new Object[] { new Long(id)},
 				new Type[] { Hibernate.LONG });
-		if (list.size() > 0) {
+		final Optional<ModelItem> firstElement = list.stream().filter(Objects::nonNull).findFirst();
+		return firstElement.isPresent() ? firstElement.get() : null;
+		/*if (list.size() > 0) {
 			modelItem = (ModelItem) list.get(0);
 			return modelItem;
 		} else {
 			return null;
-		}
+		}*/
 	}
 
 	protected abstract Class getPersistentClass();

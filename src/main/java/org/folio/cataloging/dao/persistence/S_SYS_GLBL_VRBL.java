@@ -26,9 +26,9 @@ public class S_SYS_GLBL_VRBL implements Serializable {
 	}
 
 	/**
-	 * Getter for value
+	 * Getter for stringValue
 	 * 
-	 * @return value
+	 * @return stringValue
 	 */
 	public String getValue() {
 		return value;
@@ -44,9 +44,9 @@ public class S_SYS_GLBL_VRBL implements Serializable {
 	}
 
 	/**
-	 * Setter for value
+	 * Setter for stringValue
 	 * 
-	 * @param string value
+	 * @param string stringValue
 	 */
 	public void setValue(String string) {
 		value = string;

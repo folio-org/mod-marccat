@@ -35,7 +35,7 @@ public abstract class F {
                 .map(JsonObject.class::cast)
                 .reduce(
                         new JsonObject(),
-                        (r1, r2) -> r1.put(r2.getString("code"), r2.getValue("value")));
+                        (r1, r2) -> r1.put(r2.getString("code"), r2.getValue("stringValue")));
     }
 
     /**

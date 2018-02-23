@@ -52,7 +52,7 @@ public class CorrelationValues implements Cloneable {
 			throw new IllegalArgumentException(
 				"There are only "
 					+ NBR_VALUES
-					+ " correlation values, value "
+					+ " correlation values, stringValue "
 					+ i
 					+ " is out of range");
 		}
@@ -65,7 +65,7 @@ public class CorrelationValues implements Cloneable {
 	}
 
 	/**
-	 * places the argument value in the first unused correlation slot
+	 * places the argument stringValue in the first unused correlation slot
 	 * 
 	 * @since 1.0
 	 */

@@ -1,34 +1,24 @@
-/*
- * (c) LibriCore
- * 
- * Created on Aug 6, 2004
- * 
- * $Author: Paulm $
- */
 package org.folio.cataloging.dao;
 
-import java.util.List;
-
-import org.folio.cataloging.business.cataloguing.common.Tag;
-import org.folio.cataloging.dao.persistence.Correlation;
-import org.folio.cataloging.dao.persistence.CorrelationKey;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Defaults;
+import org.folio.cataloging.dao.persistence.Correlation;
+import org.folio.cataloging.dao.persistence.CorrelationKey;
+
+import java.util.List;
 
 /**
  * Manages access to table S_AUT_MARC_IND_DB_CRLTN -- the correlation between
  * AMICUS database encoding and MARC21 authorities encoding
  * 
  * @author paulm
- * @version $Revision: 1.4 $, $Date: 2006/01/11 13:36:22 $
  */
 public class DAOAuthorityCorrelation extends DAOCorrelation {
 	private static final Log logger = LogFactory
@@ -36,7 +26,6 @@ public class DAOAuthorityCorrelation extends DAOCorrelation {
 
 	private static final String ALPHABETICAL_ORDER = " order by ct.longText ";
 	private static final String SEQUENCE_ORDER = " order by ct.sequence ";
-	private String defaultListOrder = Defaults.getBoolean("labels.alphabetical.order", true)?ALPHABETICAL_ORDER:SEQUENCE_ORDER;
 
 	/**
 	 * Returns the AuthorityCorrelation from CorrelationKey

@@ -14,7 +14,6 @@ import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
 import org.folio.cataloging.business.cataloguing.bibliographic.BIB_ITM;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 import org.folio.cataloging.dao.persistence.*;
@@ -139,7 +138,8 @@ public class DAOInventory extends HibernateUtil {
 			String s =
 				new DAOGlobalVariable().getValueByName("display_currency");
 			if (s == null) {
-				s = Defaults.getString("inventory.defaultCurrency");
+				// TODO: If this method is needed, it requires a Session + a Vertx context (to be passed instead of null)
+				//s = Defaults.getString("inventory.defaultCurrency", null);
 			}
 			item.setCurrencyCode(Short.parseShort(s));
 		}

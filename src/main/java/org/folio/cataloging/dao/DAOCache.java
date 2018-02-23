@@ -7,28 +7,22 @@
  */
 package org.folio.cataloging.dao;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Types;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.folio.cataloging.dao.persistence.Cache;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 import org.folio.cataloging.business.common.CacheUpdateException;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.RecordNotFoundException;
+import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
+import org.folio.cataloging.dao.persistence.Cache;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author paulm
@@ -75,7 +69,7 @@ public class DAOCache extends HibernateUtil {
 						throw new CacheUpdateException("No record inserted or updated");
 					}
 					else if (result == 2) {
-						throw new CacheUpdateException("Duplicated value on index");
+						throw new CacheUpdateException("Duplicated stringValue on index");
 					}				
 					else if (result > 2) {
 						throw new CacheUpdateException("SQL_CODE: "+result);

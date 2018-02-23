@@ -1000,7 +1000,7 @@ public class DAOCopy extends HibernateUtil {
 							copy.setShelfList(shelf);
 							/*
 							 * When string text is modified in UI, the sortform
-							 * is not changed (still old value). The trigger to
+							 * is not changed (still old stringValue). The trigger to
 							 * set the sortform is only activated when the
 							 * inserted sortform is null. Without the below
 							 * line, the SHLF_LIST_I3 unique index is violated
@@ -1268,7 +1268,7 @@ public class DAOCopy extends HibernateUtil {
 			// {
 			// stmt2 = connection.prepareStatement("INSERT INTO
 			// HLDG_CPY_ACS_PNT(HLDG_NBR, CPY_ID_NBR) VALUES (?, ?)");
-			// stmt2.setInt(1, value);
+			// stmt2.setInt(1, stringValue);
 			// stmt2.setInt(2, element.getCopy().getCopyIdNumber());
 			// stmt2.executeUpdate();
 			// }

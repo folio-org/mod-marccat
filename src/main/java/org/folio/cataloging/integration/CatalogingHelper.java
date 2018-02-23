@@ -9,6 +9,7 @@ import io.vertx.ext.sql.SQLClient;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpStatus;
 import org.apache.http.entity.ContentType;
+import org.folio.cataloging.Global;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.cataloging.log.PublicMessageCatalog;
@@ -152,11 +153,14 @@ public abstract class CatalogingHelper {
             final Map<String, String> okapiHeaders,
             final Context ctx,
             final Function<AsyncResult<Object>, Response> responseFactory) throws Exception {
+
         final ConfigurationsClient configuration =
                 new ConfigurationsClient(
                         System.getProperty("config.server.listen.address", "192.168.0.158"),
                         Integer.parseInt(System.getProperty("config.server.listen.port", "8085")),
                         TenantTool.tenantId(okapiHeaders));
+
+        ctx.put(Global.CONFIGURATION_CLIENT, configuration);
 
         configuration.getEntries("module==CATALOGING and configName==datasource", 0, 4, "en", response ->
             response.bodyHandler(body -> {
@@ -167,8 +171,8 @@ public abstract class CatalogingHelper {
                                 try (final Connection connection = operation.result().unwrap();
                                     final StorageService service =
                                             new StorageService(
-                                                    HCONFIGURATION.buildSessionFactory().openSession(connection))) {
-
+                                                    HCONFIGURATION.buildSessionFactory().openSession(connection),
+                                                    ctx)) {
                                     adapter.execute(service, future);
                                 } catch (final SQLException exception) {
                                     LOGGER.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);

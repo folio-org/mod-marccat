@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Holds a single attribute-value pair (AVP).
+ * Holds a single attribute-stringValue pair (AVP).
  *
  * @author paulm
  * @author agazzarini
@@ -15,7 +15,7 @@ public class Avp<V> implements Comparable<Avp>, Serializable {
 	private String label;
 
 	/**
-	 * Decodes the incoming value among a given set of key/value pairs.
+	 * Decodes the incoming stringValue among a given set of key/stringValue pairs.
 	 *
 	 * @param value the search criterion.
 	 * @param elements the search set.
@@ -34,7 +34,7 @@ public class Avp<V> implements Comparable<Avp>, Serializable {
 	/**
 	 * Builds a new {@link Avp} with the given pair.
 	 *
-	 * @param value the element value.
+	 * @param value the element stringValue.
 	 * @param label the element label.
 	 */
 	public Avp(final V value, final String label){
@@ -52,9 +52,9 @@ public class Avp<V> implements Comparable<Avp>, Serializable {
 	}
 
 	/**
-	 * Returns the value associated with this pair.
+	 * Returns the stringValue associated with this pair.
 	 *
-	 * @return the value associated with this pair.
+	 * @return the stringValue associated with this pair.
 	 */
 	public V getValue() {
 		return value;
@@ -70,7 +70,7 @@ public class Avp<V> implements Comparable<Avp>, Serializable {
 	}
 
 	/**
-	 * Sets the value of this pair.
+	 * Sets the stringValue of this pair.
 	 *
 	 * @param value the pair label.
 	 */

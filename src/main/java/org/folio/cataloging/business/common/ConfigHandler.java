@@ -7,10 +7,10 @@
  */
 package org.folio.cataloging.business.common;
 
+import org.folio.cataloging.dao.DAOGlobalVariable;
+
 import java.io.Serializable;
 import java.util.Hashtable;
-
-import org.folio.cataloging.dao.DAOGlobalVariable;
 
 /**
  * provides access to default values from S_SYS_GLBL_VRBL
@@ -58,10 +58,10 @@ public class ConfigHandler implements Serializable{
 	/**
 	 * find the default values first in the S_SYS_GLBL_VRBL
 	 * then in in defaultValues.properties.
-	 * The value in S_SYS_GLBL_VRBL is always updated
+	 * The stringValue in S_SYS_GLBL_VRBL is always updated
 	 * @param name is property for S_SYS_GLBL_VRBL
 	 * @param defaultName is property for efaultValues.properties.
-	 * @return value
+	 * @return stringValue
 	 * @throws DataAccessException 
 	 */
 	public String findValue(String name,String defaultName){

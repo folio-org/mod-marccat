@@ -7,21 +7,20 @@
  */
 package org.folio.cataloging.business.cataloguing.common;
 
-import java.io.Serializable;
-import java.util.List;
-
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
-import org.folio.cataloging.dao.DAOCodeTable;
 import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.PersistenceState;
-import org.folio.cataloging.exception.ValidationException;
+import org.folio.cataloging.dao.DAOCodeTable;
 import org.folio.cataloging.dao.persistence.CorrelationKey;
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
-
+import org.folio.cataloging.exception.ValidationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author paulm
@@ -64,9 +63,9 @@ public interface TagInterface {
 	 */
 	public abstract short getCategory();
 	/**
-	 * @param i - the correlation value wanted (1, 2, or 3)
-	 * @return the appropriate correlation value for determining MARC coding (-1 if no
-	 * value is available or known)
+	 * @param i - the correlation stringValue wanted (1, 2, or 3)
+	 * @return the appropriate correlation stringValue for determining MARC coding (-1 if no
+	 * stringValue is available or known)
 	 */
 	public abstract short getCorrelation(int i);
 	public abstract CorrelationValues getCorrelationValues();
@@ -115,9 +114,9 @@ public interface TagInterface {
 	public abstract String getRequiredEditPermission();
 	/**
 	 * Gets appropriate values for selection of the second correlation list.  Values
-	 * are filtered based on the given value from the first correlation list.  Only
+	 * are filtered based on the given stringValue from the first correlation list.  Only
 	 * valid tag combinations are permitted to be chosen
-	 * @param value1 the first correlation value
+	 * @param value1 the first correlation stringValue
 	 * @return the second correlation list for this tag
 	 * entry
 	 */
@@ -125,10 +124,10 @@ public interface TagInterface {
 		throws DataAccessException;
 	/**
 	 * Gets appropriate values for selection of the second correlation list.  Values
-	 * are filtered based on the given value from the first correlation list.  Only
+	 * are filtered based on the given stringValue from the first correlation list.  Only
 	 * valid tag combinations are permitted to be chosen
-	 * @param value1 the first correlation value
-	 * @param value2 the second correlation value
+	 * @param value1 the first correlation stringValue
+	 * @param value2 the second correlation stringValue
 	 * @return the second correlation list for this tag
 	 * entry
 	 */
@@ -297,16 +296,16 @@ public interface TagInterface {
 	 */
 	public abstract Element toXmlElement(Document xmlDocument);
 	/**
-	 * After a change in correlation value 1, the available choices for values 2 and
+	 * After a change in correlation stringValue 1, the available choices for values 2 and
 	 * 3 are recalculated and the values are reset (to the first available valid choice)
 	 * @param s the new value1
 	 */
 	public abstract void updateFirstCorrelation(short s)
 		throws DataAccessException;
 	/**
-	 * After a change in correlation value 2, the available choices for values 3
-	 * are recalculated and the value is reset (to the first available valid choice)
-	 * @param s the new value 2
+	 * After a change in correlation stringValue 2, the available choices for values 3
+	 * are recalculated and the stringValue is reset (to the first available valid choice)
+	 * @param s the new stringValue 2
 	 */
 	public abstract void updateSecondCorrelation(short s)
 		throws DataAccessException;

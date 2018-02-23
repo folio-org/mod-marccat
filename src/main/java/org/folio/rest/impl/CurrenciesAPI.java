@@ -30,7 +30,7 @@ public class CurrenciesAPI implements CatalogingCurrenciesResource {
 
     private Function<Avp<String>, Currency> toCurrency = source -> {
         final Currency currency = new Currency();
-        //TODO: handle type Integer for value element or null value in Integer.parseInt
+        //TODO: handle type Integer for stringValue element or null stringValue in Integer.parseInt
         currency.setCode(Integer.parseInt(source.getValue()));
         currency.setDescription(source.getLabel());
         return currency;

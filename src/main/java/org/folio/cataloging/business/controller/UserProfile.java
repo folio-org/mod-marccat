@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- * 
- * Created on Jun 18, 2004
- * 
- * UserProfile.java
- */
 package org.folio.cataloging.business.controller;
 
 import net.sf.hibernate.Session;

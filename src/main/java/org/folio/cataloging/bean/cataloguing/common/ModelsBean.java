@@ -72,8 +72,17 @@ public class ModelsBean extends LibrisuiteBean {
 		return model;
 	}
 
+
+	/**
+	 * Retrieves a boolean representing whether a model in the list of all
+	 * models is currently in use by a bib item.
+	 *
+	 * @return a boolean representing whether a model in the list of all models is currently in use by a bib item.
+	 * @throws DataAccessException in case of data access failure.
+	 */
 	public List getLinkedToItems() throws DataAccessException {
-		return getCatalog().getModelDAO().getModelUsageList();
+		//return getCatalog().getModelDAO().getModelUsageList();
+		return null;
 	}
 
 	/**

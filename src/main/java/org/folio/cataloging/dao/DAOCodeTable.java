@@ -19,25 +19,27 @@ import java.lang.InstantiationException;
 import java.sql.*;
 import java.util.*;
 
+import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static org.folio.cataloging.F.isNotNullOrEmpty;
 
 /**
+ * TODO: JAvadoc
  *
  * @author carment
+ * @author agazzarini
  * @since 1.0
  */
 
 public class DAOCodeTable extends HibernateUtil {
 	private Log logger = new Log(DAOCodeTable.class);
 
-	public static final int STEP = 10; /* Standard Amicus increment for CodeTables sequence column */
+	public static final int STEP = 10;
 	private static final String ALPHABETICAL_ORDER = " order by ct.longText ";
 	private static final String SEQUENCE_ORDER = " order by ct.sequence ";
-	private String defaultListOrder = Defaults.getBoolean("labels.alphabetical.order", true)?ALPHABETICAL_ORDER:SEQUENCE_ORDER;
 
 	/**
-	 * Returns a code table contains elements set key/value
+	 * Returns a code table contains elements set key/stringValue
 	 *
 	 * @param session the session of hibernate
 	 * @param c the mapped class in the hibernate configuration.
@@ -169,7 +171,6 @@ public class DAOCodeTable extends HibernateUtil {
 						+ c.getName()
 						+ " as ct "
 						+ " where ct.obsoleteIndicator = 0"
-//						+ " and ct.shortText like '%008%'"
 						+ " and ct.longText like '%008%'"
 						+ order);
 			
@@ -214,8 +215,7 @@ public class DAOCodeTable extends HibernateUtil {
 		return listCodeTable;
 	}
 
-	public List getList(Class c, Locale locale) throws DataAccessException 
-	{
+	public List getList(Class c, Locale locale) throws DataAccessException {
 		List listCodeTable = null;
 		try {
 			Session s = currentSession();
@@ -226,7 +226,9 @@ public class DAOCodeTable extends HibernateUtil {
 						+ " as ct "
 						+ " where ct.language = ?"
 						+" and ct.obsoleteIndicator = '0'"
-						+ defaultListOrder,
+							// TODO pass Context and Session to this method (when needed)
+							// TODO The return type of this method is a future, not a boolean
+						+ Defaults.getBoolean("labels.alphabetical.order", null),
 					new Object[] { locale.getISO3Language()},
 					new Type[] { Hibernate.STRING });
 		} catch (HibernateException e) {
@@ -236,8 +238,7 @@ public class DAOCodeTable extends HibernateUtil {
 		return listCodeTable;
 	}
 
-	public List getListOrderAlphab(Class c, Locale locale) throws DataAccessException 
-	{
+	public List getListOrderAlphab(Class c, Locale locale) throws DataAccessException  {
 		List listCodeTable = null;
 		try {
 			Session s = currentSession();
@@ -376,13 +377,10 @@ public class DAOCodeTable extends HibernateUtil {
 		return result;
 	}
 
-	public String getLongText(final Session session, final short code, final Class c, final Locale locale) throws DataAccessException
-	{
-		String result = new String("");
-		CodeTable ct = load(session, c, code, locale);
-		if(ct != null)	result = ct.getLongText();
-
-		return result;
+	public String getLongText(final Session session, final short code, final Class c, final Locale locale) throws DataAccessException {
+		return ofNullable(load(session, c, code, locale))
+					.map(CodeTable::getLongText)
+					.orElse(Global.EMPTY_STRING);
 	}
 
 	public String getLongText(final Session session, final String code, final Class c, final Locale locale) throws DataAccessException
@@ -402,7 +400,7 @@ public class DAOCodeTable extends HibernateUtil {
 					+ " where t.stringNumber = ? and t.languageNumber = l.sequence / 10 "
 					+ " and l.code = ? ",
 				new Object[] {
-					new Long(translationKey),
+					translationKey,
 					locale.getISO3Language()},
 				new Type[] { Hibernate.LONG, Hibernate.STRING });
 		if (l.size() > 0) {
