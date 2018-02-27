@@ -98,7 +98,7 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
  				new Type[] { Hibernate.STRING, Hibernate.CHARACTER, Hibernate.CHARACTER});
 	        }
 
-			Optional<BibliographicCorrelation> firstElement = bibliographicCorrelations.stream().findFirst();
+			Optional<BibliographicCorrelation> firstElement = bibliographicCorrelations.stream().filter(Objects::nonNull).findFirst();
 			if (firstElement.isPresent()) {
 				return firstElement.get();
 			}else
@@ -107,7 +107,7 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 
 		} catch (final HibernateException exception) {
 			logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-			return null;
+			throw new DataAccessException();
 		}
 	}
 

@@ -140,6 +140,8 @@ public abstract class Global  {
 	public final static String RELATOR_TERM_$e = "e";
 	public final static String INTRODUCTION_$i = "i";
 
+	public final static List<String> FIXED_FIELDS = new ArrayList<String>(Arrays.asList("000","001","005","006","007","008"));
+
 	//TODO: move to configuration module
 	public final static Map<String,Integer> headingTypeMap = new HashMap<String, Integer>()
 	{

@@ -4,7 +4,7 @@
   "type": "object",
   "properties": {
     "categoryCode": {
-      "type": "string"
+      "type": "integer"
     },
     "headingTypeCode": {
       "type": "string"
@@ -29,6 +29,9 @@
       "type": "string"
     },
     "value": {
+      "type": "string"
+    },
+    "description": {
       "type": "string"
     },
     "subfields": {

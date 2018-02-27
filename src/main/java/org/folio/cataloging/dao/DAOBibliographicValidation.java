@@ -15,6 +15,7 @@ import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.shared.Validation;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -68,7 +69,7 @@ public class DAOBibliographicValidation extends DAOValidation {
                             Hibernate.SHORT, Hibernate.SHORT}
             );
 
-			Optional<BibliographicValidation> firstElement = bibliographicValidations.stream().findFirst();
+			Optional<BibliographicValidation> firstElement = bibliographicValidations.stream().filter(Objects::nonNull).findFirst();
 			if (firstElement.isPresent()) {
 				return firstElement.get();
 			}
@@ -81,7 +82,7 @@ public class DAOBibliographicValidation extends DAOValidation {
 										new Object[] { new Short(category)},
 										new Type[] { Hibernate.SHORT});
 
-			firstElement = bibliographicValidations.stream().findFirst();
+			firstElement = bibliographicValidations.stream().filter(Objects::nonNull).findFirst();
 			if (firstElement.isPresent()) {
 				return firstElement.get();
 			} else {
