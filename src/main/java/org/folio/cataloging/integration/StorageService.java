@@ -32,6 +32,9 @@ import static org.folio.cataloging.F.locale;
  */
 public class StorageService implements Closeable {
 
+    /*
+    *test commento
+     */
     private final Session session;
     private final Context context;
     /**
