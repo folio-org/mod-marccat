@@ -92,7 +92,7 @@ public class DAOBibliographicValidation extends DAOValidation {
 
 		} catch (final HibernateException exception) {
 			logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-			return null;
+			throw new DataAccessException(exception);
 		}
 
 

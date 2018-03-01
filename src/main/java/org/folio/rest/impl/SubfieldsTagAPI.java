@@ -41,11 +41,11 @@ public class SubfieldsTagAPI implements CatalogingSubfieldsTagResource {
 
             doGet((StorageService storageService, Future future) -> {
                 try {
-                    final int intCode1 = Integer.parseInt(code1);
-                    final int intCode2 = Integer.parseInt(code2);
-                    final int intCode3 = Integer.parseInt(code3);
+                    final short sCode1 = Short.parseShort(code1);
+                    final short sCode2 = Short.parseShort(code2);
+                    final short sCode3 = Short.parseShort(code3);
 
-                    final Validation validation = storageService.getSubfieldsByCorrelations(marcCategory, intCode1, intCode2, intCode3);
+                    final Validation validation = storageService.getSubfieldsByCorrelations(marcCategory, sCode1, sCode2, sCode3);
                     final SubfieldsTag subfieldsTag = new SubfieldsTag();
 
                     subfieldsTag.setCategory(Integer.parseInt(marcCategory));

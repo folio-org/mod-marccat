@@ -560,11 +560,12 @@ public class StorageService implements Closeable {
      * @return Validation object containing subfield list.
      */
     public Validation getSubfieldsByCorrelations(final String marcCategory,
-                                                 final Integer code1,
-                                                 final Integer code2, final Integer code3) {
+                                                 final short code1,
+                                                 final short code2,
+                                                 final short code3) {
 
         final DAOBibliographicValidation daoBibliographicValidation = new DAOBibliographicValidation();
-        final CorrelationValues correlationValues = new CorrelationValues(code1.shortValue(), code2.shortValue(), code3.shortValue());
+        final CorrelationValues correlationValues = new CorrelationValues(code1, code2, code3);
         return daoBibliographicValidation.load(session, Short.parseShort(marcCategory), correlationValues);
     }
     
@@ -610,9 +611,22 @@ public class StorageService implements Closeable {
                                               final String tagCode) throws DataAccessException {
 
         final DAOBibliographicCorrelation daoBibliographicCorrelation = new DAOBibliographicCorrelation();
-        final BibliographicCorrelation bibliographicCorrelation = daoBibliographicCorrelation.getBibliographicCorrelation(session, tagCode, indicator1.charAt(0), indicator2.charAt(0), category.shortValue());
-        return bibliographicCorrelation.getValues();
+        final Optional<BibliographicCorrelation> bibliographicCorrelation = ofNullable(daoBibliographicCorrelation.getBibliographicCorrelation(session, tagCode, indicator1.charAt(0), indicator2.charAt(0), category.shortValue()));
+        return bibliographicCorrelation.isPresent() ? bibliographicCorrelation.get().getValues() : null;
 
+    }
+
+    /**
+     * Returns the description for heading type entity.
+     *
+     * @param code the heading marc category code, used here as a filter criterion.
+     * @param lang the language code, used here as a filter criterion.
+     * @return the description for index code associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public String getHeadingTypeDescription(final short code, final String lang, final Class clazz) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getLongText(session, code, clazz, locale(lang));
     }
 
 

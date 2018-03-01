@@ -188,6 +188,7 @@ public abstract class Global  {
 
 	public final static Map<String, Class> firstCorrelationHeadingClassMap = new HashMap<String, Class>(){
 		{
+			put("1", T_BIB_HDR.class);
 			put("2", NameType.class);
 			put("17", NameType.class); //from heading
 			put("3", TitleFunction.class);

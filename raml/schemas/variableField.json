@@ -37,17 +37,13 @@
     "subfields": {
       "type": "array",
       "items": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "string",
-            "pattern": "[a-z|0-9]"
-          },
-          "value": {
-            "type": "string"
-          }
-        }
+        "type": "string",
+        "pattern": "[a-z|0-9]"
       }
+    },
+    "defaultSubfieldCode": {
+      "type": "string",
+      "pattern": "[a-z|0-9]"
     }
   },
   "additionalProperties": true

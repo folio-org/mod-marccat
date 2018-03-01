@@ -12,8 +12,8 @@
       }
     },
     "variable-field": {
-      "type": "object"
-      // "$ref": "variableField" -- define include into raml
+      "type": "object",
+      "$ref": "variableField"
     },
     "code": {
       "type": "string",
