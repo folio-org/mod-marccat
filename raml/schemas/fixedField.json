@@ -1,0 +1,23 @@
+{
+  "$schema" : "http://json-schema.org/draft-04/schema#",
+  "title": "fixedField",
+  "type": "object",
+  "properties": {
+    "categoryCode": {
+      "type": "integer"
+    },
+    "headerTypeCode": {
+      "type": "integer"
+    },
+    "code": {
+      "type": "string"
+    },
+    "value": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

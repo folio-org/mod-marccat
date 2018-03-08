@@ -103,7 +103,7 @@ public abstract class Global  {
 	public final static String POLACCO 	 = "pol";
 	public final static String SERBO_CROATO = "scr";
 
-	public final static String CheckDigits = new String("0123456789X0");
+	public final static String CheckDigits = "0123456789X0";
 	public final static String SPACE = " ";
 	public final static String OPEN_PARENTHESIS = "(";
 	public final static String CLOSE_PARENTHESIS = ")";
@@ -116,10 +116,11 @@ public abstract class Global  {
 	public final static String CLASSIFICATION_INDEX  = "OC";
 
 	public final static List<String> remainingSubfieldsFor991  =  new ArrayList<String>(Arrays.asList("b","c","d"));
-	public final static String subfieldsForSorting  =  new String("abcdef");
+	public final static String subfieldsForSorting  =  "abcdef";
 
 	public final static DecimalFormatSymbols DECIMAL_FORMAT_SYMBOLS = new DecimalFormatSymbols();
 	public final static DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.00");
+    public final static DecimalFormat DECIMAL_FORMAT_AN = new DecimalFormat("000000000000");
 
 	public final String INDEX_FOR_BROWSE = "'OC', 'NN', 'ZC', 'DC', 'LC', 'MC', 'LX', 'BN', 'SN', 'NA', 'PU', 'NM', 'NC', 'NP', 'NTN', 'NTT', 'SU', 'TI', 'SC'";
 
@@ -131,7 +132,7 @@ public abstract class Global  {
 	public final static String DEFAULT_TYPOLOGY_FOR_CUSTOMER_COLLECTION = "PDC";
 	public final static String DEFAULT_TYPOLOGY_FOR_MASTER_COLLECTION = "PDM";
 
-	public final static String subfieldsForTag490 = new String("apvx368");
+	public final static String subfieldsForTag490 = "apvx368";
 
 	public final static String SUBFIELD_DELIMITER_FOR_VIEW = "\\$";
 	public final static List<String> stamperSubfields =  new ArrayList<String>(Arrays.asList("3","6","8","e","f","g"));
@@ -142,7 +143,6 @@ public abstract class Global  {
 
 	public final static List<String> FIXED_FIELDS = new ArrayList<String>(Arrays.asList("000","001","005","006","007","008"));
 
-	//TODO: move to configuration module
 	public final static Map<String,Integer> headingTypeMap = new HashMap<String, Integer>()
 	{
 		{
@@ -204,8 +204,67 @@ public abstract class Global  {
 		}
 	};
 
-	public final static String NAME_CATEGORY_DEFAULT = "2";
+	public final static int INT_CATEGORY = 1;
+	public final static int NAME_CATEGORY_DEFAULT = 2;
 	public final static short CORRELATION_UNDEFINED = -1;
+
+	public final static String LEADER_TAG_NUMBER = "000";
+	public final static String CONTROL_NUMBER_TAG_NUMBER = "001";
+	public final static String MATERIAL_DESCRIPTION_TAG_NUMBER = "008";
+	public final static String CATALOGING_SOURCE_TAG_NUMBER = "040";
+
+	public final static int CATALOGING_SOURCE_HEADER_TYPE = 1;
+	public final static int LEADER_HEADER_TYPE = 15;
+    public final static int CONTROL_NUMBER_HEADER_TYPE = 39;
+    public final static int MATERIAL_DESCRIPTION_HEADER_TYPE = 31;
+
+	//default values for leader
+    public final static String fixedLeaderLength = "00000";
+	public final static char recordStatusCode = 'n';
+	public final static char recordTypeCode = 'a';
+	public final static char bibliographicLevelCode = 'm';
+	public final static char controlTypeCode = ' ';
+	public final static char characterCodingSchemeCode = ' ';
+	public final static String fixedLeaderBaseAddress = "2200000";
+	public final static char encodingLevel = ' ';
+	public final static char descriptiveCataloguingCode = ' ';
+	public final static char linkedRecordCode = ' ';
+    public final static String fixedLeaderPortion = "4500";
+
+    //bibliographic
+    public final static char itemDateTypeCode = 's';
+    public final static String itemDateFirstPublication = "    ";
+    public final static String itemDateLastPublication = "    ";
+    public final static String undefinedMarcCountryCode = "und";
+    public final static String languageOfCataloguing = "";
+    public final static String cataloguingSourceStringText = "";
+
+	//default values for material description (tag 008)
+	// book type
+	public final static String bookformOfMaterial = "bk";
+    public final static char materialTypeCode = 'a';
+	public final static char materialDescription008Indicator = '0';
+	public final static String bookIllustrationCode = "    ";
+	public final static char targetAudienceCode = ' ';
+	public final static char formOfItemCode = ' ';
+	public final static String natureOfContentsCode = "    ";
+	public final static char governmentPublicationCode = ' ';
+	public final static char conferencePublicationCode = ' ';
+	public final static char bookFestschrift = ' ';
+	public final static char bookIndexAvailabilityCode = ' ';
+	public final static char bookLiteraryFormTypeCode = ' ';
+	public final static char bookBiographyCode = ' ';
+	public final static char bookMainEntryCode = ' ';
+
+	//cartographic
+	public final static String cartographicReliefCode = "      ";
+	public final static String cartographicProjectionCode = "  ";
+	public final static String cartographicMeridianCode = "  ";
+	public final static char cartographicNarrativeTextCode = ' ';
+	public final static char cartographicIndexAvailabilityCode = ' ';
+	public final static String cartographicFormatCode = " ";
+	public final static char computerTargetAudienceCode = ' ';
+	public final static char computerFileTypeCode = ' ';
 
 	public final static List<Integer> sourcesEnabledToAlternativeLabelsSearch  =  new ArrayList<Integer>(Arrays.asList(1,2,4,5,6));
 }

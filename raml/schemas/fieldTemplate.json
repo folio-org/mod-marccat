@@ -5,8 +5,7 @@
   "properties": {
     "fixed-field": {
       "type": "object",
-      "properties": {
-      }
+      "$ref": "fixedField"
     },
     "variable-field": {
       "type": "object",

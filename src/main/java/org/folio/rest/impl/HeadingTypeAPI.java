@@ -46,7 +46,7 @@ public class HeadingTypeAPI implements CatalogingHeadingTypesResource {
         doGet((storageService, future) -> {
             try {
 
-                final String category = (marcCategory.equals("17") ? Global.NAME_CATEGORY_DEFAULT : marcCategory);
+                final String category = (marcCategory.equals("17") ? Integer.toString(Global.NAME_CATEGORY_DEFAULT) : marcCategory);
                 return ofNullable(Global.firstCorrelationHeadingClassMap.get(category))
                         .map(className -> {
                             final HeadingTypeCollection container = new HeadingTypeCollection();

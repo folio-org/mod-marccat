@@ -8,6 +8,8 @@ import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.*;
 import org.folio.cataloging.dao.common.HibernateSessionProvider;
 import org.folio.cataloging.dao.persistence.*;
+import org.folio.cataloging.log.Log;
+import org.folio.cataloging.log.MessageCatalog;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.shared.Validation;
 
@@ -32,11 +34,10 @@ import static org.folio.cataloging.F.locale;
  */
 public class StorageService implements Closeable {
 
-    /*
-    *test commento
-     */
     private final Session session;
     private final Context context;
+    private static final Log logger = new Log(StorageService.class);
+
     /**
      * Builds a new {@link StorageService} with the given session.
      *
@@ -415,6 +416,7 @@ public class StorageService implements Closeable {
         try {
             return dao.getBibliographicModelList(session);
         } catch (final HibernateException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
             throw new DataAccessException(exception);
         }
     }
@@ -430,6 +432,7 @@ public class StorageService implements Closeable {
         try {
             return dao.getAuthorityModelList(session);
         } catch (final HibernateException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
             throw new DataAccessException(exception);
         }
     }
@@ -565,11 +568,16 @@ public class StorageService implements Closeable {
     public Validation getSubfieldsByCorrelations(final String marcCategory,
                                                  final short code1,
                                                  final short code2,
-                                                 final short code3) {
-
+                                                 final short code3) throws DataAccessException {
         final DAOBibliographicValidation daoBibliographicValidation = new DAOBibliographicValidation();
-        final CorrelationValues correlationValues = new CorrelationValues(code1, code2, code3);
-        return daoBibliographicValidation.load(session, Short.parseShort(marcCategory), correlationValues);
+        try
+        {
+            final CorrelationValues correlationValues = new CorrelationValues(code1, code2, code3);
+            return daoBibliographicValidation.load(session, Short.parseShort(marcCategory), correlationValues);
+        } catch (final HibernateException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+            throw new DataAccessException(exception);
+        }
     }
     
    /**
@@ -614,9 +622,15 @@ public class StorageService implements Closeable {
                                               final String tagCode) throws DataAccessException {
 
         final DAOBibliographicCorrelation daoBibliographicCorrelation = new DAOBibliographicCorrelation();
-        final Optional<BibliographicCorrelation> bibliographicCorrelation = ofNullable(daoBibliographicCorrelation.getBibliographicCorrelation(session, tagCode, indicator1.charAt(0), indicator2.charAt(0), category.shortValue()));
-        return bibliographicCorrelation.isPresent() ? bibliographicCorrelation.get().getValues() : null;
+        try {
 
+            final Optional<BibliographicCorrelation> bibliographicCorrelation = ofNullable(daoBibliographicCorrelation.getBibliographicCorrelation(session, tagCode, indicator1.charAt(0), indicator2.charAt(0), category.shortValue()));
+            return bibliographicCorrelation.isPresent() ? bibliographicCorrelation.get().getValues() : null;
+
+        } catch (final HibernateException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+            throw new DataAccessException(exception);
+        }
     }
 
     /**
@@ -628,6 +642,7 @@ public class StorageService implements Closeable {
      * @throws DataAccessException in case of data access failure.
      */
     public String getHeadingTypeDescription(final short code, final String lang, final Class clazz) throws DataAccessException {
+
         final DAOCodeTable dao = new DAOCodeTable();
         return dao.getLongText(session, code, clazz, locale(lang));
     }

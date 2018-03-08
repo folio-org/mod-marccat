@@ -48,7 +48,7 @@ public class ItemTypeAPI  implements CatalogingItemTypesResource {
         doGet((storageService, future) -> {
             try {
 
-                final String category = (marcCategory.equals("17") ? Global.NAME_CATEGORY_DEFAULT : marcCategory);
+                final String category = (marcCategory.equals("17") ? Integer.toString(Global.NAME_CATEGORY_DEFAULT) : marcCategory);
                 final int intCode = Integer.parseInt(code);
                 return ofNullable(Global.secondCorrelationClassMap.get(category))
                             .map(className -> {

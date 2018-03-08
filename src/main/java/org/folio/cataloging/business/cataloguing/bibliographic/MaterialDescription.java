@@ -20,7 +20,7 @@ import java.util.List;
 
 import static org.folio.cataloging.F.*;
 
-@SuppressWarnings("unchecked")
+//TODO: to do refactoring
 public class MaterialDescription extends FixedFieldUsingItemEntity implements PersistentObjectWithView 
 {
 	private static final long serialVersionUID = 232911118088181003L;

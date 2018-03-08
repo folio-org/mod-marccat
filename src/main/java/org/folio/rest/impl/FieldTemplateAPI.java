@@ -2,10 +2,9 @@ package org.folio.rest.impl;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Context;
+import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import org.folio.cataloging.Global;
-import org.folio.cataloging.business.common.AbstractMapBackedFactory;
-import org.folio.cataloging.business.common.MapBackedFactory;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.cataloging.shared.CorrelationValues;
@@ -16,6 +15,10 @@ import org.folio.rest.jaxrs.resource.CatalogingFieldTemplateResource;
 
 import javax.ws.rs.core.Response;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static java.util.Arrays.stream;
@@ -24,8 +27,8 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
 public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
 
-    protected static AbstractMapBackedFactory TAG_FACTORY = new MapBackedFactory();
-    protected static AbstractMapBackedFactory FIXED_FIELDS_FACTORY = new MapBackedFactory();
+    //protected static AbstractMapBackedFactory TAG_FACTORY = new MapBackedFactory();
+    //protected static AbstractMapBackedFactory FIXED_FIELDS_FACTORY = new MapBackedFactory();
 
     /*static {
         final PropertyBasedFactoryBuilder builder = new PropertyBasedFactoryBuilder();
@@ -68,7 +71,6 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
 
         doGet((storageService, future) -> {
             try {
-
                 return ofNullable(storageService.getFieldTemplate(categoryCode, ind1, ind2, code))
                         .map(correlationValues -> {
                             final short code1 = correlationValues.getValue(1);
@@ -122,8 +124,8 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
             variableField.setFunctionCode(Short.toString(correlations.getValue(3)));
             variableField.setCategoryCode(categoryCode);
             variableField.setCode(code);
-            variableField.setInd1(Integer.parseInt(ind1));
-            variableField.setInd2(Integer.parseInt(ind2));
+            variableField.setInd1(ind1);
+            variableField.setInd2(ind2);
             variableField.setDescription(description);
 
             variableField.setSubfields(stream(validation.getMarcValidSubfieldStringCode().split(""))
@@ -146,5 +148,29 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
     @Override
     public void putCatalogingFieldTemplate(String lang, FieldTemplate entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
         throw new IllegalArgumentException();
+    }
+
+    public static <T> T doSync(Consumer<Future<T>> consumer, Integer wait) throws InterruptedException {
+
+        AtomicReference<T> reference = new AtomicReference<>();
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        final Future<T> callbackFuture = Future.future();
+        consumer.accept(callbackFuture);
+
+        callbackFuture.setHandler(
+                e -> {
+                    if (e.succeeded()) {
+                        reference.set(e.result());
+                    }
+                    countDownLatch.countDown();
+                });
+
+        if (wait == null) {
+            countDownLatch.await();
+        } else {
+            countDownLatch.await(wait, TimeUnit.SECONDS);
+        }
+
+        return reference.get();
     }
 }

@@ -46,7 +46,7 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 	 * @return a BibliographicCorrelation object containing or null when none found
 	 *
 	 */
-	public Correlation getBibliographicCorrelation(final Session session, final CorrelationKey bibliographicCorrelationKey) throws DataAccessException {
+	public Correlation getBibliographicCorrelation(final Session session, final CorrelationKey bibliographicCorrelationKey) throws HibernateException {
 
 		return getBibliographicCorrelation( session,
 							bibliographicCorrelationKey.getMarcTag(),
@@ -68,47 +68,40 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 													final String tag,
 													final char firstIndicator,
 													final char secondIndicator,
-													final short categoryCode) throws DataAccessException {
+													final short categoryCode) throws HibernateException {
 
         List<BibliographicCorrelation> bibliographicCorrelations = null;
-		try {
-        	if (categoryCode != 0){
 
-        		bibliographicCorrelations = session.find(
-				"from BibliographicCorrelation as bc "
-					+ "where bc.key.marcTag = ? and "
-					+ "(bc.key.marcFirstIndicator = ? or bc.key.marcFirstIndicator='S' )and "
-					+ "bc.key.marcFirstIndicator <> '@' and "
-					+ "(bc.key.marcSecondIndicator = ? or bc.key.marcSecondIndicator='S')and "
-					+ "bc.key.marcSecondIndicator <> '@' and "
-					+ "bc.key.marcTagCategoryCode = ?",
-				new Object[] { new String(tag), new Character(firstIndicator), new Character(secondIndicator), new Short(categoryCode)},
-				new Type[] { Hibernate.STRING, Hibernate.CHARACTER, Hibernate.CHARACTER, Hibernate.SHORT });
+        if (categoryCode != 0){
+		bibliographicCorrelations = session.find(
+			"from BibliographicCorrelation as bc "
+				+ "where bc.key.marcTag = ? and "
+				+ "(bc.key.marcFirstIndicator = ? or bc.key.marcFirstIndicator='S' )and "
+				+ "bc.key.marcFirstIndicator <> '@' and "
+				+ "(bc.key.marcSecondIndicator = ? or bc.key.marcSecondIndicator='S')and "
+				+ "bc.key.marcSecondIndicator <> '@' and "
+				+ "bc.key.marcTagCategoryCode = ?",
+			new Object[] { new String(tag), new Character(firstIndicator), new Character(secondIndicator), new Short(categoryCode)},
+			new Type[] { Hibernate.STRING, Hibernate.CHARACTER, Hibernate.CHARACTER, Hibernate.SHORT });
 
-			}
-			else {
-				bibliographicCorrelations = session.find(
- 				"from BibliographicCorrelation as bc "
- 					+ "where bc.key.marcTag = ? and "
- 					+ "(bc.key.marcFirstIndicator = ? or bc.key.marcFirstIndicator='S' )and "
- 					+ "bc.key.marcFirstIndicator <> '@' and "
- 					+ "(bc.key.marcSecondIndicator = ? or bc.key.marcSecondIndicator='S')and "
- 					+ "bc.key.marcSecondIndicator <> '@' order by bc.key.marcTagCategoryCode asc",
- 				new Object[] { new String(tag), new Character(firstIndicator), new Character(secondIndicator)},
- 				new Type[] { Hibernate.STRING, Hibernate.CHARACTER, Hibernate.CHARACTER});
-	        }
-
-			Optional<BibliographicCorrelation> firstElement = bibliographicCorrelations.stream().filter(Objects::nonNull).findFirst();
-			if (firstElement.isPresent()) {
-				return firstElement.get();
-			}else
-				return null;
-
-
-		} catch (final HibernateException exception) {
-			logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-			throw new DataAccessException();
 		}
+		else {
+			bibliographicCorrelations = session.find(
+			"from BibliographicCorrelation as bc "
+				+ "where bc.key.marcTag = ? and "
+				+ "(bc.key.marcFirstIndicator = ? or bc.key.marcFirstIndicator='S' )and "
+				+ "bc.key.marcFirstIndicator <> '@' and "
+				+ "(bc.key.marcSecondIndicator = ? or bc.key.marcSecondIndicator='S')and "
+				+ "bc.key.marcSecondIndicator <> '@' order by bc.key.marcTagCategoryCode asc",
+			new Object[] { new String(tag), new Character(firstIndicator), new Character(secondIndicator)},
+			new Type[] { Hibernate.STRING, Hibernate.CHARACTER, Hibernate.CHARACTER});
+		}
+
+		Optional<BibliographicCorrelation> firstElement = bibliographicCorrelations.stream().filter(Objects::nonNull).findFirst();
+		if (firstElement.isPresent()) {
+			return firstElement.get();
+		}else
+			return null;
 	}
 
 

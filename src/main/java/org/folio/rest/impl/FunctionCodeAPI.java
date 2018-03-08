@@ -48,7 +48,7 @@ public class FunctionCodeAPI implements CatalogingFunctionCodesResource {
         doGet((storageService, future) -> {
             try {
 
-                final String category = (marcCategory.equals("17") ? Global.NAME_CATEGORY_DEFAULT : marcCategory);
+                final String category = (marcCategory.equals("17") ? Integer.toString(Global.NAME_CATEGORY_DEFAULT) : marcCategory);
                 final int intCode1 = Integer.parseInt(code1);
                 final int intCode2 = Integer.parseInt(code2);
 

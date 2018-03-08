@@ -27,15 +27,8 @@ public class DAOBibliographicValidation extends DAOValidation {
 	
 	private static final Log logger = LogFactory.getLog(DAOBibliographicValidation.class);
 
-	public BibliographicValidation load(final Session session, final String marcNumber, final short category) throws DataAccessException {
-
-		try {
-
-			 return (BibliographicValidation) session.load(BibliographicValidation.class, new BibliographicValidationKey(marcNumber, category));
-		} catch (final HibernateException exception) {
-			logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-			return null;
-		}
+	public BibliographicValidation load(final Session session, final String marcNumber, final short category) throws HibernateException {
+		 return (BibliographicValidation) session.load(BibliographicValidation.class, new BibliographicValidationKey(marcNumber, category));
 	}
 
 	/**
@@ -47,55 +40,47 @@ public class DAOBibliographicValidation extends DAOValidation {
 	 *  the MARC subfield list or null when not found
 	 * @throws DataAccessException
 	 */
-	public BibliographicValidation load(final Session session, final short category, final CorrelationValues values) throws DataAccessException {
+	public BibliographicValidation load(final Session session, final short category, final CorrelationValues values) throws HibernateException {
 
 		List<BibliographicValidation> bibliographicValidations = null;
-		try {
-			bibliographicValidations = session.find("select distinct v from BibliographicValidation as v, " +
-                            "BibliographicCorrelation as c" +
-                            " where c.key.marcTagCategoryCode = ?" +
-                            " and (c.databaseFirstValue = ? or c.databaseFirstValue = -1 or -1 = ?)" +
-                            " and (c.databaseSecondValue = ? or c.databaseSecondValue = -1 or -1 = ?)" +
-                            " and (c.databaseThirdValue = ? or c.databaseThirdValue = -1 or -1 = ?)" +
-                            " and c.key.marcTag = v.key.marcTag" +
-                            " and c.key.marcTagCategoryCode =  v.key.marcTagCategoryCode",
-                    new Object[] { new Short(category),
-                            new Short(values.getValue(1)), new Short(values.getValue(1)),
-                            new Short(values.getValue(2)), new Short(values.getValue(2)),
-                            new Short(values.getValue(3)), new Short(values.getValue(3))},
-                    new Type[] { Hibernate.SHORT,
-                            Hibernate.SHORT, Hibernate.SHORT,
-                            Hibernate.SHORT, Hibernate.SHORT,
-                            Hibernate.SHORT, Hibernate.SHORT}
-            );
+		bibliographicValidations = session.find("select distinct v from BibliographicValidation as v, " +
+						"BibliographicCorrelation as c" +
+						" where c.key.marcTagCategoryCode = ?" +
+						" and (c.databaseFirstValue = ? or c.databaseFirstValue = -1 or -1 = ?)" +
+						" and (c.databaseSecondValue = ? or c.databaseSecondValue = -1 or -1 = ?)" +
+						" and (c.databaseThirdValue = ? or c.databaseThirdValue = -1 or -1 = ?)" +
+						" and c.key.marcTag = v.key.marcTag" +
+						" and c.key.marcTagCategoryCode =  v.key.marcTagCategoryCode",
+				new Object[] { new Short(category),
+						new Short(values.getValue(1)), new Short(values.getValue(1)),
+						new Short(values.getValue(2)), new Short(values.getValue(2)),
+						new Short(values.getValue(3)), new Short(values.getValue(3))},
+				new Type[] { Hibernate.SHORT,
+						Hibernate.SHORT, Hibernate.SHORT,
+						Hibernate.SHORT, Hibernate.SHORT,
+						Hibernate.SHORT, Hibernate.SHORT}
+		);
 
-			Optional<BibliographicValidation> firstElement = bibliographicValidations.stream().filter(Objects::nonNull).findFirst();
-			if (firstElement.isPresent()) {
-				return firstElement.get();
-			}
-
-			bibliographicValidations = session.find("select distinct v from BibliographicValidation as v, " +
-														"BibliographicCorrelation as c" +
-														" where c.key.marcTagCategoryCode = ?"+
-														" and c.key.marcTag = v.key.marcTag" +
-														" and c.key.marcTagCategoryCode =  v.key.marcTagCategoryCode",
-										new Object[] { new Short(category)},
-										new Type[] { Hibernate.SHORT});
-
-			firstElement = bibliographicValidations.stream().filter(Objects::nonNull).findFirst();
-			if (firstElement.isPresent()) {
-				return firstElement.get();
-			} else {
-				logger.error(String.format(MessageCatalog._00014_NO_VALIDATION_FOUND, category, values.toString()));
-				return null;
-			}
-
-		} catch (final HibernateException exception) {
-			logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-			throw new DataAccessException(exception);
+		Optional<BibliographicValidation> firstElement = bibliographicValidations.stream().filter(Objects::nonNull).findFirst();
+		if (firstElement.isPresent()) {
+			return firstElement.get();
 		}
 
+		bibliographicValidations = session.find("select distinct v from BibliographicValidation as v, " +
+													"BibliographicCorrelation as c" +
+													" where c.key.marcTagCategoryCode = ?"+
+													" and c.key.marcTag = v.key.marcTag" +
+													" and c.key.marcTagCategoryCode =  v.key.marcTagCategoryCode",
+									new Object[] { new Short(category)},
+									new Type[] { Hibernate.SHORT});
 
+		firstElement = bibliographicValidations.stream().filter(Objects::nonNull).findFirst();
+		if (firstElement.isPresent()) {
+			return firstElement.get();
+		} else {
+			logger.error(String.format(MessageCatalog._00014_NO_VALIDATION_FOUND, category, values.toString()));
+			return null;
+		}
 	}
 
 	@Deprecated

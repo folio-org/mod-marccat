@@ -29,12 +29,10 @@ public class CorrelationValues implements Cloneable {
 	}
 	
 	public short getValue(int i) {
-		/*checkIfInRange(i);*/
 		return values[i-1];
 	}
 	
 	private void setValue(int i, short v) {
-		/*checkIfInRange(i);*/
 		values[i-1] = v;
 	}
 	

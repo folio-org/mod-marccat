@@ -29,16 +29,14 @@
       "type": "array",
       "items": {
         "type": "object",
-        "properties": {
-          "code": {
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 3
-          },
-          "value": {
-            "type": "string"
-          }
-        }
+        "$ref": "fixedField"
+      }
+    },
+    "variableFields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "$ref": "variableField"
       }
     }
   },

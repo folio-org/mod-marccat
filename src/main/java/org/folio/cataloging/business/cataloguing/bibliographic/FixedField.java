@@ -1,10 +1,4 @@
-/*
- * (c) LibriCore
- * 
- * Created on Nov 4, 2004
- * 
- * FixedField.java
- */
+
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
 import org.folio.cataloging.business.cataloguing.common.HeaderField;
@@ -18,7 +12,6 @@ import java.util.List;
 
 /**
  * @author paulm
- * @version $Revision: 1.20 $, $Date: 2005/12/21 13:33:35 $
  * @since 1.0
  */
 public abstract class FixedField extends Tag implements HeaderField {

@@ -74,7 +74,6 @@ public class ConfigHandler implements Serializable{
 	}
 	
 	/**
-	 * Natascia: bug 2700
 	 * Checks if the name is in S_SYS_GLBL_VRBL
 	 * @param name the name of parameter to check.
 	 * @return true if exist.
