@@ -24,6 +24,7 @@ import static java.util.stream.Collectors.toList;
  * Manages access to table S_BIB_MARC_IND_DB_CRLTN
  * database encoding and MARC21 encoding
  * @author paulm
+ * @author natasciab
  */
 
 public class DAOBibliographicCorrelation extends DAOCorrelation {

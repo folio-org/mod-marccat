@@ -185,7 +185,7 @@ public class FieldsAPI implements CatalogingFieldsResource {
         final GeneralInformation generalInformation = new GeneralInformation();
         generalInformation.setMaterialDescription008Indicator("1");
         generalInformation.setFormOfMaterial(Global.bookformOfMaterial); //book
-        generalInformation.setDefaultValuesForBook(configuration);
+        generalInformation.setDefaultValues(configuration);
         generalInformation.setEnteredOnFileDateYYMMDD(F.getFormattedDateYYMMDD());
 
         final FixedField materialDescription = new FixedField();

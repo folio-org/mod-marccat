@@ -97,13 +97,13 @@ public class DAORecordTypeMaterial extends HibernateUtil {
 		return result;
 	}
 
-	public RecordTypeMaterial getDefaultTypeByHeaderCode(final Session session, final short headerCode, final String code) throws HibernateException {
+	public RecordTypeMaterial getDefaultTypeByHeaderCode(final Session session, final int headerCode, final String code) throws HibernateException {
 
 		List<RecordTypeMaterial> recordTypeMaterials = session.find(
 					"from RecordTypeMaterial as t "
 						+ (code.equals(Global.OTHER_MATERIAL_TAG_CODE) ? " where t.bibHeader006 = ?" : " where t.bibHeader008 = ?"),
-					new Object[] { new Short(headerCode) },
-					new Type[] { Hibernate.SHORT });
+					new Object[] { new Integer(headerCode) },
+					new Type[] { Hibernate.INTEGER });
 
 		Optional<RecordTypeMaterial> rtm = recordTypeMaterials.stream().filter(Objects::nonNull).findFirst();
 		if (rtm.isPresent()) {
