@@ -95,8 +95,8 @@ public class AuthorityItem extends CatalogItem {
 		this.modelItem.markNew();
 		this.modelItem.setItem(this.getAmicusNumber().longValue());
 		this.modelItem.setModel(model);
-		this.modelItem.setXmlFields(
-			model.getXmlFields());
+		this.modelItem.setRecordFields(
+			model.getRecordFields());
 	}
 
 	/**

@@ -42,7 +42,7 @@ public class ModelBean extends LibrisuiteBean
 	public void editModel(Model model) 
 	{
 		setModel(model);
-		setCurrentFieldIndex(model.getTags().size()-1);
+		//setCurrentFieldIndex(model.getTags().size()-1);
 		refreshCorrelation(locale);
 		setStringText(createStringTextEditBean());
 		try {
@@ -98,19 +98,21 @@ public class ModelBean extends LibrisuiteBean
 		this.isEditing = isEditing;
 	}
 
+	@Deprecated
 	public void changeCategory(
 		short category,
 		Locale locale) {
-		model.changeCategoryCode(getCurrentFieldIndex(), category);
+		//model.changeCategoryCode(getCurrentFieldIndex(), category);
 		refreshCorrelation(locale);
 		setStringText(createStringTextEditBean());
 	}
 
+	@Deprecated
 	public void changeCorrelationValues(CorrelationValues correlationValues, Locale locale) 
 	{
 		logger.debug("changing correlationValues to " + correlationValues);
 		logger.debug("for tag at index " + getCurrentFieldIndex());
-		getModel().changeCorrelationValues(getCurrentFieldIndex(),correlationValues);
+		//getModel().changeCorrelationValues(getCurrentFieldIndex(),correlationValues);
 		logger.debug("after change correlation: index is " + getCurrentFieldIndex());
 		logger.debug("tag is " + getCurrentField());
 		refreshCorrelation(locale);
@@ -125,18 +127,19 @@ public class ModelBean extends LibrisuiteBean
 	{
 		changeCorrelationValues(new CorrelationValues((short) value1,(short) value2,(short) value3),locale);
 	}
-
+   @Deprecated
 	public void changeHeadingType(short headingType, Locale locale) 
 	{
-		model.changeHeadingType(getCurrentFieldIndex(), headingType);
+		//model.changeHeadingType(getCurrentFieldIndex(), headingType);
 		refreshCorrelation(locale);
 		setStringText(createStringTextEditBean());
 	}
 
+	@Deprecated
 	public void changeText(StringText text) 
 	{
 		logger.debug("changeText");
-		model.changeText(getCurrentFieldIndex(), text);
+		//model.changeText(getCurrentFieldIndex(), text);
 		setStringText(createStringTextEditBean());
 	}
 
@@ -155,15 +158,15 @@ public class ModelBean extends LibrisuiteBean
 		}
 		return stringTextEditBean;
 	}
-
+    @Deprecated
 	public void deleteField(Locale locale) 
 	{
-		if (getModel().getTags().size() > 1) {
+		/*if (getModel().getTags().size() > 1) {
 			getModel().deleteTag(getCurrentField());
 			if (getCurrentFieldIndex() >= getModel().getTags().size()) {
 				setCurrentFieldIndex(getCurrentFieldIndex() - 1);
 			}
-		}
+		}*/
 		refreshCorrelation(locale);
 		setStringText(createStringTextEditBean());
 	}
@@ -305,9 +308,10 @@ public class ModelBean extends LibrisuiteBean
 	public List getCountryList() {
 		return CodeListsBean.getMarcCountry().getCodeList(locale);
 	}
-
+	@Deprecated
 	public Tag getCurrentField() {
-		return (Tag) model.getTags().get(getCurrentFieldIndex());
+		//return (Tag) model.getTags().get(getCurrentFieldIndex());
+		return null;
 	}
 
 	public int getCurrentFieldIndex() {
@@ -888,10 +892,11 @@ public class ModelBean extends LibrisuiteBean
 		return getCurrentField().isHasSubfieldW();
 	}
 
+	@Deprecated
 	public void newField(Locale locale) throws NewTagException 
 	{
 		Tag tag = getCurrentField();
-		model.addTag(getCurrentFieldIndex(), tag);
+		//model.addTag(getCurrentFieldIndex(), tag);
 		setCurrentFieldIndex(getCurrentFieldIndex() + 1);
 		refreshCorrelation(locale);
 		setStringText(createStringTextEditBean());
@@ -919,9 +924,9 @@ public class ModelBean extends LibrisuiteBean
 		} catch (DataAccessException dataAccessException) {
 		}
 	}
-
+	@Deprecated
 	public void refreshTag() {
-		model.refreshTag(getCurrentFieldIndex(), getCurrentField());
+		//model.refreshTag(getCurrentFieldIndex(), getCurrentField());
 	}
 
 	public void saveModel() throws ModelLabelNotSetException, DataAccessException, MarcCorrelationException, DuplicateTagException
@@ -972,8 +977,9 @@ public class ModelBean extends LibrisuiteBean
 		thirdCorrelationList = list;
 	}
 
+	@Deprecated
 	public void toggleOptional() {
-		model.toggleOptional(getCurrentFieldIndex());
+		//model.toggleOptional(getCurrentFieldIndex());
 	}
 
 	/**
@@ -1005,13 +1011,15 @@ public class ModelBean extends LibrisuiteBean
 	 * 
 	 * @since 1.0
 	 */
+	@Deprecated
 	public void checkRepeatability(int index) throws DataAccessException, MarcCorrelationException, DuplicateTagException 
 	{
 		Tag t = this.getCurrentField();
 		Validation bv = t.getValidation();
 		if (!bv.isMarcTagRepeatable()) {
 			logger.debug("this.getTagCategories() == "+this.getTagCategories().size());
-			List l = new ArrayList(this.getModel().getTags());
+			//List l = new ArrayList(this.getModel().getTags());
+			List l = new ArrayList();
 			l.remove(index);
 			Collections.sort(l, tagComparator);
 			if (Collections.binarySearch(l, t, tagComparator) >= 0) {
@@ -1062,7 +1070,8 @@ public class ModelBean extends LibrisuiteBean
 		
 	public String getLongLabel(int tagNum) throws DataAccessException, MarcCorrelationException
 	{
-		return loadLongLabel((Tag)model.getTags().get(tagNum));
+		//return loadLongLabel((Tag)model.getTags().get(tagNum));
+		return null;
 	}
 
 	/**

@@ -10,6 +10,7 @@ import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 import org.folio.cataloging.log.Log;
 
+import java.util.Collections;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -21,9 +22,7 @@ import static java.util.stream.Collectors.toList;
  * @author paulm
  * @since 1.0
  */
-public abstract class ModelDAO extends HibernateUtil {
-
-	private static final Log logger = new Log(ModelDAO.class);
+public abstract class ModelDAO{
 
 	/**
 	 * Retrieves a list of booleans representing whether a model in the list of all
@@ -31,11 +30,17 @@ public abstract class ModelDAO extends HibernateUtil {
 	 * cascading delete, if required.
 	 *
 	 * @return a list of booleans representing whether a model in the list of all models is currently in use by a bib item.
-	 * @throws DataAccessException in case of data access failure.
+	 * @throws HibernateException in case of data access failure.
 	 */
-	public List<Boolean> getModelUsageList() throws DataAccessException {
-		return getModelList().stream()
-				.map(avp -> getModelItemDAO().getModelUsage(avp.getValue()))
+	public List<Boolean> getModelUsageList(final Session session) throws HibernateException {
+		return getModelList(session).stream()
+				.map(avp -> {
+					try {
+						return getModelItemDAO().getModelUsage(avp.getValue(), session);
+					} catch (HibernateException e) {
+						return null;
+					}
+				})
 				.collect(toList());
 	}
 
@@ -44,18 +49,18 @@ public abstract class ModelDAO extends HibernateUtil {
 	 * models is currently in use by a bib item.
 	 *
 	 * @return a boolean representing whether a model in the list of all models is currently in use by a bib item.
-	 * @throws DataAccessException in case of data access failure.
+	 * @throws HibernateException in case of data access failure.
 	 */
-	public boolean getModelUsage(final int modelId) throws DataAccessException {
-		return getModelItemDAO().getModelUsage(modelId);
+	public boolean getModelUsage(final int modelId, final Session session) throws HibernateException {
+		return getModelItemDAO().getModelUsage(modelId, session);
 	}
 
-	protected abstract DAOModelItem getModelItemDAO();
+	protected abstract ModelItemDAO getModelItemDAO();
 
+	//TODO uses the load method of HibernateUtil
 	public Model load(int id) throws DataAccessException {
-
-		logger.debug("model number: " + id);
-		Model result = (Model) load(getPersistentClass(), new Integer(id));
+		//Model result = (Model) load(getPersistentClass(), new Integer(id));
+		Model result = null;
 		return result;
 	}
 
@@ -66,10 +71,10 @@ public abstract class ModelDAO extends HibernateUtil {
 	 *
 	 * @param model the model
 	 * @param session the hibernate session
-	 * @throws DataAccessException in case of data access failure
+	 * @throws HibernateException in case of data access failure
 	 */
 	public void delete(final Model model, final Session session)
-		throws DataAccessException {
+		throws HibernateException {
 		new TransactionalHibernateOperation() {
 			public void doInHibernateTransaction(Session session)
 				throws HibernateException {
@@ -90,10 +95,10 @@ public abstract class ModelDAO extends HibernateUtil {
 	 * Retrieves the list of all available models.
 	 *
 	 * @return the list of all available models.
-	 * @throws DataAccessException in case of data access failure
+	 * @throws HibernateException in case of data access failure
 	 */
-	public List<Avp<Integer>> getModelList() throws DataAccessException {
-		return find("select new Avp(m.id, m.label) from " + getPersistentClass().getName() + " as m order by m.label");
+	public List<Avp<Integer>> getModelList(final Session session) throws HibernateException {
+		return session.find("select new Avp(m.id, m.label) from " + getPersistentClass().getName() + " as m order by m.label");
 	}
 
 	/**
@@ -123,5 +128,5 @@ public abstract class ModelDAO extends HibernateUtil {
 				+ " org.folio.cataloging.business.cataloguing.authority.AuthorityModel "
 				+ " as m order by m.label");
 	}
-	//TODO manca il salva di Model
+
 }

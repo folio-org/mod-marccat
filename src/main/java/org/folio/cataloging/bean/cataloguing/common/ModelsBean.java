@@ -62,7 +62,7 @@ public class ModelsBean extends LibrisuiteBean {
 	}
 
 	public void delete(Model model) throws DataAccessException {
-		getCatalog().getModelDAO().delete(model);
+		//getCatalog().getModelDAO().delete(model);
 	}
 
 	/**

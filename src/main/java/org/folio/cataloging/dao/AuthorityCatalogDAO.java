@@ -44,7 +44,8 @@ public class AuthorityCatalogDAO extends CatalogDAO {
 			(Tag[]) getReferenceFields(item, heading).toArray(new Tag[0]));
 		item.addAllTags((Tag[]) getAccessPointTags(item).toArray(new Tag[0]));
 		item.addAllTags((Tag[]) getNotes(id).toArray(new Tag[0]));
-		item.setModelItem(new DAOAuthorityModelItem().load(id));
+		//TODO passare la sessione al metodo load(id)
+		//item.setModelItem(new DAOAuthorityModelItem().load(id));
 
 		Iterator iter = item.getTags().iterator();
 		while (iter.hasNext()) {

@@ -576,7 +576,7 @@ public class StorageService implements Closeable {
 
      * Gets the note group type list.
      * @param lang the language code, used here as a filter criterion.
-     * @return
+     * @return  a list of code / description tuples representing the bibliographic note group type associated with the requested language.
      */
     public List<Avp<String>> getNoteGroupTypeList(String lang) {
         final DAOCodeTable dao = new DAOCodeTable();

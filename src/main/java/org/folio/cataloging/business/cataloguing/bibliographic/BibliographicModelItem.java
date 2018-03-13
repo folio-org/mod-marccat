@@ -15,31 +15,22 @@ package org.folio.cataloging.business.cataloguing.bibliographic;
 
 import java.io.Serializable;
 
-import org.folio.cataloging.business.cataloguing.common.Catalog;
 import org.folio.cataloging.business.cataloguing.common.ModelItem;
 import org.folio.cataloging.business.common.Persistence;
-
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.dao.DAOBibliographicModelItem;
+import org.folio.cataloging.dao.BibliographicModelItemDAO;
 
 /**
- * @author wimc
- * @version $Revision: 1.7 $, $Date: 2005/12/01 13:50:04 $
+ * @author paulm
  * @see
  * @since 1.0
  */
 public class BibliographicModelItem extends ModelItem implements Persistence, Serializable {
 
 
-	public HibernateUtil getDAO() {
-		return new DAOBibliographicModelItem();
+	public BibliographicModelItemDAO getDAO() {
+		return new BibliographicModelItemDAO();
 	}
 
-	/* (non-Javadoc)
-	 * @see ModelItem#getCatalog()
-	 */
-	public Catalog getCatalog() {
-		return new BibliographicCatalog();
-	}
+
 
 }

@@ -339,7 +339,8 @@ public class AuthorityCatalog extends Catalog {
 	 * @see Catalog#newModel(CatalogItem)
 	 */
 	public Model newModel(CatalogItem item) {
-		return new AuthorityModel(item);
+		return null;
+		//return new AuthorityModel(item);
 	}
 
 	/* (non-Javadoc)
@@ -445,7 +446,8 @@ public class AuthorityCatalog extends Catalog {
 	public CatalogItem createAuthorityFromHeading(Descriptor d,
 			Integer modelId) throws DataAccessException, NewTagException {
 		Model model = getModelDAO().load(modelId.intValue());
-		AuthorityItem item = (AuthorityItem)model.toCatalogItem(CATALOGUING_VIEW);
+		//AuthorityItem item = (AuthorityItem)model.toCatalogItem(CATALOGUING_VIEW);
+		AuthorityItem item = new AuthorityItem();
 		AuthorityHeadingTag t = null;
 		try {
 			t = (AuthorityHeadingTag) getNewTag(item,

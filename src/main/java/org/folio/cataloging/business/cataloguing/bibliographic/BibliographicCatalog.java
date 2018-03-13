@@ -244,7 +244,8 @@ public class BibliographicCatalog extends Catalog {
 
 	@Override
 	public Model newModel(final CatalogItem item) {
-		return new BibliographicModel(item);
+		//return new BibliographicModel(item);
+		return null;
 	}
 
 	@Override
