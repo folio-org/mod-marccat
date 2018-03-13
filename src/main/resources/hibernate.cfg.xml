@@ -192,5 +192,6 @@
 		<mapping resource="org/folio/cataloging/dao/persistence/T_BIB_NTE_GRP_TYP.hbm.xml"/>
 		<mapping resource="org/folio/cataloging/dao/persistence/S_BIB_MARC_TAG_VLDTN.hbm.xml"/>
 		<mapping resource="org/folio/cataloging/dao/persistence/T_BIB_HDR.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/TYP_REC_MTRL.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

@@ -12,12 +12,23 @@
     "code": {
       "type": "string"
     },
-    "value": {
+    "displayValue": {
       "type": "string"
     },
     "description": {
       "type": "string"
+    },
+    "materialType": {
+      "type": "string",
+      "enum": [
+        "music",
+        "map",
+        "computerFile",
+        "book",
+        "mixedMaterial",
+        "continuingResource",
+        "visualMaterial"]
     }
   },
-  "additionalProperties": true
+  "additionalProperties": false
 }

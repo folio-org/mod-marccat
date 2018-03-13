@@ -142,6 +142,10 @@ public abstract class Global  {
 	public final static String INTRODUCTION_$i = "i";
 
 	public final static List<String> FIXED_FIELDS = new ArrayList<String>(Arrays.asList("000","001","005","006","007","008"));
+	public final static String HEADER_TYPE_LABEL = "HEADER_TYPE";
+	public final static String FORM_OF_MATERIAL_LABEL = "FORM_OF_MATERIAL";
+	public final static String MATERIAL_TAG_CODE = "008";
+	public final static String OTHER_MATERIAL_TAG_CODE = "006";
 
 	public final static Map<String,Integer> headingTypeMap = new HashMap<String, Integer>()
 	{
@@ -238,12 +242,13 @@ public abstract class Global  {
     public final static String undefinedMarcCountryCode = "und";
     public final static String languageOfCataloguing = "";
     public final static String cataloguingSourceStringText = "";
+	public final static String languageCode = "   ";
+	public final static String recordCataloguingSourceCode = "r";
 
 	//default values for material description (tag 008)
 	// book type
 	public final static String bookformOfMaterial = "bk";
     public final static char materialTypeCode = 'a';
-	public final static char materialDescription008Indicator = '0';
 	public final static String bookIllustrationCode = "    ";
 	public final static char targetAudienceCode = ' ';
 	public final static char formOfItemCode = ' ';

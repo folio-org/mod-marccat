@@ -1,25 +1,30 @@
 package org.folio.cataloging.shared;
 
+import org.folio.cataloging.Global;
+
 import java.util.Arrays;
+import java.util.stream.IntStream;
 
 /**
+ * Class representing three correlation values.
+ * Each correlation is related list to select
+ * headingType, itemType and functionCode (variable fields)
+ * or header type code (fixed fields)
+ *
  * @author janick
  *
  */
 public class CorrelationValues implements Cloneable {
 
-	//TODO evaluate if needs to move it in Global
-	public static final short UNDEFINED = -1;
+	//TODO : evaluate private or public
+	public static final short UNDEFINED = Global.CORRELATION_UNDEFINED;
 	private static final int NBR_VALUES = 3;
 	
 	private short[] values = new short[NBR_VALUES];
 
 	public CorrelationValues() {
 		super();
-
-		for (int i = 0; i < NBR_VALUES; i++) {
-			values[i] = UNDEFINED;
-		}
+		IntStream.range(0, NBR_VALUES - 1).forEach(i -> values[i] = UNDEFINED);
 	}
 	
 	public CorrelationValues(final short v1, final short v2, final short v3) {

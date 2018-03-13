@@ -9,6 +9,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 /**
@@ -136,5 +138,10 @@ public abstract class F {
         }
     }
 
+    public static String getFormattedDateYYMMDD() {
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
+        final LocalDate date = LocalDate.now();
+        return date.format(formatter);
+    }
 
 }

@@ -3,6 +3,7 @@ package org.folio.cataloging.integration;
 import io.vertx.core.Context;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
+import org.folio.cataloging.Global;
 import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.*;
@@ -15,9 +16,7 @@ import org.folio.cataloging.shared.Validation;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
@@ -558,7 +557,9 @@ public class StorageService implements Closeable {
     }
     
      /**
-     *
+     * Gets Validation for variable field.
+      * Validation is related to sub-fields: valid, mandatory and default subfield
+      *
      * @param marcCategory the marc category used here as filter criterion.
      * @param code1 the first correlation used here as filter criterion.
      * @param code2 the second correlation used here as filter criterion.
@@ -616,15 +617,25 @@ public class StorageService implements Closeable {
         return dao.getList(session, T_REC_CTLGG_SRC.class, locale(lang));
     }
 
-    public CorrelationValues getFieldTemplate(final Integer category,
+    /**
+     * Return a correlation values for a specific tag number.
+     *
+     * @param category the category code used here as filter criterion.
+     * @param indicator1 the first indicator used here as filter criterion.
+     * @param indicator2 the second indicator used here as filter criterion.
+     * @param code the tag number code used here as filter criterion.
+     * @return correlation values
+     * @throws DataAccessException in case of data access failure.
+     */
+    public CorrelationValues getCorrelationVariableField(final Integer category,
                                               final String indicator1,
                                               final String indicator2,
-                                              final String tagCode) throws DataAccessException {
+                                              final String code) throws DataAccessException {
 
         final DAOBibliographicCorrelation daoBibliographicCorrelation = new DAOBibliographicCorrelation();
         try {
 
-            final Optional<BibliographicCorrelation> bibliographicCorrelation = ofNullable(daoBibliographicCorrelation.getBibliographicCorrelation(session, tagCode, indicator1.charAt(0), indicator2.charAt(0), category.shortValue()));
+            final Optional<BibliographicCorrelation> bibliographicCorrelation = ofNullable(daoBibliographicCorrelation.getBibliographicCorrelation(session, code, indicator1.charAt(0), indicator2.charAt(0), category.shortValue()));
             return bibliographicCorrelation.isPresent() ? bibliographicCorrelation.get().getValues() : null;
 
         } catch (final HibernateException exception) {
@@ -632,6 +643,57 @@ public class StorageService implements Closeable {
             throw new DataAccessException(exception);
         }
     }
+
+
+    /**
+     * Gets the Material description information.
+     * The values depend on mtrl_dsc and bib_itm data (leader).
+     *
+     * @param recordTypeCode the record type code (leader 05) used here as filter criterion.
+     * @param bibligraphicLevel the bibliographic level (leader 06) used here as filter criterion.
+     * @param code the tag number code used here as filter criterion.
+     * @return a map with RecordTypeMaterial info.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public Map<String, String> getMaterialTypeInfosByLeaderValues(final char recordTypeCode, final char bibligraphicLevel, final String code)  throws DataAccessException {
+
+        Map<String, String> mapRecordTypeMaterial = null;
+        final DAORecordTypeMaterial dao = new DAORecordTypeMaterial();
+
+        try {
+            mapRecordTypeMaterial = new HashMap<>();
+            RecordTypeMaterial rtm = dao.getMaterialHeaderCode(session, recordTypeCode, bibligraphicLevel);
+            mapRecordTypeMaterial.put(Global.HEADER_TYPE_LABEL, (code.equals(Global.MATERIAL_TAG_CODE) ? Short.toString(rtm.getBibHeader008()) : Short.toString(rtm.getBibHeader006())));
+            mapRecordTypeMaterial.put(Global.FORM_OF_MATERIAL_LABEL, rtm.getAmicusMaterialTypeCode());
+
+            return mapRecordTypeMaterial;
+        } catch (final HibernateException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+            throw new DataAccessException(exception);
+        }
+
+	}
+
+    /**
+     * Gets the material type.
+     *
+     * @param headerCode the header code used here as filter criterion.
+     * @param code the tag number code used here as filter criterion.
+     * @return a string representing form of material.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public String getFormOfMaterialByHeaderCode(final short headerCode, final String code) throws DataAccessException {
+        final DAORecordTypeMaterial dao = new DAORecordTypeMaterial();
+        try {
+            RecordTypeMaterial rtm = dao.getDefaultTypeByHeaderCode(session, headerCode, code);
+            return  ofNullable(rtm.getAmicusMaterialTypeCode()).orElse(null);
+
+        } catch (final HibernateException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+            throw new DataAccessException(exception);
+        }
+    }
+
 
     /**
      * Returns the description for heading type entity.
