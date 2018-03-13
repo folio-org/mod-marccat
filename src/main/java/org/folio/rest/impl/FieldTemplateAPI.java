@@ -29,6 +29,8 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
 
 /**
+ * TODO: One line comment (optional) long description + new line empty + author + since 1.0
+ *
  * FieldTemplate Restful API
  * @author natasciab
  *
@@ -55,7 +57,7 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
                 !isFixedField(code)
                 ? ofNullable(storageService.getCorrelationVariableField(categoryCode, ind1, ind2, code))
                         .map(correlationValues -> {
-                            final short code1 = correlationValues.getValue(1);
+                            final int code1 = correlationValues.getValue(1);
                             final Class clazz = Global.firstCorrelationHeadingClassMap.get(Integer.toString(categoryCode));
                             final String description = storageService.getHeadingTypeDescription(code1, lang, clazz);
                             final Validation validation = storageService.getSubfieldsByCorrelations(Integer.toString(categoryCode), correlationValues.getValue(1),
@@ -191,9 +193,9 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
         final VariableField variableField = new VariableField();
         if (!isFixedField(code))
         {
-            variableField.setHeadingTypeCode(Short.toString(correlations.getValue(1)));
-            variableField.setItemTypeCode(Short.toString(correlations.getValue(2)));
-            variableField.setFunctionCode(Short.toString(correlations.getValue(3)));
+            variableField.setHeadingTypeCode(Integer.toString(correlations.getValue(1)));
+            variableField.setItemTypeCode(Integer.toString(correlations.getValue(2)));
+            variableField.setFunctionCode(Integer.toString(correlations.getValue(3)));
             variableField.setCategoryCode(categoryCode);
             variableField.setCode(code);
             variableField.setInd1(ind1);

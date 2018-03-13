@@ -704,7 +704,7 @@ public class StorageService implements Closeable {
      * @return the description for index code associated with the requested language.
      * @throws DataAccessException in case of data access failure.
      */
-    public String getHeadingTypeDescription(final short code, final String lang, final Class clazz) throws DataAccessException {
+    public String getHeadingTypeDescription(final int code, final String lang, final Class clazz) throws DataAccessException {
 
         final DAOCodeTable dao = new DAOCodeTable();
         return dao.getLongText(session, code, clazz, locale(lang));

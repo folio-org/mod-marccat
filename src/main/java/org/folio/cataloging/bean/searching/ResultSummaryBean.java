@@ -1591,7 +1591,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 		return Integer.parseInt(recordNumber) - 1;
 	}
 
-	public short getDisplayFormat() {
+	public int getDisplayFormat() {
 		if (displayFormat == null) {
 			return -1;
 		} else {
@@ -1599,9 +1599,9 @@ public class ResultSummaryBean extends LibrisuiteBean
 		}
 	}
 
-	public void setDisplayFormat(short code) throws DataAccessException
+	public void setDisplayFormat(int code) throws DataAccessException
 	{
-		short oldDisplayFormat = getDisplayFormat();
+		int oldDisplayFormat = getDisplayFormat();
 		/*if (code != oldDisplayFormat) {
 			if (resultSet != null) {
 				displayFormat = resultSet.getDisplayFormat(code, locale);

@@ -340,7 +340,7 @@ public class DAOCodeTable extends HibernateUtil {
 		return (T_SINGLE_CHAR) loadCodeTableEntry(session, c, key);
 	}
 
-	public T_SINGLE load(Session session, Class c, short code, Locale locale) throws DataAccessException
+	public T_SINGLE load(Session session, Class c, int code, Locale locale) throws DataAccessException
 	{
 		T_SINGLE key;
 			try {
@@ -392,7 +392,7 @@ public class DAOCodeTable extends HibernateUtil {
 	 * @return a string representing description of codeTable by code.
 	 * @throws DataAccessException
 	 */
-	public String getLongText(final Session session, final short code, final Class c, final Locale locale) throws DataAccessException {
+	public String getLongText(final Session session, final int code, final Class c, final Locale locale) throws DataAccessException {
 		return ofNullable(load(session, c, code, locale))
 					.map(CodeTable::getLongText)
 					.orElse(Global.EMPTY_STRING);

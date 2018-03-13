@@ -29,10 +29,10 @@ import static java.util.stream.Collectors.toList;
 import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
 /**
- * FieldsAPI RestFul service
- * to manage fields (tag)
+ * FieldsAPI RestFul service to manage fields (tag).
  *
  * @author nbianchini
+ * @author agazzarini
  * @since 1.0
  */
 public class FieldsAPI implements CatalogingFieldsResource {
@@ -75,7 +75,7 @@ public class FieldsAPI implements CatalogingFieldsResource {
     private Field createCatalogingSourceField(final Map<String, String> configuration, final StorageService storageService, final String lang) {
         final CorrelationValues correlationValues =
                 new CorrelationValues(
-                        (short) Global.CATALOGING_SOURCE_HEADER_TYPE,
+                        Global.CATALOGING_SOURCE_HEADER_TYPE,
                         Global.CORRELATION_UNDEFINED,
                         Global.CORRELATION_UNDEFINED);
 
@@ -168,12 +168,12 @@ public class FieldsAPI implements CatalogingFieldsResource {
     }
 
     /**
-     * Create default 008 tag field
-     * @param configuration the configuration parameters
+     * Creates default 008 field.
      *
-     * @param storageService
-     * @param lang
-     * @return
+     * @param configuration the configuration parameters
+     * @param storageService the storage service.
+     * @param lang tlang associated with the current request.
+     * @return the 008 default tag definition.
      */
     private Field createRequiredMaterialDescriptionField(final Map<String, String> configuration, final StorageService storageService, final String lang) {
 
@@ -217,8 +217,6 @@ public class FieldsAPI implements CatalogingFieldsResource {
                 .append(Global.fixedLeaderPortion).toString();
     }
 
-
-    // TODO: Asynch management
     /**
      * Reads parameters from configuration module
      * @param vertxContext

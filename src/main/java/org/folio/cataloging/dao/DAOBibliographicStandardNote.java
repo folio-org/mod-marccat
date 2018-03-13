@@ -43,9 +43,9 @@ public class DAOBibliographicStandardNote extends HibernateUtil {
 							+ " substr(t.userViewString, ?, 1) = '1' and "
 							+ " t.noteNbr = ?",
 						new Object[] {
-							new Integer(bibItemNumber),
-							new Integer(userView),
-							new Integer(noteNumber)},
+							bibItemNumber,
+							userView,
+							noteNumber},
 						new Type[] {
 							Hibernate.INTEGER,
 							Hibernate.INTEGER,
@@ -62,7 +62,7 @@ public class DAOBibliographicStandardNote extends HibernateUtil {
 	
 	
 	
-	public Avp getSTDDisplayString(short code, String language) throws DataAccessException{
+	public Avp getSTDDisplayString(int code, String language) throws DataAccessException{
 	Avp val = new Avp();
 		List l = null;
 		try {
@@ -72,8 +72,8 @@ public class DAOBibliographicStandardNote extends HibernateUtil {
 			q.setMaxResults(1);
 			l = q.list();
 			if (l.size() > 0) {
-				T_STD_NTE_TYP STDType= (T_STD_NTE_TYP) l.get(0);
-				val.setValue(new Short(STDType.getCode()).toString());
+				T_STD_NTE_TYP STDType = (T_STD_NTE_TYP) l.get(0);
+				val.setValue(Integer.toString(STDType.getCode()));
 				val.setLabel(STDType.getLongText());
 				return val;
 			} else {
