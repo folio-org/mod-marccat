@@ -3,16 +3,14 @@
  */
 package org.folio.cataloging.business.descriptor;
 
-import java.util.Arrays;
-import java.util.TreeSet;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.util.StringText;
 
 import java.text.Normalizer;
-
-import org.folio.cataloging.util.StringText;
-import org.folio.cataloging.model.Subfield;
+import java.util.Arrays;
+import java.util.TreeSet;
 
 /**
  * Utilities to help in the creation of sortforms. This class was introduced to
@@ -544,7 +542,7 @@ public abstract class SortformUtils {
 		}
 	}
 
-	public static StringText stripSkipInFiling(String stringText, short skipInFiling) {
+	public static StringText stripSkipInFiling(String stringText, int skipInFiling) {
 		StringText st = new StringText(stringText);
 		if (skipInFiling > 0) {
 			Subfield s = st.getSubfield(0);

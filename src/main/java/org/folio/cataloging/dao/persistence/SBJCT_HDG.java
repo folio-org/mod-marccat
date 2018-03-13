@@ -29,13 +29,12 @@ import java.util.Iterator;
  */
 public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling {
 	@Override
-	public short getAuthoritySourceCode() {
+	public int getAuthoritySourceCode() {
 		
 		return getSourceCode();
 	}
 
-	@Override
-	public void setAuthoritySourceCode(short authoritySourceCode) {
+	public void setAuthoritySourceCode(int authoritySourceCode) {
 		setSourceCode(authoritySourceCode);
 	}
 
@@ -43,9 +42,9 @@ public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling 
 	private static final Log logger = LogFactory.getLog(SBJCT_HDG.class);
 	private String copyFromHeadingType;
 	private Integer copyFromHeadingNumber;
-	private short skipInFiling;
-	private short typeCode;
-	private short sourceCode;
+	private int skipInFiling;
+	private int typeCode;
+	private int sourceCode;
 	private String secondarySourceCode;
 	private ConfigHandler configHandler = ConfigHandler.getInstance();
 
@@ -74,7 +73,7 @@ public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling 
 	 * 
 	 * @return typeCode
 	 */
-	public short getTypeCode() {
+	public int getTypeCode() {
 		return typeCode;
 	}
 
@@ -84,7 +83,7 @@ public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling 
 	 * @param s
 	 *            typeCode
 	 */
-	public void setTypeCode(short s) {
+	public void setTypeCode(int s) {
 		typeCode = s;
 	}
 
@@ -156,14 +155,14 @@ public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling 
 	/**
 	 * 
 	 */
-	public short getSkipInFiling() {
+	public int getSkipInFiling() {
 		return skipInFiling;
 	}
 
 	/**
 	 * 
 	 */
-	public short getSourceCode() {
+	public int getSourceCode() {
 		return sourceCode;
 	}
 
@@ -202,7 +201,7 @@ public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling 
 	/**
 	 * 
 	 */
-	public void setSourceCode(short s) {
+	public void setSourceCode(int s) {
 		sourceCode = s;
 		if (!SubjectSource.isOtherSource(s)) {
 			setSecondarySourceCode(null);
@@ -214,7 +213,7 @@ public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling 
 	 * 
 	 * @see librisuite.hibernate.Descriptor#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return 18;
 	}
 

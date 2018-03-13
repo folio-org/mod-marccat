@@ -40,15 +40,15 @@ public class AuthorityCatalog extends Catalog {
 		daoByAutType.put("MH", DAONameTitleDescriptor.class);
 	}
 
-	private static Map autTypeByDescriptorType = new HashMap();
+	private static Map<Integer, String> autTypeByDescriptorType = new HashMap<>();
 	static {
-		autTypeByDescriptorType.put(new Short((short) 2), "NH");
-		autTypeByDescriptorType.put(new Short((short) 3), "TH");
-		autTypeByDescriptorType.put(new Short((short) 4), "SH");
-		autTypeByDescriptorType.put(new Short((short) 17), "NH");
-		autTypeByDescriptorType.put(new Short((short) 22), "TH");
-		autTypeByDescriptorType.put(new Short((short) 18), "SH");
-		autTypeByDescriptorType.put(new Short((short) 11), "MH");
+		autTypeByDescriptorType.put(2, "NH");
+		autTypeByDescriptorType.put(3, "TH");
+		autTypeByDescriptorType.put(4, "SH");
+		autTypeByDescriptorType.put(17, "NH");
+		autTypeByDescriptorType.put(22, "TH");
+		autTypeByDescriptorType.put(18, "SH");
+		autTypeByDescriptorType.put(11, "MH");
 	}
 
 	private static final AuthorityCatalogDAO daoCatalog =
@@ -104,8 +104,8 @@ public class AuthorityCatalog extends Catalog {
 		return result;
 	}
 
-	public static String getAutTypeByDescriptorType(short descriptorType) {
-		return (String) autTypeByDescriptorType.get(new Short(descriptorType));
+	public static String getAutTypeByDescriptorType(int descriptorType) {
+		return (String) autTypeByDescriptorType.get(descriptorType);
 	}
 
 	/* (non-Javadoc)
@@ -114,7 +114,7 @@ public class AuthorityCatalog extends Catalog {
 	public void addRequiredTags(CatalogItem item) throws NewTagException {
 		AuthorityLeader leader =
 			(AuthorityLeader) getNewTag(item,
-				(short) 1,
+					1,
 				new CorrelationValues(
 					new AuthorityLeader().getHeaderType(),
 					CorrelationValues.UNDEFINED,
@@ -125,7 +125,7 @@ public class AuthorityCatalog extends Catalog {
 
 		ControlNumberTag controlnumber =
 			(ControlNumberTag) getNewTag(item,
-				(short) 1,
+		1,
 				new CorrelationValues(
 					new AuthorityControlNumberTag().getHeaderType(),
 					CorrelationValues.UNDEFINED,
@@ -136,7 +136,7 @@ public class AuthorityCatalog extends Catalog {
 
 		DateOfLastTransactionTag dateTag =
 			(DateOfLastTransactionTag) getNewTag(item,
-				(short) 1,
+				1,
 				new CorrelationValues(
 					new AuthorityDateOfLastTransactionTag().getHeaderType(),
 					CorrelationValues.UNDEFINED,
@@ -147,7 +147,7 @@ public class AuthorityCatalog extends Catalog {
 
 		Authority008Tag ffTag =
 			(Authority008Tag) getNewTag(item,
-				(short) 1,
+				1,
 				new Authority008Tag().getHeaderType(),
 				CorrelationValues.UNDEFINED,
 				CorrelationValues.UNDEFINED);
@@ -197,7 +197,7 @@ public class AuthorityCatalog extends Catalog {
 		return tagFactory;
 	}
 
-	public Tag getNewHeaderTag(CatalogItem item, short header)
+	public Tag getNewHeaderTag(CatalogItem item, int header)
 		throws NewTagException {
 		return (Tag) setItemIfNecessary(
 			item,
@@ -206,7 +206,7 @@ public class AuthorityCatalog extends Catalog {
 
 	public Tag getNewTag(
 		CatalogItem item,
-		short category,
+		int category,
 		CorrelationValues correlationValues)
 		throws NewTagException {
 		Tag tag = (Tag) getTagFactory().create(category);
@@ -219,20 +219,9 @@ public class AuthorityCatalog extends Catalog {
 							correlationValues.getValue(1));
 				} else if (tag instanceof AuthorityHeadingTag  ||
 						   tag instanceof AuthorityReferenceTag) {
-					/*
-					 * If we get here we are either getting a new reference tag
-					 * based on the category of the target heading (which will start
-					 * out as an AuthorityHeadingTag from the factory), or based on
-					 * a category 16 (generic reference) with correlation values set to 
-					 * a specific reference type (at time of writing this last 
-					 * circumstance does not occur.)
-					 * 
-					 * In both cases we want to get the reference type from the 
-					 * correlation values and create the appropriate tag Class.
-					 */
 					Integer refTypePosition =
 						correlationValues.getLastUsedPosition();
-					short refType;
+					int refType;
 
 					if (refTypePosition != null) {
 						refType =
@@ -351,27 +340,21 @@ public class AuthorityCatalog extends Catalog {
 	 */
 	public void addDefaultTag(CatalogItem item) {
 		try {
-			item.addTag(getNewTag(item, (short) 2));
+			item.addTag(getNewTag(item, 2));
 		} catch (NewTagException e) {
 			throw new RuntimeException("error creating new Authority heading tag");
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see Catalog#getMarcTypeCode()
-	 */
 	public String getMarcTypeCode() {
 		return "A";
 	}
 
-	/* (non-Javadoc)
-	 * @see Catalog#changeDescriptorType(CatalogItem, int, short)
-	 */
 	@Override
 	public void changeDescriptorType(
 		CatalogItem item,
 		int index,
-		short descriptorType) {
+		int descriptorType) {
 		Tag t = item.getTag(index);
 		if (t instanceof AuthorityReferenceTag) {
 			changeReferenceDescriptorType(
@@ -394,7 +377,7 @@ public class AuthorityCatalog extends Catalog {
 	public void changeReferenceDescriptorType(
 		Tag t,
 		ItemEntity itemEntity,
-		short descriptorType) {
+		int descriptorType) {
 		AuthorityReferenceTag tag = (AuthorityReferenceTag) t;
 		Descriptor d = DescriptorFactory.createDescriptor(descriptorType);
 		String headingType = ((AUT) itemEntity).getHeadingType();

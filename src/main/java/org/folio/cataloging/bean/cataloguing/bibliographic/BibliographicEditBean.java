@@ -3144,7 +3144,7 @@ public class BibliographicEditBean extends EditBean {
 	}
 
 	public boolean isAbleEquivalentNote() {
-		short category = getCurrentTag().getCategory();
+		int category = getCurrentTag().getCategory();
         return category == 7 && this.getCasaliniBean().isEnabled();
 	}
 

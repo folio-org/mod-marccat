@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- * 
- * Created on Nov 18, 2005
- * 
- * AuthorityAuthenticationCodeTag.java
- */
 package org.folio.cataloging.business.cataloguing.authority;
 
 import org.folio.cataloging.business.cataloguing.common.AuthenticationCodeTag;
@@ -25,7 +18,7 @@ public class AuthorityAuthenticationCodeTag extends AuthenticationCodeTag {
 	public AuthorityAuthenticationCodeTag() {
 		super();
 		setHeaderField(new AuthorityHeaderFieldHelper());
-		setHeaderType((short) 2);
+		setHeaderType(2);
 	}
 
 }

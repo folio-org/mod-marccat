@@ -21,7 +21,7 @@ public class REF_KEY implements Serializable, Cloneable{
 	/* The default setting for reference type should be coordinated with the default
 	 * Authority tag created for category 16 in the AuthorityCatalog.TAG_FACTORY
 	 */
-	private Short type = 2;
+	private Integer type = 2;
 	private String userViewString = "1000000000000000";
 
 	/**
@@ -67,7 +67,7 @@ public class REF_KEY implements Serializable, Cloneable{
 	 * 
 	 * @return type
 	 */
-	public Short getType() {
+	public Integer getType() {
 		return type;
 	}
 
@@ -103,7 +103,7 @@ public class REF_KEY implements Serializable, Cloneable{
 	 * 
 	 * @param s type
 	 */
-	public void setType(Short s) {
+	public void setType(int s) {
 		type = s;
 	}
 

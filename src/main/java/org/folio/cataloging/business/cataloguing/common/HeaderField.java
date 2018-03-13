@@ -18,15 +18,13 @@ import java.util.List;
  * @since 1.0
  */
 public interface HeaderField {
-	short getCategory();
+	int getCategory();
 	CorrelationValues getCorrelationValues();
 	void setCorrelationValues(CorrelationValues v);
 	List getFirstCorrelationList() throws DataAccessException;
-	List getSecondCorrelationList(short value1)
-		throws DataAccessException;
-	List getThirdCorrelationList(short value1, short value2)
-		throws DataAccessException;
-	short getHeaderType();
-	void setHeaderType(short s);
+	List getSecondCorrelationList(int value1) throws DataAccessException;
+	List getThirdCorrelationList(int value1, int value2) throws DataAccessException;
+	int getHeaderType();
+	void setHeaderType(int s);
 	boolean isHeaderField();
 }

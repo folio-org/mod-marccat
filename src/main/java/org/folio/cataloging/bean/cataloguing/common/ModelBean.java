@@ -903,8 +903,8 @@ public class ModelBean extends LibrisuiteBean
 
 	public void refreshCorrelation(Locale locale) 
 	{
-		short value1 = getCurrentField().getCorrelation(1);
-		short value2 = getCurrentField().getCorrelation(2);
+		int value1 = getCurrentField().getCorrelation(1);
+		int value2 = getCurrentField().getCorrelation(2);
 		try {
 			List firstList = getCurrentField().getFirstCorrelationList();
 			setFirstCorrelationList(DAOCodeTable.asOptionList(firstList, locale));
@@ -1071,7 +1071,7 @@ public class ModelBean extends LibrisuiteBean
 	 */
 	private T_SINGLE loadSelectedCodeTable(Tag processingTag) throws DataAccessException 
 	{
-		short value1 = processingTag.getCorrelation(1);	
+		int value1 = processingTag.getCorrelation(1);
 		List firstList = processingTag.getFirstCorrelationList();
 		T_SINGLE ct = DAOCodeTable.getSelectedCodeTable(firstList, locale, value1);
 		return ct;

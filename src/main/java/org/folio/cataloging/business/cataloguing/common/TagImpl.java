@@ -47,8 +47,8 @@ public abstract class TagImpl implements Serializable {
 	 * 
 	 * @since 1.0
 	 */
-	abstract public Set getValidEditableSubfields(short category);
+	abstract public Set getValidEditableSubfields(int category);
 
 	abstract public Correlation getCorrelation(String tagNumber, char indicator1,
-			char indicator2, short category) throws DataAccessException;
+			char indicator2, int category) throws DataAccessException;
 }

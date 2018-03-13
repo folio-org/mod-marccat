@@ -60,13 +60,13 @@ public interface TagInterface {
 	/**
 	 * @return the tag category used in determining MARC coding (correlation)
 	 */
-    short getCategory();
+	int getCategory();
 	/**
 	 * @param i - the correlation value wanted (1, 2, or 3)
 	 * @return the appropriate correlation value for determining MARC coding (-1 if no
 	 * value is available or known)
 	 */
-    short getCorrelation(int i);
+	int getCorrelation(int i);
 	CorrelationValues getCorrelationValues();
 	DAOCodeTable getDaoCodeTable();
 	/**
@@ -75,7 +75,7 @@ public interface TagInterface {
 	 * @since 1.0
 	 */
 
-    short getDisplayCategory();
+	int getDisplayCategory();
 
 	/**
 	 * true if the display of a headingType option list is appropriate while editing
@@ -119,7 +119,7 @@ public interface TagInterface {
 	 * @return the second correlation list for this tag
 	 * entry
 	 */
-    List getSecondCorrelationList(short value1)
+    List getSecondCorrelationList(int value1)
 		throws DataAccessException;
 	/**
 	 * Gets appropriate values for selection of the second correlation list.  Values
@@ -130,7 +130,7 @@ public interface TagInterface {
 	 * @return the second correlation list for this tag
 	 * entry
 	 */
-    List getThirdCorrelationList(short value1, short value2)
+    List getThirdCorrelationList(int value1, int value2)
 		throws DataAccessException;
 	/**
 	 * 
@@ -299,14 +299,14 @@ public interface TagInterface {
 	 * 3 are recalculated and the values are reset (to the first available valid choice)
 	 * @param s the new value1
 	 */
-    void updateFirstCorrelation(short s)
+    void updateFirstCorrelation(int s)
 		throws DataAccessException;
 	/**
 	 * After a change in correlation value 2, the available choices for values 3
 	 * are recalculated and the value is reset (to the first available valid choice)
 	 * @param s the new value 2
 	 */
-    void updateSecondCorrelation(short s)
+    void updateSecondCorrelation(int s)
 		throws DataAccessException;
 
 	void validate(int index) throws ValidationException;

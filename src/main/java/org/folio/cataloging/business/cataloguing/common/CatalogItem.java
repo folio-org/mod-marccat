@@ -450,7 +450,7 @@ public abstract class CatalogItem implements Serializable {
 
 	}
 
-	public List findTagsEqual(short functionCode) throws
+	public List findTagsEqual(int functionCode) throws
 			DataAccessException {
 		List/* <Tag> */tags = getTags();
 		List/* <Tag> */filteredList = new ArrayList/* <Tag> */();

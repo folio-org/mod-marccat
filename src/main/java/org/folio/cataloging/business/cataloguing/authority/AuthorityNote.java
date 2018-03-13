@@ -32,7 +32,7 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
 	private AUT autItm;
 	private int noteNumber;
 	private int itemNumber;
-	private short noteType = Defaults.getShort("authorityNote.noteType");
+	private int noteType = Defaults.getShort("authorityNote.noteType");
 	private String noteStringText;
 	private PersistenceState persistenceState = new PersistenceState();
 	
@@ -72,7 +72,7 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
 	/* (non-Javadoc)
 	 * @see TagInterface#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return 7;
 	}
 
@@ -138,7 +138,7 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
 	 * 
 	 * @since 1.0
 	 */
-	public short getNoteType() {
+	public int getNoteType() {
 		return noteType;
 	}
 
@@ -146,7 +146,7 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
 	 * 
 	 * @since 1.0
 	 */
-	public void setNoteType(short s) {
+	public void setNoteType(int s) {
 		noteType = s;
 	}
 

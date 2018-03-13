@@ -67,7 +67,7 @@ public class ClassificationAccessPoint extends BibliographicAccessPoint implemen
 	public StringText getAccessPointStringText() {
 		StringText stringText= new StringText();
 		boolean isDewey = descriptor.getTypeCode()==12;
-		Short deweyEditionNumber = descriptor.getDeweyEditionNumber();
+		Integer deweyEditionNumber = descriptor.getDeweyEditionNumber();
 		if(isDewey && deweyEditionNumber!=null)
 			stringText.addSubfield(new Subfield("2",""+deweyEditionNumber));
 		 return stringText;
@@ -83,7 +83,7 @@ public class ClassificationAccessPoint extends BibliographicAccessPoint implemen
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return CLASSIFICATION_TAG_CATEGORY;
 	}
 

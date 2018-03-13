@@ -61,7 +61,7 @@ public class NME_TTL_HDG extends Descriptor {
 	/* (non-Javadoc)
 	 * @see Descriptor#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return 11;
 	}
 

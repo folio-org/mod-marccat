@@ -21,6 +21,7 @@ import java.util.Optional;
 /**
  * @author elena
  * @author natasciab
+ * @author agazzarini
  * @since 1.0
  */
 public class DAOBibliographicValidation extends DAOValidation {
@@ -40,7 +41,7 @@ public class DAOBibliographicValidation extends DAOValidation {
 	 *  the MARC subfield list or null when not found
 	 * @throws DataAccessException
 	 */
-	public BibliographicValidation load(final Session session, final short category, final CorrelationValues values) throws HibernateException {
+	public BibliographicValidation load(final Session session, final int category, final CorrelationValues values) throws HibernateException {
 
 		List<BibliographicValidation> bibliographicValidations = null;
 		bibliographicValidations = session.find("select distinct v from BibliographicValidation as v, " +
@@ -51,14 +52,16 @@ public class DAOBibliographicValidation extends DAOValidation {
 						" and (c.databaseThirdValue = ? or c.databaseThirdValue = -1 or -1 = ?)" +
 						" and c.key.marcTag = v.key.marcTag" +
 						" and c.key.marcTagCategoryCode =  v.key.marcTagCategoryCode",
-				new Object[] { new Short(category),
-						new Short(values.getValue(1)), new Short(values.getValue(1)),
-						new Short(values.getValue(2)), new Short(values.getValue(2)),
-						new Short(values.getValue(3)), new Short(values.getValue(3))},
-				new Type[] { Hibernate.SHORT,
-						Hibernate.SHORT, Hibernate.SHORT,
-						Hibernate.SHORT, Hibernate.SHORT,
-						Hibernate.SHORT, Hibernate.SHORT}
+				new Object[] {
+						category,
+						values.getValue(1), values.getValue(1),
+						values.getValue(2), values.getValue(2),
+						values.getValue(3), values.getValue(3)},
+				new Type[] {
+						Hibernate.INTEGER,
+						Hibernate.INTEGER, Hibernate.INTEGER,
+						Hibernate.INTEGER, Hibernate.INTEGER,
+						Hibernate.INTEGER, Hibernate.INTEGER}
 		);
 
 		Optional<BibliographicValidation> firstElement = bibliographicValidations.stream().filter(Objects::nonNull).findFirst();
@@ -71,8 +74,8 @@ public class DAOBibliographicValidation extends DAOValidation {
 													" where c.key.marcTagCategoryCode = ?"+
 													" and c.key.marcTag = v.key.marcTag" +
 													" and c.key.marcTagCategoryCode =  v.key.marcTagCategoryCode",
-									new Object[] { new Short(category)},
-									new Type[] { Hibernate.SHORT});
+									new Object[] { category},
+									new Type[] { Hibernate.INTEGER});
 
 		firstElement = bibliographicValidations.stream().filter(Objects::nonNull).findFirst();
 		if (firstElement.isPresent()) {
@@ -92,7 +95,7 @@ public class DAOBibliographicValidation extends DAOValidation {
 	}
 
 	@Deprecated
-	public Validation load(short s, CorrelationValues values) throws DataAccessException {
+	public Validation load(int s, CorrelationValues values) throws DataAccessException {
 		List l = find("select distinct v from BibliographicValidation as v, " +
 						"BibliographicCorrelation as c" +
 						" where c.key.marcTagCategoryCode = ?" +
@@ -101,14 +104,16 @@ public class DAOBibliographicValidation extends DAOValidation {
 						" and (c.databaseThirdValue = ? or c.databaseThirdValue = -1 or -1 = ?)" +
 						" and c.key.marcTag = v.key.marcTag" +
 						" and c.key.marcTagCategoryCode =  v.key.marcTagCategoryCode",
-				new Object[] { new Short(s),
-						new Short(values.getValue(1)), new Short(values.getValue(1)),
-						new Short(values.getValue(2)), new Short(values.getValue(2)),
-						new Short(values.getValue(3)), new Short(values.getValue(3))},
-				new Type[] { Hibernate.SHORT,
-						Hibernate.SHORT, Hibernate.SHORT,
-						Hibernate.SHORT, Hibernate.SHORT,
-						Hibernate.SHORT, Hibernate.SHORT}
+				new Object[] {
+						s,
+						values.getValue(1), values.getValue(1),
+						values.getValue(2), values.getValue(2),
+						values.getValue(3), values.getValue(3)},
+				new Type[] {
+						Hibernate.INTEGER,
+						Hibernate.INTEGER, Hibernate.INTEGER,
+						Hibernate.INTEGER, Hibernate.INTEGER,
+						Hibernate.INTEGER, Hibernate.INTEGER}
 		);
 		if (l.size() > 0) {
 			if (logger.isDebugEnabled()) {
@@ -125,8 +130,8 @@ public class DAOBibliographicValidation extends DAOValidation {
 							" where c.key.marcTagCategoryCode = ?"+
 							" and c.key.marcTag = v.key.marcTag" +
 							" and c.key.marcTagCategoryCode =  v.key.marcTagCategoryCode",
-					new Object[] { new Short(s)},
-					new Type[] { Hibernate.SHORT}
+					new Object[] { s},
+					new Type[] { Hibernate.INTEGER}
 			);
 			if (l.size() > 0) {
 				if (logger.isDebugEnabled()) {

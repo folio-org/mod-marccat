@@ -310,7 +310,7 @@ public class DAOCodeTable extends HibernateUtil {
 		return asOptionList(getListOrderAlphab(c, locale), locale);
 	}
 
-	public static T_SINGLE getSelectedCodeTable(List raw, Locale locale, short code) 
+	public static T_SINGLE getSelectedCodeTable(List raw, Locale locale, int code)
 	{
 		if (raw == null) {
 			return null;

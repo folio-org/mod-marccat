@@ -452,8 +452,7 @@ public class AuthorityEditBean extends EditBean {
 
 	/**
 	 * Restituisce la lista filtrata
-	 * 
-	 * @param tag
+	 *
 	 * @return
 	 * @throws MarcCorrelationException
 	 * @throws DataAccessException

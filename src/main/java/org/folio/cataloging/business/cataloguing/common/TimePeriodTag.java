@@ -32,12 +32,6 @@ public abstract class TimePeriodTag extends VariableHeaderUsingItemEntity {
 		super(itemNumber);
 	}
 
-	/**
-	 * Class constructor
-	 *
-	 * 
-	 * @since 1.0
-	 */
 	public TimePeriodTag() {
 		super();
 	}
@@ -78,7 +72,6 @@ public abstract class TimePeriodTag extends VariableHeaderUsingItemEntity {
 			}
 		}
 	}
-
 
 	public void setCorrelationValues(CorrelationValues v) {
 		super.setCorrelationValues(v);

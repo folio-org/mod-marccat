@@ -174,7 +174,7 @@ public class PublisherAccessPoint extends BibliographicAccessPoint
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return 7;
 	}
 

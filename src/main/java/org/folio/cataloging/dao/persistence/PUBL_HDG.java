@@ -29,7 +29,7 @@ public class PUBL_HDG extends Descriptor implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static final Log logger = LogFactory.getLog(PUBL_HDG.class);
 	private static Class referenceClass = PUBL_REF.class;
-	private short indexingLanguage;
+	private int indexingLanguage;
 	private String nameSortForm;
 	private String placeSortForm;
 	private String nameStringText;
@@ -67,7 +67,7 @@ public class PUBL_HDG extends Descriptor implements Serializable {
 	 * 
 	 * @return indexingLanguage
 	 */
-	public short getIndexingLanguage() {
+	public int getIndexingLanguage() {
 		return indexingLanguage;
 	}
 
@@ -76,7 +76,7 @@ public class PUBL_HDG extends Descriptor implements Serializable {
 	 * 
 	 * @param s indexingLanguage
 	 */
-	public void setIndexingLanguage(short s) {
+	public void setIndexingLanguage(int s) {
 		indexingLanguage = s;
 	}
 
@@ -122,7 +122,7 @@ public class PUBL_HDG extends Descriptor implements Serializable {
 	/* (non-Javadoc)
 	 * @see librisuite.hibernate.Descriptor#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return 21;
 	}
 

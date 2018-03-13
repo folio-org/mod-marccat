@@ -43,7 +43,7 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
 		setFunctionCode(Defaults.getShort("subjectAccessPoint.functionCode"));
 	}
 
-	public short getFunctionCode() {
+	public int getFunctionCode() {
 		return functionCode;
 	}
 
@@ -121,9 +121,8 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
 		} catch (MarcCorrelationException e) {
 			try {
 				CorrelationValues v = getCorrelationValues();
-				short v2 = new DAOBibliographicCorrelation()
-				.getFirstAllowedValue2(getCategory(), v.getValue(1), v
-						.getValue(3));
+				int v2 = new DAOBibliographicCorrelation()
+				.getFirstAllowedValue2(getCategory(), v.getValue(1), v.getValue(3));
 				setFunctionCode(v2);
 			} catch (DataAccessException e1) {
 				setFunctionCode((short)-1);
@@ -210,7 +209,7 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
 	 * 
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return 4;
 	}
 

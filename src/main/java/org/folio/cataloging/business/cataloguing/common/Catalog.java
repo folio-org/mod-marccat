@@ -80,7 +80,7 @@ public abstract class Catalog {
 	 * 
 	 * @since 1.0
 	 */
-	abstract public void changeDescriptorType(CatalogItem item, int index, short descriptorType);
+	abstract public void changeDescriptorType(CatalogItem item, int index, int descriptorType);
 
 	/**
 	 * A unique String representing the subclass type for use in jsp logic tags
@@ -97,7 +97,7 @@ public abstract class Catalog {
 	abstract public void addDefaultTag(CatalogItem item);
 	abstract public void addDefaultTags(CatalogItem item);
 
-	abstract public Tag getNewTag(CatalogItem item, short category,
+	abstract public Tag getNewTag(CatalogItem item, int category,
 			CorrelationValues correlationValues) throws NewTagException;
 
 	public CatalogItem getCatalogItem(final Object[] key) throws DataAccessException {
@@ -114,11 +114,11 @@ public abstract class Catalog {
 		return b;
 	}
 
-	abstract public Tag getNewHeaderTag(CatalogItem item, short header) throws NewTagException;
+	abstract public Tag getNewHeaderTag(CatalogItem item, int header) throws NewTagException;
 
 	abstract public List getTagCategories(Locale l) throws DataAccessException;
 
-	public final Tag getNewTag(CatalogItem item, short category) throws NewTagException {
+	public final Tag getNewTag(CatalogItem item, int category) throws NewTagException {
 		return getNewTag(item, category, null);
 	}
 
@@ -131,10 +131,10 @@ public abstract class Catalog {
 
 	public final Tag getNewTag(
 			final CatalogItem item,
-			final short category,
-			final short correlationValue1,
-			final short correlationValue2,
-			final short correlationValue3) throws NewTagException {
+			final int category,
+			final int correlationValue1,
+			final int correlationValue2,
+			final int correlationValue3) throws NewTagException {
 		return getNewTag(
 				item,
 				category,

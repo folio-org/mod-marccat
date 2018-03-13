@@ -110,7 +110,7 @@ public class ControlNumberAccessPoint extends BibliographicAccessPoint implement
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return CONTROL_NUMBER_TAG_CATEGORY;
 	}
 

@@ -21,13 +21,10 @@ import java.util.List;
  * @version $Revision: 1.2 $, $Date: 2006/01/05 13:25:58 $
  * @since 1.0
  */
-public class AuthoritySubjectHeadingTag
-	extends AuthorityHeadingTag
-	implements SkipInFiling {
+public class AuthoritySubjectHeadingTag extends AuthorityHeadingTag implements SkipInFiling {
 	/**
 	 * Class constructor
 	 *
-	 * @param d
 	 * @since 1.0
 	 */
 	public AuthoritySubjectHeadingTag() {
@@ -37,7 +34,7 @@ public class AuthoritySubjectHeadingTag
 	/* (non-Javadoc)
 	 * @see TagInterface#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return 4;
 	}
 
@@ -51,14 +48,14 @@ public class AuthoritySubjectHeadingTag
 	/* (non-Javadoc)
 	 * @see SkipInFiling#getSkipInFiling()
 	 */
-	public short getSkipInFiling() {
+	public int getSkipInFiling() {
 		return getDescriptor().getSkipInFiling();
 	}
 
 	/* (non-Javadoc)
 	 * @see SkipInFiling#setSkipInFiling(short)
 	 */
-	public void setSkipInFiling(short i) {
+	public void setSkipInFiling(int i) {
 		getDescriptor().setSkipInFiling(i);
 	}
 

@@ -26,7 +26,7 @@ import org.folio.cataloging.shared.CorrelationValues;
  */
 public class CNTL_NBR extends Descriptor {
 	private static final long serialVersionUID = 1L;
-	private short typeCode;
+	private int typeCode;
 	private ConfigHandler configHandler =ConfigHandler.getInstance();
 	/**
 	 * Class constructor
@@ -125,7 +125,7 @@ public class CNTL_NBR extends Descriptor {
 	/* (non-Javadoc)
 	 * @see librisuite.hibernate.Descriptor#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return 19;
 	}
 
@@ -133,7 +133,7 @@ public class CNTL_NBR extends Descriptor {
 	 * 
 	 * @since 1.0
 	 */
-	public short getTypeCode() {
+	public int getTypeCode() {
 		return typeCode;
 	}
 
@@ -141,7 +141,7 @@ public class CNTL_NBR extends Descriptor {
 	 * 
 	 * @since 1.0
 	 */
-	public void setTypeCode(short s) {
+	public void setTypeCode(int s) {
 		typeCode = s;
 	}
 

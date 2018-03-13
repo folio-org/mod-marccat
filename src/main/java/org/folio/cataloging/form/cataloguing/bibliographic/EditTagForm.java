@@ -8,9 +8,7 @@ import org.folio.cataloging.shared.CorrelationValues;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("unchecked")
-public class EditTagForm extends LibrisuiteForm 
-{
+public class EditTagForm extends LibrisuiteForm  {
 	private static final long serialVersionUID = -8415114598844048640L;
 	private static final Log logger = LogFactory.getLog(EditTagForm.class);
 	
@@ -335,11 +333,7 @@ public class EditTagForm extends LibrisuiteForm
 		fixedCodes.set(i, s);
 	}
 
-	/**
-	 * an Array of correlation values
-	 * Note that array element 0 is not used.
-	 */
-	public short getCorrelation(int i) {
+	public int getCorrelation(int i) {
 		logger.debug("getCorrelation[" + i + "]");
 		return values.getValue(i);
 	}

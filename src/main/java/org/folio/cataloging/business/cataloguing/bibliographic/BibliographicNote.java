@@ -28,7 +28,7 @@ public class BibliographicNote extends VariableField implements PersistentObject
 	 * The content is all or a part of the stringText.toString() result.
 	 */
 	private String content = null;
-	private short noteType;
+	private int noteType;
 	private int noteNbr = -1;
 	private char overflowIndicator = '0';
 	public List overflowList = new ArrayList();
@@ -128,7 +128,7 @@ public class BibliographicNote extends VariableField implements PersistentObject
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return bibliographicNoteCategory;
 	}
 
@@ -143,14 +143,14 @@ public class BibliographicNote extends VariableField implements PersistentObject
 	/**
 	 * 
 	 */
-	public short getNoteType() {
+	public int getNoteType() {
 		return noteType;
 	}
 
 	/**
 	 * 
 	 */
-	public void setNoteType(short s) {
+	public void setNoteType(int s) {
 		noteType = s;
 	}
 

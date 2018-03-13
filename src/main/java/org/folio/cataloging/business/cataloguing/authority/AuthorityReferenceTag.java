@@ -144,7 +144,7 @@ public abstract class AuthorityReferenceTag
 	/* (non-Javadoc)
 	 * @see TagInterface#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		try {
 			return (
 				(AccessPoint) getDescriptor()
@@ -192,7 +192,7 @@ public abstract class AuthorityReferenceTag
 	/* (non-Javadoc)
 	 * @see TagInterface#getDisplayCategory()
 	 */
-	public short getDisplayCategory() {
+	public int getDisplayCategory() {
 		return 16;
 	}
 
@@ -320,7 +320,7 @@ public abstract class AuthorityReferenceTag
 	/* (non-Javadoc)
 	 * @see TagInterface#getSecondCorrelationList(short)
 	 */
-	public List getSecondCorrelationList(short value1)
+	public List getSecondCorrelationList(int value1)
 		throws DataAccessException {
 		if (getRefTypeCorrelationPosition() > 2) {
 			if (getTargetDescriptor() instanceof NME_TTL_HDG) {
@@ -349,7 +349,7 @@ public abstract class AuthorityReferenceTag
 	/* (non-Javadoc)
 	 * @see SkipInFiling#getSkipInFiling()
 	 */
-	public short getSkipInFiling() {
+	public int getSkipInFiling() {
 		if (getDescriptor() instanceof SkipInFiling) {
 			return getDescriptor().getSkipInFiling();
 		} else {
@@ -380,7 +380,7 @@ public abstract class AuthorityReferenceTag
 	/* (non-Javadoc)
 	 * @see TagInterface#getThirdCorrelationList(short, short)
 	 */
-	public List getThirdCorrelationList(short value1, short value2)
+	public List getThirdCorrelationList(int value1, int value2)
 		throws DataAccessException {
 		logger.debug("getThirdCorrelationList("+value1+", " + value2 + ")");
 		if (getRefTypeCorrelationPosition() == 3) {
@@ -633,7 +633,7 @@ public abstract class AuthorityReferenceTag
 	/* (non-Javadoc)
 	 * @see SkipInFiling#setSkipInFiling(short)
 	 */
-	public void setSkipInFiling(short i) {
+	public void setSkipInFiling(int i) {
 		if (getDescriptor() instanceof SkipInFiling) {
 			getDescriptor().setSkipInFiling(i);
 		}

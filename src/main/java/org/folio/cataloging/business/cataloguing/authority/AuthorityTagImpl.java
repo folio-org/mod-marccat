@@ -119,7 +119,7 @@ public class AuthorityTagImpl extends TagImpl {
 	 * 
 	 * @see TagImpl#getValidEditableSubfields(short)
 	 */
-	public Set getValidEditableSubfields(short category) {
+	public Set getValidEditableSubfields(int category) {
 		Set set = new TreeSet(new SubfieldCodeComparator());
 		switch (category) {
 		case 6:
@@ -137,7 +137,7 @@ public class AuthorityTagImpl extends TagImpl {
 
 	@Override
 	public Correlation getCorrelation(String tagNumber, char indicator1,
-			char indicator2, short category) throws DataAccessException {
+			char indicator2, int category) throws DataAccessException {
 		return daoCorrelation.getFirstAuthorityCorrelation(tagNumber, indicator1,
 				indicator2, category);
 	}

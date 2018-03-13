@@ -7,14 +7,14 @@
  */
 package org.folio.cataloging.dao;
 
-import java.util.List;
-
+import net.sf.hibernate.Hibernate;
+import net.sf.hibernate.type.Type;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.persistence.NME_TO_TTL_REF;
 import org.folio.cataloging.dao.persistence.REF;
 import org.folio.cataloging.dao.persistence.ReferenceType;
-import net.sf.hibernate.Hibernate;
-import net.sf.hibernate.type.Type;
+
+import java.util.List;
 
 /**
  * @author paulm
@@ -29,7 +29,7 @@ public class DAONameToTitleReferences extends DAOCrossReferences {
 	public REF loadReciprocal(REF ref, int cataloguingView)
 		throws DataAccessException {
 
-		short reciprocalType = ReferenceType.getReciprocal(ref.getType());
+		int reciprocalType = ReferenceType.getReciprocal(ref.getType());
 
 		REF result = null;
 		String queryString;
@@ -53,15 +53,15 @@ public class DAONameToTitleReferences extends DAOCrossReferences {
 			find(
 				queryString,
 				new Object[] {
-					new Integer(ref.getSource()),
-					new Integer(ref.getTarget()),
-					new Integer(cataloguingView),
-					new Short(reciprocalType)},
+					ref.getSource(),
+					ref.getTarget(),
+					cataloguingView,
+					reciprocalType},
 				new Type[] {
 					Hibernate.INTEGER,
 					Hibernate.INTEGER,
 					Hibernate.INTEGER,
-					Hibernate.SHORT });
+					Hibernate.INTEGER });
 		if (l.size() == 1) {
 			result = (REF) l.get(0);
 		}

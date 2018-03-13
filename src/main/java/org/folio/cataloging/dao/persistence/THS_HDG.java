@@ -22,24 +22,15 @@ import java.io.Serializable;
  */
 public class THS_HDG extends Descriptor implements Serializable, SkipInFiling {
 	private static final long serialVersionUID = 1L;
-	private short skipInFiling;
-	private short typeCode;
-	private short indexingLanguage;
-	
+	private int skipInFiling;
+	private int typeCode;
+	private int indexingLanguage;
 
-	/**
-	 * 
-	 * Class constructor - establishes default values for new subjects
-	 *
-	 * 
-	 * @since 1.0
-	 */
 	public THS_HDG() {
 		super();
 		//setAccessPointLanguage(Defaults.getShort("thesaurus.accessPointLanguage"));
 		  setScriptingLanguage(Defaults.getString("thesaurus.scriptingLanguage"));
 		//setIndexingLanguage(Defaults.getShort("thesaurus.indexingLanguage"));
-//TODO add other defaults
 		//setSkipInFiling(Defaults.getShort("title.skipInFiling"));
 		setTypeCode(Defaults.getShort("thesaurus.typeCode"));
 		setVerificationLevel(Defaults.getChar("thesaurus.verificationLevel"));
@@ -60,7 +51,7 @@ public class THS_HDG extends Descriptor implements Serializable, SkipInFiling {
 	 * 
 	 * @return indexingLanguage
 	 */
-	public short getIndexingLanguage() {
+	public int getIndexingLanguage() {
 		return indexingLanguage;
 	}
 
@@ -69,7 +60,7 @@ public class THS_HDG extends Descriptor implements Serializable, SkipInFiling {
 	 * 
 	 * @return typeCode
 	 */
-	public short getTypeCode() {
+	public int getTypeCode() {
 		return typeCode;
 	}
 
@@ -124,7 +115,7 @@ public class THS_HDG extends Descriptor implements Serializable, SkipInFiling {
 	/**
 	 * 
 	 */
-	public short getSkipInFiling() {
+	public int getSkipInFiling() {
 		return skipInFiling;
 	}
 
@@ -143,7 +134,7 @@ public class THS_HDG extends Descriptor implements Serializable, SkipInFiling {
 	/* (non-Javadoc)
 	 * @see librisuite.hibernate.Descriptor#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return 23;
 	}
 

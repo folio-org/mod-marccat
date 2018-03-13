@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- * 
- * Created on Nov 17, 2005
- * 
- * AuthorityHeadingTag.java
- */
 package org.folio.cataloging.business.cataloguing.authority;
 
 import org.apache.commons.logging.Log;
@@ -27,7 +20,6 @@ import java.util.Set;
 
 /**
  * @author paulm
- * @version $Revision: 1.6 $, $Date: 2006/01/11 13:36:22 $
  * @since 1.0
  */
 public abstract class AuthorityHeadingTag extends VariableField implements
@@ -134,7 +126,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
 	 * 
 	 * @see Tag#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		// TODO Auto-generated method stub
 		return 0;
 	}

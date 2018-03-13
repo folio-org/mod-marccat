@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- * 
- * Created on Oct 25, 2004
- * 
- * VariableHeader.java
- */
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
 import org.folio.cataloging.business.cataloguing.common.ItemEntity;
@@ -22,7 +15,7 @@ public abstract class VariableHeaderUsingItemEntity
 	extends VariableHeader 
 	implements PersistsViaItem {
 
-	private ItemEntity itemEntity = null;
+	private ItemEntity itemEntity;
 
 
 	/**

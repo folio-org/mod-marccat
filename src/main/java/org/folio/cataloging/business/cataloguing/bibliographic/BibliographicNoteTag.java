@@ -213,7 +213,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return bibliographicNoteCategory;
 	}
 
@@ -225,11 +225,11 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
 		return getDaoCodeTable().getCorrelatedList(BibliographicNoteType.class,true," and bc.key.marcSecondIndicator <> '@' and bc.databaseFirstValue = ct.code ");
 	}
 
-	public short getNoteType() {
+	public int getNoteType() {
 		return note.getNoteType();
 	}
 
-	public void setNoteType(short s) {
+	public void setNoteType(int s) {
 		note.setNoteType(s);
 	}
 

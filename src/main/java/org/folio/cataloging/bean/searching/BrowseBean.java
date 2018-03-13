@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- * 
- * Created on Jul 20, 2004
- * 
- * BrowseBean.java
- */
 package org.folio.cataloging.bean.searching;
 
 import org.apache.commons.logging.Log;
@@ -29,14 +22,9 @@ import java.util.*;
 
 /**
  * Manages presentation output for the browse frame
- * 
- * @version %I%, %G%
+ *
  * @since 1.0
  */
-/*TODO when doing a browse with pickHdg, if you then use the "Search" option from the
- * right menu, the method is not reset to editHdg
- */
-@SuppressWarnings("unchecked")
 public class BrowseBean extends SearchBean {
 
 	private static final Log logger = LogFactory.getLog(BrowseBean.class);
@@ -173,7 +161,7 @@ public class BrowseBean extends SearchBean {
 		return catalog.createAuthorityFromHeading(d, getDefaultAuthorityModel());
 	}
 
-	private Object decodeIndexingLanguageCode(short indexingLanguageCode) {
+	private Object decodeIndexingLanguageCode(int indexingLanguageCode) {
 		if(indexingLanguageCode==0) return "";
 		try {
 			DAOCodeTable dao = new DAOCodeTable();
@@ -184,7 +172,7 @@ public class BrowseBean extends SearchBean {
 		
 	}
 
-	private Object decodeLanguageAccessPointCode(short accessPointLanguageCode, Descriptor aDescriptor) {
+	private Object decodeLanguageAccessPointCode(int accessPointLanguageCode, Descriptor aDescriptor) {
 		if(accessPointLanguageCode==0) return "";
 		try {
 			DAOCodeTable dao = new DAOCodeTable();
@@ -308,8 +296,7 @@ public class BrowseBean extends SearchBean {
 		return docCountList;
 	}
 	
-	public Short getEditionNbr(int i)
-	{
+	public Integer getEditionNbr(int i) {
 		if (getBrowseList().size()>0){
 			Descriptor d = (Descriptor) getBrowseList().get(i);
 			return ((CLSTN)d).getDeweyEditionNumber();
@@ -366,7 +353,7 @@ public class BrowseBean extends SearchBean {
 	public List getMadesCountList() {
 		return madesCountList;
 	}
-	public short getMarcCategory() throws DataAccessException{
+	public int getMarcCategory() throws DataAccessException{
 		if (getBrowseList() != null && getBrowseList().size() > 0) {
 			return ((Descriptor) getBrowseList().get(0)).getCategory();
 		} else {

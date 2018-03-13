@@ -96,21 +96,21 @@ public class SubjectHeadingBean extends HeadingBean {
 	/**
 	 * @return
 	 */
-	public short getSkipInFiling() {
+	public int getSkipInFiling() {
 		return subjectHeading.getSkipInFiling();
 	}
 
 	/**
 	 * @return
 	 */
-	public short getSourceCode() {
+	public int getSourceCode() {
 		return subjectHeading.getSourceCode();
 	}
 
 	/**
 	 * @return
 	 */
-	public short getTypeCode() {
+	public int getTypeCode() {
 		return subjectHeading.getTypeCode();
 	}
 
@@ -140,21 +140,21 @@ public class SubjectHeadingBean extends HeadingBean {
 	/**
 	 * @param i
 	 */
-	public void setSkipInFiling(short i) {
+	public void setSkipInFiling(int i) {
 		subjectHeading.setSkipInFiling(i);
 	}
 
 	/**
 	 * @param s
 	 */
-	public void setSourceCode(short s) {
+	public void setSourceCode(int s) {
 		subjectHeading.setSourceCode(s);
 	}
 
 	/**
 	 * @param s
 	 */
-	public void setTypeCode(short s) {
+	public void setTypeCode(int s) {
 		subjectHeading.setTypeCode(s);
 	}
 
@@ -179,9 +179,6 @@ public class SubjectHeadingBean extends HeadingBean {
 		skipInFilingList = list;
 	}
 
-	/**
-	 * @param sbjct_hdg
-	 */
 	protected void setHeading(Descriptor d) {
 		if (!(d instanceof SBJCT_HDG)) throw new IllegalArgumentException("I can only set descriptors of type SBJCT_HDG");
 		subjectHeading = (SBJCT_HDG) d;

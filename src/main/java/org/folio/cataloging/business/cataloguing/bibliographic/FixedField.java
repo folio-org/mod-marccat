@@ -17,21 +17,9 @@ import java.util.List;
 public abstract class FixedField extends Tag implements HeaderField {
 	private HeaderFieldHelper headerField = new BibliographicHeaderFieldHelper();
 
-	/**
-	 * Class constructor
-	 *
-	 * 
-	 * @since 1.0
-	 */
 	public FixedField() {
 	}
 
-	/**
-	 * Class constructor
-	 *
-	 * @param itemNumber
-	 * @since 1.0
-	 */
 	public FixedField(int itemNumber) {
 		super(itemNumber);
 	}
@@ -74,7 +62,7 @@ public abstract class FixedField extends Tag implements HeaderField {
 	 * 
 	 * @since 1.0
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return headerField.getCategory();
 	}
 
@@ -90,7 +78,7 @@ public abstract class FixedField extends Tag implements HeaderField {
 	 * 
 	 * @since 1.0
 	 */
-	public List getSecondCorrelationList(short value1)
+	public List getSecondCorrelationList(int value1)
 		throws DataAccessException {
 		return headerField.getSecondCorrelationList(value1);
 	}
@@ -99,7 +87,7 @@ public abstract class FixedField extends Tag implements HeaderField {
 	 * 
 	 * @since 1.0
 	 */
-	public List getThirdCorrelationList(short value1, short value2)
+	public List getThirdCorrelationList(int value1, int value2)
 		throws DataAccessException {
 		return headerField.getThirdCorrelationList(value1, value2);
 	}
@@ -155,7 +143,7 @@ public abstract class FixedField extends Tag implements HeaderField {
 	 * 
 	 * @since 1.0
 	 */
-	public short getHeaderType() {
+	public int getHeaderType() {
 		return headerField.getHeaderType();
 	}
 
@@ -163,7 +151,7 @@ public abstract class FixedField extends Tag implements HeaderField {
 	 * 
 	 * @since 1.0
 	 */
-	public void setHeaderType(short s) {
+	public void setHeaderType(int s) {
 		headerField.setHeaderType(s);
 	}
 

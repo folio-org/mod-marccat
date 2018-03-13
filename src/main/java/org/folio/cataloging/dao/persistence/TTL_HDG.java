@@ -1,6 +1,3 @@
-/*
- * Created on May 6, 2004
- * */
 package org.folio.cataloging.dao.persistence;
 
 import org.folio.cataloging.business.cataloguing.bibliographic.TitleAccessPoint;
@@ -17,9 +14,9 @@ import org.folio.cataloging.util.StringText;
 import java.io.Serializable;
 
 /**
- * Hibernate class for table TTL_HDG
+ * Hibernate class for table TTL_HDG.
+ *
  * @author paulm
- * @version $Revision: 1.23 $, $Date: 2006/07/12 15:42:56 $
  * @since 1.0
  */
 public class TTL_HDG extends Descriptor implements SkipInFiling, Serializable {
@@ -55,7 +52,7 @@ public class TTL_HDG extends Descriptor implements SkipInFiling, Serializable {
 	 * 
 	 * @return indexingLanguage
 	 */
-	public short getIndexingLanguage() {
+	public int getIndexingLanguage() {
 		return indexingLanguage;
 	}
 
@@ -93,7 +90,7 @@ public class TTL_HDG extends Descriptor implements SkipInFiling, Serializable {
 		}
 	}
 
-	public short getSkipInFiling() {
+	public int getSkipInFiling() {
 		return skipInFiling;
 	}
 
@@ -132,7 +129,7 @@ public class TTL_HDG extends Descriptor implements SkipInFiling, Serializable {
 	/* (non-Javadoc)
 	 * @see librisuite.hibernate.Descriptor#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return 22;
 	}
 

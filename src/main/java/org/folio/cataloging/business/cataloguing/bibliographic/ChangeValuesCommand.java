@@ -216,42 +216,42 @@ public class ChangeValuesCommand implements Command {
 	/**
 	 * 
 	 */
-	public short getNewValue1() {
+	public int getNewValue1() {
 		return newValues.getValue(1);
 	}
 
 	/**
 	 * 
 	 */
-	public short getNewValue2() {
+	public int getNewValue2() {
 		return newValues.getValue(2);
 	}
 
 	/**
 	 * 
 	 */
-	public short getNewValue3() {
+	public int getNewValue3() {
 		return newValues.getValue(3);
 	}
 
 	/**
 	 * 
 	 */
-	public short getOldValue1() {
+	public int getOldValue1() {
 		return oldValues.getValue(1);
 	}
 
 	/**
 	 * 
 	 */
-	public short getOldValue2() {
+	public int getOldValue2() {
 		return oldValues.getValue(2);
 	}
 
 	/**
 	 * 
 	 */
-	public short getOldValue3() {
+	public int getOldValue3() {
 		return oldValues.getValue(3);
 	}
 

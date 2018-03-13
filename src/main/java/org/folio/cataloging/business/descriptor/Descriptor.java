@@ -30,21 +30,21 @@ public abstract class Descriptor implements PersistentObjectWithView
 	private static Log logger = LogFactory.getLog(Descriptor.class);
 	
 	private static final int CROP_LENGTH = Defaults.getInteger("tooltip.max.length");
-	private short accessPointLanguage;
-	private short authorityCount = 0;
-	private short authoritySourceCode = T_AUT_HDG_SRC.SOURCE_NOT_SPECIFIED;
+	private int accessPointLanguage;
+	private int authorityCount = 0;
+	private int authoritySourceCode = T_AUT_HDG_SRC.SOURCE_NOT_SPECIFIED;
 	private String authoritySourceText;
 	private DescriptorKey key;
 	private PersistenceState po = new PersistenceState();
 	private String scriptingLanguage;
 	private String sortForm;
 	private String stringText;
-	private short skipInFiling;
+	private int skipInFiling;
 	private char verificationLevel;
-	private short indexingLanguage = 0;
+	private int indexingLanguage = 0;
 	private ConfigHandler configHandler = ConfigHandler.getInstance();
 	
-	public short getIndexingLanguage() {
+	public int getIndexingLanguage() {
 		return indexingLanguage;
 	}
 
@@ -80,7 +80,7 @@ public abstract class Descriptor implements PersistentObjectWithView
 		return null; // default implementation
 	}
 
-	public short getAccessPointLanguage() {
+	public int getAccessPointLanguage() {
 		return accessPointLanguage;
 	}
 
@@ -96,7 +96,7 @@ public abstract class Descriptor implements PersistentObjectWithView
 	 * 
 	 * @return
 	 */
-	public short getAuthorityCount() {
+	public int getAuthorityCount() {
 		return authorityCount;
 	}
 
@@ -110,7 +110,7 @@ public abstract class Descriptor implements PersistentObjectWithView
 		return getDefaultBrowseKey();
 	}
 
-	public abstract short getCategory();
+	public abstract int getCategory();
 
 	abstract public CorrelationValues getCorrelationValues();
 
@@ -343,7 +343,7 @@ public abstract class Descriptor implements PersistentObjectWithView
 	 * @param s
 	 *            accesPointLanguage
 	 */
-	public void setAccessPointLanguage(short s) {
+	public void setAccessPointLanguage(int s) {
 		accessPointLanguage = s;
 	}
 
@@ -450,11 +450,11 @@ public abstract class Descriptor implements PersistentObjectWithView
 		return false;
 	}
 
-	public short getSkipInFiling() {
+	public int getSkipInFiling() {
 		return skipInFiling;
 	}
 
-	public void setSkipInFiling(short skipInFiling) {
+	public void setSkipInFiling(int skipInFiling) {
 		this.skipInFiling = skipInFiling;
 	}
 
@@ -561,11 +561,11 @@ public abstract class Descriptor implements PersistentObjectWithView
 				.hasMatchingSortformInAnotherView(this);
 	}
 
-	public short getAuthoritySourceCode() {
+	public int getAuthoritySourceCode() {
 		return authoritySourceCode;
 	}
 
-	public void setAuthoritySourceCode(short authoritySourceCode) {
+	public void setAuthoritySourceCode(int authoritySourceCode) {
 		this.authoritySourceCode = authoritySourceCode;
 		if (authoritySourceCode != T_AUT_HDG_SRC.SOURCE_IN_SUBFIELD_2) {
 			setAuthoritySourceText(null);

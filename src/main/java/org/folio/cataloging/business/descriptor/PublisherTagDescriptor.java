@@ -28,7 +28,7 @@ public class PublisherTagDescriptor extends Descriptor
 	}
 
 	//@Override
-	public short getCategory() {
+	public int getCategory() {
 		return 7;
 	}
 

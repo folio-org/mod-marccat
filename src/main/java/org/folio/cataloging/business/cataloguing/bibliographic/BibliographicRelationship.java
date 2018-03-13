@@ -22,14 +22,14 @@ public class BibliographicRelationship extends VariableField implements Persiste
 	private static final Log logger = LogFactory.getLog(BibliographicRelationship.class);
 	private static final short bibliographicRelationshipCategory = 8;
 	private int targetBibItemNumber;
-	private short relationTypeCode;
-	private short relationPrintNoteCode;	
+	private int relationTypeCode;
+	private int relationPrintNoteCode;
 	private String description = null;
 	private String qualifyingDescription = null;	
 	private StringText stringText = null;
 	private String stringTextString = null;
 	private String materialSpecificText = null;	
-	private short reciprocalType;	 
+	private int reciprocalType;
 	private UserViewHelper userViewHelper = new UserViewHelper();
 	
 	public BibliographicRelationship() {
@@ -85,14 +85,14 @@ public class BibliographicRelationship extends VariableField implements Persiste
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return bibliographicRelationshipCategory;
 	}
 	
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#getCorrelation(int)
 	 */
-	public short getCorrelation(int i) 
+	public int getCorrelation(int i)
 	{
 		switch (i) {
 			case 1 :
@@ -133,7 +133,7 @@ public class BibliographicRelationship extends VariableField implements Persiste
 		return getDaoCodeTable().getList(BibliographicRelationReciprocal.class,true);
 	}
 
-	public short getReciprocalOption() throws DataAccessException 
+	public int getReciprocalOption() throws DataAccessException
 	{
 		if (getReciprocalType() == -1)
 		{
@@ -154,11 +154,11 @@ public class BibliographicRelationship extends VariableField implements Persiste
 		}
 	}
 
-	public short getReciprocalType() {
+	public int getReciprocalType() {
 		return reciprocalType;
 	}
 
-	public short getRelationPrintNoteCode() {
+	public int getRelationPrintNoteCode() {
 		return relationPrintNoteCode;
 	}
 
@@ -177,7 +177,7 @@ public class BibliographicRelationship extends VariableField implements Persiste
 		return text;
 	}
 
-	public short getRelationTypeCode() {
+	public int getRelationTypeCode() {
 		return relationTypeCode;
 	}
 		
@@ -201,7 +201,7 @@ public class BibliographicRelationship extends VariableField implements Persiste
 		return targetBibItemNumber;
 	}
 		
-	public List getThirdCorrelationList(short value1, short value2)
+	public List getThirdCorrelationList(int value1, int value2)
 		throws DataAccessException {
 		return null;
 	}
@@ -245,15 +245,15 @@ public class BibliographicRelationship extends VariableField implements Persiste
 		qualifyingDescription = text;
 	}
 	
-	public void setReciprocalOption(short s){
+	public void setReciprocalOption(int s){
 		setReciprocalType(s);
 	}
 
-	public void setReciprocalType(short s) {
+	public void setReciprocalType(int s) {
 		reciprocalType = s;
 	}
 
-	public void setRelationPrintNoteCode(short i) {
+	public void setRelationPrintNoteCode(int i) {
 		relationPrintNoteCode = i;
 	}
 
@@ -273,7 +273,7 @@ public class BibliographicRelationship extends VariableField implements Persiste
 		setQualifyingDescription(text.getSubfieldsWithCodes("c").toString());			 
 	}
 		
-	public void setRelationTypeCode(short i) {
+	public void setRelationTypeCode(int i) {
 		relationTypeCode = i;
 	}
 

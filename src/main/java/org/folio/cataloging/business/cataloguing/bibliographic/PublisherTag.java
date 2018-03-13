@@ -57,7 +57,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 	 * noteType is used only for the edit page correlation to allow for the possibility
 	 * that a publisher tag can be changed to another note type.
 	 */
-	private short noteType = 24;
+	private int noteType = 24;
 
 	/**
 	 * Class constructor
@@ -209,7 +209,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return 7;
 	}
 

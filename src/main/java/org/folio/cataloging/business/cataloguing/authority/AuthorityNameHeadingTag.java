@@ -26,7 +26,6 @@ public class AuthorityNameHeadingTag extends AuthorityHeadingTag {
 	/**
 	 * Class constructor
 	 *
-	 * @param d
 	 * @since 1.0
 	 */
 	public AuthorityNameHeadingTag() {
@@ -36,7 +35,7 @@ public class AuthorityNameHeadingTag extends AuthorityHeadingTag {
 	/* (non-Javadoc)
 	 * @see TagInterface#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return 2;
 	}
 

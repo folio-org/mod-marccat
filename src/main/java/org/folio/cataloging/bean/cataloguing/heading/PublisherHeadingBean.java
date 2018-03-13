@@ -3,18 +3,17 @@
  */
 package org.folio.cataloging.bean.cataloguing.heading;
 
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.DAOCodeTable;
+import org.folio.cataloging.dao.persistence.PUBL_HDG;
+import org.folio.cataloging.dao.persistence.T_LANG_OF_IDXG;
+import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.util.StringText;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import org.folio.cataloging.dao.DAOCodeTable;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.descriptor.Descriptor;
-import org.folio.cataloging.dao.persistence.PUBL_HDG;
-import org.folio.cataloging.dao.persistence.T_LANG_OF_IDXG;
-
-import org.folio.cataloging.util.StringText;
-import org.folio.cataloging.model.Subfield;
 
 /**
  * Class comment
@@ -103,7 +102,7 @@ public class PublisherHeadingBean extends HeadingBean {
 	/**
 	 * @return
 	 */
-	public short getLanguageOfIndexing() {
+	public int getLanguageOfIndexing() {
 		return publisherHeading.getIndexingLanguage();
 	}
 
@@ -111,7 +110,7 @@ public class PublisherHeadingBean extends HeadingBean {
 	/**
 	 * @param s
 	 */
-	public void setLanguageOfIndexing(short s) {
+	public void setLanguageOfIndexing(int s) {
 		publisherHeading.setIndexingLanguage(s);
 	}
 
@@ -119,12 +118,12 @@ public class PublisherHeadingBean extends HeadingBean {
 	/* (non-Javadoc)
 	 * @see HeadingBean#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return 7;
 	}
 
 	@Override
-	public void setSkipInFiling(short s) {
+	public void setSkipInFiling(int s) {
 		// TODO Auto-generated method stub
 		
 	}

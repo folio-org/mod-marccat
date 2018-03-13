@@ -26,16 +26,16 @@ public class DAOAuthorityValidation extends DAOValidation {
 
 	private static final Log logger = LogFactory.getLog(DAOAuthorityValidation.class);
 
-	public Validation load(String tag, String headingType, short category)
+	public Validation load(String tag, String headingType, int category)
 		throws DataAccessException {
 			List l = find("from AuthorityValidation as v, " +
 				" where v.key.marcTagCategoryCode = ? " +
 				" and v.key.marcTag = ? " +
 				" and v.key.headingType = ? ",
-				new Object[] { new Short(category), 
+				new Object[] { category,
 					tag,
 					headingType},
-				new Type[] { Hibernate.SHORT,
+				new Type[] { Hibernate.INTEGER,
 					Hibernate.STRING,
 					Hibernate.STRING}
 					);

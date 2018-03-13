@@ -55,8 +55,8 @@ public class AuthorityControlNumberAccessPoint extends AuthorityAccessPoint {
 	/* (non-Javadoc)
 	 * @see TagInterface#getCategory()
 	 */
-	public short getCategory() {
-		return (short)5;
+	public int getCategory() {
+		return 5;
 	}
 
 	/* (non-Javadoc)

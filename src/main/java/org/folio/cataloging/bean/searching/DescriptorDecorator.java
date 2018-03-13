@@ -70,7 +70,7 @@ public class DescriptorDecorator
 		return concreteDescriptor.getAccessPointClass();
 	}
 
-	public short getAccessPointLanguageCode() {
+	public int getAccessPointLanguageCode() {
 		return concreteDescriptor.getAccessPointLanguage();
 	}
 
@@ -78,7 +78,7 @@ public class DescriptorDecorator
 		return concreteDescriptor.getAuthoritiesQueryString(locale);
 	}
 
-	public short getAuthorityCount() {
+	public int getAuthorityCount() {
 		return concreteDescriptor.getAuthorityCount();
 	}
 
@@ -86,7 +86,7 @@ public class DescriptorDecorator
 		return concreteDescriptor.getBrowseKey();
 	}
 
-	public short getCategory() {
+	public int getCategory() {
 		return concreteDescriptor.getCategory();
 	}
 
@@ -138,11 +138,11 @@ public class DescriptorDecorator
 		return concreteDescriptor.getScriptingLanguage();
 	}
 	
-	public short getIndexingLanguageCode(){
+	public int getIndexingLanguageCode(){
 		return concreteDescriptor.getIndexingLanguage();
 	}
 
-	public short getSkipInFiling() {
+	public int getSkipInFiling() {
 		return concreteDescriptor.getSkipInFiling();
 	}
 

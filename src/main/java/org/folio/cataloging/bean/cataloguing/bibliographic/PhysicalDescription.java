@@ -1,10 +1,4 @@
-/*
- * (c) LibriCore
- * 
- * Created on Oct 18, 2004
- * 
- * PhysicalDescription.java
- */
+
 package org.folio.cataloging.bean.cataloguing.bibliographic;
 
 import org.folio.cataloging.business.cataloguing.bibliographic.FixedField;
@@ -16,24 +10,14 @@ import org.folio.cataloging.shared.CorrelationValues;
 
 /**
  * @author paulm
- * @version $Revision: 1.8 $, $Date: 2006/07/11 08:01:05 $
  * @since 1.0
  */
-public abstract class PhysicalDescription
-	extends FixedField
-	implements PersistentObjectWithView {
+public abstract class PhysicalDescription extends FixedField implements PersistentObjectWithView {
 	private char generalMaterialDesignationCode;
 	private int keyNumber;
 	private UserViewHelper userViewHelper = new UserViewHelper();
 
-	/**
-	 * Class constructor
-	 *
-	 * 
-	 * @since 1.0
-	 */
 	public PhysicalDescription() {
-		super();
 		setPersistenceState(new PersistenceState());
 	}
 

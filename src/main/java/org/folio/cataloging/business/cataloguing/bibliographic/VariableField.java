@@ -7,15 +7,13 @@
  */
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
-import java.util.List;
-
 import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.common.DataAccessException;
-
+import org.folio.cataloging.util.StringText;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import org.folio.cataloging.util.StringText;
+import java.util.List;
 
 /**
  * @author paulm
@@ -55,7 +53,7 @@ public abstract class VariableField extends Tag  {
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#getSecondCorrelationList(short)
 	 */
-	public List getSecondCorrelationList(short value1)
+	public List getSecondCorrelationList(int value1)
 		throws DataAccessException {
 		// TODO Auto-generated method stub
 		return null;
@@ -64,7 +62,7 @@ public abstract class VariableField extends Tag  {
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#getThirdCorrelationList(short, short)
 	 */
-	public List getThirdCorrelationList(short value1, short value2)
+	public List getThirdCorrelationList(int value1, int value2)
 		throws DataAccessException {
 		// TODO Auto-generated method stub
 		return null;

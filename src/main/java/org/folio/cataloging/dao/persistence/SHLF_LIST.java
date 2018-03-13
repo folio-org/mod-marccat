@@ -107,8 +107,7 @@ public class SHLF_LIST extends Descriptor implements Serializable {
 	/* (non-Javadoc)
 	 * @see librisuite.hibernate.Descriptor#getCategory()
 	 */
-	public short getCategory() {
-		// TODO 14 is 852 -- somewhat misleading
+	public int getCategory() {
 		return 14;
 	}
 

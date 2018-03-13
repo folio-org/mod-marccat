@@ -109,7 +109,7 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 	public Correlation getBibliographicCorrelation( String tag,
 													char firstIndicator,
 													char secondIndicator,
-													short categoryCode) throws DataAccessException {
+													int categoryCode) throws DataAccessException {
 		List l=null;
 		if(categoryCode!=0){
 			l =
@@ -122,15 +122,15 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 									+ "bc.key.marcSecondIndicator <> '@' and "
 									+ "bc.key.marcTagCategoryCode = ?",
 							new Object[] {
-									new String(tag),
-									new Character(firstIndicator),
-									new Character(secondIndicator),
-									new Short(categoryCode)},
+									tag,
+									firstIndicator,
+									secondIndicator,
+									categoryCode},
 							new Type[] {
 									Hibernate.STRING,
 									Hibernate.CHARACTER,
 									Hibernate.CHARACTER,
-									Hibernate.SHORT });
+									Hibernate.INTEGER });
 		}
 		else {
 			l =
@@ -171,10 +171,10 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 	 *
 	 */
 	public CorrelationKey getMarcEncoding(
-		short category,
-		short value1,
-		short value2,
-		short value3)
+			int category,
+			int value1,
+			int value2,
+			int value3)
 		throws DataAccessException {
 
 		List l =
@@ -185,15 +185,15 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 					+ "bc.databaseSecondValue = ? and "
 					+ "bc.databaseThirdValue = ?",
 				new Object[] {
-					new Short(category),
-					new Short(value1),
-					new Short(value2),
-					new Short(value3)},
+					category,
+					value1,
+					value2,
+					value3},
 				new Type[] {
-					Hibernate.SHORT,
-					Hibernate.SHORT,
-					Hibernate.SHORT,
-					Hibernate.SHORT });
+					Hibernate.INTEGER,
+					Hibernate.INTEGER,
+					Hibernate.INTEGER,
+					Hibernate.INTEGER});
 
 		if (l.size() == 1) {
 			return ((Correlation) l.get(0)).getKey();
@@ -203,7 +203,7 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 	}
 
 	@Deprecated
-	public List getSecondCorrelationList(short category,short value1,Class codeTable) throws DataAccessException
+	public List getSecondCorrelationList(int category, int value1,Class codeTable) throws DataAccessException
 	{
 		return find("Select distinct ct from "
 					+ codeTable.getName()
@@ -214,8 +214,8 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 					+ " bc.databaseFirstValue = ? and "
 					+ " bc.databaseSecondValue = ct.code and  "
 					+ "ct.obsoleteIndicator = '0'  order by ct.sequence ",
-				new Object[] { new Short(category), new Short(value1)},
-				new Type[] { Hibernate.SHORT, Hibernate.SHORT});
+				new Object[] { category, value1},
+				new Type[] { Hibernate.INTEGER, Hibernate.INTEGER});
 	}
 
 	/**
@@ -276,7 +276,7 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 		+ " AND AA.TBL_VLU_OBSLT_IND = 0"  
 		+ " ORDER BY AA.TBL_SEQ_NBR";
 
-	public List<ClassificationFunction> getClassificationTagLabels(short category, short value1) throws DataAccessException
+	public List<ClassificationFunction> getClassificationTagLabels(int category, int value1) throws DataAccessException
 	{
 		Connection connection = null;
 		PreparedStatement stmt = null;
@@ -317,9 +317,9 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 
 	@Deprecated
 	public List getThirdCorrelationList(
-			short category,
-			short value1,
-			short value2,
+			int category,
+			int value1,
+			int value2,
 			Class codeTable)
 			throws DataAccessException {
 			
@@ -335,10 +335,10 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 					+ " bc.databaseThirdValue = ct.code and "
 					+ " ct.obsoleteIndicator = 0  order by ct.sequence ",
 				new Object[] {
-					new Short(category),
-					new Short(value1),
-					new Short(value2)},
-				new Type[] { Hibernate.SHORT, Hibernate.SHORT, Hibernate.SHORT });
+					category,
+					value1,
+					value2},
+				new Type[] { Hibernate.INTEGER, Hibernate.INTEGER, Hibernate.INTEGER});
 	}
 
 	/**
@@ -386,10 +386,10 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 		}
 	}
 
-	public short getFirstAllowedValue2(
-			short category,
-			short value1,
-			short value3)
+	public int getFirstAllowedValue2(
+			int category,
+			int value1,
+			int value3)
 			throws DataAccessException {
 
 			List l = find(
@@ -400,10 +400,10 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 					+ " bc.databaseFirstValue = ? and "
 					+ " bc.databaseThirdValue = ? ",
 				new Object[] {
-					new Short(category),
-					new Short(value1),
-					new Short(value3)},
-				new Type[] { Hibernate.SHORT, Hibernate.SHORT, Hibernate.SHORT });
+					category,
+					value1,
+					value3},
+				new Type[] { Hibernate.INTEGER, Hibernate.INTEGER, Hibernate.INTEGER});
 			
 			if (l.size() > 0) {
 				return ((BibliographicCorrelation)l.get(0)).getDatabaseSecondValue();
@@ -413,13 +413,13 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 			}
 		}
 
-	public String getClassificationIndexByShelfType(short shelfType) throws DataAccessException 
+	public String getClassificationIndexByShelfType(int shelfType) throws DataAccessException
 	{
 		List l = find("from BibliographicCorrelation as bc "
 					+ " where bc.key.marcTagCategoryCode = 13 and "
 					+ " bc.databaseFirstValue = ? ",
-				new Object[] { new Short(shelfType)},
-				new Type[] { Hibernate.SHORT });
+				new Object[] { shelfType},
+				new Type[] { Hibernate.INTEGER});
 		if (l.size() == 1) {
 			String s = ((Correlation) l.get(0)).getSearchIndexTypeCode();
 			return new DAOIndexList().getIndexByEnglishAbreviation(s);
@@ -442,8 +442,8 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 			"from BibliographicCorrelation as bc "
 				+ " where bc.searchIndexTypeCode = ?" 
 				+" or bc.searchIndexTypeCode = ?" ,
-	new Object[] { new String(selectedIndex.substring(0, 2)),
-				new String(selectedIndex.substring(0, 2).toLowerCase())},
+	new Object[] { selectedIndex.substring(0, 2),
+				selectedIndex.substring(0, 2).toLowerCase()},
 	new Type[] { Hibernate.STRING,  Hibernate.STRING});
 	
 	if(l.size()>0)

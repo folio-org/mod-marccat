@@ -27,7 +27,6 @@ public class AuthorityTitleHeadingTag
 	/**
 	 * Class constructor
 	 *
-	 * @param d
 	 * @since 1.0
 	 */
 	public AuthorityTitleHeadingTag() {
@@ -37,21 +36,21 @@ public class AuthorityTitleHeadingTag
 	/* (non-Javadoc)
 	 * @see TagInterface#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return 3;
 	}
 
 	/* (non-Javadoc)
 	 * @see SkipInFiling#getSkipInFiling()
 	 */
-	public short getSkipInFiling() {
+	public int getSkipInFiling() {
 		return getDescriptor().getSkipInFiling();
 	}
 
 	/* (non-Javadoc)
 	 * @see SkipInFiling#setSkipInFiling(short)
 	 */
-	public void setSkipInFiling(short i) {
+	public void setSkipInFiling(int i) {
 		getDescriptor().setSkipInFiling(i);
 	}
 	/* (non-Javadoc)

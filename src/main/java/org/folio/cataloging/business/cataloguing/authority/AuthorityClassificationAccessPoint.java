@@ -70,7 +70,7 @@ public class AuthorityClassificationAccessPoint extends AuthorityAccessPoint {
 	/* (non-Javadoc)
 	 * @see TagInterface#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return (short) 6;
 	}
 

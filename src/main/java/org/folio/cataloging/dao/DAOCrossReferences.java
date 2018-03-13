@@ -1,30 +1,21 @@
-/*
- * (c) LibriCore
- * 
- * Created on Jun 21, 2004
- * 
- * CrossReferences.java
- */
 package org.folio.cataloging.dao;
 
-import java.util.List;
-
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Persistence;
-import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.business.descriptor.Descriptor;
-import org.folio.cataloging.dao.persistence.REF;
-import org.folio.cataloging.dao.persistence.ReferenceType;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.Persistence;
+import org.folio.cataloging.business.common.View;
+import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
+import org.folio.cataloging.dao.persistence.REF;
+import org.folio.cataloging.dao.persistence.ReferenceType;
+
+import java.util.List;
 
 /**
  * Abstract class representing the Cross References for a single heading
@@ -69,7 +60,7 @@ public class DAOCrossReferences extends HibernateUtil {
 	public REF loadReciprocal(REF ref, int cataloguingView)
 		throws DataAccessException {
 
-		short reciprocalType =
+		int reciprocalType =
 			ReferenceType.getReciprocal(ref.getType());
 
 		REF result = null;
@@ -84,15 +75,15 @@ public class DAOCrossReferences extends HibernateUtil {
 					+ " substr(ref.key.userViewString, ?, 1) = '1' AND "
 					+ " ref.key.type = ?",
 				new Object[] {
-					new Integer(ref.getSource()),
-					new Integer(ref.getTarget()),
-					new Integer(cataloguingView),
-					new Short(reciprocalType)},
+					ref.getSource(),
+					ref.getTarget(),
+					cataloguingView,
+					reciprocalType},
 				new Type[] {
 					Hibernate.INTEGER,
 					Hibernate.INTEGER,
 					Hibernate.INTEGER,
-					Hibernate.SHORT });
+					Hibernate.INTEGER });
 		if (l.size() == 1) {
 			result = (REF) l.get(0);
 		}

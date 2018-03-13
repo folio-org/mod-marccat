@@ -45,9 +45,9 @@ public abstract class HeadingBean extends LibrisuiteBean {
 	private boolean newHeading;
 	private String newShelfList;
 	private Locale locale;
-	/* Bug 5424 */
+
 	private boolean isAbleUri = false;
-	public abstract void setSkipInFiling(short s);
+	public abstract void setSkipInFiling(int s);
 
 	public boolean isAbleUri() {
 		return isAbleUri;
@@ -88,11 +88,11 @@ public abstract class HeadingBean extends LibrisuiteBean {
 	 * 
 	 * @return
 	 */
-	public short getAuthoritySourceCode() {
+	public int getAuthoritySourceCode() {
 		return getHeading().getAuthoritySourceCode();
 	}
 
-	public void setAuthoritySourceCode(short s) {
+	public void setAuthoritySourceCode(int s) {
 		getHeading().setAuthoritySourceCode(s);
 	}
 
@@ -169,11 +169,11 @@ public abstract class HeadingBean extends LibrisuiteBean {
 		verificationLevelList = list;
 	}
 
-	public short getLanguageOfAccessPoint() {
+	public int getLanguageOfAccessPoint() {
 		return getHeading().getAccessPointLanguage();
 	}
 
-	public void setLanguageOfAccessPoint(short s) {
+	public void setLanguageOfAccessPoint(int s) {
 		getHeading().setAccessPointLanguage(s);
 	}
 
@@ -189,11 +189,11 @@ public abstract class HeadingBean extends LibrisuiteBean {
 	// list
 	// probably easiest (best?) to drop category from the page
 
-	public short getCategory() {
+	public int getCategory() {
 		return getHeading().getCategory();
 	}
 
-	public void setCategory(short s) {
+	public void setCategory(int s) {
 	}
 
 	public int getHeadingNumber() {
@@ -380,7 +380,7 @@ public abstract class HeadingBean extends LibrisuiteBean {
 	}
 
 	public void setTypeValues(CorrelationValues correlationValues,
-			short category) {
+							  int category) {
 		// TODO Override this method
 
 	}

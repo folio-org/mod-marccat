@@ -20,45 +20,42 @@ import org.folio.rest.jaxrs.model.VariableField;
 import org.folio.rest.jaxrs.resource.CatalogingFieldsResource;
 
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
+import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.toList;
 import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
 /**
  * FieldsAPI RestFul service
  * to manage fields (tag)
+ *
+ * @author nbianchini
+ * @since 1.0
  */
 public class FieldsAPI implements CatalogingFieldsResource {
 
     protected final Log logger = new Log(FieldsAPI.class);
 
-    @Override
     /**
-     * Gets the mandatory fields to create new Model
+     * Gets the mandatory fields to create a new field.
      */
+    @Override
     public void getCatalogingFieldsBibliographicMandatory(final String lang,
                                                           final Map<String, String> okapiHeaders,
                                                           final Handler<AsyncResult<Response>> asyncResultHandler,
                                                           final Context vertxContext) throws Exception {
-
         doGet((storageService, future) -> {
             try {
                 final Map<String, String> configuration = getConfigurationValues(vertxContext);
-
-                final List<Field> fields = new ArrayList<>();
-                fields.add(createRequiredLeaderField(configuration, storageService, lang));
-                fields.add(createControlNumberField(configuration, storageService, lang));
-                fields.add(createRequiredMaterialDescriptionField(configuration, storageService, lang));
-                fields.add(createCatalogingSourceField(configuration, storageService, lang));
-
                 final FieldCollection container = new FieldCollection();
-                container.setFields(fields);
-
+                container.setFields(
+                        asList(createRequiredLeaderField(configuration, storageService, lang),
+                                createControlNumberField(configuration, storageService, lang),
+                                createRequiredMaterialDescriptionField(configuration, storageService, lang),
+                                createCatalogingSourceField(configuration, storageService, lang)));
                 return container;
             } catch (final Exception exception) {
                 logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
@@ -68,25 +65,27 @@ public class FieldsAPI implements CatalogingFieldsResource {
     }
 
     /**
-     * create cataloging source field (040 tag)
-     * using default value from configuration module
+     * Creates a cataloging source field (tag 040) using default values.
      *
      * @param configuration the configuration parameters
-     * @param storageService
-     * @param lang
-     * @return
+     * @param storageService the storage service.
+     * @param lang the lang code.
+     * @return a new 040 {@link Field} entity populated with default values.
      */
     private Field createCatalogingSourceField(final Map<String, String> configuration, final StorageService storageService, final String lang) {
-
-        //create a correlation for field: in case of 040 tag,  the first value header type code corresponds to heading type code
-        //the others are undefined value
-        final CorrelationValues correlationValues = new CorrelationValues((short) Global.CATALOGING_SOURCE_HEADER_TYPE,
-                Global.CORRELATION_UNDEFINED, Global.CORRELATION_UNDEFINED);
+        final CorrelationValues correlationValues =
+                new CorrelationValues(
+                        (short) Global.CATALOGING_SOURCE_HEADER_TYPE,
+                        Global.CORRELATION_UNDEFINED,
+                        Global.CORRELATION_UNDEFINED);
 
         final String description = getDescriptionFixedField(storageService, lang, Global.CATALOGING_SOURCE_HEADER_TYPE);
-        final Validation validation = storageService.getSubfieldsByCorrelations(Integer.toString(Global.INT_CATEGORY),
-                correlationValues.getValue(1),
-                correlationValues.getValue(2), correlationValues.getValue(3));
+        final Validation validation =
+                storageService.getSubfieldsByCorrelations(
+                        Integer.toString(Global.INT_CATEGORY),
+                        correlationValues.getValue(1),
+                        correlationValues.getValue(2),
+                        correlationValues.getValue(3));
 
         final VariableField catalogingSourceField = new VariableField();
 
@@ -94,8 +93,7 @@ public class FieldsAPI implements CatalogingFieldsResource {
         catalogingSourceField.setCategoryCode(Global.INT_CATEGORY);
         catalogingSourceField.setCode(Global.CATALOGING_SOURCE_TAG_NUMBER);
         catalogingSourceField.setHeadingTypeCode(Integer.toString(Global.CATALOGING_SOURCE_HEADER_TYPE));
-        catalogingSourceField.setSubfields(stream(validation.getMarcValidSubfieldStringCode().split(""))
-                .collect(Collectors.toList()));
+        catalogingSourceField.setSubfields(stream(validation.getMarcValidSubfieldStringCode().split("")).collect(toList()));
         catalogingSourceField.setDefaultSubfieldCode(String.valueOf(validation.getMarcTagDefaultSubfieldCode()));
 
         catalogingSourceField.setValue(configuration.get("bibliographicItem.cataloguingSourceStringText"));
@@ -141,8 +139,7 @@ public class FieldsAPI implements CatalogingFieldsResource {
      * @param code1 the first correlation or header type code selected.
      * @return string description.
      */
-    private String getDescriptionFixedField(final StorageService storageService, final String lang, final int code1)
-    {
+    private String getDescriptionFixedField(final StorageService storageService, final String lang, final int code1)  {
         return storageService.getHeadingTypeDescription( (short)code1, lang, T_BIB_HDR.class);
     }
 

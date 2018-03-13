@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- * 
- * Created on Jan 6, 2006
- * 
- * SeeReferenceTag.java
- */
 package org.folio.cataloging.business.cataloguing.authority;
 
 import org.apache.commons.logging.Log;
@@ -14,7 +7,6 @@ import org.folio.cataloging.shared.CorrelationValues;
 
 /**
  * @author paulm
- * @version $Revision: 1.1 $, $Date: 2006/01/11 13:36:22 $
  * @since 1.0
  */
 public class SeeReferenceTag extends SeeSeeAlsoReference {

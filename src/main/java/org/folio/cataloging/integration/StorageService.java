@@ -567,9 +567,9 @@ public class StorageService implements Closeable {
      * @return Validation object containing subfield list.
      */
     public Validation getSubfieldsByCorrelations(final String marcCategory,
-                                                 final short code1,
-                                                 final short code2,
-                                                 final short code3) throws DataAccessException {
+                                                 final int code1,
+                                                 final int code2,
+                                                 final int code3) throws DataAccessException {
         final DAOBibliographicValidation daoBibliographicValidation = new DAOBibliographicValidation();
         try
         {
