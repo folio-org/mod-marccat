@@ -20,6 +20,7 @@ import java.util.*;
  *
  * @author paulm
  * @author agazzarini
+ * @author natasciab
  * @since 1.0
  */
 // TODO: clean up (lot of unused fields)
@@ -146,6 +147,7 @@ public abstract class Global  {
 	public final static String FORM_OF_MATERIAL_LABEL = "FORM_OF_MATERIAL";
 	public final static String MATERIAL_TAG_CODE = "008";
 	public final static String OTHER_MATERIAL_TAG_CODE = "006";
+	public final static String PHYSICAL_DESCRIPTION_TAG_CODE = "007";
 
 	public final static Map<String,Integer> headingTypeMap = new HashMap<String, Integer>()
 	{

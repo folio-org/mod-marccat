@@ -29,6 +29,7 @@ import static org.folio.cataloging.F.locale;
  *
  * @author agazzarini
  * @author carment
+ * @author natasciab
  * @since 1.0
  */
 public class StorageService implements Closeable {
@@ -655,15 +656,15 @@ public class StorageService implements Closeable {
      * @return a map with RecordTypeMaterial info.
      * @throws DataAccessException in case of data access failure.
      */
-    public Map<String, String> getMaterialTypeInfosByLeaderValues(final char recordTypeCode, final char bibligraphicLevel, final String code)  throws DataAccessException {
+    public Map<String, Object> getMaterialTypeInfosByLeaderValues(final char recordTypeCode, final char bibligraphicLevel, final String code)  throws DataAccessException {
 
-        Map<String, String> mapRecordTypeMaterial = null;
+        Map<String, Object> mapRecordTypeMaterial = null;
         final DAORecordTypeMaterial dao = new DAORecordTypeMaterial();
 
         try {
             mapRecordTypeMaterial = new HashMap<>();
             RecordTypeMaterial rtm = dao.getMaterialHeaderCode(session, recordTypeCode, bibligraphicLevel);
-            mapRecordTypeMaterial.put(Global.HEADER_TYPE_LABEL, (code.equals(Global.MATERIAL_TAG_CODE) ? Short.toString(rtm.getBibHeader008()) : Short.toString(rtm.getBibHeader006())));
+            mapRecordTypeMaterial.put(Global.HEADER_TYPE_LABEL, (code.equals(Global.MATERIAL_TAG_CODE) ? rtm.getBibHeader008() : rtm.getBibHeader006()));
             mapRecordTypeMaterial.put(Global.FORM_OF_MATERIAL_LABEL, rtm.getAmicusMaterialTypeCode());
 
             return mapRecordTypeMaterial;
@@ -682,7 +683,7 @@ public class StorageService implements Closeable {
      * @return a string representing form of material.
      * @throws DataAccessException in case of data access failure.
      */
-    public String getFormOfMaterialByHeaderCode(final short headerCode, final String code) throws DataAccessException {
+    public String getFormOfMaterialByHeaderCode(final int headerCode, final String code) throws DataAccessException {
         final DAORecordTypeMaterial dao = new DAORecordTypeMaterial();
         try {
             RecordTypeMaterial rtm = dao.getDefaultTypeByHeaderCode(session, headerCode, code);

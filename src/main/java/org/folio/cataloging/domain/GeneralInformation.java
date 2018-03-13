@@ -1,9 +1,10 @@
 package org.folio.cataloging.domain;
 
 /**
- * Class related to 008 - Fixed-Length Data Elements
- * Contains only methods of logic to create tag 008
- * default value.
+ * Class related to:
+ * 008 - Fixed-Length Data Elements
+ * 006 - Fixed-Length Data Elements-Additional Material Characteristics
+ * Contains only methods of logic to create tag 008 and 006 default values.
  */
 
 import org.apache.commons.lang.StringUtils;
@@ -18,7 +19,7 @@ import static java.util.stream.Collectors.joining;
 public class GeneralInformation
 {
 
-	private short headerType;
+	private int headerType;
 	private String enteredOnFileDateYYMMDD;
 	private String itemDateTypeCode;
 	private String itemDateFirstPublication;
@@ -143,9 +144,7 @@ public class GeneralInformation
 	 * @param configuration the map that contains configuration values to set.
 	 *
 	 */
-	public void setDefaultValuesForBook(final Map<String, String> configuration){
-
-		setDefaultValues(configuration);
+	private void setDefaultValuesForBook(final Map<String, String> configuration){
 
 		setBookIllustrationCode(configuration.get("material.bookIllustrationCode"));
 		setTargetAudienceCode(configuration.get("material.targetAudienceCode"));
@@ -172,35 +171,44 @@ public class GeneralInformation
         setItemDateFirstPublication(Global.itemDateFirstPublication);
         setItemDateLastPublication(Global.itemDateLastPublication);
         setMarcCountryCode(configuration.get("bibliographicItem.marcCountryCode"));
+
+        if (isBook())
+        	setDefaultValuesForBook(configuration);
+        else if (isComputerFile())
+        	setDefaultValuesForComputerFile(configuration);
+        else if (isMap())
+        	setDefaultValuesForCartographic(configuration);
+        else if (isMusic())
+        	setDefaultValuesForMusic(configuration);
+        else if (isSerial())
+        	setDefaultValuesForSerial(configuration);
+        else if (isVisualMaterial())
+        	setDefaultValuesForVisualMaterial(configuration);
+
+
     }
 
-    public void setDefaultValuesForCartographic(final Map<String, String> configuration) {
-        setDefaultValues(configuration);
+    private void setDefaultValuesForCartographic(final Map<String, String> configuration) {
         setCartographicReliefCode(configuration.get("material.cartographicReliefCode"));
         setCartographicProjectionCode(configuration.get("material.cartographicProjectionCode"));
         setCartographicMaterial(configuration.get("material.cartographicMaterial"));
         setCartographicFormatCode(configuration.get("material.cartographicFormatCode"));
     }
 
-    public void setDefaultValuesForComputerFile(final Map<String, String> configuration) {
-        setDefaultValues(configuration);
+    private void setDefaultValuesForComputerFile(final Map<String, String> configuration) {
         setComputerTargetAudienceCode(configuration.get("material.targetAudienceCode"));
         setComputerFileTypeCode(configuration.get("material.computerFileTypeCode"));
         setComputerFileFormCode(configuration.get("material.computerFileFormCode"));
     }
 
-    public void setDefaultValuesForVisualMaterial(final Map<String, String> configuration) {
-        setDefaultValues(configuration);
-
+    private void setDefaultValuesForVisualMaterial(final Map<String, String> configuration) {
         setVisualRunningTime(configuration.get("material.visualRunningTime"));
         setVisualTargetAudienceCode(configuration.get("material.targetAudienceCode"));
         setVisualMaterialTypeCode(configuration.get("material.visualMaterialTypeCode"));
         setVisualTechniqueCode(configuration.get("material.visualTechniqueCode"));
     }
 
-    public void setDefaultValuesForSerial(final Map<String, String> configuration) {
-        setDefaultValues(configuration);
-
+    private void setDefaultValuesForSerial(final Map<String, String> configuration) {
         setSerialFrequencyCode(configuration.get("material.serialFrequencyCode"));
         setSerialRegularityCode(configuration.get("material.serialRegularityCode"));
         setSerialTypeCode(configuration.get("material.serialTypeCode"));
@@ -209,9 +217,7 @@ public class GeneralInformation
         setSerialSuccessiveLatestCode(configuration.get("material.serialSuccessiveLatestCode"));
     }
 
-    public void setDefaultValuesForMusic(final Map<String, String> configuration) {
-        setDefaultValues(configuration);
-
+    private void setDefaultValuesForMusic(final Map<String, String> configuration) {
         setMusicFormOfCompositionCode(configuration.get("material.musicFormOfCompositionCode"));
 		setMusicFormatCode(configuration.get("material.musicFormatCode"));
 		setMusicTextualMaterialCode(configuration.get("material.musicTextualMaterialCode"));
@@ -229,7 +235,7 @@ public class GeneralInformation
 				.append(getItemDateFirstPublication())
 				.append(getItemDateLastPublication())
 				.append(getMarcCountryCode());
-		} else {
+		} else { //case tag 006
 			sb.append(getMaterialTypeCode());
 		}
 
@@ -695,11 +701,11 @@ public class GeneralInformation
 	}*/
 
 
-	public short getHeaderType() {
+	public int getHeaderType() {
 		return headerType;
 	}
 
-	public void setHeaderType(short s) {
+	public void setHeaderType(int s) {
 		this.headerType = s;
 	}
 
