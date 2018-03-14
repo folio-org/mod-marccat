@@ -20,7 +20,7 @@ import java.util.Optional;
 public class DAORecordTypeMaterial extends HibernateUtil {
 
 	/**
-	 * The method gets the form of item for 006/008 tags field using leader values.
+	 * The method gets the material type for 006/008 tags field using leader values.
 	 *
 	 * @param session the valid hibernate session.
 	 * @param recordType the record type value used here as filter criterion.

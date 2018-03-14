@@ -676,19 +676,27 @@ public class StorageService implements Closeable {
 	}
 
     /**
-     * Gets the material type.
+     * Gets the material type information.
+     * Used for 006 field.
      *
      * @param headerCode the header code used here as filter criterion.
      * @param code the tag number code used here as filter criterion.
      * @return a string representing form of material.
      * @throws DataAccessException in case of data access failure.
      */
-    public String getFormOfMaterialByHeaderCode(final int headerCode, final String code) throws DataAccessException {
+    public Map<String, Object> getMaterialTypeInfosByHeaderCode(final int headerCode, final String code) throws DataAccessException {
+
+        final Map<String, Object> mapRecordTypeMaterial = new HashMap<>();
         final DAORecordTypeMaterial dao = new DAORecordTypeMaterial();
         try {
-            RecordTypeMaterial rtm = dao.getDefaultTypeByHeaderCode(session, headerCode, code);
-            return  ofNullable(rtm.getAmicusMaterialTypeCode()).orElse(null);
 
+            return ofNullable(dao.getDefaultTypeByHeaderCode(session, headerCode, code))
+                    .map( rtm -> {
+                        mapRecordTypeMaterial.put(Global.FORM_OF_MATERIAL_LABEL, rtm.getAmicusMaterialTypeCode());
+                        mapRecordTypeMaterial.put(Global.MATERIAL_TYPE_CODE_LABEL, rtm.getRecordTypeCode());
+
+                        return mapRecordTypeMaterial;
+                }).orElse(null);
         } catch (final HibernateException exception) {
             logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
             throw new DataAccessException(exception);

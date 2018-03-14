@@ -109,9 +109,9 @@ public class FieldsAPI implements CatalogingFieldsResource {
      * create default control field value
      *
      * @param configuration the configuration parameters
-     * @param storageService
-     * @param lang
-     * @return
+     * @param storageService the storage service.
+     * @param lang the lang associated with the current request.
+     * @return a new 001 {@link Field} entity populated with default values.
      */
     private Field createControlNumberField(final Map<String, String> configuration, final StorageService storageService, final String lang)
     {
@@ -134,8 +134,8 @@ public class FieldsAPI implements CatalogingFieldsResource {
     /**
      * Gets description fixed field related to type of selected tag/field.
      *
-     * @param storageService
-     * @param lang the language used here as filter criterion.
+     * @param storageService the storage service.
+     * @param lang the lang associated with the current request.
      * @param code1 the first correlation or header type code selected.
      * @return string description.
      */
@@ -145,10 +145,11 @@ public class FieldsAPI implements CatalogingFieldsResource {
 
     /**
      * Create default leader
+     *
      * @param configuration the configuration parameters
-     * @param storageService
-     * @param lang
-     * @return
+     * @param storageService the storage service.
+     * @param lang the lang associated with the current request.
+     * @return a new leader {@link Field} entity populated with default values.
      */
     private Field createRequiredLeaderField(final Map<String, String> configuration, final StorageService storageService, final String lang) {
 
@@ -172,7 +173,7 @@ public class FieldsAPI implements CatalogingFieldsResource {
      *
      * @param configuration the configuration parameters
      * @param storageService the storage service.
-     * @param lang tlang associated with the current request.
+     * @param lang the lang associated with the current request.
      * @return the 008 default tag definition.
      */
     private Field createRequiredMaterialDescriptionField(final Map<String, String> configuration, final StorageService storageService, final String lang) {
@@ -183,7 +184,7 @@ public class FieldsAPI implements CatalogingFieldsResource {
         generalInformation.setMaterialDescription008Indicator("1");
         generalInformation.setFormOfMaterial(Global.bookformOfMaterial); //book
         generalInformation.setDefaultValues(configuration);
-        generalInformation.setEnteredOnFileDateYYMMDD(F.getFormattedDateYYMMDD());
+        generalInformation.setEnteredOnFileDateYYMMDD(F.getFormattedDate("yyMMdd"));
 
         final FixedField materialDescription = new FixedField();
         materialDescription.setCategoryCode(Global.INT_CATEGORY);
@@ -219,8 +220,8 @@ public class FieldsAPI implements CatalogingFieldsResource {
 
     /**
      * Reads parameters from configuration module
-     * @param vertxContext
-     * @return
+     * @param vertxContext the vertx context.
+     * @return configuration map values.
      */
     private Map<String, String> getConfigurationValues(final Context vertxContext){
 

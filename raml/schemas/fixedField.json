@@ -27,7 +27,191 @@
         "book",
         "mixedMaterial",
         "continuingResource",
-        "visualMaterial"]
+        "visualMaterial",
+        "undefined"]
+    },
+    "dateEnteredOnFile": {
+      "type": "string"
+    },
+    "dateTypeCode": {
+      "type": "string"
+    },
+    "dateFirstPublication": {
+      "type": "string"
+    },
+    "dateLastPublication": {
+      "type": "string"
+    },
+    "placeOfPublication": {
+      "type": "string"
+    },
+    "bookIllustrationCode1": {
+      "type": "string"
+    },
+    "bookIllustrationCode2": {
+      "type": "string"
+    },
+    "bookIllustrationCode3": {
+      "type": "string"
+    },
+    "bookIllustrationCode4": {
+      "type": "string"
+    },
+    "targetAudienceCode": {
+      "type": "string"
+    },
+    "formOfItemCode": {
+      "type": "string"
+    },
+    "natureOfContent1": {
+      "type": "string"
+    },
+    "natureOfContent2": {
+      "type": "string"
+    },
+    "natureOfContent3": {
+      "type": "string"
+    },
+    "natureOfContent4": {
+      "type": "string"
+    },
+    "governmentPublicationCode": {
+      "type": "string"
+    },
+    "conferencePublicationCode": {
+      "type": "string"
+    },
+    "bookFestschrift": {
+      "type": "string"
+    },
+    "bookIndexAvailabilityCode": {
+      "type": "string"
+    },
+    "bookLiteraryFormTypeCode": {
+      "type": "string"
+    },
+    "cartographicReliefCode1": {
+      "type": "string"
+    },
+    "cartographicReliefCode2": {
+      "type": "string"
+    },
+    "cartographicReliefCode3": {
+      "type": "string"
+    },
+    "cartographicReliefCode4": {
+      "type": "string"
+    },
+    "cartographicProjectionCode": {
+      "type": "string"
+    },
+    "cartographicMaterial": {
+      "type": "string"
+    },
+    "cartographicIndexAvailabilityCode": {
+      "type": "string"
+    },
+    "cartographicFormatCode1": {
+      "type": "string"
+    },
+    "cartographicFormatCode2": {
+      "type": "string"
+    },
+    "musicFormOfCompositionCode": {
+      "type": "string"
+    },
+    "musicFormatCode": {
+      "type": "string"
+    },
+    "musicPartsCode": {
+      "type": "string"
+    },
+    "musicTextualMaterialCode1": {
+      "type": "string"
+    },
+    "musicTextualMaterialCode2": {
+      "type": "string"
+    },
+    "musicTextualMaterialCode3": {
+      "type": "string"
+    },
+    "musicTextualMaterialCode4": {
+      "type": "string"
+    },
+    "musicTextualMaterialCode5": {
+      "type": "string"
+    },
+    "musicTextualMaterialCode6": {
+      "type": "string"
+    },
+    "musicLiteraryTextCode1": {
+      "type": "string"
+    },
+    "musicLiteraryTextCode2": {
+      "type": "string"
+    },
+    "musicTranspositionArrangementCode": {
+      "type": "string"
+    },
+    "computerFileFormCode": {
+      "type": "string"
+    },
+    "computerFileTypeCode": {
+      "type": "string"
+    },
+    "visualRunningTime": {
+      "type": "string"
+    },
+    "visualMaterialTypeCode": {
+      "type": "string"
+    },
+    "visualTechniqueCode": {
+      "type": "string"
+    },
+    "serialFrequencyCode": {
+      "type": "string"
+    },
+    "serialRegularityCode": {
+      "type": "string"
+    },
+    "serialFormOriginalItemCode": {
+      "type": "string"
+    },
+    "languageCode": {
+      "type": "string"
+    },
+    "recordModifiedCode": {
+      "type": "string"
+    },
+    "recordCataloguingSourceCode": {
+      "type": "string"
+    },
+    "itemRecordStatusCode": {
+      "type": "string"
+    },
+    "itemRecordTypeCode": {
+      "type": "string"
+    },
+    "itemBibliographicLevelCode": {
+      "type": "string"
+    },
+    "itemControlTypeCode": {
+      "type": "string"
+    },
+    "characterCodingSchemeCode": {
+      "type": "string"
+    },
+    "encodingLevel": {
+      "type": "string"
+    },
+    "descriptiveCataloguingCode": {
+      "type": "string"
+    },
+    "linkedRecordCode": {
+      "type": "string"
+    },
+    "materialTypeCode": {
+      "type": "string"
     }
   },
   "additionalProperties": false

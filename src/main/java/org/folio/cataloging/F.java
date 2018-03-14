@@ -138,8 +138,8 @@ public abstract class F {
         }
     }
 
-    public static String getFormattedDateYYMMDD() {
-        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
+    public static String getFormattedDate(String formatString) {
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formatString);
         final LocalDate date = LocalDate.now();
         return date.format(formatter);
     }

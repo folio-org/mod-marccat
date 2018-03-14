@@ -32,7 +32,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
  * TODO: One line comment (optional) long description + new line empty + author + since 1.0
  *
  * FieldTemplate Restful API
+ *
  * @author natasciab
+ * @since 1.0
  *
  */
 
@@ -80,6 +82,7 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
                             }).orElse(null)
                     :   ofNullable(getFixedField(storageService, headerType, code, leader, valueField, vertxContext, lang))
                             .map(fixedField -> {
+
                                 final FieldTemplate fieldT = new FieldTemplate();
                                 fieldT.setFixedField(fixedField);
                                 fieldT.setCode(code);
@@ -96,20 +99,20 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
     /**
      * Gets the fixed-field associated to header type code.
      *
-     * In case of 008 field, leader will be used to get related values.
-     * If header type code selected doesn't match with leader value,
+     * In case of 008 field, leader will be used to get related values:
+     * if header type code selected doesn't match with leader value,
      * a default value string will'be returned, based on leader value.
      *
      * Example: recordType (leader/05) = 'a' bibliographicLevel (leader/06) = 'm'
      *          008 --> 008 - Book
      *
-     * @param storageService
-     * @param headerTypeCode the header type code selected from drop-down tag list
-     * @param code the tag number code
-     * @param leader the leader of record to get 008 field values.
-     * @param valueField the display value field. If null or blank a default value will'be set.
-     * @param lang the language used for description field type.
-     * @param vertxContext the vertx context used to get parameters from configuration module.
+     * @param storageService the storage service.
+     * @param headerTypeCode the header type code selected from drop-down tag list.
+     * @param code the tag number code.
+     * @param leader the leader of record.
+     * @param valueField the display value field (null or blank a default value will'be set).
+     * @param lang the lang associated with the current request.
+     * @param vertxContext the vertx context.
      * @return a fixed-field containing all selected values.
      */
     private FixedField getFixedField(final StorageService storageService,
@@ -122,14 +125,24 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
 
 
         FixedField fixedField = new FixedField();
+        fixedField.setCode(code);
+        fixedField.setCategoryCode(Global.INT_CATEGORY);
+        fixedField.setHeaderTypeCode(headerTypeCode);
+
         if (isFixedField(code)){
 
-            final boolean hasDefaultValue = ("".equals(valueField) || valueField == null);
+            valueField = ofNullable(valueField).filter(s -> !s.isEmpty()).orElse(null);
+
             final GeneralInformation generalInformation = new GeneralInformation();
+            if (code.equals(Global.LEADER_TAG_NUMBER)){
 
-            if (code.equals(Global.MATERIAL_TAG_CODE)) {
+                fixedField.setDescription(storageService.getHeadingTypeDescription(headerTypeCode, lang, T_BIB_HDR.class));
+                fixedField.setDisplayValue(ofNullable(valueField).orElse(getLeaderValue()));
+                setLeaderValues(fixedField);
 
-                final Map<String, Object> mapRecordTypeMaterial = storageService.getMaterialTypeInfosByLeaderValues(leader.charAt(5), leader.charAt(6), code);
+            }else if (code.equals(Global.MATERIAL_TAG_CODE)) {
+
+                final Map<String, Object> mapRecordTypeMaterial = storageService.getMaterialTypeInfosByLeaderValues(leader.charAt(6), leader.charAt(7), code);
                 final int headerTypeCalculated = (int) mapRecordTypeMaterial.get(Global.HEADER_TYPE_LABEL);
 
                 generalInformation.setFormOfMaterial((String) mapRecordTypeMaterial.get(Global.FORM_OF_MATERIAL_LABEL));
@@ -137,42 +150,60 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
                 generalInformation.setMaterialDescription008Indicator("1");
 
                 //header type code doesn't match with leader value
-                if ((headerTypeCode != headerTypeCalculated) || !hasDefaultValue) {
-                    final Map<String, String> configuration = getConfigurationValues(vertxContext, generalInformation);
-                    generalInformation.setDefaultValues(configuration);
-                    generalInformation.setEnteredOnFileDateYYMMDD(F.getFormattedDateYYMMDD());
-                    valueField = generalInformation.getValueString();
-
-                }
-                //setValues();
+                if (headerTypeCode != headerTypeCalculated) { valueField = null; }
 
             } else if (code.equals(Global.OTHER_MATERIAL_TAG_CODE)) {
                 generalInformation.setHeaderType(headerTypeCode);
-                generalInformation.setFormOfMaterial(storageService.getFormOfMaterialByHeaderCode(headerTypeCode, code));
+                final Map<String, Object> mapRecordTypeMaterial = storageService.getMaterialTypeInfosByHeaderCode(headerTypeCode, code);
+                generalInformation.setFormOfMaterial((String) mapRecordTypeMaterial.get(Global.FORM_OF_MATERIAL_LABEL));
+                generalInformation.setMaterialTypeCode((String) mapRecordTypeMaterial.get(Global.MATERIAL_TYPE_CODE_LABEL));
                 generalInformation.setMaterialDescription008Indicator("0");
 
-                if (!hasDefaultValue){
+            } else if (code.equals(Global.PHYSICAL_DESCRIPTION_TAG_CODE)){
+                //use PhysicalDescription or what?
+            } else if (code.equals(Global.DATETIME_TRANSACION_TAG_CODE)){
+                fixedField.setDescription(storageService.getHeadingTypeDescription(headerTypeCode, lang, T_BIB_HDR.class));
+                fixedField.setDisplayValue(F.getFormattedDate("yyyyMMddHHmmss."));
+            }
+
+            if (code.equals(Global.MATERIAL_TAG_CODE) || code.equals(Global.OTHER_MATERIAL_TAG_CODE)) {
+
+                if (valueField == null){
+                    if (generalInformation.getMaterialDescription008Indicator().equals("1")) {
+                        generalInformation.setEnteredOnFileDateYYMMDD(F.getFormattedDate("yyMMdd"));
+                    }
                     final Map<String, String> configuration = getConfigurationValues(vertxContext, generalInformation);
                     generalInformation.setDefaultValues(configuration);
                     valueField = generalInformation.getValueString();
                 }
-                //setValues();
 
-            } else if (code.equals(Global.PHYSICAL_DESCRIPTION_TAG_CODE)){
-                //use PhysicalDescription or what?
-            }
-
-            if (code.equals(Global.MATERIAL_TAG_CODE) || code.equals(Global.OTHER_MATERIAL_TAG_CODE)) {
-                fixedField.setCategoryCode(Global.INT_CATEGORY);
                 fixedField.setHeaderTypeCode(generalInformation.getHeaderType());
-                fixedField.setCode(code);
-                fixedField.setDescription(storageService.getHeadingTypeDescription((short) generalInformation.getHeaderType(), lang, T_BIB_HDR.class));
+                fixedField.setDescription(storageService.getHeadingTypeDescription(generalInformation.getHeaderType(), lang, T_BIB_HDR.class));
                 fixedField.setDisplayValue(valueField);
-                injectValues(fixedField, valueField, generalInformation);
+                setMaterialValues(fixedField, generalInformation);
             }
         }
 
         return fixedField;
+    }
+
+    /**
+     * Inject leader values for drop-down selected.
+     *
+     * @param fixedField the fixedField to populate.
+     */
+    private void setLeaderValues(final FixedField fixedField) {
+
+        final String leaderValue = (fixedField.getDisplayValue().length() != 24 ? getLeaderValue() : fixedField.getDisplayValue());
+
+        fixedField.setItemRecordStatusCode(String.valueOf(leaderValue.charAt(5)));
+        fixedField.setItemRecordTypeCode(String.valueOf(leaderValue.charAt(6)));
+        fixedField.setItemBibliographicLevelCode(String.valueOf(leaderValue.charAt(7)));
+        fixedField.setItemControlTypeCode(String.valueOf(leaderValue.charAt(8)));
+        fixedField.setCharacterCodingSchemeCode(String.valueOf(leaderValue.charAt(9)));
+        fixedField.setEncodingLevel(String.valueOf(leaderValue.charAt(17)));
+        fixedField.setDescriptiveCataloguingCode(String.valueOf(leaderValue.charAt(18)));
+        fixedField.setLinkedRecordCode(String.valueOf(leaderValue.charAt(19)));
     }
 
     /**
@@ -225,43 +256,27 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
     }
 
     //TODO  change all!
-    private void injectValues(FixedField fixedField, final String displayValue, final GeneralInformation gi)
+    private void setMaterialValues(FixedField fixedField, final GeneralInformation gi)
     {
+        String displayValue = fixedField.getDisplayValue();
+
+        int startPosition = 1;
         if (gi.getMaterialDescription008Indicator().equals("1")) {
-
-            /*fixedField.setEnteredOnFileDateYYMMDD(displayValue.substring(0, 6));
-
-            gi.setItemDateTypeCode(getItemDateTypeCode());
-            gi.setItemDateFirstPublication(getItemDateFirstPublication());
-            gi.setItemDateLastPublication(getItemDateLastPublication());
-
-            if(getLanguageCodeCustom() == null) //proviene da ModelForm
-                gi.setLanguageCode(getLanguageCode());
-            else
-                gi.setLanguageCode(getLanguageCodeCustom());
-
-            //-- inizio modifiche Natascia bug 2711/2701
-            String marcCountry = getMarcCountryCodeCustom();
-            if(marcCountry == null) //proviene da ModelForm
-                gi.setMarcCountryCode(getMarcCountryCode());
-            else
-            {
-                if (getMarcCountryCodeCustom().length() == 2)
-                {
-                    marcCountry = getMarcCountryCodeCustom() + " ";
-                }
-
-                gi.setMarcCountryCode(marcCountry);
-            }
-            //-- fine
-
-            gi.setRecordModifiedCode(getRecordModifiedCode());
-            gi.setRecordCataloguingSourceCode(getRecordCataloguingSourceCode());
-        } else {
-            gi.setMaterialTypeCode(getMaterialTypeCode());
+            displayValue = ((displayValue.length() != 40) ? gi.getValueString() : fixedField.getDisplayValue());
+            startPosition = 18;
+            fixedField.setDateEnteredOnFile(displayValue.substring(0, 6));
+            fixedField.setDateTypeCode(String.valueOf(displayValue.charAt(6)));
+            fixedField.setDateFirstPublication(displayValue.substring(7, 11));
+            fixedField.setDateLastPublication(displayValue.substring(11, 15));
+            fixedField.setPlaceOfPublication(displayValue.substring(15, 18));
+            fixedField.setLanguageCode(displayValue.substring(35, 38));
+            fixedField.setRecordModifiedCode(String.valueOf(displayValue.charAt(38)));
+            fixedField.setRecordCataloguingSourceCode(String.valueOf(displayValue.charAt(39)));
+        } else { //006
+            fixedField.setMaterialTypeCode(String.valueOf(displayValue.charAt(0)));
         }
 
-        if (gi.isBook()) {
+        /*if (gi.isBook()) {
             gi.setBookIllustrationCode(getBook_illustrationOne().toString()
                     + getBook_illustrationTwo().toString()
                     + getBook_illustrationThree().toString()
@@ -340,8 +355,8 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
             gi.setGovernmentPublicationCode(getGovernmentPublicationCode());
             gi.setFormOfItemCode(getFormOfItemCode());
             gi.setVisualMaterialTypeCode(getVisualMaterialTypeCode());
-            gi.setVisualTechniqueCode(getVisualTechniqueCode());*/
-        }
+            gi.setVisualTechniqueCode(getVisualTechniqueCode());
+        }*/
     }
 
     @Override
@@ -354,24 +369,12 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
         throw new IllegalArgumentException();
     }
 
-    /**
-     * Create default 008 value string.
-     * @param configuration the configuration parameters
-     * @param generalInformation the GeneralInformation entity to manage material tags.
-     * @return a string representing the default value field.
-     */
-    private String getValueForMaterialDescription(final Map<String, String> configuration, final GeneralInformation generalInformation) {
-
-        generalInformation.setDefaultValues(configuration);
-        generalInformation.setEnteredOnFileDateYYMMDD(F.getFormattedDateYYMMDD());
-        return generalInformation.getValueString();
-    }
 
     // TODO: Asynch management and configure all types of material
     /**
      * Reads parameters from configuration module
-     * @param vertxContext
-     * @return
+     * @param vertxContext the vertx context.
+     * @return configuration map values.
      */
     private Map<String, String> getConfigurationValues(final Context vertxContext, final GeneralInformation generalInformation){
 
@@ -510,15 +513,21 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
     }
 
     /**
-     * Gets description fixed field related to type of selected tag/field.
-     *
-     * @param storageService
-     * @param lang the language used here as filter criterion.
-     * @param code1 the first correlation or header type code selected.
-     * @return string description.
+     * sets default leader value
+     * @return
      */
-    private String getDescriptionFixedField(final StorageService storageService, final String lang, final int code1)
-    {
-        return storageService.getHeadingTypeDescription( (short)code1, lang, T_BIB_HDR.class);
+    private String getLeaderValue() {
+        return new StringBuilder(Global.fixedLeaderLength)
+                .append(Global.recordStatusCode)
+                .append(Global.recordTypeCode)
+                .append(Global.bibliographicLevelCode)
+                .append(Global.controlTypeCode)
+                .append(Global.characterCodingSchemeCode)
+                .append(Global.fixedLeaderBaseAddress)
+                .append(Global.encodingLevel)
+                .append(Global.descriptiveCataloguingCode)
+                .append(Global.linkedRecordCode)
+                .append(Global.fixedLeaderPortion).toString();
     }
+
 }
