@@ -82,7 +82,7 @@ public class FieldsAPI implements CatalogingFieldsResource {
         final String description = getDescriptionFixedField(storageService, lang, Global.CATALOGING_SOURCE_HEADER_TYPE);
         final Validation validation =
                 storageService.getSubfieldsByCorrelations(
-                        Integer.toString(Global.INT_CATEGORY),
+                        Global.INT_CATEGORY,
                         correlationValues.getValue(1),
                         correlationValues.getValue(2),
                         correlationValues.getValue(3));

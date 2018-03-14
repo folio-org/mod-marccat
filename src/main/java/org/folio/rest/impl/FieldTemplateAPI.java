@@ -53,33 +53,38 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
 
         doGet((storageService, future) -> {
             try {
-                final FieldTemplate fieldTemplate =
-                !isFixedField(code)
-                ? ofNullable(storageService.getCorrelationVariableField(categoryCode, ind1, ind2, code))
-                        .map(correlationValues -> {
-                            final int code1 = correlationValues.getValue(1);
-                            final Class clazz = Global.firstCorrelationHeadingClassMap.get(Integer.toString(categoryCode));
-                            final String description = storageService.getHeadingTypeDescription(code1, lang, clazz);
-                            final Validation validation = storageService.getSubfieldsByCorrelations(Integer.toString(categoryCode), correlationValues.getValue(1),
-                                    correlationValues.getValue(2), correlationValues.getValue(3));
+                return !isFixedField(code)
+                    ? ofNullable(storageService.getCorrelationVariableField(categoryCode, ind1, ind2, code))
+                            .map(correlationValues -> {
+                                final Validation validation = storageService.getSubfieldsByCorrelations(
+                                        categoryCode,
+                                        correlationValues.getValue(1),
+                                        correlationValues.getValue(2),
+                                        correlationValues.getValue(3));
 
-                            final FieldTemplate fieldT = new FieldTemplate();
-                            fieldT.setVariableField(getVariableField(categoryCode, ind1, ind2, code, correlationValues, description, validation));
-                            fieldT.setCode(code);
-                            return fieldT;
-
-                        }).orElse(null)
-                :   ofNullable(getFixedField(storageService, headerType, code, leader, valueField, vertxContext, lang))
-                        .map(fixedField -> {
-                            final FieldTemplate fieldT = new FieldTemplate();
-                            fieldT.setFixedField(fixedField);
-                            fieldT.setCode(code);
-                            return fieldT;
-
-                        }).orElse(null) ;
-
-                return fieldTemplate;
-
+                                final FieldTemplate fieldTemplate = new FieldTemplate();
+                                fieldTemplate.setVariableField(
+                                        getVariableField(
+                                                categoryCode,
+                                                ind1,
+                                                ind2,
+                                                code,
+                                                correlationValues,
+                                                storageService.getHeadingTypeDescription(
+                                                        correlationValues.getValue(1),
+                                                        lang,
+                                                        Global.firstCorrelationHeadingClassMap.get(categoryCode)),
+                                                validation));
+                                fieldTemplate.setCode(code);
+                                return fieldTemplate;
+                            }).orElse(null)
+                    :   ofNullable(getFixedField(storageService, headerType, code, leader, valueField, vertxContext, lang))
+                            .map(fixedField -> {
+                                final FieldTemplate fieldT = new FieldTemplate();
+                                fieldT.setFixedField(fixedField);
+                                fieldT.setCode(code);
+                                return fieldT;
+                            }).orElse(null) ;
             } catch (final Exception exception) {
                 logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
                 return null;

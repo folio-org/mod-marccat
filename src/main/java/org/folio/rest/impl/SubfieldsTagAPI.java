@@ -2,9 +2,7 @@ package org.folio.rest.impl;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Context;
-import io.vertx.core.Future;
 import io.vertx.core.Handler;
-import org.folio.cataloging.integration.StorageService;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.cataloging.shared.Validation;
@@ -13,9 +11,9 @@ import org.folio.rest.jaxrs.resource.CatalogingSubfieldsTagResource;
 
 import javax.ws.rs.core.Response;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.toList;
 import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
 /**
@@ -24,7 +22,6 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
  * @author natasciab
  * @since 1.0
  */
-
 public class SubfieldsTagAPI implements CatalogingSubfieldsTagResource {
 
     protected final Log logger = new Log(SubfieldsTagAPI.class);
@@ -39,24 +36,23 @@ public class SubfieldsTagAPI implements CatalogingSubfieldsTagResource {
                                             final Handler<AsyncResult<Response>> asyncResultHandler,
                                             final Context vertxContext) throws Exception {
 
-            doGet((StorageService storageService, Future future) -> {
+            doGet((storageService, future) -> {
                 try {
-                    final short sCode1 = Short.parseShort(code1);
-                    final short sCode2 = Short.parseShort(code2);
-                    final short sCode3 = Short.parseShort(code3);
+                    final int category = Integer.parseInt(marcCategory);
 
-                    final Validation validation = storageService.getSubfieldsByCorrelations(marcCategory, sCode1, sCode2, sCode3);
+                    final Validation validation = storageService.getSubfieldsByCorrelations(
+                            category,
+                            Integer.parseInt(code1),
+                            Integer.parseInt(code2),
+                            Integer.parseInt(code3));
+
                     final SubfieldsTag subfieldsTag = new SubfieldsTag();
-
-                    subfieldsTag.setCategory(Integer.parseInt(marcCategory));
+                    subfieldsTag.setCategory(category);
                     subfieldsTag.setDefaultSubfield(String.valueOf(validation.getMarcTagDefaultSubfieldCode()));
-                    subfieldsTag.setSubfields(stream(validation.getMarcValidSubfieldStringCode().split("")).collect(Collectors.toList()));
-                    subfieldsTag.setRepeatable(stream(validation.getRepeatableSubfieldStringCode().split("")).collect(Collectors.toList()));
+                    subfieldsTag.setSubfields(stream(validation.getMarcValidSubfieldStringCode().split("")).collect(toList()));
+                    subfieldsTag.setRepeatable(stream(validation.getRepeatableSubfieldStringCode().split("")).collect(toList()));
                     subfieldsTag.setTag(validation.getKey().getMarcTag());
-
-
                     return subfieldsTag;
-
                 } catch (final Exception exception) {
                     logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
                     return null;

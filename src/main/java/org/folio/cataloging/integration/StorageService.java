@@ -567,7 +567,7 @@ public class StorageService implements Closeable {
      * @param code3 the third correlation used here as filter criterion.
      * @return Validation object containing subfield list.
      */
-    public Validation getSubfieldsByCorrelations(final String marcCategory,
+    public Validation getSubfieldsByCorrelations(final int marcCategory,
                                                  final int code1,
                                                  final int code2,
                                                  final int code3) throws DataAccessException {
@@ -575,7 +575,7 @@ public class StorageService implements Closeable {
         try
         {
             final CorrelationValues correlationValues = new CorrelationValues(code1, code2, code3);
-            return daoBibliographicValidation.load(session, Short.parseShort(marcCategory), correlationValues);
+            return daoBibliographicValidation.load(session, marcCategory, correlationValues);
         } catch (final HibernateException exception) {
             logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
             throw new DataAccessException(exception);

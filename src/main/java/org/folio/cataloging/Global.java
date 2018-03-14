@@ -192,21 +192,21 @@ public abstract class Global  {
 		}
 	};
 
-	public final static Map<String, Class> firstCorrelationHeadingClassMap = new HashMap<String, Class>(){
+	public final static Map<Integer, Class> firstCorrelationHeadingClassMap = new HashMap<Integer, Class>(){
 		{
-			put("1", T_BIB_HDR.class);
-			put("2", NameType.class);
-			put("17", NameType.class); //from heading
-			put("3", TitleFunction.class);
-			put("4", SubjectType.class);
-			put("18", SubjectType.class); //from heading
-			put("5", ControlNumberType.class);
-			put("19", ControlNumberType.class); //from heading
-			put("6", ClassificationType.class);
-			put("20", ClassificationType.class); //from heading
-			put("7", BibliographicNoteType.class); //note
-			put("8", BibliographicRelationType.class);//relationship
-			put("11", T_NME_TTL_FNCTN.class); //nt
+			put(1, T_BIB_HDR.class);
+			put(2, NameType.class);
+			put(17, NameType.class); //from heading
+			put(3, TitleFunction.class);
+			put(4, SubjectType.class);
+			put(18, SubjectType.class); //from heading
+			put(5, ControlNumberType.class);
+			put(19, ControlNumberType.class); //from heading
+			put(6, ClassificationType.class);
+			put(20, ClassificationType.class); //from heading
+			put(7, BibliographicNoteType.class); //note
+			put(8, BibliographicRelationType.class);//relationship
+			put(11, T_NME_TTL_FNCTN.class); //nt
 		}
 	};
 
