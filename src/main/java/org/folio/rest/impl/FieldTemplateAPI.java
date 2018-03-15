@@ -29,7 +29,6 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
 
 /**
- * TODO: One line comment (optional) long description + new line empty + author + since 1.0
  *
  * FieldTemplate Restful API
  *
@@ -102,7 +101,6 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
      * In case of 008 field, leader will be used to get related values:
      * if header type code selected doesn't match with leader value,
      * a default value string will'be returned, based on leader value.
-     *
      * Example: recordType (leader/05) = 'a' bibliographicLevel (leader/06) = 'm'
      *          008 --> 008 - Book
      *
@@ -188,7 +186,7 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
     }
 
     /**
-     * Inject leader values for drop-down selected.
+     * Inject leader values for drop-down list selected.
      *
      * @param fixedField the fixedField to populate.
      */
@@ -208,7 +206,7 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
 
     /**
      * Sets variable field with selected drop-down list (correlation entity)
-     * and sub-fields (validation entity)
+     * and sub-fields (validation entity).
      *
      * @param categoryCode the field category code.
      * @param ind1 the first indicator of tag field.
@@ -248,6 +246,7 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
 
     /**
      * Check if is a fixedField or not.
+     *
      * @param code the tag number code.
      * @return true if is fixedfield, false otherwise.
      */
@@ -255,7 +254,13 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
         return Global.FIXED_FIELDS.contains(code);
     }
 
-    //TODO  change all!
+    //TODO  add 007 tag
+    /**
+     * Inject material or other material values for drop-down list selected.
+     *
+     * @param fixedField the fixedField to populate.
+     * @param gi the general information used to create fixed field.
+     */
     private void setMaterialValues(FixedField fixedField, final GeneralInformation gi)
     {
         String displayValue = fixedField.getDisplayValue();
@@ -273,90 +278,90 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
             fixedField.setRecordModifiedCode(String.valueOf(displayValue.charAt(38)));
             fixedField.setRecordCataloguingSourceCode(String.valueOf(displayValue.charAt(39)));
         } else { //006
+            displayValue = ((displayValue.length() != 17) ? gi.getValueString() : fixedField.getDisplayValue());
             fixedField.setMaterialTypeCode(String.valueOf(displayValue.charAt(0)));
         }
 
-        /*if (gi.isBook()) {
-            gi.setBookIllustrationCode(getBook_illustrationOne().toString()
-                    + getBook_illustrationTwo().toString()
-                    + getBook_illustrationThree().toString()
-                    + getBook_illustrationFour().toString());
-            gi.setTargetAudienceCode(getTargetAudienceCode());
-            gi.setFormOfItemCode(getFormOfItemCode());
-            gi.setNatureOfContentsCode(getNatureOfContentOne().toString()
-                    + getNatureOfContentTwo().toString()
-                    + getNatureOfContentThree().toString()
-                    + getNatureOfContentFour().toString());
-            gi.setGovernmentPublicationCode(getGovernmentPublicationCode());
-            gi.setConferencePublicationCode(getConferencePublicationCode());
-            gi.setBookFestschrift(getBookFestschrift());
-            gi.setBookIndexAvailabilityCode(getBookIndexAvailabilityCode());
-            gi.setBookLiteraryFormTypeCode(getBookLiteraryFormTypeCode());
-            gi.setBookBiographyCode(getBookBiographyCode());
-
+        if (gi.isBook()) {
+            fixedField.setBookIllustrationCode1(String.valueOf(displayValue.charAt(startPosition)));
+            fixedField.setBookIllustrationCode2(String.valueOf(displayValue.charAt(startPosition+1)));
+            fixedField.setBookIllustrationCode2(String.valueOf(displayValue.charAt(startPosition+2)));
+            fixedField.setBookIllustrationCode2(String.valueOf(displayValue.charAt(startPosition+3)));
+            fixedField.setTargetAudienceCode(String.valueOf(displayValue.charAt(startPosition+4)));
+            fixedField.setFormOfItemCode(String.valueOf(displayValue.charAt(startPosition+5)));
+            fixedField.setNatureOfContent1(String.valueOf(displayValue.charAt(startPosition+6)));
+            fixedField.setNatureOfContent2(String.valueOf(displayValue.charAt(startPosition+7)));
+            fixedField.setNatureOfContent3(String.valueOf(displayValue.charAt(startPosition+8)));
+            fixedField.setNatureOfContent4(String.valueOf(displayValue.charAt(startPosition+9)));
+            fixedField.setGovernmentPublicationCode(String.valueOf(displayValue.charAt(startPosition+10)));
+            fixedField.setConferencePublicationCode(String.valueOf(displayValue.charAt(startPosition+11)));
+            fixedField.setBookFestschrift(String.valueOf(displayValue.charAt(startPosition+12)));
+            fixedField.setBookIndexAvailabilityCode(String.valueOf(displayValue.charAt(startPosition+13)));
+            fixedField.setBookLiteraryFormTypeCode(String.valueOf(displayValue.charAt(startPosition+15)));
+            fixedField.setBookBiographyCode(String.valueOf(displayValue.charAt(startPosition+16)));
+            fixedField.setMaterialType(FixedField.MaterialType.BOOK);
         } else if (gi.isSerial()) {
-            gi.setSerialFrequencyCode(getSerialFrequencyCode());
-            gi.setSerialRegularityCode(getSerialRegularityCode());
-            gi.setSerialTypeCode(getSerialTypeCode());
-            gi.setSerialFormOriginalItemCode(getSerialFormOriginalItemCode());
-            gi.setFormOfItemCode(getFormOfItemCode());
-
-            gi.setNatureOfContentsCode(getNatureOfContentOne().toString()
-                    + getNatureOfContentTwo().toString()
-                    + getNatureOfContentThree().toString()
-                    + getNatureOfContentFour().toString());
-
-            gi.setGovernmentPublicationCode(getGovernmentPublicationCode());
-            gi.setConferencePublicationCode(getConferencePublicationCode());
-            gi.setSerialOriginalAlphabetOfTitleCode(getSerialOriginalAlphabetOfTitleCode());
-            gi.setSerialSuccessiveLatestCode(getSerialSuccessiveLatestCode());
-
+            fixedField.setSerialFrequencyCode(String.valueOf(displayValue.charAt(startPosition)));
+            fixedField.setSerialRegularityCode(String.valueOf(displayValue.charAt(startPosition+1)));
+            fixedField.setSerialTypeCode(String.valueOf(displayValue.charAt(startPosition+2)));
+            fixedField.setSerialFormOriginalItemCode(String.valueOf(displayValue.charAt(startPosition+4)));
+            fixedField.setFormOfItemCode(String.valueOf(displayValue.charAt(startPosition+5)));
+            fixedField.setNatureOfContent1(String.valueOf(displayValue.charAt(startPosition+6)));
+            fixedField.setNatureOfContent2(String.valueOf(displayValue.charAt(startPosition+7)));
+            fixedField.setNatureOfContent3(String.valueOf(displayValue.charAt(startPosition+8)));
+            fixedField.setNatureOfContent4(String.valueOf(displayValue.charAt(startPosition+9)));
+            fixedField.setGovernmentPublicationCode(String.valueOf(displayValue.charAt(startPosition+10)));
+            fixedField.setConferencePublicationCode(String.valueOf(displayValue.charAt(startPosition+11)));
+            fixedField.setSerialOriginalAlphabetOfTitleCode(String.valueOf(displayValue.charAt(startPosition+15)));
+            fixedField.setSerialEntryConventionCode(String.valueOf(displayValue.charAt(startPosition+16)));
+            fixedField.setMaterialType(FixedField.MaterialType.CONTINUING_RESOURCE);
         } else if (gi.isComputerFile()) {
-            gi.setComputerTargetAudienceCode(getComputerTargetAudienceCode());
-
-            gi.setComputerFileFormCode(getComputerFileFormCode());
-            gi.setComputerFileTypeCode(getComputerFileTypeCode());
-            gi.setGovernmentPublicationCode(getGovernmentPublicationCode());
-
+            fixedField.setTargetAudienceCode(String.valueOf(displayValue.charAt(startPosition+4)));
+            fixedField.setFormOfItemCode(String.valueOf(displayValue.charAt(startPosition+5)));
+            fixedField.setComputerFileTypeCode(String.valueOf(displayValue.charAt(startPosition+8)));
+            fixedField.setGovernmentPublicationCode(String.valueOf(displayValue.charAt(startPosition+10)));
+            fixedField.setMaterialType(FixedField.MaterialType.COMPUTER_FILE);
         } else if (gi.isMap()) {
-            gi.setCartographicReliefCode(getCartographicReliefCode1().toString()
-                    + getCartographicReliefCode2().toString()
-                    + getCartographicReliefCode3().toString()
-                    + getCartographicReliefCode4().toString());
-            gi.setCartographicProjectionCode(getCartographicProjectionCode());
-            gi.setCartographicMaterial(getCartographicMaterial());
-            gi.setGovernmentPublicationCode(getGovernmentPublicationCode());
-            gi.setFormOfItemCode(getFormOfItemCode());
-            gi.setCartographicIndexAvailabilityCode(getCartographicIndexAvailabilityCode());
-            gi.setCartographicFormatCode(getCartographicFormatCode1().toString() + getCartographicFormatCode2().toString());
-
+            fixedField.setCartographicReliefCode1(String.valueOf(displayValue.charAt(startPosition)));
+            fixedField.setCartographicReliefCode2(String.valueOf(displayValue.charAt(startPosition+1)));
+            fixedField.setCartographicReliefCode3(String.valueOf(displayValue.charAt(startPosition+2)));
+            fixedField.setCartographicReliefCode4(String.valueOf(displayValue.charAt(startPosition+3)));
+            fixedField.setCartographicProjectionCode(displayValue.substring(startPosition+4, startPosition+6));
+            fixedField.setCartographicMaterial(String.valueOf(displayValue.charAt(startPosition+7)));
+            fixedField.setGovernmentPublicationCode(String.valueOf(displayValue.charAt(startPosition+10)));
+            fixedField.setFormOfItemCode(String.valueOf(displayValue.charAt(startPosition+11)));
+            fixedField.setCartographicIndexAvailabilityCode(String.valueOf(displayValue.charAt(startPosition+13)));
+            fixedField.setCartographicFormatCode1(String.valueOf(displayValue.charAt(startPosition+15)));
+            fixedField.setCartographicFormatCode2(String.valueOf(displayValue.charAt(startPosition+16)));
+            fixedField.setMaterialType(FixedField.MaterialType.MAP);
         } else if (gi.isMixedMaterial()) {
-            gi.setFormOfItemCode(getFormOfItemCode());
-
+            fixedField.setFormOfItemCode(String.valueOf(displayValue.charAt(startPosition+5)));
+            fixedField.setMaterialType(FixedField.MaterialType.MIXED_MATERIAL);
         } else if (gi.isMusic()) {
-            gi.setMusicFormOfCompositionCode(getMusicFormOfCompositionCode());
-            gi.setMusicFormatCode(getMusicFormatCode());
-            gi.setTargetAudienceCode(getTargetAudienceCode());
-            gi.setFormOfItemCode(getFormOfItemCode());
-            gi.setMusicTextualMaterialCode(getMusicTextualMaterialCode1().toString()
-                    + getMusicTextualMaterialCode2().toString()
-                    + getMusicTextualMaterialCode3().toString()
-                    + getMusicTextualMaterialCode4().toString()
-                    + getMusicTextualMaterialCode5().toString()
-                    + getMusicTextualMaterialCode6().toString());
-            gi.setMusicLiteraryTextCode(getMusicLiteraryTextCode1().toString() + getMusicLiteraryTextCode2().toString());
-
-            gi.setMusicPartsCode(getMusicPartsCode());
-            gi.setMusicTranspositionArrangementCode(getMusicTranspositionArrangementCode());
-
+            fixedField.setMusicFormOfCompositionCode(displayValue.substring(startPosition, startPosition+2));
+            fixedField.setMusicFormatCode(String.valueOf(displayValue.charAt(startPosition+2)));
+            fixedField.setMusicPartsCode(String.valueOf(displayValue.charAt(startPosition+3)));
+            fixedField.setTargetAudienceCode(String.valueOf(displayValue.charAt(startPosition+4)));
+            fixedField.setFormOfItemCode(String.valueOf(displayValue.charAt(startPosition+5)));
+            fixedField.setMusicTextualMaterialCode1(String.valueOf(displayValue.charAt(startPosition+6)));
+            fixedField.setMusicTextualMaterialCode2(String.valueOf(displayValue.charAt(startPosition+7)));
+            fixedField.setMusicTextualMaterialCode3(String.valueOf(displayValue.charAt(startPosition+8)));
+            fixedField.setMusicTextualMaterialCode4(String.valueOf(displayValue.charAt(startPosition+9)));
+            fixedField.setMusicTextualMaterialCode5(String.valueOf(displayValue.charAt(startPosition+10)));
+            fixedField.setMusicTextualMaterialCode6(String.valueOf(displayValue.charAt(startPosition+11)));
+            fixedField.setMusicLiteraryTextCode1(String.valueOf(displayValue.charAt(startPosition+12)));
+            fixedField.setMusicLiteraryTextCode2(String.valueOf(displayValue.charAt(startPosition+13)));
+            fixedField.setMusicTranspositionArrangementCode(String.valueOf(displayValue.charAt(startPosition+15)));
+            fixedField.setMaterialType(FixedField.MaterialType.MUSIC);
         } else if (gi.isVisualMaterial()) {
-            gi.setVisualRunningTime(getVisualRunningTime());
-            gi.setVisualTargetAudienceCode(getVisualTargetAudienceCode());
-            gi.setGovernmentPublicationCode(getGovernmentPublicationCode());
-            gi.setFormOfItemCode(getFormOfItemCode());
-            gi.setVisualMaterialTypeCode(getVisualMaterialTypeCode());
-            gi.setVisualTechniqueCode(getVisualTechniqueCode());
-        }*/
+            fixedField.setVisualRunningTime(displayValue.substring(startPosition, startPosition+3));
+            fixedField.setTargetAudienceCode(String.valueOf(displayValue.charAt(startPosition+4)));
+            fixedField.setGovernmentPublicationCode(String.valueOf(displayValue.charAt(startPosition+10)));
+            fixedField.setFormOfItemCode(String.valueOf(displayValue.charAt(startPosition+11)));
+            fixedField.setVisualMaterialTypeCode(String.valueOf(displayValue.charAt(startPosition+15)));
+            fixedField.setVisualTechniqueCode(String.valueOf(displayValue.charAt(startPosition+16)));
+            fixedField.setMaterialType(FixedField.MaterialType.VISUAL_MATERIAL);
+        }
     }
 
     @Override
@@ -372,7 +377,8 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
 
     // TODO: Asynch management and configure all types of material
     /**
-     * Reads parameters from configuration module
+     * Reads parameters from configuration module.
+     *
      * @param vertxContext the vertx context.
      * @return configuration map values.
      */
@@ -513,8 +519,9 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
     }
 
     /**
-     * sets default leader value
-     * @return
+     * Sets default leader value.
+     *
+     * @return a leader value.
      */
     private String getLeaderValue() {
         return new StringBuilder(Global.fixedLeaderLength)

@@ -90,6 +90,9 @@
     "bookLiteraryFormTypeCode": {
       "type": "string"
     },
+    "bookBiographyCode": {
+      "type": "string"
+    },
     "cartographicReliefCode1": {
       "type": "string"
     },
@@ -153,9 +156,6 @@
     "musicTranspositionArrangementCode": {
       "type": "string"
     },
-    "computerFileFormCode": {
-      "type": "string"
-    },
     "computerFileTypeCode": {
       "type": "string"
     },
@@ -174,7 +174,16 @@
     "serialRegularityCode": {
       "type": "string"
     },
+    "serialTypeCode": {
+      "type": "string"
+    },
     "serialFormOriginalItemCode": {
+      "type": "string"
+    },
+    "serialOriginalAlphabetOfTitleCode": {
+      "type": "string"
+    },
+    "serialEntryConventionCode": {
       "type": "string"
     },
     "languageCode": {

@@ -62,7 +62,7 @@ public class GeneralInformation
 	private String serialFormOriginalItemCode;
 	private String serialCumulativeIndexCode;
 	private String serialOriginalAlphabetOfTitleCode;
-	private String serialSuccessiveLatestCode;
+	private String serialEntryConventionCode;
 	private String serialTitlePageExistenceCode;
 	private String serialIndexAvailabilityCode;
 	private String musicFormOfCompositionCode;
@@ -214,7 +214,7 @@ public class GeneralInformation
         setSerialTypeCode(configuration.get("material.serialTypeCode"));
         setSerialFormOriginalItemCode(configuration.get("material.formOfItemCode"));
         setSerialOriginalAlphabetOfTitleCode(configuration.get("material.serialOriginalAlphabetOfTitleCode"));
-        setSerialSuccessiveLatestCode(configuration.get("material.serialSuccessiveLatestCode"));
+        setSerialEntryConventionCode(configuration.get("material.serialSuccessiveLatestCode"));
     }
 
     private void setDefaultValuesForMusic(final Map<String, String> configuration) {
@@ -409,7 +409,7 @@ public class GeneralInformation
 			   .append(getConferencePublicationCode())			/* 29 - Conference publication */
 			   .append("   ")									/* 30-32 - Undefined  */
 			   .append(getSerialOriginalAlphabetOfTitleCode())  /* 33 - Original alphabet or script of title */
-			   .append(getSerialSuccessiveLatestCode());		/* 34 - Entry convention */
+			   .append(getSerialEntryConventionCode());		/* 34 - Entry convention */
 		
 		return builder.toString();
 	}
@@ -547,8 +547,8 @@ public class GeneralInformation
 		return serialRegularityCode;
 	}
 
-	public String getSerialSuccessiveLatestCode() {
-		return serialSuccessiveLatestCode;
+	public String getSerialEntryConventionCode() {
+		return serialEntryConventionCode;
 	}
 
 	public String getSerialOriginalAlphabetOfTitleCode() {
@@ -836,8 +836,8 @@ public class GeneralInformation
 		this.serialOriginalAlphabetOfTitleCode = serialOriginalAlphabetOfTitleCode;
 	}
 
-	public void setSerialSuccessiveLatestCode(String serialSuccessiveLatestCode) {
-		this.serialSuccessiveLatestCode = serialSuccessiveLatestCode;
+	public void setSerialEntryConventionCode(String serialEntryConventionCode) {
+		this.serialEntryConventionCode = serialEntryConventionCode;
 	}
 
 	public void setSerialTitlePageExistenceCode(String serialTitlePageExistenceCode) {
