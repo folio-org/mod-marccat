@@ -72,7 +72,7 @@ public abstract class CatalogingHelper {
                 .status(HttpStatus.SC_OK)
                 .header(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.toString())
                 .entity(execution.result())
-                .build());
+                .build(), configurationSets);
     }
 
     interface Valid<T> {
