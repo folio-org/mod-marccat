@@ -79,8 +79,6 @@ public abstract class CatalogingHelper {
         Optional<T> validate(Function<T, Optional<T>> validator);
     }
 
-
-
     /**
      * Executes a POST request.
      *
