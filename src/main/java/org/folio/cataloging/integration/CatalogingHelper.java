@@ -65,7 +65,8 @@ public abstract class CatalogingHelper {
             final PieceOfExistingLogicAdapter adapter,
             final Handler<AsyncResult<Response>> asyncResultHandler,
             final Map<String, String> okapiHeaders,
-            final Context ctx) throws Exception {
+            final Context ctx,
+            final String ... configurationSets) throws Exception {
         exec(adapter, asyncResultHandler, okapiHeaders, ctx, execution ->
             Response
                 .status(HttpStatus.SC_OK)
