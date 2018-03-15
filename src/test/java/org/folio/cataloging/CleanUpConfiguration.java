@@ -2,17 +2,13 @@ package org.folio.cataloging;
 
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.jdbc.JDBCClient;
-import io.vertx.ext.sql.SQLClient;
 import org.folio.rest.client.ConfigurationsClient;
-import org.folio.rest.tools.utils.TenantTool;
 
 import java.io.UnsupportedEncodingException;
-import java.sql.Connection;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
-import static org.folio.cataloging.F.datasourceConfiguration;
+
 
 public class CleanUpConfiguration {
     public static void main(final String args []) throws Exception {
