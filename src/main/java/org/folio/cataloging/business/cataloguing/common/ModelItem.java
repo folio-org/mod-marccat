@@ -82,60 +82,8 @@ public abstract class ModelItem implements Persistence, Serializable {
 		this.model = model;
 	}
 
-	/**
-		 * 
-		 * @since 1.0
-		 */
-/*	public Document getXmlFieldsDocument() {
-		return this.xmlFieldsDocument;
-	}*/
 
-	/**
-		 * 
-		 * @since 1.0
-		 */
-	/*public void setXmlFieldsDocument(Document xmlFieldsDocument) {
-		this.xmlFieldsDocument = xmlFieldsDocument;
-	}*/
 
-	/**
-		 * 
-		 * @since 1.0
-		 */
-	/*public String getXmlFields() {
-		if (getXmlFieldsDocument() == null) {
-			return null;
-		} else {
-			logger.debug("Getting xmlFields for item " + getItem());
-			String result = XmlUtils.documentToString(getXmlFieldsDocument());
-			return result;
-		}
-	}*/
-
-	/**
-		 * 
-		 * @since 1.0
-		 */
-	/*public void setXmlFields(String xmlFields) {
-		DocumentBuilderFactory documentBuilderFactory =
-			DocumentBuilderFactory.newInstance();
-		DocumentBuilder documentBuilder = null;
-		Document xmlDocument = null;
-		try {
-			documentBuilder = documentBuilderFactory.newDocumentBuilder();
-			xmlDocument =
-				documentBuilder.parse(
-					new ByteArrayInputStream(xmlFields.getBytes("UTF-8")));
-		} catch (ParserConfigurationException parserConfigurationException) {
-			logger.error("", parserConfigurationException);
-		} catch (SAXException saxException) {
-			logger.error("", saxException);
-		} catch (IOException ioException) {
-			logger.error("", ioException);
-		}
-		setXmlFieldsDocument(xmlDocument);
-	}
-*/
 	/**
 		 * 
 		 * @since 1.0
