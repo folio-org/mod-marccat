@@ -1,11 +1,10 @@
 package org.folio.cataloging.integration;
 
 import io.vertx.core.Future;
-import net.sf.hibernate.Session;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
-import org.folio.rest.impl.LogicalViewsAPI;
 
+import java.util.Map;
 import java.util.Optional;
 
 import static java.util.Optional.ofNullable;
@@ -29,11 +28,12 @@ public interface PieceOfExistingLogicAdapter<T> {
      * Executes a piece of existing logic.
      *
      * @param storageService the facade towards the cataloging persistence layer.
+     * @param configuration the configuration that has been properly loaded for this context.
      * @param future the future for communicating back the outcome.
      */
-    default void execute(final StorageService storageService, final Future future) {
+    default void execute(final StorageService storageService, final Map<String, String> configuration, final Future future) {
         try {
-            final Optional<T> result = ofNullable(executeAndGet(storageService,future));
+            final Optional<T> result = ofNullable(executeAndGet(storageService, configuration, future));
             if (result.isPresent()) {
                 future.complete(result.get());
             } else {
@@ -46,5 +46,13 @@ public interface PieceOfExistingLogicAdapter<T> {
         }
     }
 
-    T executeAndGet(StorageService storageService, Future future);
+    /**
+     * Template method for executing the logic associated with this service.
+     *
+     * @param storageService the {@link StorageService} instance.
+     * @param configuration the service configuration.
+     * @param future the future associated with this execution chain.
+     * @return the value object(s) produced by this service.
+     */
+    T executeAndGet(StorageService storageService, final Map<String, String> configuration, Future future);
 }

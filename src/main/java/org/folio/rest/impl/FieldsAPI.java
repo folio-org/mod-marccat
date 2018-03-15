@@ -5,7 +5,6 @@ import io.vertx.core.Context;
 import io.vertx.core.Handler;
 import org.folio.cataloging.F;
 import org.folio.cataloging.Global;
-import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.dao.persistence.T_BIB_HDR;
 import org.folio.cataloging.domain.GeneralInformation;
 import org.folio.cataloging.integration.StorageService;
@@ -20,7 +19,6 @@ import org.folio.rest.jaxrs.model.VariableField;
 import org.folio.rest.jaxrs.resource.CatalogingFieldsResource;
 
 import javax.ws.rs.core.Response;
-import java.util.HashMap;
 import java.util.Map;
 
 import static java.util.Arrays.asList;
@@ -47,13 +45,12 @@ public class FieldsAPI implements CatalogingFieldsResource {
                                                           final Map<String, String> okapiHeaders,
                                                           final Handler<AsyncResult<Response>> asyncResultHandler,
                                                           final Context vertxContext) throws Exception {
-        doGet((storageService, future) -> {
+        doGet((storageService, configuration, future) -> {
             try {
-                final Map<String, String> configuration = getConfigurationValues(vertxContext);
                 final FieldCollection container = new FieldCollection();
                 container.setFields(
-                        asList(createRequiredLeaderField(configuration, storageService, lang),
-                                createControlNumberField(configuration, storageService, lang),
+                        asList(createRequiredLeaderField(storageService, lang),
+                                createControlNumberField(storageService, lang),
                                 createRequiredMaterialDescriptionField(configuration, storageService, lang),
                                 createCatalogingSourceField(configuration, storageService, lang)));
                 return container;
@@ -108,12 +105,11 @@ public class FieldsAPI implements CatalogingFieldsResource {
     /**
      * create default control field value
      *
-     * @param configuration the configuration parameters
      * @param storageService the storage service.
      * @param lang the lang associated with the current request.
      * @return a new 001 {@link Field} entity populated with default values.
      */
-    private Field createControlNumberField(final Map<String, String> configuration, final StorageService storageService, final String lang)
+    private Field createControlNumberField(final StorageService storageService, final String lang)
     {
         final String description = getDescriptionFixedField(storageService, lang, Global.CONTROL_NUMBER_HEADER_TYPE);
         final FixedField controlNumberFixedField = new FixedField();
@@ -144,14 +140,13 @@ public class FieldsAPI implements CatalogingFieldsResource {
     }
 
     /**
-     * Create default leader
+     * Create a leader with default values.
      *
-     * @param configuration the configuration parameters
      * @param storageService the storage service.
      * @param lang the lang associated with the current request.
      * @return a new leader {@link Field} entity populated with default values.
      */
-    private Field createRequiredLeaderField(final Map<String, String> configuration, final StorageService storageService, final String lang) {
+    private Field createRequiredLeaderField(final StorageService storageService, final String lang) {
 
         final String description = getDescriptionFixedField(storageService, lang, Global.LEADER_HEADER_TYPE);
         final FixedField leader = new FixedField();
@@ -201,8 +196,9 @@ public class FieldsAPI implements CatalogingFieldsResource {
     }
 
     /**
-     * sets default leader value
-     * @return
+     * Sets the default leader value.
+     *
+     * @return the default leader value.
      */
     private String getLeaderValue() {
         return new StringBuilder(Global.fixedLeaderLength)
@@ -215,151 +211,12 @@ public class FieldsAPI implements CatalogingFieldsResource {
                 .append(Global.encodingLevel)
                 .append(Global.descriptiveCataloguingCode)
                 .append(Global.linkedRecordCode)
-                .append(Global.fixedLeaderPortion).toString();
+                .append(Global.fixedLeaderPortion)
+                .toString();
     }
-
-    /**
-     * Reads parameters from configuration module
-     * @param vertxContext the vertx context.
-     * @return configuration map values.
-     */
-    private Map<String, String> getConfigurationValues(final Context vertxContext){
-
-        final Map<String, String> configuration = new HashMap<>();
-
-        Defaults.getString("bibliographicItem.recordCataloguingSourceCode", vertxContext).setHandler(asyncHandlerResult -> {
-            if (asyncHandlerResult.succeeded()) {
-                configuration.put("bibliographicItem.recordCataloguingSourceCode", asyncHandlerResult.result());
-            } else {
-                configuration.put("bibliographicItem.recordCataloguingSourceCode", Global.recordCataloguingSourceCode);
-            }
-        });
-
-        Defaults.getString("bibliographicItem.languageCode", vertxContext).setHandler(asyncHandlerResult -> {
-            if (asyncHandlerResult.succeeded()) {
-                configuration.put("bibliographicItem.languageCode", asyncHandlerResult.result());
-            } else {
-                configuration.put("bibliographicItem.languageCode", Global.languageCode);
-            }
-        });
-
-        Defaults.getString("material.bookIllustrationCode", vertxContext).setHandler(asyncHandlerResult -> {
-            if (asyncHandlerResult.succeeded()) {
-                configuration.put("material.bookIllustrationCode", asyncHandlerResult.result());
-            } else {
-                configuration.put("material.bookIllustrationCode", Global.bookIllustrationCode);
-            }
-        });
-
-        Defaults.getString("material.targetAudienceCode", vertxContext).setHandler(asyncHandlerResult -> {
-            if (asyncHandlerResult.succeeded()) {
-                configuration.put("material.targetAudienceCode", String.valueOf(asyncHandlerResult.result()));
-            } else {
-                configuration.put("material.targetAudienceCode", String.valueOf(Global.targetAudienceCode));
-            }
-        });
-
-        Defaults.getString("material.formOfItemCode", vertxContext).setHandler(asyncHandlerResult -> {
-            if (asyncHandlerResult.succeeded()) {
-                configuration.put("material.formOfItemCode", String.valueOf(asyncHandlerResult.result()));
-            } else {
-                configuration.put("material.formOfItemCode", String.valueOf(Global.formOfItemCode));
-            }
-        });
-
-        Defaults.getString("material.natureOfContentsCode", vertxContext).setHandler(asyncHandlerResult -> {
-            if (asyncHandlerResult.succeeded()) {
-                configuration.put("material.natureOfContentsCode", asyncHandlerResult.result());
-            } else {
-                configuration.put("material.natureOfContentsCode", Global.natureOfContentsCode);
-            }
-        });
-
-        Defaults.getString("material.governmentPublicationCode", vertxContext).setHandler(asyncHandlerResult -> {
-            if (asyncHandlerResult.succeeded()) {
-                configuration.put("material.governmentPublicationCode", String.valueOf(asyncHandlerResult.result()));
-            } else {
-                configuration.put("material.governmentPublicationCode", String.valueOf(Global.governmentPublicationCode));
-            }
-        });
-
-        Defaults.getString("material.conferencePublicationCode", vertxContext).setHandler(asyncHandlerResult -> {
-            if (asyncHandlerResult.succeeded()) {
-                configuration.put("material.conferencePublicationCode", String.valueOf(asyncHandlerResult.result()));
-            } else {
-                configuration.put("material.conferencePublicationCode", String.valueOf(Global.conferencePublicationCode));
-            }
-        });
-
-        Defaults.getString("material.bookFestschrift", vertxContext).setHandler(asyncHandlerResult -> {
-            if (asyncHandlerResult.succeeded()) {
-                configuration.put("material.bookFestschrift", String.valueOf(asyncHandlerResult.result()));
-            } else {
-                configuration.put("material.bookFestschrift", String.valueOf(Global.bookFestschrift));
-            }
-        });
-
-        Defaults.getString("material.bookIndexAvailabilityCode", vertxContext).setHandler(asyncHandlerResult -> {
-            if (asyncHandlerResult.succeeded()) {
-                configuration.put("material.bookIndexAvailabilityCode", String.valueOf(asyncHandlerResult.result()));
-            } else {
-                configuration.put("material.bookIndexAvailabilityCode", String.valueOf(Global.bookIndexAvailabilityCode));
-            }
-        });
-
-        Defaults.getString("material.bookLiteraryFormTypeCode", vertxContext).setHandler(asyncHandlerResult -> {
-            if (asyncHandlerResult.succeeded()) {
-                configuration.put("material.bookLiteraryFormTypeCode", String.valueOf(asyncHandlerResult.result()));
-            } else {
-                configuration.put("material.bookLiteraryFormTypeCode", String.valueOf(Global.bookLiteraryFormTypeCode));
-            }
-        });
-
-        Defaults.getString("material.bookBiographyCode", vertxContext).setHandler(asyncHandlerResult -> {
-            if (asyncHandlerResult.succeeded()) {
-                configuration.put("material.bookBiographyCode", String.valueOf(asyncHandlerResult.result()));
-            } else {
-                configuration.put("material.bookBiographyCode", String.valueOf(Global.bookBiographyCode));
-            }
-        });
-
-        Defaults.getString("bibliographicItem.itemDateTypeCode", vertxContext).setHandler(asyncHandlerResult -> {
-            if (asyncHandlerResult.succeeded()) {
-                configuration.put("bibliographicItem.itemDateTypeCode", String.valueOf(asyncHandlerResult.result()));
-            } else {
-                configuration.put("bibliographicItem.itemDateTypeCode", String.valueOf(Global.itemDateTypeCode));
-            }
-        });
-
-        Defaults.getString("bibliographicItem.marcCountryCode", vertxContext).setHandler(asyncHandlerResult -> {
-            if (asyncHandlerResult.succeeded()) {
-                configuration.put("bibliographicItem.marcCountryCode", asyncHandlerResult.result());
-            } else {
-                configuration.put("bibliographicItem.marcCountryCode", Global.undefinedMarcCountryCode);
-            }
-        });
-        Defaults.getString("bibliographicItem.cataloguingSourceStringText", vertxContext).setHandler(asyncHandlerResult -> {
-            if (asyncHandlerResult.succeeded()) {
-                configuration.put("bibliographicItem.cataloguingSourceStringText", asyncHandlerResult.result());
-            } else {
-                configuration.put("bibliographicItem.cataloguingSourceStringText", Global.cataloguingSourceStringText);
-            }
-        });
-        Defaults.getString("bibliographicItem.languageOfCataloguing", vertxContext).setHandler(asyncHandlerResult -> {
-            if (asyncHandlerResult.succeeded()) {
-                configuration.put("bibliographicItem.languageOfCataloguing", asyncHandlerResult.result());
-            } else {
-                configuration.put("bibliographicItem.languageOfCataloguing", Global.languageOfCataloguing);
-            }
-        });
-
-
-        return configuration;
-    }
-
 
     @Override
-    public void postCatalogingFieldsBibliographicMandatory(String lang, Field entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
+    public void postCatalogingFieldsBibliographicMandatory(String lang, Field entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) {
         throw new IllegalArgumentException();
     }
 }
