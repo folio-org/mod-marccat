@@ -5,7 +5,6 @@ import io.vertx.core.Context;
 import io.vertx.core.Handler;
 import org.folio.cataloging.F;
 import org.folio.cataloging.Global;
-import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.dao.persistence.T_BIB_HDR;
 import org.folio.cataloging.domain.GeneralInformation;
 import org.folio.cataloging.integration.StorageService;
@@ -85,7 +84,7 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
                 logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
                 return null;
             }
-        }, asyncResultHandler, okapiHeaders, vertxContext);
+        }, asyncResultHandler, okapiHeaders, vertxContext, "bibliographic", "material");
 
     }
 
@@ -164,9 +163,7 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
                     if ("1".equals(generalInformation.getMaterialDescription008Indicator())) {
                         generalInformation.setEnteredOnFileDateYYMMDD(F.getFormattedDate("yyMMdd"));
                     }
-
-                    final Map<String, String> configuration = getConfigurationValues(serviceConfiguration, generalInformation);
-                    generalInformation.setDefaultValues(configuration);
+                    generalInformation.setDefaultValues(serviceConfiguration);
                     valueField = generalInformation.getValueString();
                 }
 
@@ -367,145 +364,6 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
     @Override
     public void putCatalogingFieldTemplate(String lang, FieldTemplate entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
         throw new IllegalArgumentException();
-    }
-
-    /**
-     * Returns the configuration associated with this service.
-     *
-     * @return configuration the configuration associated with this service.
-     */
-    private Map<String, String> getConfigurationValues(final Map<String, String> configuration, final GeneralInformation generalInformation){
-
-        if (generalInformation.isBook()) {
-            Defaults.getString("bibliographicItem.recordCataloguingSourceCode", vertxContext).setHandler(asyncHandlerResult -> {
-                if (asyncHandlerResult.succeeded()) {
-                    configuration.put("bibliographicItem.recordCataloguingSourceCode", asyncHandlerResult.result());
-                } else {
-                    configuration.put("bibliographicItem.recordCataloguingSourceCode", Global.recordCataloguingSourceCode);
-                }
-            });
-
-            Defaults.getString("bibliographicItem.languageCode", vertxContext).setHandler(asyncHandlerResult -> {
-                if (asyncHandlerResult.succeeded()) {
-                    configuration.put("bibliographicItem.languageCode", asyncHandlerResult.result());
-                } else {
-                    configuration.put("bibliographicItem.languageCode", Global.languageCode);
-                }
-            });
-
-            Defaults.getString("material.bookIllustrationCode", vertxContext).setHandler(asyncHandlerResult -> {
-                if (asyncHandlerResult.succeeded()) {
-                    configuration.put("material.bookIllustrationCode", asyncHandlerResult.result());
-                } else {
-                    configuration.put("material.bookIllustrationCode", Global.bookIllustrationCode);
-                }
-            });
-
-            Defaults.getString("material.targetAudienceCode", vertxContext).setHandler(asyncHandlerResult -> {
-                if (asyncHandlerResult.succeeded()) {
-                    configuration.put("material.targetAudienceCode", String.valueOf(asyncHandlerResult.result()));
-                } else {
-                    configuration.put("material.targetAudienceCode", String.valueOf(Global.targetAudienceCode));
-                }
-            });
-
-            Defaults.getString("material.formOfItemCode", vertxContext).setHandler(asyncHandlerResult -> {
-                if (asyncHandlerResult.succeeded()) {
-                    configuration.put("material.formOfItemCode", String.valueOf(asyncHandlerResult.result()));
-                } else {
-                    configuration.put("material.formOfItemCode", String.valueOf(Global.formOfItemCode));
-                }
-            });
-
-            Defaults.getString("material.natureOfContentsCode", vertxContext).setHandler(asyncHandlerResult -> {
-                if (asyncHandlerResult.succeeded()) {
-                    configuration.put("material.natureOfContentsCode", asyncHandlerResult.result());
-                } else {
-                    configuration.put("material.natureOfContentsCode", Global.natureOfContentsCode);
-                }
-            });
-
-            Defaults.getString("material.governmentPublicationCode", vertxContext).setHandler(asyncHandlerResult -> {
-                if (asyncHandlerResult.succeeded()) {
-                    configuration.put("material.governmentPublicationCode", String.valueOf(asyncHandlerResult.result()));
-                } else {
-                    configuration.put("material.governmentPublicationCode", String.valueOf(Global.governmentPublicationCode));
-                }
-            });
-
-            Defaults.getString("material.conferencePublicationCode", vertxContext).setHandler(asyncHandlerResult -> {
-                if (asyncHandlerResult.succeeded()) {
-                    configuration.put("material.conferencePublicationCode", String.valueOf(asyncHandlerResult.result()));
-                } else {
-                    configuration.put("material.conferencePublicationCode", String.valueOf(Global.conferencePublicationCode));
-                }
-            });
-
-            Defaults.getString("material.bookFestschrift", vertxContext).setHandler(asyncHandlerResult -> {
-                if (asyncHandlerResult.succeeded()) {
-                    configuration.put("material.bookFestschrift", String.valueOf(asyncHandlerResult.result()));
-                } else {
-                    configuration.put("material.bookFestschrift", String.valueOf(Global.bookFestschrift));
-                }
-            });
-
-            Defaults.getString("material.bookIndexAvailabilityCode", vertxContext).setHandler(asyncHandlerResult -> {
-                if (asyncHandlerResult.succeeded()) {
-                    configuration.put("material.bookIndexAvailabilityCode", String.valueOf(asyncHandlerResult.result()));
-                } else {
-                    configuration.put("material.bookIndexAvailabilityCode", String.valueOf(Global.bookIndexAvailabilityCode));
-                }
-            });
-
-            Defaults.getString("material.bookLiteraryFormTypeCode", vertxContext).setHandler(asyncHandlerResult -> {
-                if (asyncHandlerResult.succeeded()) {
-                    configuration.put("material.bookLiteraryFormTypeCode", String.valueOf(asyncHandlerResult.result()));
-                } else {
-                    configuration.put("material.bookLiteraryFormTypeCode", String.valueOf(Global.bookLiteraryFormTypeCode));
-                }
-            });
-
-            Defaults.getString("material.bookBiographyCode", vertxContext).setHandler(asyncHandlerResult -> {
-                if (asyncHandlerResult.succeeded()) {
-                    configuration.put("material.bookBiographyCode", String.valueOf(asyncHandlerResult.result()));
-                } else {
-                    configuration.put("material.bookBiographyCode", String.valueOf(Global.bookBiographyCode));
-                }
-            });
-
-            Defaults.getString("bibliographicItem.itemDateTypeCode", vertxContext).setHandler(asyncHandlerResult -> {
-                if (asyncHandlerResult.succeeded()) {
-                    configuration.put("bibliographicItem.itemDateTypeCode", String.valueOf(asyncHandlerResult.result()));
-                } else {
-                    configuration.put("bibliographicItem.itemDateTypeCode", String.valueOf(Global.itemDateTypeCode));
-                }
-            });
-
-            Defaults.getString("bibliographicItem.marcCountryCode", vertxContext).setHandler(asyncHandlerResult -> {
-                if (asyncHandlerResult.succeeded()) {
-                    configuration.put("bibliographicItem.marcCountryCode", asyncHandlerResult.result());
-                } else {
-                    configuration.put("bibliographicItem.marcCountryCode", Global.undefinedMarcCountryCode);
-                }
-            });
-            Defaults.getString("bibliographicItem.cataloguingSourceStringText", vertxContext).setHandler(asyncHandlerResult -> {
-                if (asyncHandlerResult.succeeded()) {
-                    configuration.put("bibliographicItem.cataloguingSourceStringText", asyncHandlerResult.result());
-                } else {
-                    configuration.put("bibliographicItem.cataloguingSourceStringText", Global.cataloguingSourceStringText);
-                }
-            });
-            Defaults.getString("bibliographicItem.languageOfCataloguing", vertxContext).setHandler(asyncHandlerResult -> {
-                if (asyncHandlerResult.succeeded()) {
-                    configuration.put("bibliographicItem.languageOfCataloguing", asyncHandlerResult.result());
-                } else {
-                    configuration.put("bibliographicItem.languageOfCataloguing", Global.languageOfCataloguing);
-                }
-            });
-        } //else altri casi
-
-
-        return configuration;
     }
 
     /**
