@@ -41,7 +41,7 @@ public class CategoriesAPI implements CatalogingCategoriesResource {
                                         final Map<String, String> okapiHeaders,
                                         final Handler<AsyncResult<Response>> asyncResultHandler,
                                         final Context vertxContext) throws Exception {
-        doGet((storageService, future) -> {
+        doGet((storageService, configuration, future) -> {
             try {
                 final MarcCategoryCollection categories = new MarcCategoryCollection();
                 categories.setCategories(

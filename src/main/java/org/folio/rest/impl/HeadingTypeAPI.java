@@ -43,7 +43,7 @@ public class HeadingTypeAPI implements CatalogingHeadingTypesResource {
                                           final Map<String, String> okapiHeaders,
                                           final Handler<AsyncResult<Response>> asyncResultHandler,
                                           final Context vertxContext) throws Exception {
-        doGet((storageService, future) -> {
+        doGet((storageService, configuration, future) -> {
             try {
 
                 final String category = (marcCategory.equals("17") ? Integer.toString(Global.NAME_CATEGORY_DEFAULT) : marcCategory);

@@ -51,7 +51,7 @@ public class IndexesAPI implements CatalogingIndexesResource {
             final Map<String, String> okapiHeaders,
             final Handler<AsyncResult<Response>> asyncResultHandler,
             final Context vertxContext) throws Exception {
-        doGet((storageService, future) -> {
+        doGet((storageService, configuration, future) -> {
             try {
                 final Index container = new Index();
                 container.setCode(code);
@@ -76,7 +76,7 @@ public class IndexesAPI implements CatalogingIndexesResource {
             final String lang,
             final Map<String,String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler,
             final Context vertxContext) throws Exception {
-            doGet((storageService, future) -> {
+        doGet((storageService, configuration, future) -> {
             try {
                 final IndexCollection container = new IndexCollection();
                 container.setIndexes(
@@ -104,7 +104,7 @@ public class IndexesAPI implements CatalogingIndexesResource {
 
     @Override
     public void putCatalogingIndexesByCode(String code, String lang, Index entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
-        doPut((storageService, future) -> {
+        doPut((storageService, configuration, future) -> {
             try {
                 // Here we have to manage the update of the entity associated with the incoming id, using the given state
                 // (the entity attribute).

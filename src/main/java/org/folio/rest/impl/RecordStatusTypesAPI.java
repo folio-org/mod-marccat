@@ -6,11 +6,8 @@ import io.vertx.core.Handler;
 import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
-import org.folio.rest.jaxrs.model.AcquisitionType;
-import org.folio.rest.jaxrs.model.AcquisitionTypeCollection;
 import org.folio.rest.jaxrs.model.RecordStatusType;
 import org.folio.rest.jaxrs.model.RecordStatusTypeCollection;
-import org.folio.rest.jaxrs.resource.CatalogingAcquisitionTypesResource;
 import org.folio.rest.jaxrs.resource.CatalogingRecordStatusTypesResource;
 
 import javax.ws.rs.core.Response;
@@ -44,7 +41,7 @@ public class RecordStatusTypesAPI implements CatalogingRecordStatusTypesResource
             final Map<String, String> okapiHeaders,
             final Handler<AsyncResult<Response>> asyncResultHandler,
             final Context vertxContext) throws Exception {
-        doGet((storageService, future) -> {
+        doGet((storageService, configuration, future) -> {
             try {
                 final RecordStatusTypeCollection container = new RecordStatusTypeCollection();
                 container.setRecordStatusTypes(

@@ -41,7 +41,7 @@ public class LogicalViewsAPI implements CatalogingLogicalViewsResource {
             final Map<String, String> okapiHeaders,
             final Handler<AsyncResult<Response>> resultHandler,
             final Context vertxContext) throws Exception {
-        doGet((storageService, future) -> {
+        doGet((storageService, configuration, future) -> {
             try {
                 final LogicalViewCollection container = new LogicalViewCollection();
                 container.setViews(

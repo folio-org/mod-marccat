@@ -19,7 +19,6 @@ import org.folio.rest.jaxrs.model.VariableField;
 import org.folio.rest.jaxrs.resource.CatalogingFieldTemplateResource;
 
 import javax.ws.rs.core.Response;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -27,16 +26,13 @@ import static java.util.Arrays.stream;
 import static java.util.Optional.ofNullable;
 import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
-
 /**
  *
  * FieldTemplate Restful API
  *
  * @author natasciab
  * @since 1.0
- *
  */
-
 public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
 
     protected final Log logger = new Log(FieldTemplateAPI.class);
@@ -51,8 +47,7 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
                                            final Map<String, String> okapiHeaders,
                                            final Handler<AsyncResult<Response>> asyncResultHandler,
                                            final Context vertxContext) throws Exception {
-
-        doGet((storageService, future) -> {
+        doGet((storageService, configuration, future) -> {
             try {
                 return !isFixedField(code)
                     ? ofNullable(storageService.getCorrelationVariableField(categoryCode, ind1, ind2, code))
@@ -79,9 +74,8 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
                                 fieldTemplate.setCode(code);
                                 return fieldTemplate;
                             }).orElse(null)
-                    :   ofNullable(getFixedField(storageService, headerType, code, leader, valueField, vertxContext, lang))
+                    :   ofNullable(getFixedField(storageService, headerType, code, leader, valueField, vertxContext, lang, configuration))
                             .map(fixedField -> {
-
                                 final FieldTemplate fieldT = new FieldTemplate();
                                 fieldT.setFixedField(fixedField);
                                 fieldT.setCode(code);
@@ -119,7 +113,8 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
                                      final String leader,
                                      String valueField,
                                      final Context vertxContext,
-                                     final String lang) {
+                                     final String lang,
+                                     final Map<String, String> serviceConfiguration) {
 
 
         FixedField fixedField = new FixedField();
@@ -165,12 +160,12 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
             }
 
             if (code.equals(Global.MATERIAL_TAG_CODE) || code.equals(Global.OTHER_MATERIAL_TAG_CODE)) {
-
                 if (valueField == null){
-                    if (generalInformation.getMaterialDescription008Indicator().equals("1")) {
+                    if ("1".equals(generalInformation.getMaterialDescription008Indicator())) {
                         generalInformation.setEnteredOnFileDateYYMMDD(F.getFormattedDate("yyMMdd"));
                     }
-                    final Map<String, String> configuration = getConfigurationValues(vertxContext, generalInformation);
+
+                    final Map<String, String> configuration = getConfigurationValues(serviceConfiguration, generalInformation);
                     generalInformation.setDefaultValues(configuration);
                     valueField = generalInformation.getValueString();
                 }
@@ -374,17 +369,12 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
         throw new IllegalArgumentException();
     }
 
-
-    // TODO: Asynch management and configure all types of material
     /**
-     * Reads parameters from configuration module.
+     * Returns the configuration associated with this service.
      *
-     * @param vertxContext the vertx context.
-     * @return configuration map values.
+     * @return configuration the configuration associated with this service.
      */
-    private Map<String, String> getConfigurationValues(final Context vertxContext, final GeneralInformation generalInformation){
-
-        final Map<String, String> configuration = new HashMap<>();
+    private Map<String, String> getConfigurationValues(final Map<String, String> configuration, final GeneralInformation generalInformation){
 
         if (generalInformation.isBook()) {
             Defaults.getString("bibliographicItem.recordCataloguingSourceCode", vertxContext).setHandler(asyncHandlerResult -> {

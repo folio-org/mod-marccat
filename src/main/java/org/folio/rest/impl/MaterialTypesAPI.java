@@ -6,7 +6,6 @@ import io.vertx.core.Handler;
 import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
-
 import org.folio.rest.jaxrs.model.MaterialType;
 import org.folio.rest.jaxrs.model.MaterialTypeCollection;
 import org.folio.rest.jaxrs.resource.CatalogingMaterialTypesResource;
@@ -41,7 +40,7 @@ public class MaterialTypesAPI implements CatalogingMaterialTypesResource {
                                   final Map<String, String> okapiHeaders,
                                   final Handler<AsyncResult<Response>> asyncResultHandler,
                                   final Context vertxContext) throws Exception {
-        doGet((storageService, future) -> {
+        doGet((storageService, configuration, future) -> {
             try {
                 final MaterialTypeCollection container = new MaterialTypeCollection();
                 container.setMaterialTypes(

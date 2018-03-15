@@ -40,7 +40,7 @@ public class FrbrTypesAPI implements CatalogingFrbrTypesResource {
                              final Map<String, String> okapiHeaders,
                              final Handler<AsyncResult<Response>> asyncResultHandler,
                              final Context vertxContext) throws Exception {
-        doGet((storageService, future) -> {
+        doGet((storageService, configuration, future) -> {
             try {
                 final FrbrTypeCollection container = new FrbrTypeCollection();
                 container.setFrbrTypes(
@@ -62,7 +62,7 @@ public class FrbrTypesAPI implements CatalogingFrbrTypesResource {
                                    final Map<String, String> okapiHeaders,
                                    final Handler<AsyncResult<Response>> asyncResultHandler,
                                    final Context vertxContext) throws Exception {
-        doGet((storageService, future) -> {
+        doGet((storageService, configuration, future) -> {
             try {
                 final FrbrType frbrType = new FrbrType();
                 frbrType.setCode(Integer.parseInt(code));

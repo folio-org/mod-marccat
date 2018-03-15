@@ -6,14 +6,11 @@ import io.vertx.core.Handler;
 import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
-import org.folio.rest.jaxrs.model.AcquisitionType;
-import org.folio.rest.jaxrs.model.AcquisitionTypeCollection;
 import org.folio.rest.jaxrs.model.DetailLevel;
 import org.folio.rest.jaxrs.model.DetailLevelCollection;
 import org.folio.rest.jaxrs.resource.CatalogingDetailLevelsResource;
 
 import javax.ws.rs.core.Response;
-import javax.xml.soap.Detail;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -42,7 +39,7 @@ public class DetailLevelsAPI implements CatalogingDetailLevelsResource {
                                 final Map<String, String> okapiHeaders,
                                 final Handler<AsyncResult<Response>> asyncResultHandler,
                                 final Context vertxContext) throws Exception {
-        doGet((storageService, future) -> {
+        doGet((storageService, configuration, future) -> {
             try {
                 final DetailLevelCollection container = new DetailLevelCollection();
                 container.setDetailLevels(

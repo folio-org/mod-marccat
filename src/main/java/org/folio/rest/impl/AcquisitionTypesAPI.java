@@ -41,7 +41,7 @@ public class AcquisitionTypesAPI implements CatalogingAcquisitionTypesResource {
                                     final Map<String, String> okapiHeaders,
                                     final Handler<AsyncResult<Response>> asyncResultHandler,
                                     final Context vertxContext) throws Exception {
-        doGet((storageService, future) -> {
+        doGet((storageService, configuration, future) -> {
             try {
                 final AcquisitionTypeCollection container = new AcquisitionTypeCollection();
                 container.setAcquisitionTypes(
