@@ -58,7 +58,7 @@ public class FieldsAPI implements CatalogingFieldsResource {
                 logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
                 return null;
             }
-        }, asyncResultHandler, okapiHeaders, vertxContext);
+        }, asyncResultHandler, okapiHeaders, vertxContext, "bibliographic", "material");
     }
 
     /**
