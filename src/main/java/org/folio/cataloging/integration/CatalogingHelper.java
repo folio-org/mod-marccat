@@ -44,7 +44,7 @@ public abstract class CatalogingHelper {
     private final static Properties DEFAULT_VALUES = new Properties();
     static {
         try {
-            DEFAULT_VALUES.load(CatalogingHelper.class.getResourceAsStream("defaults.properties"));
+            DEFAULT_VALUES.load(CatalogingHelper.class.getResourceAsStream("/defaults.properties"));
         } catch (final Throwable exception) {
             throw new ExceptionInInitializerError(exception);
         }
