@@ -572,10 +572,8 @@ public class StorageService implements Closeable {
                                                  final int code2,
                                                  final int code3) throws DataAccessException {
         final DAOBibliographicValidation daoBibliographicValidation = new DAOBibliographicValidation();
-        try
-        {
-            final CorrelationValues correlationValues = new CorrelationValues(code1, code2, code3);
-            return daoBibliographicValidation.load(session, marcCategory, correlationValues);
+        try {
+            return daoBibliographicValidation.load(session, marcCategory, new CorrelationValues(code1, code2, code3));
         } catch (final HibernateException exception) {
             logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
             throw new DataAccessException(exception);
@@ -713,11 +711,7 @@ public class StorageService implements Closeable {
      * @throws DataAccessException in case of data access failure.
      */
     public String getHeadingTypeDescription(final int code, final String lang, final Class clazz) throws DataAccessException {
-
         final DAOCodeTable dao = new DAOCodeTable();
         return dao.getLongText(session, code, clazz, locale(lang));
     }
-
-
-
 }

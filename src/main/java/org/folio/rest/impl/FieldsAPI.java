@@ -109,8 +109,7 @@ public class FieldsAPI implements CatalogingFieldsResource {
      * @param lang the lang associated with the current request.
      * @return a new 001 {@link Field} entity populated with default values.
      */
-    private Field createControlNumberField(final StorageService storageService, final String lang)
-    {
+    private Field createControlNumberField(final StorageService storageService, final String lang) {
         final String description = getDescriptionFixedField(storageService, lang, Global.CONTROL_NUMBER_HEADER_TYPE);
         final FixedField controlNumberFixedField = new FixedField();
         controlNumberFixedField.setCategoryCode(Global.INT_CATEGORY);
@@ -124,7 +123,6 @@ public class FieldsAPI implements CatalogingFieldsResource {
         field.setCode(Global.CONTROL_NUMBER_TAG_NUMBER);
 
         return field;
-
     }
 
     /**
@@ -136,7 +134,7 @@ public class FieldsAPI implements CatalogingFieldsResource {
      * @return string description.
      */
     private String getDescriptionFixedField(final StorageService storageService, final String lang, final int code1)  {
-        return storageService.getHeadingTypeDescription( (short)code1, lang, T_BIB_HDR.class);
+        return storageService.getHeadingTypeDescription(code1, lang, T_BIB_HDR.class);
     }
 
     /**
@@ -147,7 +145,6 @@ public class FieldsAPI implements CatalogingFieldsResource {
      * @return a new leader {@link Field} entity populated with default values.
      */
     private Field createRequiredLeaderField(final StorageService storageService, final String lang) {
-
         final String description = getDescriptionFixedField(storageService, lang, Global.LEADER_HEADER_TYPE);
         final FixedField leader = new FixedField();
         leader.setCategoryCode(Global.INT_CATEGORY);
@@ -172,9 +169,6 @@ public class FieldsAPI implements CatalogingFieldsResource {
      * @return the 008 default tag definition.
      */
     private Field createRequiredMaterialDescriptionField(final Map<String, String> configuration, final StorageService storageService, final String lang) {
-
-        final String description = getDescriptionFixedField(storageService, lang, Global.MATERIAL_DESCRIPTION_HEADER_TYPE);
-
         final GeneralInformation generalInformation = new GeneralInformation();
         generalInformation.setMaterialDescription008Indicator("1");
         generalInformation.setFormOfMaterial(Global.bookformOfMaterial); //book
@@ -185,7 +179,7 @@ public class FieldsAPI implements CatalogingFieldsResource {
         materialDescription.setCategoryCode(Global.INT_CATEGORY);
         materialDescription.setHeaderTypeCode(Global.MATERIAL_DESCRIPTION_HEADER_TYPE);
         materialDescription.setCode(Global.MATERIAL_DESCRIPTION_TAG_NUMBER);
-        materialDescription.setDescription(description);
+        materialDescription.setDescription(getDescriptionFixedField(storageService, lang, Global.MATERIAL_DESCRIPTION_HEADER_TYPE));
         materialDescription.setDisplayValue(generalInformation.getValueString());
 
         final Field field = new Field();
@@ -216,7 +210,12 @@ public class FieldsAPI implements CatalogingFieldsResource {
     }
 
     @Override
-    public void postCatalogingFieldsBibliographicMandatory(String lang, Field entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) {
+    public void postCatalogingFieldsBibliographicMandatory(
+            final String lang,
+            final Field entity,
+            final Map<String, String> okapiHeaders,
+            final Handler<AsyncResult<Response>> asyncResultHandler,
+            final Context vertxContext) {
         throw new IllegalArgumentException();
     }
 }
