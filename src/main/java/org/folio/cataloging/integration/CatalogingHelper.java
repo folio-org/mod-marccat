@@ -4,12 +4,13 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Context;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
+import io.vertx.core.buffer.Buffer;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.jdbc.JDBCClient;
 import io.vertx.ext.sql.SQLClient;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpStatus;
 import org.apache.http.entity.ContentType;
-import org.folio.cataloging.Global;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.cataloging.log.PublicMessageCatalog;
@@ -19,13 +20,15 @@ import org.folio.rest.tools.utils.TenantTool;
 import javax.ws.rs.core.Response;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.BooleanSupplier;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import static org.folio.cataloging.F.datasourceConfiguration;
+import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toMap;
+import static org.folio.cataloging.F.safe;
 import static org.folio.cataloging.Global.HCONFIGURATION;
 
 /**
@@ -38,6 +41,16 @@ import static org.folio.cataloging.Global.HCONFIGURATION;
  */
 public abstract class CatalogingHelper {
     private final static Log LOGGER = new Log(CatalogingHelper.class);
+    private final static Properties DEFAULT_VALUES = new Properties();
+    static {
+        try {
+            DEFAULT_VALUES.load(CatalogingHelper.class.getResourceAsStream("defaults.properties"));
+        } catch (final Throwable exception) {
+            throw new ExceptionInInitializerError(exception);
+        }
+    }
+
+    final static String BASE_CQUERY = "module==CATALOGING and ( configName==datasource";
 
     /**
      * Executes a GET request.
@@ -145,6 +158,8 @@ public abstract class CatalogingHelper {
      * @param resultHandler the response handler.
      * @param okapiHeaders the incoming Okapi headers
      * @param ctx the vertx context.
+     * @param responseFactory the mapper between the asynch handler and the outgoing response.
+     * @param configurationSets the configurationSets required by the current service.
      * @throws Exception in case of failure.
      */
     private static void exec(
@@ -152,7 +167,8 @@ public abstract class CatalogingHelper {
             final Handler<AsyncResult<Response>> resultHandler,
             final Map<String, String> okapiHeaders,
             final Context ctx,
-            final Function<AsyncResult<Object>, Response> responseFactory) throws Exception {
+            final Function<AsyncResult<Object>, Response> responseFactory,
+            final String ... configurationSets) throws Exception {
 
         final ConfigurationsClient configuration =
                 new ConfigurationsClient(
@@ -160,9 +176,7 @@ public abstract class CatalogingHelper {
                         Integer.parseInt(System.getProperty("config.server.listen.port", "8085")),
                         TenantTool.tenantId(okapiHeaders));
 
-        ctx.put(Global.CONFIGURATION_CLIENT, configuration);
-
-        configuration.getEntries("module==CATALOGING and configName==datasource", 0, 4, "en", response ->
+        configuration.getEntries(cQuery(configurationSets), 0, 100, "en", response ->
             response.bodyHandler(body -> {
                 try {
                     final SQLClient client = JDBCClient.createShared(ctx.owner(), datasourceConfiguration(body));
@@ -174,7 +188,7 @@ public abstract class CatalogingHelper {
                                                      new StorageService(
                                                              HCONFIGURATION.buildSessionFactory().openSession(connection),
                                                              ctx)) {
-                                            adapter.execute(service, future);
+                                            adapter.execute(service, configuration(body), future);
                                         } catch (final SQLException exception) {
                                             LOGGER.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
                                             resultHandler.handle(
@@ -207,6 +221,24 @@ public abstract class CatalogingHelper {
     }
 
     /**
+     * Creates a dedicated configuration for the current service.
+     *
+     * @param body the mod-configuration response.
+     * @return a dedicated configuration for the current service.
+     */
+    private static Map<String,String> configuration(final Buffer body) {
+        return new JsonObject(body.toString())
+                .getJsonArray("configs")
+                .stream()
+                .map(JsonObject.class::cast)
+                .filter(obj -> !"datasource".equals(obj.getString("configName", "")))
+                .map(obj -> new AbstractMap.SimpleEntry<>(
+                        obj.getString("code"),
+                        obj.getString("value", DEFAULT_VALUES.getProperty(obj.getString("code")))))
+                .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
+    }
+
+    /**
      * Generates a 500 (Internal Server Error) HTTP response.
      *
      * @param message the explanation message.
@@ -214,5 +246,36 @@ public abstract class CatalogingHelper {
      */
     private static Response internalServerError(final String message) {
         return Response.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).entity(message).build();
+    }
+
+    /**
+     * Returns the selection criteria that will be used by the current service for gathering the required configuration.
+     *
+     * @param configurationsSets the configuration groups.
+     * @return the selection criteria that will be used by the current service for gathering the required configuration.
+     */
+    static String cQuery(final String ... configurationsSets) {
+        final String [] values = safe(configurationsSets);
+        return BASE_CQUERY +
+                stream(values).filter(Objects::nonNull).collect(joining(" or ", values.length != 0 ? " or " : "", "")) +
+                ")";
+    }
+
+    /**
+     * Retrieves the datasource configuration from the given buffer.
+     * The incoming buffer is supposed to be the result of one or more calls to the mod-configuration module.
+     *
+     * @param value the configuration as it comes from the mod-configuration module.
+     * @return the datasource configuration used within this module.
+     */
+    private static JsonObject datasourceConfiguration(final Buffer value) {
+        return new JsonObject(value.toString())
+                .getJsonArray("configs")
+                .stream()
+                .map(JsonObject.class::cast)
+                .filter(obj -> "datasource".equals(obj.getString("configName", "")))
+                .reduce(
+                        new JsonObject(),
+                        (r1, r2) -> r1.put(r2.getString("code"), r2.getValue("value")));
     }
 }
