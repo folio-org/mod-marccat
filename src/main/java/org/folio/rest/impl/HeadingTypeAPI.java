@@ -46,17 +46,19 @@ public class HeadingTypeAPI implements CatalogingHeadingTypesResource {
         doGet((storageService, configuration, future) -> {
             try {
 
-                final String category = (marcCategory.equals("17") ? Integer.toString(Global.NAME_CATEGORY_DEFAULT) : marcCategory);
-                return ofNullable(Global.firstCorrelationHeadingClassMap.get(category))
-                        .map(className -> {
-                            final HeadingTypeCollection container = new HeadingTypeCollection();
-                            container.setHeadingTypes(storageService.getFirstCorrelation(lang, className)
-                                    .stream()
-                                    .map(toHeadingType)
-                                    .collect(toList()));
+                final int category = (marcCategory.equals("17") ? Global.NAME_CATEGORY_DEFAULT : Integer.parseInt(marcCategory));
+                return (storageService.existHeadingTypeByCategory(category))
+                        ? ofNullable(storageService.getFirstCorrelation(lang, category))
+                            .map(headingTypeList -> {
+                                final HeadingTypeCollection container = new HeadingTypeCollection();
+                                container.setHeadingTypes(headingTypeList
+                                        .stream()
+                                        .map(toHeadingType)
+                                        .collect(toList()));
 
-                            return container;
-                        }).orElse(null);
+                                return container;
+                            }).orElse(null)
+                        : null;
 
             } catch (final Exception exception) {
                 logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);

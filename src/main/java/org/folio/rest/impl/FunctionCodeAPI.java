@@ -21,6 +21,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
 /**
  * Function codes RESTful APIs.
+ *
  * @author natasciab
  * @since 1.0
  */
@@ -47,20 +48,22 @@ public class FunctionCodeAPI implements CatalogingFunctionCodesResource {
         doGet((storageService, configuration, future) -> {
             try {
 
-                final String category = (marcCategory.equals("17") ? Integer.toString(Global.NAME_CATEGORY_DEFAULT) : marcCategory);
+                final int category = (marcCategory.equals("17") ? Global.NAME_CATEGORY_DEFAULT : Integer.parseInt(marcCategory));
                 final int intCode1 = Integer.parseInt(code1);
                 final int intCode2 = Integer.parseInt(code2);
 
-                return ofNullable(Global.thirdCorrelationHeadingClassMap.get(category))
-                        .map(className -> {
+                return (storageService.existFunctionCodeByCategory(category))
+                        ? ofNullable(storageService.getThirdCorrelation(category, intCode1, intCode2, lang))
+                        .map(functionCodeList -> {
                             final FunctionCodeCollection container = new FunctionCodeCollection();
-                            container.setFunctionCodes(storageService.getThirdCorrelation(category, intCode1, intCode2, lang, className)
+                            container.setFunctionCodes(functionCodeList
                                     .stream()
                                     .map(toFunctionCode)
                                     .collect(toList()));
 
                             return container;
-                        }).orElse(null);
+                        }).orElse(null)
+                        : null;
 
             } catch (final Exception exception) {
                 logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);

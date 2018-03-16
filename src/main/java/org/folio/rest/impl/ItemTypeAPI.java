@@ -47,18 +47,19 @@ public class ItemTypeAPI  implements CatalogingItemTypesResource {
         doGet((storageService, configuration, future) -> {
             try {
 
-                final String category = (marcCategory.equals("17") ? Integer.toString(Global.NAME_CATEGORY_DEFAULT) : marcCategory);
+                final int category = (marcCategory.equals("17") ? Global.NAME_CATEGORY_DEFAULT : Integer.parseInt(marcCategory));
                 final int intCode = Integer.parseInt(code);
-                return ofNullable(Global.secondCorrelationClassMap.get(category))
-                            .map(className -> {
+                return (storageService.existItemTypeByCategory(category))
+                        ? ofNullable(storageService.getSecondCorrelation(category, intCode, lang))
+                            .map(itemTypeList -> {
                                 final ItemTypeCollection container = new ItemTypeCollection();
-                                container.setItemTypes(storageService.getSecondCorrelation(category, intCode, lang, className)
+                                container.setItemTypes(itemTypeList
                                         .stream()
                                         .map(toItemType)
                                         .collect(toList()));
-
                                 return container;
-                            }).orElse(null);
+                            }).orElse(null)
+                        : null;
 
             } catch (final Exception exception) {
                 logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);

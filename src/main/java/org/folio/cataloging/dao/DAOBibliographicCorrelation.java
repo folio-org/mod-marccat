@@ -231,8 +231,8 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 	 * @throws DataAccessException
 	 */
 	public List<Avp<String>> getSecondCorrelationList(final Session session,
-													  final short category,
-                                                      final short value1,
+													  final int category,
+                                                      final int value1,
                                                       final Class classTable,
                                                       final Locale locale) throws DataAccessException
 	{
@@ -249,8 +249,8 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 							+ " ct.obsoleteIndicator = '0' and "
                             + " ct.language = ? "
                             + " order by ct.sequence ",
-                    new Object[]{new Short(category), new Short(value1), locale.getISO3Language()},
-                    new Type[]{Hibernate.SHORT, Hibernate.SHORT, Hibernate.STRING});
+                    new Object[]{new Integer(category), new Integer(value1), locale.getISO3Language()},
+                    new Type[]{Hibernate.INTEGER, Hibernate.INTEGER, Hibernate.STRING});
 
 			return codeTables
 					.stream()
@@ -355,9 +355,9 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 	 * @throws DataAccessException
 	 */
 	public List<Avp<String>> getThirdCorrelationList(final Session session,
-													 final short category,
-													 final short value1,
-													 final short value2,
+													 final int category,
+													 final int value1,
+													 final int value2,
 													 final Class classTable,
 													 final Locale locale) throws DataAccessException {
 		try{
@@ -373,8 +373,8 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 						+ " ct.obsoleteIndicator = '0' and "
                         + " ct.language = ? "
 						+ " order by ct.sequence ",
-				new Object[] {new Short(category), new Short(value1), new Short(value2), locale.getISO3Language()},
-				new Type[] { Hibernate.SHORT, Hibernate.SHORT, Hibernate.SHORT, Hibernate.STRING });
+				new Object[] {new Integer(category), new Integer(value1), new Integer(value2), locale.getISO3Language()},
+				new Type[] { Hibernate.INTEGER, Hibernate.INTEGER, Hibernate.INTEGER, Hibernate.STRING });
 
 				return codeTables
 						.stream()

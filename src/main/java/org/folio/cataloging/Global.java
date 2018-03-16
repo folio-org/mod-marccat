@@ -2,7 +2,6 @@ package org.folio.cataloging;
 
 import net.sf.hibernate.cfg.Configuration;
 import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.dao.persistence.*;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -175,43 +174,6 @@ public abstract class Global  {
 		}
 	};
 
-	public final static Map<String, Class> thirdCorrelationHeadingClassMap = new HashMap<String, Class>(){
-		{
-			put("2", NameFunction.class);
-			put("4", SubjectSource.class);
-			put("11", NameSubType.class);
-		}
-	};
-
-	public final static Map<String, Class> secondCorrelationClassMap = new HashMap<String, Class>(){
-		{
-			put("2", NameSubType.class);
-			put("3", TitleSecondaryFunction.class);
-			put("4", SubjectFunction.class);
-			put("5", ControlNumberFunction.class);
-			put("6", ClassificationFunction.class);
-			put("11", NameType.class);
-		}
-	};
-
-	public final static Map<Integer, Class> firstCorrelationHeadingClassMap = new HashMap<Integer, Class>(){
-		{
-			put(1, T_BIB_HDR.class);
-			put(2, NameType.class);
-			put(17, NameType.class); //from heading
-			put(3, TitleFunction.class);
-			put(4, SubjectType.class);
-			put(18, SubjectType.class); //from heading
-			put(5, ControlNumberType.class);
-			put(19, ControlNumberType.class); //from heading
-			put(6, ClassificationType.class);
-			put(20, ClassificationType.class); //from heading
-			put(7, BibliographicNoteType.class); //note
-			put(8, BibliographicRelationType.class);//relationship
-			put(11, T_NME_TTL_FNCTN.class); //nt
-		}
-	};
-
 	public final static int INT_CATEGORY = 1;
 	public final static int NAME_CATEGORY_DEFAULT = 2;
 	public final static short CORRELATION_UNDEFINED = -1;
@@ -240,40 +202,15 @@ public abstract class Global  {
     public final static String fixedLeaderPortion = "4500";
 
     //bibliographic
-    public final static char itemDateTypeCode = 's';
     public final static String itemDateFirstPublication = "    ";
     public final static String itemDateLastPublication = "    ";
-    public final static String undefinedMarcCountryCode = "und";
-    public final static String languageOfCataloguing = "";
-    public final static String cataloguingSourceStringText = "";
 	public final static String languageCode = "   ";
-	public final static String recordCataloguingSourceCode = "r";
 
 	//default values for material description (tag 008)
 	// book type
 	public final static String bookformOfMaterial = "bk";
     public final static char materialTypeCode = 'a';
-	public final static String bookIllustrationCode = "    ";
-	public final static char targetAudienceCode = ' ';
 	public final static char formOfItemCode = ' ';
-	public final static String natureOfContentsCode = "    ";
-	public final static char governmentPublicationCode = ' ';
-	public final static char conferencePublicationCode = ' ';
-	public final static char bookFestschrift = ' ';
-	public final static char bookIndexAvailabilityCode = ' ';
-	public final static char bookLiteraryFormTypeCode = ' ';
-	public final static char bookBiographyCode = ' ';
-	public final static char bookMainEntryCode = ' ';
-
-	//cartographic
-	public final static String cartographicReliefCode = "      ";
-	public final static String cartographicProjectionCode = "  ";
-	public final static String cartographicMeridianCode = "  ";
-	public final static char cartographicNarrativeTextCode = ' ';
-	public final static char cartographicIndexAvailabilityCode = ' ';
-	public final static String cartographicFormatCode = " ";
-	public final static char computerTargetAudienceCode = ' ';
-	public final static char computerFileTypeCode = ' ';
 
 	public final static List<Integer> sourcesEnabledToAlternativeLabelsSearch  =  new ArrayList<Integer>(Arrays.asList(1,2,4,5,6));
 }

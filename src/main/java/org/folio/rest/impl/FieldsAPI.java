@@ -5,7 +5,6 @@ import io.vertx.core.Context;
 import io.vertx.core.Handler;
 import org.folio.cataloging.F;
 import org.folio.cataloging.Global;
-import org.folio.cataloging.dao.persistence.T_BIB_HDR;
 import org.folio.cataloging.domain.GeneralInformation;
 import org.folio.cataloging.integration.StorageService;
 import org.folio.cataloging.log.Log;
@@ -76,7 +75,7 @@ public class FieldsAPI implements CatalogingFieldsResource {
                         Global.CORRELATION_UNDEFINED,
                         Global.CORRELATION_UNDEFINED);
 
-        final String description = getDescriptionFixedField(storageService, lang, Global.CATALOGING_SOURCE_HEADER_TYPE);
+        final String description = storageService.getHeadingTypeDescription(Global.CATALOGING_SOURCE_HEADER_TYPE, lang, Global.INT_CATEGORY);
         final Validation validation =
                 storageService.getSubfieldsByCorrelations(
                         Global.INT_CATEGORY,
@@ -109,9 +108,8 @@ public class FieldsAPI implements CatalogingFieldsResource {
      * @param lang the lang associated with the current request.
      * @return a new 001 {@link Field} entity populated with default values.
      */
-    private Field createControlNumberField(final StorageService storageService, final String lang)
-    {
-        final String description = getDescriptionFixedField(storageService, lang, Global.CONTROL_NUMBER_HEADER_TYPE);
+    private Field createControlNumberField(final StorageService storageService, final String lang) {
+        final String description = storageService.getHeadingTypeDescription(Global.CONTROL_NUMBER_HEADER_TYPE, lang, Global.INT_CATEGORY);
         final FixedField controlNumberFixedField = new FixedField();
         controlNumberFixedField.setCategoryCode(Global.INT_CATEGORY);
         controlNumberFixedField.setCode(Global.CONTROL_NUMBER_TAG_NUMBER);
@@ -127,17 +125,6 @@ public class FieldsAPI implements CatalogingFieldsResource {
 
     }
 
-    /**
-     * Gets description fixed field related to type of selected tag/field.
-     *
-     * @param storageService the storage service.
-     * @param lang the lang associated with the current request.
-     * @param code1 the first correlation or header type code selected.
-     * @return string description.
-     */
-    private String getDescriptionFixedField(final StorageService storageService, final String lang, final int code1)  {
-        return storageService.getHeadingTypeDescription( (short)code1, lang, T_BIB_HDR.class);
-    }
 
     /**
      * Create a leader with default values.
@@ -148,7 +135,7 @@ public class FieldsAPI implements CatalogingFieldsResource {
      */
     private Field createRequiredLeaderField(final StorageService storageService, final String lang) {
 
-        final String description = getDescriptionFixedField(storageService, lang, Global.LEADER_HEADER_TYPE);
+        final String description = storageService.getHeadingTypeDescription(Global.LEADER_HEADER_TYPE, lang, Global.INT_CATEGORY);
         final FixedField leader = new FixedField();
         leader.setCategoryCode(Global.INT_CATEGORY);
         leader.setHeaderTypeCode(Global.LEADER_HEADER_TYPE);
@@ -173,8 +160,7 @@ public class FieldsAPI implements CatalogingFieldsResource {
      */
     private Field createRequiredMaterialDescriptionField(final Map<String, String> configuration, final StorageService storageService, final String lang) {
 
-        final String description = getDescriptionFixedField(storageService, lang, Global.MATERIAL_DESCRIPTION_HEADER_TYPE);
-
+        final String description = storageService.getHeadingTypeDescription(Global.MATERIAL_DESCRIPTION_HEADER_TYPE, lang, Global.INT_CATEGORY);
         final GeneralInformation generalInformation = new GeneralInformation();
         generalInformation.setMaterialDescription008Indicator("1");
         generalInformation.setFormOfMaterial(Global.bookformOfMaterial); //book

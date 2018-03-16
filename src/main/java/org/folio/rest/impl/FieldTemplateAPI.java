@@ -5,7 +5,6 @@ import io.vertx.core.Context;
 import io.vertx.core.Handler;
 import org.folio.cataloging.F;
 import org.folio.cataloging.Global;
-import org.folio.cataloging.dao.persistence.T_BIB_HDR;
 import org.folio.cataloging.domain.GeneralInformation;
 import org.folio.cataloging.integration.StorageService;
 import org.folio.cataloging.log.Log;
@@ -68,7 +67,7 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
                                                 storageService.getHeadingTypeDescription(
                                                         correlationValues.getValue(1),
                                                         lang,
-                                                        Global.firstCorrelationHeadingClassMap.get(categoryCode)),
+                                                        categoryCode),
                                                 validation));
                                 fieldTemplate.setCode(code);
                                 return fieldTemplate;
@@ -127,8 +126,8 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
 
             final GeneralInformation generalInformation = new GeneralInformation();
             if (code.equals(Global.LEADER_TAG_NUMBER)){
-
-                fixedField.setDescription(storageService.getHeadingTypeDescription(headerTypeCode, lang, T_BIB_HDR.class));
+                final String description = storageService.getHeadingTypeDescription(headerTypeCode, lang, Global.INT_CATEGORY);
+                fixedField.setDescription(description);
                 fixedField.setDisplayValue(ofNullable(valueField).orElse(getLeaderValue()));
                 setLeaderValues(fixedField);
 
@@ -154,7 +153,8 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
             } else if (code.equals(Global.PHYSICAL_DESCRIPTION_TAG_CODE)){
                 //use PhysicalDescription or what?
             } else if (code.equals(Global.DATETIME_TRANSACION_TAG_CODE)){
-                fixedField.setDescription(storageService.getHeadingTypeDescription(headerTypeCode, lang, T_BIB_HDR.class));
+                fixedField.setDescription(storageService.getHeadingTypeDescription(
+                        headerTypeCode, lang, Global.INT_CATEGORY));
                 fixedField.setDisplayValue(F.getFormattedDate("yyyyMMddHHmmss."));
             }
 
@@ -168,7 +168,7 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
                 }
 
                 fixedField.setHeaderTypeCode(generalInformation.getHeaderType());
-                fixedField.setDescription(storageService.getHeadingTypeDescription(generalInformation.getHeaderType(), lang, T_BIB_HDR.class));
+                fixedField.setDescription(storageService.getHeadingTypeDescription(generalInformation.getHeaderType(), lang, Global.INT_CATEGORY));
                 fixedField.setDisplayValue(valueField);
                 setMaterialValues(fixedField, generalInformation);
             }
