@@ -50,7 +50,7 @@ public abstract class CatalogingHelper {
         }
     }
 
-    final static String BASE_CQUERY = "module==CATALOGING and ( configName==datasource";
+    final static String BASE_CQUERY = "module==CATALOGING and configName == (datasource";
 
     /**
      * Executes a GET request.
