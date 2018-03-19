@@ -38,41 +38,6 @@ public class StorageService implements Closeable {
     private final Context context;
     private static final Log logger = new Log(StorageService.class);
 
-    private final static Map<Integer, Class> firstCorrelationHeadingClassMap = new HashMap<Integer, Class>(){
-        {
-            put(1, T_BIB_HDR.class);
-            put(2, NameType.class);
-            put(17, NameType.class); //from heading
-            put(3, TitleFunction.class);
-            put(4, SubjectType.class);
-            put(18, SubjectType.class); //from heading
-            put(5, ControlNumberType.class);
-            put(19, ControlNumberType.class); //from heading
-            put(6, ClassificationType.class);
-            put(20, ClassificationType.class); //from heading
-            put(7, BibliographicNoteType.class); //note
-            put(8, BibliographicRelationType.class);//relationship
-            put(11, T_NME_TTL_FNCTN.class); //nt
-        }
-    };
-    private final static Map<Integer, Class> thirdCorrelationHeadingClassMap = new HashMap<Integer, Class>(){
-        {
-            put(2, NameFunction.class);
-            put(4, SubjectSource.class);
-            put(11, NameSubType.class);
-        }
-    };
-    private final static Map<Integer, Class> secondCorrelationClassMap = new HashMap<Integer, Class>(){
-        {
-            put(2, NameSubType.class);
-            put(3, TitleSecondaryFunction.class);
-            put(4, SubjectFunction.class);
-            put(5, ControlNumberFunction.class);
-            put(6, ClassificationFunction.class);
-            put(11, NameType.class);
-        }
-    };
-
     /**
      * Builds a new {@link StorageService} with the given session.
      *
@@ -341,42 +306,34 @@ public class StorageService implements Closeable {
         return searchIndexDao.getIndexes(session, type, categoryCode, locale(lang));
     }
 
+
+
+
     /**
-     * Return the item type list.
      *
-     * @param code the heading type code (first correlation), used here as a filter criterion.
+     * @param code the itemType code (first correlation), used here as a filter criterion.
      * @param lang the language code, used here as a filter criterion.
-     * @param category the category of field, used here as a filter criterion.
-     * @return a list of item type codes associated with the requested language.
+     * @param subTypeClass the subType class, used here as a filter criterion.
+     * @return a list of subTypes by marc category and itemType code associated with the requested language.
      * @throws DataAccessException in case of data access failure.
      */
-    public List<Avp<String>> getSecondCorrelation(final int category, final int code, final String lang) throws DataAccessException {
-
-        final DAOBibliographicCorrelation daoBC = new DAOBibliographicCorrelation();
-        final Class subTypeClass = secondCorrelationClassMap.get(category);
-        return daoBC.getSecondCorrelationList(session, category, code, subTypeClass, locale(lang))
+    public List<Avp<String>> getSecondCorrelation(final String marcCategory, final Integer code, final String lang, Class subTypeClass) throws DataAccessException {
+        DAOBibliographicCorrelation daoBC = new DAOBibliographicCorrelation();
+        final short s_category = Short.parseShort(marcCategory);
+        return daoBC.getSecondCorrelationList(session, s_category, code.shortValue(), subTypeClass, locale(lang))
                 .stream()
                 .collect(toList());
     }
 
-    /**
-     * Return the function code list.
-     *
-     * @param category the category of field, used here as a filter criterion.
-     * @param code1 the heading type code (first correlation), used here as a filter criterion.
-     * @param code2 the item type code (second correlation), used here as a filter criterion.
-     * @param lang the language code, used here as a filter criterion.
-     * @return a list of function codes associated with the requested language.
-     * @throws DataAccessException in case of data access failure.
-     */
-    public List<Avp<String>> getThirdCorrelation(final int category,
-                                                 final int code1,
-                                                 final int code2,
-                                                 final String lang) {
+    public List<Avp<String>> getThirdCorrelation(final String marcCategory,
+                                                 final Integer code1,
+                                                 final Integer code2,
+                                                 final String lang,
+                                                 final Class className) {
 
-        final Class clazz = thirdCorrelationHeadingClassMap.get(category);
-        final DAOBibliographicCorrelation daoBC = new DAOBibliographicCorrelation();
-        return daoBC.getThirdCorrelationList(session, category, code1, code2, clazz, locale(lang))
+        DAOBibliographicCorrelation daoBC = new DAOBibliographicCorrelation();
+        final short s_category = Short.parseShort(marcCategory);
+        return daoBC.getThirdCorrelationList(session, s_category, code1.shortValue(), code2.shortValue(), className, locale(lang))
                 .stream()
                 .collect(toList());
     }
@@ -517,13 +474,13 @@ public class StorageService implements Closeable {
     /**
      *
      * @param lang the language code, used here as a filter criterion.
-     * @param category the category, used here as a filter criterion.
+     * @param className the heading class, used here as a filter criterion.
      * @return  a list of heading item types by marc category code associated with the requested language.
      * @throws DataAccessException in case of data access failure.
      */
-    public List<Avp<String>> getFirstCorrelation(final String lang, final int category) throws DataAccessException {
+    public List<Avp<String>> getFirstCorrelation(final String lang, Class className) throws DataAccessException {
         DAOCodeTable daoCT = new DAOCodeTable();
-        return daoCT.getList(session, firstCorrelationHeadingClassMap.get(category), locale(lang))
+        return daoCT.getList(session, className, locale(lang))
                 .stream()
                 .collect(toList());
     }
@@ -752,47 +709,15 @@ public class StorageService implements Closeable {
      *
      * @param code the heading marc category code, used here as a filter criterion.
      * @param lang the language code, used here as a filter criterion.
-     * @param category the category field.
      * @return the description for index code associated with the requested language.
      * @throws DataAccessException in case of data access failure.
      */
-    public String getHeadingTypeDescription(final int code, final String lang, final int category) throws DataAccessException {
-        Class clazz = firstCorrelationHeadingClassMap.get(category);
+    public String getHeadingTypeDescription(final int code, final String lang, final Class clazz) throws DataAccessException {
+
         final DAOCodeTable dao = new DAOCodeTable();
         return dao.getLongText(session, code, clazz, locale(lang));
     }
 
-    /**
-     * Check if exist the first correlation list for the category code.
-     *
-     * @param category the category associated to field/tag.
-     * @return a true if exist, false otherwise.
-     */
-    public boolean existHeadingTypeByCategory(final int category){
-        return ofNullable(firstCorrelationHeadingClassMap.get(category))
-                .map(className -> {return true;}).orElse(false);
-    }
 
-    /**
-     * Check if exist the second correlation list for the category code.
-     *
-     * @param category the category associated to field/tag.
-     * @return a true if exist, false otherwise.
-     */
-    public boolean existItemTypeByCategory(final int category){
-        return ofNullable(secondCorrelationClassMap.get(category))
-                .map(className -> {return true;}).orElse(false);
-    }
-
-    /**
-     * Check if exist the third correlation list for the category code.
-     *
-     * @param category the category associated to field/tag.
-     * @return a true if exist, false otherwise.
-     */
-    public boolean existFunctionCodeByCategory(final int category){
-        return ofNullable(thirdCorrelationHeadingClassMap.get(category))
-                .map(className -> {return true;}).orElse(false);
-    }
 
 }
