@@ -1,25 +1,18 @@
-/*
- * (c) LibriCore
- * 
- * Created on Oct 8, 2004
- * 
- * RecordTypeMaterial.java
- */
+
 package org.folio.cataloging.dao.persistence;
 
 import java.io.Serializable;
 
 /**
  * @author paulm
- * @version $Revision: 1.2 $, $Date: 2004/11/15 15:50:26 $
  * @since 1.0
  */
 public class RecordTypeMaterial implements Serializable {
 	private String recordTypeCode;
 	private String bibliographicLevel;
 	private String amicusMaterialTypeCode;
-	private short bibHeader008;
-	private short bibHeader006;
+	private int bibHeader008;
+	private int bibHeader006;
 	/**
 	 * 
 	 * @since 1.0
@@ -32,7 +25,7 @@ public class RecordTypeMaterial implements Serializable {
 	 * 
 	 * @since 1.0
 	 */
-	public short getBibHeader006() {
+	public int getBibHeader006() {
 		return bibHeader006;
 	}
 
@@ -40,7 +33,7 @@ public class RecordTypeMaterial implements Serializable {
 	 * 
 	 * @since 1.0
 	 */
-	public short getBibHeader008() {
+	public int getBibHeader008() {
 		return bibHeader008;
 	}
 
@@ -85,7 +78,7 @@ public class RecordTypeMaterial implements Serializable {
 	 * 
 	 * @since 1.0
 	 */
-	public void setBibHeader006(short s) {
+	public void setBibHeader006(int s) {
 		bibHeader006 = s;
 	}
 
@@ -93,7 +86,7 @@ public class RecordTypeMaterial implements Serializable {
 	 * 
 	 * @since 1.0
 	 */
-	public void setBibHeader008(short s) {
+	public void setBibHeader008(int s) {
 		bibHeader008 = s;
 	}
 

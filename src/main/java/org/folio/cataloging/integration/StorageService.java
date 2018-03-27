@@ -3,7 +3,6 @@ package org.folio.cataloging.integration;
 import io.vertx.core.Context;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
-import org.folio.cataloging.Global;
 import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.*;
@@ -29,7 +28,7 @@ import static org.folio.cataloging.F.locale;
  *
  * @author agazzarini
  * @author carment
- * @author natasciab
+ * @author nbianchini
  * @since 1.0
  */
 public class StorageService implements Closeable {
@@ -707,8 +706,8 @@ public class StorageService implements Closeable {
         try {
             mapRecordTypeMaterial = new HashMap<>();
             RecordTypeMaterial rtm = dao.getMaterialHeaderCode(session, recordTypeCode, bibligraphicLevel);
-            mapRecordTypeMaterial.put(Global.HEADER_TYPE_LABEL, (code.equals(Global.MATERIAL_TAG_CODE) ? rtm.getBibHeader008() : rtm.getBibHeader006()));
-            mapRecordTypeMaterial.put(Global.FORM_OF_MATERIAL_LABEL, rtm.getAmicusMaterialTypeCode());
+            mapRecordTypeMaterial.put(GlobalStorage.HEADER_TYPE_LABEL, (code.equals(GlobalStorage.MATERIAL_TAG_CODE) ? rtm.getBibHeader008() : rtm.getBibHeader006()));
+            mapRecordTypeMaterial.put(GlobalStorage.FORM_OF_MATERIAL_LABEL, rtm.getAmicusMaterialTypeCode());
 
             return mapRecordTypeMaterial;
         } catch (final HibernateException exception) {
@@ -735,8 +734,8 @@ public class StorageService implements Closeable {
 
             return ofNullable(dao.getDefaultTypeByHeaderCode(session, headerCode, code))
                     .map( rtm -> {
-                        mapRecordTypeMaterial.put(Global.FORM_OF_MATERIAL_LABEL, rtm.getAmicusMaterialTypeCode());
-                        mapRecordTypeMaterial.put(Global.MATERIAL_TYPE_CODE_LABEL, rtm.getRecordTypeCode());
+                        mapRecordTypeMaterial.put(GlobalStorage.FORM_OF_MATERIAL_LABEL, rtm.getAmicusMaterialTypeCode());
+                        mapRecordTypeMaterial.put(GlobalStorage.MATERIAL_TYPE_CODE_LABEL, rtm.getRecordTypeCode());
 
                         return mapRecordTypeMaterial;
                 }).orElse(null);

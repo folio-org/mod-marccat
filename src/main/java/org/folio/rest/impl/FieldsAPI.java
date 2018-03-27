@@ -87,7 +87,7 @@ public class FieldsAPI implements CatalogingFieldsResource {
 
         catalogingSourceField.setDescription(description);
         catalogingSourceField.setCategoryCode(Global.INT_CATEGORY);
-        catalogingSourceField.setCode(Global.CATALOGING_SOURCE_TAG_NUMBER);
+        catalogingSourceField.setCode(Global.CATALOGING_SOURCE_TAG_CODE);
         catalogingSourceField.setHeadingTypeCode(Integer.toString(Global.CATALOGING_SOURCE_HEADER_TYPE));
         catalogingSourceField.setSubfields(stream(validation.getMarcValidSubfieldStringCode().split("")).collect(toList()));
         catalogingSourceField.setDefaultSubfieldCode(String.valueOf(validation.getMarcTagDefaultSubfieldCode()));
@@ -96,13 +96,13 @@ public class FieldsAPI implements CatalogingFieldsResource {
 
         final Field field = new Field();
         field.setVariableField(catalogingSourceField);
-        field.setCode(Global.CATALOGING_SOURCE_TAG_NUMBER);
+        field.setCode(Global.CATALOGING_SOURCE_TAG_CODE);
 
         return field;
     }
 
     /**
-     * create default control field value
+     * Creates default control field value.
      *
      * @param storageService the storage service.
      * @param lang the lang associated with the current request.
@@ -112,14 +112,14 @@ public class FieldsAPI implements CatalogingFieldsResource {
         final String description = storageService.getHeadingTypeDescription(Global.CONTROL_NUMBER_HEADER_TYPE, lang, Global.INT_CATEGORY);
         final FixedField controlNumberFixedField = new FixedField();
         controlNumberFixedField.setCategoryCode(Global.INT_CATEGORY);
-        controlNumberFixedField.setCode(Global.CONTROL_NUMBER_TAG_NUMBER);
+        controlNumberFixedField.setCode(Global.CONTROL_NUMBER_TAG_CODE);
         controlNumberFixedField.setDisplayValue(Global.DECIMAL_FORMAT_AN.format(0));
         controlNumberFixedField.setDescription(description);
         controlNumberFixedField.setHeaderTypeCode(Global.CONTROL_NUMBER_HEADER_TYPE);
 
         final Field field = new Field();
         field.setFixedField(controlNumberFixedField);
-        field.setCode(Global.CONTROL_NUMBER_TAG_NUMBER);
+        field.setCode(Global.CONTROL_NUMBER_TAG_CODE);
 
         return field;
 
@@ -127,7 +127,7 @@ public class FieldsAPI implements CatalogingFieldsResource {
 
 
     /**
-     * Create a leader with default values.
+     * Creates a leader with default values.
      *
      * @param storageService the storage service.
      * @param lang the lang associated with the current request.
@@ -153,7 +153,7 @@ public class FieldsAPI implements CatalogingFieldsResource {
     /**
      * Creates default 008 field.
      *
-     * @param configuration the configuration parameters
+     * @param configuration the configuration parameters.
      * @param storageService the storage service.
      * @param lang the lang associated with the current request.
      * @return the 008 default tag definition.
@@ -170,13 +170,13 @@ public class FieldsAPI implements CatalogingFieldsResource {
         final FixedField materialDescription = new FixedField();
         materialDescription.setCategoryCode(Global.INT_CATEGORY);
         materialDescription.setHeaderTypeCode(Global.MATERIAL_DESCRIPTION_HEADER_TYPE);
-        materialDescription.setCode(Global.MATERIAL_DESCRIPTION_TAG_NUMBER);
+        materialDescription.setCode(Global.MATERIAL_TAG_CODE);
         materialDescription.setDescription(description);
         materialDescription.setDisplayValue(generalInformation.getValueString());
 
         final Field field = new Field();
         field.setFixedField(materialDescription);
-        field.setCode(Global.MATERIAL_DESCRIPTION_TAG_NUMBER);
+        field.setCode(Global.MATERIAL_TAG_CODE);
 
         return field;
     }
@@ -187,8 +187,8 @@ public class FieldsAPI implements CatalogingFieldsResource {
      * @return the default leader value.
      */
     private String getLeaderValue() {
-        return new StringBuilder(Global.fixedLeaderLength)
-                .append(Global.recordStatusCode)
+        return new StringBuilder(Global.FIXED_LEADER_LENGTH)
+                .append(Global.RECORD_STATUS_CODE)
                 .append(Global.recordTypeCode)
                 .append(Global.bibliographicLevelCode)
                 .append(Global.controlTypeCode)

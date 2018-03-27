@@ -5,6 +5,9 @@ package org.folio.cataloging.domain;
  * 008 - Fixed-Length Data Elements
  * 006 - Fixed-Length Data Elements-Additional Material Characteristics
  * Contains only methods of logic to create tag 008 and 006 default values.
+ *
+ * @author nbianchini
+ *
  */
 
 import org.apache.commons.lang.StringUtils;
@@ -80,51 +83,6 @@ public class GeneralInformation
 	private String marcCountryCode;
 	private String languageCode;
 
-	public String getMusicPartsCode() {
-		return musicPartsCode;
-	}
-
-	public void setMusicPartsCode(final String musicPartsCode) {
-		this.musicPartsCode = musicPartsCode;
-	}
-
-	public String getMusicTranspositionArrangementCode() {
-		return musicTranspositionArrangementCode;
-	}
-
-	public void setMusicTranspositionArrangementCode(final String musicTranspositionArrangementCode) {
-		this.musicTranspositionArrangementCode = musicTranspositionArrangementCode;
-	}
-
-	public String getComputerFileFormCode() {
-		return computerFileFormCode;
-	}
-
-	public void setComputerFileFormCode(final String computerFileFormCode) {
-		this.computerFileFormCode = computerFileFormCode;
-	}
-
-	public String getMarcCountryCode() {
-		return marcCountryCode;
-	}
-
-	public void setMarcCountryCode(final String marcCountryCode) { this.marcCountryCode = marcCountryCode; }
-
-	public String getItemDateTypeCode() {
-		return itemDateTypeCode;
-	}
-
-	public void setItemDateTypeCode(final String itemDateTypeCode) {
-		this.itemDateTypeCode = itemDateTypeCode;
-	}
-	public String getLanguageCode() {
-		return languageCode;
-	}
-
-	public void setLanguageCode(final String languageCode) {
-		this.languageCode = languageCode;
-	}
-
 	public GeneralInformation() {
 	}
 
@@ -133,35 +91,17 @@ public class GeneralInformation
 	 * retain the original length by padding with blanks on the right
 	 */
 	private String leftJustify(final String s) {
-		return ofNullable(stream(s.split("")).filter(Stringacter -> !" ".equals(Stringacter)).collect(joining()))
+		return ofNullable(stream(s.split("")).filter(character -> !" ".equals(character)).collect(joining()))
 				.map(result -> {
 					return StringUtils.leftPad(result, s.length()-result.length(), ' ');
 				}).orElse(null);
 	}
 
+
 	/**
-	 * Sets default value for "book" type
-	 * @param configuration the map that contains configuration values to set.
+	 * Sets the configuration values to manage defaults.
 	 *
-	 */
-	private void setDefaultValuesForBook(final Map<String, String> configuration){
-
-		setBookIllustrationCode(configuration.get("material.bookIllustrationCode"));
-		setTargetAudienceCode(configuration.get("material.targetAudienceCode"));
-		setFormOfItemCode(configuration.get("material.formOfItemCode"));
-		setNatureOfContentsCode(configuration.get("material.natureOfContentsCode"));
-		setGovernmentPublicationCode(configuration.get("material.governmentPublicationCode"));
-		setConferencePublicationCode(configuration.get("material.conferencePublicationCode"));
-		setBookFestschrift(configuration.get("material.bookFestschrift"));
-		setBookIndexAvailabilityCode(configuration.get("material.bookIndexAvailabilityCode"));
-		setBookLiteraryFormTypeCode(configuration.get("material.bookLiteraryFormTypeCode"));
-		setBookBiographyCode(configuration.get("material.bookBiographyCode"));
-	}
-
-	/**
-	 * Sets the form-specific values to their default
-	 * 
-	 * @since 1.0
+	 * @param configuration the map that contains configuration values to set.
 	 */
 	public void setDefaultValues(final Map<String, String> configuration) {
         setRecordModifiedCode(" ");
@@ -172,60 +112,49 @@ public class GeneralInformation
         setItemDateLastPublication(Global.itemDateLastPublication);
         setMarcCountryCode(configuration.get("bibliographicItem.marcCountryCode"));
 
-        if (isBook())
-        	setDefaultValuesForBook(configuration);
-        else if (isComputerFile())
-        	setDefaultValuesForComputerFile(configuration);
-        else if (isMap())
-        	setDefaultValuesForCartographic(configuration);
-        else if (isMusic())
-        	setDefaultValuesForMusic(configuration);
-        else if (isSerial())
-        	setDefaultValuesForSerial(configuration);
-        else if (isVisualMaterial())
-        	setDefaultValuesForVisualMaterial(configuration);
-
-
-    }
-
-    private void setDefaultValuesForCartographic(final Map<String, String> configuration) {
+        setBookIllustrationCode(configuration.get("material.bookIllustrationCode"));
+        setTargetAudienceCode(configuration.get("material.targetAudienceCode"));
+        setFormOfItemCode(configuration.get("material.formOfItemCode"));
+        setNatureOfContentsCode(configuration.get("material.natureOfContentsCode"));
+        setConferencePublicationCode(configuration.get("material.conferencePublicationCode"));
+        setBookFestschrift(configuration.get("material.bookFestschrift"));
+        setBookIndexAvailabilityCode(configuration.get("material.bookIndexAvailabilityCode"));
+        setBookLiteraryFormTypeCode(configuration.get("material.bookLiteraryFormTypeCode"));
+        setBookBiographyCode(configuration.get("material.bookBiographyCode"));
+        setGovernmentPublicationCode(configuration.get("material.governmentPublicationCode"));
+        setComputerTargetAudienceCode(configuration.get("material.targetAudienceCode"));
+        setComputerFileTypeCode(configuration.get("material.computerFileTypeCode"));
+        setComputerFileFormCode(configuration.get("material.computerFileFormCode"));
+        setCartographicIndexAvailabilityCode("0");
         setCartographicReliefCode(configuration.get("material.cartographicReliefCode"));
         setCartographicProjectionCode(configuration.get("material.cartographicProjectionCode"));
         setCartographicMaterial(configuration.get("material.cartographicMaterial"));
         setCartographicFormatCode(configuration.get("material.cartographicFormatCode"));
-    }
-
-    private void setDefaultValuesForComputerFile(final Map<String, String> configuration) {
-        setComputerTargetAudienceCode(configuration.get("material.targetAudienceCode"));
-        setComputerFileTypeCode(configuration.get("material.computerFileTypeCode"));
-        setComputerFileFormCode(configuration.get("material.computerFileFormCode"));
-    }
-
-    private void setDefaultValuesForVisualMaterial(final Map<String, String> configuration) {
-        setVisualRunningTime(configuration.get("material.visualRunningTime"));
-        setVisualTargetAudienceCode(configuration.get("material.targetAudienceCode"));
-        setVisualMaterialTypeCode(configuration.get("material.visualMaterialTypeCode"));
-        setVisualTechniqueCode(configuration.get("material.visualTechniqueCode"));
-    }
-
-    private void setDefaultValuesForSerial(final Map<String, String> configuration) {
+        setMusicFormOfCompositionCode(configuration.get("material.musicFormOfCompositionCode"));
+        setMusicFormatCode(configuration.get("material.musicFormatCode"));
+        setMusicTextualMaterialCode(configuration.get("material.musicTextualMaterialCode"));
+        setMusicLiteraryTextCode(configuration.get("material.musicLiteraryTextCode"));
+        setMusicPartsCode(configuration.get("material.musicPartsCode"));
+        setMusicTranspositionArrangementCode(configuration.get("material.musicTranspositionArrangementCode"));
         setSerialFrequencyCode(configuration.get("material.serialFrequencyCode"));
         setSerialRegularityCode(configuration.get("material.serialRegularityCode"));
         setSerialTypeCode(configuration.get("material.serialTypeCode"));
         setSerialFormOriginalItemCode(configuration.get("material.formOfItemCode"));
         setSerialOriginalAlphabetOfTitleCode(configuration.get("material.serialOriginalAlphabetOfTitleCode"));
         setSerialEntryConventionCode(configuration.get("material.serialSuccessiveLatestCode"));
+        setVisualRunningTime(configuration.get("material.visualRunningTime"));
+        setVisualTargetAudienceCode(configuration.get("material.targetAudienceCode"));
+        setVisualMaterialTypeCode(configuration.get("material.visualMaterialTypeCode"));
+        setVisualTechniqueCode(configuration.get("material.visualTechniqueCode"));
+
+
     }
 
-    private void setDefaultValuesForMusic(final Map<String, String> configuration) {
-        setMusicFormOfCompositionCode(configuration.get("material.musicFormOfCompositionCode"));
-		setMusicFormatCode(configuration.get("material.musicFormatCode"));
-		setMusicTextualMaterialCode(configuration.get("material.musicTextualMaterialCode"));
-		setMusicLiteraryTextCode(configuration.get("material.musicLiteraryTextCode"));
-		setMusicPartsCode(configuration.get("material.musicPartsCode"));
-		setMusicTranspositionArrangementCode(configuration.get("material.musicTranspositionArrangementCode"));
-	}
-
+	/**
+	 * Makes field string value with default values.
+	 *
+	 * @return a string representing the field string value.
+	 */
 	public String getValueString()
 	{
 		final StringBuilder sb = new StringBuilder();
@@ -265,32 +194,71 @@ public class GeneralInformation
 	}
 
 
+	/**
+	 * Checks if is a book type.
+	 *
+	 * @return true if is a book type false otherwise.
+	 */
 	public boolean isBook() {
 		return getFormOfMaterial().equals("bk");
 	}
+
+	/**
+	 * Checks if is a map type.
+	 *
+	 * @return true if is a map type false otherwise.
+	 */
 	public boolean isMap() {
 		return getFormOfMaterial().equals("cm");
 	}
+
+	/**
+	 * Checks if is a computer file type.
+	 *
+	 * @return true if is a computer file type false otherwise.
+	 */
 	public boolean isComputerFile() {
 		return getFormOfMaterial().equals("cf");
 	}
+
+	/**
+	 * Checks if is a mixed material type.
+	 *
+	 * @return true if is a mixed material type false otherwise.
+	 */
 	public boolean isMixedMaterial() {
 		return getFormOfMaterial().equals("mm");
 	}
+
+	/**
+	 * Checks if is a music type.
+	 *
+	 * @return true if is a music type false otherwise.
+	 */
 	public boolean isMusic() {
 		return getFormOfMaterial().equals("msr");
 	}
+
+	/**
+	 * Checks if is a serial type.
+	 *
+	 * @return true if is a serial type false otherwise.
+	 */
 	public boolean isSerial() {
 		return getFormOfMaterial().equals("se");
 	}
+
+	/**
+	 * Checks if is a visual material type.
+	 *
+	 * @return true if is a visual material type false otherwise.
+	 */
 	public boolean isVisualMaterial() {
 		return getFormOfMaterial().equals("vm");
 	}
 
 	/**
-	 * return the displayString segment for book material
-	 * @author paulm
-	 * @since 1.0
+	 * @return the displayString segment for book material.
 	 */
 	public String bookDisplayString() 
 	{
@@ -307,25 +275,20 @@ public class GeneralInformation
 		}
 
 	/**
-	 * return the displayString segment for map material
-	 * @author paulm
-	 * @since 1.0
+	 * @return the displayString segment for map material.
 	 */
 	public String mapDisplayString() {
 		return getCartographicReliefCode()
 			+ getCartographicProjectionCode()
 			+ " " //undefined
 		+ getCartographicMaterial() + "  " // two undefined
-		+ getGovernmentPublicationCode() + getFormOfItemCode() + " "
-		// undefined
+		+ getGovernmentPublicationCode() + getFormOfItemCode() + " " // undefined
 		+ getCartographicIndexAvailabilityCode() + " " //undefined position
 		+ getCartographicFormatCode();
 	}
 
 	/**
-	 * return the displayString segment for computer file material
-	 * @author paulm
-	 * @since 1.0
+	 * @return the displayString segment for computer file material
 	 */
 	public String computerFileDisplayString() 
 	{
@@ -343,9 +306,7 @@ public class GeneralInformation
 	}
 
 	/**
-	 * return the displayString segment for mixed material material
-	 * @author paulm
-	 * @since 1.0
+	 * @return the displayString segment for mixed material material
 	 */
 	public String mixedMaterialDisplayString() 
 	{
@@ -354,9 +315,7 @@ public class GeneralInformation
 	}
 
 	/**
-	 * return the displayString segment for music material
-	 * @author paulm
-	 * @since 1.0
+	 * @return the displayString segment for music material
 	 */
 	public String musicDisplayString() 
 	{
@@ -376,22 +335,17 @@ public class GeneralInformation
 	}
 
 	/**
-	 * return the displayString segment for visual material
-	 * @author paulm
-	 * @since 1.0
+	 * @return the displayString segment for visual material
 	 */
 	public String visualMaterialDisplayString() {
 		return getVisualRunningTime() + " " // undefined position
 		+getVisualTargetAudienceCode() + "     " // five undefined
-		+getGovernmentPublicationCode() + getFormOfItemCode() + "   "
-		// three undefined
+		+getGovernmentPublicationCode() + getFormOfItemCode() + "   " // three undefined
 		+getVisualMaterialTypeCode() + getVisualTechniqueCode();
 	}
 
 	/**
-	 * return the displayString segment for serial (continuing resources) material
-	 * @author paulm
-	 * @since 1.0
+	 * @return the displayString segment for serial (continuing resources) material
 	 */
 	public String serialDisplayString() 
 	{
@@ -416,9 +370,56 @@ public class GeneralInformation
 
 	/** * GETTERS AND SETTERS * **/
 
+	public String getMusicPartsCode() {
+		return musicPartsCode;
+	}
+
+	public void setMusicPartsCode(final String musicPartsCode) {
+		this.musicPartsCode = musicPartsCode;
+	}
+
+	public String getMusicTranspositionArrangementCode() {
+		return musicTranspositionArrangementCode;
+	}
+
+	public void setMusicTranspositionArrangementCode(final String musicTranspositionArrangementCode) {
+		this.musicTranspositionArrangementCode = musicTranspositionArrangementCode;
+	}
+
+	public String getComputerFileFormCode() {
+		return computerFileFormCode;
+	}
+
+	public void setComputerFileFormCode(final String computerFileFormCode) {
+		this.computerFileFormCode = computerFileFormCode;
+	}
+
+	public String getMarcCountryCode() {
+		return marcCountryCode;
+	}
+
+	public void setMarcCountryCode(final String marcCountryCode) { this.marcCountryCode = marcCountryCode; }
+
+	public String getItemDateTypeCode() {
+		return itemDateTypeCode;
+	}
+
+	public void setItemDateTypeCode(final String itemDateTypeCode) {
+		this.itemDateTypeCode = itemDateTypeCode;
+	}
+
+	public String getLanguageCode() {
+		return languageCode;
+	}
+
+	public void setLanguageCode(final String languageCode) {
+		this.languageCode = languageCode;
+	}
+
 	public String getBookBiographyCode() {
 		return bookBiographyCode;
 	}
+
 	public String getBookFestschrift() {
 		return bookFestschrift;
 	}
@@ -643,63 +644,13 @@ public class GeneralInformation
 		visualRunningTime = string;
 	}
 
-
-
-	/**
-	 * 
-	 * @since 1.0
-	 */
 	public String getFormOfMaterial() {
 		return formOfMaterial;
 	}
 
-	/**
-	 * 
-	 * @since 1.0
-	 */
 	public void setFormOfMaterial(String string) {
 		formOfMaterial = string;
 	}
-
-	/* (non-Javadoc)
-	 * @see FixedField#setBibItm(BIB_ITM)
-	 */
-
-	//TODO: maybe the method needs in recordTemplate
-	/*public void setItemEntity(ItemEntity item) {
-
-		 * we override this item to establish the new values for bibHeader 
-		 * whenever the bibItm data changes (including new instances)
-		 * bib_header is an artificial (non-persistent) stringValue for material description
-		 * that must be derived from other mtrl_dsc and bib_itm data (as coded below).
-
-		super.setItemEntity(item);
-		if (getMaterialDescription008Indicator() == '1') {
-			DAORecordTypeMaterial dao = new DAORecordTypeMaterial();
-			RecordTypeMaterial rtm;
-			rtm =
-				dao.get008HeaderCode(
-					getItemRecordTypeCode(),
-					getItemBibliographicLevelCode());
-			if(rtm!=null){
-			setHeaderType(rtm.getBibHeader008());
-			setFormOfMaterial(rtm.getAmicusMaterialTypeCode());
-			}
-		} else {
-
-			 * although the 006 values are not affected by bib_item values, we
-			 * need to establish the correct bib_header stringValue for loaded items
-
-			DAORecordTypeMaterial dao = new DAORecordTypeMaterial();
-			RecordTypeMaterial rtm;
-			rtm = dao.get006HeaderCode(getMaterialTypeCode());
-			if(rtm!=null){
-			setHeaderType(rtm.getBibHeader006());
-			}
-
-		}
-	}*/
-
 
 	public int getHeaderType() {
 		return headerType;

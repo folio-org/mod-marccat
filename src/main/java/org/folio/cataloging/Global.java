@@ -145,6 +145,10 @@ public abstract class Global  {
 	public final static String HEADER_TYPE_LABEL = "HEADER_TYPE";
 	public final static String FORM_OF_MATERIAL_LABEL = "FORM_OF_MATERIAL";
     public final static String MATERIAL_TYPE_CODE_LABEL = "MATERIAL_TYPE_CODE";
+
+    public final static String LEADER_TAG_NUMBER = "000";
+	public final static String CONTROL_NUMBER_TAG_CODE = "001";
+	public final static String CATALOGING_SOURCE_TAG_CODE = "040";
 	public final static String DATETIME_TRANSACION_TAG_CODE = "005";
 	public final static String MATERIAL_TAG_CODE = "008";
 	public final static String OTHER_MATERIAL_TAG_CODE = "006";
@@ -178,19 +182,20 @@ public abstract class Global  {
 	public final static int NAME_CATEGORY_DEFAULT = 2;
 	public final static short CORRELATION_UNDEFINED = -1;
 
-	public final static String LEADER_TAG_NUMBER = "000";
-	public final static String CONTROL_NUMBER_TAG_NUMBER = "001";
-	public final static String MATERIAL_DESCRIPTION_TAG_NUMBER = "008";
-	public final static String CATALOGING_SOURCE_TAG_NUMBER = "040";
-
 	public final static int CATALOGING_SOURCE_HEADER_TYPE = 1;
 	public final static int LEADER_HEADER_TYPE = 15;
     public final static int CONTROL_NUMBER_HEADER_TYPE = 39;
     public final static int MATERIAL_DESCRIPTION_HEADER_TYPE = 31;
+	public final static int PHYSICAL_UNSPECIFIED_HEADER_TYPE = 45;
+
+	public final static int LEADER_LENGTH = 24;
+	public final static int MATERIAL_FIELD_LENGTH = 40;
+	public final static int OTHER_MATERIAL_FIELD_LENGTH = 18;
+
 
 	//default values for leader
-    public final static String fixedLeaderLength = "00000";
-	public final static char recordStatusCode = 'n';
+    public final static String FIXED_LEADER_LENGTH = "00000";
+	public final static char RECORD_STATUS_CODE = 'n';
 	public final static char recordTypeCode = 'a';
 	public final static char bibliographicLevelCode = 'm';
 	public final static char controlTypeCode = ' ';
@@ -211,6 +216,43 @@ public abstract class Global  {
 	public final static String bookformOfMaterial = "bk";
     public final static char materialTypeCode = 'a';
 	public final static char formOfItemCode = ' ';
+
+	//default values for physical description (tag 007)
+	public final static String mapCode = "a";
+	public final static String electronicResource = "c";
+	public final static String globe = "d";
+	public final static String tactileMaterial = "f";
+	public final static String projectedGraphic = "g";
+	public final static String microform = "h";
+	public final static String nonProjectedGraphic = "k";
+	public final static String motionPicture = "m";
+	public final static String kitCode = "o";
+	public final static String notatedMusic = "q";
+	public final static String remoteSensingImage = "r";
+	public final static String soundRecording = "s";
+	public final static String textCode = "t";
+	public final static String videoRecording = "v";
+	public final static String unspecified = "z";
+
+	public final static Map<Integer, String> physicalTypesMap = new HashMap<Integer, String>(){
+		{
+			put(23, globe);
+			put(24, mapCode);
+			put(25, microform);
+			put(26, motionPicture);
+			put(27, nonProjectedGraphic);
+			put(28, projectedGraphic);
+			put(29, soundRecording);
+			put(30, videoRecording);
+			put(42, electronicResource);
+			put(43, remoteSensingImage);
+			put(44, textCode);
+			put(45, unspecified);
+			put(46, tactileMaterial);
+			put(47, kitCode);
+			put(48, notatedMusic);
+		}
+	};
 
 	public final static List<Integer> sourcesEnabledToAlternativeLabelsSearch  =  new ArrayList<Integer>(Arrays.asList(1,2,4,5,6));
 }
