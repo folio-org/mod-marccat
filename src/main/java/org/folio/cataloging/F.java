@@ -130,10 +130,9 @@ public abstract class F {
         }
     }
 
-    public static String getFormattedDate(String formatString) {
+    public static String getFormattedDate(final String formatString) {
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formatString);
-        final LocalDate date = LocalDate.now();
-        return date.format(formatter);
+        return LocalDate.now().format(formatter);
     }
 
 }

@@ -33,7 +33,6 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 
 	@Deprecated
 	public Correlation getBibliographicCorrelation(CorrelationKey bibliographicCorrelationKey) throws DataAccessException {
-
 		return getBibliographicCorrelation(
 			bibliographicCorrelationKey.getMarcTag(),
 			bibliographicCorrelationKey.getMarcFirstIndicator(),
@@ -48,7 +47,6 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 	 *
 	 */
 	public Correlation getBibliographicCorrelation(final Session session, final CorrelationKey bibliographicCorrelationKey) throws HibernateException {
-
 		return getBibliographicCorrelation( session,
 							bibliographicCorrelationKey.getMarcTag(),
 							bibliographicCorrelationKey.getMarcFirstIndicator(),
@@ -65,46 +63,37 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 	 * @return a BibliographicCorrelation object or null when none found
 	 *
 	 */
+	@SuppressWarnings("unchecked")
 	public BibliographicCorrelation getBibliographicCorrelation( final Session session,
 													final String tag,
 													final char firstIndicator,
 													final char secondIndicator,
-													final short categoryCode) throws HibernateException {
+													final int categoryCode) throws HibernateException {
 
-        List<BibliographicCorrelation> bibliographicCorrelations = null;
+        final List<BibliographicCorrelation> correlations =
+        	(categoryCode != 0)
+				? session.find(
+					"from BibliographicCorrelation as bc "
+						+ "where bc.key.marcTag = ? and "
+						+ "(bc.key.marcFirstIndicator = ? or bc.key.marcFirstIndicator='S' )and "
+						+ "bc.key.marcFirstIndicator <> '@' and "
+						+ "(bc.key.marcSecondIndicator = ? or bc.key.marcSecondIndicator='S')and "
+						+ "bc.key.marcSecondIndicator <> '@' and "
+						+ "bc.key.marcTagCategoryCode = ?",
+					new Object[] { tag, firstIndicator, secondIndicator, categoryCode},
+					new Type[] { Hibernate.STRING, Hibernate.CHARACTER, Hibernate.CHARACTER, Hibernate.INTEGER })
+				: session.find(
+					"from BibliographicCorrelation as bc "
+						+ "where bc.key.marcTag = ? and "
+						+ "(bc.key.marcFirstIndicator = ? or bc.key.marcFirstIndicator='S' )and "
+						+ "bc.key.marcFirstIndicator <> '@' and "
+						+ "(bc.key.marcSecondIndicator = ? or bc.key.marcSecondIndicator='S')and "
+						+ "bc.key.marcSecondIndicator <> '@' order by bc.key.marcTagCategoryCode asc",
+					new Object[] { tag, firstIndicator, secondIndicator},
+					new Type[] { Hibernate.STRING, Hibernate.CHARACTER, Hibernate.CHARACTER});
 
-        if (categoryCode != 0){
-		bibliographicCorrelations = session.find(
-			"from BibliographicCorrelation as bc "
-				+ "where bc.key.marcTag = ? and "
-				+ "(bc.key.marcFirstIndicator = ? or bc.key.marcFirstIndicator='S' )and "
-				+ "bc.key.marcFirstIndicator <> '@' and "
-				+ "(bc.key.marcSecondIndicator = ? or bc.key.marcSecondIndicator='S')and "
-				+ "bc.key.marcSecondIndicator <> '@' and "
-				+ "bc.key.marcTagCategoryCode = ?",
-			new Object[] { new String(tag), new Character(firstIndicator), new Character(secondIndicator), new Short(categoryCode)},
-			new Type[] { Hibernate.STRING, Hibernate.CHARACTER, Hibernate.CHARACTER, Hibernate.SHORT });
-
-		}
-		else {
-			bibliographicCorrelations = session.find(
-			"from BibliographicCorrelation as bc "
-				+ "where bc.key.marcTag = ? and "
-				+ "(bc.key.marcFirstIndicator = ? or bc.key.marcFirstIndicator='S' )and "
-				+ "bc.key.marcFirstIndicator <> '@' and "
-				+ "(bc.key.marcSecondIndicator = ? or bc.key.marcSecondIndicator='S')and "
-				+ "bc.key.marcSecondIndicator <> '@' order by bc.key.marcTagCategoryCode asc",
-			new Object[] { new String(tag), new Character(firstIndicator), new Character(secondIndicator)},
-			new Type[] { Hibernate.STRING, Hibernate.CHARACTER, Hibernate.CHARACTER});
-		}
-
-		Optional<BibliographicCorrelation> firstElement = bibliographicCorrelations.stream().filter(Objects::nonNull).findFirst();
-		if (firstElement.isPresent()) {
-			return firstElement.get();
-		}else
-			return null;
+		return correlations.stream().filter(Objects::nonNull).findFirst().orElse(null);
 	}
-
 
 	@Deprecated
 	public Correlation getBibliographicCorrelation( String tag,

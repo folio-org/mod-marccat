@@ -1,15 +1,5 @@
 package org.folio.cataloging.domain;
 
-/**
- * Class related to:
- * 008 - Fixed-Length Data Elements
- * 006 - Fixed-Length Data Elements-Additional Material Characteristics
- * Contains only methods of logic to create tag 008 and 006 default values.
- *
- * @author nbianchini
- *
- */
-
 import org.apache.commons.lang.StringUtils;
 import org.folio.cataloging.Global;
 
@@ -19,9 +9,19 @@ import static java.util.Arrays.stream;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.joining;
 
-public class GeneralInformation
-{
-
+/**
+ * Class related to:
+ *
+ * <ul>
+ * 	<li>008 - Fixed-Length Data Elements</li>
+ * </li>006 - Fixed-Length Data Elements-Additional Material Characteristics</li>
+ * </ul>
+ * It contains only methods of logic to create tag 008 and 006 default values.
+ *
+ * @author nbianchini
+ * @since 1.0
+ */
+public class GeneralInformation {
 	private int headerType;
 	private String enteredOnFileDateYYMMDD;
 	private String itemDateTypeCode;
@@ -83,18 +83,14 @@ public class GeneralInformation
 	private String marcCountryCode;
 	private String languageCode;
 
-	public GeneralInformation() {
-	}
-
 	/*
 	 * Squeeze all non-blank Strings to the left side of the string and
 	 * retain the original length by padding with blanks on the right
 	 */
 	private String leftJustify(final String s) {
 		return ofNullable(stream(s.split("")).filter(character -> !" ".equals(character)).collect(joining()))
-				.map(result -> {
-					return StringUtils.leftPad(result, s.length()-result.length(), ' ');
-				}).orElse(null);
+				.map(result -> StringUtils.leftPad(result, s.length() - result.length(), ' '))
+				.orElse(null);
 	}
 
 
@@ -146,8 +142,6 @@ public class GeneralInformation
         setVisualTargetAudienceCode(configuration.get("material.targetAudienceCode"));
         setVisualMaterialTypeCode(configuration.get("material.visualMaterialTypeCode"));
         setVisualTechniqueCode(configuration.get("material.visualTechniqueCode"));
-
-
     }
 
 	/**
@@ -155,8 +149,7 @@ public class GeneralInformation
 	 *
 	 * @return a string representing the field string value.
 	 */
-	public String getValueString()
-	{
+	public String getValueString() {
 		final StringBuilder sb = new StringBuilder();
 		if (getMaterialDescription008Indicator().equals("1")) {
 			sb.append(getEnteredOnFileDateYYMMDD())
@@ -200,7 +193,7 @@ public class GeneralInformation
 	 * @return true if is a book type false otherwise.
 	 */
 	public boolean isBook() {
-		return getFormOfMaterial().equals("bk");
+		return "bk".equals(getFormOfMaterial());
 	}
 
 	/**
@@ -209,7 +202,7 @@ public class GeneralInformation
 	 * @return true if is a map type false otherwise.
 	 */
 	public boolean isMap() {
-		return getFormOfMaterial().equals("cm");
+		return "cm".equals(getFormOfMaterial());
 	}
 
 	/**
@@ -218,7 +211,7 @@ public class GeneralInformation
 	 * @return true if is a computer file type false otherwise.
 	 */
 	public boolean isComputerFile() {
-		return getFormOfMaterial().equals("cf");
+		return "cf".equals(getFormOfMaterial());
 	}
 
 	/**
@@ -227,7 +220,7 @@ public class GeneralInformation
 	 * @return true if is a mixed material type false otherwise.
 	 */
 	public boolean isMixedMaterial() {
-		return getFormOfMaterial().equals("mm");
+		return "mm".equals(getFormOfMaterial());
 	}
 
 	/**
@@ -236,7 +229,7 @@ public class GeneralInformation
 	 * @return true if is a music type false otherwise.
 	 */
 	public boolean isMusic() {
-		return getFormOfMaterial().equals("msr");
+		return "msr".equals(getFormOfMaterial());
 	}
 
 	/**
@@ -245,7 +238,7 @@ public class GeneralInformation
 	 * @return true if is a serial type false otherwise.
 	 */
 	public boolean isSerial() {
-		return getFormOfMaterial().equals("se");
+		return "se".equals(getFormOfMaterial());
 	}
 
 	/**
@@ -254,14 +247,13 @@ public class GeneralInformation
 	 * @return true if is a visual material type false otherwise.
 	 */
 	public boolean isVisualMaterial() {
-		return getFormOfMaterial().equals("vm");
+		return "vm".equals(getFormOfMaterial());
 	}
 
 	/**
 	 * @return the displayString segment for book material.
 	 */
-	public String bookDisplayString() 
-	{
+	public String bookDisplayString() {
 		return getBookIllustrationCode()
 			+ getTargetAudienceCode()
 			+ getFormOfItemCode()
@@ -290,8 +282,7 @@ public class GeneralInformation
 	/**
 	 * @return the displayString segment for computer file material
 	 */
-	public String computerFileDisplayString() 
-	{
+	public String computerFileDisplayString() {
 		StringBuilder builder = new StringBuilder(); 
 		builder.append("    ")								/*18-21 - Undefined             */
 			   .append(getComputerTargetAudienceCode())		/*22    - Target audience       */
@@ -308,8 +299,7 @@ public class GeneralInformation
 	/**
 	 * @return the displayString segment for mixed material material
 	 */
-	public String mixedMaterialDisplayString() 
-	{
+	public String mixedMaterialDisplayString() {
 		// five undefined + 11 undefined positions
 		return "     " + getFormOfItemCode() + "           ";
 	}
@@ -317,8 +307,7 @@ public class GeneralInformation
 	/**
 	 * @return the displayString segment for music material
 	 */
-	public String musicDisplayString() 
-	{
+	public String musicDisplayString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append(getMusicFormOfCompositionCode()) 		/* 18-19 - Form of composition */
 				.append(getMusicFormatCode())					/* 20 - Format of music */
@@ -339,18 +328,16 @@ public class GeneralInformation
 	 */
 	public String visualMaterialDisplayString() {
 		return getVisualRunningTime() + " " // undefined position
-		+getVisualTargetAudienceCode() + "     " // five undefined
-		+getGovernmentPublicationCode() + getFormOfItemCode() + "   " // three undefined
-		+getVisualMaterialTypeCode() + getVisualTechniqueCode();
+			+getVisualTargetAudienceCode() + "     " // five undefined
+			+getGovernmentPublicationCode() + getFormOfItemCode() + "   " // three undefined
+			+getVisualMaterialTypeCode() + getVisualTechniqueCode();
 	}
 
 	/**
 	 * @return the displayString segment for serial (continuing resources) material
 	 */
-	public String serialDisplayString() 
-	{
+	public String serialDisplayString() {
 		StringBuilder builder = new StringBuilder();
-		
 		builder.append("")
 			   .append(getSerialFrequencyCode())				/* 18 - Frequency */
 			   .append(getSerialRegularityCode())				/* 19 - Regularity */
@@ -367,8 +354,6 @@ public class GeneralInformation
 		
 		return builder.toString();
 	}
-
-	/** * GETTERS AND SETTERS * **/
 
 	public String getMusicPartsCode() {
 		return musicPartsCode;
@@ -673,8 +658,7 @@ public class GeneralInformation
 		return itemDateLastPublication;
 	}
 
-	public void setItemDateFirstPublication(String dateFirstPublication)
-	{
+	public void setItemDateFirstPublication(String dateFirstPublication) {
 		itemDateFirstPublication = dateFirstPublication;
 	}
 
@@ -806,5 +790,4 @@ public class GeneralInformation
 	public void setVisualOriginalHolding(String visualOriginalHolding) {
 		this.visualOriginalHolding = visualOriginalHolding;
 	}
-
 }

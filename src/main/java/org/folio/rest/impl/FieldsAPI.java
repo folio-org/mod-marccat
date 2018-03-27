@@ -134,7 +134,6 @@ public class FieldsAPI implements CatalogingFieldsResource {
      * @return a new leader {@link Field} entity populated with default values.
      */
     private Field createRequiredLeaderField(final StorageService storageService, final String lang) {
-
         final String description = storageService.getHeadingTypeDescription(Global.LEADER_HEADER_TYPE, lang, Global.INT_CATEGORY);
         final FixedField leader = new FixedField();
         leader.setCategoryCode(Global.INT_CATEGORY);
