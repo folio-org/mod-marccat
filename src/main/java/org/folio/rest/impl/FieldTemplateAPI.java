@@ -72,14 +72,20 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
                                                 validation));
                                 fieldTemplate.setCode(code);
                                 return fieldTemplate;
-                            }).orElse(null)
+                            }).orElseGet(() -> {
+                            logger.error(String.format(MessageCatalog._00016_FIELD_PARAMETER_INVALID, categoryCode, code));
+                            return null;
+                        })
                     :   ofNullable(getFixedField(storageService, headerType, code, leader, valueField, vertxContext, lang, configuration))
                             .map(fixedField -> {
                                 final FieldTemplate fieldT = new FieldTemplate();
                                 fieldT.setFixedField(fixedField);
                                 fieldT.setCode(code);
                                 return fieldT;
-                            }).orElse(null) ;
+                            }).orElseGet(() -> {
+                            logger.error(String.format(MessageCatalog._00016_FIELD_PARAMETER_INVALID, categoryCode, code));
+                            return null;
+                        });
             } catch (final Exception exception) {
                 logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
                 return null;

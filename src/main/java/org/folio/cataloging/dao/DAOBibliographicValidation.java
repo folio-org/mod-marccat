@@ -10,7 +10,7 @@ import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationEx
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.persistence.BibliographicValidation;
 import org.folio.cataloging.dao.persistence.BibliographicValidationKey;
-import org.folio.cataloging.log.MessageCatalog;
+import org.folio.cataloging.integration.log.MessageCatalogStorage;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.shared.Validation;
 
@@ -81,7 +81,7 @@ public class DAOBibliographicValidation extends DAOValidation {
 		if (firstElement.isPresent()) {
 			return firstElement.get();
 		} else {
-			logger.error(String.format(MessageCatalog._00014_NO_VALIDATION_FOUND, category, values.toString()));
+			logger.error(String.format(MessageCatalogStorage._00014_NO_VALIDATION_FOUND, category, values.toString()));
 			return null;
 		}
 	}
