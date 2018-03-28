@@ -76,7 +76,7 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
                             logger.error(String.format(MessageCatalog._00016_FIELD_PARAMETER_INVALID, categoryCode, code));
                             return null;
                         })
-                    :   ofNullable(getFixedField(storageService, headerType, code, leader, valueField, vertxContext, lang, configuration))
+                    :   ofNullable(getFixedField(storageService, headerType, code, leader, valueField, lang, configuration))
                             .map(fixedField -> {
                                 final FieldTemplate fieldT = new FieldTemplate();
                                 fieldT.setFixedField(fixedField);
@@ -109,7 +109,6 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
      * @param leader the leader of record.
      * @param valueField the display value field (null or blank a default value will'be set).
      * @param lang the lang associated with the current request.
-     * @param vertxContext the vertx context.
      * @return a fixed-field containing all selected values.
      */
     private FixedField getFixedField(final StorageService storageService,
@@ -117,7 +116,6 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
                                      final String code,
                                      final String leader,
                                      String valueField,
-                                     final Context vertxContext,
                                      final String lang,
                                      final Map<String, String> serviceConfiguration) {
 
@@ -139,7 +137,7 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
                 fixedField.setDisplayValue(ofNullable(valueField).orElse(getLeaderValue()));
                 setLeaderValues(fixedField);
 
-            }else if (code.equals(Global.MATERIAL_TAG_CODE)) {
+            } else if (code.equals(Global.MATERIAL_TAG_CODE)) {
                 generalInformation = new GeneralInformation();
                 generalInformation.setDefaultValues(serviceConfiguration);
                 final Map<String, Object> mapRecordTypeMaterial = storageService.getMaterialTypeInfosByLeaderValues(leader.charAt(6), leader.charAt(7), code);
@@ -176,18 +174,20 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
             }
 
             if (code.equals(Global.MATERIAL_TAG_CODE) || code.equals(Global.OTHER_MATERIAL_TAG_CODE)) {
-                if (valueField == null){
-                    if ("1".equals(generalInformation.getMaterialDescription008Indicator())) {
-                        generalInformation.setEnteredOnFileDateYYMMDD(F.getFormattedDate("yyMMdd"));
+                if (generalInformation != null) {
+                    if (valueField == null) {
+                        if ("1".equals(generalInformation.getMaterialDescription008Indicator())) {
+                            generalInformation.setEnteredOnFileDateYYMMDD(F.getFormattedDate("yyMMdd"));
+                        }
+                        //generalInformation.setDefaultValues(serviceConfiguration);
+                        valueField = generalInformation.getValueString();
                     }
-                    //generalInformation.setDefaultValues(serviceConfiguration);
-                    valueField = generalInformation.getValueString();
-                }
 
-                fixedField.setHeaderTypeCode(generalInformation.getHeaderType());
-                fixedField.setDescription(storageService.getHeadingTypeDescription(generalInformation.getHeaderType(), lang, Global.INT_CATEGORY));
-                fixedField.setDisplayValue(valueField);
-                setMaterialValues(fixedField, generalInformation);
+                    fixedField.setHeaderTypeCode(generalInformation.getHeaderType());
+                    fixedField.setDescription(storageService.getHeadingTypeDescription(generalInformation.getHeaderType(), lang, Global.INT_CATEGORY));
+                    fixedField.setDisplayValue(valueField);
+                    setMaterialValues(fixedField, generalInformation);
+                }
             }
         }
 
@@ -332,7 +332,7 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
      * @return true if parameters are valid, false otherwise
      */
     private boolean checkParameters(final String code, final int headerTypeCode, final String leader) {
-        return (code.equals(Global.MATERIAL_TAG_CODE) && (!leader.isEmpty() && leader!=null)) ||
+        return (code.equals(Global.MATERIAL_TAG_CODE) && (leader!=null && !leader.isEmpty())) ||
                 (!code.equals(Global.MATERIAL_TAG_CODE) && headerTypeCode != 0);
     }
 
@@ -376,8 +376,7 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
                              final String description, final Validation validation) {
 
         final VariableField variableField = new VariableField();
-        if (!isFixedField(code))
-        {
+        if (!isFixedField(code))  {
             variableField.setHeadingTypeCode(Integer.toString(correlations.getValue(1)));
             variableField.setItemTypeCode(Integer.toString(correlations.getValue(2)));
             variableField.setFunctionCode(Integer.toString(correlations.getValue(3)));
@@ -411,8 +410,7 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
      * @param fixedField the fixedField to populate.
      * @param gi the general information used to create fixed field.
      */
-    private void setMaterialValues(final FixedField fixedField, final GeneralInformation gi)
-    {
+    private void setMaterialValues(final FixedField fixedField, final GeneralInformation gi) {
         String displayValue = fixedField.getDisplayValue();
 
         int startPosition = 1;
@@ -515,12 +513,12 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
     }
 
     @Override
-    public void deleteCatalogingFieldTemplate(String lang, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
+    public void deleteCatalogingFieldTemplate(String lang, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) {
         throw new IllegalArgumentException();
     }
 
     @Override
-    public void putCatalogingFieldTemplate(String lang, FieldTemplate entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
+    public void putCatalogingFieldTemplate(String lang, FieldTemplate entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) {
         throw new IllegalArgumentException();
     }
 
@@ -542,5 +540,4 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
                 .append(Global.linkedRecordCode)
                 .append(Global.fixedLeaderPortion).toString();
     }
-
 }

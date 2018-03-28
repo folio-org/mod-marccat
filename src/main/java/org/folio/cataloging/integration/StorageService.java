@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.util.*;
 
 import static java.util.Optional.ofNullable;
-import static java.util.stream.Collectors.toList;
 import static org.folio.cataloging.F.locale;
 
 /**
@@ -351,11 +350,9 @@ public class StorageService implements Closeable {
      */
     public List<Avp<String>> getSecondCorrelation(final int category, final int code, final String lang) throws DataAccessException {
 
-        DAOBibliographicCorrelation daoBC = new DAOBibliographicCorrelation();
+        final DAOBibliographicCorrelation daoBC = new DAOBibliographicCorrelation();
         final Class subTypeClass = secondCorrelationClassMap.get(category);
-        return daoBC.getSecondCorrelationList(session, category, code, subTypeClass, locale(lang))
-                .stream()
-                .collect(toList());
+        return daoBC.getSecondCorrelationList(session, category, code, subTypeClass, locale(lang));
     }
 
     /**
@@ -372,12 +369,9 @@ public class StorageService implements Closeable {
                                                  final int code1,
                                                  final int code2,
                                                  final String lang) {
-
         final Class clazz = thirdCorrelationHeadingClassMap.get(category);
-        DAOBibliographicCorrelation daoBC = new DAOBibliographicCorrelation();
-        return daoBC.getThirdCorrelationList(session, category, code1, code2, clazz, locale(lang))
-                .stream()
-                .collect(toList());
+        final DAOBibliographicCorrelation daoBC = new DAOBibliographicCorrelation();
+        return daoBC.getThirdCorrelationList(session, category, code1, code2, clazz, locale(lang));
     }
 
     /**
@@ -480,9 +474,10 @@ public class StorageService implements Closeable {
     }
 
     /**
-     * update db with object c
-     * @param c
-     * @throws DataAccessException
+     * Updates db with object c.
+     *
+     * @param c the object to be persisted.
+     * @throws DataAccessException in case of data access failure.
      */
 
     public void updateCodeTable(final Object c) throws DataAccessException {
@@ -491,11 +486,11 @@ public class StorageService implements Closeable {
     }
 
     /**
-     * get single row from db by language and code
+     * Gets a single row from db by language and code.
+     *
      * @param c table class name
-     * @param codeTable
-     * @return
-     * @throws DataAccessException
+     * @return a single row from db by language and code.
+     * @throws DataAccessException in case of data access failure.
      */
 
     public CodeTable getCodeTableByCode (final Class c, final CodeTable codeTable) throws DataAccessException {
@@ -505,8 +500,9 @@ public class StorageService implements Closeable {
 
     /**
      * Gets the heading category.
+     *
      * @param lang the language code, used here as a filter criterion.
-     * @return
+     * @return the heading category.
      */
     public List<Avp<String>> getMarcCategories(String lang) {
         final DAOCodeTable dao = new DAOCodeTable();
@@ -521,13 +517,10 @@ public class StorageService implements Closeable {
      * @throws DataAccessException in case of data access failure.
      */
     public List<Avp<String>> getFirstCorrelation(final String lang, final int category) throws DataAccessException {
-        DAOCodeTable daoCT = new DAOCodeTable();
-        return daoCT.getList(session, firstCorrelationHeadingClassMap.get(category), locale(lang))
-                .stream()
-                .collect(toList());
+        final DAOCodeTable daoCT = new DAOCodeTable();
+        return daoCT.getList(session, firstCorrelationHeadingClassMap.get(category), locale(lang));
     }
 
-    
     /**
      * Returns the descriptive catalog forms associated with the given language.
      *
@@ -589,10 +582,10 @@ public class StorageService implements Closeable {
     }
 
     /**
-
      * Gets the note group type list.
+     *
      * @param lang the language code, used here as a filter criterion.
-     * @return
+     * @return the note group type list.
      */
     public List<Avp<String>> getNoteGroupTypeList(String lang) {
         final DAOCodeTable dao = new DAOCodeTable();
@@ -600,22 +593,21 @@ public class StorageService implements Closeable {
     }
     
      /**
-     * Gets Validation for variable field.
+      * Gets Validation for variable field.
       * Validation is related to sub-fields: valid, mandatory and default subfield
       *
-     * @param marcCategory the marc category used here as filter criterion.
-     * @param code1 the first correlation used here as filter criterion.
-     * @param code2 the second correlation used here as filter criterion.
-     * @param code3 the third correlation used here as filter criterion.
-     * @return Validation object containing subfield list.
-     */
+      * @param marcCategory the marc category used here as filter criterion.
+      * @param code1 the first correlation used here as filter criterion.
+      * @param code2 the second correlation used here as filter criterion.
+      * @param code3 the third correlation used here as filter criterion.
+      * @return Validation object containing subfield list.
+      */
     public Validation getSubfieldsByCorrelations(final int marcCategory,
                                                  final int code1,
                                                  final int code2,
                                                  final int code3) throws DataAccessException {
         final DAOBibliographicValidation daoBibliographicValidation = new DAOBibliographicValidation();
-        try
-        {
+        try {
             final CorrelationValues correlationValues = new CorrelationValues(code1, code2, code3);
             return daoBibliographicValidation.load(session, marcCategory, correlationValues);
         } catch (final HibernateException exception) {
@@ -674,47 +666,43 @@ public class StorageService implements Closeable {
                                               final String indicator1,
                                               final String indicator2,
                                               final String code) throws DataAccessException {
-
         final DAOBibliographicCorrelation daoBibliographicCorrelation = new DAOBibliographicCorrelation();
         try {
-
-            final Optional<BibliographicCorrelation> bibliographicCorrelation = ofNullable(daoBibliographicCorrelation.getBibliographicCorrelation(session, code, indicator1.charAt(0), indicator2.charAt(0), category.shortValue()));
-            return bibliographicCorrelation.isPresent() ? bibliographicCorrelation.get().getValues() : null;
-
+            return ofNullable(
+                    daoBibliographicCorrelation.getBibliographicCorrelation(
+                            session, code, indicator1.charAt(0), indicator2.charAt(0), category))
+                    .map(BibliographicCorrelation::getValues).orElse(null);
         } catch (final HibernateException exception) {
             logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
             throw new DataAccessException(exception);
         }
     }
 
-
     /**
      * Gets the Material description information.
      * The values depend on mtrl_dsc and bib_itm data (leader).
      *
      * @param recordTypeCode the record type code (leader 05) used here as filter criterion.
-     * @param bibligraphicLevel the bibliographic level (leader 06) used here as filter criterion.
+     * @param bibliographicLevel the bibliographic level (leader 06) used here as filter criterion.
      * @param code the tag number code used here as filter criterion.
      * @return a map with RecordTypeMaterial info.
      * @throws DataAccessException in case of data access failure.
      */
-    public Map<String, Object> getMaterialTypeInfosByLeaderValues(final char recordTypeCode, final char bibligraphicLevel, final String code)  throws DataAccessException {
+    public Map<String, Object> getMaterialTypeInfosByLeaderValues(final char recordTypeCode, final char bibliographicLevel, final String code)  throws DataAccessException {
 
-        Map<String, Object> mapRecordTypeMaterial = null;
         final DAORecordTypeMaterial dao = new DAORecordTypeMaterial();
 
         try {
-            mapRecordTypeMaterial = new HashMap<>();
-            RecordTypeMaterial rtm = dao.getMaterialHeaderCode(session, recordTypeCode, bibligraphicLevel);
+            final Map<String, Object> mapRecordTypeMaterial = new HashMap<>();
+            final RecordTypeMaterial rtm = dao.getMaterialHeaderCode(session, recordTypeCode, bibliographicLevel);
+
             mapRecordTypeMaterial.put(GlobalStorage.HEADER_TYPE_LABEL, (code.equals(GlobalStorage.MATERIAL_TAG_CODE) ? rtm.getBibHeader008() : rtm.getBibHeader006()));
             mapRecordTypeMaterial.put(GlobalStorage.FORM_OF_MATERIAL_LABEL, rtm.getAmicusMaterialTypeCode());
-
             return mapRecordTypeMaterial;
         } catch (final HibernateException exception) {
             logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
             throw new DataAccessException(exception);
         }
-
 	}
 
     /**
@@ -745,7 +733,6 @@ public class StorageService implements Closeable {
         }
     }
 
-
     /**
      * Returns the description for heading type entity.
      *
@@ -756,9 +743,8 @@ public class StorageService implements Closeable {
      * @throws DataAccessException in case of data access failure.
      */
     public String getHeadingTypeDescription(final int code, final String lang, final int category) throws DataAccessException {
-        Class clazz = firstCorrelationHeadingClassMap.get(category);
         final DAOCodeTable dao = new DAOCodeTable();
-        return dao.getLongText(session, code, clazz, locale(lang));
+        return dao.getLongText(session, code, firstCorrelationHeadingClassMap.get(category), locale(lang));
     }
 
     /**
@@ -768,8 +754,7 @@ public class StorageService implements Closeable {
      * @return a true if exist, false otherwise.
      */
     public boolean existHeadingTypeByCategory(final int category){
-        return ofNullable(firstCorrelationHeadingClassMap.get(category))
-                .map(className -> {return true;}).orElse(false);
+        return ofNullable(firstCorrelationHeadingClassMap.get(category)).isPresent();
     }
 
     /**
@@ -779,8 +764,7 @@ public class StorageService implements Closeable {
      * @return a true if exist, false otherwise.
      */
     public boolean existItemTypeByCategory(final int category){
-        return ofNullable(secondCorrelationClassMap.get(category))
-                .map(className -> {return true;}).orElse(false);
+        return ofNullable(secondCorrelationClassMap.get(category)).isPresent();
     }
 
     /**
@@ -790,8 +774,6 @@ public class StorageService implements Closeable {
      * @return a true if exist, false otherwise.
      */
     public boolean existFunctionCodeByCategory(final int category){
-        return ofNullable(thirdCorrelationHeadingClassMap.get(category))
-                .map(className -> {return true;}).orElse(false);
+        return ofNullable(thirdCorrelationHeadingClassMap.get(category)).isPresent();
     }
-
 }

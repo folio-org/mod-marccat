@@ -85,14 +85,15 @@ public class GeneralInformation {
 
 	/*
 	 * Squeeze all non-blank Strings to the left side of the string and
-	 * retain the original length by padding with blanks on the right
+	 * retain the original length by padding with blanks on the right.
+	 *
+	 * @param s the input string.
 	 */
 	private String leftJustify(final String s) {
 		return ofNullable(stream(s.split("")).filter(character -> !" ".equals(character)).collect(joining()))
 				.map(result -> StringUtils.leftPad(result, s.length() - result.length(), ' '))
 				.orElse(null);
 	}
-
 
 	/**
 	 * Sets the configuration values to manage defaults.

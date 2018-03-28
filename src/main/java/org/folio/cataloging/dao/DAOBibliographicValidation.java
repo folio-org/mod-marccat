@@ -87,16 +87,13 @@ public class DAOBibliographicValidation extends DAOValidation {
 	}
 
 	@Deprecated
-	public BibliographicValidation load(String marcNumber, short marcCategory)
-			throws DataAccessException {
-		return (BibliographicValidation) load(
-				BibliographicValidation.class,
-				new BibliographicValidationKey(marcNumber, marcCategory));
+	public BibliographicValidation load(final String marcNumber, final int marcCategory) throws DataAccessException {
+		return (BibliographicValidation) load(BibliographicValidation.class, new BibliographicValidationKey(marcNumber, marcCategory));
 	}
 
 	@Deprecated
-	public Validation load(int s, CorrelationValues values) throws DataAccessException {
-		List l = find("select distinct v from BibliographicValidation as v, " +
+	public Validation load(final int s, final CorrelationValues values) throws DataAccessException {
+		List<BibliographicValidation> validations = find("select distinct v from BibliographicValidation as v, " +
 						"BibliographicCorrelation as c" +
 						" where c.key.marcTagCategoryCode = ?" +
 						" and (c.databaseFirstValue = ? or c.databaseFirstValue = -1 or -1 = ?)" +
@@ -115,17 +112,17 @@ public class DAOBibliographicValidation extends DAOValidation {
 						Hibernate.INTEGER, Hibernate.INTEGER,
 						Hibernate.INTEGER, Hibernate.INTEGER}
 		);
-		if (l.size() > 0) {
+
+		if (validations.size() > 0) {
 			if (logger.isDebugEnabled()) {
 				logger.debug("BibliographicValidation(s) found:");
-				for (int i = 0; i < l.size(); i++) {
-					logger.debug(l.get(i));
+				for (int i = 0; i < validations.size(); i++) {
+					logger.debug(validations.get(i));
 				}
 			}
-			return (BibliographicValidation) l.get(0);
+			return (BibliographicValidation) validations.get(0);
 		} else {
-
-			l = find("select distinct v from BibliographicValidation as v, " +
+			validations = find("select distinct v from BibliographicValidation as v, " +
 							"BibliographicCorrelation as c" +
 							" where c.key.marcTagCategoryCode = ?"+
 							" and c.key.marcTag = v.key.marcTag" +
@@ -133,14 +130,15 @@ public class DAOBibliographicValidation extends DAOValidation {
 					new Object[] { s},
 					new Type[] { Hibernate.INTEGER}
 			);
-			if (l.size() > 0) {
+
+			if (validations.size() > 0) {
 				if (logger.isDebugEnabled()) {
 					logger.debug("BibliographicValidation(s) found:");
-					for (int i = 0; i < l.size(); i++) {
-						logger.debug(l.get(i));
+					for (int i = 0; i < validations.size(); i++) {
+						logger.debug(validations.get(i));
 					}
 				}
-				return (BibliographicValidation) l.get(0);
+				return (BibliographicValidation) validations.get(0);
 			} else {
 				logger.warn("No validation found for category " + s + " and values " + values.toString());
 				throw new MarcCorrelationException("no Validation found");

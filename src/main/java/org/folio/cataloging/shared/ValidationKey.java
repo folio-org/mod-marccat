@@ -3,13 +3,13 @@ package org.folio.cataloging.shared;
 import java.io.Serializable;
 
 /**
+ *
  * @author elena
  * @since 1.0
  */
 public class ValidationKey implements Serializable {
-
 		private String marcTag;
-		private short marcTagCategoryCode;
+		private int marcTagCategoryCode;
 
 		/**
 		 * Class constructor
@@ -20,7 +20,7 @@ public class ValidationKey implements Serializable {
 			super();
 		}
 
-		public ValidationKey(final String marcTag, final short marcTagCategory) {
+		public ValidationKey(final String marcTag, final int marcTagCategory) {
 			this.setMarcTag(marcTag);
 			this.setMarcTagCategoryCode(marcTagCategory);
 		}
@@ -57,7 +57,7 @@ public class ValidationKey implements Serializable {
 		 * 
 		 * @since 1.0
 		 */
-		public short getMarcTagCategoryCode() {
+		public int getMarcTagCategoryCode() {
 			return marcTagCategoryCode;
 		}
 
@@ -77,7 +77,7 @@ public class ValidationKey implements Serializable {
 		 * @param s
 		 * @since 1.0
 		 */
-		private void setMarcTagCategoryCode(short s) {
+		private void setMarcTagCategoryCode(int s) {
 			marcTagCategoryCode = s;
 		}
 

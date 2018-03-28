@@ -125,7 +125,6 @@ public class FieldsAPI implements CatalogingFieldsResource {
 
     }
 
-
     /**
      * Creates a leader with default values.
      *
@@ -201,7 +200,7 @@ public class FieldsAPI implements CatalogingFieldsResource {
     }
 
     @Override
-    public void postCatalogingFieldsBibliographicMandatory(String lang, Field entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) {
+    public void postCatalogingFieldsBibliographicMandatory(final String lang, final Field entity, final Map<String, String> okapiHeaders, final Handler<AsyncResult<Response>> asyncResultHandler, final Context vertxContext) {
         throw new IllegalArgumentException();
     }
 }
