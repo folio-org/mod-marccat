@@ -11,7 +11,6 @@ import org.folio.cataloging.business.authorisation.AuthorisationException;
 import org.folio.cataloging.business.cataloguing.bibliographic.*;
 import org.folio.cataloging.business.cataloguing.common.Catalog;
 import org.folio.cataloging.business.cataloguing.common.CatalogItem;
-import org.folio.cataloging.business.cataloguing.common.Model;
 import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.controller.SessionUtils;
@@ -1067,10 +1066,12 @@ public class ModelBean extends LibrisuiteBean
 		currentCommand++;
 		createStringTextEditBean();
 	}
-		
+
+	@Deprecated
 	public String getLongLabel(int tagNum) throws DataAccessException, MarcCorrelationException
 	{
-		return loadLongLabel((Tag)model.getTags().get(tagNum));
+		//return loadLongLabel((Tag)model.getTags().get(tagNum));
+		return null;
 	}
 
 	/**
@@ -1136,8 +1137,6 @@ public class ModelBean extends LibrisuiteBean
 		return result;
 	}
 	
-	// TODO _MIKE: spostare nell'apposito manager la gestione delle labels e procedere per delega
-	// TODO _MIKE: Applicare la cache anche alle short label
-	/* MIKE: aggiunta per velocizzare la visualizzazione del worksheet rallentato dal recupero delle label*/
+
 	private Hashtable labelCache = new Hashtable();		
 }

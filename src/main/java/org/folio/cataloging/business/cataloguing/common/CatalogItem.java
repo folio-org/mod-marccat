@@ -19,8 +19,8 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicModelItem;
-import org.folio.cataloging.dao.DAOBibliographicModelItem;
+import org.folio.cataloging.dao.persistence.BibliographicModelItem;
+import org.folio.cataloging.dao.BibliographicModelItemDAO;
 import org.folio.cataloging.business.cataloguing.bibliographic.FixedField;
 import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
 import org.folio.cataloging.business.cataloguing.bibliographic.TagComparator;
@@ -36,6 +36,8 @@ import org.folio.cataloging.business.common.group.TagContainer;
 import org.folio.cataloging.business.common.group.TagGroup;
 import org.folio.cataloging.business.common.group.UniqueTagContainer;
 import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.Model;
+import org.folio.cataloging.dao.persistence.ModelItem;
 import org.folio.cataloging.exception.DuplicateTagException;
 import org.folio.cataloging.exception.LibrisuiteException;
 import org.folio.cataloging.exception.MandatoryTagException;
@@ -46,6 +48,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.shared.Validation;
 
 /**
  * @author paulm
@@ -244,8 +247,8 @@ public abstract class CatalogItem implements Serializable {
 	 * @since 1.0
 		 */
 	public void setModelItem(Model model) throws DataAccessException {
-		DAOBibliographicModelItem dao = new DAOBibliographicModelItem();
-		if(dao.getModelUsageByItem(this.getAmicusNumber().intValue())){
+		BibliographicModelItemDAO dao = new BibliographicModelItemDAO();
+		/*if(dao.getModelUsageByItem(this.getAmicusNumber().intValue())){
 		   this.modelItem = dao.load(this.getAmicusNumber().intValue());
 		   this.modelItem.markChanged();
 		}
@@ -253,17 +256,17 @@ public abstract class CatalogItem implements Serializable {
 		  this.modelItem = new BibliographicModelItem();
 		  this.modelItem.markNew();
 		}
-		
+		*/
 		this.modelItem.setItem(this.getAmicusNumber().longValue());
 		this.modelItem.setModel(model);
-		this.modelItem.setXmlFields(model.getXmlFields());
+		this.modelItem.setRecordFields(model.getRecordFields());
 	}
 
 	public void setModelItemNoAN(Model model) {
 		this.modelItem = new BibliographicModelItem();
 		this.modelItem.markNew();
 		this.modelItem.setModel(model);
-		this.modelItem.setXmlFields(model.getXmlFields());
+		this.modelItem.setRecordFields(model.getRecordFields());
 	}
 	/**
 		 * replace an old tag with a new one in the bibItem
@@ -474,7 +477,7 @@ public abstract class CatalogItem implements Serializable {
 
 	}
 
-	public List findTagsEqual(short functionCode) throws MarcCorrelationException,
+	public List findTagsEqual(int functionCode) throws MarcCorrelationException,
 			DataAccessException {
 		List/* <Tag> */tags = getTags();
 		List/* <Tag> */filteredList = new ArrayList/* <Tag> */();
