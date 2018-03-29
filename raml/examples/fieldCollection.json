@@ -1,0 +1,54 @@
+{
+  "fields": [
+    {
+      "fixed-field": {
+        "categoryCode": 1,
+        "headerTypeCode": 15,
+        "code": "000",
+        "displayValue": "00000nam  2200000   4500",
+        "description": "Leader"
+      },
+      "code": "000"
+    },
+    {
+      "fixed-field": {
+        "categoryCode": 1,
+        "headerTypeCode": 39,
+        "code": "001",
+        "displayValue": "000000000000",
+        "description": "001 - Bibliographic Record Control Number"
+      },
+      "code": "001"
+    },
+    {
+      "fixed-field": {
+        "categoryCode": 1,
+        "headerTypeCode": 31,
+        "code": "008",
+        "displayValue": "180313s        enk           000 u ita r",
+        "description": "008 - Book"
+      },
+      "code": "008"
+    },
+    {
+      "variable-field": {
+        "categoryCode": 1,
+        "headingTypeCode": "1",
+        "code": "040",
+        "value": "\u001faItFiC",
+        "description": "Cataloguing Source",
+        "subfields": [
+          "a",
+          "b",
+          "c",
+          "d",
+          "e",
+          "6",
+          "8"
+        ],
+        "defaultSubfieldCode": "a"
+      },
+      "code": "040"
+    }
+  ]
+}

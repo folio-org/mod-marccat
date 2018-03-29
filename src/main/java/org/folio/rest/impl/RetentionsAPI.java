@@ -6,8 +6,6 @@ import io.vertx.core.Handler;
 import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
-import org.folio.rest.jaxrs.model.AcquisitionType;
-import org.folio.rest.jaxrs.model.AcquisitionTypeCollection;
 import org.folio.rest.jaxrs.model.Retention;
 import org.folio.rest.jaxrs.model.RetentionCollection;
 import org.folio.rest.jaxrs.resource.CatalogingRetentionsResource;
@@ -43,7 +41,7 @@ public class RetentionsAPI implements CatalogingRetentionsResource {
                               final Map<String, String> okapiHeaders,
                               final Handler<AsyncResult<Response>> asyncResultHandler,
                               final Context vertxContext) throws Exception {
-        doGet((storageService, future) -> {
+        doGet((storageService, configuration, future) -> {
             try {
                 final RetentionCollection container = new RetentionCollection();
                 container.setRetentions(

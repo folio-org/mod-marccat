@@ -7,22 +7,20 @@
  */
 package org.folio.cataloging.business.cataloguing.authority;
 
-import java.util.Iterator;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.dao.DAOAuthorityCorrelation;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.DAOAuthorityCorrelation;
 import org.folio.cataloging.dao.persistence.CLSTN;
 import org.folio.cataloging.dao.persistence.T_AUT_CLSTN_FNCTN;
 import org.folio.cataloging.dao.persistence.T_AUT_CLSTN_TYP;
-
+import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
+
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author paulm
@@ -72,7 +70,7 @@ public class AuthorityClassificationAccessPoint extends AuthorityAccessPoint {
 	/* (non-Javadoc)
 	 * @see TagInterface#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return (short) 6;
 	}
 

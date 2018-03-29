@@ -22,6 +22,7 @@ import org.folio.cataloging.dao.persistence.PUBL_HDG;
 import org.folio.cataloging.dao.persistence.PUBL_TAG;
 import org.folio.cataloging.dao.persistence.REF;
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -250,7 +251,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return 7;
 	}
 

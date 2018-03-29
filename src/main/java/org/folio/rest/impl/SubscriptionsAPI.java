@@ -7,8 +7,6 @@ import io.vertx.core.Handler;
 import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
-import org.folio.rest.jaxrs.model.Currency;
-import org.folio.rest.jaxrs.model.CurrencyCollection;
 import org.folio.rest.jaxrs.model.Subscription;
 import org.folio.rest.jaxrs.model.SubscriptionCollection;
 import org.folio.rest.jaxrs.resource.CatalogingSubscriptionsResource;
@@ -42,7 +40,7 @@ public class SubscriptionsAPI implements CatalogingSubscriptionsResource {
                                 final Map<String, String> okapiHeaders,
                                 final Handler<AsyncResult<Response>> asyncResultHandler,
                                 final Context vertxContext) throws Exception {
-        doGet((storageService, future) -> {
+        doGet((storageService, configuration, future) -> {
             try {
                 final SubscriptionCollection container = new SubscriptionCollection();
                 container.setSubscriptions (

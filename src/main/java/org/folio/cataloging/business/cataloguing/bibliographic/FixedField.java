@@ -1,44 +1,25 @@
-/*
- * (c) LibriCore
- * 
- * Created on Nov 4, 2004
- * 
- * FixedField.java
- */
-package org.folio.cataloging.business.cataloguing.bibliographic;
 
-import java.util.List;
+package org.folio.cataloging.business.cataloguing.bibliographic;
 
 import org.folio.cataloging.business.cataloguing.common.HeaderField;
 import org.folio.cataloging.business.cataloguing.common.HeaderFieldHelper;
 import org.folio.cataloging.business.cataloguing.common.Tag;
-import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.persistence.CorrelationKey;
+import org.folio.cataloging.shared.CorrelationValues;
+
+import java.util.List;
 
 /**
  * @author paulm
- * @version $Revision: 1.20 $, $Date: 2005/12/21 13:33:35 $
  * @since 1.0
  */
 public abstract class FixedField extends Tag implements HeaderField {
 	private HeaderFieldHelper headerField = new BibliographicHeaderFieldHelper();
 
-	/**
-	 * Class constructor
-	 *
-	 * 
-	 * @since 1.0
-	 */
 	public FixedField() {
 	}
 
-	/**
-	 * Class constructor
-	 *
-	 * @param itemNumber
-	 * @since 1.0
-	 */
 	public FixedField(int itemNumber) {
 		super(itemNumber);
 	}
@@ -81,7 +62,7 @@ public abstract class FixedField extends Tag implements HeaderField {
 	 * 
 	 * @since 1.0
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return headerField.getCategory();
 	}
 
@@ -97,7 +78,7 @@ public abstract class FixedField extends Tag implements HeaderField {
 	 * 
 	 * @since 1.0
 	 */
-	public List getSecondCorrelationList(short value1)
+	public List getSecondCorrelationList(int value1)
 		throws DataAccessException {
 		return headerField.getSecondCorrelationList(value1);
 	}
@@ -106,7 +87,7 @@ public abstract class FixedField extends Tag implements HeaderField {
 	 * 
 	 * @since 1.0
 	 */
-	public List getThirdCorrelationList(short value1, short value2)
+	public List getThirdCorrelationList(int value1, int value2)
 		throws DataAccessException {
 		return headerField.getThirdCorrelationList(value1, value2);
 	}
@@ -120,7 +101,7 @@ public abstract class FixedField extends Tag implements HeaderField {
 	}
 
 	public CorrelationKey getMarcEncoding()
-		throws DataAccessException, MarcCorrelationException {
+		throws DataAccessException {
 		CorrelationKey key = super.getMarcEncoding();
 		return new CorrelationKey(
 			key.getMarcTag(),
@@ -162,7 +143,7 @@ public abstract class FixedField extends Tag implements HeaderField {
 	 * 
 	 * @since 1.0
 	 */
-	public short getHeaderType() {
+	public int getHeaderType() {
 		return headerField.getHeaderType();
 	}
 
@@ -170,7 +151,7 @@ public abstract class FixedField extends Tag implements HeaderField {
 	 * 
 	 * @since 1.0
 	 */
-	public void setHeaderType(short s) {
+	public void setHeaderType(int s) {
 		headerField.setHeaderType(s);
 	}
 

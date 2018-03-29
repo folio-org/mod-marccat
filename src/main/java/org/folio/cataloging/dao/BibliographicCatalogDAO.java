@@ -776,7 +776,7 @@ public class BibliographicCatalogDAO extends CatalogDAO
 				 */
 				DAOBibliographicCorrelation daoBiblioCorr = new DAOBibliographicCorrelation();
 				SBJCT_HDG sbj = (SBJCT_HDG)descriptor;
-				short functionCode =daoBiblioCorr.getFirstAllowedValue2((short)4,(short)sbj.getTypeCode(), (short)sbj.getSourceCode());
+				int functionCode =daoBiblioCorr.getFirstAllowedValue2((short)4,(short)sbj.getTypeCode(), (short)sbj.getSourceCode());
 				List<BibliographicCorrelation> list2 = daoBiblioCorr.getFirstAllowedValue2List((short)4,(short)sbj.getTypeCode(), (short)sbj.getSourceCode());
 				short cataloguingView = View.toIntView(descriptor.getUserViewString());
 				
@@ -786,9 +786,9 @@ public class BibliographicCatalogDAO extends CatalogDAO
 							+ " where apf.headingNumber = ? "
 							+ " and substr(apf.userViewString, ?, 1) = '1'",
 						new Object[] {
-							new Integer(descriptor.getKey().getHeadingNumber()),
-							new Short(cataloguingView)},
-						new Type[] { Hibernate.INTEGER, Hibernate.SHORT });
+							descriptor.getKey().getHeadingNumber(),
+							cataloguingView},
+						new Type[] { Hibernate.INTEGER, Hibernate.INTEGER });
 				
 				List l = isolateViewForList(raw, cataloguingView);
 				Iterator iter = l.iterator();

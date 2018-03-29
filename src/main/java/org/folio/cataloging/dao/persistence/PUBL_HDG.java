@@ -3,23 +3,21 @@
  * */
 package org.folio.cataloging.dao.persistence;
 
-import java.io.Serializable;
-
-import org.folio.cataloging.business.cataloguing.bibliographic.PublisherAccessPoint;
-import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.dao.DAOPublisherDescriptor;
-import org.folio.cataloging.business.descriptor.Descriptor;
-import org.folio.cataloging.business.descriptor.SortFormParameters;
-import org.folio.cataloging.exception.InvalidDescriptorException;
-import org.folio.cataloging.exception.MandatorySubfieldException;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
+import org.folio.cataloging.business.cataloguing.bibliographic.PublisherAccessPoint;
+import org.folio.cataloging.business.common.Defaults;
+import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.business.descriptor.SortFormParameters;
+import org.folio.cataloging.dao.DAOPublisherDescriptor;
 import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.util.StringText;
+import org.folio.cataloging.exception.InvalidDescriptorException;
+import org.folio.cataloging.exception.MandatorySubfieldException;
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.cataloging.util.StringText;
+
+import java.io.Serializable;
 
 /**
  * Hibernate class for table PUBL_HDG
@@ -31,7 +29,7 @@ public class PUBL_HDG extends Descriptor implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static final Log logger = LogFactory.getLog(PUBL_HDG.class);
 	private static Class referenceClass = PUBL_REF.class;
-	private short indexingLanguage;
+	private int indexingLanguage;
 	private String nameSortForm;
 	private String placeSortForm;
 	private String nameStringText;
@@ -69,7 +67,7 @@ public class PUBL_HDG extends Descriptor implements Serializable {
 	 * 
 	 * @return indexingLanguage
 	 */
-	public short getIndexingLanguage() {
+	public int getIndexingLanguage() {
 		return indexingLanguage;
 	}
 
@@ -78,7 +76,7 @@ public class PUBL_HDG extends Descriptor implements Serializable {
 	 * 
 	 * @param s indexingLanguage
 	 */
-	public void setIndexingLanguage(short s) {
+	public void setIndexingLanguage(int s) {
 		indexingLanguage = s;
 	}
 
@@ -124,7 +122,7 @@ public class PUBL_HDG extends Descriptor implements Serializable {
 	/* (non-Javadoc)
 	 * @see librisuite.hibernate.Descriptor#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return 21;
 	}
 

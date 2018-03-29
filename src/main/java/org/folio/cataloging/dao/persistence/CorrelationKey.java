@@ -1,20 +1,12 @@
-/*
- * (c) LibriCore
- * 
- * Created on 28-jul-2004
- * 
- * Correlation.java
- */
 package org.folio.cataloging.dao.persistence;
-
-import java.io.Serializable;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.io.Serializable;
+
 /**
  * @author elena
- * @version $Revision: 1.2 $, $Date: 2005/12/01 13:50:05 $
  * @since 1.0
  */
 public class CorrelationKey implements Serializable {
@@ -35,16 +27,16 @@ public class CorrelationKey implements Serializable {
 		super();
 	}
 
-	public CorrelationKey(
-			String marcTag,
-			char marcTag1,
-			char marcTag2,
-		short marcTagCategory) {
+	public CorrelationKey( final String marcTag,
+						   final char ind1,
+						   final char ind2,
+						   final short marcCategory) {
+
 			this.setMarcTag(marcTag);
-			this.setMarcFirstIndicator(marcTag1);
-			this.setMarcSecondIndicator(marcTag2);
-			this.setMarcTagCategoryCode(marcTagCategory);
-		}
+			this.setMarcFirstIndicator(ind1);
+			this.setMarcSecondIndicator(ind2);
+			this.setMarcTagCategoryCode(marcCategory);
+	}
 
 	/**
 	 * override equals and hashcode for hibernate key comparison

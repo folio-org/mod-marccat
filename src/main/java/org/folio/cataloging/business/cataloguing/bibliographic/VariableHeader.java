@@ -7,14 +7,13 @@
  */
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
-import java.util.List;
-
 import org.folio.cataloging.business.cataloguing.common.HeaderField;
 import org.folio.cataloging.business.cataloguing.common.HeaderFieldHelper;
-import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
-
+import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
+
+import java.util.List;
 
 /**
  * @author paulm
@@ -24,23 +23,11 @@ import org.folio.cataloging.util.StringText;
 public abstract class VariableHeader extends VariableField implements HeaderField {
 	private HeaderFieldHelper headerField = new BibliographicHeaderFieldHelper();
 
-	/**
-	 * Class constructor
-	 *
-	 * @param itemNumber
-	 * @param itemType
-	 * @since 1.0
-	 */
 	public VariableHeader(int itemNumber) {
 		super(itemNumber);
 	}
 
-	/**
-	 * Class constructor
-	 *
-	 * @param itemType
-	 * @since 1.0
-	 */
+
 	public VariableHeader() {
 		super();
 	}
@@ -85,14 +72,14 @@ public abstract class VariableHeader extends VariableField implements HeaderFiel
 	 * 
 	 * @since 1.0
 	 */
-	public short getHeaderType() {
+	public int getHeaderType() {
 		return headerField.getHeaderType();
 	}
 
 	/* (non-Javadoc)
 	 * @see VariableField#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return headerField.getCategory();
 	}
 
@@ -106,7 +93,7 @@ public abstract class VariableHeader extends VariableField implements HeaderFiel
 	/* (non-Javadoc)
 	 * @see VariableField#getSecondCorrelationList(short)
 	 */
-	public List getSecondCorrelationList(short value1)
+	public List getSecondCorrelationList(int value1)
 		throws DataAccessException {
 		return headerField.getSecondCorrelationList(value1);
 	}
@@ -114,7 +101,7 @@ public abstract class VariableHeader extends VariableField implements HeaderFiel
 	/* (non-Javadoc)
 	 * @see VariableField#getThirdCorrelationList(short, short)
 	 */
-	public List getThirdCorrelationList(short value1, short value2)
+	public List getThirdCorrelationList(int value1, int value2)
 		throws DataAccessException {
 		return headerField.getThirdCorrelationList(value1, value2);
 	}
@@ -130,7 +117,7 @@ public abstract class VariableHeader extends VariableField implements HeaderFiel
 	 * 
 	 * @since 1.0
 	 */
-	public void setHeaderType(short s) {
+	public void setHeaderType(int s) {
 		headerField.setHeaderType(s);
 	}
 

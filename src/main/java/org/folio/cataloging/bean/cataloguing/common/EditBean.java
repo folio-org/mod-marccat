@@ -34,6 +34,7 @@ import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.exception.*;
 import org.folio.cataloging.form.cataloguing.bibliographic.EditTagForm;
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
 
 import javax.servlet.http.HttpServletRequest;
@@ -304,19 +305,12 @@ public abstract class EditBean extends LibrisuiteBean {
 		this.casaliniBean = casaliniBean;
 	}
 
-	// TODO _MIKE: spostare nell'apposito manager la gestione delle labels e
-	// procedere per delega
-	// TODO _MIKE: Applicare la cache anche alle short label
-	/*
-	 * MIKE: aggiunta per velocizzare la visualizzazione del worksheet
-	 * rallentato dal recupero delle label
-	 */
 	private Hashtable labelCache = new Hashtable();
 
 	/* modifica carmen 7/03/2007 */
 	private boolean navigation = false; // !isEditing = isNavigation
 
-	private short skipInFiling = '0';
+	private int skipInFiling = '0';
 
 	/*
 	 * Natascia 4/7/2007 **Prn 189
@@ -551,7 +545,7 @@ public abstract class EditBean extends LibrisuiteBean {
 
 
 
-	abstract public Set getControlNumberValidationOptions();
+	abstract public List<String> getControlNumberValidationOptions();
 
 	/**
 	 * 
@@ -790,7 +784,7 @@ public abstract class EditBean extends LibrisuiteBean {
 	 * possible choices are still valid MARC encodings
 	 * 
 	 */
-	public void refreshCorrelation(short value1, short value2, Locale l) throws DataAccessException 
+	public void refreshCorrelation(int value1, int value2, Locale l) throws DataAccessException
 	{
 		logger.debug("refreshing correlation");
 		logger.debug("value1 is " + value1);
@@ -874,12 +868,11 @@ public abstract class EditBean extends LibrisuiteBean {
 	 */
 	private T_SINGLE loadSelectedCodeTable(Tag processingTag)
 			throws DataAccessException {
-		short value1 = processingTag.getCorrelation(1);
+		int value1 = processingTag.getCorrelation(1);
 
 		List firstList = processingTag.getFirstCorrelationList();
 
-		T_SINGLE ct = DAOCodeTable.getSelectedCodeTable(firstList, getLocale(),
-				value1);
+		T_SINGLE ct = DAOCodeTable.getSelectedCodeTable(firstList, getLocale(), value1);
 		return ct;
 	}
 
@@ -1364,11 +1357,11 @@ public abstract class EditBean extends LibrisuiteBean {
 		skipInFilingList = list;
 	}
 
-	public short getSkipInFiling() {
+	public int getSkipInFiling() {
 		return skipInFiling;
 	}
 
-	public short getSkipInFilingHeading() {
+	public int getSkipInFilingHeading() {
 		Descriptor d = ((Browsable) getCurrentTag()).getDescriptor();
 		if (d instanceof TTL_HDG && !d.isNew())
 			return d.getSkipInFiling();
@@ -1376,7 +1369,7 @@ public abstract class EditBean extends LibrisuiteBean {
 			return skipInFiling;
 	}
 
-	public void setSkipInFiling(short skipInFiling) {
+	public void setSkipInFiling(int skipInFiling) {
 		this.skipInFiling = skipInFiling;
 	}
 
@@ -2289,7 +2282,7 @@ public abstract class EditBean extends LibrisuiteBean {
 	}
 
 	public String getConversionCategoryAutocomplete() {
-		short category = -1;
+		int category = -1;
 		try {
 			category = getCurrentTag().getCategory();
 		} catch (Exception e) {
@@ -2490,11 +2483,11 @@ public abstract class EditBean extends LibrisuiteBean {
 	 */
 	public void saveHeadingAndTag(Tag currentTag, ConfigHandler handler) throws DataAccessException, ValidationException
 	 {
-		short saveTag = 0;
+		 int saveTag = 0;
 		String marcTag = currentTag.getMarcEncoding().getMarcTag();
-		short category = currentTag.getCategory();
+		 int category = currentTag.getCategory();
 		if(handler.getValue("save_tag") != null)
-		   saveTag = Short.parseShort(handler.getValue("save_tag"));
+		   saveTag = Integer.parseInt(handler.getValue("save_tag"));
 		if (saveTag == 1 && isTagsNotExcluded(marcTag) && category!=2 ) {
 			 validateCurrentTag();
 			 sortTags(Locale.getDefault());

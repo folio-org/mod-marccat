@@ -15,11 +15,13 @@ import javax.ws.rs.core.Response;
 import java.util.Map;
 import java.util.function.Function;
 
+import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
 /**
  * Function codes RESTful APIs.
+ *
  * @author natasciab
  * @since 1.0
  */
@@ -43,29 +45,25 @@ public class FunctionCodeAPI implements CatalogingFunctionCodesResource {
                                            final Map<String, String> okapiHeaders,
                                            final Handler<AsyncResult<Response>> asyncResultHandler,
                                            final Context vertxContext) throws Exception {
-
-        doGet((storageService, future) -> {
+        doGet((storageService, configuration, future) -> {
             try {
 
-                final String category = (marcCategory.equals("17") ? Global.NAME_CATEGORY_DEFAULT : marcCategory);
-                Class className = null;
+                final int category = (marcCategory.equals("17") ? Global.NAME_CATEGORY_DEFAULT : Integer.parseInt(marcCategory));
                 final int intCode1 = Integer.parseInt(code1);
                 final int intCode2 = Integer.parseInt(code2);
 
-                try {
-                    className = Global.thirdCorrelationHeadingClassMap.get(category);
-                }catch (NullPointerException exception){
-                    //TODO return 404 (not found)
-                    return null;
-                }
+                return (storageService.existFunctionCodeByCategory(category))
+                        ? ofNullable(storageService.getThirdCorrelation(category, intCode1, intCode2, lang))
+                        .map(functionCodeList -> {
+                            final FunctionCodeCollection container = new FunctionCodeCollection();
+                            container.setFunctionCodes(functionCodeList
+                                    .stream()
+                                    .map(toFunctionCode)
+                                    .collect(toList()));
 
-                final FunctionCodeCollection container = new FunctionCodeCollection();
-                container.setFunctionCodes(storageService.getThirdCorrelation(category, intCode1, intCode2, lang, className)
-                        .stream()
-                        .map(toFunctionCode)
-                        .collect(toList()));
-
-                return container;
+                            return container;
+                        }).orElse(null)
+                        : null;
 
             } catch (final Exception exception) {
                 logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);

@@ -296,7 +296,7 @@ public class CodeTableParser
 		Iterator<LabelTagDisplay> ite = marcTagDisplayList.iterator();
 		while(ite.hasNext())
 		{
-			LabelTagDisplay marc =(LabelTagDisplay)ite.next();
+			LabelTagDisplay marc = ite.next();
 			String key="";
 			String value="";
 			if (marc.getMarcFirstIndicator()==null && marc.getMarcSecondIndicator()==null ){
@@ -423,7 +423,7 @@ public class CodeTableParser
 		//System.out.println("marcTagDisplayList: "+marcTagDisplayList.size());
 		while(ite.hasNext())
 		{
-			LabelTagDisplay  marc =(LabelTagDisplay)ite.next();
+			LabelTagDisplay  marc = ite.next();
 			String key="";
 			String value="";
 			

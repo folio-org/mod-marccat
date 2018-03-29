@@ -4,11 +4,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.cataloguing.common.ItemEntity;
 import org.folio.cataloging.business.common.*;
-import org.folio.cataloging.dao.DAORecordTypeMaterial;
 import org.folio.cataloging.dao.DAOSystemNextNumber;
 import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.dao.persistence.RecordTypeMaterial;
 import org.folio.cataloging.dao.persistence.T_BIB_HDR;
+import org.folio.cataloging.shared.CorrelationValues;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -19,7 +18,7 @@ import java.util.List;
 
 import static org.folio.cataloging.F.*;
 
-@SuppressWarnings("unchecked")
+//TODO: to do refactoring
 public class MaterialDescription extends FixedFieldUsingItemEntity implements PersistentObjectWithView 
 {
 	private static final long serialVersionUID = 232911118088181003L;
@@ -828,18 +827,21 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 		visualTechniqueCode = character;
 	}
 
+
+	//TODO: remove from here!
 	public void setFormOfMaterialFromBibItem() {
 		/*
 		 * formOfMaterial is an artificial (non-persistent) stringValue for material description
 		 * that must be derived from other mtrl_dsc and bib_itm data (as coded below).
 		 */
-		DAORecordTypeMaterial dao = new DAORecordTypeMaterial();
+
+		/*DAORecordTypeMaterial dao = new DAORecordTypeMaterial();
 		RecordTypeMaterial rtm;
 		rtm =
 			dao.get008HeaderCode(
 				getItemRecordTypeCode(),
 				getItemBibliographicLevelCode());
-		setFormOfMaterial(rtm.getAmicusMaterialTypeCode());
+		setFormOfMaterial(rtm.getAmicusMaterialTypeCode());*/
 	}
 
 	/**
@@ -861,6 +863,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 	/* (non-Javadoc)
 	 * @see FixedField#setBibItm(BIB_ITM)
 	 */
+	//TODO: remove from here!
 	public void setItemEntity(ItemEntity item) {
 		/*
 		 * we override this item to establish the new values for bibHeader 
@@ -868,7 +871,8 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 		 * bib_header is an artificial (non-persistent) stringValue for material description
 		 * that must be derived from other mtrl_dsc and bib_itm data (as coded below).
 		 */
-		super.setItemEntity(item);
+
+		/*super.setItemEntity(item);
 		if (getMaterialDescription008Indicator() == '1') {
 			DAORecordTypeMaterial dao = new DAORecordTypeMaterial();
 			RecordTypeMaterial rtm;
@@ -881,10 +885,10 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 			setFormOfMaterial(rtm.getAmicusMaterialTypeCode());
 			}
 		} else {
-			/*
+
 			 * although the 006 values are not affected by bib_item values, we
 			 * need to establish the correct bib_header stringValue for loaded items
-			 */
+
 			DAORecordTypeMaterial dao = new DAORecordTypeMaterial();
 			RecordTypeMaterial rtm;
 			rtm = dao.get006HeaderCode(getMaterialTypeCode());
@@ -892,17 +896,18 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 			setHeaderType(rtm.getBibHeader006());
 			}
 
-		}
+		}*/
 	}
 
 	/* (non-Javadoc)
 	 * @see FixedField#setBibHeader(short)
 	 */
+	//TODO: remove from here!
 	public void setHeaderType(short s) {
 		//TODO put these hard coded values from T_BIB_HEADER into a table
 		//TODO this code allows the user to select an 008 type from the header that is not
 		// consistent with the values in the Leader -- shouldn't allow this		
-		if (getHeaderType() != s) {
+		/*if (getHeaderType() != s) {
 			super.setHeaderType(s);
 			if (getHeaderType() >= 16 && getHeaderType() <= 22) {
 				setMaterialDescription008Indicator('0');
@@ -915,7 +920,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 				setMaterialTypeCode(null);
 				setFormOfMaterialFromBibItem();
 			}
-		}
+		}*/
 	}
 
 	/* (non-Javadoc)

@@ -14,8 +14,8 @@ package org.folio.cataloging.business.common;
  */
 public interface PersistentObjectWithView extends Persistence {
 
-	abstract public String getUserViewString();
+	String getUserViewString();
 	
-	abstract public void setUserViewString(String s);
+	void setUserViewString(String s);
 	
 }

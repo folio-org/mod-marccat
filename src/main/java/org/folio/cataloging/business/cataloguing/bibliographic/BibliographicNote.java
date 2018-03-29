@@ -11,6 +11,7 @@ import org.folio.cataloging.dao.DAOSystemNextNumber;
 import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.persistence.BibliographicNoteType;
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class BibliographicNote extends VariableField implements PersistentObject
 	 * The content is all or a part of the stringText.toString() result.
 	 */
 	private String content = null;
-	private short noteType;
+	private int noteType;
 	private int noteNbr = -1;
 	private char overflowIndicator = '0';
 	public List overflowList = new ArrayList();
@@ -77,8 +78,8 @@ public class BibliographicNote extends VariableField implements PersistentObject
 	}
 
 	/**
-	 * This stringValue is used by Hibernate
-	 * It must preserve the $a stringValue
+	 * This value is used by Hibernate
+	 * It must preserve the $a value
 	 */
 	public void setStringTextString(String string) {
 		this.content = string;
@@ -127,7 +128,7 @@ public class BibliographicNote extends VariableField implements PersistentObject
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return bibliographicNoteCategory;
 	}
 
@@ -142,14 +143,14 @@ public class BibliographicNote extends VariableField implements PersistentObject
 	/**
 	 * 
 	 */
-	public short getNoteType() {
+	public int getNoteType() {
 		return noteType;
 	}
 
 	/**
 	 * 
 	 */
-	public void setNoteType(short s) {
+	public void setNoteType(int s) {
 		noteType = s;
 	}
 

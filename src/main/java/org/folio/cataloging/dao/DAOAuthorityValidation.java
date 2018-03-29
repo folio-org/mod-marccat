@@ -7,16 +7,15 @@
  */
 package org.folio.cataloging.dao;
 
-import java.util.List;
-
-import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
-import org.folio.cataloging.business.cataloguing.common.Validation;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.type.Type;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
 import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.shared.Validation;
+
+import java.util.List;
 
 /**
  * @author paulm
@@ -27,16 +26,16 @@ public class DAOAuthorityValidation extends DAOValidation {
 
 	private static final Log logger = LogFactory.getLog(DAOAuthorityValidation.class);
 
-	public Validation load(String tag, String headingType, short category)
-		throws MarcCorrelationException, DataAccessException {
+	public Validation load(String tag, String headingType, int category)
+		throws DataAccessException {
 			List l = find("from AuthorityValidation as v, " +
 				" where v.key.marcTagCategoryCode = ? " +
 				" and v.key.marcTag = ? " +
 				" and v.key.headingType = ? ",
-				new Object[] { new Short(category), 
+				new Object[] { category,
 					tag,
 					headingType},
-				new Type[] { Hibernate.SHORT,
+				new Type[] { Hibernate.INTEGER,
 					Hibernate.STRING,
 					Hibernate.STRING}
 					);

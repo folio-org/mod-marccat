@@ -7,12 +7,12 @@
  */
 package org.folio.cataloging.business.cataloguing.common;
 
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.dao.DAOCodeTable;
+import org.folio.cataloging.shared.CorrelationValues;
+
 import java.io.Serializable;
 import java.util.List;
-
-import org.folio.cataloging.dao.DAOCodeTable;
-import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.business.common.DataAccessException;
 
 /**
  * @author paulm
@@ -22,9 +22,9 @@ import org.folio.cataloging.business.common.DataAccessException;
 public abstract class HeaderFieldHelper implements HeaderField, Serializable {
 	private static DAOCodeTable daoCodeTable = new DAOCodeTable();
 
-	protected short headerType = -1;
+	protected int headerType = -1;
 
-	abstract public short getCategory();
+	abstract public int getCategory();
 
 	abstract public Class getHeaderListClass();
 	
@@ -32,19 +32,19 @@ public abstract class HeaderFieldHelper implements HeaderField, Serializable {
 		return daoCodeTable.getList(getHeaderListClass(),false);		
 	}
 
-	public List getSecondCorrelationList(short value1) throws DataAccessException {
+	public List getSecondCorrelationList(int value1) throws DataAccessException {
 		return null;
 	}
 
-	public List getThirdCorrelationList(short value1, short value2) throws DataAccessException {
+	public List getThirdCorrelationList(int value1, int value2) throws DataAccessException {
 		return null;
 	}
 
-	public short getHeaderType() {
+	public int getHeaderType() {
 		return headerType;
 	}
 
-	public void setHeaderType(short s) {
+	public void setHeaderType(int s) {
 		headerType = s;
 	}
 	

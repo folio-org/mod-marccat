@@ -20,7 +20,7 @@ public class BibliographicHeaderFieldHelper extends HeaderFieldHelper {
 	/* (non-Javadoc)
 	 * @see HeaderField#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return 1;
 	}
 

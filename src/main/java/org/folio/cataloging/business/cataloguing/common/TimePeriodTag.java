@@ -7,15 +7,13 @@
  */
 package org.folio.cataloging.business.cataloguing.common;
 
-import org.folio.cataloging.business.cataloguing.bibliographic.TimePeriodOfContentTag;
-import org.folio.cataloging.business.cataloguing.bibliographic.VariableHeaderUsingItemEntity;
-import org.folio.cataloging.business.common.CorrelationValues;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.util.StringText;
+import org.folio.cataloging.business.cataloguing.bibliographic.TimePeriodOfContentTag;
+import org.folio.cataloging.business.cataloguing.bibliographic.VariableHeaderUsingItemEntity;
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.cataloging.util.StringText;
 
 /**
  * @author paulm
@@ -34,12 +32,6 @@ public abstract class TimePeriodTag extends VariableHeaderUsingItemEntity {
 		super(itemNumber);
 	}
 
-	/**
-	 * Class constructor
-	 *
-	 * 
-	 * @since 1.0
-	 */
 	public TimePeriodTag() {
 		super();
 	}
@@ -80,7 +72,6 @@ public abstract class TimePeriodTag extends VariableHeaderUsingItemEntity {
 			}
 		}
 	}
-
 
 	public void setCorrelationValues(CorrelationValues v) {
 		super.setCorrelationValues(v);

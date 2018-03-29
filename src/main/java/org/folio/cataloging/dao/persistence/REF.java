@@ -1,18 +1,14 @@
 package org.folio.cataloging.dao.persistence;
 
-import java.io.Serializable;
-import org.folio.cataloging.business.common.CrossReferenceExistsException;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.business.common.PersistenceState;
-import org.folio.cataloging.business.common.PersistentObjectWithView;
-import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.dao.DAOCrossReferences;
-import org.folio.cataloging.dao.DAODescriptor;
-import org.folio.cataloging.business.descriptor.Descriptor;
 import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.Session;
+import org.folio.cataloging.business.common.*;
+import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.DAOCrossReferences;
+import org.folio.cataloging.dao.DAODescriptor;
 import org.folio.cataloging.dao.common.HibernateUtil;
+
+import java.io.Serializable;
 
 /**
  * abstract class for all cross-reference tables (including NME_NME_TTL_REF
@@ -50,7 +46,7 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
 		return ref;
 	}
 	
-	static public REF newInstance(Descriptor source,Descriptor target,short referenceType,int cataloguingView, boolean isAttribute) 
+	static public REF newInstance(Descriptor source,Descriptor target,int referenceType,int cataloguingView, boolean isAttribute)
 	{
 		REF ref = null;
 		try {
@@ -70,7 +66,7 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
 		setDefault();
 	}
 
-	public void init(Descriptor source,Descriptor target,short referenceType,int cataloguingView) 
+	public void init(Descriptor source,Descriptor target,int referenceType,int cataloguingView)
 	{
 		setKey(new REF_KEY());
 		getKey().setSource(source.getKey().getHeadingNumber());
@@ -165,7 +161,7 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
 	public int getTarget() {
 		return key.getTarget();
 	}
-	public Short getType() {
+	public Integer getType() {
 		return key.getType();
 	}
 	public int getUpdateStatus() {
@@ -243,7 +239,7 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
 	public void setTarget(int i) {
 		key.setTarget(i);
 	}
-	public void setType(Short s) {
+	public void setType(int s) {
 		key.setType(s);
 	}
 	public void setUpdateStatus(int i) {

@@ -7,15 +7,15 @@
  */
 package org.folio.cataloging.bean.cataloguing.heading;
 
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.DAOCodeTable;
+import org.folio.cataloging.dao.persistence.SHLF_LIST;
+import org.folio.cataloging.dao.persistence.T_SHLF_LIST_TYP;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import org.folio.cataloging.dao.DAOCodeTable;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.descriptor.Descriptor;
-import org.folio.cataloging.dao.persistence.SHLF_LIST;
-import org.folio.cataloging.dao.persistence.T_SHLF_LIST_TYP;
 
 /**
  * @author paulm
@@ -90,7 +90,7 @@ public class ShelfListHeadingBean extends HeadingBean {
 	}
 
 	@Override
-	public void setSkipInFiling(short s) {
+	public void setSkipInFiling(int s) {
 		// TODO Auto-generated method stub
 		
 	}

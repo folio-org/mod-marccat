@@ -1,18 +1,17 @@
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
-import java.util.List;
-
 import org.folio.cataloging.business.cataloguing.common.OrderedTag;
-import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.dao.DAOBibliographicCorrelation;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.DAOBibliographicCorrelation;
 import org.folio.cataloging.dao.persistence.CLSTN;
 import org.folio.cataloging.dao.persistence.ClassificationType;
-
-import org.folio.cataloging.util.StringText;
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.cataloging.util.StringText;
+
+import java.util.List;
 
 /**
  * @author paulm
@@ -68,7 +67,7 @@ public class ClassificationAccessPoint extends BibliographicAccessPoint implemen
 	public StringText getAccessPointStringText() {
 		StringText stringText= new StringText();
 		boolean isDewey = descriptor.getTypeCode()==12;
-		Short deweyEditionNumber = descriptor.getDeweyEditionNumber();
+		Integer deweyEditionNumber = descriptor.getDeweyEditionNumber();
 		if(isDewey && deweyEditionNumber!=null)
 			stringText.addSubfield(new Subfield("2",""+deweyEditionNumber));
 		 return stringText;
@@ -84,7 +83,7 @@ public class ClassificationAccessPoint extends BibliographicAccessPoint implemen
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return CLASSIFICATION_TAG_CATEGORY;
 	}
 

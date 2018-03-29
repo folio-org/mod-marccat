@@ -1,0 +1,50 @@
+{
+  "$schema" : "http://json-schema.org/draft-04/schema#",
+  "title": "variableField",
+  "type": "object",
+  "properties": {
+    "categoryCode": {
+      "type": "integer"
+    },
+    "headingTypeCode": {
+      "type": "string"
+    },
+    "itemTypeCode": {
+      "type": "string"
+    },
+    "functionCode": {
+      "type": "string"
+    },
+    "ind1" : {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1
+    },
+    "ind2" : {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1
+    },
+    "code": {
+      "type": "string"
+    },
+    "value": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "subfields": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "[a-z|0-9]"
+      }
+    },
+    "defaultSubfieldCode": {
+      "type": "string",
+      "pattern": "[a-z|0-9]"
+    }
+  },
+  "additionalProperties": true
+}

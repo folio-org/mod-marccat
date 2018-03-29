@@ -39,7 +39,7 @@ public class NoteGroupTypeAPI implements CatalogingNoteGroupTypesResource {
                                             final Map<String, String> okapiHeaders,
                                             final Handler<AsyncResult<Response>> asyncResultHandler,
                                             final Context vertxContext) throws Exception {
-        doGet((storageService, future) -> {
+        doGet((storageService, configuration, future) -> {
             try {
                 final NoteGroupTypeCollection container = new NoteGroupTypeCollection();
                 container.setNoteGroupTypes(storageService.getNoteGroupTypeList(lang)

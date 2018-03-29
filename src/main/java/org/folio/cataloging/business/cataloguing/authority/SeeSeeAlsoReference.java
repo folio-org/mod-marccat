@@ -1,20 +1,11 @@
-/*
- * (c) LibriCore
- * 
- * Created on Dec 5, 2005
- * 
- * SeeSeeAlsoReferences.java
- */
 package org.folio.cataloging.business.cataloguing.authority;
 
-import org.w3c.dom.Element;
-
-import org.folio.cataloging.util.StringText;
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.util.StringText;
+import org.w3c.dom.Element;
 
 /**
  * @author paulm
- * @version $Revision: 1.4 $, $Date: 2006/01/11 13:36:22 $
  * @since 1.0
  */
 public abstract class SeeSeeAlsoReference extends AuthorityReferenceTag {

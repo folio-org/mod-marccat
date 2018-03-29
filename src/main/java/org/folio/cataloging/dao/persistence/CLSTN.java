@@ -9,15 +9,14 @@ package org.folio.cataloging.dao.persistence;
 
 import org.folio.cataloging.business.cataloguing.authority.AuthorityClassificationAccessPoint;
 import org.folio.cataloging.business.cataloguing.bibliographic.ClassificationAccessPoint;
-import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.dao.DAOClassificationDescriptor;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
+import org.folio.cataloging.dao.DAOClassificationDescriptor;
 import org.folio.cataloging.dao.DAOIndexList;
-
 import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.shared.CorrelationValues;
 
 /**
  * @author paulm
@@ -26,8 +25,8 @@ import org.folio.cataloging.dao.common.HibernateUtil;
  */
 public class CLSTN extends Descriptor {
 	private static final long serialVersionUID = 1L;
-	private Short deweyEditionNumber;
-	private short typeCode;
+	private Integer deweyEditionNumber;
+	private int typeCode;
 
 	/**
 	 * Class constructor
@@ -108,7 +107,7 @@ public class CLSTN extends Descriptor {
 	/* (non-Javadoc)
 	 * @see librisuite.hibernate.Descriptor#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return 20;
 	}
 
@@ -116,7 +115,7 @@ public class CLSTN extends Descriptor {
 	 * 
 	 * @since 1.0
 	 */
-	public Short getDeweyEditionNumber() {
+	public Integer getDeweyEditionNumber() {
 		return deweyEditionNumber;
 	}
 
@@ -124,7 +123,7 @@ public class CLSTN extends Descriptor {
 	 * 
 	 * @since 1.0
 	 */
-	public short getTypeCode() {
+	public int getTypeCode() {
 		return typeCode;
 	}
 
@@ -132,7 +131,7 @@ public class CLSTN extends Descriptor {
 	 * 
 	 * @since 1.0
 	 */
-	public void setDeweyEditionNumber(Short short1) {
+	public void setDeweyEditionNumber(Integer short1) {
 		deweyEditionNumber = short1;
 	}
 
@@ -140,7 +139,7 @@ public class CLSTN extends Descriptor {
 	 * 
 	 * @since 1.0
 	 */
-	public void setTypeCode(short s) {
+	public void setTypeCode(int s) {
 		typeCode = s;
 	}
 
@@ -151,7 +150,7 @@ public class CLSTN extends Descriptor {
 		String result = null;
 		DAOIndexList dao = new DAOIndexList();
 		try {
-			result = dao.getIndexBySortFormType((short)400, getTypeCode());
+			result = dao.getIndexBySortFormType(400, getTypeCode());
 			if (result != null) {
 				return result;
 			}

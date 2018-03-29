@@ -1,26 +1,4 @@
 {
-    "marcCategory": 17,
-    "description": "Name",
-    "item-types": [
-        {
-            "code": 2,
-            "description": "Name Personal",
-            "sub-types": []
-        },
-        {
-            "code": 3,
-            "description": "Name Corporate",
-            "sub-types": []
-        },
-        {
-            "code": 4,
-            "description": "Name Conference or meeting",
-            "sub-types": []
-        },
-        {
-            "code": 5,
-            "description": "Uncontrolled",
-            "sub-types": []
-        }
-    ]
+    "code": 2,
+    "description": "Name Personal"
 }

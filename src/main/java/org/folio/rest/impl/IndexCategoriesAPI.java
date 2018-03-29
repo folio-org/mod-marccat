@@ -42,7 +42,7 @@ public class IndexCategoriesAPI implements CatalogingIndexCategoriesResource {
             final Map<String, String> okapiHeaders,
             final Handler<AsyncResult<Response>> asyncResultHandler,
             final Context vertxContext) throws Exception {
-          doGet((storageService, future) -> {
+        doGet((storageService, configuration, future) -> {
             try {
                 final IndexCategoryCollection container = new IndexCategoryCollection();
                 container.setCategories(

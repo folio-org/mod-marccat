@@ -1,26 +1,18 @@
 package org.folio.cataloging.bean.cataloguing.heading;
 
+import org.folio.cataloging.bean.cataloguing.bibliographic.codelist.CodeListsBean;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.DAOBibliographicCorrelation;
+import org.folio.cataloging.dao.DAOCodeTable;
+import org.folio.cataloging.dao.DAOSubjectTerm;
+import org.folio.cataloging.dao.persistence.*;
+import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.shared.CorrelationValues;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import org.folio.cataloging.bean.cataloguing.bibliographic.codelist.CodeListsBean;
-import org.folio.cataloging.dao.DAOSubjectTerm;
-import org.folio.cataloging.dao.DAOCodeTable;
-import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.dao.DAOBibliographicCorrelation;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.descriptor.Descriptor;
-import org.folio.cataloging.dao.persistence.SBJCT_HDG;
-import org.folio.cataloging.dao.persistence.SubjectSource;
-import org.folio.cataloging.dao.persistence.SubjectTerm;
-import org.folio.cataloging.dao.persistence.SubjectType;
-import org.folio.cataloging.dao.persistence.T_LANG_OF_ACS_PNT_SBJCT;
-import org.folio.cataloging.dao.persistence.T_SBJCT_HDG_SCDRY_SRC;
-import org.folio.cataloging.dao.persistence.T_SBJCT_TRM_TYP;
-import org.folio.cataloging.dao.persistence.T_SKP_IN_FLNG_CNT;
-
-import org.folio.cataloging.model.Subfield;
 
 @SuppressWarnings("unchecked")
 public class SubjectHeadingBean extends HeadingBean {
@@ -104,21 +96,21 @@ public class SubjectHeadingBean extends HeadingBean {
 	/**
 	 * @return
 	 */
-	public short getSkipInFiling() {
+	public int getSkipInFiling() {
 		return subjectHeading.getSkipInFiling();
 	}
 
 	/**
 	 * @return
 	 */
-	public short getSourceCode() {
+	public int getSourceCode() {
 		return subjectHeading.getSourceCode();
 	}
 
 	/**
 	 * @return
 	 */
-	public short getTypeCode() {
+	public int getTypeCode() {
 		return subjectHeading.getTypeCode();
 	}
 
@@ -148,21 +140,21 @@ public class SubjectHeadingBean extends HeadingBean {
 	/**
 	 * @param i
 	 */
-	public void setSkipInFiling(short i) {
+	public void setSkipInFiling(int i) {
 		subjectHeading.setSkipInFiling(i);
 	}
 
 	/**
 	 * @param s
 	 */
-	public void setSourceCode(short s) {
+	public void setSourceCode(int s) {
 		subjectHeading.setSourceCode(s);
 	}
 
 	/**
 	 * @param s
 	 */
-	public void setTypeCode(short s) {
+	public void setTypeCode(int s) {
 		subjectHeading.setTypeCode(s);
 	}
 
@@ -187,9 +179,6 @@ public class SubjectHeadingBean extends HeadingBean {
 		skipInFilingList = list;
 	}
 
-	/**
-	 * @param sbjct_hdg
-	 */
 	protected void setHeading(Descriptor d) {
 		if (!(d instanceof SBJCT_HDG)) throw new IllegalArgumentException("I can only set descriptors of type SBJCT_HDG");
 		subjectHeading = (SBJCT_HDG) d;

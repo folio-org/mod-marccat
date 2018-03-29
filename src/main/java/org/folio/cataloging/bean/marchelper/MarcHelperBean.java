@@ -782,7 +782,7 @@ public class MarcHelperBean extends LibrisuiteBean {
 	 * @return the current category if we are in editHeading mode,
 	 *  -1 if we are in tag mode
 	 */
-	public short getCurrentCategory() {
+	public int getCurrentCategory() {
 		if(isEditHeading()){
 			return headingBean.getCategory();
 		}

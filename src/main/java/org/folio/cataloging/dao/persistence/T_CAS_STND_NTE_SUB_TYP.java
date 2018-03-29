@@ -70,10 +70,8 @@ public  class T_CAS_STND_NTE_SUB_TYP implements Persistence{
 		if (getClass() != obj.getClass())
 			return false;
 		T_CAS_STND_NTE_SUB_TYP other = (T_CAS_STND_NTE_SUB_TYP) obj;
-		if (sequence != other.sequence)
-			return false;
-		return true;
-	}
+        return sequence == other.sequence;
+    }
 
 
 	//-----------------------------

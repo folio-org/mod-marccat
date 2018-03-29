@@ -1,16 +1,8 @@
-/*
- * (c) LibriCore
- * 
- * Created on Oct 25, 2004
- * 
- * CataloguingSourceTag.java
- */
 package org.folio.cataloging.business.cataloguing.common;
 
 import org.folio.cataloging.business.cataloguing.bibliographic.VariableHeaderUsingItemEntity;
-
-import org.folio.cataloging.util.StringText;
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.util.StringText;
 
 /**
  * @author paulm
@@ -18,14 +10,6 @@ import org.folio.cataloging.model.Subfield;
  * @since 1.0
  */
 public abstract class CataloguingSourceTag extends VariableHeaderUsingItemEntity {
-//TODO saveUndoSave doesn't work
-//TODO subfields b and e should be validated against code tables 
-	/**
-	 * Class constructor
-	 *
-	 * 
-	 * @since 1.0
-	 */
 	public CataloguingSourceTag() {
 		super();
 	}

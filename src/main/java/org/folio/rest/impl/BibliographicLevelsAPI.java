@@ -41,7 +41,7 @@ public class BibliographicLevelsAPI implements CatalogingBibliographicLevelsReso
             final Map<String, String> okapiHeaders,
             final Handler<AsyncResult<Response>> asyncResultHandler,
             final Context vertxContext) throws Exception {
-        doGet((storageService, future) -> {
+        doGet((storageService, configuration, future) -> {
             try {
                 final BibliographicLevelCollection container = new BibliographicLevelCollection();
                 container.setBibliographicLevels(

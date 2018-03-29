@@ -7,14 +7,14 @@
  */
 package org.folio.cataloging.business.cataloguing.authority;
 
-import java.util.List;
-
-import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.dao.DAOAuthorityCorrelation;
 import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.dao.DAOAuthorityCorrelation;
 import org.folio.cataloging.dao.persistence.NME_TTL_HDG;
 import org.folio.cataloging.dao.persistence.NameSubType;
 import org.folio.cataloging.dao.persistence.NameType;
+import org.folio.cataloging.shared.CorrelationValues;
+
+import java.util.List;
 
 /**
  * @author paulm
@@ -25,7 +25,6 @@ public class AuthorityNameTitleHeadingTag extends AuthorityHeadingTag {
 	/**
 	 * Class constructor
 	 *
-	 * @param d
 	 * @since 1.0
 	 */
 	public AuthorityNameTitleHeadingTag() {
@@ -35,7 +34,7 @@ public class AuthorityNameTitleHeadingTag extends AuthorityHeadingTag {
 	/* (non-Javadoc)
 	 * @see TagInterface#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return 11;
 	}
 

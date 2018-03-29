@@ -9,8 +9,10 @@ import org.folio.cataloging.bean.cataloguing.bibliographic.codelist.CodeListsBea
 import org.folio.cataloging.business.Command;
 import org.folio.cataloging.business.authorisation.AuthorisationException;
 import org.folio.cataloging.business.cataloguing.bibliographic.*;
-import org.folio.cataloging.business.cataloguing.common.*;
-import org.folio.cataloging.business.common.CorrelationValues;
+import org.folio.cataloging.business.cataloguing.common.Catalog;
+import org.folio.cataloging.business.cataloguing.common.CatalogItem;
+import org.folio.cataloging.business.cataloguing.common.Model;
+import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.controller.SessionUtils;
 import org.folio.cataloging.dao.DAOCodeTable;
@@ -19,6 +21,8 @@ import org.folio.cataloging.dao.persistence.T_SINGLE;
 import org.folio.cataloging.exception.DuplicateTagException;
 import org.folio.cataloging.exception.LibrisuiteException;
 import org.folio.cataloging.exception.ModelLabelNotSetException;
+import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.cataloging.shared.Validation;
 import org.folio.cataloging.util.StringText;
 
 import javax.servlet.http.HttpServletRequest;
@@ -109,7 +113,7 @@ public class ModelBean extends LibrisuiteBean
 	}
 
 	@Deprecated
-	public void changeCorrelationValues(CorrelationValues correlationValues, Locale locale) 
+	public void changeCorrelationValues(CorrelationValues correlationValues, Locale locale)
 	{
 		logger.debug("changing correlationValues to " + correlationValues);
 		logger.debug("for tag at index " + getCurrentFieldIndex());
@@ -137,7 +141,7 @@ public class ModelBean extends LibrisuiteBean
 	}
 
 	@Deprecated
-	public void changeText(StringText text) 
+	public void changeText(StringText text)
 	{
 		logger.debug("changeText");
 		//model.changeText(getCurrentFieldIndex(), text);
@@ -894,7 +898,7 @@ public class ModelBean extends LibrisuiteBean
 	}
 
 	@Deprecated
-	public void newField(Locale locale) throws NewTagException 
+	public void newField(Locale locale) throws NewTagException
 	{
 		Tag tag = getCurrentField();
 		//model.addTag(getCurrentFieldIndex(), tag);
@@ -905,8 +909,8 @@ public class ModelBean extends LibrisuiteBean
 
 	public void refreshCorrelation(Locale locale) 
 	{
-		short value1 = getCurrentField().getCorrelation(1);
-		short value2 = getCurrentField().getCorrelation(2);
+		int value1 = getCurrentField().getCorrelation(1);
+		int value2 = getCurrentField().getCorrelation(2);
 		try {
 			List firstList = getCurrentField().getFirstCorrelationList();
 			setFirstCorrelationList(DAOCodeTable.asOptionList(firstList, locale));
@@ -930,14 +934,13 @@ public class ModelBean extends LibrisuiteBean
 		//model.refreshTag(getCurrentFieldIndex(), getCurrentField());
 	}
 
-	public void saveModel() throws ModelLabelNotSetException, DataAccessException, MarcCorrelationException, DuplicateTagException
+	public void saveModel() throws ModelLabelNotSetException, DataAccessException, DuplicateTagException
 	{
 		validateModelData();
 		model.getDAO().persistByStatus(model);
 	}
 
-	public void selectField(int selectedFieldIndex, Locale locale) throws DataAccessException, MarcCorrelationException 
-	{
+	public void selectField(int selectedFieldIndex, Locale locale) throws DataAccessException {
 		setCurrentFieldIndex(selectedFieldIndex);
 		refreshCorrelation(locale);
 		setStringText(createStringTextEditBean());
@@ -988,7 +991,7 @@ public class ModelBean extends LibrisuiteBean
 	 * 
 	 * @since 1.0
 	 */
-	public void validateModelData() throws ModelLabelNotSetException, DataAccessException, MarcCorrelationException, DuplicateTagException
+	public void validateModelData() throws ModelLabelNotSetException, DataAccessException, DuplicateTagException
 	{
 		if (getModel().getLabel() == null || "".equals(getModel().getLabel())) {
 			throw new ModelLabelNotSetException();
@@ -1001,7 +1004,7 @@ public class ModelBean extends LibrisuiteBean
 	 * 
 	 * @since 1.0
 	 */
-	public void validateFieldData() throws DataAccessException, MarcCorrelationException, DuplicateTagException
+	public void validateFieldData() throws DataAccessException, DuplicateTagException
 	{
 		checkRepeatability(this.getCurrentFieldIndex());
 	}
@@ -1012,7 +1015,6 @@ public class ModelBean extends LibrisuiteBean
 	 * 
 	 * @since 1.0
 	 */
-	@Deprecated
 	public void checkRepeatability(int index) throws DataAccessException, MarcCorrelationException, DuplicateTagException 
 	{
 		Tag t = this.getCurrentField();
@@ -1041,16 +1043,14 @@ public class ModelBean extends LibrisuiteBean
 		}
 	};
 
-	public void change008Type(BibliographicLeader ldr) throws AuthorisationException, DataAccessException, MarcCorrelationException 
-	{
+	public void change008Type(BibliographicLeader ldr) throws AuthorisationException, DataAccessException {
 		//TODO is this working?		
 		checkPermission("editHeader");
 		Command c = new ChangeBib008TypeCommand(this, ldr);
 		executeCommand(c);
 	}
 
-	public void changeFixedFieldValues(FixedFieldUsingItemEntity ff) throws AuthorisationException, DataAccessException, MarcCorrelationException 
-	{
+	public void changeFixedFieldValues(FixedFieldUsingItemEntity ff) throws AuthorisationException, DataAccessException {
 		//checkPermission("editHeader");
 		Command c = new ChangeFixedFieldCommand(this, ff);
 		logger.debug("command "+c.getClass());
@@ -1058,8 +1058,7 @@ public class ModelBean extends LibrisuiteBean
 	
 	}
 
-	public void executeCommand(Command c) throws DataAccessException, MarcCorrelationException 
-	{
+	public void executeCommand(Command c) throws DataAccessException {
 		c.execute();
 		while (commandList.size() > currentCommand) {
 			commandList.remove(commandList.size() - 1);
@@ -1071,8 +1070,7 @@ public class ModelBean extends LibrisuiteBean
 		
 	public String getLongLabel(int tagNum) throws DataAccessException, MarcCorrelationException
 	{
-		//return loadLongLabel((Tag)model.getTags().get(tagNum));
-		return null;
+		return loadLongLabel((Tag)model.getTags().get(tagNum));
 	}
 
 	/**
@@ -1082,7 +1080,7 @@ public class ModelBean extends LibrisuiteBean
 	 */
 	private T_SINGLE loadSelectedCodeTable(Tag processingTag) throws DataAccessException 
 	{
-		short value1 = processingTag.getCorrelation(1);	
+		int value1 = processingTag.getCorrelation(1);
 		List firstList = processingTag.getFirstCorrelationList();
 		T_SINGLE ct = DAOCodeTable.getSelectedCodeTable(firstList, locale, value1);
 		return ct;
@@ -1094,8 +1092,7 @@ public class ModelBean extends LibrisuiteBean
 	 * @throws DataAccessException
 	 * @throws MarcCorrelationException
 	 */
-	private String loadLongLabel(Tag processingTag) throws DataAccessException, MarcCorrelationException 
-	{
+	private String loadLongLabel(Tag processingTag) throws DataAccessException {
 		if(isLabelCached(processingTag)){
 			return getCachedLabel(processingTag);
 		}

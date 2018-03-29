@@ -26,7 +26,7 @@ public class ExtractorFieldTag implements TagConstant{
 		StringBuilder builder = new StringBuilder();
 		
 		MarcReader reader = new MarcStreamReader(new ByteArrayInputStream(content.getBytes()),"UTF-8");
-		org.marc4j.marc.Record record = (org.marc4j.marc.Record) reader.next();
+		org.marc4j.marc.Record record = reader.next();
 		List<VariableField> dfList = record.getVariableFields(sequenceTag);
 		for(VariableField field: dfList){
 			DataField df = (DataField) field;
@@ -54,7 +54,7 @@ public class ExtractorFieldTag implements TagConstant{
 	{
 		List<String> listValues = new ArrayList<String>();
 		MarcReader reader = new MarcStreamReader(new ByteArrayInputStream(content.getBytes()));
-		org.marc4j.marc.Record record = (org.marc4j.marc.Record) reader.next();
+		org.marc4j.marc.Record record = reader.next();
 		List<VariableField> dfList = record.getVariableFields(sequenceTag);
 		for(VariableField field: dfList){
 			DataField df = (DataField) field;
@@ -85,7 +85,7 @@ public class ExtractorFieldTag implements TagConstant{
 		String result = null;
 		
 		MarcReader reader = new MarcStreamReader(new ByteArrayInputStream(content.getBytes()));
-		org.marc4j.marc.Record record = (org.marc4j.marc.Record) reader.next();
+		org.marc4j.marc.Record record = reader.next();
 		List<VariableField> dfList = record.getVariableFields(tag);
 		for(VariableField f1: dfList){
 			DataField df = (DataField) f1;
@@ -110,7 +110,7 @@ public class ExtractorFieldTag implements TagConstant{
 		StringBuilder builder = new StringBuilder();
 		
 		MarcReader reader = new MarcStreamReader(new ByteArrayInputStream(content.getBytes()));
-		org.marc4j.marc.Record record = (org.marc4j.marc.Record) reader.next();
+		org.marc4j.marc.Record record = reader.next();
 		List<VariableField> dfList = record.getVariableFields(sequenceTag);
 		for(VariableField field: dfList){
 			DataField df = (DataField) field;
@@ -130,7 +130,7 @@ public class ExtractorFieldTag implements TagConstant{
 	@SuppressWarnings("unchecked")
 	public static Leader getLeader(String content) {
 		MarcReader reader = new MarcStreamReader(new ByteArrayInputStream(content.getBytes()));
-		org.marc4j.marc.Record record = (org.marc4j.marc.Record) reader.next();
+		org.marc4j.marc.Record record = reader.next();
 		return record.getLeader();
 	}
 	

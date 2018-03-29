@@ -1,18 +1,4 @@
 {
-    "code": 2,
-    "description": "Name Personal",
-    "sub-types": [
-        {
-            "code": 2,
-            "description": "Forename"
-        },
-        {
-            "code": 3,
-            "description": "Surname"
-        },
-        {
-            "code": 5,
-            "description": "Name of family"
-        }
-    ]
+    "code": 3,
+    "description": "Name of family"
 }

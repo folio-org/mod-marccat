@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- * 
- * Created on Oct 28, 2005
- * 
- * Tag.java
- */
 package org.folio.cataloging.business.cataloguing.common;
 
 import net.sf.hibernate.CallbackException;
@@ -13,7 +6,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
 import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
-import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.PersistenceState;
 import org.folio.cataloging.dao.DAOCodeTable;
@@ -22,6 +14,8 @@ import org.folio.cataloging.dao.persistence.CorrelationKey;
 import org.folio.cataloging.dao.persistence.T_SINGLE;
 import org.folio.cataloging.exception.ValidationException;
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.cataloging.shared.Validation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -36,7 +30,6 @@ import static org.folio.cataloging.F.deepCopy;
 
 /**
  * @author paulm
- * @version $Revision: 1.6 $, $Date: 2006/11/23 15:01:47 $
  * @since 1.0
  */
 public abstract class Tag implements Serializable, Cloneable, TagInterface 
@@ -75,9 +68,9 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 	 *
 	 */
 	final public boolean correlationChangeAffectsKey(
-		short value1,
-		short value2,
-		short value3) {
+			int value1,
+			int value2,
+			int value3) {
 		return correlationChangeAffectsKey(
 			new CorrelationValues(value1, value2, value3));
 	}
@@ -116,7 +109,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 	 * @return the appropriate correlation stringValue for determining MARC coding (-1 if no
 	 * stringValue is available or known)
 	 */
-	public short getCorrelation(int i) {
+	public int getCorrelation(int i) {
 		return getCorrelationValues().getValue(i);
 	}
 
@@ -127,7 +120,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 	 * @param s - the new stringValue
 	 * @since 1.0
 	 */
-	final public void setCorrelation(int i, short s) {
+	final public void setCorrelation(int i, int s) {
 		setCorrelationValues(getCorrelationValues().change(i, s));
 	}
 
@@ -164,7 +157,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 	 * 3 are recalculated and the values are reset (to the first available valid choice)
 	 * @param s the new value1
 	 */
-	public void updateFirstCorrelation(short s) throws DataAccessException {
+	public void updateFirstCorrelation(int s) throws DataAccessException {
 		setCorrelation(1, s);
 		List l = getSecondCorrelationList(s);
 		if (l != null) {
@@ -177,7 +170,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 	 * are recalculated and the stringValue is reset (to the first available valid choice)
 	 * @param s the new stringValue 2
 	 */
-	public void updateSecondCorrelation(short s) throws DataAccessException {
+	public void updateSecondCorrelation(int s) throws DataAccessException {
 		setCorrelation(2, s);
 		List l = getThirdCorrelationList(getCorrelation(1), getCorrelation(2));
 		if (l != null) {
@@ -451,7 +444,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 	/* (non-Javadoc)
 	 * @see TagInterface#getCategory()
 	 */
-	abstract public short getCategory();
+	abstract public int getCategory();
 
 	/* (non-Javadoc)
 	 * @see TagInterface#isHasSubfieldW()
@@ -468,7 +461,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 	/* (non-Javadoc)
 	 * @see TagInterface#getDisplayCategory()
 	 */
-	public short getDisplayCategory() {
+	public int getDisplayCategory() {
 		return getCategory();
 	}
 

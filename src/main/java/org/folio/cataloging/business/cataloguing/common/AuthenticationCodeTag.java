@@ -8,9 +8,8 @@
 package org.folio.cataloging.business.cataloguing.common;
 
 import org.folio.cataloging.business.cataloguing.bibliographic.VariableHeaderUsingItemEntity;
-
-import org.folio.cataloging.util.StringText;
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.util.StringText;
 
 /**
  * @author paulm
@@ -44,7 +43,6 @@ public abstract class AuthenticationCodeTag extends VariableHeaderUsingItemEntit
 	}
 
 	public void setStringText(StringText st) {
-//TODO need a more definitive way to set to null		
 		if (st.toString().equals(Subfield.SUBFIELD_DELIMITER + "a")) {
 			getItemEntity().setAuthenticationCenterStringText(null);
 		}

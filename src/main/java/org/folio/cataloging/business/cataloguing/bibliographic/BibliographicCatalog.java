@@ -10,6 +10,7 @@ import org.folio.cataloging.dao.persistence.PUBL_HDG;
 import org.folio.cataloging.dao.persistence.PUBL_TAG;
 import org.folio.cataloging.dao.persistence.T_BIB_TAG_CAT;
 import org.folio.cataloging.exception.ValidationException;
+import org.folio.cataloging.shared.CorrelationValues;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -178,7 +179,7 @@ public class BibliographicCatalog extends Catalog {
 	}
 
 	@Override
-	public Tag getNewHeaderTag(final CatalogItem item, final short header) throws NewTagException {
+	public Tag getNewHeaderTag(final CatalogItem item, final int header) throws NewTagException {
 		return (Tag) setItemIfNecessary(item, getFixedFieldFactory().create(header));
 	}
 
@@ -188,7 +189,7 @@ public class BibliographicCatalog extends Catalog {
 	}
 
 	@Override
-	public Tag getNewTag(final CatalogItem item, final short category, final CorrelationValues correlationValues) throws NewTagException {
+	public Tag getNewTag(final CatalogItem item, final int category, final CorrelationValues correlationValues) throws NewTagException {
 		Tag tag = (Tag) getTagFactory().create(category);
 		tag = (Tag) setItemIfNecessary(item, tag);
 
@@ -280,7 +281,7 @@ public class BibliographicCatalog extends Catalog {
 	}
 
 	@Override
-	public void changeDescriptorType(final CatalogItem item, final int index, final short descriptorType) {
+	public void changeDescriptorType(final CatalogItem item, final int index, final int descriptorType) {
 		// do nothing (not applicable to bib)
 	}
 

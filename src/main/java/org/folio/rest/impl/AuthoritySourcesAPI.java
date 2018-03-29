@@ -9,7 +9,6 @@ import org.folio.cataloging.log.MessageCatalog;
 import org.folio.rest.jaxrs.model.AuthoritySource;
 import org.folio.rest.jaxrs.model.AuthoritySourceCollection;
 import org.folio.rest.jaxrs.resource.CatalogingAuthoritySourcesResource;
-import org.folio.rest.jaxrs.resource.CatalogingAuthoritySourcesResource;
 
 import javax.ws.rs.core.Response;
 import java.util.Map;
@@ -41,8 +40,7 @@ public class AuthoritySourcesAPI implements CatalogingAuthoritySourcesResource {
                                     final Map<String, String> okapiHeaders,
                                     final Handler<AsyncResult<Response>> asyncResultHandler,
                                     final Context vertxContext) throws Exception {
-
-        doGet((storageService, future) -> {
+        doGet((storageService, configuration, future) -> {
             try {
                 final AuthoritySourceCollection container = new AuthoritySourceCollection();
                 container.setAuthoritySources(

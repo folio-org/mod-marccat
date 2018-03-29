@@ -7,8 +7,6 @@ import org.folio.cataloging.bean.LibrisuiteBean;
 import org.folio.cataloging.bean.searching.IsbnEditorBean;
 import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
 import org.folio.cataloging.business.cataloguing.common.Tag;
-import org.folio.cataloging.business.cataloguing.common.Validation;
-import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.DuplicateDescriptorException;
 import org.folio.cataloging.business.common.ErrorIsbnProcException;
@@ -21,6 +19,8 @@ import org.folio.cataloging.dao.DAODescriptor;
 import org.folio.cataloging.dao.DAOGlobalVariable;
 import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.cataloging.shared.Validation;
 import org.folio.cataloging.util.StringText;
 
 import java.io.IOException;
@@ -45,9 +45,9 @@ public abstract class HeadingBean extends LibrisuiteBean {
 	private boolean newHeading;
 	private String newShelfList;
 	private Locale locale;
-	/* Bug 5424 */
+
 	private boolean isAbleUri = false;
-	public abstract void setSkipInFiling(short s);
+	public abstract void setSkipInFiling(int s);
 
 	public boolean isAbleUri() {
 		return isAbleUri;
@@ -63,7 +63,7 @@ public abstract class HeadingBean extends LibrisuiteBean {
 		if (headingType != null){
 			
 		}
-		return (headingType != null?true:false);
+		return (headingType != null);
 	}
 	
 	public Locale getLocale() {
@@ -81,21 +81,18 @@ public abstract class HeadingBean extends LibrisuiteBean {
 	 * @return
 	 */
 	public boolean isShowSourceText() {
-		if (T_AUT_HDG_SRC.SOURCE_IN_SUBFIELD_2 == getAuthoritySourceCode()) {
-			return true;
-		}
-		return false;
-	}
+        return T_AUT_HDG_SRC.SOURCE_IN_SUBFIELD_2 == getAuthoritySourceCode();
+    }
 
 	/**
 	 * 
 	 * @return
 	 */
-	public short getAuthoritySourceCode() {
+	public int getAuthoritySourceCode() {
 		return getHeading().getAuthoritySourceCode();
 	}
 
-	public void setAuthoritySourceCode(short s) {
+	public void setAuthoritySourceCode(int s) {
 		getHeading().setAuthoritySourceCode(s);
 	}
 
@@ -172,11 +169,11 @@ public abstract class HeadingBean extends LibrisuiteBean {
 		verificationLevelList = list;
 	}
 
-	public short getLanguageOfAccessPoint() {
+	public int getLanguageOfAccessPoint() {
 		return getHeading().getAccessPointLanguage();
 	}
 
-	public void setLanguageOfAccessPoint(short s) {
+	public void setLanguageOfAccessPoint(int s) {
 		getHeading().setAccessPointLanguage(s);
 	}
 
@@ -192,11 +189,11 @@ public abstract class HeadingBean extends LibrisuiteBean {
 	// list
 	// probably easiest (best?) to drop category from the page
 
-	public short getCategory() {
+	public int getCategory() {
 		return getHeading().getCategory();
 	}
 
-	public void setCategory(short s) {
+	public void setCategory(int s) {
 	}
 
 	public int getHeadingNumber() {
@@ -215,7 +212,7 @@ public abstract class HeadingBean extends LibrisuiteBean {
 		getHeading().setKey(new DescriptorKey(getHeadingNumber(), view));
 	}
 
-	public Set getRepeatableSubfields() {
+	public List<String> getRepeatableSubfields() {
 		return validation.getRepeatableSubfieldCodes();
 	}
 
@@ -223,7 +220,7 @@ public abstract class HeadingBean extends LibrisuiteBean {
 		return stringText;
 	}
 
-	public Set getValidSubfields() {
+	public List<String> getValidSubfields() {
 		return validation.getValidSubfieldCodes();
 	}
 
@@ -235,7 +232,7 @@ public abstract class HeadingBean extends LibrisuiteBean {
 
 	public abstract Descriptor getHeading();
 
-	public final void setDescriptor(Descriptor descriptor) throws MarcCorrelationException, DataAccessException {
+	public final void setDescriptor(Descriptor descriptor) throws DataAccessException {
 		
 		setHeading(descriptor);
 		//TODO paulm Add this setting of validation when a new descriptor is set (rather than setting it externally)
@@ -287,11 +284,10 @@ public abstract class HeadingBean extends LibrisuiteBean {
 		populateSubfieldLists();
 	}
 
+	//TODO: change it! it must call this methods from storageService
 	void populateSubfieldLists() {
-		remainingValidSubfields = validation
-				.computeRemainingValidSubfields(getStringText());
-		validSubfieldList = validation
-				.computeValidSubfieldList(getStringText());
+		//remainingValidSubfields = validation.computeRemainingValidSubfields(getStringText());
+		//validSubfieldList = validation.computeValidSubfieldList(getStringText());
 	}
 
 	final public void populateLists(DAOCodeTable dao, Locale l)
@@ -384,18 +380,15 @@ public abstract class HeadingBean extends LibrisuiteBean {
 	}
 
 	public void setTypeValues(CorrelationValues correlationValues,
-			short category) {
+							  int category) {
 		// TODO Override this method
 
 	}
 
 	public boolean isShowTable() {
-		if (getValidation().getMarcTagDefaultSubfieldCode() == 'b'
-				|| getValidation().getMarcTagDefaultSubfieldCode() == 'c'
-				|| getValidation().getMarcTagDefaultSubfieldCode() == 'd')
-			return true;
-		else
-			return false;
+        return getValidation().getMarcTagDefaultSubfieldCode() == 'b'
+                || getValidation().getMarcTagDefaultSubfieldCode() == 'c'
+                || getValidation().getMarcTagDefaultSubfieldCode() == 'd';
 	}
 
 	public int getLocalTypeCode() {
@@ -408,17 +401,11 @@ public abstract class HeadingBean extends LibrisuiteBean {
 	}
 
 	public boolean isSubject() {
-		if (this.getHeading() instanceof SBJCT_HDG) {
-			return true;
-		}
-		return false;
-	}
+        return this.getHeading() instanceof SBJCT_HDG;
+    }
 
 	public boolean isSubjectBean() {
-		if (this instanceof SubjectHeadingBean)
-			return true;
-		else
-			return false;
+        return this instanceof SubjectHeadingBean;
 	}
 
 	public String getDisplayStringSubject() {
@@ -478,10 +465,7 @@ public abstract class HeadingBean extends LibrisuiteBean {
 	}
 
 	public boolean isPublisherBean() {
-		if (this instanceof PublisherHeadingBean)
-			return true;
-		else
-			return false;
+        return this instanceof PublisherHeadingBean;
 	}
 
 	private boolean possibleDuplicate = false;
@@ -560,7 +544,7 @@ public abstract class HeadingBean extends LibrisuiteBean {
 	 * @throws DataAccessException
 	 */
 	public static HeadingBean createBeanFromDescriptor(Descriptor d,
-			Locale locale) throws MarcCorrelationException, DataAccessException {
+			Locale locale) throws DataAccessException {
 		HeadingBean result = DescriptorFactory.createBean(d.getCategory());
 		result.setLocale(locale);
 		result.setDescriptor(d);

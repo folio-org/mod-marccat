@@ -6,8 +6,6 @@ import io.vertx.core.Handler;
 import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
-import org.folio.rest.jaxrs.model.NoteType;
-import org.folio.rest.jaxrs.model.NoteTypeCollection;
 import org.folio.rest.jaxrs.model.RecordDisplayFormat;
 import org.folio.rest.jaxrs.model.RecordDisplayFormatCollection;
 import org.folio.rest.jaxrs.resource.CatalogingRecordDisplayFormatsResource;
@@ -42,7 +40,7 @@ public class RecordDisplayFormatsAPI implements CatalogingRecordDisplayFormatsRe
                                         final Map<String, String> okapiHeaders,
                                         final Handler<AsyncResult<Response>> asyncResultHandler,
                                         final Context vertxContext) throws Exception {
-        doGet((storageService, future) -> {
+        doGet((storageService, configuration, future) -> {
             try {
                 final RecordDisplayFormatCollection container = new RecordDisplayFormatCollection();
                 container.setRecordDisplayFormats(

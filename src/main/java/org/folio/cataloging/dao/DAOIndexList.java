@@ -105,7 +105,7 @@ public class DAOIndexList extends HibernateUtil {
 		return getIndexByQuery(query);
 	}
 
-	public String getIndexBySortFormType(short mainType, short subType)
+	public String getIndexBySortFormType(int mainType, int subType)
 		throws DataAccessException {
 
 		String query =
@@ -116,7 +116,6 @@ public class DAOIndexList extends HibernateUtil {
 				+ subType
 				+ " and a.key.language = '"
 				+ Locale.ENGLISH.getISO3Language()
-				/*modifica Barbara 26/04/2007 - nella lista degli indici solo indici LC*/
 				+ "' and a.codeLibriCatMades = 'LC'";
 
 		List l = getIndexByQuery(query);

@@ -1,34 +1,29 @@
-/*
- * Created on May 6, 2004
- * */
 package org.folio.cataloging.dao.persistence;
-
-import java.io.Serializable;
 
 import org.folio.cataloging.business.cataloguing.bibliographic.NameAccessPoint;
 import org.folio.cataloging.business.cataloguing.common.Browsable;
 import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.common.ConfigHandler;
-import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.Defaults;
-
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.dao.DAONameDescriptor;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
+import org.folio.cataloging.dao.DAONameDescriptor;
+import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.shared.CorrelationValues;
+
+import java.io.Serializable;
 
 /**
  * Hibernate class for table NME_HDG
  * @author paulm
- * @version $Revision: 1.22 $, $Date: 2006/07/12 15:42:56 $
  * @since 1.0
  */
 public class NME_HDG extends Descriptor implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private char copyToSubjectIndicator;
-	private short indexingLanguage;
-	private short subTypeCode;
-	private short typeCode;
+	private int indexingLanguage;
+	private int subTypeCode;
+	private int typeCode;
 	private ConfigHandler configHandler =ConfigHandler.getInstance();
 	/**
 	 * 
@@ -39,13 +34,7 @@ public class NME_HDG extends Descriptor implements Serializable {
 	 */
 	public NME_HDG() {
 		super();
-		//setAccessPointLanguage(Defaults.getShort("name.accessPointLanguage"));
-		setCopyToSubjectIndicator(
-			Defaults.getChar("name.copyToSubjectIndicator"));
-		/*setTypeCode(Defaults.getShort("name.typeCode"));
-		setSubTypeCode(Defaults.getShort("name.subTypeCode"));*/
 		setDefaultTypeAndFunction();
-		//TODO add other defaults		
 		setVerificationLevel(Defaults.getChar("name.verificationLevel"));
 
 	}
@@ -60,7 +49,7 @@ public class NME_HDG extends Descriptor implements Serializable {
 	/* (non-Javadoc)
 	 * @see librisuite.hibernate.Descriptor#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return 17;
 	}
 
@@ -109,7 +98,7 @@ public class NME_HDG extends Descriptor implements Serializable {
 	 * 
 	 * @return indexingLanguage
 	 */
-	public short getIndexingLanguage() {
+	public int getIndexingLanguage() {
 		return indexingLanguage;
 	}
 
@@ -150,54 +139,29 @@ public class NME_HDG extends Descriptor implements Serializable {
 			 * 
 			 * @return subTypeCode
 			 */
-	public short getSubTypeCode() {
+	public int getSubTypeCode() {
 		return subTypeCode;
-	} /**
-			 * Getter for typeCode
-			 * 
-			 * @return typeCode
-			 */
-	public short getTypeCode() {
+	}
+	public int getTypeCode() {
 		return typeCode;
-	} /**
-			 * Setter for copySubjectIndicator
-			 * 
-			 * @param c copySubjectIndicator
-			 */
-	public void setCopyToSubjectIndicator(char c) {
-		copyToSubjectIndicator = c;
-	} /* (non-Javadoc)
-			 * @see librisuite.hibernate.Descriptor#setCorrelationValues(librisuite.business.common.CorrelationValues)
-			 */
+	}
+
 	public void setCorrelationValues(CorrelationValues v) {
 		typeCode = v.getValue(1);
 		subTypeCode = v.getValue(2);
-	} /**
-			 * Setter for indexingLanguage
-			 * 
-			 * @param s indexingLanguage
-			 */
+	}
 	public void setIndexingLanguage(short s) {
 		indexingLanguage = s;
-	} /**
-			 * Setter for subTypeCode
-			 * 
-			 * @param s subTypeCode
-			 */
+	}
+
 	public void setSubTypeCode(short s) {
 		subTypeCode = s;
-	} /**
-			 * Setter for typeCode
-			 * 
-			 * @param s typeCode
-			 */
+	}
+
 	public void setTypeCode(short s) {
 		typeCode = s;
 	}
 
-	/* (non-Javadoc)
-	 * @see Descriptor#changeAffectsCacheTable()
-	 */
 	public boolean changeAffectsCacheTable() {
 		return true;
 	}

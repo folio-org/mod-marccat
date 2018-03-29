@@ -29,69 +29,14 @@
       "type": "array",
       "items": {
         "type": "object",
-        "properties": {
-          "code": {
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 3
-          },
-          "value": {
-            "type": "string"
-          }
-        }
+        "$ref": "fixedField"
       }
     },
     "variableFields": {
       "type": "array",
       "items": {
         "type": "object",
-        "properties": {
-          "categoryCode": {
-            "type": "string"
-          },
-          "headingTypeCode": {
-            "type": "string"
-          },
-          "itemTypeCode": {
-            "type": "string"
-          },
-          "functionCode": {
-            "type": "string"
-          },
-          "code": {
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 3
-          },
-          "ind1" : {
-            "type": "integer",
-            "minimum": 0,
-            "maximum": 9
-          },
-          "ind2" : {
-            "type": "integer",
-            "minimum": 0,
-            "maximum": 9
-          },
-          "value": {
-            "type": "string"
-          },
-          "subfields": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "type": "string",
-                  "pattern": "[a-z|0-9]"
-                },
-                "value": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
+        "$ref": "variableField"
       }
     }
   },

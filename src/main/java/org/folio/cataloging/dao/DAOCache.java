@@ -34,7 +34,7 @@ public class DAOCache extends HibernateUtil {
 	private static final Log logger = LogFactory.getLog(DAOCache.class);
 
 	public Cache load(int bibItemNumber, int cataloguingView)
-		throws RecordNotFoundException, DataAccessException {
+		throws DataAccessException {
 		List l =
 			find(
 				"from Cache as c "

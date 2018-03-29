@@ -2,7 +2,6 @@ package org.folio.cataloging;
 
 import net.sf.hibernate.cfg.Configuration;
 import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.dao.persistence.*;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -20,6 +19,7 @@ import java.util.*;
  *
  * @author paulm
  * @author agazzarini
+ * @author natasciab
  * @since 1.0
  */
 // TODO: clean up (lot of unused fields)
@@ -103,7 +103,7 @@ public abstract class Global  {
 	public final static String POLACCO 	 = "pol";
 	public final static String SERBO_CROATO = "scr";
 
-	public final static String CheckDigits = new String("0123456789X0");
+	public final static String CheckDigits = "0123456789X0";
 	public final static String SPACE = " ";
 	public final static String OPEN_PARENTHESIS = "(";
 	public final static String CLOSE_PARENTHESIS = ")";
@@ -116,10 +116,11 @@ public abstract class Global  {
 	public final static String CLASSIFICATION_INDEX  = "OC";
 
 	public final static List<String> remainingSubfieldsFor991  =  new ArrayList<String>(Arrays.asList("b","c","d"));
-	public final static String subfieldsForSorting  =  new String("abcdef");
+	public final static String subfieldsForSorting  =  "abcdef";
 
 	public final static DecimalFormatSymbols DECIMAL_FORMAT_SYMBOLS = new DecimalFormatSymbols();
 	public final static DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.00");
+    public final static DecimalFormat DECIMAL_FORMAT_AN = new DecimalFormat("000000000000");
 
 	public final String INDEX_FOR_BROWSE = "'OC', 'NN', 'ZC', 'DC', 'LC', 'MC', 'LX', 'BN', 'SN', 'NA', 'PU', 'NM', 'NC', 'NP', 'NTN', 'NTT', 'SU', 'TI', 'SC'";
 
@@ -131,7 +132,7 @@ public abstract class Global  {
 	public final static String DEFAULT_TYPOLOGY_FOR_CUSTOMER_COLLECTION = "PDC";
 	public final static String DEFAULT_TYPOLOGY_FOR_MASTER_COLLECTION = "PDM";
 
-	public final static String subfieldsForTag490 = new String("apvx368");
+	public final static String subfieldsForTag490 = "apvx368";
 
 	public final static String SUBFIELD_DELIMITER_FOR_VIEW = "\\$";
 	public final static List<String> stamperSubfields =  new ArrayList<String>(Arrays.asList("3","6","8","e","f","g"));
@@ -140,7 +141,19 @@ public abstract class Global  {
 	public final static String RELATOR_TERM_$e = "e";
 	public final static String INTRODUCTION_$i = "i";
 
-	//TODO: move to configuration module
+	public final static List<String> FIXED_FIELDS = new ArrayList<String>(Arrays.asList("000","001","005","006","007","008"));
+	public final static String HEADER_TYPE_LABEL = "HEADER_TYPE";
+	public final static String FORM_OF_MATERIAL_LABEL = "FORM_OF_MATERIAL";
+    public final static String MATERIAL_TYPE_CODE_LABEL = "MATERIAL_TYPE_CODE";
+
+    public final static String LEADER_TAG_NUMBER = "000";
+	public final static String CONTROL_NUMBER_TAG_CODE = "001";
+	public final static String CATALOGING_SOURCE_TAG_CODE = "040";
+	public final static String DATETIME_TRANSACION_TAG_CODE = "005";
+	public final static String MATERIAL_TAG_CODE = "008";
+	public final static String OTHER_MATERIAL_TAG_CODE = "006";
+	public final static String PHYSICAL_DESCRIPTION_TAG_CODE = "007";
+
 	public final static Map<String,Integer> headingTypeMap = new HashMap<String, Integer>()
 	{
 		{
@@ -165,43 +178,81 @@ public abstract class Global  {
 		}
 	};
 
-	public final static Map<String, Class> thirdCorrelationHeadingClassMap = new HashMap<String, Class>(){
+	public final static int INT_CATEGORY = 1;
+	public final static int NAME_CATEGORY_DEFAULT = 2;
+	public final static short CORRELATION_UNDEFINED = -1;
+
+	public final static int CATALOGING_SOURCE_HEADER_TYPE = 1;
+	public final static int LEADER_HEADER_TYPE = 15;
+    public final static int CONTROL_NUMBER_HEADER_TYPE = 39;
+    public final static int MATERIAL_DESCRIPTION_HEADER_TYPE = 31;
+	public final static int PHYSICAL_UNSPECIFIED_HEADER_TYPE = 45;
+
+	public final static int LEADER_LENGTH = 24;
+	public final static int MATERIAL_FIELD_LENGTH = 40;
+	public final static int OTHER_MATERIAL_FIELD_LENGTH = 18;
+
+
+	//default values for leader
+    public final static String FIXED_LEADER_LENGTH = "00000";
+	public final static char RECORD_STATUS_CODE = 'n';
+	public final static char recordTypeCode = 'a';
+	public final static char bibliographicLevelCode = 'm';
+	public final static char controlTypeCode = ' ';
+	public final static char characterCodingSchemeCode = ' ';
+	public final static String fixedLeaderBaseAddress = "2200000";
+	public final static char encodingLevel = ' ';
+	public final static char descriptiveCataloguingCode = ' ';
+	public final static char linkedRecordCode = ' ';
+    public final static String fixedLeaderPortion = "4500";
+
+    //bibliographic
+    public final static String itemDateFirstPublication = "    ";
+    public final static String itemDateLastPublication = "    ";
+	public final static String languageCode = "   ";
+
+	//default values for material description (tag 008)
+	// book type
+	public final static String bookformOfMaterial = "bk";
+    public final static char materialTypeCode = 'a';
+	public final static char formOfItemCode = ' ';
+
+	//default values for physical description (tag 007)
+	public final static String mapCode = "a";
+	public final static String electronicResource = "c";
+	public final static String globe = "d";
+	public final static String tactileMaterial = "f";
+	public final static String projectedGraphic = "g";
+	public final static String microform = "h";
+	public final static String nonProjectedGraphic = "k";
+	public final static String motionPicture = "m";
+	public final static String kitCode = "o";
+	public final static String notatedMusic = "q";
+	public final static String remoteSensingImage = "r";
+	public final static String soundRecording = "s";
+	public final static String textCode = "t";
+	public final static String videoRecording = "v";
+	public final static String unspecified = "z";
+
+	public final static Map<Integer, String> physicalTypesMap = new HashMap<Integer, String>(){
 		{
-			put("2", NameFunction.class);
-			put("4", SubjectSource.class);
-			put("11", NameSubType.class);
+			put(23, globe);
+			put(24, mapCode);
+			put(25, microform);
+			put(26, motionPicture);
+			put(27, nonProjectedGraphic);
+			put(28, projectedGraphic);
+			put(29, soundRecording);
+			put(30, videoRecording);
+			put(42, electronicResource);
+			put(43, remoteSensingImage);
+			put(44, textCode);
+			put(45, unspecified);
+			put(46, tactileMaterial);
+			put(47, kitCode);
+			put(48, notatedMusic);
 		}
 	};
-
-	public final static Map<String, Class> secondCorrelationClassMap = new HashMap<String, Class>(){
-		{
-			put("2", NameSubType.class);
-			put("3", TitleSecondaryFunction.class);
-			put("4", SubjectFunction.class);
-			put("5", ControlNumberFunction.class);
-			put("6", ClassificationFunction.class);
-			put("11", NameType.class);
-		}
-	};
-
-	public final static Map<String, Class> firstCorrelationHeadingClassMap = new HashMap<String, Class>(){
-		{
-			put("2", NameType.class);
-			put("17", NameType.class); //from heading
-			put("3", TitleFunction.class);
-			put("4", SubjectType.class);
-			put("18", SubjectType.class); //from heading
-			put("5", ControlNumberType.class);
-			put("19", ControlNumberType.class); //from heading
-			put("6", ClassificationType.class);
-			put("20", ClassificationType.class); //from heading
-			put("7", BibliographicNoteType.class); //note
-			put("8", BibliographicRelationType.class);//relationship
-			put("11", T_NME_TTL_FNCTN.class); //nt
-		}
-	};
-
-	public final static String NAME_CATEGORY_DEFAULT = "2";
 
 	public final static List<Integer> sourcesEnabledToAlternativeLabelsSearch  =  new ArrayList<Integer>(Arrays.asList(1,2,4,5,6));
 }
