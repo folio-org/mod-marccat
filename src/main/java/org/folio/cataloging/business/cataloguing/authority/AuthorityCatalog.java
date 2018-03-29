@@ -1,5 +1,6 @@
 package org.folio.cataloging.business.cataloguing.authority;
 
+import net.sf.hibernate.HibernateException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.cataloguing.bibliographic.NewTagException;
@@ -440,10 +441,21 @@ public class AuthorityCatalog extends Catalog {
 		return "AA";
 	}
 
+	/**
+	 * Create an authorithy record from the heading.
+	 * TODO from load method used the Session
+	 *
+	 * @param d
+	 * @param modelId
+	 * @return the model
+	 * @throws DataAccessException the data access exception
+	 * @throws NewTagException the new tag exception
+	 * @throws HibernateException in case of data access failure
+	 */
 	public CatalogItem createAuthorityFromHeading(Descriptor d,
-			Integer modelId) throws DataAccessException, NewTagException {
-		Model model = getModelDAO().load(modelId.intValue());
-		//AuthorityItem item = (AuthorityItem)model.toCatalogItem(CATALOGUING_VIEW);
+			Integer modelId) throws DataAccessException, NewTagException, HibernateException {
+		Model model = getModelDAO().load(modelId.intValue(),null);
+		//AuthorityItem item = (AuthorityItem)model.toCatalo)gItem(CATALOGUING_VIEW);
 		AuthorityItem item = new AuthorityItem();
 		AuthorityHeadingTag t = null;
 		try {
