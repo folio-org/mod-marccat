@@ -27,7 +27,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
 /**
  *
- * FieldTemplate Restful API
+ * FieldTemplate Restful API.
  *
  * @author natasciab
  * @since 1.0
