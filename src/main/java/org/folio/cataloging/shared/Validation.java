@@ -1,10 +1,9 @@
-
 package org.folio.cataloging.shared;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.toList;
 
 /**
  * @author paulm
@@ -73,33 +72,12 @@ public abstract class Validation {
 	}
 
 	public List<String> getValidSubfieldCodes() {
-		return stream(marcValidSubfieldStringCode.split("")).collect(Collectors.toList());
+		return stream(marcValidSubfieldStringCode.split("")).collect(toList());
 	}
 
 	public List<String> getRepeatableSubfieldCodes() {
-		return stream(repeatableSubfieldStringCode.split("")).collect(Collectors.toList());
+		return stream(repeatableSubfieldStringCode.split("")).collect(toList());
 	}
-
-
-	/*public Set computeRemainingValidSubfields(StringText stringText) {
-		Set remainingValidSubfields = new TreeSet(new SubfieldCodeComparator());
-		remainingValidSubfields.addAll(getValidSubfieldCodes());
-		remainingValidSubfields.removeAll(stringText.getUsedSubfieldCodes());
-		remainingValidSubfields.addAll(getRepeatableSubfieldCodes());
-		return remainingValidSubfields;
-	}
-	public List computeValidSubfieldList(StringText stringText) {
-		List validSubfieldList = new ArrayList();
-		Set remainingValidSubfields = computeRemainingValidSubfields(stringText);
-
-		for (int i = 0; i < stringText.getNumberOfSubfields(); i++) {
-			Set validCodesForCurrentSubfield = new TreeSet(new SubfieldCodeComparator());
-			validCodesForCurrentSubfield.addAll(remainingValidSubfields);
-			validCodesForCurrentSubfield.add(stringText.getSubfield(i).getCode());
-			validSubfieldList.add(validCodesForCurrentSubfield);
-		}
-		return validSubfieldList;
-	}*/
 
 	private char marcTagObsoleteIndicator;
 
@@ -116,14 +94,4 @@ public abstract class Validation {
 	private char skipInFlngCode;
 
 	abstract public ValidationKey getKey();
-	
-	/*public String toString() {
-		return getKey()
-			+ "valid codes: '"
-			+ marcValidSubfieldStringCode
-			+ "' repeatable: '"
-			+ repeatableSubfieldStringCode
-			+ "'";
-	}*/
-
 }

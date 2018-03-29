@@ -53,13 +53,13 @@ public class CorrelationValues implements Cloneable {
 	}
 
 	public CorrelationValues change(final int i, final int v) {
-		CorrelationValues val = (CorrelationValues) this.clone();
+		final CorrelationValues val = (CorrelationValues) this.clone();
 		val.setValue(i,v);
 		return val;
 	}
 
 	/**
-	 * Places the argument value in the first unused correlation slot
+	 * Places the argument value in the first unused correlation slot.
 	 */
 	public CorrelationValues append(final int v) {
 		for (int i = 0; i < values.length; i++) {
@@ -72,8 +72,8 @@ public class CorrelationValues implements Cloneable {
 	
 	public Integer getFirstUnusedPosition() {
 		for (int i = 0; i < values.length; i++) {
-			if (!isValueDefined(i+1)) {
-				return i+1;
+			if (!isValueDefined(i + 1)) {
+				return i + 1;
 			}
 		}
 		return null;
