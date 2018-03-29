@@ -39,7 +39,10 @@ import org.folio.cataloging.util.StringText;
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 public class AuthorityEditBean extends EditBean {
 	private static final AuthorityCatalog authorityCatalog = new AuthorityCatalog();
@@ -121,7 +124,7 @@ public class AuthorityEditBean extends EditBean {
 	 * 
 	 * @see librisuite.bean.cataloguing.EditBean#getControlNumberValidationOptions()
 	 */
-	public Set getControlNumberValidationOptions() {
+	public List<String> getControlNumberValidationOptions() {
 		return null;
 	}
 
@@ -263,12 +266,12 @@ public class AuthorityEditBean extends EditBean {
 		}
 	}
 
-	public void loadItem(int authorityNumber) throws MarcCorrelationException,
+	public void loadItem(int authorityNumber) throws
 			DataAccessException, RecordInUseException {
 		loadItem(new Object[] { new Integer(authorityNumber) });
 	}
 
-	public void loadItem(Object[] key) throws MarcCorrelationException,
+	public void loadItem(Object[] key) throws
 			DataAccessException, RecordInUseException {
 		authorityCatalog.lock((Integer) key[0], getUserName());
 		CatalogItem item = getCatalog().getCatalogItem(key);
@@ -286,8 +289,7 @@ public class AuthorityEditBean extends EditBean {
 	/**
 	 * TODO MIKE: adattare per authority
 	 */
-	public boolean isFixedField() throws DataAccessException,
-			MarcCorrelationException {
+	public boolean isFixedField() throws DataAccessException {
 		String tagNbr = getCurrentTag().getMarcEncoding().getMarcTag();
 		return tagNbr.equals("000") || tagNbr.equals("001")
 				|| tagNbr.equals("005") || tagNbr.equals("006")
@@ -297,13 +299,9 @@ public class AuthorityEditBean extends EditBean {
 	/**
 	 * TODO Carmen: adattare per authority
 	 */
-	public boolean isAbleDeleteButton() throws DataAccessException,
-			MarcCorrelationException {
+	public boolean isAbleDeleteButton() throws DataAccessException {
 		String tagNbr = getCurrentTag().getMarcEncoding().getMarcTag();
-		if (tagNbr.equals("000") || tagNbr.equals("008"))
-			return false;
-		else
-			return true;
+		return !tagNbr.equals("000") && !tagNbr.equals("008");
 	}
 
 	/**
@@ -350,20 +348,17 @@ public class AuthorityEditBean extends EditBean {
 		// do nothing
 	}
 
-	public boolean isAbleNew991Button() throws DataAccessException,
-			MarcCorrelationException {
+	public boolean isAbleNew991Button() throws DataAccessException {
 		// do nothing
 		return false;
 	}
 
-	public boolean isAbleSubdivision99X() throws DataAccessException,
-			MarcCorrelationException {
+	public boolean isAbleSubdivision99X() throws DataAccessException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public boolean isAbleDigital() throws DataAccessException,
-			MarcCorrelationException {
+	public boolean isAbleDigital() throws DataAccessException {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -373,18 +368,15 @@ public class AuthorityEditBean extends EditBean {
 		return false;
 	}
 
-	public List getSubdivisionEncoding() throws MarcCorrelationException,
+	public List getSubdivisionEncoding() throws
 			DataAccessException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public boolean isSkipFiling() throws MarcCorrelationException,
+	public boolean isSkipFiling() throws
 			DataAccessException {
-		if (getCurrentTag().getCategory() == 3)
-			return true;
-		else
-			return false;
+		return getCurrentTag().getCategory() == 3;
 
 	}
 
@@ -407,7 +399,7 @@ public class AuthorityEditBean extends EditBean {
 	}
 
 	public void createEquivalentTag792(int amicuNumber)
-			throws MarcCorrelationException, DataAccessException,
+			throws DataAccessException,
 			RecordInUseException, NewTagException, AuthorisationException,
 			ValidationException {
 		// TODO Auto-generated method stub
@@ -460,14 +452,13 @@ public class AuthorityEditBean extends EditBean {
 
 	/**
 	 * Restituisce la lista filtrata
-	 * 
-	 * @param tag
+	 *
 	 * @return
 	 * @throws MarcCorrelationException
 	 * @throws DataAccessException
 	 */
 	public List/* <Tag> */getFilteredSubList(int index)
-			throws MarcCorrelationException, DataAccessException {
+			throws DataAccessException {
 		// il GroupManager funge anche da FilterManager
 		Tag tag = getCatalogItem().getTag(index);
 		FilterManager filterManager = (FilterManager) getGroupManager();
@@ -511,14 +502,14 @@ public class AuthorityEditBean extends EditBean {
 	}
 
 	public void loadItemDuplicate(Object[] key)
-			throws MarcCorrelationException, DataAccessException,
+			throws DataAccessException,
 			RecordInUseException {
 		// TODO Auto-generated method stub
 
 	}
 
 	public void createTag097(HttpServletRequest request, StringText text,
-			String hierarchyType) throws MarcCorrelationException,
+			String hierarchyType) throws
 			NewTagException, AuthorisationException, DataAccessException,
 			ValidationException, RecordInUseException {
 
@@ -549,7 +540,7 @@ public class AuthorityEditBean extends EditBean {
 	}
 
 	public void aggiornaDoi(BibliographicNoteTag tag, String codiceDoi)
-			throws MarcCorrelationException, AuthorisationException,
+			throws AuthorisationException,
 			DataAccessException, ValidationException {
 		// TODO Auto-generated method stub
 
@@ -611,7 +602,7 @@ public class AuthorityEditBean extends EditBean {
 
 	}
 
-	public void createTag092() throws MarcCorrelationException,
+	public void createTag092() throws
 			NewTagException, AuthorisationException, DataAccessException,
 			ValidationException {
 		// TODO Auto-generated method stub
@@ -700,7 +691,7 @@ public class AuthorityEditBean extends EditBean {
 
 	@Override
 	public void processPickedHeading(Descriptor d, String selectedIndex)
-			throws MarcCorrelationException, DuplicateDescriptorException,
+			throws
 			DataAccessException, AuthorisationException, ValidationException {
 		if (getCatalogItem() != null
 				&& getCatalogItem().isDecriptorAlreadyPresent(d,
@@ -717,7 +708,7 @@ public class AuthorityEditBean extends EditBean {
 			// update the correlation settings
 			refreshCorrelation(tag.getCorrelation(1), tag.getCorrelation(2),
 					getLocale());
-			setSkipInFiling((short) d.getSkipInFiling());
+			setSkipInFiling(d.getSkipInFiling());
 
 			if (isAddCatalogItem())
 				validateCurrentTagHeading();
@@ -791,7 +782,7 @@ public class AuthorityEditBean extends EditBean {
 	@Override
 	public void saveTag856(HttpServletRequest request, String result,
 			EditBean bean, String tagSave) throws DataAccessException,
-			AuthorisationException, MarcCorrelationException,
+			AuthorisationException,
 			ValidationException, RecordInUseException {
 		// TODO Auto-generated method stub
 
@@ -802,7 +793,7 @@ public class AuthorityEditBean extends EditBean {
 
 	}
 	@Override
-	public void refreshCatalogItem() throws MarcCorrelationException,
+	public void refreshCatalogItem() throws
 			DataAccessException, RecordInUseException {
 		/* Bug 4791 inizio */
 		loadItem(getCatalogItem().getAmicusNumber().intValue());
@@ -827,7 +818,7 @@ public class AuthorityEditBean extends EditBean {
 	// scrivere la tabella CAS_FILES e CAS_DIG_FILES
 	@Override
 	public void saveRecord() throws DataAccessException,
-			AuthorisationException, MarcCorrelationException,
+			AuthorisationException,
 			ValidationException {
 		getCatalog().getCatalogDao().setCasCache(
 				getCasaliniBean().getCasCache());
@@ -854,7 +845,7 @@ public class AuthorityEditBean extends EditBean {
 	}
 	@Override
 	public void isISBNValid(Descriptor descr) throws DataAccessException,
-			MarcCorrelationException, InvalidDescriptorException {
+			InvalidDescriptorException {
 		// TODO Auto-generated method stub
 		
 	}
@@ -874,7 +865,7 @@ public class AuthorityEditBean extends EditBean {
 	 * @throws ValidationException 
 	 */
 	public boolean checkTags()
-			throws MarcCorrelationException, DataAccessException,
+			throws DataAccessException,
 			ValidationException {
 		boolean result = false;
 		String tagMarc = this.getCurrentTag().getMarcEncoding().getMarcTag();
@@ -894,7 +885,7 @@ public class AuthorityEditBean extends EditBean {
 
 	@Override
 	public void loadItemWithoutLock(Object[] key)
-			throws MarcCorrelationException, DataAccessException,
+			throws DataAccessException,
 			RecordInUseException {
 		// TODO Auto-generated method stub
 		

@@ -1,29 +1,15 @@
-/*
- * (c) LibriCore
- * 
- * Created on Dec 5, 2005
- * 
- * TimePeriodOfHeading.java
- */
 package org.folio.cataloging.business.cataloguing.authority;
 
 import org.folio.cataloging.business.cataloguing.common.ItemEntity;
 import org.folio.cataloging.business.cataloguing.common.TimePeriodTag;
-import org.folio.cataloging.business.common.CorrelationValues;
+import org.folio.cataloging.shared.CorrelationValues;
 
 /**
  * @author paulm
- * @version $Revision: 1.1 $, $Date: 2005/12/12 12:54:36 $
  * @since 1.0
  */
 public class TimePeriodOfHeading extends TimePeriodTag {
 
-	/**
-	 * Class constructor
-	 *
-	 * 
-	 * @since 1.0
-	 */
 	public TimePeriodOfHeading() {
 		super();
 		setHeaderField(new AuthorityHeaderFieldHelper());

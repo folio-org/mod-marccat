@@ -4,23 +4,22 @@
  */
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
-import java.util.Arrays;
-import java.util.Set;
-import java.util.TreeSet;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.cataloguing.common.Catalog;
 import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.cataloguing.common.TagImpl;
-import org.folio.cataloging.business.cataloguing.common.Validation;
-import org.folio.cataloging.dao.DAOBibliographicCorrelation;
-import org.folio.cataloging.dao.DAOBibliographicValidation;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.SubfieldCodeComparator;
+import org.folio.cataloging.dao.DAOBibliographicCorrelation;
+import org.folio.cataloging.dao.DAOBibliographicValidation;
 import org.folio.cataloging.dao.persistence.Correlation;
 import org.folio.cataloging.dao.persistence.CorrelationKey;
+import org.folio.cataloging.shared.Validation;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.Arrays;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Class comment
@@ -68,8 +67,8 @@ public class BibliographicTagImpl extends TagImpl {
 		return null;
 	}
 
-	public Validation getValidation(Tag t) throws MarcCorrelationException,
-			DataAccessException {
+	public Validation getValidation(Tag t) throws
+            DataAccessException {
 		return daoValidation.load(t.getCategory(), t.getCorrelationValues());
 	}
 
@@ -87,25 +86,25 @@ public class BibliographicTagImpl extends TagImpl {
 	 * 
 	 * @see TagImpl#getValidEditableSubfields(short)
 	 */
-	public Set getValidEditableSubfields(short category) {
+	public Set getValidEditableSubfields(int category) {
 		Set set = new TreeSet(new SubfieldCodeComparator());
 		switch (category) {
 		case 2:
-			set.addAll(Arrays.asList(new String[] { "e", "i", "o", "u", "x",
-					"3", "4", "5" }));
+			set.addAll(Arrays.asList("e", "i", "o", "u", "x",
+                    "3", "4", "5"));
 			break;
 		case 3:
-			set.addAll(Arrays.asList(new String[] { "c", "i", "v", "x", "3",
-					"5" }));
+			set.addAll(Arrays.asList("c", "i", "v", "x", "3",
+                    "5"));
 			break;
 		case 4:
-			set.addAll(Arrays.asList(new String[] { "e", "u", "3", "4" }));
+			set.addAll(Arrays.asList("e", "u", "3", "4"));
 			break;
 		case 11:
-			set.addAll(Arrays.asList(new String[] { "v", "3", "5" }));
+			set.addAll(Arrays.asList("v", "3", "5"));
 			break;
 		case 12:
-			set.addAll(Arrays.asList(new String[] { "v", "3", "5" }));
+			set.addAll(Arrays.asList("v", "3", "5"));
 			break;
 		}
 		return set;
@@ -113,7 +112,7 @@ public class BibliographicTagImpl extends TagImpl {
 
 	@Override
 	public Correlation getCorrelation(String tagNumber, char indicator1,
-			char indicator2, short category) throws DataAccessException {
+			char indicator2, int category) throws DataAccessException {
 		return daoCorrelation.getBibliographicCorrelation(tagNumber,
 				indicator1, indicator2, category);
 	}

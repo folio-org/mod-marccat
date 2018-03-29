@@ -1,7 +1,5 @@
 package org.folio.cataloging;
 
-import io.vertx.core.buffer.Buffer;
-import io.vertx.core.json.JsonObject;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 
@@ -9,6 +7,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 /**
@@ -20,22 +20,16 @@ import java.util.Locale;
  */
 public abstract class F {
     private final static Log LOGGER = new Log(F.class);
+    private final static String [] EMPTY_ARRAY = {};
 
     /**
-     * Retrieves the datasource configuration from the given buffer.
-     * The incoming buffer is supposed to be the result of one or more calls to the mod-configuration module.
+     * Provides a convenient way to deal with null array, but replacing null inputs with a null-object (an empty array).
      *
-     * @param value the configuration as it comes from the mod-configuration module.
-     * @return the datasource configuration used within this module.
+     * @param values the input array.
+     * @return the same input, if this is not null, otherwise an empty immutable array.
      */
-    public static JsonObject datasourceConfiguration(final Buffer value) {
-        return new JsonObject(value.toString())
-                .getJsonArray("configs")
-                .stream()
-                .map(JsonObject.class::cast)
-                .reduce(
-                        new JsonObject(),
-                        (r1, r2) -> r1.put(r2.getString("code"), r2.getValue("value")));
+    public static String [] safe(final String [] values) {
+        return values != null ? values : EMPTY_ARRAY;
     }
 
     /**
@@ -135,4 +129,10 @@ public abstract class F {
             return s;
         }
     }
+
+    public static String getFormattedDate(final String formatString) {
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formatString);
+        return LocalDate.now().format(formatter);
+    }
+
 }

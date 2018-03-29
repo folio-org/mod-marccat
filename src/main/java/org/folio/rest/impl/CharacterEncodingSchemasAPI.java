@@ -40,7 +40,7 @@ public class CharacterEncodingSchemasAPI implements CatalogingCharacterEncodingS
             final String lang, Map<String, String> okapiHeaders,
             final Handler<AsyncResult<Response>> asyncResultHandler,
             final Context vertxContext) throws Exception {
-        doGet((storageService, future) -> {
+        doGet((storageService, configuration, future) -> {
             try {
                 final CharacterEncodingSchemaCollection container = new CharacterEncodingSchemaCollection();
                 container.setCharacterEncodingSchemas(

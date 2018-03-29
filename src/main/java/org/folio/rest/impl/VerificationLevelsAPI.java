@@ -1,12 +1,10 @@
 package org.folio.rest.impl;
 
-import com.thoughtworks.xstream.core.util.Fields;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Context;
 import io.vertx.core.Handler;
 import org.folio.cataloging.F;
 import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.dao.persistence.CodeTable;
 import org.folio.cataloging.dao.persistence.T_VRFTN_LVL;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
@@ -15,7 +13,6 @@ import org.folio.rest.jaxrs.model.VerificationLevelCollection;
 import org.folio.rest.jaxrs.resource.CatalogingVerificationLevelsResource;
 
 import javax.ws.rs.core.Response;
-import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -47,7 +44,7 @@ public class VerificationLevelsAPI implements CatalogingVerificationLevelsResour
             final Map<String, String> okapiHeaders,
             final Handler<AsyncResult<Response>> asyncResultHandler,
             final Context vertxContext) throws Exception {
-        doGet((storageService, future) -> {
+        doGet((storageService, configuration, future) -> {
             try {
                 final VerificationLevelCollection container = new VerificationLevelCollection();
                 container.setVerificationLevels(
@@ -80,7 +77,7 @@ public class VerificationLevelsAPI implements CatalogingVerificationLevelsResour
 
     @Override
     public void putCatalogingVerificationLevelsByCode(String code, String lang, VerificationLevel entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
-        doPut((storageService, future) -> {
+        doPut((storageService, configuration, future) -> {
             try {
                 // Here we have to manage the update of the entity associated with the incoming id, using the given state
                 // (the entity attribute).

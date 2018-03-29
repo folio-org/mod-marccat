@@ -14,32 +14,32 @@ package org.folio.cataloging.dao.persistence;
  */
 public class ReferenceType extends T_SINGLE {
 	public static final short SEEN_FROM = 2;
-	
-	static public boolean isSeeAlso(short type) {
+
+	static public boolean isSeeAlso(int type) {
 		return type == 3;
 	}
 
-	static public boolean isSeeAlsoFrom(short type) {
+	static public boolean isSeeAlsoFrom(int type) {
 		return type == 4;
 	}
 
-	static public boolean isEquivalence(short type) {
+	static public boolean isEquivalence(int type) {
 		return type == 5;
 	}
-	
-	static public boolean isSee(short type){
+
+	static public boolean isSee(int type){
 		return type == 1;
 	}
 
-	static public boolean isSeenFrom(short type){
+	static public boolean isSeenFrom(int type){
 		return type == 2;
 	}
 
-	static public boolean isAuthorityTag(short type){
+	static public boolean isAuthorityTag(int type){
 		return type == 2 || type == 4 || type == 5;
 	}
 
-	static public short getReciprocal(short type) {
+	static public int getReciprocal(int type) {
 		switch (type) {
 			case 1 :
 				return 2;

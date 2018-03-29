@@ -11,14 +11,12 @@ import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
 import org.folio.cataloging.business.cataloguing.bibliographic.NameAccessPoint;
 import org.folio.cataloging.business.cataloguing.bibliographic.PersistsViaItem;
 import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
 import org.folio.cataloging.business.cataloguing.common.AccessPoint;
 import org.folio.cataloging.business.cataloguing.common.Browsable;
 import org.folio.cataloging.business.cataloguing.common.ItemEntity;
-import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.PersistentObjectWithView;
 import org.folio.cataloging.business.descriptor.Descriptor;
@@ -29,6 +27,7 @@ import org.folio.cataloging.dao.DAOAuthorityReferenceTag;
 import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.exception.NoHeadingSetException;
+import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
 import org.w3c.dom.Element;
 
@@ -145,7 +144,7 @@ public abstract class AuthorityReferenceTag
 	/* (non-Javadoc)
 	 * @see TagInterface#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		try {
 			return (
 				(AccessPoint) getDescriptor()
@@ -168,7 +167,7 @@ public abstract class AuthorityReferenceTag
 		c = c.change(getRefTypeCorrelationPosition(), getReference().getType());
 		/*
 		 * subject correlation in bib uses pos 3 for source but authorities
-		 * does not use this stringValue so set to undefined
+		 * does not use this value so set to undefined
 		 */
 		for (int i = getRefTypeCorrelationPosition() + 1; i <= 3; i++) {
 			c = c.change(i, CorrelationValues.UNDEFINED);
@@ -193,7 +192,7 @@ public abstract class AuthorityReferenceTag
 	/* (non-Javadoc)
 	 * @see TagInterface#getDisplayCategory()
 	 */
-	public short getDisplayCategory() {
+	public int getDisplayCategory() {
 		return 16;
 	}
 
@@ -275,7 +274,7 @@ public abstract class AuthorityReferenceTag
 	 * @see TagInterface#getMarcEncoding()
 	 */
 	public CorrelationKey getMarcEncoding()
-		throws DataAccessException, MarcCorrelationException {
+		throws DataAccessException {
 		return super.getMarcEncoding().changeSkipInFilingIndicator(
 			getSkipInFiling());
 	}
@@ -305,14 +304,14 @@ public abstract class AuthorityReferenceTag
 	}
 
 	/*
-	 * The position of the referenceType correlation stringValue varies by the type of
+	 * The position of the referenceType correlation value varies by the type of
 	 * heading (3 for names, 1 for titles, etc.).  This attribute is set during the
 	 * call to getCorrelationValues (and should stay the same for any given instance).
 	 * @since 1.0
 	 */
 	protected int getRefTypeCorrelationPosition() {
 		if (refTypeCorrelationPosition == null) {
-			// set the stringValue  by calling getCorrelationValues()
+			// set the value  by calling getCorrelationValues()
 			getCorrelationValues();
 		}
 		return refTypeCorrelationPosition.intValue();
@@ -321,7 +320,7 @@ public abstract class AuthorityReferenceTag
 	/* (non-Javadoc)
 	 * @see TagInterface#getSecondCorrelationList(short)
 	 */
-	public List getSecondCorrelationList(short value1)
+	public List getSecondCorrelationList(int value1)
 		throws DataAccessException {
 		if (getRefTypeCorrelationPosition() > 2) {
 			if (getTargetDescriptor() instanceof NME_TTL_HDG) {
@@ -350,9 +349,9 @@ public abstract class AuthorityReferenceTag
 	/* (non-Javadoc)
 	 * @see SkipInFiling#getSkipInFiling()
 	 */
-	public short getSkipInFiling() {
+	public int getSkipInFiling() {
 		if (getDescriptor() instanceof SkipInFiling) {
-			return ((SkipInFiling) getDescriptor()).getSkipInFiling();
+			return getDescriptor().getSkipInFiling();
 		} else {
 			return 0;
 		}
@@ -381,7 +380,7 @@ public abstract class AuthorityReferenceTag
 	/* (non-Javadoc)
 	 * @see TagInterface#getThirdCorrelationList(short, short)
 	 */
-	public List getThirdCorrelationList(short value1, short value2)
+	public List getThirdCorrelationList(int value1, int value2)
 		throws DataAccessException {
 		logger.debug("getThirdCorrelationList("+value1+", " + value2 + ")");
 		if (getRefTypeCorrelationPosition() == 3) {
@@ -634,9 +633,9 @@ public abstract class AuthorityReferenceTag
 	/* (non-Javadoc)
 	 * @see SkipInFiling#setSkipInFiling(short)
 	 */
-	public void setSkipInFiling(short i) {
+	public void setSkipInFiling(int i) {
 		if (getDescriptor() instanceof SkipInFiling) {
-			((SkipInFiling) getDescriptor()).setSkipInFiling(i);
+			getDescriptor().setSkipInFiling(i);
 		}
 	}
 

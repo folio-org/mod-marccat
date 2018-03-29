@@ -42,7 +42,7 @@ public class RecordTemplatesAPI implements CatalogingRecordTemplatesResource {
             final Map<String, String> okapiHeaders,
             final Handler<AsyncResult<Response>> asyncResultHandler,
             final Context vertxContext) throws Exception {
-        doGet((storageService, future) -> {
+        doGet((storageService, configuration, future) -> {
             try {
                 final List<Avp<Integer>> templates =
                         type == Type.A
@@ -85,7 +85,7 @@ public class RecordTemplatesAPI implements CatalogingRecordTemplatesResource {
             final Map<String, String> okapiHeaders,
             final Handler<AsyncResult<Response>> asyncResultHandler,
             final Context vertxContext) throws Exception {
-        doGet((storageService, future) -> {
+        doGet((storageService, configuration, future) -> {
             try {
                 /*
                 final List<Avp<Integer>> templates =

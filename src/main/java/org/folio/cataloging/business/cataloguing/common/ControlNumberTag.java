@@ -7,13 +7,12 @@
  */
 package org.folio.cataloging.business.cataloguing.common;
 
-import java.text.DecimalFormat;
-
 import org.folio.cataloging.business.cataloguing.bibliographic.FixedFieldUsingItemEntity;
-import org.folio.cataloging.business.common.CorrelationValues;
-
+import org.folio.cataloging.shared.CorrelationValues;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import java.text.DecimalFormat;
 
 /**
  * @author paulm

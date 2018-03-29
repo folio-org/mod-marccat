@@ -8,13 +8,13 @@
 package org.folio.cataloging.dao.persistence;
 
 import org.folio.cataloging.business.common.ConfigHandler;
-import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
 import org.folio.cataloging.dao.DAOIndexList;
 import org.folio.cataloging.dao.DAOShelfList;
 import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.shared.CorrelationValues;
 
 import java.io.Serializable;
 
@@ -107,8 +107,7 @@ public class SHLF_LIST extends Descriptor implements Serializable {
 	/* (non-Javadoc)
 	 * @see librisuite.hibernate.Descriptor#getCategory()
 	 */
-	public short getCategory() {
-		// TODO 14 is 852 -- somewhat misleading
+	public int getCategory() {
 		return 14;
 	}
 

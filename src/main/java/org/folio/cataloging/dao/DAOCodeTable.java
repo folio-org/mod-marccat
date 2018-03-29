@@ -310,7 +310,7 @@ public class DAOCodeTable extends HibernateUtil {
 		return asOptionList(getListOrderAlphab(c, locale), locale);
 	}
 
-	public static T_SINGLE getSelectedCodeTable(List raw, Locale locale, short code) 
+	public static T_SINGLE getSelectedCodeTable(List raw, Locale locale, int code)
 	{
 		if (raw == null) {
 			return null;
@@ -340,7 +340,7 @@ public class DAOCodeTable extends HibernateUtil {
 		return (T_SINGLE_CHAR) loadCodeTableEntry(session, c, key);
 	}
 
-	public T_SINGLE load(Session session, Class c, short code, Locale locale) throws DataAccessException
+	public T_SINGLE load(Session session, Class c, int code, Locale locale) throws DataAccessException
 	{
 		T_SINGLE key;
 			try {
@@ -366,29 +366,52 @@ public class DAOCodeTable extends HibernateUtil {
 	{
 		return (CodeTable) get(session, c, ser);
 	}
-	
+
+	/**
+	 *
+	 * @param session the hibernate session
+	 * @param code the input char code used here as filter criterion
+	 * @param c the class of codeTable to get
+	 * @param locale current locale used here as filter criterion
+	 * @return a string representing description of codeTable by code.
+	 * @throws DataAccessException
+	 */
 	public String getLongText(final Session session, final char code, final Class c, final Locale locale) throws DataAccessException
 	{
-		String result = new String("");
-		CodeTable ct = load(session, c, code, locale);
-		
-		if(ct != null)	result = ct.getLongText();
-
-		return result;
+		return ofNullable(load(session, c, code, locale))
+				.map(CodeTable::getLongText)
+				.orElse(Global.EMPTY_STRING);
 	}
 
-	public String getLongText(final Session session, final short code, final Class c, final Locale locale) throws DataAccessException {
+	/**
+	 *
+	 * @param session the hibernate session
+	 * @param code the input short code used here as filter criterion
+	 * @param c the class of codeTable to get
+	 * @param locale current locale used here as filter criterion
+	 * @return a string representing description of codeTable by code.
+	 * @throws DataAccessException
+	 */
+	public String getLongText(final Session session, final int code, final Class c, final Locale locale) throws DataAccessException {
 		return ofNullable(load(session, c, code, locale))
 					.map(CodeTable::getLongText)
 					.orElse(Global.EMPTY_STRING);
 	}
 
+	/**
+	 *
+	 * @param session the hibernate session
+	 * @param code the input string code used here as filter criterion
+	 * @param c the class of codeTable to get
+	 * @param locale current locale used here as filter criterion
+	 * @return a string representing description of codeTable by code.
+	 * @throws DataAccessException
+	 */
 	public String getLongText(final Session session, final String code, final Class c, final Locale locale) throws DataAccessException
 	{
-		String result = new String("");
-		CodeTable ct = load(session, c, code, locale);
-		result = ct.getLongText();
-		return result;
+		return ofNullable(load(session, c, code, locale))
+				.map(CodeTable::getLongText)
+				.orElse(Global.EMPTY_STRING);
 	}
 	
 	public String getTranslationString(long translationKey, Locale locale) throws DataAccessException 

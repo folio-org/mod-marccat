@@ -7,17 +7,16 @@
  */
 package org.folio.cataloging.business.cataloguing.authority;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.business.cataloguing.bibliographic.FixedFieldUsingItemEntity;
+import org.folio.cataloging.dao.persistence.AUT;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import org.folio.cataloging.business.cataloguing.bibliographic.FixedFieldUsingItemEntity;
-import org.folio.cataloging.dao.persistence.AUT;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 /**
  * @author paulm
@@ -36,14 +35,14 @@ public class Authority008Tag extends FixedFieldUsingItemEntity {
 	public Authority008Tag() {
 		super();
 		setHeaderField(new AuthorityHeaderFieldHelper());
-		setHeaderType((short) 10);
+		setHeaderType(10);
 	}
 
 	/* (non-Javadoc)
 	 * @see FixedField#getDisplayString()
 	 */
 	public String getDisplayString() {
-		String str = new String("");
+		String str = "";
 		str =
 			str
 				+ getEnteredOnFileDateYYMMDD()

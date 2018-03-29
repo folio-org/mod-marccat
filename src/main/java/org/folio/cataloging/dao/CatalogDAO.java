@@ -48,7 +48,7 @@ public abstract class CatalogDAO extends HibernateUtil {
 				while (iter.hasNext()) {
 					aTag = (Tag) iter.next();
 					if (aTag instanceof Persistence && !(aTag instanceof AuthorityReferenceTag)) {
-						((Persistence) aTag).markDeleted();
+						aTag.markDeleted();
 						persistByStatus((Persistence) aTag);
 					}
 				}

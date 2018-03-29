@@ -201,11 +201,8 @@ public class AmicusAuthority implements AuthorisationAgent {
 	}
 
 	public boolean isPermitted(Permission[] somePermissions) {
-		if (!getPermissions().containsAll(Arrays.asList(somePermissions))) {
-			return false;
-		}
-		return true;
-	}
+        return getPermissions().containsAll(Arrays.asList(somePermissions));
+    }
 
 	public boolean isPermitted(String[] someNames) {
 		try {

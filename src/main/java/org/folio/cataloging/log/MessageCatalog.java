@@ -1,5 +1,6 @@
 package org.folio.cataloging.log;
 
+//TODO: delete messages related to storage and dao
 public interface MessageCatalog {
     String MODULE_NAME = "MODCAT";
 
@@ -8,6 +9,7 @@ public interface MessageCatalog {
     String _00012_NULL_RESULT = "<" + MODULE_NAME + "-00012> : Not well known failure. The service did return a nullable (not allowed) stringValue.";
     String _00013_IO_FAILURE = "<" + MODULE_NAME + "-00013> : I/O failure. Please check the stacktrace below for further details.";
 
-    String _00014_NO_VALIDATION_FOUND = "<" + MODULE_NAME + "-00014> : Not well known failure. No validation found for category %s and values %s.";
     String _00015_CFG_KEY_FAILURE = "<" + MODULE_NAME + "-00015> : Unable to retrieve the configuration attribute associated with >%s< key. Please check the stacktrace below for further details.";
+
+    String _00016_FIELD_PARAMETER_INVALID = "<" + MODULE_NAME + "-00016> : Unable to retrieve field template for invalid parameters. Category %s and code %s.";
 }

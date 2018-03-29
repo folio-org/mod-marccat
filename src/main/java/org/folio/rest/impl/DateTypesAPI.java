@@ -37,7 +37,7 @@ public class DateTypesAPI implements CatalogingDateTypesResource {
 
     @Override
     public void getCatalogingDateTypes(String lang, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
-        doGet((storageService, future) -> {
+        doGet((storageService, configuration, future) -> {
             try {
                 final DateTypeCollection container = new DateTypeCollection();
                 container.setDateTypes(

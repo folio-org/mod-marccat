@@ -99,9 +99,9 @@ public class DAOBibliographicRelationshipTag extends HibernateUtil {
 							+ " and rltsp.relationTypeCode = ? "
 							+ " and rltsp.userViewString = ? ",
 						new Object[] {
-							new Integer(aTarget.getBibItemNumber()),
-							new Integer(aTarget.getTargetBibItemNumber()),
-							new Short(aTarget.getRelationTypeCode()),
+							aTarget.getBibItemNumber(),
+							aTarget.getTargetBibItemNumber(),
+							aTarget.getRelationTypeCode(),
 							aTarget.getUserViewString()},
 						new Type[] {
 							Hibernate.INTEGER,
@@ -119,14 +119,14 @@ public class DAOBibliographicRelationshipTag extends HibernateUtil {
 							+ " and rltsp.relationTypeCode = ? "
 							+ " and rltsp.userViewString = ? ",
 						new Object[] {
-							new Integer(aSource.getBibItemNumber()),
-							new Integer(aSource.getTargetBibItemNumber()),
-							new Short(aSource.getRelationTypeCode()),
+							aSource.getBibItemNumber(),
+							aSource.getTargetBibItemNumber(),
+							aSource.getRelationTypeCode(),
 							aSource.getUserViewString()},
 						new Type[] {
 							Hibernate.INTEGER,
 							Hibernate.INTEGER,
-							Hibernate.SHORT,
+							Hibernate.INTEGER,
 							Hibernate.STRING });
 				}
 
@@ -173,7 +173,7 @@ public class DAOBibliographicRelationshipTag extends HibernateUtil {
 		save(p);
 	}
 
-	public short getReciprocalType(short relationTypeCode)
+	public short getReciprocalType(int relationTypeCode)
 		throws DataAccessException {
 
 		try {

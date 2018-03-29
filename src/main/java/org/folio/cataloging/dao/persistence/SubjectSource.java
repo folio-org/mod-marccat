@@ -15,7 +15,7 @@ package org.folio.cataloging.dao.persistence;
 public class SubjectSource extends T_SINGLE {
 	private final static short USES_SECONDARY_SOURCE = 9;
 	
-	public static boolean isOtherSource(short code) {
+	public static boolean isOtherSource(int code) {
 		return code == USES_SECONDARY_SOURCE;
 	}
 }

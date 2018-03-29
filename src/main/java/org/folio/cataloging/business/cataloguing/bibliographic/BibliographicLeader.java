@@ -4,6 +4,7 @@ import org.folio.cataloging.business.cataloguing.common.Leader;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+//TODO: doesn't use properties of BIB_ITM: use properties in Global
 public class BibliographicLeader extends Leader {
 	private static final long serialVersionUID = 3947160281428397002L;
 

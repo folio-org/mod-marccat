@@ -7,9 +7,10 @@
  */
 package org.folio.cataloging.dao.persistence;
 
-import java.io.Serializable;
+import org.folio.cataloging.shared.Validation;
+import org.folio.cataloging.shared.ValidationKey;
 
-import org.folio.cataloging.business.cataloguing.common.Validation;
+import java.io.Serializable;
 
 /**
  * @author elena

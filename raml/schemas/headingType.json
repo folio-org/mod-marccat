@@ -3,26 +3,11 @@
   "title": "Heading Type Schema",
   "type": "object",
   "properties": {
-    "marcCategory": {
+    "code": {
       "type": "integer"
     },
     "description": {
       "type": "string"
-    },
-    "item-types": {
-        "type": "array",
-        "items": {
-          "type": "object",
-          "properties" : {
-            "code": {
-              "type" : "integer"
-            },
-            "description" : {
-              "type": "string"
-            }
-        },
-        "additionalProperties": false
-      }
     }
   },
   "additionalProperties": false

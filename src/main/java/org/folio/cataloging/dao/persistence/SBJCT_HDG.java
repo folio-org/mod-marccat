@@ -3,24 +3,22 @@
  * */
 package org.folio.cataloging.dao.persistence;
 
-import java.io.Serializable;
-import java.util.Iterator;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.cataloguing.bibliographic.SubjectAccessPoint;
 import org.folio.cataloging.business.common.ConfigHandler;
-import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.dao.DAOSubjectDescriptor;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.SkipInFiling;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
+import org.folio.cataloging.dao.DAOSubjectDescriptor;
 import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.util.StringText;
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.cataloging.util.StringText;
+
+import java.io.Serializable;
+import java.util.Iterator;
 
 /**
  * Hibernate class for table SBJCT_HDG
@@ -31,13 +29,12 @@ import org.folio.cataloging.model.Subfield;
  */
 public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling {
 	@Override
-	public short getAuthoritySourceCode() {
+	public int getAuthoritySourceCode() {
 		
 		return getSourceCode();
 	}
 
-	@Override
-	public void setAuthoritySourceCode(short authoritySourceCode) {
+	public void setAuthoritySourceCode(int authoritySourceCode) {
 		setSourceCode(authoritySourceCode);
 	}
 
@@ -45,9 +42,9 @@ public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling 
 	private static final Log logger = LogFactory.getLog(SBJCT_HDG.class);
 	private String copyFromHeadingType;
 	private Integer copyFromHeadingNumber;
-	private short skipInFiling;
-	private short typeCode;
-	private short sourceCode;
+	private int skipInFiling;
+	private int typeCode;
+	private int sourceCode;
 	private String secondarySourceCode;
 	private ConfigHandler configHandler = ConfigHandler.getInstance();
 
@@ -76,7 +73,7 @@ public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling 
 	 * 
 	 * @return typeCode
 	 */
-	public short getTypeCode() {
+	public int getTypeCode() {
 		return typeCode;
 	}
 
@@ -86,7 +83,7 @@ public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling 
 	 * @param s
 	 *            typeCode
 	 */
-	public void setTypeCode(short s) {
+	public void setTypeCode(int s) {
 		typeCode = s;
 	}
 
@@ -158,14 +155,14 @@ public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling 
 	/**
 	 * 
 	 */
-	public short getSkipInFiling() {
+	public int getSkipInFiling() {
 		return skipInFiling;
 	}
 
 	/**
 	 * 
 	 */
-	public short getSourceCode() {
+	public int getSourceCode() {
 		return sourceCode;
 	}
 
@@ -204,7 +201,7 @@ public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling 
 	/**
 	 * 
 	 */
-	public void setSourceCode(short s) {
+	public void setSourceCode(int s) {
 		sourceCode = s;
 		if (!SubjectSource.isOtherSource(s)) {
 			setSecondarySourceCode(null);
@@ -216,7 +213,7 @@ public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling 
 	 * 
 	 * @see librisuite.hibernate.Descriptor#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return 18;
 	}
 

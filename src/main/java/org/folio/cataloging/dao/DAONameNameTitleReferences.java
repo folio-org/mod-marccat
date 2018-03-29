@@ -1,24 +1,16 @@
-/*
- * (c) LibriCore
- * 
- * Created on Jan 2, 2006
- * 
- * DAONameNameTitleReferences.java
- */
 package org.folio.cataloging.dao;
 
-import java.util.List;
-
+import net.sf.hibernate.Hibernate;
+import net.sf.hibernate.type.Type;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.persistence.NME_NME_TTL_REF;
 import org.folio.cataloging.dao.persistence.REF;
 import org.folio.cataloging.dao.persistence.ReferenceType;
-import net.sf.hibernate.Hibernate;
-import net.sf.hibernate.type.Type;
+
+import java.util.List;
 
 /**
  * @author paulm
- * @version $Revision: 1.1 $, $Date: 2006/01/05 13:25:59 $
  * @since 1.0
  */
 public class DAONameNameTitleReferences extends DAOCrossReferences {
@@ -29,7 +21,7 @@ public class DAONameNameTitleReferences extends DAOCrossReferences {
 	public REF loadReciprocal(REF ref, int cataloguingView)
 		throws DataAccessException {
 
-		short reciprocalType = ReferenceType.getReciprocal(ref.getType());
+		int reciprocalType = ReferenceType.getReciprocal(ref.getType());
 
 		REF result = null;
 		String queryString;
@@ -55,15 +47,15 @@ public class DAONameNameTitleReferences extends DAOCrossReferences {
 			find(
 				queryString,
 				new Object[] {
-					new Integer(ref.getSource()),
-					new Integer(ref.getTarget()),
-					new Integer(cataloguingView),
-					new Short(reciprocalType)},
+					ref.getSource(),
+					ref.getTarget(),
+					cataloguingView,
+					reciprocalType},
 				new Type[] {
 					Hibernate.INTEGER,
 					Hibernate.INTEGER,
 					Hibernate.INTEGER,
-					Hibernate.SHORT });
+					Hibernate.INTEGER });
 		if (l.size() == 1) {
 			result = (REF) l.get(0);
 		}

@@ -147,7 +147,7 @@ public class AuthorityCatalogDAO extends CatalogDAO {
 		Iterator iter = refs.iterator();
 		while (iter.hasNext()) {
 			REF anXref = (REF) iter.next();
-			short refType = anXref.getType();
+			int refType = anXref.getType();
 			if (ReferenceType.isAuthorityTag(refType)) {
 				AuthorityReferenceTag t;
 				if (ReferenceType.isEquivalence(refType)) {

@@ -1,7 +1,7 @@
 package org.folio.cataloging.dao.persistence;
 
-import org.folio.cataloging.dao.DAOCodeTable;
 import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.dao.DAOCodeTable;
 
 /**
  * Superclass for single table Codetables (short code)
@@ -11,13 +11,13 @@ import org.folio.cataloging.business.common.DataAccessException;
  */
 public abstract class T_SINGLE extends CodeTable 
 {
-	private short code;
+	private int code;
 
-	public short getCode() {
+	public int getCode() {
 		return code;
 	}
 
-	public void setCode(short s) {
+	public void setCode(int s) {
 		code = s;
 	}
 

@@ -1,33 +1,26 @@
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.bean.cataloguing.bibliographic.BibliographicEditBean;
+import org.folio.cataloging.business.cataloguing.common.*;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.librivision.Record;
+import org.folio.cataloging.business.librivision.XmlRecord;
+import org.folio.cataloging.dao.DAOOrderNames;
+import org.folio.cataloging.dao.persistence.OrderNames;
+import org.folio.cataloging.exception.MandatoryTagException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.folio.cataloging.bean.cataloguing.bibliographic.BibliographicEditBean;
-import org.folio.cataloging.business.cataloguing.common.CatalogItem;
-import org.folio.cataloging.business.cataloguing.common.ItemEntity;
-import org.folio.cataloging.business.cataloguing.common.ModelItem;
-import org.folio.cataloging.business.cataloguing.common.Tag;
-import org.folio.cataloging.business.cataloguing.common.TagImpl;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.exception.MandatoryTagException;
-import org.folio.cataloging.business.librivision.Record;
-import org.folio.cataloging.business.librivision.XmlRecord;
-import org.folio.cataloging.dao.persistence.OrderNames;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.dao.DAOOrderNames;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
-@SuppressWarnings("unchecked")
 public class BibliographicItem extends CatalogItem implements Serializable 
 {
 	private static final long serialVersionUID = 8676099561229020012L;
@@ -55,9 +48,7 @@ public class BibliographicItem extends CatalogItem implements Serializable
 		return bibItmData;
 	}
 
-	/* (non-Javadoc)
-	 * @see CatalogItem#getTagImpl()
-	 */
+	@Override
 	public TagImpl getTagImpl() {
 		return new BibliographicTagImpl();
 	}
@@ -200,8 +191,7 @@ public class BibliographicItem extends CatalogItem implements Serializable
 		return nameOrderTags;
 	}
 
-	public List getOrderableNames() throws DataAccessException, MarcCorrelationException 
-	{
+	public List getOrderableNames() throws DataAccessException {
 		List tags = new ArrayList();
 		Iterator iter = getTags().iterator();
 		while (iter.hasNext()) {
@@ -250,7 +240,7 @@ public class BibliographicItem extends CatalogItem implements Serializable
 		while (iter.hasNext()) {
 			Tag aTag = (Tag)iter.next();
 			if (aTag instanceof TitleAccessPoint) {
-						tags.add(((TitleAccessPoint)aTag));
+						tags.add(aTag);
 			}
 		}
 		return tags;
@@ -263,7 +253,7 @@ public class BibliographicItem extends CatalogItem implements Serializable
 		while (iter.hasNext()) {
 			Tag aTag = (Tag)iter.next();
 			if (aTag instanceof ClassificationAccessPoint) {
-						tags.add(((ClassificationAccessPoint)aTag));
+						tags.add(aTag);
 			}
 		}
 		return tags;
@@ -276,7 +266,7 @@ public class BibliographicItem extends CatalogItem implements Serializable
 		while (iter.hasNext()) {
 			Tag aTag = (Tag)iter.next();
 			if (aTag instanceof ControlNumberAccessPoint) {
-						tags.add(((ControlNumberAccessPoint)aTag));
+						tags.add(aTag);
 			}
 		}
 		return tags;

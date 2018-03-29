@@ -11,6 +11,7 @@ import org.folio.cataloging.dao.persistence.BibliographicRelationPrintNote;
 import org.folio.cataloging.dao.persistence.BibliographicRelationReciprocal;
 import org.folio.cataloging.dao.persistence.BibliographicRelationType;
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
 
 import java.util.Arrays;
@@ -20,12 +21,11 @@ import java.util.TreeSet;
 
 import static org.folio.cataloging.F.deepCopy;
 
-@SuppressWarnings({ "unchecked", "serial" })
 public class BibliographicRelationshipTag extends VariableField implements PersistentObjectWithView 
 {
 	private static final Log logger = LogFactory.getLog(BibliographicRelationshipTag.class);
 	private StringText reciprocalStringText = null;
-	private short reciprocalOption = -1; // stringValue -1 triggers calculation on construction
+	private int reciprocalOption = -1; // stringValue -1 triggers calculation on construction
 	private BibliographicRelationshipTag originalTag = null;
 	public BibliographicRelationship sourceRelationship;
 	public BibliographicRelationship targetRelationship;
@@ -106,7 +106,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 	 * 
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return sourceRelationship.getCategory();
 	}
 
@@ -115,7 +115,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 	 * 
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#getCorrelation(int)
 	 */
-	public short getCorrelation(int i) {
+	public int getCorrelation(int i) {
 		switch (i) {
 		case 1:
 			return getRelationTypeCode();
@@ -146,7 +146,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 		return getDaoCodeTable().getList(BibliographicRelationReciprocal.class,true);
 	}
 
-	public short getReciprocalOption(int userView) throws DataAccessException 
+	public int getReciprocalOption(int userView) throws DataAccessException
 	{
 		logger.debug("running getReciprocalOption(with a view)");
 		logger.debug("starting option is " + getReciprocalOption());
@@ -175,11 +175,11 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 		return reciprocalStringText;
 	}
 
-	public short getReciprocalOption() {
+	public int getReciprocalOption() {
 		return reciprocalOption;
 	}
 
-	public short getRelationPrintNoteCode() {
+	public int getRelationPrintNoteCode() {
 		return sourceRelationship.getRelationPrintNoteCode();
 	}
 
@@ -195,7 +195,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 		return sourceRelationship.getStringText();
 	}
 
-	public short getRelationTypeCode() {
+	public int getRelationTypeCode() {
 		return sourceRelationship.getRelationTypeCode();
 	}
 
@@ -242,7 +242,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 		return targetRelationship;
 	}
 
-	public List getThirdCorrelationList(short value1, short value2)	throws DataAccessException {
+	public List getThirdCorrelationList(int value1, int value2)	throws DataAccessException {
 		return null;
 	}
 
@@ -296,7 +296,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 		sourceRelationship.setItemNumber(i);
 	}
 
-	public void setReciprocalOption(short s) 
+	public void setReciprocalOption(int s)
 	{
 		logger.debug("Setting reciprocalOption to " + s);
 		reciprocalOption = s;
@@ -315,7 +315,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 		markChanged();
 	}
 
-	public void setRelationPrintNoteCode(short i) {
+	public void setRelationPrintNoteCode(int i) {
 		sourceRelationship.setRelationPrintNoteCode(i);
 	}
 
@@ -323,7 +323,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 		sourceRelationship.setRelationshipStringText(text);
 	}
 
-	public void setRelationTypeCode(short i) {
+	public void setRelationTypeCode(int i) {
 		sourceRelationship.setRelationTypeCode(i);
 	}
 

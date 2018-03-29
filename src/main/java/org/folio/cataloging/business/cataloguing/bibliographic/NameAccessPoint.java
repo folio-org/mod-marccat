@@ -5,7 +5,6 @@ import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.cataloguing.common.AccessPoint;
 import org.folio.cataloging.business.cataloguing.common.OrderedTag;
 import org.folio.cataloging.business.common.ConfigHandler;
-import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.marchelper.MarcHelperTag;
@@ -13,6 +12,7 @@ import org.folio.cataloging.dao.DAOBibliographicCorrelation;
 import org.folio.cataloging.dao.DAODescriptor;
 import org.folio.cataloging.dao.DAONameDescriptor;
 import org.folio.cataloging.dao.persistence.*;
+import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
 
 import java.util.ArrayList;
@@ -186,7 +186,7 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag, M
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return 2;
 	}
 

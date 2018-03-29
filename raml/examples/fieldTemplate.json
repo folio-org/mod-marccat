@@ -1,4 +1,43 @@
 {
-    "code": "001",
-    "value": "ajdhksdjhak dakdj askjd kd"
+    "variable-field": {
+        "categoryCode": 2,
+        "headingTypeCode": "2",
+        "itemTypeCode": "3",
+        "functionCode": "9",
+        "ind1": 1,
+        "ind2": 0,
+        "code": "700",
+        "description": "Name Personal",
+        "subfields": [
+            "a",
+            "q",
+            "b",
+            "c",
+            "d",
+            "e",
+            "u",
+            "k",
+            "f",
+            "g",
+            "h",
+            "i",
+            "l",
+            "m",
+            "n",
+            "o",
+            "p",
+            "r",
+            "s",
+            "t",
+            "x",
+            "0",
+            "3",
+            "4",
+            "5",
+            "6",
+            "j"
+        ],
+        "defaultSubfieldCode": "a"
+    },
+    "code": "700"
 }

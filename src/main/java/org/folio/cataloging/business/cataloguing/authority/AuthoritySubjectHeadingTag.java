@@ -7,28 +7,24 @@
  */
 package org.folio.cataloging.business.cataloguing.authority;
 
-import java.util.List;
-
-import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
-import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.descriptor.SkipInFiling;
 import org.folio.cataloging.dao.persistence.CorrelationKey;
 import org.folio.cataloging.dao.persistence.SBJCT_HDG;
 import org.folio.cataloging.dao.persistence.T_AUT_SBJCT_HDG_TYP;
+import org.folio.cataloging.shared.CorrelationValues;
+
+import java.util.List;
 
 /**
  * @author paulm
  * @version $Revision: 1.2 $, $Date: 2006/01/05 13:25:58 $
  * @since 1.0
  */
-public class AuthoritySubjectHeadingTag
-	extends AuthorityHeadingTag
-	implements SkipInFiling {
+public class AuthoritySubjectHeadingTag extends AuthorityHeadingTag implements SkipInFiling {
 	/**
 	 * Class constructor
 	 *
-	 * @param d
 	 * @since 1.0
 	 */
 	public AuthoritySubjectHeadingTag() {
@@ -38,7 +34,7 @@ public class AuthoritySubjectHeadingTag
 	/* (non-Javadoc)
 	 * @see TagInterface#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return 4;
 	}
 
@@ -52,22 +48,22 @@ public class AuthoritySubjectHeadingTag
 	/* (non-Javadoc)
 	 * @see SkipInFiling#getSkipInFiling()
 	 */
-	public short getSkipInFiling() {
-		return ((SBJCT_HDG) getDescriptor()).getSkipInFiling();
+	public int getSkipInFiling() {
+		return getDescriptor().getSkipInFiling();
 	}
 
 	/* (non-Javadoc)
 	 * @see SkipInFiling#setSkipInFiling(short)
 	 */
-	public void setSkipInFiling(short i) {
-		((SBJCT_HDG) getDescriptor()).setSkipInFiling(i);
+	public void setSkipInFiling(int i) {
+		getDescriptor().setSkipInFiling(i);
 	}
 
 	/* (non-Javadoc)
 	 * @see TagInterface#getMarcEncoding()
 	 */
 	public CorrelationKey getMarcEncoding()
-		throws DataAccessException, MarcCorrelationException {
+		throws DataAccessException {
 		return super.getMarcEncoding().changeSkipInFilingIndicator(
 			getSkipInFiling());
 	}

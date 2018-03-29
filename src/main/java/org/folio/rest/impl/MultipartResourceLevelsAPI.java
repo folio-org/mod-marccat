@@ -41,7 +41,7 @@ public class MultipartResourceLevelsAPI implements CatalogingMultipartResourceLe
             final Map<String, String> okapiHeaders,
             final Handler<AsyncResult<Response>> asyncResultHandler,
             final Context vertxContext) throws Exception {
-        doGet((storageService, future) -> {
+        doGet((storageService, configuration, future) -> {
             try {
                 final MultipartResourceLevelCollection container = new MultipartResourceLevelCollection();
                 container.setMultipartResourceLevels(

@@ -1,22 +1,13 @@
-/*
- * (c) LibriCore
- * 
- * Created on Oct 15, 2004
- * 
- * Unspecified.java
- */
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
 import org.folio.cataloging.bean.cataloguing.bibliographic.PhysicalDescription;
-import org.folio.cataloging.dao.DAOSystemNextNumber;
 import org.folio.cataloging.business.common.DataAccessException;
-
+import org.folio.cataloging.dao.DAOSystemNextNumber;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
  * @author paulm
- * @version $Revision: 1.3 $, $Date: 2005/12/01 13:50:04 $
  * @since 1.0
  */
 public class Unspecified extends PhysicalDescription {

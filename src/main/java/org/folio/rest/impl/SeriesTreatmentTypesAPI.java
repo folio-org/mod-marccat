@@ -39,8 +39,7 @@ public class SeriesTreatmentTypesAPI implements CatalogingSeriesTreatmentTypesRe
                                         final Map<String, String> okapiHeaders,
                                         final Handler<AsyncResult<Response>> asyncResultHandler,
                                         final Context vertxContext) throws Exception {
-
-        doGet((storageService, future) -> {
+        doGet((storageService, configuration, future) -> {
             try {
                 final SeriesTreatmentTypeCollection container = new SeriesTreatmentTypeCollection();
                 container.setSeriesTreatmentTypes(

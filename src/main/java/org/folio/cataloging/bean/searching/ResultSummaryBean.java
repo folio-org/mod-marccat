@@ -35,6 +35,7 @@ import org.folio.cataloging.exception.ValidationException;
 import org.folio.cataloging.form.transfer.ResultSummaryForm;
 import org.folio.cataloging.model.CART_ITEMS;
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.ExtractorFieldTag;
 import org.folio.cataloging.util.StringText;
 import org.folio.cataloging.util.TagConstant;
@@ -1590,7 +1591,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 		return Integer.parseInt(recordNumber) - 1;
 	}
 
-	public short getDisplayFormat() {
+	public int getDisplayFormat() {
 		if (displayFormat == null) {
 			return -1;
 		} else {
@@ -1598,9 +1599,9 @@ public class ResultSummaryBean extends LibrisuiteBean
 		}
 	}
 
-	public void setDisplayFormat(short code) throws DataAccessException
+	public void setDisplayFormat(int code) throws DataAccessException
 	{
-		short oldDisplayFormat = getDisplayFormat();
+		int oldDisplayFormat = getDisplayFormat();
 		/*if (code != oldDisplayFormat) {
 			if (resultSet != null) {
 				displayFormat = resultSet.getDisplayFormat(code, locale);

@@ -8,21 +8,6 @@
     },
     "description": {
       "type": "string"
-    },
-    "sub-types": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties" : {
-           "code": {
-              "type" : "integer"
-            },
-            "description" : {
-              "type": "string"
-            }
-        },
-        "additionalProperties": false
-      }
     }
   },
   "additionalProperties": false

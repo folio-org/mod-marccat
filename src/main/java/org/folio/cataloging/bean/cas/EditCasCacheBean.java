@@ -1,37 +1,27 @@
 package org.folio.cataloging.bean.cas;
 
-import java.text.DateFormat;
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.folio.cataloging.bean.LibrisuiteBean;
 import org.folio.cataloging.bean.cataloguing.bibliographic.BibliographicEditBean;
 import org.folio.cataloging.bean.cataloguing.common.EditBean;
 import org.folio.cataloging.business.authorisation.AuthorisationException;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicNoteTag;
-import org.folio.cataloging.business.cataloguing.bibliographic.ClassificationAccessPoint;
-import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
-import org.folio.cataloging.business.cataloguing.bibliographic.NewTagException;
-import org.folio.cataloging.business.cataloguing.bibliographic.PublisherManager;
+import org.folio.cataloging.business.cataloguing.bibliographic.*;
 import org.folio.cataloging.business.cataloguing.common.Tag;
-import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.DateInputException;
 import org.folio.cataloging.business.common.PublisherException;
-import org.folio.cataloging.exception.ValidationException;
-import org.folio.cataloging.dao.persistence.CasCache;
-
-import org.folio.cataloging.dao.DAOCasCache;
-import org.folio.cataloging.util.StringText;
 import org.folio.cataloging.business.controller.SessionUtils;
 import org.folio.cataloging.business.controller.UserProfile;
+import org.folio.cataloging.dao.DAOCasCache;
+import org.folio.cataloging.dao.persistence.CasCache;
+import org.folio.cataloging.exception.ValidationException;
+import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.cataloging.util.StringText;
+
+import javax.servlet.http.HttpServletRequest;
+import java.text.DateFormat;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @SuppressWarnings("unchecked")
 public class EditCasCacheBean extends LibrisuiteBean 
@@ -113,7 +103,7 @@ public class EditCasCacheBean extends LibrisuiteBean
 		}	
 	}
 	
-	public void tag365(EditBean bean) throws DataAccessException, MarcCorrelationException, AuthorisationException, ValidationException, NewTagException
+	public void tag365(EditBean bean) throws DataAccessException, AuthorisationException, ValidationException, NewTagException
 	{
 //----> 20100813 inizio: Solo se il codice listino e' diverso da null devo scrivere il tag 365
 		if (getCurrentItem().getLstType()!=null && getCurrentItem().getLstType().trim().length()>0) {
@@ -148,7 +138,7 @@ public class EditCasCacheBean extends LibrisuiteBean
 		return null;
 	}
 	
-	public void removeTag(BibliographicNoteTag tag, EditBean bean) throws MarcCorrelationException, AuthorisationException, DataAccessException, ValidationException 
+	public void removeTag(BibliographicNoteTag tag, EditBean bean) throws AuthorisationException, DataAccessException, ValidationException
 	{
 		int i = bean.getCatalogItem().getTags().indexOf(tag);
 		bean.setTagIndex(i);
@@ -156,7 +146,7 @@ public class EditCasCacheBean extends LibrisuiteBean
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void insertTag365(EditBean bean) throws MarcCorrelationException, NewTagException, AuthorisationException, DataAccessException, ValidationException 
+	public void insertTag365(EditBean bean) throws NewTagException, AuthorisationException, DataAccessException, ValidationException
 	{				
 			BibliographicNoteTag tag365 = (BibliographicNoteTag) bean.newTag(1, (short) 7);
 			CorrelationValues v = new CorrelationValues((short)378,(short) -1, (short) -1);
@@ -204,7 +194,7 @@ public class EditCasCacheBean extends LibrisuiteBean
 	 * @throws MarcCorrelationException 
 	 * @throws PublisherException 
 	 */
-	public void setDefault(EditBean bibBean) throws MarcCorrelationException, DataAccessException 
+	public void setDefault(EditBean bibBean) throws DataAccessException
 	{
 		if (getCurrentItem().getLstType()==null || getCurrentItem().getLstType().trim().length()==0)
 			getCurrentItem().setLstType("");
@@ -262,7 +252,7 @@ public class EditCasCacheBean extends LibrisuiteBean
 		}
 	}
 	
-	public void removeTag998(EditBean bean) throws MarcCorrelationException, AuthorisationException, DataAccessException, ValidationException 
+	public void removeTag998(EditBean bean) throws AuthorisationException, DataAccessException, ValidationException
 	{
 		PublisherManager publisherManager = (PublisherManager) bean.getCatalogItem().findFirstTagByNumber("260");
 		ClassificationAccessPoint t998 = (ClassificationAccessPoint ) bean.getCatalogItem().findFirstTagByNumber("998");

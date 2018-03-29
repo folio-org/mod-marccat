@@ -17,6 +17,7 @@ import org.folio.cataloging.exception.DescriptorHasEmptySubfieldsException;
 import org.folio.cataloging.exception.DescriptorHasNoSubfieldsException;
 import org.folio.cataloging.exception.InvalidDescriptorException;
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.HtmlUtils;
 import org.folio.cataloging.util.StringText;
 
@@ -29,21 +30,21 @@ public abstract class Descriptor implements PersistentObjectWithView
 	private static Log logger = LogFactory.getLog(Descriptor.class);
 	
 	private static final int CROP_LENGTH = Defaults.getInteger("tooltip.max.length");
-	private short accessPointLanguage;
-	private short authorityCount = 0;
-	private short authoritySourceCode = T_AUT_HDG_SRC.SOURCE_NOT_SPECIFIED;
+	private int accessPointLanguage;
+	private int authorityCount = 0;
+	private int authoritySourceCode = T_AUT_HDG_SRC.SOURCE_NOT_SPECIFIED;
 	private String authoritySourceText;
 	private DescriptorKey key;
 	private PersistenceState po = new PersistenceState();
 	private String scriptingLanguage;
 	private String sortForm;
 	private String stringText;
-	private short skipInFiling;
+	private int skipInFiling;
 	private char verificationLevel;
-	private short indexingLanguage = 0;
+	private int indexingLanguage = 0;
 	private ConfigHandler configHandler = ConfigHandler.getInstance();
 	
-	public short getIndexingLanguage() {
+	public int getIndexingLanguage() {
 		return indexingLanguage;
 	}
 
@@ -79,7 +80,7 @@ public abstract class Descriptor implements PersistentObjectWithView
 		return null; // default implementation
 	}
 
-	public short getAccessPointLanguage() {
+	public int getAccessPointLanguage() {
 		return accessPointLanguage;
 	}
 
@@ -91,11 +92,11 @@ public abstract class Descriptor implements PersistentObjectWithView
 
 	/**
 	 * A persistent member for subclasses that support Authorities. Otherwise,
-	 * the default stringValue of 0 is returned.
+	 * the default value of 0 is returned.
 	 * 
 	 * @return
 	 */
-	public short getAuthorityCount() {
+	public int getAuthorityCount() {
 		return authorityCount;
 	}
 
@@ -109,14 +110,14 @@ public abstract class Descriptor implements PersistentObjectWithView
 		return getDefaultBrowseKey();
 	}
 
-	public abstract short getCategory();
+	public abstract int getCategory();
 
 	abstract public CorrelationValues getCorrelationValues();
 
 	/**
-	 * @return the language independent (key) index stringValue to be used when
+	 * @return the language independent (key) index value to be used when
 	 *         browsing for entries of this type of Descriptor (e.g. Names ==
-	 *         "2P0"). The stringValue returned should correspond to the stringValue of
+	 *         "2P0"). The value returned should correspond to the value of
 	 *         IDX_LIST.IDX_LIST_KEY_NBR + IDX_LIST_TYPE_CDE
 	 * 
 	 */
@@ -144,7 +145,7 @@ public abstract class Descriptor implements PersistentObjectWithView
 	}
 
 	/**
-	 * @return the language independent index key stringValue to be used when
+	 * @return the language independent index key value to be used when
 	 *         searching by headingNumber for this type of Descriptor (e.g.
 	 *         Names == "227P" (NK index)).
 	 */
@@ -342,7 +343,7 @@ public abstract class Descriptor implements PersistentObjectWithView
 	 * @param s
 	 *            accesPointLanguage
 	 */
-	public void setAccessPointLanguage(short s) {
+	public void setAccessPointLanguage(int s) {
 		accessPointLanguage = s;
 	}
 
@@ -449,11 +450,11 @@ public abstract class Descriptor implements PersistentObjectWithView
 		return false;
 	}
 
-	public short getSkipInFiling() {
+	public int getSkipInFiling() {
 		return skipInFiling;
 	}
 
-	public void setSkipInFiling(short skipInFiling) {
+	public void setSkipInFiling(int skipInFiling) {
 		this.skipInFiling = skipInFiling;
 	}
 
@@ -560,11 +561,11 @@ public abstract class Descriptor implements PersistentObjectWithView
 				.hasMatchingSortformInAnotherView(this);
 	}
 
-	public short getAuthoritySourceCode() {
+	public int getAuthoritySourceCode() {
 		return authoritySourceCode;
 	}
 
-	public void setAuthoritySourceCode(short authoritySourceCode) {
+	public void setAuthoritySourceCode(int authoritySourceCode) {
 		this.authoritySourceCode = authoritySourceCode;
 		if (authoritySourceCode != T_AUT_HDG_SRC.SOURCE_IN_SUBFIELD_2) {
 			setAuthoritySourceText(null);

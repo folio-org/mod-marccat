@@ -1,13 +1,12 @@
 package org.folio.cataloging.business.descriptor;
 
+import org.folio.cataloging.business.cataloguing.bibliographic.PublisherAccessPoint;
+import org.folio.cataloging.dao.DAOPublisherTagDescriptor;
+import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.shared.CorrelationValues;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import org.folio.cataloging.business.cataloguing.bibliographic.PublisherAccessPoint;
-import org.folio.cataloging.business.common.CorrelationValues;
-
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.dao.DAOPublisherTagDescriptor;
 
 /**
  * An adaptor to implement Descriptor semantics for the set
@@ -29,7 +28,7 @@ public class PublisherTagDescriptor extends Descriptor
 	}
 
 	//@Override
-	public short getCategory() {
+	public int getCategory() {
 		return 7;
 	}
 

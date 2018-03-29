@@ -7,22 +7,21 @@
  */
 package org.folio.cataloging.business.cataloguing.authority;
 
-import java.util.List;
-
 import org.folio.cataloging.business.cataloguing.bibliographic.PersistsViaItem;
 import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
 import org.folio.cataloging.business.cataloguing.common.ItemEntity;
-import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.dao.DAOSystemNextNumber;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
+import org.folio.cataloging.dao.DAOSystemNextNumber;
 import org.folio.cataloging.dao.persistence.AUT;
 import org.folio.cataloging.dao.persistence.T_AUT_NTE_TYP;
-
-import org.folio.cataloging.util.StringText;
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.cataloging.util.StringText;
+
+import java.util.List;
 
 /**
  * @author paulm
@@ -33,7 +32,7 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
 	private AUT autItm;
 	private int noteNumber;
 	private int itemNumber;
-	private short noteType = Defaults.getShort("authorityNote.noteType");
+	private int noteType = Defaults.getShort("authorityNote.noteType");
 	private String noteStringText;
 	private PersistenceState persistenceState = new PersistenceState();
 	
@@ -73,7 +72,7 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
 	/* (non-Javadoc)
 	 * @see TagInterface#getCategory()
 	 */
-	public short getCategory() {
+	public int getCategory() {
 		return 7;
 	}
 
@@ -139,7 +138,7 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
 	 * 
 	 * @since 1.0
 	 */
-	public short getNoteType() {
+	public int getNoteType() {
 		return noteType;
 	}
 
@@ -147,7 +146,7 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
 	 * 
 	 * @since 1.0
 	 */
-	public void setNoteType(short s) {
+	public void setNoteType(int s) {
 		noteType = s;
 	}
 

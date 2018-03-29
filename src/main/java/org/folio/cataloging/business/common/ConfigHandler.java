@@ -42,7 +42,7 @@ public class ConfigHandler implements Serializable{
     }
     
     public String getValue(String name){
-		String value= (String)getAllGlobalVariable().get(name);
+		String value= getAllGlobalVariable().get(name);
 		return value;
 	}
 	
@@ -74,7 +74,6 @@ public class ConfigHandler implements Serializable{
 	}
 	
 	/**
-	 * Natascia: bug 2700
 	 * Checks if the name is in S_SYS_GLBL_VRBL
 	 * @param name the name of parameter to check.
 	 * @return true if exist.

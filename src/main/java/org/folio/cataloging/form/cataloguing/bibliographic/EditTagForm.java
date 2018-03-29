@@ -1,17 +1,14 @@
 package org.folio.cataloging.form.cataloguing.bibliographic;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.form.LibrisuiteForm;
+import org.folio.cataloging.shared.CorrelationValues;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.folio.cataloging.business.common.CorrelationValues;
-import org.folio.cataloging.form.LibrisuiteForm;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-@SuppressWarnings("unchecked")
-public class EditTagForm extends LibrisuiteForm 
-{
+public class EditTagForm extends LibrisuiteForm  {
 	private static final long serialVersionUID = -8415114598844048640L;
 	private static final Log logger = LogFactory.getLog(EditTagForm.class);
 	
@@ -285,7 +282,7 @@ public class EditTagForm extends LibrisuiteForm
 	}
 
 	public String getSubfield(int i) {
-		logger.debug("getSubfield" +(String)subfields.get(i));
+		logger.debug("getSubfield" + subfields.get(i));
 		return (String)subfields.get(i);
 	}
 
@@ -336,11 +333,7 @@ public class EditTagForm extends LibrisuiteForm
 		fixedCodes.set(i, s);
 	}
 
-	/**
-	 * an Array of correlation values
-	 * Note that array element 0 is not used.
-	 */
-	public short getCorrelation(int i) {
+	public int getCorrelation(int i) {
 		logger.debug("getCorrelation[" + i + "]");
 		return values.getValue(i);
 	}

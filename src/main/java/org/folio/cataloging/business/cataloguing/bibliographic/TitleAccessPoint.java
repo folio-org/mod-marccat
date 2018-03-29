@@ -3,7 +3,6 @@ package org.folio.cataloging.business.cataloguing.bibliographic;
 import org.folio.cataloging.business.cataloguing.common.AccessPoint;
 import org.folio.cataloging.business.cataloguing.common.OrderedTag;
 import org.folio.cataloging.business.common.ConfigHandler;
-import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.marchelper.MarcHelperTag;
@@ -15,6 +14,7 @@ import org.folio.cataloging.dao.persistence.TTL_HDG;
 import org.folio.cataloging.dao.persistence.TitleFunction;
 import org.folio.cataloging.dao.persistence.TitleSecondaryFunction;
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class TitleAccessPoint extends NameTitleComponent implements MarcHelperTa
 	
 	private String institution;
 	private Integer seriesIssnHeadingNumber;
-	private short secondaryFunctionCode;
+	private int secondaryFunctionCode;
 	private String volumeNumberDescription;
 	private String variantTitle;
 	private TTL_HDG descriptor = new TTL_HDG();
@@ -85,17 +85,17 @@ public class TitleAccessPoint extends NameTitleComponent implements MarcHelperTa
 	}
 
 	@Override
-	public List getSecondCorrelationList(short value1) throws DataAccessException {
+	public List getSecondCorrelationList(int value1) throws DataAccessException {
 		DAOBibliographicCorrelation dao = new DAOBibliographicCorrelation();
 		return dao.getSecondCorrelationList(getCategory(),value1,TitleSecondaryFunction.class);
 	}
 
 	@Override
-	public List getThirdCorrelationList(short value1, short value2) throws DataAccessException {
+	public List getThirdCorrelationList(int value1, int value2) throws DataAccessException {
 		return null;
 	}
 
-	public short getSecondaryFunctionCode() {
+	public int getSecondaryFunctionCode() {
 		return secondaryFunctionCode;
 	}
 
@@ -111,7 +111,7 @@ public class TitleAccessPoint extends NameTitleComponent implements MarcHelperTa
 		return volumeNumberDescription;
 	}
 
-	public void setSecondaryFunctionCode(short s) {
+	public void setSecondaryFunctionCode(int s) {
 		secondaryFunctionCode = s;
 	}
 
@@ -178,7 +178,7 @@ public class TitleAccessPoint extends NameTitleComponent implements MarcHelperTa
 		variantTitle = stringText.getSubfieldsWithCodes("ci").toString();
 		institution = stringText.getSubfieldsWithCodes("5").toString();
 		if(!stringText.getSubfieldsWithCodes("x").isEmpty() && this.getSeriesIssnHeadingNumber()!=null) {
-			seriesIssnHeadingNumber = new Integer(this.getSeriesIssnHeadingNumber().intValue());
+			seriesIssnHeadingNumber = this.getSeriesIssnHeadingNumber();
 		} else {
 			seriesIssnHeadingNumber = null;
 		}
@@ -190,7 +190,7 @@ public class TitleAccessPoint extends NameTitleComponent implements MarcHelperTa
 			stringText.getSubfieldsWithoutCodes(VARIANT_CODES).toString());
 	}
 	@Override
-	public short getCategory() {
+	public int getCategory() {
 		return 3;
 	}
 

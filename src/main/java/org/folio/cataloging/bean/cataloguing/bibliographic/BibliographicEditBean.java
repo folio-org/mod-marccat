@@ -36,6 +36,7 @@ import org.folio.cataloging.dao.*;
 import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.exception.*;
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
 
 import javax.servlet.http.HttpServletRequest;
@@ -288,11 +289,11 @@ public class BibliographicEditBean extends EditBean {
 	 * 
 	 * @since 1.0
 	 */
-	public Set getControlNumberValidationOptions() {
+	public List<String> getControlNumberValidationOptions() {
 		if (getCurrentTag() instanceof ControlNumberAccessPoint) {
 			try {
 				ControlNumberAccessPoint f = (ControlNumberAccessPoint) getCurrentTag();
-				Set s = new DAOBibliographicValidation().load(f.getCategory(),
+				List<String> s = new DAOBibliographicValidation().load(f.getCategory(),
 						f.getCorrelationValues()).getValidSubfieldCodes();
 				s.retainAll(Arrays.asList("a", "y", "z"));
 				if (s.size() > 1) {
@@ -3143,7 +3144,7 @@ public class BibliographicEditBean extends EditBean {
 	}
 
 	public boolean isAbleEquivalentNote() {
-		short category = getCurrentTag().getCategory();
+		int category = getCurrentTag().getCategory();
         return category == 7 && this.getCasaliniBean().isEnabled();
 	}
 

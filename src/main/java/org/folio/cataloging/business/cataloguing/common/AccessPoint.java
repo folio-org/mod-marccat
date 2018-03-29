@@ -1,21 +1,19 @@
 package org.folio.cataloging.business.cataloguing.common;
 
-import java.util.Set;
-
 import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
 import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
-import org.folio.cataloging.dao.DAODescriptor;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.SkipInFiling;
+import org.folio.cataloging.dao.DAODescriptor;
+import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.persistence.CorrelationKey;
-
+import org.folio.cataloging.util.StringText;
 import org.w3c.dom.Element;
 
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.util.StringText;
+import java.util.Set;
 
 /**
  * @author paulm
@@ -52,7 +50,7 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
 
 	protected Integer headingNumber = null;
 
-	protected short functionCode = -1;
+	protected int functionCode = -1;
 
 	public void setStringText(StringText stringText) {
 		setAccessPointStringText(stringText);
@@ -134,14 +132,14 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
 	/**
 		 * 
 		 */
-	public short getFunctionCode() {
+	public int getFunctionCode() {
 		return functionCode;
 	}
 
 	/**
 		 * @param i
 		 */
-	public void setFunctionCode(short i) {
+	public void setFunctionCode(int i) {
 		functionCode = i;
 	}
 
@@ -149,7 +147,7 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
 		return (DAODescriptor) getDescriptor().getDAO();
 	}
 
-	public short getCategory() {
+	public int getCategory() {
 		return getDescriptor().getCategory();
 	}
 

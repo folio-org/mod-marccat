@@ -687,7 +687,7 @@ public class LVMessage {
 		String login,
 		String password,
 		Locale locale)
-		throws IOException, Exception {
+		throws Exception {
 //		logger.info("enter LVAuthorise()");
 		try {
 			LVMessage lvmessage = new LVMessage(LVServerName, LVServerPort);

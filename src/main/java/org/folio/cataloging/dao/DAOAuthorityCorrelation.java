@@ -1,3 +1,10 @@
+/*
+ * (c) LibriCore
+ * 
+ * Created on Aug 6, 2004
+ * 
+ * $Author: Paulm $
+ */
 package org.folio.cataloging.dao;
 
 import net.sf.hibernate.Hibernate;
@@ -7,10 +14,11 @@ import net.sf.hibernate.type.Type;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.cataloguing.common.Tag;
-import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.dao.persistence.Correlation;
 import org.folio.cataloging.dao.persistence.CorrelationKey;
+import org.folio.cataloging.shared.CorrelationValues;
 
 import java.util.List;
 
@@ -19,6 +27,7 @@ import java.util.List;
  * AMICUS database encoding and MARC21 authorities encoding
  * 
  * @author paulm
+ * @version $Revision: 1.4 $, $Date: 2006/01/11 13:36:22 $
  */
 public class DAOAuthorityCorrelation extends DAOCorrelation {
 	private static final Log logger = LogFactory
@@ -26,6 +35,7 @@ public class DAOAuthorityCorrelation extends DAOCorrelation {
 
 	private static final String ALPHABETICAL_ORDER = " order by ct.longText ";
 	private static final String SEQUENCE_ORDER = " order by ct.sequence ";
+	private String defaultListOrder = Defaults.getBoolean("labels.alphabetical.order", true)?ALPHABETICAL_ORDER:SEQUENCE_ORDER;
 
 	/**
 	 * Returns the AuthorityCorrelation from CorrelationKey
@@ -103,7 +113,7 @@ public class DAOAuthorityCorrelation extends DAOCorrelation {
 	 * 
 	 */
 	public Correlation getFirstAuthorityCorrelation(String tag,
-			char firstIndicator, char secondIndicator, short categoryCode)
+			char firstIndicator, char secondIndicator, int categoryCode)
 			throws DataAccessException {
 
 		List l = null;
@@ -114,11 +124,11 @@ public class DAOAuthorityCorrelation extends DAOCorrelation {
 							+ "(ac.key.marcFirstIndicator = ? or ac.key.marcFirstIndicator in ('S', 'O')) and "
 							+ "(ac.key.marcSecondIndicator = ? or ac.key.marcSecondIndicator in ('S', 'O') ) and "
 							+ "ac.key.marcTagCategoryCode = ?", new Object[] {
-							new String(tag), new Character(firstIndicator),
-							new Character(secondIndicator),
-							new Short(categoryCode) }, new Type[] {
+							tag, firstIndicator,
+							secondIndicator,
+							categoryCode }, new Type[] {
 							Hibernate.STRING, Hibernate.CHARACTER,
-							Hibernate.CHARACTER, Hibernate.SHORT });
+							Hibernate.CHARACTER, Hibernate.INTEGER });
 		} else {
 
 			l = find(
@@ -127,8 +137,8 @@ public class DAOAuthorityCorrelation extends DAOCorrelation {
 							+ "(ac.key.marcFirstIndicator = ? or ac.key.marcFirstIndicator in ('S', 'O') )and "
 							+ "(ac.key.marcSecondIndicator = ? or ac.key.marcSecondIndicator in ('S', 'O') ) order by ac.key.marcTagCategoryCode asc",
 					new Object[] { new String(tag),
-							new Character(firstIndicator),
-							new Character(secondIndicator) }, new Type[] {
+							firstIndicator,
+							secondIndicator }, new Type[] {
 							Hibernate.STRING, Hibernate.CHARACTER,
 							Hibernate.CHARACTER });
 		}
@@ -155,8 +165,8 @@ public class DAOAuthorityCorrelation extends DAOCorrelation {
 	 *         (tag and indicators) or null when none found
 	 * 
 	 */
-	public CorrelationKey getMarcEncoding(short category, String headingType,
-			short value1, short value2, short value3)
+	public CorrelationKey getMarcEncoding(int category, String headingType,
+										  int value1, int value2, int value3)
 			throws DataAccessException {
 
 		List l = find("from AuthorityCorrelation as ac "
@@ -165,10 +175,10 @@ public class DAOAuthorityCorrelation extends DAOCorrelation {
 				+ "ac.databaseFirstValue = ? and "
 				+ "ac.databaseSecondValue = ? and "
 				+ "ac.databaseThirdValue = ?", new Object[] {
-				new Short(category), headingType, new Short(value1),
-				new Short(value2), new Short(value3) }, new Type[] {
-				Hibernate.SHORT, Hibernate.STRING, Hibernate.SHORT,
-				Hibernate.SHORT, Hibernate.SHORT });
+				category, headingType, value1,
+				value2, value3 }, new Type[] {
+				Hibernate.INTEGER, Hibernate.STRING, Hibernate.INTEGER,
+				Hibernate.INTEGER, Hibernate.INTEGER});
 
 		if (l.size() == 1) {
 			return ((Correlation) l.get(0)).getKey();
@@ -187,9 +197,11 @@ public class DAOAuthorityCorrelation extends DAOCorrelation {
 					+ " where ac.key.marcTagCategoryCode = ? and "
 					+ " ac.key.headingType = ? and "
 					+ " ac.databaseFirstValue = ct.code order by ct.sequence ",
-					new Object[] { new Short(t.getCategory()),
-							t.getHeadingType() }, new Type[] { Hibernate.SHORT,
-							Hibernate.STRING });
+					new Object[] { t.getCategory(),
+							t.getHeadingType() },
+							new Type[] {
+								Hibernate.INTEGER,
+								Hibernate.STRING });
 		} else if (position == 2) {
 			return find(
 					" select distinct ct from T_MARC_REF_TYP "
@@ -198,10 +210,10 @@ public class DAOAuthorityCorrelation extends DAOCorrelation {
 							+ " ac.key.headingType = ? and "
 							+ " ac.databaseFirstValue = ? and "
 							+ " ac.databaseSecondValue = ct.code order by ct.sequence ",
-					new Object[] { new Short(t.getCategory()),
-							t.getHeadingType(), new Short(v.getValue(1)) },
-					new Type[] { Hibernate.SHORT, Hibernate.STRING,
-							Hibernate.SHORT });
+					new Object[] { t.getCategory(),
+							t.getHeadingType(), v.getValue(1) },
+					new Type[] { Hibernate.INTEGER, Hibernate.STRING,
+							Hibernate.INTEGER });
 		} else if (position == 3) {
 			return find(" select distinct ct from T_MARC_REF_TYP "
 					+ " as ct, AuthorityCorrelation as ac "
@@ -210,18 +222,18 @@ public class DAOAuthorityCorrelation extends DAOCorrelation {
 					+ " ac.databaseFirstValue = ? and "
 					+ " ac.databaseSecondValue = ? and "
 					+ " ac.databaseThirdValue = ct.code order by ct.sequence ",
-					new Object[] { new Short(t.getCategory()),
-							t.getHeadingType(), new Short(v.getValue(1)),
-							new Short(v.getValue(2)) }, new Type[] {
-							Hibernate.SHORT, Hibernate.STRING, Hibernate.SHORT,
-							Hibernate.SHORT });
+					new Object[] { t.getCategory(),
+							t.getHeadingType(), v.getValue(1),
+							v.getValue(2) }, new Type[] {
+							Hibernate.INTEGER, Hibernate.STRING, Hibernate.INTEGER,
+							Hibernate.INTEGER });
 		} else {
 			throw new RuntimeException("Invalid correlation data");
 		}
 	}
 
-	public List getSecondCorrelationList(short category, String headingType,
-			short value1, Class codeTable) throws DataAccessException {
+	public List getSecondCorrelationList(int category, String headingType,
+										 int value1, Class codeTable) throws DataAccessException {
 
 		return find(" select distinct ct from " + codeTable.getName()
 				+ " as ct, AuthorityCorrelation as ac "
@@ -229,13 +241,13 @@ public class DAOAuthorityCorrelation extends DAOCorrelation {
 				+ " ac.key.headingType = ? and "
 				+ " ac.databaseFirstValue = ? and "
 				+ " ac.databaseSecondValue = ct.code order by ct.sequence ",
-				new Object[] { new Short(category), headingType,
-						new Short(value1) }, new Type[] { Hibernate.SHORT,
-						Hibernate.STRING, Hibernate.SHORT });
+				new Object[] { category, headingType,
+						value1 }, new Type[] { Hibernate.INTEGER,
+						Hibernate.STRING, Hibernate.INTEGER });
 	}
 
-	public List getThirdCorrelationList(short category, String headingType,
-			short value1, short value2, Class codeTable)
+	public List getThirdCorrelationList(int category, String headingType,
+										int value1, int value2, Class codeTable)
 			throws DataAccessException {
 
 		return find(" select distinct ct from " + codeTable.getName()
@@ -245,10 +257,10 @@ public class DAOAuthorityCorrelation extends DAOCorrelation {
 				+ " ac.databaseFirstValue = ? and "
 				+ " ac.databaseSecondValue = ? and "
 				+ " ac.databaseThirdValue = ct.code order by ct.sequence ",
-				new Object[] { new Short(category), headingType,
-						new Short(value1), new Short(value2) }, new Type[] {
-						Hibernate.SHORT, Hibernate.STRING, Hibernate.SHORT,
-						Hibernate.SHORT });
+				new Object[] { category, headingType,
+						value1, value2 }, new Type[] {
+						Hibernate.INTEGER, Hibernate.STRING, Hibernate.INTEGER,
+						Hibernate.INTEGER });
 	}
 
 	public Correlation getFirstCorrelationByType(String tag, char indicator1,

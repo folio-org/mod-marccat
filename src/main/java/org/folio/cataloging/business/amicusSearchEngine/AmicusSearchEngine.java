@@ -112,7 +112,7 @@ public class AmicusSearchEngine implements SearchEngine {
 		List operatorList,
 		Locale locale,
 		int searchingView)
-		throws NoResultsFoundException, LibrisuiteException {
+		throws LibrisuiteException {
 		String cclQuery =
 			buildCclQuery(
 				termList,
@@ -194,7 +194,7 @@ public class AmicusSearchEngine implements SearchEngine {
 	/* (non-Javadoc)
 	 * @see org.folio.cataloging.business.searching.SearchEngine#expertSearch(java.lang.String, java.util.Locale, int)
 	 */
-	public ResultSet expertSearch(String cclQuery,Locale locale,int searchingView) throws NoResultsFoundException, LibrisuiteException 
+	public ResultSet expertSearch(String cclQuery,Locale locale,int searchingView) throws LibrisuiteException
 	{
 		try {
 			logger.info("Connecting to SE: "+getQGateHostname()+":"+getQGatePort()+" searching for '"+cclQuery+"' lang="+locale+" and usrvw="+searchingView);
@@ -311,8 +311,7 @@ public class AmicusSearchEngine implements SearchEngine {
 				 * of a bib item.  The view to be fetched is pre-set in each result set record.
 				 */
 				if (ars.getRecord()[i-1] != null && ars.getRecord()[i-1].getRecordView() > 0) {
-					logger.debug("record " + (int)(i-1) + " exists and has view " + 
-							ars.getRecord()[i-1].getRecordView());
+					logger.debug("record " + (i-1) + " exists and has view " + ars.getRecord()[i-1].getRecordView());
 					request.setSearchingView(ars.getRecord()[i-1].getRecordView());
 				}
 				else if (ars.getSearchingView() == View.ANY) {
@@ -333,7 +332,7 @@ public class AmicusSearchEngine implements SearchEngine {
 					aRecord = new MarcRecord();
 					ars.setRecord(i - 1, aRecord);
 				}
-				((MarcRecord) aRecord).setContent(elementSetName, response
+				aRecord.setContent(elementSetName, response
 						.getMarcRecord());
 				aRecord.setRecordView(request.getSearchingView());
 				/*

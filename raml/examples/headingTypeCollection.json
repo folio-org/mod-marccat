@@ -1,49 +1,20 @@
 {
   "headingTypes": [
     {
-      "marcCategory": 1,
-      "description": "Header",
-      "item-types": []
+      "code": 2,
+      "description": "Name Personal"
     },
     {
-      "marcCategory": 2,
-      "description": "Name",
-      "item-types": []
+      "code": 3,
+      "description": "Name Corporate"
     },
     {
-      "marcCategory": 3,
-      "description": "Title",
-      "item-types": []
+      "code": 4,
+      "description": "Name Conference/meeting"
     },
     {
-      "marcCategory": 4,
-      "description": "Subject",
-      "item-types": []
-    },
-    {
-      "marcCategory": 5,
-      "description": "Control Number",
-      "item-types": []
-    },
-    {
-      "marcCategory": 6,
-      "description": "Classification Number",
-      "item-types": []
-    },
-    {
-      "marcCategory": 7,
-      "description": "Note",
-      "item-types": []
-    },
-    {
-      "marcCategory": 8,
-      "description": "Relationship",
-      "item-types": []
-    },
-    {
-      "marcCategory": 11,
-      "description": "Name/Title",
-      "item-types": []
+      "code": 5,
+      "description": "Name Uncontrolled"
     }
   ]
 }
