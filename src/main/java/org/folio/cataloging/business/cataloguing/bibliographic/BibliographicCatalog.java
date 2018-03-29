@@ -5,6 +5,7 @@ import org.folio.cataloging.business.common.*;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.PublisherTagDescriptor;
 import org.folio.cataloging.dao.*;
+import org.folio.cataloging.dao.persistence.Model;
 import org.folio.cataloging.dao.persistence.PUBL_HDG;
 import org.folio.cataloging.dao.persistence.PUBL_TAG;
 import org.folio.cataloging.dao.persistence.T_BIB_TAG_CAT;

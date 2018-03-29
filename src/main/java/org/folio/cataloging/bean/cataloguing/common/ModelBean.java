@@ -14,6 +14,7 @@ import org.folio.cataloging.business.common.CorrelationValues;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.controller.SessionUtils;
 import org.folio.cataloging.dao.DAOCodeTable;
+import org.folio.cataloging.dao.persistence.Model;
 import org.folio.cataloging.dao.persistence.T_SINGLE;
 import org.folio.cataloging.exception.DuplicateTagException;
 import org.folio.cataloging.exception.LibrisuiteException;

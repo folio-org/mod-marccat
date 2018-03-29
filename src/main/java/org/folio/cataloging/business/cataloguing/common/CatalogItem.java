@@ -19,7 +19,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicModelItem;
+import org.folio.cataloging.dao.persistence.BibliographicModelItem;
 import org.folio.cataloging.business.cataloguing.bibliographic.FixedField;
 import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
 import org.folio.cataloging.business.cataloguing.bibliographic.TagComparator;
@@ -36,6 +36,8 @@ import org.folio.cataloging.business.common.group.TagGroup;
 import org.folio.cataloging.business.common.group.UniqueTagContainer;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.dao.BibliographicModelItemDAO;
+import org.folio.cataloging.dao.persistence.Model;
+import org.folio.cataloging.dao.persistence.ModelItem;
 import org.folio.cataloging.exception.DuplicateTagException;
 import org.folio.cataloging.exception.LibrisuiteException;
 import org.folio.cataloging.exception.MandatoryTagException;

@@ -4,7 +4,7 @@
 	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
 <hibernate-mapping>
 	<class
-		name="org.folio.cataloging.business.cataloguing.bibliographic.BibliographicModel"
+		name="org.folio.cataloging.dao.persistence.BibliographicModel"
 		schema="olisuite"
 		table="BIBLIOGRAPHIC_MODEL">
 		<id name="id">

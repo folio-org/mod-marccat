@@ -4,7 +4,7 @@
 	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
 <hibernate-mapping>
 	<class
-		name="org.folio.cataloging.business.cataloguing.authority.AuthorityModel"
+		name="org.folio.cataloging.dao.persistence.AuthorityModel"
 		table="AUTHORITY_MODEL">
 		<id name="id">
 			<column name="ID" not-null="true"/>

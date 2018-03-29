@@ -7,10 +7,13 @@
  */
 package org.folio.cataloging.dao;
 
-import org.folio.cataloging.business.cataloguing.authority.AuthorityModelItem;
+import org.folio.cataloging.dao.persistence.AuthorityModelItem;
 
 /**
+ * The Class AuthorityModelItemDAO.
+ *
  * @author paulm
+ * @author carment
  * @since 1.0
  */
 public class AuthorityModelItemDAO extends ModelItemDAO {

@@ -1,9 +1,12 @@
 package org.folio.cataloging.dao;
 
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicModel;
+import org.folio.cataloging.dao.persistence.BibliographicModel;
 
 /**
- * @author Paulm
+ * The Class BibliographicModelDAO.
+ *
+ * @author paulm
+ * @author carment
  * @since 1.0
  */
 public class BibliographicModelDAO extends ModelDAO {

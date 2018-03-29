@@ -3,7 +3,7 @@ package org.folio.cataloging.dao;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import org.folio.cataloging.business.cataloguing.common.ModelItem;
+import org.folio.cataloging.dao.persistence.ModelItem;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.ReferentialIntegrityException;
 import net.sf.hibernate.Hibernate;
@@ -15,16 +15,20 @@ import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 
 
 /**
+ * Abstract class for common implementations of ModelItemsDAO (Bib and Auth).
+ *
  * @author paulm
+ * @author carment
  * @since 1.0
  */
 public abstract class ModelItemDAO extends HibernateUtil {
 
 	/**
-	 * Delete a model item
+	 * Delete a model item.
 	 *
 	 * @param modelItem the model item
 	 * @param session the hibernate session
+	 * @throws ReferentialIntegrityException the referential integrity exception
 	 * @throws HibernateException in case of data access failure
 	 */
 	public void delete(final ModelItem modelItem, final Session session)
@@ -39,7 +43,7 @@ public abstract class ModelItemDAO extends HibernateUtil {
 	}
 
 	/**
-	 * Return a model item by id
+	 * Return a model item by id.
 	 *
 	 * @param id the id of the model item
 	 * @param session the hibernate session
@@ -60,7 +64,7 @@ public abstract class ModelItemDAO extends HibernateUtil {
 	protected abstract Class getPersistentClass();
 
 	/**
-	 * Return true if the given model is used by an item
+	 * Return true if the given model is used by an item.
 	 *
 	 * @param id the id of the model item
 	 * @return true if the given model is used by an item

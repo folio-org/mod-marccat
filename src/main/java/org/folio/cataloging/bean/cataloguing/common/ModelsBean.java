@@ -16,7 +16,7 @@ package org.folio.cataloging.bean.cataloguing.common;
 import org.folio.cataloging.bean.LibrisuiteBean;
 import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicCatalog;
 import org.folio.cataloging.business.cataloguing.common.Catalog;
-import org.folio.cataloging.business.cataloguing.common.Model;
+import org.folio.cataloging.dao.persistence.Model;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.controller.SessionUtils;
 import org.folio.cataloging.business.controller.UserProfile;

@@ -9,10 +9,7 @@ import org.folio.cataloging.business.common.*;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.DescriptorFactory;
 import org.folio.cataloging.dao.*;
-import org.folio.cataloging.dao.persistence.AUT;
-import org.folio.cataloging.dao.persistence.REF;
-import org.folio.cataloging.dao.persistence.ReferenceType;
-import org.folio.cataloging.dao.persistence.T_AUT_TAG_CAT;
+import org.folio.cataloging.dao.persistence.*;
 
 import java.util.*;
 
