@@ -110,7 +110,7 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 	 * @param classTable the mapped class in the hibernate configuration
 	 * @param locale the locale associated to language used as filter criterion
 	 * @return
-	 * @throws DataAccessException
+	 * @throws DataAccessException in case of data access failure.
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Avp<String>> getThirdCorrelationList(final Session session,
@@ -137,7 +137,7 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 
 			return codeTables
 					.stream()
-					.map(codeTable -> new Avp(codeTable.getCodeString().trim(), codeTable.getLongText()))
+					.map(codeTable -> (Avp<String>)new Avp(codeTable.getCodeString().trim(), codeTable.getLongText()))
 					.collect(toList());
 
 		} catch (final HibernateException exception) {
@@ -216,7 +216,7 @@ public class DAOBibliographicCorrelation extends DAOCorrelation {
 
 			return codeTables
 					.stream()
-					.map(codeTable -> new Avp(codeTable.getCodeString().trim(), codeTable.getLongText()))
+					.map(codeTable -> (Avp<String>) new Avp(codeTable.getCodeString().trim(), codeTable.getLongText()))
 					.collect(toList());
 		} catch (final HibernateException exception) {
 			LOGGER.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
