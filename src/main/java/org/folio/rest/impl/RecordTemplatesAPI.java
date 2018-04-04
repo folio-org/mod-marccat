@@ -17,6 +17,7 @@ import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
 import static org.folio.cataloging.integration.CatalogingHelper.doGet;
+import static org.folio.cataloging.integration.CatalogingHelper.doPost;
 
 /**
  * BIB / AUT Record templates API.
@@ -66,7 +67,16 @@ public class RecordTemplatesAPI implements CatalogingRecordTemplatesResource {
 
     @Override
     public void postCatalogingRecordTemplates(String lang, RecordTemplate entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
-
+        doPost((storageService, configuration, future) -> {
+            try {
+                //TODO bisogna passare anche la proprietà Type A o B, chiedere ad Andrea come recuperarsela
+                storageService.saveRecordTemplate(entity.getId(), entity.getName(), entity.getGroup(), entity.toString());
+                return null;
+            } catch (final Exception exception) {
+                logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+                return null;
+            }
+        }, asyncResultHandler, okapiHeaders, vertxContext, null, null);
     }
 
     @Override
