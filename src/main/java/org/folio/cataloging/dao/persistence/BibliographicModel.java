@@ -20,7 +20,6 @@ public class BibliographicModel extends Model {
 		super();
 	}
 
-
 	/**
 	 * Gets the bibliographic model DAO.
 	 *
@@ -29,7 +28,6 @@ public class BibliographicModel extends Model {
 	public BibliographicModelDAO getBibliographicModelDAO() {
 		return new BibliographicModelDAO();
 	}
-
 
 	/**
 	 * Gets the dao.

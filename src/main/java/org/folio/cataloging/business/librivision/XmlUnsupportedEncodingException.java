@@ -7,7 +7,7 @@
  */
 package org.folio.cataloging.business.librivision;
 
-import org.folio.cataloging.exception.LibrisuiteException;
+import org.folio.cataloging.exception.ModCatalogingException;
 
 /**
  * This exception is thrown when there is a XML Document exception.
@@ -16,7 +16,7 @@ import org.folio.cataloging.exception.LibrisuiteException;
  * @version $Revision: 1.1 $, $Date: 2004/12/02 08:44:16 $
  * @since 1.0
  */
-public class XmlUnsupportedEncodingException extends LibrisuiteException {
+public class XmlUnsupportedEncodingException extends ModCatalogingException {
 
 	/**
 	 * @see Exception#Exception()

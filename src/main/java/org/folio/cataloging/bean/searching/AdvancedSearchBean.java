@@ -10,7 +10,7 @@ import org.folio.cataloging.business.controller.UserProfile;
 import org.folio.cataloging.business.searching.ResultSet;
 import org.folio.cataloging.dao.DAORestrictions;
 import org.folio.cataloging.dao.DAOSearchIndex;
-import org.folio.cataloging.exception.LibrisuiteException;
+import org.folio.cataloging.exception.ModCatalogingException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.SocketTimeoutException;
@@ -556,7 +556,7 @@ public class AdvancedSearchBean extends SearchBean {
 		List operatorList,
 		Locale locale,
 		int searchingView)
-		throws LibrisuiteException,SocketTimeoutException {
+		throws ModCatalogingException,SocketTimeoutException {
 		logger.debug("Start search");
 		ResultSet resultSet;
 		resultSet =
@@ -593,7 +593,7 @@ public class AdvancedSearchBean extends SearchBean {
 			}*/
 		}
 	public ResultSet expertSearch(String cclQuery, Locale locale, int searchingView)
-	throws LibrisuiteException {
+	throws ModCatalogingException {
 	logger.debug("Start search");
 	ResultSet resultSet;
 	resultSet =
@@ -605,7 +605,7 @@ public class AdvancedSearchBean extends SearchBean {
 	
 
 	public ResultSet expertFrbrSearch(String cclQuery, Locale locale, int searchingView)
-	throws LibrisuiteException {
+	throws ModCatalogingException {
 	logger.debug("Start search");
 	ResultSet resultSet;
 	resultSet =
@@ -617,7 +617,7 @@ public class AdvancedSearchBean extends SearchBean {
 	
 	
 	public ResultSet expertSearch(String cclQuery, String complexQuery,Locale locale)
-	throws LibrisuiteException {
+	throws ModCatalogingException {
 	logger.debug("Start search");
 	ResultSet resultSet;
 

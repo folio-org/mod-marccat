@@ -9,7 +9,7 @@ import org.folio.cataloging.dao.DAOCodeTable;
 import org.folio.cataloging.dao.persistence.T_AUT_DSPLY_FRMT;
 import org.folio.cataloging.dao.persistence.T_BIB_DSPLY_FRMT;
 import org.folio.cataloging.dao.persistence.T_ITM_DSPLY_FRMT;
-import org.folio.cataloging.exception.LibrisuiteException;
+import org.folio.cataloging.exception.ModCatalogingException;
 
 import java.util.List;
 import java.util.Locale;
@@ -175,7 +175,7 @@ public abstract class ResultSet
 	}
 
 	public void sort(String[] attributes, String[] directions)
-		throws LibrisuiteException {
+		throws ModCatalogingException {
 		searchEngine.sort(this, attributes, directions);
 	}
 

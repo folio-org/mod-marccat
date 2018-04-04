@@ -5,7 +5,9 @@ import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
+
 import java.io.Serializable;
+
 /**
  * Base class for template models
  *
@@ -16,7 +18,7 @@ import java.io.Serializable;
 public abstract class Model implements Persistence, Serializable {
 
 	/** The model id. */
-	private int id = 0;
+	private int id;
 
 	/** The model label. */
 	private String label;
@@ -42,7 +44,7 @@ public abstract class Model implements Persistence, Serializable {
 	 *
 	 * @param recordFields the new record fields
 	 */
-	public void setRecordFields(String recordFields) {
+	public void setRecordFields(final String recordFields) {
 		this.recordFields = recordFields;
 	}
 
@@ -69,7 +71,7 @@ public abstract class Model implements Persistence, Serializable {
 	 *
 	 * @param frbrFirstGroup the new frbr first group
 	 */
-	public void setFrbrFirstGroup(Integer frbrFirstGroup) {
+	public void setFrbrFirstGroup(final Integer frbrFirstGroup) {
 		this.frbrFirstGroup = frbrFirstGroup;
 	}
 
@@ -120,7 +122,6 @@ public abstract class Model implements Persistence, Serializable {
 		return label;
 	}
 
-
 	/**
 	 * Gets the update status.
 	 *
@@ -130,8 +131,6 @@ public abstract class Model implements Persistence, Serializable {
 	public int getUpdateStatus() {
 		return persistenceState.getUpdateStatus();
 	}
-
-
 
 	/**
 	 * Checks if is changed.
@@ -217,7 +216,7 @@ public abstract class Model implements Persistence, Serializable {
 	 * @throws CallbackException the callback exception
 	 * @since 1.0
 	 */
-	public boolean onDelete(Session session) throws CallbackException {
+	public boolean onDelete(final Session session) throws CallbackException {
 		return persistenceState.onDelete(session);
 	}
 
@@ -228,7 +227,7 @@ public abstract class Model implements Persistence, Serializable {
 	 * @param serializable the serializable
 	 * @since 1.0
 	 */
-	public void onLoad(Session session, Serializable serializable) {
+	public void onLoad(final Session session, final Serializable serializable) {
 		persistenceState.onLoad(session, serializable);
 	}
 
@@ -240,7 +239,7 @@ public abstract class Model implements Persistence, Serializable {
 	 * @throws CallbackException the callback exception
 	 * @since 1.0
 	 */
-	public boolean onSave(Session session) throws CallbackException {
+	public boolean onSave(final Session session) throws CallbackException {
 		return persistenceState.onSave(session);
 	}
 
@@ -252,10 +251,9 @@ public abstract class Model implements Persistence, Serializable {
 	 * @throws CallbackException the callback exception
 	 * @since 1.0
 	 */
-	public boolean onUpdate(Session session) throws CallbackException {
+	public boolean onUpdate(final Session session) throws CallbackException {
 		return persistenceState.onUpdate(session);
 	}
-
 
 	/**
 	 * Sets the id.
@@ -263,7 +261,7 @@ public abstract class Model implements Persistence, Serializable {
 	 * @param id the new id
 	 * @since 1.0
 	 */
-	public void setId(int id) {
+	public void setId(final int id) {
 		this.id = id;
 	}
 
@@ -273,10 +271,9 @@ public abstract class Model implements Persistence, Serializable {
 	 * @param label the new label
 	 * @since 1.0
 	 */
-	public void setLabel(String label) {
+	public void setLabel(final String label) {
 		this.label = label;
 	}
-
 
 	/**
 	 * Sets the update status.
@@ -284,12 +281,8 @@ public abstract class Model implements Persistence, Serializable {
 	 * @param i the new update status
 	 * @since 1.0
 	 */
-	public void setUpdateStatus(int i)
+	public void setUpdateStatus(final int i)
 	{
 		persistenceState.setUpdateStatus(i);
 	}
-
-
-
-
 }

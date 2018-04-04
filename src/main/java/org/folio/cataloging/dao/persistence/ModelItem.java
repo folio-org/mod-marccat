@@ -1,19 +1,12 @@
-/*
- *
- * 
- * ModelItem.java
- */
 package org.folio.cataloging.dao.persistence;
 
-import java.io.Serializable;
-
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
 
-import org.folio.cataloging.dao.persistence.Model;
+import java.io.Serializable;
 
 /**
  * Base class for the record template models
@@ -24,17 +17,10 @@ import org.folio.cataloging.dao.persistence.Model;
  */
 public abstract class ModelItem implements Persistence, Serializable {
 
-	/** The persistence state used to mark the status of the object */
 	private PersistenceState persistenceState = new PersistenceState();
-
-	/** The id from the record. */
-	private long item = 0;
-
-	/** The model. */
-	private Model model = null;
-
-	/** The String of the record template containing the tags. */
-	private String recordFields = null;
+	private long item;
+	private Model model;
+	private String recordFields;
 
 	/**
 	 * Gets the record fields.
@@ -50,7 +36,7 @@ public abstract class ModelItem implements Persistence, Serializable {
 	 *
 	 * @param recordFields the new record fields
 	 */
-	public void setRecordFields(String recordFields) {
+	public void setRecordFields(final String recordFields) {
 		this.recordFields = recordFields;
 	}
 
@@ -78,7 +64,7 @@ public abstract class ModelItem implements Persistence, Serializable {
 	 * @param id the new item
 	 * @since 1.0
 	 */
-	public void setItem(long id) {
+	public void setItem(final long id) {
 		this.item = id;
 	}
 
@@ -98,27 +84,24 @@ public abstract class ModelItem implements Persistence, Serializable {
 	 * @param model the new model
 	 * @since 1.0
 	 */
-	public void setModel(Model model) {
+	public void setModel(final Model model) {
 		this.model = model;
 	}
 
-
-
 	/**
-	 * Evict.
+	 * Evicts the given object.
 	 *
-	 * @param obj the obj
-	 * @throws DataAccessException the data access exception
-	 * @since 1.0
+	 * @param obj the object to be evicted.
+	 * @throws DataAccessException in case of data access failure.
 	 */
-	public void evict(Object obj) throws DataAccessException {
+	public void evict(final Object obj) throws DataAccessException {
 		persistenceState.evict(obj);
 	}
 
 	/**
-	 * Evict.
+	 * Evicts the this object.
 	 *
-	 * @throws DataAccessException the data access exception
+	 * @throws DataAccessException in case of data access failure.
 	 */
 	public void evict() throws DataAccessException {
 		persistenceState.evict(this);
@@ -216,9 +199,8 @@ public abstract class ModelItem implements Persistence, Serializable {
 	 * @param session the session
 	 * @return true, if successful
 	 * @throws CallbackException the callback exception
-	 * @since 1.0
 	 */
-	public boolean onDelete(Session session) throws CallbackException {
+	public boolean onDelete(final Session session) throws CallbackException {
 		return persistenceState.onDelete(session);
 	}
 
@@ -227,9 +209,8 @@ public abstract class ModelItem implements Persistence, Serializable {
 	 *
 	 * @param session the session
 	 * @param serializable the serializable
-	 * @since 1.0
 	 */
-	public void onLoad(Session session, Serializable serializable) {
+	public void onLoad(final Session session, final Serializable serializable) {
 		persistenceState.onLoad(session, serializable);
 	}
 
@@ -239,9 +220,8 @@ public abstract class ModelItem implements Persistence, Serializable {
 	 * @param session the session
 	 * @return true, if successful
 	 * @throws CallbackException the callback exception
-	 * @since 1.0
 	 */
-	public boolean onSave(Session session) throws CallbackException {
+	public boolean onSave(final Session session) throws CallbackException {
 		return persistenceState.onSave(session);
 	}
 
@@ -251,9 +231,8 @@ public abstract class ModelItem implements Persistence, Serializable {
 	 * @param session the session
 	 * @return true, if successful
 	 * @throws CallbackException the callback exception
-	 * @since 1.0
 	 */
-	public boolean onUpdate(Session session) throws CallbackException {
+	public boolean onUpdate(final Session session) throws CallbackException {
 		return persistenceState.onUpdate(session);
 	}
 
@@ -261,9 +240,8 @@ public abstract class ModelItem implements Persistence, Serializable {
 	 * Sets the update status.
 	 *
 	 * @param i the new update status
-	 * @since 1.0
 	 */
-	public void setUpdateStatus(int i) {
+	public void setUpdateStatus(final int i) {
 		persistenceState.setUpdateStatus(i);
 	}
 

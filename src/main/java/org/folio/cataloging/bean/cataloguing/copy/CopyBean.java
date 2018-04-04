@@ -16,7 +16,7 @@ import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
 import org.folio.cataloging.dao.*;
 import org.folio.cataloging.dao.persistence.*;
-import org.folio.cataloging.exception.LibrisuiteException;
+import org.folio.cataloging.exception.ModCatalogingException;
 import org.folio.cataloging.exception.RecordInUseException;
 import org.folio.cataloging.exception.ValidationException;
 import org.folio.cataloging.model.Subfield;
@@ -771,7 +771,7 @@ public class CopyBean extends LibrisuiteBean {
 
 	public void scanShelfLists(HttpServletRequest request)
 			throws
-            LibrisuiteException {
+            ModCatalogingException {
 		logger.debug("Setting browse parameters for shelf list scan");
 		BrowseBean bean = (BrowseBean) BrowseBean.getInstance(request);
 		bean.init(request.getLocale());
@@ -794,7 +794,7 @@ public class CopyBean extends LibrisuiteBean {
 
 	public void scanClassification(HttpServletRequest request)
 			throws
-            LibrisuiteException {
+            ModCatalogingException {
 		logger.debug("Setting browse parameters for classification scan");
 		BrowseBean bean = (BrowseBean) BrowseBean.getInstance(request);
 		bean.init(request.getLocale());

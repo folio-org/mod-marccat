@@ -12,7 +12,7 @@ package org.folio.cataloging.exception;
  * @version $Revision: 1.1 $, $Date: 2005/10/18 15:01:25 $
  * @since 1.0
  */
-public class ModelLabelNotSetException extends LibrisuiteException {
+public class ModelLabelNotSetException extends ModCatalogingException {
 
 	/**
 	 * Class constructor

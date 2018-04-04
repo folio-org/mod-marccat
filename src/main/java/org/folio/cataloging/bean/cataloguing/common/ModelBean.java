@@ -18,7 +18,7 @@ import org.folio.cataloging.dao.DAOCodeTable;
 import org.folio.cataloging.dao.persistence.Model;
 import org.folio.cataloging.dao.persistence.T_SINGLE;
 import org.folio.cataloging.exception.DuplicateTagException;
-import org.folio.cataloging.exception.LibrisuiteException;
+import org.folio.cataloging.exception.ModCatalogingException;
 import org.folio.cataloging.exception.ModelLabelNotSetException;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.shared.Validation;
@@ -1036,7 +1036,7 @@ public class ModelBean extends LibrisuiteBean
 		public int compare(Object obj1, Object obj2) {
 			try {
 				return ((Tag) obj1).getMarcEncoding().getMarcTag().compareTo(((Tag) obj2).getMarcEncoding().getMarcTag());
-			} catch (LibrisuiteException e) {
+			} catch (ModCatalogingException e) {
 				throw new RuntimeException("Error comparing tags");
 			}
 		}

@@ -1,8 +1,8 @@
 package org.folio.cataloging.business.digital;
 
-import org.folio.cataloging.exception.LibrisuiteException;
+import org.folio.cataloging.exception.ModCatalogingException;
 
-public class PermalinkException extends LibrisuiteException {
+public class PermalinkException extends ModCatalogingException {
 
 	private static final long serialVersionUID = 250170570458564169L;
 

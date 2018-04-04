@@ -7,14 +7,14 @@
  */
 package org.folio.cataloging.business.searching;
 
-import org.folio.cataloging.exception.LibrisuiteException;
+import org.folio.cataloging.exception.ModCatalogingException;
 
 /**
  * @author paulm
  * @version $Revision: 1.2 $, $Date: 2006/03/02 14:54:07 $
  * @since 1.0
  */
-public class InvalidBrowseIndexException extends LibrisuiteException {
+public class InvalidBrowseIndexException extends ModCatalogingException {
 
 	/**
 	 * Class constructor

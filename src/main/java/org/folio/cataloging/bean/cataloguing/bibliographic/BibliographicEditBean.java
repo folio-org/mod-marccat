@@ -3071,7 +3071,7 @@ public class BibliographicEditBean extends EditBean {
 		try {
 			return getBibliographicItem().getOrderableNames().size() > 1;
 			// don't throw exception here because method called from jsp
-		} catch (LibrisuiteException e) {
+		} catch (ModCatalogingException e) {
 			logger.warn("OrderNames threw exception");
 			return true;
 		}

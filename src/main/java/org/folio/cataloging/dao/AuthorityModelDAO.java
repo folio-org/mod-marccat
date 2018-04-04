@@ -12,16 +12,12 @@ import org.folio.cataloging.dao.persistence.AuthorityModel;
  */
 public class AuthorityModelDAO extends ModelDAO {
 
-	/* (non-Javadoc)
-	 * @see ModelDAO#getModelItemDAO()
-	 */
+	@Override
 	protected ModelItemDAO getModelItemDAO() {
 		return  new AuthorityModelItemDAO();
 	}
 
-	/* (non-Javadoc)
-	 * @see ModelDAO#getPersistentClass()
-	 */
+	@Override
 	protected Class getPersistentClass() {
 		return AuthorityModel.class;
 	}

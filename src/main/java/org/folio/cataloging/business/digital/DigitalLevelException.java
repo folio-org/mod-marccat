@@ -1,8 +1,8 @@
 package org.folio.cataloging.business.digital;
 
-import org.folio.cataloging.exception.LibrisuiteException;
+import org.folio.cataloging.exception.ModCatalogingException;
 
-public class DigitalLevelException extends LibrisuiteException {
+public class DigitalLevelException extends ModCatalogingException {
 
 	private static final long serialVersionUID = -5156470499299759964L;
 

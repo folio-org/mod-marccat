@@ -11,18 +11,13 @@ import org.folio.cataloging.dao.persistence.BibliographicModel;
  */
 public class BibliographicModelDAO extends ModelDAO {
 
-	/* (non-Javadoc)
-	 * @see ModelDAO#getModelItemDAO()
-	 */
+	@Override
 	protected ModelItemDAO getModelItemDAO() {
 		return new BibliographicModelItemDAO();
 	}
 
-	/* (non-Javadoc)
-	 * @see ModelDAO#getPersistentClass()
-	 */
+	@Override
 	protected Class getPersistentClass() {
 		return BibliographicModel.class;
 	}
-
 }

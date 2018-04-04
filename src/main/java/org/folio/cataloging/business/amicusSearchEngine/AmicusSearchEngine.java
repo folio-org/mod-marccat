@@ -25,7 +25,7 @@ import org.folio.cataloging.dao.DAOCache;
 import org.folio.cataloging.dao.DAOLibrary;
 import org.folio.cataloging.dao.DAOSortResultSets;
 import org.folio.cataloging.exception.ConnectException;
-import org.folio.cataloging.exception.LibrisuiteException;
+import org.folio.cataloging.exception.ModCatalogingException;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -112,7 +112,7 @@ public class AmicusSearchEngine implements SearchEngine {
 		List operatorList,
 		Locale locale,
 		int searchingView)
-		throws LibrisuiteException {
+		throws ModCatalogingException {
 		String cclQuery =
 			buildCclQuery(
 				termList,
@@ -194,7 +194,7 @@ public class AmicusSearchEngine implements SearchEngine {
 	/* (non-Javadoc)
 	 * @see org.folio.cataloging.business.searching.SearchEngine#expertSearch(java.lang.String, java.util.Locale, int)
 	 */
-	public ResultSet expertSearch(String cclQuery,Locale locale,int searchingView) throws LibrisuiteException
+	public ResultSet expertSearch(String cclQuery,Locale locale,int searchingView) throws ModCatalogingException
 	{
 		try {
 			logger.info("Connecting to SE: "+getQGateHostname()+":"+getQGatePort()+" searching for '"+cclQuery+"' lang="+locale+" and usrvw="+searchingView);
@@ -417,7 +417,7 @@ public class AmicusSearchEngine implements SearchEngine {
 		String use,
 		Locale locale,
 		int searchingView)
-		throws LibrisuiteException {
+		throws ModCatalogingException {
 		String cclQuery = buildCclQuery(query, use, locale);
 		return expertSearch(cclQuery, locale, searchingView);
 	}
@@ -426,7 +426,7 @@ public class AmicusSearchEngine implements SearchEngine {
 	 * @see org.folio.cataloging.business.searching.SearchEngine#sort(org.folio.cataloging.business.searching.ResultSet, java.lang.String[], java.lang.String[])
 	 */
 	public void sort(ResultSet rs, String[] attributes, String[] directions)
-		throws LibrisuiteException {
+		throws ModCatalogingException {
 		new DAOSortResultSets().sort(
 			(AmicusResultSet) rs,
 			attributes,

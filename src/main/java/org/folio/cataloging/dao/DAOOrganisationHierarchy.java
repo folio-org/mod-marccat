@@ -118,7 +118,7 @@ public class DAOOrganisationHierarchy extends HibernateUtil {
 
 	TODO: COMMENTATO DA ANDREA PERCHE' CONTENEVA ROBA DI CIRCOLAZIONE
 	public List getListOfBranches(int parentOrgNbr, Locale locale)
-		throws LibrisuiteException {
+		throws ModCatalogingException {
 		List result = new Vector();
 
 		try {
@@ -164,7 +164,7 @@ public class DAOOrganisationHierarchy extends HibernateUtil {
 	}
 
 	public List getListOfBranchesFromALibrary(int parentOrgNbr, Locale locale)
-		throws LibrisuiteException {
+		throws ModCatalogingException {
 		List listList = null;
 		List result = new Vector();
 
@@ -209,7 +209,7 @@ public class DAOOrganisationHierarchy extends HibernateUtil {
 		return result;
 	}
 
-	public List getListOfLibrary(Locale locale) throws LibrisuiteException {
+	public List getListOfLibrary(Locale locale) throws ModCatalogingException {
 		List listList = null;
 		List result = new Vector();
 

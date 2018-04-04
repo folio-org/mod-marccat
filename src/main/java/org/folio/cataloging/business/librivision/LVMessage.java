@@ -14,7 +14,7 @@ import org.folio.cataloging.business.common.View;
 import org.folio.cataloging.business.searching.SearchEngine;
 import org.folio.cataloging.dao.DAOSortCriteriaDetails;
 import org.folio.cataloging.dao.persistence.SortCriteriaDetails;
-import org.folio.cataloging.exception.LibrisuiteException;
+import org.folio.cataloging.exception.ModCatalogingException;
 import org.w3c.dom.Document;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -542,7 +542,7 @@ public class LVMessage {
 		}
 	}
 
-	public static void checkLVSession(Locale l) throws LibrisuiteException {
+	public static void checkLVSession(Locale l) throws ModCatalogingException {
 		if (getLVSessionId() == null) {
 //			logger.info("calling LVMessage.LVStartSession()");
 			String lvSessionId = LVStartSession();
@@ -561,7 +561,7 @@ public class LVMessage {
 		}
 	}
 
-	public static String LVStartSession() throws LibrisuiteException {
+	public static String LVStartSession() throws ModCatalogingException {
 //		logger.info("enter LVStartSession");
 		String LVSessionId = null;
 		try {
@@ -581,17 +581,17 @@ public class LVMessage {
 			LVSessionId = (String) aHashtable.get("SESSION_ID");
 			if (aHashtable.get("ERROR") != null) {
 				logger.debug("ERROR");
-				throw new LibrisuiteException("LVMessage::LVStartSession:: ERROR");
+				throw new ModCatalogingException("LVMessage::LVStartSession:: ERROR");
 			} else if (aHashtable.get("MAX_CONCURRENT_SESSIONS") != null) {
 				logger.debug("MAX_CONCURRENT_SESSIONS");
-				throw new LibrisuiteException("LVMessage::LVStartSession:: MAX_CONCURRENT_SESSIONS");
+				throw new ModCatalogingException("LVMessage::LVStartSession:: MAX_CONCURRENT_SESSIONS");
 			} else if (LVSessionId == null) {
 				logger.debug("LVSessionId == null");
-				throw new LibrisuiteException("LVMessage::LVStartSession:: LVSessionId == null");
+				throw new ModCatalogingException("LVMessage::LVStartSession:: LVSessionId == null");
 			}
 		} catch (IOException ioException) {
 			logger.debug("", ioException);
-			throw new LibrisuiteException(
+			throw new ModCatalogingException(
 				"LVMessage::LVStartSession:: " + ioException.getMessage());
 		}
 
@@ -621,7 +621,7 @@ public class LVMessage {
 		String password,
 		int sessionTimeOut,
 		Locale locale)
-		throws LibrisuiteException {
+		throws ModCatalogingException {
 		int defaultDbId = 1;
 //		logger.info("enter LVInitialiseForLibrisuite()");
 		try {
@@ -655,7 +655,7 @@ public class LVMessage {
 			Hashtable aHashtable = lvmessage.readHashTable();
 			if (aHashtable.get("ERROR_CODE") != null) {
 				logger.debug("ERROR " + aHashtable.get("ERROR_MODULE"));
-				throw new LibrisuiteException(
+				throw new ModCatalogingException(
 					(String) aHashtable.get("ERROR_MODULE"));
 			} else if (aHashtable.get("DEFAULT_DB_ID") != null) {
 				defaultDbId =
@@ -663,7 +663,7 @@ public class LVMessage {
 			}
 		} catch (IOException ioException) {
 			logger.debug(ioException.getMessage());
-			throw new LibrisuiteException(ioException.getMessage());
+			throw new ModCatalogingException(ioException.getMessage());
 		}
 //		logger.info("exit LVInitialiseForLibrisuite()");
 		return defaultDbId;
@@ -850,7 +850,7 @@ public class LVMessage {
 		Locale locale,
 		LVMessage lvmessage,
 		int view)
-		throws LibrisuiteException {
+		throws ModCatalogingException {
 //		logger.info("enter LVSearch()");
 		checkLVSession(locale);
 		String lvSessionId = getLVSessionId();
@@ -889,7 +889,7 @@ public class LVMessage {
 			Hashtable aHashtable = lvmessage.readHashTable();
 			if (aHashtable.get("ERROR_CODE") != null) {
 				logger.debug("ERROR " + aHashtable.get("ERROR_MODULE"));
-				throw new LibrisuiteException(
+				throw new ModCatalogingException(
 					(String) aHashtable.get("ERROR_MODULE"));
 			}
 
@@ -928,7 +928,7 @@ public class LVMessage {
 			}
 		} catch (IOException ioException) {
 			logger.debug(ioException.getMessage());
-			throw new LibrisuiteException(ioException);
+			throw new ModCatalogingException(ioException);
 		}
 
 //		logger.info("exit LVSearch()");
@@ -941,7 +941,7 @@ public class LVMessage {
 		String query,
 		String use,
 		int view)
-		throws LibrisuiteException {
+		throws ModCatalogingException {
 //		logger.info("enter LVSimpleSearch()");
 		checkLVSession(locale);
 		LVResultSet aResultSet = null;
@@ -961,7 +961,7 @@ public class LVMessage {
 
 		} catch (IOException ioException) {
 			logger.debug(ioException.getMessage());
-			throw new LibrisuiteException(ioException);
+			throw new ModCatalogingException(ioException);
 		}
 
 //		logger.info("exit LVSimpleSearch()");
@@ -973,7 +973,7 @@ public class LVMessage {
 		Locale locale,
 		String CclQuery,
 		int view)
-		throws LibrisuiteException {
+		throws ModCatalogingException {
 //		logger.info("enter LVCclSearch()");
 		checkLVSession(locale);
 		LVResultSet aResultSet = null;
@@ -992,7 +992,7 @@ public class LVMessage {
 
 		} catch (IOException ioException) {
 			logger.debug(ioException.getMessage());
-			throw new LibrisuiteException(ioException);
+			throw new ModCatalogingException(ioException);
 		}
 
 //		logger.info("exit LVCclSearch()");
@@ -1007,7 +1007,7 @@ public class LVMessage {
 		List use,
 		List operator,
 		int view)
-		throws LibrisuiteException {
+		throws ModCatalogingException {
 //		logger.info("enter LVAdvancedSearch()");
 		checkLVSession(locale);
 		LVResultSet aResultSet = null;
@@ -1052,7 +1052,7 @@ public class LVMessage {
 
 		} catch (IOException ioException) {
 			logger.debug(ioException.getMessage());
-			throw new LibrisuiteException(ioException);
+			throw new ModCatalogingException(ioException);
 		}
 
 //		logger.info("exit LVAdvancedSearch()");
@@ -1061,7 +1061,7 @@ public class LVMessage {
 	}
 
 	public static void LVSort(LVResultSet aResultSet, short sortCriteria)
-		throws LibrisuiteException {
+		throws ModCatalogingException {
 		List l = new DAOSortCriteriaDetails().getDetails(sortCriteria);
 
 		// convert the List of attribute, direction info from the DAO
@@ -1088,7 +1088,7 @@ public class LVMessage {
 		LVResultSet aResultSet,
 		String[] attribute,
 		String[] relation)
-		throws LibrisuiteException {
+		throws ModCatalogingException {
 		aResultSet.clearRecords();
 		try {
 			LVMessage lvmessage = new LVMessage(LVServerName, LVServerPort);
@@ -1120,7 +1120,7 @@ public class LVMessage {
 			if ((aHashtable.get("ERROR_CODE") != null)
 				|| (aHashtable.get("SORT_ERROR") != null)) {
 				logger.debug("ERROR " + aHashtable.get("ERROR_MODULE"));
-				throw new LibrisuiteException(
+				throw new ModCatalogingException(
 					(String) aHashtable.get("ERROR_MODULE"));
 			}
 
@@ -1133,7 +1133,7 @@ public class LVMessage {
 			}
 		} catch (IOException ioException) {
 			System.err.println(ioException.getMessage());
-			throw new LibrisuiteException(ioException);
+			throw new ModCatalogingException(ioException);
 		}
 	}
 
@@ -1207,7 +1207,7 @@ public class LVMessage {
 		LVResultSet aResultSet,
 		String elementSetName,
 		int firstRecordNumber,
-		int lastRecordNumber) /*throws LibrisuiteException*/ {
+		int lastRecordNumber) /*throws ModCatalogingException*/ {
 //		logger.info("enter LVViewRecords()");
 		try {
 			LVMessage lvmessage = new LVMessage(LVServerName, LVServerPort);
@@ -1240,7 +1240,7 @@ public class LVMessage {
 			Hashtable aHashtable = lvmessage.readHashTable();
 			if (aHashtable.get("ERROR_CODE") != null) {
 				logger.debug("ERROR " + aHashtable.get("ERROR_MODULE"));
-				//throw new LibrisuiteException((String) aHashtable.get("ERROR_MODULE"));
+				//throw new ModCatalogingException((String) aHashtable.get("ERROR_MODULE"));
 			}
 
 			if ((aHashtable.get("PRESENT_FINISHED") != null)
@@ -1538,7 +1538,7 @@ public class LVMessage {
 	 * @param lvSessionId LibriVision session ID
 	 * @since 1.0
 	 */
-	public static void LVHello(String lvSessionId) throws LibrisuiteException {
+	public static void LVHello(String lvSessionId) throws ModCatalogingException {
 //		logger.info("enter LVHello()");
 		try {
 			LVMessage lvmessage = new LVMessage(LVServerName, LVServerPort);
@@ -1557,12 +1557,12 @@ public class LVMessage {
 			Hashtable aHashtable = lvmessage.readHashTable();
 			if (aHashtable.get("ERROR_CODE") != null) {
 				logger.debug("ERROR " + aHashtable.get("ERROR_MODULE"));
-				throw new LibrisuiteException(
+				throw new ModCatalogingException(
 					(String) aHashtable.get("ERROR_MODULE"));
 			}
 		} catch (IOException ioException) {
 			logger.debug(ioException.getMessage());
-			throw new LibrisuiteException(ioException.getMessage());
+			throw new ModCatalogingException(ioException.getMessage());
 		}
 //		logger.info("exit LVHello()");
 	}

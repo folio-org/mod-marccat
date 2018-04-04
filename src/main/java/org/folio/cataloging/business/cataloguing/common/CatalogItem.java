@@ -7,20 +7,8 @@
  */
 package org.folio.cataloging.business.cataloguing.common;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-
-import org.folio.cataloging.dao.persistence.BibliographicModelItem;
-import org.folio.cataloging.dao.BibliographicModelItemDAO;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.cataloguing.bibliographic.FixedField;
 import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
 import org.folio.cataloging.business.cataloguing.bibliographic.TagComparator;
@@ -28,27 +16,26 @@ import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.filter.SameDescriptorTagFilter;
 import org.folio.cataloging.business.common.filter.TagFilter;
-import org.folio.cataloging.business.common.group.BibliographicGroupManager;
-import org.folio.cataloging.business.common.group.GroupComparator;
-import org.folio.cataloging.business.common.group.GroupManager;
-import org.folio.cataloging.business.common.group.MultiTagContainer;
-import org.folio.cataloging.business.common.group.TagContainer;
-import org.folio.cataloging.business.common.group.TagGroup;
-import org.folio.cataloging.business.common.group.UniqueTagContainer;
+import org.folio.cataloging.business.common.group.*;
 import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.BibliographicModelItemDAO;
+import org.folio.cataloging.dao.persistence.BibliographicModelItem;
+import org.folio.cataloging.dao.persistence.CorrelationKey;
 import org.folio.cataloging.dao.persistence.Model;
 import org.folio.cataloging.dao.persistence.ModelItem;
 import org.folio.cataloging.exception.DuplicateTagException;
-import org.folio.cataloging.exception.LibrisuiteException;
 import org.folio.cataloging.exception.MandatoryTagException;
+import org.folio.cataloging.exception.ModCatalogingException;
 import org.folio.cataloging.exception.ValidationException;
-import org.folio.cataloging.dao.persistence.CorrelationKey;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import org.folio.cataloging.model.Subfield;
 import org.folio.cataloging.shared.Validation;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.text.DecimalFormat;
+import java.util.*;
 
 /**
  * @author paulm
@@ -84,7 +71,7 @@ public abstract class CatalogItem implements Serializable {
 			try {
 				return ((Tag) obj1).getMarcEncoding().getMarcTag().compareTo(
 					((Tag) obj2).getMarcEncoding().getMarcTag());
-			} catch (LibrisuiteException e) {
+			} catch (ModCatalogingException e) {
 				throw new RuntimeException("Error comparing tags");
 			}
 		}

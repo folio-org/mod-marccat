@@ -29,7 +29,7 @@ import org.folio.cataloging.business.searching.WeightedAvpComparator;
 import org.folio.cataloging.dao.*;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 import org.folio.cataloging.dao.persistence.*;
-import org.folio.cataloging.exception.LibrisuiteException;
+import org.folio.cataloging.exception.ModCatalogingException;
 import org.folio.cataloging.exception.RecordInUseException;
 import org.folio.cataloging.exception.ValidationException;
 import org.folio.cataloging.form.transfer.ResultSummaryForm;
@@ -718,7 +718,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 		String amicusNumber;
 		try {
 			amicusNumber = getResultSet().getRecord()[recordIndex].toStyledDocument(getElementSetName(), "amicusNumber.xsl",new Hashtable());
-		} catch (LibrisuiteException e) {
+		} catch (ModCatalogingException e) {
 			throw new RuntimeException("amicusNumber.xsl failed to transform",e);
 		}
 		return Integer.parseInt(amicusNumber);
@@ -1080,7 +1080,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 					recordNumber - 1).intValue()));
 				}
 				
-			} catch (LibrisuiteException e) {
+			} catch (ModCatalogingException e) {
 				throw new RuntimeException("Stylesheet transformation error", e);
 			}
 		}
@@ -1393,7 +1393,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 	 * 
 	 * @since 1.0
 	 */
-	public void sortResults(int sortCriteria) throws LibrisuiteException {
+	public void sortResults(int sortCriteria) throws ModCatalogingException {
 		setSortCriteria(sortCriteria);
 
 		if (sortCriteria > 0) {
@@ -2920,7 +2920,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 	}
 
 	public void setNTIInTheBean() throws
-            LibrisuiteException {
+            ModCatalogingException {
 		DAOCasCache daoCCache = new DAOCasCache();
 
 		int cont = 0;

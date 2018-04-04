@@ -3,7 +3,6 @@ package org.folio.cataloging.dao.persistence;
 import org.folio.cataloging.dao.AuthorityModelDAO;
 import org.folio.cataloging.dao.common.HibernateUtil;
 
-
 /**
  * Represents a Model/Template for of authority type
  *
@@ -13,10 +12,8 @@ import org.folio.cataloging.dao.common.HibernateUtil;
  */
 public class AuthorityModel extends Model {
 
-	/** The frbr second group. This group is related to the FRBR entity: Persons, Families and Corporate Bodies. */
 	private String frbrSecondGroup;
 
-	/** The frbr third group. This group is related to the FRBR entity: Concepts, Objcts, Places, Events. */
 	private String frbrThirdGroup;
 
 	/**
@@ -46,15 +43,17 @@ public class AuthorityModel extends Model {
 
 	/**
 	 * Sets the frbr second group.
+	 * This group is related to the FRBR entity: Persons, Families and Corporate Bodies.
 	 *
 	 * @param frbrSecondGroup the new frbr second group
 	 */
-	public void setFrbrSecondGroup(String frbrSecondGroup) {
+	public void setFrbrSecondGroup(final String frbrSecondGroup) {
 		this.frbrSecondGroup = frbrSecondGroup;
 	}
 
 	/**
 	 * Gets the frbr third group.
+	 * This group is related to the FRBR entity: Concepts, Objcts, Places, Events.
 	 *
 	 * @return the frbr third group
 	 */
@@ -67,7 +66,7 @@ public class AuthorityModel extends Model {
 	 *
 	 * @param frbrThirdGroup the new frbr third group
 	 */
-	public void setFrbrThirdGroup(String frbrThirdGroup) {
+	public void setFrbrThirdGroup(final String frbrThirdGroup) {
 		this.frbrThirdGroup = frbrThirdGroup;
 	}
 

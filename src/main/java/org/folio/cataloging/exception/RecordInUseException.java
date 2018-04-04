@@ -1,5 +1,5 @@
 package org.folio.cataloging.exception;
 
-public class RecordInUseException extends LibrisuiteException {
+public class RecordInUseException extends ModCatalogingException {
 
 }

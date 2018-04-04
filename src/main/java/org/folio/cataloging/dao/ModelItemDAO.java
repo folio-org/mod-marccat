@@ -1,18 +1,16 @@
 package org.folio.cataloging.dao;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import org.folio.cataloging.dao.persistence.ModelItem;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.ReferentialIntegrityException;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.ReferentialIntegrityException;
 import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
+import org.folio.cataloging.dao.persistence.ModelItem;
 
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Abstract class for common implementations of ModelItemsDAO (Bib and Auth).
@@ -29,17 +27,9 @@ public abstract class ModelItemDAO extends HibernateUtil {
 	 * @param modelItem the model item
 	 * @param session the hibernate session
 	 * @throws ReferentialIntegrityException the referential integrity exception
-	 * @throws HibernateException in case of data access failure
 	 */
-	public void delete(final ModelItem modelItem, final Session session)
-		throws ReferentialIntegrityException, HibernateException {
-		new TransactionalHibernateOperation() {
-			public void doInHibernateTransaction(Session session)
-				throws HibernateException {
-				session.delete(modelItem);
-			}
-		}
-		.execute();
+	public void delete(final ModelItem modelItem, final Session session) throws HibernateException {
+		session.delete(modelItem);
 	}
 
 	/**
@@ -50,15 +40,15 @@ public abstract class ModelItemDAO extends HibernateUtil {
 	 * @return a model item.
 	 * @throws DataAccessException in case of data access failure
 	 */
+	@SuppressWarnings("unchecked")
 	public ModelItem load(final int id, final Session session) throws HibernateException {
-		List<ModelItem> list = session.find(
+		final List<ModelItem> list = session.find(
 				"from "
 					+ getPersistentClass().getName()
 					+ " as itm where itm.item = ? ",
-				new Object[] { new Long(id)},
+				new Object[] { id },
 				new Type[] { Hibernate.LONG });
-		final Optional<ModelItem> firstElement = list.stream().filter(Objects::nonNull).findFirst();
-		return firstElement.isPresent() ? firstElement.get() : null;
+		return list.stream().filter(Objects::nonNull).findFirst().orElse(null);
 	}
 
 	protected abstract Class getPersistentClass();
@@ -70,17 +60,17 @@ public abstract class ModelItemDAO extends HibernateUtil {
 	 * @return true if the given model is used by an item
 	 * @throws HibernateException in case of data access failure
 	 */
+	@SuppressWarnings("unchecked")
 	public boolean getModelUsage(final int id, final Session session ) throws HibernateException {
-		List <Integer> list =
+		final List <Integer> list =
 				session.find(
 				"select count(*) from "
 					+ getPersistentClass().getName()
 					+ " as b"
 					+ " where b.model.id = ?",
-				new Object[] { new Integer(id)},
+				new Object[] { id},
 				new Type[] { Hibernate.INTEGER });
 
-		final Optional<Integer> firstElement = list.stream().filter(Objects::nonNull).findFirst().filter(count -> count > 0);
-		return firstElement.isPresent();
+		return list.stream().filter(Objects::nonNull).anyMatch(count -> count > 0);
 	}
 }

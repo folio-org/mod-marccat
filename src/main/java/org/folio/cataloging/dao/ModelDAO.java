@@ -4,15 +4,11 @@ import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-import org.folio.cataloging.dao.persistence.Model;
 import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
-import org.folio.cataloging.dao.persistence.ModelItem;
+import org.folio.cataloging.dao.persistence.Model;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
@@ -40,11 +36,10 @@ public abstract class ModelDAO{
 				.map(avp -> {
 					try {
 						return getModelItemDAO().getModelUsage(avp.getValue(), session);
-					} catch (HibernateException e) {
+					} catch (final HibernateException e) {
 						return null;
 					}
-				})
-				.collect(toList());
+				}).collect(toList());
 	}
 
 	/**
@@ -75,16 +70,16 @@ public abstract class ModelDAO{
 	 * @return the model
 	 * @throws HibernateException the data access exception
 	 */
-	 public Model load(final int id, final Session session) throws HibernateException {
-		 List<Model> list = session.find(
+	@SuppressWarnings("unchecked")
+	public Model load(final int id, final Session session) throws HibernateException {
+		final List<Model> list = session.find(
 					"from "
 							+ getPersistentClass().getName()
 							+ " as itm where itm.item = ? ",
-					new Object[] { new Long(id)},
+					new Object[] { id },
 					new Type[] { Hibernate.LONG });
-		 final Optional<Model> firstElement = list.stream().filter(Objects::nonNull).findFirst();
-		 return firstElement.isPresent() ? firstElement.get() : null;
-	 }
+		return list.stream().filter(Objects::nonNull).findFirst().orElse(null);
+	}
 
 
 	/**
@@ -99,24 +94,16 @@ public abstract class ModelDAO{
 	 *
 	 * @param model the model
 	 * @param session the hibernate session
-	 * @throws HibernateException in case of data access failure
 	 */
-	public void delete(final Model model, final Session session)
-		throws HibernateException {
-		new TransactionalHibernateOperation() {
-			public void doInHibernateTransaction(Session session)
-				throws HibernateException {
-				session.delete(
-					"from "
-						+ getModelItemDAO().getPersistentClass().getName()
-						+ " as item"
-						+ " where item.model.id = ? ",
-					new Integer(model.getId()),
-					Hibernate.INTEGER);
-				session.delete(model);
-			}
-		}
-		.execute();
+	public void delete(final Model model, final Session session) throws HibernateException {
+		session.delete(
+			"from "
+				+ getModelItemDAO().getPersistentClass().getName()
+				+ " as item"
+				+ " where item.model.id = ? ",
+			model.getId(),
+			Hibernate.INTEGER);
+		session.delete(model);
 	}
 
 	/**
@@ -126,15 +113,8 @@ public abstract class ModelDAO{
 	 * @param session the hibernate session
 	 * @throws HibernateException in case of data access failure
 	 */
-	public void save(final Model model, final Session session)
-			throws HibernateException {
-		new TransactionalHibernateOperation() {
-			public void doInHibernateTransaction(Session session)
-					throws HibernateException {
-				session.save(model);
-			}
-		 }
-		.execute();
+	public void save(final Model model, final Session session) throws HibernateException {
+		session.save(model);
 	}
 
 	/**
@@ -144,7 +124,8 @@ public abstract class ModelDAO{
 	 * @return the list of all available models.
 	 * @throws HibernateException in case of data access failure
 	 */
-	public List<Avp<Integer>> getModelList(final Session session) throws HibernateException {
+	@SuppressWarnings("unchecked")
+	private List<Avp<Integer>> getModelList(final Session session) throws HibernateException {
 		return session.find("select new Avp(m.id, m.label) from " + getPersistentClass().getName() + " as m order by m.label");
 	}
 
@@ -155,6 +136,7 @@ public abstract class ModelDAO{
 	 * @return the list of all available bibliographic models.
 	 * @throws HibernateException in case of data access failure
 	 */
+	@SuppressWarnings("unchecked")
 	public List<Avp<Integer>> getBibliographicModelList(final Session session) throws HibernateException {
 		return session.find(
 				" select new org.folio.cataloging.business.codetable.Avp(m.id, m.label) from "
@@ -169,11 +151,11 @@ public abstract class ModelDAO{
 	 * @return the list of all available authority models.
 	 * @throws HibernateException in case of data access failure
 	 */
+	@SuppressWarnings("unchecked")
 	public List<Avp<Integer>> getAuthorityModelList(final Session session) throws HibernateException {
 		return session.find(
 				" select new org.folio.cataloging.business.codetable.Avp(m.id, m.label) from "
 				+ " org.folio.cataloging.dao.persistence.AuthorityModel "
 				+ " as m order by m.label");
 	}
-
 }

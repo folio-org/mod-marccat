@@ -7,14 +7,14 @@
  */
 package org.folio.cataloging.business.authorisation;
 
-import org.folio.cataloging.exception.LibrisuiteException;
+import org.folio.cataloging.exception.ModCatalogingException;
 
 /**
  * @author paulm
  * @version $Revision: 1.1 $, $Date: 2004/11/19 16:48:32 $
  * @since 1.0
  */
-public class AuthorisationException extends LibrisuiteException {
+public class AuthorisationException extends ModCatalogingException {
 
 	/**
 	 * Class constructor

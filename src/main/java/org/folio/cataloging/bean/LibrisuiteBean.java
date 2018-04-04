@@ -7,8 +7,6 @@
  */
 package org.folio.cataloging.bean;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.folio.cataloging.bean.cataloguing.authority.AuthorityEditBean;
 import org.folio.cataloging.bean.cataloguing.bibliographic.BibliographicEditBean;
 import org.folio.cataloging.bean.cataloguing.common.EditBean;
@@ -19,9 +17,11 @@ import org.folio.cataloging.business.authorisation.Permission;
 import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.exception.DuplicateTagException;
-import org.folio.cataloging.exception.LibrisuiteException;
+import org.folio.cataloging.exception.ModCatalogingException;
 import org.folio.cataloging.exception.RecordInUseException;
 import org.folio.cataloging.exception.ValidationException;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * This class can be used as super class for all beans used in LibriSuite. All
@@ -62,14 +62,14 @@ public abstract class LibrisuiteBean {
 	public void setRequestAttribute(
 		HttpServletRequest httpServletRequest,
 		Class aClass)
-		throws LibrisuiteException {
+		throws ModCatalogingException {
 		httpServletRequest.setAttribute(aClass.getName(), this);
 	}
 
 	public static LibrisuiteBean getRequestAttribute(
 		HttpServletRequest httpServletRequest,
 		Class aClass)
-		throws LibrisuiteException {
+		throws ModCatalogingException {
 		return (LibrisuiteBean) httpServletRequest.getAttribute(
 			aClass.getName());
 	}
