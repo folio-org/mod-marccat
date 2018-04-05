@@ -96,7 +96,6 @@ public class FieldsAPI implements CatalogingFieldsResource {
 
         final Field field = new Field();
         field.setVariableField(catalogingSourceField);
-        field.setCode(Global.CATALOGING_SOURCE_TAG_CODE);
 
         return field;
     }
@@ -119,7 +118,6 @@ public class FieldsAPI implements CatalogingFieldsResource {
 
         final Field field = new Field();
         field.setFixedField(controlNumberFixedField);
-        field.setCode(Global.CONTROL_NUMBER_TAG_CODE);
 
         return field;
 
@@ -143,8 +141,6 @@ public class FieldsAPI implements CatalogingFieldsResource {
 
         final Field field = new Field();
         field.setFixedField(leader);
-        field.setCode(Global.LEADER_TAG_NUMBER);
-
         return field;
     }
 
@@ -174,7 +170,6 @@ public class FieldsAPI implements CatalogingFieldsResource {
 
         final Field field = new Field();
         field.setFixedField(materialDescription);
-        field.setCode(Global.MATERIAL_TAG_CODE);
 
         return field;
     }

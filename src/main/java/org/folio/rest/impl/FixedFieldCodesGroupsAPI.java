@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response;
 import java.util.Map;
 import java.util.function.Function;
 
+import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
@@ -35,56 +36,58 @@ public class FixedFieldCodesGroupsAPI implements CatalogingFixedFieldResource {
                                                    final Context vertxContext) throws Exception {
 
         doGet((storageService, configuration, future) -> {
-
             try {
-                if (isFixedField(code)){
-                    final FixedFieldCodesGroup fixedFieldCodesGroup = new FixedFieldCodesGroup();
-                    if (code.equals(Global.LEADER_TAG_NUMBER)){
-                        fixedFieldCodesGroup.setRecordStatusTypes(
-                                storageService.getRecordStatusTypes(lang)
-                                .stream()
-                                .map(toRecordStatusType)
-                                .collect(toList()));
-                        fixedFieldCodesGroup.setRecordTypes(
-                                storageService.getRecordTypes(lang)
-                                .stream()
-                                .map(toRecordType)
-                                .collect(toList()));
-                        fixedFieldCodesGroup.setBibliographicLevels(
-                                storageService.getBibliographicLevels(lang)
-                                .stream()
-                                .map(toBibliographicLevel)
-                                .collect(toList()));
-                    }
+                final FixedFieldCodesGroup fixedFieldCodesGroup = new FixedFieldCodesGroup();
+                return ofNullable(code)
+                        .map(tag -> {
+                            if (tag.equals(Global.LEADER_TAG_NUMBER)){
+                                fixedFieldCodesGroup.setRecordStatusTypes(
+                                        storageService.getRecordStatusTypes(lang)
+                                                .stream()
+                                                .map(toRecordStatusType)
+                                                .collect(toList()));
+                                fixedFieldCodesGroup.setRecordTypes(
+                                        storageService.getRecordTypes(lang)
+                                                .stream()
+                                                .map(toRecordType)
+                                                .collect(toList()));
+                                fixedFieldCodesGroup.setBibliographicLevels(
+                                        storageService.getBibliographicLevels(lang)
+                                                .stream()
+                                                .map(toBibliographicLevel)
+                                                .collect(toList()));
+                            } else if (tag.equals(Global.MATERIAL_TAG_CODE)){
 
-                    if (code.equals(Global.MATERIAL_TAG_CODE)){
+                                //TODO : use headertypecode to get right drop-down list
+                                fixedFieldCodesGroup.setDateTypes(
+                                        storageService.getDateTypes(lang)
+                                                .stream()
+                                                .map(toDateType)
+                                                .collect(toList()));
 
-                        fixedFieldCodesGroup.setDateTypes(
-                                storageService.getDateTypes(lang)
-                                .stream()
-                                .map(toDateType)
-                                .collect(toList()));
+                                fixedFieldCodesGroup.setModifiedRecordTypes(
+                                        storageService.getModifiedRecordTypes(lang)
+                                                .stream()
+                                                .map(toModifiedRecordType)
+                                                .collect(toList()));
 
-                        fixedFieldCodesGroup.setModifiedRecordTypes(
-                                storageService.getModifiedRecordTypes(lang)
-                                .stream()
-                                .map(toModifiedRecordType)
-                                .collect(toList()));
+                                fixedFieldCodesGroup.setCatalogSources(
+                                        storageService.getCatalogSources(lang)
+                                                .stream()
+                                                .map(toCatalogSource)
+                                                .collect(toList()));
+                            } else {
+                                logger.error(String.format(MessageCatalog._00017_CODES_GROUPS_NOT_AVAILABLE, code));
+                                return null;
+                            }
+                            return fixedFieldCodesGroup;
+                        }).orElse(null);
 
-                        fixedFieldCodesGroup.setCatalogSources(
-                                storageService.getCatalogSources(lang)
-                                .stream()
-                                .map(toCatalogSource)
-                                .collect(toList()));
-
-                    }
-                }
-                return null;
             } catch (final Exception exception) {
                 logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
                 return null;
             }
-        }, asyncResultHandler, okapiHeaders, vertxContext, "bibliographic", "material");
+        }, asyncResultHandler, okapiHeaders, vertxContext);
 
     }
 

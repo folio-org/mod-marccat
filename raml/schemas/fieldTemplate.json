@@ -10,11 +10,6 @@
     "variable-field": {
       "type": "object",
       "$ref": "variableField"
-    },
-    "code": {
-      "type": "string",
-      "minLength": 3,
-      "maxLength": 3
     }
   },
   "additionalProperties": false

@@ -70,7 +70,6 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
                                                         lang,
                                                         categoryCode),
                                                 validation));
-                                fieldTemplate.setCode(code);
                                 return fieldTemplate;
                             }).orElseGet(() -> {
                             logger.error(String.format(MessageCatalog._00016_FIELD_PARAMETER_INVALID, categoryCode, code));
@@ -80,7 +79,6 @@ public class FieldTemplateAPI implements CatalogingFieldTemplateResource {
                             .map(fixedField -> {
                                 final FieldTemplate fieldT = new FieldTemplate();
                                 fieldT.setFixedField(fixedField);
-                                fieldT.setCode(code);
                                 return fieldT;
                             }).orElseGet(() -> {
                             logger.error(String.format(MessageCatalog._00016_FIELD_PARAMETER_INVALID, categoryCode, code));

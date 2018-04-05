@@ -8,6 +8,17 @@ import org.folio.cataloging.shared.ValidationKey;
  * @since 1.0
  */
 public class BibliographicValidationKey extends ValidationKey {
+
+
+	/**
+	 * Class constructor
+	 *
+	 * @since 1.0
+	 */
+	public BibliographicValidationKey() {
+		super();
+	}
+
 	/**
 	 * Builds a new {@link BibliographicValidationKey}.
 	 *
