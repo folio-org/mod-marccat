@@ -13,8 +13,7 @@ import org.folio.cataloging.dao.common.HibernateUtil;
 import java.io.Serializable;
 import java.util.Date;
 
-public class HDG_URI implements Persistence
-{	
+public class HDG_URI implements Persistence {
 	private static final long serialVersionUID = 6496002006152292469L;
 	
 	static DAOHeadingUri dao = new DAOHeadingUri();
@@ -114,13 +113,11 @@ public class HDG_URI implements Persistence
 		this.uriLabel = uriLabel;
 	}
 		
-	public String getCreationDateString() 
-	{
+	public String getCreationDateString() {
 		return (creationDate != null? Global.FORMATTERS.get().format(creationDate):"");
 	}
 	
-	public String getLastUpdateDateString() 
-	{
+	public String getLastUpdateDateString() {
 		return (lastUpdateDate != null? Global.FORMATTERS.get().format(lastUpdateDate):"");
 	}
 
@@ -214,25 +211,22 @@ public class HDG_URI implements Persistence
 		result = prime * result + headingTypeCode;
 		result = prime * result + sourceId;
 		result = prime * result + ((uri == null) ? 0 : uri.hashCode());
-		result = prime * result
-				+ ((userView == null) ? 0 : userView.hashCode());
-		return result;
+		return prime * result + ((userView == null) ? 0 : userView.hashCode());
 	}
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
+	public boolean equals(final Object obj) {
+		if (this == obj) {
+            return true;
+        }
+
+		if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+
 		final HDG_URI other = (HDG_URI) obj;
-		if (headingNumber != other.headingNumber)
-			return false;
-		if (headingTypeCode != other.headingTypeCode)
-			return false;
-		if (sourceId != other.sourceId)
-			return false;
+		if (headingNumber != other.headingNumber) return false;
+		if (headingTypeCode != other.headingTypeCode) return false;
+		if (sourceId != other.sourceId)  return false;
 		if (uri == null) {
 			if (other.uri != null)
 				return false;
@@ -246,13 +240,11 @@ public class HDG_URI implements Persistence
 		return true;
 	}
 		
-	public String toString() 
-	{
+	public String toString() {
 	   return ToStringBuilder.reflectionToString(this);
 	}
 	
-	public boolean isEnableToAlternativeLabelsSearch() 
-	{			
-		return (Global.sourcesEnabledToAlternativeLabelsSearch.contains(new Integer(sourceId))?true:false);
+	public boolean isEnableToAlternativeLabelsSearch()  {
+		return (Global.SOURCES_ENABLED_TO_ALTERNATIVE_LABELS_SEARCH.contains(sourceId));
 	}
 }

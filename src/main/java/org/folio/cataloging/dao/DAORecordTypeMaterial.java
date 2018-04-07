@@ -1,6 +1,7 @@
 
 package org.folio.cataloging.dao;
 
+import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
@@ -11,7 +12,6 @@ import org.folio.cataloging.dao.persistence.RecordTypeMaterial;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * @author paulm
@@ -28,24 +28,19 @@ public class DAORecordTypeMaterial extends HibernateUtil {
 	 * @return RecordTypeMaterial to represent form of item
 	 * @throws HibernateException in case of hibernate exception.
 	 */
+	@SuppressWarnings("unchecked")
 	public RecordTypeMaterial getMaterialHeaderCode(final Session session, final char recordType, final char bibliographicLevel) throws HibernateException {
-
-		List<RecordTypeMaterial> recordTypeMaterials = session.find(
+        final List<RecordTypeMaterial> recordTypeMaterials = session.find(
 						"from RecordTypeMaterial as t "
-							+ " where t.recordTypeCode = ? and "
+							+ " where t.RECORD_TYPE_CODE = ? and "
 							+ "       (t.bibliographicLevel = ? "
 							+ "        OR t.bibliographicLevel is NULL)",
 						new Object[] {
-							new Character(recordType),
-							new Character(bibliographicLevel)},
+							recordType,
+							bibliographicLevel},
 						new Type[] { Hibernate.CHARACTER, Hibernate.CHARACTER });
 
-		Optional<RecordTypeMaterial> rtm = recordTypeMaterials.stream().filter(Objects::nonNull).findFirst();
-		if (rtm.isPresent()) {
-			return rtm.get();
-		}else
-			return null;
-
+		return recordTypeMaterials.stream().filter(Objects::nonNull).findFirst().orElse(null);
 	}
 
 	//TODO : dont'call me! Use getMaterialHeaderCode()
@@ -57,7 +52,7 @@ public class DAORecordTypeMaterial extends HibernateUtil {
 			List l =
 					s.find(
 							"from RecordTypeMaterial as t "
-									+ " where t.recordTypeCode = ? and "
+									+ " where t.RECORD_TYPE_CODE = ? and "
 									+ "       (t.bibliographicLevel = ? "
 									+ "        OR t.bibliographicLevel is NULL)",
 							new Object[] {
@@ -83,7 +78,7 @@ public class DAORecordTypeMaterial extends HibernateUtil {
 				List l =
 					s.find(
 						"from RecordTypeMaterial as t "
-							+ " where t.recordTypeCode = ?",
+							+ " where t.RECORD_TYPE_CODE = ?",
 						new Object[] { materialType },
 						new Type[] { Hibernate.CHARACTER });
 				if (l.size() > 0) {
@@ -96,19 +91,14 @@ public class DAORecordTypeMaterial extends HibernateUtil {
 		}*/
 		return result;
 	}
-
+    @SuppressWarnings("unchecked")
 	public RecordTypeMaterial getDefaultTypeByHeaderCode(final Session session, final int headerCode, final String code) throws HibernateException {
-
-		List<RecordTypeMaterial> recordTypeMaterials = session.find(
+		final List<RecordTypeMaterial> recordTypeMaterials = session.find(
 					"from RecordTypeMaterial as t "
 						+ (code.equals(Global.OTHER_MATERIAL_TAG_CODE) ? " where t.bibHeader006 = ?" : " where t.bibHeader008 = ?"),
-					new Object[] { new Integer(headerCode) },
+					new Object[] { headerCode },
 					new Type[] { Hibernate.INTEGER });
 
-		Optional<RecordTypeMaterial> rtm = recordTypeMaterials.stream().filter(Objects::nonNull).findFirst();
-		if (rtm.isPresent()) {
-			return rtm.get();
-		}else
-			return null;
+		return recordTypeMaterials.stream().filter(Objects::nonNull).findFirst().orElse(null);
 	}
 }

@@ -963,18 +963,18 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 			if (getMaterialDescription008Indicator() == '1') {
 				content.setAttribute("enteredOnFileDateYYYYMMDD", getEnteredOnFileDateYYYYMMDD());
 				content.setAttribute("itemDateTypeCode","" + getItemDateTypeCode());
-				content.setAttribute("itemDateFirstPublication", getItemDateFirstPublication());
-				content.setAttribute("itemDateLastPublication",	getItemDateLastPublication());
+				content.setAttribute("ITEM_DATE_FIRST_PUBLICATION", getItemDateFirstPublication());
+				content.setAttribute("ITEM_DATE_LAST_PUBLICATION",	getItemDateLastPublication());
 				content.setAttribute("marcCountryCode", getMarcCountryCode());
-				content.setAttribute("languageCode", getLanguageCode());
+				content.setAttribute("LANGUAGE_CODE", getLanguageCode());
 				content.setAttribute("recordModifiedCode","" + getRecordModifiedCode());
 				content.setAttribute("recordCataloguingSourceCode","" + getRecordCataloguingSourceCode());
 			}
-			content.setAttribute("materialTypeCode", asNullableString(getMaterialTypeCode()));
+			content.setAttribute("MATERIAL_TYPE_CODE", asNullableString(getMaterialTypeCode()));
 			content.setAttribute("materialDescription008Indicator","" + getMaterialDescription008Indicator());
 			content.setAttribute("bookIllustrationCode",getBookIllustrationCode());
 			content.setAttribute("targetAudienceCode", asNullableString(getTargetAudienceCode()));
-			content.setAttribute("formOfItemCode", asNullableString(getFormOfItemCode()));
+			content.setAttribute("FORM_OF_ITEM_CODE", asNullableString(getFormOfItemCode()));
 			content.setAttribute("natureOfContentsCode",getNatureOfContentsCode());
 			content.setAttribute("governmentPublicationCode", asNullableString(getGovernmentPublicationCode()));
 			content.setAttribute("conferencePublicationCode", asNullableString(getConferencePublicationCode()));
@@ -1030,11 +1030,11 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 	public void parseModelXmlElementContent(Element xmlElement) 
 	{
 		Element content = (Element) xmlElement.getChildNodes().item(0);
-		setMaterialTypeCode(characterFromXML(content.getAttribute("materialTypeCode")));
+		setMaterialTypeCode(characterFromXML(content.getAttribute("MATERIAL_TYPE_CODE")));
 		setMaterialDescription008Indicator(content.getAttribute("materialDescription008Indicator").charAt(0));
 		setBookIllustrationCode(stringFromXML(content.getAttribute("bookIllustrationCode")));
 		setTargetAudienceCode(characterFromXML(content.getAttribute("targetAudienceCode")));
-		setFormOfItemCode(characterFromXML(content.getAttribute("formOfItemCode")));
+		setFormOfItemCode(characterFromXML(content.getAttribute("FORM_OF_ITEM_CODE")));
 		setNatureOfContentsCode(stringFromXML(content.getAttribute("natureOfContentsCode")));
 		setGovernmentPublicationCode(characterFromXML(content.getAttribute("governmentPublicationCode")));
 		setConferencePublicationCode(characterFromXML(content.getAttribute("conferencePublicationCode")));
@@ -1088,10 +1088,10 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 				formatter.parse(content.getAttribute("enteredOnFileDateYYYYMMDD"),new ParsePosition(0));
 			setEnteredOnFileDate(date);
 			setItemDateTypeCode(content.getAttribute("itemDateTypeCode").charAt(0));
-			setItemDateFirstPublication(content.getAttribute("itemDateFirstPublication"));
-			setItemDateLastPublication(content.getAttribute("itemDateLastPublication"));
+			setItemDateFirstPublication(content.getAttribute("ITEM_DATE_FIRST_PUBLICATION"));
+			setItemDateLastPublication(content.getAttribute("ITEM_DATE_LAST_PUBLICATION"));
 			setMarcCountryCode(content.getAttribute("marcCountryCode"));
-			setLanguageCode(content.getAttribute("languageCode"));
+			setLanguageCode(content.getAttribute("LANGUAGE_CODE"));
 			setRecordModifiedCode(content.getAttribute("recordModifiedCode").charAt(0));
 			setRecordCataloguingSourceCode(content.getAttribute("recordCataloguingSourceCode").charAt(0));
 		}		

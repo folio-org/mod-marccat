@@ -26,10 +26,7 @@ public class DAOIndexList extends HibernateUtil {
 	private static final Log logger = LogFactory.getLog(DAOIndexList.class);
 
 	public List getBrowseIndex(Locale locale) throws DataAccessException {
-
-		List result = new ArrayList();
-
-		String query =
+		final String query =
 			"from IndexList as a "
 				+ "where SUBSTR(a.browseCode, 0, 1) = 'B' "
 				+ "and a.key.language = '"
@@ -41,12 +38,8 @@ public class DAOIndexList extends HibernateUtil {
 		return getIndexByQuery(query);
 	}
 
-	public List getEditorBrowseIndex(Locale locale) throws DataAccessException 
-	{
-//--> La tendina deve visualizzare solo NOME EDITORE e LUOGO PUBBLICAZIONE
-		List result = new ArrayList();
-
-		String query =
+	public List getEditorBrowseIndex(Locale locale) throws DataAccessException {
+		final String query =
 			"from IndexList as a "
 				+ "where SUBSTR(a.browseCode, 0, 1) = 'B' "
 				+ "and a.key.language = '"
@@ -60,14 +53,11 @@ public class DAOIndexList extends HibernateUtil {
 	}
 	
 	public List getBrowseIndexPublisher(Locale locale) throws DataAccessException {
-
-		List result = new ArrayList();
-
-		String query =
+		final String query =
 			"from IndexList as a "
 				+ "where SUBSTR(a.browseCode, 0, 1) = 'B' "
-				+ " and (a.languageCode = 'PP'" 
-				+ " or a.languageCode = 'PU')" 
+				+ " and (a.LANGUAGE_CODE = 'PP'"
+				+ " or a.LANGUAGE_CODE = 'PU')"
 				+ "and a.key.language = '"
 				+ locale.getISO3Language()
 				/*modifica Barbara 26/04/2007 - nella lista degli indici solo indici LC*/
@@ -76,37 +66,31 @@ public class DAOIndexList extends HibernateUtil {
 
 		return getIndexByQuery(query);
 	}
+
 	public List getPrimaryIndex(Locale locale) throws DataAccessException {
-
-		List result = new ArrayList();
-
-		String query =
+		final String query =
 			"from IndexList as a "
 				+ "where SUBSTR(a.key.typeCode, 0, 1) = 'P' "
 				+ "and a.key.language = '"
 				+ locale.getISO3Language()
-				/*modifica Barbara 26/04/2007 - nella lista degli indici solo indici LC*/
 				+ "' and a.codeLibriCatMades = 'LC'";
 		return getIndexByQuery(query);
 	}
 
 	public List getSecondaryIndex(Locale locale) throws DataAccessException {
+		final List result = new ArrayList();
 
-		List result = new ArrayList();
-
-		String query =
+		final String query =
 			"from IndexList as a "
 				+ "where SUBSTR(a.key.typeCode, 0, 1) = 'S' "
 				+ " and a.key.language = '"
 				+ locale.getISO3Language()
-				/*modifica Barbara 26/04/2007 - nella lista degli indici solo indici LC*/
 				+ "' and a.codeLibriCatMades = 'LC'";
 
 		return getIndexByQuery(query);
 	}
 
-	public String getIndexBySortFormType(int mainType, int subType)
-		throws DataAccessException {
+	public String getIndexBySortFormType(final int mainType, final int subType) throws DataAccessException {
 
 		String query =
 			"from IndexList as a "
@@ -131,12 +115,10 @@ public class DAOIndexList extends HibernateUtil {
 
 		String query =
 			"from IndexList as a "
-				+ "where a.languageCode = " 
-//				+ s
+				+ "where a.LANGUAGE_CODE = "
 				+ "'" + s + "'"
 				+ " and a.key.language = '"
 				+ Locale.ENGLISH.getISO3Language()
-				/*modifica Barbara 26/04/2007 - nella lista degli indici solo indici LC*/
 				+ "' and a.codeLibriCatMades = 'LC'";
 
 		List l = getIndexByQuery(query);
@@ -158,7 +140,6 @@ public class DAOIndexList extends HibernateUtil {
 				+ "'" + ilk.getTypeCode() + "'"
 				+ " and a.key.language = "
 				+ "'" + locale.getISO3Language() + "'"
-				/*modifica Barbara 26/04/2007 - nella lista degli indici solo indici LC*/
 				+ " and a.codeLibriCatMades = 'LC'";
 
 		List l = getIndexByQuery(query);
@@ -221,7 +202,7 @@ public class DAOIndexList extends HibernateUtil {
 		try {
 			String query =
 					"select a.codeTableName from IndexList as a "
-							+ "where a.languageCode = '" + code + "'"
+							+ "where a.LANGUAGE_CODE = '" + code + "'"
 							+ " and a.key.language = '" + locale.getISO3Language()
 							+ "' and a.codeLibriCatMades = 'LC'";
 			final List<String> tableNameList = session.find(query);
@@ -235,14 +216,13 @@ public class DAOIndexList extends HibernateUtil {
 
 	public String getCodeTable(String key) throws DataAccessException {
 	List codeTableList = new ArrayList();
-	String codeTable = new String("");
-	String query = new String();
+	String codeTable = "";
+	String query = "";
 
 	query =
 		"select a.codeTableName from IndexList as a "
-			+ "where a.languageCode = '"
+			+ "where a.LANGUAGE_CODE = '"
 			+ key
-			/*modifica Barbara 26/04/2007 - nella lista degli indici solo indici LC*/
 			+ "' and a.codeLibriCatMades = 'LC'";
 
 	try {
@@ -272,7 +252,6 @@ public class DAOIndexList extends HibernateUtil {
 			find(
 				"from IndexList as t where t.key.keyNumber = ? "
 					+ " and trim(t.key.typeCode) = ? "
-					/*modifica Barbara 26/04/2007 - nella lista degli indici solo indici LC*/
 					+ " and t.codeLibriCatMades = 'LC'"
 					+ " and t.key.language = ? ",
 				new Object[] {
@@ -299,7 +278,7 @@ public class DAOIndexList extends HibernateUtil {
 	public IndexList getIndexByLocalAbbreviation(String s, Locale locale) throws DataAccessException {
 
 		List l = find("from IndexList as a " 
-				+ "where lower(a.languageCode) = '" + s.toLowerCase() + "'"
+				+ "where lower(a.LANGUAGE_CODE) = '" + s.toLowerCase() + "'"
 				+ " and a.key.language = '" + locale.getISO3Language() + "'"				
 				+ " and a.codeLibriCatMades = 'LC'");
 		if (l.size() > 0) {

@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- * 
- * Created on Jun 21, 2004
- * 
- * Descriptor.java
- */
 package org.folio.cataloging.dao;
 
 import net.sf.hibernate.Hibernate;
@@ -39,18 +32,17 @@ import static org.folio.cataloging.F.deepCopy;
  * also contain a reference to the associated persistence class.
  * 
  * @author paulm
+ * @since 1.0
  */
 public abstract class DAODescriptor extends HibernateUtil {
 
-	// private static final int ICU_ERROR = -6000; // -6XXX
-	// private static final int BUFFER_TOO_SMALL = -5002;
 
 	public static final String BLANK_SORTFORM = " ";
 
 	protected static Log logger = LogFactory.getLog(DAODescriptor.class);
 
 	/**
-	 * gets the name of the associated Persistent class
+	 * Gets the name of the associated Persistent class
 	 * 
 	 * @return the name
 	 */
@@ -59,8 +51,6 @@ public abstract class DAODescriptor extends HibernateUtil {
 	/**
 	 * default implemenation indicating whether the Descriptor class may have
 	 * cross-references (default true)
-	 * 
-	 * @since 1.0
 	 */
 	public boolean supportsCrossReferences() {
 		return true;
@@ -69,8 +59,6 @@ public abstract class DAODescriptor extends HibernateUtil {
 	/**
 	 * default implemenation indicating whether the Descriptor class may have
 	 * authorities (default false)
-	 * 
-	 * @since 1.0
 	 */
 	public boolean supportsAuthorities() {
 		return true;
@@ -81,8 +69,6 @@ public abstract class DAODescriptor extends HibernateUtil {
 	 * descriptor is not known, or not available. Note that this method is
 	 * overloaded. The (Descriptor) version should be used for calculating
 	 * sortforms when a Descriptor is available
-	 * 
-	 * @since 1.0
 	 */
 	public String calculateSortForm(String in) throws DataAccessException {
 		String result = "";
@@ -1271,7 +1257,7 @@ public abstract class DAODescriptor extends HibernateUtil {
 	{
 		int result = 0;
 		List l = null;
-		Integer headingType = Global.headingTypeMap.get(d.getCategory()+"");
+		Integer headingType = Global.HEADING_TYPE_MAP.get(d.getCategory()+"");
 		
 		if (searchingView == View.ANY) {
 			l = find(SELECT_URI_BY_ALL_VIEW,
@@ -1294,7 +1280,7 @@ public abstract class DAODescriptor extends HibernateUtil {
 	{
 		List<HDG_URI> list = null;
 		
-		Integer headingType = Global.headingTypeMap.get(d.getCategory()+"");
+		Integer headingType = Global.HEADING_TYPE_MAP.get(d.getCategory()+"");
 		
 		if (searchingView == View.ANY) {
 			list = find(SELECT_URI_BY_ALL_VIEW.replace("SELECT COUNT(*)", ""),
