@@ -1,0 +1,333 @@
+{
+  "$schema" : "http://json-schema.org/draft-04/schema#",
+  "title": "FixedFieldCodesGroup",
+  "type": "object",
+  "properties": {
+    "recordStatusTypes": {
+      "type": "array",
+      "items" : {
+        "type": "object",
+        "$ref": "recordStatusType"
+      }
+    },
+    "recordTypes": {
+      "type": "array",
+      "items" : {
+        "type": "object",
+        "$ref": "recordType"
+      }
+    },
+    "bibliographicLevels": {
+      "type": "array",
+      "items" : {
+        "type": "object",
+        "$ref": "bibliographicLevel"
+      }
+    },
+    "controlTypes": {
+      "type": "array",
+      "items" : {
+        "type": "object",
+        "$ref": "controlType"
+      }
+    },
+    "characterEncodingSchemas": {
+      "type": "array",
+      "items" : {
+        "type": "object",
+        "$ref": "characterEncodingSchema"
+      }
+    },
+    "encodingLevels": {
+      "type": "array",
+      "items" : {
+        "type": "object",
+        "$ref": "encodingLevel"
+      }
+    },
+    "descriptiveCatalogForms": {
+      "type": "array",
+      "items" : {
+        "type": "object",
+        "$ref": "descriptiveCatalogForm"
+      }
+    },
+    "linkedRecordCodes": {
+      "type": "array",
+      "items" : {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "dateTypes": {
+      "type": "array",
+      "items" : {
+        "type": "object",
+        "$ref": "dateType"
+      }
+    },
+    "bookIllustrationCodes1": {
+      "type": "array",
+      "items" : {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "bookIllustrationCodes2": {
+      "type": "array",
+      "items" : {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "bookIllustrationCodes3": {
+      "type": "array",
+      "items" : {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "bookIllustrationCodes4": {
+      "type": "array",
+      "items" : {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "targetAudienceCodes": {
+      "type": "array",
+      "items" : {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "formOfItemCodes": {
+      "type": "array",
+      "items" : {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "natureOfContents1": {
+      "type": "array",
+      "items" : {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "natureOfContents2": {
+      "type": "array",
+      "items" : {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "natureOfContents3": {
+      "type": "array",
+      "items" : {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "natureOfContents4": {
+      "type": "array",
+      "items" : {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "governmentPublicationCodes": {
+      "type": "array",
+      "items" : {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "conferencePublicationCodes": {
+      "type": "array",
+      "items" : {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "bookFestschrifts": {
+      "type": "array",
+      "items" : {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "bookIndexAvailabilityCodes": {
+      "type": "array",
+      "items" : {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "bookLiteraryFormTypeCodes": {
+      "type": "array",
+      "items" : {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "bookBiographyCodes": {
+      "type": "array",
+      "items" : {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "modifiedRecordTypes": {
+      "type": "array",
+      "items" : {
+        "type": "object",
+        "$ref": "modifiedRecordType"
+      }
+    },
+    "catalogSources": {
+      "type": "array",
+      "items" : {
+        "type": "object",
+        "$ref": "catalogSource"
+      }
+    }
+  },
+  "additionalProperties": false
+}

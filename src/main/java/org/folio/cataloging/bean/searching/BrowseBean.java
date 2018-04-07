@@ -95,14 +95,12 @@ public class BrowseBean extends SearchBean {
 	
 	private String lastBrowseTermSkip;
 	private int skipInFiling;
-	
-	/* Bug 5424 inizio */
+
 	private List uriCountList;
 	private boolean isAbleUri = false;
 	private String[] checkHdgUri = new String[0];
 	
-	public static SearchBean getInstance(HttpServletRequest request) 
-	{
+	public static SearchBean getInstance(HttpServletRequest request)  {
 		BrowseBean bean = (BrowseBean) getSessionAttribute(request, BrowseBean.class);
 		if (bean == null) {
 			bean = new BrowseBean();
@@ -998,7 +996,7 @@ public class BrowseBean extends SearchBean {
 		isAbleUri = false;
 		if (list!=null && list.size()>0){
 			Descriptor descriptor = (Descriptor) list.get(0);
-			Integer headingType = Global.headingTypeMap.get(descriptor.getCategory()+"");
+			Integer headingType = Global.HEADING_TYPE_MAP.get(descriptor.getCategory()+"");
 			if (headingType != null){
 				n = getBrowseManager().getDocCountUri(list, searchingView);
 				setUriCountList(n);

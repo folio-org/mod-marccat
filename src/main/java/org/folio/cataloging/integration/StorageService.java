@@ -36,7 +36,7 @@ public class StorageService implements Closeable {
     private final Context context;
     private static final Log logger = new Log(StorageService.class);
 
-    private final static Map<Integer, Class> firstCorrelationHeadingClassMap = new HashMap<Integer, Class>(){
+    private final static Map<Integer, Class> FIRST_CORRELATION_HEADING_CLASS_MAP = new HashMap<Integer, Class>(){
         {
             put(1, T_BIB_HDR.class);
             put(2, NameType.class);
@@ -53,14 +53,8 @@ public class StorageService implements Closeable {
             put(11, T_NME_TTL_FNCTN.class); //nt
         }
     };
-    private final static Map<Integer, Class> thirdCorrelationHeadingClassMap = new HashMap<Integer, Class>(){
-        {
-            put(2, NameFunction.class);
-            put(4, SubjectSource.class);
-            put(11, NameSubType.class);
-        }
-    };
-    private final static Map<Integer, Class> secondCorrelationClassMap = new HashMap<Integer, Class>(){
+
+    private final static Map<Integer, Class> SECOND_CORRELATION_CLASS_MAP = new HashMap<Integer, Class>(){
         {
             put(2, NameSubType.class);
             put(3, TitleSecondaryFunction.class);
@@ -68,6 +62,14 @@ public class StorageService implements Closeable {
             put(5, ControlNumberFunction.class);
             put(6, ClassificationFunction.class);
             put(11, NameType.class);
+        }
+    };
+
+    private final static Map<Integer, Class> THIRD_CORRELATION_HEADING_CLASS_MAP = new HashMap<Integer, Class>(){
+        {
+            put(2, NameFunction.class);
+            put(4, SubjectSource.class);
+            put(11, NameSubType.class);
         }
     };
 
@@ -129,7 +131,6 @@ public class StorageService implements Closeable {
         return dao.getList(session, T_ITM_REC_STUS.class, locale(lang));
     }
 
-
     /**
      * Returns the acquisition types associated with the given language.
      *
@@ -189,7 +190,6 @@ public class StorageService implements Closeable {
         final DAOCodeTable dao = new DAOCodeTable();
         return dao.getList(session, T_HLDG_SBCPT_STUS.class, locale(lang));
     }
-
 
     /**
      * Returns the record display format associated with the given language.
@@ -287,8 +287,6 @@ public class StorageService implements Closeable {
         return dao.getList(session, T_AUT_HDG_SRC.class, locale(lang));
     }
 
-
-
     /**
      * Returns the language types associated to the given language.
      *
@@ -351,7 +349,7 @@ public class StorageService implements Closeable {
     public List<Avp<String>> getSecondCorrelation(final int category, final int code, final String lang) throws DataAccessException {
 
         final DAOBibliographicCorrelation daoBC = new DAOBibliographicCorrelation();
-        final Class subTypeClass = secondCorrelationClassMap.get(category);
+        final Class subTypeClass = SECOND_CORRELATION_CLASS_MAP.get(category);
         return daoBC.getSecondCorrelationList(session, category, code, subTypeClass, locale(lang));
     }
 
@@ -369,7 +367,7 @@ public class StorageService implements Closeable {
                                                  final int code1,
                                                  final int code2,
                                                  final String lang) {
-        final Class clazz = thirdCorrelationHeadingClassMap.get(category);
+        final Class clazz = THIRD_CORRELATION_HEADING_CLASS_MAP.get(category);
         final DAOBibliographicCorrelation daoBC = new DAOBibliographicCorrelation();
         return daoBC.getThirdCorrelationList(session, category, code1, code2, clazz, locale(lang));
     }
@@ -518,7 +516,7 @@ public class StorageService implements Closeable {
      */
     public List<Avp<String>> getFirstCorrelation(final String lang, final int category) throws DataAccessException {
         final DAOCodeTable daoCT = new DAOCodeTable();
-        return daoCT.getList(session, firstCorrelationHeadingClassMap.get(category), locale(lang));
+        return daoCT.getList(session, FIRST_CORRELATION_HEADING_CLASS_MAP.get(category), locale(lang));
     }
 
     /**
@@ -744,7 +742,7 @@ public class StorageService implements Closeable {
      */
     public String getHeadingTypeDescription(final int code, final String lang, final int category) throws DataAccessException {
         final DAOCodeTable dao = new DAOCodeTable();
-        return dao.getLongText(session, code, firstCorrelationHeadingClassMap.get(category), locale(lang));
+        return dao.getLongText(session, code, FIRST_CORRELATION_HEADING_CLASS_MAP.get(category), locale(lang));
     }
 
     /**
@@ -754,7 +752,7 @@ public class StorageService implements Closeable {
      * @return a true if exist, false otherwise.
      */
     public boolean existHeadingTypeByCategory(final int category){
-        return ofNullable(firstCorrelationHeadingClassMap.get(category)).isPresent();
+        return ofNullable(FIRST_CORRELATION_HEADING_CLASS_MAP.get(category)).isPresent();
     }
 
     /**
@@ -764,7 +762,7 @@ public class StorageService implements Closeable {
      * @return a true if exist, false otherwise.
      */
     public boolean existItemTypeByCategory(final int category){
-        return ofNullable(secondCorrelationClassMap.get(category)).isPresent();
+        return ofNullable(SECOND_CORRELATION_CLASS_MAP.get(category)).isPresent();
     }
 
     /**
@@ -774,6 +772,6 @@ public class StorageService implements Closeable {
      * @return a true if exist, false otherwise.
      */
     public boolean existFunctionCodeByCategory(final int category){
-        return ofNullable(thirdCorrelationHeadingClassMap.get(category)).isPresent();
+        return ofNullable(THIRD_CORRELATION_HEADING_CLASS_MAP.get(category)).isPresent();
     }
 }

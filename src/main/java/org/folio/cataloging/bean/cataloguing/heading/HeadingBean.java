@@ -59,7 +59,7 @@ public abstract class HeadingBean extends LibrisuiteBean {
 
 	public boolean isHeadingWithUri(String headingCategory)
 	{
-		Integer headingType = Global.headingTypeMap.get(headingCategory);
+		Integer headingType = Global.HEADING_TYPE_MAP.get(headingCategory);
 		if (headingType != null){
 			
 		}
