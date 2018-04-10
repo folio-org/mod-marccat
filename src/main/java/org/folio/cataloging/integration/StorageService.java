@@ -627,6 +627,102 @@ public class StorageService implements Closeable {
     }
 
     /**
+     * Returns the book illustration types associated with the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the date type associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getBookIllustrations(final String lang)throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_BOOK_ILSTN.class, locale(lang));
+    }
+
+    /**
+     * Returns the target audience types associated with the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the date type associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getTargetAudiences(final String lang)throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_TRGT_AUDNC.class, locale(lang));
+    }
+
+    /**
+     * Returns the form of item type associated with the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the date type associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getFormOfItems(final String lang)throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_FORM_OF_ITM.class, locale(lang));
+    }
+
+    /**
+     * Returns the festschrift types associated with the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the date type associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getFestschrifts(final String lang)throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_BOOK_FTSCT.class, locale(lang));
+    }
+
+    /**
+     * Returns the literary forms associated with the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the date type associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getLiteraryForms(final String lang)throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_BOOK_LTRY_FORM_TYP.class, locale(lang));
+    }
+
+    /**
+     * Returns the music forms of composition associated with the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the date type associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getMusicFormsOfComposition(final String lang)throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_MSC_FORM_OR_TYP.class, locale(lang));
+    }
+
+    /**
+     * Returns the music formats associated with the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the date type associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getMusicFormats(final String lang)throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_MSC_FRMT.class, locale(lang));
+    }
+
+    /**
+     * Returns the music parts associated with the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the date type associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getMusicParts(final String lang)throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_MSC_PRT.class, locale(lang));
+    }
+
+    /**
      * Returns the modified record types associated with the given language.
      *
      * @param lang the language code, used here as a filter criterion.

@@ -134,19 +134,11 @@
         "additionalProperties": false
       }
     },
-    "targetAudienceCodes": {
+    "targetAudiences": {
       "type": "array",
       "items" : {
         "type": "object",
-        "properties": {
-          "code": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
+        "$ref": "targetAudience"
       }
     },
     "formOfItemCodes": {
@@ -254,19 +246,11 @@
         "additionalProperties": false
       }
     },
-    "bookFestschrifts": {
+    "festschrifts": {
       "type": "array",
       "items" : {
         "type": "object",
-        "properties": {
-          "code": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
+        "$ref": "festschrift"
       }
     },
     "bookIndexAvailabilityCodes": {
@@ -284,19 +268,11 @@
         "additionalProperties": false
       }
     },
-    "bookLiteraryFormTypeCodes": {
+    "bookLiteraryForms": {
       "type": "array",
       "items" : {
         "type": "object",
-        "properties": {
-          "code": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
+        "$ref": "bookLiteraryForm"
       }
     },
     "bookBiographyCodes": {
@@ -312,6 +288,27 @@
           }
         },
         "additionalProperties": false
+      }
+    },
+    "musicFormOfCompositions": {
+      "type": "array",
+      "items" : {
+        "type": "object",
+        "$ref": "musicFormOfComposition"
+      }
+    },
+    "musicParts": {
+      "type": "array",
+      "items" : {
+        "type": "object",
+        "$ref": "musicPart"
+      }
+    },
+    "musicFormats": {
+      "type": "array",
+      "items" : {
+        "type": "object",
+        "$ref": "musicFormat"
       }
     },
     "modifiedRecordTypes": {
