@@ -63,6 +63,15 @@ public class FixedFieldCodesGroupsAPI implements CatalogingFixedFieldResource {
 
     }
 
+    /**
+     * Inject codes groups for 008 and 006 tags.
+     *
+     * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
+     * @param storageService the storage service.
+     * @param lang the lang associated with the current request.
+     * @param headerTypeCode the header type code selected.
+     * @param tag the tag code.
+     */
     private void injectMaterialCodes(final FixedFieldCodesGroup fixedFieldCodesGroup,
                                      final StorageService storageService,
                                      final String lang,
@@ -276,12 +285,19 @@ public class FixedFieldCodesGroupsAPI implements CatalogingFixedFieldResource {
     }
 
     @Override
-    public void deleteCatalogingFixedFieldCodesGroups(String lang, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
+    public void deleteCatalogingFixedFieldCodesGroups(final String lang,
+                                                      final Map<String, String> okapiHeaders,
+                                                      final Handler<AsyncResult<Response>> asyncResultHandler,
+                                                      final Context vertxContext) throws Exception {
         throw new IllegalArgumentException();
     }
 
     @Override
-    public void putCatalogingFixedFieldCodesGroups(String lang, FixedFieldCodesGroup entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
+    public void putCatalogingFixedFieldCodesGroups(final String lang,
+                                                   final FixedFieldCodesGroup entity,
+                                                   final Map<String, String> okapiHeaders,
+                                                   final Handler<AsyncResult<Response>> asyncResultHandler,
+                                                   final Context vertxContext) throws Exception {
         throw new IllegalArgumentException();
     }
 }
