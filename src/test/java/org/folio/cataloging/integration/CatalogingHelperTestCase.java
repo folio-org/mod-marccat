@@ -1,5 +1,6 @@
 package org.folio.cataloging.integration;
 
+
 import org.junit.Test;
 
 import static org.folio.cataloging.integration.CatalogingHelper.BASE_CQUERY;

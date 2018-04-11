@@ -12,11 +12,9 @@ import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.shared.Validation;
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.*;
-
 import static java.util.Optional.ofNullable;
 import static org.folio.cataloging.F.locale;
 
@@ -504,7 +502,7 @@ public class StorageService implements Closeable {
      * @param lang the language code, used here as a filter criterion.
      * @return the heading category.
      */
-    public List<Avp<String>> getMarcCategories(String lang) {
+    public List<Avp<String>> getMarcCategories(final String lang) {
         final DAOCodeTable dao = new DAOCodeTable();
         return dao.getList(session, T_BIB_TAG_CAT.class, locale(lang));
     }
@@ -748,6 +746,178 @@ public class StorageService implements Closeable {
     }
 
     /**
+     * Save the new Bibliographic Record Template.
+     *
+     * @param name the record template label.
+     * @param firstGroup the frbr first group. This group is related to the FRBR entity: Works Expressions and Manifestations.
+     * @param fields the String of the record template containing the tags.
+     *
+     * @throws DataAccessException in case of data access failure.
+     */
+    public void saveBibliographicRecordTemplate(final String name, final int firstGroup, final String fields) throws DataAccessException {
+        try {
+            final BibliographicModelDAO dao = new BibliographicModelDAO();
+            final BibliographicModel model = new BibliographicModel();
+            model.setLabel(name);
+            model.setFrbrFirstGroup(firstGroup);
+            model.setRecordFields(fields);
+            dao.save(model, session);
+        } catch (final HibernateException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+            throw new DataAccessException(exception);
+        }
+
+    }
+    /**
+     * Save the new Authority Record Template.
+     *
+     * @param name the record template label.
+     * @param firstGroup the frbr first group. This group is related to the FRBR entity: Works Expressions and Manifestations.
+     * @param fields the String of the record template containing the tags.
+     *
+     * @throws DataAccessException in case of data access failure.
+     */
+    public void saveAuthorityRecordTemplate(final String name, final int firstGroup, final String fields) throws DataAccessException {
+        try {
+            final AuthorityModelDAO dao = new AuthorityModelDAO();
+            final AuthorityModel model = new AuthorityModel();
+            model.setLabel(name);
+            model.setFrbrFirstGroup(firstGroup);
+            model.setRecordFields(fields);
+            dao.save(model, session);
+        } catch (final HibernateException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+            throw new DataAccessException(exception);
+        }
+
+    }
+
+    /**
+     * Update the Bibliographic Record Template.
+     *
+     * @param name the record template id.
+     * @param name the record template label.
+     * @param firstGroup the frbr first group. This group is related to the FRBR entity: Works Expressions and Manifestations.
+     * @param fields the String of the record template containing the tags.
+     *
+     * @throws DataAccessException in case of data access failure.
+     */
+    public void updateBibliographicRecordTemplate(final String id, final String name, final int firstGroup, final String fields) throws DataAccessException {
+        try {
+            final BibliographicModelDAO dao = new BibliographicModelDAO();
+            final BibliographicModel model = new BibliographicModel();
+            model.setId(Integer.valueOf(id));
+            model.setLabel(name);
+            model.setFrbrFirstGroup(firstGroup);
+            model.setRecordFields(fields);
+            dao.update(model, session);
+        } catch (final HibernateException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+            throw new DataAccessException(exception);
+        }
+
+    }
+
+    /**
+     * Update the Authority Record Template.
+     *
+     * @param name the record template id.
+     * @param name the record template label.
+     * @param firstGroup the frbr first group. This group is related to the FRBR entity: Works Expressions and Manifestations.
+     * @param fields the String of the record template containing the tags.
+     *
+     * @throws DataAccessException in case of data access failure.
+     */
+    public void updateAuthorityRecordTemplate(final String id, final String name, final int firstGroup, final String fields) throws DataAccessException {
+        try {
+            final AuthorityModelDAO dao = new AuthorityModelDAO();
+            final AuthorityModel model = new AuthorityModel();
+            model.setId(Integer.valueOf(id));
+            model.setLabel(name);
+            model.setFrbrFirstGroup(firstGroup);
+            model.setRecordFields(fields);
+            dao.update(model, session);
+        } catch (final HibernateException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+            throw new DataAccessException(exception);
+        }
+
+    }
+
+
+    /**
+     * Delete a Bibliographic Record Template
+     *
+     * @param id the record template id.
+     *
+     * @throws DataAccessException in case of data access failure.
+     */
+
+    public void deleteBibliographicRecordTemplate(final String id) throws DataAccessException {
+        try {
+            final BibliographicModelDAO dao = new BibliographicModelDAO();
+            final Model model = dao.load(Integer.valueOf(id), session);
+            dao.delete(model, session);
+        } catch (final HibernateException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+            throw new DataAccessException(exception);
+        }
+    }
+
+    /**
+     * Delete a Authority Record Template
+     *
+     * @param id the record template id.
+     *
+     * @throws DataAccessException in case of data access failure.
+     */
+
+    public void deleteAuthorityRecordTemplate(final String id) throws DataAccessException {
+        try {
+            final BibliographicModelDAO dao = new BibliographicModelDAO();
+            final Model model = dao.load(Integer.valueOf(id), session);
+            dao.delete(model, session);
+        } catch (final HibernateException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+            throw new DataAccessException(exception);
+        }
+    }
+    /**
+     * Return a Bibliographic Record Template by id
+     *
+     * @param id the record template id.
+     *
+     * @throws DataAccessException in case of data access failure.
+     */
+    public Model getBibliographicRecordRecordTemplatesById(final String id) throws DataAccessException {
+        try {
+        final BibliographicModelDAO dao = new BibliographicModelDAO();
+        return dao.load(Integer.valueOf(id), session);
+        } catch (final HibernateException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+            throw new DataAccessException(exception);
+        }
+    }
+
+    /**
+     * Return a Authority Record Template by id
+     *
+     * @param id the record template id.
+     *
+     * @throws DataAccessException in case of data access failure.
+     */
+    public Model getAuthorityRecordRecordTemplatesById(final String id) throws DataAccessException {
+        try {
+            final AuthorityModelDAO dao = new AuthorityModelDAO();
+            return dao.load(Integer.valueOf(id), session);
+        } catch (final HibernateException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+            throw new DataAccessException(exception);
+        }
+    }
+
+
+    /**
      * Check if exist the first correlation list for the category code.
      *
      * @param category the category associated to field/tag.
@@ -776,4 +946,5 @@ public class StorageService implements Closeable {
     public boolean existFunctionCodeByCategory(final int category){
         return ofNullable(thirdCorrelationHeadingClassMap.get(category)).isPresent();
     }
+
 }

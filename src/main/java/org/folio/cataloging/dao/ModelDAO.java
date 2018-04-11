@@ -3,8 +3,10 @@ package org.folio.cataloging.dao;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
+import net.sf.hibernate.Transaction;
 import net.sf.hibernate.type.Type;
 import org.folio.cataloging.business.codetable.Avp;
+import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 import org.folio.cataloging.dao.persistence.Model;
 
 import java.util.List;
@@ -75,9 +77,9 @@ public abstract class ModelDAO{
 		final List<Model> list = session.find(
 					"from "
 							+ getPersistentClass().getName()
-							+ " as itm where itm.item = ? ",
+							+ " as itm where itm.id = ? ",
 					new Object[] { id },
-					new Type[] { Hibernate.LONG });
+					new Type[] { Hibernate.INTEGER });
 		return list.stream().filter(Objects::nonNull).findFirst().orElse(null);
 	}
 
@@ -96,6 +98,7 @@ public abstract class ModelDAO{
 	 * @param session the hibernate session
 	 */
 	public void delete(final Model model, final Session session) throws HibernateException {
+		Transaction transaction = session.beginTransaction();
 		session.delete(
 			"from "
 				+ getModelItemDAO().getPersistentClass().getName()
@@ -104,6 +107,7 @@ public abstract class ModelDAO{
 			model.getId(),
 			Hibernate.INTEGER);
 		session.delete(model);
+		transaction.commit();
 	}
 
 	/**
@@ -114,9 +118,22 @@ public abstract class ModelDAO{
 	 * @throws HibernateException in case of data access failure
 	 */
 	public void save(final Model model, final Session session) throws HibernateException {
+		Transaction transaction = session.beginTransaction();
 		session.save(model);
+		transaction.commit();
 	}
-
+	/**
+	 * Save a model.
+	 *
+	 * @param model the model
+	 * @param session the hibernate session
+	 * @throws HibernateException in case of data access failure
+	 */
+	public void update(final Model model, final Session session) throws HibernateException {
+		Transaction transaction = session.beginTransaction();
+		session.update(model);
+		transaction.commit();
+	}
 	/**
 	 * Retrieves the list of all available models.
 	 *
