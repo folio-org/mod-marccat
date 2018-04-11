@@ -105,8 +105,8 @@ public class GeneralInformation {
         setRecordCataloguingSourceCode(configuration.get("bibliographicItem.recordCataloguingSourceCode"));
         setItemDateTypeCode(configuration.get("bibliographicItem.itemDateTypeCode"));
         setLanguageCode(configuration.get("bibliographicItem.languageCode"));
-        setItemDateFirstPublication(Global.itemDateFirstPublication);
-        setItemDateLastPublication(Global.itemDateLastPublication);
+        setItemDateFirstPublication(Global.ITEM_DATE_FIRST_PUBLICATION);
+        setItemDateLastPublication(Global.ITEM_DATE_LAST_PUBLICATION);
         setMarcCountryCode(configuration.get("bibliographicItem.marcCountryCode"));
 
         setBookIllustrationCode(configuration.get("material.bookIllustrationCode"));

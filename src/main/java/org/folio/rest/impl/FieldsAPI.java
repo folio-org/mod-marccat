@@ -68,7 +68,10 @@ public class FieldsAPI implements CatalogingFieldsResource {
      * @param lang the lang code.
      * @return a new 040 {@link Field} entity populated with default values.
      */
-    private Field createCatalogingSourceField(final Map<String, String> configuration, final StorageService storageService, final String lang) {
+    private Field createCatalogingSourceField(
+            final Map<String, String> configuration,
+            final StorageService storageService,
+            final String lang) {
         final CorrelationValues correlationValues =
                 new CorrelationValues(
                         Global.CATALOGING_SOURCE_HEADER_TYPE,
@@ -96,7 +99,6 @@ public class FieldsAPI implements CatalogingFieldsResource {
 
         final Field field = new Field();
         field.setVariableField(catalogingSourceField);
-        field.setCode(Global.CATALOGING_SOURCE_TAG_CODE);
 
         return field;
     }
@@ -119,7 +121,6 @@ public class FieldsAPI implements CatalogingFieldsResource {
 
         final Field field = new Field();
         field.setFixedField(controlNumberFixedField);
-        field.setCode(Global.CONTROL_NUMBER_TAG_CODE);
 
         return field;
 
@@ -143,8 +144,6 @@ public class FieldsAPI implements CatalogingFieldsResource {
 
         final Field field = new Field();
         field.setFixedField(leader);
-        field.setCode(Global.LEADER_TAG_NUMBER);
-
         return field;
     }
 
@@ -161,7 +160,7 @@ public class FieldsAPI implements CatalogingFieldsResource {
         final String description = storageService.getHeadingTypeDescription(Global.MATERIAL_DESCRIPTION_HEADER_TYPE, lang, Global.INT_CATEGORY);
         final GeneralInformation generalInformation = new GeneralInformation();
         generalInformation.setMaterialDescription008Indicator("1");
-        generalInformation.setFormOfMaterial(Global.bookformOfMaterial); //book
+        generalInformation.setFormOfMaterial(Global.BOOKFORM_OF_MATERIAL); //book
         generalInformation.setDefaultValues(configuration);
         generalInformation.setEnteredOnFileDateYYMMDD(F.getFormattedDate("yyMMdd"));
 
@@ -174,7 +173,6 @@ public class FieldsAPI implements CatalogingFieldsResource {
 
         final Field field = new Field();
         field.setFixedField(materialDescription);
-        field.setCode(Global.MATERIAL_TAG_CODE);
 
         return field;
     }
@@ -187,20 +185,25 @@ public class FieldsAPI implements CatalogingFieldsResource {
     private String getLeaderValue() {
         return new StringBuilder(Global.FIXED_LEADER_LENGTH)
                 .append(Global.RECORD_STATUS_CODE)
-                .append(Global.recordTypeCode)
-                .append(Global.bibliographicLevelCode)
-                .append(Global.controlTypeCode)
-                .append(Global.characterCodingSchemeCode)
-                .append(Global.fixedLeaderBaseAddress)
-                .append(Global.encodingLevel)
-                .append(Global.descriptiveCataloguingCode)
-                .append(Global.linkedRecordCode)
-                .append(Global.fixedLeaderPortion)
+                .append(Global.RECORD_TYPE_CODE)
+                .append(Global.BIBLIOGRAPHIC_LEVEL_CODE)
+                .append(Global.CONTROL_TYPE_CODE)
+                .append(Global.CHARACTER_CODING_SCHEME_CODE)
+                .append(Global.FIXED_LEADER_BASE_ADDRESS)
+                .append(Global.ENCODING_LEVEL)
+                .append(Global.DESCRIPTIVE_CATALOGUING_CODE)
+                .append(Global.LINKED_RECORD_CODE)
+                .append(Global.FIXED_LEADER_PORTION)
                 .toString();
     }
 
     @Override
-    public void postCatalogingFieldsBibliographicMandatory(final String lang, final Field entity, final Map<String, String> okapiHeaders, final Handler<AsyncResult<Response>> asyncResultHandler, final Context vertxContext) {
+    public void postCatalogingFieldsBibliographicMandatory(
+            final String lang,
+            final Field entity,
+            final Map<String, String> okapiHeaders,
+            final Handler<AsyncResult<Response>> asyncResultHandler,
+            final Context vertxContext) {
         throw new IllegalArgumentException();
     }
 }
