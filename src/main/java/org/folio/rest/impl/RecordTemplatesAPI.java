@@ -4,7 +4,6 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Context;
 import io.vertx.core.Handler;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.folio.cataloging.F;
 import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.dao.persistence.Model;
 import org.folio.cataloging.log.Log;
@@ -76,8 +75,7 @@ public class RecordTemplatesAPI implements CatalogingRecordTemplatesResource {
                                 ? storageService.getAuthorityRecordRecordTemplatesById(id)
                                 : storageService.getBibliographicRecordRecordTemplatesById(id);
                 final ObjectMapper objectMapper = new ObjectMapper();
-                final RecordTemplate recordTemplate = objectMapper.readValue(template.getRecordFields(), RecordTemplate.class);
-                return recordTemplate;
+                return objectMapper.readValue(template.getRecordFields(), RecordTemplate.class);
             } catch (final Exception exception) {
                 logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
                 return null;
@@ -145,7 +143,7 @@ public class RecordTemplatesAPI implements CatalogingRecordTemplatesResource {
             final Context vertxContext) throws Exception {
         doDelete((storageService, configuration, future) -> {
             try {
-                if("A".equals(type))
+                if("A".equals(type.name()))
                     storageService.deleteAuthorityRecordTemplate(id);
                 else
                     storageService.deleteBibliographicRecordTemplate(id);
