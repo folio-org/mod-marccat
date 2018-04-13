@@ -13,10 +13,12 @@
  */
 package org.folio.cataloging.bean.cataloguing.common;
 
+import net.sf.hibernate.HibernateException;
 import org.folio.cataloging.bean.LibrisuiteBean;
 import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicCatalog;
+import org.folio.cataloging.business.cataloguing.bibliographic.NewTagException;
 import org.folio.cataloging.business.cataloguing.common.Catalog;
-import org.folio.cataloging.business.cataloguing.common.Model;
+import org.folio.cataloging.dao.persistence.Model;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.controller.SessionUtils;
 import org.folio.cataloging.business.controller.UserProfile;
@@ -56,13 +58,21 @@ public class ModelsBean extends LibrisuiteBean {
 		throw new IllegalArgumentException("Don't call me!");
 //		return getCatalog().getModelDAO().getModelList();
 	}
-
-	public Model load(int modelId) throws DataAccessException {
-		return getCatalog().getModelDAO().load(modelId);
+	/**
+	 * Load the Model.
+	 * TODO from load method used the Session
+	 *
+	 * @param modelId the id of the model
+	 * @return the model
+	 * @throws DataAccessException the data access exception
+	 * @throws HibernateException in case of data access failure
+	 */
+	public Model load(int modelId) throws DataAccessException, HibernateException {
+		return getCatalog().getModelDAO().load(modelId, null);
 	}
 
 	public void delete(Model model) throws DataAccessException {
-		getCatalog().getModelDAO().delete(model);
+		//getCatalog().getModelDAO().delete(model);
 	}
 
 	/**
@@ -72,8 +82,17 @@ public class ModelsBean extends LibrisuiteBean {
 		return model;
 	}
 
+
+	/**
+	 * Retrieves a boolean representing whether a model in the list of all
+	 * models is currently in use by a bib item.
+	 *
+	 * @return a boolean representing whether a model in the list of all models is currently in use by a bib item.
+	 * @throws DataAccessException in case of data access failure.
+	 */
 	public List getLinkedToItems() throws DataAccessException {
-		return getCatalog().getModelDAO().getModelUsageList();
+		//return getCatalog().getModelDAO().getModelUsageList();
+		return null;
 	}
 
 	/**

@@ -1,8 +1,8 @@
 package org.folio.cataloging.business.digital;
 
-import org.folio.cataloging.exception.LibrisuiteException;
+import org.folio.cataloging.exception.ModCatalogingException;
 
-public class DigitalFileSystemException extends LibrisuiteException {
+public class DigitalFileSystemException extends ModCatalogingException {
 
 	public DigitalFileSystemException() {
 		super();

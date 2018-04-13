@@ -1,6 +1,6 @@
 package org.folio.cataloging.business.descriptor;
 
-import org.folio.cataloging.exception.LibrisuiteException;
+import org.folio.cataloging.exception.ModCatalogingException;
 /**
  * Raised when a new heading is created whose sortform is identical
  * to another heading in a different view.  The user would normally
@@ -9,7 +9,7 @@ import org.folio.cataloging.exception.LibrisuiteException;
  * @author paul
  *
  */
-public class MatchedHeadingInAnotherViewException extends LibrisuiteException {
+public class MatchedHeadingInAnotherViewException extends ModCatalogingException {
 
 	/**
 	 * 

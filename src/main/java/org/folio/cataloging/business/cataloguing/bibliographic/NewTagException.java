@@ -7,14 +7,14 @@
  */
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
-import org.folio.cataloging.exception.LibrisuiteException;
+import org.folio.cataloging.exception.ModCatalogingException;
 
 /**
  * @author paulm
  * @version $Revision: 1.2 $, $Date: 2004/09/16 10:12:53 $
  * @since 1.0
  */
-public class NewTagException extends LibrisuiteException {
+public class NewTagException extends ModCatalogingException {
 
 	/**
 	 * 

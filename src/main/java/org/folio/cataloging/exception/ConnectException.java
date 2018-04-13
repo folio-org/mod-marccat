@@ -11,7 +11,7 @@ package org.folio.cataloging.exception;
  * @author paulm
  *
  */
-public class ConnectException extends LibrisuiteException {
+public class ConnectException extends ModCatalogingException {
 
 	/**
 	 * Class constructor

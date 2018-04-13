@@ -1,26 +1,17 @@
-/*
- * Created on Sep 15, 2004
- *
- */
 package org.folio.cataloging.dao.common;
+
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.Transaction;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.PersistenceState;
+import org.folio.cataloging.business.common.ReferentialIntegrityException;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.PersistenceState;
-import org.folio.cataloging.business.common.ReferentialIntegrityException;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.Transaction;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-/**
- * Class comment 2005/10/12
- * @author janick
- */
 public abstract class TransactionalHibernateOperation {
 
 	private static final Log logger =

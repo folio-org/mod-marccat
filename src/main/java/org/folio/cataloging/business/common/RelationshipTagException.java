@@ -7,7 +7,7 @@
  */
 package org.folio.cataloging.business.common;
 
-import org.folio.cataloging.exception.LibrisuiteException;
+import org.folio.cataloging.exception.ModCatalogingException;
 
 
 /**
@@ -15,31 +15,31 @@ import org.folio.cataloging.exception.LibrisuiteException;
  * @version %I%, %G%
  * @since 1.0
  */
-public class RelationshipTagException extends LibrisuiteException {
+public class RelationshipTagException extends ModCatalogingException {
 
 	/**
-	 * @see LibrisuiteException#LibrisuiteException()
+	 * @see ModCatalogingException#ModCatalogingException()
 	 */
 	public RelationshipTagException() {
 		super();
 	}
 
 	/**
-	 * @see LibrisuiteException#LibrisuiteException(String)
+	 * @see ModCatalogingException#ModCatalogingException(String)
 	 */
 	public RelationshipTagException(String message) {
 		super(message);
 	}
 
 	/**
-	 * @see LibrisuiteException#LibrisuiteException(String, Throwable)
+	 * @see ModCatalogingException#ModCatalogingException(String, Throwable)
 	 */
 	public RelationshipTagException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
 	/**
-	 * @see LibrisuiteException#LibrisuiteException(Throwable)
+	 * @see ModCatalogingException#ModCatalogingException(Throwable)
 	 */
 	public RelationshipTagException(Throwable cause) {
 		super(cause);

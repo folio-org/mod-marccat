@@ -1,32 +1,23 @@
-/*
- * (c) LibriCore
- * 
- * Created on Dec 21, 2005
- * 
- * DAOAuthorityModel.java
- */
+
 package org.folio.cataloging.dao;
 
-import org.folio.cataloging.business.cataloguing.authority.AuthorityModel;
+import org.folio.cataloging.dao.persistence.AuthorityModel;
 
 /**
+ * The Class AuthorityModelDAO.
+ *
  * @author paulm
- * @version $Revision: 1.2 $, $Date: 2006/01/05 13:25:58 $
+ * @author carment
  * @since 1.0
  */
 public class AuthorityModelDAO extends ModelDAO {
-	private static final DAOAuthorityModelItem theItemDAO = new DAOAuthorityModelItem();
 
-	/* (non-Javadoc)
-	 * @see ModelDAO#getModelItemDAO()
-	 */
-	protected DAOModelItem getModelItemDAO() {
-		return theItemDAO;
+	@Override
+	protected ModelItemDAO getModelItemDAO() {
+		return  new AuthorityModelItemDAO();
 	}
 
-	/* (non-Javadoc)
-	 * @see ModelDAO#getPersistentClass()
-	 */
+	@Override
 	protected Class getPersistentClass() {
 		return AuthorityModel.class;
 	}

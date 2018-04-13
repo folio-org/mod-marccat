@@ -10,8 +10,12 @@
       "type": "string"
     },
     "group" : {
+      "type": "integer"
+    },
+    "type" : {
       "type": "string"
     },
+
     "leader" : {
       "type": "object",
       "properties": {
@@ -25,7 +29,7 @@
         }
       }
     },
-    "controlFields": {
+    "fixedFields": {
       "type": "array",
       "items": {
         "type": "object",

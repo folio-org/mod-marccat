@@ -1,8 +1,8 @@
 package org.folio.cataloging.business.descriptor;
 
-import org.folio.cataloging.exception.LibrisuiteException;
+import org.folio.cataloging.exception.ModCatalogingException;
 
-public class UnsupportedHeadingException extends LibrisuiteException {
+public class UnsupportedHeadingException extends ModCatalogingException {
 
 	public UnsupportedHeadingException() {
 		super();

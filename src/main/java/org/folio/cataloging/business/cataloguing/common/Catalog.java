@@ -10,6 +10,7 @@ import org.folio.cataloging.business.controller.UserProfile;
 import org.folio.cataloging.dao.CatalogDAO;
 import org.folio.cataloging.dao.DAOCodeTable;
 import org.folio.cataloging.dao.ModelDAO;
+import org.folio.cataloging.dao.persistence.Model;
 import org.folio.cataloging.exception.RecordInUseException;
 import org.folio.cataloging.exception.ValidationException;
 import org.folio.cataloging.shared.CorrelationValues;

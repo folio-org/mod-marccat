@@ -14,7 +14,7 @@ package org.folio.cataloging.exception;
  * @version $Revision: 1.1 $, $Date: 2006/01/11 13:36:23 $
  * @since 1.0
  */
-public class ValidationException extends LibrisuiteException {
+public class ValidationException extends ModCatalogingException {
 
 	/**
 	 * Class constructor
