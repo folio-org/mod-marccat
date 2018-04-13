@@ -25,9 +25,11 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import static io.vertx.core.Future.succeededFuture;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toMap;
+import static javax.ws.rs.core.Response.status;
 import static org.folio.cataloging.F.safe;
 import static org.folio.cataloging.Global.HCONFIGURATION;
 
@@ -68,13 +70,17 @@ public abstract class CatalogingHelper {
             final Context ctx,
             final String ... configurationSets) throws Exception {
         exec(adapter, asyncResultHandler, okapiHeaders, ctx, execution ->
-            Response
-                .status(HttpStatus.SC_OK)
+            status(HttpStatus.SC_OK)
                 .header(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.toString())
                 .entity(execution.result())
                 .build(), configurationSets);
     }
 
+    /**
+     * A simple definition of a validation interface.
+     *
+     * @param <T> the kind of object that needs to be validated.
+     */
     interface Valid<T> {
         Optional<T> validate(Function<T, Optional<T>> validator);
     }
@@ -99,14 +105,13 @@ public abstract class CatalogingHelper {
             final Supplier<String> id) throws Exception {
         if (validator.getAsBoolean()) {
             exec(adapter, asyncResultHandler, okapiHeaders, ctx, execution ->
-                    Response
-                            .status(HttpStatus.SC_CREATED)
+                    status(HttpStatus.SC_CREATED)
                             .header(HttpHeaders.LOCATION, id.get())
                             .header(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.toString())
                             .entity(execution.result())
                             .build());
         } else {
-            asyncResultHandler.handle(Future.succeededFuture(Response.status(HttpStatus.SC_UNPROCESSABLE_ENTITY).build()));
+            asyncResultHandler.handle(succeededFuture(status(HttpStatus.SC_UNPROCESSABLE_ENTITY).build()));
         }
     }
 
@@ -127,9 +132,9 @@ public abstract class CatalogingHelper {
             final Context ctx,
             final BooleanSupplier validator) throws Exception {
         if (validator.getAsBoolean()) {
-            exec(adapter, asyncResultHandler, okapiHeaders, ctx, execution -> Response.status(HttpStatus.SC_NO_CONTENT).build());
+            exec(adapter, asyncResultHandler, okapiHeaders, ctx, execution -> status(HttpStatus.SC_NO_CONTENT).build());
         } else {
-            asyncResultHandler.handle(Future.succeededFuture(Response.status(HttpStatus.SC_BAD_REQUEST).build()));
+            asyncResultHandler.handle(succeededFuture(status(HttpStatus.SC_BAD_REQUEST).build()));
         }
     }
 
@@ -147,7 +152,7 @@ public abstract class CatalogingHelper {
             final Handler<AsyncResult<Response>> asyncResultHandler,
             final Map<String, String> okapiHeaders,
             final Context ctx) throws Exception {
-        exec(adapter, asyncResultHandler, okapiHeaders, ctx, execution -> Response.status(HttpStatus.SC_NO_CONTENT).build());
+        exec(adapter, asyncResultHandler, okapiHeaders, ctx, execution -> status(HttpStatus.SC_NO_CONTENT).build());
     }
 
     /**
@@ -191,13 +196,13 @@ public abstract class CatalogingHelper {
                                         } catch (final SQLException exception) {
                                             LOGGER.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
                                             resultHandler.handle(
-                                                    Future.succeededFuture(
+                                                    succeededFuture(
                                                             internalServerError(
                                                                     PublicMessageCatalog.INTERNAL_SERVER_ERROR)));
                                         } catch (final Throwable exception) {
                                             LOGGER.error(MessageCatalog._00011_NWS_FAILURE, exception);
                                             resultHandler.handle(
-                                                    Future.succeededFuture(
+                                                    succeededFuture(
                                                             internalServerError(
                                                                     PublicMessageCatalog.INTERNAL_SERVER_ERROR)));
                                         }
@@ -205,14 +210,14 @@ public abstract class CatalogingHelper {
                                     false,
                                     execution ->
                                             resultHandler.handle(
-                                                    Future.succeededFuture(
+                                                    succeededFuture(
                                                             execution.succeeded()
                                                                     ? responseFactory.apply(execution)
                                                                     : internalServerError(PublicMessageCatalog.INTERNAL_SERVER_ERROR)))));
                 } catch (final Throwable throwable) {
                     LOGGER.error(MessageCatalog._00011_NWS_FAILURE, throwable);
                     resultHandler.handle(
-                            Future.succeededFuture(
+                            succeededFuture(
                                     internalServerError(
                                             PublicMessageCatalog.INTERNAL_SERVER_ERROR)));
                 }
@@ -244,7 +249,7 @@ public abstract class CatalogingHelper {
      * @return a 500 (Internal Server Error) HTTP response.
      */
     private static Response internalServerError(final String message) {
-        return Response.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).entity(message).build();
+        return status(HttpStatus.SC_INTERNAL_SERVER_ERROR).entity(message).build();
     }
 
     /**

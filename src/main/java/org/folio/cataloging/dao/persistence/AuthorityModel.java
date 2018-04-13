@@ -13,15 +13,7 @@ import org.folio.cataloging.dao.common.HibernateUtil;
 public class AuthorityModel extends Model {
 
 	private String frbrSecondGroup;
-
 	private String frbrThirdGroup;
-
-	/**
-	 * Instantiates a new authority model.
-	 */
-	public AuthorityModel() {
-		super();
-	}
 
 	/**
 	 * Gets the authority model DAO.

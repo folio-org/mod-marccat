@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import static java.util.stream.Collectors.toList;
+import static org.folio.cataloging.F.isNotNullOrEmpty;
 import static org.folio.cataloging.integration.CatalogingHelper.*;
 
 /**
@@ -84,7 +85,6 @@ public class RecordTemplatesAPI implements CatalogingRecordTemplatesResource {
         }, asyncResultHandler, okapiHeaders, vertxContext);
     }
 
-
     @Override
     public void postCatalogingRecordTemplates(
             final String lang,
@@ -96,18 +96,19 @@ public class RecordTemplatesAPI implements CatalogingRecordTemplatesResource {
             try {
                 final ObjectMapper mapper = new ObjectMapper();
                 final String jsonInString = mapper.writeValueAsString(entity);
-                if("A".equals(entity.getType()))
+                if("A".equals(entity.getType())) {
                     storageService.saveAuthorityRecordTemplate(entity.getName(), entity.getGroup(), jsonInString);
-                else
+                } else {
                     storageService.saveBibliographicRecordTemplate(entity.getName(), entity.getGroup(), jsonInString);
+                }
                 return entity;
             } catch (final Exception exception) {
                 logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
                 return null;
             }
         }, asyncResultHandler, okapiHeaders, vertxContext,
-                () -> {return F.isNotNullOrEmpty(entity.getName());},
-                () -> {return String.valueOf(entity.getId());});
+                () -> isNotNullOrEmpty(entity.getName()),
+                () -> String.valueOf(entity.getId()));
     }
 
     @Override
@@ -116,7 +117,6 @@ public class RecordTemplatesAPI implements CatalogingRecordTemplatesResource {
             final RecordTemplate entity, Map<String, String> okapiHeaders,
             final Handler<AsyncResult<Response>> asyncResultHandler,
             final Context vertxContext) throws Exception {
-        {
             doPut((storageService, configuration, future) -> {
                 try {
                     final ObjectMapper mapper = new ObjectMapper();
@@ -130,10 +130,10 @@ public class RecordTemplatesAPI implements CatalogingRecordTemplatesResource {
                     logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
                     return null;
                 }
-            },  asyncResultHandler, okapiHeaders, vertxContext, () -> {
-                return (id != null &&  F.isNotNullOrEmpty(entity.getName()));
-            });
-        }
+            }, asyncResultHandler,
+               okapiHeaders,
+               vertxContext,
+               () -> isNotNullOrEmpty(id) &&  isNotNullOrEmpty(entity.getName()));
     }
     @Override
     public void deleteCatalogingRecordTemplatesById(
@@ -155,8 +155,5 @@ public class RecordTemplatesAPI implements CatalogingRecordTemplatesResource {
                 return null;
             }
         }, asyncResultHandler, okapiHeaders, vertxContext);
-
     }
-
-
 }

@@ -715,7 +715,6 @@ public class StorageService implements Closeable {
         final Map<String, Object> mapRecordTypeMaterial = new HashMap<>();
         final DAORecordTypeMaterial dao = new DAORecordTypeMaterial();
         try {
-
             return ofNullable(dao.getDefaultTypeByHeaderCode(session, headerCode, code))
                     .map( rtm -> {
                         mapRecordTypeMaterial.put(GlobalStorage.FORM_OF_MATERIAL_LABEL, rtm.getAmicusMaterialTypeCode());
@@ -767,7 +766,7 @@ public class StorageService implements Closeable {
 
     }
     /**
-     * Save the new Authority Record Template.
+     * Save the new Authority record template.
      *
      * @param name the record template label.
      * @param firstGroup the frbr first group. This group is related to the FRBR entity: Works Expressions and Manifestations.
@@ -793,7 +792,7 @@ public class StorageService implements Closeable {
     /**
      * Update the Bibliographic Record Template.
      *
-     * @param name the record template id.
+     * @param id the record template identifier.
      * @param name the record template label.
      * @param firstGroup the frbr first group. This group is related to the FRBR entity: Works Expressions and Manifestations.
      * @param fields the String of the record template containing the tags.
@@ -819,7 +818,7 @@ public class StorageService implements Closeable {
     /**
      * Update the Authority Record Template.
      *
-     * @param name the record template id.
+     * @param id the record template identifier.
      * @param name the record template label.
      * @param firstGroup the frbr first group. This group is related to the FRBR entity: Works Expressions and Manifestations.
      * @param fields the String of the record template containing the tags.
@@ -844,13 +843,11 @@ public class StorageService implements Closeable {
 
 
     /**
-     * Delete a Bibliographic Record Template
+     * Deletes a Bibliographic record template.
      *
      * @param id the record template id.
-     *
      * @throws DataAccessException in case of data access failure.
      */
-
     public void deleteBibliographicRecordTemplate(final String id) throws DataAccessException {
         try {
             final BibliographicModelDAO dao = new BibliographicModelDAO();
@@ -863,16 +860,14 @@ public class StorageService implements Closeable {
     }
 
     /**
-     * Delete a Authority Record Template
+     * Delete an Authority record template.
      *
      * @param id the record template id.
-     *
      * @throws DataAccessException in case of data access failure.
      */
-
     public void deleteAuthorityRecordTemplate(final String id) throws DataAccessException {
         try {
-            final BibliographicModelDAO dao = new BibliographicModelDAO();
+            final AuthorityModelDAO dao = new AuthorityModelDAO();
             final Model model = dao.load(Integer.valueOf(id), session);
             dao.delete(model, session);
         } catch (final HibernateException exception) {
@@ -880,17 +875,17 @@ public class StorageService implements Closeable {
             throw new DataAccessException(exception);
         }
     }
+
     /**
-     * Return a Bibliographic Record Template by id
+     * Return a Bibliographic Record Template by id.
      *
      * @param id the record template id.
-     *
+     * @return the bibliographic record template associated with the given id.
      * @throws DataAccessException in case of data access failure.
      */
     public Model getBibliographicRecordRecordTemplatesById(final String id) throws DataAccessException {
         try {
-        final BibliographicModelDAO dao = new BibliographicModelDAO();
-        return dao.load(Integer.valueOf(id), session);
+            return new BibliographicModelDAO().load(Integer.valueOf(id), session);
         } catch (final HibernateException exception) {
             logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
             throw new DataAccessException(exception);
@@ -906,14 +901,12 @@ public class StorageService implements Closeable {
      */
     public Model getAuthorityRecordRecordTemplatesById(final String id) throws DataAccessException {
         try {
-            final AuthorityModelDAO dao = new AuthorityModelDAO();
-            return dao.load(Integer.valueOf(id), session);
+            return new AuthorityModelDAO().load(Integer.valueOf(id), session);
         } catch (final HibernateException exception) {
             logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
             throw new DataAccessException(exception);
         }
     }
-
 
     /**
      * Check if exist the first correlation list for the category code.

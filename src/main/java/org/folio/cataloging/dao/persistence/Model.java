@@ -17,27 +17,11 @@ import java.io.Serializable;
  */
 public abstract class Model implements Persistence, Serializable {
 
-	/** The model id. */
 	private int id;
-
-	/** The model label. */
-	private String label;
-
-	/** The String of the record template containing the tags. */
+    private String label;
 	private String recordFields;
-
-	/** The frbr first group. This group is related to the FRBR entity: Works Expressions and Manifestations. */
 	private Integer frbrFirstGroup;
-
-	/** The persistence state used to mark the status of the object */
 	private PersistenceState persistenceState = new PersistenceState();
-
-	/**
-	 * Instantiates a new model.
-	 */
-	public Model() {
-
-	}
 
 	/**
 	 * Sets the record fields.
@@ -85,7 +69,7 @@ public abstract class Model implements Persistence, Serializable {
 	}
 
 	/**
-	 * Evict.
+	 * Evicts.
 	 *
 	 * @param obj the obj
 	 * @throws DataAccessException the data access exception
@@ -106,7 +90,6 @@ public abstract class Model implements Persistence, Serializable {
 	 * Gets the id.
 	 *
 	 * @return the id
-	 * @since 1.0
 	 */
 	public int getId() {
 		return id;
@@ -116,7 +99,6 @@ public abstract class Model implements Persistence, Serializable {
 	 * Gets the label.
 	 *
 	 * @return the label
-	 * @since 1.0
 	 */
 	public String getLabel() {
 		return label;
@@ -126,7 +108,6 @@ public abstract class Model implements Persistence, Serializable {
 	 * Gets the update status.
 	 *
 	 * @return the update status
-	 * @since 1.0
 	 */
 	public int getUpdateStatus() {
 		return persistenceState.getUpdateStatus();
@@ -136,7 +117,6 @@ public abstract class Model implements Persistence, Serializable {
 	 * Checks if is changed.
 	 *
 	 * @return true, if is changed
-	 * @since 1.0
 	 */
 	public boolean isChanged() {
 		return persistenceState.isChanged();
@@ -146,7 +126,6 @@ public abstract class Model implements Persistence, Serializable {
 	 * Checks if is deleted.
 	 *
 	 * @return true, if is deleted
-	 * @since 1.0
 	 */
 	public boolean isDeleted() {
 		return persistenceState.isDeleted();
@@ -166,43 +145,34 @@ public abstract class Model implements Persistence, Serializable {
 	 * Checks if is removed.
 	 *
 	 * @return true, if is removed
-	 * @since 1.0
 	 */
 	public boolean isRemoved() {
 		return persistenceState.isRemoved();
 	}
 
 	/**
-	 * Mark changed.
-	 *
-	 * @since 1.0
+	 * Marks changed.
 	 */
 	public void markChanged() {
 		persistenceState.markChanged();
 	}
 
 	/**
-	 * Mark deleted.
-	 *
-	 * @since 1.0
+	 * Marks deleted.
 	 */
 	public void markDeleted() {
 		persistenceState.markDeleted();
 	}
 
 	/**
-	 * Mark new.
-	 *
-	 * @since 1.0
+	 * Marks as new.
 	 */
 	public void markNew() {
 		persistenceState.markNew();
 	}
 
 	/**
-	 * Mark unchanged.
-	 *
-	 * @since 1.0
+	 * Marks unchanged.
 	 */
 	public void markUnchanged() {
 		persistenceState.markUnchanged();
@@ -214,7 +184,6 @@ public abstract class Model implements Persistence, Serializable {
 	 * @param session the session
 	 * @return true, if successful
 	 * @throws CallbackException the callback exception
-	 * @since 1.0
 	 */
 	public boolean onDelete(final Session session) throws CallbackException {
 		return persistenceState.onDelete(session);
@@ -225,7 +194,6 @@ public abstract class Model implements Persistence, Serializable {
 	 *
 	 * @param session the session
 	 * @param serializable the serializable
-	 * @since 1.0
 	 */
 	public void onLoad(final Session session, final Serializable serializable) {
 		persistenceState.onLoad(session, serializable);
@@ -237,7 +205,6 @@ public abstract class Model implements Persistence, Serializable {
 	 * @param session the session
 	 * @return true, if successful
 	 * @throws CallbackException the callback exception
-	 * @since 1.0
 	 */
 	public boolean onSave(final Session session) throws CallbackException {
 		return persistenceState.onSave(session);
@@ -249,7 +216,6 @@ public abstract class Model implements Persistence, Serializable {
 	 * @param session the session
 	 * @return true, if successful
 	 * @throws CallbackException the callback exception
-	 * @since 1.0
 	 */
 	public boolean onUpdate(final Session session) throws CallbackException {
 		return persistenceState.onUpdate(session);
@@ -259,7 +225,6 @@ public abstract class Model implements Persistence, Serializable {
 	 * Sets the id.
 	 *
 	 * @param id the new id
-	 * @since 1.0
 	 */
 	public void setId(final int id) {
 		this.id = id;
@@ -269,7 +234,6 @@ public abstract class Model implements Persistence, Serializable {
 	 * Sets the label.
 	 *
 	 * @param label the new label
-	 * @since 1.0
 	 */
 	public void setLabel(final String label) {
 		this.label = label;
@@ -279,7 +243,6 @@ public abstract class Model implements Persistence, Serializable {
 	 * Sets the update status.
 	 *
 	 * @param i the new update status
-	 * @since 1.0
 	 */
 	public void setUpdateStatus(final int i)
 	{

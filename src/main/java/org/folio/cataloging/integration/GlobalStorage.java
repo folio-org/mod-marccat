@@ -6,7 +6,6 @@ package org.folio.cataloging.integration;
  * @author natasciab
  * @since 1.0
  */
-
 public class GlobalStorage {
     public final static String HEADER_TYPE_LABEL = "HEADER_TYPE";
     public final static String FORM_OF_MATERIAL_LABEL = "FORM_OF_MATERIAL";

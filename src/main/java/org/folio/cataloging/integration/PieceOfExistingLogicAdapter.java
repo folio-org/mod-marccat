@@ -31,6 +31,7 @@ public interface PieceOfExistingLogicAdapter<T> {
      * @param configuration the configuration that has been properly loaded for this context.
      * @param future the future for communicating back the outcome.
      */
+    @SuppressWarnings("unchecked")
     default void execute(final StorageService storageService, final Map<String, String> configuration, final Future future) {
         try {
             final Optional<T> result = ofNullable(executeAndGet(storageService, configuration, future));
