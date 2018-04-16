@@ -1,7 +1,6 @@
 
 package org.folio.cataloging.dao;
 
-import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;

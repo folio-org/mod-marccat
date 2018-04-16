@@ -1,6 +1,5 @@
 package org.folio.cataloging.integration;
 
-import io.vertx.core.Context;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.cataloging.business.codetable.Avp;
@@ -31,7 +30,6 @@ import static org.folio.cataloging.F.locale;
 public class StorageService implements Closeable {
 
     private final Session session;
-    private final Context context;
     private static final Log logger = new Log(StorageService.class);
 
     private final static Map<Integer, Class> FIRST_CORRELATION_HEADING_CLASS_MAP = new HashMap<Integer, Class>(){
@@ -75,20 +73,9 @@ public class StorageService implements Closeable {
      * Builds a new {@link StorageService} with the given session.
      *
      * @param session the Hibernate session, which will be used for gathering a connection to the RDBMS.
-     * @param context the vertx context.
      */
-    StorageService(final Session session, final Context context) {
+    StorageService(final Session session) {
         this.session = session;
-        this.context = context;
-    }
-
-    /**
-     * Returns the configuration client associated with this module.
-     *
-     * @return the configuration client associated with this module.
-     */
-    public Context context() {
-        return context;
     }
 
     /**
