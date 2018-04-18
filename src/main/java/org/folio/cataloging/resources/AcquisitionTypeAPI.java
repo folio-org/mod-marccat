@@ -7,13 +7,10 @@ import io.swagger.annotations.ApiResponses;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.ModCataloging;
 import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.integration.Configuration;
-import org.folio.rest.jaxrs.model.AcquisitionType;
-import org.folio.rest.jaxrs.model.AcquisitionTypeCollection;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.folio.cataloging.resources.domain.AcquisitionType;
+import org.folio.cataloging.resources.domain.AcquisitionTypeCollection;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;

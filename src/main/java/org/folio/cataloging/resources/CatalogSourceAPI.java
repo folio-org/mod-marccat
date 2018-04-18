@@ -7,8 +7,8 @@ import io.swagger.annotations.ApiResponses;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.ModCataloging;
 import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.resources.domain.AuthoritySource;
-import org.folio.cataloging.resources.domain.AuthoritySourceCollection;
+import org.folio.cataloging.resources.domain.CatalogSource;
+import org.folio.cataloging.resources.domain.CatalogSourceCollection;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.function.Function;
@@ -17,43 +17,42 @@ import static java.util.stream.Collectors.toList;
 import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
 /**
- * Authority Sources RESTful APIs.
+ * Catalog Sources RESTful APIs.
  *
- * @author natasciab
+ * @author aguercio
  * @since 1.0
  */
 @RestController
-@Api(value = "modcat-api", description = "Authority source resource API")
+@Api(value = "modcat-api", description = "Catalog source resource API")
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
-public class AuthoritySourceAPI extends BaseResource {
+public class CatalogSourceAPI extends BaseResource {
 
-    private Function<Avp<String>, AuthoritySource> toAuthoritySource = source -> {
-        final AuthoritySource authoritySource = new AuthoritySource();
-        authoritySource.setCode(Integer.parseInt(source.getValue()));
-        authoritySource.setDescription(source.getLabel());
-        return authoritySource;
+    private Function<Avp<String>, CatalogSource> toCatalogSource = source -> {
+        final CatalogSource catalogSource = new CatalogSource();
+        catalogSource.setCode(source.getValue());
+        catalogSource.setDescription(source.getLabel());
+        return catalogSource;
     };
 
-    @ApiOperation(value = "Returns all authority sources associated with a given language")
+    @ApiOperation(value = "Returns all catalog sources associated with a given language")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Method successfully returned the requested authority sources"),
+            @ApiResponse(code = 200, message = "Method successfully returned the requested catalog sources"),
             @ApiResponse(code = 400, message = "Bad Request"),
             @ApiResponse(code = 414, message = "Request-URI Too Long"),
             @ApiResponse(code = 500, message = "System internal failure occurred.")
     })
-    @GetMapping("/authority-sources")
-    public AuthoritySourceCollection getAuthoritySources(
+    @GetMapping("/catalog-sources")
+    public CatalogSourceCollection getCatalogSources(
             @RequestParam final String lang,
             @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
         return doGet((storageService, configuration) -> {
-                final AuthoritySourceCollection container = new AuthoritySourceCollection();
-                container.setAuthoritySources(
-                        storageService.getAuthoritySources(lang)
+                final CatalogSourceCollection container = new CatalogSourceCollection();
+                container.setCatalogSources(
+                        storageService.getCatalogSources(lang)
                                 .stream()
-                                .map(toAuthoritySource)
+                                .map(toCatalogSource)
                                 .collect(toList()));
                 return container;
-            }, tenant, configurator);
-
+        }, tenant, configurator);
     }
 }

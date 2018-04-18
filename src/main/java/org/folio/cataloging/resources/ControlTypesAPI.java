@@ -7,8 +7,8 @@ import io.swagger.annotations.ApiResponses;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.ModCataloging;
 import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.resources.domain.AuthoritySource;
-import org.folio.cataloging.resources.domain.AuthoritySourceCollection;
+import org.folio.cataloging.resources.domain.ControlType;
+import org.folio.cataloging.resources.domain.ControlTypeCollection;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.function.Function;
@@ -17,43 +17,44 @@ import static java.util.stream.Collectors.toList;
 import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
 /**
- * Authority Sources RESTful APIs.
+ * Control Types RESTful APIs.
  *
- * @author natasciab
+ * @author aguercio
  * @since 1.0
  */
 @RestController
-@Api(value = "modcat-api", description = "Authority source resource API")
+@Api(value = "modcat-api", description = "Control types resource API")
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
-public class AuthoritySourceAPI extends BaseResource {
+public class ControlTypesAPI extends BaseResource {
 
-    private Function<Avp<String>, AuthoritySource> toAuthoritySource = source -> {
-        final AuthoritySource authoritySource = new AuthoritySource();
-        authoritySource.setCode(Integer.parseInt(source.getValue()));
-        authoritySource.setDescription(source.getLabel());
-        return authoritySource;
+    private Function<Avp<String>, ControlType> toControlType = source -> {
+        final ControlType controlType = new ControlType();
+        controlType.setCode(source.getValue());
+        controlType.setDescription(source.getLabel());
+        return controlType;
     };
 
-    @ApiOperation(value = "Returns all authority sources associated with a given language")
+    @ApiOperation(value = "Returns all control types associated with a given language")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Method successfully returned the requested authority sources"),
+            @ApiResponse(code = 200, message = "Method successfully returned the requested control types"),
             @ApiResponse(code = 400, message = "Bad Request"),
             @ApiResponse(code = 414, message = "Request-URI Too Long"),
             @ApiResponse(code = 500, message = "System internal failure occurred.")
     })
-    @GetMapping("/authority-sources")
-    public AuthoritySourceCollection getAuthoritySources(
+    @GetMapping("control-types")
+    public ControlTypeCollection getControlTypes(
             @RequestParam final String lang,
             @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
         return doGet((storageService, configuration) -> {
-                final AuthoritySourceCollection container = new AuthoritySourceCollection();
-                container.setAuthoritySources(
-                        storageService.getAuthoritySources(lang)
+                final ControlTypeCollection container = new ControlTypeCollection();
+                container.setControlTypes(
+                        storageService.getControlTypes(lang)
                                 .stream()
-                                .map(toAuthoritySource)
+                                .map(toControlType)
                                 .collect(toList()));
                 return container;
-            }, tenant, configurator);
-
+        }, tenant, configurator);
     }
 }
+
+

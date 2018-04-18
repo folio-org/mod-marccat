@@ -7,8 +7,8 @@ import io.swagger.annotations.ApiResponses;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.ModCataloging;
 import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.resources.domain.AuthoritySource;
-import org.folio.cataloging.resources.domain.AuthoritySourceCollection;
+import org.folio.cataloging.resources.domain.DateType;
+import org.folio.cataloging.resources.domain.DateTypeCollection;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.function.Function;
@@ -17,43 +17,42 @@ import static java.util.stream.Collectors.toList;
 import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
 /**
- * Authority Sources RESTful APIs.
+ * Date Types RESTful APIs.
  *
- * @author natasciab
+ * @author aguercio
  * @since 1.0
  */
 @RestController
-@Api(value = "modcat-api", description = "Authority source resource API")
+@Api(value = "modcat-api", description = "Date types resource API")
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
-public class AuthoritySourceAPI extends BaseResource {
+public class DateTypesAPI extends BaseResource {
 
-    private Function<Avp<String>, AuthoritySource> toAuthoritySource = source -> {
-        final AuthoritySource authoritySource = new AuthoritySource();
-        authoritySource.setCode(Integer.parseInt(source.getValue()));
-        authoritySource.setDescription(source.getLabel());
-        return authoritySource;
+    private Function<Avp<String>, DateType> toDateType = source -> {
+        final DateType dateType = new DateType();
+        dateType.setCode(source.getValue());
+        dateType.setDescription(source.getLabel());
+        return dateType;
     };
 
-    @ApiOperation(value = "Returns all authority sources associated with a given language")
+    @ApiOperation(value = "Returns all date types")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Method successfully returned the requested authority sources"),
+            @ApiResponse(code = 200, message = "Method successfully returned the requested date types"),
             @ApiResponse(code = 400, message = "Bad Request"),
             @ApiResponse(code = 414, message = "Request-URI Too Long"),
             @ApiResponse(code = 500, message = "System internal failure occurred.")
     })
-    @GetMapping("/authority-sources")
-    public AuthoritySourceCollection getAuthoritySources(
+    @GetMapping("/date-types")
+    public DateTypeCollection getDateTypes(
             @RequestParam final String lang,
             @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
         return doGet((storageService, configuration) -> {
-                final AuthoritySourceCollection container = new AuthoritySourceCollection();
-                container.setAuthoritySources(
-                        storageService.getAuthoritySources(lang)
+                final DateTypeCollection container = new DateTypeCollection();
+                container.setDateTypes(
+                        storageService.getDateTypes(lang)
                                 .stream()
-                                .map(toAuthoritySource)
+                                .map(toDateType)
                                 .collect(toList()));
                 return container;
-            }, tenant, configurator);
-
+        }, tenant, configurator);
     }
 }
