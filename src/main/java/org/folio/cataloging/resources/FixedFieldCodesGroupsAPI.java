@@ -1,11 +1,15 @@
 package org.folio.cataloging.resources;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.ModCataloging;
 import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
+import org.folio.cataloging.resources.domain.FixedFieldCodesGroup;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,15 +28,21 @@ import static java.util.stream.Collectors.toList;
 @Api(value = "modcat-api", description = "Fixed field code group resource API")
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
 public class FixedFieldCodesGroupsAPI extends BaseResource {
-    protected final Log logger = new Log(FixedFieldCodesGroupsAPI.class);
 
-    @Override
-    public void getCatalogingFixedFieldCodesGroups(final String code,
-                                                   final int headerTypeCode,
-                                                   final String lang,
-                                                   final Map<String, String> okapiHeaders,
-                                                   final Handler<AsyncResult<Response>> asyncResultHandler,
-                                                   final Context vertxContext) throws Exception {
+    @ApiOperation(value = "Returns all mandatory groups.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Method successfully returned the requested mandatory groups"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 414, message = "Request-URI Too Long"),
+            @ApiResponse(code = 500, message = "System internal failure occurred.")
+    })
+    @GetMapping("/fixed-fields-code-groups")
+    public FixedFieldCodesGroup getCatalogingFixedFieldCodesGroups(final String code,
+                                                                   final int headerTypeCode,
+                                                                   final String lang,
+                                                                   final Map<String, String> okapiHeaders,
+                                                                   final Handler<AsyncResult<Response>> asyncResultHandler,
+                                                                   final Context vertxContext) throws Exception {
 
         doGet((storageService, configuration, future) -> {
             try {

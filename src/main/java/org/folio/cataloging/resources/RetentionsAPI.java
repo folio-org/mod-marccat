@@ -1,21 +1,21 @@
 package org.folio.cataloging.resources;
 
-import io.vertx.core.AsyncResult;
-import io.vertx.core.Context;
-import io.vertx.core.Handler;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import org.folio.cataloging.ModCataloging;
 import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
-import org.folio.rest.jaxrs.model.Retention;
-import org.folio.rest.jaxrs.model.RetentionCollection;
-import org.folio.rest.jaxrs.resource.CatalogingRetentionsResource;
+import org.folio.cataloging.resources.domain.Retention;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.ws.rs.core.Response;
 import java.util.Map;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
-
 
 /**
  * Retentions RESTful APIs.
@@ -23,10 +23,10 @@ import static java.util.stream.Collectors.toList;
  * @author aguercio
  * @since 1.0
  */
-
-public class RetentionsAPI implements CatalogingRetentionsResource {
-
-    protected final Log logger = new Log(RetentionsAPI.class);
+@RestController
+@Api(value = "modcat-api", description = "Retention resource API")
+@RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
+public class RetentionsAPI extends BaseResource {
 
     private Function<Avp<String>, Retention> toRetention = source -> {
         final Retention retention = new Retention();
@@ -35,7 +35,14 @@ public class RetentionsAPI implements CatalogingRetentionsResource {
         return retention;
     };
 
-    @Override
+    @ApiOperation(value = "Returns all retentions associated with a given language")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Method successfully returned the requested retentions."),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 414, message = "Request-URI Too Long"),
+            @ApiResponse(code = 500, message = "System internal failure occurred.")
+    })
+    @GetMapping("/retentions")
     public void getCatalogingRetentions(final String lang,
                               final Map<String, String> okapiHeaders,
                               final Handler<AsyncResult<Response>> asyncResultHandler,

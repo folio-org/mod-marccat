@@ -1,21 +1,21 @@
 package org.folio.cataloging.resources;
 
-import io.vertx.core.AsyncResult;
-import io.vertx.core.Context;
-import io.vertx.core.Handler;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import org.folio.cataloging.ModCataloging;
 import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
-import org.folio.rest.jaxrs.model.RecordDisplayFormat;
-import org.folio.rest.jaxrs.model.RecordDisplayFormatCollection;
-import org.folio.rest.jaxrs.resource.CatalogingRecordDisplayFormatsResource;
+import org.folio.cataloging.resources.domain.RecordDisplayFormat;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.ws.rs.core.Response;
 import java.util.Map;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
-
 
 /**
  * Record Display Format RESTful APIs.
@@ -23,9 +23,10 @@ import static java.util.stream.Collectors.toList;
  * @author aguercio
  * @since 1.0
  */
-
-public class RecordDisplayFormatsAPI implements CatalogingRecordDisplayFormatsResource{
-    protected final Log logger = new Log(RecordDisplayFormatsAPI.class);
+@RestController
+@Api(value = "modcat-api", description = "Record display format resource API")
+@RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
+public class RecordDisplayFormatsAPI extends BaseResource{
 
     private Function<Avp<String>, RecordDisplayFormat> toRecordDisplayFormat = source -> {
         final RecordDisplayFormat recordDisplayFormat = new RecordDisplayFormat();
@@ -34,8 +35,15 @@ public class RecordDisplayFormatsAPI implements CatalogingRecordDisplayFormatsRe
         return recordDisplayFormat;
     };
 
-    @Override
-    public void getCatalogingRecordDisplayFormats(final String lang,
+    @ApiOperation(value = "Returns all formats associated with a given language")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Method successfully returned the requested formats."),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 414, message = "Request-URI Too Long"),
+            @ApiResponse(code = 500, message = "System internal failure occurred.")
+    })
+    @GetMapping("/record-display-formats")
+    public void getRecordDisplayFormats(final String lang,
                                         final Map<String, String> okapiHeaders,
                                         final Handler<AsyncResult<Response>> asyncResultHandler,
                                         final Context vertxContext) throws Exception {

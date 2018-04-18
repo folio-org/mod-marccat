@@ -1,22 +1,22 @@
 package org.folio.cataloging.resources;
 
-import io.vertx.core.AsyncResult;
-import io.vertx.core.Context;
-import io.vertx.core.Handler;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import org.folio.cataloging.ModCataloging;
 import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
-import org.folio.rest.jaxrs.model.Constraint;
-import org.folio.rest.jaxrs.model.Index;
-import org.folio.rest.jaxrs.model.IndexCollection;
-import org.folio.rest.jaxrs.resource.CatalogingIndexesResource;
+import org.folio.cataloging.resources.domain.Constraint;
+import org.folio.cataloging.resources.domain.Index;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.ws.rs.core.Response;
 import java.util.Map;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
-import static org.folio.cataloging.integration.CatalogingHelper.doPut;
 
 /**
  * Browsing and searching indexes API
@@ -24,9 +24,10 @@ import static org.folio.cataloging.integration.CatalogingHelper.doPut;
  * @author carment
  * @since 1.0
  */
-public class IndexesAPI implements CatalogingIndexesResource {
-
-    protected final Log logger = new Log(IndexesAPI.class);
+@RestController
+@Api(value = "modcat-api", description = "Index resource API")
+@RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
+public class IndexesAPI extends BaseResource {
 
     private Function<Avp<String>, Index> convertValueLabelToIndex = source -> {
         final Index index = new Index();
@@ -42,8 +43,14 @@ public class IndexesAPI implements CatalogingIndexesResource {
         return constraint;
     };
 
-
-    @Override
+    @ApiOperation(value = "Returns all indexes associated with a given language")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Method successfully returned the requested indexes."),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 414, message = "Request-URI Too Long"),
+            @ApiResponse(code = 500, message = "System internal failure occurred.")
+    })
+    @GetMapping("/indexes")
     public void getCatalogingIndexesByCode(
             final String code,
             final String lang,

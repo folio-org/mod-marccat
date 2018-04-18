@@ -7,13 +7,11 @@ import org.folio.cataloging.ModCataloging;
 import org.folio.cataloging.domain.GeneralInformation;
 import org.folio.cataloging.domain.PhysicalInformation;
 import org.folio.cataloging.integration.StorageService;
-import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.shared.Validation;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 
 import java.util.Map;
 
@@ -33,8 +31,6 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 @Api(value = "modcat-api", description = "Field template resource API")
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
 public class FieldTemplateAPI extends BaseResource {
-
-    protected final Log logger = new Log(FieldTemplateAPI.class);
 
     @Override
     public void getCatalogingFieldTemplate(final int categoryCode,

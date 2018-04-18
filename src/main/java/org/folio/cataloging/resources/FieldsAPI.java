@@ -1,17 +1,22 @@
 package org.folio.cataloging.resources;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.folio.cataloging.F;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.ModCataloging;
 import org.folio.cataloging.domain.GeneralInformation;
 import org.folio.cataloging.integration.StorageService;
-import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
+import org.folio.cataloging.resources.domain.Field;
+import org.folio.cataloging.resources.domain.FieldCollection;
+import org.folio.cataloging.resources.domain.FixedField;
+import org.folio.cataloging.resources.domain.VariableField;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.shared.Validation;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -31,18 +36,21 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 @Api(value = "modcat-api", description = "Field resource API")
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
 public class FieldsAPI extends BaseResource {
-
-    protected final Log logger = new Log(FieldsAPI.class);
-
     /**
-     * Gets the mandatory fields to create a new field.
+     * Gets the mandatory fields to create a new template / record.
      */
-    @Override
-    public void getCatalogingFieldsBibliographicMandatory(final String lang,
-                                                          final Map<String, String> okapiHeaders,
-                                                          final Handler<AsyncResult<Response>> asyncResultHandler,
-                                                          final Context vertxContext) throws Exception {
-        doGet((storageService, configuration, future) -> {
+    @ApiOperation(value = "Returns all mandatory fields for bibliographic entity.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Method successfully returned the requested mandatory fields"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 414, message = "Request-URI Too Long"),
+            @ApiResponse(code = 500, message = "System internal failure occurred.")
+    })
+    @GetMapping("/mandatory-fields")
+    public FieldCollection getMandatoryFields(
+            @RequestParam final String lang,
+            @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+        return doGet((storageService, configuration) -> {
             try {
                 final FieldCollection container = new FieldCollection();
                 container.setFields(
@@ -55,7 +63,7 @@ public class FieldsAPI extends BaseResource {
                 logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
                 return null;
             }
-        }, asyncResultHandler, okapiHeaders, vertxContext, "bibliographic", "material");
+        }, tenant, configurator, "bibliographic", "material");
     }
 
     /**
@@ -193,15 +201,5 @@ public class FieldsAPI extends BaseResource {
                 .append(Global.LINKED_RECORD_CODE)
                 .append(Global.FIXED_LEADER_PORTION)
                 .toString();
-    }
-
-    @Override
-    public void postCatalogingFieldsBibliographicMandatory(
-            final String lang,
-            final Field entity,
-            final Map<String, String> okapiHeaders,
-            final Handler<AsyncResult<Response>> asyncResultHandler,
-            final Context vertxContext) {
-        throw new IllegalArgumentException();
     }
 }

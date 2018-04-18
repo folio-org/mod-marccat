@@ -1,20 +1,22 @@
 package org.folio.cataloging.resources;
 
-import io.vertx.core.AsyncResult;
-import io.vertx.core.Context;
-import io.vertx.core.Handler;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import org.folio.cataloging.Global;
+import org.folio.cataloging.ModCataloging;
 import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
-import org.folio.rest.jaxrs.model.LogicalViewCollection;
-import org.folio.rest.jaxrs.model.View;
-import org.folio.rest.jaxrs.resource.CatalogingLogicalViewsResource;
+import org.folio.cataloging.resources.domain.LogicalViewCollection;
+import org.folio.cataloging.resources.domain.View;
+import org.springframework.web.bind.annotation.*;
 
-import javax.ws.rs.core.Response;
 import java.util.Map;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
+import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
 /**
  * Logical views RESTful APIs.
@@ -22,11 +24,11 @@ import static java.util.stream.Collectors.toList;
  * @author agazzarini
  * @since 1.0
  */
-public class LogicalViewsAPI implements CatalogingLogicalViewsResource {
-    protected final Log logger = new Log(LogicalViewsAPI.class);
+@RestController
+@Api(value = "modcat-api", description = "Logical view resource API")
+@RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
+public class LogicalViewsAPI extends BaseResource {
 
-    // This is the adapter that converts existing stringValue objects (logical views in this case)
-    // in OKAPI resources.
     private Function<Avp<String>, View> adapter = source -> {
         final View logicalView = new View();
         logicalView.setCode(source.getValue());
@@ -34,14 +36,18 @@ public class LogicalViewsAPI implements CatalogingLogicalViewsResource {
         return logicalView;
     };
 
-    @Override
-    public void getCatalogingLogicalViews(
-            final String lang,
-            final Map<String, String> okapiHeaders,
-            final Handler<AsyncResult<Response>> resultHandler,
-            final Context vertxContext) throws Exception {
-        doGet((storageService, configuration, future) -> {
-            try {
+    @ApiOperation(value = "Returns all logical views associated with a given language")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Method successfully returned the requested logical views."),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 414, message = "Request-URI Too Long"),
+            @ApiResponse(code = 500, message = "System internal failure occurred.")
+    })
+    @GetMapping("/logical-views")
+    public LogicalViewCollection getLogicalViews(
+            @RequestParam final String lang,
+            @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+        return doGet((storageService, configuration) -> {
                 final LogicalViewCollection container = new LogicalViewCollection();
                 container.setViews(
                         storageService.getLogicalViews(lang)
@@ -49,15 +55,6 @@ public class LogicalViewsAPI implements CatalogingLogicalViewsResource {
                                 .map(adapter)
                                 .collect(toList()));
                 return container;
-            } catch (final Exception exception) {
-                logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-                return null;
-            }
-        }, resultHandler, okapiHeaders, vertxContext);
-    }
-
-    @Override
-    public void postCatalogingLogicalViews(String lang, View entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
-        throw new IllegalArgumentException();
+        }, tenant, configurator);
     }
 }

@@ -1,17 +1,18 @@
 package org.folio.cataloging.resources;
 
-import io.vertx.core.AsyncResult;
-import io.vertx.core.Context;
-import io.vertx.core.Handler;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.folio.cataloging.Global;
+import org.folio.cataloging.ModCataloging;
 import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
-import org.folio.rest.jaxrs.model.FunctionCode;
-import org.folio.rest.jaxrs.model.FunctionCodeCollection;
-import org.folio.rest.jaxrs.resource.CatalogingFunctionCodesResource;
+import org.folio.cataloging.resources.domain.FunctionCode;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.ws.rs.core.Response;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -24,10 +25,10 @@ import static java.util.stream.Collectors.toList;
  * @author natasciab
  * @since 1.0
  */
-
-public class FunctionCodeAPI implements CatalogingFunctionCodesResource {
-
-    protected final Log logger = new Log(FunctionCodeAPI.class);
+@RestController
+@Api(value = "modcat-api", description = "Function code resource API")
+@RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
+public class FunctionCodeAPI extends BaseResource {
 
     private Function<Avp<String>, FunctionCode> toFunctionCode = source -> {
         final FunctionCode functionCode = new FunctionCode();
@@ -36,7 +37,14 @@ public class FunctionCodeAPI implements CatalogingFunctionCodesResource {
         return functionCode;
     };
 
-    @Override
+    @ApiOperation(value = "Returns all function codes levels.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Method successfully returned the requested code levels"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 414, message = "Request-URI Too Long"),
+            @ApiResponse(code = 500, message = "System internal failure occurred.")
+    })
+    @GetMapping("/function-codes")
     public void getCatalogingFunctionCodes(final String marcCategory,
                                            final String code1,
                                            final String code2,

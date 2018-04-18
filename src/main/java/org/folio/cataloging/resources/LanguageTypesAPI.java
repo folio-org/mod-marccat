@@ -1,21 +1,20 @@
 package org.folio.cataloging.resources;
 
-
-import io.vertx.core.AsyncResult;
-import io.vertx.core.Context;
-import io.vertx.core.Handler;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import org.folio.cataloging.Global;
+import org.folio.cataloging.ModCataloging;
 import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.log.Log;
-import org.folio.cataloging.log.MessageCatalog;
-import org.folio.rest.jaxrs.model.LanguageType;
-import org.folio.rest.jaxrs.model.LanguageTypeCollection;
-import org.folio.rest.jaxrs.resource.CatalogingLanguageTypesResource;
+import org.folio.cataloging.resources.domain.LanguageType;
+import org.folio.cataloging.resources.domain.LanguageTypeCollection;
+import org.springframework.web.bind.annotation.*;
 
-import javax.ws.rs.core.Response;
-import java.util.Map;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
+import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
 /**
  * Language Types RESTful APIs.
@@ -23,10 +22,10 @@ import static java.util.stream.Collectors.toList;
  * @author carment
  * @since 1.0
  */
-
-public class LanguageTypesAPI implements CatalogingLanguageTypesResource {
-
-    protected final Log logger = new Log(LanguageTypesAPI.class);
+@RestController
+@Api(value = "modcat-api", description = "Language type resource API")
+@RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
+public class LanguageTypesAPI extends BaseResource {
 
     private Function<Avp<String>, LanguageType> toLanguageType = source -> {
         final LanguageType languageType = new LanguageType();
@@ -35,30 +34,25 @@ public class LanguageTypesAPI implements CatalogingLanguageTypesResource {
         return languageType;
     };
 
-    @Override
-      public void getCatalogingLanguageTypes(final String lang,
-                                      final Map<String, String> okapiHeaders,
-                                      final Handler<AsyncResult<Response>> asyncResultHandler,
-                                      final Context vertxContext) throws Exception {
-        doGet((storageService, configuration, future) -> {
-            try {
-                final LanguageTypeCollection container = new LanguageTypeCollection();
-                container.setLanguageTypes(
-                        storageService.getLanguageTypes(lang)
-                                .stream()
-                                .map(toLanguageType)
-                                .collect(toList()));
-                return container;
-            } catch (final Exception exception) {
-                logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-                return null;
-            }
-        }, asyncResultHandler, okapiHeaders, vertxContext);
-    }
-
-
-    @Override
-    public void postCatalogingLanguageTypes(String lang, LanguageType entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
-        throw new IllegalArgumentException();
+    @ApiOperation(value = "Returns all language types associated with a given language")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Method successfully returned the requested language types."),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 414, message = "Request-URI Too Long"),
+            @ApiResponse(code = 500, message = "System internal failure occurred.")
+    })
+    @GetMapping("/item-types")
+    public LanguageTypeCollection getLanguageTypes(
+            @RequestParam final String lang,
+            @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+        return doGet((storageService, configuration) -> {
+            final LanguageTypeCollection container = new LanguageTypeCollection();
+            container.setLanguageTypes(
+                    storageService.getLanguageTypes(lang)
+                            .stream()
+                            .map(toLanguageType)
+                            .collect(toList()));
+            return container;
+        }, tenant, configurator);
     }
 }

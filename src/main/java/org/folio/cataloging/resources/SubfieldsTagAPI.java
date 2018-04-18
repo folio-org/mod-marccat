@@ -1,15 +1,18 @@
 package org.folio.cataloging.resources;
 
-import io.vertx.core.AsyncResult;
-import io.vertx.core.Context;
-import io.vertx.core.Handler;
-import org.folio.cataloging.log.Log;
-import org.folio.cataloging.log.MessageCatalog;
-import org.folio.cataloging.shared.Validation;
-import org.folio.rest.jaxrs.model.SubfieldsTag;
-import org.folio.rest.jaxrs.resource.CatalogingSubfieldsTagResource;
 
-import javax.ws.rs.core.Response;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import org.folio.cataloging.ModCataloging;
+import org.folio.cataloging.log.MessageCatalog;
+import org.folio.cataloging.resources.domain.SubfieldsTag;
+import org.folio.cataloging.shared.Validation;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.util.Map;
 
 import static java.util.Arrays.stream;
@@ -21,12 +24,20 @@ import static java.util.stream.Collectors.toList;
  * @author natasciab
  * @since 1.0
  */
-public class SubfieldsTagAPI implements CatalogingSubfieldsTagResource {
+@RestController
+@Api(value = "modcat-api", description = "Subfield resource API")
+@RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
+public class SubfieldsTagAPI extends BaseResource {
 
-    protected final Log logger = new Log(SubfieldsTagAPI.class);
-
-    @Override
-    public void getCatalogingSubfieldsTag(  final String marcCategory,
+    @ApiOperation(value = "Returns the subfield tag associated with the input data.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Method successfully returned the requested tag."),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 414, message = "Request-URI Too Long"),
+            @ApiResponse(code = 500, message = "System internal failure occurred.")
+    })
+    @GetMapping("/subfield-tag")
+    public void getSubfieldsTag(  final String marcCategory,
                                             final String code1,
                                             final String code2,
                                             final String code3,
@@ -56,10 +67,5 @@ public class SubfieldsTagAPI implements CatalogingSubfieldsTagResource {
                     return null;
                 }
             }, asyncResultHandler, okapiHeaders, vertxContext);
-    }
-
-    @Override
-    public void postCatalogingSubfieldsTag(String lang, SubfieldsTag entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
-        throw new IllegalArgumentException();
     }
 }

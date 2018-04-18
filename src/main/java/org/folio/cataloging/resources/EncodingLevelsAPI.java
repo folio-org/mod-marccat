@@ -1,16 +1,21 @@
 package org.folio.cataloging.resources;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import org.folio.cataloging.Global;
 import org.folio.cataloging.ModCataloging;
 import org.folio.cataloging.business.codetable.Avp;
-
-import org.folio.cataloging.log.MessageCatalog;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.folio.cataloging.resources.domain.EncodingLevel;
+import org.folio.cataloging.resources.domain.EncodingLevelCollection;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
+import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
 /**
  * Encoding Levels RESTful APIs.
@@ -21,7 +26,7 @@ import static java.util.stream.Collectors.toList;
 @RestController
 @Api(value = "modcat-api", description = "Encoding level resource API")
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
-public class EncodingLevelsAPI implements CatalogingEncodingLevelsResource {
+public class EncodingLevelsAPI extends BaseResource {
 
     private Function<Avp<String>, EncodingLevel> toEncodingLevel = source -> {
         final EncodingLevel encodingLevel = new EncodingLevel();
@@ -30,14 +35,18 @@ public class EncodingLevelsAPI implements CatalogingEncodingLevelsResource {
         return encodingLevel;
     };
 
-    @Override
-    public void getCatalogingEncodingLevels(
-            final String lang,
-            final Map<String, String> okapiHeaders,
-            final Handler<AsyncResult<Response>> asyncResultHandler,
-            final Context vertxContext) throws Exception {
-        doGet((storageService, configuration, future) -> {
-            try {
+    @ApiOperation(value = "Returns all encoding levels associated with a given language")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Method successfully returned the requested encoding levels"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 414, message = "Request-URI Too Long"),
+            @ApiResponse(code = 500, message = "System internal failure occurred.")
+    })
+    @GetMapping("/encoding-levels")
+    public EncodingLevelCollection getEncodingLevels(
+            @RequestParam final String lang,
+            @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+        return doGet((storageService, configuration) -> {
                 final EncodingLevelCollection container = new EncodingLevelCollection();
                 container.setEncodingLevels(
                         storageService.getEncodingLevels(lang)
@@ -45,10 +54,7 @@ public class EncodingLevelsAPI implements CatalogingEncodingLevelsResource {
                                 .map(toEncodingLevel)
                                 .collect(toList()));
                 return container;
-            } catch (final Exception exception) {
-                return null;
-            }
-        }, asyncResultHandler, okapiHeaders, vertxContext);
+        }, tenant, configurator);
 
     }
 }

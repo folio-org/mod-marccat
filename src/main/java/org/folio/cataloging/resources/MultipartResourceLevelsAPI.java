@@ -1,20 +1,23 @@
 package org.folio.cataloging.resources;
 
-import io.vertx.core.AsyncResult;
-import io.vertx.core.Context;
-import io.vertx.core.Handler;
-import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.log.Log;
-import org.folio.cataloging.log.MessageCatalog;
-import org.folio.rest.jaxrs.model.MultipartResourceLevel;
-import org.folio.rest.jaxrs.model.MultipartResourceLevelCollection;
-import org.folio.rest.jaxrs.resource.CatalogingMultipartResourceLevelsResource;
 
-import javax.ws.rs.core.Response;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import org.folio.cataloging.Global;
+import org.folio.cataloging.ModCataloging;
+import org.folio.cataloging.business.codetable.Avp;
+import org.folio.cataloging.log.MessageCatalog;
+import org.folio.cataloging.resources.domain.MultipartResourceLevel;
+import org.folio.cataloging.resources.domain.MultipartResourceLevelCollection;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.Map;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
+import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
 /**
  * Multipart Resource levels RESTful APIs.
@@ -22,10 +25,10 @@ import static java.util.stream.Collectors.toList;
  * @author aguercio
  * @since 1.0
  */
-
-public class MultipartResourceLevelsAPI implements CatalogingMultipartResourceLevelsResource {
-
-    protected final Log logger = new Log(MultipartResourceLevelsAPI.class);
+@RestController
+@Api(value = "modcat-api", description = "Multipart resource level resource API")
+@RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
+public class MultipartResourceLevelsAPI extends BaseResource {
 
     private Function<Avp<String>, MultipartResourceLevel> toMultipartResourceLevel = source -> {
         final MultipartResourceLevel multipartResourceLevel = new MultipartResourceLevel();
@@ -34,14 +37,18 @@ public class MultipartResourceLevelsAPI implements CatalogingMultipartResourceLe
         return multipartResourceLevel;
     };
 
-    @Override
-    public void getCatalogingMultipartResourceLevels(
-            final String lang,
-            final Map<String, String> okapiHeaders,
-            final Handler<AsyncResult<Response>> asyncResultHandler,
-            final Context vertxContext) throws Exception {
-        doGet((storageService, configuration, future) -> {
-            try {
+    @ApiOperation(value = "Returns all levels associated with a given language")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Method successfully returned the requested levels."),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 414, message = "Request-URI Too Long"),
+            @ApiResponse(code = 500, message = "System internal failure occurred.")
+    })
+    @GetMapping("/multipart-resource-levels")
+    public MultipartResourceLevelCollection getMultipartResourceLevels(
+            @RequestParam final String lang,
+            @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+        return doGet((storageService, configuration) -> {
                 final MultipartResourceLevelCollection container = new MultipartResourceLevelCollection();
                 container.setMultipartResourceLevels(
                         storageService.getMultipartResourceLevels(lang)
@@ -49,16 +56,6 @@ public class MultipartResourceLevelsAPI implements CatalogingMultipartResourceLe
                                 .map(toMultipartResourceLevel)
                                 .collect(toList()));
                 return container;
-            } catch (final Exception exception) {
-                logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-                return null;
-            }
-        }, asyncResultHandler, okapiHeaders, vertxContext);
-
-    }
-
-    @Override
-    public void postCatalogingMultipartResourceLevels(String lang, MultipartResourceLevel entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
-        throw new IllegalArgumentException();
+        }, tenant, configurator);
     }
 }

@@ -1,23 +1,23 @@
 package org.folio.cataloging.resources;
 
-import io.vertx.core.AsyncResult;
-import io.vertx.core.Context;
-import io.vertx.core.Handler;
-import org.folio.cataloging.F;
-import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.dao.persistence.T_VRFTN_LVL;
-import org.folio.cataloging.log.Log;
-import org.folio.cataloging.log.MessageCatalog;
-import org.folio.rest.jaxrs.model.VerificationLevel;
-import org.folio.rest.jaxrs.model.VerificationLevelCollection;
-import org.folio.rest.jaxrs.resource.CatalogingVerificationLevelsResource;
 
-import javax.ws.rs.core.Response;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import org.folio.cataloging.F;
+import org.folio.cataloging.ModCataloging;
+import org.folio.cataloging.business.codetable.Avp;
+import org.folio.cataloging.log.MessageCatalog;
+import org.folio.cataloging.resources.domain.VerificationLevel;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.util.Map;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
-import static org.folio.cataloging.integration.CatalogingHelper.doPut;
 
 /**
  * Verification Levels RESTful APIs.
@@ -25,10 +25,10 @@ import static org.folio.cataloging.integration.CatalogingHelper.doPut;
  * @author natasciab
  * @since 1.0
  */
-
-public class VerificationLevelsAPI implements CatalogingVerificationLevelsResource {
-
-    protected final Log logger = new Log(VerificationLevelsAPI.class);
+@RestController
+@Api(value = "modcat-api", description = "Verification level resource API")
+@RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
+public class VerificationLevelsAPI extends BaseResource {
 
     private Function<Avp<String>, VerificationLevel> toVerificationLevel = source -> {
         final VerificationLevel verificationLevel = new VerificationLevel();
@@ -37,8 +37,15 @@ public class VerificationLevelsAPI implements CatalogingVerificationLevelsResour
         return verificationLevel;
     };
 
-    @Override
-    public void getCatalogingVerificationLevels(
+    @ApiOperation(value = "Returns all levels associated with a given language")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Method successfully returned the requested levels."),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 414, message = "Request-URI Too Long"),
+            @ApiResponse(code = 500, message = "System internal failure occurred.")
+    })
+    @GetMapping("/verification-levels")
+    public void getVerificationLevels(
             final String lang,
             final Map<String, String> okapiHeaders,
             final Handler<AsyncResult<Response>> asyncResultHandler,
@@ -57,21 +64,6 @@ public class VerificationLevelsAPI implements CatalogingVerificationLevelsResour
                 return null;
             }
         }, asyncResultHandler, okapiHeaders, vertxContext);
-    }
-
-    @Override
-    public void postCatalogingVerificationLevels(String lang, VerificationLevel entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
-        throw new IllegalArgumentException();
-    }
-
-    @Override
-    public void getCatalogingVerificationLevelsByCode(String code, String lang, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
-
-    }
-
-    @Override
-    public void deleteCatalogingVerificationLevelsByCode(String code, String lang, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
-
     }
 
     @Override

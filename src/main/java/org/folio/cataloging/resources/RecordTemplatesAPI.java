@@ -1,18 +1,19 @@
 package org.folio.cataloging.resources;
 
-import io.vertx.core.AsyncResult;
-import io.vertx.core.Context;
-import io.vertx.core.Handler;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.folio.cataloging.ModCataloging;
 import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.dao.persistence.Model;
-import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
-import org.folio.rest.jaxrs.model.RecordTemplate;
-import org.folio.rest.jaxrs.model.RecordTemplateCollection;
-import org.folio.rest.jaxrs.resource.CatalogingRecordTemplatesResource;
+import org.folio.cataloging.resources.domain.RecordTemplate;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -27,8 +28,11 @@ import static org.folio.cataloging.F.isNotNullOrEmpty;
  * @author agazzarini
  * @author carment
  */
-public class RecordTemplatesAPI implements CatalogingRecordTemplatesResource {
-    protected final Log logger = new Log(RecordTemplate.class);
+@RestController
+@Api(value = "modcat-api", description = "Record template resource API")
+@RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
+public class RecordTemplatesAPI extends BaseResource {
+
 
     private Function<Avp<Integer>, RecordTemplate> toRecordTemplate = avp -> {
         final RecordTemplate template = new RecordTemplate();
@@ -38,8 +42,15 @@ public class RecordTemplatesAPI implements CatalogingRecordTemplatesResource {
 
     };
 
-    @Override
-    public void getCatalogingRecordTemplates(
+    @ApiOperation(value = "Returns all templates associated with a given language")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Method successfully returned the requested templates."),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 414, message = "Request-URI Too Long"),
+            @ApiResponse(code = 500, message = "System internal failure occurred.")
+    })
+    @GetMapping("/record-templates")
+    public void getRecordTemplates(
             final CatalogingRecordTemplatesResource.Type type,
             final String lang,
             final Map<String, String> okapiHeaders,

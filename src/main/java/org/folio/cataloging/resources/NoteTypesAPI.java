@@ -1,16 +1,17 @@
 package org.folio.cataloging.resources;
 
-import io.vertx.core.AsyncResult;
-import io.vertx.core.Context;
-import io.vertx.core.Handler;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import org.folio.cataloging.ModCataloging;
 import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
-import org.folio.rest.jaxrs.model.NoteType;
-import org.folio.rest.jaxrs.model.NoteTypeCollection;
-import org.folio.rest.jaxrs.resource.CatalogingNoteTypesResource;
+import org.folio.cataloging.resources.domain.NoteType;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.ws.rs.core.Response;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -22,9 +23,10 @@ import static java.util.stream.Collectors.toList;
  * @author aguercio
  * @since 1.0
  */
-
-public class NoteTypesAPI implements CatalogingNoteTypesResource {
-    protected final Log logger = new Log(NoteTypesAPI.class);
+@RestController
+@Api(value = "modcat-api", description = "Note type resource API")
+@RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
+public class NoteTypesAPI extends BaseResource {
 
     private Function<Avp<String>, NoteType> toNoteType = source -> {
         final NoteType noteType = new NoteType();
@@ -33,8 +35,15 @@ public class NoteTypesAPI implements CatalogingNoteTypesResource {
         return noteType;
     };
 
-    @Override
-    public void getCatalogingNoteTypes(final String noteGroupType,
+    @ApiOperation(value = "Returns all types associated with a given language")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Method successfully returned the requested types."),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 414, message = "Request-URI Too Long"),
+            @ApiResponse(code = 500, message = "System internal failure occurred.")
+    })
+    @GetMapping("/note-types")
+    public void getNoteTypes(final String noteGroupType,
                                         final String lang,
                                         final Map<String, String> okapiHeaders,
                                         final Handler<AsyncResult<Response>> asyncResultHandler,
