@@ -7,18 +7,15 @@ import io.swagger.annotations.ApiResponses;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.ModCataloging;
 import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.log.MessageCatalog;
 import org.folio.cataloging.resources.domain.ItemType;
 import org.folio.cataloging.resources.domain.ItemTypeCollection;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
 import java.util.function.Function;
 
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
+import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
 /**
  * Item heading Types RESTful APIs.
@@ -29,7 +26,7 @@ import static java.util.stream.Collectors.toList;
 @RestController
 @Api(value = "modcat-api", description = "Item type resource API")
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
-public class ItemTypeAPI  extends BaseResource {
+public class ItemTypeAPI extends BaseResource {
 
     private Function<Avp<String>, ItemType> toItemType = source -> {
         final ItemType itemType = new ItemType();
@@ -46,38 +43,24 @@ public class ItemTypeAPI  extends BaseResource {
             @ApiResponse(code = 500, message = "System internal failure occurred.")
     })
     @GetMapping("/item-types")
-    public ItemTypeCollection getItemTypes(final String marcCategory,
-                                           final String code,
-                                           final String lang,
-                                           final Map<String, String> okapiHeaders,
-                                           final Handler<AsyncResult<Response>> asyncResultHandler,
-                                           final Context vertxContext) throws Exception {
-        doGet((storageService, configuration, future) -> {
-            try {
-
-                final int category = (marcCategory.equals("17") ? Global.NAME_CATEGORY_DEFAULT : Integer.parseInt(marcCategory));
-                final int intCode = Integer.parseInt(code);
-                return (storageService.existItemTypeByCategory(category))
-                        ? ofNullable(storageService.getSecondCorrelation(category, intCode, lang))
-                            .map(itemTypeList -> {
-                                final ItemTypeCollection container = new ItemTypeCollection();
-                                container.setItemTypes(itemTypeList
-                                        .stream()
-                                        .map(toItemType)
-                                        .collect(toList()));
-                                return container;
-                            }).orElse(null)
-                        : null;
-
-            } catch (final Exception exception) {
-                logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-                return null;
-            }
-        }, asyncResultHandler, okapiHeaders, vertxContext);
-    }
-
-    @Override
-    public void postCatalogingItemTypes(String lang, ItemType entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
-        throw new IllegalArgumentException();
+    public ItemTypeCollection getItemTypes(
+            @RequestParam final String marcCategory,
+            @RequestParam final int code,
+            @RequestParam final String lang,
+            @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+        return doGet((storageService, configurator) -> {
+            final int category = (marcCategory.equals("17") ? Global.NAME_CATEGORY_DEFAULT : Integer.parseInt(marcCategory));
+            return (storageService.existItemTypeByCategory(category))
+                    ? ofNullable(storageService.getSecondCorrelation(category, code, lang))
+                        .map(itemTypeList -> {
+                            final ItemTypeCollection container = new ItemTypeCollection();
+                            container.setItemTypes(
+                                    itemTypeList.stream()
+                                    .map(toItemType)
+                                    .collect(toList()));
+                            return container;
+                        }).orElse(null)
+                    : null;
+        }, tenant, configurator);
     }
 }

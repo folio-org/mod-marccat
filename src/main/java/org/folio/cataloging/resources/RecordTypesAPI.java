@@ -4,18 +4,17 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.folio.cataloging.Global;
 import org.folio.cataloging.ModCataloging;
 import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.log.MessageCatalog;
 import org.folio.cataloging.resources.domain.RecordType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.folio.cataloging.resources.domain.RecordTypeCollection;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
+import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
 /**
  * Record Types RESTful APIs.
@@ -43,13 +42,10 @@ public class RecordTypesAPI extends BaseResource {
             @ApiResponse(code = 500, message = "System internal failure occurred.")
     })
     @GetMapping("/record-types")
-    public void getRecordTypes(
-            final String lang,
-            final Map<String, String> okapiHeaders,
-            final Handler<AsyncResult<Response>> asyncResultHandler,
-            final Context vertxContext) throws Exception {
-        doGet((storageService, configuration, future) -> {
-            try {
+    public RecordTypeCollection getRecordTypes(
+            @RequestParam final String lang,
+            @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+        return doGet((storageService, configuration) -> {
                 final RecordTypeCollection container = new RecordTypeCollection();
                 container.setRecordTypes(
                         storageService.getRecordTypes(lang)
@@ -57,16 +53,6 @@ public class RecordTypesAPI extends BaseResource {
                                 .map(toRecordType)
                                 .collect(toList()));
                 return container;
-            } catch (final Exception exception) {
-                logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-                return null;
-            }
-        }, asyncResultHandler, okapiHeaders, vertxContext);
-
-    }
-
-    @Override
-    public void postCatalogingRecordTypes(String lang, RecordType entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
-        throw new IllegalArgumentException();
+        }, tenant, configurator);
     }
 }

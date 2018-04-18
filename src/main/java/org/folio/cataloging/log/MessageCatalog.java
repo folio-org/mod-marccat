@@ -13,4 +13,5 @@ public interface MessageCatalog {
 
     String _00016_FIELD_PARAMETER_INVALID = "<" + MODULE_NAME + "-00016> : Unable to retrieve field template for invalid parameters. Category %s and code %s.";
     String _00017_CODES_GROUPS_NOT_AVAILABLE = "<" + MODULE_NAME + "-00017> : No codes groups available for this tag/field. Code %s.";
+    String _00018_CANNOT_CREATE= "<" + MODULE_NAME + "-00018> : Unable to create the requested entity.";
 }

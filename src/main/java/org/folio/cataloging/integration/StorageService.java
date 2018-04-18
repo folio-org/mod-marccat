@@ -1,5 +1,7 @@
 package org.folio.cataloging.integration;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.cataloging.business.codetable.Avp;
@@ -9,11 +11,14 @@ import org.folio.cataloging.dao.common.HibernateSessionProvider;
 import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
+import org.folio.cataloging.resources.domain.RecordTemplate;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.shared.Validation;
+
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.*;
+
 import static java.util.Optional.ofNullable;
 import static org.folio.cataloging.F.locale;
 
@@ -732,100 +737,98 @@ public class StorageService implements Closeable {
     /**
      * Save the new Bibliographic Record Template.
      *
-     * @param name the record template label.
-     * @param firstGroup the frbr first group. This group is related to the FRBR entity: Works Expressions and Manifestations.
-     * @param fields the String of the record template containing the tags.
-     *
+     * @param template the record template.
      * @throws DataAccessException in case of data access failure.
      */
-    public void saveBibliographicRecordTemplate(final String name, final int firstGroup, final String fields) throws DataAccessException {
+    public void saveBibliographicRecordTemplate(final RecordTemplate template) throws DataAccessException {
         try {
+            final ObjectMapper mapper = new ObjectMapper();
             final BibliographicModelDAO dao = new BibliographicModelDAO();
             final BibliographicModel model = new BibliographicModel();
-            model.setLabel(name);
-            model.setFrbrFirstGroup(firstGroup);
-            model.setRecordFields(fields);
+            model.setLabel(template.getName());
+            model.setFrbrFirstGroup(template.getGroup());
+            model.setRecordFields(mapper.writeValueAsString(template));
             dao.save(model, session);
         } catch (final HibernateException exception) {
             logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
             throw new DataAccessException(exception);
+        } catch (final JsonProcessingException exception) {
+            logger.error(MessageCatalog._00013_IO_FAILURE, exception);
+            throw new DataAccessException(exception);
         }
-
     }
     /**
      * Save the new Authority record template.
      *
-     * @param name the record template label.
-     * @param firstGroup the frbr first group. This group is related to the FRBR entity: Works Expressions and Manifestations.
-     * @param fields the String of the record template containing the tags.
-     *
+     * @param template the record template.
      * @throws DataAccessException in case of data access failure.
      */
-    public void saveAuthorityRecordTemplate(final String name, final int firstGroup, final String fields) throws DataAccessException {
+    public void saveAuthorityRecordTemplate(final RecordTemplate template) throws DataAccessException {
         try {
+            final ObjectMapper mapper = new ObjectMapper();
             final AuthorityModelDAO dao = new AuthorityModelDAO();
             final AuthorityModel model = new AuthorityModel();
-            model.setLabel(name);
-            model.setFrbrFirstGroup(firstGroup);
-            model.setRecordFields(fields);
+            model.setLabel(template.getName());
+            model.setFrbrFirstGroup(template.getGroup());
+            model.setRecordFields(mapper.writeValueAsString(template));
             dao.save(model, session);
         } catch (final HibernateException exception) {
             logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
             throw new DataAccessException(exception);
+        } catch (final JsonProcessingException exception) {
+            logger.error(MessageCatalog._00013_IO_FAILURE, exception);
+            throw new DataAccessException(exception);
         }
-
     }
 
     /**
      * Update the Bibliographic Record Template.
      *
-     * @param id the record template identifier.
-     * @param name the record template label.
-     * @param firstGroup the frbr first group. This group is related to the FRBR entity: Works Expressions and Manifestations.
-     * @param fields the String of the record template containing the tags.
-     *
+     * @param template the record template.
      * @throws DataAccessException in case of data access failure.
      */
-    public void updateBibliographicRecordTemplate(final String id, final String name, final int firstGroup, final String fields) throws DataAccessException {
+    public void updateBibliographicRecordTemplate(final RecordTemplate template) throws DataAccessException {
         try {
+            final ObjectMapper mapper = new ObjectMapper();
             final BibliographicModelDAO dao = new BibliographicModelDAO();
             final BibliographicModel model = new BibliographicModel();
-            model.setId(Integer.valueOf(id));
-            model.setLabel(name);
-            model.setFrbrFirstGroup(firstGroup);
-            model.setRecordFields(fields);
+            model.setId(template.getId());
+            model.setLabel(template.getName());
+            model.setFrbrFirstGroup(template.getGroup());
+            model.setRecordFields(mapper.writeValueAsString(template));
             dao.update(model, session);
         } catch (final HibernateException exception) {
             logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
             throw new DataAccessException(exception);
+        } catch (final JsonProcessingException exception) {
+            logger.error(MessageCatalog._00013_IO_FAILURE, exception);
+            throw new DataAccessException(exception);
         }
-
     }
 
     /**
      * Update the Authority Record Template.
      *
-     * @param id the record template identifier.
-     * @param name the record template label.
-     * @param firstGroup the frbr first group. This group is related to the FRBR entity: Works Expressions and Manifestations.
-     * @param fields the String of the record template containing the tags.
-     *
+     * @param template the record template.
      * @throws DataAccessException in case of data access failure.
      */
-    public void updateAuthorityRecordTemplate(final String id, final String name, final int firstGroup, final String fields) throws DataAccessException {
+    public void updateAuthorityRecordTemplate(final RecordTemplate template) throws DataAccessException {
         try {
+            final ObjectMapper mapper = new ObjectMapper();
             final AuthorityModelDAO dao = new AuthorityModelDAO();
             final AuthorityModel model = new AuthorityModel();
-            model.setId(Integer.valueOf(id));
-            model.setLabel(name);
-            model.setFrbrFirstGroup(firstGroup);
-            model.setRecordFields(fields);
+            model.setId(template.getId());
+            model.setLabel(template.getName());
+            model.setFrbrFirstGroup(template.getGroup());
+            model.setRecordFields(mapper.writeValueAsString(template));
             dao.update(model, session);
         } catch (final HibernateException exception) {
             logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
             throw new DataAccessException(exception);
+        } catch (final JsonProcessingException exception) {
+            logger.error(MessageCatalog._00013_IO_FAILURE, exception);
+            throw new DataAccessException(exception);
         }
-
     }
 
 
@@ -870,11 +873,17 @@ public class StorageService implements Closeable {
      * @return the bibliographic record template associated with the given id.
      * @throws DataAccessException in case of data access failure.
      */
-    public Model getBibliographicRecordRecordTemplatesById(final String id) throws DataAccessException {
+    public RecordTemplate getBibliographicRecordRecordTemplatesById(final String id) throws DataAccessException {
         try {
-            return new BibliographicModelDAO().load(Integer.valueOf(id), session);
+            final ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.readValue(
+                    new BibliographicModelDAO().load(Integer.valueOf(id), session).getRecordFields(),
+                    RecordTemplate.class);
         } catch (final HibernateException exception) {
             logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+            throw new DataAccessException(exception);
+        } catch (final IOException exception) {
+            logger.error(MessageCatalog._00013_IO_FAILURE, exception);
             throw new DataAccessException(exception);
         }
     }
@@ -886,11 +895,17 @@ public class StorageService implements Closeable {
      *
      * @throws DataAccessException in case of data access failure.
      */
-    public Model getAuthorityRecordRecordTemplatesById(final String id) throws DataAccessException {
+    public RecordTemplate getAuthorityRecordRecordTemplatesById(final String id) throws DataAccessException {
         try {
-            return new AuthorityModelDAO().load(Integer.valueOf(id), session);
+            final ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.readValue(
+                    new AuthorityModelDAO().load(Integer.valueOf(id), session).getRecordFields(),
+                    RecordTemplate.class);
         } catch (final HibernateException exception) {
             logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+            throw new DataAccessException(exception);
+        } catch (final IOException exception) {
+            logger.error(MessageCatalog._00013_IO_FAILURE, exception);
             throw new DataAccessException(exception);
         }
     }

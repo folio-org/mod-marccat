@@ -3,13 +3,19 @@ package org.folio.cataloging.integration;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.resources.SystemInternalFailureException;
+import org.folio.cataloging.resources.UnableToCreateOrUpdateEntityException;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.function.BooleanSupplier;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.StreamSupport;
 
 import static java.util.stream.Collectors.toMap;
@@ -64,55 +70,52 @@ public abstract class CatalogingHelper {
      * Executes a POST request.
      *
      * @param adapter the bridge that carries on the existing logic.
-     * @param asyncResultHandler the response handler.
-     * @param okapiHeaders the incoming Okapi headers
-     * @param ctx the vertx context.
+     * @param tenant the tenant associated with the current request.
+     * @param configurator the configuration client.
      * @param validator a validator function for the entity associated with this resource.
      * @param id the identifier associated with the just created entity.
-     * @throws Exception in case of failure.
-
-    public static void doPost(
-            final PieceOfExistingLogicAdapter adapter,
-            final Handler<AsyncResult<Response>> asyncResultHandler,
-            final Map<String, String> okapiHeaders,
-            final Context ctx,
+     * @param configurationSets the requested configuration attributes sets.
+     */
+    public static <T> ResponseEntity<T> doPost(
+            final PieceOfExistingLogicAdapter<T> adapter,
+            final String tenant,
+            final Configuration configurator,
             final BooleanSupplier validator,
-            final Supplier<String> id) throws Exception {
+            final Supplier<String> id,
+            final String ... configurationSets) {
         if (validator.getAsBoolean()) {
-            exec(adapter, asyncResultHandler, okapiHeaders, ctx, execution ->
-                    status(HttpStatus.SC_CREATED)
-                            .header(HttpHeaders.LOCATION, id.get())
-                            .header(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.toString())
-                            .entity(execution.result())
-                            .build());
+            final T result = exec(adapter, tenant, configurator, configurationSets);
+            final HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.LOCATION, id.get());
+            headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
+            return new ResponseEntity<>(result, headers, HttpStatus.CREATED);
         } else {
-            asyncResultHandler.handle(succeededFuture(status(HttpStatus.SC_UNPROCESSABLE_ENTITY).build()));
+            throw new UnableToCreateOrUpdateEntityException();
         }
     }
-     */
+
     /**
      * Executes a PUT request.
      *
      * @param adapter the bridge that carries on the existing logic.
-     * @param asyncResultHandler the response handler.
-     * @param okapiHeaders the incoming Okapi headers
-     * @param ctx the vertx context.
+     * @param tenant the tenant associated with the current request.
+     * @param configurator the configuration client.
      * @param validator a validator function for the entity associated with this resource.
-     * @throws Exception in case of failure.
-
+     * @param configurationSets the requested configuration attributes sets.
+     */
     public static void doPut(
             final PieceOfExistingLogicAdapter adapter,
-            final Handler<AsyncResult<Response>> asyncResultHandler,
-            final Map<String, String> okapiHeaders,
-            final Context ctx,
-            final BooleanSupplier validator) throws Exception {
+            final String tenant,
+            final Configuration configurator,
+            final BooleanSupplier validator,
+            final String ... configurationSets) {
         if (validator.getAsBoolean()) {
-            exec(adapter, asyncResultHandler, okapiHeaders, ctx, execution -> status(HttpStatus.SC_NO_CONTENT).build());
+            exec(adapter, tenant, configurator, configurationSets);
         } else {
-            asyncResultHandler.handle(succeededFuture(status(HttpStatus.SC_BAD_REQUEST).build()));
+            throw new UnableToCreateOrUpdateEntityException();
         }
     }
-     */
+
 
     /**
      * Executes a DELETE request.

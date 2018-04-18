@@ -8,15 +8,14 @@ import org.folio.cataloging.Global;
 import org.folio.cataloging.ModCataloging;
 import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.log.MessageCatalog;
-import org.folio.cataloging.resources.domain.FixedFieldCodesGroup;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.folio.cataloging.resources.domain.*;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import java.util.function.Function;
 
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
+import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
 /**
  * Fixed-Field Codes Groups RESTful APIs.
@@ -37,15 +36,11 @@ public class FixedFieldCodesGroupsAPI extends BaseResource {
             @ApiResponse(code = 500, message = "System internal failure occurred.")
     })
     @GetMapping("/fixed-fields-code-groups")
-    public FixedFieldCodesGroup getCatalogingFixedFieldCodesGroups(final String code,
-                                                                   final int headerTypeCode,
-                                                                   final String lang,
-                                                                   final Map<String, String> okapiHeaders,
-                                                                   final Handler<AsyncResult<Response>> asyncResultHandler,
-                                                                   final Context vertxContext) throws Exception {
-
-        doGet((storageService, configuration, future) -> {
-            try {
+    public FixedFieldCodesGroup getCatalogingFixedFieldCodesGroups(
+            @RequestParam final String code,
+            @RequestParam final String lang,
+            @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+        return doGet((storageService, configuration) -> {
                 final FixedFieldCodesGroup fixedFieldCodesGroup = new FixedFieldCodesGroup();
                 return ofNullable(code)
                         .map(tag -> {
@@ -91,13 +86,7 @@ public class FixedFieldCodesGroupsAPI extends BaseResource {
                             }
                             return fixedFieldCodesGroup;
                         }).orElse(null);
-
-            } catch (final Exception exception) {
-                logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-                return null;
-            }
-        }, asyncResultHandler, okapiHeaders, vertxContext);
-
+        }, tenant, configurator);
     }
 
     /**
@@ -159,24 +148,4 @@ public class FixedFieldCodesGroupsAPI extends BaseResource {
         bibliographicLevel.setDescription(source.getLabel());
         return bibliographicLevel;
     };
-
-    /**
-     * Check if is a fixedField or not.
-     *
-     * @param code the tag number code.
-     * @return true if is fixed-field, false otherwise.
-     */
-    private boolean isFixedField(final String code) {
-        return Global.FIXED_FIELDS.contains(code);
-    }
-
-    @Override
-    public void deleteCatalogingFixedFieldCodesGroups(String lang, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
-        throw new IllegalArgumentException();
-    }
-
-    @Override
-    public void putCatalogingFixedFieldCodesGroups(String lang, FixedFieldCodesGroup entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
-        throw new IllegalArgumentException();
-    }
 }

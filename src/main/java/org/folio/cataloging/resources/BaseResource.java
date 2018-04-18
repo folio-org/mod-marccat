@@ -36,4 +36,10 @@ public abstract class BaseResource {
     public void systemInternalFailure(final Exception exception) {
         logger.error(MessageCatalog._00011_NWS_FAILURE, exception);
     }
+
+    @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY, reason = "Cannot create the requested entity.")
+    @ExceptionHandler(UnableToCreateOrUpdateEntityException.class)
+    public void unableToUpsertEntity(final UnableToCreateOrUpdateEntityException exception) {
+        logger.error(MessageCatalog._00018_CANNOT_CREATE, exception);
+    }
 }

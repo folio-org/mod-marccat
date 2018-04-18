@@ -5,18 +5,17 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.folio.cataloging.Global;
 import org.folio.cataloging.ModCataloging;
 import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.log.MessageCatalog;
 import org.folio.cataloging.resources.domain.ShelfListType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.folio.cataloging.resources.domain.ShelfListTypeCollection;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
+import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
 /**
  * ShelfList type RESTful APIs.
@@ -43,13 +42,11 @@ public class ShelfListTypesAPI extends BaseResource {
             @ApiResponse(code = 414, message = "Request-URI Too Long"),
             @ApiResponse(code = 500, message = "System internal failure occurred.")
     })
-    @GetMapping("/shelflisy-types")
-    public void getShelfListTypes(final String lang,
-                                  final Map<String, String> okapiHeaders,
-                                  final Handler<AsyncResult<Response>> asyncResultHandler,
-                                  final Context vertxContext) throws Exception {
-        doGet((storageService, configuration, future) -> {
-            try {
+    @GetMapping("/shelflist-types")
+    public ShelfListTypeCollection getShelfListTypes(
+            @RequestParam final String lang,
+            @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+        return doGet((storageService, configuration) -> {
                 final ShelfListTypeCollection container = new ShelfListTypeCollection();
                 container.setShelfListTypes(
                         storageService.getShelfListTypes(lang)
@@ -57,15 +54,6 @@ public class ShelfListTypesAPI extends BaseResource {
                                 .map(toShelfListType)
                                 .collect(toList()));
                 return container;
-            } catch (final Exception exception) {
-                logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-                return null;
-            }
-        }, asyncResultHandler, okapiHeaders, vertxContext);
-    }
-
-    @Override
-    public void postCatalogingShelfListTypes(String lang, ShelfListType entity, Map<String, String> okapiHeaders, Handler<AsyncResult<Response>> asyncResultHandler, Context vertxContext) throws Exception {
-        throw new IllegalArgumentException();
+        }, tenant, configurator);
     }
 }

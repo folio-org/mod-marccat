@@ -1,6 +1,9 @@
 package org.folio.cataloging.resources;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.folio.cataloging.F;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.ModCataloging;
@@ -8,10 +11,12 @@ import org.folio.cataloging.domain.GeneralInformation;
 import org.folio.cataloging.domain.PhysicalInformation;
 import org.folio.cataloging.integration.StorageService;
 import org.folio.cataloging.log.MessageCatalog;
+import org.folio.cataloging.resources.domain.FieldTemplate;
+import org.folio.cataloging.resources.domain.FixedField;
+import org.folio.cataloging.resources.domain.VariableField;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.shared.Validation;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -32,19 +37,25 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
 public class FieldTemplateAPI extends BaseResource {
 
-    @Override
-    public void getCatalogingFieldTemplate(final int categoryCode,
-                                           final String ind1, final String ind2,
-                                           final String code, final Integer headerType,
-                                           final String leader,
-                                           final String valueField,
-                                           final String lang,
-                                           final Map<String, String> okapiHeaders,
-                                           final Handler<AsyncResult<Response>> asyncResultHandler,
-                                           final Context vertxContext) throws Exception {
-        doGet((storageService, configuration, future) -> {
-            try {
-                return !isFixedField(code)
+    @ApiOperation(value = "Returns all field template associated with the given data.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Method successfully returned the requested field template."),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 414, message = "Request-URI Too Long"),
+            @ApiResponse(code = 500, message = "System internal failure occurred.")
+    })
+    @GetMapping("/field-template")
+    public FieldTemplate getCatalogingFieldTemplate(
+            @RequestParam final int categoryCode,
+            @RequestParam final String ind1, final String ind2,
+            @RequestParam final String code,
+            @RequestParam final Integer headerType,
+            @RequestParam final String leader,
+            @RequestParam final String valueField,
+            @RequestParam final String lang,
+            @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+        return doGet((storageService, configuration) ->
+                !isFixedField(code)
                     ? ofNullable(storageService.getCorrelationVariableField(categoryCode, ind1, ind2, code))
                             .map(correlationValues -> {
                                 final Validation validation = storageService.getSubfieldsByCorrelations(
@@ -78,13 +89,9 @@ public class FieldTemplateAPI extends BaseResource {
                                 return fieldT;
                             }).orElseGet(() -> {
                                 logger.error(MessageCatalog._00016_FIELD_PARAMETER_INVALID, categoryCode, code);
-                             return null;
-                        });
-            } catch (final Exception exception) {
-                logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-                return null;
-            }
-        }, asyncResultHandler, okapiHeaders, vertxContext, "bibliographic", "material");
+                                return null;
+                            })
+        , tenant, configurator,  "bibliographic", "material");
 
     }
 
@@ -105,7 +112,7 @@ public class FieldTemplateAPI extends BaseResource {
      * @param lang the lang associated with the current request.
      * @return a fixed-field containing all selected values.
      */
-    private FixedField getFixedField(final StorageService storageService,
+    private FixedField  getFixedField(final StorageService storageService,
                                      final int headerTypeCode,
                                      final String code,
                                      final String leader,
@@ -364,11 +371,11 @@ public class FieldTemplateAPI extends BaseResource {
      * @return a VariableField entity.
      */
     private VariableField getVariableField(final int categoryCode,
-                             final String ind1,
-                             final String ind2,
-                             final String code,
-                             final CorrelationValues correlations,
-                             final String description, final Validation validation) {
+                                           final String ind1,
+                                           final String ind2,
+                                           final String code,
+                                           final CorrelationValues correlations,
+                                           final String description, final Validation validation) {
 
         final VariableField variableField = new VariableField();
         if (!isFixedField(code))  {
@@ -510,24 +517,6 @@ public class FieldTemplateAPI extends BaseResource {
             fixedField.setVisualTechniqueCode(String.valueOf(displayValue.charAt(startPosition + 16)));
             fixedField.setMaterialType(FixedField.MaterialType.VISUAL_MATERIAL);
         }
-    }
-
-    @Override
-    public void deleteCatalogingFieldTemplate(
-            final String lang, Map<String, String> okapiHeaders,
-            final Handler<AsyncResult<Response>> asyncResultHandler,
-            final Context vertxContext) {
-        throw new IllegalArgumentException();
-    }
-
-    @Override
-    public void putCatalogingFieldTemplate(
-            final String lang,
-            final FieldTemplate entity,
-            final Map<String, String> okapiHeaders,
-            final Handler<AsyncResult<Response>> asyncResultHandler,
-            final Context vertxContext) {
-        throw new IllegalArgumentException();
     }
 
     /**
