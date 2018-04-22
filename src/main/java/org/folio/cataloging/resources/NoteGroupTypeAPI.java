@@ -8,12 +8,10 @@ import io.swagger.annotations.ApiResponses;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.ModCataloging;
 import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.log.MessageCatalog;
 import org.folio.cataloging.resources.domain.NoteGroupType;
 import org.folio.cataloging.resources.domain.NoteGroupTypeCollection;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;

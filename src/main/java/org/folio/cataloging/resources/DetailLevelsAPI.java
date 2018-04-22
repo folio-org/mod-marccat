@@ -11,7 +11,6 @@ import org.folio.cataloging.resources.domain.DetailLevel;
 import org.folio.cataloging.resources.domain.DetailLevelCollection;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;

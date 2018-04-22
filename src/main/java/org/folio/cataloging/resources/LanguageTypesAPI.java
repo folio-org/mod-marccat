@@ -41,7 +41,7 @@ public class LanguageTypesAPI extends BaseResource {
             @ApiResponse(code = 414, message = "Request-URI Too Long"),
             @ApiResponse(code = 500, message = "System internal failure occurred.")
     })
-    @GetMapping("/item-types")
+    @GetMapping("/language-types")
     public LanguageTypeCollection getLanguageTypes(
             @RequestParam final String lang,
             @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {

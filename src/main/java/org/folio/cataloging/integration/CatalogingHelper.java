@@ -103,8 +103,8 @@ public abstract class CatalogingHelper {
      * @param validator a validator function for the entity associated with this resource.
      * @param configurationSets the requested configuration attributes sets.
      */
-    public static void doPut(
-            final PieceOfExistingLogicAdapter adapter,
+    public static <T> void doPut(
+            final PieceOfExistingLogicAdapter<T> adapter,
             final String tenant,
             final Configuration configurator,
             final BooleanSupplier validator,
@@ -121,26 +121,23 @@ public abstract class CatalogingHelper {
      * Executes a DELETE request.
      *
      * @param adapter the bridge that carries on the existing logic.
-     * @param asyncResultHandler the response handler.
-     * @param okapiHeaders the incoming Okapi headers
-     * @param ctx the vertx context.
-     * @throws Exception in case of failure.
-
-    public static void doDelete(
-            final PieceOfExistingLogicAdapter adapter,
-            final Handler<AsyncResult<Response>> asyncResultHandler,
-            final Map<String, String> okapiHeaders,
-            final Context ctx) throws Exception {
-        exec(adapter, asyncResultHandler, okapiHeaders, ctx, execution -> status(HttpStatus.SC_NO_CONTENT).build());
+     * @param tenant the tenant associated with the current request.
+     * @param configurator the configuration client.
+     * @param configurationSets the requested configuration attributes sets.
+    */
+    public static <T> void doDelete(
+            final PieceOfExistingLogicAdapter<T> adapter,
+            final String tenant,
+            final Configuration configurator,
+            final String ... configurationSets) {
+        exec(adapter, tenant, configurator, configurationSets);
     }
-     */
 
     /**
      * Provides a unified approach (within the cataloging module) for wrapping an existing blocking flow.
      *
      * @param adapter the bridge that carries on the existing logic.
      * @param configurationSets the configurationSets required by the current service.
-     * @throws Exception in case of failure.
      */
     private static <T> T exec(
             final PieceOfExistingLogicAdapter<T> adapter,

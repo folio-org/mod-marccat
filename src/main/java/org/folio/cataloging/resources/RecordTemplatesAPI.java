@@ -17,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
@@ -97,7 +96,7 @@ public class RecordTemplatesAPI extends BaseResource {
             @ApiResponse(code = 500, message = "System internal failure occurred.")
     })
     @PostMapping("/record-template/{id}")
-    public ResponseEntity<RecordTemplate> createNewRecordTemplate(
+    public ResponseEntity<RecordTemplate> createNew(
             @RequestBody final RecordTemplate template,
             @RequestParam final String lang,
             @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
@@ -111,16 +110,16 @@ public class RecordTemplatesAPI extends BaseResource {
         }, tenant, configurator, () -> isNotNullOrEmpty(template.getName()), () -> String.valueOf(template.getId()));
     }
 
-    @ApiOperation(value = "Creates a new template.")
+    @ApiOperation(value = "Updates an existing template.")
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Method successfully created the new template."),
+            @ApiResponse(code = 204, message = "Method successfully updated the template."),
             @ApiResponse(code = 400, message = "Bad Request"),
             @ApiResponse(code = 414, message = "Request-URI Too Long"),
             @ApiResponse(code = 500, message = "System internal failure occurred.")
     })
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PostMapping("/record-template/{id}")
-    public void putCatalogingRecordTemplatesById(
+    @PutMapping("/record-template/{id}")
+    public void update(
             @PathVariable final String id,
             @RequestBody final RecordTemplate template,
             @RequestParam final String lang,
@@ -129,38 +128,42 @@ public class RecordTemplatesAPI extends BaseResource {
                 try {
                     final ObjectMapper mapper = new ObjectMapper();
                     final String jsonInString = mapper.writeValueAsString(template);
-                    if("A".equals(template.getType()))
+                    if("A".equals(template.getType())) {
                         storageService.updateAuthorityRecordTemplate(template);
-                    else
+                    } else {
                         storageService.updateBibliographicRecordTemplate(template);
+                    }
                     return template;
                 } catch (final Exception exception) {
                     logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
                     return null;
                 }
-            }, tenant,
-               configurator,
-               () -> isNotNullOrEmpty(id) &&  isNotNullOrEmpty(entity.getName()));
+            }, tenant, configurator, () -> isNotNullOrEmpty(id) &&  isNotNullOrEmpty(template.getName()));
     }
-    @Override
+
+    @ApiOperation(value = "Deletes a template.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "Method successfully deleted the target template."),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 414, message = "Request-URI Too Long"),
+            @ApiResponse(code = 500, message = "System internal failure occurred.")
+    })
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/record-template/{id}")
     public void deleteCatalogingRecordTemplatesById(
-            final String id,
-            final Type type,
-            final String lang,
-            final Map<String, String> okapiHeaders,
-            final Handler<AsyncResult<Response>> asyncResultHandler,
-            final Context vertxContext) throws Exception {
-        doDelete((storageService, configuration, future) -> {
-            try {
-                if("A".equals(type.name()))
+            @PathVariable final String id,
+            @RequestParam final CatalogingEntityType type,
+            @RequestParam final String lang,
+            @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+        doDelete((storageService, configuration) -> {
+            switch(type) {
+                case A:
                     storageService.deleteAuthorityRecordTemplate(id);
-                else
+                    break;
+                case B:
                     storageService.deleteBibliographicRecordTemplate(id);
-                return id;
-            } catch (final Exception exception) {
-                logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-                return null;
             }
-        }, asyncResultHandler, okapiHeaders, vertxContext);
+            return id;
+        }, tenant, configurator);
     }
 }

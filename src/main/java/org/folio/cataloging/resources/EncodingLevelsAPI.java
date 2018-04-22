@@ -11,7 +11,6 @@ import org.folio.cataloging.resources.domain.EncodingLevel;
 import org.folio.cataloging.resources.domain.EncodingLevelCollection;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;

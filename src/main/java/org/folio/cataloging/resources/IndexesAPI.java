@@ -75,7 +75,7 @@ public class IndexesAPI extends BaseResource {
             @ApiResponse(code = 414, message = "Request-URI Too Long"),
             @ApiResponse(code = 500, message = "System internal failure occurred.")
     })
-    @GetMapping("/indexes/{code}")
+    @GetMapping("/indexes")
     public IndexCollection getIndexes(
             @RequestParam final CategoryType categoryType,
             @RequestParam final int categoryCode,
