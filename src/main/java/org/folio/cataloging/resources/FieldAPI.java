@@ -35,7 +35,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 @RestController
 @Api(value = "modcat-api", description = "Field resource API")
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
-public class FieldsAPI extends BaseResource {
+public class FieldAPI extends BaseResource {
     /**
      * Gets the mandatory fields to create a new template / record.
      */

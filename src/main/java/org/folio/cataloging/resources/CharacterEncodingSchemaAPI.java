@@ -25,7 +25,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 @RestController
 @Api(value = "modcat-api", description = "Char Encoding Schema resource API")
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
-public class CharacterEncodingSchemasAPI extends BaseResource {
+public class CharacterEncodingSchemaAPI extends BaseResource {
 
     private Function<Avp<String>, CharacterEncodingSchema> toCharacterEncodingSchema = source -> {
         final CharacterEncodingSchema characterEncodingSchema = new CharacterEncodingSchema();

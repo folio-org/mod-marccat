@@ -7,8 +7,8 @@ import io.swagger.annotations.ApiResponses;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.ModCataloging;
 import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.resources.domain.RecordDisplayFormat;
-import org.folio.cataloging.resources.domain.RecordDisplayFormatCollection;
+import org.folio.cataloging.resources.domain.EncodingLevel;
+import org.folio.cataloging.resources.domain.EncodingLevelCollection;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.function.Function;
@@ -17,42 +17,43 @@ import static java.util.stream.Collectors.toList;
 import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
 /**
- * Record Display Format RESTful APIs.
+ * Encoding Levels RESTful APIs.
  *
  * @author aguercio
  * @since 1.0
  */
 @RestController
-@Api(value = "modcat-api", description = "Record display format resource API")
+@Api(value = "modcat-api", description = "Encoding level resource API")
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
-public class RecordDisplayFormatsAPI extends BaseResource{
+public class EncodingLevelAPI extends BaseResource {
 
-    private Function<Avp<String>, RecordDisplayFormat> toRecordDisplayFormat = source -> {
-        final RecordDisplayFormat recordDisplayFormat = new RecordDisplayFormat();
-        recordDisplayFormat.setCode(Integer.parseInt(source.getValue()));
-        recordDisplayFormat.setDescription(source.getLabel());
-        return recordDisplayFormat;
+    private Function<Avp<String>, EncodingLevel> toEncodingLevel = source -> {
+        final EncodingLevel encodingLevel = new EncodingLevel();
+        encodingLevel.setCode(source.getValue());
+        encodingLevel.setDescription(source.getLabel());
+        return encodingLevel;
     };
 
-    @ApiOperation(value = "Returns all formats associated with a given language")
+    @ApiOperation(value = "Returns all encoding levels associated with a given language")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Method successfully returned the requested formats."),
+            @ApiResponse(code = 200, message = "Method successfully returned the requested encoding levels"),
             @ApiResponse(code = 400, message = "Bad Request"),
             @ApiResponse(code = 414, message = "Request-URI Too Long"),
             @ApiResponse(code = 500, message = "System internal failure occurred.")
     })
-    @GetMapping("/record-display-formats")
-    public RecordDisplayFormatCollection getRecordDisplayFormats(
+    @GetMapping("/encoding-levels")
+    public EncodingLevelCollection getEncodingLevels(
             @RequestParam final String lang,
             @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
         return doGet((storageService, configuration) -> {
-                final RecordDisplayFormatCollection container = new RecordDisplayFormatCollection();
-                container.setRecordDisplayFormats(
-                        storageService.getRecordDisplayFormats(lang)
+                final EncodingLevelCollection container = new EncodingLevelCollection();
+                container.setEncodingLevels(
+                        storageService.getEncodingLevels(lang)
                                 .stream()
-                                .map(toRecordDisplayFormat)
+                                .map(toEncodingLevel)
                                 .collect(toList()));
                 return container;
         }, tenant, configurator);
+
     }
 }

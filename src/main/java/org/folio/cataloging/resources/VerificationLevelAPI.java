@@ -7,8 +7,8 @@ import io.swagger.annotations.ApiResponses;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.ModCataloging;
 import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.resources.domain.MaterialType;
-import org.folio.cataloging.resources.domain.MaterialTypeCollection;
+import org.folio.cataloging.resources.domain.VerificationLevel;
+import org.folio.cataloging.resources.domain.VerificationLevelCollection;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.function.Function;
@@ -17,40 +17,40 @@ import static java.util.stream.Collectors.toList;
 import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
 /**
- * Material type RESTful APIs.
+ * Verification Levels RESTful APIs.
  *
- * @author carment
+ * @author natasciab
  * @since 1.0
  */
 @RestController
-@Api(value = "modcat-api", description = "Material type resource API")
+@Api(value = "modcat-api", description = "Verification level resource API")
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
-public class MaterialTypesAPI extends BaseResource {
+public class VerificationLevelAPI extends BaseResource {
 
-    private Function<Avp<String>, MaterialType> toMaterialType = source -> {
-        final MaterialType materialType = new MaterialType();
-        materialType.setCode(source.getValue());
-        materialType.setDescription(source.getLabel());
-        return materialType;
+    private Function<Avp<String>, VerificationLevel> toVerificationLevel = source -> {
+        final VerificationLevel verificationLevel = new VerificationLevel();
+        verificationLevel.setCode(source.getValue());
+        verificationLevel.setDescription(source.getLabel());
+        return verificationLevel;
     };
 
-    @ApiOperation(value = "Returns all material types associated with a given language")
+    @ApiOperation(value = "Returns all levels associated with a given language")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Method successfully returned the requested material types."),
+            @ApiResponse(code = 200, message = "Method successfully returned the requested levels."),
             @ApiResponse(code = 400, message = "Bad Request"),
             @ApiResponse(code = 414, message = "Request-URI Too Long"),
             @ApiResponse(code = 500, message = "System internal failure occurred.")
     })
-    @GetMapping("/material-types")
-    public MaterialTypeCollection getMaterialTypes(
+    @GetMapping("/verification-levels")
+    public VerificationLevelCollection getVerificationLevels(
             @RequestParam final String lang,
             @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
         return doGet((storageService, configuration) -> {
-                final MaterialTypeCollection container = new MaterialTypeCollection();
-                container.setMaterialTypes(
-                        storageService.getMaterialTypes(lang)
+                final VerificationLevelCollection container = new VerificationLevelCollection();
+                container.setVerificationLevels(
+                        storageService.getVerificationLevels(lang)
                                 .stream()
-                                .map(toMaterialType)
+                                .map(toVerificationLevel)
                                 .collect(toList()));
                 return container;
         }, tenant, configurator);

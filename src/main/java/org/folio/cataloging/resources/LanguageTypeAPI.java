@@ -25,7 +25,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 @RestController
 @Api(value = "modcat-api", description = "Language type resource API")
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
-public class LanguageTypesAPI extends BaseResource {
+public class LanguageTypeAPI extends BaseResource {
 
     private Function<Avp<String>, LanguageType> toLanguageType = source -> {
         final LanguageType languageType = new LanguageType();

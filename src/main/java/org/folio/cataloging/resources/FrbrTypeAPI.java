@@ -25,7 +25,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 @RestController
 @Api(value = "modcat-api", description = "FRBR Type resource API")
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
-public class FrbrTypesAPI extends BaseResource {
+public class FrbrTypeAPI extends BaseResource {
 
     private Function<Avp<String>, FrbrType> toFrbrType = source -> {
         final FrbrType frbrType = new FrbrType();

@@ -26,7 +26,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 @RestController
 @Api(value = "modcat-api", description = "Fixed field code group resource API")
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
-public class FixedFieldCodesGroupsAPI extends BaseResource {
+public class FixedFieldCodesGroupAPI extends BaseResource {
 
     @ApiOperation(value = "Returns all mandatory groups.")
     @ApiResponses(value = {

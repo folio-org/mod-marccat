@@ -25,7 +25,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 @RestController
 @Api(value = "modcat-api", description = "Retention resource API")
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
-public class RetentionsAPI extends BaseResource {
+public class RetentionAPI extends BaseResource {
 
     private Function<Avp<String>, Retention> toRetention = source -> {
         final Retention retention = new Retention();

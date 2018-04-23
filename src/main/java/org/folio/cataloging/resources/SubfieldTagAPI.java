@@ -24,7 +24,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 @RestController
 @Api(value = "modcat-api", description = "Subfield resource API")
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
-public class SubfieldsTagAPI extends BaseResource {
+public class SubfieldTagAPI extends BaseResource {
 
     @ApiOperation(value = "Returns the subfield tag associated with the input data.")
     @ApiResponses(value = {

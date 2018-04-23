@@ -25,7 +25,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 @RestController
 @Api(value = "modcat-api", description = "Detail level resource API")
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
-public class DetailLevelsAPI extends BaseResource {
+public class DetailLevelAPI extends BaseResource {
     private Function<Avp<String>, DetailLevel> toDetailLevel = source -> {
         final DetailLevel detailLevel = new DetailLevel();
         detailLevel.setCode(source.getValue());

@@ -34,7 +34,7 @@ import static org.folio.cataloging.resources.domain.CatalogingEntityType.A;
 @RestController
 @Api(value = "modcat-api", description = "Record template resource API")
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
-public class RecordTemplatesAPI extends BaseResource {
+public class RecordTemplateAPI extends BaseResource {
 
     private Function<Avp<Integer>, RecordTemplate> toRecordTemplate = avp -> {
         final RecordTemplate template = new RecordTemplate();

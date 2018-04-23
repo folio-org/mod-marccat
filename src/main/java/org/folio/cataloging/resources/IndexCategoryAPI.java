@@ -7,8 +7,9 @@ import io.swagger.annotations.ApiResponses;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.ModCataloging;
 import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.resources.domain.VerificationLevel;
-import org.folio.cataloging.resources.domain.VerificationLevelCollection;
+import org.folio.cataloging.resources.domain.Category;
+import org.folio.cataloging.resources.domain.CategoryType;
+import org.folio.cataloging.resources.domain.IndexCategoryCollection;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.function.Function;
@@ -17,40 +18,40 @@ import static java.util.stream.Collectors.toList;
 import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
 /**
- * Verification Levels RESTful APIs.
+ * Logical views RESTful APIs.
  *
- * @author natasciab
+ * @author carment
  * @since 1.0
  */
 @RestController
-@Api(value = "modcat-api", description = "Verification level resource API")
+@Api(value = "modcat-api", description = "Index Category resource API")
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
-public class VerificationLevelsAPI extends BaseResource {
+public class IndexCategoryAPI extends BaseResource {
 
-    private Function<Avp<String>, VerificationLevel> toVerificationLevel = source -> {
-        final VerificationLevel verificationLevel = new VerificationLevel();
-        verificationLevel.setCode(source.getValue());
-        verificationLevel.setDescription(source.getLabel());
-        return verificationLevel;
+    private Function<Avp<Integer>, Category> convertValueLabelToCategory = source -> {
+        final Category category = new Category();
+        category.setCode(source.getValue());
+        return category;
     };
 
-    @ApiOperation(value = "Returns all levels associated with a given language")
+    @ApiOperation(value = "Returns all index categories associated with a given language")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Method successfully returned the requested levels."),
+            @ApiResponse(code = 200, message = "Method successfully returned the requested index categories."),
             @ApiResponse(code = 400, message = "Bad Request"),
             @ApiResponse(code = 414, message = "Request-URI Too Long"),
             @ApiResponse(code = 500, message = "System internal failure occurred.")
     })
-    @GetMapping("/verification-levels")
-    public VerificationLevelCollection getVerificationLevels(
+    @GetMapping("/index-categories")
+    public IndexCategoryCollection getIndexCategories(
+            @RequestParam final CategoryType type,
             @RequestParam final String lang,
             @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
         return doGet((storageService, configuration) -> {
-                final VerificationLevelCollection container = new VerificationLevelCollection();
-                container.setVerificationLevels(
-                        storageService.getVerificationLevels(lang)
+                final IndexCategoryCollection container = new IndexCategoryCollection();
+                container.setCategories(
+                        storageService.getIndexCategories(type.name(),lang)
                                 .stream()
-                                .map(toVerificationLevel)
+                                .map(convertValueLabelToCategory)
                                 .collect(toList()));
                 return container;
         }, tenant, configurator);
