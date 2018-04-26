@@ -731,7 +731,7 @@ public class BibliographicCatalogDAO extends CatalogDAO
 				Iterator iter = raw.iterator();
 				while (iter.hasNext()) {
 					AccessPoint anApf = (AccessPoint) iter.next();
-					int bibItem = ((ClassificationAccessPoint)anApf).getItemNumber();
+					int bibItem = anApf.getItemNumber();
 					String userViewString = ((ClassificationAccessPoint)anApf).getUserViewString();
 					anApf.markDeleted();
 					persistByStatus(anApf);
@@ -796,14 +796,14 @@ public class BibliographicCatalogDAO extends CatalogDAO
 					AccessPoint anApf = (AccessPoint) iter.next();
 					boolean isPresentSecondCorr=daoBiblioCorr.isPresentSecondCorrelation(list2,(short)anApf.getFunctionCode());
 					if(!isPresentSecondCorr){
-					    int bibItem = ((SubjectAccessPoint)anApf).getItemNumber();
+					    int bibItem = anApf.getItemNumber();
 						String userViewString = ((SubjectAccessPoint)anApf).getUserViewString();
 						anApf.markDeleted();
 						persistByStatus(anApf);
 						anApf = new SubjectAccessPoint();
 						anApf.setItemNumber(bibItem);
 						((SubjectAccessPoint)anApf).setUserViewString(userViewString);
-						((SubjectAccessPoint)anApf).setFunctionCode(functionCode);
+						anApf.setFunctionCode(functionCode);
 						anApf.markNew();
 						anApf.setHeadingNumber(new Integer(descriptor.getKey().getHeadingNumber()));
 						persistByStatus(anApf);

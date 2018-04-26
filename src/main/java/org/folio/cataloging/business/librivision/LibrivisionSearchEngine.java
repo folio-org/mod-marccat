@@ -8,7 +8,6 @@
 package org.folio.cataloging.business.librivision;
 
 import org.folio.cataloging.business.controller.UserProfile;
-import org.folio.cataloging.business.searching.NoResultsFoundException;
 import org.folio.cataloging.business.searching.ResultSet;
 import org.folio.cataloging.business.searching.SearchEngine;
 import org.folio.cataloging.exception.ModCatalogingException;
@@ -71,7 +70,7 @@ public class LibrivisionSearchEngine implements SearchEngine {
 		List operatorList,
 		Locale locale,
 		int searchingView)
-		throws NoResultsFoundException, ModCatalogingException {
+		throws ModCatalogingException {
 		ResultSet result =
 			LVMessage.LVAdvancedSearch(
 				locale,

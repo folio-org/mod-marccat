@@ -14,9 +14,7 @@ import org.folio.cataloging.bean.searching.SearchTypeBean;
 import org.folio.cataloging.business.authorisation.AuthorisationAgent;
 import org.folio.cataloging.business.authorisation.AuthorisationException;
 import org.folio.cataloging.business.authorisation.Permission;
-import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.exception.DuplicateTagException;
 import org.folio.cataloging.exception.ModCatalogingException;
 import org.folio.cataloging.exception.RecordInUseException;
 import org.folio.cataloging.exception.ValidationException;
@@ -127,7 +125,7 @@ public abstract class LibrisuiteBean {
 	}
 
 //	public EditBean prepareItemForEditing(Object[] key, HttpServletRequest request)	throws DataAccessException, MarcCorrelationException, RecordInUseException
-	public EditBean prepareItemForEditingTransfert(int recordView, Object[] key, HttpServletRequest request)	throws DataAccessException, MarcCorrelationException, RecordInUseException
+	public EditBean prepareItemForEditingTransfert(int recordView, Object[] key, HttpServletRequest request)	throws DataAccessException, RecordInUseException
 	{
 		EditBean editBean;
 //		if (SearchTypeBean.getInstance(request).getSearchingView() > 0) {
@@ -145,7 +143,7 @@ public abstract class LibrisuiteBean {
 	public EditBean prepareItemForEditingDuplicate(
 			Object[] key,
 			HttpServletRequest request)
-			throws DataAccessException, MarcCorrelationException, RecordInUseException {
+			throws DataAccessException, RecordInUseException {
 
 			EditBean editBean;
 			if (SearchTypeBean.getInstance(request).getSearchingView() > 0) {
@@ -165,8 +163,7 @@ public abstract class LibrisuiteBean {
 		this.displayRecord = displayRecord;
 	}
 	
-	public EditBean prepareItemForEditing(int recordView, Object[] key,	HttpServletRequest request) throws DataAccessException, MarcCorrelationException, RecordInUseException, ValidationException, AuthorisationException, DuplicateTagException 
-	{
+	public EditBean prepareItemForEditing(int recordView, Object[] key,	HttpServletRequest request) throws DataAccessException, RecordInUseException, ValidationException, AuthorisationException {
 		EditBean editBean;
 		
 		if (recordView > 0) {
@@ -179,8 +176,7 @@ public abstract class LibrisuiteBean {
 		return editBean;
 	}
 	
-	public EditBean prepareItemForVisualizeCodes(int recordView, Object[] key,	HttpServletRequest request) throws DataAccessException, MarcCorrelationException, RecordInUseException, ValidationException, AuthorisationException, DuplicateTagException 
-	{
+	public EditBean prepareItemForVisualizeCodes(int recordView, Object[] key,	HttpServletRequest request) throws DataAccessException, RecordInUseException, ValidationException, AuthorisationException {
 		EditBean editBean;
 		
 		if (recordView > 0) {

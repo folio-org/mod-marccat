@@ -1,12 +1,8 @@
 package org.folio.cataloging.business.common;
 
-import org.folio.cataloging.Global;
 import org.folio.cataloging.log.Log;
-import org.folio.cataloging.log.MessageCatalog;
 
-import java.io.UnsupportedEncodingException;
 import java.util.MissingResourceException;
-import java.util.Optional;
 
 /**
  * Provides access to default values established in configuration.

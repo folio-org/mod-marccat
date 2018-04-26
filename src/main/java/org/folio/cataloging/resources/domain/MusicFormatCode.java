@@ -1,9 +1,10 @@
-package org.folio.rest.jaxrs.model;
+package org.folio.cataloging.resources.domain;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import javax.annotation.Generated;
 
 /**
  * Music Format Schema
@@ -14,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({ "code", "description" })
-public class MusicFormat {
+public class MusicFormatCode {
 
     @JsonProperty("code")
     private String code;
@@ -42,7 +43,7 @@ public class MusicFormat {
         this.code = code;
     }
 
-    public MusicFormat withCode(String code) {
+    public MusicFormatCode withCode(String code) {
         this.code = code;
         return this;
     }
@@ -67,7 +68,7 @@ public class MusicFormat {
         this.description = description;
     }
 
-    public MusicFormat withDescription(String description) {
+    public MusicFormatCode withDescription(String description) {
         this.description = description;
         return this;
     }
