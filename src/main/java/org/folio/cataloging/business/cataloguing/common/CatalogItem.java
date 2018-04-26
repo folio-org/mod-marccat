@@ -1,18 +1,31 @@
+/*
+ * (c) LibriCore
+ * 
+ * Created on Oct 27, 2005
+ * 
+ * CatalogItem.java
+ */
 package org.folio.cataloging.business.cataloguing.common;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.cataloguing.bibliographic.*;
+import org.folio.cataloging.business.cataloguing.bibliographic.FixedField;
+import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
+import org.folio.cataloging.business.cataloguing.bibliographic.TagComparator;
+import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.filter.SameDescriptorTagFilter;
 import org.folio.cataloging.business.common.filter.TagFilter;
 import org.folio.cataloging.business.common.group.*;
 import org.folio.cataloging.business.descriptor.Descriptor;
-import org.folio.cataloging.dao.DAOBibliographicModelItem;
+import org.folio.cataloging.dao.BibliographicModelItemDAO;
+import org.folio.cataloging.dao.persistence.BibliographicModelItem;
 import org.folio.cataloging.dao.persistence.CorrelationKey;
+import org.folio.cataloging.dao.persistence.Model;
+import org.folio.cataloging.dao.persistence.ModelItem;
 import org.folio.cataloging.exception.DuplicateTagException;
-import org.folio.cataloging.exception.LibrisuiteException;
 import org.folio.cataloging.exception.MandatoryTagException;
+import org.folio.cataloging.exception.ModCatalogingException;
 import org.folio.cataloging.exception.ValidationException;
 import org.folio.cataloging.model.Subfield;
 import org.folio.cataloging.shared.Validation;
@@ -26,6 +39,7 @@ import java.util.*;
 
 /**
  * @author paulm
+ * @version $Revision: 1.10 $, $Date: 2006/11/23 15:01:47 $
  * @since 1.0
  */
 public abstract class CatalogItem implements Serializable {
@@ -34,7 +48,7 @@ public abstract class CatalogItem implements Serializable {
 
 	protected List deletedTags = new ArrayList();
 
-	protected ModelItem modelItem;
+	protected ModelItem modelItem = null;
 
 	protected List tags = new ArrayList();
 
@@ -57,7 +71,7 @@ public abstract class CatalogItem implements Serializable {
 			try {
 				return ((Tag) obj1).getMarcEncoding().getMarcTag().compareTo(
 					((Tag) obj2).getMarcEncoding().getMarcTag());
-			} catch (LibrisuiteException e) {
+			} catch (ModCatalogingException e) {
 				throw new RuntimeException("Error comparing tags");
 			}
 		}
@@ -100,7 +114,7 @@ public abstract class CatalogItem implements Serializable {
 		 * @since 1.0
 		 */
 	public void checkRepeatability(int index)
-		throws DataAccessException, DuplicateTagException {
+		throws DataAccessException, MarcCorrelationException, DuplicateTagException {
 		Tag t = getTag(index);
 		Validation bv = t.getValidation();
 		if (!bv.isMarcTagRepeatable()) {
@@ -220,8 +234,8 @@ public abstract class CatalogItem implements Serializable {
 	 * @since 1.0
 		 */
 	public void setModelItem(Model model) throws DataAccessException {
-		DAOBibliographicModelItem dao = new DAOBibliographicModelItem();
-		if(dao.getModelUsageByItem(this.getAmicusNumber().intValue())){
+		BibliographicModelItemDAO dao = new BibliographicModelItemDAO();
+		/*if(dao.getModelUsageByItem(this.getAmicusNumber().intValue())){
 		   this.modelItem = dao.load(this.getAmicusNumber().intValue());
 		   this.modelItem.markChanged();
 		}
@@ -229,17 +243,17 @@ public abstract class CatalogItem implements Serializable {
 		  this.modelItem = new BibliographicModelItem();
 		  this.modelItem.markNew();
 		}
-		
+		*/
 		this.modelItem.setItem(this.getAmicusNumber().longValue());
 		this.modelItem.setModel(model);
-		this.modelItem.setXmlFields(model.getXmlFields());
+		this.modelItem.setRecordFields(model.getRecordFields());
 	}
 
 	public void setModelItemNoAN(Model model) {
 		this.modelItem = new BibliographicModelItem();
 		this.modelItem.markNew();
 		this.modelItem.setModel(model);
-		this.modelItem.setXmlFields(model.getXmlFields());
+		this.modelItem.setRecordFields(model.getRecordFields());
 	}
 	/**
 		 * replace an old tag with a new one in the bibItem
@@ -302,7 +316,7 @@ public abstract class CatalogItem implements Serializable {
 		List tagSet = new ArrayList();
 		Iterator it = groupList.iterator();
 		while (it.hasNext()) {
-			Object elem = it.next();
+			Object elem = (Object) it.next();
 			if(elem instanceof Tag) tagSet.add(elem);
 			else {
 				TagContainer container = (TagContainer)elem;
@@ -319,7 +333,7 @@ public abstract class CatalogItem implements Serializable {
 	 * @throws MarcCorrelationException
 	 * @throws DataAccessException
 	 */
-	private LinkedHashMap populateGroups() throws DataAccessException {
+	private LinkedHashMap populateGroups() throws MarcCorrelationException, DataAccessException {
 		LinkedHashMap ht = new LinkedHashMap();
 		GroupManager groupManager = BibliographicGroupManager.getInstance();
 		Iterator it = tags.iterator();
@@ -341,7 +355,7 @@ public abstract class CatalogItem implements Serializable {
 	}
 
 	public byte[] toMarc()
-		throws DataAccessException {
+		throws MarcCorrelationException, DataAccessException {
 		DecimalFormat n4 = new DecimalFormat("0000");
 		DecimalFormat n5 = new DecimalFormat("00000");
 		ByteArrayOutputStream directory = new ByteArrayOutputStream();
@@ -401,11 +415,11 @@ public abstract class CatalogItem implements Serializable {
 	}
 
 	public void validate()
-		throws ValidationException, DataAccessException {
+		throws ValidationException, DataAccessException, MarcCorrelationException {
 		checkForMandatoryTags();
 		for (int i = 0; i < getTags().size(); i++) {
 			checkRepeatability(i);
-			getTag(i).validate(i);
+			((Tag) getTag(i)).validate(i);
 		}
 	}
 
@@ -435,7 +449,7 @@ public abstract class CatalogItem implements Serializable {
 		return filteredList;
 	}
 	public boolean isDecriptorAlreadyPresent(Descriptor descriptor, Tag current)
-			throws DataAccessException {
+			throws MarcCorrelationException, DataAccessException {
 		boolean isPresent = false;
 		TagFilter filter = null;
 		/* controllo pima del descrittore se ci sono due tag uguali */
@@ -450,7 +464,7 @@ public abstract class CatalogItem implements Serializable {
 
 	}
 
-	public List findTagsEqual(int functionCode) throws
+	public List findTagsEqual(int functionCode) throws MarcCorrelationException,
 			DataAccessException {
 		List/* <Tag> */tags = getTags();
 		List/* <Tag> */filteredList = new ArrayList/* <Tag> */();
@@ -466,28 +480,28 @@ public abstract class CatalogItem implements Serializable {
 	}
 	
 	public List findTagsFixedEqual(String marcTag)
-			throws DataAccessException {
+			throws MarcCorrelationException, DataAccessException {
 		List/* <Tag> */tags = getTags();
 		List/* <Tag> */filteredList = new ArrayList/* <Tag> */();
 		Iterator it = tags.iterator();
 		while (it.hasNext()) {
 			Tag current = (Tag) it.next();
 			if (current instanceof FixedField )
-				if (current.getMarcEncoding().getMarcTag().equals(marcTag)) {
+				if (((FixedField) current).getMarcEncoding().getMarcTag().equals(marcTag)) {
 					filteredList.add(current);
 				}
 		}
 		return filteredList;
 	}
 	public List findTagsVariableEqual(String marcTag)
-			throws DataAccessException {
+			throws MarcCorrelationException, DataAccessException {
 		List/* <Tag> */tags = getTags();
 		List/* <Tag> */filteredList = new ArrayList/* <Tag> */();
 		Iterator it = tags.iterator();
 		while (it.hasNext()) {
 			Tag current = (Tag) it.next();
 			if (current instanceof VariableField)
-				if (current.getMarcEncoding().getMarcTag()
+				if (((VariableField) current).getMarcEncoding().getMarcTag()
 						.equals(marcTag)) {
 					filteredList.add(current);
 				}

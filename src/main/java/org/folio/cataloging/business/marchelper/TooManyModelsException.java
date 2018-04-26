@@ -1,8 +1,8 @@
 package org.folio.cataloging.business.marchelper;
 
-import org.folio.cataloging.exception.LibrisuiteException;
+import org.folio.cataloging.exception.ModCatalogingException;
 
-public class TooManyModelsException extends LibrisuiteException {
+public class TooManyModelsException extends ModCatalogingException {
 
 	public TooManyModelsException() {
 		super();

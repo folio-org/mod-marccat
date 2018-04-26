@@ -8,6 +8,7 @@ import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.librivision.Record;
 import org.folio.cataloging.business.librivision.XmlRecord;
 import org.folio.cataloging.dao.DAOOrderNames;
+import org.folio.cataloging.dao.persistence.ModelItem;
 import org.folio.cataloging.dao.persistence.OrderNames;
 import org.folio.cataloging.exception.MandatoryTagException;
 import org.w3c.dom.Document;

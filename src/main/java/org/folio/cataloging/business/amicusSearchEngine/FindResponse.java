@@ -7,26 +7,12 @@
  */
 package org.folio.cataloging.business.amicusSearchEngine;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-
-import org.folio.cataloging.business.common.SocketMessage;
-import org.folio.cataloging.exception.ConnectException;
-import org.folio.cataloging.exception.LibrisuiteException;
-import org.folio.cataloging.exception.OperatorNotSupportedException;
-import org.folio.cataloging.exception.PrimaryNotCompatibleException;
-import org.folio.cataloging.exception.QueryNotSupportedException;
-import org.folio.cataloging.exception.QueryParsingException;
-import org.folio.cataloging.exception.ResourceLimitsExceededException;
-import org.folio.cataloging.exception.SearchFailedException;
-import org.folio.cataloging.exception.TooManyResultsException;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.business.common.SocketMessage;
+import org.folio.cataloging.exception.*;
+
+import java.io.*;
 
 /**
  * @author paulm
@@ -39,7 +25,7 @@ public class FindResponse extends SocketMessage {
 	private int resultCount;
 	private int[] records;
 
-	public void checkReturnCode() throws LibrisuiteException {
+	public void checkReturnCode() throws ModCatalogingException {
 		logger.warn(
 			"Got return code " + getReturnCode() + " from searchEngine");
 		switch (getReturnCode()) {

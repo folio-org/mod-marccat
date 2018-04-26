@@ -1,7 +1,14 @@
 package org.folio.cataloging.integration.log;
 
+/**
+ * Storage layer Message Catalog.
+ *
+ * @author nbianchini
+ * @author agazzarini
+ * @since 1.0
+ */
 public interface MessageCatalogStorage {
-    String MODULE_NAME = "MODCAT";
+    String MODULE_NAME = "MODCAT-STORAGE";
 
     String _00010_DATA_ACCESS_FAILURE = "<" + MODULE_NAME + "-00010> : Data access failure. Please check the stacktrace below for further information.";
     String _00011_NWS_FAILURE = "<" + MODULE_NAME + "-00011> : Not well known failure. Please check the stacktrace below for further information.";

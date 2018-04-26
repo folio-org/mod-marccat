@@ -7,7 +7,7 @@
  */
 package org.folio.cataloging.business.common;
 
-import org.folio.cataloging.exception.LibrisuiteException;
+import org.folio.cataloging.exception.ModCatalogingException;
 
 
 /**
@@ -15,31 +15,31 @@ import org.folio.cataloging.exception.LibrisuiteException;
  * @version %I%, %G%
  * @since 1.0
  */
-public class EquivalentException extends LibrisuiteException {
+public class EquivalentException extends ModCatalogingException {
 
 	/**
-	 * @see LibrisuiteException#LibrisuiteException()
+	 * @see ModCatalogingException#ModCatalogingException()
 	 */
 	public EquivalentException() {
 		super();
 	}
 
 	/**
-	 * @see LibrisuiteException#LibrisuiteException(String)
+	 * @see ModCatalogingException#ModCatalogingException(String)
 	 */
 	public EquivalentException(String message) {
 		super(message);
 	}
 
 	/**
-	 * @see LibrisuiteException#LibrisuiteException(String, Throwable)
+	 * @see ModCatalogingException#ModCatalogingException(String, Throwable)
 	 */
 	public EquivalentException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
 	/**
-	 * @see LibrisuiteException#LibrisuiteException(Throwable)
+	 * @see ModCatalogingException#ModCatalogingException(Throwable)
 	 */
 	public EquivalentException(Throwable cause) {
 		super(cause);

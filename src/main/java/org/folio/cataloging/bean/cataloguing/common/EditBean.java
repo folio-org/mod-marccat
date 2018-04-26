@@ -750,12 +750,13 @@ public abstract class EditBean extends LibrisuiteBean {
 		return t;
 	}
 
-
+	@Deprecated
 	public void newTagFromModel(int unusedTagIndex) throws NewTagException,
 			AuthorisationException, DataAccessException {
-		Tag t = getCatalog().parseModelXmlElement(
+		/*Tag t = getCatalog().parseModelXmlElement(
 				getCatalogItem().getModelItem().getUnusedTagXmlFieldForAdding(
-						unusedTagIndex), getCatalogItem());
+						unusedTagIndex), getCatalogItem());*/
+		Tag t = null;
 		checkPermission(t.getRequiredEditPermission());
 		Command c = new NewTagCommand(this, tagIndex, t);
 
@@ -818,10 +819,10 @@ public abstract class EditBean extends LibrisuiteBean {
 	public String getShortLabel(int tagNum) throws DataAccessException {
 		return loadShortLabel(catalogItem.getTag(tagNum));
 	}
-
+	@Deprecated
 	public String getUnusedShortLabel(int tagNum) throws DataAccessException {
-		return loadShortLabel((Tag) catalogItem.getModelItem()
-				.getUnusedModelTags().get(tagNum));
+		return loadShortLabel(null/*(Tag) catalogItem.getModelItem()
+				.getUnusedModelTags().get(tagNum)*/);
 	}
 
 	public String getCurrentShortLabel() throws DataAccessException {
@@ -831,9 +832,9 @@ public abstract class EditBean extends LibrisuiteBean {
 	public String getLongLabel(int tagNum) throws DataAccessException {
 		return loadShortLabelForScheda(catalogItem.getTag(tagNum));
 	}
-
+   @Deprecated
 	public String getUnusedLongLabel(int tagNum) throws DataAccessException {
-		return loadShortLabelForScheda((Tag) catalogItem.getModelItem().getUnusedModelTags().get(tagNum));
+		return loadShortLabelForScheda(null/*(Tag) catalogItem.getModelItem().getUnusedModelTags().get(tagNum)*/);
 	}
 
 	public String getCurrentLongLabel() throws DataAccessException {

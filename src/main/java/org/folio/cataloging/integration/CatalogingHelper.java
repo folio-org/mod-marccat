@@ -1,34 +1,24 @@
 package org.folio.cataloging.integration;
 
-import io.vertx.core.AsyncResult;
-import io.vertx.core.Context;
-import io.vertx.core.Future;
-import io.vertx.core.Handler;
-import io.vertx.core.buffer.Buffer;
-import io.vertx.core.json.JsonObject;
-import io.vertx.ext.jdbc.JDBCClient;
-import io.vertx.ext.sql.SQLClient;
-import org.apache.http.HttpHeaders;
-import org.apache.http.HttpStatus;
-import org.apache.http.entity.ContentType;
-import org.folio.cataloging.log.Log;
-import org.folio.cataloging.log.MessageCatalog;
-import org.folio.cataloging.log.PublicMessageCatalog;
-import org.folio.rest.client.ConfigurationsClient;
-import org.folio.rest.tools.utils.TenantTool;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.resources.SystemInternalFailureException;
+import org.folio.cataloging.resources.UnableToCreateOrUpdateEntityException;
+import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
-import javax.ws.rs.core.Response;
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.function.BooleanSupplier;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.StreamSupport;
 
-import static java.util.Arrays.stream;
-import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toMap;
-import static org.folio.cataloging.F.safe;
 import static org.folio.cataloging.Global.HCONFIGURATION;
 
 /**
@@ -40,7 +30,6 @@ import static org.folio.cataloging.Global.HCONFIGURATION;
  * @since 1.0
  */
 public abstract class CatalogingHelper {
-    private final static Log LOGGER = new Log(CatalogingHelper.class);
     private final static Properties DEFAULT_VALUES = new Properties();
     static {
         try {
@@ -50,31 +39,29 @@ public abstract class CatalogingHelper {
         }
     }
 
-    final static String BASE_CQUERY = "module==CATALOGING and configName == (datasource";
+    private final static Map<String, DataSource> DATASOURCES = new HashMap<>();
 
     /**
      * Executes a GET request.
      *
      * @param adapter the bridge that carries on the existing logic.
-     * @param asyncResultHandler the response handler.
-     * @param okapiHeaders the incoming Okapi headers
-     * @param ctx the vertx context.
-     * @throws Exception in case of failure.
+     * @param tenant the tenant associated with the current request.
+     * @param configurator the configuration client.
+     * @param configurationSets the requested configuration attributes sets.
      */
-    public static void doGet(
-            final PieceOfExistingLogicAdapter adapter,
-            final Handler<AsyncResult<Response>> asyncResultHandler,
-            final Map<String, String> okapiHeaders,
-            final Context ctx,
-            final String ... configurationSets) throws Exception {
-        exec(adapter, asyncResultHandler, okapiHeaders, ctx, execution ->
-            Response
-                .status(HttpStatus.SC_OK)
-                .header(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.toString())
-                .entity(execution.result())
-                .build(), configurationSets);
+    public static <T> T doGet(
+            final PieceOfExistingLogicAdapter<T> adapter,
+            final String tenant,
+            final Configuration configurator,
+            final String ... configurationSets) {
+        return exec(adapter, tenant, configurator, configurationSets);
     }
 
+    /**
+     * A simple definition of a validation interface.
+     *
+     * @param <T> the kind of object that needs to be validated.
+     */
     interface Valid<T> {
         Optional<T> validate(Function<T, Optional<T>> validator);
     }
@@ -83,30 +70,27 @@ public abstract class CatalogingHelper {
      * Executes a POST request.
      *
      * @param adapter the bridge that carries on the existing logic.
-     * @param asyncResultHandler the response handler.
-     * @param okapiHeaders the incoming Okapi headers
-     * @param ctx the vertx context.
+     * @param tenant the tenant associated with the current request.
+     * @param configurator the configuration client.
      * @param validator a validator function for the entity associated with this resource.
      * @param id the identifier associated with the just created entity.
-     * @throws Exception in case of failure.
+     * @param configurationSets the requested configuration attributes sets.
      */
-    public static void doPost(
-            final PieceOfExistingLogicAdapter adapter,
-            final Handler<AsyncResult<Response>> asyncResultHandler,
-            final Map<String, String> okapiHeaders,
-            final Context ctx,
+    public static <T> ResponseEntity<T> doPost(
+            final PieceOfExistingLogicAdapter<T> adapter,
+            final String tenant,
+            final Configuration configurator,
             final BooleanSupplier validator,
-            final Supplier<String> id) throws Exception {
+            final Supplier<String> id,
+            final String ... configurationSets) {
         if (validator.getAsBoolean()) {
-            exec(adapter, asyncResultHandler, okapiHeaders, ctx, execution ->
-                    Response
-                            .status(HttpStatus.SC_CREATED)
-                            .header(HttpHeaders.LOCATION, id.get())
-                            .header(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.toString())
-                            .entity(execution.result())
-                            .build());
+            final T result = exec(adapter, tenant, configurator, configurationSets);
+            final HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.LOCATION, id.get());
+            headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
+            return new ResponseEntity<>(result, headers, HttpStatus.CREATED);
         } else {
-            asyncResultHandler.handle(Future.succeededFuture(Response.status(HttpStatus.SC_UNPROCESSABLE_ENTITY).build()));
+            throw new UnableToCreateOrUpdateEntityException();
         }
     }
 
@@ -114,150 +98,81 @@ public abstract class CatalogingHelper {
      * Executes a PUT request.
      *
      * @param adapter the bridge that carries on the existing logic.
-     * @param asyncResultHandler the response handler.
-     * @param okapiHeaders the incoming Okapi headers
-     * @param ctx the vertx context.
+     * @param tenant the tenant associated with the current request.
+     * @param configurator the configuration client.
      * @param validator a validator function for the entity associated with this resource.
-     * @throws Exception in case of failure.
+     * @param configurationSets the requested configuration attributes sets.
      */
-    public static void doPut(
-            final PieceOfExistingLogicAdapter adapter,
-            final Handler<AsyncResult<Response>> asyncResultHandler,
-            final Map<String, String> okapiHeaders,
-            final Context ctx,
-            final BooleanSupplier validator) throws Exception {
+    public static <T> void doPut(
+            final PieceOfExistingLogicAdapter<T> adapter,
+            final String tenant,
+            final Configuration configurator,
+            final BooleanSupplier validator,
+            final String ... configurationSets) {
         if (validator.getAsBoolean()) {
-            exec(adapter, asyncResultHandler, okapiHeaders, ctx, execution -> Response.status(HttpStatus.SC_NO_CONTENT).build());
+            exec(adapter, tenant, configurator, configurationSets);
         } else {
-            asyncResultHandler.handle(Future.succeededFuture(Response.status(HttpStatus.SC_BAD_REQUEST).build()));
+            throw new UnableToCreateOrUpdateEntityException();
         }
     }
+
 
     /**
      * Executes a DELETE request.
      *
      * @param adapter the bridge that carries on the existing logic.
-     * @param asyncResultHandler the response handler.
-     * @param okapiHeaders the incoming Okapi headers
-     * @param ctx the vertx context.
-     * @throws Exception in case of failure.
-     */
-    public static void doDelete(
-            final PieceOfExistingLogicAdapter adapter,
-            final Handler<AsyncResult<Response>> asyncResultHandler,
-            final Map<String, String> okapiHeaders,
-            final Context ctx) throws Exception {
-        exec(adapter, asyncResultHandler, okapiHeaders, ctx, execution -> Response.status(HttpStatus.SC_NO_CONTENT).build());
+     * @param tenant the tenant associated with the current request.
+     * @param configurator the configuration client.
+     * @param configurationSets the requested configuration attributes sets.
+    */
+    public static <T> void doDelete(
+            final PieceOfExistingLogicAdapter<T> adapter,
+            final String tenant,
+            final Configuration configurator,
+            final String ... configurationSets) {
+        exec(adapter, tenant, configurator, configurationSets);
     }
 
     /**
      * Provides a unified approach (within the cataloging module) for wrapping an existing blocking flow.
      *
      * @param adapter the bridge that carries on the existing logic.
-     * @param resultHandler the response handler.
-     * @param okapiHeaders the incoming Okapi headers
-     * @param ctx the vertx context.
-     * @param responseFactory the mapper between the asynch handler and the outgoing response.
      * @param configurationSets the configurationSets required by the current service.
-     * @throws Exception in case of failure.
      */
-    private static void exec(
-            final PieceOfExistingLogicAdapter adapter,
-            final Handler<AsyncResult<Response>> resultHandler,
-            final Map<String, String> okapiHeaders,
-            final Context ctx,
-            final Function<AsyncResult<Object>, Response> responseFactory,
-            final String ... configurationSets) throws Exception {
-
-        final ConfigurationsClient configuration =
-                new ConfigurationsClient(
-                        System.getProperty("config.server.listen.address", "192.168.0.158"),
-                        Integer.parseInt(System.getProperty("config.server.listen.port", "8085")),
-                        TenantTool.tenantId(okapiHeaders));
-
-        configuration.getEntries(cQuery(configurationSets), 0, 100, "en", response ->
-            response.bodyHandler(body -> {
-                try {
-                    final SQLClient client = JDBCClient.createShared(ctx.owner(), datasourceConfiguration(body));
-                    client.getConnection(operation ->
-                            ctx.executeBlocking(
-                                    future -> {
-                                        try (final Connection connection = operation.result().unwrap();
-                                             final StorageService service =
-                                                     new StorageService(
-                                                             HCONFIGURATION.buildSessionFactory().openSession(connection),
-                                                             ctx)) {
-                                            adapter.execute(service, configuration(body), future);
-                                        } catch (final SQLException exception) {
-                                            LOGGER.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-                                            resultHandler.handle(
-                                                    Future.succeededFuture(
-                                                            internalServerError(
-                                                                    PublicMessageCatalog.INTERNAL_SERVER_ERROR)));
-                                        } catch (final Throwable exception) {
-                                            LOGGER.error(MessageCatalog._00011_NWS_FAILURE, exception);
-                                            resultHandler.handle(
-                                                    Future.succeededFuture(
-                                                            internalServerError(
-                                                                    PublicMessageCatalog.INTERNAL_SERVER_ERROR)));
-                                        }
-                                    },
-                                    false,
-                                    execution ->
-                                            resultHandler.handle(
-                                                    Future.succeededFuture(
-                                                            execution.succeeded()
-                                                                    ? responseFactory.apply(execution)
-                                                                    : internalServerError(PublicMessageCatalog.INTERNAL_SERVER_ERROR)))));
-                } catch (final Throwable throwable) {
-                    LOGGER.error(MessageCatalog._00011_NWS_FAILURE, throwable);
-                    resultHandler.handle(
-                            Future.succeededFuture(
-                                    internalServerError(
-                                            PublicMessageCatalog.INTERNAL_SERVER_ERROR)));
-                }
-            }));
+    private static <T> T exec(
+            final PieceOfExistingLogicAdapter<T> adapter,
+            final String tenant,
+            final Configuration configurator,
+            final String ... configurationSets) {
+        try {
+            final ObjectNode settings = configurator.attributes(tenant, true, configurationSets);
+            final DataSource datasource = datasource(tenant, settings);
+            try (final Connection connection = datasource.getConnection();
+                 final StorageService service =
+                         new StorageService(
+                                 HCONFIGURATION.buildSessionFactory().openSession(connection))) {
+                return adapter.execute(service, configuration(settings));
+            } catch (final SQLException exception) {
+                throw new DataAccessException(exception);
+            } catch (final Throwable exception) {
+                throw new SystemInternalFailureException(exception);
+            }
+        } catch (final Throwable throwable) {
+            throw new SystemInternalFailureException(throwable);
+        }
     }
 
     /**
      * Creates a dedicated configuration for the current service.
      *
-     * @param body the mod-configuration response.
+     * @param value the mod-configuration response.
      * @return a dedicated configuration for the current service.
      */
-    private static Map<String,String> configuration(final Buffer body) {
-        return new JsonObject(body.toString())
-                .getJsonArray("configs")
-                .stream()
-                .map(JsonObject.class::cast)
-                .filter(obj -> !"datasource".equals(obj.getString("configName", "")))
-                .map(obj -> new AbstractMap.SimpleEntry<>(
-                        obj.getString("code"),
-                        obj.getString("value", DEFAULT_VALUES.getProperty(obj.getString("code")))))
+    private static Map<String,String> configuration(final ObjectNode value) {
+        return StreamSupport.stream(value.withArray("configs").spliterator(), false)
+                .filter(node -> !"datasource".equals(node.get("configName").asText()))
+                .map(node -> new AbstractMap.SimpleEntry<>(node.get("code").asText(), node.get("value").asText()))
                 .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
-    }
-
-    /**
-     * Generates a 500 (Internal Server Error) HTTP response.
-     *
-     * @param message the explanation message.
-     * @return a 500 (Internal Server Error) HTTP response.
-     */
-    private static Response internalServerError(final String message) {
-        return Response.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).entity(message).build();
-    }
-
-    /**
-     * Returns the selection criteria that will be used by the current service for gathering the required configuration.
-     *
-     * @param configurationsSets the configuration groups.
-     * @return the selection criteria that will be used by the current service for gathering the required configuration.
-     */
-    static String cQuery(final String ... configurationsSets) {
-        final String [] values = safe(configurationsSets);
-        return BASE_CQUERY +
-                stream(values).filter(Objects::nonNull).collect(joining(" or ", values.length != 0 ? " or " : "", "")) +
-                ")";
     }
 
     /**
@@ -267,14 +182,25 @@ public abstract class CatalogingHelper {
      * @param value the configuration as it comes from the mod-configuration module.
      * @return the datasource configuration used within this module.
      */
-    private static JsonObject datasourceConfiguration(final Buffer value) {
-        return new JsonObject(value.toString())
-                .getJsonArray("configs")
-                .stream()
-                .map(JsonObject.class::cast)
-                .filter(obj -> "datasource".equals(obj.getString("configName", "")))
-                .reduce(
-                        new JsonObject(),
-                        (r1, r2) -> r1.put(r2.getString("code"), r2.getValue("value")));
+    private static DataSource datasource(final String tenant, final ObjectNode value) {
+        return DATASOURCES.computeIfAbsent(tenant, k -> newDataSourceInstance(value));
+    }
+
+    /**
+     * Creates a new datasource reference.
+     *
+     * @return a new datasource reference.
+     */
+    private static DataSource newDataSourceInstance(final ObjectNode value) {
+        final Map<String, String> config = StreamSupport.stream(value.withArray("configs").spliterator(), false)
+                .filter(node -> "datasource".equals(node.get("configName").asText()))
+                .map(node -> new AbstractMap.SimpleEntry<>(node.get("code").asText(), node.get("value").asText()))
+                .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
+        return DataSourceBuilder
+                .create()
+                .username(config.get("user"))
+                .password(config.get("password"))
+                .url(config.get("url"))
+                .build();
     }
 }

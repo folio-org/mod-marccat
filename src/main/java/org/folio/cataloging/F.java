@@ -134,5 +134,4 @@ public abstract class F {
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formatString);
         return LocalDate.now().format(formatter);
     }
-
 }

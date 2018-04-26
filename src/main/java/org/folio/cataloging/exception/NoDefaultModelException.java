@@ -1,6 +1,6 @@
 package org.folio.cataloging.exception;
 
-public class NoDefaultModelException extends LibrisuiteException {
+public class NoDefaultModelException extends ModCatalogingException {
 
 	/**
 	 * 

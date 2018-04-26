@@ -1,6 +1,7 @@
 package org.folio.cataloging.integration;
 
-import io.vertx.core.Context;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.cataloging.business.codetable.Avp;
@@ -10,6 +11,7 @@ import org.folio.cataloging.dao.common.HibernateSessionProvider;
 import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
+import org.folio.cataloging.resources.domain.RecordTemplate;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.shared.Validation;
 
@@ -33,7 +35,6 @@ import static org.folio.cataloging.F.locale;
 public class StorageService implements Closeable {
 
     private final Session session;
-    private final Context context;
     private static final Log logger = new Log(StorageService.class);
 
     private final static Map<Integer, Class> FIRST_CORRELATION_HEADING_CLASS_MAP = new HashMap<Integer, Class>(){
@@ -77,20 +78,9 @@ public class StorageService implements Closeable {
      * Builds a new {@link StorageService} with the given session.
      *
      * @param session the Hibernate session, which will be used for gathering a connection to the RDBMS.
-     * @param context the vertx context.
      */
-    StorageService(final Session session, final Context context) {
+    StorageService(final Session session) {
         this.session = session;
-        this.context = context;
-    }
-
-    /**
-     * Returns the configuration client associated with this module.
-     *
-     * @return the configuration client associated with this module.
-     */
-    public Context context() {
-        return context;
     }
 
     /**
@@ -502,7 +492,7 @@ public class StorageService implements Closeable {
      * @param lang the language code, used here as a filter criterion.
      * @return the heading category.
      */
-    public List<Avp<String>> getMarcCategories(String lang) {
+    public List<Avp<String>> getMarcCategories(final String lang) {
         final DAOCodeTable dao = new DAOCodeTable();
         return dao.getList(session, T_BIB_TAG_CAT.class, locale(lang));
     }
@@ -813,7 +803,6 @@ public class StorageService implements Closeable {
         final Map<String, Object> mapRecordTypeMaterial = new HashMap<>();
         final DAORecordTypeMaterial dao = new DAORecordTypeMaterial();
         try {
-
             return ofNullable(dao.getDefaultTypeByHeaderCode(session, headerCode, code))
                     .map( rtm -> {
                         mapRecordTypeMaterial.put(GlobalStorage.FORM_OF_MATERIAL_LABEL, rtm.getAmicusMaterialTypeCode());
@@ -839,6 +828,182 @@ public class StorageService implements Closeable {
     public String getHeadingTypeDescription(final int code, final String lang, final int category) throws DataAccessException {
         final DAOCodeTable dao = new DAOCodeTable();
         return dao.getLongText(session, code, FIRST_CORRELATION_HEADING_CLASS_MAP.get(category), locale(lang));
+    }
+
+    /**
+     * Save the new Bibliographic Record Template.
+     *
+     * @param template the record template.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public void saveBibliographicRecordTemplate(final RecordTemplate template) throws DataAccessException {
+        try {
+            final ObjectMapper mapper = new ObjectMapper();
+            final BibliographicModelDAO dao = new BibliographicModelDAO();
+            final BibliographicModel model = new BibliographicModel();
+            model.setLabel(template.getName());
+            model.setFrbrFirstGroup(template.getGroup());
+            model.setRecordFields(mapper.writeValueAsString(template));
+            dao.save(model, session);
+        } catch (final HibernateException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+            throw new DataAccessException(exception);
+        } catch (final JsonProcessingException exception) {
+            logger.error(MessageCatalog._00013_IO_FAILURE, exception);
+            throw new DataAccessException(exception);
+        }
+    }
+    /**
+     * Save the new Authority record template.
+     *
+     * @param template the record template.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public void saveAuthorityRecordTemplate(final RecordTemplate template) throws DataAccessException {
+        try {
+            final ObjectMapper mapper = new ObjectMapper();
+            final AuthorityModelDAO dao = new AuthorityModelDAO();
+            final AuthorityModel model = new AuthorityModel();
+            model.setLabel(template.getName());
+            model.setFrbrFirstGroup(template.getGroup());
+            model.setRecordFields(mapper.writeValueAsString(template));
+            dao.save(model, session);
+        } catch (final HibernateException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+            throw new DataAccessException(exception);
+        } catch (final JsonProcessingException exception) {
+            logger.error(MessageCatalog._00013_IO_FAILURE, exception);
+            throw new DataAccessException(exception);
+        }
+    }
+
+    /**
+     * Update the Bibliographic Record Template.
+     *
+     * @param template the record template.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public void updateBibliographicRecordTemplate(final RecordTemplate template) throws DataAccessException {
+        try {
+            final ObjectMapper mapper = new ObjectMapper();
+            final BibliographicModelDAO dao = new BibliographicModelDAO();
+            final BibliographicModel model = new BibliographicModel();
+            model.setId(template.getId());
+            model.setLabel(template.getName());
+            model.setFrbrFirstGroup(template.getGroup());
+            model.setRecordFields(mapper.writeValueAsString(template));
+            dao.update(model, session);
+        } catch (final HibernateException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+            throw new DataAccessException(exception);
+        } catch (final JsonProcessingException exception) {
+            logger.error(MessageCatalog._00013_IO_FAILURE, exception);
+            throw new DataAccessException(exception);
+        }
+    }
+
+    /**
+     * Update the Authority Record Template.
+     *
+     * @param template the record template.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public void updateAuthorityRecordTemplate(final RecordTemplate template) throws DataAccessException {
+        try {
+            final ObjectMapper mapper = new ObjectMapper();
+            final AuthorityModelDAO dao = new AuthorityModelDAO();
+            final AuthorityModel model = new AuthorityModel();
+            model.setId(template.getId());
+            model.setLabel(template.getName());
+            model.setFrbrFirstGroup(template.getGroup());
+            model.setRecordFields(mapper.writeValueAsString(template));
+            dao.update(model, session);
+        } catch (final HibernateException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+            throw new DataAccessException(exception);
+        } catch (final JsonProcessingException exception) {
+            logger.error(MessageCatalog._00013_IO_FAILURE, exception);
+            throw new DataAccessException(exception);
+        }
+    }
+
+
+    /**
+     * Deletes a Bibliographic record template.
+     *
+     * @param id the record template id.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public void deleteBibliographicRecordTemplate(final String id) throws DataAccessException {
+        try {
+            final BibliographicModelDAO dao = new BibliographicModelDAO();
+            final Model model = dao.load(Integer.valueOf(id), session);
+            dao.delete(model, session);
+        } catch (final HibernateException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+            throw new DataAccessException(exception);
+        }
+    }
+
+    /**
+     * Delete an Authority record template.
+     *
+     * @param id the record template id.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public void deleteAuthorityRecordTemplate(final String id) throws DataAccessException {
+        try {
+            final AuthorityModelDAO dao = new AuthorityModelDAO();
+            final Model model = dao.load(Integer.valueOf(id), session);
+            dao.delete(model, session);
+        } catch (final HibernateException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+            throw new DataAccessException(exception);
+        }
+    }
+
+    /**
+     * Return a Bibliographic Record Template by id.
+     *
+     * @param id the record template id.
+     * @return the bibliographic record template associated with the given id.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public RecordTemplate getBibliographicRecordRecordTemplatesById(final String id) throws DataAccessException {
+        try {
+            final ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.readValue(
+                    new BibliographicModelDAO().load(Integer.valueOf(id), session).getRecordFields(),
+                    RecordTemplate.class);
+        } catch (final HibernateException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+            throw new DataAccessException(exception);
+        } catch (final IOException exception) {
+            logger.error(MessageCatalog._00013_IO_FAILURE, exception);
+            throw new DataAccessException(exception);
+        }
+    }
+
+    /**
+     * Return a Authority Record Template by id
+     *
+     * @param id the record template id.
+     *
+     * @throws DataAccessException in case of data access failure.
+     */
+    public RecordTemplate getAuthorityRecordRecordTemplatesById(final String id) throws DataAccessException {
+        try {
+            final ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.readValue(
+                    new AuthorityModelDAO().load(Integer.valueOf(id), session).getRecordFields(),
+                    RecordTemplate.class);
+        } catch (final HibernateException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+            throw new DataAccessException(exception);
+        } catch (final IOException exception) {
+            logger.error(MessageCatalog._00013_IO_FAILURE, exception);
+            throw new DataAccessException(exception);
+        }
     }
 
     /**
@@ -870,4 +1035,5 @@ public class StorageService implements Closeable {
     public boolean existFunctionCodeByCategory(final int category){
         return ofNullable(THIRD_CORRELATION_HEADING_CLASS_MAP.get(category)).isPresent();
     }
+
 }

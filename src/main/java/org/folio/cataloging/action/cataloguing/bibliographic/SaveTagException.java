@@ -1,8 +1,8 @@
 package org.folio.cataloging.action.cataloguing.bibliographic;
 
-import org.folio.cataloging.exception.LibrisuiteException;
+import org.folio.cataloging.exception.ModCatalogingException;
 
-public class SaveTagException extends LibrisuiteException {
+public class SaveTagException extends ModCatalogingException {
 	private String tagNumber;
 	
 	public SaveTagException() {

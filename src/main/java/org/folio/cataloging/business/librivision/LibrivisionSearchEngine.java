@@ -7,15 +7,14 @@
  */
 package org.folio.cataloging.business.librivision;
 
-import java.util.List;
-import java.util.Locale;
-
-import org.folio.cataloging.exception.LibrisuiteException;
+import org.folio.cataloging.business.controller.UserProfile;
 import org.folio.cataloging.business.searching.NoResultsFoundException;
 import org.folio.cataloging.business.searching.ResultSet;
 import org.folio.cataloging.business.searching.SearchEngine;
+import org.folio.cataloging.exception.ModCatalogingException;
 
-import org.folio.cataloging.business.controller.UserProfile;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * @author paulm
@@ -42,7 +41,7 @@ public class LibrivisionSearchEngine implements SearchEngine {
 		String cclQuery,
 		Locale locale,
 		int searchingView)
-		throws LibrisuiteException {
+		throws ModCatalogingException {
 		ResultSet result =
 			LVMessage.LVCclSearch(locale, cclQuery, searchingView);
 		return result;
@@ -56,7 +55,7 @@ public class LibrivisionSearchEngine implements SearchEngine {
 		String use,
 		Locale locale,
 		int searchingView)
-		throws LibrisuiteException {
+		throws ModCatalogingException {
 		ResultSet result =
 			LVMessage.LVSimpleSearch(locale, query, use, searchingView);
 		return result;
@@ -72,7 +71,7 @@ public class LibrivisionSearchEngine implements SearchEngine {
 		List operatorList,
 		Locale locale,
 		int searchingView)
-		throws NoResultsFoundException, LibrisuiteException {
+		throws NoResultsFoundException, ModCatalogingException {
 		ResultSet result =
 			LVMessage.LVAdvancedSearch(
 				locale,
@@ -111,7 +110,7 @@ public class LibrivisionSearchEngine implements SearchEngine {
 	 * @see org.folio.cataloging.business.searching.SearchEngine#sort(org.folio.cataloging.business.searching.ResultSet, java.lang.String[], java.lang.String[])
 	 */
 	public void sort(ResultSet rs, String[] attributes, String[] directions)
-		throws LibrisuiteException {
+		throws ModCatalogingException {
 		LVMessage.LVSort((LVResultSet) rs, attributes, directions);
 	}
 

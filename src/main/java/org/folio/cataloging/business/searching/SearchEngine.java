@@ -7,13 +7,12 @@
  */
 package org.folio.cataloging.business.searching;
 
+import org.folio.cataloging.business.controller.UserProfile;
+import org.folio.cataloging.exception.ModCatalogingException;
+
 import java.net.SocketTimeoutException;
 import java.util.List;
 import java.util.Locale;
-
-import org.folio.cataloging.exception.LibrisuiteException;
-
-import org.folio.cataloging.business.controller.UserProfile;
 
 /**
  * An interface for generic "AMICUS" search facilities -- currently implemented only as
@@ -28,13 +27,13 @@ public interface SearchEngine {
             String cclQuery,
             Locale locale,
             int searchingView)
-		throws LibrisuiteException;
+		throws ModCatalogingException;
 	public abstract ResultSet simpleSearch(
             String query,
             String use,
             Locale locale,
             int searchingView)
-		throws LibrisuiteException;
+		throws ModCatalogingException;
 
 	public abstract ResultSet advancedSearch(
             List termList,
@@ -43,7 +42,7 @@ public interface SearchEngine {
             List operatorList,
             Locale locale,
             int searchingView)
-		throws NoResultsFoundException, LibrisuiteException,SocketTimeoutException;
+		throws NoResultsFoundException, ModCatalogingException,SocketTimeoutException;
 
 	/**
 	 * @param firstRecord index of first record to be fetched (starting at 1)
@@ -59,7 +58,7 @@ public interface SearchEngine {
 	public abstract void sort(
             ResultSet rs,
             String[] attributes,
-            String[] directions) throws LibrisuiteException;
+            String[] directions) throws ModCatalogingException;
 
 	public void setUserProfile(UserProfile userProfile);
 }

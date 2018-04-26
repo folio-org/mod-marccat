@@ -228,7 +228,7 @@ public class DAOCodeTable extends HibernateUtil {
 						+" and ct.obsoleteIndicator = '0'"
 							// TODO pass Context and Session to this method (when needed)
 							// TODO The return type of this method is a future, not a boolean
-						+ Defaults.getBoolean("labels.alphabetical.order", null),
+						+ Defaults.getBoolean("labels.alphabetical.order", false),
 					new Object[] { locale.getISO3Language()},
 					new Type[] { Hibernate.STRING });
 		} catch (HibernateException e) {

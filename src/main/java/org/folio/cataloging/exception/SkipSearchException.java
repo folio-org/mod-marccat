@@ -12,7 +12,7 @@ package org.folio.cataloging.exception;
  * @version $Revision: 1.1 $, $Date: 2005/10/21 13:33:25 $
  * @since 1.0
  */
-public class SkipSearchException extends LibrisuiteException {
+public class SkipSearchException extends ModCatalogingException {
 
 	/**
 	 * Class constructor

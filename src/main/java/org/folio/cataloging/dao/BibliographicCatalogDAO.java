@@ -135,7 +135,8 @@ public class BibliographicCatalogDAO extends CatalogDAO
 					userView).toArray(
 					new Tag[0]));
 			}catch (Exception e) {}
-			item.setModelItem(new DAOBibliographicModelItem().load(id));
+			//TODO change the load method with that of the session
+			//item.setModelItem(new DAOBibliographicModelItem().load(id));
 			Iterator iter = item.getTags().iterator();
 			while (iter.hasNext()) {
 				((Tag) iter.next()).setTagImpl(new BibliographicTagImpl());

@@ -1,8 +1,8 @@
 package org.folio.cataloging.integration;
 
-import io.vertx.core.Future;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
+import org.folio.cataloging.resources.SystemInternalFailureException;
 
 import java.util.Map;
 import java.util.Optional;
@@ -29,20 +29,20 @@ public interface PieceOfExistingLogicAdapter<T> {
      *
      * @param storageService the facade towards the cataloging persistence layer.
      * @param configuration the configuration that has been properly loaded for this context.
-     * @param future the future for communicating back the outcome.
      */
-    default void execute(final StorageService storageService, final Map<String, String> configuration, final Future future) {
+    @SuppressWarnings("unchecked")
+    default T execute(final StorageService storageService, final Map<String, String> configuration) {
         try {
-            final Optional<T> result = ofNullable(executeAndGet(storageService, configuration, future));
+            final Optional<T> result = ofNullable(executeAndGet(storageService, configuration));
             if (result.isPresent()) {
-                future.complete(result.get());
+                return result.get();
             } else {
                 error(PieceOfExistingLogicAdapter.class, MessageCatalog._00012_NULL_RESULT);
-                future.fail(new IllegalArgumentException());
+               throw new SystemInternalFailureException(new IllegalArgumentException());
             }
         } catch (final Exception exception) {
             // Don't log here, the exception is supposed to be logged within the adapter.
-            future.fail(exception);
+            throw new SystemInternalFailureException(new IllegalArgumentException());
         }
     }
 
@@ -51,8 +51,7 @@ public interface PieceOfExistingLogicAdapter<T> {
      *
      * @param storageService the {@link StorageService} instance.
      * @param configuration the service configuration.
-     * @param future the future associated with this execution chain.
      * @return the value object(s) produced by this service.
      */
-    T executeAndGet(StorageService storageService, final Map<String, String> configuration, Future future);
+    T executeAndGet(StorageService storageService, final Map<String, String> configuration);
 }

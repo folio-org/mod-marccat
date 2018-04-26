@@ -1,15 +1,7 @@
-/*
- * (c) LibriCore
- * 
- * Created on Dec 3, 2004
- * 
- * ReferentialIntegrityException.java
- */
 package org.folio.cataloging.business.common;
 
 /**
  * @author paulm
- * @version $Revision: 1.1 $, $Date: 2004/12/07 10:01:49 $
  * @since 1.0
  */
 public class ReferentialIntegrityException extends DataAccessException {

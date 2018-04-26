@@ -1,5 +1,6 @@
 package org.folio.cataloging.bean.searching;
 
+import net.sf.hibernate.HibernateException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.Global;
@@ -154,7 +155,7 @@ public class BrowseBean extends SearchBean {
 	}
 
 	public CatalogItem createAuthorityFromHeading(Descriptor d)
-			throws DataAccessException, NewTagException {
+			throws DataAccessException, NewTagException, HibernateException {
 		AuthorityCatalog catalog = new AuthorityCatalog();
 		return catalog.createAuthorityFromHeading(d, getDefaultAuthorityModel());
 	}

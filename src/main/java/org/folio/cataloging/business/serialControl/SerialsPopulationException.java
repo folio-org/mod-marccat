@@ -1,8 +1,8 @@
 package org.folio.cataloging.business.serialControl;
 
-import org.folio.cataloging.exception.LibrisuiteException;
+import org.folio.cataloging.exception.ModCatalogingException;
 
-public class SerialsPopulationException extends LibrisuiteException {
+public class SerialsPopulationException extends ModCatalogingException {
 
 	/**
 	 * 

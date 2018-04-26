@@ -45,17 +45,30 @@ resourceTypes:
         example: (B)ibliographic, (A)uthority
         enum: [B,A]
         default: B
+
   /{id}:
     type:
       collection-item:
         exampleItem: !include examples/recordTemplate.json
         schema: recordTemplate
     get:
-      description: Get the record template associated with the given id
-  /bibliographic/template:
-    type:
-      read-only-entity:
-        exampleItem: !include examples/recordTemplate.json
-        schema: recordTemplate
-    get:
-        description: Get the default single index
+         queryParameters:
+              type:
+                displayName: Model type
+                description: Get the record template associated with the given id and the model's type
+                required: true
+                example: (B)ibliographic, (A)uthority
+                enum: [B,A]
+                default: B
+
+    delete:
+     queryParameters:
+          type:
+            displayName: Model type
+            description: Get the record template associated with the given id and the model's type
+            required: true
+            example: (B)ibliographic, (A)uthority
+            enum: [B,A]
+            default: B
+
+

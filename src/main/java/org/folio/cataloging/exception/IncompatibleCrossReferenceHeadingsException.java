@@ -13,6 +13,6 @@ package org.folio.cataloging.exception;
  * @since 1.0
  */
 public class IncompatibleCrossReferenceHeadingsException
-	extends LibrisuiteException {
+	extends ModCatalogingException {
 
 }

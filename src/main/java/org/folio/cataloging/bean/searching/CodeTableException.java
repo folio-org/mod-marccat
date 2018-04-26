@@ -1,8 +1,8 @@
 package org.folio.cataloging.bean.searching;
 
-import org.folio.cataloging.exception.LibrisuiteException;
+import org.folio.cataloging.exception.ModCatalogingException;
 
-public class CodeTableException extends LibrisuiteException {
+public class CodeTableException extends ModCatalogingException {
 	public static final String NO_CODE 				= "errors.CodeTableException.no.code";
 	public static final String CODE_ALREADY_PRESENT = "errors.CodeTableException.code.already.present";
 	public static final String NO_LONG 				= "errors.CodeTableException.no.long";

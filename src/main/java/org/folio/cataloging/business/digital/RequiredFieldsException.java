@@ -1,11 +1,11 @@
 package org.folio.cataloging.business.digital;
 
+import org.folio.cataloging.exception.ModCatalogingException;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.folio.cataloging.exception.LibrisuiteException;
-
-public class RequiredFieldsException extends LibrisuiteException {
+public class RequiredFieldsException extends ModCatalogingException {
 
 	private static final long serialVersionUID = 250170570458564169L;
 

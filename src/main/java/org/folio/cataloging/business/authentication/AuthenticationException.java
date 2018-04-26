@@ -3,7 +3,7 @@
  */
 package org.folio.cataloging.business.authentication;
 
-import org.folio.cataloging.exception.LibrisuiteException;
+import org.folio.cataloging.exception.ModCatalogingException;
 
 /**
  * An extendable exception to represent authentication exceptions thrown by implementations
@@ -11,7 +11,7 @@ import org.folio.cataloging.exception.LibrisuiteException;
  * 
  * @author paulm
  */
-public class AuthenticationException extends LibrisuiteException {
+public class AuthenticationException extends ModCatalogingException {
 
 	/**
 	 * 

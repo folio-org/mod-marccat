@@ -7,11 +7,14 @@
  */
 package org.folio.cataloging.util;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.net.URL;
-import java.util.Vector;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.business.librivision.AbstractRecord;
+import org.folio.cataloging.business.librivision.XslTransformerConfigurationException;
+import org.folio.cataloging.business.librivision.XslTransformerException;
+import org.folio.cataloging.exception.ModCatalogingException;
+import org.folio.cataloging.model.Subfield;
+import org.w3c.dom.Document;
 
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
@@ -20,16 +23,11 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-
-import org.folio.cataloging.model.Subfield;
-import org.folio.cataloging.exception.LibrisuiteException;
-import org.folio.cataloging.business.librivision.AbstractRecord;
-import org.folio.cataloging.business.librivision.XslTransformerConfigurationException;
-import org.folio.cataloging.business.librivision.XslTransformerException;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.w3c.dom.Document;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.net.URL;
+import java.util.Vector;
 
 /**
  * @author wimc
@@ -222,7 +220,7 @@ public final class XmlUtils {
 	}
 
 	public static byte[] transformDocument(Document document, String stylesheet)
-			throws LibrisuiteException {
+			throws ModCatalogingException {
 
 		try {
 			// load the transformer using JAXP
@@ -250,11 +248,11 @@ public final class XmlUtils {
 		} 
 //		catch (FileNotFoundException e) {
 //			logger.error(e);
-//			throw new LibrisuiteException(e);
+//			throw new ModCatalogingException(e);
 //		}
  catch (IOException e) {
 		logger.error(e);
-		throw new LibrisuiteException(e);
+		throw new ModCatalogingException(e);
 		}
 
 	}
