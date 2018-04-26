@@ -1,1 +1,0 @@
-This directory contains one or more example documents for each entity belonging to the cataloging module domain model. 
