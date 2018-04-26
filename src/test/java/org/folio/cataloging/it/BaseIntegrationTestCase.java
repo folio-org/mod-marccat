@@ -1,13 +1,17 @@
 package org.folio.cataloging.it;
 
-import org.folio.cataloging.resources.domain.RecordTemplateCollection;
+import org.folio.cataloging.Global;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
 import static org.folio.cataloging.ModCataloging.BASE_URI;
+import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
 
 /**
  * Supertype layer for all integration test cases.
@@ -34,7 +38,20 @@ public abstract class BaseIntegrationTestCase {
      * @return the object associated with that URI.
      */
     protected  <T> T get(final String uri, Class<T> responseType) {
-        return client.getForEntity(address("record-templates"), responseType).getBody();
+        final HttpHeaders headers = new HttpHeaders();
+        headers.add(Global.OKAPI_TENANT_HEADER_NAME, String.valueOf(System.currentTimeMillis()));
+
+        final ResponseEntity<T> response =  client.getRestTemplate()
+                .exchange(
+                    fromUriString(uri).build().toUri(),
+                    HttpMethod.GET,
+                    new HttpEntity<>("parameters", headers),
+                    responseType);
+
+        if (response.getStatusCode().isError()) {
+            throw new RuntimeException(uri + " >> " + response.getStatusCode());
+        }
+        return response.getBody();
     }
 
     /**
@@ -44,6 +61,6 @@ public abstract class BaseIntegrationTestCase {
      * @return the Pipeline API address endpoint.
      */
     protected String address(final String id) {
-        return "http://localhost:" + this.port + "/" + BASE_URI + id;
+        return "http://localhost:" + this.port + "/" + BASE_URI + id + (id.contains("?") ? "&" : "?") + "lang=eng";
     }
 }
