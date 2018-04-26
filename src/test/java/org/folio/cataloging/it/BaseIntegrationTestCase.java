@@ -55,6 +55,27 @@ public abstract class BaseIntegrationTestCase {
     }
 
     /**
+     * Retrieves the object associated with that URI.
+     *
+     * @param uri the target URI.
+     * @return the object associated with that URI.
+     */
+    protected void delete(final String uri) {
+        final HttpHeaders headers = new HttpHeaders();
+        headers.add(Global.OKAPI_TENANT_HEADER_NAME, String.valueOf(System.currentTimeMillis()));
+
+        ResponseEntity<Void> response = client.exchange(
+                        fromUriString(uri).build().toUri(),
+                        HttpMethod.DELETE,
+                        new HttpEntity<>("parameters", headers),
+                        Void.class);
+
+        if (response.getStatusCode().isError()) {
+            throw new RuntimeException(uri + " >> " + response.getStatusCode());
+        }
+    }
+
+    /**
      * Returns the Pipeline API address endpoint.
      *
      * @param id the specific service identifier.
