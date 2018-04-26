@@ -24,7 +24,7 @@ public class TemplateManagementTestCase extends BaseIntegrationTestCase {
         get(address("/record-templates?type=B"), RecordTemplateCollection.class)
                 .getRecordTemplates()
                 .forEach(template -> {
-                    client.delete(address("/record-template/{id}?type=B"), template.getId());
+                    delete(address("/record-template/" + template.getId() + "?type=B"));
                 });
 
         assertEquals(0, get(address("/record-templates?type=B"), RecordTemplateCollection.class)
