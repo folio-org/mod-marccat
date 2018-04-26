@@ -38,7 +38,7 @@ public class FixedFieldCodesGroupAPI extends BaseResource {
             @ApiResponse(code = 500, message = "System internal failure occurred.")
     })
     @GetMapping("/fixed-fields-code-groups")
-    public FixedFieldCodesGroup getCatalogingFixedFieldCodesGroups(
+    public FixedFieldCodesGroup getFixedFieldCodesGroups(
             @RequestParam final String code,
             @RequestParam final int headerTypeCode,
             @RequestParam final String lang,
