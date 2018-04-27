@@ -1,2 +1,11 @@
 configuration:
   endpoint: http://192.168.0.158:8085/configurations/entries
+
+logging:
+  level:
+    root: ERROR
+    net.sf: ERROR
+    org.springframework: ERROR
+    org.hibernate: ERROR
+    ru.yandex: ERROR
+    org.folio.cataloging: INFO

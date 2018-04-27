@@ -46,7 +46,7 @@ public class FieldAPI extends BaseResource {
             @ApiResponse(code = 414, message = "Request-URI Too Long"),
             @ApiResponse(code = 500, message = "System internal failure occurred.")
     })
-    @GetMapping("/mandatory-fields")
+    @GetMapping("/bibliographic/fields/mandatory")
     public FieldCollection getMandatoryFields(
             @RequestParam final String lang,
             @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {

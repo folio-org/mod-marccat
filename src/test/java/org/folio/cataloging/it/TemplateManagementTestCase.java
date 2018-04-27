@@ -13,7 +13,6 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-//@TestPropertySource(properties = {"management.port=0"})
 @ActiveProfiles("test")
 public class TemplateManagementTestCase extends BaseIntegrationTestCase {
     /**
@@ -21,6 +20,7 @@ public class TemplateManagementTestCase extends BaseIntegrationTestCase {
      */
     @Before
     public void setUp() {
+        super.setUp();
         get(address("/record-templates?type=B"), RecordTemplateCollection.class)
                 .getRecordTemplates()
                 .forEach(template -> {
@@ -33,7 +33,7 @@ public class TemplateManagementTestCase extends BaseIntegrationTestCase {
 
     @Test
     public void createNewTemplate() {
-        final FieldCollection mandatoryFields = get(address("/fields/bibliographic/mandatory"), FieldCollection.class);
+        final FieldCollection mandatoryFields = get(address("/bibliographic/fields/mandatory"), FieldCollection.class);
         System.out.println(mandatoryFields.getFields().size());
     }
 }
