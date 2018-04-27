@@ -13,6 +13,7 @@ import org.folio.cataloging.log.MessageCatalog;
 import org.folio.cataloging.resources.domain.*;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.function.Function;
 
 import static java.util.Optional.ofNullable;
@@ -114,6 +115,56 @@ public class FixedFieldCodesGroupAPI extends BaseResource {
     };
 
     /**
+     * Adapter that converts existing stringValue object in encoding level Okapi resource.
+     */
+    private Function<Avp<String>, EncodingLevel> toEncodingLevel = source -> {
+        final EncodingLevel encodingLevel = new EncodingLevel();
+        encodingLevel.setCode(source.getValue());
+        encodingLevel.setDescription(source.getLabel());
+        return encodingLevel;
+    };
+
+    /**
+     * Adapter that converts existing stringValue object in descriptive catalog form Okapi resource.
+     */
+    private Function<Avp<String>, DescriptiveCatalogForm> toDescriptiveCatalogForm = source -> {
+        final DescriptiveCatalogForm descriptiveCatalogForm = new DescriptiveCatalogForm();
+        descriptiveCatalogForm.setCode(source.getValue());
+        descriptiveCatalogForm.setDescription(source.getLabel());
+        return descriptiveCatalogForm;
+    };
+
+    /**
+     * Adapter that converts existing stringValue object in linked record code Okapi resource.
+     */
+    private Function<Avp<String>, LinkedRecordCode> toLinkedRecord = source -> {
+        final LinkedRecordCode linkedRecordCode = new LinkedRecordCode();
+        linkedRecordCode.setCode(source.getValue());
+        linkedRecordCode.setDescription(source.getLabel());
+        return linkedRecordCode;
+    };
+
+    /**
+     * Adapter that converts existing stringValue object in character encoding schema Okapi resource.
+     */
+    private Function<Avp<String>, CharacterEncodingSchema> toCharacterEncodingSchema = source -> {
+        final CharacterEncodingSchema characterEncodingSchema = new CharacterEncodingSchema();
+        characterEncodingSchema.setCode(source.getValue());
+        characterEncodingSchema.setDescription(source.getLabel());
+        return characterEncodingSchema;
+    };
+
+    /**
+     * Adapter that converts existing stringValue object in control type Okapi resource.
+     */
+    private Function<Avp<String>, ControlType> toControlType = source -> {
+        final ControlType controlType = new ControlType();
+        controlType.setCode(source.getValue());
+        controlType.setDescription(source.getLabel());
+        return controlType;
+    };
+
+    /**
      * Adapter that converts existing stringValue object in Book Literary Form type Okapi resource.
      */
     private Function<Avp<String>, BookLiteraryFormTypeCode> toBookLiteraryForm = source -> {
@@ -174,6 +225,16 @@ public class FixedFieldCodesGroupAPI extends BaseResource {
     };
 
     /**
+     * Adapter that converts existing stringValue object in format of item code Okapi resource.
+     */
+    private Function<Avp<String>, FormOfItemCode> toFormOfItem = source -> {
+        final FormOfItemCode formOfItemCode = new FormOfItemCode();
+        formOfItemCode.setCode(source.getValue());
+        formOfItemCode.setDescription(source.getLabel());
+        return formOfItemCode;
+    };
+
+    /**
      * Adapter that converts existing stringValue object in modified record type Okapi resource.
      */
     private Function<Avp<String>, ModifiedRecordType> toModifiedRecordType = source -> {
@@ -181,6 +242,26 @@ public class FixedFieldCodesGroupAPI extends BaseResource {
         modifiedRecordType.setCode(source.getValue());
         modifiedRecordType.setDescription(source.getLabel());
         return modifiedRecordType;
+    };
+
+    /**
+     * Adapter that converts existing stringValue object in book illustration code Okapi resource.
+     */
+    private Function<Avp<String>, BookIllustrationCode> toBookIllustration = source -> {
+        final BookIllustrationCode bookIllustrationCode = new BookIllustrationCode();
+        bookIllustrationCode.setCode(source.getValue());
+        bookIllustrationCode.setDescription(source.getLabel());
+        return bookIllustrationCode;
+    };
+
+    /**
+     * Adapter that converts existing stringValue object in nature of content code Okapi resource.
+     */
+    private Function<Avp<String>, NatureOfContent> toNatureOfContent = source -> {
+        final NatureOfContent natureOfContent = new NatureOfContent();
+        natureOfContent.setCode(source.getValue());
+        natureOfContent.setDescription(source.getLabel());
+        return natureOfContent;
     };
 
     /**
@@ -202,7 +283,21 @@ public class FixedFieldCodesGroupAPI extends BaseResource {
                     final GeneralInformation gi = new GeneralInformation();
                     gi.setFormOfMaterial((String) mapRecordTypeMaterial.get(Global.FORM_OF_MATERIAL_LABEL));
                     if (gi.isBook()){
+                        final List<BookIllustrationCode> bookIllustrations = storageService.getBookIllustrations(lang).stream().map(toBookIllustration).collect(toList());
+                        fixedFieldCodesGroup.setBookIllustrationCodes1(bookIllustrations);
+                        fixedFieldCodesGroup.setBookIllustrationCodes2(bookIllustrations);
+                        fixedFieldCodesGroup.setBookIllustrationCodes3(bookIllustrations);
+                        fixedFieldCodesGroup.setBookIllustrationCodes4(bookIllustrations);
+
                         fixedFieldCodesGroup.setTargetAudienceCodes(storageService.getTargetAudiences(lang).stream().map(toTargetAudience).collect(toList()));
+                        fixedFieldCodesGroup.setFormOfItemCodes(storageService.getFormOfItems(lang).stream().map(toFormOfItem).collect(toList()));
+
+                        final List<NatureOfContent> natureOfContents = storageService.getNatureOfContents(lang).stream().map(toNatureOfContent).collect(toList());
+                        fixedFieldCodesGroup.setNatureOfContents1(natureOfContents);
+                        fixedFieldCodesGroup.setNatureOfContents2(natureOfContents);
+                        fixedFieldCodesGroup.setNatureOfContents3(natureOfContents);
+                        fixedFieldCodesGroup.setNatureOfContents4(natureOfContents);
+
                         fixedFieldCodesGroup.setBookFestschrifts(storageService.getFestschrifts(lang).stream().map(toFestschrift).collect(toList()));
                         fixedFieldCodesGroup.setBookLiteraryFormTypeCodes(storageService.getLiteraryForms(lang).stream().map(toBookLiteraryForm).collect(toList()));
                     }else if (gi.isMusic()){
@@ -260,17 +355,35 @@ public class FixedFieldCodesGroupAPI extends BaseResource {
         fixedFieldCodesGroup.setRecordStatusTypes(
                 storageService.getRecordStatusTypes(lang)
                         .stream()
-                        .map(toRecordStatusType)
-                        .collect(toList()));
+                        .map(toRecordStatusType).collect(toList()));
         fixedFieldCodesGroup.setRecordTypes(
                 storageService.getRecordTypes(lang)
                         .stream()
-                        .map(toRecordType)
-                        .collect(toList()));
+                        .map(toRecordType).collect(toList()));
         fixedFieldCodesGroup.setBibliographicLevels(
                 storageService.getBibliographicLevels(lang)
                         .stream()
-                        .map(toBibliographicLevel)
-                        .collect(toList()));
+                        .map(toBibliographicLevel).collect(toList()));
+        fixedFieldCodesGroup.setControlTypes(
+                storageService.getControlTypes(lang)
+                    .stream()
+                    .map(toControlType).collect(toList()));
+        fixedFieldCodesGroup.setCharacterEncodingSchemas(
+                storageService.getCharacterEncodingSchemas(lang)
+                    .stream()
+                    .map(toCharacterEncodingSchema).collect(toList()));
+        fixedFieldCodesGroup.setEncodingLevels(
+                storageService.getEncodingLevels(lang)
+                    .stream()
+                    .map(toEncodingLevel).collect(toList()));
+        fixedFieldCodesGroup.setDescriptiveCatalogForms(
+                storageService.getDescriptiveCatalogForms(lang)
+                    .stream()
+                    .map(toDescriptiveCatalogForm).collect(toList()));
+        fixedFieldCodesGroup.setLinkedRecordCodes(
+                storageService.getMultipartResourceLevels(lang)
+                    .stream()
+                    .map(toLinkedRecord).collect(toList()));
+
     }
 }

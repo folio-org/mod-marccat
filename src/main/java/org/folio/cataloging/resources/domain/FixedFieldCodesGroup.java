@@ -58,19 +58,19 @@ public class FixedFieldCodesGroup {
 
     @JsonProperty("bookIllustrationCodes1")
     @Valid
-    private List<BookIllustrationCodes1> bookIllustrationCodes1 = new ArrayList<BookIllustrationCodes1>();
+    private List<BookIllustrationCode> bookIllustrationCodes1 = new ArrayList<BookIllustrationCode>();
 
     @JsonProperty("bookIllustrationCodes2")
     @Valid
-    private List<BookIllustrationCodes2> bookIllustrationCodes2 = new ArrayList<BookIllustrationCodes2>();
+    private List<BookIllustrationCode> bookIllustrationCodes2 = new ArrayList<BookIllustrationCode>();
 
     @JsonProperty("bookIllustrationCodes3")
     @Valid
-    private List<BookIllustrationCodes3> bookIllustrationCodes3 = new ArrayList<BookIllustrationCodes3>();
+    private List<BookIllustrationCode> bookIllustrationCodes3 = new ArrayList<BookIllustrationCode>();
 
     @JsonProperty("bookIllustrationCodes4")
     @Valid
-    private List<BookIllustrationCodes4> bookIllustrationCodes4 = new ArrayList<BookIllustrationCodes4>();
+    private List<BookIllustrationCode> bookIllustrationCodes4 = new ArrayList<BookIllustrationCode>();
 
     @JsonProperty("targetAudienceCodes")
     @Valid
@@ -82,19 +82,19 @@ public class FixedFieldCodesGroup {
 
     @JsonProperty("natureOfContents1")
     @Valid
-    private List<NatureOfContents1> natureOfContents1 = new ArrayList<NatureOfContents1>();
+    private List<NatureOfContent> natureOfContents1 = new ArrayList<NatureOfContent>();
 
     @JsonProperty("natureOfContents2")
     @Valid
-    private List<NatureOfContents2> natureOfContents2 = new ArrayList<NatureOfContents2>();
+    private List<NatureOfContent> natureOfContents2 = new ArrayList<NatureOfContent>();
 
     @JsonProperty("natureOfContents3")
     @Valid
-    private List<NatureOfContents3> natureOfContents3 = new ArrayList<NatureOfContents3>();
+    private List<NatureOfContent> natureOfContents3 = new ArrayList<NatureOfContent>();
 
     @JsonProperty("natureOfContents4")
     @Valid
-    private List<NatureOfContents4> natureOfContents4 = new ArrayList<NatureOfContents4>();
+    private List<NatureOfContent> natureOfContents4 = new ArrayList<NatureOfContent>();
 
     @JsonProperty("governmentPublicationCodes")
     @Valid
@@ -371,7 +371,7 @@ public class FixedFieldCodesGroup {
      *     The bookIllustrationCodes1
      */
     @JsonProperty("bookIllustrationCodes1")
-    public List<BookIllustrationCodes1> getBookIllustrationCodes1() {
+    public List<BookIllustrationCode> getBookIllustrationCodes1() {
         return bookIllustrationCodes1;
     }
 
@@ -381,11 +381,11 @@ public class FixedFieldCodesGroup {
      *     The bookIllustrationCodes1
      */
     @JsonProperty("bookIllustrationCodes1")
-    public void setBookIllustrationCodes1(List<BookIllustrationCodes1> bookIllustrationCodes1) {
+    public void setBookIllustrationCodes1(List<BookIllustrationCode> bookIllustrationCodes1) {
         this.bookIllustrationCodes1 = bookIllustrationCodes1;
     }
 
-    public FixedFieldCodesGroup withBookIllustrationCodes1(List<BookIllustrationCodes1> bookIllustrationCodes1) {
+    public FixedFieldCodesGroup withBookIllustrationCodes1(List<BookIllustrationCode> bookIllustrationCodes1) {
         this.bookIllustrationCodes1 = bookIllustrationCodes1;
         return this;
     }
@@ -396,7 +396,7 @@ public class FixedFieldCodesGroup {
      *     The bookIllustrationCodes2
      */
     @JsonProperty("bookIllustrationCodes2")
-    public List<BookIllustrationCodes2> getBookIllustrationCodes2() {
+    public List<BookIllustrationCode> getBookIllustrationCodes2() {
         return bookIllustrationCodes2;
     }
 
@@ -406,11 +406,11 @@ public class FixedFieldCodesGroup {
      *     The bookIllustrationCodes2
      */
     @JsonProperty("bookIllustrationCodes2")
-    public void setBookIllustrationCodes2(List<BookIllustrationCodes2> bookIllustrationCodes2) {
+    public void setBookIllustrationCodes2(List<BookIllustrationCode> bookIllustrationCodes2) {
         this.bookIllustrationCodes2 = bookIllustrationCodes2;
     }
 
-    public FixedFieldCodesGroup withBookIllustrationCodes2(List<BookIllustrationCodes2> bookIllustrationCodes2) {
+    public FixedFieldCodesGroup withBookIllustrationCodes2(List<BookIllustrationCode> bookIllustrationCodes2) {
         this.bookIllustrationCodes2 = bookIllustrationCodes2;
         return this;
     }
@@ -421,7 +421,7 @@ public class FixedFieldCodesGroup {
      *     The bookIllustrationCodes3
      */
     @JsonProperty("bookIllustrationCodes3")
-    public List<BookIllustrationCodes3> getBookIllustrationCodes3() {
+    public List<BookIllustrationCode> getBookIllustrationCodes3() {
         return bookIllustrationCodes3;
     }
 
@@ -431,11 +431,11 @@ public class FixedFieldCodesGroup {
      *     The bookIllustrationCodes3
      */
     @JsonProperty("bookIllustrationCodes3")
-    public void setBookIllustrationCodes3(List<BookIllustrationCodes3> bookIllustrationCodes3) {
+    public void setBookIllustrationCodes3(List<BookIllustrationCode> bookIllustrationCodes3) {
         this.bookIllustrationCodes3 = bookIllustrationCodes3;
     }
 
-    public FixedFieldCodesGroup withBookIllustrationCodes3(List<BookIllustrationCodes3> bookIllustrationCodes3) {
+    public FixedFieldCodesGroup withBookIllustrationCodes3(List<BookIllustrationCode> bookIllustrationCodes3) {
         this.bookIllustrationCodes3 = bookIllustrationCodes3;
         return this;
     }
@@ -446,7 +446,7 @@ public class FixedFieldCodesGroup {
      *     The bookIllustrationCodes4
      */
     @JsonProperty("bookIllustrationCodes4")
-    public List<BookIllustrationCodes4> getBookIllustrationCodes4() {
+    public List<BookIllustrationCode> getBookIllustrationCodes4() {
         return bookIllustrationCodes4;
     }
 
@@ -456,11 +456,11 @@ public class FixedFieldCodesGroup {
      *     The bookIllustrationCodes4
      */
     @JsonProperty("bookIllustrationCodes4")
-    public void setBookIllustrationCodes4(List<BookIllustrationCodes4> bookIllustrationCodes4) {
+    public void setBookIllustrationCodes4(List<BookIllustrationCode> bookIllustrationCodes4) {
         this.bookIllustrationCodes4 = bookIllustrationCodes4;
     }
 
-    public FixedFieldCodesGroup withBookIllustrationCodes4(List<BookIllustrationCodes4> bookIllustrationCodes4) {
+    public FixedFieldCodesGroup withBookIllustrationCodes4(List<BookIllustrationCode> bookIllustrationCodes4) {
         this.bookIllustrationCodes4 = bookIllustrationCodes4;
         return this;
     }
@@ -521,7 +521,7 @@ public class FixedFieldCodesGroup {
      *     The natureOfContents1
      */
     @JsonProperty("natureOfContents1")
-    public List<NatureOfContents1> getNatureOfContents1() {
+    public List<NatureOfContent> getNatureOfContents1() {
         return natureOfContents1;
     }
 
@@ -531,11 +531,11 @@ public class FixedFieldCodesGroup {
      *     The natureOfContents1
      */
     @JsonProperty("natureOfContents1")
-    public void setNatureOfContents1(List<NatureOfContents1> natureOfContents1) {
+    public void setNatureOfContents1(List<NatureOfContent> natureOfContents1) {
         this.natureOfContents1 = natureOfContents1;
     }
 
-    public FixedFieldCodesGroup withNatureOfContents1(List<NatureOfContents1> natureOfContents1) {
+    public FixedFieldCodesGroup withNatureOfContents1(List<NatureOfContent> natureOfContents1) {
         this.natureOfContents1 = natureOfContents1;
         return this;
     }
@@ -546,7 +546,7 @@ public class FixedFieldCodesGroup {
      *     The natureOfContents2
      */
     @JsonProperty("natureOfContents2")
-    public List<NatureOfContents2> getNatureOfContents2() {
+    public List<NatureOfContent> getNatureOfContents2() {
         return natureOfContents2;
     }
 
@@ -556,11 +556,11 @@ public class FixedFieldCodesGroup {
      *     The natureOfContents2
      */
     @JsonProperty("natureOfContents2")
-    public void setNatureOfContents2(List<NatureOfContents2> natureOfContents2) {
+    public void setNatureOfContents2(List<NatureOfContent> natureOfContents2) {
         this.natureOfContents2 = natureOfContents2;
     }
 
-    public FixedFieldCodesGroup withNatureOfContents2(List<NatureOfContents2> natureOfContents2) {
+    public FixedFieldCodesGroup withNatureOfContents2(List<NatureOfContent> natureOfContents2) {
         this.natureOfContents2 = natureOfContents2;
         return this;
     }
@@ -571,7 +571,7 @@ public class FixedFieldCodesGroup {
      *     The natureOfContents3
      */
     @JsonProperty("natureOfContents3")
-    public List<NatureOfContents3> getNatureOfContents3() {
+    public List<NatureOfContent> getNatureOfContents3() {
         return natureOfContents3;
     }
 
@@ -581,11 +581,11 @@ public class FixedFieldCodesGroup {
      *     The natureOfContents3
      */
     @JsonProperty("natureOfContents3")
-    public void setNatureOfContents3(List<NatureOfContents3> natureOfContents3) {
+    public void setNatureOfContents3(List<NatureOfContent> natureOfContents3) {
         this.natureOfContents3 = natureOfContents3;
     }
 
-    public FixedFieldCodesGroup withNatureOfContents3(List<NatureOfContents3> natureOfContents3) {
+    public FixedFieldCodesGroup withNatureOfContents3(List<NatureOfContent> natureOfContents3) {
         this.natureOfContents3 = natureOfContents3;
         return this;
     }
@@ -596,7 +596,7 @@ public class FixedFieldCodesGroup {
      *     The natureOfContents4
      */
     @JsonProperty("natureOfContents4")
-    public List<NatureOfContents4> getNatureOfContents4() {
+    public List<NatureOfContent> getNatureOfContents4() {
         return natureOfContents4;
     }
 
@@ -606,11 +606,11 @@ public class FixedFieldCodesGroup {
      *     The natureOfContents4
      */
     @JsonProperty("natureOfContents4")
-    public void setNatureOfContents4(List<NatureOfContents4> natureOfContents4) {
+    public void setNatureOfContents4(List<NatureOfContent> natureOfContents4) {
         this.natureOfContents4 = natureOfContents4;
     }
 
-    public FixedFieldCodesGroup withNatureOfContents4(List<NatureOfContents4> natureOfContents4) {
+    public FixedFieldCodesGroup withNatureOfContents4(List<NatureOfContent> natureOfContents4) {
         this.natureOfContents4 = natureOfContents4;
         return this;
     }

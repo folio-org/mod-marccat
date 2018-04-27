@@ -92,7 +92,7 @@ public class GeneralInformation {
 	private String leftJustify(final String s) {
 		return ofNullable(stream(s.split("")).filter(character -> !" ".equals(character)).collect(joining()))
 				.map(result -> StringUtils.leftPad(result, s.length() - result.length(), ' '))
-				.orElse(null);
+				.orElse("    ");
 	}
 
 	/**
