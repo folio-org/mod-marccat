@@ -45,7 +45,7 @@ public class FieldTemplateAPI extends BaseResource {
             @ApiResponse(code = 500, message = "System internal failure occurred.")
     })
     @GetMapping("/field-template")
-    public FieldTemplate getCatalogingFieldTemplate(
+    public FieldTemplate getFieldTemplate(
             @RequestParam final int categoryCode,
             @RequestParam final String ind1, final String ind2,
             @RequestParam final String code,
