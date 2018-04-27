@@ -7,21 +7,20 @@
  */
 package org.folio.cataloging.business.cataloguing.authority;
 
-import java.util.Collections;
-import java.util.Comparator;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.folio.cataloging.business.cataloguing.common.CatalogItem;
 import org.folio.cataloging.business.cataloguing.common.ItemEntity;
+import org.folio.cataloging.business.cataloguing.common.Tag;
+import org.folio.cataloging.business.cataloguing.common.TagImpl;
+import org.folio.cataloging.dao.persistence.AUT;
 import org.folio.cataloging.dao.persistence.AuthorityModelItem;
 import org.folio.cataloging.dao.persistence.Model;
 import org.folio.cataloging.dao.persistence.ModelItem;
-import org.folio.cataloging.business.cataloguing.common.Tag;
-import org.folio.cataloging.business.cataloguing.common.TagImpl;
 import org.folio.cataloging.exception.MandatoryTagException;
-import org.folio.cataloging.dao.persistence.AUT;
+
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * @author paulm

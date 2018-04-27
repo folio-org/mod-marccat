@@ -1,12 +1,12 @@
 package org.folio.cataloging.model;
 
-import java.io.Serializable;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+
+import java.io.Serializable;
 
 /**
  * MARC Subfield definition.

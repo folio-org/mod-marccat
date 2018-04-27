@@ -64,6 +64,7 @@
 		<mapping resource="org/folio/cataloging/dao/persistence/T_MSC_FORM_OR_TYP.hbm.xml"/>
 		<mapping resource="org/folio/cataloging/dao/persistence/T_MSC_LTRY_TXT.hbm.xml"/>
 		<mapping resource="org/folio/cataloging/dao/persistence/T_MSC_TXTL_MTR.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_MSC_PRT.hbm.xml"/>
 		<mapping resource="org/folio/cataloging/dao/persistence/T_SRL_FORM_ORGNL_ITM.hbm.xml"/>
 		<mapping resource="org/folio/cataloging/dao/persistence/T_SRL_ISDS_CNTR.hbm.xml"/>
 		<mapping resource="org/folio/cataloging/dao/persistence/T_SRL_TTL_ALPBT.hbm.xml"/>

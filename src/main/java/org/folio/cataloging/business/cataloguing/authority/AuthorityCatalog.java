@@ -103,7 +103,7 @@ public class AuthorityCatalog extends Catalog {
 	}
 
 	public static String getAutTypeByDescriptorType(int descriptorType) {
-		return (String) autTypeByDescriptorType.get(descriptorType);
+		return autTypeByDescriptorType.get(descriptorType);
 	}
 
 	/* (non-Javadoc)

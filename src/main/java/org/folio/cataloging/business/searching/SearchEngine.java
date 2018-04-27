@@ -23,42 +23,42 @@ import java.util.Locale;
  * @since 1.0
  */
 public interface SearchEngine {
-	public abstract ResultSet expertSearch(
+	ResultSet expertSearch(
             String cclQuery,
             Locale locale,
             int searchingView)
 		throws ModCatalogingException;
-	public abstract ResultSet simpleSearch(
+	ResultSet simpleSearch(
             String query,
             String use,
             Locale locale,
             int searchingView)
 		throws ModCatalogingException;
 
-	public abstract ResultSet advancedSearch(
+	ResultSet advancedSearch(
             List termList,
             List relationList,
             List useList,
             List operatorList,
             Locale locale,
             int searchingView)
-		throws NoResultsFoundException, ModCatalogingException,SocketTimeoutException;
+		throws ModCatalogingException,SocketTimeoutException;
 
 	/**
 	 * @param firstRecord index of first record to be fetched (starting at 1)
 	 * 
 	 * @since 1.0
 	 */
-	public abstract void fetchRecords(
+    void fetchRecords(
             ResultSet rs,
             String elementSetName,
             int firstRecord,
             int lastRecord);
 
-	public abstract void sort(
+	void sort(
             ResultSet rs,
             String[] attributes,
             String[] directions) throws ModCatalogingException;
 
-	public void setUserProfile(UserProfile userProfile);
+	void setUserProfile(UserProfile userProfile);
 }

@@ -17,7 +17,7 @@ import java.util.List;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "recordStatusTypes", "recordTypes", "bibliographicLevels", "controlTypes", "characterEncodingSchemas", "encodingLevels", "descriptiveCatalogForms", "linkedRecordCodes", "dateTypes", "bookIllustrationCodes1", "bookIllustrationCodes2", "bookIllustrationCodes3", "bookIllustrationCodes4", "targetAudienceCodes", "formOfItemCodes", "natureOfContents1", "natureOfContents2", "natureOfContents3", "natureOfContents4", "governmentPublicationCodes", "conferencePublicationCodes", "bookFestschrifts", "bookIndexAvailabilityCodes", "bookLiteraryFormTypeCodes", "bookBiographyCodes", "modifiedRecordTypes", "catalogSources" })
+@JsonPropertyOrder({ "recordStatusTypes", "recordTypes", "bibliographicLevels", "controlTypes", "characterEncodingSchemas", "encodingLevels", "descriptiveCatalogForms", "linkedRecordCodes", "dateTypes", "bookIllustrationCodes1", "bookIllustrationCodes2", "bookIllustrationCodes3", "bookIllustrationCodes4", "targetAudienceCodes", "formOfItemCodes", "natureOfContents1", "natureOfContents2", "natureOfContents3", "natureOfContents4", "governmentPublicationCodes", "conferencePublicationCodes", "bookFestschrifts", "bookIndexAvailabilityCodes", "bookLiteraryFormTypeCodes", "bookBiographyCodes", "musicFormOfCompositions", "musicParts", "musicFormats", "modifiedRecordTypes", "catalogSources" })
 public class FixedFieldCodesGroup {
 
     @JsonProperty("recordStatusTypes")
@@ -119,6 +119,18 @@ public class FixedFieldCodesGroup {
     @JsonProperty("bookBiographyCodes")
     @Valid
     private List<BookBiographyCode> bookBiographyCodes = new ArrayList<BookBiographyCode>();
+
+    @JsonProperty("musicFormOfCompositions")
+    @Valid
+    private List<MusicFormOfCompositionCode> musicFormOfCompositionCodes = new ArrayList<MusicFormOfCompositionCode>();
+
+    @JsonProperty("musicParts")
+    @Valid
+    private List<MusicPartCode> musicPartCodes = new ArrayList<MusicPartCode>();
+
+    @JsonProperty("musicFormats")
+    @Valid
+    private List<MusicFormatCode> musicFormatCodes = new ArrayList<MusicFormatCode>();
 
     @JsonProperty("modifiedRecordTypes")
     @Valid
@@ -800,6 +812,82 @@ public class FixedFieldCodesGroup {
 
     public FixedFieldCodesGroup withCatalogSources(List<CatalogSource> catalogSources) {
         this.catalogSources = catalogSources;
+        return this;
+    }
+
+    /**
+     *
+     * @return
+     *     The musicFormOfCompositions
+     */
+    @JsonProperty("musicFormOfCompositions")
+    public List<MusicFormOfCompositionCode> getMusicFormOfCompositionCodes() {
+        return musicFormOfCompositionCodes;
+    }
+
+    /**
+     *
+     * @param musicFormOfCompositions
+     *     The musicFormOfCompositions
+     */
+    @JsonProperty("musicFormOfCompositions")
+    public void setMusicFormOfCompositionCodes(List<MusicFormOfCompositionCode> musicFormOfCompositionCodes) {
+        this.musicFormOfCompositionCodes = musicFormOfCompositionCodes;
+    }
+
+    public FixedFieldCodesGroup withMusicFormOfCompositions(List<MusicFormOfCompositionCode> musicFormOfCompositionCodes) {
+        this.musicFormOfCompositionCodes = musicFormOfCompositionCodes;
+        return this;
+    }
+
+    /**
+     *
+     * @return
+     *     The musicParts
+     */
+    @JsonProperty("musicParts")
+    public List<MusicPartCode> getMusicMusicPartCodes() {
+        return musicPartCodes;
+    }
+
+    /**
+     *
+     * @param musicPartCodes
+     *     The musicParts
+     */
+    @JsonProperty("musicParts")
+    public void setMusicPartCodes (List<MusicPartCode> musicPartCodes) {
+        this.musicPartCodes = musicPartCodes;
+    }
+
+    public FixedFieldCodesGroup withMusicParts(List<MusicPartCode> musicPartCodes) {
+        this.musicPartCodes = musicPartCodes;
+        return this;
+    }
+
+
+    /**
+     *
+     * @return
+     *     The musicFormats
+     */
+    @JsonProperty("musicFormats")
+    public List<MusicFormatCode> getMusicFormatCodes() {
+        return musicFormatCodes;
+    }
+
+    /**
+     *
+     * @param musicFormatCodes
+     *     The musicFormats
+     */
+    @JsonProperty("musicFormats")
+    public void setMusicFormatCodes(List<MusicFormatCode> musicFormatCodes) {
+        this.musicFormatCodes = musicFormatCodes;
+    }
+
+    public FixedFieldCodesGroup withMusicFormats(List<MusicFormatCode> musicFormatCodes) {
+        this.musicFormatCodes = musicFormatCodes;
         return this;
     }
 }

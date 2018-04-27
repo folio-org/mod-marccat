@@ -6,7 +6,6 @@ import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
 import net.sf.hibernate.type.Type;
 import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 import org.folio.cataloging.dao.persistence.Model;
 
 import java.util.List;

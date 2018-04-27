@@ -16,12 +16,11 @@ package org.folio.cataloging.bean.cataloguing.common;
 import net.sf.hibernate.HibernateException;
 import org.folio.cataloging.bean.LibrisuiteBean;
 import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicCatalog;
-import org.folio.cataloging.business.cataloguing.bibliographic.NewTagException;
 import org.folio.cataloging.business.cataloguing.common.Catalog;
-import org.folio.cataloging.dao.persistence.Model;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.controller.SessionUtils;
 import org.folio.cataloging.business.controller.UserProfile;
+import org.folio.cataloging.dao.persistence.Model;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;

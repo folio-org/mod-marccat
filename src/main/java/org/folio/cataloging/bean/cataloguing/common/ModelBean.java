@@ -1014,7 +1014,7 @@ public class ModelBean extends LibrisuiteBean
 	 * 
 	 * @since 1.0
 	 */
-	public void checkRepeatability(int index) throws DataAccessException, MarcCorrelationException, DuplicateTagException 
+	public void checkRepeatability(int index) throws DataAccessException, DuplicateTagException
 	{
 		Tag t = this.getCurrentField();
 		Validation bv = t.getValidation();
@@ -1068,8 +1068,7 @@ public class ModelBean extends LibrisuiteBean
 	}
 
 	@Deprecated
-	public String getLongLabel(int tagNum) throws DataAccessException, MarcCorrelationException
-	{
+	public String getLongLabel(int tagNum) throws DataAccessException {
 		//return loadLongLabel((Tag)model.getTags().get(tagNum));
 		return null;
 	}
