@@ -194,5 +194,37 @@
 		<mapping resource="org/folio/cataloging/dao/persistence/S_BIB_MARC_TAG_VLDTN.hbm.xml"/>
 		<mapping resource="org/folio/cataloging/dao/persistence/T_BIB_HDR.hbm.xml"/>
 		<mapping resource="org/folio/cataloging/dao/persistence/TYP_REC_MTRL.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_GMD.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_MSC_TRNSPSN_ARRNGMNT.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_CF_FORM_OF_ITM.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_CF_SMD.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_CF_CLR.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_CF_DMNSN.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_CF_FF.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_CF_QAT.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_CF_ANTSRC.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_CF_LOC.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_CF_RQ.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_MP_CONFIG.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_MP_PROD_ELEM.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_MP_POS_NEG.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_MP_GNRTN.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_MP_BSE_FLM.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_MP_RF_CLR.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_MP_CLR_STCK.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_MP_DTRTN_STGE.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_MP_CMPLT.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_KIT_SMD.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_NM_SMD.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_TXT_SMD.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_USP_SMD_CDE.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_RSI_SMD.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_RSI_ALT_SENS.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_RSI_ATT_SENS.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_RSI_CLD_CVR.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_RSI_PLTFRM_CNSTRCT.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_RSI_PLTFRM_USE.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_RSI_SNSR_TPE.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/T_RSI_DATA_TPE.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

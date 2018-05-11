@@ -9,7 +9,7 @@ import javax.annotation.Generated;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({ "code", "description" })
-public class BookIndexAvailabilityCode {
+public class Pair {
 
     @JsonProperty("code")
     private String code;
@@ -18,7 +18,7 @@ public class BookIndexAvailabilityCode {
     private String description;
 
     /**
-     * 
+     *
      * @return
      *     The code
      */
@@ -28,7 +28,7 @@ public class BookIndexAvailabilityCode {
     }
 
     /**
-     * 
+     *
      * @param code
      *     The code
      */
@@ -37,13 +37,8 @@ public class BookIndexAvailabilityCode {
         this.code = code;
     }
 
-    public BookIndexAvailabilityCode withCode(String code) {
-        this.code = code;
-        return this;
-    }
-
     /**
-     * 
+     *
      * @return
      *     The description
      */
@@ -53,7 +48,7 @@ public class BookIndexAvailabilityCode {
     }
 
     /**
-     * 
+     *
      * @param description
      *     The description
      */
@@ -62,8 +57,8 @@ public class BookIndexAvailabilityCode {
         this.description = description;
     }
 
-    public BookIndexAvailabilityCode withDescription(String description) {
-        this.description = description;
-        return this;
+    @Override
+    public String toString(){
+        return "Code: " + this.code + " Description: " + this.description;
     }
 }
