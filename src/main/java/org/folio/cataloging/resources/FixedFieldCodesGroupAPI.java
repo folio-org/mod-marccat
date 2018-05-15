@@ -67,45 +67,45 @@ public class FixedFieldCodesGroupAPI extends BaseResource {
     }
 
     private void injectPhysicalDescriptionCodes(final FixedFieldCodesGroup fixedFieldCodesGroup, final StorageService storageService, final String lang, final int headerTypeCode) {
-        ofNullable(Global.PHYSICAL_TYPES_MAP.get(headerTypeCode)).map(categoryOfMaterial -> {
+        ofNullable(Global.PHYSICAL_TYPES_MAP.get(headerTypeCode))
+                .map(categoryOfMaterial -> {
 
-            final PhysicalInformation pi = new PhysicalInformation();
-            fixedFieldCodesGroup.setCategoryOfMaterialCodes(storageService.getCodesList(lang, CodeListsType.CATEGORY_MATERIAL).stream().map(toPairItem).collect(toList()));
+                final PhysicalInformation pi = new PhysicalInformation();
+                fixedFieldCodesGroup.setCategoryOfMaterialCodes(storageService.getCodesList(lang, CodeListsType.CATEGORY_MATERIAL).stream().map(toPairItem).collect(toList()));
 
-        if (pi.isElectronicResource(categoryOfMaterial)) {
-            setPhysicalInfoCFcodes(lang, storageService, fixedFieldCodesGroup);
-        } else if (pi.isGlobe(categoryOfMaterial)) {
-            setPhysicalInfoGLBcodes(lang, storageService, fixedFieldCodesGroup);
-        } else if (pi.isMap(categoryOfMaterial)) {
-            setPhysicalInfoMAPcodes(lang, storageService, fixedFieldCodesGroup);
-        } else if (pi.isTactileMaterial(categoryOfMaterial)) {
-            setPhysicalInfoTCTcodes(lang, storageService, fixedFieldCodesGroup);
-        } else if (pi.isProjectedGraphic(categoryOfMaterial)) {
-            setPhysicalInfoPGcodes(lang, storageService, fixedFieldCodesGroup);
-        } else if (pi.isMicroform(categoryOfMaterial)) {
-            setPhysicalInfoMICcodes(lang, storageService, fixedFieldCodesGroup);
-        } else if (pi.isNonProjectedGraphic(categoryOfMaterial)) {
-            setPhysicalInfoNPGcodes(lang, storageService, fixedFieldCodesGroup);
-        } else if (pi.isMotionPicture(categoryOfMaterial)) {
-            setPhysicalInfoMPcodes(lang, storageService, fixedFieldCodesGroup);
-        } else if (pi.isKit(categoryOfMaterial)) {
-            setPhysicalInfoKITcodes(lang, storageService, fixedFieldCodesGroup);
-        } else if (pi.isNotatedMusic(categoryOfMaterial)) {
-            setPhysicalInfoNMcodes(lang, storageService, fixedFieldCodesGroup);
-        } else if (pi.isRemoteSensingImage(categoryOfMaterial)) {
-            setPhysicalInfoRSIcodes(lang, storageService, fixedFieldCodesGroup);
-        } else if (pi.isSoundRecording(categoryOfMaterial)) {
-            setPhysicalInfoSNDcodes(lang, storageService, fixedFieldCodesGroup);
-        } else if (pi.isText(categoryOfMaterial)) {
-            setPhysicalInfoTXTcodes(lang, storageService, fixedFieldCodesGroup);
-        } else if (pi.isUnspecified(categoryOfMaterial)) {
-            setPhysicalInfoUNScodes(lang, storageService, fixedFieldCodesGroup);
-        } else if (pi.isVideoRecording(categoryOfMaterial)) {
-            setPhysicalInfoVRcodes(lang, storageService, fixedFieldCodesGroup);
+                if (pi.isElectronicResource(categoryOfMaterial)) {
+                    setPhysicalInfoCFcodes(lang, storageService, fixedFieldCodesGroup);
+                } else if (pi.isGlobe(categoryOfMaterial)) {
+                    setPhysicalInfoGLBcodes(lang, storageService, fixedFieldCodesGroup);
+                } else if (pi.isMap(categoryOfMaterial)) {
+                    setPhysicalInfoMAPcodes(lang, storageService, fixedFieldCodesGroup);
+                } else if (pi.isTactileMaterial(categoryOfMaterial)) {
+                    setPhysicalInfoTCTcodes(lang, storageService, fixedFieldCodesGroup);
+                } else if (pi.isProjectedGraphic(categoryOfMaterial)) {
+                    setPhysicalInfoPGcodes(lang, storageService, fixedFieldCodesGroup);
+                } else if (pi.isMicroform(categoryOfMaterial)) {
+                    setPhysicalInfoMICcodes(lang, storageService, fixedFieldCodesGroup);
+                } else if (pi.isNonProjectedGraphic(categoryOfMaterial)) {
+                    setPhysicalInfoNPGcodes(lang, storageService, fixedFieldCodesGroup);
+                } else if (pi.isMotionPicture(categoryOfMaterial)) {
+                    setPhysicalInfoMPcodes(lang, storageService, fixedFieldCodesGroup);
+                } else if (pi.isKit(categoryOfMaterial)) {
+                    setPhysicalInfoKITcodes(lang, storageService, fixedFieldCodesGroup);
+                } else if (pi.isNotatedMusic(categoryOfMaterial)) {
+                    setPhysicalInfoNMcodes(lang, storageService, fixedFieldCodesGroup);
+                } else if (pi.isRemoteSensingImage(categoryOfMaterial)) {
+                    setPhysicalInfoRSIcodes(lang, storageService, fixedFieldCodesGroup);
+                } else if (pi.isSoundRecording(categoryOfMaterial)) {
+                    setPhysicalInfoSNDcodes(lang, storageService, fixedFieldCodesGroup);
+                } else if (pi.isText(categoryOfMaterial)) {
+                    setPhysicalInfoTXTcodes(lang, storageService, fixedFieldCodesGroup);
+                } else if (pi.isUnspecified(categoryOfMaterial)) {
+                    setPhysicalInfoUNScodes(lang, storageService, fixedFieldCodesGroup);
+                } else if (pi.isVideoRecording(categoryOfMaterial)) {
+                    setPhysicalInfoVRcodes(lang, storageService, fixedFieldCodesGroup);
+                }
 
-        }
-
-            return fixedFieldCodesGroup;
+                return fixedFieldCodesGroup;
         }).orElseGet(() -> {
             logger.error(MessageCatalog._00019_HEADER_TYPE_ID_WRONG, Global.PHYSICAL_DESCRIPTION_TAG_CODE);
             return null;
@@ -125,7 +125,7 @@ public class FixedFieldCodesGroupAPI extends BaseResource {
         fixedFieldCodesGroup.setColorCodes(storageService.getCodesList(lang, CodeListsType.VR_COLOR).stream().map(toPairItem).collect(toList()));
         fixedFieldCodesGroup.setVideoRecordingFormatCodes(storageService.getCodesList(lang, CodeListsType.VR_FORMAT).stream().map(toPairItem).collect(toList()));
         fixedFieldCodesGroup.setSoundOnMediumOrSeparateCodes(storageService.getCodesList(lang, CodeListsType.SOUND_MEDIUM_OR_SEP).stream().map(toPairItem).collect(toList()));
-        fixedFieldCodesGroup.setMediumForSoundCodes(storageService.getCodesList(lang, CodeListsType.VR_MEDIUM_FOR_SOUND).stream().map(toPairItem).collect(toList()));
+        fixedFieldCodesGroup.setMediumForSoundCodes(storageService.getCodesList(lang, CodeListsType.MEDIUM_FOR_SOUND).stream().map(toPairItem).collect(toList()));
         fixedFieldCodesGroup.setDimensionCodes(storageService.getCodesList(lang, CodeListsType.VR_DIMENSIONS).stream().map(toPairItem).collect(toList()));
         fixedFieldCodesGroup.setConfigurationCodes(storageService.getCodesList(lang, CodeListsType.VR_CONF_PLAYBACK).stream().map(toPairItem).collect(toList()));
     }
@@ -227,7 +227,7 @@ public class FixedFieldCodesGroupAPI extends BaseResource {
         fixedFieldCodesGroup.setColorCodes(storageService.getCodesList(lang, CodeListsType.MP_COLOR).stream().map(toPairItem).collect(toList()));
         fixedFieldCodesGroup.setPresentationFormatCodes(storageService.getCodesList(lang, CodeListsType.MP_PRESENT_FORMAT).stream().map(toPairItem).collect(toList()));
         fixedFieldCodesGroup.setSoundOnMediumOrSeparateCodes(storageService.getCodesList(lang, CodeListsType.SOUND_MEDIUM_OR_SEP).stream().map(toPairItem).collect(toList()));
-        fixedFieldCodesGroup.setMediumForSoundCodes(storageService.getCodesList(lang, CodeListsType.MP_MEDIUM_FOR_SOUND).stream().map(toPairItem).collect(toList()));
+        fixedFieldCodesGroup.setMediumForSoundCodes(storageService.getCodesList(lang, CodeListsType.MEDIUM_FOR_SOUND).stream().map(toPairItem).collect(toList()));
         fixedFieldCodesGroup.setDimensionCodes(storageService.getCodesList(lang, CodeListsType.MP_DIMENSIONS).stream().map(toPairItem).collect(toList()));
         fixedFieldCodesGroup.setConfigurationCodes(storageService.getCodesList(lang, CodeListsType.MP_CONF_PLAYBACK).stream().map(toPairItem).collect(toList()));
         fixedFieldCodesGroup.setProductionElementsCodes(storageService.getCodesList(lang, CodeListsType.MP_PROD_ELEM).stream().map(toPairItem).collect(toList()));
@@ -284,7 +284,7 @@ public class FixedFieldCodesGroupAPI extends BaseResource {
         fixedFieldCodesGroup.setColorCodes(storageService.getCodesList(lang, CodeListsType.PG_COLOR).stream().map(toPairItem).collect(toList()));
         fixedFieldCodesGroup.setBaseOfEmulsionCodes(storageService.getCodesList(lang, CodeListsType.PG_EMUL_BASE).stream().map(toPairItem).collect(toList()));
         fixedFieldCodesGroup.setSoundOnMediumOrSeparateCodes(storageService.getCodesList(lang, CodeListsType.SOUND_MEDIUM_OR_SEP).stream().map(toPairItem).collect(toList()));
-        fixedFieldCodesGroup.setMediumForSoundCodes(storageService.getCodesList(lang, CodeListsType.PG_MEDIUM_FOR_SOUND).stream().map(toPairItem).collect(toList()));
+        fixedFieldCodesGroup.setMediumForSoundCodes(storageService.getCodesList(lang, CodeListsType.MEDIUM_FOR_SOUND).stream().map(toPairItem).collect(toList()));
         fixedFieldCodesGroup.setDimensionCodes(storageService.getCodesList(lang, CodeListsType.PG_DIMENSIONS).stream().map(toPairItem).collect(toList()));
         fixedFieldCodesGroup.setSecondarySupportMaterialCodes(storageService.getCodesList(lang, CodeListsType.PG_SECONDARY_SUPPORT).stream().map(toPairItem).collect(toList()));
     }
