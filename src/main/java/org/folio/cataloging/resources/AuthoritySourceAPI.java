@@ -23,6 +23,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
  * @since 1.0
  */
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @Api(value = "modcat-api", description = "Authority source resource API")
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
 public class AuthoritySourceAPI extends BaseResource {
@@ -34,6 +35,7 @@ public class AuthoritySourceAPI extends BaseResource {
         return authoritySource;
     };
 
+    //@CrossOrigin(origins = "http://localhost:3000")
     @ApiOperation(value = "Returns all authority sources associated with a given language")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Method successfully returned the requested authority sources"),
