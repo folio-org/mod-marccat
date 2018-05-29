@@ -32,6 +32,7 @@ import static org.folio.cataloging.resources.domain.CatalogingEntityType.A;
  * @author carment
  */
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @Api(value = "modcat-api", description = "Record template resource API")
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
 public class RecordTemplateAPI extends BaseResource {
