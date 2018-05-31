@@ -14,13 +14,13 @@ import javax.annotation.Generated;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "code", "longDescription" })
+@JsonPropertyOrder({ "value", "label" })
 public class View {
 
-    @JsonProperty("code")
+    @JsonProperty("value")
     private String code;
 
-    @JsonProperty("longDescription")
+    @JsonProperty("label")
     private String longDescription;
 
     /**
@@ -28,7 +28,7 @@ public class View {
      * @return
      *     The code
      */
-    @JsonProperty("code")
+    @JsonProperty("value")
     public String getCode() {
         return code;
     }
@@ -38,7 +38,7 @@ public class View {
      * @param code
      *     The code
      */
-    @JsonProperty("code")
+    @JsonProperty("value")
     public void setCode(String code) {
         this.code = code;
     }
@@ -53,7 +53,7 @@ public class View {
      * @return
      *     The longDescription
      */
-    @JsonProperty("longDescription")
+    @JsonProperty("label")
     public String getLongDescription() {
         return longDescription;
     }
@@ -63,7 +63,7 @@ public class View {
      * @param longDescription
      *     The longDescription
      */
-    @JsonProperty("longDescription")
+    @JsonProperty("label")
     public void setLongDescription(String longDescription) {
         this.longDescription = longDescription;
     }

@@ -23,7 +23,6 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
  * @since 1.0
  */
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @Api(value = "modcat-api", description = "Logical view resource API")
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
 public class LogicalViewAPI extends BaseResource {
