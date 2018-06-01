@@ -28,6 +28,7 @@ import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
 public class RemoteConfiguration implements Configuration {
 
     private final static String BASE_CQUERY = "module==CATALOGING and configName == ";
+    private final static int LIMIT = 100;
 
     @Value("${configuration.client:http://192.168.0.158:8085/configurations/entries}")
     private String endpoint;
@@ -77,6 +78,6 @@ public class RemoteConfiguration implements Configuration {
                                     values.length != 0
                                             ? withDatasource ? "(datasource or " : "("
                                             : "",
-                                    ")"));
+                                    ")&limit="+LIMIT));
     }
 }
