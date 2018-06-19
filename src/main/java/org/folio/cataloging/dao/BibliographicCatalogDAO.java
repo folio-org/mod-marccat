@@ -6,17 +6,20 @@ import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.dom4j.Document;
 import org.folio.cataloging.business.cataloguing.bibliographic.*;
 import org.folio.cataloging.business.cataloguing.common.AccessPoint;
 import org.folio.cataloging.business.cataloguing.common.CatalogItem;
 import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.common.CacheUpdateException;
 import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.RecordNotFoundException;
 import org.folio.cataloging.business.common.View;
 import org.folio.cataloging.business.controller.UserProfile;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 import org.folio.cataloging.dao.persistence.*;
+import org.folio.cataloging.util.XmlUtils;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -65,6 +68,43 @@ public class BibliographicCatalogDAO extends CatalogDAO
 		}
 	}
 
+	// 2018 Paul Search Engine Java
+	@Override
+	public void updateFullRecordCacheTable(CatalogItem item)
+			throws DataAccessException {
+		updateFullRecordCacheTable(item, true);
+	}
+
+	// 2018 Paul Search Engine Java
+	private void updateFullRecordCacheTable(CatalogItem item,
+											boolean updateRelatedRecs) throws DataAccessException {
+		FULL_CACHE cache;
+		DAOFullCache dao = new DAOFullCache();
+		try {
+			cache = dao.load(item.getAmicusNumber(), item.getUserView());
+		} catch (RecordNotFoundException e) {
+			cache = new FULL_CACHE();
+			cache.setItemNumber(item.getAmicusNumber());
+			cache.setUserView(item.getUserView());
+		}
+		Document d = item.toExternalMarcSlim();
+		cache.setRecordData(XmlUtils.documentToString(d));
+		cache.markChanged();
+		logger.debug(cache);
+		logger.debug("Slim record: " + cache.getRecordData());
+		persistByStatus(cache);
+		cache.evict();
+		if (updateRelatedRecs) {
+			for (Object o : item.getTags()) {
+				if (o instanceof BibliographicRelationshipTag) {
+					BibliographicRelationshipTag t = (BibliographicRelationshipTag) o;
+					CatalogItem relItem = getBibliographicItemByAmicusNumber(t
+							.getTargetBibItemNumber(), item.getUserView());
+					updateFullRecordCacheTable(relItem, false);
+				}
+			}
+		}
+	}
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.CatalogDAO#getBibliographicItemByAmicusNumber(int)
 	 */

@@ -1,0 +1,87 @@
+package org.folio.cataloging.search;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.dao.common.HibernateUtil;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+
+/**
+ * 2018 Paul Search Engine Java
+ * @author paulm
+ * @version $Revision: 1.1 $, $Date: 2018/01/01 14:09:42 $
+ * @since 1.0
+ */
+public class DAOSemantic {
+	private static final Log logger = LogFactory.getLog(DAOSemantic.class);
+	
+	public S_BIB1_SMNTC getSemanticEntry  (	
+			 int useNumber,
+			 int relationNumber,
+			 int positionNumber,
+			 int structureNumber,
+			 int truncationNumber,
+			 int completenessNumber,
+			 short recordTypeCode) throws Exception {
+		logger.debug("get("+useNumber+","+relationNumber+","+positionNumber+","+
+				structureNumber+","+truncationNumber+","+completenessNumber+","+
+				recordTypeCode+")");
+		Connection connection = null;
+		PreparedStatement selectStatement = null;
+		ResultSet rs = null;
+		
+		try
+		{
+			connection = new HibernateUtil().currentSession().connection();
+			selectStatement = connection.prepareStatement("select * from s_bib1_smntc " +
+				" where atrbt_use_nbr = ? and atrbt_rltn_nbr = ? and " +
+				" atrbt_pstn_nbr = ? and atrbt_strct_nbr = ? and " +
+				" atrbt_trntn_nbr = ? and atrbt_cmpns_nbr = ? and db_rec_typ_cde = ?");
+			int i = 1;
+			selectStatement.setInt(i++, useNumber);
+			selectStatement.setInt(i++, relationNumber);
+			selectStatement.setInt(i++, positionNumber);
+			selectStatement.setInt(i++, structureNumber);
+			selectStatement.setInt(i++, truncationNumber);
+			selectStatement.setInt(i++, completenessNumber);
+			selectStatement.setShort(i++, recordTypeCode);
+			rs = selectStatement.executeQuery();
+			if (rs.next()) 
+			{
+				S_BIB1_SMNTC result = new S_BIB1_SMNTC();
+				result.setUseNumber(rs.getInt("atrbt_use_nbr"));
+				result.setRelationNumber(rs.getInt("atrbt_rltn_nbr"));
+				result.setPositionNumber(rs.getInt("atrbt_pstn_nbr"));
+				result.setStructureNumber(rs.getInt("atrbt_strct_nbr"));
+				result.setTruncationNumber(rs.getInt("atrbt_trntn_nbr"));
+				result.setCompletenessNumber(rs.getInt("atrbt_cmpns_nbr"));
+				result.setRecordTypeCode(rs.getShort("db_rec_typ_cde"));
+				result.setSortFormSkipInFilingCode(rs.getShort("srt_form_skp_in_flng_cde"));
+				result.setSortFormFunctionCode(rs.getShort("srt_form_fnctn_cde"));
+				result.setSortFormTypeCode(rs.getShort("srt_form_typ_cde"));
+				result.setSortFormSubTypeCode(rs.getShort("srt_form_sub_typ_cde"));
+				result.setSortFormMainTypeCode(rs.getShort("srt_form_main_typ_cde"));
+				result.setQueryActionCode(rs.getString("qry_actn_cde"));
+				result.setSecondaryIndexCode(rs.getByte("scdry_idx_cde"));
+				result.setSelectClause(rs.getString("sql_slct"));
+				logger.debug("select is '" + result.getSelectClause() + "'");
+				result.setFromClause(rs.getString("sql_frm"));
+				result.setWhereClause(rs.getString("sql_whr"));
+				result.setJoinClause(rs.getString("sql_jn"));
+				result.setViewClause(rs.getString("sql_vw"));
+				result.setFullText(rs.getBoolean("context_idx_cde"));
+				return result;
+			}
+			else {
+				return null;
+			}
+			}
+		 finally 
+		{
+			try { rs.close(); } catch (Exception e) {}			
+			try { selectStatement.close(); } catch (Exception e) {}
+		}}
+}

@@ -1,19 +1,23 @@
 package org.folio.cataloging.dao;
 
-import java.util.Iterator;
-import java.util.List;
-
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Persistence;
-import org.folio.cataloging.business.common.ReferentialIntegrityException;
-import org.folio.cataloging.business.common.View;
+import net.sf.hibernate.Hibernate;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.type.Type;
+import org.folio.cataloging.business.common.*;
+import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.business.descriptor.SortFormParameters;
 import org.folio.cataloging.dao.persistence.NME_HDG;
 import org.folio.cataloging.dao.persistence.REF;
 import org.folio.cataloging.dao.persistence.TTL_HDG;
 import org.folio.cataloging.dao.persistence.T_AUT_HDG_SRC;
-import net.sf.hibernate.Hibernate;
-import net.sf.hibernate.type.Type;
-import org.folio.cataloging.business.descriptor.Descriptor;
+
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Types;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Manages headings in the NME_HDG table
@@ -67,6 +71,80 @@ public class DAONameDescriptor extends DAODescriptor
 					new Integer(cataloguingView)},
 				new Type[] { Hibernate.INTEGER, Hibernate.INTEGER });
 		result = result + ((Integer) l.get(0)).intValue();
+		return result;
+	}
+
+	/*Per postgress*/
+	public String calculateSortFormForPostgres(String text, SortFormParameters parms)
+			throws DataAccessException, SortFormException {
+		String result = "";
+		int bufSize = 300;
+
+		Session s = currentSession();
+		CallableStatement proc = null;
+		Connection connection = null;
+		int rc;
+		try {
+			connection = s.connection();
+			proc =
+					connection.prepareCall(
+							"{ call PACK_SORTFORM.SF_PREPROCESS(?, ?, ?, ?, ?, ?, ?, ?, ?) }");
+			proc.setString(1, text);
+			proc.setInt(2, bufSize);
+			proc.setInt(3, parms.getSortFormMainType());
+			proc.setInt(4, parms.getSortFormSubType());
+			proc.setInt(5, parms.getNameTitleOrSubjectType());
+			proc.setInt(6, parms.getNameSubtype());
+			proc.setInt(7, parms.getSkipInFiling());
+			proc.registerOutParameter(8, Types.INTEGER);
+			proc.registerOutParameter(9, Types.VARCHAR);
+			proc.execute();
+
+			rc = proc.getInt(8);
+
+			if (rc != 0) {
+				throw new SortFormException(String.valueOf(rc));
+			}
+			result = proc.getString(9);
+
+
+			proc.close();
+
+			proc =
+					connection.prepareCall(
+							"{ call PACK_SORTFORM.SF_BUILDSRTFRM(?, ?, ?, ?, ?, ?, ?, ?, ?) }");
+			proc.setString(1, result);
+			proc.setInt(2, bufSize);
+			proc.setInt(3, parms.getSortFormMainType());
+			proc.setInt(4, parms.getSortFormSubType());
+			proc.setInt(5, parms.getNameTitleOrSubjectType());
+			proc.setInt(6, parms.getNameSubtype());
+			proc.setInt(7, parms.getSkipInFiling());
+			proc.registerOutParameter(8, Types.INTEGER);
+			proc.registerOutParameter(9, Types.VARCHAR);
+			proc.execute();
+
+			rc = proc.getInt(8);
+
+			if (rc != 0) {
+				throw new SortFormException(String.valueOf(rc));
+			}
+			result = proc.getString(9);
+		} catch (HibernateException e) {
+			logAndWrap(e);
+		} catch (SQLException e) {
+			logAndWrap(e);
+		} finally {
+			try {
+				if(proc!=null) {
+					proc.close();
+				}
+			} catch (SQLException e) {
+				// do nothing
+				e.printStackTrace();
+			}
+		}
+
 		return result;
 	}
 

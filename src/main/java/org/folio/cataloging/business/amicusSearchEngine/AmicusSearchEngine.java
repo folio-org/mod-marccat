@@ -90,7 +90,7 @@ public class AmicusSearchEngine implements SearchEngine {
 
 	private String librarySymbol;
 	private Socket socket;
-	private UserProfile userProfile;
+	protected UserProfile userProfile;
 
 	/**
 	 * Class constructor

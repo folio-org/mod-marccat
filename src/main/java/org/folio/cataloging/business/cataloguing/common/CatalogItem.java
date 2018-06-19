@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- * 
- * Created on Oct 27, 2005
- * 
- * CatalogItem.java
- */
 package org.folio.cataloging.business.cataloguing.common;
 
 import org.apache.commons.logging.Log;
@@ -29,7 +22,12 @@ import org.folio.cataloging.exception.ModCatalogingException;
 import org.folio.cataloging.exception.ValidationException;
 import org.folio.cataloging.model.Subfield;
 import org.folio.cataloging.shared.Validation;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
@@ -39,7 +37,6 @@ import java.util.*;
 
 /**
  * @author paulm
- * @version $Revision: 1.10 $, $Date: 2006/11/23 15:01:47 $
  * @since 1.0
  */
 public abstract class CatalogItem implements Serializable {
@@ -77,7 +74,33 @@ public abstract class CatalogItem implements Serializable {
 		}
 	};
 
+	/**
+	 * This method creates a MarcSlim XML Element for this item
+	 * @return an Element
+	 */
+	public Document toExternalMarcSlim() {
+		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder documentBuilder = null;
+		Document xmlDocument = null;
+		try {
+			documentBuilder = documentBuilderFactory.newDocumentBuilder();
+			xmlDocument = documentBuilder.newDocument();
+		} catch (ParserConfigurationException parserConfigurationException) {
+			logger.error("", parserConfigurationException);
+			//throw new XmlParserConfigurationException(parserConfigurationException);
+		}
+		Element record = xmlDocument.createElement("record");
+		for (Object t : tags) {
+			Tag tag = (Tag) t;
+			logger.debug("appending " + tag);
+			record.appendChild(tag.toExternalMarcSlim(xmlDocument));
+		}
+		xmlDocument.appendChild(record);
+		return xmlDocument;
+	}
+
 	public void addAllTags(Tag[] tags) {
+
 		for (int i = 0; i < tags.length; i++) {
 			addTag(tags[i]);
 		}

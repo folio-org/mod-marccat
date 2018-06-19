@@ -64,6 +64,8 @@ public abstract class CatalogDAO extends HibernateUtil {
 		.execute();
 	}
 
+	abstract public void updateFullRecordCacheTable(final CatalogItem item) throws DataAccessException;
+
 	abstract protected void updateCacheTable(final CatalogItem item) throws DataAccessException;
 	
 	abstract protected void insertDeleteTable(final CatalogItem item, final UserProfile user) throws DataAccessException;
