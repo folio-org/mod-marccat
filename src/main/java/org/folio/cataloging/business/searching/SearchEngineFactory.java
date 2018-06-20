@@ -7,10 +7,9 @@
  */
 package org.folio.cataloging.business.searching;
 
-import org.folio.cataloging.business.librivision.LibrivisionSearchEngine;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.search.JavaSearchEngine;
 
 /**
  * Returns instances of SearchEngine implementations
@@ -28,7 +27,7 @@ public class SearchEngineFactory {
 				"Could not instantiate a "
 					+ clazz.getName()
 					+ " search engine.  Using LibriVision.");
-			return new LibrivisionSearchEngine();
+			return new JavaSearchEngine(null, null);
 		}
 	}
 }

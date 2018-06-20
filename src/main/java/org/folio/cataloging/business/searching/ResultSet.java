@@ -14,13 +14,7 @@ import org.folio.cataloging.exception.ModCatalogingException;
 import java.util.List;
 import java.util.Locale;
 
-@SuppressWarnings("unchecked")
-public abstract class ResultSet 
-{
-	public ResultSet() {
-		super();
-	}
-
+public abstract class ResultSet  {
 	private String complexQuery;
 
 	public String getComplexQuery() {

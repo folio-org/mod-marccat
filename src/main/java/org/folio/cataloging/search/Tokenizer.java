@@ -25,7 +25,7 @@ public final class Tokenizer {
 	 * @since 1.0
 	 */
 	private class TokenInfo {
-		public final Pattern regex;
+		final Pattern regex;
 		public final TokenType type;
 
 		/**
@@ -34,7 +34,7 @@ public final class Tokenizer {
 		 * @param regex the type regular expression.
 		 * @param type the type type.
 		 */
-		public TokenInfo(final Pattern regex, final TokenType type) {
+		TokenInfo(final Pattern regex, final TokenType type) {
 			this.regex = regex;
 			this.type = type;
 		}
@@ -50,7 +50,7 @@ public final class Tokenizer {
 	/**
 	 * Builds a new Tokenizer.
 	 */
-	public Tokenizer() {
+	Tokenizer() {
 		tokenInfos = new LinkedList<>();
 		tokens = new LinkedList<>();
 
@@ -69,7 +69,7 @@ public final class Tokenizer {
 		tokenInfos.add(new TokenInfo(Pattern.compile("^" + regex), token));
 	}
 
-	public void tokenize(final String query) throws CclParserException {
+	void tokenize(final String query) throws CclParserException {
 		String value = Objects.requireNonNull(query).trim();
 		tokens.clear();
 
@@ -97,7 +97,7 @@ public final class Tokenizer {
 		}
 	}
 
-	public LinkedList<Token> getTokens() {
+	LinkedList<Token> getTokens() {
 			return tokens;
 		}
 }

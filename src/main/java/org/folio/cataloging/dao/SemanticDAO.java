@@ -1,24 +1,23 @@
-package org.folio.cataloging.search;
+package org.folio.cataloging.dao;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.persistence.S_BIB1_SMNTC;
+import org.folio.cataloging.log.Log;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-
 /**
- * 2018 Paul Search Engine Java
+ * Semantic Data access object.
+ *
  * @author paulm
- * @version $Revision: 1.1 $, $Date: 2018/01/01 14:09:42 $
  * @since 1.0
  */
-public class DAOSemantic {
-	private static final Log logger = LogFactory.getLog(DAOSemantic.class);
+public class SemanticDAO {
+	private static final Log logger = new Log(SemanticDAO.class);
 	
-	public S_BIB1_SMNTC getSemanticEntry  (	
+	public S_BIB1_SMNTC getSemanticEntry  (
 			 int useNumber,
 			 int relationNumber,
 			 int positionNumber,
@@ -29,6 +28,7 @@ public class DAOSemantic {
 		logger.debug("get("+useNumber+","+relationNumber+","+positionNumber+","+
 				structureNumber+","+truncationNumber+","+completenessNumber+","+
 				recordTypeCode+")");
+
 		Connection connection = null;
 		PreparedStatement selectStatement = null;
 		ResultSet rs = null;

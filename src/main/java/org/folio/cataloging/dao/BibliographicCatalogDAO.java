@@ -6,7 +6,6 @@ import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.dom4j.Document;
 import org.folio.cataloging.business.cataloguing.bibliographic.*;
 import org.folio.cataloging.business.cataloguing.common.AccessPoint;
 import org.folio.cataloging.business.cataloguing.common.CatalogItem;
@@ -87,7 +86,7 @@ public class BibliographicCatalogDAO extends CatalogDAO
 			cache.setItemNumber(item.getAmicusNumber());
 			cache.setUserView(item.getUserView());
 		}
-		Document d = item.toExternalMarcSlim();
+		org.w3c.dom.Document d = item.toExternalMarcSlim();
 		cache.setRecordData(XmlUtils.documentToString(d));
 		cache.markChanged();
 		logger.debug(cache);

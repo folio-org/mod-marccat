@@ -11,7 +11,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.bean.LibrisuiteBean;
 import org.folio.cataloging.bean.cataloguing.bibliographic.codelist.CodeListsBean;
-import org.folio.cataloging.business.amicusSearchEngine.AmicusSearchEngine;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.View;
 import org.folio.cataloging.business.controller.SessionUtils;
@@ -19,6 +18,7 @@ import org.folio.cataloging.business.searching.NoResultsFoundException;
 import org.folio.cataloging.business.searching.ResultSet;
 import org.folio.cataloging.business.searching.SearchEngine;
 import org.folio.cataloging.dao.persistence.DB_LIST;
+import org.folio.cataloging.search.JavaSearchEngine;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -33,7 +33,7 @@ public abstract class SearchBean extends LibrisuiteBean {
 
 	private static Log logger = LogFactory.getLog(SearchBean.class);
 
-	private SearchEngine searchEngine = new AmicusSearchEngine();
+	private SearchEngine searchEngine = new JavaSearchEngine(null, null);
 
 	private boolean simpleSearch = true;
 
@@ -110,10 +110,12 @@ public abstract class SearchBean extends LibrisuiteBean {
 
 		searchBean.searchHistoryBean =
 			SearchHistoryBean.getInstance(httpServletRequest);
+
 		searchBean.resultSummaryBean =
 			ResultSummaryBean.getInstance(httpServletRequest);
-		searchBean.searchEngine.setUserProfile(
-			SessionUtils.getUserProfile(httpServletRequest));
+
+		// searchBean.searchEngine.setUserProfile(
+			//SessionUtils.getUserProfile(httpServletRequest));
 
 		//pm 2011
 		searchBean.setLocale(SessionUtils.getCurrentLocale(httpServletRequest));

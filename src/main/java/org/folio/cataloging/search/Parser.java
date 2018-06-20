@@ -11,28 +11,36 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * 2018 Paul Search Engine Java
+ * 2018 Query Parser.
  *
  * @author paulm
+ * @author agazzarini
  * @since 1.0
  */
 public class Parser {
 	private static final Log logger = new Log(Parser.class);
 
-	LinkedList<Token> tokens;
-	Token lookahead;
-	private Locale locale;
-	private UserProfile userProfile;
-	private int searchingView;
+	private LinkedList<Token> tokens;
+	private Token lookahead;
+	private final Locale locale;
+	private final UserProfile userProfile;
+	private final int searchingView;
 	private DAOIndexList dao = new DAOIndexList();
 	private static IndexList defaultIndex;
 
-	public Parser(Locale locale, UserProfile userProfile, int searchingView) {
+	Parser(final Locale locale, final UserProfile userProfile, final int searchingView) {
 		this.locale = locale;
 		this.userProfile = userProfile;
 		this.searchingView = searchingView;
 	}
 
+	/**
+	 * Parses the incoming CCL query.
+	 *
+	 * @param ccl the CCL query.
+	 * @return the parsed string.
+	 * @throws CclParserException in case of parsing failure.
+	 */
 	public String parse(String ccl) throws CclParserException {
 		Tokenizer t = new Tokenizer();
 		t.tokenize(ccl);
@@ -40,21 +48,23 @@ public class Parser {
 		logger.debug("QUERY: "+"select * from (" + n.getValue() + ") foo order by 1 desc");
 		return "select * from (" + n.getValue() + ") foo order by 1 desc";
 	}
-	// searchGroup := ( <searchGroup> )
-	// 				|| <searchExpression> <BOOL> <searchGroup>
-	// searchExpresion := <INDEX> [<REL>] <term>
-	// term := <WORD> <PROX> <WORD>
-	//				|| <wordlist>
-	// wordlist := <WORD> <wordlist>
-	//			   || <quotedString>
-	// quotedString := " <wordlist> "
-	
-	public ExpressionNode parse(List<Token> tokens) throws CclParserException {
+
+	/**
+	 * Parses the a list of tokens.
+	 *
+	 * @param tokens the tokens list.
+	 * @return the expression node..
+	 * @throws CclParserException in case of parsing failure.
+	 */
+	public ExpressionNode parse(final List<Token> tokens) throws CclParserException {
 		this.tokens = new LinkedList<Token>(tokens);
-		lookahead = this.tokens.getFirst();
+		this.lookahead = this.tokens.getFirst();
 		return searchGroup();
 	}
 
+	/**
+	 * Advance to the next token.
+	 */
 	private void nextToken() {
 		tokens.poll();
 		// at the end of input we return an eol type
@@ -79,11 +89,14 @@ public class Parser {
 			// <searchExpression> <BOOL> <searchGroup>
 			expr = searchExpression();
 			if (lookahead.token == Tokenizer.TokenType.BOOL) {
-				BooleanExpressionNode op = new BooleanExpressionNode();
+				final BooleanExpressionNode op = new BooleanExpressionNode();
 				op.setLeft(expr);
 				op.setOp(lookahead.sequence);
+
 				nextToken();
+
 				op.setRight(searchGroup());
+
 				return op;
 			} else {
 				return expr;
@@ -97,8 +110,7 @@ public class Parser {
 			if (lookahead.sequence.length() <= 3) {
 				IndexList i;
 				try {
-					i = dao.getIndexByLocalAbbreviation(lookahead.sequence,
-							locale);
+					i = dao.getIndexByLocalAbbreviation(lookahead.sequence, locale);
 				} catch (DataAccessException e) {
 					throw new RuntimeException(e);
 				}
@@ -132,8 +144,7 @@ public class Parser {
 		logger.debug("getDefaultIndex()");
 		if (defaultIndex == null) {
 			try {
-				defaultIndex = dao.getIndexByLocalAbbreviation("AW",
-						Locale.ENGLISH);
+				defaultIndex = dao.getIndexByLocalAbbreviation("AW", Locale.ENGLISH);
 			} catch (DataAccessException e) {
 				throw new RuntimeException(e);
 			}

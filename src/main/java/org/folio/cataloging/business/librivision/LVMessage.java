@@ -119,7 +119,7 @@ public class LVMessage {
 	private int rcv_offset = 0;
 	private int socket_ip_port = 0;
 	private InetAddress socket_ip_address = null;
-	private static final SearchEngine searchEngine = new LibrivisionSearchEngine();
+	private static final SearchEngine searchEngine = null;
 
 	private static ThreadLocal lvSessionId = new ThreadLocal() {
 		protected synchronized Object initialValue() {

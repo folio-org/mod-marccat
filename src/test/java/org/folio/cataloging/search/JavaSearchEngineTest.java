@@ -7,19 +7,15 @@ package org.folio.cataloging.search;
  * @since 1.0
  */
 public class JavaSearchEngineTest {
-	
-	public JavaSearchEngineTest(String arg0) {
-		super(arg0);
-	}
 
-	public void testBuildQuery() {
-		Parser p;
-		try {
-			//p = new Parser(Locale.UK, new UserProfile("PS"), 1);
-			// String result = p.parse("zz banana");
-			// assertTrue(result.equals("@attr1=2 history"));
-		} catch (Exception e) {
-		}
+	public void testA() {
+//		final SearchEngine searchEngine = new JavaSearchEngine();
+//
+//		final ResultSet rs =
+//				searchEngine.fetchRecords(
+//					searchEngine.simpleSearch("Query", "AW", Locale.ITALIAN, 1),
+//					"S",
+//					1,
+//					10);
 	}
-
 }

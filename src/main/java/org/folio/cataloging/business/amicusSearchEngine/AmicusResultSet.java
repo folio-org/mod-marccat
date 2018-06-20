@@ -1,17 +1,15 @@
 package org.folio.cataloging.business.amicusSearchEngine;
 
-import java.util.List;
-
 import org.folio.cataloging.business.librivision.MarcRecord;
 import org.folio.cataloging.business.searching.ResultSet;
 import org.folio.cataloging.business.searching.SearchEngine;
 
-public class AmicusResultSet extends ResultSet 
-{
+import java.util.List;
+
+public class AmicusResultSet extends ResultSet  {
 	private int[] amicusNumbers;
 
-	public AmicusResultSet(SearchEngine searchEngine, int searchingView, String query, int[] amicusNumbers) 
-	{
+	public AmicusResultSet(SearchEngine searchEngine, int searchingView, String query, int[] amicusNumbers)  {
 		setSearchEngine(searchEngine);
 		setSearchingView(searchingView);
 		setDisplayQuery(query);
@@ -30,8 +28,7 @@ public class AmicusResultSet extends ResultSet
 	 * @param amicusNumber
 	 * @param variantViews
 	 */
-	public AmicusResultSet(int amicusNumber, List variantViews, SearchEngine searchEngine) 
-	{
+	public AmicusResultSet(int amicusNumber, List variantViews, SearchEngine searchEngine)  {
 		setSearchEngine(searchEngine);
 		setSize(variantViews.size());
 		setAmicusNumbers(new int[getSize()]);

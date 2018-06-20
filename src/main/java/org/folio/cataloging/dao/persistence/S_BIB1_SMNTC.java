@@ -1,4 +1,4 @@
-package org.folio.cataloging.search;
+package org.folio.cataloging.dao.persistence;
 
 /**
  * 2018 Paul Search Engine Java

@@ -10,12 +10,13 @@ import org.folio.cataloging.business.cataloguing.bibliographic.PersistsViaItem;
 import org.folio.cataloging.business.cataloguing.common.CatalogItem;
 import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.RecordNotFoundException;
+import org.folio.cataloging.business.common.View;
 import org.folio.cataloging.business.controller.UserProfile;
 import org.folio.cataloging.business.descriptor.Descriptor;
-import org.folio.cataloging.dao.persistence.AUT;
-import org.folio.cataloging.dao.persistence.REF;
-import org.folio.cataloging.dao.persistence.ReferenceType;
-import org.folio.cataloging.dao.persistence.T_DUAL_REF;
+import org.folio.cataloging.dao.persistence.*;
+import org.folio.cataloging.util.XmlUtils;
+import org.w3c.dom.Document;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -63,6 +64,27 @@ public class AuthorityCatalogDAO extends CatalogDAO {
 					+ " successfully loaded from DB");
 		return item;
 	}
+
+    // 2018 Paul Search Engine Java
+    @Override
+    public void updateFullRecordCacheTable(CatalogItem item)
+            throws DataAccessException {
+        FULL_CACHE cache;
+        DAOFullCache dao = new DAOFullCache();
+        try {
+            cache = dao.load(item.getAmicusNumber(), View.AUTHORITY);
+        } catch (RecordNotFoundException e) {
+            cache = new FULL_CACHE();
+            cache.setItemNumber(item.getAmicusNumber());
+            cache.setUserView(View.AUTHORITY);
+        }
+        Document d = item.toExternalMarcSlim();
+        cache.setRecordData(XmlUtils.documentToString(d));
+        logger.debug(cache);
+        logger.debug("Slim record: " + cache.getRecordData());
+        persistByStatus(cache);
+        cache.evict();
+    }
 
 	private AuthorityItem getAuthorityItem(int id) throws DataAccessException {
 		if (logger.isDebugEnabled())
