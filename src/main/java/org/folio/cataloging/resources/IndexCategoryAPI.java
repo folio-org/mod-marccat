@@ -31,6 +31,7 @@ public class IndexCategoryAPI extends BaseResource {
     private Function<Avp<Integer>, Category> convertValueLabelToCategory = source -> {
         final Category category = new Category();
         category.setCode(source.getValue());
+        category.setDescription(source.getLabel());
         return category;
     };
 

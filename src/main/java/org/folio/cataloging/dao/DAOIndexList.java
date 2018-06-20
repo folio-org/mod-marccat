@@ -56,8 +56,8 @@ public class DAOIndexList extends HibernateUtil {
 		final String query =
 			"from IndexList as a "
 				+ "where SUBSTR(a.browseCode, 0, 1) = 'B' "
-				+ " and (a.LANGUAGE_CODE = 'PP'"
-				+ " or a.LANGUAGE_CODE = 'PU')"
+				+ " and (a.languageCode = 'PP'"
+				+ " or a.languageCode = 'PU')"
 				+ "and a.key.language = '"
 				+ locale.getISO3Language()
 				/*modifica Barbara 26/04/2007 - nella lista degli indici solo indici LC*/
@@ -115,7 +115,7 @@ public class DAOIndexList extends HibernateUtil {
 
 		String query =
 			"from IndexList as a "
-				+ "where a.LANGUAGE_CODE = "
+				+ "where a.languageCode = "
 				+ "'" + s + "'"
 				+ " and a.key.language = '"
 				+ Locale.ENGLISH.getISO3Language()
@@ -202,7 +202,7 @@ public class DAOIndexList extends HibernateUtil {
 		try {
 			String query =
 					"select a.codeTableName from IndexList as a "
-							+ "where a.LANGUAGE_CODE = '" + code + "'"
+							+ "where a.languageCode = '" + code + "'"
 							+ " and a.key.language = '" + locale.getISO3Language()
 							+ "' and a.codeLibriCatMades = 'LC'";
 			final List<String> tableNameList = session.find(query);
@@ -221,7 +221,7 @@ public class DAOIndexList extends HibernateUtil {
 
 	query =
 		"select a.codeTableName from IndexList as a "
-			+ "where a.LANGUAGE_CODE = '"
+			+ "where a.languageCode = '"
 			+ key
 			+ "' and a.codeLibriCatMades = 'LC'";
 
@@ -278,7 +278,7 @@ public class DAOIndexList extends HibernateUtil {
 	public IndexList getIndexByLocalAbbreviation(String s, Locale locale) throws DataAccessException {
 
 		List l = find("from IndexList as a " 
-				+ "where lower(a.LANGUAGE_CODE) = '" + s.toLowerCase() + "'"
+				+ "where lower(a.languageCode) = '" + s.toLowerCase() + "'"
 				+ " and a.key.language = '" + locale.getISO3Language() + "'"				
 				+ " and a.codeLibriCatMades = 'LC'");
 		if (l.size() > 0) {
