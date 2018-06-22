@@ -2,7 +2,8 @@ package org.folio.cataloging.search;
 
 import org.folio.cataloging.log.Log;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -40,9 +41,16 @@ public final class Tokenizer {
 		}
 	}
 
-	private final LinkedList<TokenInfo> tokenInfos;
-	private final LinkedList<Token> tokens;
+	private final List<TokenInfo> tokenInfos;
+	private final List<Token> tokens;
 
+	/**
+	 * Token types.
+	 *
+	 * @author agazzarini
+	 * @author paulm
+	 * @since 1.0
+	 */
 	public enum TokenType {
 		EOL, TERM, REL, PROX, LP, RP, BOOL, SET, QUOTEDSTRING, COMMENT, PHRASE, INDEX, WHITE, WORD
 	}
@@ -51,25 +59,28 @@ public final class Tokenizer {
 	 * Builds a new Tokenizer.
 	 */
 	Tokenizer() {
-		tokenInfos = new LinkedList<>();
-		tokens = new LinkedList<>();
+		tokenInfos = new ArrayList<>();
+		tokens = new ArrayList<>();
 
-		add("\\[[^\\]]*\\]", TokenType.COMMENT);
-		add("\"[^\"]*\"", TokenType.QUOTEDSTRING);
-		add("\\(", TokenType.LP);
-		add("\\)", TokenType.RP);
-		add("(and|AND|or|OR|not|NOT)", TokenType.BOOL);
-		add("((>=)|(<=)|>|<|=)", TokenType.REL);
-		add("(n|N|w|W)([0-9]+)(?:(\\b))", TokenType.PROX);
-		add("\\s", TokenType.WHITE);
-		add("[^\\s=<>\\[\\(]*", TokenType.WORD);
+		register("\\[[^\\]]*\\]", TokenType.COMMENT);
+		register("\"[^\"]*\"", TokenType.QUOTEDSTRING);
+		register("\\(", TokenType.LP);
+		register("\\)", TokenType.RP);
+		register("(and|AND|or|OR|not|NOT)", TokenType.BOOL);
+		register("((>=)|(<=)|>|<|=)", TokenType.REL);
+		register("(n|N|w|W)([0-9]+)(?:(\\b))", TokenType.PROX);
+		register("\\s", TokenType.WHITE);
+		register("[^\\s=<>\\[\\(]*", TokenType.WORD);
 	}
 
-	public void add(final String regex, final TokenType token) {
-		tokenInfos.add(new TokenInfo(Pattern.compile("^" + regex), token));
-	}
-
-	void tokenize(final String query) throws CclParserException {
+	/**
+	 * Tokenizes the given query.
+	 *
+	 * @param query the input query string.
+	 * @return this tokenizer.
+	 * @throws CclParserException in case of parser failure.
+	 */
+	Tokenizer tokenize(final String query) throws CclParserException {
 		String value = Objects.requireNonNull(query).trim();
 		tokens.clear();
 
@@ -95,9 +106,25 @@ public final class Tokenizer {
 				throw new CclParserException("Unexpected character in input: " + value);
 			}
 		}
+		return this;
 	}
 
-	LinkedList<Token> getTokens() {
-			return tokens;
-		}
+	/**
+	 * Returns the product of this tokenizer.
+	 *
+	 * @return the product of this tokenizer.
+	 */
+	List<Token> getTokens() {
+		return tokens;
+	}
+
+	/**
+	 * Registers a new association between a regex and a token type.
+	 *
+	 * @param regex the regular expression.
+	 * @param tokenType the token type.
+	 */
+	private void register(final String regex, final TokenType tokenType) {
+		tokenInfos.add(new TokenInfo(Pattern.compile("^" + regex), tokenType));
+	}
 }

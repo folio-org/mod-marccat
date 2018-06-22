@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * 2018 Query Parser.
+ * Query Parser.
  *
  * @author paulm
  * @author agazzarini
@@ -26,7 +26,7 @@ public class Parser {
 	private final Locale locale;
 	private final UserProfile userProfile;
 	private final int searchingView;
-	private DAOIndexList dao = new DAOIndexList();
+	private final DAOIndexList dao = new DAOIndexList();
 	private static IndexList defaultIndex;
 
     /**
@@ -50,10 +50,9 @@ public class Parser {
 	 * @throws CclParserException in case of parsing failure.
 	 */
 	public String parse(final String ccl) throws CclParserException {
-		final Tokenizer t = new Tokenizer();
-		t.tokenize(ccl);
+		final Tokenizer tokenizer = new Tokenizer().tokenize(ccl);
 
-		final ExpressionNode n = parse(t.getTokens());
+		final ExpressionNode n = parse(tokenizer.getTokens());
 
 		final String query = "select * from (" + n.getValue() + ") foo order by 1 desc";
 

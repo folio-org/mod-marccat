@@ -13,8 +13,10 @@ import org.folio.cataloging.log.MessageCatalog;
 import java.util.Locale;
 
 /**
- * 2018 Paul Search Engine Java
+ * Term expression node.
+ *
  * @author paulm
+ * @author agazzarini
  * @since 1.0
  */
 public class TermExpressionNode implements ExpressionNode {
@@ -45,6 +47,7 @@ public class TermExpressionNode implements ExpressionNode {
 		this.searchingView = searchingView;
 	}
 
+	@Override
 	public String getValue() throws CclParserException {
 		// get semantic entry based on index and term syntax
 		try {
@@ -86,6 +89,11 @@ public class TermExpressionNode implements ExpressionNode {
 		}
 	}
 
+	/**
+	 *
+	 * @return
+	 * @throws CclParserException
+	 */
 	private String prepareTerm() throws CclParserException {
 		removeTrailingBlankInTerm();
 
@@ -160,6 +168,7 @@ public class TermExpressionNode implements ExpressionNode {
 		return locale;
 	}
 
+	@Override
 	public NodeType getType() {
 		return NodeType.TERM;
 	}

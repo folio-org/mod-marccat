@@ -26,9 +26,10 @@ import java.sql.Statement;
 import java.util.*;
 
 /**
- * 2018 Paul Search Engine Java
+ * 2018 ModCataloging Search Engine.
  * 
  * @author paulm
+ * @author agazzarini
  * @since 1.0
  */
 public class ModCatalogingSearchEngine implements SearchEngine {

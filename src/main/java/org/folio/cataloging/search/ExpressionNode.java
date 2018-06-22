@@ -29,5 +29,4 @@ public interface ExpressionNode {
      * @throws CclParserException in case of parsing failure.
      */
 	String getValue() throws CclParserException;
-
 }
