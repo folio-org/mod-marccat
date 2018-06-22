@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  * @since 1.0
  */
 public final class Tokenizer {
-		private static final Log logger = new Log(Tokenizer.class);
+    private static final Log logger = new Log(Tokenizer.class);
 
 	/**
 	 * Token metadata.

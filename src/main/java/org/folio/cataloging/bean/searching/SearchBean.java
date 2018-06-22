@@ -18,7 +18,7 @@ import org.folio.cataloging.business.searching.NoResultsFoundException;
 import org.folio.cataloging.business.searching.ResultSet;
 import org.folio.cataloging.business.searching.SearchEngine;
 import org.folio.cataloging.dao.persistence.DB_LIST;
-import org.folio.cataloging.search.JavaSearchEngine;
+import org.folio.cataloging.search.ModCatalogingSearchEngine;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -33,7 +33,7 @@ public abstract class SearchBean extends LibrisuiteBean {
 
 	private static Log logger = LogFactory.getLog(SearchBean.class);
 
-	private SearchEngine searchEngine = new JavaSearchEngine(null, null);
+	private SearchEngine searchEngine = new ModCatalogingSearchEngine(null, null);
 
 	private boolean simpleSearch = true;
 

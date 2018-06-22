@@ -29,7 +29,7 @@ public class BooleanExpressionNode implements ExpressionNode {
 				TermExpressionNode leftTerm = (TermExpressionNode) left;
 				TermExpressionNode rightTerm = (TermExpressionNode) right;
 				if (leftTerm.isType2Index() || rightTerm.isType2Index()) {
-					if (op.toUpperCase().equals("AND")) { // we only handle and op
+					if ("AND".equals(op.toUpperCase())) { // we only handle and operator
 						if (!rightTerm.isType2Index()) {
 							//swap terms so that right is type 2
 							TermExpressionNode temp = rightTerm;
@@ -44,20 +44,8 @@ public class BooleanExpressionNode implements ExpressionNode {
 				}
 			}
 
-			String sqlOp = null;
-			switch (op.toUpperCase()) {
-				case "AND":
-					sqlOp = "intersect";
-					break;
-				case "OR":
-					sqlOp = "union";
-					break;
-				case "NOT":
-					sqlOp = "except";
-					break;
-			}
-			return "(( " + left.getValue() + " ) " + sqlOp + " ( " + right.getValue() + " ))";
-		} catch (Exception e) {
+			return "(( " + left.getValue() + " ) " + operator(op) + " ( " + right.getValue() + " ))";
+		} catch (final Exception e) {
 			throw new CclParserException("Query parsing error: " + e.getMessage());
 		}
 	}
@@ -89,4 +77,17 @@ public class BooleanExpressionNode implements ExpressionNode {
 	public void setOp(final String operator) {
 		this.op = operator;
 	}
+
+    private String operator(final String input) {
+        switch (input.toUpperCase()) {
+            case "AND":
+                return "intersect";
+            case "OR":
+                return "union";
+            case "NOT":
+                return "except";
+            default:
+                return "intersect";
+        }
+    }
 }

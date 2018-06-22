@@ -9,7 +9,7 @@ package org.folio.cataloging.search;
 public class JavaSearchEngineTest {
 
 	public void testA() {
-//		final SearchEngine searchEngine = new JavaSearchEngine();
+//		final SearchEngine searchEngine = new ModCatalogingSearchEngine();
 //
 //		final ResultSet rs =
 //				searchEngine.fetchRecords(

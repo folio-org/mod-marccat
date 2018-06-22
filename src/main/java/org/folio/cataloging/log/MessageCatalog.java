@@ -16,4 +16,5 @@ public interface MessageCatalog {
     String _00018_CANNOT_CREATE= "<" + MODULE_NAME + "-00018> : Unable to create the requested entity.";
 
     String _00019_HEADER_TYPE_ID_WRONG = "<" + MODULE_NAME + "-00019> : The <<headerTypeCode>> is wrong or null. Unable to retrieve codes groups for tag/field %s.";
+    String _00020_SE_QUERY = "<" + MODULE_NAME + "-00020> : CCL => \"%s\" became \"%s\"";
 }

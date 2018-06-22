@@ -75,15 +75,13 @@ public abstract class ResultSet  {
 		}
 	}
 
-	public void setRecord(int recordNumber, Record aRecord) 
-	{
+	public void setRecord(int recordNumber, Record aRecord) {
 		if ((this.record != null) && (recordNumber < this.record.length)) {
 			this.record[recordNumber] = aRecord;
 		}
 	}
 
-	protected void retrieveRecords(int recordNumber, String elementSetName) 
-	{
+	protected void retrieveRecords(int recordNumber, String elementSetName) {
 		int firstRecordNumber = recordNumber;
 		int lastRecordNumber = recordNumber;
 
@@ -110,7 +108,7 @@ public abstract class ResultSet  {
 			lastRecordNumber);
 	}
 
-	protected int computeLastRecordNumber(int firstRecordNumber, String elementSetName,	int maxNumberOfRecords) 
+	protected int computeLastRecordNumber(int firstRecordNumber, String elementSetName,	int maxNumberOfRecords)
 	{
 		int lastRecordNumber = firstRecordNumber;
 		while (((lastRecordNumber - firstRecordNumber)

@@ -79,7 +79,6 @@ public class TermExpressionNode implements ExpressionNode {
 					+ semantic().getFromClause()
 					+ " where "
 					+ (semantic().getJoinClause() == null ? "" : semantic.getJoinClause()) + s + viewClause();
-			logger.debug(result);
 			return result;
 		} catch (final Exception exception) {
 			logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
@@ -248,10 +247,7 @@ public class TermExpressionNode implements ExpressionNode {
 			term.deleteCharAt(term.length() - 1);
 			return 1; // right truncation
 		}
-		logger.debug("truncationAsAttr term: " + term.toString()
-				+ " results in attr " + result);
-		logger.debug("last index of ? is " + term.lastIndexOf("?")
-				+ ", length is " + term.length());
+
 		return result;
 	}
 

@@ -5,6 +5,7 @@ import org.folio.cataloging.business.controller.UserProfile;
 import org.folio.cataloging.dao.DAOIndexList;
 import org.folio.cataloging.dao.persistence.IndexList;
 import org.folio.cataloging.log.Log;
+import org.folio.cataloging.log.MessageCatalog;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -28,6 +29,13 @@ public class Parser {
 	private DAOIndexList dao = new DAOIndexList();
 	private static IndexList defaultIndex;
 
+    /**
+     * Builds a new parser with the given data.
+     *
+     * @param locale the current locale.
+     * @param userProfile the current user profile.
+     * @param searchingView the current search view.
+     */
 	Parser(final Locale locale, final UserProfile userProfile, final int searchingView) {
 		this.locale = locale;
 		this.userProfile = userProfile;
@@ -41,12 +49,19 @@ public class Parser {
 	 * @return the parsed string.
 	 * @throws CclParserException in case of parsing failure.
 	 */
-	public String parse(String ccl) throws CclParserException {
-		Tokenizer t = new Tokenizer();
+	public String parse(final String ccl) throws CclParserException {
+		final Tokenizer t = new Tokenizer();
 		t.tokenize(ccl);
-		ExpressionNode n = parse(t.getTokens());
-		logger.debug("QUERY: "+"select * from (" + n.getValue() + ") foo order by 1 desc");
-		return "select * from (" + n.getValue() + ") foo order by 1 desc";
+
+		final ExpressionNode n = parse(t.getTokens());
+
+		final String query = "select * from (" + n.getValue() + ") foo order by 1 desc";
+
+		logger.debug(
+		        MessageCatalog._00020_SE_QUERY,
+                ccl, query);
+
+		return query;
 	}
 
 	/**
@@ -57,7 +72,7 @@ public class Parser {
 	 * @throws CclParserException in case of parsing failure.
 	 */
 	public ExpressionNode parse(final List<Token> tokens) throws CclParserException {
-		this.tokens = new LinkedList<Token>(tokens);
+		this.tokens = new LinkedList<>(tokens);
 		this.lookahead = this.tokens.getFirst();
 		return searchGroup();
 	}
@@ -67,27 +82,26 @@ public class Parser {
 	 */
 	private void nextToken() {
 		tokens.poll();
-		// at the end of input we return an eol type
-		if (tokens.isEmpty()) {
-			lookahead = new Token(Tokenizer.TokenType.EOL, "");
-		} else {
-			lookahead = tokens.getFirst();
-		}
+		lookahead =
+                tokens.isEmpty()
+			        ? new Token(Tokenizer.TokenType.EOL, "")
+                    : tokens.getFirst();
 	}
 
 	private ExpressionNode searchGroup() throws CclParserException {
-		ExpressionNode expr;
 		// ( <searchGroup> )
 		if (lookahead.token == Tokenizer.TokenType.LP) {
 			nextToken();
-			expr = searchGroup();
+
+			final ExpressionNode expr = searchGroup();
 			if (lookahead.token != Tokenizer.TokenType.RP) {
 				throw new CclParserException("Mismatched parentheses");
 			}
+
 			return expr;
 		} else {
 			// <searchExpression> <BOOL> <searchGroup>
-			expr = searchExpression();
+            final ExpressionNode expr = searchExpression();
 			if (lookahead.token == Tokenizer.TokenType.BOOL) {
 				final BooleanExpressionNode op = new BooleanExpressionNode();
 				op.setLeft(expr);
@@ -105,7 +119,7 @@ public class Parser {
 	}
 
 	private ExpressionNode searchExpression() throws CclParserException {
-		TermExpressionNode expr = new TermExpressionNode(locale, userProfile, searchingView);
+		final TermExpressionNode expr = new TermExpressionNode(locale, userProfile, searchingView);
 		if (lookahead.token == Tokenizer.TokenType.WORD) {
 			if (lookahead.sequence.length() <= 3) {
 				IndexList i;
@@ -141,7 +155,6 @@ public class Parser {
 	}
 
 	private IndexList getDefaultIndex() {
-		logger.debug("getDefaultIndex()");
 		if (defaultIndex == null) {
 			try {
 				defaultIndex = dao.getIndexByLocalAbbreviation("AW", Locale.ENGLISH);
@@ -149,7 +162,6 @@ public class Parser {
 				throw new RuntimeException(e);
 			}
 		}
-		logger.debug("returning " + defaultIndex);
 		return defaultIndex;
 	}
 
@@ -170,9 +182,8 @@ public class Parser {
 			nextToken();
 			if (lookahead.token != Tokenizer.TokenType.WORD) {
 				throw new CclParserException("proximity operator has invalid arguments");
-			}
-			else {
-				expr.setRight(lookahead.sequence);
+			} else {
+			    expr.setRight(lookahead.sequence);
 				nextToken();
 				return expr;
 			}
@@ -198,6 +209,4 @@ public class Parser {
 			return expr;
 		}
 	}
-
-
 }

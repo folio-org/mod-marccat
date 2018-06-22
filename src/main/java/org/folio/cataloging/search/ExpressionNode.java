@@ -1,18 +1,33 @@
 package org.folio.cataloging.search;
 
 /**
- * 2018 Paul Search Engine Java
+ * Search Engine query expression node
+ *
  * @author paulm
- * @version $Revision: 1.1 $, $Date: 2018/01/01 14:09:42 $
+ * @author agazzarini
  * @since 1.0
  */
 public interface ExpressionNode {
-	public enum NodeType {
+    /**
+     * Node type list.
+     */
+    enum NodeType {
 		TERM, BOOL
 	}
 
-	public NodeType getType();
+    /**
+     * Returns the node type.
+     *
+     * @return the node type.
+     */
+	NodeType getType();
 
-	public String getValue() throws CclParserException;
+    /**
+     * Returns the value of this expression node.
+     *
+     * @return the value of this expression node.
+     * @throws CclParserException in case of parsing failure.
+     */
+	String getValue() throws CclParserException;
 
 }

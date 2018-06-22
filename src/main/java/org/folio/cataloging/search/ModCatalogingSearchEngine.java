@@ -31,8 +31,8 @@ import java.util.*;
  * @author paulm
  * @since 1.0
  */
-public class JavaSearchEngine implements SearchEngine {
-	private final static Log LOGGER = new Log(JavaSearchEngine.class);
+public class ModCatalogingSearchEngine implements SearchEngine {
+	private final static Log LOGGER = new Log(ModCatalogingSearchEngine.class);
 	private final static ResultSet EMPTY_RESULTSET = new ResultSet() {
 		@Override
 		public Integer getAmicusNumber(final int index) {
@@ -55,30 +55,20 @@ public class JavaSearchEngine implements SearchEngine {
 	private final String librarySymbol;
 	private final Session session;
 
-	public JavaSearchEngine(final UserProfile userProfile, final Session session) {
+    /**
+     * Builds a new Search engine instance with the given data.
+     *
+     * @param userProfile the user profile.
+     * @param session the hibernate session.
+     */
+	public ModCatalogingSearchEngine(final UserProfile userProfile, final Session session) {
 		this.session = session;
 		this.userProfile = userProfile;
 		try {
-			this.librarySymbol =	new DAOLibrary().load(userProfile.getMainLibrary()).getLibrarySymbolCode();
+			this.librarySymbol = new DAOLibrary().load(userProfile.getMainLibrary()).getLibrarySymbolCode();
 		} catch (final DataAccessException exception) {
 			LOGGER.error("No library symbol found for org " + userProfile.getMainLibrary());
 			throw new SystemInternalFailureException(exception);
-		}
-	}
-
-	private Statement stmt(final Connection connection) {
-		try {
-			return connection.createStatement();
-		} catch (final Exception exception) {
-			throw new ModCatalogingException(exception);
-		}
-	}
-
-	private java.sql.ResultSet executeQuery(final Statement stmt, final String query) {
-		try {
-			return stmt.executeQuery(query);
-		} catch (final Exception exception) {
-			throw new ModCatalogingException(exception);
 		}
 	}
 
@@ -129,7 +119,6 @@ public class JavaSearchEngine implements SearchEngine {
 				 */
 				if (ars.getRecord()[i - 1] != null	&& ars.getRecord()[i - 1].getRecordView() > 0) {
 					searchingView = ars.getRecord()[i - 1].getRecordView();
-
 				} else if (ars.getSearchingView() == View.ANY) {
 					int preferredView = daoCache.getPreferredView(itemNumber, userProfile.getDatabasePreferenceOrder());
 					searchingView = preferredView;
@@ -139,11 +128,11 @@ public class JavaSearchEngine implements SearchEngine {
 				try {
 					cache = new DAOFullCache().load(itemNumber, searchingView);
 				} catch (RecordNotFoundException e) {
-					try
-					{
-						Catalog theCatalog = Catalog.getInstanceByView(searchingView);
-						CatalogDAO theDao = theCatalog.getCatalogDao();
-						CatalogItem theItem = theDao.getCatalogItemByKey(new Object[] { itemNumber, searchingView });
+					try {
+						final Catalog theCatalog = Catalog.getInstanceByView(searchingView);
+						final CatalogDAO theDao = theCatalog.getCatalogDao();
+						final CatalogItem theItem = theDao.getCatalogItemByKey(new Object[] { itemNumber, searchingView });
+
 						theDao.updateFullRecordCacheTable(theItem);
 						cache = new DAOFullCache().load(itemNumber,	searchingView);
 					} catch (Exception e2) {
@@ -151,6 +140,7 @@ public class JavaSearchEngine implements SearchEngine {
 						cache.setRecordData("");
 					}
 				}
+
 				Record aRecord = ars.getRecord()[i - 1];
 				if (aRecord == null) {
 					aRecord = new XmlRecord();
@@ -179,12 +169,7 @@ public class JavaSearchEngine implements SearchEngine {
 									final Locale locale,
 									final int searchingView) throws ModCatalogingException {
 		return expertSearch(
-				buildCclQuery(
-					termList,
-					relationList,
-					useList,
-					operatorList,
-					locale),
+				buildCclQuery(termList, relationList, useList, operatorList, locale),
 				locale,
 				searchingView);
 	}
@@ -257,4 +242,19 @@ public class JavaSearchEngine implements SearchEngine {
 		return results[Integer.parseInt(code)];
 	}
 
+    private Statement stmt(final Connection connection) {
+        try {
+            return connection.createStatement();
+        } catch (final Exception exception) {
+            throw new ModCatalogingException(exception);
+        }
+    }
+
+    private java.sql.ResultSet executeQuery(final Statement stmt, final String query) {
+        try {
+            return stmt.executeQuery(query);
+        } catch (final Exception exception) {
+            throw new ModCatalogingException(exception);
+        }
+    }
 }
