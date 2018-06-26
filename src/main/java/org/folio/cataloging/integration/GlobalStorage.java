@@ -16,6 +16,14 @@ public class GlobalStorage {
     public final static String FORM_OF_MATERIAL_LABEL = "FORM_OF_MATERIAL";
     public final static String MATERIAL_TYPE_CODE_LABEL = "MATERIAL_TYPE_CODE";
     public final static String MATERIAL_TAG_CODE = "008";
+    public final static String DOLLAR = "\u001f";
+    public final static int SUBJECT_CATEGORY = 4;
+    public final static int DEFAULT_AVAILABILITY_STATUS = 99;
+    public final static String DEFAULT_LEVEL_CARD = "L01";
+    public final static String DEFAULT_MOTHER_LEVEL = "001";
+    public final static String DEFAULT_LEVEL_NATURE = "001";
+    public final static String YES_FLAG = "S";
+    public final static String NO_FLAG = "N";
 
     public final static Map<String, Class> MAP_CODE_LISTS = new HashMap<String, Class>(){
         {

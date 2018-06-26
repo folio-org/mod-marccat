@@ -799,7 +799,7 @@ public class CopyBean extends LibrisuiteBean {
 		BrowseBean bean = (BrowseBean) BrowseBean.getInstance(request);
 		bean.init(request.getLocale());
 
-		String index = new DAOBibliographicCorrelation()
+		String index = new BibliographicCorrelationDAO()
 				.getClassificationIndexByShelfType((short) getEditingShelfList()
 						.getTypeCode());
 		if (index != null) {

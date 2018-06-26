@@ -13,6 +13,7 @@ import org.folio.cataloging.shared.CorrelationValues;
  * @since 1.0
  */
 public abstract class PhysicalDescription extends FixedField implements PersistentObjectWithView {
+
 	private char generalMaterialDesignationCode;
 	private int keyNumber;
 	private UserViewHelper userViewHelper = new UserViewHelper();

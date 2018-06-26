@@ -6,7 +6,6 @@ import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.business.cataloguing.authority.AuthorityCatalog;
 import org.folio.cataloging.business.cataloguing.bibliographic.NewTagException;
-import org.folio.cataloging.business.cataloguing.common.CatalogItem;
 import org.folio.cataloging.business.codetable.IndexListElement;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
@@ -42,7 +41,7 @@ public class BrowseBean extends SearchBean {
 	public static final int NO_SHELF_MAIN_LIBRARY = 0;
 	private static final int CATEGORY_NT_LIBRICAT = 11;
 	private static final int CATEGORY_NT_AMICUS = 12;
-	private static final DAOBibliographicCorrelation daoCorrelation = new DAOBibliographicCorrelation();
+	private static final BibliographicCorrelationDAO daoCorrelation = new BibliographicCorrelationDAO();
 	
 	/**
 	 * false: do not load the decoratedBrowseList and do not show Level column in cBrowse 

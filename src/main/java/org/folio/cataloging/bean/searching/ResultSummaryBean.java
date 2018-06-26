@@ -14,7 +14,6 @@ import org.folio.cataloging.bean.cataloguing.common.EditBean;
 import org.folio.cataloging.business.amicusSearchEngine.AmicusResultSet;
 import org.folio.cataloging.business.authorisation.AuthorisationException;
 import org.folio.cataloging.business.cataloguing.bibliographic.*;
-import org.folio.cataloging.business.cataloguing.common.CatalogItem;
 import org.folio.cataloging.business.cataloguing.common.CataloguingSourceTag;
 import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.codetable.Avp;
@@ -999,7 +998,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 		xsltParameters.put("extendedView", "true");
 		xsltParameters.put("elementSetName", this.getElementSetName());
 		xsltParameters.put("digitalRepository", new String(digitalRepository));
-		DAOCasCache daoCasCache = new DAOCasCache();
+		CasCacheDAO casCacheDAO = new CasCacheDAO();
 		
 		List<Integer> recordsDiscarded = new ArrayList<Integer>();
 		
@@ -1013,7 +1012,9 @@ public class ResultSummaryBean extends LibrisuiteBean
 				xsltParameters.put("tag654Hyphen", new Integer(tag654Hyphen));
 
 				if (!(this.getDisplayFormat() == 3) && (!(isSearchingCollection() == true))) {
-					String ntrLvl = daoCasCache.getNtrLvlForDigital(resultSet.getAmicusNumber(recordNumber - 1).intValue(), getResultSet().getSearchingView());
+					String ntrLvl = null;
+					// TODO: use session
+					/*String ntrLvl = casCacheDAO.getNtrLvlForDigital(resultSet.getAmicusNumber(recordNumber - 1).intValue(), getResultSet().getSearchingView());*/
 					if (ntrLvl == null) {
 						ntrLvl = "001";
 					}
@@ -1074,7 +1075,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 				listPresent097.add(load097List(resultSet.getAmicusNumber(recordNumber - 1).intValue()));
 				if (this.getDisplayFormat() == 3 && isSearchingCollection() == true) 
 				{
-					String isSerialDigital = new DAOCasCache().isDigitalSerial(resultSet.getAmicusNumber(recordNumber - 1).intValue(), getResultSet().getSearchingView()) ? "S" : "N";
+					String isSerialDigital = new CasCacheDAO().isDigitalSerial(resultSet.getAmicusNumber(recordNumber - 1).intValue(), getResultSet().getSearchingView()) ? "S" : "N";
 					recordArrayList.add(recItem);
 					listPresent097.add(load097List(resultSet.getAmicusNumber(
 					recordNumber - 1).intValue()));
@@ -2921,16 +2922,17 @@ public class ResultSummaryBean extends LibrisuiteBean
 
 	public void setNTIInTheBean() throws
             ModCatalogingException {
-		DAOCasCache daoCCache = new DAOCasCache();
+		CasCacheDAO daoCCache = new CasCacheDAO();
 
 		int cont = 0;
-		CasCache cCache;
+		CasCache cCache = null;
 		for (int i = 0; i < this.getRecordArrayList().size(); i++) {
 			try {
 				int recNumber = this.getResultSet()
 						.getAmicusNumber(i).intValue();
 
-				cCache = daoCCache.getCasCache(recNumber);
+				//TODO: use method with session
+				/*cCache = daoCCache.getCasCache(recNumber);*/
 				if (cCache != null && cCache.getFlagNTI() != null) {
 					if (cCache.getFlagNTI().equalsIgnoreCase("Y")) {
 						cont = cont + 1;
@@ -3669,7 +3671,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 		if(amicusNumber!=0){
 			amicusNumber = getAmicusNumber(0);
 			int view = getCurrentSearchingView();
-			DAOFrbrModel frbr = new DAOFrbrModel();
+			FrbrModelDAO frbr = new FrbrModelDAO();
 			Integer wemiCode = frbr.getWemiFlag(amicusNumber,view == View.AUTHORITY);
 			if(wemiCode!=null){
 				wemiGroupDisplayText = frbr.getWemiFlagLabel(wemiCode,locale);

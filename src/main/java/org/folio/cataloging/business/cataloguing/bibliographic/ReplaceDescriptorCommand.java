@@ -8,13 +8,12 @@
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
 import org.folio.cataloging.bean.cataloguing.common.EditBean;
+import org.folio.cataloging.business.Command;
 import org.folio.cataloging.business.cataloguing.common.Browsable;
-import org.folio.cataloging.business.cataloguing.common.CatalogItem;
 import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.descriptor.Descriptor;
-
-import org.folio.cataloging.business.Command;
+import org.folio.cataloging.dao.persistence.CatalogItem;
 
 /**
  * @author paulm

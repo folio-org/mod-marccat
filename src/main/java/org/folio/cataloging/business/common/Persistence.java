@@ -62,6 +62,7 @@ public interface Persistence extends Lifecycle, Serializable {
 		 */
     void generateNewKey() throws DataAccessException;
 	
-	HibernateUtil getDAO();
+	//TODO: no HibernateUtil but AbstractDAO
+    HibernateUtil getDAO();
 
 }

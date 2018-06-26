@@ -55,7 +55,7 @@ public class BibliographicEditBean extends EditBean {
 	@Override
 	@Deprecated
 	public List getFirstList() throws DataAccessException{
-		//return new DAOBibliographicCorrelation().getFirstCorrelationListFilter(BibliographicNoteType.class, true, getOptNoteGroup());
+		//return new BibliographicCorrelationDAO().getFirstCorrelationListFilter(BibliographicNoteType.class, true, getOptNoteGroup());
 		return null;
 	}
 	
@@ -5076,7 +5076,7 @@ public class BibliographicEditBean extends EditBean {
 	@Override
 	public Integer getWemiGroupFieldsFromModel(int modelId)
 			throws DataAccessException {
-		DAOFrbrModel frbrDao = new DAOFrbrModel();
+		FrbrModelDAO frbrDao = new FrbrModelDAO();
 		return frbrDao.getBiblioWemiFirstTypeFromModelById(modelId);
 	}
 
@@ -5206,6 +5206,7 @@ public class BibliographicEditBean extends EditBean {
 	@Override
 	public void saveRecord() throws DataAccessException, AuthorisationException, ValidationException
 	{
+		/*
 		getCatalog().getCatalogDao().setCasCache(getCasaliniBean().getCasCache());
 		if (getCasaliniBean().isEnabled()) {
 
@@ -5311,7 +5312,7 @@ public class BibliographicEditBean extends EditBean {
 		} catch (Exception e) {
 		}
 		getCatalog().saveCatalogItem(getCatalogItem());
-
+		*/
 	}
 
 	@Override

@@ -11,7 +11,7 @@ import org.folio.cataloging.business.common.DateInputException;
 import org.folio.cataloging.business.common.PublisherException;
 import org.folio.cataloging.business.controller.SessionUtils;
 import org.folio.cataloging.business.controller.UserProfile;
-import org.folio.cataloging.dao.DAOCasCache;
+import org.folio.cataloging.dao.CasCacheDAO;
 import org.folio.cataloging.dao.persistence.CasCache;
 import org.folio.cataloging.exception.ValidationException;
 import org.folio.cataloging.shared.CorrelationValues;
@@ -52,8 +52,9 @@ public class EditCasCacheBean extends LibrisuiteBean
 	public void loadItems(int bibNumber) throws DataAccessException 
 	{
 		setBibNumber(bibNumber);
-		DAOCasCache dao = new DAOCasCache();
-		setItems(dao.loadCasCache(bibNumber));
+		CasCacheDAO dao = new CasCacheDAO();
+		//TODO: use dao.loadCasCache with session
+		//setItems(dao.loadCasCache(bibNumber));
 		if (items.size() == 0) {
 			addNew();
 		}	
@@ -89,18 +90,18 @@ public class EditCasCacheBean extends LibrisuiteBean
 
 	public void save() throws DataAccessException 
 	{
-		CasCache item = getCurrentItem();
+		/*CasCache item = getCurrentItem();
 		item.markChanged();
-		item.getDAO().persistByStatus(item);
+		item.getDAO().persistByStatus(item);*/
 	}
 	
 	public void delete() throws DataAccessException 
 	{
-		CasCache item = getCurrentItem();
+		/*CasCache item = getCurrentItem();
 		if (!item.isNew()) {
 			item.markDeleted();
 			item.getDAO().persistByStatus(item);
-		}	
+		}	*/
 	}
 	
 	public void tag365(EditBean bean) throws DataAccessException, AuthorisationException, ValidationException, NewTagException
@@ -189,7 +190,7 @@ public class EditCasCacheBean extends LibrisuiteBean
 	
 	/**
 	 * Metodo che imposta i valori di default della S_CAS_CACHE per le combo visualizzate nel form
-	 * @param bean
+	 * @param bibBean
 	 * @throws DataAccessException 
 	 * @throws MarcCorrelationException 
 	 * @throws PublisherException 

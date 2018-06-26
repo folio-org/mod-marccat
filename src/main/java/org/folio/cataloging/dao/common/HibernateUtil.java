@@ -209,17 +209,13 @@ public class HibernateUtil {
 		return newNote;
 	}
 
+
 	/**
 	 * performs isolateView on a List
 	 */
-	public List isolateViewForList(List multiView, int userView)
-			throws DataAccessException {
-		if (userView < View.AUTHORITY) {
-			logger.error("NO ISOLATION FOR MADES");
-			return multiView;
-		}
+	@Deprecated
+	public List isolateViewForList(List multiView, int userView) throws DataAccessException {
 		if (userView == View.ANY) {
-			// no isolation for ANY search
 			return multiView;
 		}
 		List singleView = new ArrayList();

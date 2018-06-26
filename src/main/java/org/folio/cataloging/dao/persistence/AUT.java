@@ -9,7 +9,6 @@ package org.folio.cataloging.dao.persistence;
 
 import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.Session;
-import org.folio.cataloging.business.cataloguing.common.ItemEntity;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.business.common.Persistence;

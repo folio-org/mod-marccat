@@ -21,7 +21,10 @@ import org.folio.cataloging.bean.searching.SearchTypeBean;
 import org.folio.cataloging.business.Command;
 import org.folio.cataloging.business.authorisation.AuthorisationException;
 import org.folio.cataloging.business.cataloguing.bibliographic.*;
-import org.folio.cataloging.business.cataloguing.common.*;
+import org.folio.cataloging.business.cataloguing.common.Browsable;
+import org.folio.cataloging.business.cataloguing.common.Catalog;
+import org.folio.cataloging.business.cataloguing.common.CataloguingSourceTag;
+import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.*;
 import org.folio.cataloging.business.common.group.GroupManager;
@@ -46,7 +49,7 @@ import java.util.*;
 public abstract class EditBean extends LibrisuiteBean {
 	private static List skipInFilingList = new ArrayList();
 	protected static DAOCodeTable daoCodeTable = new DAOCodeTable();
-	private static final DAOBibliographicCorrelation daoCorrelation = new DAOBibliographicCorrelation();
+	private static final BibliographicCorrelationDAO daoCorrelation = new BibliographicCorrelationDAO();
 	private boolean functionsDisabled = Defaults.getBoolean("functions.disabled", false);
 	private static final DAOAuthorityCorrelation daoAuthorityCorrelation = new DAOAuthorityCorrelation();
 	private static Log logger = LogFactory.getLog(EditBean.class);
@@ -491,13 +494,14 @@ public abstract class EditBean extends LibrisuiteBean {
 		}
 	}
 
+	@Deprecated
 	public void deleteRecord(final UserProfile user) throws DataAccessException,
 			RecordInUseException {
-		getCatalog().lock(getCatalogItem().getAmicusNumber().intValue(), getUserName());
+		/*getCatalog().lock(getCatalogItem().getAmicusNumber().intValue(), getUserName());
 		getCatalog().deleteCatalogItem(getCatalogItem(), user);
 
-		new DAOCasCache().deleteCasCache(getCatalogItem().getAmicusNumber().intValue());
-		getCatalog().unlock(getCatalogItem().getAmicusNumber().intValue());
+		new CasCacheDAO().deleteCasCache(getCatalogItem().getAmicusNumber().intValue());
+		getCatalog().unlock(getCatalogItem().getAmicusNumber().intValue());*/
 	}
 
 	/**
@@ -970,10 +974,12 @@ public abstract class EditBean extends LibrisuiteBean {
 		executeCommand(c);
 	}
 
+	@Deprecated
 	public void saveRecord() throws DataAccessException,
 			AuthorisationException,
             ValidationException {
-		getCatalog().getCatalogDao()
+
+/*		getCatalog().getCatalogDao()
 		.setCasCache(casaliniBean.getCasCache());
 		if (casaliniBean.isEnabled()) {
 
@@ -1076,14 +1082,15 @@ public abstract class EditBean extends LibrisuiteBean {
 		}catch (Exception e) {
 		}
 		getCatalog().saveCatalogItem(getCatalogItem());
+*/
+	}
 
-		}
-
+	@Deprecated
 	public void saveAuthorityRecord() throws DataAccessException, AuthorisationException, ValidationException {
-
+/*
 		getCatalog().getCatalogDao().setCasCache(casaliniBean.getCasCache());
 		getCatalog().saveCatalogItem(getCatalogItem());
-
+*/
 	}
 
 	public List get097Tags() throws DataAccessException {

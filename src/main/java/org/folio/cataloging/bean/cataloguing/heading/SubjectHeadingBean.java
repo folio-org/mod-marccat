@@ -3,7 +3,7 @@ package org.folio.cataloging.bean.cataloguing.heading;
 import org.folio.cataloging.bean.cataloguing.bibliographic.codelist.CodeListsBean;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.descriptor.Descriptor;
-import org.folio.cataloging.dao.DAOBibliographicCorrelation;
+import org.folio.cataloging.dao.BibliographicCorrelationDAO;
 import org.folio.cataloging.dao.DAOCodeTable;
 import org.folio.cataloging.dao.DAOSubjectTerm;
 import org.folio.cataloging.dao.persistence.*;
@@ -199,7 +199,7 @@ public class SubjectHeadingBean extends HeadingBean {
 	  setSkipInFilingList(dao.getOptionList(T_SKP_IN_FLNG_CNT.class, l));
 	  setSubjectTypeList(dao.getOptionList(SubjectType.class, l));
 	  setSubjectTermTypList(dao.getOptionList(T_SBJCT_TRM_TYP.class, l));
-	  DAOBibliographicCorrelation daoBib = new DAOBibliographicCorrelation();
+	  BibliographicCorrelationDAO daoBib = new BibliographicCorrelationDAO();
 	  setSubjectSourceList(dao.getOptionList(SubjectSource.class, l));
 	  setSubjectSecondarySourceList(
 	  dao.getOptionList(T_SBJCT_HDG_SCDRY_SRC.class, l));

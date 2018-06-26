@@ -12,24 +12,24 @@ import java.io.Serializable;
 public class Correlation implements Serializable {
 
 	private CorrelationKey key;
-	private short databaseFirstValue;
-	private short databaseSecondValue;
-	private short databaseThirdValue;
+	private int databaseFirstValue;
+	private int databaseSecondValue;
+	private int databaseThirdValue;
 	private String searchIndexTypeCode;
 
 	public CorrelationKey getKey() {
 		return key;
 	}
 
-	public short getDatabaseFirstValue() {
+	public int getDatabaseFirstValue() {
 		return databaseFirstValue;
 	}
 
-	public short getDatabaseSecondValue() {
+	public int getDatabaseSecondValue() {
 		return databaseSecondValue;
 	}
 
-	public short getDatabaseThirdValue() {
+	public int getDatabaseThirdValue() {
 		return databaseThirdValue;
 	}
 
@@ -41,15 +41,15 @@ public class Correlation implements Serializable {
 		key = correlation;
 	}
 
-	private void setDatabaseFirstValue(final short s) {
+	private void setDatabaseFirstValue(final int s) {
 		databaseFirstValue = s;
 	}
 
-	private void setDatabaseSecondValue(final short s) {
+	private void setDatabaseSecondValue(final int s) {
 		databaseSecondValue = s;
 	}
 
-	private void setDatabaseThirdValue(final short s) {
+	private void setDatabaseThirdValue(final int s) {
 		databaseThirdValue = s;
 	}
 

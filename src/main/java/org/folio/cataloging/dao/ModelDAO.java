@@ -21,7 +21,8 @@ import static java.util.stream.Collectors.toList;
  * @author paulm
  * @since 1.0
  */
-public abstract class ModelDAO{
+//TODO: transaction management and rollback in case of hibernate exception
+public abstract class ModelDAO extends AbstractDAO {
 
 	/**
 	 * Retrieves a list of booleans representing whether a model in the list of all

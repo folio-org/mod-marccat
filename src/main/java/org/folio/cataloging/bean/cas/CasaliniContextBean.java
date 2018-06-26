@@ -1,16 +1,13 @@
 package org.folio.cataloging.bean.cas;
 
-import javax.servlet.http.HttpServletRequest;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.bean.CustomerContextBean;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.dao.persistence.CasCache;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.dao.DAOCasCache;
+import javax.servlet.http.HttpServletRequest;
 
 // ## @LIBRICAT ## 
 
@@ -37,7 +34,9 @@ public class CasaliniContextBean extends CustomerContextBean {
 	}
 	
 	public CasCache loadCasCache(int bibNumber) throws DataAccessException{
-		return (CasCache)(new DAOCasCache().getCasCache(bibNumber));
+		//TODO use session
+		//return (CasCache)(new CasCacheDAO().getCasCache(bibNumber));
+		return null;
 	}
 
 	/**

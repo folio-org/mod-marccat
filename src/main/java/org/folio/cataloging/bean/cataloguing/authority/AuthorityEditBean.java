@@ -25,11 +25,7 @@ import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.digital.PermalinkException;
 import org.folio.cataloging.dao.DAOAuthorityCorrelation;
 import org.folio.cataloging.dao.DAOCodeTable;
-import org.folio.cataloging.dao.DAOFrbrModel;
-import org.folio.cataloging.dao.persistence.AUT;
-import org.folio.cataloging.dao.persistence.Correlation;
-import org.folio.cataloging.dao.persistence.PUBL_HDG;
-import org.folio.cataloging.dao.persistence.T_AUT_NTE_TYP;
+import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.exception.DuplicateTagException;
 import org.folio.cataloging.exception.InvalidDescriptorException;
 import org.folio.cataloging.exception.RecordInUseException;
@@ -775,8 +771,10 @@ public class AuthorityEditBean extends EditBean {
 	@Override
 	public Integer getWemiGroupFieldsFromModel(int modelId)
 			throws DataAccessException {
-		DAOFrbrModel frbrDao = new DAOFrbrModel();
-		return frbrDao.getAutorityWemiFirstTypeFromModelById(modelId);
+		/*FrbrModelDAO frbrDao = new FrbrModelDAO();
+		return frbrDao.getAutorityWemiFirstTypeFromModelById(modelId);*/
+		// todo: use frbrDao.getAutorityWemiFirstTypeFromModelById(modelId, session)
+		return null;
 	}
 
 	@Override
@@ -820,10 +818,10 @@ public class AuthorityEditBean extends EditBean {
 	public void saveRecord() throws DataAccessException,
 			AuthorisationException,
 			ValidationException {
-		getCatalog().getCatalogDao().setCasCache(
+		/*getCatalog().getCatalogDao().setCasCache(
 				getCasaliniBean().getCasCache());
 
-		getCatalog().saveCatalogItem(getCatalogItem());
+		getCatalog().saveCatalogItem(getCatalogItem());*/
 
 	}
 

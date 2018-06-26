@@ -8,7 +8,7 @@ import org.folio.cataloging.business.common.ConfigHandler;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.marchelper.MarcHelperTag;
-import org.folio.cataloging.dao.DAOBibliographicCorrelation;
+import org.folio.cataloging.dao.BibliographicCorrelationDAO;
 import org.folio.cataloging.dao.DAODescriptor;
 import org.folio.cataloging.dao.DAONameDescriptor;
 import org.folio.cataloging.dao.persistence.*;
@@ -128,7 +128,7 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag, M
 	 */
 	public List getSecondCorrelationList(short value1)
 		throws DataAccessException {
-		DAOBibliographicCorrelation dao = new DAOBibliographicCorrelation();
+		BibliographicCorrelationDAO dao = new BibliographicCorrelationDAO();
 		return dao.getSecondCorrelationList(
 			getCategory(),
 			value1,
@@ -140,11 +140,11 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag, M
 	 */
 	public List getThirdCorrelationList(short value1, short value2)
 		throws DataAccessException {
-		/* Natascia 25/06/2007 : chiamo il getThirdCorrelationList del DAOBibliographicCorrelation
+		/* Natascia 25/06/2007 : chiamo il getThirdCorrelationList del BibliographicCorrelationDAO
 		 * perche' il getList restituisce tutto quello che c'e' mentre dobbiamo escludere le chiocciole  
 		 * -- return getDaoCodeTable().getList(NameFunction.class);*/
 		
-		DAOBibliographicCorrelation dao = new DAOBibliographicCorrelation();
+		BibliographicCorrelationDAO dao = new BibliographicCorrelationDAO();
 		return dao.getThirdCorrelationList(
 			getCategory(),
 			value1,

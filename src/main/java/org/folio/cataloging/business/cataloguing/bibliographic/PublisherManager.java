@@ -145,7 +145,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
 			lastPublTag.setOtherSubfields(s.getSubfieldsWithoutCodes("368efg").toString());
 			String otherFieldsText = s.getSubfieldsWithCodes("368efg").toString(); 
 			if (otherFieldsText != null && otherFieldsText.indexOf(Subfield.SUBFIELD_DELIMITER)>-1){
-				setStringTextForFastDigitPublisher(otherFieldsText.replaceAll(Global.SUBFIELD_DELIMITER, Global.SUBFIELD_DELIMITER_FOR_VIEW));
+				setStringTextForFastDigitPublisher(otherFieldsText.replaceAll(Subfield.SUBFIELD_DELIMITER, Global.SUBFIELD_DELIMITER_FOR_VIEW));
 			}else {
 				setStringTextForFastDigitPublisher(otherFieldsText);
 			}

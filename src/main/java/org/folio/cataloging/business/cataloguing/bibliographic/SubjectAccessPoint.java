@@ -7,7 +7,7 @@ import org.folio.cataloging.business.cataloguing.common.OrderedTag;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.business.descriptor.Descriptor;
-import org.folio.cataloging.dao.DAOBibliographicCorrelation;
+import org.folio.cataloging.dao.BibliographicCorrelationDAO;
 import org.folio.cataloging.dao.DAODescriptor;
 import org.folio.cataloging.dao.DAOSubjectDescriptor;
 import org.folio.cataloging.dao.persistence.*;
@@ -25,7 +25,7 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
 	private static final Log logger = LogFactory.getLog(SubjectAccessPoint.class);
 	
 	private static final String VARIANT_CODES = "34eu";
-	private short functionCode = -1;
+	private int functionCode = -1;
 	private String workRelatorCode;
 	private String workRelatorStringtext;
 	private int sequenceNumber;
@@ -121,7 +121,7 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
 		} catch (MarcCorrelationException e) {
 			try {
 				CorrelationValues v = getCorrelationValues();
-				int v2 = new DAOBibliographicCorrelation()
+				int v2 = new BibliographicCorrelationDAO()
 				.getFirstAllowedValue2(getCategory(), v.getValue(1), v.getValue(3));
 				setFunctionCode(v2);
 			} catch (DataAccessException e1) {
@@ -148,7 +148,7 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
 	 */
 	public List getSecondCorrelationList(short value1)
 			throws DataAccessException {
-		DAOBibliographicCorrelation dao = new DAOBibliographicCorrelation();
+		BibliographicCorrelationDAO dao = new BibliographicCorrelationDAO();
 		return dao.getSecondCorrelationList(getCategory(), value1,
 				SubjectFunction.class);
 	}
@@ -161,7 +161,7 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
 	 */
 	public List getThirdCorrelationList(short value1, short value2)
 			throws DataAccessException {
-		DAOBibliographicCorrelation dao = new DAOBibliographicCorrelation();
+		BibliographicCorrelationDAO dao = new BibliographicCorrelationDAO();
 		return dao.getThirdCorrelationList(getCategory(), value1, value2,
 				SubjectSource.class);
 	}

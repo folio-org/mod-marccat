@@ -32,9 +32,10 @@ import static org.folio.cataloging.F.deepCopy;
  * also contain a reference to the associated persistence class.
  * 
  * @author paulm
+ * @author natasciab
  * @since 1.0
  */
-public abstract class DAODescriptor extends HibernateUtil {
+public abstract class DAODescriptor extends AbstractDAO {
 
 
 	public static final String BLANK_SORTFORM = " ";
@@ -461,9 +462,9 @@ public abstract class DAODescriptor extends HibernateUtil {
 
 
 
-	public List getDocList(Descriptor d, int searchingView)
-			throws DataAccessException {
-		List l = null;
+	//TODO add session management
+	public List<Integer> getDocList(Descriptor d, int searchingView) throws DataAccessException {
+		List<Integer> l;
 		if (searchingView == View.ANY) { // pm 2011
 			l = find(
 					" select apf.bibItemNumber from "
@@ -590,15 +591,36 @@ public abstract class DAODescriptor extends HibernateUtil {
 	 * 
 	 * @since 1.0
 	 */
+	@Deprecated
 	public void updateCacheTable(Descriptor descriptor)
 			throws DataAccessException {
 		BibliographicCatalogDAO dao = new BibliographicCatalogDAO();
 		int cataloguingView = View.toIntView(descriptor.getUserViewString());
 		Iterator iter = getDocList(descriptor, cataloguingView).iterator();
 		while (iter.hasNext()) {
-			dao.updateCacheTable(((Integer) iter.next()).intValue(),
-					cataloguingView);
+			dao.updateCacheTable(((Integer) iter.next()).intValue(), cataloguingView);
 		}
+	}
+
+	/**
+	 * Updates the cache table for each of the documents attached to the descriptor.
+	 *
+	 * @param descriptor -- the descriptor related to heading/tag.
+	 * @param session -- the hibernate current session.
+	 * @throws HibernateException in case of hibernate exception.
+	 */
+	public void updateCacheTable(final Descriptor descriptor, final Session session) throws HibernateException {
+		final BibliographicCatalogDAO dao = new BibliographicCatalogDAO();
+		int cataloguingView = View.toIntView(descriptor.getUserViewString());
+		List<Integer> ids = getDocList(descriptor, cataloguingView);
+		ids.stream().forEach(amicusNumber -> {
+		    try {
+                dao.updateCacheTable(amicusNumber, cataloguingView, session);
+            } catch (HibernateException e)
+            {
+                throw new RuntimeException(e);
+            }
+        });
 	}
 
 	/**
@@ -797,27 +819,30 @@ public abstract class DAODescriptor extends HibernateUtil {
 	}
 
 	/**
-	 * gets the cross references for the given source and view.
+	 * Gets the cross references for the given source and view.
 	 * 
-	 * @param source -
-	 *            the descriptor whose references are to be retrieved
-	 * @param cataloguingView -
-	 *            the view to be used
+	 * @param source -- the descriptor whose references are to be retrieved.
+	 * @param cataloguingView -- the view to be used.
 	 * @return a list of cross references.
+     * @throws HibernateException in case of hibernate exception.
 	 */
-	public List getCrossReferences(Descriptor source, int cataloguingView)
-			throws DataAccessException {
+	@SuppressWarnings("unchecked")
+	public List<REF> getCrossReferences(final Descriptor source, final int cataloguingView, final Session session) throws HibernateException {
 
-		return find("from "
+		return session.find("from "
 				+ source.getReferenceClass(source.getClass()).getName()
 				+ " as ref " + " where ref.key.source = ? "
 				+ " AND substr(ref.key.userViewString, ?, 1) = '1' "
-				+ " order by ref.key.target, ref.key.type", new Object[] {
-				new Integer(source.getKey().getHeadingNumber()),
-				new Integer(cataloguingView) }, new Type[] { Hibernate.INTEGER,
-				Hibernate.INTEGER });
-
+				+ " order by ref.key.target, ref.key.type",
+                new Object[] { source.getKey().getHeadingNumber(), cataloguingView },
+                new Type[] { Hibernate.INTEGER, Hibernate.INTEGER });
 	}
+
+	@Deprecated
+	public List getCrossReferences(Descriptor source, int cataloguingView) throws DataAccessException {
+	    // use getCrossReferences with session
+        return null;
+    }
 
 	/**
 	 * gets the cross references for the given source and view.
@@ -1250,8 +1275,7 @@ public abstract class DAODescriptor extends HibernateUtil {
 	
 	final static String SELECT_URI_BY_ALL_VIEW = "SELECT COUNT(*) FROM HDG_URI AS HDG WHERE HDG.headingNumber = ? AND HDG.headingTypeCode = ? ";
 	final static String SELECT_URI_BY_ONE_VIEW = "SELECT COUNT(*) FROM HDG_URI AS HDG WHERE HDG.headingNumber = ? AND HDG.headingTypeCode = ? AND SUBSTR(HDG.userView, ?, 1) = '1'";
-	
-	/* Bug 5424 */
+
 	@SuppressWarnings("unchecked")
 	public int getDocCountURI(Descriptor d, int searchingView) throws DataAccessException 
 	{
@@ -1273,8 +1297,7 @@ public abstract class DAODescriptor extends HibernateUtil {
 		}
 		return result;
 	}
-	
-	/* Bug 5424 */
+
 	@SuppressWarnings("unchecked")
 	public List<HDG_URI> getDocUriList(Descriptor d, int searchingView) throws DataAccessException 
 	{

@@ -1,19 +1,17 @@
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.bean.cataloguing.bibliographic.BibliographicEditBean;
-import org.folio.cataloging.business.cataloguing.common.CatalogItem;
-import org.folio.cataloging.business.cataloguing.common.ItemEntity;
 import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.cataloguing.common.TagImpl;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.librivision.Record;
 import org.folio.cataloging.business.librivision.XmlRecord;
 import org.folio.cataloging.dao.DAOOrderNames;
+import org.folio.cataloging.dao.persistence.CatalogItem;
+import org.folio.cataloging.dao.persistence.ItemEntity;
 import org.folio.cataloging.dao.persistence.ModelItem;
 import org.folio.cataloging.dao.persistence.OrderNames;
 import org.folio.cataloging.exception.MandatoryTagException;
+import org.folio.cataloging.log.Log;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -28,7 +26,7 @@ import java.util.List;
 public class BibliographicItem extends CatalogItem implements Serializable 
 {
 	private static final long serialVersionUID = 8676099561229020012L;
-	private static final Log logger = LogFactory.getLog(BibliographicEditBean.class);
+	private Log logger = new Log(BibliographicItem.class);
 		
 	private static List nameOrderTags = null;
 	private BIB_ITM bibItmData;

@@ -2,12 +2,12 @@ package org.folio.cataloging.business.cataloguing.bibliographic;
 
 import org.folio.cataloging.business.cataloguing.common.AccessPoint;
 import org.folio.cataloging.business.cataloguing.common.Browsable;
-import org.folio.cataloging.business.cataloguing.common.CatalogItem;
 import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.PublisherTagDescriptor;
 import org.folio.cataloging.dao.DAODescriptor;
+import org.folio.cataloging.dao.persistence.CatalogItem;
 import org.folio.cataloging.dao.persistence.PUBL_HDG;
 import org.folio.cataloging.dao.persistence.PUBL_TAG;
 import org.folio.cataloging.util.StringText;

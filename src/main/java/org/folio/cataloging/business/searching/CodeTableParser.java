@@ -10,9 +10,9 @@ import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.business.common.RecordNotFoundException;
+import org.folio.cataloging.dao.BibliographicCorrelationDAO;
+import org.folio.cataloging.dao.CasCacheDAO;
 import org.folio.cataloging.dao.DAOBibItem;
-import org.folio.cataloging.dao.DAOBibliographicCorrelation;
-import org.folio.cataloging.dao.DAOCasCache;
 import org.folio.cataloging.dao.persistence.*;
 
 import java.util.*;
@@ -97,11 +97,12 @@ public class CodeTableParser
 	public static String getStringManagerialLevelType(int bibNumber, String lingua) 
 	{
 		List encodingLevel = null;
-		DAOCasCache dao = new DAOCasCache();
+		CasCacheDAO dao = new CasCacheDAO();
 		List casCache = null;
 		String tbl_vlu_cde ="";
 		try {
-			casCache = dao.loadCasCache(bibNumber);
+			//TODO use session
+			//casCache = dao.loadCasCache(bibNumber);
 		
 		} catch (DataAccessException e) {
 			tbl_vlu_cde ="";
@@ -217,7 +218,7 @@ public class CodeTableParser
 	 * @return
 	 */
 	public static List<LabelTagDisplay> getMarcTagDisplay(String language) {
-		DAOBibliographicCorrelation dao = new DAOBibliographicCorrelation();
+		BibliographicCorrelationDAO dao = new BibliographicCorrelationDAO();
 		return dao.getMarcTagDisplay(language);
 	}
 	
@@ -227,7 +228,7 @@ public class CodeTableParser
 	 * @return
 	 */
 	public static List<LabelTagDisplay> getAutorityMarcTagDisplay(String language) {
-		DAOBibliographicCorrelation dao = new DAOBibliographicCorrelation();
+		BibliographicCorrelationDAO dao = new BibliographicCorrelationDAO();
 		return dao.getAutorityMarcTagDisplay(language);
 	}
 	
@@ -351,7 +352,6 @@ public class CodeTableParser
 	
 	/**
 	 * @param s
-	 * @param punctuation
 	 * @return a string without punctuation
 	 */
 	public static String strip(String s) {
@@ -412,7 +412,7 @@ public class CodeTableParser
 
 	public static List<RdaMarcTagDisplay> getRdaMarcTagDisplay(String language) 
 	{
-		DAOBibliographicCorrelation dao = new DAOBibliographicCorrelation();
+		BibliographicCorrelationDAO dao = new BibliographicCorrelationDAO();
 		return dao.getRdaMarcTagDisplay(language);
 	}
 	

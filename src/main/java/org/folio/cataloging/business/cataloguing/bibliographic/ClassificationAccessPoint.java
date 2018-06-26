@@ -4,7 +4,7 @@ import org.folio.cataloging.business.cataloguing.common.OrderedTag;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.business.descriptor.Descriptor;
-import org.folio.cataloging.dao.DAOBibliographicCorrelation;
+import org.folio.cataloging.dao.BibliographicCorrelationDAO;
 import org.folio.cataloging.dao.persistence.CLSTN;
 import org.folio.cataloging.dao.persistence.ClassificationType;
 import org.folio.cataloging.model.Subfield;
@@ -108,7 +108,7 @@ public class ClassificationAccessPoint extends BibliographicAccessPoint implemen
 	 */
 	public List getSecondCorrelationList(short value1) throws DataAccessException 
 	{
-		DAOBibliographicCorrelation dao = new DAOBibliographicCorrelation();
+		BibliographicCorrelationDAO dao = new BibliographicCorrelationDAO();
 		/* Bug 4121 inizio */
 		//return dao.getSecondCorrelationList(getCategory(),value1,ClassificationFunction.class);
 		return dao.getClassificationTagLabels(getCategory(),value1);

@@ -1,6 +1,6 @@
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
-import org.folio.cataloging.business.cataloguing.common.ItemEntity;
+import org.folio.cataloging.dao.persistence.ItemEntity;
 import org.folio.cataloging.model.Subfield;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;

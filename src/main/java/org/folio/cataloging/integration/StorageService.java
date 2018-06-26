@@ -106,8 +106,8 @@ public class StorageService implements Closeable {
      * @throws DataAccessException in case of data access failure.
      */
     public List<Avp<String>> getNoteTypesByGroupTypeCode(final String noteGroupTypeCode, final String lang) throws DataAccessException {
-        final DAOBibliographicCorrelation daoBibliographicCorrelation = new DAOBibliographicCorrelation();
-        return daoBibliographicCorrelation.getFirstCorrelationByNoteGroupCode(session, noteGroupTypeCode, locale(lang));
+        final BibliographicCorrelationDAO bibliographicCorrelationDAO = new BibliographicCorrelationDAO();
+        return bibliographicCorrelationDAO.getFirstCorrelationByNoteGroupCode(session, noteGroupTypeCode, locale(lang));
     }
 
     /**
@@ -339,7 +339,7 @@ public class StorageService implements Closeable {
      */
     public List<Avp<String>> getSecondCorrelation(final int category, final int code, final String lang) throws DataAccessException {
 
-        final DAOBibliographicCorrelation daoBC = new DAOBibliographicCorrelation();
+        final BibliographicCorrelationDAO daoBC = new BibliographicCorrelationDAO();
         final Class subTypeClass = SECOND_CORRELATION_CLASS_MAP.get(category);
         return daoBC.getSecondCorrelationList(session, category, code, subTypeClass, locale(lang));
     }
@@ -359,7 +359,7 @@ public class StorageService implements Closeable {
                                                  final int code2,
                                                  final String lang) {
         final Class clazz = THIRD_CORRELATION_HEADING_CLASS_MAP.get(category);
-        final DAOBibliographicCorrelation daoBC = new DAOBibliographicCorrelation();
+        final BibliographicCorrelationDAO daoBC = new BibliographicCorrelationDAO();
         return daoBC.getThirdCorrelationList(session, category, code1, code2, clazz, locale(lang));
     }
 
@@ -706,10 +706,10 @@ public class StorageService implements Closeable {
                                               final String indicator1,
                                               final String indicator2,
                                               final String code) throws DataAccessException {
-        final DAOBibliographicCorrelation daoBibliographicCorrelation = new DAOBibliographicCorrelation();
+        final BibliographicCorrelationDAO bibliographicCorrelationDAO = new BibliographicCorrelationDAO();
         try {
             return ofNullable(
-                    daoBibliographicCorrelation.getBibliographicCorrelation(
+                    bibliographicCorrelationDAO.getBibliographicCorrelation(
                             session, code, indicator1.charAt(0), indicator2.charAt(0), category))
                     .map(BibliographicCorrelation::getValues).orElse(null);
         } catch (final HibernateException exception) {
@@ -815,6 +815,7 @@ public class StorageService implements Closeable {
      * @param template the record template.
      * @throws DataAccessException in case of data access failure.
      */
+    //todo: add second and third value wemi flag: consider if use record template also for authority
     public void saveAuthorityRecordTemplate(final RecordTemplate template) throws DataAccessException {
         try {
             final ObjectMapper mapper = new ObjectMapper();
@@ -829,6 +830,25 @@ public class StorageService implements Closeable {
             throw new DataAccessException(exception);
         } catch (final JsonProcessingException exception) {
             logger.error(MessageCatalog._00013_IO_FAILURE, exception);
+            throw new DataAccessException(exception);
+        }
+    }
+
+    /**
+     * Updates wemi flag first group for bibliographic model.
+     *
+     * @param modelId -- the bibliographic model id.
+     * @param frbrFirstGroupValue -- the first wemi flag to update.
+     * @throws DataAccessException -- in case of data access exception.
+     */
+    public void updateWemiBibliographicFlag(final int modelId, final int frbrFirstGroupValue) throws DataAccessException {
+        try {
+            final BibliographicModelDAO dao = new BibliographicModelDAO();
+            final BibliographicModel model = (BibliographicModel) dao.load(modelId, session);
+            model.setFrbrFirstGroup(frbrFirstGroupValue);
+            dao.update(model, session);
+        } catch (final HibernateException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
             throw new DataAccessException(exception);
         }
     }

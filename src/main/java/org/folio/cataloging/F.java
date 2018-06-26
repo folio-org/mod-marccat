@@ -1,5 +1,6 @@
 package org.folio.cataloging;
 
+import org.folio.cataloging.integration.GlobalStorage;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 
@@ -133,5 +134,9 @@ public abstract class F {
     public static String getFormattedDate(final String formatString) {
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formatString);
         return LocalDate.now().format(formatter);
+    }
+
+    public static String fixEmptyFlag(final String flag){
+        return GlobalStorage.YES_FLAG.equalsIgnoreCase(flag)? flag.toUpperCase() :GlobalStorage.NO_FLAG;
     }
 }

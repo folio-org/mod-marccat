@@ -2,10 +2,10 @@ package org.folio.cataloging.business.cataloguing.bibliographic;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.cataloguing.common.ItemEntity;
 import org.folio.cataloging.business.common.*;
 import org.folio.cataloging.dao.DAOSystemNextNumber;
 import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.persistence.ItemEntity;
 import org.folio.cataloging.dao.persistence.T_BIB_HDR;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.w3c.dom.Document;

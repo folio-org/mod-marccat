@@ -2,7 +2,7 @@ package org.folio.cataloging.business.cataloguing.bibliographic;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.cataloguing.common.ItemEntity;
+import org.folio.cataloging.dao.persistence.ItemEntity;
 import org.folio.cataloging.shared.CorrelationValues;
 
 /**

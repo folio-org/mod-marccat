@@ -6,7 +6,7 @@ import org.folio.cataloging.business.common.ConfigHandler;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.marchelper.MarcHelperTag;
-import org.folio.cataloging.dao.DAOBibliographicCorrelation;
+import org.folio.cataloging.dao.BibliographicCorrelationDAO;
 import org.folio.cataloging.dao.DAODescriptor;
 import org.folio.cataloging.dao.DAOTitleDescriptor;
 import org.folio.cataloging.dao.persistence.REF;
@@ -86,7 +86,7 @@ public class TitleAccessPoint extends NameTitleComponent implements MarcHelperTa
 
 	@Override
 	public List getSecondCorrelationList(int value1) throws DataAccessException {
-		DAOBibliographicCorrelation dao = new DAOBibliographicCorrelation();
+		BibliographicCorrelationDAO dao = new BibliographicCorrelationDAO();
 		return dao.getSecondCorrelationList(getCategory(),value1,TitleSecondaryFunction.class);
 	}
 
