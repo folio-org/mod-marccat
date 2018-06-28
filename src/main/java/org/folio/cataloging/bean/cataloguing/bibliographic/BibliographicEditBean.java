@@ -4787,7 +4787,7 @@ public class BibliographicEditBean extends EditBean {
     		changeText(((TitleAccessPoint)getCurrentTag()).getStringText());
     	
 		} else {
-			if (getCatalogItem() != null && getCatalogItem().isDecriptorAlreadyPresent(d,
+			if (getCatalogItem() != null && getCatalogItem().isDescriptorAlreadyPresent(d,
 							getCurrentTag()))
 				throw new DuplicateDescriptorException();
 			else {

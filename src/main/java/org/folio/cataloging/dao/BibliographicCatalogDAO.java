@@ -7,7 +7,6 @@ import net.sf.hibernate.Transaction;
 import net.sf.hibernate.type.Type;
 import org.folio.cataloging.bean.cataloguing.bibliographic.PhysicalDescription;
 import org.folio.cataloging.business.cataloguing.bibliographic.*;
-import org.folio.cataloging.business.cataloguing.common.AccessPoint;
 import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.common.CacheUpdateException;
 import org.folio.cataloging.business.common.DataAccessException;

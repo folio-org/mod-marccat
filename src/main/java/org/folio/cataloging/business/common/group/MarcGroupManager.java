@@ -1,12 +1,11 @@
 package org.folio.cataloging.business.common.group;
 
+import org.folio.cataloging.business.cataloguing.common.Tag;
+import org.folio.cataloging.business.common.DataAccessException;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
-import org.folio.cataloging.business.cataloguing.common.Tag;
-import org.folio.cataloging.business.common.DataAccessException;
 
 public class MarcGroupManager implements GroupManager {
 
@@ -20,7 +19,7 @@ public class MarcGroupManager implements GroupManager {
 		groupList.add(group);
 	}
 
-	public TagGroup getGroup(Tag tag) throws MarcCorrelationException, DataAccessException {
+	public TagGroup getGroup(Tag tag) throws DataAccessException {
 		Iterator it = groupList.iterator();
 		while (it.hasNext()) {
 			TagGroup group = (TagGroup) it.next();
@@ -29,7 +28,7 @@ public class MarcGroupManager implements GroupManager {
 		return null;
 	}
 
-	public boolean isSameGroup(Tag tag1, Tag tag2) throws MarcCorrelationException, DataAccessException {
+	public boolean isSameGroup(Tag tag1, Tag tag2) throws DataAccessException {
 		TagGroup group = getGroup(tag1);
 		if(group==null) return false;
 		return group.contains(tag2);

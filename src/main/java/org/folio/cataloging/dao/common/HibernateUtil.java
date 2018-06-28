@@ -159,6 +159,7 @@ public class HibernateUtil {
 	 * updateStatus. If the status is "deleted" then the corresponding
 	 * DAO.delete() method is invoked.
 	 */
+	@Deprecated
 	public void persistByStatus(Persistence po) throws DataAccessException {
 		Session s = currentSession();
 

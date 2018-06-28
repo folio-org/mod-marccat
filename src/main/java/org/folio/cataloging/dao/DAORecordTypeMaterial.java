@@ -31,7 +31,7 @@ public class DAORecordTypeMaterial extends HibernateUtil {
 	public RecordTypeMaterial getMaterialHeaderCode(final Session session, final char recordType, final char bibliographicLevel) throws HibernateException {
         final List<RecordTypeMaterial> recordTypeMaterials = session.find(
 						"from RecordTypeMaterial as t "
-							+ " where t.RECORD_TYPE_CODE = ? and "
+							+ " where t.recordTypeCode = ? and "
 							+ "       (t.bibliographicLevel = ? "
 							+ "        OR t.bibliographicLevel is NULL)",
 						new Object[] {

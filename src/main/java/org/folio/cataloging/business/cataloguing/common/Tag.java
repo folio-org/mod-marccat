@@ -472,6 +472,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 		return false;
 	}
 
+	@Deprecated
 	public HibernateUtil getDAO() {
 		return persistenceState.getDAO();
 	}

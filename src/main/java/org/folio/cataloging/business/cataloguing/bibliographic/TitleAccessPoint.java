@@ -1,18 +1,12 @@
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
-import org.folio.cataloging.business.cataloguing.common.AccessPoint;
 import org.folio.cataloging.business.cataloguing.common.OrderedTag;
-import org.folio.cataloging.business.common.ConfigHandler;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.descriptor.Descriptor;
-import org.folio.cataloging.business.marchelper.MarcHelperTag;
 import org.folio.cataloging.dao.BibliographicCorrelationDAO;
 import org.folio.cataloging.dao.DAODescriptor;
 import org.folio.cataloging.dao.DAOTitleDescriptor;
-import org.folio.cataloging.dao.persistence.REF;
-import org.folio.cataloging.dao.persistence.TTL_HDG;
-import org.folio.cataloging.dao.persistence.TitleFunction;
-import org.folio.cataloging.dao.persistence.TitleSecondaryFunction;
+import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.model.Subfield;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
@@ -23,11 +17,13 @@ import java.util.List;
 import static org.folio.cataloging.F.deepCopy;
 
 /**
+ * Class to manage title access point.
  *
  * @author paulm
+ * @author nbianchini
  * @since 1.0
  */
-public class TitleAccessPoint extends NameTitleComponent implements MarcHelperTag, OrderedTag, Equivalent {
+public class TitleAccessPoint extends NameTitleComponent implements OrderedTag, Equivalent {
 	private static final long serialVersionUID = 1636144329543139231L;
 	
 	private String institution;
@@ -38,11 +34,8 @@ public class TitleAccessPoint extends NameTitleComponent implements MarcHelperTa
 	private TTL_HDG descriptor = new TTL_HDG();
 	private static final String VARIANT_CODES = "3civ5";
 	private Integer sequenceNumber;
-	private ConfigHandler configHandler = ConfigHandler.getInstance();
 
-	public TitleAccessPoint() {
-		setDefaultTypeAndFunction();
-	}
+	public TitleAccessPoint() {}
 
 	public TitleAccessPoint(int itemNbr) {
 		super(itemNbr);
@@ -52,7 +45,7 @@ public class TitleAccessPoint extends NameTitleComponent implements MarcHelperTa
 		return institution;
 	}
 
-	public void setInstitution(String string) {
+	public void setInstitution(final String string) {
 		institution = string;
 	}
 
@@ -75,7 +68,7 @@ public class TitleAccessPoint extends NameTitleComponent implements MarcHelperTa
 		return descriptor;
 	}
 
-	public void setDescriptor(Descriptor ttl_hdg) {
+	public void setDescriptor(final Descriptor ttl_hdg) {
 		descriptor = (TTL_HDG) ttl_hdg;
 	}
 
@@ -161,10 +154,8 @@ public class TitleAccessPoint extends NameTitleComponent implements MarcHelperTa
 	}
 
 	@Override
-
 	public StringText getAccessPointStringText() 
 	{
-		//TODO _JANICK to the Dark Side, this issn number leads
 		StringText text = new StringText(variantTitle);
 		text.parse(institution);
 		if(this.getSeriesIssnHeadingNumber()!=null)
@@ -199,10 +190,6 @@ public class TitleAccessPoint extends NameTitleComponent implements MarcHelperTa
 		return VARIANT_CODES;
 	}
 
-	@Override
-	public String getKey() throws DataAccessException {
-		return getMarcEncoding().getMarcTag();
-	}
 	
 	public String getISSNText(){
 		DAOTitleDescriptor daoTitle= new DAOTitleDescriptor();
@@ -235,14 +222,15 @@ public class TitleAccessPoint extends NameTitleComponent implements MarcHelperTa
 		}
 		return newTags;
 	}
-	
+
+	//TODO move in storageService and set after creation (as was: called in constructor)
 	public void setDefaultTypeAndFunction() {
-		int typCode= new Integer(configHandler.findValue("t_ttl_fnctn_2nd_fnctn","titleAccessPoint.functionCode"));		
+		/*int typCode= new Integer(configHandler.findValue("t_ttl_fnctn_2nd_fnctn","titleAccessPoint.functionCode"));
 		int type = configHandler.isParamOfGlobalVariable("t_ttl_fnctn_2nd_fnctn") ? this.getType(typCode) : typCode;
 		
 		setFunctionCode((short)type);
 		int funCode= new Integer(configHandler.findValue("t_ttl_fnctn_2nd_fnctn","titleAccessPoint.secondaryFunctionCode"));
 		int function= this.getFunction(funCode);
-		setSecondaryFunctionCode((short)function);
+		setSecondaryFunctionCode((short)function);*/
 	}
 }

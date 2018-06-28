@@ -24,6 +24,8 @@ public class GlobalStorage {
     public final static String DEFAULT_LEVEL_NATURE = "001";
     public final static String YES_FLAG = "S";
     public final static String NO_FLAG = "N";
+    public final static String CHARSET_UTF8 = "UTF-8";
+
 
     public final static Map<String, Class> MAP_CODE_LISTS = new HashMap<String, Class>(){
         {

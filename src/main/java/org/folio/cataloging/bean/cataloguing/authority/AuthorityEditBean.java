@@ -11,7 +11,10 @@ import org.folio.cataloging.business.cataloguing.authority.AuthorityCatalog;
 import org.folio.cataloging.business.cataloguing.authority.AuthorityHeadingTag;
 import org.folio.cataloging.business.cataloguing.authority.AuthorityItem;
 import org.folio.cataloging.business.cataloguing.bibliographic.*;
-import org.folio.cataloging.business.cataloguing.common.*;
+import org.folio.cataloging.business.cataloguing.common.Browsable;
+import org.folio.cataloging.business.cataloguing.common.Catalog;
+import org.folio.cataloging.business.cataloguing.common.DateOfLastTransactionTag;
+import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.DataAdminException;
@@ -690,7 +693,7 @@ public class AuthorityEditBean extends EditBean {
 			throws
 			DataAccessException, AuthorisationException, ValidationException {
 		if (getCatalogItem() != null
-				&& getCatalogItem().isDecriptorAlreadyPresent(d,
+				&& getCatalogItem().isDescriptorAlreadyPresent(d,
 						getCurrentTag())) {
 			throw new DuplicateDescriptorException();
 		}
