@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- * 
- * Created on Jun 7, 2004
- * 
- * XmlRecord.java
- */
 package org.folio.cataloging.business.librivision;
 
 import java.io.ByteArrayInputStream;
@@ -15,8 +8,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.log.Log;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -31,10 +23,17 @@ import org.xml.sax.SAXException;
  */
 public class XmlRecord extends AbstractRecord {
 
-	private static final Log logger = LogFactory.getLog(XmlRecord.class);
+	private static final Log logger = new Log(XmlRecord.class);
+
+	private Document data;
+
+	public Document getData() {
+	    return data;
+    }
 
 	public void setContent(String elementSetName, Document xmlDocument) {
-		if ((elementSetName != null) && (xmlDocument != null)) {
+		this.data = xmlDocument;
+	    if ((elementSetName != null) && (xmlDocument != null)) {
 			super.setContent(elementSetName, xmlDocument);
 		}
 	}
@@ -54,36 +53,19 @@ public class XmlRecord extends AbstractRecord {
 					try {
 						xmlDocument =
 							documentBuilder.parse(byteArrayInputStream);
-					} catch (SAXException aSAXException) {
-						logger.error("", aSAXException);
+					} catch (SAXException | IOException exception) {
+						logger.error("", exception);
 						xmlDocument = documentBuilder.newDocument();
-						//<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-						Element recordElement =
-							xmlDocument.createElement("record");
-						Element errorElement =
-							xmlDocument.createElement("error");
-						Node errorTextNode =
-							xmlDocument.createTextNode(
-								this.toXmlString(elementSetName));
+						final Element recordElement = xmlDocument.createElement("record");
+						final Element errorElement = xmlDocument.createElement("error");
+
+						final Node errorTextNode = xmlDocument.createTextNode(toXmlString(elementSetName));
 						xmlDocument.appendChild(recordElement);
-						recordElement.appendChild(errorElement);
-						errorElement.appendChild(errorTextNode);
-					} catch (IOException aIOException) {
-						logger.error("", aIOException);
-						xmlDocument = documentBuilder.newDocument();
-						//<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-						Element recordElement =
-							xmlDocument.createElement("record");
-						Element errorElement =
-							xmlDocument.createElement("error");
-						Node errorTextNode =
-							xmlDocument.createTextNode(
-								this.toXmlString(elementSetName));
-						xmlDocument.appendChild(recordElement);
+
 						recordElement.appendChild(errorElement);
 						errorElement.appendChild(errorTextNode);
 					}
-					setContent(elementSetName, xmlDocument);
+                    setContent(elementSetName, xmlDocument);
 				} catch (UnsupportedEncodingException unsupportedEncodingException) {
 					logger.error("", unsupportedEncodingException);
 					throw new XmlUnsupportedEncodingException(unsupportedEncodingException);
@@ -102,5 +84,4 @@ public class XmlRecord extends AbstractRecord {
 			return null;
 		}
 	}
-
 }

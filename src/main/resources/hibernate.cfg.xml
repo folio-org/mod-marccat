@@ -226,5 +226,6 @@
 		<mapping resource="org/folio/cataloging/dao/persistence/T_RSI_PLTFRM_USE.hbm.xml"/>
 		<mapping resource="org/folio/cataloging/dao/persistence/T_RSI_SNSR_TPE.hbm.xml"/>
 		<mapping resource="org/folio/cataloging/dao/persistence/T_RSI_DATA_TPE.hbm.xml"/>
+        <mapping resource="org/folio/cataloging/dao/persistence/FULL_CACHE.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

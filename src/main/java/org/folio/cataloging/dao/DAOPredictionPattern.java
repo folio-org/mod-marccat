@@ -196,12 +196,6 @@ public class DAOPredictionPattern extends HibernateUtil {
 		}.execute();
 	}
 
-	public List getVendorList() throws DataAccessException {
-		List result = find("from SRL_VNDR as v order by v.name");
-		result.add(0, new SRL_VNDR());
-		return result;
-	}
-
 	public void checkDuplicateVendor(SRL_VNDR v) throws DataAccessException,
 			DuplicateVendorException {
 		List l = find("from SRL_VNDR as v " + " where v.name = ?",

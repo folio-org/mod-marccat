@@ -32,28 +32,6 @@ public class DAOCollectionMaster extends HibernateUtil
 	}
 	private final DAOCodeTable daoCodeTable = new DAOCodeTable();
 
-	//TODO: refactoring all methods (to populate MasterListElement use toMasterListElement)
-	public void persistCollectionMaster( CollectionMaster collection) throws DataAccessException 
-	{
-		CollectionMaster collection2;
-		if (collection.getIdCollection()==0 || loadCollectionMaster(collection.getIdCollection()).size() == 0) {
-			persistByStatus(collection);
-		} else {
-			collection2 = (CollectionMaster) loadCollectionMaster(collection.getIdCollection()).get(0);
-			collection2.markChanged();
-			persistByStatus(collection2);
-		}
-	}
-
-	public List loadCollectionMaster(int idCollection) throws DataAccessException 
-	{
-		List result = null;
-	    result= find(
-				" from CollectionMaster as ct where ct.idCollection ="
-				+ idCollection 
-				+ " order by ct.idCollection");
-		return result;
-	}
 	
 	public int getIdCollectionMST() throws DataAccessException 
 	{
@@ -75,7 +53,7 @@ public class DAOCollectionMaster extends HibernateUtil
 		return progress;
 	}
 	
-	public List loadCollectionMaster() throws DataAccessException 
+	public List loadCollectionMaster(final Session session) throws DataAccessException
 	{
 		Session s = currentSession();
 		s.clear();
@@ -87,7 +65,7 @@ public class DAOCollectionMaster extends HibernateUtil
 		}
 		
 		List result = null;
-		result= find(" from CollectionMaster as ct order by ct.idCollection");
+		result= find(session, " from CollectionMaster as ct order by ct.idCollection");
 		return result;
 	}
 	
@@ -244,52 +222,6 @@ public class DAOCollectionMaster extends HibernateUtil
 		return result2;
 	}
 
-	
-	public List getListMastersElement(Locale locale) throws DataAccessException 
-	{
-		List result = new ArrayList();
-		List listAllCollection = loadCollectionMaster();
-		Iterator iter = listAllCollection.iterator();
-		while (iter.hasNext()) {
-			CollectionMaster rawMaster = (CollectionMaster) iter.next();
-			MasterListElement rawMasterListElement = new MasterListElement(rawMaster);
-
-			/*rawMasterListElement.setIdCollection(rawMaster.getIdCollection());
-			rawMasterListElement.setNameIta(LibrisuiteAction.getDaoCodeTable().getLongText((short)rawMaster.getNameIta(),T_CLCTN_MST_TYP.class,locale));
-			rawMasterListElement.setTypologyCode(LibrisuiteAction.getDaoCodeTable().getLongText(rawMaster.getTypologyCode(),T_CLCTN_TYP.class,locale));
-			rawMasterListElement.setStatusCode(LibrisuiteAction.getDaoCodeTable().getLongText((short)rawMaster.getStatusCode(),T_STS_CLCTN_TYP.class,locale));
-			if(hasHierarchy(rawMaster.getIdCollection()).size()>0)
-				rawMasterListElement.setHierarchy(true);
-			else
-				rawMasterListElement.setHierarchy(false);
-			rawMasterListElement.setCountMst(countCollectionFromRecordUses(rawMaster.getIdCollection()));*/
-			result.add(rawMasterListElement);
-		}
-		return result;
-	}
-	
-	public List getListMastersElementById(int idCollection,Locale locale) throws DataAccessException 
-	{
-		List result = new ArrayList();
-		List result2 = new ArrayList();
-		result = loadCollectionMaster(idCollection);
-		Iterator iter = result.iterator();
-		while (iter.hasNext()) {
-			CollectionMaster rawMaster = (CollectionMaster) iter.next();
-			MasterListElement rawMasterListElement = new MasterListElement(rawMaster);
-			/*rawMasterListElement.setIdCollection(rawMaster.getIdCollection());
-			rawMasterListElement.setNameIta(LibrisuiteAction.getDaoCodeTable().getLongText((short)rawMaster.getNameIta(),T_CLCTN_MST_TYP.class,locale));
-			rawMasterListElement.setTypologyCode(LibrisuiteAction.getDaoCodeTable().getLongText(rawMaster.getTypologyCode(),T_CLCTN_TYP.class,locale));
-			rawMasterListElement.setStatusCode(LibrisuiteAction.getDaoCodeTable().getLongText((short)rawMaster.getStatusCode(),T_STS_CLCTN_TYP.class,locale));
-			if(hasHierarchy(rawMaster.getIdCollection()).size()>0)
-				rawMasterListElement.setHierarchy(true);
-			else
-				rawMasterListElement.setHierarchy(false);
-			rawMasterListElement.setCountMst(countCollectionFromRecordUses(rawMaster.getIdCollection()));*/
-			result2.add(rawMasterListElement);
-		}
-		return result2;
-	}
 	
 	public List getListMastersElementByDescription(String nameIta,Locale locale) throws DataAccessException 
 	{

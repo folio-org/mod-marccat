@@ -1,5 +1,6 @@
 package org.folio.cataloging.integration.search;
 
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
 import org.folio.cataloging.dao.DAONameDescriptor;
@@ -32,6 +33,7 @@ public class TermExpressionNode implements ExpressionNode {
 	private String proximityOperator;
 	private String right;
 	private S_BIB1_SMNTC semantic;
+    private final Session session;
 
 	/**
 	 * Builds a new expression node.
@@ -40,8 +42,9 @@ public class TermExpressionNode implements ExpressionNode {
 	 * @param mainLibraryId the main library identifier.
 	 * @param searchingView the current searching view.
 	 */
-	TermExpressionNode(final Locale locale, final int mainLibraryId, final int searchingView) {
-		this.locale = locale;
+	TermExpressionNode(final Session session, final Locale locale, final int mainLibraryId, final int searchingView) {
+		this.session = session;
+	    this.locale = locale;
 		this.mainLibraryId = mainLibraryId;
 		this.searchingView = searchingView;
 	}
@@ -107,7 +110,7 @@ public class TermExpressionNode implements ExpressionNode {
 			
 			final String sf =
 					new DAONameDescriptor()
-						.calculateSortFormForPostgres(preProcessWildCards, sortFormP)
+						.calculateSortFormForPostgres(session, preProcessWildCards, sortFormP)
 							.replace('\u0002', '%')
 							.replace('\u0003', '_');
 
@@ -180,6 +183,7 @@ public class TermExpressionNode implements ExpressionNode {
 			if (semantic == null) {
 				semantic = new SemanticDAO()
 								.getSemanticEntry(
+								        session,
 										index.getUseAttribute(),
 										relationAsAttr(),
 										positionAsAttr(),

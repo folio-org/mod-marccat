@@ -208,21 +208,21 @@ public class DAOCache extends HibernateUtil {
                     throw new DataAccessException(exception);
                 }
 		    }
-	    }.execute();
+	    }.execute(session);
     	return preferredView.get();
 	}
 
 	private PreparedStatement stmt(final Connection connection, final int recordId, final int preferenceOrder) throws SQLException {
         final PreparedStatement stmt = connection.prepareStatement(
-                "SELECT trstn_vw_nbr FROM (" +
+                "SELECT a1.trstn_vw_nbr FROM (" +
                         "SELECT b.trstn_vw_nbr " +
                         " FROM s_cache_bib_itm_dsply a, " +
                         " db_prfr_ordr_seq b " +
                         " WHERE bib_itm_nbr = ? and " +
                         " a.trstn_vw_nbr = b.trstn_vw_nbr and " +
                         " b.DB_PRFNC_ORDR_NBR = ? " +
-                        " order by b.vw_seq_nbr) " +
-                        " where rownum < 2");
+                        " order by b.vw_seq_nbr) a1" +
+                        " limit 2");
         stmt.setInt(1, recordId);
         stmt.setInt(2, preferenceOrder);
         return stmt;

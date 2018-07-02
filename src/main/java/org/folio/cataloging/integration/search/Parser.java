@@ -1,11 +1,13 @@
 package org.folio.cataloging.integration.search;
 
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.DAOIndexList;
 import org.folio.cataloging.dao.persistence.IndexList;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -25,6 +27,7 @@ public class Parser {
 	private final Locale locale;
     private final int mainLibraryId;
 	private final int searchingView;
+	private final Session session;
 	private final DAOIndexList dao = new DAOIndexList();
 	private static IndexList defaultIndex;
 
@@ -35,10 +38,11 @@ public class Parser {
      * @param mainLibraryId the main library identifier.
      * @param searchingView the current search view.
      */
-	public Parser(final Locale locale, final int mainLibraryId, final int searchingView) {
+	public Parser(final Locale locale, final int mainLibraryId, final int searchingView, final Session session) {
 		this.locale = locale;
 		this.mainLibraryId = mainLibraryId;
 		this.searchingView = searchingView;
+		this.session = session;
 	}
 
 	/**
@@ -117,12 +121,12 @@ public class Parser {
 	}
 
 	private ExpressionNode searchExpression() throws CclParserException {
-		final TermExpressionNode expr = new TermExpressionNode(locale, mainLibraryId, searchingView);
+		final TermExpressionNode expr = new TermExpressionNode(session, locale, mainLibraryId, searchingView);
 		if (lookahead.token == Tokenizer.TokenType.WORD) {
 			if (lookahead.sequence.length() <= 3) {
 				IndexList i;
 				try {
-					i = dao.getIndexByLocalAbbreviation(lookahead.sequence, locale);
+					i = dao.getIndexByLocalAbbreviation(session, lookahead.sequence, locale);
 				} catch (DataAccessException e) {
 					throw new RuntimeException(e);
 				}
@@ -155,7 +159,7 @@ public class Parser {
 	private IndexList getDefaultIndex() {
 		if (defaultIndex == null) {
 			try {
-				defaultIndex = dao.getIndexByLocalAbbreviation("AW", Locale.ENGLISH);
+				defaultIndex = dao.getIndexByLocalAbbreviation(session, "AW", Locale.ENGLISH);
 			} catch (DataAccessException e) {
 				throw new RuntimeException(e);
 			}

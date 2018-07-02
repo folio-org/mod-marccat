@@ -354,6 +354,16 @@ public class HibernateUtil {
 		}
 	}
 
+    public List find(Session session, String query, Object[] values, Type[] types)
+            throws DataAccessException {
+        try {
+            return session.find(query, values, types);
+        } catch (HibernateException e) {
+            logAndWrap(e);
+            return null;
+        }
+    }
+
 	/**
 	 * Convenience method for currentSession().find(String query) If the find
 	 * method of the Hibernate Session throws a HibernateException, it wraps it
@@ -364,9 +374,9 @@ public class HibernateUtil {
 	 * @return a distinct list of instances
 	 * @throws DataAccessException
 	 */
-	public List find(String query) throws DataAccessException {
+	public List find(Session session, String query) throws DataAccessException {
 		try {
-			return currentSession().find(query);
+			return session.find(query);
 		} catch (HibernateException e) {
 			logAndWrap(e);
 			return null;

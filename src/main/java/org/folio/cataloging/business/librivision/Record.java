@@ -10,6 +10,7 @@ package org.folio.cataloging.business.librivision;
 import java.net.URL;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.w3c.dom.Document;
 
 /**
@@ -20,37 +21,35 @@ import org.w3c.dom.Document;
  * @since 1.0
  */
 public interface Record {
+	String getCclQuery();
+	void setCclQuery(String cclQuery);
+
+	int getRecordView(); //pm 2011
+	void setRecordView(int recordView); //pm 2011
 	
-	String cclQuery = "";
-	public String getCclQuery();
-	public void setCclQuery(String cclQuery);
+	boolean hasContent(String elementSetName);
 
-	public int getRecordView(); //pm 2011
-	public void setRecordView(int recordView); //pm 2011
-	
-	public boolean hasContent(String elementSetName);
+	void setContent(String elementSetName, Object contentObject);
 
-	public void setContent(String elementSetName, Object contentObject);
+	Object getContent(String elementSetName);
 
-	public Object getContent(String elementSetName);
+	String toXmlString(String elementSetName);
 
-	public String toXmlString(String elementSetName);
+	Document toXmlDocument(String elementSetName);
 
-	public Document toXmlDocument(String elementSetName);
-
-	public Document toXmlStyledDocument(String elementSetName,
+	Document toXmlStyledDocument(String elementSetName,
                                         String stylesheet, Map xsltParameters) throws XmlParserConfigurationException,
 			XslTransformerConfigurationException, XslTransformerException;
 
-	public Document toXmlStyledDocument(String elementSetName, URL stylesheet,
+	Document toXmlStyledDocument(String elementSetName, URL stylesheet,
                                         Map xsltParameters) throws XmlParserConfigurationException,
 			XslTransformerConfigurationException, XslTransformerException;
 
-	public String toStyledDocument(String elementSetName, String stylesheet,
+	String toStyledDocument(String elementSetName, String stylesheet,
                                    Map xsltParameters) throws XmlDocumentException,
 			XslTransformerConfigurationException, XslTransformerException;
 
-	public String toStyledDocument(String elementSetName, URL stylesheet,
+	String toStyledDocument(String elementSetName, URL stylesheet,
                                    Map xsltParameters) throws XmlDocumentException,
 			XslTransformerConfigurationException, XslTransformerException;
 

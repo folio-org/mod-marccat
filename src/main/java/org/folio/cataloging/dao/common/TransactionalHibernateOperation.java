@@ -129,9 +129,7 @@ public abstract class TransactionalHibernateOperation {
 			if (getNestingLevel() > 1) {
 				setNestingLevel((getNestingLevel() - 1));
 			}
-			else { 
-				// TODO _MIKE: why the session is closed here?
-				util.closeSession();
+			else {
 				setNestingLevel(0);
 				getPersistentStateManager().end();
 			}

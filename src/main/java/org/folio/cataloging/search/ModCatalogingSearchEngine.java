@@ -2,7 +2,6 @@ package org.folio.cataloging.search;
 
 import org.folio.cataloging.Global;
 import org.folio.cataloging.business.cataloguing.common.CatalogItem;
-import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.RecordNotFoundException;
 import org.folio.cataloging.business.common.View;
 import org.folio.cataloging.business.librivision.Record;
@@ -12,11 +11,12 @@ import org.folio.cataloging.exception.ModCatalogingException;
 import org.folio.cataloging.integration.StorageService;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
-import org.folio.cataloging.resources.SystemInternalFailureException;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.util.Optional.ofNullable;
+import static java.util.stream.IntStream.rangeClosed;
 
 /**
  * ModCataloging Search Engine.
@@ -77,49 +77,42 @@ public class ModCatalogingSearchEngine implements SearchEngine {
 	}
 
 	@Override
-	public SearchResponse fetchRecords(final SearchResponse ars, final String elementSetName, final int firstRecord, final int lastRecord) {
-		int itemNumber;
-		int searchingView = ars.getSearchingView();
-		try {
-			for (int i = firstRecord; i <= lastRecord; i++) {
-			    final int pos = i -1;
-				itemNumber = ars.getIdSet()[pos];
-				/*
-				 * pm 2011 The test below is added for the case we are fetching
-				 * the variants of a bib item. The view to be fetched is pre-set
-				 * in each result set record.
-				 */
-				if (ars.getRecord()[pos] != null	&& ars.getRecord()[pos].getRecordView() > 0) {
-					searchingView = ars.getRecord()[pos].getRecordView();
-				} else if (ars.getSearchingView() == View.ANY) {
-					searchingView = storageService.getPreferredView(itemNumber, databasePreferenceOrder);
-				}
+	public SearchResponse fetchRecords(final SearchResponse response, final String elementSetName, final int firstRecord, final int lastRecord) {
+		final AtomicInteger searchingView = new AtomicInteger(response.getSearchingView());
+		response.setRecordSet(
+                    rangeClosed(firstRecord, lastRecord)
+                       .map(index -> index--)
+                       .filter(pos -> response.getIdSet().length > pos)
+                       .mapToObj(pos -> {
+                           final int itemNumber = response.getIdSet()[pos];
+/*
+                           if (response.getRecord()[pos] != null && response.getRecord()[pos].getRecordView() > 0) {
+                               searchingView.set(response.getRecord()[pos].getRecordView());
+                           } else
+                           */
+                           if (response.getSearchingView() == View.ANY) {
+                               searchingView.set(storageService.getPreferredView(itemNumber, databasePreferenceOrder));
+                           }
 
-                String recordData = null;
-				try {
-                    recordData = storageService.getRecordData(itemNumber, searchingView);
-                } catch (final RecordNotFoundException exception) {
-                    try {
-                        final CatalogItem item = storageService.getCatalogItemByKey(itemNumber, searchingView);
-                        storageService.updateFullRecordCacheTable(item, searchingView);
-                        recordData = storageService.getRecordData(itemNumber, searchingView);
-                    } catch (final Exception fallback) {
-                        recordData = Global.EMPTY_STRING;
-                    }
-                }
+                           String recordData;
+                           try {
+                               recordData = storageService.getRecordData(itemNumber, searchingView.get());
+                           } catch (final RecordNotFoundException exception) {
+                               try {
+                                   final CatalogItem item = storageService.getCatalogItemByKey(itemNumber, searchingView.get());
+                                   storageService.updateFullRecordCacheTable(item, searchingView.get());
+                                   recordData = storageService.getRecordData(itemNumber, searchingView.get());
+                               } catch (final Exception fallback) {
+                                   recordData = Global.EMPTY_STRING;
+                               }
+                           }
 
-                final Record record =
-                        ofNullable(ars.getRecord()[pos])
-                            .orElseGet(() -> ars.setRecord(pos, new XmlRecord()));
-
-				((XmlRecord) record).setContent(elementSetName, recordData);
-				record.setRecordView(searchingView);
-			}
-			return ars;
-		} catch (final Exception exception) {
-			LOGGER.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-			throw new RuntimeException(exception);
-		}
+                           final Record record = new XmlRecord();
+                           ((XmlRecord) record).setContent(elementSetName, recordData);
+                           record.setRecordView(searchingView.get());
+                           return record;
+                       }).toArray(Record[]::new));
+		return response;
 	}
 
 	@Override

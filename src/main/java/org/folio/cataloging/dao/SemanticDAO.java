@@ -1,5 +1,6 @@
 package org.folio.cataloging.dao;
 
+import net.sf.hibernate.Session;
 import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.persistence.S_BIB1_SMNTC;
 import org.folio.cataloging.log.Log;
@@ -18,6 +19,7 @@ public class SemanticDAO {
 	private static final Log logger = new Log(SemanticDAO.class);
 	
 	public S_BIB1_SMNTC getSemanticEntry  (
+	        final Session session,
 			 int useNumber,
 			 int relationNumber,
 			 int positionNumber,
@@ -35,7 +37,7 @@ public class SemanticDAO {
 		
 		try
 		{
-			connection = new HibernateUtil().currentSession().connection();
+			connection = session.connection();
 			selectStatement = connection.prepareStatement("select * from s_bib1_smntc " +
 				" where atrbt_use_nbr = ? and atrbt_rltn_nbr = ? and " +
 				" atrbt_pstn_nbr = ? and atrbt_strct_nbr = ? and " +

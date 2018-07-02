@@ -1006,12 +1006,10 @@ public class StorageService implements Closeable {
         return new DAOCache().getPreferredView(session, itemNumber, databasePreferenceOrder);
     }
 
-    // TODO: Improve the separation between data and logic
     public SearchResponse sortResults(final SearchResponse rs, final String[] attributes, final String[] directions) throws DataAccessException {
-        //new DAOSortResultSets().sort((SearchResponse) rs, attributes, directions);
-        //rs.clearRecords();
-        // return rs;
-        return null;
+        new DAOSortResultSets().sort(session, rs, attributes, directions);
+        rs.clearRecords();
+        return rs;
     }
 
     public String getRecordData(final int itemNumber, final int searchingView) throws RecordNotFoundException {
@@ -1039,7 +1037,7 @@ public class StorageService implements Closeable {
     }
 
     public List<Integer> executeQuery(final String cclQuery, final int mainLibraryId, final Locale locale, final int searchingView) {
-        final Parser parser = new Parser(locale, mainLibraryId, searchingView);
+        final Parser parser = new Parser(locale, mainLibraryId, searchingView, session);
         try (final Statement sql = stmt(connection());
              final ResultSet rs = executeQuery(sql, parser.parse(cclQuery))) {
 

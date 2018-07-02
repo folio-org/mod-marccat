@@ -42,7 +42,7 @@ public interface PieceOfExistingLogicAdapter<T> {
             }
         } catch (final Exception exception) {
             // Don't log here, the exception is supposed to be logged within the adapter.
-            throw new SystemInternalFailureException(new IllegalArgumentException());
+            throw new SystemInternalFailureException(new IllegalArgumentException(exception));
         }
     }
 

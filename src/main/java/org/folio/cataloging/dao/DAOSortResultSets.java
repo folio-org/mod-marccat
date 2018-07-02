@@ -20,6 +20,7 @@ import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 public class DAOSortResultSets extends HibernateUtil {
 
 	public void sort(
+	    final Session session,
 		final SearchResponse rs,
 		String[] attributes,
 		String[] directions)
@@ -38,7 +39,7 @@ public class DAOSortResultSets extends HibernateUtil {
 				doSort(orderBy, rs);
 			}
 		}
-		.execute();
+		.execute(session);
 	}
 
 	private void doSort(

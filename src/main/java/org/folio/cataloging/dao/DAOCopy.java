@@ -1867,18 +1867,6 @@ public class DAOCopy extends HibernateUtil {
 		}
 	}
 
-	public List<Avp> getDescriptionSubfield4()
-			throws DataAccessException {
-		List raw = find("SELECT distinct a.code  FROM T_NME_WRK_RLTR as a ORDER BY a.code ASC");
-		List<Avp> result = new ArrayList<Avp>();
-		Iterator iter = raw.iterator();
-		while (iter.hasNext()) {
-			String row = (String) iter.next();
-			result.add(new Avp(row, row));
-		}
-		return result;
-	}
-
 	public List<Avp> getDescriptionSubfieldE()
 			throws DataAccessException {
 		List<Avp> result = new ArrayList<Avp>();

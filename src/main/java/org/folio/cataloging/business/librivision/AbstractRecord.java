@@ -1,16 +1,9 @@
-/*
- * (c) LibriCore
- * 
- * Created on Jun 7, 2004
- * 
- * AbstractRecord.java
- */
 package org.folio.cataloging.business.librivision;
 
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URL;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -26,8 +19,8 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.folio.cataloging.log.Log;
 import org.w3c.dom.Document;
 
 import org.folio.cataloging.util.XmlUtils;
@@ -37,22 +30,28 @@ import org.folio.cataloging.util.XmlUtils;
  * interface.
  * 
  * @author Wim Crols
- * @version $Revision: 1.11 $, $Date: 2004/12/02 08:44:16 $
  * @since 1.0
  */
 public abstract class AbstractRecord implements Record {
-	
+
+    @JsonIgnore
 	private String cclQuery = "";
 
 	private static final String XSLT_PATH = "/xslt/";
 
-	private static final Log logger = LogFactory.getLog(AbstractRecord.class);
+	private static final Log logger = new Log(AbstractRecord.class);
 
-	private Hashtable content = new Hashtable();
+	private Map<String, Object> content = new HashMap<>();
 
 	private int recordView;
 
-	public boolean hasContent(String elementSetName) {
+    /**
+     * Returns true if
+     *
+     * @param elementSetName
+     * @return
+     */
+	public boolean hasContent(final String elementSetName) {
 		return content.containsKey(elementSetName);
 	}
 
@@ -62,7 +61,7 @@ public abstract class AbstractRecord implements Record {
 		}
 	}
 
-	public Object getContent(String elementSetName) {
+	public Object getContent(final String elementSetName) {
 		return content.get(elementSetName);
 	}
 
@@ -74,10 +73,11 @@ public abstract class AbstractRecord implements Record {
 		}
 	}
 
-	public Document toXmlStyledDocument(String elementSetName,
-			String stylesheet, Map xsltParameters) throws XmlParserConfigurationException,
+	public Document toXmlStyledDocument(
+	        final String elementSetName,
+			final String stylesheet,
+            final Map xsltParameters) throws XmlParserConfigurationException,
 			XslTransformerConfigurationException, XslTransformerException {
-		// MIKE: helpful in configuration time
 		URL styleURL = AbstractRecord.class.getResource(XSLT_PATH + stylesheet);
 		if(styleURL==null) throw new XmlParserConfigurationException("stylesheet "+stylesheet+" not found in "+XSLT_PATH);
 		return toXmlStyledDocument(elementSetName, styleURL, xsltParameters);

@@ -189,7 +189,7 @@ public class BibliographicItem extends CatalogItem implements Serializable
 	private List getOrderableNameTags() throws DataAccessException 
 	{
 		if (nameOrderTags == null) {
-			nameOrderTags = new DAOOrderNames().getOrderNames();
+		//	nameOrderTags = new DAOOrderNames().getOrderNames();
 		}
 		return nameOrderTags;
 	}

@@ -28,7 +28,7 @@ public class ConfigHandler implements Serializable{
 
 	private ConfigHandler() {
 		daoGV = new DAOGlobalVariable();
-		setAllGlobalVariable(daoGV.getAllGlobalVariable());
+		setAllGlobalVariable(daoGV.getAllGlobalVariable(null));
 	 }
 
 	/**

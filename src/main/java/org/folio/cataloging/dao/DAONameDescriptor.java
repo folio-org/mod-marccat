@@ -75,12 +75,11 @@ public class DAONameDescriptor extends DAODescriptor
 	}
 
 	/*Per postgress*/
-	public String calculateSortFormForPostgres(String text, SortFormParameters parms)
+	public String calculateSortFormForPostgres(final Session s, String text, SortFormParameters parms)
 			throws DataAccessException, SortFormException {
 		String result = "";
 		int bufSize = 300;
 
-		Session s = currentSession();
 		CallableStatement proc = null;
 		Connection connection = null;
 		int rc;

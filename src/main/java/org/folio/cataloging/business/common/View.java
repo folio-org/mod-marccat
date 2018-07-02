@@ -17,6 +17,7 @@ public class View {
 	public static final int AUTHORITY = -1;
 	public static final int ANY = 0; // pm 2011
 	public static final int DEFAULT_BIBLIOGRAPHIC_VIEW = 1;
+	public static final String DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING = "" + DEFAULT_BIBLIOGRAPHIC_VIEW;
 	
 	/**
 	 * Creates a new usr_vw_ind string from the input string by

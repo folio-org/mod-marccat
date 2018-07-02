@@ -1,5 +1,6 @@
 package org.folio.cataloging.search;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import net.sf.hibernate.Session;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.business.common.DataAccessException;
@@ -35,10 +36,14 @@ public class SearchResponse {
 
     private final int searchingView;
     private final String displayQuery;
-    protected final Record[] record;
+    protected Record[] record;
+
+    @JsonIgnore
     private int[] idSet;
 
     private String complexQuery;
+
+    @JsonIgnore
     private int sortCriteria = 0;
 
     /**
@@ -52,7 +57,6 @@ public class SearchResponse {
 		this.searchingView = searchingView;
         this.displayQuery = ofNullable(query).orElse(Global.EMPTY_STRING);
         this.idSet = safe(idSet);
-        this.record = new Record[idSet.length];
 	}
 
 	/**
@@ -148,11 +152,8 @@ public class SearchResponse {
         }
     }
 
-    public Record setRecord(final int recordNumber, final Record aRecord) {
-        if ((this.record != null) && (recordNumber < this.record.length)) {
-            this.record[recordNumber] = aRecord;
-        }
-        return aRecord;
+    public void setRecordSet(final Record [] records) {
+        this.record = records;
     }
 
     private void retrieveRecords(final int recordNumber, final String elementSetName, final SearchEngine searchEngine) {
