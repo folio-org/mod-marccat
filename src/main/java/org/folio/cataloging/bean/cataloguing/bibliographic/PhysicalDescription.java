@@ -1,4 +1,3 @@
-
 package org.folio.cataloging.bean.cataloguing.bibliographic;
 
 import org.folio.cataloging.business.cataloguing.bibliographic.FixedField;

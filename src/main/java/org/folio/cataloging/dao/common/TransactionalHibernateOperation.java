@@ -3,19 +3,17 @@ package org.folio.cataloging.dao.common;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.PersistenceState;
 import org.folio.cataloging.business.common.ReferentialIntegrityException;
+import org.folio.cataloging.log.Log;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
 public abstract class TransactionalHibernateOperation {
 
-	private static final Log logger =
-		LogFactory.getLog(TransactionalHibernateOperation.class);
+	private static final Log logger = new Log(TransactionalHibernateOperation.class);
 	private static final HibernateUtil util = new HibernateUtil();
 	private static ThreadLocal nestingLevel = new ThreadLocal() {
 		protected synchronized Object initialValue() {
@@ -40,8 +38,47 @@ public abstract class TransactionalHibernateOperation {
 	private static PersistentStateManager getPersistentStateManager(){
 		return (PersistentStateManager) stateManager.get();
 	}
-	
-	public void execute() throws DataAccessException {
+
+    public void execute(final Session session) throws DataAccessException {
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            setNestingLevel(getNestingLevel() + 1);
+            if (getNestingLevel() == 1) {
+                //	logger.info("reset before...");
+                getPersistentStateManager().begin();
+            }
+            doInHibernateTransaction(session);
+            if (getNestingLevel() == 1) {
+                tx.commit();
+                getPersistentStateManager().commit();
+                getPersistentStateManager().end();
+                //		logger.info("committed");
+            }
+            setNestingLevel((getNestingLevel() - 1));
+        } catch (HibernateException e) {
+            cleanup(tx);
+            util.logAndWrap(e);
+        } catch (SQLException e) {
+            cleanup(tx);
+            util.logAndWrap(e);
+        } catch (IOException e) {
+            cleanup(tx);
+            util.logAndWrap(e);
+        } catch (ReferentialIntegrityException e) {
+            cleanup(tx);
+            util.logAndWrap(e);
+        } catch (DataAccessException e) {
+            cleanup(tx);
+            throw e;
+        } catch (Throwable e) {
+            cleanup(tx);
+            util.logAndWrap(e);
+        }
+    }
+
+
+    public void execute() throws DataAccessException {
 		Transaction tx = null;
 		try {
 			Session session = util.currentSession();
@@ -81,7 +118,7 @@ public abstract class TransactionalHibernateOperation {
 	}
 
 	private void cleanup(Transaction tx) throws DataAccessException {
-		logger.warn(
+		logger.error(
 			"Cleaning up after HibernateException in the middle of a Transaction");
 		try {
 			rollback(tx);

@@ -3,7 +3,6 @@ package org.folio.cataloging.dao;
 import net.sf.hibernate.*;
 import net.sf.hibernate.type.Type;
 import org.folio.cataloging.Global;
-import org.folio.cataloging.bean.cas.RuleCollectionMSTBean;
 import org.folio.cataloging.business.RuleListElement;
 import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.DataAccessException;
@@ -77,7 +76,7 @@ public class DAOCollectionRule extends HibernateUtil  {
 							item.setDataUpdate(FORMATTERS.get().format(rawRule.getDataUpdate()));
 						}
 
-						if (RuleCollectionMSTBean.PUBBLICATION_DATE.equalsIgnoreCase(rawRule.getDataType())) {
+						/*if (RuleCollectionMSTBean.PUBBLICATION_DATE.equalsIgnoreCase(rawRule.getDataType())) {
 							if (rawRule.getDataPublRange() != null) {
 								item.setDataRange(rawRule.getDataPublRange());
 							}
@@ -90,7 +89,7 @@ public class DAOCollectionRule extends HibernateUtil  {
 												.append(FORMATTERS.get().format(rawRule.getDataUploadTo()));
 								item.setDataRange(buffer.toString());
 							}
-						}
+						}*/
 
 						item.setCollSource(loadCollections(rawRule.getRuleId()).stream()
 								.map(CLCTN_MST_RULE_REL::getIdCollection)

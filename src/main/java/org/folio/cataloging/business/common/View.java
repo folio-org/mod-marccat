@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- * 
- * Created on Jul 17, 2004
- * 
- * View.java
- */
 package org.folio.cataloging.business.common;
 
 import org.folio.cataloging.dao.DAOCodeTable;
@@ -14,10 +7,9 @@ import java.util.Locale;
 
 
 /**
- * A collection of static methods to manage user views
+ * A collection of static methods to manage user views.
+ *
  * @author paulm
- * MIKE: added view for mades
- * @version %I%, %G%
  * @since 1.0
  */
 public class View {

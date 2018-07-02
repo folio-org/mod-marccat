@@ -23,6 +23,7 @@ import org.folio.cataloging.dao.persistence.Cache;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author paulm
@@ -193,46 +194,37 @@ public class DAOCache extends HibernateUtil {
 	 * @return
 	 * @throws DataAccessException
 	 */
-	public int getPreferredView(final int amicusNumber, final int preferenceOrder) throws DataAccessException {
-		class Intwrapper {
-			int value;
-		}
-		final Intwrapper preferredView = new Intwrapper();
+	public int getPreferredView(final Session session, final int amicusNumber, final int preferenceOrder) throws DataAccessException {
+		final AtomicInteger preferredView = new AtomicInteger();
 		new TransactionalHibernateOperation() {
-			public void doInHibernateTransaction(Session s)
-			throws HibernateException, DataAccessException {
-			Connection connection = s.connection();
-			PreparedStatement stmt = null;
-			java.sql.ResultSet js = null;
-			try {
-				stmt = connection.prepareStatement(
-							"SELECT trstn_vw_nbr FROM (" +
-					        	"SELECT b.trstn_vw_nbr " +
-					        	" FROM s_cache_bib_itm_dsply a, " +
-					                  " db_prfr_ordr_seq b " +
-					                  " WHERE bib_itm_nbr = ? and " +
-					                   " a.trstn_vw_nbr = b.trstn_vw_nbr and " +
-					                   " b.DB_PRFNC_ORDR_NBR = ? " +
-					        " order by b.vw_seq_nbr) " +
-							" where rownum < 2");
-				stmt.setInt(1, amicusNumber);
-				stmt.setInt(2, preferenceOrder);
-				js = stmt.executeQuery();
-				while (js.next()) {
-					preferredView.value = js.getInt("trstn_vw_nbr");
-				}
-			} catch (SQLException e) {
-				throw new DataAccessException();
-			}
-			finally {
-				if (js   != null) { try {js.close();} catch (SQLException e) {}}
-				if (stmt != null) { try {stmt.close();} catch (SQLException e) {}}
-			}
-		}
-	}
-	.execute();
-	return preferredView.value;
+			public void doInHibernateTransaction(final Session s) throws HibernateException, DataAccessException {
+			    final Connection connection = s.connection();
+			    try(final PreparedStatement stmt = stmt(connection, amicusNumber, preferenceOrder);
+                    final ResultSet resultSet = stmt.executeQuery()) {
+                    while (resultSet.next()) {
+                        preferredView.set(resultSet.getInt("trstn_vw_nbr"));
+                    }
+                } catch (final SQLException exception) {
+                    throw new DataAccessException(exception);
+                }
+		    }
+	    }.execute();
+    	return preferredView.get();
 	}
 
-	
+	private PreparedStatement stmt(final Connection connection, final int recordId, final int preferenceOrder) throws SQLException {
+        final PreparedStatement stmt = connection.prepareStatement(
+                "SELECT trstn_vw_nbr FROM (" +
+                        "SELECT b.trstn_vw_nbr " +
+                        " FROM s_cache_bib_itm_dsply a, " +
+                        " db_prfr_ordr_seq b " +
+                        " WHERE bib_itm_nbr = ? and " +
+                        " a.trstn_vw_nbr = b.trstn_vw_nbr and " +
+                        " b.DB_PRFNC_ORDR_NBR = ? " +
+                        " order by b.vw_seq_nbr) " +
+                        " where rownum < 2");
+        stmt.setInt(1, recordId);
+        stmt.setInt(2, preferenceOrder);
+        return stmt;
+    }
 }

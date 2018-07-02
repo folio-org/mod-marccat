@@ -4,20 +4,30 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
+import org.folio.cataloging.business.cataloguing.common.CatalogItem;
 import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.RecordNotFoundException;
+import org.folio.cataloging.business.common.View;
 import org.folio.cataloging.dao.*;
 import org.folio.cataloging.dao.common.HibernateSessionProvider;
 import org.folio.cataloging.dao.persistence.*;
+import org.folio.cataloging.exception.ModCatalogingException;
+import org.folio.cataloging.integration.search.Parser;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.cataloging.resources.domain.RecordTemplate;
+import org.folio.cataloging.search.SearchResponse;
 import org.folio.cataloging.shared.CodeListsType;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.shared.Validation;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.*;
 
 import static java.util.Optional.ofNullable;
@@ -992,4 +1002,75 @@ public class StorageService implements Closeable {
         return ofNullable(THIRD_CORRELATION_HEADING_CLASS_MAP.get(category)).isPresent();
     }
 
+    public int getPreferredView(final int itemNumber, final int databasePreferenceOrder) throws DataAccessException {
+        return new DAOCache().getPreferredView(session, itemNumber, databasePreferenceOrder);
+    }
+
+    // TODO: Improve the separation between data and logic
+    public SearchResponse sortResults(final SearchResponse rs, final String[] attributes, final String[] directions) throws DataAccessException {
+        //new DAOSortResultSets().sort((SearchResponse) rs, attributes, directions);
+        //rs.clearRecords();
+        // return rs;
+        return null;
+    }
+
+    public String getRecordData(final int itemNumber, final int searchingView) throws RecordNotFoundException {
+        final FULL_CACHE cache = new DAOFullCache().load(session, itemNumber, searchingView);
+        return cache.getRecordData();
+    }
+
+    public CatalogItem getCatalogItemByKey(final int itemNumber, final int searchingView) {
+        switch(searchingView) {
+            case View.AUTHORITY:
+                return new AuthorityCatalogDAO().getCatalogItemByKey(itemNumber, searchingView);
+            default:
+                return new BibliographicCatalogDAO().getCatalogItemByKey(itemNumber, searchingView);
+        }
+    }
+
+    public void updateFullRecordCacheTable(final CatalogItem item, final int view) {
+        switch(view) {
+            case View.AUTHORITY:
+                new AuthorityCatalogDAO().updateFullRecordCacheTable(session, item);
+                break;
+            default:
+                new BibliographicCatalogDAO().updateFullRecordCacheTable(session, item);
+        }
+    }
+
+    public List<Integer> executeQuery(final String cclQuery, final int mainLibraryId, final Locale locale, final int searchingView) {
+        final Parser parser = new Parser(locale, mainLibraryId, searchingView);
+        try (final Statement sql = stmt(connection());
+             final ResultSet rs = executeQuery(sql, parser.parse(cclQuery))) {
+
+            final ArrayList<Integer> results = new ArrayList<>();
+            while (rs.next()) {
+                results.add(rs.getInt(1));
+            }
+            return results;
+        } catch (final HibernateException | SQLException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+            return Collections.emptyList();
+        }
+    }
+
+    public Connection connection() throws HibernateException {
+        return session.connection();
+    }
+
+    private Statement stmt(final Connection connection) {
+        try {
+            return connection.createStatement();
+        } catch (final Exception exception) {
+            throw new ModCatalogingException(exception);
+        }
+    }
+
+    private ResultSet executeQuery(final Statement stmt, final String query) {
+        try {
+            return stmt.executeQuery(query);
+        } catch (final Exception exception) {
+            throw new ModCatalogingException(exception);
+        }
+    }
 }

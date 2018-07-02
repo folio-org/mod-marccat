@@ -1,0 +1,226 @@
+package org.folio.cataloging.search;
+
+import net.sf.hibernate.Session;
+import org.folio.cataloging.Global;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.View;
+import org.folio.cataloging.business.librivision.MarcRecord;
+import org.folio.cataloging.business.librivision.Record;
+import org.folio.cataloging.business.searching.SearchEngine;
+import org.folio.cataloging.dao.DAOCodeTable;
+import org.folio.cataloging.dao.persistence.T_AUT_DSPLY_FRMT;
+import org.folio.cataloging.dao.persistence.T_BIB_DSPLY_FRMT;
+import org.folio.cataloging.dao.persistence.T_ITM_DSPLY_FRMT;
+import org.folio.cataloging.exception.ModCatalogingException;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.OptionalInt;
+
+import static java.util.Arrays.stream;
+import static java.util.Optional.ofNullable;
+import static org.folio.cataloging.F.safe;
+
+/**
+ * Mod-Cataloging search SearchResponse implementation.
+ *
+ * @author paulm
+ * @author agazzarini
+ * @since 1.0
+ *
+ */
+public class SearchResponse {
+    private static final int RETRIEVE_MAX_NUMBER_OF_RECORDS = 10;
+
+    private final int searchingView;
+    private final String displayQuery;
+    protected final Record[] record;
+    private int[] idSet;
+
+    private String complexQuery;
+    private int sortCriteria = 0;
+
+    /**
+     * Builds a new {@link SearchResponse} with the given data.
+     *
+     * @param searchingView the searching view identifier.
+     * @param query the query which produced this instance.
+     * @param idSet the paged record identifiers.
+     */
+	public SearchResponse(final int searchingView, final String query, final int[] idSet)  {
+		this.searchingView = searchingView;
+        this.displayQuery = ofNullable(query).orElse(Global.EMPTY_STRING);
+        this.idSet = safe(idSet);
+        this.record = new Record[idSet.length];
+	}
+
+	/**
+	 * Constructor for list of variants for a single record.
+     *
+	 * @param recordId the record identifier.
+	 * @param variantViews the list of variant views.
+	 */
+	public SearchResponse(final int recordId, final List<Integer> variantViews)  {
+        this.searchingView = Integer.MIN_VALUE;
+	    this.displayQuery = Global.EMPTY_STRING;
+		this.record =
+                safe(variantViews)
+                    .stream()
+                    .map(view -> {
+                        final Record record = new MarcRecord();
+                        record.setRecordView(view);
+                        return record;})
+                    .toArray(Record[]::new);
+		this.idSet = stream(record).mapToInt(record -> recordId).toArray();
+	}
+
+    /**
+     * Returns the id set wrapped by this instance.
+     *
+     * @return the id set wrapped by this instance.
+     */
+	public int[] getIdSet() {
+		return idSet;
+	}
+
+	public OptionalInt getRecordIdentifier(final int index) {
+        return (index >= 0 && index < getIdSet().length)
+                ? OptionalInt.of(idSet[index])
+                : OptionalInt.empty();
+	}
+
+    /**
+     * Returns the display query associated with this result.
+     *
+     * @return the display query associated with this result.
+     */
+    public String getDisplayQuery() {
+        return displayQuery;
+    }
+
+    /**
+     * Returns the searching view associated with this instance.
+     *
+     * @return the searching view associated with this instance.
+     */
+    public int getSearchingView() {
+        return searchingView;
+    }
+
+    /**
+     * Returns true if the current searchingView is BIBLIOGRAPHICS.
+     *
+     * @return true if the current searchingView is BIBLIOGRAPHICS.
+     */
+    public boolean isBibliographic() {
+        return getSearchingView() != View.AUTHORITY;
+    }
+
+    /**
+     * Returns the size of this result set.
+     *
+     * @return the size of this result set.
+     */
+    public int getSize() {
+        return this.record.length;
+    }
+
+    public Record[] getRecord() {
+        return this.record;
+    }
+
+    public String getComplexQuery() {
+        return complexQuery;
+    }
+    public void setComplexQuery(String complexQuery) {
+        this.complexQuery = complexQuery;
+    }
+
+    public Record getRecord(final int recordNumber, final String elementSetName, final SearchEngine searchEngine) {
+        if ((recordNumber < this.record.length) && (recordNumber >= 0)) {
+            if ((this.record[recordNumber] == null) || (!this.record[recordNumber].hasContent(elementSetName))) {
+                retrieveRecords(recordNumber, elementSetName, searchEngine);
+            }
+            return this.record[recordNumber];
+        } else {
+            return null;
+        }
+    }
+
+    public Record setRecord(final int recordNumber, final Record aRecord) {
+        if ((this.record != null) && (recordNumber < this.record.length)) {
+            this.record[recordNumber] = aRecord;
+        }
+        return aRecord;
+    }
+
+    private void retrieveRecords(final int recordNumber, final String elementSetName, final SearchEngine searchEngine) {
+        int firstRecordNumber = recordNumber;
+        int lastRecordNumber = recordNumber;
+
+        if ((recordNumber < this.record.length)
+                && (recordNumber >= 0)
+                && ((this.record[recordNumber] == null)
+                || (!this.record[recordNumber].hasContent(elementSetName)))) {
+            lastRecordNumber =
+                    computeLastRecordNumber(
+                            firstRecordNumber + 1,
+                            elementSetName,
+                            RETRIEVE_MAX_NUMBER_OF_RECORDS);
+            firstRecordNumber =
+                    computeFirstRecordNumber(
+                            lastRecordNumber,
+                            elementSetName,
+                            RETRIEVE_MAX_NUMBER_OF_RECORDS);
+        }
+
+        searchEngine.fetchRecords(
+                this,
+                elementSetName,
+                firstRecordNumber,
+                lastRecordNumber);
+    }
+
+    private int computeLastRecordNumber(final int firstRecordNumber, final String elementSetName, final int maxNumberOfRecords) {
+        int lastRecordNumber = firstRecordNumber;
+        while (((lastRecordNumber - firstRecordNumber) < (maxNumberOfRecords - 1))
+                && (lastRecordNumber < getSize())
+                && ((this.record[lastRecordNumber] == null) || (!this.record[lastRecordNumber].hasContent(elementSetName)))) {
+            lastRecordNumber++;
+        }
+        return lastRecordNumber;
+    }
+
+    private  int computeFirstRecordNumber(final int lastRecordNumber, final String elementSetName, final int maxNumberOfRecords) {
+        int firstRecordNumber = lastRecordNumber;
+        while (((lastRecordNumber - firstRecordNumber) < (maxNumberOfRecords - 1))
+                && (firstRecordNumber > 1)
+                && ((this.record[firstRecordNumber - 2] == null) || (!this.record[firstRecordNumber - 2].hasContent(elementSetName)))) {
+            firstRecordNumber--;
+        }
+        return firstRecordNumber;
+    }
+
+    public void clearRecords() {
+        Arrays.fill(record, null);
+    }
+
+    public int getSortCriteria() {
+        return sortCriteria;
+    }
+
+    public void setSortCriteria(int i) {
+        sortCriteria = i;
+    }
+
+    public void sort(final String[] attributes, final String[] directions, final SearchEngine searchEngine) throws ModCatalogingException {
+        searchEngine.sort(this, attributes, directions);
+    }
+
+    public T_ITM_DSPLY_FRMT getDisplayFormat(final Session session, final short code, final Locale locale)	throws DataAccessException {
+        return (isBibliographic())
+            ? (T_BIB_DSPLY_FRMT) new DAOCodeTable().load(session, T_BIB_DSPLY_FRMT.class, code, locale)
+            : (T_AUT_DSPLY_FRMT) new DAOCodeTable().load(session, T_AUT_DSPLY_FRMT.class, code,	locale);
+    }
+}

@@ -537,7 +537,7 @@ public class DAOCollectionPublisher extends HibernateUtil
 	{
 		Connection connection = null;
 		PreparedStatement stmt = null;
-		java.sql.ResultSet rs = null;
+		java.sql.SearchResponse rs = null;
 		Session s = currentSession();
 		String query = "";
 		List l = null;

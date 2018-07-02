@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- * 
- * Created on 13-jul-2004
- * 
- * CopyListElement.java
- */
 package org.folio.cataloging.bean.cataloguing.copy;
 
 import java.util.List;

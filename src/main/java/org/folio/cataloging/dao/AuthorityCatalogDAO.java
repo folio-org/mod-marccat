@@ -67,12 +67,12 @@ public class AuthorityCatalogDAO extends CatalogDAO {
 
     // 2018 Paul Search Engine Java
     @Override
-    public void updateFullRecordCacheTable(CatalogItem item)
+    public void updateFullRecordCacheTable(Session session, CatalogItem item)
             throws DataAccessException {
         FULL_CACHE cache;
         DAOFullCache dao = new DAOFullCache();
         try {
-            cache = dao.load(item.getAmicusNumber(), View.AUTHORITY);
+            cache = dao.load(session, item.getAmicusNumber(), View.AUTHORITY);
         } catch (RecordNotFoundException e) {
             cache = new FULL_CACHE();
             cache.setItemNumber(item.getAmicusNumber());
@@ -99,12 +99,9 @@ public class AuthorityCatalogDAO extends CatalogDAO {
 		return item;
 	}
 
-	/* (non-Javadoc)
-	 * @see CatalogDAO#getCatalogItemByKey(java.lang.Object[])
-	 */
-	public CatalogItem getCatalogItemByKey(Object[] key)
-		throws DataAccessException {
-		return getAuthorityItemByAmicusNumber(((Integer) key[0]).intValue());
+    @Override
+	public CatalogItem getCatalogItemByKey(int ... key) throws DataAccessException {
+		return getAuthorityItemByAmicusNumber(key[0]);
 	}
 
 	public List getHeaderFields(AuthorityItem item)

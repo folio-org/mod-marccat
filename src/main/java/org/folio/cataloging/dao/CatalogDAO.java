@@ -34,7 +34,7 @@ public abstract class CatalogDAO extends HibernateUtil {
 		this.casCache = cas;
 	}
 
-	abstract public CatalogItem getCatalogItemByKey(Object[] key) throws DataAccessException;
+	public abstract CatalogItem getCatalogItemByKey(int ... key) throws DataAccessException;
 
 	public void deleteCatalogItem(final CatalogItem item, final UserProfile user) throws DataAccessException 
 	{
@@ -64,7 +64,7 @@ public abstract class CatalogDAO extends HibernateUtil {
 		.execute();
 	}
 
-	abstract public void updateFullRecordCacheTable(final CatalogItem item) throws DataAccessException;
+	abstract public void updateFullRecordCacheTable(Session session, CatalogItem item) throws DataAccessException;
 
 	abstract protected void updateCacheTable(final CatalogItem item) throws DataAccessException;
 	

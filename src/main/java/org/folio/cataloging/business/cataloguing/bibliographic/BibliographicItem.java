@@ -2,7 +2,6 @@ package org.folio.cataloging.business.cataloguing.bibliographic;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.bean.cataloguing.bibliographic.BibliographicEditBean;
 import org.folio.cataloging.business.cataloguing.common.CatalogItem;
 import org.folio.cataloging.business.cataloguing.common.ItemEntity;
 import org.folio.cataloging.business.cataloguing.common.Tag;
@@ -28,7 +27,7 @@ import java.util.List;
 public class BibliographicItem extends CatalogItem implements Serializable 
 {
 	private static final long serialVersionUID = 8676099561229020012L;
-	private static final Log logger = LogFactory.getLog(BibliographicEditBean.class);
+	private static final Log logger = LogFactory.getLog(BibliographicItem.class);
 		
 	private static List nameOrderTags = null;
 	private BIB_ITM bibItmData;

@@ -69,18 +69,18 @@ public class BibliographicCatalogDAO extends CatalogDAO
 
 	// 2018 Paul Search Engine Java
 	@Override
-	public void updateFullRecordCacheTable(CatalogItem item)
+	public void updateFullRecordCacheTable(Session session, CatalogItem item)
 			throws DataAccessException {
-		updateFullRecordCacheTable(item, true);
+		updateFullRecordCacheTable(session, item, true);
 	}
 
 	// 2018 Paul Search Engine Java
-	private void updateFullRecordCacheTable(CatalogItem item,
+	private void updateFullRecordCacheTable(Session session, CatalogItem item,
 											boolean updateRelatedRecs) throws DataAccessException {
 		FULL_CACHE cache;
 		DAOFullCache dao = new DAOFullCache();
 		try {
-			cache = dao.load(item.getAmicusNumber(), item.getUserView());
+			cache = dao.load(session, item.getAmicusNumber(), item.getUserView());
 		} catch (RecordNotFoundException e) {
 			cache = new FULL_CACHE();
 			cache.setItemNumber(item.getAmicusNumber());
@@ -99,7 +99,7 @@ public class BibliographicCatalogDAO extends CatalogDAO
 					BibliographicRelationshipTag t = (BibliographicRelationshipTag) o;
 					CatalogItem relItem = getBibliographicItemByAmicusNumber(t
 							.getTargetBibItemNumber(), item.getUserView());
-					updateFullRecordCacheTable(relItem, false);
+					updateFullRecordCacheTable(session, relItem, false);
 				}
 			}
 		}
@@ -578,13 +578,11 @@ public class BibliographicCatalogDAO extends CatalogDAO
 			.execute();
 		}
 
-	/* (non-Javadoc)
-	 * @see CatalogDAO#getCatalogItemByKey(java.lang.Object[])
-	 */
-	public CatalogItem getCatalogItemByKey(Object[] key)
+	@Override
+	public CatalogItem getCatalogItemByKey(final int ... key)
 		throws DataAccessException {
-		int id = ((Integer) key[0]).intValue();
-		int cataloguingView = ((Integer) key[1]).intValue();
+		int id = key[0];
+		int cataloguingView = key[1];
 		return getBibliographicItemByAmicusNumber(id, cataloguingView);
 	}
 

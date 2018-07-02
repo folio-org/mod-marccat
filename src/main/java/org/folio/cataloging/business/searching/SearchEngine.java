@@ -1,5 +1,6 @@
 package org.folio.cataloging.business.searching;
 
+import org.folio.cataloging.search.SearchResponse;
 import org.folio.cataloging.exception.ModCatalogingException;
 
 import java.net.SocketTimeoutException;
@@ -14,19 +15,19 @@ import java.util.Locale;
  * @since 1.0
  */
 public interface SearchEngine {
-	ResultSet expertSearch(String cclQuery, Locale locale, int searchingView) throws ModCatalogingException;
-	ResultSet simpleSearch(String query, String use, Locale locale, int searchingView) throws ModCatalogingException;
+	SearchResponse expertSearch(String cclQuery, Locale locale, int searchingView) throws ModCatalogingException;
+	SearchResponse simpleSearch(String query, String use, Locale locale, int searchingView) throws ModCatalogingException;
 
-	ResultSet advancedSearch(List<String> termList,
-							 List<String> relationList,
-							 List<String> useList,
-							 List<String> operatorList,
-							 Locale locale, int searchingView) throws ModCatalogingException, SocketTimeoutException;
+	SearchResponse advancedSearch(List<String> termList,
+                                  List<String> relationList,
+                                  List<String> useList,
+                                  List<String> operatorList,
+                                  Locale locale, int searchingView) throws ModCatalogingException, SocketTimeoutException;
 
-    ResultSet fetchRecords(ResultSet rs, String elementSetName, int firstRecord, int lastRecord);
+    SearchResponse fetchRecords(SearchResponse rs, String elementSetName, int firstRecord, int lastRecord);
 
-	ResultSet sort(
-            ResultSet rs,
+	SearchResponse sort(
+            SearchResponse rs,
             String[] attributes,
             String[] directions) throws ModCatalogingException;
 }

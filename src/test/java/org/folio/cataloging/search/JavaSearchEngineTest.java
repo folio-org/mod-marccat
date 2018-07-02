@@ -11,7 +11,7 @@ public class JavaSearchEngineTest {
 	public void testA() {
 //		final SearchEngine searchEngine = new ModCatalogingSearchEngine();
 //
-//		final ResultSet rs =
+//		final SearchResponse rs =
 //				searchEngine.fetchRecords(
 //					searchEngine.simpleSearch("Query", "AW", Locale.ITALIAN, 1),
 //					"S",

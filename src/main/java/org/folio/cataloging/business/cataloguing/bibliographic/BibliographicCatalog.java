@@ -31,8 +31,8 @@ public class BibliographicCatalog extends Catalog {
 	private static final ModelDAO MODEL_DAO = new BibliographicModelDAO();
 	private static final BibliographicCatalogDAO CATALOG_DAO = new BibliographicCatalogDAO();
 
-	protected static AbstractMapBackedFactory TAG_FACTORY;
-	protected static AbstractMapBackedFactory FIXED_FIELDS_FACTORY;
+	private static AbstractMapBackedFactory TAG_FACTORY;
+	private static AbstractMapBackedFactory FIXED_FIELDS_FACTORY;
 
 	static {
 		TAG_FACTORY = new MapBackedFactory();
@@ -324,16 +324,16 @@ public class BibliographicCatalog extends Catalog {
 			final int cataloguingView) throws DataAccessException {
 		if (recordView == cataloguingView) {
 			// nothing to do
-			return getCatalogItem(new Object[] { amicusNumber, recordView });
+			return getCatalogItem(amicusNumber, recordView);
 		}
 		try {
 			new DAOCache().load(amicusNumber, cataloguingView);
-			return getCatalogItem(new Object[] { amicusNumber, cataloguingView });
+			return getCatalogItem(amicusNumber, cataloguingView);
 		} catch (final RecordNotFoundException exception) {
 			// do nothing -- carry on creating record in myView
 		}
 
-		final CatalogItem item = (CatalogItem) deepCopy(getCatalogItem(new Object[] { amicusNumber, recordView }));
+		final CatalogItem item = (CatalogItem) deepCopy(getCatalogItem(amicusNumber, recordView));
 		applyKeyToItem(item, new Object[] { cataloguingView });
 		item.getItemEntity().markNew();
 		Iterator iter = item.getTags().iterator();

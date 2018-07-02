@@ -12,7 +12,6 @@ import org.folio.cataloging.dao.persistence.CollectionMaster;
 import org.folio.cataloging.dao.persistence.T_CLCTN_MST_TYP;
 import org.folio.cataloging.dao.persistence.T_CLCTN_TYP;
 import org.folio.cataloging.dao.persistence.T_STS_CLCTN_TYP;
-import org.folio.cataloging.form.CollectionsMasterForm;
 import org.folio.cataloging.log.MessageCatalog;
 
 import java.sql.*;
@@ -186,43 +185,6 @@ public class DAOCollectionMaster extends HibernateUtil
 		return masterListElement;
 	}
 
-    public List orderMstCollection(final CollectionsMasterForm form, final Locale locale) throws DataAccessException
-	{
-		List result = new ArrayList();
-		List result2 = new ArrayList();
-		
-		String query = workQuery(form.getTypologyCode(), form.getSearchNome(),
-				form.getSearchId(), form.getColonna(), form.getStatus());
-		
-		try {
-			Session s = currentSession();
-			Query q = s.createQuery(query);
-			result = q.list();
-			
-			Iterator iter = result.iterator();
-			while (iter.hasNext()) {
-				CollectionMaster rawMaster = (CollectionMaster) iter.next();
-				MasterListElement rawMasterListElement = new MasterListElement(rawMaster);
-				/*rawMasterListElement.setIdCollection(rawMaster.getIdCollection());
-				rawMasterListElement.setNameIta(LibrisuiteAction.getDaoCodeTable().getLongText((short)rawMaster.getNameIta(),T_CLCTN_MST_TYP.class,locale));
-				rawMasterListElement.setStatusCode(LibrisuiteAction.getDaoCodeTable().getLongText((short)rawMaster.getStatusCode(),T_STS_CLCTN_TYP.class,locale));
-				rawMasterListElement.setTypologyCode(LibrisuiteAction.getDaoCodeTable().getLongText(rawMaster.getTypologyCode(),T_CLCTN_TYP.class,locale));
-				if(hasHierarchy(rawMaster.getIdCollection()).size()>0)
-					rawMasterListElement.setHierarchy(true);
-				else
-					rawMasterListElement.setHierarchy(false);
-				rawMasterListElement.setCountMst(countCollectionFromRecordUses(rawMaster.getIdCollection()));*/
-				result2.add(rawMasterListElement);
-			}
-
-		} catch (HibernateException e) {
-			logAndWrap(e);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-//		return result2;
-		return sortMasterList(form.getStatus(), form.getColonna(), result2);
-	}
 
 	private String workQuery(String typologyCode, String searchNome, String searchId, String colonna, String status) 
 	{

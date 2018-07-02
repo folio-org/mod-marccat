@@ -33,7 +33,7 @@ public abstract class Catalog {
 	private final Log logger = LogFactory.getLog(getClass());
 	protected final static DAOCodeTable DAO_CODE_TABLE = new DAOCodeTable();
 
-	private final static Map<Integer, Catalog> VIEW_TO_INSTANCE_MAP = new HashMap();
+	private final static Map<Integer, Catalog> VIEW_TO_INSTANCE_MAP = new HashMap<>();
 
 	/**
 	 * Returns the {@link Catalog} instance associated with the given view identifier.
@@ -101,7 +101,7 @@ public abstract class Catalog {
 	abstract public Tag getNewTag(CatalogItem item, int category,
 			CorrelationValues correlationValues) throws NewTagException;
 
-	public CatalogItem getCatalogItem(final Object[] key) throws DataAccessException {
+	public CatalogItem getCatalogItem(final int ... key) throws DataAccessException {
 		final CatalogItem b = getCatalogDao().getCatalogItemByKey(key);
 
 		for (int i = 0; i < b.getNumberOfTags(); i++) {

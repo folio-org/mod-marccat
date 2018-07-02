@@ -13,7 +13,6 @@ package org.folio.cataloging.business.common;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.bean.cataloguing.copy.CopyBean;
 import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
 import org.folio.cataloging.shared.Validation;
 import org.folio.cataloging.util.StringText;
@@ -33,7 +32,7 @@ public abstract class Validator {
 	public abstract StringText getEditableSubfields(VariableField field);
 	public abstract StringText getFixedSubfields(VariableField f);
 
-	private static final Log logger = LogFactory.getLog(CopyBean.class);
+	private static final Log logger = LogFactory.getLog(Validator.class);
 	
 	public List computeValidSubfieldList(VariableField f) throws DataAccessException {
 		return computeValidSubfieldList(

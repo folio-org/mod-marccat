@@ -1,32 +1,25 @@
 package org.folio.cataloging.search;
 
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
-import org.folio.cataloging.business.amicusSearchEngine.AmicusResultSet;
-import org.folio.cataloging.business.cataloguing.common.Catalog;
+import org.folio.cataloging.Global;
 import org.folio.cataloging.business.cataloguing.common.CatalogItem;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.RecordNotFoundException;
 import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.business.controller.UserProfile;
 import org.folio.cataloging.business.librivision.Record;
 import org.folio.cataloging.business.librivision.XmlRecord;
-import org.folio.cataloging.business.searching.ResultSet;
 import org.folio.cataloging.business.searching.SearchEngine;
-import org.folio.cataloging.dao.*;
-import org.folio.cataloging.dao.persistence.FULL_CACHE;
 import org.folio.cataloging.exception.ModCatalogingException;
+import org.folio.cataloging.integration.StorageService;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.cataloging.resources.SystemInternalFailureException;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.*;
 
+import static java.util.Optional.ofNullable;
+
 /**
- * 2018 ModCataloging Search Engine.
+ * ModCataloging Search Engine.
  * 
  * @author paulm
  * @author agazzarini
@@ -34,10 +27,10 @@ import java.util.*;
  */
 public class ModCatalogingSearchEngine implements SearchEngine {
 	private final static Log LOGGER = new Log(ModCatalogingSearchEngine.class);
-	private final static ResultSet EMPTY_RESULTSET = new ResultSet() {
+	private final static SearchResponse EMPTY_RESULTSET = new SearchResponse(Integer.MIN_VALUE, Collections.emptyList()) {
 		@Override
-		public Integer getAmicusNumber(final int index) {
-			return null;
+		public OptionalInt getRecordIdentifier(final int index) {
+			return OptionalInt.empty();
 		}
 	};
 
@@ -52,105 +45,77 @@ public class ModCatalogingSearchEngine implements SearchEngine {
 
 	private static Map operators = new Hashtable();
 
-	private final UserProfile userProfile;
-	private final String librarySymbol;
-	private final Session session;
+	private final int mainLibraryId;
+	private final int databasePreferenceOrder;
+	private final StorageService storageService;
 
     /**
      * Builds a new Search engine instance with the given data.
      *
-     * @param userProfile the user profile.
-     * @param session the hibernate session.
+     * @param mainLibraryId the main library identifier.
+     * @param databasePreferenceOrder the database preference order.
+     * @param service the {@link StorageService} instance.
      */
-	public ModCatalogingSearchEngine(final UserProfile userProfile, final Session session) {
-		this.session = session;
-		this.userProfile = userProfile;
-		try {
-			this.librarySymbol = new DAOLibrary().load(userProfile.getMainLibrary()).getLibrarySymbolCode();
-		} catch (final DataAccessException exception) {
-			LOGGER.error("No library symbol found for org " + userProfile.getMainLibrary());
-			throw new SystemInternalFailureException(exception);
-		}
+	public ModCatalogingSearchEngine(final int mainLibraryId, final int databasePreferenceOrder, final StorageService service) {
+		this.storageService = service;
+		this.mainLibraryId = mainLibraryId;
+		this.databasePreferenceOrder = databasePreferenceOrder;
 	}
 
 	@Override
-	public ResultSet expertSearch(final String cclQuery, final Locale locale, final int searchingView) throws ModCatalogingException {
-		final Parser parser = new Parser(locale, userProfile, searchingView);
-		try (final Connection connection = session.connection();
-			 final Statement sql = stmt(connection);
-			 final java.sql.ResultSet rs = executeQuery(sql, parser.parse(cclQuery))) {
-
-			final ArrayList<Integer> results = new ArrayList<>();
-			while (rs.next()) {
-				results.add(rs.getInt(1));
-			}
-
-			if (results.size() == 0) {
-				return EMPTY_RESULTSET;
-			}
-
-			return new AmicusResultSet(
-					this,
-					searchingView,
-					cclQuery,
-					results.stream().mapToInt(Integer::intValue).toArray());
-			
-		} catch (final HibernateException | SQLException exception) {
-			throw new DataAccessException(exception);
-		}
-	}
-
-	String getDefaultSearchIndex(Locale locale) {
-		return DEFAULT_SEARCH_INDEX.getOrDefault(locale, "AW");
+	public SearchResponse expertSearch(final String cclQuery, final Locale locale, final int searchingView) throws ModCatalogingException {
+        return new SearchResponse(
+                searchingView,
+                cclQuery,
+                storageService.executeQuery(
+                        cclQuery,
+                        mainLibraryId,
+                        locale,
+                        searchingView)
+                        .stream()
+                        .mapToInt(Integer::intValue).toArray());
 	}
 
 	@Override
-	public ResultSet fetchRecords(final ResultSet rs, final String elementSetName, final int firstRecord, final int lastRecord) {
-		AmicusResultSet ars = (AmicusResultSet) rs;
-		DAOCache daoCache = new DAOCache();
+	public SearchResponse fetchRecords(final SearchResponse ars, final String elementSetName, final int firstRecord, final int lastRecord) {
 		int itemNumber;
 		int searchingView = ars.getSearchingView();
 		try {
 			for (int i = firstRecord; i <= lastRecord; i++) {
-				itemNumber = ars.getAmicusNumbers()[i - 1];
+			    final int pos = i -1;
+				itemNumber = ars.getIdSet()[pos];
 				/*
 				 * pm 2011 The test below is added for the case we are fetching
 				 * the variants of a bib item. The view to be fetched is pre-set
 				 * in each result set record.
 				 */
-				if (ars.getRecord()[i - 1] != null	&& ars.getRecord()[i - 1].getRecordView() > 0) {
-					searchingView = ars.getRecord()[i - 1].getRecordView();
+				if (ars.getRecord()[pos] != null	&& ars.getRecord()[pos].getRecordView() > 0) {
+					searchingView = ars.getRecord()[pos].getRecordView();
 				} else if (ars.getSearchingView() == View.ANY) {
-					int preferredView = daoCache.getPreferredView(itemNumber, userProfile.getDatabasePreferenceOrder());
-					searchingView = preferredView;
+					searchingView = storageService.getPreferredView(itemNumber, databasePreferenceOrder);
 				}
 
-				FULL_CACHE cache = null;
+                String recordData = null;
 				try {
-					cache = new DAOFullCache().load(itemNumber, searchingView);
-				} catch (RecordNotFoundException e) {
-					try {
-						final Catalog theCatalog = Catalog.getInstanceByView(searchingView);
-						final CatalogDAO theDao = theCatalog.getCatalogDao();
-						final CatalogItem theItem = theDao.getCatalogItemByKey(new Object[] { itemNumber, searchingView });
+                    recordData = storageService.getRecordData(itemNumber, searchingView);
+                } catch (final RecordNotFoundException exception) {
+                    try {
+                        final CatalogItem item = storageService.getCatalogItemByKey(itemNumber, searchingView);
+                        storageService.updateFullRecordCacheTable(item, searchingView);
+                        recordData = storageService.getRecordData(itemNumber, searchingView);
+                    } catch (final Exception fallback) {
+                        recordData = Global.EMPTY_STRING;
+                    }
+                }
 
-						theDao.updateFullRecordCacheTable(theItem);
-						cache = new DAOFullCache().load(itemNumber,	searchingView);
-					} catch (Exception e2) {
-						cache = new FULL_CACHE(itemNumber, searchingView);
-						cache.setRecordData("");
-					}
-				}
+                final Record record =
+                        ofNullable(ars.getRecord()[pos])
+                            .orElseGet(() -> ars.setRecord(pos, new XmlRecord()));
 
-				Record aRecord = ars.getRecord()[i - 1];
-				if (aRecord == null) {
-					aRecord = new XmlRecord();
-					ars.setRecord(i - 1, aRecord);
-				}
-				((XmlRecord) aRecord).setContent(elementSetName, cache.getRecordData());
-				aRecord.setRecordView(searchingView);
+				((XmlRecord) record).setContent(elementSetName, recordData);
+				record.setRecordView(searchingView);
 			}
-			return rs;
+			return ars;
 		} catch (final Exception exception) {
 			LOGGER.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
 			throw new RuntimeException(exception);
@@ -158,27 +123,25 @@ public class ModCatalogingSearchEngine implements SearchEngine {
 	}
 
 	@Override
-	public ResultSet simpleSearch(final String query, final String use, final Locale locale, final int searchingView) throws ModCatalogingException {
+	public SearchResponse simpleSearch(final String query, final String use, final Locale locale, final int searchingView) throws ModCatalogingException {
 		return expertSearch(buildCclQuery(query, use, locale), locale, searchingView);
 	}
 
 	@Override
-	public ResultSet advancedSearch(final List<String> termList,
-									final List<String> relationList,
-									final List<String> useList,
-									final List<String> operatorList,
-									final Locale locale,
-									final int searchingView) throws ModCatalogingException {
+	public SearchResponse advancedSearch(final List<String> termList,
+                                         final List<String> relationList,
+                                         final List<String> useList,
+                                         final List<String> operatorList,
+                                         final Locale locale,
+                                         final int searchingView) throws ModCatalogingException {
 		return expertSearch(
 				buildCclQuery(termList, relationList, useList, operatorList, locale),
 				locale,
 				searchingView);
 	}
 
-	public ResultSet sort(final ResultSet rs, final String[] attributes, final String[] directions) throws ModCatalogingException {
-		new DAOSortResultSets().sort((AmicusResultSet) rs, attributes, directions);
-		rs.clearRecords();
-		return rs;
+	public SearchResponse sort(final SearchResponse rs, final String[] attributes, final String[] directions) throws ModCatalogingException {
+		return storageService.sortResults(rs, attributes, directions);
 	}
 
 	private String buildCclQuery(
@@ -190,12 +153,15 @@ public class ModCatalogingSearchEngine implements SearchEngine {
 		final StringBuilder buffer = new StringBuilder();
 		for (int i = 0; i < useList.size(); i++) {
 			if (i > 0) {
-				buffer.append(" " + getLocalisedOperator(operatorList.get(i),locale)	+ " ");
+				buffer
+                    .append(" ")
+                    .append(getLocalisedOperator(operatorList.get(i),locale))
+                    .append(" ");
 			}
 			buffer
-				.append(useList.get(i) + " ")
+				.append(useList.get(i)).append(" ")
 				.append(RELATIONSHIP_TABLE[Integer.parseInt(relationList.get(i))])
-				.append(" " + termList.get(i) + " ");
+				.append(" ").append(termList.get(i)).append(" ");
 		}
 
 		return buffer.toString();
@@ -208,7 +174,7 @@ public class ModCatalogingSearchEngine implements SearchEngine {
 						? getDefaultSearchIndex(locale)
 						: useIn;
 
-		buffer.append(use + " = ");
+		buffer.append(use).append(" = ");
 		if (query.trim().matches("\".*\"")) {
 			buffer.append(query);
 		} else {
@@ -243,19 +209,7 @@ public class ModCatalogingSearchEngine implements SearchEngine {
 		return results[Integer.parseInt(code)];
 	}
 
-    private Statement stmt(final Connection connection) {
-        try {
-            return connection.createStatement();
-        } catch (final Exception exception) {
-            throw new ModCatalogingException(exception);
-        }
-    }
-
-    private java.sql.ResultSet executeQuery(final Statement stmt, final String query) {
-        try {
-            return stmt.executeQuery(query);
-        } catch (final Exception exception) {
-            throw new ModCatalogingException(exception);
-        }
+    private String getDefaultSearchIndex(final Locale locale) {
+        return DEFAULT_SEARCH_INDEX.getOrDefault(locale, "AW");
     }
 }

@@ -1,7 +1,5 @@
 package org.folio.cataloging.business.cataloguing.common;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.cataloguing.bibliographic.FixedField;
 import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
 import org.folio.cataloging.business.cataloguing.bibliographic.TagComparator;
@@ -20,6 +18,7 @@ import org.folio.cataloging.exception.DuplicateTagException;
 import org.folio.cataloging.exception.MandatoryTagException;
 import org.folio.cataloging.exception.ModCatalogingException;
 import org.folio.cataloging.exception.ValidationException;
+import org.folio.cataloging.log.Log;
 import org.folio.cataloging.model.Subfield;
 import org.folio.cataloging.shared.Validation;
 import org.w3c.dom.Document;
@@ -40,25 +39,13 @@ import java.util.*;
  * @since 1.0
  */
 public abstract class CatalogItem implements Serializable {
-	private static final Log logger =
-		LogFactory.getLog(CatalogItem.class);
+	private static final Log logger = new Log(CatalogItem.class);
 
 	protected List deletedTags = new ArrayList();
 
 	protected ModelItem modelItem = null;
 
 	protected List tags = new ArrayList();
-
-	/**
-	 * Class constructor
-	 *
-	 * 
-	 * @since 1.0
-	 */
-	public CatalogItem() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
 
 	private static final Comparator tagComparator = new Comparator() {
 		/* to compare tags
@@ -258,8 +245,8 @@ public abstract class CatalogItem implements Serializable {
 		 */
 	public void setModelItem(Model model) throws DataAccessException {
 		BibliographicModelItemDAO dao = new BibliographicModelItemDAO();
-		/*if(dao.getModelUsageByItem(this.getAmicusNumber().intValue())){
-		   this.modelItem = dao.load(this.getAmicusNumber().intValue());
+		/*if(dao.getModelUsageByItem(this.getRecordIdentifier().intValue())){
+		   this.modelItem = dao.load(this.getRecordIdentifier().intValue());
 		   this.modelItem.markChanged();
 		}
 		else{
@@ -323,9 +310,9 @@ public abstract class CatalogItem implements Serializable {
 			setTags(tagSet);
 	
 		} catch (MarcCorrelationException e) {
-			logger.warn("MarcCorrelationException in sortTags");
+			logger.error("MarcCorrelationException in sortTags");
 		} catch (DataAccessException e) {
-			logger.warn("DataAccessException in sortTags");
+			logger.error("DataAccessException in sortTags");
 		}
 	}
 

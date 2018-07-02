@@ -1,9 +1,5 @@
-/*
- * Created on Nov 17, 2004
- */
 package org.folio.cataloging.business.descriptor;
 
-import org.folio.cataloging.bean.cataloguing.heading.HeadingBean;
 import org.folio.cataloging.business.common.AbstractMapBackedFactory;
 import org.folio.cataloging.business.common.MapBackedFactory;
 import org.folio.cataloging.business.common.MapBackedSingletonFactory;
@@ -35,10 +31,6 @@ public class DescriptorFactory {
 
 	public static DAODescriptor getDao(int category) {
 		return (DAODescriptor) daoFactory.create(category);
-	}
-
-	public static HeadingBean createBean(int category) {
-		return (HeadingBean) beanFactory.create(category);
 	}
 
 }

@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- * 
- * Created on 19-ago-2004
- * 
- * CopyNoteListElement.java
- */
 package org.folio.cataloging.bean.cataloguing.copy;
 
 /**

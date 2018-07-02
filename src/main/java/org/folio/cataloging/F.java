@@ -9,6 +9,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -21,6 +23,17 @@ import java.util.Locale;
 public abstract class F {
     private final static Log LOGGER = new Log(F.class);
     private final static String [] EMPTY_ARRAY = {};
+    private final static int [] EMPTY_INT_ARRAY = {};
+
+    /**
+     * Provides a convenient way to deal with null lists, but replacing null inputs with a null-object (an empty list).
+     *
+     * @param values the input array.
+     * @return the same input, if this is not null, otherwise an empty immutable array.
+     */
+    public static <T> List<T> safe(final List<T> values) {
+        return values != null ? values : Collections.emptyList();
+    }
 
     /**
      * Provides a convenient way to deal with null array, but replacing null inputs with a null-object (an empty array).
@@ -30,6 +43,16 @@ public abstract class F {
      */
     public static String [] safe(final String [] values) {
         return values != null ? values : EMPTY_ARRAY;
+    }
+
+    /**
+     * Provides a convenient way to deal with null array, but replacing null inputs with a null-object (an empty array).
+     *
+     * @param values the input array.
+     * @return the same input, if this is not null, otherwise an empty immutable array.
+     */
+    public static int [] safe(final int [] values) {
+        return values != null ? values : EMPTY_INT_ARRAY;
     }
 
     /**
