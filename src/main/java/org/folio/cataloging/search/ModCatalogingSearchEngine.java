@@ -10,12 +10,10 @@ import org.folio.cataloging.business.searching.SearchEngine;
 import org.folio.cataloging.exception.ModCatalogingException;
 import org.folio.cataloging.integration.StorageService;
 import org.folio.cataloging.log.Log;
-import org.folio.cataloging.log.MessageCatalog;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static java.util.Optional.ofNullable;
 import static java.util.stream.IntStream.rangeClosed;
 
 /**
@@ -41,9 +39,8 @@ public class ModCatalogingSearchEngine implements SearchEngine {
 		DEFAULT_SEARCH_INDEX.put(Locale.ENGLISH, "AW");
 	}
 
-	private static String[] RELATIONSHIP_TABLE = new String[] { "dummy", "<", "<=", "=", ">", ">=" };
-
-	private static Map operators = new Hashtable();
+	private static final String[] RELATIONSHIP_TABLE = new String[] { "dummy", "<", "<=", "=", ">", ">=" };
+	private static final Map<Locale, String []> OPERATORS = new HashMap<>();
 
 	private final int mainLibraryId;
 	private final int databasePreferenceOrder;
@@ -77,20 +74,20 @@ public class ModCatalogingSearchEngine implements SearchEngine {
 	}
 
 	@Override
-	public SearchResponse fetchRecords(final SearchResponse response, final String elementSetName, final int firstRecord, final int lastRecord) {
-		final AtomicInteger searchingView = new AtomicInteger(response.getSearchingView());
-		response.setRecordSet(
+	public SearchResponse fetchRecords(final SearchResponse searchResponse, final String elementSetName, final int firstRecord, final int lastRecord) {
+		final AtomicInteger searchingView = new AtomicInteger(searchResponse.getSearchingView());
+		searchResponse.setRecordSet(
                     rangeClosed(firstRecord, lastRecord)
                        .map(index -> index--)
-                       .filter(pos -> response.getIdSet().length > pos)
+                       .filter(pos -> searchResponse.getIdSet().length > pos)
                        .mapToObj(pos -> {
-                           final int itemNumber = response.getIdSet()[pos];
+                           final int itemNumber = searchResponse.getIdSet()[pos];
 /*
                            if (response.getRecord()[pos] != null && response.getRecord()[pos].getRecordView() > 0) {
                                searchingView.set(response.getRecord()[pos].getRecordView());
                            } else
                            */
-                           if (response.getSearchingView() == View.ANY) {
+                           if (searchResponse.getSearchingView() == View.ANY) {
                                searchingView.set(storageService.getPreferredView(itemNumber, databasePreferenceOrder));
                            }
 
@@ -112,7 +109,7 @@ public class ModCatalogingSearchEngine implements SearchEngine {
                            record.setRecordView(searchingView.get());
                            return record;
                        }).toArray(Record[]::new));
-		return response;
+		return searchResponse;
 	}
 
 	@Override
@@ -124,7 +121,7 @@ public class ModCatalogingSearchEngine implements SearchEngine {
 	public SearchResponse advancedSearch(final List<String> termList,
                                          final List<String> relationList,
                                          final List<String> useList,
-                                         final List<String> operatorList,
+                                         final List<Integer> operatorList,
                                          final Locale locale,
                                          final int searchingView) throws ModCatalogingException {
 		return expertSearch(
@@ -133,6 +130,7 @@ public class ModCatalogingSearchEngine implements SearchEngine {
 				searchingView);
 	}
 
+	@Override
 	public SearchResponse sort(final SearchResponse rs, final String[] attributes, final String[] directions) throws ModCatalogingException {
 		return storageService.sortResults(rs, attributes, directions);
 	}
@@ -141,7 +139,7 @@ public class ModCatalogingSearchEngine implements SearchEngine {
 			final List<String> termList,
 			final List<String> relationList,
 			final List<String> useList,
-			final List<String> operatorList,
+			final List<Integer> operatorList,
 			final Locale locale) {
 		final StringBuilder buffer = new StringBuilder();
 		for (int i = 0; i < useList.size(); i++) {
@@ -160,12 +158,17 @@ public class ModCatalogingSearchEngine implements SearchEngine {
 		return buffer.toString();
 	}
 
+    /**
+     * Builds a CCL query from the given data.
+     *
+     * @param query the input query.
+     * @param useIn the index.
+     * @param locale the current locale.
+     * @return the CCL query.
+     */
 	private String buildCclQuery(final String query, final String useIn, final Locale locale) {
 		final StringBuilder buffer = new StringBuilder();
-		final String use =
-				(useIn == null || useIn.trim().isEmpty())
-						? getDefaultSearchIndex(locale)
-						: useIn;
+		final String use = (useIn == null || useIn.trim().isEmpty()) ? getDefaultSearchIndex(locale) : useIn;
 
 		buffer.append(use).append(" = ");
 		if (query.trim().matches("\".*\"")) {
@@ -176,7 +179,7 @@ public class ModCatalogingSearchEngine implements SearchEngine {
 				buffer.append(
 						words[i]
 								+ " "
-								+ getLocalisedOperator("1", locale)
+								+ getLocalisedOperator(1, locale)
 								+ " "
 								+ use
 								+ " = ");
@@ -186,22 +189,43 @@ public class ModCatalogingSearchEngine implements SearchEngine {
 		return buffer.toString();
 	}
 
-	private String getLocalisedOperator(String code, Locale locale) {
-		String[] results = (String[]) operators.get(locale);
-		if (results == null) {
-			results = new String[6];
-			results[0] = "";
-			ResourceBundle bundle =	ResourceBundle.getBundle("resources/searching/advancedSearch", locale);
-			results[1] = bundle.getString("and");
-			results[2] = bundle.getString("or");
-			results[3] = bundle.getString("not");
-			results[4] = bundle.getString("near");
-			results[5] = bundle.getString("with");
-			operators.put(locale, results);
-		}
-		return results[Integer.parseInt(code)];
+    /**
+     * Returns the localized version of the boolean operator associated with the given index.
+     * The index is the operator offset within the localized array. The array contains, at time of writing:
+     *
+     * <li>
+     *     <ul>0: empty string</ul>
+     *     <ul>1: AND</ul>
+     *     <ul>2: OR</ul>
+     *     <ul>3: NOT</ul>
+     *     <ul>4: NEAR</ul>
+     *     <ul>5: WITH</ul>
+     * </li>
+     *
+     * @param index the operator index within the i18n bundle.
+     * @param locale the current locale.
+     * @return the localized version of the boolean operator associated with the given index.
+     */
+	private String getLocalisedOperator(final int index, final Locale locale) {
+		final String[] results = OPERATORS.computeIfAbsent(locale, k -> {
+            final ResourceBundle bundle = ResourceBundle.getBundle("/advancedSearch", locale);
+            return new String[] {
+                "",
+                bundle.getString("and"),
+                bundle.getString("or"),
+                bundle.getString("not"),
+                bundle.getString("near"),
+                bundle.getString("with")};
+        });
+		return results[index];
 	}
 
+    /**
+     * Returns the default index associated with the given locale.
+     *
+     * @param locale the current locale.
+     * @return the default index associated with the input locale.
+     */
     private String getDefaultSearchIndex(final Locale locale) {
         return DEFAULT_SEARCH_INDEX.getOrDefault(locale, "AW");
     }

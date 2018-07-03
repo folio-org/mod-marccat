@@ -2,13 +2,13 @@ package org.folio.cataloging.business.librivision;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.folio.cataloging.log.Log;
+import org.folio.cataloging.log.MessageCatalog;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -25,6 +25,9 @@ public class XmlRecord extends AbstractRecord {
 
 	private static final Log logger = new Log(XmlRecord.class);
 
+	private final static ThreadLocal<DocumentBuilderFactory> DOCUMENT_BUILDER_FACTORIES =
+            ThreadLocal.withInitial(DocumentBuilderFactory::newInstance);
+
 	private Document data;
 
 	public Document getData() {
@@ -38,43 +41,30 @@ public class XmlRecord extends AbstractRecord {
 		}
 	}
 
-	public void setContent(String elementSetName, String xmlString)
-		throws XmlUnsupportedEncodingException, XmlParserConfigurationException {
+	public void setContent(final String elementSetName, String xmlString) throws XmlUnsupportedEncodingException, XmlParserConfigurationException {
 		if ((elementSetName != null) && (xmlString != null)) {
-			DocumentBuilderFactory documentBuilderFactory =
-				DocumentBuilderFactory.newInstance();
-			DocumentBuilder documentBuilder = null;
-			Document xmlDocument = null;
-			try {
-				documentBuilder = documentBuilderFactory.newDocumentBuilder();
-				try {
-					ByteArrayInputStream byteArrayInputStream =
-						new ByteArrayInputStream(xmlString.getBytes("UTF-8"));
-					try {
-						xmlDocument =
-							documentBuilder.parse(byteArrayInputStream);
-					} catch (SAXException | IOException exception) {
-						logger.error("", exception);
-						xmlDocument = documentBuilder.newDocument();
-						final Element recordElement = xmlDocument.createElement("record");
-						final Element errorElement = xmlDocument.createElement("error");
 
-						final Node errorTextNode = xmlDocument.createTextNode(toXmlString(elementSetName));
-						xmlDocument.appendChild(recordElement);
+			try (ByteArrayInputStream byteArrayInputStream =
+                         new ByteArrayInputStream(xmlString.getBytes("UTF-8"))){
+				    final DocumentBuilder documentBuilder = DOCUMENT_BUILDER_FACTORIES.get().newDocumentBuilder();
+                    setContent(elementSetName, documentBuilder.parse(byteArrayInputStream));
+            } catch (SAXException | IOException exception) {
+                logger.error(MessageCatalog._00021_UNABLE_TO_PARSE_RECORD_DATA, exception);
+                final Document xmlDocument = DOCUMENT_BUILDER_FACTORIES.get().newDocumentBuilder();
+                final Element recordElement = xmlDocument.createElement("record");
+                final Element errorElement = xmlDocument.createElement("error");
 
-						recordElement.appendChild(errorElement);
-						errorElement.appendChild(errorTextNode);
-					}
-                    setContent(elementSetName, xmlDocument);
-				} catch (UnsupportedEncodingException unsupportedEncodingException) {
-					logger.error("", unsupportedEncodingException);
-					throw new XmlUnsupportedEncodingException(unsupportedEncodingException);
-				}
-			} catch (ParserConfigurationException parserConfigurationException) {
-				logger.error("", parserConfigurationException);
-				throw new XmlParserConfigurationException(parserConfigurationException);
+                final Node errorTextNode = xmlDocument.createTextNode(toXmlString(elementSetName));
+                xmlDocument.appendChild(recordElement);
+
+                recordElement.appendChild(errorElement);
+                errorElement.appendChild(errorTextNode);
+
+		    } catch (ParserConfigurationException | IOException exception) {
+				logger.error(MessageCatalog._00021_UNABLE_TO_PARSE_RECORD_DATA, exception);
+				throw new XmlParserConfigurationException(exception);
 			}
-		}
+        }
 	}
 
 	public Document toXmlDocument(String elementSetName) {

@@ -29,7 +29,6 @@ import static org.folio.cataloging.F.safe;
  * @author paulm
  * @author agazzarini
  * @since 1.0
- *
  */
 public class SearchResponse {
     private static final int RETRIEVE_MAX_NUMBER_OF_RECORDS = 10;
