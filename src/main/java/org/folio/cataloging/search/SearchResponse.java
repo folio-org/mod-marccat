@@ -40,6 +40,7 @@ public class SearchResponse {
     @JsonIgnore
     private int[] idSet;
 
+    @JsonIgnore
     private String complexQuery;
 
     @JsonIgnore

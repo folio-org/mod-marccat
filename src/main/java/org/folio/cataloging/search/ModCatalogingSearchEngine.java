@@ -4,6 +4,7 @@ import org.folio.cataloging.Global;
 import org.folio.cataloging.business.cataloguing.common.CatalogItem;
 import org.folio.cataloging.business.common.RecordNotFoundException;
 import org.folio.cataloging.business.common.View;
+import org.folio.cataloging.business.librivision.LightweightXmlRecord;
 import org.folio.cataloging.business.librivision.Record;
 import org.folio.cataloging.business.librivision.XmlRecord;
 import org.folio.cataloging.business.searching.SearchEngine;
@@ -104,8 +105,8 @@ public class ModCatalogingSearchEngine implements SearchEngine {
                                }
                            }
 
-                           final Record record = new XmlRecord();
-                           ((XmlRecord) record).setContent(elementSetName, recordData);
+                           final Record record = new LightweightXmlRecord();
+                           record.setContent(elementSetName, recordData);
                            record.setRecordView(searchingView.get());
                            return record;
                        }).toArray(Record[]::new));

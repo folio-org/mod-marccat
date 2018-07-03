@@ -113,7 +113,6 @@ public abstract class AbstractRecord implements Record {
 			try {
 				documentBuilder = documentBuilderFactory.newDocumentBuilder();
 				xmlStyledDocument = documentBuilder.newDocument();
-				//<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 				DOMResult result = new DOMResult(xmlStyledDocument);
 				transformer.transform(source, result);
 			} catch (ParserConfigurationException parserConfigurationException) {

@@ -14,19 +14,27 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
+import static java.util.Optional.ofNullable;
+
 /**
- * This is a XML record class.
+ * A MARC XML record.
  * 
  * @author Wim Crols
- * @version $Revision: 1.7 $, $Date: 2004/12/02 08:44:16 $
+ * @author agazzarini
  * @since 1.0
  */
 public class XmlRecord extends AbstractRecord {
 
 	private static final Log logger = new Log(XmlRecord.class);
 
-	private final static ThreadLocal<DocumentBuilderFactory> DOCUMENT_BUILDER_FACTORIES =
-            ThreadLocal.withInitial(DocumentBuilderFactory::newInstance);
+	private final static ThreadLocal<DocumentBuilder> DOCUMENT_BUILDERS =
+            ThreadLocal.withInitial(() -> {
+                try {
+                    return DocumentBuilderFactory.newInstance().newDocumentBuilder();
+                } catch (final Exception exception) {
+                    throw new RuntimeException(exception);
+                }
+            });
 
 	private Document data;
 
@@ -34,23 +42,22 @@ public class XmlRecord extends AbstractRecord {
 	    return data;
     }
 
-	public void setContent(String elementSetName, Document xmlDocument) {
+	public void setContent(final Document xmlDocument) {
 		this.data = xmlDocument;
-	    if ((elementSetName != null) && (xmlDocument != null)) {
-			super.setContent(elementSetName, xmlDocument);
-		}
 	}
 
-	public void setContent(final String elementSetName, String xmlString) throws XmlUnsupportedEncodingException, XmlParserConfigurationException {
-		if ((elementSetName != null) && (xmlString != null)) {
-
-			try (ByteArrayInputStream byteArrayInputStream =
+	public void setContent(final String elementSetName, String stringContent) throws XmlUnsupportedEncodingException, XmlParserConfigurationException {
+		ofNullable(stringContent).ifPresent(xmlString -> {
+            try (ByteArrayInputStream byteArrayInputStream =
                          new ByteArrayInputStream(xmlString.getBytes("UTF-8"))){
-				    final DocumentBuilder documentBuilder = DOCUMENT_BUILDER_FACTORIES.get().newDocumentBuilder();
-                    setContent(elementSetName, documentBuilder.parse(byteArrayInputStream));
+                DOCUMENT_BUILDERS.get().reset();
+                this.data = DOCUMENT_BUILDERS.get().parse(byteArrayInputStream);
             } catch (SAXException | IOException exception) {
                 logger.error(MessageCatalog._00021_UNABLE_TO_PARSE_RECORD_DATA, exception);
-                final Document xmlDocument = DOCUMENT_BUILDER_FACTORIES.get().newDocumentBuilder();
+                final Document xmlDocument = DOCUMENT_BUILDERS.get().newDocument();
+
+                DOCUMENT_BUILDERS.get().reset();
+
                 final Element recordElement = xmlDocument.createElement("record");
                 final Element errorElement = xmlDocument.createElement("error");
 
@@ -59,19 +66,11 @@ public class XmlRecord extends AbstractRecord {
 
                 recordElement.appendChild(errorElement);
                 errorElement.appendChild(errorTextNode);
-
-		    } catch (ParserConfigurationException | IOException exception) {
-				logger.error(MessageCatalog._00021_UNABLE_TO_PARSE_RECORD_DATA, exception);
-				throw new XmlParserConfigurationException(exception);
-			}
-        }
+            }
+        });
 	}
 
-	public Document toXmlDocument(String elementSetName) {
-		if (hasContent(elementSetName)) {
-			return (Document) getContent(elementSetName);
-		} else {
-			return null;
-		}
+	public Document toXmlDocument(final String elementSetName) {
+		return (Document) getContent(elementSetName);
 	}
 }
