@@ -6,7 +6,6 @@ import org.folio.cataloging.business.common.RecordNotFoundException;
 import org.folio.cataloging.business.common.View;
 import org.folio.cataloging.business.librivision.Record;
 import org.folio.cataloging.business.librivision.XmlRecord;
-import org.folio.cataloging.business.searching.SearchEngine;
 import org.folio.cataloging.exception.ModCatalogingException;
 import org.folio.cataloging.integration.StorageService;
 import org.folio.cataloging.log.Log;
@@ -52,7 +51,7 @@ public abstract class ModCatalogingSearchEngine implements SearchEngine {
      * @param databasePreferenceOrder the database preference order.
      * @param service the {@link StorageService} instance.
      */
-	public ModCatalogingSearchEngine(final int mainLibraryId, final int databasePreferenceOrder, final StorageService service) {
+	ModCatalogingSearchEngine(final int mainLibraryId, final int databasePreferenceOrder, final StorageService service) {
 		this.storageService = service;
 		this.mainLibraryId = mainLibraryId;
 		this.databasePreferenceOrder = databasePreferenceOrder;

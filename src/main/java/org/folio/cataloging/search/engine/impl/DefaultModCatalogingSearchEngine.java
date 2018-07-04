@@ -1,6 +1,7 @@
 package org.folio.cataloging.search;
 
 import org.folio.cataloging.business.librivision.Record;
+import org.folio.cataloging.business.librivision.XmlRecord;
 import org.folio.cataloging.integration.StorageService;
 
 /**
@@ -9,7 +10,7 @@ import org.folio.cataloging.integration.StorageService;
  * @author agazzarini
  * @since 1.0
  */
-public class LIghtweightModCatalogingSearchEngine extends ModCatalogingSearchEngine {
+public class DefaultModCatalogingSearchEngine extends ModCatalogingSearchEngine {
 	/**
 	 * Builds a new Search engine instance with the given data.
 	 *
@@ -17,12 +18,12 @@ public class LIghtweightModCatalogingSearchEngine extends ModCatalogingSearchEng
 	 * @param databasePreferenceOrder the database preference order.
 	 * @param service                 the {@link StorageService} instance.
 	 */
-	public LIghtweightModCatalogingSearchEngine(final int mainLibraryId, final int databasePreferenceOrder, final StorageService service) {
+	DefaultModCatalogingSearchEngine(final int mainLibraryId, final int databasePreferenceOrder, final StorageService service) {
 		super(mainLibraryId, databasePreferenceOrder, service);
 	}
 
 	@Override
 	public Record newRecord() {
-		return null;//new Lightwe();
+		return new XmlRecord();
 	}
 }

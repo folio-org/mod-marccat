@@ -40,14 +40,13 @@ public class RemoveMeAPI extends BaseResource {
             @RequestParam final String lang,
             @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
             @RequestParam("q") final String q,
-            @RequestParam("e") final String elementSetName,
             @RequestParam(name = "from", defaultValue = "1") final int from,
             @RequestParam(name = "to", defaultValue = "10") final int to,
             @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
             @RequestParam("ml") final int mainLibraryId,
-            @RequestParam("dp") final int databasePreferenceOrder,
-            @RequestParam("sortBy") final String[] sortAttributes,
-            @RequestParam("sortOrder") final String[] sortOrders) {
+            @RequestParam(name = "dpo", required = false) final int databasePreferenceOrder,
+            @RequestParam(name = "sortBy", required = false) final String[] sortAttributes,
+            @RequestParam(name = "sortOrder", required = false) final String[] sortOrders) {
         return doGet((storageService, configuration) -> {
             final ModCatalogingSearchEngine searchEngine =
                     new ModCatalogingSearchEngine(mainLibraryId, databasePreferenceOrder, storageService);
@@ -56,7 +55,7 @@ public class RemoveMeAPI extends BaseResource {
                     (sortAttributes != null && sortOrders != null && sortAttributes.length == sortOrders.length)
                         ? searchEngine.sort(searchEngine.expertSearch(q, locale(lang), view), sortAttributes, sortOrders)
                         : searchEngine.expertSearch(q, locale(lang), view),
-                    elementSetName,
+                    "F",
                     from,
                     to);
        }, tenant, configurator);

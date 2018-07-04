@@ -1,4 +1,4 @@
-package org.folio.cataloging.business.searching;
+package org.folio.cataloging.search;
 
 import org.folio.cataloging.search.SearchResponse;
 import org.folio.cataloging.exception.ModCatalogingException;
