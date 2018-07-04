@@ -1,11 +1,9 @@
 package org.folio.cataloging.business.librivision;
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.folio.cataloging.log.Log;
+import org.folio.cataloging.util.XmlUtils;
+import org.w3c.dom.Document;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -18,18 +16,19 @@ import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.folio.cataloging.log.Log;
-import org.w3c.dom.Document;
-
-import org.folio.cataloging.util.XmlUtils;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
        
 /**
  * This is an abstract class for database records. It implements the Record
  * interface.
  * 
  * @author Wim Crols
+ * @author agazzarini
  * @since 1.0
  */
 public abstract class AbstractRecord implements Record {
@@ -45,26 +44,24 @@ public abstract class AbstractRecord implements Record {
 
 	private int recordView;
 
-    /**
-     * Returns true if
-     *
-     * @param elementSetName
-     * @return
-     */
+    @Override
 	public boolean hasContent(final String elementSetName) {
 		return content.containsKey(elementSetName);
 	}
 
-	public void setContent(String elementSetName, Object contentObject) {
-		if ((elementSetName != null) && (contentObject != null)) {
-			content.put(elementSetName, contentObject);
+	@Override
+	public void setContent(final String elementSetName, final Object data) {
+		if (elementSetName != null && data != null) {
+			content.put(elementSetName, data);
 		}
 	}
 
+	@Override
 	public Object getContent(final String elementSetName) {
 		return content.get(elementSetName);
 	}
 
+	@Override
 	public String toXmlString(String elementSetName) {
 		if (this.hasContent(elementSetName)) {
 			return XmlUtils.documentToString(toXmlDocument(elementSetName));
@@ -73,17 +70,20 @@ public abstract class AbstractRecord implements Record {
 		}
 	}
 
+	@Override
 	public Document toXmlStyledDocument(
 	        final String elementSetName,
 			final String stylesheet,
-            final Map xsltParameters) throws XmlParserConfigurationException,
-			XslTransformerConfigurationException, XslTransformerException {
+            final Map xsltParameters) throws XmlParserConfigurationException {
 		URL styleURL = AbstractRecord.class.getResource(XSLT_PATH + stylesheet);
 		if(styleURL==null) throw new XmlParserConfigurationException("stylesheet "+stylesheet+" not found in "+XSLT_PATH);
 		return toXmlStyledDocument(elementSetName, styleURL, xsltParameters);
 	}
 
-	public Document toXmlStyledDocument(String elementSetName, URL stylesheet,
+	@Override
+	public Document toXmlStyledDocument(
+			final String elementSetName,
+			URL stylesheet,
 			Map xsltParameters) throws XmlParserConfigurationException,
 			XslTransformerConfigurationException, XslTransformerException {
 		Document xmlStyledDocument = null;

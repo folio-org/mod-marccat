@@ -17,13 +17,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static java.util.stream.IntStream.rangeClosed;
 
 /**
- * ModCataloging Search Engine.
+ * Supertype layer for all ModCataloging Search Engine implementations.
  * 
  * @author paulm
  * @author agazzarini
  * @since 1.0
  */
-public class ModCatalogingSearchEngine implements SearchEngine {
+public abstract class ModCatalogingSearchEngine implements SearchEngine {
 	private final static Log LOGGER = new Log(ModCatalogingSearchEngine.class);
 	private final static SearchResponse EMPTY_RESULTSET = new SearchResponse(Integer.MIN_VALUE, Collections.emptyList()) {
 		@Override
@@ -32,7 +32,6 @@ public class ModCatalogingSearchEngine implements SearchEngine {
 		}
 	};
 
-	// TODO: does it make sense to have this configurable?
 	private static Map<Locale, String> DEFAULT_SEARCH_INDEX = new Hashtable<>();
 	static
 	{
@@ -82,11 +81,6 @@ public class ModCatalogingSearchEngine implements SearchEngine {
                        .filter(pos -> searchResponse.getIdSet().length > pos)
                        .mapToObj(pos -> {
                            final int itemNumber = searchResponse.getIdSet()[pos];
-/*
-                           if (response.getRecord()[pos] != null && response.getRecord()[pos].getRecordView() > 0) {
-                               searchingView.set(response.getRecord()[pos].getRecordView());
-                           } else
-                           */
                            if (searchResponse.getSearchingView() == View.ANY) {
                                searchingView.set(storageService.getPreferredView(itemNumber, databasePreferenceOrder));
                            }
@@ -104,7 +98,7 @@ public class ModCatalogingSearchEngine implements SearchEngine {
                                }
                            }
 
-                           final Record record = new XmlRecord();
+                           final Record record = newRecord();
                            ((XmlRecord) record).setContent(elementSetName, recordData);
                            record.setRecordView(searchingView.get());
                            return record;
@@ -229,4 +223,11 @@ public class ModCatalogingSearchEngine implements SearchEngine {
     private String getDefaultSearchIndex(final Locale locale) {
         return DEFAULT_SEARCH_INDEX.getOrDefault(locale, "AW");
     }
+
+	/**
+	 * Creates a record representation according with the rules of this search engine implementation.
+	 *
+	 * @return a record representation according with the rules of this search engine implementation.
+	 */
+	public abstract Record newRecord();
 }
