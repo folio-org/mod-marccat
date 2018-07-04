@@ -72,37 +72,24 @@ public abstract class ModCatalogingSearchEngine implements SearchEngine {
 	}
 
 	@Override
-	public SearchResponse fetchRecords(final SearchResponse searchResponse, final String elementSetName, final int firstRecord, final int lastRecord) {
-		final AtomicInteger searchingView = new AtomicInteger(searchResponse.getSearchingView());
-		searchResponse.setRecordSet(
+	public SearchResponse fetchRecords(final SearchResponse response, final String elementSetName, final int firstRecord, final int lastRecord) {
+		final AtomicInteger searchingView = new AtomicInteger(response.getSearchingView());
+		response.setRecordSet(
                     rangeClosed(firstRecord, lastRecord)
                        .map(index -> index--)
-                       .filter(pos -> searchResponse.getIdSet().length > pos)
+                       .filter(pos -> response.getIdSet().length > pos)
                        .mapToObj(pos -> {
-                           final int itemNumber = searchResponse.getIdSet()[pos];
-                           if (searchResponse.getSearchingView() == View.ANY) {
+                           final int itemNumber = response.getIdSet()[pos];
+                           if (response.getSearchingView() == View.ANY) {
                                searchingView.set(storageService.getPreferredView(itemNumber, databasePreferenceOrder));
                            }
 
-                           String recordData;
-                           try {
-                               recordData = storageService.getRecordData(itemNumber, searchingView.get());
-                           } catch (final RecordNotFoundException exception) {
-                               try {
-                                   final CatalogItem item = storageService.getCatalogItemByKey(itemNumber, searchingView.get());
-                                   storageService.updateFullRecordCacheTable(item, searchingView.get());
-                                   recordData = storageService.getRecordData(itemNumber, searchingView.get());
-                               } catch (final Exception fallback) {
-                                   recordData = Global.EMPTY_STRING;
-                               }
-                           }
-
                            final Record record = newRecord();
-                           record.setContent(elementSetName, recordData);
+                           record.setContent(elementSetName, recordData(itemNumber, searchingView.get()));
                            record.setRecordView(searchingView.get());
                            return record;
                        }).toArray(Record[]::new));
-		return searchResponse;
+		return response;
 	}
 
 	@Override
@@ -224,7 +211,29 @@ public abstract class ModCatalogingSearchEngine implements SearchEngine {
     }
 
 	/**
+	 * Returns the record data associated with the given item number.
+	 *
+	 * @param itemNumber the record number.
+	 * @param searchingView the search view.
+	 * @return the record data associated with the given item number.
+	 */
+	private String recordData(final int itemNumber, final int searchingView) {
+		try {
+			return storageService.getRecordData(itemNumber, searchingView);
+		} catch (final RecordNotFoundException exception) {
+			try {
+				final CatalogItem item = storageService.getCatalogItemByKey(itemNumber, searchingView);
+				storageService.updateFullRecordCacheTable(item, searchingView);
+				return storageService.getRecordData(itemNumber, searchingView);
+			} catch (final Exception fallback) {
+				return Global.EMPTY_STRING;
+			}
+		}
+	}
+
+	/**
 	 * Creates a record representation according with the rules of this search engine implementation.
+	 * The concrete SE implementor must define in this method the kind of record that it will manage.
 	 *
 	 * @return a record representation according with the rules of this search engine implementation.
 	 */
