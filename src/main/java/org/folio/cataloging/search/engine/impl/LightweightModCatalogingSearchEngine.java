@@ -1,8 +1,9 @@
-package org.folio.cataloging.search;
+package org.folio.cataloging.search.engine.impl;
 
-import org.folio.cataloging.business.librivision.LightweightXmlRecord;
-import org.folio.cataloging.business.librivision.Record;
 import org.folio.cataloging.integration.StorageService;
+import org.folio.cataloging.search.domain.LightweightXmlRecord;
+import org.folio.cataloging.search.domain.Record;
+import org.folio.cataloging.search.engine.ModCatalogingSearchEngine;
 
 /**
  * ModCataloging Search Engine.
@@ -18,7 +19,7 @@ public class LightweightModCatalogingSearchEngine extends ModCatalogingSearchEng
 	 * @param databasePreferenceOrder the database preference order.
 	 * @param service                 the {@link StorageService} instance.
 	 */
-	LightweightModCatalogingSearchEngine(final int mainLibraryId, final int databasePreferenceOrder, final StorageService service) {
+	public LightweightModCatalogingSearchEngine(final int mainLibraryId, final int databasePreferenceOrder, final StorageService service) {
 		super(mainLibraryId, databasePreferenceOrder, service);
 	}
 

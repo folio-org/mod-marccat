@@ -1,13 +1,10 @@
-package org.folio.cataloging.business.librivision;
+package org.folio.cataloging.search.domain;
 
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.ByteArrayInputStream;

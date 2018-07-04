@@ -1,7 +1,11 @@
-package org.folio.cataloging.business.librivision;
+package org.folio.cataloging.search.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.folio.cataloging.log.Log;
+import org.folio.cataloging.search.XmlDocumentException;
+import org.folio.cataloging.search.XmlParserConfigurationException;
+import org.folio.cataloging.search.XslTransformerConfigurationException;
+import org.folio.cataloging.search.XslTransformerException;
 import org.folio.cataloging.util.XmlUtils;
 import org.w3c.dom.Document;
 

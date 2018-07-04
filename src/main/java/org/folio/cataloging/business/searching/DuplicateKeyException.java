@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- * 
- * Created on Dec 17, 2004
- * 
- * NoResultsFoundException.java
- */
 package org.folio.cataloging.business.searching;
 
 import org.folio.cataloging.business.common.DataAccessException;

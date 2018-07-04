@@ -9,11 +9,11 @@ package org.folio.cataloging.util;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.librivision.AbstractRecord;
-import org.folio.cataloging.business.librivision.XslTransformerConfigurationException;
-import org.folio.cataloging.business.librivision.XslTransformerException;
 import org.folio.cataloging.exception.ModCatalogingException;
 import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.search.XslTransformerConfigurationException;
+import org.folio.cataloging.search.XslTransformerException;
+import org.folio.cataloging.search.domain.AbstractRecord;
 import org.w3c.dom.Document;
 
 import javax.xml.transform.Transformer;

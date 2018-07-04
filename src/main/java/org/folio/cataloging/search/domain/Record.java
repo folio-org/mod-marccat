@@ -1,5 +1,9 @@
-package org.folio.cataloging.business.librivision;
+package org.folio.cataloging.search.domain;
 
+import org.folio.cataloging.search.XmlDocumentException;
+import org.folio.cataloging.search.XmlParserConfigurationException;
+import org.folio.cataloging.search.XslTransformerConfigurationException;
+import org.folio.cataloging.search.XslTransformerException;
 import org.w3c.dom.Document;
 
 import java.net.URL;

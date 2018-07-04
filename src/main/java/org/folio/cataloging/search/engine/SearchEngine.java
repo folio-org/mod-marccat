@@ -1,7 +1,7 @@
-package org.folio.cataloging.search;
+package org.folio.cataloging.search.engine;
 
-import org.folio.cataloging.search.SearchResponse;
 import org.folio.cataloging.exception.ModCatalogingException;
+import org.folio.cataloging.search.SearchResponse;
 
 import java.util.List;
 import java.util.Locale;

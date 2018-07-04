@@ -5,7 +5,7 @@
  * 
  * XmlDocumentException.java
  */
-package org.folio.cataloging.business.librivision;
+package org.folio.cataloging.search;
 
 import org.folio.cataloging.exception.ModCatalogingException;
 

@@ -1,14 +1,14 @@
-package org.folio.cataloging.search;
+package org.folio.cataloging.search.engine;
 
 import org.folio.cataloging.Global;
 import org.folio.cataloging.business.cataloguing.common.CatalogItem;
 import org.folio.cataloging.business.common.RecordNotFoundException;
 import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.business.librivision.Record;
-import org.folio.cataloging.business.librivision.XmlRecord;
 import org.folio.cataloging.exception.ModCatalogingException;
 import org.folio.cataloging.integration.StorageService;
 import org.folio.cataloging.log.Log;
+import org.folio.cataloging.search.SearchResponse;
+import org.folio.cataloging.search.domain.Record;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -51,7 +51,7 @@ public abstract class ModCatalogingSearchEngine implements SearchEngine {
      * @param databasePreferenceOrder the database preference order.
      * @param service the {@link StorageService} instance.
      */
-	ModCatalogingSearchEngine(final int mainLibraryId, final int databasePreferenceOrder, final StorageService service) {
+	protected ModCatalogingSearchEngine(final int mainLibraryId, final int databasePreferenceOrder, final StorageService service) {
 		this.storageService = service;
 		this.mainLibraryId = mainLibraryId;
 		this.databasePreferenceOrder = databasePreferenceOrder;
@@ -98,7 +98,7 @@ public abstract class ModCatalogingSearchEngine implements SearchEngine {
                            }
 
                            final Record record = newRecord();
-                           ((XmlRecord) record).setContent(elementSetName, recordData);
+                           record.setContent(elementSetName, recordData);
                            record.setRecordView(searchingView.get());
                            return record;
                        }).toArray(Record[]::new));

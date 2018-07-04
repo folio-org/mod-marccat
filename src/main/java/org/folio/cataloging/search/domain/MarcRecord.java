@@ -5,19 +5,17 @@
  * 
  * MarcRecord.java
  */
-package org.folio.cataloging.business.librivision;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.xml.parsers.DocumentBuilderFactory;
+package org.folio.cataloging.search.domain;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.util.StringText;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import org.folio.cataloging.util.StringText;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This is a class for MARC records.

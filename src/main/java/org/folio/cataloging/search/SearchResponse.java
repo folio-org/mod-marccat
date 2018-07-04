@@ -5,14 +5,14 @@ import net.sf.hibernate.Session;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.business.librivision.MarcRecord;
-import org.folio.cataloging.business.librivision.Record;
-import org.folio.cataloging.business.searching.SearchEngine;
 import org.folio.cataloging.dao.DAOCodeTable;
 import org.folio.cataloging.dao.persistence.T_AUT_DSPLY_FRMT;
 import org.folio.cataloging.dao.persistence.T_BIB_DSPLY_FRMT;
 import org.folio.cataloging.dao.persistence.T_ITM_DSPLY_FRMT;
 import org.folio.cataloging.exception.ModCatalogingException;
+import org.folio.cataloging.search.domain.MarcRecord;
+import org.folio.cataloging.search.domain.Record;
+import org.folio.cataloging.search.engine.SearchEngine;
 
 import java.util.Arrays;
 import java.util.List;

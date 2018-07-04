@@ -1,26 +1,15 @@
 package org.folio.cataloging.resources;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import org.folio.cataloging.F;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.ModCataloging;
-import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.resources.domain.AcquisitionType;
-import org.folio.cataloging.resources.domain.AcquisitionTypeCollection;
-import org.folio.cataloging.search.ModCatalogingSearchEngine;
+import org.folio.cataloging.search.SearchEngineFactory;
+import org.folio.cataloging.search.SearchEngineType;
 import org.folio.cataloging.search.SearchResponse;
+import org.folio.cataloging.search.engine.SearchEngine;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.function.Function;
-
-import static java.util.Optional.ofNullable;
-import static java.util.stream.Collectors.toList;
 import static org.folio.cataloging.F.locale;
 import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
@@ -48,8 +37,12 @@ public class RemoveMeAPI extends BaseResource {
             @RequestParam(name = "sortBy", required = false) final String[] sortAttributes,
             @RequestParam(name = "sortOrder", required = false) final String[] sortOrders) {
         return doGet((storageService, configuration) -> {
-            final ModCatalogingSearchEngine searchEngine =
-                    new ModCatalogingSearchEngine(mainLibraryId, databasePreferenceOrder, storageService);
+            final SearchEngine searchEngine =
+                    SearchEngineFactory.create(
+                                            SearchEngineType.LIGHTWEIGHT,
+                                            mainLibraryId,
+                                            databasePreferenceOrder,
+                                            storageService);
 
             return searchEngine.fetchRecords(
                     (sortAttributes != null && sortOrders != null && sortAttributes.length == sortOrders.length)
