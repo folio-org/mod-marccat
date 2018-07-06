@@ -76,7 +76,7 @@ public abstract class ModCatalogingSearchEngine implements SearchEngine {
 		final AtomicInteger searchingView = new AtomicInteger(response.getSearchingView());
 		response.setRecordSet(
                     rangeClosed(firstRecord, lastRecord)
-                       .map(index -> index--)
+                       .map(index -> index-1)
                        .filter(pos -> response.getIdSet().length > pos)
                        .mapToObj(pos -> {
                            final int itemNumber = response.getIdSet()[pos];
