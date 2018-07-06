@@ -1,6 +1,7 @@
 package org.folio.cataloging.search;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import net.sf.hibernate.Session;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.business.common.DataAccessException;
@@ -36,6 +37,9 @@ public class SearchResponse {
     private final int searchingView;
     private final String displayQuery;
     protected Record[] record;
+
+    private int from;
+    private int to;
 
     @JsonIgnore
     private int[] idSet;
@@ -117,6 +121,7 @@ public class SearchResponse {
      *
      * @return true if the current searchingView is BIBLIOGRAPHICS.
      */
+    @JsonIgnore
     public boolean isBibliographic() {
         return getSearchingView() != View.AUTHORITY;
     }
@@ -126,19 +131,23 @@ public class SearchResponse {
      *
      * @return the size of this result set.
      */
-    public int getSize() {
+    @JsonIgnore
+    public int getPageSize() {
         return this.record.length;
     }
 
-    public Record[] getRecord() {
-        return this.record;
+    /**
+     * Returns the total size of this result set.
+     *
+     * @return the total size of this result set.
+     */
+    public long getNumFound() {
+        return safe(getIdSet()).length;
     }
 
-    public String getComplexQuery() {
-        return complexQuery;
-    }
-    public void setComplexQuery(String complexQuery) {
-        this.complexQuery = complexQuery;
+    @JsonProperty("docs")
+    public Record[] getRecord() {
+        return this.record;
     }
 
     public Record getRecord(final int recordNumber, final String elementSetName, final SearchEngine searchEngine) {
@@ -152,6 +161,11 @@ public class SearchResponse {
         }
     }
 
+    /**
+     * Sets the current documents page.
+     *
+     * @param records the documents.
+     */
     public void setRecordSet(final Record [] records) {
         this.record = records;
     }
@@ -186,7 +200,7 @@ public class SearchResponse {
     private int computeLastRecordNumber(final int firstRecordNumber, final String elementSetName, final int maxNumberOfRecords) {
         int lastRecordNumber = firstRecordNumber;
         while (((lastRecordNumber - firstRecordNumber) < (maxNumberOfRecords - 1))
-                && (lastRecordNumber < getSize())
+                && (lastRecordNumber < getPageSize())
                 && ((this.record[lastRecordNumber] == null) || (!this.record[lastRecordNumber].hasContent(elementSetName)))) {
             lastRecordNumber++;
         }
@@ -223,5 +237,21 @@ public class SearchResponse {
         return (isBibliographic())
             ? (T_BIB_DSPLY_FRMT) new DAOCodeTable().load(session, T_BIB_DSPLY_FRMT.class, code, locale)
             : (T_AUT_DSPLY_FRMT) new DAOCodeTable().load(session, T_AUT_DSPLY_FRMT.class, code,	locale);
+    }
+
+    public int getFrom() {
+        return from;
+    }
+
+    public void setFrom(int from) {
+        this.from = from;
+    }
+
+    public int getTo() {
+        return to;
+    }
+
+    public void setTo(int to) {
+        this.to = to;
     }
 }

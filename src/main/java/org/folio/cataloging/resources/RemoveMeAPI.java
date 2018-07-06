@@ -33,7 +33,7 @@ public class RemoveMeAPI extends BaseResource {
             @RequestParam(name = "to", defaultValue = "10") final int to,
             @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
             @RequestParam("ml") final int mainLibraryId,
-            @RequestParam(name = "dpo", required = false) final int databasePreferenceOrder,
+            @RequestParam(name = "dpo", defaultValue = "1") final int databasePreferenceOrder,
             @RequestParam(name = "sortBy", required = false) final String[] sortAttributes,
             @RequestParam(name = "sortOrder", required = false) final String[] sortOrders) {
         return doGet((storageService, configuration) -> {

@@ -89,6 +89,8 @@ public abstract class ModCatalogingSearchEngine implements SearchEngine {
                            record.setRecordView(searchingView.get());
                            return record;
                        }).toArray(Record[]::new));
+		response.setFrom(firstRecord);
+		response.setTo(Math.min(lastRecord, (firstRecord + response.getPageSize())));
 		return response;
 	}
 
