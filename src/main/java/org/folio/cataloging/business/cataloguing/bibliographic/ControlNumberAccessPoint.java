@@ -10,7 +10,7 @@ package org.folio.cataloging.business.cataloguing.bibliographic;
 import org.folio.cataloging.business.cataloguing.common.OrderedTag;
 import org.folio.cataloging.business.common.ConfigHandler;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.dao.DAOBibliographicCorrelation;
 import org.folio.cataloging.dao.persistence.CNTL_NBR;
 import org.folio.cataloging.dao.persistence.ControlNumberFunction;

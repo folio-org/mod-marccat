@@ -19,7 +19,7 @@ import net.sf.hibernate.Query;
 import net.sf.hibernate.Session;
 
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
 
 /**
  * @author paulm
@@ -79,37 +79,24 @@ public class DAOThesaurusDescriptor extends DAODescriptor {
 		throw new IllegalArgumentException("I can only delete Descriptor objects");
 	}
 	Descriptor d = ((Descriptor) p);
-	//Non ha ACCESS_POINT
-/*	List l =
-		find(
-			"select count(*) from "
-				+ d.getAccessPointClass().getName()
-				+ " as a where a.headingNumber = ?",
-			new Object[] { new Integer(d.getKey().getHeadingNumber())},
-			new Type[] { Hibernate.INTEGER });
-	if (((Integer) l.get(0)).intValue() > 0) {
-		throw new ReferentialIntegrityException(
-			d.getAccessPointClass().getName(),
-			d.getClass().getName());
-	}*/
 
 	// check for cross references
-	if (supportsCrossReferences()) {
+	/*if (supportsCrossReferences()) {
 		if (getXrefCount(d, View.toIntView(d.getUserViewString())) > 0) {
 			throw new ReferentialIntegrityException(
 				d.getReferenceClass(d.getClass()).getName(),
 				d.getClass().getName());
 		}
 	}
-	//Carmen aggiunto 23/07/2010
-		if (supportsCrossReferences()) {
+
+		/*if (supportsCrossReferences()) {
 			if (d instanceof THS_HDG) {
 				if (getXAtrCount(d, View.toIntView(d.getUserViewString())) > 0) {
 					throw new ReferentialIntegrityException("Librisuite.hibernate.THS_ATRIB", d
 							.getClass().getName());
 				}
 			}
-		}
+		}*/
 	// check for authorities
 	if (supportsAuthorities()) {
 		if (d.getAuthorityCount() > 0) {

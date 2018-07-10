@@ -1,9 +1,9 @@
 package org.folio.cataloging.dao.persistence;
 
 import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.*;
-import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.dao.DAOCrossReferences;
 import org.folio.cataloging.dao.DAODescriptor;
 import org.folio.cataloging.dao.common.HibernateUtil;
@@ -33,13 +33,12 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
 	private final PersistenceState persistenceState = new PersistenceState();
 	abstract public DAODescriptor getTargetDAO();
 	
-	public static REF add(Descriptor source,Descriptor target,short referenceType,int cataloguingView,boolean isAttribute) throws DataAccessException 
-	{
+	public static REF add(Descriptor source, Descriptor target, short referenceType, int cataloguingView, boolean isAttribute, Session session) throws DataAccessException, HibernateException {
 		/* instantiate the appropriate REF type and populate key from arguments */
 		REF ref = REF.newInstance(source, target, referenceType, cataloguingView,isAttribute);
 		DAOCrossReferences dao = (DAOCrossReferences) ref.getDAO();
 		/* verify that this xref doesn't already exist in the database */
-		if (dao.load(source, target, referenceType, cataloguingView) != null) {
+		if (dao.load(source, target, referenceType, cataloguingView, session) != null) {
 			throw new CrossReferenceExistsException();
 		}
 		dao.save(ref);

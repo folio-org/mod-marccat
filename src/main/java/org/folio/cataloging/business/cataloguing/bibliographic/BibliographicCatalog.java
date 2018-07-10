@@ -1,8 +1,9 @@
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
+import net.sf.hibernate.HibernateException;
 import org.folio.cataloging.business.cataloguing.common.*;
 import org.folio.cataloging.business.common.*;
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.business.descriptor.PublisherTagDescriptor;
 import org.folio.cataloging.dao.*;
 import org.folio.cataloging.dao.persistence.Model;
@@ -318,10 +319,12 @@ public class BibliographicCatalog extends Catalog {
 	 * @throws DataAccessException in case of data access failure.
 	 * @throws ValidationException in case of validation failure while checking the entity.
 	 */
+
+//TODO: The session is missing from the method (findOrCreateMyView)
 	public CatalogItem findOrCreateMyView(
 			final int recordView,
 			final int amicusNumber,
-			final int cataloguingView) throws DataAccessException {
+			final int cataloguingView) throws DataAccessException, HibernateException {
 		if (recordView == cataloguingView) {
 			// nothing to do
 			return getCatalogItem(new Object[] { amicusNumber, recordView });
@@ -348,7 +351,7 @@ public class BibliographicCatalog extends Catalog {
 				Descriptor orig = apf.getDescriptor();
 				Descriptor d = apf.getDAODescriptor().findOrCreateMyView(
 						orig.getHeadingNumber(),
-						View.makeSingleViewString(recordView), cataloguingView);
+						View.makeSingleViewString(recordView), cataloguingView, null);
 				apf.setDescriptor(d);
 			} else if (aTag instanceof PublisherManager) {
 				PublisherManager pm = (PublisherManager) aTag;
@@ -361,7 +364,7 @@ public class BibliographicCatalog extends Catalog {
 					PUBL_HDG ph = null;
 					ph = (PUBL_HDG) t.getDescriptorDAO().findOrCreateMyView(
 							t.getPublisherHeadingNumber(),
-							View.makeSingleViewString(recordView), cataloguingView);
+							View.makeSingleViewString(recordView), cataloguingView, null);
 					t.setDescriptor(ph);
 				  	t.setUserViewString(View.makeSingleViewString(cataloguingView));
 				}

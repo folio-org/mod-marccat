@@ -4,7 +4,7 @@ import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationEx
 import org.folio.cataloging.business.cataloguing.common.Browsable;
 import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
 
 public class SameDescriptorTagFilter implements TagFilter {
 

@@ -11,12 +11,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.hibernate.HibernateException;
 import org.folio.cataloging.dao.DAOSystemNextNumber;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
 import org.folio.cataloging.business.common.RecordNotFoundException;
-import org.folio.cataloging.dao.DAOShelfList;
+import org.folio.cataloging.dao.ShelfListDAO;
 import org.folio.cataloging.business.serialControl.SubscriptionConfigurationException;
 import org.folio.cataloging.business.serialControl.SubscriptionNeedsShelfException;
 import net.sf.hibernate.CallbackException;
@@ -410,11 +411,12 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	/**
 	 * @param shelfListKeyNumber the shelfListKeyNumber to set
 	 */
-	public void setShelfListKeyNumber(Integer shelfListKeyNumber) {
+    //TODO: The session is missing from the method
+	public void setShelfListKeyNumber(Integer shelfListKeyNumber) throws HibernateException {
 		this.shelfListKeyNumber = shelfListKeyNumber;
 		if (shelfListKeyNumber != null && shelfListKeyNumber.intValue() > 0) {
 			try {
-				shelfList = new DAOShelfList().load(shelfListKeyNumber.intValue());
+				shelfList = new ShelfListDAO().load(shelfListKeyNumber.intValue(), null);
 			} catch (RecordNotFoundException e) {
 				// leave shelf unassigned
 			} catch (DataAccessException e) {
@@ -465,7 +467,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 		this.loanPeriod = loanPeriod;
 	}
 
-	public Character getShelfListType() throws RecordNotFoundException, DataAccessException {
+	public Character getShelfListType() throws RecordNotFoundException, DataAccessException, HibernateException {
 		Character result = null;
 		if (getShelfList() != null) {
 			result = new Character(getShelfList().getTypeCode());
@@ -473,7 +475,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 		return result;
 	}
 
-	public String getShelfListNumber() throws RecordNotFoundException, DataAccessException {
+	public String getShelfListNumber() throws RecordNotFoundException, DataAccessException, HibernateException {
 		String result = null;
 		if (getShelfList() != null) {
 			result = getShelfList().getDisplayText();
@@ -485,9 +487,10 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	 * @throws DataAccessException 
 	 * @throws RecordNotFoundException 
 	 */
-	public SHLF_LIST getShelfList() throws RecordNotFoundException, DataAccessException {
+	//TODO The session is missing from the method
+	public SHLF_LIST getShelfList() throws RecordNotFoundException, DataAccessException, HibernateException {
 		if (shelfList == null && shelfListKeyNumber != null) {
-			shelfList = (SHLF_LIST)new DAOShelfList().load(shelfListKeyNumber.intValue());
+			shelfList = (SHLF_LIST)new ShelfListDAO().load(shelfListKeyNumber.intValue(), null);
 		}
 		return shelfList;
 	}
@@ -495,7 +498,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	/**
 	 * @param shelfList the shelfList to set
 	 */
-	public void setShelfList(SHLF_LIST shelfList) {
+	public void setShelfList(SHLF_LIST shelfList) throws HibernateException {
 		this.shelfList = shelfList;
 		if (shelfList != null) {
 			setShelfListKeyNumber(new Integer(shelfList.getShelfListKeyNumber()));

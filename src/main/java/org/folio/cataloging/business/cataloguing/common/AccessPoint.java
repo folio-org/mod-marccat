@@ -1,11 +1,12 @@
 package org.folio.cataloging.business.cataloguing.common;
 
+import net.sf.hibernate.HibernateException;
 import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
 import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.business.descriptor.SkipInFiling;
 import org.folio.cataloging.dao.DAODescriptor;
 import org.folio.cataloging.dao.common.HibernateUtil;
@@ -13,6 +14,7 @@ import org.folio.cataloging.dao.persistence.CorrelationKey;
 import org.folio.cataloging.util.StringText;
 import org.w3c.dom.Element;
 
+import java.sql.SQLException;
 import java.util.Set;
 
 /**
@@ -84,6 +86,7 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
 		headingNumber = i;
 	}
 
+	//TODO: The session is missing from the method
 	public void generateNewKey() throws DataAccessException {
 		//TODO revisit the matching done here
 		/* 1. Is this the right place to do heading matching?
@@ -91,8 +94,15 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
 		 */
 		if (getDescriptor().isNew()) {
 			Descriptor d =
-				((DAODescriptor) getDescriptor().getDAO()).getMatchingHeading(
-					getDescriptor());
+					null;
+			try {
+				d = ((DAODescriptor) getDescriptor().getDAO()).getMatchingHeading(
+					getDescriptor(), null);
+			} catch (HibernateException e) {
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 			if (d == null) {
 				getDescriptor().generateNewKey();
 			} else {

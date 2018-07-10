@@ -1,5 +1,6 @@
 package org.folio.cataloging.bean.cataloguing.heading;
 
+import net.sf.hibernate.HibernateException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.Global;
@@ -10,7 +11,7 @@ import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.DuplicateDescriptorException;
 import org.folio.cataloging.business.common.ErrorIsbnProcException;
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.business.descriptor.DescriptorFactory;
 import org.folio.cataloging.business.descriptor.MatchedHeadingInAnotherViewException;
 import org.folio.cataloging.dao.DAOBibliographicValidation;
@@ -24,6 +25,7 @@ import org.folio.cataloging.shared.Validation;
 import org.folio.cataloging.util.StringText;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.*;
 
 public abstract class HeadingBean extends LibrisuiteBean {
@@ -478,11 +480,12 @@ public abstract class HeadingBean extends LibrisuiteBean {
 	 * @return
 	 * @throws DataAccessException
 	 */
+	//TODO: The session is missing from the method
 	public Descriptor getHeadingInCataloguingView(int cataloguingView)
-			throws DataAccessException {
+			throws DataAccessException, HibernateException {
 		Descriptor d = getHeading();
 		return ((DAODescriptor) d.getDAO()).findOrCreateMyView(d
-				.getHeadingNumber(), d.getUserViewString(), cataloguingView);
+				.getHeadingNumber(), d.getUserViewString(), cataloguingView, null);
 	}
 
 	/*
@@ -498,10 +501,11 @@ public abstract class HeadingBean extends LibrisuiteBean {
 	 * @throws DuplicateDescriptorException
 	 * @throws MatchedHeadingInAnotherViewException
 	 */
+	//TODO: The session is missing from the method
 	public void checkDescriptor(Descriptor heading, boolean allowPotentialDup)
 			throws DuplicateDescriptorException,
-			MatchedHeadingInAnotherViewException {
-		heading.checkDescriptor(allowPotentialDup);
+			MatchedHeadingInAnotherViewException, HibernateException, SQLException {
+		heading.checkDescriptor(allowPotentialDup , null);
 	}
 
 	public boolean isPossibleDuplicate() {

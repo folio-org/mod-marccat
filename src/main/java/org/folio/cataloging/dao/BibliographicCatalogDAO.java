@@ -14,7 +14,7 @@ import org.folio.cataloging.business.common.CacheUpdateException;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.View;
 import org.folio.cataloging.business.controller.UserProfile;
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 import org.folio.cataloging.dao.persistence.*;
 
@@ -366,11 +366,11 @@ public class BibliographicCatalogDAO extends CatalogDAO
 			tag = (NameTitleAccessPoint) iter.next();
 			NME_TTL_HDG hdg = (NME_TTL_HDG) tag.getDescriptor();
 			hdg.setNameHeading(
-				(NME_HDG) new DAONameDescriptor().load(
+				(NME_HDG) new NameDescriptorDAO().load(
 					hdg.getNameHeadingNumber(),
 					userView));
 			hdg.setTitleHeading(
-				(TTL_HDG) new DAOTitleDescriptor().load(
+				(TTL_HDG) new TitleDescriptorDAO().load(
 					hdg.getTitleHeadingNumber(),
 					userView));
 		}
@@ -655,7 +655,7 @@ public class BibliographicCatalogDAO extends CatalogDAO
 	 * and adds these equivalent headings to the item
 	 */
 	public Collection<SubjectAccessPoint> getEquivalentSubjects(final CatalogItem item) throws DataAccessException {
-		final DAODescriptor dao = new DAOSubjectDescriptor();
+		final DAODescriptor dao = new SubjectDescriptorDAO();
 		final Collection<SubjectAccessPoint> newTags = new HashSet();
 		final Iterator iter = item.getTags().iterator();
 		while (iter.hasNext()) {

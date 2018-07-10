@@ -1,5 +1,6 @@
 package org.folio.cataloging.bean.cataloguing.copy;
 
+import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -12,7 +13,7 @@ import org.folio.cataloging.business.common.DuplicateDescriptorException;
 import org.folio.cataloging.business.common.RecordNotFoundException;
 import org.folio.cataloging.business.controller.SessionUtils;
 import org.folio.cataloging.business.controller.UserProfile;
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
 import org.folio.cataloging.dao.*;
 import org.folio.cataloging.dao.persistence.*;
@@ -26,6 +27,7 @@ import org.folio.cataloging.util.StringText;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -461,8 +463,7 @@ public class CopyBean extends LibrisuiteBean {
 		editingShelfList = shlf_list;
 	}
 
-	public void saveCopy(final Session session, final String userName) throws DataAccessException, ValidationException, RecordInUseException
-	{
+	public void saveCopy(final Session session, final String userName) throws DataAccessException, ValidationException, RecordInUseException, HibernateException {
 		DAOCopy dc = new DAOCopy();
 		SHLF_LIST oldShelfList = null;
 
@@ -552,7 +553,7 @@ public class CopyBean extends LibrisuiteBean {
 	 * @throws DuplicateDescriptorException
 	 */
 	private void checkHeadingUsed(CPY_ID copy, DAOCopy dc)
-			throws DataAccessException {
+			throws DataAccessException, HibernateException {
 		int count = dc.countCopyByShelf(copy, getEditingShelfList());
 		if (!isDuplicateShelf()) {
 			// CHECK SHELF DUPLICATE
@@ -613,7 +614,7 @@ public class CopyBean extends LibrisuiteBean {
 	 * @throws DataAccessException
 	 * @throws DuplicateDescriptorException
 	 */
-	private void checkShelflistAlreadyInUse() throws DataAccessException {
+	private void checkShelflistAlreadyInUse() throws DataAccessException, HibernateException {
 		int count = new DAOCopy().countCopyByShelf(copy, getEditingShelfList());
 		if (count >= 1) {
 			setDuplicateShelf(true);
@@ -771,7 +772,7 @@ public class CopyBean extends LibrisuiteBean {
 
 	public void scanShelfLists(HttpServletRequest request)
 			throws
-            ModCatalogingException {
+			ModCatalogingException, HibernateException, SQLException {
 		logger.debug("Setting browse parameters for shelf list scan");
 		BrowseBean bean = (BrowseBean) BrowseBean.getInstance(request);
 		bean.init(request.getLocale());
@@ -794,7 +795,7 @@ public class CopyBean extends LibrisuiteBean {
 
 	public void scanClassification(HttpServletRequest request)
 			throws
-            ModCatalogingException {
+			ModCatalogingException, HibernateException, SQLException {
 		logger.debug("Setting browse parameters for classification scan");
 		BrowseBean bean = (BrowseBean) BrowseBean.getInstance(request);
 		bean.init(request.getLocale());

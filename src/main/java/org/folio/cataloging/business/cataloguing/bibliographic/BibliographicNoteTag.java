@@ -8,7 +8,7 @@ import org.folio.cataloging.business.common.ConfigHandler;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.PersistenceState;
 import org.folio.cataloging.business.common.PersistentObjectWithView;
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.business.marchelper.MarcHelperTag;
 import org.folio.cataloging.dao.DAOBibliographicNoteTag;
 import org.folio.cataloging.dao.DAOBibliographicNotesOverflow;

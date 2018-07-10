@@ -8,7 +8,7 @@
 package org.folio.cataloging.dao.persistence;
 
 import org.folio.cataloging.dao.DAODescriptor;
-import org.folio.cataloging.dao.DAOSubjectDescriptor;
+import org.folio.cataloging.dao.SubjectDescriptorDAO;
 
 /**
  * @author paulm
@@ -20,7 +20,7 @@ public class SBJCT_REF extends REF {
 	 * @see REF#getTargetDAO()
 	 */
 	public DAODescriptor getTargetDAO() {
-		return new DAOSubjectDescriptor();
+		return new SubjectDescriptorDAO();
 	}
 
 }

@@ -1,5 +1,6 @@
 package org.folio.cataloging.bean.cataloguing.common;
 
+import net.sf.hibernate.HibernateException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.action.cataloguing.bibliographic.SaveTagException;
@@ -26,7 +27,7 @@ import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.*;
 import org.folio.cataloging.business.common.group.GroupManager;
 import org.folio.cataloging.business.controller.UserProfile;
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.business.descriptor.SkipInFiling;
 import org.folio.cataloging.business.digital.*;
 import org.folio.cataloging.dao.*;
@@ -1214,7 +1215,7 @@ public abstract class EditBean extends LibrisuiteBean {
 	 * 
 	 */
 	public void updateDescriptorFromBrowse(Descriptor d)
-			throws AuthorisationException, DataAccessException {
+			throws AuthorisationException, DataAccessException, HibernateException {
 		checkPermission(getCurrentTag().getRequiredEditPermission());
 		/*
 		 * Browse may return with a heading from a different view 
@@ -1223,7 +1224,7 @@ public abstract class EditBean extends LibrisuiteBean {
 		 */
 		d = ((DAODescriptor) d.getDAO()).findOrCreateMyView(d
 				.getHeadingNumber(), d.getUserViewString(), getCatalogItem()
-				.getUserView());
+				.getUserView(), null);
 		logger.debug("descriptor from find or create has view: " + d.getUserViewString());
 		Command c = new ReplaceDescriptorCommand(this, getCurrentTag(), d);
 

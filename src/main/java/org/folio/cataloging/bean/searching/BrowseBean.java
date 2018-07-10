@@ -12,13 +12,14 @@ import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.business.common.View;
 import org.folio.cataloging.business.controller.SessionUtils;
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.business.searching.BrowseManager;
 import org.folio.cataloging.business.searching.InvalidBrowseIndexException;
 import org.folio.cataloging.dao.*;
 import org.folio.cataloging.dao.persistence.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -615,7 +616,7 @@ public class BrowseBean extends SearchBean {
 	 * gets the next page of entries 
 	 * 
 	 */
-	public void next(int cataloguingView) throws DataAccessException {
+	public void next(int cataloguingView) throws DataAccessException, HibernateException, SQLException {
 		BrowseManager b = getBrowseManager();
 		
 		List l = null;
@@ -656,7 +657,7 @@ public class BrowseBean extends SearchBean {
 	 * gets the previous page of browse entries
 	 * 
 	 */
-	public void previous(int cataloguingView) throws DataAccessException {
+	public void previous(int cataloguingView) throws DataAccessException, HibernateException, SQLException {
 		BrowseManager b = getBrowseManager();
 		List l = null;
 
@@ -686,8 +687,7 @@ public class BrowseBean extends SearchBean {
 		
 	}
 
-	public void refresh(String term, int cataloguingView, int mainLibrary) throws DataAccessException, InvalidBrowseIndexException 
-	{
+	public void refresh(String term, int cataloguingView, int mainLibrary) throws DataAccessException, InvalidBrowseIndexException, HibernateException, SQLException {
 		getBrowseManager().setBrowseIndex(getSelectedIndexKey(), mainLibrary);
 		List l = null;
 		logger.debug("Doing refresh with index: " + getSelectedIndexKey());
@@ -715,8 +715,7 @@ public class BrowseBean extends SearchBean {
 	 * redoes the browse to refresh the entries and the xref counts
 	 * 
 	 */
-	public void refresh(String term, String termSkip, int cataloguingView, int mainLibrary) throws DataAccessException, InvalidBrowseIndexException 
-	{	
+	public void refresh(String term, String termSkip, int cataloguingView, int mainLibrary) throws DataAccessException, InvalidBrowseIndexException, HibernateException, SQLException {
 		getBrowseManager().setBrowseIndex(getSelectedIndexKey(), mainLibrary);
 		List l = null;
 		logger.debug("Doing refresh with index: " + getSelectedIndexKey());
@@ -739,7 +738,7 @@ public class BrowseBean extends SearchBean {
 	 * 
 	 */
 	public void refreshSkipSearch(String term, String termSkip, int cataloguingView, int mainLibrary)
-		throws DataAccessException, InvalidBrowseIndexException {
+			throws DataAccessException, InvalidBrowseIndexException, HibernateException, SQLException {
 
 		getBrowseManager().setBrowseIndex(getSelectedIndexKey(), mainLibrary);
 
@@ -943,8 +942,7 @@ public class BrowseBean extends SearchBean {
 		+ "\r\n Browse Index History: "+ browseIndexHistory;
 	}
 
-	private void updateCounts(List list, int searchingView) throws DataAccessException 
-	{
+	private void updateCounts(List list, int searchingView) throws DataAccessException, HibernateException {
 		List x;
 		List y;
 		List z;
@@ -967,8 +965,8 @@ public class BrowseBean extends SearchBean {
 		y = getBrowseManager().getDocCounts(list, searchingView);
 		setDocCountList(y);
 		//Note thesaurus
-		j = getBrowseManager().getThesaurusNoteCounts(list, searchingView);
-		setNoteThesaurusCountList(j);
+		/*j = getBrowseManager().getThesaurusNoteCounts(list, searchingView);
+		setNoteThesaurusCountList(j);*/
 
 	/*
 	 * TODO
@@ -978,13 +976,13 @@ public class BrowseBean extends SearchBean {
 	 * to support both traditional authorities and thesaurus at the same time. 
 	 */
 		if (getBrowseManager().isSupportsAuthorities()) {
-			if (isThesaurus()) {
+			/*if (isThesaurus()) {
 				z = getBrowseManager().getXAtrCounts(list, searchingView);
 			}
-			else {
+			else {*/
 				z = getBrowseManager().getAuthCounts(list);
 				// paulm aut reinstate auth count (not sure what xatr counts are?)
-			}
+			//}
 			//z = getBrowseManager().getXAtrCounts(list, searchingView);
 			setAuthCountList(z);
 		}
@@ -994,7 +992,7 @@ public class BrowseBean extends SearchBean {
 			setNtCountList(n);
 		}
 		
-		isAbleUri = false;
+		/*isAbleUri = false;
 		if (list!=null && list.size()>0){
 			Descriptor descriptor = (Descriptor) list.get(0);
 			Integer headingType = Global.HEADING_TYPE_MAP.get(descriptor.getCategory()+"");
@@ -1003,7 +1001,7 @@ public class BrowseBean extends SearchBean {
 				setUriCountList(n);
 				isAbleUri = true;
 			}	
-		}
+		}*/
 	}  
 	
 	public boolean isAbleUri()
@@ -1036,8 +1034,8 @@ public class BrowseBean extends SearchBean {
 	}
 	
 	/* Bug 5424 */
-	public List<HDG_URI> getURIByHeadingNumber(Descriptor descriptor, int searchingView) throws DataAccessException
+	/*public List<HDG_URI> getURIByHeadingNumber(Descriptor descriptor, int searchingView) throws DataAccessException
 	{
 		return getBrowseManager().getUriList(descriptor, searchingView);
-	}
+	}*/
 }

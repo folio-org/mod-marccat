@@ -1,5 +1,7 @@
 package org.folio.cataloging.bean.crossreference;
 
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.bean.LibrisuiteBean;
 import org.folio.cataloging.bean.cataloguing.bibliographic.codelist.CodeListsBean;
 import org.folio.cataloging.business.codetable.CodeTableTranslationLanguage;
@@ -8,7 +10,7 @@ import org.folio.cataloging.business.common.DeleteCrossReferenceException;
 import org.folio.cataloging.business.common.View;
 import org.folio.cataloging.business.controller.SessionUtils;
 import org.folio.cataloging.business.crossreference.CrossReferenceSummaryElement;
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.dao.DAOCodeTable;
 import org.folio.cataloging.dao.DAODescriptor;
 import org.folio.cataloging.dao.persistence.*;
@@ -47,13 +49,10 @@ public class CrossReferenceBean extends LibrisuiteBean
 		return bean;
 	}
 	
-	public List getSummary(Descriptor d, int cataloguingView, Locale locale, boolean isAttribute) throws DataAccessException 
-	{
+	public List getSummary(Descriptor d, int cataloguingView, Locale locale, boolean isAttribute) throws DataAccessException, HibernateException {
 		List xRefs = null;	
-		if(isAttribute)
-			xRefs=((DAODescriptor) d.getDAO()).getCrossReferencesAttrib(d);
-		else
-			xRefs=((DAODescriptor) d.getDAO()).getCrossReferences(d);
+
+		xRefs=((DAODescriptor) d.getDAO()).getCrossReferences(d);
 		
 	    if(isAttribute)
 		   return getSummaryFromAttrib (xRefs, locale, cataloguingView);
@@ -63,9 +62,8 @@ public class CrossReferenceBean extends LibrisuiteBean
 			return getSummary(xRefs, cataloguingView, locale);
 	}
 
-	public Descriptor getSeeReference(Descriptor d, int cataloguingView) throws DataAccessException 
-	{
-		return ((DAODescriptor) d.getDAO()).getSeeReference(d, cataloguingView);
+	public Descriptor getSeeReference(Descriptor d, int cataloguingView, Session session) throws DataAccessException, HibernateException {
+		return ((DAODescriptor) d.getDAO()).getSeeReference(d, cataloguingView, session);
 	}
 
 	/**
@@ -75,8 +73,7 @@ public class CrossReferenceBean extends LibrisuiteBean
 	 * @param locale - the current local (for decoding codes)
 	 * @return the list
 	 */
-	public List getSummary(List xRefs, int cataloguingView, Locale locale) throws DataAccessException 
-	{
+	public List getSummary(List xRefs, int cataloguingView, Locale locale) throws DataAccessException, HibernateException {
 		List result = new ArrayList();
 		DAOCodeTable cts = new DAOCodeTable();
 		setThesaurus(false);
@@ -99,7 +96,7 @@ public class CrossReferenceBean extends LibrisuiteBean
 				aSummaryElement.setTarget(new StringText(hdg.getStringText()).toDisplayString());
 		
 			aSummaryElement.setXRef(ref);
-			aSummaryElement.setDocTargetCounts(new Integer(((DAODescriptor) hdg.getDAO()).getDocCount(hdg,	cataloguingView)));
+			aSummaryElement.setDocTargetCounts(new Integer(((DAODescriptor) hdg.getDAO()).getDocCount(hdg,	cataloguingView, null)));
 			aSummaryElement.setTargetDescriptor(hdg);
 			
 			result.add(aSummaryElement);
@@ -158,7 +155,7 @@ public class CrossReferenceBean extends LibrisuiteBean
 		while (iter.hasNext()) 
 		{
 			REF ref = (REF) iter.next();
-			Descriptor hdg = ref.getTargetDAO().load(ref.getTarget());
+			//Descriptor hdg = ref.getTargetDAO().load(ref.getTarget());
 			
 			CrossReferenceSummaryElement aSummaryElement = new CrossReferenceSummaryElement();
 			//TODO Natascia: fix session
@@ -227,7 +224,7 @@ public class CrossReferenceBean extends LibrisuiteBean
 		while (iter.hasNext()) 
 		{
 			THS_ATRIB ref = (THS_ATRIB) iter.next();
-			Descriptor hdg = ref.getTargetDAO().load(ref.getTarget());
+			//Descriptor hdg = ref.getTargetDAO().load(ref.getTarget(), null);
 			
 			CrossReferenceSummaryElement aSummaryElement =	new CrossReferenceSummaryElement();
 			//TODO Natascia: fix session
@@ -268,15 +265,14 @@ public class CrossReferenceBean extends LibrisuiteBean
 		}
 	}
 
-	public List add(Descriptor source, Descriptor target, short referenceType, short dualReference, int cataloguingView, boolean isAttribute) throws DataAccessException 
-	{
+	public List add(Descriptor source, Descriptor target, short referenceType, short dualReference, int cataloguingView, boolean isAttribute) throws DataAccessException, HibernateException {
 		List l = new ArrayList();
-		REF ref = REF.add(source, target, referenceType, cataloguingView,isAttribute);
+		REF ref = REF.add(source, target, referenceType, cataloguingView,isAttribute, null);
 		l.add(ref);
 
 		if (ReferenceType.isSeeAlso(referenceType) || ReferenceType.isSeeAlsoFrom(referenceType)) {
 			if (T_DUAL_REF.isDual(dualReference)) {
-				ref = REF.add(target, source, referenceType, cataloguingView,isAttribute);
+				ref = REF.add(target, source, referenceType, cataloguingView,isAttribute, null);
 				l.add(ref);
 			}
 		}
@@ -323,8 +319,7 @@ public class CrossReferenceBean extends LibrisuiteBean
 		crossReferenceList = list;
 	}
 
-	public void setSourceDescriptor(Descriptor descriptor,boolean isAttribute) throws DataAccessException 
-	{
+	public void setSourceDescriptor(Descriptor descriptor,boolean isAttribute) throws DataAccessException, HibernateException {
 		sourceDescriptor = descriptor;
 		setCrossReferenceList(
 			getSummary(
@@ -371,8 +366,7 @@ public class CrossReferenceBean extends LibrisuiteBean
 			return ReferenceType.isSeeAlso(getReferenceType()) || ReferenceType.isSeeAlsoFrom(getReferenceType());
 	}
 
-	public void saveNewReference(int cataloguingView, boolean isAttribute) throws DataAccessException, NoHeadingSetException 
-	{
+	public void saveNewReference(int cataloguingView, boolean isAttribute) throws DataAccessException, NoHeadingSetException, HibernateException {
 		// add the new cross reference(s)
 		if(getTargetDescriptor()==null)
 			throw new NoHeadingSetException();

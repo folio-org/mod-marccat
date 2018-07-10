@@ -7,6 +7,7 @@
  */
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
+import net.sf.hibernate.HibernateException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.cataloguing.common.AccessPoint;
@@ -14,11 +15,11 @@ import org.folio.cataloging.business.cataloguing.common.OrderedTag;
 import org.folio.cataloging.business.common.ConfigHandler;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.dao.DAOBibliographicCorrelation;
 import org.folio.cataloging.dao.DAODescriptor;
 import org.folio.cataloging.dao.DAONameTitleAccessPoint;
-import org.folio.cataloging.dao.DAONameTitleDescriptor;
+import org.folio.cataloging.dao.NameTitleDescriptorDAO;
 import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.shared.CorrelationValues;
@@ -272,11 +273,16 @@ public class NameTitleAccessPoint extends NameTitleComponent implements OrderedT
 	
 	public List replaceEquivalentDescriptor(short indexingLanguage,
 			int cataloguingView) throws DataAccessException {
-		DAODescriptor dao = new DAONameTitleDescriptor();
+		DAODescriptor dao = new NameTitleDescriptorDAO();
 		List newTags = new ArrayList();
 		Descriptor d = getDescriptor();
-		REF ref = dao.getCrossReferencesWithLanguage(d, cataloguingView,
-				indexingLanguage);
+		REF ref = null;
+		try {
+			ref = dao.getCrossReferencesWithLanguage(d, cataloguingView,
+                    indexingLanguage, null);
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		}
 		if (ref!=null) {
 			AccessPoint aTag = (AccessPoint) deepCopy(this);
 			aTag.markNew();

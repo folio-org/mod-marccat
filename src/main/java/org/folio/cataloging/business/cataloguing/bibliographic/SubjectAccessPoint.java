@@ -1,15 +1,16 @@
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
+import net.sf.hibernate.HibernateException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.cataloguing.common.AccessPoint;
 import org.folio.cataloging.business.cataloguing.common.OrderedTag;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.dao.DAOBibliographicCorrelation;
 import org.folio.cataloging.dao.DAODescriptor;
-import org.folio.cataloging.dao.DAOSubjectDescriptor;
+import org.folio.cataloging.dao.SubjectDescriptorDAO;
 import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
@@ -244,14 +245,20 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
 	public String getVariantCodes() {
 		return VARIANT_CODES;
 	}
-	
+
+	//TODO: The session is missing from the method
 	public List replaceEquivalentDescriptor(short indexingLanguage, int cataloguingView) throws DataAccessException 
 	{
-		DAODescriptor dao = new DAOSubjectDescriptor();
+		DAODescriptor dao = new SubjectDescriptorDAO();
 		List newTags = new ArrayList();
 		Descriptor d = getDescriptor();
-		REF ref = dao.getCrossReferencesWithLanguage(d, cataloguingView, indexingLanguage);
-	    if (ref!=null) {
+		REF ref = null;
+		try {
+			ref = dao.getCrossReferencesWithLanguage(d, cataloguingView, indexingLanguage, null);
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		}
+		if (ref!=null) {
 			//REF aRef = (REF)refs.get(0);
 			/*Deve fare il replace del descrittore, non un nuovo tag altrimenti rimuovere il tag corrente*/
 			AccessPoint aTag =	(AccessPoint) deepCopy(this);

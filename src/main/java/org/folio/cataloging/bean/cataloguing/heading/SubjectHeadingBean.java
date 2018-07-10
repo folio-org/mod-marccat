@@ -2,7 +2,7 @@ package org.folio.cataloging.bean.cataloguing.heading;
 
 import org.folio.cataloging.bean.cataloguing.bibliographic.codelist.CodeListsBean;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.dao.DAOBibliographicCorrelation;
 import org.folio.cataloging.dao.DAOCodeTable;
 import org.folio.cataloging.dao.DAOSubjectTerm;

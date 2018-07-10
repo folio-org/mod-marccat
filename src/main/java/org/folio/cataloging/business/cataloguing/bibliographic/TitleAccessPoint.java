@@ -1,14 +1,15 @@
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
+import net.sf.hibernate.HibernateException;
 import org.folio.cataloging.business.cataloguing.common.AccessPoint;
 import org.folio.cataloging.business.cataloguing.common.OrderedTag;
 import org.folio.cataloging.business.common.ConfigHandler;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.business.marchelper.MarcHelperTag;
 import org.folio.cataloging.dao.DAOBibliographicCorrelation;
 import org.folio.cataloging.dao.DAODescriptor;
-import org.folio.cataloging.dao.DAOTitleDescriptor;
+import org.folio.cataloging.dao.TitleDescriptorDAO;
 import org.folio.cataloging.dao.persistence.REF;
 import org.folio.cataloging.dao.persistence.TTL_HDG;
 import org.folio.cataloging.dao.persistence.TitleFunction;
@@ -205,8 +206,9 @@ public class TitleAccessPoint extends NameTitleComponent implements MarcHelperTa
 	}
 	
 	public String getISSNText(){
-		DAOTitleDescriptor daoTitle= new DAOTitleDescriptor();
-		return daoTitle.getISSNString(this.getSeriesIssnHeadingNumber().intValue());
+		//TitleDescriptorDAO daoTitle= new TitleDescriptorDAO();
+		//return daoTitle.getISSNString(this.getSeriesIssnHeadingNumber().intValue());
+		return null;
 	
 	}
 
@@ -221,12 +223,18 @@ public class TitleAccessPoint extends NameTitleComponent implements MarcHelperTa
 	}
 
 	@Override
+	//TODO: The session is missing from the method
 	public List replaceEquivalentDescriptor(short indexingLanguage, int cataloguingView) throws DataAccessException {
-		DAODescriptor dao = new DAOTitleDescriptor();
+		DAODescriptor dao = new TitleDescriptorDAO();
 		List newTags = new ArrayList();
 		Descriptor d = getDescriptor();
-		REF ref = dao.getCrossReferencesWithLanguage(d, cataloguingView, indexingLanguage);
-	    if (ref!=null) {
+		REF ref = null;
+		try {
+			ref = dao.getCrossReferencesWithLanguage(d, cataloguingView, indexingLanguage, null);
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		}
+		if (ref!=null) {
 			AccessPoint aTag =	(AccessPoint) deepCopy(this);
 			aTag.markNew();
 			aTag.setDescriptor(dao.load(ref.getTarget(),cataloguingView));

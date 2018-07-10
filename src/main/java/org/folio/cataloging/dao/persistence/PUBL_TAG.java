@@ -8,7 +8,7 @@ import org.folio.cataloging.business.common.PersistentObjectWithView;
 import org.folio.cataloging.business.common.UserViewHelper;
 import org.folio.cataloging.dao.DAODescriptor;
 import org.folio.cataloging.dao.DAOPublTag;
-import org.folio.cataloging.dao.DAOPublisherDescriptor;
+import org.folio.cataloging.dao.PublisherDescriptorDAO;
 import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.Session;
 
@@ -41,7 +41,7 @@ public class PUBL_TAG implements PersistentObjectWithView {
 	private String otherSubfields;
 	private Integer publisherHeadingNumber;
 	private static final HibernateUtil theDAO = new DAOPublTag();
-	private static final DAODescriptor thePublisherDescriptor = new DAOPublisherDescriptor();
+	private static final DAODescriptor thePublisherDescriptor = new PublisherDescriptorDAO();
 
 	public void evict() throws DataAccessException {
 		evict(this);

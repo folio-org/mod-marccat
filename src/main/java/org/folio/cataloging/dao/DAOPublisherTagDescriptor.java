@@ -9,7 +9,7 @@ import org.folio.cataloging.dao.persistence.PUBL_HDG;
 import org.folio.cataloging.dao.persistence.PUBL_TAG;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.type.Type;
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.business.descriptor.PublisherTagDescriptor;
 
 @SuppressWarnings("unchecked")

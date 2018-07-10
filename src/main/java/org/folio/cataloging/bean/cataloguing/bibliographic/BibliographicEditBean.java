@@ -1,5 +1,6 @@
 package org.folio.cataloging.bean.cataloguing.bibliographic;
 
+import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.JDBCException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -27,7 +28,7 @@ import org.folio.cataloging.business.common.group.BibliographicGroupManager;
 import org.folio.cataloging.business.common.group.TagGroup;
 import org.folio.cataloging.business.controller.SessionUtils;
 import org.folio.cataloging.business.controller.UserProfile;
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.business.digital.PermalinkException;
 import org.folio.cataloging.business.searching.CodeTableParser;
 import org.folio.cataloging.business.searching.DuplicateKeyException;
@@ -40,6 +41,7 @@ import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.SQLException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -3044,7 +3046,7 @@ public class BibliographicEditBean extends EditBean {
 	 * Delegate to PublisherTag
 	 * 
 	 */
-	public void updatePublisherFromBrowse(PUBL_HDG p) throws DataAccessException {
+	public void updatePublisherFromBrowse(PUBL_HDG p) throws DataAccessException, HibernateException {
 		(getRevisedPublisher()).updatePublisherFromBrowse(p);
 	}
 	
@@ -3403,9 +3405,15 @@ public class BibliographicEditBean extends EditBean {
 				CLSTN descriptor = (CLSTN) tag991.getDescriptor();
 				descriptor.setTypeCode((short) 29);
 				StringText text = new StringText(subfieldList, subfields);
-				MarcCommandLibrary.setNewStringText(tag991, text, View
-						.makeSingleViewString(SessionUtils
-								.getCataloguingView(request)));
+				try {
+					MarcCommandLibrary.setNewStringText(tag991, text, View
+                            .makeSingleViewString(SessionUtils
+                                    .getCataloguingView(request)));
+				} catch (HibernateException e) {
+					e.printStackTrace();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 
 				validateCurrentTag();
 				createStringTextEditBean();
@@ -3462,9 +3470,15 @@ public class BibliographicEditBean extends EditBean {
 				CLSTN descriptor = (CLSTN) tag982.getDescriptor();
 				descriptor.setTypeCode((short) 29);
 				StringText text = new StringText(subfieldList, subfields);
-				MarcCommandLibrary.setNewStringText(tag982, text, View
-						.makeSingleViewString(SessionUtils
-								.getCataloguingView(request)));
+				try {
+					MarcCommandLibrary.setNewStringText(tag982, text, View
+                            .makeSingleViewString(SessionUtils
+                                    .getCataloguingView(request)));
+				} catch (HibernateException e) {
+					e.printStackTrace();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 
 				sortTags(super.getLocale());
 				resetCommands();
@@ -3539,9 +3553,15 @@ public class BibliographicEditBean extends EditBean {
 			CLSTN descriptor = (CLSTN) tag997.getDescriptor();
 			descriptor.setTypeCode((short) 29);
 			StringText text = new StringText(subfieldList, subfields);
-			MarcCommandLibrary.setNewStringText(tag997, text, View
-					.makeSingleViewString(SessionUtils
-							.getCataloguingView(request)));
+			try {
+				MarcCommandLibrary.setNewStringText(tag997, text, View
+                        .makeSingleViewString(SessionUtils
+                                .getCataloguingView(request)));
+			} catch (HibernateException e) {
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		validateCurrentTag();
 		sortTags(super.getLocale());
@@ -3574,9 +3594,15 @@ public class BibliographicEditBean extends EditBean {
 			CNTL_NBR descriptor = (CNTL_NBR) tag032.getDescriptor();
 			descriptor.setTypeCode((short) 53);
 			StringText text = new StringText(subfieldList, subfields);
-			MarcCommandLibrary.setNewStringText(tag032, text, View
-					.makeSingleViewString(SessionUtils
-							.getCataloguingView(request)));
+			try {
+				MarcCommandLibrary.setNewStringText(tag032, text, View
+                        .makeSingleViewString(SessionUtils
+                                .getCataloguingView(request)));
+			} catch (HibernateException e) {
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 
 		validateCurrentTag();
@@ -3614,9 +3640,16 @@ public class BibliographicEditBean extends EditBean {
 				newDescriptor.setTypeCode((short) 29);
 				newDescriptor.setUserViewString(t997.getUserViewString());
 				newDescriptor.setStringText(text.toString());
-				Descriptor replaceDescriptor = MarcCommandLibrary
-						.createNewDescriptor(newDescriptor, t997
-								.getUserViewString());
+				Descriptor replaceDescriptor = null;
+				try {
+					replaceDescriptor = MarcCommandLibrary
+                            .createNewDescriptor(newDescriptor, t997
+                                    .getUserViewString());
+				} catch (HibernateException e) {
+					e.printStackTrace();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 				MarcCommandLibrary.replaceDescriptor(getCatalogItem(), t997,
 						replaceDescriptor);
 			}
@@ -3782,8 +3815,14 @@ public class BibliographicEditBean extends EditBean {
 				changeValues(16, 61, -1);
 				ClassificationAccessPoint cnap = (ClassificationAccessPoint) getCurrentTag();
 				StringText text = new StringText(new Subfield("a", "" + w));
-				MarcCommandLibrary.setNewStringText(cnap, text, View
-						.makeSingleViewString(getCatalogItem().getUserView()));
+				try {
+					MarcCommandLibrary.setNewStringText(cnap, text, View
+                            .makeSingleViewString(getCatalogItem().getUserView()));
+				} catch (HibernateException e) {
+					e.printStackTrace();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 				// getCatalogItem().addTag(cnap);
 			}
 			saveRecord();
@@ -3809,9 +3848,15 @@ public class BibliographicEditBean extends EditBean {
 								new Subfield("a", ""
 										+ getCatalogItem().getAmicusNumber()
 												.intValue()));
-						MarcCommandLibrary.setNewStringText(cnap, text, View
-								.makeSingleViewString(getCatalogItem()
-										.getUserView()));
+						try {
+							MarcCommandLibrary.setNewStringText(cnap, text, View
+                                    .makeSingleViewString(getCatalogItem()
+                                            .getUserView()));
+						} catch (HibernateException e) {
+							e.printStackTrace();
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
 					}
 			}
 		}
@@ -3889,10 +3934,16 @@ public class BibliographicEditBean extends EditBean {
 
 		CNTL_NBR descriptor = (CNTL_NBR) tag097.getDescriptor();
 		descriptor.setTypeCode(tag097.getCorrelation(1));
-		MarcCommandLibrary
-				.setNewStringText(tag097, text, View
-						.makeSingleViewString(SessionUtils
-								.getCataloguingView(request)));
+		try {
+			MarcCommandLibrary
+                    .setNewStringText(tag097, text, View
+                            .makeSingleViewString(SessionUtils
+                                    .getCataloguingView(request)));
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 		createTag773ForComponentPart();
 
@@ -4380,9 +4431,9 @@ public class BibliographicEditBean extends EditBean {
 	}
 
 	private void saveDescriptor(Descriptor descriptor)
-			throws DataAccessException {
+			throws DataAccessException, HibernateException {
 		try {
-			((DAODescriptor) descriptor.getDAO()).persist(descriptor);
+			((DAODescriptor) descriptor.getDAO()).persist(descriptor, null);
 		} catch (DataAccessException e) {
 			Throwable th = e.getCause();
 			Throwable prevTh = null; // to prevent loops
@@ -4557,8 +4608,14 @@ public class BibliographicEditBean extends EditBean {
 		CLSTN descriptor = (CLSTN) tag998.getDescriptor();
 		descriptor.setTypeCode((short) 29);
 		StringText text = new StringText(subfieldList, subfields);
-		MarcCommandLibrary.setNewStringText(tag998, text, View
-				.makeSingleViewString(getCatalogItem().getUserView()));
+		try {
+			MarcCommandLibrary.setNewStringText(tag998, text, View
+                    .makeSingleViewString(getCatalogItem().getUserView()));
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 		validateCurrentTag();
 		sortTags(super.getLocale());
@@ -4740,8 +4797,12 @@ public class BibliographicEditBean extends EditBean {
 	public void prepareItemForEditing(int recordView, Object[] key)
 			throws DataAccessException, AuthorisationException,
 			ValidationException, RecordInUseException {
-		setCatalogItem(findOrCreateMyView(recordView, ((Integer) key[0])
-				.intValue(), ((Integer) key[1]).intValue()));
+		try {
+			setCatalogItem(findOrCreateMyView(recordView, ((Integer) key[0])
+                    .intValue(), ((Integer) key[1]).intValue()));
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		}
 		saveRecord();
 		loadItem(key);
 		finalizePreparationForEditing(); // pm aut
@@ -4750,8 +4811,12 @@ public class BibliographicEditBean extends EditBean {
 	public void prepareItemForVisualizeCodes(int recordView, Object[] key)
 			throws DataAccessException, AuthorisationException,
 			ValidationException, RecordInUseException {
-		setCatalogItem(findOrCreateMyView(recordView, ((Integer) key[0])
-				.intValue(), ((Integer) key[1]).intValue()));
+		try {
+			setCatalogItem(findOrCreateMyView(recordView, ((Integer) key[0])
+                    .intValue(), ((Integer) key[1]).intValue()));
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		}
 		loadItemWithoutLock(key);
 		finalizePreparationForEditing(); // pm aut
 	}
@@ -4766,7 +4831,7 @@ public class BibliographicEditBean extends EditBean {
 	 * @throws ValidationException
 	 */
 	public CatalogItem findOrCreateMyView(int recordView, int amicusNumber,
-			int cataloguingView) throws DataAccessException {
+			int cataloguingView) throws DataAccessException, HibernateException {
 		return theCatalog.findOrCreateMyView(recordView, amicusNumber,
 				cataloguingView);
 	}
@@ -4796,10 +4861,18 @@ public class BibliographicEditBean extends EditBean {
 				// if a see reference is found, d will contain the
 				// Descriptor of the reference
 				CrossReferenceBean crm = new CrossReferenceBean();
-				d = crm.getSeeReference(d, getCataloguingView());
+				try {
+					d = crm.getSeeReference(d, getCataloguingView(), null);
+				} catch (HibernateException e) {
+					e.printStackTrace();
+				}
 				// and save it in the CatalogItem
 				if (getCatalogItem() != null)
-					updateDescriptorFromBrowse(d);
+					try {
+						updateDescriptorFromBrowse(d);
+					} catch (HibernateException e) {
+						e.printStackTrace();
+					}
 				Tag tag = getCurrentTag();
 				if (tag != null) {
 					((Browsable) tag).setDescriptor(d);

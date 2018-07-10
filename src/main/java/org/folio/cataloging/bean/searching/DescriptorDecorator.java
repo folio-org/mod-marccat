@@ -5,7 +5,7 @@ import net.sf.hibernate.Session;
 import org.folio.cataloging.bean.cataloguing.bibliographic.codelist.CodeListsBean;
 import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
 import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.persistence.DescriptorKey;
@@ -74,9 +74,6 @@ public class DescriptorDecorator
 		return concreteDescriptor.getAccessPointLanguage();
 	}
 
-	public final String getAuthoritiesQueryString(Locale locale) throws DataAccessException {
-		return concreteDescriptor.getAuthoritiesQueryString(locale);
-	}
 
 	public int getAuthorityCount() {
 		return concreteDescriptor.getAuthorityCount();
@@ -94,9 +91,6 @@ public class DescriptorDecorator
 		return concreteDescriptor.getCorrelationValues();
 	}
 
-	public String getCroppedHtmlText() {
-		return concreteDescriptor.getCroppedHtmlText();
-	}
 
 	public HibernateUtil getDAO() {
 		return concreteDescriptor.getDAO();
@@ -114,9 +108,6 @@ public class DescriptorDecorator
 		return concreteDescriptor.getHeadingNumberSearchIndexKey();
 	}
 
-	public String getHeadingQueryString(Locale locale) throws DataAccessException {
-		return concreteDescriptor.getHeadingQueryString(locale);
-	}
 
 	public DescriptorKey getKey() {
 		return concreteDescriptor.getKey();
@@ -128,10 +119,6 @@ public class DescriptorDecorator
 
 	public Class getReferenceClass(Class targetClazz) {
 		return concreteDescriptor.getReferenceClass(targetClazz);
-	}
-
-	public String getSafeHtmlText() {
-		return concreteDescriptor.getSafeHtmlText();
 	}
 
 	public String getScriptingLanguage() {
@@ -184,10 +171,6 @@ public class DescriptorDecorator
 
 	public boolean isDeleted() {
 		return concreteDescriptor.isDeleted();
-	}
-
-	public boolean isMatchingAnotherHeading() {
-		return concreteDescriptor.isMatchingAnotherHeading();
 	}
 
 	public boolean isNew() {

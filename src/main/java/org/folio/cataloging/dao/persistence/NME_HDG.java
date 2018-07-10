@@ -1,116 +1,102 @@
 package org.folio.cataloging.dao.persistence;
 
 import org.folio.cataloging.business.cataloguing.bibliographic.NameAccessPoint;
-import org.folio.cataloging.business.cataloguing.common.Browsable;
-import org.folio.cataloging.business.cataloguing.common.Tag;
-import org.folio.cataloging.business.common.ConfigHandler;
-import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
-import org.folio.cataloging.dao.DAONameDescriptor;
+import org.folio.cataloging.dao.NameDescriptorDAO;
 import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.shared.CorrelationValues;
 
 import java.io.Serializable;
 
 /**
- * Hibernate class for table NME_HDG
+ * Hibernate class for table NME_HDG.
+ *
  * @author paulm
- * @since 1.0
+ * @author carment
  */
 public class NME_HDG extends Descriptor implements Serializable {
-	private static final long serialVersionUID = 1L;
-	private char copyToSubjectIndicator;
+
+	/** The indexing language. */
 	private int indexingLanguage;
+
+	/** The sub type code. */
 	private int subTypeCode;
+
+	/** The type code. */
 	private int typeCode;
-	private ConfigHandler configHandler =ConfigHandler.getInstance();
+
 	/**
-	 * 
-	 * Class constructor - establishes default values for new names
-	 *
-	 * 
-	 * @since 1.0
+	 * Instantiates a new nme hdg.
 	 */
 	public NME_HDG() {
 		super();
-		setDefaultTypeAndFunction();
-		setVerificationLevel(Defaults.getChar("name.verificationLevel"));
-
 	}
 
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getAccessPointClass()
+	 * @see Descriptor#getAccessPointClass()
 	 */
 	public Class getAccessPointClass() {
 		return NameAccessPoint.class;
 	}
 
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getCategory()
+	 * @see Descriptor#getCategory()
 	 */
 	public int getCategory() {
 		return 17;
 	}
 
-	/**
-	 * Getter for copyToSubjectIndicator
-	 * 
-	 * @return copyToSubjectIndicator
-	 */
-	public char getCopyToSubjectIndicator() {
-		return copyToSubjectIndicator;
-	}
 
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getCorrelationValues()
+	 * @see Descriptor#getCorrelationValues()
 	 */
 	public CorrelationValues getCorrelationValues() {
 		return new CorrelationValues(
-			typeCode,
-			subTypeCode,
-			CorrelationValues.UNDEFINED);
+				typeCode,
+				subTypeCode,
+				CorrelationValues.UNDEFINED);
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getDAO()
+
+	/**
+	 * Gets the dao.
+	 *
+	 * @return the dao
 	 */
 	public HibernateUtil getDAO() {
-		return new DAONameDescriptor();
+		return new NameDescriptorDAO();
 	}
 
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getDefaultBrowseKey()
+	 * @see Descriptor#getDefaultBrowseKey()
 	 */
 	public String getDefaultBrowseKey() {
 		return "2P0";
 	}
 
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getHeadingNumberSearchIndex()
+	 * @see Descriptor#getHeadingNumberSearchIndexKey()
 	 */
 	public String getHeadingNumberSearchIndexKey() {
 		return "227P";
 	}
 
-	/**
-	 * Getter for indexingLanguage
-	 * 
-	 * @return indexingLanguage
+	/* (non-Javadoc)
+	 * @see Descriptor#getIndexingLanguage()
 	 */
 	public int getIndexingLanguage() {
 		return indexingLanguage;
 	}
 
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getNextNumberKeyFieldCode()
+	 * @see Descriptor#getNextNumberKeyFieldCode()
 	 */
 	public String getNextNumberKeyFieldCode() {
 		return "NH";
 	}
 
 	/* (non-Javadoc)
-	 * @see com.libricore.librisuite.business.rdms.Descriptor#getReferenceClass()
+	 * @see Descriptor#getReferenceClass(java.lang.Class)
 	 */
 	public Class getReferenceClass(Class targetClazz) {
 		if (targetClazz == NME_HDG.class) {
@@ -124,78 +110,85 @@ public class NME_HDG extends Descriptor implements Serializable {
 		}
 	}
 
+
 	/* (non-Javadoc)
-	* @see librisuite.hibernate.Descriptor#getSortFormParameters()
-	*/
+	 * @see Descriptor#getSortFormParameters()
+	 */
 	public SortFormParameters getSortFormParameters() {
 		return new SortFormParameters(
-			100,
-			101,
-			getTypeCode(),
-			getSubTypeCode(),
-			0);
-	} /**
-			 * Getter for subTypeCode
-			 * 
-			 * @return subTypeCode
-			 */
+				100,
+				101,
+				getTypeCode(),
+				getSubTypeCode(),
+				0);
+	}
+
+	/**
+	 * Gets the sub type code.
+	 *
+	 * @return the sub type code
+	 */
 	public int getSubTypeCode() {
 		return subTypeCode;
 	}
+
+	/**
+	 * Gets the type code.
+	 *
+	 * @return the type code
+	 */
 	public int getTypeCode() {
 		return typeCode;
 	}
 
+	/* (non-Javadoc)
+	 * @see Descriptor#setCorrelationValues(CorrelationValues)
+	 */
 	public void setCorrelationValues(CorrelationValues v) {
 		typeCode = v.getValue(1);
 		subTypeCode = v.getValue(2);
 	}
+
+	/* (non-Javadoc)
+	 * @see Descriptor#setIndexingLanguage(short)
+	 */
 	public void setIndexingLanguage(short s) {
 		indexingLanguage = s;
 	}
 
+	/**
+	 * Sets the sub type code.
+	 *
+	 * @param s the new sub type code
+	 */
 	public void setSubTypeCode(short s) {
 		subTypeCode = s;
 	}
 
+	/**
+	 * Sets the type code.
+	 *
+	 * @param s the new type code
+	 */
 	public void setTypeCode(short s) {
 		typeCode = s;
 	}
 
+	/* (non-Javadoc)
+	 * @see Descriptor#changeAffectsCacheTable()
+	 */
 	public boolean changeAffectsCacheTable() {
 		return true;
 	}
+
+	/* (non-Javadoc)
+	 * @see Descriptor#getLockingEntityType()
+	 */
 	public String getLockingEntityType() {
 		return "NH";
 	}
-	
-	public void setDefaultTypeAndFunction(){
-		int typCode= new Integer(configHandler.findValue("t_nme_typ_and_sub_typ","name.typeCode"));
-		int type = configHandler.isParamOfGlobalVariable("t_nme_typ_and_sub_typ") ? this.getType(typCode) : typCode;
-		
-		setTypeCode((short)type);
-		int funCode= new Integer(configHandler.findValue("t_nme_typ_and_sub_typ","name.subTypeCode"));
-		int function= this.getFunction(funCode);
-		setSubTypeCode((short)function);
-	}
-	
-	@Override
-	public void setDefaultsFromWorksheet(Tag currentTag) {
-			if (currentTag instanceof Browsable) {
-				Descriptor d = ((Browsable) currentTag).getDescriptor();
-				if (d.getClass().equals(this.getClass())) {
-					setCorrelationValues(d.getCorrelationValues());
-					setAuthoritySourceCode(d.getAuthoritySourceCode());
-					setSkipInFiling(d.getSkipInFiling());
-				}
-				else if (d instanceof NME_TTL_HDG) {
-			        setCorrelationValues(d.getCorrelationValues());
-					setAuthoritySourceCode(d.getAuthoritySourceCode());
-					setSkipInFiling(d.getSkipInFiling());
 
-				}
-			}
-	  }
-				
+
+
 
 }

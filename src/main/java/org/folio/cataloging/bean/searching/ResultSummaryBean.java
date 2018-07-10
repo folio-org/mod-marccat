@@ -1746,7 +1746,13 @@ public class ResultSummaryBean extends LibrisuiteBean
 		editBean.updateT005DateOfLastTransaction();
 
 		if (customerEnabled && editBean.isEquivalentEnabled() && editBean.isElectronicResourceoOnTag008()) {
-			createTag092(item.getAmicusNumber().intValue(), editBean, item,	request);
+			try {
+				createTag092(item.getAmicusNumber().intValue(), editBean, item,	request);
+			} catch (HibernateException e) {
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		Locale currentLocale = SessionUtils.getCurrentLocale(request);
 		activateEditor(editBean, currentLocale);
@@ -1809,7 +1815,13 @@ public class ResultSummaryBean extends LibrisuiteBean
 		   tag020new.setUserViewString(View.makeSingleViewString(editBean.getCatalogItem().getUserView()));
 		   CNTL_NBR descriptor = (CNTL_NBR) tag020new.getDescriptor();
 		   descriptor.setTypeCode(tag020new.getCorrelation(1));
-		   MarcCommandLibrary.setNewStringText(tag020new, st, View.makeSingleViewString(editBean.getCatalogItem().getUserView()));
+			try {
+				MarcCommandLibrary.setNewStringText(tag020new, st, View.makeSingleViewString(editBean.getCatalogItem().getUserView()));
+			} catch (HibernateException e) {
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return tag020new;
@@ -1849,7 +1861,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 	public void duplicateRecord(final Session session, int itemNumber, HttpServletRequest request)
 			throws DataAccessException,
 			RecordInUseException, AuthorisationException, NewTagException,
-			ValidationException {
+			ValidationException, HibernateException, SQLException {
 
 		EditBean editBean = prepareItemForEditing(itemNumber, request);
 		CatalogItem item = editBean.getCatalogItem();
@@ -1909,7 +1921,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 	public Tag duplicateTag097(Tag aTag, String amicusNumberNew,
 			EditBean editBean, HttpServletRequest request)
 			throws AuthorisationException,
-			DataAccessException {
+			DataAccessException, HibernateException, SQLException {
 		ControlNumberAccessPoint tag097 = (ControlNumberAccessPoint) aTag;
 		StringText text = tag097.getStringText();
 
@@ -2075,7 +2087,13 @@ public class ResultSummaryBean extends LibrisuiteBean
 
 		if (customerEnabled && editBean.isEquivalentEnabled() && editBean.isElectronicResourceoOnTag008()) 
 		{
-			createTag092(target, editBean, item, request);
+			try {
+				createTag092(target, editBean, item, request);
+			} catch (HibernateException e) {
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		Locale currentLocale = SessionUtils.getCurrentLocale(request);
@@ -2255,8 +2273,8 @@ public class ResultSummaryBean extends LibrisuiteBean
 
 	private void createTag092(int target, EditBean editBean, CatalogItem item,
 			HttpServletRequest request) throws NewTagException,
-            DataAccessException, AuthorisationException,
-			ValidationException {
+			DataAccessException, AuthorisationException,
+			ValidationException, HibernateException, SQLException {
 		CataloguingSourceTag cat040 = (CataloguingSourceTag) item
 				.findFirstTagByNumber("040");
 		StringText st = cat040.getStringText().getSubfieldsWithCodes("b");
@@ -3403,12 +3421,13 @@ public class ResultSummaryBean extends LibrisuiteBean
 		df.addSubfield(factory.newSubfield('a',symbolCode));
 		record.addVariableField(df);
 	}
-	
-	private void setTag852(org.marc4j.marc.Record record,Integer amicusNumber) {
+
+	//TODO: The session is missing from the method (load)
+	private void setTag852(org.marc4j.marc.Record record,Integer amicusNumber) throws HibernateException {
 		
 		DAOCopy daoCopy = new DAOCopy();
 		DAOOrganisationHierarchy lib = new DAOOrganisationHierarchy();
-		DAOShelfList shlf = new DAOShelfList();
+		ShelfListDAO shlf = new ShelfListDAO();
 		MarcFactory factory = MarcFactory.newInstance();
 		
 		
@@ -3420,7 +3439,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 				DataField df = factory.newDataField("852", ' ', ' ');
 				CPY_ID cpy = (CPY_ID)l.get(i);
 				df.addSubfield(factory.newSubfield('c',lib.getLibOrBranchSymbol(cpy.getBranchOrganisationNumber())));
-				df.addSubfield(factory.newSubfield('m',shlf.loadShelf(cpy.getShelfListKeyNumber()).getDisplayText()));
+				df.addSubfield(factory.newSubfield('m',shlf.load(cpy.getShelfListKeyNumber(), null).getDisplayText()));
 				record.addVariableField(df);
 			}
 			

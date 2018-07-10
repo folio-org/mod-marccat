@@ -1,5 +1,6 @@
 package org.folio.cataloging.bean.cataloguing.authority;
 
+import net.sf.hibernate.HibernateException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.action.cataloguing.bibliographic.SaveTagException;
@@ -21,7 +22,7 @@ import org.folio.cataloging.business.common.filter.FilterManager;
 import org.folio.cataloging.business.common.filter.TagFilter;
 import org.folio.cataloging.business.common.group.TagGroup;
 import org.folio.cataloging.business.controller.SessionUtils;
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.business.digital.PermalinkException;
 import org.folio.cataloging.dao.DAOAuthorityCorrelation;
 import org.folio.cataloging.dao.DAOCodeTable;
@@ -700,7 +701,11 @@ public class AuthorityEditBean extends EditBean {
 		}
 		// and save it in the CatalogItem
 		if (getCatalogItem() != null)
-			updateDescriptorFromBrowse(d);
+			try {
+				updateDescriptorFromBrowse(d);
+			} catch (HibernateException e) {
+				e.printStackTrace();
+			}
 		Tag tag = getCurrentTag();
 
 		if (tag != null) {

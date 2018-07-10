@@ -10,9 +10,9 @@ package org.folio.cataloging.business.cataloguing.bibliographic;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.common.*;
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.dao.DAODescriptor;
-import org.folio.cataloging.dao.DAOPublisherDescriptor;
+import org.folio.cataloging.dao.PublisherDescriptorDAO;
 import org.folio.cataloging.dao.DAOPublisherTag;
 import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.persistence.BibliographicNoteType;
@@ -668,7 +668,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 	
 	public List replaceEquivalentDescriptor(short indexingLanguage,
 			int cataloguingView) throws DataAccessException {
-		DAODescriptor dao = new DAOPublisherDescriptor();
+		DAODescriptor dao = new PublisherDescriptorDAO();
 		List newTags = new ArrayList();
 		PublisherAccessPoint anApf = null;
 		List accessPointsApp = new ArrayList();

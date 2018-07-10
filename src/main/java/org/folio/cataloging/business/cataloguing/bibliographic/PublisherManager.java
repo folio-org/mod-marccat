@@ -7,14 +7,15 @@
  */
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
+import net.sf.hibernate.HibernateException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.business.common.*;
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.business.descriptor.PublisherTagDescriptor;
 import org.folio.cataloging.dao.DAODescriptor;
-import org.folio.cataloging.dao.DAOPublisherDescriptor;
+import org.folio.cataloging.dao.PublisherDescriptorDAO;
 import org.folio.cataloging.dao.DAOPublisherManager;
 import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.persistence.BibliographicNoteType;
@@ -160,12 +161,13 @@ public class PublisherManager extends VariableField implements PersistentObjectW
 	 * 
 	 * @throws DataAccessException
 	 */
+	//TODO: The session is missing from the method
 	public void updatePublisherFromBrowse(PUBL_HDG p)
-			throws DataAccessException {
+			throws DataAccessException, HibernateException {
 		PUBL_HDG myP = (PUBL_HDG) ((DAODescriptor) p.getDAO())
 				.findOrCreateMyView(p.getHeadingNumber(),
 						p.getUserViewString(), View
-								.toIntView(getUserViewString()));
+								.toIntView(getUserViewString()), null);
 		PUBL_TAG tagUnit = (PUBL_TAG) getPublisherTagUnits().get(
 				getTagUnitIndex());
 		tagUnit.setDescriptor(myP);
@@ -602,11 +604,10 @@ public class PublisherManager extends VariableField implements PersistentObjectW
 		   pap.setPublisherHeadingNumber(null);
 		}
 	}
-		//TODO da aggiornare tag 260
-		
+	//TODO: The session is missing from the method
 	public List replaceEquivalentDescriptor(short indexingLanguage,	int cataloguingView) throws DataAccessException 
 	{
-		DAODescriptor dao = new DAOPublisherDescriptor();
+		DAODescriptor dao = new PublisherDescriptorDAO();
 		DAOPublisherManager daoPu = new DAOPublisherManager();
 		List newTags = new ArrayList();
 		PUBL_TAG pu = null;
@@ -617,8 +618,13 @@ public class PublisherManager extends VariableField implements PersistentObjectW
 		for (int i = 0; i < getPublisherTagUnits().size(); i++) {
 			pu = (PUBL_TAG) getPublisherTagUnits().get(i);
 			Descriptor d = pu.getDescriptor();
-			REF ref = dao.getCrossReferencesWithLanguage(d, cataloguingView,
-					indexingLanguage);
+			REF ref = null;
+			try {
+				ref = dao.getCrossReferencesWithLanguage(d, cataloguingView,
+                        indexingLanguage, null);
+			} catch (HibernateException e) {
+				e.printStackTrace();
+			}
 			if (ref != null) {
 				aTag.markNew();
 				int tagNumber = daoPu.getNextPublisherTagNumber();

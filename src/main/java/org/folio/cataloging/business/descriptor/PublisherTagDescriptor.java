@@ -3,6 +3,7 @@ package org.folio.cataloging.business.descriptor;
 import org.folio.cataloging.business.cataloguing.bibliographic.PublisherAccessPoint;
 import org.folio.cataloging.dao.DAOPublisherTagDescriptor;
 import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.shared.CorrelationValues;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.List;
  * @author paultest
  *
  */
-public class PublisherTagDescriptor extends Descriptor 
+public class PublisherTagDescriptor extends Descriptor
 {
 	private static DAOPublisherTagDescriptor theDAO = new DAOPublisherTagDescriptor();
 

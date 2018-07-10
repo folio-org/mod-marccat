@@ -11,7 +11,7 @@ import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationEx
 import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.controller.SessionUtils;
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.business.marchelper.*;
 import org.folio.cataloging.business.marchelper.parser.PunctuationParsingException;
 import org.folio.cataloging.business.marchelper.parser.SampleMatcher;

@@ -9,9 +9,8 @@ package org.folio.cataloging.dao.persistence;
 
 import org.folio.cataloging.dao.DAONameNameTitleReferences;
 import org.folio.cataloging.dao.DAODescriptor;
-import org.folio.cataloging.dao.DAONameDescriptor;
-import org.folio.cataloging.dao.DAONameTitleDescriptor;
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.NameDescriptorDAO;
+import org.folio.cataloging.dao.NameTitleDescriptorDAO;
 
 import org.folio.cataloging.dao.common.HibernateUtil;
 
@@ -83,9 +82,9 @@ public class NME_NME_TTL_REF extends REF {
 	 */
 	public DAODescriptor getTargetDAO() {
 		if (isSourceName()) {
-			return new DAONameTitleDescriptor();
+			return new NameTitleDescriptorDAO();
 		} else {
-			return new DAONameDescriptor();
+			return new NameDescriptorDAO();
 		}
 
 	}

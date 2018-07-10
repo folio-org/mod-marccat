@@ -7,7 +7,7 @@
  */
 package org.folio.cataloging.business.common;
 
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
 
 
 /**
