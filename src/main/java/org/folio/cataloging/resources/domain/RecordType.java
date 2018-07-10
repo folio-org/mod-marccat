@@ -14,13 +14,13 @@ import javax.annotation.Generated;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "code", "description" })
+@JsonPropertyOrder({ "value", "label" })
 public class RecordType {
 
-    @JsonProperty("code")
+    @JsonProperty("value")
     private String code;
 
-    @JsonProperty("description")
+    @JsonProperty("label")
     private String description;
 
     /**
@@ -28,7 +28,7 @@ public class RecordType {
      * @return
      *     The code
      */
-    @JsonProperty("code")
+    @JsonProperty("value")
     public String getCode() {
         return code;
     }
@@ -38,7 +38,7 @@ public class RecordType {
      * @param code
      *     The code
      */
-    @JsonProperty("code")
+    @JsonProperty("value")
     public void setCode(String code) {
         this.code = code;
     }
@@ -53,7 +53,7 @@ public class RecordType {
      * @return
      *     The description
      */
-    @JsonProperty("description")
+    @JsonProperty("label")
     public String getDescription() {
         return description;
     }
@@ -63,7 +63,7 @@ public class RecordType {
      * @param description
      *     The description
      */
-    @JsonProperty("description")
+    @JsonProperty("label")
     public void setDescription(String description) {
         this.description = description;
     }

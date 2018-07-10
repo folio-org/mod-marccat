@@ -19,13 +19,13 @@ import java.util.Map;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "categoryCode", "headingTypeCode", "itemTypeCode", "functionCode", "ind1", "ind2", "code", "value", "description", "subfields", "defaultSubfieldCode" })
+@JsonPropertyOrder({ "categoryCode", "headerTypeCode", "itemTypeCode", "functionCode", "ind1", "ind2", "code", "displayValue", "description", "subfields", "defaultSubfieldCode" })
 public class VariableField {
 
     @JsonProperty("categoryCode")
     private Integer categoryCode;
 
-    @JsonProperty("headingTypeCode")
+    @JsonProperty("headerTypeCode")
     private String headingTypeCode;
 
     @JsonProperty("itemTypeCode")
@@ -45,7 +45,7 @@ public class VariableField {
     @JsonProperty("code")
     private String code;
 
-    @JsonProperty("value")
+    @JsonProperty("displayValue")
     private String value;
 
     @JsonProperty("description")
@@ -92,7 +92,7 @@ public class VariableField {
      * @return
      *     The headingTypeCode
      */
-    @JsonProperty("headingTypeCode")
+    @JsonProperty("headerTypeCode")
     public String getHeadingTypeCode() {
         return headingTypeCode;
     }
@@ -102,7 +102,7 @@ public class VariableField {
      * @param headingTypeCode
      *     The headingTypeCode
      */
-    @JsonProperty("headingTypeCode")
+    @JsonProperty("headerTypeCode")
     public void setHeadingTypeCode(String headingTypeCode) {
         this.headingTypeCode = headingTypeCode;
     }
@@ -242,7 +242,7 @@ public class VariableField {
      * @return
      *     The value
      */
-    @JsonProperty("value")
+    @JsonProperty("displayValue")
     public String getValue() {
         return value;
     }
@@ -252,7 +252,7 @@ public class VariableField {
      * @param value
      *     The value
      */
-    @JsonProperty("value")
+    @JsonProperty("displayValue")
     public void setValue(String value) {
         this.value = value;
     }
