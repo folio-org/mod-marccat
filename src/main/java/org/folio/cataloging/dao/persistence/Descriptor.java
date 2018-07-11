@@ -624,6 +624,7 @@ public abstract class Descriptor implements PersistentObjectWithView
 	 * @throws SQLException the SQL exception
 	 */
 	@Deprecated
+	//TODO: move this method in API
 	public void checkDescriptor(boolean allowPotentialDup, final Session session)
 			throws DuplicateDescriptorException,
 			MatchedHeadingInAnotherViewException, HibernateException, SQLException {
@@ -648,6 +649,7 @@ public abstract class Descriptor implements PersistentObjectWithView
 	 * @throws SQLException the SQL exception
 	 */
 	@Deprecated
+	//TODO: move this method in API
 	public boolean isMatchingAnotherHeading(final Session session) throws HibernateException, SQLException {
 		return ((DAODescriptor) getDAO()).isMatchingAnotherHeading(this, session);
 	}
@@ -661,6 +663,7 @@ public abstract class Descriptor implements PersistentObjectWithView
 	 * @throws SQLException the SQL exception
 	 */
 	@Deprecated
+	//TODO: move this method in API
 	public boolean hasMatchingSortformInAnotherView(final Session session) throws HibernateException, SQLException {
 		return ((DAODescriptor) getDAO())
 				.hasMatchingSortformInAnotherView(this, session);
@@ -672,6 +675,7 @@ public abstract class Descriptor implements PersistentObjectWithView
 	 * @throws DataAccessException the data access exception
 	 */
 	@Deprecated
+	//TODO: move this method in StorageService
 	public void generateNewKey() throws DataAccessException {
 		DAOSystemNextNumber dao = new DAOSystemNextNumber();
 		getKey().setHeadingNumber(
@@ -685,6 +689,7 @@ public abstract class Descriptor implements PersistentObjectWithView
 	 * @since 1.0
 	 */
 	@Deprecated
+	//TODO: move this method in API
 	public void validate() throws InvalidDescriptorException {
 		StringText st = new StringText(getStringText());
 		if (st.getSubfieldList().size() == 0) {
