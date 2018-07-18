@@ -97,8 +97,7 @@ public class StorageService implements Closeable {
     }
 
     /**
-     * Returns the note types associated to the given language
-     * and with the given note group type code.
+     * Returns the note types associated to the given language and with the given note group type code.
      *
      * @param noteGroupTypeCode the note group type used here as filter criterion.
      * @param lang the language code, used here as a filter criterion.
@@ -1011,5 +1010,64 @@ public class StorageService implements Closeable {
     public boolean existFunctionCodeByCategory(final int category){
         return ofNullable(THIRD_CORRELATION_HEADING_CLASS_MAP.get(category)).isPresent();
     }
+
+    /**
+     * Returns issn text associated to series issn heading number.
+     *
+     * @param seriesIssnHeadingNumber -- the series issn heading number used as filter criterion.
+     * @return issnText.
+     */
+    public String getISSNText(final Integer seriesIssnHeadingNumber){
+        final DAOTitleDescriptor daoTitleDescriptor = new DAOTitleDescriptor();
+        return daoTitleDescriptor.getISSNString(seriesIssnHeadingNumber);
+    }
+
+
+    //TODO modify method
+    public List replaceEquivalentDescriptor(final int indexingLanguage,	final int cataloguingView) throws DataAccessException
+    {
+        /*final DAODescriptor dao = new DAOPublisherDescriptor();
+        final DAOPublisherManager daoPu = new DAOPublisherManager();
+        List newTags = new ArrayList();
+        PUBL_TAG pu = null;
+        PublisherManager aTag = (PublisherManager) (deepCopy(this));
+        PublisherAccessPoint apf = aTag.getApf();
+        List<PUBL_TAG> publisherTagApp = new ArrayList<>();
+
+        for (int i = 0; i < getPublisherTagUnits().size(); i++) {
+            pu = (PUBL_TAG) getPublisherTagUnits().get(i);
+            Descriptor d = pu.getDescriptor();
+            REF ref = dao.getCrossReferencesWithLanguage(d, cataloguingView,
+                    indexingLanguage);
+            if (ref != null) {
+                aTag.markNew();
+                int tagNumber = daoPu.getNextPublisherTagNumber();
+                pu.setPublisherTagNumber(tagNumber);
+                pu.setDescriptor((PUBL_HDG)dao.load(ref.getTarget(), cataloguingView));
+                pu.setPublisherHeadingNumber(new Integer(pu.getDescriptor()
+                        .getKey().getHeadingNumber()));
+                publisherTagApp.add(pu);
+                apf.markNew();
+                apf.setHeadingNumber(new Integer(tagNumber));
+
+
+            }
+            else{
+                aTag.markNew();
+                int tagNumber = daoPu.getNextPublisherTagNumber();
+                publisherTagApp.add(pu);
+                apf.markNew();
+                apf.setHeadingNumber(new Integer(tagNumber));
+            }
+        }
+        if(aTag!=null){
+            aTag.setPublisherTagUnits(publisherTagApp);
+            newTags.add(aTag);
+        }
+        return newTags;*/
+
+        return null;
+    }
+
 
 }

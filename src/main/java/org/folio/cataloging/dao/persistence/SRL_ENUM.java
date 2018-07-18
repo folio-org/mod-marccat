@@ -1,17 +1,16 @@
 package org.folio.cataloging.dao.persistence;
 
-import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.EnumerationConfigurationException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
+import org.folio.cataloging.dao.AbstractDAO;
 
-import org.folio.cataloging.dao.common.HibernateUtil;
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class SRL_ENUM implements Persistence, Serializable {
 	/**
@@ -149,8 +148,8 @@ public class SRL_ENUM implements Persistence, Serializable {
 	 * @return
 	 * @see PersistenceState#getDAO()
 	 */
-	public HibernateUtil getDAO() {
-		return new HibernateUtil();
+	public AbstractDAO getDAO() {
+		return persistenceState.getDAO();
 	}
 
 	/**

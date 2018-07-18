@@ -928,8 +928,7 @@ public abstract class DAODescriptor extends AbstractDAO {
 		return searchTerm;
 	}
 
-	public REF getCrossReferencesWithLanguage(Descriptor source,
-			int cataloguingView, short indexingLanguage)
+	public REF getCrossReferencesWithLanguage(Descriptor source, int cataloguingView, short indexingLanguage)
 
 	throws DataAccessException {
 

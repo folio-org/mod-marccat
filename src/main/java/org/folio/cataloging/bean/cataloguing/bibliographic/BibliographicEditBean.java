@@ -3045,7 +3045,7 @@ public class BibliographicEditBean extends EditBean {
 	 * 
 	 */
 	public void updatePublisherFromBrowse(PUBL_HDG p) throws DataAccessException {
-		(getRevisedPublisher()).updatePublisherFromBrowse(p);
+		// (getRevisedPublisher()).updatePublisherFromBrowse(p); -- method moved in storageService
 	}
 	
 	
@@ -4500,7 +4500,7 @@ public class BibliographicEditBean extends EditBean {
 		List date = new ArrayList(1);
 		date.add("");
 		t.setDates(date);
-		((PUBL_TAG) t.getPublisherTagUnits().get(0)).setDescriptor(publHdg);
+		t.getPublisherTagUnits().get(0).setDescriptor(publHdg);
 		t.saveEdits();
 		replaceCurrentTag(t);
 		setRevisedPublisher(t);
@@ -4571,7 +4571,7 @@ public class BibliographicEditBean extends EditBean {
 		String publisherTag260 = new String("");
 		PublisherManager manager = getPublisher();
 		if (manager != null) {
-			int hdgNbr = ((PUBL_TAG) manager.getPublisherTagUnits().get(0))
+			int hdgNbr = manager.getPublisherTagUnits().get(0)
 					.getDescriptor().getHeadingNumber();
 			List hdgList = new DAOPublisher().loadHdg(hdgNbr + "");
 			if (hdgList.size() > 0) {

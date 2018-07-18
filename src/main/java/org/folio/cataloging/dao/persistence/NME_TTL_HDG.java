@@ -7,11 +7,10 @@
  */
 package org.folio.cataloging.dao.persistence;
 
-import org.folio.cataloging.business.cataloguing.bibliographic.NameTitleAccessPoint;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
+import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAONameTitleDescriptor;
-import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.model.Subfield;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
@@ -86,7 +85,7 @@ public class NME_TTL_HDG extends Descriptor {
 	/* (non-Javadoc)
 	 * @see librisuite.business.common.Persistence#getDAO()
 	 */
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return new DAONameTitleDescriptor();
 	}
 

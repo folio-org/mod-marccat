@@ -1,21 +1,18 @@
 package org.folio.cataloging.dao;
 
-import java.util.List;
-
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.RecordNotFoundException;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Query;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.RecordNotFoundException;
 
-import org.folio.cataloging.dao.common.HibernateUtil;
+import java.util.List;
 
-public class DAOCasEresourceAdmin extends HibernateUtil 
+public class DAOCasEresourceAdmin extends AbstractDAO
 {
 	private static Log logger = LogFactory.getLog(DAOCasEresourceAdmin.class);
 	

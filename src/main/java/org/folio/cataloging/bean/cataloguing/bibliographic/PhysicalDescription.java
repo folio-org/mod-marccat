@@ -5,7 +5,7 @@ import org.folio.cataloging.business.cataloguing.bibliographic.FixedField;
 import org.folio.cataloging.business.common.PersistenceState;
 import org.folio.cataloging.business.common.PersistentObjectWithView;
 import org.folio.cataloging.business.common.UserViewHelper;
-import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.shared.CorrelationValues;
 
 /**
@@ -186,7 +186,7 @@ public abstract class PhysicalDescription extends FixedField implements Persiste
 	/* (non-Javadoc)
 	 * @see librisuite.business.common.Persistence#getDAO()
 	 */
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return getPersistenceState().getDAO();
 	}
 

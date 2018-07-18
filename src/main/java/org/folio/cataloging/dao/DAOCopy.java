@@ -14,7 +14,6 @@ import org.folio.cataloging.business.common.RecordNotFoundException;
 import org.folio.cataloging.business.common.SortFormException;
 import org.folio.cataloging.business.common.UpdateStatus;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
-import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.util.StringText;
@@ -28,7 +27,8 @@ import static org.folio.cataloging.F.deepCopy;
 import static org.folio.cataloging.F.fixedCharPadding;
 
 @SuppressWarnings("unchecked")
-public class DAOCopy extends HibernateUtil {
+public class DAOCopy extends AbstractDAO {
+
 	private Log logger = LogFactory.getLog(DAOCopy.class);
 
 	public static final Comparator<CPY_ID> CPY_ID_COMPARATOR = new Comparator<CPY_ID>() {

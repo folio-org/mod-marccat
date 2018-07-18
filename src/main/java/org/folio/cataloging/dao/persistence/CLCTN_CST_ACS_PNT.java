@@ -1,18 +1,16 @@
 package org.folio.cataloging.dao.persistence;
 
-import java.io.Serializable;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
+import org.folio.cataloging.dao.AbstractDAO;
 
-import org.folio.cataloging.dao.common.HibernateUtil;
+import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class CLCTN_CST_ACS_PNT implements Persistence{
 	 
@@ -91,7 +89,7 @@ public class CLCTN_CST_ACS_PNT implements Persistence{
 		 * 
 		 * @since 1.0
 		 */
-		public HibernateUtil getDAO() {
+		public AbstractDAO getDAO() {
 			return persistentState.getDAO();
 		}
 
@@ -211,7 +209,7 @@ public class CLCTN_CST_ACS_PNT implements Persistence{
 		 * @see librisuite.business.common.Persistence#evict()
 		 */
 		public void evict() throws DataAccessException {
-			evict((Object)this);
+			evict(this);
 		}
 
 		/* (non-Javadoc)

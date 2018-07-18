@@ -11,8 +11,8 @@ import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
+import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAOCodeTable;
-import org.folio.cataloging.dao.common.HibernateUtil;
 
 import java.io.Serializable;
 
@@ -89,7 +89,7 @@ public  class T_CAS_STND_NTE_SUB_TYP implements Persistence{
 		
 	}
 
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return new DAOCodeTable();
 	}
 

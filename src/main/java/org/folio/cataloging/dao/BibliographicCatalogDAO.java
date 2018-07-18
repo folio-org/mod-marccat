@@ -270,14 +270,21 @@ public class BibliographicCatalogDAO extends CatalogDAO
 		List<? extends PersistentObjectWithView> singleView = isolateViewForList(multiView, userView, session);
 
 		return singleView.stream().map(current -> {
-			final BibliographicNoteTag bibliographicNoteTag = new BibliographicNoteTag((BibliographicNote) current);
-			bibliographicNoteTag.markUnchanged();
-			bibliographicNoteTag.setOverflowList(bibliographicNoteTag.getOverflowList(userView));
-			if (!language.equals("")) {
-				bibliographicNoteTag.setNoteStandard(bibliographicNoteTag.loadNoteStandard(userView, language)); //TODO: session missing
-				setBibliographicNoteContent(bibliographicNoteTag);
+			try {
+				final BibliographicNoteTag bibliographicNoteTag = new BibliographicNoteTag((BibliographicNote) current);
+				final BibliographicStandardNoteDAO dao = new BibliographicStandardNoteDAO();
+				bibliographicNoteTag.markUnchanged();
+				bibliographicNoteTag.setOverflowList(bibliographicNoteTag.getOverflowList(userView));
+				if (!language.equals("")) {
+					StandardNoteAccessPoint noteAcs = dao.getBibNoteStardard(amicusNumber, userView, ((BibliographicNote) current).getNoteNbr(), session);
+					bibliographicNoteTag.setNoteStandard(noteAcs);
+					bibliographicNoteTag.setValueElement(dao.getSTDDisplayString(noteAcs.getTypeCode(), language, session));
+					setBibliographicNoteContent(bibliographicNoteTag);
+				}
+				return bibliographicNoteTag;
+			} catch (HibernateException e) {
+				throw new RuntimeException(e);
 			}
-			return bibliographicNoteTag;
 		}).collect(Collectors.toList());
 
 	}

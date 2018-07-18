@@ -83,11 +83,10 @@ public class GeneralInformation {
 	private String marcCountryCode;
 	private String languageCode;
 
-	/*
-	 * Squeeze all non-blank Strings to the left side of the string and
-	 * retain the original length by padding with blanks on the right.
+	/**
+	 * Squeeze all non-blank Strings to the left side of the string and retain the original length by padding with blanks on the right.
 	 *
-	 * @param s the input string.
+	 * @param s -- the input string.
 	 */
 	private String leftJustify(final String s) {
 		return ofNullable(s).map(v -> stream(s.split("")).filter(character -> !" ".equals(character)).collect(joining()))

@@ -1,19 +1,17 @@
 package org.folio.cataloging.dao;
 
-import java.sql.SQLException;
-import java.util.List;
-
-import org.folio.cataloging.dao.common.HibernateUtil;
-
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.persistence.CasCache;
-import org.folio.cataloging.dao.persistence.CasTransfRec;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Query;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.dao.persistence.CasCache;
+import org.folio.cataloging.dao.persistence.CasTransfRec;
 
-public class DAOCasTrnsfPrdct extends HibernateUtil{
+import java.sql.SQLException;
+import java.util.List;
+
+public class DAOCasTrnsfPrdct extends AbstractDAO{
 	public DAOCasTrnsfPrdct() {
 		super();
 	}

@@ -1,22 +1,15 @@
-/*
- * (c) LibriCore
- * 
- * Created on Oct 12, 2004
- * 
- * Persistence.java
- */
 package org.folio.cataloging.business.common;
 
 import net.sf.hibernate.Lifecycle;
-import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.AbstractDAO;
 
 import java.io.Serializable;
 
 /**
- * Implementing this interface indicates that the implementing 
- * object is known to the persistency layer (Hibernate)
+ * Implementing this interface indicates that the implementing object is known to the persistency layer (Hibernate).
+ *
  * @author paulm
- * @version $Revision: 1.4 $, $Date: 2006/07/11 08:01:06 $
+ * @author nbianchini
  * @since 1.0
  */
 public interface Persistence extends Lifecycle, Serializable {
@@ -33,9 +26,6 @@ public interface Persistence extends Lifecycle, Serializable {
 	 */
     int getUpdateStatus();
 
-	/**
-		 * 
-		 */
     void setUpdateStatus(int i);
 
 	boolean isChanged();
@@ -57,12 +47,12 @@ public interface Persistence extends Lifecycle, Serializable {
 	void markDeleted();
 
 	/**
-		 * causes the object to generate new key values
-		 *
-		 */
+	 * causes the object to generate new key values
+	 *
+	 */
     void generateNewKey() throws DataAccessException;
 	
-	@Deprecated
-    HibernateUtil getDAO();
+
+    AbstractDAO getDAO();
 
 }

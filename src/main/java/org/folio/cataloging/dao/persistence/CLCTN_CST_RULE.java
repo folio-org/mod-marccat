@@ -1,19 +1,18 @@
 package org.folio.cataloging.dao.persistence;
 
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.Persistence;
+import org.folio.cataloging.business.common.PersistenceState;
+import org.folio.cataloging.dao.AbstractDAO;
+import org.folio.cataloging.dao.DAOCollectionRuleCST;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Persistence;
-import org.folio.cataloging.business.common.PersistenceState;
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
-
-import org.folio.cataloging.dao.DAOCollectionRuleCST;
-import org.folio.cataloging.dao.common.HibernateUtil;
 
 public class CLCTN_CST_RULE implements Persistence 
 {
@@ -65,10 +64,10 @@ public class CLCTN_CST_RULE implements Persistence
 	}
 
 	public void evict() throws DataAccessException {
-		evict((Object)this);
+		evict(this);
 	}
 
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return dao;
 	}
 
@@ -87,10 +86,8 @@ public class CLCTN_CST_RULE implements Persistence
 		if (getClass() != obj.getClass())
 			return false;
 		CLCTN_CST_RULE other = (CLCTN_CST_RULE) obj;
-		if (ruleId != other.ruleId)
-			return false;
-		return true;
-	}
+        return ruleId == other.ruleId;
+    }
 
 	public int getUpdateStatus() {
 		return persistenceState.getUpdateStatus();

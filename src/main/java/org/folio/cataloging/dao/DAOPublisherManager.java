@@ -7,22 +7,20 @@
  */
 package org.folio.cataloging.dao;
 
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import org.folio.cataloging.business.cataloguing.bibliographic.PublisherAccessPoint;
+import org.folio.cataloging.business.cataloguing.bibliographic.PublisherManager;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.Persistence;
+import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
+import org.folio.cataloging.dao.persistence.PUBL_TAG;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
-
-import org.folio.cataloging.business.cataloguing.bibliographic.PublisherAccessPoint;
-import org.folio.cataloging.business.cataloguing.bibliographic.PublisherManager;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Persistence;
-import org.folio.cataloging.dao.persistence.PUBL_TAG;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
-
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 
 /**
  * Although PublisherManager implements Persistence, it is in fact not mapped to
@@ -33,7 +31,7 @@ import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
  * @version $Revision: 1.1 $, $Date: 2009/12/14 22:24:41 $
  * @since 1.0
  */
-public class DAOPublisherManager extends HibernateUtil {
+public class DAOPublisherManager extends AbstractDAO {
 
 	/*
 	 * (non-Javadoc)

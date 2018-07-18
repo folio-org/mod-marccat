@@ -5,14 +5,13 @@ package org.folio.cataloging.dao.persistence;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.cataloguing.bibliographic.SubjectAccessPoint;
 import org.folio.cataloging.business.common.ConfigHandler;
 import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.SkipInFiling;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
+import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAOSubjectDescriptor;
-import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.model.Subfield;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
@@ -118,7 +117,7 @@ public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling 
 	 * 
 	 * @see librisuite.hibernate.Descriptor#getDAO()
 	 */
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return new DAOSubjectDescriptor();
 	}
 

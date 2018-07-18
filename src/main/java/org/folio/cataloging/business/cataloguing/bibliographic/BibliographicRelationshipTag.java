@@ -3,13 +3,11 @@ package org.folio.cataloging.business.cataloguing.bibliographic;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.common.*;
+import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAOBibliographicRelationship;
 import org.folio.cataloging.dao.DAOBibliographicRelationshipTag;
 import org.folio.cataloging.dao.DAOSystemNextNumber;
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.dao.persistence.BibliographicRelationPrintNote;
 import org.folio.cataloging.dao.persistence.BibliographicRelationReciprocal;
-import org.folio.cataloging.dao.persistence.BibliographicRelationType;
 import org.folio.cataloging.model.Subfield;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
@@ -130,20 +128,24 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 		return (new CorrelationValues()).change(1, getRelationTypeCode()).change(2, getRelationPrintNoteCode());
 	}
 
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return new DAOBibliographicRelationshipTag();
 	}
 
+	@Deprecated
 	public List getFirstCorrelationList() throws DataAccessException {
-		return getDaoCodeTable().getList(BibliographicRelationType.class,true);
+		/* return getDaoCodeTable().getList(BibliographicRelationType.class,true); */
+		return null;
 	}
 
 	public int getItemNumber() {
 		return sourceRelationship.getItemNumber();
 	}
 
+	@Deprecated
 	public List getReciprocalList() throws DataAccessException {
-		return getDaoCodeTable().getList(BibliographicRelationReciprocal.class,true);
+		/* return getDaoCodeTable().getList(BibliographicRelationReciprocal.class,true); */
+		return null;
 	}
 
 	public int getReciprocalOption(int userView) throws DataAccessException
@@ -205,8 +207,10 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#getSecondCorrelationList(short,
 	 *      java.util.Locale)
 	 */
+	@Deprecated
 	public List getSecondCorrelationList(short value1) throws DataAccessException {
-		return getDaoCodeTable().getList(BibliographicRelationPrintNote.class,true);
+		/* return getDaoCodeTable().getList(BibliographicRelationPrintNote.class,true); */
+		return null;
 	}
 
 	public BibliographicRelationship getSourceRelationship() {

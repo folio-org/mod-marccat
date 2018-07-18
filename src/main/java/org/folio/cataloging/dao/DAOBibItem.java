@@ -7,31 +7,25 @@
  */
 package org.folio.cataloging.dao;
 
-import java.util.List;
-
-import org.folio.cataloging.business.cataloguing.bibliographic.BIB_ITM;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Persistence;
-import org.folio.cataloging.business.common.RecordNotFoundException;
-import org.folio.cataloging.business.common.ReferentialIntegrityException;
-import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.dao.persistence.Cache;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-
-import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.business.cataloguing.bibliographic.BIB_ITM;
+import org.folio.cataloging.business.common.*;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
+import org.folio.cataloging.dao.persistence.Cache;
+
+import java.util.List;
 
 /**
  * @author paulm
  * @version $Revision: 1.2 $, $Date: 2005/02/02 14:09:42 $
  * @since 1.0
  */
-public class DAOBibItem extends HibernateUtil 
+public class DAOBibItem extends AbstractDAO
 {
-	public void delete(Persistence p) throws ReferentialIntegrityException, DataAccessException 
+	public void delete(Persistence p) throws DataAccessException
 	{
 		if (!(p instanceof BIB_ITM)) {
 			throw new IllegalArgumentException("Argument must be a BIB_ITM");
@@ -78,8 +72,7 @@ public class DAOBibItem extends HibernateUtil
 		.execute();
 	}
 
-	public BIB_ITM load(int id, int userView) throws DataAccessException, RecordNotFoundException 
-	{
+	public BIB_ITM load(int id, int userView) throws DataAccessException {
 		BIB_ITM bibItm = null;
 		List l =
 			find("from BIB_ITM as itm where itm.amicusNumber = ? "

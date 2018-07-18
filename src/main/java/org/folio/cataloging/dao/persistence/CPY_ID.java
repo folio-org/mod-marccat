@@ -15,10 +15,10 @@ import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
+import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAOCopy;
 import org.folio.cataloging.dao.DAOGlobalVariable;
 import org.folio.cataloging.dao.DAOSystemNextNumber;
-import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.exception.EmptySubfieldException;
 import org.folio.cataloging.exception.InvalidShelfListTypeException;
 import org.folio.cataloging.exception.NoSubfieldCodeException;
@@ -620,7 +620,7 @@ public class CPY_ID implements Persistence, Serializable {
 	 * 
 	 * @see librisuite.business.common.Persistence#getDAO()
 	 */
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return new DAOCopy();
 	}
 

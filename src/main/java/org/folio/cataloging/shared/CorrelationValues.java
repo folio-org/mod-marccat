@@ -24,7 +24,6 @@ public class CorrelationValues implements Cloneable {
 	 * Builds a new set of correlation values.
 	 */
 	public CorrelationValues() {
-		// Noting to be done here...
 	}
 
 	/**
@@ -53,7 +52,7 @@ public class CorrelationValues implements Cloneable {
 	}
 
 	public CorrelationValues change(final int i, final int v) {
-		final CorrelationValues val = (CorrelationValues) this.clone();
+		final CorrelationValues val = (CorrelationValues) clone();
 		val.setValue(i,v);
 		return val;
 	}

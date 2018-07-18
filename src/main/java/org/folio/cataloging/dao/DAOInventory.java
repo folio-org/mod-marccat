@@ -14,7 +14,6 @@ import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
 import org.folio.cataloging.business.cataloguing.bibliographic.BIB_ITM;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 import org.folio.cataloging.dao.persistence.*;
 
@@ -25,7 +24,7 @@ import java.util.List;
  * @version $Revision: 1.1 $, $Date: 2005/02/02 14:09:42 $
  * @since 1.0
  */
-public class DAOInventory extends HibernateUtil {
+public class DAOInventory extends AbstractDAO {
 
 	public int getInventoryCount(int copyNumber) throws DataAccessException {
 		Session s = currentSession();

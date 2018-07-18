@@ -7,10 +7,13 @@ import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.cataloguing.bibliographic.*;
+import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicItem;
+import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicRelationship;
+import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicRelationshipTag;
+import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.searching.NoResultsFoundException;
-import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.persistence.NameAccessPoint;
 import org.folio.cataloging.model.Subfield;
 import org.folio.cataloging.util.StringText;
 
@@ -24,7 +27,7 @@ import java.util.List;
  * @version $Revision: 1.5 $, $Date: 2006/01/19 14:43:57 $
  * @since 1.0
  */
-public class DAOBibliographicRelationship extends HibernateUtil 
+public class DAOBibliographicRelationship extends AbstractDAO
 {
 	private static final Log logger = LogFactory.getLog(DAOBibliographicRelationship.class);
 

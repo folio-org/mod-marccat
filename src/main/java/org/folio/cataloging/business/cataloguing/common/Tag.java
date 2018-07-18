@@ -8,8 +8,7 @@ import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationEx
 import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.PersistenceState;
-import org.folio.cataloging.dao.DAOCodeTable;
-import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.persistence.CorrelationKey;
 import org.folio.cataloging.dao.persistence.T_SINGLE;
 import org.folio.cataloging.exception.ValidationException;
@@ -27,6 +26,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import static org.folio.cataloging.F.deepCopy;
+
+//import org.folio.cataloging.dao.DAOCodeTable;
+//import org.folio.cataloging.dao.common.HibernateUtil;
 
 /**
  * @author paulm
@@ -50,7 +52,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 
 	private TagImpl tagImpl;
 	private static Log logger = LogFactory.getLog(Tag.class);
-	protected static DAOCodeTable daoCodeTable = new DAOCodeTable();
+	//protected static DAOCodeTable daoCodeTable = new DAOCodeTable();
 	protected PersistenceState persistenceState;
 	private int itemNumber = -1;
 
@@ -183,9 +185,9 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 
 	}
 
-	public DAOCodeTable getDaoCodeTable() {
+	/* nat: public DAOCodeTable getDaoCodeTable() {
 		return daoCodeTable;
-	}
+	}*/
 
 	public PersistenceState getPersistenceState() {
 		return persistenceState;
@@ -472,10 +474,9 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 		return false;
 	}
 
-	@Deprecated
-	public HibernateUtil getDAO() {
+	/* nat: public HibernateUtil getDAO() {
 		return persistenceState.getDAO();
-	}
+	}*/
 
 	/* (non-Javadoc)
 	 * @see TagInterface#validate()
@@ -509,5 +510,9 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 	
 	public int getPhysical() {
 		return PHYSICAL_MATERIAL;
+	}
+
+	public AbstractDAO getDAO() {
+		return persistenceState.getDAO();
 	}
 }

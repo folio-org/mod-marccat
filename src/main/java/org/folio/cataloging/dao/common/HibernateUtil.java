@@ -12,7 +12,10 @@ import net.sf.hibernate.type.Type;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.cataloguing.authority.AuthorityNote;
-import org.folio.cataloging.business.common.*;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.Persistence;
+import org.folio.cataloging.business.common.PersistentObjectWithView;
+import org.folio.cataloging.business.common.View;
 import org.folio.cataloging.dao.persistence.S_LCK_TBL;
 import org.folio.cataloging.exception.RecordInUseException;
 import org.folio.cataloging.log.MessageCatalog;
@@ -161,7 +164,7 @@ public class HibernateUtil {
 	 */
 	@Deprecated
 	public void persistByStatus(Persistence po) throws DataAccessException {
-		Session s = currentSession();
+		/* Session s = currentSession();
 
 		if (po.isNew()) {
 			if (logger.isDebugEnabled()) {
@@ -191,7 +194,7 @@ public class HibernateUtil {
 				logger.debug("deleting " + po);
 			}
 			po.getDAO().delete(po);
-		}
+		} */
 	}
 
 	private AuthorityNote getNewInstanceOfAuthorityNote(AuthorityNote note) {

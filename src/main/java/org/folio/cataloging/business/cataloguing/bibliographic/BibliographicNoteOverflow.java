@@ -3,27 +3,24 @@
  *
  */
 package org.folio.cataloging.business.cataloguing.bibliographic;
-import java.io.Serializable;
 
-import org.folio.cataloging.dao.DAOSystemNextNumber;
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.PersistenceState;
 import org.folio.cataloging.business.common.PersistentObjectWithView;
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAOBibliographicNotesOverflow;
+import org.folio.cataloging.dao.DAOSystemNextNumber;
+
+import java.io.Serializable;
 
 /**
  * Class comment
  * @author hansv
  */
-public class BibliographicNoteOverflow implements PersistentObjectWithView,Serializable {
-	private static final Log logger = LogFactory.getLog(BibliographicNoteOverflow.class);
+public class BibliographicNoteOverflow implements PersistentObjectWithView, Serializable {
+
 	private String stringText = null;
 	private int bibItemNumber = -1;
 	private int noteNbr = -1;
@@ -305,8 +302,8 @@ public class BibliographicNoteOverflow implements PersistentObjectWithView,Seria
 			}
 		}
 	
-	public HibernateUtil getDAO() {
-			return new DAOBibliographicNotesOverflow();
-		}
+	public AbstractDAO getDAO() {
+		return new DAOBibliographicNotesOverflow();
+	}
 
 }

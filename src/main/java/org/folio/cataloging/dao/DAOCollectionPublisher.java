@@ -8,7 +8,6 @@ import net.sf.hibernate.type.Type;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.business.PublisherListElement;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.persistence.CollectionPublisher;
 import org.folio.cataloging.dao.persistence.T_CLCTN_PUBL_LVL_TYP;
 import org.folio.cataloging.dao.persistence.T_CLCTN_PUBL_TYP;
@@ -23,7 +22,7 @@ import java.util.Locale;
 
 import static java.util.stream.Collectors.toList;
 
-public class DAOCollectionPublisher extends HibernateUtil 
+public class DAOCollectionPublisher extends AbstractDAO
 {	
 	public DAOCollectionPublisher() {
 		super();

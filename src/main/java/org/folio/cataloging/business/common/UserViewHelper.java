@@ -7,12 +7,11 @@
  */
 package org.folio.cataloging.business.common;
 
-import java.io.Serializable;
-
-import org.folio.cataloging.dao.common.HibernateUtil;
-
 import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.Session;
+import org.folio.cataloging.dao.AbstractDAO;
+
+import java.io.Serializable;
 
 /**
  * @author paulm
@@ -171,8 +170,7 @@ public class UserViewHelper implements PersistentObjectWithView, Serializable {
 	/* (non-Javadoc)
 	 * @see librisuite.business.common.Persistence#getDAO()
 	 */
-	public HibernateUtil getDAO() {
-		// TODO Auto-generated method stub
+	public AbstractDAO getDAO() {
 		return null;
 	}
 

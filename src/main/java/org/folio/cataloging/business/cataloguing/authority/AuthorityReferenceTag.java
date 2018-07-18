@@ -11,7 +11,6 @@ import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.cataloguing.bibliographic.NameAccessPoint;
 import org.folio.cataloging.business.cataloguing.bibliographic.PersistsViaItem;
 import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
 import org.folio.cataloging.business.cataloguing.common.Browsable;
@@ -20,9 +19,9 @@ import org.folio.cataloging.business.common.PersistentObjectWithView;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.DescriptorFactory;
 import org.folio.cataloging.business.descriptor.SkipInFiling;
+import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAOAuthorityCorrelation;
 import org.folio.cataloging.dao.DAOAuthorityReferenceTag;
-import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.exception.NoHeadingSetException;
 import org.folio.cataloging.shared.CorrelationValues;
@@ -176,7 +175,7 @@ public abstract class AuthorityReferenceTag
 	/* (non-Javadoc)
 	 * @see Tag#getDAO()
 	 */
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return new DAOAuthorityReferenceTag();
 	}
 
@@ -227,8 +226,9 @@ public abstract class AuthorityReferenceTag
 	/* (non-Javadoc)
 	 * @see TagInterface#getFirstCorrelationList()
 	 */
+	@Deprecated
 	public List getFirstCorrelationList() throws DataAccessException {
-		if (getRefTypeCorrelationPosition() > 1) {
+		/* if (getRefTypeCorrelationPosition() > 1) {
 			if (getTargetDescriptor() instanceof NME_TTL_HDG) {
 				return getDaoCodeTable().getList(NameType.class,false);
 			} else {
@@ -246,7 +246,9 @@ public abstract class AuthorityReferenceTag
 			}
 		} else {
 			return new DAOAuthorityCorrelation().getValidReferenceTypeList(this);
-		}
+		} */
+
+		return null;
 	}
 
 	/* (non-Javadoc)

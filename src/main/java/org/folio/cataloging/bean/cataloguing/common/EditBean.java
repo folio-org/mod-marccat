@@ -32,7 +32,10 @@ import org.folio.cataloging.business.controller.UserProfile;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.SkipInFiling;
 import org.folio.cataloging.business.digital.*;
-import org.folio.cataloging.dao.*;
+import org.folio.cataloging.dao.BibliographicCorrelationDAO;
+import org.folio.cataloging.dao.DAOAuthorityCorrelation;
+import org.folio.cataloging.dao.DAOBibliographicRelationship;
+import org.folio.cataloging.dao.DAOCodeTable;
 import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.exception.*;
 import org.folio.cataloging.form.cataloguing.bibliographic.EditTagForm;
@@ -790,7 +793,7 @@ public abstract class EditBean extends LibrisuiteBean {
 	 */
 	public void refreshCorrelation(int value1, int value2, Locale l) throws DataAccessException
 	{
-		logger.debug("refreshing correlation");
+		/*logger.debug("refreshing correlation");
 		logger.debug("value1 is " + value1);
 		logger.debug("value2 is " + value2);
 		List firstList = null;
@@ -813,7 +816,7 @@ public abstract class EditBean extends LibrisuiteBean {
 		}
 		List thirdList = getCurrentTag()
 				.getThirdCorrelationList(value1, value2);
-		setThirdCorrelationList(DAOCodeTable.asOptionList(thirdList, l));
+		setThirdCorrelationList(DAOCodeTable.asOptionList(thirdList, l));*/
 
 	}
 
@@ -870,14 +873,13 @@ public abstract class EditBean extends LibrisuiteBean {
 	 * @return
 	 * @throws DataAccessException
 	 */
-	private T_SINGLE loadSelectedCodeTable(Tag processingTag)
-			throws DataAccessException {
-		int value1 = processingTag.getCorrelation(1);
-
+	private T_SINGLE loadSelectedCodeTable(Tag processingTag) throws DataAccessException {
+		/*int value1 = processingTag.getCorrelation(1);
 		List firstList = processingTag.getFirstCorrelationList();
 
 		T_SINGLE ct = DAOCodeTable.getSelectedCodeTable(firstList, getLocale(), value1);
-		return ct;
+		return ct;*/
+		return null;
 	}
 
 	/**
@@ -1222,19 +1224,15 @@ public abstract class EditBean extends LibrisuiteBean {
 	 */
 	public void updateDescriptorFromBrowse(Descriptor d)
 			throws AuthorisationException, DataAccessException {
-		checkPermission(getCurrentTag().getRequiredEditPermission());
-		/*
-		 * Browse may return with a heading from a different view 
-		 * (if searching in ANY view).  So, we make sure that we get
-		 * the heading in the user's cataloguing view for this situation.
-		 */
+		/*checkPermission(getCurrentTag().getRequiredEditPermission());
+
 		d = ((DAODescriptor) d.getDAO()).findOrCreateMyView(d
 				.getHeadingNumber(), d.getUserViewString(), getCatalogItem()
 				.getUserView());
 		logger.debug("descriptor from find or create has view: " + d.getUserViewString());
 		Command c = new ReplaceDescriptorCommand(this, getCurrentTag(), d);
 
-		executeCommand(c);
+		executeCommand(c);*/
 	}
 
 	public void validateCurrentTag() throws DataAccessException,

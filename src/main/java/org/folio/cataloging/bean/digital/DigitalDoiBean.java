@@ -20,8 +20,7 @@ import org.folio.cataloging.business.digital.RequiredFieldsException;
 import org.folio.cataloging.dao.BibliographicCatalogDAO;
 import org.folio.cataloging.dao.DAOCache;
 import org.folio.cataloging.dao.DAOCasDigAdmin;
-import org.folio.cataloging.dao.persistence.CNTL_NBR;
-import org.folio.cataloging.dao.persistence.CasDigAdmin;
+import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.model.Subfield;
 import org.folio.cataloging.util.StringText;
 

@@ -8,8 +8,8 @@ import org.folio.cataloging.business.common.ChronologyConfigurationException;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
+import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAOCodeTable;
-import org.folio.cataloging.dao.common.HibernateUtil;
 
 import java.io.Serializable;
 import java.util.Locale;
@@ -221,7 +221,7 @@ public class SRL_PRED_PAT_DTL implements Persistence, Serializable {
 	 * @return
 	 * @see PersistenceState#getDAO()
 	 */
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return persistenceState.getDAO();
 	}
 

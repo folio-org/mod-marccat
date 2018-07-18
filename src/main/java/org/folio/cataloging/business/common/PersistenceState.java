@@ -7,15 +7,15 @@
  */
 package org.folio.cataloging.business.common;
 
-import java.io.Serializable;
-
 import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Lifecycle;
 import net.sf.hibernate.Session;
-
+import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
+
+import java.io.Serializable;
 
 /**
  * @author paulm
@@ -23,6 +23,8 @@ import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
  * @since 1.0
  */
 public class PersistenceState implements Lifecycle, Serializable {
+
+	private AbstractDAO abstractDAO;
 	private int updateStatus = UpdateStatus.NEW;
 	private Integer committedStatus = null;
 
@@ -129,8 +131,8 @@ public class PersistenceState implements Lifecycle, Serializable {
 	 * Default implementation for Persistence objects
 	 * @since 1.0
 	 */
-	public HibernateUtil getDAO() {
-		return new HibernateUtil();
+	public AbstractDAO getDAO() {
+		return abstractDAO;
 	}
 	
 	/**

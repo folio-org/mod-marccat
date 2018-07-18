@@ -8,7 +8,6 @@ import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.cataloguing.common.Browsable;
 import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.common.*;
-import org.folio.cataloging.dao.DAODescriptor;
 import org.folio.cataloging.dao.DAOIndexList;
 import org.folio.cataloging.dao.DAOSystemNextNumber;
 import org.folio.cataloging.dao.persistence.DescriptorKey;
@@ -481,8 +480,10 @@ public abstract class Descriptor implements PersistentObjectWithView
 		return true;
 	}
 
+	//TODO: add setMatchingAnotherHeading method and keep this one to return a boolean valued in storageService
 	public boolean isMatchingAnotherHeading() {
-		return ((DAODescriptor) getDAO()).isMatchingAnotherHeading(this);
+		/* return ((DAODescriptor) getDAO()).isMatchingAnotherHeading(this); */
+		return false;
 	}
 
 	/*
@@ -556,9 +557,12 @@ public abstract class Descriptor implements PersistentObjectWithView
 		}
 	}
 
+	//TODO: move in storageService
 	public boolean hasMatchingSortformInAnotherView() {
-		return ((DAODescriptor) getDAO())
-				.hasMatchingSortformInAnotherView(this);
+		/* return ((DAODescriptor) getDAO())
+				.hasMatchingSortformInAnotherView(this); */
+
+		return false;
 	}
 
 	public int getAuthoritySourceCode() {

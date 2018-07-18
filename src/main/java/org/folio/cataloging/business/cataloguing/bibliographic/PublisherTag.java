@@ -13,9 +13,6 @@ import org.folio.cataloging.business.common.*;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.dao.DAODescriptor;
 import org.folio.cataloging.dao.DAOPublisherDescriptor;
-import org.folio.cataloging.dao.DAOPublisherTag;
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.dao.persistence.BibliographicNoteType;
 import org.folio.cataloging.dao.persistence.PUBL_HDG;
 import org.folio.cataloging.dao.persistence.REF;
 import org.folio.cataloging.model.Subfield;
@@ -41,8 +38,6 @@ import static org.folio.cataloging.F.deepCopy;
  */
 public class PublisherTag extends VariableField implements PersistentObjectWithView, Equivalent {
 	private static Log logger = LogFactory.getLog(PublisherTag.class);
-	private static final DAOPublisherTag daoPublisherTag =
-		new DAOPublisherTag();
 	private PersistenceState persistenceState = new PersistenceState();
 	private List accessPoints = new ArrayList();
 	private List deletedApfs = new ArrayList();
@@ -250,8 +245,10 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#getFirstCorrelationList()
 	 */
+	@Deprecated
 	public List getFirstCorrelationList() throws DataAccessException {
-		return getDaoCodeTable().getList(BibliographicNoteType.class,false);
+		/* return getDaoCodeTable().getList(BibliographicNoteType.class,false); */
+		return null;
 	}
 
 	/* (non-Javadoc)
@@ -268,9 +265,9 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 	/* (non-Javadoc)
 	 * @see librisuite.business.common.Persistence#getDAO()
 	 */
-	public HibernateUtil getDAO() {
+	/*public HibernateUtil getDAO() {
 		return daoPublisherTag;
-	}
+	}*/
 
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#isWorksheetEditable()

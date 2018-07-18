@@ -13,7 +13,6 @@ import org.folio.cataloging.business.cataloguing.common.Catalog;
 import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.controller.SessionUtils;
-import org.folio.cataloging.dao.DAOCodeTable;
 import org.folio.cataloging.dao.persistence.CatalogItem;
 import org.folio.cataloging.dao.persistence.Model;
 import org.folio.cataloging.dao.persistence.T_SINGLE;
@@ -908,6 +907,7 @@ public class ModelBean extends LibrisuiteBean
 
 	public void refreshCorrelation(Locale locale) 
 	{
+		/*
 		int value1 = getCurrentField().getCorrelation(1);
 		int value2 = getCurrentField().getCorrelation(2);
 		try {
@@ -927,6 +927,7 @@ public class ModelBean extends LibrisuiteBean
 			setThirdCorrelationList(DAOCodeTable.asOptionList(thirdList, locale));
 		} catch (DataAccessException dataAccessException) {
 		}
+		*/
 	}
 	@Deprecated
 	public void refreshTag() {
@@ -1080,10 +1081,11 @@ public class ModelBean extends LibrisuiteBean
 	 */
 	private T_SINGLE loadSelectedCodeTable(Tag processingTag) throws DataAccessException 
 	{
-		int value1 = processingTag.getCorrelation(1);
+		/*int value1 = processingTag.getCorrelation(1);
 		List firstList = processingTag.getFirstCorrelationList();
 		T_SINGLE ct = DAOCodeTable.getSelectedCodeTable(firstList, locale, value1);
-		return ct;
+		return ct;*/
+		return null;
 	}
 	
 	/**

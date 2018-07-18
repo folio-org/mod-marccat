@@ -1,490 +1,462 @@
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.F;
 import org.folio.cataloging.business.cataloguing.common.OrderedTag;
 import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.business.common.ConfigHandler;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.PersistenceState;
 import org.folio.cataloging.business.common.PersistentObjectWithView;
 import org.folio.cataloging.business.descriptor.Descriptor;
-import org.folio.cataloging.business.marchelper.MarcHelperTag;
+import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAOBibliographicNoteTag;
-import org.folio.cataloging.dao.DAOBibliographicNotesOverflow;
-import org.folio.cataloging.dao.DAOBibliographicStandardNote;
-import org.folio.cataloging.dao.DAOSystemNextNumber;
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.dao.common.LocalKeyGenerator;
-import org.folio.cataloging.dao.persistence.BibliographicNoteType;
 import org.folio.cataloging.dao.persistence.StandardNoteAccessPoint;
+import org.folio.cataloging.integration.GlobalStorage;
+import org.folio.cataloging.log.Log;
 import org.folio.cataloging.model.Subfield;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.Optional.ofNullable;
 
 /**
- * TODO: Javadoc
+ * Manager class for bibliographic note tag.
  *
  * @author paulm
  * @author agazzarini
+ * @author nbianchini
  */
-public class BibliographicNoteTag extends VariableField implements PersistentObjectWithView ,MarcHelperTag,OrderedTag {
+@SuppressWarnings("unchecked")
+public class BibliographicNoteTag extends VariableField implements PersistentObjectWithView, OrderedTag {
+
 	private static final long serialVersionUID = 5008624075912779670L;
-	private static final Log logger = LogFactory.getLog(BibliographicNoteTag.class);
-	private static final short bibliographicNoteCategory = 7;
-	private static final DAOBibliographicNoteTag daoNoteTag =	new DAOBibliographicNoteTag();
-	private StringText stringText = null;
-	private short noteType;
-	private int noteNbr = LocalKeyGenerator.getInstance().generateNextKey(this.getClass());
+	private static final Log logger = new Log(BibliographicNoteTag.class);
+
+	private StringText stringText;
+	private int noteType;
+	private int noteNbr;
 	public BibliographicNote note = new BibliographicNote();
-	public List deletedOverflowList = new ArrayList();
+	public List<BibliographicNoteOverflow> deletedOverflowList = new ArrayList<>();
 	private Integer sequenceNumber;
-	private Avp valueElement = null;
-	private StandardNoteAccessPoint noteStandard= null;
-	private ConfigHandler configHandler =ConfigHandler.getInstance();
-	
-	private static final int STANDARD_NOTE_MAX_LENGHT = 1024;
-	private static final int OVERFLOW_NOTE_MAX_LENGHT = 1000;
-	
-	public Avp loadValueLabelElement(int userView, String lingua)
-	{	
-		try {
-			DAOBibliographicStandardNote b = new DAOBibliographicStandardNote();
-			if(isStandardNoteType()){
-			  valueElement = b.getSTDDisplayString(noteStandard.getTypeCode(), lingua);
-			}
-			return valueElement;
-		} catch (DataAccessException ex) {
-			return null;
-		}
-	}
-	
-	public StandardNoteAccessPoint loadNoteStandard(int userView, String lingua) 
+	private Avp<String> valueElement;
+	private StandardNoteAccessPoint noteStandard;
+
+    public BibliographicNoteTag()
+    {
+        super();
+        final StringText s = new StringText();
+        s.addSubfield(new Subfield("a", ""));
+        setStringText(s);
+
+        setNote(new BibliographicNote());
+        setPersistenceState(new PersistenceState());
+        // setDefaultNoteType(); //TODO set using configuration module
+    }
+
+    public BibliographicNoteTag(final BibliographicNote note)
+    {
+        super();
+        setNote(note);
+        setPersistenceState(new PersistenceState());
+    }
+
+    public BibliographicNoteTag(final int itemNbr) {
+        super(itemNbr);
+    }
+
+	@Deprecated
+	public StandardNoteAccessPoint loadNoteStandard(final int userView, final String language)
 	{
-		/*da creare DAOBibliographicStandardNote*/
-		DAOBibliographicStandardNote b = new DAOBibliographicStandardNote();
-		try {
-			noteStandard= b.getBibNoteStardard(note.getBibItemNumber(), userView, note.getNoteNbr());
-			/*passare il campo lingua della nota*/
-			if(isStandardNoteType()){
-			  valueElement = b.getSTDDisplayString(noteStandard.getTypeCode(), lingua);
-			}
-			return noteStandard;
-		} catch (DataAccessException ex) {
-			// non c'e' la StandardNote
-			return null;
-		}
+		return null;
 	}
 	
 	public final boolean isStandardNoteType()
 	{
         return noteStandard != null;
 	}
-	
+
+    /**
+     * Return the standard note access point.
+     *
+     * @return noteStandard.
+     */
 	public StandardNoteAccessPoint getNoteStandard() {
 		return noteStandard;
 	}
-	
-	public void setNoteStandard(StandardNoteAccessPoint noteStandard) {
+
+    /**
+     * Sets the standard note access point to note tag.
+     *
+     * @param noteStandard -- the standard note to set.
+     */
+	public void setNoteStandard(final StandardNoteAccessPoint noteStandard) {
 		this.noteStandard = noteStandard;
 	}
-	
-	public Avp getValueElement() {
+
+    /**
+     *
+     * @return Avp valueElement.
+     */
+	public Avp<String> getValueElement() {
 		return valueElement;
 	}
-	
-	public void setValueElement(Avp valueElement) {
+
+    /**
+     * Sets the value element.
+     *
+     * @param valueElement -- the
+     */
+	public void setValueElement(final Avp<String> valueElement) {
 		this.valueElement = valueElement;
 	}
-	
-	public void setSequenceNumber(Integer integer) 
+
+    /**
+     * Sets sequence number of tag.
+     *
+     * @param sequenceNbr -- the number to set.
+     */
+	public void setSequenceNumber(final Integer sequenceNbr)
 	{
-		   sequenceNumber=integer;
-			this.getNote().setSequenceNumber(integer);
-			this.getNote().markChanged();
+        sequenceNumber = sequenceNbr;
+		this.getNote().setSequenceNumber(sequenceNbr);
+		this.getNote().markChanged();
 	}
-	
+
+	/**
+	 *
+	 * @return the sequence number.
+	 */
 	public Integer getSequenceNumber() {
 		return this.getNote().getSequenceNumber();
 	}
-	
-	public BibliographicNoteTag() 
-	{
-		super();
-		StringText s = new StringText();
-		s.addSubfield(new Subfield("a", ""));
-		setStringText(s);
-		setNote(new BibliographicNote());
-		setPersistenceState(new PersistenceState());
-		setDefaultNoteType();
-	}
-	
-	public BibliographicNoteTag(BibliographicNote note) 
-	{
-		super();
-		setNote(note);
-		setPersistenceState(new PersistenceState());
-	}
-	
-	public BibliographicNoteTag(int itemNbr) {
-		super(itemNbr);
-	}
 
+	/**
+	 * Gets default implementation.
+	 *
+	 * @return false.
+	 */
 	public boolean isBrowsable() {
 		return false;
 	}
 
+	/**
+	 * Gets identifier associated to note tag.
+	 *
+	 * @return note number.
+	 */
 	public int getNoteNbr() {
 		return note.getNoteNbr();
 	}
 
 	/**
-	 * Utilizzare per ricreare la stringa della nota intera ($a....$b...)
-	 * Non accede a informazioni della nota e riguarda solo gli overflow
-	 * @param list
-	 * @return
+	 * Gets overflow note string from note list.
+	 *
+	 * @param overflowNoteList -- list of overflow notes.
+	 * @return note string.
 	 */
-	public String getOverFlowString(List list) 
+	private String getOverFlowString(final List<BibliographicNoteOverflow> overflowNoteList)
 	{
-		String text = "";
-		DAOBibliographicNotesOverflow b = new DAOBibliographicNotesOverflow();
-
-		try{
-			text = b.getBibNotesOverflow(list);
-		} catch(DataAccessException ex) {
-			return (stringText==null?"":stringText.toString());
+		try {
+			final String overflowString = overflowNoteList.stream().map(oNote -> oNote.getStringText().toString()).collect(Collectors.joining());
+			return overflowString;
+		} catch (Exception exception) {
+			return (stringText==null ?"" :stringText.toString());
 		}
-		return text;
 	}
 
+	/**
+	 * Sets identifier related to note tag.
+	 *
+	 * @param i -- note number to set.
+	 */
 	private void setNoteNbr(int i) {
 		note.setNoteNbr(i);
 	}
 
-	public StringText getStringText() 
+	/**
+	 *
+	 * @return note string text.
+	 */
+	public StringText getStringText()
 	{
-		List ovfList = getOverflowList();
-		return new StringText(note.getContent() + getOverFlowString(ovfList));
+		return new StringText(note.getContent() + getOverFlowString(getOverflowList()));
 	}
 	
 	/**
-	 * Utilizzare per il display della nota intera standard
-	 * Controllo presenza @1 testo nel modello nota standard
-	 * Costruzione StringText con replace del contenuto della nota con @1
-	 * @return StringText costruito
+	 * Returns display content of whole standard note.
+	 * It replaces all '@1' with subfield separator if present.
+	 *
+	 * @return note standard stringText.
 	 */
 	public StringText getStandardNoteStringText() 
 	{
-		String value ="";
-		if(valueElement!=null)
-			value = valueElement.getLabel();
-		
-		if (value.indexOf("@1") != -1) {
-			//In creazione della nota, salva tag, note.getContent() contiene \u001f
-			if(note.getContent().indexOf("\u001f")!=-1)
+		String value = (ofNullable(valueElement.getLabel()).isPresent()) ? valueElement.getLabel() :"";
+		if (value.contains("@1")){
+			if(note.getContent().indexOf(GlobalStorage.DOLLAR)!=-1)
 				value = value.replaceAll("@1", note.getContent().substring(2));
-			//In Load dal DB non è presente \u001f
 			else
 				value = value.replaceAll("@1", note.getContent());
-			return new StringText(value);
-		} else
-			
-	    return new StringText(value);
+		}
+		return new StringText(value);
 	}
 
-	public void setStringText(StringText text) 
+	/**
+	 * Sets stringText to bibliographic note.
+	 *
+	 * @param text -- the text to set.
+	 */
+	public void setStringText(final StringText text)
 	{
 		stringText = text;
 		breakNotesStringText();
 	}
 
 	/**
-	 * Used to display the entire note as marc string
-	 * @return
+	 * Used to display the entire note as marc string.
+	 *
+	 * @return  stringText.
 	 */
 	public String getStringTextString(){
 		return getStringText().toString();
 	}
-	
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#getCategory()
+
+	/**
+	 * Gets category associated to bibliographic note.
+	 *
+	 * @return category.
 	 */
 	public int getCategory() {
-		return bibliographicNoteCategory;
+		return GlobalStorage.BIB_NOTE_CATEGORY;
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#getCorrelationList(int)
+
+	/**
+	 *
+	 * @return type note.
 	 */
-	public List getFirstCorrelationList()
-		throws DataAccessException {
-		return getDaoCodeTable().getCorrelatedList(BibliographicNoteType.class,true," and bc.key.marcSecondIndicator <> '@' and bc.databaseFirstValue = ct.code ");
-	}
-
 	public int getNoteType() {
 		return note.getNoteType();
 	}
 
-	public void setNoteType(int s) {
-		note.setNoteType(s);
-	}
-
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#getSecondCorrelationList(short, java.util.Locale)
+	/**
+	 * Sets type note to bibliographic note.
+	 *
+	 * @param type -- the type note to set.
 	 */
-	public List getSecondCorrelationList(short value1) throws DataAccessException {
-		return null;
+	public void setNoteType(final int type) {
+		noteType = type;
+	    note.setNoteType(type);
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#getThirdCorrelationList(short, short, java.util.Locale)
-	 */
-	public List getThirdCorrelationList(short value1, short value2) throws DataAccessException {
-		return null;
-	}
-
-	public char getOverflowIndicator() {
-		return note.getOverflowIndicator();
-	}
-
-	public void setOverflowIndicator(char c) {
-		note.setOverflowIndicator(c);
-	}
-
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
-	 */
-	public void generateNewKey() throws DataAccessException 
+	@Deprecated
+	public void generateNewKey() throws DataAccessException
 	{
-		DAOSystemNextNumber dao = new DAOSystemNextNumber();
-		setNoteNbr(dao.getNextNumber("BN"));
+		/*DAOSystemNextNumber dao = new DAOSystemNextNumber();
+		setNoteNbr(dao.getNextNumber("BN"));*/
 	}
-	
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#getRequiredEditPermission()
+
+	/**
+	 * Gets permission string to compare with authorization agent.
+	 *
+	 * @return "editNote".
 	 */
 	public String getRequiredEditPermission() {
-		return "editNote";
+		return GlobalStorage.NOTE_REQUIRED_PERMISSION;
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#getCorrelationValues()
+	/**
+	 * Gets correlation values of bibliographic note.
+	 *
+	 * @return correlationValues.
 	 */
 	public CorrelationValues getCorrelationValues() {
 		return (new CorrelationValues()).change(1, getNoteType());
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#setCorrelationValues(librisuite.business.common.CorrelationValues)
+	/**
+	 * Sets correlation values to bibliographic note.
+	 *
+	 * @param v -- the correlation values to set.
 	 */
-	public void setCorrelationValues(CorrelationValues v) {
+	public void setCorrelationValues(final CorrelationValues v) {
 		setNoteType(v.getValue(1));		
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.common.Persistence#getDAO()
+	/**
+	 *
+	 * @return the dao associated.
 	 */
-	public HibernateUtil getDAO() {
-		return daoNoteTag;
+	public AbstractDAO getDAO() {
+		return new DAOBibliographicNoteTag();
 	}
 
-	public void breakNotesStringText()
+	/**
+	 * Breaks content note if is an overflow of 1024 characters and split overflows into overflow-list notes of maximum 1000 characters.
+	 */
+	private void breakNotesStringText()
 	{
-		/* bib_nte table can only contain up to 1024 characters; the overflow should be inserted in the bib_nte_ovrfw table in rows of max 1000 characters; */	
 		deletedOverflowList.addAll(getOverflowList());
-
-		// MIKE: overflowList contains only the objects already moved in deletedOverflowList
-		// Only the changed/unchanged/removed objects must be marked for deletion
-		Iterator iter = deletedOverflowList.iterator();
-		while (iter.hasNext()) {
-			BibliographicNoteOverflow noteOverflow = (BibliographicNoteOverflow) iter.next();
+		deletedOverflowList.forEach(noteOverflow -> {
 			if(!noteOverflow.isNew()){
 				noteOverflow.markDeleted();
 			}
-		}
-		
+		});
+
 		setOverflowList(new ArrayList());
-		
-		/* We work about the complete string "$anote+ovrflowa$btext$cother_text_etc" */
-		String content = stringText.toString();
-		
-		/* Standard Note */
-		String standardNote = wrapStandardNote(content, STANDARD_NOTE_MAX_LENGHT);
-		logger.debug("Nota standard --> " + standardNote);
+		final String content = stringText.toString();
+
+        final String standardNote = F.splitString(content, GlobalStorage.STANDARD_NOTE_MAX_LENGHT).stream().findFirst().get();
 		note.setContent(standardNote);
 		note.markChanged();
-		
-		/* Overflow Note */
-		if (standardNote.length()+1<content.length()){
-			wrapNoteOverflow(content.substring(standardNote.length()+1), OVERFLOW_NOTE_MAX_LENGHT, getOverflowList());
-		}
-		
-		for (Iterator iterator = getOverflowList().iterator(); iterator.hasNext();) {
-			BibliographicNoteOverflow item = (BibliographicNoteOverflow) iterator.next();
-			logger.debug("Nota overflow        --> " + item.getStringText());
-			logger.debug("Nota overflow length --> " + item.getStringText().length());
+
+		if (standardNote.length()+1 < content.length()){
+			wrapNoteOverflow(content.substring(standardNote.length()+1), GlobalStorage.OVERFLOW_NOTE_MAX_LENGHT, getOverflowList());
 		}
 	}
-	
-	/**
-	 * Metodo per spezzare la nota standard a 1024 caratteri senza troncare le parole
-	 * @param string
-	 * @param charWrap
-	 * @return
-	 */
-	public static String wrapStandardNote(String string, int charWrap) 
-	{
-	    int lastBreak = 0;
-	    int nextBreak = charWrap;
-	    if (string.length() > charWrap) {
-	        String setString = "";
-            while (string.charAt(nextBreak) != ' ' && nextBreak > lastBreak) {
-                nextBreak--;
-            }
-            if (nextBreak == lastBreak) {
-                nextBreak = lastBreak + charWrap;
-            }
-            setString = string.substring(lastBreak, nextBreak).trim();
-            return setString;
-	    } else {
-	        return string;
-	    }
-	}
-	
-	/**
-	 * Metodo per spezzare la nota overflow a 1000 caratteri senza troncare le parole
-	 * @param string
-	 * @param charWrap
-	 * @param overflowList
-	 */
-	public static void wrapNoteOverflow(String string, int charWrap, List overflowList) 
-	{
-	    int lastBreak = 0;
-	    int nextBreak = charWrap;
-	    BibliographicNoteOverflow overflow = null;
-	    if (string.length() > charWrap) {
-	        String setString = "";
-	        do {
-	            while (string.charAt(nextBreak) != ' ' && nextBreak > lastBreak) {
-	                nextBreak--;
-	            }
-	            if (nextBreak == lastBreak) {
-	                nextBreak = lastBreak + charWrap;
-	            }
-	            setString += string.substring(lastBreak, nextBreak);
-	            
-	            overflow = new BibliographicNoteOverflow();
-	            overflow.setStringText(setString);
-	            overflow.markNew();
-	            overflowList.add(overflow);
 
-	            setString = "";
-	            
-	            lastBreak = nextBreak;
-	            nextBreak += charWrap;
-	        } 
-	        while (nextBreak < string.length());
-	        setString += string.substring(lastBreak);
-	        
-	        if (setString.length()>0){
-	            overflow = new BibliographicNoteOverflow();
-	            overflow.setStringText(setString);
-	            overflow.markNew();
-	            overflowList.add(overflow);
-	        }
-	    } else {
-	    	if (string.length()>0){
-	    		overflow = new BibliographicNoteOverflow();
-	    		overflow.setStringText(string);
-	    		overflow.markNew();
-	    		overflowList.add(overflow);
-	    	}
-        }
-	}
 
+    /**
+     * Split overflow note and sets in overflowList.
+     *
+     * @param inputString -- the overflow string to split.
+     * @param charWrap -- number of chars to split.
+     * @param overflowList -- overflow list to set result.
+     */
+    //TODO: check if a maximum of two overflow notes are allowed
+    public static void wrapNoteOverflow(final String inputString, final int charWrap, final List<BibliographicNoteOverflow> overflowList)
+    {
+        final List<String> overflows = F.splitString(inputString, charWrap);
+        overflowList.addAll(
+                overflows.stream().map(overString -> {
+                    final BibliographicNoteOverflow overflowNote = new BibliographicNoteOverflow();
+                    overflowNote.setStringText(overString);
+                    overflowNote.markNew();
+                    return overflowNote;
+                }).collect(Collectors.toList()));
+    }
+
+    /**
+     *
+     * @return list of overflow.
+     */
 	public List getOverflowList() {
 		return note.overflowList;
 	}
 	
+	@Deprecated
 	public List getOverflowList( int userView)
 	{
-		DAOBibliographicNotesOverflow b = new DAOBibliographicNotesOverflow();
+		/*DAOBibliographicNotesOverflow b = new DAOBibliographicNotesOverflow();
 		try{
 			return b.getBibNotesOverflowList(note.getBibItemNumber(),userView,note.getNoteNbr());
-		} catch(DataAccessException ex) {return null;}
+		} catch(DataAccessException ex) {return null;} */
+		return null;
 	}
 
-	public void setOverflowList(List list) {
+    /**
+     * Sets overflow note list.
+     *
+     * @param list -- the list to set.
+     */
+	public void setOverflowList(final List<BibliographicNoteOverflow> list) {
 		note.setOverflowList(list);
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#correlationChangeAffectsKey(librisuite.business.common.CorrelationValues)
-	 */
-	public boolean correlationChangeAffectsKey(CorrelationValues v) 
+    /**
+     * Checks correlation key value is changed for note tag.
+     *
+     * @param v -- the correlation values.
+     * @return boolean.
+     */
+	public boolean correlationChangeAffectsKey(final CorrelationValues v)
 	{
-		if (v.getValue(1) == BibliographicNote.PUBLISHER_TYPE){
-			setNoteType(v.getValue(1));
+	    final int firstCorrelation = v.getValue(1);
+	    if (firstCorrelation == GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE
+                || firstCorrelation == 381 || firstCorrelation == 382 ||
+                (firstCorrelation >= 410 && firstCorrelation <= 424) ){
+			setNoteType(firstCorrelation);
 			return true;
-		 }else if (v.getValue(1) == 381){
-			 setNoteType(v.getValue(1));
-			return true;
-	    }else if (v.getValue(1) == 382){
-	    	setNoteType(v.getValue(1));
-		   return true;
-	   
-	   }else if (v.getValue(1) >= 410 && v.getValue(1)<= 424 ){
-	    	setNoteType(v.getValue(1));
-		   return true;
-	   }
+		 }
+
 		return false;
 	}
 
+    /**
+     *
+     * @return the bibliographic note associated to note tag.
+     */
 	public BibliographicNote getNote() {
 		return note;
 	}
 
-	public void setNote(BibliographicNote note) {
+    /**
+     * Sets bibliographic note to note tag.
+     *
+     * @param note -- the note to set.
+     */
+	public void setNote(final BibliographicNote note) {
 		this.note = note;
 	}
-	
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#setBibItemNumber(int)
-	 */
-	public void setBibItemNumber(int i) {
-		note.setItemNumber(i);
+
+    /**
+     * Sets amicus number to bibliographic note tag.
+     *
+     * @param an -- the amicus number to set.
+     */
+	public void setBibItemNumber(final int an) {
+		note.setItemNumber(an);
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#setUserViewString(java.lang.String)
-	 */
-	public void setUserViewString(String string) {
-		note.setUserViewString(string);
+    /**
+     * Sets user view string to bibliographic note.
+     *
+     * @param userViewString -- the user view to set.
+     */
+	public void setUserViewString(final String userViewString) {
+		note.setUserViewString(userViewString);
 	}
 
-	public List getDeletedOverflowList() {
+    /**
+     *
+     * @return deleted overflow note list.
+     */
+	public List<BibliographicNoteOverflow> getDeletedOverflowList() {
 		return deletedOverflowList;
 	}
 
-	public void setDeletedOverflowList(List list) {
+    /**
+     * Sets deleted overflow note list.
+     *
+     * @param list -- the list to set.
+     */
+	public void setDeletedOverflowList(final List<BibliographicNoteOverflow> list) {
 		deletedOverflowList = list;
 	}
-	
+
+    /**
+     *
+     * @return true if is note tag.
+     */
 	public boolean isNote() {
 		return true;
 	}
 
+    /**
+     *
+     * @return the user view string associated to tag.
+     */
 	public String getUserViewString() {
 		return note.getUserViewString();
 	}
 
-	/* (non-Javadoc)
-	 * @see TagInterface#setItemNumber(int)
-	 */
+    /**
+     * Sets the item number.
+     *
+     * @param itemNumber -- the item number to set.
+     */
 	public void setItemNumber(int itemNumber){
 		super.setItemNumber(itemNumber);
 		setBibItemNumber(itemNumber);  // also sets the notes
@@ -494,9 +466,6 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
 		return super.toString() +" n. "+ noteNbr+" type: "+noteType;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	public int hashCode() {
 		final int PRIME = 31;
 		int result = super.hashCode();
@@ -504,9 +473,12 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
+    /**
+     * Compares an object with another one.
+     *
+     * @param obj -- the object to compare.
+     * @return true if equals.
+     */
 	public boolean equals(Object obj) 
 	{
 		if (this == obj)
@@ -515,25 +487,41 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
+
 		final BibliographicNoteTag other = (BibliographicNoteTag) obj;
         return noteNbr == other.noteNbr;
     }
 
-	public Descriptor getDescriptor() {
+    /**
+     *
+     * @return note descriptor.
+     */
+    public Descriptor getDescriptor() {
 		return null;
 	}
 
+    /**
+     *
+     * @return variant codes.
+     */
 	public String getVariantCodes() {
 		return null;
 	}
 
+    /**
+     *
+     * @return key associated to note tag.
+     * @throws DataAccessException in case of data access exception.
+     */
 	public String getKey() throws DataAccessException {
 		return getMarcEncoding().getMarcTag();
 	}
-	public void setDefaultNoteType()
+
+	//TODO move in storageService and use configuration module to set nodeType
+	/*public void setDefaultNoteType()
 	{
 		short noteType=0;
 		noteType= new Short(configHandler.findValue("t_bib_nte_typ","bibliographicNote.noteType"));
 		setNoteType(noteType);
-	}
+	}*/
 }

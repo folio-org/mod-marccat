@@ -2164,9 +2164,10 @@ public class ResultSummaryBean extends LibrisuiteBean
 			StringText st = note.getStringText();
 			// Caricamento nota standard
 			if (note.isStandardNoteType()) {
-				Avp valueElement = new DAOBibliographicStandardNote()
+				Avp valueElement = null;
+				/*Avp valueElement = new BibliographicStandardNoteDAO()
 						.getSTDDisplayString(note.getNoteStandard()
-								.getTypeCode(), lingua);
+								.getTypeCode(), lingua);*/
 				// Se trova la nota standard nell'altra lingua setta la nuova
 				if (valueElement != null) {
 					note.setNoteStandard(note.loadNoteStandard(cataloguingView,
