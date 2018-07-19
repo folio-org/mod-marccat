@@ -11,14 +11,17 @@ import org.folio.cataloging.dao.common.HibernateSessionProvider;
 import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
+import org.folio.cataloging.resources.domain.Diacritic;
 import org.folio.cataloging.resources.domain.RecordTemplate;
 import org.folio.cataloging.shared.CodeListsType;
 import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.cataloging.shared.MapDiacritic;
 import org.folio.cataloging.shared.Validation;
 
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.util.Optional.ofNullable;
 import static org.folio.cataloging.F.locale;
@@ -992,4 +995,30 @@ public class StorageService implements Closeable {
         return ofNullable(THIRD_CORRELATION_HEADING_CLASS_MAP.get(category)).isPresent();
     }
 
+    /**
+     * Returns the diacritics associated with the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the diacritics associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<MapDiacritic> getDiacritics(final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        try {
+
+            return  dao.getDiacritics(session).stream().map(diacritic -> {
+                        final MapDiacritic diacriticObject = new MapDiacritic();
+                        diacriticObject.setCode(diacritic.getIdCharacter());
+                        diacriticObject.setDescription(diacritic.getCharacterName());
+                        diacriticObject.setCharacter(diacritic.getCharacter());
+                        diacriticObject.setCharacterSet(diacritic.getSetCharacter());
+                        diacriticObject.setUnicode(diacritic.getUnicodeCode());
+                        return diacriticObject;
+                    }).collect(Collectors.toList());
+
+        }
+        catch (HibernateException e) {
+            throw new DataAccessException();
+        }
+    }
 }
