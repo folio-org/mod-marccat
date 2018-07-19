@@ -3708,7 +3708,7 @@ public class BibliographicEditBean extends EditBean {
 		DAOCodeTable dao = new DAOCodeTable();
 		List diacritici = null;
 		try {
-			return dao.getDiacritici();
+			return dao.getDiacritics();
 		} catch (DataAccessException e) {
 			logger.warn("Error in load table of the diacritics");
 			logger.warn(e);
@@ -3721,17 +3721,17 @@ public class BibliographicEditBean extends EditBean {
 		List diacriticiList = getDiacriticiList();
 		int nRows = diacriticiList.size();
 		for (int r = 0; r < nRows; r++) {
-			Diacritici diacritici = (Diacritici) diacriticiList.get(r);
-			if (isPresent(diacritici, searchString.toLowerCase())) {
-				indexSearchList.add(diacritici);
+			Diacritics diacritics = (Diacritics) diacriticiList.get(r);
+			if (isPresent(diacritics, searchString.toLowerCase())) {
+				indexSearchList.add(diacritics);
 			}
 		}
 		getDiacritici().removeAll(diacriticiList);
 		setDiacriticiList(indexSearchList);
 	}
 
-	private final boolean isPresent(Diacritici diacritici, String searchString) {
-		String element = diacritici.getNomeCarattere();
+	private final boolean isPresent(Diacritics diacritics, String searchString) {
+		String element = diacritics.getCharacterName();
         return element.toLowerCase().indexOf(searchString) >= 0;
     }
 

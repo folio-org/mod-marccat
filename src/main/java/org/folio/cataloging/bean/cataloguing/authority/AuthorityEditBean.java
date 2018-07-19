@@ -468,9 +468,9 @@ public class AuthorityEditBean extends EditBean {
 	}
 
 	// inizio
-	public List getdiacriticiList() throws DataAccessException {
+	public List getDiacriticsList() throws DataAccessException {
 		DAOCodeTable dao = new DAOCodeTable();
-		return dao.getDiacritici();
+		return dao.getDiacritics();
 	}
 
 	// fine

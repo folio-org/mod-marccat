@@ -804,19 +804,23 @@ public class DAOCodeTable extends HibernateUtil {
 		return result;
 	}
 
-	public  List getDiacritici() throws DataAccessException 
+	/**
+	 *
+	 * @param session
+	 * @return
+	 * @throws HibernateException
+	 */
+
+	public  List<Diacritics> getDiacritics(final Session session) throws HibernateException
 	{
-		List listCodeTable = null;
-		
-		try {
-			Session s = currentSession();
-			listCodeTable = s.find("from Diacritici as a order by 1");
-		} catch (HibernateException e) {
-			logAndWrap(e);
-		}
-		logger.debug("Got codetable for Diacritici");
-		
-		return listCodeTable;
+		return session.find("select distinct from Diacritics as a order by 1");
+	}
+
+
+	@Deprecated
+	public  List<Diacritics> getDiacritics() throws DataAccessException
+	{
+		return null;
 	}
 	
 	
@@ -825,7 +829,7 @@ public class DAOCodeTable extends HibernateUtil {
 	 * @return
 	 * @throws DataAccessException
 	 */
-	public  List getDiacriticiDistinctCharacter() throws DataAccessException 
+	public  List getDiacriticsDistinctCharacter() throws DataAccessException
 	{		
 		Session s = currentSession();
 		Statement st = null;
