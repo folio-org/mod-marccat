@@ -7,6 +7,7 @@
  */
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
+import net.sf.hibernate.HibernateException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.common.*;
@@ -676,8 +677,13 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 		for (int i = 0; i < getAccessPoints().size(); i++) {
 			anApf = (PublisherAccessPoint) getAccessPoints().get(i);
 			Descriptor d = anApf.getDescriptor();
-			REF ref = dao.getCrossReferencesWithLanguage(d, cataloguingView,
-					indexingLanguage);
+			REF ref = null;
+			try {
+				ref = dao.getCrossReferencesWithLanguage(d, cataloguingView,
+                        indexingLanguage,null);
+			} catch (HibernateException e) {
+				e.printStackTrace();
+			}
 			if (ref != null) {
 				aTag.markNew();
 				anApf.setDescriptor(dao.load(ref.getTarget(), cataloguingView));
