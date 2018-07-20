@@ -11,6 +11,7 @@ import org.folio.cataloging.dao.common.HibernateSessionProvider;
 import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
+import org.folio.cataloging.resources.domain.Heading;
 import org.folio.cataloging.resources.domain.RecordTemplate;
 import org.folio.cataloging.shared.CodeListsType;
 import org.folio.cataloging.shared.CorrelationValues;
@@ -991,5 +992,32 @@ public class StorageService implements Closeable {
     public boolean existFunctionCodeByCategory(final int category){
         return ofNullable(THIRD_CORRELATION_HEADING_CLASS_MAP.get(category)).isPresent();
     }
+
+
+    public List<Heading> getFirstPage(final String searchBrowseTerm, final int cataloguingView, final int mainLibrary, final String lang){
+       //TODO Recuperare il descrittore corretto dalla daoMap in base all'indice
+        DAODescriptor dao = new TitleDescriptorDAO();
+        //TODO a questa lista va aggiornata con altre informazioni mancanti
+        //TODO il metodo getHeadingsBySortform va chiamato due volte (operatore < per il primo elemento e operatore >= per 10 elementi)
+      //  try {
+           return null;
+          //return dao.getHeadingsBySortform(">=", "",searchBrowseTerm, "", cataloguingView, 1, session);
+       /* } catch (final HibernateException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+            throw new DataAccessException(exception);
+        }*/
+
+
+    }
+
+    public List<Heading> getNextHeadings(final String searchBrowseTerm, final int cataloguingView, final int mainLibrary, final String lang){
+        //DAODescriptor dao =
+        return null;
+    }
+    public List<Heading> getPreviousHeadings(final String searchBrowseTerm, final int cataloguingView, final int mainLibrary, final String lang){
+        //DAODescriptor dao =
+        return null;
+    }
+
 
 }

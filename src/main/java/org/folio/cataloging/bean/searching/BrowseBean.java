@@ -142,7 +142,7 @@ public class BrowseBean extends SearchBean {
 	public void closeNestedOperation(int mainLibraryForShelfList) throws DataAccessException, InvalidBrowseIndexException 
 	{
 		setSelectedIndex(retrieveSelectedIndex());
-		getBrowseManager().setBrowseIndex(retrieveBrowseIndex(), mainLibraryForShelfList);
+		getBrowseManager(). setBrowseIndex(retrieveBrowseIndex(), mainLibraryForShelfList);
 		popBrowseLinkMethod();
 	}
 
