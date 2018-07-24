@@ -169,4 +169,8 @@ public abstract class F {
         }
         return result;
     }
+
+    public static void test(){
+
+    }
 }
