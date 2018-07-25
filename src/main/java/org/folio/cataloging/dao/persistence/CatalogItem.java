@@ -19,7 +19,12 @@ import org.folio.cataloging.integration.log.MessageCatalogStorage;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.model.Subfield;
 import org.folio.cataloging.shared.Validation;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
@@ -48,6 +53,31 @@ public abstract class CatalogItem implements Serializable {
     private static final Comparator<Tag> tagComparator =
             (Tag tag1, Tag tag2) -> (tag1.getMarcEncoding().getMarcTag().compareTo(tag2.getMarcEncoding().getMarcTag()));
 
+
+	/**
+	 * This method creates a MarcSlim XML Element for this item
+	 * @return an Element
+	 */
+	public Document toExternalMarcSlim() {
+		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder documentBuilder = null;
+		Document xmlDocument = null;
+		try {
+			documentBuilder = documentBuilderFactory.newDocumentBuilder();
+			xmlDocument = documentBuilder.newDocument();
+		} catch (ParserConfigurationException parserConfigurationException) {
+			logger.error("", parserConfigurationException);
+			//throw new XmlParserConfigurationException(parserConfigurationException);
+		}
+		Element record = xmlDocument.createElement("record");
+		for (Object t : tags) {
+			Tag tag = (Tag) t;
+			logger.debug("appending " + tag);
+			record.appendChild(tag.toExternalMarcSlim(xmlDocument));
+		}
+		xmlDocument.appendChild(record);
+		return xmlDocument;
+	}
 
 	@Deprecated
 	public void addAllTags(Tag[] tags) {

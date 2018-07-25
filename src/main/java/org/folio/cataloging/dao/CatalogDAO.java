@@ -38,18 +38,8 @@ import static java.util.Optional.ofNullable;
 
 public abstract class CatalogDAO extends AbstractDAO {
 	private static Log logger = new Log(CatalogDAO.class);
-	private CasCache casCache;
 
-	public CasCache getCasCache() {
-		return casCache;
-	}
-
-	public void setCasCache(CasCache cas) {
-		this.casCache = cas;
-	}
-
-	public abstract CatalogItem getCatalogItemByKey(int ... key) throws DataAccessException;
-	abstract public CatalogItem getCatalogItemByKey(Object[] key) throws DataAccessException;
+	public abstract CatalogItem getCatalogItemByKey(Session session, int ... key) throws DataAccessException;
 
 	/**
 	 * Delete each tag, bibliographic item and model item from db.
@@ -77,7 +67,7 @@ public abstract class CatalogDAO extends AbstractDAO {
 		session.delete(item.getModelItem());
 		transaction.commit();
 	}
-
+	abstract void updateFullRecordCacheTable(Session session, CatalogItem item) throws DataAccessException;
 	abstract protected void updateCacheTable(final CatalogItem item, final Session session) throws DataAccessException;
 
 	abstract protected void insertDeleteTable(final CatalogItem item, final UserProfile user) throws DataAccessException;

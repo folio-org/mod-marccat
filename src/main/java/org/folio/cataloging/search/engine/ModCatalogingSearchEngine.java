@@ -1,9 +1,9 @@
 package org.folio.cataloging.search.engine;
 
 import org.folio.cataloging.Global;
-import org.folio.cataloging.business.cataloguing.common.CatalogItem;
 import org.folio.cataloging.business.common.RecordNotFoundException;
 import org.folio.cataloging.business.common.View;
+import org.folio.cataloging.dao.persistence.CatalogItem;
 import org.folio.cataloging.exception.ModCatalogingException;
 import org.folio.cataloging.integration.StorageService;
 import org.folio.cataloging.log.Log;

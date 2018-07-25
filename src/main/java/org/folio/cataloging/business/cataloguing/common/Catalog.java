@@ -106,7 +106,8 @@ public abstract class Catalog {
 			CorrelationValues correlationValues) throws NewTagException;
 
 	public CatalogItem getCatalogItem(final int ... key) throws DataAccessException {
-		final CatalogItem b = getCatalogDao().getCatalogItemByKey(key);
+		// FIXME: In case this method is needed the following line should be moved on the persistence layer.
+		final CatalogItem b = getCatalogDao().getCatalogItemByKey(null, key);
 
 		for (int i = 0; i < b.getNumberOfTags(); i++) {
 			try {

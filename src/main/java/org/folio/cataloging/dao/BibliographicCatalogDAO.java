@@ -5,14 +5,9 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
 import net.sf.hibernate.type.Type;
-import org.folio.cataloging.bean.cataloguing.bibliographic.PhysicalDescription;
 import org.folio.cataloging.business.cataloguing.bibliographic.*;
 import org.folio.cataloging.business.cataloguing.common.Tag;
-import org.folio.cataloging.business.common.CacheUpdateException;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.RecordNotFoundException;
-import org.folio.cataloging.business.common.PersistentObjectWithView;
-import org.folio.cataloging.business.common.View;
+import org.folio.cataloging.business.common.*;
 import org.folio.cataloging.business.controller.UserProfile;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.dao.persistence.*;
@@ -62,9 +57,7 @@ public class BibliographicCatalogDAO extends CatalogDAO
 	public BibliographicItem getBibliographicItemByAmicusNumber(final int amicusNumber, final int userView, final Session session) throws HibernateException {
 		BibliographicItem item = getBibliographicItemWithoutRelationships(amicusNumber, userView, session);
 		item.getTags().addAll(getBibliographicRelationships(amicusNumber, userView, session));
-		item.getTags().forEach(tag -> {
-			tag.setTagImpl(new BibliographicTagImpl());
-		});
+		item.getTags().forEach(tag -> tag.setTagImpl(new BibliographicTagImpl()));
 		return item;
 	}
 
@@ -90,19 +83,20 @@ public class BibliographicCatalogDAO extends CatalogDAO
 		org.w3c.dom.Document d = item.toExternalMarcSlim();
 		cache.setRecordData(XmlUtils.documentToString(d));
 		cache.markChanged();
-		logger.debug(cache);
-		logger.debug("Slim record: " + cache.getRecordData());
 		persistByStatus(cache);
 		cache.evict();
-		if (updateRelatedRecs) {
-			for (Object o : item.getTags()) {
-				if (o instanceof BibliographicRelationshipTag) {
-					BibliographicRelationshipTag t = (BibliographicRelationshipTag) o;
-					CatalogItem relItem = getBibliographicItemByAmicusNumber(t
-							.getTargetBibItemNumber(), item.getUserView());
-					updateFullRecordCacheTable(session, relItem, false);
+		try {
+			if (updateRelatedRecs) {
+				for (Object o : item.getTags()) {
+					if (o instanceof BibliographicRelationshipTag) {
+						BibliographicRelationshipTag t = (BibliographicRelationshipTag) o;
+						CatalogItem relItem = getBibliographicItemByAmicusNumber(t.getTargetBibItemNumber(), item.getUserView(), session);
+						updateFullRecordCacheTable(session, relItem, false);
+					}
 				}
 			}
+		} catch (final HibernateException exception) {
+			throw new DataAccessException(exception);
 		}
 	}
 
@@ -568,11 +562,16 @@ public class BibliographicCatalogDAO extends CatalogDAO
 
 
     @Override
-    public CatalogItem getCatalogItemByKey(final Session session, final int ... key) throws HibernateException {
+    public CatalogItem getCatalogItemByKey(final Session session, final int ... key) throws DataAccessException {
         int id = key[0];
         int cataloguingView = key[1];
-        return getBibliographicItemByAmicusNumber(id, cataloguingView, session);
-    }
+
+		try {
+			return getBibliographicItemByAmicusNumber(id, cataloguingView, session);
+		} catch (final HibernateException exception) {
+			throw new DataAccessException(exception);
+		}
+	}
 
     public CatalogItem getCatalogItemByKey(final Object[] key, final Session session) throws HibernateException {
         int id = (Integer)key[0];

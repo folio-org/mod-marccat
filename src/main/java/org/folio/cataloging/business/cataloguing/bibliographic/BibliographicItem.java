@@ -1,18 +1,14 @@
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
-import org.folio.cataloging.business.cataloguing.common.CatalogItem;
-import org.folio.cataloging.business.cataloguing.common.ItemEntity;
 import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.cataloguing.common.TagImpl;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.persistence.ModelItem;
-import org.folio.cataloging.dao.persistence.OrderNames;
 import org.folio.cataloging.dao.DAOOrderNames;
 import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.exception.MandatoryTagException;
+import org.folio.cataloging.log.Log;
 import org.folio.cataloging.search.XmlRecord;
 import org.folio.cataloging.search.domain.Record;
-import org.folio.cataloging.log.Log;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -189,7 +185,8 @@ public class BibliographicItem extends CatalogItem implements Serializable
 	private List getOrderableNameTags() throws DataAccessException 
 	{
 		if (nameOrderTags == null) {
-			nameOrderTags = new DAOOrderNames().getOrderNames();
+			// FIXME: this takes a session so that means it should be moved on the persistence layer.
+			nameOrderTags = new DAOOrderNames().getOrderNames(null);
 		}
 		return nameOrderTags;
 	}

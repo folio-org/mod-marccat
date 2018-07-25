@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
-import org.folio.cataloging.business.cataloguing.common.CatalogItem;
 import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.RecordNotFoundException;
@@ -1072,11 +1071,11 @@ public class StorageService implements Closeable {
      * @return the {@link CatalogItem} associated with the given data.
      */
     public CatalogItem getCatalogItemByKey(final int itemNumber, final int searchingView) {
-        switch(searchingView) {
+        switch (searchingView) {
             case View.AUTHORITY:
-                return new AuthorityCatalogDAO().getCatalogItemByKey(itemNumber, searchingView);
+                return new AuthorityCatalogDAO().getCatalogItemByKey(session, itemNumber, searchingView);
             default:
-                return new BibliographicCatalogDAO().getCatalogItemByKey(itemNumber, searchingView);
+                return new BibliographicCatalogDAO().getCatalogItemByKey(session, itemNumber, searchingView);
         }
     }
 

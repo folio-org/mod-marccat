@@ -7,10 +7,8 @@
  */
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
-import org.folio.cataloging.bean.cataloguing.bibliographic.PhysicalDescription;
-import org.folio.cataloging.dao.DAOSystemNextNumber;
 import org.folio.cataloging.business.common.DataAccessException;
-
+import org.folio.cataloging.dao.DAOSystemNextNumber;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
