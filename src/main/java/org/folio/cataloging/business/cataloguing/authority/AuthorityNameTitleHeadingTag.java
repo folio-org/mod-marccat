@@ -11,7 +11,6 @@ import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.DAOAuthorityCorrelation;
 import org.folio.cataloging.dao.persistence.NME_TTL_HDG;
 import org.folio.cataloging.dao.persistence.NameSubType;
-import org.folio.cataloging.dao.persistence.NameType;
 import org.folio.cataloging.shared.CorrelationValues;
 
 import java.util.List;
@@ -41,13 +40,16 @@ public class AuthorityNameTitleHeadingTag extends AuthorityHeadingTag {
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#getFirstCorrelationList(java.util.Locale)
 	 */
+	@Deprecated
 	public List getFirstCorrelationList() throws DataAccessException {
-		return getDaoCodeTable().getList(NameType.class,false);
+		//return getDaoCodeTable().getList(NameType.class,false);
+		return null;
 	}
 
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#getSecondCorrelationList(short, java.util.Locale)
 	 */
+	@Deprecated
 	public List getSecondCorrelationList(short value1)
 		throws DataAccessException {
 		DAOAuthorityCorrelation dao = new DAOAuthorityCorrelation();

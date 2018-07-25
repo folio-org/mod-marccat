@@ -1,8 +1,7 @@
 package org.folio.cataloging.business.cataloguing.authority;
 
-import org.folio.cataloging.business.cataloguing.common.Leader;
 import org.folio.cataloging.dao.persistence.AUT;
-
+import org.folio.cataloging.dao.persistence.Leader;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

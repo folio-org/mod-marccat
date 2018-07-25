@@ -1,7 +1,7 @@
 package org.folio.cataloging.dao.persistence;
 
+import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.AuthorityModelDAO;
-import org.folio.cataloging.dao.common.HibernateUtil;
 
 /**
  * Represents a Model/Template for of authority type
@@ -68,7 +68,7 @@ public class AuthorityModel extends Model {
 	 * @return the dao
 	 */
 	@Deprecated
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return null;
 	}
 }

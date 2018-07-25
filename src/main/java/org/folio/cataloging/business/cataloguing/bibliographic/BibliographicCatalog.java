@@ -5,10 +5,7 @@ import org.folio.cataloging.business.common.*;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.PublisherTagDescriptor;
 import org.folio.cataloging.dao.*;
-import org.folio.cataloging.dao.persistence.Model;
-import org.folio.cataloging.dao.persistence.PUBL_HDG;
-import org.folio.cataloging.dao.persistence.PUBL_TAG;
-import org.folio.cataloging.dao.persistence.T_BIB_TAG_CAT;
+import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.exception.ValidationException;
 import org.folio.cataloging.shared.CorrelationValues;
 
@@ -293,7 +290,7 @@ public class BibliographicCatalog extends Catalog {
 
 	// TODO: Is this method still in use?
 	public void transferItems(Descriptor source, Descriptor target) throws DataAccessException {
-		CATALOG_DAO.transferItems(source, target);
+		/*CATALOG_DAO.transferItems(source, target);*/
 	}
 	
 	public void attachEquivalentSubjects(final BibliographicItem item) throws DataAccessException {

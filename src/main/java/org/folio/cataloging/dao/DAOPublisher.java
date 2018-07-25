@@ -1,17 +1,15 @@
 package org.folio.cataloging.dao;
 
-import java.util.List;
-
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.persistence.PublCdeHdg;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Query;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.dao.persistence.PublCdeHdg;
 
-import org.folio.cataloging.dao.common.HibernateUtil;
+import java.util.List;
 
-public class DAOPublisher extends HibernateUtil {
+public class DAOPublisher extends AbstractDAO {
 
 	public DAOPublisher(){ 
 		super();		

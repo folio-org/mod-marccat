@@ -6,7 +6,6 @@ import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.ReferentialIntegrityException;
-import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.persistence.ModelItem;
 
 import java.util.List;
@@ -19,7 +18,7 @@ import java.util.Objects;
  * @author carment
  * @since 1.0
  */
-public abstract class ModelItemDAO extends HibernateUtil {
+public abstract class ModelItemDAO extends AbstractDAO {
 
 	/**
 	 * Delete a model item.

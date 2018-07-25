@@ -9,14 +9,13 @@ package org.folio.cataloging.business.cataloguing.authority;
 
 import org.folio.cataloging.business.cataloguing.bibliographic.PersistsViaItem;
 import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
-import org.folio.cataloging.business.cataloguing.common.ItemEntity;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
 import org.folio.cataloging.dao.DAOSystemNextNumber;
 import org.folio.cataloging.dao.persistence.AUT;
-import org.folio.cataloging.dao.persistence.T_AUT_NTE_TYP;
+import org.folio.cataloging.dao.persistence.ItemEntity;
 import org.folio.cataloging.model.Subfield;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
@@ -69,6 +68,7 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
 		setNoteNumber(dao.getNextNumber("AN"));
 	}
 
+
 	/* (non-Javadoc)
 	 * @see TagInterface#getCategory()
 	 */
@@ -83,11 +83,10 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
 		return new CorrelationValues().change(1, getNoteType());
 	}
 
-	/* (non-Javadoc)
-	 * @see TagInterface#getFirstCorrelationList()
-	 */
+	@Deprecated
 	public List getFirstCorrelationList() throws DataAccessException {
-		return getDaoCodeTable().getList(T_AUT_NTE_TYP.class,true);
+		// return getDaoCodeTable().getList(T_AUT_NTE_TYP.class,true);
+		return null;
 	}
 
 	/* (non-Javadoc)

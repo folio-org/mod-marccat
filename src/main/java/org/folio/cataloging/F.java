@@ -1,5 +1,6 @@
 package org.folio.cataloging;
 
+import org.folio.cataloging.integration.GlobalStorage;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 
@@ -11,7 +12,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Booch utility which acts as a central points for collecting static functions.
@@ -57,6 +61,7 @@ public abstract class F {
 
     /**
      * Adds blank spaces to the given string until it reaches the given length.
+     *
      * @param toPad	the string to pad.
      * @param padLength the padding length.
      * @return the padded string.
@@ -130,17 +135,12 @@ public abstract class F {
         return (obj != null) ? String.valueOf(obj) : null;
     }
 
-    /**
-     *
-     * @param s
-     * @return
-     */
     public static Character characterFromXML(String s) {
         if (s.length() == 0) {
             return null;
         }
         else {
-            return new Character(s.charAt(0));
+            return s.charAt(0);
         }
     }
 
@@ -156,5 +156,34 @@ public abstract class F {
     public static String getFormattedDate(final String formatString) {
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formatString);
         return LocalDate.now().format(formatter);
+    }
+
+    /**
+     * Fix empty flag string.
+     *
+     * @param flag -- the string flag to fix.
+     * @return fixed string.
+     */
+    public static String fixEmptyFlag(final String flag){
+        return GlobalStorage.YES_FLAG.equalsIgnoreCase(flag)? flag.toUpperCase() :GlobalStorage.NO_FLAG;
+    }
+
+    /**
+     * Split string over multiple lines if exceed of specified number chars.
+     *
+     * @param inputString -- the input string to split.
+     * @param lineSize -- the number of chars used to split string.
+     * @return list of string.
+     */
+    public static List<String> splitString(final String inputString, final int lineSize) {
+        List<String> result = new ArrayList<>();
+
+        Pattern p = Pattern.compile("\\b.{1," + (lineSize-1) + "}\\b\\W?");
+        Matcher m = p.matcher(inputString);
+
+        while(m.find()) {
+            result.add(m.group());
+        }
+        return result;
     }
 }

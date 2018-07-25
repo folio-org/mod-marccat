@@ -1,15 +1,13 @@
 package org.folio.cataloging.dao.persistence;
 
-import java.io.Serializable;
-
 import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.Session;
-
-import org.folio.cataloging.dao.common.HibernateUtil;
-
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
+import org.folio.cataloging.dao.AbstractDAO;
+
+import java.io.Serializable;
 
 public class S_LCK_TBL implements Persistence, Serializable {
 	static final long serialVersionUID = 1;
@@ -48,10 +46,10 @@ public class S_LCK_TBL implements Persistence, Serializable {
 	}
 
 	public void generateNewKey() throws DataAccessException {
-		; //do nothing
+        //do nothing
 	}
 
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return persistenceState.getDAO();
 	}
 

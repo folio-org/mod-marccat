@@ -7,7 +7,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.cataloguing.authority.*;
 import org.folio.cataloging.business.cataloguing.bibliographic.PersistsViaItem;
-import org.folio.cataloging.business.cataloguing.common.CatalogItem;
 import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.RecordNotFoundException;
@@ -17,6 +16,7 @@ import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.util.XmlUtils;
 import org.w3c.dom.Document;
+import org.folio.cataloging.dao.persistence.*;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -258,7 +258,7 @@ public class AuthorityCatalogDAO extends CatalogDAO {
 	/* (non-Javadoc)
 	 * @see CatalogDAO#updateCacheTable(CatalogItem)
 	 */
-	protected void updateCacheTable(CatalogItem item)
+	protected void updateCacheTable(CatalogItem item, Session session)
 		throws DataAccessException {
 		// do nothing -- Authorities don't have a cache table (yet)
 	}

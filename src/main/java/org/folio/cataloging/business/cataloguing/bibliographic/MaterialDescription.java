@@ -2,11 +2,10 @@ package org.folio.cataloging.business.cataloguing.bibliographic;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.cataloguing.common.ItemEntity;
 import org.folio.cataloging.business.common.*;
+import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAOSystemNextNumber;
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.dao.persistence.T_BIB_HDR;
+import org.folio.cataloging.dao.persistence.ItemEntity;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -951,7 +950,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 	/* (non-Javadoc)
 	 * @see librisuite.business.common.Persistence#getDAO()
 	 */
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return getPersistenceState().getDAO();
 	}
 
@@ -1222,11 +1221,14 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 		getBibItm().setItemRecordTypeCode(c);
 	}
 
-	public List getFirstCorrelationList() throws DataAccessException 
+	@Deprecated
+	public List getFirstCorrelationList() throws DataAccessException
 	{
-		if(getMaterialDescription008Indicator() == '1')
+		/*if(getMaterialDescription008Indicator() == '1')
 		  return daoCodeTable.getListFromTag008(T_BIB_HDR.class,"008",false);
 		else 
-		  return daoCodeTable.getListFromWithoutTag008(T_BIB_HDR.class,"008",false);
+		  return daoCodeTable.getListFromWithoutTag008(T_BIB_HDR.class,"008",false);*/
+
+		return null;
 	}
 }

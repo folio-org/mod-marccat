@@ -6,7 +6,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 import org.folio.cataloging.dao.persistence.CLCTN_CST_RULE;
 import org.folio.cataloging.dao.persistence.CLCTN_RULE_TMP;
@@ -20,7 +19,7 @@ import java.util.Locale;
 
 // TODO: Javadoc
 // TODO: Must be used within the StorageService
-public class DAOCollectionRuleCST extends HibernateUtil  {
+public class DAOCollectionRuleCST extends AbstractDAO  {
 	private static Log logger = LogFactory.getLog(DAOCollectionRuleCST.class);
 	
 	public DAOCollectionRuleCST() {

@@ -12,7 +12,7 @@ import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
-import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.AbstractDAO;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -307,7 +307,7 @@ public class SerialPart implements Persistence, Serializable {
 	 * 
 	 * @since 1.0
 	 */
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return persistenceState.getDAO();
 	}
 

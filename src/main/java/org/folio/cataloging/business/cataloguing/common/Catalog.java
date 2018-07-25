@@ -10,6 +10,8 @@ import org.folio.cataloging.business.controller.UserProfile;
 import org.folio.cataloging.dao.CatalogDAO;
 import org.folio.cataloging.dao.DAOCodeTable;
 import org.folio.cataloging.dao.ModelDAO;
+import org.folio.cataloging.dao.persistence.CatalogItem;
+import org.folio.cataloging.dao.persistence.ItemEntity;
 import org.folio.cataloging.dao.persistence.Model;
 import org.folio.cataloging.exception.RecordInUseException;
 import org.folio.cataloging.exception.ValidationException;
@@ -28,6 +30,8 @@ import java.util.Map;
  * @author agazzarini
  * @since 1.0
  */
+
+//TODO: evaluate if need to use this class
 public abstract class Catalog {
 
 	private final Log logger = LogFactory.getLog(getClass());
@@ -152,10 +156,12 @@ public abstract class Catalog {
 
 	abstract public void addRequiredTagsForModel(CatalogItem item) throws NewTagException;
 
+	@Deprecated
 	public void deleteCatalogItem(CatalogItem item,UserProfile user) throws DataAccessException {
-		getCatalogDao().deleteCatalogItem(item, user);
+		//getCatalogDao().deleteCatalogItem(item, user);
 	}
 
+	@Deprecated
 	public void saveCatalogItem(CatalogItem item) throws DataAccessException, ValidationException {
 		item.validate();
 		getCatalogDao().saveCatalogItem(item);

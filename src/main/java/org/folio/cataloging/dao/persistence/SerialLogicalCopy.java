@@ -7,22 +7,21 @@
  */
 package org.folio.cataloging.dao.persistence;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.folio.cataloging.dao.DAOSystemNextNumber;
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
 import org.folio.cataloging.business.common.RecordNotFoundException;
-import org.folio.cataloging.dao.DAOShelfList;
 import org.folio.cataloging.business.serialControl.SubscriptionConfigurationException;
 import org.folio.cataloging.business.serialControl.SubscriptionNeedsShelfException;
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
+import org.folio.cataloging.dao.AbstractDAO;
+import org.folio.cataloging.dao.DAOShelfList;
+import org.folio.cataloging.dao.DAOSystemNextNumber;
 
-import org.folio.cataloging.dao.common.HibernateUtil;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author paulm
@@ -103,7 +102,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	 * 
 	 * @since 1.0
 	 */
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return persistenceState.getDAO();
 	}
 
@@ -465,7 +464,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 		this.loanPeriod = loanPeriod;
 	}
 
-	public Character getShelfListType() throws RecordNotFoundException, DataAccessException {
+	public Character getShelfListType() throws DataAccessException {
 		Character result = null;
 		if (getShelfList() != null) {
 			result = new Character(getShelfList().getTypeCode());
@@ -473,7 +472,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 		return result;
 	}
 
-	public String getShelfListNumber() throws RecordNotFoundException, DataAccessException {
+	public String getShelfListNumber() throws DataAccessException {
 		String result = null;
 		if (getShelfList() != null) {
 			result = getShelfList().getDisplayText();
@@ -485,9 +484,9 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	 * @throws DataAccessException 
 	 * @throws RecordNotFoundException 
 	 */
-	public SHLF_LIST getShelfList() throws RecordNotFoundException, DataAccessException {
+	public SHLF_LIST getShelfList() throws DataAccessException {
 		if (shelfList == null && shelfListKeyNumber != null) {
-			shelfList = (SHLF_LIST)new DAOShelfList().load(shelfListKeyNumber.intValue());
+			shelfList = new DAOShelfList().load(shelfListKeyNumber.intValue());
 		}
 		return shelfList;
 	}

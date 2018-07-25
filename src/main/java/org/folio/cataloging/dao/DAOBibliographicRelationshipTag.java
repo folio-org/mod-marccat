@@ -18,7 +18,6 @@ import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicRela
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.UpdateStatus;
-import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 import org.folio.cataloging.dao.persistence.BibliographicRelationReciprocal;
 
@@ -28,7 +27,7 @@ import java.util.List;
  * @version $Revision: 1.6 $ $Date: 2007/04/09 09:58:07 $
  * @since 1.0
  */
-public class DAOBibliographicRelationshipTag extends HibernateUtil {
+public class DAOBibliographicRelationshipTag extends AbstractDAO {
 	private static final Log logger =
 		LogFactory.getLog(BibliographicRelationshipTag.class);
 	/* (non-Javadoc)

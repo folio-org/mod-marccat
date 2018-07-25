@@ -14,14 +14,12 @@ import org.folio.cataloging.dao.persistence.REF;
 import org.folio.cataloging.dao.persistence.ReferenceType;
 import org.folio.cataloging.dao.persistence.T_DUAL_REF;
 
-import org.folio.cataloging.dao.common.HibernateUtil;
-
 /**
  * @author paulm
  * @version $Revision: 1.4 $, $Date: 2006/01/11 13:36:22 $
  * @since 1.0
  */
-public class DAOAuthorityReferenceTag extends HibernateUtil {
+public class DAOAuthorityReferenceTag extends AbstractDAO {
 
 	/* (non-Javadoc)
 	 * @see HibernateUtil#delete(librisuite.business.common.Persistence)

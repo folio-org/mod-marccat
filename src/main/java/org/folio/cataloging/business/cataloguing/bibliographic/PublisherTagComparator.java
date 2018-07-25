@@ -1,24 +1,16 @@
-/*
- * (c) LibriCore
- * 
- * Created on Dec 24, 2004
- * 
- * PublisherAccessPointComparator.java
- */
 package org.folio.cataloging.business.cataloguing.bibliographic;
-
-import java.util.Comparator;
 
 import org.folio.cataloging.dao.persistence.PUBL_TAG;
 
+import java.util.Comparator;
+
 /**
  * @author paulm
- * @version $Revision: 1.1 $, $Date: 2009/12/14 22:24:41 $
  * @since 1.0
  */
-public class PublisherTagComparator implements Comparator/*<PUBL_TAG>*/ {
+public class PublisherTagComparator implements Comparator {
 
-	public int compare(Object arg0, Object arg1) {
+	public int compare(final Object arg0, final Object arg1) {
 		PUBL_TAG tm1 = (PUBL_TAG) arg0;
 		PUBL_TAG tm2 = (PUBL_TAG) arg1;
 		int i = tm1.getSequenceNumber();

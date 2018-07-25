@@ -1,19 +1,17 @@
 package org.folio.cataloging.dao.persistence;
 
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.Persistence;
+import org.folio.cataloging.business.common.PersistenceState;
+import org.folio.cataloging.dao.AbstractDAO;
+import org.folio.cataloging.dao.DAOCasDigAdmin;
+
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
-
-import org.folio.cataloging.dao.DAOCasDigAdmin;
-import org.folio.cataloging.dao.common.HibernateUtil;
-
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Persistence;
-import org.folio.cataloging.business.common.PersistenceState;
 
 public class DigitalDOC implements Persistence {
 
@@ -41,10 +39,10 @@ public class DigitalDOC implements Persistence {
 	}
 
 	public void evict() throws DataAccessException {
-		evict((Object)this);
+		evict(this);
 	}
 	
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return dao;
 	}
 
@@ -67,10 +65,8 @@ public class DigitalDOC implements Persistence {
 		if (getClass() != obj.getClass())
 			return false;
 		final DigitalDOC other = (DigitalDOC) obj;
-		if (relativePath+fileName != other.relativePath+other.fileName)
-			return false;
-		return true;
-	}
+        return relativePath + fileName == other.relativePath + other.fileName;
+    }
 
 	public boolean isChanged() {
 		return persistenceState.isChanged();

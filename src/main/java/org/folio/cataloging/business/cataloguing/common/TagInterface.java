@@ -11,7 +11,6 @@ import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.PersistenceState;
-import org.folio.cataloging.dao.DAOCodeTable;
 import org.folio.cataloging.dao.persistence.CorrelationKey;
 import org.folio.cataloging.exception.ValidationException;
 import org.folio.cataloging.shared.CorrelationValues;
@@ -68,7 +67,7 @@ public interface TagInterface {
 	 */
 	int getCorrelation(int i);
 	CorrelationValues getCorrelationValues();
-	DAOCodeTable getDaoCodeTable();
+
 	/**
 	 * override when displayed tag category differs from the correlation category
 	 * 
@@ -83,11 +82,13 @@ public interface TagInterface {
 	 * @since 1.0
 	 */
     boolean getDisplaysHeadingType();
-	/**
+
+    /**
 	 * @return the first correlation list for this tag
 	 * entry
 	 */
-    List getFirstCorrelationList() throws DataAccessException;
+    //nat: List getFirstCorrelationList() throws DataAccessException;
+
 	/**
 	 * provides abstract access to item identifier (bib or aut)
 	 * 
@@ -99,8 +100,7 @@ public interface TagInterface {
 	 * @return the MARC tag and indicators for this tag
 	 *
 	 */
-    CorrelationKey getMarcEncoding()
-		throws DataAccessException;
+    CorrelationKey getMarcEncoding() throws DataAccessException;
 	/**
 	 * 
 	 * @since 1.0

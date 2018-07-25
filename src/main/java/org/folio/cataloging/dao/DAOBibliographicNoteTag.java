@@ -7,25 +7,23 @@
  */
 package org.folio.cataloging.dao;
 
-import java.util.Iterator;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicNote;
 import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicNoteOverflow;
 import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicNoteTag;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.UpdateStatus;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.dao.persistence.StandardNoteAccessPoint;
-import org.folio.cataloging.dao.common.HibernateUtil;
+
+import java.util.Iterator;
 /**
   * @author hansv
  * @version $Revision: 1.4 $ $Date: 2005/12/21 08:30:32 $
  * @since 1.0
  */
-public class DAOBibliographicNoteTag extends HibernateUtil {
+public class DAOBibliographicNoteTag extends AbstractDAO {
 	private static final Log logger = LogFactory.getLog(BibliographicNoteTag.class);
 	/* (non-Javadoc)
 	 * @see HibernateUtil#delete(librisuite.business.common.Persistence)

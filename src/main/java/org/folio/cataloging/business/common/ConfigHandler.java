@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- * 
- * Created on Aug 13, 2004
- * 
- * Defaults.java
- */
 package org.folio.cataloging.business.common;
 
 import org.folio.cataloging.dao.DAOGlobalVariable;
@@ -15,7 +8,6 @@ import java.util.Hashtable;
 /**
  * provides access to default values from S_SYS_GLBL_VRBL
  * @author carmen
- * @version $Revision: 1.0 $, $Date: 2012/30/07 10:01:06 $
  * @since 1.0
  */
 public class ConfigHandler implements Serializable{

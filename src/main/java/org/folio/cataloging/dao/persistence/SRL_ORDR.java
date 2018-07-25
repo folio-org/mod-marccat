@@ -1,27 +1,22 @@
 package org.folio.cataloging.dao.persistence;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-
-import org.folio.cataloging.dao.DAOSystemNextNumber;
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.OrderConfigurationException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
 import org.folio.cataloging.business.serialControl.DuplicateVendorException;
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
+import org.folio.cataloging.dao.AbstractDAO;
+import org.folio.cataloging.dao.DAOSystemNextNumber;
 import org.folio.cataloging.dao.common.HibernateUtil;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class SRL_ORDR implements Persistence, Serializable {
 	/**
@@ -182,7 +177,7 @@ public class SRL_ORDR implements Persistence, Serializable {
 	 * @return
 	 * @see PersistenceState#getDAO()
 	 */
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return persistenceState.getDAO();
 	}
 

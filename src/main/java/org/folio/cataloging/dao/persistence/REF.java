@@ -4,9 +4,9 @@ import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.*;
 import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAOCrossReferences;
 import org.folio.cataloging.dao.DAODescriptor;
-import org.folio.cataloging.dao.common.HibernateUtil;
 
 import java.io.Serializable;
 
@@ -19,7 +19,7 @@ import java.io.Serializable;
  */
 public abstract class REF extends PersistenceState implements Serializable, Cloneable, PersistentObjectWithView 
 {
-	private static final DAOCrossReferences theDAO = new DAOCrossReferences();
+
 	private REF_KEY key = new REF_KEY();
 	private Character printConstant;
 	private Character noteGeneration;
@@ -130,8 +130,8 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
 	public Character getAuthorityStructure() {
 		return authorityStructure;
 	}
-	public HibernateUtil getDAO() {
-		return theDAO;
+	public AbstractDAO getDAO() {
+		return new DAOCrossReferences();
 	}
 	public Character getEarlierRules() {
 		return earlierRules;

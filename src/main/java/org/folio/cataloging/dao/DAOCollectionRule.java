@@ -6,7 +6,6 @@ import org.folio.cataloging.Global;
 import org.folio.cataloging.business.RuleListElement;
 import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 import org.folio.cataloging.dao.persistence.CLCTN_MST_RULE;
 import org.folio.cataloging.dao.persistence.CLCTN_MST_RULE_REL;
@@ -26,7 +25,7 @@ import java.util.Locale;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
-public class DAOCollectionRule extends HibernateUtil  {
+public class DAOCollectionRule extends AbstractDAO  {
 	private static Log logger = new Log(DAOCollectionRule.class);
 
 	private final static ThreadLocal<SimpleDateFormat> FORMATTERS = new ThreadLocal() {

@@ -1,15 +1,14 @@
 package org.folio.cataloging.dao.persistence;
 
-import java.io.Serializable;
-
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
-
+import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAOCasFiles;
-import org.folio.cataloging.dao.common.HibernateUtil;
+
+import java.io.Serializable;
 
 public class CasFiles implements Persistence 
 {
@@ -55,10 +54,10 @@ public class CasFiles implements Persistence
 	}
 
 	public void evict() throws DataAccessException {
-		evict((Object)this);
+		evict(this);
 	}
 	
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return dao;
 	}
 
@@ -83,10 +82,8 @@ public class CasFiles implements Persistence
 			return false;
 		final CasFiles other = (CasFiles) obj;
 //		if (bibItemNumberFiglia != other.bibItemNumberFiglia)
-		if (idItem != other.idItem)
-			return false;
-		return true;
-	}
+        return idItem == other.idItem;
+    }
 
 	public boolean isChanged() {
 		return persistenceState.isChanged();

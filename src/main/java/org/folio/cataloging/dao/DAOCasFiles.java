@@ -1,20 +1,17 @@
 package org.folio.cataloging.dao;
 
-import java.util.List;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.business.cataloguing.bibliographic.ControlNumberAccessPoint;
-import org.folio.cataloging.business.common.DataAccessException;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Query;
 import net.sf.hibernate.Session;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.persistence.CasFiles;
-import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.persistence.ControlNumberAccessPoint;
 
-public class DAOCasFiles extends HibernateUtil 
+import java.util.List;
+
+public class DAOCasFiles extends AbstractDAO
 {	
 	private static final Log logger = LogFactory.getLog(DAOCasFiles.class);
 	public DAOCasFiles() {

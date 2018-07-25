@@ -1,14 +1,13 @@
 package org.folio.cataloging.dao.persistence;
 
-import java.io.Serializable;
-
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
+import org.folio.cataloging.dao.AbstractDAO;
 
-import org.folio.cataloging.dao.common.HibernateUtil;
+import java.io.Serializable;
 
 public class CLCTN_PUBL_HRCY implements Persistence 
 {
@@ -54,10 +53,8 @@ public class CLCTN_PUBL_HRCY implements Persistence
 		if (getClass() != obj.getClass())
 			return false;
 		CLCTN_PUBL_HRCY other = (CLCTN_PUBL_HRCY) obj;
-		if (collectionCode != other.collectionCode)
-			return false;
-		return true;
-	}
+        return collectionCode == other.collectionCode;
+    }
 	
 	public void setParentCollectionCode(int parentCollectionCode) {
 		this.parentCollectionCode = parentCollectionCode;
@@ -75,7 +72,7 @@ public class CLCTN_PUBL_HRCY implements Persistence
 		persistentState.evict(obj);
 	}
 
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return persistentState.getDAO();
 	}
 
@@ -136,7 +133,7 @@ public class CLCTN_PUBL_HRCY implements Persistence
 	}
 
 	public void evict() throws DataAccessException {
-		evict((Object)this);
+		evict(this);
 	}
 
 	public void generateNewKey() throws DataAccessException {

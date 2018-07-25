@@ -4,12 +4,11 @@ import net.sf.hibernate.*;
 import net.sf.hibernate.type.Type;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.RecordNotFoundException;
-import org.folio.cataloging.dao.common.HibernateUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DAOCasDigAdmin extends HibernateUtil
+public class DAOCasDigAdmin extends AbstractDAO
 {	
 	public DAOCasDigAdmin() {
 		super();

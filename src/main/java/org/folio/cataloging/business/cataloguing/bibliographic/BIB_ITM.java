@@ -1,18 +1,16 @@
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
-import java.io.Serializable;
-
-import org.folio.cataloging.business.cataloguing.common.ItemEntity;
-import org.folio.cataloging.dao.DAOSystemNextNumber;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.business.common.PersistentObjectWithView;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAOBibItem;
+import org.folio.cataloging.dao.DAOSystemNextNumber;
+import org.folio.cataloging.dao.persistence.ItemEntity;
+
+import java.io.Serializable;
 
 public class BIB_ITM extends ItemEntity implements PersistentObjectWithView, Serializable 
 {
@@ -97,7 +95,7 @@ public class BIB_ITM extends ItemEntity implements PersistentObjectWithView, Ser
 	/* (non-Javadoc)
 	 * @see librisuite.business.common.Persistence#getDAO()
 	 */
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return new DAOBibItem();
 	}
 

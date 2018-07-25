@@ -1,23 +1,17 @@
 package org.folio.cataloging.util;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.StringTokenizer;
-import java.util.TreeSet;
-
-import org.folio.cataloging.model.Subfield;
 import org.folio.cataloging.business.common.SubfieldCodeComparator;
-
+import org.folio.cataloging.model.Subfield;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 
+import java.io.Serializable;
+import java.util.*;
+
 public class StringText implements Serializable {
+
 	private static final long serialVersionUID = -486513419723833977L;
 	
 	private List subfieldList = new ArrayList();

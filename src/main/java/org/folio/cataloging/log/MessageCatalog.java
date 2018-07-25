@@ -19,4 +19,5 @@ public interface MessageCatalog {
     String _00020_SE_QUERY = "<" + MODULE_NAME + "-00020> : CCL => \"%s\" became \"%s\"";
     String _00021_UNABLE_TO_PARSE_RECORD_DATA = "<" + MODULE_NAME + "-00021> : Invalid XML record data %s";
     String _00023_SE_REQRES = "<" + MODULE_NAME + "-00023> : CCL => \"%s\", %s matches.";
+
 }

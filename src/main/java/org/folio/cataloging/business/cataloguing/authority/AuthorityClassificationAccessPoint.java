@@ -15,7 +15,6 @@ import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.dao.DAOAuthorityCorrelation;
 import org.folio.cataloging.dao.persistence.CLSTN;
 import org.folio.cataloging.dao.persistence.T_AUT_CLSTN_FNCTN;
-import org.folio.cataloging.dao.persistence.T_AUT_CLSTN_TYP;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
 
@@ -93,8 +92,10 @@ public class AuthorityClassificationAccessPoint extends AuthorityAccessPoint {
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#getFirstCorrelationList()
 	 */
+	@Deprecated
 	public List getFirstCorrelationList() throws DataAccessException {
-		return getDaoCodeTable().getList(T_AUT_CLSTN_TYP.class,false);
+		//return getDaoCodeTable().getList(T_AUT_CLSTN_TYP.class,false);
+		return null;
 	}
 
 	/* (non-Javadoc)

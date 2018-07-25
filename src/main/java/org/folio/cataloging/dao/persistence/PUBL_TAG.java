@@ -1,22 +1,20 @@
 package org.folio.cataloging.dao.persistence;
 
-import java.io.Serializable;
-
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.PersistenceState;
 import org.folio.cataloging.business.common.PersistentObjectWithView;
 import org.folio.cataloging.business.common.UserViewHelper;
+import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAODescriptor;
 import org.folio.cataloging.dao.DAOPublTag;
 import org.folio.cataloging.dao.DAOPublisherDescriptor;
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.util.StringText;
+
+import java.io.Serializable;
 
 public class PUBL_TAG implements PersistentObjectWithView {
 //	@Override
@@ -40,7 +38,7 @@ public class PUBL_TAG implements PersistentObjectWithView {
 	private PUBL_HDG descriptor = new PUBL_HDG();
 	private String otherSubfields;
 	private Integer publisherHeadingNumber;
-	private static final HibernateUtil theDAO = new DAOPublTag();
+	private static final DAOPublTag theDAO = new DAOPublTag();
 	private static final DAODescriptor thePublisherDescriptor = new DAOPublisherDescriptor();
 
 	public void evict() throws DataAccessException {
@@ -80,7 +78,7 @@ public class PUBL_TAG implements PersistentObjectWithView {
 		return false;
 	}
 
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return theDAO;
 	}
 

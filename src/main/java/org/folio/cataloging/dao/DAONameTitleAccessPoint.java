@@ -1,36 +1,26 @@
-/*
- * (c) LibriCore
- * 
- * Created on Dec 20, 2005
- * 
- * DAONameTitleAccessPoint.java
- */
 package org.folio.cataloging.dao;
 
-import org.folio.cataloging.business.cataloguing.bibliographic.NameAccessPoint;
-import org.folio.cataloging.business.cataloguing.bibliographic.NameTitleAccessPoint;
-import org.folio.cataloging.business.cataloguing.bibliographic.TitleAccessPoint;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Persistence;
-import org.folio.cataloging.dao.persistence.NME_TTL_HDG;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-
-import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
+import org.folio.cataloging.dao.persistence.NME_TTL_HDG;
+import org.folio.cataloging.dao.persistence.NameAccessPoint;
+import org.folio.cataloging.dao.persistence.NameTitleAccessPoint;
+import org.folio.cataloging.dao.persistence.TitleAccessPoint;
 
 /**
+ * Data access object to Name-Title access point.
+ *
  * @author paulm
- * @version $Revision: 1.2 $, $Date: 2006/01/05 13:25:58 $
+ * @author nbianchini
  * @since 1.0
  */
-public class DAONameTitleAccessPoint extends HibernateUtil {
+public class DAONameTitleAccessPoint extends AbstractDAO {
 
-	/* (non-Javadoc)
-	 * @see HibernateUtil#delete(librisuite.business.common.Persistence)
-	 */
 	public void delete(final Persistence p) throws DataAccessException {
 
 		super.delete(p);
