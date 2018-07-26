@@ -5,7 +5,6 @@ import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.dao.AbstractDAO;
-import org.folio.cataloging.dao.common.HibernateUtil;
 
 import java.io.Serializable;
 
