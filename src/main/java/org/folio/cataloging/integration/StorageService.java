@@ -6,13 +6,18 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.RecordNotFoundException;
+import org.folio.cataloging.business.common.View;
 import org.folio.cataloging.dao.*;
 import org.folio.cataloging.dao.common.HibernateSessionProvider;
 import org.folio.cataloging.dao.persistence.*;
+import org.folio.cataloging.exception.ModCatalogingException;
+import org.folio.cataloging.integration.search.Parser;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.cataloging.resources.domain.Diacritic;
 import org.folio.cataloging.resources.domain.RecordTemplate;
+import org.folio.cataloging.search.SearchResponse;
 import org.folio.cataloging.shared.CodeListsType;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.shared.MapDiacritic;
@@ -20,9 +25,14 @@ import org.folio.cataloging.shared.Validation;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
 import static org.folio.cataloging.F.locale;
 
@@ -100,8 +110,7 @@ public class StorageService implements Closeable {
     }
 
     /**
-     * Returns the note types associated to the given language
-     * and with the given note group type code.
+     * Returns the note types associated to the given language and with the given note group type code.
      *
      * @param noteGroupTypeCode the note group type used here as filter criterion.
      * @param lang the language code, used here as a filter criterion.
@@ -109,8 +118,8 @@ public class StorageService implements Closeable {
      * @throws DataAccessException in case of data access failure.
      */
     public List<Avp<String>> getNoteTypesByGroupTypeCode(final String noteGroupTypeCode, final String lang) throws DataAccessException {
-        final DAOBibliographicCorrelation daoBibliographicCorrelation = new DAOBibliographicCorrelation();
-        return daoBibliographicCorrelation.getFirstCorrelationByNoteGroupCode(session, noteGroupTypeCode, locale(lang));
+        final BibliographicCorrelationDAO bibliographicCorrelationDAO = new BibliographicCorrelationDAO();
+        return bibliographicCorrelationDAO.getFirstCorrelationByNoteGroupCode(session, noteGroupTypeCode, locale(lang));
     }
 
     /**
@@ -342,7 +351,7 @@ public class StorageService implements Closeable {
      */
     public List<Avp<String>> getSecondCorrelation(final int category, final int code, final String lang) throws DataAccessException {
 
-        final DAOBibliographicCorrelation daoBC = new DAOBibliographicCorrelation();
+        final BibliographicCorrelationDAO daoBC = new BibliographicCorrelationDAO();
         final Class subTypeClass = SECOND_CORRELATION_CLASS_MAP.get(category);
         return daoBC.getSecondCorrelationList(session, category, code, subTypeClass, locale(lang));
     }
@@ -362,7 +371,7 @@ public class StorageService implements Closeable {
                                                  final int code2,
                                                  final String lang) {
         final Class clazz = THIRD_CORRELATION_HEADING_CLASS_MAP.get(category);
-        final DAOBibliographicCorrelation daoBC = new DAOBibliographicCorrelation();
+        final BibliographicCorrelationDAO daoBC = new BibliographicCorrelationDAO();
         return daoBC.getThirdCorrelationList(session, category, code1, code2, clazz, locale(lang));
     }
 
@@ -382,7 +391,7 @@ public class StorageService implements Closeable {
         final Optional<Class> className  = ofNullable(HibernateSessionProvider.getHibernateClassName(tableName));
         return className.isPresent()
                 ? dao.getList(session, className.get(), locale(lang))
-                : Collections.emptyList();
+                : emptyList();
     }
 
     /**
@@ -709,10 +718,10 @@ public class StorageService implements Closeable {
                                               final String indicator1,
                                               final String indicator2,
                                               final String code) throws DataAccessException {
-        final DAOBibliographicCorrelation daoBibliographicCorrelation = new DAOBibliographicCorrelation();
+        final BibliographicCorrelationDAO bibliographicCorrelationDAO = new BibliographicCorrelationDAO();
         try {
             return ofNullable(
-                    daoBibliographicCorrelation.getBibliographicCorrelation(
+                    bibliographicCorrelationDAO.getBibliographicCorrelation(
                             session, code, indicator1.charAt(0), indicator2.charAt(0), category))
                     .map(BibliographicCorrelation::getValues).orElse(null);
         } catch (final HibernateException exception) {
@@ -818,6 +827,7 @@ public class StorageService implements Closeable {
      * @param template the record template.
      * @throws DataAccessException in case of data access failure.
      */
+    //todo: add second and third value wemi flag: consider if use record template also for authority
     public void saveAuthorityRecordTemplate(final RecordTemplate template) throws DataAccessException {
         try {
             final ObjectMapper mapper = new ObjectMapper();
@@ -832,6 +842,25 @@ public class StorageService implements Closeable {
             throw new DataAccessException(exception);
         } catch (final JsonProcessingException exception) {
             logger.error(MessageCatalog._00013_IO_FAILURE, exception);
+            throw new DataAccessException(exception);
+        }
+    }
+
+    /**
+     * Updates wemi flag first group for bibliographic model.
+     *
+     * @param modelId -- the bibliographic model id.
+     * @param frbrFirstGroupValue -- the first wemi flag to update.
+     * @throws DataAccessException -- in case of data access exception.
+     */
+    public void updateWemiBibliographicFlag(final int modelId, final int frbrFirstGroupValue) throws DataAccessException {
+        try {
+            final BibliographicModelDAO dao = new BibliographicModelDAO();
+            final BibliographicModel model = (BibliographicModel) dao.load(modelId, session);
+            model.setFrbrFirstGroup(frbrFirstGroupValue);
+            dao.update(model, session);
+        } catch (final HibernateException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
             throw new DataAccessException(exception);
         }
     }
@@ -1020,5 +1049,202 @@ public class StorageService implements Closeable {
         catch (HibernateException e) {
             throw new DataAccessException();
         }
+    }
+    /**
+     * Returns the preferred view associated with the input data.
+     *
+     * @param itemNumber the record identifier.
+     * @param databasePreferenceOrder the database preference order (for choosing among views).
+     * @return the preferred view associated with the input data.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public int getPreferredView(final int itemNumber, final int databasePreferenceOrder) throws DataAccessException {
+        return new DAOCache().getPreferredView(session, itemNumber, databasePreferenceOrder);
+    }
+
+    /**
+     * Sorts a given {@link SearchResponse} instance.
+     * The sort actually happens at docids level, if some record has been already fetched in the input response, it will
+     * be removed.
+     *
+     * @param rs the search response.
+     * @param attributes the sort attributes.
+     * @param directions the sort orders.
+     * @return a search response wrapping a docid array ordered according with the given criteria.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public SearchResponse sortResults(final SearchResponse rs, final String[] attributes, final String[] directions) throws DataAccessException {
+        new DAOSortResultSets().sort(session, rs, attributes, directions);
+        rs.clearRecords();
+        return rs;
+    }
+
+    /**
+     * Returns the content of a record associated with the given data.
+     *
+     * @param itemNumber the record identifier.
+     * @param searchingView the view.
+     * @return the content of a record associated with the given data.
+     * @throws RecordNotFoundException in case nothing is found.
+     */
+    public String getRecordData(final int itemNumber, final int searchingView) throws RecordNotFoundException {
+        final FULL_CACHE cache = new DAOFullCache().load(session, itemNumber, searchingView);
+        return cache.getRecordData();
+    }
+
+    /**
+     * Find the {@link CatalogItem} associated with the given data.
+     *
+     * @param itemNumber the record identifier.
+     * @param searchingView the search view.
+     * @return the {@link CatalogItem} associated with the given data.
+     */
+    public CatalogItem getCatalogItemByKey(final int itemNumber, final int searchingView) {
+        switch (searchingView) {
+            case View.AUTHORITY:
+                return new AuthorityCatalogDAO().getCatalogItemByKey(session, itemNumber, searchingView);
+            default:
+                return new BibliographicCatalogDAO().getCatalogItemByKey(session, itemNumber, searchingView);
+        }
+    }
+
+    /**
+     * Updates the full record cache table with the given item.
+     *
+     * @param item the catalog item.
+     * @param view the related view.
+     */
+    public void updateFullRecordCacheTable(final CatalogItem item, final int view) {
+        switch(view) {
+            case View.AUTHORITY:
+                new AuthorityCatalogDAO().updateFullRecordCacheTable(session, item);
+                break;
+            default:
+                try {
+                    new BibliographicCatalogDAO().updateFullRecordCacheTable(session, item);
+                } catch (final HibernateException exception) { throw new DataAccessException(exception); }
+        }
+    }
+
+    /**
+     * Executes a CCL query using the given data.
+     *
+     * @param cclQuery the CCL query.
+     * @param mainLibraryId the main library identifier.
+     * @param locale the current locale.
+     * @param searchingView the target search view.
+     * @return a list of docid matching the input query.
+     */
+    public List<Integer> executeQuery(final String cclQuery, final int mainLibraryId, final Locale locale, final int searchingView) {
+        final Parser parser = new Parser(locale, mainLibraryId, searchingView, session);
+        try (final Statement sql = stmt(connection());
+             final ResultSet rs = executeQuery(sql, parser.parse(cclQuery))) {
+            final ArrayList<Integer> results = new ArrayList<>();
+            while (rs.next()) {
+                results.add(rs.getInt(1));
+            }
+
+            logger.info(MessageCatalog._00023_SE_REQRES, cclQuery, results.size());
+
+            return results;
+        } catch (final HibernateException | SQLException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+            return emptyList();
+        }
+    }
+
+    /**
+     * Returns a valid database connection associated with this service.
+     *
+     * @return a valid database connection associated with this service.
+     * @throws HibernateException in case of data access failure.
+     */
+    public Connection connection() throws HibernateException {
+        return session.connection();
+    }
+
+    /**
+     * Creates a valid statement from the given connection.
+     *
+     * @param connection the database connection.
+     * @return a valid statement from the given connection.
+     */
+    private Statement stmt(final Connection connection) {
+        try {
+            return connection.createStatement();
+        } catch (final Exception exception) {
+            throw new ModCatalogingException(exception);
+        }
+    }
+
+    /**
+     * Internal method fo executing a SQL query.
+     *
+     * @param stmt the statement.
+     * @param query the SQL command.
+     * @return the result of the query execution.
+     */
+    private ResultSet executeQuery(final Statement stmt, final String query) {
+        try {
+            return stmt.executeQuery(query);
+        } catch (final Exception exception) {
+            throw new ModCatalogingException(exception);
+        }
+    }
+    /**
+     * Returns issn text associated to series issn heading number.
+     *
+     * @param seriesIssnHeadingNumber -- the series issn heading number used as filter criterion.
+     * @return issnText.
+     */
+    public String getISSNText(final Integer seriesIssnHeadingNumber){
+        final DAOTitleDescriptor daoTitleDescriptor = new DAOTitleDescriptor();
+        return daoTitleDescriptor.getISSNString(seriesIssnHeadingNumber);
+    }
+
+    //TODO modify method
+    public List replaceEquivalentDescriptor(final int indexingLanguage,	final int cataloguingView) throws DataAccessException
+    {
+        /*final DAODescriptor dao = new DAOPublisherDescriptor();
+        final DAOPublisherManager daoPu = new DAOPublisherManager();
+        List newTags = new ArrayList();
+        PUBL_TAG pu = null;
+        PublisherManager aTag = (PublisherManager) (deepCopy(this));
+        PublisherAccessPoint apf = aTag.getApf();
+        List<PUBL_TAG> publisherTagApp = new ArrayList<>();
+
+        for (int i = 0; i < getPublisherTagUnits().size(); i++) {
+            pu = (PUBL_TAG) getPublisherTagUnits().get(i);
+            Descriptor d = pu.getDescriptor();
+            REF ref = dao.getCrossReferencesWithLanguage(d, cataloguingView,
+                    indexingLanguage);
+            if (ref != null) {
+                aTag.markNew();
+                int tagNumber = daoPu.getNextPublisherTagNumber();
+                pu.setPublisherTagNumber(tagNumber);
+                pu.setDescriptor((PUBL_HDG)dao.load(ref.getTarget(), cataloguingView));
+                pu.setPublisherHeadingNumber(new Integer(pu.getDescriptor()
+                        .getKey().getHeadingNumber()));
+                publisherTagApp.add(pu);
+                apf.markNew();
+                apf.setHeadingNumber(new Integer(tagNumber));
+
+
+            }
+            else{
+                aTag.markNew();
+                int tagNumber = daoPu.getNextPublisherTagNumber();
+                publisherTagApp.add(pu);
+                apf.markNew();
+                apf.setHeadingNumber(new Integer(tagNumber));
+            }
+        }
+        if(aTag!=null){
+            aTag.setPublisherTagUnits(publisherTagApp);
+            newTags.add(aTag);
+        }
+        return newTags;*/
+
+        return null;
     }
 }

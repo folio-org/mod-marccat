@@ -8,14 +8,13 @@
 package org.folio.cataloging.dao.persistence;
 
 import org.folio.cataloging.business.cataloguing.authority.AuthorityClassificationAccessPoint;
-import org.folio.cataloging.business.cataloguing.bibliographic.ClassificationAccessPoint;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
+import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAOClassificationDescriptor;
 import org.folio.cataloging.dao.DAOIndexList;
-import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.shared.CorrelationValues;
 
 /**
@@ -50,7 +49,7 @@ public class CLSTN extends Descriptor {
 	/* (non-Javadoc)
 	 * @see librisuite.hibernate.Descriptor#getDAO()
 	 */
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return new DAOClassificationDescriptor();
 	}
 

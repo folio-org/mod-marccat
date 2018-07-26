@@ -7,15 +7,15 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.cataloguing.authority.*;
 import org.folio.cataloging.business.cataloguing.bibliographic.PersistsViaItem;
-import org.folio.cataloging.business.cataloguing.common.CatalogItem;
 import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.RecordNotFoundException;
+import org.folio.cataloging.business.common.View;
 import org.folio.cataloging.business.controller.UserProfile;
 import org.folio.cataloging.business.descriptor.Descriptor;
-import org.folio.cataloging.dao.persistence.AUT;
-import org.folio.cataloging.dao.persistence.REF;
-import org.folio.cataloging.dao.persistence.ReferenceType;
-import org.folio.cataloging.dao.persistence.T_DUAL_REF;
+import org.folio.cataloging.dao.persistence.*;
+import org.folio.cataloging.util.XmlUtils;
+import org.w3c.dom.Document;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -64,6 +64,25 @@ public class AuthorityCatalogDAO extends CatalogDAO {
 		return item;
 	}
 
+    // 2018 Paul Search Engine Java
+    @Override
+    public void updateFullRecordCacheTable(Session session, CatalogItem item)
+            throws DataAccessException {
+        FULL_CACHE cache;
+        DAOFullCache dao = new DAOFullCache();
+        try {
+            cache = dao.load(session, item.getAmicusNumber(), View.AUTHORITY);
+        } catch (RecordNotFoundException e) {
+            cache = new FULL_CACHE();
+            cache.setItemNumber(item.getAmicusNumber());
+            cache.setUserView(View.AUTHORITY);
+        }
+        Document d = item.toExternalMarcSlim();
+        cache.setRecordData(XmlUtils.documentToString(d));
+        persistByStatus(cache);
+        cache.evict();
+    }
+
 	private AuthorityItem getAuthorityItem(int id) throws DataAccessException {
 		if (logger.isDebugEnabled())
 			logger.debug("loading authority item: " + Integer.toString(id));
@@ -77,24 +96,14 @@ public class AuthorityCatalogDAO extends CatalogDAO {
 		return item;
 	}
 
-	/* (non-Javadoc)
-	 * @see CatalogDAO#getCatalogItemByKey(java.lang.Object[])
-	 */
-	public CatalogItem getCatalogItemByKey(Object[] key)
-		throws DataAccessException {
-		return getAuthorityItemByAmicusNumber(((Integer) key[0]).intValue());
+    @Override
+	public CatalogItem getCatalogItemByKey(final Session session, final int ... key) throws DataAccessException {
+		return getAuthorityItemByAmicusNumber(key[0]);
 	}
 
-	public List getHeaderFields(AuthorityItem item)
-		throws DataAccessException {
+	public List<Tag> getHeaderFields(final AuthorityItem item) throws DataAccessException {
 
-		List result = new ArrayList();
-
-		if (logger.isDebugEnabled()) {
-			logger.debug(
-				"loading all Fixed Fields for authority item: "
-					+ item.getAmicusNumber());
-		}
+		final List<Tag> result = new ArrayList<>();
 
 		result.add(new AuthorityLeader());
 		result.add(new AuthorityControlNumberTag());
@@ -134,11 +143,11 @@ public class AuthorityCatalogDAO extends CatalogDAO {
 		return result;
 	}
 
-	public List getReferenceFields(
+	public List<Tag> getReferenceFields(
 		AuthorityItem item,
 		AuthorityHeadingTag heading)
 		throws DataAccessException {
-		List result = new ArrayList();
+		List<Tag> result = new ArrayList<>();
 		Descriptor d = heading.getDescriptor();
 		DAODescriptor dao = (DAODescriptor) d.getDAO();
 		List refs =
@@ -213,18 +222,6 @@ public class AuthorityCatalogDAO extends CatalogDAO {
 				+ "where t.itemNumber = ? ",
 			new Object[] { new Integer(id)},
 			new Type[] { Hibernate.INTEGER });
-		
-//		Query query = currentSession().createSQLQuery("SELECT t.AUT_NBR,t.AUT_NTE_NBR,t.AUT_NTE_TYP_CDE,t.AUT_NTE_LANG_SCRPT_CDE,t.AUT_NTE_STRNG_TXT from AUT_NTE {t} where nte.AUT_NBR=" + id,"nte",AuthorityNote.class);
-//		
-//		List result = null;
-//		try {
-//			result = query.list();
-//		} catch (HibernateException e) {
-//			
-//			e.printStackTrace();
-//		}
-//		return result;
-		
 	}
 
 	private List getNoteListWithoutDuplication(int id) throws DataAccessException {
@@ -236,10 +233,8 @@ public class AuthorityCatalogDAO extends CatalogDAO {
 		return findNotes(id);
 	}
 	
-	/* (non-Javadoc)
-	 * @see CatalogDAO#updateCacheTable(CatalogItem)
-	 */
-	protected void updateCacheTable(CatalogItem item)
+	@Override
+	protected void updateCacheTable(CatalogItem item, Session session)
 		throws DataAccessException {
 		// do nothing -- Authorities don't have a cache table (yet)
 	}
@@ -258,19 +253,19 @@ public class AuthorityCatalogDAO extends CatalogDAO {
 			new Type[] { Hibernate.STRING, Hibernate.STRING });
 	}
 
-	protected void insertDeleteTable(CatalogItem item, UserProfile user)
-			throws DataAccessException {
+	@Override
+	protected void insertDeleteTable(CatalogItem item, UserProfile user) throws DataAccessException {
 		// do nothing -- Authorities don't have a cache table (yet)
 		
 	}
+
 	public List findNotes(Integer amicusNumber) {
 		List notes = new ArrayList();
 		ResultSet rs = null;
 		try {
 			Connection con = currentSession().connection();
 			rs = con.createStatement().executeQuery("SELECT * from AUT_NTE where AUT_NBR=" + amicusNumber);
-			while (rs.next()) 
-			{
+			while (rs.next()) {
 				AuthorityNote note = new AuthorityNote();
 				
 				note.setItemNumber(rs.getInt("AUT_NBR"));

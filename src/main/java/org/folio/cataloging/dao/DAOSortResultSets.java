@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import org.folio.cataloging.business.amicusSearchEngine.AmicusResultSet;
+import org.folio.cataloging.search.SearchResponse;
 import org.folio.cataloging.business.common.DataAccessException;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
@@ -20,7 +20,8 @@ import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 public class DAOSortResultSets extends HibernateUtil {
 
 	public void sort(
-		final AmicusResultSet rs,
+	    final Session session,
+		final SearchResponse rs,
 		String[] attributes,
 		String[] directions)
 		throws DataAccessException {
@@ -33,17 +34,17 @@ public class DAOSortResultSets extends HibernateUtil {
 		new TransactionalHibernateOperation() {
 			public void doInHibernateTransaction(Session s)
 				throws DataAccessException, HibernateException {
-				AmicusResultSet sortedResults;
+				SearchResponse sortedResults;
 				insertResults(rs);
 				doSort(orderBy, rs);
 			}
 		}
-		.execute();
+		.execute(session);
 	}
 
 	private void doSort(
 		final String orderBy,
-		final AmicusResultSet rs)
+		final SearchResponse rs)
 		throws DataAccessException {
 
 		new TransactionalHibernateOperation() {
@@ -74,7 +75,7 @@ public class DAOSortResultSets extends HibernateUtil {
 					js = stmt.executeQuery();
 					
 					while (js.next()) {
-					  rs.getAmicusNumbers()[js.getRow() - 1] = js.getInt(1);
+					  rs.getIdSet()[js.getRow() - 1] = js.getInt(1);
 					}
 				} catch (SQLException e) {
 					throw new DataAccessException();
@@ -100,7 +101,7 @@ public class DAOSortResultSets extends HibernateUtil {
 	
 		
 
-	private void insertResults(final AmicusResultSet rs)
+	private void insertResults(final SearchResponse rs)
 		throws DataAccessException {
 		new TransactionalHibernateOperation() {
 			public void doInHibernateTransaction(Session s)
@@ -112,8 +113,8 @@ public class DAOSortResultSets extends HibernateUtil {
 				try {
 					stmt = connection.prepareStatement(
 							"INSERT INTO S_SRCH_SRT_RSLTS VALUES(?)");
-					for (int i = 0; i < rs.getAmicusNumbers().length; i++) {
-						stmt.setInt(1, rs.getAmicusNumbers()[i]);
+					for (int i = 0; i < rs.getIdSet().length; i++) {
+						stmt.setInt(1, rs.getIdSet()[i]);
 						stmt.addBatch();
 					}
 					iNoRows=stmt.executeBatch();

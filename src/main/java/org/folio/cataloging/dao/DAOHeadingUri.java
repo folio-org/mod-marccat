@@ -8,7 +8,6 @@ import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.persistence.HDG_URI;
 
 import java.sql.Connection;
@@ -20,7 +19,7 @@ import java.util.List;
 import java.util.Locale;
 
 @SuppressWarnings("unchecked")
-public class DAOHeadingUri extends HibernateUtil 
+public class DAOHeadingUri extends AbstractDAO
 {
 	private Log logger = LogFactory.getLog(DAOHeadingUri.class);
 	
@@ -45,7 +44,7 @@ public class DAOHeadingUri extends HibernateUtil
 		if (l.size() > 0) {
 			result = ((Integer) l.get(0)).intValue();
 		}
-		return (result>0?true:false);
+		return (result > 0);
 	}
 	
 	final static String SELECT_SOURCE_LIST_BY_HDG_CATEGORY = 

@@ -1,224 +1,218 @@
-/*
- * Created on 29-jul-2004
- *
- */
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.PublisherTagDescriptor;
-import org.folio.cataloging.dao.persistence.PublisherFunction;
+import org.folio.cataloging.integration.GlobalStorage;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
 
 import java.util.List;
 
 /**
+ * Persistent class for PUBL_ACS_PNT.
+ *
  * @author paulm
- * @version $Revision: 1.6 $, $Date: 2005/12/21 08:30:32 $
+ * @author nbianchini
  * @since 1.0
  */
 public class PublisherAccessPoint extends BibliographicAccessPoint
 {
 	private static final long serialVersionUID = 8837067946333999273L;
 
-	private static final Log logger = LogFactory.getLog(PublisherAccessPoint.class);
-
-	private static final String VARIANT_CODES = "368cefg";
-
 	private String otherSubfields;
 	private int sequenceNumber;
 	private PublisherTagDescriptor descriptor = new PublisherTagDescriptor();
 
-	
-
+	/**
+	 * Return descriptor associated to publisher access point.
+	 *
+	 * @return descriptor.
+	 */
 	public Descriptor getDescriptor() {
 		return descriptor;
 	}
 
 	/**
-	 * 
+	 * Sets descriptor.
+	 *
+	 * @param publisherTagDescriptor -- the descriptor associated to publisher access point.
 	 */
 	public void setDescriptor(Descriptor publisherTagDescriptor) {
 		descriptor = (PublisherTagDescriptor) publisherTagDescriptor;
 	}
 
-	/**
-	 * 
-	 */
+
+	//TODO setFunctionCode from storageService using  publisherAccessPoint.functionCode in configuration
 	public PublisherAccessPoint() {
 		super();
-		setFunctionCode(Defaults.getShort("publisherAccessPoint.functionCode"));
+		//setFunctionCode(Defaults.getShort("publisherAccessPoint.functionCode"));
 	}
 
-	/**
-	 * @param itemNbr
-	 */
-	public PublisherAccessPoint(int itemNbr) {
+	public PublisherAccessPoint(final int itemNbr) {
 		super(itemNbr);
-		setFunctionCode(Defaults.getShort("publisherAccessPoint.functionCode"));
+		//setFunctionCode(Defaults.getShort("publisherAccessPoint.functionCode"));
 	}
 
 	/**
 	 * @return the content of subfield c
-	 * 
-	 * @since 1.0
+	 *
 	 */
 	public String getDate() {
-		return new StringText(getOtherSubfields())
-			.getSubfieldsWithCodes("c")
-			.toDisplayString();
+		return new StringText(getOtherSubfields()).getSubfieldsWithCodes("c").toDisplayString();
 	}
 
 	/**
-	 * 
+	 * @return the content of other subfields.
 	 */
 	public String getOtherSubfields() {
 		return otherSubfields;
 	}
 
 	/**
-	 * 
+	 * @return sequence number of tag.
 	 */
 	public int getSequenceNumber() {
 		return sequenceNumber;
 	}
 
 	/**
-	 * @param string
+	 * Sets content of other subfields.
+	 *
+	 * @param other -- the content to set.
 	 */
-	public void setOtherSubfields(String string) {
-		otherSubfields = string;
+	public void setOtherSubfields(final String other) {
+		otherSubfields = other;
 	}
 
 	/**
-	 * @param integer
+	 * Sets the sequence number of tag.
+	 *
+	 * @param sequence -- the sequence number to set.
 	 */
-	public void setSequenceNumber(int integer) {
-		sequenceNumber = integer;
+	public void setSequenceNumber(final int sequence) {
+		sequenceNumber = sequence;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
+	/**
+	 * Compares an object with another one.
+	 *
+	 * @param obj -- the object to compare.
+	 * @return true if equals.
 	 */
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (!(obj instanceof PublisherAccessPoint))
 			return false;
-		PublisherAccessPoint other = (PublisherAccessPoint) obj;
+
+		final PublisherAccessPoint other = (PublisherAccessPoint) obj;
 		if (this.getHeadingNumber() == null) {
-			return (other.getItemNumber() == this.getItemNumber()
-					&& other.getUserViewString().equals(
-							this.getUserViewString())
-					&& other.getHeadingNumber() == null && other
-					.getFunctionCode() == this.getFunctionCode());
+			return (other.getItemNumber() == this.getItemNumber() && other.getUserViewString().equals(this.getUserViewString())
+					&& other.getHeadingNumber() == null && other.getFunctionCode() == this.getFunctionCode());
 		} else {
-			return (other.getItemNumber() == this.getItemNumber()
-					&& other.getUserViewString().equals(
-							this.getUserViewString())
-//	20100819 inizio: andava in nullpointer se si cancellava il tag 260 e poi si reinseriva e poi si salvava il record
-					&& (!(other.getHeadingNumber()==null))&&  
-//	20100819 fine
-					other.getHeadingNumber().equals(this.getHeadingNumber()) && other
-					.getFunctionCode() == this.getFunctionCode());
+			return (other.getItemNumber() == this.getItemNumber() && other.getUserViewString().equals(this.getUserViewString())
+					&& (!(other.getHeadingNumber()==null)) && other.getHeadingNumber().equals(this.getHeadingNumber())
+					&& other.getFunctionCode() == this.getFunctionCode());
 		}
 	}
-	
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
+	/**
+	 *
+	 * @return hashCode.
 	 */
 	public int hashCode() {
-		/*
-		 * The previous hashcode was: return super.hashcode() This caused errors
-		 * in hibernate because the super implementation includes headingNumber
-		 * in the hash code, but headingNumber is not part of the business key
-		 * (for publishers).
-		 */
 		return this.getItemNumber() + 3 * this.getFunctionCode();
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#getFirstCorrelationList(java.util.Locale)
-	 */
+	@Deprecated
 	public List getFirstCorrelationList() throws DataAccessException {
-		return getDaoCodeTable().getList(PublisherFunction.class,false);
+		//return getDaoCodeTable().getList(PublisherFunction.class,false);
+		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#getRequiredEditPermission()
+	/**
+	 * Gets permission string to compare with authorization agent.
+	 *
+	 * @return "editNotes".
 	 */
 	public String getRequiredEditPermission() {
-		return "editNotes";
+		return GlobalStorage.PUBLISHER_REQUIRED_PERMISSION;
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#getCorrelationValues()
+	/**
+	 * Gets correlation values of publisher descriptor.
+	 *
+	 * @return correlationValues.
 	 */
 	public CorrelationValues getCorrelationValues() {
-		return getDescriptor().getCorrelationValues().change(
-			1,
-			getFunctionCode());
+		return getDescriptor().getCorrelationValues().change(1, getFunctionCode());
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#setCorrelationValues(librisuite.business.common.CorrelationValues)
+	/**
+	 * Sets correlation values to publisher descriptor.
+	 *
+	 * @param v -- the correlation values to set.
 	 */
-	public void setCorrelationValues(CorrelationValues v) {
+	public void setCorrelationValues(final CorrelationValues v) {
 		setFunctionCode(v.getValue(1));
 		getDescriptor().setCorrelationValues(v);
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#getCategory()
+	/**
+	 * Gets publisher marc category code.
+	 *
+	 * @return category.
 	 */
 	public int getCategory() {
-		return 7;
+		return GlobalStorage.PUBLISHER_CATEGORY;
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.AccessPoint#getAccessPointStringText()
+	/**
+	 * Gets the stringText associated to publisher access point.
+	 *
+	 * @return stringText.
 	 */
 	public StringText getAccessPointStringText() {
-		StringText text = new StringText(otherSubfields);
-		return text;
+		return new StringText(otherSubfields);
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.AccessPoint#setAccesspointStringText(org.folio.cataloging.util.StringText)
+	/**
+	 * Sets stringText to publisher access point.
+	 *
+	 * @param stringText -- the stringText to set.
 	 */
-	public void setAccessPointStringText(StringText stringText) {
-		//TODO _JANICK externalize codes
-		otherSubfields = stringText.getSubfieldsWithCodes("cefg").toString();
+	public void setAccessPointStringText(final StringText stringText) {
+		otherSubfields = stringText.getSubfieldsWithCodes(GlobalStorage.PUBLISHER_OTHER_SUBFIELD_CODES).toString();
 	}
 
-	public void setDescriptorStringText(StringText stringText) {
-		getDescriptor().setStringText(
-			stringText.getSubfieldsWithoutCodes(VARIANT_CODES).toString());
-	}
-	
-	/* (non-Javadoc)
-	 * @see Browsable#setHeadingNumber(java.lang.Integer)
+	/**
+	 * Sets descriptor string text.
+	 *
+	 * @param stringText -- the string text to set.
 	 */
-	 /*
-	  * This method is overridden in Publisher Access Point because the AMICUS client
-	  * behaviour has been to assign 0 to the heading number field when no heading
-	  * is related.  We catch this here and use null internally.
-	  */
-	public void setHeadingNumber(Integer i) {
-		if (i != null && i.intValue() == 0) {
-			headingNumber = null;
-		}
-		else {
-			headingNumber = i;
-		}
+	public void setDescriptorStringText(final StringText stringText) {
+		getDescriptor().setStringText(stringText.getSubfieldsWithoutCodes(GlobalStorage.PUBLISHER_VARIANT_CODES).toString());
 	}
+
+	/**
+	 * Sets the heading number to publisher access point.
+	 *
+	 * @param i -- the heading number to set.
+	 */
+	public void setHeadingNumber(final Integer i) {
+		headingNumber = (i != null && i == 0) ? null : i;
+	}
+
+	/**
+	 *
+	 * @return variant codes associated.
+	 */
 	public String getVariantCodes() {
-		return VARIANT_CODES;
+		return GlobalStorage.PUBLISHER_VARIANT_CODES;
 	}
-	 
+
+	/**
+	 * Mark descriptor as "changed".
+	 */
 	public void markChanged() {
 		if(getDescriptor()!=null)
 			getDescriptor().markChanged();

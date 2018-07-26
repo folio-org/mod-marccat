@@ -8,9 +8,9 @@
 package org.folio.cataloging.business.cataloguing.authority;
 
 import org.folio.cataloging.business.cataloguing.bibliographic.PersistsViaItem;
-import org.folio.cataloging.business.cataloguing.common.AccessPoint;
-import org.folio.cataloging.business.cataloguing.common.ItemEntity;
 import org.folio.cataloging.dao.persistence.AUT;
+import org.folio.cataloging.dao.persistence.AccessPoint;
+import org.folio.cataloging.dao.persistence.ItemEntity;
 
 /**
  * @author paulm

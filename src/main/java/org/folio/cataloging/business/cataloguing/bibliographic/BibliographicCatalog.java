@@ -5,10 +5,7 @@ import org.folio.cataloging.business.common.*;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.PublisherTagDescriptor;
 import org.folio.cataloging.dao.*;
-import org.folio.cataloging.dao.persistence.Model;
-import org.folio.cataloging.dao.persistence.PUBL_HDG;
-import org.folio.cataloging.dao.persistence.PUBL_TAG;
-import org.folio.cataloging.dao.persistence.T_BIB_TAG_CAT;
+import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.exception.ValidationException;
 import org.folio.cataloging.shared.CorrelationValues;
 
@@ -31,8 +28,8 @@ public class BibliographicCatalog extends Catalog {
 	private static final ModelDAO MODEL_DAO = new BibliographicModelDAO();
 	private static final BibliographicCatalogDAO CATALOG_DAO = new BibliographicCatalogDAO();
 
-	protected static AbstractMapBackedFactory TAG_FACTORY;
-	protected static AbstractMapBackedFactory FIXED_FIELDS_FACTORY;
+	private static AbstractMapBackedFactory TAG_FACTORY;
+	private static AbstractMapBackedFactory FIXED_FIELDS_FACTORY;
 
 	static {
 		TAG_FACTORY = new MapBackedFactory();
@@ -293,7 +290,7 @@ public class BibliographicCatalog extends Catalog {
 
 	// TODO: Is this method still in use?
 	public void transferItems(Descriptor source, Descriptor target) throws DataAccessException {
-		CATALOG_DAO.transferItems(source, target);
+		/*CATALOG_DAO.transferItems(source, target);*/
 	}
 	
 	public void attachEquivalentSubjects(final BibliographicItem item) throws DataAccessException {
@@ -324,16 +321,16 @@ public class BibliographicCatalog extends Catalog {
 			final int cataloguingView) throws DataAccessException {
 		if (recordView == cataloguingView) {
 			// nothing to do
-			return getCatalogItem(new Object[] { amicusNumber, recordView });
+			return getCatalogItem(amicusNumber, recordView);
 		}
 		try {
 			new DAOCache().load(amicusNumber, cataloguingView);
-			return getCatalogItem(new Object[] { amicusNumber, cataloguingView });
+			return getCatalogItem(amicusNumber, cataloguingView);
 		} catch (final RecordNotFoundException exception) {
 			// do nothing -- carry on creating record in myView
 		}
 
-		final CatalogItem item = (CatalogItem) deepCopy(getCatalogItem(new Object[] { amicusNumber, recordView }));
+		final CatalogItem item = (CatalogItem) deepCopy(getCatalogItem(amicusNumber, recordView));
 		applyKeyToItem(item, new Object[] { cataloguingView });
 		item.getItemEntity().markNew();
 		Iterator iter = item.getTags().iterator();

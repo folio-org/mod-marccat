@@ -1,7 +1,7 @@
 package org.folio.cataloging.business.cataloguing.authority;
 
-import org.folio.cataloging.business.cataloguing.common.ItemEntity;
 import org.folio.cataloging.business.cataloguing.common.TimePeriodTag;
+import org.folio.cataloging.dao.persistence.ItemEntity;
 import org.folio.cataloging.shared.CorrelationValues;
 
 /**

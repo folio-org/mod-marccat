@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping>
+	<class
+		name="org.folio.cataloging.dao.persistence.FULL_CACHE"
+		table="FULL_CACHE">
+		<composite-id>
+			<key-property name="itemNumber" column="RECORD_ID"/>
+			<key-property name="userView" column="USER_VIEW" />
+		</composite-id>
+		<property name="recordData" column="RECORD_DATA"/>
+	</class>
+</hibernate-mapping>

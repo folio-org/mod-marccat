@@ -7,17 +7,16 @@
  */
 package org.folio.cataloging.dao.persistence;
 
-import java.io.Serializable;
-import java.util.Date;
-
-import org.folio.cataloging.dao.DAODiscard;
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
+import org.folio.cataloging.dao.AbstractDAO;
+import org.folio.cataloging.dao.DAODiscard;
 
-import org.folio.cataloging.dao.common.HibernateUtil;
+import java.io.Serializable;
+import java.util.Date;
 
 public class DiscardCopy implements Persistence, Serializable {
 
@@ -204,7 +203,7 @@ public class DiscardCopy implements Persistence, Serializable {
 	/* (non-Javadoc)
 	 * @see librisuite.business.common.Persistence#getDAO()
 	 */
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return new DAODiscard();
 	}
 
@@ -255,10 +254,8 @@ public class DiscardCopy implements Persistence, Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		final DiscardCopy other = (DiscardCopy) obj;
-		if (copyIdNumber != other.copyIdNumber)
-			return false;
-		return true;
-	}
+        return copyIdNumber == other.copyIdNumber;
+    }
 
 	
 

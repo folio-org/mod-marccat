@@ -1,114 +1,119 @@
-/*
- * (c) LibriCore
- * 
- * Created on Dec 21, 2004
- * 
- * PublisherTag.java
- */
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.F;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.business.common.*;
-import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.PublisherTagDescriptor;
-import org.folio.cataloging.dao.DAODescriptor;
-import org.folio.cataloging.dao.DAOPublisherDescriptor;
+import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAOPublisherManager;
-import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.persistence.BibliographicNoteType;
 import org.folio.cataloging.dao.persistence.PUBL_HDG;
 import org.folio.cataloging.dao.persistence.PUBL_TAG;
-import org.folio.cataloging.dao.persistence.REF;
+import org.folio.cataloging.integration.GlobalStorage;
+import org.folio.cataloging.log.Log;
 import org.folio.cataloging.model.Subfield;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
+import java.util.stream.IntStream;
 
-import static org.folio.cataloging.F.deepCopy;
+import static java.util.Optional.ofNullable;
 
 /**
- * Publishers differ from other access points in that multiple publisher headings
- * contribute to a single tag, controlled through the intermediate table PUBL_TAG.  This class then 
- * implements the Tag/VariableField behaviour
- * and manages the persistence of the constituent PUBL_TAG and PublisherAccessPoint objects
+ * Management class for publishers.
+ *
+ * Multiple publisher headings contribute to a single tag, controlled from table PUBL_TAG.
+ *
  * @author paulm
- * @version $Revision: 1.1 $, $Date: 2009/12/14 22:24:41 $
+ * @author nbianchini
  * @since 1.0
  */
+@SuppressWarnings("unchecked")
 public class PublisherManager extends VariableField implements PersistentObjectWithView , Equivalent
 {
 	private static final long serialVersionUID = 1L;
-	private static Log logger = LogFactory.getLog(PublisherManager.class);
+	private static final Log logger = new Log(PublisherManager.class);
 	private static final DAOPublisherManager daoPublisherTag = new DAOPublisherManager();
+
 	private PersistenceState persistenceState = new PersistenceState();
-	private List/*<PUBL_TAG>*/ publisherTagUnits = new ArrayList/*<PUBL_TAG>*/();
-	private List/*<PUBL_TAG>*/ deletedUnits = new ArrayList/*<PUBL_TAG>*/();
-	private PublisherAccessPoint apf = new PublisherAccessPoint();
-	private List/*<String>*/ dates = new ArrayList/*<String>*/();
+	private List<PUBL_TAG> publisherTagUnits = new ArrayList<>();
+	private List<PUBL_TAG> deletedUnits = new ArrayList<>();
+	private PublisherAccessPoint apf;
+	private List<String> dates = new ArrayList<>();
 	private int tagUnitIndex;
-	private String manufacturerPlace = "";
-	private String manufacturer = "";
-	private String manufacturerDate = "";
 	private UserViewHelper userViewHelper = new UserViewHelper();
-	/* Bug 4155 inizio */
 	private String stringTextForFastDigitPublisher;
-	
+	private int noteType;
+
+	/**
+	 * Gets stringText for subfield e,f,g in fast mode.
+	 *
+	 * @return stringTextForFastDigitPublisher.
+	 */
 	public String getStringTextForFastDigitPublisher() {
 		return stringTextForFastDigitPublisher;
 	}
 
-	public void setStringTextForFastDigitPublisher(
-			String stringTextForFastDigitPublisher) {
-		this.stringTextForFastDigitPublisher = stringTextForFastDigitPublisher;
-	} 
-	
-	/*
-	 * noteType is used only for the edit page correlation to allow for the possibility
-	 * that a publisher tag can be changed to another note type.
+	/**
+	 * Sets stringText for subfield e,f,g in fast mode.
+	 *
+	 * @param stringTextForFastDigitPublisher -- the string text to set.
 	 */
-	private short noteType = 24;
+	public void setStringTextForFastDigitPublisher(final String stringTextForFastDigitPublisher) {
+		this.stringTextForFastDigitPublisher = stringTextForFastDigitPublisher;
+	}
 
-	public short getNoteType() {
+	/**
+	 * Gets note type associated to publisher.
+	 *
+	 * @return noteType.
+	 */
+	public int getNoteType() {
 		return noteType;
 	}
 
-	public void setNoteType(short noteType) {
+	/**
+	 * Sets note type to publisher.
+	 *
+	 * @param noteType -- the note type to set.
+	 */
+	public void setNoteType(final int noteType) {
 		this.noteType = noteType;
 	}
 
+	/**
+	 * Default constructor.
+	 */
 	public PublisherManager() 
 	{
 		super();
 		setPersistenceState(persistenceState);
+		setNoteType(GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE);
+		setApf(new PublisherAccessPoint());
 	}
 
-	public PublisherManager(int bib_itm, int view) 
+	/**
+	 * @param bibItemNumber -- record number.
+	 * @param view -- user view.
+	 */
+	public PublisherManager(final int bibItemNumber, final int view)
 	{
 		super();
-		setApf(new PublisherAccessPoint(bib_itm));
-		/*TODO
-		 * Changes to publisher with 3.5.4.2 introduced a new
-		 * table PUBL_TAG to manage the link between publisher
-		 * headings and publisher tags.
-		 * This implementation is 'quick and dirty'.  There is confusion
-		 * about whether the new PublisherManager (formerly PublisherTag)
-		 * should be the access point or something higher.
-		 */
-		getApf().setUserViewString(View.makeSingleViewString(view));
+		setApf(new PublisherAccessPoint(bibItemNumber));
+		final String singleViewString = View.makeSingleViewString(view);
+		getApf().setUserViewString(singleViewString);
 		setPersistenceState(persistenceState);
-		setBibItemNumber(bib_itm);
-		setUserViewString(View.makeSingleViewString(view));	
+		setBibItemNumber(bibItemNumber);
+		setUserViewString(singleViewString);
+		setNoteType(GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE);
 	}
 
-	public PublisherManager(PublisherAccessPoint apf) 
+	/**
+	 * @param apf -- publisher access point.
+	 */
+	public PublisherManager(final PublisherAccessPoint apf)
 	{
 		super();
 		setPersistenceState(persistenceState);
@@ -118,73 +123,65 @@ public class PublisherManager extends VariableField implements PersistentObjectW
 		setApf(apf);
 		getDates().add("");
 		setPublisherTagUnits(((PublisherTagDescriptor)getApf().getDescriptor()).getPublisherTagUnits());
-		Collections.sort(getPublisherTagUnits(), new PublisherTagComparator());
+        getPublisherTagUnits().sort(new PublisherTagComparator());
+		setNoteType(GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE);
 	}
 
-	/*
+	/**
 	 * Copy dates from access points into Publisher Tag while editing
 	 */
 	private void copyDates() {
-		Iterator ite = getPublisherTagUnits().iterator();
-		while(ite.hasNext()){
-			PUBL_TAG unit = (PUBL_TAG)ite.next();
-			getDates().add(unit.getDate());
-	   }
+		getPublisherTagUnits().stream().forEach(publisherTag -> {
+			getDates().add(publisherTag.getDate());
+		});
 	}
 
-	/*
-	 * Extracts subfields e,f,g from the "last" access point and stores them in separate
-	 * member variables
+	/**
+	 * Extracts subfields e,f,g from the "last" access point and stores them in separate member variables.
 	 */
 	private void extractManufacturerData() 
 	{
-		if (getPublisherTagUnits().size() > 0) {
-			PUBL_TAG lastPublTag =(PUBL_TAG)
-			publisherTagUnits.get(publisherTagUnits.size() - 1);
-			StringText s = new StringText(lastPublTag.getOtherSubfields());
-			lastPublTag.setOtherSubfields(s.getSubfieldsWithoutCodes("368efg").toString());
-			String otherFieldsText = s.getSubfieldsWithCodes("368efg").toString(); 
-			if (otherFieldsText != null && otherFieldsText.indexOf(Subfield.SUBFIELD_DELIMITER)>-1){
-				setStringTextForFastDigitPublisher(otherFieldsText.replaceAll(Global.SUBFIELD_DELIMITER, Global.SUBFIELD_DELIMITER_FOR_VIEW));
-			}else {
-				setStringTextForFastDigitPublisher(otherFieldsText);
-			}
-			/* Bug 4155 fine */
-		}
+        final PUBL_TAG last = getPublisherTagUnits().stream().reduce((a, b) -> b).orElse(null);
+        if (ofNullable(last).isPresent()){
+            final StringText stringText = new StringText(last.getOtherSubfields());
+            last.setOtherSubfields(stringText.getSubfieldsWithoutCodes(GlobalStorage.PUBLISHER_FAST_PRINTER_SUBFIELD_CODES).toString());
+            final String remainingFieldsText = stringText.getSubfieldsWithCodes(GlobalStorage.PUBLISHER_FAST_PRINTER_SUBFIELD_CODES).toString();
+            if (F.isNotNullOrEmpty(remainingFieldsText) && remainingFieldsText.contains(Subfield.SUBFIELD_DELIMITER)){
+                setStringTextForFastDigitPublisher(remainingFieldsText.replaceAll(Subfield.SUBFIELD_DELIMITER, Global.SUBFIELD_DELIMITER_FOR_VIEW));
+            }else
+                setStringTextForFastDigitPublisher(remainingFieldsText);
+        }
 	}
 
-	
-	/**
-	 * pm 2011 updates the publisher tag with the recently browsed publisher
-	 * heading
-	 * 
-	 * @throws DataAccessException
-	 */
-	public void updatePublisherFromBrowse(PUBL_HDG p)
-			throws DataAccessException {
-		PUBL_HDG myP = (PUBL_HDG) ((DAODescriptor) p.getDAO())
-				.findOrCreateMyView(p.getHeadingNumber(),
-						p.getUserViewString(), View
-								.toIntView(getUserViewString()));
-		PUBL_TAG tagUnit = (PUBL_TAG) getPublisherTagUnits().get(
-				getTagUnitIndex());
+
+    /**
+     * Updates the publisher tag with the recently browsed publisher heading.
+     *
+     * @param p -- the publisher heading to update.
+     * @throws DataAccessException in case of data access exception.
+     */
+	//TODO move it in storageService
+	@Deprecated
+	public void updatePublisherFromBrowse(final PUBL_HDG p) throws DataAccessException {
+		/*
+	    PUBL_HDG myP = (PUBL_HDG) ((DAODescriptor) p.getDAO())
+                .findOrCreateMyView(p.getHeadingNumber(), p.getUserViewString(), View.toIntView(getUserViewString()));
+		PUBL_TAG tagUnit = getPublisherTagUnits().get(getTagUnitIndex());
 		tagUnit.setDescriptor(myP);
+		*/
 	}
 
-
-	/* (non-Javadoc)
-	 * @see VariableField#getStringText()
-	 */
+    /**
+     * Gets stringText associated to publisher tag.
+     *
+     * @return stringText.
+     */
 	public StringText getStringText() 
 	{
-		logger.debug("getting StringText");
-		StringText result = new StringText();
-		Iterator ite = getPublisherTagUnits().iterator();
-		while(ite.hasNext()){
-			PUBL_TAG aTagUnit = (PUBL_TAG)ite.next();
-			result.add(new StringText(aTagUnit.getStringText()));
-			logger.debug("added: " + aTagUnit.getStringText());
-		}
+		final StringText result = new StringText();
+        getPublisherTagUnits().stream().forEach(aTagUnit -> {
+            result.add(new StringText(aTagUnit.getStringText()));
+        });
 		return result;
 	}
 
@@ -192,103 +189,87 @@ public class PublisherManager extends VariableField implements PersistentObjectW
 	 * @return the MARC display string for the publisher tag
 	 */
 	public String getDisplayString() {
-		/*
-		 * This is used in the worksheet jsp for displaying tags that
-		 * cannot be directly edited on the page (as with publisher)
-		 */
 		return getStringText().getMarcDisplayString();
 	}
 
-	/* (non-Javadoc)
-	 * @see VariableField#setStringText(org.folio.cataloging.util.StringText)
-	 */
-	public void setStringText(StringText stringText) {
-		// should only be called from model parsing
-		/*
-		 * clear the current apf's
-		 */
-		setPublisherTagUnits(new ArrayList/*<PUBL_TAG>*/());
-		/*
-		 * break up the string text into constituent PublisherTagUnits
-		 */
-		logger.debug("Setting string text to " + stringText);
-		StringText newText = new StringText();
-		String lastSubfield = "a";
-		List/*<Subfield>*/ theList = stringText.getSubfieldList();
-		Iterator ite = theList.iterator();
-		while(ite.hasNext()){
-			Subfield aSubfield = (Subfield)ite.next();
-			logger.debug("subfield is " + aSubfield);
-			if (aSubfield.getCode().compareTo(lastSubfield) < 0
-				|| theList.lastIndexOf(aSubfield) == theList.size() - 1) {
-				logger.debug("first test passed");
-				if (theList.lastIndexOf(aSubfield) == theList.size() - 1) {
-					// add the last subfield to newText
-					logger.debug("is the last so add to newText");
-					newText.addSubfield(aSubfield);
-				}
-				/*
-				 * we have reached the end of a tag Unit  of subfields
-				 * so create a new PUBL_TAG and set the text
-				 */
-				if (newText.getNumberOfSubfields() > 0) {
-					logger.debug("adding new publisher tag row");
-					addNewTagUnit();
-					PUBL_TAG p = (PUBL_TAG)
-						getPublisherTagUnits().get(
-							getPublisherTagUnits().size() - 1);
-					p.setStringText(newText.toString());
-					newText = new StringText();
-				}
-			}
-			newText.addSubfield(aSubfield);
-			lastSubfield = aSubfield.getCode();
-		}
-		logger.debug("StringText is \"" + newText + "\"");
-		parseForEditing();
+    /**
+     * Sets stringText to publisher.
+     *
+     * @param stringText -- the string text to set.
+     */
+	public void setStringText(final StringText stringText) {
+        setPublisherTagUnits(new ArrayList<>());
+        String lastSubfield = "a";
+        StringText newText = new StringText();
+		List<Subfield> theList = stringText.getSubfieldList();
+
+        for (Subfield aSubfield : theList) {
+            if (aSubfield.getCode().compareTo(lastSubfield) < 0 || theList.lastIndexOf(aSubfield) == theList.size() - 1) {
+                if (theList.lastIndexOf(aSubfield) == theList.size() - 1) {
+                    newText.addSubfield(aSubfield);
+                }
+                if (newText.getNumberOfSubfields() > 0) {
+                    addNewTagUnit();
+                    final PUBL_TAG p = getPublisherTagUnits().get(getPublisherTagUnits().size() - 1);
+                    p.setStringText(newText.toString());
+                    newText = new StringText();
+                }
+            }
+            newText.addSubfield(aSubfield);
+            lastSubfield = aSubfield.getCode();
+        }
+        parseForEditing();
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#getCategory()
-	 */
+    /**
+     * Gets title marc category code.
+     *
+     * @return category.
+     */
 	public int getCategory() {
-		return 7;
+		return GlobalStorage.PUBLISHER_CATEGORY;
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#getCorrelationValues()
-	 */
+    /**
+     * Gets correlation values of publisher.
+     *
+     * @return correlationValues.
+     */
 	public CorrelationValues getCorrelationValues() {
 		return getApf().getCorrelationValues();
 	}
 
-	/**
-	 * 
-	 * @since 1.0
-	 */
-	public List/*<PUBL_TAG>*/ getPublisherTagUnits() {
+    /**
+     * Gets list of tag publisher units.
+     *
+     * @return publisherTagUnits.
+     */
+	public List<PUBL_TAG> getPublisherTagUnits() {
 		return publisherTagUnits;
 	}
 
-	/**
-	 * 
-	 * @since 1.0
-	 */
-	public void setPublisherTagUnits(List/*<PUBL_TAG>*/ list) {
+    /**
+     * Sets list of tag publisher unit.
+     *
+     * @param list -- the list to set.
+     */
+	public void setPublisherTagUnits(List<PUBL_TAG> list) {
 		publisherTagUnits = list;
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#getFirstCorrelationList()
-	 */
+	@Deprecated
 	public List getFirstCorrelationList() throws DataAccessException {
-		return getDaoCodeTable().getList(BibliographicNoteType.class);
+		/* return getDaoCodeTable().getList(BibliographicNoteType.class); */
+		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	public boolean equals(Object obj) {
+    /**
+     * Compares an object with another one.
+     *
+     * @param obj -- the object to compare.
+     * @return true if equals.
+     */
+	public boolean equals(final Object obj) {
 		if (obj instanceof PublisherManager) {
 			PublisherManager p = (PublisherManager) obj;
 			return p.getApf().equals(this.getApf());
@@ -296,111 +277,87 @@ public class PublisherManager extends VariableField implements PersistentObjectW
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.common.Persistence#getDAO()
-	 */
-	public HibernateUtil getDAO() {
+    /**
+     *
+     * @return daoPublisherTag.
+     */
+	public AbstractDAO getDAO() {
 		return daoPublisherTag;
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#isWorksheetEditable()
-	 */
-	public boolean isWorksheetEditable() {
+    /**
+     * Gets default implementation.
+     *
+     * @return false.
+     */
+    public boolean isWorksheetEditable() {
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#isPublisher()
-	 */
+    /**
+     * Gets default implementation.
+     *
+     * @return true.
+     */
 	public boolean isPublisher() {
 		return true;
 	}
 
-	/**
-	 * 
-	 * @since 1.0
-	 */
-	public String getManufacturer() {
-		return manufacturer;
-	}
-
-	/**
-	 * 
-	 * @since 1.0
-	 */
-	public String getManufacturerDate() {
-		return manufacturerDate;
-	}
-
-	/**
-	 * 
-	 * @since 1.0
-	 */
-	public String getManufacturerPlace() {
-		return manufacturerPlace;
-	}
-
-	/**
-	 * 
-	 * @since 1.0
-	 */
-	public void setManufacturer(String string) {
-		manufacturer = string;
-	}
-
-	public void setManufacturerDate(String string) {
-		manufacturerDate = string;
-	}
-
-	public void setManufacturerPlace(String string) {
-		manufacturerPlace = string;
-	}
-
-	public List/*<PUBL_TAG>*/ getDeletedUnits() {
+    /**
+     * Gets list of deleted tag publisher unit.
+     *
+     * @return deletedUnits.
+     */
+	public List<PUBL_TAG> getDeletedUnits() {
 		return deletedUnits;
 	}
 
-	public void setDeletedUnits(List/*<PUBL_TAG>*/ list) {
+    /**
+     * Sets list of deleted tag publisher unit.
+     *
+     * @param list -- the list to set.
+     */
+	public void setDeletedUnits(final List<PUBL_TAG> list) {
 		deletedUnits = list;
 	}
 
+	//TODO evaluate if needs because is used in a method moved in storageService
 	public int getTagUnitIndex() {
 		return tagUnitIndex;
 	}
-
-	public void setApfIndex(int i) {
+	public void setApfIndex(final int i) {
 		tagUnitIndex = i;
 	}
 
-	public List/*<String>*/ getDates() {
+    /**
+     * Returns list of dates.
+     *
+     * @return dates.
+     */
+	public List<String> getDates() {
 		return dates;
 	}
 
-	public List/*<String>*/ getDates(int i) {
-		logger.debug("getting date[" + i + "] = " + dates.get(i));
-		return dates;
-	}
+    /**
+     * Sets list of dates.
+     *
+     * @param list -- the list to set.
+     */
+	public void setDates(final List<String> list) { dates = list; }
 
-	public void setDates(List/*<String>*/ list) {
-		logger.debug("setting all dates");
-		dates = list;
-		for (int i = 0; i < dates.size(); i++) {
-			logger.debug("dates[" + i + "]='" + dates.get(i) + "'");
-		}
-	}
-
+    /**
+     * Creates a new tag publisher unit and add it to publisherTagUnits list.
+     *
+     */
 	public void addNewTagUnit() {
-		PUBL_TAG tagUnit = new PUBL_TAG();
+		final PUBL_TAG tagUnit = new PUBL_TAG();
 		tagUnit.setUserViewString(getUserViewString());
 		getPublisherTagUnits().add(tagUnit);
 		getDates().add("");
 	}
 
 	/**
-	 * Extract dates and manufacturer data for editing as individual fields
-	 * 
-	 * @since 1.0
+	 * Extract dates and manufacturer data for editing as individual fields.
 	 */
 	public void parseForEditing() {
 		extractManufacturerData();
@@ -408,242 +365,199 @@ public class PublisherManager extends VariableField implements PersistentObjectW
 	}
 
 	/**
-	 * Incorporate edit changes (dates, manufacturer data, sequences, etc.) into
-	 * the tagUnits ready for saving to the database
-	 * 
-	 * @since 1.0
+	 * Incorporate edit changes (dates, manufacturer data, sequences, etc.) into the tagUnits ready for saving to the database.
+	 *
 	 */
 	public void saveEdits() {
-		int i = 0;
-		Iterator ite = getPublisherTagUnits().iterator();
-		while(ite.hasNext()){
-			PUBL_TAG p = (PUBL_TAG)ite.next();
-			PUBL_HDG pu = p.getDescriptor();
-			  
-			if(pu!=null && pu.getKey().getHeadingNumber()==-1){
- 			    pu.setNameStringText("");
-	    	    pu.setPlaceStringText("");
-			  }
-	
-			p.setSequenceNumber(i + 1);
-			if (!("".equals(getDates().get(i)))) {
-				p.setOtherSubfields(Subfield.SUBFIELD_DELIMITER + "c" + getDates().get(i));
-			}
-			else
-				p.setOtherSubfields("");
-			i = i + 1;
-		}
-	     setDates(new ArrayList/*<String>*/());
-		
-		// check if any of subfields e,f,g are present
-		StringText s = new StringText();
-		
-		
+
+        IntStream.range(0, getPublisherTagUnits().size())
+            .forEach(idx -> {
+                final PUBL_TAG publTag = getPublisherTagUnits().get(idx);
+                final PUBL_HDG publUnit = publTag.getDescriptor();
+                if(publUnit != null && publUnit.getKey().getHeadingNumber()==-1){
+                    publUnit.setNameStringText("");
+                    publUnit.setPlaceStringText("");
+                }
+                publTag.setSequenceNumber(idx + 1);
+                String date = "";
+                if (!"".equals(getDates().get(idx)))
+                    date = Subfield.SUBFIELD_DELIMITER + "c" + getDates().get(idx);
+
+                publTag.setOtherSubfields(date);
+            });
+        setDates(new ArrayList<>());
+
+		final StringText s = new StringText();
 		s.add(new StringText(getStringTextForFastDigitPublisher()));
-			
 		if (s.getNumberOfSubfields() > 0) {
 			if (getPublisherTagUnits().size() == 0) {
-				// create a new unit to hold the manufacturer data
 				getPublisherTagUnits().add(new PUBL_TAG());
 			}
-			// add the manufacturer data to the last unit
-			PUBL_TAG p =(PUBL_TAG)getPublisherTagUnits().get(getPublisherTagUnits().size() - 1);
-			StringText st = new StringText(p.getOtherSubfields());
-			st.add(s);
-			p.setOtherSubfields(st.toString());
+
+            final PUBL_TAG last = getPublisherTagUnits().stream().reduce((a, b) -> b).orElse(null);
+			if (ofNullable(last).isPresent()){
+                StringText st = new StringText(last.getOtherSubfields()).add(s);
+                last.setOtherSubfields(st.toString());
+            }
 		}
-		logger.debug("saveEdits");
 		((PublisherTagDescriptor)getApf().getDescriptor()).setPublisherTagUnits(getPublisherTagUnits());
 	}
 
-	public Element generateModelXmlElementContent(Document xmlDocument) {
-		Element content = null;
-		if (xmlDocument != null) {
-			content =
-				getStringText().generateModelXmlElementContent(xmlDocument);
-		}
-		return content;
-	}
-
-	public void parseModelXmlElementContent(Element xmlElement) {
-		setStringText(StringText.parseModelXmlElementContent(xmlElement));
-	}
-
+    /**
+     * Gets user view string associated.
+     *
+     * @return userView.
+     */
 	public String getUserViewString() {
 		return userViewHelper.getUserViewString();
 	}
 
-	public void setUserViewString(String string) {
-		userViewHelper.setUserViewString(string);
+    /**
+     * Sets user view string.
+     *
+     * @param userview -- the param to set.
+     */
+	public void setUserViewString(final String userview) {
+		userViewHelper.setUserViewString(userview);
 	}
 
+    /**
+     * Returns the record amicus number.
+     *
+     * @return itemNumber.
+     */
 	public int getBibItemNumber() {
 		return getItemNumber();
 	}
 
-	public void setBibItemNumber(int i) {
+    /**
+     * Sets the record item number.
+     *
+     * @param i -- the item number to set.
+     */
+	public void setBibItemNumber(final int i) {
 		setItemNumber(i);
 	}
 
-	/* (non-Javadoc)
-	 * @see TagInterface#evict()
-	 */
+    /**
+     * Evict
+     * @throws DataAccessException in case of data access exception.
+     */
 	public void evict() throws DataAccessException {
-		PublisherAccessPoint apf = getApf();
+		final PublisherAccessPoint apf = getApf();
 		apf.evict();
-		Iterator ite = getPublisherTagUnits().iterator();
-		while(ite.hasNext()){
-			PUBL_TAG p = (PUBL_TAG)ite.next();
-			p.evict();
-		}
+        getPublisherTagUnits().stream().forEach(tagUnit -> {
+            tagUnit.evict();
+        });
 	}
 
-	/* (non-Javadoc)
-	 * @see TagInterface#setCorrelationValues(librisuite.business.common.CorrelationValues)
-	 */
-	public void setCorrelationValues(CorrelationValues v) {
+    /**
+     * Sets correlation values related to publisher.
+     *
+     * @param v -- the correlation values to set.
+     */
+	public void setCorrelationValues(final CorrelationValues v) {
 		getApf().setCorrelationValues(v);
 	}
 
-	/* (non-Javadoc)
-	 * @see TagInterface#markChanged()
-	 */
+    /**
+     * Mark as changed.
+     */
 	public void markChanged() {
-		Iterator ite = getPublisherTagUnits().iterator();
-		while(ite.hasNext()){
-		  PUBL_TAG p = (PUBL_TAG)ite.next();
-		  p.markChanged();
-		}
+        getPublisherTagUnits().forEach(tagUnit -> tagUnit.markChanged());
 		super.markChanged();
 	}
 
-	/* (non-Javadoc)
-	 * @see TagInterface#markDeleted()
-	 */
+    /**
+     * Mark as deleted.
+     */
 	public void markDeleted() {
-		Iterator ite = getPublisherTagUnits().iterator();
-		while(ite.hasNext()){
-			PUBL_TAG p = (PUBL_TAG)ite.next();
-			p.markDeleted();
-		}
+        getPublisherTagUnits().forEach(tagUnit -> tagUnit.markDeleted());
 		super.markDeleted();
 	}
 
-	/* (non-Javadoc)
-	 * @see TagInterface#markNew()
-	 */
-	public void markNew() {
-		Iterator ite = getPublisherTagUnits().iterator();
-		while(ite.hasNext()){
-			PUBL_TAG p = (PUBL_TAG)ite.next();
-			p.markNew();
-		}
-		super.markNew();
-	}
+    /**
+     * Mark as new.
+     */
+    public void markNew() {
+        getPublisherTagUnits().forEach(tagUnit -> tagUnit.markNew());
+        super.markNew();
+    }
 
-	/* (non-Javadoc)
-	 * @see TagInterface#markUnchanged()
-	 */
+    /**
+     * Mark as unchanged.
+     */
 	public void markUnchanged() {
-		Iterator ite = getPublisherTagUnits().iterator();
-		while(ite.hasNext()){
-			PUBL_TAG p = (PUBL_TAG)ite.next();
-			p.markUnchanged();
-		}
+        getPublisherTagUnits().forEach(tagUnit ->  tagUnit.markUnchanged());
 		super.markUnchanged();
 	}
 
-	/* (non-Javadoc)
-	 * @see TagInterface#setUpdateStatus(int)
-	 */
-	public void setUpdateStatus(int i) {
-		Iterator ite = getPublisherTagUnits().iterator();
-		while(ite.hasNext()){
-			PUBL_TAG p = (PUBL_TAG)ite.next();
-			p.setUpdateStatus(i);
-		}
+    /**
+     * Sets update status.
+     */
+	public void setUpdateStatus(final int i) {
+        getPublisherTagUnits().forEach(tagUnit ->  tagUnit.setUpdateStatus(i));
 		super.setUpdateStatus(i);
 	}
 
-	/* (non-Javadoc)
-	 * @see TagInterface#correlationChangeAffectsKey(librisuite.business.common.CorrelationValues)
-	 */
-	public boolean correlationChangeAffectsKey(CorrelationValues v) {
+    /**
+     * Checks correlation key value is changed for publisher.
+     *
+     * @param v -- the correlation values.
+     * @return boolean.
+     */
+	public boolean correlationChangeAffectsKey(final CorrelationValues v) {
 		return !BibliographicNoteType.isPublisherType(v.getValue(1));
 	}
 
+    /**
+     * Returns the access point associated to publisher.
+     *
+     * @return apf.
+     */
 	public PublisherAccessPoint getApf() {
 		return apf;
 	}
 
-	public void setApf(PublisherAccessPoint apf) {
+    /**
+     * Sets the access point associated to publisher.
+     *
+     * @param apf -- the apf to set.
+     */
+	public void setApf(final PublisherAccessPoint apf) {
 		this.apf = apf;
 	}
 
-	//@Override
 	public int hashCode() {
 		return getApf().hashCode();
 	}
 
-	public void removeDescriptor(int i) 
+	/**
+	 * Remove descriptor from publisher tag units.
+	 *
+	 * @param i -- the index of tag unit to remove.
+	 */
+	public void removeDescriptor(final int i)
 	{
-		PUBL_TAG pap =(PUBL_TAG) getPublisherTagUnits().get(i);
-		detachDescriptor(pap);
+		PUBL_TAG tagUnit = getPublisherTagUnits().get(i);
+		detachDescriptor(tagUnit);
 	}
-	 
-	private void detachDescriptor(PUBL_TAG pap) {
-		PUBL_HDG publ_hdg = pap.getDescriptor();
-		if(pap.getPublisherHeadingNumber()==null){
+	private void detachDescriptor(final PUBL_TAG tagUnit) {
+		final PUBL_HDG publ_hdg = tagUnit.getDescriptor();
+		if(tagUnit.getPublisherHeadingNumber()==null){
 		   publ_hdg.setNameStringText("");
 		   publ_hdg.setPlaceStringText("");
 	
-	    }else{ 
-		   pap.setDescriptor(null);
-		   pap.setPublisherHeadingNumber(null);
+	    }else{
+			tagUnit.setDescriptor(null);
+			tagUnit.setPublisherHeadingNumber(null);
 		}
 	}
-		//TODO da aggiornare tag 260
-		
-	public List replaceEquivalentDescriptor(short indexingLanguage,	int cataloguingView) throws DataAccessException 
-	{
-		DAODescriptor dao = new DAOPublisherDescriptor();
-		DAOPublisherManager daoPu = new DAOPublisherManager();
-		List newTags = new ArrayList();
-		PUBL_TAG pu = null;
-		PublisherManager aTag = (PublisherManager) (deepCopy(this));
-		PublisherAccessPoint apf = aTag.getApf();
-		List/*<PUBL_TAG>*/ publisherTagApp = new ArrayList/*<PUBL_TAG>*/();
-		
-		for (int i = 0; i < getPublisherTagUnits().size(); i++) {
-			pu = (PUBL_TAG) getPublisherTagUnits().get(i);
-			Descriptor d = pu.getDescriptor();
-			REF ref = dao.getCrossReferencesWithLanguage(d, cataloguingView,
-					indexingLanguage);
-			if (ref != null) {
-				aTag.markNew();
-				int tagNumber = daoPu.getNextPublisherTagNumber();
-				pu.setPublisherTagNumber(tagNumber);
-				pu.setDescriptor((PUBL_HDG)dao.load(ref.getTarget(), cataloguingView));
-				pu.setPublisherHeadingNumber(new Integer(pu.getDescriptor()
-						.getKey().getHeadingNumber()));
-				publisherTagApp.add(pu);
-				apf.markNew();
-				apf.setHeadingNumber(new Integer(tagNumber));
-				
 
-			}
-			else{
-				aTag.markNew();
-				int tagNumber = daoPu.getNextPublisherTagNumber();
-				publisherTagApp.add(pu);
-				apf.markNew();
-				apf.setHeadingNumber(new Integer(tagNumber));
-			}
-		}
-		if(aTag!=null){
-		  aTag.setPublisherTagUnits(publisherTagApp);
-		  newTags.add(aTag);
-		}
-		return newTags;
+	@Deprecated
+	//TODO moved in storageService
+	public List replaceEquivalentDescriptor(short indexingLanguage,	int cataloguingView) throws DataAccessException
+	{
+		return null;
 	}
 }

@@ -7,7 +7,6 @@
  */
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
-import org.folio.cataloging.bean.cataloguing.bibliographic.PhysicalDescription;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

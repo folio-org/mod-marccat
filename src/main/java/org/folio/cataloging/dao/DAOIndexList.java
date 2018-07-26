@@ -275,9 +275,9 @@ public class DAOIndexList extends HibernateUtil {
 		return result;
 	}
 	
-	public IndexList getIndexByLocalAbbreviation(String s, Locale locale) throws DataAccessException {
+	public IndexList getIndexByLocalAbbreviation(final Session session, String s, Locale locale) throws DataAccessException {
 
-		List l = find("from IndexList as a " 
+		List l = find(session, "from IndexList as a "
 				+ "where lower(a.languageCode) = '" + s.toLowerCase() + "'"
 				+ " and a.key.language = '" + locale.getISO3Language() + "'"				
 				+ " and a.codeLibriCatMades = 'LC'");

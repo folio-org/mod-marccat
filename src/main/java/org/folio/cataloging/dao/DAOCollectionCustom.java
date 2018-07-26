@@ -6,16 +6,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.*;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.persistence.CollectionCustomer;
 import org.folio.cataloging.dao.persistence.CollectionCustomerArch;
-import org.folio.cataloging.form.CollectionsCustomForm;
 
 import java.sql.*;
 import java.sql.Date;
 import java.util.*;
 
-public class DAOCollectionCustom extends HibernateUtil 
+public class DAOCollectionCustom extends AbstractDAO
 {
 	private static Log logger = LogFactory.getLog(DAOCollectionCustom.class);
 	
@@ -256,36 +254,6 @@ public class DAOCollectionCustom extends HibernateUtil
 			logAndWrap(e);
 		}
 		return result;
-	}
-
-	//TODO: refactoring
-	public List orderCstCollection(CollectionsCustomForm form, Locale locale) throws DataAccessException
-	{
-		List result = new ArrayList();
-		List listAllCollection= null;
-		
-		String query = workQuery(form.getTypologyCode(), form.getSearchNome(), form.getSearchId(), form.getColonna(), form.getStatus());
-		
-		try {
-			Session s = currentSession();
-			Query q = s.createQuery(query);
-			listAllCollection = q.list();
-			Iterator iter = listAllCollection.iterator();
-			while (iter.hasNext()) {
-				CollectionCustomer rawCustom = (CollectionCustomer) iter.next();
-				CustomListElement rawCustomListElement = new CustomListElement(rawCustom);
-				/*rawCustomListElement.setIdCollection(rawCustom.getIdCollection().intValue());
-				rawCustomListElement.setNameIta(LibrisuiteAction.getDaoCodeTable().getLongText((short)rawCustom.getNameIta(),T_CLCTN_CST_TYP.class,locale));
-				rawCustomListElement.setTypologyCode(LibrisuiteAction.getDaoCodeTable().getLongText(rawCustom.getTypologyCode(),T_CLCTN_TYP.class,locale));
-				rawCustomListElement.setStatusCode(LibrisuiteAction.getDaoCodeTable().getLongText(rawCustom.getStatusCode().shortValue(),T_STS_CLCTN_TYP.class,locale));
-				rawCustomListElement.setCountCst(countCollectionFromRecordUses(rawCustom.getIdCollection().intValue()));*/
-				result.add(rawCustomListElement);
-			}
-		} catch (HibernateException e) {
-			logAndWrap(e);
-		}
-		return sortCustomList(form.getStatus(), form.getColonna(), result);
-//		return result;
 	}
 	
 	private String workQuery(String typologyCode, String searchNome, String searchId, String colonna, String status) 

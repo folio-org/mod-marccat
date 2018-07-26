@@ -11,14 +11,13 @@ import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.in.Filtro;
 import org.folio.cataloging.business.in.Fonte;
-import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.persistence.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class DAOSearchImportSpot extends HibernateUtil {
+public class DAOSearchImportSpot extends AbstractDAO {
 	
 	private static final Log logger = LogFactory.getLog(DAOSearchImportSpot.class);
 	

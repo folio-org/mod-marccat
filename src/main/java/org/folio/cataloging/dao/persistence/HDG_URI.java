@@ -7,16 +7,14 @@ import org.folio.cataloging.Global;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
+import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAOHeadingUri;
-import org.folio.cataloging.dao.common.HibernateUtil;
 
 import java.io.Serializable;
 import java.util.Date;
 
 public class HDG_URI implements Persistence {
 	private static final long serialVersionUID = 6496002006152292469L;
-	
-	static DAOHeadingUri dao = new DAOHeadingUri();
 	
 	private String uri;
 	private int headingNumber;   
@@ -136,11 +134,11 @@ public class HDG_URI implements Persistence {
 	}
 	
 	public void evict() throws DataAccessException {
-		evict((Object)this);
+		evict(this);
 	}
 	
-	public HibernateUtil getDAO() {
-		return dao;
+	public AbstractDAO getDAO() {
+		return new DAOHeadingUri();
 	}
 	
 	public int getUpdateStatus() {

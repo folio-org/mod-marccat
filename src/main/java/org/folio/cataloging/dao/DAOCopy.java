@@ -14,7 +14,6 @@ import org.folio.cataloging.business.common.RecordNotFoundException;
 import org.folio.cataloging.business.common.SortFormException;
 import org.folio.cataloging.business.common.UpdateStatus;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
-import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.util.StringText;
@@ -28,7 +27,8 @@ import static org.folio.cataloging.F.deepCopy;
 import static org.folio.cataloging.F.fixedCharPadding;
 
 @SuppressWarnings("unchecked")
-public class DAOCopy extends HibernateUtil {
+public class DAOCopy extends AbstractDAO {
+
 	private Log logger = LogFactory.getLog(DAOCopy.class);
 
 	public static final Comparator<CPY_ID> CPY_ID_COMPARATOR = new Comparator<CPY_ID>() {
@@ -1865,18 +1865,6 @@ public class DAOCopy extends HibernateUtil {
 		} else {
 			return 0;
 		}
-	}
-
-	public List<Avp> getDescriptionSubfield4()
-			throws DataAccessException {
-		List raw = find("SELECT distinct a.code  FROM T_NME_WRK_RLTR as a ORDER BY a.code ASC");
-		List<Avp> result = new ArrayList<Avp>();
-		Iterator iter = raw.iterator();
-		while (iter.hasNext()) {
-			String row = (String) iter.next();
-			result.add(new Avp(row, row));
-		}
-		return result;
 	}
 
 	public List<Avp> getDescriptionSubfieldE()

@@ -3,12 +3,9 @@ package org.folio.cataloging.business.cataloguing.bibliographic;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.common.*;
+import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAOBibliographicRelationship;
 import org.folio.cataloging.dao.DAOSystemNextNumber;
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.dao.persistence.BibliographicRelationPrintNote;
-import org.folio.cataloging.dao.persistence.BibliographicRelationReciprocal;
-import org.folio.cataloging.dao.persistence.BibliographicRelationType;
 import org.folio.cataloging.model.Subfield;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
@@ -108,7 +105,7 @@ public class BibliographicRelationship extends VariableField implements Persiste
 		return (new CorrelationValues()).change(1, getRelationTypeCode()).change(2, getRelationPrintNoteCode());
 	}
 
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return new DAOBibliographicRelationship();
 	}
 	
@@ -117,7 +114,8 @@ public class BibliographicRelationship extends VariableField implements Persiste
 	}
 
 	public List getFirstCorrelationList() throws DataAccessException {
-		return getDaoCodeTable().getList(BibliographicRelationType.class,true);
+		/* return getDaoCodeTable().getList(BibliographicRelationType.class,true); */
+		return null;
 	}
 
 	public String getMaterialSpecificText() {
@@ -130,7 +128,8 @@ public class BibliographicRelationship extends VariableField implements Persiste
 
 	public List getReciprocalList() throws DataAccessException 
 	{
-		return getDaoCodeTable().getList(BibliographicRelationReciprocal.class,true);
+		/*return getDaoCodeTable().getList(BibliographicRelationReciprocal.class,true);*/
+		return null;
 	}
 
 	public int getReciprocalOption() throws DataAccessException
@@ -184,9 +183,9 @@ public class BibliographicRelationship extends VariableField implements Persiste
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#getSecondCorrelationList(short, java.util.Locale)
 	 */
-	public List getSecondCorrelationList(short value1)
-		throws DataAccessException {
-		return getDaoCodeTable().getList(BibliographicRelationPrintNote.class,true);
+	public List getSecondCorrelationList(short value1)	throws DataAccessException {
+		/* return getDaoCodeTable().getList(BibliographicRelationPrintNote.class,true); */
+		return null;
 	}
 
 	public StringText getStringText() {		

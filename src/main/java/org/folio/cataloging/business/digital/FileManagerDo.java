@@ -23,8 +23,6 @@ import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import org.folio.cataloging.bean.digital.DigitalAmminBean;
-import org.folio.cataloging.bean.digital.FileDigitalBean;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 import org.folio.cataloging.dao.DAODigital;
 
@@ -74,53 +72,7 @@ public class FileManagerDo
 			f.setReadable(true, false);
 		}
 	}
-	
-	public List getChilds(String path, String amicusNumber) throws DigitalFileSystemException
-	{
-//		System.out.println("getChild path ---> " + path);
-			
-		FileDigitalBean fileDigitalBean = null;
-		listChilds = new ArrayList();
-		
-		setPathCorr(path);
-		File f = new File(path);
-		
-//---->	PER CONFRONTARE DUE PATH SI USA IL METODO COMPARETO DI FILE!!!
-//		if (f.compareTo(new File(getDIGITAL_CONTEXT()))==0) {
-		if (f.compareTo(new File(mainDirectoryByOperation))==0) {
-//------>   e'la directory madre e non ha livello superiore
-//			setPathParent(getDIGITAL_CONTEXT());
-			setPathParent(mainDirectoryByOperation);
-		}else
-			setPathParent(f.getParent());
-		
-//--->  L'ultimo carattere del pathParent deve essere "/" altrimenti ha problemi nel riconoscimento della root 
-//		quando attivo la funzione di livello superiore (indietro nella navigazione del filesystem) e livello inferiore (avanti nella navigazione del filesystem)
-//		System.out.println("ultimo carattere del path parent :" + getPathParent().substring(getPathParent().length()-1));
-		if (!getPathParent().substring(getPathParent().length()-1).equalsIgnoreCase(SLASH) ) {
-			setPathParent(getPathParent()+ SLASH );
-		}
-		
-		File files [] = f.listFiles(new FileListFilter(amicusNumber));
-		
-		if (files != null)
-		{	
-			for (int i=0; i < files.length; i++) {		
-				if (files[i].isDirectory()) {
-					fileDigitalBean = new FileDigitalBean(files[i]);
-					fileDigitalBean.setPathParent(files[i].getParent());
-					listChilds.add(fileDigitalBean);
-				
-				} else if (files[i].isFile()) {		
-						fileDigitalBean = new FileDigitalBean(files[i]);
-						listChilds.add(fileDigitalBean);
-				}
-			}
-		}
-//---->	Ordinamento alfabetico nome, prima directory e poi files
-		Collections.sort(listChilds);
-		return orderDirectoryFiles(listChilds);
-	}
+
 	
 	public boolean repositoryExsist(String path) 
 	{
@@ -133,25 +85,6 @@ public class FileManagerDo
 		return exist;
 	}
 
-	public List orderDirectoryFiles(List lista)
-	{
-//		Nella lista mette prima le directory e poi tutti i files 
-		List listaOrd = new ArrayList();
-		for (Iterator iterator = lista.iterator(); iterator.hasNext();) {
-			FileDigitalBean dig = (FileDigitalBean) iterator.next();
-			if (dig.isdirectory()){
-				listaOrd.add(dig);
-			}
-		}
-		for (Iterator iterator = lista.iterator(); iterator.hasNext();) {
-				FileDigitalBean dig = (FileDigitalBean) iterator.next();
-				if (!dig.isdirectory()){
-					listaOrd.add(dig);
-				}
-		}
-		return listaOrd;
-	}
-	
 	public String takeNameFromPath(String path)throws Exception
 	{
 //		System.out.println("Path ----------------> " + path);
@@ -367,26 +300,7 @@ public class FileManagerDo
 		}
 		.execute();
 	}
-	
-	/**
-	 *	20100217: Metodo per aggiornare la tabella dei dati amministrativi digitali con file e size 
-	 */
-	public void loadCasDigAdmin(String directoryFile, String fileName, long size, int amicusNumber) throws DataAccessException
-	{ 	
-		String pathRelativoFile = findPathRelative(directoryFile)+ SLASH + fileName;
-		
-		DigitalAmminBean amminBean = new DigitalAmminBean();
-		amminBean.loadItems(amicusNumber);
-		amminBean.getCurrentItem().setFileName(pathRelativoFile);
-	   	amminBean.getCurrentItem().setFileSize(size+"");
-	   	
-		if (amminBean.isExistItem()){
-			amminBean.getCurrentItem().markChanged();
-		}else {
-			amminBean.getCurrentItem().markNew();
-		}
-		amminBean.saveOrUpdate();
-	}
+
 
 	public String findPathRelative(String fullPath)
 	{

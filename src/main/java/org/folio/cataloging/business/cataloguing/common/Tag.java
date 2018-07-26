@@ -4,20 +4,22 @@ import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.business.cataloguing.bibliographic.FixedField;
 import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
 import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.PersistenceState;
-import org.folio.cataloging.dao.DAOCodeTable;
-import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.persistence.CorrelationKey;
 import org.folio.cataloging.dao.persistence.T_SINGLE;
 import org.folio.cataloging.exception.ValidationException;
 import org.folio.cataloging.model.Subfield;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.shared.Validation;
+import org.folio.cataloging.util.StringText;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -27,6 +29,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import static org.folio.cataloging.F.deepCopy;
+
+//import org.folio.cataloging.dao.DAOCodeTable;
+//import org.folio.cataloging.dao.common.HibernateUtil;
 
 /**
  * @author paulm
@@ -50,7 +55,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 
 	private TagImpl tagImpl;
 	private static Log logger = LogFactory.getLog(Tag.class);
-	protected static DAOCodeTable daoCodeTable = new DAOCodeTable();
+	//protected static DAOCodeTable daoCodeTable = new DAOCodeTable();
 	protected PersistenceState persistenceState;
 	private int itemNumber = -1;
 
@@ -147,6 +152,76 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 		return (other.getItemNumber() == this.getItemNumber());
 	}
 
+	/**
+	 * 2018 Paul Search Engine Java Adds this tag to the XML record with
+	 * punctuation for MARC export
+	 *
+	 * @param xmlDocument
+	 * @return
+	 */
+	public Element toExternalMarcSlim(Document xmlDocument) {
+		return toXmlElement(xmlDocument, true);
+	}
+
+	// 2018 Paul Search Engine Java
+	public StringText addPunctuation() {
+		// overridden in subclasses -- default implementation does nothing
+		return null;
+	}
+
+	// 2018 Paul Search Engine Java
+	private Element toXmlElement(Document xmlDocument, boolean withPunctuation) {
+		CorrelationKey marcEncoding = null;
+		try {
+			marcEncoding = getMarcEncoding();
+		} catch (Exception exception) {
+			logger.warn("Invalid tag found in Tag.toXmlElement");
+			return xmlDocument.createElement("error");
+		}
+
+		String marcTag = marcEncoding.getMarcTag();
+		String marcFirstIndicator = new String(""
+				+ marcEncoding.getMarcFirstIndicator());
+		String marcSecondIndicator = new String(""
+				+ marcEncoding.getMarcSecondIndicator());
+
+		Element field = null;
+		if (isFixedField()) {
+			field = xmlDocument.createElement("controlfield");
+		} else {
+			field = xmlDocument.createElement("datafield");
+		}
+		field.setAttribute("tag", marcTag);
+		if (isFixedField()) {
+			Node text = xmlDocument.createTextNode(((FixedField) this)
+					.getDisplayString());
+			field.appendChild(text);
+		} else {
+			field.setAttribute("ind1", marcFirstIndicator);
+			field.setAttribute("ind2", marcSecondIndicator);
+			StringText st;
+			if (withPunctuation) {
+				try {
+					st = addPunctuation();
+				} catch (Exception e) {
+					// if addPunctuation fails, we want to proceed using the raw
+					// string text
+					logger.warn(
+							"Error adding punctuation, using original text", e);
+					st = ((VariableField) this).getStringText();
+				}
+			} else {
+				st = ((VariableField) this).getStringText();
+			}
+			for (Iterator subfieldIterator = st.getSubfieldList().iterator(); subfieldIterator
+					.hasNext();) {
+				Subfield subfield = (Subfield) subfieldIterator.next();
+				field.appendChild(subfield.toXmlElement(xmlDocument));
+			}
+		}
+		return field;
+	}
+
 	public int hashCode() 
 	{
 		return getItemNumber();
@@ -183,9 +258,9 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 
 	}
 
-	public DAOCodeTable getDaoCodeTable() {
+	/* nat: public DAOCodeTable getDaoCodeTable() {
 		return daoCodeTable;
-	}
+	}*/
 
 	public PersistenceState getPersistenceState() {
 		return persistenceState;
@@ -472,9 +547,9 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 		return false;
 	}
 
-	public HibernateUtil getDAO() {
+	/* nat: public HibernateUtil getDAO() {
 		return persistenceState.getDAO();
-	}
+	}*/
 
 	/* (non-Javadoc)
 	 * @see TagInterface#validate()
@@ -508,5 +583,9 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 	
 	public int getPhysical() {
 		return PHYSICAL_MATERIAL;
+	}
+
+	public AbstractDAO getDAO() {
+		return persistenceState.getDAO();
 	}
 }

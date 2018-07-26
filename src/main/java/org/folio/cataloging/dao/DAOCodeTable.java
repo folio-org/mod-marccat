@@ -8,7 +8,6 @@ import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.business.descriptor.Descriptor;
-import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.log.Log;
@@ -31,7 +30,7 @@ import static org.folio.cataloging.F.isNotNullOrEmpty;
  * @since 1.0
  */
 
-public class DAOCodeTable extends HibernateUtil {
+public class DAOCodeTable extends AbstractDAO {
 	private Log logger = new Log(DAOCodeTable.class);
 
 	public static final int STEP = 10;
@@ -1069,7 +1068,6 @@ public class DAOCodeTable extends HibernateUtil {
 	 * @param session hibernate session
 	 * @throws DataAccessException
 	 */
-
 	public void updateCodeTable(final Object c, final Session session) {
 		Transaction tx = null;
 		try {

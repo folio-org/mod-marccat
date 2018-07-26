@@ -1,9 +1,9 @@
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
-import org.folio.cataloging.business.cataloguing.common.AccessPoint;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.PersistentObjectWithView;
 import org.folio.cataloging.business.common.UserViewHelper;
+import org.folio.cataloging.dao.persistence.AccessPoint;
 import org.folio.cataloging.util.StringText;
 
 public abstract class BibliographicAccessPoint extends AccessPoint implements PersistentObjectWithView 

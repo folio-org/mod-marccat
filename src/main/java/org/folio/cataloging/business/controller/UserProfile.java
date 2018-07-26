@@ -15,8 +15,11 @@ import org.folio.cataloging.dao.persistence.T_ITM_DSPLY;
 import org.folio.cataloging.dao.persistence.USR_ACNT;
 
 /**
- * User information affecting application behaviour
+ * User information affecting application behaviour.
+ *
  * @author paulm
+ * @author agazzarini
+ * @since 1.0
  */
 public class UserProfile {
 	private int cataloguingView;
@@ -25,7 +28,6 @@ public class UserProfile {
 	private AuthorisationAgent authorisationAgent;
 	private String name;
 	private int maxRecordCount;
-	String startApp = Defaults.getString("starting.application");
 	private USR_ACNT aUserAccount;
     
 	public UserProfile(final Session session, String name) throws DataAccessException {
@@ -50,75 +52,18 @@ public class UserProfile {
 		setDefaultBibliographicModel(aUserAccount.getDefaultBibliographicModel());
 	}
 
-	//TODO PM This default constructor was added when the functionality of the (name) constructor was duplicated
-	// in UserProfileDAO -- and the underlying persistence was changed from Hibernate to JDBC -- Not sure why this 
-	// was done (check with Emiliano) and then eliminate the duplication and decide on the persistence model.
-	// -- in the meantime -- initialize a "new" USR_ACNT object within the default constructor
-
-	public UserProfile()
-	{
-		aUserAccount = new USR_ACNT();
+	public UserProfile() {
+        aUserAccount = new USR_ACNT();
 	}
 
-	
-	/**
-	 * It depends upon the starting application "mad"
-	 * TODO _MIKE: Both mades and LibriCat cataloguing view can be active simultaneously
-	 * @param aUserAccount
-	 * @return
-	 */
-	private int getRealUserView(USR_ACNT aUserAccount) {
-		int uaView = aUserAccount.getCataloguingView();
-		int realView = uaView;
-		if("mad".equalsIgnoreCase(startApp)){
-			realView = convert(uaView);
-		}
-		return realView;
+	private int getRealUserView(final USR_ACNT userAccount) {
+		return userAccount.getCataloguingView();
 	}
 
-	/**
-	 * It depends upon the starting application "mad"
-	 * TODO _MIKE: Both mades and LibriCat cataloguing view can be active simultaneously
-	 * @return
-	 */
-	public int getRealUserView(int uaView ) {
-		int realView = uaView;
-		return realView;
-	}
-	
-	/**
-	 * Converte la vista catalografica dell'utente nella vista interna Mades
-	 * secondo la seguente tabella:
-	 * <pre>
-	 * userView  | madesView
-	 * ----------+-----------
-	 *    1      |    -2
-	 *    2      |    -3
-	 *    3      |    -4
-	 * ----------^-----------
-	 * </pre>
-	 * @param userView
-	 * @return
-	 */
-	private int convert(int userView) {
-		
-		return -(userView + 1);
-	}
-
-	/**
-	 * Getter for cataloguingView
-	 * 
-	 * @return cataloguingView
-	 */
 	public int getCataloguingView() {
 		return cataloguingView;
 	}
 
-	/**
-	 * Setter for cataloguingView
-	 * 
-	 * @param s cataloguingView
-	 */
 	public void setCataloguingView(int s) {
 		cataloguingView = s;
 	}
@@ -139,121 +84,58 @@ public class UserProfile {
 		mainLibrary = i;
 	}
 
-	/**
-	 * 
-	 * @since 1.0
-	 */
 	public AuthorisationAgent getAuthorisationAgent() {
 		return authorisationAgent;
 	}
 
-	/**
-	 * 
-	 * @since 1.0
-	 */
 	public void setAuthorisationAgent(AuthorisationAgent agent) {
 		authorisationAgent = agent;
 	}
 
-	/**
-	 * 
-	 * @since 1.0
-	 */
-	public void checkPermission(Permission aPermission)
-		throws AuthorisationException {
+	public void checkPermission(final Permission aPermission) throws AuthorisationException {
 		authorisationAgent.checkPermission(aPermission);
 	}
 
-	/**
-	 * 
-	 * @since 1.0
-	 */
-	public void checkPermission(Permission[] somePermissions)
-		throws AuthorisationException {
+	public void checkPermission(final Permission[] somePermissions) throws AuthorisationException {
 		authorisationAgent.checkPermission(somePermissions);
 	}
 
-	/**
-	 * 
-	 * @since 1.0
-	 */
-	public void checkPermission(String permissionName)
-		throws AuthorisationException {
+	public void checkPermission(final String permissionName) throws AuthorisationException {
 		authorisationAgent.checkPermission(permissionName);
 	}
 
-	/**
-	 * 
-	 * @since 1.0
-	 */
-	public void checkPermission(String[] someNames)
-		throws AuthorisationException {
+	public void checkPermission(final String[] someNames) throws AuthorisationException {
 		authorisationAgent.checkPermission(someNames);
 	}
 
-	/**
-	 * 
-	 * @since 1.0
-	 */
 	public T_ITM_DSPLY getDefaultRecordDisplay() {
 		return aUserAccount.getDefaultRecordDisplay();
 	}
 
-	/**
-	 * 
-	 * @since 1.0
-	 */
 	public void setDefaultRecordDisplay(T_ITM_DSPLY t_itm_dsply) {
 		aUserAccount.setDefaultRecordDisplay(t_itm_dsply);
 	}
 
-	/**
-	 * 
-	 * @since 1.0
-	 */
 	public String getName() {
 		return name;
 	}
 
-	/**
-	 * 
-	 * @since 1.0
-	 */
 	public int getMaxRecordCount() {
 		return maxRecordCount;
 	}
 
-	public String getCataloguingViewString(){
-		if(cataloguingView<0) {
-			String s = Defaults.getString("catalog.view.label."+cataloguingView);
-			if(s!=null) return s;
-		}
-		return "" + cataloguingView;
-	}
-	
-	/**
-	 * @return
-	 */
 	public int getSearchingView() {
 		return aUserAccount.getDefaultSearchingView();
 	}
-	/**
-	 * @param searchingView
-	 */
+
 	public void setSearchingView(int searchingView) {
 		aUserAccount.setDefaultSearchingView(searchingView);
 	}
-	
-	/**
-	 * @return the databasePreferenceOrder
-	 */
+
 	public int getDatabasePreferenceOrder() {
 		return aUserAccount.getDatabasePreferenceOrder();
 	}
 
-	/**
-	 * @param databasePreferenceOrder the databasePreferenceOrder to set
-	 */
 	public void setDatabasePreferenceOrder(int databasePreferenceOrder) {
 		aUserAccount.setDatabasePreferenceOrder(databasePreferenceOrder);
 	}

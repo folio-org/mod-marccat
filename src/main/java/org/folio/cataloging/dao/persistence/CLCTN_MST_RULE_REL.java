@@ -1,14 +1,13 @@
 package org.folio.cataloging.dao.persistence;
 
-import java.io.Serializable;
-
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
+import org.folio.cataloging.dao.AbstractDAO;
 
-import org.folio.cataloging.dao.common.HibernateUtil;
+import java.io.Serializable;
 
 public class CLCTN_MST_RULE_REL implements Persistence, Comparable
 {
@@ -43,10 +42,10 @@ public class CLCTN_MST_RULE_REL implements Persistence, Comparable
 	}
 
 	public void evict() throws DataAccessException {
-		evict((Object)this);
+		evict(this);
 	}
 
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return null;
 	}
 	

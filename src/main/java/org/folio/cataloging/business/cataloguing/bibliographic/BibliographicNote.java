@@ -6,10 +6,10 @@ package org.folio.cataloging.business.cataloguing.bibliographic;
 
 import org.folio.cataloging.business.cataloguing.common.OrderedTag;
 import org.folio.cataloging.business.common.*;
+import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAOBibliographicNote;
 import org.folio.cataloging.dao.DAOSystemNextNumber;
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.dao.persistence.BibliographicNoteType;
+import org.folio.cataloging.integration.GlobalStorage;
 import org.folio.cataloging.model.Subfield;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
@@ -33,7 +33,6 @@ public class BibliographicNote extends VariableField implements PersistentObject
 	private char overflowIndicator = '0';
 	public List overflowList = new ArrayList();
 	private UserViewHelper userViewHelper = new UserViewHelper();
-	public static final short PUBLISHER_TYPE = 24;
 	private Integer sequenceNumber;
 
 	public BibliographicNote() {
@@ -132,12 +131,10 @@ public class BibliographicNote extends VariableField implements PersistentObject
 		return bibliographicNoteCategory;
 	}
 
-	/**
-	 * @deprecated
-	 */
-	public List getFirstCorrelationList()
-		throws DataAccessException {
-		return getDaoCodeTable().getList(BibliographicNoteType.class,true);
+	@Deprecated
+	public List getFirstCorrelationList() throws DataAccessException {
+		/* return getDaoCodeTable().getList(BibliographicNoteType.class,true); */
+		return null;
 	}
 
 	/**
@@ -192,6 +189,11 @@ public class BibliographicNote extends VariableField implements PersistentObject
 		setNoteNbr(dao.getNextNumber("BN"));
 	}
 
+	@Override
+	public AbstractDAO getDAO() {
+		return new DAOBibliographicNote();
+	}
+
 	/**
 	 * @deprecated
 	 */	public String getRequiredEditPermission() {
@@ -209,16 +211,8 @@ public class BibliographicNote extends VariableField implements PersistentObject
 	 * @deprecated
 	 */
 	public void setCorrelationValues(CorrelationValues v) {
-		setNoteType(v.getValue(1));		
+		setNoteType(v.getValue(1));
 	}
-
-	/* (non-Javadoc)
-	 * @see librisuite.business.common.Persistence#getDAO()
-	 */
-	public HibernateUtil getDAO() {
-		return new DAOBibliographicNote();
-	}
-
 
 	/**
 	 * @return
@@ -241,7 +235,7 @@ public class BibliographicNote extends VariableField implements PersistentObject
 	 * @deprecated
 	 */
 	public boolean correlationChangeAffectsKey(CorrelationValues v) {
-		if (v.getValue(1) == BibliographicNote.PUBLISHER_TYPE){
+		if (v.getValue(1) == GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE) {
 			return true;
 		 }else if (v.getValue(1) == 381){
 			return true;

@@ -1,6 +1,5 @@
 package org.folio.cataloging.business.marchelper;
 
-import org.folio.cataloging.bean.cataloguing.bibliographic.codelist.CodeListsBean;
 import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.marchelper.parser.FieldValueReplacer;
 import org.folio.cataloging.business.marchelper.parser.PunctuationField;
@@ -141,7 +140,7 @@ public class TagModelItem {
 	}
 	
 	private List<KeyAvp>  getFieldLabels(Map fieldMap, Locale locale, String variantCodes) {
-		List labels = CodeListsBean.getMarcHelperLabel().getCodeList(locale);
+		List labels = null;//CodeListsBean.getMarcHelperLabel().getCodeList(locale);
 		List fieldLabels = new ArrayList();
 //		Iterator it = fieldMap.keySet().iterator();
 		Iterator it = getSelectedModel().getPunctuationElements().getFilteredFieldList(variantCodes).iterator();

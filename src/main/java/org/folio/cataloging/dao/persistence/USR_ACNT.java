@@ -7,17 +7,15 @@
  */
 package org.folio.cataloging.dao.persistence;
 
-import java.io.Serializable;
-import java.util.Date;
-
 import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.Session;
-
-import org.folio.cataloging.dao.common.HibernateUtil;
-
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
+import org.folio.cataloging.dao.AbstractDAO;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author paulm
@@ -126,7 +124,7 @@ public class USR_ACNT implements Serializable, Persistence {
 		return communicationsAccessType;
 	}
 
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return persistenceState.getDAO();
 	}
 

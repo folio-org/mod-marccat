@@ -10,6 +10,8 @@ import org.folio.cataloging.business.controller.UserProfile;
 import org.folio.cataloging.dao.CatalogDAO;
 import org.folio.cataloging.dao.DAOCodeTable;
 import org.folio.cataloging.dao.ModelDAO;
+import org.folio.cataloging.dao.persistence.CatalogItem;
+import org.folio.cataloging.dao.persistence.ItemEntity;
 import org.folio.cataloging.dao.persistence.Model;
 import org.folio.cataloging.exception.RecordInUseException;
 import org.folio.cataloging.exception.ValidationException;
@@ -28,12 +30,14 @@ import java.util.Map;
  * @author agazzarini
  * @since 1.0
  */
+
+//TODO: evaluate if need to use this class
 public abstract class Catalog {
 
 	private final Log logger = LogFactory.getLog(getClass());
 	protected final static DAOCodeTable DAO_CODE_TABLE = new DAOCodeTable();
 
-	private final static Map<Integer, Catalog> VIEW_TO_INSTANCE_MAP = new HashMap();
+	private final static Map<Integer, Catalog> VIEW_TO_INSTANCE_MAP = new HashMap<>();
 
 	/**
 	 * Returns the {@link Catalog} instance associated with the given view identifier.
@@ -101,8 +105,9 @@ public abstract class Catalog {
 	abstract public Tag getNewTag(CatalogItem item, int category,
 			CorrelationValues correlationValues) throws NewTagException;
 
-	public CatalogItem getCatalogItem(final Object[] key) throws DataAccessException {
-		final CatalogItem b = getCatalogDao().getCatalogItemByKey(key);
+	public CatalogItem getCatalogItem(final int ... key) throws DataAccessException {
+		// FIXME: In case this method is needed the following line should be moved on the persistence layer.
+		final CatalogItem b = getCatalogDao().getCatalogItemByKey(null, key);
 
 		for (int i = 0; i < b.getNumberOfTags(); i++) {
 			try {
@@ -152,10 +157,12 @@ public abstract class Catalog {
 
 	abstract public void addRequiredTagsForModel(CatalogItem item) throws NewTagException;
 
+	@Deprecated
 	public void deleteCatalogItem(CatalogItem item,UserProfile user) throws DataAccessException {
-		getCatalogDao().deleteCatalogItem(item, user);
+		//getCatalogDao().deleteCatalogItem(item, user);
 	}
 
+	@Deprecated
 	public void saveCatalogItem(CatalogItem item) throws DataAccessException, ValidationException {
 		item.validate();
 		getCatalogDao().saveCatalogItem(item);

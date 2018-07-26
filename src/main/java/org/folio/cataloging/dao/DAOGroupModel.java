@@ -45,7 +45,7 @@ public class DAOGroupModel extends HibernateUtil {
 	}
 
 	public List getAllBasicGroupModels()throws DataAccessException {
-		List result = find("select b from TAG_GRP_MODEL b where b.parentSequence = 0");
+		List result = find(null, "select b from TAG_GRP_MODEL b where b.parentSequence = 0");
 		return result;
 	}
 	

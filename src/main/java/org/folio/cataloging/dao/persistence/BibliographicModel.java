@@ -1,6 +1,6 @@
 package org.folio.cataloging.dao.persistence;
-import org.folio.cataloging.dao.BibliographicModelDAO;
-import org.folio.cataloging.dao.common.HibernateUtil;
+
+import org.folio.cataloging.dao.AbstractDAO;
 
 /**
  * Represents a Model/Template for of bibliographic type
@@ -21,21 +21,12 @@ public class BibliographicModel extends Model {
 	}
 
 	/**
-	 * Gets the bibliographic model DAO.
-	 *
-	 * @return the bibliographic model DAO
-	 */
-	public BibliographicModelDAO getBibliographicModelDAO() {
-		return new BibliographicModelDAO();
-	}
-
-	/**
 	 * Gets the dao.
 	 *
 	 * @return the dao
 	 */
 	@Deprecated
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return null;
 	}
 }

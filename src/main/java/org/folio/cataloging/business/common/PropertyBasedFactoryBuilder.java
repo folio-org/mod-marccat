@@ -81,9 +81,9 @@ public class PropertyBasedFactoryBuilder {
 	}
 
 	/**
-	 * Produces the integer keys from the given token.
+	 * Produces the integer keys from the given type.
 	 *
-	 * @param token the input token.
+	 * @param token the input type.
 	 */
 	private List<Integer> integersFromToken(final String token) {
 		final int dashIndex = token.indexOf(RANGE_INDICATOR);

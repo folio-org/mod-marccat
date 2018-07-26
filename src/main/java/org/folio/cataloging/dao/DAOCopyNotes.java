@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- * 
- * Created on 20-jul-2004
- * 
- * DAOCopyNotes.java
- */
 package org.folio.cataloging.dao;
 
 import java.util.Iterator;

@@ -1,16 +1,14 @@
 package org.folio.cataloging.dao.persistence;
 
-import java.io.Serializable;
-
 import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.Session;
-
-import org.folio.cataloging.dao.common.HibernateUtil;
-
-import org.folio.cataloging.dao.DAOCodeTable;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
+import org.folio.cataloging.dao.AbstractDAO;
+import org.folio.cataloging.dao.DAOCodeTable;
+
+import java.io.Serializable;
 
 public abstract class CodeTable implements Persistence 
 {
@@ -81,7 +79,7 @@ public abstract class CodeTable implements Persistence
 	public void generateNewKey() throws DataAccessException {		
 	}
 
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return new DAOCodeTable();
 	}
 
@@ -165,8 +163,6 @@ public abstract class CodeTable implements Persistence
 				return false;
 		} else if (!language.equals(other.language))
 			return false;
-		if (sequence != other.sequence)
-			return false;
-		return true;
-	}		
+        return sequence == other.sequence;
+    }
 }

@@ -7,15 +7,15 @@
  */
 package org.folio.cataloging.dao.persistence;
 
-import java.io.Serializable;
-
-import org.folio.cataloging.dao.DAOBibliographicStandardNote;
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
-import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.AbstractDAO;
+import org.folio.cataloging.dao.BibliographicStandardNoteDAO;
+
+import java.io.Serializable;
 
 /**
  * @author paulm
@@ -24,8 +24,6 @@ import org.folio.cataloging.dao.common.HibernateUtil;
  */
 public class StandardNoteAccessPoint implements Persistence {
 	private PersistenceState persistenceState = new PersistenceState();
-	private static final DAOBibliographicStandardNote dao =	new DAOBibliographicStandardNote();
-	
     protected short typeCode = -1;
     private int bibItemNumber = -1;
 	private String userViewString;
@@ -106,15 +104,15 @@ public void setPersistenceState(PersistenceState state) {
 	}
 
 	public void evict() throws DataAccessException {
-		evict((Object)this);
+		evict(this);
 	}
 	
 	/**
 	 * 
 	 * @since 1.0
 	 */
-	public HibernateUtil getDAO() {
-		return dao;
+	public AbstractDAO getDAO() {
+		return new BibliographicStandardNoteDAO();
 	}
 
 	/**
@@ -152,10 +150,8 @@ public void setPersistenceState(PersistenceState state) {
 		StandardNoteAccessPoint other = (StandardNoteAccessPoint) obj;
 		if (bibItemNumber != other.bibItemNumber)
 			return false;
-		if (noteNbr != other.noteNbr)
-			return false;
-		return true;
-	}
+        return noteNbr == other.noteNbr;
+    }
 	/**
 	 * 
 	 * @since 1.0

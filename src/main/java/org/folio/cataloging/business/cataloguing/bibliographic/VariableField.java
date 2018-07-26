@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- * 
- * Created on Sep 29, 2004
- * 
- * VariableField.java
- */
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
 import org.folio.cataloging.business.cataloguing.common.Tag;
@@ -15,9 +8,13 @@ import org.w3c.dom.Element;
 
 import java.util.List;
 
+import static java.util.Optional.ofNullable;
+
 /**
+ * Manages the variable tag field.
+ *
  * @author paulm
- * @version $Revision: 1.9 $, $Date: 2005/12/21 08:30:32 $
+ * @author nbianchini
  * @since 1.0
  */
 public abstract class VariableField extends Tag  {
@@ -25,7 +22,7 @@ public abstract class VariableField extends Tag  {
 	/**
 	 * Class constructor
 	 *
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public VariableField() {
@@ -38,88 +35,115 @@ public abstract class VariableField extends Tag  {
 	 * 
 	 * @since 1.0
 	 */
-	public VariableField(int itemNumber) {
+	public VariableField(final int itemNumber) {
 		super(itemNumber);
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#isBrowsable()
+
+	/**
+	 * Return default value for variable field.
+	 *
+	 * @return false.
 	 */
 	public boolean isBrowsable() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#getSecondCorrelationList(short)
+	/**
+	 * Sets default value for second correlation.
+	 *
+	 * @param value1 the first correlation value
+	 * @return null.
+	 * @throws DataAccessException in case of data access exception.
 	 */
-	public List getSecondCorrelationList(int value1)
-		throws DataAccessException {
-		// TODO Auto-generated method stub
+	public List getSecondCorrelationList(final int value1) throws DataAccessException {
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#getThirdCorrelationList(short, short)
+	/**
+	 * Sets default value for third correlation.
+	 *
+	 * @param value1 the first correlation value.
+	 * @param value2 the second correlation value.
+	 * @return null.
+	 * @throws DataAccessException in case of data access exception.
 	 */
-	public List getThirdCorrelationList(int value1, int value2)
-		throws DataAccessException {
-		// TODO Auto-generated method stub
+	public List getThirdCorrelationList(final int value1, final int value2) throws DataAccessException {
 		return null;
 	}
 
 	public abstract StringText getStringText();
 
-	public abstract void setStringText(StringText stringText);
+	public abstract void setStringText(final StringText stringText);
 
-	
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#isAbleToBeDeleted()
+	/**
+	 * Sets default implementation.
+	 *
+	 * @return true.
 	 */
-	public boolean isAbleToBeDeleted() {
-		return true; //default implementation
-	}
+	public boolean isAbleToBeDeleted() { return true; }
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#isEditableHeader()
+	/**
+	 * Sets default implementation.
+	 *
+	 * @return false.
 	 */
-	public boolean isEditableHeader() {
-		return false; //default implementation
-	}
+	public boolean isEditableHeader() {	return false; }
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#isFixedField()
+	/**
+	 * Sets default implementation.
+	 *
+	 * @return false.
 	 */
 	final public boolean isFixedField() {
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#isHeaderField()
+	/**
+	 * Sets default implementation.
+	 *
+	 * @return false.
 	 */
 	public boolean isHeaderField() {
-		return false; //default implementation
+		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#isWorksheetEditable()
+	/**
+	 * Sets default implementation.
+	 *
+	 * @return true.
 	 */
 	public boolean isWorksheetEditable() {
 		return true;
 	}
 
-	public Element generateModelXmlElementContent(Document xmlDocument) {
-		Element content = null;
-		if (xmlDocument != null) {
-			content = getStringText().generateModelXmlElementContent(xmlDocument);
-		}
-		return content;
+	/**
+	 * Generates an element content from document.
+	 *
+	 * @param xmlDocument -- the xml document.
+	 * @return an element content.
+	 */
+	public Element generateModelXmlElementContent(final Document xmlDocument) {
+		return ofNullable(xmlDocument).map(content -> {
+			Element element = getStringText().generateModelXmlElementContent(xmlDocument);
+			return element;
+		}).orElse(null);
 	}
 
-	public void parseModelXmlElementContent(Element xmlElement) {
+	/**
+	 * Converts an xml element to string text.
+	 *
+	 * @param xmlElement -- the xml element content.
+	 */
+	public void parseModelXmlElementContent(final Element xmlElement) {
 		setStringText(StringText.parseModelXmlElementContent(xmlElement));
 	}
-	
+
+	/**
+	 * Checks if string text is null or empty.
+	 *
+	 * @return boolean.
+	 */
 	public boolean isEmpty(){
 		return getStringText()==null || getStringText().isEmpty();
 	}

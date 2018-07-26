@@ -1,16 +1,14 @@
 package org.folio.cataloging.dao.persistence;
 
-import java.io.Serializable;
-
 import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.Session;
-
-import org.folio.cataloging.dao.DAOSearchImportSpot;
-import org.folio.cataloging.dao.common.HibernateUtil;
-
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
+import org.folio.cataloging.dao.AbstractDAO;
+import org.folio.cataloging.dao.DAOSearchImportSpot;
+
+import java.io.Serializable;
 
 public class CasFiltri implements Persistence{
 	
@@ -72,10 +70,10 @@ public class CasFiltri implements Persistence{
 	}
 
 	public void evict() throws DataAccessException {
-		evict((Object)this);
+		evict(this);
 	}
 	
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return dao;
 	}
 
@@ -98,10 +96,8 @@ public class CasFiltri implements Persistence{
 		if (getClass() != obj.getClass())
 			return false;
 		CasFiltri other = (CasFiltri) obj;
-		if (fltrItemNumber != other.fltrItemNumber)
-			return false;
-		return true;
-	}
+        return fltrItemNumber == other.fltrItemNumber;
+    }
 
 	public boolean isChanged() {
 		return persistenceState.isChanged();

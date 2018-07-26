@@ -8,7 +8,6 @@ import net.sf.hibernate.type.Type;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.business.PublisherListElement;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.persistence.CollectionPublisher;
 import org.folio.cataloging.dao.persistence.T_CLCTN_PUBL_LVL_TYP;
 import org.folio.cataloging.dao.persistence.T_CLCTN_PUBL_TYP;
@@ -23,42 +22,34 @@ import java.util.Locale;
 
 import static java.util.stream.Collectors.toList;
 
-public class DAOCollectionPublisher extends HibernateUtil 
+public class DAOCollectionPublisher extends AbstractDAO
 {	
 	public DAOCollectionPublisher() {
 		super();
 	}
 	private final DAOCodeTable daoCodeTable = new DAOCodeTable();
 	
-	public void persistCollectionPublisher(CollectionPublisher collection) throws DataAccessException 
+	public void persistCollectionPublisher(final Session session, CollectionPublisher collection) throws DataAccessException
 	{
 		CollectionPublisher collection2;
-		if (collection.getIdCollection()==0 || loadCollectionPublisher(collection.getIdCollection()).size() == 0) {
+		if (collection.getIdCollection()==0 || loadCollectionPublisher(session, collection.getIdCollection()).size() == 0) {
 			persistByStatus(collection);
 
 		} else {
-			collection2 = (CollectionPublisher) loadCollectionPublisher(collection.getIdCollection()).get(0);
+			collection2 = (CollectionPublisher) loadCollectionPublisher(session, collection.getIdCollection()).get(0);
 			collection2.markChanged();
 			persistByStatus(collection2);
 		}	
 	}
 
-	public List loadCollectionPublisher(int idCollection) throws DataAccessException 
+	public List loadCollectionPublisher(final Session session, int idCollection) throws DataAccessException
 	{
 		List result = null;
-	    result= find(" from CollectionPublisher as ct where ct.idCollection =" + idCollection + " order by ct.idCollection");
+	    result= find(session, " from CollectionPublisher as ct where ct.idCollection =" + idCollection + " order by ct.idCollection");
 		return result;
 		
 	}
 
-	public List loadCollectionPublisherByIdAndPublisher(int idCollection, String publisherCode) throws DataAccessException 
-	{
-		publisherCode = publisherCode.toLowerCase();
-		List result = null;
-	    result= find(" from CollectionPublisher as ct where ct.idCollection =" + idCollection + " and lower(ct.publCode) = '" + publisherCode + "' order by ct.idCollection");
-		return result;
-		
-	}
 	
 	public int getIdCollectionMST(final Session session) throws DataAccessException
 	{
@@ -78,12 +69,6 @@ public class DAOCollectionPublisher extends HibernateUtil
 		return progress;
 	}
 
-	public List loadCollectionPublisher() throws DataAccessException
-	{
-		List result = null;
-		result= find(" from CollectionPublisher as ct order by ct.idCollection");
-		return result;
-	}
 	
 	public List loadByDescription(String nameIta) throws DataAccessException 
 	{
@@ -537,7 +522,7 @@ public class DAOCollectionPublisher extends HibernateUtil
 	{
 		Connection connection = null;
 		PreparedStatement stmt = null;
-		java.sql.ResultSet rs = null;
+		java.sql.SearchResponse rs = null;
 		Session s = currentSession();
 		String query = "";
 		List l = null;

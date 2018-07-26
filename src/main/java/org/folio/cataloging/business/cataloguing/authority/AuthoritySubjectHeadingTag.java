@@ -11,7 +11,6 @@ import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.descriptor.SkipInFiling;
 import org.folio.cataloging.dao.persistence.CorrelationKey;
 import org.folio.cataloging.dao.persistence.SBJCT_HDG;
-import org.folio.cataloging.dao.persistence.T_AUT_SBJCT_HDG_TYP;
 import org.folio.cataloging.shared.CorrelationValues;
 
 import java.util.List;
@@ -41,8 +40,10 @@ public class AuthoritySubjectHeadingTag extends AuthorityHeadingTag implements S
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#getFirstCorrelationList(java.util.Locale)
 	 */
+	@Deprecated
 	public List getFirstCorrelationList() throws DataAccessException {
-		return getDaoCodeTable().getList(T_AUT_SBJCT_HDG_TYP.class,false);
+		//return getDaoCodeTable().getList(T_AUT_SBJCT_HDG_TYP.class,false);
+		return null;
 	}
 
 	/* (non-Javadoc)

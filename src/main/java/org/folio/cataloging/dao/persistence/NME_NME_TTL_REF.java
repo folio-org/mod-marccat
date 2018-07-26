@@ -7,13 +7,8 @@
  */
 package org.folio.cataloging.dao.persistence;
 
-import org.folio.cataloging.dao.DAONameNameTitleReferences;
-import org.folio.cataloging.dao.DAODescriptor;
-import org.folio.cataloging.dao.DAONameDescriptor;
-import org.folio.cataloging.dao.DAONameTitleDescriptor;
 import org.folio.cataloging.business.descriptor.Descriptor;
-
-import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.*;
 
 /**
  * @author paulm
@@ -172,7 +167,7 @@ public class NME_NME_TTL_REF extends REF {
 	/* (non-Javadoc)
 	 * @see librisuite.business.common.PersistenceState#getDAO()
 	 */
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return theDAO;
 	}
 

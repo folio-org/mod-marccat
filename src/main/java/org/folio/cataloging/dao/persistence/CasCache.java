@@ -1,25 +1,21 @@
 package org.folio.cataloging.dao.persistence;
 
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.Persistence;
+import org.folio.cataloging.business.common.PersistenceState;
+import org.folio.cataloging.dao.AbstractDAO;
+import org.folio.cataloging.dao.CasCacheDAO;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Persistence;
-import org.folio.cataloging.business.common.PersistenceState;
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
+public class CasCache implements Persistence {
 
-import org.folio.cataloging.dao.DAOCasCache;
-import org.folio.cataloging.dao.common.HibernateUtil;
-
-public class CasCache implements Persistence{
-	
-	private static final long serialVersionUID = 6496002006152292469L;
-	
-	static DAOCasCache dao = new DAOCasCache();
 	private DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 	
 	private boolean existAdminData;
@@ -31,8 +27,7 @@ public class CasCache implements Persistence{
 	private String continuazCheck;
 	private String checkNTOCSB;
 	private String checkNCORE;
-	
-	/* 20091229 Listino base storico */
+
 	private Float priceList;
 	private Date priceListDate;
 	private Date lstPriceDtIni;
@@ -61,13 +56,11 @@ public class CasCache implements Persistence{
 	private String flagIsStock;
 	private String mdrFgl;
 	private String idPublisher;	
-	/* 20100906 Aggiunta categoria merceologica */
+
 	private String  productCategory;
-//	private String workingCode;
-//	private String note;
-	
-	private Timestamp priceListDateSql; 	/* Data modifica */
-	private Timestamp lstDtCrtSql; 			/* Data inserimento*/
+
+	private Timestamp priceListDateSql;
+	private Timestamp lstDtCrtSql;
     
 	public CasCache(int bibItemNumber) 
 	{
@@ -294,22 +287,6 @@ public class CasCache implements Persistence{
 		bibItemNumber = i;
 	}
 	
-//	public String getNote() {
-//		return note;
-//	}
-//
-//	public void setNote(String note) {
-//		this.note = note;
-//	}
-//
-//	public String getWorkingCode() {
-//		return workingCode;
-//	}
-//
-//	public void setWorkingCode(String workingCode) {
-//		this.workingCode = workingCode;
-//	}
-	
 	private PersistenceState persistenceState = new PersistenceState();
 
 	public PersistenceState getPersistenceState() {
@@ -325,11 +302,9 @@ public class CasCache implements Persistence{
 		persistenceState.evict(obj);
 	}
 	public void evict() throws DataAccessException {
-		evict((Object)this);
+		evict(this);
 	}
-	public HibernateUtil getDAO() {
-		return dao;
-	}
+
 	public int getUpdateStatus() {
 		return persistenceState.getUpdateStatus();
 	}
@@ -347,9 +322,7 @@ public class CasCache implements Persistence{
 		if (getClass() != obj.getClass())
 			return false;
 		CasCache other = (CasCache) obj;
-		if (bibItemNumber != other.bibItemNumber)
-			return false;
-		return true;
+		return bibItemNumber == other.bibItemNumber;
 	}
 	public boolean isChanged() {
 		return persistenceState.isChanged();
@@ -393,6 +366,10 @@ public class CasCache implements Persistence{
 	public void generateNewKey() throws DataAccessException {
 		// not applicable for this class
 	}
+
+	@Override
+	public AbstractDAO getDAO() { return new CasCacheDAO(); }
+
 	public String getNtrLevel() {
 		return ntrLevel;
 	}

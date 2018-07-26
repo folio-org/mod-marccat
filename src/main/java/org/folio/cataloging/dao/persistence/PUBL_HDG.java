@@ -9,8 +9,8 @@ import org.folio.cataloging.business.cataloguing.bibliographic.PublisherAccessPo
 import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
+import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAOPublisherDescriptor;
-import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.exception.InvalidDescriptorException;
 import org.folio.cataloging.exception.MandatorySubfieldException;
 import org.folio.cataloging.model.Subfield;
@@ -101,7 +101,7 @@ public class PUBL_HDG extends Descriptor implements Serializable {
 	/* (non-Javadoc)
 	 * @see librisuite.hibernate.Descriptor#getDAO()
 	 */
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return new DAOPublisherDescriptor();
 	}
 

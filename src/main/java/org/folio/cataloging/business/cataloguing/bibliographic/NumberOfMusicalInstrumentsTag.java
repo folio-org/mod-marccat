@@ -1,12 +1,12 @@
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
-import org.folio.cataloging.business.cataloguing.common.ItemEntity;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.PersistenceState;
 import org.folio.cataloging.business.common.PersistentObjectWithView;
 import org.folio.cataloging.business.common.UserViewHelper;
+import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAOSystemNextNumber;
-import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.persistence.ItemEntity;
 import org.folio.cataloging.model.Subfield;
 import org.folio.cataloging.util.StringText;
 
@@ -147,7 +147,7 @@ public class NumberOfMusicalInstrumentsTag
 	/* (non-Javadoc)
 	 * @see librisuite.business.common.Persistence#getDAO()
 	 */
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return getPersistenceState().getDAO();
 	}
 
