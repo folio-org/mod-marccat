@@ -63,14 +63,12 @@ public class BibliographicCatalogDAO extends CatalogDAO
 
 	// 2018 Paul Search Engine Java
 	@Override
-	public void updateFullRecordCacheTable(Session session, CatalogItem item)
-			throws DataAccessException {
+	public void updateFullRecordCacheTable(final Session session, final CatalogItem item) throws HibernateException {
 		updateFullRecordCacheTable(session, item, true);
 	}
 
 	// 2018 Paul Search Engine Java
-	private void updateFullRecordCacheTable(Session session, CatalogItem item,
-											boolean updateRelatedRecs) throws DataAccessException {
+	private void updateFullRecordCacheTable(final Session session, final CatalogItem item, final boolean updateRelatedRecs) throws HibernateException {
 		FULL_CACHE cache;
 		DAOFullCache dao = new DAOFullCache();
 		try {
@@ -83,21 +81,19 @@ public class BibliographicCatalogDAO extends CatalogDAO
 		org.w3c.dom.Document d = item.toExternalMarcSlim();
 		cache.setRecordData(XmlUtils.documentToString(d));
 		cache.markChanged();
-		persistByStatus(cache);
+		persistByStatus(cache, session);
 		cache.evict();
-		try {
-			if (updateRelatedRecs) {
-				for (Object o : item.getTags()) {
-					if (o instanceof BibliographicRelationshipTag) {
-						BibliographicRelationshipTag t = (BibliographicRelationshipTag) o;
-						CatalogItem relItem = getBibliographicItemByAmicusNumber(t.getTargetBibItemNumber(), item.getUserView(), session);
-						updateFullRecordCacheTable(session, relItem, false);
-					}
+
+		if (updateRelatedRecs) {
+			for (Object o : item.getTags()) {
+				if (o instanceof BibliographicRelationshipTag) {
+					BibliographicRelationshipTag t = (BibliographicRelationshipTag) o;
+					CatalogItem relItem = getBibliographicItemByAmicusNumber(t.getTargetBibItemNumber(), item.getUserView(), session);
+					updateFullRecordCacheTable(session, relItem, false);
 				}
 			}
-		} catch (final HibernateException exception) {
-			throw new DataAccessException(exception);
 		}
+
 	}
 
     /**
@@ -382,6 +378,7 @@ public class BibliographicCatalogDAO extends CatalogDAO
 		List<NameTitleAccessPoint> result = (List<NameTitleAccessPoint>) getAccessPointTags(NameTitleAccessPoint.class, amicusNumber, userView, session);
 		return result.stream().map(tag -> {
 			final NME_TTL_HDG hdg = (NME_TTL_HDG) tag.getDescriptor();
+			//Done by Carmen in branch 73 //TODO after merge remove comments
 			//TODO hdg.setNameHeading((NME_HDG) new DAONameDescriptor().load(hdg.getNameHeadingNumber(), userView, session)); //TODO: session missing
 			//TODO hdg.setTitleHeading((TTL_HDG) new DAOTitleDescriptor().load(hdg.getTitleHeadingNumber(), userView, session)); //TODO: session missing
 			return tag;

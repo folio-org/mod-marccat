@@ -67,8 +67,8 @@ public abstract class CatalogDAO extends AbstractDAO {
 		session.delete(item.getModelItem());
 		transaction.commit();
 	}
-	abstract void updateFullRecordCacheTable(Session session, CatalogItem item) throws DataAccessException;
-	abstract protected void updateCacheTable(final CatalogItem item, final Session session) throws DataAccessException;
+	abstract void updateFullRecordCacheTable(Session session, CatalogItem item) throws HibernateException;
+	abstract protected void updateCacheTable(final CatalogItem item, final Session session) throws HibernateException;
 
 	abstract protected void insertDeleteTable(final CatalogItem item, final UserProfile user) throws DataAccessException;
 

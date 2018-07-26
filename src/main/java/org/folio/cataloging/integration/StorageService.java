@@ -1091,7 +1091,9 @@ public class StorageService implements Closeable {
                 new AuthorityCatalogDAO().updateFullRecordCacheTable(session, item);
                 break;
             default:
-                new BibliographicCatalogDAO().updateFullRecordCacheTable(session, item);
+                try {
+                    new BibliographicCatalogDAO().updateFullRecordCacheTable(session, item);
+                } catch (final HibernateException exception) { throw new DataAccessException(exception); }
         }
     }
 
