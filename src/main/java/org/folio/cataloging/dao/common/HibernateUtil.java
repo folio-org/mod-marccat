@@ -1,8 +1,3 @@
-/*
- * (c) LibriCore
- * 
- * Created on Apr 16, 2004
- */
 package org.folio.cataloging.dao.common;
 
 import net.sf.hibernate.HibernateException;
@@ -35,7 +30,6 @@ import static org.folio.cataloging.F.deepCopy;
  * Provides a base class of support utilities for DAO objects
  * 
  * @author wimc
- * 
  */
 @Deprecated
 public class HibernateUtil {
@@ -65,6 +59,7 @@ public class HibernateUtil {
 	 * Used for unique identifications of search clients in the search engine.
 	 * @return
 	 */
+	@Deprecated
 	public String getUniqueSessionId() {
 		try {
 			if (getLockingSession() == null) {
@@ -77,35 +72,19 @@ public class HibernateUtil {
 		}
 	}
 
+	@Deprecated
 	public Session currentSession() throws DataAccessException {
 		throw new IllegalArgumentException("Don't call me!");
-/*		try {
-			return HibernateSessionProvider.getInstance().currentSession();
-		} catch (HibernateException e) {
-			logAndWrap(e);
-			return null;
-		}
-*/
+
 	}
 
-	public void closeSession() throws DataAccessException {
+	@Deprecated
+	public void closeSession() {
 		throw new IllegalArgumentException("Don't call me!");
-/*		try {
-			HibernateSessionProvider.getInstance().closeSession();
-		} catch (HibernateException e) {
-			logAndWrap(e);
-		}
-		*/
 	}
 
-	/**
-	 * Logs the Hibernate Exception and wraps it as a DataAccessException
-	 * 
-	 * 
-	 * @param e --
-	 *            the exception
-	 */
-	public void logAndWrap(Throwable e) throws DataAccessException {
+	@Deprecated
+	public void logAndWrap(Throwable e) {
 		throw new IllegalArgumentException("Don't call me!");
 	}
 
@@ -164,37 +143,7 @@ public class HibernateUtil {
 	 */
 	@Deprecated
 	public void persistByStatus(Persistence po) throws DataAccessException {
-		/* Session s = currentSession();
-
-		if (po.isNew()) {
-			if (logger.isDebugEnabled()) {
-				logger.debug("inserting " + po);
-			}
-
-			if (po instanceof AuthorityNote) {
-
-				AuthorityNote a = getNewInstanceOfAuthorityNote((AuthorityNote) po);
-				a.setPersistenceState(new PersistenceState());
-				a.getDAO().save(a);
-				try {
-					s.flush();
-					s.evict(a);
-				} catch (HibernateException e) {
-					e.printStackTrace();
-				}
-			} else
-				po.getDAO().save(po);
-		} else if (po.isChanged()) {
-			if (logger.isDebugEnabled()) {
-				logger.debug("updating " + po);
-			}
-			po.getDAO().update(po);
-		} else if (po.isDeleted()) {
-			if (logger.isDebugEnabled()) {
-				logger.debug("deleting " + po);
-			}
-			po.getDAO().delete(po);
-		} */
+		throw new IllegalArgumentException("DON'T CALL ME!!!");
 	}
 
 	private AuthorityNote getNewInstanceOfAuthorityNote(AuthorityNote note) {
@@ -425,42 +374,6 @@ public class HibernateUtil {
 		}.execute();
 	}
 
-	// public void lock(int key, String entityType, String userName)
-	// throws DataAccessException, RecordInUseException {
-	// try {
-	// if (getLockingSession() == null || getLockingSession().isClosed()) {
-	// setLockingSession(createNewDBSession());
-	// setLockingSessionId(getSessionID(getLockingSession()));
-	// }
-	// S_LCK_TBL myLock = new S_LCK_TBL(key, entityType);
-	// S_LCK_TBL existingLock = (S_LCK_TBL) get(S_LCK_TBL.class, myLock);
-	//	
-	// if (existingLock != null) {
-	// if (existingLock.getDbSession() == getLockingSessionId()) {
-	// // same lock already exists so return
-	// return;
-	// //test se non presente anche lo stesso USER caso di chiusura della
-	// sessione
-	// } else if (isSessionAlive(existingLock.getDbSession())&&
-	// /*!isUserPresent(userName)*/
-	// !existingLock.getUserName().equals(userName)) {
-	// throw new RecordInUseException();
-	// } else {
-	// // remove lock from dead session
-	// existingLock.markDeleted();
-	// persistByStatus(existingLock);
-	// }
-	// }
-	// myLock.setDbSession(getLockingSessionId());
-	// myLock.setUserName(userName);
-	// //16/06/2001 aggiunto da Carmen
-	// myLock.markNew();
-	// persistByStatus(myLock);
-	// } catch (SQLException e) {
-	// throw new DataAccessException();
-	// }
-	// }
-
 	public void lock(int key, String entityType, String userName)
 			throws DataAccessException, RecordInUseException {
 		ResultSet rs = null;
@@ -546,14 +459,17 @@ public class HibernateUtil {
 		}
 	}
 
+	@Deprecated
 	private boolean isSessionAlive(String sessionId) {
 		throw new IllegalArgumentException("Don't call me!");
 	}
 
+	@Deprecated
 	private boolean isUserPresent(String user) {
 		throw new IllegalArgumentException("Don't call me!");
 	}
 
+	@Deprecated
 	private Connection createNewDBSession() throws SQLException {
 		throw new IllegalArgumentException("Don't call me!");
 	}
