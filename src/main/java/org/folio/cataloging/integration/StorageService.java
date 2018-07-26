@@ -15,10 +15,12 @@ import org.folio.cataloging.exception.ModCatalogingException;
 import org.folio.cataloging.integration.search.Parser;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
+import org.folio.cataloging.resources.domain.Diacritic;
 import org.folio.cataloging.resources.domain.RecordTemplate;
 import org.folio.cataloging.search.SearchResponse;
 import org.folio.cataloging.shared.CodeListsType;
 import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.cataloging.shared.MapDiacritic;
 import org.folio.cataloging.shared.Validation;
 
 import java.io.Closeable;
@@ -28,6 +30,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
@@ -1022,6 +1025,32 @@ public class StorageService implements Closeable {
     }
 
     /**
+     * Returns the diacritics associated with the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the diacritics associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<MapDiacritic> getDiacritics(final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        try {
+
+            return  dao.getDiacritics(session).stream().map(diacritic -> {
+                        final MapDiacritic diacriticObject = new MapDiacritic();
+                        diacriticObject.setCode(diacritic.getIdCharacter());
+                        diacriticObject.setDescription(diacritic.getCharacterName());
+                        diacriticObject.setCharacter(diacritic.getCharacter());
+                        diacriticObject.setCharacterSet(diacritic.getSetCharacter());
+                        diacriticObject.setUnicode(diacritic.getUnicodeCode());
+                        return diacriticObject;
+                    }).collect(Collectors.toList());
+
+        }
+        catch (HibernateException e) {
+            throw new DataAccessException();
+        }
+    }
+    /**
      * Returns the preferred view associated with the input data.
      *
      * @param itemNumber the record identifier.
@@ -1173,7 +1202,6 @@ public class StorageService implements Closeable {
         return daoTitleDescriptor.getISSNString(seriesIssnHeadingNumber);
     }
 
-
     //TODO modify method
     public List replaceEquivalentDescriptor(final int indexingLanguage,	final int cataloguingView) throws DataAccessException
     {
@@ -1219,6 +1247,4 @@ public class StorageService implements Closeable {
 
         return null;
     }
-
-
 }
