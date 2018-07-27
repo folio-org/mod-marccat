@@ -4,8 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
+import org.folio.cataloging.F;
 import org.folio.cataloging.business.codetable.Avp;
+import org.folio.cataloging.business.codetable.IndexListElement;
 import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.searching.InvalidBrowseIndexException;
 import org.folio.cataloging.dao.*;
 import org.folio.cataloging.dao.common.HibernateSessionProvider;
 import org.folio.cataloging.dao.persistence.*;
@@ -15,11 +18,14 @@ import org.folio.cataloging.resources.domain.Heading;
 import org.folio.cataloging.resources.domain.RecordTemplate;
 import org.folio.cataloging.shared.CodeListsType;
 import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.cataloging.shared.MapHeading;
 import org.folio.cataloging.shared.Validation;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.util.Optional.ofNullable;
 import static org.folio.cataloging.F.locale;
@@ -374,13 +380,17 @@ public class StorageService implements Closeable {
      */
     public List<Avp<String>> getIndexesByCode(final String code, final String lang) throws DataAccessException {
         final DAOIndexList daoIndex = new DAOIndexList();
-        final String tableName = daoIndex.getCodeTableName(session, code, locale(lang));
-
-        final DAOCodeTable dao = new DAOCodeTable();
-        final Optional<Class> className  = ofNullable(HibernateSessionProvider.getHibernateClassName(tableName));
-        return className.isPresent()
-                ? dao.getList(session, className.get(), locale(lang))
-                : Collections.emptyList();
+        try{
+            final String tableName = daoIndex.getCodeTableName(session, code, locale(lang));
+            final DAOCodeTable dao = new DAOCodeTable();
+            final Optional<Class> className  = ofNullable(HibernateSessionProvider.getHibernateClassName(tableName));
+            return className.isPresent()
+                    ? dao.getList(session, className.get(), locale(lang))
+                    : Collections.emptyList();
+        } catch (final HibernateException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+            throw new DataAccessException(exception);
+        }
     }
 
     /**
@@ -994,20 +1004,65 @@ public class StorageService implements Closeable {
     }
 
 
-    public List<Heading> getFirstPage(final String searchBrowseTerm, final int cataloguingView, final int mainLibrary, final String lang){
-       //TODO Recuperare il descrittore corretto dalla daoMap in base all'indice
-        DAODescriptor dao = new TitleDescriptorDAO();
-        //TODO a questa lista va aggiornata con altre informazioni mancanti
-        //TODO il metodo getHeadingsBySortform va chiamato due volte (operatore < per il primo elemento e operatore >= per 10 elementi)
-      //  try {
-           return null;
-          //return dao.getHeadingsBySortform(">=", "",searchBrowseTerm, "", cataloguingView, 1, session);
-       /* } catch (final HibernateException exception) {
+    public List<MapHeading> getFirstPage(final String query, final int view, final int mainLibrary, final String lang)throws DataAccessException, InvalidBrowseIndexException {
+           //TODO lista degli indici da visualizzare nella pagina del browse
+        //List <IndexListElement> indexes =  dao.getBrowseIndex(new Locale(lang),session);
+        String key = null;
+        try {
+            String index = null;
+            String browseTerm = null;
+            final List<Descriptor> descriptorsList;
+            final DAOIndexList daoIndex = new DAOIndexList();
+            final DAOCodeTable daoCodeTable = new DAOCodeTable();
+            if(query != null) {
+                index = query.substring(0, query.indexOf((" ")));
+                index = F.fixedCharPadding(index, 9).toUpperCase();
+                browseTerm = query.substring(query.indexOf((" ")), query.length() );
+            }
+            key = daoIndex.getIndexByAbreviation(index, session, locale(lang));
+            final Class c = GlobalStorage.DAO_CLASS_MAP.get(key);
+            if (c == null) {
+                logger.error(MessageCatalog._00119_DAO_CLASS_MAP_NOT_FOUND, key);
+                return Collections.emptyList();
+            }
+            final DAODescriptor dao = (DAODescriptor) c.newInstance();
+            final String filter = GlobalStorage.FILTER_MAP.get(key);
+            browseTerm = dao.calculateSearchTerm(browseTerm, key, session);
+            descriptorsList = dao.getHeadingsBySortform("<", "",browseTerm, "", view, 1, session);
+            descriptorsList.addAll(dao.getHeadingsBySortform(">=", filter,query, "", view, 10, session));
+            //TODO refactoring del metodo getIndexingLanguage e getAccessPointLanguage
+            return descriptorsList.stream().map( heading -> {
+                  final MapHeading headingObject = new MapHeading();
+                  headingObject.setHeadingNumber(heading.getHeadingNumber());
+                  headingObject.setStringText(heading.getDisplayText());
+                  headingObject.setCountAuthorities(heading.getAuthorityCount());
+                try {
+                    headingObject.setCountDocuments(dao.getDocCount(heading, view, session));
+                    headingObject.setCountCrossReferences(dao.getXrefCount(heading, view, session));
+                    headingObject.setCountTitleNameDocuments(dao.getDocCountNT(heading, view, session));
+                    headingObject.setIndexingLanguage(daoCodeTable.getLanguageOfIndexing(heading.getIndexingLanguage(), session));
+                    headingObject.setAccessPointlanguage(daoCodeTable.getAccessPointLanguage(heading.getAccessPointLanguage(), heading, session));
+                } catch (HibernateException e) {
+                    e.printStackTrace();
+                }
+                  headingObject.setVerificationlevel(daoCodeTable.getLongText(session, heading.getVerificationLevel(), T_VRFTN_LVL.class, locale(lang)));
+                  headingObject.setDatabase(daoCodeTable.getLongText(session, view, DB_LIST.class, locale(lang)));
+                  return headingObject;
+              }).collect(Collectors.toList());
+
+       } catch (final HibernateException exception) {
             logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
             throw new DataAccessException(exception);
-        }*/
-
-
+        } catch (SQLException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+            throw new DataAccessException(exception);
+        } catch (InstantiationException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+            throw new InvalidBrowseIndexException(key);
+        } catch (IllegalAccessException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+            throw new InvalidBrowseIndexException(key);
+        }
     }
 
     public List<Heading> getNextHeadings(final String searchBrowseTerm, final int cataloguingView, final int mainLibrary, final String lang){

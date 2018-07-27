@@ -1,6 +1,7 @@
 package org.folio.cataloging.domain;
 
 import org.apache.commons.lang.StringUtils;
+import org.folio.cataloging.F;
 import org.folio.cataloging.Global;
 
 import java.util.Map;
@@ -83,17 +84,6 @@ public class GeneralInformation {
 	private String marcCountryCode;
 	private String languageCode;
 
-	/*
-	 * Squeeze all non-blank Strings to the left side of the string and
-	 * retain the original length by padding with blanks on the right.
-	 *
-	 * @param s the input string.
-	 */
-	private String leftJustify(final String s) {
-		return ofNullable(s).map(v -> stream(s.split("")).filter(character -> !" ".equals(character)).collect(joining()))
-				.map(result -> StringUtils.leftPad(result, s.length() - result.length(), ' '))
-				.orElse("    ");
-	}
 
 	/**
 	 * Sets the configuration values to manage defaults.
@@ -579,7 +569,7 @@ public class GeneralInformation {
 	}
 
 	public void setBookIllustrationCode(String string) {
-		bookIllustrationCode = leftJustify(string);
+		bookIllustrationCode = F.leftJustify(string);
 	}
 
 	public void setCartographicFormatCode(String s) {
@@ -619,7 +609,7 @@ public class GeneralInformation {
 	}
 
 	public void setNatureOfContentsCode(String string) {
-		natureOfContentsCode = leftJustify(string);
+		natureOfContentsCode = F.leftJustify(string);
 	}
 
 	public void setVisualAccompanyingMaterialCode(String string) {

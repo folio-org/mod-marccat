@@ -2006,7 +2006,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 			HttpServletRequest request, int target)
 			throws DataAccessException,
 			RecordInUseException, NewTagException, AuthorisationException,
-			EquivalentException, ValidationException {
+			EquivalentException, ValidationException, HibernateException {
 		DAOSystemNextNumber dao = new DAOSystemNextNumber();
 		Integer nextNumber = new Integer(dao.getNextNumber("BI"));
 		EditBean editBean = prepareItemForEditingDuplicate(itemNumber, request);
@@ -2014,7 +2014,7 @@ public class ResultSummaryBean extends LibrisuiteBean
 		item.getItemEntity().setAmicusNumber(nextNumber);
 		// item.getItemEntity().generateNewKey();
 		String lingua = new DAOCodeTable()
-				.getLanguageOfIndexing(indexingLanguage);
+				.getLanguageOfIndexing(indexingLanguage, null);
 		String langOrig = item.getItemEntity().getLanguageOfCataloguing();
 
 		if ((lingua).equals(item.getItemEntity().getLanguageOfCataloguing()
@@ -2108,8 +2108,13 @@ public class ResultSummaryBean extends LibrisuiteBean
 		BibliographicCatalog catalog = new BibliographicCatalog();
 		CatalogItem item = catalog.getCatalogItem(new Object[] {
 				new Integer(itemNumber), new Integer(VW_T1) });
-		String lingua = new DAOCodeTable()
-				.getLanguageOfIndexing(indexingLanguage);
+		String lingua = null;
+		try {
+			lingua = new DAOCodeTable()
+                    .getLanguageOfIndexing(indexingLanguage, null);
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		}
 		String langOrig = item.getItemEntity().getLanguageOfCataloguing();
 		item.getItemEntity().setLanguageOfCataloguing(lingua);
 		item.getItemEntity().markNew();

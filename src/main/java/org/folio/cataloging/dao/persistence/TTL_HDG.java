@@ -21,10 +21,10 @@ public class TTL_HDG extends Descriptor implements SkipInFiling, Serializable {
 	private char copyToSubjectIndicator;
 
 	/** The indexing language. */
-	private short indexingLanguage;
+	private int indexingLanguage;
 
 	/** The skip in filing. */
-	private short skipInFiling;
+	private int skipInFiling;
 
 	/**
 	 * Instantiates a new ttl hdg.
@@ -66,7 +66,7 @@ public class TTL_HDG extends Descriptor implements SkipInFiling, Serializable {
 	/* (non-Javadoc)
 	 * @see Descriptor#setIndexingLanguage(short)
 	 */
-	public void setIndexingLanguage(short s) {
+	public void setIndexingLanguage(int s) {
 		indexingLanguage = s;
 	}
 
@@ -98,7 +98,7 @@ public class TTL_HDG extends Descriptor implements SkipInFiling, Serializable {
 	 *
 	 * @param s the new skip in filing
 	 */
-	public void setSkipInFiling(short s) {
+	public void setSkipInFiling(int s) {
 		skipInFiling = s;
 	}
 

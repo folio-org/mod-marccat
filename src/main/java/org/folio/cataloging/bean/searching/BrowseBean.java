@@ -165,22 +165,30 @@ public class BrowseBean extends SearchBean {
 		if(indexingLanguageCode==0) return "";
 		try {
 			DAOCodeTable dao = new DAOCodeTable();
-			return dao.getLanguageOfIndexing(indexingLanguageCode);
+			try {
+				return dao.getLanguageOfIndexing(indexingLanguageCode, null);
+			} catch (HibernateException e) {
+				e.printStackTrace();
+			}
 		} catch(DataAccessException e){
 			return "";
 		}
-		
+		return "";
 	}
 
 	private Object decodeLanguageAccessPointCode(int accessPointLanguageCode, Descriptor aDescriptor) {
 		if(accessPointLanguageCode==0) return "";
 		try {
 			DAOCodeTable dao = new DAOCodeTable();
-			return dao.getAccessPointLanguage(accessPointLanguageCode,aDescriptor);
+			try {
+				return dao.getAccessPointLanguage(accessPointLanguageCode,aDescriptor, null);
+			} catch (HibernateException e) {
+				e.printStackTrace();
+			}
 		} catch(DataAccessException e){
 			return "";
 		}
-		
+		return "";
 	}
 
 	private List decorate(List list) 
@@ -535,10 +543,14 @@ public class BrowseBean extends SearchBean {
 	/*
 	 * gets the "browse" entries from IDX_LIST 
 	 */
-	private void initBrowseIndexList(Locale l) throws DataAccessException 
+	private void initBrowseIndexList(Locale l) throws DataAccessException
 	{
 		DAOIndexList dao = new DAOIndexList();
-		setBrowseIndexList(dao.getBrowseIndex(Locale.ITALY));
+		try {
+			setBrowseIndexList(dao.getBrowseIndex(Locale.ITALY, null));
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		}
 		setEditorBrowseIndexList(dao.getEditorBrowseIndex(Locale.ITALY));
 	}
 

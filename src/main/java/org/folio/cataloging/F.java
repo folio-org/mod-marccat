@@ -1,5 +1,6 @@
 package org.folio.cataloging;
 
+import org.apache.commons.lang.StringUtils;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 
@@ -10,6 +11,10 @@ import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+
+import static java.util.Arrays.stream;
+import static java.util.Optional.ofNullable;
+import static java.util.stream.Collectors.joining;
 
 /**
  * Booch utility which acts as a central points for collecting static functions.
@@ -134,4 +139,17 @@ public abstract class F {
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formatString);
         return LocalDate.now().format(formatter);
     }
+
+    /*
+	 * Squeeze all non-blank Strings to the left side of the string and
+	 * retain the original length by padding with blanks on the right.
+	 *
+	 * @param s the input string.
+	 */
+    public static  String leftJustify(final String s) {
+        return ofNullable(s).map(v -> stream(s.split("")).filter(character -> !" ".equals(character)).collect(joining()))
+                .map(result -> StringUtils.leftPad(result, s.length() - result.length(), ' '))
+                .orElse("    ");
+    }
+
 }

@@ -8,6 +8,7 @@ import org.folio.cataloging.Global;
 import org.folio.cataloging.ModCataloging;
 import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.resources.domain.*;
+import org.folio.cataloging.shared.MapHeading;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +30,21 @@ import static org.folio.cataloging.resources.domain.CatalogingEntityType.A;
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
 public class HeadingsAPI extends BaseResource {
 
+    private Function<MapHeading, Heading> toHeading = source -> {
+        final Heading heading = new Heading();
+        heading.setHeadingNumber(source.getHeadingNumber());
+        heading.setStringText(source.getStringText());
+        heading.setCountAuthorities(source.getCountAuthorities());
+        heading.setCountDocuments(source.getCountDocuments());
+        heading.setCountCrossReferences(source.getCountCrossReferences());
+        heading.setCountTitleNameDocuments(source.getCountTitleNameDocuments());
+        heading.setIndexingLanguage(source.getIndexingLanguage());
+        heading.setAccessPointlanguage(source.getAccessPointlanguage());
+        heading.setVerificationlevel(source.getVerificationlevel());
+        heading.setDatabase(source.getDatabase());
+        return heading;
+    };
+
     @ApiOperation(value = "Returns all headings associated with a given language")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Method successfully returned the requested heading types."),
@@ -38,30 +54,33 @@ public class HeadingsAPI extends BaseResource {
     })
 
 
-    @GetMapping("/first-headings")
-    public HeadingCollection getFirstHeadings(
-            @RequestParam final String searchBrowseTerm,
-            @RequestParam final int cataloguingView,
+    @GetMapping("/first-page")
+    public HeadingCollection getFirstPage(
+            @RequestParam final String query,
+            @RequestParam final int view,
             @RequestParam final int mainLibrary,
             @RequestParam final String lang,
             @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-        return doGet((storageService, configuration) -> {
-            final List<Heading> headings =  storageService.getFirstPage(searchBrowseTerm, cataloguingView, mainLibrary, lang);
+         return doGet((storageService, configuration) -> {
             final HeadingCollection container = new HeadingCollection();
-            container.setHeadings(headings);
+            container.setHeadings(
+                    storageService.getFirstPage(query, view, mainLibrary, lang)
+                            .stream()
+                            .map(toHeading)
+                            .collect(toList()));
             return container;
         }, tenant, configurator);
     }
 
-    @GetMapping("/next-headings")
-    public HeadingCollection getNextHeadings(
-            @RequestParam final String searchBrowseTerm,
-            @RequestParam final int cataloguingView,
+    @GetMapping("/next-page")
+    public HeadingCollection getNextPage(
+            @RequestParam final String query,
+            @RequestParam final int view,
             @RequestParam final int mainLibrary,
             @RequestParam final String lang,
             @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
         return doGet((storageService, configuration) -> {
-            List<Heading> headings =  storageService.getNextHeadings(searchBrowseTerm, cataloguingView, mainLibrary, lang);
+            List<Heading> headings =  storageService.getNextHeadings(query, view, mainLibrary, lang);
             final HeadingCollection headingCollection = new HeadingCollection();
             headingCollection.setHeadings(headings);
             return headingCollection;
@@ -69,15 +88,15 @@ public class HeadingsAPI extends BaseResource {
     }
 
 
-    @GetMapping("/previous-headings")
-    public HeadingCollection getPreviousHeadings(
-            @RequestParam final String searchBrowseTerm,
-            @RequestParam final int cataloguingView,
+    @GetMapping("/previous-page")
+    public HeadingCollection getPreviousPage(
+            @RequestParam final String query,
+            @RequestParam final int view,
             @RequestParam final int mainLibrary,
             @RequestParam final String lang,
             @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
         return doGet((storageService, configuration) -> {
-            final List<Heading> headings =  storageService.getPreviousHeadings(searchBrowseTerm, cataloguingView, mainLibrary, lang);
+            final List<Heading> headings =  storageService.getPreviousHeadings(query, view, mainLibrary, lang);
             final HeadingCollection headingCollection = new HeadingCollection();
             headingCollection.setHeadings(headings);
             return headingCollection;

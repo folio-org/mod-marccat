@@ -192,7 +192,7 @@ public class Heading {
      * The countAuthorities
      */
     @JsonProperty("countAuthorities")
-    public void setCountNameTitle(Integer countAuthorities) {
+    public void setCountAuthorities(Integer countAuthorities) {
         this.countAuthorities = countAuthorities;
     }
 

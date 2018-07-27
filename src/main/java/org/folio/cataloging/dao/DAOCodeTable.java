@@ -438,52 +438,51 @@ public class DAOCodeTable extends HibernateUtil {
 	 * and it is not currently referenced.  At one time
 	 * it was so leave it for now
 	 */
-	public String getLanguageOfIndexing(int code) throws DataAccessException 
+	public String getLanguageOfIndexing(final int code, final Session session) throws HibernateException
 	{
 		String result = "und";
 		List scriptingLanguage = null;
 		int valueCode = 0;
-		try {
-			Session s = currentSession();
-			scriptingLanguage = s.find("from T_LANG_OF_IDXG as t where t.code = '" + code + "'");
+		scriptingLanguage = session.find("from T_LANG_OF_IDXG as t where t.code = '" + code + "'");
 			Iterator iter = scriptingLanguage.iterator();
 			while (iter.hasNext()) 
 			{
 				T_LANG_OF_IDXG rawElmt = (T_LANG_OF_IDXG) iter.next();
 				valueCode = rawElmt.getSequence();
 			}
-			scriptingLanguage = s.find("from T_LANG_OF_IDXG_LANG as t where t.languageIndexing = " + valueCode);
+			scriptingLanguage = session.find("from T_LANG_OF_IDXG_LANG as t where t.languageIndexing = " + valueCode);
 			iter = scriptingLanguage.iterator();
 			while (iter.hasNext()) 
 			{
 				T_LANG_OF_IDXG_LANG rawElmt = (T_LANG_OF_IDXG_LANG) iter.next();
 				valueCode = rawElmt.getLanguage();
 			}
-			scriptingLanguage = s.find("from T_LANG as t where t.sequence = " + valueCode);
+			scriptingLanguage = session.find("from T_LANG as t where t.sequence = " + valueCode);
 			iter = scriptingLanguage.iterator();
 			while (iter.hasNext()) 
 			{
 				T_LANG rawElmt = (T_LANG) iter.next();
 				result = rawElmt.getCode();
 			}
-			
-		} catch (HibernateException e) {
-			logAndWrap(e);
-		}
-
 		return result;
 	}
-	
-	public String getAccessPointLanguage(int code, Descriptor aDescriptor) throws DataAccessException 
+	/**
+	 * Get the string of the access point language
+	 *
+	 * @param session the hibernate session
+	 * @param code the input int code used here as filter criterion
+	 * @param session the session of hibernate
+	 * @return a string representing the access point language
+	 * @throws HibernateException
+	 */
+	public String getAccessPointLanguage(final int code, final Descriptor aDescriptor, final Session session) throws HibernateException
 	{
 		String result = "und";
-		List scriptingLanguage = null;
-		int valueCode = 0;
-		Iterator iter = null;
-		try {
-			Session s = currentSession();
-			if (aDescriptor instanceof SBJCT_HDG) {
-				scriptingLanguage = s.find("from T_LANG_OF_ACS_PNT_SBJCT as t where t.code = '"	+ code + "'");
+		List scriptingLanguage;
+	    int valueCode = 0;
+		Iterator iter;
+		if (aDescriptor instanceof SBJCT_HDG) {
+				scriptingLanguage = session.find("from T_LANG_OF_ACS_PNT_SBJCT as t where t.code = '"	+ code + "'");
 				iter = scriptingLanguage.iterator();
 				while (iter.hasNext()) 
 				{
@@ -492,7 +491,7 @@ public class DAOCodeTable extends HibernateUtil {
 				}
 			
 			} else {
-				scriptingLanguage = s.find("from T_LANG_OF_ACS_PNT as t where t.code = '" + code + "'");
+				scriptingLanguage = session.find("from T_LANG_OF_ACS_PNT as t where t.code = '" + code + "'");
 				iter = scriptingLanguage.iterator();
 				while (iter.hasNext()) 
 				{
@@ -501,24 +500,20 @@ public class DAOCodeTable extends HibernateUtil {
 				}
 			}
 			
-			scriptingLanguage = s.find("from T_LANG_OF_IDXG_LANG as t where t.languageIndexing = " + valueCode);
+			scriptingLanguage = session.find("from T_LANG_OF_IDXG_LANG as t where t.languageIndexing = " + valueCode);
 			iter = scriptingLanguage.iterator();
 			while (iter.hasNext()) 
 			{
 				T_LANG_OF_IDXG_LANG rawElmt = (T_LANG_OF_IDXG_LANG) iter.next();
 				valueCode = rawElmt.getLanguage();
 			}
-			scriptingLanguage = s.find("from T_LANG as t where t.sequence = " + valueCode);
+			scriptingLanguage = session.find("from T_LANG as t where t.sequence = " + valueCode);
 			iter = scriptingLanguage.iterator();
 			while (iter.hasNext()) 
 			{
 				T_LANG rawElmt = (T_LANG) iter.next();
 				result = rawElmt.getCode();
 			}
-			
-		} catch (HibernateException e) {
-			logAndWrap(e);
-		}
 		return result;
 	}
 	

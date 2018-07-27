@@ -398,7 +398,7 @@ public abstract class Descriptor implements PersistentObjectWithView
 	 *
 	 * @param s the new authority count
 	 */
-	public void setAuthorityCount(short s) {
+	public void setAuthorityCount(int s) {
 		authorityCount = s;
 	}
 

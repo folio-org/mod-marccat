@@ -104,7 +104,7 @@ public abstract class DAODescriptor extends AbstractDAO {
 			return " ";
 		}
 		final SortFormParameters parms = new DAOIndexList()
-				.getSortFormParametersByKey(browseIndexKey);
+				.getSortFormParametersByKey(browseIndexKey, session);
 		return calculateSortForm(s, parms, session);
 	}
 
@@ -275,7 +275,7 @@ public abstract class DAODescriptor extends AbstractDAO {
 	public List<Descriptor> getHeadingsBySortform(final String operator, final String direction,
 												  final String term, final String filter, int searchingView, final int count, final Session session)
 			throws HibernateException {
-		List<Descriptor> descriptorList;
+		List <Descriptor> descriptorList;
 		String viewClause = "";
 		if (searchingView == View.AUTHORITY) {
 			searchingView = 1;
@@ -284,17 +284,15 @@ public abstract class DAODescriptor extends AbstractDAO {
 			viewClause = " and SUBSTR(hdg.key.userViewString, " + searchingView
 					+ ", 1) = '1' ";
 		}
-
-		final Query q = session.createQuery("from " + getPersistentClass().getName()
+   		final Query q = session.createQuery(" select hdg from " + getPersistentClass().getName()
 				+ " as hdg where hdg.sortForm " + operator + " :term "
 				+ viewClause + filter + " order by hdg.sortForm "
 				+ direction);
 		q.setString("term", term);
 		q.setMaxResults(count);
 		descriptorList = q.list();
-		descriptorList = isolateViewForList(descriptorList, searchingView);
+		return (List <Descriptor>) isolateViewForList(descriptorList, searchingView, session);
 
-		return descriptorList;
 	}
 
 	/**
