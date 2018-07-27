@@ -231,5 +231,15 @@
 		<mapping resource="org/folio/cataloging/dao/persistence/NME_TO_TTL_REF.hbm.xml"/>
 		<mapping resource="org/folio/cataloging/dao/persistence/NME_TTL_HDG.hbm.xml"/>
 		<mapping resource="org/folio/cataloging/dao/persistence/T_LANG_OF_IDXG_LANG.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/CLSTN.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/CNTL_NBR.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/NME_HDG.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/NME_REF.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/NME_NME_TTL_REF.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/PUBL_HDG.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/PUBL_REF.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/SBJCT_HDG.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/SBJCT_REF.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/SHLF_LIST.hbm.xml"/>
 	</session-factory>
 </hibernate-configuration>
