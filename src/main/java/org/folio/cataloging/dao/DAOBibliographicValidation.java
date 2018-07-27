@@ -41,10 +41,10 @@ public class DAOBibliographicValidation extends DAOValidation {
 	 *  the MARC subfield list or null when not found
 	 * @throws DataAccessException
 	 */
+	@SuppressWarnings("unchecked")
 	public BibliographicValidation load(final Session session, final int category, final CorrelationValues values) throws HibernateException {
 
-		List<BibliographicValidation> bibliographicValidations = null;
-		bibliographicValidations = session.find("select distinct v from BibliographicValidation as v, " +
+		List<BibliographicValidation> bibliographicValidations  = session.find("select distinct v from BibliographicValidation as v, " +
 						"BibliographicCorrelation as c" +
 						" where c.key.marcTagCategoryCode = ?" +
 						" and (c.databaseFirstValue = ? or c.databaseFirstValue = -1 or -1 = ?)" +
@@ -120,7 +120,7 @@ public class DAOBibliographicValidation extends DAOValidation {
 					logger.debug(validations.get(i));
 				}
 			}
-			return (BibliographicValidation) validations.get(0);
+			return validations.get(0);
 		} else {
 			validations = find("select distinct v from BibliographicValidation as v, " +
 							"BibliographicCorrelation as c" +
@@ -138,7 +138,7 @@ public class DAOBibliographicValidation extends DAOValidation {
 						logger.debug(validations.get(i));
 					}
 				}
-				return (BibliographicValidation) validations.get(0);
+				return validations.get(0);
 			} else {
 				logger.warn("No validation found for category " + s + " and values " + values.toString());
 				throw new MarcCorrelationException("no Validation found");

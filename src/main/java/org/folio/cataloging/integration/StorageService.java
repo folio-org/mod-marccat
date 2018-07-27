@@ -15,8 +15,8 @@ import org.folio.cataloging.exception.ModCatalogingException;
 import org.folio.cataloging.integration.search.Parser;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
-import org.folio.cataloging.resources.domain.Diacritic;
 import org.folio.cataloging.resources.domain.RecordTemplate;
+import org.folio.cataloging.resources.domain.TagMarcEncoding;
 import org.folio.cataloging.search.SearchResponse;
 import org.folio.cataloging.shared.CodeListsType;
 import org.folio.cataloging.shared.CorrelationValues;
@@ -798,6 +798,8 @@ public class StorageService implements Closeable {
         return dao.getLongText(session, code, FIRST_CORRELATION_HEADING_CLASS_MAP.get(category), locale(lang));
     }
 
+
+
     /**
      * Save the new Bibliographic Record Template.
      *
@@ -1109,6 +1111,36 @@ public class StorageService implements Closeable {
     }
 
     /**
+     * Returns tag marc encoding using correlation values.
+     *
+     * @param tagMarcEncoding -- {#linked@{@link TagMarcEncoding}}
+     * @param marcCategory -- the tag marc category used as filter criterion.
+     * @param headingTypeCode -- the heading type code used as filter criterion.
+     * @param itemTypeCode -- the item type code used as filter criterion.
+     * @param functionCode -- -- the function code used as filter criterion.
+     * @return the tag marc encoding.
+     */
+    public TagMarcEncoding getTagMarcEncoding(TagMarcEncoding tagMarcEncoding, final int marcCategory, final int headingTypeCode, final int itemTypeCode, final int functionCode) {
+        final BibliographicCorrelationDAO dao = new BibliographicCorrelationDAO();
+        try {
+
+            final CorrelationKey correlationKey = dao.getMarcEncoding(marcCategory, headingTypeCode, itemTypeCode, functionCode, session);
+            if (ofNullable(correlationKey).isPresent()) {
+                tagMarcEncoding.setTagCode(correlationKey.getMarcTag());
+                tagMarcEncoding.setMarcCategory(marcCategory);
+                tagMarcEncoding.setInd1(Character.toString(correlationKey.getMarcFirstIndicator()));
+                tagMarcEncoding.setInd2(Character.toString(correlationKey.getMarcSecondIndicator()));
+                tagMarcEncoding.setCode1(headingTypeCode);
+                tagMarcEncoding.setCode2(itemTypeCode);
+                tagMarcEncoding.setCode3(functionCode);
+            }
+            return tagMarcEncoding;
+        } catch (HibernateException e) {
+            throw new DataAccessException(e);
+        }
+    }
+
+    /**
      * Updates the full record cache table with the given item.
      *
      * @param item the catalog item.
@@ -1199,7 +1231,7 @@ public class StorageService implements Closeable {
      */
     public String getISSNText(final Integer seriesIssnHeadingNumber){
         final DAOTitleDescriptor daoTitleDescriptor = new DAOTitleDescriptor();
-        return daoTitleDescriptor.getISSNString(seriesIssnHeadingNumber);
+        return daoTitleDescriptor.getISSNString(seriesIssnHeadingNumber); //TODO refactored by Carmen in branch 73
     }
 
     //TODO modify method
