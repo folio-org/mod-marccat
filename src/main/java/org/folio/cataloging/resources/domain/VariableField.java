@@ -19,7 +19,7 @@ import java.util.Map;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "categoryCode", "headerTypeCode", "itemTypeCode", "functionCode", "ind1", "ind2", "code", "displayValue", "description", "subfields", "defaultSubfieldCode" })
+@JsonPropertyOrder({ "categoryCode", "headerTypeCode", "itemTypeCode", "functionCode", "ind1", "ind2", "code", "displayValue", "description", "mandatory", "subfields", "defaultSubfieldCode" })
 public class VariableField {
 
     @JsonProperty("categoryCode")
@@ -50,6 +50,9 @@ public class VariableField {
 
     @JsonProperty("description")
     private String description;
+
+    @JsonProperty("mandatory")
+    private boolean mandatory;
 
     @JsonProperty("subfields")
     @Valid
@@ -285,6 +288,26 @@ public class VariableField {
     public VariableField withDescription(String description) {
         this.description = description;
         return this;
+    }
+
+    /**
+     *
+     * @return
+     *      return if mandatory field.
+     */
+    @JsonProperty("mandatory")
+    public boolean isMandatory() {
+        return mandatory;
+    }
+
+    /**
+     *
+     * @param mandatory
+     *      the mandatory flag to set.
+     */
+    @JsonProperty("mandatory")
+    public void setMandatory(boolean mandatory) {
+        this.mandatory = mandatory;
     }
 
     /**
