@@ -36,7 +36,6 @@ public class ValidationTagAPI extends BaseResource {
             @RequestParam final Integer code1,
             @RequestParam final Integer code2,
             @RequestParam final Integer code3,
-            @RequestParam final String lang,
             @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
 
         return doGet((storageService, configuration) -> {
