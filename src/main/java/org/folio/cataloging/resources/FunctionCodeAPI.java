@@ -47,23 +47,22 @@ public class FunctionCodeAPI extends BaseResource {
             @RequestParam final String marcCategory,
             @RequestParam final int code1,
             @RequestParam final int code2,
-            @RequestParam final String code3,
             @RequestParam final String lang,
             @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
         return doGet((storageService, configuration) -> {
-                final int category = "17".equals(marcCategory) ? Global.NAME_CATEGORY_DEFAULT : Integer.parseInt(marcCategory);
-                return (storageService.existFunctionCodeByCategory(category))
-                        ? ofNullable(storageService.getThirdCorrelation(category, code1, code2, lang))
+            final int category = "17".equals(marcCategory) ? Global.NAME_CATEGORY_DEFAULT : Integer.parseInt(marcCategory);
+            final FunctionCodeCollection container = new FunctionCodeCollection();
+            return (storageService.existFunctionCodeByCategory(category))
+                       ? ofNullable(storageService.getThirdCorrelation(category, code1, code2, lang))
                         .map(functionCodeList -> {
-                            final FunctionCodeCollection container = new FunctionCodeCollection();
                             container.setFunctionCodes(functionCodeList
                                     .stream()
                                     .map(toFunctionCode)
                                     .collect(toList()));
 
                             return container;
-                        }).orElse(null)
-                        : null;
+                        }).orElse(container)
+                        : container;
         }, tenant, configurator);
     }
 }

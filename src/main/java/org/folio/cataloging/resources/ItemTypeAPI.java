@@ -50,17 +50,17 @@ public class ItemTypeAPI extends BaseResource {
             @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
         return doGet((storageService, configurator) -> {
             final int category = (marcCategory.equals("17") ? Global.NAME_CATEGORY_DEFAULT : Integer.parseInt(marcCategory));
+            final ItemTypeCollection container = new ItemTypeCollection();
             return (storageService.existItemTypeByCategory(category))
                     ? ofNullable(storageService.getSecondCorrelation(category, code, lang))
                         .map(itemTypeList -> {
-                            final ItemTypeCollection container = new ItemTypeCollection();
                             container.setItemTypes(
                                     itemTypeList.stream()
                                     .map(toItemType)
                                     .collect(toList()));
                             return container;
-                        }).orElse(null)
-                    : null;
+                        }).orElse(container)
+                    : container;
         }, tenant, configurator);
     }
 }

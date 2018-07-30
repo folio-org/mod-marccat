@@ -56,43 +56,42 @@ public class FieldTemplateAPI extends BaseResource {
             @RequestParam final String lang,
             @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
         return doGet((storageService, configuration) ->
-                !isFixedField(code)
+            !isFixedField(code)
                     ? ofNullable(storageService.getCorrelationVariableField(categoryCode, ind1, ind2, code))
-                            .map(correlationValues -> {
-                                final Validation validation = storageService.getSubfieldsByCorrelations(
+                    .map(correlationValues -> {
+                        final Validation validation = storageService.getSubfieldsByCorrelations(
+                                categoryCode,
+                                correlationValues.getValue(1),
+                                correlationValues.getValue(2),
+                                correlationValues.getValue(3));
+                        final FieldTemplate fieldTemplate = new FieldTemplate();
+                        fieldTemplate.setVariableField(
+                                getVariableField(
                                         categoryCode,
-                                        correlationValues.getValue(1),
-                                        correlationValues.getValue(2),
-                                        correlationValues.getValue(3));
-
-                                final FieldTemplate fieldTemplate = new FieldTemplate();
-                                fieldTemplate.setVariableField(
-                                        getVariableField(
-                                                categoryCode,
-                                                ind1,
-                                                ind2,
-                                                code,
-                                                correlationValues,
-                                                storageService.getHeadingTypeDescription(
-                                                        correlationValues.getValue(1),
-                                                        lang,
-                                                        categoryCode),
-                                                validation));
-                                return fieldTemplate;
-                            }).orElseGet(() -> {
-                                logger.error(MessageCatalog._00016_FIELD_PARAMETER_INVALID, categoryCode, code);
-                                return null;
-                        })
-                    :   ofNullable(getFixedField(storageService, headerType, code, leader, valueField, lang, configuration))
-                            .map(fixedField -> {
-                                final FieldTemplate fieldT = new FieldTemplate();
-                                fieldT.setFixedField(fixedField);
-                                return fieldT;
-                            }).orElseGet(() -> {
-                                logger.error(MessageCatalog._00016_FIELD_PARAMETER_INVALID, categoryCode, code);
-                                return null;
-                            })
-        , tenant, configurator,  "bibliographic", "material");
+                                        ind1,
+                                        ind2,
+                                        code,
+                                        correlationValues,
+                                        storageService.getHeadingTypeDescription(
+                                                correlationValues.getValue(1),
+                                                lang,
+                                                categoryCode),
+                                        validation));
+                        return fieldTemplate;
+                    }).orElseGet(() -> {
+                        logger.error(MessageCatalog._00016_FIELD_PARAMETER_INVALID, categoryCode, code);
+                        return new FieldTemplate();
+                    })
+                    : ofNullable(getFixedField(storageService, headerType, code, leader, valueField, lang, configuration))
+                    .map(fixedField -> {
+                        final FieldTemplate fieldT = new FieldTemplate();
+                        fieldT.setFixedField(fixedField);
+                        return fieldT;
+                    }).orElseGet(() -> {
+                        logger.error(MessageCatalog._00016_FIELD_PARAMETER_INVALID, categoryCode, code);
+                        return new FieldTemplate();
+                    })
+         , tenant, configurator,  "bibliographic", "material");
 
     }
 

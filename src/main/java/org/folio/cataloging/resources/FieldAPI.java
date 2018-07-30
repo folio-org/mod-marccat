@@ -33,7 +33,6 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
  * @since 1.0
  */
 @RestController
-@CrossOrigin("http://localhost:3000")
 @Api(value = "modcat-api", description = "Field resource API")
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
 public class FieldAPI extends BaseResource {
