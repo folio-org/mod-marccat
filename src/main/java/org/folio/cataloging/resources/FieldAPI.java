@@ -100,7 +100,7 @@ public class FieldAPI extends BaseResource {
         catalogingSourceField.setHeadingTypeCode(Integer.toString(Global.CATALOGING_SOURCE_HEADER_TYPE));
         catalogingSourceField.setSubfields(stream(validation.getMarcValidSubfieldStringCode().split("")).collect(toList()));
         catalogingSourceField.setDefaultSubfieldCode(String.valueOf(validation.getMarcTagDefaultSubfieldCode()));
-
+        catalogingSourceField.setMandatory(true);
         catalogingSourceField.setValue(configuration.get("bibliographicItem.cataloguingSourceStringText"));
 
         final Field field = new Field();
@@ -124,6 +124,7 @@ public class FieldAPI extends BaseResource {
         controlNumberFixedField.setDisplayValue(Global.DECIMAL_FORMAT_AN.format(0));
         controlNumberFixedField.setDescription(description);
         controlNumberFixedField.setHeaderTypeCode(Global.CONTROL_NUMBER_HEADER_TYPE);
+        controlNumberFixedField.setMandatory(true);
 
         final Field field = new Field();
         field.setFixedField(controlNumberFixedField);
@@ -147,6 +148,7 @@ public class FieldAPI extends BaseResource {
         leader.setCode(Global.LEADER_TAG_NUMBER);
         leader.setDescription(description);
         leader.setDisplayValue(getLeaderValue());
+        leader.setMandatory(true);
 
         final Field field = new Field();
         field.setFixedField(leader);
@@ -176,6 +178,7 @@ public class FieldAPI extends BaseResource {
         materialDescription.setCode(Global.MATERIAL_TAG_CODE);
         materialDescription.setDescription(description);
         materialDescription.setDisplayValue(generalInformation.getValueString());
+        materialDescription.setMandatory(true);
 
         final Field field = new Field();
         field.setFixedField(materialDescription);
