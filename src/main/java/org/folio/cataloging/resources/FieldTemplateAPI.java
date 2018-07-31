@@ -48,7 +48,8 @@ public class FieldTemplateAPI extends BaseResource {
     @GetMapping("/field-template")
     public FieldTemplate getFieldTemplate(
             @RequestParam final int categoryCode,
-            @RequestParam final String ind1, final String ind2,
+            @RequestParam final String ind1,
+            @RequestParam final String ind2,
             @RequestParam final String code,
             @RequestParam final Integer headerType,
             @RequestParam final String leader,
@@ -128,7 +129,7 @@ public class FieldTemplateAPI extends BaseResource {
             fixedField.setCategoryCode(Global.INT_CATEGORY);
             fixedField.setHeaderTypeCode(headerTypeCode);
 
-            valueField = ofNullable(valueField).filter(s -> !s.isEmpty()).orElse(null);
+            valueField = F.isNotNullOrEmpty(valueField) ?valueField :null;
 
             GeneralInformation generalInformation = null;
 
@@ -205,7 +206,8 @@ public class FieldTemplateAPI extends BaseResource {
 
         final String categoryOfMaterial = fixedField.getCategoryOfMaterial();
         final PhysicalInformation pi = new PhysicalInformation();
-        if (valueField == null){
+
+        if (!F.isNotNullOrEmpty(valueField)){
             valueField = pi.getValueString(fixedField.getCategoryOfMaterial());
         }
 
