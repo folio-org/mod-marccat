@@ -8,7 +8,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -155,7 +155,7 @@ public abstract class F {
 
     public static String getFormattedDate(final String formatString) {
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formatString);
-        return LocalDate.now().format(formatter);
+        return LocalDateTime.now().format(formatter);
     }
 
     /**
