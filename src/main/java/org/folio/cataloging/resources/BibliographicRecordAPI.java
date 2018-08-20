@@ -1,6 +1,9 @@
 package org.folio.cataloging.resources;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.ModCataloging;
 import org.folio.cataloging.business.common.View;
@@ -26,12 +29,23 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
 public class BibliographicRecordAPI extends BaseResource {
 
+    @ApiOperation(value = "Returns the bibliographic record associated with a given id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Method successfully returned the requested bibliographic record"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 414, message = "Request-URI Too Long"),
+            @ApiResponse(code = 500, message = "System internal failure occurred.")
+    })
     @GetMapping("/bibliographic-record/{id}")
     public BibliographicRecord getRecord(@RequestParam final Integer id,
                                          @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
                                          @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
 
-        return null;
+        return doGet((storageService, configuration) -> {
+            BibliographicRecord bibliographicRecord = new BibliographicRecord();
+            return storageService.getBibliographicRecordById(bibliographicRecord, id, view);
+        }, tenant, configurator);
+
     }
 
     @GetMapping("/search")

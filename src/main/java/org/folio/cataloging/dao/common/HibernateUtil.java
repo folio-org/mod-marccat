@@ -293,6 +293,7 @@ public class HibernateUtil {
 	 * @return a distinct list of instances
 	 * @throws DataAccessException
 	 */
+	@Deprecated
 	public List find(String query, Object[] values, Type[] types)
 			throws DataAccessException {
 		try {

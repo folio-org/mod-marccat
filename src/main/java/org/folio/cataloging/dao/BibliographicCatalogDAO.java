@@ -425,6 +425,7 @@ public class BibliographicCatalogDAO extends CatalogDAO
 	 * @return list of specified access point tag.
 	 * @throws HibernateException in case of hibernate exception.
 	 */
+	@SuppressWarnings("unchecked")
 	private List<? extends PersistentObjectWithView> getAccessPointTags(final Class clazz, final int amicusNumber, final int userView, final Session session) throws HibernateException {
 
 		List<? extends PersistentObjectWithView> multiView = session.find("from "	+ clazz.getName() + " as t "
@@ -463,7 +464,7 @@ public class BibliographicCatalogDAO extends CatalogDAO
 
 		final BibliographicItem item = new BibliographicItem();
 
-		final BIB_ITM bibItm = new DAOBibItem().load(amicusNumber, userView); //TODO pass session to load() method!
+		final BIB_ITM bibItm = new DAOBibItem().load(amicusNumber, userView, session);
 		item.setBibItmData(bibItm);
 		item.setUserView(userView);
 

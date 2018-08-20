@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
+import org.folio.cataloging.business.cataloguing.bibliographic.FixedField;
+import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
 import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.RecordNotFoundException;
@@ -15,6 +17,9 @@ import org.folio.cataloging.exception.ModCatalogingException;
 import org.folio.cataloging.integration.search.Parser;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
+import org.folio.cataloging.model.Subfield;
+import org.folio.cataloging.resources.domain.BibliographicRecord;
+import org.folio.cataloging.resources.domain.Leader;
 import org.folio.cataloging.resources.domain.RecordTemplate;
 import org.folio.cataloging.resources.domain.TagMarcEncoding;
 import org.folio.cataloging.search.SearchResponse;
@@ -1111,6 +1116,57 @@ public class StorageService implements Closeable {
     }
 
     /**
+     * Get the record associated with given data.
+     *
+     * @param bibliographicRecord -- {@link BibliographicRecord}
+     * @param itemNumber -- the record identifier.
+     * @param view -- the search view.
+     * @return the {@link BibliographicRecord} associated with the given data.
+     */
+    public BibliographicRecord getBibliographicRecordById(BibliographicRecord bibliographicRecord, final int itemNumber, final int view) {
+
+        final CatalogItem item = getCatalogItemByKey(itemNumber, view);
+        bibliographicRecord.setId(item.getAmicusNumber());
+
+        Leader leader = new Leader();
+        leader.setCode("000");
+        leader.setValue(((org.folio.cataloging.dao.persistence.Leader) item.getTag(0)).getDisplayString());
+        bibliographicRecord.setLeader(leader);
+
+        item.getTags().stream().skip(1).forEach(aTag -> {
+                final CorrelationKey correlation = aTag.getMarcEncoding();
+                final String entry = aTag.isFixedField()
+                    ? (((FixedField) aTag).getDisplayString() + Subfield.FIELD_DELIMITER)
+                    : ("" + correlation.getMarcFirstIndicator() + correlation.getMarcSecondIndicator() +
+                      ((VariableField) aTag).getStringText().getMarcDisplayString(Subfield.SUBFIELD_DELIMITER) + Subfield.FIELD_DELIMITER);
+
+            org.folio.cataloging.resources.domain.VariableField variableField;
+            org.folio.cataloging.resources.domain.FixedField fixedField;
+            if (aTag.isFixedField()){
+                fixedField = new org.folio.cataloging.resources.domain.FixedField();
+                fixedField.setCode(correlation.getMarcTag());
+                fixedField.setDisplayValue(entry);
+                fixedField.setCategoryCode(aTag.getCategory());
+                fixedField.setHeaderTypeCode(aTag.getCorrelation(1));
+                bibliographicRecord.getFixedFields().add(fixedField);
+            } else {
+                variableField = new org.folio.cataloging.resources.domain.VariableField();
+                variableField.setCategoryCode(correlation.getMarcTagCategoryCode());
+                variableField.setCode(correlation.getMarcTag());
+                variableField.setInd1(""+correlation.getMarcFirstIndicator());
+                variableField.setInd2(""+correlation.getMarcSecondIndicator());
+                variableField.setHeadingTypeCode(Integer.toString(aTag.getCorrelation(1)));
+                variableField.setItemTypeCode(Integer.toString(aTag.getCorrelation(2)));
+                variableField.setFunctionCode(Integer.toString(aTag.getCorrelation(3)));
+                variableField.setValue(entry);
+                bibliographicRecord.getVariableFields().add(variableField);
+            }
+        });
+
+        return bibliographicRecord;
+    }
+
+    /**
      * Returns tag marc encoding using correlation values.
      *
      * @param tagMarcEncoding -- {#linked@{@link TagMarcEncoding}}
@@ -1223,6 +1279,7 @@ public class StorageService implements Closeable {
             throw new ModCatalogingException(exception);
         }
     }
+
     /**
      * Returns issn text associated to series issn heading number.
      *
@@ -1231,7 +1288,7 @@ public class StorageService implements Closeable {
      */
     public String getISSNText(final Integer seriesIssnHeadingNumber){
         final DAOTitleDescriptor daoTitleDescriptor = new DAOTitleDescriptor();
-        return daoTitleDescriptor.getISSNString(seriesIssnHeadingNumber); //TODO refactored by Carmen in branch 73
+        return daoTitleDescriptor.getISSNString(seriesIssnHeadingNumber); //TODO DAOTitleDescriptor refactored by Carmen in branch 73
     }
 
     //TODO modify method
