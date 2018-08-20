@@ -1,76 +1,54 @@
-/*
- * (c) LibriCore
- * 
- * Created on Dec 2, 2004
- * 
- * XmlUtilis.java
- */
 package org.folio.cataloging.util;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.exception.ModCatalogingException;
+import org.folio.cataloging.log.Log;
+import org.folio.cataloging.log.MessageCatalog;
 import org.folio.cataloging.model.Subfield;
-import org.folio.cataloging.search.XslTransformerConfigurationException;
-import org.folio.cataloging.search.XslTransformerException;
-import org.folio.cataloging.search.domain.AbstractRecord;
 import org.w3c.dom.Document;
 
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.StringWriter;
-import java.net.URL;
 import java.util.Vector;
 
 /**
+ * XML Utils.
+ *
  * @author wimc
- * @version $Revision: 1.2 $, $Date: 2004/12/07 09:30:54 $
- * @see
+ * author agazzarini
  * @since 1.0
  */
 public final class XmlUtils {
 
-	private static final Log logger = LogFactory.getLog(XmlUtils.class);
+    private final static ThreadLocal<TransformerFactory> FACTORIES = ThreadLocal.withInitial(TransformerFactory::newInstance);
 
-	private XmlUtils() {
-	}
+	private static final Log LOGGER = new Log(XmlUtils.class);
 
-	public static String documentToString(Document document) {
-		return new String(documentToStringBuffer(document));
-	}
+    /**
+     * Returns a string representation of the given XML document.
+     *
+     * @param document the XML Document.
+     * @return a string representation of the given XML document.
+     */
+	public static String documentToString(final Document document) {
+		final StringBuilder builder = new StringBuilder();
 
-	public static StringBuffer documentToStringBuffer(Document document) {
-		StringBuffer stringBuffer = new StringBuffer("");
 		if (document != null) {
 			try {
-				TransformerFactory transformerFactory =
-					TransformerFactory.newInstance();
-				Transformer transformer = transformerFactory.newTransformer();
-				//stringBuffer.append(nodeListToStringBuffer(document.getChildNodes()));
-				DOMSource source = new DOMSource(document);
-				StringWriter stringWriter = new StringWriter();
-				StreamResult streamResult = new StreamResult(stringWriter);
-				try {
-					transformer.transform(source, streamResult);
-					stringBuffer.append(stringWriter.getBuffer());
-				} catch (TransformerException transformerException) {
-					logger.error(transformerException.getMessage());
-					//throw new XslTransformerException(transformerException);
-				}
-			} catch (TransformerConfigurationException transformerConfigurationException) {
-				logger.error(transformerConfigurationException.getMessage());
-				//throw new XslTransformerConfigurationException(
-				//		transformerConfigurationException);
+				final Transformer transformer = FACTORIES.get().newTransformer();
+				final DOMSource source = new DOMSource(document);
+				final StringWriter writer = new StringWriter();
+
+					transformer.transform(source, new StreamResult(writer));
+
+					builder.append(writer.getBuffer());
+            } catch (final TransformerException transformerException) {
+                LOGGER.error(MessageCatalog._00024_XSLT_FAILURE, transformerException);
 			}
 		}
-		return stringBuffer;
+		return builder.toString();
 	}
 	
 	/**
@@ -172,42 +150,43 @@ public final class XmlUtils {
 	 * @param text
 	 * @return il testo ripulito
 	 */
-	private static String cleanUpDelimiters (String text){
-		boolean aperto = false;
+	private static String cleanUpDelimiters(final String text){
+		boolean open = false;
 		String cleanedText = "";
-		for (int i=0;i<text.length();i++)
-			switch (text.charAt(i)) {
-				case '\u00FE':
-					if (!aperto){
-						cleanedText += "\u00FE";
-						aperto = true;
-					}
-					break;
-				case '\u00FF':
-					if (aperto) {
-						cleanedText += "\u00FF";						
-					} else {
-						int indiceChiusura = cleanedText.lastIndexOf("\u00FF");
-						cleanedText = cleanedText.substring(0,indiceChiusura) + cleanedText.substring(indiceChiusura+1)+"\u00FF";
-					}
-					aperto = false;
-					break;
-				default:
-					cleanedText += text.charAt(i);
-			} 
-				
+		for (int i=0;i<text.length();i++) {
+            switch (text.charAt(i)) {
+                case '\u00FE':
+                    if (!open) {
+                        cleanedText += "\u00FE";
+                        open = true;
+                    }
+                    break;
+                case '\u00FF':
+                    if (open) {
+                        cleanedText += "\u00FF";
+                    } else {
+                        int indiceChiusura = cleanedText.lastIndexOf("\u00FF");
+                        cleanedText = cleanedText.substring(0, indiceChiusura) + cleanedText.substring(indiceChiusura + 1) + "\u00FF";
+                    }
+                    open = false;
+                    break;
+                default:
+                    cleanedText += text.charAt(i);
+            }
+        }
 		
 		return cleanedText;
 	}
 	
 	/**
-	 * Inizia la ricerca nella stringa per inserire i delimitatori di tutti i pattern
+	 * Inizia la ricerca nella stringa per inserire i delimitatori di tutti i pattern.
+     *
 	 * @param cclQuery
 	 * @param subfield
 	 * @return la stringa con tutti i delimitatori
 	 */
-	public static String parseString(String cclQuery, Subfield subfield) {
-		String[] termsToBeHighlighted = getHighlightedTerms(cclQuery);
+	public static String parseString(final String cclQuery, final Subfield subfield) {
+		final String[] termsToBeHighlighted = getHighlightedTerms(cclQuery);
 		String text = subfield.getContent();
 		for (int i=0;i<termsToBeHighlighted.length;i++){
 			String termineCorrente = termsToBeHighlighted[i];	
@@ -218,43 +197,4 @@ public final class XmlUtils {
 		}
 		return text;
 	}
-
-	public static byte[] transformDocument(Document document, String stylesheet)
-			throws ModCatalogingException {
-
-		try {
-			// load the transformer using JAXP
-			TransformerFactory factory = TransformerFactory.newInstance();
-			URL styleURL = AbstractRecord.class.getResource("/xslt/"
-					+ stylesheet);
-			logger.debug("transform sheet is:" + styleURL);
-			Transformer transformer = factory.newTransformer(new StreamSource(
-					styleURL.openStream()));
-			// now lets style the given document
-			DOMSource source = new DOMSource(document);
-			ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-			StreamResult result = new StreamResult(buffer);
-			transformer.transform(source, result);
-
-			// return the transformed document
-			return buffer.toByteArray();
-		} catch (TransformerConfigurationException transformerConfigurationException) {
-			logger.error(transformerConfigurationException.getMessage());
-			throw new XslTransformerConfigurationException(
-					transformerConfigurationException);
-		} catch (TransformerException transformerException) {
-			logger.error(transformerException.getMessage());
-			throw new XslTransformerException(transformerException);
-		} 
-//		catch (FileNotFoundException e) {
-//			logger.error(e);
-//			throw new ModCatalogingException(e);
-//		}
- catch (IOException e) {
-		logger.error(e);
-		throw new ModCatalogingException(e);
-		}
-
-	}
-
 }
