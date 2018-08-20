@@ -54,6 +54,9 @@ public class VariableField {
     @JsonProperty("mandatory")
     private boolean mandatory;
 
+    @JsonProperty("fieldStatus")
+    private FieldStatus fieldStatus;
+
     @JsonProperty("subfields")
     @Valid
     private List<String> subfields = new ArrayList<String>();
@@ -373,5 +376,25 @@ public class VariableField {
     public VariableField withAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
         return this;
+    }
+
+    /**
+     *
+     * @return
+     *     the field status.
+     */
+    @JsonProperty("fieldStatus")
+    public FieldStatus getFieldStatus() {
+        return fieldStatus;
+    }
+
+    /**
+     *
+     * @param fieldStatus
+     *      the field status to set.
+     */
+    @JsonProperty("fieldStatus")
+    public void setFieldStatus(FieldStatus fieldStatus) {
+        this.fieldStatus = fieldStatus;
     }
 }
