@@ -9,6 +9,8 @@ import org.folio.cataloging.business.common.PersistentObjectWithView;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAOBibliographicNoteTag;
+import org.folio.cataloging.dao.persistence.BibliographicNote;
+import org.folio.cataloging.dao.persistence.BibliographicNoteOverflow;
 import org.folio.cataloging.dao.persistence.StandardNoteAccessPoint;
 import org.folio.cataloging.integration.GlobalStorage;
 import org.folio.cataloging.log.Log;
@@ -53,7 +55,6 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
 
         setNote(new BibliographicNote());
         setPersistenceState(new PersistenceState());
-        // setDefaultNoteType(); //TODO set using configuration module
     }
 
     public BibliographicNoteTag(final BibliographicNote note)
@@ -325,7 +326,6 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
      * @param charWrap -- number of chars to split.
      * @param overflowList -- overflow list to set result.
      */
-    //TODO: check if a maximum of two overflow notes are allowed
     public static void wrapNoteOverflow(final String inputString, final int charWrap, final List<BibliographicNoteOverflow> overflowList)
     {
         final List<String> overflows = F.splitString(inputString, charWrap);
@@ -349,10 +349,6 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
 	@Deprecated
 	public List getOverflowList( int userView)
 	{
-		/*DAOBibliographicNotesOverflow b = new DAOBibliographicNotesOverflow();
-		try{
-			return b.getBibNotesOverflowList(note.getBibItemNumber(),userView,note.getNoteNbr());
-		} catch(DataAccessException ex) {return null;} */
 		return null;
 	}
 
@@ -517,11 +513,4 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
 		return getMarcEncoding().getMarcTag();
 	}
 
-	//TODO move in storageService and use configuration module to set nodeType
-	/*public void setDefaultNoteType()
-	{
-		short noteType=0;
-		noteType= new Short(configHandler.findValue("t_bib_nte_typ","bibliographicNote.noteType"));
-		setNoteType(noteType);
-	}*/
 }

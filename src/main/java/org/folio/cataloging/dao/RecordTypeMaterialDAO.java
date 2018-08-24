@@ -6,7 +6,6 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
 import org.folio.cataloging.Global;
-import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.persistence.RecordTypeMaterial;
 
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.Objects;
  * @author paulm
  * @since 1.0
  */
-public class DAORecordTypeMaterial extends HibernateUtil {
+public class RecordTypeMaterialDAO extends AbstractDAO {
 
 	/**
 	 * The method gets the material type for 006/008 tags field using leader values.
@@ -42,54 +41,6 @@ public class DAORecordTypeMaterial extends HibernateUtil {
 		return recordTypeMaterials.stream().filter(Objects::nonNull).findFirst().orElse(null);
 	}
 
-	//TODO : dont'call me! Use getMaterialHeaderCode()
-	@Deprecated
-	public RecordTypeMaterial get008HeaderCode(char recordType, char bibliographicLevel){
-		RecordTypeMaterial result = null;
-		/*try {
-			Session s = currentSession();
-			List l =
-					s.find(
-							"from RecordTypeMaterial as t "
-									+ " where t.RECORD_TYPE_CODE = ? and "
-									+ "       (t.bibliographicLevel = ? "
-									+ "        OR t.bibliographicLevel is NULL)",
-							new Object[] {
-									new Character(recordType),
-									new Character(bibliographicLevel)},
-							new Type[] { Hibernate.CHARACTER, Hibernate.CHARACTER });
-			if (l.size() > 0) {
-				result = (RecordTypeMaterial) l.get(0);
-			}
-		} catch (DataAccessException e) {
-			return result;
-		} catch (HibernateException e) {
-			return result;
-		}*/
-		return result;
-	}
-	//TODO : dont'call me! Use getMaterialHeaderCode()
-	@Deprecated
-	public RecordTypeMaterial get006HeaderCode(Character materialType) {
-		RecordTypeMaterial result = null;
-		/*try {
-			Session s = currentSession();
-				List l =
-					s.find(
-						"from RecordTypeMaterial as t "
-							+ " where t.RECORD_TYPE_CODE = ?",
-						new Object[] { materialType },
-						new Type[] { Hibernate.CHARACTER });
-				if (l.size() > 0) {
-					result = (RecordTypeMaterial) l.get(0);
-				}
-		} catch (DataAccessException e) {
-			return result;
-		} catch (HibernateException e) {
-			return result;
-		}*/
-		return result;
-	}
     @SuppressWarnings("unchecked")
 	public RecordTypeMaterial getDefaultTypeByHeaderCode(final Session session, final int headerCode, final String code) throws HibernateException {
 		final List<RecordTypeMaterial> recordTypeMaterials = session.find(

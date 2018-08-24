@@ -109,6 +109,7 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag, E
 	 */
 	public void setSequenceNumber(final Integer sequenceNbr) {
 		sequenceNumber = sequenceNbr;
+		super.setSequenceNumber(sequenceNumber);
 	}
 
 	/**

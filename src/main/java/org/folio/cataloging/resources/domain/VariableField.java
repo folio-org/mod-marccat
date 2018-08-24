@@ -19,8 +19,11 @@ import java.util.Map;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "categoryCode", "headerTypeCode", "itemTypeCode", "functionCode", "ind1", "ind2", "code", "displayValue", "description", "mandatory", "subfields", "defaultSubfieldCode" })
+@JsonPropertyOrder({ "keyNumber", "categoryCode", "headerTypeCode", "itemTypeCode", "functionCode", "ind1", "ind2", "code", "displayValue", "description", "mandatory", "subfields", "defaultSubfieldCode", "fieldStatus", "sequenceNumber" })
 public class VariableField {
+
+    @JsonProperty("keyNumber")
+    private Integer keyNumber;
 
     @JsonProperty("categoryCode")
     private Integer categoryCode;
@@ -57,6 +60,9 @@ public class VariableField {
     @JsonProperty("fieldStatus")
     private FieldStatus fieldStatus;
 
+    @JsonProperty("sequenceNumber")
+    private int sequenceNumber;
+
     @JsonProperty("subfields")
     @Valid
     private List<String> subfields = new ArrayList<String>();
@@ -67,6 +73,26 @@ public class VariableField {
 
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+    /**
+     *
+     * @return
+     *     The keyNumber
+     */
+    @JsonProperty("keyNumber")
+    public Integer getKeyNumber() {
+        return keyNumber;
+    }
+
+    /**
+     *
+     * @param keyNumber
+     *     The keyNumber
+     */
+    @JsonProperty("keyNumber")
+    public void setKeyNumber(Integer keyNumber) {
+        this.keyNumber = keyNumber;
+    }
 
     /**
      * 
@@ -396,5 +422,25 @@ public class VariableField {
     @JsonProperty("fieldStatus")
     public void setFieldStatus(FieldStatus fieldStatus) {
         this.fieldStatus = fieldStatus;
+    }
+
+    /**
+     *
+     * @return
+     *     The sequenceNumber
+     */
+    @JsonProperty("sequenceNumber")
+    public int getSequenceNumber() {
+        return sequenceNumber;
+    }
+
+    /**
+     *
+     * @param sequenceNumber
+     *     The sequenceNumber
+     */
+    @JsonProperty("sequenceNumber")
+    public void setSequenceNumber(int sequenceNumber) {
+        this.sequenceNumber = sequenceNumber;
     }
 }

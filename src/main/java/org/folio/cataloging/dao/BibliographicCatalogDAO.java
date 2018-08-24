@@ -58,6 +58,7 @@ public class BibliographicCatalogDAO extends CatalogDAO
 		BibliographicItem item = getBibliographicItemWithoutRelationships(amicusNumber, userView, session);
 		item.getTags().addAll(getBibliographicRelationships(amicusNumber, userView, session));
 		item.getTags().forEach(tag -> tag.setTagImpl(new BibliographicTagImpl()));
+
 		return item;
 	}
 
@@ -105,7 +106,6 @@ public class BibliographicCatalogDAO extends CatalogDAO
      * @return the bibliographic item without relationships.
 	 * @throws HibernateException in case of hibernate exception.
      */
-    //TODO : all tags loading should be moved into API and in storage should create a method for each tags upload.
 	@SuppressWarnings("unchecked")
 	private BibliographicItem getBibliographicItemWithoutRelationships(final int amicusNumber, final int userView, final Session session) throws HibernateException {
 		try {
@@ -115,35 +115,51 @@ public class BibliographicCatalogDAO extends CatalogDAO
 			try {
 				final String language = item.getItemEntity().getLanguageOfCataloguing();
 				item.getTags().addAll(getBibliographicNotes(amicusNumber, userView, language, session));
-			} catch (Exception e) {}
+			} catch (Exception e) {
+				logger.error("notes not loaded", e);
+			}
 			
 			try {
 				item.getTags().addAll((List<ClassificationAccessPoint>)getAccessPointTags(ClassificationAccessPoint.class, amicusNumber, userView, session));
-			} catch (Exception e) {}
+			} catch (Exception e){
+				logger.error("classification not loaded");
+			}
 			
 			try{
 				item.getTags().addAll((List<ControlNumberAccessPoint>)getAccessPointTags(ControlNumberAccessPoint.class, amicusNumber, userView, session));
-			}catch (Exception e) {}
+			} catch (Exception e){
+				logger.error("ControlNumberAccessPoint not loaded");
+			}
 
 			try{
 				item.getTags().addAll(getNameAccessPointTags(amicusNumber, userView, session));
-			}catch (Exception e) {}
+			} catch (Exception e){
+				logger.error("NameAccessPoint not loaded");
+			}
 
 			try{
 				item.getTags().addAll(getTitleAccessPointTags(amicusNumber, userView, session));
-			}catch (Exception e) {}
+			} catch (Exception e){
+				logger.error("TitleAccessPoint not loaded");
+			}
 
 			try{
 				item.getTags().addAll(getNameTitleAccessPointTags(amicusNumber, userView, session));
-			}catch (Exception e) {}
+			} catch (Exception e){
+				logger.error("NameTitleAccessPoint not loaded");
+			}
 
 			try{
 				item.getTags().addAll(getPublisherTags(amicusNumber, userView, session));
-			}catch (Exception e) {}
+			} catch (Exception e){
+				logger.error("PublisherTags not loaded");
+			}
 
 			try{
 				item.getTags().addAll((List<SubjectAccessPoint>)getAccessPointTags(SubjectAccessPoint.class, amicusNumber, userView, session));
-			}catch (Exception e) {}
+			} catch (Exception e){
+				logger.error("SubjectAccessPoint not loaded");
+			}
 
 			item.setModelItem(new BibliographicModelItemDAO().load(amicusNumber, session));
 
@@ -164,7 +180,6 @@ public class BibliographicCatalogDAO extends CatalogDAO
      * @return list of tag containing headers.
      * @throws HibernateException in case of hibernate exception.
      */
-    //TODO move logic business into API: keep only material, physical and music here
 	private List<Tag> getHeaderFields(final BibliographicItem item, final int userView, final Session session) throws HibernateException {
 
 	    final BIB_ITM bibItemData = item.getBibItmData();
@@ -208,7 +223,7 @@ public class BibliographicCatalogDAO extends CatalogDAO
 
 		final int amicusNumber = item.getAmicusNumber();
 		result.addAll(getMaterialDescriptions(amicusNumber, userView, session));
-		result.addAll(getPhysicalDescriptions(amicusNumber, userView, session));
+		//result.addAll(getPhysicalDescriptions(amicusNumber, userView, session)); //Fixme
 		result.addAll(getMusicalInstruments(amicusNumber, userView, session));
 
         return result.stream().map(tag -> {
@@ -251,6 +266,7 @@ public class BibliographicCatalogDAO extends CatalogDAO
 	 */
 	@SuppressWarnings("unchecked")
 	private List<PhysicalDescription>  getPhysicalDescriptions(final int amicusNumber, final int userView, final Session session) throws HibernateException {
+
 		List<PhysicalDescription> multiView = session.find(
 				"from PhysicalDescription t "
 					+ "where t.bibItemNumber = ? and substr(t.userViewString, ?, 1) = '1' ",
@@ -301,14 +317,19 @@ public class BibliographicCatalogDAO extends CatalogDAO
 
 		return singleView.stream().map(current -> {
 			try {
-				final BibliographicNoteTag bibliographicNoteTag = new BibliographicNoteTag((BibliographicNote) current);
+				final BibliographicNote note = (BibliographicNote) current;
+				final DAOBibliographicNotesOverflow daoOverflow = new DAOBibliographicNotesOverflow();
+				note.setOverflowList(daoOverflow.getBibNotesOverflowList(note.getBibItemNumber(), userView, note.getNoteNbr(), session));
+				final BibliographicNoteTag bibliographicNoteTag = new BibliographicNoteTag(note);
 				final BibliographicStandardNoteDAO dao = new BibliographicStandardNoteDAO();
 				bibliographicNoteTag.markUnchanged();
-				bibliographicNoteTag.setOverflowList(bibliographicNoteTag.getOverflowList(userView));
+				bibliographicNoteTag.setOverflowList(note.getOverflowList());
 				if (!language.equals("")) {
-					StandardNoteAccessPoint noteAcs = dao.getBibNoteStardard(amicusNumber, userView, ((BibliographicNote) current).getNoteNbr(), session);
+					StandardNoteAccessPoint noteAcs = dao.getBibNoteStardard(amicusNumber, userView, note.getNoteNbr(), session);
 					bibliographicNoteTag.setNoteStandard(noteAcs);
-					bibliographicNoteTag.setValueElement(dao.getSTDDisplayString(noteAcs.getTypeCode(), language, session));
+					if (noteAcs != null){
+						bibliographicNoteTag.setValueElement(dao.getSTDDisplayString(noteAcs.getTypeCode(), language, session));
+					}
 					setBibliographicNoteContent(bibliographicNoteTag);
 				}
 				return bibliographicNoteTag;
@@ -570,12 +591,6 @@ public class BibliographicCatalogDAO extends CatalogDAO
 			throw new DataAccessException(exception);
 		}
 	}
-
-    public CatalogItem getCatalogItemByKey(final Object[] key, final Session session) throws HibernateException {
-        int id = (Integer)key[0];
-        int cataloguingView = (Integer)key[1];
-        return getBibliographicItemByAmicusNumber(id, cataloguingView, session);
-    }
 
     /**
      * Transfers the bibliographic items from one heading to another.

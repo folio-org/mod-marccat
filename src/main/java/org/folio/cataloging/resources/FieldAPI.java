@@ -168,7 +168,7 @@ public class FieldAPI extends BaseResource {
         final String description = storageService.getHeadingTypeDescription(Global.MATERIAL_DESCRIPTION_HEADER_TYPE, lang, Global.INT_CATEGORY);
         final GeneralInformation generalInformation = new GeneralInformation();
         generalInformation.setMaterialDescription008Indicator("1");
-        generalInformation.setFormOfMaterial(Global.BOOKFORM_OF_MATERIAL); //book
+        generalInformation.setFormOfMaterial(Global.BOOKFORM_OF_MATERIAL);
         generalInformation.setDefaultValues(configuration);
         generalInformation.setEnteredOnFileDateYYMMDD(F.getFormattedDate("yyMMdd"));
 

@@ -5,7 +5,7 @@
     
 <hibernate-mapping>
 <class 
-    name="librisuite.business.cataloguing.bibliographic.NumberOfMusicalInstrumentsTag" 
+    name="org.folio.cataloging.dao.persistence.NumberOfMusicalInstrumentsTag"
     table="MSCL_INSTM_OR_VOICE"
 >
 

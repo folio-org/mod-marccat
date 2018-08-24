@@ -304,15 +304,6 @@ public class HibernateUtil {
 		}
 	}
 
-    public List find(Session session, String query, Object[] values, Type[] types)
-            throws DataAccessException {
-        try {
-            return session.find(query, values, types);
-        } catch (HibernateException e) {
-            logAndWrap(e);
-            return null;
-        }
-    }
 
 	/**
 	 * Convenience method for currentSession().find(String query) If the find

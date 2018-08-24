@@ -264,7 +264,7 @@ public class GeneralInformation {
 			+ getBookIndexAvailabilityCode()
 			+ " " //undefined position (formerly main entry indicator)
 			+ getBookLiteraryFormTypeCode() + getBookBiographyCode();
-		}
+	}
 
 	/**
 	 * @return the displayString segment for map material.

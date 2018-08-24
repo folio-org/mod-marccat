@@ -4,6 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
+import org.folio.cataloging.Global;
+import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicAccessPoint;
+import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicNoteTag;
 import org.folio.cataloging.business.cataloguing.bibliographic.FixedField;
 import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
 import org.folio.cataloging.business.codetable.Avp;
@@ -35,6 +38,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyList;
@@ -747,7 +751,7 @@ public class StorageService implements Closeable {
      */
     public Map<String, Object> getMaterialTypeInfosByLeaderValues(final char recordTypeCode, final char bibliographicLevel, final String code)  throws DataAccessException {
 
-        final DAORecordTypeMaterial dao = new DAORecordTypeMaterial();
+        final RecordTypeMaterialDAO dao = new RecordTypeMaterialDAO();
 
         try {
             final Map<String, Object> mapRecordTypeMaterial = new HashMap<>();
@@ -774,7 +778,7 @@ public class StorageService implements Closeable {
     public Map<String, Object> getMaterialTypeInfosByHeaderCode(final int headerCode, final String code) throws DataAccessException {
 
         final Map<String, Object> mapRecordTypeMaterial = new HashMap<>();
-        final DAORecordTypeMaterial dao = new DAORecordTypeMaterial();
+        final RecordTypeMaterialDAO dao = new RecordTypeMaterialDAO();
         try {
             return ofNullable(dao.getDefaultTypeByHeaderCode(session, headerCode, code))
                     .map( rtm -> {
@@ -1123,8 +1127,8 @@ public class StorageService implements Closeable {
      * @param view -- the search view.
      * @return the {@link BibliographicRecord} associated with the given data.
      */
-    public BibliographicRecord getBibliographicRecordById(BibliographicRecord bibliographicRecord, final int itemNumber, final int view) {
-
+    public BibliographicRecord getBibliographicRecordById(BibliographicRecord bibliographicRecord, final int itemNumber,
+                                                          final int view) {
         final CatalogItem item = getCatalogItemByKey(itemNumber, view);
         bibliographicRecord.setId(item.getAmicusNumber());
 
@@ -1134,16 +1138,46 @@ public class StorageService implements Closeable {
         bibliographicRecord.setLeader(leader);
 
         item.getTags().stream().skip(1).forEach(aTag -> {
-                final CorrelationKey correlation = aTag.getMarcEncoding();
-                final String entry = aTag.isFixedField()
-                    ? (((FixedField) aTag).getDisplayString() + Subfield.FIELD_DELIMITER)
-                    : ("" + correlation.getMarcFirstIndicator() + correlation.getMarcSecondIndicator() +
-                      ((VariableField) aTag).getStringText().getMarcDisplayString(Subfield.SUBFIELD_DELIMITER) + Subfield.FIELD_DELIMITER);
+            int keyNumber = 0;
+            int sequenceNbr = 0;
+
+            if (aTag.isFixedField() && aTag instanceof MaterialDescription){
+                final MaterialDescription materialTag = (MaterialDescription)aTag;
+                keyNumber = materialTag.getMaterialDescriptionKeyNumber();
+                final String tagNbr = materialTag.getMaterialDescription008Indicator().equals("1")?"008":"006";
+                final Map<String, Object> map = getMaterialTypeInfosByLeaderValues(materialTag.getItemRecordTypeCode(), materialTag.getItemBibliographicLevelCode(), tagNbr);
+                materialTag.setHeaderType((int) map.get(GlobalStorage.HEADER_TYPE_LABEL));
+                materialTag.setMaterialTypeCode(tagNbr.equalsIgnoreCase("006")?(String) map.get(Global.MATERIAL_TYPE_CODE_LABEL):null);
+                materialTag.setFormOfMaterial((String) map.get(Global.FORM_OF_MATERIAL_LABEL));
+            }
+
+            if (aTag.isFixedField() && aTag instanceof PhysicalDescription){
+                final PhysicalDescription physicalTag = (PhysicalDescription)aTag;
+                keyNumber = physicalTag.getKeyNumber();
+            }
+
+            if (!aTag.isFixedField() && aTag instanceof BibliographicAccessPoint){
+                keyNumber = ((BibliographicAccessPoint)aTag).getDescriptor().getKey().getHeadingNumber();
+                sequenceNbr = ((BibliographicAccessPoint)aTag).getSequenceNumber();
+            }
+
+            if (!aTag.isFixedField() && aTag instanceof BibliographicNoteTag){
+                keyNumber = ((BibliographicNoteTag)aTag).getNoteNbr();
+                sequenceNbr = ((BibliographicNoteTag)aTag).getSequenceNumber();
+            }
+
+            final CorrelationKey correlation = aTag.getTagImpl().getMarcEncoding(aTag, session);
+
+            final String entry = aTag.isFixedField()
+                ? (((FixedField) aTag).getDisplayString())
+                : ((VariableField) aTag).getStringText().getMarcDisplayString(Subfield.SUBFIELD_DELIMITER);
 
             org.folio.cataloging.resources.domain.VariableField variableField;
             org.folio.cataloging.resources.domain.FixedField fixedField;
             if (aTag.isFixedField()){
                 fixedField = new org.folio.cataloging.resources.domain.FixedField();
+                fixedField.setKeyNumber(keyNumber);
+                fixedField.setSequenceNumber(ofNullable(sequenceNbr).isPresent()?sequenceNbr:0);
                 fixedField.setCode(correlation.getMarcTag());
                 fixedField.setDisplayValue(entry);
                 fixedField.setCategoryCode(aTag.getCategory());
@@ -1151,6 +1185,8 @@ public class StorageService implements Closeable {
                 bibliographicRecord.getFixedFields().add(fixedField);
             } else {
                 variableField = new org.folio.cataloging.resources.domain.VariableField();
+                variableField.setKeyNumber(keyNumber);
+                variableField.setSequenceNumber(ofNullable(sequenceNbr).isPresent()?sequenceNbr:0);
                 variableField.setCategoryCode(correlation.getMarcTagCategoryCode());
                 variableField.setCode(correlation.getMarcTag());
                 variableField.setInd1(""+correlation.getMarcFirstIndicator());

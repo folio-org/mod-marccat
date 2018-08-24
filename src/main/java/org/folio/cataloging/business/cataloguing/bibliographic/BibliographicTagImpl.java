@@ -4,6 +4,8 @@
  */
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.cataloguing.common.Catalog;
@@ -42,9 +44,13 @@ public class BibliographicTagImpl extends TagImpl {
 	/**
 	 * @return the MARC tag and indicators for this tag
 	 */
-	public CorrelationKey getMarcEncoding(Tag t) throws DataAccessException {
-		CorrelationKey key = daoCorrelation.getMarcEncoding(t.getCategory(), t
-				.getCorrelation(1), t.getCorrelation(2), t.getCorrelation(3));
+	public CorrelationKey getMarcEncoding(final Tag t, final Session session) throws DataAccessException {
+		CorrelationKey key = null;
+		try {
+			key = daoCorrelation.getMarcEncoding(t.getCategory(), t.getCorrelation(1), t.getCorrelation(2), t.getCorrelation(3), session);
+		} catch (HibernateException e) {
+			throw new DataAccessException();
+		}
 
 		if (key == null) {
 			logger.warn("MarcCorrelationException in getMarcEncoding for values: ");
@@ -79,6 +85,11 @@ public class BibliographicTagImpl extends TagImpl {
 	 */
 	public Catalog getCatalog() {
 		return new BibliographicCatalog();
+	}
+
+	@Deprecated
+	public CorrelationKey getMarcEncoding(Tag t) throws DataAccessException {
+		return null;
 	}
 
 	/*

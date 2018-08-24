@@ -8,6 +8,7 @@ import org.folio.cataloging.dao.DAOBibliographicRelationship;
 import org.folio.cataloging.dao.DAOBibliographicRelationshipTag;
 import org.folio.cataloging.dao.DAOSystemNextNumber;
 import org.folio.cataloging.dao.persistence.BibliographicRelationReciprocal;
+import org.folio.cataloging.dao.persistence.BibliographicRelationship;
 import org.folio.cataloging.model.Subfield;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;

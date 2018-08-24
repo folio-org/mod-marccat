@@ -50,7 +50,8 @@ public interface Persistence extends Lifecycle, Serializable {
 	 * causes the object to generate new key values
 	 *
 	 */
-    void generateNewKey() throws DataAccessException;
+	//commented by nbianchini
+    //void generateNewKey() throws DataAccessException;
 	
 
     AbstractDAO getDAO();

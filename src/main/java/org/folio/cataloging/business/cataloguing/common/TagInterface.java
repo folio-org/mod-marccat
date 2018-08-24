@@ -55,7 +55,7 @@ public interface TagInterface {
 	 * @since 1.0
 	 */
     Element generateModelXmlElementContent(Document xmlDocument);
-	void generateNewKey() throws DataAccessException;
+	//void generateNewKey() throws DataAccessException;
 	/**
 	 * @return the tag category used in determining MARC coding (correlation)
 	 */
@@ -101,6 +101,8 @@ public interface TagInterface {
 	 *
 	 */
     CorrelationKey getMarcEncoding() throws DataAccessException;
+
+
 	/**
 	 * 
 	 * @since 1.0
@@ -119,8 +121,8 @@ public interface TagInterface {
 	 * @return the second correlation list for this tag
 	 * entry
 	 */
-    List getSecondCorrelationList(int value1)
-		throws DataAccessException;
+	List getSecondCorrelationList(int value1)	throws DataAccessException;
+
 	/**
 	 * Gets appropriate values for selection of the second correlation list.  Values
 	 * are filtered based on the given value from the first correlation list.  Only
@@ -130,8 +132,8 @@ public interface TagInterface {
 	 * @return the second correlation list for this tag
 	 * entry
 	 */
-    List getThirdCorrelationList(int value1, int value2)
-		throws DataAccessException;
+	List getThirdCorrelationList(int value1, int value2)	throws DataAccessException;
+
 	/**
 	 * 
 	 * @since 1.0

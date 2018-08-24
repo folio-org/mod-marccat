@@ -7,6 +7,7 @@
  */
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
+import org.folio.cataloging.dao.persistence.PhysicalDescription;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -17,13 +18,11 @@ import org.w3c.dom.Element;
  */
 public class NullPhysicalDescriptionObject extends PhysicalDescription {
 
-	@Override
 	public Element generateModelXmlElementContent(Document xmlDocument) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public void parseModelXmlElementContent(Element xmlElement) {
 		// TODO Auto-generated method stub
 		

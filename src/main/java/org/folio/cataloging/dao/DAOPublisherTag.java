@@ -7,19 +7,18 @@
  */
 package org.folio.cataloging.dao;
 
-import java.util.Iterator;
-
-import org.folio.cataloging.business.cataloguing.bibliographic.PublisherAccessPoint;
-import org.folio.cataloging.business.cataloguing.bibliographic.PublisherTag;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Persistence;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-
+import org.folio.cataloging.business.cataloguing.bibliographic.PublisherTag;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
+import org.folio.cataloging.dao.persistence.PublisherAccessPoint;
+
+import java.util.Iterator;
 
 /**
  * Although PublisherTag implements Persistence, it is in fact not mapped to a table

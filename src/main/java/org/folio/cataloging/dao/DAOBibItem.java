@@ -11,9 +11,9 @@ import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-import org.folio.cataloging.business.cataloguing.bibliographic.BIB_ITM;
 import org.folio.cataloging.business.common.*;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
+import org.folio.cataloging.dao.persistence.BIB_ITM;
 import org.folio.cataloging.dao.persistence.Cache;
 
 import java.util.List;
@@ -84,12 +84,14 @@ public class DAOBibItem extends AbstractDAO
 	 * @return BIB_ITM
 	 * @throws HibernateException -- in case of hibernate exception.
 	 */
+	@SuppressWarnings("unchecked")
 	public BIB_ITM load(final int id, final int userView, final Session session) throws HibernateException {
 		List<BIB_ITM> l =
 			session.find("from BIB_ITM as itm where itm.amicusNumber = ? "
-			  + " and substr(itm.userViewString, ?, 1) = '1'",
-				new Object[] { new Integer(id), new Integer(userView)},
+			  + " and SUBSTR(itm.userViewString, ?, 1) = '1'",
+				new Object[] { id, userView},
 				new Type[] { Hibernate.INTEGER, Hibernate.INTEGER });
+
 
 		if (l.stream().filter(Objects::nonNull).findFirst().isPresent()) {
 			return (BIB_ITM) isolateView(l.stream().findFirst().get(), userView, session);

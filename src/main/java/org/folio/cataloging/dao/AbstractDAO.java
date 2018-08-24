@@ -3,6 +3,7 @@ package org.folio.cataloging.dao;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
+import net.sf.hibernate.type.Type;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistentObjectWithView;
@@ -164,6 +165,14 @@ public abstract class AbstractDAO extends HibernateUtil {
 
         } else {
             return p;
+        }
+    }
+
+    public List find(Session session, String query, Object[] values, Type[] types) throws DataAccessException {
+        try {
+            return session.find(query, values, types);
+        } catch (HibernateException e) {
+            return null;
         }
     }
 }

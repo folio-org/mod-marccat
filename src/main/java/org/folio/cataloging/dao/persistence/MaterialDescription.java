@@ -1,108 +1,104 @@
-package org.folio.cataloging.business.cataloguing.bibliographic;
+package org.folio.cataloging.dao.persistence;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.common.*;
+import org.apache.commons.lang.StringUtils;
+import org.folio.cataloging.business.cataloguing.bibliographic.FixedFieldUsingItemEntity;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.PersistenceState;
+import org.folio.cataloging.business.common.PersistentObjectWithView;
+import org.folio.cataloging.business.common.UserViewHelper;
 import org.folio.cataloging.dao.AbstractDAO;
-import org.folio.cataloging.dao.DAOSystemNextNumber;
-import org.folio.cataloging.dao.persistence.ItemEntity;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import static org.folio.cataloging.F.*;
+import static java.util.Arrays.stream;
+import static java.util.Optional.ofNullable;
+import static java.util.stream.Collectors.joining;
 
-//TODO: to do refactoring
-public class MaterialDescription extends FixedFieldUsingItemEntity implements PersistentObjectWithView 
+public class MaterialDescription extends FixedFieldUsingItemEntity implements PersistentObjectWithView
 {
 	private static final long serialVersionUID = 232911118088181003L;
-	
-	static private Log logger = LogFactory.getLog(MaterialDescription.class);
+
 	public static final String DEFAULT_DATE = "    ";
 	private int materialDescriptionKeyNumber;
-	private Character materialTypeCode = new Character('a');
-	private char materialDescription008Indicator = '0';
-	private String bookIllustrationCode = "    ";
-	private Character targetAudienceCode = new Character(' ');
-	private Character formOfItemCode = new Character(' ');
-	private String natureOfContentsCode = "    ";
-	private Character governmentPublicationCode = new Character(' ');
-	private Character conferencePublicationCode = new Character(' ');
-	private Character bookFestschrift = new Character(' ');
-	private Character bookIndexAvailabilityCode = new Character(' ');
-	private Character bookLiteraryFormTypeCode = new Character(' ');
-	private Character bookBiographyCode = new Character(' ');
-	private Character bookMainEntryCode = new Character(' ');
-	private String cartographicReliefCode = "      ";
-	private String cartographicProjectionCode = "  ";
-	private String cartographicMeridianCode = "  ";
-	private Character cartographicNarrativeTextCode = new Character(' ');
-	private Character cartographicIndexAvailabilityCode = new Character(' ');
-	private String cartographicFormatCode = " ";
-	private Character computerTargetAudienceCode = new Character(' ');
-	private Character computerFileTypeCode = new Character(' ');
-	
-	/* Bug 4119 */
-	private Character computerFileFormCode = new Character(' ');
+	private String materialTypeCode;
+	private String materialDescription008Indicator;
+	private String bookIllustrationCode;
+	private String targetAudienceCode;
+	private String formOfItemCode;
+	private String natureOfContentsCode;
+	private String governmentPublicationCode;
+	private String conferencePublicationCode;
+	private String bookFestschrift;
+	private String bookIndexAvailabilityCode;
+	private String bookLiteraryFormTypeCode;
+	private String bookBiographyCode;
+	private String bookMainEntryCode;
+	private String cartographicReliefCode;
+	private String cartographicProjectionCode;
+	private String cartographicMeridianCode;
+	private String cartographicNarrativeTextCode;
+	private String cartographicIndexAvailabilityCode;
+	private String cartographicFormatCode;
+	private String computerTargetAudienceCode;
+	private String computerFileTypeCode;
 
-	private String visualRunningTime = "000";
-	private Character visualTargetAudienceCode = new Character(' ');
-	private String visualAccompanyingMaterialCode = " ";
-	private Character visualMaterialTypeCode = new Character(' ');
-	private Character visualTechniqueCode = new Character(' ');
-	private Character serialFrequencyCode = new Character(' ');
-	private Character serialRegularityCode = new Character(' ');
-	private Character serialISDSCenterCode = new Character(' ');
-	private Character serialTypeCode = new Character(' ');
-	private Character serialFormOriginalItemCode = new Character(' ');
-	private Character serialCumulativeIndexCode = new Character(' ');
-	private Character serialOriginalAlphabetOfTitleCode = new Character(' ');
-	private Character serialSuccessiveLatestCode = new Character(' ');
-	private Character serialTitlePageExistenceCode = new Character(' ');
-	private Character serialIndexAvailabilityCode = new Character(' ');
-	private String musicFormOfCompositionCode = " ";
-	private Character musicFormatCode = new Character(' ');
-	private String musicTextualMaterialCode = " ";
-	private String musicLiteraryTextCode = " ";
+	private String computerFileFormCode;
+
+	private String visualRunningTime;
+	private String visualTargetAudienceCode;
+	private String visualAccompanyingMaterialCode;
+	private String visualMaterialTypeCode;
+	private String visualTechniqueCode;
+	private String serialFrequencyCode;
+	private String serialRegularityCode;
+	private String serialISDSCenterCode;
+	private String serialTypeCode;
+	private String serialFormOriginalItemCode;
+	private String serialCumulativeIndexCode;
+	private String serialOriginalAlphabetOfTitleCode;
+	private String serialSuccessiveLatestCode;
+	private String serialTitlePageExistenceCode;
+	private String serialIndexAvailabilityCode;
+	private String musicFormOfCompositionCode;
+	private String musicFormatCode;
+	private String musicTextualMaterialCode;
+	private String musicLiteraryTextCode;
+
+	private String musicPartsCode;
+	private String musicTranspositionArrangementCode;	
 	
-	/* Bug 4161 */
-	private Character musicPartsCode = new Character(' ');
-	private Character musicTranspositionArrangementCode = new Character(' ');	
-	
-	private Character cartographicMaterial = new Character(' ');
-	private Character visualOriginalHolding = new Character(' ');
-	private String formOfMaterial = " ";
+	private String cartographicMaterial;
+	private String visualOriginalHolding;
+	private String formOfMaterial;
 	private UserViewHelper userViewHelper = new UserViewHelper();
 	private String marcCountryCodeCustom;
 	private String languageCodeCustom;
 
-	public Character getMusicPartsCode() {
+	public String getMusicPartsCode() {
 		return musicPartsCode;
 	}
 
-	public void setMusicPartsCode(Character musicPartsCode) {
+	public void setMusicPartsCode(final String musicPartsCode) {
 		this.musicPartsCode = musicPartsCode;
 	}
 
-	public Character getMusicTranspositionArrangementCode() {
+	public String getMusicTranspositionArrangementCode() {
 		return musicTranspositionArrangementCode;
 	}
 
-	public void setMusicTranspositionArrangementCode(
-			Character musicTranspositionArrangementCode) {
+	public void setMusicTranspositionArrangementCode(final String musicTranspositionArrangementCode) {
 		this.musicTranspositionArrangementCode = musicTranspositionArrangementCode;
 	}
 
-	public Character getComputerFileFormCode() {
+	public String getComputerFileFormCode() {
 		return computerFileFormCode;
 	}
 
-	public void setComputerFileFormCode(Character computerFileFormCode) {
+	public void setComputerFileFormCode(final String computerFileFormCode) {
 		this.computerFileFormCode = computerFileFormCode;
 	}
 
@@ -125,121 +121,65 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 	public MaterialDescription() {
 		super();
 		setPersistenceState(new PersistenceState());
-		setToDefault();
 	}
 
-	/*
-	 * Squeeze all non-blank characters to the left side of the string and
-	 * retain the original length by padding with blanks on the right
+	/**
+	 * Squeeze all non-blank Strings to the left side of the string and retain the original length by padding with blanks on the right.
+	 *
+	 * @param s -- the input string.
 	 */
-	private String leftJustify(String s) {
-		if (s == null) {
-			return null;
-		}
-		String result = "";
-		for (int i = 0; i < s.length(); i++) {
-			if (s.charAt(i) != ' ') {
-				result = result + s.charAt(i);
-			}
-		}
-		while (result.length() < s.length()) {
-			result = result + " ";
-		}
-		return result;
+	private String leftJustify(final String s) {
+		return ofNullable(s).map(v -> stream(s.split("")).filter(character -> !" ".equals(character)).collect(joining()))
+				.map(result -> StringUtils.leftPad(result, s.length() - result.length(), ' '))
+				.orElse("    ");
 	}
 
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
 	 */
-	public void generateNewKey() throws DataAccessException {
+	//TODO move in storageService
+	/*public void generateNewKey() throws DataAccessException {
 		DAOSystemNextNumber dao = new DAOSystemNextNumber();
 		setMaterialDescriptionKeyNumber(dao.getNextNumber("X0"));
-	}
+	}*/
 
-	/**
-	 * Sets the form-specific values to their default
-	 * 
-	 * @since 1.0
-	 */
-	public void setToDefault() 
-	{
-		setBookIllustrationCode(Defaults.getString("material.bookIllustrationCode"));
-		setTargetAudienceCode(Defaults.getCharacter("material.targetAudienceCode"));
-		setFormOfItemCode(Defaults.getCharacter("material.formOfItemCode"));
-		setNatureOfContentsCode(Defaults.getString("material.natureOfContentsCode"));		
-		setGovernmentPublicationCode(Defaults.getCharacter("material.governmentPublicationCode"));
-		setConferencePublicationCode(Defaults.getCharacter("material.conferencePublicationCode"));
-		setBookFestschrift(Defaults.getCharacter("material.bookFestschrift"));
-		setBookIndexAvailabilityCode(Defaults.getCharacter("material.bookIndexAvailabilityCode"));
-		setBookLiteraryFormTypeCode(Defaults.getCharacter("material.bookLiteraryFormTypeCode"));
-		setBookBiographyCode(Defaults.getCharacter("material.bookBiographyCode"));
-		setCartographicReliefCode(Defaults.getString("material.cartographicReliefCode"));
-		setCartographicProjectionCode(Defaults.getString("material.cartographicProjectionCode"));
-		setCartographicMaterial(Defaults.getCharacter("material.cartographicMaterial"));
-		setCartographicFormatCode(Defaults.getString("material.cartographicFormatCode"));
-		setComputerTargetAudienceCode(Defaults.getCharacter("material.targetAudienceCode"));
-		setComputerFileTypeCode(Defaults.getCharacter("material.computerFileTypeCode"));
-		/* Bug 4119 */
-		setComputerFileFormCode(Defaults.getCharacter("material.computerFileFormCode"));
-		
-		setVisualRunningTime(Defaults.getString("material.visualRunningTime"));
-		setVisualTargetAudienceCode(Defaults.getCharacter("material.targetAudienceCode"));
-		setVisualMaterialTypeCode(Defaults.getCharacter("material.visualMaterialTypeCode"));
-		setVisualTechniqueCode(Defaults.getCharacter("material.visualTechniqueCode"));
-		setSerialFrequencyCode(Defaults.getCharacter("material.serialFrequencyCode"));
-		setSerialRegularityCode(Defaults.getCharacter("material.serialRegularityCode"));
-		setSerialTypeCode(Defaults.getCharacter("material.serialTypeCode"));
-		setSerialFormOriginalItemCode(Defaults.getCharacter("material.formOfItemCode"));
-		setSerialOriginalAlphabetOfTitleCode(Defaults.getCharacter("material.serialOriginalAlphabetOfTitleCode"));
-		setSerialSuccessiveLatestCode(Defaults.getCharacter("material.serialSuccessiveLatestCode"));
-		setMusicFormOfCompositionCode(Defaults.getString("material.musicFormOfCompositionCode"));
-		setMusicFormatCode(Defaults.getCharacter("material.musicFormatCode"));
-		setMusicTextualMaterialCode(Defaults.getString("material.musicTextualMaterialCode"));
-		setMusicLiteraryTextCode(Defaults.getString("material.musicLiteraryTextCode"));
-		/* 4161 */
-		setMusicPartsCode(Defaults.getCharacter("material.musicPartsCode"));
-		setMusicTranspositionArrangementCode(Defaults.getCharacter("material.musicTranspositionArrangementCode"));
-	}
 
-	public String getDisplayString() 
+	public String getDisplayString()
 	{
-		String str = new String("");
-		if (getMaterialDescription008Indicator() == '1') {
-			str = str 
-				+ getEnteredOnFileDateYYMMDD()
-				+ getItemDateTypeCode()
-				+ getItemDateFirstPublication()
-				+ getItemDateLastPublication()
-				+ getMarcCountryCode();
-		} else {
-			str = str + getMaterialTypeCode();
+		final StringBuilder sb = new StringBuilder();
+		if (getMaterialDescription008Indicator().equals("1")) {
+			sb.append(getEnteredOnFileDateYYMMDD())
+					.append(getItemDateTypeCode())
+					.append(getItemDateFirstPublication())
+					.append(getItemDateLastPublication())
+					.append(getMarcCountryCode());
+		} else { //case tag 006
+			sb.append(getMaterialTypeCode());
 		}
 
-		//		TODO this may beg subclassing -- Janick thinks so too					
 		if (isBook()) {
-			str = str + bookDisplayString();
+			sb.append(bookDisplayString());
 		} else if (isComputerFile()) {
-			str = str + computerFileDisplayString();
+			sb.append(computerFileDisplayString());
 		} else if (isMap()) {
-			str = str + mapDisplayString();
+			sb.append(mapDisplayString());
 		} else if (isMixedMaterial()) {
-			str = str + mixedMaterialDisplayString();
+			sb.append(mixedMaterialDisplayString());
 		} else if (isMusic()) {
-			str = str + musicDisplayString();
+			sb.append(musicDisplayString());
 		} else if (isSerial()) {
-			str = str + serialDisplayString();
+			sb.append(serialDisplayString());
 		} else if (isVisualMaterial()) {
-			str = str + visualMaterialDisplayString();
+			sb.append(visualMaterialDisplayString());
 		}
 
-		if (getMaterialDescription008Indicator() == '1') {
-			str = str
-				+ getLanguageCode()
-				+ getRecordModifiedCode()
-				+ getRecordCataloguingSourceCode();
+		if (getMaterialDescription008Indicator().equals("1")) {
+			sb.append( getLanguageCode())
+					.append(getRecordModifiedCode())
+					.append(getRecordCataloguingSourceCode());
 		}
-		logger.debug("displayString: " + str);
-		return str;
+
+		return sb.toString();
 	}
 
 	public boolean equals(Object obj) 
@@ -259,8 +199,8 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 			if (other.materialDescriptionKeyNumber > 0) {
 				return true;
 			} else {
-				if (this.getMaterialDescription008Indicator() == '1' &&
-					other.getMaterialDescription008Indicator() == '1') {
+				if (this.getMaterialDescription008Indicator().equals("1") &&
+					other.getMaterialDescription008Indicator().equals("1")) {
 					return true;
 				}
 				return this.getHeaderType() == other.getHeaderType();
@@ -300,84 +240,63 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 	}
 
 	/**
-	 * return the displayString segment for book material
-	 * @author paulm
-	 * @version $Revision: 1.17 $, $Date: 2006/07/26 14:31:51 $
-	 * @since 1.0
+	 * @return the displayString segment for book material.
 	 */
-	public String bookDisplayString() 
-	{
+	public String bookDisplayString() {
 		return getBookIllustrationCode()
-			+ getTargetAudienceCode()
-			+ getFormOfItemCode()
-			+ getNatureOfContentsCode()
-			+ getGovernmentPublicationCode()
-			+ getConferencePublicationCode()
-			+ getBookFestschrift()
-			+ getBookIndexAvailabilityCode()
-			+ " " //undefined position (formerly main entry indicator)
-			+ getBookLiteraryFormTypeCode() + getBookBiographyCode();
-		}
-
-	/**
-	 * return the displayString segment for map material
-	 * @author paulm
-	 * @version $Revision: 1.17 $, $Date: 2006/07/26 14:31:51 $
-	 * @since 1.0
-	 */
-	public String mapDisplayString() {
-		return getCartographicReliefCode()
-			+ getCartographicProjectionCode()
-			+ " "
-		//undefined
-		+getCartographicMaterial() + "  " // two undefined
-		+getGovernmentPublicationCode() + getFormOfItemCode() + " "
-		// undefined
-		+getCartographicIndexAvailabilityCode() + " " //undefined position
-		+getCartographicFormatCode();
+				+ getTargetAudienceCode()
+				+ getFormOfItemCode()
+				+ getNatureOfContentsCode()
+				+ getGovernmentPublicationCode()
+				+ getConferencePublicationCode()
+				+ getBookFestschrift()
+				+ getBookIndexAvailabilityCode()
+				+ " " //undefined position (formerly main entry indicator)
+				+ getBookLiteraryFormTypeCode() + getBookBiographyCode();
 	}
 
 	/**
-	 * return the displayString segment for computer file material
-	 * @author paulm
-	 * @version $Revision: 1.17 $, $Date: 2006/07/26 14:31:51 $
-	 * @since 1.0
+	 * @return the displayString segment for map material.
 	 */
-	public String computerFileDisplayString() 
-	{
-		StringBuilder builder = new StringBuilder(); 
+	public String mapDisplayString() {
+		return getCartographicReliefCode()
+				+ getCartographicProjectionCode()
+				+ " " //undefined
+				+ getCartographicMaterial() + "  " // two undefined
+				+ getGovernmentPublicationCode() + getFormOfItemCode() + " " // undefined
+				+ getCartographicIndexAvailabilityCode() + " " //undefined position
+				+ getCartographicFormatCode();
+	}
+
+	/**
+	 * @return the displayString segment for computer file material
+	 */
+	public String computerFileDisplayString() {
+		StringBuilder builder = new StringBuilder();
 		builder.append("    ")								/*18-21 - Undefined             */
-			   .append(getComputerTargetAudienceCode())		/*22    - Target audience       */
-			   .append(getComputerFileFormCode())			/*23    - Form of item          */
-			   .append("  ")								/*24-25 - Undefined             */ 
-			   .append(getComputerFileTypeCode())			/*26    - Type of computer file */ 
-			   .append(" ")									/*27    - Undefined             */
-			   .append(getGovernmentPublicationCode())		/*28    - Government publication*/ 
-			   .append("      ");							/*29-34 - Undefined             */
-		
+				.append(getComputerTargetAudienceCode())		/*22    - Target audience       */
+				.append(getComputerFileFormCode())			/*23    - Form of item          */
+				.append("  ")								/*24-25 - Undefined             */
+				.append(getComputerFileTypeCode())			/*26    - Type of computer file */
+				.append(" ")									/*27    - Undefined             */
+				.append(getGovernmentPublicationCode())		/*28    - Government publication*/
+				.append("      ");							/*29-34 - Undefined             */
+
 		return builder.toString();
 	}
 
 	/**
-	 * return the displayString segment for mixed material material
-	 * @author paulm
-	 * @version $Revision: 1.17 $, $Date: 2006/07/26 14:31:51 $
-	 * @since 1.0
+	 * @return the displayString segment for mixed material material
 	 */
-	public String mixedMaterialDisplayString() 
-	{
-		return "     " 							// five undefined 
-		+getFormOfItemCode() + "           "; 	// 11 undefined positions
+	public String mixedMaterialDisplayString() {
+		// five undefined + 11 undefined positions
+		return "     " + getFormOfItemCode() + "           ";
 	}
 
 	/**
-	 * return the displayString segment for music material
-	 * @author paulm
-	 * @version $Revision: 1.17 $, $Date: 2006/07/26 14:31:51 $
-	 * @since 1.0
+	 * @return the displayString segment for music material
 	 */
-	public String musicDisplayString() 
-	{
+	public String musicDisplayString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append(getMusicFormOfCompositionCode()) 		/* 18-19 - Form of composition */
 				.append(getMusicFormatCode())					/* 20 - Format of music */
@@ -389,48 +308,39 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 				.append(" ")									/* 32 - Undefined */
 				.append(getMusicTranspositionArrangementCode())	/* 33 - Transposition and arrangement */
 				.append(" ");									/* 34 - Undefined  */
-		
+
 		return builder.toString();
 	}
 
 	/**
-	 * return the displayString segment for visual material
-	 * @author paulm
-	 * @version $Revision: 1.17 $, $Date: 2006/07/26 14:31:51 $
-	 * @since 1.0
+	 * @return the displayString segment for visual material
 	 */
 	public String visualMaterialDisplayString() {
 		return getVisualRunningTime() + " " // undefined position
-		+getVisualTargetAudienceCode() + "     " // five undefined
-		+getGovernmentPublicationCode() + getFormOfItemCode() + "   "
-		// three undefined
-		+getVisualMaterialTypeCode() + getVisualTechniqueCode();
+				+getVisualTargetAudienceCode() + "     " // five undefined
+				+getGovernmentPublicationCode() + getFormOfItemCode() + "   " // three undefined
+				+getVisualMaterialTypeCode() + getVisualTechniqueCode();
 	}
 
 	/**
-	 * return the displayString segment for serial (continuing resources) material
-	 * @author paulm
-	 * @version $Revision: 1.17 $, $Date: 2006/07/26 14:31:51 $
-	 * @since 1.0
+	 * @return the displayString segment for serial (continuing resources) material
 	 */
-	public String serialDisplayString() 
-	{
+	public String serialDisplayString() {
 		StringBuilder builder = new StringBuilder();
-		
 		builder.append("")
-			   .append(getSerialFrequencyCode())				/* 18 - Frequency */
-			   .append(getSerialRegularityCode())				/* 19 - Regularity */
-			   .append(" ")										/* 20 - Undefined */
-			   .append(getSerialTypeCode())						/* 21 - Type of continuing resource */
-			   .append(getSerialFormOriginalItemCode())			/* 22 - Form of original item */
-			   .append(getFormOfItemCode())						/* 23 - Form of item */
-			   .append(getNatureOfContentsCode())				/* 24 - Nature of entire work 25-27 - Nature of contents */
-			   .append(getGovernmentPublicationCode())			/* 28 - Government publication */
-			   .append(getConferencePublicationCode())			/* 29 - Conference publication */
-			   .append("   ")									/* 30-32 - Undefined  */
-			   .append(getSerialOriginalAlphabetOfTitleCode())  /* 33 - Original alphabet or script of title */
-			   .append(getSerialSuccessiveLatestCode());		/* 34 - Entry convention */
-		
+				.append(getSerialFrequencyCode())				/* 18 - Frequency */
+				.append(getSerialRegularityCode())				/* 19 - Regularity */
+				.append(" ")										/* 20 - Undefined */
+				.append(getSerialTypeCode())						/* 21 - Type of continuing resource */
+				.append(getSerialFormOriginalItemCode())			/* 22 - Form of original item */
+				.append(getFormOfItemCode())						/* 23 - Form of item */
+				.append(getNatureOfContentsCode())				/* 24 - Nature of entire work 25-27 - Nature of contents */
+				.append(getGovernmentPublicationCode())			/* 28 - Government publication */
+				.append(getConferencePublicationCode())			/* 29 - Conference publication */
+				.append("   ")									/* 30-32 - Undefined  */
+				.append(getSerialOriginalAlphabetOfTitleCode())  /* 33 - Original alphabet or script of title */
+				.append(getSerialSuccessiveLatestCode());		/* 34 - Entry convention */
+
 		return builder.toString();
 	}
 
@@ -442,11 +352,11 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 	public int getMaterialDescriptionKeyNumber() {
 		return materialDescriptionKeyNumber;
 	}
-	public Character getBookBiographyCode() {
+	public String getBookBiographyCode() {
 		return bookBiographyCode;
 	}
 
-	public Character getBookFestschrift() {
+	public String getBookFestschrift() {
 		return bookFestschrift;
 	}
 
@@ -462,15 +372,15 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 		}
 	}
 
-	public Character getBookIndexAvailabilityCode() {
+	public String getBookIndexAvailabilityCode() {
 		return bookIndexAvailabilityCode;
 	}
 
-	public Character getBookLiteraryFormTypeCode() {
+	public String getBookLiteraryFormTypeCode() {
 		return bookLiteraryFormTypeCode;
 	}
 
-	public Character getBookMainEntryCode() {
+	public String getBookMainEntryCode() {
 		return bookMainEntryCode;
 	}
 
@@ -486,11 +396,11 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 		}
 	}
 
-	public Character getCartographicIndexAvailabilityCode() {
+	public String getCartographicIndexAvailabilityCode() {
 		return cartographicIndexAvailabilityCode;
 	}
 
-	public Character getCartographicMaterial() {
+	public String getCartographicMaterial() {
 		return cartographicMaterial;
 	}
 
@@ -498,7 +408,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 		return cartographicMeridianCode;
 	}
 
-	public Character getCartographicNarrativeTextCode() {
+	public String getCartographicNarrativeTextCode() {
 		return cartographicNarrativeTextCode;
 	}
 
@@ -518,35 +428,35 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 		}
 	}
 
-	public Character getComputerFileTypeCode() {
+	public String getComputerFileTypeCode() {
 		return computerFileTypeCode;
 	}
 
-	public Character getComputerTargetAudienceCode() {
+	public String getComputerTargetAudienceCode() {
 		return computerTargetAudienceCode;
 	}
 
-	public Character getConferencePublicationCode() {
+	public String getConferencePublicationCode() {
 		return conferencePublicationCode;
 	}
 
-	public Character getFormOfItemCode() {
+	public String getFormOfItemCode() {
 		return formOfItemCode;
 	}
 
-	public Character getGovernmentPublicationCode() {
+	public String getGovernmentPublicationCode() {
 		return governmentPublicationCode;
 	}
 
-	public char getMaterialDescription008Indicator() {
+	public String getMaterialDescription008Indicator() {
 		return materialDescription008Indicator;
 	}
 
-	public Character getMaterialTypeCode() {
+	public String getMaterialTypeCode() {
 		return materialTypeCode;
 	}
 
-	public Character getMusicFormatCode() {
+	public String getMusicFormatCode() {
 		return musicFormatCode;
 	}
 
@@ -590,47 +500,47 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 		}
 	}
 	
-	public Character getSerialCumulativeIndexCode() {
+	public String getSerialCumulativeIndexCode() {
 		return serialCumulativeIndexCode;
 	}
 
-	public Character getSerialFormOriginalItemCode() {
+	public String getSerialFormOriginalItemCode() {
 		return serialFormOriginalItemCode;
 	}
 
-	public Character getSerialFrequencyCode() {
+	public String getSerialFrequencyCode() {
 		return serialFrequencyCode;
 	}
 
-	public Character getSerialIndexAvailabilityCode() {
+	public String getSerialIndexAvailabilityCode() {
 		return serialIndexAvailabilityCode;
 	}
 
-	public Character getSerialISDSCenterCode() {
+	public String getSerialISDSCenterCode() {
 		return serialISDSCenterCode;
 	}
 
-	public Character getSerialRegularityCode() {
+	public String getSerialRegularityCode() {
 		return serialRegularityCode;
 	}
 
-	public Character getSerialSuccessiveLatestCode() {
+	public String getSerialSuccessiveLatestCode() {
 		return serialSuccessiveLatestCode;
 	}
 
-	public Character getSerialOriginalAlphabetOfTitleCode() {
+	public String getSerialOriginalAlphabetOfTitleCode() {
 		return serialOriginalAlphabetOfTitleCode;
 	}
 
-	public Character getSerialTitlePageExistenceCode() {
+	public String getSerialTitlePageExistenceCode() {
 		return serialTitlePageExistenceCode;
 	}
 
-	public Character getSerialTypeCode() {
+	public String getSerialTypeCode() {
 		return serialTypeCode;
 	}
 
-	public Character getTargetAudienceCode() {
+	public String getTargetAudienceCode() {
 		return targetAudienceCode;
 	}
 
@@ -638,11 +548,11 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 		return visualAccompanyingMaterialCode;
 	}
 
-	public Character getVisualMaterialTypeCode() {
+	public String getVisualMaterialTypeCode() {
 		return visualMaterialTypeCode;
 	}
 
-	public Character getVisualOriginalHolding() {
+	public String getVisualOriginalHolding() {
 		return visualOriginalHolding;
 	}
 
@@ -650,198 +560,182 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 		return visualRunningTime;
 	}
 
-	public Character getVisualTargetAudienceCode() {
+	public String getVisualTargetAudienceCode() {
 		return visualTargetAudienceCode;
 	}
 
-	public Character getVisualTechniqueCode() {
+	public String getVisualTechniqueCode() {
 		return visualTechniqueCode;
 	}
 
-	public void setBookBiographyCode(Character character) {
-		bookBiographyCode = character;
+	public void setBookBiographyCode(final String value) {
+		bookBiographyCode = value;
 	}
 
-	public void setBookFestschrift(Character character) {
-		bookFestschrift = character;
+	public void setBookFestschrift(final String value) {
+		bookFestschrift = value;
 	}
 
-	public void setBookIllustrationCode(String string) {
-		bookIllustrationCode = leftJustify(string);
+	public void setBookIllustrationCode(final String value) {
+		bookIllustrationCode = leftJustify(value);
 	}
 
-	public void setBookIndexAvailabilityCode(Character character) {
-		bookIndexAvailabilityCode = character;
+	public void setBookIndexAvailabilityCode(final String value) {
+		bookIndexAvailabilityCode = value;
 	}
 
-	public void setBookLiteraryFormTypeCode(Character character) {
-		bookLiteraryFormTypeCode = character;
+	public void setBookLiteraryFormTypeCode(final String value) {
+		bookLiteraryFormTypeCode = value;
 	}
 
-	public void setBookMainEntryCode(Character character) {
-		bookMainEntryCode = character;
+	public void setBookMainEntryCode(final String value) {
+		bookMainEntryCode = value;
 	}
 
-	public void setCartographicFormatCode(String s) {
+	public void setCartographicFormatCode(final String s) {
 		cartographicFormatCode = s;
 	}
 
-	public void setCartographicIndexAvailabilityCode(Character character) {
-		cartographicIndexAvailabilityCode = character;
+	public void setCartographicIndexAvailabilityCode(final String value) {
+		cartographicIndexAvailabilityCode = value;
 	}
 
-	public void setCartographicMaterial(Character c) {
+	public void setCartographicMaterial(final String c) {
 		cartographicMaterial = c;
 	}
 
-	public void setCartographicMeridianCode(String string) {
+	public void setCartographicMeridianCode(final String string) {
 		cartographicMeridianCode = string;
 	}
 
-	public void setCartographicNarrativeTextCode(Character character) {
-		cartographicNarrativeTextCode = character;
+	public void setCartographicNarrativeTextCode(final String value) {
+		cartographicNarrativeTextCode = value;
 	}
 
-	public void setCartographicProjectionCode(String string) {
+	public void setCartographicProjectionCode(final String string) {
 		cartographicProjectionCode = string;
 	}
 
-	public void setCartographicReliefCode(String s) {
+	public void setCartographicReliefCode(final String s) {
 		cartographicReliefCode = s;
 	}
 
-	public void setComputerFileTypeCode(Character character) {
-		computerFileTypeCode = character;
+	public void setComputerFileTypeCode(final String value) {
+		computerFileTypeCode = value;
 	}
 
-	public void setComputerTargetAudienceCode(Character character) {
-		computerTargetAudienceCode = character;
+	public void setComputerTargetAudienceCode(final String value) {
+		computerTargetAudienceCode = value;
 	}
 
-	public void setConferencePublicationCode(Character character) {
-		conferencePublicationCode = character;
+	public void setConferencePublicationCode(final String value) {
+		conferencePublicationCode = value;
 	}
 
-	public void setFormOfItemCode(Character character) {
-		formOfItemCode = character;
+	public void setFormOfItemCode(final String value) {
+		formOfItemCode = value;
 	}
 
-	public void setGovernmentPublicationCode(Character character) {
-		governmentPublicationCode = character;
+	public void setGovernmentPublicationCode(final String value) {
+		governmentPublicationCode = value;
 	}
 
-	public void setMaterialDescription008Indicator(char c) {
+	public void setMaterialDescription008Indicator(final String c) {
 		materialDescription008Indicator = c;
 	}
 
-	public void setMaterialTypeCode(Character character) {
-		materialTypeCode = character;
+	public void setMaterialTypeCode(final String value) {
+		materialTypeCode = value;
 	}
 
-	public void setMusicFormatCode(Character character) {
-		musicFormatCode = character;
+	public void setMusicFormatCode(final String value) {
+		musicFormatCode = value;
 	}
 
-	public void setMusicFormOfCompositionCode(String string) {
+	public void setMusicFormOfCompositionCode(final String string) {
 		musicFormOfCompositionCode = string;
 	}
 
-	public void setMusicLiteraryTextCode(String string) {
+	public void setMusicLiteraryTextCode(final String string) {
 		musicLiteraryTextCode = string;
 	}
 
-	public void setMusicTextualMaterialCode(String string) {
+	public void setMusicTextualMaterialCode(final String string) {
 		musicTextualMaterialCode = string;
 	}
 
-	public void setNatureOfContentsCode(String string) {
+	public void setNatureOfContentsCode(final String string) {
 		natureOfContentsCode = leftJustify(string);
 	}
 
-	public void setSerialCumulativeIndexCode(Character character) {
-		serialCumulativeIndexCode = character;
+	public void setSerialCumulativeIndexCode(final String value) {
+		serialCumulativeIndexCode = value;
 	}
 
-	public void setSerialFormOriginalItemCode(Character character) {
-		serialFormOriginalItemCode = character;
+	public void setSerialFormOriginalItemCode(final String value) {
+		serialFormOriginalItemCode = value;
 	}
 
-	public void setSerialFrequencyCode(Character character) {
-		serialFrequencyCode = character;
+	public void setSerialFrequencyCode(final String value) {
+		serialFrequencyCode = value;
 	}
 
-	public void setSerialIndexAvailabilityCode(Character character) {
-		serialIndexAvailabilityCode = character;
+	public void setSerialIndexAvailabilityCode(final String value) {
+		serialIndexAvailabilityCode = value;
 	}
 
-	public void setSerialISDSCenterCode(Character character) {
-		serialISDSCenterCode = character;
+	public void setSerialISDSCenterCode(final String value) {
+		serialISDSCenterCode = value;
 	}
 
-	public void setSerialRegularityCode(Character character) {
-		serialRegularityCode = character;
+	public void setSerialRegularityCode(final String value) {
+		serialRegularityCode = value;
 	}
 
-	public void setSerialSuccessiveLatestCode(Character character) {
-		serialSuccessiveLatestCode = character;
+	public void setSerialSuccessiveLatestCode(final String value) {
+		serialSuccessiveLatestCode = value;
 	}
 
-	public void setSerialOriginalAlphabetOfTitleCode(Character character) {
-		serialOriginalAlphabetOfTitleCode = character;
+	public void setSerialOriginalAlphabetOfTitleCode(final String value) {
+		serialOriginalAlphabetOfTitleCode = value;
 	}
 
-	public void setSerialTitlePageExistenceCode(Character character) {
-		serialTitlePageExistenceCode = character;
+	public void setSerialTitlePageExistenceCode(final String value) {
+		serialTitlePageExistenceCode = value;
 	}
 
-	public void setSerialTypeCode(Character character) {
-		serialTypeCode = character;
+	public void setSerialTypeCode(final String value) {
+		serialTypeCode = value;
 	}
 
-	public void setTargetAudienceCode(Character character) {
-		targetAudienceCode = character;
+	public void setTargetAudienceCode(final String value) {
+		targetAudienceCode = value;
 	}
 
-	public void setVisualAccompanyingMaterialCode(String string) {
+	public void setVisualAccompanyingMaterialCode(final String string) {
 		visualAccompanyingMaterialCode = string;
 	}
 
-	public void setVisualMaterialTypeCode(Character character) {
-		visualMaterialTypeCode = character;
+	public void setVisualMaterialTypeCode(final String value) {
+		visualMaterialTypeCode = value;
 	}
 
-	public void setVisualOriginalHolding(Character character) {
-		visualOriginalHolding = character;
+	public void setVisualOriginalHolding(final String value) {
+		visualOriginalHolding = value;
 	}
 
-	public void setVisualRunningTime(String string) {
+	public void setVisualRunningTime(final String string) {
 		visualRunningTime = string;
 	}
 
-	public void setVisualTargetAudienceCode(Character character) {
-		visualTargetAudienceCode = character;
+	public void setVisualTargetAudienceCode(final String value) {
+		visualTargetAudienceCode = value;
 	}
 
-	public void setVisualTechniqueCode(Character character) {
-		visualTechniqueCode = character;
+	public void setVisualTechniqueCode(final String value) {
+		visualTechniqueCode = value;
 	}
 
-
-	//TODO: remove from here!
-	public void setFormOfMaterialFromBibItem() {
-		/*
-		 * formOfMaterial is an artificial (non-persistent) stringValue for material description
-		 * that must be derived from other mtrl_dsc and bib_itm data (as coded below).
-		 */
-
-		/*DAORecordTypeMaterial dao = new DAORecordTypeMaterial();
-		RecordTypeMaterial rtm;
-		rtm =
-			dao.get008HeaderCode(
-				getItemRecordTypeCode(),
-				getItemBibliographicLevelCode());
-		setFormOfMaterial(rtm.getAmicusMaterialTypeCode());*/
-	}
 
 	/**
 	 * 
@@ -855,78 +749,29 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 	 * 
 	 * @since 1.0
 	 */
-	public void setFormOfMaterial(String string) {
+	public void setFormOfMaterial(final String string) {
 		formOfMaterial = string;
 	}
 
 	/* (non-Javadoc)
 	 * @see FixedField#setBibItm(BIB_ITM)
 	 */
-	//TODO: remove from here!
-	public void setItemEntity(ItemEntity item) {
-		/*
-		 * we override this item to establish the new values for bibHeader 
-		 * whenever the bibItm data changes (including new instances)
-		 * bib_header is an artificial (non-persistent) stringValue for material description
-		 * that must be derived from other mtrl_dsc and bib_itm data (as coded below).
-		 */
-
-		/*super.setItemEntity(item);
-		if (getMaterialDescription008Indicator() == '1') {
-			DAORecordTypeMaterial dao = new DAORecordTypeMaterial();
-			RecordTypeMaterial rtm;
-			rtm =
-				dao.get008HeaderCode(
-					getItemRecordTypeCode(),
-					getItemBibliographicLevelCode());
-			if(rtm!=null){
-			setHeaderType(rtm.getBibHeader008());
-			setFormOfMaterial(rtm.getAmicusMaterialTypeCode());
-			}
-		} else {
-
-			 * although the 006 values are not affected by bib_item values, we
-			 * need to establish the correct bib_header stringValue for loaded items
-
-			DAORecordTypeMaterial dao = new DAORecordTypeMaterial();
-			RecordTypeMaterial rtm;
-			rtm = dao.get006HeaderCode(getMaterialTypeCode());
-			if(rtm!=null){
-			setHeaderType(rtm.getBibHeader006());
-			}
-
-		}*/
+	public void setItemEntity(final ItemEntity item) {
+		super.setItemEntity(item);
 	}
 
 	/* (non-Javadoc)
 	 * @see FixedField#setBibHeader(short)
 	 */
-	//TODO: remove from here!
-	public void setHeaderType(short s) {
-		//TODO put these hard coded values from T_BIB_HEADER into a table
-		//TODO this code allows the user to select an 008 type from the header that is not
-		// consistent with the values in the Leader -- shouldn't allow this		
-		/*if (getHeaderType() != s) {
-			super.setHeaderType(s);
-			if (getHeaderType() >= 16 && getHeaderType() <= 22) {
-				setMaterialDescription008Indicator('0');
-				DAORecordTypeMaterial dao = new DAORecordTypeMaterial();
-				RecordTypeMaterial rtm = dao.getDefaultTypeBy006Header(s);
-				setMaterialTypeCode(rtm.getRecordTypeCodeCharacter());
-				setFormOfMaterial(rtm.getAmicusMaterialTypeCode());
-			} else {
-				setMaterialDescription008Indicator('1');
-				setMaterialTypeCode(null);
-				setFormOfMaterialFromBibItem();
-			}
-		}*/
+	public void setHeaderType(final int s) {
+		super.setHeaderType(s);
 	}
 
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#isAbleToBeDeleted()
 	 */
 	public boolean isAbleToBeDeleted() {
-        return getMaterialDescription008Indicator() != '1';
+        return !getMaterialDescription008Indicator().equals("1");
 	}
 
 	/* (non-Javadoc)
@@ -957,7 +802,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 	public Element generateModelXmlElementContent(Document xmlDocument) 
 	{
 		Element content = null;
-		if (xmlDocument != null) {
+		/*if (xmlDocument != null) {
 			content = xmlDocument.createElement("content");
 			if (getMaterialDescription008Indicator() == '1') {
 				content.setAttribute("enteredOnFileDateYYYYMMDD", getEnteredOnFileDateYYYYMMDD());
@@ -990,10 +835,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 			content.setAttribute("cartographicFormatCode",getCartographicFormatCode());
 			content.setAttribute("computerTargetAudienceCode", asNullableString(getComputerTargetAudienceCode()));
 			content.setAttribute("computerFileTypeCode", asNullableString(getComputerFileTypeCode()));
-			
-			/* Bug 4119 */
 			content.setAttribute("computerFileFormCode", asNullableString(getComputerFileFormCode()));
-			
 			content.setAttribute("visualRunningTime", getVisualRunningTime());
 			content.setAttribute("visualTargetAudienceCode", asNullableString(getVisualTargetAudienceCode()));
 			content.setAttribute("visualAccompanyingMaterialCode",getVisualAccompanyingMaterialCode());
@@ -1014,21 +856,18 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 			content.setAttribute("musicFormatCode", asNullableString(getMusicFormatCode()));
 			content.setAttribute("musicTextualMaterialCode",getMusicTextualMaterialCode());
 			content.setAttribute("musicLiteraryTextCode",getMusicLiteraryTextCode());
-			
-			/* Bug 4161 */
 			content.setAttribute("musicPartsCode", asNullableString(getMusicPartsCode()));
 			content.setAttribute("musicTranspositionArrangementCode", asNullableString(getMusicTranspositionArrangementCode()));
-			
 			content.setAttribute("cartographicMaterial", asNullableString(getCartographicMaterial()));
 			content.setAttribute("visualOriginalHolding", asNullableString(getVisualOriginalHolding()));
-			content.setAttribute("formOfMaterial", getFormOfMaterial());			
-		}
+			content.setAttribute("formOfMaterial", getFormOfMaterial());
+		}*/
 		return content;
 	}
 
-	public void parseModelXmlElementContent(Element xmlElement) 
+	public void parseModelXmlElementContent(Element xmlElement)
 	{
-		Element content = (Element) xmlElement.getChildNodes().item(0);
+		/*Element content = (Element) xmlElement.getChildNodes().item(0);
 		setMaterialTypeCode(characterFromXML(content.getAttribute("MATERIAL_TYPE_CODE")));
 		setMaterialDescription008Indicator(content.getAttribute("materialDescription008Indicator").charAt(0));
 		setBookIllustrationCode(stringFromXML(content.getAttribute("bookIllustrationCode")));
@@ -1050,8 +889,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 		setCartographicFormatCode(stringFromXML(content.getAttribute("cartographicFormatCode")));
 		setComputerTargetAudienceCode(characterFromXML(content.getAttribute("computerTargetAudienceCode")));
 		setComputerFileTypeCode(characterFromXML(content.getAttribute("computerFileTypeCode")));
-		
-		/* Bug 4119 */
+
 		setComputerFileFormCode(characterFromXML(content.getAttribute("computerFileFormCode")));
 		
 		setVisualRunningTime(stringFromXML(content.getAttribute("visualRunningTime")));
@@ -1074,7 +912,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 		setMusicTextualMaterialCode(stringFromXML(content.getAttribute("musicTextualMaterialCode")));
 		setMusicLiteraryTextCode(stringFromXML(content.getAttribute("musicLiteraryTextCode")));
 		
-		/* Bug 4161 */
+
 		setMusicPartsCode(characterFromXML(content.getAttribute("musicPartsCode")));
 		setMusicTranspositionArrangementCode(characterFromXML(content.getAttribute("musicTranspositionArrangementCode")));
 		
@@ -1093,14 +931,14 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 			setLanguageCode(content.getAttribute("LANGUAGE_CODE"));
 			setRecordModifiedCode(content.getAttribute("recordModifiedCode").charAt(0));
 			setRecordCataloguingSourceCode(content.getAttribute("recordCataloguingSourceCode").charAt(0));
-		}		
+		}*/
 	}
 
 	public String getUserViewString() {
 		return userViewHelper.getUserViewString();
 	}
 
-	public void setUserViewString(String string) {
+	public void setUserViewString(final String string) {
 		userViewHelper.setUserViewString(string);
 	}
 	
@@ -1131,8 +969,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 	public String getItemDateFirstPublication() {
 		return getBibItm().getItemDateFirstPublication();
 	}
-
-	/*modifica barbara 16/05/2007 - tag 008 data fissa*/
+	
 	public String getItemDateLastPublication() {
 		return getBibItm().getItemDateLastPublication();
 	}
@@ -1173,11 +1010,11 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 		getBibItm().setItemDateLastPublication(string);
 	}
 
-	public void setItemDateTypeCode(char c) {
+	public void setItemDateTypeCode(final char c) {
 		getBibItm().setItemDateTypeCode(c);
 	}
 
-	public void setMarcCountryCode(String string) {
+	public void setMarcCountryCode(final String string) {
 		getBibItm().setMarcCountryCode(string);
 	}
 
@@ -1193,15 +1030,15 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 		return getBibItm().getRecordModifiedCode();
 	}
 
-	public void setLanguageCode(String string) {
+	public void setLanguageCode(final String string) {
 		getBibItm().setLanguageCode(string);
 	}
 
-	public void setRecordCataloguingSourceCode(char c) {
+	public void setRecordCataloguingSourceCode(final char c) {
 		getBibItm().setRecordCataloguingSourceCode(c);
 	}
 
-	public void setRecordModifiedCode(char c) {
+	public void setRecordModifiedCode(final char c) {
 		getBibItm().setRecordModifiedCode(c);
 	}
 
@@ -1213,11 +1050,11 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 		return getBibItm().getItemRecordTypeCode();
 	}
 
-	public void setItemBibliographicLevelCode(char c) {
+	public void setItemBibliographicLevelCode(final char c) {
 		getBibItm().setItemBibliographicLevelCode(c);
 	}
 
-	public void setItemRecordTypeCode(char c) {
+	public void setItemRecordTypeCode(final char c) {
 		getBibItm().setItemRecordTypeCode(c);
 	}
 

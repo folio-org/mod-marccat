@@ -214,6 +214,7 @@ public class NameTitleAccessPoint extends NameTitleComponent implements OrderedT
 	 */
 	public void setSequenceNumber(final Integer sequenceNumber) {
 		this.sequenceNumber = sequenceNumber;
+		super.setSequenceNumber(sequenceNumber);
 	}
 
 	/**

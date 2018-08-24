@@ -92,10 +92,11 @@ public class USR_ACNT implements Serializable, Persistence {
 		persistenceState.evict(obj);
 	}
 
+	/*
 	@Override
 	public void generateNewKey() throws DataAccessException {
 		// do nothing
-	}
+	}*/
 
 	/**
 	 * Getter for branchLibrary

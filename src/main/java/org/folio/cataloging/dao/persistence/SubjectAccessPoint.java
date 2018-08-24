@@ -91,6 +91,7 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
     public void setSequenceNumber(final Integer sequenceNbr)
 	{
 		sequenceNumber = (sequenceNbr != null) ?sequenceNbr :0;
+		super.setSequenceNumber(sequenceNumber);
 	}
 
     /**

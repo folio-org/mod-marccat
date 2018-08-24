@@ -132,8 +132,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 	/**
 	* @return the MARC tag and indicators for this tag
 	*/
-	public CorrelationKey getMarcEncoding()
-		throws DataAccessException {
+	public CorrelationKey getMarcEncoding() throws DataAccessException {
 		return tagImpl.getMarcEncoding(this);
 	}
 
@@ -253,10 +252,10 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 		}
 	}
 
-	public void generateNewKey() throws DataAccessException {
+	/*public void generateNewKey() throws DataAccessException {
 		// TODO Auto-generated method stub
 
-	}
+	}*/
 
 	/* nat: public DAOCodeTable getDaoCodeTable() {
 		return daoCodeTable;

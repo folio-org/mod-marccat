@@ -6,10 +6,7 @@ import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.PublisherTagDescriptor;
 import org.folio.cataloging.dao.DAODescriptor;
-import org.folio.cataloging.dao.persistence.AccessPoint;
-import org.folio.cataloging.dao.persistence.CatalogItem;
-import org.folio.cataloging.dao.persistence.PUBL_HDG;
-import org.folio.cataloging.dao.persistence.PUBL_TAG;
+import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.util.StringText;
 
 import static org.folio.cataloging.F.deepCopy;

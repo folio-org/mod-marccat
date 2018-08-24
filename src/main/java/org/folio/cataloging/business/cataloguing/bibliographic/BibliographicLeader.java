@@ -1,5 +1,6 @@
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
+import org.folio.cataloging.dao.persistence.BIB_ITM;
 import org.folio.cataloging.dao.persistence.Leader;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

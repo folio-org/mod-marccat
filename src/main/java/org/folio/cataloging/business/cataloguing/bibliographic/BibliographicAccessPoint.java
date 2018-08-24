@@ -11,6 +11,8 @@ public abstract class BibliographicAccessPoint extends AccessPoint implements Pe
 	private String materialSpecified;
 	private UserViewHelper userViewHelper = new UserViewHelper();
 
+	private Integer sequenceNumber;
+
 	public void setStringText(StringText stringText) {
 		materialSpecified = stringText.getSubfieldsWithCodes("3").toString();
 		super.setStringText(stringText);
@@ -74,5 +76,13 @@ public abstract class BibliographicAccessPoint extends AccessPoint implements Pe
 
 	public int hashCode() {
 		return super.hashCode() + getUserViewString().hashCode();
+	}
+
+	public Integer getSequenceNumber() {
+		return sequenceNumber;
+	}
+
+	public void setSequenceNumber(Integer sequenceNumber) {
+		this.sequenceNumber = sequenceNumber;
 	}
 }

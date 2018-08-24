@@ -1,5 +1,6 @@
-package org.folio.cataloging.business.cataloguing.bibliographic;
+package org.folio.cataloging.dao.persistence;
 
+import org.folio.cataloging.business.cataloguing.bibliographic.FixedField;
 import org.folio.cataloging.business.common.PersistenceState;
 import org.folio.cataloging.business.common.PersistentObjectWithView;
 import org.folio.cataloging.business.common.UserViewHelper;

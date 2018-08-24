@@ -7,15 +7,18 @@ import io.swagger.annotations.ApiResponses;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.ModCataloging;
 import org.folio.cataloging.business.common.View;
+import org.folio.cataloging.log.MessageCatalog;
 import org.folio.cataloging.resources.domain.BibliographicRecord;
-import org.folio.cataloging.search.SearchEngineFactory;
-import org.folio.cataloging.search.SearchEngineType;
-import org.folio.cataloging.search.SearchResponse;
-import org.folio.cataloging.search.engine.SearchEngine;
+import org.folio.cataloging.resources.domain.FixedField;
+import org.folio.cataloging.resources.domain.VariableField;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import static org.folio.cataloging.F.locale;
+import java.util.List;
+
+import static org.folio.cataloging.F.isNotNullOrEmpty;
 import static org.folio.cataloging.integration.CatalogingHelper.doGet;
+import static org.folio.cataloging.integration.CatalogingHelper.doPut;
 
 /**
  * Bibliographic records API.
@@ -48,7 +51,43 @@ public class BibliographicRecordAPI extends BaseResource {
 
     }
 
-    @GetMapping("/search")
+    @ApiOperation(value = "Updates an existing record.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "Method successfully updated the record."),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 414, message = "Request-URI Too Long"),
+            @ApiResponse(code = 500, message = "System internal failure occurred.")
+    })
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/bibliographic-record/{id}")
+    public void update(
+            @PathVariable final String id,
+            @RequestBody final BibliographicRecord record,
+            @RequestParam final String lang,
+            @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+        doPut((storageService, configuration) -> {
+            try {
+                validate(record);
+
+
+                return record;
+            } catch (final Exception exception) {
+                logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+                return null;
+            }
+        }, tenant, configurator, () -> isNotNullOrEmpty(id) );
+    }
+
+    private boolean validate(final BibliographicRecord record) {
+        List<FixedField> fixedFieldList = record.getFixedFields();
+        List<VariableField> variableFieldList = record.getVariableFields();
+
+        //fixedFieldList.stream().filter(field -> Global.MANDATORY_FIELDS.contains(field.getCode())).collect(Collectors.toList());
+
+        return false;
+    }
+
+   /* @GetMapping("/search")
     public SearchResponse search(
             @RequestParam final String lang,
             @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
@@ -76,5 +115,5 @@ public class BibliographicRecordAPI extends BaseResource {
                     from,
                     to);
         }, tenant, configurator);
-    }
+    }*/
 }

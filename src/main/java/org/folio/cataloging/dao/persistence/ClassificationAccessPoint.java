@@ -24,17 +24,14 @@ public class ClassificationAccessPoint extends BibliographicAccessPoint implemen
 	private CLSTN descriptor = new CLSTN();
 	private Integer sequenceNumber;
 
-    //TODO setFunctionCode from storageService using  classificationAccessPoint.functionCode in configuration
 	public ClassificationAccessPoint() 
 	{
 		super();
-		//setFunctionCode(Defaults.getShort("classificationAccessPoint.functionCode"));
 	}
 
 	public ClassificationAccessPoint(final int itemNbr)
 	{
 		super(itemNbr);
-		//setFunctionCode(Defaults.getShort("classificationAccessPoint.functionCode"));
 	}
 
     /**
@@ -171,6 +168,7 @@ public class ClassificationAccessPoint extends BibliographicAccessPoint implemen
      */
 	public void setSequenceNumber(final Integer sequenceNbr) {
 		sequenceNumber = sequenceNbr;
+		super.setSequenceNumber(sequenceNumber);
 	}
 
     /**
