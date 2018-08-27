@@ -73,7 +73,6 @@ public abstract class CatalogingHelper {
      * @param tenant the tenant associated with the current request.
      * @param configurator the configuration client.
      * @param validator a validator function for the entity associated with this resource.
-     * @param id the identifier associated with the just created entity.
      * @param configurationSets the requested configuration attributes sets.
      */
     public static <T> ResponseEntity<T> doPost(
@@ -81,12 +80,10 @@ public abstract class CatalogingHelper {
             final String tenant,
             final Configuration configurator,
             final BooleanSupplier validator,
-            final Supplier<String> id,
             final String ... configurationSets) {
         if (validator.getAsBoolean()) {
             final T result = exec(adapter, tenant, configurator, configurationSets);
             final HttpHeaders headers = new HttpHeaders();
-            headers.add(HttpHeaders.LOCATION, id.get());
             headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
             return new ResponseEntity<>(result, headers, HttpStatus.CREATED);
         } else {

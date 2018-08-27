@@ -102,13 +102,13 @@ public class RecordTemplateAPI extends BaseResource {
             @RequestParam final String lang,
             @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
         return doPost((storageService, configuration) -> {
-                if("A".equals(template.getType())) {
-                    storageService.saveAuthorityRecordTemplate(template);
-                } else {
-                    storageService.saveBibliographicRecordTemplate(template);
-                }
-                return template;
-        }, tenant, configurator, () -> isNotNullOrEmpty(template.getName()), () -> String.valueOf(template.getId()));
+            if("A".equals(template.getType())) {
+                storageService.saveAuthorityRecordTemplate(template);
+            } else {
+                storageService.saveBibliographicRecordTemplate(template);
+            }
+            return template;
+        }, tenant, configurator, () -> isNotNullOrEmpty(template.getName()));
     }
 
     @ApiOperation(value = "Updates an existing template.")
