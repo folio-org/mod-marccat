@@ -96,7 +96,7 @@ public class RecordTemplateAPI extends BaseResource {
             @ApiResponse(code = 414, message = "Request-URI Too Long"),
             @ApiResponse(code = 500, message = "System internal failure occurred.")
     })
-    @PostMapping("/record-template/{id}")
+    @PostMapping("/record-template")
     public ResponseEntity<RecordTemplate> createNew(
             @RequestBody final RecordTemplate template,
             @RequestParam final String lang,
