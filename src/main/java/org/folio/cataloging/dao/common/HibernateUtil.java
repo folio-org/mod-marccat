@@ -268,6 +268,7 @@ public class HibernateUtil {
 	 * @return the persistent instance or null
 	 * @throws DataAccessException
 	 */
+	 @Deprecated
 	public Object get(Class clazz, Serializable id, LockMode l)
 			throws DataAccessException {
 		try {

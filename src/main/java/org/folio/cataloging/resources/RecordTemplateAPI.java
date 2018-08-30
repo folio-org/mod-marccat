@@ -78,7 +78,7 @@ public class RecordTemplateAPI extends BaseResource {
     })
     @GetMapping("/record-template/{id}")
     public RecordTemplate getCatalogingRecordTemplatesById(
-            @PathVariable final String id,
+            @PathVariable final Integer id,
             @RequestParam final CatalogingEntityType type,
             @RequestParam final String lang,
             @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {

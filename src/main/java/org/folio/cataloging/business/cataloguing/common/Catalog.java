@@ -215,12 +215,10 @@ public abstract class Catalog {
 		return item;
 	}
 
-	//TODO move generateNewKey() in storageService
 	public CatalogItem newCatalogItem(final Object[] key) throws DataAccessException {
-		/*CatalogItem result = newCatalogItemWithoutAmicusNumber();
-		result.getItemEntity().generateNewKey();
-		return applyKeyToItem(result, key);*/
-		return null;
+		CatalogItem result = newCatalogItemWithoutAmicusNumber();
+		//result.getItemEntity().generateNewKey();
+		return applyKeyToItem(result, key);
 	}
 
 	abstract public CatalogItem applyKeyToItem(CatalogItem item, Object[] key);

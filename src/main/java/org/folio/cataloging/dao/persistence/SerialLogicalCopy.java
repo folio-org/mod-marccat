@@ -17,7 +17,7 @@ import org.folio.cataloging.business.serialControl.SubscriptionConfigurationExce
 import org.folio.cataloging.business.serialControl.SubscriptionNeedsShelfException;
 import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAOShelfList;
-import org.folio.cataloging.dao.DAOSystemNextNumber;
+import org.folio.cataloging.dao.SystemNextNumberDAO;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -87,7 +87,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	 * @see librisuite.business.common.Persistence#generateNewKey()
 	 */
 	public void generateNewKey() throws DataAccessException {
-		setSerialCopyNumber(new DAOSystemNextNumber().getNextNumber("EC"));
+		setSerialCopyNumber(new SystemNextNumberDAO().getNextNumber("EC"));
 	}
 
 	/**

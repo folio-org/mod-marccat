@@ -94,16 +94,17 @@ public class FieldAPI extends BaseResource {
 
         final VariableField catalogingSourceField = new VariableField();
 
-        catalogingSourceField.setDescription(description);
-        catalogingSourceField.setCategoryCode(Global.INT_CATEGORY);
         catalogingSourceField.setCode(Global.CATALOGING_SOURCE_TAG_CODE);
         catalogingSourceField.setHeadingTypeCode(Integer.toString(Global.CATALOGING_SOURCE_HEADER_TYPE));
         catalogingSourceField.setSubfields(stream(validation.getMarcValidSubfieldStringCode().split("")).collect(toList()));
         catalogingSourceField.setDefaultSubfieldCode(String.valueOf(validation.getMarcTagDefaultSubfieldCode()));
-        catalogingSourceField.setMandatory(true);
         catalogingSourceField.setValue(configuration.get("bibliographicItem.cataloguingSourceStringText"));
+        catalogingSourceField.setDescription(description);
+        catalogingSourceField.setCategoryCode(Global.INT_CATEGORY);
 
         final Field field = new Field();
+        field.setCode(Global.CATALOGING_SOURCE_TAG_CODE);
+        field.setMandatory(true);
         field.setVariableField(catalogingSourceField);
 
         return field;
@@ -119,14 +120,15 @@ public class FieldAPI extends BaseResource {
     private Field createControlNumberField(final StorageService storageService, final String lang) {
         final String description = storageService.getHeadingTypeDescription(Global.CONTROL_NUMBER_HEADER_TYPE, lang, Global.INT_CATEGORY);
         final FixedField controlNumberFixedField = new FixedField();
-        controlNumberFixedField.setCategoryCode(Global.INT_CATEGORY);
         controlNumberFixedField.setCode(Global.CONTROL_NUMBER_TAG_CODE);
         controlNumberFixedField.setDisplayValue(Global.DECIMAL_FORMAT_AN.format(0));
-        controlNumberFixedField.setDescription(description);
         controlNumberFixedField.setHeaderTypeCode(Global.CONTROL_NUMBER_HEADER_TYPE);
-        controlNumberFixedField.setMandatory(true);
+        controlNumberFixedField.setDescription(description);
+        controlNumberFixedField.setCategoryCode(Global.INT_CATEGORY);
 
         final Field field = new Field();
+        field.setCode(Global.CONTROL_NUMBER_TAG_CODE);
+        field.setMandatory(true);
         field.setFixedField(controlNumberFixedField);
 
         return field;
@@ -143,14 +145,15 @@ public class FieldAPI extends BaseResource {
     private Field createRequiredLeaderField(final StorageService storageService, final String lang) {
         final String description = storageService.getHeadingTypeDescription(Global.LEADER_HEADER_TYPE, lang, Global.INT_CATEGORY);
         final FixedField leader = new FixedField();
-        leader.setCategoryCode(Global.INT_CATEGORY);
         leader.setHeaderTypeCode(Global.LEADER_HEADER_TYPE);
         leader.setCode(Global.LEADER_TAG_NUMBER);
-        leader.setDescription(description);
         leader.setDisplayValue(getLeaderValue());
-        leader.setMandatory(true);
+        leader.setDescription(description);
+        leader.setCategoryCode(Global.INT_CATEGORY);
 
         final Field field = new Field();
+        field.setCode(Global.LEADER_TAG_NUMBER);
+        field.setMandatory(true);
         field.setFixedField(leader);
         return field;
     }
@@ -173,14 +176,15 @@ public class FieldAPI extends BaseResource {
         generalInformation.setEnteredOnFileDateYYMMDD(F.getFormattedDate("yyMMdd"));
 
         final FixedField materialDescription = new FixedField();
-        materialDescription.setCategoryCode(Global.INT_CATEGORY);
         materialDescription.setHeaderTypeCode(Global.MATERIAL_DESCRIPTION_HEADER_TYPE);
         materialDescription.setCode(Global.MATERIAL_TAG_CODE);
-        materialDescription.setDescription(description);
         materialDescription.setDisplayValue(generalInformation.getValueString());
-        materialDescription.setMandatory(true);
+        materialDescription.setDescription(description);
+        materialDescription.setCategoryCode(Global.INT_CATEGORY);
 
         final Field field = new Field();
+        field.setCode(Global.MATERIAL_TAG_CODE);
+        field.setMandatory(true);
         field.setFixedField(materialDescription);
 
         return field;

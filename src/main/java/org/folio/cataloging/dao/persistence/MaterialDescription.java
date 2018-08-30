@@ -139,7 +139,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 	 */
 	//TODO move in storageService
 	/*public void generateNewKey() throws DataAccessException {
-		DAOSystemNextNumber dao = new DAOSystemNextNumber();
+		SystemNextNumberDAO dao = new SystemNextNumberDAO();
 		setMaterialDescriptionKeyNumber(dao.getNextNumber("X0"));
 	}*/
 

@@ -5,10 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.cataloging.Global;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicAccessPoint;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicNoteTag;
-import org.folio.cataloging.business.cataloguing.bibliographic.FixedField;
-import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
+import org.folio.cataloging.business.cataloguing.bibliographic.*;
 import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.RecordNotFoundException;
@@ -616,7 +613,7 @@ public class StorageService implements Closeable {
                                                  final int code1,
                                                  final int code2,
                                                  final int code3) throws DataAccessException {
-        final DAOBibliographicValidation daoBibliographicValidation = new DAOBibliographicValidation();
+        final BibliographicValidationDAO daoBibliographicValidation = new BibliographicValidationDAO();
         try {
             final CorrelationValues correlationValues = new CorrelationValues(code1, code2, code3);
             return daoBibliographicValidation.load(session, marcCategory, correlationValues);
@@ -968,11 +965,11 @@ public class StorageService implements Closeable {
      * @return the bibliographic record template associated with the given id.
      * @throws DataAccessException in case of data access failure.
      */
-    public RecordTemplate getBibliographicRecordRecordTemplatesById(final String id) throws DataAccessException {
+    public RecordTemplate getBibliographicRecordRecordTemplatesById(final Integer id) throws DataAccessException {
         try {
             final ObjectMapper objectMapper = new ObjectMapper();
             return objectMapper.readValue(
-                    new BibliographicModelDAO().load(Integer.valueOf(id), session).getRecordFields(),
+                    new BibliographicModelDAO().load(id, session).getRecordFields(),
                     RecordTemplate.class);
         } catch (final HibernateException exception) {
             logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
@@ -990,11 +987,11 @@ public class StorageService implements Closeable {
      *
      * @throws DataAccessException in case of data access failure.
      */
-    public RecordTemplate getAuthorityRecordRecordTemplatesById(final String id) throws DataAccessException {
+    public RecordTemplate getAuthorityRecordRecordTemplatesById(final Integer id) throws DataAccessException {
         try {
             final ObjectMapper objectMapper = new ObjectMapper();
             return objectMapper.readValue(
-                    new AuthorityModelDAO().load(Integer.valueOf(id), session).getRecordFields(),
+                    new AuthorityModelDAO().load(id, session).getRecordFields(),
                     RecordTemplate.class);
         } catch (final HibernateException exception) {
             logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
@@ -1122,14 +1119,15 @@ public class StorageService implements Closeable {
     /**
      * Get the record associated with given data.
      *
-     * @param bibliographicRecord -- {@link BibliographicRecord}
      * @param itemNumber -- the record identifier.
      * @param view -- the search view.
      * @return the {@link BibliographicRecord} associated with the given data.
      */
-    public BibliographicRecord getBibliographicRecordById(BibliographicRecord bibliographicRecord, final int itemNumber,
+    public BibliographicRecord getBibliographicRecordById(final int itemNumber,
                                                           final int view) {
         final CatalogItem item = getCatalogItemByKey(itemNumber, view);
+        //item.sortTags();
+        final BibliographicRecord bibliographicRecord = new BibliographicRecord();
         bibliographicRecord.setId(item.getAmicusNumber());
 
         Leader leader = new Leader();
@@ -1172,22 +1170,22 @@ public class StorageService implements Closeable {
                 ? (((FixedField) aTag).getDisplayString())
                 : ((VariableField) aTag).getStringText().getMarcDisplayString(Subfield.SUBFIELD_DELIMITER);
 
+            final org.folio.cataloging.resources.domain.Field field = new  org.folio.cataloging.resources.domain.Field();
             org.folio.cataloging.resources.domain.VariableField variableField;
             org.folio.cataloging.resources.domain.FixedField fixedField;
+            String tagNumber = correlation.getMarcTag();
             if (aTag.isFixedField()){
                 fixedField = new org.folio.cataloging.resources.domain.FixedField();
-                fixedField.setKeyNumber(keyNumber);
                 fixedField.setSequenceNumber(ofNullable(sequenceNbr).isPresent()?sequenceNbr:0);
-                fixedField.setCode(correlation.getMarcTag());
+                fixedField.setCode(tagNumber);
                 fixedField.setDisplayValue(entry);
-                fixedField.setCategoryCode(aTag.getCategory());
                 fixedField.setHeaderTypeCode(aTag.getCorrelation(1));
-                bibliographicRecord.getFixedFields().add(fixedField);
+                fixedField.setCategoryCode(aTag.getCategory());
+                fixedField.setKeyNumber(keyNumber);
+                field.setFixedField(fixedField);
             } else {
                 variableField = new org.folio.cataloging.resources.domain.VariableField();
-                variableField.setKeyNumber(keyNumber);
                 variableField.setSequenceNumber(ofNullable(sequenceNbr).isPresent()?sequenceNbr:0);
-                variableField.setCategoryCode(correlation.getMarcTagCategoryCode());
                 variableField.setCode(correlation.getMarcTag());
                 variableField.setInd1(""+correlation.getMarcFirstIndicator());
                 variableField.setInd2(""+correlation.getMarcSecondIndicator());
@@ -1195,27 +1193,51 @@ public class StorageService implements Closeable {
                 variableField.setItemTypeCode(Integer.toString(aTag.getCorrelation(2)));
                 variableField.setFunctionCode(Integer.toString(aTag.getCorrelation(3)));
                 variableField.setValue(entry);
-                bibliographicRecord.getVariableFields().add(variableField);
+                variableField.setCategoryCode(correlation.getMarcTagCategoryCode());
+                variableField.setKeyNumber(keyNumber);
+                field.setVariableField(variableField);
             }
+
+            field.setCode(tagNumber);
+
+            bibliographicRecord.getFields().add(field);
         });
 
         return bibliographicRecord;
     }
 
+
+
+    /**
+     * Generate a new keyNumber for keyFieldCodeValue specified.
+     *
+     * @param keyCodeValue -- the key code of field value.
+     * @return nextNumber
+     *
+     * @throws DataAccessException in case of data access exception.
+     */
+    public Integer generateNewKey(final String keyCodeValue) throws DataAccessException {
+        try{
+            SystemNextNumberDAO dao = new SystemNextNumberDAO();
+            return dao.getNextNumber(keyCodeValue, session);
+        } catch (HibernateException e) {
+            throw new DataAccessException(e);
+        }
+    }
+
     /**
      * Returns tag marc encoding using correlation values.
      *
-     * @param tagMarcEncoding -- {#linked@{@link TagMarcEncoding}}
      * @param marcCategory -- the tag marc category used as filter criterion.
      * @param headingTypeCode -- the heading type code used as filter criterion.
      * @param itemTypeCode -- the item type code used as filter criterion.
      * @param functionCode -- -- the function code used as filter criterion.
-     * @return the tag marc encoding.
+     * @return tagMarcEncoding -- {#linked@{@link TagMarcEncoding}}.
      */
-    public TagMarcEncoding getTagMarcEncoding(TagMarcEncoding tagMarcEncoding, final int marcCategory, final int headingTypeCode, final int itemTypeCode, final int functionCode) {
+    public TagMarcEncoding getTagMarcEncoding(final int marcCategory, final int headingTypeCode, final int itemTypeCode, final int functionCode) {
         final BibliographicCorrelationDAO dao = new BibliographicCorrelationDAO();
         try {
-
+            final TagMarcEncoding tagMarcEncoding = new TagMarcEncoding();
             final CorrelationKey correlationKey = dao.getMarcEncoding(marcCategory, headingTypeCode, itemTypeCode, functionCode, session);
             if (ofNullable(correlationKey).isPresent()) {
                 tagMarcEncoding.setTagCode(correlationKey.getMarcTag());
@@ -1371,5 +1393,28 @@ public class StorageService implements Closeable {
         return newTags;*/
 
         return null;
+    }
+
+    /**
+     * Gets Validation for tag field.
+     *
+     * @param marcCategory the marc category used here as filter criterion.
+     * @param tagNumber the tag number used here as filter criterion.
+     * @return Validation object containing subfield list.
+     */
+    public Validation getTagValidation(final int marcCategory,
+                                       final String tagNumber) throws DataAccessException {
+        final BibliographicValidationDAO daoBibliographicValidation = new BibliographicValidationDAO();
+        try {
+            return daoBibliographicValidation.load(session, tagNumber, marcCategory);
+        } catch (final HibernateException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+            throw new DataAccessException(exception);
+        }
+    }
+
+    public void saveBibliographicRecord(final BibliographicRecord record, final int view) {
+        final BibliographicCatalog catalog = new BibliographicCatalog();
+        CatalogItem item = catalog.newCatalogItem(new Object[]{new Integer(view)});
     }
 }

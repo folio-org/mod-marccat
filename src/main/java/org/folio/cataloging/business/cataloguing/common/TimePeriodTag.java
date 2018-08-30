@@ -67,7 +67,7 @@ public abstract class TimePeriodTag extends VariableHeaderUsingItemEntity {
 				getItemEntity().setTypeOfDateTimeCode(
 					String.valueOf(getMarcEncoding().getMarcFirstIndicator()));
 			} catch (Exception e) {
-				logger.warn("Error setting typeOfDateTimeCode, using null");
+				logger.warn("ErrorCollection setting typeOfDateTimeCode, using null");
 				getItemEntity().setTypeOfDateTimeCode(null);
 			}
 		}

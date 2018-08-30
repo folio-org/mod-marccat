@@ -4,7 +4,7 @@ import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.PersistentObjectWithView;
 import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAOBibItem;
-import org.folio.cataloging.dao.DAOSystemNextNumber;
+import org.folio.cataloging.dao.SystemNextNumberDAO;
 
 import java.io.Serializable;
 
@@ -71,7 +71,7 @@ public class BIB_ITM extends ItemEntity implements PersistentObjectWithView, Ser
 	@Deprecated
 	public void generateNewKey() throws DataAccessException
 	{
-		DAOSystemNextNumber dao = new DAOSystemNextNumber();
+		SystemNextNumberDAO dao = new SystemNextNumberDAO();
 		setAmicusNumber(new Integer(dao.getNextNumber("BI")));
 	}
 

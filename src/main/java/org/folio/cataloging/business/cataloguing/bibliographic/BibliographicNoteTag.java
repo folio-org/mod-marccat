@@ -255,7 +255,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
 	@Deprecated
 	public void generateNewKey() throws DataAccessException
 	{
-		/*DAOSystemNextNumber dao = new DAOSystemNextNumber();
+		/*SystemNextNumberDAO dao = new SystemNextNumberDAO();
 		setNoteNbr(dao.getNextNumber("BN"));*/
 	}
 

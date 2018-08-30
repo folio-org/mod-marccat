@@ -60,7 +60,7 @@ public class LanguageCodeTag extends VariableHeaderUsingItemEntity
 			try {
 				((BIB_ITM)getItemEntity()).setTranslationCode(String.valueOf(getMarcEncoding().getMarcFirstIndicator()));
 			} catch (Exception e) {
-				logger.warn("Error setting bib_itm.translationCode, using null");
+				logger.warn("ErrorCollection setting bib_itm.translationCode, using null");
 				((BIB_ITM)getItemEntity()).setTranslationCode(null);
 			}
 		}

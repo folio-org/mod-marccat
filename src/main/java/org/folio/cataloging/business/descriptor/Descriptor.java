@@ -9,7 +9,7 @@ import org.folio.cataloging.business.cataloguing.common.Browsable;
 import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.common.*;
 import org.folio.cataloging.dao.DAOIndexList;
-import org.folio.cataloging.dao.DAOSystemNextNumber;
+import org.folio.cataloging.dao.SystemNextNumberDAO;
 import org.folio.cataloging.dao.persistence.DescriptorKey;
 import org.folio.cataloging.dao.persistence.T_AUT_HDG_SRC;
 import org.folio.cataloging.exception.DescriptorHasEmptySubfieldsException;
@@ -64,7 +64,7 @@ public abstract class Descriptor implements PersistentObjectWithView
 	}
 
 	public void generateNewKey() throws DataAccessException {
-		DAOSystemNextNumber dao = new DAOSystemNextNumber();
+		SystemNextNumberDAO dao = new SystemNextNumberDAO();
 		getKey().setHeadingNumber(
 				dao.getNextNumber(getNextNumberKeyFieldCode()));
 	}

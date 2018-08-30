@@ -1,7 +1,7 @@
 package org.folio.cataloging.dao.persistence;
 
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.DAOSystemNextNumber;
+import org.folio.cataloging.dao.SystemNextNumberDAO;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -49,7 +49,7 @@ public class TactileMaterial extends PhysicalDescription {
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
 	 */
 	public void generateNewKey() throws DataAccessException {
-		DAOSystemNextNumber dao = new DAOSystemNextNumber();
+		SystemNextNumberDAO dao = new SystemNextNumberDAO();
 		setKeyNumber(dao.getNextNumber("XE"));
 	}
 

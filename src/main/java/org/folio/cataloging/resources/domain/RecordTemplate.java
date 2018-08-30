@@ -17,7 +17,7 @@ import java.util.List;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "id", "name", "group", "type", "leader", "fixedFields", "variableFields" })
+@JsonPropertyOrder({ "id", "name", "group", "type", "leader", "fields" })
 public class RecordTemplate {
 
     @JsonProperty("id")
@@ -36,13 +36,9 @@ public class RecordTemplate {
     @Valid
     private Leader leader;
 
-    @JsonProperty("fixedFields")
+    @JsonProperty("fields")
     @Valid
-    private List<FixedField> fixedFields = new ArrayList<FixedField>();
-
-    @JsonProperty("variableFields")
-    @Valid
-    private List<VariableField> variableFields = new ArrayList<VariableField>();
+    private List<Field> fields = new ArrayList<Field>();
 
     /**
      * 
@@ -170,52 +166,22 @@ public class RecordTemplate {
     }
 
     /**
-     * 
+     *
      * @return
-     *     The fixedFields
+     *     The fields
      */
-    @JsonProperty("fixedFields")
-    public List<FixedField> getFixedFields() {
-        return fixedFields;
+    @JsonProperty("fields")
+    public List<Field> getFields() {
+        return fields;
     }
 
     /**
-     * 
-     * @param fixedFields
-     *     The fixedFields
+     *
+     * @param fields
+     *     The fields
      */
-    @JsonProperty("fixedFields")
-    public void setFixedFields(List<FixedField> fixedFields) {
-        this.fixedFields = fixedFields;
-    }
-
-    public RecordTemplate withFixedFields(List<FixedField> fixedFields) {
-        this.fixedFields = fixedFields;
-        return this;
-    }
-
-    /**
-     * 
-     * @return
-     *     The variableFields
-     */
-    @JsonProperty("variableFields")
-    public List<VariableField> getVariableFields() {
-        return variableFields;
-    }
-
-    /**
-     * 
-     * @param variableFields
-     *     The variableFields
-     */
-    @JsonProperty("variableFields")
-    public void setVariableFields(List<VariableField> variableFields) {
-        this.variableFields = variableFields;
-    }
-
-    public RecordTemplate withVariableFields(List<VariableField> variableFields) {
-        this.variableFields = variableFields;
-        return this;
+    @JsonProperty("fields")
+    public void setFields(List<Field> fields) {
+        this.fields = fields;
     }
 }

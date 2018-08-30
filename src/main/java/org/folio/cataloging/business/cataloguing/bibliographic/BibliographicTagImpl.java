@@ -14,7 +14,7 @@ import org.folio.cataloging.business.cataloguing.common.TagImpl;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.SubfieldCodeComparator;
 import org.folio.cataloging.dao.BibliographicCorrelationDAO;
-import org.folio.cataloging.dao.DAOBibliographicValidation;
+import org.folio.cataloging.dao.BibliographicValidationDAO;
 import org.folio.cataloging.dao.persistence.Correlation;
 import org.folio.cataloging.dao.persistence.CorrelationKey;
 import org.folio.cataloging.shared.Validation;
@@ -31,7 +31,7 @@ import java.util.TreeSet;
 public class BibliographicTagImpl extends TagImpl {
 	private static final Log logger = LogFactory.getLog(BibliographicTagImpl.class);
 
-	private static final DAOBibliographicValidation daoValidation = new DAOBibliographicValidation();
+	private static final BibliographicValidationDAO daoValidation = new BibliographicValidationDAO();
 	private static final BibliographicCorrelationDAO daoCorrelation = new BibliographicCorrelationDAO();
 
 	/**

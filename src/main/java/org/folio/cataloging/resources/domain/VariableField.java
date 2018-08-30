@@ -19,7 +19,7 @@ import java.util.Map;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "keyNumber", "categoryCode", "headerTypeCode", "itemTypeCode", "functionCode", "ind1", "ind2", "code", "displayValue", "description", "mandatory", "subfields", "defaultSubfieldCode", "fieldStatus", "sequenceNumber" })
+@JsonPropertyOrder({ "keyNumber", "categoryCode", "description", "headerTypeCode", "itemTypeCode", "functionCode", "ind1", "ind2", "code", "displayValue", "subfields", "defaultSubfieldCode", "sequenceNumber" })
 public class VariableField {
 
     @JsonProperty("keyNumber")
@@ -27,6 +27,9 @@ public class VariableField {
 
     @JsonProperty("categoryCode")
     private Integer categoryCode;
+
+    @JsonProperty("description")
+    private String description;
 
     @JsonProperty("headerTypeCode")
     private String headingTypeCode;
@@ -50,15 +53,6 @@ public class VariableField {
 
     @JsonProperty("displayValue")
     private String value;
-
-    @JsonProperty("description")
-    private String description;
-
-    @JsonProperty("mandatory")
-    private boolean mandatory;
-
-    @JsonProperty("fieldStatus")
-    private FieldStatus fieldStatus;
 
     @JsonProperty("sequenceNumber")
     private int sequenceNumber;
@@ -95,7 +89,7 @@ public class VariableField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The categoryCode
      */
@@ -105,18 +99,13 @@ public class VariableField {
     }
 
     /**
-     * 
+     *
      * @param categoryCode
      *     The categoryCode
      */
     @JsonProperty("categoryCode")
     public void setCategoryCode(Integer categoryCode) {
         this.categoryCode = categoryCode;
-    }
-
-    public VariableField withCategoryCode(Integer categoryCode) {
-        this.categoryCode = categoryCode;
-        return this;
     }
 
     /**
@@ -270,6 +259,26 @@ public class VariableField {
     }
 
     /**
+     *
+     * @return
+     *     The description
+     */
+    @JsonProperty("description")
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     *
+     * @param description
+     *     The description
+     */
+    @JsonProperty("description")
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
      * 
      * @return
      *     The value
@@ -292,51 +301,6 @@ public class VariableField {
     public VariableField withValue(String value) {
         this.value = value;
         return this;
-    }
-
-    /**
-     * 
-     * @return
-     *     The description
-     */
-    @JsonProperty("description")
-    public String getDescription() {
-        return description;
-    }
-
-    /**
-     * 
-     * @param description
-     *     The description
-     */
-    @JsonProperty("description")
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public VariableField withDescription(String description) {
-        this.description = description;
-        return this;
-    }
-
-    /**
-     *
-     * @return
-     *      return if mandatory field.
-     */
-    @JsonProperty("mandatory")
-    public boolean isMandatory() {
-        return mandatory;
-    }
-
-    /**
-     *
-     * @param mandatory
-     *      the mandatory flag to set.
-     */
-    @JsonProperty("mandatory")
-    public void setMandatory(boolean mandatory) {
-        this.mandatory = mandatory;
     }
 
     /**
@@ -402,26 +366,6 @@ public class VariableField {
     public VariableField withAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
         return this;
-    }
-
-    /**
-     *
-     * @return
-     *     the field status.
-     */
-    @JsonProperty("fieldStatus")
-    public FieldStatus getFieldStatus() {
-        return fieldStatus;
-    }
-
-    /**
-     *
-     * @param fieldStatus
-     *      the field status to set.
-     */
-    @JsonProperty("fieldStatus")
-    public void setFieldStatus(FieldStatus fieldStatus) {
-        this.fieldStatus = fieldStatus;
     }
 
     /**

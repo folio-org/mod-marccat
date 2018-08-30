@@ -18,7 +18,7 @@ import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "id", "group", "leader", "fixedFields", "variableFields" })
+@JsonPropertyOrder({ "id", "group", "leader", "fields" })
 public class BibliographicRecord {
 
     @JsonProperty("id")
@@ -31,13 +31,10 @@ public class BibliographicRecord {
     @Valid
     private Leader leader;
 
-    @JsonProperty("fixedFields")
+    @JsonProperty("fields")
     @Valid
-    private List<FixedField> fixedFields = new ArrayList<FixedField>();
+    private List<Field> fields = new ArrayList<Field>();
 
-    @JsonProperty("variableFields")
-    @Valid
-    private List<VariableField> variableFields = new ArrayList<VariableField>();
 
     /**
      *
@@ -103,41 +100,21 @@ public class BibliographicRecord {
     /**
      *
      * @return
-     *     The fixedFields
+     *     The fields
      */
-    @JsonProperty("fixedFields")
-    public List<FixedField> getFixedFields() {
-        return fixedFields;
+    @JsonProperty("fields")
+    public List<Field> getFields() {
+        return fields;
     }
 
     /**
      *
-     * @param fixedFields
-     *     The fixedFields
+     * @param fields
+     *     The fields
      */
-    @JsonProperty("fixedFields")
-    public void setFixedFields(List<FixedField> fixedFields) {
-        this.fixedFields = fixedFields;
-    }
-
-    /**
-     *
-     * @return
-     *     The variableFields
-     */
-    @JsonProperty("variableFields")
-    public List<VariableField> getVariableFields() {
-        return variableFields;
-    }
-
-    /**
-     *
-     * @param variableFields
-     *     The variableFields
-     */
-    @JsonProperty("variableFields")
-    public void setVariableFields(List<VariableField> variableFields) {
-        this.variableFields = variableFields;
+    @JsonProperty("fields")
+    public void setFields(List<Field> fields) {
+        this.fields = fields;
     }
 
 }

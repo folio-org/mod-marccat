@@ -13,7 +13,7 @@ import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
-import org.folio.cataloging.dao.DAOSystemNextNumber;
+import org.folio.cataloging.dao.SystemNextNumberDAO;
 import org.folio.cataloging.dao.persistence.AUT;
 import org.folio.cataloging.dao.persistence.ItemEntity;
 import org.folio.cataloging.model.Subfield;
@@ -64,7 +64,7 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
 	 * @see TagInterface#generateNewKey()
 	 */
 	public void generateNewKey() throws DataAccessException {
-		DAOSystemNextNumber dao = new DAOSystemNextNumber();
+		SystemNextNumberDAO dao = new SystemNextNumberDAO();
 		setNoteNumber(dao.getNextNumber("AN"));
 	}
 

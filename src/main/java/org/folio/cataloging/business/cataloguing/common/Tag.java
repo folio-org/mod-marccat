@@ -206,7 +206,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 					// if addPunctuation fails, we want to proceed using the raw
 					// string text
 					logger.warn(
-							"Error adding punctuation, using original text", e);
+							"ErrorCollection adding punctuation, using original text", e);
 					st = ((VariableField) this).getStringText();
 				}
 			} else {
