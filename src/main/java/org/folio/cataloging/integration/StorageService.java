@@ -1017,7 +1017,7 @@ public class StorageService implements Closeable {
             if(query != null) {
                 index = query.substring(0, query.indexOf((" ")));
                 index = F.fixedCharPadding(index, 9).toUpperCase();
-                browseTerm = query.substring(query.indexOf((" ")), query.length() );
+                browseTerm = query.substring(query.indexOf((" ")), query.length() ).trim();
             }
             //TODO gestire null dell'index con un'eccezione
             key = daoIndex.getIndexByAbreviation(index, session, locale(lang));
@@ -1030,7 +1030,11 @@ public class StorageService implements Closeable {
             final String filter = GlobalStorage.FILTER_MAP.get(key);
             browseTerm = dao.calculateSearchTerm(browseTerm, key, session);
             descriptorsList = dao.getHeadingsBySortform("<", "desc",browseTerm, "", view, 1, session);
-            descriptorsList.addAll(dao.getHeadingsBySortform(">=", filter,query, "", view, 10, session));
+            if (descriptorsList.size() > 0) {
+                browseTerm = dao.getBrowsingSortForm((Descriptor) descriptorsList.get(0));
+                descriptorsList.clear();
+            }
+            descriptorsList.addAll(dao.getHeadingsBySortform(">=", filter,browseTerm, "", view, 10, session));
             //TODO refactoring del metodo getIndexingLanguage e getAccessPointLanguage
             return descriptorsList.stream().map( heading -> {
                 final MapHeading headingObject = new MapHeading();
