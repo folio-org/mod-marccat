@@ -108,7 +108,7 @@ public class HeadingsAPI extends BaseResource {
                             .map(toHeading)
                             .collect(toList());
             final HeadingCollection headingCollection = new HeadingCollection();
-            new HeadingCollection().setHeadings(headings);
+            headingCollection.setHeadings(headings);
             return headingCollection;
         }, tenant, configurator);
     }
