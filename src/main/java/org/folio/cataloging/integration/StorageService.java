@@ -1019,6 +1019,7 @@ public class StorageService implements Closeable {
                 index = F.fixedCharPadding(index, 9).toUpperCase();
                 browseTerm = query.substring(query.indexOf((" ")), query.length() );
             }
+            //TODO gestire null dell'index con un'eccezione
             key = daoIndex.getIndexByAbreviation(index, session, locale(lang));
             final Class c = GlobalStorage.DAO_CLASS_MAP.get(key);
             if (c == null) {
@@ -1028,15 +1029,15 @@ public class StorageService implements Closeable {
             final DAODescriptor dao = (DAODescriptor) c.newInstance();
             final String filter = GlobalStorage.FILTER_MAP.get(key);
             browseTerm = dao.calculateSearchTerm(browseTerm, key, session);
-            descriptorsList = dao.getHeadingsBySortform("<", "",browseTerm, "", view, 1, session);
+            descriptorsList = dao.getHeadingsBySortform("<", "desc",browseTerm, "", view, 1, session);
             descriptorsList.addAll(dao.getHeadingsBySortform(">=", filter,query, "", view, 10, session));
             //TODO refactoring del metodo getIndexingLanguage e getAccessPointLanguage
             return descriptorsList.stream().map( heading -> {
-                  final MapHeading headingObject = new MapHeading();
-                  headingObject.setHeadingNumber(heading.getHeadingNumber());
-                  headingObject.setStringText(heading.getDisplayText());
-                  headingObject.setCountAuthorities(heading.getAuthorityCount());
+                final MapHeading headingObject = new MapHeading();
                 try {
+                    headingObject.setHeadingNumber(heading.getHeadingNumber());
+                    headingObject.setStringText(heading.getDisplayText());
+                    headingObject.setCountAuthorities(heading.getAuthorityCount());
                     headingObject.setCountDocuments(dao.getDocCount(heading, view, session));
                     headingObject.setCountCrossReferences(dao.getXrefCount(heading, view, session));
                     headingObject.setCountTitleNameDocuments(dao.getDocCountNT(heading, view, session));
@@ -1065,13 +1066,125 @@ public class StorageService implements Closeable {
         }
     }
 
-    public List<Heading> getNextHeadings(final String searchBrowseTerm, final int cataloguingView, final int mainLibrary, final String lang){
-        //DAODescriptor dao =
-        return null;
+    public List<MapHeading> getNextHeadings(final String query, final int view, final int mainLibrary, final String lang){
+        String key = null;
+        try {
+        String index = null;
+        String browseTerm = null;
+        final List<Descriptor> descriptorsList;
+        final DAOIndexList daoIndex = new DAOIndexList();
+        final DAOCodeTable daoCodeTable = new DAOCodeTable();
+        if(query != null) {
+            index = query.substring(0, query.indexOf((" ")));
+            index = F.fixedCharPadding(index, 9).toUpperCase();
+            browseTerm = query.substring(query.indexOf((" ")), query.length() );
+        }
+        //TODO gestire null dell'index con un'eccezione
+        key = daoIndex.getIndexByAbreviation(index, session, locale(lang));
+        final Class c = GlobalStorage.DAO_CLASS_MAP.get(key);
+        if (c == null) {
+            logger.error(MessageCatalog._00119_DAO_CLASS_MAP_NOT_FOUND, key);
+            return Collections.emptyList();
+        }
+        final DAODescriptor dao = (DAODescriptor) c.newInstance();
+        final String filter = GlobalStorage.FILTER_MAP.get(key);
+        browseTerm = dao.calculateSearchTerm(browseTerm, key, session);
+        descriptorsList = dao.getHeadingsBySortform(">", "",browseTerm, "", view, 1, session);
+        //TODO refactoring del metodo getIndexingLanguage e getAccessPointLanguage
+        return descriptorsList.stream().map(heading -> {
+            final MapHeading headingObject = new MapHeading();
+            try {
+                headingObject.setHeadingNumber(heading.getHeadingNumber());
+                headingObject.setStringText(heading.getDisplayText());
+                headingObject.setCountAuthorities(heading.getAuthorityCount());
+                headingObject.setCountDocuments(dao.getDocCount(heading, view, session));
+                headingObject.setCountCrossReferences(dao.getXrefCount(heading, view, session));
+                headingObject.setCountTitleNameDocuments(dao.getDocCountNT(heading, view, session));
+                headingObject.setIndexingLanguage(daoCodeTable.getLanguageOfIndexing(heading.getIndexingLanguage(), session));
+                headingObject.setAccessPointlanguage(daoCodeTable.getAccessPointLanguage(heading.getAccessPointLanguage(), heading, session));
+            } catch (HibernateException e) {
+                e.printStackTrace();
+            }
+            headingObject.setVerificationlevel(daoCodeTable.getLongText(session, heading.getVerificationLevel(), T_VRFTN_LVL.class, locale(lang)));
+            headingObject.setDatabase(daoCodeTable.getLongText(session, view, DB_LIST.class, locale(lang)));
+            return headingObject;
+        }).collect(Collectors.toList());
+
+
+    } catch (final HibernateException exception) {
+        logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+        throw new DataAccessException(exception);
+    } catch (SQLException exception) {
+        logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+        throw new DataAccessException(exception);
+    } catch (InstantiationException exception) {
+        logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+        throw new InvalidBrowseIndexException(key);
+    } catch (IllegalAccessException exception) {
+        logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+        throw new InvalidBrowseIndexException(key);
     }
-    public List<Heading> getPreviousHeadings(final String searchBrowseTerm, final int cataloguingView, final int mainLibrary, final String lang){
-        //DAODescriptor dao =
-        return null;
+
+    }
+    public List<MapHeading> getPreviousHeadings(final String query, final int view, final int mainLibrary, final String lang){
+        String key = null;
+        try {
+            String index = null;
+            String browseTerm = null;
+            final List<Descriptor> descriptorsList;
+            final DAOIndexList daoIndex = new DAOIndexList();
+            final DAOCodeTable daoCodeTable = new DAOCodeTable();
+            if(query != null) {
+                index = query.substring(0, query.indexOf((" ")));
+                index = F.fixedCharPadding(index, 9).toUpperCase();
+                browseTerm = query.substring(query.indexOf((" ")), query.length() );
+            }
+            //TODO gestire null dell'index con un'eccezione
+            key = daoIndex.getIndexByAbreviation(index, session, locale(lang));
+            final Class c = GlobalStorage.DAO_CLASS_MAP.get(key);
+            if (c == null) {
+                logger.error(MessageCatalog._00119_DAO_CLASS_MAP_NOT_FOUND, key);
+                return Collections.emptyList();
+            }
+            final DAODescriptor dao = (DAODescriptor) c.newInstance();
+            final String filter = GlobalStorage.FILTER_MAP.get(key);
+            browseTerm = dao.calculateSearchTerm(browseTerm, key, session);
+            descriptorsList = dao.getHeadingsBySortform("<", "desc",browseTerm, "", view, 1, session);
+            return descriptorsList.stream().map(heading -> {
+                final MapHeading headingObject = new MapHeading();
+                try {
+                    headingObject.setHeadingNumber(heading.getHeadingNumber());
+                    headingObject.setStringText(heading.getDisplayText());
+                    headingObject.setCountAuthorities(heading.getAuthorityCount());
+                    headingObject.setCountDocuments(dao.getDocCount(heading, view, session));
+                    headingObject.setCountCrossReferences(dao.getXrefCount(heading, view, session));
+                    headingObject.setCountTitleNameDocuments(dao.getDocCountNT(heading, view, session));
+                    headingObject.setIndexingLanguage(daoCodeTable.getLanguageOfIndexing(heading.getIndexingLanguage(), session));
+                    headingObject.setAccessPointlanguage(daoCodeTable.getAccessPointLanguage(heading.getAccessPointLanguage(), heading, session));
+                } catch (HibernateException e) {
+                    e.printStackTrace();
+                }
+                headingObject.setVerificationlevel(daoCodeTable.getLongText(session, heading.getVerificationLevel(), T_VRFTN_LVL.class, locale(lang)));
+                headingObject.setDatabase(daoCodeTable.getLongText(session, view, DB_LIST.class, locale(lang)));
+                return headingObject;
+            }).sorted(Collections.reverseOrder()).collect(Collectors.toList());
+            // reverse the order of the list
+
+
+
+        } catch (final HibernateException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+            throw new DataAccessException(exception);
+        } catch (SQLException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+            throw new DataAccessException(exception);
+        } catch (InstantiationException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+            throw new InvalidBrowseIndexException(key);
+        } catch (IllegalAccessException exception) {
+            logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+            throw new InvalidBrowseIndexException(key);
+        }
     }
 
 
