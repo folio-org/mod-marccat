@@ -10,7 +10,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import static java.util.Arrays.stream;
 import static java.util.Optional.ofNullable;
@@ -150,6 +154,14 @@ public abstract class F {
         return ofNullable(s).map(v -> stream(s.split("")).filter(character -> !" ".equals(character)).collect(joining()))
                 .map(result -> StringUtils.leftPad(result, s.length() - result.length(), ' '))
                 .orElse("    ");
+    }
+
+
+    public static <T> Collector<T, ?, List<T>> toListReversed() {
+        return Collectors.collectingAndThen(Collectors.toList(), l -> {
+            Collections.reverse(l);
+            return l;
+        });
     }
 
 }

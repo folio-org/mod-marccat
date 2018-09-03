@@ -66,7 +66,7 @@ public class TitleDescriptorDAO extends DAODescriptor {
 						new Type[] {
 								Hibernate.INTEGER,
 								Hibernate.INTEGER });
-		count += countList.get(0);
+		count = count + countList.get(0);
 		countList =
 				session.find(
 						"select count(*) from NME_TO_TTL_REF as ref "
@@ -79,7 +79,7 @@ public class TitleDescriptorDAO extends DAODescriptor {
 						new Type[] {
 								Hibernate.INTEGER,
 								Hibernate.INTEGER });
-		count += countList.get(0);
+		count = count + countList.get(0);
 		return count;
 	}
 

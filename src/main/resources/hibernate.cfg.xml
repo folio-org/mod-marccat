@@ -227,6 +227,8 @@
 		<mapping resource="org/folio/cataloging/dao/persistence/T_RSI_SNSR_TPE.hbm.xml"/>
 		<mapping resource="org/folio/cataloging/dao/persistence/T_RSI_DATA_TPE.hbm.xml"/>
 		<mapping resource="org/folio/cataloging/dao/persistence/TTL_HDG.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/Tags.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/TTL_REF.hbm.xml"/>
 		<mapping resource="org/folio/cataloging/dao/persistence/TTL_NME_TTL_REF.hbm.xml"/>
 		<mapping resource="org/folio/cataloging/dao/persistence/NME_TO_TTL_REF.hbm.xml"/>
 		<mapping resource="org/folio/cataloging/dao/persistence/NME_TTL_HDG.hbm.xml"/>
