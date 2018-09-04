@@ -228,5 +228,6 @@
 		<mapping resource="org/folio/cataloging/dao/persistence/T_RSI_DATA_TPE.hbm.xml"/>
         <mapping resource="org/folio/cataloging/dao/persistence/FULL_CACHE.hbm.xml"/>
 		<mapping resource="org/folio/cataloging/dao/persistence/Diacritics.hbm.xml"/>
+		 <mapping resource="org/folio/cataloging/dao/persistence/T_SKP_IN_FLNG_CNT.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>
