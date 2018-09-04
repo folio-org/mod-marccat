@@ -145,6 +145,18 @@ public class StorageService implements Closeable {
         final DAOCodeTable dao = new DAOCodeTable();
         return dao.getList(session, T_ORDR_AQSTN_TYP.class, locale(lang));
     }
+    
+    /**
+     * Returns the skip in filing associated with the given language.
+     *
+     * @param lang the language code, used here as a filter criterion.
+     * @return a list of code / description tuples representing the skip in filing associated with the requested language.
+     * @throws DataAccessException in case of data access failure.
+     */
+    public List<Avp<String>> getSkipInFiling(final String lang) throws DataAccessException {
+        final DAOCodeTable dao = new DAOCodeTable();
+        return dao.getList(session, T_SKP_IN_FLNG_CNT.class, locale(lang));
+    }
 
     /**
      * Returns the multipart resource level associated with the given language.
