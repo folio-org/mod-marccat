@@ -7,14 +7,14 @@ import io.swagger.annotations.ApiResponses;
 import org.folio.cataloging.F;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.ModCataloging;
-import org.folio.cataloging.domain.GeneralInformation;
-import org.folio.cataloging.domain.PhysicalInformation;
 import org.folio.cataloging.integration.StorageService;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.cataloging.resources.domain.FieldTemplate;
 import org.folio.cataloging.resources.domain.FixedField;
 import org.folio.cataloging.resources.domain.VariableField;
 import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.cataloging.shared.GeneralInformation;
+import org.folio.cataloging.shared.PhysicalInformation;
 import org.folio.cataloging.shared.Validation;
 import org.springframework.web.bind.annotation.*;
 

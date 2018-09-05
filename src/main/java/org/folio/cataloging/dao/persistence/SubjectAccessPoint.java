@@ -26,17 +26,14 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
 	private int sequenceNumber;
 	private SBJCT_HDG descriptor = new SBJCT_HDG();
 
-	//TODO setFunctionCode from storageService using  subjectAccessPoint.functionCode in configuration
 	public SubjectAccessPoint() 
 	{
 		super();
-		//setFunctionCode(Defaults.getShort("subjectAccessPoint.functionCode"));
 	}
 
 	public SubjectAccessPoint(final int itemNbr)
 	{
 		super(itemNbr);
-		//setFunctionCode(Defaults.getShort("subjectAccessPoint.functionCode"));
 	}
 
     /**

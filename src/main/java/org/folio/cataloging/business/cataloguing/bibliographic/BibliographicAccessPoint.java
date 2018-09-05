@@ -1,5 +1,6 @@
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.PersistentObjectWithView;
 import org.folio.cataloging.business.common.UserViewHelper;
@@ -32,8 +33,8 @@ public abstract class BibliographicAccessPoint extends AccessPoint implements Pe
 		super(itemNumber);
 	}
 
-	public void generateNewKey() throws DataAccessException {
-		super.generateNewKey();
+	public void generateNewKey(final Session session) throws DataAccessException {
+		super.generateNewKey(session);
 		if (getDescriptor().isNew()) {
 			getDescriptor().getKey().setUserViewString(getUserViewString());
 		}

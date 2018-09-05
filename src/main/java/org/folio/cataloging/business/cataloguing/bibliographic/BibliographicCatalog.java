@@ -7,14 +7,15 @@ import org.folio.cataloging.business.descriptor.PublisherTagDescriptor;
 import org.folio.cataloging.dao.*;
 import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.exception.ValidationException;
+import org.folio.cataloging.integration.GlobalStorage;
 import org.folio.cataloging.shared.CorrelationValues;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import static org.folio.cataloging.F.deepCopy;
+import static org.folio.cataloging.F.isNotNull;
 
 /**
  * Bibliographic implementation of {@link Catalog} interface.
@@ -36,10 +37,10 @@ public class BibliographicCatalog extends Catalog {
 		FIXED_FIELDS_FACTORY = new MapBackedFactory();
 		final PropertyBasedFactoryBuilder builder = new PropertyBasedFactoryBuilder();
 		builder.load(
-				"/org/folio/cataloging/business/cataloguing/bibliographic/TAG_FACTORY.properties",
+				"/org/folio/cataloging/dao/persistence/TAG_FACTORY.properties",
 				TAG_FACTORY);
 		builder.load(
-				"/org/folio/cataloging/business/cataloguing/bibliographic/FIXED_FIELDS_FACTORY.properties",
+				"/org/folio/cataloging/dao/persistence/FIXED_FIELDS_FACTORY.properties",
 				FIXED_FIELDS_FACTORY);
 	}
 
@@ -91,7 +92,7 @@ public class BibliographicCatalog extends Catalog {
 	public DateOfLastTransactionTag createRequiredDateOfLastTransactionTag(CatalogItem item) throws NewTagException {
 		DateOfLastTransactionTag dateTag =
 			(DateOfLastTransactionTag) getNewTag(item,
-				(short) 1,
+                    GlobalStorage.HEADER_CATEGORY,
 				new CorrelationValues(
 					new BibliographicDateOfLastTransactionTag().getHeaderType(),
 					CorrelationValues.UNDEFINED,
@@ -99,6 +100,45 @@ public class BibliographicCatalog extends Catalog {
 		return dateTag;
 	}
 
+    public TitleAccessPoint createTitleAccessPointTag(final BibliographicCatalog catalog, final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
+        TitleAccessPoint tap =
+                (TitleAccessPoint) catalog.getNewTag(item,
+                        GlobalStorage.TITLE_CATEGORY,
+                        correlationValues);
+        return tap;
+    }
+
+    public NameAccessPoint createNameAccessPointTag(final BibliographicCatalog catalog, final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
+        NameAccessPoint nap =
+                (NameAccessPoint) catalog.getNewTag(item,
+                        GlobalStorage.NAME_CATEGORY,
+                        correlationValues);
+        return nap;
+    }
+
+    public ClassificationAccessPoint createClassificationAccessPoint(BibliographicCatalog catalog, CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
+		ClassificationAccessPoint clap =
+                (ClassificationAccessPoint) catalog.getNewTag(item,
+                        GlobalStorage.CLASSIFICATION_CATEGORY,
+                        correlationValues);
+        return clap;
+    }
+
+	public SubjectAccessPoint createSubjectAccessPoint(BibliographicCatalog catalog, CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
+		SubjectAccessPoint sap =
+				(SubjectAccessPoint) catalog.getNewTag(item,
+						GlobalStorage.SUBJECT_CATEGORY,
+						correlationValues);
+		return sap;
+	}
+
+	public ControlNumberAccessPoint createControlNumberAccessPoint(BibliographicCatalog catalog, CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
+		ControlNumberAccessPoint cnap =
+				(ControlNumberAccessPoint) catalog.getNewTag(item,
+						GlobalStorage.CONTROL_NUMBER_CATEGORY,
+						correlationValues);
+		return cnap;
+	}
 
 	public void addRequiredTagsForModel(CatalogItem item) throws NewTagException {
 		BibliographicLeader leader = createRequiredLeaderTag(item);
@@ -126,7 +166,7 @@ public class BibliographicCatalog extends Catalog {
 	public CataloguingSourceTag createRequiredCataloguingSourceTag(CatalogItem item) throws NewTagException {
 		CataloguingSourceTag source =
 			(CataloguingSourceTag) getNewTag(item,
-				(short) 1,
+                    GlobalStorage.HEADER_CATEGORY,
 				new CorrelationValues(
 					new BibliographicCataloguingSourceTag().getHeaderType(),
 					CorrelationValues.UNDEFINED,
@@ -137,9 +177,9 @@ public class BibliographicCatalog extends Catalog {
 	public MaterialDescription createRequiredMaterialDescriptionTag(CatalogItem item) throws NewTagException {
 		MaterialDescription mdTag =
 			(MaterialDescription) getNewTag(item,
-				(short) 1,
+                    GlobalStorage.HEADER_CATEGORY,
 				new CorrelationValues(
-					(short) 31,
+					GlobalStorage.MATERIAL_DESCRIPTION_HEADER_TYPE,
 					CorrelationValues.UNDEFINED,
 					CorrelationValues.UNDEFINED));
 		return mdTag;
@@ -148,7 +188,7 @@ public class BibliographicCatalog extends Catalog {
 	public ControlNumberTag createRequiredControlNumberTag(CatalogItem item) throws NewTagException {
 		ControlNumberTag controlnumber =
 			(ControlNumberTag) getNewTag(item,
-				(short) 1,
+                    GlobalStorage.HEADER_CATEGORY,
 				new CorrelationValues(
 					new BibliographicControlNumberTag().getHeaderType(),
 					CorrelationValues.UNDEFINED,
@@ -159,13 +199,14 @@ public class BibliographicCatalog extends Catalog {
 	public BibliographicLeader createRequiredLeaderTag(CatalogItem item) throws NewTagException {
 		BibliographicLeader leader =
 			(BibliographicLeader) getNewTag(item,
-				(short) 1,
+					GlobalStorage.HEADER_CATEGORY,
 				new CorrelationValues(
 					new BibliographicLeader().getHeaderType(),
 					CorrelationValues.UNDEFINED,
 					CorrelationValues.UNDEFINED));
 		return leader;
 	}
+
 
 	public AbstractMapBackedFactory getFixedFieldFactory() {
 		return FIXED_FIELDS_FACTORY;
@@ -317,6 +358,7 @@ public class BibliographicCatalog extends Catalog {
 	 * @throws DataAccessException in case of data access failure.
 	 * @throws ValidationException in case of validation failure while checking the entity.
 	 */
+	//TODO
 	public CatalogItem findOrCreateMyView(
 			final int recordView,
 			final int amicusNumber,
@@ -374,6 +416,133 @@ public class BibliographicCatalog extends Catalog {
 		}
 		return item;
 	}
-	
+
+    /**
+     * Put leader content into persistent hibernate object.
+     *
+     * @param leaderValue -- the string leader value.
+     * @param bibliographicLeader -- the persistent hibernate class {@link BibliographicLeader}
+     */
+	public void toBibliographicLeader(final String leaderValue, final BibliographicLeader bibliographicLeader){
+		bibliographicLeader.setRecordStatusCode(leaderValue.charAt(5));
+		bibliographicLeader.setItemRecordTypeCode(leaderValue.charAt(6));
+		bibliographicLeader.setItemBibliographicLevelCode(leaderValue.charAt(7));
+		bibliographicLeader.setControlTypeCode(leaderValue.charAt(8));
+		bibliographicLeader.setCharacterCodingSchemeCode(leaderValue.charAt(9));
+		bibliographicLeader.setEncodingLevel(leaderValue.charAt(17));
+		bibliographicLeader.setDescriptiveCataloguingCode(leaderValue.charAt(18));
+		bibliographicLeader.setLinkedRecordCode(leaderValue.charAt(19));
+	}
+
+	/**
+	 * Put material type content into persistent hibernate object.
+	 *
+	 * @param ff -- the fixed field representing material description.
+	 * @param materialDescription -- the persistent hibernate class {@link MaterialDescription}.
+	 */
+    public void toMaterialDescription(final org.folio.cataloging.resources.domain.FixedField ff,
+													 final MaterialDescription materialDescription){
+        materialDescription.setMaterialTypeCode(ff.getMaterialTypeCode());
+        if (materialDescription.isBook()) {
+			if (isNotNull(ff.getFormOfItemCode())) materialDescription.setFormOfItemCode(ff.getFormOfItemCode());
+			final String bookIllustration = (isNotNull(ff.getBookIllustrationCode1()) ?ff.getBookIllustrationCode1() :"")
+											+(isNotNull(ff.getBookIllustrationCode2()) ?ff.getBookIllustrationCode2() :"")
+											+(isNotNull(ff.getBookIllustrationCode3()) ?ff.getBookIllustrationCode3() :"")
+											+(isNotNull(ff.getBookIllustrationCode4()) ?ff.getBookIllustrationCode4() :"");
+			materialDescription.setBookIllustrationCode(bookIllustration);
+			if (isNotNull(ff.getTargetAudienceCode())) materialDescription.setTargetAudienceCode(ff.getTargetAudienceCode());
+			final String natureContentCodes = (isNotNull(ff.getNatureOfContent1()) ?ff.getNatureOfContent1() :"")
+											+ (isNotNull(ff.getNatureOfContent2()) ?ff.getNatureOfContent2() :"")
+											+ (isNotNull(ff.getNatureOfContent3()) ?ff.getNatureOfContent3() :"")
+											+ (isNotNull(ff.getNatureOfContent4()) ?ff.getNatureOfContent4() :"");
+			materialDescription.setNatureOfContentsCode(natureContentCodes);
+			if (isNotNull(ff.getGovernmentPublicationCode()))
+				materialDescription.setGovernmentPublicationCode(ff.getGovernmentPublicationCode());
+			if (isNotNull(ff.getConferencePublicationCode()))
+				materialDescription.setConferencePublicationCode(ff.getConferencePublicationCode());
+			if (isNotNull(ff.getBookFestschrift()))
+				materialDescription.setBookFestschrift(ff.getBookFestschrift());
+			if (isNotNull(ff.getBookIndexAvailabilityCode()))
+				materialDescription.setBookIndexAvailabilityCode(ff.getBookIndexAvailabilityCode());
+			if (isNotNull(ff.getBookLiteraryFormTypeCode()))
+				materialDescription.setBookLiteraryFormTypeCode(ff.getBookLiteraryFormTypeCode());
+			if (isNotNull(ff.getBookBiographyCode()))
+				materialDescription.setBookBiographyCode(ff.getBookBiographyCode());
+		} else if (materialDescription.isMap()) {
+			if (isNotNull(ff.getFormOfItemCode())) materialDescription.setFormOfItemCode(ff.getFormOfItemCode());
+        	String codes = (isNotNull(ff.getCartographicReliefCode1()) ?ff.getCartographicReliefCode1() :"")
+					+ (isNotNull(ff.getCartographicReliefCode2()) ?ff.getCartographicReliefCode2() :"")
+					+ (isNotNull(ff.getCartographicReliefCode3()) ?ff.getCartographicReliefCode3() :"")
+					+ (isNotNull(ff.getCartographicReliefCode4()) ?ff.getCartographicReliefCode4() :"");
+			materialDescription.setCartographicReliefCode(codes);
+			if (isNotNull(ff.getGovernmentPublicationCode())) materialDescription.setGovernmentPublicationCode(ff.getGovernmentPublicationCode());
+			if (isNotNull(ff.getCartographicProjectionCode())) materialDescription.setCartographicProjectionCode(ff.getCartographicProjectionCode());
+			if (isNotNull(ff.getCartographicMaterial())) materialDescription.setCartographicMeridianCode(ff.getCartographicMaterial());
+			if (isNotNull(ff.getCartographicMaterial())) materialDescription.setCartographicNarrativeTextCode(ff.getCartographicMaterial());
+			if (isNotNull(ff.getCartographicIndexAvailabilityCode())) materialDescription.setCartographicIndexAvailabilityCode(ff.getCartographicIndexAvailabilityCode());
+			codes = (isNotNull(ff.getCartographicFormatCode1()) ?ff.getCartographicFormatCode1() :"") + (isNotNull(ff.getCartographicFormatCode2()) ?ff.getCartographicFormatCode2() :"");
+			materialDescription.setCartographicFormatCode(codes);
+		}else if (materialDescription.isVisualMaterial()) {
+			if(isNotNull(ff.getVisualRunningTime())) materialDescription.setVisualRunningTime(ff.getVisualRunningTime());
+			if(isNotNull(ff.getTargetAudienceCode())) materialDescription.setVisualTargetAudienceCode(ff.getTargetAudienceCode());
+			if (isNotNull(ff.getGovernmentPublicationCode())) materialDescription.setGovernmentPublicationCode(ff.getGovernmentPublicationCode());
+			materialDescription.setVisualAccompanyingMaterialCode(" ");
+			if (isNotNull(ff.getFormOfItemCode())) materialDescription.setFormOfItemCode(ff.getFormOfItemCode());
+			if(isNotNull(ff.getVisualMaterialTypeCode())) materialDescription.setVisualMaterialTypeCode(ff.getVisualMaterialTypeCode());
+			if(isNotNull(ff.getVisualTechniqueCode())) materialDescription.setVisualTechniqueCode(ff.getVisualTechniqueCode());
+		} else if (materialDescription.isComputerFile()) {
+			if(isNotNull(ff.getTargetAudienceCode())) materialDescription.setComputerTargetAudienceCode(ff.getTargetAudienceCode());
+			if(isNotNull(ff.getComputerFileTypeCode())) materialDescription.setComputerFileTypeCode(ff.getComputerFileTypeCode());
+        	if(isNotNull(ff.getGovernmentPublicationCode())) materialDescription.setGovernmentPublicationCode(ff.getGovernmentPublicationCode());
+        	materialDescription.setComputerFileFormCode(ff.getFormOfItemCode());
+		} else if (materialDescription.isSerial()) {
+			if (isNotNull(ff.getFormOfItemCode())) materialDescription.setFormOfItemCode(ff.getFormOfItemCode());
+			if(isNotNull(ff.getSerialFrequencyCode())) materialDescription.setSerialFrequencyCode(ff.getSerialFrequencyCode());
+			if(isNotNull(ff.getSerialRegularityCode())) materialDescription.setSerialRegularityCode(ff.getSerialRegularityCode());
+			materialDescription.setSerialISDSCenterCode(" ");
+			if(isNotNull(ff.getSerialTypeCode())) materialDescription.setSerialTypeCode(ff.getSerialTypeCode());
+			if(isNotNull(ff.getSerialFormOriginalItemCode())) materialDescription.setSerialFormOriginalItemCode(ff.getSerialFormOriginalItemCode());
+			if(isNotNull(ff.getSerialOriginalAlphabetOfTitleCode())) materialDescription.setSerialOriginalAlphabetOfTitleCode(ff.getSerialOriginalAlphabetOfTitleCode());
+			if(isNotNull(ff.getSerialEntryConventionCode())) materialDescription.setSerialSuccessiveLatestCode(ff.getSerialEntryConventionCode());
+			materialDescription.setSerialTitlePageExistenceCode(" ");
+			materialDescription.setSerialIndexAvailabilityCode(" ");
+		} else if (materialDescription.isMixedMaterial()) {
+			if (isNotNull(ff.getFormOfItemCode())) materialDescription.setFormOfItemCode(ff.getFormOfItemCode());
+		} else if (materialDescription.isMusic()) {
+			if (isNotNull(ff.getFormOfItemCode())) materialDescription.setFormOfItemCode(ff.getFormOfItemCode());
+			if(isNotNull(ff.getMusicFormOfCompositionCode())) materialDescription.setMusicFormOfCompositionCode(ff.getMusicFormOfCompositionCode());
+			if(isNotNull(ff.getMusicFormatCode())) materialDescription.setMusicFormatCode(ff.getMusicFormatCode());
+			if(isNotNull(ff.getMusicPartsCode())) materialDescription.setMusicPartsCode(ff.getMusicPartsCode());
+			if (isNotNull(ff.getTargetAudienceCode())) materialDescription.setTargetAudienceCode(ff.getTargetAudienceCode());
+			String codes = (isNotNull(ff.getMusicTextualMaterialCode1()) ?ff.getMusicTextualMaterialCode1() :" ")
+					+ (isNotNull(ff.getMusicTextualMaterialCode2()) ?ff.getMusicTextualMaterialCode2() :"")
+					+ (isNotNull(ff.getMusicTextualMaterialCode3()) ?ff.getMusicTextualMaterialCode3() :"")
+			        + (isNotNull(ff.getMusicTextualMaterialCode4()) ?ff.getMusicTextualMaterialCode4() :"")
+					+ (isNotNull(ff.getMusicTextualMaterialCode5()) ?ff.getMusicTextualMaterialCode5() :"")
+			        + (isNotNull(ff.getMusicTextualMaterialCode6()) ?ff.getMusicTextualMaterialCode6() :"");
+
+			materialDescription.setMusicTextualMaterialCode(codes);
+			codes = (isNotNull(ff.getMusicLiteraryTextCode1()) ?ff.getMusicLiteraryTextCode1() :"")
+					+ (isNotNull(ff.getMusicLiteraryTextCode2()) ?ff.getMusicLiteraryTextCode2() :"");
+			materialDescription.setMusicLiteraryTextCode(codes);
+        }
+
+		if (materialDescription.getMaterialDescription008Indicator().equals("1")) {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+            Date date = formatter.parse(ff.getDateEnteredOnFile(), new ParsePosition(0));
+            materialDescription.setEnteredOnFileDate(date);
+            materialDescription.setItemDateTypeCode(ff.getDataTypeCode().charAt(0));
+            materialDescription.setItemDateFirstPublication(ff.getDateFirstPublication());
+            materialDescription.setItemDateLastPublication(ff.getDateLastPublication());
+            materialDescription.setMarcCountryCode(ff.getPlaceOfPublication());
+            materialDescription.setLanguageCode(ff.getLanguageCode());
+            materialDescription.setRecordModifiedCode(ff.getRecordModifiedCode().charAt(0));
+            materialDescription.setRecordCataloguingSourceCode(ff.getRecordCataloguingSourceCode().charAt(0));
+
+        } else {
+            materialDescription.setMaterialTypeCode(ff.getMaterialTypeCode());
+        }
+
+    }
 	
 }

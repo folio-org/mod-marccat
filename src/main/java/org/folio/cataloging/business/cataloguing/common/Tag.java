@@ -252,10 +252,8 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 		}
 	}
 
-	/*public void generateNewKey() throws DataAccessException {
-		// TODO Auto-generated method stub
-
-	}*/
+	@Deprecated
+	public void generateNewKey() throws DataAccessException {}
 
 	/* nat: public DAOCodeTable getDaoCodeTable() {
 		return daoCodeTable;

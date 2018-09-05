@@ -14,6 +14,7 @@ import org.folio.cataloging.integration.StorageService;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.cataloging.resources.domain.*;
 import org.folio.cataloging.resources.domain.Error;
+import org.folio.cataloging.shared.GeneralInformation;
 import org.folio.cataloging.shared.Validation;
 import org.folio.cataloging.util.StringText;
 import org.springframework.http.HttpStatus;
@@ -85,7 +86,7 @@ public class BibliographicRecordAPI extends BaseResource {
                         leader.setValue(getLeaderValue());
                         return leader;
                     }));
-            bibliographicRecord.setLeader(template.getLeader());
+
             for (Field field : template.getFields()) {
                 if (field.isMandatory()){
                     if (field.getCode().equals(Global.CONTROL_NUMBER_TAG_CODE)){
@@ -142,7 +143,11 @@ public class BibliographicRecordAPI extends BaseResource {
                     return systemInternalFailure(new DataAccessException(), errors);
 
                 //conversione da bibbliographic-record a catalogItem
-                //storageService.saveBibliographicRecord(record, view);
+                final GeneralInformation gi = new GeneralInformation();
+                gi.setDefaultValues(configuration);
+
+                storageService.saveBibliographicRecord(record, view, gi);
+
 
                 return new ResponseEntity<Object>(record, HttpStatus.OK);
             } catch (final Exception exception) {
@@ -150,7 +155,7 @@ public class BibliographicRecordAPI extends BaseResource {
                 return record;
             }
 
-        }, tenant, configurator, () -> isNotNullOrEmpty(id), () -> record.getLeader().getValue() );
+        }, tenant, configurator, () -> isNotNullOrEmpty(id), () -> record.getLeader().getValue(), "bibliographic", "material");
     }
 
     /**

@@ -97,6 +97,10 @@ public abstract class F {
         return value != null && value.trim().length() != 0;
     }
 
+    public static boolean isNotNull(final String value) {
+        return value != null;
+    }
+
     /**
      * Returns the locale associated with the given code.
      *
