@@ -15,7 +15,7 @@ import javax.validation.Valid;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "fixed-field", "variable-field" })
+@JsonPropertyOrder({ "fixedField", "variable-field" })
 public class FieldTemplate {
 
     /**
