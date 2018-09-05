@@ -14,11 +14,17 @@ import java.util.Map;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "categoryCode", "headerTypeCode", "code", "displayValue", "description", "mandatory", "materialType", "physicalType", "dateEnteredOnFile", "dateTypeCode", "dateFirstPublication", "dateLastPublication", "placeOfPublication", "bookIllustrationCode1", "bookIllustrationCode2", "bookIllustrationCode3", "bookIllustrationCode4", "targetAudienceCode", "formOfItemCode", "natureOfContent1", "natureOfContent2", "natureOfContent3", "natureOfContent4", "governmentPublicationCode", "conferencePublicationCode", "bookFestschrift", "bookIndexAvailabilityCode", "bookLiteraryFormTypeCode", "bookBiographyCode", "cartographicReliefCode1", "cartographicReliefCode2", "cartographicReliefCode3", "cartographicReliefCode4", "cartographicProjectionCode", "cartographicMaterial", "cartographicIndexAvailabilityCode", "cartographicFormatCode1", "cartographicFormatCode2", "musicFormOfCompositionCode", "musicFormatCode", "musicPartsCode", "musicTextualMaterialCode1", "musicTextualMaterialCode2", "musicTextualMaterialCode3", "musicTextualMaterialCode4", "musicTextualMaterialCode5", "musicTextualMaterialCode6", "musicLiteraryTextCode1", "musicLiteraryTextCode2", "musicTranspositionArrangementCode", "computerFileTypeCode", "visualRunningTime", "visualMaterialTypeCode", "visualTechniqueCode", "serialFrequencyCode", "serialRegularityCode", "serialTypeCode", "serialFormOriginalItemCode", "serialOriginalAlphabetOfTitleCode", "serialEntryConventionCode", "languageCode", "recordModifiedCode", "recordCataloguingSourceCode", "itemRecordStatusCode", "itemRecordTypeCode", "itemBibliographicLevelCode", "itemControlTypeCode", "characterCodingSchemeCode", "encodingLevel", "descriptiveCataloguingCode", "linkedRecordCode", "materialTypeCode", "categoryOfMaterial", "specificMaterialDesignationCode", "colourCode", "physicalMediumCode", "typeOfReproductionCode", "polarityCode", "dimensionsCode", "generationCode", "baseOfFilmCode", "includesSoundCode", "mediumForSoundCode", "secondarySupportMaterialCode", "configurationCode", "obsolete1", "obsolete2", "imageBitDepth", "fileFormatsCode", "qualityAssuranceTargetCode", "antecedentSourceCode", "levelOfCompressionCode", "reformattingQualityCode", "productionDetailsCode", "reductionRatioRangeCode", "reductionRatioCode", "emulsionOnFilmCode", "presentationFormatCode", "productionElementsCode", "refinedCategoriesOfColourCode", "kindOfColourStockCode", "deteriorationStageCode", "completenessCode", "inspectionDate", "primarySupportMaterialCode", "baseOfEmulsionCode", "soundOnMediumOrSeparateCode", "altitudeOfSensorCode", "attitudeOfSensorCode", "cloudCoverCode", "platformConstructionTypeCode", "platformUseCode", "sensorTypeCode", "dataTypeCode", "speedCode", "grooveWidthCode", "tapeWidthCode", "tapeConfigurationCode", "discTypeCode", "sndMaterialTypeCode", "cuttingTypeCode", "specialPlaybackCharacteristicsCode", "storageTechniqueCode", "classOfBrailleWritingCodes", "levelOfContractionCode", "brailleMusicFormatCodes", "specificPhysicalCharacteristicsCode", "formatCode" })
+@JsonPropertyOrder({ "keyNumber", "categoryCode", "description", "headerTypeCode", "code", "displayValue", "materialType", "physicalType", "dateEnteredOnFile", "dateTypeCode", "dateFirstPublication", "dateLastPublication", "placeOfPublication", "bookIllustrationCode1", "bookIllustrationCode2", "bookIllustrationCode3", "bookIllustrationCode4", "targetAudienceCode", "formOfItemCode", "natureOfContent1", "natureOfContent2", "natureOfContent3", "natureOfContent4", "governmentPublicationCode", "conferencePublicationCode", "bookFestschrift", "bookIndexAvailabilityCode", "bookLiteraryFormTypeCode", "bookBiographyCode", "cartographicReliefCode1", "cartographicReliefCode2", "cartographicReliefCode3", "cartographicReliefCode4", "cartographicProjectionCode", "cartographicMaterial", "cartographicIndexAvailabilityCode", "cartographicFormatCode1", "cartographicFormatCode2", "musicFormOfCompositionCode", "musicFormatCode", "musicPartsCode", "musicTextualMaterialCode1", "musicTextualMaterialCode2", "musicTextualMaterialCode3", "musicTextualMaterialCode4", "musicTextualMaterialCode5", "musicTextualMaterialCode6", "musicLiteraryTextCode1", "musicLiteraryTextCode2", "musicTranspositionArrangementCode", "computerFileTypeCode", "visualRunningTime", "visualMaterialTypeCode", "visualTechniqueCode", "serialFrequencyCode", "serialRegularityCode", "serialTypeCode", "serialFormOriginalItemCode", "serialOriginalAlphabetOfTitleCode", "serialEntryConventionCode", "languageCode", "recordModifiedCode", "recordCataloguingSourceCode", "itemRecordStatusCode", "itemRecordTypeCode", "itemBibliographicLevelCode", "itemControlTypeCode", "characterCodingSchemeCode", "encodingLevel", "descriptiveCataloguingCode", "linkedRecordCode", "materialTypeCode", "categoryOfMaterial", "specificMaterialDesignationCode", "colourCode", "physicalMediumCode", "typeOfReproductionCode", "polarityCode", "dimensionsCode", "generationCode", "baseOfFilmCode", "includesSoundCode", "mediumForSoundCode", "secondarySupportMaterialCode", "configurationCode", "obsolete1", "obsolete2", "imageBitDepth", "fileFormatsCode", "qualityAssuranceTargetCode", "antecedentSourceCode", "levelOfCompressionCode", "reformattingQualityCode", "productionDetailsCode", "reductionRatioRangeCode", "reductionRatioCode", "emulsionOnFilmCode", "presentationFormatCode", "productionElementsCode", "refinedCategoriesOfColourCode", "kindOfColourStockCode", "deteriorationStageCode", "completenessCode", "inspectionDate", "primarySupportMaterialCode", "baseOfEmulsionCode", "soundOnMediumOrSeparateCode", "altitudeOfSensorCode", "attitudeOfSensorCode", "cloudCoverCode", "platformConstructionTypeCode", "platformUseCode", "sensorTypeCode", "dataTypeCode", "speedCode", "grooveWidthCode", "tapeWidthCode", "tapeConfigurationCode", "discTypeCode", "sndMaterialTypeCode", "cuttingTypeCode", "specialPlaybackCharacteristicsCode", "storageTechniqueCode", "classOfBrailleWritingCodes", "levelOfContractionCode", "brailleMusicFormatCodes", "specificPhysicalCharacteristicsCode", "formatCode", "sequenceNumber" })
 public class FixedField {
+
+    @JsonProperty("keyNumber")
+    private Integer keyNumber;
 
     @JsonProperty("categoryCode")
     private Integer categoryCode;
+
+    @JsonProperty("description")
+    private String description;
 
     @JsonProperty("headerTypeCode")
     private Integer headerTypeCode;
@@ -29,17 +35,11 @@ public class FixedField {
     @JsonProperty("displayValue")
     private String displayValue;
 
-    @JsonProperty("description")
-    private String description;
-
-    @JsonProperty("mandatory")
-    private boolean mandatory;
-
     @JsonProperty("materialType")
-    private FixedField.MaterialType materialType;
+    private MaterialType materialType;
 
     @JsonProperty("physicalType")
-    private FixedField.PhysicalType physicalType;
+    private PhysicalType physicalType;
 
     @JsonProperty("dateEnteredOnFile")
     private String dateEnteredOnFile;
@@ -401,30 +401,9 @@ public class FixedField {
     @JsonProperty("formatCode")
     private String formatCode;
 
-    /**
-     * 
-     * @return
-     *     The categoryCode
-     */
-    @JsonProperty("categoryCode")
-    public Integer getCategoryCode() {
-        return categoryCode;
-    }
+    @JsonProperty("sequenceNumber")
+    private int sequenceNumber;
 
-    /**
-     * 
-     * @param categoryCode
-     *     The categoryCode
-     */
-    @JsonProperty("categoryCode")
-    public void setCategoryCode(Integer categoryCode) {
-        this.categoryCode = categoryCode;
-    }
-
-    public FixedField withCategoryCode(Integer categoryCode) {
-        this.categoryCode = categoryCode;
-        return this;
-    }
 
     /**
      * 
@@ -504,50 +483,10 @@ public class FixedField {
     /**
      * 
      * @return
-     *     The description
-     */
-    @JsonProperty("description")
-    public String getDescription() {
-        return description;
-    }
-
-    /**
-     * 
-     * @param description
-     *     The description
-     */
-    @JsonProperty("description")
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    /**
-     *
-     * @return
-     *      return if mandatory field.
-     */
-    @JsonProperty("mandatory")
-    public boolean isMandatory() {
-        return mandatory;
-    }
-
-    /**
-     *
-     * @param mandatory
-     *      the mandatory flag to set.
-     */
-    @JsonProperty("mandatory")
-    public void setMandatory(boolean mandatory) {
-        this.mandatory = mandatory;
-    }
-
-    /**
-     * 
-     * @return
      *     The materialType
      */
     @JsonProperty("materialType")
-    public FixedField.MaterialType getMaterialType() {
+    public MaterialType getMaterialType() {
         return materialType;
     }
 
@@ -557,11 +496,11 @@ public class FixedField {
      *     The materialType
      */
     @JsonProperty("materialType")
-    public void setMaterialType(FixedField.MaterialType materialType) {
+    public void setMaterialType(MaterialType materialType) {
         this.materialType = materialType;
     }
 
-    public FixedField withMaterialType(FixedField.MaterialType materialType) {
+    public FixedField withMaterialType(MaterialType materialType) {
         this.materialType = materialType;
         return this;
     }
@@ -572,7 +511,7 @@ public class FixedField {
      *     The physicalType
      */
     @JsonProperty("physicalType")
-    public FixedField.PhysicalType getPhysicalType() {
+    public PhysicalType getPhysicalType() {
         return physicalType;
     }
 
@@ -582,11 +521,11 @@ public class FixedField {
      *     The physicalType
      */
     @JsonProperty("physicalType")
-    public void setPhysicalType(FixedField.PhysicalType physicalType) {
+    public void setPhysicalType(PhysicalType physicalType) {
         this.physicalType = physicalType;
     }
 
-    public FixedField withPhysicalType(FixedField.PhysicalType physicalType) {
+    public FixedField withPhysicalType(PhysicalType physicalType) {
         this.physicalType = physicalType;
         return this;
     }
@@ -3591,6 +3530,87 @@ public class FixedField {
         return this;
     }
 
+    /**
+     *
+     * @return
+     *     The keyNumber
+     */
+    @JsonProperty("keyNumber")
+    public Integer getKeyNumber() {
+        return keyNumber;
+    }
+
+    /**
+     *
+     * @param keyNumber
+     *     The keyNumber
+     */
+    @JsonProperty("keyNumber")
+    public void setKeyNumber(Integer keyNumber) {
+        this.keyNumber = keyNumber;
+    }
+
+
+    /**
+     *
+     * @return
+     *     The categoryCode
+     */
+    @JsonProperty("categoryCode")
+    public Integer getCategoryCode() {
+        return categoryCode;
+    }
+
+    /**
+     *
+     * @param categoryCode
+     *     The categoryCode
+     */
+    @JsonProperty("categoryCode")
+    public void setCategoryCode(Integer categoryCode) {
+        this.categoryCode = categoryCode;
+    }
+
+    /**
+     *
+     * @return
+     *     The description
+     */
+    @JsonProperty("description")
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     *
+     * @param description
+     *     The description
+     */
+    @JsonProperty("description")
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
+     *
+     * @return
+     *     The sequenceNumber
+     */
+    @JsonProperty("sequenceNumber")
+    public int getSequenceNumber() {
+        return sequenceNumber;
+    }
+
+    /**
+     *
+     * @param sequenceNumber
+     *     The sequenceNumber
+     */
+    @JsonProperty("sequenceNumber")
+    public void setSequenceNumber(int sequenceNumber) {
+        this.sequenceNumber = sequenceNumber;
+    }
+
     @Generated("org.jsonschema2pojo")
     public static enum MaterialType {
 
@@ -3598,10 +3618,10 @@ public class FixedField {
 
         private final String value;
 
-        private static final Map<String, FixedField.MaterialType> CONSTANTS = new HashMap<String, FixedField.MaterialType>();
+        private static final Map<String, MaterialType> CONSTANTS = new HashMap<String, MaterialType>();
 
         static {
-            for (FixedField.MaterialType c : values()) {
+            for (MaterialType c : values()) {
                 CONSTANTS.put(c.value, c);
             }
         }
@@ -3617,8 +3637,8 @@ public class FixedField {
         }
 
         @JsonCreator
-        public static FixedField.MaterialType fromValue(String value) {
-            FixedField.MaterialType constant = CONSTANTS.get(value);
+        public static MaterialType fromValue(String value) {
+            MaterialType constant = CONSTANTS.get(value);
             if (constant == null) {
                 throw new IllegalArgumentException(value);
             } else {
@@ -3634,10 +3654,10 @@ public class FixedField {
 
         private final String value;
 
-        private static final Map<String, FixedField.PhysicalType> CONSTANTS = new HashMap<String, FixedField.PhysicalType>();
+        private static final Map<String, PhysicalType> CONSTANTS = new HashMap<String, PhysicalType>();
 
         static {
-            for (FixedField.PhysicalType c : values()) {
+            for (PhysicalType c : values()) {
                 CONSTANTS.put(c.value, c);
             }
         }
@@ -3653,8 +3673,8 @@ public class FixedField {
         }
 
         @JsonCreator
-        public static FixedField.PhysicalType fromValue(String value) {
-            FixedField.PhysicalType constant = CONSTANTS.get(value);
+        public static PhysicalType fromValue(String value) {
+            PhysicalType constant = CONSTANTS.get(value);
             if (constant == null) {
                 throw new IllegalArgumentException(value);
             } else {
