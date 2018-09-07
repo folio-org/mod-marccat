@@ -21,10 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.Optional.ofNullable;
@@ -155,7 +152,7 @@ public class BibliographicRecordAPI extends BaseResource {
                 return record;
             }
 
-        }, tenant, configurator, () -> isNotNullOrEmpty(id), () -> record.getLeader().getValue(), "bibliographic", "material");
+        }, tenant, configurator, () -> isNotNullOrEmpty(id),  new String[]{record.getLeader().getValue(), "bibliographic", "material"});
     }
 
     /**
