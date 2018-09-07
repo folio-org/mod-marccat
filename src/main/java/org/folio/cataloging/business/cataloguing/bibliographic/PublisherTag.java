@@ -14,6 +14,7 @@ import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.dao.DAODescriptor;
 import org.folio.cataloging.dao.DAOPublisherDescriptor;
 import org.folio.cataloging.dao.persistence.PUBL_HDG;
+import org.folio.cataloging.dao.persistence.PublisherAccessPoint;
 import org.folio.cataloging.dao.persistence.REF;
 import org.folio.cataloging.model.Subfield;
 import org.folio.cataloging.shared.CorrelationValues;

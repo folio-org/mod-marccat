@@ -228,6 +228,34 @@
 		<mapping resource="org/folio/cataloging/dao/persistence/T_RSI_DATA_TPE.hbm.xml"/>
         <mapping resource="org/folio/cataloging/dao/persistence/FULL_CACHE.hbm.xml"/>
 		<mapping resource="org/folio/cataloging/dao/persistence/Diacritics.hbm.xml"/>
-		 <mapping resource="org/folio/cataloging/dao/persistence/T_SKP_IN_FLNG_CNT.hbm.xml"/>
-  </session-factory>
+		<mapping resource="org/folio/cataloging/dao/persistence/Tags.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/MTRL_DSC.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/CF.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/GLB.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/KIT.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/MAP.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/MIC.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/MP.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/NM.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/NPG.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/PG.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/RSI.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/SND.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/TM.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/TXT.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/USP.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/VR.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/MSCL_INSTM_OR_VOICE.hbm.xml"/>
+        <mapping resource="org/folio/cataloging/dao/persistence/RLTSP.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/BIB_NTE_OVRFW.hbm.xml"/>
+        <mapping resource="org/folio/cataloging/dao/persistence/STD_NTE_ACS_PNT.hbm.xml"/>
+		<mapping resource="org/folio/cataloging/dao/persistence/S_NXT_NBR.hbm.xml"/>
+        <!--mapping resource="org/folio/cataloging/dao/persistence/CLSTN.hbm.xml"/>
+        <mapping resource="org/folio/cataloging/dao/persistence/SBJCT_HDG.hbm.xml"/>
+        <mapping resource="org/folio/cataloging/dao/persistence/TTL_HDG.hbm.xml"/>
+        <mapping resource="org/folio/cataloging/dao/persistence/NME_HDG.hbm.xml"/>
+        <mapping resource="org/folio/cataloging/dao/persistence/PUBL_TAG.hbm.xml"/>
+        <mapping resource="org/folio/cataloging/dao/persistence/PUBL_HDG.hbm.xml"/-->
+
+	</session-factory>
 </hibernate-configuration>

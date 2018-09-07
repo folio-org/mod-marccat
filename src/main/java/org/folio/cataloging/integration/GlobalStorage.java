@@ -15,9 +15,20 @@ public class GlobalStorage {
     public final static String HEADER_TYPE_LABEL = "HEADER_TYPE";
     public final static String FORM_OF_MATERIAL_LABEL = "FORM_OF_MATERIAL";
     public final static String MATERIAL_TYPE_CODE_LABEL = "MATERIAL_TYPE_CODE";
-    public final static String MATERIAL_TAG_CODE = "008";
     public final static String DOLLAR = "\u001f";
 
+    public final static String ITEM_DATE_FIRST_PUBLICATION = "    ";
+    public final static String ITEM_DATE_LAST_PUBLICATION = "    ";
+
+    public final static String LEADER_TAG_NUMBER = "000";
+    public final static String CONTROL_NUMBER_TAG_CODE = "001";
+    public final static String CATALOGING_SOURCE_TAG_CODE = "040";
+    public final static String DATETIME_TRANSACION_TAG_CODE = "005";
+    public final static String MATERIAL_TAG_CODE = "008";
+    public final static String OTHER_MATERIAL_TAG_CODE = "006";
+    public final static String PHYSICAL_DESCRIPTION_TAG_CODE = "007";
+
+    public final static int HEADER_CATEGORY = 1;
     public final static int NAME_CATEGORY = 2;
     public final static int TITLE_CATEGORY = 3;
     public final static int SUBJECT_CATEGORY = 4;
@@ -25,6 +36,13 @@ public class GlobalStorage {
     public final static int CLASSIFICATION_CATEGORY = 6;
     public final static int PUBLISHER_CATEGORY = 7;
     public final static int BIB_NOTE_CATEGORY = 7;
+
+    public final static int CATALOGING_SOURCE_HEADER_TYPE = 1;
+    public final static int LEADER_HEADER_TYPE = 15;
+    public final static int CONTROL_NUMBER_HEADER_TYPE = 39;
+    public final static int DATETIME_TRANSACION_HEADER_TYPE = 41;
+    public final static int MATERIAL_DESCRIPTION_HEADER_TYPE = 31;
+    public final static int PHYSICAL_UNSPECIFIED_HEADER_TYPE = 45;
 
     public final static int DEFAULT_AVAILABILITY_STATUS = 99;
     public final static String DEFAULT_LEVEL_CARD = "L01";

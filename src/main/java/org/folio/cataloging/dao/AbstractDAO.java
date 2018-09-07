@@ -1,14 +1,17 @@
 package org.folio.cataloging.dao;
 
 import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.LockMode;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
+import net.sf.hibernate.type.Type;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistentObjectWithView;
 import org.folio.cataloging.business.common.View;
 import org.folio.cataloging.dao.common.HibernateUtil;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,7 +39,7 @@ public abstract class AbstractDAO extends HibernateUtil {
         if (persistentObject.isNew()) {
             save(persistentObject, session);
         } else if (persistentObject.isChanged()) {
-            update(persistentObject);
+            update(persistentObject, session);
         } else if (persistentObject.isDeleted()) {
             delete(persistentObject, session);
         }
@@ -164,6 +167,45 @@ public abstract class AbstractDAO extends HibernateUtil {
 
         } else {
             return p;
+        }
+    }
+
+     /**
+     * Convenience method for session.find.
+     *
+     * @param query
+     *            the query string
+     * @param values
+     *            an array of values to be bound to the "?" placeholders (JDBC
+     *            IN parameters).
+     * @param types
+     *            an array of Hibernate types of the values
+     *
+     * @return a distinct list of instances
+     */
+    public List find(final Session session, final String query, final Object[] values, final Type[] types) {
+        try {
+            return session.find(query, values, types);
+        } catch (HibernateException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Convenience method for session.get
+     *
+     * @param clazz
+     *            a persistent class
+     * @param id
+     *            a valid identifier of an existing persistent instance of the class
+     *
+     * @return the persistent instance or null.
+     */
+    public Object get(final Session session, final Class clazz, final Serializable id, final LockMode l) {
+        try {
+            return session.get(clazz, id, l);
+        } catch (HibernateException e) {
+            return null;
         }
     }
 }

@@ -8,7 +8,7 @@ import org.folio.cataloging.business.common.PersistenceState;
 import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAOCopy;
 import org.folio.cataloging.dao.DAOGlobalVariable;
-import org.folio.cataloging.dao.DAOSystemNextNumber;
+import org.folio.cataloging.dao.SystemNextNumberDAO;
 import org.folio.cataloging.model.Subfield;
 
 import java.io.Serializable;
@@ -419,7 +419,7 @@ public class BND_CPY implements Persistence, Serializable
 	}
 
 	public void generateNewKey() throws DataAccessException {
-		DAOSystemNextNumber dao = new DAOSystemNextNumber();
+		SystemNextNumberDAO dao = new SystemNextNumberDAO();
 		setCopyIdNumber(dao.getNextNumber("HC"));
 		setCreationDate(new Date());
 		setTransactionDate(new Date());
@@ -434,7 +434,7 @@ public class BND_CPY implements Persistence, Serializable
 	}
 
 	public void deleteNewKey() throws DataAccessException {
-		DAOSystemNextNumber dao = new DAOSystemNextNumber();
+		SystemNextNumberDAO dao = new SystemNextNumberDAO();
 		setCopyIdNumber(dao.getPreviouwsNumber("HC"));
 		setCreationDate(new Date());
 		setTransactionDate(new Date());

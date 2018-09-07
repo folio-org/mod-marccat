@@ -1,4 +1,4 @@
-package org.folio.cataloging.domain;
+package org.folio.cataloging.shared;
 
 import org.apache.commons.lang.StringUtils;
 import org.folio.cataloging.Global;
@@ -82,6 +82,8 @@ public class GeneralInformation {
 	
 	private String marcCountryCode;
 	private String languageCode;
+
+	public GeneralInformation(){}
 
 	/**
 	 * Squeeze all non-blank Strings to the left side of the string and retain the original length by padding with blanks on the right.
@@ -264,7 +266,7 @@ public class GeneralInformation {
 			+ getBookIndexAvailabilityCode()
 			+ " " //undefined position (formerly main entry indicator)
 			+ getBookLiteraryFormTypeCode() + getBookBiographyCode();
-		}
+	}
 
 	/**
 	 * @return the displayString segment for map material.

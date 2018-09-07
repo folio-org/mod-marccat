@@ -5,14 +5,14 @@
     
 <hibernate-mapping>
 <class 
-    name="org.folio.cataloging.business.cataloguing.bibliographic.NotatedMusic"
+    name="org.folio.cataloging.dao.persistence.NotatedMusic"
     table="NM"
 >
 
     <composite-id>
         <key-property name="bibItemNumber" 
             column="BIB_ITM_NBR"/>
-        <key-property name="KeyNumber" 
+        <key-property name="keyNumber"
             column="NM_KEY_NBR"/>
         <key-property name="userViewString" 
             column="USR_VW_IND" length="16"/>

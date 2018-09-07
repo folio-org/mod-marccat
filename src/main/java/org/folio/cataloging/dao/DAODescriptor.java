@@ -519,7 +519,7 @@ public abstract class DAODescriptor extends AbstractDAO {
 
 	public void save(final Descriptor descriptor, int headingView)
 			throws DataAccessException {
-		int headingNumber = (new DAOSystemNextNumber())
+		int headingNumber = (new SystemNextNumberDAO())
 				.getNextNumber(descriptor.getNextNumberKeyFieldCode());
 		save(descriptor, headingNumber, headingView);
 	}
@@ -571,7 +571,7 @@ public abstract class DAODescriptor extends AbstractDAO {
 
 	public void persist(Descriptor descriptor) throws DataAccessException {
 		if (descriptor.isNew()) {
-			int headingNumber = (new DAOSystemNextNumber())
+			int headingNumber = (new SystemNextNumberDAO())
 					.getNextNumber(descriptor.getNextNumberKeyFieldCode());
 			descriptor.setKey(new DescriptorKey(headingNumber, descriptor
 					.getKey().getUserViewString()));

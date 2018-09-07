@@ -191,6 +191,7 @@ public class ControlNumberAccessPoint extends BibliographicAccessPoint implement
      */
 	public void setSequenceNumber(final Integer seqNumber) {
 		sequenceNumber = seqNumber;
+		super.setSequenceNumber(sequenceNumber);
 	}
 
     /**

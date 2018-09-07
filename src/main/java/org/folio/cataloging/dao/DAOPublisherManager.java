@@ -9,12 +9,12 @@ package org.folio.cataloging.dao;
 
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
-import org.folio.cataloging.business.cataloguing.bibliographic.PublisherAccessPoint;
 import org.folio.cataloging.business.cataloguing.bibliographic.PublisherManager;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 import org.folio.cataloging.dao.persistence.PUBL_TAG;
+import org.folio.cataloging.dao.persistence.PublisherAccessPoint;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

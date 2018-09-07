@@ -17,6 +17,7 @@ import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.shared.CorrelationValues;
 
 import java.util.*;
+import java.util.Map;
 
 /**
  * @author paulm
@@ -462,9 +463,9 @@ public class AuthorityCatalog extends Catalog {
 		}
 
 		item.addTag(t);
-		item.addAllTags((Tag[])daoCatalog.getReferenceFields(item, t).toArray(new Tag[0]));
+		item.addAllTags(daoCatalog.getReferenceFields(item, t).toArray(new Tag[0]));
 		for (int i=0; i < item.getTags().size(); i++) {
-			Tag t1 = (Tag)item.getTags().get(i);
+			Tag t1 = item.getTags().get(i);
 			t1.setTagImpl(item.getTagImpl());
 			t1 = (Tag)setItemIfNecessary(item, t1);
 		}

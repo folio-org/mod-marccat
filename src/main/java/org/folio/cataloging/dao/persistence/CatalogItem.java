@@ -365,6 +365,7 @@ public abstract class CatalogItem implements Serializable {
 		return record.toByteArray();
 	}
 
+
     /**
      * Validates, check mandatory and repeatability tags.
      *

@@ -7,6 +7,7 @@
  */
 package org.folio.cataloging.business.cataloguing.authority;
 
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
 import org.folio.cataloging.business.cataloguing.bibliographic.PersistsViaItem;
 import org.folio.cataloging.business.cataloguing.common.Catalog;
@@ -78,9 +79,8 @@ public class AuthorityTagImpl extends TagImpl {
 	 */
 	public CorrelationKey getMarcEncoding(Tag t) throws DataAccessException {
 
-		CorrelationKey key = daoCorrelation.getMarcEncoding(t.getCategory(),
-				getHeadingType(t), t.getCorrelation(1), t.getCorrelation(2), t
-						.getCorrelation(3));
+		CorrelationKey key = daoCorrelation.getMarcEncoding(t.getCategory(), getHeadingType(t),
+				t.getCorrelation(1), t.getCorrelation(2), t.getCorrelation(3));
 
 		if (key == null) {
 			throw new MarcCorrelationException();
@@ -98,8 +98,8 @@ public class AuthorityTagImpl extends TagImpl {
 		return ((AUT) ((PersistsViaItem) t).getItemEntity()).getHeadingType();
 	}
 
-	public Validation getValidation(Tag t) throws
-            DataAccessException {
+	public Validation getValidation(Tag t) throws DataAccessException {
+		//FIXME
 		CorrelationKey key = getMarcEncoding(t);
 		return daoValidation.load(key.getMarcTag(), t.getHeadingType(), t
 				.getCategory());
@@ -112,6 +112,11 @@ public class AuthorityTagImpl extends TagImpl {
 	 */
 	public Catalog getCatalog() {
 		return new AuthorityCatalog();
+	}
+
+	@Override
+	public CorrelationKey getMarcEncoding(Tag t, Session session) throws DataAccessException {
+		return null;
 	}
 
 	/*

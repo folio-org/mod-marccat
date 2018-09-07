@@ -10,7 +10,7 @@ import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
 import org.folio.cataloging.business.serialControl.DuplicateVendorException;
 import org.folio.cataloging.dao.AbstractDAO;
-import org.folio.cataloging.dao.DAOSystemNextNumber;
+import org.folio.cataloging.dao.SystemNextNumberDAO;
 import org.folio.cataloging.dao.common.HibernateUtil;
 
 import java.io.Serializable;
@@ -322,7 +322,7 @@ public class SRL_ORDR implements Persistence, Serializable {
 	}
 
 	public void generateNewKey() throws DataAccessException {
-		setOrderNumber(new DAOSystemNextNumber().getNextNumber("SO"));
+		setOrderNumber(new SystemNextNumberDAO().getNextNumber("SO"));
 	}
 
 	/**

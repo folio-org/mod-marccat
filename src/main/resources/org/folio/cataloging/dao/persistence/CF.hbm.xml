@@ -4,13 +4,11 @@
     "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
     
 <hibernate-mapping>
-<class name="org.folio.cataloging.business.cataloguing.bibliographic.ElectronicResource"
-    table="CF"
->
+<class name="org.folio.cataloging.dao.persistence.ElectronicResource" table="CF" >
 
     <composite-id>
         <key-property name="bibItemNumber" column="BIB_ITM_NBR"/>
-        <key-property name="KeyNumber" column="CF_KEY_NBR" />
+        <key-property name="keyNumber" column="CF_KEY_NBR" />
         <key-property name="userViewString" column="USR_VW_IND" length="16"/>
     </composite-id>
     <property name="generalMaterialDesignationCode">

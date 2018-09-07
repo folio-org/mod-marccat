@@ -4,6 +4,8 @@
  */
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.cataloguing.common.Catalog;
@@ -12,7 +14,7 @@ import org.folio.cataloging.business.cataloguing.common.TagImpl;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.SubfieldCodeComparator;
 import org.folio.cataloging.dao.BibliographicCorrelationDAO;
-import org.folio.cataloging.dao.DAOBibliographicValidation;
+import org.folio.cataloging.dao.BibliographicValidationDAO;
 import org.folio.cataloging.dao.persistence.Correlation;
 import org.folio.cataloging.dao.persistence.CorrelationKey;
 import org.folio.cataloging.shared.Validation;
@@ -29,7 +31,7 @@ import java.util.TreeSet;
 public class BibliographicTagImpl extends TagImpl {
 	private static final Log logger = LogFactory.getLog(BibliographicTagImpl.class);
 
-	private static final DAOBibliographicValidation daoValidation = new DAOBibliographicValidation();
+	private static final BibliographicValidationDAO daoValidation = new BibliographicValidationDAO();
 	private static final BibliographicCorrelationDAO daoCorrelation = new BibliographicCorrelationDAO();
 
 	/**
@@ -42,9 +44,13 @@ public class BibliographicTagImpl extends TagImpl {
 	/**
 	 * @return the MARC tag and indicators for this tag
 	 */
-	public CorrelationKey getMarcEncoding(Tag t) throws DataAccessException {
-		CorrelationKey key = daoCorrelation.getMarcEncoding(t.getCategory(), t
-				.getCorrelation(1), t.getCorrelation(2), t.getCorrelation(3));
+	public CorrelationKey getMarcEncoding(final Tag t, final Session session) throws DataAccessException {
+		CorrelationKey key = null;
+		try {
+			key = daoCorrelation.getMarcEncoding(t.getCategory(), t.getCorrelation(1), t.getCorrelation(2), t.getCorrelation(3), session);
+		} catch (HibernateException e) {
+			throw new DataAccessException();
+		}
 
 		if (key == null) {
 			logger.warn("MarcCorrelationException in getMarcEncoding for values: ");
@@ -79,6 +85,11 @@ public class BibliographicTagImpl extends TagImpl {
 	 */
 	public Catalog getCatalog() {
 		return new BibliographicCatalog();
+	}
+
+	@Deprecated
+	public CorrelationKey getMarcEncoding(Tag t) throws DataAccessException {
+		return null;
 	}
 
 	/*

@@ -1,5 +1,6 @@
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.PersistentObjectWithView;
 import org.folio.cataloging.business.common.UserViewHelper;
@@ -10,6 +11,8 @@ public abstract class BibliographicAccessPoint extends AccessPoint implements Pe
 {
 	private String materialSpecified;
 	private UserViewHelper userViewHelper = new UserViewHelper();
+
+	private Integer sequenceNumber;
 
 	public void setStringText(StringText stringText) {
 		materialSpecified = stringText.getSubfieldsWithCodes("3").toString();
@@ -30,8 +33,8 @@ public abstract class BibliographicAccessPoint extends AccessPoint implements Pe
 		super(itemNumber);
 	}
 
-	public void generateNewKey() throws DataAccessException {
-		super.generateNewKey();
+	public void generateNewKey(final Session session) throws DataAccessException {
+		super.generateNewKey(session);
 		if (getDescriptor().isNew()) {
 			getDescriptor().getKey().setUserViewString(getUserViewString());
 		}
@@ -74,5 +77,13 @@ public abstract class BibliographicAccessPoint extends AccessPoint implements Pe
 
 	public int hashCode() {
 		return super.hashCode() + getUserViewString().hashCode();
+	}
+
+	public Integer getSequenceNumber() {
+		return sequenceNumber;
+	}
+
+	public void setSequenceNumber(Integer sequenceNumber) {
+		this.sequenceNumber = sequenceNumber;
 	}
 }

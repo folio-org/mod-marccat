@@ -42,8 +42,7 @@ public class ValidationTagAPI extends BaseResource {
             final int wrapCode2 =  (code2 == null)? -1: code2;
             final int wrapCode3 =  (code3 == null)? -1: code3;
 
-            final TagMarcEncoding tagMarcEncoding = storageService.getTagMarcEncoding(new TagMarcEncoding(),
-                    categoryCode, code1, wrapCode2, wrapCode3);
+            final TagMarcEncoding tagMarcEncoding = storageService.getTagMarcEncoding(categoryCode, code1, wrapCode2, wrapCode3);
             return tagMarcEncoding;
 
         }, tenant, configurator);

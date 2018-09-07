@@ -217,7 +217,7 @@ public abstract class Catalog {
 
 	public CatalogItem newCatalogItem(final Object[] key) throws DataAccessException {
 		CatalogItem result = newCatalogItemWithoutAmicusNumber();
-		result.getItemEntity().generateNewKey();
+		//result.getItemEntity().generateNewKey();
 		return applyKeyToItem(result, key);
 	}
 

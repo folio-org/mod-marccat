@@ -303,10 +303,11 @@ public class TitleAccessPoint extends NameTitleComponent implements OrderedTag, 
     /**
      * Sets sequence number to title access point.
      *
-     * @param sequenceNumber -- the sequence number to set.
+     * @param sequenceNbr -- the sequence number to set.
      */
-	public void setSequenceNumber(final Integer sequenceNumber) {
-		this.sequenceNumber = sequenceNumber;
+	public void setSequenceNumber(final Integer sequenceNbr) {
+		this.sequenceNumber = sequenceNbr;
+		super.setSequenceNumber(sequenceNumber);
 	}
 
     /**

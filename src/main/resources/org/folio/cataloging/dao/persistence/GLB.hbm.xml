@@ -5,10 +5,7 @@
     
 <hibernate-mapping>
 
-<class 
-    name="org.folio.cataloging.business.cataloguing.bibliographic.Globe"
-    table="GLB"
->
+<class name="org.folio.cataloging.dao.persistence.Globe" table="GLB" >
 
     <composite-id>
         <key-property name="bibItemNumber" 

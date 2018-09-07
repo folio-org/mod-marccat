@@ -18,7 +18,7 @@ import org.folio.cataloging.business.descriptor.SortFormParameters;
 import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAOCopy;
 import org.folio.cataloging.dao.DAOGlobalVariable;
-import org.folio.cataloging.dao.DAOSystemNextNumber;
+import org.folio.cataloging.dao.SystemNextNumberDAO;
 import org.folio.cataloging.exception.EmptySubfieldException;
 import org.folio.cataloging.exception.InvalidShelfListTypeException;
 import org.folio.cataloging.exception.NoSubfieldCodeException;
@@ -585,7 +585,7 @@ public class CPY_ID implements Persistence, Serializable {
 	 * @see librisuite.business.common.Persistence#generateNewKey()
 	 */
 	public void generateNewKey() throws DataAccessException {
-		DAOSystemNextNumber dao = new DAOSystemNextNumber();
+		SystemNextNumberDAO dao = new SystemNextNumberDAO();
 		setCopyIdNumber(dao.getNextNumber("HC"));
 		Date createTime = new Date();
 		setCreationDate(createTime);
@@ -601,7 +601,7 @@ public class CPY_ID implements Persistence, Serializable {
 
 
 	public void deleteNewKey() throws DataAccessException {
-		DAOSystemNextNumber dao = new DAOSystemNextNumber();
+		SystemNextNumberDAO dao = new SystemNextNumberDAO();
 		setCopyIdNumber(dao.getPreviouwsNumber("HC"));
 		setCreationDate(new Date());
 		setTransactionDate(new Date());

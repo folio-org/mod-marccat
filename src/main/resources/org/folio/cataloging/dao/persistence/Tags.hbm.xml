@@ -2,9 +2,9 @@
 <!DOCTYPE hibernate-mapping PUBLIC 
 	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
-<hibernate-mapping package="librisuite.business.cataloguing.bibliographic">
+<hibernate-mapping>
 
-	<class name="BIB_ITM" table="BIB_ITM">
+	<class name="org.folio.cataloging.dao.persistence.BIB_ITM" schema="amicus" table="BIB_ITM">
 		<composite-id>
 			<key-property name="amicusNumber" column="BIB_ITM_NBR"/>
 			<key-property name="userViewString" column="USR_VW_IND" length="16"/>
@@ -110,7 +110,7 @@
 		</property>
 	</class>
 
-	<class name="BibliographicNote" table="BIB_NTE">
+	<class name="org.folio.cataloging.dao.persistence.BibliographicNote" schema="amicus" table="BIB_NTE">
 		<composite-id>
 			<key-property name="noteNbr" column="BIB_NTE_NBR"/>
 			<key-property name="bibItemNumber" column="BIB_ITM_NBR"/>
@@ -130,7 +130,7 @@
 		</property>
 	</class>
 
-	<class name="NameAccessPoint" table="NME_ACS_PNT">
+	<class name="org.folio.cataloging.dao.persistence.NameAccessPoint" schema="amicus" table="NME_ACS_PNT">
 		<composite-id>
 			<key-property name="headingNumber" column="NME_HDG_NBR"/>
 			<key-property name="bibItemNumber" column="BIB_ITM_NBR"/>
@@ -158,7 +158,7 @@
 		</property>
 	</class>	
 	
-		<class name="PublisherAccessPoint" table="PUBL_ACS_PNT">
+		<class name="org.folio.cataloging.dao.persistence.PublisherAccessPoint" schema="amicus" table="PUBL_ACS_PNT">
 		<composite-id>
 			<key-property name="bibItemNumber" column="BIB_ITM_NBR"/>
 			<key-property name="userViewString" column="USR_VW_IND" length="16"/>
@@ -170,7 +170,7 @@
 		</property>
 	</class>	
 	
-	<class name="TitleAccessPoint" table="TTL_ACS_PNT">
+	<class name="org.folio.cataloging.dao.persistence.TitleAccessPoint" schema="amicus" table="TTL_ACS_PNT">
 		<composite-id>
 			<key-property name="headingNumber" column="TTL_HDG_NBR"/>
 			<key-property name="bibItemNumber" column="BIB_ITM_NBR"/>
@@ -201,7 +201,7 @@
 		</property>
 	</class>	
 
-	<class name="NameTitleAccessPoint" table="NME_TTL_ACS_PNT">
+	<class name="org.folio.cataloging.dao.persistence.NameTitleAccessPoint" schema="amicus" table="NME_TTL_ACS_PNT">
 		<composite-id>
 			<key-property name="bibItemNumber" column="BIB_ITM_NBR"/>
 			<key-property name="headingNumber" column="NME_TTL_HDG_NBR"/>
@@ -228,7 +228,7 @@
 		</property>
 	</class>	
 
-	<class name="SubjectAccessPoint" table="SBJCT_ACS_PNT">
+	<class name="org.folio.cataloging.dao.persistence.SubjectAccessPoint" schema="amicus" table="SBJCT_ACS_PNT">
 		<composite-id>
 			<key-property name="headingNumber" column="SBJCT_HDG_NBR"/>
 			<key-property name="bibItemNumber" column="BIB_ITM_NBR"/>
@@ -250,7 +250,7 @@
 	</class>	
 			
 	
-	<class name="ClassificationAccessPoint" table="CLSTN_ITM_ACS_PNT">
+	<class name="org.folio.cataloging.dao.persistence.ClassificationAccessPoint" schema="amicus" table="CLSTN_ITM_ACS_PNT">
 		<composite-id>
 			<key-property name="headingNumber" column="CLSTN_KEY_NBR"/>
 			<key-property name="bibItemNumber" column="BIB_ITM_NBR"/>
@@ -262,7 +262,7 @@
 		</property>
 	</class>	
 	
-	<class name="ControlNumberAccessPoint" table="CNTL_NBR_ACS_PNT">
+	<class name="org.folio.cataloging.dao.persistence.ControlNumberAccessPoint" schema="amicus" table="CNTL_NBR_ACS_PNT">
 		<composite-id>
 			<key-property name="headingNumber" column="CNTL_KEY_NBR"/>
 			<key-property name="bibItemNumber" column="BIB_ITM_NBR"/>

@@ -9,7 +9,7 @@ import org.folio.cataloging.business.cataloguing.common.Browsable;
 import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.common.*;
 import org.folio.cataloging.dao.DAOIndexList;
-import org.folio.cataloging.dao.DAOSystemNextNumber;
+import org.folio.cataloging.dao.SystemNextNumberDAO;
 import org.folio.cataloging.dao.persistence.DescriptorKey;
 import org.folio.cataloging.dao.persistence.T_AUT_HDG_SRC;
 import org.folio.cataloging.exception.DescriptorHasEmptySubfieldsException;
@@ -28,7 +28,7 @@ public abstract class Descriptor implements PersistentObjectWithView
 {
 	private static Log logger = LogFactory.getLog(Descriptor.class);
 	
-	private static final int CROP_LENGTH = Defaults.getInteger("tooltip.max.length");
+	//private static final int CROP_LENGTH = Defaults.getInteger("tooltip.max.length");
 	private int accessPointLanguage;
 	private int authorityCount = 0;
 	private int authoritySourceCode = T_AUT_HDG_SRC.SOURCE_NOT_SPECIFIED;
@@ -64,7 +64,7 @@ public abstract class Descriptor implements PersistentObjectWithView
 	}
 
 	public void generateNewKey() throws DataAccessException {
-		DAOSystemNextNumber dao = new DAOSystemNextNumber();
+		SystemNextNumberDAO dao = new SystemNextNumberDAO();
 		getKey().setHeadingNumber(
 				dao.getNextNumber(getNextNumberKeyFieldCode()));
 	}
@@ -135,13 +135,13 @@ public abstract class Descriptor implements PersistentObjectWithView
 		return HtmlUtils.filter(getDisplayText());
 	}
 
-	public String getCroppedHtmlText() {
+	/*public String getCroppedHtmlText() {
 		String s = getSafeHtmlText();
 		if (s.length() > CROP_LENGTH) {
 			s = s.substring(0, CROP_LENGTH) + "...";
 		}
 		return s;
-	}
+	}*/
 
 	/**
 	 * @return the language independent index key value to be used when

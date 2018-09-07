@@ -1,32 +1,26 @@
 
 package org.folio.cataloging.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.folio.cataloging.business.descriptor.Descriptor;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Persistence;
-import org.folio.cataloging.business.common.RecordNotFoundException;
-import org.folio.cataloging.business.common.ReferentialIntegrityException;
-import org.folio.cataloging.dao.persistence.SHLF_LIST;
-import org.folio.cataloging.dao.persistence.SHLF_LIST_ACS_PNT;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.Persistence;
+import org.folio.cataloging.business.common.RecordNotFoundException;
+import org.folio.cataloging.business.common.ReferentialIntegrityException;
+import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
+import org.folio.cataloging.dao.persistence.SHLF_LIST;
+import org.folio.cataloging.dao.persistence.SHLF_LIST_ACS_PNT;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DAOShelfList extends DAODescriptor 
 {
-	public SHLF_LIST load(int shelfListKeyNumber) throws DataAccessException, RecordNotFoundException 
-	{
+	public SHLF_LIST load(int shelfListKeyNumber) throws DataAccessException {
 		SHLF_LIST sl = null;
 		try {
 			Session s = currentSession();
@@ -89,7 +83,7 @@ public class DAOShelfList extends DAODescriptor
 		String shelfListSortForm = calculateSortForm(sl);
 		try {
 			Session s = currentSession();
-			List shelfList = (List) s.find("from SHLF_LIST as sl where sl.sortForm = ? "
+			List shelfList = s.find("from SHLF_LIST as sl where sl.sortForm = ? "
 						+ "AND sl.typeCode = ? "
 						+ "AND sl.mainLibraryNumber = ? ",
 					new Object[] {
@@ -335,7 +329,7 @@ public class DAOShelfList extends DAODescriptor
 	{
 		if (descriptor.isNew()) {
 			((SHLF_LIST) descriptor).setShelfListKeyNumber(
-				new DAOSystemNextNumber().getNextNumber(
+				new SystemNextNumberDAO().getNextNumber(
 					descriptor.getNextNumberKeyFieldCode()));
 		}
 		persistByStatus(descriptor);
@@ -344,7 +338,7 @@ public class DAOShelfList extends DAODescriptor
 	/* (non-Javadoc)
 	 * @see HibernateUtil#delete(librisuite.business.common.Persistence)
 	 */
-	public void delete(final Persistence p) throws ReferentialIntegrityException, DataAccessException 
+	public void delete(final Persistence p) throws DataAccessException
 	{
 		if (!(p instanceof SHLF_LIST)) {
 			throw new IllegalArgumentException("I can only delete SHLF_LIST objects");

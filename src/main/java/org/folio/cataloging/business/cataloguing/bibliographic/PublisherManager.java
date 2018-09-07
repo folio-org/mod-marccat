@@ -9,6 +9,7 @@ import org.folio.cataloging.dao.DAOPublisherManager;
 import org.folio.cataloging.dao.persistence.BibliographicNoteType;
 import org.folio.cataloging.dao.persistence.PUBL_HDG;
 import org.folio.cataloging.dao.persistence.PUBL_TAG;
+import org.folio.cataloging.dao.persistence.PublisherAccessPoint;
 import org.folio.cataloging.integration.GlobalStorage;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.model.Subfield;

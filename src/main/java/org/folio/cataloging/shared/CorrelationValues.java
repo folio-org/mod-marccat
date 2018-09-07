@@ -1,7 +1,5 @@
 package org.folio.cataloging.shared;
 
-import org.folio.cataloging.Global;
-
 import java.util.Arrays;
 
 /**
@@ -17,7 +15,7 @@ import java.util.Arrays;
  */
 public class CorrelationValues implements Cloneable {
 
-	public static final int UNDEFINED = Global.CORRELATION_UNDEFINED;
+	public static final int UNDEFINED = -1;
 	private int[] values = {UNDEFINED, UNDEFINED, UNDEFINED};
 
 	/**

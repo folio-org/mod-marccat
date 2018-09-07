@@ -143,6 +143,7 @@ public abstract class Global  {
 	public final static String INTRODUCTION_$i = "i";
 
 	public final static List<String> FIXED_FIELDS = new ArrayList<>(Arrays.asList("000","001","005","006","007","008"));
+	public final static List<String> MANDATORY_FIELDS = new ArrayList<>(Arrays.asList("000","001","008","040"));
 	public final static String HEADER_TYPE_LABEL = "HEADER_TYPE";
 	public final static String FORM_OF_MATERIAL_LABEL = "FORM_OF_MATERIAL";
     public final static String MATERIAL_TYPE_CODE_LABEL = "MATERIAL_TYPE_CODE";
@@ -186,6 +187,7 @@ public abstract class Global  {
 	public final static int CATALOGING_SOURCE_HEADER_TYPE = 1;
 	public final static int LEADER_HEADER_TYPE = 15;
     public final static int CONTROL_NUMBER_HEADER_TYPE = 39;
+	public final static int DATETIME_TRANSACION_HEADER_TYPE = 41;
     public final static int MATERIAL_DESCRIPTION_HEADER_TYPE = 31;
 	public final static int PHYSICAL_UNSPECIFIED_HEADER_TYPE = 45;
 
@@ -256,4 +258,18 @@ public abstract class Global  {
 	};
 
 	public final static List<Integer> SOURCES_ENABLED_TO_ALTERNATIVE_LABELS_SEARCH =  new ArrayList<>(Arrays.asList(1,2,4,5,6));
+
+	public final static String AN_KEY_CODE_FIELD = "BI";
+
+	public final static String ERROR_MANDATORY_TAG = "-1";
+	public final static String ERROR_DUPLICATE_TAG = "-2";
+	public final static String ERROR_EMPTY_TAG = "-3";
+	public final static Map<String, String> ERRORS_MAP = new HashMap<String, String>(){
+		{
+			put(ERROR_MANDATORY_TAG, "Check mandatory tags failure.");
+			put(ERROR_DUPLICATE_TAG, "Duplicate tags for : %s");
+			put(ERROR_EMPTY_TAG, "Some tags appears empties: %s.");
+		}
+	};
+
 }

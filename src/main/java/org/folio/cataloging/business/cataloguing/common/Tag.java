@@ -132,8 +132,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 	/**
 	* @return the MARC tag and indicators for this tag
 	*/
-	public CorrelationKey getMarcEncoding()
-		throws DataAccessException {
+	public CorrelationKey getMarcEncoding() throws DataAccessException {
 		return tagImpl.getMarcEncoding(this);
 	}
 
@@ -207,7 +206,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 					// if addPunctuation fails, we want to proceed using the raw
 					// string text
 					logger.warn(
-							"Error adding punctuation, using original text", e);
+							"ErrorCollection adding punctuation, using original text", e);
 					st = ((VariableField) this).getStringText();
 				}
 			} else {
@@ -253,10 +252,8 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 		}
 	}
 
-	public void generateNewKey() throws DataAccessException {
-		// TODO Auto-generated method stub
-
-	}
+	@Deprecated
+	public void generateNewKey() throws DataAccessException {}
 
 	/* nat: public DAOCodeTable getDaoCodeTable() {
 		return daoCodeTable;
