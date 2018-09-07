@@ -7,6 +7,7 @@
  */
 package org.folio.cataloging.business.cataloguing.common;
 
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.persistence.Correlation;
 import org.folio.cataloging.dao.persistence.CorrelationKey;
@@ -36,8 +37,13 @@ public abstract class TagImpl implements Serializable {
 	/**
 	* @return the MARC tag and indicators for this tag
 	*/
-	abstract public CorrelationKey getMarcEncoding(Tag t)
-		throws DataAccessException;
+	@Deprecated
+	abstract public CorrelationKey getMarcEncoding(final Tag t) throws DataAccessException;
+
+	/**
+	 * @return the MARC tag and indicators for this tag
+	 */
+	abstract public CorrelationKey getMarcEncoding(final Tag t, final Session session) throws DataAccessException;
 
 	abstract public Validation getValidation(Tag t)
 		throws DataAccessException;

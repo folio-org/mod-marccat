@@ -41,9 +41,9 @@ public class PropertyBasedFactoryBuilder {
 			factory.clear();
 			readProperties(getClass().getResourceAsStream(fileName), factory);
 		} catch (final IOException exception) {
-			throw new RuntimeException("Error reading properties from stream for file " + fileName, exception);
+			throw new RuntimeException("ErrorCollection reading properties from stream for file " + fileName, exception);
 		} catch (final ClassNotFoundException exception) {
-			throw new RuntimeException("Error finding a class for a key in " + fileName, exception);
+			throw new RuntimeException("ErrorCollection finding a class for a key in " + fileName, exception);
 		}
 	}
 

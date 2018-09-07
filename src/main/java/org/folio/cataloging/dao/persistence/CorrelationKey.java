@@ -16,7 +16,7 @@ public class CorrelationKey implements Serializable {
 	private String marcTag;
 	private char marcFirstIndicator;
 	private char marcSecondIndicator;
-	private short marcTagCategoryCode;
+	private int marcTagCategoryCode;
 
 	/**
 	 * Class constructor
@@ -30,7 +30,7 @@ public class CorrelationKey implements Serializable {
 	public CorrelationKey( final String marcTag,
 						   final char ind1,
 						   final char ind2,
-						   final short marcCategory) {
+						   final int marcCategory) {
 
 			this.setMarcTag(marcTag);
 			this.setMarcFirstIndicator(ind1);
@@ -63,7 +63,7 @@ public class CorrelationKey implements Serializable {
 			+ (7 * marcTagCategoryCode);
 	}
 
-	public short getMarcTagCategoryCode() {
+	public int getMarcTagCategoryCode() {
 		return marcTagCategoryCode;
 	}
 
@@ -79,7 +79,7 @@ public class CorrelationKey implements Serializable {
 		return marcSecondIndicator;
 	}
 
-	private void setMarcTagCategoryCode(short s) {
+	private void setMarcTagCategoryCode(int s) {
 		marcTagCategoryCode = s;
 	}
 

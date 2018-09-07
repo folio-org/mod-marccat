@@ -75,6 +75,18 @@ public abstract class F {
         return builder.toString();
     }
 
+
+    /**
+     * Returns a string with leading character at begin of specified number.
+     *
+     * @param howManyChar -- number of leading characters to add.
+     * @param number -- the number to format.
+     * @return the string representing number.
+     */
+    public static String padNumber(final String charToAdd, final int howManyChar, final int number){
+       return String.format("%"+ charToAdd + howManyChar +"d", number);
+    }
+
     /**
      * Returns true if the given string is not null or empty.
      *
@@ -83,6 +95,10 @@ public abstract class F {
      */
     public static boolean isNotNullOrEmpty(final String value) {
         return value != null && value.trim().length() != 0;
+    }
+
+    public static boolean isNotNull(final String value) {
+        return value != null;
     }
 
     /**
@@ -97,7 +113,7 @@ public abstract class F {
 
     /**
      * Utility for making deep copies (vs. clone()'s shallow copies) of  objects.
-     * Objects are first serialized and then deserialized. Error
+     * Objects are first serialized and then deserialized. ErrorCollection
      * checking is fairly minimal in this implementation. If an object is
      * encountered that cannot be serialized (or that references an object
      * that cannot be serialized) an error is printed to System.err and
@@ -186,4 +202,5 @@ public abstract class F {
         }
         return result;
     }
+
 }

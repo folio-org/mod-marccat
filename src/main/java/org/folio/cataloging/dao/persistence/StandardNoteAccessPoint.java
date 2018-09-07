@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- * 
- * Created on Dec 6, 2004
- * 
- * S_CAS_CACHE.java
- */
 package org.folio.cataloging.dao.persistence;
 
 import net.sf.hibernate.CallbackException;
@@ -19,7 +12,6 @@ import java.io.Serializable;
 
 /**
  * @author paulm
- * @version $Revision: 1.2 $, $Date: 2005/12/21 13:33:34 $
  * @since 1.0
  */
 public class StandardNoteAccessPoint implements Persistence {

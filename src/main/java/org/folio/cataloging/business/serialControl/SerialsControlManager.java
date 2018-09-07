@@ -1,24 +1,17 @@
 package org.folio.cataloging.business.serialControl;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.dao.DAOCopy;
+import org.folio.cataloging.dao.DAOPredictionPattern;
+import org.folio.cataloging.dao.SystemNextNumberDAO;
+import org.folio.cataloging.dao.persistence.*;
+import org.folio.cataloging.model.Subfield;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import org.folio.cataloging.dao.DAOCopy;
-import org.folio.cataloging.dao.DAOSystemNextNumber;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.persistence.CPY_ID;
-import org.folio.cataloging.dao.persistence.SRL_ORDR;
-import org.folio.cataloging.dao.persistence.SRL_PRED_PAT;
-import org.folio.cataloging.dao.persistence.SerialLogicalCopy;
-import org.folio.cataloging.dao.persistence.SerialPart;
-import org.folio.cataloging.dao.persistence.T_SRL_PRT_TYP;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.model.Subfield;
-import org.folio.cataloging.dao.DAOPredictionPattern;
 
 /**
  * Manages the business rules for serials control for a single bibliographic
@@ -226,7 +219,7 @@ public class SerialsControlManager {
 				cpy.setBibItemNumber(getAmicusNumber().intValue());
 				cpy.setBranchOrganisationNumber(subscription.getBranchNumber()
 						.intValue());
-				cpy.setCopyIdNumber(new DAOSystemNextNumber()
+				cpy.setCopyIdNumber(new SystemNextNumberDAO()
 						.getNextNumber("HC"));
 				//cpy.setCopyNumberDescription(issue.getEnumDescription());
 				if(issue.getEnumDescription()!=null)

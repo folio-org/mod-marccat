@@ -1,5 +1,6 @@
 package org.folio.cataloging.dao.persistence;
 
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
 import org.folio.cataloging.business.cataloguing.common.Browsable;
 import org.folio.cataloging.business.common.DataAccessException;
@@ -96,7 +97,7 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
 
 	@Deprecated
     //TODO: use method in storageService class
-	public void generateNewKey() throws DataAccessException {
+	public void generateNewKey(final Session session) throws DataAccessException {
 
 		if (getDescriptor().isNew()) {
 			Descriptor d = ((DAODescriptor) getDescriptor().getDAO()).getMatchingHeading(getDescriptor());

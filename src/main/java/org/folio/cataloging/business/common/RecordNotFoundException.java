@@ -33,7 +33,6 @@ public class RecordNotFoundException extends DataAccessException {
 	 */
 	public RecordNotFoundException(String message) {
 		super(message);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

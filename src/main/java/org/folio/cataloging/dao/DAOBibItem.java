@@ -11,12 +11,13 @@ import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-import org.folio.cataloging.business.cataloguing.bibliographic.BIB_ITM;
 import org.folio.cataloging.business.common.*;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
+import org.folio.cataloging.dao.persistence.BIB_ITM;
 import org.folio.cataloging.dao.persistence.Cache;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author paulm
@@ -25,6 +26,8 @@ import java.util.List;
  */
 public class DAOBibItem extends AbstractDAO
 {
+	@Deprecated
+	//TODO
 	public void delete(Persistence p) throws DataAccessException
 	{
 		if (!(p instanceof BIB_ITM)) {
@@ -72,17 +75,26 @@ public class DAOBibItem extends AbstractDAO
 		.execute();
 	}
 
-	public BIB_ITM load(int id, int userView) throws DataAccessException {
-		BIB_ITM bibItm = null;
-		List l =
-			find("from BIB_ITM as itm where itm.amicusNumber = ? "
-			  + " and substr(itm.userViewString, ?, 1) = '1'",
-				new Object[] { new Integer(id), new Integer(userView)},
+	/**
+	 * Gets the bibliographic record from BIB_ITM table.
+	 *
+	 * @param id -- the amicus number of record.
+	 * @param userView -- the user view associated.
+	 * @param session -- the current hibernate session.
+	 * @return BIB_ITM
+	 * @throws HibernateException -- in case of hibernate exception.
+	 */
+	@SuppressWarnings("unchecked")
+	public BIB_ITM load(final int id, final int userView, final Session session) throws HibernateException {
+		List<BIB_ITM> l =
+			session.find("from BIB_ITM as itm where itm.amicusNumber = ? "
+			  + " and SUBSTR(itm.userViewString, ?, 1) = '1'",
+				new Object[] { id, userView},
 				new Type[] { Hibernate.INTEGER, Hibernate.INTEGER });
-		if (l.size() > 0) {
-			bibItm = (BIB_ITM) l.get(0);
-			bibItm = (BIB_ITM) isolateView(bibItm, userView);
-			return bibItm;
+
+
+		if (l.stream().filter(Objects::nonNull).findFirst().isPresent()) {
+			return (BIB_ITM) isolateView(l.stream().findFirst().get(), userView, session);
 		} else {
 			throw new RecordNotFoundException("BIB_ITM not found");
 		}

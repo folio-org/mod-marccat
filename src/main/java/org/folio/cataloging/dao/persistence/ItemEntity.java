@@ -3,7 +3,6 @@ package org.folio.cataloging.dao.persistence;
 import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
 
@@ -43,11 +42,11 @@ public abstract class ItemEntity implements Persistence, Serializable {
 
 	protected char recordStatusCode = 'n';
 
-	protected String timePeriodStringText = new String("");
+	protected String timePeriodStringText;
 
-	protected String typeOfDateTimeCode = new String("");
+	protected String typeOfDateTimeCode;
 
-	protected char verificationLevel = Defaults.getChar("bibliographicItem.verificationLevel");
+	protected char verificationLevel; //= Defaults.getChar("bibliographicItem.verificationLevel");
 
 	/**
 		 * 

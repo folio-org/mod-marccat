@@ -4,8 +4,10 @@ import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.integration.Configuration;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
+import org.folio.cataloging.resources.domain.ErrorCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -35,8 +37,9 @@ public abstract class BaseResource {
 
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR, reason = "System internal failure has occurred.")
     @ExceptionHandler(SystemInternalFailureException.class)
-    public void systemInternalFailure(final Exception exception) {
+    public ResponseEntity<Object> systemInternalFailure(final Exception exception, final ErrorCollection errors) {
         logger.error(MessageCatalog._00011_NWS_FAILURE, exception);
+        return new ResponseEntity<Object>(errors, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY, reason = "Cannot create the requested entity.")

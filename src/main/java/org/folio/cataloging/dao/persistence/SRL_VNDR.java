@@ -8,7 +8,7 @@ import org.folio.cataloging.business.common.PersistenceState;
 import org.folio.cataloging.business.serialControl.DuplicateVendorException;
 import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAOPredictionPattern;
-import org.folio.cataloging.dao.DAOSystemNextNumber;
+import org.folio.cataloging.dao.SystemNextNumberDAO;
 
 import java.io.Serializable;
 
@@ -178,7 +178,7 @@ public class SRL_VNDR implements Persistence, Serializable {
 	}
 
 	public void generateNewKey() throws DataAccessException {
-		setVendorNumber(new DAOSystemNextNumber().getNextNumber("SV"));
+		setVendorNumber(new SystemNextNumberDAO().getNextNumber("SV"));
 	}
 
 	public AbstractDAO getDAO() {

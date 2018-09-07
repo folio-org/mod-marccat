@@ -134,10 +134,11 @@ public class Diacritics implements Persistence, Serializable
 
 	}
 
+	/*
 	@Override
 	public void generateNewKey() throws DataAccessException {
 
-	}
+	}*/
 
 	@Override
 	public AbstractDAO getDAO() {

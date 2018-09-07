@@ -25,7 +25,7 @@ public class Field {
     private boolean mandatory;
 
     @JsonProperty("fieldStatus")
-    private FieldStatus fieldStatus;
+    private Field.FieldStatus fieldStatus;
 
 
     /**
@@ -76,7 +76,7 @@ public class Field {
      *     the field status.
      */
     @JsonProperty("fieldStatus")
-    public FieldStatus getFieldStatus() {
+    public Field.FieldStatus getFieldStatus() {
         return fieldStatus;
     }
 
@@ -86,7 +86,7 @@ public class Field {
      *      the field status to set.
      */
     @JsonProperty("fieldStatus")
-    public void setFieldStatus(FieldStatus fieldStatus) {
+    public void setFieldStatus(Field.FieldStatus fieldStatus) {
         this.fieldStatus = fieldStatus;
     }
 
@@ -178,10 +178,10 @@ public class Field {
 
         private final String value;
 
-        private static final Map<String, FieldStatus> CONSTANTS = new HashMap<String, FieldStatus>();
+        private static final Map<String, Field.FieldStatus> CONSTANTS = new HashMap<String, Field.FieldStatus>();
 
         static {
-            for (FieldStatus c : values()) {
+            for (Field.FieldStatus c : values()) {
                 CONSTANTS.put(c.value, c);
             }
         }
@@ -197,8 +197,8 @@ public class Field {
         }
 
         @JsonCreator
-        public static FieldStatus fromValue(String value) {
-            FieldStatus constant = CONSTANTS.get(value);
+        public static Field.FieldStatus fromValue(String value) {
+            Field.FieldStatus constant = CONSTANTS.get(value);
             if (constant == null) {
                 throw new IllegalArgumentException(value);
             } else {

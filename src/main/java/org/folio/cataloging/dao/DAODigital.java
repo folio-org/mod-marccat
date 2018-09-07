@@ -1,21 +1,19 @@
 package org.folio.cataloging.dao;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicNote;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicNoteTag;
-import org.folio.cataloging.business.common.DataAccessException;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Query;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
+import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicNoteTag;
+import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.persistence.BibliographicNote;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DAODigital extends HibernateUtil 
 {	

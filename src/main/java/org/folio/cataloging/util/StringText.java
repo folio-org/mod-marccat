@@ -105,13 +105,12 @@ public class StringText implements Serializable {
 	}
 
 	public String toDisplayString() {
-		String returnString = new String();
+		String returnString = "";
 
 		Iterator iter = subfieldList.iterator();
 		while (iter.hasNext()) {
-			Subfield aStringTextSubField = (Subfield) iter.next();
-			returnString =
-				returnString.concat(aStringTextSubField.getContent());
+			final Subfield aStringTextSubField = (Subfield) iter.next();
+			returnString = returnString.concat(aStringTextSubField.getContent());
 			if (iter.hasNext()) {
 				returnString = returnString.concat(" ");
 			}
@@ -128,7 +127,7 @@ public class StringText implements Serializable {
 		return getMarcDisplayString("$");
 	}
 
-	public String getMarcDisplayString(String subfieldCodeSubstitution) {
+	public String getMarcDisplayString(final String subfieldCodeSubstitution) {
 		StringBuffer result = new StringBuffer();
 
 		Iterator iter = subfieldList.iterator();

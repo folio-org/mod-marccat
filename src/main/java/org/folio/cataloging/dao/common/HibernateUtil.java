@@ -268,6 +268,7 @@ public class HibernateUtil {
 	 * @return the persistent instance or null
 	 * @throws DataAccessException
 	 */
+	 @Deprecated
 	public Object get(Class clazz, Serializable id, LockMode l)
 			throws DataAccessException {
 		try {
@@ -293,6 +294,7 @@ public class HibernateUtil {
 	 * @return a distinct list of instances
 	 * @throws DataAccessException
 	 */
+	@Deprecated
 	public List find(String query, Object[] values, Type[] types)
 			throws DataAccessException {
 		try {
@@ -303,15 +305,6 @@ public class HibernateUtil {
 		}
 	}
 
-    public List find(Session session, String query, Object[] values, Type[] types)
-            throws DataAccessException {
-        try {
-            return session.find(query, values, types);
-        } catch (HibernateException e) {
-            logAndWrap(e);
-            return null;
-        }
-    }
 
 	/**
 	 * Convenience method for currentSession().find(String query) If the find

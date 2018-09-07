@@ -5,10 +5,7 @@
     
 <hibernate-mapping>
 
-<class 
-    name="org.folio.cataloging.business.cataloguing.bibliographic.TactileMaterial"
-    table="TM"
->
+<class name="org.folio.cataloging.dao.persistence.TactileMaterial" table="TM" >
 
     <composite-id>
         <key-property name="bibItemNumber" 

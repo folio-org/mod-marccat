@@ -7,13 +7,13 @@ import io.swagger.annotations.ApiResponses;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.ModCataloging;
 import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.domain.GeneralInformation;
-import org.folio.cataloging.domain.PhysicalInformation;
 import org.folio.cataloging.integration.StorageService;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.cataloging.resources.domain.FixedFieldCodesGroup;
 import org.folio.cataloging.resources.domain.Pair;
 import org.folio.cataloging.shared.CodeListsType;
+import org.folio.cataloging.shared.GeneralInformation;
+import org.folio.cataloging.shared.PhysicalInformation;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

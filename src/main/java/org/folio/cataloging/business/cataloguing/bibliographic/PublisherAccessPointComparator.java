@@ -7,6 +7,8 @@
  */
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
+import org.folio.cataloging.dao.persistence.PublisherAccessPoint;
+
 import java.util.Comparator;
 
 /**

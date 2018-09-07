@@ -1,4 +1,4 @@
-package org.folio.cataloging.domain;
+package org.folio.cataloging.shared;
 
 import org.folio.cataloging.Global;
 

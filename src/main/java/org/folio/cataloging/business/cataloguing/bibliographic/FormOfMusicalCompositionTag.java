@@ -7,6 +7,7 @@
  */
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
+import org.folio.cataloging.dao.persistence.BIB_ITM;
 import org.folio.cataloging.dao.persistence.ItemEntity;
 import org.folio.cataloging.model.Subfield;
 import org.folio.cataloging.util.StringText;

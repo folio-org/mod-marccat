@@ -239,9 +239,9 @@ public abstract class AuthorityReferenceTag
 							.newInstance())
 						.getFirstCorrelationList();
 				} catch (InstantiationException e) {
-					throw new RuntimeException("Error creating AccessPoint");
+					throw new RuntimeException("ErrorCollection creating AccessPoint");
 				} catch (IllegalAccessException e) {
-					throw new RuntimeException("Error creating AccessPoint");
+					throw new RuntimeException("ErrorCollection creating AccessPoint");
 				}
 			}
 		} else {
@@ -334,9 +334,9 @@ public abstract class AuthorityReferenceTag
 							.getSecondCorrelationList(
 						value1);
 				} catch (InstantiationException e) {
-					throw new RuntimeException("Error creating AccessPoint");
+					throw new RuntimeException("ErrorCollection creating AccessPoint");
 				} catch (IllegalAccessException e) {
-					throw new RuntimeException("Error creating AccessPoint");
+					throw new RuntimeException("ErrorCollection creating AccessPoint");
 				}
 			}
 		} else if (getRefTypeCorrelationPosition() == 2) {

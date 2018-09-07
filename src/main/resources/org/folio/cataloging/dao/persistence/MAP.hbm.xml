@@ -4,10 +4,7 @@
     "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
     
 <hibernate-mapping>
-<class 
-    name="org.folio.cataloging.business.cataloguing.bibliographic.Map"
-    table="MAP"
->
+<class name="org.folio.cataloging.dao.persistence.Map" table="MAP" >
 
     <composite-id>
         <key-property 

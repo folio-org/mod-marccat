@@ -6,7 +6,7 @@ import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
 import org.folio.cataloging.dao.AbstractDAO;
-import org.folio.cataloging.dao.DAOSystemNextNumber;
+import org.folio.cataloging.dao.SystemNextNumberDAO;
 import org.folio.cataloging.dao.common.HibernateUtil;
 
 import java.io.Serializable;
@@ -290,7 +290,7 @@ public class SRL_PRED_PAT implements Persistence, Serializable {
 	}
 
 	public void generateNewKey() throws DataAccessException {
-		DAOSystemNextNumber dao = new DAOSystemNextNumber();
+		SystemNextNumberDAO dao = new SystemNextNumberDAO();
 		setPredictionPatternNumber(dao.getNextNumber("EP"));
 	}
 }

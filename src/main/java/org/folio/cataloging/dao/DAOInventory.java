@@ -12,10 +12,10 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.LockMode;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-import org.folio.cataloging.business.cataloguing.bibliographic.BIB_ITM;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
-import org.folio.cataloging.dao.persistence.*;
+import org.folio.cataloging.dao.persistence.Inventory;
+import org.folio.cataloging.dao.persistence.S_INVTRY;
 
 import java.util.List;
 
@@ -72,7 +72,7 @@ public class DAOInventory extends AbstractDAO {
 
 	public void populateNewItem(final Inventory item, final int cataloguingView)
 		throws DataAccessException {
-		DAOCache dao = new DAOCache();
+		/*DAOCache dao = new DAOCache();
 		CPY_ID copy = new DAOCopy().load(item.getCopyNumber());
 		item.setBibItemNumber(copy.getBibItemNumber());
 
@@ -149,7 +149,7 @@ public class DAOInventory extends AbstractDAO {
 
 			Vendor v = (Vendor) get(session, Vendor.class, vendorOrganisationNumber);
 			item.setVendorName(v.getName());
-		}
+		}*/
 	}
 
 	public int getNextNumber(final int mainLibrary)
