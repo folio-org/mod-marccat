@@ -1019,7 +1019,6 @@ public class StorageService implements Closeable {
                 index = F.fixedCharPadding(index, 9).toUpperCase();
                 browseTerm = query.substring(query.indexOf((" ")), query.length() ).trim();
             }
-            //TODO gestire null dell'index con un'eccezione
             key = daoIndex.getIndexByAbreviation(index, session, locale(lang));
             final Class c = GlobalStorage.DAO_CLASS_MAP.get(key);
             if (c == null) {
@@ -1027,7 +1026,10 @@ public class StorageService implements Closeable {
                 return Collections.emptyList();
             }
             final DAODescriptor dao = (DAODescriptor) c.newInstance();
-            final String filter = GlobalStorage.FILTER_MAP.get(key);
+            String filter = GlobalStorage.FILTER_MAP.get(key);
+            if (dao instanceof ShelfListDAO) {
+                filter = filter + " and hdg.mainLibraryNumber = " + mainLibrary;
+            }
             browseTerm = dao.calculateSearchTerm(browseTerm, key, session);
             descriptorsList = dao.getHeadingsBySortform("<", "desc",browseTerm, "", view, 1, session);
             if (descriptorsList.size() > 0) {
@@ -1035,7 +1037,6 @@ public class StorageService implements Closeable {
                 descriptorsList.clear();
             }
             descriptorsList.addAll(dao.getHeadingsBySortform(">=", filter,browseTerm, "", view, 10, session));
-            //TODO refactoring del metodo getIndexingLanguage e getAccessPointLanguage
             return descriptorsList.stream().map( heading -> {
                 final MapHeading headingObject = new MapHeading();
                 try {
@@ -1081,9 +1082,9 @@ public class StorageService implements Closeable {
         if(query != null) {
             index = query.substring(0, query.indexOf((" ")));
             index = F.fixedCharPadding(index, 9).toUpperCase();
-            browseTerm = query.substring(query.indexOf((" ")), query.length() );
+            browseTerm = query.substring(query.indexOf((" ")), query.length()).trim();
         }
-        //TODO gestire null dell'index con un'eccezione
+
         key = daoIndex.getIndexByAbreviation(index, session, locale(lang));
         final Class c = GlobalStorage.DAO_CLASS_MAP.get(key);
         if (c == null) {
@@ -1091,11 +1092,13 @@ public class StorageService implements Closeable {
             return Collections.emptyList();
         }
         final DAODescriptor dao = (DAODescriptor) c.newInstance();
-        final String filter = GlobalStorage.FILTER_MAP.get(key);
+        String filter = GlobalStorage.FILTER_MAP.get(key);
+        if (dao instanceof ShelfListDAO) {
+            filter = filter + " and hdg.mainLibraryNumber = " + mainLibrary;
+        }
         browseTerm = dao.calculateSearchTerm(browseTerm, key, session);
-        descriptorsList = dao.getHeadingsBySortform(">", "",browseTerm, "", view, 1, session);
-        //TODO refactoring del metodo getIndexingLanguage e getAccessPointLanguage
-        return descriptorsList.stream().map(heading -> {
+        descriptorsList = dao.getHeadingsBySortform(">", "",browseTerm, filter, view, 10, session);
+            return descriptorsList.stream().map(heading -> {
             final MapHeading headingObject = new MapHeading();
             try {
                 headingObject.setHeadingNumber(heading.getHeadingNumber());
@@ -1141,9 +1144,9 @@ public class StorageService implements Closeable {
             if(query != null) {
                 index = query.substring(0, query.indexOf((" ")));
                 index = F.fixedCharPadding(index, 9).toUpperCase();
-                browseTerm = query.substring(query.indexOf((" ")), query.length() );
+                browseTerm = query.substring(query.indexOf((" ")), query.length()).trim();
             }
-            //TODO gestire null dell'index con un'eccezione
+
             key = daoIndex.getIndexByAbreviation(index, session, locale(lang));
             final Class c = GlobalStorage.DAO_CLASS_MAP.get(key);
             if (c == null) {
@@ -1151,10 +1154,13 @@ public class StorageService implements Closeable {
                 return Collections.emptyList();
             }
             final DAODescriptor dao = (DAODescriptor) c.newInstance();
-            final String filter = GlobalStorage.FILTER_MAP.get(key);
+            String filter = GlobalStorage.FILTER_MAP.get(key);
+            if (dao instanceof ShelfListDAO) {
+                filter = filter + " and hdg.mainLibraryNumber = " + mainLibrary;
+            }
             browseTerm = dao.calculateSearchTerm(browseTerm, key, session);
-            descriptorsList = dao.getHeadingsBySortform("<", "desc",browseTerm, "", view, 1, session);
-            return descriptorsList.stream().map(heading -> {
+            descriptorsList = dao.getHeadingsBySortform("<", "desc",browseTerm, filter, view, 10, session);
+            List<MapHeading> mapHeading = descriptorsList.stream().map(heading -> {
                 final MapHeading headingObject = new MapHeading();
                 try {
                     headingObject.setHeadingNumber(heading.getHeadingNumber());
@@ -1171,10 +1177,9 @@ public class StorageService implements Closeable {
                 headingObject.setVerificationlevel(daoCodeTable.getLongText(session, heading.getVerificationLevel(), T_VRFTN_LVL.class, locale(lang)));
                 headingObject.setDatabase(daoCodeTable.getLongText(session, view, DB_LIST.class, locale(lang)));
                 return headingObject;
-            }).sorted(Collections.reverseOrder()).collect(Collectors.toList());
-            // reverse the order of the list
-
-
+            }).collect(Collectors.toList());
+            Collections.reverse(mapHeading);
+            return mapHeading;
 
         } catch (final HibernateException exception) {
             logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
