@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC 
-	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
-	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
-<hibernate-mapping package="librisuite.business.cataloguing.bibliographic">
+<!DOCTYPE hibernate-mapping PUBLIC
+		"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+		"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="org.folio.cataloging.business.cataloguing.bibliographic">
 
 	<class name="BIB_ITM" table="BIB_ITM">
 		<composite-id>
@@ -156,9 +156,9 @@
 		<property name="sequenceNumber">
 			<column name="NME_SEQ_NBR"/>
 		</property>
-	</class>	
-	
-		<class name="PublisherAccessPoint" table="PUBL_ACS_PNT">
+	</class>
+
+	<class name="PublisherAccessPoint" table="PUBL_ACS_PNT">
 		<composite-id>
 			<key-property name="bibItemNumber" column="BIB_ITM_NBR"/>
 			<key-property name="userViewString" column="USR_VW_IND" length="16"/>
@@ -168,8 +168,8 @@
 		<property name="sequenceNumber">
 			<column name="PUBL_SEQ_NBR"/>
 		</property>
-	</class>	
-	
+	</class>
+
 	<class name="TitleAccessPoint" table="TTL_ACS_PNT">
 		<composite-id>
 			<key-property name="headingNumber" column="TTL_HDG_NBR"/>
@@ -199,7 +199,7 @@
 		<property name="sequenceNumber">
 			<column name="SEQ_NBR"/>
 		</property>
-	</class>	
+	</class>
 
 	<class name="NameTitleAccessPoint" table="NME_TTL_ACS_PNT">
 		<composite-id>
@@ -226,7 +226,7 @@
 		<property name="sequenceNumber">
 			<column name="SEQ_NBR"/>
 		</property>
-	</class>	
+	</class>
 
 	<class name="SubjectAccessPoint" table="SBJCT_ACS_PNT">
 		<composite-id>
@@ -247,9 +247,9 @@
 		<property name="sequenceNumber">
 			<column name="SBJCT_SEQ_NBR"/>
 		</property>
-	</class>	
-			
-	
+	</class>
+
+
 	<class name="ClassificationAccessPoint" table="CLSTN_ITM_ACS_PNT">
 		<composite-id>
 			<key-property name="headingNumber" column="CLSTN_KEY_NBR"/>
@@ -260,8 +260,8 @@
 		<property name="sequenceNumber">
 			<column name="SEQ_NBR"/>
 		</property>
-	</class>	
-	
+	</class>
+
 	<class name="ControlNumberAccessPoint" table="CNTL_NBR_ACS_PNT">
 		<composite-id>
 			<key-property name="headingNumber" column="CNTL_KEY_NBR"/>
@@ -275,7 +275,7 @@
 		<property name="sequenceNumber">
 			<column name="SEQ_NBR"/>
 		</property>
-	</class>	
-	
-	
+	</class>
+
+
 </hibernate-mapping>

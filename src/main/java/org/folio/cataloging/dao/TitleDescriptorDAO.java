@@ -6,6 +6,7 @@ import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.ReferentialIntegrityException;
 import org.folio.cataloging.business.common.View;
+import org.folio.cataloging.dao.DAODescriptor;
 import org.folio.cataloging.dao.persistence.REF;
 import org.folio.cataloging.dao.persistence.TTL_HDG;
 import org.folio.cataloging.dao.persistence.T_AUT_HDG_SRC;
@@ -66,7 +67,7 @@ public class TitleDescriptorDAO extends DAODescriptor {
 						new Type[] {
 								Hibernate.INTEGER,
 								Hibernate.INTEGER });
-		count += countList.get(0);
+		count = count + countList.get(0);
 		countList =
 				session.find(
 						"select count(*) from NME_TO_TTL_REF as ref "
@@ -79,7 +80,7 @@ public class TitleDescriptorDAO extends DAODescriptor {
 						new Type[] {
 								Hibernate.INTEGER,
 								Hibernate.INTEGER });
-		count += countList.get(0);
+		count = count + countList.get(0);
 		return count;
 	}
 
@@ -193,7 +194,7 @@ public class TitleDescriptorDAO extends DAODescriptor {
 	 */
 	@SuppressWarnings("unchecked")
 	public boolean isMatchingAnotherHeading(final Descriptor desc, final Session session)
-		throws HibernateException {
+			throws HibernateException {
 
 		final TTL_HDG titleHeading = (TTL_HDG) desc;
 		final List<TTL_HDG> titleHeadingList = session.find(" from "
