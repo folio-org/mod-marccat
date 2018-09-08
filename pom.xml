@@ -28,14 +28,15 @@
 
     <developers>
         <developer>
-            <id>agazzarini</id>
-            <name>Andrea Gazzarini</name>
-            <url>http://www.linkedin.com/in/andreagazzarini</url>
-            <email>andrea.gazzarini@atcult.it</email>
+            <id>cchiama</id>
+            <name>Christian Chiama</name>
+            <url>http://www.linkedin.com/in/christianchiama</url>
+            <email>christian.chiama@atcult.it</email>
             <organization>@Cult</organization>
             <organizationUrl>http://www.atcult.it</organizationUrl>
             <roles>
-                <role>Software Engineer</role>
+                <role>CTO</role>
+                <role>UI Lead Development</role>
             </roles>
         </developer>
     </developers>
@@ -173,6 +174,30 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>1.5.0</version>
+            <executions>
+              <execution>
+                <id>git submodule update</id>
+                <phase>initialize</phase>
+                <configuration>
+                  <executable>git</executable>
+                  <arguments>
+                    <argument>submodule</argument>
+                    <argument>update</argument>
+                    <argument>--init</argument>
+                    <argument>--recursive</argument>
+                  </arguments>
+                </configuration>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
         </plugins>
     </build>
 </project>
