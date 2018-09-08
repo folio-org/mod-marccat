@@ -28,14 +28,15 @@
 
     <developers>
         <developer>
-            <id>agazzarini</id>
-            <name>Andrea Gazzarini</name>
-            <url>http://www.linkedin.com/in/andreagazzarini</url>
-            <email>andrea.gazzarini@atcult.it</email>
+            <id>cchiama</id>
+            <name>Christian Chiama</name>
+            <url>http://www.linkedin.com/in/christianchiama</url>
+            <email>christian.chiama@atcult.it</email>
             <organization>@Cult</organization>
             <organizationUrl>http://www.atcult.it</organizationUrl>
             <roles>
-                <role>Software Engineer</role>
+                <role>CTO</role>
+                <role>UI Lead Development</role>
             </roles>
         </developer>
     </developers>
