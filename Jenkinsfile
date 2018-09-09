@@ -16,5 +16,10 @@ pipeline {
                 echo 'Deploying....'
             }
         }
+         stage('Npm') {
+             steps {
+                echo 'Publishing on Npm....'
+             }
+         }
     }
 }
