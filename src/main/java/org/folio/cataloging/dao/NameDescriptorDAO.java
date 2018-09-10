@@ -56,7 +56,7 @@ public class NameDescriptorDAO extends DAODescriptor
             throws HibernateException {
 
         int count = super.getXrefCount(source, cataloguingView, session);
-        List<Integer> countList = find(
+        List<Integer> countList = session.find(
                 "select count(*) from NME_NME_TTL_REF as ref "
                         + " where ref.nameHeadingNumber = ? "
                         + " and ref.sourceHeadingType = 'NH' "
@@ -67,9 +67,9 @@ public class NameDescriptorDAO extends DAODescriptor
                 new Type[] {
                         Hibernate.INTEGER,
                         Hibernate.INTEGER });
-        count += countList.get(0);
+        count = count + countList.get(0);
         countList =
-                find(
+                session.find(
                         "select count(*) from NME_TO_TTL_REF as ref "
                                 + " where ref.nameHeadingNumber = ? "
                                 + " and ref.sourceHeadingType = 'NH' "
@@ -80,7 +80,7 @@ public class NameDescriptorDAO extends DAODescriptor
                         new Type[] {
                                 Hibernate.INTEGER,
                                 Hibernate.INTEGER });
-        count += countList.get(0);
+        count = count + countList.get(0);
         return count;
     }
 

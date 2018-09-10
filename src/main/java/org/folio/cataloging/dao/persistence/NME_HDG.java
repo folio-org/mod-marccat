@@ -154,7 +154,7 @@ public class NME_HDG extends Descriptor implements Serializable {
 	/* (non-Javadoc)
 	 * @see Descriptor#setIndexingLanguage(short)
 	 */
-	public void setIndexingLanguage(short s) {
+	public void setIndexingLanguage(int s) {
 		indexingLanguage = s;
 	}
 
@@ -163,7 +163,7 @@ public class NME_HDG extends Descriptor implements Serializable {
 	 *
 	 * @param s the new sub type code
 	 */
-	public void setSubTypeCode(short s) {
+	public void setSubTypeCode(int  s) {
 		subTypeCode = s;
 	}
 
@@ -172,7 +172,7 @@ public class NME_HDG extends Descriptor implements Serializable {
 	 *
 	 * @param s the new type code
 	 */
-	public void setTypeCode(short s) {
+	public void setTypeCode(int s) {
 		typeCode = s;
 	}
 
