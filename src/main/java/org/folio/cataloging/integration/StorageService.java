@@ -4,7 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
-import org.folio.cataloging.business.cataloguing.bibliographic.*;
+import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicAccessPoint;
+import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicCatalog;
+import org.folio.cataloging.business.cataloguing.bibliographic.FixedField;
+import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
 import org.folio.cataloging.business.cataloguing.common.CataloguingSourceTag;
 import org.folio.cataloging.business.cataloguing.common.ControlNumberTag;
 import org.folio.cataloging.business.cataloguing.common.DateOfLastTransactionTag;
@@ -1427,19 +1430,25 @@ public class StorageService implements Closeable {
     }
 
     public void saveBibliographicRecord(final BibliographicRecord record, final int view, final GeneralInformation generalInformation) {
-        final CatalogItem item = getCatalogItemByKey(record.getId(), view);
-        if (item.getTags().size() == 0){
+        CatalogItem item = null;
+        try {
+            item = getCatalogItemByKey(record.getId(), view);
+        }catch (DataAccessException exception){
+        }
+
+        if (item == null || item.getTags().size() == 0){
             insertBibliographicRecord(record, view, generalInformation);
         }else{
             //update
         }
 
+
     }
 
     private void insertBibliographicRecord(final BibliographicRecord record, final int view, final GeneralInformation giAPI) throws DataAccessException {
         final BibliographicCatalog catalog = new BibliographicCatalog();
-        final CatalogItem item = catalog.newCatalogItem(new Object[]{new Integer(view)});
-        final int bibItemNumber = item.getAmicusNumber();
+        final int bibItemNumber = record.getId();
+        final CatalogItem item = catalog.newCatalogItem(new Object[]{new Integer(view), new Integer(bibItemNumber)});
 
         Leader leader = record.getLeader();
         item.getItemEntity().setLanguageOfCataloguing("eng");
@@ -1452,6 +1461,9 @@ public class StorageService implements Closeable {
         ControlNumberTag cnt = catalog.createRequiredControlNumberTag(item);
         item.addTag(cnt);
 
+        DateOfLastTransactionTag dateOfLastTransactionTag = catalog.createRequiredDateOfLastTransactionTag(item);
+        item.addTag(dateOfLastTransactionTag);
+
         record.getFields().stream().skip(1).forEach(field -> {
             final String tagNbr = field.getCode();
             if (tagNbr.equals(GlobalStorage.MATERIAL_TAG_CODE) || tagNbr.equals(GlobalStorage.OTHER_MATERIAL_TAG_CODE)){
@@ -1460,6 +1472,7 @@ public class StorageService implements Closeable {
                 setDefaultValues(giAPI, bibMaterial);
                 addMaterialDescriptionToCatalog(tagNbr, catalog, item, fixedField, bibMaterial, leader);
             }
+
             //physical 007
 
             if (tagNbr.equals(GlobalStorage.CATALOGING_SOURCE_TAG_CODE)){
@@ -1469,10 +1482,7 @@ public class StorageService implements Closeable {
                 item.addTag(cst);
             }
 
-            DateOfLastTransactionTag dateOfLastTransactionTag = catalog.createRequiredDateOfLastTransactionTag(item);
-            item.addTag(dateOfLastTransactionTag);
-
-            if (field.getVariableField() != null){
+            if (field.getVariableField() != null && !tagNbr.equals(GlobalStorage.CATALOGING_SOURCE_TAG_CODE)){
                 final org.folio.cataloging.resources.domain.VariableField variableField = field.getVariableField();
                 final CorrelationValues correlationValues;
                 if (ofNullable(variableField.getHeadingTypeCode()).isPresent() && isNotNullOrEmpty(variableField.getValue())){
@@ -1495,9 +1505,72 @@ public class StorageService implements Closeable {
                     addClassificationToCatalog(catalog, item, correlationValues, variableField, bibItemNumber);
                 } else if (variableField.getCategoryCode() == GlobalStorage.SUBJECT_CATEGORY){
                     addSubjectToCatalog(catalog, item, correlationValues, variableField, bibItemNumber);
+                } else if (variableField.getCategoryCode() == GlobalStorage.BIB_NOTE_CATEGORY && correlationValues.getValue(1) != 24 ){
+                    addNoteToCatalog(catalog, item, correlationValues, variableField, bibItemNumber);
+                } else if (variableField.getCategoryCode() == GlobalStorage.BIB_NOTE_CATEGORY && correlationValues.getValue(1) == 24 ){
+                    addPublisherToCatalog(catalog, item, correlationValues, variableField, bibItemNumber);
                 }
             }
         });
+        item.sortTags();
+        try {
+            final CasCache casCache = new CasCache(item.getAmicusNumber());
+            casCache.setLevelCard("L1");
+            casCache.setStatusDisponibilit(99);
+            final BibliographicCatalogDAO dao = new BibliographicCatalogDAO();
+            dao.saveCatalogItem(item, casCache, session);
+        } catch (HibernateException e) {
+            logger.error("Errore in save record!", e);
+            throw new DataAccessException(e);
+        }
+    }
+
+
+    /**
+     * Creates and add to catalog a new persistent {@link PublisherManager} object for saving record.
+     *
+     * @param catalog -- the bibliographic catalog.
+     * @param item -- the item to add tags.
+     * @param correlationValues -- the selection of correlation values.
+     * @param variableField -- the variable field containing data.
+     * @param bibItemNumber -- the bibliographic item number.
+     * @throws DataAccessException in case of data access exception.
+     */
+    private void addPublisherToCatalog(final BibliographicCatalog catalog,
+                                       final CatalogItem item,
+                                       final CorrelationValues correlationValues,
+                                       final org.folio.cataloging.resources.domain.VariableField variableField,
+                                       final int bibItemNumber) throws DataAccessException {
+        final PublisherManager publisherManager = catalog.createPublisherTag(catalog, item, correlationValues);
+        publisherManager.markNew();
+        publisherManager.setBibItemNumber(bibItemNumber);
+        item.addTag(publisherManager);
+    }
+
+    /**
+     * Creates and add to catalog a new persistent {@link BibliographicNoteTag} object for saving record.
+     *
+     * @param catalog -- the bibliographic catalog.
+     * @param item -- the item to add tags.
+     * @param correlationValues -- the selection of correlation values.
+     * @param variableField -- the variable field containing data.
+     * @param bibItemNumber -- the bibliographic item number.
+     * @throws DataAccessException in case of data access exception.
+     */
+    private void addNoteToCatalog(final BibliographicCatalog catalog,
+                                  final CatalogItem item,
+                                  final CorrelationValues correlationValues,
+                                  final org.folio.cataloging.resources.domain.VariableField variableField,
+                                  final int bibItemNumber) throws DataAccessException {
+        final BibliographicNoteTag nTag = catalog.createBibliographicNoteTag(catalog, item, correlationValues);
+        nTag.getNote().setContent(variableField.getValue());
+        if ( variableField.getKeyNumber() != null && variableField.getKeyNumber() != 0)
+            nTag.getNote().setNoteNbr(variableField.getKeyNumber());
+        else
+            nTag.getNote().setNoteNbr(generateNewKey("BN"));
+        nTag.setItemNumber(bibItemNumber);
+        nTag.markNew();
+        item.addTag(nTag);
     }
 
     /**
@@ -1515,7 +1588,7 @@ public class StorageService implements Closeable {
                                      final CorrelationValues correlationValues,
                                      final org.folio.cataloging.resources.domain.VariableField variableField,
                                      final int bibItemNumber) throws DataAccessException {
-        SubjectAccessPoint sap = catalog.createSubjectAccessPoint(catalog, item, correlationValues);
+        final SubjectAccessPoint sap = catalog.createSubjectAccessPoint(catalog, item, correlationValues);
         sap.setAccessPointStringText(new StringText(variableField.getValue()));
         sap.setHeadingNumber(variableField.getKeyNumber());
         sap.setItemNumber(bibItemNumber);
@@ -1538,7 +1611,7 @@ public class StorageService implements Closeable {
                                             final CorrelationValues correlationValues,
                                             final org.folio.cataloging.resources.domain.VariableField variableField,
                                             final int bibItemNumber) throws DataAccessException {
-        ClassificationAccessPoint clap = catalog.createClassificationAccessPoint(catalog, item, correlationValues);
+        final ClassificationAccessPoint clap = catalog.createClassificationAccessPoint(catalog, item, correlationValues);
         clap.setAccessPointStringText(new StringText(variableField.getValue()));
         clap.setHeadingNumber(variableField.getKeyNumber());
         clap.setItemNumber(bibItemNumber);
@@ -1561,7 +1634,7 @@ public class StorageService implements Closeable {
                                           final CorrelationValues correlationValues,
                                           final org.folio.cataloging.resources.domain.VariableField variableField,
                                           final int bibItemNumber) throws DataAccessException {
-            ControlNumberAccessPoint cnap = catalog.createControlNumberAccessPoint(catalog, item, correlationValues);
+            final ControlNumberAccessPoint cnap = catalog.createControlNumberAccessPoint(catalog, item, correlationValues);
             cnap.setAccessPointStringText(new StringText(variableField.getValue()));
             cnap.setHeadingNumber(variableField.getKeyNumber());
             cnap.setItemNumber(bibItemNumber);
@@ -1584,7 +1657,7 @@ public class StorageService implements Closeable {
                                   final CorrelationValues correlationValues,
                                   final org.folio.cataloging.resources.domain.VariableField variableField,
                                   final int bibItemNumber) throws DataAccessException {
-        NameAccessPoint nap = catalog.createNameAccessPointTag(catalog, item, correlationValues);
+        final NameAccessPoint nap = catalog.createNameAccessPointTag(catalog, item, correlationValues);
         nap.setAccessPointStringText(new StringText(variableField.getValue()));
         nap.setHeadingNumber(variableField.getKeyNumber());
         nap.setItemNumber(bibItemNumber);
@@ -1608,7 +1681,7 @@ public class StorageService implements Closeable {
                                    final org.folio.cataloging.resources.domain.VariableField variableField,
                                    final int bibItemNumber) throws DataAccessException {
 
-        TitleAccessPoint tap = catalog.createTitleAccessPointTag(catalog, item, correlationValues);
+        final TitleAccessPoint tap = catalog.createTitleAccessPointTag(catalog, item, correlationValues);
         tap.setAccessPointStringText(new StringText(variableField.getValue()));
         tap.setHeadingNumber(variableField.getKeyNumber());
         tap.setItemNumber(bibItemNumber);
