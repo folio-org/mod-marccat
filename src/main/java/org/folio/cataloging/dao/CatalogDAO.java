@@ -4,17 +4,13 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
 import org.folio.cataloging.business.cataloguing.authority.AuthorityReferenceTag;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicNoteTag;
 import org.folio.cataloging.business.cataloguing.bibliographic.VariableHeaderUsingItemEntity;
 import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.common.*;
 import org.folio.cataloging.business.controller.UserProfile;
 import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
-import org.folio.cataloging.dao.persistence.AccessPoint;
-import org.folio.cataloging.dao.persistence.CasCache;
-import org.folio.cataloging.dao.persistence.CatalogItem;
-import org.folio.cataloging.dao.persistence.ItemEntity;
+import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.integration.log.MessageCatalogStorage;
 import org.folio.cataloging.log.Log;
 

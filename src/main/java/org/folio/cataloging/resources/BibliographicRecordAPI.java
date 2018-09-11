@@ -9,6 +9,7 @@ import org.folio.cataloging.Global;
 import org.folio.cataloging.ModCataloging;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.View;
+import org.folio.cataloging.domain.ConversionFieldUtils;
 import org.folio.cataloging.exception.DuplicateTagException;
 import org.folio.cataloging.integration.StorageService;
 import org.folio.cataloging.log.MessageCatalog;
@@ -99,7 +100,7 @@ public class BibliographicRecordAPI extends BaseResource {
             FixedField fixed005 = new FixedField();
             fixed005.setHeaderTypeCode(Global.DATETIME_TRANSACION_HEADER_TYPE);
             fixed005.setCode(Global.DATETIME_TRANSACION_TAG_CODE);
-            fixed005.setDisplayValue(F.getFormattedDate("yyyyMMddHHmmss."));
+            fixed005.setDisplayValue(F.getFormattedToday("yyyyMMddHHmmss."));
             fixed005.setCategoryCode(Global.INT_CATEGORY);
             fixed005.setDescription(storageService.getHeadingTypeDescription(Global.DATETIME_TRANSACION_HEADER_TYPE, lang, Global.INT_CATEGORY));
 
@@ -139,9 +140,23 @@ public class BibliographicRecordAPI extends BaseResource {
                 if (errors.getErrors().size() > 0)
                     return systemInternalFailure(new DataAccessException(), errors);
 
-                //conversione da bibbliographic-record a catalogItem
+                //conversione da bibliographic-record a catalogItem
                 final GeneralInformation gi = new GeneralInformation();
                 gi.setDefaultValues(configuration);
+
+                final Leader leader = record.getLeader();
+                record.getFields().stream().filter(field -> isFixedField(field))
+                        .filter(field -> field.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE) ||
+                            field.getCode().equalsIgnoreCase(Global.OTHER_MATERIAL_TAG_CODE) ||
+                            field.getCode().equalsIgnoreCase(Global.PHYSICAL_DESCRIPTION_TAG_CODE)).forEach(field -> {
+
+                    FixedField ff = field.getFixedField();
+                    if (field.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE) || field.getCode().equalsIgnoreCase(Global.OTHER_MATERIAL_TAG_CODE)) {
+                        final Map<String, Object> mapRecordTypeMaterial = storageService.getMaterialTypeInfosByLeaderValues(leader.getValue().charAt(6), leader.getValue().charAt(7), field.getCode());
+                        ConversionFieldUtils.setMaterialValuesInFixedField(ff, (String) mapRecordTypeMaterial.get(Global.FORM_OF_MATERIAL_LABEL));
+                    }else
+                        ConversionFieldUtils.setPhysicalInformationValuesInFixedField(ff);
+                });
 
                 storageService.saveBibliographicRecord(record, view, gi);
 

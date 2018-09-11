@@ -169,9 +169,14 @@ public abstract class F {
         }
     }
 
-    public static String getFormattedDate(final String formatString) {
+    public static String getFormattedToday(final String formatString) {
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formatString);
         return LocalDateTime.now().format(formatter);
+    }
+
+    public static LocalDateTime getFormattedDate(final String formatString, String dateToFormat) {
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formatString);
+        return LocalDateTime.parse(dateToFormat, formatter);
     }
 
     /**
