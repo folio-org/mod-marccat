@@ -173,7 +173,7 @@ public class FieldAPI extends BaseResource {
         generalInformation.setMaterialDescription008Indicator("1");
         generalInformation.setFormOfMaterial(Global.BOOKFORM_OF_MATERIAL);
         generalInformation.setDefaultValues(configuration);
-        generalInformation.setEnteredOnFileDateYYMMDD(F.getFormattedDate("yyMMdd"));
+        generalInformation.setEnteredOnFileDateYYMMDD(F.getFormattedToday("yyMMdd"));
 
         final FixedField materialDescription = new FixedField();
         materialDescription.setHeaderTypeCode(Global.MATERIAL_DESCRIPTION_HEADER_TYPE);

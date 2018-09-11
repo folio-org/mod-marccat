@@ -10,13 +10,14 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "value", "label" })
+@JsonPropertyOrder({ "code", "value" })
 public class Leader {
 
-    @JsonProperty("value")
+    @JsonProperty("code")
     @Size(min = 3, max = 3)
     private String code;
-    @JsonProperty("label")
+
+    @JsonProperty("value")
     private String value;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -26,7 +27,7 @@ public class Leader {
      * @return
      *     The code
      */
-    @JsonProperty("value")
+    @JsonProperty("code")
     public String getCode() {
         return code;
     }
@@ -36,7 +37,7 @@ public class Leader {
      * @param code
      *     The code
      */
-    @JsonProperty("value")
+    @JsonProperty("code")
     public void setCode(String code) {
         this.code = code;
     }
@@ -51,7 +52,7 @@ public class Leader {
      * @return
      *     The value
      */
-    @JsonProperty("label")
+    @JsonProperty("value")
     public String getValue() {
         return value;
     }
@@ -61,7 +62,7 @@ public class Leader {
      * @param value
      *     The value
      */
-    @JsonProperty("label")
+    @JsonProperty("value")
     public void setValue(String value) {
         this.value = value;
     }

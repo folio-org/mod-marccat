@@ -10,7 +10,7 @@ import org.folio.cataloging.exception.ValidationException;
 import org.folio.cataloging.integration.GlobalStorage;
 import org.folio.cataloging.shared.CorrelationValues;
 
-import java.text.ParsePosition;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -37,10 +37,10 @@ public class BibliographicCatalog extends Catalog {
 		FIXED_FIELDS_FACTORY = new MapBackedFactory();
 		final PropertyBasedFactoryBuilder builder = new PropertyBasedFactoryBuilder();
 		builder.load(
-				"/org/folio/cataloging/dao/persistence/TAG_FACTORY.properties",
+				"/org/folio/cataloging/business/cataloguing/bibliographic/tagFactory.properties",
 				TAG_FACTORY);
 		builder.load(
-				"/org/folio/cataloging/dao/persistence/FIXED_FIELDS_FACTORY.properties",
+				"/org/folio/cataloging/business/cataloguing/bibliographic/fixedFieldFactory.properties",
 				FIXED_FIELDS_FACTORY);
 	}
 
@@ -90,7 +90,7 @@ public class BibliographicCatalog extends Catalog {
 	}
 
 	public DateOfLastTransactionTag createRequiredDateOfLastTransactionTag(CatalogItem item) throws NewTagException {
-		DateOfLastTransactionTag dateTag =
+		final DateOfLastTransactionTag dateTag =
 			(DateOfLastTransactionTag) getNewTag(item,
                     GlobalStorage.HEADER_CATEGORY,
 				new CorrelationValues(
@@ -100,8 +100,16 @@ public class BibliographicCatalog extends Catalog {
 		return dateTag;
 	}
 
+    public PublisherManager createPublisherTag(final BibliographicCatalog catalog, final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
+        final PublisherManager pap =
+                (PublisherManager) catalog.getNewTag(item,
+                        GlobalStorage.PUBLISHER_CATEGORY,
+                        correlationValues);
+        return pap;
+    }
+
     public TitleAccessPoint createTitleAccessPointTag(final BibliographicCatalog catalog, final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-        TitleAccessPoint tap =
+        final TitleAccessPoint tap =
                 (TitleAccessPoint) catalog.getNewTag(item,
                         GlobalStorage.TITLE_CATEGORY,
                         correlationValues);
@@ -109,35 +117,43 @@ public class BibliographicCatalog extends Catalog {
     }
 
     public NameAccessPoint createNameAccessPointTag(final BibliographicCatalog catalog, final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-        NameAccessPoint nap =
+        final NameAccessPoint nap =
                 (NameAccessPoint) catalog.getNewTag(item,
                         GlobalStorage.NAME_CATEGORY,
                         correlationValues);
         return nap;
     }
 
-    public ClassificationAccessPoint createClassificationAccessPoint(BibliographicCatalog catalog, CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-		ClassificationAccessPoint clap =
+    public ClassificationAccessPoint createClassificationAccessPoint(final BibliographicCatalog catalog, final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
+		final ClassificationAccessPoint clap =
                 (ClassificationAccessPoint) catalog.getNewTag(item,
                         GlobalStorage.CLASSIFICATION_CATEGORY,
                         correlationValues);
         return clap;
     }
 
-	public SubjectAccessPoint createSubjectAccessPoint(BibliographicCatalog catalog, CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-		SubjectAccessPoint sap =
+	public SubjectAccessPoint createSubjectAccessPoint(final BibliographicCatalog catalog, final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
+		final SubjectAccessPoint sap =
 				(SubjectAccessPoint) catalog.getNewTag(item,
 						GlobalStorage.SUBJECT_CATEGORY,
 						correlationValues);
 		return sap;
 	}
 
-	public ControlNumberAccessPoint createControlNumberAccessPoint(BibliographicCatalog catalog, CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-		ControlNumberAccessPoint cnap =
+	public ControlNumberAccessPoint createControlNumberAccessPoint(final BibliographicCatalog catalog, final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
+		final ControlNumberAccessPoint cnap =
 				(ControlNumberAccessPoint) catalog.getNewTag(item,
 						GlobalStorage.CONTROL_NUMBER_CATEGORY,
 						correlationValues);
 		return cnap;
+	}
+
+	public BibliographicNoteTag createBibliographicNoteTag(final BibliographicCatalog catalog, final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
+		final BibliographicNoteTag nTag =
+				(BibliographicNoteTag) catalog.getNewTag(item,
+						GlobalStorage.BIB_NOTE_CATEGORY,
+						correlationValues);
+		return nTag;
 	}
 
 	public void addRequiredTagsForModel(CatalogItem item) throws NewTagException {
@@ -528,19 +544,20 @@ public class BibliographicCatalog extends Catalog {
         }
 
 		if (materialDescription.getMaterialDescription008Indicator().equals("1")) {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
-            Date date = formatter.parse(ff.getDateEnteredOnFile(), new ParsePosition(0));
-            materialDescription.setEnteredOnFileDate(date);
-            materialDescription.setItemDateTypeCode(ff.getDataTypeCode().charAt(0));
-            materialDescription.setItemDateFirstPublication(ff.getDateFirstPublication());
-            materialDescription.setItemDateLastPublication(ff.getDateLastPublication());
-            materialDescription.setMarcCountryCode(ff.getPlaceOfPublication());
-            materialDescription.setLanguageCode(ff.getLanguageCode());
-            materialDescription.setRecordModifiedCode(ff.getRecordModifiedCode().charAt(0));
-            materialDescription.setRecordCataloguingSourceCode(ff.getRecordCataloguingSourceCode().charAt(0));
-
-        } else {
-            materialDescription.setMaterialTypeCode(ff.getMaterialTypeCode());
+        	try {
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+				Date date = formatter.parse(ff.getDateEnteredOnFile());
+				materialDescription.setEnteredOnFileDate(date);
+			} catch (ParseException e) {
+				//
+			}
+			if (isNotNull(ff.getDataTypeCode()))	materialDescription.setItemDateTypeCode(ff.getDataTypeCode().charAt(0));
+            if (isNotNull(ff.getDateFirstPublication())) materialDescription.setItemDateFirstPublication(ff.getDateFirstPublication());
+			if (isNotNull(ff.getDateLastPublication())) materialDescription.setItemDateLastPublication(ff.getDateLastPublication());
+            if (isNotNull(ff.getPlaceOfPublication())) materialDescription.setMarcCountryCode(ff.getPlaceOfPublication());
+            if (isNotNull(ff.getLanguageCode())) materialDescription.setLanguageCode(ff.getLanguageCode());
+            if (isNotNull(ff.getRecordModifiedCode())) materialDescription.setRecordModifiedCode(ff.getRecordModifiedCode().charAt(0));
+            if (isNotNull(ff.getRecordCataloguingSourceCode())) materialDescription.setRecordCataloguingSourceCode(ff.getRecordCataloguingSourceCode().charAt(0));
         }
 
     }
