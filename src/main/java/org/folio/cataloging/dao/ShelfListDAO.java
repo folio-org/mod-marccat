@@ -247,7 +247,7 @@ public class ShelfListDAO extends DAODescriptor
 	{
 		if (descriptor.isNew()) {
 			((SHLF_LIST) descriptor).setShelfListKeyNumber(
-					new DAOSystemNextNumber().getNextNumber(
+					new SystemNextNumberDAO().getNextNumber(
 							descriptor.getNextNumberKeyFieldCode()));
 		}
 		persistByStatus(descriptor, session);

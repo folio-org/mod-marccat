@@ -78,9 +78,12 @@ public class HeadingsAPI extends BaseResource {
             @RequestParam final String lang,
             @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
         return doGet((storageService, configuration) -> {
-            List<Heading> headings =  storageService.getNextHeadings(query, view, mainLibrary, lang);
+            List<MapHeading> headings =  storageService.getNextHeadings(query, view, mainLibrary, lang);
             final HeadingCollection headingCollection = new HeadingCollection();
-            headingCollection.setHeadings(headings);
+            headingCollection.setHeadings(headings
+                          .stream()
+                          .map(toHeading)
+                          .collect(toList()));
             return headingCollection;
         }, tenant, configurator);
     }
