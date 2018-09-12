@@ -4,7 +4,6 @@ import org.folio.cataloging.business.cataloguing.bibliographic.Equivalent;
 import org.folio.cataloging.business.cataloguing.bibliographic.NameTitleComponent;
 import org.folio.cataloging.business.cataloguing.common.OrderedTag;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.integration.GlobalStorage;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
@@ -30,7 +29,7 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag, E
 	private Integer sequenceNumber;
 	private NME_HDG descriptor = new NME_HDG();
 
-	public NameAccessPoint() 
+	public NameAccessPoint()
 	{
 		super();
 	}
@@ -263,13 +262,13 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag, E
 			return "110"+"."+getCorrelation(2);
 		else if(getMarcEncoding().getMarcTag().equals("711"))
 			return "111"+"."+getCorrelation(2);
-		else	
-			return getMarcEncoding().getMarcTag()+"."+getCorrelation(2);	
+		else
+			return getMarcEncoding().getMarcTag()+"."+getCorrelation(2);
 	}
 
     //TODO: move in storageService and add session
 	@Deprecated
-	public List replaceEquivalentDescriptor(short indexingLanguage, int cataloguingView) throws DataAccessException 
+	public List replaceEquivalentDescriptor(short indexingLanguage, int cataloguingView) throws DataAccessException
 	{
 		/* DAODescriptor dao = new DAONameDescriptor();
 		List newTags = new ArrayList();

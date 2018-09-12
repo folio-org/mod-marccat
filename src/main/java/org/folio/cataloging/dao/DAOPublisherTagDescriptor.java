@@ -1,16 +1,16 @@
 package org.folio.cataloging.dao;
 
-import java.util.Iterator;
-import java.util.List;
-
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.dao.persistence.PUBL_HDG;
-import org.folio.cataloging.dao.persistence.PUBL_TAG;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.type.Type;
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.View;
 import org.folio.cataloging.business.descriptor.PublisherTagDescriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
+import org.folio.cataloging.dao.persistence.PUBL_HDG;
+import org.folio.cataloging.dao.persistence.PUBL_TAG;
+
+import java.util.Iterator;
+import java.util.List;
 
 @SuppressWarnings("unchecked")
 public class DAOPublisherTagDescriptor extends DAODescriptor {

@@ -7,7 +7,6 @@ import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.PersistenceState;
 import org.folio.cataloging.business.common.PersistentObjectWithView;
-import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAOBibliographicNoteTag;
 import org.folio.cataloging.integration.GlobalStorage;
@@ -71,7 +70,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
 	{
 		return null;
 	}
-	
+
 	public final boolean isStandardNoteType()
 	{
         return noteStandard != null;
@@ -183,14 +182,14 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
 	{
 		return new StringText(note.getContent() + getOverFlowString(getOverflowList()));
 	}
-	
+
 	/**
 	 * Returns display content of whole standard note.
 	 * It replaces all '@1' with subfield separator if present.
 	 *
 	 * @return note standard stringText.
 	 */
-	public StringText getStandardNoteStringText() 
+	public StringText getStandardNoteStringText()
 	{
 		String value = (ofNullable(valueElement.getLabel()).isPresent()) ? valueElement.getLabel() :"";
 		if (value.contains("@1")){
@@ -281,7 +280,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
 	 * @param v -- the correlation values to set.
 	 */
 	public void setCorrelationValues(final CorrelationValues v) {
-		setNoteType(v.getValue(1));		
+		setNoteType(v.getValue(1));
 	}
 
 	/**
@@ -343,7 +342,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
 	public List getOverflowList() {
 		return note.overflowList;
 	}
-	
+
 	@Deprecated
 	public List getOverflowList( int userView)
 	{
@@ -473,7 +472,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
      * @param obj -- the object to compare.
      * @return true if equals.
      */
-	public boolean equals(Object obj) 
+	public boolean equals(Object obj)
 	{
 		if (this == obj)
 			return true;

@@ -5,6 +5,7 @@ import org.folio.cataloging.business.common.MapBackedFactory;
 import org.folio.cataloging.business.common.MapBackedSingletonFactory;
 import org.folio.cataloging.business.common.PropertyBasedFactoryBuilder;
 import org.folio.cataloging.dao.DAODescriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
 
 /**
  * @author janick

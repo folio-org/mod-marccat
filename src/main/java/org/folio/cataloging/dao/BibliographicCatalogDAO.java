@@ -5,11 +5,12 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
 import net.sf.hibernate.type.Type;
-import org.folio.cataloging.business.cataloguing.bibliographic.*;
+import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicItem;
+import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicTagImpl;
+import org.folio.cataloging.business.cataloguing.bibliographic.PersistsViaItem;
 import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.common.*;
 import org.folio.cataloging.business.controller.UserProfile;
-import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.integration.GlobalStorage;
 import org.folio.cataloging.integration.log.MessageCatalogStorage;
@@ -118,13 +119,13 @@ public class BibliographicCatalogDAO extends CatalogDAO
 			} catch (Exception e) {
 				logger.error("notes not loaded", e);
 			}
-			
+
 			try {
 				item.getTags().addAll((List<ClassificationAccessPoint>)getAccessPointTags(ClassificationAccessPoint.class, amicusNumber, userView, session));
 			} catch (Exception e){
 				logger.error("classification not loaded");
 			}
-			
+
 			try{
 				item.getTags().addAll((List<ControlNumberAccessPoint>)getAccessPointTags(ControlNumberAccessPoint.class, amicusNumber, userView, session));
 			} catch (Exception e){
@@ -547,7 +548,7 @@ public class BibliographicCatalogDAO extends CatalogDAO
 			final UserProfile user)
 			throws DataAccessException {
 			/*new TransactionalHibernateOperation() {
-				public void doInHibernateTransaction(Session s) throws SQLException, HibernateException, CacheUpdateException 
+				public void doInHibernateTransaction(Session s) throws SQLException, HibernateException, CacheUpdateException
 					{
 					int result;
 					CallableStatement proc = null;
@@ -559,7 +560,7 @@ public class BibliographicCatalogDAO extends CatalogDAO
 						proc.setInt(1, bibItemNumber);
 						proc.setInt(2, cataloguingView);
 						//cambiare con tipo varchar anche sulla tabella
-						proc.setString(3, user.getName()); 
+						proc.setString(3, user.getName());
 						proc.registerOutParameter(4, Types.INTEGER);
 						proc.execute();
 						result = proc.getInt(4);
@@ -604,7 +605,7 @@ public class BibliographicCatalogDAO extends CatalogDAO
 	public void transferItems(final Descriptor source, final Descriptor target, final Session session)	throws HibernateException
 	{
 		transferChecks(source, target);
-		
+
 		if(source instanceof PUBL_HDG){
     	   transferPublisherItems(source, target, session);
         } else {
@@ -692,7 +693,7 @@ public class BibliographicCatalogDAO extends CatalogDAO
 	 * @throws HibernateException in case of hibernate exception.
 	 */
 	public Collection<SubjectAccessPoint> getEquivalentSubjects(final CatalogItem item, final Session session) throws HibernateException {
-		final DAODescriptor dao = new DAOSubjectDescriptor();
+		final DAODescriptor dao = new SubjectDescriptorDAO();
 		Collection<SubjectAccessPoint> newTags = new HashSet<>();
 
 		List<Tag> allTags = item.getTags();

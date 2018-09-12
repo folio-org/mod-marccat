@@ -1,8 +1,9 @@
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.cataloguing.common.*;
 import org.folio.cataloging.business.common.*;
-import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.PublisherTagDescriptor;
 import org.folio.cataloging.dao.*;
 import org.folio.cataloging.dao.persistence.*;
@@ -57,7 +58,7 @@ public class BibliographicCatalog extends Catalog {
 	/**
 	 * Ensures that after creating a new BibItem (usually from a model) that the
 	 * item has at least the required mandatory tags
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void addRequiredTags(final CatalogItem item) throws NewTagException {
@@ -170,7 +171,7 @@ public class BibliographicCatalog extends Catalog {
 		MaterialDescription mdTag = createRequiredMaterialDescriptionTag(item);
 		if (!item.getTags().contains(mdTag)) {
 			item.addTag(mdTag);
-			
+
 		}
 
 		CataloguingSourceTag source = createRequiredCataloguingSourceTag(item);
@@ -330,7 +331,7 @@ public class BibliographicCatalog extends Catalog {
 		}
 
 	}
-	
+
 	@Override
 	public String getMarcTypeCode() {
 		return "B";
@@ -351,7 +352,7 @@ public class BibliographicCatalog extends Catalog {
 	public void transferItems(Descriptor source, Descriptor target) throws DataAccessException {
 		/*CATALOG_DAO.transferItems(source, target);*/
 	}
-	
+
 	public void attachEquivalentSubjects(final BibliographicItem item) throws DataAccessException {
 		final Collection newTags = CATALOG_DAO.getEquivalentSubjects(item);
 		item.getTags().addAll(newTags);
@@ -362,7 +363,7 @@ public class BibliographicCatalog extends Catalog {
 	public String getLockingEntityType() {
 		return "BI";
 	}
-	
+
 	/**
 	 * Determines whether the given bib record exists in the cataloguing view.
 	 * If it does not, then the record in the searching view is duplicated
@@ -376,62 +377,59 @@ public class BibliographicCatalog extends Catalog {
 	 */
 	//TODO
 	public CatalogItem findOrCreateMyView(
-			final int recordView,
-			final int amicusNumber,
-			final int cataloguingView) throws DataAccessException {
-		if (recordView == cataloguingView) {
-			// nothing to do
-			return getCatalogItem(amicusNumber, recordView);
-		}
-		try {
-			new DAOCache().load(amicusNumber, cataloguingView);
-			return getCatalogItem(amicusNumber, cataloguingView);
-		} catch (final RecordNotFoundException exception) {
-			// do nothing -- carry on creating record in myView
-		}
+    final int recordView,
+    final int amicusNumber,
+    final int cataloguingView,
+    final Session session) throws DataAccessException, HibernateException {
 
-		final CatalogItem item = (CatalogItem) deepCopy(getCatalogItem(amicusNumber, recordView));
-		applyKeyToItem(item, new Object[] { cataloguingView });
-		item.getItemEntity().markNew();
-		Iterator iter = item.getTags().iterator();
-		Tag aTag;
-		while (iter.hasNext()) {
-			aTag = (Tag) iter.next();
-			aTag.markNew();
-			// TODO PAUL provide a common api for AccessPoint and
-			// PublisherManager
-			if (aTag instanceof AccessPoint) {
-				AccessPoint apf = ((AccessPoint) aTag);
-				Descriptor orig = apf.getDescriptor();
-				Descriptor d = apf.getDAODescriptor().findOrCreateMyView(
-						orig.getHeadingNumber(),
-						View.makeSingleViewString(recordView), cataloguingView);
-				apf.setDescriptor(d);
-			} else if (aTag instanceof PublisherManager) {
-				PublisherManager pm = (PublisherManager) aTag;
-				PublisherAccessPoint apf = pm.getApf();
-				Descriptor orig = apf.getDescriptor();
-				List/*<PUBL_TAG>*/ publTags = ((PublisherTagDescriptor)orig).getPublisherTagUnits();
-				Iterator/*<PUBL_TAG>*/ ite = publTags.iterator();
-				while(ite.hasNext()) {
-					PUBL_TAG t =(PUBL_TAG)ite.next();
-					PUBL_HDG ph = null;
-					ph = (PUBL_HDG) t.getDescriptorDAO().findOrCreateMyView(
-							t.getPublisherHeadingNumber(),
-							View.makeSingleViewString(recordView), cataloguingView);
-					t.setDescriptor(ph);
-				  	t.setUserViewString(View.makeSingleViewString(cataloguingView));
-				}
-				apf.setUserViewString(View.makeSingleViewString(cataloguingView));
-				apf.setDescriptor(orig);
-				pm.setApf(apf);
-			} else if (aTag instanceof BibliographicRelationshipTag) {
-				BibliographicRelationshipTag relTag = (BibliographicRelationshipTag)aTag;
-				relTag.copyFromAnotherItem();
-			}
-		}
-		return item;
-	}
+	    if (recordView == cataloguingView) {
+        return getCatalogItem(amicusNumber, recordView);
+      }
+
+      try {
+        new DAOCache().load(amicusNumber, cataloguingView);
+        return getCatalogItem(amicusNumber, cataloguingView);
+      } catch (final RecordNotFoundException exception) {
+      }
+
+      final CatalogItem item = (CatalogItem) deepCopy(getCatalogItem(amicusNumber, recordView));
+      applyKeyToItem(item, new Object[] { cataloguingView });
+      item.getItemEntity().markNew();
+      Iterator iter = item.getTags().iterator();
+      Tag aTag;
+      while (iter.hasNext()) {
+        aTag = (Tag) iter.next();
+        aTag.markNew();
+        if (aTag instanceof AccessPoint) {
+          AccessPoint apf = ((AccessPoint) aTag);
+          Descriptor orig = apf.getDescriptor();
+          Descriptor d = apf.getDAODescriptor().findOrCreateMyView(orig.getHeadingNumber(), View.makeSingleViewString(recordView), cataloguingView, session);
+          apf.setDescriptor(d);
+        } else if (aTag instanceof PublisherManager) {
+          PublisherManager pm = (PublisherManager) aTag;
+          PublisherAccessPoint apf = pm.getApf();
+          Descriptor orig = apf.getDescriptor();
+          List<PUBL_TAG> publTags = ((PublisherTagDescriptor)orig).getPublisherTagUnits();
+          Iterator/*<PUBL_TAG>*/ ite = publTags.iterator();
+          while(ite.hasNext()) {
+            PUBL_TAG t =(PUBL_TAG)ite.next();
+            PUBL_HDG ph = null;
+            ph = (PUBL_HDG) t.getDescriptorDAO().findOrCreateMyView(
+                t.getPublisherHeadingNumber(),
+                View.makeSingleViewString(recordView), cataloguingView, session);
+            t.setDescriptor(ph);
+              t.setUserViewString(View.makeSingleViewString(cataloguingView));
+          }
+          apf.setUserViewString(View.makeSingleViewString(cataloguingView));
+          apf.setDescriptor(orig);
+          pm.setApf(apf);
+        } else if (aTag instanceof BibliographicRelationshipTag) {
+          BibliographicRelationshipTag relTag = (BibliographicRelationshipTag)aTag;
+          relTag.copyFromAnotherItem();
+        }
+      }
+      return item;
+    }
 
     /**
      * Put leader content into persistent hibernate object.
@@ -561,5 +559,5 @@ public class BibliographicCatalog extends Catalog {
         }
 
     }
-	
+
 }

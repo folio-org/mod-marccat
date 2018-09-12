@@ -3,7 +3,7 @@ package org.folio.cataloging.integration.search;
 import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
-import org.folio.cataloging.dao.DAONameDescriptor;
+import org.folio.cataloging.dao.NameDescriptorDAO;
 import org.folio.cataloging.dao.SemanticDAO;
 import org.folio.cataloging.dao.persistence.IndexList;
 import org.folio.cataloging.dao.persistence.S_BIB1_SMNTC;
@@ -107,10 +107,10 @@ public class TermExpressionNode implements ExpressionNode {
 							semantic().getSortFormTypeCode(),
 							semantic().getSortFormFunctionCode(),
 							semantic().getSortFormSkipInFilingCode());
-			
+
 			final String sf =
-					new DAONameDescriptor()
-						.calculateSortFormForPostgres(session, preProcessWildCards, sortFormP)
+					new NameDescriptorDAO()
+						.calculateSortForm(preProcessWildCards, sortFormP, session)
 							.replace('\u0002', '%')
 							.replace('\u0003', '_');
 

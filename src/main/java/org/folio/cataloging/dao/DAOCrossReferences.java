@@ -9,8 +9,8 @@ import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.dao.persistence.REF;
 import org.folio.cataloging.dao.persistence.ReferenceType;
 
@@ -18,12 +18,12 @@ import java.util.List;
 
 /**
  * Abstract class representing the Cross References for a single heading
- * 
+ *
  * @author paulm
  */
 public class DAOCrossReferences extends AbstractDAO {
-
 	protected Log logger = LogFactory.getLog(DAOCrossReferences.class);
+
 
 	public void save(Persistence p) throws DataAccessException {
 		final REF ref = (REF)p;
@@ -91,17 +91,17 @@ public class DAOCrossReferences extends AbstractDAO {
 	}
 
 	public REF load(
-		Descriptor source,
-		Descriptor target,
-		short referenceType,
-		int cataloguingView)
-		throws DataAccessException {
+		final Descriptor source,
+		final Descriptor target,
+		final short referenceType,
+		final int cataloguingView,
+	    final Session session)
+			throws DataAccessException, HibernateException {
 
-		/*return ((DAODescriptor) source.getDAO()).loadReference(
+		return ((DAODescriptor) source.getDAO()).loadReference(
 			source,
 			target,
 			referenceType,
-			cataloguingView);*/
-		return null;
+			cataloguingView, session);
 	}
 }

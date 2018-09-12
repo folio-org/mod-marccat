@@ -113,7 +113,7 @@ public abstract class F {
 
     /**
      * Utility for making deep copies (vs. clone()'s shallow copies) of  objects.
-     * Objects are first serialized and then deserialized. ErrorCollection
+     * Objects are first serialized and then deserialized. Error
      * checking is fairly minimal in this implementation. If an object is
      * encountered that cannot be serialized (or that references an object
      * that cannot be serialized) an error is printed to System.err and

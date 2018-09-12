@@ -1,17 +1,9 @@
-/*
- * Created on May 6, 2004
- * */
 package org.folio.cataloging.dao.persistence;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.common.ConfigHandler;
-import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.SkipInFiling;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
 import org.folio.cataloging.dao.AbstractDAO;
-import org.folio.cataloging.dao.DAOSubjectDescriptor;
+import org.folio.cataloging.dao.SubjectDescriptorDAO;
 import org.folio.cataloging.model.Subfield;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
@@ -20,76 +12,74 @@ import java.io.Serializable;
 import java.util.Iterator;
 
 /**
- * Hibernate class for table SBJCT_HDG
- * 
+ * Hibernate class for table SBJCT_HDG.
+ *
  * @author paulm
- * @version $Revision: 1.17 $, $Date: 2006/09/27 08:24:29 $
- * @since 1.0
+ * @author carment
  */
 public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling {
-	@Override
-	public int getAuthoritySourceCode() {
-		
-		return getSourceCode();
-	}
 
-	public void setAuthoritySourceCode(int authoritySourceCode) {
-		setSourceCode(authoritySourceCode);
-	}
-
-	private static final long serialVersionUID = 1L;
-	private static final Log logger = LogFactory.getLog(SBJCT_HDG.class);
+	/** The copy from heading type. */
 	private String copyFromHeadingType;
+
+	/** The copy from heading number. */
 	private Integer copyFromHeadingNumber;
+
+	/** The skip in filing. */
 	private int skipInFiling;
+
+	/** The type code. */
 	private int typeCode;
+
+	/** The source code. */
 	private int sourceCode;
+
+	/** The secondary source code. */
 	private String secondarySourceCode;
-	private ConfigHandler configHandler = ConfigHandler.getInstance();
 
 	/**
-	 * 
-	 * Class constructor - establishes default values for new subjects
-	 * 
-	 * 
-	 * @since 1.0
+	 * Instantiates a new sbjct hdg.
 	 */
 	public SBJCT_HDG() {
 		super();
-		// setAccessPointLanguage(Defaults.getShort("subject.accessPointLanguage"));
-		setScriptingLanguage(Defaults.getString("subject.scriptingLanguage"));
-		setTypeCode(Defaults.getShort("subject.typeCode"));
-		// setSourceCode(Defaults.getShort("subject.sourceCode"));
-		// TODO add other defaults
-		setVerificationLevel(Defaults.getChar("subject.verificationLevel"));
-
-		setDefaultSourceCode();
-
 	}
 
 	/**
-	 * Getter for typeCode
-	 * 
-	 * @return typeCode
+	 * Gets the type code.
+	 *
+	 * @return the type code
 	 */
 	public int getTypeCode() {
 		return typeCode;
 	}
 
 	/**
-	 * Setter for typeCode
-	 * 
-	 * @param s
-	 *            typeCode
+	 * Sets the type code.
+	 *
+	 * @param s the new type code
 	 */
 	public void setTypeCode(int s) {
 		typeCode = s;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.libricore.librisuite.business.rdms.Descriptor#getReferenceClass()
+	/* (non-Javadoc)
+	 * @see Descriptor#getAuthoritySourceCode()
+	 */
+	@Override
+	public int getAuthoritySourceCode() {
+
+		return getSourceCode();
+	}
+
+	/* (non-Javadoc)
+	 * @see Descriptor#setAuthoritySourceCode(int)
+	 */
+	public void setAuthoritySourceCode(int authoritySourceCode) {
+		setSourceCode(authoritySourceCode);
+	}
+
+	/* (non-Javadoc)
+	 * @see Descriptor#getReferenceClass(java.lang.Class)
 	 */
 	public Class getReferenceClass(Class targetClazz) {
 		if (targetClazz == this.getClass()) {
@@ -99,88 +89,101 @@ public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling 
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see librisuite.hibernate.Descriptor#getDefaultBrowseKey()
+	/* (non-Javadoc)
+	 * @see Descriptor#getDefaultBrowseKey()
 	 */
 	public String getDefaultBrowseKey() {
 		return "9P0";
 	}
 
+	/* (non-Javadoc)
+	 * @see Descriptor#getNextNumberKeyFieldCode()
+	 */
 	public String getNextNumberKeyFieldCode() {
 		return "SH";
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see librisuite.hibernate.Descriptor#getDAO()
+	/**
+	 * Gets the dao.
+	 *
+	 * @return the dao
 	 */
 	public AbstractDAO getDAO() {
-		return new DAOSubjectDescriptor();
+		return new SubjectDescriptorDAO();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see librisuite.hibernate.Descriptor#getAccessPointClass()
+	/* (non-Javadoc)
+	 * @see Descriptor#getAccessPointClass()
 	 */
 	public Class getAccessPointClass() {
 		return SubjectAccessPoint.class;
 	}
 
 	/**
-	 * 
+	 * Gets the copy from heading number.
+	 *
+	 * @return the copy from heading number
 	 */
 	public Integer getCopyFromHeadingNumber() {
 		return copyFromHeadingNumber;
 	}
 
 	/**
-	 * 
+	 * Gets the copy from heading type.
+	 *
+	 * @return the copy from heading type
 	 */
 	public String getCopyFromHeadingType() {
 		return copyFromHeadingType;
 	}
 
 	/**
-	 * 
+	 * Gets the secondary source code.
+	 *
+	 * @return the secondary source code
 	 */
 	public String getSecondarySourceCode() {
 		return secondarySourceCode;
 	}
 
-	/**
-	 * 
+	/* (non-Javadoc)
+	 * @see Descriptor#getSkipInFiling()
 	 */
 	public int getSkipInFiling() {
 		return skipInFiling;
 	}
 
 	/**
-	 * 
+	 * Gets the source code.
+	 *
+	 * @return the source code
 	 */
 	public int getSourceCode() {
 		return sourceCode;
 	}
 
 	/**
-	 * 
+	 * Sets the copy from heading number.
+	 *
+	 * @param integer the new copy from heading number
 	 */
 	public void setCopyFromHeadingNumber(Integer integer) {
 		copyFromHeadingNumber = integer;
 	}
 
 	/**
-	 * 
+	 * Sets the copy from heading type.
+	 *
+	 * @param string the new copy from heading type
 	 */
 	public void setCopyFromHeadingType(String string) {
 		copyFromHeadingType = string;
 	}
 
 	/**
-	 * 
+	 * Sets the secondary source code.
+	 *
+	 * @param string the new secondary source code
 	 */
 	public void setSecondarySourceCode(String string) {
 		if (SubjectSource.isOtherSource(getSourceCode())) {
@@ -191,14 +194,18 @@ public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling 
 	}
 
 	/**
-	 * 
+	 * Sets the skip in filing.
+	 *
+	 * @param s the new skip in filing
 	 */
 	public void setSkipInFiling(short s) {
 		skipInFiling = s;
 	}
 
 	/**
-	 * 
+	 * Sets the source code.
+	 *
+	 * @param s the new source code
 	 */
 	public void setSourceCode(int s) {
 		sourceCode = s;
@@ -207,71 +214,59 @@ public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling 
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see librisuite.hibernate.Descriptor#getCategory()
+	/* (non-Javadoc)
+	 * @see Descriptor#getCategory()
 	 */
 	public int getCategory() {
 		return 18;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see librisuite.hibernate.Descriptor#getCorrelationValues()
+
+	/* (non-Javadoc)
+	 * @see Descriptor#getCorrelationValues()
 	 */
 	public CorrelationValues getCorrelationValues() {
 		return new CorrelationValues(typeCode, CorrelationValues.UNDEFINED,
 				sourceCode);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see librisuite.hibernate.Descriptor#setCorrelationValues(librisuite.business.common.CorrelationValues)
+
+	/* (non-Javadoc)
+	 * @see Descriptor#setCorrelationValues(CorrelationValues)
 	 */
 	public void setCorrelationValues(CorrelationValues v) {
 		typeCode = v.getValue(1);
 		sourceCode = v.getValue(3);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see librisuite.hibernate.Descriptor#getSortFormParameters()
+
+	/* (non-Javadoc)
+	 * @see Descriptor#getSortFormParameters()
 	 */
 	public SortFormParameters getSortFormParameters() {
 		return new SortFormParameters(100, 103, getTypeCode(), 0,
 				getSkipInFiling());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see librisuite.hibernate.Descriptor#getHeadingNumberSearchIndex()
+	/* (non-Javadoc)
+	 * @see Descriptor#getHeadingNumberSearchIndexKey()
 	 */
 	public String getHeadingNumberSearchIndexKey() {
 		return "229P";
 	}
 
+	/* (non-Javadoc)
+	 * @see Descriptor#getLockingEntityType()
+	 */
 	public String getLockingEntityType() {
 		return "SH";
 	}
 
-	public void setDefaultSourceCode() {
-		short sourceCode = 0;
-		sourceCode = new Short(configHandler.findValue("t_sbjct_hdg_src",
-				"subject.typeCode"));
-		setSourceCode(sourceCode);
-		short accLang = 0;
-		accLang = new Short(configHandler.findValue("t_lang_of_acs_pnt_sbjct",
-				"subject.accessPointLanguage"));
-		setAccessPointLanguage(accLang);
 
-	}
-
-	@Override
+	/* (non-Javadoc)
+	 * @see Descriptor#buildBrowseTerm()
+	 */
+	@Deprecated
 	public String buildBrowseTerm() {
 		String returnString = new String();
 		StringText text = new StringText(getStringText());

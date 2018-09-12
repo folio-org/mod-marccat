@@ -12,7 +12,6 @@ import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.RecordNotFoundException;
 import org.folio.cataloging.business.common.View;
 import org.folio.cataloging.business.controller.UserProfile;
-import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.util.XmlUtils;
 import org.w3c.dom.Document;
@@ -37,11 +36,11 @@ public class AuthorityCatalogDAO extends CatalogDAO {
 	public AuthorityItem getAuthorityItemByAmicusNumber(int id)
 		throws DataAccessException {
 		AuthorityItem item = getAuthorityItem(id);
-		item.addAllTags((Tag[]) getHeaderFields(item).toArray(new Tag[0]));
+		item.addAllTags(getHeaderFields(item).toArray(new Tag[0]));
 		AuthorityHeadingTag heading = getHeadingField(item);
 		item.addTag(heading);
 		item.addAllTags(
-			(Tag[]) getReferenceFields(item, heading).toArray(new Tag[0]));
+      getReferenceFields(item, heading).toArray(new Tag[0]));
 		item.addAllTags((Tag[]) getAccessPointTags(item).toArray(new Tag[0]));
 		item.addAllTags((Tag[]) getNotes(id).toArray(new Tag[0]));
 		//TODO passare la sessione al metodo load(id)
@@ -216,7 +215,7 @@ public class AuthorityCatalogDAO extends CatalogDAO {
 			logger.debug(
 				"loading all Notes for authority item: "
 					+ Integer.toString(id));
-		
+
 		return find(
 			"from AuthorityNote as t "
 				+ "where t.itemNumber = ? ",
@@ -232,7 +231,7 @@ public class AuthorityCatalogDAO extends CatalogDAO {
 
 		return findNotes(id);
 	}
-	
+
 	@Override
 	protected void updateCacheTable(CatalogItem item, Session session)
 		throws DataAccessException {
@@ -256,7 +255,7 @@ public class AuthorityCatalogDAO extends CatalogDAO {
 	@Override
 	protected void insertDeleteTable(CatalogItem item, UserProfile user) throws DataAccessException {
 		// do nothing -- Authorities don't have a cache table (yet)
-		
+
 	}
 
 	public List findNotes(Integer amicusNumber) {
@@ -267,14 +266,14 @@ public class AuthorityCatalogDAO extends CatalogDAO {
 			rs = con.createStatement().executeQuery("SELECT * from AUT_NTE where AUT_NBR=" + amicusNumber);
 			while (rs.next()) {
 				AuthorityNote note = new AuthorityNote();
-				
+
 				note.setItemNumber(rs.getInt("AUT_NBR"));
 				note.setNoteNumber(rs.getInt("AUT_NTE_NBR"));
 				note.setNoteType(rs.getShort("AUT_NTE_TYP_CDE"));
 				note.setNoteStringText(rs.getString("AUT_NTE_STRNG_TXT"));
-				
+
 				notes.add(note);
-			} 
+			}
 		} catch (Exception e) {
 			return notes;
 		}

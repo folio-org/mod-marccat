@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Nov 22, 2005
- * 
+ *
  * AuthorityReferenceTag.java
  */
 package org.folio.cataloging.business.cataloguing.authority;
@@ -16,7 +16,6 @@ import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
 import org.folio.cataloging.business.cataloguing.common.Browsable;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.PersistentObjectWithView;
-import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.DescriptorFactory;
 import org.folio.cataloging.business.descriptor.SkipInFiling;
 import org.folio.cataloging.dao.AbstractDAO;
@@ -34,7 +33,7 @@ import java.util.Set;
 
 /**
  * Represents Authority tags 4XX and 5XX.
- * 
+ *
  * Note that Persistence is implemented via the associated REF attribute
  * @author paulm
  * @version $Revision: 1.6 $, $Date: 2006/01/11 13:36:22 $
@@ -47,7 +46,7 @@ public abstract class AuthorityReferenceTag
 		LogFactory.getLog(AuthorityReferenceTag.class);
 
 	private static final String VARIANT_CODES = "wehij4";
-	
+
 	private AUT autItm;
 
 	private REF reference;
@@ -57,7 +56,7 @@ public abstract class AuthorityReferenceTag
 	/**
 	 * Class constructor
 	 *
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public AuthorityReferenceTag() {
@@ -73,7 +72,7 @@ public abstract class AuthorityReferenceTag
 
 	/**
 	 * Used to change the associated targetDescriptor type
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void changeHeadingType(short headingType) {
@@ -107,7 +106,7 @@ public abstract class AuthorityReferenceTag
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void evict(Object obj) throws DataAccessException {
@@ -123,7 +122,7 @@ public abstract class AuthorityReferenceTag
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getAuthorityStructure() {
@@ -131,7 +130,7 @@ public abstract class AuthorityReferenceTag
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public AUT getAutItm() {
@@ -201,7 +200,7 @@ public abstract class AuthorityReferenceTag
 	}
 
 	/**
-		 * 
+		 *
 		 * @since 1.0
 		 */
 	public short getDualReferenceIndicator() {
@@ -209,7 +208,7 @@ public abstract class AuthorityReferenceTag
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getEarlierRules() {
@@ -280,7 +279,7 @@ public abstract class AuthorityReferenceTag
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getNoteGeneration() {
@@ -288,7 +287,7 @@ public abstract class AuthorityReferenceTag
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getPrintConstant() {
@@ -296,7 +295,7 @@ public abstract class AuthorityReferenceTag
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public REF getReference() {
@@ -370,7 +369,7 @@ public abstract class AuthorityReferenceTag
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public Descriptor getTargetDescriptor() {
@@ -399,7 +398,7 @@ public abstract class AuthorityReferenceTag
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public String getUserViewString() {
@@ -532,7 +531,7 @@ public abstract class AuthorityReferenceTag
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setAuthorityStructure(char b) {
@@ -540,7 +539,7 @@ public abstract class AuthorityReferenceTag
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setAutItm(AUT aut) {
@@ -571,7 +570,7 @@ public abstract class AuthorityReferenceTag
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setEarlierRules(char b) {
@@ -599,7 +598,7 @@ public abstract class AuthorityReferenceTag
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setNoteGeneration(char b) {
@@ -607,7 +606,7 @@ public abstract class AuthorityReferenceTag
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setPrintConstant(char b) {
@@ -615,7 +614,7 @@ public abstract class AuthorityReferenceTag
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setReference(REF ref) {
@@ -623,7 +622,7 @@ public abstract class AuthorityReferenceTag
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setRefTypeCorrelationPosition(Integer i) {
@@ -651,7 +650,7 @@ public abstract class AuthorityReferenceTag
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setTargetDescriptor(Descriptor descriptor) {
@@ -672,7 +671,7 @@ public abstract class AuthorityReferenceTag
 	public void setLinkDisplay(Character linkDisplay) {
 		reference.setLinkDisplay(linkDisplay);
 	}
-	
+
 	public Character getLinkDisplay() {
 		return reference.getLinkDisplay();
 	}
@@ -685,13 +684,13 @@ public abstract class AuthorityReferenceTag
 		return reference.getReplacementComplexity();
 	}
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setUserViewString(String s) {
 		getReference().setUserViewString(s);
 	}
-	
+
 	 /* (non-Javadoc)
 	 * @see TagInterface#validate()
 	 */

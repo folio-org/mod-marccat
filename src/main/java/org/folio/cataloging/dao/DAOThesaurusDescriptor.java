@@ -1,25 +1,23 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Dec 3, 2004
- * 
+ *
  * DAOThesaurusDescriptor.java
  */
 package org.folio.cataloging.dao;
 
-import java.util.List;
-
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Persistence;
-import org.folio.cataloging.business.common.ReferentialIntegrityException;
-import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.dao.persistence.THS_HDG;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Query;
 import net.sf.hibernate.Session;
-
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.Persistence;
+import org.folio.cataloging.business.common.ReferentialIntegrityException;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
+import org.folio.cataloging.dao.persistence.THS_HDG;
+
+import java.util.List;
 
 /**
  * @author paulm
@@ -36,18 +34,18 @@ public class DAOThesaurusDescriptor extends DAODescriptor {
 	public Class getPersistentClass() {
 		return DAOThesaurusDescriptor.persistentClass;
 	}
-	
+
 	  public boolean supportsAuthorities() {
 			return true;
 		}
-	
+
 	public List getHeadingsBySortform(String operator, String direction, String term, String filter, int cataloguingView, int count) throws DataAccessException {
      	Session s = currentSession();
     	List l = null;
 		try {
 			String quetyString = "select distinct ths_hdg from "
                 + getPersistentClass().getName()
-                + " as ths_hdg where ths_hdg.sortForm "    
+                + " as ths_hdg where ths_hdg.sortForm "
                 + operator
                 + " :term  and "
                 + " SUBSTR(ths_hdg.key.userViewString, :view, 1) = '1' "
@@ -55,8 +53,8 @@ public class DAOThesaurusDescriptor extends DAODescriptor {
                 + " order by ths_hdg.sortForm "
                 + direction;
 //                logger.info(quetyString);
-                
-			
+
+
 			Query q =
 				s.createQuery(
 					quetyString);
@@ -64,52 +62,39 @@ public class DAOThesaurusDescriptor extends DAODescriptor {
 			q.setInteger("view", cataloguingView);
 			q.setMaxResults(count);
 			l = q.list();
-					
+
 		} catch (HibernateException e) {
 			logAndWrap(e);
 		}
-		
+
 		 return l;
 	}
-	
+
 	/*Questa heading ha solo cross reference*/
 	public void delete(Persistence p)
-	throws ReferentialIntegrityException, DataAccessException {
+	throws DataAccessException {
 	if (!(p instanceof Descriptor)) {
 		throw new IllegalArgumentException("I can only delete Descriptor objects");
 	}
 	Descriptor d = ((Descriptor) p);
-	//Non ha ACCESS_POINT
-/*	List l =
-		find(
-			"select count(*) from "
-				+ d.getAccessPointClass().getName()
-				+ " as a where a.headingNumber = ?",
-			new Object[] { new Integer(d.getKey().getHeadingNumber())},
-			new Type[] { Hibernate.INTEGER });
-	if (((Integer) l.get(0)).intValue() > 0) {
-		throw new ReferentialIntegrityException(
-			d.getAccessPointClass().getName(),
-			d.getClass().getName());
-	}*/
 
 	// check for cross references
-	if (supportsCrossReferences()) {
+	/*if (supportsCrossReferences()) {
 		if (getXrefCount(d, View.toIntView(d.getUserViewString())) > 0) {
 			throw new ReferentialIntegrityException(
 				d.getReferenceClass(d.getClass()).getName(),
 				d.getClass().getName());
 		}
 	}
-	//Carmen aggiunto 23/07/2010
-		if (supportsCrossReferences()) {
+
+		/*if (supportsCrossReferences()) {
 			if (d instanceof THS_HDG) {
 				if (getXAtrCount(d, View.toIntView(d.getUserViewString())) > 0) {
 					throw new ReferentialIntegrityException("Librisuite.hibernate.THS_ATRIB", d
 							.getClass().getName());
 				}
 			}
-		}
+		}*/
 	// check for authorities
 	if (supportsAuthorities()) {
 		if (d.getAuthorityCount() > 0) {
@@ -121,9 +106,9 @@ public class DAOThesaurusDescriptor extends DAODescriptor {
 
 	// OK, go ahead and delete
 	deleteDescriptor(p);
-	
+
 }
-	
+
 	/**
 	 * Default implementation for delete with no cascade affects
 	 * @since 1.0

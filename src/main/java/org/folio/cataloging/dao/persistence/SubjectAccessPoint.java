@@ -4,7 +4,6 @@ import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicAcce
 import org.folio.cataloging.business.cataloguing.bibliographic.Equivalent;
 import org.folio.cataloging.business.cataloguing.common.OrderedTag;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.integration.GlobalStorage;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
@@ -26,7 +25,7 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
 	private int sequenceNumber;
 	private SBJCT_HDG descriptor = new SBJCT_HDG();
 
-	public SubjectAccessPoint() 
+	public SubjectAccessPoint()
 	{
 		super();
 	}
@@ -236,7 +235,7 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
 
     //TODO: move in storageService and add session
     @Deprecated
-	public List replaceEquivalentDescriptor(short indexingLanguage, int cataloguingView) throws DataAccessException 
+	public List replaceEquivalentDescriptor(short indexingLanguage, int cataloguingView) throws DataAccessException
 	{
 		/*DAODescriptor dao = new DAOSubjectDescriptor();
 		List newTags = new ArrayList();

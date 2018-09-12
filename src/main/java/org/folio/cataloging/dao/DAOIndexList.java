@@ -12,9 +12,9 @@ import org.folio.cataloging.business.descriptor.SortFormParameters;
 import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.persistence.IndexList;
 import org.folio.cataloging.dao.persistence.IndexListKey;
-import org.folio.cataloging.log.MessageCatalog;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Provides data access to IDX_LIST table
@@ -25,17 +25,16 @@ import java.util.*;
 public class DAOIndexList extends HibernateUtil {
 	private static final Log logger = LogFactory.getLog(DAOIndexList.class);
 
-	public List getBrowseIndex(Locale locale) throws DataAccessException {
+	public List getBrowseIndex(final Locale locale, final Session session) throws HibernateException {
 		final String query =
 			"from IndexList as a "
 				+ "where SUBSTR(a.browseCode, 0, 1) = 'B' "
 				+ "and a.key.language = '"
 				+ locale.getISO3Language()
-				/*modifica Barbara 26/04/2007 - nella lista degli indici solo indici LC*/
-				+ "' and a.codeLibriCatMades = 'LC'" 
+				+ "' and a.codeLibriCatMades = 'LC'"
 				+ " order by a.languageDescription";
 
-		return getIndexByQuery(query);
+		return getIndexByQuery(query, session);
 	}
 
 	public List getEditorBrowseIndex(Locale locale) throws DataAccessException {
@@ -51,7 +50,7 @@ public class DAOIndexList extends HibernateUtil {
 
 		return getIndexByQuery(query);
 	}
-	
+
 	public List getBrowseIndexPublisher(Locale locale) throws DataAccessException {
 		final String query =
 			"from IndexList as a "
@@ -60,8 +59,7 @@ public class DAOIndexList extends HibernateUtil {
 				+ " or a.languageCode = 'PU')"
 				+ "and a.key.language = '"
 				+ locale.getISO3Language()
-				/*modifica Barbara 26/04/2007 - nella lista degli indici solo indici LC*/
-				+ "' and a.codeLibriCatMades = 'LC'" 
+					+ "' and a.codeLibriCatMades = 'LC'"
 				+ " order by a.languageDescription";
 
 		return getIndexByQuery(query);
@@ -102,9 +100,9 @@ public class DAOIndexList extends HibernateUtil {
 				+ Locale.ENGLISH.getISO3Language()
 				+ "' and a.codeLibriCatMades = 'LC'";
 
-		List l = getIndexByQuery(query);
+		final List<IndexListElement> l = getIndexByQuery(query);
 		if (l.size() > 0) {
-			return ((IndexListElement) l.get(0)).getKey();
+			return ( l.get(0)).getKey();
 		} else {
 			return null;
 		}
@@ -150,44 +148,7 @@ public class DAOIndexList extends HibernateUtil {
 		}
 	}
 
-	/**
-	 * 
-	 * Get the IndexElementList for a expecific query
-	 * 
-	 * @param query
-	 * @throws DataAccessException
-	 * @since 1.0
-	 */
-	@SuppressWarnings("unchecked")
-	public List getIndexByQuery(String query) throws DataAccessException {
-		List l = null;
-		List result = new ArrayList();
-		Session s = currentSession();
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("Doing query: " + query);
-		}
-		try {
-			l = s.find(query);
-		} catch (HibernateException e) {
-			logAndWrap(e);
-		}
-
-		Iterator iter = l.iterator();
-		while (iter.hasNext()) {
-			IndexList aRow = (IndexList) iter.next();
-
-			result.add(
-				new IndexListElement(
-					aRow.getLanguageCode(),
-					aRow.getLanguageDescription(),
-					""
-						+ aRow.getKey().getKeyNumber()
-						+ aRow.getKey().getTypeCode().trim()));
-
-		}
-		return result;
-	}
 	/**
 	 * Returns the name of the code table used by the index
 	 *
@@ -198,8 +159,7 @@ public class DAOIndexList extends HibernateUtil {
 	 * @throws DataAccessException in case of data access failure.
 	 */
 	public String getCodeTableName(final Session session, final String code, final Locale locale)
-			throws DataAccessException {
-		try {
+			throws HibernateException {
 			String query =
 					"select a.codeTableName from IndexList as a "
 							+ "where a.languageCode = '" + code + "'"
@@ -208,10 +168,7 @@ public class DAOIndexList extends HibernateUtil {
 			final List<String> tableNameList = session.find(query);
 			final Optional<String> firstElement = tableNameList.stream().filter(Objects::nonNull).findFirst();
 			return firstElement.isPresent() ? firstElement.get() : "";
-		} catch (final HibernateException exception) {
-			logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-			return "";
-		}
+
 	}
 
 	public String getCodeTable(String key) throws DataAccessException {
@@ -243,13 +200,13 @@ public class DAOIndexList extends HibernateUtil {
 	return codeTable;
 }
 
-	
-	public SortFormParameters getSortFormParametersByKey(String indexKey)
-		throws DataAccessException {
+
+	public SortFormParameters getSortFormParametersByKey(final String indexKey, final Session session)
+		throws HibernateException {
 		SortFormParameters result = null;
 		IndexListKey ilk = new IndexListKey(indexKey);
 		List l =
-			find(
+			session.find(
 				"from IndexList as t where t.key.keyNumber = ? "
 					+ " and trim(t.key.typeCode) = ? "
 					+ " and t.codeLibriCatMades = 'LC'"
@@ -274,12 +231,12 @@ public class DAOIndexList extends HibernateUtil {
 		}
 		return result;
 	}
-	
+
 	public IndexList getIndexByLocalAbbreviation(final Session session, String s, Locale locale) throws DataAccessException {
 
 		List l = find(session, "from IndexList as a "
 				+ "where lower(a.languageCode) = '" + s.toLowerCase() + "'"
-				+ " and a.key.language = '" + locale.getISO3Language() + "'"				
+				+ " and a.key.language = '" + locale.getISO3Language() + "'"
 				+ " and a.codeLibriCatMades = 'LC'");
 		if (l.size() > 0) {
 			return (IndexList)l.get(0);
@@ -289,4 +246,88 @@ public class DAOIndexList extends HibernateUtil {
 		}
     }
 
+	/**
+	 *
+	 * Get the IndexElementList for a expecific query
+	 *
+	 * @param query
+	 * @param session
+	 * @throws HibernateException
+	 */
+	@SuppressWarnings("unchecked")
+	public List<IndexListElement> getIndexByQuery(final String query, final Session session) throws HibernateException {
+		final List<IndexList> indexesList = session.find(query);
+		return indexesList.stream().map(index -> {
+			return new IndexListElement(
+					index.getLanguageCode(),
+					index.getLanguageDescription(),
+					"" + index.getKey().getKeyNumber()	+ index.getKey().getTypeCode().trim());
+
+		}).collect(Collectors.toList());
+	}
+
+	/**
+	 *
+	 * Get the IndexElementList for a expecific query
+	 *
+	 * @param query
+	 * @throws DataAccessException
+	 * @since 1.0
+	 */
+	@SuppressWarnings("unchecked")
+	@Deprecated
+	public List getIndexByQuery(String query) throws DataAccessException {
+		List l = null;
+		List result = new ArrayList();
+		Session s = currentSession();
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("Doing query: " + query);
+		}
+		try {
+			l = s.find(query);
+		} catch (HibernateException e) {
+			logAndWrap(e);
+		}
+
+		Iterator iter = l.iterator();
+		while (iter.hasNext()) {
+			IndexList aRow = (IndexList) iter.next();
+
+			result.add(
+					new IndexListElement(
+							aRow.getLanguageCode(),
+							aRow.getLanguageDescription(),
+							""
+									+ aRow.getKey().getKeyNumber()
+									+ aRow.getKey().getTypeCode().trim()));
+
+		}
+		return result;
+	}
+	/**
+	 *
+	 * Get the key for a specific index
+	 *
+	 * @param indexAbbreviation the abbreviation of index
+	 * @param session the session of hibernate
+	 * @param locale the Locale, used here as a filter criterion.
+	 * @return the key for index code associated with the requested language.
+	 * @throws HibernateException
+	 */
+	public String getIndexByAbreviation(final String indexAbbreviation, final Session session, final Locale locale)
+			throws HibernateException {
+		String query =
+				"from IndexList as a "
+						+ "where a.languageCode = "
+						+ "'" + indexAbbreviation + "'"
+						+ " and a.key.language = '"
+						+ locale.getISO3Language()
+						+ "' and a.codeLibriCatMades = 'LC'";
+
+		List<IndexListElement> indexListElement = getIndexByQuery(query, session);
+		final Optional<IndexListElement> firstElement = indexListElement.stream().filter(Objects::nonNull).findFirst();
+		return firstElement.isPresent() ? (firstElement.get()).getKey() : null;
+
+	}
 }

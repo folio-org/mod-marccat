@@ -1,5 +1,21 @@
 package org.folio.cataloging.dao;
 
+import net.sf.hibernate.Hibernate;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.Transaction;
+import net.sf.hibernate.type.Type;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.Global;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.patterns.PredictionPattern.PopulationEntry;
+import org.folio.cataloging.business.serialControl.DuplicateVendorException;
+import org.folio.cataloging.business.serialControl.SerialsControlManager;
+import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
+import org.folio.cataloging.dao.persistence.*;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,30 +23,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.persistence.SRL_ENUM;
-import org.folio.cataloging.dao.persistence.SRL_ORDR;
-import org.folio.cataloging.dao.persistence.SRL_PRED_PAT;
-import org.folio.cataloging.dao.persistence.SRL_PRED_PAT_DTL;
-import org.folio.cataloging.dao.persistence.SRL_VNDR;
-import org.folio.cataloging.dao.persistence.SerialLogicalCopy;
-import org.folio.cataloging.dao.persistence.SerialPart;
-import net.sf.hibernate.Hibernate;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.Transaction;
-import net.sf.hibernate.type.Type;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
-import org.folio.cataloging.business.patterns.PredictionPattern.PopulationEntry;
-import org.folio.cataloging.Global;
-import org.folio.cataloging.business.serialControl.DuplicateVendorException;
-import org.folio.cataloging.business.serialControl.SerialsControlManager;
 
 public class DAOPredictionPattern extends HibernateUtil {
 
@@ -159,7 +151,7 @@ public class DAOPredictionPattern extends HibernateUtil {
 					while (iter2.hasNext()) {
 						SerialLogicalCopy c = (SerialLogicalCopy) iter2.next();
 						if (c.isNew()) {
-							c.generateNewKey();
+							c.generateNewKey(session);
 							c.setOrderNumber(o.getOrderNumber());
 						}
 						c.markChanged();
@@ -310,14 +302,14 @@ public class DAOPredictionPattern extends HibernateUtil {
 			}
 		}.execute();
 	}
-	
-	
-	public void updateOrderLine(String enumDescription, String expiryDate, int orderNo, int bib_itm_nbr) throws DataAccessException 
+
+
+	public void updateOrderLine(String enumDescription, String expiryDate, int orderNo, int bib_itm_nbr) throws DataAccessException
 	{
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		Session session = currentSession();
-		
+
 		try {
 			connection =session.connection();
 			String description = enumDescription+" ricevuta il "+expiryDate;
@@ -328,11 +320,11 @@ public class DAOPredictionPattern extends HibernateUtil {
 			stmt.setInt(2, orderNo);
 			stmt.setInt(3, bib_itm_nbr);
 		    stmt.execute();
-		
+
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			logAndWrap(e);
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			logAndWrap(e);
@@ -346,7 +338,7 @@ public class DAOPredictionPattern extends HibernateUtil {
 			} catch (SQLException e) {
 				e.printStackTrace();
 				logAndWrap(e);
-			}			
+			}
 		}
 	}
 

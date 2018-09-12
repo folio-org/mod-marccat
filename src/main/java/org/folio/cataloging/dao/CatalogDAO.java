@@ -8,7 +8,6 @@ import org.folio.cataloging.business.cataloguing.bibliographic.VariableHeaderUsi
 import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.common.*;
 import org.folio.cataloging.business.controller.UserProfile;
-import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.integration.log.MessageCatalogStorage;

@@ -2,6 +2,7 @@ package org.folio.cataloging.business.descriptor;
 
 import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAOPublisherTagDescriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.dao.persistence.PublisherAccessPoint;
 import org.folio.cataloging.shared.CorrelationValues;
 
@@ -11,11 +12,11 @@ import java.util.List;
 /**
  * An adaptor to implement Descriptor semantics for the set
  * of PUBL_TAG objects representing this Publisher APF
- * 
+ *
  * @author paultest
  *
  */
-public class PublisherTagDescriptor extends Descriptor 
+public class PublisherTagDescriptor extends Descriptor
 {
 	private static DAOPublisherTagDescriptor theDAO = new DAOPublisherTagDescriptor();
 

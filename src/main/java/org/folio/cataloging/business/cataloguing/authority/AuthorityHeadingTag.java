@@ -6,8 +6,8 @@ import org.folio.cataloging.business.cataloguing.bibliographic.PersistsViaItem;
 import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
 import org.folio.cataloging.business.cataloguing.common.Browsable;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.dao.persistence.AUT;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.dao.persistence.ItemEntity;
 import org.folio.cataloging.exception.NoHeadingSetException;
 import org.folio.cataloging.exception.ValidationException;
@@ -43,7 +43,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see PersistsViaItem#getItemEntity()
 	 */
 	public ItemEntity getItemEntity() {
@@ -52,7 +52,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see PersistsViaItem#setItemEntity(ItemEntity)
 	 */
 	public void setItemEntity(ItemEntity item) {
@@ -60,7 +60,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	private AUT getAutItm() {
@@ -68,7 +68,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public Descriptor getDescriptor() {
@@ -76,7 +76,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setDescriptor(Descriptor descriptor) {
@@ -88,7 +88,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see VariableField#getStringText()
 	 */
 	public StringText getStringText() {
@@ -99,7 +99,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see VariableField#setStringText(org.folio.cataloging.util.StringText)
 	 */
 	public void setStringText(StringText stringText) {
@@ -113,7 +113,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see VariableField#parseModelXmlElementContent(org.w3c.dom.Element)
 	 */
 	public void parseModelXmlElementContent(Element xmlElement) {
@@ -123,7 +123,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see Tag#getCategory()
 	 */
 	public int getCategory() {
@@ -133,7 +133,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see TagInterface#getFirstCorrelationList()
 	 */
 	public List getFirstCorrelationList() throws DataAccessException {
@@ -143,7 +143,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see VariableField#getCorrelationValues()
 	 */
 	public CorrelationValues getCorrelationValues() {
@@ -157,7 +157,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see VariableField#setCorrelationValues(librisuite.business.common.CorrelationValues)
 	 */
 	public void setCorrelationValues(CorrelationValues v) {
@@ -166,7 +166,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see TagInterface#isBrowsable()
 	 */
 	public boolean isBrowsable() {
@@ -179,7 +179,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see Tag#hasBrowsableContent()
 	 */
 	public boolean hasBrowsableContent() {
@@ -188,7 +188,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see Browsable#getHeadingNumber()
 	 */
 	public Integer getHeadingNumber() {
@@ -204,7 +204,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see Browsable#setHeadingNumber(java.lang.Integer)
 	 */
 	public void setHeadingNumber(Integer i) {
@@ -221,7 +221,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see Browsable#getEditableSubfields()
 	 */
 	public StringText getEditableSubfields() {
@@ -230,7 +230,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see TagInterface#isAbleToBeDeleted()
 	 */
 	public boolean isAbleToBeDeleted() {
@@ -239,7 +239,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see Browsable#getValidEditableSubfields()
 	 */
 	public Set getValidEditableSubfields() {
@@ -248,7 +248,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see Browsable#setDescriptorStringText(org.folio.cataloging.util.StringText)
 	 */
 	public void setDescriptorStringText(StringText tagStringText) {
@@ -257,7 +257,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see TagInterface#validate(int)
 	 */
 	public void validate(int index) throws ValidationException {

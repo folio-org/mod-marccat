@@ -52,7 +52,7 @@ public abstract class AbstractDAO extends HibernateUtil {
      * @param session the current hibernate session.
      * @throws HibernateException in case of hibernate exception.
      */
-    private void delete(final Persistence persistentObject, final Session session) throws HibernateException {
+    public void delete(final Persistence persistentObject, final Session session) throws HibernateException {
         Transaction tx = null;
         try {
             tx = getTransaction(session);
