@@ -26,6 +26,7 @@ import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.cataloging.model.Subfield;
 import org.folio.cataloging.resources.domain.BibliographicRecord;
+import org.folio.cataloging.resources.domain.Leader;
 import org.folio.cataloging.resources.domain.RecordTemplate;
 import org.folio.cataloging.resources.domain.TagMarcEncoding;
 import org.folio.cataloging.search.SearchResponse;
@@ -1642,12 +1643,20 @@ public class StorageService implements Closeable {
 
   }
 
+  /**
+   * Insert a new bibliographic record.
+   *
+   * @param record -- the record bibliographic.
+   * @param view -- the current view associated to record.
+   * @param giAPI -- {#link GeneralInformation} to get default values.
+   * @throws DataAccessException in case of data access exception.
+   */
   private void insertBibliographicRecord(final BibliographicRecord record, final int view, final GeneralInformation giAPI) throws DataAccessException {
     final BibliographicCatalog catalog = new BibliographicCatalog();
     final int bibItemNumber = record.getId();
     final CatalogItem item = catalog.newCatalogItem(new Object[]{new Integer(view), new Integer(bibItemNumber)});
 
-    org.folio.cataloging.resources.domain.Leader leader = record.getLeader();
+    Leader leader = record.getLeader();
     item.getItemEntity().setLanguageOfCataloguing("eng");
     if (leader != null) {
       final BibliographicLeader bibLeader = catalog.createRequiredLeaderTag(item);
@@ -1671,6 +1680,10 @@ public class StorageService implements Closeable {
       }
 
       //physical 007
+      if (tagNbr.equals(GlobalStorage.PHYSICAL_DESCRIPTION_TAG_CODE)) {
+        final org.folio.cataloging.resources.domain.FixedField fixedField = field.getFixedField();
+        addPhysicalDescriptionTag(catalog, item, fixedField, bibItemNumber);
+      }
 
       if (tagNbr.equals(GlobalStorage.CATALOGING_SOURCE_TAG_CODE)){
         final org.folio.cataloging.resources.domain.VariableField variableField = field.getVariableField();
@@ -1722,6 +1735,27 @@ public class StorageService implements Closeable {
     }
   }
 
+  /**
+   *
+   * @param catalog
+   * @param item
+   * @param ff
+   * @param bibItemNumber
+   * @throws DataAccessException
+   */
+  private void addPhysicalDescriptionTag(final BibliographicCatalog catalog,
+                                         final CatalogItem item,
+                                         final org.folio.cataloging.resources.domain.FixedField ff,
+                                         final int bibItemNumber) throws DataAccessException {
+
+    final int headerTypeCode = ff.getHeaderTypeCode();
+    final String categoryOfMaterial = ff.getCategoryOfMaterial();
+    final CorrelationValues correlationValues = new CorrelationValues(headerTypeCode, CorrelationValues.UNDEFINED, CorrelationValues.UNDEFINED);
+    PhysicalDescription pd = catalog.createPhysicalDescriptionTag(item, correlationValues);
+    catalog.toPhysicalDescription(ff, pd);
+
+
+  }
 
   /**
    * Creates and add to catalog a new persistent {@link PublisherManager} object for saving record.
@@ -1738,7 +1772,7 @@ public class StorageService implements Closeable {
                                      final CorrelationValues correlationValues,
                                      final org.folio.cataloging.resources.domain.VariableField variableField,
                                      final int bibItemNumber) throws DataAccessException {
-    final PublisherManager publisherManager = catalog.createPublisherTag(catalog, item, correlationValues);
+    final PublisherManager publisherManager = catalog.createPublisherTag(item, correlationValues);
     publisherManager.markNew();
     publisherManager.setBibItemNumber(bibItemNumber);
     item.addTag(publisherManager);
@@ -1759,7 +1793,7 @@ public class StorageService implements Closeable {
                                 final CorrelationValues correlationValues,
                                 final org.folio.cataloging.resources.domain.VariableField variableField,
                                 final int bibItemNumber) throws DataAccessException {
-    final BibliographicNoteTag nTag = catalog.createBibliographicNoteTag(catalog, item, correlationValues);
+    final BibliographicNoteTag nTag = catalog.createBibliographicNoteTag(item, correlationValues);
     nTag.getNote().setContent(variableField.getValue());
     if ( variableField.getKeyNumber() != null && variableField.getKeyNumber() != 0)
       nTag.getNote().setNoteNbr(variableField.getKeyNumber());
@@ -1785,7 +1819,7 @@ public class StorageService implements Closeable {
                                    final CorrelationValues correlationValues,
                                    final org.folio.cataloging.resources.domain.VariableField variableField,
                                    final int bibItemNumber) throws DataAccessException {
-    final SubjectAccessPoint sap = catalog.createSubjectAccessPoint(catalog, item, correlationValues);
+    final SubjectAccessPoint sap = catalog.createSubjectAccessPoint(item, correlationValues);
     sap.setAccessPointStringText(new StringText(variableField.getValue()));
     sap.setHeadingNumber(variableField.getKeyNumber());
     sap.setItemNumber(bibItemNumber);
@@ -1808,7 +1842,7 @@ public class StorageService implements Closeable {
                                           final CorrelationValues correlationValues,
                                           final org.folio.cataloging.resources.domain.VariableField variableField,
                                           final int bibItemNumber) throws DataAccessException {
-    final ClassificationAccessPoint clap = catalog.createClassificationAccessPoint(catalog, item, correlationValues);
+    final ClassificationAccessPoint clap = catalog.createClassificationAccessPoint(item, correlationValues);
     clap.setAccessPointStringText(new StringText(variableField.getValue()));
     clap.setHeadingNumber(variableField.getKeyNumber());
     clap.setItemNumber(bibItemNumber);
@@ -1831,7 +1865,7 @@ public class StorageService implements Closeable {
                                         final CorrelationValues correlationValues,
                                         final org.folio.cataloging.resources.domain.VariableField variableField,
                                         final int bibItemNumber) throws DataAccessException {
-    final ControlNumberAccessPoint cnap = catalog.createControlNumberAccessPoint(catalog, item, correlationValues);
+    final ControlNumberAccessPoint cnap = catalog.createControlNumberAccessPoint(item, correlationValues);
     cnap.setAccessPointStringText(new StringText(variableField.getValue()));
     cnap.setHeadingNumber(variableField.getKeyNumber());
     cnap.setItemNumber(bibItemNumber);
@@ -1854,7 +1888,7 @@ public class StorageService implements Closeable {
                                 final CorrelationValues correlationValues,
                                 final org.folio.cataloging.resources.domain.VariableField variableField,
                                 final int bibItemNumber) throws DataAccessException {
-    final NameAccessPoint nap = catalog.createNameAccessPointTag(catalog, item, correlationValues);
+    final NameAccessPoint nap = catalog.createNameAccessPointTag(item, correlationValues);
     nap.setAccessPointStringText(new StringText(variableField.getValue()));
     nap.setHeadingNumber(variableField.getKeyNumber());
     nap.setItemNumber(bibItemNumber);
@@ -1878,7 +1912,7 @@ public class StorageService implements Closeable {
                                  final org.folio.cataloging.resources.domain.VariableField variableField,
                                  final int bibItemNumber) throws DataAccessException {
 
-    final TitleAccessPoint tap = catalog.createTitleAccessPointTag(catalog, item, correlationValues);
+    final TitleAccessPoint tap = catalog.createTitleAccessPointTag(item, correlationValues);
     tap.setAccessPointStringText(new StringText(variableField.getValue()));
     tap.setHeadingNumber(variableField.getKeyNumber());
     tap.setItemNumber(bibItemNumber);
@@ -1894,7 +1928,7 @@ public class StorageService implements Closeable {
    * @param item -- the item to add tags.
    * @param fixedField -- the fixed field containing data.
    * @param bibMaterial -- the {@link MaterialDescription}.
-   * @param leader -- the {@link org.folio.cataloging.resources.domain.Leader} of record item.
+   * @param leader -- the {@link Leader} of record item.
    * @throws DataAccessException in case of data access exception.
    */
   private void addMaterialDescriptionToCatalog(final String tagNbr,
@@ -1902,7 +1936,7 @@ public class StorageService implements Closeable {
                                                final CatalogItem item,
                                                final org.folio.cataloging.resources.domain.FixedField fixedField,
                                                final MaterialDescription bibMaterial,
-                                               final org.folio.cataloging.resources.domain.Leader leader){
+                                               final Leader leader){
 
     final String materialDescription008Indicator = tagNbr.equals(GlobalStorage.MATERIAL_TAG_CODE) ?"1" :"0";
     bibMaterial.setMaterialDescription008Indicator(materialDescription008Indicator);
