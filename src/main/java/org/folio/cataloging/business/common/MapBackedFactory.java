@@ -11,18 +11,7 @@ import java.util.Map;
  */
 public class MapBackedFactory extends AbstractMapBackedFactory {
 
-	private final static Map<Integer, Class> map = new HashMap<>();
-	/*static {
-		map.put(1, MaterialDescription.class);
-		map.put(2, NameAccessPoint.class);
-		map.put(3, TitleAccessPoint.class);
-		map.put(4, SubjectAccessPoint.class);
-		map.put(5, ControlNumberAccessPoint.class);
-		map.put(6, ClassificationAccessPoint.class);
-		map.put(7, BibliographicNoteTag.class);
-		map.put(8, BibliographicRelationshipTag.class);
-		map.put(11, NameTitleAccessPoint.class);
-	};*/
+	private Map<Integer, Class> map = new HashMap<>();
 
 	@Override
 	public void put(final Integer key, final Class clazz) {

@@ -7,6 +7,7 @@ import org.folio.cataloging.business.common.*;
 import org.folio.cataloging.business.descriptor.PublisherTagDescriptor;
 import org.folio.cataloging.dao.*;
 import org.folio.cataloging.dao.persistence.*;
+import org.folio.cataloging.dao.persistence.Map;
 import org.folio.cataloging.exception.ValidationException;
 import org.folio.cataloging.integration.GlobalStorage;
 import org.folio.cataloging.shared.CorrelationValues;
@@ -101,63 +102,71 @@ public class BibliographicCatalog extends Catalog {
 		return dateTag;
 	}
 
-    public PublisherManager createPublisherTag(final BibliographicCatalog catalog, final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-        final PublisherManager pap =
-                (PublisherManager) catalog.getNewTag(item,
-                        GlobalStorage.PUBLISHER_CATEGORY,
-                        correlationValues);
-        return pap;
-    }
+  public PhysicalDescription createPhysicalDescriptionTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException {
+    final PhysicalDescription physicalDescription =
+      (PhysicalDescription) getNewTag(item,
+        GlobalStorage.HEADER_CATEGORY,
+        correlationValues);
+    return physicalDescription;
+  }
 
-    public TitleAccessPoint createTitleAccessPointTag(final BibliographicCatalog catalog, final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-        final TitleAccessPoint tap =
-                (TitleAccessPoint) catalog.getNewTag(item,
-                        GlobalStorage.TITLE_CATEGORY,
-                        correlationValues);
-        return tap;
-    }
+  public PublisherManager createPublisherTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
+    final PublisherManager pap =
+      (PublisherManager) getNewTag(item,
+        GlobalStorage.PUBLISHER_CATEGORY,
+        correlationValues);
+    return pap;
+  }
 
-    public NameAccessPoint createNameAccessPointTag(final BibliographicCatalog catalog, final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-        final NameAccessPoint nap =
-                (NameAccessPoint) catalog.getNewTag(item,
-                        GlobalStorage.NAME_CATEGORY,
-                        correlationValues);
-        return nap;
-    }
+  public TitleAccessPoint createTitleAccessPointTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
+    final TitleAccessPoint tap =
+      (TitleAccessPoint) getNewTag(item,
+        GlobalStorage.TITLE_CATEGORY,
+        correlationValues);
+    return tap;
+  }
 
-    public ClassificationAccessPoint createClassificationAccessPoint(final BibliographicCatalog catalog, final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-		final ClassificationAccessPoint clap =
-                (ClassificationAccessPoint) catalog.getNewTag(item,
-                        GlobalStorage.CLASSIFICATION_CATEGORY,
-                        correlationValues);
-        return clap;
-    }
+  public NameAccessPoint createNameAccessPointTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
+    final NameAccessPoint nap =
+      (NameAccessPoint) getNewTag(item,
+        GlobalStorage.NAME_CATEGORY,
+        correlationValues);
+    return nap;
+  }
 
-	public SubjectAccessPoint createSubjectAccessPoint(final BibliographicCatalog catalog, final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-		final SubjectAccessPoint sap =
-				(SubjectAccessPoint) catalog.getNewTag(item,
-						GlobalStorage.SUBJECT_CATEGORY,
-						correlationValues);
-		return sap;
-	}
+  public ClassificationAccessPoint createClassificationAccessPoint(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
+    final ClassificationAccessPoint clap =
+      (ClassificationAccessPoint) getNewTag(item,
+        GlobalStorage.CLASSIFICATION_CATEGORY,
+        correlationValues);
+    return clap;
+  }
 
-	public ControlNumberAccessPoint createControlNumberAccessPoint(final BibliographicCatalog catalog, final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-		final ControlNumberAccessPoint cnap =
-				(ControlNumberAccessPoint) catalog.getNewTag(item,
-						GlobalStorage.CONTROL_NUMBER_CATEGORY,
-						correlationValues);
-		return cnap;
-	}
+  public SubjectAccessPoint createSubjectAccessPoint(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
+    final SubjectAccessPoint sap =
+      (SubjectAccessPoint) getNewTag(item,
+        GlobalStorage.SUBJECT_CATEGORY,
+        correlationValues);
+    return sap;
+  }
 
-	public BibliographicNoteTag createBibliographicNoteTag(final BibliographicCatalog catalog, final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-		final BibliographicNoteTag nTag =
-				(BibliographicNoteTag) catalog.getNewTag(item,
-						GlobalStorage.BIB_NOTE_CATEGORY,
-						correlationValues);
-		return nTag;
-	}
+  public ControlNumberAccessPoint createControlNumberAccessPoint(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
+    final ControlNumberAccessPoint cnap =
+      (ControlNumberAccessPoint) getNewTag(item,
+        GlobalStorage.CONTROL_NUMBER_CATEGORY,
+        correlationValues);
+    return cnap;
+  }
 
-	public void addRequiredTagsForModel(CatalogItem item) throws NewTagException {
+  public BibliographicNoteTag createBibliographicNoteTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
+    final BibliographicNoteTag nTag =
+      (BibliographicNoteTag) getNewTag(item,
+        GlobalStorage.BIB_NOTE_CATEGORY,
+        correlationValues);
+    return nTag;
+  }
+
+	public void addRequiredTagsForModel(final CatalogItem item) throws NewTagException {
 		BibliographicLeader leader = createRequiredLeaderTag(item);
 		if (!item.getTags().contains(leader)) {
 			item.addTag(leader);
@@ -180,7 +189,7 @@ public class BibliographicCatalog extends Catalog {
 		}
 	}
 
-	public CataloguingSourceTag createRequiredCataloguingSourceTag(CatalogItem item) throws NewTagException {
+	public CataloguingSourceTag createRequiredCataloguingSourceTag(final CatalogItem item) throws NewTagException {
 		CataloguingSourceTag source =
 			(CataloguingSourceTag) getNewTag(item,
                     GlobalStorage.HEADER_CATEGORY,
@@ -559,5 +568,125 @@ public class BibliographicCatalog extends Catalog {
         }
 
     }
+
+  /**
+   *
+   * @param ff
+   * @param physicalDescription
+   */
+  public void toPhysicalDescription(final org.folio.cataloging.resources.domain.FixedField ff,
+                                    final PhysicalDescription physicalDescription) {
+
+    physicalDescription.setSpecificMaterialDesignationCode(ff.getSpecificMaterialDesignationCode().charAt(0));
+    if (physicalDescription instanceof ElectronicResource) {
+      if (isNotNull(ff.getColourCode())) ((ElectronicResource) physicalDescription).setColourCode(ff.getColourCode().charAt(0));
+      if (isNotNull(ff.getDimensionsCode())) ((ElectronicResource) physicalDescription).setDimensionsCode(ff.getDimensionsCode().charAt(0));
+      if (isNotNull(ff.getIncludesSoundCode())) ((ElectronicResource) physicalDescription).setIncludesSoundCode(ff.getIncludesSoundCode().charAt(0));
+      if (isNotNull(ff.getImageBitDepth())) ((ElectronicResource) physicalDescription).setImageBitDepth(ff.getImageBitDepth());
+      if (isNotNull(ff.getFileFormatsCode())) ((ElectronicResource) physicalDescription).setFileFormatsCode(ff.getFileFormatsCode().charAt(0));
+      if (isNotNull(ff.getQualityAssuranceTargetCode())) ((ElectronicResource) physicalDescription).setQualityAssuranceTargetCode(ff.getQualityAssuranceTargetCode().charAt(0));
+      if (isNotNull(ff.getAntecedentSourceCode())) ((ElectronicResource) physicalDescription).setAntecedentSourceCode(ff.getAntecedentSourceCode().charAt(0));
+      if (isNotNull(ff.getLevelOfCompressionCode())) ((ElectronicResource) physicalDescription).setLevelOfCompressionCode(ff.getLevelOfCompressionCode().charAt(0));
+      if (isNotNull(ff.getReformattingQualityCode())) ((ElectronicResource) physicalDescription).setReformattingQualityCode(ff.getReformattingQualityCode().charAt(0));
+      if (isNotNull(ff.getReformattingQualityCode())) ((ElectronicResource) physicalDescription).setReformattingQualityCode(ff.getReformattingQualityCode().charAt(0));
+    } else if (physicalDescription instanceof Globe) {
+      if (isNotNull(ff.getColourCode())) ((Globe) physicalDescription).setColourCode(ff.getColourCode().charAt(0));
+      if (isNotNull(ff.getPhysicalMediumCode())) ((Globe) physicalDescription).setPhysicalMediumCode(ff.getPhysicalMediumCode().charAt(0));
+      if (isNotNull(ff.getTypeOfReproductionCode())) ((Globe) physicalDescription).setTypeOfReproductionCode(ff.getTypeOfReproductionCode().charAt(0));
+    } else if (physicalDescription instanceof Map) {
+      if (isNotNull(ff.getColourCode())) ((Map) physicalDescription).setMapColourCode(ff.getColourCode().charAt(0));
+      if (isNotNull(ff.getPhysicalMediumCode())) ((Map) physicalDescription).setMapPhysicalMediumCode(ff.getPhysicalMediumCode().charAt(0));
+      if (isNotNull(ff.getTypeOfReproductionCode())) ((Map) physicalDescription).setMapTypeOfReproductionCode(ff.getTypeOfReproductionCode().charAt(0));
+			/*
+			fixedField.setProductionDetailsCode(String.valueOf(valueField.charAt(6)));
+			fixedField.setPolarityCode(String.valueOf(valueField.charAt(7)));
+			fixedField.setPhysicalType(org.folio.cataloging.resources.domain.FixedField.PhysicalType.MAP);
+		} else if (categoryOfMaterial.equals(Global.TACTILE_MATERIAL)) {
+			fixedField.setClassOfBrailleWritingCodes(valueField.substring(3, 5));
+			fixedField.setLevelOfContractionCode(String.valueOf(valueField.charAt(5)));
+			fixedField.setBrailleMusicFormatCodes(valueField.substring(6, 9));
+			fixedField.setSpecificPhysicalCharacteristicsCode(String.valueOf(valueField.charAt(9)));
+			fixedField.setPhysicalType(org.folio.cataloging.resources.domain.FixedField.PhysicalType.TACTILE_MATERIAL);
+		} else if (categoryOfMaterial.equals(Global.PROJECTED_GRAPHIC)) {
+			fixedField.setColourCode(String.valueOf(valueField.charAt(3)));
+			fixedField.setBaseOfEmulsionCode(String.valueOf(valueField.charAt(4)));
+			fixedField.setSoundOnMediumOrSeparateCode(String.valueOf(valueField.charAt(5)));
+			fixedField.setMediumForSoundCode(String.valueOf(valueField.charAt(6)));
+			fixedField.setDimensionsCode(String.valueOf(valueField.charAt(7)));
+			fixedField.setSecondarySupportMaterialCode(String.valueOf(valueField.charAt(8)));
+			fixedField.setPhysicalType(org.folio.cataloging.resources.domain.FixedField.PhysicalType.PROJECTED_GRAPHIC);
+		} else if (categoryOfMaterial.equals(Global.MICROFORM)) {
+			fixedField.setPolarityCode(String.valueOf(valueField.charAt(3)));
+			fixedField.setDimensionsCode(String.valueOf(valueField.charAt(4)));
+			fixedField.setReductionRatioRangeCode(String.valueOf(valueField.charAt(5)));
+			fixedField.setReductionRatioCode(valueField.substring(6, 9));
+			fixedField.setColourCode(String.valueOf(valueField.charAt(9)));
+			fixedField.setEmulsionOnFilmCode(String.valueOf(valueField.charAt(10)));
+			fixedField.setGenerationCode(String.valueOf(valueField.charAt(11)));
+			fixedField.setBaseOfFilmCode(String.valueOf(valueField.charAt(12)));
+			fixedField.setPhysicalType(org.folio.cataloging.resources.domain.FixedField.PhysicalType.MICROFORM);
+		} else if (categoryOfMaterial.equals(Global.NON_PROJECTED_GRAPHIC)) {
+			fixedField.setColourCode(String.valueOf(valueField.charAt(3)));
+			fixedField.setPrimarySupportMaterialCode(String.valueOf(valueField.charAt(4)));
+			fixedField.setSecondarySupportMaterialCode(String.valueOf(valueField.charAt(5)));
+			fixedField.setPhysicalType(org.folio.cataloging.resources.domain.FixedField.PhysicalType.NON_PROJECTED_GRAPHIC);
+		} else if (categoryOfMaterial.equals(Global.MOTION_PICTURE)) {
+			fixedField.setColourCode(String.valueOf(valueField.charAt(3)));
+			fixedField.setPresentationFormatCode(String.valueOf(valueField.charAt(4)));
+			fixedField.setSoundOnMediumOrSeparateCode(String.valueOf(valueField.charAt(5)));
+			fixedField.setMediumForSoundCode(String.valueOf(valueField.charAt(6)));
+			fixedField.setDimensionsCode(String.valueOf(valueField.charAt(7)));
+			fixedField.setConfigurationCode(String.valueOf(valueField.charAt(8)));
+			fixedField.setProductionElementsCode(String.valueOf(valueField.charAt(9)));
+			fixedField.setPolarityCode(String.valueOf(valueField.charAt(10)));
+			fixedField.setGenerationCode(String.valueOf(valueField.charAt(11)));
+			fixedField.setBaseOfFilmCode(String.valueOf(valueField.charAt(12)));
+			fixedField.setRefinedCategoriesOfColourCode(String.valueOf(valueField.charAt(13)));
+			fixedField.setKindOfColourStockCode(String.valueOf(valueField.charAt(14)));
+			fixedField.setDeteriorationStageCode(String.valueOf(valueField.charAt(15)));
+			fixedField.setCompletenessCode(String.valueOf(valueField.charAt(16)));
+			fixedField.setInspectionDate(valueField.substring(17));
+			fixedField.setPhysicalType(org.folio.cataloging.resources.domain.FixedField.PhysicalType.MOTION_PICTURE);
+		} else if (categoryOfMaterial.equals(Global.KIT_CODE)) {
+			fixedField.setPhysicalType(org.folio.cataloging.resources.domain.FixedField.PhysicalType.KIT);
+		} else if (categoryOfMaterial.equals(Global.NOTATED_MUSIC)) {
+			fixedField.setPhysicalType(org.folio.cataloging.resources.domain.FixedField.PhysicalType.NOTATED_MUSIC);
+		} else if (categoryOfMaterial.equals(Global.REMOTE_SENSING_IMAGE)) {
+			fixedField.setAltitudeOfSensorCode(String.valueOf(valueField.charAt(3)));
+			fixedField.setAttitudeOfSensorCode(String.valueOf(valueField.charAt(4)));
+			fixedField.setCloudCoverCode(String.valueOf(valueField.charAt(5)));
+			fixedField.setPlatformConstructionTypeCode(String.valueOf(valueField.charAt(6)));
+			fixedField.setPlatformUseCode(String.valueOf(valueField.charAt(7)));
+			fixedField.setSensorTypeCode(String.valueOf(valueField.charAt(8)));
+			fixedField.setDataTypeCode(valueField.substring(9));
+			fixedField.setPhysicalType(org.folio.cataloging.resources.domain.FixedField.PhysicalType.REMOTE_SENSING_IMAGE);
+		} else if (categoryOfMaterial.equals(Global.SOUND_RECORDING)) {
+			fixedField.setSpeedCode(String.valueOf(valueField.charAt(3)));
+			fixedField.setConfigurationCode(String.valueOf(valueField.charAt(4)));
+			fixedField.setGrooveWidthCode(String.valueOf(valueField.charAt(5)));
+			fixedField.setDimensionsCode(String.valueOf(valueField.charAt(6)));
+			fixedField.setTapeWidthCode(String.valueOf(valueField.charAt(7)));
+			fixedField.setTapeConfigurationCode(String.valueOf(valueField.charAt(8)));
+			fixedField.setDiscTypeCode(String.valueOf(valueField.charAt(9)));
+			fixedField.setSndMaterialTypeCode(String.valueOf(valueField.charAt(10)));
+			fixedField.setCuttingTypeCode(String.valueOf(valueField.charAt(11)));
+			fixedField.setSpecialPlaybackCharacteristicsCode(String.valueOf(valueField.charAt(12)));
+			fixedField.setStorageTechniqueCode(String.valueOf(valueField.charAt(13)));
+			fixedField.setPhysicalType(org.folio.cataloging.resources.domain.FixedField.PhysicalType.SOUND_RECORDING);
+		} else if (categoryOfMaterial.equals(Global.TEXT_CODE)) {
+			fixedField.setPhysicalType(org.folio.cataloging.resources.domain.FixedField.PhysicalType.TEXT);
+		} else if (categoryOfMaterial.equals(Global.UNSPECIFIED)) {
+			fixedField.setPhysicalType(org.folio.cataloging.resources.domain.FixedField.PhysicalType.UNSPECIFIED);
+		} else if (categoryOfMaterial.equals(Global.VIDEO_RECORDING)) {
+			fixedField.setColourCode(String.valueOf(valueField.charAt(3)));
+			fixedField.setFormatCode(String.valueOf(valueField.charAt(4)));
+			fixedField.setIncludesSoundCode(String.valueOf(valueField.charAt(5)));
+			fixedField.setMediumForSoundCode(String.valueOf(valueField.charAt(6)));
+			fixedField.setDimensionsCode(String.valueOf(valueField.charAt(7)));
+			fixedField.setConfigurationCode(String.valueOf(valueField.charAt(8)));
+			fixedField.setPhysicalType(org.folio.cataloging.resources.domain.FixedField.PhysicalType.VIDEO_RECORDING);*/
+    }
+
+  }
 
 }
