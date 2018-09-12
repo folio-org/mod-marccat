@@ -9,9 +9,8 @@ import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.dao.persistence.Descriptor;
-import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.dao.persistence.REF;
 import org.folio.cataloging.dao.persistence.ReferenceType;
 
@@ -19,10 +18,10 @@ import java.util.List;
 
 /**
  * Abstract class representing the Cross References for a single heading
- * 
+ *
  * @author paulm
  */
-public class DAOCrossReferences extends HibernateUtil {
+public class DAOCrossReferences extends AbstractDAO {
 	protected Log logger = LogFactory.getLog(DAOCrossReferences.class);
 
 

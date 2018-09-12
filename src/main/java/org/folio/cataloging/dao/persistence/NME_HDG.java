@@ -1,9 +1,8 @@
 package org.folio.cataloging.dao.persistence;
 
-import org.folio.cataloging.business.cataloguing.bibliographic.NameAccessPoint;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
+import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.NameDescriptorDAO;
-import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.shared.CorrelationValues;
 
 import java.io.Serializable;
@@ -65,7 +64,7 @@ public class NME_HDG extends Descriptor implements Serializable {
 	 *
 	 * @return the dao
 	 */
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return new NameDescriptorDAO();
 	}
 

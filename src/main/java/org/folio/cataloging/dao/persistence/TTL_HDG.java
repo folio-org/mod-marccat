@@ -1,10 +1,9 @@
 package org.folio.cataloging.dao.persistence;
 
-import org.folio.cataloging.business.cataloguing.bibliographic.TitleAccessPoint;
 import org.folio.cataloging.business.descriptor.SkipInFiling;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
+import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.TitleDescriptorDAO;
-import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.shared.CorrelationValues;
 
 import java.io.Serializable;
@@ -116,7 +115,7 @@ public class TTL_HDG extends Descriptor implements SkipInFiling, Serializable {
 	 *
 	 * @return the dao
 	 */
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return new TitleDescriptorDAO();
 	}
 

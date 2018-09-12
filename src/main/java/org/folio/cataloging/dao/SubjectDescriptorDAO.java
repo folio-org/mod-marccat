@@ -1,12 +1,13 @@
 package org.folio.cataloging.dao;
 
-import java.util.List;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-import org.folio.cataloging.dao.persistence.SBJCT_HDG;
 import org.folio.cataloging.dao.persistence.Descriptor;
+import org.folio.cataloging.dao.persistence.SBJCT_HDG;
+
+import java.util.List;
 
 /**
  * Manages headings in the SBJCT_HDG table.

@@ -1,29 +1,28 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Jan 25, 2005
- * 
+ *
  * SerialLogicalCopy.java
  */
 package org.folio.cataloging.dao.persistence;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
+import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.HibernateException;
-import org.folio.cataloging.dao.DAOSystemNextNumber;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
 import org.folio.cataloging.business.common.RecordNotFoundException;
-import org.folio.cataloging.dao.ShelfListDAO;
 import org.folio.cataloging.business.serialControl.SubscriptionConfigurationException;
 import org.folio.cataloging.business.serialControl.SubscriptionNeedsShelfException;
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
+import org.folio.cataloging.dao.AbstractDAO;
+import org.folio.cataloging.dao.ShelfListDAO;
+import org.folio.cataloging.dao.SystemNextNumberDAO;
 
-import org.folio.cataloging.dao.common.HibernateUtil;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author paulm
@@ -32,10 +31,10 @@ import org.folio.cataloging.dao.common.HibernateUtil;
  */
 public class SerialLogicalCopy implements Persistence, Serializable {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private List/* <SerialPart> */issues = new ArrayList();
 	private List deletedIssues = new ArrayList();
 	private int serialCopyNumber;
@@ -57,8 +56,8 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	private SHLF_LIST shelfList = new SHLF_LIST();
 	/**
 	 * Class constructor
-	 * 
-	 * 
+	 *
+	 *
 	 * @since 1.0
 	 */
 	public SerialLogicalCopy() {
@@ -68,7 +67,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see librisuite.business.common.Persistence#evict()
 	 */
 	public void evict() throws DataAccessException {
@@ -76,7 +75,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void evict(Object obj) throws DataAccessException {
@@ -85,15 +84,15 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see librisuite.business.common.Persistence#generateNewKey()
 	 */
-	public void generateNewKey() throws DataAccessException {
-		setSerialCopyNumber(new DAOSystemNextNumber().getNextNumber("EC"));
+	public void generateNewKey(final Session session) throws HibernateException {
+		setSerialCopyNumber(new SystemNextNumberDAO().getNextNumber("EC", session));
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int getBindingInstructionNumber() {
@@ -101,15 +100,15 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return persistenceState.getDAO();
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public String getDeliveryDelay() {
@@ -124,7 +123,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public String getLabel() {
@@ -132,7 +131,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int getOrderItemNumber() {
@@ -140,7 +139,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int getOrderNumber() {
@@ -148,7 +147,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int getPeopleListNumber() {
@@ -156,7 +155,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public PersistenceState getPersistenceState() {
@@ -164,7 +163,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int getRoutingListNumber() {
@@ -172,7 +171,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int getSerialCopyNumber() {
@@ -180,7 +179,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int getUpdateStatus() {
@@ -188,7 +187,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean isAutoClaim() {
@@ -196,7 +195,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean isChanged() {
@@ -204,7 +203,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean isCreateCopiesIndicator() {
@@ -212,7 +211,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean isDeleted() {
@@ -220,7 +219,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean isNew() {
@@ -228,7 +227,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean isRemoved() {
@@ -236,7 +235,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void markChanged() {
@@ -244,7 +243,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void markDeleted() {
@@ -252,7 +251,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void markNew() {
@@ -260,7 +259,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void markUnchanged() {
@@ -268,7 +267,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean onDelete(Session arg0) throws CallbackException {
@@ -276,7 +275,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void onLoad(Session arg0, Serializable arg1) {
@@ -284,7 +283,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean onSave(Session arg0) throws CallbackException {
@@ -292,7 +291,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean onUpdate(Session arg0) throws CallbackException {
@@ -300,7 +299,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setAutoClaim(boolean b) {
@@ -308,7 +307,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setBindingInstructionNumber(int i) {
@@ -316,7 +315,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setCreateCopiesIndicator(boolean b) {
@@ -324,7 +323,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setDeliveryDelay(String string) {
@@ -340,7 +339,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setLabel(String string) {
@@ -348,7 +347,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setOrderItemNumber(int i) {
@@ -356,7 +355,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setOrderNumber(int i) {
@@ -364,7 +363,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setPeopleListNumber(int i) {
@@ -372,7 +371,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setRoutingListNumber(int i) {
@@ -380,7 +379,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setSerialCopyNumber(int i) {
@@ -388,7 +387,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setUpdateStatus(int i) {
@@ -467,7 +466,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 		this.loanPeriod = loanPeriod;
 	}
 
-	public Character getShelfListType() throws RecordNotFoundException, DataAccessException, HibernateException {
+	public Character getShelfListType() throws DataAccessException, HibernateException {
 		Character result = null;
 		if (getShelfList() != null) {
 			result = new Character(getShelfList().getTypeCode());
@@ -475,7 +474,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 		return result;
 	}
 
-	public String getShelfListNumber() throws RecordNotFoundException, DataAccessException, HibernateException {
+	public String getShelfListNumber() throws DataAccessException, HibernateException {
 		String result = null;
 		if (getShelfList() != null) {
 			result = getShelfList().getDisplayText();
@@ -484,13 +483,13 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 	}
 	/**
 	 * @return the shelfList
-	 * @throws DataAccessException 
-	 * @throws RecordNotFoundException 
+	 * @throws DataAccessException
+	 * @throws RecordNotFoundException
 	 */
 	//TODO The session is missing from the method
-	public SHLF_LIST getShelfList() throws RecordNotFoundException, DataAccessException, HibernateException {
+	public SHLF_LIST getShelfList() throws DataAccessException, HibernateException {
 		if (shelfList == null && shelfListKeyNumber != null) {
-			shelfList = (SHLF_LIST)new ShelfListDAO().load(shelfListKeyNumber.intValue(), null);
+			shelfList = new ShelfListDAO().load(shelfListKeyNumber.intValue(), null);
 		}
 		return shelfList;
 	}
@@ -539,11 +538,11 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 			getDeletedIssues().add(issue);
 			issue.markDeleted();
 		}
-		
+
 		getIssues().remove(index.intValue());
-		
+
 	}
-	
+
 	public void deleteSingleIssue(Integer index) {
 		if (index == null) {
 			return;
@@ -553,7 +552,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 			getDeletedIssues().add(issue);
 			issue.markDeleted();
 		}
-	
+
 	}
 
 	/**

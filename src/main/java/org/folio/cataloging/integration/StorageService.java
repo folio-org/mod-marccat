@@ -26,12 +26,10 @@ import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.cataloging.model.Subfield;
 import org.folio.cataloging.resources.domain.BibliographicRecord;
-import org.folio.cataloging.resources.domain.Diacritic;
 import org.folio.cataloging.resources.domain.RecordTemplate;
 import org.folio.cataloging.resources.domain.TagMarcEncoding;
 import org.folio.cataloging.search.SearchResponse;
 import org.folio.cataloging.shared.*;
-import org.folio.cataloging.shared.MapDiacritic;
 import org.folio.cataloging.util.StringText;
 
 import java.io.Closeable;
@@ -1110,7 +1108,7 @@ public class StorageService implements Closeable {
       browseTerm = dao.calculateSearchTerm(browseTerm, key, session);
       descriptorsList = dao.getHeadingsBySortform("<", "desc",browseTerm, "", view, 1, session);
       if (descriptorsList.size() > 0) {
-        browseTerm = dao.getBrowsingSortForm((Descriptor) descriptorsList.get(0));
+        browseTerm = dao.getBrowsingSortForm(descriptorsList.get(0));
         descriptorsList.clear();
       }
       descriptorsList.addAll(dao.getHeadingsBySortform(">=", filter,browseTerm, "", view, 10, session));
@@ -1557,13 +1555,12 @@ public class StorageService implements Closeable {
   /**
    * Returns issn text associated to series issn heading number.
    *
-   * @param seriesIssnHeadingNumber -- the series issn heading number used as filter criterion.
    * @return issnText.
    */
-  public String getISSNText(final Integer seriesIssnHeadingNumber){
+  /*public String getISSNText(final Integer seriesIssnHeadingNumber){
     final DAOTitleDescriptor daoTitleDescriptor = new DAOTitleDescriptor();
     return daoTitleDescriptor.getISSNString(seriesIssnHeadingNumber); //TODO DAOTitleDescriptor refactored by Carmen in branch 73
-  }
+  }*/
 
   //TODO modify method
   public List replaceEquivalentDescriptor(final int indexingLanguage,	final int cataloguingView) throws DataAccessException

@@ -5,15 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import javax.annotation.Generated;
-import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Heading
  * <p>
- * 
- * 
+ *
+ *
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
@@ -25,7 +22,7 @@ public class Heading {
 
     @JsonProperty("stringText")
     private String stringText;
-	
+
 	@JsonProperty("database")
     private String database;
 
@@ -34,25 +31,25 @@ public class Heading {
 
     @JsonProperty("countCrossReferences")
     private Integer countCrossReferences;
-	
+
 	@JsonProperty("countAuthorities")
     private Integer countAuthorities;
-	
+
 	@JsonProperty("countDocuments")
     private Integer countDocuments;
-	
+
 	@JsonProperty("verificationlevel")
     private String verificationlevel;
-	
+
 	@JsonProperty("indexingLanguage")
     private String indexingLanguage;
-	
+
 	@JsonProperty("accessPointlanguage")
     private String accessPointlanguage;
-  
+
 
     /**
-     * 
+     *
      * @return
      * The headingNumber
      */
@@ -62,7 +59,7 @@ public class Heading {
     }
 
     /**
-     * 
+     *
      * @param headingNumber
      * The headingNumber
      */
@@ -77,7 +74,7 @@ public class Heading {
     }
 
     /**
-     * 
+     *
      * @return
      * The stringText
      */
@@ -87,7 +84,7 @@ public class Heading {
     }
 
     /**
-     * 
+     *
      * @param stringText
      * The stringText
      */
@@ -102,7 +99,7 @@ public class Heading {
     }
 
     /**
-     * 
+     *
      * @return
      * The database
      */
@@ -112,7 +109,7 @@ public class Heading {
     }
 
     /**
-     * 
+     *
      * @param database
      * The database
      */
@@ -127,7 +124,7 @@ public class Heading {
     }
 
     /**
-     * 
+     *
      * @return
      * The countTitleNameDocuments
      */
@@ -137,7 +134,7 @@ public class Heading {
     }
 
     /**
-     * 
+     *
      * @param countTitleNameDocuments
      * The countTitleNameDocuments
      */
@@ -152,7 +149,7 @@ public class Heading {
     }
 
 	 /**
-     * 
+     *
      * @return
      * The countCrossReferences
      */
@@ -162,7 +159,7 @@ public class Heading {
     }
 
     /**
-     * 
+     *
      * @param countCrossReferences
      * The countCrossReferences
      */
@@ -175,9 +172,9 @@ public class Heading {
         this.countCrossReferences = countCrossReferences;
         return this;
     }
-  
+
    /**
-     * 
+     *
      * @return
      * The countAuthorities
      */
@@ -187,7 +184,7 @@ public class Heading {
     }
 
     /**
-     * 
+     *
      * @param countAuthorities
      * The countAuthorities
      */
@@ -200,9 +197,9 @@ public class Heading {
         this.countAuthorities = countAuthorities;
         return this;
     }
-  
+
     /**
-     * 
+     *
      * @return
      * The countDocuments
      */
@@ -212,7 +209,7 @@ public class Heading {
     }
 
     /**
-     * 
+     *
      * @param countDocuments
      * The countDocuments
      */
@@ -225,9 +222,9 @@ public class Heading {
         this.countDocuments = countDocuments;
         return this;
     }
-  
+
     /**
-     * 
+     *
      * @return
      * The verificationlevel
      */
@@ -237,7 +234,7 @@ public class Heading {
     }
 
     /**
-     * 
+     *
      * @param verificationlevel
      * The verificationlevel
      */
@@ -250,9 +247,9 @@ public class Heading {
         this.verificationlevel = verificationlevel;
         return this;
     }
-	
+
 	 /**
-     * 
+     *
      * @return
      * The indexingLanguage
      */
@@ -262,7 +259,7 @@ public class Heading {
     }
 
     /**
-     * 
+     *
      * @param indexingLanguage
      * The indexingLanguage
      */
@@ -275,9 +272,9 @@ public class Heading {
         this.indexingLanguage = indexingLanguage;
         return this;
     }
-   
+
     /**
-     * 
+     *
      * @return
      * The accessPointlanguage
      */
@@ -287,7 +284,7 @@ public class Heading {
     }
 
     /**
-     * 
+     *
      * @param accessPointlanguage
      * The accessPointlanguage
      */
@@ -300,7 +297,7 @@ public class Heading {
         this.accessPointlanguage = accessPointlanguage;
         return this;
     }
-   
 
-   
+
+
 }

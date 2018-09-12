@@ -1,16 +1,8 @@
-/*
- * (c) LibriCore
- * 
- * Created on Dec 12, 2005
- * 
- * NME_TTL_HDG.java
- */
 package org.folio.cataloging.dao.persistence;
 
-import org.folio.cataloging.business.cataloguing.bibliographic.NameTitleAccessPoint;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
+import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.NameTitleDescriptorDAO;
-import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.model.Subfield;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
@@ -32,7 +24,7 @@ public class NME_TTL_HDG extends Descriptor {
 	/**
 	 * Class constructor
 	 *
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public NME_TTL_HDG() {
@@ -65,7 +57,7 @@ public class NME_TTL_HDG extends Descriptor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getCopyToSubjectIndicator() {
@@ -85,7 +77,7 @@ public class NME_TTL_HDG extends Descriptor {
 	/* (non-Javadoc)
 	 * @see librisuite.business.common.Persistence#getDAO()
 	 */
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return new NameTitleDescriptorDAO();
 	}
 
@@ -97,7 +89,7 @@ public class NME_TTL_HDG extends Descriptor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public NME_HDG getNameHeading() {
@@ -105,7 +97,7 @@ public class NME_TTL_HDG extends Descriptor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int getNameHeadingNumber() {
@@ -123,7 +115,7 @@ public class NME_TTL_HDG extends Descriptor {
 	 * @see Descriptor#getReferenceClass()
 	 */
 	public Class getReferenceClass(Class targetClazz) {
-		if (targetClazz == this.getClass()) { 
+		if (targetClazz == this.getClass()) {
 			return NME_TTL_REF.class;
 		}
 		else if (targetClazz == NME_HDG.class){
@@ -150,7 +142,7 @@ public class NME_TTL_HDG extends Descriptor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public TTL_HDG getTitleHeading() {
@@ -158,7 +150,7 @@ public class NME_TTL_HDG extends Descriptor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int getTitleHeadingNumber() {
@@ -173,7 +165,7 @@ public class NME_TTL_HDG extends Descriptor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setCopyToSubjectIndicator(char c) {
@@ -194,7 +186,7 @@ public class NME_TTL_HDG extends Descriptor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setNameHeading(NME_HDG nme_hdg) {
@@ -203,7 +195,7 @@ public class NME_TTL_HDG extends Descriptor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setNameHeadingNumber(int i) {
@@ -211,7 +203,7 @@ public class NME_TTL_HDG extends Descriptor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setTitleHeading(TTL_HDG ttl_hdg) {
@@ -220,7 +212,7 @@ public class NME_TTL_HDG extends Descriptor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setTitleHeadingNumber(int i) {
@@ -270,14 +262,14 @@ public class NME_TTL_HDG extends Descriptor {
 	public void setStringText(String string) {
 		/* TODO
 		 * Puts all subfields before $t into name and all after into title  --
-		 * this may result in invalid subfields if input does not follow this 
+		 * this may result in invalid subfields if input does not follow this
 		 * convention
 		 */
-		if (getNameHeading() != null) { 
+		if (getNameHeading() != null) {
 			/*
-			 * if the name heading is null then we are being called from the 
+			 * if the name heading is null then we are being called from the
 			 * Descriptor constructor (before init) so bypass this activity
-			 */ 
+			 */
 			StringText s = new StringText(string);
 			StringText name = new StringText();
 			StringText title = new StringText();
@@ -297,7 +289,7 @@ public class NME_TTL_HDG extends Descriptor {
 			getTitleHeading().setStringText(title.toString());
 		}
 	}
-	
+
 	public String getLockingEntityType() {
 		return "MH";
 	}

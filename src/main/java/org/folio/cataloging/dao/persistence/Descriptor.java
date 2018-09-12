@@ -4,17 +4,21 @@ import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.folio.cataloging.business.common.*;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.DuplicateDescriptorException;
+import org.folio.cataloging.business.common.PersistenceState;
+import org.folio.cataloging.business.common.PersistentObjectWithView;
 import org.folio.cataloging.business.descriptor.MatchedHeadingInAnotherViewException;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
 import org.folio.cataloging.dao.DAODescriptor;
-import org.folio.cataloging.dao.DAOSystemNextNumber;
+import org.folio.cataloging.dao.SystemNextNumberDAO;
 import org.folio.cataloging.exception.DescriptorHasEmptySubfieldsException;
 import org.folio.cataloging.exception.DescriptorHasNoSubfieldsException;
 import org.folio.cataloging.exception.InvalidDescriptorException;
 import org.folio.cataloging.model.Subfield;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
+
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.Iterator;
@@ -675,11 +679,10 @@ public abstract class Descriptor implements PersistentObjectWithView
 	 * @throws DataAccessException the data access exception
 	 */
 	@Deprecated
-	//TODO: move this method in StorageService
+	//TODO: move this method in StorageService or add session parameter
 	public void generateNewKey() throws DataAccessException {
-		DAOSystemNextNumber dao = new DAOSystemNextNumber();
-		getKey().setHeadingNumber(
-				dao.getNextNumber(getNextNumberKeyFieldCode()));
+		SystemNextNumberDAO dao = new SystemNextNumberDAO();
+		getKey().setHeadingNumber(dao.getNextNumber(getNextNumberKeyFieldCode()));
 	}
 
 	/**

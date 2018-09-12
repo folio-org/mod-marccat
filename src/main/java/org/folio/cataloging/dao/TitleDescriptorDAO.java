@@ -1,20 +1,19 @@
 package org.folio.cataloging.dao;
 
-import java.util.List;
-
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Persistence;
-import org.folio.cataloging.business.common.ReferentialIntegrityException;
-import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.dao.DAODescriptor;
-import org.folio.cataloging.dao.persistence.REF;
-import org.folio.cataloging.dao.persistence.TTL_HDG;
-import org.folio.cataloging.dao.persistence.T_AUT_HDG_SRC;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.Persistence;
+import org.folio.cataloging.business.common.ReferentialIntegrityException;
+import org.folio.cataloging.business.common.View;
 import org.folio.cataloging.dao.persistence.Descriptor;
+import org.folio.cataloging.dao.persistence.REF;
+import org.folio.cataloging.dao.persistence.TTL_HDG;
+import org.folio.cataloging.dao.persistence.T_AUT_HDG_SRC;
+
+import java.util.List;
 
 /**
  * Manages headings in the TTL_HDG table.

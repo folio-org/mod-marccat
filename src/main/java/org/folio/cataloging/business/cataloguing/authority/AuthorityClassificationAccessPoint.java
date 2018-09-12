@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Dec 5, 2005
- * 
+ *
  * AuthorityClassificationAccessPoint.java
  */
 package org.folio.cataloging.business.cataloguing.authority;
@@ -11,9 +11,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.dao.DAOAuthorityCorrelation;
 import org.folio.cataloging.dao.persistence.CLSTN;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.dao.persistence.T_AUT_CLSTN_FNCTN;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
@@ -38,7 +38,7 @@ public class AuthorityClassificationAccessPoint extends AuthorityAccessPoint {
 	/**
 	 * Class constructor
 	 *
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public AuthorityClassificationAccessPoint() {
@@ -82,7 +82,7 @@ public class AuthorityClassificationAccessPoint extends AuthorityAccessPoint {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public Descriptor getDescriptor() {
@@ -128,7 +128,7 @@ public class AuthorityClassificationAccessPoint extends AuthorityAccessPoint {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public String getVolumeDate() {
@@ -166,13 +166,13 @@ public class AuthorityClassificationAccessPoint extends AuthorityAccessPoint {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setVolumeDate(String string) {
 		volumeDate = string;
 	}
-	
+
 	public String getVariantCodes() {
 		return VARIANT_CODES;
 	}

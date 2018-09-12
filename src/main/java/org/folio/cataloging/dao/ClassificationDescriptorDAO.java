@@ -1,7 +1,5 @@
 package org.folio.cataloging.dao;
 
-import java.util.List;
-import java.util.Objects;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Query;
@@ -11,6 +9,9 @@ import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.View;
 import org.folio.cataloging.dao.persistence.CLSTN;
 import org.folio.cataloging.dao.persistence.Descriptor;
+
+import java.util.List;
+import java.util.Objects;
 
 
 /**

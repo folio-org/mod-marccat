@@ -2,7 +2,6 @@ package org.folio.cataloging.dao.persistence;
 
 import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicAccessPoint;
 import org.folio.cataloging.business.cataloguing.common.OrderedTag;
-import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.integration.GlobalStorage;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;

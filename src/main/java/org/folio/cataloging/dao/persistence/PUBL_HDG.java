@@ -1,13 +1,13 @@
 package org.folio.cataloging.dao.persistence;
 
-import org.folio.cataloging.business.cataloguing.bibliographic.PublisherAccessPoint;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
+import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.PublisherDescriptorDAO;
-import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.exception.InvalidDescriptorException;
 import org.folio.cataloging.exception.MandatorySubfieldException;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
+
 import java.io.Serializable;
 
 
@@ -80,7 +80,7 @@ public class PUBL_HDG extends Descriptor implements Serializable {
 	 *
 	 * @return the dao
 	 */
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return new PublisherDescriptorDAO();
 	}
 

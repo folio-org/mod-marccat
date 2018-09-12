@@ -4,7 +4,6 @@ import org.folio.cataloging.business.cataloguing.bibliographic.Equivalent;
 import org.folio.cataloging.business.cataloguing.bibliographic.NameTitleComponent;
 import org.folio.cataloging.business.cataloguing.common.OrderedTag;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAONameTitleAccessPoint;
 import org.folio.cataloging.integration.GlobalStorage;
@@ -202,7 +201,7 @@ public class NameTitleAccessPoint extends NameTitleComponent implements OrderedT
 	public AbstractDAO getDAO() {
 		return daoNameTitleAccessPoint;
 	}
-	
+
 	public String getVariantCodes() {
 		return GlobalStorage.NAME_TITLE_VARIANT_CODES;
 	}

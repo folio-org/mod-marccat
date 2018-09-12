@@ -1,10 +1,9 @@
 package org.folio.cataloging.dao.persistence;
 
 import org.folio.cataloging.business.cataloguing.authority.AuthorityClassificationAccessPoint;
-import org.folio.cataloging.business.cataloguing.bibliographic.ClassificationAccessPoint;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
+import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.ClassificationDescriptorDAO;
-import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.shared.CorrelationValues;
 
 /**
@@ -42,7 +41,7 @@ public class CLSTN extends Descriptor {
 	 *
 	 * @return the dao
 	 */
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return new ClassificationDescriptorDAO();
 	}
 

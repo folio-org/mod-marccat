@@ -6,18 +6,16 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.ModCataloging;
-import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.resources.domain.*;
+import org.folio.cataloging.resources.domain.Heading;
+import org.folio.cataloging.resources.domain.HeadingCollection;
 import org.folio.cataloging.shared.MapHeading;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.function.Function;
 
-import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static org.folio.cataloging.integration.CatalogingHelper.doGet;
-import static org.folio.cataloging.resources.domain.CatalogingEntityType.A;
 
 /**
  * Headings RESTful APIs.

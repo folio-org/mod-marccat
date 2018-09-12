@@ -1,12 +1,12 @@
 package org.folio.cataloging.dao;
 
-import java.util.List;
-
-import org.folio.cataloging.dao.persistence.NME_TTL_HDG;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Query;
 import net.sf.hibernate.Session;
 import org.folio.cataloging.dao.persistence.Descriptor;
+import org.folio.cataloging.dao.persistence.NME_TTL_HDG;
+
+import java.util.List;
 /**
  * Manages headings NME_TTL_HDG for NTT index.
  *

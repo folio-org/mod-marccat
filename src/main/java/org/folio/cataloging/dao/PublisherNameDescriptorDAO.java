@@ -1,12 +1,13 @@
 package org.folio.cataloging.dao;
 
-import java.util.List;
-import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.dao.persistence.PUBL_HDG;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Query;
 import net.sf.hibernate.Session;
+import org.folio.cataloging.business.common.View;
 import org.folio.cataloging.dao.persistence.Descriptor;
+import org.folio.cataloging.dao.persistence.PUBL_HDG;
+
+import java.util.List;
 
 /**
  * This class implements the browse specific methods

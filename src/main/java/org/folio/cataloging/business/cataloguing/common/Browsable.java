@@ -1,17 +1,16 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Nov 21, 2005
- * 
+ *
  * Browsable.java
  */
 package org.folio.cataloging.business.cataloguing.common;
 
-import java.util.Set;
-
 import org.folio.cataloging.dao.persistence.Descriptor;
-
 import org.folio.cataloging.util.StringText;
+
+import java.util.Set;
 
 /**
  * implemented by tags that support browsing for descriptor contents
@@ -20,42 +19,42 @@ import org.folio.cataloging.util.StringText;
  * @since 1.0
  */
 public interface Browsable {
-	public abstract Descriptor getDescriptor();
+	Descriptor getDescriptor();
 
 	/**
-	 * @return the portion of stringText that can be directly modified on the 
+	 * @return the portion of stringText that can be directly modified on the
 	 * catalog worksheet
-	 * 
+	 *
 	 * @since 1.0
 	 */
-	public abstract StringText getEditableSubfields();
-	
-	public abstract Integer getHeadingNumber();
-	
+  StringText getEditableSubfields();
+
+	Integer getHeadingNumber();
+
 	/**
 	 * Return the set of subfields that are valid for editing on the catalog worksheet
-	 * 
+	 *
 	 * @since 1.0
 	 */
-	public abstract Set getValidEditableSubfields();
-	
-	public abstract void setDescriptor(Descriptor d);
-	
+  Set getValidEditableSubfields();
+
+	void setDescriptor(Descriptor d);
+
 	/**
-		 * Extracts the "heading's" subfield codes and updates the stringText of the 
+		 * Extracts the "heading's" subfield codes and updates the stringText of the
 		 * Descriptor
-		 * 
+		 *
 		 * @since 1.0
 		 */
-	public abstract void setDescriptorStringText(StringText tagStringText);
-	
-	public abstract void setHeadingNumber(Integer i);
-	
+  void setDescriptorStringText(StringText tagStringText);
+
+	void setHeadingNumber(Integer i);
+
 	/**
 	 * @return the AccessPoint's variant codes
 	 */
-	public abstract String getVariantCodes();
+  String getVariantCodes();
 
-	public abstract String buildBrowseTerm();
+	String buildBrowseTerm();
 
 }

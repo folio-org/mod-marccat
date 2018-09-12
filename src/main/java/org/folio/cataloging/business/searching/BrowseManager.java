@@ -7,26 +7,26 @@ import org.folio.cataloging.business.common.BrowseFailedException;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.dao.*;
+import org.folio.cataloging.dao.persistence.Descriptor;
 
 import java.sql.SQLException;
 import java.util.*;
 
 /**
- * 
- * Responsible for the management of a browse session 
+ *
+ * Responsible for the management of a browse session
  * @author paulm
  * @version %I%, %G%
  * @since 1.0
  */
-public class BrowseManager 
+public class BrowseManager
 {
-	private static final Log logger = LogFactory.getLog(BrowseManager.class);	
+	private static final Log logger = LogFactory.getLog(BrowseManager.class);
 	public static final int MAX_BROWSE_TERM_LENGTH = Defaults.getInteger("browse.max.term.lenght");
 	public static final int MAX_SORTFORM_LENGTH = MAX_BROWSE_TERM_LENGTH;
 	public static final int SORTFORM_LENGTH = 1080;
-	
+
 	private int pageSize = 10;
 	private String browseIndex;
 	private static Map daoMap = new HashMap();
@@ -140,7 +140,7 @@ public class BrowseManager
 
 		daoMap.put("23P5", ClassificationDescriptorDAO.class);
 		filterMap.put("23P5", " and hdg.typeCode not in (1,6,10,11,12,14,15,29) ");
-		
+
 
 		daoMap.put("48P3", ClassificationDescriptorDAO.class);
 		filterMap.put("48P3", " and hdg.typeCode = 10");
@@ -153,10 +153,10 @@ public class BrowseManager
 
 		daoMap.put("49P3", ClassificationDescriptorDAO.class);
 		filterMap.put("49P3", " and hdg.typeCode = 15");
-		
+
 		daoMap.put("326P1", ClassificationDescriptorDAO.class);
 		filterMap.put("326P1", " and hdg.typeCode = 29");
-		
+
 		daoMap.put("28P30", ShelfListDAO.class);
 		filterMap.put("28P30", " and hdg.typeCode = '@'");
 
@@ -220,9 +220,9 @@ public class BrowseManager
 		}
 		return result;
 	}
-	
 
-	
+
+
 
 
 	public List getDocCounts(List descriptors, int searchingView)
@@ -245,7 +245,7 @@ public class BrowseManager
 
 		return result;
 	}
-	
+
 	public List getDocCountNT(List descriptors, int searchingView) throws DataAccessException,
 		HibernateException
 	{
@@ -253,18 +253,18 @@ public class BrowseManager
 		List result = new ArrayList();
 		Iterator iter = descriptors.iterator();
 		Descriptor aDescriptor = null;
-	
+
 		while (iter.hasNext()) {
 			aDescriptor = (Descriptor) iter.next();
 			result.add(new Integer(((DAODescriptor) aDescriptor.getDAO()).getDocCountNT(aDescriptor,cataloguingView,null)));
 		}
 		return result;
 	}
-	
 
-	
 
-	
+
+
+
 
 	public List getAuthCounts(List descriptors) throws DataAccessException, HibernateException {
 		List result = new ArrayList();
@@ -306,13 +306,13 @@ public class BrowseManager
 	public List getFirstPage(String term, int searchingView, int termsToDisplay) throws DataAccessException, HibernateException, SQLException
 	{
 		int cataloguingView = getBrowsingViewBasedOnSearchingView(searchingView);
-		DAODescriptor dao = getDao();	
+		DAODescriptor dao = getDao();
 		setPageSize(termsToDisplay);
-		
+
 		// calculate the sortform of the search term
 		//TODO passare la session
 		String searchTerm = dao.calculateSearchTerm(term, getBrowseIndex(),null);
-		
+
 		// MIKE: moved Publisher block into PublisherDescriptorDAO to calculate first temp searchTerm stringValue
 		List l = null;
 
@@ -320,7 +320,7 @@ public class BrowseManager
 			if (logger.isDebugEnabled()) {
 				logger.debug("looking for a heading < " + searchTerm);
 			}
-			logger.debug("BrowseManager 1");	
+			logger.debug("BrowseManager 1");
 			l = dao.getHeadingsBySortform(
 					"<",
 					"desc",
@@ -329,7 +329,7 @@ public class BrowseManager
 					cataloguingView,
 					1, null);
 			logger.debug("BrowseManager 2");
-			/* Natasha:  si verificava problema con con DaoPublisherName/Place 
+			/* Natasha:  si verificava problema con con DaoPublisherName/Place
 			 * Azzerava la List e ripeteva ricerca sul termine precedente prendendone x e non 1 */
 			if(!((dao instanceof PublisherNameDescriptorDAO) && !(dao instanceof PublisherPlaceDescriptorDAO))) {
 				// MIKE: siccome e' specifica del publisher, eliminare il controllo quando
@@ -341,10 +341,10 @@ public class BrowseManager
 				if (l.size() > 0){
 	 				searchTerm=dao.getBrowsingSortForm((Descriptor) l.get(0));
 					l.clear();
-     			 } 
+     			 }
 				logger.debug("BrowseManager 4");
 			}
-			
+
 			if (logger.isDebugEnabled()) {
 				logger.debug("looking for headings >= " + searchTerm);
 			}
@@ -401,7 +401,7 @@ public class BrowseManager
 		DAODescriptor dao = getDao();
 		List l = null;
 		String operator = ">";
-		
+
 		/* Natascia 06/06/2007
 		 * se esegue una ricerca per PublisherPlace/Name ed e' una ricerca composta l'operatore diventa
 		 * >= e non >
@@ -427,7 +427,7 @@ public class BrowseManager
 		}
 		return l;
 	}
-	
+
 	public List getPreviousPage(Descriptor d, int searchingView) throws DataAccessException, HibernateException
 	{
 		int cataloguingView = getBrowsingViewBasedOnSearchingView(searchingView);
@@ -435,7 +435,7 @@ public class BrowseManager
 		List l = null;
 		List result = new ArrayList();
 		String operator = "<";
-		
+
 		/* Natascia 06/06/2007
 		 * se esegue una ricerca per PublisherPlace/Name ed e' una ricerca composta l'operatore diventa
 		 * <= e non <
@@ -457,11 +457,11 @@ public class BrowseManager
 					getPageSize(),
 					null);
 
-			// reverse the order of the list			
+			// reverse the order of the list
 			for (int i = l.size() - 1; i >= 0; i--) {
 				result.add(l.get(i));
 			}
-			
+
 		} catch (DataAccessException e) {
 			throw new BrowseFailedException();
 		}
@@ -529,18 +529,18 @@ public class BrowseManager
 		}
 		return result;
 	}
-	
-	
+
+
 	public List getFirstElement(String term, int searchingView, int termsToDisplay) throws DataAccessException , HibernateException, SQLException
 	{
 		int cataloguingView = getBrowsingViewBasedOnSearchingView(searchingView);
-		DAODescriptor dao = getDao();	
+		DAODescriptor dao = getDao();
 		setPageSize(termsToDisplay);
 		//TODO passare la Session
-			
+
 		String searchTerm = dao.calculateSearchTerm(term, getBrowseIndex(),null);
 //		System.out.println("SEARCH TERM: "+searchTerm);
-		
+
 		// MIKE: moved Publisher block into PublisherDescriptorDAO to calculate first temp searchTerm stringValue
 		List l = null;
 
@@ -548,7 +548,7 @@ public class BrowseManager
 			if (logger.isDebugEnabled()) {
 				logger.debug("looking for a heading = " + searchTerm);
 			}
-		
+
 				l=dao.getHeadingsBySortform(
 					"=",
 					"",
@@ -557,7 +557,7 @@ public class BrowseManager
 					cataloguingView,
 					getPageSize(),
 						null);
-			
+
 		} catch (DataAccessException e) {
 			throw new BrowseFailedException();
 		}

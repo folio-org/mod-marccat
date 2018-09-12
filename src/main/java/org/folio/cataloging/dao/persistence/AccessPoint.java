@@ -1,21 +1,19 @@
-package org.folio.cataloging.business.cataloguing.common;
+package org.folio.cataloging.dao.persistence;
 
+import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
-import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
 import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
 import org.folio.cataloging.business.cataloguing.common.Browsable;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
-import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.SkipInFiling;
 import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAODescriptor;
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.dao.persistence.CorrelationKey;
 import org.folio.cataloging.util.StringText;
 import org.w3c.dom.Element;
 
+import java.sql.SQLException;
 import java.util.Set;
 
 import static java.util.Optional.ofNullable;
@@ -100,10 +98,10 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
 
   @Deprecated
   //TODO: use method in storageService class
-  public void generateNewKey(final Session session) throws DataAccessException {
+  public void generateNewKey(final Session session) throws HibernateException, SQLException {
 
     if (getDescriptor().isNew()) {
-      Descriptor d = ((DAODescriptor) getDescriptor().getDAO()).getMatchingHeading(getDescriptor());
+      Descriptor d = ((DAODescriptor) getDescriptor().getDAO()).getMatchingHeading(getDescriptor(), session);
       if (d == null) {
         getDescriptor().generateNewKey();
       } else {

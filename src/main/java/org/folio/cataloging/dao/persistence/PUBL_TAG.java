@@ -11,7 +11,7 @@ import org.folio.cataloging.business.common.UserViewHelper;
 import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAODescriptor;
 import org.folio.cataloging.dao.DAOPublTag;
-import org.folio.cataloging.dao.DAOPublisherDescriptor;
+import org.folio.cataloging.dao.PublisherDescriptorDAO;
 import org.folio.cataloging.util.StringText;
 
 import java.io.Serializable;
@@ -25,7 +25,7 @@ public class PUBL_TAG implements PersistentObjectWithView {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -39,7 +39,7 @@ public class PUBL_TAG implements PersistentObjectWithView {
 	private String otherSubfields;
 	private Integer publisherHeadingNumber;
 	private static final DAOPublTag theDAO = new DAOPublTag();
-	private static final DAODescriptor thePublisherDescriptor = new DAOPublisherDescriptor();
+	private static final DAODescriptor thePublisherDescriptor = new PublisherDescriptorDAO();
 
 	public void evict() throws DataAccessException {
 		evict(this);
@@ -84,7 +84,7 @@ public class PUBL_TAG implements PersistentObjectWithView {
 
 	/**
 	 * @return the content of subfield c
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public String getDate() {

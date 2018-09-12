@@ -1,15 +1,15 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Dec 2, 2005
- * 
+ *
  * AuthorityControlNumberAccessPoint.java
  */
 package org.folio.cataloging.business.cataloguing.authority;
 
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.dao.persistence.CNTL_NBR;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
 
@@ -27,7 +27,7 @@ public class AuthorityControlNumberAccessPoint extends AuthorityAccessPoint {
 	/**
 	 * Class constructor
 	 *
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public AuthorityControlNumberAccessPoint() {
@@ -66,7 +66,7 @@ public class AuthorityControlNumberAccessPoint extends AuthorityAccessPoint {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public Descriptor getDescriptor() {
@@ -94,7 +94,7 @@ public class AuthorityControlNumberAccessPoint extends AuthorityAccessPoint {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getValidationCode() {
@@ -130,7 +130,7 @@ public class AuthorityControlNumberAccessPoint extends AuthorityAccessPoint {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setValidationCode(char c) {

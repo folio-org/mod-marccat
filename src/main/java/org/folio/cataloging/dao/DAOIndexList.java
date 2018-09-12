@@ -12,7 +12,6 @@ import org.folio.cataloging.business.descriptor.SortFormParameters;
 import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.persistence.IndexList;
 import org.folio.cataloging.dao.persistence.IndexListKey;
-import org.folio.cataloging.log.MessageCatalog;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -51,7 +50,7 @@ public class DAOIndexList extends HibernateUtil {
 
 		return getIndexByQuery(query);
 	}
-	
+
 	public List getBrowseIndexPublisher(Locale locale) throws DataAccessException {
 		final String query =
 			"from IndexList as a "
@@ -201,7 +200,7 @@ public class DAOIndexList extends HibernateUtil {
 	return codeTable;
 }
 
-	
+
 	public SortFormParameters getSortFormParametersByKey(final String indexKey, final Session session)
 		throws HibernateException {
 		SortFormParameters result = null;
@@ -232,12 +231,12 @@ public class DAOIndexList extends HibernateUtil {
 		}
 		return result;
 	}
-	
+
 	public IndexList getIndexByLocalAbbreviation(final Session session, String s, Locale locale) throws DataAccessException {
 
 		List l = find(session, "from IndexList as a "
 				+ "where lower(a.languageCode) = '" + s.toLowerCase() + "'"
-				+ " and a.key.language = '" + locale.getISO3Language() + "'"				
+				+ " and a.key.language = '" + locale.getISO3Language() + "'"
 				+ " and a.codeLibriCatMades = 'LC'");
 		if (l.size() > 0) {
 			return (IndexList)l.get(0);

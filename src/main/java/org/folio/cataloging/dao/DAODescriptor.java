@@ -7,16 +7,18 @@ import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
 import org.folio.cataloging.business.cataloguing.authority.AuthorityCatalog;
 import org.folio.cataloging.business.common.*;
-import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
 import org.folio.cataloging.business.searching.BrowseManager;
 import org.folio.cataloging.dao.persistence.*;
-import java.sql.*;
+
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-
 
 import static org.folio.cataloging.F.deepCopy;
 
@@ -405,7 +407,7 @@ public abstract class DAODescriptor extends AbstractDAO {
 	 */
 	public void persist(final Descriptor descriptor, final Session session) throws HibernateException {
 		if (descriptor.isNew()) {
-			final int headingNumber = (new DAOSystemNextNumber())
+			final int headingNumber = (new SystemNextNumberDAO())
 					.getNextNumber(descriptor.getNextNumberKeyFieldCode());
 			descriptor.setKey(new DescriptorKey(headingNumber, descriptor
 					.getKey().getUserViewString()));
@@ -913,7 +915,7 @@ public abstract class DAODescriptor extends AbstractDAO {
 						Hibernate.INTEGER });
 
 		if (secondList.size() == 1) {
-			targetHeadingNumber = ((REF) secondList.get(0)).getTarget();
+			targetHeadingNumber = secondList.get(0).getTarget();
 			firstList = session.find("select ref from "
 							+ source.getReferenceClass(source.getClass()).getName()
 							+ " as ref, " + source.getClass().getName() + " as hdg "

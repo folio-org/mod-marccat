@@ -10,7 +10,6 @@ import org.folio.cataloging.business.common.AbstractMapBackedFactory;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.MapBackedFactory;
 import org.folio.cataloging.business.common.PropertyBasedFactoryBuilder;
-import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.business.descriptor.DescriptorFactory;
 import org.folio.cataloging.dao.*;
 import org.folio.cataloging.dao.persistence.*;

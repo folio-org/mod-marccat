@@ -1,18 +1,19 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Dec 21, 2004
- * 
+ *
  * PublisherTag.java
  */
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
+import net.sf.hibernate.HibernateException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.common.*;
-import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.dao.DAODescriptor;
-import org.folio.cataloging.dao.DAOPublisherDescriptor;
+import org.folio.cataloging.dao.PublisherDescriptorDAO;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.dao.persistence.PUBL_HDG;
 import org.folio.cataloging.dao.persistence.PublisherAccessPoint;
 import org.folio.cataloging.dao.persistence.REF;
@@ -48,7 +49,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 	private String manufacturer = "";
 	private String manufacturerDate = "";
 	private UserViewHelper userViewHelper = new UserViewHelper();
-	
+
 	/*
 	 * noteType is used only for the edit page correlation to allow for the possibility
 	 * that a publisher tag can be changed to another note type.
@@ -58,7 +59,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 	/**
 	 * Class constructor
 	 *
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public PublisherTag() {
@@ -70,15 +71,15 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 	/**
 	 * Class constructor
 	 *
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public PublisherTag(int bib_itm, int view) {
 		super();
 		setPersistenceState(persistenceState);
 		setBibItemNumber(bib_itm);
-		setUserViewString(View.makeSingleViewString(view));	
-		addNewAccessPoint();	
+		setUserViewString(View.makeSingleViewString(view));
+		addNewAccessPoint();
 	}
 
 	/**
@@ -220,7 +221,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public List getAccessPoints() {
@@ -228,7 +229,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setAccessPoints(List list) {
@@ -285,7 +286,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public String getManufacturer() {
@@ -293,7 +294,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public String getManufacturerDate() {
@@ -301,7 +302,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public String getManufacturerPlace() {
@@ -309,7 +310,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setManufacturer(String string) {
@@ -317,7 +318,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setManufacturerDate(String string) {
@@ -325,7 +326,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setManufacturerPlace(String string) {
@@ -333,7 +334,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public List getDeletedApfs() {
@@ -341,7 +342,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setDeletedApfs(List list) {
@@ -349,7 +350,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int getApfIndex() {
@@ -357,7 +358,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setApfIndex(int i) {
@@ -365,7 +366,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public List getDates() {
@@ -373,7 +374,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public List getDates(int i) {
@@ -382,7 +383,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setDates(List list) {
@@ -404,7 +405,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 
 	/**
 	 * Extract dates and manufacturer data for editing as individual fields
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void parseForEditing() {
@@ -415,7 +416,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 	/**
 	 * Incorporate edit changes (dates, manufacturer data, sequences, etc.) into
 	 * the accessPoints ready for saving to the database
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void saveEdits() {
@@ -434,12 +435,12 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 					apf.setAccessPointStringText(
 					new StringText(""));
 				}
-				
+
 			}else{
 				apf.setAccessPointStringText(
 						new StringText(""));
 			}
-					
+
 		}
 		setDates(new ArrayList());
 		// check if any of subfields e,f,g are present
@@ -447,7 +448,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 		String luogo ="";
 		String nome="";
 		String data ="";
-		
+
 		if (!("".equals(getManufacturerPlace()))) {
 			luogo=getManufacturerPlace();
 			if(luogo.indexOf("(")==-1)
@@ -493,7 +494,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 			StringText s2 = apf.getAccessPointStringText();
 			s2.add(s);
 			apf.setAccessPointStringText(s2);
-		
+
 		}
 	}
 
@@ -511,7 +512,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public String getUserViewString() {
@@ -519,7 +520,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setUserViewString(String string) {
@@ -527,7 +528,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int getBibItemNumber() {
@@ -535,7 +536,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setBibItemNumber(int i) {
@@ -636,7 +637,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 		PublisherAccessPoint pap =(PublisherAccessPoint)getAccessPoints().get(i);
 		detachDescriptor(pap);
 	}
- 
+
 	/**
 	 * @param pap
 	 */
@@ -651,22 +652,22 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 	 * @param pap
 	 * Non deve rimuovere la heading ma solamente staccarla
 	 */
-	
+
 	private void detachDescriptor(PublisherAccessPoint pap) {
 		PUBL_HDG publ_hdg = ((PUBL_HDG)pap.getDescriptor());
 		if(pap.getHeadingNumber()==null){
 		   publ_hdg.setNameStringText("");
 		   publ_hdg.setPlaceStringText("");
-	
-	    }else{ 
+
+	    }else{
 		   pap.setDescriptor(null);
 		   pap.setHeadingNumber(null);
 		}
 	}
-	
-	public List replaceEquivalentDescriptor(short indexingLanguage,
-			int cataloguingView) throws DataAccessException {
-		DAODescriptor dao = new DAOPublisherDescriptor();
+
+	//todo: add session
+	public List replaceEquivalentDescriptor(short indexingLanguage, int cataloguingView) throws DataAccessException {
+		final DAODescriptor dao = new PublisherDescriptorDAO();
 		List newTags = new ArrayList();
 		PublisherAccessPoint anApf = null;
 		List accessPointsApp = new ArrayList();
@@ -674,9 +675,13 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 		for (int i = 0; i < getAccessPoints().size(); i++) {
 			anApf = (PublisherAccessPoint) getAccessPoints().get(i);
 			Descriptor d = anApf.getDescriptor();
-			REF ref = dao.getCrossReferencesWithLanguage(d, cataloguingView,
-					indexingLanguage);
-			if (ref != null) {
+      REF ref = null;
+      try {
+        ref = dao.getCrossReferencesWithLanguage(d, cataloguingView, indexingLanguage, null);
+      } catch (HibernateException e) {
+        e.printStackTrace();
+      }
+      if (ref != null) {
 				aTag.markNew();
 				anApf.setDescriptor(dao.load(ref.getTarget(), cataloguingView));
 				anApf.setHeadingNumber(new Integer(anApf.getDescriptor()

@@ -1,14 +1,13 @@
 package org.folio.cataloging.dao.persistence;
 
-
-import org.folio.cataloging.business.cataloguing.bibliographic.SubjectAccessPoint;
 import org.folio.cataloging.business.descriptor.SkipInFiling;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
+import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.SubjectDescriptorDAO;
-import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.model.Subfield;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;
+
 import java.io.Serializable;
 import java.util.Iterator;
 
@@ -109,7 +108,7 @@ public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling 
 	 *
 	 * @return the dao
 	 */
-	public HibernateUtil getDAO() {
+	public AbstractDAO getDAO() {
 		return new SubjectDescriptorDAO();
 	}
 
