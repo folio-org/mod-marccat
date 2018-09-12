@@ -1,15 +1,16 @@
 package org.folio.cataloging.business.searching;
 
+import net.sf.hibernate.HibernateException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.common.BrowseFailedException;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.dao.*;
-import org.folio.cataloging.dao.persistence.HDG_URI;
 
+import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -36,184 +37,177 @@ public class BrowseManager
 	private boolean supportsAuthorities;
 
 	public BrowseManager() {
-		//TODO add other indexes	
-		//TODO alternative methods for this?
-		daoMap.put("2P0", DAONameDescriptor.class);
+
+		daoMap.put("2P0", NameDescriptorDAO.class);
 		filterMap.put("2P0", "");
 
-		daoMap.put("3P10", DAONameDescriptor.class);
+		daoMap.put("3P10", NameDescriptorDAO.class);
 		filterMap.put("3P10", " and hdg.typeCode = 2 ");
 
-		daoMap.put("4P10", DAONameDescriptor.class);
+		daoMap.put("4P10", NameDescriptorDAO.class);
 		filterMap.put("4P10", " and hdg.typeCode = 3 ");
 
-		daoMap.put("5P10", DAONameDescriptor.class);
+		daoMap.put("5P10", NameDescriptorDAO.class);
 		filterMap.put("5P10", " and hdg.typeCode = 4 ");
 
-		daoMap.put("7P0", DAOTitleDescriptor.class);
+		daoMap.put("7P0", TitleDescriptorDAO.class);
 		filterMap.put("7P0", "");
 
-		daoMap.put("9P0", DAOSubjectDescriptor.class);
+		daoMap.put("9P0", SubjectDescriptorDAO.class);
 		filterMap.put("9P0", "");
-		//TODO Why is SB (subject heading LDC) showing up in browse list from idx list
-		// or more to the point what criteria do we use to eliminate it from the list		
 
-		daoMap.put("230P", DAOPublisherNameDescriptor.class);
+		daoMap.put("230P", PublisherNameDescriptorDAO.class);
 		filterMap.put("230P", "");
 
-		daoMap.put("243P", DAOPublisherPlaceDescriptor.class);
+		daoMap.put("243P", PublisherPlaceDescriptorDAO.class);
 		filterMap.put("243P", "");
 
-		daoMap.put("250S", DAONameTitleNameDescriptor.class);
+		daoMap.put("250S", NameTitleNameDescriptorDAO.class);
 		filterMap.put("250S", "");
 
-		daoMap.put("251S", DAONameTitleTitleDescriptor.class);
+		daoMap.put("251S", NameTitleTitleDescriptorDAO.class);
 		filterMap.put("251S", "");
 
-		daoMap.put("16P30", DAOControlNumberDescriptor.class);
+		daoMap.put("16P30", ControlNumberDescriptorDAO.class);
 		filterMap.put("16P30", "");
 
-		daoMap.put("18P2", DAOControlNumberDescriptor.class);
+		daoMap.put("18P2", ControlNumberDescriptorDAO.class);
 		filterMap.put("18P2", " and hdg.typeCode = 9 ");
 
-		daoMap.put("19P2", DAOControlNumberDescriptor.class);
+		daoMap.put("19P2", ControlNumberDescriptorDAO.class);
 		filterMap.put("19P2", " and hdg.typeCode = 10 ");
-	    //Era typeCode = 3
-		daoMap.put("20P3", DAOControlNumberDescriptor.class);
+
+		daoMap.put("20P3", ControlNumberDescriptorDAO.class);
 		filterMap.put("20P3", " and hdg.typeCode = 93 ");
 
-		daoMap.put("21P2", DAOControlNumberDescriptor.class);
+		daoMap.put("21P2", ControlNumberDescriptorDAO.class);
 		filterMap.put("21P2", " and hdg.typeCode = 2 ");
 
-		daoMap.put("22P10", DAOControlNumberDescriptor.class);
+		daoMap.put("22P10", ControlNumberDescriptorDAO.class);
 		filterMap.put("22P10", " and hdg.typeCode = 93 ");
 
-		daoMap.put("29P20", DAOControlNumberDescriptor.class);
+		daoMap.put("29P20", ControlNumberDescriptorDAO.class);
 		filterMap.put("29P20", " and hdg.typeCode = 71 ");
 
-		daoMap.put("30P4", DAOControlNumberDescriptor.class);
+		daoMap.put("30P4", ControlNumberDescriptorDAO.class);
 		filterMap.put("30P4", "");
 
-		daoMap.put("31P3", DAOControlNumberDescriptor.class);
+		daoMap.put("31P3", ControlNumberDescriptorDAO.class);
 		filterMap.put("31P3", " and hdg.typeCode = 84 ");
 
-		daoMap.put("32P3", DAOControlNumberDescriptor.class);
+		daoMap.put("32P3", ControlNumberDescriptorDAO.class);
 		filterMap.put("32P3", " and hdg.typeCode = 88 ");
 
-		daoMap.put("33P3", DAOControlNumberDescriptor.class);
+		daoMap.put("33P3", ControlNumberDescriptorDAO.class);
 		filterMap.put("33P3", " and hdg.typeCode = 90 ");
 
-		daoMap.put("34P20", DAOControlNumberDescriptor.class);
+		daoMap.put("34P20", ControlNumberDescriptorDAO.class);
 		filterMap.put("34P20", "");
 
-		daoMap.put("35P20", DAOControlNumberDescriptor.class);
+		daoMap.put("35P20", ControlNumberDescriptorDAO.class);
 		filterMap.put("35P20", "");
 
-		daoMap.put("36P20", DAOControlNumberDescriptor.class);
+		daoMap.put("36P20", ControlNumberDescriptorDAO.class);
 		filterMap.put("36P20", " and hdg.typeCode = 52 ");
 
-		daoMap.put("51P3", DAOControlNumberDescriptor.class);
+		daoMap.put("51P3", ControlNumberDescriptorDAO.class);
 		filterMap.put("51P3", " and hdg.typeCode = 89 ");
 
-		daoMap.put("52P3", DAOControlNumberDescriptor.class);
+		daoMap.put("52P3", ControlNumberDescriptorDAO.class);
 		filterMap.put("52P3", " and hdg.typeCode = 83 ");
 
-		daoMap.put("53P3", DAOControlNumberDescriptor.class);
+		daoMap.put("53P3", ControlNumberDescriptorDAO.class);
 		filterMap.put("53P3", " and hdg.typeCode = 91 ");
 
-		daoMap.put("54P3", DAOControlNumberDescriptor.class);
+		daoMap.put("54P3", ControlNumberDescriptorDAO.class);
 		filterMap.put("54P3", " and hdg.typeCode = 97 ");
 
-		daoMap.put("55P3", DAOControlNumberDescriptor.class);
+		daoMap.put("55P3", ControlNumberDescriptorDAO.class);
 		filterMap.put("55P3", " and hdg.typeCode = 98 ");
 
-		//TODO stringValue 21 is probably obsolete (Canadian)
-		daoMap.put("47P40", DAOClassificationDescriptor.class);
+
+		daoMap.put("47P40", ClassificationDescriptorDAO.class);
 		filterMap.put("47P40", " and hdg.typeCode = 21");
 
-		daoMap.put("24P5", DAOClassificationDescriptor.class);
+		daoMap.put("24P5", ClassificationDescriptorDAO.class);
 		filterMap.put("24P5", " and hdg.typeCode = 12");
 
-		daoMap.put("25P5", DAOClassificationDescriptor.class);
+		daoMap.put("25P5", ClassificationDescriptorDAO.class);
 		filterMap.put("25P5", " and hdg.typeCode = 1");
 
-		daoMap.put("27P5", DAOClassificationDescriptor.class);
+		daoMap.put("27P5", ClassificationDescriptorDAO.class);
 		filterMap.put("27P5", " and hdg.typeCode = 6");
 
-		daoMap.put("23P5", DAOClassificationDescriptor.class);
+		daoMap.put("23P5", ClassificationDescriptorDAO.class);
 		filterMap.put("23P5", " and hdg.typeCode not in (1,6,10,11,12,14,15,29) ");
 		
 
-		daoMap.put("48P3", DAOClassificationDescriptor.class);
+		daoMap.put("48P3", ClassificationDescriptorDAO.class);
 		filterMap.put("48P3", " and hdg.typeCode = 10");
 
-		daoMap.put("46P40", DAOClassificationDescriptor.class);
+		daoMap.put("46P40", ClassificationDescriptorDAO.class);
 		filterMap.put("46P40", " and hdg.typeCode = 11");
 
-		daoMap.put("50P3", DAOClassificationDescriptor.class);
+		daoMap.put("50P3", ClassificationDescriptorDAO.class);
 		filterMap.put("50P3", " and hdg.typeCode = 14");
 
-		daoMap.put("49P3", DAOClassificationDescriptor.class);
+		daoMap.put("49P3", ClassificationDescriptorDAO.class);
 		filterMap.put("49P3", " and hdg.typeCode = 15");
 		
-		daoMap.put("326P1", DAOClassificationDescriptor.class);
+		daoMap.put("326P1", ClassificationDescriptorDAO.class);
 		filterMap.put("326P1", " and hdg.typeCode = 29");
 		
-		daoMap.put("28P30", DAOShelfList.class);
+		daoMap.put("28P30", ShelfListDAO.class);
 		filterMap.put("28P30", " and hdg.typeCode = '@'");
 
-		daoMap.put("244P30", DAOShelfList.class);
+		daoMap.put("244P30", ShelfListDAO.class);
 		filterMap.put("244P30", " and hdg.typeCode = 'N'");
 
-		daoMap.put("47P30", DAOShelfList.class);
+		daoMap.put("47P30", ShelfListDAO.class);
 		filterMap.put("47P30", " and hdg.typeCode = 'M'");
 
-		daoMap.put("37P30", DAOShelfList.class);
+		daoMap.put("37P30", ShelfListDAO.class);
 		filterMap.put("37P30", " and hdg.typeCode = '2'");
 
-		daoMap.put("38P30", DAOShelfList.class);
+		daoMap.put("38P30", ShelfListDAO.class);
 		filterMap.put("38P30", " and hdg.typeCode = '3'");
 
-		daoMap.put("39P30", DAOShelfList.class);
+		daoMap.put("39P30", ShelfListDAO.class);
 		filterMap.put("39P30", " and hdg.typeCode = '4'");
 
-		daoMap.put("41P30", DAOShelfList.class);
+		daoMap.put("41P30", ShelfListDAO.class);
 		filterMap.put("41P30", " and hdg.typeCode = '6'");
 
-		daoMap.put("42P30", DAOShelfList.class);
+		daoMap.put("42P30", ShelfListDAO.class);
 		filterMap.put("42P30", " and hdg.typeCode = 'A'");
 
-		daoMap.put("43P30", DAOShelfList.class);
+		daoMap.put("43P30", ShelfListDAO.class);
 		filterMap.put("43P30", " and hdg.typeCode = 'C'");
 
-		daoMap.put("44P30", DAOShelfList.class);
+		daoMap.put("44P30", ShelfListDAO.class);
 		filterMap.put("44P30", " and hdg.typeCode = 'E'");
 
-		daoMap.put("45P30", DAOShelfList.class);
+		daoMap.put("45P30", ShelfListDAO.class);
 		filterMap.put("45P30", " and hdg.typeCode = 'F'");
 
-		daoMap.put("46P30", DAOShelfList.class);
+		daoMap.put("46P30", ShelfListDAO.class);
 		filterMap.put("46P30", " and hdg.typeCode = 'G'");
-		
-		/*Carmen :index tag 084 codice*/
-		daoMap.put("303P3", DAOClassificationDescriptor.class);
+
+		daoMap.put("303P3", ClassificationDescriptorDAO.class);
 		filterMap.put("303P3", " and hdg.typeCode = 13");
-		/*Carmen*/
+
 		daoMap.put("354P0", DAOThesaurusDescriptor.class);
 		filterMap.put("354P0", "");
-		//Carmen Suggerimento tag 999
-		daoMap.put("353P1", DAOClassificationDescriptor.class);
-		filterMap.put("353P1", " and hdg.typeCode = 80");
-		//Carmen: Funzione Scorri lista per LC
-		/*daoMap.put("358P5", DAOClassificationDescriptor.class);
-		filterMap.put("358P5", " and hdg.typeCode = 0");*/
 
-		//bug 3035: mesh
-		daoMap.put("373P0", DAOSubjectDescriptor.class);
+		daoMap.put("353P1", ClassificationDescriptorDAO.class);
+		filterMap.put("353P1", " and hdg.typeCode = 80");
+
+
+		daoMap.put("373P0", SubjectDescriptorDAO.class);
 		filterMap.put("373P0", " and hdg.sourceCode = 4 ");
 	}
 
-	public List getXrefCounts(List descriptors, int searchingView) throws DataAccessException 
+	public List getXrefCounts(List descriptors, int searchingView) throws DataAccessException, HibernateException
 	{
 		int cataloguingView = getBrowsingViewBasedOnSearchingView(searchingView);
 		List result = new ArrayList();
@@ -222,46 +216,17 @@ public class BrowseManager
 		Descriptor aDescriptor = null;
 		while (iter.hasNext()) {
 			aDescriptor = (Descriptor) iter.next();
-			result.add(new Integer(((DAODescriptor) aDescriptor.getDAO()).getXrefCount(aDescriptor,	cataloguingView)));
+			result.add(new Integer(((DAODescriptor) aDescriptor.getDAO()).getXrefCount(aDescriptor,	cataloguingView, null)));
 		}
 		return result;
 	}
 	
-	public List getXAtrCounts(List descriptors, int searchingView) throws DataAccessException 
-	{
-		int cataloguingView = getBrowsingViewBasedOnSearchingView(searchingView);
-		List result = new ArrayList();
-	
-		Iterator iter = descriptors.iterator();
-		Descriptor aDescriptor = null;
-		while (iter.hasNext()) {
-			aDescriptor = (Descriptor) iter.next();
-			result.add(	new Integer(((DAODescriptor) aDescriptor.getDAO()).getXAtrCount(aDescriptor, cataloguingView)));
-		}
-		return result;
-	}
-	
-	public List getThesaurusNoteCounts(List descriptors, int searchingView) throws DataAccessException 
-	{
-		int cataloguingView = getBrowsingViewBasedOnSearchingView(searchingView);
-		List result = new ArrayList();
-	
-		Iterator iter = descriptors.iterator();
-		Descriptor aDescriptor = null;
-		while (iter.hasNext()) {
-			aDescriptor = (Descriptor) iter.next();
-			result.add(
-				new Integer(
-					((DAODescriptor) aDescriptor.getDAO()).getThesaurusNotesCount(
-						aDescriptor,
-						cataloguingView)));
-		}
 
-		return result;
-	}
+	
+
 
 	public List getDocCounts(List descriptors, int searchingView)
-		throws DataAccessException {
+			throws DataAccessException, HibernateException {
 		int cataloguingView = getBrowsingViewBasedOnSearchingView(searchingView);
 		List result = new ArrayList();
 
@@ -275,13 +240,14 @@ public class BrowseManager
 				new Integer(
 					((DAODescriptor) aDescriptor.getDAO()).getDocCount(
 						aDescriptor,
-						cataloguingView)));
+						cataloguingView, null)));
 		}
 
 		return result;
 	}
 	
-	public List getDocCountNT(List descriptors, int searchingView) throws DataAccessException 
+	public List getDocCountNT(List descriptors, int searchingView) throws DataAccessException,
+		HibernateException
 	{
 		int cataloguingView = getBrowsingViewBasedOnSearchingView(searchingView);
 		List result = new ArrayList();
@@ -290,37 +256,17 @@ public class BrowseManager
 	
 		while (iter.hasNext()) {
 			aDescriptor = (Descriptor) iter.next();
-			result.add(new Integer(((DAODescriptor) aDescriptor.getDAO()).getDocCountNT(aDescriptor,cataloguingView)));
+			result.add(new Integer(((DAODescriptor) aDescriptor.getDAO()).getDocCountNT(aDescriptor,cataloguingView,null)));
 		}
-		return result;
-	}
-	
-	/* Bug 5424 */
-	public List getDocCountUri(List descriptors, int searchingView) throws DataAccessException 
-	{
-		int cataloguingView = getBrowsingViewBasedOnSearchingView(searchingView);
-		List result = new ArrayList();
-		Iterator iter = descriptors.iterator();
-		Descriptor aDescriptor = null;
-	
-		while (iter.hasNext()) {
-			aDescriptor = (Descriptor) iter.next();
-			result.add(new Integer(((DAODescriptor) aDescriptor.getDAO()).getDocCountURI(aDescriptor,cataloguingView)));
-		}
-		return result;
-	}
-	
-	/* Bug 5424 */
-	public List<HDG_URI> getUriList(Descriptor descriptor, int searchingView) throws DataAccessException 
-	{
-		List<HDG_URI> result = new ArrayList();
-		int cataloguingView = getBrowsingViewBasedOnSearchingView(searchingView);
-		result = ((DAODescriptor) descriptor.getDAO()).getDocUriList(descriptor,cataloguingView);
 		return result;
 	}
 	
 
-	public List getAuthCounts(List descriptors) throws DataAccessException {
+	
+
+	
+
+	public List getAuthCounts(List descriptors) throws DataAccessException, HibernateException {
 		List result = new ArrayList();
 
 		Iterator iter = descriptors.iterator();
@@ -328,11 +274,11 @@ public class BrowseManager
 
 		while (iter.hasNext()) {
 			aDescriptor = (Descriptor) iter.next();
-
+            //TODO passare la session
 			result.add(
 				new Integer(
 					((DAODescriptor) aDescriptor.getDAO()).getAuthCount(
-						aDescriptor)));
+						aDescriptor,null)));
 		}
 
 		return result;
@@ -357,16 +303,17 @@ public class BrowseManager
 	 */
 
 	//TODO get authority counts, etc.
-	public List getFirstPage(String term, int searchingView, int termsToDisplay) throws DataAccessException 
+	public List getFirstPage(String term, int searchingView, int termsToDisplay) throws DataAccessException, HibernateException, SQLException
 	{
 		int cataloguingView = getBrowsingViewBasedOnSearchingView(searchingView);
 		DAODescriptor dao = getDao();	
 		setPageSize(termsToDisplay);
 		
 		// calculate the sortform of the search term
-		String searchTerm = dao.calculateSearchTerm(term, getBrowseIndex());
+		//TODO passare la session
+		String searchTerm = dao.calculateSearchTerm(term, getBrowseIndex(),null);
 		
-		// MIKE: moved Publisher block into DAOPublisherDescriptor to calculate first temp searchTerm stringValue
+		// MIKE: moved Publisher block into PublisherDescriptorDAO to calculate first temp searchTerm stringValue
 		List l = null;
 
 		try {
@@ -380,11 +327,11 @@ public class BrowseManager
 					searchTerm,
 					getFilter(),
 					cataloguingView,
-					1);
+					1, null);
 			logger.debug("BrowseManager 2");
 			/* Natasha:  si verificava problema con con DaoPublisherName/Place 
 			 * Azzerava la List e ripeteva ricerca sul termine precedente prendendone x e non 1 */
-			if(!((dao instanceof DAOPublisherNameDescriptor) && !(dao instanceof DAOPublisherPlaceDescriptor))) {
+			if(!((dao instanceof PublisherNameDescriptorDAO) && !(dao instanceof PublisherPlaceDescriptorDAO))) {
 				// MIKE: siccome e' specifica del publisher, eliminare il controllo quando
 				// si ha la possibilita'� di eseguire i test di non regressione sugli stessi publisher.
 				// Non ha senso eliminare questo blocco nelle altre headings e
@@ -401,7 +348,8 @@ public class BrowseManager
 			if (logger.isDebugEnabled()) {
 				logger.debug("looking for headings >= " + searchTerm);
 			}
-			logger.debug("BrowseManager 5");	
+			logger.debug("BrowseManager 5");
+			//TODo passare la Session
 			l.addAll(
 				dao.getHeadingsBySortform(
 					">=",
@@ -409,7 +357,8 @@ public class BrowseManager
 					searchTerm,
 					getFilter(),
 					cataloguingView,
-					getPageSize()));
+					getPageSize(),
+						null));
 			logger.debug("BrowseManager 6");
 		} catch (DataAccessException e) {
 			throw new BrowseFailedException();
@@ -435,7 +384,7 @@ public class BrowseManager
 		setSupportsCrossReferences(getDao().supportsCrossReferences());
 		setSupportsAuthorities(getDao().supportsAuthorities());
 		setFilter((String) filterMap.get(key));
-		if (getDao() instanceof DAOShelfList) {
+		if (getDao() instanceof ShelfListDAO) {
 			setFilter(getFilter() + " and hdg.mainLibraryNumber = " + mainLibrary);
 		}
 	}
@@ -446,7 +395,7 @@ public class BrowseManager
 	 * @param searchingView the view being displayed
 	 * @since 1.0
 	 */
-	public List getNextPage(Descriptor d, int searchingView) throws DataAccessException 
+	public List getNextPage(Descriptor d, int searchingView) throws DataAccessException, HibernateException
 	{
 		int cataloguingView = getBrowsingViewBasedOnSearchingView(searchingView);
 		DAODescriptor dao = getDao();
@@ -457,13 +406,13 @@ public class BrowseManager
 		 * se esegue una ricerca per PublisherPlace/Name ed e' una ricerca composta l'operatore diventa
 		 * >= e non >
 		 */
-		if( (dao instanceof DAOPublisherNameDescriptor || dao instanceof DAOPublisherPlaceDescriptor) && dao.getBrowsingSortForm(d).indexOf(":")>0){
+		if( (dao instanceof PublisherNameDescriptorDAO || dao instanceof PublisherPlaceDescriptorDAO) && dao.getBrowsingSortForm(d).indexOf(":")>0){
 			operator = ">=";
 		}
-		if (dao instanceof DAONameTitleNameDescriptor){
+		if (dao instanceof NameTitleNameDescriptorDAO){
 			operator = ">=";
 		}
-
+	//TODo passare la session
 		try {
 			l = dao.getHeadingsBySortform(
 					operator,
@@ -471,14 +420,15 @@ public class BrowseManager
 					dao.getBrowsingSortForm(d),
 					getFilter(),
 					cataloguingView,
-					getPageSize());
+					getPageSize(),
+			null);
 		} catch (DataAccessException e) {
 			throw new BrowseFailedException();
 		}
 		return l;
 	}
 	
-	public List getPreviousPage(Descriptor d, int searchingView) throws DataAccessException 
+	public List getPreviousPage(Descriptor d, int searchingView) throws DataAccessException, HibernateException
 	{
 		int cataloguingView = getBrowsingViewBasedOnSearchingView(searchingView);
 		DAODescriptor dao = getDao();
@@ -490,10 +440,10 @@ public class BrowseManager
 		 * se esegue una ricerca per PublisherPlace/Name ed e' una ricerca composta l'operatore diventa
 		 * <= e non <
 		 */
-		if((dao instanceof DAOPublisherNameDescriptor || dao instanceof DAOPublisherPlaceDescriptor) && dao.getBrowsingSortForm(d).indexOf(":")>0) {
+		if((dao instanceof PublisherNameDescriptorDAO || dao instanceof PublisherPlaceDescriptorDAO) && dao.getBrowsingSortForm(d).indexOf(":")>0) {
 			operator = "<=";
 		}
-		if (dao instanceof DAONameTitleNameDescriptor){
+		if (dao instanceof NameTitleNameDescriptorDAO){
 			operator = "<=";
 		}
 
@@ -504,7 +454,8 @@ public class BrowseManager
 					dao.getBrowsingSortForm(d),
 					getFilter(),
 					cataloguingView,
-					getPageSize());
+					getPageSize(),
+					null);
 
 			// reverse the order of the list			
 			for (int i = l.size() - 1; i >= 0; i--) {
@@ -580,16 +531,17 @@ public class BrowseManager
 	}
 	
 	
-	public List getFirstElement(String term, int searchingView, int termsToDisplay) throws DataAccessException 
+	public List getFirstElement(String term, int searchingView, int termsToDisplay) throws DataAccessException , HibernateException, SQLException
 	{
 		int cataloguingView = getBrowsingViewBasedOnSearchingView(searchingView);
 		DAODescriptor dao = getDao();	
 		setPageSize(termsToDisplay);
+		//TODO passare la Session
 			
-		String searchTerm = dao.calculateSearchTerm(term, getBrowseIndex());
+		String searchTerm = dao.calculateSearchTerm(term, getBrowseIndex(),null);
 //		System.out.println("SEARCH TERM: "+searchTerm);
 		
-		// MIKE: moved Publisher block into DAOPublisherDescriptor to calculate first temp searchTerm stringValue
+		// MIKE: moved Publisher block into PublisherDescriptorDAO to calculate first temp searchTerm stringValue
 		List l = null;
 
 		try {
@@ -603,7 +555,8 @@ public class BrowseManager
 					searchTerm,
 					getFilter(),
 					cataloguingView,
-					getPageSize());
+					getPageSize(),
+						null);
 			
 		} catch (DataAccessException e) {
 			throw new BrowseFailedException();

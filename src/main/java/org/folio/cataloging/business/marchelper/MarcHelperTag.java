@@ -2,11 +2,12 @@ package org.folio.cataloging.business.marchelper;
 
 import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
 import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
+import org.folio.cataloging.business.cataloguing.common.AccessPoint;
 import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.descriptor.Descriptor;
-import org.folio.cataloging.dao.persistence.AccessPoint;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.dao.persistence.CorrelationKey;
+
 import org.folio.cataloging.util.StringText;
 
 /**
@@ -43,7 +44,7 @@ public interface MarcHelperTag {
 	 * @throws DataAccessException
 	 * @throws MarcCorrelationException
 	 */
-	CorrelationKey getMarcEncoding() throws DataAccessException;
+	CorrelationKey getMarcEncoding() throws DataAccessException, MarcCorrelationException;
 	
 	/**
 	 * @see {@link Tag#getMarcEncoding()}
@@ -51,5 +52,5 @@ public interface MarcHelperTag {
 	 * @throws DataAccessException
 	 * @throws MarcCorrelationException
 	 */
-	String getKey()throws DataAccessException;
+	String getKey()throws DataAccessException, MarcCorrelationException;
 }

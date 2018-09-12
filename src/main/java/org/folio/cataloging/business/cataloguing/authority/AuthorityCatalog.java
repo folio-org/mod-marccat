@@ -10,7 +10,7 @@ import org.folio.cataloging.business.common.AbstractMapBackedFactory;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.MapBackedFactory;
 import org.folio.cataloging.business.common.PropertyBasedFactoryBuilder;
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.business.descriptor.DescriptorFactory;
 import org.folio.cataloging.dao.*;
 import org.folio.cataloging.dao.persistence.*;
@@ -33,10 +33,10 @@ public class AuthorityCatalog extends Catalog {
 
 	private static Map daoByAutType = new HashMap();
 	static {
-		daoByAutType.put("NH", DAONameDescriptor.class);
-		daoByAutType.put("TH", DAOTitleDescriptor.class);
-		daoByAutType.put("SH", DAOSubjectDescriptor.class);
-		daoByAutType.put("MH", DAONameTitleDescriptor.class);
+		daoByAutType.put("NH", NameDescriptorDAO.class);
+		daoByAutType.put("TH", TitleDescriptorDAO.class);
+		daoByAutType.put("SH", SubjectDescriptorDAO.class);
+		daoByAutType.put("MH", NameTitleDescriptorDAO.class);
 	}
 
 	private static Map<Integer, String> autTypeByDescriptorType = new HashMap<>();

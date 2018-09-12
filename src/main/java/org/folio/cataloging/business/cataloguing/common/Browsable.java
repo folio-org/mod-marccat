@@ -9,7 +9,7 @@ package org.folio.cataloging.business.cataloguing.common;
 
 import java.util.Set;
 
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
 
 import org.folio.cataloging.util.StringText;
 

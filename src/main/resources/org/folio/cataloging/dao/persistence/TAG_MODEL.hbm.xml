@@ -5,7 +5,7 @@
 <hibernate-mapping package="org.folio.cataloging.dao.persistence">
 
 	<class name="TAG_MODEL"  schema="olisuite"  table="TAG_MODEL">
-	<composite-id name="key" class="org.folio.cataloging.dao.persistence.ModelTagKey" >
+	<composite-id name="key" class="org.folio.cataloging.dao.persistence.ModelTagKey">
 		<key-property name="sequence" column="TBL_SEQ_NBR" />
 		<key-property name="language" column="LANGID" />
   	  </composite-id>

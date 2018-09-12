@@ -1,13 +1,19 @@
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
+import net.sf.hibernate.HibernateException;
+import org.folio.cataloging.business.cataloguing.common.AccessPoint;
 import org.folio.cataloging.business.cataloguing.common.Browsable;
+import org.folio.cataloging.business.cataloguing.common.CatalogItem;
 import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.business.descriptor.PublisherTagDescriptor;
 import org.folio.cataloging.dao.DAODescriptor;
-import org.folio.cataloging.dao.persistence.*;
+import org.folio.cataloging.dao.persistence.PUBL_HDG;
+import org.folio.cataloging.dao.persistence.PUBL_TAG;
 import org.folio.cataloging.util.StringText;
+
+import java.sql.SQLException;
 
 import static org.folio.cataloging.F.deepCopy;
 
@@ -105,11 +111,12 @@ public class MarcCommandLibrary {
 		catalogItem.setTag(srcTag, newTag);
 		return newTag;
 	}
-
-	public static Descriptor createNewDescriptor(Descriptor currDescriptor, String headingView) throws DataAccessException{
+  @Deprecated
+  //TODO: The session is missing from the method
+	public static Descriptor createNewDescriptor(Descriptor currDescriptor, String headingView) throws DataAccessException, HibernateException, SQLException {
 		if(!currDescriptor.isNew()) return currDescriptor;
 		Descriptor matchDescriptor = ((DAODescriptor) currDescriptor
-				.getDAO()).getMatchingHeading(currDescriptor);
+				.getDAO()).getMatchingHeading(currDescriptor, null);
 		if (matchDescriptor == null) {
 			if(currDescriptor.getKey().getHeadingNumber()==-1){// key is not null by default
 				currDescriptor.generateNewKey();
@@ -122,12 +129,11 @@ public class MarcCommandLibrary {
 		}
 	}
 	
-	public static void setNewStringText(AccessPoint tag, StringText text, String headingView) throws DataAccessException{
+	public static void setNewStringText(AccessPoint tag, StringText text, String headingView) throws DataAccessException, HibernateException, SQLException {
 		if(!tag.isNew()) throw new IllegalArgumentException("this method can be used only for new tags");
 		tag.getDescriptor().setUserViewString(headingView);
 		tag.setDescriptorStringText(text);
 		Descriptor newDescriptor =null;
-		//Aggiunto da Carmen per tag 260
 		if(tag.getDescriptor() instanceof PublisherTagDescriptor){
 			PUBL_TAG pu =(PUBL_TAG)(((PublisherTagDescriptor)tag.getDescriptor()).getPublisherTagUnits().get(0));
 			newDescriptor = createNewDescriptor(pu.getDescriptor(), headingView);
@@ -145,7 +151,7 @@ public class MarcCommandLibrary {
 		PublisherAccessPoint pap = tag.getAnyPublisher();
 		setNewStringText(pap, text, headingView);
 	}*/
-	public static void setNewStringText(PublisherManager tag, StringText text, String headingView) throws DataAccessException{
+	public static void setNewStringText(PublisherManager tag, StringText text, String headingView) throws DataAccessException, HibernateException, SQLException {
 		if(!tag.isNew()) throw new IllegalArgumentException("this method can be used only for new publisher tags");
 		PublisherAccessPoint pap = tag.getApf();
 		setNewStringText(pap, text, headingView);

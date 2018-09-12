@@ -8,7 +8,7 @@
 package org.folio.cataloging.business.cataloguing.authority;
 
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.dao.persistence.CNTL_NBR;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.util.StringText;

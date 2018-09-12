@@ -1,59 +1,60 @@
 package org.folio.cataloging.resources.domain;
 
 import com.fasterxml.jackson.annotation.*;
-
 import javax.annotation.Generated;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
+
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "diacritics" })
-public class DiacriticCollection {
+@JsonPropertyOrder({ "headings" })
+public class HeadingCollection {
 
     /**
      * 
      * (Required)
      * 
      */
-    @JsonProperty("diacritics")
+    @JsonProperty("headings")
     @Valid
     @NotNull
-    private List<Diacritic> diacritics = new ArrayList<Diacritic>();
+    private List<Heading> headings = new ArrayList<Heading>();
 
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
+   
     /**
      * 
      * (Required)
      * 
      * @return
-     *     The diacritics
+     * The headings
      */
-    @JsonProperty("diacritics")
-    public List<Diacritic> getDiacritics() {
-        return diacritics;
+    @JsonProperty("headings")
+    public List<Heading> getHeadings() {
+        return headings;
     }
 
     /**
      * 
      * (Required)
      * 
-     * @param diacritics
-     *     The diacritics
+     * @param indexes
+     * The indexes
      */
-    @JsonProperty("diacritics")
-    public void setDiacritics(List<Diacritic> diacritics) {
-        this.diacritics = diacritics;
+    @JsonProperty("headings")
+    public void setHeadings(List<Heading> headings) {
+        this.headings = headings;
     }
 
-    public DiacriticCollection withDiacritics(List<Diacritic> diacritics) {
-        this.diacritics = diacritics;
+    public HeadingCollection withHeadings(List<Heading> headings) {
+        this.headings = headings;
         return this;
     }
 
@@ -67,8 +68,9 @@ public class DiacriticCollection {
         this.additionalProperties.put(name, value);
     }
 
-    public DiacriticCollection withAdditionalProperty(String name, Object value) {
+    public HeadingCollection withAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
         return this;
     }
+ 
 }

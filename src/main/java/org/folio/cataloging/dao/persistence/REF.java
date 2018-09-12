@@ -1,12 +1,12 @@
 package org.folio.cataloging.dao.persistence;
 
 import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.*;
-import org.folio.cataloging.business.descriptor.Descriptor;
-import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAOCrossReferences;
 import org.folio.cataloging.dao.DAODescriptor;
+import org.folio.cataloging.dao.common.HibernateUtil;
 
 import java.io.Serializable;
 
@@ -17,9 +17,9 @@ import java.io.Serializable;
  * @version $Revision: 1.10 $, $Date: 2006/01/19 12:31:26 $
  * @since 1.0
  */
-public abstract class REF extends PersistenceState implements Serializable, Cloneable, PersistentObjectWithView 
+public abstract class REF extends PersistenceState implements Serializable, Cloneable, PersistentObjectWithView
 {
-
+	private static final DAOCrossReferences theDAO = new DAOCrossReferences();
 	private REF_KEY key = new REF_KEY();
 	private Character printConstant;
 	private Character noteGeneration;
@@ -32,20 +32,19 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
 	private String stringText;
 	private final PersistenceState persistenceState = new PersistenceState();
 	abstract public DAODescriptor getTargetDAO();
-	
-	public static REF add(Descriptor source,Descriptor target,short referenceType,int cataloguingView,boolean isAttribute) throws DataAccessException 
-	{
+
+	public static REF add(Descriptor source, Descriptor target, short referenceType, int cataloguingView, boolean isAttribute, Session session) throws DataAccessException, HibernateException {
 		/* instantiate the appropriate REF type and populate key from arguments */
 		REF ref = REF.newInstance(source, target, referenceType, cataloguingView,isAttribute);
 		DAOCrossReferences dao = (DAOCrossReferences) ref.getDAO();
 		/* verify that this xref doesn't already exist in the database */
-		if (dao.load(source, target, referenceType, cataloguingView) != null) {
+		if (dao.load(source, target, referenceType, cataloguingView, session) != null) {
 			throw new CrossReferenceExistsException();
 		}
 		dao.save(ref);
 		return ref;
 	}
-	
+
 	static public REF newInstance(Descriptor source,Descriptor target,int referenceType,int cataloguingView, boolean isAttribute)
 	{
 		REF ref = null;
@@ -61,7 +60,7 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
 		return ref;
 	}
 
-	public REF() 
+	public REF()
 	{
 		setDefault();
 	}
@@ -75,8 +74,8 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
 		getKey().setUserViewString(View.makeSingleViewString(cataloguingView));
 		setDefault();
 	}
-	
-	public void setDefault() 
+
+	public void setDefault()
 	{
 		this.setAuthorityStructure('a');
 		this.setEarlierRules('x');
@@ -92,7 +91,7 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
 		this.setReplacementComplexity('n');
 		this.setVerificationLevel('1');
 	}
-	
+
 	public Object clone() {
 		try {
 			REF_KEY newKey = (REF_KEY) getKey().clone();
@@ -103,8 +102,8 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
 			return null;
 		}
 	}
-	
-	public REF createReciprocal() 
+
+	public REF createReciprocal()
 	{
 		REF result = (REF) this.clone();
 		result.setSource(getTarget());
@@ -112,8 +111,8 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
 		result.setType(ReferenceType.getReciprocal(result.getType()));
 		return result;
 	}
-	
-	public boolean equals(Object obj) 
+
+	public boolean equals(Object obj)
 	{
 		if (obj.getClass().equals(this.getClass())) {
 			return this.getKey().equals(((REF) obj).getKey());
@@ -141,7 +140,7 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
 	}
 	private REF_KEY getKey() {
 		/* getKey is made private so that implementers are required to provide individual
-		 * delegate methods.  This so that both NME_REF and NME_NME_TTL_REF can behave 
+		 * delegate methods.  This so that both NME_REF and NME_NME_TTL_REF can behave
 		 * polymorphically
 		 */
 		return key;

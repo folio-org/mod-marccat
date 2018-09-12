@@ -1,164 +1,153 @@
-/*
- * (c) LibriCore
- * 
- * Created on Dec 1, 2004
- * 
- * CLSTN.java
- */
 package org.folio.cataloging.dao.persistence;
 
 import org.folio.cataloging.business.cataloguing.authority.AuthorityClassificationAccessPoint;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.business.cataloguing.bibliographic.ClassificationAccessPoint;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
-import org.folio.cataloging.dao.AbstractDAO;
-import org.folio.cataloging.dao.DAOClassificationDescriptor;
-import org.folio.cataloging.dao.DAOIndexList;
+import org.folio.cataloging.dao.ClassificationDescriptorDAO;
+import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.shared.CorrelationValues;
 
 /**
+ * Hibernate class for table CLSTN.
+ *
  * @author paulm
- * @version $Revision: 1.9 $, $Date: 2006/07/12 15:42:56 $
- * @since 1.0
+ * @author carment
  */
 public class CLSTN extends Descriptor {
-	private static final long serialVersionUID = 1L;
+
+	/** The dewey edition number. */
 	private Integer deweyEditionNumber;
+
+	/** The type code. */
 	private int typeCode;
 
 	/**
-	 * Class constructor
-	 *
-	 * 
-	 * @since 1.0
+	 * Instantiates a new clstn.
 	 */
 	public CLSTN() {
 		super();
-		setTypeCode(Defaults.getShort("classification.typeCode"));
-		setVerificationLevel(Defaults.getChar("classification.verificationLevel"));
 	}
 
+
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getReferenceClass()
+	 * @see Descriptor#getReferenceClass(java.lang.Class)
 	 */
 	public Class getReferenceClass(Class targetClazz) {
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getDAO()
+
+	/**
+	 * Gets the dao.
+	 *
+	 * @return the dao
 	 */
-	public AbstractDAO getDAO() {
-		return new DAOClassificationDescriptor();
+	public HibernateUtil getDAO() {
+		return new ClassificationDescriptorDAO();
 	}
 
+
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getAccessPointClass()
+	 * @see Descriptor#getAccessPointClass()
 	 */
 	public Class getAccessPointClass() {
 		return ClassificationAccessPoint.class;
 	}
 
-	@Override
+
+	/* (non-Javadoc)
+	 * @see Descriptor#getAuthorityAccessPointClass()
+	 */
 	public Class getAuthorityAccessPointClass() {
 		return AuthorityClassificationAccessPoint.class;
 	}
 
+
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getDefaultBrowseKey()
+	 * @see Descriptor#getDefaultBrowseKey()
 	 */
 	public String getDefaultBrowseKey() {
 		return "23P5";
 	}
 
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getNextNumberKeyFieldCode()
+	 * @see Descriptor#getNextNumberKeyFieldCode()
 	 */
 	public String getNextNumberKeyFieldCode() {
 		return "LN";
 	}
 
+
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getCorrelationValues()
+	 * @see Descriptor#getCorrelationValues()
 	 */
 	public CorrelationValues getCorrelationValues() {
 		return new CorrelationValues(
-			getTypeCode(),
-			CorrelationValues.UNDEFINED,
-			CorrelationValues.UNDEFINED);
+				getTypeCode(),
+				CorrelationValues.UNDEFINED,
+				CorrelationValues.UNDEFINED);
 	}
 
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#setCorrelationValues(librisuite.business.common.CorrelationValues)
+	 * @see Descriptor#setCorrelationValues(CorrelationValues)
 	 */
 	public void setCorrelationValues(CorrelationValues v) {
 		setTypeCode(v.getValue(1));
 	}
 
+
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getSortFormParameters()
+	 * @see Descriptor#getSortFormParameters()
 	 */
 	public SortFormParameters getSortFormParameters() {
 		return new SortFormParameters(400, getTypeCode(), 0, 0, 0);
 	}
 
+
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getCategory()
+	 * @see Descriptor#getCategory()
 	 */
 	public int getCategory() {
 		return 20;
 	}
 
+
 	/**
-	 * 
-	 * @since 1.0
+	 * Gets the dewey edition number.
+	 *
+	 * @return the dewey edition number
 	 */
 	public Integer getDeweyEditionNumber() {
 		return deweyEditionNumber;
 	}
 
+
 	/**
-	 * 
-	 * @since 1.0
+	 * Gets the type code.
+	 *
+	 * @return the type code
 	 */
 	public int getTypeCode() {
 		return typeCode;
 	}
 
+
 	/**
-	 * 
-	 * @since 1.0
+	 * Sets the dewey edition number.
+	 *
+	 * @param short1 the new dewey edition number
 	 */
 	public void setDeweyEditionNumber(Integer short1) {
 		deweyEditionNumber = short1;
 	}
 
 	/**
-	 * 
-	 * @since 1.0
+	 * Sets the type code.
+	 *
+	 * @param s the new type code
 	 */
 	public void setTypeCode(int s) {
 		typeCode = s;
-	}
-
-	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getBrowseKey()
-	 */
-	public String getBrowseKey() {
-		String result = null;
-		DAOIndexList dao = new DAOIndexList();
-		try {
-			result = dao.getIndexBySortFormType(400, getTypeCode());
-			if (result != null) {
-				return result;
-			}
-			else {
-				return super.getBrowseKey();
-			}
-		} catch (DataAccessException e) {
-			return super.getBrowseKey();
-		}
 	}
 
 	/* (non-Javadoc)
@@ -167,6 +156,10 @@ public class CLSTN extends Descriptor {
 	public String getHeadingNumberSearchIndexKey() {
 		return "233P";
 	}
+
+	/* (non-Javadoc)
+	 * @see Descriptor#getLockingEntityType()
+	 */
 	public String getLockingEntityType() {
 		return "LN";
 	}

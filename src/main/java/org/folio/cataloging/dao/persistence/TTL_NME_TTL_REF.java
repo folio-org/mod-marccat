@@ -7,8 +7,12 @@
  */
 package org.folio.cataloging.dao.persistence;
 
-import org.folio.cataloging.business.descriptor.Descriptor;
-import org.folio.cataloging.dao.*;
+import org.folio.cataloging.dao.DAOTitleNameTitleReferences;
+import org.folio.cataloging.dao.DAODescriptor;
+import org.folio.cataloging.dao.NameTitleDescriptorDAO;
+import org.folio.cataloging.dao.TitleDescriptorDAO;
+
+import org.folio.cataloging.dao.common.HibernateUtil;
 
 /**
  * @author paulm
@@ -62,10 +66,10 @@ public class TTL_NME_TTL_REF extends REF {
 	 */
 	public DAODescriptor getTargetDAO() {
 		if (isSourceTitle()) {
-			return new DAONameTitleDescriptor();
+			return new NameTitleDescriptorDAO();
 		}
 		else {
-			return new DAOTitleDescriptor();
+			return new TitleDescriptorDAO();
 		}
 		
 	}
@@ -173,7 +177,7 @@ public class TTL_NME_TTL_REF extends REF {
 	/* (non-Javadoc)
 	 * @see librisuite.business.common.PersistenceState#getDAO()
 	 */
-	public AbstractDAO getDAO() {
+	public HibernateUtil getDAO() {
 		return theDAO;
 	}
 	/* (non-Javadoc)

@@ -8,7 +8,7 @@
 package org.folio.cataloging.dao.persistence;
 
 import org.folio.cataloging.dao.DAODescriptor;
-import org.folio.cataloging.dao.DAOPublisherDescriptor;
+import org.folio.cataloging.dao.PublisherDescriptorDAO;
 
 /**
  * @author paulm
@@ -20,7 +20,7 @@ public class PUBL_REF extends REF {
 	 * @see REF#getTargetDAO()
 	 */
 	public DAODescriptor getTargetDAO() {
-		return new DAOPublisherDescriptor();
+		return new PublisherDescriptorDAO();
 	}
 
 }

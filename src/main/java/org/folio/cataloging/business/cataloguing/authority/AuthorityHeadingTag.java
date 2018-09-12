@@ -6,7 +6,7 @@ import org.folio.cataloging.business.cataloguing.bibliographic.PersistsViaItem;
 import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
 import org.folio.cataloging.business.cataloguing.common.Browsable;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.dao.persistence.AUT;
 import org.folio.cataloging.dao.persistence.ItemEntity;
 import org.folio.cataloging.exception.NoHeadingSetException;

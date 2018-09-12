@@ -55,8 +55,8 @@ public class DAOCopy extends AbstractDAO {
 			c = (CPY_ID) session.get(CPY_ID.class, new Integer(copyNumber));
 			if (c != null) {
 				if (c.getShelfListKeyNumber() != null) {
-					c.setShelfList(new DAOShelfList().load(c
-							.getShelfListKeyNumber().intValue()));
+					c.setShelfList(new ShelfListDAO().load(c
+							.getShelfListKeyNumber().intValue(), session));
 				}
 			}
 			if ((new DAOGlobalVariable().getValueByName("barrcode")).equals("1")) {
@@ -245,8 +245,8 @@ public class DAOCopy extends AbstractDAO {
 			CPY_ID rawCopy = (CPY_ID) (obj[0]);
 			if (rawCopy.getShelfListKeyNumber() != null) {
 				try {
-					rawCopy.setShelfList(new DAOShelfList().loadShelf(rawCopy
-							.getShelfListKeyNumber().intValue()));
+					rawCopy.setShelfList(new ShelfListDAO().load(rawCopy
+							.getShelfListKeyNumber().intValue(), s));
 				} catch (Exception e) {
 					System.out.println(rawCopy.getShelfListKeyNumber());
 				}
@@ -319,12 +319,12 @@ public class DAOCopy extends AbstractDAO {
 
 	public List getListCopiesElement(final Session session, final int amicusNumber,
 									 final int mainLibrary,
-									 final Locale locale) throws DataAccessException {
+									 final Locale locale) throws DataAccessException, HibernateException {
 		List listAllCopies = null;
 		List result = new ArrayList();
 		DAOOrganisationHierarchy doh = new DAOOrganisationHierarchy();
 		DAOLocation dl = new DAOLocation();
-		DAOShelfList dsl = new DAOShelfList();
+		ShelfListDAO dsl = new ShelfListDAO();
 		DAOCopyNotes dcn = new DAOCopyNotes();
 		DAOInventory dci = new DAOInventory();
 		DAODiscard ddsc = new DAODiscard();
@@ -361,8 +361,8 @@ public class DAOCopy extends AbstractDAO {
 			}
 
 			if (rawCopy.getShelfListKeyNumber() != null) {
-				rawCopy.setShelfList(new DAOShelfList().load(rawCopy
-						.getShelfListKeyNumber().intValue()));
+				rawCopy.setShelfList(new ShelfListDAO().load(rawCopy
+						.getShelfListKeyNumber().intValue(), session));
 				if (rawCopy.getShelfList() != null) {
 					rawCopyListElement
 							.setShelfList((new StringText(rawCopy
@@ -394,7 +394,7 @@ public class DAOCopy extends AbstractDAO {
 		List result = new ArrayList();
 		DAOOrganisationHierarchy doh = new DAOOrganisationHierarchy();
 		DAOLocation dl = new DAOLocation();
-		DAOShelfList dsl = new DAOShelfList();
+		ShelfListDAO dsl = new ShelfListDAO();
 		DAOCopyNotes dcn = new DAOCopyNotes();
 		DAOInventory dci = new DAOInventory();
 		DAODiscard ddsc = new DAODiscard();
@@ -442,8 +442,8 @@ public class DAOCopy extends AbstractDAO {
 				}
 
 				if (rawCopy.getShelfListKeyNumber() != null) {
-					rawCopy.setShelfList(new DAOShelfList().loadShelf(rawCopy
-							.getShelfListKeyNumber().intValue()));
+					rawCopy.setShelfList(new ShelfListDAO().load(rawCopy
+							.getShelfListKeyNumber().intValue(), session));
 					if (rawCopy.getShelfList() != null) {
 						rawCopyListElement.setShelfList((new StringText(rawCopy
 								.getShelfList().getStringText()))
@@ -786,8 +786,8 @@ public class DAOCopy extends AbstractDAO {
 				CPY_ID copy = (CPY_ID) s.get(CPY_ID.class, new Integer(
 						copyNumber));
 				if (copy.getShelfListKeyNumber() != null) {
-					copy.setShelfList(new DAOShelfList().load(copy
-							.getShelfListKeyNumber().intValue()));
+					//TODO passare la session
+					copy.setShelfList(new ShelfListDAO().load(copy.getShelfListKeyNumber().intValue(),null));
 				}
 				if (copy == null) {
 					throw new RecordNotFoundException();
@@ -900,9 +900,9 @@ public class DAOCopy extends AbstractDAO {
 	}
 
 	public int countCopyByShelf(CPY_ID copy, SHLF_LIST shelf)
-			throws DataAccessException {
-		DAOShelfList ds = (DAOShelfList) shelf.getDAO();
-		SHLF_LIST match = (SHLF_LIST) ds.getMatchingHeading(shelf);
+			throws DataAccessException, HibernateException {
+		ShelfListDAO ds = (ShelfListDAO) shelf.getDAO();
+		SHLF_LIST match = (SHLF_LIST) ds.getMatchingHeading(shelf, null);
 		if (match != null) {
 			List l = find(
 					"select count(*) from CPY_ID as c where c.shelfListKeyNumber = ? and c.copyIdNumber<> ?",
@@ -1035,10 +1035,11 @@ public class DAOCopy extends AbstractDAO {
 	 * @return
 	 * @throws DataAccessException
 	 */
-	public SHLF_LIST getMatchHeading(CPY_ID copy) throws DataAccessException {
-		DAOShelfList ds = (DAOShelfList) copy.getShelfList().getDAO();
+	//TODO: The session is missing from the method
+	public SHLF_LIST getMatchHeading(CPY_ID copy) throws DataAccessException, HibernateException {
+		ShelfListDAO ds = (ShelfListDAO) copy.getShelfList().getDAO();
 		SHLF_LIST match = (SHLF_LIST) ds
-				.getMatchingHeading(copy.getShelfList());
+				.getMatchingHeading(copy.getShelfList(), null);
 		return match;
 	}
 

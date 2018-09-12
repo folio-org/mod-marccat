@@ -1,14 +1,11 @@
 package org.folio.cataloging.dao.persistence;
 
-import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.business.cataloguing.bibliographic.TitleAccessPoint;
 import org.folio.cataloging.business.descriptor.SkipInFiling;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
-import org.folio.cataloging.business.descriptor.SortformUtils;
-import org.folio.cataloging.dao.AbstractDAO;
-import org.folio.cataloging.dao.DAOTitleDescriptor;
+import org.folio.cataloging.dao.TitleDescriptorDAO;
+import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.shared.CorrelationValues;
-import org.folio.cataloging.util.StringText;
 
 import java.io.Serializable;
 
@@ -16,66 +13,66 @@ import java.io.Serializable;
  * Hibernate class for table TTL_HDG.
  *
  * @author paulm
- * @since 1.0
+ * @author carment
  */
 public class TTL_HDG extends Descriptor implements SkipInFiling, Serializable {
-	private static final long serialVersionUID = 1L;
-	private static Class referenceClass = TTL_REF.class;
+
+	/** The copy to subject indicator. */
 	private char copyToSubjectIndicator;
-	private short indexingLanguage;
-	private short skipInFiling;
-	
+
+	/** The indexing language. */
+	private int indexingLanguage;
+
+	/** The skip in filing. */
+	private int skipInFiling;
+
 	/**
-	 * 
+	 * Instantiates a new ttl hdg.
 	 */
 	public TTL_HDG() {
 		super();
-		setAccessPointLanguage(Defaults.getShort("title.accessPointLanguage"));
-		setCopyToSubjectIndicator(Defaults.getChar("title.copyToSubjectIndicator"));
-		setVerificationLevel(Defaults.getChar("title.verificationLevel"));
-		setSkipInFiling(Defaults.getShort("title.skipInFiling"));
-		setIndexingLanguage(Defaults.getShort("title.indexingLanguage"));
 	}
 
+
 	/**
-	 * Getter for copyToSubjectIndicator
-	 * 
-	 * @return copyToSubjectIndicator
+	 * Gets the copy to subject indicator.
+	 *
+	 * @return the copy to subject indicator
 	 */
 	public char getCopyToSubjectIndicator() {
 		return copyToSubjectIndicator;
 	}
 
-	/**
-	 * Getter for indexingLanguage
-	 * 
-	 * @return indexingLanguage
+
+	/* (non-Javadoc)
+	 * @see Descriptor#getIndexingLanguage()
 	 */
 	public int getIndexingLanguage() {
 		return indexingLanguage;
 	}
 
 
+
 	/**
-	 * Setter for copySubjectIndicator
-	 * 
-	 * @param c copySubjectIndicator
+	 * Sets the copy to subject indicator.
+	 *
+	 * @param c the new copy to subject indicator
 	 */
 	public void setCopyToSubjectIndicator(char c) {
 		copyToSubjectIndicator = c;
 	}
 
-	/**
-	 * Setter for indexingLanguage
-	 * 
-	 * @param s indexingLanguage
+
+	/* (non-Javadoc)
+	 * @see Descriptor#setIndexingLanguage(short)
 	 */
-	public void setIndexingLanguage(short s) {
+	public void setIndexingLanguage(int s) {
 		indexingLanguage = s;
 	}
 
+
 	/* (non-Javadoc)
-	 * @see com.libricore.librisuite.business.rdms.Descriptor#getReferenceClass()
+	 * @see Descriptor#getReferenceClass(java.lang.Class)
 	 */
 	public Class getReferenceClass(Class targetClazz) {
 		if (targetClazz == TTL_HDG.class) {
@@ -89,84 +86,94 @@ public class TTL_HDG extends Descriptor implements SkipInFiling, Serializable {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see Descriptor#getSkipInFiling()
+	 */
 	public int getSkipInFiling() {
 		return skipInFiling;
 	}
 
-	public void setSkipInFiling(short s) {
+	/**
+	 * Sets the skip in filing.
+	 *
+	 * @param s the new skip in filing
+	 */
+	public void setSkipInFiling(int s) {
 		skipInFiling = s;
 	}
 
+
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getDefaultBrowseKey()
+	 * @see Descriptor#getDefaultBrowseKey()
 	 */
 	public String getDefaultBrowseKey() {
 		return "7P0";
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getDAO()
+
+	/**
+	 * Gets the dao.
+	 *
+	 * @return the dao
 	 */
-	public AbstractDAO getDAO() {
-		return new DAOTitleDescriptor();
+	public HibernateUtil getDAO() {
+		return new TitleDescriptorDAO();
 	}
 
+
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getAccessPointClass()
+	 * @see Descriptor#getAccessPointClass()
 	 */
 	public Class getAccessPointClass() {
 		return TitleAccessPoint.class;
 	}
 
+
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getNextNumberKeyFieldCode()
+	 * @see Descriptor#getNextNumberKeyFieldCode()
 	 */
 	public String getNextNumberKeyFieldCode() {
 		return "TH";
 	}
 
+
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getCategory()
+	 * @see Descriptor#getCategory()
 	 */
 	public int getCategory() {
 		return 22;
 	}
 
+
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getCorrelationValues()
+	 * @see Descriptor#getCorrelationValues()
 	 */
 	public CorrelationValues getCorrelationValues() {
 		return new CorrelationValues();
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#setCorrelationValues(librisuite.business.common.CorrelationValues)
-	 */
-	public void setCorrelationValues(CorrelationValues v) {
-		// do nothing		
-	}
-	
+
 
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getSortFormParameters()
+	 * @see Descriptor#getSortFormParameters()
 	 */
 	public SortFormParameters getSortFormParameters() {
 		return new SortFormParameters(100, 102, 0, 0, getSkipInFiling());
 	}
 
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getHeadingNumberSearchIndex()
+	 * @see Descriptor#setCorrelationValues(CorrelationValues)
 	 */
-	public String getHeadingNumberSearchIndexKey() {
-		return "228P";
+	@Override
+	public void setCorrelationValues(CorrelationValues v) {
+
 	}
 
 	/* (non-Javadoc)
-	 * @see Descriptor#calculateSortFormWithoutDB()
+	 * @see Descriptor#getHeadingNumberSearchIndexKey()
 	 */
-	protected String calculateSortFormWithoutDB() {
-		StringText st = SortformUtils.stripSkipInFiling(getStringText(), getSkipInFiling());
-		return SortformUtils.defaultSortform(st.toString());
+	public String getHeadingNumberSearchIndexKey() {
+		return "228P";
 	}
 
 	/* (non-Javadoc)
@@ -175,6 +182,10 @@ public class TTL_HDG extends Descriptor implements SkipInFiling, Serializable {
 	public boolean changeAffectsCacheTable() {
 		return true;
 	}
+
+	/* (non-Javadoc)
+	 * @see Descriptor#getLockingEntityType()
+	 */
 	public String getLockingEntityType() {
 		return "TH";
 	}

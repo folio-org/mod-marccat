@@ -1,6 +1,7 @@
-package org.folio.cataloging.dao.persistence;
+package org.folio.cataloging.business.cataloguing.common;
 
 import net.sf.hibernate.Session;
+import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
 import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
 import org.folio.cataloging.business.cataloguing.common.Browsable;
 import org.folio.cataloging.business.common.DataAccessException;
@@ -10,6 +11,8 @@ import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.SkipInFiling;
 import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAODescriptor;
+import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.persistence.CorrelationKey;
 import org.folio.cataloging.util.StringText;
 import org.w3c.dom.Element;
 
@@ -34,7 +37,7 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
 	/**
 	 * Class constructor
 	 *
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public AccessPoint() {
@@ -95,26 +98,22 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
 		headingNumber = i;
 	}
 
-	@Deprecated
-    //TODO: use method in storageService class
-	public void generateNewKey(final Session session) throws DataAccessException {
+  @Deprecated
+  //TODO: use method in storageService class
+  public void generateNewKey(final Session session) throws DataAccessException {
 
-		if (getDescriptor().isNew()) {
-			Descriptor d = ((DAODescriptor) getDescriptor().getDAO()).getMatchingHeading(getDescriptor());
-			if (d == null) {
-				getDescriptor().generateNewKey();
-			} else {
-				setDescriptor(d);
-			}
-		}
-		setHeadingNumber(getDescriptor().getKey().getHeadingNumber());
-	}
+    if (getDescriptor().isNew()) {
+      Descriptor d = ((DAODescriptor) getDescriptor().getDAO()).getMatchingHeading(getDescriptor());
+      if (d == null) {
+        getDescriptor().generateNewKey();
+      } else {
+        setDescriptor(d);
+      }
+    }
+    setHeadingNumber(getDescriptor().getKey().getHeadingNumber());
+  }
 
-    /**
-     * Creates a clone of the access point.
-     *
-     * @return cloned object.
-     */
+
 	public Object clone() {
 		final AccessPoint ap = (AccessPoint) super.clone();
 		ap.setDescriptor(this.getDescriptor());
@@ -142,6 +141,9 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
 		getDescriptor().markChanged();
 	}
 
+	/**
+		 *
+		 */
 	public int getFunctionCode() {
 		return functionCode;
 	}
@@ -150,14 +152,10 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
 		functionCode = i;
 	}
 
-	//TODO: evaluate if keeping this method
 	public DAODescriptor getDAODescriptor() {
 		return (DAODescriptor) getDescriptor().getDAO();
 	}
 
-    public AbstractDAO getDAO() {
-        return getPersistenceState().getDAO();
-    }
 
     /**
      * Gets category from descriptor.
@@ -168,15 +166,25 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
 		return getDescriptor().getCategory();
 	}
 
+	/**
+		 *
+		 */
 	public abstract StringText getAccessPointStringText();
 
+	/**
+		 * @param stringText
+		 */
 	public abstract void setAccessPointStringText(StringText stringText);
 
-	public CorrelationKey getMarcEncoding() throws DataAccessException {
-		return (getDescriptor() instanceof SkipInFiling)
-                ? (super.getMarcEncoding()).changeSkipInFilingIndicator(getDescriptor().getSkipInFiling())
-                : super.getMarcEncoding();
+  public CorrelationKey getMarcEncoding() throws DataAccessException {
+    return (getDescriptor() instanceof SkipInFiling)
+      ? (super.getMarcEncoding()).changeSkipInFilingIndicator(getDescriptor().getSkipInFiling())
+      : super.getMarcEncoding();
 
+  }
+
+	public AbstractDAO getDAO() {
+		return getPersistenceState().getDAO();
 	}
 
     /**
@@ -221,7 +229,6 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
 	public String getVariantCodes() {
 		return null;
 	}
-
 	/**
 	 * The high order 2 bytes gives the type.
 	 *
@@ -231,7 +238,7 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
 	public int getType(int n) {
 		return n >> 16;
 	}
-	
+
 	/**
 	 * The low order 2 bytes gives the function.
      *
