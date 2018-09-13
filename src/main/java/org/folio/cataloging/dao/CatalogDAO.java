@@ -79,7 +79,7 @@ public abstract class CatalogDAO extends AbstractDAO {
 		allTags.stream().map(tag -> {
 			loadHeading((AccessPoint) tag, userView, session);
 			return tag;
-		}).collect(Collectors.toList());
+		});
 	}
 	private void loadHeading(final AccessPoint tag, final int userView, final Session session) throws DataAccessException {
 		if (tag.getHeadingNumber() != null) {
