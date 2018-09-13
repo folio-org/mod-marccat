@@ -242,13 +242,11 @@ public class ShelfListDAO extends DAODescriptor
 	 * @param session the session
 	 * @throws HibernateException the hibernate exception
 	 */
-	//TODO: The session is missing from the method (getNextNumber)
 	public void persist(final Descriptor descriptor, final Session session) throws HibernateException
 	{
 		if (descriptor.isNew()) {
 			((SHLF_LIST) descriptor).setShelfListKeyNumber(
-					new SystemNextNumberDAO().getNextNumber(
-							descriptor.getNextNumberKeyFieldCode()));
+					new SystemNextNumberDAO().getNextNumber(descriptor.getNextNumberKeyFieldCode(), session));
 		}
 		persistByStatus(descriptor, session);
 	}

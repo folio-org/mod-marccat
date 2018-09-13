@@ -1,13 +1,14 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Nov 2, 2005
- * 
+ *
  * AUT.java
  */
 package org.folio.cataloging.dao.persistence;
 
 import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Defaults;
@@ -64,7 +65,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void evict() throws DataAccessException {
@@ -72,7 +73,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void evict(Object obj) throws DataAccessException {
@@ -82,14 +83,14 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	/* (non-Javadoc)
 	 * @see librisuite.business.common.PersistentObject#generateNewKey()
 	 */
-	public void generateNewKey() throws DataAccessException {
+  public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
 		SystemNextNumberDAO dao = new SystemNextNumberDAO();
-		setAmicusNumber(new Integer(dao.getNextNumber("AA")));
+		setAmicusNumber(new Integer(dao.getNextNumber("AA", session)));
 	}
 
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getBilingualUsage() {
@@ -97,7 +98,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getCataloguingRules() {
@@ -105,7 +106,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getCataloguingSourceCode() {
@@ -113,7 +114,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getConferenceOrMeeting() {
@@ -121,7 +122,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public AbstractDAO getDAO() {
@@ -129,7 +130,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getEncodingLevel() {
@@ -137,7 +138,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getGovernmentAgency() {
@@ -145,7 +146,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public String getHeadingLanguage() {
@@ -153,7 +154,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int getHeadingNumber() {
@@ -161,7 +162,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getHeadingStatus() {
@@ -169,7 +170,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public String getHeadingType() {
@@ -177,7 +178,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getMainAddedEntryIndicator() {
@@ -185,7 +186,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getNonUniqueName() {
@@ -193,7 +194,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getRecordModification() {
@@ -201,7 +202,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getRecordRevision() {
@@ -209,7 +210,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getRecordType() {
@@ -217,7 +218,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getReferenceStatus() {
@@ -225,7 +226,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getRomanizationScheme() {
@@ -233,7 +234,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getSeriesEntryIndicator() {
@@ -241,7 +242,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getSeriesNumbering() {
@@ -249,7 +250,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getSeriesType() {
@@ -257,7 +258,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getSubDivisionType() {
@@ -265,7 +266,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getSubjectDescriptor() {
@@ -273,7 +274,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getSubjectEntryIndicator() {
@@ -281,7 +282,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getSubjectSystem() {
@@ -289,7 +290,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int getUpdateStatus() {
@@ -297,7 +298,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean isChanged() {
@@ -305,7 +306,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean isDeleted() {
@@ -313,7 +314,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean isNew() {
@@ -321,7 +322,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean isRemoved() {
@@ -329,7 +330,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void markChanged() {
@@ -337,7 +338,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void markDeleted() {
@@ -345,7 +346,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void markNew() {
@@ -353,7 +354,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void markUnchanged() {
@@ -361,7 +362,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean onDelete(Session s) throws CallbackException {
@@ -369,7 +370,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void onLoad(Session s, Serializable id) {
@@ -377,7 +378,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean onSave(Session s) throws CallbackException {
@@ -385,7 +386,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean onUpdate(Session s) throws CallbackException {
@@ -393,7 +394,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setBilingualUsage(char c) {
@@ -401,7 +402,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setCataloguingRules(char c) {
@@ -409,7 +410,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setCataloguingSourceCode(char c) {
@@ -417,7 +418,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setConferenceOrMeeting(char c) {
@@ -425,7 +426,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setEncodingLevel(char c) {
@@ -433,7 +434,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setGovernmentAgency(char c) {
@@ -441,7 +442,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setHeadingLanguage(String string) {
@@ -449,7 +450,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setHeadingNumber(int i) {
@@ -457,7 +458,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setHeadingStatus(char c) {
@@ -465,7 +466,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setHeadingType(String string) {
@@ -473,7 +474,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setMainAddedEntryIndicator(char c) {
@@ -481,7 +482,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setNonUniqueName(char c) {
@@ -489,7 +490,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setRecordModification(char c) {
@@ -497,7 +498,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setRecordRevision(char c) {
@@ -505,7 +506,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setRecordType(char c) {
@@ -513,7 +514,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setReferenceStatus(char c) {
@@ -521,7 +522,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setRomanizationScheme(char c) {
@@ -529,7 +530,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setSeriesEntryIndicator(char c) {
@@ -537,7 +538,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setSeriesNumbering(char c) {
@@ -545,7 +546,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setSeriesType(char c) {
@@ -553,7 +554,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setSubDivisionType(char c) {
@@ -561,7 +562,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setSubjectDescriptor(char c) {
@@ -569,7 +570,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setSubjectEntryIndicator(char c) {
@@ -577,7 +578,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setSubjectSystem(char c) {
@@ -585,13 +586,13 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setUpdateStatus(int i) {
 		persistenceState.setUpdateStatus(i);
 	}
-	
+
 	public String getVariableHeadingStringText() {
 		return variableHeadingStringText;
 	}

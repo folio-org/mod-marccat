@@ -96,14 +96,13 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
 		headingNumber = i;
 	}
 
-  @Deprecated
   //TODO: use method in storageService class
   public void generateNewKey(final Session session) throws HibernateException, SQLException {
 
     if (getDescriptor().isNew()) {
       Descriptor d = ((DAODescriptor) getDescriptor().getDAO()).getMatchingHeading(getDescriptor(), session);
       if (d == null) {
-        getDescriptor().generateNewKey();
+        getDescriptor().generateNewKey(session);
       } else {
         setDescriptor(d);
       }

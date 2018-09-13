@@ -1,5 +1,7 @@
 package org.folio.cataloging.dao.persistence;
 
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.SystemNextNumberDAO;
 import org.w3c.dom.Document;
@@ -65,9 +67,9 @@ public class ElectronicResource extends PhysicalDescription {
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
 	 */
-	public void generateNewKey() throws DataAccessException {
+	public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
 		SystemNextNumberDAO dao = new SystemNextNumberDAO();
-		setKeyNumber(dao.getNextNumber("XA"));
+		setKeyNumber(dao.getNextNumber("XA", session));
 	}
 
 	/* (non-Javadoc)
@@ -78,7 +80,7 @@ public class ElectronicResource extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getAntecedentSourceCode() {
@@ -86,7 +88,7 @@ public class ElectronicResource extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getColourCode() {
@@ -94,7 +96,7 @@ public class ElectronicResource extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getDimensionsCode() {
@@ -102,7 +104,7 @@ public class ElectronicResource extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getFileFormatsCode() {
@@ -110,7 +112,7 @@ public class ElectronicResource extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public String getImageBitDepth() {
@@ -118,7 +120,7 @@ public class ElectronicResource extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getIncludesSoundCode() {
@@ -126,7 +128,7 @@ public class ElectronicResource extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getLevelOfCompressionCode() {
@@ -134,7 +136,7 @@ public class ElectronicResource extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getObsolete1() {
@@ -142,7 +144,7 @@ public class ElectronicResource extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getQualityAssuranceTargetCode() {
@@ -150,7 +152,7 @@ public class ElectronicResource extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getReformattingQualityCode() {
@@ -158,7 +160,7 @@ public class ElectronicResource extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setAntecedentSourceCode(char c) {
@@ -166,7 +168,7 @@ public class ElectronicResource extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setColourCode(char c) {
@@ -174,7 +176,7 @@ public class ElectronicResource extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setDimensionsCode(char c) {
@@ -182,7 +184,7 @@ public class ElectronicResource extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setFileFormatsCode(char c) {
@@ -190,7 +192,7 @@ public class ElectronicResource extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setImageBitDepth(String string) {
@@ -198,7 +200,7 @@ public class ElectronicResource extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setIncludesSoundCode(char c) {
@@ -206,7 +208,7 @@ public class ElectronicResource extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setLevelOfCompressionCode(char c) {
@@ -214,7 +216,7 @@ public class ElectronicResource extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setObsolete1(char c) {
@@ -222,7 +224,7 @@ public class ElectronicResource extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setQualityAssuranceTargetCode(char c) {
@@ -230,7 +232,7 @@ public class ElectronicResource extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setReformattingQualityCode(char c) {

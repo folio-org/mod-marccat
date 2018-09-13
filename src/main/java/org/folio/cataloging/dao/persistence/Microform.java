@@ -1,5 +1,7 @@
 package org.folio.cataloging.dao.persistence;
 
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.SystemNextNumberDAO;
 import org.w3c.dom.Document;
@@ -63,9 +65,9 @@ public class Microform extends PhysicalDescription {
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
 	 */
-	public void generateNewKey() throws DataAccessException {
+	public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
 		SystemNextNumberDAO dao = new SystemNextNumberDAO();
-		setKeyNumber(dao.getNextNumber("X3"));
+		setKeyNumber(dao.getNextNumber("X3", session));
 	}
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.PhysicalDescription#isMicroform()
@@ -75,7 +77,7 @@ public class Microform extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getBaseOfFilmCode() {
@@ -83,7 +85,7 @@ public class Microform extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getColourCode() {
@@ -91,7 +93,7 @@ public class Microform extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getDimensionsCode() {
@@ -99,7 +101,7 @@ public class Microform extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getEmulsionOnFilmCode() {
@@ -107,7 +109,7 @@ public class Microform extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getGenerationCode() {
@@ -115,7 +117,7 @@ public class Microform extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getObsolete1() {
@@ -123,7 +125,7 @@ public class Microform extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getPolarityCode() {
@@ -131,7 +133,7 @@ public class Microform extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public String getReductionRatioCode() {
@@ -139,7 +141,7 @@ public class Microform extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getReductionRatioRangeCode() {
@@ -147,7 +149,7 @@ public class Microform extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setBaseOfFilmCode(char c) {
@@ -155,7 +157,7 @@ public class Microform extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setColourCode(char c) {
@@ -163,7 +165,7 @@ public class Microform extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setDimensionsCode(char c) {
@@ -171,7 +173,7 @@ public class Microform extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setEmulsionOnFilmCode(char c) {
@@ -179,7 +181,7 @@ public class Microform extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setGenerationCode(char c) {
@@ -187,7 +189,7 @@ public class Microform extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setObsolete1(char c) {
@@ -195,7 +197,7 @@ public class Microform extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setPolarityCode(char c) {
@@ -203,7 +205,7 @@ public class Microform extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setReductionRatioCode(String string) {
@@ -211,7 +213,7 @@ public class Microform extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setReductionRatioRangeCode(char c) {

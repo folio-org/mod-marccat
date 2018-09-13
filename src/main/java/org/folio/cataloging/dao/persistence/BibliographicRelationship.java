@@ -1,5 +1,7 @@
 package org.folio.cataloging.dao.persistence;
 
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.PersistentObjectWithView;
@@ -23,13 +25,13 @@ public class BibliographicRelationship extends VariableField implements Persiste
 	private int relationTypeCode;
 	private int relationPrintNoteCode;
 	private String description = null;
-	private String qualifyingDescription = null;	
+	private String qualifyingDescription = null;
 	private StringText stringText = null;
 	private String stringTextString = null;
-	private String materialSpecificText = null;	
+	private String materialSpecificText = null;
 	private int reciprocalType;
 	private UserViewHelper userViewHelper = new UserViewHelper();
-	
+
 	public BibliographicRelationship() {
 		super();
 		StringText s = new StringText("");
@@ -44,34 +46,34 @@ public class BibliographicRelationship extends VariableField implements Persiste
 		super(itemNbr);
 	}
 
-	public StringText BuildStringText(int userView) 
-	{		
-		/* stringtext can be in table or should be build from other tables */	
-		StringText s = new StringText();	    
+	public StringText BuildStringText(int userView)
+	{
+		/* stringtext can be in table or should be build from other tables */
+		StringText s = new StringText();
 		DAOBibliographicRelationship b = new DAOBibliographicRelationship();
 		try{
 			s = b.buildRelationStringText(this.getTargetBibItemNumber(),userView);
-			s.add(getRelationshipStringText());									
+			s.add(getRelationshipStringText());
 			return s;
-		} catch (DataAccessException ex) { 
-			return stringText; 
-		}		
+		} catch (DataAccessException ex) {
+			return stringText;
+		}
 	}
-					
-	public boolean equals(Object obj) 
+
+	public boolean equals(Object obj)
 	{
 		if (!(obj instanceof BibliographicRelationship))
 			return false;
 		BibliographicRelationship other = (BibliographicRelationship) obj;
 		return (other.getItemNumber() == getItemNumber())
 			&& (other.getUserViewString().equals(getUserViewString()))
-			&& (other.getTargetBibItemNumber() == getTargetBibItemNumber())				
-			&& (other.getRelationTypeCode() == getRelationTypeCode());			
+			&& (other.getTargetBibItemNumber() == getTargetBibItemNumber())
+			&& (other.getRelationTypeCode() == getRelationTypeCode());
 	}
-		
-	public void generateNewBlindRelationshipKey() throws DataAccessException {
+
+	public void generateNewBlindRelationshipKey(final Session session) throws DataAccessException, HibernateException {
 		SystemNextNumberDAO dao = new SystemNextNumberDAO();
-		setTargetBibItemNumber(-dao.getNextNumber("BR"));
+		setTargetBibItemNumber(-dao.getNextNumber("BR", session));
 	}
 
 	public int getBibItemNumber() {
@@ -84,7 +86,7 @@ public class BibliographicRelationship extends VariableField implements Persiste
 	public int getCategory() {
 		return bibliographicRelationshipCategory;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#getCorrelation(int)
 	 */
@@ -107,7 +109,7 @@ public class BibliographicRelationship extends VariableField implements Persiste
 	public AbstractDAO getDAO() {
 		return new DAOBibliographicRelationship();
 	}
-	
+
 	public String getDescription() {
 		return description;
 	}
@@ -125,7 +127,7 @@ public class BibliographicRelationship extends VariableField implements Persiste
 		return qualifyingDescription;
 	}
 
-	public List getReciprocalList() throws DataAccessException 
+	public List getReciprocalList() throws DataAccessException
 	{
 		/*return getDaoCodeTable().getList(BibliographicRelationReciprocal.class,true);*/
 		return null;
@@ -135,12 +137,12 @@ public class BibliographicRelationship extends VariableField implements Persiste
 	{
 		if (getReciprocalType() == -1)
 		{
-			DAOBibliographicRelationship b = new DAOBibliographicRelationship();					
+			DAOBibliographicRelationship b = new DAOBibliographicRelationship();
 			if (this.getTargetBibItemNumber() < 0) {
 				return 3;
 			}
 			else {
-				try{			
+				try{
 					/* TODO pass the correct userview*/
 					return b.getReciprocalBibItem(this.getTargetBibItemNumber(),this.getItemNumber(),1);
 				} catch(DataAccessException ex) {return -1;}
@@ -160,12 +162,12 @@ public class BibliographicRelationship extends VariableField implements Persiste
 		return relationPrintNoteCode;
 	}
 
-	public StringText getRelationshipStringText() 
-	{			
-		StringText text = new StringText();		
+	public StringText getRelationshipStringText()
+	{
+		StringText text = new StringText();
 		text.parse(getMaterialSpecificText());
 		text.parse(getQualifyingDescription());
-		
+
 		if ((getTargetBibItemNumber() > 0)){
 			text.addSubfield(new Subfield("w",new String("" + getTargetBibItemNumber())));
 		}
@@ -175,7 +177,7 @@ public class BibliographicRelationship extends VariableField implements Persiste
 	public int getRelationTypeCode() {
 		return relationTypeCode;
 	}
-		
+
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#getSecondCorrelationList(short, java.util.Locale)
 	 */
@@ -184,7 +186,7 @@ public class BibliographicRelationship extends VariableField implements Persiste
 		return null;
 	}
 
-	public StringText getStringText() {		
+	public StringText getStringText() {
 		return stringText;
 	}
 
@@ -195,7 +197,7 @@ public class BibliographicRelationship extends VariableField implements Persiste
 	public int getTargetBibItemNumber() {
 		return targetBibItemNumber;
 	}
-		
+
 	public List getThirdCorrelationList(int value1, int value2)
 		throws DataAccessException {
 		return null;
@@ -204,28 +206,28 @@ public class BibliographicRelationship extends VariableField implements Persiste
 	public String getUserViewString() {
 		return userViewHelper.getUserViewString();
 	}
-		
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
 	public int hashCode() {
 		return super.hashCode() + targetBibItemNumber + relationTypeCode;
 	}
-		
+
 	public boolean isBrowsable() {
 		return false;
 	}
-	
+
 	public void setBibItemNumber(int i) {
 		setItemNumber(i);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#setCorrelationValues(librisuite.business.common.CorrelationValues)
 	 */
 	public void setCorrelationValues(CorrelationValues v) {
 		setRelationTypeCode(v.getValue(1));
-		setRelationPrintNoteCode(v.getValue(2));		
+		setRelationPrintNoteCode(v.getValue(2));
 	}
 
 	public void setDescription(String text) {
@@ -235,11 +237,11 @@ public class BibliographicRelationship extends VariableField implements Persiste
 	public void setMaterialSpecificText(String text) {
 		materialSpecificText = text;
 	}
-	
+
 	public void setQualifyingDescription(String text) {
 		qualifyingDescription = text;
 	}
-	
+
 	public void setReciprocalOption(int s){
 		setReciprocalType(s);
 	}
@@ -252,13 +254,13 @@ public class BibliographicRelationship extends VariableField implements Persiste
 		relationPrintNoteCode = i;
 	}
 
-	public void setRelationshipStringText(StringText text) 
+	public void setRelationshipStringText(StringText text)
 	{
 		setMaterialSpecificText(text.getSubfieldsWithCodes("3").toString());
 		setDescription(text.getSubfieldsWithCodes("ginq4").toString());
 		setQualifyingDescription(text.getSubfieldsWithCodes("c").toString());
 	}
-		
+
 	public void setRelationTypeCode(int i) {
 		relationTypeCode = i;
 	}
@@ -267,9 +269,9 @@ public class BibliographicRelationship extends VariableField implements Persiste
 		stringText = text.getSubfieldsWithoutCodes("cgnw3");
 	}
 
-	public void setStringTextString(String string) 
-	{						
-		if (string != null){			
+	public void setStringTextString(String string)
+	{
+		if (string != null){
 			stringTextString = string;
 			setStringText(new StringText(string));
 		}

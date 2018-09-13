@@ -21,14 +21,13 @@ import org.folio.cataloging.dao.*;
 import org.folio.cataloging.dao.common.HibernateSessionProvider;
 import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.exception.ModCatalogingException;
+import org.folio.cataloging.integration.log.MessageCatalogStorage;
 import org.folio.cataloging.integration.search.Parser;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.cataloging.model.Subfield;
-import org.folio.cataloging.resources.domain.BibliographicRecord;
+import org.folio.cataloging.resources.domain.*;
 import org.folio.cataloging.resources.domain.Leader;
-import org.folio.cataloging.resources.domain.RecordTemplate;
-import org.folio.cataloging.resources.domain.TagMarcEncoding;
 import org.folio.cataloging.search.SearchResponse;
 import org.folio.cataloging.shared.*;
 import org.folio.cataloging.util.StringText;
@@ -1640,8 +1639,122 @@ public class StorageService implements Closeable {
       //update
     }
 
+  }
+
+  private void updateBibliographicRecord(final BibliographicRecord record, final CatalogItem item, final int view, final GeneralInformation generalInformation) throws DataAccessException {
+
+    final BibliographicCatalog catalog = new BibliographicCatalog();
+    final int bibItemNumber = item.getAmicusNumber();
+    final BibliographicLeader bibliographicLeader = ((BibliographicLeader) item.getTag(0));
+    final String leaderString = bibliographicLeader.getDisplayString();
+    final String valuesToCompare = leaderString.substring(5, 10) + leaderString.substring(17, 20);
+    final String newLeader = record.getLeader().getValue().substring(5, 10) + record.getLeader().getValue().substring(17, 20);
+
+    if (!valuesToCompare.equals(newLeader)){
+      catalog.toBibliographicLeader(record.getLeader().getValue(), bibliographicLeader);
+      bibliographicLeader.markChanged();
+    }
+
+    /*
+    //controllo se new, changed o deleted
+        //new: creo nuovo tag
+        //delete: prendo il tag dal catalgitem (stesso keynumber) e setto a markdeleted
+        //changed: prendo il tag dal catalgitem e cambio correlation, string text etc. (stesso keynumber) setto markchanged
+        // se trovo una acs modificata (per tipo: titolo, nome, etc) le metto a markdeleted e creo delle acs nuove (insert) e metto lo stato
+        //marknew
+     */
+    org.folio.cataloging.resources.domain.VariableField variableField;
+    org.folio.cataloging.resources.domain.FixedField fixedField = new org.folio.cataloging.resources.domain.FixedField();
+    record.getFields().stream().skip(1).forEach(field -> {
+      final String tagNbr = field.getCode();
+      final Field.FieldStatus status = field.getFieldStatus();
+
+      if (status == Field.FieldStatus.NEW
+        || status == Field.FieldStatus.DELETED
+        || status == Field.FieldStatus.CHANGED) {
+
+        if (tagNbr.equals(GlobalStorage.MATERIAL_TAG_CODE) && status == Field.FieldStatus.CHANGED) {
+          item.getTags().stream().skip(1).filter(aTag -> aTag.isFixedField() && aTag instanceof MaterialDescription).forEach(aTag -> {
+            final MaterialDescription materialTag = (MaterialDescription) aTag;
+            final CorrelationKey correlation = aTag.getTagImpl().getMarcEncoding(aTag, session);
+            if (correlation.getMarcTag().equalsIgnoreCase(tagNbr)) {
+              materialTag.setCorrelationValues(new CorrelationValues(field.getFixedField().getHeaderTypeCode(), CorrelationValues.UNDEFINED, CorrelationValues.UNDEFINED));
+              catalog.toMaterialDescription(field.getFixedField(), materialTag);
+              materialTag.markChanged();
+            }
+          });
+        }
+
+        if (tagNbr.equals(GlobalStorage.OTHER_MATERIAL_TAG_CODE)){
+          item.getTags().stream().skip(1).filter(aTag -> aTag.isFixedField() && aTag instanceof MaterialDescription).forEach(aTag -> {
+              final MaterialDescription materialTag = (MaterialDescription)aTag;
+              final CorrelationKey correlation = aTag.getTagImpl().getMarcEncoding(aTag, session);
+              if (correlation.getMarcTag().equalsIgnoreCase(tagNbr)){
+                if (materialTag.getMaterialDescriptionKeyNumber() == fixedField.getKeyNumber() ) {
+                  if ( status == Field.FieldStatus.CHANGED ) {
+                    materialTag.setCorrelationValues(new CorrelationValues(field.getFixedField().getHeaderTypeCode(), CorrelationValues.UNDEFINED, CorrelationValues.UNDEFINED));
+                    catalog.toMaterialDescription(field.getFixedField(), materialTag);
+                    materialTag.markChanged();
+                  } else if ( status == Field.FieldStatus.DELETED ) {
+                    materialTag.markDeleted();
+                  }
+                } else if (fixedField.getKeyNumber() == null && status == Field.FieldStatus.NEW){
+                  addMaterialDescriptionToCatalog(tagNbr, catalog, item, field.getFixedField(), generalInformation, record.getLeader());
+                }
+              }
+          });
+        }
+
+        if (tagNbr.equals(GlobalStorage.PHYSICAL_DESCRIPTION_TAG_CODE)){
+          item.getTags().stream().skip(1).filter(aTag -> aTag.isFixedField() && aTag instanceof PhysicalDescription).forEach(aTag -> {
+            final PhysicalDescription physicalTag = (PhysicalDescription)aTag;
+            if (physicalTag.getKeyNumber() == fixedField.getKeyNumber() ) {
+              if ( status == Field.FieldStatus.CHANGED ) {
+                physicalTag.setCorrelationValues(new CorrelationValues(field.getFixedField().getHeaderTypeCode(), CorrelationValues.UNDEFINED, CorrelationValues.UNDEFINED));
+                catalog.toPhysicalDescription(field.getFixedField(), physicalTag);
+                physicalTag.markChanged();
+              } else if ( status == Field.FieldStatus.DELETED ) {
+                physicalTag.markDeleted();
+              }
+            } else if (fixedField.getKeyNumber() == null && status == Field.FieldStatus.NEW){
+              addPhysicalDescriptionTag(catalog, item, field.getFixedField(), bibItemNumber);
+            }
+
+          });
+        }
+
+        if (tagNbr.equals(GlobalStorage.CATALOGING_SOURCE_TAG_CODE) && status == Field.FieldStatus.CHANGED) {
+
+        }
+
+
+
+
+
+
+      }
+
+
+    });
+
 
   }
+
+  /*public Tag getItemTag(final CatalogItem item){
+    item.getTags().stream().skip(1).forEach(aTag -> {
+        int keyNumber = 0;
+        int sequenceNbr = 0;
+
+        if (aTag.isFixedField() && aTag instanceof MaterialDescription){
+          final MaterialDescription materialTag = (MaterialDescription)aTag;
+          keyNumber = materialTag.getMaterialDescriptionKeyNumber();
+          final String tagNbr = materialTag.getMaterialDescription008Indicator().equals("1")?"008":"006";
+          final Map<String, Object> map = getMaterialTypeInfosByLeaderValues(materialTag.getItemRecordTypeCode(), materialTag.getItemBibliographicLevelCode(), tagNbr);
+          materialTag.setHeaderType((int) map.get(GlobalStorage.HEADER_TYPE_LABEL));
+          materialTag.setMaterialTypeCode(tagNbr.equalsIgnoreCase("006")?(String) map.get(GlobalStorage.MATERIAL_TYPE_CODE_LABEL):null);
+          materialTag.setFormOfMaterial((String) map.get(GlobalStorage.FORM_OF_MATERIAL_LABEL));
+        }
+  }*/
 
   /**
    * Insert a new bibliographic record.
@@ -1674,12 +1787,9 @@ public class StorageService implements Closeable {
       final String tagNbr = field.getCode();
       if (tagNbr.equals(GlobalStorage.MATERIAL_TAG_CODE) || tagNbr.equals(GlobalStorage.OTHER_MATERIAL_TAG_CODE)){
         final org.folio.cataloging.resources.domain.FixedField fixedField = field.getFixedField();
-        final MaterialDescription bibMaterial = catalog.createRequiredMaterialDescriptionTag(item);
-        setDefaultValues(giAPI, bibMaterial);
-        addMaterialDescriptionToCatalog(tagNbr, catalog, item, fixedField, bibMaterial, leader);
+        addMaterialDescriptionToCatalog(tagNbr, catalog, item, fixedField, giAPI, leader);
       }
 
-      //physical 007
       if (tagNbr.equals(GlobalStorage.PHYSICAL_DESCRIPTION_TAG_CODE)) {
         final org.folio.cataloging.resources.domain.FixedField fixedField = field.getFixedField();
         addPhysicalDescriptionTag(catalog, item, fixedField, bibItemNumber);
@@ -1694,32 +1804,7 @@ public class StorageService implements Closeable {
 
       if (field.getVariableField() != null && !tagNbr.equals(GlobalStorage.CATALOGING_SOURCE_TAG_CODE)){
         final org.folio.cataloging.resources.domain.VariableField variableField = field.getVariableField();
-        final CorrelationValues correlationValues;
-        if (ofNullable(variableField.getHeadingTypeCode()).isPresent() && isNotNullOrEmpty(variableField.getValue())){
-          final int value1 = Integer.parseInt(variableField.getHeadingTypeCode());
-          final int value2 = ofNullable(variableField.getItemTypeCode()).isPresent() ?Integer.parseInt(variableField.getItemTypeCode()) :CorrelationValues.UNDEFINED;
-          final int value3 = ofNullable(variableField.getFunctionCode()).isPresent() ?Integer.parseInt(variableField.getFunctionCode()) :CorrelationValues.UNDEFINED;
-          correlationValues = new CorrelationValues(value1, value2, value3);
-        } else {
-          logger.error("to do");
-          throw new DataAccessException();
-        }
-
-        if (variableField.getCategoryCode() == GlobalStorage.TITLE_CATEGORY){
-          addTitleToCatalog(catalog, item, correlationValues, variableField, bibItemNumber);
-        } else if (variableField.getCategoryCode() == GlobalStorage.NAME_CATEGORY){
-          addNameToCatalog(catalog, item, correlationValues, variableField, bibItemNumber);
-        } else if (variableField.getCategoryCode() == GlobalStorage.CONTROL_NUMBER_CATEGORY){
-          addControlFieldToCatalog(catalog, item, correlationValues, variableField, bibItemNumber);
-        } else if (variableField.getCategoryCode() == GlobalStorage.CLASSIFICATION_CATEGORY){
-          addClassificationToCatalog(catalog, item, correlationValues, variableField, bibItemNumber);
-        } else if (variableField.getCategoryCode() == GlobalStorage.SUBJECT_CATEGORY){
-          addSubjectToCatalog(catalog, item, correlationValues, variableField, bibItemNumber);
-        } else if (variableField.getCategoryCode() == GlobalStorage.BIB_NOTE_CATEGORY && correlationValues.getValue(1) != 24 ){
-          addNoteToCatalog(catalog, item, correlationValues, variableField, bibItemNumber);
-        } else if (variableField.getCategoryCode() == GlobalStorage.BIB_NOTE_CATEGORY && correlationValues.getValue(1) == 24 ){
-          addPublisherToCatalog(catalog, item, correlationValues, variableField, bibItemNumber);
-        }
+        insertNewVariableField(catalog, item, variableField, bibItemNumber);
       }
     });
     item.sortTags();
@@ -1736,12 +1821,55 @@ public class StorageService implements Closeable {
   }
 
   /**
+   * Insert of a new variable field.
    *
-   * @param catalog
-   * @param item
-   * @param ff
-   * @param bibItemNumber
-   * @throws DataAccessException
+   * @param catalog -- the bibliographic catalog.
+   * @param item -- the item to add tags.
+   * @param variableField -- the variable field containing data.
+   * @param bibItemNumber -- the bibliographic item number.
+   * @throws DataAccessException in case of data access exception.
+   */
+  private void insertNewVariableField(final BibliographicCatalog catalog,
+                                      final CatalogItem item,
+                                      final org.folio.cataloging.resources.domain.VariableField variableField,
+                                      final int bibItemNumber) throws DataAccessException {
+
+    final CorrelationValues correlationValues;
+    if (ofNullable(variableField.getHeadingTypeCode()).isPresent() && isNotNullOrEmpty(variableField.getValue())){
+      final int value1 = Integer.parseInt(variableField.getHeadingTypeCode());
+      final int value2 = ofNullable(variableField.getItemTypeCode()).isPresent() ?Integer.parseInt(variableField.getItemTypeCode()) :CorrelationValues.UNDEFINED;
+      final int value3 = ofNullable(variableField.getFunctionCode()).isPresent() ?Integer.parseInt(variableField.getFunctionCode()) :CorrelationValues.UNDEFINED;
+      correlationValues = new CorrelationValues(value1, value2, value3);
+    } else {
+      logger.error(MessageCatalogStorage._00018_NO_HEADING_TYPE_CODE, variableField.getCode());
+      throw new DataAccessException();
+    }
+
+    if (variableField.getCategoryCode() == GlobalStorage.TITLE_CATEGORY){
+      addTitleToCatalog(catalog, item, correlationValues, variableField, bibItemNumber);
+    } else if (variableField.getCategoryCode() == GlobalStorage.NAME_CATEGORY){
+      addNameToCatalog(catalog, item, correlationValues, variableField, bibItemNumber);
+    } else if (variableField.getCategoryCode() == GlobalStorage.CONTROL_NUMBER_CATEGORY){
+      addControlFieldToCatalog(catalog, item, correlationValues, variableField, bibItemNumber);
+    } else if (variableField.getCategoryCode() == GlobalStorage.CLASSIFICATION_CATEGORY){
+      addClassificationToCatalog(catalog, item, correlationValues, variableField, bibItemNumber);
+    } else if (variableField.getCategoryCode() == GlobalStorage.SUBJECT_CATEGORY){
+      addSubjectToCatalog(catalog, item, correlationValues, variableField, bibItemNumber);
+    } else if (variableField.getCategoryCode() == GlobalStorage.BIB_NOTE_CATEGORY && correlationValues.getValue(1) != GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE ){
+      addNoteToCatalog(catalog, item, correlationValues, variableField, bibItemNumber);
+    } else if (variableField.getCategoryCode() == GlobalStorage.BIB_NOTE_CATEGORY && correlationValues.getValue(1) == GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE ){
+      addPublisherToCatalog(catalog, item, correlationValues, variableField, bibItemNumber);
+    }
+  }
+
+  /**
+   * Insert a new physical description tag.
+   *
+   * @param catalog -- the bibliographic catalog.
+   * @param item -- the item to add tags.
+   * @param ff -- the fixed field containing data.
+   * @param bibItemNumber -- the bibliographic item number.
+   * @throws DataAccessException in case of data access exception.
    */
   private void addPhysicalDescriptionTag(final BibliographicCatalog catalog,
                                          final CatalogItem item,
@@ -1749,11 +1877,12 @@ public class StorageService implements Closeable {
                                          final int bibItemNumber) throws DataAccessException {
 
     final int headerTypeCode = ff.getHeaderTypeCode();
-    final String categoryOfMaterial = ff.getCategoryOfMaterial();
     final CorrelationValues correlationValues = new CorrelationValues(headerTypeCode, CorrelationValues.UNDEFINED, CorrelationValues.UNDEFINED);
-    PhysicalDescription pd = catalog.createPhysicalDescriptionTag(item, correlationValues);
+    final PhysicalDescription pd = catalog.createPhysicalDescriptionTag(item, correlationValues);
     catalog.toPhysicalDescription(ff, pd);
-
+    pd.markNew();
+    pd.setBibItemNumber(bibItemNumber);
+    item.addTag(pd);
 
   }
 
@@ -1797,8 +1926,7 @@ public class StorageService implements Closeable {
     nTag.getNote().setContent(variableField.getValue());
     if ( variableField.getKeyNumber() != null && variableField.getKeyNumber() != 0)
       nTag.getNote().setNoteNbr(variableField.getKeyNumber());
-    else
-      nTag.getNote().setNoteNbr(generateNewKey("BN"));
+
     nTag.setItemNumber(bibItemNumber);
     nTag.markNew();
     item.addTag(nTag);
@@ -1927,7 +2055,7 @@ public class StorageService implements Closeable {
    * @param catalog -- the bibliographic catalog.
    * @param item -- the item to add tags.
    * @param fixedField -- the fixed field containing data.
-   * @param bibMaterial -- the {@link MaterialDescription}.
+   * @param giAPI -- the {@link GeneralInformation}.
    * @param leader -- the {@link Leader} of record item.
    * @throws DataAccessException in case of data access exception.
    */
@@ -1935,8 +2063,11 @@ public class StorageService implements Closeable {
                                                final BibliographicCatalog catalog,
                                                final CatalogItem item,
                                                final org.folio.cataloging.resources.domain.FixedField fixedField,
-                                               final MaterialDescription bibMaterial,
+                                               final GeneralInformation giAPI,
                                                final Leader leader){
+
+    final MaterialDescription bibMaterial = catalog.createRequiredMaterialDescriptionTag(item);
+    setDefaultValues(giAPI, bibMaterial);
 
     final String materialDescription008Indicator = tagNbr.equals(GlobalStorage.MATERIAL_TAG_CODE) ?"1" :"0";
     bibMaterial.setMaterialDescription008Indicator(materialDescription008Indicator);

@@ -1,6 +1,8 @@
 
 package org.folio.cataloging.dao.persistence;
 
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.SystemNextNumberDAO;
 import org.w3c.dom.Document;
@@ -49,7 +51,7 @@ public class Map extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getMapColourCode() {
@@ -57,7 +59,7 @@ public class Map extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getMapPhysicalMediumCode() {
@@ -65,7 +67,7 @@ public class Map extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getMapPolarityCode() {
@@ -73,7 +75,7 @@ public class Map extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getMapProductionDetailsCode() {
@@ -81,7 +83,7 @@ public class Map extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getMapTypeOfReproductionCode() {
@@ -89,7 +91,7 @@ public class Map extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getObsolete1() {
@@ -97,7 +99,7 @@ public class Map extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setMapColourCode(char c) {
@@ -105,7 +107,7 @@ public class Map extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setMapPhysicalMediumCode(char c) {
@@ -113,7 +115,7 @@ public class Map extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setMapPolarityCode(char c) {
@@ -121,7 +123,7 @@ public class Map extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setMapProductionDetailsCode(char c) {
@@ -129,7 +131,7 @@ public class Map extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setMapTypeOfReproductionCode(char c) {
@@ -137,7 +139,7 @@ public class Map extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setObsolete1(char c) {
@@ -154,9 +156,9 @@ public class Map extends PhysicalDescription {
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
 	 */
-	public void generateNewKey() throws DataAccessException {
+  public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
 		SystemNextNumberDAO dao = new SystemNextNumberDAO();
-		setKeyNumber(dao.getNextNumber("X2"));
+		setKeyNumber(dao.getNextNumber("X2", session));
 	}
 
 	public Element generateModelXmlElementContent(Document xmlDocument) {

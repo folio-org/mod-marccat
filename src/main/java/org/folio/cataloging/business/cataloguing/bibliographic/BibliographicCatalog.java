@@ -570,13 +570,15 @@ public class BibliographicCatalog extends Catalog {
     }
 
   /**
+   * Put physical type content into persistent hibernate object.
    *
-   * @param ff
-   * @param physicalDescription
+   * @param ff -- the fixed field representing material description.
+   * @param physicalDescription -- the persistent hibernate class {@link PhysicalDescription}.
    */
   public void toPhysicalDescription(final org.folio.cataloging.resources.domain.FixedField ff,
                                     final PhysicalDescription physicalDescription) {
 
+    physicalDescription.setGeneralMaterialDesignationCode(ff.getCategoryOfMaterial().charAt(0));
     physicalDescription.setSpecificMaterialDesignationCode(ff.getSpecificMaterialDesignationCode().charAt(0));
     if (physicalDescription instanceof ElectronicResource) {
       if (isNotNull(ff.getColourCode())) ((ElectronicResource) physicalDescription).setColourCode(ff.getColourCode().charAt(0));
@@ -597,94 +599,80 @@ public class BibliographicCatalog extends Catalog {
       if (isNotNull(ff.getColourCode())) ((Map) physicalDescription).setMapColourCode(ff.getColourCode().charAt(0));
       if (isNotNull(ff.getPhysicalMediumCode())) ((Map) physicalDescription).setMapPhysicalMediumCode(ff.getPhysicalMediumCode().charAt(0));
       if (isNotNull(ff.getTypeOfReproductionCode())) ((Map) physicalDescription).setMapTypeOfReproductionCode(ff.getTypeOfReproductionCode().charAt(0));
-			/*
-			fixedField.setProductionDetailsCode(String.valueOf(valueField.charAt(6)));
-			fixedField.setPolarityCode(String.valueOf(valueField.charAt(7)));
-			fixedField.setPhysicalType(org.folio.cataloging.resources.domain.FixedField.PhysicalType.MAP);
-		} else if (categoryOfMaterial.equals(Global.TACTILE_MATERIAL)) {
-			fixedField.setClassOfBrailleWritingCodes(valueField.substring(3, 5));
-			fixedField.setLevelOfContractionCode(String.valueOf(valueField.charAt(5)));
-			fixedField.setBrailleMusicFormatCodes(valueField.substring(6, 9));
-			fixedField.setSpecificPhysicalCharacteristicsCode(String.valueOf(valueField.charAt(9)));
-			fixedField.setPhysicalType(org.folio.cataloging.resources.domain.FixedField.PhysicalType.TACTILE_MATERIAL);
-		} else if (categoryOfMaterial.equals(Global.PROJECTED_GRAPHIC)) {
-			fixedField.setColourCode(String.valueOf(valueField.charAt(3)));
-			fixedField.setBaseOfEmulsionCode(String.valueOf(valueField.charAt(4)));
-			fixedField.setSoundOnMediumOrSeparateCode(String.valueOf(valueField.charAt(5)));
-			fixedField.setMediumForSoundCode(String.valueOf(valueField.charAt(6)));
-			fixedField.setDimensionsCode(String.valueOf(valueField.charAt(7)));
-			fixedField.setSecondarySupportMaterialCode(String.valueOf(valueField.charAt(8)));
-			fixedField.setPhysicalType(org.folio.cataloging.resources.domain.FixedField.PhysicalType.PROJECTED_GRAPHIC);
-		} else if (categoryOfMaterial.equals(Global.MICROFORM)) {
-			fixedField.setPolarityCode(String.valueOf(valueField.charAt(3)));
-			fixedField.setDimensionsCode(String.valueOf(valueField.charAt(4)));
-			fixedField.setReductionRatioRangeCode(String.valueOf(valueField.charAt(5)));
-			fixedField.setReductionRatioCode(valueField.substring(6, 9));
-			fixedField.setColourCode(String.valueOf(valueField.charAt(9)));
-			fixedField.setEmulsionOnFilmCode(String.valueOf(valueField.charAt(10)));
-			fixedField.setGenerationCode(String.valueOf(valueField.charAt(11)));
-			fixedField.setBaseOfFilmCode(String.valueOf(valueField.charAt(12)));
-			fixedField.setPhysicalType(org.folio.cataloging.resources.domain.FixedField.PhysicalType.MICROFORM);
-		} else if (categoryOfMaterial.equals(Global.NON_PROJECTED_GRAPHIC)) {
-			fixedField.setColourCode(String.valueOf(valueField.charAt(3)));
-			fixedField.setPrimarySupportMaterialCode(String.valueOf(valueField.charAt(4)));
-			fixedField.setSecondarySupportMaterialCode(String.valueOf(valueField.charAt(5)));
-			fixedField.setPhysicalType(org.folio.cataloging.resources.domain.FixedField.PhysicalType.NON_PROJECTED_GRAPHIC);
-		} else if (categoryOfMaterial.equals(Global.MOTION_PICTURE)) {
-			fixedField.setColourCode(String.valueOf(valueField.charAt(3)));
-			fixedField.setPresentationFormatCode(String.valueOf(valueField.charAt(4)));
-			fixedField.setSoundOnMediumOrSeparateCode(String.valueOf(valueField.charAt(5)));
-			fixedField.setMediumForSoundCode(String.valueOf(valueField.charAt(6)));
-			fixedField.setDimensionsCode(String.valueOf(valueField.charAt(7)));
-			fixedField.setConfigurationCode(String.valueOf(valueField.charAt(8)));
-			fixedField.setProductionElementsCode(String.valueOf(valueField.charAt(9)));
-			fixedField.setPolarityCode(String.valueOf(valueField.charAt(10)));
-			fixedField.setGenerationCode(String.valueOf(valueField.charAt(11)));
-			fixedField.setBaseOfFilmCode(String.valueOf(valueField.charAt(12)));
-			fixedField.setRefinedCategoriesOfColourCode(String.valueOf(valueField.charAt(13)));
-			fixedField.setKindOfColourStockCode(String.valueOf(valueField.charAt(14)));
-			fixedField.setDeteriorationStageCode(String.valueOf(valueField.charAt(15)));
-			fixedField.setCompletenessCode(String.valueOf(valueField.charAt(16)));
-			fixedField.setInspectionDate(valueField.substring(17));
-			fixedField.setPhysicalType(org.folio.cataloging.resources.domain.FixedField.PhysicalType.MOTION_PICTURE);
-		} else if (categoryOfMaterial.equals(Global.KIT_CODE)) {
-			fixedField.setPhysicalType(org.folio.cataloging.resources.domain.FixedField.PhysicalType.KIT);
-		} else if (categoryOfMaterial.equals(Global.NOTATED_MUSIC)) {
-			fixedField.setPhysicalType(org.folio.cataloging.resources.domain.FixedField.PhysicalType.NOTATED_MUSIC);
-		} else if (categoryOfMaterial.equals(Global.REMOTE_SENSING_IMAGE)) {
-			fixedField.setAltitudeOfSensorCode(String.valueOf(valueField.charAt(3)));
-			fixedField.setAttitudeOfSensorCode(String.valueOf(valueField.charAt(4)));
-			fixedField.setCloudCoverCode(String.valueOf(valueField.charAt(5)));
-			fixedField.setPlatformConstructionTypeCode(String.valueOf(valueField.charAt(6)));
-			fixedField.setPlatformUseCode(String.valueOf(valueField.charAt(7)));
-			fixedField.setSensorTypeCode(String.valueOf(valueField.charAt(8)));
-			fixedField.setDataTypeCode(valueField.substring(9));
-			fixedField.setPhysicalType(org.folio.cataloging.resources.domain.FixedField.PhysicalType.REMOTE_SENSING_IMAGE);
-		} else if (categoryOfMaterial.equals(Global.SOUND_RECORDING)) {
-			fixedField.setSpeedCode(String.valueOf(valueField.charAt(3)));
-			fixedField.setConfigurationCode(String.valueOf(valueField.charAt(4)));
-			fixedField.setGrooveWidthCode(String.valueOf(valueField.charAt(5)));
-			fixedField.setDimensionsCode(String.valueOf(valueField.charAt(6)));
-			fixedField.setTapeWidthCode(String.valueOf(valueField.charAt(7)));
-			fixedField.setTapeConfigurationCode(String.valueOf(valueField.charAt(8)));
-			fixedField.setDiscTypeCode(String.valueOf(valueField.charAt(9)));
-			fixedField.setSndMaterialTypeCode(String.valueOf(valueField.charAt(10)));
-			fixedField.setCuttingTypeCode(String.valueOf(valueField.charAt(11)));
-			fixedField.setSpecialPlaybackCharacteristicsCode(String.valueOf(valueField.charAt(12)));
-			fixedField.setStorageTechniqueCode(String.valueOf(valueField.charAt(13)));
-			fixedField.setPhysicalType(org.folio.cataloging.resources.domain.FixedField.PhysicalType.SOUND_RECORDING);
-		} else if (categoryOfMaterial.equals(Global.TEXT_CODE)) {
-			fixedField.setPhysicalType(org.folio.cataloging.resources.domain.FixedField.PhysicalType.TEXT);
-		} else if (categoryOfMaterial.equals(Global.UNSPECIFIED)) {
-			fixedField.setPhysicalType(org.folio.cataloging.resources.domain.FixedField.PhysicalType.UNSPECIFIED);
-		} else if (categoryOfMaterial.equals(Global.VIDEO_RECORDING)) {
-			fixedField.setColourCode(String.valueOf(valueField.charAt(3)));
-			fixedField.setFormatCode(String.valueOf(valueField.charAt(4)));
-			fixedField.setIncludesSoundCode(String.valueOf(valueField.charAt(5)));
-			fixedField.setMediumForSoundCode(String.valueOf(valueField.charAt(6)));
-			fixedField.setDimensionsCode(String.valueOf(valueField.charAt(7)));
-			fixedField.setConfigurationCode(String.valueOf(valueField.charAt(8)));
-			fixedField.setPhysicalType(org.folio.cataloging.resources.domain.FixedField.PhysicalType.VIDEO_RECORDING);*/
+      if (isNotNull(ff.getProductionDetailsCode())) ((Map) physicalDescription).setMapProductionDetailsCode(ff.getProductionDetailsCode().charAt(0));
+      if (isNotNull(ff.getPolarityCode())) ((Map) physicalDescription).setMapPolarityCode(ff.getPolarityCode().charAt(0));
+    } else if (physicalDescription instanceof TactileMaterial) {
+      if (isNotNull(ff.getClassOfBrailleWritingCodes())) ((TactileMaterial) physicalDescription).setClassOfBrailleWritingCodes(ff.getClassOfBrailleWritingCodes());
+      if (isNotNull(ff.getLevelOfContractionCode())) ((TactileMaterial) physicalDescription).setLevelOfContractionCode(ff.getLevelOfContractionCode().charAt(0));
+      if (isNotNull(ff.getBrailleMusicFormatCodes())) ((TactileMaterial) physicalDescription).setBrailleMusicFormatCodes(ff.getBrailleMusicFormatCodes());
+      if (isNotNull(ff.getSpecificPhysicalCharacteristicsCode())) ((TactileMaterial) physicalDescription).setSpecificPhysicalCharacteristicsCode(ff.getSpecificPhysicalCharacteristicsCode().charAt(0));
+    } else if (physicalDescription instanceof ProjectedGraphic) {
+      if (isNotNull(ff.getColourCode())) ((ProjectedGraphic) physicalDescription).setColourCode(ff.getColourCode().charAt(0));
+      if (isNotNull(ff.getBaseOfEmulsionCode())) ((ProjectedGraphic) physicalDescription).setBaseOfEmulsionCode(ff.getBaseOfEmulsionCode().charAt(0));
+      if (isNotNull(ff.getSoundOnMediumOrSeparateCode())) ((ProjectedGraphic) physicalDescription).setSoundOnMediumOrSeparateCode(ff.getSoundOnMediumOrSeparateCode().charAt(0));
+      if (isNotNull(ff.getMediumForSoundCode())) ((ProjectedGraphic) physicalDescription).setMediumForSoundCode(ff.getMediumForSoundCode().charAt(0));
+      if (isNotNull(ff.getDimensionsCode())) ((ProjectedGraphic) physicalDescription).setDimensionsCode(ff.getDimensionsCode().charAt(0));
+      if (isNotNull(ff.getSecondarySupportMaterialCode())) ((ProjectedGraphic) physicalDescription).setSecondarySupportMaterialCode(ff.getSecondarySupportMaterialCode().charAt(0));
+    } else if (physicalDescription instanceof Microform) {
+      if (isNotNull(ff.getPolarityCode())) ((Microform) physicalDescription).setPolarityCode(ff.getPolarityCode().charAt(0));
+      if (isNotNull(ff.getDimensionsCode())) ((Microform) physicalDescription).setDimensionsCode(ff.getDimensionsCode().charAt(0));
+      if (isNotNull(ff.getReductionRatioRangeCode())) ((Microform) physicalDescription).setReductionRatioRangeCode(ff.getReductionRatioRangeCode().charAt(0));
+      if (isNotNull(ff.getReductionRatioCode())) ((Microform) physicalDescription).setReductionRatioCode(ff.getReductionRatioCode());
+      if (isNotNull(ff.getColourCode())) ((Microform) physicalDescription).setColourCode(ff.getColourCode().charAt(0));
+      if (isNotNull(ff.getEmulsionOnFilmCode())) ((Microform) physicalDescription).setEmulsionOnFilmCode(ff.getEmulsionOnFilmCode().charAt(0));
+      if (isNotNull(ff.getGenerationCode())) ((Microform) physicalDescription).setGenerationCode(ff.getGenerationCode().charAt(0));
+      if (isNotNull(ff.getBaseOfFilmCode())) ((Microform) physicalDescription).setBaseOfFilmCode(ff.getBaseOfFilmCode().charAt(0));
+    } else if (physicalDescription instanceof NonProjectedGraphic) {
+      if (isNotNull(ff.getColourCode())) ((NonProjectedGraphic) physicalDescription).setColourCode(ff.getColourCode().charAt(0));
+      if (isNotNull(ff.getPrimarySupportMaterialCode())) ((NonProjectedGraphic) physicalDescription).setPrimarySupportMaterialCode(ff.getPrimarySupportMaterialCode().charAt(0));
+      if (isNotNull(ff.getSecondarySupportMaterialCode())) ((NonProjectedGraphic) physicalDescription).setSecondarySupportMaterialCode(ff.getSecondarySupportMaterialCode().charAt(0));
+    } else if (physicalDescription instanceof MotionPicture) {
+      if (isNotNull(ff.getColourCode())) ((MotionPicture) physicalDescription).setColourCode(ff.getColourCode().charAt(0));
+      if (isNotNull(ff.getPresentationFormatCode())) ((MotionPicture) physicalDescription).setPresentationFormatCode(ff.getPresentationFormatCode().charAt(0));
+      if (isNotNull(ff.getSoundOnMediumOrSeparateCode())) ((MotionPicture) physicalDescription).setIncludesSoundCode(ff.getSoundOnMediumOrSeparateCode().charAt(0));
+      if (isNotNull(ff.getMediumForSoundCode())) ((MotionPicture) physicalDescription).setMediumForSoundCode(ff.getMediumForSoundCode().charAt(0));
+      if (isNotNull(ff.getDimensionsCode())) ((MotionPicture) physicalDescription).setDimensionsCode(ff.getDimensionsCode().charAt(0));
+      if (isNotNull(ff.getConfigurationCode())) ((MotionPicture) physicalDescription).setConfigurationCode(ff.getConfigurationCode().charAt(0));
+      if (isNotNull(ff.getProductionElementsCode())) ((MotionPicture) physicalDescription).setProductionElementsCode(ff.getProductionElementsCode().charAt(0));
+      if (isNotNull(ff.getPolarityCode())) ((MotionPicture) physicalDescription).setPolarityCode(ff.getPolarityCode().charAt(0));
+      if (isNotNull(ff.getGenerationCode())) ((MotionPicture) physicalDescription).setGenerationCode(ff.getPolarityCode().charAt(0));
+      if (isNotNull(ff.getBaseOfFilmCode())) ((MotionPicture) physicalDescription).setBaseOfFilmCode(ff.getBaseOfFilmCode().charAt(0));
+      if (isNotNull(ff.getRefinedCategoriesOfColourCode())) ((MotionPicture) physicalDescription).setRefinedCategoriesOfColourCode(ff.getRefinedCategoriesOfColourCode().charAt(0));
+      if (isNotNull(ff.getKindOfColourStockCode())) ((MotionPicture) physicalDescription).setKindOfColourStockCode(ff.getKindOfColourStockCode().charAt(0));
+      if (isNotNull(ff.getDeteriorationStageCode())) ((MotionPicture) physicalDescription).setDeteriorationStageCode(ff.getDeteriorationStageCode().charAt(0));
+      if (isNotNull(ff.getCompletenessCode())) ((MotionPicture) physicalDescription).setCompletenessCode(ff.getCompletenessCode().charAt(0));
+      if (isNotNull(ff.getInspectionDate())) ((MotionPicture) physicalDescription).setInspectionDate(ff.getInspectionDate());
+    } else if (physicalDescription instanceof Kit) {
+    } else if (physicalDescription instanceof NotatedMusic) {
+    } else if (physicalDescription instanceof RemoteSensingImage) {
+      if (isNotNull(ff.getAltitudeOfSensorCode())) ((RemoteSensingImage) physicalDescription).setAltitudeOfSensorCode(ff.getAltitudeOfSensorCode().charAt(0));
+      if (isNotNull(ff.getAttitudeOfSensorCode())) ((RemoteSensingImage) physicalDescription).setAttitudeOfSensorCode(ff.getAttitudeOfSensorCode().charAt(0));
+      if (isNotNull(ff.getCloudCoverCode())) ((RemoteSensingImage) physicalDescription).setCloudCoverCode(ff.getCloudCoverCode().charAt(0));
+      if (isNotNull(ff.getPlatformConstructionTypeCode())) ((RemoteSensingImage) physicalDescription).setPlatformConstructionTypeCode(ff.getPlatformConstructionTypeCode().charAt(0));
+      if (isNotNull(ff.getPlatformUseCode())) ((RemoteSensingImage) physicalDescription).setPlatformUseCode(ff.getPlatformUseCode().charAt(0));
+      if (isNotNull(ff.getSensorTypeCode())) ((RemoteSensingImage) physicalDescription).setSensorTypeCode(ff.getSensorTypeCode().charAt(0));
+      if (isNotNull(ff.getDataTypeCode())) ((RemoteSensingImage) physicalDescription).setDataTypeCode(ff.getDataTypeCode());
+    } else if (physicalDescription instanceof SoundRecording) {
+      if (isNotNull(ff.getSpeedCode())) ((SoundRecording) physicalDescription).setSpeedCode(ff.getSpeedCode().charAt(0));
+      if (isNotNull(ff.getConfigurationCode())) ((SoundRecording) physicalDescription).setConfigurationCode(ff.getConfigurationCode().charAt(0));
+      if (isNotNull(ff.getGrooveWidthCode())) ((SoundRecording) physicalDescription).setGrooveWidthCode(ff.getGrooveWidthCode().charAt(0));
+      if (isNotNull(ff.getDimensionsCode())) ((SoundRecording) physicalDescription).setDimensionsCode(ff.getDimensionsCode().charAt(0));
+      if (isNotNull(ff.getTapeWidthCode())) ((SoundRecording) physicalDescription).setTapeWidthCode(ff.getTapeWidthCode().charAt(0));
+      if (isNotNull(ff.getTapeConfigurationCode())) ((SoundRecording) physicalDescription).setTapeConfigurationCode(ff.getTapeConfigurationCode().charAt(0));
+      if (isNotNull(ff.getDiscTypeCode())) ((SoundRecording) physicalDescription).setDiscTypeCode(ff.getDiscTypeCode().charAt(0));
+      if (isNotNull(ff.getSndMaterialTypeCode())) ((SoundRecording) physicalDescription).setSndMaterialTypeCode(ff.getSndMaterialTypeCode().charAt(0));
+      if (isNotNull(ff.getCuttingTypeCode())) ((SoundRecording) physicalDescription).setCuttingTypeCode(ff.getCuttingTypeCode().charAt(0));
+      if (isNotNull(ff.getSpecialPlaybackCharacteristicsCode())) ((SoundRecording) physicalDescription).setSpecialPlaybackCharacteristicsCode(ff.getSpecialPlaybackCharacteristicsCode().charAt(0));
+      if (isNotNull(ff.getStorageTechniqueCode())) ((SoundRecording) physicalDescription).setStorageTechniqueCode(ff.getStorageTechniqueCode().charAt(0));
+    } else if (physicalDescription instanceof Text) {
+    } else if (physicalDescription instanceof Unspecified) {
+    } else if (physicalDescription instanceof VideoRecording) {
+      if (isNotNull(ff.getColourCode())) ((VideoRecording) physicalDescription).setColourCode(ff.getColourCode().charAt(0));
+      if (isNotNull(ff.getFormatCode())) ((VideoRecording) physicalDescription).setFormatCode(ff.getFormatCode().charAt(0));
+      if (isNotNull(ff.getIncludesSoundCode())) ((VideoRecording) physicalDescription).setIncludesSoundCode(ff.getIncludesSoundCode().charAt(0));
+      if (isNotNull(ff.getMediumForSoundCode())) ((VideoRecording) physicalDescription).setMediumForSoundCode(ff.getMediumForSoundCode().charAt(0));
+      if (isNotNull(ff.getDimensionsCode())) ((VideoRecording) physicalDescription).setDimensionsCode(ff.getDimensionsCode().charAt(0));
+      if (isNotNull(ff.getConfigurationCode())) ((VideoRecording) physicalDescription).setConfigurationCode(ff.getConfigurationCode().charAt(0));
     }
 
   }

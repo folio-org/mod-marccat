@@ -96,7 +96,7 @@ public class DAOPredictionPattern extends HibernateUtil {
 					DataAccessException, IOException {
 				SRL_PRED_PAT p = mgr.getPredictionPattern();
 				if (p.isNew()) {
-					p.generateNewKey();
+					p.generateNewKey(session);
 				}
 				p.markChanged();
 				persistByStatus(p);
@@ -142,7 +142,7 @@ public class DAOPredictionPattern extends HibernateUtil {
 				while (iter.hasNext()) {
 					SRL_ORDR o = (SRL_ORDR) iter.next();
 					if (o.isNew()) {
-						o.generateNewKey();
+						o.generateNewKey(session);
 						o.setAmicusNumber(mgr.getAmicusNumber().intValue());
 					}
 					o.markChanged();
@@ -160,7 +160,7 @@ public class DAOPredictionPattern extends HibernateUtil {
 						while (iter3.hasNext()) {
 							SerialPart sp = (SerialPart) iter3.next();
 							if (sp.isNew()) {
-								sp.generateNewKey();
+								sp.generateNewKey(session);
 								sp.setSerialCopyNumber(new Integer(c
 										.getSerialCopyNumber()));
 							}

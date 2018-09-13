@@ -1,6 +1,7 @@
 package org.folio.cataloging.dao.persistence;
 
 import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -20,7 +21,7 @@ import java.util.*;
 
 public class SRL_ORDR implements Persistence, Serializable {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private static final Log logger = LogFactory.getLog(SRL_ORDR.class);
@@ -44,7 +45,7 @@ public class SRL_ORDR implements Persistence, Serializable {
 		gc.add(Calendar.MONTH, 12);
 		expiryDate = gc.getTime();
 	}
-	
+
 	/**
 	 * @return the orderNumber
 	 */
@@ -135,7 +136,7 @@ public class SRL_ORDR implements Persistence, Serializable {
 	private PersistenceState persistenceState = new PersistenceState();
 
 	/**
-	 * 
+	 *
 	 * @see PersistenceState#cancelChanges()
 	 */
 	public void cancelChanges() {
@@ -143,7 +144,7 @@ public class SRL_ORDR implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @see PersistenceState#confirmChanges()
 	 */
 	public void confirmChanges() {
@@ -230,7 +231,7 @@ public class SRL_ORDR implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @see PersistenceState#markChanged()
 	 */
 	public void markChanged() {
@@ -238,7 +239,7 @@ public class SRL_ORDR implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @see PersistenceState#markDeleted()
 	 */
 	public void markDeleted() {
@@ -246,7 +247,7 @@ public class SRL_ORDR implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @see PersistenceState#markNew()
 	 */
 	public void markNew() {
@@ -254,7 +255,7 @@ public class SRL_ORDR implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @see PersistenceState#markUnchanged()
 	 */
 	public void markUnchanged() {
@@ -321,8 +322,8 @@ public class SRL_ORDR implements Persistence, Serializable {
 		persistenceState.evict(this);
 	}
 
-	public void generateNewKey() throws DataAccessException {
-		setOrderNumber(new SystemNextNumberDAO().getNextNumber("SO"));
+	public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
+		setOrderNumber(new SystemNextNumberDAO().getNextNumber("SO", session));
 	}
 
 	/**
@@ -343,7 +344,7 @@ public class SRL_ORDR implements Persistence, Serializable {
 	/**
 	 * Validates that the state of this object is suitable for saving to the
 	 * database (mandatory fields are present)
-	 * 
+	 *
 	 * @throws OrderConfigurationException
 	 */
 	public void validate() throws OrderConfigurationException {
@@ -454,14 +455,13 @@ public class SRL_ORDR implements Persistence, Serializable {
 		}
 	}
 
-	public void saveVendor() throws DataAccessException,
-			DuplicateVendorException {
+	public void saveVendor(final Session session) throws DataAccessException, DuplicateVendorException, HibernateException {
 		vendor.validate();
 		if (vendor.isNew()) {
-			vendor.generateNewKey();
-		}
+      vendor.generateNewKey(session);
+    }
 		vendor.markChanged();
-		getDAO().persistByStatus(vendor);
+		getDAO().persistByStatus(vendor, session);
 		setVendorNumber(new Integer(vendor.getVendorNumber()));
 	}
 
@@ -482,7 +482,7 @@ public class SRL_ORDR implements Persistence, Serializable {
 		}
 		//07/10/2014
 		lc.getIssues().removeAll(lc.getIssues());
-		
+
 		getSubscriptions().remove(index.intValue());
 	}
 
@@ -501,7 +501,7 @@ public class SRL_ORDR implements Persistence, Serializable {
 		this.deletedSubscriptions = deletedSubscriptions;
 	}
 
-	
+
 	public String getDocumentNo() {
 		return documentNo;
 	}

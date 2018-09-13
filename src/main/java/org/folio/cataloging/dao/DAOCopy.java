@@ -776,7 +776,7 @@ public class DAOCopy extends AbstractDAO {
 		return result;
 	}
 
-	public void delete(final int copyNumber, final String userName) throws DataAccessException 
+	public void delete(final int copyNumber, final String userName) throws DataAccessException
 	{
 		new TransactionalHibernateOperation() {
 			public void doInHibernateTransaction(Session s)
@@ -859,7 +859,7 @@ public class DAOCopy extends AbstractDAO {
 
 	/**
 	 * Counts the number of copies using this shelf list and bib_itm
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int countShelfListAccessPointUses(CPY_ID copy, SHLF_LIST shelf)
@@ -879,7 +879,7 @@ public class DAOCopy extends AbstractDAO {
 
 	/**
 	 * Counts the number of copies using this shelf list and bib_itm
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int countShelfListAccessPointUsesForModifyHeading(CPY_ID copy,
@@ -918,7 +918,7 @@ public class DAOCopy extends AbstractDAO {
 
 	/**
 	 * Counts the number of copies using this shelf list and bib_itm
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int countShelfFromCopyUses(CPY_ID copy, SHLF_LIST shelf)
@@ -945,7 +945,7 @@ public class DAOCopy extends AbstractDAO {
 	 * copy is to be persisted. If the copy on the DB contains a different
 	 * shelflist it is contained in oldShelfList and will be detached
 	 * (consistent with db integrity rules)
-	 * 
+	 *
 	 * @param copy
 	 *            the copy to be persisted
 	 * @param oldShelfList
@@ -961,7 +961,7 @@ public class DAOCopy extends AbstractDAO {
 			public void doInHibernateTransaction(Session s)
 					throws HibernateException, DataAccessException {
 				/*
-				 * 
+				 *
 				 */
 				if (oldShelfList != null) {
 					detachShelfList(copy, oldShelfList);
@@ -996,7 +996,7 @@ public class DAOCopy extends AbstractDAO {
 							copy.setShelfList(match);
 						} else {
 							SHLF_LIST shelf = (SHLF_LIST) deepCopy(copy.getShelfList());
-							shelf.generateNewKey();
+							shelf.generateNewKey(session);
 							copy.setShelfList(shelf);
 							/*
 							 * When string text is modified in UI, the sortform
@@ -1011,20 +1011,20 @@ public class DAOCopy extends AbstractDAO {
 						copy.markChanged();
 					}
 
-					persistByStatus(copy.getShelfList());
+					persistByStatus(copy.getShelfList(), session);
 					copy.setShelfListKeyNumber(copy.getShelfList().getShelfListKeyNumber());
 				} else { // shelf list is null
 					logger.debug("setting key to null");
 					copy.setShelfListKeyNumber(null);
 				}
 				if (copy.isNew()) {
-					copy.generateNewKey();
+					copy.generateNewKey(session);
 					//copy.setCreationDate(new Date());
 				}
 
 				saveCpyIdAgent(userName, copy.getCopyIdNumber());
 
-				persistByStatus(copy);
+				persistByStatus(copy, session);
 				createSummaryHolding(session, copy);
 			}
 		}.execute();
@@ -1430,7 +1430,7 @@ public class DAOCopy extends AbstractDAO {
 			}
 		}
 	}
-	
+
 	public void insertDefinitiveHardbackBNDTable(Integer cpy_id,
 			Integer hldg_nbr) {
 
@@ -1816,7 +1816,7 @@ public class DAOCopy extends AbstractDAO {
 	/**
 	 * Il metodo controllo se ci sono copie (non da trasferire) associate al
 	 * record origine per l'org
-	 * 
+	 *
 	 * @param amicusNumber
 	 * @param orgNumber
 	 * @param condition
@@ -1842,7 +1842,7 @@ public class DAOCopy extends AbstractDAO {
 	/**
 	 * Il metodo controllo se ci sono copie (non da trasferire) associate al
 	 * record origine per l'org e con la stessa shelfListKeyNumber
-	 * 
+	 *
 	 * @param amicusNumber
 	 * @param orgNumber
 	 * @param shelfListKeyNumber
@@ -1907,7 +1907,7 @@ public class DAOCopy extends AbstractDAO {
 	}
 
 
-	public void saveCpyIdAgent(String userName, int cpyIdNbr) throws DataAccessException 
+	public void saveCpyIdAgent(String userName, int cpyIdNbr) throws DataAccessException
 	{
 		Connection connection = null;
 		PreparedStatement stmt0 = null;
@@ -1937,7 +1937,7 @@ public class DAOCopy extends AbstractDAO {
 				stmt2.execute();
 			}
 			/* Il commit o rollback lo fa hibernate in automatico se le operazioni successive vanno bene: quindi se sulla CPY_ID va tutto ok committa altrimenti no */
-			// connection.commit(); 
+			// connection.commit();
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			logAndWrap(e);
