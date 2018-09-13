@@ -1,6 +1,7 @@
 package org.folio.cataloging.dao.persistence;
 
 import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
@@ -13,7 +14,7 @@ import java.io.Serializable;
 
 public class SRL_PRED_PAT implements Persistence, Serializable {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -102,7 +103,7 @@ public class SRL_PRED_PAT implements Persistence, Serializable {
 	private PersistenceState persistenceState = new PersistenceState();
 
 	/**
-	 * 
+	 *
 	 * @see PersistenceState#cancelChanges()
 	 */
 	public void cancelChanges() {
@@ -110,7 +111,7 @@ public class SRL_PRED_PAT implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @see PersistenceState#confirmChanges()
 	 */
 	public void confirmChanges() {
@@ -198,7 +199,7 @@ public class SRL_PRED_PAT implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @see PersistenceState#markChanged()
 	 */
 	public void markChanged() {
@@ -206,7 +207,7 @@ public class SRL_PRED_PAT implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @see PersistenceState#markDeleted()
 	 */
 	public void markDeleted() {
@@ -214,7 +215,7 @@ public class SRL_PRED_PAT implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @see PersistenceState#markNew()
 	 */
 	public void markNew() {
@@ -222,7 +223,7 @@ public class SRL_PRED_PAT implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @see PersistenceState#markUnchanged()
 	 */
 	public void markUnchanged() {
@@ -289,8 +290,8 @@ public class SRL_PRED_PAT implements Persistence, Serializable {
 		persistenceState.evict(this);
 	}
 
-	public void generateNewKey() throws DataAccessException {
+	public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
 		SystemNextNumberDAO dao = new SystemNextNumberDAO();
-		setPredictionPatternNumber(dao.getNextNumber("EP"));
+		setPredictionPatternNumber(dao.getNextNumber("EP", session));
 	}
 }

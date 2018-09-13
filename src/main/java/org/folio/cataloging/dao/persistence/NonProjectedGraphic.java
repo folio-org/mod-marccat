@@ -1,5 +1,7 @@
 package org.folio.cataloging.dao.persistence;
 
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.SystemNextNumberDAO;
 import org.w3c.dom.Document;
@@ -49,9 +51,9 @@ public class NonProjectedGraphic extends PhysicalDescription {
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
 	 */
-	public void generateNewKey() throws DataAccessException {
+  public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
 		SystemNextNumberDAO dao = new SystemNextNumberDAO();
-		setKeyNumber(dao.getNextNumber("X6"));
+		setKeyNumber(dao.getNextNumber("X6", session));
 	}
 
 	/* (non-Javadoc)
@@ -62,7 +64,7 @@ public class NonProjectedGraphic extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getColourCode() {
@@ -70,7 +72,7 @@ public class NonProjectedGraphic extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getPrimarySupportMaterialCode() {
@@ -78,7 +80,7 @@ public class NonProjectedGraphic extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getSecondarySupportMaterialCode() {
@@ -86,7 +88,7 @@ public class NonProjectedGraphic extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setColourCode(char c) {
@@ -94,7 +96,7 @@ public class NonProjectedGraphic extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setPrimarySupportMaterialCode(char c) {
@@ -102,7 +104,7 @@ public class NonProjectedGraphic extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setSecondarySupportMaterialCode(char c) {
@@ -110,7 +112,7 @@ public class NonProjectedGraphic extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getObsolete1() {
@@ -118,7 +120,7 @@ public class NonProjectedGraphic extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setObsolete1(char c) {

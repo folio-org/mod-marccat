@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Jan 25, 2005
- * 
+ *
  * SerialPart.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -27,7 +27,7 @@ import java.util.Locale;
  */
 public class SerialPart implements Persistence, Serializable {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private int serialPartNumber;
@@ -52,7 +52,7 @@ public class SerialPart implements Persistence, Serializable {
 	private final PersistenceState persistenceState = new PersistenceState();
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public Date getConvertedGregorianYear() {
@@ -60,7 +60,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public Integer getCopyNumber() {
@@ -68,7 +68,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public String getEnumDescription() {
@@ -76,7 +76,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public Date getExpiryDate() {
@@ -84,7 +84,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public String getNameUnit() {
@@ -92,7 +92,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public String getNote() {
@@ -100,7 +100,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public Date getPublicationDate() {
@@ -110,9 +110,9 @@ public class SerialPart implements Persistence, Serializable {
 	public String getPublicationDateAsString() {
 		return new SimpleDateFormat("dd/MM/yyyy").format(getPublicationDate());
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public Date getReceivedDate() {
@@ -128,7 +128,7 @@ public class SerialPart implements Persistence, Serializable {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public Integer getSerialCopyNumber() {
@@ -136,7 +136,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getSerialCopyStatusCode() {
@@ -144,7 +144,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int getSerialPartNumber() {
@@ -152,7 +152,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public String getTitleOfSupplementMaterial() {
@@ -160,7 +160,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public short getType() {
@@ -176,7 +176,7 @@ public class SerialPart implements Persistence, Serializable {
 		//}
 	}
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public String getTypeOfSupplementMaterial() {
@@ -184,7 +184,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setConvertedGregorianYear(Date date) {
@@ -192,7 +192,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setCopyNumber(Integer integer) {
@@ -200,7 +200,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setEnumDescription(String string) {
@@ -208,7 +208,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setExpiryDate(Date date) {
@@ -216,7 +216,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setNameUnit(String string) {
@@ -224,7 +224,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setNote(String string) {
@@ -232,7 +232,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setPublicationDate(Date date) {
@@ -240,7 +240,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setReceivedDate(Date date) {
@@ -248,7 +248,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setSerialCopyNumber(Integer integer) {
@@ -256,7 +256,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setSerialCopyStatusCode(char c) {
@@ -264,7 +264,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setSerialPartNumber(int i) {
@@ -272,7 +272,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setTitleOfSupplementMaterial(String string) {
@@ -280,7 +280,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setType(short s) {
@@ -288,7 +288,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setTypeOfSupplementMaterial(String string) {
@@ -296,7 +296,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void evict(Object obj) throws DataAccessException {
@@ -304,7 +304,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public AbstractDAO getDAO() {
@@ -312,7 +312,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int getUpdateStatus() {
@@ -320,7 +320,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean isChanged() {
@@ -328,7 +328,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean isDeleted() {
@@ -336,7 +336,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean isNew() {
@@ -344,7 +344,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean isRemoved() {
@@ -352,7 +352,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void markChanged() {
@@ -360,7 +360,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void markDeleted() {
@@ -368,7 +368,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void markNew() {
@@ -376,7 +376,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void markUnchanged() {
@@ -384,7 +384,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean onDelete(Session arg0) throws CallbackException {
@@ -392,7 +392,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void onLoad(Session arg0, Serializable arg1) {
@@ -400,7 +400,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean onSave(Session arg0) throws CallbackException {
@@ -408,7 +408,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean onUpdate(Session arg0) throws CallbackException {
@@ -416,7 +416,7 @@ public class SerialPart implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setUpdateStatus(int i) {
@@ -425,7 +425,7 @@ public class SerialPart implements Persistence, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see librisuite.business.common.Persistence#evict()
 	 */
 	public void evict() throws DataAccessException {
@@ -434,17 +434,17 @@ public class SerialPart implements Persistence, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see librisuite.business.common.Persistence#generateNewKey()
 	 */
-	public void generateNewKey() throws DataAccessException {
+	public void generateNewKey(final Session session) throws DataAccessException {
 		// TODO Auto-generated method stub
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	public boolean equals(Object arg0) {
@@ -459,7 +459,7 @@ public class SerialPart implements Persistence, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
 	public int hashCode() {

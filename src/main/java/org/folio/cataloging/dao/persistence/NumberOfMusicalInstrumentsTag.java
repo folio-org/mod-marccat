@@ -1,5 +1,7 @@
 package org.folio.cataloging.dao.persistence;
 
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.cataloguing.bibliographic.VariableHeaderUsingItemEntity;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.PersistenceState;
@@ -18,7 +20,7 @@ import org.folio.cataloging.util.StringText;
 public class NumberOfMusicalInstrumentsTag
 	extends VariableHeaderUsingItemEntity
 	implements PersistentObjectWithView {
-		
+
 	private int musicalInstrumentKeyNumber;
 	private String stringTextString;
 	private StringText stringText;
@@ -27,7 +29,7 @@ public class NumberOfMusicalInstrumentsTag
 	/**
 	 * Class constructor
 	 *
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public NumberOfMusicalInstrumentsTag() {
@@ -38,7 +40,7 @@ public class NumberOfMusicalInstrumentsTag
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int getMusicalInstrumentKeyNumber() {
@@ -46,7 +48,7 @@ public class NumberOfMusicalInstrumentsTag
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public StringText getStringText() {
@@ -54,7 +56,7 @@ public class NumberOfMusicalInstrumentsTag
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public String getStringTextString() {
@@ -62,7 +64,7 @@ public class NumberOfMusicalInstrumentsTag
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setMusicalInstrumentKeyNumber(int i) {
@@ -70,7 +72,7 @@ public class NumberOfMusicalInstrumentsTag
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setStringText(StringText text) {
@@ -78,7 +80,7 @@ public class NumberOfMusicalInstrumentsTag
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setStringTextString(String string) {
@@ -88,9 +90,9 @@ public class NumberOfMusicalInstrumentsTag
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
 	 */
-	public void generateNewKey() throws DataAccessException {
+  public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
 		SystemNextNumberDAO dao = new SystemNextNumberDAO();
-		setMusicalInstrumentKeyNumber(dao.getNextNumber("X5"));
+		setMusicalInstrumentKeyNumber(dao.getNextNumber("X5", session));
 	}
 
 	private void setBibItm(BIB_ITM bib_itm)
@@ -113,7 +115,7 @@ public class NumberOfMusicalInstrumentsTag
 		setBibItm((BIB_ITM)item);
 	}
 
-	
+
 
 
 	/* (non-Javadoc)
@@ -152,7 +154,7 @@ public class NumberOfMusicalInstrumentsTag
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public String getUserViewString() {
@@ -160,7 +162,7 @@ public class NumberOfMusicalInstrumentsTag
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setUserViewString(String string) {
@@ -168,7 +170,7 @@ public class NumberOfMusicalInstrumentsTag
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int getBibItemNumber() {
@@ -176,7 +178,7 @@ public class NumberOfMusicalInstrumentsTag
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setBibItemNumber(int i) {

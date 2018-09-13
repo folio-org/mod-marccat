@@ -1,6 +1,7 @@
 package org.folio.cataloging.business.cataloguing.common;
 
 import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -25,6 +26,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -37,7 +39,7 @@ import static org.folio.cataloging.F.deepCopy;
  * @author paulm
  * @since 1.0
  */
-public abstract class Tag implements Serializable, Cloneable, TagInterface 
+public abstract class Tag implements Serializable, Cloneable, TagInterface
 {
 	public Tag() {
 		/*
@@ -47,7 +49,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 		setTagImpl(TagImplFactory.getDefaultImplementation());
 	}
 
-	public Tag(int itemNumber) 
+	public Tag(int itemNumber)
 	{
 		this();
 		setItemNumber(itemNumber);
@@ -120,7 +122,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 
 	/**
 	 * sets the given correlation stringValue for this tag
-	 * 
+	 *
 	 * @param i - the index to be set (1, 2, or 3)
 	 * @param s - the new stringValue
 	 * @since 1.0
@@ -221,7 +223,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 		return field;
 	}
 
-	public int hashCode() 
+	public int hashCode()
 	{
 		return getItemNumber();
 	}
@@ -252,8 +254,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 		}
 	}
 
-	@Deprecated
-	public void generateNewKey() throws DataAccessException {}
+	public void generateNewKey(final Session session) throws DataAccessException, HibernateException, SQLException {}
 
 	/* nat: public DAOCodeTable getDaoCodeTable() {
 		return daoCodeTable;
@@ -267,7 +268,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 		persistenceState = object;
 	}
 
-	public int getUpdateStatus() 
+	public int getUpdateStatus()
 	{
 		if (persistenceState == null) {
 			return -1;
@@ -276,7 +277,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 		}
 	}
 
-	public boolean isChanged() 
+	public boolean isChanged()
 	{
 		if (persistenceState == null) {
 			return false;
@@ -285,7 +286,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 		}
 	}
 
-	public boolean isDeleted() 
+	public boolean isDeleted()
 	{
 		if (persistenceState == null) {
 			return false;
@@ -294,7 +295,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 		}
 	}
 
-	public boolean isNew() 
+	public boolean isNew()
 	{
 		if (persistenceState == null) {
 			return false;
@@ -385,7 +386,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 	 * </datafield>
 	 * or for a control field
 	 * <controlfield tag="001">000000005581</controlfield>
-	 * 
+	 *
 	 * @return a Document
 	 */
 	public Document toXmlDocument() {
@@ -412,7 +413,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 	 * </datafield>
 	 * or for a control field
 	 * <controlfield tag="001">000000005581</controlfield>
-	 * 
+	 *
 	 * @return an Element
 	 */
 	public Element toXmlElement(Document xmlDocument) {
@@ -455,7 +456,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 
 	/**
 	 * This method is used to generated the model xml.
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public Element generateModelXmlElement(Document xmlDocument) {
@@ -554,9 +555,9 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 	public void validate(int index) throws ValidationException {
 		// default implementation does nothing
 	}
-	
+
 	/**
-	 * Called where a 
+	 * Called where a
 	 * series of changes result in returning the new key back
 	 * to a pre-existing key
 	 */
@@ -573,11 +574,11 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 
 	public void setNewSubfieldContent(String newSubfieldContent) {
 		this.newSubfieldContent = newSubfieldContent;
-	}	
-	
+	}
+
 	public static final int PHYSICAL_MATERIAL = 1;
 	public static final int NOT_PHYSICAL_MATERIAL = 0;
-	
+
 	public int getPhysical() {
 		return PHYSICAL_MATERIAL;
 	}

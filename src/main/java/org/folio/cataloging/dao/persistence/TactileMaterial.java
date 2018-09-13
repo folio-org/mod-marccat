@@ -1,5 +1,7 @@
 package org.folio.cataloging.dao.persistence;
 
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.SystemNextNumberDAO;
 import org.w3c.dom.Document;
@@ -48,9 +50,9 @@ public class TactileMaterial extends PhysicalDescription {
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
 	 */
-	public void generateNewKey() throws DataAccessException {
+	public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
 		SystemNextNumberDAO dao = new SystemNextNumberDAO();
-		setKeyNumber(dao.getNextNumber("XE"));
+		setKeyNumber(dao.getNextNumber("XE", session));
 	}
 
 	/* (non-Javadoc)
@@ -61,7 +63,7 @@ public class TactileMaterial extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public String getBrailleMusicFormatCodes() {
@@ -76,9 +78,9 @@ public class TactileMaterial extends PhysicalDescription {
 			return brailleMusicFormatCodes.toCharArray();
 		}
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public String getClassOfBrailleWritingCodes() {
@@ -93,10 +95,10 @@ public class TactileMaterial extends PhysicalDescription {
 			return classOfBrailleWritingCodes.toCharArray();
 		}
 	}
-	
+
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getLevelOfContractionCode() {
@@ -104,7 +106,7 @@ public class TactileMaterial extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getSpecificPhysicalCharacteristicsCode() {
@@ -112,7 +114,7 @@ public class TactileMaterial extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setBrailleMusicFormatCodes(String string) {
@@ -120,7 +122,7 @@ public class TactileMaterial extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setClassOfBrailleWritingCodes(String string) {
@@ -128,7 +130,7 @@ public class TactileMaterial extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setLevelOfContractionCode(char c) {
@@ -136,7 +138,7 @@ public class TactileMaterial extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setSpecificPhysicalCharacteristicsCode(char c) {

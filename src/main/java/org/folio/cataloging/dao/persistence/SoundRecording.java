@@ -1,5 +1,7 @@
 package org.folio.cataloging.dao.persistence;
 
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.SystemNextNumberDAO;
 import org.w3c.dom.Document;
@@ -72,9 +74,9 @@ public class SoundRecording extends PhysicalDescription {
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
 	 */
-	public void generateNewKey() throws DataAccessException {
+	public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
 		SystemNextNumberDAO dao = new SystemNextNumberDAO();
-		setKeyNumber(dao.getNextNumber("X8"));
+		setKeyNumber(dao.getNextNumber("X8", session));
 	}
 
 	/* (non-Javadoc)
@@ -85,7 +87,7 @@ public class SoundRecording extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getConfigurationCode() {
@@ -93,7 +95,7 @@ public class SoundRecording extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getCuttingTypeCode() {
@@ -101,7 +103,7 @@ public class SoundRecording extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getDimensionsCode() {
@@ -109,7 +111,7 @@ public class SoundRecording extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getDiscTypeCode() {
@@ -117,7 +119,7 @@ public class SoundRecording extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getGrooveWidthCode() {
@@ -125,7 +127,7 @@ public class SoundRecording extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getSndMaterialTypeCode() {
@@ -133,7 +135,7 @@ public class SoundRecording extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getObsolete1() {
@@ -141,7 +143,7 @@ public class SoundRecording extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getSpecialPlaybackCharacteristicsCode() {
@@ -149,7 +151,7 @@ public class SoundRecording extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getSpeedCode() {
@@ -157,7 +159,7 @@ public class SoundRecording extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getStorageTechniqueCode() {
@@ -165,7 +167,7 @@ public class SoundRecording extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getTapeConfigurationCode() {
@@ -173,7 +175,7 @@ public class SoundRecording extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getTapeWidthCode() {
@@ -181,7 +183,7 @@ public class SoundRecording extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setConfigurationCode(char c) {
@@ -189,7 +191,7 @@ public class SoundRecording extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setCuttingTypeCode(char c) {
@@ -197,7 +199,7 @@ public class SoundRecording extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setDimensionsCode(char c) {
@@ -205,7 +207,7 @@ public class SoundRecording extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setDiscTypeCode(char c) {
@@ -213,7 +215,7 @@ public class SoundRecording extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setGrooveWidthCode(char c) {
@@ -221,7 +223,7 @@ public class SoundRecording extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setSndMaterialTypeCode(char c) {
@@ -229,7 +231,7 @@ public class SoundRecording extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setObsolete1(char c) {
@@ -237,7 +239,7 @@ public class SoundRecording extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setSpecialPlaybackCharacteristicsCode(char c) {
@@ -245,7 +247,7 @@ public class SoundRecording extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setSpeedCode(char c) {
@@ -253,7 +255,7 @@ public class SoundRecording extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setStorageTechniqueCode(char c) {
@@ -261,7 +263,7 @@ public class SoundRecording extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setTapeConfigurationCode(char c) {
@@ -269,7 +271,7 @@ public class SoundRecording extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setTapeWidthCode(char c) {

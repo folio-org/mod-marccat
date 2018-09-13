@@ -1,5 +1,7 @@
 package org.folio.cataloging.dao.persistence;
 
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.F;
 import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
 import org.folio.cataloging.business.cataloguing.common.OrderedTag;
@@ -9,6 +11,7 @@ import org.folio.cataloging.business.common.PersistenceState;
 import org.folio.cataloging.business.common.PersistentObjectWithView;
 import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAOBibliographicNoteTag;
+import org.folio.cataloging.dao.SystemNextNumberDAO;
 import org.folio.cataloging.integration.GlobalStorage;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.model.Subfield;
@@ -249,11 +252,9 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
 	    note.setNoteType(type);
 	}
 
-	@Deprecated
-	public void generateNewKey() throws DataAccessException
-	{
-		/*SystemNextNumberDAO dao = new SystemNextNumberDAO();
-		setNoteNbr(dao.getNextNumber("BN"));*/
+	public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
+		SystemNextNumberDAO dao = new SystemNextNumberDAO();
+		setNoteNbr(dao.getNextNumber("BN", session));
 	}
 
 	/**

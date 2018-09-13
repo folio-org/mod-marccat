@@ -1,5 +1,7 @@
 package org.folio.cataloging.dao.persistence;
 
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
 import org.folio.cataloging.dao.AbstractDAO;
@@ -145,8 +147,8 @@ public class SHLF_LIST extends Descriptor implements Serializable {
 	  * used (since there are no user views)
 	*/
 	@Override
-	public void generateNewKey() throws DataAccessException {
-		super.generateNewKey();
+	public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
+		super.generateNewKey(session);
 		setShelfListKeyNumber(getKey().getHeadingNumber());
 	}
 

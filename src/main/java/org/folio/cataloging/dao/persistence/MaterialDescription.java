@@ -1,5 +1,7 @@
 package org.folio.cataloging.dao.persistence;
 
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.apache.commons.lang.StringUtils;
 import org.folio.cataloging.business.cataloguing.bibliographic.FixedFieldUsingItemEntity;
 import org.folio.cataloging.business.common.DataAccessException;
@@ -7,6 +9,7 @@ import org.folio.cataloging.business.common.PersistenceState;
 import org.folio.cataloging.business.common.PersistentObjectWithView;
 import org.folio.cataloging.business.common.UserViewHelper;
 import org.folio.cataloging.dao.AbstractDAO;
+import org.folio.cataloging.dao.SystemNextNumberDAO;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -69,8 +72,8 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 	private String musicLiteraryTextCode;
 
 	private String musicPartsCode;
-	private String musicTranspositionArrangementCode;	
-	
+	private String musicTranspositionArrangementCode;
+
 	private String cartographicMaterial;
 	private String visualOriginalHolding;
 	private String formOfMaterial;
@@ -134,14 +137,10 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 				.orElse("    ");
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
-	 */
-	//TODO move in storageService
-	/*public void generateNewKey() throws DataAccessException {
+	public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
 		SystemNextNumberDAO dao = new SystemNextNumberDAO();
-		setMaterialDescriptionKeyNumber(dao.getNextNumber("X0"));
-	}*/
+		setMaterialDescriptionKeyNumber(dao.getNextNumber("X0", session));
+	}
 
 
 	public String getDisplayString()
@@ -182,7 +181,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 		return sb.toString();
 	}
 
-	public boolean equals(Object obj) 
+	public boolean equals(Object obj)
 	{
 		if (!(obj instanceof MaterialDescription))
 			return false;
@@ -192,8 +191,8 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 			&& other.getItemNumber() == this.getItemNumber()
 			&& other.getUserViewString().equals(this.getUserViewString())) {
 			/*
-			 * For models, the key number is not set and so equality depends on 
-			 * a) whether both tags are 008's and if not then 
+			 * For models, the key number is not set and so equality depends on
+			 * a) whether both tags are 008's and if not then
 			 * b) on correlation settings
 			 */
 			if (other.materialDescriptionKeyNumber > 0) {
@@ -499,7 +498,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 			return natureOfContentsCode.toCharArray();
 		}
 	}
-	
+
 	public String getSerialCumulativeIndexCode() {
 		return serialCumulativeIndexCode;
 	}
@@ -738,7 +737,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public String getFormOfMaterial() {
@@ -746,7 +745,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setFormOfMaterial(final String string) {
@@ -799,7 +798,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 		return getPersistenceState().getDAO();
 	}
 
-	public Element generateModelXmlElementContent(Document xmlDocument) 
+	public Element generateModelXmlElementContent(Document xmlDocument)
 	{
 		Element content = null;
 		/*if (xmlDocument != null) {
@@ -891,7 +890,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 		setComputerFileTypeCode(characterFromXML(content.getAttribute("computerFileTypeCode")));
 
 		setComputerFileFormCode(characterFromXML(content.getAttribute("computerFileFormCode")));
-		
+
 		setVisualRunningTime(stringFromXML(content.getAttribute("visualRunningTime")));
 		setVisualTargetAudienceCode(characterFromXML(content.getAttribute("visualTargetAudienceCode")));
 		setVisualAccompanyingMaterialCode(stringFromXML(content.getAttribute("visualAccompanyingMaterialCode")));
@@ -911,11 +910,11 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 		setMusicFormatCode(characterFromXML(content.getAttribute("musicFormatCode")));
 		setMusicTextualMaterialCode(stringFromXML(content.getAttribute("musicTextualMaterialCode")));
 		setMusicLiteraryTextCode(stringFromXML(content.getAttribute("musicLiteraryTextCode")));
-		
+
 
 		setMusicPartsCode(characterFromXML(content.getAttribute("musicPartsCode")));
 		setMusicTranspositionArrangementCode(characterFromXML(content.getAttribute("musicTranspositionArrangementCode")));
-		
+
 		setCartographicMaterial(characterFromXML(content.getAttribute("cartographicMaterial")));
 		setVisualOriginalHolding(characterFromXML(content.getAttribute("visualOriginalHolding")));
 		setFormOfMaterial(stringFromXML(content.getAttribute("formOfMaterial")));
@@ -941,7 +940,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 	public void setUserViewString(final String string) {
 		userViewHelper.setUserViewString(string);
 	}
-	
+
 	public int getBibItemNumber() {
 		return getItemNumber();
 	}
@@ -969,7 +968,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 	public String getItemDateFirstPublication() {
 		return getBibItm().getItemDateFirstPublication();
 	}
-	
+
 	public String getItemDateLastPublication() {
 		return getBibItm().getItemDateLastPublication();
 	}
@@ -994,7 +993,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 		getBibItm().setEnteredOnFileDate(date);
 	}
 
-	public void setItemDateFirstPublication(String string) 
+	public void setItemDateFirstPublication(String string)
 	{
 		if(string==null || string.trim().length()==0) {
 			string = DEFAULT_DATE;
@@ -1002,7 +1001,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 		getBibItm().setItemDateFirstPublication(string);
 	}
 
-	public void setItemDateLastPublication(String string) 
+	public void setItemDateLastPublication(String string)
 	{
 		if(string==null || string.trim().length()==0) {
 			string = DEFAULT_DATE;
@@ -1063,7 +1062,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 	{
 		/*if(getMaterialDescription008Indicator() == '1')
 		  return daoCodeTable.getListFromTag008(T_BIB_HDR.class,"008",false);
-		else 
+		else
 		  return daoCodeTable.getListFromWithoutTag008(T_BIB_HDR.class,"008",false);*/
 
 		return null;

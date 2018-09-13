@@ -1,5 +1,7 @@
 package org.folio.cataloging.dao.persistence;
 
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
@@ -28,7 +30,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 	public BibliographicRelationship sourceRelationship;
 	public BibliographicRelationship targetRelationship;
 
-	public BibliographicRelationshipTag() 
+	public BibliographicRelationshipTag()
 	{
 		super();
 		setSourceRelationship(new BibliographicRelationship());
@@ -40,7 +42,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 		setOriginalTag();
 	}
 
-	public BibliographicRelationshipTag(BibliographicRelationship relationship,int userView) throws DataAccessException 
+	public BibliographicRelationshipTag(BibliographicRelationship relationship,int userView) throws DataAccessException
 	{
 		super();
 		setSourceRelationship(relationship);
@@ -51,7 +53,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 		setOriginalTag();
 	}
 
-	public void buildReciprocalStringText(int userView)	throws DataAccessException 
+	public void buildReciprocalStringText(int userView)	throws DataAccessException
 	{
 		/* stringtext can be in table RLTSP or should be build from the heading tables */
 		StringText s = new StringText();
@@ -62,7 +64,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 		setReciprocalStringText(s);
 	}
 
-	public void createTargetBibItem(int userView) throws DataAccessException 
+	public void createTargetBibItem(int userView) throws DataAccessException
 	{
 		if (getReciprocalOption(userView) == 1) {
 			/* create the reciprocal relationship */
@@ -81,11 +83,11 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 		}
 	}
 
-	public boolean equals(Object obj) 
+	public boolean equals(Object obj)
 	{
 		if (!(obj instanceof BibliographicRelationshipTag))
 			return false;
-		
+
 		BibliographicRelationshipTag other = (BibliographicRelationshipTag) obj;
 		return (other.getItemNumber() == getItemNumber())
 				&& (other.getUserViewString().equals(getUserViewString()))
@@ -93,15 +95,15 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 				&& (other.getRelationTypeCode() == getRelationTypeCode());
 	}
 
-	public void generateNewBlindRelationshipKey() throws DataAccessException 
+	public void generateNewBlindRelationshipKey(final Session session) throws DataAccessException, HibernateException
 	{
 		SystemNextNumberDAO dao = new SystemNextNumberDAO();
-		setTargetBibItemNumber(-dao.getNextNumber("BR"));
+		setTargetBibItemNumber(-dao.getNextNumber("BR", session));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#getCategory()
 	 */
 	public int getCategory() {
@@ -110,7 +112,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#getCorrelation(int)
 	 */
 	public int getCorrelation(int i) {
@@ -185,7 +187,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 		return sourceRelationship.getRelationPrintNoteCode();
 	}
 
-	public StringText getRelationshipStringText() 
+	public StringText getRelationshipStringText()
 	{
 		sourceRelationship.getStringText().parse(sourceRelationship.getMaterialSpecificText());
 		sourceRelationship.getStringText().parse(sourceRelationship.getDescription());
@@ -203,7 +205,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#getSecondCorrelationList(short,
 	 *      java.util.Locale)
 	 */
@@ -217,13 +219,13 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 		return sourceRelationship;
 	}
 
-	public StringText getStringText() 
+	public StringText getStringText()
 	{
 		StringText text = new StringText();
-		/*Bug 4122 4157 inizio */		
-		text.parse(sourceRelationship.getDescription());	
+		/*Bug 4122 4157 inizio */
+		text.parse(sourceRelationship.getDescription());
 		/*Bug 4122 4157 fine */
-		
+
 		if (BibliographicRelationReciprocal.isBlind(getReciprocalOption())) {
 			text.add(sourceRelationship.getStringText());
 		} else {
@@ -254,7 +256,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 		return sourceRelationship.getUserViewString();
 	}
 
-	public BibliographicRelationship handleReciprocalRelationship(int userView) 
+	public BibliographicRelationship handleReciprocalRelationship(int userView)
 	{
 		DAOBibliographicRelationship b = new DAOBibliographicRelationship();
 		BibliographicRelationship relationship = new BibliographicRelationship();
@@ -271,7 +273,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
 	public int hashCode() {
@@ -288,7 +290,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#setCorrelationValues(librisuite.business.common.CorrelationValues)
 	 */
 	public void setCorrelationValues(CorrelationValues v) {
@@ -356,7 +358,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 		targetRelationship = relationship;
 	}
 
-	public void setUserViewString(String string) 
+	public void setUserViewString(String string)
 	{
 		sourceRelationship.setUserViewString(string);
 		if (targetRelationship != null) {
@@ -364,7 +366,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 		}
 	}
 
-	public void replaceTargetRelationship(int amicusNumber, int cataloguingView) throws DataAccessException 
+	public void replaceTargetRelationship(int amicusNumber, int cataloguingView) throws DataAccessException
 	{
 		getSourceRelationship().evict();
 		setSourceRelationship((BibliographicRelationship) deepCopy(getSourceRelationship()));
@@ -388,7 +390,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 	 * values are needed when saving to determine how to affect the database.
 	 * For example, if a previously reciprocal relationship is modified to
 	 * become one-way then the reciprocal needs to be deleted, etc...
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setOriginalTag() {
@@ -398,7 +400,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see TagInterface#markChanged()
 	 */
 	public void markChanged() {
@@ -411,7 +413,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see TagInterface#markDeleted()
 	 */
 	public void markDeleted() {
@@ -424,7 +426,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see TagInterface#markNew()
 	 */
 	public void markNew() {
@@ -437,7 +439,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see TagInterface#markUnchanged()
 	 */
 	public void markUnchanged() {
@@ -450,7 +452,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see TagInterface#reinstateDeletedTag()
 	 */
 	public void reinstateDeletedTag() {
@@ -458,7 +460,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 		setOriginalTag();
 	}
 
-	public Set getValidEditableSubfields() 
+	public Set getValidEditableSubfields()
 	{
 		Set set = new TreeSet(new SubfieldCodeComparator());
 		if (BibliographicRelationReciprocal.isBlind(getReciprocalOption())) {
@@ -472,7 +474,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
 		}
 		return set;
 	}
-	
+
 	/**
 	 * Converts any reciprocal relationships to blind and removes any
 	 * originalTag objects from the copied view.
