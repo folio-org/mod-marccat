@@ -1,12 +1,14 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Dec 5, 2005
- * 
+ *
  * AuthorityNote.java
  */
 package org.folio.cataloging.business.cataloguing.authority;
 
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.cataloguing.bibliographic.PersistsViaItem;
 import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
 import org.folio.cataloging.business.common.DataAccessException;
@@ -34,11 +36,11 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
 	private int noteType = Defaults.getShort("authorityNote.noteType");
 	private String noteStringText;
 	private PersistenceState persistenceState = new PersistenceState();
-	
+
 	/**
 	 * Class constructor
 	 *
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public AuthorityNote() {
@@ -63,9 +65,9 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
 	/* (non-Javadoc)
 	 * @see TagInterface#generateNewKey()
 	 */
-	public void generateNewKey() throws DataAccessException {
+  public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
 		SystemNextNumberDAO dao = new SystemNextNumberDAO();
-		setNoteNumber(dao.getNextNumber("AN"));
+		setNoteNumber(dao.getNextNumber("AN", session));
 	}
 
 
@@ -118,7 +120,7 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int getNoteNumber() {
@@ -126,7 +128,7 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setNoteNumber(int i) {
@@ -134,7 +136,7 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int getNoteType() {
@@ -142,7 +144,7 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setNoteType(int s) {
@@ -150,7 +152,7 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public String getNoteStringText() {
@@ -158,7 +160,7 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setNoteStringText(String string) {
@@ -215,6 +217,6 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
 		return true;
 	}
 
-	
-	
+
+
 }

@@ -1751,7 +1751,7 @@ public class StorageService implements Closeable {
     final int headerTypeCode = ff.getHeaderTypeCode();
     final String categoryOfMaterial = ff.getCategoryOfMaterial();
     final CorrelationValues correlationValues = new CorrelationValues(headerTypeCode, CorrelationValues.UNDEFINED, CorrelationValues.UNDEFINED);
-    PhysicalDescription pd = catalog.createPhysicalDescriptionTag(item, correlationValues);
+    final PhysicalDescription pd = catalog.createPhysicalDescriptionTag(item, correlationValues);
     catalog.toPhysicalDescription(ff, pd);
 
 

@@ -76,20 +76,25 @@ public abstract class CatalogDAO extends AbstractDAO {
 	 * @throws DataAccessException in case of data access failure.
 	 */
 	protected void loadHeadings(final List<? extends PersistentObjectWithView> allTags, final int userView, final Session session) throws DataAccessException {
-		allTags.stream().map(tag -> {
-			loadHeading((AccessPoint) tag, userView, session);
-			return tag;
-		}).collect(Collectors.toList());
+    allTags.forEach(tag -> {
+      loadHeading((AccessPoint) tag, userView, session);
+    });
 	}
+
 	private void loadHeading(final AccessPoint tag, final int userView, final Session session) throws DataAccessException {
 		if (tag.getHeadingNumber() != null) {
-			ofNullable(tag.getDAODescriptor().load(tag.getHeadingNumber().intValue(), userView)).map(heading -> { //TODO: pass session as parameter
-				tag.setDescriptor(heading);
-				return tag;
-			}).orElseGet(() -> {
-				throw new DataAccessException(String.format(MessageCatalogStorage._00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
-			});
-		}
+      try {
+        ofNullable(tag.getDAODescriptor().load(tag.getHeadingNumber().intValue(), userView, session)).map(heading -> {
+            tag.setDescriptor(heading);
+            return tag;
+
+        }).orElseGet(() -> {
+            throw new DataAccessException(String.format(MessageCatalogStorage._00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
+        });
+      } catch (HibernateException e) {
+        throw new DataAccessException(String.format(MessageCatalogStorage._00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
+      }
+    }
 	}
 
 	/**
@@ -112,8 +117,15 @@ public abstract class CatalogDAO extends AbstractDAO {
 				if (aTag instanceof PersistentObjectWithView)
 					((PersistentObjectWithView) aTag).setUserViewString(myView);
 
-				//aTag.generateNewKey();
-				if (item.getDeletedTags().contains(aTag)) {
+        try {
+          aTag.generateNewKey(session);
+        } catch (HibernateException e) {
+          throw new RuntimeException(e);
+        } catch (SQLException e) {
+          throw new RuntimeException(e);
+        }
+
+        if (item.getDeletedTags().contains(aTag)) {
 					aTag.reinstateDeletedTag();
 				}
 			}

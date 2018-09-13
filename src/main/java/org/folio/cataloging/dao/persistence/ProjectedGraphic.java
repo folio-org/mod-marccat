@@ -1,5 +1,7 @@
 package org.folio.cataloging.dao.persistence;
 
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.SystemNextNumberDAO;
 import org.w3c.dom.Document;
@@ -56,9 +58,9 @@ public class ProjectedGraphic extends PhysicalDescription {
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
 	 */
-	public void generateNewKey() throws DataAccessException {
+  public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
 		SystemNextNumberDAO dao = new SystemNextNumberDAO();
-		setKeyNumber(dao.getNextNumber("X7"));
+		setKeyNumber(dao.getNextNumber("X7", session));
 	}
 
 	/* (non-Javadoc)
@@ -69,7 +71,7 @@ public class ProjectedGraphic extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getBaseOfEmulsionCode() {
@@ -77,7 +79,7 @@ public class ProjectedGraphic extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getColourCode() {
@@ -85,7 +87,7 @@ public class ProjectedGraphic extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getDimensionsCode() {
@@ -93,7 +95,7 @@ public class ProjectedGraphic extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getMediumForSoundCode() {
@@ -101,7 +103,7 @@ public class ProjectedGraphic extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getObsolete1() {
@@ -109,7 +111,7 @@ public class ProjectedGraphic extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getSecondarySupportMaterialCode() {
@@ -117,7 +119,7 @@ public class ProjectedGraphic extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getSoundOnMediumOrSeparateCode() {
@@ -125,7 +127,7 @@ public class ProjectedGraphic extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setBaseOfEmulsionCode(char c) {
@@ -133,7 +135,7 @@ public class ProjectedGraphic extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setColourCode(char c) {
@@ -141,7 +143,7 @@ public class ProjectedGraphic extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setDimensionsCode(char c) {
@@ -149,7 +151,7 @@ public class ProjectedGraphic extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setMediumForSoundCode(char c) {
@@ -157,7 +159,7 @@ public class ProjectedGraphic extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setObsolete1(char c) {
@@ -165,7 +167,7 @@ public class ProjectedGraphic extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setSecondarySupportMaterialCode(char c) {
@@ -173,7 +175,7 @@ public class ProjectedGraphic extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setSoundOnMediumOrSeparateCode(char c) {

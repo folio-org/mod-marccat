@@ -1,5 +1,7 @@
 package org.folio.cataloging.dao.persistence;
 
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.SystemNextNumberDAO;
 import org.w3c.dom.Document;
@@ -28,30 +30,9 @@ public class MotionPicture extends PhysicalDescription {
 	private String inspectionDate;
 	private char obsolete1;
 
-	/*
-		private char colourCode = 'u';
-	private char presentationFormatCode = 'u';
-	private char includesSoundCode = 'u';
-	private char mediumForSoundCode = 'u';
-	private char dimensionsCode = 'u';
-	private char configurationCode = 'u';
-	private char productionElementsCode = '|';
-	private char polarityCode = 'u';
-	private char generationCode = 'u';
-	private char baseOfFilmCode = 'u';
-	private char refinedCategoriesOfColourCode = 'u';
-	private char kindOfColourStockCode = 'u';
-	private char deteriorationStageCode = '|';
-	private char completenessCode = 'u';
-	private String inspectionDate = "||||||";
-	private char obsolete1;
-
-	 */
 	public MotionPicture() {
 		super();
 		setHeaderType(26);
-		//setGeneralMaterialDesignationCode('m');
-		//setSpecificMaterialDesignationCode('u');
 	}
 
 	/* (non-Javadoc)
@@ -84,9 +65,9 @@ public class MotionPicture extends PhysicalDescription {
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
 	 */
-	public void generateNewKey() throws DataAccessException {
+  public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
 		SystemNextNumberDAO dao = new SystemNextNumberDAO();
-		setKeyNumber(dao.getNextNumber("X4"));
+		setKeyNumber(dao.getNextNumber("X4", session));
 	}
 
 	/* (non-Javadoc)
@@ -97,7 +78,7 @@ public class MotionPicture extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getBaseOfFilmCode() {
@@ -105,7 +86,7 @@ public class MotionPicture extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getColourCode() {
@@ -113,7 +94,7 @@ public class MotionPicture extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getCompletenessCode() {
@@ -121,7 +102,7 @@ public class MotionPicture extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getConfigurationCode() {
@@ -129,7 +110,7 @@ public class MotionPicture extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getDeteriorationStageCode() {
@@ -137,7 +118,7 @@ public class MotionPicture extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getDimensionsCode() {
@@ -145,7 +126,7 @@ public class MotionPicture extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getGenerationCode() {
@@ -153,7 +134,7 @@ public class MotionPicture extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getIncludesSoundCode() {
@@ -161,7 +142,7 @@ public class MotionPicture extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public String getInspectionDate() {
@@ -169,7 +150,7 @@ public class MotionPicture extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getKindOfColourStockCode() {
@@ -177,7 +158,7 @@ public class MotionPicture extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getMediumForSoundCode() {
@@ -185,7 +166,7 @@ public class MotionPicture extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getPolarityCode() {
@@ -193,7 +174,7 @@ public class MotionPicture extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getPresentationFormatCode() {
@@ -201,7 +182,7 @@ public class MotionPicture extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getProductionElementsCode() {
@@ -209,7 +190,7 @@ public class MotionPicture extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getRefinedCategoriesOfColourCode() {
@@ -217,7 +198,7 @@ public class MotionPicture extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setBaseOfFilmCode(char c) {
@@ -225,7 +206,7 @@ public class MotionPicture extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setColourCode(char c) {
@@ -233,7 +214,7 @@ public class MotionPicture extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setCompletenessCode(char c) {
@@ -241,7 +222,7 @@ public class MotionPicture extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setConfigurationCode(char c) {
@@ -249,7 +230,7 @@ public class MotionPicture extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setDeteriorationStageCode(char c) {
@@ -257,7 +238,7 @@ public class MotionPicture extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setDimensionsCode(char c) {
@@ -265,7 +246,7 @@ public class MotionPicture extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setGenerationCode(char c) {
@@ -273,7 +254,7 @@ public class MotionPicture extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setIncludesSoundCode(char c) {
@@ -281,7 +262,7 @@ public class MotionPicture extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setInspectionDate(String string) {
@@ -289,7 +270,7 @@ public class MotionPicture extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setKindOfColourStockCode(char c) {
@@ -297,7 +278,7 @@ public class MotionPicture extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setMediumForSoundCode(char c) {
@@ -305,7 +286,7 @@ public class MotionPicture extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setPolarityCode(char c) {
@@ -313,7 +294,7 @@ public class MotionPicture extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setPresentationFormatCode(char c) {
@@ -321,7 +302,7 @@ public class MotionPicture extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setProductionElementsCode(char c) {
@@ -329,7 +310,7 @@ public class MotionPicture extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setRefinedCategoriesOfColourCode(char c) {
@@ -337,7 +318,7 @@ public class MotionPicture extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getObsolete1() {
@@ -345,7 +326,7 @@ public class MotionPicture extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setObsolete1(char c) {

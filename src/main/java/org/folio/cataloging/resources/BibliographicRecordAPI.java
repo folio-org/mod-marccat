@@ -22,7 +22,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static java.util.Optional.ofNullable;
@@ -167,7 +169,7 @@ public class BibliographicRecordAPI extends BaseResource {
                 return record;
             }
 
-        }, tenant, configurator, () -> isNotNullOrEmpty(id),  new String[]{record.getLeader().getValue(), "bibliographic", "material"});
+        }, tenant, configurator, () -> isNotNullOrEmpty(id), record.getLeader().getValue(), "bibliographic", "material");
     }
 
     /**
@@ -299,12 +301,6 @@ public class BibliographicRecordAPI extends BaseResource {
 
         return field.getVariableField().getCategoryCode();
     }
-
-    private Comparator<String> tagComparator = new Comparator<String>() {
-       public int compare(final String f1, final String f2) {
-           return f1.compareTo(f2);
-       }
-    };
 
 
    /* @GetMapping("/search")

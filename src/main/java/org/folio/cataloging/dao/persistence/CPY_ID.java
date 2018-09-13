@@ -1,13 +1,14 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on 18-jun-2004
- * 
+ *
  * Table_CPY_ID.java
  */
 package org.folio.cataloging.dao.persistence;
 
 import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -351,7 +352,7 @@ public class CPY_ID implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public SHLF_LIST getShelfList() {
@@ -359,7 +360,7 @@ public class CPY_ID implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setShelfList(SHLF_LIST shlf_list) {
@@ -367,7 +368,7 @@ public class CPY_ID implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public PersistenceState getPersistenceState() {
@@ -375,7 +376,7 @@ public class CPY_ID implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setPersistenceState(PersistenceState state) {
@@ -383,7 +384,7 @@ public class CPY_ID implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void evict(Object obj) throws DataAccessException {
@@ -395,7 +396,7 @@ public class CPY_ID implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int getUpdateStatus() {
@@ -403,7 +404,7 @@ public class CPY_ID implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean isChanged() {
@@ -411,7 +412,7 @@ public class CPY_ID implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean isDeleted() {
@@ -419,7 +420,7 @@ public class CPY_ID implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean isNew() {
@@ -427,7 +428,7 @@ public class CPY_ID implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean isRemoved() {
@@ -435,7 +436,7 @@ public class CPY_ID implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void markChanged() {
@@ -443,7 +444,7 @@ public class CPY_ID implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void markDeleted() {
@@ -451,7 +452,7 @@ public class CPY_ID implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void markNew() {
@@ -459,7 +460,7 @@ public class CPY_ID implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void markUnchanged() {
@@ -467,7 +468,7 @@ public class CPY_ID implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean onDelete(Session arg0) throws CallbackException {
@@ -475,7 +476,7 @@ public class CPY_ID implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void onLoad(Session arg0, Serializable arg1) {
@@ -483,7 +484,7 @@ public class CPY_ID implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean onSave(Session arg0) throws CallbackException {
@@ -491,7 +492,7 @@ public class CPY_ID implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean onUpdate(Session arg0) throws CallbackException {
@@ -499,7 +500,7 @@ public class CPY_ID implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setUpdateStatus(int i) {
@@ -581,16 +582,16 @@ public class CPY_ID implements Persistence, Serializable {
 	}
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see librisuite.business.common.Persistence#generateNewKey()
 	 */
-	public void generateNewKey() throws DataAccessException {
+  public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
 		SystemNextNumberDAO dao = new SystemNextNumberDAO();
-		setCopyIdNumber(dao.getNextNumber("HC"));
+		setCopyIdNumber(dao.getNextNumber("HC", session));
 		Date createTime = new Date();
 		setCreationDate(createTime);
 		setTransactionDate(createTime);
-	
+
 		if ((new DAOGlobalVariable().getValueByName("barrcode")).equals("1")) {
 			setBarcodeAssigned(true);
 			setBarCodeNumber(String.valueOf(getCopyIdNumber()));
@@ -617,7 +618,7 @@ public class CPY_ID implements Persistence, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see librisuite.business.common.Persistence#getDAO()
 	 */
 	public AbstractDAO getDAO() {

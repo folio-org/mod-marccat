@@ -1,5 +1,7 @@
 package org.folio.cataloging.dao.persistence;
 
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.SystemNextNumberDAO;
 import org.w3c.dom.Document;
@@ -49,9 +51,9 @@ public class Globe extends PhysicalDescription {
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
 	 */
-	public void generateNewKey() throws DataAccessException {
+  public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
 		SystemNextNumberDAO dao = new SystemNextNumberDAO();
-		setKeyNumber(dao.getNextNumber("X1"));
+		setKeyNumber(dao.getNextNumber("X1", session));
 	}
 
 	/* (non-Javadoc)
@@ -62,7 +64,7 @@ public class Globe extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getColourCode() {
@@ -70,7 +72,7 @@ public class Globe extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public Character getObsolete1() {
@@ -78,7 +80,7 @@ public class Globe extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public Character getObsolete2() {
@@ -86,7 +88,7 @@ public class Globe extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getPhysicalMediumCode() {
@@ -94,7 +96,7 @@ public class Globe extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getTypeOfReproductionCode() {
@@ -102,7 +104,7 @@ public class Globe extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setColourCode(char c) {
@@ -110,7 +112,7 @@ public class Globe extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setObsolete1(Character character) {
@@ -118,7 +120,7 @@ public class Globe extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setObsolete2(Character character) {
@@ -126,7 +128,7 @@ public class Globe extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setPhysicalMediumCode(char c) {
@@ -134,7 +136,7 @@ public class Globe extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setTypeOfReproductionCode(char c) {

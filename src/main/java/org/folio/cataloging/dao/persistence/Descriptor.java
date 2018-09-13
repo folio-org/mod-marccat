@@ -678,11 +678,9 @@ public abstract class Descriptor implements PersistentObjectWithView
 	 *
 	 * @throws DataAccessException the data access exception
 	 */
-	@Deprecated
-	//TODO: move this method in StorageService or add session parameter
-	public void generateNewKey() throws DataAccessException {
+	public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
 		SystemNextNumberDAO dao = new SystemNextNumberDAO();
-		getKey().setHeadingNumber(dao.getNextNumber(getNextNumberKeyFieldCode()));
+		getKey().setHeadingNumber(dao.getNextNumber(getNextNumberKeyFieldCode(), session));
 	}
 
 	/**
