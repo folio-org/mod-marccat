@@ -10,8 +10,8 @@ import java.util.Map;
 /**
  * Field
  * <p>
- * 
- * 
+ *
+ *
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
@@ -93,8 +93,8 @@ public class Field {
     /**
      * fixedField
      * <p>
-     * 
-     * 
+     *
+     *
      */
     @JsonProperty("fixedField")
     @Valid
@@ -103,8 +103,8 @@ public class Field {
     /**
      * variableField
      * <p>
-     * 
-     * 
+     *
+     *
      */
     @JsonProperty("variableField")
     @Valid
@@ -113,8 +113,8 @@ public class Field {
     /**
      * fixedField
      * <p>
-     * 
-     * 
+     *
+     *
      * @return
      *     The fixedField
      */
@@ -126,8 +126,8 @@ public class Field {
     /**
      * fixedField
      * <p>
-     * 
-     * 
+     *
+     *
      * @param fixedField
      *     The fixed-field
      */
@@ -144,8 +144,8 @@ public class Field {
     /**
      * variableField
      * <p>
-     * 
-     * 
+     *
+     *
      * @return
      *     The variableField
      */
@@ -157,8 +157,8 @@ public class Field {
     /**
      * variableField
      * <p>
-     * 
-     * 
+     *
+     *
      * @param variableField
      *     The variable-field
      */
@@ -174,7 +174,7 @@ public class Field {
 
     @Generated("org.jsonschema2pojo")
     public static enum FieldStatus {
-        NEW("new"), CHANGED("changed"), DELETED("deleted"), UPDATED("updated"), UNCHANGED("unchanged");
+        NEW("new"), CHANGED("changed"), DELETED("deleted"), UNCHANGED("unchanged");
 
         private final String value;
 
