@@ -4,16 +4,16 @@ pipeline {
         stage('Build') {
             steps {
                   script {
-                    echo 'Pulling...'
+                    echo 'Pulling from Atcult mod-cataloging...'
                     def mvnHome = tool 'Maven 3.3.9'
                     def targetVersion = getDevVersion()
                        print 'target build version...'
                        print targetVersion
                        sh "'${mvnHome}/bin/mvn' -Dintegration-tests.skip=true -Dbuild.number=${targetVersion} clean compile"
-                       def pom = readMavenPom file: 'pom.xml'
+                       def pom_version = version()
                        // get the current development version 
-                       developmentArtifactVersion = "${pom.version}-${targetVersion}"
-                       print pom.version
+                       developmentArtifactVersion = "${pom_version}-${targetVersion}"
+                       print pom_version
                        archive 'target*//*.jar'
                 }
             }
@@ -58,4 +58,8 @@ def getReleaseVersion() {
         versionNumber = gitCommit.take(8);
     }
     return pom.version.replace("-SNAPSHOT", ".${versionNumber}")
+}
+def version() {
+    def matcher = readFile('pom.xml') =~ '<version>(.+?)</version>'
+    matcher ? matcher[0][1] : null
 }
