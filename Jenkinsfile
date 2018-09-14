@@ -4,7 +4,20 @@ pipeline {
         pollSCM 'H/2 * * * *'
     }
     stages {
+      stage('Clean') {
+                steps {
+                   sh('./script/clean.sh')
+                }
+                post {
+                     success {
+                        sh 'cleaning succesfully'
+                    }
+                 }
+            }
         stage('Build') {
+          when {
+              expression { BRANCH_NAME ==~ /(master|develop)/ }
+            }
             steps {
                echo 'Build...'
             }
