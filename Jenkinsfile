@@ -3,11 +3,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                  script {
-                    echo 'Pulling...'
-                    def mvnHome = tool 'Maven 3.3.9'
-                    sh "'${mvnHome}/bin/mvn' -Dintegration-tests.skip=true clean package"
-                }
+               echo 'Build...'
             }
         }
         stage('Test') {
