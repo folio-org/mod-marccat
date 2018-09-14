@@ -1194,10 +1194,7 @@ public class StorageService implements Closeable {
         }).collect(Collectors.toList());
 
 
-    } catch (final HibernateException exception) {
-        logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-        throw new DataAccessException(exception);
-    } catch (SQLException exception) {
+    } catch (final HibernateException | SQLException exception) {
         logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
         throw new DataAccessException(exception);
     } catch (InstantiationException exception) {
