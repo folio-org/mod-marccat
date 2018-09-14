@@ -1663,8 +1663,8 @@ public class StorageService implements Closeable {
         // se trovo una acs modificata (per tipo: titolo, nome, etc) le metto a markdeleted e creo delle acs nuove (insert) e metto lo stato
         //marknew
      */
-    org.folio.cataloging.resources.domain.VariableField variableField;
-    org.folio.cataloging.resources.domain.FixedField fixedField = new org.folio.cataloging.resources.domain.FixedField();
+    //org.folio.cataloging.resources.domain.VariableField variableField;
+    //org.folio.cataloging.resources.domain.FixedField fixedField = new org.folio.cataloging.resources.domain.FixedField();
     record.getFields().stream().skip(1).forEach(field -> {
       final String tagNbr = field.getCode();
       final Field.FieldStatus status = field.getFieldStatus();
@@ -1686,45 +1686,109 @@ public class StorageService implements Closeable {
         }
 
         if (tagNbr.equals(GlobalStorage.OTHER_MATERIAL_TAG_CODE)){
-          item.getTags().stream().skip(1).filter(aTag -> aTag.isFixedField() && aTag instanceof MaterialDescription).forEach(aTag -> {
-              final MaterialDescription materialTag = (MaterialDescription)aTag;
+          if ( status == Field.FieldStatus.CHANGED || status == Field.FieldStatus.DELETED ) {
+            item.getTags().stream().skip(1).filter(aTag -> aTag.isFixedField() && aTag instanceof MaterialDescription).forEach(aTag -> {
+              final MaterialDescription materialTag = (MaterialDescription) aTag;
               final CorrelationKey correlation = aTag.getTagImpl().getMarcEncoding(aTag, session);
-              if (correlation.getMarcTag().equalsIgnoreCase(tagNbr)){
-                if (materialTag.getMaterialDescriptionKeyNumber() == fixedField.getKeyNumber() ) {
-                  if ( status == Field.FieldStatus.CHANGED ) {
+              if (correlation.getMarcTag().equalsIgnoreCase(tagNbr)) {
+                if (materialTag.getMaterialDescriptionKeyNumber() == field.getFixedField().getKeyNumber()) {
+                  if (status == Field.FieldStatus.CHANGED) {
                     materialTag.setCorrelationValues(new CorrelationValues(field.getFixedField().getHeaderTypeCode(), CorrelationValues.UNDEFINED, CorrelationValues.UNDEFINED));
                     catalog.toMaterialDescription(field.getFixedField(), materialTag);
                     materialTag.markChanged();
-                  } else if ( status == Field.FieldStatus.DELETED ) {
+                  } else if (status == Field.FieldStatus.DELETED) {
                     materialTag.markDeleted();
                   }
-                } else if (fixedField.getKeyNumber() == null && status == Field.FieldStatus.NEW){
-                  addMaterialDescriptionToCatalog(tagNbr, catalog, item, field.getFixedField(), generalInformation, record.getLeader());
                 }
               }
-          });
+            });
+          } else if (field.getFixedField().getKeyNumber() == null && status == Field.FieldStatus.NEW){
+            addMaterialDescriptionToCatalog(tagNbr, catalog, item, field.getFixedField(), generalInformation, record.getLeader());
+          }
         }
 
         if (tagNbr.equals(GlobalStorage.PHYSICAL_DESCRIPTION_TAG_CODE)){
-          item.getTags().stream().skip(1).filter(aTag -> aTag.isFixedField() && aTag instanceof PhysicalDescription).forEach(aTag -> {
-            final PhysicalDescription physicalTag = (PhysicalDescription)aTag;
-            if (physicalTag.getKeyNumber() == fixedField.getKeyNumber() ) {
-              if ( status == Field.FieldStatus.CHANGED ) {
-                physicalTag.setCorrelationValues(new CorrelationValues(field.getFixedField().getHeaderTypeCode(), CorrelationValues.UNDEFINED, CorrelationValues.UNDEFINED));
-                catalog.toPhysicalDescription(field.getFixedField(), physicalTag);
-                physicalTag.markChanged();
-              } else if ( status == Field.FieldStatus.DELETED ) {
-                physicalTag.markDeleted();
+          if ( status == Field.FieldStatus.CHANGED || status == Field.FieldStatus.DELETED ) {
+            item.getTags().stream().skip(1).filter(aTag -> aTag.isFixedField() && aTag instanceof PhysicalDescription).forEach(aTag -> {
+              final PhysicalDescription physicalTag = (PhysicalDescription) aTag;
+              if (physicalTag.getKeyNumber() == field.getFixedField().getKeyNumber()) {
+                if (status == Field.FieldStatus.CHANGED) {
+                  physicalTag.setCorrelationValues(new CorrelationValues(field.getFixedField().getHeaderTypeCode(), CorrelationValues.UNDEFINED, CorrelationValues.UNDEFINED));
+                  catalog.toPhysicalDescription(field.getFixedField(), physicalTag);
+                  physicalTag.markChanged();
+                } else if (status == Field.FieldStatus.DELETED) {
+                  physicalTag.markDeleted();
+                }
               }
-            } else if (fixedField.getKeyNumber() == null && status == Field.FieldStatus.NEW){
-              addPhysicalDescriptionTag(catalog, item, field.getFixedField(), bibItemNumber);
-            }
-
-          });
+            });
+          } else if (field.getFixedField().getKeyNumber() == null && status == Field.FieldStatus.NEW) {
+            addPhysicalDescriptionTag(catalog, item, field.getFixedField(), bibItemNumber);
+          }
         }
 
         if (tagNbr.equals(GlobalStorage.CATALOGING_SOURCE_TAG_CODE) && status == Field.FieldStatus.CHANGED) {
+          item.getTags().stream().skip(1).filter(aTag -> !aTag.isFixedField() && aTag instanceof CataloguingSourceTag).forEach(aTag -> {
+            final CataloguingSourceTag cst = (CataloguingSourceTag)aTag;
+            cst.setStringText(new StringText(field.getVariableField().getValue()));
+            cst.markChanged();
+          });
+        }
 
+        if (field.getVariableField() != null && !tagNbr.equals(GlobalStorage.CATALOGING_SOURCE_TAG_CODE )){
+          final org.folio.cataloging.resources.domain.VariableField variableField = field.getVariableField();
+          final int value1 = Integer.parseInt(variableField.getHeadingTypeCode());
+          final int value2 = ofNullable(variableField.getItemTypeCode()).isPresent() ?Integer.parseInt(variableField.getItemTypeCode()) :CorrelationValues.UNDEFINED;
+          final int value3 = ofNullable(variableField.getFunctionCode()).isPresent() ?Integer.parseInt(variableField.getFunctionCode()) :CorrelationValues.UNDEFINED;
+
+          if (field.getVariableField().getCategoryCode() == GlobalStorage.BIB_NOTE_CATEGORY && value1 != GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE ){
+            if ( status == Field.FieldStatus.CHANGED || status == Field.FieldStatus.DELETED ) {
+              item.getTags().stream().skip(1).filter(aTag -> !aTag.isFixedField() && aTag instanceof BibliographicNoteTag).forEach(aTag -> {
+                  final BibliographicNoteTag noteTag = (BibliographicNoteTag)aTag;
+                  if (noteTag.getNoteNbr() == field.getVariableField().getKeyNumber() ) {
+                    if (status == Field.FieldStatus.CHANGED) {
+
+                      noteTag.setCorrelationValues(new CorrelationValues(value1, value2, value3));
+                      noteTag.setStringText(new StringText(field.getVariableField().getValue()));
+                      noteTag.markChanged();
+                    } else if (status == Field.FieldStatus.DELETED) {
+                      noteTag.markDeleted();
+                    }
+                  }
+              });
+            } else if (field.getVariableField().getKeyNumber() == null && status == Field.FieldStatus.NEW){
+              insertNewVariableField(catalog, item, field.getVariableField(), bibItemNumber);
+            }
+          }
+
+
+          /*if (field.getVariableField().getCategoryCode() == GlobalStorage.TITLE_CATEGORY){
+            addTitleToCatalog(catalog, item, correlationValues, variableField, bibItemNumber);
+          } else if (field.getVariableField().getCategoryCode() == GlobalStorage.NAME_CATEGORY){
+            addNameToCatalog(catalog, item, correlationValues, variableField, bibItemNumber);
+          } else if (field.getVariableField().getCategoryCode() == GlobalStorage.CONTROL_NUMBER_CATEGORY){
+            addControlFieldToCatalog(catalog, item, correlationValues, variableField, bibItemNumber);
+          } else if (field.getVariableField().getCategoryCode() == GlobalStorage.CLASSIFICATION_CATEGORY){
+            addClassificationToCatalog(catalog, item, correlationValues, variableField, bibItemNumber);
+          } else if (field.getVariableField().getCategoryCode() == GlobalStorage.SUBJECT_CATEGORY){
+            addSubjectToCatalog(catalog, item, correlationValues, variableField, bibItemNumber);
+          } else if (field.getVariableField().getCategoryCode() == GlobalStorage.BIB_NOTE_CATEGORY && correlationValues.getValue(1) != GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE ){
+            addNoteToCatalog(catalog, item, correlationValues, variableField, bibItemNumber);
+          } else if (field.getVariableField().getCategoryCode() == GlobalStorage.BIB_NOTE_CATEGORY && correlationValues.getValue(1) == GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE ){
+            addPublisherToCatalog(catalog, item, correlationValues, variableField, bibItemNumber);
+          }  */
+
+
+
+          /*if (!aTag.isFixedField() && aTag instanceof BibliographicAccessPoint){
+            keyNumber = ((BibliographicAccessPoint)aTag).getDescriptor().getKey().getHeadingNumber();
+            sequenceNbr = ((BibliographicAccessPoint)aTag).getSequenceNumber();
+          }
+
+          if (!aTag.isFixedField() && aTag instanceof BibliographicNoteTag){
+            keyNumber = ((BibliographicNoteTag)aTag).getNoteNbr();
+            sequenceNbr = ((BibliographicNoteTag)aTag).getSequenceNumber();
+          }
+          insertNewVariableField(catalog, item, variableField, bibItemNumber);*/
         }
 
 
@@ -1739,22 +1803,6 @@ public class StorageService implements Closeable {
 
 
   }
-
-  /*public Tag getItemTag(final CatalogItem item){
-    item.getTags().stream().skip(1).forEach(aTag -> {
-        int keyNumber = 0;
-        int sequenceNbr = 0;
-
-        if (aTag.isFixedField() && aTag instanceof MaterialDescription){
-          final MaterialDescription materialTag = (MaterialDescription)aTag;
-          keyNumber = materialTag.getMaterialDescriptionKeyNumber();
-          final String tagNbr = materialTag.getMaterialDescription008Indicator().equals("1")?"008":"006";
-          final Map<String, Object> map = getMaterialTypeInfosByLeaderValues(materialTag.getItemRecordTypeCode(), materialTag.getItemBibliographicLevelCode(), tagNbr);
-          materialTag.setHeaderType((int) map.get(GlobalStorage.HEADER_TYPE_LABEL));
-          materialTag.setMaterialTypeCode(tagNbr.equalsIgnoreCase("006")?(String) map.get(GlobalStorage.MATERIAL_TYPE_CODE_LABEL):null);
-          materialTag.setFormOfMaterial((String) map.get(GlobalStorage.FORM_OF_MATERIAL_LABEL));
-        }
-  }*/
 
   /**
    * Insert a new bibliographic record.
