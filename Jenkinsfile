@@ -16,7 +16,7 @@ pipeline {
             }
         stage('Build') {
           when {
-              expression { BRANCH_NAME ==~ /(master|develop)/ }
+              expression { BRANCH_NAME ==~ /(master|develop|ci-test)/ }
             }
             steps {
              script {
