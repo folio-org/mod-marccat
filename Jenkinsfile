@@ -19,7 +19,11 @@ pipeline {
               expression { BRANCH_NAME ==~ /(master|develop)/ }
             }
             steps {
-               echo 'Build...'
+             script {
+               echo 'Pulling...' + env.BRANCH_NAME
+               def mvnHome = tool 'Maven 3.5.4'
+               sh "'${mvnHome}/bin/mvn' -Dintegration-tests.skip=true clean compile"
+               }
             }
         }
         stage('Test') {
