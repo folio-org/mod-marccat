@@ -3,9 +3,6 @@ pipeline {
     triggers {
         pollSCM 'H/2 * * * *'
     }
-     tools {
-       maven 'apache-maven-3.5.4'
-     }
     stages {
       stage('Clean') {
                 steps {
@@ -13,7 +10,7 @@ pipeline {
                 }
                 post {
                      success {
-                         sh 'mvn --version'
+                         echo 'cleaning succesfully...'
                     }
                  }
             }
