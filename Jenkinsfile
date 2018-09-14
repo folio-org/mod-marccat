@@ -22,7 +22,7 @@ pipeline {
              script {
                echo 'Pulling...' + env.BRANCH_NAME
                def mvnHome = tool 'Maven 3.5.4'
-               sh "'${mvnHome}/bin/mvn' -Dintegration-tests.skip=true clean compile"
+               sh "mvn -Dintegration-tests.skip=true clean compile"
                }
             }
         }
