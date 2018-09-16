@@ -48,10 +48,5 @@ pipeline {
                 }
             }
         }
-         stage('Npm') {
-             steps {
-                echo 'Publishing on Npm....'
-             }
-         }
     }
 }
