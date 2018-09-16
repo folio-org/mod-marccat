@@ -19,7 +19,7 @@ pipeline {
              script {
                echo 'Pulling...' + env.BRANCH_NAME
                def mvnHome = tool 'mvn'
-               sh "'${mvnHome}/bin/mvn' -Dintegration-tests.skip=true clean compile"
+               sh "'${mvnHome}/bin/mvn' -DskipTests=true clean compile"
                }
             }
         }
@@ -27,7 +27,7 @@ pipeline {
             steps {
                 echo 'test in progress.....'
                 def mvnHome = tool 'mvn'
-                sh "'${mvnHome}/bin/mvn' clean package"
+                sh "'${mvnHome}/bin/mvn' clean package -DskipTests"
             }
         }
         stage('Deploy') {
