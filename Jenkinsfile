@@ -20,6 +20,7 @@ pipeline {
                echo 'Pulling...' + env.BRANCH_NAME
                def mvnHome = tool 'mvn'
                sh "'${mvnHome}/bin/mvn' clean compile package -DskipTests"
+               archive 'target*//*.jar'
                }
             }
         }
@@ -31,7 +32,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-                java  -Dserver.port=8889 -jar ./target/mod-cataloging-1.0.jar
+                java  -Dserver.port=8889 -jar './target/mod-cataloging-1.0.jar'
             }
         }
          stage('Npm') {
