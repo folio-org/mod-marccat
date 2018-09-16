@@ -24,16 +24,19 @@ pipeline {
                }
             }
         }
-        stage('Test') {
-            steps {
-                echo 'Testing..'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
-                sh "nohup java -Dserver.port=8888 -jar ./target/mod-cataloging-1.0.jar"
-            }
+          stage('Test') {
+                    steps {
+                        echo 'Testing..'
+                    }
+                }
+        stage('Deploy'){
+                steps{
+                    script{
+                        withEnv(['BUILD_ID=dontkill']) {
+                            sh "nohup java -Dserver.port=8888 -jar ./target/mod-cataloging-1.0.jar"
+                        }
+                    }
+                }
         }
          stage('Npm') {
              steps {
