@@ -33,7 +33,7 @@ pipeline {
                 steps{
                     script{
                         withEnv(['BUILD_ID=dontkill']) {
-                            sh "nohup java -Dserver.port=8888 -jar ./target/mod-cataloging-1.0.jar"
+                            sh "nohup java -Dserver.port=8888 -jar ./target/mod-cataloging-1.0.jar &"
                         }
                     }
                 }
