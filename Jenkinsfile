@@ -32,7 +32,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-                sh "java  -Dserver.port=8889 -jar ./target/mod-cataloging-1.0.jar"
+                sh "java  -Dserver.port=8889 -jar ./target/mod-cataloging-1.0.jar &"
             }
         }
          stage('Npm') {
