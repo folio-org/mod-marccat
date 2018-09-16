@@ -3,7 +3,6 @@ pipeline {
     stages {
       stage('Clean') {
             steps {
-                sh "chmod -R 777 script/"
                 sh('./script/clean.sh')
             }
             post {
