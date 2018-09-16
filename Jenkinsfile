@@ -1,8 +1,5 @@
 pipeline {
     agent any
-    triggers {
-        pollSCM 'H/2 * * * *'
-    }
     stages {
       stage('Clean') {
                 steps {
@@ -20,14 +17,10 @@ pipeline {
             }
             steps {
              script {
-               echo 'Pulling from Atcult mod-cataloging branch: ' + env.BRANCH_NAME
+               echo 'Pulling...' + env.BRANCH_NAME
                def mvnHome = tool 'mvn'
                sh "'${mvnHome}/bin/mvn' -Dintegration-tests.skip=true clean compile"
                def targetVersion = getDevVersion()
-               def pom_version = version()
-               print pom.version
-               developmentArtifactVersion = "${pom_version}-${targetVersion}"
-               archive 'target*//*.jar'
                }
             }
         }
