@@ -2,26 +2,31 @@ pipeline {
     agent any
     stages {
       stage('Clean') {
-                steps {
-                   sh('./script/clean.sh')
-                }
-                post {
-                     success {
-                         echo 'cleaning succesfully...'
-                    }
-                 }
+            steps {
+                sh('./script/clean.sh')
             }
+            post {
+                success {
+                    echo 'cleaning succesfully...'
+                }
+            }
+        }
         stage('Build') {
           when {
-              expression { BRANCH_NAME ==~ /(master|develop)/ }
+              expression { BRANCH_NAME ==~ /(master|develop|ci-test)/ }
             }
             steps {
-             script {
-               echo 'Pulling...' + env.BRANCH_NAME
-               def mvnHome = tool 'mvn'
-               sh "'${mvnHome}/bin/mvn' clean compile package -DskipTests"
-               archive 'target*//*.jar'
+                script {
+                   echo 'Pulling...' + env.BRANCH_NAME
+                   def mvnHome = tool 'mvn'
+                   sh "'${mvnHome}/bin/mvn' clean compile package -DskipTests"
+                   archiveArtifacts 'target*//*.jar'
                }
+            }
+            post {
+                success {
+                    echo 'cleaning succesfully...'
+                }
             }
         }
         stage('Test') {
@@ -29,10 +34,18 @@ pipeline {
                 echo 'Testing..'
             }
         }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
-                sh "java  -Dserver.port=8889 -jar ./target/mod-cataloging-1.0.jar &"
+        stage('Deploy'){
+                steps{
+                    script{
+                        withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
+                            sh "nohup java -Dserver.port=8888 -jar ./target/mod-cataloging-1.0.jar &"
+                        }
+                    }
+                }
+            post {
+                success {
+                    echo 'deploy succesfully on port 8888'
+                }
             }
         }
          stage('Npm') {
