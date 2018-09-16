@@ -38,7 +38,8 @@ pipeline {
                 steps{
                     script{
                         withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
-                            sh('./script/deploy.sh')
+                            sh "nohup java -Dserver.port=8889 -jar ./target/mod-cataloging-1.0.jar &"
+                        }
                     }
                 }
             post {
@@ -47,5 +48,10 @@ pipeline {
                 }
             }
         }
+         stage('Npm') {
+             steps {
+                echo 'Publishing on Npm....'
+             }
+         }
     }
 }
