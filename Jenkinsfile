@@ -20,7 +20,7 @@ pipeline {
                echo 'Pulling...' + env.BRANCH_NAME
                def mvnHome = tool 'mvn'
                sh "'${mvnHome}/bin/mvn' clean compile package -DskipTests"
-               aarchiveArtifacts 'target*//*.jar'
+               archiveArtifacts 'target*//*.jar'
                }
             }
         }
