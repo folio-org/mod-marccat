@@ -3,8 +3,8 @@ pipeline {
     stages {
       stage('Clean') {
             steps {
-                sh('./script/clean.sh')
-            }
+                echo 'cleaning...'
+             }
             post {
                 success {
                     echo 'cleaning succesfully...'
@@ -19,11 +19,6 @@ pipeline {
                    sh "'${mvnHome}/bin/mvn' clean compile package -DskipTests=true"
                    archiveArtifacts 'target*//*.jar'
                }
-            }
-            post {
-                success {
-                    echo 'cleaning succesfully...'
-                }
             }
         }
         stage('Test') {
