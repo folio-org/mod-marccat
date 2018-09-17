@@ -7,7 +7,7 @@ pipeline {
     }
   
      parameters {
-           text(name: 'CCHIAMA', defaultValue: ${EMAIL_REPORT}, description: 'Enter some information about the person')
+           text(name: 'CCHIAMA', defaultValue: 'christian.chiama@atcult.it', description: 'email for jenkins report')
            choice(name: 'EMAIL', choices: ['christian.chiama@atcult.it', 'natascia.bianchini@atcult.it', 'alice-guercio@atcult.it'], description: 'Notification email')
         }
     stages {
