@@ -20,7 +20,7 @@ pipeline {
                    echo 'Pulling...' + env.BRANCH_NAME
                    def mvnHome = tool 'mvn'
                    sh "'${mvnHome}/bin/mvn' clean compile package -DskipTests"
-                   archiveArtifacts 'target*//*.jar'
+                   archive 'target*//*.jar'
                }
             }
             post {
@@ -44,7 +44,7 @@ pipeline {
                 }
             post {
                 success {
-                    echo 'deploy succesfully on port 8888'
+                    echo 'deploy succesfully mod-cataloging up and running on port 8889'
                 }
             }
         }
