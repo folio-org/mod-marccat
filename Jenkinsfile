@@ -48,4 +48,18 @@ pipeline {
             }
         }
     }
+  post {
+    failure {
+        mail to: 'team@example.com',
+             subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
+             body: "Something is wrong with ${env.BUILD_URL}"
+    }
+}
+  post {
+    success {
+        slackSend channel: '#jenkins-ci',
+                  color: 'good',
+                  message: "The pipeline ${currentBuild.fullDisplayName} completed successfully."
+    }
+}
 }
