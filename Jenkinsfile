@@ -29,16 +29,17 @@ pipeline {
                 }
             }
         }
-          stage('Test') {
-                    steps {
-                        echo 'Testing..'
-                    }
-                }
+        stage('Test') {
+            steps {
+                echo 'Testing..'
+            }
+        }
         stage('Deploy'){
                 steps{
                     script{
                         withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
                             sh "nohup java -Dserver.port=8888 -jar ./target/mod-cataloging-1.0.jar &"
+                        }
                     }
                 }
             post {
