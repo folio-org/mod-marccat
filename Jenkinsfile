@@ -57,12 +57,4 @@ pipeline {
              }
          }
     }
-   post {
-    failure {
-      // notify users when the Pipeline fails
-      mail to: 'c.chiama@icloud.com',
-          subject: "Failed Pipeline: test",
-          body: "Something is wrong"
-    }
-  }
 }
