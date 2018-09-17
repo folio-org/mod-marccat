@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 @ActiveProfiles("test")
 public class TemplateManagementTestCase extends BaseIntegrationTestCase {
     /**
-     * Setup fixture for this integration test case.
+     * Setup fixture for this bibliographic test case.
      */
     @Before
     public void setUp() {
