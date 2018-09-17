@@ -21,7 +21,7 @@ pipeline {
                    echo 'Pulling...' + env.BRANCH_NAME
                    def mvnHome = tool 'mvn'
                    sh "'${mvnHome}/bin/mvn' clean compile package -DskipTests"
-                   archiveArtifacts 'target*//*.jar'
+                   archive 'target*//*.jar'
                }
             }
             post {
@@ -39,12 +39,12 @@ pipeline {
                 steps{
                     script{
                         withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
-                            sh('./script/deploy.sh')
+                            sh 'nohup java -Dserver.port=8888 -jar ./target/mod-cataloging-1.0.jar &'
                     }
                 }
             post {
                 success {
-                    echo 'deploy succesfully on port 8888'
+                    echo 'deploy succesfully mod-cataloging up and running on port 8889'
                 }
             }
         }
