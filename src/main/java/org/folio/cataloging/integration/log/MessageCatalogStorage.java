@@ -18,5 +18,6 @@ public interface MessageCatalogStorage {
     String _00016_NO_HEADING_FOUND = "<" + MODULE_NAME + "-00016> : No heading found for heading number: %s";
     String _00017_MARC_CORRELATION_SORTING = "<" + MODULE_NAME + "-00017> : Marc correlation exception. ErrorCollection during sort tags.";
     String _00018_NO_HEADING_TYPE_CODE = "<" + MODULE_NAME + "-00018> : No heading type code selected for tag %s.";
+    String _00019_SAVE_RECORD_FAILURE = "<" + MODULE_NAME + "-00019> : Error during save or update record %d.";
 
 }
