@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-mvn clean
+echo "cleaning....."
