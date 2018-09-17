@@ -6,4 +6,4 @@ lsof -i tcp:${PORT_NUMBER} | awk 'NR!=1 {print $2}' | xargs kill
 echo "killing........."
 sleep 3
 echo "Deploy new artifact........."
-ohup java -Dserver.port=8889 -jar ./target/mod-cataloging-1.0.jar &
+nohup java -Dserver.port=8889 -jar ./target/mod-cataloging-1.0.jar &
