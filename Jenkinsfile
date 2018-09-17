@@ -3,7 +3,6 @@ pipeline {
     stages {
       stage('Clean') {
             steps {
-                sh "chmod -R 777 script/"
                 sh('./script/clean.sh')
             }
             post {
@@ -39,7 +38,8 @@ pipeline {
                 steps{
                     script{
                         withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
-                            sh 'nohup java -Dserver.port=8888 -jar ./target/mod-cataloging-1.0.jar &'
+                            sh "nohup java -Dserver.port=8889 -jar ./target/mod-cataloging-1.0.jar &"
+                        }
                     }
                 }
             post {
@@ -48,5 +48,10 @@ pipeline {
                 }
             }
         }
+         stage('Npm') {
+             steps {
+                echo 'Publishing on Npm....'
+             }
+         }
     }
 }
