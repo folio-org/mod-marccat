@@ -22,7 +22,7 @@ import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
 import static ru.yandex.qatools.embed.postgresql.distribution.Version.Main.V9_6;
 
 /**
- * Supertype layer for all integration test cases.
+ * Supertype layer for all bibliographic test cases.
  *
  * @author agazzarini
  * @since 1.0

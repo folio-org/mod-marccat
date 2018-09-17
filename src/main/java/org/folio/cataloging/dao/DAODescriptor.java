@@ -408,13 +408,13 @@ public abstract class DAODescriptor extends AbstractDAO {
 	public void persist(final Descriptor descriptor, final Session session) throws HibernateException {
 		if (descriptor.isNew()) {
 			final int headingNumber = (new SystemNextNumberDAO())
-					.getNextNumber(descriptor.getNextNumberKeyFieldCode());
+					.getNextNumber(descriptor.getNextNumberKeyFieldCode(), session);
 			descriptor.setKey(new DescriptorKey(headingNumber, descriptor
 					.getKey().getUserViewString()));
 			descriptor.setHeadingNumber(headingNumber);
 		}
 		if (descriptor.isChanged() && descriptor.changeAffectsCacheTable()) {
-			persistByStatus(descriptor);
+			persistByStatus(descriptor, session);
 			updateCacheTable(descriptor, session);
 		} else {
 			persistByStatus(descriptor, session);

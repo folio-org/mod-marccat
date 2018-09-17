@@ -21,14 +21,14 @@ import org.folio.cataloging.dao.*;
 import org.folio.cataloging.dao.common.HibernateSessionProvider;
 import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.exception.ModCatalogingException;
+import org.folio.cataloging.integration.log.MessageCatalogStorage;
+import org.folio.cataloging.integration.record.RecordParser;
 import org.folio.cataloging.integration.search.Parser;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.cataloging.model.Subfield;
-import org.folio.cataloging.resources.domain.BibliographicRecord;
+import org.folio.cataloging.resources.domain.*;
 import org.folio.cataloging.resources.domain.Leader;
-import org.folio.cataloging.resources.domain.RecordTemplate;
-import org.folio.cataloging.resources.domain.TagMarcEncoding;
 import org.folio.cataloging.search.SearchResponse;
 import org.folio.cataloging.shared.*;
 import org.folio.cataloging.util.StringText;
@@ -1553,17 +1553,7 @@ public class StorageService implements Closeable {
     }
   }
 
-  /**
-   * Returns issn text associated to series issn heading number.
-   *
-   * @return issnText.
-   */
-  /*public String getISSNText(final Integer seriesIssnHeadingNumber){
-    final DAOTitleDescriptor daoTitleDescriptor = new DAOTitleDescriptor();
-    return daoTitleDescriptor.getISSNString(seriesIssnHeadingNumber); //TODO DAOTitleDescriptor refactored by Carmen in branch 73
-  }*/
-
-  //TODO modify method
+   //TODO modify method
   public List replaceEquivalentDescriptor(final int indexingLanguage,	final int cataloguingView) throws DataAccessException
   {
         /*final DAODescriptor dao = new DAOPublisherDescriptor();
@@ -1627,19 +1617,114 @@ public class StorageService implements Closeable {
     }
   }
 
-  public void saveBibliographicRecord(final BibliographicRecord record, final int view, final GeneralInformation generalInformation) {
+  /**
+   * Checks if record is new then execute insert or update.
+   *
+   * @param record -- the bibliographic record to save.
+   * @param view -- the view associated to user.
+   * @param generalInformation -- @linked GeneralInformation for default values.
+   * @throws DataAccessException in case of data access exception.
+   */
+  public void saveBibliographicRecord(final BibliographicRecord record, final int view, final GeneralInformation generalInformation) throws DataAccessException {
+
     CatalogItem item = null;
     try {
       item = getCatalogItemByKey(record.getId(), view);
     }catch (DataAccessException exception){
     }
 
-    if (item == null || item.getTags().size() == 0){
-      insertBibliographicRecord(record, view, generalInformation);
-    }else{
-      //update
-    }
+    try {
+      CasCache casCache = null;
+      if (item == null || item.getTags().size() == 0){
+        insertBibliographicRecord(record, view, generalInformation);
+        casCache = new CasCache(item.getAmicusNumber());
+        casCache.setLevelCard("L1");
+        casCache.setStatusDisponibilit(99);
 
+      }else{
+        updateBibliographicRecord(record, item, view, generalInformation);
+      }
+
+      item.sortTags();
+
+      final BibliographicCatalogDAO dao = new BibliographicCatalogDAO();
+      dao.saveCatalogItem(item, casCache, session);
+
+    } catch (Exception e) {
+      logger.error(MessageCatalogStorage._00019_SAVE_RECORD_FAILURE, record.getId(), e);
+      throw new DataAccessException(e);
+    }
+  }
+
+  /**
+   * Updates a bibliographic record.
+   *
+   * @param record -- the record to update.
+   * @param item -- the catalog item associated to record.
+   * @param view -- the current view associated to record.
+   * @param generalInformation -- {@linked GeneralInformation} for default values.
+   * @throws DataAccessException in case of data access exception.
+   */
+  private void updateBibliographicRecord(final BibliographicRecord record, final CatalogItem item, final int view,
+                                         final GeneralInformation generalInformation) throws DataAccessException {
+
+    final RecordParser recordParser = new RecordParser();
+    final int bibItemNumber = item.getAmicusNumber();
+    final String newLeader = record.getLeader().getValue();
+    recordParser.changeLeader(item, newLeader);
+
+     record.getFields().stream().skip(1).forEach(field -> {
+
+      final String tagNbr = field.getCode();
+      final Field.FieldStatus status = field.getFieldStatus();
+
+      if (status == Field.FieldStatus.NEW
+        || status == Field.FieldStatus.DELETED
+        || status == Field.FieldStatus.CHANGED) {
+
+        if (tagNbr.equals(GlobalStorage.MATERIAL_TAG_CODE) && status == Field.FieldStatus.CHANGED) {
+          recordParser.changeMaterialDescriptionTag(item, field, session);
+        }
+
+        if (tagNbr.equals(GlobalStorage.OTHER_MATERIAL_TAG_CODE)){
+          final Map<String, Object> mapRecordTypeMaterial = getMaterialTypeInfosByLeaderValues(newLeader.charAt(6), newLeader.charAt(7), tagNbr);
+          final String formOfMaterial = (String) mapRecordTypeMaterial.get(GlobalStorage.FORM_OF_MATERIAL_LABEL);
+          recordParser.changeMaterialDescriptionOtherTag(item, field, session, formOfMaterial, generalInformation);
+        }
+
+        if (tagNbr.equals(GlobalStorage.PHYSICAL_DESCRIPTION_TAG_CODE)){
+            recordParser.changePhysicalDescriptionTag(item, field, bibItemNumber);
+        }
+
+        if (tagNbr.equals(GlobalStorage.CATALOGING_SOURCE_TAG_CODE) && status == Field.FieldStatus.CHANGED) {
+          item.getTags().stream().skip(1).filter(aTag -> !aTag.isFixedField() && aTag instanceof CataloguingSourceTag).forEach(aTag -> {
+            final CataloguingSourceTag cst = (CataloguingSourceTag)aTag;
+            cst.setStringText(new StringText(field.getVariableField().getValue()));
+            cst.markChanged();
+          });
+        }
+
+        if (field.getVariableField() != null && !tagNbr.equals(GlobalStorage.CATALOGING_SOURCE_TAG_CODE )){
+          final org.folio.cataloging.resources.domain.VariableField variableField = field.getVariableField();
+          final CorrelationValues correlationValues;
+          if (ofNullable(variableField.getHeadingTypeCode()).isPresent() && isNotNullOrEmpty(variableField.getValue())){
+            final int value1 = Integer.parseInt(variableField.getHeadingTypeCode());
+            final int value2 = ofNullable(variableField.getItemTypeCode()).isPresent() ?Integer.parseInt(variableField.getItemTypeCode()) :CorrelationValues.UNDEFINED;
+            final int value3 = ofNullable(variableField.getFunctionCode()).isPresent() ?Integer.parseInt(variableField.getFunctionCode()) :CorrelationValues.UNDEFINED;
+            correlationValues = new CorrelationValues(value1, value2, value3);
+          } else {
+            logger.error(MessageCatalogStorage._00018_NO_HEADING_TYPE_CODE, variableField.getCode());
+            throw new DataAccessException();
+          }
+
+          if (field.getVariableField().getCategoryCode() == GlobalStorage.BIB_NOTE_CATEGORY && correlationValues.getValue(1) != GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE ){
+            recordParser.changeNoteTag(item, field, correlationValues, bibItemNumber);
+          } else {
+            recordParser.changeAccessPointTag(item, field, correlationValues, bibItemNumber);
+          }
+        }
+      }
+    });
 
   }
 
@@ -1648,10 +1733,11 @@ public class StorageService implements Closeable {
    *
    * @param record -- the record bibliographic.
    * @param view -- the current view associated to record.
-   * @param giAPI -- {#link GeneralInformation} to get default values.
+   * @param giAPI -- {@linked GeneralInformation} for default values.
    * @throws DataAccessException in case of data access exception.
    */
   private void insertBibliographicRecord(final BibliographicRecord record, final int view, final GeneralInformation giAPI) throws DataAccessException {
+    final RecordParser recordParser = new RecordParser();
     final BibliographicCatalog catalog = new BibliographicCatalog();
     final int bibItemNumber = record.getId();
     final CatalogItem item = catalog.newCatalogItem(new Object[]{new Integer(view), new Integer(bibItemNumber)});
@@ -1674,15 +1760,14 @@ public class StorageService implements Closeable {
       final String tagNbr = field.getCode();
       if (tagNbr.equals(GlobalStorage.MATERIAL_TAG_CODE) || tagNbr.equals(GlobalStorage.OTHER_MATERIAL_TAG_CODE)){
         final org.folio.cataloging.resources.domain.FixedField fixedField = field.getFixedField();
-        final MaterialDescription bibMaterial = catalog.createRequiredMaterialDescriptionTag(item);
-        setDefaultValues(giAPI, bibMaterial);
-        addMaterialDescriptionToCatalog(tagNbr, catalog, item, fixedField, bibMaterial, leader);
+        final Map<String, Object> mapRecordTypeMaterial = getMaterialTypeInfosByLeaderValues(leader.getValue().charAt(6), leader.getValue().charAt(7), tagNbr);
+        final String formOfMaterial = (String) mapRecordTypeMaterial.get(GlobalStorage.FORM_OF_MATERIAL_LABEL);
+        recordParser.addMaterialDescriptionToCatalog(tagNbr, item, fixedField, giAPI, formOfMaterial);
       }
 
-      //physical 007
       if (tagNbr.equals(GlobalStorage.PHYSICAL_DESCRIPTION_TAG_CODE)) {
         final org.folio.cataloging.resources.domain.FixedField fixedField = field.getFixedField();
-        addPhysicalDescriptionTag(catalog, item, fixedField, bibItemNumber);
+        recordParser.addPhysicalDescriptionTag(item, fixedField, bibItemNumber);
       }
 
       if (tagNbr.equals(GlobalStorage.CATALOGING_SOURCE_TAG_CODE)){
@@ -1701,307 +1786,50 @@ public class StorageService implements Closeable {
           final int value3 = ofNullable(variableField.getFunctionCode()).isPresent() ?Integer.parseInt(variableField.getFunctionCode()) :CorrelationValues.UNDEFINED;
           correlationValues = new CorrelationValues(value1, value2, value3);
         } else {
-          logger.error("to do");
+          logger.error(MessageCatalogStorage._00018_NO_HEADING_TYPE_CODE, variableField.getCode());
           throw new DataAccessException();
         }
-
-        if (variableField.getCategoryCode() == GlobalStorage.TITLE_CATEGORY){
-          addTitleToCatalog(catalog, item, correlationValues, variableField, bibItemNumber);
-        } else if (variableField.getCategoryCode() == GlobalStorage.NAME_CATEGORY){
-          addNameToCatalog(catalog, item, correlationValues, variableField, bibItemNumber);
-        } else if (variableField.getCategoryCode() == GlobalStorage.CONTROL_NUMBER_CATEGORY){
-          addControlFieldToCatalog(catalog, item, correlationValues, variableField, bibItemNumber);
-        } else if (variableField.getCategoryCode() == GlobalStorage.CLASSIFICATION_CATEGORY){
-          addClassificationToCatalog(catalog, item, correlationValues, variableField, bibItemNumber);
-        } else if (variableField.getCategoryCode() == GlobalStorage.SUBJECT_CATEGORY){
-          addSubjectToCatalog(catalog, item, correlationValues, variableField, bibItemNumber);
-        } else if (variableField.getCategoryCode() == GlobalStorage.BIB_NOTE_CATEGORY && correlationValues.getValue(1) != 24 ){
-          addNoteToCatalog(catalog, item, correlationValues, variableField, bibItemNumber);
-        } else if (variableField.getCategoryCode() == GlobalStorage.BIB_NOTE_CATEGORY && correlationValues.getValue(1) == 24 ){
-          addPublisherToCatalog(catalog, item, correlationValues, variableField, bibItemNumber);
-        }
+        recordParser.insertNewVariableField(item, variableField, bibItemNumber, correlationValues);
       }
+
     });
-    item.sortTags();
+
+  }
+
+  /**
+   * Delete a bibliographic record.
+   *
+   * @param itemNumber -- the amicus number associated to record.
+   */
+  public void deleteBibliographicRecordById(final Integer itemNumber, final int view) {
+    final BibliographicCatalog catalog = new BibliographicCatalog();
+
     try {
-      final CasCache casCache = new CasCache(item.getAmicusNumber());
-      casCache.setLevelCard("L1");
-      casCache.setStatusDisponibilit(99);
-      final BibliographicCatalogDAO dao = new BibliographicCatalogDAO();
-      dao.saveCatalogItem(item, casCache, session);
+      //lock record
+      CatalogItem item = getCatalogItemByKey(itemNumber, view);
+      catalog.deleteCatalogItem(item, session);
+      //unlock
+    }catch (DataAccessException exception){
+      logger.error("", exception);
     } catch (HibernateException e) {
-      logger.error("Errore in save record!", e);
-      throw new DataAccessException(e);
+      logger.error("", e);
     }
-  }
 
-  /**
-   *
-   * @param catalog
-   * @param item
-   * @param ff
-   * @param bibItemNumber
-   * @throws DataAccessException
-   */
-  private void addPhysicalDescriptionTag(final BibliographicCatalog catalog,
-                                         final CatalogItem item,
-                                         final org.folio.cataloging.resources.domain.FixedField ff,
-                                         final int bibItemNumber) throws DataAccessException {
 
-    final int headerTypeCode = ff.getHeaderTypeCode();
-    final String categoryOfMaterial = ff.getCategoryOfMaterial();
-    final CorrelationValues correlationValues = new CorrelationValues(headerTypeCode, CorrelationValues.UNDEFINED, CorrelationValues.UNDEFINED);
-    PhysicalDescription pd = catalog.createPhysicalDescriptionTag(item, correlationValues);
-    catalog.toPhysicalDescription(ff, pd);
 
 
   }
 
   /**
-   * Creates and add to catalog a new persistent {@link PublisherManager} object for saving record.
+   * Unlock a record or heading locked from user previously.
    *
-   * @param catalog -- the bibliographic catalog.
-   * @param item -- the item to add tags.
-   * @param correlationValues -- the selection of correlation values.
-   * @param variableField -- the variable field containing data.
-   * @param bibItemNumber -- the bibliographic item number.
-   * @throws DataAccessException in case of data access exception.
+   * @param id -- the key number or amicus number.
+   * @param username -- the username who unlock entity.
+   * @param uuid -- the uuid associated to lock/unlock session.
+   * @param type -- {@linked LockEntityType}
    */
-  private void addPublisherToCatalog(final BibliographicCatalog catalog,
-                                     final CatalogItem item,
-                                     final CorrelationValues correlationValues,
-                                     final org.folio.cataloging.resources.domain.VariableField variableField,
-                                     final int bibItemNumber) throws DataAccessException {
-    final PublisherManager publisherManager = catalog.createPublisherTag(item, correlationValues);
-    publisherManager.markNew();
-    publisherManager.setBibItemNumber(bibItemNumber);
-    item.addTag(publisherManager);
+  public void unlockEntity(final int id, final String username, final String uuid, final LockEntityType type) {
+    // controlla che l'uuid + id + username sia presente nella tabella
+    // cancella nella S_LCK_TBL
   }
-
-  /**
-   * Creates and add to catalog a new persistent {@link BibliographicNoteTag} object for saving record.
-   *
-   * @param catalog -- the bibliographic catalog.
-   * @param item -- the item to add tags.
-   * @param correlationValues -- the selection of correlation values.
-   * @param variableField -- the variable field containing data.
-   * @param bibItemNumber -- the bibliographic item number.
-   * @throws DataAccessException in case of data access exception.
-   */
-  private void addNoteToCatalog(final BibliographicCatalog catalog,
-                                final CatalogItem item,
-                                final CorrelationValues correlationValues,
-                                final org.folio.cataloging.resources.domain.VariableField variableField,
-                                final int bibItemNumber) throws DataAccessException {
-    final BibliographicNoteTag nTag = catalog.createBibliographicNoteTag(item, correlationValues);
-    nTag.getNote().setContent(variableField.getValue());
-    if ( variableField.getKeyNumber() != null && variableField.getKeyNumber() != 0)
-      nTag.getNote().setNoteNbr(variableField.getKeyNumber());
-    else
-      nTag.getNote().setNoteNbr(generateNewKey("BN"));
-    nTag.setItemNumber(bibItemNumber);
-    nTag.markNew();
-    item.addTag(nTag);
-  }
-
-  /**
-   * Creates and add to catalog a new persistent {@link SubjectAccessPoint} object for saving record.
-   *
-   * @param catalog -- the bibliographic catalog.
-   * @param item -- the item to add tags.
-   * @param correlationValues -- the selection of correlation values.
-   * @param variableField -- the variable field containing data.
-   * @param bibItemNumber -- the bibliographic item number.
-   * @throws DataAccessException in case of data access exception.
-   */
-  private void addSubjectToCatalog(final BibliographicCatalog catalog,
-                                   final CatalogItem item,
-                                   final CorrelationValues correlationValues,
-                                   final org.folio.cataloging.resources.domain.VariableField variableField,
-                                   final int bibItemNumber) throws DataAccessException {
-    final SubjectAccessPoint sap = catalog.createSubjectAccessPoint(item, correlationValues);
-    sap.setAccessPointStringText(new StringText(variableField.getValue()));
-    sap.setHeadingNumber(variableField.getKeyNumber());
-    sap.setItemNumber(bibItemNumber);
-    sap.markNew();
-    item.addTag(sap);
-  }
-
-  /**
-   * Creates and add to catalog a new persistent {@link ClassificationAccessPoint} object for saving record.
-   *
-   * @param catalog -- the bibliographic catalog.
-   * @param item -- the item to add tags.
-   * @param correlationValues -- the selection of correlation values.
-   * @param variableField -- the variable field containing data.
-   * @param bibItemNumber -- the bibliographic item number.
-   * @throws DataAccessException in case of data access exception.
-   */
-  private void addClassificationToCatalog(final BibliographicCatalog catalog,
-                                          final CatalogItem item,
-                                          final CorrelationValues correlationValues,
-                                          final org.folio.cataloging.resources.domain.VariableField variableField,
-                                          final int bibItemNumber) throws DataAccessException {
-    final ClassificationAccessPoint clap = catalog.createClassificationAccessPoint(item, correlationValues);
-    clap.setAccessPointStringText(new StringText(variableField.getValue()));
-    clap.setHeadingNumber(variableField.getKeyNumber());
-    clap.setItemNumber(bibItemNumber);
-    clap.markNew();
-    item.addTag(clap);
-  }
-
-  /**
-   * Creates and add to catalog a new persistent {@link ControlNumberAccessPoint} object for saving record.
-   *
-   * @param catalog -- the bibliographic catalog.
-   * @param item -- the item to add tags.
-   * @param correlationValues -- the selection of correlation values.
-   * @param variableField -- the variable field containing data.
-   * @param bibItemNumber -- the bibliographic item number.
-   * @throws DataAccessException in case of data access exception.
-   */
-  private void addControlFieldToCatalog(final BibliographicCatalog catalog,
-                                        final CatalogItem item,
-                                        final CorrelationValues correlationValues,
-                                        final org.folio.cataloging.resources.domain.VariableField variableField,
-                                        final int bibItemNumber) throws DataAccessException {
-    final ControlNumberAccessPoint cnap = catalog.createControlNumberAccessPoint(item, correlationValues);
-    cnap.setAccessPointStringText(new StringText(variableField.getValue()));
-    cnap.setHeadingNumber(variableField.getKeyNumber());
-    cnap.setItemNumber(bibItemNumber);
-    cnap.markNew();
-    item.addTag(cnap);
-  }
-
-  /**
-   * Creates and add to catalog a new persistent {@link NameAccessPoint} object for saving record.
-   *
-   * @param catalog -- the bibliographic catalog.
-   * @param item -- the item to add tags.
-   * @param correlationValues -- the selection of correlation values.
-   * @param variableField -- the variable field containing data.
-   * @param bibItemNumber -- the bibliographic item number.
-   * @throws DataAccessException in case of data access exception.
-   */
-  private void addNameToCatalog(final BibliographicCatalog catalog,
-                                final CatalogItem item,
-                                final CorrelationValues correlationValues,
-                                final org.folio.cataloging.resources.domain.VariableField variableField,
-                                final int bibItemNumber) throws DataAccessException {
-    final NameAccessPoint nap = catalog.createNameAccessPointTag(item, correlationValues);
-    nap.setAccessPointStringText(new StringText(variableField.getValue()));
-    nap.setHeadingNumber(variableField.getKeyNumber());
-    nap.setItemNumber(bibItemNumber);
-    nap.markNew();
-    item.addTag(nap);
-  }
-
-  /**
-   * Creates and add to catalog a new persistent {@link TitleAccessPoint} object for saving record.
-   *
-   * @param catalog -- the bibliographic catalog.
-   * @param item -- the item to add tags.
-   * @param correlationValues -- the selection of correlation values.
-   * @param variableField -- the variable field containing data.
-   * @param bibItemNumber -- the bibliographic item number.
-   * @throws DataAccessException in case of data access exception.
-   */
-  private void addTitleToCatalog(final BibliographicCatalog catalog,
-                                 final CatalogItem item,
-                                 final CorrelationValues correlationValues,
-                                 final org.folio.cataloging.resources.domain.VariableField variableField,
-                                 final int bibItemNumber) throws DataAccessException {
-
-    final TitleAccessPoint tap = catalog.createTitleAccessPointTag(item, correlationValues);
-    tap.setAccessPointStringText(new StringText(variableField.getValue()));
-    tap.setHeadingNumber(variableField.getKeyNumber());
-    tap.setItemNumber(bibItemNumber);
-    tap.markNew();
-    item.addTag(tap);
-  }
-
-  /**
-   * Populate and add to catalog a {@link MaterialDescription} object for saving record.
-   *
-   * @param tagNbr -- the tag number field.
-   * @param catalog -- the bibliographic catalog.
-   * @param item -- the item to add tags.
-   * @param fixedField -- the fixed field containing data.
-   * @param bibMaterial -- the {@link MaterialDescription}.
-   * @param leader -- the {@link Leader} of record item.
-   * @throws DataAccessException in case of data access exception.
-   */
-  private void addMaterialDescriptionToCatalog(final String tagNbr,
-                                               final BibliographicCatalog catalog,
-                                               final CatalogItem item,
-                                               final org.folio.cataloging.resources.domain.FixedField fixedField,
-                                               final MaterialDescription bibMaterial,
-                                               final Leader leader){
-
-    final String materialDescription008Indicator = tagNbr.equals(GlobalStorage.MATERIAL_TAG_CODE) ?"1" :"0";
-    bibMaterial.setMaterialDescription008Indicator(materialDescription008Indicator);
-    final int headerTypeCode = fixedField.getHeaderTypeCode();
-
-    final CorrelationValues correlationValues = new CorrelationValues(headerTypeCode, CorrelationValues.UNDEFINED, CorrelationValues.UNDEFINED);
-    bibMaterial.setCorrelationValues(correlationValues);
-
-    final Map<String, Object> mapRecordTypeMaterial = getMaterialTypeInfosByLeaderValues(leader.getValue().charAt(6), leader.getValue().charAt(7), tagNbr);
-    bibMaterial.setFormOfMaterial((String) mapRecordTypeMaterial.get(GlobalStorage.FORM_OF_MATERIAL_LABEL));
-    catalog.toMaterialDescription(fixedField, bibMaterial);
-    bibMaterial.markNew();
-    item.addTag(bibMaterial);
-  }
-
-  /**
-   * Sets default values to MaterialDescription class.
-   *
-   * @param giAPI -- the general information from API.
-   */
-  private void setDefaultValues(final GeneralInformation giAPI, MaterialDescription md){
-
-    md.setRecordModifiedCode(giAPI.getRecordModifiedCode().charAt(0));
-    md.setRecordCataloguingSourceCode(giAPI.getRecordCataloguingSourceCode().charAt(0));
-    md.setItemDateTypeCode(giAPI.getItemDateTypeCode().charAt(0));
-    md.setLanguageCode(giAPI.getLanguageCode());
-    md.setItemDateFirstPublication(GlobalStorage.ITEM_DATE_FIRST_PUBLICATION);
-    md.setItemDateLastPublication(GlobalStorage.ITEM_DATE_LAST_PUBLICATION);
-    md.setMarcCountryCode(giAPI.getMarcCountryCode());
-
-    md.setBookIllustrationCode(giAPI.getBookIllustrationCode());
-    md.setTargetAudienceCode(giAPI.getTargetAudienceCode());
-    md.setFormOfItemCode(giAPI.getFormOfItemCode());
-    md.setNatureOfContentsCode(giAPI.getNatureOfContentsCode());
-    md.setConferencePublicationCode(giAPI.getConferencePublicationCode());
-    md.setBookFestschrift(giAPI.getBookFestschrift());
-    md.setBookIndexAvailabilityCode(giAPI.getBookIndexAvailabilityCode());
-    md.setBookLiteraryFormTypeCode(giAPI.getBookLiteraryFormTypeCode());
-    md.setBookBiographyCode(giAPI.getBookBiographyCode());
-    md.setGovernmentPublicationCode(giAPI.getGovernmentPublicationCode());
-    md.setComputerTargetAudienceCode(giAPI.getComputerTargetAudienceCode());
-    md.setComputerFileTypeCode(giAPI.getComputerFileTypeCode());
-    md.setComputerFileFormCode(giAPI.getComputerFileFormCode());
-    md.setCartographicIndexAvailabilityCode("0");
-    md.setCartographicReliefCode(giAPI.getCartographicReliefCode());
-    md.setCartographicProjectionCode(giAPI.getCartographicProjectionCode());
-    md.setCartographicMaterial(giAPI.getCartographicMaterial());
-    md.setCartographicFormatCode(giAPI.getCartographicFormatCode());
-    md.setMusicFormOfCompositionCode(giAPI.getMusicFormOfCompositionCode());
-    md.setMusicFormatCode(giAPI.getMusicFormatCode());
-    md.setMusicTextualMaterialCode(giAPI.getMusicTextualMaterialCode());
-    md.setMusicLiteraryTextCode(giAPI.getMusicLiteraryTextCode());
-    md.setMusicPartsCode(giAPI.getMusicPartsCode());
-    md.setMusicTranspositionArrangementCode(giAPI.getMusicTranspositionArrangementCode());
-    md.setSerialFrequencyCode(giAPI.getSerialFrequencyCode());
-    md.setSerialRegularityCode(giAPI.getSerialRegularityCode());
-    md.setSerialTypeCode(giAPI.getSerialTypeCode());
-    md.setSerialFormOriginalItemCode(giAPI.getSerialFormOriginalItemCode());
-    md.setSerialOriginalAlphabetOfTitleCode(giAPI.getSerialOriginalAlphabetOfTitleCode());
-    md.setSerialCumulativeIndexCode(giAPI.getSerialEntryConventionCode());
-    md.setVisualRunningTime(giAPI.getVisualRunningTime());
-    md.setVisualTargetAudienceCode(giAPI.getVisualTargetAudienceCode());
-    md.setVisualMaterialTypeCode(giAPI.getVisualMaterialTypeCode());
-    md.setVisualTechniqueCode(giAPI.getVisualTechniqueCode());
-
-  }
-
 }
