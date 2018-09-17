@@ -76,9 +76,10 @@ public abstract class CatalogDAO extends AbstractDAO {
 	 * @throws DataAccessException in case of data access failure.
 	 */
 	protected void loadHeadings(final List<? extends PersistentObjectWithView> allTags, final int userView, final Session session) throws DataAccessException {
-    allTags.forEach(tag -> {
-      loadHeading((AccessPoint) tag, userView, session);
-    });
+		allTags.stream().map(tag -> {
+			loadHeading((AccessPoint) tag, userView, session);
+			return tag;
+		});
 	}
 
 	private void loadHeading(final AccessPoint tag, final int userView, final Session session) throws DataAccessException {
