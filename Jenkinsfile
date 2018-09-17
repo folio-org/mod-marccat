@@ -61,7 +61,7 @@ pipeline {
                 steps{
                     script{
                         withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
-                          sh "nohup java -Dserver.port=${DEPLOY_PORT} -jar ./target/mod-cataloging-1.0.jar &"
+                          sh "nohup java -Dserver.port=8888 -jar ./target/mod-cataloging-1.0.jar &"
                         }
                     }
                 }
@@ -107,7 +107,7 @@ pipeline {
                 }
           stage('Branch C') {
                     agent {
-                        label "for-branch-c"
+                        any
                     }
                     stages {
                         stage('Nested 1') {
