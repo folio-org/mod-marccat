@@ -2,6 +2,8 @@ pipeline {
     agent any
     environment { 
         DEPLOY_ENV = 'development'
+        JAR_NAME= 'mod-cataloging-1.0.jar'
+        MAVEN_HOME = ''
         DEPLOY_PORT = 8888
         EMAIL_REPORT = 'christian.chiama@atcult.it'
     }
@@ -61,7 +63,7 @@ pipeline {
                 steps{
                     script{
                         withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
-                          sh "nohup java -Dserver.port=8888 -jar ./target/mod-cataloging-1.0.jar &"
+                          sh "nohup java -Dserver.port=8888 -jar ./target/${JAR_NAME} &"
                         }
                     }
                 }
