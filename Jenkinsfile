@@ -30,14 +30,13 @@ pipeline {
                 steps{
                     script{
                         withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
-                            sh('./script/clean.sh')
-                            sh "nohup java -Dserver.port=8889 -jar ./target/mod-cataloging-1.0.jar &"
+                            sh('./script/deploy.sh')
                         }
                     }
                 }
             post {
                 success {
-                    echo 'deploy succesfully on port 8889'
+                    echo 'mod-catlogin up and running on port 8080'
                 }
             }
         }
