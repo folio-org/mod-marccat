@@ -90,6 +90,7 @@ pipeline {
                         echo "On Branch B"
                     }
                 }
+            }
            parallel {
                 stage('Branch A') {
                     agent {
@@ -107,7 +108,7 @@ pipeline {
                         echo "On Branch B"
                     }
                 }
-          stage('Branch C') {
+                 stage('Branch C') {
                     agent {
                         any
                     }
