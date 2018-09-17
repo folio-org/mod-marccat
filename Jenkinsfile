@@ -30,7 +30,7 @@ pipeline {
                 steps{
                     script{
                         withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
-                            sh "fuser -k 8889/tcp"
+                            sh('/script/clean.sh')
                             sh "nohup java -Dserver.port=8889 -jar ./target/mod-cataloging-1.0.jar &"
                         }
                     }
