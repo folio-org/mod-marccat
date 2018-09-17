@@ -89,11 +89,6 @@ public class RecordTemplateAPI extends BaseResource {
                 ,tenant, configurator);
     }
 
-  @GetMapping("/record-template/pippo")
-  public String pippo() {
-    return "{\"deploy\":\"succesfully\"}";
-  }
-
     @ApiOperation(value = "Creates a new template.")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Method successfully created the new template."),
