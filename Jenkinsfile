@@ -1,10 +1,20 @@
 pipeline {
     agent any
     environment { 
+        DEPLOY_TO = 'development'
         DEPLOY_PORT = 8888
+        EMAIL_REPORT = 'christian.chiama@atcult.it'
     }
+  
+     parameters {
+           text(name: 'CCHIAMA', defaultValue: ${EMAIL_REPORT}, description: 'Enter some information about the person')
+           choice(name: 'EMAIL', choices: ['christian.chiama@atcult.it', 'natascia.bianchini@atcult.it', 'alice-guercio@atcult.it'], description: 'Notification email')
+        }
     stages {
       stage('Clean') {
+           options {
+                timeout(time: 3, unit: 'MINUTES') 
+            }
             steps {
                 sh('./script/clean.sh')
             }
@@ -15,8 +25,15 @@ pipeline {
             }
         }
         stage('Build') {
+            options {
+                timeout(time: 5, unit: 'MINUTES') 
+            }
           when {
               expression { BRANCH_NAME ==~ /(master|develop|ci-test)/ }
+              anyOf {
+                    environment name: 'DEPLOY_TO', value: 'production'
+                    environment name: 'DEPLOY_TO', value: 'staging'
+                }
             }
             steps {
                 script {
@@ -38,6 +55,9 @@ pipeline {
                     }
                 }
         stage('Deploy'){
+           options {
+                timeout(time: 5, unit: 'MINUTES') 
+            }
                 steps{
                     script{
                         withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
