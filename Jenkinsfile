@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment { 
-        DEPLOY_TO = 'development'
+        DEPLOY_ENV = 'development'
         DEPLOY_PORT = 8888
         EMAIL_REPORT = 'christian.chiama@atcult.it'
     }
@@ -67,7 +67,7 @@ pipeline {
                 }
             post {
                 success {
-                    echo 'deploy succesfully on port ${DEPLOY_PORT}'
+                    echo 'deploy succesfully on port'
                 }
             }
         }
