@@ -12,9 +12,6 @@ pipeline {
             }
         }
         stage('Build') {
-          when {
-              expression { BRANCH_NAME ==~ /(master|develop|ci-test)/ }
-            }
             steps {
                 script {
                    echo 'Pulling...' + env.BRANCH_NAME
