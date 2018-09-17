@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
 echo "cleaning....."
-PID=$(lsof -t -i:8889)
-kill -9 $PID
-sleep 3
+PORT_NUMBER=8889
+lsof -i tcp:${PORT_NUMBER} | awk 'NR!=1 {print $2}' | xargs kill
