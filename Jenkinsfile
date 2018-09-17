@@ -3,8 +3,8 @@ pipeline {
     stages {
       stage('Clean') {
             steps {
-                sh('./script/clean.sh')
-            }
+                echo 'cleaning...'
+             }
             post {
                 success {
                     echo 'cleaning succesfully...'
@@ -16,14 +16,9 @@ pipeline {
                 script {
                    echo 'Pulling...' + env.BRANCH_NAME
                    def mvnHome = tool 'mvn'
-                   sh "'${mvnHome}/bin/mvn' clean compile package -DskipTests"
+                   sh "'${mvnHome}/bin/mvn' clean compile package -DskipTests=true"
                    archiveArtifacts 'target*//*.jar'
                }
-            }
-            post {
-                success {
-                    echo 'cleaning succesfully...'
-                }
             }
         }
         stage('Test') {
@@ -35,13 +30,13 @@ pipeline {
                 steps{
                     script{
                         withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
-                            sh "nohup java -Dserver.port=8888 -jar ./target/mod-cataloging-1.0.jar &"
+                            sh('./script/deploy.sh')
                         }
                     }
                 }
             post {
                 success {
-                    echo 'deploy succesfully on port 8888'
+                    echo 'mod-catalogin up and running on port 8889'
                 }
             }
         }
