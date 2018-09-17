@@ -1,6 +1,6 @@
 pipeline {
     agent any
-     environment { 
+    environment { 
         DEPLOY_PORT = 8888
     }
     stages {
@@ -41,13 +41,13 @@ pipeline {
                 steps{
                     script{
                         withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
-                            sh "nohup java -Dserver.port=$DEPLOY_PORT -jar ./target/mod-cataloging-1.0.jar &"
+                          sh "nohup java -Dserver.port=${DEPLOY_PORT} -jar ./target/mod-cataloging-1.0.jar &"
                         }
                     }
                 }
             post {
                 success {
-                    echo 'deploy succesfully on port $DEPLOY_PORT'
+                    echo 'deploy succesfully on port ${DEPLOY_PORT}'
                 }
             }
         }
@@ -57,4 +57,12 @@ pipeline {
              }
          }
     }
+   post {
+    failure {
+      // notify users when the Pipeline fails
+      mail to: 'c.chiama@icloud.com',
+          subject: "Failed Pipeline: test",
+          body: "Something is wrong"
+    }
+  }
 }
