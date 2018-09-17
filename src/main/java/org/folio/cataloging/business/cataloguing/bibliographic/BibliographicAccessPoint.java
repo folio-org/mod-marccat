@@ -1,13 +1,15 @@
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
+import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
-import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.PersistentObjectWithView;
 import org.folio.cataloging.business.common.UserViewHelper;
 import org.folio.cataloging.dao.persistence.AccessPoint;
 import org.folio.cataloging.util.StringText;
 
-public abstract class BibliographicAccessPoint extends AccessPoint implements PersistentObjectWithView 
+import java.sql.SQLException;
+
+public abstract class BibliographicAccessPoint extends AccessPoint implements PersistentObjectWithView
 {
 	private String materialSpecified;
 	private UserViewHelper userViewHelper = new UserViewHelper();
@@ -33,7 +35,7 @@ public abstract class BibliographicAccessPoint extends AccessPoint implements Pe
 		super(itemNumber);
 	}
 
-	public void generateNewKey(final Session session) throws DataAccessException {
+	public void generateNewKey(final Session session) throws HibernateException, SQLException {
 		super.generateNewKey(session);
 		if (getDescriptor().isNew()) {
 			getDescriptor().getKey().setUserViewString(getUserViewString());

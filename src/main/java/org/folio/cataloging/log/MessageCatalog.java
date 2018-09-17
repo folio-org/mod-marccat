@@ -20,9 +20,8 @@ public interface MessageCatalog {
     String _00021_UNABLE_TO_PARSE_RECORD_DATA = "<" + MODULE_NAME + "-00021> : Invalid XML record data %s";
     String _00023_SE_REQRES = "<" + MODULE_NAME + "-00023> : CCL => \"%s\", %s matches.";
     String _00024_XSLT_FAILURE = "<" + MODULE_NAME + "-00024> : XSLT failure. Please check the stacktrace below for further details.";
-
     String _00025_DUPLICATE_TAG = "<" + MODULE_NAME + "-00025> : Duplicate tag for %s.";
     String _00026_MANDATORY_FAILURE = "<" + MODULE_NAME + "-00026> : Check mandatory tags failure. Record ID %d.";
     String _00027_EMPTY_TAG = "<" + MODULE_NAME + "-00027> : Some tags appears empty %s.";
-
+    String _00119_DAO_CLASS_MAP_NOT_FOUND = "<" + MODULE_NAME + "-00119> : Unable to retrieve the class by key. Key %s.";
 }

@@ -1,14 +1,15 @@
 package org.folio.cataloging.dao.persistence;
 
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.PersistentObjectWithView;
 import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.DAOBibItem;
-import org.folio.cataloging.dao.SystemNextNumberDAO;
 
 import java.io.Serializable;
 
-public class BIB_ITM extends ItemEntity implements PersistentObjectWithView, Serializable 
+public class BIB_ITM extends ItemEntity implements PersistentObjectWithView, Serializable
 {
 
 	private char canadianContentIndicator = '0';
@@ -35,19 +36,19 @@ public class BIB_ITM extends ItemEntity implements PersistentObjectWithView, Ser
 	private String userViewString = "0000000000000000";
 
 	//TODO use configuration module
-	public BIB_ITM() 
+	public BIB_ITM()
 	{
-		super();		
+		super();
 		/*setLanguageOfCataloguing(Defaults.getString("bibliographicItem.languageCode"));
 		setCataloguingSourceStringText(Defaults.getString("bibligraphicItem.cataloguingSourceStringText"));
 		setMarcCountryCode(Defaults.getString("bibliographicItem.languageOfCataloguing"));*/
 	}
 
-	public boolean equals(Object obj) 
+	public boolean equals(Object obj)
 	{
 		if (!(obj instanceof BIB_ITM))
 			return false;
-		
+
 		BIB_ITM other = (BIB_ITM) obj;
 		return (other.getAmicusNumber().equals(this.getAmicusNumber()) && other.getUserViewString().equals(this.getUserViewString()));
 	}
@@ -55,7 +56,7 @@ public class BIB_ITM extends ItemEntity implements PersistentObjectWithView, Ser
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
-	public int hashCode() 
+	public int hashCode()
 	{
 		if (getAmicusNumber() == null) {
 			return -1;
@@ -68,11 +69,9 @@ public class BIB_ITM extends ItemEntity implements PersistentObjectWithView, Ser
 	/* (non-Javadoc)
 	 * @see librisuite.business.common.PersistentObject#generateNewKey()
 	 */
-	@Deprecated
-	public void generateNewKey() throws DataAccessException
-	{
-		SystemNextNumberDAO dao = new SystemNextNumberDAO();
-		setAmicusNumber(new Integer(dao.getNextNumber("BI")));
+  public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
+		/*SystemNextNumberDAO dao = new SystemNextNumberDAO();
+		setAmicusNumber(new Integer(dao.getNextNumber("BI")));*/
 	}
 
 	public char getCanadianContentIndicator() {
@@ -86,7 +85,7 @@ public class BIB_ITM extends ItemEntity implements PersistentObjectWithView, Ser
 	public String getCountryStringText() {
 		return countryStringText;
 	}
-	
+
 	public AbstractDAO getDAO() {
 		return new DAOBibItem();
 	}

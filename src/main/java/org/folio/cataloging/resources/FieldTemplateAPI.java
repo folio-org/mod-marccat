@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiResponses;
 import org.folio.cataloging.F;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.ModCataloging;
+import org.folio.cataloging.domain.ConversionFieldUtils;
 import org.folio.cataloging.integration.StorageService;
 import org.folio.cataloging.log.MessageCatalog;
 import org.folio.cataloging.resources.domain.FieldTemplate;
@@ -159,6 +160,7 @@ public class FieldTemplateAPI extends BaseResource {
                 generalInformation.setHeaderType(headerTypeCode);
                 final Map<String, Object> mapRecordTypeMaterial = storageService.getMaterialTypeInfosByHeaderCode(headerTypeCode, code);
                 generalInformation.setMaterialTypeCode((String) mapRecordTypeMaterial.get(Global.MATERIAL_TYPE_CODE_LABEL));
+                generalInformation.setFormOfMaterial((String) mapRecordTypeMaterial.get(Global.FORM_OF_MATERIAL_LABEL));
                 generalInformation.setMaterialDescription008Indicator("0");
 
             } else if (code.equals(Global.PHYSICAL_DESCRIPTION_TAG_CODE)){
@@ -172,14 +174,14 @@ public class FieldTemplateAPI extends BaseResource {
             } else if (code.equals(Global.DATETIME_TRANSACION_TAG_CODE)){
                 fixedField.setDescription(storageService.getHeadingTypeDescription(
                         headerTypeCode, lang, Global.INT_CATEGORY));
-                fixedField.setDisplayValue(F.getFormattedDate("yyyyMMddHHmmss."));
+                fixedField.setDisplayValue(F.getFormattedToday("yyyyMMddHHmmss."));
             }
 
             if (code.equals(Global.MATERIAL_TAG_CODE) || code.equals(Global.OTHER_MATERIAL_TAG_CODE)) {
                 if (generalInformation != null) {
                     if (valueField == null) {
                         if ("1".equals(generalInformation.getMaterialDescription008Indicator())) {
-                            generalInformation.setEnteredOnFileDateYYMMDD(F.getFormattedDate("yyMMdd"));
+                            generalInformation.setEnteredOnFileDateYYMMDD(F.getFormattedToday("yyMMdd"));
                         }
                         valueField = generalInformation.getValueString();
                     }
@@ -204,7 +206,6 @@ public class FieldTemplateAPI extends BaseResource {
      */
     private void setPhysicalInformationValues(final FixedField fixedField, String valueField) {
 
-        final String categoryOfMaterial = fixedField.getCategoryOfMaterial();
         final PhysicalInformation pi = new PhysicalInformation();
 
         if (!F.isNotNullOrEmpty(valueField)){
@@ -212,116 +213,7 @@ public class FieldTemplateAPI extends BaseResource {
         }
 
         fixedField.setDisplayValue(valueField);
-        fixedField.setCategoryOfMaterial(categoryOfMaterial);
-        fixedField.setSpecificMaterialDesignationCode(String.valueOf(valueField.charAt(1)));
-        if (pi.isElectronicResource(categoryOfMaterial)) {
-            fixedField.setColourCode(String.valueOf(valueField.charAt(3)));
-            fixedField.setDimensionsCode(String.valueOf(valueField.charAt(4)));
-            fixedField.setIncludesSoundCode(String.valueOf(valueField.charAt(5)));
-            fixedField.setImageBitDepth(valueField.substring(6, 9));
-            fixedField.setFileFormatsCode(String.valueOf(valueField.charAt(9)));
-            fixedField.setQualityAssuranceTargetCode(String.valueOf(valueField.charAt(10)));
-            fixedField.setAntecedentSourceCode(String.valueOf(valueField.charAt(11)));
-            fixedField.setLevelOfCompressionCode(String.valueOf(valueField.charAt(12)));
-            fixedField.setReformattingQualityCode(String.valueOf(valueField.charAt(13)));
-            fixedField.setPhysicalType(FixedField.PhysicalType.ELECTRONICAL_RESOURCE);
-        } else if (pi.isGlobe(categoryOfMaterial)) {
-            fixedField.setColourCode(String.valueOf(valueField.charAt(3)));
-            fixedField.setPhysicalMediumCode(String.valueOf(valueField.charAt(4)));
-            fixedField.setTypeOfReproductionCode(String.valueOf(valueField.charAt(5)));
-            fixedField.setPhysicalType(FixedField.PhysicalType.GLOBE);
-        } else if (pi.isMap(categoryOfMaterial)) {
-            fixedField.setColourCode(String.valueOf(valueField.charAt(3)));
-            fixedField.setPhysicalMediumCode(String.valueOf(valueField.charAt(4)));
-            fixedField.setTypeOfReproductionCode(String.valueOf(valueField.charAt(5)));
-            fixedField.setProductionDetailsCode(String.valueOf(valueField.charAt(6)));
-            fixedField.setPolarityCode(String.valueOf(valueField.charAt(7)));
-            fixedField.setPhysicalType(FixedField.PhysicalType.MAP);
-        } else if (pi.isTactileMaterial(categoryOfMaterial)) {
-            fixedField.setClassOfBrailleWritingCodes(valueField.substring(3, 5));
-            fixedField.setLevelOfContractionCode(String.valueOf(valueField.charAt(5)));
-            fixedField.setBrailleMusicFormatCodes(valueField.substring(6, 9));
-            fixedField.setSpecificPhysicalCharacteristicsCode(String.valueOf(valueField.charAt(9)));
-            fixedField.setPhysicalType(FixedField.PhysicalType.TACTILE_MATERIAL);
-        } else if (pi.isProjectedGraphic(categoryOfMaterial)) {
-            fixedField.setColourCode(String.valueOf(valueField.charAt(3)));
-            fixedField.setBaseOfEmulsionCode(String.valueOf(valueField.charAt(4)));
-            fixedField.setSoundOnMediumOrSeparateCode(String.valueOf(valueField.charAt(5)));
-            fixedField.setMediumForSoundCode(String.valueOf(valueField.charAt(6)));
-            fixedField.setDimensionsCode(String.valueOf(valueField.charAt(7)));
-            fixedField.setSecondarySupportMaterialCode(String.valueOf(valueField.charAt(8)));
-            fixedField.setPhysicalType(FixedField.PhysicalType.PROJECTED_GRAPHIC);
-        } else if (pi.isMicroform(categoryOfMaterial)) {
-            fixedField.setPolarityCode(String.valueOf(valueField.charAt(3)));
-            fixedField.setDimensionsCode(String.valueOf(valueField.charAt(4)));
-            fixedField.setReductionRatioRangeCode(String.valueOf(valueField.charAt(5)));
-            fixedField.setReductionRatioCode(valueField.substring(6, 9));
-            fixedField.setColourCode(String.valueOf(valueField.charAt(9)));
-            fixedField.setEmulsionOnFilmCode(String.valueOf(valueField.charAt(10)));
-            fixedField.setGenerationCode(String.valueOf(valueField.charAt(11)));
-            fixedField.setBaseOfFilmCode(String.valueOf(valueField.charAt(12)));
-            fixedField.setPhysicalType(FixedField.PhysicalType.MICROFORM);
-        } else if (pi.isNonProjectedGraphic(categoryOfMaterial)) {
-            fixedField.setColourCode(String.valueOf(valueField.charAt(3)));
-            fixedField.setPrimarySupportMaterialCode(String.valueOf(valueField.charAt(4)));
-            fixedField.setSecondarySupportMaterialCode(String.valueOf(valueField.charAt(5)));
-            fixedField.setPhysicalType(FixedField.PhysicalType.NON_PROJECTED_GRAPHIC);
-        } else if (pi.isMotionPicture(categoryOfMaterial)) {
-            fixedField.setColourCode(String.valueOf(valueField.charAt(3)));
-            fixedField.setPresentationFormatCode(String.valueOf(valueField.charAt(4)));
-            fixedField.setSoundOnMediumOrSeparateCode(String.valueOf(valueField.charAt(5)));
-            fixedField.setMediumForSoundCode(String.valueOf(valueField.charAt(6)));
-            fixedField.setDimensionsCode(String.valueOf(valueField.charAt(7)));
-            fixedField.setConfigurationCode(String.valueOf(valueField.charAt(8)));
-            fixedField.setProductionElementsCode(String.valueOf(valueField.charAt(9)));
-            fixedField.setPolarityCode(String.valueOf(valueField.charAt(10)));
-            fixedField.setGenerationCode(String.valueOf(valueField.charAt(11)));
-            fixedField.setBaseOfFilmCode(String.valueOf(valueField.charAt(12)));
-            fixedField.setRefinedCategoriesOfColourCode(String.valueOf(valueField.charAt(13)));
-            fixedField.setKindOfColourStockCode(String.valueOf(valueField.charAt(14)));
-            fixedField.setDeteriorationStageCode(String.valueOf(valueField.charAt(15)));
-            fixedField.setCompletenessCode(String.valueOf(valueField.charAt(16)));
-            fixedField.setInspectionDate(valueField.substring(17));
-            fixedField.setPhysicalType(FixedField.PhysicalType.MOTION_PICTURE);
-        } else if (pi.isKit(categoryOfMaterial)) {
-            fixedField.setPhysicalType(FixedField.PhysicalType.KIT);
-        } else if (pi.isNotatedMusic(categoryOfMaterial)) {
-            fixedField.setPhysicalType(FixedField.PhysicalType.NOTATED_MUSIC);
-        } else if (pi.isRemoteSensingImage(categoryOfMaterial)) {
-            fixedField.setAltitudeOfSensorCode(String.valueOf(valueField.charAt(3)));
-            fixedField.setAttitudeOfSensorCode(String.valueOf(valueField.charAt(4)));
-            fixedField.setCloudCoverCode(String.valueOf(valueField.charAt(5)));
-            fixedField.setPlatformConstructionTypeCode(String.valueOf(valueField.charAt(6)));
-            fixedField.setPlatformUseCode(String.valueOf(valueField.charAt(7)));
-            fixedField.setSensorTypeCode(String.valueOf(valueField.charAt(8)));
-            fixedField.setDataTypeCode(valueField.substring(9));
-            fixedField.setPhysicalType(FixedField.PhysicalType.REMOTE_SENSING_IMAGE);
-        } else if (pi.isSoundRecording(categoryOfMaterial)) {
-            fixedField.setSpeedCode(String.valueOf(valueField.charAt(3)));
-            fixedField.setConfigurationCode(String.valueOf(valueField.charAt(4)));
-            fixedField.setGrooveWidthCode(String.valueOf(valueField.charAt(5)));
-            fixedField.setDimensionsCode(String.valueOf(valueField.charAt(6)));
-            fixedField.setTapeWidthCode(String.valueOf(valueField.charAt(7)));
-            fixedField.setTapeConfigurationCode(String.valueOf(valueField.charAt(8)));
-            fixedField.setDiscTypeCode(String.valueOf(valueField.charAt(9)));
-            fixedField.setSndMaterialTypeCode(String.valueOf(valueField.charAt(10)));
-            fixedField.setCuttingTypeCode(String.valueOf(valueField.charAt(11)));
-            fixedField.setSpecialPlaybackCharacteristicsCode(String.valueOf(valueField.charAt(12)));
-            fixedField.setStorageTechniqueCode(String.valueOf(valueField.charAt(13)));
-            fixedField.setPhysicalType(FixedField.PhysicalType.SOUND_RECORDING);
-        } else if (pi.isText(categoryOfMaterial)) {
-            fixedField.setPhysicalType(FixedField.PhysicalType.TEXT);
-        } else if (pi.isUnspecified(categoryOfMaterial)) {
-            fixedField.setPhysicalType(FixedField.PhysicalType.UNSPECIFIED);
-        } else if (pi.isVideoRecording(categoryOfMaterial)) {
-            fixedField.setColourCode(String.valueOf(valueField.charAt(3)));
-            fixedField.setFormatCode(String.valueOf(valueField.charAt(4)));
-            fixedField.setIncludesSoundCode(String.valueOf(valueField.charAt(5)));
-            fixedField.setMediumForSoundCode(String.valueOf(valueField.charAt(6)));
-            fixedField.setDimensionsCode(String.valueOf(valueField.charAt(7)));
-            fixedField.setConfigurationCode(String.valueOf(valueField.charAt(8)));
-            fixedField.setPhysicalType(FixedField.PhysicalType.VIDEO_RECORDING);
-        }
+        ConversionFieldUtils.setPhysicalInformationValuesInFixedField(fixedField);
 
     }
 
@@ -349,14 +241,8 @@ public class FieldTemplateAPI extends BaseResource {
                 ? getLeaderValue()
                 : fixedField.getDisplayValue();
 
-        fixedField.setItemRecordStatusCode(String.valueOf(leaderValue.charAt(5)));
-        fixedField.setItemRecordTypeCode(String.valueOf(leaderValue.charAt(6)));
-        fixedField.setItemBibliographicLevelCode(String.valueOf(leaderValue.charAt(7)));
-        fixedField.setItemControlTypeCode(String.valueOf(leaderValue.charAt(8)));
-        fixedField.setCharacterCodingSchemeCode(String.valueOf(leaderValue.charAt(9)));
-        fixedField.setEncodingLevel(String.valueOf(leaderValue.charAt(17)));
-        fixedField.setDescriptiveCataloguingCode(String.valueOf(leaderValue.charAt(18)));
-        fixedField.setLinkedRecordCode(String.valueOf(leaderValue.charAt(19)));
+        fixedField.setDisplayValue(leaderValue);
+        ConversionFieldUtils.setLeaderValuesInFixedField(fixedField);
     }
 
     /**
@@ -416,109 +302,20 @@ public class FieldTemplateAPI extends BaseResource {
      * @param gi the general information used to create fixed field.
      */
     private void setMaterialValues(final FixedField fixedField, final GeneralInformation gi) {
-        String displayValue = fixedField.getDisplayValue();
+        String displayValue = null;
 
-        int startPosition = 1;
         if ("1".equals(gi.getMaterialDescription008Indicator())) {
-            displayValue = (displayValue.length() != Global.MATERIAL_FIELD_LENGTH
+            displayValue = (fixedField.getDisplayValue().length() != Global.MATERIAL_FIELD_LENGTH
                     ? gi.getValueString()
                     : fixedField.getDisplayValue());
-            startPosition = 18;
-            fixedField.setDateEnteredOnFile(displayValue.substring(0, 6));
-            fixedField.setDateTypeCode(String.valueOf(displayValue.charAt(6)));
-            fixedField.setDateFirstPublication(displayValue.substring(7, 11));
-            fixedField.setDateLastPublication(displayValue.substring(11, 15));
-            fixedField.setPlaceOfPublication(displayValue.substring(15, 18));
-            fixedField.setLanguageCode(displayValue.substring(35, 38));
-            fixedField.setRecordModifiedCode(String.valueOf(displayValue.charAt(38)));
-            fixedField.setRecordCataloguingSourceCode(String.valueOf(displayValue.charAt(39)));
         } else { //006
-            displayValue = displayValue.length() != Global.OTHER_MATERIAL_FIELD_LENGTH
+            displayValue = fixedField.getDisplayValue().length() != Global.OTHER_MATERIAL_FIELD_LENGTH
                     ? gi.getValueString()
                     : fixedField.getDisplayValue();
-            fixedField.setMaterialTypeCode(String.valueOf(displayValue.charAt(0)));
         }
 
-        if (gi.isBook()) {
-            fixedField.setBookIllustrationCode1(String.valueOf(displayValue.charAt(startPosition)));
-            fixedField.setBookIllustrationCode2(String.valueOf(displayValue.charAt(startPosition + 1)));
-            fixedField.setBookIllustrationCode2(String.valueOf(displayValue.charAt(startPosition + 2)));
-            fixedField.setBookIllustrationCode2(String.valueOf(displayValue.charAt(startPosition + 3)));
-            fixedField.setTargetAudienceCode(String.valueOf(displayValue.charAt(startPosition + 4)));
-            fixedField.setFormOfItemCode(String.valueOf(displayValue.charAt(startPosition + 5)));
-            fixedField.setNatureOfContent1(String.valueOf(displayValue.charAt(startPosition + 6)));
-            fixedField.setNatureOfContent2(String.valueOf(displayValue.charAt(startPosition + 7)));
-            fixedField.setNatureOfContent3(String.valueOf(displayValue.charAt(startPosition + 8)));
-            fixedField.setNatureOfContent4(String.valueOf(displayValue.charAt(startPosition + 9)));
-            fixedField.setGovernmentPublicationCode(String.valueOf(displayValue.charAt(startPosition + 10)));
-            fixedField.setConferencePublicationCode(String.valueOf(displayValue.charAt(startPosition + 11)));
-            fixedField.setBookFestschrift(String.valueOf(displayValue.charAt(startPosition + 12)));
-            fixedField.setBookIndexAvailabilityCode(String.valueOf(displayValue.charAt(startPosition + 13)));
-            fixedField.setBookLiteraryFormTypeCode(String.valueOf(displayValue.charAt(startPosition + 15)));
-            fixedField.setBookBiographyCode(String.valueOf(displayValue.charAt(startPosition + 16)));
-            fixedField.setMaterialType(FixedField.MaterialType.BOOK);
-        } else if (gi.isSerial()) {
-            fixedField.setSerialFrequencyCode(String.valueOf(displayValue.charAt(startPosition)));
-            fixedField.setSerialRegularityCode(String.valueOf(displayValue.charAt(startPosition + 1)));
-            fixedField.setSerialTypeCode(String.valueOf(displayValue.charAt(startPosition + 2)));
-            fixedField.setSerialFormOriginalItemCode(String.valueOf(displayValue.charAt(startPosition + 4)));
-            fixedField.setFormOfItemCode(String.valueOf(displayValue.charAt(startPosition + 5)));
-            fixedField.setNatureOfContent1(String.valueOf(displayValue.charAt(startPosition + 6)));
-            fixedField.setNatureOfContent2(String.valueOf(displayValue.charAt(startPosition + 7)));
-            fixedField.setNatureOfContent3(String.valueOf(displayValue.charAt(startPosition + 8)));
-            fixedField.setNatureOfContent4(String.valueOf(displayValue.charAt(startPosition + 9)));
-            fixedField.setGovernmentPublicationCode(String.valueOf(displayValue.charAt(startPosition + 10)));
-            fixedField.setConferencePublicationCode(String.valueOf(displayValue.charAt(startPosition + 11)));
-            fixedField.setSerialOriginalAlphabetOfTitleCode(String.valueOf(displayValue.charAt(startPosition + 15)));
-            fixedField.setSerialEntryConventionCode(String.valueOf(displayValue.charAt(startPosition + 16)));
-            fixedField.setMaterialType(FixedField.MaterialType.CONTINUING_RESOURCE);
-        } else if (gi.isComputerFile()) {
-            fixedField.setTargetAudienceCode(String.valueOf(displayValue.charAt(startPosition + 4)));
-            fixedField.setFormOfItemCode(String.valueOf(displayValue.charAt(startPosition + 5)));
-            fixedField.setComputerFileTypeCode(String.valueOf(displayValue.charAt(startPosition + 8)));
-            fixedField.setGovernmentPublicationCode(String.valueOf(displayValue.charAt(startPosition + 10)));
-            fixedField.setMaterialType(FixedField.MaterialType.COMPUTER_FILE);
-        } else if (gi.isMap()) {
-            fixedField.setCartographicReliefCode1(String.valueOf(displayValue.charAt(startPosition)));
-            fixedField.setCartographicReliefCode2(String.valueOf(displayValue.charAt(startPosition + 1)));
-            fixedField.setCartographicReliefCode3(String.valueOf(displayValue.charAt(startPosition + 2)));
-            fixedField.setCartographicReliefCode4(String.valueOf(displayValue.charAt(startPosition + 3)));
-            fixedField.setCartographicProjectionCode(displayValue.substring(startPosition + 4, startPosition + 6));
-            fixedField.setCartographicMaterial(String.valueOf(displayValue.charAt(startPosition + 7)));
-            fixedField.setGovernmentPublicationCode(String.valueOf(displayValue.charAt(startPosition + 10)));
-            fixedField.setFormOfItemCode(String.valueOf(displayValue.charAt(startPosition + 11)));
-            fixedField.setCartographicIndexAvailabilityCode(String.valueOf(displayValue.charAt(startPosition + 13)));
-            fixedField.setCartographicFormatCode1(String.valueOf(displayValue.charAt(startPosition + 15)));
-            fixedField.setCartographicFormatCode2(String.valueOf(displayValue.charAt(startPosition + 16)));
-            fixedField.setMaterialType(FixedField.MaterialType.MAP);
-        } else if (gi.isMixedMaterial()) {
-            fixedField.setFormOfItemCode(String.valueOf(displayValue.charAt(startPosition + 5)));
-            fixedField.setMaterialType(FixedField.MaterialType.MIXED_MATERIAL);
-        } else if (gi.isMusic()) {
-            fixedField.setMusicFormOfCompositionCode(displayValue.substring(startPosition, startPosition + 2));
-            fixedField.setMusicFormatCode(String.valueOf(displayValue.charAt(startPosition + 2)));
-            fixedField.setMusicPartsCode(String.valueOf(displayValue.charAt(startPosition + 3)));
-            fixedField.setTargetAudienceCode(String.valueOf(displayValue.charAt(startPosition + 4)));
-            fixedField.setFormOfItemCode(String.valueOf(displayValue.charAt(startPosition + 5)));
-            fixedField.setMusicTextualMaterialCode1(String.valueOf(displayValue.charAt(startPosition + 6)));
-            fixedField.setMusicTextualMaterialCode2(String.valueOf(displayValue.charAt(startPosition + 7)));
-            fixedField.setMusicTextualMaterialCode3(String.valueOf(displayValue.charAt(startPosition + 8)));
-            fixedField.setMusicTextualMaterialCode4(String.valueOf(displayValue.charAt(startPosition + 9)));
-            fixedField.setMusicTextualMaterialCode5(String.valueOf(displayValue.charAt(startPosition + 10)));
-            fixedField.setMusicTextualMaterialCode6(String.valueOf(displayValue.charAt(startPosition + 11)));
-            fixedField.setMusicLiteraryTextCode1(String.valueOf(displayValue.charAt(startPosition + 12)));
-            fixedField.setMusicLiteraryTextCode2(String.valueOf(displayValue.charAt(startPosition + 13)));
-            fixedField.setMusicTranspositionArrangementCode(String.valueOf(displayValue.charAt(startPosition + 15)));
-            fixedField.setMaterialType(FixedField.MaterialType.MUSIC);
-        } else if (gi.isVisualMaterial()) {
-            fixedField.setVisualRunningTime(displayValue.substring(startPosition, startPosition + 3));
-            fixedField.setTargetAudienceCode(String.valueOf(displayValue.charAt(startPosition + 4)));
-            fixedField.setGovernmentPublicationCode(String.valueOf(displayValue.charAt(startPosition + 10)));
-            fixedField.setFormOfItemCode(String.valueOf(displayValue.charAt(startPosition + 11)));
-            fixedField.setVisualMaterialTypeCode(String.valueOf(displayValue.charAt(startPosition + 15)));
-            fixedField.setVisualTechniqueCode(String.valueOf(displayValue.charAt(startPosition + 16)));
-            fixedField.setMaterialType(FixedField.MaterialType.VISUAL_MATERIAL);
-        }
+        fixedField.setDisplayValue(displayValue);
+        ConversionFieldUtils.setMaterialValuesInFixedField(fixedField, gi.getFormOfMaterial());
     }
 
     /**

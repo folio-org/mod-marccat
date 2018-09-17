@@ -253,7 +253,7 @@ public class DAODiscard extends DAOCopy {
 		List result = new ArrayList();
 		DAOOrganisationHierarchy doh = new DAOOrganisationHierarchy();
 		DAOLocation dl = new DAOLocation();
-		DAOShelfList dsl = new DAOShelfList();
+		ShelfListDAO dsl = new ShelfListDAO();
 		//DAOCopyNotes dcn = new DAOCopyNotes();
 		DAOInventory dci = new DAOInventory();
 		DAODiscard   ddsc = new DAODiscard();
@@ -289,8 +289,9 @@ public class DAODiscard extends DAOCopy {
             int  shelfListKeyNumber = getShelfListKeyNumber(rawCopy.getCopyIdNumber());
             rawCopy.setShelfListKeyNumber(shelfListKeyNumber);
            	if (rawCopy.getShelfListKeyNumber() != null) {
-				rawCopy.setShelfList(new DAOShelfList().loadShelf(rawCopy
-						.getShelfListKeyNumber().intValue()));
+				//TODO passare la session al metodo load
+				rawCopy.setShelfList(new ShelfListDAO().load(rawCopy
+						.getShelfListKeyNumber().intValue(), null));
 				if (rawCopy.getShelfList() != null) {
 					rawCopyListElement
 							.setShelfList((new StringText(rawCopy

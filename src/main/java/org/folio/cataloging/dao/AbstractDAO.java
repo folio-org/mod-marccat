@@ -34,7 +34,6 @@ public abstract class AbstractDAO extends HibernateUtil {
      * @param session the current hibernate session.
      * @throws HibernateException in case of hibernate exception.
      */
-    //TODO: check if needs to modify in "persistentObject.getDAO().save/delete/update" but all DAO have to extends from abstractDAO
     public void persistByStatus(final Persistence persistentObject, final Session session) throws HibernateException {
         if (persistentObject.isNew()) {
             save(persistentObject, session);
@@ -52,7 +51,7 @@ public abstract class AbstractDAO extends HibernateUtil {
      * @param session the current hibernate session.
      * @throws HibernateException in case of hibernate exception.
      */
-    private void delete(final Persistence persistentObject, final Session session) throws HibernateException {
+    public void delete(final Persistence persistentObject, final Session session) throws HibernateException {
         Transaction tx = null;
         try {
             tx = getTransaction(session);

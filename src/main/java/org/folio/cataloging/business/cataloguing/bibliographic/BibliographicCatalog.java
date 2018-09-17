@@ -1,16 +1,18 @@
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.cataloguing.common.*;
 import org.folio.cataloging.business.common.*;
-import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.PublisherTagDescriptor;
 import org.folio.cataloging.dao.*;
 import org.folio.cataloging.dao.persistence.*;
+import org.folio.cataloging.dao.persistence.Map;
 import org.folio.cataloging.exception.ValidationException;
 import org.folio.cataloging.integration.GlobalStorage;
 import org.folio.cataloging.shared.CorrelationValues;
 
-import java.text.ParsePosition;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -37,10 +39,10 @@ public class BibliographicCatalog extends Catalog {
 		FIXED_FIELDS_FACTORY = new MapBackedFactory();
 		final PropertyBasedFactoryBuilder builder = new PropertyBasedFactoryBuilder();
 		builder.load(
-				"/org/folio/cataloging/dao/persistence/TAG_FACTORY.properties",
+				"/org/folio/cataloging/business/cataloguing/bibliographic/tagFactory.properties",
 				TAG_FACTORY);
 		builder.load(
-				"/org/folio/cataloging/dao/persistence/FIXED_FIELDS_FACTORY.properties",
+				"/org/folio/cataloging/business/cataloguing/bibliographic/fixedFieldFactory.properties",
 				FIXED_FIELDS_FACTORY);
 	}
 
@@ -57,7 +59,7 @@ public class BibliographicCatalog extends Catalog {
 	/**
 	 * Ensures that after creating a new BibItem (usually from a model) that the
 	 * item has at least the required mandatory tags
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void addRequiredTags(final CatalogItem item) throws NewTagException {
@@ -90,7 +92,7 @@ public class BibliographicCatalog extends Catalog {
 	}
 
 	public DateOfLastTransactionTag createRequiredDateOfLastTransactionTag(CatalogItem item) throws NewTagException {
-		DateOfLastTransactionTag dateTag =
+		final DateOfLastTransactionTag dateTag =
 			(DateOfLastTransactionTag) getNewTag(item,
                     GlobalStorage.HEADER_CATEGORY,
 				new CorrelationValues(
@@ -100,47 +102,71 @@ public class BibliographicCatalog extends Catalog {
 		return dateTag;
 	}
 
-    public TitleAccessPoint createTitleAccessPointTag(final BibliographicCatalog catalog, final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-        TitleAccessPoint tap =
-                (TitleAccessPoint) catalog.getNewTag(item,
-                        GlobalStorage.TITLE_CATEGORY,
-                        correlationValues);
-        return tap;
-    }
+  public PhysicalDescription createPhysicalDescriptionTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException {
+    final PhysicalDescription physicalDescription =
+      (PhysicalDescription) getNewTag(item,
+        GlobalStorage.HEADER_CATEGORY,
+        correlationValues);
+    return physicalDescription;
+  }
 
-    public NameAccessPoint createNameAccessPointTag(final BibliographicCatalog catalog, final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-        NameAccessPoint nap =
-                (NameAccessPoint) catalog.getNewTag(item,
-                        GlobalStorage.NAME_CATEGORY,
-                        correlationValues);
-        return nap;
-    }
+  public PublisherManager createPublisherTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
+    final PublisherManager pap =
+      (PublisherManager) getNewTag(item,
+        GlobalStorage.PUBLISHER_CATEGORY,
+        correlationValues);
+    return pap;
+  }
 
-    public ClassificationAccessPoint createClassificationAccessPoint(BibliographicCatalog catalog, CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-		ClassificationAccessPoint clap =
-                (ClassificationAccessPoint) catalog.getNewTag(item,
-                        GlobalStorage.CLASSIFICATION_CATEGORY,
-                        correlationValues);
-        return clap;
-    }
+  public TitleAccessPoint createTitleAccessPointTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
+    final TitleAccessPoint tap =
+      (TitleAccessPoint) getNewTag(item,
+        GlobalStorage.TITLE_CATEGORY,
+        correlationValues);
+    return tap;
+  }
 
-	public SubjectAccessPoint createSubjectAccessPoint(BibliographicCatalog catalog, CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-		SubjectAccessPoint sap =
-				(SubjectAccessPoint) catalog.getNewTag(item,
-						GlobalStorage.SUBJECT_CATEGORY,
-						correlationValues);
-		return sap;
-	}
+  public NameAccessPoint createNameAccessPointTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
+    final NameAccessPoint nap =
+      (NameAccessPoint) getNewTag(item,
+        GlobalStorage.NAME_CATEGORY,
+        correlationValues);
+    return nap;
+  }
 
-	public ControlNumberAccessPoint createControlNumberAccessPoint(BibliographicCatalog catalog, CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-		ControlNumberAccessPoint cnap =
-				(ControlNumberAccessPoint) catalog.getNewTag(item,
-						GlobalStorage.CONTROL_NUMBER_CATEGORY,
-						correlationValues);
-		return cnap;
-	}
+  public ClassificationAccessPoint createClassificationAccessPoint(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
+    final ClassificationAccessPoint clap =
+      (ClassificationAccessPoint) getNewTag(item,
+        GlobalStorage.CLASSIFICATION_CATEGORY,
+        correlationValues);
+    return clap;
+  }
 
-	public void addRequiredTagsForModel(CatalogItem item) throws NewTagException {
+  public SubjectAccessPoint createSubjectAccessPoint(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
+    final SubjectAccessPoint sap =
+      (SubjectAccessPoint) getNewTag(item,
+        GlobalStorage.SUBJECT_CATEGORY,
+        correlationValues);
+    return sap;
+  }
+
+  public ControlNumberAccessPoint createControlNumberAccessPoint(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
+    final ControlNumberAccessPoint cnap =
+      (ControlNumberAccessPoint) getNewTag(item,
+        GlobalStorage.CONTROL_NUMBER_CATEGORY,
+        correlationValues);
+    return cnap;
+  }
+
+  public BibliographicNoteTag createBibliographicNoteTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
+    final BibliographicNoteTag nTag =
+      (BibliographicNoteTag) getNewTag(item,
+        GlobalStorage.BIB_NOTE_CATEGORY,
+        correlationValues);
+    return nTag;
+  }
+
+	public void addRequiredTagsForModel(final CatalogItem item) throws NewTagException {
 		BibliographicLeader leader = createRequiredLeaderTag(item);
 		if (!item.getTags().contains(leader)) {
 			item.addTag(leader);
@@ -154,7 +180,7 @@ public class BibliographicCatalog extends Catalog {
 		MaterialDescription mdTag = createRequiredMaterialDescriptionTag(item);
 		if (!item.getTags().contains(mdTag)) {
 			item.addTag(mdTag);
-			
+
 		}
 
 		CataloguingSourceTag source = createRequiredCataloguingSourceTag(item);
@@ -163,7 +189,7 @@ public class BibliographicCatalog extends Catalog {
 		}
 	}
 
-	public CataloguingSourceTag createRequiredCataloguingSourceTag(CatalogItem item) throws NewTagException {
+	public CataloguingSourceTag createRequiredCataloguingSourceTag(final CatalogItem item) throws NewTagException {
 		CataloguingSourceTag source =
 			(CataloguingSourceTag) getNewTag(item,
                     GlobalStorage.HEADER_CATEGORY,
@@ -314,7 +340,7 @@ public class BibliographicCatalog extends Catalog {
 		}
 
 	}
-	
+
 	@Override
 	public String getMarcTypeCode() {
 		return "B";
@@ -335,7 +361,7 @@ public class BibliographicCatalog extends Catalog {
 	public void transferItems(Descriptor source, Descriptor target) throws DataAccessException {
 		/*CATALOG_DAO.transferItems(source, target);*/
 	}
-	
+
 	public void attachEquivalentSubjects(final BibliographicItem item) throws DataAccessException {
 		final Collection newTags = CATALOG_DAO.getEquivalentSubjects(item);
 		item.getTags().addAll(newTags);
@@ -346,7 +372,7 @@ public class BibliographicCatalog extends Catalog {
 	public String getLockingEntityType() {
 		return "BI";
 	}
-	
+
 	/**
 	 * Determines whether the given bib record exists in the cataloguing view.
 	 * If it does not, then the record in the searching view is duplicated
@@ -360,62 +386,59 @@ public class BibliographicCatalog extends Catalog {
 	 */
 	//TODO
 	public CatalogItem findOrCreateMyView(
-			final int recordView,
-			final int amicusNumber,
-			final int cataloguingView) throws DataAccessException {
-		if (recordView == cataloguingView) {
-			// nothing to do
-			return getCatalogItem(amicusNumber, recordView);
-		}
-		try {
-			new DAOCache().load(amicusNumber, cataloguingView);
-			return getCatalogItem(amicusNumber, cataloguingView);
-		} catch (final RecordNotFoundException exception) {
-			// do nothing -- carry on creating record in myView
-		}
+    final int recordView,
+    final int amicusNumber,
+    final int cataloguingView,
+    final Session session) throws DataAccessException, HibernateException {
 
-		final CatalogItem item = (CatalogItem) deepCopy(getCatalogItem(amicusNumber, recordView));
-		applyKeyToItem(item, new Object[] { cataloguingView });
-		item.getItemEntity().markNew();
-		Iterator iter = item.getTags().iterator();
-		Tag aTag;
-		while (iter.hasNext()) {
-			aTag = (Tag) iter.next();
-			aTag.markNew();
-			// TODO PAUL provide a common api for AccessPoint and
-			// PublisherManager
-			if (aTag instanceof AccessPoint) {
-				AccessPoint apf = ((AccessPoint) aTag);
-				Descriptor orig = apf.getDescriptor();
-				Descriptor d = apf.getDAODescriptor().findOrCreateMyView(
-						orig.getHeadingNumber(),
-						View.makeSingleViewString(recordView), cataloguingView);
-				apf.setDescriptor(d);
-			} else if (aTag instanceof PublisherManager) {
-				PublisherManager pm = (PublisherManager) aTag;
-				PublisherAccessPoint apf = pm.getApf();
-				Descriptor orig = apf.getDescriptor();
-				List/*<PUBL_TAG>*/ publTags = ((PublisherTagDescriptor)orig).getPublisherTagUnits();
-				Iterator/*<PUBL_TAG>*/ ite = publTags.iterator();
-				while(ite.hasNext()) {
-					PUBL_TAG t =(PUBL_TAG)ite.next();
-					PUBL_HDG ph = null;
-					ph = (PUBL_HDG) t.getDescriptorDAO().findOrCreateMyView(
-							t.getPublisherHeadingNumber(),
-							View.makeSingleViewString(recordView), cataloguingView);
-					t.setDescriptor(ph);
-				  	t.setUserViewString(View.makeSingleViewString(cataloguingView));
-				}
-				apf.setUserViewString(View.makeSingleViewString(cataloguingView));
-				apf.setDescriptor(orig);
-				pm.setApf(apf);
-			} else if (aTag instanceof BibliographicRelationshipTag) {
-				BibliographicRelationshipTag relTag = (BibliographicRelationshipTag)aTag;
-				relTag.copyFromAnotherItem();
-			}
-		}
-		return item;
-	}
+	    if (recordView == cataloguingView) {
+        return getCatalogItem(amicusNumber, recordView);
+      }
+
+      try {
+        new DAOCache().load(amicusNumber, cataloguingView);
+        return getCatalogItem(amicusNumber, cataloguingView);
+      } catch (final RecordNotFoundException exception) {
+      }
+
+      final CatalogItem item = (CatalogItem) deepCopy(getCatalogItem(amicusNumber, recordView));
+      applyKeyToItem(item, new Object[] { cataloguingView });
+      item.getItemEntity().markNew();
+      Iterator iter = item.getTags().iterator();
+      Tag aTag;
+      while (iter.hasNext()) {
+        aTag = (Tag) iter.next();
+        aTag.markNew();
+        if (aTag instanceof AccessPoint) {
+          AccessPoint apf = ((AccessPoint) aTag);
+          Descriptor orig = apf.getDescriptor();
+          Descriptor d = apf.getDAODescriptor().findOrCreateMyView(orig.getHeadingNumber(), View.makeSingleViewString(recordView), cataloguingView, session);
+          apf.setDescriptor(d);
+        } else if (aTag instanceof PublisherManager) {
+          PublisherManager pm = (PublisherManager) aTag;
+          PublisherAccessPoint apf = pm.getApf();
+          Descriptor orig = apf.getDescriptor();
+          List<PUBL_TAG> publTags = ((PublisherTagDescriptor)orig).getPublisherTagUnits();
+          Iterator/*<PUBL_TAG>*/ ite = publTags.iterator();
+          while(ite.hasNext()) {
+            PUBL_TAG t =(PUBL_TAG)ite.next();
+            PUBL_HDG ph = null;
+            ph = (PUBL_HDG) t.getDescriptorDAO().findOrCreateMyView(
+                t.getPublisherHeadingNumber(),
+                View.makeSingleViewString(recordView), cataloguingView, session);
+            t.setDescriptor(ph);
+              t.setUserViewString(View.makeSingleViewString(cataloguingView));
+          }
+          apf.setUserViewString(View.makeSingleViewString(cataloguingView));
+          apf.setDescriptor(orig);
+          pm.setApf(apf);
+        } else if (aTag instanceof BibliographicRelationshipTag) {
+          BibliographicRelationshipTag relTag = (BibliographicRelationshipTag)aTag;
+          relTag.copyFromAnotherItem();
+        }
+      }
+      return item;
+    }
 
     /**
      * Put leader content into persistent hibernate object.
@@ -528,21 +551,130 @@ public class BibliographicCatalog extends Catalog {
         }
 
 		if (materialDescription.getMaterialDescription008Indicator().equals("1")) {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
-            Date date = formatter.parse(ff.getDateEnteredOnFile(), new ParsePosition(0));
-            materialDescription.setEnteredOnFileDate(date);
-            materialDescription.setItemDateTypeCode(ff.getDataTypeCode().charAt(0));
-            materialDescription.setItemDateFirstPublication(ff.getDateFirstPublication());
-            materialDescription.setItemDateLastPublication(ff.getDateLastPublication());
-            materialDescription.setMarcCountryCode(ff.getPlaceOfPublication());
-            materialDescription.setLanguageCode(ff.getLanguageCode());
-            materialDescription.setRecordModifiedCode(ff.getRecordModifiedCode().charAt(0));
-            materialDescription.setRecordCataloguingSourceCode(ff.getRecordCataloguingSourceCode().charAt(0));
-
-        } else {
-            materialDescription.setMaterialTypeCode(ff.getMaterialTypeCode());
+        	try {
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+				Date date = formatter.parse(ff.getDateEnteredOnFile());
+				materialDescription.setEnteredOnFileDate(date);
+			} catch (ParseException e) {
+				//
+			}
+			if (isNotNull(ff.getDataTypeCode()))	materialDescription.setItemDateTypeCode(ff.getDataTypeCode().charAt(0));
+            if (isNotNull(ff.getDateFirstPublication())) materialDescription.setItemDateFirstPublication(ff.getDateFirstPublication());
+			if (isNotNull(ff.getDateLastPublication())) materialDescription.setItemDateLastPublication(ff.getDateLastPublication());
+            if (isNotNull(ff.getPlaceOfPublication())) materialDescription.setMarcCountryCode(ff.getPlaceOfPublication());
+            if (isNotNull(ff.getLanguageCode())) materialDescription.setLanguageCode(ff.getLanguageCode());
+            if (isNotNull(ff.getRecordModifiedCode())) materialDescription.setRecordModifiedCode(ff.getRecordModifiedCode().charAt(0));
+            if (isNotNull(ff.getRecordCataloguingSourceCode())) materialDescription.setRecordCataloguingSourceCode(ff.getRecordCataloguingSourceCode().charAt(0));
         }
 
     }
-	
+
+  /**
+   * Put physical type content into persistent hibernate object.
+   *
+   * @param ff -- the fixed field representing material description.
+   * @param physicalDescription -- the persistent hibernate class {@link PhysicalDescription}.
+   */
+  public void toPhysicalDescription(final org.folio.cataloging.resources.domain.FixedField ff,
+                                    final PhysicalDescription physicalDescription) {
+
+    physicalDescription.setGeneralMaterialDesignationCode(ff.getCategoryOfMaterial().charAt(0));
+    physicalDescription.setSpecificMaterialDesignationCode(ff.getSpecificMaterialDesignationCode().charAt(0));
+    if (physicalDescription instanceof ElectronicResource) {
+      if (isNotNull(ff.getColourCode())) ((ElectronicResource) physicalDescription).setColourCode(ff.getColourCode().charAt(0));
+      if (isNotNull(ff.getDimensionsCode())) ((ElectronicResource) physicalDescription).setDimensionsCode(ff.getDimensionsCode().charAt(0));
+      if (isNotNull(ff.getIncludesSoundCode())) ((ElectronicResource) physicalDescription).setIncludesSoundCode(ff.getIncludesSoundCode().charAt(0));
+      if (isNotNull(ff.getImageBitDepth())) ((ElectronicResource) physicalDescription).setImageBitDepth(ff.getImageBitDepth());
+      if (isNotNull(ff.getFileFormatsCode())) ((ElectronicResource) physicalDescription).setFileFormatsCode(ff.getFileFormatsCode().charAt(0));
+      if (isNotNull(ff.getQualityAssuranceTargetCode())) ((ElectronicResource) physicalDescription).setQualityAssuranceTargetCode(ff.getQualityAssuranceTargetCode().charAt(0));
+      if (isNotNull(ff.getAntecedentSourceCode())) ((ElectronicResource) physicalDescription).setAntecedentSourceCode(ff.getAntecedentSourceCode().charAt(0));
+      if (isNotNull(ff.getLevelOfCompressionCode())) ((ElectronicResource) physicalDescription).setLevelOfCompressionCode(ff.getLevelOfCompressionCode().charAt(0));
+      if (isNotNull(ff.getReformattingQualityCode())) ((ElectronicResource) physicalDescription).setReformattingQualityCode(ff.getReformattingQualityCode().charAt(0));
+      if (isNotNull(ff.getReformattingQualityCode())) ((ElectronicResource) physicalDescription).setReformattingQualityCode(ff.getReformattingQualityCode().charAt(0));
+    } else if (physicalDescription instanceof Globe) {
+      if (isNotNull(ff.getColourCode())) ((Globe) physicalDescription).setColourCode(ff.getColourCode().charAt(0));
+      if (isNotNull(ff.getPhysicalMediumCode())) ((Globe) physicalDescription).setPhysicalMediumCode(ff.getPhysicalMediumCode().charAt(0));
+      if (isNotNull(ff.getTypeOfReproductionCode())) ((Globe) physicalDescription).setTypeOfReproductionCode(ff.getTypeOfReproductionCode().charAt(0));
+    } else if (physicalDescription instanceof Map) {
+      if (isNotNull(ff.getColourCode())) ((Map) physicalDescription).setMapColourCode(ff.getColourCode().charAt(0));
+      if (isNotNull(ff.getPhysicalMediumCode())) ((Map) physicalDescription).setMapPhysicalMediumCode(ff.getPhysicalMediumCode().charAt(0));
+      if (isNotNull(ff.getTypeOfReproductionCode())) ((Map) physicalDescription).setMapTypeOfReproductionCode(ff.getTypeOfReproductionCode().charAt(0));
+      if (isNotNull(ff.getProductionDetailsCode())) ((Map) physicalDescription).setMapProductionDetailsCode(ff.getProductionDetailsCode().charAt(0));
+      if (isNotNull(ff.getPolarityCode())) ((Map) physicalDescription).setMapPolarityCode(ff.getPolarityCode().charAt(0));
+    } else if (physicalDescription instanceof TactileMaterial) {
+      if (isNotNull(ff.getClassOfBrailleWritingCodes())) ((TactileMaterial) physicalDescription).setClassOfBrailleWritingCodes(ff.getClassOfBrailleWritingCodes());
+      if (isNotNull(ff.getLevelOfContractionCode())) ((TactileMaterial) physicalDescription).setLevelOfContractionCode(ff.getLevelOfContractionCode().charAt(0));
+      if (isNotNull(ff.getBrailleMusicFormatCodes())) ((TactileMaterial) physicalDescription).setBrailleMusicFormatCodes(ff.getBrailleMusicFormatCodes());
+      if (isNotNull(ff.getSpecificPhysicalCharacteristicsCode())) ((TactileMaterial) physicalDescription).setSpecificPhysicalCharacteristicsCode(ff.getSpecificPhysicalCharacteristicsCode().charAt(0));
+    } else if (physicalDescription instanceof ProjectedGraphic) {
+      if (isNotNull(ff.getColourCode())) ((ProjectedGraphic) physicalDescription).setColourCode(ff.getColourCode().charAt(0));
+      if (isNotNull(ff.getBaseOfEmulsionCode())) ((ProjectedGraphic) physicalDescription).setBaseOfEmulsionCode(ff.getBaseOfEmulsionCode().charAt(0));
+      if (isNotNull(ff.getSoundOnMediumOrSeparateCode())) ((ProjectedGraphic) physicalDescription).setSoundOnMediumOrSeparateCode(ff.getSoundOnMediumOrSeparateCode().charAt(0));
+      if (isNotNull(ff.getMediumForSoundCode())) ((ProjectedGraphic) physicalDescription).setMediumForSoundCode(ff.getMediumForSoundCode().charAt(0));
+      if (isNotNull(ff.getDimensionsCode())) ((ProjectedGraphic) physicalDescription).setDimensionsCode(ff.getDimensionsCode().charAt(0));
+      if (isNotNull(ff.getSecondarySupportMaterialCode())) ((ProjectedGraphic) physicalDescription).setSecondarySupportMaterialCode(ff.getSecondarySupportMaterialCode().charAt(0));
+    } else if (physicalDescription instanceof Microform) {
+      if (isNotNull(ff.getPolarityCode())) ((Microform) physicalDescription).setPolarityCode(ff.getPolarityCode().charAt(0));
+      if (isNotNull(ff.getDimensionsCode())) ((Microform) physicalDescription).setDimensionsCode(ff.getDimensionsCode().charAt(0));
+      if (isNotNull(ff.getReductionRatioRangeCode())) ((Microform) physicalDescription).setReductionRatioRangeCode(ff.getReductionRatioRangeCode().charAt(0));
+      if (isNotNull(ff.getReductionRatioCode())) ((Microform) physicalDescription).setReductionRatioCode(ff.getReductionRatioCode());
+      if (isNotNull(ff.getColourCode())) ((Microform) physicalDescription).setColourCode(ff.getColourCode().charAt(0));
+      if (isNotNull(ff.getEmulsionOnFilmCode())) ((Microform) physicalDescription).setEmulsionOnFilmCode(ff.getEmulsionOnFilmCode().charAt(0));
+      if (isNotNull(ff.getGenerationCode())) ((Microform) physicalDescription).setGenerationCode(ff.getGenerationCode().charAt(0));
+      if (isNotNull(ff.getBaseOfFilmCode())) ((Microform) physicalDescription).setBaseOfFilmCode(ff.getBaseOfFilmCode().charAt(0));
+    } else if (physicalDescription instanceof NonProjectedGraphic) {
+      if (isNotNull(ff.getColourCode())) ((NonProjectedGraphic) physicalDescription).setColourCode(ff.getColourCode().charAt(0));
+      if (isNotNull(ff.getPrimarySupportMaterialCode())) ((NonProjectedGraphic) physicalDescription).setPrimarySupportMaterialCode(ff.getPrimarySupportMaterialCode().charAt(0));
+      if (isNotNull(ff.getSecondarySupportMaterialCode())) ((NonProjectedGraphic) physicalDescription).setSecondarySupportMaterialCode(ff.getSecondarySupportMaterialCode().charAt(0));
+    } else if (physicalDescription instanceof MotionPicture) {
+      if (isNotNull(ff.getColourCode())) ((MotionPicture) physicalDescription).setColourCode(ff.getColourCode().charAt(0));
+      if (isNotNull(ff.getPresentationFormatCode())) ((MotionPicture) physicalDescription).setPresentationFormatCode(ff.getPresentationFormatCode().charAt(0));
+      if (isNotNull(ff.getSoundOnMediumOrSeparateCode())) ((MotionPicture) physicalDescription).setIncludesSoundCode(ff.getSoundOnMediumOrSeparateCode().charAt(0));
+      if (isNotNull(ff.getMediumForSoundCode())) ((MotionPicture) physicalDescription).setMediumForSoundCode(ff.getMediumForSoundCode().charAt(0));
+      if (isNotNull(ff.getDimensionsCode())) ((MotionPicture) physicalDescription).setDimensionsCode(ff.getDimensionsCode().charAt(0));
+      if (isNotNull(ff.getConfigurationCode())) ((MotionPicture) physicalDescription).setConfigurationCode(ff.getConfigurationCode().charAt(0));
+      if (isNotNull(ff.getProductionElementsCode())) ((MotionPicture) physicalDescription).setProductionElementsCode(ff.getProductionElementsCode().charAt(0));
+      if (isNotNull(ff.getPolarityCode())) ((MotionPicture) physicalDescription).setPolarityCode(ff.getPolarityCode().charAt(0));
+      if (isNotNull(ff.getGenerationCode())) ((MotionPicture) physicalDescription).setGenerationCode(ff.getPolarityCode().charAt(0));
+      if (isNotNull(ff.getBaseOfFilmCode())) ((MotionPicture) physicalDescription).setBaseOfFilmCode(ff.getBaseOfFilmCode().charAt(0));
+      if (isNotNull(ff.getRefinedCategoriesOfColourCode())) ((MotionPicture) physicalDescription).setRefinedCategoriesOfColourCode(ff.getRefinedCategoriesOfColourCode().charAt(0));
+      if (isNotNull(ff.getKindOfColourStockCode())) ((MotionPicture) physicalDescription).setKindOfColourStockCode(ff.getKindOfColourStockCode().charAt(0));
+      if (isNotNull(ff.getDeteriorationStageCode())) ((MotionPicture) physicalDescription).setDeteriorationStageCode(ff.getDeteriorationStageCode().charAt(0));
+      if (isNotNull(ff.getCompletenessCode())) ((MotionPicture) physicalDescription).setCompletenessCode(ff.getCompletenessCode().charAt(0));
+      if (isNotNull(ff.getInspectionDate())) ((MotionPicture) physicalDescription).setInspectionDate(ff.getInspectionDate());
+    } else if (physicalDescription instanceof Kit) {
+    } else if (physicalDescription instanceof NotatedMusic) {
+    } else if (physicalDescription instanceof RemoteSensingImage) {
+      if (isNotNull(ff.getAltitudeOfSensorCode())) ((RemoteSensingImage) physicalDescription).setAltitudeOfSensorCode(ff.getAltitudeOfSensorCode().charAt(0));
+      if (isNotNull(ff.getAttitudeOfSensorCode())) ((RemoteSensingImage) physicalDescription).setAttitudeOfSensorCode(ff.getAttitudeOfSensorCode().charAt(0));
+      if (isNotNull(ff.getCloudCoverCode())) ((RemoteSensingImage) physicalDescription).setCloudCoverCode(ff.getCloudCoverCode().charAt(0));
+      if (isNotNull(ff.getPlatformConstructionTypeCode())) ((RemoteSensingImage) physicalDescription).setPlatformConstructionTypeCode(ff.getPlatformConstructionTypeCode().charAt(0));
+      if (isNotNull(ff.getPlatformUseCode())) ((RemoteSensingImage) physicalDescription).setPlatformUseCode(ff.getPlatformUseCode().charAt(0));
+      if (isNotNull(ff.getSensorTypeCode())) ((RemoteSensingImage) physicalDescription).setSensorTypeCode(ff.getSensorTypeCode().charAt(0));
+      if (isNotNull(ff.getDataTypeCode())) ((RemoteSensingImage) physicalDescription).setDataTypeCode(ff.getDataTypeCode());
+    } else if (physicalDescription instanceof SoundRecording) {
+      if (isNotNull(ff.getSpeedCode())) ((SoundRecording) physicalDescription).setSpeedCode(ff.getSpeedCode().charAt(0));
+      if (isNotNull(ff.getConfigurationCode())) ((SoundRecording) physicalDescription).setConfigurationCode(ff.getConfigurationCode().charAt(0));
+      if (isNotNull(ff.getGrooveWidthCode())) ((SoundRecording) physicalDescription).setGrooveWidthCode(ff.getGrooveWidthCode().charAt(0));
+      if (isNotNull(ff.getDimensionsCode())) ((SoundRecording) physicalDescription).setDimensionsCode(ff.getDimensionsCode().charAt(0));
+      if (isNotNull(ff.getTapeWidthCode())) ((SoundRecording) physicalDescription).setTapeWidthCode(ff.getTapeWidthCode().charAt(0));
+      if (isNotNull(ff.getTapeConfigurationCode())) ((SoundRecording) physicalDescription).setTapeConfigurationCode(ff.getTapeConfigurationCode().charAt(0));
+      if (isNotNull(ff.getDiscTypeCode())) ((SoundRecording) physicalDescription).setDiscTypeCode(ff.getDiscTypeCode().charAt(0));
+      if (isNotNull(ff.getSndMaterialTypeCode())) ((SoundRecording) physicalDescription).setSndMaterialTypeCode(ff.getSndMaterialTypeCode().charAt(0));
+      if (isNotNull(ff.getCuttingTypeCode())) ((SoundRecording) physicalDescription).setCuttingTypeCode(ff.getCuttingTypeCode().charAt(0));
+      if (isNotNull(ff.getSpecialPlaybackCharacteristicsCode())) ((SoundRecording) physicalDescription).setSpecialPlaybackCharacteristicsCode(ff.getSpecialPlaybackCharacteristicsCode().charAt(0));
+      if (isNotNull(ff.getStorageTechniqueCode())) ((SoundRecording) physicalDescription).setStorageTechniqueCode(ff.getStorageTechniqueCode().charAt(0));
+    } else if (physicalDescription instanceof Text) {
+    } else if (physicalDescription instanceof Unspecified) {
+    } else if (physicalDescription instanceof VideoRecording) {
+      if (isNotNull(ff.getColourCode())) ((VideoRecording) physicalDescription).setColourCode(ff.getColourCode().charAt(0));
+      if (isNotNull(ff.getFormatCode())) ((VideoRecording) physicalDescription).setFormatCode(ff.getFormatCode().charAt(0));
+      if (isNotNull(ff.getIncludesSoundCode())) ((VideoRecording) physicalDescription).setIncludesSoundCode(ff.getIncludesSoundCode().charAt(0));
+      if (isNotNull(ff.getMediumForSoundCode())) ((VideoRecording) physicalDescription).setMediumForSoundCode(ff.getMediumForSoundCode().charAt(0));
+      if (isNotNull(ff.getDimensionsCode())) ((VideoRecording) physicalDescription).setDimensionsCode(ff.getDimensionsCode().charAt(0));
+      if (isNotNull(ff.getConfigurationCode())) ((VideoRecording) physicalDescription).setConfigurationCode(ff.getConfigurationCode().charAt(0));
+    }
+
+  }
+
 }

@@ -1,20 +1,22 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Dec 22, 2004
- * 
+ *
  * DAOPublisherTag.java
  */
 package org.folio.cataloging.dao;
 
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicNoteTag;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.UpdateStatus;
 import org.folio.cataloging.dao.persistence.BibliographicNote;
 import org.folio.cataloging.dao.persistence.BibliographicNoteOverflow;
+import org.folio.cataloging.dao.persistence.BibliographicNoteTag;
 import org.folio.cataloging.dao.persistence.StandardNoteAccessPoint;
 
 import java.util.Iterator;
@@ -23,12 +25,13 @@ import java.util.Iterator;
  * @version $Revision: 1.4 $ $Date: 2005/12/21 08:30:32 $
  * @since 1.0
  */
+//TODO refactor!
 public class DAOBibliographicNoteTag extends AbstractDAO {
 	private static final Log logger = LogFactory.getLog(BibliographicNoteTag.class);
 	/* (non-Javadoc)
 	 * @see HibernateUtil#delete(librisuite.business.common.Persistence)
 	 */
-	public void delete(Persistence po) throws DataAccessException 
+	public void delete(Persistence po) throws DataAccessException
 	{
 			if (!(po instanceof BibliographicNoteTag)) {
 				throw new IllegalArgumentException("I can only persist BibliographicNoteTag objects");
@@ -45,7 +48,7 @@ public class DAOBibliographicNoteTag extends AbstractDAO {
 			while (iter.hasNext()) {
 				overflow = (BibliographicNoteOverflow) iter.next();
 				overflow.markDeleted();
-				persistByStatus(overflow);			
+				persistByStatus(overflow);
 				super.delete(overflow);
 			}
 			aNote.setUpdateStatus(UpdateStatus.REMOVED);
@@ -54,38 +57,31 @@ public class DAOBibliographicNoteTag extends AbstractDAO {
 	/* (non-Javadoc)
 	 * @see HibernateUtil#save(librisuite.business.common.Persistence)
 	 */
-	public void save(Persistence po) throws DataAccessException {
+	public void save(final Persistence po, final Session session) throws DataAccessException, HibernateException {
 		if (!(po instanceof BibliographicNoteTag)) {
-			throw new IllegalArgumentException(
-					"I can only persist BibliographicNoteTag objects");
+			throw new IllegalArgumentException("I can only persist BibliographicNoteTag objects");
 		}
+
 		BibliographicNoteTag aNote = (BibliographicNoteTag) po;
 
-		logger.debug("save bibliographicNoteTag");
-
 		Iterator iter = aNote.getOverflowList().iterator();
-
-		logger.debug("overflow list size " + aNote.getOverflowList().size());
 		BibliographicNote note = aNote.getNote();
 		while (iter.hasNext()) {
-			BibliographicNoteOverflow noteOverflow = (BibliographicNoteOverflow) iter
-					.next();
+			BibliographicNoteOverflow noteOverflow = (BibliographicNoteOverflow) iter.next();
 			noteOverflow.setBibItemNumber(note.getItemNumber());
 			noteOverflow.setUserViewString(note.getUserViewString());
 			noteOverflow.setNoteNbr(note.getNoteNbr());
 			if (noteOverflow.isNew()) {
-				noteOverflow.generateNewKey();
+				noteOverflow.generateNewKey(session);
 			}
-			persistByStatus(noteOverflow);
+			persistByStatus(noteOverflow, session);
 		}
 
 		iter = aNote.getDeletedOverflowList().iterator();
 		while (iter.hasNext()) {
-			BibliographicNoteOverflow noteOverflow = (BibliographicNoteOverflow) iter
-					.next();
-			// MIKE: process only the overlow marked as deleted
+			BibliographicNoteOverflow noteOverflow = (BibliographicNoteOverflow) iter.next();
 			if (noteOverflow.isDeleted()) {
-				persistByStatus(noteOverflow);
+				persistByStatus(noteOverflow, session);
 			}
 		}
 
@@ -98,14 +94,14 @@ public class DAOBibliographicNoteTag extends AbstractDAO {
 			noteStandard.setUserViewString(note.getUserViewString());
 			noteStandard.setNoteNbr(note.getNoteNbr());
 			/* Testo variabile RIMOZIONE CODICE SOTTOCAMPO 03/04/2009*/
-			persistByStatus(noteStandard);
+			persistByStatus(noteStandard, session);
 			/*if (aNote.isStandardNoteType()){
 				if(note.getContent().substring(2).trim().length()>0)
 				note.setContent(note.getContent().substring(2));
 				else
 				  note.setContent(" "); */
 			//}
-			
+
 		}
 
 		if (aNote.isNew()) {
@@ -114,25 +110,23 @@ public class DAOBibliographicNoteTag extends AbstractDAO {
 				aNote.getNoteStandard().markNew();
 
 		}
-	
-		persistByStatus(note);
-		
+
+		persistByStatus(note, session);
+
 		if(aNote.isStandardNoteType())
-		  persistByStatus(aNote.getNoteStandard());
+		  persistByStatus(aNote.getNoteStandard(), session);
 		aNote.markUnchanged();
 	}
 
 	/* (non-Javadoc)
 	 * @see HibernateUtil#update(librisuite.business.common.Persistence)
 	 */
-	public void update(Persistence p)
-		throws DataAccessException {
-		/*
-		 * Since we are deleting and re-adding, save and update are the same
-		 */
-		 logger.debug("update bibliographicNoteTag");
-		 
-		save(p);
-	}
+	public void update(final Persistence p, final Session session) throws DataAccessException {
+    try {
+      save(p, session);
+    } catch (HibernateException e) {
+      throw new DataAccessException(e);
+    }
+  }
 
 }

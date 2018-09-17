@@ -1,13 +1,12 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Dec 30, 2005
- * 
+ *
  * TTL_NME_TTL_REF.java
  */
 package org.folio.cataloging.dao.persistence;
 
-import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.dao.*;
 
 /**
@@ -20,13 +19,13 @@ public class TTL_NME_TTL_REF extends REF {
 	private int nameTitleHeadingNumber;
 	private int titleHeadingNumber;
 	private String sourceHeadingType;
-	
+
 	public boolean isSourceTitle() {
 		return getSourceHeadingType().equals("TH");
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int getNameTitleHeadingNumber() {
@@ -34,7 +33,7 @@ public class TTL_NME_TTL_REF extends REF {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public String getSourceHeadingType() {
@@ -42,7 +41,7 @@ public class TTL_NME_TTL_REF extends REF {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setNameTitleHeadingNumber(int i) {
@@ -50,7 +49,7 @@ public class TTL_NME_TTL_REF extends REF {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setSourceHeadingType(String string) {
@@ -62,12 +61,12 @@ public class TTL_NME_TTL_REF extends REF {
 	 */
 	public DAODescriptor getTargetDAO() {
 		if (isSourceTitle()) {
-			return new DAONameTitleDescriptor();
+			return new NameTitleDescriptorDAO();
 		}
 		else {
-			return new DAOTitleDescriptor();
+			return new TitleDescriptorDAO();
 		}
-		
+
 	}
 
 	/* (non-Javadoc)
@@ -94,7 +93,7 @@ public class TTL_NME_TTL_REF extends REF {
 
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int getTitleHeadingNumber() {
@@ -102,7 +101,7 @@ public class TTL_NME_TTL_REF extends REF {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setTitleHeadingNumber(int i) {

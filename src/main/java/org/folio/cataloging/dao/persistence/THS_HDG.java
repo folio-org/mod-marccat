@@ -4,7 +4,6 @@
 package org.folio.cataloging.dao.persistence;
 
 import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.SkipInFiling;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
 import org.folio.cataloging.dao.AbstractDAO;

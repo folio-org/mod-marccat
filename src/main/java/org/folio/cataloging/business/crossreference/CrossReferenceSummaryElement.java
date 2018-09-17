@@ -7,7 +7,7 @@
  */
 package org.folio.cataloging.business.crossreference;
 
-import org.folio.cataloging.business.descriptor.Descriptor;
+import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.dao.persistence.REF;
 
 

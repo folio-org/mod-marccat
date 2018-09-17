@@ -10,7 +10,6 @@ import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.filter.SameDescriptorTagFilter;
 import org.folio.cataloging.business.common.filter.TagFilter;
 import org.folio.cataloging.business.common.group.*;
-import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.exception.DuplicateTagException;
 import org.folio.cataloging.exception.MandatoryTagException;
 import org.folio.cataloging.exception.ValidationException;

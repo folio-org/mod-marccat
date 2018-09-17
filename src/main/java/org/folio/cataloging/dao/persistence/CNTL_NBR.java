@@ -1,166 +1,122 @@
-/*
- * (c) LibriCore
- * 
- * Created on Dec 1, 2004
- * 
- * CNTL_NBR.java
- */
 package org.folio.cataloging.dao.persistence;
 
 import org.folio.cataloging.business.cataloguing.authority.AuthorityControlNumberAccessPoint;
-import org.folio.cataloging.business.common.ConfigHandler;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
 import org.folio.cataloging.dao.AbstractDAO;
-import org.folio.cataloging.dao.DAOControlNumberDescriptor;
-import org.folio.cataloging.dao.DAOIndexList;
+import org.folio.cataloging.dao.ControlNumberDescriptorDAO;
 import org.folio.cataloging.shared.CorrelationValues;
 
 /**
+ * Hibernate class for table CNTL_NBR.
+ *
  * @author paulm
- * @version $Revision: 1.8 $, $Date: 2007/03/05 12:36:04 $
- * @since 1.0
+ * @author carment
  */
 public class CNTL_NBR extends Descriptor {
-	private static final long serialVersionUID = 1L;
+
+	/** The type code. */
 	private int typeCode;
-	private ConfigHandler configHandler =ConfigHandler.getInstance();
+
 	/**
-	 * Class constructor
-	 *
-	 * 
-	 * @since 1.0
+	 * Instantiates a new cntl nbr.
 	 */
 	public CNTL_NBR() {
 		super();
-		//setTypeCode(Defaults.getShort("controlNumber.typeCode"));
-		setDefaultTypeCode();
-		setVerificationLevel(Defaults.getChar("controlNumber.verificationLevel"));
 	}
 
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getReferenceClass()
+	 * @see Descriptor#getReferenceClass(java.lang.Class)
 	 */
 	public Class getReferenceClass(Class targetClazz) {
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getDAO()
+	/**
+	 * Gets the dao.
+	 *
+	 * @return the dao
 	 */
 	public AbstractDAO getDAO() {
-		return new DAOControlNumberDescriptor();
+		return new ControlNumberDescriptorDAO();
 	}
 
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getAccessPointClass()
+	 * @see Descriptor#getAccessPointClass()
 	 */
 	public Class getAccessPointClass() {
 		return ControlNumberAccessPoint.class;
 	}
 
+	/* (non-Javadoc)
+	 * @see Descriptor#getAuthorityAccessPointClass()
+	 */
 	@Override
 	public Class getAuthorityAccessPointClass() {
 		return AuthorityControlNumberAccessPoint.class;
 	}
 
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getDefaultBrowseKey()
+	 * @see Descriptor#getDefaultBrowseKey()
 	 */
 	public String getDefaultBrowseKey() {
-		try {
-			if(getTypeCode()==20||getTypeCode()==21||getTypeCode()==22)
-			   return "34P20";
-			else if(getTypeCode()==67||getTypeCode()==68)
-			  return "35P20";
-			else if(getTypeCode()==37||getTypeCode()==40||getTypeCode()==43||getTypeCode()==46||getTypeCode()==49)
-			  return "30P4";
-			//new Canadian
-			else if(getTypeCode()==93)
-				 return "20P3";
-			else if(getTypeCode()==3)
-				 return "16P30";
-			else
-			   return Defaults.getString("control.number.browse.index");
-			
-		} catch (RuntimeException e) {
-			return "16P30";
-		}
+		return "16P30";
 	}
 
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getNextNumberKeyFieldCode()
+	 * @see Descriptor#getNextNumberKeyFieldCode()
 	 */
 	public String getNextNumberKeyFieldCode() {
 		return "RN";
 	}
 
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getCorrelationValues()
+	 * @see Descriptor#getCorrelationValues()
 	 */
 	public CorrelationValues getCorrelationValues() {
 		return new CorrelationValues(
-			getTypeCode(),
-			CorrelationValues.UNDEFINED,
-			CorrelationValues.UNDEFINED);
+				getTypeCode(),
+				CorrelationValues.UNDEFINED,
+				CorrelationValues.UNDEFINED);
 	}
 
+
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#setCorrelationValues(librisuite.business.common.CorrelationValues)
+	 * @see Descriptor#setCorrelationValues(CorrelationValues)
 	 */
 	public void setCorrelationValues(CorrelationValues v) {
 		setTypeCode(v.getValue(1));
 	}
 
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getSortFormParameters()
+	 * @see Descriptor#getSortFormParameters()
 	 */
 	public SortFormParameters getSortFormParameters() {
 		return new SortFormParameters(300, getTypeCode(), 0, 0, 0);
 	}
 
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getCategory()
+	 * @see Descriptor#getCategory()
 	 */
 	public int getCategory() {
 		return 19;
 	}
 
 	/**
-	 * 
-	 * @since 1.0
+	 * Gets the type code.
+	 *
+	 * @return the type code
 	 */
 	public int getTypeCode() {
 		return typeCode;
 	}
 
 	/**
-	 * 
-	 * @since 1.0
+	 * Sets the type code.
+	 *
+	 * @param s the new type code
 	 */
 	public void setTypeCode(int s) {
 		typeCode = s;
-	}
-
-	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getBrowseKey()
-	 */
-	public String getBrowseKey() {
-		String result = null;
-		DAOIndexList dao = new DAOIndexList();
-		try {
-			//TODO this should use getSortFormParameters			
-			result = dao.getIndexBySortFormType((short) 300, getTypeCode());
-			if (result != null) {
-				return result;
-			} else {
-				return super.getBrowseKey();
-			}
-		} catch (DataAccessException e) {
-			return super.getBrowseKey();
-		}
 	}
 
 	/* (non-Javadoc)
@@ -169,12 +125,12 @@ public class CNTL_NBR extends Descriptor {
 	public String getHeadingNumberSearchIndexKey() {
 		return "231P";
 	}
+
+	/* (non-Javadoc)
+	 * @see Descriptor#getLockingEntityType()
+	 */
 	public String getLockingEntityType() {
 		return "RN";
 	}
-	public void setDefaultTypeCode(){		
-		int typCode= new Integer(configHandler.findValue("t_cntl_nbr_typ_fnctn","controlNumber.typeCode"));
-		int type = configHandler.isParamOfGlobalVariable("t_cntl_nbr_typ_fnctn") ? this.getType(typCode) : typCode;
-		setTypeCode((short)type);
-	}
+
 }

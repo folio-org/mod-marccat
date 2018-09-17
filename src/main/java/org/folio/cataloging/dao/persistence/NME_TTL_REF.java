@@ -8,7 +8,7 @@
 package org.folio.cataloging.dao.persistence;
 
 import org.folio.cataloging.dao.DAODescriptor;
-import org.folio.cataloging.dao.DAONameTitleDescriptor;
+import org.folio.cataloging.dao.NameTitleDescriptorDAO;
 
 /**
  * @author paulm
@@ -20,7 +20,7 @@ public class NME_TTL_REF extends REF {
 	 * @see REF#getTargetDAO()
 	 */
 	public DAODescriptor getTargetDAO() {
-		return new DAONameTitleDescriptor();
+		return new NameTitleDescriptorDAO();
 	}
 
 }

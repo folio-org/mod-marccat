@@ -19,7 +19,7 @@ import java.util.Map;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "keyNumber", "categoryCode", "description", "headerTypeCode", "itemTypeCode", "functionCode", "ind1", "ind2", "code", "displayValue", "subfields", "defaultSubfieldCode", "sequenceNumber" })
+@JsonPropertyOrder({ "keyNumber", "categoryCode", "description", "headerTypeCode", "headingTypeCode", "itemTypeCode", "functionCode", "ind1", "ind2", "code", "displayValue", "subfields", "defaultSubfieldCode", "sequenceNumber" })
 public class VariableField {
 
     @JsonProperty("keyNumber")
@@ -31,7 +31,8 @@ public class VariableField {
     @JsonProperty("description")
     private String description;
 
-    @JsonProperty("headerTypeCode")
+    //@JsonProperty("headerTypeCode")
+    @JsonAlias({ "headerTypeCode", "headingTypeCode" })
     private String headingTypeCode;
 
     @JsonProperty("itemTypeCode")
@@ -73,7 +74,7 @@ public class VariableField {
      * @return
      *     The keyNumber
      */
-    @JsonProperty("keyNumber")
+    //@JsonProperty("keyNumber")
     public Integer getKeyNumber() {
         return keyNumber;
     }
@@ -83,7 +84,7 @@ public class VariableField {
      * @param keyNumber
      *     The keyNumber
      */
-    @JsonProperty("keyNumber")
+    //@JsonProperty("keyNumber")
     public void setKeyNumber(Integer keyNumber) {
         this.keyNumber = keyNumber;
     }
@@ -93,7 +94,7 @@ public class VariableField {
      * @return
      *     The categoryCode
      */
-    @JsonProperty("categoryCode")
+    //@JsonProperty("categoryCode")
     public Integer getCategoryCode() {
         return categoryCode;
     }
@@ -103,7 +104,7 @@ public class VariableField {
      * @param categoryCode
      *     The categoryCode
      */
-    @JsonProperty("categoryCode")
+    //@JsonProperty("categoryCode")
     public void setCategoryCode(Integer categoryCode) {
         this.categoryCode = categoryCode;
     }
@@ -113,7 +114,7 @@ public class VariableField {
      * @return
      *     The headingTypeCode
      */
-    @JsonProperty("headerTypeCode")
+    //@JsonProperty("headerTypeCode")
     public String getHeadingTypeCode() {
         return headingTypeCode;
     }
@@ -123,7 +124,7 @@ public class VariableField {
      * @param headingTypeCode
      *     The headingTypeCode
      */
-    @JsonProperty("headerTypeCode")
+    //@JsonProperty("headerTypeCode")
     public void setHeadingTypeCode(String headingTypeCode) {
         this.headingTypeCode = headingTypeCode;
     }
@@ -138,7 +139,7 @@ public class VariableField {
      * @return
      *     The itemTypeCode
      */
-    @JsonProperty("itemTypeCode")
+    //@JsonProperty("itemTypeCode")
     public String getItemTypeCode() {
         return itemTypeCode;
     }
@@ -148,7 +149,7 @@ public class VariableField {
      * @param itemTypeCode
      *     The itemTypeCode
      */
-    @JsonProperty("itemTypeCode")
+    //@JsonProperty("itemTypeCode")
     public void setItemTypeCode(String itemTypeCode) {
         this.itemTypeCode = itemTypeCode;
     }
@@ -163,7 +164,7 @@ public class VariableField {
      * @return
      *     The functionCode
      */
-    @JsonProperty("functionCode")
+    //@JsonProperty("functionCode")
     public String getFunctionCode() {
         return functionCode;
     }
@@ -173,7 +174,7 @@ public class VariableField {
      * @param functionCode
      *     The functionCode
      */
-    @JsonProperty("functionCode")
+    //@JsonProperty("functionCode")
     public void setFunctionCode(String functionCode) {
         this.functionCode = functionCode;
     }
@@ -188,7 +189,7 @@ public class VariableField {
      * @return
      *     The ind1
      */
-    @JsonProperty("ind1")
+    //@JsonProperty("ind1")
     public String getInd1() {
         return ind1;
     }
@@ -198,7 +199,7 @@ public class VariableField {
      * @param ind1
      *     The ind1
      */
-    @JsonProperty("ind1")
+    //@JsonProperty("ind1")
     public void setInd1(String ind1) {
         this.ind1 = ind1;
     }
@@ -213,7 +214,7 @@ public class VariableField {
      * @return
      *     The ind2
      */
-    @JsonProperty("ind2")
+    //@JsonProperty("ind2")
     public String getInd2() {
         return ind2;
     }
@@ -223,7 +224,7 @@ public class VariableField {
      * @param ind2
      *     The ind2
      */
-    @JsonProperty("ind2")
+    //@JsonProperty("ind2")
     public void setInd2(String ind2) {
         this.ind2 = ind2;
     }
@@ -238,7 +239,7 @@ public class VariableField {
      * @return
      *     The code
      */
-    @JsonProperty("code")
+    //@JsonProperty("code")
     public String getCode() {
         return code;
     }
@@ -248,7 +249,7 @@ public class VariableField {
      * @param code
      *     The code
      */
-    @JsonProperty("code")
+    //@JsonProperty("code")
     public void setCode(String code) {
         this.code = code;
     }
@@ -263,7 +264,7 @@ public class VariableField {
      * @return
      *     The description
      */
-    @JsonProperty("description")
+    //@JsonProperty("description")
     public String getDescription() {
         return description;
     }
@@ -273,7 +274,7 @@ public class VariableField {
      * @param description
      *     The description
      */
-    @JsonProperty("description")
+    //@JsonProperty("description")
     public void setDescription(String description) {
         this.description = description;
     }
@@ -283,7 +284,7 @@ public class VariableField {
      * @return
      *     The value
      */
-    @JsonProperty("displayValue")
+    //@JsonProperty("displayValue")
     public String getValue() {
         return value;
     }
@@ -293,7 +294,7 @@ public class VariableField {
      * @param value
      *     The value
      */
-    @JsonProperty("displayValue")
+    //@JsonProperty("displayValue")
     public void setValue(String value) {
         this.value = value;
     }
@@ -308,7 +309,7 @@ public class VariableField {
      * @return
      *     The subfields
      */
-    @JsonProperty("subfields")
+    //@JsonProperty("subfields")
     public List<String> getSubfields() {
         return subfields;
     }
@@ -318,7 +319,7 @@ public class VariableField {
      * @param subfields
      *     The subfields
      */
-    @JsonProperty("subfields")
+    //@JsonProperty("subfields")
     public void setSubfields(List<String> subfields) {
         this.subfields = subfields;
     }
@@ -333,7 +334,7 @@ public class VariableField {
      * @return
      *     The defaultSubfieldCode
      */
-    @JsonProperty("defaultSubfieldCode")
+   // @JsonProperty("defaultSubfieldCode")
     public String getDefaultSubfieldCode() {
         return defaultSubfieldCode;
     }
@@ -343,7 +344,7 @@ public class VariableField {
      * @param defaultSubfieldCode
      *     The defaultSubfieldCode
      */
-    @JsonProperty("defaultSubfieldCode")
+    //@JsonProperty("defaultSubfieldCode")
     public void setDefaultSubfieldCode(String defaultSubfieldCode) {
         this.defaultSubfieldCode = defaultSubfieldCode;
     }
@@ -373,7 +374,7 @@ public class VariableField {
      * @return
      *     The sequenceNumber
      */
-    @JsonProperty("sequenceNumber")
+    //@JsonProperty("sequenceNumber")
     public int getSequenceNumber() {
         return sequenceNumber;
     }
@@ -383,7 +384,7 @@ public class VariableField {
      * @param sequenceNumber
      *     The sequenceNumber
      */
-    @JsonProperty("sequenceNumber")
+    //@JsonProperty("sequenceNumber")
     public void setSequenceNumber(int sequenceNumber) {
         this.sequenceNumber = sequenceNumber;
     }

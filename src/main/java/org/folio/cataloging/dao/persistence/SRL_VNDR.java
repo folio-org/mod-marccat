@@ -1,6 +1,7 @@
 package org.folio.cataloging.dao.persistence;
 
 import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
@@ -14,7 +15,7 @@ import java.io.Serializable;
 
 public class SRL_VNDR implements Persistence, Serializable {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private PersistenceState persistenceState = new PersistenceState();
@@ -29,7 +30,7 @@ public class SRL_VNDR implements Persistence, Serializable {
 	private Integer acquisitionType;
 
 	/**
-	 * 
+	 *
 	 * @see PersistenceState#cancelChanges()
 	 */
 	public void cancelChanges() {
@@ -37,7 +38,7 @@ public class SRL_VNDR implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @see PersistenceState#confirmChanges()
 	 */
 	public void confirmChanges() {
@@ -94,7 +95,7 @@ public class SRL_VNDR implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @see PersistenceState#markChanged()
 	 */
 	public void markChanged() {
@@ -102,7 +103,7 @@ public class SRL_VNDR implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @see PersistenceState#markDeleted()
 	 */
 	public void markDeleted() {
@@ -110,7 +111,7 @@ public class SRL_VNDR implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @see PersistenceState#markNew()
 	 */
 	public void markNew() {
@@ -118,7 +119,7 @@ public class SRL_VNDR implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @see PersistenceState#markUnchanged()
 	 */
 	public void markUnchanged() {
@@ -177,8 +178,8 @@ public class SRL_VNDR implements Persistence, Serializable {
 		evict(this);
 	}
 
-	public void generateNewKey() throws DataAccessException {
-		setVendorNumber(new SystemNextNumberDAO().getNextNumber("SV"));
+  public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
+		setVendorNumber(new SystemNextNumberDAO().getNextNumber("SV", session));
 	}
 
 	public AbstractDAO getDAO() {
@@ -307,7 +308,7 @@ public class SRL_VNDR implements Persistence, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	public boolean equals(Object arg0) {
@@ -321,7 +322,7 @@ public class SRL_VNDR implements Persistence, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
 	public int hashCode() {
@@ -330,7 +331,7 @@ public class SRL_VNDR implements Persistence, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {

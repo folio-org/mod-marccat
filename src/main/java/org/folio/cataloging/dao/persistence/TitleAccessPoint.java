@@ -4,7 +4,6 @@ import org.folio.cataloging.business.cataloguing.bibliographic.Equivalent;
 import org.folio.cataloging.business.cataloguing.bibliographic.NameTitleComponent;
 import org.folio.cataloging.business.cataloguing.common.OrderedTag;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.integration.GlobalStorage;
 import org.folio.cataloging.model.Subfield;
 import org.folio.cataloging.shared.CorrelationValues;
@@ -341,7 +340,7 @@ public class TitleAccessPoint extends NameTitleComponent implements OrderedTag, 
 	public void setDefaultTypeAndFunction() {
 		/*int typCode= new Integer(configHandler.findValue("t_ttl_fnctn_2nd_fnctn","titleAccessPoint.functionCode"));
 		int type = configHandler.isParamOfGlobalVariable("t_ttl_fnctn_2nd_fnctn") ? this.getType(typCode) : typCode;
-		
+
 		setFunctionCode((short)type);
 		int funCode= new Integer(configHandler.findValue("t_ttl_fnctn_2nd_fnctn","titleAccessPoint.secondaryFunctionCode"));
 		int function= this.getFunction(funCode);

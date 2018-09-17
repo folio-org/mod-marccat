@@ -7,14 +7,12 @@
  */
 package org.folio.cataloging.business.common;
 
-import java.util.Set;
-
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicRelationshipTag;
-import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
 import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
 import org.folio.cataloging.business.cataloguing.common.Browsable;
-
+import org.folio.cataloging.dao.persistence.BibliographicRelationshipTag;
 import org.folio.cataloging.util.StringText;
+
+import java.util.Set;
 
 /**
  * @author paulm
@@ -46,7 +44,7 @@ public class ValidatorForItemEditing
 	 * @see librisuite.business.common.Validator#computeRemainingValidSubfields(VariableField)
 	 */
 	public Set computeRemainingValidSubfields(VariableField f)
-		throws MarcCorrelationException, DataAccessException {
+		throws DataAccessException {
 		Set remaining = super.computeRemainingValidSubfields(f);
 
 		if (f instanceof Browsable) {

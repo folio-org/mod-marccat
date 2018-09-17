@@ -1,200 +1,196 @@
-/*
- * (c) LibriCore
- * 
- * Created on 21-jun-2004
- * 
- * SHLF_LIST.java
- */
 package org.folio.cataloging.dao.persistence;
 
-import org.folio.cataloging.business.common.ConfigHandler;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
 import org.folio.cataloging.dao.AbstractDAO;
-import org.folio.cataloging.dao.DAOIndexList;
-import org.folio.cataloging.dao.DAOShelfList;
+import org.folio.cataloging.dao.ShelfListDAO;
 import org.folio.cataloging.shared.CorrelationValues;
 
 import java.io.Serializable;
 
 /**
- * @author Usuario
- * @version $Revision: 1.16 $, $Date: 2006/07/12 15:42:56 $
- * @since 1.0
+ * * Hibernate class for table SHLF_LIST.
+ *
+ * @author paulm
+ * @author carment
  */
 public class SHLF_LIST extends Descriptor implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	/** The shelf list key number. */
 	private int shelfListKeyNumber;
-	private int mainLibraryNumber;
-	private char typeCode/*Defaults.getChar("bibliographic.shelflist.type")*/;
-	private Integer amicusNumber;
-	private ConfigHandler configHandler =ConfigHandler.getInstance();
 
+	/** The main library number. */
+	private int mainLibraryNumber;
+
+	/** The type code. */
+	private char typeCode;
+
+	/** The amicus number. */
+	private Integer amicusNumber;
+
+	/**
+	 * Instantiates a new shlf list.
+	 */
 	public SHLF_LIST() {
-	   super();
-	   setDefaultTypeCode();
+		super();
 	}
 
+	/**
+	 * Gets the amicus number.
+	 *
+	 * @return the amicus number
+	 */
 	public Integer getAmicusNumber() {
 		return amicusNumber;
 	}
 
+	/**
+	 * Sets the amicus number.
+	 *
+	 * @param amicusNumber the new amicus number
+	 */
 	public void setAmicusNumber(Integer amicusNumber) {
 		this.amicusNumber = amicusNumber;
 	}
 
 	/**
-	 * @return mainLibraryNumber
+	 * Gets the main library number.
+	 *
+	 * @return the main library number
 	 */
 	public int getMainLibraryNumber() {
 		return mainLibraryNumber;
 	}
 
 	/**
-	 * Getter for shelfListKeyNumber
-	 * 
-	 * @return shelfListKeyNumber
+	 * Gets the shelf list key number.
+	 *
+	 * @return the shelf list key number
 	 */
 	public int getShelfListKeyNumber() {
 		return shelfListKeyNumber;
 	}
 
 	/**
-	 * Getter for shelfListTypeCode
-	 * 
-	 * @return shelfListTypeCode
+	 * Gets the type code.
+	 *
+	 * @return the type code
 	 */
 	public char getTypeCode() {
 		return typeCode;
 	}
 
 	/**
-	 * Setter for mainLibraryNumber
-	 * 
-	 * @param i mainLibraryNumber
+	 * Sets the main library number.
+	 *
+	 * @param i the new main library number
 	 */
 	public void setMainLibraryNumber(int i) {
 		mainLibraryNumber = i;
 	}
 
+
 	/**
-	 * Setter for shelfListKeyNumber
-	 * 
-	 * @param i shelfListKeyNumber
+	 * Sets the shelf list key number.
+	 *
+	 * @param i the new shelf list key number
 	 */
 	public void setShelfListKeyNumber(int i) {
 		shelfListKeyNumber = i;
-		getKey().setHeadingNumber(i);   // to preserve Descriptor behaviour
+		getKey().setHeadingNumber(i);
 	}
+
 	/**
-	 * Setter for shelfListTypeCode
-	 * 
-	 * @param c shelfListTypeCode
+	 * Sets the type code.
+	 *
+	 * @param c the new type code
 	 */
 	public void setTypeCode(char c) {
 		typeCode = c;
 	}
 
+
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getAccessPointClass()
+	 * @see Descriptor#getAccessPointClass()
 	 */
 	public Class getAccessPointClass() {
 		return SHLF_LIST_ACS_PNT.class;
 	}
 
+
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getCategory()
+	 * @see Descriptor#getCategory()
 	 */
 	public int getCategory() {
 		return 14;
 	}
 
+
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getCorrelationValues()
+	 * @see Descriptor#getCorrelationValues()
 	 */
 	public CorrelationValues getCorrelationValues() {
 		return new CorrelationValues(
-			(short)getTypeCode(),
-			CorrelationValues.UNDEFINED,
-			CorrelationValues.UNDEFINED);
+				(short)getTypeCode(),
+				CorrelationValues.UNDEFINED,
+				CorrelationValues.UNDEFINED);
 	}
 
 	/* (non-Javadoc)
-	 * @see librisuite.business.common.Persistence#generateNewKey()
+	 * @see Descriptor#generateNewKey()
 	 */
+	/*
+	  * The default implementation sets key.headingNumber to the new stringValue.
+	  * SHLF_LIST differs from most descriptors in that the key field is not
+	  * used (since there are no user views)
+	*/
 	@Override
-	public void generateNewKey() throws DataAccessException {
-		//TODO add/passing "session" to descriptor
-
-		/*
-		 * The default implementation sets key.headingNumber to the new stringValue.
-		 * SHLF_LIST differs from most descriptors in that the key field is not
-		 * used (since there are no user views)
-		 */
-			super.generateNewKey();
-			setShelfListKeyNumber(getKey().getHeadingNumber());
+	public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
+		super.generateNewKey(session);
+		setShelfListKeyNumber(getKey().getHeadingNumber());
 	}
 
-	/* (non-Javadoc)
-         * @see librisuite.hibernate.Descriptor#getDAO()
-         */
-	public AbstractDAO getDAO() {
-		return new DAOShelfList();
-	}
-	
-	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getBrowseKey()
+	/**
+	 * Gets the dao.
+	 *
+	 * @return the dao
 	 */
-	public String getBrowseKey() {
-		String result = null;
-		DAOIndexList dao = new DAOIndexList();
-		try {
-			result = dao.getIndexBySortFormType((short)200, (short)getTypeCode());
-			if (result != null) {
-				return result;
-			}
-			else {
-				return super.getBrowseKey();
-			}
-		} catch (DataAccessException e) {
-			return super.getBrowseKey();
-		}
+	public AbstractDAO getDAO() {
+		return new ShelfListDAO();
 	}
 
-
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getDefaultBrowseKey()
+	 * @see Descriptor#getDefaultBrowseKey()
 	 */
 	public String getDefaultBrowseKey() {
 		return "28P30";
 	}
 
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getNextNumberKeyFieldCode()
+	 * @see Descriptor#getNextNumberKeyFieldCode()
 	 */
 	public String getNextNumberKeyFieldCode() {
 		return "FL";
 	}
 
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getReferenceClass()
+	 * @see Descriptor#getReferenceClass(java.lang.Class)
 	 */
 	public Class getReferenceClass(Class targetClazz) {
 		return null;
 	}
 
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#setCorrelationValues(librisuite.business.common.CorrelationValues)
+	 * @see Descriptor#setCorrelationValues(CorrelationValues)
 	 */
 	public void setCorrelationValues(CorrelationValues v) {
 		setTypeCode((char)v.getValue(1));
 	}
 
-
 	/* (non-Javadoc)
-	 * @see librisuite.hibernate.Descriptor#getSortFormParameters()
+	 * @see Descriptor#getSortFormParameters()
 	 */
 	public SortFormParameters getSortFormParameters() {
 		return new SortFormParameters(200, (int)getTypeCode(), 0, 0, 0);
@@ -207,6 +203,7 @@ public class SHLF_LIST extends Descriptor implements Serializable {
 		return false;
 	}
 
+
 	/* (non-Javadoc)
 	 * @see Descriptor#getHeadingNumberSearchIndexKey()
 	 */
@@ -214,14 +211,13 @@ public class SHLF_LIST extends Descriptor implements Serializable {
 		return "232P";
 	}
 
-	
+
+	/* (non-Javadoc)
+	 * @see Descriptor#getLockingEntityType()
+	 */
 	public String getLockingEntityType() {
 		return "FL";
 	}
 
-	public void setDefaultTypeCode(){
-		String typCode;
-		typCode= (configHandler.findValue("t_shlf_list_typ","bibliographic.shelflist.type"));
-		setTypeCode(typCode.charAt(0));
-	}
+
 }

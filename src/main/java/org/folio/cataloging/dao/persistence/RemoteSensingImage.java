@@ -1,5 +1,7 @@
 package org.folio.cataloging.dao.persistence;
 
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.SystemNextNumberDAO;
 import org.w3c.dom.Document;
@@ -58,9 +60,9 @@ public class RemoteSensingImage extends PhysicalDescription {
 	/* (non-Javadoc)
 	 * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
 	 */
-	public void generateNewKey() throws DataAccessException {
+  public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
 		SystemNextNumberDAO dao = new SystemNextNumberDAO();
-		setKeyNumber(dao.getNextNumber("XB"));
+		setKeyNumber(dao.getNextNumber("XB", session));
 	}
 
 	/* (non-Javadoc)
@@ -71,7 +73,7 @@ public class RemoteSensingImage extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getAltitudeOfSensorCode() {
@@ -79,7 +81,7 @@ public class RemoteSensingImage extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getAttitudeOfSensorCode() {
@@ -87,7 +89,7 @@ public class RemoteSensingImage extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getCloudCoverCode() {
@@ -95,7 +97,7 @@ public class RemoteSensingImage extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public String getDataTypeCode() {
@@ -103,7 +105,7 @@ public class RemoteSensingImage extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getPlatformConstructionTypeCode() {
@@ -111,7 +113,7 @@ public class RemoteSensingImage extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getPlatformUseCode() {
@@ -119,7 +121,7 @@ public class RemoteSensingImage extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public char getSensorTypeCode() {
@@ -127,7 +129,7 @@ public class RemoteSensingImage extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setAltitudeOfSensorCode(char c) {
@@ -135,7 +137,7 @@ public class RemoteSensingImage extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setAttitudeOfSensorCode(char c) {
@@ -143,7 +145,7 @@ public class RemoteSensingImage extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setCloudCoverCode(char c) {
@@ -151,7 +153,7 @@ public class RemoteSensingImage extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setDataTypeCode(String string) {
@@ -159,7 +161,7 @@ public class RemoteSensingImage extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setPlatformConstructionTypeCode(char c) {
@@ -167,7 +169,7 @@ public class RemoteSensingImage extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setPlatformUseCode(char c) {
@@ -175,7 +177,7 @@ public class RemoteSensingImage extends PhysicalDescription {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setSensorTypeCode(char c) {

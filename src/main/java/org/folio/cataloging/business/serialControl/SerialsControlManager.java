@@ -1,5 +1,6 @@
 package org.folio.cataloging.business.serialControl;
 
+import net.sf.hibernate.HibernateException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.common.DataAccessException;
@@ -16,9 +17,9 @@ import java.util.List;
 /**
  * Manages the business rules for serials control for a single bibliographic
  * item.
- * 
+ *
  * @author paul
- * 
+ *
  */
 public class SerialsControlManager {
 	private static final Log logger = LogFactory
@@ -208,7 +209,7 @@ public class SerialsControlManager {
 
 	public void receiveCopy(SRL_ORDR order, SerialLogicalCopy subscription,
 			SerialPart issue, String barcode, int usersMainLibrary)
-			throws DataAccessException {
+    throws DataAccessException {
 		CPY_ID cpy = null;
 		if (issue.getCopyNumber() == null) {
 			if (subscription.isCreateCopiesIndicator()) {
@@ -219,9 +220,12 @@ public class SerialsControlManager {
 				cpy.setBibItemNumber(getAmicusNumber().intValue());
 				cpy.setBranchOrganisationNumber(subscription.getBranchNumber()
 						.intValue());
-				cpy.setCopyIdNumber(new SystemNextNumberDAO()
-						.getNextNumber("HC"));
-				//cpy.setCopyNumberDescription(issue.getEnumDescription());
+        try {
+          cpy.setCopyIdNumber(new SystemNextNumberDAO().getNextNumber("HC", null)); //todo pass session
+        } catch (HibernateException e) {
+          throw new DataAccessException(e);
+        }
+        //cpy.setCopyNumberDescription(issue.getEnumDescription());
 				if(issue.getEnumDescription()!=null)
 				  cpy.setCopyStatementText(Subfield.SUBFIELD_DELIMITER + "b"+issue.getEnumDescription());
 				cpy.setLoanPrd(subscription.getLoanPeriod());

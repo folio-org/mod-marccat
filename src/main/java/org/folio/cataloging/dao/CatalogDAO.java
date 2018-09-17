@@ -4,17 +4,12 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
 import org.folio.cataloging.business.cataloguing.authority.AuthorityReferenceTag;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicNoteTag;
 import org.folio.cataloging.business.cataloguing.bibliographic.VariableHeaderUsingItemEntity;
 import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.common.*;
 import org.folio.cataloging.business.controller.UserProfile;
-import org.folio.cataloging.business.descriptor.Descriptor;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
-import org.folio.cataloging.dao.persistence.AccessPoint;
-import org.folio.cataloging.dao.persistence.CasCache;
-import org.folio.cataloging.dao.persistence.CatalogItem;
-import org.folio.cataloging.dao.persistence.ItemEntity;
+import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.integration.log.MessageCatalogStorage;
 import org.folio.cataloging.log.Log;
 
@@ -81,20 +76,25 @@ public abstract class CatalogDAO extends AbstractDAO {
 	 * @throws DataAccessException in case of data access failure.
 	 */
 	protected void loadHeadings(final List<? extends PersistentObjectWithView> allTags, final int userView, final Session session) throws DataAccessException {
-		allTags.stream().map(tag -> {
-			loadHeading((AccessPoint) tag, userView, session);
-			return tag;
-		}).collect(Collectors.toList());
+    allTags.forEach(tag -> {
+      loadHeading((AccessPoint) tag, userView, session);
+    });
 	}
+
 	private void loadHeading(final AccessPoint tag, final int userView, final Session session) throws DataAccessException {
 		if (tag.getHeadingNumber() != null) {
-			ofNullable(tag.getDAODescriptor().load(tag.getHeadingNumber().intValue(), userView)).map(heading -> { //TODO: pass session as parameter
-				tag.setDescriptor(heading);
-				return tag;
-			}).orElseGet(() -> {
-				throw new DataAccessException(String.format(MessageCatalogStorage._00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
-			});
-		}
+      try {
+        ofNullable(tag.getDAODescriptor().load(tag.getHeadingNumber().intValue(), userView, session)).map(heading -> {
+            tag.setDescriptor(heading);
+            return tag;
+
+        }).orElseGet(() -> {
+            throw new DataAccessException(String.format(MessageCatalogStorage._00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
+        });
+      } catch (HibernateException e) {
+        throw new DataAccessException(String.format(MessageCatalogStorage._00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
+      }
+    }
 	}
 
 	/**
@@ -117,8 +117,15 @@ public abstract class CatalogDAO extends AbstractDAO {
 				if (aTag instanceof PersistentObjectWithView)
 					((PersistentObjectWithView) aTag).setUserViewString(myView);
 
-				//aTag.generateNewKey();
-				if (item.getDeletedTags().contains(aTag)) {
+        try {
+          aTag.generateNewKey(session);
+        } catch (HibernateException e) {
+          throw new RuntimeException(e);
+        } catch (SQLException e) {
+          throw new RuntimeException(e);
+        }
+
+        if (item.getDeletedTags().contains(aTag)) {
 					aTag.reinstateDeletedTag();
 				}
 			}

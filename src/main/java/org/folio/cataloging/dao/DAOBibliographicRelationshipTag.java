@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Dec 22, 2004
- * 
+ *
  * DAOPublisherTag.java
  */
 package org.folio.cataloging.dao;
@@ -13,13 +13,13 @@ import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicRelationshipTag;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.UpdateStatus;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 import org.folio.cataloging.dao.persistence.BibliographicRelationReciprocal;
 import org.folio.cataloging.dao.persistence.BibliographicRelationship;
+import org.folio.cataloging.dao.persistence.BibliographicRelationshipTag;
 
 import java.util.List;
 /**
@@ -59,7 +59,8 @@ public class DAOBibliographicRelationshipTag extends AbstractDAO {
 	/* (non-Javadoc)
 	 * @see HibernateUtil#save(librisuite.business.common.Persistence)
 	 */
-	public void save(final Persistence po) throws DataAccessException {
+	//todo
+	public void save(final Persistence po, final Session session) throws DataAccessException {
 		if (!(po instanceof BibliographicRelationshipTag)) {
 			throw new IllegalArgumentException("I can only persist BibliographicRelationshipTag objects");
 		}
@@ -68,12 +69,12 @@ public class DAOBibliographicRelationshipTag extends AbstractDAO {
 				throws HibernateException, DataAccessException {
 				BibliographicRelationshipTag aRelation =
 					(BibliographicRelationshipTag) po;
-			
+
 
 				logger.debug("save bibliographicRelationshipTag");
 				logger.debug("reciprocalOption is " + aRelation.getReciprocalOption());
 				logger.debug("target is " + aRelation.getTargetRelationship() == null ? "" : "not " + "null");
-                
+
 				/* first evict all objects from Hibernate cache */
 				/*evictAny(aRelation.getSourceRelationship());
 				evictAny(aRelation.getOriginalTag().getSourceRelationship());
@@ -140,7 +141,7 @@ public class DAOBibliographicRelationshipTag extends AbstractDAO {
 				aRelation.getSourceRelationship().markNew();
 				if (BibliographicRelationReciprocal.isBlind(aRelation.getReciprocalOption())) {
 					logger.debug("Reciprocal option is blind -- generating new key");
-					aRelation.getSourceRelationship().generateNewBlindRelationshipKey();
+					aRelation.getSourceRelationship().generateNewBlindRelationshipKey(s);
 				}
 				else {
 					logger.debug("Reciprocal option is not blind -- using existing target bib_itm_nbr");

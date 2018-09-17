@@ -6,10 +6,8 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.ModCataloging;
-import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.resources.domain.AuthoritySource;
-import org.folio.cataloging.resources.domain.DiacriticCollection;
 import org.folio.cataloging.resources.domain.Diacritic;
+import org.folio.cataloging.resources.domain.DiacriticCollection;
 import org.folio.cataloging.shared.MapDiacritic;
 import org.springframework.web.bind.annotation.*;
 

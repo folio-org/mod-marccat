@@ -55,8 +55,8 @@ public class DAOCopy extends AbstractDAO {
 			c = (CPY_ID) session.get(CPY_ID.class, new Integer(copyNumber));
 			if (c != null) {
 				if (c.getShelfListKeyNumber() != null) {
-					c.setShelfList(new DAOShelfList().load(c
-							.getShelfListKeyNumber().intValue()));
+					c.setShelfList(new ShelfListDAO().load(c
+							.getShelfListKeyNumber().intValue(), session));
 				}
 			}
 			if ((new DAOGlobalVariable().getValueByName("barrcode")).equals("1")) {
@@ -245,8 +245,8 @@ public class DAOCopy extends AbstractDAO {
 			CPY_ID rawCopy = (CPY_ID) (obj[0]);
 			if (rawCopy.getShelfListKeyNumber() != null) {
 				try {
-					rawCopy.setShelfList(new DAOShelfList().loadShelf(rawCopy
-							.getShelfListKeyNumber().intValue()));
+					rawCopy.setShelfList(new ShelfListDAO().load(rawCopy
+							.getShelfListKeyNumber().intValue(), s));
 				} catch (Exception e) {
 					System.out.println(rawCopy.getShelfListKeyNumber());
 				}
@@ -319,12 +319,12 @@ public class DAOCopy extends AbstractDAO {
 
 	public List getListCopiesElement(final Session session, final int amicusNumber,
 									 final int mainLibrary,
-									 final Locale locale) throws DataAccessException {
+									 final Locale locale) throws DataAccessException, HibernateException {
 		List listAllCopies = null;
 		List result = new ArrayList();
 		DAOOrganisationHierarchy doh = new DAOOrganisationHierarchy();
 		DAOLocation dl = new DAOLocation();
-		DAOShelfList dsl = new DAOShelfList();
+		ShelfListDAO dsl = new ShelfListDAO();
 		DAOCopyNotes dcn = new DAOCopyNotes();
 		DAOInventory dci = new DAOInventory();
 		DAODiscard ddsc = new DAODiscard();
@@ -361,8 +361,8 @@ public class DAOCopy extends AbstractDAO {
 			}
 
 			if (rawCopy.getShelfListKeyNumber() != null) {
-				rawCopy.setShelfList(new DAOShelfList().load(rawCopy
-						.getShelfListKeyNumber().intValue()));
+				rawCopy.setShelfList(new ShelfListDAO().load(rawCopy
+						.getShelfListKeyNumber().intValue(), session));
 				if (rawCopy.getShelfList() != null) {
 					rawCopyListElement
 							.setShelfList((new StringText(rawCopy
@@ -394,7 +394,7 @@ public class DAOCopy extends AbstractDAO {
 		List result = new ArrayList();
 		DAOOrganisationHierarchy doh = new DAOOrganisationHierarchy();
 		DAOLocation dl = new DAOLocation();
-		DAOShelfList dsl = new DAOShelfList();
+		ShelfListDAO dsl = new ShelfListDAO();
 		DAOCopyNotes dcn = new DAOCopyNotes();
 		DAOInventory dci = new DAOInventory();
 		DAODiscard ddsc = new DAODiscard();
@@ -442,8 +442,8 @@ public class DAOCopy extends AbstractDAO {
 				}
 
 				if (rawCopy.getShelfListKeyNumber() != null) {
-					rawCopy.setShelfList(new DAOShelfList().loadShelf(rawCopy
-							.getShelfListKeyNumber().intValue()));
+					rawCopy.setShelfList(new ShelfListDAO().load(rawCopy
+							.getShelfListKeyNumber().intValue(), session));
 					if (rawCopy.getShelfList() != null) {
 						rawCopyListElement.setShelfList((new StringText(rawCopy
 								.getShelfList().getStringText()))
@@ -776,7 +776,7 @@ public class DAOCopy extends AbstractDAO {
 		return result;
 	}
 
-	public void delete(final int copyNumber, final String userName) throws DataAccessException 
+	public void delete(final int copyNumber, final String userName) throws DataAccessException
 	{
 		new TransactionalHibernateOperation() {
 			public void doInHibernateTransaction(Session s)
@@ -786,8 +786,8 @@ public class DAOCopy extends AbstractDAO {
 				CPY_ID copy = (CPY_ID) s.get(CPY_ID.class, new Integer(
 						copyNumber));
 				if (copy.getShelfListKeyNumber() != null) {
-					copy.setShelfList(new DAOShelfList().load(copy
-							.getShelfListKeyNumber().intValue()));
+					//TODO passare la session
+					copy.setShelfList(new ShelfListDAO().load(copy.getShelfListKeyNumber().intValue(),null));
 				}
 				if (copy == null) {
 					throw new RecordNotFoundException();
@@ -859,7 +859,7 @@ public class DAOCopy extends AbstractDAO {
 
 	/**
 	 * Counts the number of copies using this shelf list and bib_itm
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int countShelfListAccessPointUses(CPY_ID copy, SHLF_LIST shelf)
@@ -879,7 +879,7 @@ public class DAOCopy extends AbstractDAO {
 
 	/**
 	 * Counts the number of copies using this shelf list and bib_itm
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int countShelfListAccessPointUsesForModifyHeading(CPY_ID copy,
@@ -900,9 +900,9 @@ public class DAOCopy extends AbstractDAO {
 	}
 
 	public int countCopyByShelf(CPY_ID copy, SHLF_LIST shelf)
-			throws DataAccessException {
-		DAOShelfList ds = (DAOShelfList) shelf.getDAO();
-		SHLF_LIST match = (SHLF_LIST) ds.getMatchingHeading(shelf);
+			throws DataAccessException, HibernateException {
+		ShelfListDAO ds = (ShelfListDAO) shelf.getDAO();
+		SHLF_LIST match = (SHLF_LIST) ds.getMatchingHeading(shelf, null);
 		if (match != null) {
 			List l = find(
 					"select count(*) from CPY_ID as c where c.shelfListKeyNumber = ? and c.copyIdNumber<> ?",
@@ -918,7 +918,7 @@ public class DAOCopy extends AbstractDAO {
 
 	/**
 	 * Counts the number of copies using this shelf list and bib_itm
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int countShelfFromCopyUses(CPY_ID copy, SHLF_LIST shelf)
@@ -945,7 +945,7 @@ public class DAOCopy extends AbstractDAO {
 	 * copy is to be persisted. If the copy on the DB contains a different
 	 * shelflist it is contained in oldShelfList and will be detached
 	 * (consistent with db integrity rules)
-	 * 
+	 *
 	 * @param copy
 	 *            the copy to be persisted
 	 * @param oldShelfList
@@ -961,7 +961,7 @@ public class DAOCopy extends AbstractDAO {
 			public void doInHibernateTransaction(Session s)
 					throws HibernateException, DataAccessException {
 				/*
-				 * 
+				 *
 				 */
 				if (oldShelfList != null) {
 					detachShelfList(copy, oldShelfList);
@@ -996,7 +996,7 @@ public class DAOCopy extends AbstractDAO {
 							copy.setShelfList(match);
 						} else {
 							SHLF_LIST shelf = (SHLF_LIST) deepCopy(copy.getShelfList());
-							shelf.generateNewKey();
+							shelf.generateNewKey(session);
 							copy.setShelfList(shelf);
 							/*
 							 * When string text is modified in UI, the sortform
@@ -1011,20 +1011,20 @@ public class DAOCopy extends AbstractDAO {
 						copy.markChanged();
 					}
 
-					persistByStatus(copy.getShelfList());
+					persistByStatus(copy.getShelfList(), session);
 					copy.setShelfListKeyNumber(copy.getShelfList().getShelfListKeyNumber());
 				} else { // shelf list is null
 					logger.debug("setting key to null");
 					copy.setShelfListKeyNumber(null);
 				}
 				if (copy.isNew()) {
-					copy.generateNewKey();
+					copy.generateNewKey(session);
 					//copy.setCreationDate(new Date());
 				}
 
 				saveCpyIdAgent(userName, copy.getCopyIdNumber());
 
-				persistByStatus(copy);
+				persistByStatus(copy, session);
 				createSummaryHolding(session, copy);
 			}
 		}.execute();
@@ -1035,10 +1035,11 @@ public class DAOCopy extends AbstractDAO {
 	 * @return
 	 * @throws DataAccessException
 	 */
-	public SHLF_LIST getMatchHeading(CPY_ID copy) throws DataAccessException {
-		DAOShelfList ds = (DAOShelfList) copy.getShelfList().getDAO();
+	//TODO: The session is missing from the method
+	public SHLF_LIST getMatchHeading(CPY_ID copy) throws DataAccessException, HibernateException {
+		ShelfListDAO ds = (ShelfListDAO) copy.getShelfList().getDAO();
 		SHLF_LIST match = (SHLF_LIST) ds
-				.getMatchingHeading(copy.getShelfList());
+				.getMatchingHeading(copy.getShelfList(), null);
 		return match;
 	}
 
@@ -1429,7 +1430,7 @@ public class DAOCopy extends AbstractDAO {
 			}
 		}
 	}
-	
+
 	public void insertDefinitiveHardbackBNDTable(Integer cpy_id,
 			Integer hldg_nbr) {
 
@@ -1815,7 +1816,7 @@ public class DAOCopy extends AbstractDAO {
 	/**
 	 * Il metodo controllo se ci sono copie (non da trasferire) associate al
 	 * record origine per l'org
-	 * 
+	 *
 	 * @param amicusNumber
 	 * @param orgNumber
 	 * @param condition
@@ -1841,7 +1842,7 @@ public class DAOCopy extends AbstractDAO {
 	/**
 	 * Il metodo controllo se ci sono copie (non da trasferire) associate al
 	 * record origine per l'org e con la stessa shelfListKeyNumber
-	 * 
+	 *
 	 * @param amicusNumber
 	 * @param orgNumber
 	 * @param shelfListKeyNumber
@@ -1906,7 +1907,7 @@ public class DAOCopy extends AbstractDAO {
 	}
 
 
-	public void saveCpyIdAgent(String userName, int cpyIdNbr) throws DataAccessException 
+	public void saveCpyIdAgent(String userName, int cpyIdNbr) throws DataAccessException
 	{
 		Connection connection = null;
 		PreparedStatement stmt0 = null;
@@ -1936,7 +1937,7 @@ public class DAOCopy extends AbstractDAO {
 				stmt2.execute();
 			}
 			/* Il commit o rollback lo fa hibernate in automatico se le operazioni successive vanno bene: quindi se sulla CPY_ID va tutto ok committa altrimenti no */
-			// connection.commit(); 
+			// connection.commit();
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			logAndWrap(e);

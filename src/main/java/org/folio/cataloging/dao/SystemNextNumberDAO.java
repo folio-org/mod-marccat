@@ -16,10 +16,10 @@ import org.folio.cataloging.dao.persistence.S_NXT_NBR;
  */
 public class SystemNextNumberDAO extends AbstractDAO {
 
-	@Deprecated
+	/*@Deprecated
 	public int getNextNumber(final String keyFieldCodeValue) throws DataAccessException {
 		throw new IllegalArgumentException("DON'T CALL ME!");
-	}
+	}*/
 
 	@Deprecated
 	public int getPreviouwsNumber(final String keyFieldCodeValue) throws DataAccessException {

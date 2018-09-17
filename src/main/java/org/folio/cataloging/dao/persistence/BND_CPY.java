@@ -1,6 +1,7 @@
 package org.folio.cataloging.dao.persistence;
 
 import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
@@ -14,7 +15,7 @@ import org.folio.cataloging.model.Subfield;
 import java.io.Serializable;
 import java.util.Date;
 
-public class BND_CPY implements Persistence, Serializable 
+public class BND_CPY implements Persistence, Serializable
 {
 
 	private static final long serialVersionUID = 4286339906738625939L;
@@ -108,7 +109,7 @@ public class BND_CPY implements Persistence, Serializable
 		return dynixSerialIdNumber;
 	}
 
-	public String getHoldingAcsnListCode() 
+	public String getHoldingAcsnListCode()
 	{
 		if (holdingAcsnListCode != null)
 			return holdingAcsnListCode.trim();
@@ -204,11 +205,11 @@ public class BND_CPY implements Persistence, Serializable
 		copyNumberDescription = string;
 	}
 
-	public void setCopyRemarkNote(String string) 
+	public void setCopyRemarkNote(String string)
 	{
 		this.copyRemarkNote = string;
 		this.copyRemarkNoteForMap = string;
-		
+
 //---->	Devo togliere tutti i $ + sottocampo per visualizzare il campo in mappa
 		if (string !=null && string.length()>0){
 			this.copyRemarkNoteForMap = string.replaceAll(Subfield.SUBFIELD_DELIMITER + ".{1}", " ");
@@ -219,11 +220,11 @@ public class BND_CPY implements Persistence, Serializable
 		copyRemarkNoteSortForm = string;
 	}
 
-	public void setCopyStatementText(String string) 
+	public void setCopyStatementText(String string)
 	{
 		this.copyStatementText = string;
 		this.copyStatementTextForMap = string;
-		
+
 //---->	Devo togliere tutti i $ + sottocampo per visualizzare il campo in mappa
 		if (string !=null && string.length()>0){
 			this.copyStatementTextForMap = string.replaceAll(Subfield.SUBFIELD_DELIMITER + ".{1}", " ");
@@ -357,7 +358,7 @@ public class BND_CPY implements Persistence, Serializable
 	public void evict(Object obj) throws DataAccessException {
 		persistenceState.evict(obj);
 	}
-	
+
 	public void evict() throws DataAccessException {
 		persistenceState.evict(this);
 	}
@@ -418,12 +419,12 @@ public class BND_CPY implements Persistence, Serializable
 		persistenceState.setUpdateStatus(i);
 	}
 
-	public void generateNewKey() throws DataAccessException {
+	public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
 		SystemNextNumberDAO dao = new SystemNextNumberDAO();
-		setCopyIdNumber(dao.getNextNumber("HC"));
+		setCopyIdNumber(dao.getNextNumber("HC", session));
 		setCreationDate(new Date());
 		setTransactionDate(new Date());
-		
+
 		if ((new DAOGlobalVariable().getValueByName("barrcode")).equals("1")) {
 			setBarcodeAssigned(true);
 			setBarCodeNumber(String.valueOf(getCopyIdNumber()));

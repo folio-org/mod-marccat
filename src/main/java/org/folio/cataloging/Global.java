@@ -54,17 +54,9 @@ public abstract class Global  {
 		}
 	};
 
-	public final static String COLLECTION_DIGITAL_STANDARD = "70";
-	public final static String WORKING_CODE_FOR_APPROVAL = "000,005,009,";
-	public final static String AVAILABILITY_STATUS_CODE_FOR_APPROVAL = "0,9,";
 	public final static String NOT_APPLICABLE = "NA";
 	public final static String COMMA_DELIMITER = ",";
 	public final static String SEMICOLON_DELIMITER = ";";
-
-	public final static String START_DOI_FOR_TAG856_42 = "http://digital.casalini.it/";
-	public final static String START_DOI_FOR_TAG856_42_FROM_TAG024 = "http://dx.medra.org/";
-	public final static String END_DOI_FOR_TAG856_42_FROM_TAG024 = " $xNBN";
-	public final static String DOI_TEXT = "DOI";
 
 	public final static String DEFAULT_LEVEL_CARD = "L01";
 
