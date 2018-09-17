@@ -49,7 +49,7 @@ public class NameTitleDescriptorDAO extends DAODescriptor {
 	 * @param session the session
 	 * @throws HibernateException the hibernate exception
 	 */
-	private void loadHeadings(final List<NME_TTL_HDG> nameTitleHeadingList, final int cataloguingView, final Session session)
+  protected void loadHeadings(final List<NME_TTL_HDG> nameTitleHeadingList, final int cataloguingView, final Session session)
 			throws HibernateException {
 		for (NME_TTL_HDG aHdg : nameTitleHeadingList) {
 			loadHeadings(aHdg, cataloguingView, session);
@@ -330,7 +330,7 @@ public class NameTitleDescriptorDAO extends DAODescriptor {
 		q.setInteger("titleKey", titleHdg.getKey().getHeadingNumber());
 		q.setInteger("view", view);
 		List<NME_TTL_HDG> nameTitleHeadingList =  q.list();
-		nameTitleHeadingList = isolateViewForList(nameTitleHeadingList, view);
+		nameTitleHeadingList = (List <NME_TTL_HDG>) isolateViewForList(nameTitleHeadingList, view, session);
 		return nameTitleHeadingList;
 	}
 

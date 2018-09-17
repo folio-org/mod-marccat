@@ -3,9 +3,11 @@ package org.folio.cataloging.dao;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Query;
 import net.sf.hibernate.Session;
+import org.folio.cataloging.business.common.PersistentObjectWithView;
 import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.dao.persistence.NME_TTL_HDG;
 
+import java.util.ArrayList;
 import java.util.List;
 /**
  * Manages headings NME_TTL_HDG for NTT index.
@@ -31,7 +33,7 @@ public class NameTitleTitleDescriptorDAO extends NameTitleDescriptorDAO {
 	public List<Descriptor> getHeadingsBySortform(final String operator, final String direction, final String term, final String filter, final int cataloguingView, final int count, final Session session)
 			throws HibernateException {
 		final Query q =	session.createQuery(
-				"select distinct hdg from "
+				"select distinct hdg, nme.sortForm, ttl.sortForm from "
 						+ "NME_TTL_HDG as hdg, "
 						+ "NME_HDG as nme, "
 						+ "TTL_HDG as ttl"
@@ -49,10 +51,11 @@ public class NameTitleTitleDescriptorDAO extends NameTitleDescriptorDAO {
 		q.setString("term", term);
 		q.setInteger("view", cataloguingView);
 		q.setMaxResults(count);
-		final List<NME_TTL_HDG> nameTitleHedingList = q.list();
-		final List isolateHeadingList = isolateViewForList(nameTitleHedingList, cataloguingView);
-		loadHeadings((NME_TTL_HDG) isolateHeadingList, cataloguingView, session);
-
+		final List<?> nameTitleHedingList = q.list();
+    final List<NME_TTL_HDG> nameTitleHedings = new ArrayList();
+    nameTitleHedingList.forEach(nameTitleHeading -> nameTitleHedings.add((NME_TTL_HDG)((Object[]) nameTitleHeading)[0]));
+		final List isolateHeadingList = isolateViewForList(nameTitleHedings, cataloguingView, session);
+		loadHeadings(isolateHeadingList, cataloguingView, session);
 		return isolateHeadingList;
 
 	}

@@ -1106,12 +1106,12 @@ public class StorageService implements Closeable {
         filter = filter + " and hdg.mainLibraryNumber = " + mainLibrary;
       }
       browseTerm = dao.calculateSearchTerm(browseTerm, key, session);
-      descriptorsList = dao.getHeadingsBySortform("<", "desc",browseTerm, "", view, 1, session);
+      descriptorsList = dao.getHeadingsBySortform("<", "desc",browseTerm, filter, view, 1, session);
       if (descriptorsList.size() > 0) {
         browseTerm = dao.getBrowsingSortForm(descriptorsList.get(0));
         descriptorsList.clear();
       }
-      descriptorsList.addAll(dao.getHeadingsBySortform(">=", filter,browseTerm, "", view, 10, session));
+      descriptorsList.addAll(dao.getHeadingsBySortform(">=", "",browseTerm, filter, view, 10, session));
       return descriptorsList.stream().map( heading -> {
         final MapHeading headingObject = new MapHeading();
         try {
