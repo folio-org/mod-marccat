@@ -23,11 +23,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-            script {
                 echo 'Executing test.....'
-                def mvnHome = tool 'mvn'
-                sh "'${mvnHome}/bin/mvn' test"
-            }
           }
         }
         stage('Deploy'){
