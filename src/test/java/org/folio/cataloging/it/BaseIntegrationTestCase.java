@@ -57,7 +57,7 @@ public abstract class BaseIntegrationTestCase {
             fail("Unable to find the database dump.");
         }
 
-        POSTGRES_JDBC_URL = POSTGRES.start("localhost", 5432, "dbName", DB_USERNAME, DB_PASSWORD);
+        POSTGRES_JDBC_URL = POSTGRES.start("localhost", 5433, "olidb_sv3", DB_USERNAME, DB_PASSWORD);
         POSTGRES.getProcess().ifPresent(pg -> pg.importFromFile(dbdump));
     }
 
