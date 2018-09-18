@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Nov 3, 2005
- * 
+ *
  * TagInterface.java
  */
 package org.folio.cataloging.business.cataloguing.common;
@@ -39,19 +39,19 @@ public interface TagInterface {
 	 */
     boolean equals(Object obj);
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
     void evict() throws DataAccessException;
 	/**
 	 * This method is used to generated the model xml.
-	 * 
+	 *
 	 * @since 1.0
 	 */
     Element generateModelXmlElement(Document xmlDocument);
 	/**
 	 * This method is used to generated the tags content in the model xml.
-	 * 
+	 *
 	 * @since 1.0
 	 */
     Element generateModelXmlElementContent(Document xmlDocument);
@@ -70,7 +70,7 @@ public interface TagInterface {
 
 	/**
 	 * override when displayed tag category differs from the correlation category
-	 * 
+	 *
 	 * @since 1.0
 	 */
 
@@ -78,7 +78,7 @@ public interface TagInterface {
 
 	/**
 	 * true if the display of a headingType option list is appropriate while editing
-	 * 
+	 *
 	 * @since 1.0
 	 */
     boolean getDisplaysHeadingType();
@@ -91,7 +91,7 @@ public interface TagInterface {
 
 	/**
 	 * provides abstract access to item identifier (bib or aut)
-	 * 
+	 *
 	 * @since 1.0
 	 */
     int getItemNumber();
@@ -100,11 +100,12 @@ public interface TagInterface {
 	 * @return the MARC tag and indicators for this tag
 	 *
 	 */
-    CorrelationKey getMarcEncoding() throws DataAccessException;
+	@Deprecated
+  CorrelationKey getMarcEncoding() throws DataAccessException;
 
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
     PersistenceState getPersistenceState();
@@ -135,7 +136,7 @@ public interface TagInterface {
 	List getThirdCorrelationList(int value1, int value2)	throws DataAccessException;
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
     int getUpdateStatus();
@@ -152,12 +153,12 @@ public interface TagInterface {
 	 */
     boolean isBrowsable();
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
     boolean isChanged();
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
     boolean isDeleted();
@@ -172,14 +173,14 @@ public interface TagInterface {
 
 	/**
 	 * true if the tag contains a coded subfield w (Authority reference tags)
-	 * 
+	 *
 	 * @since 1.0
 	 */
     boolean isHasSubfieldW();
 	/**
 	 * true if the tag is an AuthorityEquivalenceReference
 	 * (used to manage presence of $w for 7xx tags in authorities)
-	 * 
+	 *
 	 * @return
 	 */
     boolean isEquivalenceReference();
@@ -188,7 +189,7 @@ public interface TagInterface {
 	 */
     boolean isHeaderField();
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
     boolean isNew();
@@ -201,7 +202,7 @@ public interface TagInterface {
 	/** return true if tag is a relationship */
     boolean isRelationship();
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
     boolean isRemoved();
@@ -210,65 +211,65 @@ public interface TagInterface {
 	 */
     boolean isWorksheetEditable();
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
     void markChanged();
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
     void markDeleted();
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
     void markNew();
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
     void markUnchanged();
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
     boolean onDelete(Session arg0) throws CallbackException;
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
     void onLoad(Session arg0, Serializable arg1);
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
     boolean onSave(Session arg0) throws CallbackException;
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
     boolean onUpdate(Session arg0) throws CallbackException;
 	/**
 	 * This method is used to generate the tags content from a model
-	 * 
+	 *
 	 * @since 1.0
 	 */
     void parseModelXmlElementContent(Element xmlElement);
 	void setCorrelationValues(CorrelationValues v);
 	/**
 	 * provides abstract access to item identifier (bib or aut)
-	 * 
+	 *
 	 * @since 1.0
 	 */
     void setItemNumber(int itemNumber);
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
     void setPersistenceState(PersistenceState object);
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
     void setUpdateStatus(int i);
@@ -280,7 +281,7 @@ public interface TagInterface {
 	 * </datafield>
 	 * or for a control field
 	 * <controlfield tag="001">000000005581</controlfield>
-	 * 
+	 *
 	 * @return a Document
 	 */
     Document toXmlDocument();
@@ -292,7 +293,7 @@ public interface TagInterface {
 	 * </datafield>
 	 * or for a control field
 	 * <controlfield tag="001">000000005581</controlfield>
-	 * 
+	 *
 	 * @return an Element
 	 */
     Element toXmlElement(Document xmlDocument);
@@ -314,7 +315,7 @@ public interface TagInterface {
 	void validate(int index) throws ValidationException;
 
 	/**
-	 * Called where a 
+	 * Called where a
 	 * series of changes result in returning the new key back
 	 * to a pre-existing key
 	 */

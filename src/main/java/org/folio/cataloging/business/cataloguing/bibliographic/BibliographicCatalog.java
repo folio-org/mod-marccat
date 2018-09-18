@@ -357,7 +357,6 @@ public class BibliographicCatalog extends Catalog {
 		return null;
 	}
 
-	// TODO: Is this method still in use?
 	public void transferItems(Descriptor source, Descriptor target) throws DataAccessException {
 		/*CATALOG_DAO.transferItems(source, target);*/
 	}
@@ -392,16 +391,16 @@ public class BibliographicCatalog extends Catalog {
     final Session session) throws DataAccessException, HibernateException {
 
 	    if (recordView == cataloguingView) {
-        return getCatalogItem(amicusNumber, recordView);
+        return getCatalogItem(session, amicusNumber, recordView);
       }
 
       try {
         new DAOCache().load(amicusNumber, cataloguingView);
-        return getCatalogItem(amicusNumber, cataloguingView);
+        return getCatalogItem(session, amicusNumber, cataloguingView);
       } catch (final RecordNotFoundException exception) {
       }
 
-      final CatalogItem item = (CatalogItem) deepCopy(getCatalogItem(amicusNumber, recordView));
+      final CatalogItem item = (CatalogItem) deepCopy(getCatalogItem(session, amicusNumber, recordView));
       applyKeyToItem(item, new Object[] { cataloguingView });
       item.getItemEntity().markNew();
       Iterator iter = item.getTags().iterator();

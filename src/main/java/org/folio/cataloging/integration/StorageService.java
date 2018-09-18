@@ -21,6 +21,7 @@ import org.folio.cataloging.dao.*;
 import org.folio.cataloging.dao.common.HibernateSessionProvider;
 import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.exception.ModCatalogingException;
+import org.folio.cataloging.exception.RecordInUseException;
 import org.folio.cataloging.integration.log.MessageCatalogStorage;
 import org.folio.cataloging.integration.record.RecordParser;
 import org.folio.cataloging.integration.search.Parser;
@@ -1188,10 +1189,7 @@ public class StorageService implements Closeable {
         return getMapHeadings(view, lang, descriptorsList, daoCodeTable, dao);
 
 
-        } catch (final HibernateException exception) {
-        logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-        throw new DataAccessException(exception);
-    } catch (SQLException exception) {
+    } catch (final HibernateException | SQLException exception) {
         logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
         throw new DataAccessException(exception);
     } catch (InstantiationException exception) {
@@ -1420,6 +1418,7 @@ public class StorageService implements Closeable {
         keyNumber = ((BibliographicNoteTag)aTag).getNoteNbr();
         sequenceNbr = ((BibliographicNoteTag)aTag).getSequenceNumber();
       }
+
 
       final CorrelationKey correlation = aTag.getTagImpl().getMarcEncoding(aTag, session);
 
@@ -1843,35 +1842,52 @@ public class StorageService implements Closeable {
    *
    * @param itemNumber -- the amicus number associated to record.
    */
-  public void deleteBibliographicRecordById(final Integer itemNumber, final int view) {
+  public void deleteBibliographicRecordById(final Integer itemNumber, final int view, final String uuid, final String userName) throws DataAccessException {
     final BibliographicCatalog catalog = new BibliographicCatalog();
 
     try {
-      //lock record
+      lockRecord(itemNumber, userName, uuid);
       CatalogItem item = getCatalogItemByKey(itemNumber, view);
       catalog.deleteCatalogItem(item, session);
-      //unlock
-    }catch (DataAccessException exception){
-      logger.error("", exception);
-    } catch (HibernateException e) {
-      logger.error("", e);
+      unlockRecord(itemNumber, userName);
+    }catch (Exception exception){
+      logger.error(MessageCatalogStorage._00022_DELETE_RECORD_FAILURE, itemNumber, exception);
+      throw new DataAccessException(exception);
     }
-
-
-
-
   }
 
   /**
    * Unlock a record or heading locked from user previously.
    *
    * @param id -- the key number or amicus number.
-   * @param username -- the username who unlock entity.
-   * @param uuid -- the uuid associated to lock/unlock session.
-   * @param type -- {@linked LockEntityType}
+   * @param userName -- the username who unlock entity.
    */
-  public void unlockEntity(final int id, final String username, final String uuid, final LockEntityType type) {
-    // controlla che l'uuid + id + username sia presente nella tabella
-    // cancella nella S_LCK_TBL
+  public void unlockRecord(final int id, final String userName) throws DataAccessException {
+    try {
+      final BibliographicCatalog catalog = new BibliographicCatalog();
+      catalog.unlock(id, userName, session);
+    }catch (RecordInUseException exception)
+    {
+      logger.error(MessageCatalogStorage._00021_UNLOCK_FAILURE, id, userName, exception);
+      throw new DataAccessException(exception);
+    }
+  }
+
+  /**
+   * Lock a record or heading.
+   *
+   * @param id -- the key number or amicus number.
+   * @param userName -- the username who unlock entity.
+   * @param uuid -- the uuid associated to lock/unlock session.
+   */
+  public void lockRecord(final int id, final String userName, final String uuid) throws DataAccessException {
+    try {
+      final BibliographicCatalog catalog = new BibliographicCatalog();
+      catalog.lock(id, userName, uuid, session);
+    }catch (RecordInUseException exception)
+    {
+      logger.error(MessageCatalogStorage._00020_LOCK_FAILURE, id, userName, exception);
+      throw new DataAccessException(exception);
+    }
   }
 }

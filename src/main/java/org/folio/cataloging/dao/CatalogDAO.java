@@ -21,8 +21,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static java.util.Optional.ofNullable;
-
 /**
  * Abstract class for common implementations of CatalogDAO (Bib and Auth).
  *
@@ -76,26 +74,23 @@ public abstract class CatalogDAO extends AbstractDAO {
 	 * @throws DataAccessException in case of data access failure.
 	 */
 	protected void loadHeadings(final List<? extends PersistentObjectWithView> allTags, final int userView, final Session session) throws DataAccessException {
-		allTags.stream().map(tag -> {
+		allTags.forEach(tag -> {
 			loadHeading((AccessPoint) tag, userView, session);
-			return tag;
 		});
 	}
 
 	private void loadHeading(final AccessPoint tag, final int userView, final Session session) throws DataAccessException {
-		if (tag.getHeadingNumber() != null) {
-      try {
-        ofNullable(tag.getDAODescriptor().load(tag.getHeadingNumber().intValue(), userView, session)).map(heading -> {
-            tag.setDescriptor(heading);
-            return tag;
+		 if (tag.getHeadingNumber() != null) {
+       try {
+         Descriptor descriptor = tag.getDAODescriptor().load(tag.getHeadingNumber().intValue(), userView, session);
+         if (descriptor == null)
+           throw new DataAccessException(String.format(MessageCatalogStorage._00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
+         tag.setDescriptor(descriptor);
 
-        }).orElseGet(() -> {
-            throw new DataAccessException(String.format(MessageCatalogStorage._00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
-        });
-      } catch (HibernateException e) {
-        throw new DataAccessException(String.format(MessageCatalogStorage._00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
-      }
-    }
+       } catch (HibernateException e) {
+         throw new DataAccessException(String.format(MessageCatalogStorage._00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
+       }
+     }
 	}
 
 	/**

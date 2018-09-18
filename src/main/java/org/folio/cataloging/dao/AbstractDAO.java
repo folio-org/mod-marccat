@@ -10,6 +10,8 @@ import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistentObjectWithView;
 import org.folio.cataloging.business.common.View;
 import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.persistence.S_LCK_TBL;
+import org.folio.cataloging.exception.RecordInUseException;
 
 import java.io.Serializable;
 import java.util.List;
@@ -207,4 +209,113 @@ public abstract class AbstractDAO extends HibernateUtil {
             return null;
         }
     }
+
+  /**
+   * Lock record or heading for username and uuid.
+   *
+   * @param key -- the item key number.
+   * @param entityType -- the type of entity.
+   * @param userName -- the user name.
+   * @param uuid -- the generated front-end uuid for locking.
+   * @param session -- the current hibernate session id.
+   * @throws DataAccessException in case of hibernate exception.
+   * @throws RecordInUseException in case of record in use exception.
+   */
+    public void lock(final int key, final String entityType, final String userName, final String uuid, final Session session) throws DataAccessException, RecordInUseException {
+      try {
+
+        S_LCK_TBL myLock = new S_LCK_TBL(key, entityType);
+        S_LCK_TBL existingLock = (S_LCK_TBL) get(session, S_LCK_TBL.class, myLock);
+
+        if (existingLock != null) {
+          if (!existingLock.getDbSession().equals(uuid) && !existingLock.getUserName().equals(userName))
+            throw new RecordInUseException();
+          else if (existingLock.getDbSession().equals(uuid) && existingLock.getUserName().equals(userName))
+            return;
+          else if (!existingLock.getDbSession().equals(uuid) && existingLock.getUserName().equals(userName)) { //sessione appesa/vecchia
+              existingLock.markDeleted();
+              persistByStatus(existingLock, session);
+          }
+        }
+
+        myLock.setDbSession(uuid);
+        myLock.setUserName(userName);
+        myLock.markNew();
+        persistByStatus(myLock, session);
+
+      } catch (HibernateException e) {
+        throw new DataAccessException();
+      }
+    }
+
+  /**
+   * Unlock record or heading.
+   *
+   * @param key -- the item key number.
+   * @param entityType -- the type of entity.
+   * @param userName -- the user name.
+   * @param session -- the current hibernate session id.
+   * @throws DataAccessException in case of hibernate exception.
+   */
+    public void unlock(final int key, final String entityType, final String userName, final Session session) throws DataAccessException {
+      try {
+        S_LCK_TBL myLock = new S_LCK_TBL(key, entityType);
+        S_LCK_TBL existingLock = (S_LCK_TBL) get(session, S_LCK_TBL.class, myLock);
+
+        if (existingLock != null && existingLock.getUserName().equals(userName)) {
+          existingLock.markDeleted();
+          persistByStatus(existingLock, session);
+        }
+      } catch (HibernateException e) {
+        throw new DataAccessException();
+      }
+    }
+
+  /**
+   * Creates a new usr_vw_ind string by setting all positions to '0' except
+   * the position specified in arg1. The resultant view string is useful in
+   * saving a persistent object after the current cataloguing view of the
+   * record is saved or updated;
+   *
+   *
+   * @param cataloguingView --
+   *            the position to be set to '1' (1 indexing)
+   */
+
+  public static String makeSingleViewString(int cataloguingView) {
+    return View.makeSingleViewString(cataloguingView);
+  }
+
+  /**
+   * Creates a new usr_vw_ind string from the input string by setting the
+   * position specified in arg2 to '1'. The resultant view string is useful in
+   * saving a persistent object after the current cataloguing view of the
+   * record is added (based on a copy from existing views);
+   *
+   *
+   * @param viewString --
+   *            the original view String
+   * @param cataloguingView --
+   *            the position to be set to '1' (1 indexing)
+   */
+
+  public String maskOnViewString(String viewString, int cataloguingView) {
+    return View.maskOnViewString(viewString, cataloguingView);
+  }
+
+  /**
+   * Creates a new usr_vw_ind string from the input string by setting the
+   * position specified in arg2 to '0'. The resultant view string is useful in
+   * saving a persistent object after the current cataloguing view of the
+   * record is deleted (or modified)
+   *
+   *
+   * @param viewString --
+   *            the original view String
+   * @param cataloguingView --
+   *            the position to be set to '0' (1 indexing)
+   */
+  public String maskOutViewString(String viewString, int cataloguingView) {
+    return View.maskOutViewString(viewString, cataloguingView);
+  }
 }
