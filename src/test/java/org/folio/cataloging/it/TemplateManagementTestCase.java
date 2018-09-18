@@ -32,8 +32,21 @@ public class TemplateManagementTestCase extends BaseIntegrationTestCase {
   }
 
   @Test
-  public void createNewTemplate() {
+  public void getMandatoryFields() {
     final FieldCollection mandatoryFields = get(address("/bibliographic/fields/mandatory"), FieldCollection.class);
-    System.out.println(mandatoryFields.getFields().size());
+    mandatoryFields.getFields().forEach( t -> {
+      System.out.println("MandatoryField found : " + t.getCode());
+    });
+    System.out.println("MandatoryField count: " + mandatoryFields.getFields().size());
   }
+
+  @Test
+  public void getTemplates() {
+    final RecordTemplateCollection recordTemplates = get(address("/record-templates"), RecordTemplateCollection.class);
+    recordTemplates.getRecordTemplates().forEach( t -> {
+      System.out.println("Template found : " + t.getName());
+    });
+    System.out.println("Total Template: " + recordTemplates.getRecordTemplates().size());
+  }
+
 }
