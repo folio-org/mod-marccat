@@ -6,3 +6,9 @@ logging:
     org.hibernate: ERROR
     ru.yandex: ERROR
     org.folio.cataloging: INFO
+
+db:
+  username: amicus
+  password: oracle
+  name: olidb_sv3
+  port: 5433

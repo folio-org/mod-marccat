@@ -69,12 +69,7 @@ public abstract class BaseIntegrationTestCase {
         POSTGRES.stop();
     }
 
-    /**
-     * Initialises the configuration.
-     * NOTE THAT IF THE TEST CASE PROVIDES A @Before METHOD, THE FIRST LINE OF CODE MUST BE super.setUp();
-     *
-     * @see TemplateManagementTestCase#setUp()
-     */
+  
     @Before
     public void setUp() {
         configuration.injectData(POSTGRES_JDBC_URL, DB_USERNAME, DB_PASSWORD);
@@ -129,10 +124,10 @@ public abstract class BaseIntegrationTestCase {
     /**
      * Returns the Pipeline API address endpoint.
      *
-     * @param id the specific service identifier.
+     * @param path the specific path service identifier.
      * @return the Pipeline API address endpoint.
      */
-    protected String address(final String id) {
-        return "http://localhost:" + this.port + "/" + BASE_URI + id + (id.contains("?") ? "&" : "?") + "lang=eng";
+    protected String address(final String path) {
+        return "http://localhost:" + this.port + "/" + BASE_URI + path + (path.contains("?") ? "&" : "?") + "lang=eng";
     }
 }

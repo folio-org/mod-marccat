@@ -399,7 +399,7 @@ public class BibliographicRecordAPI extends BaseResource {
   })
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @DeleteMapping("/bibliographic-record/unlock")
-  public void unlock( @RequestParam final String id,
+  public void unlock( @PathVariable final String id,
                       @RequestParam final String uuid,
                       @RequestParam final String userName,
                       @RequestParam final LockEntityType type,

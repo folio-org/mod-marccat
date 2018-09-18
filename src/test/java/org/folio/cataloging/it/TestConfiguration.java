@@ -16,33 +16,33 @@ import org.springframework.stereotype.Component;
 @Component
 @Profile("test")
 public class TestConfiguration implements Configuration {
-    private String jdbcUrl;
-    private String username;
-    private String password;
+  private String jdbcUrl;
+  private String username;
+  private String password;
 
-    @Override
-    public ObjectNode attributes(final String tenant, final boolean withDatasource, final String... configurationSets) {
-        final ObjectMapper mapper = new ObjectMapper();
-        final ObjectNode cfg = mapper.createObjectNode();
+  @Override
+  public ObjectNode attributes(final String tenant, final boolean withDatasource, final String... configurationSets) {
+    final ObjectMapper mapper = new ObjectMapper();
+    final ObjectNode cfg = mapper.createObjectNode();
 
-        final ArrayNode configs = cfg.putArray("configs");
-        configs.add(mapper.createObjectNode().put("configName", "datasource").put("code","user").put("value", username));
-        configs.add(mapper.createObjectNode().put("configName", "datasource").put("code","password").put("value",password));
-        configs.add(mapper.createObjectNode().put("configName", "datasource").put("code","url").put("value", jdbcUrl));
+    final ArrayNode configs = cfg.putArray("configs");
+    configs.add(mapper.createObjectNode().put("configName", "datasource").put("code","user").put("value", username));
+    configs.add(mapper.createObjectNode().put("configName", "datasource").put("code","password").put("value",password));
+    configs.add(mapper.createObjectNode().put("configName", "datasource").put("code","url").put("value", jdbcUrl));
 
-        return cfg;
-    }
+    return cfg;
+  }
 
-    /**
-     * Injects the runtime configuration data into this object.
-     *
-     * @param jdbcUrl the JDBC URL.
-     * @param username the database username.
-     * @param password the database password.
-     */
-    void injectData(final String jdbcUrl, final String username, final String password) {
-        this.jdbcUrl = jdbcUrl;
-        this.username = username;
-        this.password = password;
-    }
+  /**
+   * Injects the runtime configuration data into this object.
+   *
+   * @param jdbcUrl the JDBC URL.
+   * @param username the database username.
+   * @param password the database password.
+   */
+  void injectData(final String jdbcUrl, final String username, final String password) {
+    this.jdbcUrl = jdbcUrl;
+    this.username = username;
+    this.password = password;
+  }
 }

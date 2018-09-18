@@ -28,10 +28,10 @@ public class PUBL_HDG extends Descriptor implements Serializable {
 	/** The place string text. */
 	private String placeStringText;
 
-	/** The name sort form. */
+  /** The name sort form. */
 	private String nameSortForm;
 
-	/** The place sort form. */
+  /** The place sort form. */
 	private String placeSortForm;
 
 	/**
@@ -142,7 +142,26 @@ public class PUBL_HDG extends Descriptor implements Serializable {
 	 */
 	public String getNameSortForm() { return nameSortForm;}
 
-	/**
+  /**
+   * Sets tthe name sort form.
+   *
+   * @param nameSortForm the name sort form
+   */
+  public void setNameSortForm(String nameSortForm) {
+    this.nameSortForm = nameSortForm;
+  }
+
+
+  /**
+   * Sets the place sort form.
+   *
+   * @param placeSortForm the place sort form
+   */
+  public void setPlaceSortForm(String placeSortForm) {
+    this.placeSortForm = placeSortForm;
+  }
+
+  /**
 	 * Gets the place sort form.
 	 *
 	 * @return the place sort form

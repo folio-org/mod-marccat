@@ -16,15 +16,19 @@ pipeline {
                 script {
                    echo 'Pulling...' + env.BRANCH_NAME
                    def mvnHome = tool 'mvn'
-                   sh "'${mvnHome}/bin/mvn' clean compile package"
+                   sh "'${mvnHome}/bin/mvn' clean compile package -DskipTests=true"
                    archiveArtifacts 'target*//*.jar'
                }
             }
         }
         stage('Test') {
             steps {
-                echo 'Testing..'
+            script {
+                echo 'Executing test.....'
+                def mvnHome = tool 'mvn'
+                sh "'${mvnHome}/bin/mvn' test"
             }
+          }
         }
         stage('Deploy'){
                 steps{
