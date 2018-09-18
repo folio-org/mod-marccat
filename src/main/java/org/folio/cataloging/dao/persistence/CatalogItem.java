@@ -249,6 +249,7 @@ public abstract class CatalogItem implements Serializable {
     @SuppressWarnings("unchecked")
 	public void sortTags() {
 		try {
+
 			final LinkedHashMap<Object, TagContainer> groupsHashMap = populateGroups();
 			List<TagContainer> tagContainers = new ArrayList<>(groupsHashMap.values());
 			tagContainers.sort(new GroupComparator());
@@ -291,6 +292,7 @@ public abstract class CatalogItem implements Serializable {
 		final GroupManager groupManager = new BibliographicGroupManager();
 
 		tags.stream().forEach(tag -> {
+		  //tag.getTagImpl().getMarcEncoding(tag, session);
             final TagGroup group = groupManager.getGroup(tag);
             if(group==null) {
                 ht.put(tag, new UniqueTagContainer(tag));

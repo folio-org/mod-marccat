@@ -57,12 +57,13 @@ public class HeadingsAPI extends BaseResource {
             @RequestParam final String query,
             @RequestParam final int view,
             @RequestParam final int mainLibrary,
+            @RequestParam final int pageSize,
             @RequestParam final String lang,
             @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
          return doGet((storageService, configuration) -> {
             final HeadingCollection container = new HeadingCollection();
             container.setHeadings(
-                    storageService.getFirstPage(query, view, mainLibrary, lang)
+                    storageService.getFirstPage(query, view, mainLibrary, pageSize, lang)
                             .stream()
                             .map(toHeading)
                             .collect(toList()));
@@ -75,10 +76,11 @@ public class HeadingsAPI extends BaseResource {
             @RequestParam final String query,
             @RequestParam final int view,
             @RequestParam final int mainLibrary,
+            @RequestParam final int pageSize,
             @RequestParam final String lang,
             @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
         return doGet((storageService, configuration) -> {
-            List<MapHeading> headings =  storageService.getNextHeadings(query, view, mainLibrary, lang);
+            List<MapHeading> headings =  storageService.getNextPage(query, view, mainLibrary, pageSize, lang);
             final HeadingCollection headingCollection = new HeadingCollection();
             headingCollection.setHeadings(headings
                           .stream()
@@ -94,12 +96,13 @@ public class HeadingsAPI extends BaseResource {
             @RequestParam final String query,
             @RequestParam final int view,
             @RequestParam final int mainLibrary,
+            @RequestParam final int pageSize,
             @RequestParam final String lang,
             @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
         return doGet((storageService, configuration) -> {
             final HeadingCollection container = new HeadingCollection();
             container.setHeadings(
-                    storageService.getPreviousHeadings(query, view, mainLibrary, lang)
+                    storageService.getPreviousPage(query, view, mainLibrary, pageSize, lang)
                             .stream()
                             .map(toHeading)
                             .collect(toList()));

@@ -185,7 +185,7 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
 		return itemNumber;
 	}
 
-	public void setItemNumber(int itemNumber) {
+  public void setItemNumber(int itemNumber) {
 		this.itemNumber = itemNumber;
 	}
 
