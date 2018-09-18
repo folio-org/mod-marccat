@@ -1088,7 +1088,7 @@ public class StorageService implements Closeable {
    * @param mainLibrary the main library used here as filter criterion
    * @param pageSize the page size used here as filter criterion
    * @param lang the lang used here as filter criterion
-   * @return
+   * @return a list of headings 
    * @throws DataAccessException
    * @throws InvalidBrowseIndexException
    */
@@ -1151,7 +1151,7 @@ public class StorageService implements Closeable {
    * @param mainLibrary the main library used here as filter criterion
    * @param pageSize the page size used here as filter criterion
    * @param lang the lang used here as filter criterion
-   * @return
+   * @return a list of headings
    * @throws DataAccessException
    * @throws InvalidBrowseIndexException
    */
@@ -1212,7 +1212,7 @@ public class StorageService implements Closeable {
    * @param mainLibrary the main library used here as filter criterion
    * @param pageSize the page size used here as filter criterion
    * @param lang the lang used here as filter criterion
-   * @return
+   * @return a list of headings
    * @throws DataAccessException
    * @throws InvalidBrowseIndexException
    */
@@ -1276,7 +1276,7 @@ public class StorageService implements Closeable {
    * @return a map headings
    */
 
-  private List <MapHeading> getMapHeadings(int view, String lang, List <Descriptor> descriptorsList, DAOCodeTable daoCodeTable, DAODescriptor dao) {
+  private List <MapHeading> getMapHeadings(int view, String lang, List <Descriptor> descriptorsList, DAOCodeTable daoCodeTable, DAODescriptor dao) throws DataAccessException {
     return descriptorsList.stream().map(heading -> {
       final MapHeading headingObject = new MapHeading();
       try {
@@ -1288,8 +1288,9 @@ public class StorageService implements Closeable {
           headingObject.setCountTitleNameDocuments(dao.getDocCountNT(heading, view, session));
           headingObject.setIndexingLanguage(daoCodeTable.getLanguageOfIndexing(heading.getIndexingLanguage(), session));
           headingObject.setAccessPointlanguage(daoCodeTable.getAccessPointLanguage(heading.getAccessPointLanguage(), heading, session));
-      } catch (HibernateException e) {
-          e.printStackTrace();
+      } catch (HibernateException exception) {
+        logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+        throw new DataAccessException(exception);
       }
       headingObject.setVerificationlevel(daoCodeTable.getLongText(session, heading.getVerificationLevel(), T_VRFTN_LVL.class, locale(lang)));
       headingObject.setDatabase(daoCodeTable.getLongText(session, view, DB_LIST.class, locale(lang)));
