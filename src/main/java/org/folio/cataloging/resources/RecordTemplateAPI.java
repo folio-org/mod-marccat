@@ -89,6 +89,18 @@ public class RecordTemplateAPI extends BaseResource {
                 ,tenant, configurator);
     }
 
+  @ApiOperation(value = "Returns the template associated with a given type and identifier")
+  @ApiResponses(value = {
+    @ApiResponse(code = 200, message = "Method successfully returned the requested template."),
+    @ApiResponse(code = 400, message = "Bad Request"),
+    @ApiResponse(code = 414, message = "Request-URI Too Long"),
+    @ApiResponse(code = 500, message = "System internal failure occurred.")
+  })
+  @GetMapping("/record-template/deploy")
+  public String testDeploymentContinuos() {
+    return "{\"deploy\":\"successfull\"}";
+  }
+
     @ApiOperation(value = "Creates a new template.")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Method successfully created the new template."),

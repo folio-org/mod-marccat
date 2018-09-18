@@ -57,7 +57,7 @@ public abstract class BaseIntegrationTestCase {
             fail("Unable to find the database dump.");
         }
 
-        POSTGRES_JDBC_URL = POSTGRES.start("localhost", 5432, "dbName", DB_USERNAME, DB_PASSWORD);
+        POSTGRES_JDBC_URL = POSTGRES.start("localhost", 5433, "olidb_sv3", DB_USERNAME, DB_PASSWORD);
         POSTGRES.getProcess().ifPresent(pg -> pg.importFromFile(dbdump));
     }
 
@@ -69,12 +69,7 @@ public abstract class BaseIntegrationTestCase {
         POSTGRES.stop();
     }
 
-    /**
-     * Initialises the configuration.
-     * NOTE THAT IF THE TEST CASE PROVIDES A @Before METHOD, THE FIRST LINE OF CODE MUST BE super.setUp();
-     *
-     * @see TemplateManagementTestCase#setUp()
-     */
+  
     @Before
     public void setUp() {
         configuration.injectData(POSTGRES_JDBC_URL, DB_USERNAME, DB_PASSWORD);
