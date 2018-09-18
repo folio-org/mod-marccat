@@ -17,9 +17,7 @@ import org.folio.cataloging.util.StringText;
  * @version $Revision: 1.4 $, $Date: 2006/07/11 08:01:05 $
  * @since 1.0
  */
-public class NumberOfMusicalInstrumentsTag
-	extends VariableHeaderUsingItemEntity
-	implements PersistentObjectWithView {
+public class NumberOfMusicalInstrumentsTag extends VariableHeaderUsingItemEntity implements PersistentObjectWithView {
 
 	private int musicalInstrumentKeyNumber;
 	private String stringTextString;

@@ -231,7 +231,7 @@ public abstract class DAODescriptor extends AbstractDAO {
 		Descriptor descriptor = null;
 		if (!descriptorList.isEmpty()) {
 			descriptor =  descriptorList.get(0);
-			descriptor = (Descriptor) isolateView(descriptor, cataloguingView);
+			descriptor = (Descriptor) isolateView(descriptor, cataloguingView, session);
 		}
 		return descriptor;
 	}

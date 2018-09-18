@@ -11,7 +11,6 @@ import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistentObjectWithView;
 import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.dao.persistence.S_LCK_TBL;
 import org.folio.cataloging.exception.RecordInUseException;
 import org.folio.cataloging.log.MessageCatalog;
 
@@ -19,16 +18,13 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.folio.cataloging.F.deepCopy;
-
 /**
  * Provides a base class of support utilities for DAO objects
- * 
+ *
  * @author wimc
  */
 @Deprecated
@@ -88,53 +84,9 @@ public class HibernateUtil {
 		throw new IllegalArgumentException("Don't call me!");
 	}
 
-	/**
-	 * Creates a new usr_vw_ind string from the input string by setting the
-	 * position specified in arg2 to '0'. The resultant view string is useful in
-	 * saving a persistant object after the current cataloguing view of the
-	 * record is deleted (or modified)
-	 * 
-	 * 
-	 * @param viewString --
-	 *            the original view String
-	 * @param cataloguingView --
-	 *            the position to be set to '0' (1 indexing)
-	 */
-	public String maskOutViewString(String viewString, int cataloguingView) {
-		return View.maskOutViewString(viewString, cataloguingView);
-	}
 
-	/**
-	 * Creates a new usr_vw_ind string from the input string by setting the
-	 * position specified in arg2 to '1'. The resultant view string is useful in
-	 * saving a persistant object after the current cataloguing view of the
-	 * record is added (based on a copy from existing views);
-	 * 
-	 * 
-	 * @param viewString --
-	 *            the original view String
-	 * @param cataloguingView --
-	 *            the position to be set to '1' (1 indexing)
-	 */
 
-	public String maskOnViewString(String viewString, int cataloguingView) {
-		return View.maskOnViewString(viewString, cataloguingView);
-	}
 
-	/**
-	 * Creates a new usr_vw_ind string by setting all positions to '0' except
-	 * the position specified in arg1. The resultant view string is useful in
-	 * saving a persistant object after the current cataloguing view of the
-	 * record is saved or updated;
-	 * 
-	 * 
-	 * @param cataloguingView --
-	 *            the position to be set to '1' (1 indexing)
-	 */
-
-	public static String makeSingleViewString(int cataloguingView) {
-		return View.makeSingleViewString(cataloguingView);
-	}
 
 	/**
 	 * Invokes hibernate methods save, update depending on the objects
@@ -183,41 +135,18 @@ public class HibernateUtil {
 	/**
 	 * Ensures that the returned PersistentObject is a "single" view row version
 	 * of the passed argument
-	 * 
+	 *
 	 */
-	public PersistentObjectWithView isolateView(
-			final PersistentObjectWithView p, final int userView)
-			throws DataAccessException {
-		if (userView < View.AUTHORITY) {
-			logger.error("NO ISOLATION FOR MADES");
-			return p;
-		}
-		final String myView = makeSingleViewString(userView);
-		final PersistentObjectWithView p3 = (PersistentObjectWithView) deepCopy(p);
-
-		if (p.getUserViewString().compareTo(myView) != 0) {
-			new TransactionalHibernateOperation() {
-				public void doInHibernateTransaction(Session s)
-						throws HibernateException {
-					s.delete(p);
-					PersistentObjectWithView p2 = (PersistentObjectWithView) deepCopy(p);
-					p2.setUserViewString(maskOutViewString(p.getUserViewString(), userView));
-					s.save(p2);
-					p3.setUserViewString(myView);
-					s.save(p3);
-				}
-			}.execute();
-			return p3;
-		} else {
-			return p;
-		}
+	@Deprecated
+	public PersistentObjectWithView isolateView(final PersistentObjectWithView p, final int userView) throws DataAccessException {
+		return null;
 	}
 
 	/**
 	 * Convenience method for currentSession().load(Class clazz, Serializable
 	 * id). If the load method of the Hibernate Session throws a
 	 * HibernateException, it wraps it in a DataAccessException
-	 * 
+	 *
 	 * @param clazz
 	 *            a persistent class
 	 * @param id
@@ -283,7 +212,7 @@ public class HibernateUtil {
 	 * Convenience method for currentSession().find(String query, Object[]
 	 * values, Type[] types) If the find method of the Hibernate Session throws
 	 * a HibernateException, it wraps it in a DataAccessException
-	 * 
+	 *
 	 * @param query
 	 *            the query string
 	 * @param values
@@ -310,7 +239,7 @@ public class HibernateUtil {
 	 * Convenience method for currentSession().find(String query) If the find
 	 * method of the Hibernate Session throws a HibernateException, it wraps it
 	 * in a DataAccessException
-	 * 
+	 *
 	 * @param query
 	 *            the query string
 	 * @return a distinct list of instances
@@ -327,7 +256,7 @@ public class HibernateUtil {
 
 	/**
 	 * Default implementation for save (with no extra requirements)
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void save(final Persistence p) throws DataAccessException {
@@ -341,7 +270,7 @@ public class HibernateUtil {
 
 	/**
 	 * Default implementation for update (with no extra requirements)
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void update(final Persistence p) throws DataAccessException {
@@ -355,7 +284,7 @@ public class HibernateUtil {
 
 	/**
 	 * Default implementation for delete with no cascade affects
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void delete(final Persistence p) throws DataAccessException {
@@ -367,90 +296,15 @@ public class HibernateUtil {
 		}.execute();
 	}
 
-	public void lock(int key, String entityType, String userName)
-			throws DataAccessException, RecordInUseException {
-		ResultSet rs = null;
-		Statement statement = null;
-
-		//TODO refactoring this
-		Session session = currentSession();
-
-		try {
-			if (getLockingSession() == null || getLockingSession().isClosed()) {
-				setLockingSession(createNewDBSession());
-
-				String sessionID = null;
-				statement = getLockingSession().createStatement();
-				rs = statement
-						.executeQuery("SELECT audsid from v$session where audsid = userenv('sessionid') ");
-
-				if (rs.next())
-					sessionID = rs.getString(1);
-
-				setLockingSessionId(sessionID);
-
-				// setLockingSessionId(getSessionID(getLockingSession()));
-			}
-			S_LCK_TBL myLock = new S_LCK_TBL(key, entityType);
-			S_LCK_TBL existingLock = (S_LCK_TBL) get(session, S_LCK_TBL.class, myLock);
-
-			if (existingLock != null) {
-				if (isSessionAlive(existingLock.getDbSession())
-						&& /* !isUserPresent(userName) */!existingLock
-								.getUserName().equals(userName)) {
-					throw new RecordInUseException();
-				} else if (existingLock.getDbSession() != null
-						&& getLockingSessionId() != null
-						&& existingLock.getDbSession().trim().equals(
-								getLockingSessionId().trim())) {
-					// same lock already exists so return
-					return;
-					// test se non presente anche lo stesso USER caso di
-					// chiusura della sessione
-				} else {
-					// remove lock from dead session
-					existingLock.markDeleted();
-					persistByStatus(existingLock);
-				}
-			}
-			myLock.setDbSession(getLockingSessionId());
-			myLock.setUserName(userName);
-			// 16/06/2001 aggiunto da Carmen
-			myLock.markNew();
-			persistByStatus(myLock);
-
-		} catch (SQLException e) {
-			throw new DataAccessException();
-
-		} finally {
-			if (rs != null)
-				try {
-					rs.close();
-				} catch (SQLException e) {
-				}
-			if (statement != null)
-				try {
-					statement.close();
-				} catch (SQLException e) {
-				}
-		}
+	@Deprecated
+	public void lock(int key, String entityType, String userName) throws DataAccessException, RecordInUseException {
 	}
 
 	/*
 	*
 	*/
-	public void unlock(int key, String entityType) throws DataAccessException {
-		S_LCK_TBL myLock = new S_LCK_TBL(key, entityType);
-
-		//TODO session
-		final Session session = currentSession();
-
-		S_LCK_TBL existingLock = (S_LCK_TBL) get(session, S_LCK_TBL.class, myLock);
-		if (existingLock != null) {
-			existingLock.markDeleted();
-			persistByStatus(existingLock);
-		}
-	}
+	@Deprecated
+	public void unlock(int key, String entityType) throws DataAccessException {}
 
 	@Deprecated
 	private boolean isSessionAlive(String sessionId) {
