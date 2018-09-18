@@ -131,7 +131,6 @@ public class BibliographicRecordAPI extends BaseResource {
           @PathVariable final String id,
           @RequestBody final BibliographicRecord record,
           @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
-          @RequestParam final String lang,
           @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
 
     return doPost((storageService, configuration) -> {
@@ -381,31 +380,59 @@ public class BibliographicRecordAPI extends BaseResource {
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @DeleteMapping("/bibliographic-record/{id}")
   public void delete( @PathVariable final String id,
+                      @RequestParam final String uuid,
+                      @RequestParam final String userName,
                       @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
                       @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
     doDelete((storageService, configuration) -> {
-      storageService.deleteBibliographicRecordById(Integer.parseInt(id), view);
+      storageService.deleteBibliographicRecordById(Integer.parseInt(id), view, uuid, userName);
       return id;
     }, tenant, configurator);
   }
 
   @ApiOperation(value = "Deletes a bibliographic record.")
   @ApiResponses(value = {
-    @ApiResponse(code = 204, message = "Method successfully deleted the bibliographic record."),
+    @ApiResponse(code = 204, message = "Method successfully unlocked bibliographic record."),
     @ApiResponse(code = 400, message = "Bad Request"),
     @ApiResponse(code = 414, message = "Request-URI Too Long"),
     @ApiResponse(code = 500, message = "System internal failure occurred.")
   })
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @DeleteMapping("/bibliographic-record/unlock")
-  public void unlock( @PathVariable final String id,
+  public void unlock( @RequestParam final String id,
                       @RequestParam final String uuid,
                       @RequestParam final String userName,
                       @RequestParam final LockEntityType type,
                       @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
     doDelete((storageService, configuration) -> {
-      storageService.unlockEntity(Integer.parseInt(id), userName, uuid, type);
-      return uuid;
+      if (isNotNullOrEmpty(id) && isNotNullOrEmpty(uuid) && type == LockEntityType.R) {
+        storageService.unlockRecord(Integer.parseInt(id), userName);
+        return uuid;
+      }
+      return null;
     }, tenant, configurator);
+  }
+
+  @ApiOperation(value = "Updates an existing record.")
+  @ApiResponses(value = {
+    @ApiResponse(code = 204, message = "Method successfully updated the record."),
+    @ApiResponse(code = 400, message = "Bad Request"),
+    @ApiResponse(code = 414, message = "Request-URI Too Long"),
+    @ApiResponse(code = 500, message = "System internal failure occurred.")
+  })
+  @PutMapping("/bibliographic-record/lock")
+  public void lock(
+    @RequestParam final String id,
+    @RequestParam final String uuid,
+    @RequestParam final String userName,
+    @RequestParam final LockEntityType type,
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+
+    doPut((storageService, configuration) -> {
+
+      storageService.lockRecord(Integer.parseInt(id), userName, uuid);
+      return uuid;
+
+    }, tenant, configurator, () -> isNotNullOrEmpty(id) && isNotNullOrEmpty(uuid) && type == LockEntityType.R);
   }
 }

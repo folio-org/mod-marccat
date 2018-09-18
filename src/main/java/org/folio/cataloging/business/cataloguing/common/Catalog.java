@@ -106,13 +106,13 @@ public abstract class Catalog {
 	abstract public Tag getNewTag(CatalogItem item, int category,
 			CorrelationValues correlationValues) throws NewTagException;
 
-	public CatalogItem getCatalogItem(final int ... key) throws DataAccessException {
+	public CatalogItem getCatalogItem(final Session session, final int ... key) throws DataAccessException {
 		// FIXME: In case this method is needed the following line should be moved on the persistence layer.
-		final CatalogItem b = getCatalogDao().getCatalogItemByKey(null, key);
+		final CatalogItem b = getCatalogDao().getCatalogItemByKey(session, key);
 
 		for (int i = 0; i < b.getNumberOfTags(); i++) {
 			try {
-				b.getTag(i).getMarcEncoding();
+				b.getTag(i).getMarcEncoding(session);
 			} catch (Exception e) {
 				continue;
 			}
@@ -228,12 +228,13 @@ public abstract class Catalog {
 		item.setModelItem(model);
 		return item;
 	}
-	public void lock(final int itemNumber, final String userName) throws DataAccessException, RecordInUseException {
-		getCatalogDao().lock(itemNumber, getLockingEntityType(), userName);
+
+	public void lock(final int itemNumber, final String userName, final String uuid, final Session session) throws DataAccessException, RecordInUseException {
+		getCatalogDao().lock(itemNumber, getLockingEntityType(), userName, uuid, session);
 	}
 
-	public void unlock(final int itemNumber) throws DataAccessException {
-		getCatalogDao().unlock(itemNumber, getLockingEntityType());
+	public void unlock(final int itemNumber, final String username, final Session session) throws DataAccessException {
+		getCatalogDao().unlock(itemNumber, getLockingEntityType(), username, session );
 	}
 
 	abstract public String getLockingEntityType();

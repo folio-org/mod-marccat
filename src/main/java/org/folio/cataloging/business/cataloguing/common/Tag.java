@@ -5,29 +5,23 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.cataloguing.bibliographic.FixedField;
-import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
-import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.PersistenceState;
 import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.persistence.CorrelationKey;
 import org.folio.cataloging.dao.persistence.T_SINGLE;
 import org.folio.cataloging.exception.ValidationException;
-import org.folio.cataloging.model.Subfield;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.shared.Validation;
 import org.folio.cataloging.util.StringText;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.Serializable;
 import java.sql.SQLException;
-import java.util.Iterator;
 import java.util.List;
 
 import static org.folio.cataloging.F.deepCopy;
@@ -41,6 +35,7 @@ import static org.folio.cataloging.F.deepCopy;
  */
 public abstract class Tag implements Serializable, Cloneable, TagInterface
 {
+
 	public Tag() {
 		/*
 		 * This default implementation can be overridden either in individual tag
@@ -138,6 +133,13 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 		return tagImpl.getMarcEncoding(this);
 	}
 
+  /**
+   * @return the MARC tag and indicators for this tag
+   */
+  public CorrelationKey getMarcEncoding(final Session session) throws DataAccessException {
+    return tagImpl.getMarcEncoding(this, session);
+  }
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
@@ -172,7 +174,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 
 	// 2018 Paul Search Engine Java
 	private Element toXmlElement(Document xmlDocument, boolean withPunctuation) {
-		CorrelationKey marcEncoding = null;
+		/*CorrelationKey marcEncoding = null;
 		try {
 			marcEncoding = getMarcEncoding();
 		} catch (Exception exception) {
@@ -220,7 +222,8 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 				field.appendChild(subfield.toXmlElement(xmlDocument));
 			}
 		}
-		return field;
+		return field;*/
+		return null;
 	}
 
 	public int hashCode()
@@ -417,7 +420,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 	 * @return an Element
 	 */
 	public Element toXmlElement(Document xmlDocument) {
-		CorrelationKey marcEncoding = null;
+		/*CorrelationKey marcEncoding = null;
 		try {
 			marcEncoding = getMarcEncoding();
 		} catch (Exception exception) {
@@ -451,7 +454,8 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 				field.appendChild(subfield.toXmlElement(xmlDocument));
 			}
 		}
-		return field;
+		return field;*/
+		return null;
 	}
 
 	/**
@@ -461,7 +465,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 	 */
 	public Element generateModelXmlElement(Document xmlDocument) {
 		Element field = null;
-		if (xmlDocument != null) {
+		/*if (xmlDocument != null) {
 			field = xmlDocument.createElement("field");
 			try {
 				field.setAttribute("tag", this.getMarcEncoding().getMarcTag());
@@ -485,7 +489,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 			} catch (DataAccessException dataAccessException) {
 			}
 			field.appendChild(generateModelXmlElementContent(xmlDocument));
-		}
+		}*/
 		return field;
 	}
 

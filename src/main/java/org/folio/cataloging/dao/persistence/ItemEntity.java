@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Abstract class representing the db entity that holds the catalogItem 
+ * Abstract class representing the db entity that holds the catalogItem
  * (i.e. BIB_ITM or AUT).
  *
  * @author paulm
@@ -46,10 +46,10 @@ public abstract class ItemEntity implements Persistence, Serializable {
 
 	protected String typeOfDateTimeCode;
 
-	protected char verificationLevel; //= Defaults.getChar("bibliographicItem.verificationLevel");
+	protected char verificationLevel;
 
 	/**
-		 * 
+		 *
 		 * @since 1.0
 		 */
 	public void evict() throws DataAccessException {
@@ -57,7 +57,7 @@ public abstract class ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public Integer getAmicusNumber() {
@@ -65,35 +65,35 @@ public abstract class ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-		 * 
+		 *
 		 */
 	public String getAuthenticationCenterStringText() {
 		return authenticationCenterStringText;
 	}
 
 	/**
-		 * 
+		 *
 		 */
 	public String getCataloguingSourceStringText() {
 		return cataloguingSourceStringText;
 	}
 
 	/**
-		 * 
+		 *
 		 */
 	public char getCharacterCodingSchemeCode() {
 		return characterCodingSchemeCode;
 	}
 
 	/**
-		 * 
+		 *
 		 */
 	public Date getDateOfLastTransaction() {
 		return dateOfLastTransaction;
 	}
 
 	/**
-		 * 
+		 *
 		 */
 	public char getEncodingLevel() {
 		return encodingLevel;
@@ -118,7 +118,7 @@ public abstract class ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-		 * 
+		 *
 		 * @since 1.0
 		 */
 	public String getGeographicAreaStringText() {
@@ -126,35 +126,35 @@ public abstract class ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-		 * 
+		 *
 		 */
 	public String getLanguageOfCataloguing() {
 		return languageOfCataloguing;
 	}
 
 	/**
-		 * 
+		 *
 		 */
 	public char getRecordStatusCode() {
 		return recordStatusCode;
 	}
 
 	/**
-		 * 
+		 *
 		 */
 	public String getTimePeriodStringText() {
 		return timePeriodStringText;
 	}
 
 	/**
-		 * 
+		 *
 		 */
 	public String getTypeOfDateTimeCode() {
 		return typeOfDateTimeCode;
 	}
 
 	/**
-		 * 
+		 *
 		 * @since 1.0
 		 */
 	public int getUpdateStatus() {
@@ -162,14 +162,14 @@ public abstract class ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-		 * 
+		 *
 		 */
 	public char getVerificationLevel() {
 		return verificationLevel;
 	}
 
 	/**
-		 * 
+		 *
 		 * @since 1.0
 		 */
 	public boolean isChanged() {
@@ -177,7 +177,7 @@ public abstract class ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-		 * 
+		 *
 		 * @since 1.0
 		 */
 	public boolean isDeleted() {
@@ -185,7 +185,7 @@ public abstract class ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-		 * 
+		 *
 		 * @since 1.0
 		 */
 	public boolean isNew() {
@@ -193,7 +193,7 @@ public abstract class ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-		 * 
+		 *
 		 * @since 1.0
 		 */
 	public void markChanged() {
@@ -201,7 +201,7 @@ public abstract class ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-		 * 
+		 *
 		 * @since 1.0
 		 */
 	public void markDeleted() {
@@ -209,7 +209,7 @@ public abstract class ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-		 * 
+		 *
 		 * @since 1.0
 		 */
 	public void markNew() {
@@ -217,7 +217,7 @@ public abstract class ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-		 * 
+		 *
 		 * @since 1.0
 		 */
 	public void markUnchanged() {
@@ -225,7 +225,7 @@ public abstract class ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-		 * 
+		 *
 		 * @since 1.0
 		 */
 	public boolean onDelete(Session arg0) throws CallbackException {
@@ -233,7 +233,7 @@ public abstract class ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-		 * 
+		 *
 		 * @since 1.0
 		 */
 	public void onLoad(Session arg0, Serializable arg1) {
@@ -241,7 +241,7 @@ public abstract class ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-		 * 
+		 *
 		 * @since 1.0
 		 */
 	public boolean onSave(Session arg0) throws CallbackException {
@@ -249,7 +249,7 @@ public abstract class ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-		 * 
+		 *
 		 * @since 1.0
 		 */
 	public boolean onUpdate(Session arg0) throws CallbackException {
@@ -257,7 +257,7 @@ public abstract class ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setAmicusNumber(Integer integer) {
@@ -265,35 +265,35 @@ public abstract class ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-		 * 
+		 *
 		 */
 	public void setAuthenticationCenterStringText(String string) {
 		authenticationCenterStringText = string;
 	}
 
 	/**
-		 * 
+		 *
 		 */
 	public void setCataloguingSourceStringText(String string) {
 		cataloguingSourceStringText = string;
 	}
 
 	/**
-		 * 
+		 *
 		 */
 	public void setCharacterCodingSchemeCode(char c) {
 		characterCodingSchemeCode = c;
 	}
 
 	/**
-		 * 
+		 *
 		 */
 	public void setDateOfLastTransaction(Date date) {
 		dateOfLastTransaction = date;
 	}
 
 	/**
-		 * 
+		 *
 		 */
 	public void setEncodingLevel(char c) {
 		encodingLevel = c;
@@ -304,7 +304,7 @@ public abstract class ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-		 * 
+		 *
 		 * @since 1.0
 		 */
 	public void setGeographicAreaStringText(String string) {
@@ -312,35 +312,35 @@ public abstract class ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-		 * 
+		 *
 		 */
 	public void setLanguageOfCataloguing(String string) {
 		languageOfCataloguing = string;
 	}
 
 	/**
-		 * 
+		 *
 		 */
 	public void setRecordStatusCode(char c) {
 		recordStatusCode = c;
 	}
 
 	/**
-		 * 
+		 *
 		 */
 	public void setTimePeriodStringText(String string) {
 		timePeriodStringText = string;
 	}
 
 	/**
-		 * 
+		 *
 		 */
 	public void setTypeOfDateTimeCode(String string) {
 		typeOfDateTimeCode = string;
 	}
 
 	/**
-		 * 
+		 *
 		 * @since 1.0
 		 */
 	public void setUpdateStatus(int i) {
@@ -348,7 +348,7 @@ public abstract class ItemEntity implements Persistence, Serializable {
 	}
 
 	/**
-		 * 
+		 *
 		 */
 	public void setVerificationLevel(char verificationLevel) {
 		this.verificationLevel = verificationLevel;

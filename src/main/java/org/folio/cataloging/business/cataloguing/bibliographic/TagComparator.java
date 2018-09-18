@@ -1,14 +1,14 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Aug 28, 2004
- * 
+ *
  * TagComparator.java
  */
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
-import java.util.Comparator;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.cataloguing.common.OrderedTag;
 import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.common.DataAccessException;
@@ -16,8 +16,7 @@ import org.folio.cataloging.business.common.group.BibliographicGroupManager;
 import org.folio.cataloging.business.common.group.GroupManager;
 import org.folio.cataloging.business.common.group.TagGroup;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.Comparator;
 
 /**
  * @author paulm
@@ -26,12 +25,12 @@ import org.apache.commons.logging.LogFactory;
  */
 public class TagComparator implements Comparator {
 	private static Log logger = LogFactory.getLog(TagComparator.class);
-	
-	private GroupManager groupManager = BibliographicGroupManager.getInstance();
+
+	private GroupManager groupManager = new BibliographicGroupManager();
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
 	/*public int compare(Object arg0, Object arg1) {
@@ -92,9 +91,9 @@ public class TagComparator implements Comparator {
 		}
 		return 0;
 	}*/
-	
-		
-	
+
+
+
 	public int compare(Object arg0, Object arg1) {
 	if(arg0 == arg1) return 0;
 	if (arg0 instanceof Tag && arg1 instanceof Tag) {
@@ -126,10 +125,10 @@ public class TagComparator implements Comparator {
 		catch (MarcCorrelationException e) {
 			logger.warn("MarcCorrelationException sorting in tag order");
 			return 0;
-		} 
+		}
 		catch (DataAccessException e) {
 			logger.warn("DataAccessException sorting in tag order");
 			return 0;
-		} 
+		}
 	}
 }
