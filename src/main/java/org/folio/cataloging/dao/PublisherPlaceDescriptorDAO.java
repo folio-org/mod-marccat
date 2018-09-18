@@ -86,7 +86,7 @@ public class PublisherPlaceDescriptorDAO extends PublisherDescriptorDAO {
 		q.setInteger("view", cataloguingView);
 		q.setMaxResults(count);
 		List<Descriptor> publisherList = q.list();
-		publisherList = isolateViewForList(publisherList, cataloguingView);
+		publisherList = (List <Descriptor>) isolateViewForList(publisherList, cataloguingView, session);
 		return publisherList;
 	}
 
@@ -135,10 +135,9 @@ public class PublisherPlaceDescriptorDAO extends PublisherDescriptorDAO {
 									+ direction);
 			q.setString("place", place);
 			q.setString("name", name);
-			q.setInteger("view", cataloguingView);
 			q.setMaxResults(count);
 			publisherList = q.list();
-			publisherList = isolateViewForList(publisherList, cataloguingView);
+			publisherList = (List <Descriptor>) isolateViewForList(publisherList, cataloguingView, session);
 			return publisherList;
 
 		} else if (operator.contains(">=") || operator.contains("<=")) {

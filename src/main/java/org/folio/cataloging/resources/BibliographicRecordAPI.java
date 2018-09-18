@@ -397,7 +397,7 @@ public class BibliographicRecordAPI extends BaseResource {
     @ApiResponse(code = 500, message = "System internal failure occurred.")
   })
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  @DeleteMapping("/bibliographic-record/{id}")
+  @DeleteMapping("/bibliographic-record/unlock")
   public void unlock( @PathVariable final String id,
                       @RequestParam final String uuid,
                       @RequestParam final String userName,
