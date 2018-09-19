@@ -124,9 +124,9 @@ public class ControlNumberDescriptorDAO extends DAODescriptor {
 		final CNTL_NBR controlNumber = (CNTL_NBR) descriptor;
 		if (controlNumber.getTypeCode() == 10) {
 			if (searchingView != View.ANY ) {
-				viewClause = " and SUBSTR(a.key.userViewString, " + searchingView + ", 1) = '1' ";
+				viewClause = " and SUBSTR(title.userViewString, " + searchingView + ", 1) = '1' ";
 			}
-			final Query q = session.createQuery("select count(*) from TTL_ACS_PNT as title "+
+			final Query q = session.createQuery("select count(*) from TitleAccessPoint as title "+
 					" where title.seriesIssnHeadingNumber = :headingNumber "+
 					viewClause);
 			q.setInteger("headingNumber", descriptor.getHeadingNumber());
