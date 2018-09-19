@@ -1129,16 +1129,10 @@ public class StorageService implements Closeable {
       descriptorsList.addAll(dao.getHeadingsBySortform(">=", "",browseTerm, filter, view, pageSize, session));
       return getMapHeadings(view, lang, descriptorsList, daoCodeTable, dao);
 
-    } catch (final HibernateException exception) {
+    } catch (final SQLException | HibernateException exception) {
       logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
-    } catch (SQLException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-      throw new DataAccessException(exception);
-    } catch (InstantiationException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-      throw new InvalidBrowseIndexException(key);
-    } catch (IllegalAccessException exception) {
+    } catch (final IllegalAccessException | InstantiationException exception) {
       logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
       throw new InvalidBrowseIndexException(key);
     }
@@ -1192,14 +1186,10 @@ public class StorageService implements Closeable {
     } catch (final HibernateException | SQLException exception) {
         logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
         throw new DataAccessException(exception);
-    } catch (InstantiationException exception) {
-        logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-        throw new InvalidBrowseIndexException(key);
-    } catch (IllegalAccessException exception) {
+    } catch (final IllegalAccessException | InstantiationException exception) {
         logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
         throw new InvalidBrowseIndexException(key);
     }
-
     }
 
   /**
@@ -1248,16 +1238,10 @@ public class StorageService implements Closeable {
       Collections.reverse(mapHeading);
       return mapHeading;
 
-    } catch (final HibernateException exception) {
+    } catch (final SQLException | HibernateException exception) {
       logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
-    } catch (SQLException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-      throw new DataAccessException(exception);
-    } catch (InstantiationException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-      throw new InvalidBrowseIndexException(key);
-    } catch (IllegalAccessException exception) {
+    } catch (final IllegalAccessException | InstantiationException exception) {
       logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
       throw new InvalidBrowseIndexException(key);
     }
