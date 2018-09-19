@@ -1089,7 +1089,7 @@ public class StorageService implements Closeable {
    * @param mainLibrary the main library used here as filter criterion
    * @param pageSize the page size used here as filter criterion
    * @param lang the lang used here as filter criterion
-   * @return a list of headings 
+   * @return a list of headings
    * @throws DataAccessException
    * @throws InvalidBrowseIndexException
    */
@@ -1290,7 +1290,8 @@ public class StorageService implements Closeable {
         logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
         throw new DataAccessException(exception);
       }
-      headingObject.setVerificationlevel(daoCodeTable.getLongText(session, heading.getVerificationLevel(), T_VRFTN_LVL.class, locale(lang)));
+      if(heading.getVerificationLevel() != '\0')
+        headingObject.setVerificationlevel(daoCodeTable.getLongText(session, heading.getVerificationLevel(), T_VRFTN_LVL.class, locale(lang)));
       headingObject.setDatabase(daoCodeTable.getLongText(session, view, DB_LIST.class, locale(lang)));
       return headingObject;
   }).collect(Collectors.toList());
