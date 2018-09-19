@@ -1089,7 +1089,7 @@ public class StorageService implements Closeable {
    * @param mainLibrary the main library used here as filter criterion
    * @param pageSize the page size used here as filter criterion
    * @param lang the lang used here as filter criterion
-   * @return a list of headings 
+   * @return a list of headings
    * @throws DataAccessException
    * @throws InvalidBrowseIndexException
    */
@@ -1307,6 +1307,7 @@ public class StorageService implements Closeable {
     final DAOIndexList daoIndex = new DAOIndexList();
     try {
       return  daoIndex.getBrowseIndex(new Locale(lang),session);
+
     } catch (final HibernateException exception) {
       logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
