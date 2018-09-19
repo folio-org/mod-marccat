@@ -52,9 +52,9 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 
 	private TagImpl tagImpl;
 	private static Log logger = LogFactory.getLog(Tag.class);
-	//protected static DAOCodeTable daoCodeTable = new DAOCodeTable();
 	protected PersistenceState persistenceState;
 	private int itemNumber = -1;
+	private CorrelationKey correlationKey;
 
 	public String getHeadingType() {
 		return tagImpl.getHeadingType(this);
@@ -130,16 +130,21 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 	* @return the MARC tag and indicators for this tag
 	*/
 	public CorrelationKey getMarcEncoding() throws DataAccessException {
-		return tagImpl.getMarcEncoding(this);
+		//return tagImpl.getMarcEncoding(this);
+    return correlationKey;
 	}
 
   /**
    * @return the MARC tag and indicators for this tag
    */
   public CorrelationKey getMarcEncoding(final Session session) throws DataAccessException {
-    return tagImpl.getMarcEncoding(this, session);
+    correlationKey = tagImpl.getMarcEncoding(this, session);
+    return correlationKey;
   }
 
+  public void setCorrelationKey(final CorrelationKey correlationK) throws DataAccessException {
+    correlationKey = correlationK;
+  }
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */

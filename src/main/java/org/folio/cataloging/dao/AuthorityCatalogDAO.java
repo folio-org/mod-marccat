@@ -233,7 +233,7 @@ public class AuthorityCatalogDAO extends CatalogDAO {
 	}
 
 	@Override
-	protected void updateCacheTable(CatalogItem item, Session session)
+	protected void updateItemDisplayCacheTable(CatalogItem item, Session session)
 		throws DataAccessException {
 		// do nothing -- Authorities don't have a cache table (yet)
 	}

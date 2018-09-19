@@ -23,4 +23,5 @@ public interface MessageCatalogStorage {
     String _00021_UNLOCK_FAILURE = "<" + MODULE_NAME + "-00021> : Unlock record failure (-id:%d -username:%s).";
     String _00022_DELETE_RECORD_FAILURE = "<" + MODULE_NAME + "-00022> : Error during record delete %d.";
 
+
 }

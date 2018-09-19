@@ -1089,7 +1089,7 @@ public class StorageService implements Closeable {
    * @param mainLibrary the main library used here as filter criterion
    * @param pageSize the page size used here as filter criterion
    * @param lang the lang used here as filter criterion
-   * @return a list of headings 
+   * @return a list of headings
    * @throws DataAccessException
    * @throws InvalidBrowseIndexException
    */
@@ -1381,7 +1381,6 @@ public class StorageService implements Closeable {
   public BibliographicRecord getBibliographicRecordById(final int itemNumber,
                                                         final int view) {
     final CatalogItem item = getCatalogItemByKey(itemNumber, view);
-    //item.sortTags();
     final BibliographicRecord bibliographicRecord = new BibliographicRecord();
     bibliographicRecord.setId(item.getAmicusNumber());
 

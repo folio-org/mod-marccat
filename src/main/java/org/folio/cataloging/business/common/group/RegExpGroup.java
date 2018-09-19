@@ -19,7 +19,6 @@ public class RegExpGroup extends MarcTagGroup {
 	}
 
 
-
 	public static void main(String[] args) {
 		String pattern = "^52[0124] ";
 		RE regexp = new RE(pattern);

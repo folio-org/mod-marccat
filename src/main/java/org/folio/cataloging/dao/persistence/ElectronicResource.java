@@ -24,23 +24,10 @@ public class ElectronicResource extends PhysicalDescription {
 	private char reformattingQualityCode;
 	private char obsolete1;
 
-	/*	private char colourCode = 'u';
-	private char dimensionsCode = 'u';
-	private char includesSoundCode = 'u';
-	private String imageBitDepth = "---";
-	private char fileFormatsCode = 'u';
-	private char qualityAssuranceTargetCode = 'u';
-	private char antecedentSourceCode = 'u';
-	private char levelOfCompressionCode = 'u';
-	private char reformattingQualityCode = 'u';
-	private char obsolete1;
-*/
 
 	public ElectronicResource() {
 		super();
 		setHeaderType(42);
-		//setGeneralMaterialDesignationCode('c');
-		//setSpecificMaterialDesignationCode('u');
 	}
 
 	/* (non-Javadoc)
