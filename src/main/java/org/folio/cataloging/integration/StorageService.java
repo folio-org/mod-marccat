@@ -1089,7 +1089,7 @@ public class StorageService implements Closeable {
    * @param mainLibrary the main library used here as filter criterion
    * @param pageSize the page size used here as filter criterion
    * @param lang the lang used here as filter criterion
-   * @return a list of headings 
+   * @return a list of headings
    * @throws DataAccessException
    * @throws InvalidBrowseIndexException
    */
@@ -1129,16 +1129,10 @@ public class StorageService implements Closeable {
       descriptorsList.addAll(dao.getHeadingsBySortform(">=", "",browseTerm, filter, view, pageSize, session));
       return getMapHeadings(view, lang, descriptorsList, daoCodeTable, dao);
 
-    } catch (final HibernateException exception) {
+    } catch (final SQLException | HibernateException exception) {
       logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
-    } catch (SQLException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-      throw new DataAccessException(exception);
-    } catch (InstantiationException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-      throw new InvalidBrowseIndexException(key);
-    } catch (IllegalAccessException exception) {
+    } catch (final IllegalAccessException | InstantiationException exception) {
       logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
       throw new InvalidBrowseIndexException(key);
     }
@@ -1192,14 +1186,10 @@ public class StorageService implements Closeable {
     } catch (final HibernateException | SQLException exception) {
         logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
         throw new DataAccessException(exception);
-    } catch (InstantiationException exception) {
-        logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-        throw new InvalidBrowseIndexException(key);
-    } catch (IllegalAccessException exception) {
+    } catch (final IllegalAccessException | InstantiationException exception) {
         logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
         throw new InvalidBrowseIndexException(key);
     }
-
     }
 
   /**
@@ -1248,16 +1238,10 @@ public class StorageService implements Closeable {
       Collections.reverse(mapHeading);
       return mapHeading;
 
-    } catch (final HibernateException exception) {
+    } catch (final SQLException | HibernateException exception) {
       logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
-    } catch (SQLException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-      throw new DataAccessException(exception);
-    } catch (InstantiationException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-      throw new InvalidBrowseIndexException(key);
-    } catch (IllegalAccessException exception) {
+    } catch (final IllegalAccessException | InstantiationException exception) {
       logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
       throw new InvalidBrowseIndexException(key);
     }
@@ -1290,7 +1274,8 @@ public class StorageService implements Closeable {
         logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
         throw new DataAccessException(exception);
       }
-      headingObject.setVerificationlevel(daoCodeTable.getLongText(session, heading.getVerificationLevel(), T_VRFTN_LVL.class, locale(lang)));
+      if(heading.getVerificationLevel() != '\0')
+        headingObject.setVerificationlevel(daoCodeTable.getLongText(session, heading.getVerificationLevel(), T_VRFTN_LVL.class, locale(lang)));
       headingObject.setDatabase(daoCodeTable.getLongText(session, view, DB_LIST.class, locale(lang)));
       return headingObject;
   }).collect(Collectors.toList());
@@ -1381,7 +1366,6 @@ public class StorageService implements Closeable {
   public BibliographicRecord getBibliographicRecordById(final int itemNumber,
                                                         final int view) {
     final CatalogItem item = getCatalogItemByKey(itemNumber, view);
-    //item.sortTags();
     final BibliographicRecord bibliographicRecord = new BibliographicRecord();
     bibliographicRecord.setId(item.getAmicusNumber());
 
