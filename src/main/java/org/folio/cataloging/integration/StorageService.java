@@ -1292,6 +1292,7 @@ public class StorageService implements Closeable {
     final DAOIndexList daoIndex = new DAOIndexList();
     try {
       return  daoIndex.getBrowseIndex(new Locale(lang),session);
+
     } catch (final HibernateException exception) {
       logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);

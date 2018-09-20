@@ -6,6 +6,7 @@ import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.codetable.IndexListElement;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
@@ -16,6 +17,8 @@ import org.folio.cataloging.dao.persistence.IndexListKey;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toList;
+
 /**
  * Provides data access to IDX_LIST table
  *
@@ -25,16 +28,24 @@ import java.util.stream.Collectors;
 public class DAOIndexList extends HibernateUtil {
 	private static final Log logger = LogFactory.getLog(DAOIndexList.class);
 
-	public List getBrowseIndex(final Locale locale, final Session session) throws HibernateException {
+  /**
+   * Returns the browse indexes types associated to the given language.
+   *
+   * @param session the session of hibernate
+   * @param locale the Locale, used here as a filter criterion.
+   * @return the browse indexes
+   * @throws HibernateException
+   */
+ 	public List getBrowseIndex(final Locale locale, final Session session) throws HibernateException {
 		final String query =
 			"from IndexList as a "
-				+ "where SUBSTR(a.browseCode, 0, 1) = 'B' "
+				+ "where SUBSTR(a.browseCode, 1, 1) = 'B' "
 				+ "and a.key.language = '"
 				+ locale.getISO3Language()
 				+ "' and a.codeLibriCatMades = 'LC'"
 				+ " order by a.languageDescription";
 
-		return getIndexByQuery(query, session);
+		return getIndexBrowseByQuery(query, session);
 	}
 
 	public List getEditorBrowseIndex(Locale locale) throws DataAccessException {
@@ -266,7 +277,25 @@ public class DAOIndexList extends HibernateUtil {
 		}).collect(Collectors.toList());
 	}
 
-	/**
+
+  /**
+   *
+   * Get the index browse e for a expecific query
+   *
+   * @param query
+   * @param session
+   * @throws HibernateException
+   */
+  @SuppressWarnings("unchecked")
+  public List<Avp<String>> getIndexBrowseByQuery(final String query, final Session session) throws HibernateException {
+    final List<IndexList> indexesList = session.find(query);
+    return indexesList
+      .stream()
+      .map(index -> (Avp<String>) new Avp(index.getLanguageCode(), index.getLanguageDescription()))
+      .collect(toList());
+  }
+
+  /**
 	 *
 	 * Get the IndexElementList for a expecific query
 	 *
