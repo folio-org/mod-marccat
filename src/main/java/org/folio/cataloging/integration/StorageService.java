@@ -1366,7 +1366,6 @@ public class StorageService implements Closeable {
   public BibliographicRecord getBibliographicRecordById(final int itemNumber,
                                                         final int view) {
     final CatalogItem item = getCatalogItemByKey(itemNumber, view);
-    //item.sortTags();
     final BibliographicRecord bibliographicRecord = new BibliographicRecord();
     bibliographicRecord.setId(item.getAmicusNumber());
 

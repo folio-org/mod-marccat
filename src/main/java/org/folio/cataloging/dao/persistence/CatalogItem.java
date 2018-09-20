@@ -292,7 +292,6 @@ public abstract class CatalogItem implements Serializable {
 		final GroupManager groupManager = new BibliographicGroupManager();
 
 		tags.stream().forEach(tag -> {
-		  //tag.getTagImpl().getMarcEncoding(tag, session);
             final TagGroup group = groupManager.getGroup(tag);
             if(group==null) {
                 ht.put(tag, new UniqueTagContainer(tag));
