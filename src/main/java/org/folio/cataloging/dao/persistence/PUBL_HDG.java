@@ -228,7 +228,6 @@ public class PUBL_HDG extends Descriptor implements Serializable {
 	/* (non-Javadoc)
 	 * @see Descriptor#setStringText(java.lang.String)
 	 */
-	@Deprecated
 	public void setStringText(String string) {
 		StringText s = new StringText(string);
 		setPlaceStringText(s.getSubfieldsWithCodes("a").toString());
@@ -238,7 +237,6 @@ public class PUBL_HDG extends Descriptor implements Serializable {
 	/* (non-Javadoc)
 	 * @see Descriptor#getDisplayText()
 	 */
-	@Deprecated
 	public String getDisplayText() {
 		return new StringText(getPlaceStringText()).toDisplayString()
 				+ " : "

@@ -61,7 +61,7 @@ public abstract class CatalogDAO extends AbstractDAO {
 		transaction.commit();
 	}
 	abstract void updateFullRecordCacheTable(Session session, CatalogItem item) throws HibernateException;
-	abstract protected void updateCacheTable(final CatalogItem item, final Session session) throws HibernateException;
+	abstract protected void updateItemDisplayCacheTable(final CatalogItem item, final Session session) throws HibernateException;
 
 	abstract protected void insertDeleteTable(final CatalogItem item, final UserProfile user) throws DataAccessException;
 
@@ -168,7 +168,7 @@ public abstract class CatalogDAO extends AbstractDAO {
 		if (casCache != null)
 			saveCasCache(itemEntity.getAmicusNumber().intValue(), casCache, session);
 
-		updateCacheTable(item, session);
+    updateItemDisplayCacheTable(item, session);
 		modifyNoteStandard(item, session);
 		transaction.commit();
 
