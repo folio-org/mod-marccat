@@ -18,7 +18,7 @@ import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "id", "group", "leader", "fields" })
+@JsonPropertyOrder({ "id", "group", "canadianContentIndicator", "verificationLevel", "leader", "fields" })
 public class BibliographicRecord {
 
     @JsonProperty("id")
@@ -30,6 +30,12 @@ public class BibliographicRecord {
     @JsonProperty("leader")
     @Valid
     private Leader leader;
+
+  @JsonProperty("canadianContentIndicator")
+    private String canadianContentIndicator;
+
+  @JsonProperty("verificationLevel")
+    private String verificationLevel;
 
     @JsonProperty("fields")
     @Valid
@@ -116,5 +122,42 @@ public class BibliographicRecord {
     public void setFields(List<Field> fields) {
         this.fields = fields;
     }
+
+  /**
+   *
+   * @return canadianContentIndicator.
+   */
+  @JsonProperty("canadianContentIndicator")
+  public String getCanadianContentIndicator() {
+    return canadianContentIndicator;
+  }
+  /**
+   *
+   * @param canadianContentIndicator.
+   *  the canadianContentIndicator
+   */
+  @JsonProperty("canadianContentIndicator")
+  public void setCanadianContentIndicator(final String canadianContentIndicator) {
+    this.canadianContentIndicator = canadianContentIndicator;
+  }
+
+  /**
+   *
+   * @return verificationLevel.
+   */
+  @JsonProperty("verificationLevel")
+  public String getVerificationLevel() {
+    return verificationLevel;
+  }
+
+  /**
+   *
+   * @param verificationLevel.
+   *  the verificationLevel
+   */
+  @JsonProperty("verificationLevel")
+  public void setVerificationLevel(final String verificationLevel) {
+    this.verificationLevel = verificationLevel;
+  }
 
 }

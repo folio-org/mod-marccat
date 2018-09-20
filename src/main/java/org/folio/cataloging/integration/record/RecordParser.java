@@ -159,7 +159,7 @@ public class RecordParser {
                                                final String formOfMaterial){
 
     final MaterialDescription bibMaterial = catalog.createRequiredMaterialDescriptionTag(item);
-    setDefaultValues(giAPI, bibMaterial);
+    //setDefaultValues(giAPI, bibMaterial);
 
     final String materialDescription008Indicator = tagNbr.equals(GlobalStorage.MATERIAL_TAG_CODE) ?"1" :"0";
     bibMaterial.setMaterialDescription008Indicator(materialDescription008Indicator);
