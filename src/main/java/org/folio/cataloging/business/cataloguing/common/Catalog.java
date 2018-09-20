@@ -1,12 +1,13 @@
 package org.folio.cataloging.business.cataloguing.common;
 
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicCatalog;
 import org.folio.cataloging.business.cataloguing.bibliographic.NewTagException;
 import org.folio.cataloging.business.cataloguing.bibliographic.PersistsViaItem;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.controller.UserProfile;
 import org.folio.cataloging.dao.CatalogDAO;
 import org.folio.cataloging.dao.DAOCodeTable;
 import org.folio.cataloging.dao.ModelDAO;
@@ -75,28 +76,28 @@ public abstract class Catalog {
 	/**
 	 * gets a list of heading types that are applicable for the current
 	 * authority tag's heading type
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	abstract public List getValidHeadingTypeList(Tag t, Locale locale) throws DataAccessException;
 
 	/**
 	 * change the heading type of an Authority Heading or Reference tag
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	abstract public void changeDescriptorType(CatalogItem item, int index, int descriptorType);
 
 	/**
 	 * A unique String representing the subclass type for use in jsp logic tags
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	abstract public String getMarcTypeCode();
 
 	/**
 	 * Called when a new Catalogue item requires at least one tag (new models)
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	abstract public void addDefaultTag(CatalogItem item);
@@ -105,13 +106,13 @@ public abstract class Catalog {
 	abstract public Tag getNewTag(CatalogItem item, int category,
 			CorrelationValues correlationValues) throws NewTagException;
 
-	public CatalogItem getCatalogItem(final int ... key) throws DataAccessException {
+	public CatalogItem getCatalogItem(final Session session, final int ... key) throws DataAccessException {
 		// FIXME: In case this method is needed the following line should be moved on the persistence layer.
-		final CatalogItem b = getCatalogDao().getCatalogItemByKey(null, key);
+		final CatalogItem b = getCatalogDao().getCatalogItemByKey(session, key);
 
 		for (int i = 0; i < b.getNumberOfTags(); i++) {
 			try {
-				b.getTag(i).getMarcEncoding();
+				b.getTag(i).getMarcEncoding(session);
 			} catch (Exception e) {
 				continue;
 			}
@@ -150,16 +151,15 @@ public abstract class Catalog {
 	/**
 	 * Ensures that after creating a new Item (usually from a model) that the
 	 * item has at least the required mandatory tags.
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	abstract public void addRequiredTags(CatalogItem item) throws NewTagException;
 
 	abstract public void addRequiredTagsForModel(CatalogItem item) throws NewTagException;
 
-	@Deprecated
-	public void deleteCatalogItem(CatalogItem item,UserProfile user) throws DataAccessException {
-		//getCatalogDao().deleteCatalogItem(item, user);
+	public void deleteCatalogItem(final CatalogItem item, final Session session) throws DataAccessException, HibernateException {
+	  getCatalogDao().deleteCatalogItem(item, session);
 	}
 
 	@Deprecated
@@ -170,7 +170,7 @@ public abstract class Catalog {
 
 	/**
 	 * This method is used to generate tags from a model
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public Tag parseModelXmlElementAddToItem(final Element xmlElement, final CatalogItem item) {
@@ -184,7 +184,7 @@ public abstract class Catalog {
 
 	/**
 	 * This method is used to generate tags from a model
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public Tag parseModelXmlElement(Element xmlElement, CatalogItem item) {
@@ -228,12 +228,13 @@ public abstract class Catalog {
 		item.setModelItem(model);
 		return item;
 	}
-	public void lock(final int itemNumber, final String userName) throws DataAccessException, RecordInUseException {
-		getCatalogDao().lock(itemNumber, getLockingEntityType(), userName);
+
+	public void lock(final int itemNumber, final String userName, final String uuid, final Session session) throws DataAccessException, RecordInUseException {
+		getCatalogDao().lock(itemNumber, getLockingEntityType(), userName, uuid, session);
 	}
 
-	public void unlock(final int itemNumber) throws DataAccessException {
-		getCatalogDao().unlock(itemNumber, getLockingEntityType());
+	public void unlock(final int itemNumber, final String username, final Session session) throws DataAccessException {
+		getCatalogDao().unlock(itemNumber, getLockingEntityType(), username, session );
 	}
 
 	abstract public String getLockingEntityType();

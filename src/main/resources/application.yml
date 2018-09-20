@@ -9,3 +9,6 @@ logging:
     org.hibernate: ERROR
     ru.yandex: ERROR
     org.folio.cataloging: INFO
+
+server:
+  port: 8085

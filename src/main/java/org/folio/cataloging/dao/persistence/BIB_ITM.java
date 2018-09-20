@@ -21,27 +21,23 @@ public class BIB_ITM extends ItemEntity implements PersistentObjectWithView, Ser
 	private char itemBibliographicLevelCode = 'm';
 	private String itemDateFirstPublication;
 	private String itemDateLastPublication = "    ";
-    private char itemDateTypeCode; //Defaults.getChar("bibliographicItem.itemDateTypeCode");
+    private char itemDateTypeCode;
 	private char itemRecordTypeCode = 'a';
-	private String languageCode; //Defaults.getString("bibliographicItem.languageCode");
+	private String languageCode;
 	private String languageStringText;
 	private char linkedRecordCode = ' ';
-	private String marcCountryCode; //= Defaults.getString("bibliographicItem.marcCountryCode");
+	private String marcCountryCode;
 	private String projectedPublicationDateCode;
-	private char recordCataloguingSourceCode; //= Defaults.getChar("bibliographicItem.recordCataloguingSourceCode");
+	private char recordCataloguingSourceCode;
 	private char recordModifiedCode = ' ';
 	private char replacementStatusCode = ' ';
 	private String specialCodedDatesStringText = "";
 	private String translationCode = "";
 	private String userViewString = "0000000000000000";
 
-	//TODO use configuration module
 	public BIB_ITM()
 	{
 		super();
-		/*setLanguageOfCataloguing(Defaults.getString("bibliographicItem.languageCode"));
-		setCataloguingSourceStringText(Defaults.getString("bibligraphicItem.cataloguingSourceStringText"));
-		setMarcCountryCode(Defaults.getString("bibliographicItem.languageOfCataloguing"));*/
 	}
 
 	public boolean equals(Object obj)

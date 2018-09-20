@@ -1,6 +1,7 @@
 
 package org.folio.cataloging.business.cataloguing.bibliographic;
 
+import net.sf.hibernate.Session;
 import org.folio.cataloging.business.cataloguing.common.HeaderField;
 import org.folio.cataloging.business.cataloguing.common.HeaderFieldHelper;
 import org.folio.cataloging.business.cataloguing.common.Tag;
@@ -43,7 +44,7 @@ public abstract class FixedField extends Tag implements HeaderField {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public HeaderFieldHelper getHeaderField() {
@@ -51,7 +52,7 @@ public abstract class FixedField extends Tag implements HeaderField {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setHeaderField(HeaderFieldHelper helper) {
@@ -59,7 +60,7 @@ public abstract class FixedField extends Tag implements HeaderField {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int getCategory() {
@@ -67,7 +68,7 @@ public abstract class FixedField extends Tag implements HeaderField {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public List getFirstCorrelationList() throws DataAccessException {
@@ -75,7 +76,7 @@ public abstract class FixedField extends Tag implements HeaderField {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public List getSecondCorrelationList(int value1)
@@ -84,7 +85,7 @@ public abstract class FixedField extends Tag implements HeaderField {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public List getThirdCorrelationList(int value1, int value2)
@@ -93,16 +94,16 @@ public abstract class FixedField extends Tag implements HeaderField {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean isHeaderField() {
 		return headerField.isHeaderField();
 	}
 
-	public CorrelationKey getMarcEncoding()
+	public CorrelationKey getMarcEncoding(final Session session)
 		throws DataAccessException {
-		CorrelationKey key = super.getMarcEncoding();
+		CorrelationKey key = super.getMarcEncoding(session);
 		return new CorrelationKey(
 			key.getMarcTag(),
 			' ',
@@ -140,7 +141,7 @@ public abstract class FixedField extends Tag implements HeaderField {
 
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int getHeaderType() {
@@ -148,7 +149,7 @@ public abstract class FixedField extends Tag implements HeaderField {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setHeaderType(int s) {

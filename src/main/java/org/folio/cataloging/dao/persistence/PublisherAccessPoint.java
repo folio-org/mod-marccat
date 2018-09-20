@@ -42,16 +42,12 @@ public class PublisherAccessPoint extends BibliographicAccessPoint
 		descriptor = (PublisherTagDescriptor) publisherTagDescriptor;
 	}
 
-
-	//TODO setFunctionCode from storageService using  publisherAccessPoint.functionCode in configuration
 	public PublisherAccessPoint() {
 		super();
-		//setFunctionCode(Defaults.getShort("publisherAccessPoint.functionCode"));
 	}
 
 	public PublisherAccessPoint(final int itemNbr) {
 		super(itemNbr);
-		//setFunctionCode(Defaults.getShort("publisherAccessPoint.functionCode"));
 	}
 
 	/**
@@ -126,7 +122,6 @@ public class PublisherAccessPoint extends BibliographicAccessPoint
 
 	@Deprecated
 	public List getFirstCorrelationList() throws DataAccessException {
-		//return getDaoCodeTable().getList(PublisherFunction.class,false);
 		return null;
 	}
 

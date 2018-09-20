@@ -11,9 +11,7 @@ import org.folio.cataloging.util.StringText;
  * @version $Revision: 1.3 $, $Date: 2005/12/12 12:54:36 $
  * @since 1.0
  */
-public abstract class VariableHeaderUsingItemEntity
-	extends VariableHeader 
-	implements PersistsViaItem {
+public abstract class VariableHeaderUsingItemEntity extends VariableHeader implements PersistsViaItem {
 
 	private ItemEntity itemEntity;
 

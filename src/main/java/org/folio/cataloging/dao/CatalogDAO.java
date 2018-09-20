@@ -21,8 +21,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static java.util.Optional.ofNullable;
-
 /**
  * Abstract class for common implementations of CatalogDAO (Bib and Auth).
  *
@@ -63,7 +61,7 @@ public abstract class CatalogDAO extends AbstractDAO {
 		transaction.commit();
 	}
 	abstract void updateFullRecordCacheTable(Session session, CatalogItem item) throws HibernateException;
-	abstract protected void updateCacheTable(final CatalogItem item, final Session session) throws HibernateException;
+	abstract protected void updateItemDisplayCacheTable(final CatalogItem item, final Session session) throws HibernateException;
 
 	abstract protected void insertDeleteTable(final CatalogItem item, final UserProfile user) throws DataAccessException;
 
@@ -76,25 +74,23 @@ public abstract class CatalogDAO extends AbstractDAO {
 	 * @throws DataAccessException in case of data access failure.
 	 */
 	protected void loadHeadings(final List<? extends PersistentObjectWithView> allTags, final int userView, final Session session) throws DataAccessException {
-    allTags.forEach(tag -> {
-      loadHeading((AccessPoint) tag, userView, session);
-    });
+		allTags.forEach(tag -> {
+			loadHeading((AccessPoint) tag, userView, session);
+		});
 	}
 
 	private void loadHeading(final AccessPoint tag, final int userView, final Session session) throws DataAccessException {
-		if (tag.getHeadingNumber() != null) {
-      try {
-        ofNullable(tag.getDAODescriptor().load(tag.getHeadingNumber().intValue(), userView, session)).map(heading -> {
-            tag.setDescriptor(heading);
-            return tag;
+		 if (tag.getHeadingNumber() != null) {
+       try {
+         Descriptor descriptor = tag.getDAODescriptor().load(tag.getHeadingNumber().intValue(), userView, session);
+         if (descriptor == null)
+           throw new DataAccessException(String.format(MessageCatalogStorage._00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
+         tag.setDescriptor(descriptor);
 
-        }).orElseGet(() -> {
-            throw new DataAccessException(String.format(MessageCatalogStorage._00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
-        });
-      } catch (HibernateException e) {
-        throw new DataAccessException(String.format(MessageCatalogStorage._00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
-      }
-    }
+       } catch (HibernateException e) {
+         throw new DataAccessException(String.format(MessageCatalogStorage._00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
+       }
+     }
 	}
 
 	/**
@@ -172,7 +168,7 @@ public abstract class CatalogDAO extends AbstractDAO {
 		if (casCache != null)
 			saveCasCache(itemEntity.getAmicusNumber().intValue(), casCache, session);
 
-		updateCacheTable(item, session);
+    updateItemDisplayCacheTable(item, session);
 		modifyNoteStandard(item, session);
 		transaction.commit();
 

@@ -1,8 +1,9 @@
 package org.folio.cataloging.business.descriptor;
 
 import org.folio.cataloging.dao.AbstractDAO;
-import org.folio.cataloging.dao.DAOPublisherTagDescriptor;
+import org.folio.cataloging.dao.PublisherTagDescriptorDAO;
 import org.folio.cataloging.dao.persistence.Descriptor;
+import org.folio.cataloging.dao.persistence.PUBL_TAG;
 import org.folio.cataloging.dao.persistence.PublisherAccessPoint;
 import org.folio.cataloging.shared.CorrelationValues;
 
@@ -10,79 +11,76 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * An adaptor to implement Descriptor semantics for the set
- * of PUBL_TAG objects representing this Publisher APF
+ * An adaptor to implement Descriptor semantics for the set of PUBL_TAG objects representing this Publisher APF.
  *
- * @author paultest
+ * @author paul
+ * @author natasciab
  *
  */
 public class PublisherTagDescriptor extends Descriptor
 {
-	private static DAOPublisherTagDescriptor theDAO = new DAOPublisherTagDescriptor();
+	private final PublisherTagDescriptorDAO theDAO = new PublisherTagDescriptorDAO();
 
 	private static final long serialVersionUID = 1L;
-	private List/*<PUBL_TAG>*/ publisherTagUnits = new ArrayList/*<PUBL_TAG>*/();
+	private List<PUBL_TAG> publisherTagUnits = new ArrayList<>();
 
-	//@Override
+	@Override
 	public Class getAccessPointClass() {
 		return PublisherAccessPoint.class;
 	}
 
-	//@Override
+	@Override
 	public int getCategory() {
 		return 7;
 	}
 
-	//@Override
+	@Override
 	public CorrelationValues getCorrelationValues() {
 		return new CorrelationValues();
 	}
 
-	//@Override
+	@Override
 	public String getDefaultBrowseKey() {
 		return null;
 	}
 
-	//@Override
+	@Override
 	public String getHeadingNumberSearchIndexKey() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-	//@Override
+	@Override
 	public String getLockingEntityType() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-	//@Override
+	@Override
 	public String getNextNumberKeyFieldCode() {
 		return null;
 	}
 
-	//@Override
+	@Override
 	public Class getReferenceClass(Class targetClazz) {
 		return null;
 	}
 
-	//@Override
+	@Override
 	public SortFormParameters getSortFormParameters() {
 		return null;
 	}
 
-	//@Override
-	public void setCorrelationValues(CorrelationValues v) {
-	}
+	@Override
+	public void setCorrelationValues(CorrelationValues v) {}
 
 	public AbstractDAO getDAO() {
 		return theDAO;
 	}
 
-	public List/*<PUBL_TAG>*/ getPublisherTagUnits() {
+	public List<PUBL_TAG> getPublisherTagUnits() {
 		return publisherTagUnits;
 	}
 
-	public void setPublisherTagUnits(List/*<PUBL_TAG>*/ publisherTagUnits) {
-		publisherTagUnits = publisherTagUnits;
+	public void setPublisherTagUnits(final List<PUBL_TAG> publisherTags) {
+		publisherTagUnits = publisherTags;
 	}
 }

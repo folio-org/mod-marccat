@@ -231,7 +231,7 @@ public abstract class DAODescriptor extends AbstractDAO {
 		Descriptor descriptor = null;
 		if (!descriptorList.isEmpty()) {
 			descriptor =  descriptorList.get(0);
-			descriptor = (Descriptor) isolateView(descriptor, cataloguingView);
+			descriptor = (Descriptor) isolateView(descriptor, cataloguingView, session);
 		}
 		return descriptor;
 	}
@@ -629,6 +629,8 @@ public abstract class DAODescriptor extends AbstractDAO {
 	@SuppressWarnings("unchecked")
 	public int getXrefCount(final Descriptor source, final int cataloguingView, final Session session)
 			throws HibernateException {
+	  if(source.getReferenceClass(source.getClass())== null)
+	    return 0;
 		final List<Integer> countList = session.find("select count(*) from "
 						+ source.getReferenceClass(source.getClass()).getName()
 						+ " as ref where ref.key.source = ? and "

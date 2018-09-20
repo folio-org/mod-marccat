@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Jan 24, 2005
- * 
+ *
  * DAOCache.java
  */
 package org.folio.cataloging.dao;
@@ -30,8 +30,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @version $Revision: 1.1 $, $Date: 2005/02/02 14:09:42 $
  * @since 1.0
  */
+//TODO: use session from storageService and class must extends from AbstractDAO
 public class DAOCache extends HibernateUtil {
-	
+
 	private static final Log logger = LogFactory.getLog(DAOCache.class);
 
 	public Cache load(int bibItemNumber, int cataloguingView)
@@ -49,7 +50,7 @@ public class DAOCache extends HibernateUtil {
 		}
 		return (Cache) l.get(0);
 	}
-	
+
 	public void updateMadesCacheTable(final int madItemNumber, final int cataloguingView) throws DataAccessException {
 		new TransactionalHibernateOperation() {
 			public void doInHibernateTransaction(Session s) throws HibernateException, SQLException, CacheUpdateException {
@@ -63,7 +64,7 @@ public class DAOCache extends HibernateUtil {
 					proc.setInt(2, cataloguingView);
 					proc.setInt(3, -1); // this parameter no longer used
 					proc.registerOutParameter(4, Types.INTEGER);
-					proc.execute();				
+					proc.execute();
 					result = proc.getInt(4);
 					// MIKE: store the return code as message
 					if (result == 1) {
@@ -71,7 +72,7 @@ public class DAOCache extends HibernateUtil {
 					}
 					else if (result == 2) {
 						throw new CacheUpdateException("Duplicated stringValue on index");
-					}				
+					}
 					else if (result > 2) {
 						throw new CacheUpdateException("SQL_CODE: "+result);
 					}
@@ -87,13 +88,13 @@ public class DAOCache extends HibernateUtil {
 		}.execute();
 	}
 
-	
+
 	/**
 	 * pm 2011
 	 * returns the view number of variants of the given record in the cache
 	 * @param amicusNumber
 	 * @return
-	 * @throws DataAccessException 
+	 * @throws DataAccessException
 	 */
 	public List getVariantViews(final int amicusNumber) throws DataAccessException {
 		final List result = new ArrayList();
@@ -136,7 +137,7 @@ public class DAOCache extends HibernateUtil {
 	 * counts the number of variants of the given record in the cache
 	 * @param amicusNumber
 	 * @return
-	 * @throws DataAccessException 
+	 * @throws DataAccessException
 	 */
 	public int getVariantCount(final int amicusNumber) throws DataAccessException {
 		class Integerwrapper {
@@ -183,7 +184,7 @@ public class DAOCache extends HibernateUtil {
 	.execute();
 	return count.value;
 	}
-	
+
 	/**
 	 * pm 2011
 	 * Determines the correct view to retrieve for the given amicusNumber

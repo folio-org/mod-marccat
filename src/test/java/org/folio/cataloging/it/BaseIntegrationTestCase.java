@@ -22,7 +22,7 @@ import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
 import static ru.yandex.qatools.embed.postgresql.distribution.Version.Main.V9_6;
 
 /**
- * Supertype layer for all integration test cases.
+ * Supertype layer for all bibliographic test cases.
  *
  * @author agazzarini
  * @since 1.0
@@ -57,7 +57,7 @@ public abstract class BaseIntegrationTestCase {
             fail("Unable to find the database dump.");
         }
 
-        POSTGRES_JDBC_URL = POSTGRES.start("localhost", 5432, "dbName", DB_USERNAME, DB_PASSWORD);
+        POSTGRES_JDBC_URL = POSTGRES.start("localhost", 5433, "olidb_sv3", DB_USERNAME, DB_PASSWORD);
         POSTGRES.getProcess().ifPresent(pg -> pg.importFromFile(dbdump));
     }
 
@@ -69,12 +69,7 @@ public abstract class BaseIntegrationTestCase {
         POSTGRES.stop();
     }
 
-    /**
-     * Initialises the configuration.
-     * NOTE THAT IF THE TEST CASE PROVIDES A @Before METHOD, THE FIRST LINE OF CODE MUST BE super.setUp();
-     *
-     * @see TemplateManagementTestCase#setUp()
-     */
+  
     @Before
     public void setUp() {
         configuration.injectData(POSTGRES_JDBC_URL, DB_USERNAME, DB_PASSWORD);
@@ -129,10 +124,10 @@ public abstract class BaseIntegrationTestCase {
     /**
      * Returns the Pipeline API address endpoint.
      *
-     * @param id the specific service identifier.
+     * @param path the specific path service identifier.
      * @return the Pipeline API address endpoint.
      */
-    protected String address(final String id) {
-        return "http://localhost:" + this.port + "/" + BASE_URI + id + (id.contains("?") ? "&" : "?") + "lang=eng";
+    protected String address(final String path) {
+        return "http://localhost:" + this.port + "/" + BASE_URI + path + (path.contains("?") ? "&" : "?") + "lang=eng";
     }
 }

@@ -249,6 +249,7 @@ public abstract class CatalogItem implements Serializable {
     @SuppressWarnings("unchecked")
 	public void sortTags() {
 		try {
+
 			final LinkedHashMap<Object, TagContainer> groupsHashMap = populateGroups();
 			List<TagContainer> tagContainers = new ArrayList<>(groupsHashMap.values());
 			tagContainers.sort(new GroupComparator());

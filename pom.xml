@@ -21,9 +21,13 @@
         <ramlfiles_path>${basedir}/raml</ramlfiles_path>
         <ramlfiles_util_path>${basedir}/raml-util</ramlfiles_util_path>
         <descriptors_path>${basedir}/descriptors</descriptors_path>
+        <swagger-version>2.8.0</swagger-version>
         <postgresrunner.port>5434</postgresrunner.port>
         <postgres.port>5433</postgres.port>
+        <postgres-embedded-version>2.9</postgres-embedded-version>
+        <postgres-version>42.1.4</postgres-version>
         <vertx-version>3.4.2</vertx-version>
+        <lombok-version>1.16.16</lombok-version>
     </properties>
 
     <developers>
@@ -134,12 +138,12 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>2.8.0</version>
+            <version>${swagger-version}</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.8.0</version>
+            <version>${swagger-version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -149,14 +153,20 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.1.4</version>
+            <version>${postgres-version}</version>
         </dependency>
         <dependency>
             <groupId>ru.yandex.qatools.embed</groupId>
             <artifactId>postgresql-embedded</artifactId>
-            <version>2.9</version>
+            <version>${postgres-embedded-version}</version>
             <scope>test</scope>
         </dependency>
+      <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>${lombok-version}</version>
+      <scope>provided</scope>
+      </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -174,30 +184,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>1.5.0</version>
-            <executions>
-              <execution>
-                <id>git submodule update</id>
-                <phase>initialize</phase>
-                <configuration>
-                  <executable>git</executable>
-                  <arguments>
-                    <argument>submodule</argument>
-                    <argument>update</argument>
-                    <argument>--init</argument>
-                    <argument>--recursive</argument>
-                  </arguments>
-                </configuration>
-                <goals>
-                  <goal>exec</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-
         </plugins>
     </build>
 </project>

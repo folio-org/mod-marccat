@@ -1,65 +1,49 @@
 pipeline {
     agent any
     stages {
-        stage('Non-Parallel Stage') {
+      stage('Clean') {
             steps {
-                echo 'This stage will be executed first.'
-            }
-        }
-        stage('Parallel Stage') {
-            when {
-                branch 'master'
-            }
-            failFast true
-            parallel {
-                stage('Branch A') {
-                    agent {
-                        label "for-branch-a"
-                    }
-                    steps {
-                        echo "On Branch A"
-                    }
-                }
-                stage('Branch B') {
-                    agent {
-                        label "for-branch-b"
-                    }
-                    steps {
-                        echo "On Branch B"
-                    }
-                }
-                stage('Branch C') {
-                    agent {
-                        label "for-branch-c"
-                    }
-                    stages {
-                        stage('Nested 1') {
-                            steps {
-                                echo "In stage Nested 1 within Branch C"
-                            }
-                        }
-                        stage('Nested 2') {
-                            steps {
-                                echo "In stage Nested 2 within Branch C"
-                            }
-                        }
-                    }
+                echo 'cleaning...'
+             }
+            post {
+                success {
+                    echo 'cleaning succesfully...'
                 }
             }
         }
+        stage('Build') {
+            steps {
+                script {
+                   echo 'Pulling...' + env.BRANCH_NAME
+                   def mvnHome = tool 'mvn'
+                   sh "'${mvnHome}/bin/mvn' clean compile package -DskipTests=true"
+                   archiveArtifacts 'target*//*.jar'
+               }
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Executing test.....'
+          }
+        }
+        stage('Deploy'){
+                steps{
+                    script{
+                        withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
+                            sh('./script/deploy.sh')
+                        }
+                    }
+                }
+            post {
+                success {
+                    echo 'mod-catalogin up and running on port 8889'
+                }
+            }
+        }
+         stage('Npm') {
+             steps {
+                echo 'Publishing on Npm....'
+             }
+         }
     }
-  post {
-    failure {
-        mail to: 'team@example.com',
-             subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
-             body: "Something is wrong with ${env.BUILD_URL}"
-    }
-}
-  post {
-    success {
-        slackSend channel: '#jenkins-ci',
-                  color: 'good',
-                  message: "The pipeline ${currentBuild.fullDisplayName} completed successfully."
-    }
-}
 }
