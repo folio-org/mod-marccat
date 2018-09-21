@@ -63,7 +63,6 @@ public class BibliographicCatalogDAO extends CatalogDAO
       if (tag instanceof MaterialDescription){
         tag.setCorrelation(1, GlobalStorage.MATERIAL_DESCRIPTION_HEADER_TYPE);
       }
-
       tag.setCorrelationKey(tag.getTagImpl().getMarcEncoding(tag, session));
     });
     item.sortTags();

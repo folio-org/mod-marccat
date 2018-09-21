@@ -113,9 +113,13 @@ public class BibliographicRecordAPI extends BaseResource {
         field.setFieldStatus(Field.FieldStatus.NEW);
         bibliographicRecord.getFields().add(1, field);
 
+        bibliographicRecord.setVerificationLevel(configuration.get("bibliographicItem.recordCataloguingSourceCode"));
+        bibliographicRecord.setCanadianContentIndicator("0");
+
+        resetStatus(bibliographicRecord);
         return bibliographicRecord;
 
-    }, tenant, configurator);
+    }, tenant, configurator, "bibliographic");
   }
 
 

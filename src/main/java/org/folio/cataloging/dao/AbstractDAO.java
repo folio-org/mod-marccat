@@ -228,11 +228,11 @@ public abstract class AbstractDAO extends HibernateUtil {
         S_LCK_TBL existingLock = (S_LCK_TBL) get(session, S_LCK_TBL.class, myLock);
 
         if (existingLock != null) {
-          if (!existingLock.getDbSession().equals(uuid) && !existingLock.getUserName().equals(userName))
+          if (!existingLock.getDbSession().trim().equals(uuid.trim()) && !existingLock.getUserName().trim().equals(userName.trim()))
             throw new RecordInUseException();
-          else if (existingLock.getDbSession().equals(uuid) && existingLock.getUserName().equals(userName))
+          else if (existingLock.getDbSession().trim().equals(uuid.trim()) && existingLock.getUserName().trim().equals(userName.trim()))
             return;
-          else if (!existingLock.getDbSession().equals(uuid) && existingLock.getUserName().equals(userName)) { //sessione appesa/vecchia
+          else if (!existingLock.getDbSession().trim().equals(uuid.trim()) && existingLock.getUserName().trim().equals(userName.trim())) { //sessione appesa/vecchia
               existingLock.markDeleted();
               persistByStatus(existingLock, session);
           }
@@ -244,7 +244,7 @@ public abstract class AbstractDAO extends HibernateUtil {
         persistByStatus(myLock, session);
 
       } catch (HibernateException e) {
-        throw new DataAccessException();
+        throw new DataAccessException(e);
       }
     }
 
@@ -262,12 +262,12 @@ public abstract class AbstractDAO extends HibernateUtil {
         S_LCK_TBL myLock = new S_LCK_TBL(key, entityType);
         S_LCK_TBL existingLock = (S_LCK_TBL) get(session, S_LCK_TBL.class, myLock);
 
-        if (existingLock != null && existingLock.getUserName().equals(userName)) {
+        if (existingLock != null && existingLock.getUserName().trim().equals(userName.trim())) {
           existingLock.markDeleted();
           persistByStatus(existingLock, session);
         }
       } catch (HibernateException e) {
-        throw new DataAccessException();
+        throw new DataAccessException(e);
       }
     }
 
