@@ -32,7 +32,7 @@ public class BIB_ITM extends ItemEntity implements PersistentObjectWithView, Ser
 	private char recordModifiedCode = ' ';
 	private char replacementStatusCode = ' ';
 	private String specialCodedDatesStringText = "";
-	private String translationCode = "";
+	private String translationCode;
 	private String userViewString = "0000000000000000";
 
 	public BIB_ITM()

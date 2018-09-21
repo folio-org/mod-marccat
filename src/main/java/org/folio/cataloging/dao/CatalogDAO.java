@@ -57,7 +57,8 @@ public abstract class CatalogDAO extends AbstractDAO {
 				});
 
 		session.delete(item.getItemEntity());
-		session.delete(item.getModelItem());
+		if (item.getModelItem() != null)
+		  session.delete(item.getModelItem());
 		transaction.commit();
 	}
 	abstract void updateFullRecordCacheTable(Session session, CatalogItem item) throws HibernateException;
