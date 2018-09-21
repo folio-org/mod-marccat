@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC 
+<!DOCTYPE hibernate-mapping PUBLIC
 	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
 <hibernate-mapping>
@@ -34,7 +34,7 @@
 			<column name="TYP_OF_DTE_TME_CDE"/>
 		</property>
 		<property name="translationCode">
-			<column name="ITM_TRLTN_CDE"/>
+			<column name="ITM_TRLTN_CDE" sql-type="CHAR (1)"/>
 		</property>
 		<property name="replacementStatusCode">
 			<column name="ITM_RPLMT_STUS_CDE" not-null="true"/>
@@ -43,7 +43,7 @@
 			<column name="VRFTN_LVL_CDE" not-null="true"/>
 		</property>
 		<property name="projectedPublicationDateCode">
-			<column name="ITM_PRJCT_PBLTN_DTE_CDE"/>
+			<column name="ITM_PRJCT_PBLTN_DTE_CDE" sql-type="CHAR (8)"/>
 		</property>
 		<property name="authenticationCenterStringText">
 			<column name="ATHTN_CNTR_STRNG_CDE"/>
@@ -156,8 +156,8 @@
 		<property name="sequenceNumber">
 			<column name="NME_SEQ_NBR"/>
 		</property>
-	</class>	
-	
+	</class>
+
 		<class name="org.folio.cataloging.dao.persistence.PublisherAccessPoint" schema="amicus" table="PUBL_ACS_PNT">
 		<composite-id>
 			<key-property name="bibItemNumber" column="BIB_ITM_NBR"/>
@@ -168,8 +168,8 @@
 		<property name="sequenceNumber">
 			<column name="PUBL_SEQ_NBR"/>
 		</property>
-	</class>	
-	
+	</class>
+
 	<class name="org.folio.cataloging.dao.persistence.TitleAccessPoint" schema="amicus" table="TTL_ACS_PNT">
 		<composite-id>
 			<key-property name="headingNumber" column="TTL_HDG_NBR"/>
@@ -199,7 +199,7 @@
 		<property name="sequenceNumber">
 			<column name="SEQ_NBR"/>
 		</property>
-	</class>	
+	</class>
 
 	<class name="org.folio.cataloging.dao.persistence.NameTitleAccessPoint" schema="amicus" table="NME_TTL_ACS_PNT">
 		<composite-id>
@@ -226,7 +226,7 @@
 		<property name="sequenceNumber">
 			<column name="SEQ_NBR"/>
 		</property>
-	</class>	
+	</class>
 
 	<class name="org.folio.cataloging.dao.persistence.SubjectAccessPoint" schema="amicus" table="SBJCT_ACS_PNT">
 		<composite-id>
@@ -247,9 +247,9 @@
 		<property name="sequenceNumber">
 			<column name="SBJCT_SEQ_NBR"/>
 		</property>
-	</class>	
-			
-	
+	</class>
+
+
 	<class name="org.folio.cataloging.dao.persistence.ClassificationAccessPoint" schema="amicus" table="CLSTN_ITM_ACS_PNT">
 		<composite-id>
 			<key-property name="headingNumber" column="CLSTN_KEY_NBR"/>
@@ -260,8 +260,8 @@
 		<property name="sequenceNumber">
 			<column name="SEQ_NBR"/>
 		</property>
-	</class>	
-	
+	</class>
+
 	<class name="org.folio.cataloging.dao.persistence.ControlNumberAccessPoint" schema="amicus" table="CNTL_NBR_ACS_PNT">
 		<composite-id>
 			<key-property name="headingNumber" column="CNTL_KEY_NBR"/>
@@ -275,7 +275,7 @@
 		<property name="sequenceNumber">
 			<column name="SEQ_NBR"/>
 		</property>
-	</class>	
-	
-	
+	</class>
+
+
 </hibernate-mapping>

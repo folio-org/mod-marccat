@@ -1363,9 +1363,14 @@ public class StorageService implements Closeable {
    * @param view -- the search view.
    * @return the {@link BibliographicRecord} associated with the given data.
    */
-  public BibliographicRecord getBibliographicRecordById(final int itemNumber,
-                                                        final int view) {
-    final CatalogItem item = getCatalogItemByKey(itemNumber, view);
+  public BibliographicRecord getBibliographicRecordById(final int itemNumber, final int view) {
+    CatalogItem item = null;
+    try {
+      item = getCatalogItemByKey(itemNumber, view);
+    }catch (RecordNotFoundException re){
+     return null;
+    }
+
     final BibliographicRecord bibliographicRecord = new BibliographicRecord();
     bibliographicRecord.setId(item.getAmicusNumber());
 
@@ -1670,7 +1675,7 @@ public class StorageService implements Closeable {
         casCache.setStatusDisponibilit(99);
 
       }else{
-        updateBibliographicRecord(record, item, view, generalInformation);
+        //updateBibliographicRecord(record, item, view, generalInformation);
       }
 
       if (isNotNullOrEmpty(record.getVerificationLevel()))

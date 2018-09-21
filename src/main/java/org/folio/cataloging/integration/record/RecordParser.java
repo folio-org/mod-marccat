@@ -72,6 +72,7 @@ public class RecordParser {
             physicalTag.markChanged();
           } else {
             physicalTag.markDeleted();
+            item.getDeletedTags().add(physicalTag);
           }
         }
       });
@@ -99,6 +100,7 @@ public class RecordParser {
             noteTag.markChanged();
           } else {
             noteTag.markDeleted();
+            item.getDeletedTags().add(noteTag);
           }
         }
       });
@@ -133,6 +135,7 @@ public class RecordParser {
               materialTag.markChanged();
             } else {
               materialTag.markDeleted();
+              item.getDeletedTags().add(materialTag);
             }
           }
         }
@@ -159,7 +162,7 @@ public class RecordParser {
                                                final String formOfMaterial){
 
     final MaterialDescription bibMaterial = catalog.createRequiredMaterialDescriptionTag(item);
-    //setDefaultValues(giAPI, bibMaterial);
+    bibMaterial.setCartographicMaterial(giAPI.getCartographicMaterial());
 
     final String materialDescription008Indicator = tagNbr.equals(GlobalStorage.MATERIAL_TAG_CODE) ?"1" :"0";
     bibMaterial.setMaterialDescription008Indicator(materialDescription008Indicator);
@@ -271,6 +274,7 @@ public class RecordParser {
             acs.markChanged();
           } else {
             acs.markDeleted();
+            item.getDeletedTags().add(acs);
           }
         }
       });
