@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Nov 18, 2005
- * 
+ *
  * BibliographicDateOfLastTransactionTag.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -21,16 +21,13 @@ public class BibliographicDateOfLastTransactionTag
 	/**
 	 * Class constructor
 	 *
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public BibliographicDateOfLastTransactionTag() {
 		super();
 		setHeaderType((short)41);
-//-->	20100825 inizio: nella modifica del tag non venuva impostato lo stato a modificato del catalogItem  
 		setPersistenceState(new PersistenceState());
-//-->	20100825 fine
-		
 	}
 
 }

@@ -58,13 +58,22 @@ public class BibliographicCatalogDAO extends CatalogDAO
 	public BibliographicItem getBibliographicItemByAmicusNumber(final int amicusNumber, final int userView, final Session session) throws HibernateException {
 		BibliographicItem item = getBibliographicItemWithoutRelationships(amicusNumber, userView, session);
 		item.getTags().addAll(getBibliographicRelationships(amicusNumber, userView, session));
-		item.getTags().forEach(tag -> tag.setTagImpl(new BibliographicTagImpl()));
-
+		item.getTags().forEach(tag -> {
+      tag.setTagImpl(new BibliographicTagImpl());
+      if (tag instanceof MaterialDescription){
+        tag.setCorrelation(1, GlobalStorage.MATERIAL_DESCRIPTION_HEADER_TYPE);
+      }
+      tag.setCorrelationKey(tag.getTagImpl().getMarcEncoding(tag, session));
+    });
+    item.sortTags();
 		return item;
 	}
 
-	// 2018 Paul Search Engine Java
+
 	@Override
+  /**
+   * Save or update record in full_cache.
+   */
 	public void updateFullRecordCacheTable(final Session session, final CatalogItem item) throws HibernateException {
 		updateFullRecordCacheTable(session, item, true);
 	}
@@ -98,15 +107,15 @@ public class BibliographicCatalogDAO extends CatalogDAO
 
 	}
 
-    /**
-     * Loads all tags for bibliographic item.
-	 *
-     * @param amicusNumber -- the amicus number of item.
-	 * @param userView -- user view associated.
-	 * @param session -- the current session hibernate.
-     * @return the bibliographic item without relationships.
-	 * @throws HibernateException in case of hibernate exception.
-     */
+  /**
+  * Loads all tags for bibliographic item.
+  *
+  * @param amicusNumber -- the amicus number of item.
+  * @param userView -- user view associated.
+  * @param session -- the current session hibernate.
+  * @return the bibliographic item without relationships.
+  * @throws HibernateException in case of hibernate exception.
+  */
 	@SuppressWarnings("unchecked")
 	private BibliographicItem getBibliographicItemWithoutRelationships(final int amicusNumber, final int userView, final Session session) throws HibernateException {
 		try {
@@ -153,7 +162,7 @@ public class BibliographicCatalogDAO extends CatalogDAO
 			try{
 				item.getTags().addAll(getPublisherTags(amicusNumber, userView, session));
 			} catch (Exception e){
-				logger.error("PublisherTags not loaded");
+				logger.error("PublisherTags not loaded", e);
 			}
 
 			try{
@@ -183,7 +192,7 @@ public class BibliographicCatalogDAO extends CatalogDAO
      */
 	private List<Tag> getHeaderFields(final BibliographicItem item, final int userView, final Session session) throws HibernateException {
 
-	    final BIB_ITM bibItemData = item.getBibItmData();
+    final BIB_ITM bibItemData = item.getBibItmData();
 		final List<Tag> result = new ArrayList<>();
 		result.add(new BibliographicLeader());
 		result.add(new BibliographicControlNumberTag());
@@ -224,7 +233,7 @@ public class BibliographicCatalogDAO extends CatalogDAO
 
 		final int amicusNumber = item.getAmicusNumber();
 		result.addAll(getMaterialDescriptions(amicusNumber, userView, session));
-		//result.addAll(getPhysicalDescriptions(amicusNumber, userView, session)); //Fixme
+		result.addAll(getPhysicalDescriptions(amicusNumber, userView, session)); //Fixme
 		result.addAll(getMusicalInstruments(amicusNumber, userView, session));
 
         return result.stream().map(tag -> {
@@ -269,7 +278,7 @@ public class BibliographicCatalogDAO extends CatalogDAO
 	private List<PhysicalDescription>  getPhysicalDescriptions(final int amicusNumber, final int userView, final Session session) throws HibernateException {
 
 		List<PhysicalDescription> multiView = session.find(
-				"from PhysicalDescription t "
+				"from org.folio.cataloging.dao.persistence.PhysicalDescription t "
 					+ "where t.bibItemNumber = ? and substr(t.userViewString, ?, 1) = '1' ",
 				new Object[] { amicusNumber, userView},
 				new Type[] { Hibernate.INTEGER, Hibernate.INTEGER });
@@ -493,12 +502,6 @@ public class BibliographicCatalogDAO extends CatalogDAO
 		return item;
 	}
 
-	protected void updateCacheTable(final CatalogItem item, final Session session) {
-		try{
-			updateCacheTable(item.getAmicusNumber(), item.getUserView(), session);
-		}catch(Exception e){}
-	}
-
 	//TODO: can be removed?
 	protected void insertDeleteTable(final CatalogItem item, final UserProfile user ) throws DataAccessException {
 		insertDeleteTable(item.getAmicusNumber(), item.getUserView(),user);
@@ -512,7 +515,7 @@ public class BibliographicCatalogDAO extends CatalogDAO
      * @param session -- the current session hibernate.
      * @throws HibernateException in case of hibernate exception.
      */
-	public void updateCacheTable(final int bibItemNumber, final int cataloguingView, final Session session) throws HibernateException {
+	public void updateItemDisplayCacheTable(final int bibItemNumber, final int cataloguingView, final Session session) throws HibernateException {
         final Transaction transaction = getTransaction(session);
 
         CallableStatement proc = null;
@@ -540,6 +543,22 @@ public class BibliographicCatalogDAO extends CatalogDAO
             try { if(proc!=null) proc.close();} catch (SQLException ex) {}
         }
 	}
+
+  /**
+   * Save or insert record in S_CACHE_BIB_ITM_DSPLY.
+   *
+   * @param item -- the bibliographic record to save.
+   * @param session -- the hibernate session associated to request.
+   * @throws DataAccessException
+   */
+  protected void updateItemDisplayCacheTable(final CatalogItem item, final Session session)
+    throws DataAccessException {
+    try {
+      updateItemDisplayCacheTable(item.getAmicusNumber().intValue(), item.getUserView(), session);
+      updateFullRecordCacheTable(session, item);
+    } catch (Exception e) {
+    }
+  }
 
     //TODO: maybe can be removed
 	private void insertDeleteTable(
@@ -984,5 +1003,6 @@ public class BibliographicCatalogDAO extends CatalogDAO
         }
                 .execute();*/
     }
+
 
 }

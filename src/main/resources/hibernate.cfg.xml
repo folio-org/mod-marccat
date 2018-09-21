@@ -5,7 +5,7 @@
 <hibernate-configuration>
 	<session-factory>
 
-	<property name="show_sql">true</property>
+	<property name="show_sql">false</property>
 		<mapping resource="org/folio/cataloging/dao/persistence/BibliographicModel.hbm.xml"/>
 		<mapping resource="org/folio/cataloging/dao/persistence/DB_LIST.hbm.xml"/>
 		<mapping resource="org/folio/cataloging/dao/persistence/INDEX_MAIN_LIST.hbm.xml"/>
@@ -268,5 +268,6 @@
     <mapping resource="org/folio/cataloging/dao/persistence/PUBL_HDG.hbm.xml"/>
     <mapping resource="org/folio/cataloging/dao/persistence/PUBL_REF.hbm.xml"/>
     <mapping resource="org/folio/cataloging/dao/persistence/PUBL_TAG.hbm.xml"/>
+    <mapping resource="org/folio/cataloging/dao/persistence/S_LCK_TBL.hbm.xml"/>
 	</session-factory>
 </hibernate-configuration>

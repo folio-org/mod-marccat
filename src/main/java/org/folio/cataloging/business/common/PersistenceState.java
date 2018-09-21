@@ -1,18 +1,16 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Aug 20, 2004
- * 
+ *
  * PersistentObject.java
  */
 package org.folio.cataloging.business.common;
 
 import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Lifecycle;
 import net.sf.hibernate.Session;
 import org.folio.cataloging.dao.AbstractDAO;
-import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 
 import java.io.Serializable;
@@ -29,14 +27,14 @@ public class PersistenceState implements Lifecycle, Serializable {
 	private Integer committedStatus = null;
 
 	/**
-	 * 
+	 *
 	 */
 	public int getUpdateStatus() {
 		return updateStatus;
 	}
 
 	/**
-		 * 
+		 *
 		 */
 	public void setUpdateStatus(int i) {
 		updateStatus = i;
@@ -92,7 +90,7 @@ public class PersistenceState implements Lifecycle, Serializable {
 	}
 
 	/**
-	 * If object is now UNCHANGED or REMOVED (set via Hibernate) 
+	 * If object is now UNCHANGED or REMOVED (set via Hibernate)
 	 * make it CHANGED (otherwise leave it alone)
 	 *
 	 */
@@ -115,16 +113,8 @@ public class PersistenceState implements Lifecycle, Serializable {
 		setUpdateStatus(UpdateStatus.DELETED);
 	}
 
+	@Deprecated
 	public void evict(Object obj) throws DataAccessException {
-		HibernateUtil hu = new HibernateUtil();
-		Session s = hu.currentSession();
-//		if (s.contains(obj)) {
-			try {
-				s.evict(obj);
-			} catch (HibernateException e) {
-				hu.logAndWrap(e);
-			}
-//		}
 	}
 
 	/**
@@ -134,7 +124,7 @@ public class PersistenceState implements Lifecycle, Serializable {
 	public AbstractDAO getDAO() {
 		return abstractDAO;
 	}
-	
+
 	/**
 	 * save next status instead to change it immediately
 	 * @param fromStatus previous state (unused in this release)
@@ -154,11 +144,11 @@ public class PersistenceState implements Lifecycle, Serializable {
 		if(committedStatus == null) return;
 		updateStatus = committedStatus.intValue();
 	}
-	
+
 	/**
 	 * rollback the changes
 	 *
-	 */	
+	 */
 	public void cancelChanges() {
 		// do nothing
 	}
@@ -166,6 +156,6 @@ public class PersistenceState implements Lifecycle, Serializable {
 	public String toString() {
 		return super.toString()+" "+updateStatus+"->"+committedStatus;
 	}
-	
-	
+
+
 }
