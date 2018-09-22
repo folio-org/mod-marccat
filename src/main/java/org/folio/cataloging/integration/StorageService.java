@@ -5,8 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.cataloging.F;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicAccessPoint;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicCatalog;
+import org.folio.cataloging.business.cataloguing.bibliographic.*;
 import org.folio.cataloging.business.cataloguing.bibliographic.FixedField;
 import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
 import org.folio.cataloging.business.cataloguing.common.CataloguingSourceTag;
@@ -1364,9 +1363,14 @@ public class StorageService implements Closeable {
    * @param view -- the search view.
    * @return the {@link BibliographicRecord} associated with the given data.
    */
-  public BibliographicRecord getBibliographicRecordById(final int itemNumber,
-                                                        final int view) {
-    final CatalogItem item = getCatalogItemByKey(itemNumber, view);
+  public BibliographicRecord getBibliographicRecordById(final int itemNumber, final int view) {
+    CatalogItem item = null;
+    try {
+      item = getCatalogItemByKey(itemNumber, view);
+    }catch (RecordNotFoundException re){
+     return null;
+    }
+
     final BibliographicRecord bibliographicRecord = new BibliographicRecord();
     bibliographicRecord.setId(item.getAmicusNumber());
 
@@ -1374,6 +1378,9 @@ public class StorageService implements Closeable {
     leader.setCode("000");
     leader.setValue(((org.folio.cataloging.dao.persistence.Leader) item.getTag(0)).getDisplayString());
     bibliographicRecord.setLeader(leader);
+    final char canadianIndicator = ((BibliographicItem)item).getBibItmData().getCanadianContentIndicator();
+    bibliographicRecord.setCanadianContentIndicator(String.valueOf(canadianIndicator));
+    bibliographicRecord.setVerificationLevel(String.valueOf(item.getItemEntity().getVerificationLevel()));
 
     item.getTags().stream().skip(1).forEach(aTag -> {
       int keyNumber = 0;
@@ -1662,16 +1669,19 @@ public class StorageService implements Closeable {
     try {
       CasCache casCache = null;
       if (item == null || item.getTags().size() == 0){
-        insertBibliographicRecord(record, view, generalInformation);
+        item = insertBibliographicRecord(record, view, generalInformation);
         casCache = new CasCache(item.getAmicusNumber());
         casCache.setLevelCard("L1");
         casCache.setStatusDisponibilit(99);
 
       }else{
-        updateBibliographicRecord(record, item, view, generalInformation);
+        //updateBibliographicRecord(record, item, view, generalInformation);
       }
 
-      item.sortTags();
+      if (isNotNullOrEmpty(record.getVerificationLevel()))
+        item.getItemEntity().setVerificationLevel(record.getVerificationLevel().charAt(0));
+      if (isNotNullOrEmpty(record.getCanadianContentIndicator()))
+        ((BibliographicItem)item).getBibItmData().setCanadianContentIndicator(record.getCanadianContentIndicator().charAt(0));
 
       final BibliographicCatalogDAO dao = new BibliographicCatalogDAO();
       dao.saveCatalogItem(item, casCache, session);
@@ -1762,7 +1772,7 @@ public class StorageService implements Closeable {
    * @param giAPI -- {@linked GeneralInformation} for default values.
    * @throws DataAccessException in case of data access exception.
    */
-  private void insertBibliographicRecord(final BibliographicRecord record, final int view, final GeneralInformation giAPI) throws DataAccessException {
+  private CatalogItem insertBibliographicRecord(final BibliographicRecord record, final int view, final GeneralInformation giAPI) throws DataAccessException {
     final RecordParser recordParser = new RecordParser();
     final BibliographicCatalog catalog = new BibliographicCatalog();
     final int bibItemNumber = record.getId();
@@ -1770,6 +1780,7 @@ public class StorageService implements Closeable {
 
     Leader leader = record.getLeader();
     item.getItemEntity().setLanguageOfCataloguing("eng");
+
     if (leader != null) {
       final BibliographicLeader bibLeader = catalog.createRequiredLeaderTag(item);
       catalog.toBibliographicLeader(leader.getValue(), bibLeader);
@@ -1820,6 +1831,7 @@ public class StorageService implements Closeable {
 
     });
 
+    return item;
   }
 
   /**
@@ -1831,10 +1843,12 @@ public class StorageService implements Closeable {
     final BibliographicCatalog catalog = new BibliographicCatalog();
 
     try {
-      lockRecord(itemNumber, userName, uuid);
       CatalogItem item = getCatalogItemByKey(itemNumber, view);
+      lockRecord(itemNumber, userName, uuid);
       catalog.deleteCatalogItem(item, session);
       unlockRecord(itemNumber, userName);
+    }catch (RecordNotFoundException exception){
+      //ignore
     }catch (Exception exception){
       logger.error(MessageCatalogStorage._00022_DELETE_RECORD_FAILURE, itemNumber, exception);
       throw new DataAccessException(exception);

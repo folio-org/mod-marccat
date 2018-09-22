@@ -21,7 +21,7 @@ public class BIB_ITM extends ItemEntity implements PersistentObjectWithView, Ser
 	private char itemBibliographicLevelCode = 'm';
 	private String itemDateFirstPublication;
 	private String itemDateLastPublication = "    ";
-    private char itemDateTypeCode;
+    private char itemDateTypeCode = 's';
 	private char itemRecordTypeCode = 'a';
 	private String languageCode;
 	private String languageStringText;
@@ -31,7 +31,7 @@ public class BIB_ITM extends ItemEntity implements PersistentObjectWithView, Ser
 	private char recordCataloguingSourceCode;
 	private char recordModifiedCode = ' ';
 	private char replacementStatusCode = ' ';
-	private String specialCodedDatesStringText = "";
+	private String specialCodedDatesStringText;
 	private String translationCode = "";
 	private String userViewString = "0000000000000000";
 
@@ -222,8 +222,8 @@ public class BIB_ITM extends ItemEntity implements PersistentObjectWithView, Ser
 		marcCountryCode = string;
 	}
 
-	public void setProjectedPublicationDateCode(String string) {
-		projectedPublicationDateCode = string;
+	public void setProjectedPublicationDateCode(String c) {
+		projectedPublicationDateCode = c;
 	}
 
 	public void setRecordCataloguingSourceCode(char c) {
@@ -242,8 +242,8 @@ public class BIB_ITM extends ItemEntity implements PersistentObjectWithView, Ser
 		specialCodedDatesStringText = string;
 	}
 
-	public void setTranslationCode(String string) {
-		translationCode = string;
+	public void setTranslationCode(String c) {
+		translationCode = c;
 	}
 
 	public void setUserViewString(String string) {

@@ -57,7 +57,8 @@ public abstract class CatalogDAO extends AbstractDAO {
 				});
 
 		session.delete(item.getItemEntity());
-		session.delete(item.getModelItem());
+		if (item.getModelItem() != null)
+		  session.delete(item.getModelItem());
 		transaction.commit();
 	}
 	abstract void updateFullRecordCacheTable(Session session, CatalogItem item) throws HibernateException;
@@ -137,15 +138,13 @@ public abstract class CatalogDAO extends AbstractDAO {
 		}).collect(Collectors.toList());
 
 		final List<Tag> toRemove = new ArrayList<>(item.getDeletedTags());
-		toRemove.stream().forEach(aTag -> {
+		toRemove.forEach(aTag -> {
 			if (!tagList.contains(aTag)){
-				if (aTag instanceof Persistence) {
-					if (aTag instanceof Persistence) {
-						try {
-							persistByStatus((Persistence) aTag, session);
-						} catch (HibernateException e) {
-							throw new RuntimeException(e);
-						}
+        if (aTag instanceof Persistence) {
+					try {
+						persistByStatus((Persistence) aTag, session);
+					} catch (HibernateException e) {
+						throw new RuntimeException(e);
 					}
 				}
 

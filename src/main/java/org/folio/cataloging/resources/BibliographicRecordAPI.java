@@ -51,13 +51,22 @@ public class BibliographicRecordAPI extends BaseResource {
           @ApiResponse(code = 500, message = "System internal failure occurred.")
   })
   @GetMapping("/bibliographic-record/{id}")
-  public BibliographicRecord getRecord(@RequestParam final Integer id,
+  public ResponseEntity<Object> getRecord(@RequestParam final Integer id,
                                        @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
                                        @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
     return doGet((storageService, configuration) -> {
+
       final BibliographicRecord record = storageService.getBibliographicRecordById(id, view);
-      resetStatus(record);
-      return record;
+      if (record != null)
+        resetStatus(record);
+      else{
+        return new ResponseEntity<Object>(record, HttpStatus.NOT_FOUND);
+        /*final ErrorCollection errors = new ErrorCollection();
+        errors.getErrors().add(getError(Global.NO_RECORD_FOUND));
+        return systemInternalFailure(new DataAccessException(), errors);*/
+      }
+
+      return new ResponseEntity<Object>(record, HttpStatus.OK);
     }, tenant, configurator);
   }
 
@@ -113,9 +122,13 @@ public class BibliographicRecordAPI extends BaseResource {
         field.setFieldStatus(Field.FieldStatus.NEW);
         bibliographicRecord.getFields().add(1, field);
 
+        bibliographicRecord.setVerificationLevel(configuration.get("bibliographicItem.recordCataloguingSourceCode"));
+        bibliographicRecord.setCanadianContentIndicator("0");
+
+        resetStatus(bibliographicRecord);
         return bibliographicRecord;
 
-    }, tenant, configurator);
+    }, tenant, configurator, "bibliographic");
   }
 
 
@@ -162,7 +175,7 @@ public class BibliographicRecordAPI extends BaseResource {
             resetStatus(recordSaved);
 
             return new ResponseEntity<Object>(recordSaved, HttpStatus.OK);
-        } catch (final Exception exception) { //todo: vedere se gestire errore su save() come validate()
+        } catch (final Exception exception) {
             logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
             return record;
         }
