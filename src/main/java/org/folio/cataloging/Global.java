@@ -10,8 +10,8 @@ import java.util.*;
 
 /**
  * Global constants.
- * With "Global" we mean a constant that 
- * 
+ * With "Global" we mean a constant that
+ *
  * <ul>
  * 		<li>is supposed to be shared at least between 2 modules.</li>
  * 		<li>needs to be used within this "shared" module</li>
@@ -256,11 +256,13 @@ public abstract class Global  {
 	public final static String ERROR_MANDATORY_TAG = "-1";
 	public final static String ERROR_DUPLICATE_TAG = "-2";
 	public final static String ERROR_EMPTY_TAG = "-3";
+	public final static String NO_RECORD_FOUND = "-4";
 	public final static Map<String, String> ERRORS_MAP = new HashMap<String, String>(){
 		{
 			put(ERROR_MANDATORY_TAG, "Check mandatory tags failure.");
 			put(ERROR_DUPLICATE_TAG, "Duplicate tags for : %s");
 			put(ERROR_EMPTY_TAG, "Some tags appears empties: %s.");
+      put(NO_RECORD_FOUND, "Record not found: %d.");
 		}
 	};
 
