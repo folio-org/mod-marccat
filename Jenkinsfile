@@ -36,7 +36,7 @@ pipeline {
                 }
             post {
                 success {
-                    echo 'mod-catalogin up and running on port 8889'
+                    echo 'mod-catalogin up and running on port 8080'
                 }
             }
         }
