@@ -219,7 +219,7 @@ public class BibliographicCatalogDAO extends CatalogDAO
 			result.add(new LanguageCodeTag());
 		}
 
-		if (isNotNullOrEmpty(bibItemData.getProjectedPublicationDateCode())) {
+		if (isNotNullOrEmpty(bibItemData.getProjectedPublicationDateCode())) { //todo
 			result.add(new ProjectedPublicationDateTag());
 		}
 
@@ -523,9 +523,9 @@ public class BibliographicCatalogDAO extends CatalogDAO
             int result = 0;
             Connection connection = session.connection();
             proc = connection.prepareCall("{call AMICUS.CFN_PR_CACHE_UPDATE(?, ?, ?, ?) }");
-            proc.setInt(1, bibItemNumber);
+            proc.setInt(1, Integer.valueOf(bibItemNumber));
             proc.setInt(2, cataloguingView);
-            proc.setInt(3, -1);
+            proc.setInt(3, new Integer(-1));
             proc.registerOutParameter(4, Types.INTEGER);
             proc.execute();
             result = proc.getInt(4);

@@ -231,7 +231,7 @@ public class ConversionFieldUtils {
             fixedField.setPlatformConstructionTypeCode(String.valueOf(valueField.charAt(6)));
             fixedField.setPlatformUseCode(String.valueOf(valueField.charAt(7)));
             fixedField.setSensorTypeCode(String.valueOf(valueField.charAt(8)));
-            fixedField.setDataTypeCode(valueField.substring(9));
+            fixedField.setRemoteDataTypeCode(valueField.substring(9));
             fixedField.setPhysicalType(FixedField.PhysicalType.REMOTE_SENSING_IMAGE);
         } else if (categoryOfMaterial.equals(Global.SOUND_RECORDING)) {
             fixedField.setSpeedCode(String.valueOf(valueField.charAt(3)));

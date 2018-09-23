@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Oct 25, 2004
- * 
+ *
  * CataloguingSourceTag.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -21,7 +21,7 @@ public class ProjectedPublicationDateTag extends VariableHeaderUsingItemEntity {
 	/**
 	 * Class constructor
 	 *
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public ProjectedPublicationDateTag() {
@@ -31,8 +31,8 @@ public class ProjectedPublicationDateTag extends VariableHeaderUsingItemEntity {
 
 	public StringText getStringText() {
 		StringText result = null;
-		String source = ((BIB_ITM)getItemEntity()).getProjectedPublicationDateCode();
-		
+		String source = "" + ((BIB_ITM)getItemEntity()).getProjectedPublicationDateCode();
+
 		if (source == null) {
 			result = new StringText(Subfield.SUBFIELD_DELIMITER + "a");
 		}
@@ -43,7 +43,7 @@ public class ProjectedPublicationDateTag extends VariableHeaderUsingItemEntity {
 	}
 
 	public void setStringText(StringText st) {
-//TODO need a more definitive way to set to null		
+//TODO need a more definitive way to set to null
 		if (st.toString().equals(Subfield.SUBFIELD_DELIMITER + "a")) {
 			((BIB_ITM)getItemEntity()).setProjectedPublicationDateCode(null);
 		}

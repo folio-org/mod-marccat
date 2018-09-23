@@ -138,15 +138,13 @@ public abstract class CatalogDAO extends AbstractDAO {
 		}).collect(Collectors.toList());
 
 		final List<Tag> toRemove = new ArrayList<>(item.getDeletedTags());
-		toRemove.stream().forEach(aTag -> {
+		toRemove.forEach(aTag -> {
 			if (!tagList.contains(aTag)){
-				if (aTag instanceof Persistence) {
-					if (aTag instanceof Persistence) {
-						try {
-							persistByStatus((Persistence) aTag, session);
-						} catch (HibernateException e) {
-							throw new RuntimeException(e);
-						}
+        if (aTag instanceof Persistence) {
+					try {
+						persistByStatus((Persistence) aTag, session);
+					} catch (HibernateException e) {
+						throw new RuntimeException(e);
 					}
 				}
 

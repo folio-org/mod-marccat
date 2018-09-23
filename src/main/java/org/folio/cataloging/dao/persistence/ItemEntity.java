@@ -44,9 +44,9 @@ public abstract class ItemEntity implements Persistence, Serializable {
 
 	protected String timePeriodStringText;
 
-	protected String typeOfDateTimeCode;
+	protected String typeOfDateTimeCode = "";
 
-	protected char verificationLevel;
+	protected char verificationLevel = ' ';
 
 	/**
 		 *
@@ -335,8 +335,8 @@ public abstract class ItemEntity implements Persistence, Serializable {
 	/**
 		 *
 		 */
-	public void setTypeOfDateTimeCode(String string) {
-		typeOfDateTimeCode = string;
+	public void setTypeOfDateTimeCode(String s) {
+		typeOfDateTimeCode = s;
 	}
 
 	/**
