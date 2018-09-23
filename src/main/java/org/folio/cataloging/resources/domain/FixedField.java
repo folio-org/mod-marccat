@@ -9,12 +9,12 @@ import java.util.Map;
 /**
  * fixedField
  * <p>
- * 
- * 
+ *
+ *
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "keyNumber", "categoryCode", "description", "headerTypeCode", "code", "displayValue", "materialType", "physicalType", "dateEnteredOnFile", "dateTypeCode", "dateFirstPublication", "dateLastPublication", "placeOfPublication", "bookIllustrationCode1", "bookIllustrationCode2", "bookIllustrationCode3", "bookIllustrationCode4", "targetAudienceCode", "formOfItemCode", "natureOfContent1", "natureOfContent2", "natureOfContent3", "natureOfContent4", "governmentPublicationCode", "conferencePublicationCode", "bookFestschrift", "bookIndexAvailabilityCode", "bookLiteraryFormTypeCode", "bookBiographyCode", "cartographicReliefCode1", "cartographicReliefCode2", "cartographicReliefCode3", "cartographicReliefCode4", "cartographicProjectionCode", "cartographicMaterial", "cartographicIndexAvailabilityCode", "cartographicFormatCode1", "cartographicFormatCode2", "musicFormOfCompositionCode", "musicFormatCode", "musicPartsCode", "musicTextualMaterialCode1", "musicTextualMaterialCode2", "musicTextualMaterialCode3", "musicTextualMaterialCode4", "musicTextualMaterialCode5", "musicTextualMaterialCode6", "musicLiteraryTextCode1", "musicLiteraryTextCode2", "musicTranspositionArrangementCode", "computerFileTypeCode", "visualRunningTime", "visualMaterialTypeCode", "visualTechniqueCode", "serialFrequencyCode", "serialRegularityCode", "serialTypeCode", "serialFormOriginalItemCode", "serialOriginalAlphabetOfTitleCode", "serialEntryConventionCode", "languageCode", "recordModifiedCode", "recordCataloguingSourceCode", "itemRecordStatusCode", "itemRecordTypeCode", "itemBibliographicLevelCode", "itemControlTypeCode", "characterCodingSchemeCode", "encodingLevel", "descriptiveCataloguingCode", "linkedRecordCode", "materialTypeCode", "categoryOfMaterial", "specificMaterialDesignationCode", "colourCode", "physicalMediumCode", "typeOfReproductionCode", "polarityCode", "dimensionsCode", "generationCode", "baseOfFilmCode", "includesSoundCode", "mediumForSoundCode", "secondarySupportMaterialCode", "configurationCode", "obsolete1", "obsolete2", "imageBitDepth", "fileFormatsCode", "qualityAssuranceTargetCode", "antecedentSourceCode", "levelOfCompressionCode", "reformattingQualityCode", "productionDetailsCode", "reductionRatioRangeCode", "reductionRatioCode", "emulsionOnFilmCode", "presentationFormatCode", "productionElementsCode", "refinedCategoriesOfColourCode", "kindOfColourStockCode", "deteriorationStageCode", "completenessCode", "inspectionDate", "primarySupportMaterialCode", "baseOfEmulsionCode", "soundOnMediumOrSeparateCode", "altitudeOfSensorCode", "attitudeOfSensorCode", "cloudCoverCode", "platformConstructionTypeCode", "platformUseCode", "sensorTypeCode", "dataTypeCode", "speedCode", "grooveWidthCode", "tapeWidthCode", "tapeConfigurationCode", "discTypeCode", "sndMaterialTypeCode", "cuttingTypeCode", "specialPlaybackCharacteristicsCode", "storageTechniqueCode", "classOfBrailleWritingCodes", "levelOfContractionCode", "brailleMusicFormatCodes", "specificPhysicalCharacteristicsCode", "formatCode", "sequenceNumber" })
+@JsonPropertyOrder({ "keyNumber", "categoryCode", "description", "headerTypeCode", "code", "displayValue", "materialType", "physicalType", "dateEnteredOnFile", "dateTypeCode", "dateFirstPublication", "dateLastPublication", "placeOfPublication", "bookIllustrationCode1", "bookIllustrationCode2", "bookIllustrationCode3", "bookIllustrationCode4", "targetAudienceCode", "formOfItemCode", "natureOfContent1", "natureOfContent2", "natureOfContent3", "natureOfContent4", "governmentPublicationCode", "conferencePublicationCode", "bookFestschrift", "bookIndexAvailabilityCode", "bookLiteraryFormTypeCode", "bookBiographyCode", "cartographicReliefCode1", "cartographicReliefCode2", "cartographicReliefCode3", "cartographicReliefCode4", "cartographicProjectionCode", "cartographicMaterial", "cartographicIndexAvailabilityCode", "cartographicFormatCode1", "cartographicFormatCode2", "musicFormOfCompositionCode", "musicFormatCode", "musicPartsCode", "musicTextualMaterialCode1", "musicTextualMaterialCode2", "musicTextualMaterialCode3", "musicTextualMaterialCode4", "musicTextualMaterialCode5", "musicTextualMaterialCode6", "musicLiteraryTextCode1", "musicLiteraryTextCode2", "musicTranspositionArrangementCode", "computerFileTypeCode", "visualRunningTime", "visualMaterialTypeCode", "visualTechniqueCode", "serialFrequencyCode", "serialRegularityCode", "serialTypeCode", "serialFormOriginalItemCode", "serialOriginalAlphabetOfTitleCode", "serialEntryConventionCode", "languageCode", "recordModifiedCode", "recordCataloguingSourceCode", "itemRecordStatusCode", "itemRecordTypeCode", "itemBibliographicLevelCode", "itemControlTypeCode", "characterCodingSchemeCode", "encodingLevel", "descriptiveCataloguingCode", "linkedRecordCode", "materialTypeCode", "categoryOfMaterial", "specificMaterialDesignationCode", "colourCode", "physicalMediumCode", "typeOfReproductionCode", "polarityCode", "dimensionsCode", "generationCode", "baseOfFilmCode", "includesSoundCode", "mediumForSoundCode", "secondarySupportMaterialCode", "configurationCode", "obsolete1", "obsolete2", "imageBitDepth", "fileFormatsCode", "qualityAssuranceTargetCode", "antecedentSourceCode", "levelOfCompressionCode", "reformattingQualityCode", "productionDetailsCode", "reductionRatioRangeCode", "reductionRatioCode", "emulsionOnFilmCode", "presentationFormatCode", "productionElementsCode", "refinedCategoriesOfColourCode", "kindOfColourStockCode", "deteriorationStageCode", "completenessCode", "inspectionDate", "primarySupportMaterialCode", "baseOfEmulsionCode", "soundOnMediumOrSeparateCode", "altitudeOfSensorCode", "attitudeOfSensorCode", "cloudCoverCode", "platformConstructionTypeCode", "platformUseCode", "sensorTypeCode", "remoteDataTypeCode", "speedCode", "grooveWidthCode", "tapeWidthCode", "tapeConfigurationCode", "discTypeCode", "sndMaterialTypeCode", "cuttingTypeCode", "specialPlaybackCharacteristicsCode", "storageTechniqueCode", "classOfBrailleWritingCodes", "levelOfContractionCode", "brailleMusicFormatCodes", "specificPhysicalCharacteristicsCode", "formatCode", "sequenceNumber" })
 public class FixedField {
 
     @JsonProperty("keyNumber")
@@ -356,8 +356,8 @@ public class FixedField {
     @JsonProperty("sensorTypeCode")
     private String sensorTypeCode;
 
-    @JsonProperty("dataTypeCode")
-    private String dataTypeCode;
+    @JsonProperty("remoteDataTypeCode")
+    private String remoteDataTypeCode;
 
     @JsonProperty("speedCode")
     private String speedCode;
@@ -406,7 +406,7 @@ public class FixedField {
 
 
     /**
-     * 
+     *
      * @return
      *     The headerTypeCode
      */
@@ -416,7 +416,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param headerTypeCode
      *     The headerTypeCode
      */
@@ -431,7 +431,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The code
      */
@@ -441,7 +441,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param code
      *     The code
      */
@@ -456,7 +456,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The displayValue
      */
@@ -466,7 +466,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param displayValue
      *     The displayValue
      */
@@ -481,7 +481,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The materialType
      */
@@ -491,7 +491,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param materialType
      *     The materialType
      */
@@ -506,7 +506,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The physicalType
      */
@@ -516,7 +516,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param physicalType
      *     The physicalType
      */
@@ -531,7 +531,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The dateEnteredOnFile
      */
@@ -541,7 +541,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param dateEnteredOnFile
      *     The dateEnteredOnFile
      */
@@ -556,7 +556,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The dateTypeCode
      */
@@ -566,7 +566,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param dateTypeCode
      *     The dateTypeCode
      */
@@ -581,7 +581,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The dateFirstPublication
      */
@@ -591,7 +591,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param dateFirstPublication
      *     The dateFirstPublication
      */
@@ -606,7 +606,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The dateLastPublication
      */
@@ -616,7 +616,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param dateLastPublication
      *     The dateLastPublication
      */
@@ -631,7 +631,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The placeOfPublication
      */
@@ -641,7 +641,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param placeOfPublication
      *     The placeOfPublication
      */
@@ -656,7 +656,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The bookIllustrationCode1
      */
@@ -666,7 +666,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param bookIllustrationCode1
      *     The bookIllustrationCode1
      */
@@ -681,7 +681,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The bookIllustrationCode2
      */
@@ -691,7 +691,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param bookIllustrationCode2
      *     The bookIllustrationCode2
      */
@@ -706,7 +706,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The bookIllustrationCode3
      */
@@ -716,7 +716,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param bookIllustrationCode3
      *     The bookIllustrationCode3
      */
@@ -731,7 +731,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The bookIllustrationCode4
      */
@@ -741,7 +741,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param bookIllustrationCode4
      *     The bookIllustrationCode4
      */
@@ -756,7 +756,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The targetAudienceCode
      */
@@ -766,7 +766,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param targetAudienceCode
      *     The targetAudienceCode
      */
@@ -781,7 +781,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The formOfItemCode
      */
@@ -791,7 +791,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param formOfItemCode
      *     The formOfItemCode
      */
@@ -806,7 +806,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The natureOfContent1
      */
@@ -816,7 +816,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param natureOfContent1
      *     The natureOfContent1
      */
@@ -831,7 +831,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The natureOfContent2
      */
@@ -841,7 +841,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param natureOfContent2
      *     The natureOfContent2
      */
@@ -856,7 +856,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The natureOfContent3
      */
@@ -866,7 +866,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param natureOfContent3
      *     The natureOfContent3
      */
@@ -881,7 +881,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The natureOfContent4
      */
@@ -891,7 +891,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param natureOfContent4
      *     The natureOfContent4
      */
@@ -906,7 +906,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The governmentPublicationCode
      */
@@ -916,7 +916,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param governmentPublicationCode
      *     The governmentPublicationCode
      */
@@ -931,7 +931,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The conferencePublicationCode
      */
@@ -941,7 +941,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param conferencePublicationCode
      *     The conferencePublicationCode
      */
@@ -956,7 +956,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The bookFestschrift
      */
@@ -966,7 +966,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param bookFestschrift
      *     The bookFestschrift
      */
@@ -981,7 +981,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The bookIndexAvailabilityCode
      */
@@ -991,7 +991,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param bookIndexAvailabilityCode
      *     The bookIndexAvailabilityCode
      */
@@ -1006,7 +1006,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The bookLiteraryFormTypeCode
      */
@@ -1016,7 +1016,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param bookLiteraryFormTypeCode
      *     The bookLiteraryFormTypeCode
      */
@@ -1031,7 +1031,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The bookBiographyCode
      */
@@ -1041,7 +1041,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param bookBiographyCode
      *     The bookBiographyCode
      */
@@ -1056,7 +1056,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The cartographicReliefCode1
      */
@@ -1066,7 +1066,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param cartographicReliefCode1
      *     The cartographicReliefCode1
      */
@@ -1081,7 +1081,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The cartographicReliefCode2
      */
@@ -1091,7 +1091,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param cartographicReliefCode2
      *     The cartographicReliefCode2
      */
@@ -1106,7 +1106,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The cartographicReliefCode3
      */
@@ -1116,7 +1116,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param cartographicReliefCode3
      *     The cartographicReliefCode3
      */
@@ -1131,7 +1131,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The cartographicReliefCode4
      */
@@ -1141,7 +1141,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param cartographicReliefCode4
      *     The cartographicReliefCode4
      */
@@ -1156,7 +1156,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The cartographicProjectionCode
      */
@@ -1166,7 +1166,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param cartographicProjectionCode
      *     The cartographicProjectionCode
      */
@@ -1181,7 +1181,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The cartographicMaterial
      */
@@ -1191,7 +1191,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param cartographicMaterial
      *     The cartographicMaterial
      */
@@ -1206,7 +1206,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The cartographicIndexAvailabilityCode
      */
@@ -1216,7 +1216,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param cartographicIndexAvailabilityCode
      *     The cartographicIndexAvailabilityCode
      */
@@ -1231,7 +1231,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The cartographicFormatCode1
      */
@@ -1241,7 +1241,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param cartographicFormatCode1
      *     The cartographicFormatCode1
      */
@@ -1256,7 +1256,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The cartographicFormatCode2
      */
@@ -1266,7 +1266,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param cartographicFormatCode2
      *     The cartographicFormatCode2
      */
@@ -1281,7 +1281,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The musicFormOfCompositionCode
      */
@@ -1291,7 +1291,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param musicFormOfCompositionCode
      *     The musicFormOfCompositionCode
      */
@@ -1306,7 +1306,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The musicFormatCode
      */
@@ -1316,7 +1316,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param musicFormatCode
      *     The musicFormatCode
      */
@@ -1331,7 +1331,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The musicPartsCode
      */
@@ -1341,7 +1341,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param musicPartsCode
      *     The musicPartsCode
      */
@@ -1356,7 +1356,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The musicTextualMaterialCode1
      */
@@ -1366,7 +1366,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param musicTextualMaterialCode1
      *     The musicTextualMaterialCode1
      */
@@ -1381,7 +1381,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The musicTextualMaterialCode2
      */
@@ -1391,7 +1391,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param musicTextualMaterialCode2
      *     The musicTextualMaterialCode2
      */
@@ -1406,7 +1406,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The musicTextualMaterialCode3
      */
@@ -1416,7 +1416,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param musicTextualMaterialCode3
      *     The musicTextualMaterialCode3
      */
@@ -1431,7 +1431,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The musicTextualMaterialCode4
      */
@@ -1441,7 +1441,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param musicTextualMaterialCode4
      *     The musicTextualMaterialCode4
      */
@@ -1456,7 +1456,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The musicTextualMaterialCode5
      */
@@ -1466,7 +1466,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param musicTextualMaterialCode5
      *     The musicTextualMaterialCode5
      */
@@ -1481,7 +1481,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The musicTextualMaterialCode6
      */
@@ -1491,7 +1491,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param musicTextualMaterialCode6
      *     The musicTextualMaterialCode6
      */
@@ -1506,7 +1506,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The musicLiteraryTextCode1
      */
@@ -1516,7 +1516,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param musicLiteraryTextCode1
      *     The musicLiteraryTextCode1
      */
@@ -1531,7 +1531,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The musicLiteraryTextCode2
      */
@@ -1541,7 +1541,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param musicLiteraryTextCode2
      *     The musicLiteraryTextCode2
      */
@@ -1556,7 +1556,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The musicTranspositionArrangementCode
      */
@@ -1566,7 +1566,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param musicTranspositionArrangementCode
      *     The musicTranspositionArrangementCode
      */
@@ -1581,7 +1581,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The computerFileTypeCode
      */
@@ -1591,7 +1591,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param computerFileTypeCode
      *     The computerFileTypeCode
      */
@@ -1606,7 +1606,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The visualRunningTime
      */
@@ -1616,7 +1616,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param visualRunningTime
      *     The visualRunningTime
      */
@@ -1631,7 +1631,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The visualMaterialTypeCode
      */
@@ -1641,7 +1641,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param visualMaterialTypeCode
      *     The visualMaterialTypeCode
      */
@@ -1656,7 +1656,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The visualTechniqueCode
      */
@@ -1666,7 +1666,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param visualTechniqueCode
      *     The visualTechniqueCode
      */
@@ -1681,7 +1681,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The serialFrequencyCode
      */
@@ -1691,7 +1691,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param serialFrequencyCode
      *     The serialFrequencyCode
      */
@@ -1706,7 +1706,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The serialRegularityCode
      */
@@ -1716,7 +1716,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param serialRegularityCode
      *     The serialRegularityCode
      */
@@ -1731,7 +1731,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The serialTypeCode
      */
@@ -1741,7 +1741,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param serialTypeCode
      *     The serialTypeCode
      */
@@ -1756,7 +1756,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The serialFormOriginalItemCode
      */
@@ -1766,7 +1766,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param serialFormOriginalItemCode
      *     The serialFormOriginalItemCode
      */
@@ -1781,7 +1781,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The serialOriginalAlphabetOfTitleCode
      */
@@ -1791,7 +1791,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param serialOriginalAlphabetOfTitleCode
      *     The serialOriginalAlphabetOfTitleCode
      */
@@ -1806,7 +1806,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The serialEntryConventionCode
      */
@@ -1816,7 +1816,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param serialEntryConventionCode
      *     The serialEntryConventionCode
      */
@@ -1831,7 +1831,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The languageCode
      */
@@ -1841,7 +1841,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param languageCode
      *     The languageCode
      */
@@ -1856,7 +1856,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The recordModifiedCode
      */
@@ -1866,7 +1866,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param recordModifiedCode
      *     The recordModifiedCode
      */
@@ -1881,7 +1881,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The recordCataloguingSourceCode
      */
@@ -1891,7 +1891,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param recordCataloguingSourceCode
      *     The recordCataloguingSourceCode
      */
@@ -1906,7 +1906,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The itemRecordStatusCode
      */
@@ -1916,7 +1916,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param itemRecordStatusCode
      *     The itemRecordStatusCode
      */
@@ -1931,7 +1931,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The itemRecordTypeCode
      */
@@ -1941,7 +1941,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param itemRecordTypeCode
      *     The itemRecordTypeCode
      */
@@ -1956,7 +1956,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The itemBibliographicLevelCode
      */
@@ -1966,7 +1966,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param itemBibliographicLevelCode
      *     The itemBibliographicLevelCode
      */
@@ -1981,7 +1981,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The itemControlTypeCode
      */
@@ -1991,7 +1991,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param itemControlTypeCode
      *     The itemControlTypeCode
      */
@@ -2006,7 +2006,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The characterCodingSchemeCode
      */
@@ -2016,7 +2016,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param characterCodingSchemeCode
      *     The characterCodingSchemeCode
      */
@@ -2031,7 +2031,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The encodingLevel
      */
@@ -2041,7 +2041,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param encodingLevel
      *     The encodingLevel
      */
@@ -2056,7 +2056,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The descriptiveCataloguingCode
      */
@@ -2066,7 +2066,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param descriptiveCataloguingCode
      *     The descriptiveCataloguingCode
      */
@@ -2081,7 +2081,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The linkedRecordCode
      */
@@ -2091,7 +2091,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param linkedRecordCode
      *     The linkedRecordCode
      */
@@ -2106,7 +2106,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The materialTypeCode
      */
@@ -2116,7 +2116,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param materialTypeCode
      *     The materialTypeCode
      */
@@ -2131,7 +2131,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The categoryOfMaterial
      */
@@ -2141,7 +2141,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param categoryOfMaterial
      *     The categoryOfMaterial
      */
@@ -2156,7 +2156,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The specificMaterialDesignationCode
      */
@@ -2166,7 +2166,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param specificMaterialDesignationCode
      *     The specificMaterialDesignationCode
      */
@@ -2181,7 +2181,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The colourCode
      */
@@ -2191,7 +2191,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param colourCode
      *     The colourCode
      */
@@ -2206,7 +2206,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The physicalMediumCode
      */
@@ -2216,7 +2216,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param physicalMediumCode
      *     The physicalMediumCode
      */
@@ -2231,7 +2231,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The typeOfReproductionCode
      */
@@ -2241,7 +2241,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param typeOfReproductionCode
      *     The typeOfReproductionCode
      */
@@ -2256,7 +2256,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The polarityCode
      */
@@ -2266,7 +2266,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param polarityCode
      *     The polarityCode
      */
@@ -2281,7 +2281,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The dimensionsCode
      */
@@ -2291,7 +2291,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param dimensionsCode
      *     The dimensionsCode
      */
@@ -2306,7 +2306,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The generationCode
      */
@@ -2316,7 +2316,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param generationCode
      *     The generationCode
      */
@@ -2331,7 +2331,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The baseOfFilmCode
      */
@@ -2341,7 +2341,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param baseOfFilmCode
      *     The baseOfFilmCode
      */
@@ -2356,7 +2356,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The includesSoundCode
      */
@@ -2366,7 +2366,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param includesSoundCode
      *     The includesSoundCode
      */
@@ -2381,7 +2381,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The mediumForSoundCode
      */
@@ -2391,7 +2391,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param mediumForSoundCode
      *     The mediumForSoundCode
      */
@@ -2406,7 +2406,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The secondarySupportMaterialCode
      */
@@ -2416,7 +2416,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param secondarySupportMaterialCode
      *     The secondarySupportMaterialCode
      */
@@ -2431,7 +2431,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The configurationCode
      */
@@ -2441,7 +2441,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param configurationCode
      *     The configurationCode
      */
@@ -2456,7 +2456,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The obsolete1
      */
@@ -2466,7 +2466,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param obsolete1
      *     The obsolete1
      */
@@ -2481,7 +2481,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The obsolete2
      */
@@ -2491,7 +2491,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param obsolete2
      *     The obsolete2
      */
@@ -2506,7 +2506,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The imageBitDepth
      */
@@ -2516,7 +2516,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param imageBitDepth
      *     The imageBitDepth
      */
@@ -2531,7 +2531,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The fileFormatsCode
      */
@@ -2541,7 +2541,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param fileFormatsCode
      *     The fileFormatsCode
      */
@@ -2556,7 +2556,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The qualityAssuranceTargetCode
      */
@@ -2566,7 +2566,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param qualityAssuranceTargetCode
      *     The qualityAssuranceTargetCode
      */
@@ -2581,7 +2581,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The antecedentSourceCode
      */
@@ -2591,7 +2591,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param antecedentSourceCode
      *     The antecedentSourceCode
      */
@@ -2606,7 +2606,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The levelOfCompressionCode
      */
@@ -2616,7 +2616,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param levelOfCompressionCode
      *     The levelOfCompressionCode
      */
@@ -2631,7 +2631,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The reformattingQualityCode
      */
@@ -2641,7 +2641,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param reformattingQualityCode
      *     The reformattingQualityCode
      */
@@ -2656,7 +2656,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The productionDetailsCode
      */
@@ -2666,7 +2666,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param productionDetailsCode
      *     The productionDetailsCode
      */
@@ -2681,7 +2681,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The reductionRatioRangeCode
      */
@@ -2691,7 +2691,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param reductionRatioRangeCode
      *     The reductionRatioRangeCode
      */
@@ -2706,7 +2706,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The reductionRatioCode
      */
@@ -2716,7 +2716,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param reductionRatioCode
      *     The reductionRatioCode
      */
@@ -2731,7 +2731,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The emulsionOnFilmCode
      */
@@ -2741,7 +2741,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param emulsionOnFilmCode
      *     The emulsionOnFilmCode
      */
@@ -2756,7 +2756,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The presentationFormatCode
      */
@@ -2766,7 +2766,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param presentationFormatCode
      *     The presentationFormatCode
      */
@@ -2781,7 +2781,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The productionElementsCode
      */
@@ -2791,7 +2791,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param productionElementsCode
      *     The productionElementsCode
      */
@@ -2806,7 +2806,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The refinedCategoriesOfColourCode
      */
@@ -2816,7 +2816,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param refinedCategoriesOfColourCode
      *     The refinedCategoriesOfColourCode
      */
@@ -2831,7 +2831,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The kindOfColourStockCode
      */
@@ -2841,7 +2841,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param kindOfColourStockCode
      *     The kindOfColourStockCode
      */
@@ -2856,7 +2856,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The deteriorationStageCode
      */
@@ -2866,7 +2866,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param deteriorationStageCode
      *     The deteriorationStageCode
      */
@@ -2881,7 +2881,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The completenessCode
      */
@@ -2891,7 +2891,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param completenessCode
      *     The completenessCode
      */
@@ -2906,7 +2906,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The inspectionDate
      */
@@ -2916,7 +2916,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param inspectionDate
      *     The inspectionDate
      */
@@ -2931,7 +2931,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The primarySupportMaterialCode
      */
@@ -2941,7 +2941,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param primarySupportMaterialCode
      *     The primarySupportMaterialCode
      */
@@ -2956,7 +2956,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The baseOfEmulsionCode
      */
@@ -2966,7 +2966,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param baseOfEmulsionCode
      *     The baseOfEmulsionCode
      */
@@ -2981,7 +2981,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The soundOnMediumOrSeparateCode
      */
@@ -2991,7 +2991,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param soundOnMediumOrSeparateCode
      *     The soundOnMediumOrSeparateCode
      */
@@ -3006,7 +3006,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The altitudeOfSensorCode
      */
@@ -3016,7 +3016,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param altitudeOfSensorCode
      *     The altitudeOfSensorCode
      */
@@ -3031,7 +3031,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The attitudeOfSensorCode
      */
@@ -3041,7 +3041,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param attitudeOfSensorCode
      *     The attitudeOfSensorCode
      */
@@ -3056,7 +3056,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The cloudCoverCode
      */
@@ -3066,7 +3066,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param cloudCoverCode
      *     The cloudCoverCode
      */
@@ -3081,7 +3081,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The platformConstructionTypeCode
      */
@@ -3091,7 +3091,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param platformConstructionTypeCode
      *     The platformConstructionTypeCode
      */
@@ -3106,7 +3106,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The platformUseCode
      */
@@ -3116,7 +3116,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param platformUseCode
      *     The platformUseCode
      */
@@ -3131,7 +3131,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The sensorTypeCode
      */
@@ -3141,7 +3141,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param sensorTypeCode
      *     The sensorTypeCode
      */
@@ -3156,32 +3156,27 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
-     *     The dataTypeCode
+     *     The remoteDataTypeCode
      */
-    @JsonProperty("dataTypeCode")
-    public String getDataTypeCode() {
-        return dataTypeCode;
+    @JsonProperty("remoteDataTypeCode")
+    public String getRemoteDataTypeCode() {
+        return remoteDataTypeCode;
     }
 
     /**
-     * 
-     * @param dataTypeCode
-     *     The dataTypeCode
+     *
+     * @param remoteDataTypeCode
+     *     The remoteDataTypeCode
      */
-    @JsonProperty("dataTypeCode")
-    public void setDataTypeCode(String dataTypeCode) {
-        this.dataTypeCode = dataTypeCode;
-    }
-
-    public FixedField withDataTypeCode(String dataTypeCode) {
-        this.dataTypeCode = dataTypeCode;
-        return this;
+    @JsonProperty("remoteDataTypeCode")
+    public void setRemoteDataTypeCode(String remoteDataTypeCode) {
+        this.remoteDataTypeCode = remoteDataTypeCode;
     }
 
     /**
-     * 
+     *
      * @return
      *     The speedCode
      */
@@ -3191,7 +3186,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param speedCode
      *     The speedCode
      */
@@ -3206,7 +3201,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The grooveWidthCode
      */
@@ -3216,7 +3211,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param grooveWidthCode
      *     The grooveWidthCode
      */
@@ -3231,7 +3226,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The tapeWidthCode
      */
@@ -3241,7 +3236,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param tapeWidthCode
      *     The tapeWidthCode
      */
@@ -3256,7 +3251,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The tapeConfigurationCode
      */
@@ -3266,7 +3261,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param tapeConfigurationCode
      *     The tapeConfigurationCode
      */
@@ -3281,7 +3276,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The discTypeCode
      */
@@ -3291,7 +3286,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param discTypeCode
      *     The discTypeCode
      */
@@ -3306,7 +3301,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The sndMaterialTypeCode
      */
@@ -3316,7 +3311,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param sndMaterialTypeCode
      *     The sndMaterialTypeCode
      */
@@ -3331,7 +3326,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The cuttingTypeCode
      */
@@ -3341,7 +3336,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param cuttingTypeCode
      *     The cuttingTypeCode
      */
@@ -3356,7 +3351,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The specialPlaybackCharacteristicsCode
      */
@@ -3366,7 +3361,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param specialPlaybackCharacteristicsCode
      *     The specialPlaybackCharacteristicsCode
      */
@@ -3381,7 +3376,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The storageTechniqueCode
      */
@@ -3391,7 +3386,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param storageTechniqueCode
      *     The storageTechniqueCode
      */
@@ -3406,7 +3401,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The classOfBrailleWritingCodes
      */
@@ -3416,7 +3411,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param classOfBrailleWritingCodes
      *     The classOfBrailleWritingCodes
      */
@@ -3431,7 +3426,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The levelOfContractionCode
      */
@@ -3441,7 +3436,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param levelOfContractionCode
      *     The levelOfContractionCode
      */
@@ -3456,7 +3451,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The brailleMusicFormatCodes
      */
@@ -3466,7 +3461,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param brailleMusicFormatCodes
      *     The brailleMusicFormatCodes
      */
@@ -3481,7 +3476,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The specificPhysicalCharacteristicsCode
      */
@@ -3491,7 +3486,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param specificPhysicalCharacteristicsCode
      *     The specificPhysicalCharacteristicsCode
      */
@@ -3506,7 +3501,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @return
      *     The formatCode
      */
@@ -3516,7 +3511,7 @@ public class FixedField {
     }
 
     /**
-     * 
+     *
      * @param formatCode
      *     The formatCode
      */
