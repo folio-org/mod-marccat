@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 import static org.folio.cataloging.F.deepCopy;
 
 //TODO remove extends from HibernateUtil
-public abstract class AbstractDAO extends HibernateUtil {
+public class AbstractDAO extends HibernateUtil {
 
     public Transaction getTransaction(final Session session) throws HibernateException{
         Transaction tx = null;
@@ -38,11 +38,11 @@ public abstract class AbstractDAO extends HibernateUtil {
      */
     public void persistByStatus(final Persistence persistentObject, final Session session) throws HibernateException {
         if (persistentObject.isNew()) {
-            save(persistentObject, session);
+          persistentObject.getDAO().save(persistentObject, session);
         } else if (persistentObject.isChanged()) {
-            update(persistentObject, session);
+          persistentObject.getDAO().update(persistentObject, session);
         } else if (persistentObject.isDeleted()) {
-            delete(persistentObject, session);
+          persistentObject.getDAO().delete(persistentObject, session);
         }
     }
 
