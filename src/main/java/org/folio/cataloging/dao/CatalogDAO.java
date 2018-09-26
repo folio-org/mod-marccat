@@ -109,6 +109,7 @@ public abstract class CatalogDAO extends AbstractDAO {
 		final ItemEntity itemEntity = item.getItemEntity();
 
 		final List<Tag> tagList = item.getTags().stream().map (aTag -> {
+
 			if (aTag.isNew()) {
 				aTag.setItemNumber(item.getAmicusNumber().intValue());
 				if (aTag instanceof PersistentObjectWithView)

@@ -520,16 +520,16 @@ public class BibliographicCatalogDAO extends CatalogDAO
 
         CallableStatement proc = null;
         try {
-            int result = 0;
+            String result = null;
             Connection connection = session.connection();
-            proc = connection.prepareCall("{call AMICUS.CFN_PR_CACHE_UPDATE(?, ?, ?, ?) }");
-            proc.setInt(1, Integer.valueOf(bibItemNumber));
+            proc = connection.prepareCall("{call AMICUS.CFN_PR_CACHE_UPDATE(?, cast(? as smallint), ?, ?) }");
+            proc.setInt(1, bibItemNumber);
             proc.setInt(2, cataloguingView);
-            proc.setInt(3, new Integer(-1));
-            proc.registerOutParameter(4, Types.INTEGER);
+            proc.setInt(3, -1);
+            proc.registerOutParameter(4, Types.VARCHAR);
             proc.execute();
-            result = proc.getInt(4);
-            if (result != 0) {
+            result = proc.getString(4);
+            if (!result.equals("0")) {
                 cleanUp(transaction);
                 logger.error(MessageCatalogStorage._00011_CACHE_UPDATE_FAILURE, result);
                 throw new CacheUpdateException();

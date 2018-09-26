@@ -18,7 +18,7 @@ import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "id", "group", "canadianContentIndicator", "verificationLevel", "leader", "fields" })
+@JsonPropertyOrder({ "id", "group", "canadianContentIndicator", "verificationLevel", "leader", "fields", "recordView" })
 public class BibliographicRecord {
 
     @JsonProperty("id")
@@ -40,6 +40,9 @@ public class BibliographicRecord {
     @JsonProperty("fields")
     @Valid
     private List<Field> fields = new ArrayList<Field>();
+
+  @JsonProperty("recordView")
+    private int recordView;
 
 
     /**
@@ -160,4 +163,21 @@ public class BibliographicRecord {
     this.verificationLevel = verificationLevel;
   }
 
+  /**
+   *
+   * @return the record view.
+   */
+  @JsonProperty("recordView")
+  public int getRecordView() {
+    return recordView;
+  }
+
+  /**
+   *
+   * @param recordView
+   */
+  @JsonProperty("recordView")
+  public void setRecordView(int recordView) {
+    this.recordView = recordView;
+  }
 }

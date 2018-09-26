@@ -40,7 +40,7 @@ public class MarcCommandLibrary {
 		newTag.markNew();
 		if (!srcTag.isNew()) {
 			srcTag.markDeleted();
-			catalogItem.addDeletedTag(srcTag);
+			catalogItem.getDeletedTags().add(srcTag);
 		}
 
 		replaceDescriptor((Browsable)newTag, replacingDescriptor);
@@ -132,7 +132,7 @@ public class MarcCommandLibrary {
 		tag.setDescriptorStringText(text);
 		Descriptor newDescriptor =null;
 		if(tag.getDescriptor() instanceof PublisherTagDescriptor){
-			PUBL_TAG pu =(PUBL_TAG)(((PublisherTagDescriptor)tag.getDescriptor()).getPublisherTagUnits().get(0));
+			PUBL_TAG pu = ((PublisherTagDescriptor)tag.getDescriptor()).getPublisherTagUnits().get(0);
 			newDescriptor = createNewDescriptor(pu.getDescriptor(), headingView, session);
 			pu.setDescriptor((PUBL_HDG)newDescriptor);
 		}

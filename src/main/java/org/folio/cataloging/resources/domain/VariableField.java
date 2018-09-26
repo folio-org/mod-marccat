@@ -19,7 +19,7 @@ import java.util.Map;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "keyNumber", "categoryCode", "description", "headerTypeCode", "headingTypeCode", "itemTypeCode", "functionCode", "ind1", "ind2", "code", "displayValue", "subfields", "defaultSubfieldCode", "sequenceNumber", "newKeyNumber" })
+@JsonPropertyOrder({ "keyNumber", "categoryCode", "description", "headerTypeCode", "headingTypeCode", "itemTypeCode", "functionCode", "ind1", "ind2", "code", "displayValue", "subfields", "defaultSubfieldCode", "sequenceNumber", "newKeyNumber", "skipInFiling" })
 public class VariableField {
 
     @JsonProperty("keyNumber")
@@ -57,6 +57,9 @@ public class VariableField {
 
     @JsonProperty("sequenceNumber")
     private int sequenceNumber;
+
+    @JsonProperty("skipInFiling")
+    private int skipInFiling;
 
     @JsonProperty("subfields")
     @Valid
@@ -382,5 +385,21 @@ public class VariableField {
    */
   public void setNewKeyNumber(Integer newKeyNumber) {
     this.newKeyNumber = newKeyNumber;
+  }
+
+  /**
+   *
+   * @return skipInFiling.
+   */
+  public int getSkipInFiling() {
+    return skipInFiling;
+  }
+
+  /**
+   *
+   * @param skipInFiling.
+   */
+  public void setSkipInFiling(int skipInFiling) {
+    this.skipInFiling = skipInFiling;
   }
 }
