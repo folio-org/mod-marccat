@@ -15,6 +15,7 @@ import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.RecordNotFoundException;
 import org.folio.cataloging.business.common.View;
+import org.folio.cataloging.business.descriptor.PublisherTagDescriptor;
 import org.folio.cataloging.business.searching.InvalidBrowseIndexException;
 import org.folio.cataloging.dao.*;
 import org.folio.cataloging.dao.common.HibernateSessionProvider;
@@ -1373,6 +1374,7 @@ public class StorageService implements Closeable {
 
     final BibliographicRecord bibliographicRecord = new BibliographicRecord();
     bibliographicRecord.setId(item.getAmicusNumber());
+    bibliographicRecord.setRecordView(item.getUserView());
 
     org.folio.cataloging.resources.domain.Leader leader = new org.folio.cataloging.resources.domain.Leader();
     leader.setCode("000");
@@ -1385,6 +1387,7 @@ public class StorageService implements Closeable {
     item.getTags().stream().skip(1).forEach(aTag -> {
       int keyNumber = 0;
       int sequenceNbr = 0;
+      int skipInFiling = 0;
 
       if (aTag.isFixedField() && aTag instanceof MaterialDescription){
         final MaterialDescription materialTag = (MaterialDescription)aTag;
@@ -1403,14 +1406,29 @@ public class StorageService implements Closeable {
 
       if (!aTag.isFixedField() && aTag instanceof BibliographicAccessPoint){
         keyNumber = ((BibliographicAccessPoint)aTag).getDescriptor().getKey().getHeadingNumber();
-        sequenceNbr = ((BibliographicAccessPoint)aTag).getSequenceNumber();
+        try {
+          sequenceNbr = ((BibliographicAccessPoint)aTag).getSequenceNumber();
+        }catch (Exception e){
+          sequenceNbr = 0;
+        }
+
+        if (aTag instanceof TitleAccessPoint){
+          skipInFiling = ((TitleAccessPoint)aTag).getDescriptor().getSkipInFiling();
+        }
       }
 
       if (!aTag.isFixedField() && aTag instanceof BibliographicNoteTag){
         keyNumber = ((BibliographicNoteTag)aTag).getNoteNbr();
-        sequenceNbr = ((BibliographicNoteTag)aTag).getSequenceNumber();
+        try {
+          sequenceNbr = ((BibliographicNoteTag)aTag).getSequenceNumber();
+        }catch (Exception e){
+          sequenceNbr = 0;
+        }
       }
 
+      if (!aTag.isFixedField() && aTag instanceof PublisherManager){
+        keyNumber = ((PublisherManager)aTag).getApf().getHeadingNumber();
+      }
 
       final CorrelationKey correlation = aTag.getTagImpl().getMarcEncoding(aTag, session);
 
@@ -1443,6 +1461,9 @@ public class StorageService implements Closeable {
         variableField.setValue(entry);
         variableField.setCategoryCode(correlation.getMarcTagCategoryCode());
         variableField.setKeyNumber(keyNumber);
+        variableField.setSkipInFiling(skipInFiling);
+        if (variableField.getInd2().equals("S"))
+          variableField.setInd2(""+skipInFiling);
         field.setVariableField(variableField);
       }
 
@@ -1675,7 +1696,7 @@ public class StorageService implements Closeable {
         casCache.setStatusDisponibilit(99);
 
       }else{
-        //updateBibliographicRecord(record, item, view, generalInformation);
+        updateBibliographicRecord(record, item, view, generalInformation);
       }
 
       if (isNotNullOrEmpty(record.getVerificationLevel()))
@@ -1709,7 +1730,7 @@ public class StorageService implements Closeable {
     final String newLeader = record.getLeader().getValue();
     recordParser.changeLeader(item, newLeader);
 
-     record.getFields().stream().skip(1).forEach(field -> {
+     record.getFields().forEach(field -> {
 
       final String tagNbr = field.getCode();
       final Field.FieldStatus status = field.getFieldStatus();
@@ -1733,7 +1754,7 @@ public class StorageService implements Closeable {
         }
 
         if (tagNbr.equals(GlobalStorage.CATALOGING_SOURCE_TAG_CODE) && status == Field.FieldStatus.CHANGED) {
-          item.getTags().stream().skip(1).filter(aTag -> !aTag.isFixedField() && aTag instanceof CataloguingSourceTag).forEach(aTag -> {
+          item.getTags().stream().filter(aTag -> !aTag.isFixedField() && aTag instanceof CataloguingSourceTag).forEach(aTag -> {
             final CataloguingSourceTag cst = (CataloguingSourceTag)aTag;
             cst.setStringText(new StringText(field.getVariableField().getValue()));
             cst.markChanged();
@@ -1756,12 +1777,13 @@ public class StorageService implements Closeable {
           if (field.getVariableField().getCategoryCode() == GlobalStorage.BIB_NOTE_CATEGORY && correlationValues.getValue(1) != GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE ){
             recordParser.changeNoteTag(item, field, correlationValues, bibItemNumber);
           } else {
-            recordParser.changeAccessPointTag(item, field, correlationValues, bibItemNumber);
+            recordParser.changeAccessPointTag(item, field, correlationValues, bibItemNumber, view, session);
           }
         }
       }
     });
 
+   // setDescriptors(item, item.getUserView(), view);
   }
 
   /**
@@ -1830,7 +1852,7 @@ public class StorageService implements Closeable {
       }
 
     });
-
+    setDescriptors(item, item.getUserView(), view);
     return item;
   }
 
@@ -1888,5 +1910,50 @@ public class StorageService implements Closeable {
       logger.error(MessageCatalogStorage._00020_LOCK_FAILURE, id, userName, exception);
       throw new DataAccessException(exception);
     }
+  }
+
+  /**
+   * Set descriptors for each tag.
+   *
+   * @param item -- the catalog item.
+   * @param recordView -- the record view.
+   * @param cataloguingView -- the cataloguing view.
+   * @throws DataAccessException in case of data access exception.
+   */
+  public void setDescriptors(final CatalogItem item, final int recordView, final int cataloguingView) throws DataAccessException {
+
+    item.getTags().forEach(aTag -> {
+      if (aTag instanceof AccessPoint) {
+        try {
+          AccessPoint apf = ((AccessPoint) aTag);
+          Descriptor d = apf.getDAODescriptor().findOrCreateMyView(((AccessPoint) aTag).getDescriptor().getHeadingNumber(), View.makeSingleViewString(recordView), cataloguingView, session);
+          apf.setDescriptor(d);
+        } catch (HibernateException e) {
+          throw new DataAccessException(e);
+        }
+      } else if (aTag instanceof PublisherManager) {
+        PublisherManager pm = (PublisherManager) aTag;
+        PublisherAccessPoint apf = pm.getApf();
+        Descriptor orig = apf.getDescriptor();
+        List<PUBL_TAG> publTags = ((PublisherTagDescriptor) orig).getPublisherTagUnits();
+        publTags.forEach(t -> {
+          try {
+            PUBL_HDG ph = (PUBL_HDG) t.getDescriptorDAO().findOrCreateMyView(
+              t.getPublisherHeadingNumber(),
+              View.makeSingleViewString(recordView), cataloguingView, session);
+            t.setDescriptor(ph);
+            t.setUserViewString(View.makeSingleViewString(cataloguingView));
+          } catch (HibernateException e) {
+            throw new DataAccessException(e);
+          }
+        });
+        apf.setUserViewString(View.makeSingleViewString(cataloguingView));
+        apf.setDescriptor(orig);
+        pm.setApf(apf);
+      } else if (aTag instanceof BibliographicRelationshipTag) {
+        BibliographicRelationshipTag relTag = (BibliographicRelationshipTag) aTag;
+        relTag.copyFromAnotherItem();
+      }
+    });
   }
 }

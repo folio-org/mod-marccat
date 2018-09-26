@@ -1,9 +1,12 @@
 package org.folio.cataloging.integration.record;
 
+import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicAccessPoint;
 import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicCatalog;
+import org.folio.cataloging.business.cataloguing.bibliographic.MarcCommandLibrary;
 import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.View;
 import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.integration.GlobalStorage;
 import org.folio.cataloging.resources.domain.Field;
@@ -42,12 +45,13 @@ public class RecordParser {
    * @param session -- the current hibernate session.
    */
   public void changeMaterialDescriptionTag( final CatalogItem item, final Field field, final Session session ) {
-    item.getTags().stream().skip(1).filter(aTag -> aTag.isFixedField() && aTag instanceof MaterialDescription).forEach(aTag -> {
+    item.getTags().stream().filter(aTag -> aTag.isFixedField() && aTag instanceof MaterialDescription).forEach(aTag -> {
       final MaterialDescription materialTag = (MaterialDescription) aTag;
       final CorrelationKey correlation = aTag.getTagImpl().getMarcEncoding(aTag, session);
       if (correlation.getMarcTag().equalsIgnoreCase(GlobalStorage.MATERIAL_TAG_CODE)) {
         materialTag.setCorrelationValues(new CorrelationValues(field.getFixedField().getHeaderTypeCode(), CorrelationValues.UNDEFINED, CorrelationValues.UNDEFINED));
         catalog.toMaterialDescription(field.getFixedField(), materialTag);
+        //materialTag.setPersistenceState(UpdateStatus.CHANGED);
         materialTag.markChanged();
       }
     });
@@ -258,20 +262,29 @@ public class RecordParser {
    * @param bibItemNumber -- the bibliographic item number.
    * @throws DataAccessException in case of data access exception.
    */
-  public void changeAccessPointTag(final CatalogItem item, final Field field, final CorrelationValues correlationValues, final int bibItemNumber) {
+  public void changeAccessPointTag(final CatalogItem item, final Field field, final CorrelationValues correlationValues,
+                                   final int bibItemNumber, final int view, final Session session) {
+
     if ( field.getFieldStatus() == Field.FieldStatus.CHANGED || field.getFieldStatus() == Field.FieldStatus.DELETED ) {
-      item.getTags().stream().skip(1).filter(aTag -> !aTag.isFixedField() && aTag instanceof BibliographicAccessPoint).forEach(aTag -> {
+      item.getTags().stream().filter(aTag -> aTag instanceof BibliographicAccessPoint && aTag.getCategory()== field.getVariableField().getCategoryCode()).forEach(aTag -> {
         BibliographicAccessPoint acs = (BibliographicAccessPoint)aTag;
         int keyNumber = ((BibliographicAccessPoint)aTag).getDescriptor().getKey().getHeadingNumber();
-        if (keyNumber == field.getVariableField().getKeyNumber() ) {
+        if (keyNumber == field.getVariableField().getKeyNumber()) {
           if (field.getFieldStatus() == Field.FieldStatus.CHANGED) {
-            if (field.getVariableField().getNewKeyNumber() != null && keyNumber != field.getVariableField().getNewKeyNumber()){
-              acs.getDescriptor().setHeadingNumber(field.getVariableField().getNewKeyNumber());
-            }
             acs.setCorrelationValues(correlationValues);
             acs.setAccessPointStringText(new StringText(field.getVariableField().getValue()));
             acs.setSequenceNumber(field.getVariableField().getSequenceNumber());
-            acs.markChanged();
+
+            if (field.getVariableField().getNewKeyNumber() != null && keyNumber != field.getVariableField().getNewKeyNumber()){
+              try {
+                Descriptor descriptorNew = acs.getDAODescriptor().findOrCreateMyView(field.getVariableField().getNewKeyNumber(), View.makeSingleViewString(item.getUserView()), view, session);
+                MarcCommandLibrary.replaceDescriptor(item, acs, descriptorNew);
+              } catch (HibernateException e) {
+                throw new RuntimeException(e);
+              }
+            }else
+              acs.markChanged();
+
           } else {
             acs.markDeleted();
             item.getDeletedTags().add(acs);
@@ -292,9 +305,9 @@ public class RecordParser {
    * @throws DataAccessException in case of data access exception.
    */
   public void insertNewVariableField(final CatalogItem item,
-                                      final org.folio.cataloging.resources.domain.VariableField variableField,
-                                      final int bibItemNumber,
-                                      final CorrelationValues correlationValues) throws DataAccessException {
+                                     final org.folio.cataloging.resources.domain.VariableField variableField,
+                                     final int bibItemNumber,
+                                     final CorrelationValues correlationValues) throws DataAccessException {
 
     if (variableField.getCategoryCode() == GlobalStorage.TITLE_CATEGORY){
       addTitleToCatalog(item, correlationValues, variableField, bibItemNumber);

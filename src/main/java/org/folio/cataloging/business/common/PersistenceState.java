@@ -22,7 +22,6 @@ import java.io.Serializable;
  */
 public class PersistenceState implements Lifecycle, Serializable {
 
-	private AbstractDAO abstractDAO;
 	private int updateStatus = UpdateStatus.NEW;
 	private Integer committedStatus = null;
 
@@ -122,7 +121,7 @@ public class PersistenceState implements Lifecycle, Serializable {
 	 * @since 1.0
 	 */
 	public AbstractDAO getDAO() {
-		return abstractDAO;
+	  return new AbstractDAO();
 	}
 
 	/**
