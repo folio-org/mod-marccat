@@ -1,6 +1,6 @@
 FROM folioci/openjdk8-jre:latest
 
-ENV VERTICLE_FILE mod-orders-fat.jar
+ENV VERTICLE_FILE mod-cataloging-fat.jar
 
 # Set the location of the verticles
 ENV VERTICLE_HOME /usr/verticles
