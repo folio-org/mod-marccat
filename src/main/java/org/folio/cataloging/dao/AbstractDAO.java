@@ -23,9 +23,7 @@ import static org.folio.cataloging.F.deepCopy;
 public class AbstractDAO extends HibernateUtil {
 
     public Transaction getTransaction(final Session session) throws HibernateException{
-        Transaction tx = null;
-        tx = session.beginTransaction();
-        return tx;
+        return session.beginTransaction();
     }
 
     /**
@@ -119,16 +117,13 @@ public class AbstractDAO extends HibernateUtil {
         if (userView == View.ANY) {
             return multiView;
         }
-
-        List<? extends PersistentObjectWithView> singleView = multiView.stream().map(po -> {
+      return multiView.stream().map(po -> {
             try {
                 return isolateView(po, userView, session);
             } catch (HibernateException he) {
                 throw new RuntimeException(he);
             }
         }).collect(Collectors.toList());
-
-        return singleView;
     }
 
     /**
