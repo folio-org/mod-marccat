@@ -89,8 +89,7 @@ public class BibliographicCatalogDAO extends CatalogDAO
 			cache.setItemNumber(item.getAmicusNumber());
 			cache.setUserView(item.getUserView());
 		}
-		org.w3c.dom.Document d = item.toExternalMarcSlim();
-		cache.setRecordData(XmlUtils.documentToString(d));
+		cache.setRecordData(XmlUtils.documentToString(item.toExternalMarcSlim()));
 		cache.markChanged();
 		persistByStatus(cache, session);
 		cache.evict();

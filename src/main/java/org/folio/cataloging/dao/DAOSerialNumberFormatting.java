@@ -16,10 +16,10 @@ import java.sql.SQLException;
 
 public class DAOSerialNumberFormatting {
 	public String getFormattedNumber(String type, int number) {
-		String result = null;
-		Connection conn = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
+		String result;
+		Connection conn;
+		PreparedStatement stmt;
+		ResultSet rs;
 		try {
 			conn = ConnectionFactory.getConnection();
 			stmt = conn
