@@ -38,7 +38,7 @@ public class BibliographicModelItemDAO extends ModelItemDAO {
 	 */
 public boolean getModelUsageByItem(int bibItem, final Session session)
 	throws HibernateException {
-	List <Integer> list =
+	List<Integer> list =
 			session.find(
 			"select count(*) from "
 				+ getPersistentClass().getName()
