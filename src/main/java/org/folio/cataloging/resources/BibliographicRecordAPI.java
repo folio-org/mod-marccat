@@ -51,22 +51,23 @@ public class BibliographicRecordAPI extends BaseResource {
           @ApiResponse(code = 500, message = "System internal failure occurred.")
   })
   @GetMapping("/bibliographic-record/{id}")
-  public ResponseEntity<Object> getRecord(@RequestParam final Integer id,
-                                       @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
-                                       @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+  public ResponseEntity<Object> getRecord(
+    @RequestParam final Integer id,
+    @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
     return doGet((storageService, configuration) -> {
 
       final BibliographicRecord record = storageService.getBibliographicRecordById(id, view);
       if (record != null)
         resetStatus(record);
       else{
-        return new ResponseEntity<Object>(record, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(record, HttpStatus.NOT_FOUND);
         /*final ErrorCollection errors = new ErrorCollection();
         errors.getErrors().add(getError(Global.NO_RECORD_FOUND));
         return systemInternalFailure(new DataAccessException(), errors);*/
       }
 
-      return new ResponseEntity<Object>(record, HttpStatus.OK);
+      return new ResponseEntity<>(record, HttpStatus.OK);
     }, tenant, configurator);
   }
 
@@ -78,10 +79,11 @@ public class BibliographicRecordAPI extends BaseResource {
           @ApiResponse(code = 500, message = "System internal failure occurred.")
   })
   @GetMapping("/bibliographic-record/from-template/{idTemplate}")
-  public BibliographicRecord getEmptyRecord(@PathVariable  final Integer idTemplate,
-                                            @RequestParam final String lang,
-                                            @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
-                                            @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+  public BibliographicRecord getEmptyRecord(
+    @PathVariable  final Integer idTemplate,
+    @RequestParam final String lang,
+    @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
 
     return doGet((storageService, configuration) -> {
 
@@ -156,7 +158,7 @@ public class BibliographicRecordAPI extends BaseResource {
             gi.setDefaultValues(configuration);
 
             final Leader leader = record.getLeader();
-            record.getFields().stream().filter(field -> isFixedField(field))
+            record.getFields().stream().filter(this::isFixedField)
                     .filter(field -> field.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE) ||
                         field.getCode().equalsIgnoreCase(Global.OTHER_MATERIAL_TAG_CODE) ||
                         field.getCode().equalsIgnoreCase(Global.PHYSICAL_DESCRIPTION_TAG_CODE)).forEach(field -> {
@@ -173,7 +175,7 @@ public class BibliographicRecordAPI extends BaseResource {
             final BibliographicRecord recordSaved = storageService.getBibliographicRecordById(itemNumber, view);
             resetStatus(recordSaved);
 
-            return new ResponseEntity<Object>(recordSaved, HttpStatus.OK);
+            return new ResponseEntity<>(recordSaved, HttpStatus.OK);
         } catch (final Exception exception) {
             logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
             return record;
@@ -188,7 +190,7 @@ public class BibliographicRecordAPI extends BaseResource {
    * @param newRecord -- the new record created.
    */
   private void resetStatus(BibliographicRecord newRecord){
-    newRecord.getFields().stream().forEach(field -> {
+    newRecord.getFields().forEach(field -> {
       if (Global.MANDATORY_FIELDS.contains(field.getCode()))
         field.setMandatory(true);
       field.setFieldStatus(Field.FieldStatus.UNCHANGED);
@@ -247,7 +249,7 @@ public class BibliographicRecordAPI extends BaseResource {
    */
   private String checkEmptyTag(final BibliographicRecord record) {
       StringBuilder tags = new StringBuilder();
-      record.getFields().stream().forEach( field -> {
+      record.getFields().forEach( field -> {
           if (!isFixedField(field)){ // && (field.getFieldStatus() != Field.FieldStatus.NEW && field.getFieldStatus() != Field.FieldStatus.CHANGED)
               final StringText st = new StringText(field.getVariableField().getValue());
               if (st.isEmpty()){
@@ -273,10 +275,10 @@ public class BibliographicRecordAPI extends BaseResource {
       List<String> duplicates =
               fieldsGroupedByCode.entrySet().stream()
                       .filter(entry -> entry.getValue().size() > 1)
-                      .map(entry -> entry.getKey()).collect(Collectors.toList());
+                      .map(Map.Entry::getKey).collect(Collectors.toList());
 
       StringBuilder tags = new StringBuilder();
-      duplicates.stream().forEach( tagNbr -> {
+      duplicates.forEach( tagNbr -> {
           Validation bv = storage.getTagValidation(getCategory(fieldsGroupedByCode.get(tagNbr).get(0)), tagNbr);
           if (!bv.isMarcTagRepeatable()){
               tags.append(tagNbr).append(",");
@@ -300,7 +302,7 @@ public class BibliographicRecordAPI extends BaseResource {
       if (record.getLeader() != null)
           found.add(record.getLeader().getCode());
 
-      record.getFields().stream().forEach(field -> {
+      record.getFields().forEach(field -> {
           if (field.isMandatory()){
               found.add(field.getCode());
           }
@@ -327,10 +329,10 @@ public class BibliographicRecordAPI extends BaseResource {
    * @return category.
    */
   private int getCategory(final Field field){
-      if (isFixedField(field))
-          return field.getFixedField().getCategoryCode();
-
-      return field.getVariableField().getCategoryCode();
+      return (isFixedField(field))
+        ?
+        field.getFixedField().getCategoryCode():
+        field.getVariableField().getCategoryCode();
   }
 
 
