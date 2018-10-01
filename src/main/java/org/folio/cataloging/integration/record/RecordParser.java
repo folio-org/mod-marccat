@@ -7,12 +7,16 @@ import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicCata
 import org.folio.cataloging.business.cataloguing.bibliographic.MarcCommandLibrary;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.View;
+import org.folio.cataloging.business.descriptor.PublisherTagDescriptor;
 import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.integration.GlobalStorage;
 import org.folio.cataloging.resources.domain.Field;
 import org.folio.cataloging.shared.CorrelationValues;
 import org.folio.cataloging.shared.GeneralInformation;
 import org.folio.cataloging.util.StringText;
+
+import java.sql.SQLException;
+import java.util.List;
 
 
 public class RecordParser {
@@ -93,7 +97,7 @@ public class RecordParser {
    * @param correlationValues -- the new correlation values to set.
    * @param bibItemNumber -- the amicus number associated to record.
    */
-  public void changeNoteTag(final CatalogItem item, final Field field, final CorrelationValues correlationValues, final int bibItemNumber) {
+  public void changeNoteTag(final CatalogItem item, final Field field, final CorrelationValues correlationValues, final int bibItemNumber, final int view) throws HibernateException, SQLException {
     if ( field.getFieldStatus() == Field.FieldStatus.CHANGED || field.getFieldStatus() == Field.FieldStatus.DELETED ) {
       item.getTags().stream().skip(1).filter(aTag -> !aTag.isFixedField() && aTag instanceof BibliographicNoteTag).forEach(aTag -> {
         final BibliographicNoteTag noteTag = (BibliographicNoteTag)aTag;
@@ -109,7 +113,7 @@ public class RecordParser {
         }
       });
     } else if (field.getVariableField().getKeyNumber() == null && field.getFieldStatus() == Field.FieldStatus.NEW){
-      insertNewVariableField(item, field.getVariableField(), bibItemNumber, correlationValues);
+      insertNewVariableField(item, field.getVariableField(), bibItemNumber, correlationValues, null, view);
     }
 
   }
@@ -260,10 +264,11 @@ public class RecordParser {
    * @param field -- bibliographic record field.
    * @param correlationValues -- the selection of correlation values.
    * @param bibItemNumber -- the bibliographic item number.
-   * @throws DataAccessException in case of data access exception.
+   * @throws HibernateException -- in case of hibernate exception.
+   * @throws SQLException -- in case of sql exception.
    */
   public void changeAccessPointTag(final CatalogItem item, final Field field, final CorrelationValues correlationValues,
-                                   final int bibItemNumber, final int view, final Session session) {
+                                   final int bibItemNumber, final int view, final Session session) throws HibernateException, SQLException {
 
     if ( field.getFieldStatus() == Field.FieldStatus.CHANGED || field.getFieldStatus() == Field.FieldStatus.DELETED ) {
       item.getTags().stream().filter(aTag -> aTag instanceof BibliographicAccessPoint && aTag.getCategory()== field.getVariableField().getCategoryCode()).forEach(aTag -> {
@@ -291,8 +296,77 @@ public class RecordParser {
           }
         }
       });
-    } else if (field.getVariableField().getNewKeyNumber() != null && field.getFieldStatus() == Field.FieldStatus.NEW){
-      insertNewVariableField(item, field.getVariableField(), bibItemNumber, correlationValues);
+    } else if (field.getVariableField().getKeyNumber() != null && field.getFieldStatus() == Field.FieldStatus.NEW){
+      insertNewVariableField(item, field.getVariableField(), bibItemNumber, correlationValues, session, view);
+    }
+  }
+
+  /**
+   * Changes or deletes publisher tags.
+   *
+   * @param item -- the item to add tags.
+   * @param field -- bibliographic record field.
+   * @param correlationValues -- the selection of correlation values.
+   * @param bibItemNumber -- the bibliographic item number.
+   * @param view -- the cataloguing user view.
+   * @param session -- the hibernate session associated.
+   * @throws HibernateException -- in case of hibernate exception.
+   * @throws SQLException -- in case of sql exception.
+   */
+  public void changePublisherTag(final CatalogItem item, final Field field, final CorrelationValues correlationValues,
+                                 final int bibItemNumber, final int view, final Session session) throws HibernateException, SQLException {
+
+    if ( field.getFieldStatus() == Field.FieldStatus.CHANGED || field.getFieldStatus() == Field.FieldStatus.DELETED ) {
+      StringText st = new StringText(field.getVariableField().getValue());
+
+      item.getTags().stream().filter(aTag -> aTag instanceof PublisherManager && aTag.getCategory() == field.getVariableField().getCategoryCode()).forEach(aTag -> {
+        Integer newKeyNumber = field.getVariableField().getNewKeyNumber();
+        PublisherManager pm = (PublisherManager) aTag;
+        PublisherAccessPoint apf = pm.getApf();
+        int pTagNumber = apf.getDescriptor().getKey().getHeadingNumber();
+        List<PUBL_TAG> publTags = ((PublisherTagDescriptor) apf.getDescriptor()).getPublisherTagUnits();
+        for (PUBL_TAG pTag : publTags) {
+          if (pTag.getPublisherTagNumber() == pTagNumber){
+            int keyNumber = pTag.getPublisherHeadingNumber();
+            if (keyNumber == field.getVariableField().getKeyNumber()) {
+              if (field.getFieldStatus() == Field.FieldStatus.CHANGED) {
+                pm.setCorrelationValues(correlationValues);
+                apf.setAccessPointStringText(new StringText(field.getVariableField().getValue()));
+                apf.setSequenceNumber(field.getVariableField().getSequenceNumber());
+                if (newKeyNumber != null && keyNumber != newKeyNumber) {
+                  Descriptor descriptorNew = null;
+                  try {
+                    descriptorNew = pTag.getDescriptorDAO().findOrCreateMyView(newKeyNumber,
+                      View.makeSingleViewString(item.getUserView()), view, session);
+
+                    pTag.setDescriptor((PUBL_HDG) descriptorNew);
+                    pTag.setUserViewString(View.makeSingleViewString(view));
+                    pTag.setOtherSubfields(st.getSubfieldsWithCodes("c").toString());
+                    pTag.markNew();
+
+                    MarcCommandLibrary.setNewStringText(pm, st, View.makeSingleViewString(view), session);
+
+                  } catch (HibernateException | SQLException e) {
+                    throw new RuntimeException(e);
+                  }
+                  apf.setUserViewString(View.makeSingleViewString(view));
+                  pm.setApf(apf);
+
+                } else {
+                  pTag.setOtherSubfields(st.getSubfieldsWithCodes("c").toString());
+                  apf.markChanged();
+                }
+              } else {
+                apf.markDeleted();
+                item.getDeletedTags().add(apf);
+              }
+              break;
+            }
+          }
+        }
+      });
+    } else if (field.getVariableField().getKeyNumber() != null && field.getFieldStatus() == Field.FieldStatus.NEW){
+      insertNewVariableField(item, field.getVariableField(), bibItemNumber, correlationValues, session, view);
     }
   }
 
@@ -307,7 +381,9 @@ public class RecordParser {
   public void insertNewVariableField(final CatalogItem item,
                                      final org.folio.cataloging.resources.domain.VariableField variableField,
                                      final int bibItemNumber,
-                                     final CorrelationValues correlationValues) throws DataAccessException {
+                                     final CorrelationValues correlationValues,
+                                     final Session session,
+                                     final int view) throws DataAccessException {
 
     if (variableField.getCategoryCode() == GlobalStorage.TITLE_CATEGORY){
       addTitleToCatalog(item, correlationValues, variableField, bibItemNumber);
@@ -322,7 +398,12 @@ public class RecordParser {
     } else if (variableField.getCategoryCode() == GlobalStorage.BIB_NOTE_CATEGORY && correlationValues.getValue(1) != GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE ){
       addNoteToCatalog(item, correlationValues, variableField, bibItemNumber);
     } else if (variableField.getCategoryCode() == GlobalStorage.BIB_NOTE_CATEGORY && correlationValues.getValue(1) == GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE ){
-      addPublisherToCatalog(item, correlationValues, variableField, bibItemNumber);
+
+      try {
+        addPublisherToCatalog(item, correlationValues, variableField, view, session);
+      } catch (HibernateException | SQLException e) {
+        throw new DataAccessException(e);
+      }
     }
   }
 
@@ -332,16 +413,29 @@ public class RecordParser {
    * @param item -- the item to add tags.
    * @param correlationValues -- the selection of correlation values.
    * @param variableField -- the variable field containing data.
-   * @param bibItemNumber -- the bibliographic item number.
+   * @param view -- the view.
    * @throws DataAccessException in case of data access exception.
    */
   private void addPublisherToCatalog(final CatalogItem item,
                                      final CorrelationValues correlationValues,
                                      final org.folio.cataloging.resources.domain.VariableField variableField,
-                                     final int bibItemNumber) throws DataAccessException {
+                                     final int view,
+                                     final Session session) throws DataAccessException, HibernateException, SQLException {
+
     final PublisherManager publisherManager = catalog.createPublisherTag(item, correlationValues);
-    publisherManager.markNew();
-    publisherManager.setBibItemNumber(bibItemNumber);
+    publisherManager.setUserViewString(View.makeSingleViewString(view));
+
+    PUBL_TAG ptag =new PUBL_TAG();
+    Descriptor descriptorNew = ptag.getDescriptorDAO().findOrCreateMyView(variableField.getKeyNumber(), View.makeSingleViewString(item.getUserView()), view, session);
+    ptag.setDescriptor((PUBL_HDG) descriptorNew);
+    ptag.setPublisherHeadingNumber(new Integer(ptag.getDescriptor().getKey().getHeadingNumber()));
+    ptag.setUserViewString(View.makeSingleViewString(view));
+    ptag.markNew();
+    StringText st = new StringText(variableField.getValue());
+
+    ptag.setOtherSubfields(st.getSubfieldsWithCodes("c").toString());
+    publisherManager.getPublisherTagUnits().add(ptag);
+
     item.addTag(publisherManager);
   }
 

@@ -127,7 +127,7 @@ public class MarcCommandLibrary {
 
 	public static void setNewStringText(AccessPoint tag, StringText text, String headingView,
                                       final Session session) throws DataAccessException, HibernateException, SQLException {
-		if(!tag.isNew()) throw new IllegalArgumentException("this method can be used only for new tags");
+		//if(!tag.isNew()) throw new IllegalArgumentException("this method can be used only for new tags");
 		tag.getDescriptor().setUserViewString(headingView);
 		tag.setDescriptorStringText(text);
 		Descriptor newDescriptor =null;
@@ -149,7 +149,7 @@ public class MarcCommandLibrary {
 		setNewStringText(pap, text, headingView);
 	}*/
 	public static void setNewStringText(final PublisherManager tag, final StringText text, final String headingView, final Session session) throws DataAccessException, HibernateException, SQLException {
-		if(!tag.isNew()) throw new IllegalArgumentException("this method can be used only for new publisher tags");
+		//if(!tag.isNew()) throw new IllegalArgumentException("this method can be used only for new publisher tags");
 		PublisherAccessPoint pap = tag.getApf();
 		setNewStringText(pap, text, headingView, session);
 	}

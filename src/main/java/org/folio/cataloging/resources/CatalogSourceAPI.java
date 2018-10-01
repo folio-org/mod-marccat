@@ -48,10 +48,11 @@ public class CatalogSourceAPI extends BaseResource {
         return doGet((storageService, configuration) -> {
                 final CatalogSourceCollection container = new CatalogSourceCollection();
                 container.setCatalogSources(
-                        storageService.getCatalogSources(lang)
-                                .stream()
-                                .map(toCatalogSource)
-                                .collect(toList()));
+                        storageService
+                          .getCatalogSources(lang)
+                          .stream()
+                          .map(toCatalogSource)
+                          .collect(toList()));
                 return container;
         }, tenant, configurator);
     }
