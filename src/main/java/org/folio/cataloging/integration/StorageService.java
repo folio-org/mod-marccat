@@ -15,7 +15,6 @@ import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.RecordNotFoundException;
 import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.business.descriptor.PublisherTagDescriptor;
 import org.folio.cataloging.business.searching.InvalidBrowseIndexException;
 import org.folio.cataloging.dao.*;
 import org.folio.cataloging.dao.common.HibernateSessionProvider;
@@ -70,6 +69,7 @@ public class StorageService implements Closeable {
             put(2, NameType.class);
             put(17, NameType.class); //from heading
             put(3, TitleFunction.class);
+            put(22, TitleFunction.class); //from heading
             put(4, SubjectType.class);
             put(18, SubjectType.class); //from heading
             put(5, ControlNumberType.class);
@@ -1427,7 +1427,7 @@ public class StorageService implements Closeable {
       }
 
       if (!aTag.isFixedField() && aTag instanceof PublisherManager){
-        keyNumber = ((PublisherManager)aTag).getApf().getHeadingNumber();
+        keyNumber = ((PublisherManager)aTag).getPublisherTagUnits().get(0).getPublisherHeadingNumber(); //add gestione multi publisher
       }
 
       final CorrelationKey correlation = aTag.getTagImpl().getMarcEncoding(aTag, session);
@@ -1611,7 +1611,7 @@ public class StorageService implements Closeable {
   public List replaceEquivalentDescriptor(final int indexingLanguage,	final int cataloguingView) throws DataAccessException
   {
         /*final DAODescriptor dao = new DAOPublisherDescriptor();
-        final DAOPublisherManager daoPu = new DAOPublisherManager();
+        final PublisherManagerDAO daoPu = new PublisherManagerDAO();
         List newTags = new ArrayList();
         PUBL_TAG pu = null;
         PublisherManager aTag = (PublisherManager) (deepCopy(this));
@@ -1774,16 +1774,22 @@ public class StorageService implements Closeable {
             throw new DataAccessException();
           }
 
-          if (field.getVariableField().getCategoryCode() == GlobalStorage.BIB_NOTE_CATEGORY && correlationValues.getValue(1) != GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE ){
-            recordParser.changeNoteTag(item, field, correlationValues, bibItemNumber);
-          } else {
-            recordParser.changeAccessPointTag(item, field, correlationValues, bibItemNumber, view, session);
+          try {
+            if (field.getVariableField().getCategoryCode() == GlobalStorage.BIB_NOTE_CATEGORY && correlationValues.getValue(1) != GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE ){
+              recordParser.changeNoteTag(item, field, correlationValues, bibItemNumber, view);
+            } else if (field.getVariableField().getCategoryCode() == GlobalStorage.BIB_NOTE_CATEGORY && correlationValues.getValue(1) == GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE ) {
+              recordParser.changePublisherTag(item, field, correlationValues, bibItemNumber, view, session);
+            }else {
+              recordParser.changeAccessPointTag(item, field, correlationValues, bibItemNumber, view, session);
+            }
+
+          } catch (HibernateException | SQLException e) {
+            throw new DataAccessException(e);
           }
         }
       }
     });
 
-   // setDescriptors(item, item.getUserView(), view);
   }
 
   /**
@@ -1848,7 +1854,7 @@ public class StorageService implements Closeable {
           logger.error(MessageCatalogStorage._00018_NO_HEADING_TYPE_CODE, variableField.getCode());
           throw new DataAccessException();
         }
-        recordParser.insertNewVariableField(item, variableField, bibItemNumber, correlationValues);
+        recordParser.insertNewVariableField(item, variableField, bibItemNumber, correlationValues, session, view);
       }
 
     });
@@ -1932,24 +1938,38 @@ public class StorageService implements Closeable {
           throw new DataAccessException(e);
         }
       } else if (aTag instanceof PublisherManager) {
-        PublisherManager pm = (PublisherManager) aTag;
-        PublisherAccessPoint apf = pm.getApf();
-        Descriptor orig = apf.getDescriptor();
-        List<PUBL_TAG> publTags = ((PublisherTagDescriptor) orig).getPublisherTagUnits();
-        publTags.forEach(t -> {
-          try {
-            PUBL_HDG ph = (PUBL_HDG) t.getDescriptorDAO().findOrCreateMyView(
-              t.getPublisherHeadingNumber(),
-              View.makeSingleViewString(recordView), cataloguingView, session);
-            t.setDescriptor(ph);
-            t.setUserViewString(View.makeSingleViewString(cataloguingView));
-          } catch (HibernateException e) {
-            throw new DataAccessException(e);
-          }
-        });
-        apf.setUserViewString(View.makeSingleViewString(cataloguingView));
-        apf.setDescriptor(orig);
-        pm.setApf(apf);
+       /* try {
+          PublisherManager pm = (PublisherManager) aTag;
+          PublisherAccessPoint apf = pm.getApf();
+          Descriptor d = apf.getDAODescriptor().findOrCreateMyView(apf.getHeadingNumber(), View.makeSingleViewString(recordView), cataloguingView, session);
+          PUBL_TAG ptag = new PUBL_TAG();
+          ptag.markNew();
+          PUBL_HDG pu= new PUBL_HDG();
+          pu.setStringText(.toString());
+          pu.setUserViewString(View.makeSingleViewString(item.getUserView()));
+
+          List<PUBL_TAG> publTags = ((PublisherTagDescriptor) d).getPublisherTagUnits();
+          PUBL_TAG pTag = new PUBL_TAG();
+          pTag.markNew();
+          pTag.setDescriptor((PUBL_HDG) d);
+          ((PublisherTagDescriptor)d).getPublisherTagUnits().add(pTag);
+          publTags.forEach(t -> {
+            try {
+              PUBL_HDG ph = (PUBL_HDG) t.getDescriptorDAO().findOrCreateMyView(
+                t.getPublisherHeadingNumber(),
+                View.makeSingleViewString(recordView), cataloguingView, session);
+              t.setDescriptor(ph);
+              t.setUserViewString(View.makeSingleViewString(cataloguingView));
+            } catch (HibernateException e) {
+              throw new DataAccessException(e);
+            }
+          });
+          apf.setUserViewString(View.makeSingleViewString(cataloguingView));
+          apf.setDescriptor(d);
+          pm.setApf(apf);
+        } catch (HibernateException e) {
+          throw new DataAccessException(e);
+        }*/
       } else if (aTag instanceof BibliographicRelationshipTag) {
         BibliographicRelationshipTag relTag = (BibliographicRelationshipTag) aTag;
         relTag.copyFromAnotherItem();
