@@ -96,7 +96,6 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
 		headingNumber = i;
 	}
 
-  //TODO: use method in storageService class
   public void generateNewKey(final Session session) throws HibernateException, SQLException {
 
     if (getDescriptor().isNew()) {

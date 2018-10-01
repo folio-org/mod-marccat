@@ -190,6 +190,8 @@ public class BibliographicRecordAPI extends BaseResource {
    */
   private void resetStatus(BibliographicRecord newRecord){
     newRecord.getFields().stream().forEach(field -> {
+      if (Global.MANDATORY_FIELDS.contains(field.getCode()))
+        field.setMandatory(true);
       field.setFieldStatus(Field.FieldStatus.UNCHANGED);
     });
   }
