@@ -77,11 +77,11 @@ public class BibliographicRecordAPI extends BaseResource {
           @ApiResponse(code = 414, message = "Request-URI Too Long"),
           @ApiResponse(code = 500, message = "System internal failure occurred.")
   })
-  @GetMapping("/bibliographic-record/from-template/{id}")
-  public BibliographicRecord getEmptyRecord(@RequestParam final Integer idTemplate,
-                                                       @RequestParam final String lang,
-                                                       @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
-                                                       @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+  @GetMapping("/bibliographic-record/from-template/{idTemplate}")
+  public BibliographicRecord getEmptyRecord(@PathVariable  final Integer idTemplate,
+                                            @RequestParam final String lang,
+                                            @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
+                                            @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
 
     return doGet((storageService, configuration) -> {
 
@@ -132,16 +132,15 @@ public class BibliographicRecordAPI extends BaseResource {
   }
 
 
-  @ApiOperation(value = "Updates an existing record.")
+  @ApiOperation(value = "Saves bibliographic record.")
   @ApiResponses(value = {
-          @ApiResponse(code = 204, message = "Method successfully updated the record."),
+          @ApiResponse(code = 204, message = "Method successfully saves the record."),
           @ApiResponse(code = 400, message = "Bad Request"),
           @ApiResponse(code = 414, message = "Request-URI Too Long"),
           @ApiResponse(code = 500, message = "System internal failure occurred.")
   })
-  @PostMapping("/bibliographic-record/{id}")
+  @PostMapping("/bibliographic-record")
   public ResponseEntity<Object> save(
-          @PathVariable final String id,
           @RequestBody final BibliographicRecord record,
           @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
           @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
@@ -179,7 +178,7 @@ public class BibliographicRecordAPI extends BaseResource {
             logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
             return record;
         }
-      }, tenant, configurator, () -> isNotNullOrEmpty(id), record.getLeader().getValue(), "bibliographic", "material");
+      }, tenant, configurator, () -> isNotNullOrEmpty(record.getId().toString()), record.getLeader().getValue(), "bibliographic", "material");
   }
 
 
@@ -385,7 +384,7 @@ public class BibliographicRecordAPI extends BaseResource {
             .toString();
   }
 
-  @ApiOperation(value = "Deletes a bibliographic record.")
+  @ApiOperation(value = "Deletes an existing bibliographic record.")
   @ApiResponses(value = {
     @ApiResponse(code = 204, message = "Method successfully deleted the bibliographic record."),
     @ApiResponse(code = 400, message = "Bad Request"),
@@ -405,7 +404,7 @@ public class BibliographicRecordAPI extends BaseResource {
     }, tenant, configurator);
   }
 
-  @ApiOperation(value = "Deletes a bibliographic record.")
+  @ApiOperation(value = "Unlocks a bibliographic record.")
   @ApiResponses(value = {
     @ApiResponse(code = 204, message = "Method successfully unlocked bibliographic record."),
     @ApiResponse(code = 400, message = "Bad Request"),
@@ -413,7 +412,7 @@ public class BibliographicRecordAPI extends BaseResource {
     @ApiResponse(code = 500, message = "System internal failure occurred.")
   })
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  @DeleteMapping("/bibliographic-record/unlock")
+  @DeleteMapping("/bibliographic-record/unlock/{id}")
   public void unlock( @PathVariable final String id,
                       @RequestParam final String uuid,
                       @RequestParam final String userName,
@@ -428,20 +427,19 @@ public class BibliographicRecordAPI extends BaseResource {
     }, tenant, configurator);
   }
 
-  @ApiOperation(value = "Updates an existing record.")
+  @ApiOperation(value = "Locks a bibliographic record.")
   @ApiResponses(value = {
-    @ApiResponse(code = 204, message = "Method successfully updated the record."),
+    @ApiResponse(code = 204, message = "Method successfully locked the record."),
     @ApiResponse(code = 400, message = "Bad Request"),
     @ApiResponse(code = 414, message = "Request-URI Too Long"),
     @ApiResponse(code = 500, message = "System internal failure occurred.")
   })
-  @PutMapping("/bibliographic-record/lock")
-  public void lock(
-    @RequestParam final String id,
-    @RequestParam final String uuid,
-    @RequestParam final String userName,
-    @RequestParam final LockEntityType type,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+  @PutMapping("/bibliographic-record/lock/{id}")
+  public void lock(@PathVariable final String id,
+                    @RequestParam final String uuid,
+                    @RequestParam final String userName,
+                    @RequestParam final LockEntityType type,
+                    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
 
     doPut((storageService, configuration) -> {
 

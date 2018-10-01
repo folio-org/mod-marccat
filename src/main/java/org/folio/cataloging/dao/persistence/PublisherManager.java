@@ -8,7 +8,7 @@ import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
 import org.folio.cataloging.business.common.*;
 import org.folio.cataloging.business.descriptor.PublisherTagDescriptor;
 import org.folio.cataloging.dao.AbstractDAO;
-import org.folio.cataloging.dao.DAOPublisherManager;
+import org.folio.cataloging.dao.PublisherManagerDAO;
 import org.folio.cataloging.integration.GlobalStorage;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.model.Subfield;
@@ -35,12 +35,12 @@ public class PublisherManager extends VariableField implements PersistentObjectW
 {
 	private static final long serialVersionUID = 1L;
 	private static final Log logger = new Log(PublisherManager.class);
-	private static final DAOPublisherManager daoPublisherTag = new DAOPublisherManager();
+	private static final PublisherManagerDAO daoPublisherTag = new PublisherManagerDAO();
 
 	private PersistenceState persistenceState = new PersistenceState();
 	private List<PUBL_TAG> publisherTagUnits = new ArrayList<>();
 	private List<PUBL_TAG> deletedUnits = new ArrayList<>();
-	private PublisherAccessPoint apf;
+	private PublisherAccessPoint apf = new PublisherAccessPoint();
 	private List<String> dates = new ArrayList<>();
 	private int tagUnitIndex;
 	private UserViewHelper userViewHelper = new UserViewHelper();
@@ -86,7 +86,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
 	/**
 	 * Default constructor.
 	 */
-	public PublisherManager() 
+	public PublisherManager()
 	{
 		super();
 		setPersistenceState(persistenceState);
@@ -139,7 +139,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
 	/**
 	 * Extracts subfields e,f,g from the "last" access point and stores them in separate member variables.
 	 */
-	private void extractManufacturerData() 
+	private void extractManufacturerData()
 	{
         final PUBL_TAG last = getPublisherTagUnits().stream().reduce((a, b) -> b).orElse(null);
         if (ofNullable(last).isPresent()){
@@ -176,7 +176,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
      *
      * @return stringText.
      */
-	public StringText getStringText() 
+	public StringText getStringText()
 	{
 		final StringText result = new StringText();
         getPublisherTagUnits().stream().forEach(aTagUnit -> {
@@ -546,7 +546,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
 		if(tagUnit.getPublisherHeadingNumber()==null){
 		   publ_hdg.setNameStringText("");
 		   publ_hdg.setPlaceStringText("");
-	
+
 	    }else{
 			tagUnit.setDescriptor(null);
 			tagUnit.setPublisherHeadingNumber(null);
