@@ -29,7 +29,6 @@ rem_sync(){
 }
 
 go(){
-  check_env
   rem_sync
 }
 
