@@ -24,9 +24,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
  * @since 1.0
  */
 @RestController
-@Api(value = "modcat-api", description = "Heading resource API")
+@Api(value = "modcat-api", description = "Browse resource API")
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
-public class HeadingsAPI extends BaseResource {
+public class BrowseAPI extends BaseResource {
 
     private Function<MapHeading, Heading> toHeading = source -> {
         final Heading heading = new Heading();
