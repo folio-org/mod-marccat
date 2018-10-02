@@ -16,7 +16,7 @@
           "methods": ["GET"],
           "pathPattern": "/record-templates",
           "permissionsRequired": []
-        },
+        }
       ]
     },
     {
