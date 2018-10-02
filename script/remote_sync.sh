@@ -12,9 +12,9 @@ CFG_FILE=folio_ctl.conf
 RESTART_WAIT_SEC=3
 
 check_env(){
-  if [ -e ./conf/${CFG_FILE} ]
+  if [ -e conf/${CFG_FILE} ]
   then
-    . ./conf/${CFG_FILE}
+    . conf/${CFG_FILE}
   else
     echo "FATAL ERROR: File ${CFG_FILE} not found."
     exit 1
