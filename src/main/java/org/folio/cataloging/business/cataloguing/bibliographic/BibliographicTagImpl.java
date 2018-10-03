@@ -25,7 +25,7 @@ import java.util.TreeSet;
 
 /**
  * Class comment
- * 
+ *
  * @author janick
  */
 public class BibliographicTagImpl extends TagImpl {
@@ -35,7 +35,7 @@ public class BibliographicTagImpl extends TagImpl {
 	private static final BibliographicCorrelationDAO daoCorrelation = new BibliographicCorrelationDAO();
 
 	/**
-	 * 
+	 *
 	 */
 	public BibliographicTagImpl() {
 		super();
@@ -65,11 +65,10 @@ public class BibliographicTagImpl extends TagImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see TagImpl#getHeadingType(Tag)
 	 */
 	public String getHeadingType(Tag t) {
-		// Bibliographic Tags do not have a heading type
 		return null;
 	}
 
@@ -80,7 +79,7 @@ public class BibliographicTagImpl extends TagImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see TagImpl#getCatalog()
 	 */
 	public Catalog getCatalog() {
@@ -94,7 +93,7 @@ public class BibliographicTagImpl extends TagImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see TagImpl#getValidEditableSubfields(short)
 	 */
 	public Set getValidEditableSubfields(int category) {
@@ -121,11 +120,12 @@ public class BibliographicTagImpl extends TagImpl {
 		return set;
 	}
 
-	@Override
-	public Correlation getCorrelation(String tagNumber, char indicator1,
-			char indicator2, int category) throws DataAccessException {
-		return daoCorrelation.getBibliographicCorrelation(tagNumber,
-				indicator1, indicator2, category);
-	}
+	public Correlation getCorrelation(String tagNumber, char indicator1, char indicator2, final int category, final Session session) throws DataAccessException {
+    try {
+      return daoCorrelation.getBibliographicCorrelation(session, tagNumber, indicator1, indicator2, category);
+    } catch (HibernateException e) {
+      throw new DataAccessException(e);
+    }
+  }
 
 }

@@ -18,19 +18,9 @@ public class NonProjectedGraphic extends PhysicalDescription {
 	private char secondarySupportMaterialCode;
 	private char obsolete1;
 
-	/*
-		private char colourCode = 'u';
-	private char primarySupportMaterialCode = 'u';
-	private char secondarySupportMaterialCode = 'u';
-	private char obsolete1;
-
-	 */
-
 	public NonProjectedGraphic() {
 		super();
 		setHeaderType(27);
-		//setGeneralMaterialDesignationCode('k');
-		//setSpecificMaterialDesignationCode('u');
 	}
 
 	/* (non-Javadoc)
@@ -148,5 +138,15 @@ public class NonProjectedGraphic extends PhysicalDescription {
 		setPrimarySupportMaterialCode(content.getAttribute("primarySupportMaterialCode").charAt(0));
 		setSecondarySupportMaterialCode(content.getAttribute("secondarySupportMaterialCode").charAt(0));
 	}
+
+  //@paulm, us_bbl_loading
+  @Override
+  public void setContentFromMarcString(final String s) {
+    setGeneralMaterialDesignationCode(s.charAt(0));
+    setSpecificMaterialDesignationCode(s.charAt(1));
+    setColourCode(s.charAt(3));
+    setPrimarySupportMaterialCode(s.charAt(4));
+    setSecondarySupportMaterialCode(s.charAt(5));
+  }
 
 }

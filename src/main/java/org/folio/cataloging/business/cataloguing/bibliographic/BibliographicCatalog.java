@@ -296,10 +296,14 @@ public class BibliographicCatalog extends Catalog {
 
 	@Override
 	public CatalogItem applyKeyToItem(final CatalogItem item, final Object[] key) {
-		int cataloguingView = (Integer) key[0];
-		int amicusNumber = (Integer) key[1];
-		BibliographicItem bibliographicItem = (BibliographicItem) item;
-		bibliographicItem.getBibItmData().setAmicusNumber(amicusNumber);
+    BibliographicItem bibliographicItem = (BibliographicItem) item;
+
+	  int cataloguingView = (Integer) key[0];
+		if (key.length > 1){
+		  int amicusNumber = (Integer) key[1];
+      bibliographicItem.getBibItmData().setAmicusNumber(amicusNumber);
+		}
+
 		bibliographicItem.getBibItmData().setUserViewString(View.makeSingleViewString(cataloguingView));
 		bibliographicItem.setUserView(cataloguingView);
 		return bibliographicItem;

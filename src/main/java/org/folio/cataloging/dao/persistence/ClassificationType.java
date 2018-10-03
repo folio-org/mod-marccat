@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Jan 14, 2005
- * 
+ *
  * ClassificationType.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -14,7 +14,7 @@ package org.folio.cataloging.dao.persistence;
  */
 public class ClassificationType extends T_SINGLE {
 
-	public static boolean isDewey(short s) {
+	public static boolean isDewey(int s) {
 		return s == 12;
 	}
 }
