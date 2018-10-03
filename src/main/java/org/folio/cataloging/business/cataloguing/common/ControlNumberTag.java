@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Oct 12, 2004
- * 
+ *
  * Leader.java
  */
 package org.folio.cataloging.business.cataloguing.common;
@@ -24,7 +24,7 @@ public abstract class ControlNumberTag extends FixedFieldUsingItemEntity {
 	/**
 	 * Class constructor
 	 *
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public ControlNumberTag() {
@@ -67,7 +67,7 @@ public abstract class ControlNumberTag extends FixedFieldUsingItemEntity {
 	 */
 	public boolean equals(Object obj) {
 		if (obj instanceof ControlNumberTag) {
-			return super.equals(obj); 
+			return super.equals(obj);
 		}
 		else {
 			return false;
@@ -101,5 +101,13 @@ public abstract class ControlNumberTag extends FixedFieldUsingItemEntity {
 		Element content = (Element) xmlElement.getChildNodes().item(0);
 	}
 
-
+  @Override
+  public void setContentFromMarcString(final String s) {
+    try {
+      int controlNumber = Integer.parseInt(s);
+      getItemEntity().setAmicusNumber(new Integer(controlNumber));
+    } catch (NumberFormatException e) {
+      // not a number so don't set AMICUS number
+    }
+  }
 }

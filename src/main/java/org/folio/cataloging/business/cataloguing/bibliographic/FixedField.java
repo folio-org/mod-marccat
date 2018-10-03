@@ -156,4 +156,7 @@ public abstract class FixedField extends Tag implements HeaderField {
 		headerField.setHeaderType(s);
 	}
 
+  public void setContentFromMarcString(String s) {
+    //default implementation does nothing
+  }
 }

@@ -17,8 +17,6 @@ public class Kit extends PhysicalDescription {
 	public Kit() {
 		super();
 		setHeaderType(47);
-		//setGeneralMaterialDesignationCode('o');
-		//setSpecificMaterialDesignationCode('u');
 	}
 
 	/* (non-Javadoc)
@@ -63,4 +61,10 @@ public class Kit extends PhysicalDescription {
 		setSpecificMaterialDesignationCode(content.getAttribute("specificMaterialDesignationCode").charAt(0));
 	}
 
+  //@paulm, us_bbl_loading
+  @Override
+  public void setContentFromMarcString(final String s) {
+    setGeneralMaterialDesignationCode(s.charAt(0));
+    setSpecificMaterialDesignationCode(s.charAt(1));
+  }
 }

@@ -21,20 +21,9 @@ public class ProjectedGraphic extends PhysicalDescription {
 	private char secondarySupportMaterialCode;
 	private char obsolete1;
 
-	/*
-	private char colourCode = 'u';
-	private char baseOfEmulsionCode = 'u';
-	private char soundOnMediumOrSeparateCode = 'u';
-	private char mediumForSoundCode = 'u';
-	private char dimensionsCode = 'u';
-	private char secondarySupportMaterialCode = 'u';
-	private char obsolete1;
-	 */
 	public ProjectedGraphic() {
 		super();
 		setHeaderType(28);
-		//setGeneralMaterialDesignationCode('g');
-		//setSpecificMaterialDesignationCode('u');
 	}
 
 	/* (non-Javadoc)
@@ -210,4 +199,16 @@ public class ProjectedGraphic extends PhysicalDescription {
 		setSecondarySupportMaterialCode(content.getAttribute("secondarySupportMaterialCode").charAt(0));
 	}
 
+  //@paulm, us_bbl_loading
+  @Override
+  public void setContentFromMarcString(final String s) {
+    setGeneralMaterialDesignationCode(s.charAt(0));
+    setSpecificMaterialDesignationCode(s.charAt(1));
+    setColourCode(s.charAt(3));
+    setBaseOfEmulsionCode(s.charAt(4));
+    setSoundOnMediumOrSeparateCode(s.charAt(5));
+    setMediumForSoundCode(s.charAt(6));
+    setDimensionsCode(s.charAt(7));
+    setSecondarySupportMaterialCode(s.charAt(8));
+  }
 }
