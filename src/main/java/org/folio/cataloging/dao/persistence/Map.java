@@ -14,13 +14,7 @@ import org.w3c.dom.Element;
  * @since 1.0
  */
 public class Map extends PhysicalDescription {
-	/*private char mapColourCode = 'a';
-	private char mapPhysicalMediumCode = 'u';
-	private char mapTypeOfReproductionCode = 'n';
-	private char mapProductionDetailsCode = 'u';
-	private char mapPolarityCode = 'n';
-	private char obsolete1;*/
-	private char mapColourCode;
+		private char mapColourCode;
 	private char mapPhysicalMediumCode;
 	private char mapTypeOfReproductionCode;
 	private char mapProductionDetailsCode;
@@ -30,7 +24,6 @@ public class Map extends PhysicalDescription {
 	public Map() {
 		super();
 		setHeaderType(24);
-		//setGeneralMaterialDesignationCode('a');
 	}
 
 	/* (non-Javadoc)
@@ -187,4 +180,15 @@ public class Map extends PhysicalDescription {
 		setMapPolarityCode(content.getAttribute("mapPolarityCode").charAt(0));
 	}
 
+  //@paulm, us_bbl_loading
+  @Override
+  public void setContentFromMarcString(final String s) {
+    setGeneralMaterialDesignationCode(s.charAt(0));
+    setSpecificMaterialDesignationCode(s.charAt(1));
+    setMapColourCode(s.charAt(3));
+    setMapPhysicalMediumCode(s.charAt(4));
+    setMapTypeOfReproductionCode(s.charAt(5));
+    setMapProductionDetailsCode(s.charAt(6));
+    setMapPolarityCode(s.charAt(7));
+  }
 }

@@ -26,26 +26,10 @@ public class SoundRecording extends PhysicalDescription {
 	private char storageTechniqueCode;
 	private char obsolete1;
 
-	/*
-	private char speedCode = 'u';
-	private char configurationCode = 'u';
-	private char grooveWidthCode = 'u';
-	private char dimensionsCode = 'u';
-	private char tapeWidthCode = 'u';
-	private char tapeConfigurationCode = 'u';
-	private char discTypeCode = 'u';
-	private char sndMaterialTypeCode = 'u';
-	private char cuttingTypeCode = 'u';
-	private char specialPlaybackCharacteristicsCode = 'u';
-	private char storageTechniqueCode = 'u';
-	private char obsolete1;
-	 */
 
 	public SoundRecording() {
 		super();
 		setHeaderType(29);
-		//setGeneralMaterialDesignationCode('s');
-		//setSpecificMaterialDesignationCode('u');
 	}
 
 	/* (non-Javadoc)
@@ -316,4 +300,21 @@ public class SoundRecording extends PhysicalDescription {
 		setStorageTechniqueCode(content.getAttribute("storageTechniqueCode").charAt(0));
 	}
 
+  //@paulm, us_bbl_loading
+  @Override
+  public void setContentFromMarcString(final String s) {
+    setGeneralMaterialDesignationCode(s.charAt(0));
+    setSpecificMaterialDesignationCode(s.charAt(1));
+    setSpeedCode(s.charAt(3));
+    setConfigurationCode(s.charAt(4));
+    setGrooveWidthCode(s.charAt(5));
+    setDimensionsCode(s.charAt(6));
+    setTapeWidthCode(s.charAt(7));
+    setTapeConfigurationCode(s.charAt(8));
+    setDiscTypeCode(s.charAt(9));
+    setSndMaterialTypeCode(s.charAt(10));
+    setCuttingTypeCode(s.charAt(11));
+    setSpecialPlaybackCharacteristicsCode(s.charAt(12));
+    setStorageTechniqueCode(s.charAt(13));
+  }
 }

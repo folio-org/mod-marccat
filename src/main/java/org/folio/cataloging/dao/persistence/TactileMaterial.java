@@ -18,17 +18,9 @@ public class TactileMaterial extends PhysicalDescription {
 	private String brailleMusicFormatCodes;
 	private char specificPhysicalCharacteristicsCode;
 
-	/*
-	private String classOfBrailleWritingCodes = "uu";
-	private char levelOfContractionCode = 'u';
-	private String brailleMusicFormatCodes = "uuu";
-	private char specificPhysicalCharacteristicsCode = 'u';
-	 */
 	public TactileMaterial() {
 		super();
 		setHeaderType(46);
-		/*setGeneralMaterialDesignationCode('f');
-		setSpecificMaterialDesignationCode('u');*/
 	}
 
 	/* (non-Javadoc)
@@ -169,4 +161,14 @@ public class TactileMaterial extends PhysicalDescription {
 		setSpecificPhysicalCharacteristicsCode(content.getAttribute("specificPhysicalCharacteristicsCode").charAt(0));
 	}
 
+  //@paulm, us_bbl_loading
+  @Override
+  public void setContentFromMarcString(final String s) {
+    setGeneralMaterialDesignationCode(s.charAt(0));
+    setSpecificMaterialDesignationCode(s.charAt(1));
+    setClassOfBrailleWritingCodes(s.substring(3,5));
+    setLevelOfContractionCode(s.charAt(5));
+    setBrailleMusicFormatCodes(s.substring(6,9));
+    setSpecificPhysicalCharacteristicsCode(s.charAt(9));
+  }
 }

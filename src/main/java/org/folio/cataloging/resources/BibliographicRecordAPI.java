@@ -180,7 +180,7 @@ public class BibliographicRecordAPI extends BaseResource {
             logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
             return record;
         }
-      }, tenant, configurator, () -> isNotNullOrEmpty(record.getId().toString()), record.getLeader().getValue(), "bibliographic", "material");
+      }, tenant, configurator, () -> isNotNullOrEmpty(record.getId().toString()), "bibliographic", "material");
   }
 
 
