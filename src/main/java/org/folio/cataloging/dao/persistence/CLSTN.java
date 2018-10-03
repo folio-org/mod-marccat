@@ -5,6 +5,7 @@ import org.folio.cataloging.business.descriptor.SortFormParameters;
 import org.folio.cataloging.dao.AbstractDAO;
 import org.folio.cataloging.dao.ClassificationDescriptorDAO;
 import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.cataloging.util.StringText;
 
 /**
  * Hibernate class for table CLSTN.
@@ -163,4 +164,23 @@ public class CLSTN extends Descriptor {
 		return "LN";
 	}
 
+  @Override
+  public void setStringText(String string) {
+    if (ClassificationType.isDewey(getTypeCode())) {
+      StringText st = new StringText(string);
+      StringText sub2 = st.getSubfieldsWithCodes("2");
+      if (!sub2.isEmpty()) {
+        try {
+          setDeweyEditionNumber(Integer.valueOf(sub2.getSubfield(0).getContent()));
+        } catch (NumberFormatException e) {
+          // ignore non numeric $2
+        }
+        st = st.getSubfieldsWithoutCodes("2");
+      }
+      super.setStringText(st.toString());
+    }
+    else {
+      super.setStringText(string);
+    }
+  }
 }

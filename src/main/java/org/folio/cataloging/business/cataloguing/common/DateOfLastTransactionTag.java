@@ -1,20 +1,19 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Oct 12, 2004
- * 
+ *
  * DateOfLastTransactionTag.java
  */
 package org.folio.cataloging.business.cataloguing.common;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-
 import org.folio.cataloging.business.cataloguing.bibliographic.FixedFieldUsingItemEntity;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 /**
  * @author paulm
@@ -26,7 +25,7 @@ public abstract class DateOfLastTransactionTag extends FixedFieldUsingItemEntity
 	/**
 	 * Class constructor
 	 *
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public DateOfLastTransactionTag() {
@@ -90,12 +89,20 @@ public abstract class DateOfLastTransactionTag extends FixedFieldUsingItemEntity
 	public void parseModelXmlElementContent(Element xmlElement) {
 		Element content = (Element) xmlElement.getChildNodes().item(0);
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss.S");
-//		if ((content.getFirstChild() != null) && (((Text)content.getFirstChild()).getData() != null)) {
 			try {
 				getItemEntity().setDateOfLastTransaction(df.parse(((Text)content.getFirstChild()).getData()));
 			} catch (ParseException parseException) {
 			}
-//		}
 	}
 
+
+  @Override
+  public void setContentFromMarcString(String s) {
+    SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss.S");
+    try {
+      getItemEntity().setDateOfLastTransaction(df.parse(s));
+    } catch (ParseException e) {
+      // date not set if parse error
+    }
+  }
 }

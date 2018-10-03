@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Oct 31, 2005
- * 
+ *
  * AuthorityTag.java
  */
 package org.folio.cataloging.business.cataloguing.authority;
@@ -48,7 +48,7 @@ public class AuthorityTagImpl extends TagImpl {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int getAuthorityNumber() {
@@ -56,7 +56,7 @@ public class AuthorityTagImpl extends TagImpl {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setAuthorityNumber(int i) {
@@ -65,7 +65,7 @@ public class AuthorityTagImpl extends TagImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
 	public int hashCode() {
@@ -74,7 +74,7 @@ public class AuthorityTagImpl extends TagImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see TagImpl#getMarcEncoding(Tag)
 	 */
 	public CorrelationKey getMarcEncoding(Tag t) throws DataAccessException {
@@ -91,7 +91,7 @@ public class AuthorityTagImpl extends TagImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see TagImpl#getHeadingType(Tag)
 	 */
 	public String getHeadingType(Tag t) {
@@ -107,7 +107,7 @@ public class AuthorityTagImpl extends TagImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see TagImpl#getCatalog()
 	 */
 	public Catalog getCatalog() {
@@ -121,7 +121,7 @@ public class AuthorityTagImpl extends TagImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see TagImpl#getValidEditableSubfields(short)
 	 */
 	public Set getValidEditableSubfields(int category) {
@@ -142,7 +142,7 @@ public class AuthorityTagImpl extends TagImpl {
 
 	@Override
 	public Correlation getCorrelation(String tagNumber, char indicator1,
-			char indicator2, int category) throws DataAccessException {
+			char indicator2, int category, Session session) throws DataAccessException {
 		return daoCorrelation.getFirstAuthorityCorrelation(tagNumber, indicator1,
 				indicator2, category);
 	}

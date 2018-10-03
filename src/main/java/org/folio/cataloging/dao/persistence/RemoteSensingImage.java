@@ -21,21 +21,9 @@ public class RemoteSensingImage extends PhysicalDescription {
 	private char sensorTypeCode;
 	private String dataTypeCode;
 
-	/*
-	private char altitudeOfSensorCode = 'u';
-	private char attitudeOfSensorCode = 'u';
-	private char cloudCoverCode = 'u';
-	private char platformConstructionTypeCode = 'u';
-	private char platformUseCode = 'u';
-	private char sensorTypeCode = 'u';
-	private String dataTypeCode = "uu";
-
-	 */
 	public RemoteSensingImage() {
 		super();
 		setHeaderType(43);
-		//setGeneralMaterialDesignationCode('r');
-		//setSpecificMaterialDesignationCode('u');
 	}
 
 	/* (non-Javadoc)
@@ -213,5 +201,19 @@ public class RemoteSensingImage extends PhysicalDescription {
 		setSensorTypeCode(content.getAttribute("sensorTypeCode").charAt(0));
 		setDataTypeCode(content.getAttribute("dataTypeCode"));
 	}
+
+  //@paulm, us_bbl_loading
+  @Override
+  public void setContentFromMarcString(final String s) {
+    setGeneralMaterialDesignationCode(s.charAt(0));
+    setSpecificMaterialDesignationCode(s.charAt(1));
+    setAltitudeOfSensorCode(s.charAt(3));
+    setAttitudeOfSensorCode(s.charAt(4));
+    setCloudCoverCode(s.charAt(5));
+    setPlatformConstructionTypeCode(s.charAt(6));
+    setPlatformUseCode(s.charAt(7));
+    setSensorTypeCode(s.charAt(8));
+    setDataTypeCode(s.substring(9,11));
+  }
 
 }

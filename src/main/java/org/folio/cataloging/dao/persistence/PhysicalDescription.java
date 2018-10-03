@@ -162,4 +162,42 @@ public abstract class PhysicalDescription extends FixedField implements Persiste
 	public void setBibItemNumber(int i) {
 		setItemNumber(i);
 	}
+
+  //@paulm, us_bbl_loading
+  public static PhysicalDescription getInstanceByGMD(final char gmd) {
+    switch (gmd) {
+      case 'a':
+        return new Map();
+      case 'c':
+        return new ElectronicResource();
+      case 'd':
+        return new Globe();
+      case 'f':
+        return new TactileMaterial();
+      case 'g':
+        return new ProjectedGraphic();
+      case 'h':
+        return new Microform();
+      case 'k':
+        return new NonProjectedGraphic();
+      case 'm':
+        return new MotionPicture();
+      case 'o':
+        return new Kit();
+      case 'q':
+        return new NotatedMusic();
+      case 'r':
+        return new RemoteSensingImage();
+      case 's':
+        return new SoundRecording();
+      case 't':
+        return new Text();
+      case 'v':
+        return new VideoRecording();
+      case 'z':
+        return new Unspecified();
+      default:
+        return null;
+    }
+  }
 }
