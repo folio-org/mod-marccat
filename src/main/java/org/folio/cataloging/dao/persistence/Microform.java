@@ -23,23 +23,9 @@ public class Microform extends PhysicalDescription {
 	private char baseOfFilmCode;
 	private char obsolete1;
 
-	/*
-	private char polarityCode = 'u';
-	private char dimensionsCode = 'u';
-	private char reductionRatioRangeCode = 'u';
-	private String reductionRatioCode = "---";
-	private char colourCode = 'u';
-	private char emulsionOnFilmCode = 'u';
-	private char generationCode = 'u';
-	private char baseOfFilmCode = 'u';
-	private char obsolete1;
-	 */
-
 	public Microform() {
 		super();
 		setHeaderType(25);
-		//setGeneralMaterialDesignationCode('h');
-		//setSpecificMaterialDesignationCode('u');
 	}
 
 	/* (non-Javadoc)
@@ -252,4 +238,18 @@ public class Microform extends PhysicalDescription {
 		setBaseOfFilmCode(content.getAttribute("baseOfFilmCode").charAt(0));
 	}
 
+  //@paulm, us_bbl_loading
+  @Override
+  public void setContentFromMarcString(final String s) {
+    setGeneralMaterialDesignationCode(s.charAt(0));
+    setSpecificMaterialDesignationCode(s.charAt(1));
+    setPolarityCode(s.charAt(3));
+    setDimensionsCode(s.charAt(4));
+    setReductionRatioRangeCode(s.charAt(5));
+    setReductionRatioCode(s.substring(6,9));
+    setColourCode(s.charAt(9));
+    setEmulsionOnFilmCode(s.charAt(10));
+    setGenerationCode(s.charAt(11));
+    setBaseOfFilmCode(s.charAt(12));
+  }
 }

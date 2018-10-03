@@ -14,15 +14,16 @@ import java.io.Serializable;
  */
 public interface Persistence extends Lifecycle, Serializable {
 
-	
+
 	/**
 	 * Removes the object from the persistence session
 	 * @since 1.0
 	 */
+	  @Deprecated
     void evict() throws DataAccessException;
-	
+
 	/**
-	 * 
+	 *
 	 */
     int getUpdateStatus();
 
@@ -52,7 +53,7 @@ public interface Persistence extends Lifecycle, Serializable {
 	 */
 	//commented by nbianchini
     //void generateNewKey() throws DataAccessException;
-	
+
 
     AbstractDAO getDAO();
 
