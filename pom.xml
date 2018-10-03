@@ -84,14 +84,14 @@
   </distributionManagement>
 
   <scm>
-    <url>https://github.com/atcult/mod-cataloging</url>
-    <connection>scm:git:git://github.com/github.com/atcult/mod-cataloging</connection>
+    <url>https://github.com/atcult/mod-cataloging.git</url>
+    <connection>scm:git:https://github.com/atcult/mod-cataloging.git</connection>
     <developerConnection>scm:git:git@github.com:atcult/mod-cataloging.git</developerConnection>
-    <tag>HEAD</tag>
-  </scm>
+  <tag>HEAD</tag>
+</scm>
 
-  <dependencies>
-    <!-- OLISUITE deps -->
+<dependencies>
+<!-- OLISUITE deps -->
     <dependency>
       <groupId>commons-httpclient</groupId>
       <artifactId>commons-httpclient</artifactId>
@@ -210,7 +210,6 @@
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
       <!-- Release management -->
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
@@ -222,7 +221,6 @@
           <localCheckout>true</localCheckout>
         </configuration>
       </plugin>
-
     </plugins>
   </build>
 </project>

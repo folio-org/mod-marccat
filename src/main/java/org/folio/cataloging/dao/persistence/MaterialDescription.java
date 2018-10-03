@@ -14,6 +14,9 @@ import org.folio.cataloging.shared.CorrelationValues;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -1067,4 +1070,83 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 
 		return null;
 	}
+
+  //@paulm, us_bbl_loading
+  @Override
+  public void setContentFromMarcString(String str) {
+    if (getMaterialDescription008Indicator().equals("1")) {
+      DateFormat df = new SimpleDateFormat("yyMMdd");
+      try {
+        getBibItm().setEnteredOnFileDate(df.parse(str.substring(0, 6)));
+      } catch (ParseException e) {
+        // date not set if parse error
+      }
+      setItemDateTypeCode(str.charAt(6));
+      setItemDateFirstPublication(str.substring(7, 11));
+      setItemDateLastPublication(str.substring(11, 15));
+      setMarcCountryCode(str.substring(15, 18));
+      setLanguageCode(str.substring(35, 38));
+      setRecordModifiedCode(str.charAt(38));
+      setRecordCataloguingSourceCode(str.charAt(39));
+      str = str.substring(17, 35);
+    }
+    else {
+      setMaterialTypeCode(String.valueOf(str.charAt(0)));
+    }
+
+    if (isBook()) {
+      setBookIllustrationCode(str.substring(1, 5));
+      setTargetAudienceCode(String.valueOf(str.charAt(5)));
+      setFormOfItemCode(String.valueOf(str.charAt(6)));
+      setNatureOfContentsCode(str.substring(7, 11));
+      setGovernmentPublicationCode(String.valueOf(str.charAt(11)));
+      setConferencePublicationCode(String.valueOf(str.charAt(12)));
+      setBookFestschrift(String.valueOf(str.charAt(13)));
+      setBookIndexAvailabilityCode(String.valueOf(str.charAt(14)));
+      setBookLiteraryFormTypeCode(String.valueOf(str.charAt(16)));
+      setBookBiographyCode(String.valueOf(str.charAt(17)));
+    } else if (isComputerFile()) {
+      setComputerTargetAudienceCode(String.valueOf(str.charAt(5)));
+      setComputerFileFormCode(String.valueOf(str.charAt(6)));
+      setComputerFileTypeCode(String.valueOf(str.charAt(9)));
+      setGovernmentPublicationCode(String.valueOf(str.charAt(11)));
+    } else if (isMap()) {
+      setCartographicReliefCode(str.substring(1, 5));
+      setCartographicProjectionCode(str.substring(5, 7));
+      setCartographicMaterial(String.valueOf(str.charAt(8)));
+      setGovernmentPublicationCode(String.valueOf(str.charAt(11)));
+      setFormOfItemCode(String.valueOf(str.charAt(12)));
+      setCartographicIndexAvailabilityCode(String.valueOf(str.charAt(14)));
+      setCartographicFormatCode(str.substring(16, 18));
+    } else if (isMixedMaterial()) {
+      setFormOfItemCode(String.valueOf(str.charAt(6)));
+    } else if (isMusic()) {
+      setMusicFormOfCompositionCode(str.substring(1, 3));
+      setMusicFormatCode(String.valueOf(str.charAt(3)));
+      setMusicPartsCode(String.valueOf(str.charAt(4)));
+      setTargetAudienceCode(String.valueOf(str.charAt(5)));
+      setFormOfItemCode(String.valueOf(str.charAt(6)));
+      setMusicTextualMaterialCode(str.substring(7, 13));
+      setMusicLiteraryTextCode(str.substring(13, 15));
+      setMusicTranspositionArrangementCode(String.valueOf(str.charAt(16)));
+    } else if (isSerial()) {
+      setSerialFrequencyCode(String.valueOf(str.charAt(1)));
+      setSerialRegularityCode(String.valueOf(str.charAt(2)));
+      setSerialTypeCode(String.valueOf(str.charAt(4)));
+      setSerialFormOriginalItemCode(String.valueOf(str.charAt(5)));
+      setFormOfItemCode(String.valueOf(str.charAt(6)));
+      setNatureOfContentsCode(str.substring(7, 11));
+      setGovernmentPublicationCode(String.valueOf(str.charAt(11)));
+      setConferencePublicationCode(String.valueOf(str.charAt(12)));
+      setSerialOriginalAlphabetOfTitleCode(String.valueOf(str.charAt(16)));
+      setSerialSuccessiveLatestCode(String.valueOf(str.charAt(17)));
+    } else if (isVisualMaterial()) {
+      setVisualRunningTime(str.substring(1, 4));
+      setVisualTargetAudienceCode(String.valueOf(str.charAt(5)));
+      setGovernmentPublicationCode(String.valueOf(str.charAt(11)));
+      setFormOfItemCode(String.valueOf(str.charAt(12)));
+      setVisualMaterialTypeCode(String.valueOf(str.charAt(16)));
+      setVisualTechniqueCode(String.valueOf(str.charAt(17)));
+    }
+  }
 }

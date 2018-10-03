@@ -1083,4 +1083,36 @@ public class DAOCodeTable extends AbstractDAO {
 		}
 
 	}
+
+  /**
+   * Gets statistics number for loading from file.
+   *
+   * @param session -- the hibernate session associated to request.
+   * @param loadingStatisticsNumber -- the loading statistic number key.
+   * @return LDG_STATS.
+   * @throws DataAccessException in case of data access exception.
+   */
+	public LDG_STATS getStats(final Session session, final int loadingStatisticsNumber) throws DataAccessException {
+    try {
+      return (LDG_STATS) session.load(LDG_STATS.class, loadingStatisticsNumber);
+    } catch (HibernateException e) {
+      throw new DataAccessException(e);
+    }
+  }
+
+  @SuppressWarnings("unchecked")
+  public List<LOADING_MARC_RECORDS> getResults(final Session session, final int loadingStatisticsNumber) throws DataAccessException {
+
+    try {
+     return session.find(
+          "from LOADING_MARC_RECORDS as r "
+            + " where r.loadingStatisticsNumber = ? "
+            + " order by r.sequence ",
+          new Object[] { loadingStatisticsNumber},
+          new Type[] { Hibernate.INTEGER });
+    } catch (HibernateException e) {
+      throw new DataAccessException(e);
+    }
+
+  }
 }
