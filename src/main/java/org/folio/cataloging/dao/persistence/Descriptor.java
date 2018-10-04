@@ -22,6 +22,7 @@ import org.folio.cataloging.util.StringText;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.Iterator;
+import java.util.Map;
 
 
 /**
@@ -30,7 +31,10 @@ import java.util.Iterator;
 public abstract class Descriptor implements PersistentObjectWithView
 {
 
-	/** The access point language. */
+  /** The copy subject indicator. */
+  private char copyToSubjectIndicator;
+
+  /** The access point language. */
 	private int accessPointLanguage;
 
 	/** The authority count. */
@@ -80,7 +84,7 @@ public abstract class Descriptor implements PersistentObjectWithView
 	 *
 	 * @param indexingLanguage the new indexing language
 	 */
-	public void setIndexingLanguage(short indexingLanguage) {
+	public void setIndexingLanguage(int indexingLanguage) {
 		this.indexingLanguage = indexingLanguage;
 	}
 
@@ -730,4 +734,29 @@ public abstract class Descriptor implements PersistentObjectWithView
 	{
 		return ToStringBuilder.reflectionToString(this);
 	}
+
+  /**
+   * Getter for copyToSubjectIndicator
+   *
+   * @return copyToSubjectIndicator
+   */
+  public char getCopyToSubjectIndicator() {
+    return copyToSubjectIndicator;
+  }
+  /**
+   * Setter for copySubjectIndicator
+   *
+   * @param c copySubjectIndicator
+   */
+  public void setCopyToSubjectIndicator(char c) {
+    copyToSubjectIndicator = c;
+  }
+
+	public void setConfigValues(final Map<String, String> configuration){
+	  setVerificationLevel(configuration.get("title.verificationLevel").charAt(0));
+	  setAccessPointLanguage(configuration.get("title.accessPointLanguage").charAt(0));
+	  setIndexingLanguage(Integer.parseInt(configuration.get("title.accessPointLanguage")));
+	  setScriptingLanguage(configuration.get("subject.scriptingLanguage"));
+	  setCopyToSubjectIndicator(configuration.get("name.copyToSubjectIndicator").charAt(0));
+  }
 }

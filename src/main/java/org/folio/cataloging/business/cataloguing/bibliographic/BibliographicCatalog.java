@@ -551,7 +551,7 @@ public class BibliographicCatalog extends Catalog {
 			codes = (isNotNull(ff.getMusicLiteraryTextCode1()) ?ff.getMusicLiteraryTextCode1() :"")
 					+ (isNotNull(ff.getMusicLiteraryTextCode2()) ?ff.getMusicLiteraryTextCode2() :"");
 			materialDescription.setMusicLiteraryTextCode(codes);
-        }
+    }
 
 		if (materialDescription.getMaterialDescription008Indicator().equals("1")) {
       try {
@@ -562,19 +562,18 @@ public class BibliographicCatalog extends Catalog {
 				//
 			}
 			if (isNotNull(ff.getDateTypeCode()))	materialDescription.setItemDateTypeCode(ff.getDateTypeCode().charAt(0));
-            if (isNotNull(ff.getDateFirstPublication())) materialDescription.setItemDateFirstPublication(ff.getDateFirstPublication());
+      if (isNotNull(ff.getDateFirstPublication())) materialDescription.setItemDateFirstPublication(ff.getDateFirstPublication());
 			if (isNotNull(ff.getDateLastPublication())) materialDescription.setItemDateLastPublication(ff.getDateLastPublication());
-            if (isNotNull(ff.getPlaceOfPublication())) materialDescription.setMarcCountryCode(ff.getPlaceOfPublication());
-            if (isNotNull(ff.getLanguageCode()))
-              materialDescription.setLanguageCode(ff.getLanguageCode());
-            else
-              materialDescription.setLanguageCode("   ");
-            if (isNotNull(ff.getRecordModifiedCode())) materialDescription.setRecordModifiedCode(ff.getRecordModifiedCode().charAt(0));
-            if (isNotNull(ff.getRecordCataloguingSourceCode()))
-              materialDescription.setRecordCataloguingSourceCode(ff.getRecordCataloguingSourceCode().charAt(0));
-        }
-
+      if (isNotNull(ff.getPlaceOfPublication())) materialDescription.setMarcCountryCode(ff.getPlaceOfPublication());
+      if (isNotNull(ff.getLanguageCode()))
+        materialDescription.setLanguageCode(ff.getLanguageCode());
+      else
+        materialDescription.setLanguageCode("   ");
+        if (isNotNull(ff.getRecordModifiedCode())) materialDescription.setRecordModifiedCode(ff.getRecordModifiedCode().charAt(0));
+        if (isNotNull(ff.getRecordCataloguingSourceCode()))
+          materialDescription.setRecordCataloguingSourceCode(ff.getRecordCataloguingSourceCode().charAt(0));
     }
+  }
 
   /**
    * Put physical type content into persistent hibernate object.
