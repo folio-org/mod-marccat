@@ -53,7 +53,7 @@ public class ControlNumberDescriptorDAO extends DAODescriptor {
 	public Descriptor getMatchingHeading(final Descriptor descriptor, final Session session)
 			throws HibernateException {
 		CNTL_NBR controlNumber = (CNTL_NBR) descriptor;
-		List controlNumberList = currentSession().find(
+		List controlNumberList = session.find(
 				"from " + getPersistentClass().getName() + " as c "
 						+ " where c.stringText = ?"
 						+ " and c.typeCode = ?"

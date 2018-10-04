@@ -64,4 +64,14 @@ public class Text extends PhysicalDescription {
 		setSpecificMaterialDesignationCode(content.getAttribute("specificMaterialDesignationCode").charAt(0));
 	}
 
+  @Override
+  public void setContentFromMarcString(final String s) {
+    setGeneralMaterialDesignationCode(s.charAt(0));
+    if (s.length() > 1){
+      setSpecificMaterialDesignationCode(s.charAt(1));
+    } else
+      setSpecificMaterialDesignationCode('u');
+
+  }
+
 }
