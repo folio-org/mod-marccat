@@ -164,8 +164,8 @@ public abstract class Catalog {
 
 	@Deprecated
 	public void saveCatalogItem(CatalogItem item) throws DataAccessException, ValidationException {
-		item.validate();
-		getCatalogDao().saveCatalogItem(item);
+		/*item.validate();
+		getCatalogDao().saveCatalogItem(item);*/
 	}
 
 	/**
@@ -217,7 +217,6 @@ public abstract class Catalog {
 
 	public CatalogItem newCatalogItem(final Object[] key) throws DataAccessException {
 		CatalogItem result = newCatalogItemWithoutAmicusNumber();
-		//result.getItemEntity().generateNewKey();
 		return applyKeyToItem(result, key);
 	}
 

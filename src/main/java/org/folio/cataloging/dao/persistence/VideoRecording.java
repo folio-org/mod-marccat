@@ -21,20 +21,9 @@ public class VideoRecording extends PhysicalDescription {
 	private char configurationCode;
 	private char obsolete1;
 
-	/*
-	private char colourCode = 'u';
-	private char formatCode = 'u';
-	private char includesSoundCode = 'u';
-	private char mediumForSoundCode = 'u';
-	private char dimensionsCode = 'u';
-	private char configurationCode = 'u';
-	private char obsolete1;
-	 */
 	public VideoRecording() {
 		super();
 		setHeaderType(30);
-		/*setGeneralMaterialDesignationCode('v');
-		setSpecificMaterialDesignationCode('u');*/
 	}
 
 	/* (non-Javadoc)
@@ -210,4 +199,16 @@ public class VideoRecording extends PhysicalDescription {
 		setConfigurationCode(content.getAttribute("configurationCode").charAt(0));
 	}
 
+  //@paulm, us_bbl_loading
+  @Override
+  public void setContentFromMarcString(final String s) {
+    setGeneralMaterialDesignationCode(s.charAt(0));
+    setSpecificMaterialDesignationCode(s.charAt(1));
+    setColourCode(s.charAt(3));
+    setFormatCode(s.charAt(4));
+    setIncludesSoundCode(s.charAt(5));
+    setMediumForSoundCode(s.charAt(6));
+    setDimensionsCode(s.charAt(7));
+    setConfigurationCode(s.charAt(8));
+  }
 }

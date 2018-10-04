@@ -260,4 +260,19 @@ public class ElectronicResource extends PhysicalDescription {
 		setReformattingQualityCode(content.getAttribute("reformattingQualityCode").charAt(0));
 	}
 
+  //@paulm, us_bbl_loading
+  @Override
+  public void setContentFromMarcString(final String content) {
+    setGeneralMaterialDesignationCode(content.charAt(0));
+    setSpecificMaterialDesignationCode(content.charAt(1));
+    setColourCode(content.charAt(3));
+    setDimensionsCode(content.charAt(4));
+    setIncludesSoundCode(content.charAt(5));
+    setImageBitDepth(content.substring(6,9));
+    setFileFormatsCode(content.charAt(9));
+    setQualityAssuranceTargetCode(content.charAt(10));
+    setAntecedentSourceCode(content.charAt(11));
+    setLevelOfCompressionCode(content.charAt(12));
+    setReformattingQualityCode(content.charAt(13));
+  }
 }

@@ -25,6 +25,8 @@ import java.util.*;
 // TODO: clean up (lot of unused fields)
 public abstract class Global  {
     public static final String OKAPI_TENANT_HEADER_NAME = "x-okapi-tenant";
+  public static final String CONTENT_TYPE_HEADER_NAME = "content-Type";
+  public static final String DEFAULT_MULTIPART_HEADER_CONTENT = "multipart/mixed;boundary=--gc0p4Jq0M2Yt08jU534c0p--";
     public static final String EMPTY_STRING = "";
     public static String SUBFIELD_DELIMITER = "\u001f";
 	public static String SCHEMA_CUSTOMER_KEY = "CUSTOM_KEY";
@@ -265,5 +267,11 @@ public abstract class Global  {
       put(NO_RECORD_FOUND, "Record not found: %d.");
 		}
 	};
+
+  public final static String LOADING_FILE_FILENAME = "filename";
+  public final static String LOADING_FILE_IDS = "ids";
+  public final static String LOADING_FILE_REJECTED = "rejected";
+  public final static String LOADING_FILE_ADDED = "added";
+  public final static String LOADING_FILE_ERRORS = "errors";
 
 }

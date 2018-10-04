@@ -19,18 +19,9 @@ public class Globe extends PhysicalDescription {
 	private Character obsolete1;
 	private Character obsolete2;
 
-	/*
-	private char colourCode = 'a';
-	private char physicalMediumCode = 'u';
-	private char typeOfReproductionCode = 'u';
-	private Character obsolete1;
-	private Character obsolete2;
-	 */
 	public Globe() {
 		super();
 		setHeaderType(23);
-		//setGeneralMaterialDesignationCode('d');
-		//setSpecificMaterialDesignationCode('u');
 	}
 
 	/* (non-Javadoc)
@@ -165,4 +156,13 @@ public class Globe extends PhysicalDescription {
 		setTypeOfReproductionCode(content.getAttribute("typeOfReproductionCode").charAt(0));
 	}
 
+  //@paulm, us_bbl_loading
+  @Override
+  public void setContentFromMarcString(final String s) {
+    setGeneralMaterialDesignationCode(s.charAt(0));
+    setSpecificMaterialDesignationCode(s.charAt(1));
+    setColourCode(s.charAt(3));
+    setPhysicalMediumCode(s.charAt(4));
+    setTypeOfReproductionCode(s.charAt(5));
+  }
 }

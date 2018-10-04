@@ -338,4 +338,23 @@ public class GlobalStorage {
             put("373P0", " and hdg.sourceCode = 4 ");
         }
     };
+
+  public final static Map <String, Class> DESCRIPTOR_CLASS_MAP = new HashMap <String, Class>() {
+    {
+      put("6", CLSTN.class);
+      put("20", CLSTN.class);
+      put("5", CNTL_NBR.class);
+      put("19", CNTL_NBR.class);
+      put("2", NME_HDG.class);
+      put("17", NME_HDG.class);
+      put("7", PUBL_HDG.class);
+      put("21", PUBL_HDG.class);
+      put("4", SBJCT_HDG.class);
+      put("18", SBJCT_HDG.class);
+      put("3", TTL_HDG.class);
+      put("22", TTL_HDG.class);
+      put("11", NME_TTL_HDG.class);
+      put("14", SHLF_LIST.class);
+    }
+  };
 }
