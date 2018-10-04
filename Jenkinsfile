@@ -1,5 +1,8 @@
 pipeline {
     agent any
+     environment {
+         DISABLE_AUTH = 'true'
+     }
     stages {
       stage('Clean') {
             steps {
@@ -27,9 +30,9 @@ pipeline {
           }
         }
         stage('Deploy'){
-                steps{
-                    script{
-                        withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
+             steps{
+                  script{
+                       withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
                             sh('./script/deploy.sh')
                         }
                     }
@@ -40,6 +43,20 @@ pipeline {
                 }
             }
         }
+        stage('Deploy ITNET'){
+               steps{
+                    script{
+                         withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
+                                  sh('./script/remote_sync.sh')
+                                }
+                            }
+                        }
+              post {
+                   success {
+                        echo 'upload to remote server succesfully'
+                   }
+              }
+         }
          stage('Npm') {
              steps {
                 echo 'Publishing on Npm....'

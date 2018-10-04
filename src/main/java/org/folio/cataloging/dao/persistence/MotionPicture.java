@@ -379,4 +379,25 @@ public class MotionPicture extends PhysicalDescription {
 		setInspectionDate(content.getAttribute("inspectionDate"));
 	}
 
+  //@paulm, us_bbl_loading
+  @Override
+  public void setContentFromMarcString(final String s) {
+    setGeneralMaterialDesignationCode(s.charAt(0));
+    setSpecificMaterialDesignationCode(s.charAt(1));
+    setColourCode(s.charAt(3));
+    setPresentationFormatCode(s.charAt(4));
+    setIncludesSoundCode(s.charAt(5));
+    setMediumForSoundCode(s.charAt(6));
+    setDimensionsCode(s.charAt(7));
+    setConfigurationCode(s.charAt(8));
+    setProductionElementsCode(s.charAt(9));
+    setPolarityCode(s.charAt(10));
+    setGenerationCode(s.charAt(11));
+    setBaseOfFilmCode(s.charAt(12));
+    setRefinedCategoriesOfColourCode(s.charAt(13));
+    setKindOfColourStockCode(s.charAt(14));
+    setDeteriorationStageCode(s.charAt(15));
+    setCompletenessCode(s.charAt(16));
+    setInspectionDate(s.substring(17,23));
+  }
 }

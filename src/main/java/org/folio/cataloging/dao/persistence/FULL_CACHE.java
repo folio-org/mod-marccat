@@ -38,7 +38,7 @@ public class FULL_CACHE implements Persistence {
 		this.itemNumber = itemNumber;
 		this.userView = userView;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -80,15 +80,16 @@ public class FULL_CACHE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
+	@Deprecated
 	public void evict(Object obj) throws DataAccessException {
 		persistentState.evict(obj);
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public AbstractDAO getDAO() {
@@ -96,7 +97,7 @@ public class FULL_CACHE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int getUpdateStatus() {
@@ -104,7 +105,7 @@ public class FULL_CACHE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean isChanged() {
@@ -112,7 +113,7 @@ public class FULL_CACHE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean isDeleted() {
@@ -120,7 +121,7 @@ public class FULL_CACHE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean isNew() {
@@ -128,7 +129,7 @@ public class FULL_CACHE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean isRemoved() {
@@ -136,7 +137,7 @@ public class FULL_CACHE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void markChanged() {
@@ -144,7 +145,7 @@ public class FULL_CACHE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void markDeleted() {
@@ -152,7 +153,7 @@ public class FULL_CACHE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void markNew() {
@@ -160,7 +161,7 @@ public class FULL_CACHE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void markUnchanged() {
@@ -168,7 +169,7 @@ public class FULL_CACHE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean onDelete(Session arg0) throws CallbackException {
@@ -176,7 +177,7 @@ public class FULL_CACHE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void onLoad(Session arg0, Serializable arg1) {
@@ -184,7 +185,7 @@ public class FULL_CACHE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean onSave(Session arg0) throws CallbackException {
@@ -192,7 +193,7 @@ public class FULL_CACHE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean onUpdate(Session arg0) throws CallbackException {
@@ -200,7 +201,7 @@ public class FULL_CACHE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setUpdateStatus(int i) {
@@ -210,8 +211,9 @@ public class FULL_CACHE implements Persistence {
 	/* (non-Javadoc)
 	 * @see librisuite.business.common.Persistence#evict()
 	 */
+	@Deprecated
 	public void evict() throws DataAccessException {
-		evict((Object)this);
+		evict(this);
 	}
 
 	/* (non-Javadoc)
@@ -239,7 +241,7 @@ public class FULL_CACHE implements Persistence {
 		}
 	}
 
-	
+
 	public char getDirty() {
 		return dirty;
 	}

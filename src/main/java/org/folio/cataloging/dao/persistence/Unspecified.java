@@ -17,8 +17,6 @@ public class Unspecified extends PhysicalDescription {
 	public Unspecified() {
 		super();
 		setHeaderType(45);
-		/*setGeneralMaterialDesignationCode('z');
-		setSpecificMaterialDesignationCode('u');*/
 	}
 
 	/* (non-Javadoc)
@@ -63,4 +61,10 @@ public class Unspecified extends PhysicalDescription {
 		setSpecificMaterialDesignationCode(content.getAttribute("specificMaterialDesignationCode").charAt(0));
 	}
 
+  //@paulm, us_bbl_loading
+  @Override
+  public void setContentFromMarcString(final String s) {
+    setGeneralMaterialDesignationCode(s.charAt(0));
+    setSpecificMaterialDesignationCode(s.charAt(1));
+  }
 }

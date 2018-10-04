@@ -1,11 +1,11 @@
-/*
- * (c) LibriCore
- * 
- * Created on Dec 9, 2004
- * 
- * LOADING_MARC_RECORDS.java
- */
 package org.folio.cataloging.dao.persistence;
+
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.Persistence;
+import org.folio.cataloging.business.common.PersistenceState;
+import org.folio.cataloging.dao.AbstractDAO;
 
 import java.io.Serializable;
 
@@ -14,16 +14,21 @@ import java.io.Serializable;
  * @version $Revision: 1.1 $, $Date: 2004/12/14 10:40:41 $
  * @since 1.0
  */
-public class LOADING_MARC_RECORDS implements Serializable {
+public class LOADING_MARC_RECORDS implements Serializable, Persistence {
 	private int sequence;
 	private int loadingStatisticsNumber;
 	private int oldBibItemNumber;
 	private int BibItemNumber;
+  private PersistenceState persistenceState = new PersistenceState();
+
+  public void generateNewKey() throws DataAccessException {
+    // key is stats number + sequence -- managed by app
+  }
 
 	/**
 	 * Class constructor
 	 *
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public LOADING_MARC_RECORDS() {
@@ -32,7 +37,7 @@ public class LOADING_MARC_RECORDS implements Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int getBibItemNumber() {
@@ -40,7 +45,7 @@ public class LOADING_MARC_RECORDS implements Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int getLoadingStatisticsNumber() {
@@ -48,7 +53,7 @@ public class LOADING_MARC_RECORDS implements Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int getOldBibItemNumber() {
@@ -56,7 +61,7 @@ public class LOADING_MARC_RECORDS implements Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int getSequence() {
@@ -64,7 +69,7 @@ public class LOADING_MARC_RECORDS implements Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setBibItemNumber(int i) {
@@ -72,7 +77,7 @@ public class LOADING_MARC_RECORDS implements Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setLoadingStatisticsNumber(int i) {
@@ -80,7 +85,7 @@ public class LOADING_MARC_RECORDS implements Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setOldBibItemNumber(int i) {
@@ -88,7 +93,7 @@ public class LOADING_MARC_RECORDS implements Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setSequence(int i) {
@@ -116,4 +121,87 @@ public class LOADING_MARC_RECORDS implements Serializable {
 		return this.getLoadingStatisticsNumber() + this.getSequence();
 	}
 
+  public void cancelChanges() {
+    persistenceState.cancelChanges();
+  }
+
+  public void confirmChanges() {
+    persistenceState.confirmChanges();
+  }
+
+  @Deprecated
+  public void evict(Object obj) throws DataAccessException {
+    persistenceState.evict(obj);
+  }
+
+  public AbstractDAO getDAO() {
+    return persistenceState.getDAO();
+  }
+
+  @Override
+  @Deprecated
+  public void evict() throws DataAccessException {
+    evict(this);
+  }
+
+  public int getUpdateStatus() {
+    return persistenceState.getUpdateStatus();
+  }
+
+  public boolean isChanged() {
+    return persistenceState.isChanged();
+  }
+
+  public boolean isDeleted() {
+    return persistenceState.isDeleted();
+  }
+
+  public boolean isNew() {
+    return persistenceState.isNew();
+  }
+
+  public boolean isRemoved() {
+    return persistenceState.isRemoved();
+  }
+
+  public void markChanged() {
+    persistenceState.markChanged();
+  }
+
+  public void markDeleted() {
+    persistenceState.markDeleted();
+  }
+
+  public void markNew() {
+    persistenceState.markNew();
+  }
+
+  public void markUnchanged() {
+    persistenceState.markUnchanged();
+  }
+
+  public boolean onDelete(Session arg0) throws CallbackException {
+    return persistenceState.onDelete(arg0);
+  }
+
+  public void onLoad(Session arg0, Serializable arg1) {
+    persistenceState.onLoad(arg0, arg1);
+  }
+
+  public boolean onUpdate(Session arg0) throws CallbackException {
+    return persistenceState.onUpdate(arg0);
+  }
+
+  public void setUpdateStatus(int i) {
+    persistenceState.setUpdateStatus(i);
+  }
+
+  public String toString() {
+    return persistenceState.toString();
+  }
+
+  @Override
+  public boolean onSave(Session session) throws CallbackException {
+    return false;
+  }
 }

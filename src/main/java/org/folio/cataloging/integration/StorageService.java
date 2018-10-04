@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.cataloging.F;
+import org.folio.cataloging.Global;
 import org.folio.cataloging.business.cataloguing.bibliographic.*;
 import org.folio.cataloging.business.cataloguing.bibliographic.FixedField;
 import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
@@ -24,6 +25,7 @@ import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.exception.ModCatalogingException;
 import org.folio.cataloging.exception.RecordInUseException;
 import org.folio.cataloging.integration.log.MessageCatalogStorage;
+import org.folio.cataloging.integration.record.BibliographicInputFile;
 import org.folio.cataloging.integration.record.RecordParser;
 import org.folio.cataloging.integration.search.Parser;
 import org.folio.cataloging.log.Log;
@@ -34,9 +36,11 @@ import org.folio.cataloging.resources.domain.Leader;
 import org.folio.cataloging.search.SearchResponse;
 import org.folio.cataloging.shared.*;
 import org.folio.cataloging.util.StringText;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -1935,39 +1939,6 @@ public class StorageService implements Closeable {
         } catch (HibernateException e) {
           throw new DataAccessException(e);
         }
-      } else if (aTag instanceof PublisherManager) {
-       /* try {
-          PublisherManager pm = (PublisherManager) aTag;
-          PublisherAccessPoint apf = pm.getApf();
-          Descriptor d = apf.getDAODescriptor().findOrCreateMyView(apf.getHeadingNumber(), View.makeSingleViewString(recordView), cataloguingView, session);
-          PUBL_TAG ptag = new PUBL_TAG();
-          ptag.markNew();
-          PUBL_HDG pu= new PUBL_HDG();
-          pu.setStringText(.toString());
-          pu.setUserViewString(View.makeSingleViewString(item.getUserView()));
-
-          List<PUBL_TAG> publTags = ((PublisherTagDescriptor) d).getPublisherTagUnits();
-          PUBL_TAG pTag = new PUBL_TAG();
-          pTag.markNew();
-          pTag.setDescriptor((PUBL_HDG) d);
-          ((PublisherTagDescriptor)d).getPublisherTagUnits().add(pTag);
-          publTags.forEach(t -> {
-            try {
-              PUBL_HDG ph = (PUBL_HDG) t.getDescriptorDAO().findOrCreateMyView(
-                t.getPublisherHeadingNumber(),
-                View.makeSingleViewString(recordView), cataloguingView, session);
-              t.setDescriptor(ph);
-              t.setUserViewString(View.makeSingleViewString(cataloguingView));
-            } catch (HibernateException e) {
-              throw new DataAccessException(e);
-            }
-          });
-          apf.setUserViewString(View.makeSingleViewString(cataloguingView));
-          apf.setDescriptor(d);
-          pm.setApf(apf);
-        } catch (HibernateException e) {
-          throw new DataAccessException(e);
-        }*/
       } else if (aTag instanceof BibliographicRelationshipTag) {
         BibliographicRelationshipTag relTag = (BibliographicRelationshipTag) aTag;
         relTag.copyFromAnotherItem();
@@ -1992,6 +1963,44 @@ public class StorageService implements Closeable {
       logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
     }
+  }
+
+  /**
+   * Load records from files uploaded.
+   *
+   * @param file -- the current file.
+   * @param startRecord -- the number start record.
+   * @param numberOfRecords -- the number of records to load.
+   * @param view -- the cataloguing view associated.
+   * @return map with loading result.
+   */
+  public Map<String, Object> loadRecords(final MultipartFile file, final int startRecord, final int numberOfRecords, final int view){
+    final Map<String, Object> result = new HashMap<>();
+    List<Integer> ids = new ArrayList<>();
+    try {
+      if (!file.isEmpty()) {
+        final InputStream input = file.getInputStream();
+        final BibliographicInputFile bf = new BibliographicInputFile();
+        bf.loadFile(input, file.getOriginalFilename(), view, startRecord, numberOfRecords, session);
+
+        final DAOCodeTable dao = new DAOCodeTable();
+        final LDG_STATS stats = dao.getStats(session, bf.getLoadingStatisticsNumber());
+        if (stats.getRecordsAdded() > 0) {
+          final List<LOADING_MARC_RECORDS> lmr = (dao.getResults(session, bf.getLoadingStatisticsNumber()));
+          ids = lmr.stream().map(l -> l.getBibItemNumber()).collect(Collectors.toList());
+        }
+        result.put(Global.LOADING_FILE_FILENAME, file.getName());
+        result.put(Global.LOADING_FILE_IDS, ids);
+        result.put(Global.LOADING_FILE_REJECTED, stats.getRecordsRejected());
+        result.put(Global.LOADING_FILE_ADDED, stats.getRecordsAdded());
+        result.put(Global.LOADING_FILE_ERRORS, stats.getErrorCount());
+
+      }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+
+    return result;
   }
 }
 
