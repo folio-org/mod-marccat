@@ -8,6 +8,8 @@ import org.folio.cataloging.Global;
 import org.folio.cataloging.ModCataloging;
 import org.folio.cataloging.resources.domain.Heading;
 import org.folio.cataloging.resources.domain.HeadingCollection;
+import org.folio.cataloging.resources.domain.HeadingDecorator;
+import org.folio.cataloging.resources.domain.HeadingDecoratorCollection;
 import org.folio.cataloging.shared.MapHeading;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,12 +26,12 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
  * @since 1.0
  */
 @RestController
-@Api(value = "modcat-api", description = "Heading resource API")
+@Api(value = "modcat-api", description = "Browse resource API")
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
-public class HeadingsAPI extends BaseResource {
+public class BrowseAPI extends BaseResource {
 
-    private Function<MapHeading, Heading> toHeading = source -> {
-        final Heading heading = new Heading();
+    private Function<MapHeading, HeadingDecorator> toHeading = source -> {
+        final HeadingDecorator heading = new HeadingDecorator();
         heading.setHeadingNumber(source.getHeadingNumber());
         heading.setStringText(source.getStringText());
         heading.setCountAuthorities(source.getCountAuthorities());
@@ -53,7 +55,7 @@ public class HeadingsAPI extends BaseResource {
 
 
     @GetMapping("/first-page")
-    public HeadingCollection getFirstPage(
+    public HeadingDecoratorCollection getFirstPage(
             @RequestParam final String query,
             @RequestParam final int view,
             @RequestParam final int mainLibrary,
@@ -61,7 +63,7 @@ public class HeadingsAPI extends BaseResource {
             @RequestParam final String lang,
             @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
          return doGet((storageService, configuration) -> {
-            final HeadingCollection container = new HeadingCollection();
+            final HeadingDecoratorCollection container = new HeadingDecoratorCollection();
             container.setHeadings(
                     storageService.getFirstPage(query, view, mainLibrary, pageSize, lang)
                             .stream()
@@ -72,7 +74,7 @@ public class HeadingsAPI extends BaseResource {
     }
 
     @GetMapping("/next-page")
-    public HeadingCollection getNextPage(
+    public HeadingDecoratorCollection getNextPage(
             @RequestParam final String query,
             @RequestParam final int view,
             @RequestParam final int mainLibrary,
@@ -81,7 +83,7 @@ public class HeadingsAPI extends BaseResource {
             @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
         return doGet((storageService, configuration) -> {
             List<MapHeading> headings =  storageService.getNextPage(query, view, mainLibrary, pageSize, lang);
-            final HeadingCollection headingCollection = new HeadingCollection();
+            final HeadingDecoratorCollection headingCollection = new HeadingDecoratorCollection();
             headingCollection.setHeadings(headings
                           .stream()
                           .map(toHeading)
@@ -92,7 +94,7 @@ public class HeadingsAPI extends BaseResource {
 
 
     @GetMapping("/previous-page")
-    public HeadingCollection getPreviousPage(
+    public HeadingDecoratorCollection getPreviousPage(
             @RequestParam final String query,
             @RequestParam final int view,
             @RequestParam final int mainLibrary,
@@ -100,7 +102,7 @@ public class HeadingsAPI extends BaseResource {
             @RequestParam final String lang,
             @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
         return doGet((storageService, configuration) -> {
-            final HeadingCollection container = new HeadingCollection();
+            final HeadingDecoratorCollection container = new HeadingDecoratorCollection();
             container.setHeadings(
                     storageService.getPreviousPage(query, view, mainLibrary, pageSize, lang)
                             .stream()

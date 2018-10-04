@@ -2,9 +2,9 @@
 <!DOCTYPE hibernate-mapping PUBLIC
     "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
-    
+
 <hibernate-mapping>
-<class 
+<class
     name="org.folio.cataloging.dao.persistence.LOADING_MARC_FILE"
     table="LOADING_MARC_FILE"
 >
@@ -16,14 +16,14 @@
     </id>
 
     <property
-        name="fileName" 
+        name="fileName"
         column="FILENAME"
         length="128"
     />
-    <property
+    <!--property
         name="blob"
         column="DATA"
-    />
+    /-->
     <property
         name="loadingStatisticsNumber"
         column="LDG_STATS_NBR"

@@ -26,7 +26,7 @@ import java.util.*;
 public abstract class Global  {
     public static final String OKAPI_TENANT_HEADER_NAME = "x-okapi-tenant";
   public static final String CONTENT_TYPE_HEADER_NAME = "content-Type";
-  public static final String DEFAULT_MULTIPART_HEADER_CONTENT = "multipart/form-data";
+  public static final String DEFAULT_MULTIPART_HEADER_CONTENT = "multipart/mixed;boundary=--gc0p4Jq0M2Yt08jU534c0p--";
     public static final String EMPTY_STRING = "";
     public static String SUBFIELD_DELIMITER = "\u001f";
 	public static String SCHEMA_CUSTOMER_KEY = "CUSTOM_KEY";
