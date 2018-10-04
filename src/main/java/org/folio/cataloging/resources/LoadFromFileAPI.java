@@ -4,7 +4,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.apache.commons.lang.StringUtils;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.ModCataloging;
 import org.folio.cataloging.business.common.View;
@@ -31,7 +30,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doPost;
 
 @RestController
 @Api(value = "modcat-api", description = "Load from file API")
-@RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
+@RequestMapping(value = ModCataloging.BASE_URI) //, produces = "application/json"
 public class LoadFromFileAPI extends BaseResource {
 
   @ApiOperation(value = "Load bibliographic records from file.")
@@ -43,28 +42,29 @@ public class LoadFromFileAPI extends BaseResource {
   })
   @PostMapping("/load-from-file")
   public ResponseEntity<?> loadRecords (
-    @RequestParam("files") MultipartFile[] uploadfiles,
+    @RequestParam("files") MultipartFile uploadfiles,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
     @RequestParam(name = "startRecord", defaultValue = "0") final int startRecord,
     @RequestParam(name = "numberOfRecords", defaultValue = "50") final int numberOfRecords,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
-    @RequestHeader(name = Global.CONTENT_TYPE_HEADER_NAME, defaultValue = Global.DEFAULT_MULTIPART_HEADER_CONTENT) final String contentType){
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    //@RequestHeader(name = Global.CONTENT_TYPE_HEADER_NAME, defaultValue = Global.DEFAULT_MULTIPART_HEADER_CONTENT) final String contentType) {
+
 
     return doPost((storageService, configuration) -> {
 
-      String uploadedFileName = Arrays.stream(uploadfiles).map(x -> x.getOriginalFilename())
+     /* String uploadedFileName = Arrays.stream(uploadfiles).map(x -> x.getOriginalFilename())
         .filter(x -> !StringUtils.isEmpty(x)).collect(Collectors.joining(" , "));
 
       if (StringUtils.isEmpty(uploadedFileName)) {
-        return new ResponseEntity("Please select a file!", HttpStatus.OK);
-      }
+        return new ResponseEntity("Please select a file!", HttpStatus.OK); //MessageCatalog
+      }*/
 
       try {
-        ResultLoaderCollection container = new ResultLoaderCollection();
-        List<MultipartFile> files = Arrays.asList(uploadfiles);
+        final ResultLoaderCollection container = new ResultLoaderCollection();
+        final List<MultipartFile> files = Arrays.asList(uploadfiles);
         container.setResultLoaders(
             files.stream().map(file -> {
-              final Map<String, Object> map = storageService.loadRecords(file, startRecord, numberOfRecords, view);
+              final Map<String, Object> map = storageService.loadRecords(file, startRecord, numberOfRecords, view, configuration);
               return setMapToResult(map);
             }).collect(Collectors.toList()));
       } catch (Exception e) {
@@ -72,7 +72,7 @@ public class LoadFromFileAPI extends BaseResource {
       }
 
       return null;
-    }, tenant, configurator, () -> (uploadfiles.length > 0));
+    }, tenant, configurator, () -> (!uploadfiles.isEmpty()), "controlNumber"); //() -> (uploadfiles.length > 0
   }
 
   private ResultLoader setMapToResult(final Map<String, Object> source) {

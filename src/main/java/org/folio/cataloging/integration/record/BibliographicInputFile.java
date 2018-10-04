@@ -10,8 +10,10 @@ import org.folio.cataloging.business.cataloguing.common.Browsable;
 import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.cataloguing.common.TagImpl;
 import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.business.common.View;
 import org.folio.cataloging.dao.BibliographicCatalogDAO;
 import org.folio.cataloging.dao.DAODescriptor;
+import org.folio.cataloging.dao.RecordTypeMaterialDAO;
 import org.folio.cataloging.dao.SystemNextNumberDAO;
 import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.log.Log;
@@ -29,6 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -56,9 +59,9 @@ public class BibliographicInputFile {
  * @throws DataAccessException in case of exception.
  */
   public void loadFile(final InputStream inputStream, final String fileName, final int cataloguingView, final int startAt,
-    final int recCount, final Session session) throws DataAccessException {
+    final int recCount, final Session session, final Map<String, String> configuration) throws DataAccessException {
 		try {
-      loadFileFromStream(fileName, inputStream, cataloguingView, startAt, recCount, session);
+      loadFileFromStream(fileName, inputStream, cataloguingView, startAt, recCount, session, configuration);
     } catch (Exception e) {
 			logger.error("bla bla");
 			throw new DataAccessException(e);
@@ -76,7 +79,7 @@ public class BibliographicInputFile {
    * @throws DataAccessException in case of exception.
 	 */
 	public void loadFile(final String fileName, final int cataloguingView, final int startAt,
-    final int recCount, final Record record, final Session session) throws DataAccessException {
+    final int recCount, final Record record, final Session session, final Map<String, String> configuration) throws DataAccessException {
 		try {
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
 			MarcWriter writer = new MarcStreamWriter(bos);
@@ -85,7 +88,7 @@ public class BibliographicInputFile {
 			bos.close();
 			InputStream input = new ByteArrayInputStream(bos.toByteArray());
 
-			loadFileFromStream(fileName, input, cataloguingView, startAt, recCount, session);
+			loadFileFromStream(fileName, input, cataloguingView, startAt, recCount, session, configuration);
 		} catch (IOException e) {
 			logger.error("bla bla");
 			throw new DataAccessException(e);
@@ -104,7 +107,7 @@ public class BibliographicInputFile {
    * @throws DataAccessException in case of data access exception.
    */
 	private void loadFileFromStream(final String fileName, final InputStream input, final int cataloguingView, final int startAt,
-    final int recCount, final Session session) throws DataAccessException {
+    final int recCount, final Session session, final Map<String, String> configuration) throws DataAccessException {
 
 	  try {
 			final LOADING_MARC_FILE run = new LOADING_MARC_FILE();
@@ -127,17 +130,17 @@ public class BibliographicInputFile {
 					logger.debug(record.toString());
 					try {
 						CatalogItem item = catalog.newCatalogItemWithoutAmicusNumber();
-						catalog.applyKeyToItem(item, new Object[] { new Integer(cataloguingView) });
+						catalog.applyKeyToItem(item, new Object[] { cataloguingView });
 						Leader leader = record.getLeader();
 						final BibliographicLeader leaderTag = catalog.createRequiredLeaderTag(item);
 						setLeaderValues(leaderTag, leader);
 						item.addTag(leaderTag);
 
             List<ControlField> controlFields = record.getControlFields();
-						addControlFieldToItem(item, controlFields, impl, session, catalog);
+						addControlFieldToItem(item, controlFields, impl, session, catalog, detectFormOfMaterial(session, leaderTag.getItemRecordTypeCode(), leaderTag.getItemBibliographicLevelCode()));
 
 						List<DataField> dataFields = record.getDataFields();
-						addDataFieldToItem(item, dataFields, impl, session, catalog);
+						addDataFieldToItem(item, dataFields, impl, session, catalog, cataloguingView, configuration);
 
             item.getItemEntity().setAmicusNumber(new SystemNextNumberDAO().getNextNumber("BI", session));
 
@@ -145,7 +148,7 @@ public class BibliographicInputFile {
             final CasCache casCache = new CasCache(item.getAmicusNumber());
             casCache.setLevelCard("L1");
             casCache.setStatusDisponibilit(99);
-            item.validate();
+            item.validate(); //ERRORE
             dao.saveCatalogItem(item, casCache, session);
 
 						stats.setRecordsAdded(stats.getRecordsAdded() + 1);
@@ -157,7 +160,7 @@ public class BibliographicInputFile {
 
 					} catch (Exception e) {
 						stats.setRecordsRejected(stats.getRecordsRejected() + 1);
-						throw new DataAccessException(e);
+						//throw new DataAccessException(e);
 					} finally {
 						stats.markChanged();
 						stats.getDAO().persistByStatus(stats, session);
@@ -180,7 +183,8 @@ public class BibliographicInputFile {
    * @param catalog -- the bibliographic catalog.
    */
   private void addDataFieldToItem (final CatalogItem item, final List<DataField> dataFields,
-    final TagImpl impl, final Session session, final BibliographicCatalog catalog) {
+    final TagImpl impl, final Session session, final BibliographicCatalog catalog, final int view,
+    final Map<String, String> configuration) {
 
 	  dataFields.forEach(df -> {
       Correlation corr = impl.getCorrelation(df.getTag(), df.getIndicator1(), df.getIndicator2(), 0, session);
@@ -198,10 +202,12 @@ public class BibliographicInputFile {
 
           ((Browsable) newTag).setDescriptorStringText(st);
           Descriptor d = ((Browsable) newTag).getDescriptor();
+          d.setUserViewString(View.makeSingleViewString(view));
           Descriptor dup = null;
           try {
             dup = ((DAODescriptor) (d.getDAO())).getMatchingHeading(d, session);
             if (dup == null) {
+              d.setConfigValues(configuration);
               d.generateNewKey(session);
               d.getDAO().save(d, session);
             } else {
@@ -227,13 +233,14 @@ public class BibliographicInputFile {
    * @param catalog -- the bibliographic catalog.
    */
   private void addControlFieldToItem(final CatalogItem item, final List<ControlField> controlFields,
-    final TagImpl impl, final Session session, final BibliographicCatalog catalog) {
+    final TagImpl impl, final Session session, final BibliographicCatalog catalog, final String formOfMaterial) {
     controlFields.forEach(field -> {
       Tag newTag = null;
       final Correlation corr = impl.getCorrelation(field.getTag(), ' ', ' ', 0, session);
       if (corr == null) {
         if ("006".equals(field.getTag()) || "008".equals(field.getTag())) {
           final MaterialDescription md = new MaterialDescription();
+          md.setFormOfMaterial(formOfMaterial);
           md.setMaterialDescription008Indicator(("006".equals(field.getTag()) ? "0" : "1"));
           md.setItemEntity(item.getItemEntity());
           newTag = md;
@@ -246,13 +253,26 @@ public class BibliographicInputFile {
           newTag = catalog.getNewHeaderTag(item, corr.getDatabaseFirstValue());
         }
       }
-      final String content = field.getData();
-      ((FixedField) newTag).setContentFromMarcString(content);
-      item.addTag(newTag);
+      if (!"003".equals(field.getTag())) {
+        final String content = field.getData();
+        ((FixedField) newTag).setContentFromMarcString(content);
+        item.addTag(newTag);
+      }
     });
   }
 
-  /**
+  private String detectFormOfMaterial(final Session session, final char recordTypeCode, final char bibliographicLevel) {
+    final RecordTypeMaterialDAO dao = new RecordTypeMaterialDAO();
+    try {
+      final RecordTypeMaterial rtm = dao.getMaterialHeaderCode(session, recordTypeCode, bibliographicLevel);
+      return rtm.getAmicusMaterialTypeCode();
+    } catch (HibernateException e) {
+      //ignore
+      return " ";
+    }
+  }
+
+    /**
    * Sets leader values.
    *
    * @param leaderTag -- the bibliographic leader tag.
