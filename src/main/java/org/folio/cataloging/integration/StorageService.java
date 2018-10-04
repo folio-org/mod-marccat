@@ -1974,14 +1974,15 @@ public class StorageService implements Closeable {
    * @param view -- the cataloguing view associated.
    * @return map with loading result.
    */
-  public Map<String, Object> loadRecords(final MultipartFile file, final int startRecord, final int numberOfRecords, final int view){
+  public Map<String, Object> loadRecords(final MultipartFile file, final int startRecord, final int numberOfRecords,
+    final int view, final Map<String, String> configuration){
     final Map<String, Object> result = new HashMap<>();
     List<Integer> ids = new ArrayList<>();
     try {
       if (!file.isEmpty()) {
         final InputStream input = file.getInputStream();
         final BibliographicInputFile bf = new BibliographicInputFile();
-        bf.loadFile(input, file.getOriginalFilename(), view, startRecord, numberOfRecords, session);
+        bf.loadFile(input, file.getOriginalFilename(), view, startRecord, numberOfRecords, session, configuration);
 
         final DAOCodeTable dao = new DAOCodeTable();
         final LDG_STATS stats = dao.getStats(session, bf.getLoadingStatisticsNumber());
@@ -2002,6 +2003,7 @@ public class StorageService implements Closeable {
 
     return result;
   }
+
 }
 
 

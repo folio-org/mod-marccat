@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Dec 7, 2004
- * 
+ *
  * LOADING_MARC_FILE.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -15,7 +15,7 @@ import org.folio.cataloging.business.common.PersistenceState;
 import org.folio.cataloging.dao.AbstractDAO;
 
 import java.io.Serializable;
-import java.sql.Blob;
+
 
 /**
  * @author paulm
@@ -25,14 +25,14 @@ import java.sql.Blob;
 public class LOADING_MARC_FILE implements Persistence {
 	private Integer fileNumber;
 	private String fileName;
-	private Blob blob;
+	//private byte[] blob;
 	private int loadingStatisticsNumber;
 	private PersistenceState persistenceState = new PersistenceState();
 
 	/**
 	 * Class constructor
 	 *
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public LOADING_MARC_FILE() {
@@ -41,15 +41,15 @@ public class LOADING_MARC_FILE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
-	public Blob getBlob() {
+	/*public Blob getBlob() {
 		return blob;
-	}
+	}*/
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public String getFileName() {
@@ -57,7 +57,7 @@ public class LOADING_MARC_FILE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public Integer getFileNumber() {
@@ -65,7 +65,7 @@ public class LOADING_MARC_FILE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int getLoadingStatisticsNumber() {
@@ -73,15 +73,15 @@ public class LOADING_MARC_FILE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
-	public void setBlob(Blob blob) {
+	/*public void setBlob(Blob blob) {
 		this.blob = blob;
-	}
+	}*/
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setFileName(String string) {
@@ -89,7 +89,7 @@ public class LOADING_MARC_FILE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setFileNumber(Integer i) {
@@ -97,7 +97,7 @@ public class LOADING_MARC_FILE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setLoadingStatisticsNumber(int i) {
@@ -105,7 +105,7 @@ public class LOADING_MARC_FILE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public PersistenceState getPersistenceState() {
@@ -113,7 +113,7 @@ public class LOADING_MARC_FILE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setPersistenceState(PersistenceState state) {
@@ -134,7 +134,7 @@ public class LOADING_MARC_FILE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void evict(Object obj) throws DataAccessException {
@@ -142,7 +142,7 @@ public class LOADING_MARC_FILE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public AbstractDAO getDAO() {
@@ -150,7 +150,7 @@ public class LOADING_MARC_FILE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public int getUpdateStatus() {
@@ -170,7 +170,7 @@ public class LOADING_MARC_FILE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean isChanged() {
@@ -178,7 +178,7 @@ public class LOADING_MARC_FILE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean isDeleted() {
@@ -186,7 +186,7 @@ public class LOADING_MARC_FILE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean isNew() {
@@ -194,7 +194,7 @@ public class LOADING_MARC_FILE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean isRemoved() {
@@ -202,7 +202,7 @@ public class LOADING_MARC_FILE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void markChanged() {
@@ -210,7 +210,7 @@ public class LOADING_MARC_FILE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void markDeleted() {
@@ -218,7 +218,7 @@ public class LOADING_MARC_FILE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void markNew() {
@@ -226,7 +226,7 @@ public class LOADING_MARC_FILE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void markUnchanged() {
@@ -234,7 +234,7 @@ public class LOADING_MARC_FILE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean onDelete(Session arg0) throws CallbackException {
@@ -242,7 +242,7 @@ public class LOADING_MARC_FILE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void onLoad(Session arg0, Serializable arg1) {
@@ -250,7 +250,7 @@ public class LOADING_MARC_FILE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean onSave(Session arg0) throws CallbackException {
@@ -258,7 +258,7 @@ public class LOADING_MARC_FILE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public boolean onUpdate(Session arg0) throws CallbackException {
@@ -266,7 +266,7 @@ public class LOADING_MARC_FILE implements Persistence {
 	}
 
 	/**
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public void setUpdateStatus(int i) {

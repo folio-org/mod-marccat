@@ -270,5 +270,8 @@
     <mapping resource="org/folio/cataloging/dao/persistence/PUBL_TAG.hbm.xml"/>
     <mapping resource="org/folio/cataloging/dao/persistence/S_LCK_TBL.hbm.xml"/>
     <mapping resource="org/folio/cataloging/dao/persistence/S_CAS_CACHE.hbm.xml"/>
+    <mapping resource="org/folio/cataloging/dao/persistence/LDG_STATS.hbm.xml"/>
+    <mapping resource="org/folio/cataloging/dao/persistence/LOADING_MARC_RECORDS.hbm.xml"/>
+    <mapping resource="org/folio/cataloging/dao/persistence/LOADING_MARC_FILE.hbm.xml"/>
 	</session-factory>
 </hibernate-configuration>
