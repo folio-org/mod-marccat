@@ -14,7 +14,7 @@ import org.w3c.dom.Element;
  * @since 1.0
  */
 public class Map extends PhysicalDescription {
-		private char mapColourCode;
+	private char mapColourCode;
 	private char mapPhysicalMediumCode;
 	private char mapTypeOfReproductionCode;
 	private char mapProductionDetailsCode;
@@ -184,11 +184,11 @@ public class Map extends PhysicalDescription {
   @Override
   public void setContentFromMarcString(final String s) {
     setGeneralMaterialDesignationCode(s.charAt(0));
-    setSpecificMaterialDesignationCode(s.charAt(1));
-    setMapColourCode(s.charAt(3));
-    setMapPhysicalMediumCode(s.charAt(4));
-    setMapTypeOfReproductionCode(s.charAt(5));
-    setMapProductionDetailsCode(s.charAt(6));
-    setMapPolarityCode(s.charAt(7));
+    if (s.length() > 1) setSpecificMaterialDesignationCode(s.charAt(1)); else setSpecificMaterialDesignationCode('u');
+    if (s.length() > 3) setMapColourCode(s.charAt(3));
+    if (s.length() > 4) setMapPhysicalMediumCode(s.charAt(4));
+    if (s.length() > 5) setMapTypeOfReproductionCode(s.charAt(5));
+    if (s.length() > 6) setMapProductionDetailsCode(s.charAt(6));
+    if (s.length() > 7) setMapPolarityCode(s.charAt(7));
   }
 }
