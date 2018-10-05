@@ -206,14 +206,14 @@ public class RemoteSensingImage extends PhysicalDescription {
   @Override
   public void setContentFromMarcString(final String s) {
     setGeneralMaterialDesignationCode(s.charAt(0));
-    setSpecificMaterialDesignationCode(s.charAt(1));
-    setAltitudeOfSensorCode(s.charAt(3));
-    setAttitudeOfSensorCode(s.charAt(4));
-    setCloudCoverCode(s.charAt(5));
-    setPlatformConstructionTypeCode(s.charAt(6));
-    setPlatformUseCode(s.charAt(7));
-    setSensorTypeCode(s.charAt(8));
-    setDataTypeCode(s.substring(9,11));
+    if (s.length() > 1) setSpecificMaterialDesignationCode(s.charAt(1)); else setSpecificMaterialDesignationCode('u');
+    if (s.length() > 3) setAltitudeOfSensorCode(s.charAt(3));
+    if (s.length() > 4) setAttitudeOfSensorCode(s.charAt(4));
+    if (s.length() > 5) setCloudCoverCode(s.charAt(5));
+    if (s.length() > 6) setPlatformConstructionTypeCode(s.charAt(6));
+    if (s.length() > 7) setPlatformUseCode(s.charAt(7));
+    if (s.length() > 8) setSensorTypeCode(s.charAt(8));
+    if (s.length() > 10) setDataTypeCode(s.substring(9,11));
   }
 
 }

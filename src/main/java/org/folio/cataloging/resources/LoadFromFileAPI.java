@@ -30,7 +30,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doPost;
 
 @RestController
 @Api(value = "modcat-api", description = "Load from file API")
-@RequestMapping(value = ModCataloging.BASE_URI) //, produces = "application/json"
+@RequestMapping(value = ModCataloging.BASE_URI) //, produces = "multipart/form-data"
 public class LoadFromFileAPI extends BaseResource {
 
   @ApiOperation(value = "Load bibliographic records from file.")
@@ -52,7 +52,7 @@ public class LoadFromFileAPI extends BaseResource {
 
     return doPost((storageService, configuration) -> {
 
-     /* String uploadedFileName = Arrays.stream(uploadfiles).map(x -> x.getOriginalFilename())
+      /*String uploadedFileName = Arrays.stream(uploadfiles).map(x -> x.getOriginalFilename())
         .filter(x -> !StringUtils.isEmpty(x)).collect(Collectors.joining(" , "));
 
       if (StringUtils.isEmpty(uploadedFileName)) {
@@ -67,12 +67,12 @@ public class LoadFromFileAPI extends BaseResource {
               final Map<String, Object> map = storageService.loadRecords(file, startRecord, numberOfRecords, view, configuration);
               return setMapToResult(map);
             }).collect(Collectors.toList()));
+        return container;
       } catch (Exception e) {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
       }
 
-      return null;
-    }, tenant, configurator, () -> (!uploadfiles.isEmpty()), "controlNumber"); //() -> (uploadfiles.length > 0
+    }, tenant, configurator, () -> !uploadfiles.isEmpty(), "title", "name", "subject");
   }
 
   private ResultLoader setMapToResult(final Map<String, Object> source) {

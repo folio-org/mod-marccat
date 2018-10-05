@@ -164,10 +164,10 @@ public class TactileMaterial extends PhysicalDescription {
   @Override
   public void setContentFromMarcString(final String s) {
     setGeneralMaterialDesignationCode(s.charAt(0));
-    setSpecificMaterialDesignationCode(s.charAt(1));
-    setClassOfBrailleWritingCodes(s.substring(3,5));
-    setLevelOfContractionCode(s.charAt(5));
-    setBrailleMusicFormatCodes(s.substring(6,9));
-    setSpecificPhysicalCharacteristicsCode(s.charAt(9));
+    if (s.length() > 1) setSpecificMaterialDesignationCode(s.charAt(1)); else setSpecificMaterialDesignationCode('u');
+    if (s.length() > 4) setClassOfBrailleWritingCodes(s.substring(3,5));
+    if (s.length() > 5) setLevelOfContractionCode(s.charAt(5));
+    if (s.length() > 8) setBrailleMusicFormatCodes(s.substring(6,9));
+    if (s.length() > 9) setSpecificPhysicalCharacteristicsCode(s.charAt(9));
   }
 }

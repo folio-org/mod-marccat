@@ -383,21 +383,21 @@ public class MotionPicture extends PhysicalDescription {
   @Override
   public void setContentFromMarcString(final String s) {
     setGeneralMaterialDesignationCode(s.charAt(0));
-    setSpecificMaterialDesignationCode(s.charAt(1));
-    setColourCode(s.charAt(3));
-    setPresentationFormatCode(s.charAt(4));
-    setIncludesSoundCode(s.charAt(5));
-    setMediumForSoundCode(s.charAt(6));
-    setDimensionsCode(s.charAt(7));
-    setConfigurationCode(s.charAt(8));
-    setProductionElementsCode(s.charAt(9));
-    setPolarityCode(s.charAt(10));
-    setGenerationCode(s.charAt(11));
-    setBaseOfFilmCode(s.charAt(12));
-    setRefinedCategoriesOfColourCode(s.charAt(13));
-    setKindOfColourStockCode(s.charAt(14));
-    setDeteriorationStageCode(s.charAt(15));
-    setCompletenessCode(s.charAt(16));
-    setInspectionDate(s.substring(17,23));
+    if (s.length() > 1) setSpecificMaterialDesignationCode(s.charAt(1)); else setSpecificMaterialDesignationCode('u');
+    if (s.length() > 3) setColourCode(s.charAt(3));
+    if (s.length() > 4) setPresentationFormatCode(s.charAt(4));
+    if (s.length() > 5) setIncludesSoundCode(s.charAt(5));
+    if (s.length() > 6) setMediumForSoundCode(s.charAt(6));
+    if (s.length() > 7) setDimensionsCode(s.charAt(7));
+    if (s.length() > 8) setConfigurationCode(s.charAt(8));
+    if (s.length() > 9) setProductionElementsCode(s.charAt(9));
+    if (s.length() > 10) setPolarityCode(s.charAt(10));
+    if (s.length() > 11) setGenerationCode(s.charAt(11));
+    if (s.length() > 12) setBaseOfFilmCode(s.charAt(12));
+    if (s.length() > 13) setRefinedCategoriesOfColourCode(s.charAt(13));
+    if (s.length() > 14) setKindOfColourStockCode(s.charAt(14));
+    if (s.length() > 15) setDeteriorationStageCode(s.charAt(15));
+    if (s.length() > 16) setCompletenessCode(s.charAt(16));
+    if (s.length() > 22) setInspectionDate(s.substring(17,23));
   }
 }

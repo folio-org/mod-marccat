@@ -56,6 +56,9 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 	private int itemNumber = -1;
 	private CorrelationKey correlationKey;
 
+
+  private Validation validation;
+
 	public String getHeadingType() {
 		return tagImpl.getHeadingType(this);
 	}
@@ -130,7 +133,6 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 	* @return the MARC tag and indicators for this tag
 	*/
 	public CorrelationKey getMarcEncoding() throws DataAccessException {
-		//return tagImpl.getMarcEncoding(this);
     return correlationKey;
 	}
 
@@ -518,12 +520,22 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 		this.itemNumber = itemNumber;
 	}
 
-	public Validation getValidation()
-		throws DataAccessException {
-		return tagImpl.getValidation(this);
+	public Validation getValidation() throws DataAccessException {
+		//return tagImpl.getValidation(this);
+    return validation;
 	}
 
-	/* (non-Javadoc)
+  public Validation getValidation(final Session session) throws DataAccessException {
+    validation = tagImpl.getValidation(this, session);
+	  return validation;
+  }
+
+  public void setValidation(Validation validation) {
+    this.validation = validation;
+  }
+
+
+  /* (non-Javadoc)
 	 * @see TagInterface#getCategory()
 	 */
 	abstract public int getCategory();

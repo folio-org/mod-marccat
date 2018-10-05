@@ -203,12 +203,12 @@ public class VideoRecording extends PhysicalDescription {
   @Override
   public void setContentFromMarcString(final String s) {
     setGeneralMaterialDesignationCode(s.charAt(0));
-    setSpecificMaterialDesignationCode(s.charAt(1));
-    setColourCode(s.charAt(3));
-    setFormatCode(s.charAt(4));
-    setIncludesSoundCode(s.charAt(5));
-    setMediumForSoundCode(s.charAt(6));
-    setDimensionsCode(s.charAt(7));
-    setConfigurationCode(s.charAt(8));
+    if (s.length() > 1) setSpecificMaterialDesignationCode(s.charAt(1)); else setSpecificMaterialDesignationCode('u');
+    if (s.length() > 3) setColourCode(s.charAt(3));
+    if (s.length() > 4) setFormatCode(s.charAt(4));
+    if (s.length() > 5) setIncludesSoundCode(s.charAt(5));
+    if (s.length() > 6) setMediumForSoundCode(s.charAt(6));
+    if (s.length() > 7) setDimensionsCode(s.charAt(7));
+    if (s.length() > 8) setConfigurationCode(s.charAt(8));
   }
 }
