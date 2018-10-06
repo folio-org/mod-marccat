@@ -1,5 +1,9 @@
 package org.folio.cataloging.util.isbn;
 
+/**
+ * @author Christian Chiama
+ * @version $Revision: 4 $ $Date: 2018-10-1
+ */
 public class ISBNUtils {
 
     private static ISBNUtils ourInstance = new ISBNUtils ( );
@@ -14,11 +18,11 @@ public class ISBNUtils {
         return  ISBN.replaceAll ("-","");
     }
 
-    static String removeChar(String ISBN, String character){
+    public static String removeChar(String ISBN, String character){
         return  ISBN.replaceAll (character,"");
     }
 
-    static String stripChar(String ISBN){
+    public static String stripChar(String ISBN){
         String regepx = "[^\\s\\w]*";
         return  ISBN.replaceAll (regepx,"");
     }
