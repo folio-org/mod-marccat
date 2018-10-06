@@ -17,14 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(value = "modcat-api", description = "ISBN Utility  API")
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
 public class ISBNNormalizationAPI {
-
-  @GetMapping("/isbn/withDeploy")
-  public String withDeploy(
-    @RequestParam final String lang,
-    @RequestParam final String ISBN,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return "remove hyphen";
-  }
+  
 
   @GetMapping("/isbn/removeHyphen")
   public String removeHypens(
