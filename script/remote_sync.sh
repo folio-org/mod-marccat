@@ -16,7 +16,8 @@ RESTART_WAIT_SEC=3
 
 
 rem_sync(){
-scp -P 22022 ${SSH_SRC_FILE} folio@151.1.165.20:/usr/local/folio/data
-echo "cd /usr/local/folio/bin ; sh deploy_mod-cat.sh" | ssh -p 22022 folio@151.1.165.20
+  scp -P 22022 ${SSH_SRC_FILE} folio@151.1.165.20:/usr/local/folio/data
+  sleep ${RESTART_WAIT_SEC}
+  nohup echo "cd /usr/local/folio/bin ; sh deploy_mod-cat.sh" | ssh -p 22022 folio@151.1.165.20 &
 }
 rem_sync
