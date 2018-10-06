@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Aug 26, 2004
- * 
+ *
  * TitleFunction.java
  */
 package org.folio.cataloging.dao.persistence;

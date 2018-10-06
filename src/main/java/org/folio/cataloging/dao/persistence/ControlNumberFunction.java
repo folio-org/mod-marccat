@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Jan 18, 2005
- * 
+ *
  * ControlNumberFunction.java
  */
 package org.folio.cataloging.dao.persistence;

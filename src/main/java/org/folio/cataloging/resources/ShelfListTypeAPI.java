@@ -28,32 +28,32 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
 public class ShelfListTypeAPI extends BaseResource {
 
-    private Function<Avp<String>, ShelfListType> toShelfListType = source -> {
-        final ShelfListType shelfListType = new ShelfListType();
-        shelfListType.setCode(source.getValue());
-        shelfListType.setDescription(source.getLabel());
-        return shelfListType;
-    };
+  private Function <Avp <String>, ShelfListType> toShelfListType = source -> {
+    final ShelfListType shelfListType = new ShelfListType ( );
+    shelfListType.setCode (source.getValue ( ));
+    shelfListType.setDescription (source.getLabel ( ));
+    return shelfListType;
+  };
 
-    @ApiOperation(value = "Returns all types associated with a given language")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Method successfully returned the requested types."),
-            @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 414, message = "Request-URI Too Long"),
-            @ApiResponse(code = 500, message = "System internal failure occurred.")
-    })
-    @GetMapping("/shelflist-types")
-    public ShelfListTypeCollection getShelfListTypes(
-            @RequestParam final String lang,
-            @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-        return doGet((storageService, configuration) -> {
-                final ShelfListTypeCollection container = new ShelfListTypeCollection();
-                container.setShelfListTypes(
-                        storageService.getShelfListTypes(lang)
-                                .stream()
-                                .map(toShelfListType)
-                                .collect(toList()));
-                return container;
-        }, tenant, configurator);
-    }
+  @ApiOperation(value = "Returns all types associated with a given language")
+  @ApiResponses(value = {
+    @ApiResponse(code = 200, message = "Method successfully returned the requested types."),
+    @ApiResponse(code = 400, message = "Bad Request"),
+    @ApiResponse(code = 414, message = "Request-URI Too Long"),
+    @ApiResponse(code = 500, message = "System internal failure occurred.")
+  })
+  @GetMapping("/shelflist-types")
+  public ShelfListTypeCollection getShelfListTypes(
+    @RequestParam final String lang,
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    return doGet ((storageService, configuration) -> {
+      final ShelfListTypeCollection container = new ShelfListTypeCollection ( );
+      container.setShelfListTypes (
+        storageService.getShelfListTypes (lang)
+          .stream ( )
+          .map (toShelfListType)
+          .collect (toList ( )));
+      return container;
+    }, tenant, configurator);
+  }
 }

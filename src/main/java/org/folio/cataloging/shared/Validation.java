@@ -11,87 +11,81 @@ import static java.util.stream.Collectors.toList;
  */
 public abstract class Validation {
 
-	public char getMarcTagDefaultSubfieldCode() {
-		return marcTagDefaultSubfieldCode;
-	}
+  private char marcTagObsoleteIndicator;
+  private char marcTagRepeatableIndicator;
+  private char marcTagEditableIndicator;
+  private char marcTagDefaultSubfieldCode;
+  private String marcValidSubfieldStringCode;
+  private String repeatableSubfieldStringCode;
+  private char skipInFlngCode;
 
-	public char getMarcTagEditableIndicator() {
-		return marcTagEditableIndicator;
-	}
+  public char getMarcTagDefaultSubfieldCode() {
+    return marcTagDefaultSubfieldCode;
+  }
 
-	public char getMarcTagObsoleteIndicator() {
-		return marcTagObsoleteIndicator;
-	}
+  public void setMarcTagDefaultSubfieldCode(char c) {
+    marcTagDefaultSubfieldCode = c;
+  }
 
-	public char getMarcTagRepeatableIndicator() {
-		return marcTagRepeatableIndicator;
-	}
+  public char getMarcTagEditableIndicator() {
+    return marcTagEditableIndicator;
+  }
 
-	public boolean isMarcTagRepeatable() {
-		return marcTagRepeatableIndicator == '1';
-	}
+  public void setMarcTagEditableIndicator(char c) {
+    marcTagEditableIndicator = c;
+  }
 
-	public String getMarcValidSubfieldStringCode() {
-		return marcValidSubfieldStringCode;
-	}
+  public char getMarcTagObsoleteIndicator() {
+    return marcTagObsoleteIndicator;
+  }
 
-	public String getRepeatableSubfieldStringCode() {
-		return repeatableSubfieldStringCode;
-	}
+  public void setMarcTagObsoleteIndicator(char c) {
+    marcTagObsoleteIndicator = c;
+  }
 
-	public char getSkipInFlngCode() {
-		return skipInFlngCode;
-	}
+  public char getMarcTagRepeatableIndicator() {
+    return marcTagRepeatableIndicator;
+  }
 
-	public void setMarcTagDefaultSubfieldCode(char c) {
-		marcTagDefaultSubfieldCode = c;
-	}
+  public void setMarcTagRepeatableIndicator(char c) {
+    marcTagRepeatableIndicator = c;
+  }
 
-	public void setMarcTagEditableIndicator(char c) {
-		marcTagEditableIndicator = c;
-	}
+  public boolean isMarcTagRepeatable() {
+    return marcTagRepeatableIndicator == '1';
+  }
 
-	public void setMarcTagObsoleteIndicator(char c) {
-		marcTagObsoleteIndicator = c;
-	}
+  public String getMarcValidSubfieldStringCode() {
+    return marcValidSubfieldStringCode;
+  }
 
-	public void setMarcTagRepeatableIndicator(char c) {
-		marcTagRepeatableIndicator = c;
-	}
+  public void setMarcValidSubfieldStringCode(String string) {
+    marcValidSubfieldStringCode = string;
+  }
 
-	public void setMarcValidSubfieldStringCode(String string) {
-		marcValidSubfieldStringCode = string;
-	}
+  public String getRepeatableSubfieldStringCode() {
+    return repeatableSubfieldStringCode;
+  }
 
-	public void setRepeatableSubfieldStringCode(String string) {
-		repeatableSubfieldStringCode = string;
-	}
+  public void setRepeatableSubfieldStringCode(String string) {
+    repeatableSubfieldStringCode = string;
+  }
 
-	public void setSkipInFlngCode(char c) {
-		skipInFlngCode = c;
-	}
+  public char getSkipInFlngCode() {
+    return skipInFlngCode;
+  }
 
-	public List<String> getValidSubfieldCodes() {
-		return stream(marcValidSubfieldStringCode.split("")).collect(toList());
-	}
+  public void setSkipInFlngCode(char c) {
+    skipInFlngCode = c;
+  }
 
-	public List<String> getRepeatableSubfieldCodes() {
-		return stream(repeatableSubfieldStringCode.split("")).collect(toList());
-	}
+  public List <String> getValidSubfieldCodes() {
+    return stream (marcValidSubfieldStringCode.split ("")).collect (toList ( ));
+  }
 
-	private char marcTagObsoleteIndicator;
+  public List <String> getRepeatableSubfieldCodes() {
+    return stream (repeatableSubfieldStringCode.split ("")).collect (toList ( ));
+  }
 
-	private char marcTagRepeatableIndicator;
-
-	private char marcTagEditableIndicator;
-
-	private char marcTagDefaultSubfieldCode;
-
-	private String marcValidSubfieldStringCode;
-
-	private String repeatableSubfieldStringCode;
-
-	private char skipInFlngCode;
-
-	abstract public ValidationKey getKey();
+  abstract public ValidationKey getKey();
 }

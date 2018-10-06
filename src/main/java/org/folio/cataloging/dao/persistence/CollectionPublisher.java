@@ -11,214 +11,212 @@ import org.folio.cataloging.dao.DAOCollectionPublisher;
 import java.io.Serializable;
 import java.util.Date;
 
-public class CollectionPublisher implements Persistence 
-{
-	private static final long serialVersionUID = 2522128570785338271L;
+public class CollectionPublisher implements Persistence {
+  private static final long serialVersionUID = 2522128570785338271L;
 
-	static DAOCollectionPublisher dao = new DAOCollectionPublisher();
-	
-	private int idCollection;
-	private int nameIta;
-    private int statusCode;
-	private Date dateCreation;
-	private Date dateCancel;
-	private String userCreate;
-	private String userModify;
-	private Date dateModify;
-	private String publCode;
-	private int levelCode;
-//	20101015 inizio: aggiunto campo Anno
-	private int year;
-	
-	public String getPublCode() {
-		return publCode;
-	}
+  static DAOCollectionPublisher dao = new DAOCollectionPublisher ( );
 
-	public void setPublCode(String publCode) {
-		this.publCode = publCode;
-	}
+  private int idCollection;
+  private int nameIta;
+  private int statusCode;
+  private Date dateCreation;
+  private Date dateCancel;
+  private String userCreate;
+  private String userModify;
+  private Date dateModify;
+  private String publCode;
+  private int levelCode;
+  //	20101015 inizio: aggiunto campo Anno
+  private int year;
+  private PersistenceState persistenceState = new PersistenceState ( );
 
-	public int getLevelCode() {
-		return levelCode;
-	}
+  public CollectionPublisher() {
+    super ( );
+  }
 
-	public void setLevelCode(int levelCode) {
-		this.levelCode = levelCode;
-	}
+  public String getPublCode() {
+    return publCode;
+  }
 
-	public Date getDateModify() {
-		return dateModify;
-	}
+  public void setPublCode(String publCode) {
+    this.publCode = publCode;
+  }
 
-	public void setDateModify(Date dateModify) {
-		this.dateModify = dateModify;
-	}
+  public int getLevelCode() {
+    return levelCode;
+  }
 
-	public String getUserCreate() {
-		return userCreate;
-	}
+  public void setLevelCode(int levelCode) {
+    this.levelCode = levelCode;
+  }
 
-	public void setUserCreate(String userCreate) {
-		this.userCreate = userCreate;
-	}
+  public Date getDateModify() {
+    return dateModify;
+  }
 
-	public String getUserModify() {
-		return userModify;
-	}
+  public void setDateModify(Date dateModify) {
+    this.dateModify = dateModify;
+  }
 
-	public void setUserModify(String userModify) {
-		this.userModify = userModify;
-	}
+  public String getUserCreate() {
+    return userCreate;
+  }
 
-	public int getIdCollection() {
-		return idCollection;
-	}
+  public void setUserCreate(String userCreate) {
+    this.userCreate = userCreate;
+  }
 
-	public void setIdCollection(int idCollection) {
-		this.idCollection = idCollection;
-	}
+  public String getUserModify() {
+    return userModify;
+  }
 
-	public int getNameIta() {
-		return nameIta;
-	}
+  public void setUserModify(String userModify) {
+    this.userModify = userModify;
+  }
 
-	public void setNameIta(int nameIta) {
-		this.nameIta = nameIta;
-	}
+  public int getIdCollection() {
+    return idCollection;
+  }
 
-	public int getStatusCode() {
-		return statusCode;
-	}
+  public void setIdCollection(int idCollection) {
+    this.idCollection = idCollection;
+  }
 
-	public void setStatusCode(int statusCode) {
-		this.statusCode = statusCode;
-	}
+  public int getNameIta() {
+    return nameIta;
+  }
 
-	public Date getDateCreation() {
-		return dateCreation;
-	}
+  public void setNameIta(int nameIta) {
+    this.nameIta = nameIta;
+  }
 
-	public void setDateCreation(Date dateCreation) {
-		this.dateCreation = dateCreation;
-	}
+  public int getStatusCode() {
+    return statusCode;
+  }
 
-	public Date getDateCancel() {
-		return dateCancel;
-	}
+  public void setStatusCode(int statusCode) {
+    this.statusCode = statusCode;
+  }
 
-	public void setDateCancel(Date dateCancel) {
-		this.dateCancel = dateCancel;
-	}
-	
-	public int getYear() {
-		return year;
-	}
+  public Date getDateCreation() {
+    return dateCreation;
+  }
 
-	public void setYear(int year) {
-		this.year = year;
-	}
-	
-	private PersistenceState persistenceState = new PersistenceState();
-	
-	public CollectionPublisher() {
-		super();
-	}
-   
-	public PersistenceState getPersistenceState() {
-		return persistenceState;
-	}
+  public void setDateCreation(Date dateCreation) {
+    this.dateCreation = dateCreation;
+  }
 
-	public void setPersistenceState(PersistenceState state) {
-		persistenceState = state;
-	}
+  public Date getDateCancel() {
+    return dateCancel;
+  }
 
-	public void evict(Object obj) throws DataAccessException {
-		persistenceState.evict(obj);
-	}
+  public void setDateCancel(Date dateCancel) {
+    this.dateCancel = dateCancel;
+  }
 
-	public void evict() throws DataAccessException {
-		evict(this);
-	}
-	
-	public AbstractDAO getDAO() {
-		return dao;
-	}
+  public int getYear() {
+    return year;
+  }
 
-	public int hashCode(){
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + idCollection;
-		return result;
-	}
+  public void setYear(int year) {
+    this.year = year;
+  }
 
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		CollectionPublisher other = (CollectionPublisher) obj;
-        return idCollection == other.idCollection;
-    }
+  public PersistenceState getPersistenceState() {
+    return persistenceState;
+  }
 
-	public int getUpdateStatus() {
-		return persistenceState.getUpdateStatus();
-	}
+  public void setPersistenceState(PersistenceState state) {
+    persistenceState = state;
+  }
 
-	public boolean isChanged() {
-		return persistenceState.isChanged();
-	}
+  public void evict(Object obj) throws DataAccessException {
+    persistenceState.evict (obj);
+  }
 
-	public boolean isDeleted() {
-		return persistenceState.isDeleted();
-	}
+  public void evict() throws DataAccessException {
+    evict (this);
+  }
 
-	public boolean isNew() {
-		return persistenceState.isNew();
-	}
+  public AbstractDAO getDAO() {
+    return dao;
+  }
 
-	public boolean isRemoved() {
-		return persistenceState.isRemoved();
-	}
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + idCollection;
+    return result;
+  }
 
-	public void markChanged() {
-		persistenceState.markChanged();
-	}
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass ( ) != obj.getClass ( ))
+      return false;
+    CollectionPublisher other = (CollectionPublisher) obj;
+    return idCollection == other.idCollection;
+  }
 
-	public void markDeleted() {
-		persistenceState.markDeleted();
-	}
+  public int getUpdateStatus() {
+    return persistenceState.getUpdateStatus ( );
+  }
 
-	public void markNew() {
-		persistenceState.markNew();
-	}
+  public void setUpdateStatus(int i) {
+    persistenceState.setUpdateStatus (i);
+  }
 
-	public void markUnchanged() {
-		persistenceState.markUnchanged();
-	}
+  public boolean isChanged() {
+    return persistenceState.isChanged ( );
+  }
 
-	public boolean onDelete(Session arg0) throws CallbackException {
-		return persistenceState.onDelete(arg0);
-	}
+  public boolean isDeleted() {
+    return persistenceState.isDeleted ( );
+  }
 
-	public void onLoad(Session arg0, Serializable arg1) {
-		persistenceState.onLoad(arg0, arg1);
-	}
+  public boolean isNew() {
+    return persistenceState.isNew ( );
+  }
 
-	public boolean onSave(Session arg0) throws CallbackException {
-		return persistenceState.onSave(arg0);
-	}
+  public boolean isRemoved() {
+    return persistenceState.isRemoved ( );
+  }
 
-	public boolean onUpdate(Session arg0) throws CallbackException {
-		return persistenceState.onUpdate(arg0);
-	}
+  public void markChanged() {
+    persistenceState.markChanged ( );
+  }
 
-	public void setUpdateStatus(int i) {
-		persistenceState.setUpdateStatus(i);
-	}
+  public void markDeleted() {
+    persistenceState.markDeleted ( );
+  }
 
-	public void generateNewKey() throws DataAccessException {
-		// not applicable for this class
-	}
+  public void markNew() {
+    persistenceState.markNew ( );
+  }
+
+  public void markUnchanged() {
+    persistenceState.markUnchanged ( );
+  }
+
+  public boolean onDelete(Session arg0) throws CallbackException {
+    return persistenceState.onDelete (arg0);
+  }
+
+  public void onLoad(Session arg0, Serializable arg1) {
+    persistenceState.onLoad (arg0, arg1);
+  }
+
+  public boolean onSave(Session arg0) throws CallbackException {
+    return persistenceState.onSave (arg0);
+  }
+
+  public boolean onUpdate(Session arg0) throws CallbackException {
+    return persistenceState.onUpdate (arg0);
+  }
+
+  public void generateNewKey() throws DataAccessException {
+    // not applicable for this class
+  }
 }

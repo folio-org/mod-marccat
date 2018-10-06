@@ -5,6 +5,7 @@ package org.folio.cataloging.util.isbn;
  * <p>
  * Each group is based in the information on
  * https://www.isbn-international.org/range_file_generation [revision Oct 5, 2018]
+ *
  * @author Christian Chiama
  * @version $Revision:
  */

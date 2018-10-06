@@ -12,63 +12,57 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "catalogSources" })
+@JsonPropertyOrder({"catalogSources"})
 public class CatalogSourceCollection {
 
-    /**
-     * 
-     * (Required)
-     * 
-     */
-    @JsonProperty("catalogSources")
-    @Valid
-    @NotNull
-    private List<CatalogSource> catalogSources = new ArrayList<CatalogSource>();
+  /**
+   * (Required)
+   */
+  @JsonProperty("catalogSources")
+  @Valid
+  @NotNull
+  private List <CatalogSource> catalogSources = new ArrayList <CatalogSource> ( );
 
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  @JsonIgnore
+  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
 
-    /**
-     * 
-     * (Required)
-     * 
-     * @return
-     *     The catalogSources
-     */
-    @JsonProperty("catalogSources")
-    public List<CatalogSource> getCatalogSources() {
-        return catalogSources;
-    }
+  /**
+   * (Required)
+   *
+   * @return The catalogSources
+   */
+  @JsonProperty("catalogSources")
+  public List <CatalogSource> getCatalogSources() {
+    return catalogSources;
+  }
 
-    /**
-     * 
-     * (Required)
-     * 
-     * @param catalogSources
-     *     The catalogSources
-     */
-    @JsonProperty("catalogSources")
-    public void setCatalogSources(List<CatalogSource> catalogSources) {
-        this.catalogSources = catalogSources;
-    }
+  /**
+   * (Required)
+   *
+   * @param catalogSources The catalogSources
+   */
+  @JsonProperty("catalogSources")
+  public void setCatalogSources(List <CatalogSource> catalogSources) {
+    this.catalogSources = catalogSources;
+  }
 
-    public CatalogSourceCollection withCatalogSources(List<CatalogSource> catalogSources) {
-        this.catalogSources = catalogSources;
-        return this;
-    }
+  public CatalogSourceCollection withCatalogSources(List <CatalogSource> catalogSources) {
+    this.catalogSources = catalogSources;
+    return this;
+  }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
+  @JsonAnyGetter
+  public Map <String, Object> getAdditionalProperties() {
+    return this.additionalProperties;
+  }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
+  @JsonAnySetter
+  public void setAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+  }
 
-    public CatalogSourceCollection withAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-        return this;
-    }
+  public CatalogSourceCollection withAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+    return this;
+  }
 }

@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on 27-jul-2004
- * 
+ *
  * T_HLDG_NT_VW.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -16,77 +16,77 @@ import java.util.Date;
  */
 public class T_HLDG_NTE_VW {
 
-	private short code;
-	private short sequence;
-	private short repeteable;
-	private short languageCode;
-	private String labelStringText;
-	private Date lastUpdateDate;
-	private short tableObsoletoIndex;
-	private Date tableObsoletoDate;
+  private short code;
+  private short sequence;
+  private short repeteable;
+  private short languageCode;
+  private String labelStringText;
+  private Date lastUpdateDate;
+  private short tableObsoletoIndex;
+  private Date tableObsoletoDate;
 
-	public short getCode() {
-		return code;
-	}
+  public short getCode() {
+    return code;
+  }
 
-	public String getLabelStringText() {
-		return labelStringText;
-	}
+  public void setCode(short s) {
+    code = s;
+  }
 
-	public short getLanguageCode() {
-		return languageCode;
-	}
+  public String getLabelStringText() {
+    return labelStringText;
+  }
 
-	public Date getLastUpdateDate() {
-		return lastUpdateDate;
-	}
+  public void setLabelStringText(String string) {
+    labelStringText = string;
+  }
 
-	public short getRepeteable() {
-		return repeteable;
-	}
+  public short getLanguageCode() {
+    return languageCode;
+  }
 
-	public short getSequence() {
-		return sequence;
-	}
+  public void setLanguageCode(short s) {
+    languageCode = s;
+  }
 
-	public Date getTableObsoletoDate() {
-		return tableObsoletoDate;
-	}
+  public Date getLastUpdateDate() {
+    return lastUpdateDate;
+  }
 
-	public short getTableObsoletoIndex() {
-		return tableObsoletoIndex;
-	}
+  public void setLastUpdateDate(Date date) {
+    lastUpdateDate = date;
+  }
 
-	public void setCode(short s) {
-		code = s;
-	}
+  public short getRepeteable() {
+    return repeteable;
+  }
 
-	public void setLabelStringText(String string) {
-		labelStringText = string;
-	}
+  public void setRepeteable(short s) {
+    repeteable = s;
+  }
 
-	public void setLanguageCode(short s) {
-		languageCode = s;
-	}
+  public short getSequence() {
+    return sequence;
+  }
 
-	public void setLastUpdateDate(Date date) {
-		lastUpdateDate = date;
-	}
+  public void setSequence(short s) {
+    sequence = s;
+  }
 
-	public void setRepeteable(short s) {
-		repeteable = s;
-	}
+  public Date getTableObsoletoDate() {
+    return tableObsoletoDate;
+  }
 
-	public void setSequence(short s) {
-		sequence = s;
-	}
+  public void setTableObsoletoDate(Date date) {
+    tableObsoletoDate = date;
+  }
 
-	public void setTableObsoletoDate(Date date) {
-		tableObsoletoDate = date;
-	}
+  public short getTableObsoletoIndex() {
+    return tableObsoletoIndex;
+  }
 
-	public void setTableObsoletoIndex(short s) {
-		tableObsoletoIndex = s;
-	}
+  public void setTableObsoletoIndex(short s) {
+    tableObsoletoIndex = s;
+  }
 
 }

@@ -12,63 +12,57 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "dateTypes" })
+@JsonPropertyOrder({"dateTypes"})
 public class DateTypeCollection {
 
-    /**
-     * 
-     * (Required)
-     * 
-     */
-    @JsonProperty("dateTypes")
-    @Valid
-    @NotNull
-    private List<DateType> dateTypes = new ArrayList<DateType>();
+  /**
+   * (Required)
+   */
+  @JsonProperty("dateTypes")
+  @Valid
+  @NotNull
+  private List <DateType> dateTypes = new ArrayList <DateType> ( );
 
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  @JsonIgnore
+  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
 
-    /**
-     * 
-     * (Required)
-     * 
-     * @return
-     *     The dateTypes
-     */
-    @JsonProperty("dateTypes")
-    public List<DateType> getDateTypes() {
-        return dateTypes;
-    }
+  /**
+   * (Required)
+   *
+   * @return The dateTypes
+   */
+  @JsonProperty("dateTypes")
+  public List <DateType> getDateTypes() {
+    return dateTypes;
+  }
 
-    /**
-     * 
-     * (Required)
-     * 
-     * @param dateTypes
-     *     The dateTypes
-     */
-    @JsonProperty("dateTypes")
-    public void setDateTypes(List<DateType> dateTypes) {
-        this.dateTypes = dateTypes;
-    }
+  /**
+   * (Required)
+   *
+   * @param dateTypes The dateTypes
+   */
+  @JsonProperty("dateTypes")
+  public void setDateTypes(List <DateType> dateTypes) {
+    this.dateTypes = dateTypes;
+  }
 
-    public DateTypeCollection withDateTypes(List<DateType> dateTypes) {
-        this.dateTypes = dateTypes;
-        return this;
-    }
+  public DateTypeCollection withDateTypes(List <DateType> dateTypes) {
+    this.dateTypes = dateTypes;
+    return this;
+  }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
+  @JsonAnyGetter
+  public Map <String, Object> getAdditionalProperties() {
+    return this.additionalProperties;
+  }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
+  @JsonAnySetter
+  public void setAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+  }
 
-    public DateTypeCollection withAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-        return this;
-    }
+  public DateTypeCollection withAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+    return this;
+  }
 }

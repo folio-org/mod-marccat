@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Jun 18, 2004
- * 
+ *
  * SubjectType.java
  */
 package org.folio.cataloging.dao.persistence;

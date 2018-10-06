@@ -7,5 +7,5 @@ package org.folio.cataloging.search;
  * @since 1.0
  */
 public enum SearchEngineType {
-    DEFAULT, LIGHTWEIGHT
+  DEFAULT, LIGHTWEIGHT
 }

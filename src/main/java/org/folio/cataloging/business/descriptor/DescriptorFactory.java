@@ -15,23 +15,23 @@ import org.folio.cataloging.dao.persistence.Descriptor;
  */
 public class DescriptorFactory {
 
-	private static AbstractMapBackedFactory descriptorFactory;
-	private static AbstractMapBackedFactory daoFactory;
+  private static AbstractMapBackedFactory descriptorFactory;
+  private static AbstractMapBackedFactory daoFactory;
 
-	static {
-		descriptorFactory = new MapBackedFactory();
-		daoFactory = new MapBackedSingletonFactory();
-    final PropertyBasedFactoryBuilder builder = new PropertyBasedFactoryBuilder();
-		builder.load("/org/folio/cataloging/business/cataloguing/bibliographic/descriptorFactory.properties", descriptorFactory);
-		builder.load("/org/folio/cataloging/business/cataloguing/bibliographic/daoFactory.properties", daoFactory);
+  static {
+    descriptorFactory = new MapBackedFactory ( );
+    daoFactory = new MapBackedSingletonFactory ( );
+    final PropertyBasedFactoryBuilder builder = new PropertyBasedFactoryBuilder ( );
+    builder.load ("/org/folio/cataloging/business/cataloguing/bibliographic/descriptorFactory.properties", descriptorFactory);
+    builder.load ("/org/folio/cataloging/business/cataloguing/bibliographic/daoFactory.properties", daoFactory);
   }
 
-	public static Descriptor createDescriptor(int category) {
-		return (Descriptor) descriptorFactory.create(category);
-	}
+  public static Descriptor createDescriptor(int category) {
+    return (Descriptor) descriptorFactory.create (category);
+  }
 
-	public static DAODescriptor getDao(int category) {
-		return (DAODescriptor) daoFactory.create(category);
-	}
+  public static DAODescriptor getDao(int category) {
+    return (DAODescriptor) daoFactory.create (category);
+  }
 
 }

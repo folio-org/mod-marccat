@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Nov 8, 2004
- * 
+ *
  * T_PG_CLR.java
  */
 package org.folio.cataloging.dao.persistence;

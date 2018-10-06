@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on 16-jul-2004
- * 
+ *
  * LCTN_ISOLANG_VW.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -17,75 +17,74 @@ import java.util.Date;
  * @since 1.0
  */
 public class LCTN_ISOLANG_VW implements Serializable {
-	
-	private LocationKey key;
-	private String isoLanguage;
-	private String labelStringText;
-	private int tableSequenceNumber;
-	private short tableObsoleteIndicator;
-	private Date tableObsoleteDate;
-	private Date listUpdateDate;
 
-	
-	
-	public String getIsoLanguage() {
-		return isoLanguage;
-	}
+  private LocationKey key;
+  private String isoLanguage;
+  private String labelStringText;
+  private int tableSequenceNumber;
+  private short tableObsoleteIndicator;
+  private Date tableObsoleteDate;
+  private Date listUpdateDate;
 
-	public LocationKey getKey() {
-		return key;
-	}
 
-	public String getLabelStringText() {
-		return labelStringText;
-	}
+  public String getIsoLanguage() {
+    return isoLanguage;
+  }
 
-	public Date getListUpdateDate() {
-		return listUpdateDate;
-	}
+  public void setIsoLanguage(String string) {
+    isoLanguage = string;
+  }
 
-	public Date getTableObsoleteDate() {
-		return tableObsoleteDate;
-	}
+  public LocationKey getKey() {
+    return key;
+  }
 
-	public short getTableObsoleteIndicator() {
-		return tableObsoleteIndicator;
-	}
+  public void setKey(LocationKey key) {
+    this.key = key;
+  }
 
-	public int getTableSequenceNumber() {
-		return tableSequenceNumber;
-	}
+  public String getLabelStringText() {
+    return labelStringText;
+  }
 
-	public void setIsoLanguage(String string) {
-		isoLanguage = string;
-	}
+  public void setLabelStringText(String string) {
+    labelStringText = string;
+  }
 
-	public void setKey(LocationKey key) {
-		this.key = key;
-	}
+  public Date getListUpdateDate() {
+    return listUpdateDate;
+  }
 
-	public void setLabelStringText(String string) {
-		labelStringText = string;
-	}
+  public void setListUpdateDate(Date date) {
+    listUpdateDate = date;
+  }
 
-	public void setListUpdateDate(Date date) {
-		listUpdateDate = date;
-	}
+  public Date getTableObsoleteDate() {
+    return tableObsoleteDate;
+  }
 
-	public void setTableObsoleteDate(Date date) {
-		tableObsoleteDate = date;
-	}
+  public void setTableObsoleteDate(Date date) {
+    tableObsoleteDate = date;
+  }
 
-	public void setTableObsoleteIndicator(short s) {
-		tableObsoleteIndicator = s;
-	}
+  public short getTableObsoleteIndicator() {
+    return tableObsoleteIndicator;
+  }
 
-	public void setTableSequenceNumber(int i) {
-		tableSequenceNumber = i;
-	}
+  public void setTableObsoleteIndicator(short s) {
+    tableObsoleteIndicator = s;
+  }
 
-	public short getLocation() {
-		return this.key.getLocationNumber();
-	}
+  public int getTableSequenceNumber() {
+    return tableSequenceNumber;
+  }
+
+  public void setTableSequenceNumber(int i) {
+    tableSequenceNumber = i;
+  }
+
+  public short getLocation() {
+    return this.key.getLocationNumber ( );
+  }
 
 }

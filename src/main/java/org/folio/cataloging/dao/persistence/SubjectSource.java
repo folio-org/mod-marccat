@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Jun 18, 2004
- * 
+ *
  * SubjectSource.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -13,9 +13,9 @@ package org.folio.cataloging.dao.persistence;
  * @since 1.0
  */
 public class SubjectSource extends T_SINGLE {
-	private final static short USES_SECONDARY_SOURCE = 9;
-	
-	public static boolean isOtherSource(int code) {
-		return code == USES_SECONDARY_SOURCE;
-	}
+  private final static short USES_SECONDARY_SOURCE = 9;
+
+  public static boolean isOtherSource(int code) {
+    return code == USES_SECONDARY_SOURCE;
+  }
 }

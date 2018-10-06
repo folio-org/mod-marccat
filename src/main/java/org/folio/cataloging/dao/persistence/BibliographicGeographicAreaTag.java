@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Nov 18, 2005
- * 
+ *
  * BibliographicGeographicAreaTag.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -16,15 +16,14 @@ import org.folio.cataloging.business.cataloguing.common.GeographicAreaTag;
  */
 public class BibliographicGeographicAreaTag extends GeographicAreaTag {
 
-	/**
-	 * Class constructor
-	 *
-	 * 
-	 * @since 1.0
-	 */
-	public BibliographicGeographicAreaTag() {
-		super();
-		setHeaderType((short) 5);
-	}
+  /**
+   * Class constructor
+   *
+   * @since 1.0
+   */
+  public BibliographicGeographicAreaTag() {
+    super ( );
+    setHeaderType ((short) 5);
+  }
 
 }

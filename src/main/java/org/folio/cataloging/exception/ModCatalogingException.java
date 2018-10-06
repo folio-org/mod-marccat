@@ -9,20 +9,20 @@ package org.folio.cataloging.exception;
  */
 public class ModCatalogingException extends RuntimeException {
 
-	public ModCatalogingException() {
-		super();
-	}
+  public ModCatalogingException() {
+    super ( );
+  }
 
-	public ModCatalogingException(final String message) {
-		super(message);
-	}
+  public ModCatalogingException(final String message) {
+    super (message);
+  }
 
-	public ModCatalogingException(final String message, final Throwable cause) {
-		super(message, cause);
-	}
+  public ModCatalogingException(final String message, final Throwable cause) {
+    super (message, cause);
+  }
 
-	public ModCatalogingException(final Throwable cause) {
-		super(cause);
-	}
+  public ModCatalogingException(final Throwable cause) {
+    super (cause);
+  }
 
 }

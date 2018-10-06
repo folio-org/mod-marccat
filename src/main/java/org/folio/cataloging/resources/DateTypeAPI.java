@@ -27,32 +27,32 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
 public class DateTypeAPI extends BaseResource {
 
-    private Function<Avp<String>, DateType> toDateType = source -> {
-        final DateType dateType = new DateType();
-        dateType.setCode(source.getValue());
-        dateType.setDescription(source.getLabel());
-        return dateType;
-    };
+  private Function <Avp <String>, DateType> toDateType = source -> {
+    final DateType dateType = new DateType ( );
+    dateType.setCode (source.getValue ( ));
+    dateType.setDescription (source.getLabel ( ));
+    return dateType;
+  };
 
-    @ApiOperation(value = "Returns all date types")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Method successfully returned the requested date types"),
-            @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 414, message = "Request-URI Too Long"),
-            @ApiResponse(code = 500, message = "System internal failure occurred.")
-    })
-    @GetMapping("/date-types")
-    public DateTypeCollection getDateTypes(
-            @RequestParam final String lang,
-            @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-        return doGet((storageService, configuration) -> {
-                final DateTypeCollection container = new DateTypeCollection();
-                container.setDateTypes(
-                        storageService.getDateTypes(lang)
-                                .stream()
-                                .map(toDateType)
-                                .collect(toList()));
-                return container;
-        }, tenant, configurator);
-    }
+  @ApiOperation(value = "Returns all date types")
+  @ApiResponses(value = {
+    @ApiResponse(code = 200, message = "Method successfully returned the requested date types"),
+    @ApiResponse(code = 400, message = "Bad Request"),
+    @ApiResponse(code = 414, message = "Request-URI Too Long"),
+    @ApiResponse(code = 500, message = "System internal failure occurred.")
+  })
+  @GetMapping("/date-types")
+  public DateTypeCollection getDateTypes(
+    @RequestParam final String lang,
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    return doGet ((storageService, configuration) -> {
+      final DateTypeCollection container = new DateTypeCollection ( );
+      container.setDateTypes (
+        storageService.getDateTypes (lang)
+          .stream ( )
+          .map (toDateType)
+          .collect (toList ( )));
+      return container;
+    }, tenant, configurator);
+  }
 }

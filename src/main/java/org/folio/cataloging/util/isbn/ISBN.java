@@ -16,29 +16,29 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 // TODO da rivedere un attimo la logica dell annotation
 @Documented
-@Constraint(validatedBy = { })
-@Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE })
+@Constraint(validatedBy = {})
+@Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE})
 @Retention(RUNTIME)
 @Repeatable(ISBN.List.class)
 public @interface ISBN {
 
   String message() default "";
 
-  Class<?>[] groups() default { };
+  Class <?>[] groups() default {};
 
-  Class<? extends Payload>[] payload() default { };
+  Class <? extends Payload>[] payload() default {};
 
   Type type() default Type.ISBN13;
-
-  @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE })
-  @Retention(RUNTIME)
-  @Documented
-  @interface List {
-    ISBN[] value();
-  }
 
   enum Type {
     ISBN10,
     ISBN13
+  }
+
+  @Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE})
+  @Retention(RUNTIME)
+  @Documented
+  @interface List {
+    ISBN[] value();
   }
 }

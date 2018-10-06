@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on 20-sep-2004
- * 
+ *
  * T_MSC_FORM_OR_TYP.java
  */
 package org.folio.cataloging.dao.persistence;

@@ -1,348 +1,315 @@
 package org.folio.cataloging.bean.cataloguing.copy;
 
+import org.folio.cataloging.dao.persistence.CPY_ID;
+
 import java.util.List;
 import java.util.Vector;
-
-import org.folio.cataloging.dao.persistence.CPY_ID;
 
 /**
  * @author elena
  * @version $Revision: 1.5 $, $Date: 2005/08/03 12:40:10 $
-  * @since 1.0
+ * @since 1.0
  */
 public class CopyListElement {
-	CPY_ID copy;
-	private String dueDate;
-	private String librarySymbol;
-	private String branchSymbol;
-	private String location;
-	private String shelfList;
-	private int howManyNotes;
-	private int howManyInventory;
-	private List notesList = new Vector();
-	private Integer hldgNbr;
-	private String hldgText;
-	private int bndCpyIdNbr;
-	private String discardDate;
-	private int discardCode;
-	
-	/**
-	 * MODIFICA BARBARA - inserire nella lista delle copie il posseduto
-	 * la tipologia del prestito e il copyremarknote
-	 * @since 1.0
-	 */
-	private String copyStatementText;
-	private String loanType;
-	private String copyRemarkNote;
-	private String shortCopyStatementText;
+  CPY_ID copy;
+  private String dueDate;
+  private String librarySymbol;
+  private String branchSymbol;
+  private String location;
+  private String shelfList;
+  private int howManyNotes;
+  private int howManyInventory;
+  private List notesList = new Vector ( );
+  private Integer hldgNbr;
+  private String hldgText;
+  private int bndCpyIdNbr;
+  private String discardDate;
+  private int discardCode;
 
-	private String hardback;
-	private String hardbackElement;
-	
+  /**
+   * MODIFICA BARBARA - inserire nella lista delle copie il posseduto
+   * la tipologia del prestito e il copyremarknote
+   *
+   * @since 1.0
+   */
+  private String copyStatementText;
+  private String loanType;
+  private String copyRemarkNote;
+  private String shortCopyStatementText;
 
-	public String getHardbackElement() {
-		return hardbackElement;
-	}
-
-	public void setHardbackElement(String hardbackElement) {
-		this.hardbackElement = hardbackElement;
-	}
-
-	public String getShortCopyStatementText() {
-		return copyStatementText != null && copyStatementText.length() > 20 ? copyStatementText.substring(0, 20) + "..." : copyStatementText;
-	}
-
-	public void setShortCopyStatementText(String shortCopyStatementText) {
-		this.shortCopyStatementText = shortCopyStatementText;
-	}
-
-	public CopyListElement(CPY_ID copy) {
-		setCopy(copy);
-		
-	}
-	
-	/**
-	 * 
-	 * 
-	 * @since 1.0
-	 */
-	public String getBarCodeNumber() {
-		return getCopy().getBarCodeNumber();
-	}
+  private String hardback;
+  private String hardbackElement;
 
 
-	/**
-	 * 
-	 * 
-	 * @since 1.0
-	 */
-	public int getCopyIdNumber() {
-		return getCopy().getCopyIdNumber();
-	}
+  public CopyListElement(CPY_ID copy) {
+    setCopy (copy);
 
-	/**
-	 * 
-	 * 
-	 * @since 1.0
-	 */
-	public String getLocation() {
-		return location;
-	}
+  }
 
-	/**
-	 * 
-	 * 
-	 * @since 1.0
-	 */
-	public List getNotesList() {
-		return notesList;
-	}
+  public String getHardbackElement() {
+    return hardbackElement;
+  }
 
-	/**
-	 * 
-	 * 
-	 * @param string
-	 * @since 1.0
-	 */
-	public void setBarCodeNumber(String string) {
-		getCopy().setBarCodeNumber(string);
-	}
+  public void setHardbackElement(String hardbackElement) {
+    this.hardbackElement = hardbackElement;
+  }
 
-	/**
-	 * 
-	 * 
-	 * @param string
-	 * @since 1.0
-	 */
-	public void setBranchSymbol(String string) {
-		branchSymbol = string;
-	}
+  public String getShortCopyStatementText() {
+    return copyStatementText != null && copyStatementText.length ( ) > 20 ? copyStatementText.substring (0, 20) + "..." : copyStatementText;
+  }
 
-	/**
-	 * 
-	 * 
-	 * @param i
-	 * @since 1.0
-	 */
-	public void setCopyIdNumber(int i) {
-		getCopy().setCopyIdNumber(i);
-	}
+  public void setShortCopyStatementText(String shortCopyStatementText) {
+    this.shortCopyStatementText = shortCopyStatementText;
+  }
 
-	/**
-	 * 
-	 * 
-	 * @param string
-	 * @since 1.0
-	 */
-	public void setLocation(String string) {
-		location = string;
-	}
+  /**
+   * @since 1.0
+   */
+  public String getBarCodeNumber() {
+    return getCopy ( ).getBarCodeNumber ( );
+  }
 
-	/**
-	 * 
-	 * 
-	 * @param list
-	 * @since 1.0
-	 */
-	public void setNotesList(List list) {
-		notesList = list;
-	}
+  /**
+   * @param string
+   * @since 1.0
+   */
+  public void setBarCodeNumber(String string) {
+    getCopy ( ).setBarCodeNumber (string);
+  }
 
-	/**
-	 * 
-	 * 
-	 * @since 1.0
-	 */
-	public String getBranchSymbol() {
-		return branchSymbol;
-	}
+  /**
+   * @since 1.0
+   */
+  public int getCopyIdNumber() {
+    return getCopy ( ).getCopyIdNumber ( );
+  }
 
-	/**
-	 * 
-	 * 
-	 * @since 1.0
-	 */
-	public int getHowManyNotes() {
-		return howManyNotes;
-	}
+  /**
+   * @param i
+   * @since 1.0
+   */
+  public void setCopyIdNumber(int i) {
+    getCopy ( ).setCopyIdNumber (i);
+  }
 
-	/**
-	 * 
-	 * 
-	 * @param i
-	 * @since 1.0
-	 */
-	public void setHowManyNotes(int i) {
-		howManyNotes = i;
-	}
+  /**
+   * @since 1.0
+   */
+  public String getLocation() {
+    return location;
+  }
 
-	/**
-	 * 
-	 * 
-	 * @since 1.0
-	 */
-	public String getShelfList() {
-		return shelfList;
-	}
+  /**
+   * @param string
+   * @since 1.0
+   */
+  public void setLocation(String string) {
+    location = string;
+  }
 
-	/**
-	 * 
-	 * 
-	 * @since 1.0
-	 */
-	public String getDueDate() {
-		return dueDate;
-	}
+  /**
+   * @since 1.0
+   */
+  public List getNotesList() {
+    return notesList;
+  }
 
-	/**
-	 * 
-	 * 
-	 * @param string
-	 * @since 1.0
-	 */
-	public void setShelfList(String string) {
-		shelfList = string;
-	}
+  /**
+   * @param list
+   * @since 1.0
+   */
+  public void setNotesList(List list) {
+    notesList = list;
+  }
 
-	/**
-	 * 
-	 * 
-	 * @param string
-	 * @since 1.0
-	 */
-	public void setDueDate(String string) {
-		dueDate = string;
-	}
+  /**
+   * @since 1.0
+   */
+  public String getBranchSymbol() {
+    return branchSymbol;
+  }
 
-	/**
-	 * 
-	 * @since 1.0
-	 */
-	public int getHowManyInventory() {
-		return howManyInventory;
-	}
+  /**
+   * @param string
+   * @since 1.0
+   */
+  public void setBranchSymbol(String string) {
+    branchSymbol = string;
+  }
 
-	/**
-	 * 
-	 * @since 1.0
-	 */
-	public void setHowManyInventory(int i) {
-		howManyInventory = i;
-	}
+  /**
+   * @since 1.0
+   */
+  public int getHowManyNotes() {
+    return howManyNotes;
+  }
 
-	/**
-	 * MODIFICA BARBARA - inserire nella lista delle copie il posseduto
-	 * @since 1.0
-	 */
-	public String getCopyStatementText() {
-		return copyStatementText;
-	}
+  /**
+   * @param i
+   * @since 1.0
+   */
+  public void setHowManyNotes(int i) {
+    howManyNotes = i;
+  }
 
-	/**
-	 * MODIFICA BARBARA - inserire nella lista delle copie il posseduto
-	 * @since 1.0
-	 */
-	public void setCopyStatementText(String i) {
-		copyStatementText = i;
-	}
+  /**
+   * @since 1.0
+   */
+  public String getShelfList() {
+    return shelfList;
+  }
 
-	/**
-	 * MODIFICA BARBARA - inserire nella lista delle copie il tipo prestito
-	 * @since 1.0
-	 */
-	public String getLoanType() {
-		return loanType;
-	}
+  /**
+   * @param string
+   * @since 1.0
+   */
+  public void setShelfList(String string) {
+    shelfList = string;
+  }
 
-	public void setLoanType(String loanType) {
-		this.loanType= loanType;
-	}
+  /**
+   * @since 1.0
+   */
+  public String getDueDate() {
+    return dueDate;
+  }
 
-	/**
-	 * MODIFICA BARBARA - inserire nella lista delle copie il tipo prestito
-	 * @since 1.0
-	 */
-	public String getCopyRemarkNote() {
-		return copyRemarkNote;
-	}
+  /**
+   * @param string
+   * @since 1.0
+   */
+  public void setDueDate(String string) {
+    dueDate = string;
+  }
 
-	public void setCopyRemarkNote(String copyRemarkNote) {
-		this.copyRemarkNote= copyRemarkNote;
-	}
-	
-	/**
-	 * 
-	 * @since 1.0
-	 */
-	public CPY_ID getCopy() {
-		return copy;
-	}
+  /**
+   * @since 1.0
+   */
+  public int getHowManyInventory() {
+    return howManyInventory;
+  }
 
-	/**
-	 * 
-	 * @since 1.0
-	 */
-	public void setCopy(CPY_ID cpy_id) {
-		copy = cpy_id;
-	}
+  /**
+   * @since 1.0
+   */
+  public void setHowManyInventory(int i) {
+    howManyInventory = i;
+  }
 
-	public String getLibrarySymbol() {
-		return librarySymbol;
-	}
+  /**
+   * MODIFICA BARBARA - inserire nella lista delle copie il posseduto
+   *
+   * @since 1.0
+   */
+  public String getCopyStatementText() {
+    return copyStatementText;
+  }
 
-	public void setLibrarySymbol(String librarySymbol) {
-		this.librarySymbol = librarySymbol;
-	}
+  /**
+   * MODIFICA BARBARA - inserire nella lista delle copie il posseduto
+   *
+   * @since 1.0
+   */
+  public void setCopyStatementText(String i) {
+    copyStatementText = i;
+  }
 
-	public Integer getHldgNbr() {
-		return hldgNbr;
-	}
+  /**
+   * MODIFICA BARBARA - inserire nella lista delle copie il tipo prestito
+   *
+   * @since 1.0
+   */
+  public String getLoanType() {
+    return loanType;
+  }
 
-	public void setHldgNbr(Integer hldgNbr) {
-		this.hldgNbr = hldgNbr;
-	}
+  public void setLoanType(String loanType) {
+    this.loanType = loanType;
+  }
 
-	public String getHldgText() {
-		return hldgText;
-	}
+  /**
+   * MODIFICA BARBARA - inserire nella lista delle copie il tipo prestito
+   *
+   * @since 1.0
+   */
+  public String getCopyRemarkNote() {
+    return copyRemarkNote;
+  }
 
-	public void setHldgText(String hldgText) {
-		this.hldgText = hldgText;
-	}
+  public void setCopyRemarkNote(String copyRemarkNote) {
+    this.copyRemarkNote = copyRemarkNote;
+  }
 
-	public int getBndCpyIdNbr() {
-		return bndCpyIdNbr;
-	}
+  /**
+   * @since 1.0
+   */
+  public CPY_ID getCopy() {
+    return copy;
+  }
 
-	public void setBndCpyIdNbr(int bndCpyIdNbr) {
-		this.bndCpyIdNbr = bndCpyIdNbr;
-	}
+  /**
+   * @since 1.0
+   */
+  public void setCopy(CPY_ID cpy_id) {
+    copy = cpy_id;
+  }
 
-	public String getHardback() {
-		return hardback;
-	}
+  public String getLibrarySymbol() {
+    return librarySymbol;
+  }
 
-	public void setHardback(String hardback) {
-		this.hardback = hardback;
-	}
+  public void setLibrarySymbol(String librarySymbol) {
+    this.librarySymbol = librarySymbol;
+  }
 
-	
-	public String getDiscardDate() {
-		return discardDate;
-	}
+  public Integer getHldgNbr() {
+    return hldgNbr;
+  }
 
-	public void setDiscardDate(String discardDate) {
-		this.discardDate = discardDate;
-	}
+  public void setHldgNbr(Integer hldgNbr) {
+    this.hldgNbr = hldgNbr;
+  }
 
-	public int getDiscardCode() {
-		return discardCode;
-	}
+  public String getHldgText() {
+    return hldgText;
+  }
 
-	public void setDiscardCode(int discardCode) {
-		this.discardCode = discardCode;
-	}
+  public void setHldgText(String hldgText) {
+    this.hldgText = hldgText;
+  }
 
-	
+  public int getBndCpyIdNbr() {
+    return bndCpyIdNbr;
+  }
+
+  public void setBndCpyIdNbr(int bndCpyIdNbr) {
+    this.bndCpyIdNbr = bndCpyIdNbr;
+  }
+
+  public String getHardback() {
+    return hardback;
+  }
+
+  public void setHardback(String hardback) {
+    this.hardback = hardback;
+  }
+
+
+  public String getDiscardDate() {
+    return discardDate;
+  }
+
+  public void setDiscardDate(String discardDate) {
+    this.discardDate = discardDate;
+  }
+
+  public int getDiscardCode() {
+    return discardCode;
+  }
+
+  public void setDiscardCode(int discardCode) {
+    this.discardCode = discardCode;
+  }
+
 
 }

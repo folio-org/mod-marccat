@@ -1,8 +1,8 @@
 /*
  * (c) Carmen
- * 
+ *
  * Created on 04-10-2007
- * 
+ *
  * T_MARC_HLPR_LBL.java
  */
 package org.folio.cataloging.dao.persistence;

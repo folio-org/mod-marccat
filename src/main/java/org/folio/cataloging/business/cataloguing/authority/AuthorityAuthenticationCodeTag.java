@@ -9,16 +9,15 @@ import org.folio.cataloging.business.cataloguing.common.AuthenticationCodeTag;
  */
 public class AuthorityAuthenticationCodeTag extends AuthenticationCodeTag {
 
-	/**
-	 * Class constructor
-	 *
-	 * 
-	 * @since 1.0
-	 */
-	public AuthorityAuthenticationCodeTag() {
-		super();
-		setHeaderField(new AuthorityHeaderFieldHelper());
-		setHeaderType(2);
-	}
+  /**
+   * Class constructor
+   *
+   * @since 1.0
+   */
+  public AuthorityAuthenticationCodeTag() {
+    super ( );
+    setHeaderField (new AuthorityHeaderFieldHelper ( ));
+    setHeaderType (2);
+  }
 
 }

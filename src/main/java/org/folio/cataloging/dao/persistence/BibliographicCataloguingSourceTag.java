@@ -9,16 +9,15 @@ import org.folio.cataloging.business.common.PersistenceState;
  */
 public class BibliographicCataloguingSourceTag extends CataloguingSourceTag {
 
-	/**
-	 * Class constructor
-	 *
-	 * 
-	 * @since 1.0
-	 */
-	public BibliographicCataloguingSourceTag() {
-		super();
-		setHeaderType((short) 1);
-		setPersistenceState(new PersistenceState());
-	}
+  /**
+   * Class constructor
+   *
+   * @since 1.0
+   */
+  public BibliographicCataloguingSourceTag() {
+    super ( );
+    setHeaderType ((short) 1);
+    setPersistenceState (new PersistenceState ( ));
+  }
 
 }

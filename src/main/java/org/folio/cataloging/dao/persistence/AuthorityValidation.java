@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Nov 18, 2005
- * 
+ *
  * AuthorityValidation.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -16,23 +16,21 @@ import org.folio.cataloging.shared.ValidationKey;
  * @since 1.0
  */
 public class AuthorityValidation extends Validation {
-	private AuthorityValidationKey key;
-	
-	
-	/**
-	 * 
-	 * @since 1.0
-	 */
-	public ValidationKey getKey() {
-		return key;
-	}
+  private AuthorityValidationKey key;
 
-	/**
-	 * 
-	 * @since 1.0
-	 */
-	public void setKey(AuthorityValidationKey key) {
-		this.key = key;
-	}
+
+  /**
+   * @since 1.0
+   */
+  public ValidationKey getKey() {
+    return key;
+  }
+
+  /**
+   * @since 1.0
+   */
+  public void setKey(AuthorityValidationKey key) {
+    this.key = key;
+  }
 
 }

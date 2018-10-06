@@ -14,7 +14,7 @@ package org.folio.cataloging.dao.persistence;
  */
 public class ClassificationType extends T_SINGLE {
 
-	public static boolean isDewey(int s) {
-		return s == 12;
-	}
+  public static boolean isDewey(int s) {
+    return s == 12;
+  }
 }

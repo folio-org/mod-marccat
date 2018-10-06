@@ -27,57 +27,55 @@ import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
 @Profile({"!test"})
 public class RemoteConfiguration implements Configuration {
 
-    private final static String BASE_CQUERY = "module==CATALOGING and configName == ";
-    private final static int LIMIT = 100;
+  private final static String BASE_CQUERY = "module==CATALOGING and configName == ";
+  private final static int LIMIT = 100;
+  private final RestTemplate client;
+  @Value("${configuration.client:http://192.168.0.158:8085/configurations/entries}")
+  private String endpoint;
 
-    @Value("${configuration.client:http://192.168.0.158:8085/configurations/entries}")
-    private String endpoint;
+  /**
+   * Builds a new configuration with the given http client.
+   *
+   * @param client the HTTP / REST client.
+   */
+  public RemoteConfiguration(final RestTemplate client) {
+    this.client = client;
+  }
 
-    private final RestTemplate client;
+  @Override
+  public ObjectNode attributes(final String tenant, final boolean withDatasource, final String... configurationSets) {
+    final HttpHeaders headers = new HttpHeaders ( );
+    headers.add (Global.OKAPI_TENANT_HEADER_NAME, tenant);
 
-    /**
-     * Builds a new configuration with the given http client.
-     *
-     * @param client the HTTP / REST client.
-     */
-    public RemoteConfiguration(final RestTemplate client) {
-        this.client = client;
-    }
+    return client.exchange (
+      fromUriString (endpoint)
+        .queryParam (cQuery (withDatasource, safe (configurationSets)))
+        .build ( )
+        .toUri ( ),
+      HttpMethod.GET,
+      new HttpEntity <> ("parameters", headers),
+      ObjectNode.class)
+      .getBody ( );
+  }
 
-    @Override
-    public ObjectNode attributes(final String tenant, final boolean withDatasource, final String... configurationSets) {
-        final HttpHeaders headers = new HttpHeaders();
-        headers.add(Global.OKAPI_TENANT_HEADER_NAME, tenant);
-
-        return client.exchange(
-                fromUriString(endpoint)
-                        .queryParam(cQuery(withDatasource, safe(configurationSets)))
-                        .build()
-                        .toUri(),
-                HttpMethod.GET,
-                new HttpEntity<>("parameters", headers),
-                ObjectNode.class)
-                .getBody();
-    }
-
-    /**
-     * Returns the selection criteria that will be used by the current service for gathering the required configuration.
-     *
-     * @param configurationsSets the configuration groups.
-     * @return the selection criteria that will be used by the current service for gathering the required configuration.
-     */
-    private String cQuery(boolean withDatasource, final String ... configurationsSets) {
-        final String [] values = safe(configurationsSets);
-        return (values.length == 0 && withDatasource)
-                ? BASE_CQUERY + "datasource"
-                : BASE_CQUERY +
-                    stream(values)
-                            .filter(Objects::nonNull)
-                            .collect(joining(
-                                    " or ",
-                                    values.length != 0
-                                            ? withDatasource ? "(datasource or " : "("
-                                            : "",
-                                    ")&limit="+LIMIT));
-    }
+  /**
+   * Returns the selection criteria that will be used by the current service for gathering the required configuration.
+   *
+   * @param configurationsSets the configuration groups.
+   * @return the selection criteria that will be used by the current service for gathering the required configuration.
+   */
+  private String cQuery(boolean withDatasource, final String... configurationsSets) {
+    final String[] values = safe (configurationsSets);
+    return (values.length == 0 && withDatasource)
+      ? BASE_CQUERY + "datasource"
+      : BASE_CQUERY +
+      stream (values)
+        .filter (Objects::nonNull)
+        .collect (joining (
+          " or ",
+          values.length != 0
+            ? withDatasource ? "(datasource or " : "("
+            : "",
+          ")&limit=" + LIMIT));
+  }
 }

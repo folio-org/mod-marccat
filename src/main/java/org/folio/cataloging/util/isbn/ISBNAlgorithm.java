@@ -1,7 +1,4 @@
-
 import org.folio.cataloging.util.isbn.GlobalConst;
-import org.folio.cataloging.util.isbn.ISBNHyphenAppender;
-import org.folio.cataloging.util.isbn.ISBNUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +15,9 @@ public class ISBNAlgorithm {
     static int n = 0;
     static int v = 0;
     static boolean ErrorOccurred = false;
-    private Function<String, String> mutateQueryWithConversion;
     private static String REGEX = "[^\\dX]";
-    private static Pattern NON_ISBN_CHARACTERS = Pattern.compile( REGEX );
+    private static Pattern NON_ISBN_CHARACTERS = Pattern.compile (REGEX);
+    private Function <String, String> mutateQueryWithConversion;
 
     /**
      * Il metodo converte il codice org.folio.cataloging.util.isbn.ISBNAlgorithm da 10 a 13 caratteri e viceversa e ritorna una lista di valori convertiti
@@ -40,52 +37,49 @@ public class ISBNAlgorithm {
         return isbnList;
     }
 
-     static int CharToInt(char a) {
+    static int CharToInt(char a) {
         return Integer.parseInt (String.valueOf (a));
     }
 
-     static String ISBN1310(String ISBN)
-    {
-        String isbn13 =  ISBN.substring(3, 12);
+    static String ISBN1310(String ISBN) {
+        String isbn13 = ISBN.substring (3, 12);
 
         IntStream
-                .range(0, 9)
-                .forEach(i -> {
-            if (!ErrorOccurred) {
-                v = CharToInt(isbn13.charAt(i));
-                if (v == -1){
-                    ErrorOccurred = true;
-                } else {
-                    n += (10 - i) * v;
-                }
-            }
-        });
+                .range (0, 9)
+                .forEach (i -> {
+                    if (!ErrorOccurred) {
+                        v = CharToInt (isbn13.charAt (i));
+                        if (v == -1) {
+                            ErrorOccurred = true;
+                        } else {
+                            n += (10 - i) * v;
+                        }
+                    }
+                });
 
         if (ErrorOccurred) return "ERROR";
 
         n = 11 - (n % 11);
-        return isbn13 + GlobalConst.CheckDigits.substring(n, n + 1);
+        return isbn13 + GlobalConst.CheckDigits.substring (n, n + 1);
     }
 
-     public static String ISBN1013(String ISBN, String prefix)
-    {
+    public static String ISBN1013(String ISBN, String prefix) {
         String s12;
         int i, n, v;
         boolean ErrorOccurred;
         ErrorOccurred = false;
-        s12 = prefix + ISBN.substring(0, 9);
+        s12 = prefix + ISBN.substring (0, 9);
         n = 0;
-        for (i=0; i<12; i++)
-        {
+        for ( i = 0; i < 12; i++ ) {
             if (!ErrorOccurred) {
-                v = CharToInt(s12.charAt(i));
-                if (v==-1){
+                v = CharToInt (s12.charAt (i));
+                if (v == -1) {
                     ErrorOccurred = true;
                 } else {
-                    if ((i % 2)==0){
+                    if ((i % 2) == 0) {
                         n = n + v;
                     } else {
-                        n = n + 3*v;
+                        n = n + 3 * v;
                     }
                 }
             }
@@ -93,10 +87,10 @@ public class ISBNAlgorithm {
         if (ErrorOccurred) return "ERROR";
 
         n = n % 10;
-        if (n!=0) {
+        if (n != 0) {
             n = 10 - n;
         }
-        return s12 + GlobalConst.CheckDigits.substring(n, n+1);
+        return s12 + GlobalConst.CheckDigits.substring (n, n + 1);
     }
 
     public static String changeQueryWithIsbnConvertion(String query) {

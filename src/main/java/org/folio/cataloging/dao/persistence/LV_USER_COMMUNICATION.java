@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on 08-feb-2005
- * 
+ *
  * LV_USER_COMMUNICATION.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -14,27 +14,32 @@ package org.folio.cataloging.dao.persistence;
  */
 public class LV_USER_COMMUNICATION {
 
-    private UserCommunicationKey key;
-	private String userText;
-	private Short userTypeCode;
+  private UserCommunicationKey key;
+  private String userText;
+  private Short userTypeCode;
 
 
-    public UserCommunicationKey getKey() {
-        return key;
-    }
-    public void setKey(UserCommunicationKey key) {
-        this.key = key;
-    }
-    public String getUserText() {
-        return userText;
-    }
-    public void setUserText(String userText) {
-        this.userText = userText;
-    }
-    public Short getUserTypeCode() {
-        return userTypeCode;
-    }
-    public void setUserTypeCode(Short userTypeCode) {
-        this.userTypeCode = userTypeCode;
-    }
+  public UserCommunicationKey getKey() {
+    return key;
+  }
+
+  public void setKey(UserCommunicationKey key) {
+    this.key = key;
+  }
+
+  public String getUserText() {
+    return userText;
+  }
+
+  public void setUserText(String userText) {
+    this.userText = userText;
+  }
+
+  public Short getUserTypeCode() {
+    return userTypeCode;
+  }
+
+  public void setUserTypeCode(Short userTypeCode) {
+    this.userTypeCode = userTypeCode;
+  }
 }

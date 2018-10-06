@@ -11,53 +11,49 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "subfieldsTag" })
+@JsonPropertyOrder({"subfieldsTag"})
 public class SubfieldsTagCollection {
 
-    @JsonProperty("subfieldsTag")
-    @Valid
-    private List<SubfieldsTag> subfieldsTag = new ArrayList<SubfieldsTag>();
+  @JsonProperty("subfieldsTag")
+  @Valid
+  private List <SubfieldsTag> subfieldsTag = new ArrayList <SubfieldsTag> ( );
 
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  @JsonIgnore
+  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
 
-    /**
-     * 
-     * @return
-     *     The subfieldsTag
-     */
-    @JsonProperty("subfieldsTag")
-    public List<SubfieldsTag> getSubfieldsTag() {
-        return subfieldsTag;
-    }
+  /**
+   * @return The subfieldsTag
+   */
+  @JsonProperty("subfieldsTag")
+  public List <SubfieldsTag> getSubfieldsTag() {
+    return subfieldsTag;
+  }
 
-    /**
-     * 
-     * @param subfieldsTag
-     *     The subfieldsTag
-     */
-    @JsonProperty("subfieldsTag")
-    public void setSubfieldsTag(List<SubfieldsTag> subfieldsTag) {
-        this.subfieldsTag = subfieldsTag;
-    }
+  /**
+   * @param subfieldsTag The subfieldsTag
+   */
+  @JsonProperty("subfieldsTag")
+  public void setSubfieldsTag(List <SubfieldsTag> subfieldsTag) {
+    this.subfieldsTag = subfieldsTag;
+  }
 
-    public SubfieldsTagCollection withSubfieldsTag(List<SubfieldsTag> subfieldsTag) {
-        this.subfieldsTag = subfieldsTag;
-        return this;
-    }
+  public SubfieldsTagCollection withSubfieldsTag(List <SubfieldsTag> subfieldsTag) {
+    this.subfieldsTag = subfieldsTag;
+    return this;
+  }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
+  @JsonAnyGetter
+  public Map <String, Object> getAdditionalProperties() {
+    return this.additionalProperties;
+  }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
+  @JsonAnySetter
+  public void setAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+  }
 
-    public SubfieldsTagCollection withAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-        return this;
-    }
+  public SubfieldsTagCollection withAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+    return this;
+  }
 }

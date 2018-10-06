@@ -3,31 +3,32 @@ package org.folio.cataloging.dao.persistence;
 
 import java.io.Serializable;
 
-public class CasQltyRec implements Serializable 
-{
-	private static final long serialVersionUID = 2299675142382967471L;
-       
-    private int transactionId;
-    
-    private int bibItmNbr;
-    
-    /** default constructor */
-    public CasQltyRec() {
-    }
+public class CasQltyRec implements Serializable {
+  private static final long serialVersionUID = 2299675142382967471L;
 
-	public int getTransactionId() {
-		return transactionId;
-	}
+  private int transactionId;
 
-	public void setTransactionId(int transactionId) {
-		this.transactionId = transactionId;
-	}
+  private int bibItmNbr;
 
-	public int getBibItmNbr() {
-		return bibItmNbr;
-	}
+  /**
+   * default constructor
+   */
+  public CasQltyRec() {
+  }
 
-	public void setBibItmNbr(int bibItmNbr) {
-		this.bibItmNbr = bibItmNbr;
-	}
+  public int getTransactionId() {
+    return transactionId;
+  }
+
+  public void setTransactionId(int transactionId) {
+    this.transactionId = transactionId;
+  }
+
+  public int getBibItmNbr() {
+    return bibItmNbr;
+  }
+
+  public void setBibItmNbr(int bibItmNbr) {
+    this.bibItmNbr = bibItmNbr;
+  }
 }

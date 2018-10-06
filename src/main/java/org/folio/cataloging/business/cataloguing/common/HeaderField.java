@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Nov 4, 2004
- * 
+ *
  * HeaderField.java
  */
 package org.folio.cataloging.business.cataloguing.common;
@@ -18,13 +18,21 @@ import java.util.List;
  * @since 1.0
  */
 public interface HeaderField {
-	int getCategory();
-	CorrelationValues getCorrelationValues();
-	void setCorrelationValues(CorrelationValues v);
-	List getFirstCorrelationList() throws DataAccessException;
-	List getSecondCorrelationList(int value1) throws DataAccessException;
-	List getThirdCorrelationList(int value1, int value2) throws DataAccessException;
-	int getHeaderType();
-	void setHeaderType(int s);
-	boolean isHeaderField();
+  int getCategory();
+
+  CorrelationValues getCorrelationValues();
+
+  void setCorrelationValues(CorrelationValues v);
+
+  List getFirstCorrelationList() throws DataAccessException;
+
+  List getSecondCorrelationList(int value1) throws DataAccessException;
+
+  List getThirdCorrelationList(int value1, int value2) throws DataAccessException;
+
+  int getHeaderType();
+
+  void setHeaderType(int s);
+
+  boolean isHeaderField();
 }

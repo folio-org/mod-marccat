@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Nov 10, 2004
- * 
+ *
  * T_VR_FRMT.java
  */
 package org.folio.cataloging.dao.persistence;

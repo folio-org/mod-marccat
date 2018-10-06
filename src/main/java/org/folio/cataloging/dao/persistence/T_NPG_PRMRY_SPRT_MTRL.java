@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Nov 8, 2004
- * 
+ *
  * T_NPG_PRMRY_SPRT_MTRL.java
  */
 package org.folio.cataloging.dao.persistence;

@@ -28,32 +28,32 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
 public class StatusTypeAPI extends BaseResource {
 
-    private Function<Avp<String>, StatusType> toStatusType = source -> {
-        final StatusType statusType = new StatusType();
-        statusType.setCode(source.getValue());
-        statusType.setDescription(source.getLabel());
-        return statusType;
-    };
+  private Function <Avp <String>, StatusType> toStatusType = source -> {
+    final StatusType statusType = new StatusType ( );
+    statusType.setCode (source.getValue ( ));
+    statusType.setDescription (source.getLabel ( ));
+    return statusType;
+  };
 
-    @ApiOperation(value = "Returns all types associated with a given language")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Method successfully returned the requested types."),
-            @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 414, message = "Request-URI Too Long"),
-            @ApiResponse(code = 500, message = "System internal failure occurred.")
-    })
-    @GetMapping("/status-types")
-    public StatusTypeCollection getStatusTypes(
-            @RequestParam final String lang,
-            @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-        return doGet((storageService, configuration) -> {
-                final StatusTypeCollection container = new StatusTypeCollection();
-                container.setStatusTypes(
-                        storageService.getStatusTypes(lang)
-                                .stream()
-                                .map(toStatusType)
-                                .collect(toList()));
-                return container;
-        }, tenant, configurator);
-    }
+  @ApiOperation(value = "Returns all types associated with a given language")
+  @ApiResponses(value = {
+    @ApiResponse(code = 200, message = "Method successfully returned the requested types."),
+    @ApiResponse(code = 400, message = "Bad Request"),
+    @ApiResponse(code = 414, message = "Request-URI Too Long"),
+    @ApiResponse(code = 500, message = "System internal failure occurred.")
+  })
+  @GetMapping("/status-types")
+  public StatusTypeCollection getStatusTypes(
+    @RequestParam final String lang,
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    return doGet ((storageService, configuration) -> {
+      final StatusTypeCollection container = new StatusTypeCollection ( );
+      container.setStatusTypes (
+        storageService.getStatusTypes (lang)
+          .stream ( )
+          .map (toStatusType)
+          .collect (toList ( )));
+      return container;
+    }, tenant, configurator);
+  }
 }

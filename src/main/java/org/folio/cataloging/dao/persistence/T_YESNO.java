@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on 18-nov-2004
- * 
+ *
  * T_YESNO.java
  */
 package org.folio.cataloging.dao.persistence;

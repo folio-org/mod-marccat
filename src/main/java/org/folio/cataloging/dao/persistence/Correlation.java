@@ -11,55 +11,55 @@ import java.io.Serializable;
 
 public class Correlation implements Serializable {
 
-	private CorrelationKey key;
-	private int databaseFirstValue;
-	private int databaseSecondValue;
-	private int databaseThirdValue;
-	private String searchIndexTypeCode;
+  private CorrelationKey key;
+  private int databaseFirstValue;
+  private int databaseSecondValue;
+  private int databaseThirdValue;
+  private String searchIndexTypeCode;
 
-	public CorrelationKey getKey() {
-		return key;
-	}
+  public CorrelationKey getKey() {
+    return key;
+  }
 
-	public int getDatabaseFirstValue() {
-		return databaseFirstValue;
-	}
+  private void setKey(final CorrelationKey correlation) {
+    key = correlation;
+  }
 
-	public int getDatabaseSecondValue() {
-		return databaseSecondValue;
-	}
+  public int getDatabaseFirstValue() {
+    return databaseFirstValue;
+  }
 
-	public int getDatabaseThirdValue() {
-		return databaseThirdValue;
-	}
+  private void setDatabaseFirstValue(final int s) {
+    databaseFirstValue = s;
+  }
 
-	public String getSearchIndexTypeCode() {
-		return searchIndexTypeCode;
-	}
+  public int getDatabaseSecondValue() {
+    return databaseSecondValue;
+  }
 
-	private void setKey(final CorrelationKey correlation) {
-		key = correlation;
-	}
+  private void setDatabaseSecondValue(final int s) {
+    databaseSecondValue = s;
+  }
 
-	private void setDatabaseFirstValue(final int s) {
-		databaseFirstValue = s;
-	}
+  public int getDatabaseThirdValue() {
+    return databaseThirdValue;
+  }
 
-	private void setDatabaseSecondValue(final int s) {
-		databaseSecondValue = s;
-	}
+  private void setDatabaseThirdValue(final int s) {
+    databaseThirdValue = s;
+  }
 
-	private void setDatabaseThirdValue(final int s) {
-		databaseThirdValue = s;
-	}
+  public String getSearchIndexTypeCode() {
+    return searchIndexTypeCode;
+  }
 
-	private void setSearchIndexTypeCode(final String s) {
-		searchIndexTypeCode = s;
-	}
+  private void setSearchIndexTypeCode(final String s) {
+    searchIndexTypeCode = s;
+  }
 
-	public CorrelationValues getValues() {
-		return new CorrelationValues(getDatabaseFirstValue(),
-				getDatabaseSecondValue(), getDatabaseThirdValue());
-	}
+  public CorrelationValues getValues() {
+    return new CorrelationValues (getDatabaseFirstValue ( ),
+      getDatabaseSecondValue ( ), getDatabaseThirdValue ( ));
+  }
 
 }

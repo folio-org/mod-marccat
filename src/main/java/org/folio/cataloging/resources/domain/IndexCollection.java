@@ -12,63 +12,57 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "indexes" })
+@JsonPropertyOrder({"indexes"})
 public class IndexCollection {
 
-    /**
-     * 
-     * (Required)
-     * 
-     */
-    @JsonProperty("indexes")
-    @Valid
-    @NotNull
-    private List<Index> indexes = new ArrayList<Index>();
+  /**
+   * (Required)
+   */
+  @JsonProperty("indexes")
+  @Valid
+  @NotNull
+  private List <Index> indexes = new ArrayList <Index> ( );
 
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  @JsonIgnore
+  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
 
-    /**
-     * 
-     * (Required)
-     * 
-     * @return
-     *     The indexes
-     */
-    @JsonProperty("indexes")
-    public List<Index> getIndexes() {
-        return indexes;
-    }
+  /**
+   * (Required)
+   *
+   * @return The indexes
+   */
+  @JsonProperty("indexes")
+  public List <Index> getIndexes() {
+    return indexes;
+  }
 
-    /**
-     * 
-     * (Required)
-     * 
-     * @param indexes
-     *     The indexes
-     */
-    @JsonProperty("indexes")
-    public void setIndexes(List<Index> indexes) {
-        this.indexes = indexes;
-    }
+  /**
+   * (Required)
+   *
+   * @param indexes The indexes
+   */
+  @JsonProperty("indexes")
+  public void setIndexes(List <Index> indexes) {
+    this.indexes = indexes;
+  }
 
-    public IndexCollection withIndexes(List<Index> indexes) {
-        this.indexes = indexes;
-        return this;
-    }
+  public IndexCollection withIndexes(List <Index> indexes) {
+    this.indexes = indexes;
+    return this;
+  }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
+  @JsonAnyGetter
+  public Map <String, Object> getAdditionalProperties() {
+    return this.additionalProperties;
+  }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
+  @JsonAnySetter
+  public void setAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+  }
 
-    public IndexCollection withAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-        return this;
-    }
+  public IndexCollection withAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+    return this;
+  }
 }

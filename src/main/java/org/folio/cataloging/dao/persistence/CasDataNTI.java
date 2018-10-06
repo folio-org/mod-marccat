@@ -7,57 +7,69 @@ import java.util.Date;
 public class CasDataNTI implements Serializable {
 
 
-    /** identifier field */
-    private long bibItmNbr;
-       
-    /** nullable persistent field */
-    private String transactionId;
-    
-    /** nullable persistent field */
-    private String operator;
-    
-    /** nullable persistent field */
-    private Date ntiDate;
+  /**
+   * identifier field
+   */
+  private long bibItmNbr;
 
-    /** default constructor */
-    public CasDataNTI() {
-    }
+  /**
+   * nullable persistent field
+   */
+  private String transactionId;
 
-    /** minimal constructor */
-    public CasDataNTI(long bibItmNbr) {
-        this.bibItmNbr = bibItmNbr;
-    }
+  /**
+   * nullable persistent field
+   */
+  private String operator;
 
-	public long getBibItmNbr() {
-		return bibItmNbr;
-	}
+  /**
+   * nullable persistent field
+   */
+  private Date ntiDate;
 
-	public void setBibItmNbr(long bibItmNbr) {
-		this.bibItmNbr = bibItmNbr;
-	}
+  /**
+   * default constructor
+   */
+  public CasDataNTI() {
+  }
 
-	public String getOperator() {
-		return operator;
-	}
+  /**
+   * minimal constructor
+   */
+  public CasDataNTI(long bibItmNbr) {
+    this.bibItmNbr = bibItmNbr;
+  }
 
-	public void setOperator(String operator) {
-		this.operator = operator;
-	}
+  public long getBibItmNbr() {
+    return bibItmNbr;
+  }
 
-	public String getTransactionId() {
-		return transactionId;
-	}
+  public void setBibItmNbr(long bibItmNbr) {
+    this.bibItmNbr = bibItmNbr;
+  }
 
-	public void setTransactionId(String transactionId) {
-		this.transactionId = transactionId;
-	}
+  public String getOperator() {
+    return operator;
+  }
 
-	public Date getNtiDate() {
-		return ntiDate;
-	}
+  public void setOperator(String operator) {
+    this.operator = operator;
+  }
 
-	public void setNtiDate(Date ntiDate) {
-		this.ntiDate = ntiDate;
-	}
+  public String getTransactionId() {
+    return transactionId;
+  }
+
+  public void setTransactionId(String transactionId) {
+    this.transactionId = transactionId;
+  }
+
+  public Date getNtiDate() {
+    return ntiDate;
+  }
+
+  public void setNtiDate(Date ntiDate) {
+    this.ntiDate = ntiDate;
+  }
 }
 

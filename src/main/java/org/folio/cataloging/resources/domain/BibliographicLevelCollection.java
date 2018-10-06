@@ -12,63 +12,57 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "bibliographicLevels" })
+@JsonPropertyOrder({"bibliographicLevels"})
 public class BibliographicLevelCollection {
 
-    /**
-     * 
-     * (Required)
-     * 
-     */
-    @JsonProperty("bibliographicLevels")
-    @Valid
-    @NotNull
-    private List<BibliographicLevel> bibliographicLevels = new ArrayList<BibliographicLevel>();
+  /**
+   * (Required)
+   */
+  @JsonProperty("bibliographicLevels")
+  @Valid
+  @NotNull
+  private List <BibliographicLevel> bibliographicLevels = new ArrayList <BibliographicLevel> ( );
 
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  @JsonIgnore
+  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
 
-    /**
-     * 
-     * (Required)
-     * 
-     * @return
-     *     The bibliographicLevels
-     */
-    @JsonProperty("bibliographicLevels")
-    public List<BibliographicLevel> getBibliographicLevels() {
-        return bibliographicLevels;
-    }
+  /**
+   * (Required)
+   *
+   * @return The bibliographicLevels
+   */
+  @JsonProperty("bibliographicLevels")
+  public List <BibliographicLevel> getBibliographicLevels() {
+    return bibliographicLevels;
+  }
 
-    /**
-     * 
-     * (Required)
-     * 
-     * @param bibliographicLevels
-     *     The bibliographicLevels
-     */
-    @JsonProperty("bibliographicLevels")
-    public void setBibliographicLevels(List<BibliographicLevel> bibliographicLevels) {
-        this.bibliographicLevels = bibliographicLevels;
-    }
+  /**
+   * (Required)
+   *
+   * @param bibliographicLevels The bibliographicLevels
+   */
+  @JsonProperty("bibliographicLevels")
+  public void setBibliographicLevels(List <BibliographicLevel> bibliographicLevels) {
+    this.bibliographicLevels = bibliographicLevels;
+  }
 
-    public BibliographicLevelCollection withBibliographicLevels(List<BibliographicLevel> bibliographicLevels) {
-        this.bibliographicLevels = bibliographicLevels;
-        return this;
-    }
+  public BibliographicLevelCollection withBibliographicLevels(List <BibliographicLevel> bibliographicLevels) {
+    this.bibliographicLevels = bibliographicLevels;
+    return this;
+  }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
+  @JsonAnyGetter
+  public Map <String, Object> getAdditionalProperties() {
+    return this.additionalProperties;
+  }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
+  @JsonAnySetter
+  public void setAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+  }
 
-    public BibliographicLevelCollection withAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-        return this;
-    }
+  public BibliographicLevelCollection withAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+    return this;
+  }
 }
