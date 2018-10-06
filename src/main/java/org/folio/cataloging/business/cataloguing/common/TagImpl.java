@@ -45,9 +45,10 @@ public abstract class TagImpl implements Serializable {
 	 */
 	abstract public CorrelationKey getMarcEncoding(final Tag t, final Session session) throws DataAccessException;
 
-	abstract public Validation getValidation(Tag t)
-		throws DataAccessException;
+	@Deprecated
+	abstract public Validation getValidation(Tag t) throws DataAccessException;
 
+  abstract public Validation getValidation(final Tag t, final Session session) throws DataAccessException;
 	/**
 	 * return the list of subfields that can be edited on the worksheet
 	 *

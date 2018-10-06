@@ -304,17 +304,17 @@ public class SoundRecording extends PhysicalDescription {
   @Override
   public void setContentFromMarcString(final String s) {
     setGeneralMaterialDesignationCode(s.charAt(0));
-    setSpecificMaterialDesignationCode(s.charAt(1));
-    setSpeedCode(s.charAt(3));
-    setConfigurationCode(s.charAt(4));
-    setGrooveWidthCode(s.charAt(5));
-    setDimensionsCode(s.charAt(6));
-    setTapeWidthCode(s.charAt(7));
-    setTapeConfigurationCode(s.charAt(8));
-    setDiscTypeCode(s.charAt(9));
-    setSndMaterialTypeCode(s.charAt(10));
-    setCuttingTypeCode(s.charAt(11));
-    setSpecialPlaybackCharacteristicsCode(s.charAt(12));
-    setStorageTechniqueCode(s.charAt(13));
+    if (s.length() > 1) setSpecificMaterialDesignationCode(s.charAt(1)); else setSpecificMaterialDesignationCode('u');
+    if (s.length() > 3) setSpeedCode(s.charAt(3));
+    if (s.length() > 4) setConfigurationCode(s.charAt(4));
+    if (s.length() > 5) setGrooveWidthCode(s.charAt(5));
+    if (s.length() > 6) setDimensionsCode(s.charAt(6));
+    if (s.length() > 7) setTapeWidthCode(s.charAt(7));
+    if (s.length() > 8) setTapeConfigurationCode(s.charAt(8));
+    if (s.length() > 9) setDiscTypeCode(s.charAt(9));
+    if (s.length() > 10) setSndMaterialTypeCode(s.charAt(10));
+    if (s.length() > 11) setCuttingTypeCode(s.charAt(11));
+    if (s.length() > 12) setSpecialPlaybackCharacteristicsCode(s.charAt(12));
+    if (s.length() > 13) setStorageTechniqueCode(s.charAt(13));
   }
 }

@@ -72,10 +72,18 @@ public class BibliographicTagImpl extends TagImpl {
 		return null;
 	}
 
-	public Validation getValidation(Tag t) throws
-            DataAccessException {
-		return daoValidation.load(t.getCategory(), t.getCorrelationValues());
-	}
+	public Validation getValidation(Tag t, final Session session) throws DataAccessException {
+    try {
+      return daoValidation.load(session, t.getCategory(), t.getCorrelationValues());
+    } catch (HibernateException e) {
+      throw new DataAccessException(e);
+    }
+  }
+
+  @Deprecated
+  public Validation getValidation(Tag t) throws DataAccessException {
+	  return null;
+  }
 
 	/*
 	 * (non-Javadoc)

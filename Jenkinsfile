@@ -47,13 +47,13 @@ pipeline {
                steps{
                     script{
                          withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
-                                  sh('./script/remote_sync.sh')
+                                  sh('./script/deploy_itnet.sh')
                                 }
                             }
                         }
               post {
                    success {
-                        echo 'upload to remote server succesfully'
+                         echo 'mod-catalogin up and running on port 8080 on ITNET'
                    }
               }
          }

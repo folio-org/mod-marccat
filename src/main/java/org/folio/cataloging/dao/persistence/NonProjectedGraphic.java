@@ -143,10 +143,10 @@ public class NonProjectedGraphic extends PhysicalDescription {
   @Override
   public void setContentFromMarcString(final String s) {
     setGeneralMaterialDesignationCode(s.charAt(0));
-    setSpecificMaterialDesignationCode(s.charAt(1));
-    setColourCode(s.charAt(3));
-    setPrimarySupportMaterialCode(s.charAt(4));
-    setSecondarySupportMaterialCode(s.charAt(5));
+    if (s.length() > 1) setSpecificMaterialDesignationCode(s.charAt(1)); else setSpecificMaterialDesignationCode('u');
+    if (s.length() > 3) setColourCode(s.charAt(3));
+    if (s.length() > 4) setPrimarySupportMaterialCode(s.charAt(4));
+    if (s.length() > 5) setSecondarySupportMaterialCode(s.charAt(5));
   }
 
 }
