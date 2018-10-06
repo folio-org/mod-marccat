@@ -3,20 +3,20 @@ package org.folio.cataloging.resources;
 import io.swagger.annotations.Api;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.ModCataloging;
-import org.folio.cataloging.util.isbn.ISBN;
+import org.folio.cataloging.util.isbn.ISBNHyphenAppender;
+import org.folio.cataloging.util.isbn.ISBNUtils;
+import org.hibernate.validator.constraints.ISBN;
 import org.springframework.web.bind.annotation.*;
-
-import static org.folio.cataloging.util.isbn.ISBN.*;
 
 
 /**
- * ISBN Utility  API.
+ * ISBNAlgorithm Utility  API.
  *
  * @since 1.0
  * @author Christian Chiama
  */
 @RestController
-@Api(value = "modcat-api", description = "ISBN Utility  API")
+@Api(value = "modcat-api", description = "ISBNAlgorithm Utility  API")
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
 public class ISBNNormalizationAPI  extends BaseResource{
   
@@ -30,11 +30,16 @@ public class ISBNNormalizationAPI  extends BaseResource{
   }
 
   @GetMapping("/isbn/conversion")
+
   public String convertISBN(
     @RequestParam final String lang,
-    @RequestParam final String isbn,
+    @RequestParam @ISBN(message = "not valid isbn") final String isbn,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return ISBN.ISBN1013 (isbn, "978");
+    return "remove hyphen";
+  }
+  public static void main(String[] args) throws Exception {
+
+    @ISBN(message = "not valid isbn") final String isbn="5";
 
   }
 }
