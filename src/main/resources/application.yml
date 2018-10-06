@@ -1,5 +1,5 @@
 configuration:
-  endpoint: http://192.168.0.158:8085/configurations/entries
+  endpoint: http://192.168.0.158:8080/configurations/entries
 
 logging:
   level:
