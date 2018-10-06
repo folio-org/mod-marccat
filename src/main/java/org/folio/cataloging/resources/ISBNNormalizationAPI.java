@@ -16,10 +16,9 @@ import static org.folio.cataloging.util.isbn.ISBN.*;
  * @author Christian Chiama
  */
 @RestController
-@CrossOrigin("http://localhost:3000")
 @Api(value = "modcat-api", description = "ISBN Utility  API")
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
-public class ISBNNormalizationAPI {
+public class ISBNNormalizationAPI  extends BaseResource{
   
 
   @GetMapping("/isbn/removeHyphen")
