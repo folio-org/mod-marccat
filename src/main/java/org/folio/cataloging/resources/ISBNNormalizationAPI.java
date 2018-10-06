@@ -3,7 +3,10 @@ package org.folio.cataloging.resources;
 import io.swagger.annotations.Api;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.ModCataloging;
+import org.folio.cataloging.util.isbn.ISBN;
 import org.springframework.web.bind.annotation.*;
+
+import static org.folio.cataloging.util.isbn.ISBN.*;
 
 
 /**
@@ -30,9 +33,9 @@ public class ISBNNormalizationAPI {
   @GetMapping("/isbn/conversion")
   public String convertISBN(
     @RequestParam final String lang,
-    @RequestParam final String ISBN,
+    @RequestParam final String isbn,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return "converison ok";
+    return ISBN.ISBN1013 (isbn, "978");
 
   }
 }

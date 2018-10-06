@@ -27,12 +27,11 @@ public class ISBN {
         return isbnList;
     }
 
-    /* Change a character to its integer value */
-    private static int CharToInt(char a) {
+     static int CharToInt(char a) {
         return Integer.parseInt (String.valueOf (a));
     }
 
-    private static String ISBN1310(String ISBN)
+     static String ISBN1310(String ISBN)
     {
         String s9;
         int i, n, v;
@@ -57,8 +56,7 @@ public class ISBN {
         return s9 + GlobalConst.CheckDigits.substring(n, n+1);
     }
 
-    /* Convert org.folio.cataloging.util.isbn.ISBN-10 to org.folio.cataloging.util.isbn.ISBN-13 */
-    private static String ISBN1013(String ISBN, String prefix)
+     public static String ISBN1013(String ISBN, String prefix)
     {
         String s12;
         int i, n, v;
@@ -132,18 +130,4 @@ public class ISBN {
         return builder.toString ( ).trim ( );
     }
 
-    public static void main(String[] args) throws Exception {
-        ISBNHyphenAppender appender = new ISBNHyphenAppender ( );
-        System.out.println (appender.appendHyphenToISBN13 ("9788817101646"));
-        System.out.println (ISBN1013 ("8817101646", "978"));
-        System.out.println (changeQueryWithIsbnConvertion ("BN 8817101646"));
-        System.out.println (ISBNUtils.stripChar ("(88-85876-08-0)"));
-        System.out.println (ISBNUtils.removeChar ("(88-85876-08-0)","-"));
-        System.out.println ("---------------------------------------------------");
-        System.out.println (appender.formatIsbn ("9788885876088"));
-
-
-
-
-    }
 }
