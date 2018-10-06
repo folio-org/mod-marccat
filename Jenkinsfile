@@ -53,7 +53,7 @@ pipeline {
                         }
               post {
                    success {
-                        echo 'upload to remote server succesfully'
+                         echo 'mod-catalogin up and running on port 8080 on ITNET'
                    }
               }
          }
