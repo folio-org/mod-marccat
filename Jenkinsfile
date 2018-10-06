@@ -47,7 +47,7 @@ pipeline {
                steps{
                     script{
                          withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
-                                  sh('./script/remote_sync.sh')
+                                  sh('./script/deploy_itnet.sh')
                                 }
                             }
                         }
