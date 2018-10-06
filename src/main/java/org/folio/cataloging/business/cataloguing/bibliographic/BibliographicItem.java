@@ -20,20 +20,20 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class BibliographicItem extends CatalogItem implements Serializable 
+public class BibliographicItem extends CatalogItem implements Serializable
 {
 	private static final long serialVersionUID = 8676099561229020012L;
 	private Log logger = new Log(BibliographicItem.class);
-		
+
 	private static List nameOrderTags = null;
 	private BIB_ITM bibItmData;
 	private int userView;
-	
+
 	public BibliographicItem() {
 		super();
 	}
 
-	public BibliographicItem(Integer id) 
+	public BibliographicItem(Integer id)
 	{
 		super();
 		this.bibItmData.setAmicusNumber(id);
@@ -56,7 +56,7 @@ public class BibliographicItem extends CatalogItem implements Serializable
 		return userView;
 	}
 
-	public void setBibItmData(BIB_ITM bib_itm) 
+	public void setBibItmData(BIB_ITM bib_itm)
 	{
 		bibItmData = bib_itm;
 		/*
@@ -86,7 +86,7 @@ public class BibliographicItem extends CatalogItem implements Serializable
 		userView = i;
 	}
 
-	public Record toRecord(String elementSetName) 
+	public Record toRecord(String elementSetName)
 	{
 		Document xmlDocument = toXmlDocument();
 		XmlRecord xmlRecord = new XmlRecord();
@@ -104,10 +104,10 @@ public class BibliographicItem extends CatalogItem implements Serializable
 	 *   <subfield code="b">content</subfield>
 	 *  </datafield>
 	 * </record
-	 * 
+	 *
 	 * @return a Document
 	 */
-	public Document toXmlDocument() 
+	public Document toXmlDocument()
 	{
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = null;
@@ -133,10 +133,10 @@ public class BibliographicItem extends CatalogItem implements Serializable
 	 *   <subfield code="b">content</subfield>
 	 *  </datafield>
 	 * </record
-	 * 
+	 *
 	 * @return an Element
 	 */
-	public Element toXmlElement(Document xmlDocument) 
+	public Element toXmlElement(Document xmlDocument)
 	{
 		Element record = xmlDocument.createElement("record");
 		//bElement author1 = record.addElement("leader").addText("00451nam a2200109 a 4500");
@@ -157,9 +157,8 @@ public class BibliographicItem extends CatalogItem implements Serializable
 	  * like 000, 001, 005 cannot be added by the user and will be generated
 	  * if not present
 	  */
-	public void checkForMandatoryTags() throws MandatoryTagException 
+	public void checkForMandatoryTags() throws MandatoryTagException
 	{
-//		final String[] tags = new String[] {"000", "008", "040", "245"};
 		final String[] tags = new String[] {"000", "008", "040"};
 		for (int i=0; i<tags.length; i++) {
 			if (findFirstTagByNumber(tags[i]) == null) {
@@ -167,8 +166,8 @@ public class BibliographicItem extends CatalogItem implements Serializable
 			}
 		}
 	}
-	
-	private boolean isOrderableNameTag(String string) throws DataAccessException 
+
+	private boolean isOrderableNameTag(String string) throws DataAccessException
 	{
 		Iterator iter = getOrderableNameTags().iterator();
 		while (iter.hasNext()) {
@@ -182,7 +181,7 @@ public class BibliographicItem extends CatalogItem implements Serializable
 		return false;
 	}
 
-	private List getOrderableNameTags() throws DataAccessException 
+	private List getOrderableNameTags() throws DataAccessException
 	{
 		if (nameOrderTags == null) {
 			// FIXME: this takes a session so that means it should be moved on the persistence layer.
@@ -207,7 +206,7 @@ public class BibliographicItem extends CatalogItem implements Serializable
 		return tags;
 	}
 
-	public List getOrderableSubjects() 
+	public List getOrderableSubjects()
 	{
 		List tags = new ArrayList();
 		Iterator iter = getTags().iterator();
@@ -219,8 +218,8 @@ public class BibliographicItem extends CatalogItem implements Serializable
 		}
 		return tags;
 	}
-	
-	public List getOrderableNotes() 
+
+	public List getOrderableNotes()
 	{
 		List tags = new ArrayList();
 		Iterator iter = getTags().iterator();
@@ -232,8 +231,8 @@ public class BibliographicItem extends CatalogItem implements Serializable
 		}
 		return tags;
 	}
-	
-	public List getOrderableTitles() 
+
+	public List getOrderableTitles()
 	{
 		List tags = new ArrayList();
 		Iterator iter = getTags().iterator();
@@ -245,8 +244,8 @@ public class BibliographicItem extends CatalogItem implements Serializable
 		}
 		return tags;
 	}
-	
-	public List getOrderableClassifications() 
+
+	public List getOrderableClassifications()
 	{
 		List tags = new ArrayList();
 		Iterator iter = getTags().iterator();
@@ -258,8 +257,8 @@ public class BibliographicItem extends CatalogItem implements Serializable
 		}
 		return tags;
 	}
-	
-	public List getOrderableControlNumbers() 
+
+	public List getOrderableControlNumbers()
 	{
 		List tags = new ArrayList();
 		Iterator iter = getTags().iterator();
@@ -271,8 +270,8 @@ public class BibliographicItem extends CatalogItem implements Serializable
 		}
 		return tags;
 	}
-	
-	public List getOrderableRelations() 
+
+	public List getOrderableRelations()
 	{
 		List tags = new ArrayList();
 		Iterator iter = getTags().iterator();

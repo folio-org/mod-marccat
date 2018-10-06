@@ -16,6 +16,8 @@ import org.folio.cataloging.dao.DAODescriptor;
 import org.folio.cataloging.dao.RecordTypeMaterialDAO;
 import org.folio.cataloging.dao.SystemNextNumberDAO;
 import org.folio.cataloging.dao.persistence.*;
+import org.folio.cataloging.integration.GlobalStorage;
+import org.folio.cataloging.integration.log.MessageCatalogStorage;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.util.StringText;
 import org.marc4j.MarcReader;
@@ -63,7 +65,7 @@ public class BibliographicInputFile {
 		try {
       loadFileFromStream(fileName, inputStream, cataloguingView, startAt, recCount, session, configuration);
     } catch (Exception e) {
-			logger.error("bla bla");
+			logger.error(MessageCatalogStorage._00031_LOAD_FROM_FILE_FAILURE, fileName, e);
 			throw new DataAccessException(e);
 		}
 	}
@@ -90,7 +92,7 @@ public class BibliographicInputFile {
 
 			loadFileFromStream(fileName, input, cataloguingView, startAt, recCount, session, configuration);
 		} catch (IOException e) {
-			logger.error("bla bla");
+      logger.error(MessageCatalogStorage._00032_LOAD_REC_BY_REC_FAILURE, record.getControlFields().get(0) + " - " + record.getLeader().toString(), e);
 			throw new DataAccessException(e);
 		}
 	}
@@ -127,13 +129,14 @@ public class BibliographicInputFile {
 				count++;
 				if (count >= startAt && processed <= recCount) {
 					processed++;
-					logger.debug(record.toString());
 					try {
 						CatalogItem item = catalog.newCatalogItemWithoutAmicusNumber();
 						catalog.applyKeyToItem(item, new Object[] { cataloguingView });
 						Leader leader = record.getLeader();
 						final BibliographicLeader leaderTag = catalog.createRequiredLeaderTag(item);
 						setLeaderValues(leaderTag, leader);
+            leaderTag.setCorrelationKey(impl.getMarcEncoding(leaderTag, session));
+            leaderTag.setValidation(impl.getValidation(leaderTag, session));
 						item.addTag(leaderTag);
 
             List<ControlField> controlFields = record.getControlFields();
@@ -148,7 +151,7 @@ public class BibliographicInputFile {
             final CasCache casCache = new CasCache(item.getAmicusNumber());
             casCache.setLevelCard("L1");
             casCache.setStatusDisponibilit(99);
-            item.validate(); //ERRORE
+            item.validate();
             dao.saveCatalogItem(item, casCache, session);
 
 						stats.setRecordsAdded(stats.getRecordsAdded() + 1);
@@ -168,7 +171,7 @@ public class BibliographicInputFile {
 				}
 			}
 		} catch (DataAccessException | HibernateException exception) {
-			logger.error("", exception);
+			logger.error(MessageCatalogStorage._00030_LOAD_RECORDS_FAILURE, exception);
 			throw new DataAccessException(exception);
 		}
 	}
@@ -218,6 +221,8 @@ public class BibliographicInputFile {
             throw new DataAccessException(e);
           }
         }
+        newTag.setCorrelationKey(impl.getMarcEncoding(newTag, session));
+        newTag.setValidation(impl.getValidation(newTag, session));
         item.addTag(newTag);
       }
     });
@@ -256,6 +261,11 @@ public class BibliographicInputFile {
       if (!"003".equals(field.getTag())) {
         final String content = field.getData();
         ((FixedField) newTag).setContentFromMarcString(content);
+        if (newTag instanceof MaterialDescription){
+          newTag.setCorrelation(1, GlobalStorage.MATERIAL_DESCRIPTION_HEADER_TYPE);
+        }
+        newTag.setCorrelationKey(impl.getMarcEncoding(newTag, session));
+        newTag.setValidation(impl.getValidation(newTag, session));
         item.addTag(newTag);
       }
     });

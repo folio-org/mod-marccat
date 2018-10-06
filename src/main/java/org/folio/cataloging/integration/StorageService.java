@@ -21,7 +21,6 @@ import org.folio.cataloging.business.searching.InvalidBrowseIndexException;
 import org.folio.cataloging.dao.*;
 import org.folio.cataloging.dao.common.HibernateSessionProvider;
 import org.folio.cataloging.dao.persistence.*;
-import org.folio.cataloging.dao.persistence.Descriptor;
 import org.folio.cataloging.exception.ModCatalogingException;
 import org.folio.cataloging.exception.RecordInUseException;
 import org.folio.cataloging.integration.log.MessageCatalogStorage;
@@ -1990,7 +1989,7 @@ public class StorageService implements Closeable {
           final List<LOADING_MARC_RECORDS> lmr = (dao.getResults(session, bf.getLoadingStatisticsNumber()));
           ids = lmr.stream().map(l -> l.getBibItemNumber()).collect(Collectors.toList());
         }
-        result.put(Global.LOADING_FILE_FILENAME, file.getName());
+        result.put(Global.LOADING_FILE_FILENAME, file.getOriginalFilename());
         result.put(Global.LOADING_FILE_IDS, ids);
         result.put(Global.LOADING_FILE_REJECTED, stats.getRecordsRejected());
         result.put(Global.LOADING_FILE_ADDED, stats.getRecordsAdded());

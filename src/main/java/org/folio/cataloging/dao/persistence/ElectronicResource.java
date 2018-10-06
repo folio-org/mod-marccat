@@ -264,15 +264,15 @@ public class ElectronicResource extends PhysicalDescription {
   @Override
   public void setContentFromMarcString(final String content) {
     setGeneralMaterialDesignationCode(content.charAt(0));
-    setSpecificMaterialDesignationCode(content.charAt(1));
-    setColourCode(content.charAt(3));
-    setDimensionsCode(content.charAt(4));
-    setIncludesSoundCode(content.charAt(5));
-    setImageBitDepth(content.substring(6,9));
-    setFileFormatsCode(content.charAt(9));
-    setQualityAssuranceTargetCode(content.charAt(10));
-    setAntecedentSourceCode(content.charAt(11));
-    setLevelOfCompressionCode(content.charAt(12));
-    setReformattingQualityCode(content.charAt(13));
+	  if (content.length() > 1) setSpecificMaterialDesignationCode(content.charAt(1)); else setSpecificMaterialDesignationCode('u');
+    if (content.length() > 3) setColourCode(content.charAt(3));
+    if (content.length() > 4) setDimensionsCode(content.charAt(4));
+    if (content.length() > 5) setIncludesSoundCode(content.charAt(5));
+    if (content.length() > 9) setImageBitDepth(content.substring(6,9));
+    if (content.length() > 9) setFileFormatsCode(content.charAt(9));
+    if (content.length() > 10) setQualityAssuranceTargetCode(content.charAt(10));
+    if (content.length() > 11) setAntecedentSourceCode(content.charAt(11));
+    if (content.length() > 12) setLevelOfCompressionCode(content.charAt(12));
+    if (content.length() > 13) setReformattingQualityCode(content.charAt(13));
   }
 }
