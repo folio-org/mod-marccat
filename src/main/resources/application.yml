@@ -1,5 +1,5 @@
 configuration:
-  endpoint: http://192.168.0.158:8080/configurations/entries
+  endpoint: http://192.168.0.158:8085/configurations/entries
 
 logging:
   level:
@@ -11,4 +11,4 @@ logging:
     org.folio.cataloging: INFO
 
 server:
-  port: 8085
+  port: 8080

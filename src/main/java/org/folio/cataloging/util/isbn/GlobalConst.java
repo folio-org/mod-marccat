@@ -1,5 +1,9 @@
 package org.folio.cataloging.util.isbn;
 
+/**
+ * @author Christian Chiama
+ * @version $Revision: 4 $ $Date: 2018-10-1
+ */
 public interface GlobalConst
 {
 
