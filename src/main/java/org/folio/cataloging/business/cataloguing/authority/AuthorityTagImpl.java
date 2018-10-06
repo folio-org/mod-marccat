@@ -77,6 +77,7 @@ public class AuthorityTagImpl extends TagImpl {
 	 *
 	 * @see TagImpl#getMarcEncoding(Tag)
 	 */
+	@Deprecated
 	public CorrelationKey getMarcEncoding(Tag t) throws DataAccessException {
 
 		CorrelationKey key = daoCorrelation.getMarcEncoding(t.getCategory(), getHeadingType(t),
@@ -101,15 +102,19 @@ public class AuthorityTagImpl extends TagImpl {
 	public Validation getValidation(Tag t) throws DataAccessException {
 		//FIXME
 		CorrelationKey key = getMarcEncoding(t);
-		return daoValidation.load(key.getMarcTag(), t.getHeadingType(), t
-				.getCategory());
+		return daoValidation.load(key.getMarcTag(), t.getHeadingType(), t.getCategory());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see TagImpl#getCatalog()
-	 */
+  @Override
+  public Validation getValidation(Tag t, Session session) throws DataAccessException {
+    return null;
+  }
+
+  /*
+     * (non-Javadoc)
+     *
+     * @see TagImpl#getCatalog()
+     */
 	public Catalog getCatalog() {
 		return new AuthorityCatalog();
 	}

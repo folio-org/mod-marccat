@@ -242,14 +242,14 @@ public class Microform extends PhysicalDescription {
   @Override
   public void setContentFromMarcString(final String s) {
     setGeneralMaterialDesignationCode(s.charAt(0));
-    setSpecificMaterialDesignationCode(s.charAt(1));
-    setPolarityCode(s.charAt(3));
-    setDimensionsCode(s.charAt(4));
-    setReductionRatioRangeCode(s.charAt(5));
-    setReductionRatioCode(s.substring(6,9));
-    setColourCode(s.charAt(9));
-    setEmulsionOnFilmCode(s.charAt(10));
-    setGenerationCode(s.charAt(11));
-    setBaseOfFilmCode(s.charAt(12));
+    if (s.length() > 1) setSpecificMaterialDesignationCode(s.charAt(1)); else setSpecificMaterialDesignationCode('u');
+    if (s.length() > 3) setPolarityCode(s.charAt(3));
+    if (s.length() > 4) setDimensionsCode(s.charAt(4));
+    if (s.length() > 5) setReductionRatioRangeCode(s.charAt(5));
+    if (s.length() > 8) setReductionRatioCode(s.substring(6,9));
+    if (s.length() > 9) setColourCode(s.charAt(9));
+    if (s.length() > 10) setEmulsionOnFilmCode(s.charAt(10));
+    if (s.length() > 11) setGenerationCode(s.charAt(11));
+    if (s.length() > 12) setBaseOfFilmCode(s.charAt(12));
   }
 }
