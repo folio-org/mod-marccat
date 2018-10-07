@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Nov 22, 2005
- * 
+ *
  * T_MARC_REF_TYP.java
  */
 package org.folio.cataloging.dao.persistence;

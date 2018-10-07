@@ -12,63 +12,57 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "subscriptions" })
+@JsonPropertyOrder({"subscriptions"})
 public class SubscriptionCollection {
 
-    /**
-     * 
-     * (Required)
-     * 
-     */
-    @JsonProperty("subscriptions")
-    @Valid
-    @NotNull
-    private List<Subscription> subscriptions = new ArrayList<Subscription>();
+  /**
+   * (Required)
+   */
+  @JsonProperty("subscriptions")
+  @Valid
+  @NotNull
+  private List <Subscription> subscriptions = new ArrayList <Subscription> ( );
 
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  @JsonIgnore
+  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
 
-    /**
-     * 
-     * (Required)
-     * 
-     * @return
-     *     The subscriptions
-     */
-    @JsonProperty("subscriptions")
-    public List<Subscription> getSubscriptions() {
-        return subscriptions;
-    }
+  /**
+   * (Required)
+   *
+   * @return The subscriptions
+   */
+  @JsonProperty("subscriptions")
+  public List <Subscription> getSubscriptions() {
+    return subscriptions;
+  }
 
-    /**
-     * 
-     * (Required)
-     * 
-     * @param subscriptions
-     *     The subscriptions
-     */
-    @JsonProperty("subscriptions")
-    public void setSubscriptions(List<Subscription> subscriptions) {
-        this.subscriptions = subscriptions;
-    }
+  /**
+   * (Required)
+   *
+   * @param subscriptions The subscriptions
+   */
+  @JsonProperty("subscriptions")
+  public void setSubscriptions(List <Subscription> subscriptions) {
+    this.subscriptions = subscriptions;
+  }
 
-    public SubscriptionCollection withSubscriptions(List<Subscription> subscriptions) {
-        this.subscriptions = subscriptions;
-        return this;
-    }
+  public SubscriptionCollection withSubscriptions(List <Subscription> subscriptions) {
+    this.subscriptions = subscriptions;
+    return this;
+  }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
+  @JsonAnyGetter
+  public Map <String, Object> getAdditionalProperties() {
+    return this.additionalProperties;
+  }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
+  @JsonAnySetter
+  public void setAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+  }
 
-    public SubscriptionCollection withAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-        return this;
-    }
+  public SubscriptionCollection withAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+    return this;
+  }
 }

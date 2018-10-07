@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on 05-jul-2004
- * 
+ *
  * T_HLDG_LVL_OF_DTL.java
  */
 package org.folio.cataloging.dao.persistence;

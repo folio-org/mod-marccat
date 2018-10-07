@@ -12,63 +12,57 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "materialTypes" })
+@JsonPropertyOrder({"materialTypes"})
 public class MaterialTypeCollection {
 
-    /**
-     * 
-     * (Required)
-     * 
-     */
-    @JsonProperty("materialTypes")
-    @Valid
-    @NotNull
-    private List<MaterialType> materialTypes = new ArrayList<MaterialType>();
+  /**
+   * (Required)
+   */
+  @JsonProperty("materialTypes")
+  @Valid
+  @NotNull
+  private List <MaterialType> materialTypes = new ArrayList <MaterialType> ( );
 
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  @JsonIgnore
+  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
 
-    /**
-     * 
-     * (Required)
-     * 
-     * @return
-     *     The materialTypes
-     */
-    @JsonProperty("materialTypes")
-    public List<MaterialType> getMaterialTypes() {
-        return materialTypes;
-    }
+  /**
+   * (Required)
+   *
+   * @return The materialTypes
+   */
+  @JsonProperty("materialTypes")
+  public List <MaterialType> getMaterialTypes() {
+    return materialTypes;
+  }
 
-    /**
-     * 
-     * (Required)
-     * 
-     * @param materialTypes
-     *     The materialTypes
-     */
-    @JsonProperty("materialTypes")
-    public void setMaterialTypes(List<MaterialType> materialTypes) {
-        this.materialTypes = materialTypes;
-    }
+  /**
+   * (Required)
+   *
+   * @param materialTypes The materialTypes
+   */
+  @JsonProperty("materialTypes")
+  public void setMaterialTypes(List <MaterialType> materialTypes) {
+    this.materialTypes = materialTypes;
+  }
 
-    public MaterialTypeCollection withMaterialTypes(List<MaterialType> materialTypes) {
-        this.materialTypes = materialTypes;
-        return this;
-    }
+  public MaterialTypeCollection withMaterialTypes(List <MaterialType> materialTypes) {
+    this.materialTypes = materialTypes;
+    return this;
+  }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
+  @JsonAnyGetter
+  public Map <String, Object> getAdditionalProperties() {
+    return this.additionalProperties;
+  }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
+  @JsonAnySetter
+  public void setAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+  }
 
-    public MaterialTypeCollection withAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-        return this;
-    }
+  public MaterialTypeCollection withAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+    return this;
+  }
 }

@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Dec 12, 2005
- * 
+ *
  * NME_TTL_REF.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -16,11 +16,11 @@ import org.folio.cataloging.dao.NameTitleDescriptorDAO;
  * @since 1.0
  */
 public class NME_TTL_REF extends REF {
-	/* (non-Javadoc)
-	 * @see REF#getTargetDAO()
-	 */
-	public DAODescriptor getTargetDAO() {
-		return new NameTitleDescriptorDAO();
-	}
+  /* (non-Javadoc)
+   * @see REF#getTargetDAO()
+   */
+  public DAODescriptor getTargetDAO() {
+    return new NameTitleDescriptorDAO ( );
+  }
 
 }

@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Apr 6, 2006
- * 
+ *
  * IncompatibleCrossReferenceHeadingsException.java
  */
 package org.folio.cataloging.exception;
@@ -13,6 +13,6 @@ package org.folio.cataloging.exception;
  * @since 1.0
  */
 public class IncompatibleCrossReferenceHeadingsException
-	extends ModCatalogingException {
+  extends ModCatalogingException {
 
 }

@@ -4,5 +4,5 @@ import org.folio.cataloging.business.cataloguing.common.Tag;
 import org.folio.cataloging.business.common.DataAccessException;
 
 public interface TagFilter {
-	boolean accept(Tag tag, Object optionalCondition) throws DataAccessException;
+  boolean accept(Tag tag, Object optionalCondition) throws DataAccessException;
 }

@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Jan 14, 2005
- * 
+ *
  * ClassificationType.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -14,5 +14,5 @@ package org.folio.cataloging.dao.persistence;
  */
 public class ThesaurusType extends T_SINGLE {
 
-	
+
 }

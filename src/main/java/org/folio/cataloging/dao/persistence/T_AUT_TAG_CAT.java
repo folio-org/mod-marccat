@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Nov 16, 2005
- * 
+ *
  * T_AUT_TAG_CAT.java
  */
 package org.folio.cataloging.dao.persistence;

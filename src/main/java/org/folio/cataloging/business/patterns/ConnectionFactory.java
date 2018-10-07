@@ -1,24 +1,23 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on 12 Jun 2007
- * 
+ *
  * ConnectionFactory.java
  */
 package org.folio.cataloging.business.patterns;
 
+import org.folio.cataloging.dao.common.HibernateUtil;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 
-
-import org.folio.cataloging.dao.common.HibernateUtil;
-
 // TODO: ANDREA COMMENT
 public class ConnectionFactory {
-	public static Connection theConnection = null;
+  public static Connection theConnection = null;
 
-	public static Connection getConnection(String connectionString,
-			String user, String password) throws SQLException {
+  public static Connection getConnection(String connectionString,
+                                         String user, String password) throws SQLException {
 		/*
 		if (theConnection == null) {
 			if (connectionString == null) {
@@ -31,15 +30,16 @@ public class ConnectionFactory {
 			}
 		}
 		return theConnection;
-		*/;
-		throw new IllegalArgumentException("EXPLICIT CALL TO O\\\\ DRIVER");
-	}
+		*/
+    ;
+    throw new IllegalArgumentException ("EXPLICIT CALL TO O\\\\ DRIVER");
+  }
 
-	public static Connection getConnection() throws SQLException {
-		try {
-			return new HibernateUtil().currentSession().connection();
-		} catch (Exception e) {
-			throw new SQLException();
-		}
-	}
+  public static Connection getConnection() throws SQLException {
+    try {
+      return new HibernateUtil ( ).currentSession ( ).connection ( );
+    } catch (Exception e) {
+      throw new SQLException ( );
+    }
+  }
 }

@@ -15,72 +15,70 @@ import java.util.List;
  *
  * @author paul
  * @author natasciab
- *
  */
-public class PublisherTagDescriptor extends Descriptor
-{
-	private final PublisherTagDescriptorDAO theDAO = new PublisherTagDescriptorDAO();
+public class PublisherTagDescriptor extends Descriptor {
+  private static final long serialVersionUID = 1L;
+  private final PublisherTagDescriptorDAO theDAO = new PublisherTagDescriptorDAO ( );
+  private List <PUBL_TAG> publisherTagUnits = new ArrayList <> ( );
 
-	private static final long serialVersionUID = 1L;
-	private List<PUBL_TAG> publisherTagUnits = new ArrayList<>();
+  @Override
+  public Class getAccessPointClass() {
+    return PublisherAccessPoint.class;
+  }
 
-	@Override
-	public Class getAccessPointClass() {
-		return PublisherAccessPoint.class;
-	}
+  @Override
+  public int getCategory() {
+    return 7;
+  }
 
-	@Override
-	public int getCategory() {
-		return 7;
-	}
+  @Override
+  public CorrelationValues getCorrelationValues() {
+    return new CorrelationValues ( );
+  }
 
-	@Override
-	public CorrelationValues getCorrelationValues() {
-		return new CorrelationValues();
-	}
+  @Override
+  public void setCorrelationValues(CorrelationValues v) {
+  }
 
-	@Override
-	public String getDefaultBrowseKey() {
-		return null;
-	}
+  @Override
+  public String getDefaultBrowseKey() {
+    return null;
+  }
 
-	@Override
-	public String getHeadingNumberSearchIndexKey() {
-		return null;
-	}
+  @Override
+  public String getHeadingNumberSearchIndexKey() {
+    return null;
+  }
 
-	@Override
-	public String getLockingEntityType() {
-		return null;
-	}
+  @Override
+  public String getLockingEntityType() {
+    return null;
+  }
 
-	@Override
-	public String getNextNumberKeyFieldCode() {
-		return null;
-	}
+  @Override
+  public String getNextNumberKeyFieldCode() {
+    return null;
+  }
 
-	@Override
-	public Class getReferenceClass(Class targetClazz) {
-		return null;
-	}
+  @Override
+  public Class getReferenceClass(Class targetClazz) {
+    return null;
+  }
 
-	@Override
-	public SortFormParameters getSortFormParameters() {
-		return null;
-	}
+  @Override
+  public SortFormParameters getSortFormParameters() {
+    return null;
+  }
 
-	@Override
-	public void setCorrelationValues(CorrelationValues v) {}
+  public AbstractDAO getDAO() {
+    return theDAO;
+  }
 
-	public AbstractDAO getDAO() {
-		return theDAO;
-	}
+  public List <PUBL_TAG> getPublisherTagUnits() {
+    return publisherTagUnits;
+  }
 
-	public List<PUBL_TAG> getPublisherTagUnits() {
-		return publisherTagUnits;
-	}
-
-	public void setPublisherTagUnits(final List<PUBL_TAG> publisherTags) {
-		publisherTagUnits = publisherTags;
-	}
+  public void setPublisherTagUnits(final List <PUBL_TAG> publisherTags) {
+    publisherTagUnits = publisherTags;
+  }
 }

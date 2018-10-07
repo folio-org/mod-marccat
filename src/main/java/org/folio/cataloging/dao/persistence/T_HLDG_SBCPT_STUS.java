@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on 05-jul-2004
- * 
+ *
  * T_HLDG_SBCT_STUS.java
  */
 package org.folio.cataloging.dao.persistence;

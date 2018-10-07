@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Nov 8, 2004
- * 
+ *
  * T_MIC_FLM_BSE.java
  */
 package org.folio.cataloging.dao.persistence;

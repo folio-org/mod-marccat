@@ -13,24 +13,24 @@ import org.folio.cataloging.shared.CorrelationValues;
  * @since 1.0
  */
 public abstract class FixedFieldUsingItemEntity extends FixedField implements PersistsViaItem {
-	private static final Log logger = LogFactory.getLog(FixedFieldUsingItemEntity.class);
+  private static final Log logger = LogFactory.getLog (FixedFieldUsingItemEntity.class);
 
-	private ItemEntity itemEntity = null;
+  private ItemEntity itemEntity = null;
 
 
-	public boolean correlationChangeAffectsKey(CorrelationValues v) {
-		return (v.isValueDefined(1) && (v.getValue(1) != getHeaderType()));
-	}
+  public boolean correlationChangeAffectsKey(CorrelationValues v) {
+    return (v.isValueDefined (1) && (v.getValue (1) != getHeaderType ( )));
+  }
 
-	public ItemEntity getItemEntity() {
-		return itemEntity;
-	}
+  public ItemEntity getItemEntity() {
+    return itemEntity;
+  }
 
-	/* (non-Javadoc)
-	 * @see PersistsViaItem#setItemEntity(ItemEntity)
-	 */
-	public void setItemEntity(ItemEntity item) {
-		itemEntity = item;
-	}
+  /* (non-Javadoc)
+   * @see PersistsViaItem#setItemEntity(ItemEntity)
+   */
+  public void setItemEntity(ItemEntity item) {
+    itemEntity = item;
+  }
 
 }

@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on 28-jul-2004
- * 
+ *
  * S_BIB_MARC_TAG_VLDTN.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -19,13 +19,14 @@ import java.io.Serializable;
  */
 public class BibliographicValidation extends Validation implements Serializable {
 
-	private BibliographicValidationKey key;
-	public ValidationKey getKey() {
-		return key;
-	}
+  private BibliographicValidationKey key;
 
-	private void setKey(BibliographicValidationKey validation) {
-		key = validation;
-	}
+  public ValidationKey getKey() {
+    return key;
+  }
+
+  private void setKey(BibliographicValidationKey validation) {
+    key = validation;
+  }
 
 }

@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Aug 13, 2004
- * 
+ *
  * NewTagException.java
  */
 package org.folio.cataloging.business.cataloguing.bibliographic;
@@ -16,33 +16,33 @@ import org.folio.cataloging.exception.ModCatalogingException;
  */
 public class NewTagException extends ModCatalogingException {
 
-	/**
-	 * 
-	 */
-	public NewTagException() {
-		super();
-	}
+  /**
+   *
+   */
+  public NewTagException() {
+    super ( );
+  }
 
-	/**
-	 * @param message
-	 */
-	public NewTagException(String message) {
-		super(message);
-	}
+  /**
+   * @param message
+   */
+  public NewTagException(String message) {
+    super (message);
+  }
 
-	/**
-	 * @param message
-	 * @param cause
-	 */
-	public NewTagException(String message, Throwable cause) {
-		super(message, cause);
-	}
+  /**
+   * @param message
+   * @param cause
+   */
+  public NewTagException(String message, Throwable cause) {
+    super (message, cause);
+  }
 
-	/**
-	 * @param cause
-	 */
-	public NewTagException(Throwable cause) {
-		super(cause);
-	}
+  /**
+   * @param cause
+   */
+  public NewTagException(Throwable cause) {
+    super (cause);
+  }
 
 }

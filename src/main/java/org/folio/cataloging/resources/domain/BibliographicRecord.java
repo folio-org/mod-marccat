@@ -11,133 +11,113 @@ import java.util.List;
 
 /**
  * BibliograpgicRecord
- *  <p>
- *
- *
+ * <p>
  */
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "id", "group", "canadianContentIndicator", "verificationLevel", "leader", "fields", "recordView" })
+@JsonPropertyOrder({"id", "group", "canadianContentIndicator", "verificationLevel", "leader", "fields", "recordView"})
 public class BibliographicRecord {
 
-    @JsonProperty("id")
-    private Integer id;
+  @JsonProperty("id")
+  private Integer id;
 
-    @JsonProperty("group")
-    private Integer group;
+  @JsonProperty("group")
+  private Integer group;
 
-    @JsonProperty("leader")
-    @Valid
-    private Leader leader;
+  @JsonProperty("leader")
+  @Valid
+  private Leader leader;
 
   @JsonProperty("canadianContentIndicator")
-    private String canadianContentIndicator;
+  private String canadianContentIndicator;
 
   @JsonProperty("verificationLevel")
-    private String verificationLevel;
+  private String verificationLevel;
 
-    @JsonProperty("fields")
-    @Valid
-    private List<Field> fields = new ArrayList<Field>();
+  @JsonProperty("fields")
+  @Valid
+  private List <Field> fields = new ArrayList <Field> ( );
 
   @JsonProperty("recordView")
-    private int recordView;
+  private int recordView;
 
-
-    /**
-     *
-     * @return
-     *     The id
-     */
-    @JsonProperty("id")
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     *
-     * @param id
-     *     The id
-     */
-    @JsonProperty("id")
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-     /**
-     *
-     * @return
-     *     The group
-     */
-    @JsonProperty("group")
-    public Integer getGroup() {
-        return group;
-    }
-
-    /**
-     *
-     * @param group
-     *     The group
-     */
-    @JsonProperty("group")
-    public void setGroup(Integer group) {
-        this.group = group;
-    }
-
-
-    /**
-     *
-     * @return
-     *     The leader
-     */
-    @JsonProperty("leader")
-    public Leader getLeader() {
-        return leader;
-    }
-
-    /**
-     *
-     * @param leader
-     *     The leader
-     */
-    @JsonProperty("leader")
-    public void setLeader(Leader leader) {
-        this.leader = leader;
-    }
-
-    /**
-     *
-     * @return
-     *     The fields
-     */
-    @JsonProperty("fields")
-    public List<Field> getFields() {
-        return fields;
-    }
-
-    /**
-     *
-     * @param fields
-     *     The fields
-     */
-    @JsonProperty("fields")
-    public void setFields(List<Field> fields) {
-        this.fields = fields;
-    }
 
   /**
-   *
+   * @return The id
+   */
+  @JsonProperty("id")
+  public Integer getId() {
+    return id;
+  }
+
+  /**
+   * @param id The id
+   */
+  @JsonProperty("id")
+  public void setId(Integer id) {
+    this.id = id;
+  }
+
+  /**
+   * @return The group
+   */
+  @JsonProperty("group")
+  public Integer getGroup() {
+    return group;
+  }
+
+  /**
+   * @param group The group
+   */
+  @JsonProperty("group")
+  public void setGroup(Integer group) {
+    this.group = group;
+  }
+
+
+  /**
+   * @return The leader
+   */
+  @JsonProperty("leader")
+  public Leader getLeader() {
+    return leader;
+  }
+
+  /**
+   * @param leader The leader
+   */
+  @JsonProperty("leader")
+  public void setLeader(Leader leader) {
+    this.leader = leader;
+  }
+
+  /**
+   * @return The fields
+   */
+  @JsonProperty("fields")
+  public List <Field> getFields() {
+    return fields;
+  }
+
+  /**
+   * @param fields The fields
+   */
+  @JsonProperty("fields")
+  public void setFields(List <Field> fields) {
+    this.fields = fields;
+  }
+
+  /**
    * @return canadianContentIndicator.
    */
   @JsonProperty("canadianContentIndicator")
   public String getCanadianContentIndicator() {
     return canadianContentIndicator;
   }
+
   /**
-   *
-   * @param canadianContentIndicator.
-   *  the canadianContentIndicator
+   * @param canadianContentIndicator. the canadianContentIndicator
    */
   @JsonProperty("canadianContentIndicator")
   public void setCanadianContentIndicator(final String canadianContentIndicator) {
@@ -145,7 +125,6 @@ public class BibliographicRecord {
   }
 
   /**
-   *
    * @return verificationLevel.
    */
   @JsonProperty("verificationLevel")
@@ -154,9 +133,7 @@ public class BibliographicRecord {
   }
 
   /**
-   *
-   * @param verificationLevel.
-   *  the verificationLevel
+   * @param verificationLevel. the verificationLevel
    */
   @JsonProperty("verificationLevel")
   public void setVerificationLevel(final String verificationLevel) {
@@ -164,7 +141,6 @@ public class BibliographicRecord {
   }
 
   /**
-   *
    * @return the record view.
    */
   @JsonProperty("recordView")
@@ -173,7 +149,6 @@ public class BibliographicRecord {
   }
 
   /**
-   *
    * @param recordView
    */
   @JsonProperty("recordView")

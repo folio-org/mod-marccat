@@ -1,10 +1,11 @@
 package org.folio.cataloging.util.isbn;
 
 /**
- * Represents an org.folio.cataloging.util.isbn.ISBN group.
+ * Represents an org.folio.cataloging.util.isbn.ISBNAlgorithm group.
  * <p>
  * Each group is based in the information on
  * https://www.isbn-international.org/range_file_generation [revision Oct 5, 2018]
+ *
  * @author Christian Chiama
  * @version $Revision:
  */
@@ -1884,10 +1885,10 @@ public enum Group {
     }
 
     /**
-     * Returns the group of the specified ISBN.
+     * Returns the group of the specified ISBNAlgorithm.
      *
-     * @param ISBN org.folio.cataloging.util.isbn.ISBN for the group wants to get.
-     * @return the group of the specified org.folio.cataloging.util.isbn.ISBN or {@code null} if the org.folio.cataloging.util.isbn.ISBN
+     * @param ISBN org.folio.cataloging.util.isbn.ISBNAlgorithm for the group wants to get.
+     * @return the group of the specified org.folio.cataloging.util.isbn.ISBNAlgorithm or {@code null} if the org.folio.cataloging.util.isbn.ISBNAlgorithm
      * is not from any group.
      */
     public static Group getGroup(String ISBN) {

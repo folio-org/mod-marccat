@@ -28,41 +28,41 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
 public class FunctionCodeAPI extends BaseResource {
 
-    private Function<Avp<String>, FunctionCode> toFunctionCode = source -> {
-        final FunctionCode functionCode = new FunctionCode();
-        functionCode.setCode(Integer.parseInt(source.getValue()));
-        functionCode.setDescription(source.getLabel());
-        return functionCode;
-    };
+  private Function <Avp <String>, FunctionCode> toFunctionCode = source -> {
+    final FunctionCode functionCode = new FunctionCode ( );
+    functionCode.setCode (Integer.parseInt (source.getValue ( )));
+    functionCode.setDescription (source.getLabel ( ));
+    return functionCode;
+  };
 
-    @ApiOperation(value = "Returns all function codes levels.")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Method successfully returned the requested code levels"),
-            @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 414, message = "Request-URI Too Long"),
-            @ApiResponse(code = 500, message = "System internal failure occurred.")
-    })
-    @GetMapping("/function-codes")
-    public FunctionCodeCollection getCatalogingFunctionCodes(
-            @RequestParam final String marcCategory,
-            @RequestParam final int code1,
-            @RequestParam final int code2,
-            @RequestParam final String lang,
-            @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-        return doGet((storageService, configuration) -> {
-            final int category = "17".equals(marcCategory) ? Global.NAME_CATEGORY_DEFAULT : Integer.parseInt(marcCategory);
-            final FunctionCodeCollection container = new FunctionCodeCollection();
-            return (storageService.existFunctionCodeByCategory(category))
-                       ? ofNullable(storageService.getThirdCorrelation(category, code1, code2, lang))
-                        .map(functionCodeList -> {
-                            container.setFunctionCodes(functionCodeList
-                                    .stream()
-                                    .map(toFunctionCode)
-                                    .collect(toList()));
+  @ApiOperation(value = "Returns all function codes levels.")
+  @ApiResponses(value = {
+    @ApiResponse(code = 200, message = "Method successfully returned the requested code levels"),
+    @ApiResponse(code = 400, message = "Bad Request"),
+    @ApiResponse(code = 414, message = "Request-URI Too Long"),
+    @ApiResponse(code = 500, message = "System internal failure occurred.")
+  })
+  @GetMapping("/function-codes")
+  public FunctionCodeCollection getCatalogingFunctionCodes(
+    @RequestParam final String marcCategory,
+    @RequestParam final int code1,
+    @RequestParam final int code2,
+    @RequestParam final String lang,
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    return doGet ((storageService, configuration) -> {
+      final int category = "17".equals (marcCategory) ? Global.NAME_CATEGORY_DEFAULT : Integer.parseInt (marcCategory);
+      final FunctionCodeCollection container = new FunctionCodeCollection ( );
+      return (storageService.existFunctionCodeByCategory (category))
+        ? ofNullable (storageService.getThirdCorrelation (category, code1, code2, lang))
+        .map (functionCodeList -> {
+          container.setFunctionCodes (functionCodeList
+            .stream ( )
+            .map (toFunctionCode)
+            .collect (toList ( )));
 
-                            return container;
-                        }).orElse(container)
-                        : container;
-        }, tenant, configurator);
-    }
+          return container;
+        }).orElse (container)
+        : container;
+    }, tenant, configurator);
+  }
 }

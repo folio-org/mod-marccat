@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Nov 4, 2004
- * 
+ *
  * HeaderFieldHelper.java
  */
 package org.folio.cataloging.business.cataloguing.common;
@@ -20,50 +20,50 @@ import java.util.List;
  * @since 1.0
  */
 public abstract class HeaderFieldHelper implements HeaderField, Serializable {
-	private static DAOCodeTable daoCodeTable = new DAOCodeTable();
+  private static DAOCodeTable daoCodeTable = new DAOCodeTable ( );
 
-	protected int headerType = -1;
+  protected int headerType = -1;
 
-	abstract public int getCategory();
+  abstract public int getCategory();
 
-	abstract public Class getHeaderListClass();
-	
-	public List getFirstCorrelationList() throws DataAccessException {
-		return daoCodeTable.getList(getHeaderListClass(),false);		
-	}
+  abstract public Class getHeaderListClass();
 
-	public List getSecondCorrelationList(int value1) throws DataAccessException {
-		return null;
-	}
+  public List getFirstCorrelationList() throws DataAccessException {
+    return daoCodeTable.getList (getHeaderListClass ( ), false);
+  }
 
-	public List getThirdCorrelationList(int value1, int value2) throws DataAccessException {
-		return null;
-	}
+  public List getSecondCorrelationList(int value1) throws DataAccessException {
+    return null;
+  }
 
-	public int getHeaderType() {
-		return headerType;
-	}
+  public List getThirdCorrelationList(int value1, int value2) throws DataAccessException {
+    return null;
+  }
 
-	public void setHeaderType(int s) {
-		headerType = s;
-	}
-	
-	public final boolean isHeaderField() {
-		return true;
-	}
+  public int getHeaderType() {
+    return headerType;
+  }
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.HeaderField#getCorrelationValues()
-	 */
-	public CorrelationValues getCorrelationValues() {
-		return (new CorrelationValues()).change(1, getHeaderType());
-	}
+  public void setHeaderType(int s) {
+    headerType = s;
+  }
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.HeaderField#setCorrelationValues(librisuite.business.common.CorrelationValues)
-	 */
-	public void setCorrelationValues(CorrelationValues v) {
-		setHeaderType(v.getValue(1));
-	}
+  public final boolean isHeaderField() {
+    return true;
+  }
+
+  /* (non-Javadoc)
+   * @see librisuite.business.cataloguing.bibliographic.HeaderField#getCorrelationValues()
+   */
+  public CorrelationValues getCorrelationValues() {
+    return (new CorrelationValues ( )).change (1, getHeaderType ( ));
+  }
+
+  /* (non-Javadoc)
+   * @see librisuite.business.cataloguing.bibliographic.HeaderField#setCorrelationValues(librisuite.business.common.CorrelationValues)
+   */
+  public void setCorrelationValues(CorrelationValues v) {
+    setHeaderType (v.getValue (1));
+  }
 
 }

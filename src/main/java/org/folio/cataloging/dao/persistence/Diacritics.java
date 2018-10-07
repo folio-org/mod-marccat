@@ -8,131 +8,132 @@ import org.folio.cataloging.dao.AbstractDAO;
 
 import java.io.Serializable;
 
-public class Diacritics implements Persistence, Serializable
-{   
-	private static final long serialVersionUID = 8229065630727630431L;
-	
-	private Long idCharacter;
-	private String setCharacter;
-	private String font;
-	private String character;
-	private String characterName;
-	private String unicodeCode;
-	private String utf8Code;
-    
-    /** default constructor */
-    public Diacritics() {
-    }
+public class Diacritics implements Persistence, Serializable {
+  private static final long serialVersionUID = 8229065630727630431L;
 
-	public Long getIdCharacter() {
-		return idCharacter;
-	}
+  private Long idCharacter;
+  private String setCharacter;
+  private String font;
+  private String character;
+  private String characterName;
+  private String unicodeCode;
+  private String utf8Code;
 
-	public void setIdCharacter(Long idCharacter) {
-		this.idCharacter = idCharacter;
-	}
+  /**
+   * default constructor
+   */
+  public Diacritics() {
+  }
 
-	public String getSetCharacter() {
-		return setCharacter;
-	}
+  public static long getSerialVersionUID() {
+    return serialVersionUID;
+  }
 
-	public void setSetCharacter(String setCharacter) {
-		this.setCharacter = setCharacter;
-	}
+  public Long getIdCharacter() {
+    return idCharacter;
+  }
 
-	public String getFont() {
-		return font;
-	}
+  public void setIdCharacter(Long idCharacter) {
+    this.idCharacter = idCharacter;
+  }
 
-	public void setFont(String font) {
-		this.font = font;
-	}
+  public String getSetCharacter() {
+    return setCharacter;
+  }
 
-	public String getCharacter() {
-		return character;
-	}
+  public void setSetCharacter(String setCharacter) {
+    this.setCharacter = setCharacter;
+  }
 
-	public void setCharacter(String character) {
-		this.character = character;
-	}
+  public String getFont() {
+    return font;
+  }
 
-	public String getCharacterName() {
-		return characterName;
-	}
+  public void setFont(String font) {
+    this.font = font;
+  }
 
-	public void setCharacterName(String characterName) {
-		this.characterName = characterName;
-	}
+  public String getCharacter() {
+    return character;
+  }
 
-	public String getUnicodeCode() {
-		return unicodeCode;
-	}
+  public void setCharacter(String character) {
+    this.character = character;
+  }
 
-	public void setUnicodeCode(String unicodeCode) {
-		this.unicodeCode = unicodeCode;
-	}
+  public String getCharacterName() {
+    return characterName;
+  }
 
-	public String getUtf8Code() {
-		return utf8Code;
-	}
+  public void setCharacterName(String characterName) {
+    this.characterName = characterName;
+  }
 
-	public void setUtf8Code(String utf8Code) {
-		this.utf8Code = utf8Code;
-	}
+  public String getUnicodeCode() {
+    return unicodeCode;
+  }
 
-	public static long getSerialVersionUID() {
-		return serialVersionUID;
-	}
+  public void setUnicodeCode(String unicodeCode) {
+    this.unicodeCode = unicodeCode;
+  }
 
-	@Override
-	public void evict() throws DataAccessException {
+  public String getUtf8Code() {
+    return utf8Code;
+  }
 
-	}
+  public void setUtf8Code(String utf8Code) {
+    this.utf8Code = utf8Code;
+  }
 
-	@Override
-	public int getUpdateStatus() {
-		return 0;
-	}
+  @Override
+  public void evict() throws DataAccessException {
 
-	@Override
-	public void setUpdateStatus(int i) {
+  }
 
-	}
+  @Override
+  public int getUpdateStatus() {
+    return 0;
+  }
 
-	@Override
-	public boolean isChanged() {
-		return false;
-	}
+  @Override
+  public void setUpdateStatus(int i) {
 
-	@Override
-	public boolean isDeleted() {
-		return false;
-	}
+  }
 
-	@Override
-	public boolean isNew() {
-		return false;
-	}
+  @Override
+  public boolean isChanged() {
+    return false;
+  }
 
-	@Override
-	public void markChanged() {
+  @Override
+  public boolean isDeleted() {
+    return false;
+  }
 
-	}
+  @Override
+  public boolean isNew() {
+    return false;
+  }
 
-	@Override
-	public void markNew() {
+  @Override
+  public void markChanged() {
 
-	}
+  }
 
-	@Override
-	public void markUnchanged() {
+  @Override
+  public void markNew() {
 
-	}
+  }
 
-	@Override
-	public void markDeleted() {
+  @Override
+  public void markUnchanged() {
 
-	}
+  }
+
+  @Override
+  public void markDeleted() {
+
+  }
 
 	/*
 	@Override
@@ -140,28 +141,28 @@ public class Diacritics implements Persistence, Serializable
 
 	}*/
 
-	@Override
-	public AbstractDAO getDAO() {
-		return null;
-	}
+  @Override
+  public AbstractDAO getDAO() {
+    return null;
+  }
 
-	@Override
-	public boolean onSave(Session session) throws CallbackException {
-		return false;
-	}
+  @Override
+  public boolean onSave(Session session) throws CallbackException {
+    return false;
+  }
 
-	@Override
-	public boolean onUpdate(Session session) throws CallbackException {
-		return false;
-	}
+  @Override
+  public boolean onUpdate(Session session) throws CallbackException {
+    return false;
+  }
 
-	@Override
-	public boolean onDelete(Session session) throws CallbackException {
-		return false;
-	}
+  @Override
+  public boolean onDelete(Session session) throws CallbackException {
+    return false;
+  }
 
-	@Override
-	public void onLoad(Session session, Serializable serializable) {
+  @Override
+  public void onLoad(Session session, Serializable serializable) {
 
-	}
+  }
 }

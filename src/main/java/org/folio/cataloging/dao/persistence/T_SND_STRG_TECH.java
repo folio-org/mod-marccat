@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Nov 9, 2004
- * 
+ *
  * T_SND_STRG_TECH.java
  */
 package org.folio.cataloging.dao.persistence;

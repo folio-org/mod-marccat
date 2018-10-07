@@ -33,154 +33,159 @@ import static org.folio.cataloging.F.deepCopy;
  * @author paulm
  * @since 1.0
  */
-public abstract class Tag implements Serializable, Cloneable, TagInterface
-{
+public abstract class Tag implements Serializable, Cloneable, TagInterface {
 
-	public Tag() {
-		/*
-		 * This default implementation can be overridden either in individual tag
-		 * constructors or when the tag is added to a CatalogItem
-		 */
-		setTagImpl(TagImplFactory.getDefaultImplementation());
-	}
-
-	public Tag(int itemNumber)
-	{
-		this();
-		setItemNumber(itemNumber);
-	}
-
-	private TagImpl tagImpl;
-	private static Log logger = LogFactory.getLog(Tag.class);
-	protected PersistenceState persistenceState;
-	private int itemNumber = -1;
-	private CorrelationKey correlationKey;
+  public static final int PHYSICAL_MATERIAL = 1;
+  public static final int NOT_PHYSICAL_MATERIAL = 0;
+  private static Log logger = LogFactory.getLog (Tag.class);
+  protected PersistenceState persistenceState;
+  private TagImpl tagImpl;
+  private int itemNumber = -1;
+  private CorrelationKey correlationKey;
 
 
   private Validation validation;
+  private String newSubfieldContent;
 
-	public String getHeadingType() {
-		return tagImpl.getHeadingType(this);
-	}
+  public Tag() {
+    /*
+     * This default implementation can be overridden either in individual tag
+     * constructors or when the tag is added to a CatalogItem
+     */
+    setTagImpl (TagImplFactory.getDefaultImplementation ( ));
+  }
 
-	public Catalog getCatalog() {
-		return tagImpl.getCatalog();
-	}
+  public Tag(int itemNumber) {
+    this ( );
+    setItemNumber (itemNumber);
+  }
 
-	/**
-	 * indicates whether the proposed change in correlation values would result in a
-	 * new persistent key for this tag.  Values of -1 are ignored.
-	 *
-	 */
-	final public boolean correlationChangeAffectsKey(
-			int value1,
-			int value2,
-			int value3) {
-		return correlationChangeAffectsKey(
-			new CorrelationValues(value1, value2, value3));
-	}
+  public String getHeadingType() {
+    return tagImpl.getHeadingType (this);
+  }
 
-	public boolean correlationChangeAffectsKey(CorrelationValues v) {
-		return false;
-	}
+  public Catalog getCatalog() {
+    return tagImpl.getCatalog ( );
+  }
 
-	/**
-	 * @return true if tag is a publisher (260)
-	 */
-	public boolean isPublisher() {
-		return false;
-	}
+  /**
+   * indicates whether the proposed change in correlation values would result in a
+   * new persistent key for this tag.  Values of -1 are ignored.
+   */
+  final public boolean correlationChangeAffectsKey(
+    int value1,
+    int value2,
+    int value3) {
+    return correlationChangeAffectsKey (
+      new CorrelationValues (value1, value2, value3));
+  }
 
-	/** return true if tag is a note */
-	public boolean isNote() {
-		return false;
-	}
+  public boolean correlationChangeAffectsKey(CorrelationValues v) {
+    return false;
+  }
 
-	/** return true if tag is a relationship */
-	public boolean isRelationship() {
-		return false;
-	}
+  /**
+   * @return true if tag is a publisher (260)
+   */
+  public boolean isPublisher() {
+    return false;
+  }
 
-	/**
-	 * @return the name of the permission that is required if this tag is
-	 * allowed to be edited -- to be overridden in concrete classes where needed
-	 */
-	public String getRequiredEditPermission() {
-		return "basicCataloguing";
-	}
+  /**
+   * return true if tag is a note
+   */
+  public boolean isNote() {
+    return false;
+  }
 
-	/**
-	 * @param i - the correlation stringValue wanted (1, 2, or 3)
-	 * @return the appropriate correlation stringValue for determining MARC coding (-1 if no
-	 * stringValue is available or known)
-	 */
-	public int getCorrelation(int i) {
-		return getCorrelationValues().getValue(i);
-	}
+  /**
+   * return true if tag is a relationship
+   */
+  public boolean isRelationship() {
+    return false;
+  }
 
-	/**
-	 * sets the given correlation stringValue for this tag
-	 *
-	 * @param i - the index to be set (1, 2, or 3)
-	 * @param s - the new stringValue
-	 * @since 1.0
-	 */
-	final public void setCorrelation(int i, int s) {
-		setCorrelationValues(getCorrelationValues().change(i, s));
-	}
+  /**
+   * @return the name of the permission that is required if this tag is
+   * allowed to be edited -- to be overridden in concrete classes where needed
+   */
+  public String getRequiredEditPermission() {
+    return "basicCataloguing";
+  }
 
-	/**
-	* @return the MARC tag and indicators for this tag
-	*/
-	public CorrelationKey getMarcEncoding() throws DataAccessException {
+  /**
+   * @param i - the correlation stringValue wanted (1, 2, or 3)
+   * @return the appropriate correlation stringValue for determining MARC coding (-1 if no
+   * stringValue is available or known)
+   */
+  public int getCorrelation(int i) {
+    return getCorrelationValues ( ).getValue (i);
+  }
+
+  /**
+   * sets the given correlation stringValue for this tag
+   *
+   * @param i - the index to be set (1, 2, or 3)
+   * @param s - the new stringValue
+   * @since 1.0
+   */
+  final public void setCorrelation(int i, int s) {
+    setCorrelationValues (getCorrelationValues ( ).change (i, s));
+  }
+
+  /**
+   * @return the MARC tag and indicators for this tag
+   */
+  public CorrelationKey getMarcEncoding() throws DataAccessException {
     return correlationKey;
-	}
+  }
 
   /**
    * @return the MARC tag and indicators for this tag
    */
   public CorrelationKey getMarcEncoding(final Session session) throws DataAccessException {
-    correlationKey = tagImpl.getMarcEncoding(this, session);
+    correlationKey = tagImpl.getMarcEncoding (this, session);
     return correlationKey;
   }
 
   public void setCorrelationKey(final CorrelationKey correlationK) throws DataAccessException {
     correlationKey = correlationK;
   }
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	/*
-	 * Note that this version of equals is a default implementation equating any two
-	 * tags of the same class and itemNumber.  Subclasses should override where
-	 * required
-	 */
-	public boolean equals(Object obj) {
-		if (!(obj.getClass().equals(this.getClass())))
-			return false;
-		Tag other = (Tag) obj;
-		return (other.getItemNumber() == this.getItemNumber());
-	}
 
-	/**
-	 * 2018 Paul Search Engine Java Adds this tag to the XML record with
-	 * punctuation for MARC export
-	 *
-	 * @param xmlDocument
-	 * @return
-	 */
-	public Element toExternalMarcSlim(Document xmlDocument) {
-		return toXmlElement(xmlDocument, true);
-	}
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  /*
+   * Note that this version of equals is a default implementation equating any two
+   * tags of the same class and itemNumber.  Subclasses should override where
+   * required
+   */
+  public boolean equals(Object obj) {
+    if (!(obj.getClass ( ).equals (this.getClass ( ))))
+      return false;
+    Tag other = (Tag) obj;
+    return (other.getItemNumber ( ) == this.getItemNumber ( ));
+  }
 
-	// 2018 Paul Search Engine Java
-	public StringText addPunctuation() {
-		// overridden in subclasses -- default implementation does nothing
-		return null;
-	}
+  /**
+   * 2018 Paul Search Engine Java Adds this tag to the XML record with
+   * punctuation for MARC export
+   *
+   * @param xmlDocument
+   * @return
+   */
+  public Element toExternalMarcSlim(Document xmlDocument) {
+    return toXmlElement (xmlDocument, true);
+  }
 
-	// 2018 Paul Search Engine Java
-	private Element toXmlElement(Document xmlDocument, boolean withPunctuation) {
+  // 2018 Paul Search Engine Java
+  public StringText addPunctuation() {
+    // overridden in subclasses -- default implementation does nothing
+    return null;
+  }
+
+  // 2018 Paul Search Engine Java
+  private Element toXmlElement(Document xmlDocument, boolean withPunctuation) {
 		/*CorrelationKey marcEncoding = null;
 		try {
 			marcEncoding = getMarcEncoding();
@@ -230,203 +235,201 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 			}
 		}
 		return field;*/
-		return null;
-	}
+    return null;
+  }
 
-	public int hashCode()
-	{
-		return getItemNumber();
-	}
-
-	/**
-	 * After a change in correlation stringValue 1, the available choices for values 2 and
-	 * 3 are recalculated and the values are reset (to the first available valid choice)
-	 * @param s the new value1
-	 */
-	public void updateFirstCorrelation(int s) throws DataAccessException {
-		setCorrelation(1, s);
-		List l = getSecondCorrelationList(s);
-		if (l != null) {
-			updateSecondCorrelation(((T_SINGLE) l.get(0)).getCode());
-		}
-	}
-
-	/**
-	 * After a change in correlation stringValue 2, the available choices for values 3
-	 * are recalculated and the stringValue is reset (to the first available valid choice)
-	 * @param s the new stringValue 2
-	 */
-	public void updateSecondCorrelation(int s) throws DataAccessException {
-		setCorrelation(2, s);
-		List l = getThirdCorrelationList(getCorrelation(1), getCorrelation(2));
-		if (l != null) {
-			setCorrelation(3, ((T_SINGLE) l.get(0)).getCode());
-		}
-	}
-
-	public void generateNewKey(final Session session) throws DataAccessException, HibernateException, SQLException {}
+  public int hashCode() {
+    return getItemNumber ( );
+  }
 
 	/* nat: public DAOCodeTable getDaoCodeTable() {
 		return daoCodeTable;
 	}*/
 
-	public PersistenceState getPersistenceState() {
-		return persistenceState;
-	}
+  /**
+   * After a change in correlation stringValue 1, the available choices for values 2 and
+   * 3 are recalculated and the values are reset (to the first available valid choice)
+   *
+   * @param s the new value1
+   */
+  public void updateFirstCorrelation(int s) throws DataAccessException {
+    setCorrelation (1, s);
+    List l = getSecondCorrelationList (s);
+    if (l != null) {
+      updateSecondCorrelation (((T_SINGLE) l.get (0)).getCode ( ));
+    }
+  }
 
-	public void setPersistenceState(PersistenceState object) {
-		persistenceState = object;
-	}
+  /**
+   * After a change in correlation stringValue 2, the available choices for values 3
+   * are recalculated and the stringValue is reset (to the first available valid choice)
+   *
+   * @param s the new stringValue 2
+   */
+  public void updateSecondCorrelation(int s) throws DataAccessException {
+    setCorrelation (2, s);
+    List l = getThirdCorrelationList (getCorrelation (1), getCorrelation (2));
+    if (l != null) {
+      setCorrelation (3, ((T_SINGLE) l.get (0)).getCode ( ));
+    }
+  }
 
-	public int getUpdateStatus()
-	{
-		if (persistenceState == null) {
-			return -1;
-		} else {
-			return persistenceState.getUpdateStatus();
-		}
-	}
+  public void generateNewKey(final Session session) throws DataAccessException, HibernateException, SQLException {
+  }
 
-	public boolean isChanged()
-	{
-		if (persistenceState == null) {
-			return false;
-		} else {
-			return persistenceState.isChanged();
-		}
-	}
+  public PersistenceState getPersistenceState() {
+    return persistenceState;
+  }
 
-	public boolean isDeleted()
-	{
-		if (persistenceState == null) {
-			return false;
-		} else {
-			return persistenceState.isDeleted();
-		}
-	}
+  public void setPersistenceState(PersistenceState object) {
+    persistenceState = object;
+  }
 
-	public boolean isNew()
-	{
-		if (persistenceState == null) {
-			return false;
-		} else {
-			return persistenceState.isNew();
-		}
-	}
+  public int getUpdateStatus() {
+    if (persistenceState == null) {
+      return -1;
+    } else {
+      return persistenceState.getUpdateStatus ( );
+    }
+  }
 
-	public boolean isRemoved() {
-		if (persistenceState == null) {
-			return false;
-		} else {
-			return persistenceState.isRemoved();
-		}
-	}
+  public void setUpdateStatus(int i) {
+    if (persistenceState != null) {
+      persistenceState.setUpdateStatus (i);
+    }
+  }
 
-	public void markChanged() {
-		if (persistenceState != null) {
-			persistenceState.markChanged();
-		}
-	}
+  public boolean isChanged() {
+    if (persistenceState == null) {
+      return false;
+    } else {
+      return persistenceState.isChanged ( );
+    }
+  }
 
-	public void markDeleted() {
-		if (persistenceState != null) {
-			persistenceState.markDeleted();
-		}
-	}
+  public boolean isDeleted() {
+    if (persistenceState == null) {
+      return false;
+    } else {
+      return persistenceState.isDeleted ( );
+    }
+  }
 
-	public void markNew() {
-		if (persistenceState != null) {
-			persistenceState.markNew();
-		}
-	}
+  public boolean isNew() {
+    if (persistenceState == null) {
+      return false;
+    } else {
+      return persistenceState.isNew ( );
+    }
+  }
 
-	public void markUnchanged() {
-		if (persistenceState != null) {
-			persistenceState.markUnchanged();
-		}
-	}
+  public boolean isRemoved() {
+    if (persistenceState == null) {
+      return false;
+    } else {
+      return persistenceState.isRemoved ( );
+    }
+  }
 
-	public boolean onDelete(Session arg0) throws CallbackException {
-		if (persistenceState != null) {
-			return persistenceState.onDelete(arg0);
-		} else {
-			return true;
-		}
-	}
+  public void markChanged() {
+    if (persistenceState != null) {
+      persistenceState.markChanged ( );
+    }
+  }
 
-	public void onLoad(Session arg0, Serializable arg1) {
-		if (persistenceState != null) {
-			persistenceState.onLoad(arg0, arg1);
-		}
-	}
+  public void markDeleted() {
+    if (persistenceState != null) {
+      persistenceState.markDeleted ( );
+    }
+  }
 
-	public boolean onSave(Session arg0) throws CallbackException {
-		if (persistenceState != null) {
-			return persistenceState.onSave(arg0);
-		} else {
-			return true;
-		}
-	}
+  public void markNew() {
+    if (persistenceState != null) {
+      persistenceState.markNew ( );
+    }
+  }
 
-	public boolean onUpdate(Session arg0) throws CallbackException {
-		if (persistenceState != null) {
-			return persistenceState.onUpdate(arg0);
-		} else {
-			return true;
-		}
-	}
+  public void markUnchanged() {
+    if (persistenceState != null) {
+      persistenceState.markUnchanged ( );
+    }
+  }
 
-	public void setUpdateStatus(int i) {
-		if (persistenceState != null) {
-			persistenceState.setUpdateStatus(i);
-		}
-	}
+  public boolean onDelete(Session arg0) throws CallbackException {
+    if (persistenceState != null) {
+      return persistenceState.onDelete (arg0);
+    } else {
+      return true;
+    }
+  }
 
-	public void evict() throws DataAccessException {
-		if (persistenceState != null) {
-			persistenceState.evict(this);
-		}
-	}
+  public void onLoad(Session arg0, Serializable arg1) {
+    if (persistenceState != null) {
+      persistenceState.onLoad (arg0, arg1);
+    }
+  }
 
-	/**
-	 * This method creates a XML Document as follows
-	 * <datafield tag="100" ind1="1" ind2="@">
-	 *  <subfield code="a">content</subfield>
-	 *  <subfield code="b">content</subfield>
-	 * </datafield>
-	 * or for a control field
-	 * <controlfield tag="001">000000005581</controlfield>
-	 *
-	 * @return a Document
-	 */
-	public Document toXmlDocument() {
-		DocumentBuilderFactory documentBuilderFactory =
-			DocumentBuilderFactory.newInstance();
-		DocumentBuilder documentBuilder = null;
-		Document xmlDocument = null;
-		try {
-			documentBuilder = documentBuilderFactory.newDocumentBuilder();
-			xmlDocument = documentBuilder.newDocument();
-			xmlDocument.appendChild(toXmlElement(xmlDocument));
-		} catch (ParserConfigurationException parserConfigurationException) {
-			logger.error("", parserConfigurationException);
-			//throw new XmlParserConfigurationException(parserConfigurationException);
-		}
-		return xmlDocument;
-	}
+  public boolean onSave(Session arg0) throws CallbackException {
+    if (persistenceState != null) {
+      return persistenceState.onSave (arg0);
+    } else {
+      return true;
+    }
+  }
 
-	/**
-	 * This method creates a XML Element as follows
-	 * <datafield tag="100" ind1="1" ind2="@">
-	 *  <subfield code="a">content</subfield>
-	 *  <subfield code="b">content</subfield>
-	 * </datafield>
-	 * or for a control field
-	 * <controlfield tag="001">000000005581</controlfield>
-	 *
-	 * @return an Element
-	 */
-	public Element toXmlElement(Document xmlDocument) {
+  public boolean onUpdate(Session arg0) throws CallbackException {
+    if (persistenceState != null) {
+      return persistenceState.onUpdate (arg0);
+    } else {
+      return true;
+    }
+  }
+
+  public void evict() throws DataAccessException {
+    if (persistenceState != null) {
+      persistenceState.evict (this);
+    }
+  }
+
+  /**
+   * This method creates a XML Document as follows
+   * <datafield tag="100" ind1="1" ind2="@">
+   * <subfield code="a">content</subfield>
+   * <subfield code="b">content</subfield>
+   * </datafield>
+   * or for a control field
+   * <controlfield tag="001">000000005581</controlfield>
+   *
+   * @return a Document
+   */
+  public Document toXmlDocument() {
+    DocumentBuilderFactory documentBuilderFactory =
+      DocumentBuilderFactory.newInstance ( );
+    DocumentBuilder documentBuilder = null;
+    Document xmlDocument = null;
+    try {
+      documentBuilder = documentBuilderFactory.newDocumentBuilder ( );
+      xmlDocument = documentBuilder.newDocument ( );
+      xmlDocument.appendChild (toXmlElement (xmlDocument));
+    } catch (ParserConfigurationException parserConfigurationException) {
+      logger.error ("", parserConfigurationException);
+      //throw new XmlParserConfigurationException(parserConfigurationException);
+    }
+    return xmlDocument;
+  }
+
+  /**
+   * This method creates a XML Element as follows
+   * <datafield tag="100" ind1="1" ind2="@">
+   * <subfield code="a">content</subfield>
+   * <subfield code="b">content</subfield>
+   * </datafield>
+   * or for a control field
+   * <controlfield tag="001">000000005581</controlfield>
+   *
+   * @return an Element
+   */
+  public Element toXmlElement(Document xmlDocument) {
 		/*CorrelationKey marcEncoding = null;
 		try {
 			marcEncoding = getMarcEncoding();
@@ -462,16 +465,16 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 			}
 		}
 		return field;*/
-		return null;
-	}
+    return null;
+  }
 
-	/**
-	 * This method is used to generated the model xml.
-	 *
-	 * @since 1.0
-	 */
-	public Element generateModelXmlElement(Document xmlDocument) {
-		Element field = null;
+  /**
+   * This method is used to generated the model xml.
+   *
+   * @since 1.0
+   */
+  public Element generateModelXmlElement(Document xmlDocument) {
+    Element field = null;
 		/*if (xmlDocument != null) {
 			field = xmlDocument.createElement("field");
 			try {
@@ -497,114 +500,108 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface
 			}
 			field.appendChild(generateModelXmlElementContent(xmlDocument));
 		}*/
-		return field;
-	}
+    return field;
+  }
 
-	public Object clone() {
-		return deepCopy(this);
-	}
+  public Object clone() {
+    return deepCopy (this);
+  }
 
-	public TagImpl getTagImpl() {
-		return tagImpl;
-	}
+  public TagImpl getTagImpl() {
+    return tagImpl;
+  }
 
-	public void setTagImpl(TagImpl impl) {
-		tagImpl = impl;
-	}
+  public void setTagImpl(TagImpl impl) {
+    tagImpl = impl;
+  }
 
-	public int getItemNumber() {
-		return itemNumber;
-	}
+  public int getItemNumber() {
+    return itemNumber;
+  }
 
-	public void setItemNumber(int itemNumber) {
-		this.itemNumber = itemNumber;
-	}
+  public void setItemNumber(int itemNumber) {
+    this.itemNumber = itemNumber;
+  }
 
-	public Validation getValidation() throws DataAccessException {
-		//return tagImpl.getValidation(this);
+  public Validation getValidation() throws DataAccessException {
+    //return tagImpl.getValidation(this);
     return validation;
-	}
-
-  public Validation getValidation(final Session session) throws DataAccessException {
-    validation = tagImpl.getValidation(this, session);
-	  return validation;
   }
 
   public void setValidation(Validation validation) {
     this.validation = validation;
   }
 
+  public Validation getValidation(final Session session) throws DataAccessException {
+    validation = tagImpl.getValidation (this, session);
+    return validation;
+  }
 
   /* (non-Javadoc)
-	 * @see TagInterface#getCategory()
-	 */
-	abstract public int getCategory();
+   * @see TagInterface#getCategory()
+   */
+  abstract public int getCategory();
 
-	/* (non-Javadoc)
-	 * @see TagInterface#isHasSubfieldW()
-	 */
-	public boolean isHasSubfieldW() {
-		return false; //default implementation
-	}
-
-	@Override
-	public boolean isEquivalenceReference() {
-		return false;
-	}
-
-	/* (non-Javadoc)
-	 * @see TagInterface#getDisplayCategory()
-	 */
-	public int getDisplayCategory() {
-		return getCategory();
-	}
-
-	/* (non-Javadoc)
-	 * @see TagInterface#getDisplaysHeadingType()
-	 */
-	public boolean getDisplaysHeadingType() {
-		return false;
-	}
+  /* (non-Javadoc)
+   * @see TagInterface#isHasSubfieldW()
+   */
+  public boolean isHasSubfieldW() {
+    return false; //default implementation
+  }
 
 	/* nat: public HibernateUtil getDAO() {
 		return persistenceState.getDAO();
 	}*/
 
-	/* (non-Javadoc)
-	 * @see TagInterface#validate()
-	 */
-	public void validate(int index) throws ValidationException {
-		// default implementation does nothing
-	}
+  @Override
+  public boolean isEquivalenceReference() {
+    return false;
+  }
 
-	/**
-	 * Called where a
-	 * series of changes result in returning the new key back
-	 * to a pre-existing key
-	 */
-	public void reinstateDeletedTag() {
-		markUnchanged();
-		markChanged();
-	}
+  /* (non-Javadoc)
+   * @see TagInterface#getDisplayCategory()
+   */
+  public int getDisplayCategory() {
+    return getCategory ( );
+  }
 
-	private String newSubfieldContent;
+  /* (non-Javadoc)
+   * @see TagInterface#getDisplaysHeadingType()
+   */
+  public boolean getDisplaysHeadingType() {
+    return false;
+  }
 
-	public String getNewSubfieldContent() {
-		return newSubfieldContent;
-	}
+  /* (non-Javadoc)
+   * @see TagInterface#validate()
+   */
+  public void validate(int index) throws ValidationException {
+    // default implementation does nothing
+  }
 
-	public void setNewSubfieldContent(String newSubfieldContent) {
-		this.newSubfieldContent = newSubfieldContent;
-	}
+  /**
+   * Called where a
+   * series of changes result in returning the new key back
+   * to a pre-existing key
+   */
+  public void reinstateDeletedTag() {
+    markUnchanged ( );
+    markChanged ( );
+  }
 
-	public static final int PHYSICAL_MATERIAL = 1;
-	public static final int NOT_PHYSICAL_MATERIAL = 0;
+  public String getNewSubfieldContent() {
+    return newSubfieldContent;
+  }
 
-	public int getPhysical() {
-		return PHYSICAL_MATERIAL;
-	}
+  public void setNewSubfieldContent(String newSubfieldContent) {
+    this.newSubfieldContent = newSubfieldContent;
+  }
 
-	public AbstractDAO getDAO() {
-		return persistenceState.getDAO();
-	}
+  public int getPhysical() {
+    return PHYSICAL_MATERIAL;
+  }
+
+  public AbstractDAO getDAO() {
+    return persistenceState.getDAO ( );
+  }
 }

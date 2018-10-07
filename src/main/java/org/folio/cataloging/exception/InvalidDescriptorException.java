@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Oct 21, 2005
- * 
+ *
  * InvalidDescriptorException.java
  */
 package org.folio.cataloging.exception;
@@ -14,49 +14,48 @@ package org.folio.cataloging.exception;
  */
 public class InvalidDescriptorException extends ModCatalogingException {
 
-	/**
-	 * Class constructor
-	 *
-	 * 
-	 * @since 1.0
-	 */
-	public InvalidDescriptorException() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+  /**
+   * Class constructor
+   *
+   * @since 1.0
+   */
+  public InvalidDescriptorException() {
+    super ( );
+    // TODO Auto-generated constructor stub
+  }
 
-	/**
-	 * Class constructor
-	 *
-	 * @param message
-	 * @since 1.0
-	 */
-	public InvalidDescriptorException(String message) {
-		super(message);
-		// TODO Auto-generated constructor stub
-	}
+  /**
+   * Class constructor
+   *
+   * @param message
+   * @since 1.0
+   */
+  public InvalidDescriptorException(String message) {
+    super (message);
+    // TODO Auto-generated constructor stub
+  }
 
-	/**
-	 * Class constructor
-	 *
-	 * @param message
-	 * @param cause
-	 * @since 1.0
-	 */
-	public InvalidDescriptorException(String message, Throwable cause) {
-		super(message, cause);
-		// TODO Auto-generated constructor stub
-	}
+  /**
+   * Class constructor
+   *
+   * @param message
+   * @param cause
+   * @since 1.0
+   */
+  public InvalidDescriptorException(String message, Throwable cause) {
+    super (message, cause);
+    // TODO Auto-generated constructor stub
+  }
 
-	/**
-	 * Class constructor
-	 *
-	 * @param cause
-	 * @since 1.0
-	 */
-	public InvalidDescriptorException(Throwable cause) {
-		super(cause);
-		// TODO Auto-generated constructor stub
-	}
+  /**
+   * Class constructor
+   *
+   * @param cause
+   * @since 1.0
+   */
+  public InvalidDescriptorException(Throwable cause) {
+    super (cause);
+    // TODO Auto-generated constructor stub
+  }
 
 }

@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on 10-ago-2004
- * 
+ *
  * T_ITM_DTE_TYP.java
  */
 package org.folio.cataloging.dao.persistence;

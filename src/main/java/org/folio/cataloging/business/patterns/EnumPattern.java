@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on 12 Jun 2007
- * 
+ *
  * EnumPattern.java
  */
 package org.folio.cataloging.business.patterns;
@@ -10,83 +10,83 @@ package org.folio.cataloging.business.patterns;
 import java.util.Date;
 
 public class EnumPattern {
-	private int predictionPatternNumber;
+  private int predictionPatternNumber;
 
-	private int sequenceNumber;
+  private int sequenceNumber;
 
-	private boolean numberingContinuous;
+  private boolean numberingContinuous;
 
-	private int numberOfUnits;
+  private int numberOfUnits;
 
-	private int startAt;
+  private int startAt;
 
-	private Date startAtDate;
+  private Date startAtDate;
 
-	private int lastValueUsed;
-	
-	private int lowerLevelCount;
+  private int lastValueUsed;
 
-	public int getLowerLevelCount() {
-		return lowerLevelCount;
-	}
+  private int lowerLevelCount;
 
-	public void setLowerLevelCount(int lowerLevelCount) {
-		this.lowerLevelCount = lowerLevelCount;
-	}
+  public int getLowerLevelCount() {
+    return lowerLevelCount;
+  }
 
-	public int getLastValueUsed() {
-		return lastValueUsed;
-	}
+  public void setLowerLevelCount(int lowerLevelCount) {
+    this.lowerLevelCount = lowerLevelCount;
+  }
 
-	public void setLastValueUsed(int lastValueUsed) {
-		this.lastValueUsed = lastValueUsed;
-	}
+  public int getLastValueUsed() {
+    return lastValueUsed;
+  }
 
-	public boolean isNumberingContinuous() {
-		return numberingContinuous;
-	}
+  public void setLastValueUsed(int lastValueUsed) {
+    this.lastValueUsed = lastValueUsed;
+  }
 
-	public void setNumberingContinuous(boolean numberingContinuous) {
-		this.numberingContinuous = numberingContinuous;
-	}
+  public boolean isNumberingContinuous() {
+    return numberingContinuous;
+  }
 
-	public int getNumberOfUnits() {
-		return numberOfUnits;
-	}
+  public void setNumberingContinuous(boolean numberingContinuous) {
+    this.numberingContinuous = numberingContinuous;
+  }
 
-	public void setNumberOfUnits(int numberOfUnits) {
-		this.numberOfUnits = numberOfUnits;
-	}
+  public int getNumberOfUnits() {
+    return numberOfUnits;
+  }
 
-	public int getPredictionPatternNumber() {
-		return predictionPatternNumber;
-	}
+  public void setNumberOfUnits(int numberOfUnits) {
+    this.numberOfUnits = numberOfUnits;
+  }
 
-	public void setPredictionPatternNumber(int predictionPatternNumber) {
-		this.predictionPatternNumber = predictionPatternNumber;
-	}
+  public int getPredictionPatternNumber() {
+    return predictionPatternNumber;
+  }
 
-	public int getSequenceNumber() {
-		return sequenceNumber;
-	}
+  public void setPredictionPatternNumber(int predictionPatternNumber) {
+    this.predictionPatternNumber = predictionPatternNumber;
+  }
 
-	public void setSequenceNumber(int sequenceNumber) {
-		this.sequenceNumber = sequenceNumber;
-	}
+  public int getSequenceNumber() {
+    return sequenceNumber;
+  }
 
-	public int getStartAt() {
-		return startAt;
-	}
+  public void setSequenceNumber(int sequenceNumber) {
+    this.sequenceNumber = sequenceNumber;
+  }
 
-	public void setStartAt(int startAt) {
-		this.startAt = startAt;
-	}
+  public int getStartAt() {
+    return startAt;
+  }
 
-	public Date getStartAtDate() {
-		return startAtDate;
-	}
+  public void setStartAt(int startAt) {
+    this.startAt = startAt;
+  }
 
-	public void setStartAtDate(Date startAtDate) {
-		this.startAtDate = startAtDate;
-	}
+  public Date getStartAtDate() {
+    return startAtDate;
+  }
+
+  public void setStartAtDate(Date startAtDate) {
+    this.startAtDate = startAtDate;
+  }
 }
