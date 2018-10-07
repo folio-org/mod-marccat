@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Nov 18, 2005
- * 
+ *
  * BibliographicControlNumberTag.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -16,15 +16,14 @@ import org.folio.cataloging.business.cataloguing.common.ControlNumberTag;
  */
 public class BibliographicControlNumberTag extends ControlNumberTag {
 
-	/**
-	 * Class constructor
-	 *
-	 * 
-	 * @since 1.0
-	 */
-	public BibliographicControlNumberTag() {
-		super();
-		setHeaderType((short)39);
-	}
+  /**
+   * Class constructor
+   *
+   * @since 1.0
+   */
+  public BibliographicControlNumberTag() {
+    super ( );
+    setHeaderType ((short) 39);
+  }
 
 }

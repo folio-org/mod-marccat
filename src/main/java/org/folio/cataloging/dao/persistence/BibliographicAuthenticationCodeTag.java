@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Nov 18, 2005
- * 
+ *
  * BibliographicAuthenticationCodeTag.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -16,15 +16,14 @@ import org.folio.cataloging.business.cataloguing.common.AuthenticationCodeTag;
  */
 public class BibliographicAuthenticationCodeTag extends AuthenticationCodeTag {
 
-	/**
-	 * Class constructor
-	 *
-	 * 
-	 * @since 1.0
-	 */
-	public BibliographicAuthenticationCodeTag() {
-		super();
-		setHeaderType((short) 4);
-	}
+  /**
+   * Class constructor
+   *
+   * @since 1.0
+   */
+  public BibliographicAuthenticationCodeTag() {
+    super ( );
+    setHeaderType ((short) 4);
+  }
 
 }

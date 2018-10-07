@@ -2,20 +2,19 @@ package org.folio.cataloging.dao.persistence;
 
 import java.io.Serializable;
 
-public class RdaMarcTagDisplay extends LabelTagDisplay implements Serializable  
-{
-	private static final long serialVersionUID = 4091846105600659469L;
-	
-	private String marcTagNumberText;
-	
+public class RdaMarcTagDisplay extends LabelTagDisplay implements Serializable {
+  private static final long serialVersionUID = 4091846105600659469L;
 
-	public String getMarcTagNumberText() {
-		return marcTagNumberText;
-	}
+  private String marcTagNumberText;
 
-	public void setMarcTagNumberText(String marcTagNumberText) {
-		this.marcTagNumberText = marcTagNumberText;
-	}
 
-	
+  public String getMarcTagNumberText() {
+    return marcTagNumberText;
+  }
+
+  public void setMarcTagNumberText(String marcTagNumberText) {
+    this.marcTagNumberText = marcTagNumberText;
+  }
+
+
 }

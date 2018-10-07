@@ -9,8 +9,8 @@ import org.folio.cataloging.business.common.Persistence;
  */
 public class DAOBibliographicNote extends AbstractDAO {
 
-	public void delete(Persistence p) throws DataAccessException {
-		super.delete(p);
-	}
+  public void delete(Persistence p) throws DataAccessException {
+    super.delete (p);
+  }
 
 }

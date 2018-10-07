@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Oct 18, 2004
- * 
+ *
  * T_MAP_PLRTY.java
  */
 package org.folio.cataloging.dao.persistence;

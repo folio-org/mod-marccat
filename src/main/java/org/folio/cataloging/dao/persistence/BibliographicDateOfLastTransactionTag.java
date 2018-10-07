@@ -16,18 +16,17 @@ import org.folio.cataloging.business.common.PersistenceState;
  * @since 1.0
  */
 public class BibliographicDateOfLastTransactionTag
-	extends DateOfLastTransactionTag {
+  extends DateOfLastTransactionTag {
 
-	/**
-	 * Class constructor
-	 *
-	 *
-	 * @since 1.0
-	 */
-	public BibliographicDateOfLastTransactionTag() {
-		super();
-		setHeaderType((short)41);
-		setPersistenceState(new PersistenceState());
-	}
+  /**
+   * Class constructor
+   *
+   * @since 1.0
+   */
+  public BibliographicDateOfLastTransactionTag() {
+    super ( );
+    setHeaderType ((short) 41);
+    setPersistenceState (new PersistenceState ( ));
+  }
 
 }

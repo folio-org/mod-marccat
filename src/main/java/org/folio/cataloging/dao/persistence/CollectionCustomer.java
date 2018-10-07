@@ -11,260 +11,258 @@ import org.folio.cataloging.dao.DAOCollectionCustom;
 import java.io.Serializable;
 import java.util.Date;
 
-public class CollectionCustomer implements Persistence 
-{
-	private static final long serialVersionUID = 2522128570785338271L;
+public class CollectionCustomer implements Persistence {
+  private static final long serialVersionUID = 2522128570785338271L;
 
-	static DAOCollectionCustom dao = new DAOCollectionCustom();
-	
-	private Integer idCollection;
-	private String customerId;
-	private int nameIta;
-	private Integer idCollectionMST;
-	private Integer statusCode;
-	private Date dateCreation;
-	private Date dateCancel;
-	private Date dateModify;
-	private String typologyCode;
-	private String upgrade;
-	private String userCreate;
-	private String userModify;
-//	20101015 inizio: aggiunto campo Anno
-	private int year;
-//	20110131 inizio: aggiunte date validita'
-	private Date dateIniVal;
-	private Date dateFinVal;
-	private String dateType;
+  static DAOCollectionCustom dao = new DAOCollectionCustom ( );
 
-	public String getDateType() {
-		return dateType;
-	}
+  private Integer idCollection;
+  private String customerId;
+  private int nameIta;
+  private Integer idCollectionMST;
+  private Integer statusCode;
+  private Date dateCreation;
+  private Date dateCancel;
+  private Date dateModify;
+  private String typologyCode;
+  private String upgrade;
+  private String userCreate;
+  private String userModify;
+  //	20101015 inizio: aggiunto campo Anno
+  private int year;
+  //	20110131 inizio: aggiunte date validita'
+  private Date dateIniVal;
+  private Date dateFinVal;
+  private String dateType;
+  private PersistenceState persistenceState = new PersistenceState ( );
 
-	public void setDateType(String dateType) {
-		this.dateType = dateType;
-	}
+  public CollectionCustomer() {
+    super ( );
+  }
 
-	public Date getDateIniVal() {
-		return dateIniVal;
-	}
+  public String getDateType() {
+    return dateType;
+  }
 
-	public void setDateIniVal(Date dateIniVal) {
-		this.dateIniVal = dateIniVal;
-	}
+  public void setDateType(String dateType) {
+    this.dateType = dateType;
+  }
 
-	public Date getDateFinVal() {
-		return dateFinVal;
-	}
+  public Date getDateIniVal() {
+    return dateIniVal;
+  }
 
-	public void setDateFinVal(Date dateFinVal) {
-		this.dateFinVal = dateFinVal;
-	}
+  public void setDateIniVal(Date dateIniVal) {
+    this.dateIniVal = dateIniVal;
+  }
 
-	public int getYear() {
-		return year;
-	}
+  public Date getDateFinVal() {
+    return dateFinVal;
+  }
 
-	public void setYear(int year) {
-		this.year = year;
-	}
+  public void setDateFinVal(Date dateFinVal) {
+    this.dateFinVal = dateFinVal;
+  }
 
-	public Date getDateModify() {
-		return dateModify;
-	}
+  public int getYear() {
+    return year;
+  }
 
-	public void setDateModify(Date dateModify) {
-		this.dateModify = dateModify;
-	}
+  public void setYear(int year) {
+    this.year = year;
+  }
 
-	public String getUserCreate() {
-		return userCreate;
-	}
+  public Date getDateModify() {
+    return dateModify;
+  }
 
-	public void setUserCreate(String userCreate) {
-		this.userCreate = userCreate;
-	}
+  public void setDateModify(Date dateModify) {
+    this.dateModify = dateModify;
+  }
 
-	public String getUserModify() {
-		return userModify;
-	}
+  public String getUserCreate() {
+    return userCreate;
+  }
 
-	public void setUserModify(String userModify) {
-		this.userModify = userModify;
-	}
+  public void setUserCreate(String userCreate) {
+    this.userCreate = userCreate;
+  }
 
-	public Integer getIdCollection() {
-		return idCollection;
-	}
+  public String getUserModify() {
+    return userModify;
+  }
 
-	public void setIdCollection(Integer idCollection) {
-		this.idCollection = idCollection;
-	}
+  public void setUserModify(String userModify) {
+    this.userModify = userModify;
+  }
 
-	public int getNameIta() {
-		return nameIta;
-	}
+  public Integer getIdCollection() {
+    return idCollection;
+  }
 
-	public void setNameIta(int nameIta) {
-		this.nameIta = nameIta;
-	}
+  public void setIdCollection(Integer idCollection) {
+    this.idCollection = idCollection;
+  }
 
-	public Integer getStatusCode() {
-		return statusCode;
-	}
+  public int getNameIta() {
+    return nameIta;
+  }
 
-	public void setStatusCode(Integer statusCode) {
-		this.statusCode = statusCode;
-	}
+  public void setNameIta(int nameIta) {
+    this.nameIta = nameIta;
+  }
 
-	public Date getDateCreation() {
-		return dateCreation;
-	}
+  public Integer getStatusCode() {
+    return statusCode;
+  }
 
-	public void setDateCreation(Date dateCreation) {
-		this.dateCreation = dateCreation;
-	}
+  public void setStatusCode(Integer statusCode) {
+    this.statusCode = statusCode;
+  }
 
-	public Date getDateCancel() {
-		return dateCancel;
-	}
+  public Date getDateCreation() {
+    return dateCreation;
+  }
 
-	public void setDateCancel(Date dateCancel) {
-		this.dateCancel = dateCancel;
-	}
+  public void setDateCreation(Date dateCreation) {
+    this.dateCreation = dateCreation;
+  }
 
-	public String getTypologyCode() {
-		return typologyCode;
-	}
+  public Date getDateCancel() {
+    return dateCancel;
+  }
 
-	public void setTypologyCode(String typologyCode) {
-		this.typologyCode = typologyCode;
-	}
-	
-	private PersistenceState persistenceState = new PersistenceState();
+  public void setDateCancel(Date dateCancel) {
+    this.dateCancel = dateCancel;
+  }
 
-	public CollectionCustomer() {
-		super();
-	}
+  public String getTypologyCode() {
+    return typologyCode;
+  }
 
-	public PersistenceState getPersistenceState() {
-		return persistenceState;
-	}
+  public void setTypologyCode(String typologyCode) {
+    this.typologyCode = typologyCode;
+  }
 
-	public void setPersistenceState(PersistenceState state) {
-		persistenceState = state;
-	}
+  public PersistenceState getPersistenceState() {
+    return persistenceState;
+  }
 
-	public void evict(Object obj) throws DataAccessException {
-		persistenceState.evict(obj);
-	}
+  public void setPersistenceState(PersistenceState state) {
+    persistenceState = state;
+  }
 
-	public void evict() throws DataAccessException {
-		evict(this);
-	}
+  public void evict(Object obj) throws DataAccessException {
+    persistenceState.evict (obj);
+  }
 
-	public AbstractDAO getDAO() {
-		return dao;
-	}
+  public void evict() throws DataAccessException {
+    evict (this);
+  }
 
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + idCollection.intValue();
-		return result;
-	}
+  public AbstractDAO getDAO() {
+    return dao;
+  }
 
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		CollectionCustomer other = (CollectionCustomer) obj;
-        return idCollection == other.idCollection;
-    }
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + idCollection.intValue ( );
+    return result;
+  }
 
-	public int getUpdateStatus() {
-		return persistenceState.getUpdateStatus();
-	}
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass ( ) != obj.getClass ( ))
+      return false;
+    CollectionCustomer other = (CollectionCustomer) obj;
+    return idCollection == other.idCollection;
+  }
 
-	public boolean isChanged() {
-		return persistenceState.isChanged();
-	}
+  public int getUpdateStatus() {
+    return persistenceState.getUpdateStatus ( );
+  }
 
-	public boolean isDeleted() {
-		return persistenceState.isDeleted();
-	}
+  public void setUpdateStatus(int i) {
+    persistenceState.setUpdateStatus (i);
+  }
 
-	public boolean isNew() {
-		return persistenceState.isNew();
-	}
+  public boolean isChanged() {
+    return persistenceState.isChanged ( );
+  }
 
-	public boolean isRemoved() {
-		return persistenceState.isRemoved();
-	}
+  public boolean isDeleted() {
+    return persistenceState.isDeleted ( );
+  }
 
-	public void markChanged() {
-		persistenceState.markChanged();
-	}
+  public boolean isNew() {
+    return persistenceState.isNew ( );
+  }
 
-	public void markDeleted() {
-		persistenceState.markDeleted();
-	}
+  public boolean isRemoved() {
+    return persistenceState.isRemoved ( );
+  }
 
-	public void markNew() {
-		persistenceState.markNew();
-	}
+  public void markChanged() {
+    persistenceState.markChanged ( );
+  }
 
-	public void markUnchanged() {
-		persistenceState.markUnchanged();
-	}
+  public void markDeleted() {
+    persistenceState.markDeleted ( );
+  }
 
-	public boolean onDelete(Session arg0) throws CallbackException {
-		return persistenceState.onDelete(arg0);
-	}
+  public void markNew() {
+    persistenceState.markNew ( );
+  }
 
-	public void onLoad(Session arg0, Serializable arg1) {
-		persistenceState.onLoad(arg0, arg1);
-	}
+  public void markUnchanged() {
+    persistenceState.markUnchanged ( );
+  }
 
-	public boolean onSave(Session arg0) throws CallbackException {
-		return persistenceState.onSave(arg0);
-	}
+  public boolean onDelete(Session arg0) throws CallbackException {
+    return persistenceState.onDelete (arg0);
+  }
 
-	public boolean onUpdate(Session arg0) throws CallbackException {
-		return persistenceState.onUpdate(arg0);
-	}
+  public void onLoad(Session arg0, Serializable arg1) {
+    persistenceState.onLoad (arg0, arg1);
+  }
 
-	public void setUpdateStatus(int i) {
-		persistenceState.setUpdateStatus(i);
-	}
+  public boolean onSave(Session arg0) throws CallbackException {
+    return persistenceState.onSave (arg0);
+  }
 
-	public void generateNewKey() throws DataAccessException {
-	}
+  public boolean onUpdate(Session arg0) throws CallbackException {
+    return persistenceState.onUpdate (arg0);
+  }
 
-	public String getCustomerId() {
-		return customerId;
-	}
+  public void generateNewKey() throws DataAccessException {
+  }
 
-	public void setCustomerId(String customerId) {
-		this.customerId = customerId;
-	}
+  public String getCustomerId() {
+    return customerId;
+  }
 
-	public Integer getIdCollectionMST() {
-		return idCollectionMST;
-	}
+  public void setCustomerId(String customerId) {
+    this.customerId = customerId;
+  }
 
-	public void setIdCollectionMST(Integer idCollectionMST) {
-		this.idCollectionMST = idCollectionMST;
-	}
+  public Integer getIdCollectionMST() {
+    return idCollectionMST;
+  }
 
-	public String getUpgrade() {
-		return upgrade;
-	}
+  public void setIdCollectionMST(Integer idCollectionMST) {
+    this.idCollectionMST = idCollectionMST;
+  }
 
-	public void setUpgrade(String upgrade) {
-		this.upgrade = upgrade;
-	}
-	
+  public String getUpgrade() {
+    return upgrade;
+  }
+
+  public void setUpgrade(String upgrade) {
+    this.upgrade = upgrade;
+  }
+
 }

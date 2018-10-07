@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Oct 13, 2004
- * 
+ *
  * T_ITM_BIB_LVL.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -14,17 +14,16 @@ package org.folio.cataloging.dao.persistence;
  */
 public class T_ITM_BIB_LVL extends T_SINGLE_CHAR {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+  public static final char SERIAL = 's';
+  public static final char COMPONENT_PART_SERIAL = 'b';
+  /**
+   *
+   */
+  private static final long serialVersionUID = 1L;
 
-	public static final char SERIAL = 's';
-	public static final char COMPONENT_PART_SERIAL = 'b';
-
-	public static boolean isSerial(char bib_level) {
-		return bib_level == SERIAL || bib_level == COMPONENT_PART_SERIAL;
-	}
+  public static boolean isSerial(char bib_level) {
+    return bib_level == SERIAL || bib_level == COMPONENT_PART_SERIAL;
+  }
 
 }
 

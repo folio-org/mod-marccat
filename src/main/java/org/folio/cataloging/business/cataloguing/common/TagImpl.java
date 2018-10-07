@@ -20,7 +20,7 @@ import java.util.Set;
  * This class is the Abstract Implementation of the Tag interface
  * Subclasses are intended to be different schemes/formats of tags
  * (e.g. MARC21 BIB, MARC21 AUT)
- *
+ * <p>
  * An instance of this class is composed within the Tag class so that
  * format specific differences can be bridged through the common Tag interface
  *
@@ -30,31 +30,32 @@ import java.util.Set;
  */
 public abstract class TagImpl implements Serializable {
 
-	abstract public String getHeadingType(Tag t);
+  abstract public String getHeadingType(Tag t);
 
-	abstract public Catalog getCatalog();
+  abstract public Catalog getCatalog();
 
-	/**
-	* @return the MARC tag and indicators for this tag
-	*/
-	@Deprecated
-	abstract public CorrelationKey getMarcEncoding(final Tag t) throws DataAccessException;
+  /**
+   * @return the MARC tag and indicators for this tag
+   */
+  @Deprecated
+  abstract public CorrelationKey getMarcEncoding(final Tag t) throws DataAccessException;
 
-	/**
-	 * @return the MARC tag and indicators for this tag
-	 */
-	abstract public CorrelationKey getMarcEncoding(final Tag t, final Session session) throws DataAccessException;
+  /**
+   * @return the MARC tag and indicators for this tag
+   */
+  abstract public CorrelationKey getMarcEncoding(final Tag t, final Session session) throws DataAccessException;
 
-	@Deprecated
-	abstract public Validation getValidation(Tag t) throws DataAccessException;
+  @Deprecated
+  abstract public Validation getValidation(Tag t) throws DataAccessException;
 
   abstract public Validation getValidation(final Tag t, final Session session) throws DataAccessException;
-	/**
-	 * return the list of subfields that can be edited on the worksheet
-	 *
-	 * @since 1.0
-	 */
-	abstract public Set getValidEditableSubfields(int category);
 
-	abstract public Correlation getCorrelation(String tagNumber, char indicator1, char indicator2, int category, Session session) throws DataAccessException;
+  /**
+   * return the list of subfields that can be edited on the worksheet
+   *
+   * @since 1.0
+   */
+  abstract public Set getValidEditableSubfields(int category);
+
+  abstract public Correlation getCorrelation(String tagNumber, char indicator1, char indicator2, int category, Session session) throws DataAccessException;
 }

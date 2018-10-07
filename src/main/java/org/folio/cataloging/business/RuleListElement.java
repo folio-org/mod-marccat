@@ -4,65 +4,65 @@ import org.folio.cataloging.dao.persistence.CLCTN_MST_RULE;
 
 // TODO: Javadoc
 public class RuleListElement {
-	CLCTN_MST_RULE rule;
-	private int ruleId;
-	private String ruleDescription;
-	private String level;
-	private String dataType;
-	private String dataRange;
-	private String dataUploadFrom;
-	private String dataUploadTo;
-	private String dataInsert;
-	private String dataUpdate;
-	private String dataProcessing;
-	private String flagProcessing;
-	private String collSource;
-	
-	public RuleListElement(final CLCTN_MST_RULE rule) {
-		this.rule = rule;
-		this.ruleId = rule.getRuleId();
-		this.flagProcessing = rule.getFlagProcessing();
-		this.ruleDescription = rule.getRuleDescription();
-		this.dataType = rule.getDataType();
-	}
+  CLCTN_MST_RULE rule;
+  private int ruleId;
+  private String ruleDescription;
+  private String level;
+  private String dataType;
+  private String dataRange;
+  private String dataUploadFrom;
+  private String dataUploadTo;
+  private String dataInsert;
+  private String dataUpdate;
+  private String dataProcessing;
+  private String flagProcessing;
+  private String collSource;
 
-	public CLCTN_MST_RULE getRule() {
-		return rule;
-	}
+  public RuleListElement(final CLCTN_MST_RULE rule) {
+    this.rule = rule;
+    this.ruleId = rule.getRuleId ( );
+    this.flagProcessing = rule.getFlagProcessing ( );
+    this.ruleDescription = rule.getRuleDescription ( );
+    this.dataType = rule.getDataType ( );
+  }
 
-	public void setCollSource(String collSource) {
-		this.collSource = collSource;
-	}
+  public CLCTN_MST_RULE getRule() {
+    return rule;
+  }
 
-	public int getRuleId() {
-		return ruleId;
-	}
+  public void setCollSource(String collSource) {
+    this.collSource = collSource;
+  }
 
-	public void setRuleId(int ruleId) {
-		this.ruleId = ruleId;
-	}
+  public int getRuleId() {
+    return ruleId;
+  }
 
-	public String getLevel() {
-		return level;
-	}
+  public void setRuleId(int ruleId) {
+    this.ruleId = ruleId;
+  }
 
-	public void setLevel(String level) {
-		this.level = level;
-	}
+  public String getLevel() {
+    return level;
+  }
 
-	public void setDataRange(String dataRange) {
-		this.dataRange = dataRange;
-	}
+  public void setLevel(String level) {
+    this.level = level;
+  }
 
-	public void setDataInsert(String dataInsert) {
-		this.dataInsert = dataInsert;
-	}
+  public void setDataRange(String dataRange) {
+    this.dataRange = dataRange;
+  }
 
-	public void setDataUpdate(String dataUpdate) {
-		this.dataUpdate = dataUpdate;
-	}
+  public void setDataInsert(String dataInsert) {
+    this.dataInsert = dataInsert;
+  }
 
-	public void setDataProcessing(String dataProcessing) {
-		this.dataProcessing = dataProcessing;
-	}
+  public void setDataUpdate(String dataUpdate) {
+    this.dataUpdate = dataUpdate;
+  }
+
+  public void setDataProcessing(String dataProcessing) {
+    this.dataProcessing = dataProcessing;
+  }
 }

@@ -12,63 +12,57 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "noteTypes" })
+@JsonPropertyOrder({"noteTypes"})
 public class NoteTypeCollection {
 
-    /**
-     * 
-     * (Required)
-     * 
-     */
-    @JsonProperty("noteTypes")
-    @Valid
-    @NotNull
-    private List<NoteType> noteTypes = new ArrayList<NoteType>();
+  /**
+   * (Required)
+   */
+  @JsonProperty("noteTypes")
+  @Valid
+  @NotNull
+  private List <NoteType> noteTypes = new ArrayList <NoteType> ( );
 
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  @JsonIgnore
+  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
 
-    /**
-     * 
-     * (Required)
-     * 
-     * @return
-     *     The noteTypes
-     */
-    @JsonProperty("noteTypes")
-    public List<NoteType> getNoteTypes() {
-        return noteTypes;
-    }
+  /**
+   * (Required)
+   *
+   * @return The noteTypes
+   */
+  @JsonProperty("noteTypes")
+  public List <NoteType> getNoteTypes() {
+    return noteTypes;
+  }
 
-    /**
-     * 
-     * (Required)
-     * 
-     * @param noteTypes
-     *     The noteTypes
-     */
-    @JsonProperty("noteTypes")
-    public void setNoteTypes(List<NoteType> noteTypes) {
-        this.noteTypes = noteTypes;
-    }
+  /**
+   * (Required)
+   *
+   * @param noteTypes The noteTypes
+   */
+  @JsonProperty("noteTypes")
+  public void setNoteTypes(List <NoteType> noteTypes) {
+    this.noteTypes = noteTypes;
+  }
 
-    public NoteTypeCollection withNoteTypes(List<NoteType> noteTypes) {
-        this.noteTypes = noteTypes;
-        return this;
-    }
+  public NoteTypeCollection withNoteTypes(List <NoteType> noteTypes) {
+    this.noteTypes = noteTypes;
+    return this;
+  }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
+  @JsonAnyGetter
+  public Map <String, Object> getAdditionalProperties() {
+    return this.additionalProperties;
+  }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
+  @JsonAnySetter
+  public void setAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+  }
 
-    public NoteTypeCollection withAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-        return this;
-    }
+  public NoteTypeCollection withAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+    return this;
+  }
 }

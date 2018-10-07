@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Dec 2, 2005
- * 
+ *
  * T_AUT_REF_STUS.java
  */
 package org.folio.cataloging.dao.persistence;

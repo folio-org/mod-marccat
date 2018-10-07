@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Nov 18, 2005
- * 
+ *
  * AuthorityCataloguingSourceTag.java
  */
 package org.folio.cataloging.business.cataloguing.authority;
@@ -16,16 +16,15 @@ import org.folio.cataloging.business.cataloguing.common.CataloguingSourceTag;
  */
 public class AuthorityCataloguingSourceTag extends CataloguingSourceTag {
 
-	/**
-	 * Class constructor
-	 *
-	 * 
-	 * @since 1.0
-	 */
-	public AuthorityCataloguingSourceTag() {
-		super();
-		setHeaderField(new AuthorityHeaderFieldHelper());
-		setHeaderType((short) 1);
-	}
+  /**
+   * Class constructor
+   *
+   * @since 1.0
+   */
+  public AuthorityCataloguingSourceTag() {
+    super ( );
+    setHeaderField (new AuthorityHeaderFieldHelper ( ));
+    setHeaderType ((short) 1);
+  }
 
 }

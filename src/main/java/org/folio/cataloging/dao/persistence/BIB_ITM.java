@@ -9,244 +9,239 @@ import org.folio.cataloging.dao.DAOBibItem;
 
 import java.io.Serializable;
 
-public class BIB_ITM extends ItemEntity implements PersistentObjectWithView, Serializable
-{
+public class BIB_ITM extends ItemEntity implements PersistentObjectWithView, Serializable {
 
-	private char canadianContentIndicator = '0';
-	private char controlTypeCode = ' ';
-	private String countryStringText;
-	private char descriptiveCataloguingCode = ' ';
-	private String formOfMusicStringText;
-	private int inputSourceCode = 0;
-	private char itemBibliographicLevelCode = 'm';
-	private String itemDateFirstPublication;
-	private String itemDateLastPublication = "    ";
-    private char itemDateTypeCode = 's';
-	private char itemRecordTypeCode = 'a';
-	private String languageCode;
-	private String languageStringText;
-	private char linkedRecordCode = ' ';
-	private String marcCountryCode;
-	private String projectedPublicationDateCode;
-	private char recordCataloguingSourceCode;
-	private char recordModifiedCode = ' ';
-	private char replacementStatusCode = ' ';
-	private String specialCodedDatesStringText;
-	private String translationCode = "";
-	private String userViewString = "0000000000000000";
+  private char canadianContentIndicator = '0';
+  private char controlTypeCode = ' ';
+  private String countryStringText;
+  private char descriptiveCataloguingCode = ' ';
+  private String formOfMusicStringText;
+  private int inputSourceCode = 0;
+  private char itemBibliographicLevelCode = 'm';
+  private String itemDateFirstPublication;
+  private String itemDateLastPublication = "    ";
+  private char itemDateTypeCode = 's';
+  private char itemRecordTypeCode = 'a';
+  private String languageCode;
+  private String languageStringText;
+  private char linkedRecordCode = ' ';
+  private String marcCountryCode;
+  private String projectedPublicationDateCode;
+  private char recordCataloguingSourceCode;
+  private char recordModifiedCode = ' ';
+  private char replacementStatusCode = ' ';
+  private String specialCodedDatesStringText;
+  private String translationCode = "";
+  private String userViewString = "0000000000000000";
 
-	public BIB_ITM()
-	{
-		super();
-	}
+  public BIB_ITM() {
+    super ( );
+  }
 
-	public boolean equals(Object obj)
-	{
-		if (!(obj instanceof BIB_ITM))
-			return false;
+  public boolean equals(Object obj) {
+    if (!(obj instanceof BIB_ITM))
+      return false;
 
-		BIB_ITM other = (BIB_ITM) obj;
-		return (other.getAmicusNumber().equals(this.getAmicusNumber()) && other.getUserViewString().equals(this.getUserViewString()));
-	}
+    BIB_ITM other = (BIB_ITM) obj;
+    return (other.getAmicusNumber ( ).equals (this.getAmicusNumber ( )) && other.getUserViewString ( ).equals (this.getUserViewString ( )));
+  }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	public int hashCode()
-	{
-		if (getAmicusNumber() == null) {
-			return -1;
-		}
-		else {
-			return getAmicusNumber().intValue();
-		}
-	}
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  public int hashCode() {
+    if (getAmicusNumber ( ) == null) {
+      return -1;
+    } else {
+      return getAmicusNumber ( ).intValue ( );
+    }
+  }
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.common.PersistentObject#generateNewKey()
-	 */
+  /* (non-Javadoc)
+   * @see librisuite.business.common.PersistentObject#generateNewKey()
+   */
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
 		/*SystemNextNumberDAO dao = new SystemNextNumberDAO();
 		setAmicusNumber(new Integer(dao.getNextNumber("BI")));*/
-	}
+  }
 
-	public char getCanadianContentIndicator() {
-		return canadianContentIndicator;
-	}
+  public char getCanadianContentIndicator() {
+    return canadianContentIndicator;
+  }
 
-	public char getControlTypeCode() {
-		return controlTypeCode;
-	}
+  public void setCanadianContentIndicator(char canadianContentIndicator) {
+    this.canadianContentIndicator = canadianContentIndicator;
+  }
 
-	public String getCountryStringText() {
-		return countryStringText;
-	}
+  public char getControlTypeCode() {
+    return controlTypeCode;
+  }
 
-	public AbstractDAO getDAO() {
-		return new DAOBibItem();
-	}
+  public void setControlTypeCode(char c) {
+    controlTypeCode = c;
+  }
 
-	public char getDescriptiveCataloguingCode() {
-		return descriptiveCataloguingCode;
-	}
+  public String getCountryStringText() {
+    return countryStringText;
+  }
 
-	public String getFormOfMusicStringText() {
-		return formOfMusicStringText;
-	}
+  public void setCountryStringText(String string) {
+    countryStringText = string;
+  }
 
-	public int getInputSourceCode() {
-		return inputSourceCode;
-	}
+  public AbstractDAO getDAO() {
+    return new DAOBibItem ( );
+  }
 
-	public char getItemBibliographicLevelCode() {
-		return itemBibliographicLevelCode;
-	}
+  public char getDescriptiveCataloguingCode() {
+    return descriptiveCataloguingCode;
+  }
 
-	public String getItemDateFirstPublication() {
-		return itemDateFirstPublication;
-	}
+  public void setDescriptiveCataloguingCode(char c) {
+    descriptiveCataloguingCode = c;
+  }
 
-	public String getItemDateLastPublication() {
-		return itemDateLastPublication;
-	}
+  public String getFormOfMusicStringText() {
+    return formOfMusicStringText;
+  }
 
-	public char getItemDateTypeCode() {
-		return itemDateTypeCode;
-	}
+  public void setFormOfMusicStringText(String string) {
+    formOfMusicStringText = string;
+  }
 
-	public char getItemRecordTypeCode() {
-		return itemRecordTypeCode;
-	}
+  public int getInputSourceCode() {
+    return inputSourceCode;
+  }
 
-	public String getLanguageCode() {
-		return languageCode;
-	}
+  public void setInputSourceCode(int inputSourceCode) {
+    this.inputSourceCode = inputSourceCode;
+  }
 
-	public String getLanguageStringText() {
-		return languageStringText;
-	}
+  public char getItemBibliographicLevelCode() {
+    return itemBibliographicLevelCode;
+  }
 
-	public char getLinkedRecordCode() {
-		return linkedRecordCode;
-	}
+  public void setItemBibliographicLevelCode(char c) {
+    itemBibliographicLevelCode = c;
+  }
 
-	public String getMarcCountryCode() {
-		return marcCountryCode;
-	}
+  public String getItemDateFirstPublication() {
+    return itemDateFirstPublication;
+  }
 
-	public String getProjectedPublicationDateCode() {
-		return projectedPublicationDateCode;
-	}
+  public void setItemDateFirstPublication(String string) {
+    itemDateFirstPublication = string;
+  }
 
-	public char getRecordCataloguingSourceCode() {
-		return recordCataloguingSourceCode;
-	}
+  public String getItemDateLastPublication() {
+    return itemDateLastPublication;
+  }
 
-	public char getRecordModifiedCode() {
-		return recordModifiedCode;
-	}
+  public void setItemDateLastPublication(String string) {
+    itemDateLastPublication = string;
+  }
 
-	public char getReplacementStatusCode() {
-		return replacementStatusCode;
-	}
+  public char getItemDateTypeCode() {
+    return itemDateTypeCode;
+  }
 
-	public String getSpecialCodedDatesStringText() {
-		return specialCodedDatesStringText;
-	}
+  public void setItemDateTypeCode(char c) {
+    itemDateTypeCode = c;
+  }
 
-	public String getTranslationCode() {
-		return translationCode;
-	}
+  public char getItemRecordTypeCode() {
+    return itemRecordTypeCode;
+  }
 
-	public String getUserViewString() {
-		return userViewString;
-	}
+  public void setItemRecordTypeCode(char c) {
+    itemRecordTypeCode = c;
+  }
 
-	public void setCanadianContentIndicator(char canadianContentIndicator) {
-		this.canadianContentIndicator = canadianContentIndicator;
-	}
+  public String getLanguageCode() {
+    return languageCode;
+  }
 
-	public void setControlTypeCode(char c) {
-		controlTypeCode = c;
-	}
+  public void setLanguageCode(String string) {
+    languageCode = string;
+  }
 
-	public void setCountryStringText(String string) {
-		countryStringText = string;
-	}
+  public String getLanguageStringText() {
+    return languageStringText;
+  }
 
-	public void setDescriptiveCataloguingCode(char c) {
-		descriptiveCataloguingCode = c;
-	}
+  public void setLanguageStringText(String string) {
+    languageStringText = string;
+  }
 
-	public void setFormOfMusicStringText(String string) {
-		formOfMusicStringText = string;
-	}
+  public char getLinkedRecordCode() {
+    return linkedRecordCode;
+  }
 
-	public void setInputSourceCode(int inputSourceCode) {
-		this.inputSourceCode = inputSourceCode;
-	}
+  public void setLinkedRecordCode(char c) {
+    linkedRecordCode = c;
+  }
 
-	public void setItemBibliographicLevelCode(char c) {
-		itemBibliographicLevelCode = c;
-	}
+  public String getMarcCountryCode() {
+    return marcCountryCode;
+  }
 
-	public void setItemDateFirstPublication(String string) {
-		itemDateFirstPublication = string;
-	}
+  public void setMarcCountryCode(String string) {
+    marcCountryCode = string;
+  }
 
-	public void setItemDateLastPublication(String string) {
-		itemDateLastPublication = string;
-	}
+  public String getProjectedPublicationDateCode() {
+    return projectedPublicationDateCode;
+  }
 
-	public void setItemDateTypeCode(char c) {
-		itemDateTypeCode = c;
-	}
+  public void setProjectedPublicationDateCode(String c) {
+    projectedPublicationDateCode = c;
+  }
 
-	public void setItemRecordTypeCode(char c) {
-		itemRecordTypeCode = c;
-	}
+  public char getRecordCataloguingSourceCode() {
+    return recordCataloguingSourceCode;
+  }
 
-	public void setLanguageCode(String string) {
-		languageCode = string;
-	}
+  public void setRecordCataloguingSourceCode(char c) {
+    recordCataloguingSourceCode = c;
+  }
 
-	public void setLanguageStringText(String string) {
-		languageStringText = string;
-	}
+  public char getRecordModifiedCode() {
+    return recordModifiedCode;
+  }
 
-	public void setLinkedRecordCode(char c) {
-		linkedRecordCode = c;
-	}
+  public void setRecordModifiedCode(char c) {
+    recordModifiedCode = c;
+  }
 
-	public void setMarcCountryCode(String string) {
-		marcCountryCode = string;
-	}
+  public char getReplacementStatusCode() {
+    return replacementStatusCode;
+  }
 
-	public void setProjectedPublicationDateCode(String c) {
-		projectedPublicationDateCode = c;
-	}
+  public void setReplacementStatusCode(char replacementStatusCode) {
+    this.replacementStatusCode = replacementStatusCode;
+  }
 
-	public void setRecordCataloguingSourceCode(char c) {
-		recordCataloguingSourceCode = c;
-	}
+  public String getSpecialCodedDatesStringText() {
+    return specialCodedDatesStringText;
+  }
 
-	public void setRecordModifiedCode(char c) {
-		recordModifiedCode = c;
-	}
+  public void setSpecialCodedDatesStringText(String string) {
+    specialCodedDatesStringText = string;
+  }
 
-	public void setReplacementStatusCode(char replacementStatusCode) {
-		this.replacementStatusCode = replacementStatusCode;
-	}
+  public String getTranslationCode() {
+    return translationCode;
+  }
 
-	public void setSpecialCodedDatesStringText(String string) {
-		specialCodedDatesStringText = string;
-	}
+  public void setTranslationCode(String c) {
+    translationCode = c;
+  }
 
-	public void setTranslationCode(String c) {
-		translationCode = c;
-	}
+  public String getUserViewString() {
+    return userViewString;
+  }
 
-	public void setUserViewString(String string) {
-		userViewString = string;
-	}
+  public void setUserViewString(String string) {
+    userViewString = string;
+  }
 }

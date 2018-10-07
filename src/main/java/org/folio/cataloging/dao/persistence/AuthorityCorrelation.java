@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Nov 17, 2005
- * 
+ *
  * AuthorityCorrelation.java
  */
 package org.folio.cataloging.dao.persistence;

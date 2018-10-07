@@ -12,176 +12,150 @@ import java.util.List;
 /**
  * RecordTemplate
  * <p>
- * 
- * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "id", "name", "group", "type", "leader", "fields" })
+@JsonPropertyOrder({"id", "name", "group", "type", "leader", "fields"})
 public class RecordTemplate {
 
-    @JsonProperty("id")
-    private Integer id;
+  @JsonProperty("id")
+  private Integer id;
 
-    @JsonProperty("name")
-    private String name;
+  @JsonProperty("name")
+  private String name;
 
-    @JsonProperty("group")
-    private Integer group;
+  @JsonProperty("group")
+  private Integer group;
 
-    @JsonProperty("type")
-    private String type;
+  @JsonProperty("type")
+  private String type;
 
-    @JsonProperty("leader")
-    @Valid
-    private Leader leader;
+  @JsonProperty("leader")
+  @Valid
+  private Leader leader;
 
-    @JsonProperty("fields")
-    @Valid
-    private List<Field> fields = new ArrayList<Field>();
+  @JsonProperty("fields")
+  @Valid
+  private List <Field> fields = new ArrayList <Field> ( );
 
-    /**
-     * 
-     * @return
-     *     The id
-     */
-    @JsonProperty("id")
-    public Integer getId() {
-        return id;
-    }
+  /**
+   * @return The id
+   */
+  @JsonProperty("id")
+  public Integer getId() {
+    return id;
+  }
 
-    /**
-     * 
-     * @param id
-     *     The id
-     */
-    @JsonProperty("id")
-    public void setId(Integer id) {
-        this.id = id;
-    }
+  /**
+   * @param id The id
+   */
+  @JsonProperty("id")
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-    public RecordTemplate withId(Integer id) {
-        this.id = id;
-        return this;
-    }
+  public RecordTemplate withId(Integer id) {
+    this.id = id;
+    return this;
+  }
 
-    /**
-     * 
-     * @return
-     *     The name
-     */
-    @JsonProperty("name")
-    public String getName() {
-        return name;
-    }
+  /**
+   * @return The name
+   */
+  @JsonProperty("name")
+  public String getName() {
+    return name;
+  }
 
-    /**
-     * 
-     * @param name
-     *     The name
-     */
-    @JsonProperty("name")
-    public void setName(String name) {
-        this.name = name;
-    }
+  /**
+   * @param name The name
+   */
+  @JsonProperty("name")
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public RecordTemplate withName(String name) {
-        this.name = name;
-        return this;
-    }
+  public RecordTemplate withName(String name) {
+    this.name = name;
+    return this;
+  }
 
-    /**
-     * 
-     * @return
-     *     The group
-     */
-    @JsonProperty("group")
-    public Integer getGroup() {
-        return group;
-    }
+  /**
+   * @return The group
+   */
+  @JsonProperty("group")
+  public Integer getGroup() {
+    return group;
+  }
 
-    /**
-     * 
-     * @param group
-     *     The group
-     */
-    @JsonProperty("group")
-    public void setGroup(Integer group) {
-        this.group = group;
-    }
+  /**
+   * @param group The group
+   */
+  @JsonProperty("group")
+  public void setGroup(Integer group) {
+    this.group = group;
+  }
 
-    public RecordTemplate withGroup(Integer group) {
-        this.group = group;
-        return this;
-    }
+  public RecordTemplate withGroup(Integer group) {
+    this.group = group;
+    return this;
+  }
 
-    /**
-     * 
-     * @return
-     *     The type
-     */
-    @JsonProperty("type")
-    public String getType() {
-        return type;
-    }
+  /**
+   * @return The type
+   */
+  @JsonProperty("type")
+  public String getType() {
+    return type;
+  }
 
-    /**
-     * 
-     * @param type
-     *     The type
-     */
-    @JsonProperty("type")
-    public void setType(String type) {
-        this.type = type;
-    }
+  /**
+   * @param type The type
+   */
+  @JsonProperty("type")
+  public void setType(String type) {
+    this.type = type;
+  }
 
-    public RecordTemplate withType(String type) {
-        this.type = type;
-        return this;
-    }
+  public RecordTemplate withType(String type) {
+    this.type = type;
+    return this;
+  }
 
-    /**
-     * 
-     * @return
-     *     The leader
-     */
-    @JsonProperty("leader")
-    public Leader getLeader() {
-        return leader;
-    }
+  /**
+   * @return The leader
+   */
+  @JsonProperty("leader")
+  public Leader getLeader() {
+    return leader;
+  }
 
-    /**
-     * 
-     * @param leader
-     *     The leader
-     */
-    @JsonProperty("leader")
-    public void setLeader(Leader leader) {
-        this.leader = leader;
-    }
+  /**
+   * @param leader The leader
+   */
+  @JsonProperty("leader")
+  public void setLeader(Leader leader) {
+    this.leader = leader;
+  }
 
-    public RecordTemplate withLeader(Leader leader) {
-        this.leader = leader;
-        return this;
-    }
+  public RecordTemplate withLeader(Leader leader) {
+    this.leader = leader;
+    return this;
+  }
 
-    /**
-     *
-     * @return
-     *     The fields
-     */
-    @JsonProperty("fields")
-    public List<Field> getFields() {
-        return fields;
-    }
+  /**
+   * @return The fields
+   */
+  @JsonProperty("fields")
+  public List <Field> getFields() {
+    return fields;
+  }
 
-    /**
-     *
-     * @param fields
-     *     The fields
-     */
-    @JsonProperty("fields")
-    public void setFields(List<Field> fields) {
-        this.fields = fields;
-    }
+  /**
+   * @param fields The fields
+   */
+  @JsonProperty("fields")
+  public void setFields(List <Field> fields) {
+    this.fields = fields;
+  }
 }

@@ -12,63 +12,57 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "descriptiveCatalogForms" })
+@JsonPropertyOrder({"descriptiveCatalogForms"})
 public class DescriptiveCatalogFormCollection {
 
-    /**
-     * 
-     * (Required)
-     * 
-     */
-    @JsonProperty("descriptiveCatalogForms")
-    @Valid
-    @NotNull
-    private List<DescriptiveCatalogForm> descriptiveCatalogForms = new ArrayList<DescriptiveCatalogForm>();
+  /**
+   * (Required)
+   */
+  @JsonProperty("descriptiveCatalogForms")
+  @Valid
+  @NotNull
+  private List <DescriptiveCatalogForm> descriptiveCatalogForms = new ArrayList <DescriptiveCatalogForm> ( );
 
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  @JsonIgnore
+  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
 
-    /**
-     * 
-     * (Required)
-     * 
-     * @return
-     *     The descriptiveCatalogForms
-     */
-    @JsonProperty("descriptiveCatalogForms")
-    public List<DescriptiveCatalogForm> getDescriptiveCatalogForms() {
-        return descriptiveCatalogForms;
-    }
+  /**
+   * (Required)
+   *
+   * @return The descriptiveCatalogForms
+   */
+  @JsonProperty("descriptiveCatalogForms")
+  public List <DescriptiveCatalogForm> getDescriptiveCatalogForms() {
+    return descriptiveCatalogForms;
+  }
 
-    /**
-     * 
-     * (Required)
-     * 
-     * @param descriptiveCatalogForms
-     *     The descriptiveCatalogForms
-     */
-    @JsonProperty("descriptiveCatalogForms")
-    public void setDescriptiveCatalogForms(List<DescriptiveCatalogForm> descriptiveCatalogForms) {
-        this.descriptiveCatalogForms = descriptiveCatalogForms;
-    }
+  /**
+   * (Required)
+   *
+   * @param descriptiveCatalogForms The descriptiveCatalogForms
+   */
+  @JsonProperty("descriptiveCatalogForms")
+  public void setDescriptiveCatalogForms(List <DescriptiveCatalogForm> descriptiveCatalogForms) {
+    this.descriptiveCatalogForms = descriptiveCatalogForms;
+  }
 
-    public DescriptiveCatalogFormCollection withDescriptiveCatalogForms(List<DescriptiveCatalogForm> descriptiveCatalogForms) {
-        this.descriptiveCatalogForms = descriptiveCatalogForms;
-        return this;
-    }
+  public DescriptiveCatalogFormCollection withDescriptiveCatalogForms(List <DescriptiveCatalogForm> descriptiveCatalogForms) {
+    this.descriptiveCatalogForms = descriptiveCatalogForms;
+    return this;
+  }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
+  @JsonAnyGetter
+  public Map <String, Object> getAdditionalProperties() {
+    return this.additionalProperties;
+  }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
+  @JsonAnySetter
+  public void setAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+  }
 
-    public DescriptiveCatalogFormCollection withAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-        return this;
-    }
+  public DescriptiveCatalogFormCollection withAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+    return this;
+  }
 }

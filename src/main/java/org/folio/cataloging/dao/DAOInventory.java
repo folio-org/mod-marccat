@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Jan 24, 2005
- * 
+ *
  * DAOInventory.java
  */
 package org.folio.cataloging.dao;
@@ -26,52 +26,52 @@ import java.util.List;
  */
 public class DAOInventory extends AbstractDAO {
 
-	public int getInventoryCount(int copyNumber) throws DataAccessException {
-		Session s = currentSession();
-		try {
-			List l =
-				s.find(
-					"select count(*) from Inventory as i"
-						+ " where i.copyNumber = ?",
-					new Object[] { new Integer(copyNumber)},
-					new Type[] { Hibernate.INTEGER });
-			if (l.size() > 0) {
-				return ((Integer) l.get(0)).intValue();
-			}
-		} catch (HibernateException e) {
-			logAndWrap(e);
-		}
-		return 0;
-	}
+  public int getInventoryCount(int copyNumber) throws DataAccessException {
+    Session s = currentSession ( );
+    try {
+      List l =
+        s.find (
+          "select count(*) from Inventory as i"
+            + " where i.copyNumber = ?",
+          new Object[]{new Integer (copyNumber)},
+          new Type[]{Hibernate.INTEGER});
+      if (l.size ( ) > 0) {
+        return ((Integer) l.get (0)).intValue ( );
+      }
+    } catch (HibernateException e) {
+      logAndWrap (e);
+    }
+    return 0;
+  }
 
-	public List loadItems(int copyNumber) throws DataAccessException {
-		Session s = currentSession();
-		try {
-			List l =
-				s.find(
-					"from Inventory as i"
-						+ " where i.copyNumber = ?",
-					new Object[] { new Integer(copyNumber)},
-					new Type[] { Hibernate.INTEGER });
-			return l;
-		} catch (HibernateException e) {
-			logAndWrap(e);
-		}
-		return null;
-	}
+  public List loadItems(int copyNumber) throws DataAccessException {
+    Session s = currentSession ( );
+    try {
+      List l =
+        s.find (
+          "from Inventory as i"
+            + " where i.copyNumber = ?",
+          new Object[]{new Integer (copyNumber)},
+          new Type[]{Hibernate.INTEGER});
+      return l;
+    } catch (HibernateException e) {
+      logAndWrap (e);
+    }
+    return null;
+  }
 
-	private boolean isSerial(Inventory item) throws DataAccessException {
-		List l =
-			find(
-				"select count(*) from SerialPart as s "
-					+ " where s.copyNumber = ? ",
-				new Object[] { new Integer(item.getCopyNumber())},
-				new Type[] { Hibernate.INTEGER });
-        return l.size() > 0 && ((Integer) l.get(0)).intValue() > 0;
-	}
+  private boolean isSerial(Inventory item) throws DataAccessException {
+    List l =
+      find (
+        "select count(*) from SerialPart as s "
+          + " where s.copyNumber = ? ",
+        new Object[]{new Integer (item.getCopyNumber ( ))},
+        new Type[]{Hibernate.INTEGER});
+    return l.size ( ) > 0 && ((Integer) l.get (0)).intValue ( ) > 0;
+  }
 
-	public void populateNewItem(final Inventory item, final int cataloguingView)
-		throws DataAccessException {
+  public void populateNewItem(final Inventory item, final int cataloguingView)
+    throws DataAccessException {
 		/*DAOCache dao = new DAOCache();
 		CPY_ID copy = new DAOCopy().load(item.getCopyNumber());
 		item.setBibItemNumber(copy.getBibItemNumber());
@@ -150,27 +150,27 @@ public class DAOInventory extends AbstractDAO {
 			Vendor v = (Vendor) get(session, Vendor.class, vendorOrganisationNumber);
 			item.setVendorName(v.getName());
 		}*/
-	}
+  }
 
-	public int getNextNumber(final int mainLibrary)
-		throws DataAccessException {
-		final S_INVTRY nextNumber =
-			(S_INVTRY) get(S_INVTRY.class,
-				new Integer(mainLibrary),
-				LockMode.UPGRADE);
-		 int j=nextNumber.getNextNumber();
-		new TransactionalHibernateOperation() {
-			public void doInHibernateTransaction(Session s)
-				throws HibernateException {
-				int i = nextNumber.getNextNumber() + 1;
-				nextNumber.setNextNumber(i);
-				s.update(nextNumber);
-			}
-		}
-		.execute();
-		
-		return /*nextNumber.getNextNumber()*/j;
-	}
-	
-	
+  public int getNextNumber(final int mainLibrary)
+    throws DataAccessException {
+    final S_INVTRY nextNumber =
+      (S_INVTRY) get (S_INVTRY.class,
+        new Integer (mainLibrary),
+        LockMode.UPGRADE);
+    int j = nextNumber.getNextNumber ( );
+    new TransactionalHibernateOperation ( ) {
+      public void doInHibernateTransaction(Session s)
+        throws HibernateException {
+        int i = nextNumber.getNextNumber ( ) + 1;
+        nextNumber.setNextNumber (i);
+        s.update (nextNumber);
+      }
+    }
+      .execute ( );
+
+    return /*nextNumber.getNextNumber()*/j;
+  }
+
+
 }

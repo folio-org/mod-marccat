@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Oct 21, 2005
- * 
+ *
  * DescriptorHasNoSubfieldsException.java
  */
 package org.folio.cataloging.exception;
@@ -13,51 +13,50 @@ package org.folio.cataloging.exception;
  * @since 1.0
  */
 public class DescriptorHasNoSubfieldsException
-	extends InvalidDescriptorException {
+  extends InvalidDescriptorException {
 
-	/**
-	 * Class constructor
-	 *
-	 * 
-	 * @since 1.0
-	 */
-	public DescriptorHasNoSubfieldsException() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+  /**
+   * Class constructor
+   *
+   * @since 1.0
+   */
+  public DescriptorHasNoSubfieldsException() {
+    super ( );
+    // TODO Auto-generated constructor stub
+  }
 
-	/**
-	 * Class constructor
-	 *
-	 * @param message
-	 * @since 1.0
-	 */
-	public DescriptorHasNoSubfieldsException(String message) {
-		super(message);
-		// TODO Auto-generated constructor stub
-	}
+  /**
+   * Class constructor
+   *
+   * @param message
+   * @since 1.0
+   */
+  public DescriptorHasNoSubfieldsException(String message) {
+    super (message);
+    // TODO Auto-generated constructor stub
+  }
 
-	/**
-	 * Class constructor
-	 *
-	 * @param message
-	 * @param cause
-	 * @since 1.0
-	 */
-	public DescriptorHasNoSubfieldsException(String message, Throwable cause) {
-		super(message, cause);
-		// TODO Auto-generated constructor stub
-	}
+  /**
+   * Class constructor
+   *
+   * @param message
+   * @param cause
+   * @since 1.0
+   */
+  public DescriptorHasNoSubfieldsException(String message, Throwable cause) {
+    super (message, cause);
+    // TODO Auto-generated constructor stub
+  }
 
-	/**
-	 * Class constructor
-	 *
-	 * @param cause
-	 * @since 1.0
-	 */
-	public DescriptorHasNoSubfieldsException(Throwable cause) {
-		super(cause);
-		// TODO Auto-generated constructor stub
-	}
+  /**
+   * Class constructor
+   *
+   * @param cause
+   * @since 1.0
+   */
+  public DescriptorHasNoSubfieldsException(Throwable cause) {
+    super (cause);
+    // TODO Auto-generated constructor stub
+  }
 
 }

@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on 17-nov-2004
- * 
+ *
  * T_LANG_PRFNC.java
  */
 package org.folio.cataloging.dao.persistence;

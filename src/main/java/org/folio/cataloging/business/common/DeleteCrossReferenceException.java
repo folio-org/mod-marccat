@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Jul 10, 2004
- * 
+ *
  * DeleteCrossReferenceException.java
  */
 package org.folio.cataloging.business.common;

@@ -8,62 +8,54 @@ import javax.annotation.Generated;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "value", "label" })
+@JsonPropertyOrder({"value", "label"})
 public class TargetAudienceCode {
 
-    @JsonProperty("value")
-    private String code;
+  @JsonProperty("value")
+  private String code;
 
-    @JsonProperty("value")
-    private String description;
+  @JsonProperty("value")
+  private String description;
 
-    /**
-     * 
-     * @return
-     *     The code
-     */
-    @JsonProperty("value")
-    public String getCode() {
-        return code;
-    }
+  /**
+   * @return The code
+   */
+  @JsonProperty("value")
+  public String getCode() {
+    return code;
+  }
 
-    /**
-     * 
-     * @param code
-     *     The code
-     */
-    @JsonProperty("value")
-    public void setCode(String code) {
-        this.code = code;
-    }
+  /**
+   * @param code The code
+   */
+  @JsonProperty("value")
+  public void setCode(String code) {
+    this.code = code;
+  }
 
-    public TargetAudienceCode withCode(String code) {
-        this.code = code;
-        return this;
-    }
+  public TargetAudienceCode withCode(String code) {
+    this.code = code;
+    return this;
+  }
 
-    /**
-     * 
-     * @return
-     *     The description
-     */
-    @JsonProperty("label")
-    public String getDescription() {
-        return description;
-    }
+  /**
+   * @return The description
+   */
+  @JsonProperty("label")
+  public String getDescription() {
+    return description;
+  }
 
-    /**
-     * 
-     * @param description
-     *     The description
-     */
-    @JsonProperty("label")
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  /**
+   * @param description The description
+   */
+  @JsonProperty("label")
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-    public TargetAudienceCode withDescription(String description) {
-        this.description = description;
-        return this;
-    }
+  public TargetAudienceCode withDescription(String description) {
+    this.description = description;
+    return this;
+  }
 }

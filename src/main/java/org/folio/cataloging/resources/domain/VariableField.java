@@ -14,373 +14,316 @@ import java.util.Map;
 /**
  * variableField
  * <p>
- *
- *
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "keyNumber", "categoryCode", "description", "headerTypeCode", "headingTypeCode", "itemTypeCode", "functionCode", "ind1", "ind2", "code", "displayValue", "subfields", "defaultSubfieldCode", "sequenceNumber", "newKeyNumber", "skipInFiling" })
+@JsonPropertyOrder({"keyNumber", "categoryCode", "description", "headerTypeCode", "headingTypeCode", "itemTypeCode", "functionCode", "ind1", "ind2", "code", "displayValue", "subfields", "defaultSubfieldCode", "sequenceNumber", "newKeyNumber", "skipInFiling"})
 public class VariableField {
 
-    @JsonProperty("keyNumber")
-    private Integer keyNumber;
+  @JsonProperty("keyNumber")
+  private Integer keyNumber;
 
-    @JsonProperty("categoryCode")
-    private Integer categoryCode;
+  @JsonProperty("categoryCode")
+  private Integer categoryCode;
 
-    @JsonProperty("description")
-    private String description;
+  @JsonProperty("description")
+  private String description;
 
-    //@JsonProperty("headerTypeCode")
-    @JsonAlias({ "headerTypeCode", "headingTypeCode" })
-    private String headingTypeCode;
+  //@JsonProperty("headerTypeCode")
+  @JsonAlias({"headerTypeCode", "headingTypeCode"})
+  private String headingTypeCode;
 
-    @JsonProperty("itemTypeCode")
-    private String itemTypeCode;
+  @JsonProperty("itemTypeCode")
+  private String itemTypeCode;
 
-    @JsonProperty("functionCode")
-    private String functionCode;
+  @JsonProperty("functionCode")
+  private String functionCode;
 
-    @JsonProperty("ind1")
-    @Size(min = 1, max = 1)
-    private String ind1;
+  @JsonProperty("ind1")
+  @Size(min = 1, max = 1)
+  private String ind1;
 
-    @JsonProperty("ind2")
-    @Size(min = 1, max = 1)
-    private String ind2;
+  @JsonProperty("ind2")
+  @Size(min = 1, max = 1)
+  private String ind2;
 
-    @JsonProperty("code")
-    private String code;
+  @JsonProperty("code")
+  private String code;
 
-    @JsonProperty("displayValue")
-    private String value;
+  @JsonProperty("displayValue")
+  private String value;
 
-    @JsonProperty("sequenceNumber")
-    private int sequenceNumber;
+  @JsonProperty("sequenceNumber")
+  private int sequenceNumber;
 
-    @JsonProperty("skipInFiling")
-    private int skipInFiling;
+  @JsonProperty("skipInFiling")
+  private int skipInFiling;
 
-    @JsonProperty("subfields")
-    @Valid
-    private List<String> subfields = new ArrayList<String>();
+  @JsonProperty("subfields")
+  @Valid
+  private List <String> subfields = new ArrayList <String> ( );
 
-    @JsonProperty("defaultSubfieldCode")
-    @Pattern(regexp = "[a-z|0-9]")
-    private String defaultSubfieldCode;
+  @JsonProperty("defaultSubfieldCode")
+  @Pattern(regexp = "[a-z|0-9]")
+  private String defaultSubfieldCode;
 
-    @JsonProperty("newKeyNumber")
-    private Integer newKeyNumber;
+  @JsonProperty("newKeyNumber")
+  private Integer newKeyNumber;
 
 
   @JsonIgnore
-  private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
 
   /**
-   *
-   * @return
-   *     The keyNumber
+   * @return The keyNumber
    */
   public Integer getKeyNumber() {
-      return keyNumber;
+    return keyNumber;
   }
 
   /**
-   *
-   * @param keyNumber
-   *     The keyNumber
+   * @param keyNumber The keyNumber
    */
   public void setKeyNumber(Integer keyNumber) {
-      this.keyNumber = keyNumber;
+    this.keyNumber = keyNumber;
   }
 
   /**
-   *
-   * @return
-   *     The categoryCode
+   * @return The categoryCode
    */
   public Integer getCategoryCode() {
-      return categoryCode;
+    return categoryCode;
   }
 
   /**
-   *
-   * @param categoryCode
-   *     The categoryCode
+   * @param categoryCode The categoryCode
    */
   public void setCategoryCode(Integer categoryCode) {
-      this.categoryCode = categoryCode;
+    this.categoryCode = categoryCode;
   }
 
   /**
-   *
-   * @return
-   *     The headingTypeCode
+   * @return The headingTypeCode
    */
   public String getHeadingTypeCode() {
-      return headingTypeCode;
+    return headingTypeCode;
   }
 
   /**
-   *
-   * @param headingTypeCode
-   *     The headingTypeCode
+   * @param headingTypeCode The headingTypeCode
    */
   public void setHeadingTypeCode(String headingTypeCode) {
-      this.headingTypeCode = headingTypeCode;
+    this.headingTypeCode = headingTypeCode;
   }
 
   public VariableField withHeadingTypeCode(String headingTypeCode) {
-      this.headingTypeCode = headingTypeCode;
-      return this;
+    this.headingTypeCode = headingTypeCode;
+    return this;
   }
 
   /**
-   *
-   * @return
-   *     The itemTypeCode
+   * @return The itemTypeCode
    */
   public String getItemTypeCode() {
-      return itemTypeCode;
+    return itemTypeCode;
   }
 
   /**
-   *
-   * @param itemTypeCode
-   *     The itemTypeCode
+   * @param itemTypeCode The itemTypeCode
    */
   public void setItemTypeCode(String itemTypeCode) {
-      this.itemTypeCode = itemTypeCode;
+    this.itemTypeCode = itemTypeCode;
   }
 
   public VariableField withItemTypeCode(String itemTypeCode) {
-      this.itemTypeCode = itemTypeCode;
-      return this;
+    this.itemTypeCode = itemTypeCode;
+    return this;
   }
 
   /**
-   *
-   * @return
-   *     The functionCode
+   * @return The functionCode
    */
   public String getFunctionCode() {
-      return functionCode;
+    return functionCode;
   }
 
   /**
-   *
-   * @param functionCode
-   *     The functionCode
+   * @param functionCode The functionCode
    */
   public void setFunctionCode(String functionCode) {
-      this.functionCode = functionCode;
+    this.functionCode = functionCode;
   }
 
   public VariableField withFunctionCode(String functionCode) {
-      this.functionCode = functionCode;
-      return this;
+    this.functionCode = functionCode;
+    return this;
   }
 
   /**
-   *
-   * @return
-   *     The ind1
+   * @return The ind1
    */
   public String getInd1() {
-      return ind1;
+    return ind1;
   }
 
   /**
-   *
-   * @param ind1
-   *     The ind1
+   * @param ind1 The ind1
    */
   public void setInd1(String ind1) {
-      this.ind1 = ind1;
+    this.ind1 = ind1;
   }
 
   public VariableField withInd1(String ind1) {
-      this.ind1 = ind1;
-      return this;
+    this.ind1 = ind1;
+    return this;
   }
 
   /**
-   *
-   * @return
-   *     The ind2
+   * @return The ind2
    */
   public String getInd2() {
-      return ind2;
+    return ind2;
   }
 
   /**
-   *
-   * @param ind2
-   *     The ind2
+   * @param ind2 The ind2
    */
   public void setInd2(String ind2) {
-      this.ind2 = ind2;
+    this.ind2 = ind2;
   }
 
   public VariableField withInd2(String ind2) {
-      this.ind2 = ind2;
-      return this;
+    this.ind2 = ind2;
+    return this;
   }
 
   /**
-   *
-   * @return
-   *     The code
+   * @return The code
    */
   public String getCode() {
-      return code;
+    return code;
   }
 
   /**
-   *
-   * @param code
-   *     The code
+   * @param code The code
    */
   public void setCode(String code) {
-      this.code = code;
+    this.code = code;
   }
 
   public VariableField withCode(String code) {
-      this.code = code;
-      return this;
+    this.code = code;
+    return this;
   }
 
   /**
-   *
-   * @return
-   *     The description
+   * @return The description
    */
   public String getDescription() {
-      return description;
+    return description;
   }
 
   /**
-   *
-   * @param description
-   *     The description
+   * @param description The description
    */
   public void setDescription(String description) {
-      this.description = description;
+    this.description = description;
   }
 
   /**
-   *
-   * @return
-   *     The value
+   * @return The value
    */
   public String getValue() {
-      return value;
+    return value;
   }
 
   /**
-   *
-   * @param value
-   *     The value
+   * @param value The value
    */
   public void setValue(String value) {
-      this.value = value;
+    this.value = value;
   }
 
   public VariableField withValue(String value) {
-      this.value = value;
-      return this;
+    this.value = value;
+    return this;
   }
 
   /**
-   *
-   * @return
-   *     The subfields
+   * @return The subfields
    */
-  public List<String> getSubfields() {
-      return subfields;
+  public List <String> getSubfields() {
+    return subfields;
   }
 
   /**
-   *
-   * @param subfields
-   *     The subfields
+   * @param subfields The subfields
    */
-  public void setSubfields(List<String> subfields) {
-      this.subfields = subfields;
+  public void setSubfields(List <String> subfields) {
+    this.subfields = subfields;
   }
 
-  public VariableField withSubfields(List<String> subfields) {
-      this.subfields = subfields;
-      return this;
+  public VariableField withSubfields(List <String> subfields) {
+    this.subfields = subfields;
+    return this;
   }
 
   /**
-   *
-   * @return
-   *     The defaultSubfieldCode
+   * @return The defaultSubfieldCode
    */
   public String getDefaultSubfieldCode() {
-      return defaultSubfieldCode;
+    return defaultSubfieldCode;
   }
 
   /**
-   *
-   * @param defaultSubfieldCode
-   *     The defaultSubfieldCode
+   * @param defaultSubfieldCode The defaultSubfieldCode
    */
   public void setDefaultSubfieldCode(String defaultSubfieldCode) {
-      this.defaultSubfieldCode = defaultSubfieldCode;
+    this.defaultSubfieldCode = defaultSubfieldCode;
   }
 
   public VariableField withDefaultSubfieldCode(String defaultSubfieldCode) {
-      this.defaultSubfieldCode = defaultSubfieldCode;
-      return this;
+    this.defaultSubfieldCode = defaultSubfieldCode;
+    return this;
   }
 
   @JsonAnyGetter
-  public Map<String, Object> getAdditionalProperties() {
-      return this.additionalProperties;
+  public Map <String, Object> getAdditionalProperties() {
+    return this.additionalProperties;
   }
 
   @JsonAnySetter
   public void setAdditionalProperty(String name, Object value) {
-      this.additionalProperties.put(name, value);
+    this.additionalProperties.put (name, value);
   }
 
   public VariableField withAdditionalProperty(String name, Object value) {
-      this.additionalProperties.put(name, value);
-      return this;
+    this.additionalProperties.put (name, value);
+    return this;
   }
 
   /**
-   *
-   * @return
-   *     The sequenceNumber
+   * @return The sequenceNumber
    */
   public int getSequenceNumber() {
-      return sequenceNumber;
+    return sequenceNumber;
   }
 
   /**
-   *
-   * @param sequenceNumber
-   *     The sequenceNumber
+   * @param sequenceNumber The sequenceNumber
    */
   public void setSequenceNumber(int sequenceNumber) {
-      this.sequenceNumber = sequenceNumber;
+    this.sequenceNumber = sequenceNumber;
   }
 
   /**
-   *
-   * @return
-   *     The newKeyNumber
+   * @return The newKeyNumber
    */
   public Integer getNewKeyNumber() {
     return newKeyNumber;
   }
 
   /**
-   *
    * @param newKeyNumber
    */
   public void setNewKeyNumber(Integer newKeyNumber) {
@@ -388,7 +331,6 @@ public class VariableField {
   }
 
   /**
-   *
    * @return skipInFiling.
    */
   public int getSkipInFiling() {
@@ -396,7 +338,6 @@ public class VariableField {
   }
 
   /**
-   *
    * @param skipInFiling.
    */
   public void setSkipInFiling(int skipInFiling) {

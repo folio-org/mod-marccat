@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Dec 13, 2005
- * 
+ *
  * T_NME_TTL_SCDRY_FNCTN.java
  */
 package org.folio.cataloging.dao.persistence;

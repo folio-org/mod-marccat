@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Oct 11, 2004
- * 
+ *
  * T_SRL_FORM_ORGNL_ITM.java
  */
 package org.folio.cataloging.dao.persistence;

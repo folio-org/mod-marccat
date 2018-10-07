@@ -9,135 +9,132 @@ import org.folio.cataloging.dao.AbstractDAO;
 
 import java.io.Serializable;
 
-public class CLCTN_PUBL_HRCY implements Persistence 
-{
-	private static final long serialVersionUID = -497668012833285975L;
-	
-	private int collectionCode;
-    private int parentCollectionCode;
-	private PersistenceState persistentState = new PersistenceState();
+public class CLCTN_PUBL_HRCY implements Persistence {
+  private static final long serialVersionUID = -497668012833285975L;
 
-	public CLCTN_PUBL_HRCY(){
-		super();
-	}
+  private int collectionCode;
+  private int parentCollectionCode;
+  private PersistenceState persistentState = new PersistenceState ( );
 
-	public CLCTN_PUBL_HRCY(int collectionCode) 
-	{
-		super();
-		this.collectionCode = collectionCode;		
-	}
+  public CLCTN_PUBL_HRCY() {
+    super ( );
+  }
 
-	public CLCTN_PUBL_HRCY(int collectionCode, int parentCollectionCode) 
-	{
-		super();
-		this.collectionCode = collectionCode;
-		this.parentCollectionCode = parentCollectionCode;
-	}
+  public CLCTN_PUBL_HRCY(int collectionCode) {
+    super ( );
+    this.collectionCode = collectionCode;
+  }
 
-	public int getParentCollectionCode() {
-		return parentCollectionCode;
-	}
-	
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + collectionCode;
-		return result;
-	}
-	
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		CLCTN_PUBL_HRCY other = (CLCTN_PUBL_HRCY) obj;
-        return collectionCode == other.collectionCode;
-    }
-	
-	public void setParentCollectionCode(int parentCollectionCode) {
-		this.parentCollectionCode = parentCollectionCode;
-	}
-	
-	public int getCollectionCode() {
-		return collectionCode;
-	}
-	
-	public void setCollectionCode(int collectionCode) {
-		this.collectionCode = collectionCode;
-	}
-	
-	public void evict(Object obj) throws DataAccessException {
-		persistentState.evict(obj);
-	}
+  public CLCTN_PUBL_HRCY(int collectionCode, int parentCollectionCode) {
+    super ( );
+    this.collectionCode = collectionCode;
+    this.parentCollectionCode = parentCollectionCode;
+  }
 
-	public AbstractDAO getDAO() {
-		return persistentState.getDAO();
-	}
+  public int getParentCollectionCode() {
+    return parentCollectionCode;
+  }
 
-	public int getUpdateStatus() {
-		return persistentState.getUpdateStatus();
-	}
+  public void setParentCollectionCode(int parentCollectionCode) {
+    this.parentCollectionCode = parentCollectionCode;
+  }
 
-	public boolean isChanged() {
-		return persistentState.isChanged();
-	}
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + collectionCode;
+    return result;
+  }
 
-	public boolean isDeleted() {
-		return persistentState.isDeleted();
-	}
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass ( ) != obj.getClass ( ))
+      return false;
+    CLCTN_PUBL_HRCY other = (CLCTN_PUBL_HRCY) obj;
+    return collectionCode == other.collectionCode;
+  }
 
-	public boolean isNew() {
-		return persistentState.isNew();
-	}
+  public int getCollectionCode() {
+    return collectionCode;
+  }
 
-	public boolean isRemoved() {
-		return persistentState.isRemoved();
-	}
+  public void setCollectionCode(int collectionCode) {
+    this.collectionCode = collectionCode;
+  }
 
-	public void markChanged() {
-		persistentState.markChanged();
-	}
+  public void evict(Object obj) throws DataAccessException {
+    persistentState.evict (obj);
+  }
 
-	public void markDeleted() {
-		persistentState.markDeleted();
-	}
+  public AbstractDAO getDAO() {
+    return persistentState.getDAO ( );
+  }
 
-	public void markNew() {
-		persistentState.markNew();
-	}
+  public int getUpdateStatus() {
+    return persistentState.getUpdateStatus ( );
+  }
 
-	public void markUnchanged() {
-		persistentState.markUnchanged();
-	}
+  public void setUpdateStatus(int i) {
+    persistentState.setUpdateStatus (i);
+  }
 
-	public boolean onDelete(Session arg0) throws CallbackException {
-		return persistentState.onDelete(arg0);
-	}
+  public boolean isChanged() {
+    return persistentState.isChanged ( );
+  }
 
-	public void onLoad(Session arg0, Serializable arg1) {
-		persistentState.onLoad(arg0, arg1);
-	}
+  public boolean isDeleted() {
+    return persistentState.isDeleted ( );
+  }
 
-	public boolean onSave(Session arg0) throws CallbackException {
-		return persistentState.onSave(arg0);
-	}
+  public boolean isNew() {
+    return persistentState.isNew ( );
+  }
 
-	public boolean onUpdate(Session arg0) throws CallbackException {
-		return persistentState.onUpdate(arg0);
-	}
+  public boolean isRemoved() {
+    return persistentState.isRemoved ( );
+  }
 
-	public void setUpdateStatus(int i) {
-		persistentState.setUpdateStatus(i);
-	}
+  public void markChanged() {
+    persistentState.markChanged ( );
+  }
 
-	public void evict() throws DataAccessException {
-		evict(this);
-	}
+  public void markDeleted() {
+    persistentState.markDeleted ( );
+  }
 
-	public void generateNewKey() throws DataAccessException {
-		// not applicable for this class
-	}
+  public void markNew() {
+    persistentState.markNew ( );
+  }
+
+  public void markUnchanged() {
+    persistentState.markUnchanged ( );
+  }
+
+  public boolean onDelete(Session arg0) throws CallbackException {
+    return persistentState.onDelete (arg0);
+  }
+
+  public void onLoad(Session arg0, Serializable arg1) {
+    persistentState.onLoad (arg0, arg1);
+  }
+
+  public boolean onSave(Session arg0) throws CallbackException {
+    return persistentState.onSave (arg0);
+  }
+
+  public boolean onUpdate(Session arg0) throws CallbackException {
+    return persistentState.onUpdate (arg0);
+  }
+
+  public void evict() throws DataAccessException {
+    evict (this);
+  }
+
+  public void generateNewKey() throws DataAccessException {
+    // not applicable for this class
+  }
 
 }

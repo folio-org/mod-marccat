@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Nov 9, 2004
- * 
+ *
  * T_RSI_DATA_TPE.java
  */
 package org.folio.cataloging.dao.persistence;

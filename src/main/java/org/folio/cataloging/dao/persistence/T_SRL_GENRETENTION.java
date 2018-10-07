@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on 05-jul-2004
- * 
+ *
  * T_SRL_GENRETENTION.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -14,6 +14,6 @@ package org.folio.cataloging.dao.persistence;
  */
 
 //PROVIDE FIELD AS "RETENTION" CHECKBOX IN CATALOGUING, NEW COPY
-public class T_SRL_GENRETENTION extends T_SINGLE_CHAR{
+public class T_SRL_GENRETENTION extends T_SINGLE_CHAR {
 
 }

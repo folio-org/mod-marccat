@@ -1,19 +1,18 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Dec 8, 2004
- * 
+ *
  * T_VIEW_LONGCHAR.java
  */
 package org.folio.cataloging.dao.persistence;
 
-import java.util.Locale;
-
-import org.folio.cataloging.dao.DAOCodeTable;
-import org.folio.cataloging.business.common.DataAccessException;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.dao.DAOCodeTable;
+
+import java.util.Locale;
 
 /**
  * @author paulm
@@ -21,104 +20,98 @@ import org.apache.commons.logging.LogFactory;
  * @since 1.0
  */
 public class T_VIEW_LONGCHAR extends CodeTable {
-	private static final Log logger = LogFactory.getLog(T_VIEW_LONGCHAR.class);
-	private static final DAOCodeTable daoCodeTable = new DAOCodeTable();
-	private String code;
-	private long translationKey;
+  private static final Log logger = LogFactory.getLog (T_VIEW_LONGCHAR.class);
+  private static final DAOCodeTable daoCodeTable = new DAOCodeTable ( );
+  private String code;
+  private long translationKey;
 
-	/**
-	 * Class constructor
-	 *
-	 * 
-	 * @since 1.0
-	 */
-	public T_VIEW_LONGCHAR() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+  /**
+   * Class constructor
+   *
+   * @since 1.0
+   */
+  public T_VIEW_LONGCHAR() {
+    super ( );
+    // TODO Auto-generated constructor stub
+  }
 
-	/**
-	 * 
-	 * @since 1.0
-	 */
-	public String getCode() {
-		return code;
-	}
+  /**
+   * @since 1.0
+   */
+  public String getCode() {
+    return code;
+  }
 
-	/**
-	 * 
-	 * @since 1.0
-	 */
-	public void setCode(String s) {
-		code = s;
-	}
+  /**
+   * @since 1.0
+   */
+  public void setCode(String s) {
+    code = s;
+  }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	public boolean equals(Object arg0) {
-		if (arg0.getClass().equals(this.getClass())) {
-			T_VIEW_LONGCHAR t = (T_VIEW_LONGCHAR)arg0;
-			return t.getCode().equals(this.getCode());
-		}
-		else {
-			return false;
-		}
-	}
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  public boolean equals(Object arg0) {
+    if (arg0.getClass ( ).equals (this.getClass ( ))) {
+      T_VIEW_LONGCHAR t = (T_VIEW_LONGCHAR) arg0;
+      return t.getCode ( ).equals (this.getCode ( ));
+    } else {
+      return false;
+    }
+  }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	public int hashCode() {
-		return getCode().hashCode();
-	}
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  public int hashCode() {
+    return getCode ( ).hashCode ( );
+  }
 
-	/* (non-Javadoc)
-	 * @see CodeTable#getCodeString()
-	 */
-	public String getCodeString() {
-		return String.valueOf(getCode());
-	}
+  /* (non-Javadoc)
+   * @see CodeTable#getCodeString()
+   */
+  public String getCodeString() {
+    return String.valueOf (getCode ( ));
+  }
 
-	/* (non-Javadoc)
-	 * @see CodeTable#getLongText(java.util.Locale)
-	 */
-	public String getLongText(Locale locale) {
-		try {
-			return daoCodeTable.getTranslationString(getTranslationKey(), locale);
-		} catch (DataAccessException e) {
+  /* (non-Javadoc)
+   * @see CodeTable#getLongText(java.util.Locale)
+   */
+  public String getLongText(Locale locale) {
+    try {
+      return daoCodeTable.getTranslationString (getTranslationKey ( ), locale);
+    } catch (DataAccessException e) {
 //TODO we catch a Data exception here for convenience
 // since only this class does db activity to get text values		
-			logger.warn("Data Exception reading translations");
-			return null;
-		}
-	}
+      logger.warn ("Data Exception reading translations");
+      return null;
+    }
+  }
 
-	/**
-	 * 
-	 * @since 1.0
-	 */
-	public long getTranslationKey() {
-		return translationKey;
-	}
+  /**
+   * @since 1.0
+   */
+  public long getTranslationKey() {
+    return translationKey;
+  }
 
-	/**
-	 * 
-	 * @since 1.0
-	 */
-	public void setTranslationKey(long i) {
-		translationKey = i;
-	}
-	
-	public void setExternalCode(Object extCode) {
-		if(extCode instanceof String){
-			code = (String)extCode;
-		} 
-	}
+  /**
+   * @since 1.0
+   */
+  public void setTranslationKey(long i) {
+    translationKey = i;
+  }
 
-	public int getNextNumber() throws DataAccessException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+  public void setExternalCode(Object extCode) {
+    if (extCode instanceof String) {
+      code = (String) extCode;
+    }
+  }
+
+  public int getNextNumber() throws DataAccessException {
+    // TODO Auto-generated method stub
+    return 0;
+  }
 
 }
