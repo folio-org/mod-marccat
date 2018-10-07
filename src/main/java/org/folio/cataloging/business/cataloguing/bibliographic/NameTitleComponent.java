@@ -6,29 +6,30 @@ package org.folio.cataloging.business.cataloguing.bibliographic;
  */
 public abstract class NameTitleComponent extends BibliographicAccessPoint {
 
-	protected int nameTitleHeadingNumber = 0;
+  protected int nameTitleHeadingNumber = 0;
 
-	public NameTitleComponent() {}
+  public NameTitleComponent() {
+  }
 
-	/**
-	 * Class constructor
-	 *
-	 * @param itemNbr
-	 * @since 1.0
-	 */
-	public NameTitleComponent(final int itemNbr) {
-		super(itemNbr);
-	}
+  /**
+   * Class constructor
+   *
+   * @param itemNbr
+   * @since 1.0
+   */
+  public NameTitleComponent(final int itemNbr) {
+    super (itemNbr);
+  }
 
-	public int getNameTitleHeadingNumber() {
-		return nameTitleHeadingNumber;
-	}
+  public int getNameTitleHeadingNumber() {
+    return nameTitleHeadingNumber;
+  }
 
-	public void setNameTitleHeadingNumber(final int i) {
-		nameTitleHeadingNumber = i;
-	}
+  public void setNameTitleHeadingNumber(final int i) {
+    nameTitleHeadingNumber = i;
+  }
 
-	public boolean isPartOfNameTitle() {
-		return getNameTitleHeadingNumber() != 0;
-	}
+  public boolean isPartOfNameTitle() {
+    return getNameTitleHeadingNumber ( ) != 0;
+  }
 }

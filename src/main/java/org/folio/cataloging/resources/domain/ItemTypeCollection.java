@@ -12,63 +12,57 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "itemTypes" })
+@JsonPropertyOrder({"itemTypes"})
 public class ItemTypeCollection {
 
-    /**
-     * 
-     * (Required)
-     * 
-     */
-    @JsonProperty("itemTypes")
-    @Valid
-    @NotNull
-    private List<ItemType> itemTypes = new ArrayList<ItemType>();
+  /**
+   * (Required)
+   */
+  @JsonProperty("itemTypes")
+  @Valid
+  @NotNull
+  private List <ItemType> itemTypes = new ArrayList <ItemType> ( );
 
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  @JsonIgnore
+  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
 
-    /**
-     * 
-     * (Required)
-     * 
-     * @return
-     *     The itemTypes
-     */
-    @JsonProperty("itemTypes")
-    public List<ItemType> getItemTypes() {
-        return itemTypes;
-    }
+  /**
+   * (Required)
+   *
+   * @return The itemTypes
+   */
+  @JsonProperty("itemTypes")
+  public List <ItemType> getItemTypes() {
+    return itemTypes;
+  }
 
-    /**
-     * 
-     * (Required)
-     * 
-     * @param itemTypes
-     *     The itemTypes
-     */
-    @JsonProperty("itemTypes")
-    public void setItemTypes(List<ItemType> itemTypes) {
-        this.itemTypes = itemTypes;
-    }
+  /**
+   * (Required)
+   *
+   * @param itemTypes The itemTypes
+   */
+  @JsonProperty("itemTypes")
+  public void setItemTypes(List <ItemType> itemTypes) {
+    this.itemTypes = itemTypes;
+  }
 
-    public ItemTypeCollection withItemTypes(List<ItemType> itemTypes) {
-        this.itemTypes = itemTypes;
-        return this;
-    }
+  public ItemTypeCollection withItemTypes(List <ItemType> itemTypes) {
+    this.itemTypes = itemTypes;
+    return this;
+  }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
+  @JsonAnyGetter
+  public Map <String, Object> getAdditionalProperties() {
+    return this.additionalProperties;
+  }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
+  @JsonAnySetter
+  public void setAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+  }
 
-    public ItemTypeCollection withAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-        return this;
-    }
+  public ItemTypeCollection withAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+    return this;
+  }
 }

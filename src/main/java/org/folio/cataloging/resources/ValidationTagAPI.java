@@ -23,28 +23,28 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
 public class ValidationTagAPI extends BaseResource {
 
-    @ApiOperation(value = "Returns tag marc encoding associated with the given data.")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Method successfully returned the requested tag marc encoding."),
-            @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 414, message = "Request-URI Too Long"),
-            @ApiResponse(code = 500, message = "System internal failure occurred.")
-    })
-    @GetMapping("/validation-tag")
-    public TagMarcEncoding getTagMarcEncoding(
-            @RequestParam final Integer categoryCode,
-            @RequestParam final Integer code1,
-            @RequestParam final Integer code2,
-            @RequestParam final Integer code3,
-            @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+  @ApiOperation(value = "Returns tag marc encoding associated with the given data.")
+  @ApiResponses(value = {
+    @ApiResponse(code = 200, message = "Method successfully returned the requested tag marc encoding."),
+    @ApiResponse(code = 400, message = "Bad Request"),
+    @ApiResponse(code = 414, message = "Request-URI Too Long"),
+    @ApiResponse(code = 500, message = "System internal failure occurred.")
+  })
+  @GetMapping("/validation-tag")
+  public TagMarcEncoding getTagMarcEncoding(
+    @RequestParam final Integer categoryCode,
+    @RequestParam final Integer code1,
+    @RequestParam final Integer code2,
+    @RequestParam final Integer code3,
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
 
-        return doGet((storageService, configuration) -> {
-            final int wrapCode2 =  (code2 == null)? -1: code2;
-            final int wrapCode3 =  (code3 == null)? -1: code3;
+    return doGet ((storageService, configuration) -> {
+      final int wrapCode2 = (code2 == null) ? -1 : code2;
+      final int wrapCode3 = (code3 == null) ? -1 : code3;
 
-            final TagMarcEncoding tagMarcEncoding = storageService.getTagMarcEncoding(categoryCode, code1, wrapCode2, wrapCode3);
-            return tagMarcEncoding;
+      final TagMarcEncoding tagMarcEncoding = storageService.getTagMarcEncoding (categoryCode, code1, wrapCode2, wrapCode3);
+      return tagMarcEncoding;
 
-        }, tenant, configurator);
-    }
+    }, tenant, configurator);
+  }
 }

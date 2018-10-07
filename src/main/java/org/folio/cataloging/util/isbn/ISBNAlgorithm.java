@@ -1,12 +1,10 @@
+package org.folio.cataloging.util.isbn;
 
-import org.folio.cataloging.util.isbn.GlobalConst;
-import org.folio.cataloging.util.isbn.ISBNHyphenAppender;
-import org.folio.cataloging.util.isbn.ISBNUtils;
+import org.folio.cataloging.F;
+import org.folio.cataloging.log.Log;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Function;
-import java.util.regex.Pattern;
+
+import java.util.*;
 import java.util.stream.IntStream;
 
 /**
@@ -15,12 +13,12 @@ import java.util.stream.IntStream;
  */
 public class ISBNAlgorithm {
 
-    static int n = 0;
-    static int v = 0;
-    static boolean ErrorOccurred = false;
-    private Function<String, String> mutateQueryWithConversion;
-    private static String REGEX = "[^\\dX]";
-    private static Pattern NON_ISBN_CHARACTERS = Pattern.compile( REGEX );
+    private final static Log LOGGER = new Log (F.class);
+
+    private static int n = 0;
+    private static int v = 0;
+    private static boolean ErrorOccurred = false;
+    private ISBNValidator isbnValidator = new ISBNValidator ();
 
     /**
      * Il metodo converte il codice org.folio.cataloging.util.isbn.ISBNAlgorithm da 10 a 13 caratteri e viceversa e ritorna una lista di valori convertiti
@@ -29,7 +27,7 @@ public class ISBNAlgorithm {
      * @param isbnCode
      * @return
      */
-    public static List <String> isbnConvertor(String isbnCode) {
+    public  List <String> isbnConvertor(String isbnCode) {
         List <String> isbnList = new ArrayList <> ( );
         if (isbnCode.length ( ) == 10) {
             isbnList.add (ISBN1013 (isbnCode, "978"));
@@ -40,74 +38,80 @@ public class ISBNAlgorithm {
         return isbnList;
     }
 
-     static int CharToInt(char a) {
+     int CharToInt(char a) {
         return Integer.parseInt (String.valueOf (a));
     }
 
-     static String ISBN1310(String ISBN)
-    {
-        String isbn13 =  ISBN.substring(3, 12);
+    public String ISBN1310(String ISBN) {
+        isbnValidator = new ISBNValidator ();
+        if(!isbnValidator.checkChecksumISBN13 (ISBN)) return "error";
+        String isbn13 = ISBN.substring (3, 12);
 
         IntStream
-                .range(0, 9)
-                .forEach(i -> {
-            if (!ErrorOccurred) {
-                v = CharToInt(isbn13.charAt(i));
-                if (v == -1){
-                    ErrorOccurred = true;
-                } else {
-                    n += (10 - i) * v;
-                }
-            }
-        });
+                .range (0, 9)
+                .forEach (i -> {
+                    if (!ErrorOccurred) {
+                        v = CharToInt (isbn13.charAt (i));
+                        if (v == -1) {
+                            ErrorOccurred = true;
+                        } else {
+                            n += (10 - i) * v;
+                        }
+                    }
+                });
 
         if (ErrorOccurred) return "ERROR";
 
         n = 11 - (n % 11);
-        return isbn13 + GlobalConst.CheckDigits.substring(n, n + 1);
+        return isbn13 + GlobalConst.CheckDigits.substring (n, n + 1);
     }
 
-     public static String ISBN1013(String ISBN, String prefix)
-    {
-        String s12;
-        int i, n, v;
-        boolean ErrorOccurred;
-        ErrorOccurred = false;
-        s12 = prefix + ISBN.substring(0, 9);
-        n = 0;
-        for (i=0; i<12; i++)
-        {
-            if (!ErrorOccurred) {
-                v = CharToInt(s12.charAt(i));
-                if (v==-1){
-                    ErrorOccurred = true;
-                } else {
-                    if ((i % 2)==0){
-                        n = n + v;
-                    } else {
-                        n = n + 3*v;
+    public String ISBN1013(String ISBN, String prefix) {
+        if(isbnValidator.checkChecksumISBN10 (ISBN)) return "error";
+        String s12 = prefix + ISBN.substring (0, 9);
+        IntStream
+                .range (0, 12)
+                .forEach (i -> {
+                    if (!ErrorOccurred) {
+                        v = CharToInt (s12.charAt (i));
+                        if (v == -1) {
+                            ErrorOccurred = true;
+                        } else {
+                            if ((i % 2) == 0) {
+                                n = n + v;
+                            } else {
+                                n = n + 3 * v;
+                            }
+                        }
                     }
-                }
-            }
-        }
+                });
+
         if (ErrorOccurred) return "ERROR";
 
         n = n % 10;
-        if (n!=0) {
+        if (n != 0) {
             n = 10 - n;
         }
-        return s12 + GlobalConst.CheckDigits.substring(n, n+1);
+        return s12 + GlobalConst.CheckDigits.substring (n, n + 1);
     }
 
-    public static String changeQueryWithIsbnConvertion(String query) {
+    public  String convert(String isbn) {
+         switch (isbn.length ()){
+             case 10: return ISBN1013 (isbn,"978");
+             case 13: return ISBN1310 (isbn);
+         }
+         return isbn;
+    }
+
+
+        public  String changeQueryWithIsbnConvertion(String query) {
         StringBuilder builder = new StringBuilder ( );
         String[] parts = query.split (GlobalConst.SPACE);
-        for ( int i = 0; i < parts.length; i++ ) {
+        for ( int i = 0; i < parts.length; i++ ) { // da chiedere ora è inutile ciclare con parts.length = 2, fa un ciclo
             if (GlobalConst.BN_INDEX.equalsIgnoreCase (parts[i])) {
                 try {
                     List <String> isbnList;
-                    String isbnCode;
-                    isbnCode = parts[i + 1].replaceAll (GlobalConst.HYPHENS, GlobalConst.NO_SPACE);
+                    String isbnCode = parts[i + 1].replaceAll (GlobalConst.HYPHENS, GlobalConst.NO_SPACE);
                     System.out.println ("BN code ----------> " + isbnCode);
                     isbnList = isbnConvertor (isbnCode);
 
@@ -123,14 +127,12 @@ public class ISBNAlgorithm {
                         builder.append (GlobalConst.CLOSE_PARENTHESIS).append (GlobalConst.SPACE);
                         i++;
                     } else {
-                        //logger.debug ("Error in the query - incorrect isbn, can not make 10_13 character conversion " + isbnCode);
-                        System.out.println ("Error in the query - incorrect isbn, can not make 10_13 character conversion : " + isbnCode);
+                        LOGGER.debug ("Error in the query - incorrect isbn, can not make 10_13 character conversion " + isbnCode);
                         return query;
                     }
 
                 } catch (Exception e) {
-                    //logger.debug ("Error in query syntax - 10_13 characters can not be converted " + e);
-                    System.out.println ("Error in query syntax - 10_13 characters can not be converted " + e);
+                    LOGGER.debug ("Error in query syntax - 10_13 characters can not be converted " + e);
                     return query;
                 }
 
@@ -142,10 +144,14 @@ public class ISBNAlgorithm {
     }
 
     public static void main(String[] args) throws Exception {
-
-        System.out.println (ISBN1310 ("9878817101646"));
-
-
+        ISBNAlgorithm isbnAlgorithm = new ISBNAlgorithm();
+        ISBNHyphenAppender isbnHyphenAppender = new ISBNHyphenAppender ();
+        System.out.println (isbnHyphenAppender.appendHyphenToISBN13 (isbnAlgorithm.ISBN1013 ("8817101648","978")));
+        ISBNValidator isbnValidator = new ISBNValidator();
+        System.out.println (isbnValidator.checkChecksumISBN13 ("978-88-17-10164-6"));
     }
 }
 //8817101648
+//8817101648
+//88-17-10164-8
+//978-88-17-10164-6

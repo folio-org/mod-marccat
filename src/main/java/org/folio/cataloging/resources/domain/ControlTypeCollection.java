@@ -12,63 +12,57 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "controlTypes" })
+@JsonPropertyOrder({"controlTypes"})
 public class ControlTypeCollection {
 
-    /**
-     * 
-     * (Required)
-     * 
-     */
-    @JsonProperty("controlTypes")
-    @Valid
-    @NotNull
-    private List<ControlType> controlTypes = new ArrayList<ControlType>();
+  /**
+   * (Required)
+   */
+  @JsonProperty("controlTypes")
+  @Valid
+  @NotNull
+  private List <ControlType> controlTypes = new ArrayList <ControlType> ( );
 
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  @JsonIgnore
+  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
 
-    /**
-     * 
-     * (Required)
-     * 
-     * @return
-     *     The controlTypes
-     */
-    @JsonProperty("controlTypes")
-    public List<ControlType> getControlTypes() {
-        return controlTypes;
-    }
+  /**
+   * (Required)
+   *
+   * @return The controlTypes
+   */
+  @JsonProperty("controlTypes")
+  public List <ControlType> getControlTypes() {
+    return controlTypes;
+  }
 
-    /**
-     * 
-     * (Required)
-     * 
-     * @param controlTypes
-     *     The controlTypes
-     */
-    @JsonProperty("controlTypes")
-    public void setControlTypes(List<ControlType> controlTypes) {
-        this.controlTypes = controlTypes;
-    }
+  /**
+   * (Required)
+   *
+   * @param controlTypes The controlTypes
+   */
+  @JsonProperty("controlTypes")
+  public void setControlTypes(List <ControlType> controlTypes) {
+    this.controlTypes = controlTypes;
+  }
 
-    public ControlTypeCollection withControlTypes(List<ControlType> controlTypes) {
-        this.controlTypes = controlTypes;
-        return this;
-    }
+  public ControlTypeCollection withControlTypes(List <ControlType> controlTypes) {
+    this.controlTypes = controlTypes;
+    return this;
+  }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
+  @JsonAnyGetter
+  public Map <String, Object> getAdditionalProperties() {
+    return this.additionalProperties;
+  }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
+  @JsonAnySetter
+  public void setAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+  }
 
-    public ControlTypeCollection withAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-        return this;
-    }
+  public ControlTypeCollection withAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+    return this;
+  }
 }

@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Jun 11, 2004
- * 
+ *
  * PasswordDuplicatesPreviousException.java
  */
 package org.folio.cataloging.business.authentication;
@@ -10,40 +10,41 @@ package org.folio.cataloging.business.authentication;
 /**
  * Denotes an attempt to reuse a previous password when
  * account settings restrict this
+ *
  * @author paulm
  */
 public class PasswordDuplicatesPreviousException
-	extends AuthenticationException {
+  extends AuthenticationException {
 
-	/**
-	 * 
-	 */
-	public PasswordDuplicatesPreviousException() {
-		super();
-	}
+  /**
+   *
+   */
+  public PasswordDuplicatesPreviousException() {
+    super ( );
+  }
 
-	/**
-	 * @param message
-	 */
-	public PasswordDuplicatesPreviousException(String message) {
-		super(message);
-	}
+  /**
+   * @param message
+   */
+  public PasswordDuplicatesPreviousException(String message) {
+    super (message);
+  }
 
-	/**
-	 * @param message
-	 * @param cause
-	 */
-	public PasswordDuplicatesPreviousException(
-		String message,
-		Throwable cause) {
-		super(message, cause);
-	}
+  /**
+   * @param message
+   * @param cause
+   */
+  public PasswordDuplicatesPreviousException(
+    String message,
+    Throwable cause) {
+    super (message, cause);
+  }
 
-	/**
-	 * @param cause
-	 */
-	public PasswordDuplicatesPreviousException(Throwable cause) {
-		super(cause);
-	}
+  /**
+   * @param cause
+   */
+  public PasswordDuplicatesPreviousException(Throwable cause) {
+    super (cause);
+  }
 
 }

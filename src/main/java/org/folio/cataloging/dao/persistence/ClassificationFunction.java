@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Jan 14, 2005
- * 
+ *
  * ClassificationFunction.java
  */
 package org.folio.cataloging.dao.persistence;

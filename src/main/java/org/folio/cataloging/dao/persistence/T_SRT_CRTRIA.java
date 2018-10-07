@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Jul 28, 2005
- * 
+ *
  * T_SRT_CRTRIA.java
  */
 package org.folio.cataloging.dao.persistence;

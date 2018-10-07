@@ -18,101 +18,97 @@ import java.util.Vector;
 
 /**
  * Handles data access to ORG
- * 
+ *
  * @author paulm, elena
  * @author natasciab
  * @version %I%, %G%
  * @since 1.0
  */
 public class DAOOrganisationHierarchy extends HibernateUtil {
-	private Log logger = LogFactory.getLog(DAOOrganisationHierarchy.class);
+  private Log logger = LogFactory.getLog (DAOOrganisationHierarchy.class);
 
-	public ORG_HRCHY load(final Session session, final int branchLibrary) throws DataAccessException {
-		return (ORG_HRCHY) get(session, ORG_HRCHY.class, new Integer(branchLibrary));
-	}
+  public ORG_HRCHY load(final Session session, final int branchLibrary) throws DataAccessException {
+    return (ORG_HRCHY) get (session, ORG_HRCHY.class, new Integer (branchLibrary));
+  }
 
-	/**
-	 * @param orgNbr
-	 *            is the organisation number of the branch or library
-	 * @return the name of the library or branch with this number access to
-	 *         ORG_NME table
-	 * @since 1.0
-	 */
-	public String getLibOrBranchName(int orgNbr, Locale locale)
-		throws DataAccessException {
+  /**
+   * @param orgNbr is the organisation number of the branch or library
+   * @return the name of the library or branch with this number access to
+   * ORG_NME table
+   * @since 1.0
+   */
+  public String getLibOrBranchName(int orgNbr, Locale locale)
+    throws DataAccessException {
 
-		String result = "";
+    String result = "";
 
-		ORG_NME orgNmeRegister =
-			(ORG_NME) load(ORG_NME.class, new Integer(orgNbr));
-		if (locale
-			.getLanguage()
-			.equals(Defaults.getString("amicus.codeTable.language1"))) {
-			result = orgNmeRegister.getOrganisationEnglishName();
-		} else {
-			result = orgNmeRegister.getOrganisationFrenchName();
-		}
-		return result;
-	}
+    ORG_NME orgNmeRegister =
+      (ORG_NME) load (ORG_NME.class, new Integer (orgNbr));
+    if (locale
+      .getLanguage ( )
+      .equals (Defaults.getString ("amicus.codeTable.language1"))) {
+      result = orgNmeRegister.getOrganisationEnglishName ( );
+    } else {
+      result = orgNmeRegister.getOrganisationFrenchName ( );
+    }
+    return result;
+  }
 
-	/**
-	 * @param orgNbr
-	 *            is the organisation number of the branch or library
-	 * @return the symbol of the library or branch with this number to LIB table
-	 * @since 1.0
-	 */
-	public String getLibOrBranchSymbol(int orgNbr) throws DataAccessException {
-		String result = new String("");
+  /**
+   * @param orgNbr is the organisation number of the branch or library
+   * @return the symbol of the library or branch with this number to LIB table
+   * @since 1.0
+   */
+  public String getLibOrBranchSymbol(int orgNbr) throws DataAccessException {
+    String result = new String ("");
 
-		LIB libRegister = (LIB) load(LIB.class, new Integer(orgNbr));
-		result = libRegister.getLibrarySymbolCode();
+    LIB libRegister = (LIB) load (LIB.class, new Integer (orgNbr));
+    result = libRegister.getLibrarySymbolCode ( );
 
-		return result;
-	}
+    return result;
+  }
 
-	/**
-	 * 
-	 * @param parentOrgNbr
-	 *            identity number of the library
-	 * @return a list of branches belong to a library access to ORG_HRCHY
-	 * @since 1.0
-	 */
-	public List getListOfBranchesFromALibrary(int parentOrgNbr) {
-		List listList = null;
-		List result = new Vector();
+  /**
+   * @param parentOrgNbr identity number of the library
+   * @return a list of branches belong to a library access to ORG_HRCHY
+   * @since 1.0
+   */
+  public List getListOfBranchesFromALibrary(int parentOrgNbr) {
+    List listList = null;
+    List result = new Vector ( );
 
-		try {
-			Session s = currentSession();
+    try {
+      Session s = currentSession ( );
 
-			listList =
-				s.find(
-					"from ORG_HRCHY as o where o.PARNT_ORG_NBR = "
-						+ new Integer(parentOrgNbr)
-						+ "and o.ORG_NBR <> "
-						+ new Integer(parentOrgNbr));
-			Iterator iter = listList.iterator();
-			while (iter.hasNext()) {
-				ORG_HRCHY rawList = (ORG_HRCHY) iter.next();
+      listList =
+        s.find (
+          "from ORG_HRCHY as o where o.PARNT_ORG_NBR = "
+            + new Integer (parentOrgNbr)
+            + "and o.ORG_NBR <> "
+            + new Integer (parentOrgNbr));
+      Iterator iter = listList.iterator ( );
+      while (iter.hasNext ( )) {
+        ORG_HRCHY rawList = (ORG_HRCHY) iter.next ( );
 
-				ORG_NME orgNmeRegister =
-					(ORG_NME) s.get(
-						ORG_NME.class,
-						new Integer(rawList.getORG_NBR()));
+        ORG_NME orgNmeRegister =
+          (ORG_NME) s.get (
+            ORG_NME.class,
+            new Integer (rawList.getORG_NBR ( )));
 
-				result.add(orgNmeRegister);
-			}
-		} catch (HibernateException e) {
-			// TODO Treat exception
-			logger.warn("HibernateException loading cross references");
-			//				return null;
-		} catch (DataAccessException e) {
-			// TODO e.printStackTrace() is evil. If you catch, handle the
-			// exception.
-			e.printStackTrace();
+        result.add (orgNmeRegister);
+      }
+    } catch (HibernateException e) {
+      // TODO Treat exception
+      logger.warn ("HibernateException loading cross references");
+      //				return null;
+    } catch (DataAccessException e) {
+      // TODO e.printStackTrace() is evil. If you catch, handle the
+      // exception.
+      e.printStackTrace ( );
 
-		}
-		return result;
-	}
+    }
+    return result;
+  }
 
 	/*
 
@@ -254,46 +250,45 @@ public class DAOOrganisationHierarchy extends HibernateUtil {
 		return result;
 	}
 */
-	/**
-	 * 
-	 * @param locale
-	 *            to select the language and library name
-	 * @return org numer access to ORG_HRCHY
-	 * @since 1.0
-	 */
 
-	public int getOrgNumberByName(String libName, Locale locale) {
-		List listList = null;
-		int result = 0;
-		String field = new String("");
+  /**
+   * @param locale to select the language and library name
+   * @return org numer access to ORG_HRCHY
+   * @since 1.0
+   */
 
-		if (locale.getLanguage().equals("en")) {
-			field = "organisationEnglishName";
-		} else
-			field = "organisationFrenchName";
+  public int getOrgNumberByName(String libName, Locale locale) {
+    List listList = null;
+    int result = 0;
+    String field = new String ("");
 
-		try {
-			Session s = currentSession();
+    if (locale.getLanguage ( ).equals ("en")) {
+      field = "organisationEnglishName";
+    } else
+      field = "organisationFrenchName";
 
-			listList =
-				s.find("from ORG_NME as o where o." + field + "= " + libName);
+    try {
+      Session s = currentSession ( );
 
-			Iterator iter = listList.iterator();
-			while (iter.hasNext()) {
-				ORG_NME rawList = (ORG_NME) iter.next();
-				result = rawList.getOrganisationNumber();
-			}
-		} catch (HibernateException e) {
-			// TODO Treat exception
-			logger.warn("HibernateException loading cross references");
-			//				return null;
-		} catch (DataAccessException e) {
-			// TODO e.printStackTrace() is evil. If you catch, handle the
-			// exception.
-			e.printStackTrace();
+      listList =
+        s.find ("from ORG_NME as o where o." + field + "= " + libName);
 
-		}
-		return result;
-	}
+      Iterator iter = listList.iterator ( );
+      while (iter.hasNext ( )) {
+        ORG_NME rawList = (ORG_NME) iter.next ( );
+        result = rawList.getOrganisationNumber ( );
+      }
+    } catch (HibernateException e) {
+      // TODO Treat exception
+      logger.warn ("HibernateException loading cross references");
+      //				return null;
+    } catch (DataAccessException e) {
+      // TODO e.printStackTrace() is evil. If you catch, handle the
+      // exception.
+      e.printStackTrace ( );
+
+    }
+    return result;
+  }
 
 }

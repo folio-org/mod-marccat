@@ -28,33 +28,33 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
 public class IndexCategoryAPI extends BaseResource {
 
-    private Function<Avp<Integer>, Category> convertValueLabelToCategory = source -> {
-        final Category category = new Category();
-        category.setCode(source.getValue());
-        category.setDescription(source.getLabel());
-        return category;
-    };
+  private Function <Avp <Integer>, Category> convertValueLabelToCategory = source -> {
+    final Category category = new Category ( );
+    category.setCode (source.getValue ( ));
+    category.setDescription (source.getLabel ( ));
+    return category;
+  };
 
-    @ApiOperation(value = "Returns all index categories associated with a given language")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Method successfully returned the requested index categories."),
-            @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 414, message = "Request-URI Too Long"),
-            @ApiResponse(code = 500, message = "System internal failure occurred.")
-    })
-    @GetMapping("/index-categories")
-    public IndexCategoryCollection getIndexCategories(
-            @RequestParam final CategoryType type,
-            @RequestParam final String lang,
-            @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-        return doGet((storageService, configuration) -> {
-                final IndexCategoryCollection container = new IndexCategoryCollection();
-                container.setCategories(
-                        storageService.getIndexCategories(type.name(),lang)
-                                .stream()
-                                .map(convertValueLabelToCategory)
-                                .collect(toList()));
-                return container;
-        }, tenant, configurator);
-    }
+  @ApiOperation(value = "Returns all index categories associated with a given language")
+  @ApiResponses(value = {
+    @ApiResponse(code = 200, message = "Method successfully returned the requested index categories."),
+    @ApiResponse(code = 400, message = "Bad Request"),
+    @ApiResponse(code = 414, message = "Request-URI Too Long"),
+    @ApiResponse(code = 500, message = "System internal failure occurred.")
+  })
+  @GetMapping("/index-categories")
+  public IndexCategoryCollection getIndexCategories(
+    @RequestParam final CategoryType type,
+    @RequestParam final String lang,
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    return doGet ((storageService, configuration) -> {
+      final IndexCategoryCollection container = new IndexCategoryCollection ( );
+      container.setCategories (
+        storageService.getIndexCategories (type.name ( ), lang)
+          .stream ( )
+          .map (convertValueLabelToCategory)
+          .collect (toList ( )));
+      return container;
+    }, tenant, configurator);
+  }
 }

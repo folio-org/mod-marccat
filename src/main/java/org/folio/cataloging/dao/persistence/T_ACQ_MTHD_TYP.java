@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Jan 31, 2005
- * 
+ *
  * T_ACQ_MTHD_TYP.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -14,15 +14,14 @@ package org.folio.cataloging.dao.persistence;
  */
 public class T_ACQ_MTHD_TYP extends T_SINGLE_LONGCHAR {
 
-	/**
-	 * Class constructor
-	 *
-	 * 
-	 * @since 1.0
-	 */
-	public T_ACQ_MTHD_TYP() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+  /**
+   * Class constructor
+   *
+   * @since 1.0
+   */
+  public T_ACQ_MTHD_TYP() {
+    super ( );
+    // TODO Auto-generated constructor stub
+  }
 
 }

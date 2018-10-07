@@ -9,25 +9,22 @@ import java.util.List;
 public interface ISBNValidation {
 
   /**
-   *
    * @param isbn
    * @return
    */
   boolean checkChecksumISBN10(String isbn);
 
   /**
-   *
    * @param isbn
    * @return
    */
   boolean checkChecksumISBN13(String isbn);
 
   /**
-   *
    * @param isbnCode
    * @return
    */
-  List<String> isbnConvertor(String isbnCode);
+  List <String> isbnConvertor(String isbnCode);
 
   /**
    * @param ISBN10
@@ -36,7 +33,6 @@ public interface ISBNValidation {
   String appendHyphenToISBN10(String ISBN10);
 
   /**
-   *
    * @param ISBN13
    * @return
    */

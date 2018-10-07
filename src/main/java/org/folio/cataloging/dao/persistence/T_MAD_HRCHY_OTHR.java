@@ -13,12 +13,11 @@ package org.folio.cataloging.dao.persistence;
  * <LI><B>Etichetta Campo=</B>nessuna
  * <LI><B>Descrizione=</B>Tutti i possibili valori di Livello Gerarchico ALTRO (OT)
  * </UL>
-
  */
 public class T_MAD_HRCHY_OTHR extends T_SINGLE_LONGCHAR {
 
-	public T_MAD_HRCHY_OTHR() {
-		super();
-	}
+  public T_MAD_HRCHY_OTHR() {
+    super ( );
+  }
 
 }

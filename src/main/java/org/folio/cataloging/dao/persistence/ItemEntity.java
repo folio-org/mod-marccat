@@ -20,338 +20,307 @@ import java.util.Date;
  */
 public abstract class ItemEntity implements Persistence, Serializable {
 
-	private Integer amicusNumber = null;
+  protected String authenticationCenterStringText;
+  protected String cataloguingSourceStringText;
+  protected char characterCodingSchemeCode = ' ';
+  protected Date dateOfLastTransaction = new Date ( );
+  protected char encodingLevel = ' ';
+  protected Date enteredOnFileDate = new Date ( );
+  protected String geographicAreaStringText;
+  protected String languageOfCataloguing;
+  protected PersistenceState persistenceState = new PersistenceState ( );
+  protected char recordStatusCode = 'n';
+  protected String timePeriodStringText;
+  protected String typeOfDateTimeCode = "";
+  protected char verificationLevel = ' ';
+  private Integer amicusNumber = null;
 
-	protected String authenticationCenterStringText;
+  /**
+   * @since 1.0
+   */
+  public void evict() throws DataAccessException {
+    persistenceState.evict (this);
+  }
 
-	protected String cataloguingSourceStringText;
+  /**
+   * @since 1.0
+   */
+  public Integer getAmicusNumber() {
+    return amicusNumber;
+  }
 
-	protected char characterCodingSchemeCode = ' ';
+  /**
+   * @since 1.0
+   */
+  public void setAmicusNumber(Integer integer) {
+    amicusNumber = integer;
+  }
 
-	protected Date dateOfLastTransaction = new Date();
+  /**
+   *
+   */
+  public String getAuthenticationCenterStringText() {
+    return authenticationCenterStringText;
+  }
 
-	protected char encodingLevel = ' ';
+  /**
+   *
+   */
+  public void setAuthenticationCenterStringText(String string) {
+    authenticationCenterStringText = string;
+  }
 
-	protected Date enteredOnFileDate = new Date();
+  /**
+   *
+   */
+  public String getCataloguingSourceStringText() {
+    return cataloguingSourceStringText;
+  }
 
-	protected String geographicAreaStringText;
+  /**
+   *
+   */
+  public void setCataloguingSourceStringText(String string) {
+    cataloguingSourceStringText = string;
+  }
 
-	protected String languageOfCataloguing;
+  /**
+   *
+   */
+  public char getCharacterCodingSchemeCode() {
+    return characterCodingSchemeCode;
+  }
 
-	protected PersistenceState persistenceState = new PersistenceState();
+  /**
+   *
+   */
+  public void setCharacterCodingSchemeCode(char c) {
+    characterCodingSchemeCode = c;
+  }
 
-	protected char recordStatusCode = 'n';
+  /**
+   *
+   */
+  public Date getDateOfLastTransaction() {
+    return dateOfLastTransaction;
+  }
 
-	protected String timePeriodStringText;
+  /**
+   *
+   */
+  public void setDateOfLastTransaction(Date date) {
+    dateOfLastTransaction = date;
+  }
 
-	protected String typeOfDateTimeCode = "";
+  /**
+   *
+   */
+  public char getEncodingLevel() {
+    return encodingLevel;
+  }
 
-	protected char verificationLevel = ' ';
+  /**
+   *
+   */
+  public void setEncodingLevel(char c) {
+    encodingLevel = c;
+  }
 
-	/**
-		 *
-		 * @since 1.0
-		 */
-	public void evict() throws DataAccessException {
-		persistenceState.evict(this);
-	}
+  public Date getEnteredOnFileDate() {
+    return enteredOnFileDate;
+  }
 
-	/**
-	 *
-	 * @since 1.0
-	 */
-	public Integer getAmicusNumber() {
-		return amicusNumber;
-	}
+  public void setEnteredOnFileDate(Date date) {
+    enteredOnFileDate = date;
+  }
 
-	/**
-		 *
-		 */
-	public String getAuthenticationCenterStringText() {
-		return authenticationCenterStringText;
-	}
+  public String getEnteredOnFileDateYYMMDD() {
+    Format formatter = new SimpleDateFormat ("yyMMdd");
+    String result =
+      formatter.format (getEnteredOnFileDate ( ));
+    return result;
+  }
 
-	/**
-		 *
-		 */
-	public String getCataloguingSourceStringText() {
-		return cataloguingSourceStringText;
-	}
+  public String getEnteredOnFileDateYYYYMMDD() {
+    Format formatter = new SimpleDateFormat ("yyyyMMdd");
+    String result =
+      formatter.format (getEnteredOnFileDate ( ));
+    return result;
+  }
 
-	/**
-		 *
-		 */
-	public char getCharacterCodingSchemeCode() {
-		return characterCodingSchemeCode;
-	}
+  /**
+   * @since 1.0
+   */
+  public String getGeographicAreaStringText() {
+    return geographicAreaStringText;
+  }
 
-	/**
-		 *
-		 */
-	public Date getDateOfLastTransaction() {
-		return dateOfLastTransaction;
-	}
+  /**
+   * @since 1.0
+   */
+  public void setGeographicAreaStringText(String string) {
+    geographicAreaStringText = string;
+  }
 
-	/**
-		 *
-		 */
-	public char getEncodingLevel() {
-		return encodingLevel;
-	}
+  /**
+   *
+   */
+  public String getLanguageOfCataloguing() {
+    return languageOfCataloguing;
+  }
 
-	public Date getEnteredOnFileDate() {
-		return enteredOnFileDate;
-	}
+  /**
+   *
+   */
+  public void setLanguageOfCataloguing(String string) {
+    languageOfCataloguing = string;
+  }
 
-	public String getEnteredOnFileDateYYMMDD() {
-		Format formatter = new SimpleDateFormat("yyMMdd");
-		String result =
-			formatter.format(getEnteredOnFileDate());
-		return result;
-	}
+  /**
+   *
+   */
+  public char getRecordStatusCode() {
+    return recordStatusCode;
+  }
 
-	public String getEnteredOnFileDateYYYYMMDD() {
-		Format formatter = new SimpleDateFormat("yyyyMMdd");
-		String result =
-			formatter.format(getEnteredOnFileDate());
-		return result;
-	}
+  /**
+   *
+   */
+  public void setRecordStatusCode(char c) {
+    recordStatusCode = c;
+  }
 
-	/**
-		 *
-		 * @since 1.0
-		 */
-	public String getGeographicAreaStringText() {
-		return geographicAreaStringText;
-	}
+  /**
+   *
+   */
+  public String getTimePeriodStringText() {
+    return timePeriodStringText;
+  }
 
-	/**
-		 *
-		 */
-	public String getLanguageOfCataloguing() {
-		return languageOfCataloguing;
-	}
+  /**
+   *
+   */
+  public void setTimePeriodStringText(String string) {
+    timePeriodStringText = string;
+  }
 
-	/**
-		 *
-		 */
-	public char getRecordStatusCode() {
-		return recordStatusCode;
-	}
+  /**
+   *
+   */
+  public String getTypeOfDateTimeCode() {
+    return typeOfDateTimeCode;
+  }
 
-	/**
-		 *
-		 */
-	public String getTimePeriodStringText() {
-		return timePeriodStringText;
-	}
+  /**
+   *
+   */
+  public void setTypeOfDateTimeCode(String s) {
+    typeOfDateTimeCode = s;
+  }
 
-	/**
-		 *
-		 */
-	public String getTypeOfDateTimeCode() {
-		return typeOfDateTimeCode;
-	}
+  /**
+   * @since 1.0
+   */
+  public int getUpdateStatus() {
+    return persistenceState.getUpdateStatus ( );
+  }
 
-	/**
-		 *
-		 * @since 1.0
-		 */
-	public int getUpdateStatus() {
-		return persistenceState.getUpdateStatus();
-	}
+  /**
+   * @since 1.0
+   */
+  public void setUpdateStatus(int i) {
+    persistenceState.setUpdateStatus (i);
+  }
 
-	/**
-		 *
-		 */
-	public char getVerificationLevel() {
-		return verificationLevel;
-	}
+  /**
+   *
+   */
+  public char getVerificationLevel() {
+    return verificationLevel;
+  }
 
-	/**
-		 *
-		 * @since 1.0
-		 */
-	public boolean isChanged() {
-		return persistenceState.isChanged();
-	}
+  /**
+   *
+   */
+  public void setVerificationLevel(char verificationLevel) {
+    this.verificationLevel = verificationLevel;
+  }
 
-	/**
-		 *
-		 * @since 1.0
-		 */
-	public boolean isDeleted() {
-		return persistenceState.isDeleted();
-	}
+  /**
+   * @since 1.0
+   */
+  public boolean isChanged() {
+    return persistenceState.isChanged ( );
+  }
 
-	/**
-		 *
-		 * @since 1.0
-		 */
-	public boolean isNew() {
-		return persistenceState.isNew();
-	}
+  /**
+   * @since 1.0
+   */
+  public boolean isDeleted() {
+    return persistenceState.isDeleted ( );
+  }
 
-	/**
-		 *
-		 * @since 1.0
-		 */
-	public void markChanged() {
-		persistenceState.markChanged();
-	}
+  /**
+   * @since 1.0
+   */
+  public boolean isNew() {
+    return persistenceState.isNew ( );
+  }
 
-	/**
-		 *
-		 * @since 1.0
-		 */
-	public void markDeleted() {
-		persistenceState.markDeleted();
-	}
+  /**
+   * @since 1.0
+   */
+  public void markChanged() {
+    persistenceState.markChanged ( );
+  }
 
-	/**
-		 *
-		 * @since 1.0
-		 */
-	public void markNew() {
-		persistenceState.markNew();
-	}
+  /**
+   * @since 1.0
+   */
+  public void markDeleted() {
+    persistenceState.markDeleted ( );
+  }
 
-	/**
-		 *
-		 * @since 1.0
-		 */
-	public void markUnchanged() {
-		persistenceState.markUnchanged();
-	}
+  /**
+   * @since 1.0
+   */
+  public void markNew() {
+    persistenceState.markNew ( );
+  }
 
-	/**
-		 *
-		 * @since 1.0
-		 */
-	public boolean onDelete(Session arg0) throws CallbackException {
-		return persistenceState.onDelete(arg0);
-	}
+  /**
+   * @since 1.0
+   */
+  public void markUnchanged() {
+    persistenceState.markUnchanged ( );
+  }
 
-	/**
-		 *
-		 * @since 1.0
-		 */
-	public void onLoad(Session arg0, Serializable arg1) {
-		persistenceState.onLoad(arg0, arg1);
-	}
+  /**
+   * @since 1.0
+   */
+  public boolean onDelete(Session arg0) throws CallbackException {
+    return persistenceState.onDelete (arg0);
+  }
 
-	/**
-		 *
-		 * @since 1.0
-		 */
-	public boolean onSave(Session arg0) throws CallbackException {
-		return persistenceState.onSave(arg0);
-	}
+  /**
+   * @since 1.0
+   */
+  public void onLoad(Session arg0, Serializable arg1) {
+    persistenceState.onLoad (arg0, arg1);
+  }
 
-	/**
-		 *
-		 * @since 1.0
-		 */
-	public boolean onUpdate(Session arg0) throws CallbackException {
-		return persistenceState.onUpdate(arg0);
-	}
+  /**
+   * @since 1.0
+   */
+  public boolean onSave(Session arg0) throws CallbackException {
+    return persistenceState.onSave (arg0);
+  }
 
-	/**
-	 *
-	 * @since 1.0
-	 */
-	public void setAmicusNumber(Integer integer) {
-		amicusNumber = integer;
-	}
-
-	/**
-		 *
-		 */
-	public void setAuthenticationCenterStringText(String string) {
-		authenticationCenterStringText = string;
-	}
-
-	/**
-		 *
-		 */
-	public void setCataloguingSourceStringText(String string) {
-		cataloguingSourceStringText = string;
-	}
-
-	/**
-		 *
-		 */
-	public void setCharacterCodingSchemeCode(char c) {
-		characterCodingSchemeCode = c;
-	}
-
-	/**
-		 *
-		 */
-	public void setDateOfLastTransaction(Date date) {
-		dateOfLastTransaction = date;
-	}
-
-	/**
-		 *
-		 */
-	public void setEncodingLevel(char c) {
-		encodingLevel = c;
-	}
-
-	public void setEnteredOnFileDate(Date date) {
-		enteredOnFileDate = date;
-	}
-
-	/**
-		 *
-		 * @since 1.0
-		 */
-	public void setGeographicAreaStringText(String string) {
-		geographicAreaStringText = string;
-	}
-
-	/**
-		 *
-		 */
-	public void setLanguageOfCataloguing(String string) {
-		languageOfCataloguing = string;
-	}
-
-	/**
-		 *
-		 */
-	public void setRecordStatusCode(char c) {
-		recordStatusCode = c;
-	}
-
-	/**
-		 *
-		 */
-	public void setTimePeriodStringText(String string) {
-		timePeriodStringText = string;
-	}
-
-	/**
-		 *
-		 */
-	public void setTypeOfDateTimeCode(String s) {
-		typeOfDateTimeCode = s;
-	}
-
-	/**
-		 *
-		 * @since 1.0
-		 */
-	public void setUpdateStatus(int i) {
-		persistenceState.setUpdateStatus(i);
-	}
-
-	/**
-		 *
-		 */
-	public void setVerificationLevel(char verificationLevel) {
-		this.verificationLevel = verificationLevel;
-	}
+  /**
+   * @since 1.0
+   */
+  public boolean onUpdate(Session arg0) throws CallbackException {
+    return persistenceState.onUpdate (arg0);
+  }
 
 }

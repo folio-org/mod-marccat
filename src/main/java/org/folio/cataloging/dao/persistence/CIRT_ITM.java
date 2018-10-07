@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on 20-jul-2004
- * 
+ *
  * CIRT_ITM.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -15,167 +15,167 @@ import java.util.Date;
  * @since 1.0
  */
 public class CIRT_ITM {
-	private int copyIdNumber;
-	private int organisationNumber;
-	private int bibItemNumber;
-	private int personNumber;
-	private String barCodeNumber;
-	private short circulationStatesticsTypeCode;
-	private Date circulationItemChargeOutDate;
-	private Date circulationItemDueDate;
-	private Date circulationItemPreviousDueDate;
-	private Date circulationItemRecallNotificationDate;
-	private Date circulationItemFirstOverDate;
-	private Date circulationItemSecondOverDate;
-	private Date circulationItemThirdOverDate;
-	private int circulationItemRenewalCenterCount;
-	private char circulationItemExtendLoanIndex;
-	private char circulationItemIllIndex;
-	private Character circulationItemTranstationIndex;
-	private Integer circulationItemChekingBranch;
+  private int copyIdNumber;
+  private int organisationNumber;
+  private int bibItemNumber;
+  private int personNumber;
+  private String barCodeNumber;
+  private short circulationStatesticsTypeCode;
+  private Date circulationItemChargeOutDate;
+  private Date circulationItemDueDate;
+  private Date circulationItemPreviousDueDate;
+  private Date circulationItemRecallNotificationDate;
+  private Date circulationItemFirstOverDate;
+  private Date circulationItemSecondOverDate;
+  private Date circulationItemThirdOverDate;
+  private int circulationItemRenewalCenterCount;
+  private char circulationItemExtendLoanIndex;
+  private char circulationItemIllIndex;
+  private Character circulationItemTranstationIndex;
+  private Integer circulationItemChekingBranch;
 
-	public String getBarCodeNumber() {
-		return barCodeNumber;
-	}
+  public String getBarCodeNumber() {
+    return barCodeNumber;
+  }
 
-	public int getBibItemNumber() {
-		return bibItemNumber;
-	}
+  public void setBarCodeNumber(String string) {
+    barCodeNumber = string;
+  }
 
-	public Date getCirculationItemChargeOutDate() {
-		return circulationItemChargeOutDate;
-	}
+  public int getBibItemNumber() {
+    return bibItemNumber;
+  }
 
-	public Integer getCirculationItemChekingBranch() {
-		return circulationItemChekingBranch;
-	}
+  public void setBibItemNumber(int i) {
+    bibItemNumber = i;
+  }
 
-	public Date getCirculationItemDueDate() {
-		return circulationItemDueDate;
-	}
+  public Date getCirculationItemChargeOutDate() {
+    return circulationItemChargeOutDate;
+  }
 
-	public char getCirculationItemExtendLoanIndex() {
-		return circulationItemExtendLoanIndex;
-	}
+  public void setCirculationItemChargeOutDate(Date date) {
+    circulationItemChargeOutDate = date;
+  }
 
-	public Date getCirculationItemFirstOverDate() {
-		return circulationItemFirstOverDate;
-	}
+  public Integer getCirculationItemChekingBranch() {
+    return circulationItemChekingBranch;
+  }
 
-	public char getCirculationItemIllIndex() {
-		return circulationItemIllIndex;
-	}
+  public void setCirculationItemChekingBranch(Integer integer) {
+    circulationItemChekingBranch = integer;
+  }
 
-	public Date getCirculationItemPreviousDueDate() {
-		return circulationItemPreviousDueDate;
-	}
+  public Date getCirculationItemDueDate() {
+    return circulationItemDueDate;
+  }
 
-	public Date getCirculationItemRecallNotificationDate() {
-		return circulationItemRecallNotificationDate;
-	}
+  public void setCirculationItemDueDate(Date date) {
+    circulationItemDueDate = date;
+  }
 
-	public int getCirculationItemRenewalCenterCount() {
-		return circulationItemRenewalCenterCount;
-	}
+  public char getCirculationItemExtendLoanIndex() {
+    return circulationItemExtendLoanIndex;
+  }
 
-	public Date getCirculationItemSecondOverDate() {
-		return circulationItemSecondOverDate;
-	}
+  public void setCirculationItemExtendLoanIndex(char c) {
+    circulationItemExtendLoanIndex = c;
+  }
 
-	public Date getCirculationItemThirdOverDate() {
-		return circulationItemThirdOverDate;
-	}
+  public Date getCirculationItemFirstOverDate() {
+    return circulationItemFirstOverDate;
+  }
 
-	public Character getCirculationItemTranstationIndex() {
-		return circulationItemTranstationIndex;
-	}
+  public void setCirculationItemFirstOverDate(Date date) {
+    circulationItemFirstOverDate = date;
+  }
 
-	public short getCirculationStatesticsTypeCode() {
-		return circulationStatesticsTypeCode;
-	}
+  public char getCirculationItemIllIndex() {
+    return circulationItemIllIndex;
+  }
 
-	public int getCopyIdNumber() {
-		return copyIdNumber;
-	}
+  public void setCirculationItemIllIndex(char c) {
+    circulationItemIllIndex = c;
+  }
 
-	public int getOrganisationNumber() {
-		return organisationNumber;
-	}
+  public Date getCirculationItemPreviousDueDate() {
+    return circulationItemPreviousDueDate;
+  }
 
-	public int getPersonNumber() {
-		return personNumber;
-	}
+  public void setCirculationItemPreviousDueDate(Date date) {
+    circulationItemPreviousDueDate = date;
+  }
 
-	public void setBarCodeNumber(String string) {
-		barCodeNumber = string;
-	}
+  public Date getCirculationItemRecallNotificationDate() {
+    return circulationItemRecallNotificationDate;
+  }
 
-	public void setBibItemNumber(int i) {
-		bibItemNumber = i;
-	}
+  public void setCirculationItemRecallNotificationDate(Date date) {
+    circulationItemRecallNotificationDate = date;
+  }
 
-	public void setCirculationItemChargeOutDate(Date date) {
-		circulationItemChargeOutDate = date;
-	}
+  public int getCirculationItemRenewalCenterCount() {
+    return circulationItemRenewalCenterCount;
+  }
 
-	public void setCirculationItemChekingBranch(Integer integer) {
-		circulationItemChekingBranch = integer;
-	}
+  public void setCirculationItemRenewalCenterCount(int i) {
+    circulationItemRenewalCenterCount = i;
+  }
 
-	public void setCirculationItemDueDate(Date date) {
-		circulationItemDueDate = date;
-	}
+  public Date getCirculationItemSecondOverDate() {
+    return circulationItemSecondOverDate;
+  }
 
-	public void setCirculationItemExtendLoanIndex(char c) {
-		circulationItemExtendLoanIndex = c;
-	}
+  public void setCirculationItemSecondOverDate(Date date) {
+    circulationItemSecondOverDate = date;
+  }
 
-	public void setCirculationItemFirstOverDate(Date date) {
-		circulationItemFirstOverDate = date;
-	}
+  public Date getCirculationItemThirdOverDate() {
+    return circulationItemThirdOverDate;
+  }
 
-	public void setCirculationItemIllIndex(char c) {
-		circulationItemIllIndex = c;
-	}
+  public void setCirculationItemThirdOverDate(Date date) {
+    circulationItemThirdOverDate = date;
+  }
 
-	public void setCirculationItemPreviousDueDate(Date date) {
-		circulationItemPreviousDueDate = date;
-	}
+  public Character getCirculationItemTranstationIndex() {
+    return circulationItemTranstationIndex;
+  }
 
-	public void setCirculationItemRecallNotificationDate(Date date) {
-		circulationItemRecallNotificationDate = date;
-	}
+  public void setCirculationItemTranstationIndex(Character c) {
+    circulationItemTranstationIndex = c;
+  }
 
-	public void setCirculationItemRenewalCenterCount(int i) {
-		circulationItemRenewalCenterCount = i;
-	}
+  public short getCirculationStatesticsTypeCode() {
+    return circulationStatesticsTypeCode;
+  }
 
-	public void setCirculationItemSecondOverDate(Date date) {
-		circulationItemSecondOverDate = date;
-	}
+  public void setCirculationStatesticsTypeCode(short s) {
+    circulationStatesticsTypeCode = s;
+  }
 
-	public void setCirculationItemThirdOverDate(Date date) {
-		circulationItemThirdOverDate = date;
-	}
+  public int getCopyIdNumber() {
+    return copyIdNumber;
+  }
 
-	public void setCirculationItemTranstationIndex(Character c) {
-		circulationItemTranstationIndex = c;
-	}
+  public void setCopyIdNumber(int i) {
+    copyIdNumber = i;
+  }
 
-	public void setCirculationStatesticsTypeCode(short s) {
-		circulationStatesticsTypeCode = s;
-	}
+  public int getOrganisationNumber() {
+    return organisationNumber;
+  }
 
-	public void setCopyIdNumber(int i) {
-		copyIdNumber = i;
-	}
+  public void setOrganisationNumber(int i) {
+    organisationNumber = i;
+  }
 
-	public void setOrganisationNumber(int i) {
-		organisationNumber = i;
-	}
+  public int getPersonNumber() {
+    return personNumber;
+  }
 
-	public void setPersonNumber(int i) {
-		personNumber = i;
-	}
+  public void setPersonNumber(int i) {
+    personNumber = i;
+  }
 
 }

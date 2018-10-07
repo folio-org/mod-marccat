@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on 10-ott-2005
- * 
+ *
  * ModelKey.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -15,68 +15,63 @@ import java.io.Serializable;
  * @since 1.0
  */
 public class ModelTagKey implements Serializable {
-	private int sequence;
-	private String language;
+  private int sequence;
+  private String language;
 
-	/**
-	 * Class constructor
-	 *
-	 * 
-	 */
-	public ModelTagKey() {
-		super();
-	}
+  /**
+   * Class constructor
+   */
+  public ModelTagKey() {
+    super ( );
+  }
 
-	public ModelTagKey(int sequence, String language) {
-		this.setSequence(sequence);
-		this.setLanguage(language);
-   }
-	
-	
+  public ModelTagKey(int sequence, String language) {
+    this.setSequence (sequence);
+    this.setLanguage (language);
+  }
 
-	public String getLanguage() {
-		return language;
-	}
 
-	public void setLanguage(String language) {
-		this.language = language;
-	}
-	
-	public int getSequence() {
-		return sequence;
-	}
+  public String getLanguage() {
+    return language;
+  }
 
-	public void setSequence(int sequence) {
-		this.sequence = sequence;
-	}
+  public void setLanguage(String language) {
+    this.language = language;
+  }
 
-	public int hashCode() {
-		final int PRIME = 31;
-		int result = 1;
-		result = PRIME * result + ((language == null) ? 0 : language.hashCode());
-		result = PRIME * result + sequence;
-		return result;
-	}
+  public int getSequence() {
+    return sequence;
+  }
 
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		final ModelTagKey other = (ModelTagKey) obj;
-		if (language == null) {
-			if (other.language != null)
-				return false;
-		} else if (!language.equals(other.language))
-			return false;
-		if (sequence != other.sequence)
-			return false;
-		return true;
-	}
+  public void setSequence(int sequence) {
+    this.sequence = sequence;
+  }
 
-	
-	
-    
+  public int hashCode() {
+    final int PRIME = 31;
+    int result = 1;
+    result = PRIME * result + ((language == null) ? 0 : language.hashCode ( ));
+    result = PRIME * result + sequence;
+    return result;
+  }
+
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass ( ) != obj.getClass ( ))
+      return false;
+    final ModelTagKey other = (ModelTagKey) obj;
+    if (language == null) {
+      if (other.language != null)
+        return false;
+    } else if (!language.equals (other.language))
+      return false;
+    if (sequence != other.sequence)
+      return false;
+    return true;
+  }
+
+
 }

@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on 20-sep-2004
- * 
+ *
  * T_VSL_TRGT_AUDNC.java
  */
 package org.folio.cataloging.dao.persistence;

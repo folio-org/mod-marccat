@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on 12-jul-2004
- * 
+ *
  * T_CIRTN_SHLF_LIST_TYP.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -13,6 +13,6 @@ package org.folio.cataloging.dao.persistence;
  * @since 1.0
  */
 //PROVIDE FIELD AS "Shlf Lst Tyo" CHECKBOX IN CATALOGUING, NEW COPY
-public class T_SHLF_LIST_TYP extends T_SINGLE_CHAR{
+public class T_SHLF_LIST_TYP extends T_SINGLE_CHAR {
 
 }

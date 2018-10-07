@@ -9,14 +9,14 @@ import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "filename", "ids", "added", "rejected", "errorCount" })
+@JsonPropertyOrder({"filename", "ids", "added", "rejected", "errorCount"})
 public class ResultLoader {
 
   @JsonProperty("filename")
   private String filename;
 
   @JsonProperty("ids")
-  private List<Integer> ids;
+  private List <Integer> ids;
 
   @JsonProperty("added")
   private int added;
@@ -28,9 +28,7 @@ public class ResultLoader {
   private int errorCount;
 
   /**
-   *
-   * @return
-   *     The filename
+   * @return The filename
    */
   @JsonProperty("filename")
   public String getFilename() {
@@ -38,9 +36,7 @@ public class ResultLoader {
   }
 
   /**
-   *
-   * @param filename
-   *    the filename
+   * @param filename the filename
    */
   @JsonProperty("filename")
   public void setFilename(String filename) {
@@ -48,29 +44,23 @@ public class ResultLoader {
   }
 
   /**
-   *
-   * @return
-   *     The an list
+   * @return The an list
    */
   @JsonProperty("ids")
-  public List<Integer> getIds() {
+  public List <Integer> getIds() {
     return ids;
   }
 
   /**
-   *
-   * @param ids
-   *    the an list
+   * @param ids the an list
    */
   @JsonProperty("ids")
-  public void setIds(List<Integer> ids) {
+  public void setIds(List <Integer> ids) {
     this.ids = ids;
   }
 
   /**
-   *
-   * @return
-   *     The number of added record
+   * @return The number of added record
    */
   @JsonProperty("added")
   public int getAdded() {
@@ -78,9 +68,7 @@ public class ResultLoader {
   }
 
   /**
-   *
-   * @param added
-   *    The number of added record
+   * @param added The number of added record
    */
   @JsonProperty("added")
   public void setAdded(int added) {
@@ -88,9 +76,7 @@ public class ResultLoader {
   }
 
   /**
-   *
-   * @return
-   *     The number of rejected record
+   * @return The number of rejected record
    */
   @JsonProperty("rejected")
   public int getRejected() {
@@ -98,9 +84,7 @@ public class ResultLoader {
   }
 
   /**
-   *
-   * @param rejected
-   *    The number of rejected record
+   * @param rejected The number of rejected record
    */
   @JsonProperty("rejected")
   public void setRejected(int rejected) {
@@ -108,9 +92,7 @@ public class ResultLoader {
   }
 
   /**
-   *
-   * @return
-   *     The number of error record
+   * @return The number of error record
    */
   @JsonProperty("errorCount")
   public int getErrorCount() {
@@ -118,9 +100,7 @@ public class ResultLoader {
   }
 
   /**
-   *
-   * @param errorCount
-   *    The number of error record
+   * @param errorCount The number of error record
    */
   @JsonProperty("errorCount")
   public void setErrorCount(int errorCount) {

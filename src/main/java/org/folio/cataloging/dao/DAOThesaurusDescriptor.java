@@ -26,59 +26,59 @@ import java.util.List;
  */
 public class DAOThesaurusDescriptor extends DAODescriptor {
 
-	static protected Class persistentClass = THS_HDG.class;
+  static protected Class persistentClass = THS_HDG.class;
 
-	/* (non-Javadoc)
-	 * @see com.libricore.librisuite.business.Descriptor#getPersistentClass()
-	 */
-	public Class getPersistentClass() {
-		return DAOThesaurusDescriptor.persistentClass;
-	}
+  /* (non-Javadoc)
+   * @see com.libricore.librisuite.business.Descriptor#getPersistentClass()
+   */
+  public Class getPersistentClass() {
+    return DAOThesaurusDescriptor.persistentClass;
+  }
 
-	  public boolean supportsAuthorities() {
-			return true;
-		}
+  public boolean supportsAuthorities() {
+    return true;
+  }
 
-	public List getHeadingsBySortform(String operator, String direction, String term, String filter, int cataloguingView, int count) throws DataAccessException {
-     	Session s = currentSession();
-    	List l = null;
-		try {
-			String quetyString = "select distinct ths_hdg from "
-                + getPersistentClass().getName()
-                + " as ths_hdg where ths_hdg.sortForm "
-                + operator
-                + " :term  and "
-                + " SUBSTR(ths_hdg.key.userViewString, :view, 1) = '1' "
-                + filter
-                + " order by ths_hdg.sortForm "
-                + direction;
+  public List getHeadingsBySortform(String operator, String direction, String term, String filter, int cataloguingView, int count) throws DataAccessException {
+    Session s = currentSession ( );
+    List l = null;
+    try {
+      String quetyString = "select distinct ths_hdg from "
+        + getPersistentClass ( ).getName ( )
+        + " as ths_hdg where ths_hdg.sortForm "
+        + operator
+        + " :term  and "
+        + " SUBSTR(ths_hdg.key.userViewString, :view, 1) = '1' "
+        + filter
+        + " order by ths_hdg.sortForm "
+        + direction;
 //                logger.info(quetyString);
 
 
-			Query q =
-				s.createQuery(
-					quetyString);
-			q.setString("term", term);
-			q.setInteger("view", cataloguingView);
-			q.setMaxResults(count);
-			l = q.list();
+      Query q =
+        s.createQuery (
+          quetyString);
+      q.setString ("term", term);
+      q.setInteger ("view", cataloguingView);
+      q.setMaxResults (count);
+      l = q.list ( );
 
-		} catch (HibernateException e) {
-			logAndWrap(e);
-		}
+    } catch (HibernateException e) {
+      logAndWrap (e);
+    }
 
-		 return l;
-	}
+    return l;
+  }
 
-	/*Questa heading ha solo cross reference*/
-	public void delete(Persistence p)
-	throws DataAccessException {
-	if (!(p instanceof Descriptor)) {
-		throw new IllegalArgumentException("I can only delete Descriptor objects");
-	}
-	Descriptor d = ((Descriptor) p);
+  /*Questa heading ha solo cross reference*/
+  public void delete(Persistence p)
+    throws DataAccessException {
+    if (!(p instanceof Descriptor)) {
+      throw new IllegalArgumentException ("I can only delete Descriptor objects");
+    }
+    Descriptor d = ((Descriptor) p);
 
-	// check for cross references
+    // check for cross references
 	/*if (supportsCrossReferences()) {
 		if (getXrefCount(d, View.toIntView(d.getUserViewString())) > 0) {
 			throw new ReferentialIntegrityException(
@@ -95,33 +95,34 @@ public class DAOThesaurusDescriptor extends DAODescriptor {
 				}
 			}
 		}*/
-	// check for authorities
-	if (supportsAuthorities()) {
-		if (d.getAuthorityCount() > 0) {
-			throw new ReferentialIntegrityException(
-				d.getReferenceClass(d.getClass()).getName(),
-				d.getClass().getName());
-		}
-	}
+    // check for authorities
+    if (supportsAuthorities ( )) {
+      if (d.getAuthorityCount ( ) > 0) {
+        throw new ReferentialIntegrityException (
+          d.getReferenceClass (d.getClass ( )).getName ( ),
+          d.getClass ( ).getName ( ));
+      }
+    }
 
-	// OK, go ahead and delete
-	deleteDescriptor(p);
+    // OK, go ahead and delete
+    deleteDescriptor (p);
 
-}
+  }
 
-	/**
-	 * Default implementation for delete with no cascade affects
-	 * @since 1.0
-	 */
-	public void deleteDescriptor(final Persistence p) throws DataAccessException {
-		new TransactionalHibernateOperation() {
-			public void doInHibernateTransaction(Session s)
-				throws HibernateException {
-				s.delete(p);
-			}
-		}
-		.execute();
-	}
+  /**
+   * Default implementation for delete with no cascade affects
+   *
+   * @since 1.0
+   */
+  public void deleteDescriptor(final Persistence p) throws DataAccessException {
+    new TransactionalHibernateOperation ( ) {
+      public void doInHibernateTransaction(Session s)
+        throws HibernateException {
+        s.delete (p);
+      }
+    }
+      .execute ( );
+  }
 
 
 }

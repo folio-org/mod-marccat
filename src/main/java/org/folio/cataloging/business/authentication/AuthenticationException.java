@@ -8,38 +8,38 @@ import org.folio.cataloging.exception.ModCatalogingException;
 /**
  * An extendable exception to represent authentication exceptions thrown by implementations
  * of the AuthenticationBroker interface
- * 
+ *
  * @author paulm
  */
 public class AuthenticationException extends ModCatalogingException {
 
-	/**
-	 * 
-	 */
-	public AuthenticationException() {
-		super();
-	}
+  /**
+   *
+   */
+  public AuthenticationException() {
+    super ( );
+  }
 
-	/**
-	 * @param message
-	 */
-	public AuthenticationException(String message) {
-		super(message);
-	}
+  /**
+   * @param message
+   */
+  public AuthenticationException(String message) {
+    super (message);
+  }
 
-	/**
-	 * @param message
-	 * @param cause
-	 */
-	public AuthenticationException(String message, Throwable cause) {
-		super(message, cause);
-	}
+  /**
+   * @param message
+   * @param cause
+   */
+  public AuthenticationException(String message, Throwable cause) {
+    super (message, cause);
+  }
 
-	/**
-	 * @param cause
-	 */
-	public AuthenticationException(Throwable cause) {
-		super(cause);
-	}
+  /**
+   * @param cause
+   */
+  public AuthenticationException(Throwable cause) {
+    super (cause);
+  }
 
 }

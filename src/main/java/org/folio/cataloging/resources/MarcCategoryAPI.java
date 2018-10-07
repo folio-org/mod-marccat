@@ -27,32 +27,32 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
 public class MarcCategoryAPI extends BaseResource {
 
-    private Function<Avp<String>, Category> toCategory = source -> {
-        final Category category = new Category();
-        category.setCode(Integer.parseInt(source.getValue()));
-        category.setDescription(source.getLabel());
-        return category;
-    };
+  private Function <Avp <String>, Category> toCategory = source -> {
+    final Category category = new Category ( );
+    category.setCode (Integer.parseInt (source.getValue ( )));
+    category.setDescription (source.getLabel ( ));
+    return category;
+  };
 
-    @ApiOperation(value = "Returns all MARC categories associated with a given language")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Method successfully returned the requested MARC categories"),
-            @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 414, message = "Request-URI Too Long"),
-            @ApiResponse(code = 500, message = "System internal failure occurred.")
-    })
-    @GetMapping("/marc-categories")
-    public MarcCategoryCollection getCategories(
-            @RequestParam final String lang,
-            @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-        return doGet((storageService, configuration) -> {
-                final MarcCategoryCollection categories = new MarcCategoryCollection();
-                categories.setCategories(
-                        storageService.getMarcCategories(lang)
-                                .stream()
-                                .map(toCategory)
-                                .collect(toList()));
-                return categories;
-        }, tenant, configurator);
-    }
+  @ApiOperation(value = "Returns all MARC categories associated with a given language")
+  @ApiResponses(value = {
+    @ApiResponse(code = 200, message = "Method successfully returned the requested MARC categories"),
+    @ApiResponse(code = 400, message = "Bad Request"),
+    @ApiResponse(code = 414, message = "Request-URI Too Long"),
+    @ApiResponse(code = 500, message = "System internal failure occurred.")
+  })
+  @GetMapping("/marc-categories")
+  public MarcCategoryCollection getCategories(
+    @RequestParam final String lang,
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    return doGet ((storageService, configuration) -> {
+      final MarcCategoryCollection categories = new MarcCategoryCollection ( );
+      categories.setCategories (
+        storageService.getMarcCategories (lang)
+          .stream ( )
+          .map (toCategory)
+          .collect (toList ( )));
+      return categories;
+    }, tenant, configurator);
+  }
 }

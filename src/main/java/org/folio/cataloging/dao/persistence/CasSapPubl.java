@@ -10,278 +10,277 @@ import org.folio.cataloging.dao.DAOCasDigAdmin;
 
 import java.io.Serializable;
 
-public class CasSapPubl implements Persistence 
-{
-	private static final long serialVersionUID = 2522128570785338271L;
+public class CasSapPubl implements Persistence {
+  private static final long serialVersionUID = 2522128570785338271L;
 
-//	static DAOCasSapPubl dao = new DAOCasSapPubl(); 
-	static DAOCasDigAdmin dao = new DAOCasDigAdmin();
-	
-	private String codEditore;
-	private String codEditoreBreve;
-	private String denEditore;
-	private Float  costoPagEdi;
-	private String costoPagCurcyEdi;
-	private Float  costoArticoloEdi;
-	private String costoArticoloCurcyEdi;
-	private Float  costoSezioneEdi;
-	private String costoSezioneCurcyEdi;
-	private Float  costoCapitoloEdi;
-	private String costoCapitoloCurcyEdi;
-	private Float  costoRivistaEdi;
-	private String costoRivistaCurcyEdi;
-	private String flagCopiaIncollaEdi;
-	private String flagOperStampaEdi;
-	private Integer numOperStampaEdi;
-	private String flagFullText;	
+  //	static DAOCasSapPubl dao = new DAOCasSapPubl();
+  static DAOCasDigAdmin dao = new DAOCasDigAdmin ( );
 
-	private PersistenceState persistenceState = new PersistenceState();
-	
-	public CasSapPubl(String editor) {
-		this();
-		setCodEditore(editor);
-	}
-	
-	public CasSapPubl() {
-		super();
-	}
+  private String codEditore;
+  private String codEditoreBreve;
+  private String denEditore;
+  private Float costoPagEdi;
+  private String costoPagCurcyEdi;
+  private Float costoArticoloEdi;
+  private String costoArticoloCurcyEdi;
+  private Float costoSezioneEdi;
+  private String costoSezioneCurcyEdi;
+  private Float costoCapitoloEdi;
+  private String costoCapitoloCurcyEdi;
+  private Float costoRivistaEdi;
+  private String costoRivistaCurcyEdi;
+  private String flagCopiaIncollaEdi;
+  private String flagOperStampaEdi;
+  private Integer numOperStampaEdi;
+  private String flagFullText;
 
-	public void setPersistenceState(PersistenceState state) {
-		persistenceState = state;
-	}
+  private PersistenceState persistenceState = new PersistenceState ( );
 
-	public void evict(Object obj) throws DataAccessException {
-		persistenceState.evict(obj);
-	}
+  public CasSapPubl(String editor) {
+    this ( );
+    setCodEditore (editor);
+  }
 
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((codEditore == null) ? 0 : codEditore.hashCode());
-		return result;
-	}
+  public CasSapPubl() {
+    super ( );
+  }
 
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		final CasSapPubl other = (CasSapPubl) obj;
-		if (codEditore == null) {
-			if (other.codEditore != null)
-				return false;
-		} else if (!codEditore.equals(other.codEditore))
-			return false;
-		return true;
-	}
+  public void setPersistenceState(PersistenceState state) {
+    persistenceState = state;
+  }
 
-	public void evict() throws DataAccessException {
-		evict(this);
-	}
-	
-	public AbstractDAO getDAO() {
-		return dao;
-	}
+  public void evict(Object obj) throws DataAccessException {
+    persistenceState.evict (obj);
+  }
 
-	public int getUpdateStatus() {
-		return persistenceState.getUpdateStatus();
-	}
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result
+      + ((codEditore == null) ? 0 : codEditore.hashCode ( ));
+    return result;
+  }
 
-	public boolean isChanged() {
-		return persistenceState.isChanged();
-	}
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass ( ) != obj.getClass ( ))
+      return false;
+    final CasSapPubl other = (CasSapPubl) obj;
+    if (codEditore == null) {
+      if (other.codEditore != null)
+        return false;
+    } else if (!codEditore.equals (other.codEditore))
+      return false;
+    return true;
+  }
 
-	public boolean isDeleted() {
-		return persistenceState.isDeleted();
-	}
+  public void evict() throws DataAccessException {
+    evict (this);
+  }
 
-	public boolean isNew() {
-		return persistenceState.isNew();
-	}
+  public AbstractDAO getDAO() {
+    return dao;
+  }
 
-	public boolean isRemoved() {
-		return persistenceState.isRemoved();
-	}
+  public int getUpdateStatus() {
+    return persistenceState.getUpdateStatus ( );
+  }
 
-	public void markChanged() {
-		persistenceState.markChanged();
-	}
+  public void setUpdateStatus(int i) {
+    persistenceState.setUpdateStatus (i);
+  }
 
-	public void markDeleted() {
-		persistenceState.markDeleted();
-	}
+  public boolean isChanged() {
+    return persistenceState.isChanged ( );
+  }
 
-	public void markNew() {
-		persistenceState.markNew();
-	}
+  public boolean isDeleted() {
+    return persistenceState.isDeleted ( );
+  }
 
-	public void markUnchanged() {
-		persistenceState.markUnchanged();
-	}
-	
-	public boolean onDelete(Session arg0) throws CallbackException {
-		return persistenceState.onDelete(arg0);
-	}
+  public boolean isNew() {
+    return persistenceState.isNew ( );
+  }
 
-	public void onLoad(Session arg0, Serializable arg1) {
-		persistenceState.onLoad(arg0, arg1);
-	}
+  public boolean isRemoved() {
+    return persistenceState.isRemoved ( );
+  }
 
-	public boolean onSave(Session arg0) throws CallbackException {
-		return persistenceState.onSave(arg0);
-	}
+  public void markChanged() {
+    persistenceState.markChanged ( );
+  }
 
-	public boolean onUpdate(Session arg0) throws CallbackException {
-		return persistenceState.onUpdate(arg0);
-	}
+  public void markDeleted() {
+    persistenceState.markDeleted ( );
+  }
 
-	public void setUpdateStatus(int i) {
-		persistenceState.setUpdateStatus(i);
-	}
+  public void markNew() {
+    persistenceState.markNew ( );
+  }
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.common.Persistence#generateNewKey()
-	 */
-	public void generateNewKey() throws DataAccessException {
-		// not applicable for this class
-	}
+  public void markUnchanged() {
+    persistenceState.markUnchanged ( );
+  }
 
-	public String getCodEditore() {
-		return codEditore;
-	}
+  public boolean onDelete(Session arg0) throws CallbackException {
+    return persistenceState.onDelete (arg0);
+  }
 
-	public void setCodEditore(String codEditore) {
-		this.codEditore = codEditore;
-	}
+  public void onLoad(Session arg0, Serializable arg1) {
+    persistenceState.onLoad (arg0, arg1);
+  }
 
-	public String getDenEditore() {
-		return denEditore;
-	}
+  public boolean onSave(Session arg0) throws CallbackException {
+    return persistenceState.onSave (arg0);
+  }
 
-	public void setDenEditore(String denEditore) {
-		this.denEditore = denEditore;
-	}
+  public boolean onUpdate(Session arg0) throws CallbackException {
+    return persistenceState.onUpdate (arg0);
+  }
 
-	public Float getCostoPagEdi() {
-		return costoPagEdi;
-	}
+  /* (non-Javadoc)
+   * @see librisuite.business.common.Persistence#generateNewKey()
+   */
+  public void generateNewKey() throws DataAccessException {
+    // not applicable for this class
+  }
 
-	public void setCostoPagEdi(Float costoPagEdi) {
-		this.costoPagEdi = costoPagEdi;
-	}
+  public String getCodEditore() {
+    return codEditore;
+  }
 
-	public Float getCostoArticoloEdi() {
-		return costoArticoloEdi;
-	}
+  public void setCodEditore(String codEditore) {
+    this.codEditore = codEditore;
+  }
 
-	public void setCostoArticoloEdi(Float costoArticoloEdi) {
-		this.costoArticoloEdi = costoArticoloEdi;
-	}
+  public String getDenEditore() {
+    return denEditore;
+  }
 
-	public Float getCostoSezioneEdi() {
-		return costoSezioneEdi;
-	}
+  public void setDenEditore(String denEditore) {
+    this.denEditore = denEditore;
+  }
 
-	public void setCostoSezioneEdi(Float costoSezioneEdi) {
-		this.costoSezioneEdi = costoSezioneEdi;
-	}
+  public Float getCostoPagEdi() {
+    return costoPagEdi;
+  }
 
-	public Float getCostoCapitoloEdi() {
-		return costoCapitoloEdi;
-	}
+  public void setCostoPagEdi(Float costoPagEdi) {
+    this.costoPagEdi = costoPagEdi;
+  }
 
-	public void setCostoCapitoloEdi(Float costoCapitoloEdi) {
-		this.costoCapitoloEdi = costoCapitoloEdi;
-	}
+  public Float getCostoArticoloEdi() {
+    return costoArticoloEdi;
+  }
 
-	public String getFlagCopiaIncollaEdi() {
-		return flagCopiaIncollaEdi;
-	}
+  public void setCostoArticoloEdi(Float costoArticoloEdi) {
+    this.costoArticoloEdi = costoArticoloEdi;
+  }
 
-	public void setFlagCopiaIncollaEdi(String flagCopiaIncollaEdi) {
-		this.flagCopiaIncollaEdi = flagCopiaIncollaEdi;
-	}
+  public Float getCostoSezioneEdi() {
+    return costoSezioneEdi;
+  }
 
-	public String getFlagOperStampaEdi() {
-		return flagOperStampaEdi;
-	}
+  public void setCostoSezioneEdi(Float costoSezioneEdi) {
+    this.costoSezioneEdi = costoSezioneEdi;
+  }
 
-	public void setFlagOperStampaEdi(String flagOperStampaEdi) {
-		this.flagOperStampaEdi = flagOperStampaEdi;
-	}
+  public Float getCostoCapitoloEdi() {
+    return costoCapitoloEdi;
+  }
 
-	public Integer getNumOperStampaEdi() {
-		return numOperStampaEdi;
-	}
+  public void setCostoCapitoloEdi(Float costoCapitoloEdi) {
+    this.costoCapitoloEdi = costoCapitoloEdi;
+  }
 
-	public void setNumOperStampaEdi(Integer numOperStampaEdi) {
-		this.numOperStampaEdi = numOperStampaEdi;
-	}
+  public String getFlagCopiaIncollaEdi() {
+    return flagCopiaIncollaEdi;
+  }
 
-	public Float getCostoRivistaEdi() {
-		return costoRivistaEdi;
-	}
+  public void setFlagCopiaIncollaEdi(String flagCopiaIncollaEdi) {
+    this.flagCopiaIncollaEdi = flagCopiaIncollaEdi;
+  }
 
-	public void setCostoRivistaEdi(Float costoRivistaEdi) {
-		this.costoRivistaEdi = costoRivistaEdi;
-	}
+  public String getFlagOperStampaEdi() {
+    return flagOperStampaEdi;
+  }
 
-	public String getCostoPagCurcyEdi() {
-		return costoPagCurcyEdi;
-	}
+  public void setFlagOperStampaEdi(String flagOperStampaEdi) {
+    this.flagOperStampaEdi = flagOperStampaEdi;
+  }
 
-	public void setCostoPagCurcyEdi(String costoPagCurcyEdi) {
-		this.costoPagCurcyEdi = costoPagCurcyEdi;
-	}
+  public Integer getNumOperStampaEdi() {
+    return numOperStampaEdi;
+  }
 
-	public String getCostoArticoloCurcyEdi() {
-		return costoArticoloCurcyEdi;
-	}
+  public void setNumOperStampaEdi(Integer numOperStampaEdi) {
+    this.numOperStampaEdi = numOperStampaEdi;
+  }
 
-	public void setCostoArticoloCurcyEdi(String costoArticoloCurcyEdi) {
-		this.costoArticoloCurcyEdi = costoArticoloCurcyEdi;
-	}
+  public Float getCostoRivistaEdi() {
+    return costoRivistaEdi;
+  }
 
-	public String getCostoSezioneCurcyEdi() {
-		return costoSezioneCurcyEdi;
-	}
+  public void setCostoRivistaEdi(Float costoRivistaEdi) {
+    this.costoRivistaEdi = costoRivistaEdi;
+  }
 
-	public void setCostoSezioneCurcyEdi(String costoSezioneCurcyEdi) {
-		this.costoSezioneCurcyEdi = costoSezioneCurcyEdi;
-	}
+  public String getCostoPagCurcyEdi() {
+    return costoPagCurcyEdi;
+  }
 
-	public String getCostoCapitoloCurcyEdi() {
-		return costoCapitoloCurcyEdi;
-	}
+  public void setCostoPagCurcyEdi(String costoPagCurcyEdi) {
+    this.costoPagCurcyEdi = costoPagCurcyEdi;
+  }
 
-	public void setCostoCapitoloCurcyEdi(String costoCapitoloCurcyEdi) {
-		this.costoCapitoloCurcyEdi = costoCapitoloCurcyEdi;
-	}
+  public String getCostoArticoloCurcyEdi() {
+    return costoArticoloCurcyEdi;
+  }
 
-	public String getCostoRivistaCurcyEdi() {
-		return costoRivistaCurcyEdi;
-	}
+  public void setCostoArticoloCurcyEdi(String costoArticoloCurcyEdi) {
+    this.costoArticoloCurcyEdi = costoArticoloCurcyEdi;
+  }
 
-	public void setCostoRivistaCurcyEdi(String costoRivistaCurcyEdi) {
-		this.costoRivistaCurcyEdi = costoRivistaCurcyEdi;
-	}
+  public String getCostoSezioneCurcyEdi() {
+    return costoSezioneCurcyEdi;
+  }
 
-	public String getCodEditoreBreve() {
-		return codEditoreBreve;
-	}
+  public void setCostoSezioneCurcyEdi(String costoSezioneCurcyEdi) {
+    this.costoSezioneCurcyEdi = costoSezioneCurcyEdi;
+  }
 
-	public void setCodEditoreBreve(String codEditoreBreve) {
-		this.codEditoreBreve = codEditoreBreve;
-	}
-	
-	public String getFlagFullText() {
-		return flagFullText;
-	}
+  public String getCostoCapitoloCurcyEdi() {
+    return costoCapitoloCurcyEdi;
+  }
 
-	public void setFlagFullText(String flagFullText) {
-		this.flagFullText = flagFullText;
-	}
+  public void setCostoCapitoloCurcyEdi(String costoCapitoloCurcyEdi) {
+    this.costoCapitoloCurcyEdi = costoCapitoloCurcyEdi;
+  }
+
+  public String getCostoRivistaCurcyEdi() {
+    return costoRivistaCurcyEdi;
+  }
+
+  public void setCostoRivistaCurcyEdi(String costoRivistaCurcyEdi) {
+    this.costoRivistaCurcyEdi = costoRivistaCurcyEdi;
+  }
+
+  public String getCodEditoreBreve() {
+    return codEditoreBreve;
+  }
+
+  public void setCodEditoreBreve(String codEditoreBreve) {
+    this.codEditoreBreve = codEditoreBreve;
+  }
+
+  public String getFlagFullText() {
+    return flagFullText;
+  }
+
+  public void setFlagFullText(String flagFullText) {
+    this.flagFullText = flagFullText;
+  }
 }

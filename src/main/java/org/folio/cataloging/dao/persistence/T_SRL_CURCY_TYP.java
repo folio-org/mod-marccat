@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Jan 31, 2005
- * 
+ *
  * T_ACQ_MTHD_TYP.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -14,21 +14,20 @@ package org.folio.cataloging.dao.persistence;
  */
 public class T_SRL_CURCY_TYP extends T_SINGLE_LONGCHAR {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	public static final String EURO = "EUR";
+  public static final String EURO = "EUR";
+  /**
+   *
+   */
+  private static final long serialVersionUID = 1L;
 
-	/**
-	 * Class constructor
-	 *
-	 * 
-	 * @since 1.0
-	 */
-	public T_SRL_CURCY_TYP() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+  /**
+   * Class constructor
+   *
+   * @since 1.0
+   */
+  public T_SRL_CURCY_TYP() {
+    super ( );
+    // TODO Auto-generated constructor stub
+  }
 
 }

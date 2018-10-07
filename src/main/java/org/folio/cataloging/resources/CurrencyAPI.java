@@ -27,32 +27,32 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
 public class CurrencyAPI extends BaseResource {
 
-    private Function<Avp<String>, Currency> toCurrency = source -> {
-        final Currency currency = new Currency();
-        currency.setCode(Integer.parseInt(source.getValue()));
-        currency.setDescription(source.getLabel());
-        return currency;
-    };
+  private Function <Avp <String>, Currency> toCurrency = source -> {
+    final Currency currency = new Currency ( );
+    currency.setCode (Integer.parseInt (source.getValue ( )));
+    currency.setDescription (source.getLabel ( ));
+    return currency;
+  };
 
-    @ApiOperation(value = "Returns all currencies")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Method successfully returned the requested currencies"),
-            @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 414, message = "Request-URI Too Long"),
-            @ApiResponse(code = 500, message = "System internal failure occurred.")
-    })
-    @GetMapping("/currencies")
-    public CurrencyCollection getCurrencies(
-            @RequestParam final String lang,
-            @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-        return doGet((storageService, configuration) -> {
-                final CurrencyCollection container = new CurrencyCollection();
-                container.setCurrencies (
-                        storageService.getCurrencies(lang)
-                                .stream()
-                                .map(toCurrency)
-                                .collect(toList()));
-                return container;
-        }, tenant, configurator);
-    }
+  @ApiOperation(value = "Returns all currencies")
+  @ApiResponses(value = {
+    @ApiResponse(code = 200, message = "Method successfully returned the requested currencies"),
+    @ApiResponse(code = 400, message = "Bad Request"),
+    @ApiResponse(code = 414, message = "Request-URI Too Long"),
+    @ApiResponse(code = 500, message = "System internal failure occurred.")
+  })
+  @GetMapping("/currencies")
+  public CurrencyCollection getCurrencies(
+    @RequestParam final String lang,
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    return doGet ((storageService, configuration) -> {
+      final CurrencyCollection container = new CurrencyCollection ( );
+      container.setCurrencies (
+        storageService.getCurrencies (lang)
+          .stream ( )
+          .map (toCurrency)
+          .collect (toList ( )));
+      return container;
+    }, tenant, configurator);
+  }
 }

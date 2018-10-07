@@ -2,33 +2,33 @@ package org.folio.cataloging.business.common.group;
 
 
 public abstract class MarcTagGroup implements TagGroup {
-	private boolean canSort = false;
-	private boolean singleSort = false;
-	
-	public MarcTagGroup() {
-		super();
-	}
+  private boolean canSort = false;
+  private boolean singleSort = false;
 
-	public MarcTagGroup(boolean canSort, boolean singleSort) {
-		super();
-		this.canSort = canSort;
-		this.singleSort = singleSort;
-	}
+  public MarcTagGroup() {
+    super ( );
+  }
 
-	public boolean isCanSort() {
-		return canSort;
-	}
+  public MarcTagGroup(boolean canSort, boolean singleSort) {
+    super ( );
+    this.canSort = canSort;
+    this.singleSort = singleSort;
+  }
 
-	public boolean isSingleSort() {
-		return singleSort;
-	}
+  public boolean isCanSort() {
+    return canSort;
+  }
 
-	public void setCanSort(boolean canSort) {
-		this.canSort = canSort;
-	}
+  public void setCanSort(boolean canSort) {
+    this.canSort = canSort;
+  }
 
-	public void setSingleSort(boolean singleSort) {
-		this.singleSort = singleSort;
-	}
+  public boolean isSingleSort() {
+    return singleSort;
+  }
+
+  public void setSingleSort(boolean singleSort) {
+    this.singleSort = singleSort;
+  }
 
 }

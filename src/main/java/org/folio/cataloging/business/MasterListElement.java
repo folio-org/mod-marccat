@@ -6,92 +6,90 @@ import org.folio.cataloging.dao.persistence.CollectionMaster;
 import java.sql.Date;
 
 public class MasterListElement {
-	
-	CollectionMaster master;
-	String nameIta;
-	String typologyCode;
-    int idCollection;
-    String statusCode;
-    boolean isHierarchy;
 
-    int countMst; 
+  CollectionMaster master;
+  String nameIta;
+  String typologyCode;
+  int idCollection;
+  String statusCode;
+  boolean isHierarchy;
 
-	private Date dateAssociatedRecord;
-     
-     public boolean isHierarchy() {
-		return isHierarchy;
-	}
+  int countMst;
 
-	public void setHierarchy(boolean isHierarchy) {
-		this.isHierarchy = isHierarchy;
-	}
+  private Date dateAssociatedRecord;
 
-	public String getStatusCode() {
-		return statusCode;
-	}
+  public MasterListElement(CollectionMaster master) {
+    setMaster (master);
+    this.idCollection = master.getIdCollection ( );
+  }
 
-	public void setStatusCode(String statusCode) {
-		this.statusCode = statusCode;
-	}
+  public boolean isHierarchy() {
+    return isHierarchy;
+  }
 
-	public String getTypologyCode() {
- 		return typologyCode;
- 	}
+  public void setHierarchy(boolean isHierarchy) {
+    this.isHierarchy = isHierarchy;
+  }
 
- 	public void setTypologyCode(String typologyCode) {
- 		this.typologyCode = typologyCode;
- 	}
-	
-	public String getNameIta() {
-		return nameIta;
-	}
+  public String getStatusCode() {
+    return statusCode;
+  }
 
-	public void setNameIta(String nameIta) {
-		this.nameIta = nameIta;
-	}
+  public void setStatusCode(String statusCode) {
+    this.statusCode = statusCode;
+  }
 
-	
-	public int getIdCollection() {
-		return idCollection;
-	}
+  public String getTypologyCode() {
+    return typologyCode;
+  }
 
-	public void setIdCollection(int idCollection) {
-		this.idCollection = idCollection;
-	}
+  public void setTypologyCode(String typologyCode) {
+    this.typologyCode = typologyCode;
+  }
 
+  public String getNameIta() {
+    return nameIta;
+  }
 
-	public CollectionMaster getMaster() {
-		return master;
-	}
+  public void setNameIta(String nameIta) {
+    this.nameIta = nameIta;
+  }
 
-	public void setMaster(CollectionMaster master) {
-		this.master = master;
-	}
+  public int getIdCollection() {
+    return idCollection;
+  }
 
-	public MasterListElement(CollectionMaster master) {
-		setMaster(master);
-		this.idCollection = master.getIdCollection();
-	}
+  public void setIdCollection(int idCollection) {
+    this.idCollection = idCollection;
+  }
 
-	/**
-	 * @return the countMst
-	 */
-	public int getCountMst() {
-		return countMst;
-	}
+  public CollectionMaster getMaster() {
+    return master;
+  }
 
-	/**
-	 * @param countMst the countMst to set
-	 */
-	public void setCountMst(int countMst) {
-		this.countMst = countMst;
-	}
+  public void setMaster(CollectionMaster master) {
+    this.master = master;
+  }
 
-	public Date getDateAssociatedRecord() {
-		return dateAssociatedRecord;
-	}
+  /**
+   * @return the countMst
+   */
+  public int getCountMst() {
+    return countMst;
+  }
 
-	public void setDateAssociatedRecord(Date dateAssociatedRecord) {
-		this.dateAssociatedRecord = dateAssociatedRecord;
-	}
+  /**
+   * @param countMst the countMst to set
+   */
+  public void setCountMst(int countMst) {
+    this.countMst = countMst;
+  }
+
+  public Date getDateAssociatedRecord() {
+    return dateAssociatedRecord;
+  }
+
+  public void setDateAssociatedRecord(Date dateAssociatedRecord) {
+    this.dateAssociatedRecord = dateAssociatedRecord;
+  }
 }

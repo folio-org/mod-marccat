@@ -27,32 +27,32 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
 public class NoteTypeAPI extends BaseResource {
 
-    private Function<Avp<String>, NoteType> toNoteType = source -> {
-        final NoteType noteType = new NoteType();
-        noteType.setCode(Integer.parseInt(source.getValue()));
-        noteType.setDescription(source.getLabel());
-        return noteType;
-    };
+  private Function <Avp <String>, NoteType> toNoteType = source -> {
+    final NoteType noteType = new NoteType ( );
+    noteType.setCode (Integer.parseInt (source.getValue ( )));
+    noteType.setDescription (source.getLabel ( ));
+    return noteType;
+  };
 
-    @ApiOperation(value = "Returns all types associated with a given language")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Method successfully returned the requested types."),
-            @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 414, message = "Request-URI Too Long"),
-            @ApiResponse(code = 500, message = "System internal failure occurred.")
-    })
-    @GetMapping("/note-types")
-    public NoteTypeCollection getNoteTypes(
-            @RequestParam final String noteGroupType,
-            @RequestParam final String lang,
-            @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-        return doGet((storageService, configurator) -> {
-                final NoteTypeCollection container = new NoteTypeCollection();
-                container.setNoteTypes(storageService.getNoteTypesByGroupTypeCode(noteGroupType, lang)
-                                .stream()
-                                .map(toNoteType)
-                                .collect(toList()));
-                return container;
-        }, tenant, configurator);
-    }
+  @ApiOperation(value = "Returns all types associated with a given language")
+  @ApiResponses(value = {
+    @ApiResponse(code = 200, message = "Method successfully returned the requested types."),
+    @ApiResponse(code = 400, message = "Bad Request"),
+    @ApiResponse(code = 414, message = "Request-URI Too Long"),
+    @ApiResponse(code = 500, message = "System internal failure occurred.")
+  })
+  @GetMapping("/note-types")
+  public NoteTypeCollection getNoteTypes(
+    @RequestParam final String noteGroupType,
+    @RequestParam final String lang,
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    return doGet ((storageService, configurator) -> {
+      final NoteTypeCollection container = new NoteTypeCollection ( );
+      container.setNoteTypes (storageService.getNoteTypesByGroupTypeCode (noteGroupType, lang)
+        .stream ( )
+        .map (toNoteType)
+        .collect (toList ( )));
+      return container;
+    }, tenant, configurator);
+  }
 }
