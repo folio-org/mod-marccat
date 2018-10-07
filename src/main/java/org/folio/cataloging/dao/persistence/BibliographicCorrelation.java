@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Oct 31, 2005
- * 
+ *
  * BibliographicCorrelation.java
  */
 package org.folio.cataloging.dao.persistence;

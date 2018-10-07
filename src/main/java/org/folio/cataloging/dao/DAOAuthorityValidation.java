@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Nov 18, 2005
- * 
+ *
  * DAOAuthorityValidation.java
  */
 package org.folio.cataloging.dao;
@@ -24,32 +24,32 @@ import java.util.List;
  */
 public class DAOAuthorityValidation extends DAOValidation {
 
-	private static final Log logger = LogFactory.getLog(DAOAuthorityValidation.class);
+  private static final Log logger = LogFactory.getLog (DAOAuthorityValidation.class);
 
-	public Validation load(String tag, String headingType, int category)
-		throws DataAccessException {
-			List l = find("from AuthorityValidation as v, " +
-				" where v.key.marcTagCategoryCode = ? " +
-				" and v.key.marcTag = ? " +
-				" and v.key.headingType = ? ",
-				new Object[] { category,
-					tag,
-					headingType},
-				new Type[] { Hibernate.INTEGER,
-					Hibernate.STRING,
-					Hibernate.STRING}
-					);
-			if (l.size() == 1) {
-				if (logger.isDebugEnabled()) {
-					logger.debug("AuthorityValidation(s) found:");
-					for (int i = 0; i < l.size(); i++) {
-						logger.debug(l.get(i));
-					}
-				}
-				return (Validation) l.get(0);
-			} else {
-				throw new MarcCorrelationException("no Validation found");
-			}
-		}
+  public Validation load(String tag, String headingType, int category)
+    throws DataAccessException {
+    List l = find ("from AuthorityValidation as v, " +
+        " where v.key.marcTagCategoryCode = ? " +
+        " and v.key.marcTag = ? " +
+        " and v.key.headingType = ? ",
+      new Object[]{category,
+        tag,
+        headingType},
+      new Type[]{Hibernate.INTEGER,
+        Hibernate.STRING,
+        Hibernate.STRING}
+    );
+    if (l.size ( ) == 1) {
+      if (logger.isDebugEnabled ( )) {
+        logger.debug ("AuthorityValidation(s) found:");
+        for ( int i = 0; i < l.size ( ); i++ ) {
+          logger.debug (l.get (i));
+        }
+      }
+      return (Validation) l.get (0);
+    } else {
+      throw new MarcCorrelationException ("no Validation found");
+    }
+  }
 
 }

@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on 01-jul-2004
- * 
+ *
  * T_ILL.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -16,155 +16,148 @@ import java.io.Serializable;
  * @since 1.0
  */
 
-public class T_SRCH_KYWRD_IDX implements Serializable{
-	
-	private int keywordIndexValueCode;
-	private short keywordIndexSequenceNumber;
-	private boolean keywordIndexValueObsoleteIndicator;
-	private String keywordIndexShortText;	
-	private String keywordIndexText;	
-	private String language;
-	 
+public class T_SRCH_KYWRD_IDX implements Serializable {
 
-		/**
-	 * Getter for keywordIndexLongLanguage1Text
-	 * 
-	 * @return keywordIndexLongLanguage1Text
-	 * @since 1.0
-	 */
-	public String getKeywordIndexText() {
-		return keywordIndexText;
-	}
+  private int keywordIndexValueCode;
+  private short keywordIndexSequenceNumber;
+  private boolean keywordIndexValueObsoleteIndicator;
+  private String keywordIndexShortText;
+  private String keywordIndexText;
+  private String language;
 
-	
-	/**
-	 * Getter for keywordIndexSequenceNumber
-	 * 
-	 * @return keywordIndexSequenceNumber
-	 * @since 1.0
-	 */
-	public short getKeywordIndexSequenceNumber() {
-		return keywordIndexSequenceNumber;
-	}
 
-	/**
-	 * Getter for keywordIndexShortLanguage1Text
-	 * 
-	 * @return keywordIndexShortLanguage1Text
-	 * @since 1.0
-	 */
-	public String getKeywordIndexShortText() {
-		return keywordIndexShortText;
-	}
+  /**
+   * Getter for keywordIndexLongLanguage1Text
+   *
+   * @return keywordIndexLongLanguage1Text
+   * @since 1.0
+   */
+  public String getKeywordIndexText() {
+    return keywordIndexText;
+  }
 
-		
-	/**
-	 * Getter for keywordIndexValueCode
-	 * 
-	 * @return keywordIndexValueCode
-	 * @since 1.0
-	 */
-	public int getKeywordIndexValueCode() {
-		return keywordIndexValueCode;
-	}
+  /**
+   * Setter for keywordIndexLongLanguage1Text
+   *
+   * @param string keywordIndexLongLanguage1Text
+   * @since 1.0
+   */
+  public void setKeywordIndexText(String string) {
+    keywordIndexText = string;
+  }
 
-	/**
-	 * Getter for keywordIndexValueObsoleteIndicator
-	 * 
-	 * @return keywordIndexValueObsoleteIndicator
-	 * @since 1.0
-	 */
-	public boolean isKeywordIndexValueObsoleteIndicator() {
-		return keywordIndexValueObsoleteIndicator;
-	}
+  /**
+   * Getter for keywordIndexSequenceNumber
+   *
+   * @return keywordIndexSequenceNumber
+   * @since 1.0
+   */
+  public short getKeywordIndexSequenceNumber() {
+    return keywordIndexSequenceNumber;
+  }
 
-	
-	/**
-	 * Setter for keywordIndexLongLanguage1Text
-	 * 
-	 * @param string keywordIndexLongLanguage1Text
-	 * @since 1.0
-	 */
-	public void setKeywordIndexText(String string) {
-		keywordIndexText = string;
-	}
+  /**
+   * Setter for keywordIndexSequenceNumber
+   *
+   * @param s keywordIndexSequenceNumber
+   * @since 1.0
+   */
+  public void setKeywordIndexSequenceNumber(short s) {
+    keywordIndexSequenceNumber = s;
+  }
 
-		/**
-	 * Setter for keywordIndexSequenceNumber
-	 * 
-	 * @param s keywordIndexSequenceNumber
-	 * @since 1.0
-	 */
-	public void setKeywordIndexSequenceNumber(short s) {
-		keywordIndexSequenceNumber = s;
-	}
+  /**
+   * Getter for keywordIndexShortLanguage1Text
+   *
+   * @return keywordIndexShortLanguage1Text
+   * @since 1.0
+   */
+  public String getKeywordIndexShortText() {
+    return keywordIndexShortText;
+  }
 
-	/**
-	 * Setter for keywordIndexShortLanguage1Text
-	 * 
-	 * @param string keywordIndexShortLanguage1Text
-	 * @since 1.0
-	 */
-	public void setKeywordIndexShortText(String string) {
-		keywordIndexShortText = string;
-	}
+  /**
+   * Setter for keywordIndexShortLanguage1Text
+   *
+   * @param string keywordIndexShortLanguage1Text
+   * @since 1.0
+   */
+  public void setKeywordIndexShortText(String string) {
+    keywordIndexShortText = string;
+  }
 
-	/**
-	 * Setter for keywordIndexValueCode
-	 * 
-	 * @param i keywordIndexValueCode
-	 * @since 1.0
-	 */
-	public void setKeywordIndexValueCode(int i) {
-		keywordIndexValueCode = i;
-	}
+  /**
+   * Getter for keywordIndexValueCode
+   *
+   * @return keywordIndexValueCode
+   * @since 1.0
+   */
+  public int getKeywordIndexValueCode() {
+    return keywordIndexValueCode;
+  }
 
-	/**
-	 * Setter for keywordIndexValueObsoleteIndicator
-	 * 
-	 * @param b keywordIndexValueObsoleteIndicator
-	 * @since 1.0
-	 */
-	public void setKeywordIndexValueObsoleteIndicator(boolean b) {
-		keywordIndexValueObsoleteIndicator = b;
-	}
+  /**
+   * Setter for keywordIndexValueCode
+   *
+   * @param i keywordIndexValueCode
+   * @since 1.0
+   */
+  public void setKeywordIndexValueCode(int i) {
+    keywordIndexValueCode = i;
+  }
 
-	/**
-	 * 
-	 * 
-	 * @return
-	 * @exception
-	 * @see
-	 * @since 1.0
-	 */
-	public String getLanguage() {
-		return language;
-	}
+  /**
+   * Getter for keywordIndexValueObsoleteIndicator
+   *
+   * @return keywordIndexValueObsoleteIndicator
+   * @since 1.0
+   */
+  public boolean isKeywordIndexValueObsoleteIndicator() {
+    return keywordIndexValueObsoleteIndicator;
+  }
 
-	/**
-	 * 
-	 * 
-	 * @param string
-	 * @exception
-	 * @see
-	 * @since 1.0
-	 */
-	public void setLanguage(String string) {
-		language = string;
-	}
+  /**
+   * Setter for keywordIndexValueObsoleteIndicator
+   *
+   * @param b keywordIndexValueObsoleteIndicator
+   * @since 1.0
+   */
+  public void setKeywordIndexValueObsoleteIndicator(boolean b) {
+    keywordIndexValueObsoleteIndicator = b;
+  }
 
-	public boolean equals(Object obj) {
-				if (!(obj instanceof T_SRCH_KYWRD_IDX))
-					return false;
-				return (((T_SRCH_KYWRD_IDX) obj).getKeywordIndexValueCode() == getKeywordIndexValueCode())
-					&& (((T_SRCH_KYWRD_IDX) obj).getLanguage().equals(getLanguage()));			
-			}
+  /**
+   * @return
+   * @throws
+   * @see
+   * @since 1.0
+   */
+  public String getLanguage() {
+    return language;
+  }
 
-			/* (non-Javadoc)
-			 * @see java.lang.Object#hashCode()
-			 */
-	public int hashCode() {
-				return getKeywordIndexValueCode() + getLanguage().hashCode();
-			}
+  /**
+   * @param string
+   * @throws
+   * @see
+   * @since 1.0
+   */
+  public void setLanguage(String string) {
+    language = string;
+  }
+
+  public boolean equals(Object obj) {
+    if (!(obj instanceof T_SRCH_KYWRD_IDX))
+      return false;
+    return (((T_SRCH_KYWRD_IDX) obj).getKeywordIndexValueCode ( ) == getKeywordIndexValueCode ( ))
+      && (((T_SRCH_KYWRD_IDX) obj).getLanguage ( ).equals (getLanguage ( )));
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  public int hashCode() {
+    return getKeywordIndexValueCode ( ) + getLanguage ( ).hashCode ( );
+  }
 
 }

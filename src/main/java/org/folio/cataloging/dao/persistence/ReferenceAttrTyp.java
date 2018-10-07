@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Aug 5, 2004
- * 
+ *
  * BibliographicNoteType.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -12,10 +12,10 @@ package org.folio.cataloging.dao.persistence;
  * @version %I%, %G%
  */
 public class ReferenceAttrTyp extends T_SINGLE {
-public static final short SEEN_FROM = 2;
-	
-	static public boolean isSeeAlso(short type) {
-		return type == 3;
-	}
+  public static final short SEEN_FROM = 2;
+
+  static public boolean isSeeAlso(short type) {
+    return type == 3;
+  }
 
 }

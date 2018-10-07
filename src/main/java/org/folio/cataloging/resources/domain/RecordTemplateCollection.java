@@ -12,63 +12,57 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "recordTemplates" })
+@JsonPropertyOrder({"recordTemplates"})
 public class RecordTemplateCollection {
 
-    /**
-     * 
-     * (Required)
-     * 
-     */
-    @JsonProperty("recordTemplates")
-    @Valid
-    @NotNull
-    private List<RecordTemplate> recordTemplates = new ArrayList<RecordTemplate>();
+  /**
+   * (Required)
+   */
+  @JsonProperty("recordTemplates")
+  @Valid
+  @NotNull
+  private List <RecordTemplate> recordTemplates = new ArrayList <RecordTemplate> ( );
 
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  @JsonIgnore
+  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
 
-    /**
-     * 
-     * (Required)
-     * 
-     * @return
-     *     The recordTemplates
-     */
-    @JsonProperty("recordTemplates")
-    public List<RecordTemplate> getRecordTemplates() {
-        return recordTemplates;
-    }
+  /**
+   * (Required)
+   *
+   * @return The recordTemplates
+   */
+  @JsonProperty("recordTemplates")
+  public List <RecordTemplate> getRecordTemplates() {
+    return recordTemplates;
+  }
 
-    /**
-     * 
-     * (Required)
-     * 
-     * @param recordTemplates
-     *     The recordTemplates
-     */
-    @JsonProperty("recordTemplates")
-    public void setRecordTemplates(List<RecordTemplate> recordTemplates) {
-        this.recordTemplates = recordTemplates;
-    }
+  /**
+   * (Required)
+   *
+   * @param recordTemplates The recordTemplates
+   */
+  @JsonProperty("recordTemplates")
+  public void setRecordTemplates(List <RecordTemplate> recordTemplates) {
+    this.recordTemplates = recordTemplates;
+  }
 
-    public RecordTemplateCollection withRecordTemplates(List<RecordTemplate> recordTemplates) {
-        this.recordTemplates = recordTemplates;
-        return this;
-    }
+  public RecordTemplateCollection withRecordTemplates(List <RecordTemplate> recordTemplates) {
+    this.recordTemplates = recordTemplates;
+    return this;
+  }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
+  @JsonAnyGetter
+  public Map <String, Object> getAdditionalProperties() {
+    return this.additionalProperties;
+  }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
+  @JsonAnySetter
+  public void setAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+  }
 
-    public RecordTemplateCollection withAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-        return this;
-    }
+  public RecordTemplateCollection withAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+    return this;
+  }
 }

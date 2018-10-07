@@ -12,96 +12,82 @@ import java.util.List;
 /**
  * Verification Level Schema
  * <p>
- * 
- * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "value", "label", "constraints" })
+@JsonPropertyOrder({"value", "label", "constraints"})
 public class VerificationLevel {
 
-    @JsonProperty("value")
-    private String code;
+  @JsonProperty("value")
+  private String code;
 
-    @JsonProperty("label")
-    private String description;
+  @JsonProperty("label")
+  private String description;
 
-    @JsonProperty("constraints")
-    @Valid
-    private List<Constraint> constraints = new ArrayList<Constraint>();
+  @JsonProperty("constraints")
+  @Valid
+  private List <Constraint> constraints = new ArrayList <Constraint> ( );
 
-    /**
-     * 
-     * @return
-     *     The code
-     */
-    @JsonProperty("value")
-    public String getCode() {
-        return code;
-    }
+  /**
+   * @return The code
+   */
+  @JsonProperty("value")
+  public String getCode() {
+    return code;
+  }
 
-    /**
-     * 
-     * @param code
-     *     The code
-     */
-    @JsonProperty("value")
-    public void setCode(String code) {
-        this.code = code;
-    }
+  /**
+   * @param code The code
+   */
+  @JsonProperty("value")
+  public void setCode(String code) {
+    this.code = code;
+  }
 
-    public VerificationLevel withCode(String code) {
-        this.code = code;
-        return this;
-    }
+  public VerificationLevel withCode(String code) {
+    this.code = code;
+    return this;
+  }
 
-    /**
-     * 
-     * @return
-     *     The description
-     */
-    @JsonProperty("label")
-    public String getDescription() {
-        return description;
-    }
+  /**
+   * @return The description
+   */
+  @JsonProperty("label")
+  public String getDescription() {
+    return description;
+  }
 
-    /**
-     * 
-     * @param description
-     *     The description
-     */
-    @JsonProperty("label")
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  /**
+   * @param description The description
+   */
+  @JsonProperty("label")
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-    public VerificationLevel withDescription(String description) {
-        this.description = description;
-        return this;
-    }
+  public VerificationLevel withDescription(String description) {
+    this.description = description;
+    return this;
+  }
 
-    /**
-     * 
-     * @return
-     *     The constraints
-     */
-    @JsonProperty("constraints")
-    public List<Constraint> getConstraints() {
-        return constraints;
-    }
+  /**
+   * @return The constraints
+   */
+  @JsonProperty("constraints")
+  public List <Constraint> getConstraints() {
+    return constraints;
+  }
 
-    /**
-     * 
-     * @param constraints
-     *     The constraints
-     */
-    @JsonProperty("constraints")
-    public void setConstraints(List<Constraint> constraints) {
-        this.constraints = constraints;
-    }
+  /**
+   * @param constraints The constraints
+   */
+  @JsonProperty("constraints")
+  public void setConstraints(List <Constraint> constraints) {
+    this.constraints = constraints;
+  }
 
-    public VerificationLevel withConstraints(List<Constraint> constraints) {
-        this.constraints = constraints;
-        return this;
-    }
+  public VerificationLevel withConstraints(List <Constraint> constraints) {
+    this.constraints = constraints;
+    return this;
+  }
 }

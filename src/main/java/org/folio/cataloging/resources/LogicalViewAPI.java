@@ -27,32 +27,32 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
 public class LogicalViewAPI extends BaseResource {
 
-    private Function<Avp<String>, View> adapter = source -> {
-        final View logicalView = new View();
-        logicalView.setCode(source.getValue());
-        logicalView.setLongDescription(source.getLabel());
-        return logicalView;
-    };
+  private Function <Avp <String>, View> adapter = source -> {
+    final View logicalView = new View ( );
+    logicalView.setCode (source.getValue ( ));
+    logicalView.setLongDescription (source.getLabel ( ));
+    return logicalView;
+  };
 
-    @ApiOperation(value = "Returns all logical views associated with a given language")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Method successfully returned the requested logical views."),
-            @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 414, message = "Request-URI Too Long"),
-            @ApiResponse(code = 500, message = "System internal failure occurred.")
-    })
-    @GetMapping("/logical-views")
-    public LogicalViewCollection getLogicalViews(
-            @RequestParam final String lang,
-            @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-        return doGet((storageService, configuration) -> {
-                final LogicalViewCollection container = new LogicalViewCollection();
-                container.setViews(
-                        storageService.getLogicalViews(lang)
-                                .stream()
-                                .map(adapter)
-                                .collect(toList()));
-                return container;
-        }, tenant, configurator);
-    }
+  @ApiOperation(value = "Returns all logical views associated with a given language")
+  @ApiResponses(value = {
+    @ApiResponse(code = 200, message = "Method successfully returned the requested logical views."),
+    @ApiResponse(code = 400, message = "Bad Request"),
+    @ApiResponse(code = 414, message = "Request-URI Too Long"),
+    @ApiResponse(code = 500, message = "System internal failure occurred.")
+  })
+  @GetMapping("/logical-views")
+  public LogicalViewCollection getLogicalViews(
+    @RequestParam final String lang,
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    return doGet ((storageService, configuration) -> {
+      final LogicalViewCollection container = new LogicalViewCollection ( );
+      container.setViews (
+        storageService.getLogicalViews (lang)
+          .stream ( )
+          .map (adapter)
+          .collect (toList ( )));
+      return container;
+    }, tenant, configurator);
+  }
 }

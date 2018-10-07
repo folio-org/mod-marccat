@@ -12,63 +12,57 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "fields" })
+@JsonPropertyOrder({"fields"})
 public class FieldCollection {
 
-    /**
-     * 
-     * (Required)
-     * 
-     */
-    @JsonProperty("fields")
-    @Valid
-    @NotNull
-    private List<Field> fields = new ArrayList<Field>();
+  /**
+   * (Required)
+   */
+  @JsonProperty("fields")
+  @Valid
+  @NotNull
+  private List <Field> fields = new ArrayList <Field> ( );
 
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  @JsonIgnore
+  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
 
-    /**
-     * 
-     * (Required)
-     * 
-     * @return
-     *     The fields
-     */
-    @JsonProperty("fields")
-    public List<Field> getFields() {
-        return fields;
-    }
+  /**
+   * (Required)
+   *
+   * @return The fields
+   */
+  @JsonProperty("fields")
+  public List <Field> getFields() {
+    return fields;
+  }
 
-    /**
-     * 
-     * (Required)
-     * 
-     * @param fields
-     *     The fields
-     */
-    @JsonProperty("fields")
-    public void setFields(List<Field> fields) {
-        this.fields = fields;
-    }
+  /**
+   * (Required)
+   *
+   * @param fields The fields
+   */
+  @JsonProperty("fields")
+  public void setFields(List <Field> fields) {
+    this.fields = fields;
+  }
 
-    public FieldCollection withFields(List<Field> fields) {
-        this.fields = fields;
-        return this;
-    }
+  public FieldCollection withFields(List <Field> fields) {
+    this.fields = fields;
+    return this;
+  }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
+  @JsonAnyGetter
+  public Map <String, Object> getAdditionalProperties() {
+    return this.additionalProperties;
+  }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
+  @JsonAnySetter
+  public void setAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+  }
 
-    public FieldCollection withAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-        return this;
-    }
+  public FieldCollection withAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+    return this;
+  }
 }

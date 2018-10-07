@@ -12,63 +12,57 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "retentions" })
+@JsonPropertyOrder({"retentions"})
 public class RetentionCollection {
 
-    /**
-     * 
-     * (Required)
-     * 
-     */
-    @JsonProperty("retentions")
-    @Valid
-    @NotNull
-    private List<Retention> retentions = new ArrayList<Retention>();
+  /**
+   * (Required)
+   */
+  @JsonProperty("retentions")
+  @Valid
+  @NotNull
+  private List <Retention> retentions = new ArrayList <Retention> ( );
 
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  @JsonIgnore
+  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
 
-    /**
-     * 
-     * (Required)
-     * 
-     * @return
-     *     The retentions
-     */
-    @JsonProperty("retentions")
-    public List<Retention> getRetentions() {
-        return retentions;
-    }
+  /**
+   * (Required)
+   *
+   * @return The retentions
+   */
+  @JsonProperty("retentions")
+  public List <Retention> getRetentions() {
+    return retentions;
+  }
 
-    /**
-     * 
-     * (Required)
-     * 
-     * @param retentions
-     *     The retentions
-     */
-    @JsonProperty("retentions")
-    public void setRetentions(List<Retention> retentions) {
-        this.retentions = retentions;
-    }
+  /**
+   * (Required)
+   *
+   * @param retentions The retentions
+   */
+  @JsonProperty("retentions")
+  public void setRetentions(List <Retention> retentions) {
+    this.retentions = retentions;
+  }
 
-    public RetentionCollection withRetentions(List<Retention> retentions) {
-        this.retentions = retentions;
-        return this;
-    }
+  public RetentionCollection withRetentions(List <Retention> retentions) {
+    this.retentions = retentions;
+    return this;
+  }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
+  @JsonAnyGetter
+  public Map <String, Object> getAdditionalProperties() {
+    return this.additionalProperties;
+  }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
+  @JsonAnySetter
+  public void setAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+  }
 
-    public RetentionCollection withAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-        return this;
-    }
+  public RetentionCollection withAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+    return this;
+  }
 }

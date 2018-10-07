@@ -12,63 +12,57 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "recordDisplayFormats" })
+@JsonPropertyOrder({"recordDisplayFormats"})
 public class RecordDisplayFormatCollection {
 
-    /**
-     * 
-     * (Required)
-     * 
-     */
-    @JsonProperty("recordDisplayFormats")
-    @Valid
-    @NotNull
-    private List<RecordDisplayFormat> recordDisplayFormats = new ArrayList<RecordDisplayFormat>();
+  /**
+   * (Required)
+   */
+  @JsonProperty("recordDisplayFormats")
+  @Valid
+  @NotNull
+  private List <RecordDisplayFormat> recordDisplayFormats = new ArrayList <RecordDisplayFormat> ( );
 
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  @JsonIgnore
+  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
 
-    /**
-     * 
-     * (Required)
-     * 
-     * @return
-     *     The recordDisplayFormats
-     */
-    @JsonProperty("recordDisplayFormats")
-    public List<RecordDisplayFormat> getRecordDisplayFormats() {
-        return recordDisplayFormats;
-    }
+  /**
+   * (Required)
+   *
+   * @return The recordDisplayFormats
+   */
+  @JsonProperty("recordDisplayFormats")
+  public List <RecordDisplayFormat> getRecordDisplayFormats() {
+    return recordDisplayFormats;
+  }
 
-    /**
-     * 
-     * (Required)
-     * 
-     * @param recordDisplayFormats
-     *     The recordDisplayFormats
-     */
-    @JsonProperty("recordDisplayFormats")
-    public void setRecordDisplayFormats(List<RecordDisplayFormat> recordDisplayFormats) {
-        this.recordDisplayFormats = recordDisplayFormats;
-    }
+  /**
+   * (Required)
+   *
+   * @param recordDisplayFormats The recordDisplayFormats
+   */
+  @JsonProperty("recordDisplayFormats")
+  public void setRecordDisplayFormats(List <RecordDisplayFormat> recordDisplayFormats) {
+    this.recordDisplayFormats = recordDisplayFormats;
+  }
 
-    public RecordDisplayFormatCollection withRecordDisplayFormats(List<RecordDisplayFormat> recordDisplayFormats) {
-        this.recordDisplayFormats = recordDisplayFormats;
-        return this;
-    }
+  public RecordDisplayFormatCollection withRecordDisplayFormats(List <RecordDisplayFormat> recordDisplayFormats) {
+    this.recordDisplayFormats = recordDisplayFormats;
+    return this;
+  }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
+  @JsonAnyGetter
+  public Map <String, Object> getAdditionalProperties() {
+    return this.additionalProperties;
+  }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
+  @JsonAnySetter
+  public void setAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+  }
 
-    public RecordDisplayFormatCollection withAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-        return this;
-    }
+  public RecordDisplayFormatCollection withAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+    return this;
+  }
 }

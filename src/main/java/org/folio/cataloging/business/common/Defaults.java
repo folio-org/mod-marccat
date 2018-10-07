@@ -14,76 +14,76 @@ import java.util.MissingResourceException;
 // TODO all old methods have been retained for retro-compatibility purposes, but they don't have to be called!
 // TODO old methods just raise an exception!
 public class Defaults {
-	private final static Log LOGGER = new Log(Defaults.class);
+  private final static Log LOGGER = new Log (Defaults.class);
 
-	@Deprecated
-	static public String getString(String key){
+  @Deprecated
+  static public String getString(String key) {
 		/*
 		ResourceBundle defaults =
 				ResourceBundle.getBundle("resources/defaultValues");
 
 		return defaults.getString(key);
 		 */
-		throw new IllegalArgumentException("DON'T CALL ME!");
-	}
+    throw new IllegalArgumentException ("DON'T CALL ME!");
+  }
 
-	@Deprecated
-	public static String getString(String key, String ifNotPresentValue) {
-		try {
-			return getString(key);
-		} catch (MissingResourceException e) {
-			return ifNotPresentValue;
-		}
-	}
+  @Deprecated
+  public static String getString(String key, String ifNotPresentValue) {
+    try {
+      return getString (key);
+    } catch (MissingResourceException e) {
+      return ifNotPresentValue;
+    }
+  }
 
-	@Deprecated
-	static public short getShort(String key) {
-		String result = getString(key);
-		return (short)Integer.parseInt(result);
-	}
+  @Deprecated
+  static public short getShort(String key) {
+    String result = getString (key);
+    return (short) Integer.parseInt (result);
+  }
 
-	@Deprecated
-	static public int getInteger(String key) {
-		String result = getString(key);
-		return Integer.parseInt(result);
-	}
+  @Deprecated
+  static public int getInteger(String key) {
+    String result = getString (key);
+    return Integer.parseInt (result);
+  }
 
-	@Deprecated
-	static public char getChar(String key) {
-		String result = getString(key);
-		return result.charAt(0);
-	}
+  @Deprecated
+  static public char getChar(String key) {
+    String result = getString (key);
+    return result.charAt (0);
+  }
 
-	@Deprecated
-	static public Character getCharacter(String key) {
-		String result = getString(key);
-		return new Character(result.charAt(0));
-	}
+  @Deprecated
+  static public Character getCharacter(String key) {
+    String result = getString (key);
+    return new Character (result.charAt (0));
+  }
 
-	@Deprecated
-	static public boolean getBoolean(String key) {
-		String result = getString(key);
-		return Boolean.valueOf(result).booleanValue();
-	}
+  @Deprecated
+  static public boolean getBoolean(String key) {
+    String result = getString (key);
+    return Boolean.valueOf (result).booleanValue ( );
+  }
 
-	@Deprecated
-	static public boolean getBoolean(String key, boolean ifNotPresentValue) {
-		try {
-			return getBoolean(key);
-		} catch (MissingResourceException e) {
-			return ifNotPresentValue;
-		}
-	}
+  @Deprecated
+  static public boolean getBoolean(String key, boolean ifNotPresentValue) {
+    try {
+      return getBoolean (key);
+    } catch (MissingResourceException e) {
+      return ifNotPresentValue;
+    }
+  }
 
-	@Deprecated
-	static public Class getClazz(String key) {
-		String result = getString(key);
-		try {
-			return Class.forName(result);
-		} catch (ClassNotFoundException e) {
-			return null;
-		}
-	}
+  @Deprecated
+  static public Class getClazz(String key) {
+    String result = getString (key);
+    try {
+      return Class.forName (result);
+    } catch (ClassNotFoundException e) {
+      return null;
+    }
+  }
 
 //	/**
 //	 * Returns a {@link Future} holding the configuration stringValue associated with the given key.

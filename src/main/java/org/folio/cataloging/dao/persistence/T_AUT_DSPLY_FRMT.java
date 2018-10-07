@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Apr 13, 2006
- * 
+ *
  * T_AUT_DSPLY_FRMT.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -11,6 +11,7 @@ package org.folio.cataloging.dao.persistence;
  * Links the users choice of display format (labelled, marc, etc.) to the
  * property key used to determine the localised stylesheet that will generate the
  * display
+ *
  * @author paulm
  * @version $Revision: 1.1 $, $Date: 2006/08/31 12:13:01 $
  * @since 1.0

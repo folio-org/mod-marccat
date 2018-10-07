@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on 21-jun-2004
- * 
+ *
  * SMRY_HLDG.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -24,260 +24,251 @@ import java.util.Date;
  * @since 1.0
  */
 public class SMRY_HLDG implements Persistence, Serializable {
-	private int bibItemNumber;
+  private int bibItemNumber;
 
-	private int mainLibraryNumber;
+  private int mainLibraryNumber;
 
-	private short holdingFirstIndexCode = 5;
+  private short holdingFirstIndexCode = 5;
 
-	private short holdingSecondIndexCode = 5;
+  private short holdingSecondIndexCode = 5;
 
-	private String librarySymbolCode;
+  private String librarySymbolCode;
 
-	/*modifica barbara 24/04/2007 il valore deve essere inizializzato a 0*/
-	private char holdingStatusCode = '0';
+  /*modifica barbara 24/04/2007 il valore deve essere inizializzato a 0*/
+  private char holdingStatusCode = '0';
 
-	private Date creationDate = new Date();
+  private Date creationDate = new Date ( );
 
-	private Date transactionDate = creationDate;
+  private Date transactionDate = creationDate;
 
-	private String holdingStatementText;
+  private String holdingStatementText;
 
-	private PersistenceState persistenceState = new PersistenceState();
+  private PersistenceState persistenceState = new PersistenceState ( );
 
-	public SMRY_HLDG() {
-	}
-	
-	public SMRY_HLDG(CPY_ID copy) {
-		setBibItemNumber(copy.getBibItemNumber());
-		setMainLibraryNumber(copy.getOrganisationNumber());
-		try {
-			setLibrarySymbolCode(new DAOLibrary().getLibrarySymbol(copy.getOrganisationNumber()));
-		} catch (DataAccessException e) {
-			// leave symbol null when data access exception
-		}
-		setHoldingStatementText(copy.getCopyStatementText());
-	}
-	
-	public boolean equals(Object obj) {
-		if (obj instanceof SMRY_HLDG) {
-			SMRY_HLDG aHldg = (SMRY_HLDG) obj;
-			return this.getBibItemNumber() == aHldg.getBibItemNumber()
-					&& this.getMainLibraryNumber() == aHldg
-							.getMainLibraryNumber();
-		}
-		return false;
-	}
+  public SMRY_HLDG() {
+  }
 
-	public void evict() throws DataAccessException {
-		evict(this);
-	}
+  public SMRY_HLDG(CPY_ID copy) {
+    setBibItemNumber (copy.getBibItemNumber ( ));
+    setMainLibraryNumber (copy.getOrganisationNumber ( ));
+    try {
+      setLibrarySymbolCode (new DAOLibrary ( ).getLibrarySymbol (copy.getOrganisationNumber ( )));
+    } catch (DataAccessException e) {
+      // leave symbol null when data access exception
+    }
+    setHoldingStatementText (copy.getCopyStatementText ( ));
+  }
 
-	public void evict(Object obj) throws DataAccessException {
-		persistenceState.evict(obj);
-	}
+  public boolean equals(Object obj) {
+    if (obj instanceof SMRY_HLDG) {
+      SMRY_HLDG aHldg = (SMRY_HLDG) obj;
+      return this.getBibItemNumber ( ) == aHldg.getBibItemNumber ( )
+        && this.getMainLibraryNumber ( ) == aHldg
+        .getMainLibraryNumber ( );
+    }
+    return false;
+  }
 
-	public void generateNewKey() throws DataAccessException {
-		// do nothing
-	}
+  public void evict() throws DataAccessException {
+    evict (this);
+  }
 
-	/**
-	 * @return bibItemNumber
-	 */
-	public int getBibItemNumber() {
-		return bibItemNumber;
-	}
+  public void evict(Object obj) throws DataAccessException {
+    persistenceState.evict (obj);
+  }
 
-	/**
-	 * @return creationDate
-	 */
-	public Date getCreationDate() {
-		return creationDate;
-	}
+  public void generateNewKey() throws DataAccessException {
+    // do nothing
+  }
 
-	public AbstractDAO getDAO() {
-		return persistenceState.getDAO();
-	}
+  /**
+   * @return bibItemNumber
+   */
+  public int getBibItemNumber() {
+    return bibItemNumber;
+  }
 
-	/**
-	 * @return holdingFirstIndexCode
-	 */
-	public short getHoldingFirstIndexCode() {
-		return holdingFirstIndexCode;
-	}
+  /**
+   * @param i bibItemNumber
+   */
+  public void setBibItemNumber(int i) {
+    bibItemNumber = i;
+  }
 
-	/**
-	 * @return holdingSecondIndexCode
-	 */
-	public short getHoldingSecondIndexCode() {
-		return holdingSecondIndexCode;
-	}
+  /**
+   * @return creationDate
+   */
+  public Date getCreationDate() {
+    return creationDate;
+  }
 
-	/**
-	 * @return holdingStatementText
-	 */
-	public String getHoldingStatementText() {
-		return holdingStatementText;
-	}
+  /**
+   * @param date creationDate
+   */
+  public void setCreationDate(Date date) {
+    creationDate = date;
+  }
 
-	/**
-	 * @return holdingStatusCode
-	 */
-	public char getHoldingStatusCode() {
-		return holdingStatusCode;
-	}
+  public AbstractDAO getDAO() {
+    return persistenceState.getDAO ( );
+  }
 
-	/**
-	 * @return librarySymbolCode
-	 */
-	public String getLibrarySymbolCode() {
-		return librarySymbolCode;
-	}
+  /**
+   * @return holdingFirstIndexCode
+   */
+  public short getHoldingFirstIndexCode() {
+    return holdingFirstIndexCode;
+  }
 
-	/**
-	 * @return mainLibraryNumber
-	 */
-	public int getMainLibraryNumber() {
-		return mainLibraryNumber;
-	}
+  /**
+   * @param s holdingFirstIndexCode
+   */
+  public void setHoldingFirstIndexCode(short s) {
+    holdingFirstIndexCode = s;
+  }
 
-	/**
-	 * @return transactionDate
-	 */
-	public Date getTransactionDate() {
-		return transactionDate;
-	}
+  /**
+   * @return holdingSecondIndexCode
+   */
+  public short getHoldingSecondIndexCode() {
+    return holdingSecondIndexCode;
+  }
 
-	public int getUpdateStatus() {
-		return persistenceState.getUpdateStatus();
-	}
+  /**
+   * @param s holdingSecondIndexCode
+   */
+  public void setHoldingSecondIndexCode(short s) {
+    holdingSecondIndexCode = s;
+  }
 
-	public int hashCode() {
-		return getBibItemNumber() + getMainLibraryNumber();
-	}
+  /**
+   * @return holdingStatementText
+   */
+  public String getHoldingStatementText() {
+    return holdingStatementText;
+  }
 
-	public boolean isChanged() {
-		return persistenceState.isChanged();
-	}
+  /**
+   * @param string holdingStatementText
+   */
+  public void setHoldingStatementText(String string) {
+    holdingStatementText = string;
+  }
 
-	public boolean isDeleted() {
-		return persistenceState.isDeleted();
-	}
+  /**
+   * @return holdingStatusCode
+   */
+  public char getHoldingStatusCode() {
+    return holdingStatusCode;
+  }
 
-	public boolean isNew() {
-		return persistenceState.isNew();
-	}
+  /**
+   * @param c holdingStatusCode
+   */
+  public void setHoldingStatusCode(char c) {
+    holdingStatusCode = c;
+  }
 
-	public boolean isRemoved() {
-		return persistenceState.isRemoved();
-	}
+  /**
+   * @return librarySymbolCode
+   */
+  public String getLibrarySymbolCode() {
+    return librarySymbolCode;
+  }
 
-	public void markChanged() {
-		persistenceState.markChanged();
-	}
+  /**
+   * @param string librarySymbolCode
+   */
+  public void setLibrarySymbolCode(String string) {
+    librarySymbolCode = string;
+  }
 
-	public void markDeleted() {
-		persistenceState.markDeleted();
-	}
+  /**
+   * @return mainLibraryNumber
+   */
+  public int getMainLibraryNumber() {
+    return mainLibraryNumber;
+  }
 
-	public void markNew() {
-		persistenceState.markNew();
-	}
+  /**
+   * @param i mainLibraryNumber
+   */
+  public void setMainLibraryNumber(int i) {
+    mainLibraryNumber = i;
+  }
 
-	public void markUnchanged() {
-		persistenceState.markUnchanged();
-	}
+  /**
+   * @return transactionDate
+   */
+  public Date getTransactionDate() {
+    return transactionDate;
+  }
 
-	public boolean onDelete(Session arg0) throws CallbackException {
-		return persistenceState.onDelete(arg0);
-	}
+  /**
+   * @param date transactionDate
+   */
+  public void setTransactionDate(Date date) {
+    transactionDate = date;
+  }
 
-	public void onLoad(Session arg0, Serializable arg1) {
-		persistenceState.onLoad(arg0, arg1);
-	}
+  public int getUpdateStatus() {
+    return persistenceState.getUpdateStatus ( );
+  }
 
-	public boolean onSave(Session arg0) throws CallbackException {
-		return persistenceState.onSave(arg0);
-	}
+  public void setUpdateStatus(int i) {
+    persistenceState.setUpdateStatus (i);
+  }
 
-	public boolean onUpdate(Session arg0) throws CallbackException {
-		return persistenceState.onUpdate(arg0);
-	}
+  public int hashCode() {
+    return getBibItemNumber ( ) + getMainLibraryNumber ( );
+  }
 
-	/**
-	 * @param i
-	 *            bibItemNumber
-	 */
-	public void setBibItemNumber(int i) {
-		bibItemNumber = i;
-	}
+  public boolean isChanged() {
+    return persistenceState.isChanged ( );
+  }
 
-	/**
-	 * @param date
-	 *            creationDate
-	 */
-	public void setCreationDate(Date date) {
-		creationDate = date;
-	}
+  public boolean isDeleted() {
+    return persistenceState.isDeleted ( );
+  }
 
-	/**
-	 * @param s
-	 *            holdingFirstIndexCode
-	 */
-	public void setHoldingFirstIndexCode(short s) {
-		holdingFirstIndexCode = s;
-	}
+  public boolean isNew() {
+    return persistenceState.isNew ( );
+  }
 
-	/**
-	 * @param s
-	 *            holdingSecondIndexCode
-	 */
-	public void setHoldingSecondIndexCode(short s) {
-		holdingSecondIndexCode = s;
-	}
+  public boolean isRemoved() {
+    return persistenceState.isRemoved ( );
+  }
 
-	/**
-	 * @param string
-	 *            holdingStatementText
-	 */
-	public void setHoldingStatementText(String string) {
-		holdingStatementText = string;
-	}
+  public void markChanged() {
+    persistenceState.markChanged ( );
+  }
 
-	/**
-	 * @param c
-	 *            holdingStatusCode
-	 */
-	public void setHoldingStatusCode(char c) {
-		holdingStatusCode = c;
-	}
+  public void markDeleted() {
+    persistenceState.markDeleted ( );
+  }
 
-	/**
-	 * @param string
-	 *            librarySymbolCode
-	 */
-	public void setLibrarySymbolCode(String string) {
-		librarySymbolCode = string;
-	}
+  public void markNew() {
+    persistenceState.markNew ( );
+  }
 
-	/**
-	 * @param i
-	 *            mainLibraryNumber
-	 */
-	public void setMainLibraryNumber(int i) {
-		mainLibraryNumber = i;
-	}
+  public void markUnchanged() {
+    persistenceState.markUnchanged ( );
+  }
 
-	/**
-	 * @param date
-	 *            transactionDate
-	 */
-	public void setTransactionDate(Date date) {
-		transactionDate = date;
-	}
+  public boolean onDelete(Session arg0) throws CallbackException {
+    return persistenceState.onDelete (arg0);
+  }
 
-	public void setUpdateStatus(int i) {
-		persistenceState.setUpdateStatus(i);
-	}
+  public void onLoad(Session arg0, Serializable arg1) {
+    persistenceState.onLoad (arg0, arg1);
+  }
+
+  public boolean onSave(Session arg0) throws CallbackException {
+    return persistenceState.onSave (arg0);
+  }
+
+  public boolean onUpdate(Session arg0) throws CallbackException {
+    return persistenceState.onUpdate (arg0);
+  }
 
 }

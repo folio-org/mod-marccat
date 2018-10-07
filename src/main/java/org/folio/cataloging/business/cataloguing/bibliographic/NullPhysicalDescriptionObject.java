@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Oct 15, 2004
- * 
+ *
  * Map.java
  */
 package org.folio.cataloging.business.cataloguing.bibliographic;
@@ -18,14 +18,14 @@ import org.w3c.dom.Element;
  */
 public class NullPhysicalDescriptionObject extends PhysicalDescription {
 
-	public Element generateModelXmlElementContent(Document xmlDocument) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  public Element generateModelXmlElementContent(Document xmlDocument) {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
-	public void parseModelXmlElementContent(Element xmlElement) {
-		// TODO Auto-generated method stub
-		
-	}
+  public void parseModelXmlElementContent(Element xmlElement) {
+    // TODO Auto-generated method stub
+
+  }
 
 }

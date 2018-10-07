@@ -10,8 +10,8 @@ import org.folio.cataloging.dao.persistence.ItemEntity;
  */
 public interface PersistsViaItem {
 
-	ItemEntity getItemEntity();
+  ItemEntity getItemEntity();
 
-	void setItemEntity(ItemEntity item);
-	
+  void setItemEntity(ItemEntity item);
+
 }

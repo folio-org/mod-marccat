@@ -12,166 +12,162 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class CLCTN_PUBL_ACS_PNT implements Persistence
-{		 
-	private static final long serialVersionUID = -5748667651316713999L;
-	
-	private int collectionNumber;
-	private int bibItemNumber;
-	private Date creationDate;
-	private Date  transactionDate;
-			
-	private PersistenceState persistentState = new PersistenceState();
+public class CLCTN_PUBL_ACS_PNT implements Persistence {
+  private static final long serialVersionUID = -5748667651316713999L;
 
-	public CLCTN_PUBL_ACS_PNT() {
-		super();
-	}
+  private int collectionNumber;
+  private int bibItemNumber;
+  private Date creationDate;
+  private Date transactionDate;
 
-	public CLCTN_PUBL_ACS_PNT(int itemNumber, int collectionNumber, Date creationDate, Date transactionDate) {
-		super();
-		this.bibItemNumber = itemNumber;
-		this.collectionNumber = collectionNumber;
-		this.creationDate = creationDate;
-		this.transactionDate = transactionDate;
-	}
+  private PersistenceState persistentState = new PersistenceState ( );
 
-	public int getBibItemNumber() {
-		return bibItemNumber;
-	}
+  public CLCTN_PUBL_ACS_PNT() {
+    super ( );
+  }
 
-	public int getCollectionNumber() {
-		return collectionNumber;
-	}
+  public CLCTN_PUBL_ACS_PNT(int itemNumber, int collectionNumber, Date creationDate, Date transactionDate) {
+    super ( );
+    this.bibItemNumber = itemNumber;
+    this.collectionNumber = collectionNumber;
+    this.creationDate = creationDate;
+    this.transactionDate = transactionDate;
+  }
 
-	public void setBibItemNumber(int bibNumber) {
-		bibItemNumber = bibNumber;
-	}
+  public int getBibItemNumber() {
+    return bibItemNumber;
+  }
 
-	public void setCollectionNumber(int collId) {
-		collectionNumber = collId;
-	}
+  public void setBibItemNumber(int bibNumber) {
+    bibItemNumber = bibNumber;
+  }
 
-	public void evict(Object obj) throws DataAccessException {
-		persistentState.evict(obj);
-	}
+  public int getCollectionNumber() {
+    return collectionNumber;
+  }
 
-	public AbstractDAO getDAO() {
-		return persistentState.getDAO();
-	}
+  public void setCollectionNumber(int collId) {
+    collectionNumber = collId;
+  }
 
-	public int getUpdateStatus() {
-		return persistentState.getUpdateStatus();
-	}
+  public void evict(Object obj) throws DataAccessException {
+    persistentState.evict (obj);
+  }
 
-	public boolean isChanged() {
-		return persistentState.isChanged();
-	}
+  public AbstractDAO getDAO() {
+    return persistentState.getDAO ( );
+  }
 
-	public boolean isDeleted() {
-		return persistentState.isDeleted();
-	}
+  public int getUpdateStatus() {
+    return persistentState.getUpdateStatus ( );
+  }
 
-	public boolean isNew() {
-		return persistentState.isNew();
-	}
+  public void setUpdateStatus(int i) {
+    persistentState.setUpdateStatus (i);
+  }
 
-	public boolean isRemoved() {
-		return persistentState.isRemoved();
-	}
+  public boolean isChanged() {
+    return persistentState.isChanged ( );
+  }
 
-	public void markChanged() {
-		persistentState.markChanged();
-	}
+  public boolean isDeleted() {
+    return persistentState.isDeleted ( );
+  }
 
-	public void markDeleted() {
-		persistentState.markDeleted();
-	}
+  public boolean isNew() {
+    return persistentState.isNew ( );
+  }
 
-	public void markNew() {
-		persistentState.markNew();
-	}
+  public boolean isRemoved() {
+    return persistentState.isRemoved ( );
+  }
 
-	public void markUnchanged() {
-		persistentState.markUnchanged();
-	}
+  public void markChanged() {
+    persistentState.markChanged ( );
+  }
 
-	public boolean onDelete(Session arg0) throws CallbackException {
-		return persistentState.onDelete(arg0);
-	}
+  public void markDeleted() {
+    persistentState.markDeleted ( );
+  }
 
-	public void onLoad(Session arg0, Serializable arg1) {
-		persistentState.onLoad(arg0, arg1);
-	}
+  public void markNew() {
+    persistentState.markNew ( );
+  }
 
-	public boolean onSave(Session arg0) throws CallbackException {
-		return persistentState.onSave(arg0);
-	}
+  public void markUnchanged() {
+    persistentState.markUnchanged ( );
+  }
 
-	public boolean onUpdate(Session arg0) throws CallbackException {
-		return persistentState.onUpdate(arg0);
-	}
+  public boolean onDelete(Session arg0) throws CallbackException {
+    return persistentState.onDelete (arg0);
+  }
 
-	public void setUpdateStatus(int i) {
-		persistentState.setUpdateStatus(i);
-	}
+  public void onLoad(Session arg0, Serializable arg1) {
+    persistentState.onLoad (arg0, arg1);
+  }
 
-	public void evict() throws DataAccessException {
-		evict(this);
-	}
+  public boolean onSave(Session arg0) throws CallbackException {
+    return persistentState.onSave (arg0);
+  }
 
-	public void generateNewKey() throws DataAccessException {
-		// not applicable for this class
-	}
+  public boolean onUpdate(Session arg0) throws CallbackException {
+    return persistentState.onUpdate (arg0);
+  }
 
-	public boolean equals(Object arg0) {
-		if (arg0 instanceof CLCTN_PUBL_ACS_PNT) {
-			CLCTN_PUBL_ACS_PNT c = (CLCTN_PUBL_ACS_PNT)arg0;
-			return this.getBibItemNumber() == c.getBibItemNumber() &&
-					this.getCollectionNumber() == c.collectionNumber;
-		}
-		else {
-			return false;
-		}
-	}
+  public void evict() throws DataAccessException {
+    evict (this);
+  }
 
-	public int hashCode() {
-		return getBibItemNumber() + getCollectionNumber();
-	}
-	
-	public Date getCreationDate() {
-		return creationDate;
-	}
-	public String getCreationDateString() 
-	{
-		if (getCreationDate() != null) {
-			DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-			return formatter.format(getCreationDate());
-		}
-		else {
-			return "";
-		}
-	}
+  public void generateNewKey() throws DataAccessException {
+    // not applicable for this class
+  }
 
-	public void setCreationDate(Date creationDate) {
-		this.creationDate = creationDate;
-	}
+  public boolean equals(Object arg0) {
+    if (arg0 instanceof CLCTN_PUBL_ACS_PNT) {
+      CLCTN_PUBL_ACS_PNT c = (CLCTN_PUBL_ACS_PNT) arg0;
+      return this.getBibItemNumber ( ) == c.getBibItemNumber ( ) &&
+        this.getCollectionNumber ( ) == c.collectionNumber;
+    } else {
+      return false;
+    }
+  }
 
-	public Date getTransactionDate() {
-		return transactionDate;
-	}
+  public int hashCode() {
+    return getBibItemNumber ( ) + getCollectionNumber ( );
+  }
 
-	public String getTransactionDateString() {
-		if (getTransactionDate() != null) {
-			DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-			return formatter.format(getTransactionDate());
-		}
-		else {
-			return "";
-		}
-	}
+  public Date getCreationDate() {
+    return creationDate;
+  }
 
-	public void setTransactionDate(Date transactionDate) {
-		this.transactionDate = transactionDate;
-	}
-	
+  public void setCreationDate(Date creationDate) {
+    this.creationDate = creationDate;
+  }
+
+  public String getCreationDateString() {
+    if (getCreationDate ( ) != null) {
+      DateFormat formatter = new SimpleDateFormat ("dd-MM-yyyy");
+      return formatter.format (getCreationDate ( ));
+    } else {
+      return "";
+    }
+  }
+
+  public Date getTransactionDate() {
+    return transactionDate;
+  }
+
+  public void setTransactionDate(Date transactionDate) {
+    this.transactionDate = transactionDate;
+  }
+
+  public String getTransactionDateString() {
+    if (getTransactionDate ( ) != null) {
+      DateFormat formatter = new SimpleDateFormat ("dd-MM-yyyy");
+      return formatter.format (getTransactionDate ( ));
+    } else {
+      return "";
+    }
+  }
+
 }

@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Jul 17, 2006
- * 
+ *
  * PrimaryNotCompatibleException.java
  */
 package org.folio.cataloging.exception;

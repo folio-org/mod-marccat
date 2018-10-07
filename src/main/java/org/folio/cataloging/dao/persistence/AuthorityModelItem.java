@@ -11,16 +11,15 @@ import org.folio.cataloging.dao.AuthorityModelItemDAO;
  * @since 1.0
  */
 public class AuthorityModelItem extends ModelItem {
-	/**
-	 *
-	 * Gets the dao.
-	 *
-	 * @return the dao
-	 */
+  /**
+   * Gets the dao.
+   *
+   * @return the dao
+   */
 
-	public AbstractDAO getDAO() {
-		return new AuthorityModelItemDAO();
-	}
+  public AbstractDAO getDAO() {
+    return new AuthorityModelItemDAO ( );
+  }
 
 
 }

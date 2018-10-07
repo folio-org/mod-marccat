@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Jan 31, 2005
- * 
+ *
  * T_CURCY_TYP.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -14,15 +14,14 @@ package org.folio.cataloging.dao.persistence;
  */
 public class T_CURCY_TYP extends T_SINGLE_INT {
 
-	/**
-	 * Class constructor
-	 *
-	 * 
-	 * @since 1.0
-	 */
-	public T_CURCY_TYP() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+  /**
+   * Class constructor
+   *
+   * @since 1.0
+   */
+  public T_CURCY_TYP() {
+    super ( );
+    // TODO Auto-generated constructor stub
+  }
 
 }

@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Nov 18, 2005
- * 
+ *
  * AuthorityDateOfLastTransactionTag.java
  */
 package org.folio.cataloging.business.cataloguing.authority;
@@ -15,18 +15,17 @@ import org.folio.cataloging.business.cataloguing.common.DateOfLastTransactionTag
  * @since 1.0
  */
 public class AuthorityDateOfLastTransactionTag
-	extends DateOfLastTransactionTag {
+  extends DateOfLastTransactionTag {
 
-	/**
-	 * Class constructor
-	 *
-	 * 
-	 * @since 1.0
-	 */
-	public AuthorityDateOfLastTransactionTag() {
-		super();
-		setHeaderField(new AuthorityHeaderFieldHelper());
-		setHeaderType((short)12);
-	}
+  /**
+   * Class constructor
+   *
+   * @since 1.0
+   */
+  public AuthorityDateOfLastTransactionTag() {
+    super ( );
+    setHeaderField (new AuthorityHeaderFieldHelper ( ));
+    setHeaderType ((short) 12);
+  }
 
 }

@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on May 10, 2006
- * 
+ *
  * MandatoryTagException.java
  */
 package org.folio.cataloging.exception;
@@ -13,88 +13,85 @@ package org.folio.cataloging.exception;
  * @since 1.0
  */
 public class MandatorySubfieldException extends RuntimeException {
-	private String tagNumber;
-	private String subfieldCode;
-	
-	public MandatorySubfieldException(String tagNumber, String subfieldCode) {
-		super();
-		this.tagNumber = tagNumber;
-		this.subfieldCode = subfieldCode;
-	}
+  private String tagNumber;
+  private String subfieldCode;
 
-	/**
-	 * Class constructor
-	 *
-	 * 
-	 * @since 1.0
-	 */
-	public MandatorySubfieldException() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+  public MandatorySubfieldException(String tagNumber, String subfieldCode) {
+    super ( );
+    this.tagNumber = tagNumber;
+    this.subfieldCode = subfieldCode;
+  }
 
-	/**
-	 * Class constructor
-	 *
-	 * @param message
-	 * @since 1.0
-	 */
-	public MandatorySubfieldException(String subfieldCode) {
-		super(subfieldCode);
-		setSubfieldCode(subfieldCode);
-	}
+  /**
+   * Class constructor
+   *
+   * @since 1.0
+   */
+  public MandatorySubfieldException() {
+    super ( );
+    // TODO Auto-generated constructor stub
+  }
 
-	/**
-	 * Class constructor
-	 *
-	 * @param message
-	 * @param cause
-	 * @since 1.0
-	 */
-	public MandatorySubfieldException(String message, Throwable cause) {
-		super(message, cause);
-		// TODO Auto-generated constructor stub
-	}
+  /**
+   * Class constructor
+   *
+   * @param message
+   * @since 1.0
+   */
+  public MandatorySubfieldException(String subfieldCode) {
+    super (subfieldCode);
+    setSubfieldCode (subfieldCode);
+  }
 
-	/**
-	 * Class constructor
-	 *
-	 * @param cause
-	 * @since 1.0
-	 */
-	public MandatorySubfieldException(Throwable cause) {
-		super(cause);
-		// TODO Auto-generated constructor stub
-	}
+  /**
+   * Class constructor
+   *
+   * @param message
+   * @param cause
+   * @since 1.0
+   */
+  public MandatorySubfieldException(String message, Throwable cause) {
+    super (message, cause);
+    // TODO Auto-generated constructor stub
+  }
 
-	/**
-	 * 
-	 * @since 1.0
-	 */
-	public String getTagNumber() {
-		return tagNumber;
-	}
+  /**
+   * Class constructor
+   *
+   * @param cause
+   * @since 1.0
+   */
+  public MandatorySubfieldException(Throwable cause) {
+    super (cause);
+    // TODO Auto-generated constructor stub
+  }
 
-	/**
-	 * 
-	 * @since 1.0
-	 */
-	public void setTagNumber(String string) {
-		tagNumber = string;
-	}
+  /**
+   * @since 1.0
+   */
+  public String getTagNumber() {
+    return tagNumber;
+  }
 
-	/**
-	 * @return Returns the subfieldCode.
-	 */
-	public String getSubfieldCode() {
-		return subfieldCode;
-	}
+  /**
+   * @since 1.0
+   */
+  public void setTagNumber(String string) {
+    tagNumber = string;
+  }
 
-	/**
-	 * @param subfieldCode The subfieldCode to set.
-	 */
-	public void setSubfieldCode(String subfieldCode) {
-		this.subfieldCode = subfieldCode;
-	}
+  /**
+   * @return Returns the subfieldCode.
+   */
+  public String getSubfieldCode() {
+    return subfieldCode;
+  }
+
+  /**
+   * @param subfieldCode The subfieldCode to set.
+   */
+  public void setSubfieldCode(String subfieldCode) {
+    this.subfieldCode = subfieldCode;
+  }
 
 }

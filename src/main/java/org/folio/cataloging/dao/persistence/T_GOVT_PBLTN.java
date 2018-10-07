@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on 19-ago-2004
- * 
+ *
  * T_GOVT_PBLTN.java
  */
 package org.folio.cataloging.dao.persistence;

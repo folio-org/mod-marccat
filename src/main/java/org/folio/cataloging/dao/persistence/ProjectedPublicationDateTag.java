@@ -17,39 +17,37 @@ import org.folio.cataloging.util.StringText;
  * @since 1.0
  */
 public class ProjectedPublicationDateTag extends VariableHeaderUsingItemEntity {
-	//TODO subfield a should be validated for yyyymm or - for unknown
-	/**
-	 * Class constructor
-	 *
-	 *
-	 * @since 1.0
-	 */
-	public ProjectedPublicationDateTag() {
-		super();
-		setHeaderType((short) 38);
-	}
+  //TODO subfield a should be validated for yyyymm or - for unknown
 
-	public StringText getStringText() {
-		StringText result = null;
-		String source = "" + ((BIB_ITM)getItemEntity()).getProjectedPublicationDateCode();
+  /**
+   * Class constructor
+   *
+   * @since 1.0
+   */
+  public ProjectedPublicationDateTag() {
+    super ( );
+    setHeaderType ((short) 38);
+  }
 
-		if (source == null) {
-			result = new StringText(Subfield.SUBFIELD_DELIMITER + "a");
-		}
-		else {
-			result = new StringText(source);
-		}
-		return result;
-	}
+  public StringText getStringText() {
+    StringText result = null;
+    String source = "" + ((BIB_ITM) getItemEntity ( )).getProjectedPublicationDateCode ( );
 
-	public void setStringText(StringText st) {
+    if (source == null) {
+      result = new StringText (Subfield.SUBFIELD_DELIMITER + "a");
+    } else {
+      result = new StringText (source);
+    }
+    return result;
+  }
+
+  public void setStringText(StringText st) {
 //TODO need a more definitive way to set to null
-		if (st.toString().equals(Subfield.SUBFIELD_DELIMITER + "a")) {
-			((BIB_ITM)getItemEntity()).setProjectedPublicationDateCode(null);
-		}
-		else {
-			((BIB_ITM)getItemEntity()).setProjectedPublicationDateCode(st.toString());
-		}
-	}
+    if (st.toString ( ).equals (Subfield.SUBFIELD_DELIMITER + "a")) {
+      ((BIB_ITM) getItemEntity ( )).setProjectedPublicationDateCode (null);
+    } else {
+      ((BIB_ITM) getItemEntity ( )).setProjectedPublicationDateCode (st.toString ( ));
+    }
+  }
 
 }

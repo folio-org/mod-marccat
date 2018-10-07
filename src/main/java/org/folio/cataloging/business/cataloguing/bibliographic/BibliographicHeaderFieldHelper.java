@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Nov 18, 2005
- * 
+ *
  * BibliographicHeaderFieldHelper.java
  */
 package org.folio.cataloging.business.cataloguing.bibliographic;
@@ -17,18 +17,18 @@ import org.folio.cataloging.dao.persistence.T_BIB_HDR;
  */
 public class BibliographicHeaderFieldHelper extends HeaderFieldHelper {
 
-	/* (non-Javadoc)
-	 * @see HeaderField#getCategory()
-	 */
-	public int getCategory() {
-		return 1;
-	}
+  /* (non-Javadoc)
+   * @see HeaderField#getCategory()
+   */
+  public int getCategory() {
+    return 1;
+  }
 
-	/* (non-Javadoc)
-	 * @see HeaderFieldHelper#getHeaderListClass()
-	 */
-	public Class getHeaderListClass() {
-		return T_BIB_HDR.class;
-	}
+  /* (non-Javadoc)
+   * @see HeaderFieldHelper#getHeaderListClass()
+   */
+  public Class getHeaderListClass() {
+    return T_BIB_HDR.class;
+  }
 
 }

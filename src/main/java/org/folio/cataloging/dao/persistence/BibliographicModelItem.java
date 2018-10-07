@@ -14,12 +14,12 @@ import java.io.Serializable;
  */
 public class BibliographicModelItem extends ModelItem implements Persistence, Serializable {
 
-	/**
-	 * Gets the dao.
-	 *
-	 * @return the dao
-	 */
-	public BibliographicModelItemDAO getDAO() {
-		return new BibliographicModelItemDAO();
-	}
+  /**
+   * Gets the dao.
+   *
+   * @return the dao
+   */
+  public BibliographicModelItemDAO getDAO() {
+    return new BibliographicModelItemDAO ( );
+  }
 }

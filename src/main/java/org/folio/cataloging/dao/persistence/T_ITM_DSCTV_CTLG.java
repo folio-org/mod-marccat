@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Oct 13, 2004
- * 
+ *
  * T_ITM_DSCTV_CTLG.java
  */
 package org.folio.cataloging.dao.persistence;

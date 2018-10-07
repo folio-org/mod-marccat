@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Nov 18, 2005
- * 
+ *
  * AuthorityGeographicAreaTag.java
  */
 package org.folio.cataloging.business.cataloguing.authority;
@@ -16,16 +16,15 @@ import org.folio.cataloging.business.cataloguing.common.GeographicAreaTag;
  */
 public class AuthorityGeographicAreaTag extends GeographicAreaTag {
 
-	/**
-	 * Class constructor
-	 *
-	 * 
-	 * @since 1.0
-	 */
-	public AuthorityGeographicAreaTag() {
-		super();
-		setHeaderField(new AuthorityHeaderFieldHelper());
-		setHeaderType((short) 3);
-	}
+  /**
+   * Class constructor
+   *
+   * @since 1.0
+   */
+  public AuthorityGeographicAreaTag() {
+    super ( );
+    setHeaderField (new AuthorityHeaderFieldHelper ( ));
+    setHeaderType ((short) 3);
+  }
 
 }

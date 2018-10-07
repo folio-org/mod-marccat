@@ -1,8 +1,8 @@
 /*
  * (c) Carmen
- * 
+ *
  * Created on 06-ago-2008
- * 
+ *
  * T_CAS_SDIV_GEOG_TYP.java
  */
 package org.folio.cataloging.dao.persistence;

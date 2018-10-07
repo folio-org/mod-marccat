@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Nov 18, 2005
- * 
+ *
  * AuthorityControlNumberTag.java
  */
 package org.folio.cataloging.business.cataloguing.authority;
@@ -16,15 +16,14 @@ import org.folio.cataloging.business.cataloguing.common.ControlNumberTag;
  */
 public class AuthorityControlNumberTag extends ControlNumberTag {
 
-	/**
-	 * Class constructor
-	 *
-	 * 
-	 * @since 1.0
-	 */
-	public AuthorityControlNumberTag() {
-		super();
-		setHeaderField(new AuthorityHeaderFieldHelper());
-		setHeaderType((short)11);
-	}
+  /**
+   * Class constructor
+   *
+   * @since 1.0
+   */
+  public AuthorityControlNumberTag() {
+    super ( );
+    setHeaderField (new AuthorityHeaderFieldHelper ( ));
+    setHeaderType ((short) 11);
+  }
 }

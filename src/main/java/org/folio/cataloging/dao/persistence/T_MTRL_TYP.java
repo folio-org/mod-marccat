@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Oct 9, 2004
- * 
+ *
  * T_MTRL_TYP.java
  */
 package org.folio.cataloging.dao.persistence;

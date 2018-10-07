@@ -6,7 +6,6 @@ import org.folio.cataloging.business.authorisation.AuthorisationAgent;
 import org.folio.cataloging.business.authorisation.AuthorisationException;
 import org.folio.cataloging.business.authorisation.Permission;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.dao.DAOOrganisationHierarchy;
 import org.folio.cataloging.dao.DAOUserAccount;
 import org.folio.cataloging.dao.common.HibernateUtil;
@@ -22,148 +21,149 @@ import org.folio.cataloging.dao.persistence.USR_ACNT;
  * @since 1.0
  */
 public class UserProfile {
-	private int cataloguingView;
+  private int cataloguingView;
 
-	private int mainLibrary;
-	private AuthorisationAgent authorisationAgent;
-	private String name;
-	private int maxRecordCount;
-	private USR_ACNT aUserAccount;
-    
-	public UserProfile(final Session session, String name) throws DataAccessException {
-		aUserAccount = new DAOUserAccount().load(name);
-		if(aUserAccount==null) {
-			throw new NullPointerException("User "+name+" not found in the database");
-		}
-		ORG_HRCHY anOrgHierarchy = new DAOOrganisationHierarchy().load(session, aUserAccount.getBranchLibrary());
-		int realView = getRealUserView(aUserAccount);
-		setCataloguingView(realView);
-		
+  private int mainLibrary;
+  private AuthorisationAgent authorisationAgent;
+  private String name;
+  private int maxRecordCount;
+  private USR_ACNT aUserAccount;
 
-		setSearchingView(aUserAccount.getDefaultSearchingView());
-		setDatabasePreferenceOrder(aUserAccount.getDatabasePreferenceOrder());
-		setDefaultRecordDisplay(aUserAccount.getDefaultRecordDisplay());
-		setBranchLibrary(aUserAccount.getBranchLibrary());
-		setMainLibrary(anOrgHierarchy.getPARNT_ORG_NBR());
-		this.name = aUserAccount.getName();
-		this.maxRecordCount = aUserAccount.getMaxRecordCount();
-		setAuthorisationAgent(new AmicusAuthority(name));
-		setDefaultAuthorityModel(aUserAccount.getDefaultAuthorityModel());
-		setDefaultBibliographicModel(aUserAccount.getDefaultBibliographicModel());
-	}
+  public UserProfile(final Session session, String name) throws DataAccessException {
+    aUserAccount = new DAOUserAccount ( ).load (name);
+    if (aUserAccount == null) {
+      throw new NullPointerException ("User " + name + " not found in the database");
+    }
+    ORG_HRCHY anOrgHierarchy = new DAOOrganisationHierarchy ( ).load (session, aUserAccount.getBranchLibrary ( ));
+    int realView = getRealUserView (aUserAccount);
+    setCataloguingView (realView);
 
-	public UserProfile() {
-        aUserAccount = new USR_ACNT();
-	}
 
-	private int getRealUserView(final USR_ACNT userAccount) {
-		return userAccount.getCataloguingView();
-	}
+    setSearchingView (aUserAccount.getDefaultSearchingView ( ));
+    setDatabasePreferenceOrder (aUserAccount.getDatabasePreferenceOrder ( ));
+    setDefaultRecordDisplay (aUserAccount.getDefaultRecordDisplay ( ));
+    setBranchLibrary (aUserAccount.getBranchLibrary ( ));
+    setMainLibrary (anOrgHierarchy.getPARNT_ORG_NBR ( ));
+    this.name = aUserAccount.getName ( );
+    this.maxRecordCount = aUserAccount.getMaxRecordCount ( );
+    setAuthorisationAgent (new AmicusAuthority (name));
+    setDefaultAuthorityModel (aUserAccount.getDefaultAuthorityModel ( ));
+    setDefaultBibliographicModel (aUserAccount.getDefaultBibliographicModel ( ));
+  }
 
-	public int getCataloguingView() {
-		return cataloguingView;
-	}
+  public UserProfile() {
+    aUserAccount = new USR_ACNT ( );
+  }
 
-	public void setCataloguingView(int s) {
-		cataloguingView = s;
-	}
+  private int getRealUserView(final USR_ACNT userAccount) {
+    return userAccount.getCataloguingView ( );
+  }
 
-	public int getBranchLibrary() {
-		return aUserAccount.getBranchLibrary();
-	}
+  public int getCataloguingView() {
+    return cataloguingView;
+  }
 
-	public void setBranchLibrary(int i) {
-		aUserAccount.setBranchLibrary(i);
-	}
+  public void setCataloguingView(int s) {
+    cataloguingView = s;
+  }
 
-	public int getMainLibrary() {
-		return mainLibrary;
-	}
+  public int getBranchLibrary() {
+    return aUserAccount.getBranchLibrary ( );
+  }
 
-	public void setMainLibrary(int i) {
-		mainLibrary = i;
-	}
+  public void setBranchLibrary(int i) {
+    aUserAccount.setBranchLibrary (i);
+  }
 
-	public AuthorisationAgent getAuthorisationAgent() {
-		return authorisationAgent;
-	}
+  public int getMainLibrary() {
+    return mainLibrary;
+  }
 
-	public void setAuthorisationAgent(AuthorisationAgent agent) {
-		authorisationAgent = agent;
-	}
+  public void setMainLibrary(int i) {
+    mainLibrary = i;
+  }
 
-	public void checkPermission(final Permission aPermission) throws AuthorisationException {
-		authorisationAgent.checkPermission(aPermission);
-	}
+  public AuthorisationAgent getAuthorisationAgent() {
+    return authorisationAgent;
+  }
 
-	public void checkPermission(final Permission[] somePermissions) throws AuthorisationException {
-		authorisationAgent.checkPermission(somePermissions);
-	}
+  public void setAuthorisationAgent(AuthorisationAgent agent) {
+    authorisationAgent = agent;
+  }
 
-	public void checkPermission(final String permissionName) throws AuthorisationException {
-		authorisationAgent.checkPermission(permissionName);
-	}
+  public void checkPermission(final Permission aPermission) throws AuthorisationException {
+    authorisationAgent.checkPermission (aPermission);
+  }
 
-	public void checkPermission(final String[] someNames) throws AuthorisationException {
-		authorisationAgent.checkPermission(someNames);
-	}
+  public void checkPermission(final Permission[] somePermissions) throws AuthorisationException {
+    authorisationAgent.checkPermission (somePermissions);
+  }
 
-	public T_ITM_DSPLY getDefaultRecordDisplay() {
-		return aUserAccount.getDefaultRecordDisplay();
-	}
+  public void checkPermission(final String permissionName) throws AuthorisationException {
+    authorisationAgent.checkPermission (permissionName);
+  }
 
-	public void setDefaultRecordDisplay(T_ITM_DSPLY t_itm_dsply) {
-		aUserAccount.setDefaultRecordDisplay(t_itm_dsply);
-	}
+  public void checkPermission(final String[] someNames) throws AuthorisationException {
+    authorisationAgent.checkPermission (someNames);
+  }
 
-	public String getName() {
-		return name;
-	}
+  public T_ITM_DSPLY getDefaultRecordDisplay() {
+    return aUserAccount.getDefaultRecordDisplay ( );
+  }
 
-	public int getMaxRecordCount() {
-		return maxRecordCount;
-	}
+  public void setDefaultRecordDisplay(T_ITM_DSPLY t_itm_dsply) {
+    aUserAccount.setDefaultRecordDisplay (t_itm_dsply);
+  }
 
-	public int getSearchingView() {
-		return aUserAccount.getDefaultSearchingView();
-	}
+  public String getName() {
+    return name;
+  }
 
-	public void setSearchingView(int searchingView) {
-		aUserAccount.setDefaultSearchingView(searchingView);
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	public int getDatabasePreferenceOrder() {
-		return aUserAccount.getDatabasePreferenceOrder();
-	}
+  public int getMaxRecordCount() {
+    return maxRecordCount;
+  }
 
-	public void setDatabasePreferenceOrder(int databasePreferenceOrder) {
-		aUserAccount.setDatabasePreferenceOrder(databasePreferenceOrder);
-	}
+  public void setMaxRecordCount(int maxRecordCount) {
+    this.maxRecordCount = maxRecordCount;
+  }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  public int getSearchingView() {
+    return aUserAccount.getDefaultSearchingView ( );
+  }
 
-	public void setMaxRecordCount(int maxRecordCount) {
-		this.maxRecordCount = maxRecordCount;
-	}
+  public void setSearchingView(int searchingView) {
+    aUserAccount.setDefaultSearchingView (searchingView);
+  }
 
-	public Integer getDefaultBibliographicModel() {
-		return aUserAccount.getDefaultBibliographicModel();
-	}
+  public int getDatabasePreferenceOrder() {
+    return aUserAccount.getDatabasePreferenceOrder ( );
+  }
 
-	public void setDefaultBibliographicModel(Integer defaultBibliographicModel) {
-		aUserAccount.setDefaultBibliographicModel(defaultBibliographicModel);
-	}
+  public void setDatabasePreferenceOrder(int databasePreferenceOrder) {
+    aUserAccount.setDatabasePreferenceOrder (databasePreferenceOrder);
+  }
 
-	public Integer getDefaultAuthorityModel() {
-		return aUserAccount.getDefaultAuthorityModel();
-	}
+  public Integer getDefaultBibliographicModel() {
+    return aUserAccount.getDefaultBibliographicModel ( );
+  }
 
-	public void setDefaultAuthorityModel(Integer defaultAuthorityModel) {
-		aUserAccount.setDefaultAuthorityModel(defaultAuthorityModel);
-	}
-	public void persistAccountSettings() throws DataAccessException {
-		new HibernateUtil().update(aUserAccount);
-	}
+  public void setDefaultBibliographicModel(Integer defaultBibliographicModel) {
+    aUserAccount.setDefaultBibliographicModel (defaultBibliographicModel);
+  }
+
+  public Integer getDefaultAuthorityModel() {
+    return aUserAccount.getDefaultAuthorityModel ( );
+  }
+
+  public void setDefaultAuthorityModel(Integer defaultAuthorityModel) {
+    aUserAccount.setDefaultAuthorityModel (defaultAuthorityModel);
+  }
+
+  public void persistAccountSettings() throws DataAccessException {
+    new HibernateUtil ( ).update (aUserAccount);
+  }
 }
