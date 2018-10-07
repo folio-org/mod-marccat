@@ -8,9 +8,9 @@ pipeline {
             steps {
               script {
                     echo 'Pulling...' + env.BRANCH_NAME
+                    sh('./script/clean.sh')
                     def mvnHome = tool 'mvn'
                     sh "'${mvnHome}/bin/mvn' clean -DskipTests=true"
-                    echo 'cleaning...'
                 }
              }
             post {
