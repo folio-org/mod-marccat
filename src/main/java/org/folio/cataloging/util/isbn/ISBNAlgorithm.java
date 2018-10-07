@@ -70,6 +70,10 @@ public class ISBNAlgorithm {
         ErrorOccurred = false;
         s12 = prefix + ISBN.substring (0, 9);
         n = 0;
+
+
+
+
         for ( i = 0; i < 12; i++ ) {
             if (!ErrorOccurred) {
                 v = CharToInt (s12.charAt (i));
@@ -137,7 +141,7 @@ public class ISBNAlgorithm {
 
     public static void main(String[] args) throws Exception {
 
-        System.out.println (ISBN1310 ("9878817101646"));
+        System.out.println (ISBN1013 ("8817101646","987"));
 
 
     }

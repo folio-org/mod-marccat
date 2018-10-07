@@ -21,12 +21,15 @@ public abstract class SearchEngineFactory {
    * @param service                 the storage service.
    * @return a {@link SearchEngine} instance.
    */
-  public static SearchEngine create(final SearchEngineType type, final int mainLibraryId, final int databasePreferenceOrder, final StorageService service) {
+  public static SearchEngine create(final EngineType type, final int mainLibraryId, final int databasePreferenceOrder, final StorageService service) {
     switch (type) {
       case LIGHTWEIGHT:
         return new LightweightModCatalogingSearchEngine (mainLibraryId, databasePreferenceOrder, service);
       default:
         return new DefaultModCatalogingSearchEngine (mainLibraryId, databasePreferenceOrder, service);
     }
+  }
+  public enum EngineType {
+    DEFAULT, LIGHTWEIGHT
   }
 }

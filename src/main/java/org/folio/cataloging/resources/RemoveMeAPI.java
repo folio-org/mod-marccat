@@ -5,7 +5,6 @@ import org.folio.cataloging.Global;
 import org.folio.cataloging.ModCataloging;
 import org.folio.cataloging.business.common.View;
 import org.folio.cataloging.search.SearchEngineFactory;
-import org.folio.cataloging.search.SearchEngineType;
 import org.folio.cataloging.search.SearchResponse;
 import org.folio.cataloging.search.engine.SearchEngine;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +38,7 @@ public class RemoveMeAPI extends BaseResource {
     return doGet ((storageService, configuration) -> {
       final SearchEngine searchEngine =
         SearchEngineFactory.create (
-          SearchEngineType.LIGHTWEIGHT,
+          SearchEngineFactory.EngineType.LIGHTWEIGHT,
           mainLibraryId,
           databasePreferenceOrder,
           storageService);

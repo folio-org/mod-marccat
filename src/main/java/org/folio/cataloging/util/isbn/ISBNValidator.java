@@ -1,12 +1,17 @@
 package org.folio.cataloging.util.isbn;
 
-import java.util.function.Function;
-import java.util.regex.Pattern;
+  import lombok.Data;
+
+  import java.util.Arrays;
+  import java.util.Optional;
+  import java.util.function.Function;
+  import java.util.regex.Pattern;
 
 /**
  * @author Christian Chiama
  * @version $Revision: 4 $ $Date: 2018-10-1
  */
+@Data
 public class ISBNValidator {
 
   /**
@@ -20,6 +25,9 @@ public class ISBNValidator {
   private Function <String, Boolean> checkChecksumFunction;
 
 
+  /**
+   * @param isbnType
+   */
   public void initialize(ISBN.Type isbnType) {
     switch (isbnType) {
       case ISBN10:
@@ -33,6 +41,29 @@ public class ISBNValidator {
     }
   }
 
+  /**
+   *
+   * @param isbn
+   */
+  public void initialize(CharSequence isbn) {
+    if(isbn.length () != 10 && isbn.length () != 13) return;
+    switch (isbn.length ()) {
+      case 10:
+        length = 10;
+        checkChecksumFunction = this::checkChecksumISBN10;
+        break;
+      case 13:
+        length = 13;
+        checkChecksumFunction = this::checkChecksumISBN13;
+        break;
+    }
+  }
+
+  /**
+   *
+   * @param isbn
+   * @return
+   */
   public boolean isValid(CharSequence isbn) {
     if (isbn == null) {
       return true;
@@ -48,6 +79,11 @@ public class ISBNValidator {
   }
 
 
+  /**
+   *
+   * @param isbn
+   * @return
+   */
   private boolean checkChecksumISBN10(String isbn) {
     int sum = 0;
     for ( int i = 0; i < isbn.length ( ) - 1; i++ ) {
@@ -57,6 +93,11 @@ public class ISBNValidator {
     return sum % 11 == (checkSum == 'X' ? 10 : checkSum - '0');
   }
 
+  /**
+   *
+   * @param isbn
+   * @return
+   */
   private boolean checkChecksumISBN13(String isbn) {
     int sum = 0;
     for ( int i = 0; i < isbn.length ( ) - 1; i++ ) {
@@ -64,5 +105,21 @@ public class ISBNValidator {
     }
     char checkSum = isbn.charAt (12);
     return 10 - sum % 10 == (checkSum - '0');
+  }
+
+  /**
+   *  esempio di utilizzo
+   *  @ISBN(value = "2251004165")
+   *  public String isbn;
+   * @return
+   */
+  public Optional<String> findFirstISBN() {
+    Optional<String> isbn =
+      Optional
+        .of (Arrays.stream (ISBNValidator.class.getFields ( ))
+        .filter (f -> f.getAnnotation (ISBN.class) != null)
+        .map (f -> f.getAnnotation (ISBN.class).value ( ))
+        .findFirst ( ).orElse (""));
+    return isbn;
   }
 }

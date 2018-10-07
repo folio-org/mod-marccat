@@ -22,6 +22,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Repeatable(ISBN.List.class)
 public @interface ISBN {
 
+  String value() default "";
+
   String message() default "";
 
   Class <?>[] groups() default {};

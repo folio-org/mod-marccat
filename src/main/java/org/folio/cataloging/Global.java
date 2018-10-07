@@ -47,7 +47,7 @@ public abstract class Global {
     }
   }
 
-  public static ThreadLocal <SimpleDateFormat> FORMATTERS = new ThreadLocal ( ) {
+  public static ThreadLocal<SimpleDateFormat> FORMATTERS = new ThreadLocal ( ) {
     @Override
     protected SimpleDateFormat initialValue() {
       final SimpleDateFormat formatter = new SimpleDateFormat ("dd-MM-yyyy HH:mm");
