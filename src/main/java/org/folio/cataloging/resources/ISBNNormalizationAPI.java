@@ -19,12 +19,6 @@ import org.springframework.web.bind.annotation.*;
 public class ISBNNormalizationAPI extends BaseResource {
 
 
-  public static void main(String[] args) throws Exception {
-
-    @ISBN(message = "not valid isbn") final String isbn = "5";
-
-  }
-
   @GetMapping("/isbn/removeHyphen")
   public String removeHypens(
     @RequestParam final String lang,

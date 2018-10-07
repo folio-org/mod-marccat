@@ -79,13 +79,18 @@ public class ISBNValidator {
   }
 
 
+  private String deHyphenation(String isbn){
+    return NON_ISBN_CHARACTERS.matcher (isbn).replaceAll ("");
+  }
+
   /**
    *
    * @param isbn
    * @return
    */
-  private boolean checkChecksumISBN10(String isbn) {
+  public boolean checkChecksumISBN10(String isbn) {
     int sum = 0;
+    isbn = deHyphenation(isbn);
     for ( int i = 0; i < isbn.length ( ) - 1; i++ ) {
       sum += (isbn.charAt (i) - '0') * (i + 1);
     }
@@ -98,8 +103,9 @@ public class ISBNValidator {
    * @param isbn
    * @return
    */
-  private boolean checkChecksumISBN13(String isbn) {
+  public boolean checkChecksumISBN13(String isbn) {
     int sum = 0;
+    isbn = deHyphenation(isbn);
     for ( int i = 0; i < isbn.length ( ) - 1; i++ ) {
       sum += (isbn.charAt (i) - '0') * (i % 2 == 0 ? 1 : 3);
     }
