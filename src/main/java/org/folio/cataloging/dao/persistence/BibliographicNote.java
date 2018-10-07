@@ -20,221 +20,218 @@ import java.util.List;
 
 /**
  * Class comment
+ *
  * @author janick
  */
-public class BibliographicNote extends VariableField implements PersistentObjectWithView ,OrderedTag{
+public class BibliographicNote extends VariableField implements PersistentObjectWithView, OrderedTag {
 
-	private static final short bibliographicNoteCategory = 7;
-	/**
-	 * The content is all or a part of the stringText.toString() result.
-	 */
-	private String content = null;
-	private int noteType;
-	private int noteNbr = -1;
-	private char overflowIndicator = '0';
-	public List<BibliographicNoteOverflow> overflowList = new ArrayList<>();
-	private UserViewHelper userViewHelper = new UserViewHelper();
-	private Integer sequenceNumber;
+  private static final short bibliographicNoteCategory = 7;
+  public List <BibliographicNoteOverflow> overflowList = new ArrayList <> ( );
+  /**
+   * The content is all or a part of the stringText.toString() result.
+   */
+  private String content = null;
+  private int noteType;
+  private int noteNbr = -1;
+  private char overflowIndicator = '0';
+  private UserViewHelper userViewHelper = new UserViewHelper ( );
+  private Integer sequenceNumber;
 
-	public BibliographicNote() {
-		super();
-		setPersistenceState(new PersistenceState());
-	}
+  public BibliographicNote() {
+    super ( );
+    setPersistenceState (new PersistenceState ( ));
+  }
 
-	/**
-	 * 
-	 */
-	public BibliographicNote(final int itemNbr) {
-		super(itemNbr);
-	}
+  /**
+   *
+   */
+  public BibliographicNote(final int itemNbr) {
+    super (itemNbr);
+  }
 
-	public boolean isBrowsable() {
-		return false;
-	}
+  public boolean isBrowsable() {
+    return false;
+  }
 
-	/**
-	 * 
-	 */
-	public int getNoteNbr() {
-		return noteNbr;
-	}
+  /**
+   *
+   */
+  public int getNoteNbr() {
+    return noteNbr;
+  }
 
-	/**
-	 * 
-	 */
-	public String getStringTextString() {		
-		return content;		
-	}
-	
-	/**
-	 * @param i
-	 */
-	public void setNoteNbr(final int i) {
-		noteNbr = i;
-	}
+  /**
+   * @param i
+   */
+  public void setNoteNbr(final int i) {
+    noteNbr = i;
+  }
 
-	/**
-	 * This value is used by Hibernate
-	 * It must preserve the $a value
-	 */
-	public void setStringTextString(final String st) {
-		this.content = st;
-	}
+  /**
+   *
+   */
+  public String getStringTextString() {
+    return content;
+  }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	public boolean equals(final Object obj) {
-		if (!(obj instanceof BibliographicNote)) {
-			return false;
-		}
-		else {
-			BibliographicNote aNote = (BibliographicNote)obj;
-			return aNote.getBibItemNumber() == this.getBibItemNumber() &&
-			aNote.getUserViewString().equals(this.getUserViewString()) &&
-			aNote.getNoteNbr() == this.getNoteNbr();
-		}
-	}
+  /**
+   * This value is used by Hibernate
+   * It must preserve the $a value
+   */
+  public void setStringTextString(final String st) {
+    this.content = st;
+  }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	public int hashCode() {
-		return getNoteNbr();
-	}
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  public boolean equals(final Object obj) {
+    if (!(obj instanceof BibliographicNote)) {
+      return false;
+    } else {
+      BibliographicNote aNote = (BibliographicNote) obj;
+      return aNote.getBibItemNumber ( ) == this.getBibItemNumber ( ) &&
+        aNote.getUserViewString ( ).equals (this.getUserViewString ( )) &&
+        aNote.getNoteNbr ( ) == this.getNoteNbr ( );
+    }
+  }
 
-	public StringText getStringText() {
-		return new StringText(content);
-	}
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  public int hashCode() {
+    return getNoteNbr ( );
+  }
 
-	/**
-	 * @param text should not ends with Subfield separator
-	 */
-	public void setStringText(final StringText text) {
-		content = text.toString();
-	}
+  public StringText getStringText() {
+    return new StringText (content);
+  }
 
-		public int getCategory() {
-		return bibliographicNoteCategory;
-	}
+  /**
+   * @param text should not ends with Subfield separator
+   */
+  public void setStringText(final StringText text) {
+    content = text.toString ( );
+  }
 
-	@Override
-	@Deprecated
-	public CorrelationValues getCorrelationValues() {
-		return null;
-	}
+  public int getCategory() {
+    return bibliographicNoteCategory;
+  }
 
-	/**
-	 * 
-	 */
-	public int getNoteType() {
-		return noteType;
-	}
+  @Override
+  @Deprecated
+  public CorrelationValues getCorrelationValues() {
+    return null;
+  }
 
-	/**
-	 * 
-	 */
-	public void setNoteType(final int s) {
-		noteType = s;
-	}
+  @Deprecated
+  public void setCorrelationValues(final CorrelationValues v) {
+    setNoteType (v.getValue (1));
+  }
 
-	/**
-	 * 
-	 */
-	public char getOverflowIndicator() {
-		return overflowIndicator;
-	}
+  /**
+   *
+   */
+  public int getNoteType() {
+    return noteType;
+  }
 
-	/**
-	 * 
-	 */
-	public void setOverflowIndicator(final char c) {
-		overflowIndicator = c;
-	}
+  /**
+   *
+   */
+  public void setNoteType(final int s) {
+    noteType = s;
+  }
 
+  /**
+   *
+   */
+  public char getOverflowIndicator() {
+    return overflowIndicator;
+  }
 
-	@Override
-	public AbstractDAO getDAO() {
-		return new DAOBibliographicNote();
-	}
+  /**
+   *
+   */
+  public void setOverflowIndicator(final char c) {
+    overflowIndicator = c;
+  }
 
-	@Deprecated
-	public void setCorrelationValues(final CorrelationValues v) {
-		setNoteType(v.getValue(1));
-	}
+  @Override
+  public AbstractDAO getDAO() {
+    return new DAOBibliographicNote ( );
+  }
 
-	/**
-	 * @return
-	 */
-	public List<BibliographicNoteOverflow> getOverflowList() {
-		return overflowList;
-	}
+  /**
+   * @return
+   */
+  public List <BibliographicNoteOverflow> getOverflowList() {
+    return overflowList;
+  }
 
 
-	/**
-	 * 
-	 * 
-	 * @param list
-	 */
-	public void setOverflowList(List<BibliographicNoteOverflow> list) {
-		overflowList = list;
-	}
+  /**
+   * @param list
+   */
+  public void setOverflowList(List <BibliographicNoteOverflow> list) {
+    overflowList = list;
+  }
 
-	@Deprecated
-	public boolean correlationChangeAffectsKey(CorrelationValues v) {
-		if (v.getValue(1) == GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE) {
-			return true;
-		 }else if (v.getValue(1) == 381){
-			return true;
-	    }else if (v.getValue(1) == 382){
-		   return true;
-	   }
-		return false;
-	}
+  @Deprecated
+  public boolean correlationChangeAffectsKey(CorrelationValues v) {
+    if (v.getValue (1) == GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE) {
+      return true;
+    } else if (v.getValue (1) == 381) {
+      return true;
+    } else if (v.getValue (1) == 382) {
+      return true;
+    }
+    return false;
+  }
 
-	/**
-	 * @since 1.0
-	 */
-	public String getUserViewString() {
-		return userViewHelper.getUserViewString();
-	}
+  /**
+   * @since 1.0
+   */
+  public String getUserViewString() {
+    return userViewHelper.getUserViewString ( );
+  }
 
-	/**
-	 * @since 1.0
-	 */
-	public void setUserViewString(String string) {
-		userViewHelper.setUserViewString(string);
-	}
+  /**
+   * @since 1.0
+   */
+  public void setUserViewString(String string) {
+    userViewHelper.setUserViewString (string);
+  }
 
-	/**
-	 * @since 1.0
-	 */
-	public int getBibItemNumber() {
-		return getItemNumber();
-	}
+  /**
+   * @since 1.0
+   */
+  public int getBibItemNumber() {
+    return getItemNumber ( );
+  }
 
-	/**
-	 * @since 1.0
-	 */
-	public void setBibItemNumber(int i) {
-		setItemNumber(i);
-	}
+  /**
+   * @since 1.0
+   */
+  public void setBibItemNumber(int i) {
+    setItemNumber (i);
+  }
 
-	public String getContent(){
-		return content;
-	}
-	
-	public void setContent(String text){
-		this.content = text;
-	}
+  public String getContent() {
+    return content;
+  }
 
-	public Integer getSequenceNumber() {
-		return sequenceNumber;
-	}
+  public void setContent(String text) {
+    this.content = text;
+  }
 
-	public void setSequenceNumber(Integer integer) {
-		sequenceNumber = integer;
-	}
+  public Integer getSequenceNumber() {
+    return sequenceNumber;
+  }
+
+  public void setSequenceNumber(Integer integer) {
+    sequenceNumber = integer;
+  }
 
 
 }

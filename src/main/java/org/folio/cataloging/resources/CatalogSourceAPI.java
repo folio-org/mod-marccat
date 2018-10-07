@@ -27,33 +27,33 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
 public class CatalogSourceAPI extends BaseResource {
 
-    private Function<Avp<String>, CatalogSource> toCatalogSource = source -> {
-        final CatalogSource catalogSource = new CatalogSource();
-        catalogSource.setCode(source.getValue());
-        catalogSource.setDescription(source.getLabel());
-        return catalogSource;
-    };
+  private Function <Avp <String>, CatalogSource> toCatalogSource = source -> {
+    final CatalogSource catalogSource = new CatalogSource ( );
+    catalogSource.setCode (source.getValue ( ));
+    catalogSource.setDescription (source.getLabel ( ));
+    return catalogSource;
+  };
 
-    @ApiOperation(value = "Returns all catalog sources associated with a given language")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Method successfully returned the requested catalog sources"),
-            @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 414, message = "Request-URI Too Long"),
-            @ApiResponse(code = 500, message = "System internal failure occurred.")
-    })
-    @GetMapping("/catalog-sources")
-    public CatalogSourceCollection getCatalogSources(
-            @RequestParam final String lang,
-            @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-        return doGet((storageService, configuration) -> {
-                final CatalogSourceCollection container = new CatalogSourceCollection();
-                container.setCatalogSources(
-                        storageService
-                          .getCatalogSources(lang)
-                          .stream()
-                          .map(toCatalogSource)
-                          .collect(toList()));
-                return container;
-        }, tenant, configurator);
-    }
+  @ApiOperation(value = "Returns all catalog sources associated with a given language")
+  @ApiResponses(value = {
+    @ApiResponse(code = 200, message = "Method successfully returned the requested catalog sources"),
+    @ApiResponse(code = 400, message = "Bad Request"),
+    @ApiResponse(code = 414, message = "Request-URI Too Long"),
+    @ApiResponse(code = 500, message = "System internal failure occurred.")
+  })
+  @GetMapping("/catalog-sources")
+  public CatalogSourceCollection getCatalogSources(
+    @RequestParam final String lang,
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    return doGet ((storageService, configuration) -> {
+      final CatalogSourceCollection container = new CatalogSourceCollection ( );
+      container.setCatalogSources (
+        storageService
+          .getCatalogSources (lang)
+          .stream ( )
+          .map (toCatalogSource)
+          .collect (toList ( )));
+      return container;
+    }, tenant, configurator);
+  }
 }

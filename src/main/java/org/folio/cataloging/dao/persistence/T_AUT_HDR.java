@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Nov 18, 2005
- * 
+ *
  * T_AUT_HDR.java
  */
 package org.folio.cataloging.dao.persistence;

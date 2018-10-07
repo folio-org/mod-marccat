@@ -11,180 +11,179 @@ import org.folio.cataloging.dao.DAOCasDigAdmin;
 import java.io.Serializable;
 import java.util.Date;
 
-public class CasPublCdeIsbn implements Persistence 
-{
-	private static final long serialVersionUID = 2522128570785338271L;
+public class CasPublCdeIsbn implements Persistence {
+  private static final long serialVersionUID = 2522128570785338271L;
 
-	static DAOCasDigAdmin dao = new DAOCasDigAdmin();
-	
-	private String codEditore;
-//	private String codIsbn;
-	private String isbnSortForm;
-	private String isbnStringText;
-	private String user;
-	private Date date;
-	
-	private PersistenceState persistenceState = new PersistenceState();
-	
-	public CasPublCdeIsbn(String editor) {
-		this();
-		setCodEditore(editor);
-	}
-	
-	public CasPublCdeIsbn() {
-		super();
-	}
+  static DAOCasDigAdmin dao = new DAOCasDigAdmin ( );
 
-	public void setPersistenceState(PersistenceState state) {
-		persistenceState = state;
-	}
+  private String codEditore;
+  //	private String codIsbn;
+  private String isbnSortForm;
+  private String isbnStringText;
+  private String user;
+  private Date date;
 
-	public void evict(Object obj) throws DataAccessException {
-		persistenceState.evict(obj);
-	}
+  private PersistenceState persistenceState = new PersistenceState ( );
 
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((codEditore == null) ? 0 : codEditore.hashCode());
-		result = prime * result
-				+ ((isbnSortForm == null) ? 0 : isbnSortForm.hashCode());
-		return result;
-	}
+  public CasPublCdeIsbn(String editor) {
+    this ( );
+    setCodEditore (editor);
+  }
 
-	
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		CasPublCdeIsbn other = (CasPublCdeIsbn) obj;
-		if (codEditore == null) {
-			if (other.codEditore != null)
-				return false;
-		} else if (!codEditore.equals(other.codEditore))
-			return false;
-		if (isbnSortForm == null) {
-			if (other.isbnSortForm != null)
-				return false;
-		} else if (!isbnSortForm.equals(other.isbnSortForm))
-			return false;
-		return true;
-	}
+  public CasPublCdeIsbn() {
+    super ( );
+  }
+
+  public void setPersistenceState(PersistenceState state) {
+    persistenceState = state;
+  }
+
+  public void evict(Object obj) throws DataAccessException {
+    persistenceState.evict (obj);
+  }
+
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result
+      + ((codEditore == null) ? 0 : codEditore.hashCode ( ));
+    result = prime * result
+      + ((isbnSortForm == null) ? 0 : isbnSortForm.hashCode ( ));
+    return result;
+  }
 
 
-	public void evict() throws DataAccessException {
-		evict(this);
-	}
-	
-	public AbstractDAO getDAO() {
-		return dao;
-	}
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass ( ) != obj.getClass ( ))
+      return false;
+    CasPublCdeIsbn other = (CasPublCdeIsbn) obj;
+    if (codEditore == null) {
+      if (other.codEditore != null)
+        return false;
+    } else if (!codEditore.equals (other.codEditore))
+      return false;
+    if (isbnSortForm == null) {
+      if (other.isbnSortForm != null)
+        return false;
+    } else if (!isbnSortForm.equals (other.isbnSortForm))
+      return false;
+    return true;
+  }
 
-	public int getUpdateStatus() {
-		return persistenceState.getUpdateStatus();
-	}
 
-	public boolean isChanged() {
-		return persistenceState.isChanged();
-	}
+  public void evict() throws DataAccessException {
+    evict (this);
+  }
 
-	public boolean isDeleted() {
-		return persistenceState.isDeleted();
-	}
+  public AbstractDAO getDAO() {
+    return dao;
+  }
 
-	public boolean isNew() {
-		return persistenceState.isNew();
-	}
+  public int getUpdateStatus() {
+    return persistenceState.getUpdateStatus ( );
+  }
 
-	public boolean isRemoved() {
-		return persistenceState.isRemoved();
-	}
+  public void setUpdateStatus(int i) {
+    persistenceState.setUpdateStatus (i);
+  }
 
-	public void markChanged() {
-		persistenceState.markChanged();
-	}
+  public boolean isChanged() {
+    return persistenceState.isChanged ( );
+  }
 
-	public void markDeleted() {
-		persistenceState.markDeleted();
-	}
+  public boolean isDeleted() {
+    return persistenceState.isDeleted ( );
+  }
 
-	public void markNew() {
-		persistenceState.markNew();
-	}
+  public boolean isNew() {
+    return persistenceState.isNew ( );
+  }
 
-	public void markUnchanged() {
-		persistenceState.markUnchanged();
-	}
-	
-	public boolean onDelete(Session arg0) throws CallbackException {
-		return persistenceState.onDelete(arg0);
-	}
+  public boolean isRemoved() {
+    return persistenceState.isRemoved ( );
+  }
 
-	public void onLoad(Session arg0, Serializable arg1) {
-		persistenceState.onLoad(arg0, arg1);
-	}
+  public void markChanged() {
+    persistenceState.markChanged ( );
+  }
 
-	public boolean onSave(Session arg0) throws CallbackException {
-		return persistenceState.onSave(arg0);
-	}
+  public void markDeleted() {
+    persistenceState.markDeleted ( );
+  }
 
-	public boolean onUpdate(Session arg0) throws CallbackException {
-		return persistenceState.onUpdate(arg0);
-	}
+  public void markNew() {
+    persistenceState.markNew ( );
+  }
 
-	public void setUpdateStatus(int i) {
-		persistenceState.setUpdateStatus(i);
-	}
+  public void markUnchanged() {
+    persistenceState.markUnchanged ( );
+  }
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.common.Persistence#generateNewKey()
-	 */
-	public void generateNewKey() throws DataAccessException {
-		// not applicable for this class
-	}
+  public boolean onDelete(Session arg0) throws CallbackException {
+    return persistenceState.onDelete (arg0);
+  }
 
-	public String getCodEditore() {
-		return codEditore;
-	}
+  public void onLoad(Session arg0, Serializable arg1) {
+    persistenceState.onLoad (arg0, arg1);
+  }
 
-	public void setCodEditore(String codEditore) {
-		this.codEditore = codEditore;
-	}
+  public boolean onSave(Session arg0) throws CallbackException {
+    return persistenceState.onSave (arg0);
+  }
 
-	public String getUser() {
-		return user;
-	}
+  public boolean onUpdate(Session arg0) throws CallbackException {
+    return persistenceState.onUpdate (arg0);
+  }
 
-	public void setUser(String user) {
-		this.user = user;
-	}
+  /* (non-Javadoc)
+   * @see librisuite.business.common.Persistence#generateNewKey()
+   */
+  public void generateNewKey() throws DataAccessException {
+    // not applicable for this class
+  }
 
-	public String getIsbnSortForm() {
-		return isbnSortForm;
-	}
+  public String getCodEditore() {
+    return codEditore;
+  }
 
-	public void setIsbnSortForm(String isbnSortForm) {
-		this.isbnSortForm = isbnSortForm;
-	}
+  public void setCodEditore(String codEditore) {
+    this.codEditore = codEditore;
+  }
 
-	public String getIsbnStringText() {
-		return isbnStringText;
-	}
+  public String getUser() {
+    return user;
+  }
 
-	public void setIsbnStringText(String isbnStringText) {
-		this.isbnStringText = isbnStringText;
-	}
+  public void setUser(String user) {
+    this.user = user;
+  }
 
-	public Date getDate() {
-		return date;
-	}
+  public String getIsbnSortForm() {
+    return isbnSortForm;
+  }
 
-	public void setDate(Date date) {
-		this.date = date;
-	}
-	
+  public void setIsbnSortForm(String isbnSortForm) {
+    this.isbnSortForm = isbnSortForm;
+  }
+
+  public String getIsbnStringText() {
+    return isbnStringText;
+  }
+
+  public void setIsbnStringText(String isbnStringText) {
+    this.isbnStringText = isbnStringText;
+  }
+
+  public Date getDate() {
+    return date;
+  }
+
+  public void setDate(Date date) {
+    this.date = date;
+  }
+
 }

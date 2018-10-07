@@ -21,468 +21,453 @@ import java.util.TreeSet;
 
 import static org.folio.cataloging.F.deepCopy;
 
-public class BibliographicRelationshipTag extends VariableField implements PersistentObjectWithView
-{
-	private static final Log logger = LogFactory.getLog(BibliographicRelationshipTag.class);
-	private StringText reciprocalStringText = null;
-	private int reciprocalOption = -1; // stringValue -1 triggers calculation on construction
-	private BibliographicRelationshipTag originalTag = null;
-	public BibliographicRelationship sourceRelationship;
-	public BibliographicRelationship targetRelationship;
+public class BibliographicRelationshipTag extends VariableField implements PersistentObjectWithView {
+  private static final Log logger = LogFactory.getLog (BibliographicRelationshipTag.class);
+  public BibliographicRelationship sourceRelationship;
+  public BibliographicRelationship targetRelationship;
+  private StringText reciprocalStringText = null;
+  private int reciprocalOption = -1; // stringValue -1 triggers calculation on construction
+  private BibliographicRelationshipTag originalTag = null;
 
-	public BibliographicRelationshipTag()
-	{
-		super();
-		setSourceRelationship(new BibliographicRelationship());
-		setTargetRelationship(new BibliographicRelationship());
-		setReciprocalOption((short) 3);
-		setRelationTypeCode(Defaults.getShort("bibliographicRelationship.relationTypeCode"));
-		setRelationPrintNoteCode(Defaults.getShort("bibliographicRelationship.relationPrintNoteCode"));
-		setPersistenceState(new PersistenceState());
-		setOriginalTag();
-	}
+  public BibliographicRelationshipTag() {
+    super ( );
+    setSourceRelationship (new BibliographicRelationship ( ));
+    setTargetRelationship (new BibliographicRelationship ( ));
+    setReciprocalOption ((short) 3);
+    setRelationTypeCode (Defaults.getShort ("bibliographicRelationship.relationTypeCode"));
+    setRelationPrintNoteCode (Defaults.getShort ("bibliographicRelationship.relationPrintNoteCode"));
+    setPersistenceState (new PersistenceState ( ));
+    setOriginalTag ( );
+  }
 
-	public BibliographicRelationshipTag(BibliographicRelationship relationship,int userView) throws DataAccessException
-	{
-		super();
-		setSourceRelationship(relationship);
-		setTargetRelationship(handleReciprocalRelationship(userView));
-		setReciprocalOption(getReciprocalOption(userView));
-		buildReciprocalStringText(userView);
-		setPersistenceState(new PersistenceState());
-		setOriginalTag();
-	}
+  public BibliographicRelationshipTag(BibliographicRelationship relationship, int userView) throws DataAccessException {
+    super ( );
+    setSourceRelationship (relationship);
+    setTargetRelationship (handleReciprocalRelationship (userView));
+    setReciprocalOption (getReciprocalOption (userView));
+    buildReciprocalStringText (userView);
+    setPersistenceState (new PersistenceState ( ));
+    setOriginalTag ( );
+  }
 
-	public void buildReciprocalStringText(int userView)	throws DataAccessException
-	{
-		/* stringtext can be in table RLTSP or should be build from the heading tables */
-		StringText s = new StringText();
-		if (getSourceRelationship().getTargetBibItemNumber() > 0) {
-			DAOBibliographicRelationship b = new DAOBibliographicRelationship();
-			s = b.buildRelationStringText(sourceRelationship.getTargetBibItemNumber(), userView);
-		}
-		setReciprocalStringText(s);
-	}
+  public void buildReciprocalStringText(int userView) throws DataAccessException {
+    /* stringtext can be in table RLTSP or should be build from the heading tables */
+    StringText s = new StringText ( );
+    if (getSourceRelationship ( ).getTargetBibItemNumber ( ) > 0) {
+      DAOBibliographicRelationship b = new DAOBibliographicRelationship ( );
+      s = b.buildRelationStringText (sourceRelationship.getTargetBibItemNumber ( ), userView);
+    }
+    setReciprocalStringText (s);
+  }
 
-	public void createTargetBibItem(int userView) throws DataAccessException
-	{
-		if (getReciprocalOption(userView) == 1) {
-			/* create the reciprocal relationship */
-			logger.debug("create reciprocal relationship");
-			DAOBibliographicRelationshipTag b = new DAOBibliographicRelationshipTag();
+  public void createTargetBibItem(int userView) throws DataAccessException {
+    if (getReciprocalOption (userView) == 1) {
+      /* create the reciprocal relationship */
+      logger.debug ("create reciprocal relationship");
+      DAOBibliographicRelationshipTag b = new DAOBibliographicRelationshipTag ( );
 
-			if (targetRelationship != null) {
-				targetRelationship.evict();
-			}
-			targetRelationship = new BibliographicRelationship();
-			targetRelationship.setItemNumber(getTargetBibItemNumber());
-			targetRelationship.setTargetBibItemNumber(sourceRelationship.getItemNumber());
-			targetRelationship.setUserViewString(sourceRelationship.getUserViewString());
-			targetRelationship.setRelationTypeCode(b.getReciprocalType(sourceRelationship.getRelationTypeCode()));
-			targetRelationship.markNew();
-		}
-	}
+      if (targetRelationship != null) {
+        targetRelationship.evict ( );
+      }
+      targetRelationship = new BibliographicRelationship ( );
+      targetRelationship.setItemNumber (getTargetBibItemNumber ( ));
+      targetRelationship.setTargetBibItemNumber (sourceRelationship.getItemNumber ( ));
+      targetRelationship.setUserViewString (sourceRelationship.getUserViewString ( ));
+      targetRelationship.setRelationTypeCode (b.getReciprocalType (sourceRelationship.getRelationTypeCode ( )));
+      targetRelationship.markNew ( );
+    }
+  }
 
-	public boolean equals(Object obj)
-	{
-		if (!(obj instanceof BibliographicRelationshipTag))
-			return false;
+  public boolean equals(Object obj) {
+    if (!(obj instanceof BibliographicRelationshipTag))
+      return false;
 
-		BibliographicRelationshipTag other = (BibliographicRelationshipTag) obj;
-		return (other.getItemNumber() == getItemNumber())
-				&& (other.getUserViewString().equals(getUserViewString()))
-				&& (other.getTargetBibItemNumber() == getTargetBibItemNumber())
-				&& (other.getRelationTypeCode() == getRelationTypeCode());
-	}
+    BibliographicRelationshipTag other = (BibliographicRelationshipTag) obj;
+    return (other.getItemNumber ( ) == getItemNumber ( ))
+      && (other.getUserViewString ( ).equals (getUserViewString ( )))
+      && (other.getTargetBibItemNumber ( ) == getTargetBibItemNumber ( ))
+      && (other.getRelationTypeCode ( ) == getRelationTypeCode ( ));
+  }
 
-	public void generateNewBlindRelationshipKey(final Session session) throws DataAccessException, HibernateException
-	{
-		SystemNextNumberDAO dao = new SystemNextNumberDAO();
-		setTargetBibItemNumber(-dao.getNextNumber("BR", session));
-	}
+  public void generateNewBlindRelationshipKey(final Session session) throws DataAccessException, HibernateException {
+    SystemNextNumberDAO dao = new SystemNextNumberDAO ( );
+    setTargetBibItemNumber (-dao.getNextNumber ("BR", session));
+  }
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#getCategory()
-	 */
-	public int getCategory() {
-		return sourceRelationship.getCategory();
-	}
+  /*
+   * (non-Javadoc)
+   *
+   * @see librisuite.business.cataloguing.bibliographic.Tag#getCategory()
+   */
+  public int getCategory() {
+    return sourceRelationship.getCategory ( );
+  }
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#getCorrelation(int)
-	 */
-	public int getCorrelation(int i) {
-		switch (i) {
-		case 1:
-			return getRelationTypeCode();
-		case 2:
-			return getRelationPrintNoteCode();
-		default:
-			return -1;
-		}
-	}
+  /*
+   * (non-Javadoc)
+   *
+   * @see librisuite.business.cataloguing.bibliographic.Tag#getCorrelation(int)
+   */
+  public int getCorrelation(int i) {
+    switch (i) {
+      case 1:
+        return getRelationTypeCode ( );
+      case 2:
+        return getRelationPrintNoteCode ( );
+      default:
+        return -1;
+    }
+  }
 
-	public CorrelationValues getCorrelationValues() {
-		return (new CorrelationValues()).change(1, getRelationTypeCode()).change(2, getRelationPrintNoteCode());
-	}
+  public CorrelationValues getCorrelationValues() {
+    return (new CorrelationValues ( )).change (1, getRelationTypeCode ( )).change (2, getRelationPrintNoteCode ( ));
+  }
 
-	public AbstractDAO getDAO() {
-		return new DAOBibliographicRelationshipTag();
-	}
+  /*
+   * (non-Javadoc)
+   *
+   * @see librisuite.business.cataloguing.bibliographic.Tag#setCorrelationValues(librisuite.business.common.CorrelationValues)
+   */
+  public void setCorrelationValues(CorrelationValues v) {
+    setRelationTypeCode (v.getValue (1));
+    setRelationPrintNoteCode (v.getValue (2));
+  }
 
-	@Deprecated
-	public List getFirstCorrelationList() throws DataAccessException {
-		/* return getDaoCodeTable().getList(BibliographicRelationType.class,true); */
-		return null;
-	}
+  public AbstractDAO getDAO() {
+    return new DAOBibliographicRelationshipTag ( );
+  }
 
-	public int getItemNumber() {
-		return sourceRelationship.getItemNumber();
-	}
+  @Deprecated
+  public List getFirstCorrelationList() throws DataAccessException {
+    /* return getDaoCodeTable().getList(BibliographicRelationType.class,true); */
+    return null;
+  }
 
-	@Deprecated
-	public List getReciprocalList() throws DataAccessException {
-		/* return getDaoCodeTable().getList(BibliographicRelationReciprocal.class,true); */
-		return null;
-	}
+  public int getItemNumber() {
+    return sourceRelationship.getItemNumber ( );
+  }
 
-	public int getReciprocalOption(int userView) throws DataAccessException
-	{
-		logger.debug("running getReciprocalOption(with a view)");
-		logger.debug("starting option is " + getReciprocalOption());
-		if (getReciprocalOption() <= 0) {
+  public void setItemNumber(int i) {
+    sourceRelationship.setItemNumber (i);
+  }
 
-			DAOBibliographicRelationship b = new DAOBibliographicRelationship();
+  @Deprecated
+  public List getReciprocalList() throws DataAccessException {
+    /* return getDaoCodeTable().getList(BibliographicRelationReciprocal.class,true); */
+    return null;
+  }
 
-			if (this.getTargetBibItemNumber() < 0) {
-				return 3;
-			} else {
-				try {
-					return b.getReciprocalBibItem(
-							this.getTargetBibItemNumber(),
-							this.getItemNumber(), userView);
-				} catch (DataAccessException ex) {
-					return -1;
-				}
-			}
+  public int getReciprocalOption(int userView) throws DataAccessException {
+    logger.debug ("running getReciprocalOption(with a view)");
+    logger.debug ("starting option is " + getReciprocalOption ( ));
+    if (getReciprocalOption ( ) <= 0) {
 
-		} else {
-			return getReciprocalOption();
-		}
-	}
+      DAOBibliographicRelationship b = new DAOBibliographicRelationship ( );
 
-	public StringText getReciprocalStringText() {
-		return reciprocalStringText;
-	}
+      if (this.getTargetBibItemNumber ( ) < 0) {
+        return 3;
+      } else {
+        try {
+          return b.getReciprocalBibItem (
+            this.getTargetBibItemNumber ( ),
+            this.getItemNumber ( ), userView);
+        } catch (DataAccessException ex) {
+          return -1;
+        }
+      }
 
-	public int getReciprocalOption() {
-		return reciprocalOption;
-	}
+    } else {
+      return getReciprocalOption ( );
+    }
+  }
 
-	public int getRelationPrintNoteCode() {
-		return sourceRelationship.getRelationPrintNoteCode();
-	}
+  public StringText getReciprocalStringText() {
+    return reciprocalStringText;
+  }
 
-	public StringText getRelationshipStringText()
-	{
-		sourceRelationship.getStringText().parse(sourceRelationship.getMaterialSpecificText());
-		sourceRelationship.getStringText().parse(sourceRelationship.getDescription());
-		sourceRelationship.getStringText().parse(sourceRelationship.getQualifyingDescription());
+  public void setReciprocalStringText(StringText text) {
+    reciprocalStringText = text;
+  }
 
-		if ((getTargetBibItemNumber() > 0)) {
-			sourceRelationship.getStringText().addSubfield(new Subfield("w", new String("" + getTargetBibItemNumber())));
-		}
-		return sourceRelationship.getStringText();
-	}
+  public int getReciprocalOption() {
+    return reciprocalOption;
+  }
 
-	public int getRelationTypeCode() {
-		return sourceRelationship.getRelationTypeCode();
-	}
+  public void setReciprocalOption(int s) {
+    logger.debug ("Setting reciprocalOption to " + s);
+    reciprocalOption = s;
+    if (!BibliographicRelationReciprocal.isReciprocal (s)) {
+      setTargetRelationship (null);
+    }
+    if (BibliographicRelationReciprocal.isBlind (s)) {
+      if (getTargetBibItemNumber ( ) > 0) { //pm 2011
+        setTargetBibItemNumber (0);
+      }
+    }
+  }
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#getSecondCorrelationList(short,
-	 *      java.util.Locale)
-	 */
-	@Deprecated
-	public List getSecondCorrelationList(short value1) throws DataAccessException {
-		/* return getDaoCodeTable().getList(BibliographicRelationPrintNote.class,true); */
-		return null;
-	}
+  public int getRelationPrintNoteCode() {
+    return sourceRelationship.getRelationPrintNoteCode ( );
+  }
 
-	public BibliographicRelationship getSourceRelationship() {
-		return sourceRelationship;
-	}
+  public void setRelationPrintNoteCode(int i) {
+    sourceRelationship.setRelationPrintNoteCode (i);
+  }
 
-	public StringText getStringText()
-	{
-		StringText text = new StringText();
-		/*Bug 4122 4157 inizio */
-		text.parse(sourceRelationship.getDescription());
-		/*Bug 4122 4157 fine */
+  public StringText getRelationshipStringText() {
+    sourceRelationship.getStringText ( ).parse (sourceRelationship.getMaterialSpecificText ( ));
+    sourceRelationship.getStringText ( ).parse (sourceRelationship.getDescription ( ));
+    sourceRelationship.getStringText ( ).parse (sourceRelationship.getQualifyingDescription ( ));
 
-		if (BibliographicRelationReciprocal.isBlind(getReciprocalOption())) {
-			text.add(sourceRelationship.getStringText());
-		} else {
-			text.add(getReciprocalStringText());
-		}
-		text.add(sourceRelationship.getRelationshipStringText());
-		text.orderSubfields("astpbcmdefknruxzygw");
-		return text;
-	}
+    if ((getTargetBibItemNumber ( ) > 0)) {
+      sourceRelationship.getStringText ( ).addSubfield (new Subfield ("w", new String ("" + getTargetBibItemNumber ( ))));
+    }
+    return sourceRelationship.getStringText ( );
+  }
 
-	public String getStringTextString() {
-		return getStringText().toString();
-	}
+  public void setRelationshipStringText(StringText text) {
+    sourceRelationship.setRelationshipStringText (text);
+  }
 
-	public int getTargetBibItemNumber() {
-		return sourceRelationship.getTargetBibItemNumber();
-	}
+  public int getRelationTypeCode() {
+    return sourceRelationship.getRelationTypeCode ( );
+  }
 
-	public BibliographicRelationship getTargetRelationship() {
-		return targetRelationship;
-	}
+  public void setRelationTypeCode(int i) {
+    sourceRelationship.setRelationTypeCode (i);
+  }
 
-	public List getThirdCorrelationList(int value1, int value2)	throws DataAccessException {
-		return null;
-	}
+  /*
+   * (non-Javadoc)
+   *
+   * @see librisuite.business.cataloguing.bibliographic.Tag#getSecondCorrelationList(short,
+   *      java.util.Locale)
+   */
+  @Deprecated
+  public List getSecondCorrelationList(short value1) throws DataAccessException {
+    /* return getDaoCodeTable().getList(BibliographicRelationPrintNote.class,true); */
+    return null;
+  }
 
-	public String getUserViewString() {
-		return sourceRelationship.getUserViewString();
-	}
+  public BibliographicRelationship getSourceRelationship() {
+    return sourceRelationship;
+  }
 
-	public BibliographicRelationship handleReciprocalRelationship(int userView)
-	{
-		DAOBibliographicRelationship b = new DAOBibliographicRelationship();
-		BibliographicRelationship relationship = new BibliographicRelationship();
+  public void setSourceRelationship(BibliographicRelationship relationship) {
+    sourceRelationship = relationship;
+  }
 
-		try {
-			if (getTargetBibItemNumber() > 0) {
-				relationship = b.loadReciprocalBibItem(getTargetBibItemNumber(), getItemNumber(), userView);
-			}
-		} catch (DataAccessException de) {
-			return null;
-		}
-		return relationship;
-	}
+  public StringText getStringText() {
+    StringText text = new StringText ( );
+    /*Bug 4122 4157 inizio */
+    text.parse (sourceRelationship.getDescription ( ));
+    /*Bug 4122 4157 fine */
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see java.lang.Object#hashCode()
-	 */
-	public int hashCode() {
-		return super.hashCode() + getTargetBibItemNumber() + getRelationTypeCode();
-	}
+    if (BibliographicRelationReciprocal.isBlind (getReciprocalOption ( ))) {
+      text.add (sourceRelationship.getStringText ( ));
+    } else {
+      text.add (getReciprocalStringText ( ));
+    }
+    text.add (sourceRelationship.getRelationshipStringText ( ));
+    text.orderSubfields ("astpbcmdefknruxzygw");
+    return text;
+  }
 
-	public boolean isBrowsable() {
-		return false;
-	}
+  public void setStringText(StringText text) {
+    sourceRelationship.setRelationshipStringText (text);
+    if (BibliographicRelationReciprocal.isBlind (getReciprocalOption ( ))) {
+      sourceRelationship.setStringText (text);
+    }
+  }
 
-	public boolean isRelationship() {
-		return true;
-	}
+  public String getStringTextString() {
+    return getStringText ( ).toString ( );
+  }
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#setCorrelationValues(librisuite.business.common.CorrelationValues)
-	 */
-	public void setCorrelationValues(CorrelationValues v) {
-		setRelationTypeCode(v.getValue(1));
-		setRelationPrintNoteCode(v.getValue(2));
-	}
+  private void setStringTextString(String string) {
+    if (string != null) {
+      setStringText (new StringText (string));
+    }
+  }
 
-	public void setItemNumber(int i) {
-		sourceRelationship.setItemNumber(i);
-	}
+  public int getTargetBibItemNumber() {
+    return sourceRelationship.getTargetBibItemNumber ( );
+  }
 
-	public void setReciprocalOption(int s)
-	{
-		logger.debug("Setting reciprocalOption to " + s);
-		reciprocalOption = s;
-		if (!BibliographicRelationReciprocal.isReciprocal(s)) {
-			setTargetRelationship(null);
-		}
-		if (BibliographicRelationReciprocal.isBlind(s)) {
-			if (getTargetBibItemNumber() > 0) { //pm 2011
-				setTargetBibItemNumber(0);
-			}
-		}
-	}
+  public void setTargetBibItemNumber(int i) {
+    sourceRelationship.setTargetBibItemNumber (i);
+  }
 
-	public void changeReciprocalOption(short s) {
-		setReciprocalOption(s);
-		markChanged();
-	}
+  public BibliographicRelationship getTargetRelationship() {
+    return targetRelationship;
+  }
 
-	public void setRelationPrintNoteCode(int i) {
-		sourceRelationship.setRelationPrintNoteCode(i);
-	}
+  public void setTargetRelationship(BibliographicRelationship relationship) {
+    targetRelationship = relationship;
+  }
 
-	public void setRelationshipStringText(StringText text) {
-		sourceRelationship.setRelationshipStringText(text);
-	}
+  public List getThirdCorrelationList(int value1, int value2) throws DataAccessException {
+    return null;
+  }
 
-	public void setRelationTypeCode(int i) {
-		sourceRelationship.setRelationTypeCode(i);
-	}
+  public String getUserViewString() {
+    return sourceRelationship.getUserViewString ( );
+  }
 
-	public void setSourceRelationship(BibliographicRelationship relationship) {
-		sourceRelationship = relationship;
-	}
+  public void setUserViewString(String string) {
+    sourceRelationship.setUserViewString (string);
+    if (targetRelationship != null) {
+      targetRelationship.setUserViewString (string);
+    }
+  }
 
-	public void setStringText(StringText text) {
-		sourceRelationship.setRelationshipStringText(text);
-		if (BibliographicRelationReciprocal.isBlind(getReciprocalOption())) {
-			sourceRelationship.setStringText(text);
-		}
-	}
+  public BibliographicRelationship handleReciprocalRelationship(int userView) {
+    DAOBibliographicRelationship b = new DAOBibliographicRelationship ( );
+    BibliographicRelationship relationship = new BibliographicRelationship ( );
 
-	private void setStringTextString(String string) {
-		if (string != null) {
-			setStringText(new StringText(string));
-		}
-	}
+    try {
+      if (getTargetBibItemNumber ( ) > 0) {
+        relationship = b.loadReciprocalBibItem (getTargetBibItemNumber ( ), getItemNumber ( ), userView);
+      }
+    } catch (DataAccessException de) {
+      return null;
+    }
+    return relationship;
+  }
 
-	public void setTargetBibItemNumber(int i) {
-		sourceRelationship.setTargetBibItemNumber(i);
-	}
+  /*
+   * (non-Javadoc)
+   *
+   * @see java.lang.Object#hashCode()
+   */
+  public int hashCode() {
+    return super.hashCode ( ) + getTargetBibItemNumber ( ) + getRelationTypeCode ( );
+  }
 
-	public void setTargetRelationship(BibliographicRelationship relationship) {
-		targetRelationship = relationship;
-	}
+  public boolean isBrowsable() {
+    return false;
+  }
 
-	public void setUserViewString(String string)
-	{
-		sourceRelationship.setUserViewString(string);
-		if (targetRelationship != null) {
-			targetRelationship.setUserViewString(string);
-		}
-	}
+  public boolean isRelationship() {
+    return true;
+  }
 
-	public void replaceTargetRelationship(int amicusNumber, int cataloguingView) throws DataAccessException
-	{
-		getSourceRelationship().evict();
-		setSourceRelationship((BibliographicRelationship) deepCopy(getSourceRelationship()));
-		getSourceRelationship().markNew();
-		setTargetBibItemNumber(amicusNumber);
-		buildReciprocalStringText(cataloguingView);
-		createTargetBibItem(cataloguingView);
-		markChanged();
-	}
+  public void changeReciprocalOption(short s) {
+    setReciprocalOption (s);
+    markChanged ( );
+  }
 
-	public void setReciprocalStringText(StringText text) {
-		reciprocalStringText = text;
-	}
+  public void replaceTargetRelationship(int amicusNumber, int cataloguingView) throws DataAccessException {
+    getSourceRelationship ( ).evict ( );
+    setSourceRelationship ((BibliographicRelationship) deepCopy (getSourceRelationship ( )));
+    getSourceRelationship ( ).markNew ( );
+    setTargetBibItemNumber (amicusNumber);
+    buildReciprocalStringText (cataloguingView);
+    createTargetBibItem (cataloguingView);
+    markChanged ( );
+  }
 
-	public BibliographicRelationshipTag getOriginalTag() {
-		return originalTag;
-	}
+  public BibliographicRelationshipTag getOriginalTag() {
+    return originalTag;
+  }
 
-	/**
-	 * original tag archives the last saved values of source and target. These
-	 * values are needed when saving to determine how to affect the database.
-	 * For example, if a previously reciprocal relationship is modified to
-	 * become one-way then the reciprocal needs to be deleted, etc...
-	 *
-	 * @since 1.0
-	 */
-	public void setOriginalTag() {
-		originalTag = null;
-		originalTag = (BibliographicRelationshipTag) deepCopy(this);
-	}
+  /**
+   * original tag archives the last saved values of source and target. These
+   * values are needed when saving to determine how to affect the database.
+   * For example, if a previously reciprocal relationship is modified to
+   * become one-way then the reciprocal needs to be deleted, etc...
+   *
+   * @since 1.0
+   */
+  public void setOriginalTag() {
+    originalTag = null;
+    originalTag = (BibliographicRelationshipTag) deepCopy (this);
+  }
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see TagInterface#markChanged()
-	 */
-	public void markChanged() {
-		super.markChanged();
-		getSourceRelationship().markChanged();
-		if (getTargetRelationship() != null) {
-			getTargetRelationship().markChanged();
-		}
-	}
+  /*
+   * (non-Javadoc)
+   *
+   * @see TagInterface#markChanged()
+   */
+  public void markChanged() {
+    super.markChanged ( );
+    getSourceRelationship ( ).markChanged ( );
+    if (getTargetRelationship ( ) != null) {
+      getTargetRelationship ( ).markChanged ( );
+    }
+  }
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see TagInterface#markDeleted()
-	 */
-	public void markDeleted() {
-		super.markDeleted();
-		getSourceRelationship().markDeleted();
-		if (getTargetRelationship() != null) {
-			getTargetRelationship().markDeleted();
-		}
-	}
+  /*
+   * (non-Javadoc)
+   *
+   * @see TagInterface#markDeleted()
+   */
+  public void markDeleted() {
+    super.markDeleted ( );
+    getSourceRelationship ( ).markDeleted ( );
+    if (getTargetRelationship ( ) != null) {
+      getTargetRelationship ( ).markDeleted ( );
+    }
+  }
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see TagInterface#markNew()
-	 */
-	public void markNew() {
-		super.markNew();
-		getSourceRelationship().markNew();
-		if (getTargetRelationship() != null) {
-			getTargetRelationship().markNew();
-		}
-	}
+  /*
+   * (non-Javadoc)
+   *
+   * @see TagInterface#markNew()
+   */
+  public void markNew() {
+    super.markNew ( );
+    getSourceRelationship ( ).markNew ( );
+    if (getTargetRelationship ( ) != null) {
+      getTargetRelationship ( ).markNew ( );
+    }
+  }
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see TagInterface#markUnchanged()
-	 */
-	public void markUnchanged() {
-		super.markUnchanged();
-		getSourceRelationship().markUnchanged();
-		if (getTargetRelationship() != null) {
-			getTargetRelationship().markUnchanged();
-		}
-	}
+  /*
+   * (non-Javadoc)
+   *
+   * @see TagInterface#markUnchanged()
+   */
+  public void markUnchanged() {
+    super.markUnchanged ( );
+    getSourceRelationship ( ).markUnchanged ( );
+    if (getTargetRelationship ( ) != null) {
+      getTargetRelationship ( ).markUnchanged ( );
+    }
+  }
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see TagInterface#reinstateDeletedTag()
-	 */
-	public void reinstateDeletedTag() {
-		super.reinstateDeletedTag();
-		setOriginalTag();
-	}
+  /*
+   * (non-Javadoc)
+   *
+   * @see TagInterface#reinstateDeletedTag()
+   */
+  public void reinstateDeletedTag() {
+    super.reinstateDeletedTag ( );
+    setOriginalTag ( );
+  }
 
-	public Set getValidEditableSubfields()
-	{
-		Set set = new TreeSet(new SubfieldCodeComparator());
-		if (BibliographicRelationReciprocal.isBlind(getReciprocalOption())) {
-			set.addAll(Arrays.asList("a", "s", "t", "p", "b",
-                    "c", "m", "d", "e", "f", "k", "n", "q","r", "u", "x", "z", "y",
-                    "g", "w", "i","3","4"));
-		} else {
-			/* Bug 4122 */
+  public Set getValidEditableSubfields() {
+    Set set = new TreeSet (new SubfieldCodeComparator ( ));
+    if (BibliographicRelationReciprocal.isBlind (getReciprocalOption ( ))) {
+      set.addAll (Arrays.asList ("a", "s", "t", "p", "b",
+        "c", "m", "d", "e", "f", "k", "n", "q", "r", "u", "x", "z", "y",
+        "g", "w", "i", "3", "4"));
+    } else {
+      /* Bug 4122 */
 //			set.addAll(Arrays.asList(new String[] { "c", "g", "n","q","3","4" }));
-			set.addAll(Arrays.asList("c", "g", "i", "n","q","3","4"));
-		}
-		return set;
-	}
+      set.addAll (Arrays.asList ("c", "g", "i", "n", "q", "3", "4"));
+    }
+    return set;
+  }
 
-	/**
-	 * Converts any reciprocal relationships to blind and removes any
-	 * originalTag objects from the copied view.
-	 */
-	public void copyFromAnotherItem() {
-		String s = getStringTextString();
-		changeReciprocalOption(BibliographicRelationReciprocal.BLIND);
-		setStringTextString(s);
-		setOriginalTag(); // backs up the current tag as "up-to-date" in the database
-	}
+  /**
+   * Converts any reciprocal relationships to blind and removes any
+   * originalTag objects from the copied view.
+   */
+  public void copyFromAnotherItem() {
+    String s = getStringTextString ( );
+    changeReciprocalOption (BibliographicRelationReciprocal.BLIND);
+    setStringTextString (s);
+    setOriginalTag ( ); // backs up the current tag as "up-to-date" in the database
+  }
 }

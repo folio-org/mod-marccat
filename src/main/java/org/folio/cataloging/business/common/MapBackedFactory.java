@@ -11,25 +11,25 @@ import java.util.Map;
  */
 public class MapBackedFactory extends AbstractMapBackedFactory {
 
-	private Map<Integer, Class> map = new HashMap<>();
+  private Map <Integer, Class> map = new HashMap <> ( );
 
-	@Override
-	public void put(final Integer key, final Class clazz) {
-		map.put(key,clazz);
-	}
+  @Override
+  public void put(final Integer key, final Class clazz) {
+    map.put (key, clazz);
+  }
 
-	@Override
-	public void put(Map<Integer, Class> entries) {
-		map.putAll(entries);
-	}
+  @Override
+  public void put(Map <Integer, Class> entries) {
+    map.putAll (entries);
+  }
 
-	@Override
-	protected Object getInstance(final Integer key) {
-		return newInstance(map.get(key));
-	}
+  @Override
+  protected Object getInstance(final Integer key) {
+    return newInstance (map.get (key));
+  }
 
-	@Override
-	public void clear() {
-		map.clear();
-	}
+  @Override
+  public void clear() {
+    map.clear ( );
+  }
 }

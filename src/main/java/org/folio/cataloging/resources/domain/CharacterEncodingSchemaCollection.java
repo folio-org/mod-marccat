@@ -12,63 +12,57 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "characterEncodingSchemas" })
+@JsonPropertyOrder({"characterEncodingSchemas"})
 public class CharacterEncodingSchemaCollection {
 
-    /**
-     * 
-     * (Required)
-     * 
-     */
-    @JsonProperty("characterEncodingSchemas")
-    @Valid
-    @NotNull
-    private List<CharacterEncodingSchema> characterEncodingSchemas = new ArrayList<CharacterEncodingSchema>();
+  /**
+   * (Required)
+   */
+  @JsonProperty("characterEncodingSchemas")
+  @Valid
+  @NotNull
+  private List <CharacterEncodingSchema> characterEncodingSchemas = new ArrayList <CharacterEncodingSchema> ( );
 
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  @JsonIgnore
+  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
 
-    /**
-     * 
-     * (Required)
-     * 
-     * @return
-     *     The characterEncodingSchemas
-     */
-    @JsonProperty("characterEncodingSchemas")
-    public List<CharacterEncodingSchema> getCharacterEncodingSchemas() {
-        return characterEncodingSchemas;
-    }
+  /**
+   * (Required)
+   *
+   * @return The characterEncodingSchemas
+   */
+  @JsonProperty("characterEncodingSchemas")
+  public List <CharacterEncodingSchema> getCharacterEncodingSchemas() {
+    return characterEncodingSchemas;
+  }
 
-    /**
-     * 
-     * (Required)
-     * 
-     * @param characterEncodingSchemas
-     *     The characterEncodingSchemas
-     */
-    @JsonProperty("characterEncodingSchemas")
-    public void setCharacterEncodingSchemas(List<CharacterEncodingSchema> characterEncodingSchemas) {
-        this.characterEncodingSchemas = characterEncodingSchemas;
-    }
+  /**
+   * (Required)
+   *
+   * @param characterEncodingSchemas The characterEncodingSchemas
+   */
+  @JsonProperty("characterEncodingSchemas")
+  public void setCharacterEncodingSchemas(List <CharacterEncodingSchema> characterEncodingSchemas) {
+    this.characterEncodingSchemas = characterEncodingSchemas;
+  }
 
-    public CharacterEncodingSchemaCollection withCharacterEncodingSchemas(List<CharacterEncodingSchema> characterEncodingSchemas) {
-        this.characterEncodingSchemas = characterEncodingSchemas;
-        return this;
-    }
+  public CharacterEncodingSchemaCollection withCharacterEncodingSchemas(List <CharacterEncodingSchema> characterEncodingSchemas) {
+    this.characterEncodingSchemas = characterEncodingSchemas;
+    return this;
+  }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
+  @JsonAnyGetter
+  public Map <String, Object> getAdditionalProperties() {
+    return this.additionalProperties;
+  }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
+  @JsonAnySetter
+  public void setAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+  }
 
-    public CharacterEncodingSchemaCollection withAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-        return this;
-    }
+  public CharacterEncodingSchemaCollection withAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+    return this;
+  }
 }

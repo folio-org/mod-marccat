@@ -13,243 +13,251 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class CLCTN_MST_RULE implements Persistence 
-{
-	private static final long serialVersionUID = 2522128570785338271L;
+public class CLCTN_MST_RULE implements Persistence {
+  private static final long serialVersionUID = 2522128570785338271L;
 
-	static DAOCollectionRule dao = new DAOCollectionRule();
-	private List recordCollectionList = new ArrayList();  /** contiene CLCTN_MST_RULE_TMP **/
-	private List recordsList = new ArrayList();           /** contiene CLCTN_MST_RULE_RECORD **/
-	private List collectionsList = new ArrayList();       /** contiene CLCTN_MST_RULE_REL **/
-	
-	private Integer ruleId;
-	private String ruleDescription;
-	private String level;
-	private String dataType;
-	private String dataPublRange;
-	private Date dataUploadFrom;
-	private Date dataUploadTo;
-	private Date dataInsert;
-	private Date dataUpdate;
-	private Date dataProcessing;
-	private String flagProcessing;
-	
-	private PersistenceState persistenceState = new PersistenceState();
+  static DAOCollectionRule dao = new DAOCollectionRule ( );
+  private List recordCollectionList = new ArrayList ( );
+  /**
+   * contiene CLCTN_MST_RULE_TMP
+   **/
+  private List recordsList = new ArrayList ( );
+  /**
+   * contiene CLCTN_MST_RULE_RECORD
+   **/
+  private List collectionsList = new ArrayList ( );
+  /**
+   * contiene CLCTN_MST_RULE_REL
+   **/
 
-	public CLCTN_MST_RULE() {
-		super();
-	}
+  private Integer ruleId;
+  private String ruleDescription;
+  private String level;
+  private String dataType;
+  private String dataPublRange;
+  private Date dataUploadFrom;
+  private Date dataUploadTo;
+  private Date dataInsert;
+  private Date dataUpdate;
+  private Date dataProcessing;
+  private String flagProcessing;
 
-	public PersistenceState getPersistenceState() {
-		return persistenceState;
-	}
+  private PersistenceState persistenceState = new PersistenceState ( );
 
-	public void setPersistenceState(PersistenceState state) {
-		persistenceState = state;
-	}
+  public CLCTN_MST_RULE() {
+    super ( );
+  }
 
-	public void evict(Object obj) throws DataAccessException {
-		persistenceState.evict(obj);
-	}
+  public static DAOCollectionRule getDao() {
+    return dao;
+  }
 
-	public void evict() throws DataAccessException {
-		evict(this);
-	}
+  public PersistenceState getPersistenceState() {
+    return persistenceState;
+  }
 
-	public AbstractDAO getDAO() {
-		return dao;
-	}
+  public void setPersistenceState(PersistenceState state) {
+    persistenceState = state;
+  }
 
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ruleId.intValue();
-		return result;
-	}
+  public void evict(Object obj) throws DataAccessException {
+    persistenceState.evict (obj);
+  }
 
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		CLCTN_MST_RULE other = (CLCTN_MST_RULE) obj;
-        return ruleId == other.ruleId;
-    }
+  public void evict() throws DataAccessException {
+    evict (this);
+  }
 
-	public int getUpdateStatus() {
-		return persistenceState.getUpdateStatus();
-	}
+  public AbstractDAO getDAO() {
+    return dao;
+  }
 
-	public boolean isChanged() {
-		return persistenceState.isChanged();
-	}
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ruleId.intValue ( );
+    return result;
+  }
 
-	public boolean isDeleted() {
-		return persistenceState.isDeleted();
-	}
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass ( ) != obj.getClass ( ))
+      return false;
+    CLCTN_MST_RULE other = (CLCTN_MST_RULE) obj;
+    return ruleId == other.ruleId;
+  }
 
-	public boolean isNew() {
-		return persistenceState.isNew();
-	}
+  public int getUpdateStatus() {
+    return persistenceState.getUpdateStatus ( );
+  }
 
-	public boolean isRemoved() {
-		return persistenceState.isRemoved();
-	}
+  public void setUpdateStatus(int i) {
+    persistenceState.setUpdateStatus (i);
+  }
 
-	public void markChanged() {
-		persistenceState.markChanged();
-	}
+  public boolean isChanged() {
+    return persistenceState.isChanged ( );
+  }
 
-	public void markDeleted() {
-		persistenceState.markDeleted();
-	}
+  public boolean isDeleted() {
+    return persistenceState.isDeleted ( );
+  }
 
-	public void markNew() {
-		persistenceState.markNew();
-	}
+  public boolean isNew() {
+    return persistenceState.isNew ( );
+  }
 
-	public void markUnchanged() {
-		persistenceState.markUnchanged();
-	}
+  public boolean isRemoved() {
+    return persistenceState.isRemoved ( );
+  }
 
-	public boolean onDelete(Session arg0) throws CallbackException {
-		return persistenceState.onDelete(arg0);
-	}
+  public void markChanged() {
+    persistenceState.markChanged ( );
+  }
 
-	public void onLoad(Session arg0, Serializable arg1) {
-		persistenceState.onLoad(arg0, arg1);
-	}
+  public void markDeleted() {
+    persistenceState.markDeleted ( );
+  }
 
-	public boolean onSave(Session arg0) throws CallbackException {
-		return persistenceState.onSave(arg0);
-	}
+  public void markNew() {
+    persistenceState.markNew ( );
+  }
 
-	public boolean onUpdate(Session arg0) throws CallbackException {
-		return persistenceState.onUpdate(arg0);
-	}
+  public void markUnchanged() {
+    persistenceState.markUnchanged ( );
+  }
 
-	public void setUpdateStatus(int i) {
-		persistenceState.setUpdateStatus(i);
-	}
+  public boolean onDelete(Session arg0) throws CallbackException {
+    return persistenceState.onDelete (arg0);
+  }
 
-	public void generateNewKey() throws DataAccessException {
-	}
+  public void onLoad(Session arg0, Serializable arg1) {
+    persistenceState.onLoad (arg0, arg1);
+  }
 
-	public static DAOCollectionRule getDao() {
-		return dao;
-	}
+  public boolean onSave(Session arg0) throws CallbackException {
+    return persistenceState.onSave (arg0);
+  }
 
-	public Integer getRuleId() {
-		return ruleId;
-	}
+  public boolean onUpdate(Session arg0) throws CallbackException {
+    return persistenceState.onUpdate (arg0);
+  }
 
-	public void setRuleId(Integer ruleId) {
-		this.ruleId = ruleId;
-	}
+  public void generateNewKey() throws DataAccessException {
+  }
 
-	public String getRuleDescription() {
-		return ruleDescription;
-	}
+  public Integer getRuleId() {
+    return ruleId;
+  }
 
-	public void setRuleDescription(String ruleDescription) {
-		this.ruleDescription = ruleDescription;
-	}
+  public void setRuleId(Integer ruleId) {
+    this.ruleId = ruleId;
+  }
 
-	public String getLevel() {
-		return level;
-	}
+  public String getRuleDescription() {
+    return ruleDescription;
+  }
 
-	public void setLevel(String level) {
-		this.level = level;
-	}
+  public void setRuleDescription(String ruleDescription) {
+    this.ruleDescription = ruleDescription;
+  }
 
-	public String getDataType() {
-		return dataType;
-	}
+  public String getLevel() {
+    return level;
+  }
 
-	public void setDataType(String dataType) {
-		this.dataType = dataType;
-	}
+  public void setLevel(String level) {
+    this.level = level;
+  }
 
-	public String getDataPublRange() {
-		return dataPublRange;
-	}
+  public String getDataType() {
+    return dataType;
+  }
 
-	public void setDataPublRange(String dataPublRange) {
-		this.dataPublRange = dataPublRange;
-	}
+  public void setDataType(String dataType) {
+    this.dataType = dataType;
+  }
 
-	public Date getDataInsert() {
-		return dataInsert;
-	}
+  public String getDataPublRange() {
+    return dataPublRange;
+  }
 
-	public void setDataInsert(Date dataInsert) {
-		this.dataInsert = dataInsert;
-	}
+  public void setDataPublRange(String dataPublRange) {
+    this.dataPublRange = dataPublRange;
+  }
 
-	public Date getDataUpdate() {
-		return dataUpdate;
-	}
+  public Date getDataInsert() {
+    return dataInsert;
+  }
 
-	public void setDataUpdate(Date dataUpdate) {
-		this.dataUpdate = dataUpdate;
-	}
+  public void setDataInsert(Date dataInsert) {
+    this.dataInsert = dataInsert;
+  }
 
-	public Date getDataProcessing() {
-		return dataProcessing;
-	}
+  public Date getDataUpdate() {
+    return dataUpdate;
+  }
 
-	public void setDataProcessing(Date dataProcessing) {
-		this.dataProcessing = dataProcessing;
-	}
+  public void setDataUpdate(Date dataUpdate) {
+    this.dataUpdate = dataUpdate;
+  }
 
-	public String getFlagProcessing() {
-		return flagProcessing;
-	}
+  public Date getDataProcessing() {
+    return dataProcessing;
+  }
 
-	public void setFlagProcessing(String flagProcessing) {
-		this.flagProcessing = flagProcessing;
-	}
+  public void setDataProcessing(Date dataProcessing) {
+    this.dataProcessing = dataProcessing;
+  }
 
-	public Date getDataUploadFrom() {
-		return dataUploadFrom;
-	}
+  public String getFlagProcessing() {
+    return flagProcessing;
+  }
 
-	public void setDataUploadFrom(Date dataUploadFrom) {
-		this.dataUploadFrom = dataUploadFrom;
-	}
+  public void setFlagProcessing(String flagProcessing) {
+    this.flagProcessing = flagProcessing;
+  }
 
-	public Date getDataUploadTo() {
-		return dataUploadTo;
-	}
+  public Date getDataUploadFrom() {
+    return dataUploadFrom;
+  }
 
-	public void setDataUploadTo(Date dataUploadTo) {
-		this.dataUploadTo = dataUploadTo;
-	}
+  public void setDataUploadFrom(Date dataUploadFrom) {
+    this.dataUploadFrom = dataUploadFrom;
+  }
 
-	public List getRecordCollectionList() {
-		return recordCollectionList;
-	}
+  public Date getDataUploadTo() {
+    return dataUploadTo;
+  }
 
-	public void setRecordCollectionList(List recordCollectionList) {
-		this.recordCollectionList = recordCollectionList;
-	}
+  public void setDataUploadTo(Date dataUploadTo) {
+    this.dataUploadTo = dataUploadTo;
+  }
 
-	public List getRecordsList() {
-		return recordsList;
-	}
+  public List getRecordCollectionList() {
+    return recordCollectionList;
+  }
 
-	public void setRecordsList(List recordsList) {
-		this.recordsList = recordsList;
-	}
+  public void setRecordCollectionList(List recordCollectionList) {
+    this.recordCollectionList = recordCollectionList;
+  }
 
-	public List getCollectionsList() {
-		return collectionsList;
-	}
+  public List getRecordsList() {
+    return recordsList;
+  }
 
-	public void setCollectionsList(List collectionsList) {
-		this.collectionsList = collectionsList;
-	}	
+  public void setRecordsList(List recordsList) {
+    this.recordsList = recordsList;
+  }
+
+  public List getCollectionsList() {
+    return collectionsList;
+  }
+
+  public void setCollectionsList(List collectionsList) {
+    this.collectionsList = collectionsList;
+  }
 }

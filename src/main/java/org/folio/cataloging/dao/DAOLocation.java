@@ -1,24 +1,23 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on 15-jul-2004
- * 
+ *
  * DAOLocation.java
  */
 package org.folio.cataloging.dao;
 
-import java.util.List;
-import java.util.Locale;
-
-import org.folio.cataloging.dao.persistence.LCTN;
-import org.folio.cataloging.dao.persistence.LCTN_ISOLANG_VW;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-
-import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.cataloging.dao.persistence.LCTN;
+import org.folio.cataloging.dao.persistence.LCTN_ISOLANG_VW;
+
+import java.util.List;
+import java.util.Locale;
 
 /**
  * @author elena
@@ -27,105 +26,104 @@ import org.folio.cataloging.business.common.DataAccessException;
  */
 public class DAOLocation extends HibernateUtil {
 
-	public LCTN load(
-		int organisationNumber,
-		short locationNumber,
-		Locale locale)
-		throws DataAccessException {
-		Session s = currentSession();
+  public LCTN load(
+    int organisationNumber,
+    short locationNumber,
+    Locale locale)
+    throws DataAccessException {
+    Session s = currentSession ( );
 
-		List result;
+    List result;
 
-		result =
-			find(
-				"from LCTN as l where "
-					+ " l.key.organisationNumber = ? and l.key.locationNumber = ? and "
-					+ " l.key.language = ? ",
-				new Object[] {
-					new Integer(organisationNumber),
-					new Integer(locationNumber),
-					locale.getISO3Language()},
-				new Type[] {
-					Hibernate.INTEGER,
-					Hibernate.INTEGER,
-					Hibernate.STRING });
+    result =
+      find (
+        "from LCTN as l where "
+          + " l.key.organisationNumber = ? and l.key.locationNumber = ? and "
+          + " l.key.language = ? ",
+        new Object[]{
+          new Integer (organisationNumber),
+          new Integer (locationNumber),
+          locale.getISO3Language ( )},
+        new Type[]{
+          Hibernate.INTEGER,
+          Hibernate.INTEGER,
+          Hibernate.STRING});
 
-		if (result.size() > 0) {
-			return (LCTN) result.get(0); 
-			}
-		else {
-			return null;
-		}
-	}
+    if (result.size ( ) > 0) {
+      return (LCTN) result.get (0);
+    } else {
+      return null;
+    }
+  }
 
-	public List LCTN_VWList(int organisationNumber, Locale locale)
-		throws DataAccessException {
-		List lo = null;
+  public List LCTN_VWList(int organisationNumber, Locale locale)
+    throws DataAccessException {
+    List lo = null;
 
-		lo =
-			find(
-				"from LCTN as vw"
-					+ " where vw.key.organisationNumber = ? and "
-					+ " vw.key.language = ? order by vw.key.locationNumber asc",
-				new Object[] {
-					new Integer(organisationNumber),
-					locale.getISO3Language()},
-				new Type[] { Hibernate.INTEGER, Hibernate.STRING });
+    lo =
+      find (
+        "from LCTN as vw"
+          + " where vw.key.organisationNumber = ? and "
+          + " vw.key.language = ? order by vw.key.locationNumber asc",
+        new Object[]{
+          new Integer (organisationNumber),
+          locale.getISO3Language ( )},
+        new Type[]{Hibernate.INTEGER, Hibernate.STRING});
 
-		return lo;
-	}
+    return lo;
+  }
 
 
-	public String getLocationName(Class c,int organisationNumber,Locale locale,short locationCode) throws DataAccessException {
-	    
-	    String result = "";
-	    List lo = null;
-	    try {
-			Session s = currentSession();
+  public String getLocationName(Class c, int organisationNumber, Locale locale, short locationCode) throws DataAccessException {
 
-			lo = (List) s.find("from "
-			 + c.getName()
-			 + " as vw where vw.key.organisationNumber ="
-			 + organisationNumber
-			 + " and vw.key.locationNumber ="
-			 + locationCode
-			 + " and vw.isoLanguage ='"
-			 + locale.getISO3Language()
-			 + "'");
+    String result = "";
+    List lo = null;
+    try {
+      Session s = currentSession ( );
 
-			if (lo.size() <= 0) {
-				lo = (List) s.find("from "
-				+ c.getName()
-				+ " as vw where vw.key.organisationNumber ="
-				+ organisationNumber
-				+ " and vw.key.locationNumber ="
-				 + locationCode
-				+ " and vw.isoLanguage ='"
-				+ new Locale("en").getISO3Language()
-				+ "'");
-			}
-			
-			if (lo.size() > 0) {
-			    
-			    LCTN_ISOLANG_VW location = (LCTN_ISOLANG_VW) lo.get(0);
-			    
-			    result = location.getLabelStringText();
-			    
-			}
-			
-			
-		}  catch (DataAccessException e) {
-			// TODO e.printStackTrace() is evil. If you catch, handle the exception.
-		    e.printStackTrace();
-		} catch (HibernateException e) {
-			// TODO e.printStackTrace() is evil. If you catch, handle the exception.
-		    e.printStackTrace();
-		} catch (ClassCastException e){
-			// TODO e.printStackTrace() is evil. If you catch, handle the exception.
-		    e.printStackTrace();
-		}
+      lo = (List) s.find ("from "
+        + c.getName ( )
+        + " as vw where vw.key.organisationNumber ="
+        + organisationNumber
+        + " and vw.key.locationNumber ="
+        + locationCode
+        + " and vw.isoLanguage ='"
+        + locale.getISO3Language ( )
+        + "'");
 
-	    return result;
-	    
-	}
+      if (lo.size ( ) <= 0) {
+        lo = (List) s.find ("from "
+          + c.getName ( )
+          + " as vw where vw.key.organisationNumber ="
+          + organisationNumber
+          + " and vw.key.locationNumber ="
+          + locationCode
+          + " and vw.isoLanguage ='"
+          + new Locale ("en").getISO3Language ( )
+          + "'");
+      }
+
+      if (lo.size ( ) > 0) {
+
+        LCTN_ISOLANG_VW location = (LCTN_ISOLANG_VW) lo.get (0);
+
+        result = location.getLabelStringText ( );
+
+      }
+
+
+    } catch (DataAccessException e) {
+      // TODO e.printStackTrace() is evil. If you catch, handle the exception.
+      e.printStackTrace ( );
+    } catch (HibernateException e) {
+      // TODO e.printStackTrace() is evil. If you catch, handle the exception.
+      e.printStackTrace ( );
+    } catch (ClassCastException e) {
+      // TODO e.printStackTrace() is evil. If you catch, handle the exception.
+      e.printStackTrace ( );
+    }
+
+    return result;
+
+  }
 }

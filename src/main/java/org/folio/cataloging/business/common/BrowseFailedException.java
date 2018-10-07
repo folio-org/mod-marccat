@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Jul 19, 2004
- * 
+ *
  * BrowseFailedException.java
  */
 package org.folio.cataloging.business.common;

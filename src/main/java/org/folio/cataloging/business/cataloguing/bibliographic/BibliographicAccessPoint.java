@@ -9,83 +9,81 @@ import org.folio.cataloging.util.StringText;
 
 import java.sql.SQLException;
 
-public abstract class BibliographicAccessPoint extends AccessPoint implements PersistentObjectWithView
-{
-	private String materialSpecified;
-	private UserViewHelper userViewHelper = new UserViewHelper();
+public abstract class BibliographicAccessPoint extends AccessPoint implements PersistentObjectWithView {
+  private String materialSpecified;
+  private UserViewHelper userViewHelper = new UserViewHelper ( );
 
-	private Integer sequenceNumber;
+  private Integer sequenceNumber;
 
-	public void setStringText(StringText stringText) {
-		materialSpecified = stringText.getSubfieldsWithCodes("3").toString();
-		super.setStringText(stringText);
-	}
+  public BibliographicAccessPoint() {
+    super ( );
+  }
 
-	public StringText getStringText() {
-		StringText result = super.getStringText();
-		result.parse(materialSpecified);
-		return result;
-	}
+  public BibliographicAccessPoint(int itemNumber) {
+    super (itemNumber);
+  }
 
-	public BibliographicAccessPoint() {
-		super();
-	}
+  public StringText getStringText() {
+    StringText result = super.getStringText ( );
+    result.parse (materialSpecified);
+    return result;
+  }
 
-	public BibliographicAccessPoint(int itemNumber) {
-		super(itemNumber);
-	}
+  public void setStringText(StringText stringText) {
+    materialSpecified = stringText.getSubfieldsWithCodes ("3").toString ( );
+    super.setStringText (stringText);
+  }
 
-	public void generateNewKey(final Session session) throws HibernateException, SQLException {
-		super.generateNewKey(session);
-		if (getDescriptor().isNew()) {
-			getDescriptor().getKey().setUserViewString(getUserViewString());
-		}
-		setUserViewString(getDescriptor().getKey().getUserViewString());
-	}
+  public void generateNewKey(final Session session) throws HibernateException, SQLException {
+    super.generateNewKey (session);
+    if (getDescriptor ( ).isNew ( )) {
+      getDescriptor ( ).getKey ( ).setUserViewString (getUserViewString ( ));
+    }
+    setUserViewString (getDescriptor ( ).getKey ( ).getUserViewString ( ));
+  }
 
-	public String getMaterialSpecified() {
-		return materialSpecified;
-	}
+  public String getMaterialSpecified() {
+    return materialSpecified;
+  }
 
-	public String getUserViewString() {
-		return userViewHelper.getUserViewString();
-	}
+  public void setMaterialSpecified(String string) {
+    materialSpecified = string;
+  }
 
-	public void setUserViewString(String s) {
-		userViewHelper.setUserViewString(s);
-	}
+  public String getUserViewString() {
+    return userViewHelper.getUserViewString ( );
+  }
 
-	public int getBibItemNumber() {
-		return getItemNumber();
-	}
+  public void setUserViewString(String s) {
+    userViewHelper.setUserViewString (s);
+  }
 
-	public void setBibItemNumber(int itemNumber) {
-		setItemNumber(itemNumber);
-	}
+  public int getBibItemNumber() {
+    return getItemNumber ( );
+  }
 
-	public void setMaterialSpecified(String string) {
-		materialSpecified = string;
-	}
+  public void setBibItemNumber(int itemNumber) {
+    setItemNumber (itemNumber);
+  }
 
-	public boolean equals(Object obj) {
-		if (super.equals(obj)) {
-			BibliographicAccessPoint anApf = (BibliographicAccessPoint)obj;
-			return this.getUserViewString().equals(anApf.getUserViewString());
-		}
-		else {
-			return false;
-		}
-	}
+  public boolean equals(Object obj) {
+    if (super.equals (obj)) {
+      BibliographicAccessPoint anApf = (BibliographicAccessPoint) obj;
+      return this.getUserViewString ( ).equals (anApf.getUserViewString ( ));
+    } else {
+      return false;
+    }
+  }
 
-	public int hashCode() {
-		return super.hashCode() + getUserViewString().hashCode();
-	}
+  public int hashCode() {
+    return super.hashCode ( ) + getUserViewString ( ).hashCode ( );
+  }
 
-	public Integer getSequenceNumber() {
-		return sequenceNumber;
-	}
+  public Integer getSequenceNumber() {
+    return sequenceNumber;
+  }
 
-	public void setSequenceNumber(Integer sequenceNumber) {
-		this.sequenceNumber = sequenceNumber;
-	}
+  public void setSequenceNumber(Integer sequenceNumber) {
+    this.sequenceNumber = sequenceNumber;
+  }
 }

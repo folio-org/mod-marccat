@@ -22,211 +22,201 @@ import java.util.Locale;
 
 import static java.util.stream.Collectors.toList;
 
-public class DAOCollectionPublisher extends AbstractDAO
-{	
-	public DAOCollectionPublisher() {
-		super();
-	}
-	private final DAOCodeTable daoCodeTable = new DAOCodeTable();
-	
-	public void persistCollectionPublisher(final Session session, CollectionPublisher collection) throws DataAccessException
-	{
-		CollectionPublisher collection2;
-		if (collection.getIdCollection()==0 || loadCollectionPublisher(session, collection.getIdCollection()).size() == 0) {
-			persistByStatus(collection);
+public class DAOCollectionPublisher extends AbstractDAO {
+  private final DAOCodeTable daoCodeTable = new DAOCodeTable ( );
 
-		} else {
-			collection2 = (CollectionPublisher) loadCollectionPublisher(session, collection.getIdCollection()).get(0);
-			collection2.markChanged();
-			persistByStatus(collection2);
-		}	
-	}
+  public DAOCollectionPublisher() {
+    super ( );
+  }
 
-	public List loadCollectionPublisher(final Session session, int idCollection) throws DataAccessException
-	{
-		List result = null;
-	    result= find(session, " from CollectionPublisher as ct where ct.idCollection =" + idCollection + " order by ct.idCollection");
-		return result;
-		
-	}
+  public void persistCollectionPublisher(final Session session, CollectionPublisher collection) throws DataAccessException {
+    CollectionPublisher collection2;
+    if (collection.getIdCollection ( ) == 0 || loadCollectionPublisher (session, collection.getIdCollection ( )).size ( ) == 0) {
+      persistByStatus (collection);
 
-	
-	public int getIdCollectionMST(final Session session) throws DataAccessException
-	{
-		List l = null;
-		int progress = 0;
+    } else {
+      collection2 = (CollectionPublisher) loadCollectionPublisher (session, collection.getIdCollection ( )).get (0);
+      collection2.markChanged ( );
+      persistByStatus (collection2);
+    }
+  }
 
-		try {
-			l = session.find("select max(a.idCollection) " + "from CollectionPublisher a");
-		} catch (HibernateException e) {
-			logAndWrap(e);
-		}
-		if(l.get(0)!=null){
-			progress = new Integer(l.get(0).toString()).intValue()+1;	
-		}
-		else progress= progress+1;
-				
-		return progress;
-	}
+  public List loadCollectionPublisher(final Session session, int idCollection) throws DataAccessException {
+    List result = null;
+    result = find (session, " from CollectionPublisher as ct where ct.idCollection =" + idCollection + " order by ct.idCollection");
+    return result;
 
-	
-	public List loadByDescription(String nameIta) throws DataAccessException 
-	{
-		List result = null;
-        nameIta = nameIta.toLowerCase();
-		String description="'"+nameIta+"%'";
-		try {
-			Session s = currentSession();
-			Query q = s.createQuery("select distinct ct "
-					+ " from CollectionPublisher as ct, T_CLCTN_PUBL_TYP as mst " 
-					+ " where ct.nameIta = mst.code and lower(mst.longText) like "
-					+ description);
-			result = q.list();
-
-		} catch (HibernateException e) {
-			logAndWrap(e);
-		}
-		return result;
-	}
-	
-	public List loadByDescriptionAndPublisher(String nameIta, String publisherCode) throws DataAccessException 
-	{
-		List result = null;
-        nameIta = nameIta.toLowerCase();
-		String description="'"+nameIta+"%'";
-		publisherCode = publisherCode.toLowerCase();
-		
-		try {
-			Session s = currentSession();
-			Query q = s.createQuery("select distinct ct "
-					+ " from CollectionPublisher as ct, T_CLCTN_PUBL_TYP as mst " 
-					+ " where ct.nameIta = mst.code and lower(mst.longText) like "
-					+ description
-					+ " and lower(ct.publCode) = '" + publisherCode + "'");
-			result = q.list();
-
-		} catch (HibernateException e) {
-			logAndWrap(e);
-		}
-		return result;
-	}
-	
-	public List loadByLevelCode(String levelCode) throws DataAccessException 
-	{
-		List result = null;
-		try {
-			Session s = currentSession();
-			Query q = s.createQuery("select distinct ct from CollectionPublisher as ct, T_CLCTN_PUBL_LVL_TYP as lvl where ct.levelCode ='" + levelCode + "'");
-			result = q.list();
-		} catch (HibernateException e) {
-			logAndWrap(e);
-		}
-		return result;
-	}
-	
-	public List loadByLevelCodeAndPublisher(String levelCode, String publisherCode) throws DataAccessException 
-	{
-		List result = null;
-		publisherCode = publisherCode.toLowerCase();
-		try {
-			Session s = currentSession();
-			Query q = s.createQuery("select distinct ct from CollectionPublisher as ct, T_CLCTN_PUBL_LVL_TYP as lvl where ct.levelCode ='" + levelCode + "'" + " and lower(ct.publCode) = '" + publisherCode + "'");
-			result = q.list();
-		} catch (HibernateException e) {
-			logAndWrap(e);
-		}
-		return result;
-	}
-	
-	public CollectionPublisher loadPUB(int idCollection)throws DataAccessException 
-	{
-		Connection connection = null;
-		PreparedStatement stmt = null;
-		java.sql.ResultSet rs = null;
-		Session s = currentSession();
-		String query = "";
-		List l = null;
-		CollectionPublisher co =null;
-		try {
-			connection = s.connection();
-			query = "Select * from   " + System.getProperty(Global.SCHEMA_CUSTOMER_KEY) + ".T_CLCTN_PUBL where  " + System.getProperty(Global.SCHEMA_CUSTOMER_KEY) + ".T_CLCTN_PUBL.CLCTN_PUBL_CDE="	+ idCollection;
-		    stmt = connection.prepareStatement(query);
-			rs = stmt.executeQuery();
-			l = new ArrayList();
-			while (rs.next()) {
-				co = new CollectionPublisher();
-				co.setIdCollection(rs.getInt("CLCTN_PUBL_CDE"));
-				co.setNameIta(rs.getInt("NME_PUBL_CDE"));
-				co.setStatusCode(rs.getInt("STUS_CDE"));
-				co.setDateCreation(rs.getDate("CRTN_DTE"));
-				co.setDateCancel(rs.getDate("CNCL_DTE"));
-				co.setLevelCode(rs.getInt("PUBL_LVL"));
-				co.setPublCode(rs.getString("PUBL_CDE"));
-				co.setYear(rs.getInt("YEAR"));
-				co.markUnchanged();
-				l.add(co);
-			}
-		} catch (HibernateException e) {
-			logAndWrap(e);
-
-		} catch (SQLException e1) {
-			logAndWrap(e1);
-		} finally {
-			try {
-				if (stmt != null)
-					stmt.close();
-				if (rs != null)
-					rs.close();
-
-			} catch (SQLException e) {
-				logAndWrap(e);
-			}
-		}
-		return co;
-	}
-
-	private PublisherListElement toPublisherListElement(final Session session,
-							   						final CollectionPublisher source,
-													final Locale locale) {
-
-		PublisherListElement publisherListElement = new PublisherListElement(source);
-		publisherListElement.setNameIta(daoCodeTable.getLongText(session, (short)source.getNameIta(),
-																 T_CLCTN_PUBL_TYP.class, locale));
-		publisherListElement.setStatusCode(daoCodeTable.getLongText(session, (short)source.getStatusCode(),
-																 T_STS_CLCTN_TYP.class, locale));
-		publisherListElement.setLevelCode(daoCodeTable.getLongText(session, (short)source.getLevelCode(),
-				                                                 T_CLCTN_PUBL_LVL_TYP.class, locale));
-		publisherListElement.setHierarchy(loadHRCY(session, source.getIdCollection()).size() > 0);
-		publisherListElement.setCountPub(countCollectionFromRecordUses(source.getIdCollection()));
-		return publisherListElement;
-	}
+  }
 
 
-    public List orderPubCollection(final Session session,
-								   final String tableColumn,
-								   final String orderType,
-								   final Locale locale) throws DataAccessException
-	{
-		List<CollectionPublisher> result;
-		List<PublisherListElement> result2 = new ArrayList();
-		String orderByString= " order by ct."+ tableColumn+" "+orderType;
+  public int getIdCollectionMST(final Session session) throws DataAccessException {
+    List l = null;
+    int progress = 0;
 
-		try {
+    try {
+      l = session.find ("select max(a.idCollection) " + "from CollectionPublisher a");
+    } catch (HibernateException e) {
+      logAndWrap (e);
+    }
+    if (l.get (0) != null) {
+      progress = new Integer (l.get (0).toString ( )).intValue ( ) + 1;
+    } else progress = progress + 1;
 
-			Query q = session.createQuery("select distinct ct " + " from CollectionPublisher as ct " +orderByString);
-			result = q.list();
+    return progress;
+  }
 
-			result2 = result.stream()
-						.map(n -> toPublisherListElement(session, n, locale))
-						.collect(toList());
 
-		} catch (HibernateException e) {
-			logAndWrap(e);
-		}
-		return result2;
-	}
+  public List loadByDescription(String nameIta) throws DataAccessException {
+    List result = null;
+    nameIta = nameIta.toLowerCase ( );
+    String description = "'" + nameIta + "%'";
+    try {
+      Session s = currentSession ( );
+      Query q = s.createQuery ("select distinct ct "
+        + " from CollectionPublisher as ct, T_CLCTN_PUBL_TYP as mst "
+        + " where ct.nameIta = mst.code and lower(mst.longText) like "
+        + description);
+      result = q.list ( );
 
-	//TODO: check commented methods if needs
+    } catch (HibernateException e) {
+      logAndWrap (e);
+    }
+    return result;
+  }
+
+  public List loadByDescriptionAndPublisher(String nameIta, String publisherCode) throws DataAccessException {
+    List result = null;
+    nameIta = nameIta.toLowerCase ( );
+    String description = "'" + nameIta + "%'";
+    publisherCode = publisherCode.toLowerCase ( );
+
+    try {
+      Session s = currentSession ( );
+      Query q = s.createQuery ("select distinct ct "
+        + " from CollectionPublisher as ct, T_CLCTN_PUBL_TYP as mst "
+        + " where ct.nameIta = mst.code and lower(mst.longText) like "
+        + description
+        + " and lower(ct.publCode) = '" + publisherCode + "'");
+      result = q.list ( );
+
+    } catch (HibernateException e) {
+      logAndWrap (e);
+    }
+    return result;
+  }
+
+  public List loadByLevelCode(String levelCode) throws DataAccessException {
+    List result = null;
+    try {
+      Session s = currentSession ( );
+      Query q = s.createQuery ("select distinct ct from CollectionPublisher as ct, T_CLCTN_PUBL_LVL_TYP as lvl where ct.levelCode ='" + levelCode + "'");
+      result = q.list ( );
+    } catch (HibernateException e) {
+      logAndWrap (e);
+    }
+    return result;
+  }
+
+  public List loadByLevelCodeAndPublisher(String levelCode, String publisherCode) throws DataAccessException {
+    List result = null;
+    publisherCode = publisherCode.toLowerCase ( );
+    try {
+      Session s = currentSession ( );
+      Query q = s.createQuery ("select distinct ct from CollectionPublisher as ct, T_CLCTN_PUBL_LVL_TYP as lvl where ct.levelCode ='" + levelCode + "'" + " and lower(ct.publCode) = '" + publisherCode + "'");
+      result = q.list ( );
+    } catch (HibernateException e) {
+      logAndWrap (e);
+    }
+    return result;
+  }
+
+  public CollectionPublisher loadPUB(int idCollection) throws DataAccessException {
+    Connection connection = null;
+    PreparedStatement stmt = null;
+    java.sql.ResultSet rs = null;
+    Session s = currentSession ( );
+    String query = "";
+    List l = null;
+    CollectionPublisher co = null;
+    try {
+      connection = s.connection ( );
+      query = "Select * from   " + System.getProperty (Global.SCHEMA_CUSTOMER_KEY) + ".T_CLCTN_PUBL where  " + System.getProperty (Global.SCHEMA_CUSTOMER_KEY) + ".T_CLCTN_PUBL.CLCTN_PUBL_CDE=" + idCollection;
+      stmt = connection.prepareStatement (query);
+      rs = stmt.executeQuery ( );
+      l = new ArrayList ( );
+      while (rs.next ( )) {
+        co = new CollectionPublisher ( );
+        co.setIdCollection (rs.getInt ("CLCTN_PUBL_CDE"));
+        co.setNameIta (rs.getInt ("NME_PUBL_CDE"));
+        co.setStatusCode (rs.getInt ("STUS_CDE"));
+        co.setDateCreation (rs.getDate ("CRTN_DTE"));
+        co.setDateCancel (rs.getDate ("CNCL_DTE"));
+        co.setLevelCode (rs.getInt ("PUBL_LVL"));
+        co.setPublCode (rs.getString ("PUBL_CDE"));
+        co.setYear (rs.getInt ("YEAR"));
+        co.markUnchanged ( );
+        l.add (co);
+      }
+    } catch (HibernateException e) {
+      logAndWrap (e);
+
+    } catch (SQLException e1) {
+      logAndWrap (e1);
+    } finally {
+      try {
+        if (stmt != null)
+          stmt.close ( );
+        if (rs != null)
+          rs.close ( );
+
+      } catch (SQLException e) {
+        logAndWrap (e);
+      }
+    }
+    return co;
+  }
+
+  private PublisherListElement toPublisherListElement(final Session session,
+                                                      final CollectionPublisher source,
+                                                      final Locale locale) {
+
+    PublisherListElement publisherListElement = new PublisherListElement (source);
+    publisherListElement.setNameIta (daoCodeTable.getLongText (session, (short) source.getNameIta ( ),
+      T_CLCTN_PUBL_TYP.class, locale));
+    publisherListElement.setStatusCode (daoCodeTable.getLongText (session, (short) source.getStatusCode ( ),
+      T_STS_CLCTN_TYP.class, locale));
+    publisherListElement.setLevelCode (daoCodeTable.getLongText (session, (short) source.getLevelCode ( ),
+      T_CLCTN_PUBL_LVL_TYP.class, locale));
+    publisherListElement.setHierarchy (loadHRCY (session, source.getIdCollection ( )).size ( ) > 0);
+    publisherListElement.setCountPub (countCollectionFromRecordUses (source.getIdCollection ( )));
+    return publisherListElement;
+  }
+
+
+  public List orderPubCollection(final Session session,
+                                 final String tableColumn,
+                                 final String orderType,
+                                 final Locale locale) throws DataAccessException {
+    List <CollectionPublisher> result;
+    List <PublisherListElement> result2 = new ArrayList ( );
+    String orderByString = " order by ct." + tableColumn + " " + orderType;
+
+    try {
+
+      Query q = session.createQuery ("select distinct ct " + " from CollectionPublisher as ct " + orderByString);
+      result = q.list ( );
+
+      result2 = result.stream ( )
+        .map (n -> toPublisherListElement (session, n, locale))
+        .collect (toList ( ));
+
+    } catch (HibernateException e) {
+      logAndWrap (e);
+    }
+    return result2;
+  }
+
+  //TODO: check commented methods if needs
 	/*public List getListPublishersElement(Locale locale) throws DataAccessException
 	{
 		List result = new ArrayList();
@@ -449,31 +439,30 @@ public class DAOCollectionPublisher extends AbstractDAO
 			}
 		}
 	}*/
-	
-	
-	public List loadHRCY(Session session, int collectionCode) throws DataAccessException {
-		List result = null;
-		try {
-			Query q = session.createQuery("select distinct ct from CLCTN_PUBL_HRCY as ct where ct.collectionCode = " + collectionCode);
-			q.setMaxResults(1);
-			result = q.list();
-		} catch (HibernateException e) {
-			//TODO dont'use it!
-			logAndWrap(e);
-		}
-		return result;
-	}
-	
-	public int countCollectionFromRecordUses(int idCollection) throws DataAccessException 
-	{
-		List l = find("select count(*) from CLCTN_PUBL_ACS_PNT apf, CollectionPublisher ct " + " where ct.idCollection = apf.collectionNumber" + " and apf.collectionNumber = ?", new Object[] { new Integer(
-				idCollection) }, new Type[] { Hibernate.INTEGER });
-		if (l.size() > 0) {
-			return ((Integer) l.get(0)).intValue();
-		} else {
-			return 0;
-		}
-	}
+
+
+  public List loadHRCY(Session session, int collectionCode) throws DataAccessException {
+    List result = null;
+    try {
+      Query q = session.createQuery ("select distinct ct from CLCTN_PUBL_HRCY as ct where ct.collectionCode = " + collectionCode);
+      q.setMaxResults (1);
+      result = q.list ( );
+    } catch (HibernateException e) {
+      //TODO dont'use it!
+      logAndWrap (e);
+    }
+    return result;
+  }
+
+  public int countCollectionFromRecordUses(int idCollection) throws DataAccessException {
+    List l = find ("select count(*) from CLCTN_PUBL_ACS_PNT apf, CollectionPublisher ct " + " where ct.idCollection = apf.collectionNumber" + " and apf.collectionNumber = ?", new Object[]{new Integer (
+      idCollection)}, new Type[]{Hibernate.INTEGER});
+    if (l.size ( ) > 0) {
+      return ((Integer) l.get (0)).intValue ( );
+    } else {
+      return 0;
+    }
+  }
 	
 	/*public List getListPublishersElementByItem(int itemNumber, Locale locale) throws DataAccessException
 	{
@@ -500,7 +489,7 @@ public class DAOCollectionPublisher extends AbstractDAO
 		}
 		return result;
 	}*/
-	
+
 //	 20101014 inizio
 	/*public Date getRecordAssociatedDate(int itemNumber, int idCollection) throws DataAccessException
 	{
@@ -562,5 +551,5 @@ public class DAOCollectionPublisher extends AbstractDAO
 		}
 		return l;
 	}*/
-	
+
 }

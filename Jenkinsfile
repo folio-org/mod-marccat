@@ -4,9 +4,14 @@ pipeline {
          DISABLE_AUTH = 'true'
      }
     stages {
-      stage('Clean') {
+      stage('Checkout And Clean') {
             steps {
-                echo 'cleaning...'
+              script {
+                    echo 'Pulling...' + env.BRANCH_NAME
+                    sh('./script/clean.sh')
+                    def mvnHome = tool 'mvn'
+                    sh "'${mvnHome}/bin/mvn' clean -DskipTests=true"
+                }
              }
             post {
                 success {
@@ -17,9 +22,8 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                   echo 'Pulling...' + env.BRANCH_NAME
                    def mvnHome = tool 'mvn'
-                   sh "'${mvnHome}/bin/mvn' clean compile package -DskipTests=true"
+                   sh "'${mvnHome}/bin/mvn' compile package -DskipTests=true"
                    archiveArtifacts 'target*//*.jar'
                }
             }

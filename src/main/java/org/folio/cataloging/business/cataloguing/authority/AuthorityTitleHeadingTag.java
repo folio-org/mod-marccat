@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Dec 5, 2005
- * 
+ *
  * AuthorityTitleHeadingTag.java
  */
 package org.folio.cataloging.business.cataloguing.authority;
@@ -21,60 +21,61 @@ import java.util.List;
  * @since 1.0
  */
 public class AuthorityTitleHeadingTag
-	extends AuthorityHeadingTag
-	implements SkipInFiling {
+  extends AuthorityHeadingTag
+  implements SkipInFiling {
 
-	/**
-	 * Class constructor
-	 *
-	 * @since 1.0
-	 */
-	public AuthorityTitleHeadingTag() {
-		super(new TTL_HDG());
-	}
+  /**
+   * Class constructor
+   *
+   * @since 1.0
+   */
+  public AuthorityTitleHeadingTag() {
+    super (new TTL_HDG ( ));
+  }
 
-	/* (non-Javadoc)
-	 * @see TagInterface#getCategory()
-	 */
-	public int getCategory() {
-		return 3;
-	}
+  /* (non-Javadoc)
+   * @see TagInterface#getCategory()
+   */
+  public int getCategory() {
+    return 3;
+  }
 
-	/* (non-Javadoc)
-	 * @see SkipInFiling#getSkipInFiling()
-	 */
-	public int getSkipInFiling() {
-		return getDescriptor().getSkipInFiling();
-	}
+  /* (non-Javadoc)
+   * @see SkipInFiling#getSkipInFiling()
+   */
+  public int getSkipInFiling() {
+    return getDescriptor ( ).getSkipInFiling ( );
+  }
 
-	/* (non-Javadoc)
-	 * @see SkipInFiling#setSkipInFiling(short)
-	 */
-	public void setSkipInFiling(int i) {
-		getDescriptor().setSkipInFiling(i);
-	}
-	/* (non-Javadoc)
-	 * @see TagInterface#getMarcEncoding()
-	 */
-	public CorrelationKey getMarcEncoding()
-		throws DataAccessException {
-		return super.getMarcEncoding().changeSkipInFilingIndicator(
-			getSkipInFiling());
-	}
+  /* (non-Javadoc)
+   * @see SkipInFiling#setSkipInFiling(short)
+   */
+  public void setSkipInFiling(int i) {
+    getDescriptor ( ).setSkipInFiling (i);
+  }
 
-	/* (non-Javadoc)
-	 * @see TagInterface#getFirstCorrelationList()
-	 */
-	public List getFirstCorrelationList() throws DataAccessException {
-		// Authority title headings have no correlation lists
-		return null;
-	}
+  /* (non-Javadoc)
+   * @see TagInterface#getMarcEncoding()
+   */
+  public CorrelationKey getMarcEncoding()
+    throws DataAccessException {
+    return super.getMarcEncoding ( ).changeSkipInFilingIndicator (
+      getSkipInFiling ( ));
+  }
 
-	/* (non-Javadoc)
-	 * @see TagInterface#correlationChangeAffectsKey(librisuite.business.common.CorrelationValues)
-	 */
-	public boolean correlationChangeAffectsKey(CorrelationValues v) {
-		return v.isValueDefined(1);
-	}
+  /* (non-Javadoc)
+   * @see TagInterface#getFirstCorrelationList()
+   */
+  public List getFirstCorrelationList() throws DataAccessException {
+    // Authority title headings have no correlation lists
+    return null;
+  }
+
+  /* (non-Javadoc)
+   * @see TagInterface#correlationChangeAffectsKey(librisuite.business.common.CorrelationValues)
+   */
+  public boolean correlationChangeAffectsKey(CorrelationValues v) {
+    return v.isValueDefined (1);
+  }
 
 }

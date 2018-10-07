@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Apr 25, 2006
- * 
+ *
  * T_AUT_CLSTN_TYP.java
  */
 package org.folio.cataloging.dao.persistence;

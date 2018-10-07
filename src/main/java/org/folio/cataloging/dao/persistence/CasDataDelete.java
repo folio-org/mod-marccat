@@ -7,68 +7,81 @@ import java.util.Date;
 public class CasDataDelete implements Serializable {
 
 
-    /** identifier field */
-    private long bibItmNbr;
-       
-    /** nullable persistent field */
-    private String transactionId;
-    
-    /** nullable persistent field */
-    private String operator;
-    
-    /** nullable persistent field */
-    private Date delDate;
+  /**
+   * identifier field
+   */
+  private long bibItmNbr;
 
-    /** default constructor */
-    public CasDataDelete() {
-    }
-    
-    /** identifier field */
-    private long recordNbr;
+  /**
+   * nullable persistent field
+   */
+  private String transactionId;
 
-    /** minimal constructor */
-    public CasDataDelete(long bibItmNbr) {
-        this.bibItmNbr = bibItmNbr;
-    }
+  /**
+   * nullable persistent field
+   */
+  private String operator;
 
-	public long getBibItmNbr() {
-		return bibItmNbr;
-	}
+  /**
+   * nullable persistent field
+   */
+  private Date delDate;
+  /**
+   * identifier field
+   */
+  private long recordNbr;
 
-	public void setBibItmNbr(long bibItmNbr) {
-		this.bibItmNbr = bibItmNbr;
-	}
+  /**
+   * default constructor
+   */
+  public CasDataDelete() {
+  }
 
-	public String getOperator() {
-		return operator;
-	}
+  /**
+   * minimal constructor
+   */
+  public CasDataDelete(long bibItmNbr) {
+    this.bibItmNbr = bibItmNbr;
+  }
 
-	public void setOperator(String operator) {
-		this.operator = operator;
-	}
+  public long getBibItmNbr() {
+    return bibItmNbr;
+  }
 
-	public String getTransactionId() {
-		return transactionId;
-	}
+  public void setBibItmNbr(long bibItmNbr) {
+    this.bibItmNbr = bibItmNbr;
+  }
 
-	public void setTransactionId(String transactionId) {
-		this.transactionId = transactionId;
-	}
+  public String getOperator() {
+    return operator;
+  }
 
-	public Date getDelDate() {
-		return delDate;
-	}
+  public void setOperator(String operator) {
+    this.operator = operator;
+  }
 
-	public void setDelDate(Date delDate) {
-		this.delDate = delDate;
-	}
+  public String getTransactionId() {
+    return transactionId;
+  }
 
-	public long getRecordNbr() {
-		return recordNbr;
-	}
+  public void setTransactionId(String transactionId) {
+    this.transactionId = transactionId;
+  }
 
-	public void setRecordNbr(long recordNbr) {
-		this.recordNbr = recordNbr;
-	}
+  public Date getDelDate() {
+    return delDate;
+  }
+
+  public void setDelDate(Date delDate) {
+    this.delDate = delDate;
+  }
+
+  public long getRecordNbr() {
+    return recordNbr;
+  }
+
+  public void setRecordNbr(long recordNbr) {
+    this.recordNbr = recordNbr;
+  }
 }
 

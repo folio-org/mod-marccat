@@ -11,13 +11,13 @@ import org.folio.cataloging.business.cataloguing.bibliographic.FixedFieldUsingIt
  */
 public abstract class Leader extends FixedFieldUsingItemEntity {
 
-	/**
-	 * Always returns false, as leaders cannot be deleted.
-	 *
-	 * @return returns false.
-	 */
-	@Override
-	public boolean isAbleToBeDeleted() {
-		return false;
-	}
+  /**
+   * Always returns false, as leaders cannot be deleted.
+   *
+   * @return returns false.
+   */
+  @Override
+  public boolean isAbleToBeDeleted() {
+    return false;
+  }
 }

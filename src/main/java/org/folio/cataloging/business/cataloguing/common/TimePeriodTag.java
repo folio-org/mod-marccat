@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Dec 5, 2005
- * 
+ *
  * TimePeriodTag.java
  */
 package org.folio.cataloging.business.cataloguing.common;
@@ -22,60 +22,60 @@ import org.folio.cataloging.util.StringText;
  */
 public abstract class TimePeriodTag extends VariableHeaderUsingItemEntity {
 
-	/**
-	 * Class constructor
-	 *
-	 * @param itemNumber
-	 * @since 1.0
-	 */
-	public TimePeriodTag(int itemNumber) {
-		super(itemNumber);
-	}
+  protected static final Log logger = LogFactory.getLog (TimePeriodOfContentTag.class);
 
-	public TimePeriodTag() {
-		super();
-	}
+  /**
+   * Class constructor
+   *
+   * @param itemNumber
+   * @since 1.0
+   */
+  public TimePeriodTag(int itemNumber) {
+    super (itemNumber);
+  }
 
-	protected static final Log logger = LogFactory.getLog(TimePeriodOfContentTag.class);
+  public TimePeriodTag() {
+    super ( );
+  }
 
-	public StringText getStringText() {
-		StringText result = null;
-		String source = (getItemEntity()).getTimePeriodStringText();
-	
-		if (source == null) {
-			result = new StringText(Subfield.SUBFIELD_DELIMITER + "a");
-		} else {
-			result = new StringText(source);
-		}
-		return result;
-	}
+  public StringText getStringText() {
+    StringText result = null;
+    String source = (getItemEntity ( )).getTimePeriodStringText ( );
 
-	public void setStringText(StringText st) {
-		//TODO need a more definitive way to set to null		
-		if (st.toString().equals(Subfield.SUBFIELD_DELIMITER + "a")) {
-			getItemEntity().setTimePeriodStringText(null);
-			getItemEntity().setTypeOfDateTimeCode(null);
-		} else {
-			getItemEntity().setTimePeriodStringText(st.toString());
-		}
-	}
+    if (source == null) {
+      result = new StringText (Subfield.SUBFIELD_DELIMITER + "a");
+    } else {
+      result = new StringText (source);
+    }
+    return result;
+  }
 
-	public void setHeaderType(short s) {
-		super.setHeaderType(s);
-		if (getItemEntity() != null) {
-			try {
-				getItemEntity().setTypeOfDateTimeCode(
-					String.valueOf(getMarcEncoding().getMarcFirstIndicator()));
-			} catch (Exception e) {
-				logger.warn("ErrorCollection setting typeOfDateTimeCode, using null");
-				getItemEntity().setTypeOfDateTimeCode(null);
-			}
-		}
-	}
+  public void setStringText(StringText st) {
+    //TODO need a more definitive way to set to null
+    if (st.toString ( ).equals (Subfield.SUBFIELD_DELIMITER + "a")) {
+      getItemEntity ( ).setTimePeriodStringText (null);
+      getItemEntity ( ).setTypeOfDateTimeCode (null);
+    } else {
+      getItemEntity ( ).setTimePeriodStringText (st.toString ( ));
+    }
+  }
 
-	public void setCorrelationValues(CorrelationValues v) {
-		super.setCorrelationValues(v);
-		setHeaderType(v.getValue(1));
-	}
+  public void setHeaderType(short s) {
+    super.setHeaderType (s);
+    if (getItemEntity ( ) != null) {
+      try {
+        getItemEntity ( ).setTypeOfDateTimeCode (
+          String.valueOf (getMarcEncoding ( ).getMarcFirstIndicator ( )));
+      } catch (Exception e) {
+        logger.warn ("ErrorCollection setting typeOfDateTimeCode, using null");
+        getItemEntity ( ).setTypeOfDateTimeCode (null);
+      }
+    }
+  }
+
+  public void setCorrelationValues(CorrelationValues v) {
+    super.setCorrelationValues (v);
+    setHeaderType (v.getValue (1));
+  }
 
 }

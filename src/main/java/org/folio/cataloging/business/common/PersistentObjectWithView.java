@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Aug 25, 2004
- * 
+ *
  * PersistentObjectWithView.java
  */
 package org.folio.cataloging.business.common;
@@ -14,8 +14,8 @@ package org.folio.cataloging.business.common;
  */
 public interface PersistentObjectWithView extends Persistence {
 
-	String getUserViewString();
-	
-	void setUserViewString(String s);
-	
+  String getUserViewString();
+
+  void setUserViewString(String s);
+
 }

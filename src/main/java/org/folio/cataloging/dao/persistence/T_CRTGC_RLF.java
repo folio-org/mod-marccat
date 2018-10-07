@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on 20-sep-2004
- * 
+ *
  * T_CRTGC_RLF.java
  */
 package org.folio.cataloging.dao.persistence;

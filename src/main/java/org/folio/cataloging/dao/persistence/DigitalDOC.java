@@ -15,40 +15,40 @@ import java.util.Date;
 
 public class DigitalDOC implements Persistence {
 
-	static DAOCasDigAdmin dao = new DAOCasDigAdmin();
-	private PersistenceState persistenceState = new PersistenceState();
-	
-	private String relativePath;
-	private String fileName;
-	//private Blob   fullText;
-	private Integer bibItemNumber;
-	private Date   uploadDate;
-	private Integer fileSize;
-	private Integer userViewCode;
-	
-	public PersistenceState getPersistenceState() {
-		return persistenceState;
-	}
+  static DAOCasDigAdmin dao = new DAOCasDigAdmin ( );
+  private PersistenceState persistenceState = new PersistenceState ( );
 
-	public void setPersistenceState(PersistenceState state) {
-		persistenceState = state;
-	}
+  private String relativePath;
+  private String fileName;
+  //private Blob   fullText;
+  private Integer bibItemNumber;
+  private Date uploadDate;
+  private Integer fileSize;
+  private Integer userViewCode;
 
-	public void evict(Object obj) throws DataAccessException {
-		persistenceState.evict(obj);
-	}
+  public PersistenceState getPersistenceState() {
+    return persistenceState;
+  }
 
-	public void evict() throws DataAccessException {
-		evict(this);
-	}
-	
-	public AbstractDAO getDAO() {
-		return dao;
-	}
+  public void setPersistenceState(PersistenceState state) {
+    persistenceState = state;
+  }
 
-	public int getUpdateStatus() {
-		return persistenceState.getUpdateStatus();
-	}
+  public void evict(Object obj) throws DataAccessException {
+    persistenceState.evict (obj);
+  }
+
+  public void evict() throws DataAccessException {
+    evict (this);
+  }
+
+  public AbstractDAO getDAO() {
+    return dao;
+  }
+
+  public int getUpdateStatus() {
+    return persistenceState.getUpdateStatus ( );
+  }
 
 //	public int hashCode() {
 //		final int prime = 31;
@@ -57,91 +57,91 @@ public class DigitalDOC implements Persistence {
 //		return result;
 //	}
 
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		final DigitalDOC other = (DigitalDOC) obj;
-        return relativePath + fileName == other.relativePath + other.fileName;
-    }
+  public void setUpdateStatus(int i) {
+    persistenceState.setUpdateStatus (i);
+  }
 
-	public boolean isChanged() {
-		return persistenceState.isChanged();
-	}
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass ( ) != obj.getClass ( ))
+      return false;
+    final DigitalDOC other = (DigitalDOC) obj;
+    return relativePath + fileName == other.relativePath + other.fileName;
+  }
 
-	public boolean isDeleted() {
-		return persistenceState.isDeleted();
-	}
+  public boolean isChanged() {
+    return persistenceState.isChanged ( );
+  }
 
-	public boolean isNew() {
-		return persistenceState.isNew();
-	}
+  public boolean isDeleted() {
+    return persistenceState.isDeleted ( );
+  }
 
-	public boolean isRemoved() {
-		return persistenceState.isRemoved();
-	}
+  public boolean isNew() {
+    return persistenceState.isNew ( );
+  }
 
-	public void markChanged() {
-		persistenceState.markChanged();
-	}
+  public boolean isRemoved() {
+    return persistenceState.isRemoved ( );
+  }
 
-	public void markDeleted() {
-		persistenceState.markDeleted();
-	}
+  public void markChanged() {
+    persistenceState.markChanged ( );
+  }
 
-	public void markNew() {
-		persistenceState.markNew();
-	}
+  public void markDeleted() {
+    persistenceState.markDeleted ( );
+  }
 
-	public void markUnchanged() {
-		persistenceState.markUnchanged();
-	}
-	
-	public boolean onDelete(Session arg0) throws CallbackException {
-		return persistenceState.onDelete(arg0);
-	}
+  public void markNew() {
+    persistenceState.markNew ( );
+  }
 
-	public void onLoad(Session arg0, Serializable arg1) {
-		persistenceState.onLoad(arg0, arg1);
-	}
+  public void markUnchanged() {
+    persistenceState.markUnchanged ( );
+  }
 
-	public boolean onSave(Session arg0) throws CallbackException {
-		return persistenceState.onSave(arg0);
-	}
+  public boolean onDelete(Session arg0) throws CallbackException {
+    return persistenceState.onDelete (arg0);
+  }
 
-	public boolean onUpdate(Session arg0) throws CallbackException {
-		return persistenceState.onUpdate(arg0);
-	}
+  public void onLoad(Session arg0, Serializable arg1) {
+    persistenceState.onLoad (arg0, arg1);
+  }
 
-	public void setUpdateStatus(int i) {
-		persistenceState.setUpdateStatus(i);
-	}
+  public boolean onSave(Session arg0) throws CallbackException {
+    return persistenceState.onSave (arg0);
+  }
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.common.Persistence#generateNewKey()
-	 */
-	public void generateNewKey() throws DataAccessException {
-		// not applicable for this class
-	}
+  public boolean onUpdate(Session arg0) throws CallbackException {
+    return persistenceState.onUpdate (arg0);
+  }
 
-	public String getRelativePath() {
-		return relativePath;
-	}
+  /* (non-Javadoc)
+   * @see librisuite.business.common.Persistence#generateNewKey()
+   */
+  public void generateNewKey() throws DataAccessException {
+    // not applicable for this class
+  }
 
-	public void setRelativePath(String relativePath) {
-		this.relativePath = relativePath;
-	}
+  public String getRelativePath() {
+    return relativePath;
+  }
 
-	public String getFileName() {
-		return fileName;
-	}
+  public void setRelativePath(String relativePath) {
+    this.relativePath = relativePath;
+  }
 
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
+  public String getFileName() {
+    return fileName;
+  }
+
+  public void setFileName(String fileName) {
+    this.fileName = fileName;
+  }
 
 //	public Blob getFullText() {
 //		return fullText;
@@ -151,45 +151,45 @@ public class DigitalDOC implements Persistence {
 //		this.fullText = fullText;
 //	}
 
-	public Integer getBibItemNumber() {
-		return bibItemNumber;
-	}
+  public Integer getBibItemNumber() {
+    return bibItemNumber;
+  }
 
-	public void setBibItemNumber(Integer bibItemNumber) {
-		this.bibItemNumber = bibItemNumber;
-	}
+  public void setBibItemNumber(Integer bibItemNumber) {
+    this.bibItemNumber = bibItemNumber;
+  }
 
-	public Date getUploadDate() {
-		return uploadDate;
-	}
+  public Date getUploadDate() {
+    return uploadDate;
+  }
 
-	public void setUploadDate(Date uploadDate) {
-		this.uploadDate = uploadDate;
-	}
-	public String getUploadDateString() {
-		if (getUploadDate() != null) {
-			DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-			return formatter.format(getUploadDate());
-		}
-		else {
-			return "";
-		}
-	}
-	
-	public Integer getFileSize() {
-		return fileSize;
-	}
+  public void setUploadDate(Date uploadDate) {
+    this.uploadDate = uploadDate;
+  }
 
-	public void setFileSize(Integer fileSize) {
-		this.fileSize = fileSize;
-	}
+  public String getUploadDateString() {
+    if (getUploadDate ( ) != null) {
+      DateFormat formatter = new SimpleDateFormat ("dd-MM-yyyy");
+      return formatter.format (getUploadDate ( ));
+    } else {
+      return "";
+    }
+  }
 
-	public Integer getUserViewCode() {
-		return userViewCode;
-	}
+  public Integer getFileSize() {
+    return fileSize;
+  }
 
-	public void setUserViewCode(Integer userViewCode) {
-		this.userViewCode = userViewCode;
-	}
+  public void setFileSize(Integer fileSize) {
+    this.fileSize = fileSize;
+  }
+
+  public Integer getUserViewCode() {
+    return userViewCode;
+  }
+
+  public void setUserViewCode(Integer userViewCode) {
+    this.userViewCode = userViewCode;
+  }
 
 }

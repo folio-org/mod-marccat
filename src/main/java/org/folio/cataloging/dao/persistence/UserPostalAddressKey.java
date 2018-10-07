@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on 08-feb-2005
- * 
+ *
  * UserPostalAddressKey.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -15,54 +15,54 @@ import java.io.Serializable;
  * @since 1.0
  */
 public class UserPostalAddressKey implements Serializable {
-	private int userNumber;
-	private int indexNumber;
+  private int userNumber;
+  private int indexNumber;
 
 
+  /**
+   * Class constructor
+   */
+  public UserPostalAddressKey() {
+    super ( );
+  }
 
-	/**
-	 * Class constructor
-	 *
-	 * 
-	 */
-	public UserPostalAddressKey() {
-		super();
-	}
+  public UserPostalAddressKey(int userNumber, int indexNumber) {
+    this.setUserNumber (userNumber);
+    this.setIndexNumber (indexNumber);
+  }
 
-	public UserPostalAddressKey(int userNumber, int indexNumber) {
-		this.setUserNumber(userNumber);
-		this.setIndexNumber(indexNumber);
-	}
+  /**
+   * override equals and hashcode for hibernate key comparison
+   */
 
-	/**
-	 * override equals and hashcode for hibernate key comparison
-	 */
-
-	public boolean equals(Object anObject) {
-		if (anObject instanceof UserPostalAddressKey) {
-		    UserPostalAddressKey aKey = (UserPostalAddressKey) anObject;
-			return (
-			        userNumber == aKey.getUserNumber()
-					&& indexNumber == aKey.getIndexNumber());
-		} else {
-			return false;
-		}
-	}
-
-	public int hashCode() {
-		return userNumber + indexNumber;
-	}
-
-    public int getIndexNumber() {
-        return indexNumber;
+  public boolean equals(Object anObject) {
+    if (anObject instanceof UserPostalAddressKey) {
+      UserPostalAddressKey aKey = (UserPostalAddressKey) anObject;
+      return (
+        userNumber == aKey.getUserNumber ( )
+          && indexNumber == aKey.getIndexNumber ( ));
+    } else {
+      return false;
     }
-    public void setIndexNumber(int indexNumber) {
-        this.indexNumber = indexNumber;
-    }
-    public int getUserNumber() {
-        return userNumber;
-    }
-    public void setUserNumber(int userNumber) {
-        this.userNumber = userNumber;
-    }
+  }
+
+  public int hashCode() {
+    return userNumber + indexNumber;
+  }
+
+  public int getIndexNumber() {
+    return indexNumber;
+  }
+
+  public void setIndexNumber(int indexNumber) {
+    this.indexNumber = indexNumber;
+  }
+
+  public int getUserNumber() {
+    return userNumber;
+  }
+
+  public void setUserNumber(int userNumber) {
+    this.userNumber = userNumber;
+  }
 }

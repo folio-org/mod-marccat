@@ -15,62 +15,62 @@ import java.sql.*;
  */
 public class StringClobType implements UserType {
 
-	private static final Log logger = LogFactory.getLog(StringClobType.class);
+  private static final Log logger = LogFactory.getLog (StringClobType.class);
 
-	@Override
-	public Object deepCopy(final Object object) {
-		return object != null ? object.toString() : null;
-	}
+  @Override
+  public Object deepCopy(final Object object) {
+    return object != null ? object.toString ( ) : null;
+  }
 
-	@Override
-	public boolean equals(final Object objectOne, final Object objectTwo) {
-		return (objectOne == objectTwo)
-			|| (objectOne != null && objectTwo != null && (objectOne.equals(objectTwo)));
-	}
+  @Override
+  public boolean equals(final Object objectOne, final Object objectTwo) {
+    return (objectOne == objectTwo)
+      || (objectOne != null && objectTwo != null && (objectOne.equals (objectTwo)));
+  }
 
-	@Override
-	public boolean isMutable() {
-		return true;
-	}
+  @Override
+  public boolean isMutable() {
+    return true;
+  }
 
-	@Override
-	public Object nullSafeGet(
-		final ResultSet resultSet,
-		final String[] names,
-		final Object owner) throws SQLException {
-		final Clob clob = resultSet.getClob(names[0]);
-		if (clob != null) {
-			StringBuffer stringBuffer = new StringBuffer("");
-			Reader reader = clob.getCharacterStream();
-			int charactersRead = 0;
-			char[] charArrayBuffer = new char[1024];
+  @Override
+  public Object nullSafeGet(
+    final ResultSet resultSet,
+    final String[] names,
+    final Object owner) throws SQLException {
+    final Clob clob = resultSet.getClob (names[0]);
+    if (clob != null) {
+      StringBuffer stringBuffer = new StringBuffer ("");
+      Reader reader = clob.getCharacterStream ( );
+      int charactersRead = 0;
+      char[] charArrayBuffer = new char[1024];
 
-			while (charactersRead != -1) {
-				charactersRead = -1;
-				try {
-					charactersRead = reader.read(charArrayBuffer, 0, 1024);
-				} catch (IOException ioException) {
-					logger.error("", ioException);
-				}
-				if (charactersRead != -1) {
-					stringBuffer.append(charArrayBuffer, 0, charactersRead);
-				}
-			}
+      while (charactersRead != -1) {
+        charactersRead = -1;
+        try {
+          charactersRead = reader.read (charArrayBuffer, 0, 1024);
+        } catch (IOException ioException) {
+          logger.error ("", ioException);
+        }
+        if (charactersRead != -1) {
+          stringBuffer.append (charArrayBuffer, 0, charactersRead);
+        }
+      }
 
-			return new String(stringBuffer);
-		} else {
-			return null;
-		}
-	}
+      return new String (stringBuffer);
+    } else {
+      return null;
+    }
+  }
 
-	@Override
-	@Deprecated
-	public void nullSafeSet(
-		PreparedStatement preparedStatement,
-		Object object,
-		int index)
-		throws HibernateException, SQLException {
-		throw new IllegalArgumentException("Don't call me!");
+  @Override
+  @Deprecated
+  public void nullSafeSet(
+    PreparedStatement preparedStatement,
+    Object object,
+    int index)
+    throws HibernateException, SQLException {
+    throw new IllegalArgumentException ("Don't call me!");
 /*
 		if (preparedStatement instanceof OraclePreparedStatement) {
 			oracle.sql.CLOB clob =
@@ -103,15 +103,15 @@ public class StringClobType implements UserType {
 			}
 		}
 */
-	}
+  }
 
-	@Override
-	public Class returnedClass() {
-		return String.class;
-	}
+  @Override
+  public Class returnedClass() {
+    return String.class;
+  }
 
-	@Override
-	public int[] sqlTypes() {
-		return new int[] { Types.CLOB };
-	}
+  @Override
+  public int[] sqlTypes() {
+    return new int[]{Types.CLOB};
+  }
 }

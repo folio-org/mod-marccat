@@ -15,329 +15,325 @@ import org.folio.cataloging.model.Subfield;
 import java.io.Serializable;
 import java.util.Date;
 
-public class BND_CPY implements Persistence, Serializable
-{
+public class BND_CPY implements Persistence, Serializable {
 
-	private static final long serialVersionUID = 4286339906738625939L;
-	private int copyIdNumber;
-	private int bibItemNumber;
-	private Integer shelfListKeyNumber;
-//	private SHLF_LIST shelfList;
-	private int organisationNumber;
-	private int branchOrganisationNumber;
-	private Integer originalOrganisationNumber;
-	private String barCodeNumber;
-	private Integer dynixSerialIdNumber;
-	private Date transactionDate;
-	private Date creationDate;
-	private char illCode;
-	private char holdingSubscriptionStatusCode;
-	private char holdingRetentionCode;
-	private char loanPrd;
-	private char holdingSeriesTrmtCode;
-	private char holdingStatusTypeCode;
-	private short locationNameCode;
-	private char holdingLevelOfDetailCode;
-	private String holdingAcsnListCode;
-	private String copyNumberDescription;
-	private String copyRemarkNote;
-	private String copyStatementText;
-	private String copyRemarkNoteForMap;
-	private String copyStatementTextForMap;
-	private String copyRemarkNoteSortForm;
-	private Integer tempLocationOrganizationNumber;
-	private Short tempLocationNameCode;
-	private String materialDescription;
-	private Float cost;
-	private Short currencyTypeCode;
-	private Float currencyExchangeRte;
-	private Integer transferCstdyNumber;
-	private Integer physicalCopyType;
-	private Character methodAdquisition = new Character(' ');
-	private PersistenceState persistenceState = new PersistenceState();
-	private boolean barcodeAssigned=false;
+  private static final long serialVersionUID = 4286339906738625939L;
+  private int copyIdNumber;
+  private int bibItemNumber;
+  private Integer shelfListKeyNumber;
+  //	private SHLF_LIST shelfList;
+  private int organisationNumber;
+  private int branchOrganisationNumber;
+  private Integer originalOrganisationNumber;
+  private String barCodeNumber;
+  private Integer dynixSerialIdNumber;
+  private Date transactionDate;
+  private Date creationDate;
+  private char illCode;
+  private char holdingSubscriptionStatusCode;
+  private char holdingRetentionCode;
+  private char loanPrd;
+  private char holdingSeriesTrmtCode;
+  private char holdingStatusTypeCode;
+  private short locationNameCode;
+  private char holdingLevelOfDetailCode;
+  private String holdingAcsnListCode;
+  private String copyNumberDescription;
+  private String copyRemarkNote;
+  private String copyStatementText;
+  private String copyRemarkNoteForMap;
+  private String copyStatementTextForMap;
+  private String copyRemarkNoteSortForm;
+  private Integer tempLocationOrganizationNumber;
+  private Short tempLocationNameCode;
+  private String materialDescription;
+  private Float cost;
+  private Short currencyTypeCode;
+  private Float currencyExchangeRte;
+  private Integer transferCstdyNumber;
+  private Integer physicalCopyType;
+  private Character methodAdquisition = new Character (' ');
+  private PersistenceState persistenceState = new PersistenceState ( );
+  private boolean barcodeAssigned = false;
 
-	public String getBarCodeNumber() {
-		return barCodeNumber;
-	}
+  public String getBarCodeNumber() {
+    return barCodeNumber;
+  }
 
-	public int getBibItemNumber() {
-		return bibItemNumber;
-	}
+  public void setBarCodeNumber(String string) {
+    barCodeNumber = string;
+  }
 
-	public int getBranchOrganisationNumber() {
-		return branchOrganisationNumber;
-	}
+  public int getBibItemNumber() {
+    return bibItemNumber;
+  }
 
-	public int getCopyIdNumber() {
-		return copyIdNumber;
-	}
+  public void setBibItemNumber(int i) {
+    bibItemNumber = i;
+  }
 
-	public String getCopyNumberDescription() {
-		return copyNumberDescription;
-	}
+  public int getBranchOrganisationNumber() {
+    return branchOrganisationNumber;
+  }
 
-	public String getCopyRemarkNote() {
-		return copyRemarkNote;
-	}
+  public void setBranchOrganisationNumber(int i) {
+    branchOrganisationNumber = i;
+  }
 
-	public String getCopyRemarkNoteSortForm() {
-		return copyRemarkNoteSortForm;
-	}
+  public int getCopyIdNumber() {
+    return copyIdNumber;
+  }
 
-	public String getCopyStatementText() {
-		return copyStatementText;
-	}
+  public void setCopyIdNumber(int i) {
+    copyIdNumber = i;
+  }
 
-	public Float getCost() {
-		return cost;
-	}
+  public String getCopyNumberDescription() {
+    return copyNumberDescription;
+  }
 
-	public Date getCreationDate() {
-		return creationDate;
-	}
+  public void setCopyNumberDescription(String string) {
+    copyNumberDescription = string;
+  }
 
-	public Float getCurrencyExchangeRte() {
-		return currencyExchangeRte;
-	}
+  public String getCopyRemarkNote() {
+    return copyRemarkNote;
+  }
 
-	public Short getCurrencyTypeCode() {
-		return currencyTypeCode;
-	}
-
-	public Integer getDynixSerialIdNumber() {
-		return dynixSerialIdNumber;
-	}
-
-	public String getHoldingAcsnListCode()
-	{
-		if (holdingAcsnListCode != null)
-			return holdingAcsnListCode.trim();
-		else
-			return holdingAcsnListCode;
-	}
-
-	public char getHoldingLevelOfDetailCode() {
-		return holdingLevelOfDetailCode;
-	}
-
-	public char getHoldingRetentionCode() {
-		return holdingRetentionCode;
-	}
-
-	public char getHoldingSeriesTrmtCode() {
-		return holdingSeriesTrmtCode;
-	}
-
-	public char getHoldingStatusTypeCode() {
-		return holdingStatusTypeCode;
-	}
-
-	public char getHoldingSubscriptionStatusCode() {
-		return holdingSubscriptionStatusCode;
-	}
-
-	public char getIllCode() {
-		return illCode;
-	}
-
-	public char getLoanPrd() {
-		return loanPrd;
-	}
-
-	public short getLocationNameCode() {
-		return locationNameCode;
-	}
-
-	public String getMaterialDescription() {
-		return materialDescription;
-	}
-
-	public Character getMethodAdquisition() {
-		return methodAdquisition;
-	}
-
-	public int getOrganisationNumber() {
-		return organisationNumber;
-	}
-
-	public Integer getOriginalOrganisationNumber() {
-		return originalOrganisationNumber;
-	}
-
-	public Integer getPhysicalCopyType() {
-		return physicalCopyType;
-	}
-
-	public Integer getShelfListKeyNumber() {
-		return shelfListKeyNumber;
-	}
-
-	public Short getTempLocationNameCode() {
-		return tempLocationNameCode;
-	}
-
-	public Integer getTempLocationOrganizationNumber() {
-		return tempLocationOrganizationNumber;
-	}
-
-	public Integer getTransferCstdyNumber() {
-		return transferCstdyNumber;
-	}
-
-	public void setBarCodeNumber(String string) {
-		barCodeNumber = string;
-	}
-
-	public void setBibItemNumber(int i) {
-		bibItemNumber = i;
-	}
-
-	public void setBranchOrganisationNumber(int i) {
-		branchOrganisationNumber = i;
-	}
-
-	public void setCopyIdNumber(int i) {
-		copyIdNumber = i;
-	}
-
-	public void setCopyNumberDescription(String string) {
-		copyNumberDescription = string;
-	}
-
-	public void setCopyRemarkNote(String string)
-	{
-		this.copyRemarkNote = string;
-		this.copyRemarkNoteForMap = string;
+  public void setCopyRemarkNote(String string) {
+    this.copyRemarkNote = string;
+    this.copyRemarkNoteForMap = string;
 
 //---->	Devo togliere tutti i $ + sottocampo per visualizzare il campo in mappa
-		if (string !=null && string.length()>0){
-			this.copyRemarkNoteForMap = string.replaceAll(Subfield.SUBFIELD_DELIMITER + ".{1}", " ");
-		}
-	}
+    if (string != null && string.length ( ) > 0) {
+      this.copyRemarkNoteForMap = string.replaceAll (Subfield.SUBFIELD_DELIMITER + ".{1}", " ");
+    }
+  }
 
-	public void setCopyRemarkNoteSortForm(String string) {
-		copyRemarkNoteSortForm = string;
-	}
+  public String getCopyRemarkNoteSortForm() {
+    return copyRemarkNoteSortForm;
+  }
 
-	public void setCopyStatementText(String string)
-	{
-		this.copyStatementText = string;
-		this.copyStatementTextForMap = string;
+  public void setCopyRemarkNoteSortForm(String string) {
+    copyRemarkNoteSortForm = string;
+  }
+
+  public String getCopyStatementText() {
+    return copyStatementText;
+  }
+
+  public void setCopyStatementText(String string) {
+    this.copyStatementText = string;
+    this.copyStatementTextForMap = string;
 
 //---->	Devo togliere tutti i $ + sottocampo per visualizzare il campo in mappa
-		if (string !=null && string.length()>0){
-			this.copyStatementTextForMap = string.replaceAll(Subfield.SUBFIELD_DELIMITER + ".{1}", " ");
-		}
-	}
+    if (string != null && string.length ( ) > 0) {
+      this.copyStatementTextForMap = string.replaceAll (Subfield.SUBFIELD_DELIMITER + ".{1}", " ");
+    }
+  }
 
-	public void setCost(Float float1) {
-		cost = float1;
-	}
+  public Float getCost() {
+    return cost;
+  }
 
-	public void setCreationDate(Date date) {
-		creationDate = date;
-	}
+  public void setCost(Float float1) {
+    cost = float1;
+  }
 
-	public void setCurrencyExchangeRte(Float float1) {
-		currencyExchangeRte = float1;
-	}
+  public Date getCreationDate() {
+    return creationDate;
+  }
 
-	public void setCurrencyTypeCode(Short short1) {
-		currencyTypeCode = short1;
-	}
+  public void setCreationDate(Date date) {
+    creationDate = date;
+  }
 
-	public void setDynixSerialIdNumber(Integer integer) {
-		dynixSerialIdNumber = integer;
-	}
+  public Float getCurrencyExchangeRte() {
+    return currencyExchangeRte;
+  }
 
-	public void setHoldingAcsnListCode(String string) {
-		holdingAcsnListCode = string;
-	}
+  public void setCurrencyExchangeRte(Float float1) {
+    currencyExchangeRte = float1;
+  }
 
-	public void setHoldingLevelOfDetailCode(char holdingLevelOfDetailCode) {
-		this.holdingLevelOfDetailCode = holdingLevelOfDetailCode;
-	}
+  public Short getCurrencyTypeCode() {
+    return currencyTypeCode;
+  }
 
-	public void setHoldingRetentionCode(char holdingRetentionCode) {
-		this.holdingRetentionCode = holdingRetentionCode;
-	}
+  public void setCurrencyTypeCode(Short short1) {
+    currencyTypeCode = short1;
+  }
 
-	public void setHoldingSeriesTrmtCode(char holdingSeriesTrmtCode) {
-		this.holdingSeriesTrmtCode = holdingSeriesTrmtCode;
-	}
+  public Integer getDynixSerialIdNumber() {
+    return dynixSerialIdNumber;
+  }
 
-	public void setHoldingStatusTypeCode(char holdingStatusTypeCode) {
-		this.holdingStatusTypeCode = holdingStatusTypeCode;
-	}
+  public void setDynixSerialIdNumber(Integer integer) {
+    dynixSerialIdNumber = integer;
+  }
 
-	public void setHoldingSubscriptionStatusCode(char holdingSubscriptionStatusCode) {
-		this.holdingSubscriptionStatusCode = holdingSubscriptionStatusCode;
-	}
+  public String getHoldingAcsnListCode() {
+    if (holdingAcsnListCode != null)
+      return holdingAcsnListCode.trim ( );
+    else
+      return holdingAcsnListCode;
+  }
 
-	public void setIllCode(char illCode) {
-		this.illCode = illCode;
-	}
+  public void setHoldingAcsnListCode(String string) {
+    holdingAcsnListCode = string;
+  }
 
-	public void setLoanPrd(char loanPrd) {
-		this.loanPrd = loanPrd;
-	}
+  public char getHoldingLevelOfDetailCode() {
+    return holdingLevelOfDetailCode;
+  }
 
-	public void setLocationNameCode(short s) {
-		locationNameCode = s;
-	}
+  public void setHoldingLevelOfDetailCode(char holdingLevelOfDetailCode) {
+    this.holdingLevelOfDetailCode = holdingLevelOfDetailCode;
+  }
 
-	public void setMaterialDescription(String string) {
-		materialDescription = string;
-	}
+  public char getHoldingRetentionCode() {
+    return holdingRetentionCode;
+  }
 
-	public void setMethodAdquisition(Character c) {
-		methodAdquisition = c;
-	}
+  public void setHoldingRetentionCode(char holdingRetentionCode) {
+    this.holdingRetentionCode = holdingRetentionCode;
+  }
 
-	public void setOrganisationNumber(int i) {
-		organisationNumber = i;
-	}
+  public char getHoldingSeriesTrmtCode() {
+    return holdingSeriesTrmtCode;
+  }
 
-	public void setOriginalOrganisationNumber(Integer integer) {
-		originalOrganisationNumber = integer;
-	}
+  public void setHoldingSeriesTrmtCode(char holdingSeriesTrmtCode) {
+    this.holdingSeriesTrmtCode = holdingSeriesTrmtCode;
+  }
 
-	public void setPhysicalCopyType(Integer integer) {
-		physicalCopyType = integer;
-	}
+  public char getHoldingStatusTypeCode() {
+    return holdingStatusTypeCode;
+  }
 
-	public void setShelfListKeyNumber(Integer integer) {
-		/*
-		 * The AMICUS database, for historic reasons?, has rows with both 0 and null in this
-		 * column -- both should be treated as null
-		 */
-		if (integer != null && integer.intValue() == 0) {
-			shelfListKeyNumber = null;
-		} else {
-			shelfListKeyNumber = integer;
-		}
-	}
+  public void setHoldingStatusTypeCode(char holdingStatusTypeCode) {
+    this.holdingStatusTypeCode = holdingStatusTypeCode;
+  }
 
-	public void setTempLocationNameCode(Short short1) {
-		tempLocationNameCode = short1;
-	}
+  public char getHoldingSubscriptionStatusCode() {
+    return holdingSubscriptionStatusCode;
+  }
 
-	public void setTempLocationOrganizationNumber(Integer integer) {
-		tempLocationOrganizationNumber = integer;
-	}
+  public void setHoldingSubscriptionStatusCode(char holdingSubscriptionStatusCode) {
+    this.holdingSubscriptionStatusCode = holdingSubscriptionStatusCode;
+  }
 
-	public void setTransferCstdyNumber(Integer integer) {
-		transferCstdyNumber = integer;
-	}
+  public char getIllCode() {
+    return illCode;
+  }
 
-	public Date getTransactionDate() {
-		return transactionDate;
-	}
+  public void setIllCode(char illCode) {
+    this.illCode = illCode;
+  }
 
-	public void setTransactionDate(Date date) {
-		transactionDate = date;
-	}
+  public char getLoanPrd() {
+    return loanPrd;
+  }
+
+  public void setLoanPrd(char loanPrd) {
+    this.loanPrd = loanPrd;
+  }
+
+  public short getLocationNameCode() {
+    return locationNameCode;
+  }
+
+  public void setLocationNameCode(short s) {
+    locationNameCode = s;
+  }
+
+  public String getMaterialDescription() {
+    return materialDescription;
+  }
+
+  public void setMaterialDescription(String string) {
+    materialDescription = string;
+  }
+
+  public Character getMethodAdquisition() {
+    return methodAdquisition;
+  }
+
+  public void setMethodAdquisition(Character c) {
+    methodAdquisition = c;
+  }
+
+  public int getOrganisationNumber() {
+    return organisationNumber;
+  }
+
+  public void setOrganisationNumber(int i) {
+    organisationNumber = i;
+  }
+
+  public Integer getOriginalOrganisationNumber() {
+    return originalOrganisationNumber;
+  }
+
+  public void setOriginalOrganisationNumber(Integer integer) {
+    originalOrganisationNumber = integer;
+  }
+
+  public Integer getPhysicalCopyType() {
+    return physicalCopyType;
+  }
+
+  public void setPhysicalCopyType(Integer integer) {
+    physicalCopyType = integer;
+  }
+
+  public Integer getShelfListKeyNumber() {
+    return shelfListKeyNumber;
+  }
+
+  public void setShelfListKeyNumber(Integer integer) {
+    /*
+     * The AMICUS database, for historic reasons?, has rows with both 0 and null in this
+     * column -- both should be treated as null
+     */
+    if (integer != null && integer.intValue ( ) == 0) {
+      shelfListKeyNumber = null;
+    } else {
+      shelfListKeyNumber = integer;
+    }
+  }
+
+  public Short getTempLocationNameCode() {
+    return tempLocationNameCode;
+  }
+
+  public void setTempLocationNameCode(Short short1) {
+    tempLocationNameCode = short1;
+  }
+
+  public Integer getTempLocationOrganizationNumber() {
+    return tempLocationOrganizationNumber;
+  }
+
+  public void setTempLocationOrganizationNumber(Integer integer) {
+    tempLocationOrganizationNumber = integer;
+  }
+
+  public Integer getTransferCstdyNumber() {
+    return transferCstdyNumber;
+  }
+
+  public void setTransferCstdyNumber(Integer integer) {
+    transferCstdyNumber = integer;
+  }
+
+  public Date getTransactionDate() {
+    return transactionDate;
+  }
+
+  public void setTransactionDate(Date date) {
+    transactionDate = date;
+  }
 
 //	public SHLF_LIST getShelfList() {
 //		return shelfList;
@@ -347,134 +343,132 @@ public class BND_CPY implements Persistence, Serializable
 //		shelfList = shlf_list;
 //	}
 
-	public PersistenceState getPersistenceState() {
-		return persistenceState;
-	}
+  public PersistenceState getPersistenceState() {
+    return persistenceState;
+  }
 
-	public void setPersistenceState(PersistenceState state) {
-		persistenceState = state;
-	}
+  public void setPersistenceState(PersistenceState state) {
+    persistenceState = state;
+  }
 
-	public void evict(Object obj) throws DataAccessException {
-		persistenceState.evict(obj);
-	}
+  public void evict(Object obj) throws DataAccessException {
+    persistenceState.evict (obj);
+  }
 
-	public void evict() throws DataAccessException {
-		persistenceState.evict(this);
-	}
+  public void evict() throws DataAccessException {
+    persistenceState.evict (this);
+  }
 
-	public int getUpdateStatus() {
-		return persistenceState.getUpdateStatus();
-	}
+  public int getUpdateStatus() {
+    return persistenceState.getUpdateStatus ( );
+  }
 
-	public boolean isChanged() {
-		return persistenceState.isChanged();
-	}
+  public void setUpdateStatus(int i) {
+    persistenceState.setUpdateStatus (i);
+  }
 
-	public boolean isDeleted() {
-		return persistenceState.isDeleted();
-	}
+  public boolean isChanged() {
+    return persistenceState.isChanged ( );
+  }
 
-	public boolean isNew() {
-		return persistenceState.isNew();
-	}
+  public boolean isDeleted() {
+    return persistenceState.isDeleted ( );
+  }
 
-	public boolean isRemoved() {
-		return persistenceState.isRemoved();
-	}
+  public boolean isNew() {
+    return persistenceState.isNew ( );
+  }
 
-	public void markChanged() {
-		persistenceState.markChanged();
-	}
+  public boolean isRemoved() {
+    return persistenceState.isRemoved ( );
+  }
 
-	public void markDeleted() {
-		persistenceState.markDeleted();
-	}
+  public void markChanged() {
+    persistenceState.markChanged ( );
+  }
 
-	public void markNew() {
-		persistenceState.markNew();
-	}
+  public void markDeleted() {
+    persistenceState.markDeleted ( );
+  }
 
-	public void markUnchanged() {
-		persistenceState.markUnchanged();
-	}
+  public void markNew() {
+    persistenceState.markNew ( );
+  }
 
-	public boolean onDelete(Session arg0) throws CallbackException {
-		return persistenceState.onDelete(arg0);
-	}
+  public void markUnchanged() {
+    persistenceState.markUnchanged ( );
+  }
 
-	public void onLoad(Session arg0, Serializable arg1) {
-		persistenceState.onLoad(arg0, arg1);
-	}
+  public boolean onDelete(Session arg0) throws CallbackException {
+    return persistenceState.onDelete (arg0);
+  }
 
-	public boolean onSave(Session arg0) throws CallbackException {
-		return persistenceState.onSave(arg0);
-	}
+  public void onLoad(Session arg0, Serializable arg1) {
+    persistenceState.onLoad (arg0, arg1);
+  }
 
-	public boolean onUpdate(Session arg0) throws CallbackException {
-		return persistenceState.onUpdate(arg0);
-	}
+  public boolean onSave(Session arg0) throws CallbackException {
+    return persistenceState.onSave (arg0);
+  }
 
-	public void setUpdateStatus(int i) {
-		persistenceState.setUpdateStatus(i);
-	}
+  public boolean onUpdate(Session arg0) throws CallbackException {
+    return persistenceState.onUpdate (arg0);
+  }
 
-	public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
-		SystemNextNumberDAO dao = new SystemNextNumberDAO();
-		setCopyIdNumber(dao.getNextNumber("HC", session));
-		setCreationDate(new Date());
-		setTransactionDate(new Date());
+  public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
+    SystemNextNumberDAO dao = new SystemNextNumberDAO ( );
+    setCopyIdNumber (dao.getNextNumber ("HC", session));
+    setCreationDate (new Date ( ));
+    setTransactionDate (new Date ( ));
 
-		if ((new DAOGlobalVariable().getValueByName("barrcode")).equals("1")) {
-			setBarcodeAssigned(true);
-			setBarCodeNumber(String.valueOf(getCopyIdNumber()));
-		}
-		else {
-			setBarCodeNumber("");
-		}
-	}
+    if ((new DAOGlobalVariable ( ).getValueByName ("barrcode")).equals ("1")) {
+      setBarcodeAssigned (true);
+      setBarCodeNumber (String.valueOf (getCopyIdNumber ( )));
+    } else {
+      setBarCodeNumber ("");
+    }
+  }
 
-	public void deleteNewKey() throws DataAccessException {
-		SystemNextNumberDAO dao = new SystemNextNumberDAO();
-		setCopyIdNumber(dao.getPreviouwsNumber("HC"));
-		setCreationDate(new Date());
-		setTransactionDate(new Date());
+  public void deleteNewKey() throws DataAccessException {
+    SystemNextNumberDAO dao = new SystemNextNumberDAO ( );
+    setCopyIdNumber (dao.getPreviouwsNumber ("HC"));
+    setCreationDate (new Date ( ));
+    setTransactionDate (new Date ( ));
 
-		if ((new DAOGlobalVariable().getValueByName("barrcode")).equals("1")) {
-			setBarcodeAssigned(true);
-			setBarCodeNumber(String.valueOf(getCopyIdNumber()));
-		}
-		else {
-			setBarcodeAssigned(false);
-			setBarCodeNumber("");
-		}
-	}
+    if ((new DAOGlobalVariable ( ).getValueByName ("barrcode")).equals ("1")) {
+      setBarcodeAssigned (true);
+      setBarCodeNumber (String.valueOf (getCopyIdNumber ( )));
+    } else {
+      setBarcodeAssigned (false);
+      setBarCodeNumber ("");
+    }
+  }
 
-	public AbstractDAO getDAO() {
-		return new DAOCopy();
-	}
+  public AbstractDAO getDAO() {
+    return new DAOCopy ( );
+  }
 
-	public boolean isBarcodeAssigned() {
-		return barcodeAssigned;
-	}
+  public boolean isBarcodeAssigned() {
+    return barcodeAssigned;
+  }
 
-	public void setBarcodeAssigned(boolean barcodeAssigned) {
-		this.barcodeAssigned = barcodeAssigned;
-	}
+  public void setBarcodeAssigned(boolean barcodeAssigned) {
+    this.barcodeAssigned = barcodeAssigned;
+  }
 
-	public String getCopyRemarkNoteForMap() {
-		return copyRemarkNoteForMap;
-	}
+  public String getCopyRemarkNoteForMap() {
+    return copyRemarkNoteForMap;
+  }
 
-	public void setCopyRemarkNoteForMap(String copyRemarkNoteForMap) {
-		this.copyRemarkNoteForMap = copyRemarkNoteForMap;
-	}
+  public void setCopyRemarkNoteForMap(String copyRemarkNoteForMap) {
+    this.copyRemarkNoteForMap = copyRemarkNoteForMap;
+  }
 
-	public String getCopyStatementTextForMap() {
-		return copyStatementTextForMap;
-	}
+  public String getCopyStatementTextForMap() {
+    return copyStatementTextForMap;
+  }
 
-	public void setCopyStatementTextForMap(String copyStatementTextForMap) {
-		this.copyStatementTextForMap = copyStatementTextForMap;
-	}
+  public void setCopyStatementTextForMap(String copyStatementTextForMap) {
+    this.copyStatementTextForMap = copyStatementTextForMap;
+  }
 }

@@ -10,144 +10,142 @@ import org.folio.cataloging.dao.DAOCollectionRuleCST;
 
 import java.io.Serializable;
 
-public class CLCTN_CST_RULE_RECORD implements Persistence, Comparable 
-{
-	private static final long serialVersionUID = 2522128570785338271L;
+public class CLCTN_CST_RULE_RECORD implements Persistence, Comparable {
+  private static final long serialVersionUID = 2522128570785338271L;
 
-	static DAOCollectionRuleCST dao = new DAOCollectionRuleCST();
-	
-	private Integer ruleId;
-	private Long recordId;
-	
-	private PersistenceState persistenceState = new PersistenceState();
+  static DAOCollectionRuleCST dao = new DAOCollectionRuleCST ( );
 
-	public CLCTN_CST_RULE_RECORD() {
-		super();
-	}
-	
-	public CLCTN_CST_RULE_RECORD(Integer id, Long record) {
-		this.recordId=record;
-		this.ruleId=id;
-	}
+  private Integer ruleId;
+  private Long recordId;
 
-	public PersistenceState getPersistenceState() {
-		return persistenceState;
-	}
+  private PersistenceState persistenceState = new PersistenceState ( );
 
-	public void setPersistenceState(PersistenceState state) {
-		persistenceState = state;
-	}
+  public CLCTN_CST_RULE_RECORD() {
+    super ( );
+  }
 
-	public void evict(Object obj) throws DataAccessException {
-		persistenceState.evict(obj);
-	}
+  public CLCTN_CST_RULE_RECORD(Integer id, Long record) {
+    this.recordId = record;
+    this.ruleId = id;
+  }
 
-	public void evict() throws DataAccessException {
-		evict(this);
-	}
+  public PersistenceState getPersistenceState() {
+    return persistenceState;
+  }
 
-	public AbstractDAO getDAO() {
-		return dao;
-	}
+  public void setPersistenceState(PersistenceState state) {
+    persistenceState = state;
+  }
 
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ruleId.intValue();
-		return result;
-	}
+  public void evict(Object obj) throws DataAccessException {
+    persistenceState.evict (obj);
+  }
 
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		CLCTN_CST_RULE_RECORD other = (CLCTN_CST_RULE_RECORD) obj;
-        return ruleId == other.ruleId;
-    }
+  public void evict() throws DataAccessException {
+    evict (this);
+  }
 
-	public int getUpdateStatus() {
-		return persistenceState.getUpdateStatus();
-	}
+  public AbstractDAO getDAO() {
+    return dao;
+  }
 
-	public boolean isChanged() {
-		return persistenceState.isChanged();
-	}
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ruleId.intValue ( );
+    return result;
+  }
 
-	public boolean isDeleted() {
-		return persistenceState.isDeleted();
-	}
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass ( ) != obj.getClass ( ))
+      return false;
+    CLCTN_CST_RULE_RECORD other = (CLCTN_CST_RULE_RECORD) obj;
+    return ruleId == other.ruleId;
+  }
 
-	public boolean isNew() {
-		return persistenceState.isNew();
-	}
+  public int getUpdateStatus() {
+    return persistenceState.getUpdateStatus ( );
+  }
 
-	public boolean isRemoved() {
-		return persistenceState.isRemoved();
-	}
+  public void setUpdateStatus(int i) {
+    persistenceState.setUpdateStatus (i);
+  }
 
-	public void markChanged() {
-		persistenceState.markChanged();
-	}
+  public boolean isChanged() {
+    return persistenceState.isChanged ( );
+  }
 
-	public void markDeleted() {
-		persistenceState.markDeleted();
-	}
+  public boolean isDeleted() {
+    return persistenceState.isDeleted ( );
+  }
 
-	public void markNew() {
-		persistenceState.markNew();
-	}
+  public boolean isNew() {
+    return persistenceState.isNew ( );
+  }
 
-	public void markUnchanged() {
-		persistenceState.markUnchanged();
-	}
+  public boolean isRemoved() {
+    return persistenceState.isRemoved ( );
+  }
 
-	public boolean onDelete(Session arg0) throws CallbackException {
-		return persistenceState.onDelete(arg0);
-	}
+  public void markChanged() {
+    persistenceState.markChanged ( );
+  }
 
-	public void onLoad(Session arg0, Serializable arg1) {
-		persistenceState.onLoad(arg0, arg1);
-	}
+  public void markDeleted() {
+    persistenceState.markDeleted ( );
+  }
 
-	public boolean onSave(Session arg0) throws CallbackException {
-		return persistenceState.onSave(arg0);
-	}
+  public void markNew() {
+    persistenceState.markNew ( );
+  }
 
-	public boolean onUpdate(Session arg0) throws CallbackException {
-		return persistenceState.onUpdate(arg0);
-	}
+  public void markUnchanged() {
+    persistenceState.markUnchanged ( );
+  }
 
-	public void setUpdateStatus(int i) {
-		persistenceState.setUpdateStatus(i);
-	}
+  public boolean onDelete(Session arg0) throws CallbackException {
+    return persistenceState.onDelete (arg0);
+  }
 
-	public void generateNewKey() throws DataAccessException {
-	}
+  public void onLoad(Session arg0, Serializable arg1) {
+    persistenceState.onLoad (arg0, arg1);
+  }
 
-	public Integer getRuleId() {
-		return ruleId;
-	}
+  public boolean onSave(Session arg0) throws CallbackException {
+    return persistenceState.onSave (arg0);
+  }
 
-	public void setRuleId(Integer ruleId) {
-		this.ruleId = ruleId;
-	}
+  public boolean onUpdate(Session arg0) throws CallbackException {
+    return persistenceState.onUpdate (arg0);
+  }
 
-	public Long getRecordId() {
-		return recordId;
-	}
+  public void generateNewKey() throws DataAccessException {
+  }
 
-	public void setRecordId(Long recordId) {
-		this.recordId = recordId;
-	}
+  public Integer getRuleId() {
+    return ruleId;
+  }
 
-	public int compareTo(Object o) 
-	{
-		CLCTN_CST_RULE_RECORD recordRule = (CLCTN_CST_RULE_RECORD)o;
+  public void setRuleId(Integer ruleId) {
+    this.ruleId = ruleId;
+  }
+
+  public Long getRecordId() {
+    return recordId;
+  }
+
+  public void setRecordId(Long recordId) {
+    this.recordId = recordId;
+  }
+
+  public int compareTo(Object o) {
+    CLCTN_CST_RULE_RECORD recordRule = (CLCTN_CST_RULE_RECORD) o;
 //		int result = new Long(this.recordId).compareTo(new Long(recordRule.getRecordId()));
-		int result = this.recordId.compareTo(recordRule.getRecordId());
-		return result;
-	}
+    int result = this.recordId.compareTo (recordRule.getRecordId ( ));
+    return result;
+  }
 }

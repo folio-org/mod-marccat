@@ -28,32 +28,32 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
 public class SubscriptionAPI extends BaseResource {
 
-    private Function<Avp<String>, Subscription> toSubscription = source -> {
-        final Subscription subscription = new Subscription();
-        subscription.setCode(source.getValue());
-        subscription.setDescription(source.getLabel());
-        return subscription;
-    };
+  private Function <Avp <String>, Subscription> toSubscription = source -> {
+    final Subscription subscription = new Subscription ( );
+    subscription.setCode (source.getValue ( ));
+    subscription.setDescription (source.getLabel ( ));
+    return subscription;
+  };
 
-    @ApiOperation(value = "Returns all subscriptions associated with a given language")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Method successfully returned the requested subscriptions."),
-            @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 414, message = "Request-URI Too Long"),
-            @ApiResponse(code = 500, message = "System internal failure occurred.")
-    })
-    @GetMapping("/subscriptions")
-    public SubscriptionCollection getSubscriptions (
-            @RequestParam final String lang,
-            @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-        return doGet((storageService, configuration) -> {
-                final SubscriptionCollection container = new SubscriptionCollection();
-                container.setSubscriptions (
-                        storageService.getSubscriptions(lang)
-                                .stream()
-                                .map(toSubscription)
-                                .collect(toList()));
-                return container;
-        }, tenant, configurator);
-    }
+  @ApiOperation(value = "Returns all subscriptions associated with a given language")
+  @ApiResponses(value = {
+    @ApiResponse(code = 200, message = "Method successfully returned the requested subscriptions."),
+    @ApiResponse(code = 400, message = "Bad Request"),
+    @ApiResponse(code = 414, message = "Request-URI Too Long"),
+    @ApiResponse(code = 500, message = "System internal failure occurred.")
+  })
+  @GetMapping("/subscriptions")
+  public SubscriptionCollection getSubscriptions(
+    @RequestParam final String lang,
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    return doGet ((storageService, configuration) -> {
+      final SubscriptionCollection container = new SubscriptionCollection ( );
+      container.setSubscriptions (
+        storageService.getSubscriptions (lang)
+          .stream ( )
+          .map (toSubscription)
+          .collect (toList ( )));
+      return container;
+    }, tenant, configurator);
+  }
 }

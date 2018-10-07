@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on 17-ago-2004
- * 
+ *
  * T_SINGLE_INT.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -16,47 +16,49 @@ import org.folio.cataloging.business.common.DataAccessException;
  * @since 1.0
  */
 public class T_SINGLE_INT extends CodeTable {
-	private short code;
-	public short getCode() {
-		return code;
-	}
+  private short code;
 
-	
-	private void setCode(short s) {
-		code = s;
-	}
+  public short getCode() {
+    return code;
+  }
 
 
-	/* (non-Javadoc)
-	 * @see CodeTable#getCodeString()
-	 */
-	public String getCodeString() {
-		return String.valueOf(code);
-	}
-	
-	public boolean equals(Object obj) {
-				if (!(obj instanceof T_SINGLE_INT))
-					return false;
-				return (((T_SINGLE_INT) obj).getCode() == getCode())
-					&& (((T_SINGLE_INT) obj).getLanguage().equals(getLanguage()));			
-			}
+  private void setCode(short s) {
+    code = s;
+  }
 
-			/* (non-Javadoc)
-			 * @see java.lang.Object#hashCode()
-			 */
-	public int hashCode() {
-				return getCode() + getLanguage().hashCode();
-			}
-	
-	public void setExternalCode(Object extCode) {
-		if(extCode instanceof String){
-			code = Short.parseShort((String)extCode);
-		} else if(extCode instanceof Short){
-			code = ((Short)extCode).shortValue();
-		}
-	}
-	public int getNextNumber() throws DataAccessException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+
+  /* (non-Javadoc)
+   * @see CodeTable#getCodeString()
+   */
+  public String getCodeString() {
+    return String.valueOf (code);
+  }
+
+  public boolean equals(Object obj) {
+    if (!(obj instanceof T_SINGLE_INT))
+      return false;
+    return (((T_SINGLE_INT) obj).getCode ( ) == getCode ( ))
+      && (((T_SINGLE_INT) obj).getLanguage ( ).equals (getLanguage ( )));
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  public int hashCode() {
+    return getCode ( ) + getLanguage ( ).hashCode ( );
+  }
+
+  public void setExternalCode(Object extCode) {
+    if (extCode instanceof String) {
+      code = Short.parseShort ((String) extCode);
+    } else if (extCode instanceof Short) {
+      code = ((Short) extCode).shortValue ( );
+    }
+  }
+
+  public int getNextNumber() throws DataAccessException {
+    // TODO Auto-generated method stub
+    return 0;
+  }
 }

@@ -10,144 +10,143 @@ import org.folio.cataloging.dao.AbstractDAO;
 import java.io.Serializable;
 
 public class S_LCK_TBL implements Persistence, Serializable {
-	static final long serialVersionUID = 1;
+  static final long serialVersionUID = 1;
 
-	private PersistenceState persistenceState = new PersistenceState();
+  private PersistenceState persistenceState = new PersistenceState ( );
 
-	private int tableKey;
-	private String tableType;
-	private String dbSession;
-	private String userName;
-	
-	public S_LCK_TBL() {
-	}
-	
-	public S_LCK_TBL(int key, String type) {
-		setTableKey(key);
-		setTableType(type);
-	}
+  private int tableKey;
+  private String tableType;
+  private String dbSession;
+  private String userName;
 
-	public boolean equals(Object arg0) {
-		if (arg0.getClass() == S_LCK_TBL.class) {
-			S_LCK_TBL arg = (S_LCK_TBL) arg0;
-			return arg.getTableKey() == this.getTableKey()
-					&& arg.getTableType() == this.getTableType();
-		} else {
-			return false;
-		}
-	}
+  public S_LCK_TBL() {
+  }
 
-	public void evict() throws DataAccessException {
-		evict(this);
-	}
-	
-	public void evict(Object obj) throws DataAccessException {
-		persistenceState.evict(obj);
-	}
+  public S_LCK_TBL(int key, String type) {
+    setTableKey (key);
+    setTableType (type);
+  }
 
-	public void generateNewKey() throws DataAccessException {
-        //do nothing
-	}
+  public boolean equals(Object arg0) {
+    if (arg0.getClass ( ) == S_LCK_TBL.class) {
+      S_LCK_TBL arg = (S_LCK_TBL) arg0;
+      return arg.getTableKey ( ) == this.getTableKey ( )
+        && arg.getTableType ( ) == this.getTableType ( );
+    } else {
+      return false;
+    }
+  }
 
-	public AbstractDAO getDAO() {
-		return persistenceState.getDAO();
-	}
+  public void evict() throws DataAccessException {
+    evict (this);
+  }
 
-	public String getDbSession() {
-		return dbSession;
-	}
+  public void evict(Object obj) throws DataAccessException {
+    persistenceState.evict (obj);
+  }
 
-	public int getTableKey() {
-		return tableKey;
-	}
+  public void generateNewKey() throws DataAccessException {
+    //do nothing
+  }
 
-	public String getTableType() {
-		return tableType;
-	}
+  public AbstractDAO getDAO() {
+    return persistenceState.getDAO ( );
+  }
 
-	public int getUpdateStatus() {
-		return persistenceState.getUpdateStatus();
-	}
+  public String getDbSession() {
+    return dbSession;
+  }
 
-	public String getUserName() {
-		return userName;
-	}
+  public void setDbSession(String dbSession) {
+    this.dbSession = dbSession;
+  }
 
-	
-	public int hashCode() {
-		return getTableKey();
-	}
+  public int getTableKey() {
+    return tableKey;
+  }
 
-	public boolean isChanged() {
-		return persistenceState.isChanged();
-	}
+  public void setTableKey(int tableKey) {
+    this.tableKey = tableKey;
+  }
 
-	public boolean isDeleted() {
-		return persistenceState.isDeleted();
-	}
+  public String getTableType() {
+    return tableType;
+  }
 
-	public boolean isNew() {
-		return persistenceState.isNew();
-	}
+  public void setTableType(String tableType) {
+    this.tableType = tableType;
+  }
 
-	public boolean isRemoved() {
-		return persistenceState.isRemoved();
-	}
+  public int getUpdateStatus() {
+    return persistenceState.getUpdateStatus ( );
+  }
 
-	public void markChanged() {
-		persistenceState.markChanged();
-	}
+  public void setUpdateStatus(int i) {
+    persistenceState.setUpdateStatus (i);
+  }
 
-	public void markDeleted() {
-		persistenceState.markDeleted();
-	}
+  public String getUserName() {
+    return userName;
+  }
 
-	public void markNew() {
-		persistenceState.markNew();
-	}
+  public void setUserName(String userName) {
+    this.userName = userName;
+  }
 
-	public void markUnchanged() {
-		persistenceState.markUnchanged();
-	}
+  public int hashCode() {
+    return getTableKey ( );
+  }
 
-	public boolean onDelete(Session arg0) throws CallbackException {
-		return persistenceState.onDelete(arg0);
-	}
+  public boolean isChanged() {
+    return persistenceState.isChanged ( );
+  }
 
-	public void onLoad(Session arg0, Serializable arg1) {
-		persistenceState.onLoad(arg0, arg1);
-	}
+  public boolean isDeleted() {
+    return persistenceState.isDeleted ( );
+  }
 
-	public boolean onSave(Session arg0) throws CallbackException {
-		return persistenceState.onSave(arg0);
-	}
+  public boolean isNew() {
+    return persistenceState.isNew ( );
+  }
 
-	public boolean onUpdate(Session arg0) throws CallbackException {
-		return persistenceState.onUpdate(arg0);
-	}
+  public boolean isRemoved() {
+    return persistenceState.isRemoved ( );
+  }
 
-	public void setDbSession(String dbSession) {
-		this.dbSession = dbSession;
-	}
+  public void markChanged() {
+    persistenceState.markChanged ( );
+  }
 
-	public void setTableKey(int tableKey) {
-		this.tableKey = tableKey;
-	}
+  public void markDeleted() {
+    persistenceState.markDeleted ( );
+  }
 
-	public void setTableType(String tableType) {
-		this.tableType = tableType;
-	}
+  public void markNew() {
+    persistenceState.markNew ( );
+  }
 
-	public void setUpdateStatus(int i) {
-		persistenceState.setUpdateStatus(i);
-	}
+  public void markUnchanged() {
+    persistenceState.markUnchanged ( );
+  }
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+  public boolean onDelete(Session arg0) throws CallbackException {
+    return persistenceState.onDelete (arg0);
+  }
 
-	public String toString() {
-		return persistenceState.toString();
-	}
+  public void onLoad(Session arg0, Serializable arg1) {
+    persistenceState.onLoad (arg0, arg1);
+  }
+
+  public boolean onSave(Session arg0) throws CallbackException {
+    return persistenceState.onSave (arg0);
+  }
+
+  public boolean onUpdate(Session arg0) throws CallbackException {
+    return persistenceState.onUpdate (arg0);
+  }
+
+  public String toString() {
+    return persistenceState.toString ( );
+  }
 
 }

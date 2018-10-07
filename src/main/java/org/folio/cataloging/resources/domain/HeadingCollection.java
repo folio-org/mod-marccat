@@ -13,65 +13,59 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "headings" })
+@JsonPropertyOrder({"headings"})
 public class HeadingCollection {
 
-    /**
-     *
-     * (Required)
-     *
-     */
-    @JsonProperty("headings")
-    @Valid
-    @NotNull
-    private List<Heading> headings = new ArrayList<Heading>();
+  /**
+   * (Required)
+   */
+  @JsonProperty("headings")
+  @Valid
+  @NotNull
+  private List <Heading> headings = new ArrayList <Heading> ( );
 
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  @JsonIgnore
+  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
 
 
-    /**
-     *
-     * (Required)
-     *
-     * @return
-     * The headings
-     */
-    @JsonProperty("headings")
-    public List<Heading> getHeadings() {
-        return headings;
-    }
+  /**
+   * (Required)
+   *
+   * @return The headings
+   */
+  @JsonProperty("headings")
+  public List <Heading> getHeadings() {
+    return headings;
+  }
 
-    /**
-     *
-     * (Required)
-     *
-     * @param indexes
-     * The indexes
-     */
-    @JsonProperty("headings")
-    public void setHeadings(List<Heading> headings) {
-        this.headings = headings;
-    }
+  /**
+   * (Required)
+   *
+   * @param indexes The indexes
+   */
+  @JsonProperty("headings")
+  public void setHeadings(List <Heading> headings) {
+    this.headings = headings;
+  }
 
-    public HeadingCollection withHeadings(List<Heading> headings) {
-        this.headings = headings;
-        return this;
-    }
+  public HeadingCollection withHeadings(List <Heading> headings) {
+    this.headings = headings;
+    return this;
+  }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
+  @JsonAnyGetter
+  public Map <String, Object> getAdditionalProperties() {
+    return this.additionalProperties;
+  }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
+  @JsonAnySetter
+  public void setAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+  }
 
-    public HeadingCollection withAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-        return this;
-    }
+  public HeadingCollection withAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+    return this;
+  }
 
 }
