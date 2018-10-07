@@ -15,228 +15,219 @@ import java.util.List;
  *
  * @author nbianchini
  */
-public class SubjectAccessPoint extends BibliographicAccessPoint implements OrderedTag, Equivalent
-{
-	private static final long serialVersionUID = -5339141299630141762L;
+public class SubjectAccessPoint extends BibliographicAccessPoint implements OrderedTag, Equivalent {
+  private static final long serialVersionUID = -5339141299630141762L;
 
-	private int functionCode = -1;
-	private String workRelatorCode;
-	private String workRelatorStringtext;
-	private int sequenceNumber;
-	private SBJCT_HDG descriptor = new SBJCT_HDG();
+  private int functionCode = -1;
+  private String workRelatorCode;
+  private String workRelatorStringtext;
+  private int sequenceNumber;
+  private SBJCT_HDG descriptor = new SBJCT_HDG ( );
 
-	public SubjectAccessPoint()
-	{
-		super();
-	}
+  public SubjectAccessPoint() {
+    super ( );
+  }
 
-	public SubjectAccessPoint(final int itemNbr)
-	{
-		super(itemNbr);
-	}
+  public SubjectAccessPoint(final int itemNbr) {
+    super (itemNbr);
+  }
 
-    /**
-     *
-     * @return the subject access point function code.
-     */
-	public int getFunctionCode() {
-		return functionCode;
-	}
+  /**
+   * @return the subject access point function code.
+   */
+  public int getFunctionCode() {
+    return functionCode;
+  }
 
-    /**
-     * Gets the sequence number associated to access point.
-     *
-     * @return sequenceNumber.
-     */
-	public Integer getSequenceNumber() {
-		return new Integer(sequenceNumber);
-	}
+  /**
+   * Sets function code associated to subject access point.
+   *
+   * @param code -- the function code to set.
+   */
+  public void setFunctionCode(final int code) {
+    functionCode = code;
+  }
 
-    /**
-     * Gets name relator code if is a name subject.
-     *
-     * @return the work relator code.
-     */
-	public String getWorkRelatorCode() {
-		return workRelatorCode;
-	}
+  /**
+   * Gets the sequence number associated to access point.
+   *
+   * @return sequenceNumber.
+   */
+  public Integer getSequenceNumber() {
+    return new Integer (sequenceNumber);
+  }
 
-    /**
-     * Gets name relator string text if is a name subject.
-     *
-     * @return the work relator string text.
-     */
-	public String getWorkRelatorStringtext() {
-		return workRelatorStringtext;
-	}
+  /**
+   * Sets sequence number to access point.
+   *
+   * @param sequenceNbr -- the sequence number to set.
+   */
+  public void setSequenceNumber(final Integer sequenceNbr) {
+    sequenceNumber = (sequenceNbr != null) ? sequenceNbr : 0;
+    super.setSequenceNumber (sequenceNumber);
+  }
 
-    /**
-     * Sets function code associated to subject access point.
-     *
-     * @param code -- the function code to set.
-     */
-	public void setFunctionCode(final int code) {
-		functionCode = code;
-	}
+  /**
+   * Gets name relator code if is a name subject.
+   *
+   * @return the work relator code.
+   */
+  public String getWorkRelatorCode() {
+    return workRelatorCode;
+  }
 
-    /**
-     * Sets sequence number to access point.
-     *
-     * @param sequenceNbr -- the sequence number to set.
-     */
-    public void setSequenceNumber(final Integer sequenceNbr)
-	{
-		sequenceNumber = (sequenceNbr != null) ?sequenceNbr :0;
-		super.setSequenceNumber(sequenceNumber);
-	}
+  /**
+   * Sets work relator code to subject.
+   *
+   * @param relatorCode -- the relator code to set.
+   */
+  public void setWorkRelatorCode(final String relatorCode) {
+    workRelatorCode = relatorCode;
+  }
 
-    /**
-     * Sets work relator code to subject.
-     *
-     * @param relatorCode -- the relator code to set.
-     */
-	public void setWorkRelatorCode(final String relatorCode) {
-		workRelatorCode = relatorCode;
-	}
+  /**
+   * Gets name relator string text if is a name subject.
+   *
+   * @return the work relator string text.
+   */
+  public String getWorkRelatorStringtext() {
+    return workRelatorStringtext;
+  }
 
-    /**
-     * Sets work relator string text to subject.
-     *
-     * @param string -- the relator string to set.
-     */
-	public void setWorkRelatorStringtext(final String string) {
-		workRelatorStringtext = string;
-	}
+  /**
+   * Sets work relator string text to subject.
+   *
+   * @param string -- the relator string to set.
+   */
+  public void setWorkRelatorStringtext(final String string) {
+    workRelatorStringtext = string;
+  }
 
-    /**
-     * Compares an object with another one.
-     *
-     * @param obj -- the object to compare.
-     * @return true if equals.
-     */
-	public boolean equals(final Object obj) {
-		if (!(obj instanceof SubjectAccessPoint))
-			return false;
-		final SubjectAccessPoint other = (SubjectAccessPoint) obj;
-		return super.equals(obj) && (other.functionCode == this.functionCode);
-	}
+  /**
+   * Compares an object with another one.
+   *
+   * @param obj -- the object to compare.
+   * @return true if equals.
+   */
+  public boolean equals(final Object obj) {
+    if (!(obj instanceof SubjectAccessPoint))
+      return false;
+    final SubjectAccessPoint other = (SubjectAccessPoint) obj;
+    return super.equals (obj) && (other.functionCode == this.functionCode);
+  }
 
-    /**
-     *
-     * @return hashCode.
-     */
-	public int hashCode() {
-		return super.hashCode(); // TODO this is bad, should be changed
-	}
+  /**
+   * @return hashCode.
+   */
+  public int hashCode() {
+    return super.hashCode ( ); // TODO this is bad, should be changed
+  }
 
-    /**
-     * Return descriptor associated to subject access point.
-     *
-     * @return descriptor.
-     */
-	public Descriptor getDescriptor() {
-		return descriptor;
-	}
+  /**
+   * Return descriptor associated to subject access point.
+   *
+   * @return descriptor.
+   */
+  public Descriptor getDescriptor() {
+    return descriptor;
+  }
 
-    /**
-     * Sets descriptor.
-     *
-     * @param sbjct_hdg -- the descriptor associated to classification access point.
-     */
-	public void setDescriptor(final Descriptor sbjct_hdg)
-	{
-		descriptor = (SBJCT_HDG) sbjct_hdg;
-	}
+  /**
+   * Sets descriptor.
+   *
+   * @param sbjct_hdg -- the descriptor associated to classification access point.
+   */
+  public void setDescriptor(final Descriptor sbjct_hdg) {
+    descriptor = (SBJCT_HDG) sbjct_hdg;
+  }
 
-    /**
-     * Checks correlation key value is changed for subject access point.
-     *
-     * @param v -- the correlation values.
-     * @return boolean.
-     */
-    public boolean correlationChangeAffectsKey(final CorrelationValues v) {
-		return (v.isValueDefined(2)) && (v.getValue(2) != getFunctionCode());
-	}
+  /**
+   * Checks correlation key value is changed for subject access point.
+   *
+   * @param v -- the correlation values.
+   * @return boolean.
+   */
+  public boolean correlationChangeAffectsKey(final CorrelationValues v) {
+    return (v.isValueDefined (2)) && (v.getValue (2) != getFunctionCode ( ));
+  }
 
-    /**
-     * Gets permission string to compare with authorization agent.
-     *
-     * @return "editSubject".
-     */
-	public String getRequiredEditPermission() {
-		return GlobalStorage.SUBJECT_REQUIRED_PERMISSION ;
-	}
+  /**
+   * Gets permission string to compare with authorization agent.
+   *
+   * @return "editSubject".
+   */
+  public String getRequiredEditPermission() {
+    return GlobalStorage.SUBJECT_REQUIRED_PERMISSION;
+  }
 
-    /**
-     * Gets correlation values of subject descriptor.
-     *
-     * @return correlationValues.
-     */
-	public CorrelationValues getCorrelationValues() {
-		return getDescriptor().getCorrelationValues().change(2, getFunctionCode());
-	}
+  /**
+   * Gets correlation values of subject descriptor.
+   *
+   * @return correlationValues.
+   */
+  public CorrelationValues getCorrelationValues() {
+    return getDescriptor ( ).getCorrelationValues ( ).change (2, getFunctionCode ( ));
+  }
 
-    /**
-     * Sets correlation values to subject descriptor.
-     *
-     * @param v -- the correlation values to set.
-     */
-	public void setCorrelationValues(final CorrelationValues v) {
-		setFunctionCode(v.getValue(2));
-		getDescriptor().setCorrelationValues(v);
-	}
+  /**
+   * Sets correlation values to subject descriptor.
+   *
+   * @param v -- the correlation values to set.
+   */
+  public void setCorrelationValues(final CorrelationValues v) {
+    setFunctionCode (v.getValue (2));
+    getDescriptor ( ).setCorrelationValues (v);
+  }
 
-    /**
-     * Gets subject marc category code.
-     *
-     * @return category.
-     */
-	public int getCategory() {
-		return GlobalStorage.SUBJECT_CATEGORY;
-	}
+  /**
+   * Gets subject marc category code.
+   *
+   * @return category.
+   */
+  public int getCategory() {
+    return GlobalStorage.SUBJECT_CATEGORY;
+  }
 
-    /**
-     * Gets the stringText associated to subject access point.
-     *
-     * @return stringText.
-     */
-	public StringText getAccessPointStringText() {
-		StringText text = new StringText(workRelatorStringtext);
-		text.parse(workRelatorCode);
-		return text;
-	}
+  /**
+   * Gets the stringText associated to subject access point.
+   *
+   * @return stringText.
+   */
+  public StringText getAccessPointStringText() {
+    StringText text = new StringText (workRelatorStringtext);
+    text.parse (workRelatorCode);
+    return text;
+  }
 
-    /**
-     * Sets stringText to subject access point.
-     *
-     * @param stringText -- the stringText to set.
-     */
-	public void setAccessPointStringText(final StringText stringText) {
-		workRelatorCode = stringText.getSubfieldsWithCodes(GlobalStorage.WORK_REL_SUBFIELD_CODE).toString();
-		workRelatorStringtext = stringText.getSubfieldsWithCodes(GlobalStorage.SUBJECT_WORK_REL_STRING_TEXT_SUBFIELD_CODES).toString();
-	}
+  /**
+   * Sets stringText to subject access point.
+   *
+   * @param stringText -- the stringText to set.
+   */
+  public void setAccessPointStringText(final StringText stringText) {
+    workRelatorCode = stringText.getSubfieldsWithCodes (GlobalStorage.WORK_REL_SUBFIELD_CODE).toString ( );
+    workRelatorStringtext = stringText.getSubfieldsWithCodes (GlobalStorage.SUBJECT_WORK_REL_STRING_TEXT_SUBFIELD_CODES).toString ( );
+  }
 
-    /**
-     * Sets descriptor string text.
-     *
-     * @param stringText -- the string text to set.
-     */
-	public void setDescriptorStringText(final StringText stringText) {
-		getDescriptor().setStringText(stringText.getSubfieldsWithoutCodes(GlobalStorage.SUBJECT_VARIANT_CODES).toString());
-	}
+  /**
+   * Sets descriptor string text.
+   *
+   * @param stringText -- the string text to set.
+   */
+  public void setDescriptorStringText(final StringText stringText) {
+    getDescriptor ( ).setStringText (stringText.getSubfieldsWithoutCodes (GlobalStorage.SUBJECT_VARIANT_CODES).toString ( ));
+  }
 
-    /**
-     *
-     * @return variant subfield codes.
-     */
-	public String getVariantCodes() {
-		return GlobalStorage.SUBJECT_VARIANT_CODES;
-	}
+  /**
+   * @return variant subfield codes.
+   */
+  public String getVariantCodes() {
+    return GlobalStorage.SUBJECT_VARIANT_CODES;
+  }
 
-    //TODO: move in storageService and add session
-    @Deprecated
-	public List replaceEquivalentDescriptor(short indexingLanguage, int cataloguingView) throws DataAccessException
-	{
+  //TODO: move in storageService and add session
+  @Deprecated
+  public List replaceEquivalentDescriptor(short indexingLanguage, int cataloguingView) throws DataAccessException {
 		/*DAODescriptor dao = new DAOSubjectDescriptor();
 		List newTags = new ArrayList();
 		Descriptor d = getDescriptor();
@@ -254,6 +245,6 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
 		}
 		return newTags;
 		*/
-		return null;
-	}
+    return null;
+  }
 }

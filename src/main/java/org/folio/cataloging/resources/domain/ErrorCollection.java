@@ -9,33 +9,29 @@ import java.util.List;
 
 public class ErrorCollection {
 
-    @JsonProperty("errors")
-    @Valid
-    @NotNull
-    private List<Error> errors = new ArrayList<>();
+  @JsonProperty("errors")
+  @Valid
+  @NotNull
+  private List <Error> errors = new ArrayList <> ( );
 
-    /**
-     *
-     * (Required)
-     *
-     * @return
-     *     The errors
-     */
-    @JsonProperty("errors")
-    public List<Error> getErrors() {
-        return errors;
-    }
+  /**
+   * (Required)
+   *
+   * @return The errors
+   */
+  @JsonProperty("errors")
+  public List <Error> getErrors() {
+    return errors;
+  }
 
-    /**
-     *
-     * (Required)
-     *
-     * @param errors
-     *     The errors
-     */
-    @JsonProperty("errors")
-    public void setErrors(List<Error> errors) {
-        this.errors = errors;
-    }
+  /**
+   * (Required)
+   *
+   * @param errors The errors
+   */
+  @JsonProperty("errors")
+  public void setErrors(List <Error> errors) {
+    this.errors = errors;
+  }
 
 }

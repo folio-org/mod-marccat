@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Jul 16, 2004
- * 
+ *
  * CrossReferenceExistsException.java
  */
 package org.folio.cataloging.business.common;

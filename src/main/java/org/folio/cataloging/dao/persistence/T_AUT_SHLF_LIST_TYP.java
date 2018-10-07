@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Apr 25, 2006
- * 
+ *
  * T_AUT_SHLF_LIST_TYP.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -14,17 +14,17 @@ package org.folio.cataloging.dao.persistence;
  */
 public class T_AUT_SHLF_LIST_TYP extends T_SINGLE_CHAR {
 
-	/* (non-Javadoc)
-	 * @see CodeTable#getCodeString()
-	 */
-	 
-	 /*
-	  * getCodeString is overridden to return the (short) stringValue of the character
-	  * code.  This codetable is used in the context of a correlationList which
-	  * expects short values.
-	  */
-	public String getCodeString() {
-		return String.valueOf((short)getCode());
-	}
+  /* (non-Javadoc)
+   * @see CodeTable#getCodeString()
+   */
+
+  /*
+   * getCodeString is overridden to return the (short) stringValue of the character
+   * code.  This codetable is used in the context of a correlationList which
+   * expects short values.
+   */
+  public String getCodeString() {
+    return String.valueOf ((short) getCode ( ));
+  }
 
 }

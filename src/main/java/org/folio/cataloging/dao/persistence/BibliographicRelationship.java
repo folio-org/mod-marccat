@@ -16,272 +16,261 @@ import org.folio.cataloging.util.StringText;
 import java.util.List;
 
 @SuppressWarnings("unused")
-public class BibliographicRelationship extends VariableField implements PersistentObjectWithView
-{
-	private static final long serialVersionUID = -5945143318867728785L;
-	//private static final Log logger = LogFactory.getLog(BibliographicRelationship.class);
-	private static final short bibliographicRelationshipCategory = 8;
-	private int targetBibItemNumber;
-	private int relationTypeCode;
-	private int relationPrintNoteCode;
-	private String description = null;
-	private String qualifyingDescription = null;
-	private StringText stringText = null;
-	private String stringTextString = null;
-	private String materialSpecificText = null;
-	private int reciprocalType;
-	private UserViewHelper userViewHelper = new UserViewHelper();
+public class BibliographicRelationship extends VariableField implements PersistentObjectWithView {
+  private static final long serialVersionUID = -5945143318867728785L;
+  //private static final Log logger = LogFactory.getLog(BibliographicRelationship.class);
+  private static final short bibliographicRelationshipCategory = 8;
+  private int targetBibItemNumber;
+  private int relationTypeCode;
+  private int relationPrintNoteCode;
+  private String description = null;
+  private String qualifyingDescription = null;
+  private StringText stringText = null;
+  private String stringTextString = null;
+  private String materialSpecificText = null;
+  private int reciprocalType;
+  private UserViewHelper userViewHelper = new UserViewHelper ( );
 
-	public BibliographicRelationship() {
-		super();
-		StringText s = new StringText("");
-		setStringText(s);
-		setReciprocalType((short) -1);
-		//setRelationTypeCode(Defaults.getShort("bibliographicRelationship.relationTypeCode"));
-		//setRelationPrintNoteCode(Defaults.getShort("bibliographicRelationship.relationPrintNoteCode"));
-		//setPersistenceState(new PersistenceState());
-	}
+  public BibliographicRelationship() {
+    super ( );
+    StringText s = new StringText ("");
+    setStringText (s);
+    setReciprocalType ((short) -1);
+    //setRelationTypeCode(Defaults.getShort("bibliographicRelationship.relationTypeCode"));
+    //setRelationPrintNoteCode(Defaults.getShort("bibliographicRelationship.relationPrintNoteCode"));
+    //setPersistenceState(new PersistenceState());
+  }
 
-	public BibliographicRelationship(int itemNbr) {
-		super(itemNbr);
-	}
+  public BibliographicRelationship(int itemNbr) {
+    super (itemNbr);
+  }
 
-	public StringText BuildStringText(int userView)
-	{
-		/* stringtext can be in table or should be build from other tables */
-		StringText s = new StringText();
-		DAOBibliographicRelationship b = new DAOBibliographicRelationship();
-		try{
-			s = b.buildRelationStringText(this.getTargetBibItemNumber(),userView);
-			s.add(getRelationshipStringText());
-			return s;
-		} catch (DataAccessException ex) {
-			return stringText;
-		}
-	}
+  public StringText BuildStringText(int userView) {
+    /* stringtext can be in table or should be build from other tables */
+    StringText s = new StringText ( );
+    DAOBibliographicRelationship b = new DAOBibliographicRelationship ( );
+    try {
+      s = b.buildRelationStringText (this.getTargetBibItemNumber ( ), userView);
+      s.add (getRelationshipStringText ( ));
+      return s;
+    } catch (DataAccessException ex) {
+      return stringText;
+    }
+  }
 
-	public boolean equals(Object obj)
-	{
-		if (!(obj instanceof BibliographicRelationship))
-			return false;
-		BibliographicRelationship other = (BibliographicRelationship) obj;
-		return (other.getItemNumber() == getItemNumber())
-			&& (other.getUserViewString().equals(getUserViewString()))
-			&& (other.getTargetBibItemNumber() == getTargetBibItemNumber())
-			&& (other.getRelationTypeCode() == getRelationTypeCode());
-	}
+  public boolean equals(Object obj) {
+    if (!(obj instanceof BibliographicRelationship))
+      return false;
+    BibliographicRelationship other = (BibliographicRelationship) obj;
+    return (other.getItemNumber ( ) == getItemNumber ( ))
+      && (other.getUserViewString ( ).equals (getUserViewString ( )))
+      && (other.getTargetBibItemNumber ( ) == getTargetBibItemNumber ( ))
+      && (other.getRelationTypeCode ( ) == getRelationTypeCode ( ));
+  }
 
-	public void generateNewBlindRelationshipKey(final Session session) throws DataAccessException, HibernateException {
-		SystemNextNumberDAO dao = new SystemNextNumberDAO();
-		setTargetBibItemNumber(-dao.getNextNumber("BR", session));
-	}
+  public void generateNewBlindRelationshipKey(final Session session) throws DataAccessException, HibernateException {
+    SystemNextNumberDAO dao = new SystemNextNumberDAO ( );
+    setTargetBibItemNumber (-dao.getNextNumber ("BR", session));
+  }
 
-	public int getBibItemNumber() {
-		return getItemNumber();
-	}
+  public int getBibItemNumber() {
+    return getItemNumber ( );
+  }
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#getCategory()
-	 */
-	public int getCategory() {
-		return bibliographicRelationshipCategory;
-	}
+  public void setBibItemNumber(int i) {
+    setItemNumber (i);
+  }
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#getCorrelation(int)
-	 */
-	public int getCorrelation(int i)
-	{
-		switch (i) {
-			case 1 :
-				return getRelationTypeCode();
-			case 2 :
-				return getRelationPrintNoteCode();
-			default :
-				return -1;
-		}
-	}
+  /* (non-Javadoc)
+   * @see librisuite.business.cataloguing.bibliographic.Tag#getCategory()
+   */
+  public int getCategory() {
+    return bibliographicRelationshipCategory;
+  }
 
-	public CorrelationValues getCorrelationValues() {
-		return (new CorrelationValues()).change(1, getRelationTypeCode()).change(2, getRelationPrintNoteCode());
-	}
+  /* (non-Javadoc)
+   * @see librisuite.business.cataloguing.bibliographic.Tag#getCorrelation(int)
+   */
+  public int getCorrelation(int i) {
+    switch (i) {
+      case 1:
+        return getRelationTypeCode ( );
+      case 2:
+        return getRelationPrintNoteCode ( );
+      default:
+        return -1;
+    }
+  }
 
-	public AbstractDAO getDAO() {
-		return new DAOBibliographicRelationship();
-	}
+  public CorrelationValues getCorrelationValues() {
+    return (new CorrelationValues ( )).change (1, getRelationTypeCode ( )).change (2, getRelationPrintNoteCode ( ));
+  }
 
-	public String getDescription() {
-		return description;
-	}
+  /* (non-Javadoc)
+   * @see librisuite.business.cataloguing.bibliographic.Tag#setCorrelationValues(librisuite.business.common.CorrelationValues)
+   */
+  public void setCorrelationValues(CorrelationValues v) {
+    setRelationTypeCode (v.getValue (1));
+    setRelationPrintNoteCode (v.getValue (2));
+  }
 
-	public List getFirstCorrelationList() throws DataAccessException {
-		/* return getDaoCodeTable().getList(BibliographicRelationType.class,true); */
-		return null;
-	}
+  public AbstractDAO getDAO() {
+    return new DAOBibliographicRelationship ( );
+  }
 
-	public String getMaterialSpecificText() {
-		return materialSpecificText;
-	}
+  public String getDescription() {
+    return description;
+  }
 
-	public String getQualifyingDescription() {
-		return qualifyingDescription;
-	}
+  public void setDescription(String text) {
+    description = text;
+  }
 
-	public List getReciprocalList() throws DataAccessException
-	{
-		/*return getDaoCodeTable().getList(BibliographicRelationReciprocal.class,true);*/
-		return null;
-	}
+  public List getFirstCorrelationList() throws DataAccessException {
+    /* return getDaoCodeTable().getList(BibliographicRelationType.class,true); */
+    return null;
+  }
 
-	public int getReciprocalOption() throws DataAccessException
-	{
-		if (getReciprocalType() == -1)
-		{
-			DAOBibliographicRelationship b = new DAOBibliographicRelationship();
-			if (this.getTargetBibItemNumber() < 0) {
-				return 3;
-			}
-			else {
-				try{
-					/* TODO pass the correct userview*/
-					return b.getReciprocalBibItem(this.getTargetBibItemNumber(),this.getItemNumber(),1);
-				} catch(DataAccessException ex) {return -1;}
-			}
-		}
-		else
-		{
-			return getReciprocalType();
-		}
-	}
+  public String getMaterialSpecificText() {
+    return materialSpecificText;
+  }
 
-	public int getReciprocalType() {
-		return reciprocalType;
-	}
+  public void setMaterialSpecificText(String text) {
+    materialSpecificText = text;
+  }
 
-	public int getRelationPrintNoteCode() {
-		return relationPrintNoteCode;
-	}
+  public String getQualifyingDescription() {
+    return qualifyingDescription;
+  }
 
-	public StringText getRelationshipStringText()
-	{
-		StringText text = new StringText();
-		text.parse(getMaterialSpecificText());
-		text.parse(getQualifyingDescription());
+  public void setQualifyingDescription(String text) {
+    qualifyingDescription = text;
+  }
 
-		if ((getTargetBibItemNumber() > 0)){
-			text.addSubfield(new Subfield("w",new String("" + getTargetBibItemNumber())));
-		}
-		return text;
-	}
+  public List getReciprocalList() throws DataAccessException {
+    /*return getDaoCodeTable().getList(BibliographicRelationReciprocal.class,true);*/
+    return null;
+  }
 
-	public int getRelationTypeCode() {
-		return relationTypeCode;
-	}
+  public int getReciprocalOption() throws DataAccessException {
+    if (getReciprocalType ( ) == -1) {
+      DAOBibliographicRelationship b = new DAOBibliographicRelationship ( );
+      if (this.getTargetBibItemNumber ( ) < 0) {
+        return 3;
+      } else {
+        try {
+          /* TODO pass the correct userview*/
+          return b.getReciprocalBibItem (this.getTargetBibItemNumber ( ), this.getItemNumber ( ), 1);
+        } catch (DataAccessException ex) {
+          return -1;
+        }
+      }
+    } else {
+      return getReciprocalType ( );
+    }
+  }
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#getSecondCorrelationList(short, java.util.Locale)
-	 */
-	public List getSecondCorrelationList(short value1)	throws DataAccessException {
-		/* return getDaoCodeTable().getList(BibliographicRelationPrintNote.class,true); */
-		return null;
-	}
+  public void setReciprocalOption(int s) {
+    setReciprocalType (s);
+  }
 
-	public StringText getStringText() {
-		return stringText;
-	}
+  public int getReciprocalType() {
+    return reciprocalType;
+  }
 
-	public String getStringTextString() {
-		return getStringText().toString();
-	}
+  public void setReciprocalType(int s) {
+    reciprocalType = s;
+  }
 
-	public int getTargetBibItemNumber() {
-		return targetBibItemNumber;
-	}
+  public int getRelationPrintNoteCode() {
+    return relationPrintNoteCode;
+  }
 
-	public List getThirdCorrelationList(int value1, int value2)
-		throws DataAccessException {
-		return null;
-	}
+  public void setRelationPrintNoteCode(int i) {
+    relationPrintNoteCode = i;
+  }
 
-	public String getUserViewString() {
-		return userViewHelper.getUserViewString();
-	}
+  public StringText getRelationshipStringText() {
+    StringText text = new StringText ( );
+    text.parse (getMaterialSpecificText ( ));
+    text.parse (getQualifyingDescription ( ));
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	public int hashCode() {
-		return super.hashCode() + targetBibItemNumber + relationTypeCode;
-	}
+    if ((getTargetBibItemNumber ( ) > 0)) {
+      text.addSubfield (new Subfield ("w", new String ("" + getTargetBibItemNumber ( ))));
+    }
+    return text;
+  }
 
-	public boolean isBrowsable() {
-		return false;
-	}
+  public void setRelationshipStringText(StringText text) {
+    setMaterialSpecificText (text.getSubfieldsWithCodes ("3").toString ( ));
+    setDescription (text.getSubfieldsWithCodes ("ginq4").toString ( ));
+    setQualifyingDescription (text.getSubfieldsWithCodes ("c").toString ( ));
+  }
 
-	public void setBibItemNumber(int i) {
-		setItemNumber(i);
-	}
+  public int getRelationTypeCode() {
+    return relationTypeCode;
+  }
 
-	/* (non-Javadoc)
-	 * @see librisuite.business.cataloguing.bibliographic.Tag#setCorrelationValues(librisuite.business.common.CorrelationValues)
-	 */
-	public void setCorrelationValues(CorrelationValues v) {
-		setRelationTypeCode(v.getValue(1));
-		setRelationPrintNoteCode(v.getValue(2));
-	}
+  public void setRelationTypeCode(int i) {
+    relationTypeCode = i;
+  }
 
-	public void setDescription(String text) {
-		description = text;
-	}
+  /* (non-Javadoc)
+   * @see librisuite.business.cataloguing.bibliographic.Tag#getSecondCorrelationList(short, java.util.Locale)
+   */
+  public List getSecondCorrelationList(short value1) throws DataAccessException {
+    /* return getDaoCodeTable().getList(BibliographicRelationPrintNote.class,true); */
+    return null;
+  }
 
-	public void setMaterialSpecificText(String text) {
-		materialSpecificText = text;
-	}
+  public StringText getStringText() {
+    return stringText;
+  }
 
-	public void setQualifyingDescription(String text) {
-		qualifyingDescription = text;
-	}
+  public void setStringText(StringText text) {
+    stringText = text.getSubfieldsWithoutCodes ("cgnw3");
+  }
 
-	public void setReciprocalOption(int s){
-		setReciprocalType(s);
-	}
+  public String getStringTextString() {
+    return getStringText ( ).toString ( );
+  }
 
-	public void setReciprocalType(int s) {
-		reciprocalType = s;
-	}
+  public void setStringTextString(String string) {
+    if (string != null) {
+      stringTextString = string;
+      setStringText (new StringText (string));
+    }
+  }
 
-	public void setRelationPrintNoteCode(int i) {
-		relationPrintNoteCode = i;
-	}
+  public int getTargetBibItemNumber() {
+    return targetBibItemNumber;
+  }
 
-	public void setRelationshipStringText(StringText text)
-	{
-		setMaterialSpecificText(text.getSubfieldsWithCodes("3").toString());
-		setDescription(text.getSubfieldsWithCodes("ginq4").toString());
-		setQualifyingDescription(text.getSubfieldsWithCodes("c").toString());
-	}
+  public void setTargetBibItemNumber(int i) {
+    targetBibItemNumber = i;
+  }
 
-	public void setRelationTypeCode(int i) {
-		relationTypeCode = i;
-	}
+  public List getThirdCorrelationList(int value1, int value2)
+    throws DataAccessException {
+    return null;
+  }
 
-	public void setStringText(StringText text) {
-		stringText = text.getSubfieldsWithoutCodes("cgnw3");
-	}
+  public String getUserViewString() {
+    return userViewHelper.getUserViewString ( );
+  }
 
-	public void setStringTextString(String string)
-	{
-		if (string != null){
-			stringTextString = string;
-			setStringText(new StringText(string));
-		}
-	}
+  public void setUserViewString(String string) {
+    userViewHelper.setUserViewString (string);
+  }
 
-	public void setTargetBibItemNumber(int i) {
-		targetBibItemNumber = i;
-	}
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  public int hashCode() {
+    return super.hashCode ( ) + targetBibItemNumber + relationTypeCode;
+  }
 
-	public void setUserViewString(String string) {
-		userViewHelper.setUserViewString(string);
-	}
+  public boolean isBrowsable() {
+    return false;
+  }
 }

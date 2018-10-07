@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Nov 17, 2004
- * 
+ *
  * Policy.java
  */
 package org.folio.cataloging.business.authorisation;
@@ -16,46 +16,45 @@ import java.util.Set;
  * @since 1.0
  */
 public class Policy {
-	static private Policy theInstance;
-	private Set permissions;
-	
-	private Policy() {
-		setPermissions(new HashSet());
-		getPermissions().add(new Permission("basicCataloguing"));
-		getPermissions().add(new Permission("advancedCataloguing"));
-		getPermissions().add(new Permission("editNotes"));
-		getPermissions().add(new Permission("editCopies"));
-		getPermissions().add(new Permission("editClassificationNumbers"));
-		getPermissions().add(new Permission("editHeaders"));
-		getPermissions().add(new Permission("editTitles"));
-		getPermissions().add(new Permission("editNames"));
-		getPermissions().add(new Permission("editSummaryHoldings"));
-		getPermissions().add(new Permission("editControlNumbers"));
-		getPermissions().add(new Permission("editNameTitles"));
-		getPermissions().add(new Permission("editRelationships"));
-		getPermissions().add(new Permission("editSubjects"));
-	}
+  static private Policy theInstance;
+  private Set permissions;
 
-	static public Policy getInstance() {
-		if (theInstance == null) {
-			theInstance = new Policy();
-		}
-		return theInstance;
-	}
-	/**
-	 * 
-	 * @since 1.0
-	 */
-	public Set getPermissions() {
-		return permissions;
-	}
+  private Policy() {
+    setPermissions (new HashSet ( ));
+    getPermissions ( ).add (new Permission ("basicCataloguing"));
+    getPermissions ( ).add (new Permission ("advancedCataloguing"));
+    getPermissions ( ).add (new Permission ("editNotes"));
+    getPermissions ( ).add (new Permission ("editCopies"));
+    getPermissions ( ).add (new Permission ("editClassificationNumbers"));
+    getPermissions ( ).add (new Permission ("editHeaders"));
+    getPermissions ( ).add (new Permission ("editTitles"));
+    getPermissions ( ).add (new Permission ("editNames"));
+    getPermissions ( ).add (new Permission ("editSummaryHoldings"));
+    getPermissions ( ).add (new Permission ("editControlNumbers"));
+    getPermissions ( ).add (new Permission ("editNameTitles"));
+    getPermissions ( ).add (new Permission ("editRelationships"));
+    getPermissions ( ).add (new Permission ("editSubjects"));
+  }
 
-	/**
-	 * 
-	 * @since 1.0
-	 */
-	public void setPermissions(Set set) {
-		permissions = set;
-	}
+  static public Policy getInstance() {
+    if (theInstance == null) {
+      theInstance = new Policy ( );
+    }
+    return theInstance;
+  }
+
+  /**
+   * @since 1.0
+   */
+  public Set getPermissions() {
+    return permissions;
+  }
+
+  /**
+   * @since 1.0
+   */
+  public void setPermissions(Set set) {
+    permissions = set;
+  }
 
 }

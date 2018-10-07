@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on 06-jul-2004
- * 
+ *
  * T_SINGLE_CHAR.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -17,47 +17,48 @@ import org.folio.cataloging.business.common.DataAccessException;
  */
 public class T_SINGLE_CHAR extends CodeTable {
 
-	private char code;
-	public char getCode() {
-		return code;
-	}
+  private char code;
 
-	public void setCode(char c) {
-		code = c;
-	}
+  public char getCode() {
+    return code;
+  }
 
-	/* (non-Javadoc)
-	 * @see CodeTable#getCodeString()
-	 */
-	public String getCodeString() {
-		return String.valueOf(code);
-	}
-	
-	public boolean equals(Object obj) {
-			if (!(obj.getClass().equals(this.getClass())))
-				return false;
-			return (((T_SINGLE_CHAR) obj).getCode() == getCode())
-				&& (((T_SINGLE_CHAR) obj).getLanguage().equals(getLanguage()));			
-		}
+  public void setCode(char c) {
+    code = c;
+  }
 
-		/* (non-Javadoc)
-		 * @see java.lang.Object#hashCode()
-		 */
-		public int hashCode() {
-			return getCode() + getLanguage().hashCode();
-		} 
-		
-	public void setExternalCode(Object extCode) {
-		if(extCode instanceof String){
-			code = ((String)extCode).charAt(0);
-		} else if(extCode instanceof Character){
-			code = ((Character)extCode).charValue();
-		}
-	}
+  /* (non-Javadoc)
+   * @see CodeTable#getCodeString()
+   */
+  public String getCodeString() {
+    return String.valueOf (code);
+  }
 
-	public int getNextNumber() throws DataAccessException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+  public boolean equals(Object obj) {
+    if (!(obj.getClass ( ).equals (this.getClass ( ))))
+      return false;
+    return (((T_SINGLE_CHAR) obj).getCode ( ) == getCode ( ))
+      && (((T_SINGLE_CHAR) obj).getLanguage ( ).equals (getLanguage ( )));
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  public int hashCode() {
+    return getCode ( ) + getLanguage ( ).hashCode ( );
+  }
+
+  public void setExternalCode(Object extCode) {
+    if (extCode instanceof String) {
+      code = ((String) extCode).charAt (0);
+    } else if (extCode instanceof Character) {
+      code = ((Character) extCode).charValue ( );
+    }
+  }
+
+  public int getNextNumber() throws DataAccessException {
+    // TODO Auto-generated method stub
+    return 0;
+  }
 
 }

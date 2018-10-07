@@ -12,63 +12,57 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "multipartResourceLevels" })
+@JsonPropertyOrder({"multipartResourceLevels"})
 public class MultipartResourceLevelCollection {
 
-    /**
-     * 
-     * (Required)
-     * 
-     */
-    @JsonProperty("multipartResourceLevels")
-    @Valid
-    @NotNull
-    private List<MultipartResourceLevel> multipartResourceLevels = new ArrayList<MultipartResourceLevel>();
+  /**
+   * (Required)
+   */
+  @JsonProperty("multipartResourceLevels")
+  @Valid
+  @NotNull
+  private List <MultipartResourceLevel> multipartResourceLevels = new ArrayList <MultipartResourceLevel> ( );
 
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  @JsonIgnore
+  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
 
-    /**
-     * 
-     * (Required)
-     * 
-     * @return
-     *     The multipartResourceLevels
-     */
-    @JsonProperty("multipartResourceLevels")
-    public List<MultipartResourceLevel> getMultipartResourceLevels() {
-        return multipartResourceLevels;
-    }
+  /**
+   * (Required)
+   *
+   * @return The multipartResourceLevels
+   */
+  @JsonProperty("multipartResourceLevels")
+  public List <MultipartResourceLevel> getMultipartResourceLevels() {
+    return multipartResourceLevels;
+  }
 
-    /**
-     * 
-     * (Required)
-     * 
-     * @param multipartResourceLevels
-     *     The multipartResourceLevels
-     */
-    @JsonProperty("multipartResourceLevels")
-    public void setMultipartResourceLevels(List<MultipartResourceLevel> multipartResourceLevels) {
-        this.multipartResourceLevels = multipartResourceLevels;
-    }
+  /**
+   * (Required)
+   *
+   * @param multipartResourceLevels The multipartResourceLevels
+   */
+  @JsonProperty("multipartResourceLevels")
+  public void setMultipartResourceLevels(List <MultipartResourceLevel> multipartResourceLevels) {
+    this.multipartResourceLevels = multipartResourceLevels;
+  }
 
-    public MultipartResourceLevelCollection withMultipartResourceLevels(List<MultipartResourceLevel> multipartResourceLevels) {
-        this.multipartResourceLevels = multipartResourceLevels;
-        return this;
-    }
+  public MultipartResourceLevelCollection withMultipartResourceLevels(List <MultipartResourceLevel> multipartResourceLevels) {
+    this.multipartResourceLevels = multipartResourceLevels;
+    return this;
+  }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
+  @JsonAnyGetter
+  public Map <String, Object> getAdditionalProperties() {
+    return this.additionalProperties;
+  }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
+  @JsonAnySetter
+  public void setAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+  }
 
-    public MultipartResourceLevelCollection withAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-        return this;
-    }
+  public MultipartResourceLevelCollection withAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+    return this;
+  }
 }

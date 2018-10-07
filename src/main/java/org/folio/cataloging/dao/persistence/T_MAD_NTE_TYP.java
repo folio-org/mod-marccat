@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on 05-jul-2004
- * 
+ *
  * T_LOAN_PRD.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -17,9 +17,9 @@ package org.folio.cataloging.dao.persistence;
  * <LI><B>CodeTable=</B>MadesNteType
  * <LI><B>Nome logico=</B>nteType
  * <LI><B>Vista (Options, Radio, List, Altro)=</B>Options
-  * <LI><B>Descrizione=</B>
+ * <LI><B>Descrizione=</B>
  * </UL>
  */
-public class T_MAD_NTE_TYP extends T_SINGLE{
+public class T_MAD_NTE_TYP extends T_SINGLE {
 
 }

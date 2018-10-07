@@ -33,77 +33,73 @@ import java.util.TreeSet;
  */
 public class AuthorityTagImpl extends TagImpl {
 
-	private int authorityNumber;
+  private static final DAOAuthorityCorrelation daoCorrelation = new DAOAuthorityCorrelation ( );
+  private static final DAOAuthorityValidation daoValidation = new DAOAuthorityValidation ( );
+  private int authorityNumber;
 
-	private static final DAOAuthorityCorrelation daoCorrelation = new DAOAuthorityCorrelation();
+  public int getItemNumber() {
+    return getAuthorityNumber ( );
+  }
 
-	private static final DAOAuthorityValidation daoValidation = new DAOAuthorityValidation();
+  public void setItemNumber(int itemNumber) {
+    setAuthorityNumber (itemNumber);
+  }
 
-	public int getItemNumber() {
-		return getAuthorityNumber();
-	}
+  /**
+   * @since 1.0
+   */
+  public int getAuthorityNumber() {
+    return authorityNumber;
+  }
 
-	public void setItemNumber(int itemNumber) {
-		setAuthorityNumber(itemNumber);
-	}
+  /**
+   * @since 1.0
+   */
+  public void setAuthorityNumber(int i) {
+    authorityNumber = i;
+  }
 
-	/**
-	 *
-	 * @since 1.0
-	 */
-	public int getAuthorityNumber() {
-		return authorityNumber;
-	}
+  /*
+   * (non-Javadoc)
+   *
+   * @see java.lang.Object#hashCode()
+   */
+  public int hashCode() {
+    return getAuthorityNumber ( );
+  }
 
-	/**
-	 *
-	 * @since 1.0
-	 */
-	public void setAuthorityNumber(int i) {
-		authorityNumber = i;
-	}
+  /*
+   * (non-Javadoc)
+   *
+   * @see TagImpl#getMarcEncoding(Tag)
+   */
+  @Deprecated
+  public CorrelationKey getMarcEncoding(Tag t) throws DataAccessException {
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see java.lang.Object#hashCode()
-	 */
-	public int hashCode() {
-		return getAuthorityNumber();
-	}
+    CorrelationKey key = daoCorrelation.getMarcEncoding (t.getCategory ( ), getHeadingType (t),
+      t.getCorrelation (1), t.getCorrelation (2), t.getCorrelation (3));
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see TagImpl#getMarcEncoding(Tag)
-	 */
-	@Deprecated
-	public CorrelationKey getMarcEncoding(Tag t) throws DataAccessException {
+    if (key == null) {
+      throw new MarcCorrelationException ( );
+    }
 
-		CorrelationKey key = daoCorrelation.getMarcEncoding(t.getCategory(), getHeadingType(t),
-				t.getCorrelation(1), t.getCorrelation(2), t.getCorrelation(3));
+    return key;
+  }
 
-		if (key == null) {
-			throw new MarcCorrelationException();
-		}
+  /*
+   * (non-Javadoc)
+   *
+   * @see TagImpl#getHeadingType(Tag)
+   */
+  public String getHeadingType(Tag t) {
+    return ((AUT) ((PersistsViaItem) t).getItemEntity ( )).getHeadingType ( );
+  }
 
-		return key;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see TagImpl#getHeadingType(Tag)
-	 */
-	public String getHeadingType(Tag t) {
-		return ((AUT) ((PersistsViaItem) t).getItemEntity()).getHeadingType();
-	}
-
-	public Validation getValidation(Tag t) throws DataAccessException {
-		//FIXME
-		CorrelationKey key = getMarcEncoding(t);
-		return daoValidation.load(key.getMarcTag(), t.getHeadingType(), t.getCategory());
-	}
+  public Validation getValidation(Tag t) throws DataAccessException {
+    //FIXME
+    CorrelationKey key = getMarcEncoding (t);
+    return daoValidation.load (key.getMarcTag ( ), t.getHeadingType ( ), t.getCategory ( ));
+  }
 
   @Override
   public Validation getValidation(Tag t, Session session) throws DataAccessException {
@@ -111,45 +107,45 @@ public class AuthorityTagImpl extends TagImpl {
   }
 
   /*
-     * (non-Javadoc)
-     *
-     * @see TagImpl#getCatalog()
-     */
-	public Catalog getCatalog() {
-		return new AuthorityCatalog();
-	}
+   * (non-Javadoc)
+   *
+   * @see TagImpl#getCatalog()
+   */
+  public Catalog getCatalog() {
+    return new AuthorityCatalog ( );
+  }
 
-	@Override
-	public CorrelationKey getMarcEncoding(Tag t, Session session) throws DataAccessException {
-		return null;
-	}
+  @Override
+  public CorrelationKey getMarcEncoding(Tag t, Session session) throws DataAccessException {
+    return null;
+  }
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see TagImpl#getValidEditableSubfields(short)
-	 */
-	public Set getValidEditableSubfields(int category) {
-		Set set = new TreeSet(new SubfieldCodeComparator());
-		switch (category) {
-		case 6:
-			set.add("d");
-			break;
-		case 15:
-			set.addAll(Arrays.asList("d", "5"));
-			break;
-		default:
-			set.addAll(Arrays.asList("i", "e", "j", "4"));
-			break;
-		}
-		return set;
-	}
+  /*
+   * (non-Javadoc)
+   *
+   * @see TagImpl#getValidEditableSubfields(short)
+   */
+  public Set getValidEditableSubfields(int category) {
+    Set set = new TreeSet (new SubfieldCodeComparator ( ));
+    switch (category) {
+      case 6:
+        set.add ("d");
+        break;
+      case 15:
+        set.addAll (Arrays.asList ("d", "5"));
+        break;
+      default:
+        set.addAll (Arrays.asList ("i", "e", "j", "4"));
+        break;
+    }
+    return set;
+  }
 
-	@Override
-	public Correlation getCorrelation(String tagNumber, char indicator1,
-			char indicator2, int category, Session session) throws DataAccessException {
-		return daoCorrelation.getFirstAuthorityCorrelation(tagNumber, indicator1,
-				indicator2, category);
-	}
+  @Override
+  public Correlation getCorrelation(String tagNumber, char indicator1,
+                                    char indicator2, int category, Session session) throws DataAccessException {
+    return daoCorrelation.getFirstAuthorityCorrelation (tagNumber, indicator1,
+      indicator2, category);
+  }
 
 }

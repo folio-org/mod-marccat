@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on 17-nov-2004
- * 
+ *
  * T_PRSN_LCL_1ST_TYP_1.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -13,5 +13,5 @@ package org.folio.cataloging.dao.persistence;
  * @since 1.0
  */
 public class T_PRSN_LCL_1ST_TYP_1 extends T_SINGLE {
-    
+
 }

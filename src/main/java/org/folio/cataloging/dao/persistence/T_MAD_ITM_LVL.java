@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on 05-jul-2004
- * 
+ *
  * T_MAD_ITM_LVL.java
  */
 package org.folio.cataloging.dao.persistence;

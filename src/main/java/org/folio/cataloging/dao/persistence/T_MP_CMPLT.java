@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Nov 9, 2004
- * 
+ *
  * T_MP_CMPLT.java
  */
 package org.folio.cataloging.dao.persistence;

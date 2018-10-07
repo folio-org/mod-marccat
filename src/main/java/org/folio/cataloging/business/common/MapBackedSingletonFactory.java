@@ -13,28 +13,28 @@ import java.util.Map;
  * @since 1.0
  */
 public class MapBackedSingletonFactory extends AbstractMapBackedFactory {
-	
-	private Map<Integer, Object> map = new HashMap<>();
-	private Map<Class, Object> singletons = new HashMap<>();
 
-	@Override
-	public void put(final Integer key, final Class clazz) {
-		map.put(key, singletons.computeIfAbsent(clazz, k -> newInstance(k)));
-	}
+  private Map <Integer, Object> map = new HashMap <> ( );
+  private Map <Class, Object> singletons = new HashMap <> ( );
 
-	@Override
-	public void put(final Map<Integer, Class> entries) {
-		entries.forEach((key, clazz) -> put(key, clazz));
-	}
+  @Override
+  public void put(final Integer key, final Class clazz) {
+    map.put (key, singletons.computeIfAbsent (clazz, k -> newInstance (k)));
+  }
 
-	@Override
-	protected Object getInstance(final Integer key) {
-		return map.get(key);
-	}
+  @Override
+  public void put(final Map <Integer, Class> entries) {
+    entries.forEach ((key, clazz) -> put (key, clazz));
+  }
 
-	@Override
-	public void clear() {
-		map.clear();
-		singletons.clear();
-	}
+  @Override
+  protected Object getInstance(final Integer key) {
+    return map.get (key);
+  }
+
+  @Override
+  public void clear() {
+    map.clear ( );
+    singletons.clear ( );
+  }
 }

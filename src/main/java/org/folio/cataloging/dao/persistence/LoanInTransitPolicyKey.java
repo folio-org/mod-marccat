@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on 22-mar-2005
- * 
+ *
  * LoanInTransitPolicyKey.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -16,77 +16,73 @@ import java.io.Serializable;
  */
 public class LoanInTransitPolicyKey implements Serializable {
 
-    private int homeBranchNumber;
+  private int homeBranchNumber;
 
-    private int foreignBranchNumber;
+  private int foreignBranchNumber;
 
-    /**
-     * Class constructor
-     * 
-     *  
-     */
-    public LoanInTransitPolicyKey() {
-        super();
+  /**
+   * Class constructor
+   */
+  public LoanInTransitPolicyKey() {
+    super ( );
+  }
+
+  public LoanInTransitPolicyKey(int homeBranch, int foreignBranch) {
+    this.setHomeBranchNumber (homeBranch);
+    this.setForeignBranchNumber (foreignBranch);
+  }
+
+  /**
+   * override equals and hashcode for hibernate key comparison
+   */
+
+  public boolean equals(Object anObject) {
+    if (anObject instanceof LoanInTransitPolicyKey) {
+      LoanInTransitPolicyKey aKey = (LoanInTransitPolicyKey) anObject;
+      return (homeBranchNumber == aKey.getHomeBranchNumber ( ) && foreignBranchNumber == aKey
+        .getForeignBranchNumber ( ));
+    } else {
+      return false;
     }
+  }
 
-    public LoanInTransitPolicyKey(int homeBranch, int foreignBranch) {
-        this.setHomeBranchNumber(homeBranch);
-        this.setForeignBranchNumber(foreignBranch);
-    }
+  public int hashCode() {
+    return homeBranchNumber + foreignBranchNumber;
+  }
 
-    /**
-     * override equals and hashcode for hibernate key comparison
-     */
+  /**
+   * @return Returns the foreignBranchNumber.
+   * @throws
+   * @since 1.0
+   */
+  public int getForeignBranchNumber() {
+    return foreignBranchNumber;
+  }
 
-    public boolean equals(Object anObject) {
-        if (anObject instanceof LoanInTransitPolicyKey) {
-            LoanInTransitPolicyKey aKey = (LoanInTransitPolicyKey) anObject;
-            return (homeBranchNumber == aKey.getHomeBranchNumber() && foreignBranchNumber == aKey
-                    .getForeignBranchNumber());
-        } else {
-            return false;
-        }
-    }
+  /**
+   * @param foreignBranchNumber The foreignBranchNumber to set.
+   * @throws
+   * @since 1.0
+   */
+  public void setForeignBranchNumber(int foreignBranchNumber) {
+    this.foreignBranchNumber = foreignBranchNumber;
+  }
 
-    public int hashCode() {
-        return homeBranchNumber + foreignBranchNumber;
-    }
+  /**
+   * @return Returns the homeBranchNumber.
+   * @throws
+   * @since 1.0
+   */
+  public int getHomeBranchNumber() {
+    return homeBranchNumber;
+  }
 
-    /**
-     * @return Returns the foreignBranchNumber.
-     * @exception
-     * @since 1.0
-     */
-    public int getForeignBranchNumber() {
-        return foreignBranchNumber;
-    }
-
-    /**
-     * @param foreignBranchNumber
-     *            The foreignBranchNumber to set.
-     * @exception
-     * @since 1.0
-     */
-    public void setForeignBranchNumber(int foreignBranchNumber) {
-        this.foreignBranchNumber = foreignBranchNumber;
-    }
-
-    /**
-     * @return Returns the homeBranchNumber.
-     * @exception
-     * @since 1.0
-     */
-    public int getHomeBranchNumber() {
-        return homeBranchNumber;
-    }
-
-    /**
-     * @param homeBranchNumber
-     *            The homeBranchNumber to set.
-     * @exception
-     * @since 1.0
-     */
-    public void setHomeBranchNumber(int homeBranchNumber) {
-        this.homeBranchNumber = homeBranchNumber;
-    }
+  /**
+   * @param homeBranchNumber The homeBranchNumber to set.
+   * @throws
+   * @since 1.0
+   */
+  public void setHomeBranchNumber(int homeBranchNumber) {
+    this.homeBranchNumber = homeBranchNumber;
+  }
 }

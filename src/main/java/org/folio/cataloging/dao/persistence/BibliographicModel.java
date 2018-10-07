@@ -11,22 +11,22 @@ import org.folio.cataloging.dao.AbstractDAO;
  */
 public class BibliographicModel extends Model {
 
-	/**
-	 * Class constructor.
-	 *
-	 * @since 1.0
-	 */
-	public BibliographicModel() {
-		super();
-	}
+  /**
+   * Class constructor.
+   *
+   * @since 1.0
+   */
+  public BibliographicModel() {
+    super ( );
+  }
 
-	/**
-	 * Gets the dao.
-	 *
-	 * @return the dao
-	 */
-	@Deprecated
-	public AbstractDAO getDAO() {
-		return null;
-	}
+  /**
+   * Gets the dao.
+   *
+   * @return the dao
+   */
+  @Deprecated
+  public AbstractDAO getDAO() {
+    return null;
+  }
 }

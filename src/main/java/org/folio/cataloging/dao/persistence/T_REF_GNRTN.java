@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Nov 23, 2005
- * 
+ *
  * T_REF_GNRTN.java
  */
 package org.folio.cataloging.dao.persistence;

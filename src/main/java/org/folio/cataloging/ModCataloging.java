@@ -15,19 +15,19 @@ import org.springframework.web.client.RestTemplate;
  */
 @SpringBootApplication
 public class ModCataloging {
-    public static final String BASE_URI = "cataloging";
+  public static final String BASE_URI = "cataloging";
 
-    /**
-     * Module entry point.
-     *
-     * @param args the command line arguments.
-     */
-    public static void main(final String[] args) {
-        SpringApplication.run(ModCataloging.class, args);
-    }
+  /**
+   * Module entry point.
+   *
+   * @param args the command line arguments.
+   */
+  public static void main(final String[] args) {
+    SpringApplication.run (ModCataloging.class, args);
+  }
 
-    @Bean
-    public RestTemplate restTemplate(final RestTemplateBuilder builder) {
-        return builder.build();
-    }
+  @Bean
+  public RestTemplate restTemplate(final RestTemplateBuilder builder) {
+    return builder.build ( );
+  }
 }

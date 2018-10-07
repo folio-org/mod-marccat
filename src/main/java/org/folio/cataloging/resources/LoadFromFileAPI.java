@@ -22,10 +22,10 @@ import java.util.stream.Collectors;
 import static org.folio.cataloging.integration.CatalogingHelper.doPost;
 
 /**
- *  Loads bibliographic records contents in a binary marc21 file.
+ * Loads bibliographic records contents in a binary marc21 file.
  *
- *  @author nbianchini
- *  @since 1.0
+ * @author nbianchini
+ * @since 1.0
  */
 
 @RestController
@@ -41,7 +41,7 @@ public class LoadFromFileAPI extends BaseResource {
     @ApiResponse(code = 500, message = "System internal failure occurred.")
   })
   @PostMapping("/load-from-file")
-  public ResponseEntity<?> loadRecords (
+  public ResponseEntity <?> loadRecords(
     @RequestParam("files") MultipartFile uploadfiles,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
     @RequestParam(name = "startRecord", defaultValue = "0") final int startRecord,
@@ -50,7 +50,7 @@ public class LoadFromFileAPI extends BaseResource {
     //@RequestHeader(name = Global.CONTENT_TYPE_HEADER_NAME, defaultValue = Global.DEFAULT_MULTIPART_HEADER_CONTENT) final String contentType) {
 
 
-    return doPost((storageService, configuration) -> {
+    return doPost ((storageService, configuration) -> {
 
       /*String uploadedFileName = Arrays.stream(uploadfiles).map(x -> x.getOriginalFilename())
         .filter(x -> !StringUtils.isEmpty(x)).collect(Collectors.joining(" , "));
@@ -60,28 +60,28 @@ public class LoadFromFileAPI extends BaseResource {
       }*/
 
       try {
-        final ResultLoaderCollection container = new ResultLoaderCollection();
-        final List<MultipartFile> files = Arrays.asList(uploadfiles);
-        container.setResultLoaders(
-            files.stream().map(file -> {
-              final Map<String, Object> map = storageService.loadRecords(file, startRecord, numberOfRecords, view, configuration);
-              return setMapToResult(map);
-            }).collect(Collectors.toList()));
+        final ResultLoaderCollection container = new ResultLoaderCollection ( );
+        final List <MultipartFile> files = Arrays.asList (uploadfiles);
+        container.setResultLoaders (
+          files.stream ( ).map (file -> {
+            final Map <String, Object> map = storageService.loadRecords (file, startRecord, numberOfRecords, view, configuration);
+            return setMapToResult (map);
+          }).collect (Collectors.toList ( )));
         return container;
       } catch (Exception e) {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity <> (HttpStatus.BAD_REQUEST);
       }
 
-    }, tenant, configurator, () -> !uploadfiles.isEmpty(), "title", "name", "subject");
+    }, tenant, configurator, () -> !uploadfiles.isEmpty ( ), "title", "name", "subject");
   }
 
-  private ResultLoader setMapToResult(final Map<String, Object> source) {
-    final ResultLoader resultLoader = new ResultLoader();
-    resultLoader.setFilename((String) source.get(Global.LOADING_FILE_FILENAME));
-    resultLoader.setAdded((int)source.get(Global.LOADING_FILE_ADDED));
-    resultLoader.setRejected((int)source.get(Global.LOADING_FILE_REJECTED));
-    resultLoader.setErrorCount((int)source.get(Global.LOADING_FILE_ERRORS));
-    resultLoader.setIds((List<Integer>) source.get(Global.LOADING_FILE_IDS));
+  private ResultLoader setMapToResult(final Map <String, Object> source) {
+    final ResultLoader resultLoader = new ResultLoader ( );
+    resultLoader.setFilename ((String) source.get (Global.LOADING_FILE_FILENAME));
+    resultLoader.setAdded ((int) source.get (Global.LOADING_FILE_ADDED));
+    resultLoader.setRejected ((int) source.get (Global.LOADING_FILE_REJECTED));
+    resultLoader.setErrorCount ((int) source.get (Global.LOADING_FILE_ERRORS));
+    resultLoader.setIds ((List <Integer>) source.get (Global.LOADING_FILE_IDS));
     return resultLoader;
   }
 }

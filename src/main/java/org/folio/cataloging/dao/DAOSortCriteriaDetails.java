@@ -1,19 +1,18 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Jul 28, 2005
- * 
+ *
  * DAOSortCriteriaDetails.java
  */
 package org.folio.cataloging.dao;
 
-import java.util.List;
-
-import org.folio.cataloging.business.common.DataAccessException;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.type.Type;
-
+import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.dao.common.HibernateUtil;
+
+import java.util.List;
 
 /**
  * @author paulm
@@ -22,11 +21,11 @@ import org.folio.cataloging.dao.common.HibernateUtil;
  */
 public class DAOSortCriteriaDetails extends HibernateUtil {
 
-	public List getDetails(int sortCriteria) throws DataAccessException {
-		return find(
-			"from SortCriteriaDetails as c "
-				+ " where c.code = ? order by c.sequence",
-			new Object[] { new Integer(sortCriteria)},
-			new Type[] { Hibernate.INTEGER });
-	}
+  public List getDetails(int sortCriteria) throws DataAccessException {
+    return find (
+      "from SortCriteriaDetails as c "
+        + " where c.code = ? order by c.sequence",
+      new Object[]{new Integer (sortCriteria)},
+      new Type[]{Hibernate.INTEGER});
+  }
 }

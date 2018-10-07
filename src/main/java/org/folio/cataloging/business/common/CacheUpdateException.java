@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Aug 25, 2004
- * 
+ *
  * CacheUpdateException.java
  */
 package org.folio.cataloging.business.common;
@@ -15,20 +15,20 @@ package org.folio.cataloging.business.common;
  */
 public class CacheUpdateException extends DataAccessException {
 
-	public CacheUpdateException() {
-		super();
-	}
+  public CacheUpdateException() {
+    super ( );
+  }
 
-	public CacheUpdateException(String message, Throwable cause) {
-		super(message, cause);
-	}
+  public CacheUpdateException(String message, Throwable cause) {
+    super (message, cause);
+  }
 
-	public CacheUpdateException(String message) {
-		super(message);
-	}
+  public CacheUpdateException(String message) {
+    super (message);
+  }
 
-	public CacheUpdateException(Throwable cause) {
-		super(cause);
-	}
+  public CacheUpdateException(Throwable cause) {
+    super (cause);
+  }
 
 }

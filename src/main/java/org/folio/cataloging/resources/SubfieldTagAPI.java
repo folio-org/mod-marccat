@@ -26,37 +26,37 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
 public class SubfieldTagAPI extends BaseResource {
 
-    @ApiOperation(value = "Returns the subfield tag associated with the input data.")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Method successfully returned the requested tag."),
-            @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 414, message = "Request-URI Too Long"),
-            @ApiResponse(code = 500, message = "System internal failure occurred.")
-    })
-    @GetMapping("/subfield-tag")
-    public SubfieldsTag getSubfieldsTag(
-            @RequestParam final String marcCategory,
-            @RequestParam final String code1,
-            @RequestParam final String code2,
-            @RequestParam final String code3,
-            @RequestParam final String lang,
-            @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-            return doGet((storageService, configuration) -> {
-                    final int category = Integer.parseInt(marcCategory);
+  @ApiOperation(value = "Returns the subfield tag associated with the input data.")
+  @ApiResponses(value = {
+    @ApiResponse(code = 200, message = "Method successfully returned the requested tag."),
+    @ApiResponse(code = 400, message = "Bad Request"),
+    @ApiResponse(code = 414, message = "Request-URI Too Long"),
+    @ApiResponse(code = 500, message = "System internal failure occurred.")
+  })
+  @GetMapping("/subfield-tag")
+  public SubfieldsTag getSubfieldsTag(
+    @RequestParam final String marcCategory,
+    @RequestParam final String code1,
+    @RequestParam final String code2,
+    @RequestParam final String code3,
+    @RequestParam final String lang,
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    return doGet ((storageService, configuration) -> {
+      final int category = Integer.parseInt (marcCategory);
 
-                    final Validation validation = storageService.getSubfieldsByCorrelations(
-                            category,
-                            Integer.parseInt(code1),
-                            Integer.parseInt(code2),
-                            Integer.parseInt(code3));
+      final Validation validation = storageService.getSubfieldsByCorrelations (
+        category,
+        Integer.parseInt (code1),
+        Integer.parseInt (code2),
+        Integer.parseInt (code3));
 
-                    final SubfieldsTag subfieldsTag = new SubfieldsTag();
-                    subfieldsTag.setCategory(category);
-                    subfieldsTag.setDefaultSubfield(String.valueOf(validation.getMarcTagDefaultSubfieldCode()));
-                    subfieldsTag.setSubfields(stream(validation.getMarcValidSubfieldStringCode().split("")).collect(toList()));
-                    subfieldsTag.setRepeatable(stream(validation.getRepeatableSubfieldStringCode().split("")).collect(toList()));
-                    subfieldsTag.setTag(validation.getKey().getMarcTag());
-                    return subfieldsTag;
-            }, tenant, configurator);
-    }
+      final SubfieldsTag subfieldsTag = new SubfieldsTag ( );
+      subfieldsTag.setCategory (category);
+      subfieldsTag.setDefaultSubfield (String.valueOf (validation.getMarcTagDefaultSubfieldCode ( )));
+      subfieldsTag.setSubfields (stream (validation.getMarcValidSubfieldStringCode ( ).split ("")).collect (toList ( )));
+      subfieldsTag.setRepeatable (stream (validation.getRepeatableSubfieldStringCode ( ).split ("")).collect (toList ( )));
+      subfieldsTag.setTag (validation.getKey ( ).getMarcTag ( ));
+      return subfieldsTag;
+    }, tenant, configurator);
+  }
 }

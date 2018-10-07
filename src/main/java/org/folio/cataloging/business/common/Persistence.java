@@ -15,46 +15,45 @@ import java.io.Serializable;
 public interface Persistence extends Lifecycle, Serializable {
 
 
-	/**
-	 * Removes the object from the persistence session
-	 * @since 1.0
-	 */
-	  @Deprecated
-    void evict() throws DataAccessException;
+  /**
+   * Removes the object from the persistence session
+   *
+   * @since 1.0
+   */
+  @Deprecated
+  void evict() throws DataAccessException;
 
-	/**
-	 *
-	 */
-    int getUpdateStatus();
+  /**
+   *
+   */
+  int getUpdateStatus();
 
-    void setUpdateStatus(int i);
+  void setUpdateStatus(int i);
 
-	boolean isChanged();
+  boolean isChanged();
 
-	boolean isDeleted();
+  boolean isDeleted();
 
-	boolean isNew();
+  boolean isNew();
 
-	/**
-	 * If object is now UNCHANGED make it CHANGED (otherwise leave it alone)
-	 *
-	 */
-    void markChanged();
+  /**
+   * If object is now UNCHANGED make it CHANGED (otherwise leave it alone)
+   */
+  void markChanged();
 
-	void markNew();
+  void markNew();
 
-	void markUnchanged();
+  void markUnchanged();
 
-	void markDeleted();
+  void markDeleted();
 
-	/**
-	 * causes the object to generate new key values
-	 *
-	 */
-	//commented by nbianchini
-    //void generateNewKey() throws DataAccessException;
+  /**
+   * causes the object to generate new key values
+   */
+  //commented by nbianchini
+  //void generateNewKey() throws DataAccessException;
 
 
-    AbstractDAO getDAO();
+  AbstractDAO getDAO();
 
 }

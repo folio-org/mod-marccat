@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Jun 15, 2004
- * 
+ *
  * NME_HDG_KEY.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -11,94 +11,91 @@ import java.io.Serializable;
 
 /**
  * Represents composite key for NME_HDG class
+ *
  * @author paulm
  * @version $Revision: 1.7 $, $Date: 2005/07/13 12:45:10 $
  * @since 1.0
  */
-public class DescriptorKey implements Serializable{
-	private int headingNumber;
-	private String userViewString;
+public class DescriptorKey implements Serializable {
+  private int headingNumber;
+  private String userViewString;
 
-	/**
-	 * Class constructor
-	 *
-	 * 
-	 */
-	public DescriptorKey() {
-		super();
-		headingNumber = -1;
-		userViewString = "0000000000000000";
-	}
-	
-	/**
-	 * Class constructor
-	 *
-	 * 
-	 */
-	public DescriptorKey(int headingNumber, String view) {
-		this.setHeadingNumber(headingNumber);
-		this.setUserViewString(view);
-	}
+  /**
+   * Class constructor
+   */
+  public DescriptorKey() {
+    super ( );
+    headingNumber = -1;
+    userViewString = "0000000000000000";
+  }
 
-	/**
-	 * override equals and hashcode for hibernate key comparison
-	 */
-	public boolean equals(Object anObject) {
-		if (anObject instanceof DescriptorKey) {
-			DescriptorKey aKey = (DescriptorKey) anObject;
-			return (
-				headingNumber == aKey.getHeadingNumber()
-					&& userViewString.equals(aKey.getUserViewString()));
-		} else {
-			return false;
-		}
-	}
+  /**
+   * Class constructor
+   */
+  public DescriptorKey(int headingNumber, String view) {
+    this.setHeadingNumber (headingNumber);
+    this.setUserViewString (view);
+  }
 
-	public int hashCode() {
-		return headingNumber + userViewString.hashCode();
-	}
+  /**
+   * override equals and hashcode for hibernate key comparison
+   */
+  public boolean equals(Object anObject) {
+    if (anObject instanceof DescriptorKey) {
+      DescriptorKey aKey = (DescriptorKey) anObject;
+      return (
+        headingNumber == aKey.getHeadingNumber ( )
+          && userViewString.equals (aKey.getUserViewString ( )));
+    } else {
+      return false;
+    }
+  }
 
-	/**
-	 * Getter for headingNumber
-	 * 
-	 * @return headingNumber
-	 */
-	public int getHeadingNumber() {
-		return headingNumber;
-	}
+  public int hashCode() {
+    return headingNumber + userViewString.hashCode ( );
+  }
 
-	/**
-	 * Getter for view
-	 * 
-	 * @return view
-	 */
-	public String getUserViewString() {
-		return userViewString;
-	}
+  /**
+   * Getter for headingNumber
+   *
+   * @return headingNumber
+   */
+  public int getHeadingNumber() {
+    return headingNumber;
+  }
 
-	/**
-	 * Setter for headingNumber
-	 * 
-	 * @param i headingNumber
-	 */
-	public void setHeadingNumber(int i) {
-		headingNumber = i;
-	}
+  /**
+   * Setter for headingNumber
+   *
+   * @param i headingNumber
+   */
+  public void setHeadingNumber(int i) {
+    headingNumber = i;
+  }
 
-	/**
-	 * Setter for view
-	 * 
-	 * @param string view
-	 */
-	public void setUserViewString(String string) {
-		userViewString = string;
-	}
+  /**
+   * Getter for view
+   *
+   * @return view
+   */
+  public String getUserViewString() {
+    return userViewString;
+  }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	public String toString() {
-		return "Heading nbr: " + String.valueOf(headingNumber) + "  User view: " + userViewString;
-	}
+  /**
+   * Setter for view
+   *
+   * @param string view
+   */
+  public void setUserViewString(String string) {
+    userViewString = string;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  public String toString() {
+    return "Heading nbr: " + String.valueOf (headingNumber) + "  User view: " + userViewString;
+  }
 
 }

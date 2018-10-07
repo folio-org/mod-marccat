@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Nov 8, 2004
- * 
+ *
  * T_PG_MDM_FOR_SND.java
  */
 package org.folio.cataloging.dao.persistence;

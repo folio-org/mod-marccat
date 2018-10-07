@@ -12,63 +12,57 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "modifiedRecordTypes" })
+@JsonPropertyOrder({"modifiedRecordTypes"})
 public class ModifiedRecordTypeCollection {
 
-    /**
-     * 
-     * (Required)
-     * 
-     */
-    @JsonProperty("modifiedRecordTypes")
-    @Valid
-    @NotNull
-    private List<ModifiedRecordType> modifiedRecordTypes = new ArrayList<ModifiedRecordType>();
+  /**
+   * (Required)
+   */
+  @JsonProperty("modifiedRecordTypes")
+  @Valid
+  @NotNull
+  private List <ModifiedRecordType> modifiedRecordTypes = new ArrayList <ModifiedRecordType> ( );
 
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  @JsonIgnore
+  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
 
-    /**
-     * 
-     * (Required)
-     * 
-     * @return
-     *     The modifiedRecordTypes
-     */
-    @JsonProperty("modifiedRecordTypes")
-    public List<ModifiedRecordType> getModifiedRecordTypes() {
-        return modifiedRecordTypes;
-    }
+  /**
+   * (Required)
+   *
+   * @return The modifiedRecordTypes
+   */
+  @JsonProperty("modifiedRecordTypes")
+  public List <ModifiedRecordType> getModifiedRecordTypes() {
+    return modifiedRecordTypes;
+  }
 
-    /**
-     * 
-     * (Required)
-     * 
-     * @param modifiedRecordTypes
-     *     The modifiedRecordTypes
-     */
-    @JsonProperty("modifiedRecordTypes")
-    public void setModifiedRecordTypes(List<ModifiedRecordType> modifiedRecordTypes) {
-        this.modifiedRecordTypes = modifiedRecordTypes;
-    }
+  /**
+   * (Required)
+   *
+   * @param modifiedRecordTypes The modifiedRecordTypes
+   */
+  @JsonProperty("modifiedRecordTypes")
+  public void setModifiedRecordTypes(List <ModifiedRecordType> modifiedRecordTypes) {
+    this.modifiedRecordTypes = modifiedRecordTypes;
+  }
 
-    public ModifiedRecordTypeCollection withModifiedRecordTypes(List<ModifiedRecordType> modifiedRecordTypes) {
-        this.modifiedRecordTypes = modifiedRecordTypes;
-        return this;
-    }
+  public ModifiedRecordTypeCollection withModifiedRecordTypes(List <ModifiedRecordType> modifiedRecordTypes) {
+    this.modifiedRecordTypes = modifiedRecordTypes;
+    return this;
+  }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
+  @JsonAnyGetter
+  public Map <String, Object> getAdditionalProperties() {
+    return this.additionalProperties;
+  }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
+  @JsonAnySetter
+  public void setAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+  }
 
-    public ModifiedRecordTypeCollection withAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-        return this;
-    }
+  public ModifiedRecordTypeCollection withAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put (name, value);
+    return this;
+  }
 }

@@ -10,93 +10,79 @@ import javax.validation.Valid;
 /**
  * FieldTemplate
  * <p>
- * 
- * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "fixedField", "variable-field" })
+@JsonPropertyOrder({"fixedField", "variable-field"})
 public class FieldTemplate {
 
-    /**
-     * fixedField
-     * <p>
-     * 
-     * 
-     */
-    @JsonProperty("fixed-field")
-    @Valid
-    private FixedField fixedField;
+  /**
+   * fixedField
+   * <p>
+   */
+  @JsonProperty("fixed-field")
+  @Valid
+  private FixedField fixedField;
 
-    /**
-     * variableField
-     * <p>
-     * 
-     * 
-     */
-    @JsonProperty("variable-field")
-    @Valid
-    private VariableField variableField;
+  /**
+   * variableField
+   * <p>
+   */
+  @JsonProperty("variable-field")
+  @Valid
+  private VariableField variableField;
 
-    /**
-     * fixedField
-     * <p>
-     * 
-     * 
-     * @return
-     *     The fixedField
-     */
-    @JsonProperty("fixed-field")
-    public FixedField getFixedField() {
-        return fixedField;
-    }
+  /**
+   * fixedField
+   * <p>
+   *
+   * @return The fixedField
+   */
+  @JsonProperty("fixed-field")
+  public FixedField getFixedField() {
+    return fixedField;
+  }
 
-    /**
-     * fixedField
-     * <p>
-     * 
-     * 
-     * @param fixedField
-     *     The fixed-field
-     */
-    @JsonProperty("fixed-field")
-    public void setFixedField(FixedField fixedField) {
-        this.fixedField = fixedField;
-    }
+  /**
+   * fixedField
+   * <p>
+   *
+   * @param fixedField The fixed-field
+   */
+  @JsonProperty("fixed-field")
+  public void setFixedField(FixedField fixedField) {
+    this.fixedField = fixedField;
+  }
 
-    public FieldTemplate withFixedField(FixedField fixedField) {
-        this.fixedField = fixedField;
-        return this;
-    }
+  public FieldTemplate withFixedField(FixedField fixedField) {
+    this.fixedField = fixedField;
+    return this;
+  }
 
-    /**
-     * variableField
-     * <p>
-     * 
-     * 
-     * @return
-     *     The variableField
-     */
-    @JsonProperty("variable-field")
-    public VariableField getVariableField() {
-        return variableField;
-    }
+  /**
+   * variableField
+   * <p>
+   *
+   * @return The variableField
+   */
+  @JsonProperty("variable-field")
+  public VariableField getVariableField() {
+    return variableField;
+  }
 
-    /**
-     * variableField
-     * <p>
-     * 
-     * 
-     * @param variableField
-     *     The variable-field
-     */
-    @JsonProperty("variable-field")
-    public void setVariableField(VariableField variableField) {
-        this.variableField = variableField;
-    }
+  /**
+   * variableField
+   * <p>
+   *
+   * @param variableField The variable-field
+   */
+  @JsonProperty("variable-field")
+  public void setVariableField(VariableField variableField) {
+    this.variableField = variableField;
+  }
 
-    public FieldTemplate withVariableField(VariableField variableField) {
-        this.variableField = variableField;
-        return this;
-    }
+  public FieldTemplate withVariableField(VariableField variableField) {
+    this.variableField = variableField;
+    return this;
+  }
 }

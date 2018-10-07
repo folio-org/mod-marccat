@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Oct 13, 2004
- * 
+ *
  * T_ITM_CCS.java
  */
 package org.folio.cataloging.dao.persistence;

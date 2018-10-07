@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Dec 2, 2005
- * 
+ *
  * AuthorityAccessPoint.java
  */
 package org.folio.cataloging.business.cataloguing.authority;
@@ -19,57 +19,54 @@ import org.folio.cataloging.dao.persistence.ItemEntity;
  */
 public abstract class AuthorityAccessPoint extends AccessPoint implements PersistsViaItem {
 
-	private AUT autItm;
-	
-	/**
-	 * Class constructor
-	 *
-	 * 
-	 * @since 1.0
-	 */
-	public AuthorityAccessPoint() {
-		super();
-	}
+  private AUT autItm;
 
-	/**
-	 * Class constructor
-	 *
-	 * @param itemNumber
-	 * @since 1.0
-	 */
-	public AuthorityAccessPoint(int itemNumber) {
-		super(itemNumber);
-		// TODO Auto-generated constructor stub
-	}
+  /**
+   * Class constructor
+   *
+   * @since 1.0
+   */
+  public AuthorityAccessPoint() {
+    super ( );
+  }
 
-	/**
-	 * 
-	 * @since 1.0
-	 */
-	private AUT getAutItm() {
-		return autItm;
-	}
+  /**
+   * Class constructor
+   *
+   * @param itemNumber
+   * @since 1.0
+   */
+  public AuthorityAccessPoint(int itemNumber) {
+    super (itemNumber);
+    // TODO Auto-generated constructor stub
+  }
 
-	/**
-	 * 
-	 * @since 1.0
-	 */
-	private void setAutItm(AUT aut) {
-		autItm = aut;
-	}
+  /**
+   * @since 1.0
+   */
+  private AUT getAutItm() {
+    return autItm;
+  }
 
-	/* (non-Javadoc)
-	 * @see PersistsViaItem#getItemEntity()
-	 */
-	public ItemEntity getItemEntity() {
-		return getAutItm();
-	}
+  /**
+   * @since 1.0
+   */
+  private void setAutItm(AUT aut) {
+    autItm = aut;
+  }
 
-	/* (non-Javadoc)
-	 * @see PersistsViaItem#setItemEntity(ItemEntity)
-	 */
-	public void setItemEntity(ItemEntity item) {
-		setAutItm((AUT)item);
-	}
+  /* (non-Javadoc)
+   * @see PersistsViaItem#getItemEntity()
+   */
+  public ItemEntity getItemEntity() {
+    return getAutItm ( );
+  }
+
+  /* (non-Javadoc)
+   * @see PersistsViaItem#setItemEntity(ItemEntity)
+   */
+  public void setItemEntity(ItemEntity item) {
+    setAutItm ((AUT) item);
+  }
 
 }

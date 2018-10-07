@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on Feb 1, 2005
- * 
+ *
  * T_ORDR_AQSTN_TYP.java
  */
 package org.folio.cataloging.dao.persistence;
@@ -14,15 +14,14 @@ package org.folio.cataloging.dao.persistence;
  */
 public class T_ORDR_AQSTN_TYP extends T_SINGLE_INT {
 
-	/**
-	 * Class constructor
-	 *
-	 * 
-	 * @since 1.0
-	 */
-	public T_ORDR_AQSTN_TYP() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+  /**
+   * Class constructor
+   *
+   * @since 1.0
+   */
+  public T_ORDR_AQSTN_TYP() {
+    super ( );
+    // TODO Auto-generated constructor stub
+  }
 
 }

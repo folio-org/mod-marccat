@@ -1,8 +1,8 @@
 /*
  * (c) LibriCore
- * 
+ *
  * Created on 19-ago-2004
- * 
+ *
  * T_BOOK_BGPHY.java
  */
 package org.folio.cataloging.dao.persistence;
