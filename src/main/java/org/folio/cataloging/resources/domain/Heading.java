@@ -9,20 +9,22 @@ import javax.annotation.Generated;
 /**
  * Heading
  * <p>
+ *
+ *
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({"tag", "ind1", "ind2", "category", "headingNumber", "stringText", "verificationlevel", "indexingLanguage", "accessPointlanguage"})
+@JsonPropertyOrder({ "tag", "indicator1", "indicator2","category","headingNumber", "stringText"})
 public class Heading {
 
   @JsonProperty("tag")
   private String tag;
 
-  @JsonProperty("ind1")
-  private String ind1;
+  @JsonProperty("indicator1")
+  private String indicator1;
 
-  @JsonProperty("ind2")
-  private String ind2;
+  @JsonProperty("indicator2")
+  private String indicator2;
 
   @JsonProperty("category")
   private Integer category;
@@ -33,33 +35,13 @@ public class Heading {
   @JsonProperty("stringText")
   private String stringText;
 
-  @JsonProperty("database")
-  private String database;
 
-  @JsonProperty("countTitleNameDocuments")
-  private Integer countTitleNameDocuments;
-
-  @JsonProperty("countCrossReferences")
-  private Integer countCrossReferences;
-
-  @JsonProperty("countAuthorities")
-  private Integer countAuthorities;
-
-  @JsonProperty("countDocuments")
-  private Integer countDocuments;
-
-  @JsonProperty("verificationlevel")
-  private String verificationlevel;
-
-  @JsonProperty("indexingLanguage")
-  private String indexingLanguage;
-
-  @JsonProperty("accessPointlanguage")
-  private String accessPointlanguage;
 
 
   /**
-   * @return The headingNumber
+   *
+   * @return
+   * The headingNumber
    */
   @JsonProperty("headingNumber")
   public Integer getHeadingNumber() {
@@ -67,7 +49,9 @@ public class Heading {
   }
 
   /**
-   * @param headingNumber The headingNumber
+   *
+   * @param headingNumber
+   * The headingNumber
    */
   @JsonProperty("headingNumber")
   public void setHeadingNumber(Integer headingNumber) {
@@ -80,7 +64,9 @@ public class Heading {
   }
 
   /**
-   * @return The stringText
+   *
+   * @return
+   * The stringText
    */
   @JsonProperty("stringText")
   public String getStringText() {
@@ -88,7 +74,9 @@ public class Heading {
   }
 
   /**
-   * @param stringText The stringText
+   *
+   * @param stringText
+   * The stringText
    */
   @JsonProperty("stringText")
   public void setStringText(String stringText) {
@@ -100,176 +88,13 @@ public class Heading {
     return this;
   }
 
-  /**
-   * @return The database
-   */
-  @JsonProperty("database")
-  public String getDatabase() {
-    return database;
-  }
+
+
 
   /**
-   * @param database The database
-   */
-  @JsonProperty("database")
-  public void setDatabase(String database) {
-    this.database = database;
-  }
-
-  public Heading withDatabase(String database) {
-    this.database = database;
-    return this;
-  }
-
-  /**
-   * @return The countTitleNameDocuments
-   */
-  @JsonProperty("countTitleNameDocuments")
-  public Integer getCountTitleNameDocuments() {
-    return countTitleNameDocuments;
-  }
-
-  /**
-   * @param countTitleNameDocuments The countTitleNameDocuments
-   */
-  @JsonProperty("countTitleNameDocuments")
-  public void setCountTitleNameDocuments(Integer countTitleNameDocuments) {
-    this.countTitleNameDocuments = countTitleNameDocuments;
-  }
-
-  public Heading withCountTitleNameDocuments(Integer countTitleNameDocuments) {
-    this.countTitleNameDocuments = countTitleNameDocuments;
-    return this;
-  }
-
-  /**
-   * @return The countCrossReferences
-   */
-  @JsonProperty("countCrossReferences")
-  public Integer getCountCrossReferences() {
-    return countCrossReferences;
-  }
-
-  /**
-   * @param countCrossReferences The countCrossReferences
-   */
-  @JsonProperty("countCrossReferences")
-  public void setCountCrossReferences(Integer countCrossReferences) {
-    this.countCrossReferences = countCrossReferences;
-  }
-
-  public Heading withCountCrossReferences(Integer countCrossReferences) {
-    this.countCrossReferences = countCrossReferences;
-    return this;
-  }
-
-  /**
-   * @return The countAuthorities
-   */
-  @JsonProperty("countAuthorities")
-  public Integer getCountAuthorities() {
-    return countAuthorities;
-  }
-
-  /**
-   * @param countAuthorities The countAuthorities
-   */
-  @JsonProperty("countAuthorities")
-  public void setCountAuthorities(Integer countAuthorities) {
-    this.countAuthorities = countAuthorities;
-  }
-
-  public Heading withCountAuthorities(Integer countAuthorities) {
-    this.countAuthorities = countAuthorities;
-    return this;
-  }
-
-  /**
-   * @return The countDocuments
-   */
-  @JsonProperty("countDocuments")
-  public Integer getCountDocuments() {
-    return countDocuments;
-  }
-
-  /**
-   * @param countDocuments The countDocuments
-   */
-  @JsonProperty("countDocuments")
-  public void setCountDocuments(Integer countDocuments) {
-    this.countDocuments = countDocuments;
-  }
-
-  public Heading withCountDocuments(Integer countDocuments) {
-    this.countDocuments = countDocuments;
-    return this;
-  }
-
-  /**
-   * @return The verificationlevel
-   */
-  @JsonProperty("verificationlevel")
-  public String getVerificationlevel() {
-    return verificationlevel;
-  }
-
-  /**
-   * @param verificationlevel The verificationlevel
-   */
-  @JsonProperty("verificationlevel")
-  public void setVerificationlevel(String verificationlevel) {
-    this.verificationlevel = verificationlevel;
-  }
-
-  public Heading withVerificationlevel(String verificationlevel) {
-    this.verificationlevel = verificationlevel;
-    return this;
-  }
-
-  /**
-   * @return The indexingLanguage
-   */
-  @JsonProperty("indexingLanguage")
-  public String getIndexingLanguage() {
-    return indexingLanguage;
-  }
-
-  /**
-   * @param indexingLanguage The indexingLanguage
-   */
-  @JsonProperty("indexingLanguage")
-  public void setIndexingLanguage(String indexingLanguage) {
-    this.indexingLanguage = indexingLanguage;
-  }
-
-  public Heading withIndexingLanguage(String indexingLanguage) {
-    this.indexingLanguage = indexingLanguage;
-    return this;
-  }
-
-  /**
-   * @return The accessPointlanguage
-   */
-  @JsonProperty("accessPointlanguage")
-  public String getAccessPointlanguage() {
-    return accessPointlanguage;
-  }
-
-  /**
-   * @param accessPointlanguage The accessPointlanguage
-   */
-  @JsonProperty("accessPointlanguage")
-  public void setAccessPointlanguage(String accessPointlanguage) {
-    this.accessPointlanguage = accessPointlanguage;
-  }
-
-  public Heading withAccessPointlanguage(String accessPointlanguage) {
-    this.accessPointlanguage = accessPointlanguage;
-    return this;
-  }
-
-  /**
-   * @return The tag
+   *
+   * @return
+   * The tag
    */
   @JsonProperty("tag")
   public String getTag() {
@@ -277,7 +102,9 @@ public class Heading {
   }
 
   /**
-   * @param tag The tag
+   *
+   * @param tag
+   * The tag
    */
   @JsonProperty("tag")
   public void setTag(String tag) {
@@ -290,49 +117,59 @@ public class Heading {
   }
 
   /**
-   * @return The ind1
+   *
+   * @return
+   * The ind1
    */
-  @JsonProperty("ind1")
-  public String getInd1() {
-    return ind1;
+  @JsonProperty("indicator1")
+  public String getIndicator1() {
+    return indicator1;
   }
 
   /**
-   * @param ind1 The ind1
+   *
+   * @param ind1
+   * The ind1
    */
-  @JsonProperty("ind1")
-  public void setInd1(String ind1) {
-    this.ind1 = ind1;
+  @JsonProperty("indicator1")
+  public void setIndicator1(String indicator1) {
+    this.indicator1 = indicator1;
   }
 
-  public Heading withInd1(String ind1) {
-    this.ind1 = ind1;
+  public Heading withIndicator1(String indicator1) {
+    this.indicator1 = indicator1;
     return this;
   }
 
   /**
-   * @return The ind2
+   *
+   * @return
+   * The ind2
    */
-  @JsonProperty("ind2")
-  public String getInd2() {
-    return ind2;
+  @JsonProperty("indicator2")
+  public String getIndicator2() {
+    return indicator2;
   }
 
   /**
-   * @param ind2 The ind1
+   *
+   * @param ind2
+   * The ind1
    */
-  @JsonProperty("ind2")
-  public void setInd2(String ind2) {
-    this.ind2 = ind2;
+  @JsonProperty("indicator2")
+  public void setInd2(String indicator2) {
+    this.indicator2 = indicator2;
   }
 
-  public Heading withInd2(String ind2) {
-    this.ind2 = ind2;
+  public Heading withIndicator2(String indicator2) {
+    this.indicator2 = indicator2;
     return this;
   }
 
   /**
-   * @return The category
+   *
+   * @return
+   * The category
    */
   @JsonProperty("category")
   public Integer getCategory() {
@@ -340,7 +177,9 @@ public class Heading {
   }
 
   /**
-   * @param category The category
+   *
+   * @param category
+   * The category
    */
   @JsonProperty("category")
   public void setCategory(Integer category) {
