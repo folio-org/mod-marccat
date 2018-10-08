@@ -9,9 +9,7 @@ import org.folio.cataloging.Global;
 import org.folio.cataloging.business.cataloguing.bibliographic.*;
 import org.folio.cataloging.business.cataloguing.bibliographic.FixedField;
 import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
-import org.folio.cataloging.business.cataloguing.common.CataloguingSourceTag;
-import org.folio.cataloging.business.cataloguing.common.ControlNumberTag;
-import org.folio.cataloging.business.cataloguing.common.DateOfLastTransactionTag;
+import org.folio.cataloging.business.cataloguing.common.*;
 import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.RecordNotFoundException;
@@ -1948,58 +1946,90 @@ public class StorageService implements Closeable {
    * @param heading the heading.
    * @throws DataAccessException in case of data access failure.
    */
-  public void saveHeading(final Heading heading) throws DataAccessException {
-    try {
-      final BibliographicCorrelationDAO dao = new BibliographicCorrelationDAO ( );
-      BibliographicCorrelation correlations = dao.getBibliographicCorrelation (session, heading.getTag ( ), heading.getInd1 ( ).charAt (0), heading.getInd2 ( ).charAt (0), heading.getCategory ( ));
-      Descriptor descriptor = DescriptorFactory.createDescriptor (heading.getCategory ( ).intValue ( ));
-      descriptor.setStringText (heading.getStringText ( ));
-      ((DAODescriptor) descriptor.getDAO ( )).persist (descriptor, session);
-    } catch (final HibernateException exception) {
-      logger.error (MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-      throw new DataAccessException (exception);
-    }
-  }
+  public void saveHeading(final Heading heading, final int view,
+                          final Map<String, String> configuration) throws DataAccessException {
 
-  /**
-   * Load records from files uploaded.
-   *
-   * @param file            -- the current file.
-   * @param startRecord     -- the number start record.
-   * @param numberOfRecords -- the number of records to load.
-   * @param view            -- the cataloguing view associated.
-   * @return map with loading result.
-   */
-  public Map <String, Object> loadRecords(final MultipartFile file, final int startRecord, final int numberOfRecords,
-                                          final int view, final Map <String, String> configuration) {
-    final Map <String, Object> result = new HashMap <> ( );
-    List <Integer> ids = new ArrayList <> ( );
+    final BibliographicCorrelationDAO dao = new BibliographicCorrelationDAO();
+      /*BibliographicCorrelation correlations = dao.getBibliographicCorrelation(session, heading.getTag(), heading.getInd1().charAt(0), heading.getInd2().charAt(0), heading.getCategory());
+      Descriptor descriptor = DescriptorFactory.createDescriptor(heading.getCategory().intValue());
+      descriptor.setStringText(heading.getStringText());
+      ((DAODescriptor) descriptor.getDAO()).persist(descriptor, session);*/
+    Tag newTag = null;
+    final TagImpl impl = new BibliographicTagImpl();
+    final BibliographicCatalog catalog = new BibliographicCatalog();
+    CatalogItem item = catalog.newCatalogItemWithoutAmicusNumber();
+    //TODO skip in filing
     try {
-      if (!file.isEmpty ( )) {
-        final InputStream input = file.getInputStream ( );
-        final BibliographicInputFile bf = new BibliographicInputFile ( );
-        bf.loadFile (input, file.getOriginalFilename ( ), view, startRecord, numberOfRecords, session, configuration);
-
-        final DAOCodeTable dao = new DAOCodeTable ( );
-        final LDG_STATS stats = dao.getStats (session, bf.getLoadingStatisticsNumber ( ));
-        if (stats.getRecordsAdded ( ) > 0) {
-          final List <LOADING_MARC_RECORDS> lmr = (dao.getResults (session, bf.getLoadingStatisticsNumber ( )));
-          ids = lmr.stream ( ).map (l -> l.getBibItemNumber ( )).collect (Collectors.toList ( ));
+        Correlation corr = impl.getCorrelation(heading.getTag(), heading.getIndicator1().charAt(0), heading.getIndicator2().charAt(0), 0, session);
+        newTag = catalog.getNewTag(item, corr.getKey().getMarcTagCategoryCode(), corr.getValues());
+        if (newTag != null) {
+          StringText st = new StringText(heading.getStringText());
+          ((VariableField) newTag).setStringText(st);
+          if (newTag instanceof Browsable) {
+            ((Browsable) newTag).setDescriptorStringText(st);
+            Descriptor d = ((Browsable) newTag).getDescriptor();
+            d.setUserViewString(View.makeSingleViewString(view));
+            Descriptor dup = null;
+            dup = ((DAODescriptor) (d.getDAO())).getMatchingHeading(d, session);
+            if (dup == null) {
+              d.setConfigValues(configuration);
+              d.generateNewKey(session);
+              d.getDAO().save(d, session);
+            }
+            //deve ritornare la heading number
+            /*else {
+              return dup;
+            }*/
+          }
         }
-        result.put (Global.LOADING_FILE_FILENAME, file.getOriginalFilename ( ));
-        result.put (Global.LOADING_FILE_IDS, ids);
-        result.put (Global.LOADING_FILE_REJECTED, stats.getRecordsRejected ( ));
-        result.put (Global.LOADING_FILE_ADDED, stats.getRecordsAdded ( ));
-        result.put (Global.LOADING_FILE_ERRORS, stats.getErrorCount ( ));
+        } catch (HibernateException | SQLException e) {
+          logger.error("");
+          throw new DataAccessException(e);
+        }
 
-      }
-    } catch (IOException e) {
-      throw new RuntimeException (e);
-    }
-
-    return result;
   }
 
-}
+    /**
+     * Load records from files uploaded.
+     *
+     * @param file -- the current file.
+     * @param startRecord -- the number start record.
+     * @param numberOfRecords -- the number of records to load.
+     * @param view -- the cataloguing view associated.
+     * @return map with loading result.
+     */
+    public Map<String, Object> loadRecords(final MultipartFile file, final int startRecord, final int numberOfRecords,
+    final int view, final Map<String, String> configuration){
+      final Map<String, Object> result = new HashMap<>();
+      List<Integer> ids = new ArrayList<>();
+      try {
+        if (!file.isEmpty()) {
+          final InputStream input = file.getInputStream();
+          final BibliographicInputFile bf = new BibliographicInputFile();
+          bf.loadFile(input, file.getOriginalFilename(), view, startRecord, numberOfRecords, session, configuration);
+
+          final DAOCodeTable dao = new DAOCodeTable();
+          final LDG_STATS stats = dao.getStats(session, bf.getLoadingStatisticsNumber());
+          if (stats.getRecordsAdded() > 0) {
+            final List<LOADING_MARC_RECORDS> lmr = (dao.getResults(session, bf.getLoadingStatisticsNumber()));
+            ids = lmr.stream().map(l -> l.getBibItemNumber()).collect(Collectors.toList());
+          }
+          result.put(Global.LOADING_FILE_FILENAME, file.getName());
+          result.put(Global.LOADING_FILE_IDS, ids);
+          result.put(Global.LOADING_FILE_REJECTED, stats.getRecordsRejected());
+          result.put(Global.LOADING_FILE_ADDED, stats.getRecordsAdded());
+          result.put(Global.LOADING_FILE_ERRORS, stats.getErrorCount());
+
+        }
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+
+      return result;
+    }
+
+  }
+
+
 
 
