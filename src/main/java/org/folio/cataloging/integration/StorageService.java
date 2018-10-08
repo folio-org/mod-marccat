@@ -1941,24 +1941,20 @@ public class StorageService implements Closeable {
   }
 
   /**
-   * Save the new heading
+   * Save the new heading or capture an existing heading
    *
    * @param heading the heading.
+   * @param view the view.
+   * @param configuration the configuration.
    * @throws DataAccessException in case of data access failure.
    */
   public void saveHeading(final Heading heading, final int view,
                           final Map<String, String> configuration) throws DataAccessException {
 
-    final BibliographicCorrelationDAO dao = new BibliographicCorrelationDAO();
-      /*BibliographicCorrelation correlations = dao.getBibliographicCorrelation(session, heading.getTag(), heading.getInd1().charAt(0), heading.getInd2().charAt(0), heading.getCategory());
-      Descriptor descriptor = DescriptorFactory.createDescriptor(heading.getCategory().intValue());
-      descriptor.setStringText(heading.getStringText());
-      ((DAODescriptor) descriptor.getDAO()).persist(descriptor, session);*/
     Tag newTag = null;
     final TagImpl impl = new BibliographicTagImpl();
     final BibliographicCatalog catalog = new BibliographicCatalog();
     CatalogItem item = catalog.newCatalogItemWithoutAmicusNumber();
-    //TODO skip in filing
     try {
         Correlation corr = impl.getCorrelation(heading.getTag(), heading.getIndicator1().charAt(0), heading.getIndicator2().charAt(0), 0, session);
         newTag = catalog.getNewTag(item, corr.getKey().getMarcTagCategoryCode(), corr.getValues());
@@ -1966,21 +1962,24 @@ public class StorageService implements Closeable {
           StringText st = new StringText(heading.getStringText());
           ((VariableField) newTag).setStringText(st);
           if (newTag instanceof Browsable) {
+            int skipInFiling = updateNonNumericIndicators(corr.getKey(), heading.getIndicator1(), heading.getIndicator2() );
             ((Browsable) newTag).setDescriptorStringText(st);
             Descriptor d = ((Browsable) newTag).getDescriptor();
             d.setUserViewString(View.makeSingleViewString(view));
+            d.setSkipInFiling(skipInFiling);
             Descriptor dup = null;
             dup = ((DAODescriptor) (d.getDAO())).getMatchingHeading(d, session);
             if (dup == null) {
               d.setConfigValues(configuration);
               d.generateNewKey(session);
               d.getDAO().save(d, session);
+
             }
-            //deve ritornare la heading number
-            /*else {
-              return dup;
-            }*/
-          }
+            if(dup != null)
+              heading.setHeadingNumber(dup.getHeadingNumber());
+            else
+              heading.setHeadingNumber(d.getHeadingNumber());
+           }
         }
         } catch (HibernateException | SQLException e) {
           logger.error("");
@@ -2028,8 +2027,28 @@ public class StorageService implements Closeable {
       return result;
     }
 
-  }
+  /**
+   * Changes any non-numeric indicators from the correlation table (
+   * S for skipinfiling for bibliographic tags
+   *
+   * @param coKey
+   * @param indicator1
+   * @param indicator2
+   */
 
+  private int updateNonNumericIndicators(CorrelationKey coKey, String indicator1, String indicator2) {
+    int skipInFiling = 0;
+    if (coKey.getMarcFirstIndicator() == 'S') {
+      if (!indicator1.isEmpty()) {
+        skipInFiling = Integer.parseInt(indicator1);
+      }
+    } else if (coKey.getMarcSecondIndicator() == 'S') {
+        if (!indicator2.isEmpty()) {
+          skipInFiling = Integer.parseInt(indicator2);
+        }
+      }
+      return skipInFiling;
+    }
 
-
+}
 
