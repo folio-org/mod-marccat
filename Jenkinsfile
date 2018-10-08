@@ -48,6 +48,9 @@ pipeline {
             }
         }
         stage('Deploy ITNET'){
+               when {
+                  expression { BRANCH_NAME ==~ /(master|develop)/ }
+              }
                steps{
                     script{
                          withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
