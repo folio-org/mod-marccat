@@ -174,12 +174,12 @@ public class TitleDescriptorDAO extends DAODescriptor {
           + " substr(d.key.userViewString, ?, 1) = '1'",
         new Object[]{
           title.getKey ( ).getHeadingNumber ( ),
-          View.toIntView (title.getUserViewString ( ))},
+          new Integer(View.toIntView (title.getUserViewString ( )))},
         new Type[]{Hibernate.INTEGER, Hibernate.INTEGER});
     if (countList.get (0) > 0) {
       throw new ReferentialIntegrityException ("NME_TTL_HDG", "TTL_HDG");
     }
-    super.delete (p);
+    super.delete (p, session);
   }
 
   /**
