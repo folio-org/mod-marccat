@@ -42,9 +42,9 @@ public class HeadingAPI extends BaseResource {
     return heading;
   };
 
-  @ApiOperation(value = "Load bibliographic records from file.")
+  @ApiOperation(value = "Creates a new heading.")
   @ApiResponses(value = {
-    @ApiResponse(code = 204, message = "Method successfully loads the records."),
+    @ApiResponse(code = 201, message = "Method successfully created the new heading."),
     @ApiResponse(code = 400, message = "Bad Request"),
     @ApiResponse(code = 414, message = "Request-URI Too Long"),
     @ApiResponse(code = 500, message = "System internal failure occurred.")
@@ -76,7 +76,7 @@ public class HeadingAPI extends BaseResource {
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
     doPut ((storageService, configuration) -> {
       try {
-        storageService.updateHeading (heading, view);
+        storageService.updateHeading(heading, view);
         return heading;
       } catch (final Exception exception) {
         logger.error (MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
@@ -101,7 +101,7 @@ public class HeadingAPI extends BaseResource {
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
     doDelete ((storageService, configuration) -> {
       try {
-        storageService.deleteHeadingById (heading, view);
+        storageService.deleteHeadingById(heading, view);
         return heading;
       } catch (final Exception exception) {
         logger.error (MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);

@@ -1940,38 +1940,44 @@ public class StorageService implements Closeable {
     });
   }
 
+
+
   /**
-   * Save the new heading or capture an existing heading
+   * Save the heading, if the capture already exists
    *
-   * @param heading       the heading.
-   * @param view          the view.
+   * @param heading the heading.
+   * @param view the view.
    * @param configuration the configuration.
    * @throws DataAccessException in case of data access failure.
    */
   public void saveHeading(final Heading heading, final int view,
-                          final Map <String, String> configuration) throws DataAccessException {
-
+                          final Map<String, String> configuration) throws DataAccessException {
     try {
-      final Descriptor d = DescriptorFactory.createDescriptor(heading.getCategory());
-      final BibliographicCorrelationDAO bibliographicCorrelationDAO = new BibliographicCorrelationDAO();
-      final Correlation corr = bibliographicCorrelationDAO.getBibliographicCorrelation(session, heading.getTag(), heading.getIndicator1().charAt(0), heading.getIndicator2().charAt(0), heading.getCategory());
-      final int skipInFiling = updateNonNumericIndicators(corr.getKey(), heading.getIndicator1(), heading.getIndicator2());
-      d.setSkipInFiling(skipInFiling);
-      //TODO utilizzare lo string text del descrittore
-      //TODO verificare altri campi del descrittore
-      d.setStringText(heading.getStringText());
-      d.setUserViewString(View.makeSingleViewString(view));
-      d.setCorrelationValues(corr.getValues());
-      Descriptor dup = ((DAODescriptor) (d.getDAO())).getMatchingHeading(d, session);
-      if (dup == null) {
-        d.setConfigValues(configuration);
-        d.generateNewKey(session);
-        d.getDAO().save(d, session);
+      final BibliographicCatalog catalog = new BibliographicCatalog();
+      final CatalogItem item = new BibliographicItem();
+      final TagImpl impl = new BibliographicTagImpl();
+      final Correlation corr = impl.getCorrelation(heading.getTag(), heading.getIndicator1().charAt(0), heading.getIndicator2().charAt(0), 0, session);
+      final Tag newTag = catalog.getNewTag(item, corr.getKey().getMarcTagCategoryCode(), corr.getValues());
+      if (newTag != null) {
+        final StringText st = new StringText(heading.getStringText());
+        ((VariableField) newTag).setStringText(st);
+        if (newTag instanceof Browsable) {
+          final int skipInFiling = updateNonNumericIndicators(corr.getKey(), heading.getIndicator1(), heading.getIndicator2());
+          ((Browsable) newTag).setDescriptorStringText(st);
+          final Descriptor descriptor = ((Browsable) newTag).getDescriptor();
+          descriptor.setUserViewString(View.makeSingleViewString(view));
+          descriptor.setSkipInFiling(skipInFiling);
+          final Descriptor dup = ((DAODescriptor) (descriptor.getDAO())).getMatchingHeading(descriptor, session);
+          if (dup == null){
+            descriptor.setConfigValues(configuration);
+            descriptor.generateNewKey(session);
+            descriptor.getDAO().save(descriptor, session);
+            heading.setHeadingNumber(descriptor.getHeadingNumber());
+          }
+          if(dup != null)
+            heading.setHeadingNumber(dup.getHeadingNumber());
+        }
       }
-      if (dup != null)
-        heading.setHeadingNumber(dup.getHeadingNumber());
-      else
-        heading.setHeadingNumber(d.getHeadingNumber());
     } catch (HibernateException | SQLException e) {
       logger.error("");
       throw new DataAccessException(e);
@@ -2020,28 +2026,42 @@ public class StorageService implements Closeable {
     }
 
   /**
-   * Update the heading
+   * Update of an existing heading
    *
    * @param heading the heading.
-   * @param view    the view.
+   * @param view the view.
    * @throws DataAccessException in case of data access failure.
    */
   public void updateHeading(final Heading heading, final int view) throws DataAccessException {
     try {
-      final DAODescriptor descriptorDao = DescriptorFactory.getDao(heading.getCategory());
-      final Descriptor d = descriptorDao.load(heading.getHeadingNumber(), view, session);
-      final BibliographicCorrelationDAO bibliographicCorrelationDAO = new BibliographicCorrelationDAO();
-      final Correlation corr = bibliographicCorrelationDAO.getBibliographicCorrelation(session, heading.getTag(), heading.getIndicator1().charAt(0), heading.getIndicator2().charAt(0), heading.getCategory());
-      final int skipInFiling = updateNonNumericIndicators(corr.getKey(), heading.getIndicator1(), heading.getIndicator2());
-      d.setSkipInFiling(skipInFiling);
-      d.setStringText(heading.getStringText());
-      d.getDAO().update(d, session);
+      final TagImpl impl = new BibliographicTagImpl();
+      final BibliographicCatalog catalog = new BibliographicCatalog();
+      final CatalogItem item = new BibliographicItem();
+      final Correlation corr = impl.getCorrelation(heading.getTag(), heading.getIndicator1().charAt(0), heading.getIndicator2().charAt(0), 0, session);
+      final Tag newTag  = catalog.getNewTag(item, corr.getKey().getMarcTagCategoryCode(), corr.getValues());
+      if (newTag != null) {
+        final StringText st = new StringText(heading.getStringText());
+        ((VariableField) newTag).setStringText(st);
+        if (newTag instanceof Browsable) {
+          final int skipInFiling = updateNonNumericIndicators(corr.getKey(), heading.getIndicator1(), heading.getIndicator2());
+          ((Browsable) newTag).setDescriptorStringText(st);
+          final Descriptor descriptor = ((Browsable) newTag).getDescriptor();
+          final DAODescriptor descriptorDao = DescriptorFactory.getDao(heading.getCategory());
+          final Descriptor d = descriptorDao.load(heading.getHeadingNumber(), view, session);
+          if(d != null) {
+            d.setSkipInFiling(skipInFiling);
+            d.setStringText(descriptor.getStringText());
+            d.getDAO().update(d, session);
+          }
+         }
+     }
     } catch (HibernateException e) {
       logger.error("");
       throw new DataAccessException(e);
     }
 
   }
+
 
   /**
    * delete the heading
