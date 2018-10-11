@@ -100,7 +100,7 @@ public class TitleDescriptorDAO extends DAODescriptor {
     List <REF> refList = super.getCrossReferences (source, cataloguingView, session);
 
     refList.addAll (
-      find (
+      session.find (
         "from TTL_NME_TTL_REF as ref "
           + " where ref.titleHeadingNumber = ? "
           + " and ref.sourceHeadingType = 'TH' "
@@ -112,7 +112,7 @@ public class TitleDescriptorDAO extends DAODescriptor {
           Hibernate.INTEGER,
           Hibernate.INTEGER}));
     refList.addAll (
-      find (
+      session.find (
         "from NME_TO_TTL_REF as ref "
           + " where ref.titleHeadingNumber = ? "
           + " and ref.sourceHeadingType = 'TH' "

@@ -2104,5 +2104,27 @@ public class StorageService implements Closeable {
       return skipInFiling;
     }
 
+  /**
+   * Return the language independent (key) index value to be used when
+   * browsing for entries of this type of Descriptor
+   *
+   * @param sortFormMainType the sort form main type, used here as a filter criterion.
+   * @param descriptor the descriptor, used here as a filter criterion.
+   * @param session the session of hibernate
+   * @return the browse index
+   * @throws HibernateException
+   */
+  public String getBrowseKey(final int sortFormMainType, final Descriptor descriptor, final Session session) throws HibernateException {
+    String result;
+    DAOIndexList dao = new DAOIndexList();
+    result = dao.getIndexBySortFormType(sortFormMainType, descriptor.getCorrelationValues().getValue(1), session);
+    if (result != null) {
+        return result;
+      }
+      else {
+        return descriptor.getBrowseKey();
+    }
+
+  }
 }
 
