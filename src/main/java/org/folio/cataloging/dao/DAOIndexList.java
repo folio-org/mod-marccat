@@ -99,9 +99,20 @@ public class DAOIndexList extends HibernateUtil {
     return getIndexByQuery (query);
   }
 
-  public String getIndexBySortFormType(final int mainType, final int subType) throws DataAccessException {
-
-    String query =
+  /**
+   * Return the language independent (key) index value to be used when
+   * browsing for entries of this type of Descriptor (e.g. Names ==
+   * "2P0"). The value returned should correspond to the value of
+   * IDX_LIST.IDX_LIST_KEY_NBR + IDX_LIST_TYPE_CDE
+   *
+   * @param mainType the main type, used here as a filter criterion.
+   * @param subType the sub type, used here as a filter criterion.
+   * @param session the session of hibernate
+   * @return the index
+   * @throws HibernateException
+   */
+  public String getIndexBySortFormType(final int mainType, final int subType, final Session session) throws HibernateException {
+   final String query =
       "from IndexList as a "
         + "where a.sortFormMainTypeCode = "
         + mainType
@@ -111,7 +122,7 @@ public class DAOIndexList extends HibernateUtil {
         + Locale.ENGLISH.getISO3Language ( )
         + "' and a.codeLibriCatMades = 'LC'";
 
-    final List <IndexListElement> l = getIndexByQuery (query);
+    final List <IndexListElement> l = getIndexByQuery (query, session);
     if (l.size ( ) > 0) {
       return (l.get (0)).getKey ( );
     } else {
@@ -164,8 +175,8 @@ public class DAOIndexList extends HibernateUtil {
    * Returns the name of the code table used by the index
    *
    * @param session the session of hibernate
-   * @param code    the index name, used here as a filter criterion.
-   * @param locale  the Locale, used here as a filter criterion.
+   * @param code the index name, used here as a filter criterion.
+   * @param locale the Locale, used here as a filter criterion.
    * @return the name of the code table for index code associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
