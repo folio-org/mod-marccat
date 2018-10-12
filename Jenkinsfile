@@ -34,6 +34,9 @@ pipeline {
           }
         }
         stage('Deploy'){
+            when {
+                 expression { BRANCH_NAME ==~ /(master|release)/ }
+                 }
              steps{
                   script{
                        withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
@@ -48,6 +51,9 @@ pipeline {
             }
         }
         stage('Deploy ITNET'){
+               when {
+                  expression { BRANCH_NAME ==~ /(master|release)/ }
+              }
                steps{
                     script{
                          withEnv(['JENKINS_NODE_COOKIE=dontkill']) {

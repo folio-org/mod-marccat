@@ -45,13 +45,11 @@ public class BrowseAPI extends BaseResource {
 
   @ApiOperation(value = "Returns all headings associated with a given language")
   @ApiResponses(value = {
-    @ApiResponse(code = 200, message = "Method successfully returned the requested heading types."),
+    @ApiResponse(code = 200, message = "Method successfully returned the requested headings."),
     @ApiResponse(code = 400, message = "Bad Request"),
     @ApiResponse(code = 414, message = "Request-URI Too Long"),
     @ApiResponse(code = 500, message = "System internal failure occurred.")
   })
-
-
   @GetMapping("/first-page")
   public HeadingDecoratorCollection getFirstPage(
     @RequestParam final String query,
@@ -71,6 +69,13 @@ public class BrowseAPI extends BaseResource {
     }, tenant, configurator);
   }
 
+  @ApiOperation(value = "Returns all headings associated with a given language")
+  @ApiResponses(value = {
+    @ApiResponse(code = 200, message = "Method successfully returned the requested headings."),
+    @ApiResponse(code = 400, message = "Bad Request"),
+    @ApiResponse(code = 414, message = "Request-URI Too Long"),
+    @ApiResponse(code = 500, message = "System internal failure occurred.")
+  })
   @GetMapping("/next-page")
   public HeadingDecoratorCollection getNextPage(
     @RequestParam final String query,
@@ -90,7 +95,13 @@ public class BrowseAPI extends BaseResource {
     }, tenant, configurator);
   }
 
-
+  @ApiOperation(value = "Returns all headings associated with a given language")
+  @ApiResponses(value = {
+    @ApiResponse(code = 200, message = "Method successfully returned the requested headings."),
+    @ApiResponse(code = 400, message = "Bad Request"),
+    @ApiResponse(code = 414, message = "Request-URI Too Long"),
+    @ApiResponse(code = 500, message = "System internal failure occurred.")
+  })
   @GetMapping("/previous-page")
   public HeadingDecoratorCollection getPreviousPage(
     @RequestParam final String query,
