@@ -100,7 +100,7 @@ public class TitleDescriptorDAO extends DAODescriptor {
     List <REF> refList = super.getCrossReferences (source, cataloguingView, session);
 
     refList.addAll (
-      find (
+      session.find (
         "from TTL_NME_TTL_REF as ref "
           + " where ref.titleHeadingNumber = ? "
           + " and ref.sourceHeadingType = 'TH' "
@@ -112,7 +112,7 @@ public class TitleDescriptorDAO extends DAODescriptor {
           Hibernate.INTEGER,
           Hibernate.INTEGER}));
     refList.addAll (
-      find (
+      session.find (
         "from NME_TO_TTL_REF as ref "
           + " where ref.titleHeadingNumber = ? "
           + " and ref.sourceHeadingType = 'TH' "
@@ -174,12 +174,12 @@ public class TitleDescriptorDAO extends DAODescriptor {
           + " substr(d.key.userViewString, ?, 1) = '1'",
         new Object[]{
           title.getKey ( ).getHeadingNumber ( ),
-          View.toIntView (title.getUserViewString ( ))},
+          new Integer(View.toIntView (title.getUserViewString ( )))},
         new Type[]{Hibernate.INTEGER, Hibernate.INTEGER});
     if (countList.get (0) > 0) {
       throw new ReferentialIntegrityException ("NME_TTL_HDG", "TTL_HDG");
     }
-    super.delete (p);
+    super.delete (p, session);
   }
 
   /**
