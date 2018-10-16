@@ -19,7 +19,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
  * @since 1.0
  */
 @RestController
-@Api(value = "modcat-api", description = "Sample SE API - TO BE REMOVED!")
+@Api(value = "modcat-api", description = "Sample SE API")
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
 public class RemoveMeAPI extends BaseResource {
 

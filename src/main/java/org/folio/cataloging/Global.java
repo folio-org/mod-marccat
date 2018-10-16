@@ -284,4 +284,8 @@ public abstract class Global {
   public final static String LOADING_FILE_ADDED = "added";
   public final static String LOADING_FILE_ERRORS = "errors";
 
+  public final static char BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC = 'S';
+  public final static char AUTHORITY_INDICATOR_NOT_NUMERIC = 'O';
+
+
 }
