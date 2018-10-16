@@ -20,9 +20,6 @@ pipeline {
             }
         }
         stage('Build') {
-         when {
-              expression { BRANCH_NAME ==~ /(master|develop|release)/ }
-             }
             steps {
                 script {
                    def mvnHome = tool 'mvn'
@@ -70,10 +67,21 @@ pipeline {
                    }
               }
          }
-         stage('Npm') {
-             steps {
-                echo 'Publishing on Npm....'
+         stage('Publish API Docs') {
+             when {
+               expression { BRANCH_NAME ==~ /(master|develop|release)/ }
              }
+             steps {
+                echo 'Publishing API Docs....'
+             }
+         }
+          stage('Publish Npm') {
+                   when {
+                      expression { BRANCH_NAME ==~ /(master|develop|release)/ }
+                 }
+                   steps {
+                     echo 'Publishing on Npm....'
+              }
          }
     }
 }
