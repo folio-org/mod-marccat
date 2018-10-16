@@ -33,7 +33,7 @@ pipeline {
              steps{
                   script{
                        withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
-                            sh('./script/depoy.sh')
+                            sh('./script/deploy.sh')
                         }
                     }
                 }
@@ -73,14 +73,11 @@ pipeline {
               echo 'delete workspace....'
               deleteDir()
           }
-          success {
-              echo 'mod-catalogin deployed succesfully on Zeta and ITNET and up and running on port 8080'
-          }
-          failure {
+          success  {
               echo 'Pipeline failed!!!!'
               emailext body: "${currentBuild.currentResult}: Job [${env.JOB_NAME}] build #${env.BUILD_NUMBER}\n \nMore info at: ${env.BUILD_URL}\n",
               recipientProviders: [upstreamDevelopers(), developers(), brokenBuildSuspects()],
-              subject: 'FAILURE Jenkins Pipeline mod-cataloging', to: 'christian.chiama@atcult.it,mirko.fronzo@atcult.it',
+              subject: 'FAILURE Jenkins Pipeline mod-cataloging', to: 'christian.chiama@atcult.it,mirko.fonzo@atcult.it',
               attachLog: true,
               compressLog: true
           }
