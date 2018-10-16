@@ -421,7 +421,7 @@ public class BND_CPY implements Persistence, Serializable {
     setCreationDate (new Date ( ));
     setTransactionDate (new Date ( ));
 
-    if ((new DAOGlobalVariable ( ).getValueByName ("barrcode")).equals ("1")) {
+    if ((new DAOGlobalVariable ( ).getValueByName ("barrcode", session)).equals ("1")) {
       setBarcodeAssigned (true);
       setBarCodeNumber (String.valueOf (getCopyIdNumber ( )));
     } else {
@@ -429,13 +429,13 @@ public class BND_CPY implements Persistence, Serializable {
     }
   }
 
-  public void deleteNewKey() throws DataAccessException {
+  public void deleteNewKey(final Session session) throws DataAccessException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO ( );
     setCopyIdNumber (dao.getPreviouwsNumber ("HC"));
     setCreationDate (new Date ( ));
     setTransactionDate (new Date ( ));
 
-    if ((new DAOGlobalVariable ( ).getValueByName ("barrcode")).equals ("1")) {
+    if ((new DAOGlobalVariable ( ).getValueByName ("barrcode", session)).equals ("1")) {
       setBarcodeAssigned (true);
       setBarCodeNumber (String.valueOf (getCopyIdNumber ( )));
     } else {
