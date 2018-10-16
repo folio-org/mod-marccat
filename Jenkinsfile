@@ -1,6 +1,5 @@
 pipeline {
     agent any
-     environment {}
     stages {
       stage('Checkout And Clean') {
             steps {
@@ -96,16 +95,28 @@ pipeline {
               }
          }
     }
-    post {
-                             success {
-                                 echo 'mod-catalogin up and running on port 8080'
-                             }
-                             failure {
-                                  emailext body: "${currentBuild.currentResult}: Job [${env.JOB_NAME}] build #${env.BUILD_NUMBER}\n \nMore info at: ${env.BUILD_URL}\n",
-                                  recipientProviders: [upstreamDevelopers(), developers(), brokenBuildSuspects()],
-                                  subject: 'FAILURE Jenkins Pipeline mod-cataloging', to: 'christian.chiama@atcult.it',
-                                  attachLog: true,
-                                  compressLog: true
-                            }
-                         }
+
+     post {
+          always {
+              echo 'One way or another, I have finished'
+              deleteDir() /* clean up our workspace */
+          }
+          success {
+              echo 'I succeeeded!'
+          }
+          unstable {
+              echo 'I am unstable :/'
+          }
+          failure {
+              echo 'I failed :('
+              emailext body: "${currentBuild.currentResult}: Job [${env.JOB_NAME}] build #${env.BUILD_NUMBER}\n \nMore info at: ${env.BUILD_URL}\n",
+              recipientProviders: [upstreamDevelopers(), developers(), brokenBuildSuspects()],
+              subject: 'FAILURE Jenkins Pipeline mod-cataloging', to: 'christian.chiama@atcult.it',
+              attachLog: true,
+              compressLog: true
+          }
+          changed {
+              echo 'Things were different before...'
+          }
+      }
 }
