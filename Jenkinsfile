@@ -1,5 +1,9 @@
 pipeline {
     agent any
+     environment {
+         //This variable need be tested as string
+         doError = '1'
+     }
     stages {
       stage('Checkout And Clean') {
             steps {
@@ -98,8 +102,12 @@ pipeline {
 
      post {
           always {
-              echo 'One way or another, I have finished'
+              echo 'delete workspace....'
               deleteDir() /* clean up our workspace */
+              script {
+                  env.FILENAME = readFile ('script/groovy/sendNotifications.groovy')
+                 }
+              echo "${env.FILENAME}"
           }
           success {
               echo 'I succeeeded!'
@@ -116,7 +124,7 @@ pipeline {
               compressLog: true
           }
           changed {
-              echo 'Things were different before...'
+              echo 'SomeThings were changed...'
           }
       }
 }
