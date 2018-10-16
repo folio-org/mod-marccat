@@ -252,8 +252,8 @@ public class RecordParser {
     final CorrelationValues correlationValues = new CorrelationValues (headerTypeCode, CorrelationValues.UNDEFINED, CorrelationValues.UNDEFINED);
     final PhysicalDescription pd = catalog.createPhysicalDescriptionTag (item, correlationValues);
     catalog.toPhysicalDescription (ff, pd);
-    pd.markNew ( );
-    pd.setBibItemNumber (bibItemNumber);
+    pd.markNew();
+    pd.setBibItemNumber(bibItemNumber);
     item.addTag (pd);
 
   }
