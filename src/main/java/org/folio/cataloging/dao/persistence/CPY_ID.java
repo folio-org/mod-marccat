@@ -578,7 +578,7 @@ public class CPY_ID implements Persistence, Serializable {
     setCreationDate (createTime);
     setTransactionDate (createTime);
 
-    if ((new DAOGlobalVariable ( ).getValueByName ("barrcode")).equals ("1")) {
+    if ((new DAOGlobalVariable ( ).getValueByName ("barrcode", session)).equals ("1")) {
       setBarcodeAssigned (true);
       setBarCodeNumber (String.valueOf (getCopyIdNumber ( )));
     } else {
@@ -587,13 +587,13 @@ public class CPY_ID implements Persistence, Serializable {
   }
 
 
-  public void deleteNewKey() throws DataAccessException {
+  public void deleteNewKey(final Session session) throws DataAccessException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO ( );
     setCopyIdNumber (dao.getPreviouwsNumber ("HC"));
     setCreationDate (new Date ( ));
     setTransactionDate (new Date ( ));
 
-    if ((new DAOGlobalVariable ( ).getValueByName ("barrcode")).equals ("1")) {
+    if ((new DAOGlobalVariable ( ).getValueByName ("barrcode", session)).equals ("1")) {
       setBarcodeAssigned (true);
       setBarCodeNumber (String.valueOf (getCopyIdNumber ( )));
     } else {
