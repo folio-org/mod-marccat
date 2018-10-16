@@ -1818,8 +1818,17 @@ public class StorageService implements Closeable {
       final String tagNbr = field.getCode ( );
       if (tagNbr.equals (GlobalStorage.MATERIAL_TAG_CODE) || tagNbr.equals (GlobalStorage.OTHER_MATERIAL_TAG_CODE)) {
         final org.folio.cataloging.resources.domain.FixedField fixedField = field.getFixedField ( );
-        final Map <String, Object> mapRecordTypeMaterial = getMaterialTypeInfosByLeaderValues (leader.getValue ( ).charAt (6), leader.getValue ( ).charAt (7), tagNbr);
-        final String formOfMaterial = (String) mapRecordTypeMaterial.get (GlobalStorage.FORM_OF_MATERIAL_LABEL);
+        final Map <String, Object> mapRecordTypeMaterial;
+        final String formOfMaterial;
+        if (tagNbr.equals (GlobalStorage.MATERIAL_TAG_CODE)) {
+          mapRecordTypeMaterial = getMaterialTypeInfosByLeaderValues (leader.getValue ( ).charAt (6), leader.getValue ( ).charAt (7), tagNbr);
+          formOfMaterial = (String) mapRecordTypeMaterial.get (GlobalStorage.FORM_OF_MATERIAL_LABEL);
+          fixedField.setHeaderTypeCode((int) mapRecordTypeMaterial.get(GlobalStorage.HEADER_TYPE_LABEL));
+        } else {
+          mapRecordTypeMaterial = getMaterialTypeInfosByHeaderCode(fixedField.getHeaderTypeCode(), tagNbr);
+          formOfMaterial = (String) mapRecordTypeMaterial.get (GlobalStorage.FORM_OF_MATERIAL_LABEL);
+        }
+
         recordParser.addMaterialDescriptionToCatalog (tagNbr, item, fixedField, giAPI, formOfMaterial);
       }
 

@@ -174,7 +174,7 @@ public class RecordParser {
 
     final String materialDescription008Indicator = tagNbr.equals (GlobalStorage.MATERIAL_TAG_CODE) ? "1" : "0";
     bibMaterial.setMaterialDescription008Indicator (materialDescription008Indicator);
-    final int headerTypeCode = fixedField.getHeaderTypeCode ( );
+    final int headerTypeCode = fixedField.getHeaderTypeCode();
     final CorrelationValues correlationValues = new CorrelationValues (headerTypeCode, CorrelationValues.UNDEFINED, CorrelationValues.UNDEFINED);
     bibMaterial.setCorrelationValues (correlationValues);
     bibMaterial.setFormOfMaterial (formOfMaterial);
@@ -247,7 +247,8 @@ public class RecordParser {
                                         final org.folio.cataloging.resources.domain.FixedField ff,
                                         final int bibItemNumber) throws DataAccessException {
 
-    final int headerTypeCode = ff.getHeaderTypeCode ( );
+    final char gmd = ff.getDisplayValue().charAt(0);
+    final int headerTypeCode = (ff.getHeaderTypeCode()!=null) ?ff.getHeaderTypeCode() :PhysicalDescription.getInstanceByGMD(gmd).getHeaderType();
     final CorrelationValues correlationValues = new CorrelationValues (headerTypeCode, CorrelationValues.UNDEFINED, CorrelationValues.UNDEFINED);
     final PhysicalDescription pd = catalog.createPhysicalDescriptionTag (item, correlationValues);
     catalog.toPhysicalDescription (ff, pd);
