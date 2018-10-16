@@ -8,6 +8,7 @@ import org.folio.cataloging.business.cataloguing.bibliographic.MarcCommandLibrar
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.View;
 import org.folio.cataloging.business.descriptor.PublisherTagDescriptor;
+import org.folio.cataloging.dao.RecordTypeMaterialDAO;
 import org.folio.cataloging.dao.persistence.*;
 import org.folio.cataloging.integration.GlobalStorage;
 import org.folio.cataloging.resources.domain.Field;
@@ -17,6 +18,8 @@ import org.folio.cataloging.util.StringText;
 
 import java.sql.SQLException;
 import java.util.List;
+
+import static java.util.Optional.ofNullable;
 
 
 public class RecordParser {
@@ -53,10 +56,19 @@ public class RecordParser {
       final MaterialDescription materialTag = (MaterialDescription) aTag;
       final CorrelationKey correlation = aTag.getTagImpl ( ).getMarcEncoding (aTag, session);
       if (correlation.getMarcTag ( ).equalsIgnoreCase (GlobalStorage.MATERIAL_TAG_CODE)) {
-        materialTag.setCorrelationValues (new CorrelationValues (field.getFixedField ( ).getHeaderTypeCode ( ), CorrelationValues.UNDEFINED, CorrelationValues.UNDEFINED));
-        catalog.toMaterialDescription (field.getFixedField ( ), materialTag);
-        //materialTag.setPersistenceState(UpdateStatus.CHANGED);
-        materialTag.markChanged ( );
+        final BibliographicLeader bibliographicLeader = ((BibliographicLeader) item.getTag (0));
+        final RecordTypeMaterial rtm;
+        try {
+          rtm = new RecordTypeMaterialDAO().getMaterialHeaderCode(session, bibliographicLeader.getItemRecordTypeCode(), bibliographicLeader.getItemBibliographicLevelCode());
+          materialTag.setFormOfMaterial(ofNullable(rtm).map(material -> rtm.getAmicusMaterialTypeCode()).orElse(" "));
+          materialTag.setCorrelationValues (new CorrelationValues (rtm.getBibHeader008(), CorrelationValues.UNDEFINED, CorrelationValues.UNDEFINED));
+          catalog.toMaterialDescription (field.getFixedField(), materialTag);
+          //materialTag.setPersistenceState(UpdateStatus.CHANGED);
+          materialTag.markChanged ( );
+
+        } catch (HibernateException e) {
+          //ignore
+        }
       }
     });
   }
@@ -75,7 +87,10 @@ public class RecordParser {
         final PhysicalDescription physicalTag = (PhysicalDescription) aTag;
         if (physicalTag.getKeyNumber ( ) == field.getFixedField ( ).getKeyNumber ( )) {
           if (field.getFieldStatus ( ) == Field.FieldStatus.CHANGED) {
-            physicalTag.setCorrelationValues (new CorrelationValues (field.getFixedField ( ).getHeaderTypeCode ( ), CorrelationValues.UNDEFINED, CorrelationValues.UNDEFINED));
+            final char gmd = field.getFixedField().getDisplayValue().charAt(0);
+            final int headerTypeCode = (field.getFixedField().getHeaderTypeCode()!=null) ?field.getFixedField().getHeaderTypeCode() :PhysicalDescription.getInstanceByGMD(gmd).getHeaderType();
+            final CorrelationValues correlationValues = new CorrelationValues (headerTypeCode, CorrelationValues.UNDEFINED, CorrelationValues.UNDEFINED);
+            physicalTag.setCorrelationValues (correlationValues);
             catalog.toPhysicalDescription (field.getFixedField ( ), physicalTag);
             physicalTag.markChanged ( );
           } else {
