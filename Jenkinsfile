@@ -64,7 +64,7 @@ pipeline {
               post {
                    success {
                          echo 'mod-catalogin up and running on port 8080 on ITNET'
-                         notifySuccessful()
+                         notifySuccessful(${currentBuild.currentResult}, ${env.JOB_NAME}, ${env.BUILD_NUMBER}, ${env.BUILD_URL})
                    }
               }
          }
@@ -87,8 +87,8 @@ pipeline {
     }
 }
 
-def notifySuccessful() {
+def notifySuccessful(currentResult, JOB_NAME, BUILD_NUMBER, BUILD_URL) {
    emailext (
-      body: '${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}', compressLog: true, recipientProviders: [upstreamDevelopers(), developers(), brokenBuildSuspects()], subject: 'Jenkins Pipeline mod-cataloging', to: 'christian.chiama@atcult.it,mirko.fronzo@atcult.it', attachLog: true
+      body: 'currentResult: Job JOB_NAME build BUILD_NUMBER\n More info at: BUILD_URL', compressLog: true, recipientProviders: [upstreamDevelopers(), developers(), brokenBuildSuspects()], subject: 'Jenkins Pipeline mod-cataloging', to: 'christian.chiama@atcult.it', attachLog: true
     )
 }
