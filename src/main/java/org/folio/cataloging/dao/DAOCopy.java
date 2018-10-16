@@ -5,8 +5,6 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Query;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.folio.cataloging.bean.cataloguing.copy.CopyListElement;
 import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.DataAccessException;
@@ -16,6 +14,7 @@ import org.folio.cataloging.business.common.UpdateStatus;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 import org.folio.cataloging.dao.persistence.*;
+import org.folio.cataloging.log.Log;
 import org.folio.cataloging.util.StringText;
 
 import java.sql.*;
@@ -29,21 +28,17 @@ import static org.folio.cataloging.F.fixedCharPadding;
 @SuppressWarnings("unchecked")
 public class DAOCopy extends AbstractDAO {
 
-  public static final Comparator <CPY_ID> CPY_ID_COMPARATOR = new Comparator <CPY_ID> ( ) {
-
-    @Override
-    public int compare(CPY_ID o1, CPY_ID o2) {
-      // execute this: (o1>o2 ? -1 : (o1==o2 ? 0 : 1));
+  public static final Comparator <CPY_ID> CPY_ID_COMPARATOR  =
+    (CPY_ID o1, CPY_ID o2)-> {
       int i1 = o1.getCopyIdNumber ( );
       int i2 = o2.getCopyIdNumber ( );
-      if (i1 == i2)
-        return 0;
-      else if (i1 < i2)
-        return -1;
+      if (i1 == i2) return 0;
+      else if (i1 < i2) return -1;
       return 1;
-    }
-  };
-  private Log logger = LogFactory.getLog (DAOCopy.class);
+    };
+
+  private static Log logger = new Log(DAOCopy.class);
+
   private String INSERT_BND_CPY = "INSERT INTO BND_CPY a "
     + "SELECT BIB_ITM_NBR," + "CPY_ID_NBR," + "SHLF_LIST_KEY_NBR,"
     + "ORG_NBR," + "BRNCH_ORG_NBR," + "ORGNL_ORG_NBR," + "BRCDE_NBR,"
@@ -56,58 +51,58 @@ public class DAOCopy extends AbstractDAO {
     + "CST, " + "CURCY_TYP_CDE, " + "CURCY_XCHNG_RTE,"
     + "TRSFR_CSTDY_NBR, " + "PHSCL_CPY_TPE,"
     + "MTHD_ACQ FROM cpy_id b WHERE b.cpy_id_nbr=?";
+
   private String INSERT_BND_SHLF_LIST = "INSERT INTO BND_SHLF_LIST "
     + "SELECT ORG_NBR,SHLF_LIST_KEY_NBR,SHLF_LIST_TYP_CDE,SHLF_LIST_STRNG_TEXT,SHLF_LIST_SRT_FORM FROM SHLF_LIST A WHERE A.SHLF_LIST_KEY_NBR=?";
 
-  public CPY_ID load(int copyNumber) throws DataAccessException {
+  /**
+   * Loads copy by copy number.
+   *
+   * @param session -- the hibernate session associated to request.
+   * @param copyNumber -- the copy number.
+   * @return {@link CPY_ID}
+   * @throws DataAccessException in case of hibernate exception.
+   */
+  public CPY_ID load(final Session session, final int copyNumber) throws DataAccessException {
     CPY_ID c = null;
     try {
-
-      Session session = currentSession ( );
-
-      c = (CPY_ID) session.get (CPY_ID.class, new Integer (copyNumber));
+      c = (CPY_ID) session.get (CPY_ID.class, copyNumber);
       if (c != null) {
-        if (c.getShelfListKeyNumber ( ) != null) {
-          c.setShelfList (new ShelfListDAO ( ).load (c
-            .getShelfListKeyNumber ( ).intValue ( ), session));
+        if (c.getShelfListKeyNumber() != null) {
+          c.setShelfList(new ShelfListDAO().load(c.getShelfListKeyNumber(), session));
         }
       }
-      if ((new DAOGlobalVariable ( ).getValueByName ("barrcode")).equals ("1")) {
+
+      // todo: to manage from external configuration module based on orgNumber
+      /*if ((new DAOGlobalVariable ( ).getValueByName ("barrcode")).equals ("1")) {
         c.setBarcodeAssigned (true);
       } else {
         c.setBarcodeAssigned (false);
+      }*/
 
-      }
     } catch (HibernateException e) {
-      logAndWrap (e);
-
+      throw new DataAccessException(e);
     }
     return c;
   }
 
-  public CPY_ID loadBarcode(String barCode) throws DataAccessException {
-    CPY_ID result = null;
-    // List listCopies = null;
-    logger.info ("hola " + barCode + "-");
+  /**
+   * Loads copy by barcode.
+   *
+   * @param session -- the hibernate session associated to request.
+   * @param barCode -- the barcode associated to copy.
+   * @return {@link CPY_ID}
+   * @throws DataAccessException in case of hibernate exception.
+   */
+  public CPY_ID loadByBarcode(final Session session, final String barCode) throws DataAccessException {
     try {
-      Session s = currentSession ( );
-      // logger.info("pasa por aki (load barcode)" + barCode);
-      List listCopies = s
-        .find ("from CPY_ID ci where ci.barCodeNumber = '"
-          + barCode.trim ( ) + "'");
-      // logger.info("hola1 (load barcode)" + listCopies.size());
-      Iterator iter = listCopies.iterator ( );
-      while (iter.hasNext ( )) {
-        // logger.info("hola2 (load barcode)");
-        CPY_ID rawCopy = (CPY_ID) iter.next ( );
-        result = rawCopy;
-      }
+      List<CPY_ID> listCopies = session.find ("from CPY_ID ci where ci.barCodeNumber = '" + barCode.trim ( ) + "'");
+      return listCopies.stream().filter(Objects::nonNull).reduce((first, second) -> second).get();
+
     } catch (HibernateException e) {
-      logAndWrap (e);
+      throw new DataAccessException(e);
+      //log error e return null?
     }
-
-    return result;
-
   }
 
   /**
@@ -116,26 +111,26 @@ public class DAOCopy extends AbstractDAO {
    * @since 1.0
    */
 
-  public int getBibItemNumber(String copyBarCode) throws DataAccessException,
-    HibernateException {
+  /**
+   * Gets the amicus number associated to copy.
+   *
+   * @param session -- the hibernate session associated to request.
+   * @param barCode -- the barcode associated to copy.
+   * @return the amicus number.
+   * @throws DataAccessException in case of hibernate exception.
+   */
+  public int getBibItemNumber(final Session session, final String barCode) throws DataAccessException {
     int result = 0;
 
-    List listAllCopies = null;
     try {
-      Session s = currentSession ( );
-      listAllCopies = s.find ("from CPY_ID ci where ci.barCodeNumber = '"
-        + copyBarCode + "'");
+      List<CPY_ID> listAllCopies = session.find ("from CPY_ID ci where ci.barCodeNumber = '" + barCode + "'");
+      return listAllCopies.stream().filter(Objects::nonNull).reduce((first, second) -> second).get().getBibItemNumber();
 
-      Iterator iter = listAllCopies.iterator ( );
-      while (iter.hasNext ( )) {
-        CPY_ID rawCopy = (CPY_ID) iter.next ( );
-        result = rawCopy.getBibItemNumber ( );
-      }
     } catch (HibernateException e) {
-      logAndWrap (e);
+      throw new DataAccessException(e);
+      //log error and return 0?
     }
 
-    return result;
   }
 
   /**
@@ -360,8 +355,7 @@ public class DAOCopy extends AbstractDAO {
       LCTN location = dl.load (rawCopy.getBranchOrganisationNumber ( ),
         rawCopy.getLocationNameCode ( ), locale);
       if (location == null) {
-        logger.warn ("Invalid location code in copy "
-          + rawCopy.getCopyIdNumber ( ));
+        logger.info("Invalid location code in copy " + rawCopy.getCopyIdNumber ( ));
         throw new DataAccessException ( );
       } else {
         rawCopyListElement.setLocation (location.getLabelStringText ( ));
@@ -830,7 +824,7 @@ public class DAOCopy extends AbstractDAO {
 
       if (countShelfFromCopyUses (copy, shelf) != 0) {
         if (countShelfListAccessPointUses (copy, shelf) == 1) {
-          logger.warn ("Cancella  SHLF_LIST_ACS_PNT");
+          logger.info ("Cancella  SHLF_LIST_ACS_PNT");
 
           s
             .delete (
