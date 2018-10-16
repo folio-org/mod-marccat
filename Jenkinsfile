@@ -73,7 +73,10 @@ pipeline {
               echo 'delete workspace....'
               deleteDir()
           }
-          success  {
+          success {
+              echo 'mod-catalogin deployed succesfully on Zeta and ITNET and up and running on port 8080'
+          }
+          failure {
               echo 'Pipeline failed!!!!'
               emailext body: "${currentBuild.currentResult}: Job [${env.JOB_NAME}] build #${env.BUILD_NUMBER}\n \nMore info at: ${env.BUILD_URL}\n",
               recipientProviders: [upstreamDevelopers(), developers(), brokenBuildSuspects()],
