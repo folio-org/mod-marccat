@@ -90,7 +90,7 @@ public class RecordTypeMaterial implements Serializable {
     if (recordTypeCode == null) {
       return null;
     } else {
-      return new Character (recordTypeCode.charAt (0));
+      return recordTypeCode.charAt(0);
     }
   }
 

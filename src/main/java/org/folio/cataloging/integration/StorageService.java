@@ -14,7 +14,6 @@ import org.folio.cataloging.business.codetable.Avp;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.RecordNotFoundException;
 import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.business.descriptor.DescriptorFactory;
 import org.folio.cataloging.business.searching.InvalidBrowseIndexException;
 import org.folio.cataloging.dao.*;
 import org.folio.cataloging.dao.common.HibernateSessionProvider;
@@ -1633,7 +1632,7 @@ public class StorageService implements Closeable {
    * @param generalInformation -- @linked GeneralInformation for default values.
    * @throws DataAccessException in case of data access exception.
    */
-  public void saveBibliographicRecord(final BibliographicRecord record, final int view, final GeneralInformation generalInformation) throws DataAccessException {
+  public void saveBibliographicRecord(final BibliographicRecord record, final int view, final GeneralInformation generalInformation, final String lang) throws DataAccessException {
 
     CatalogItem item = null;
     try {
@@ -1643,11 +1642,11 @@ public class StorageService implements Closeable {
 
     try {
       CasCache casCache = null;
-      if (item == null || item.getTags().size() == 0) {
-        item = insertBibliographicRecord(record, view, generalInformation);
-        casCache = new CasCache(item.getAmicusNumber());
-        casCache.setLevelCard("L1");
-        casCache.setStatusDisponibilit(99);
+      if (item == null || item.getTags ( ).size ( ) == 0) {
+        item = insertBibliographicRecord (record, view, generalInformation, lang);
+        casCache = new CasCache (item.getAmicusNumber ( ));
+        casCache.setLevelCard ("L1");
+        casCache.setStatusDisponibilit (99);
 
       } else {
         updateBibliographicRecord(record, item, view, generalInformation);
@@ -1715,17 +1714,13 @@ public class StorageService implements Closeable {
           });
         }
 
-        if (field.getVariableField() != null && !tagNbr.equals(GlobalStorage.CATALOGING_SOURCE_TAG_CODE)) {
-          final org.folio.cataloging.resources.domain.VariableField variableField = field.getVariableField();
-          final CorrelationValues correlationValues;
-          if (ofNullable(variableField.getHeadingTypeCode()).isPresent() && isNotNullOrEmpty(variableField.getValue())) {
-            final int value1 = Integer.parseInt(variableField.getHeadingTypeCode());
-            final int value2 = ofNullable(variableField.getItemTypeCode()).isPresent() ? Integer.parseInt(variableField.getItemTypeCode()) : CorrelationValues.UNDEFINED;
-            final int value3 = ofNullable(variableField.getFunctionCode()).isPresent() ? Integer.parseInt(variableField.getFunctionCode()) : CorrelationValues.UNDEFINED;
-            correlationValues = new CorrelationValues(value1, value2, value3);
-          } else {
-            logger.error(MessageCatalogStorage._00018_NO_HEADING_TYPE_CODE, variableField.getCode());
-            throw new DataAccessException();
+        if (field.getVariableField ( ) != null && !tagNbr.equals (GlobalStorage.CATALOGING_SOURCE_TAG_CODE)) {
+          final org.folio.cataloging.resources.domain.VariableField variableField = field.getVariableField ( );
+          final CorrelationValues correlationValues = getCorrelationVariableField(variableField.getCategoryCode(),
+            variableField.getInd1(), variableField.getInd2(), tagNbr);
+          if (correlationValues == null) {
+            logger.error (MessageCatalogStorage._00018_NO_HEADING_TYPE_CODE, variableField.getCode ( ));
+            throw new DataAccessException ( );
           }
 
           try {
@@ -1754,14 +1749,14 @@ public class StorageService implements Closeable {
    * @param giAPI  -- {@linked GeneralInformation} for default values.
    * @throws DataAccessException in case of data access exception.
    */
-  private CatalogItem insertBibliographicRecord(final BibliographicRecord record, final int view, final GeneralInformation giAPI) throws DataAccessException {
+  private CatalogItem insertBibliographicRecord(final BibliographicRecord record, final int view, final GeneralInformation giAPI, final String lang) throws DataAccessException {
     final RecordParser recordParser = new RecordParser();
     final BibliographicCatalog catalog = new BibliographicCatalog();
     final int bibItemNumber = record.getId();
-    final CatalogItem item = catalog.newCatalogItem(new Object[]{new Integer(view), new Integer(bibItemNumber)});
+    final CatalogItem item = catalog.newCatalogItem (new Object[]{new Integer (view), new Integer (bibItemNumber)});
 
     Leader leader = record.getLeader();
-    item.getItemEntity().setLanguageOfCataloguing("eng");
+    item.getItemEntity().setLanguageOfCataloguing(lang);
 
     if (leader != null) {
       final BibliographicLeader bibLeader = catalog.createRequiredLeaderTag(item);
@@ -1775,13 +1770,22 @@ public class StorageService implements Closeable {
     DateOfLastTransactionTag dateOfLastTransactionTag = catalog.createRequiredDateOfLastTransactionTag(item);
     item.addTag(dateOfLastTransactionTag);
 
-    record.getFields().stream().skip(1).forEach(field -> {
-      final String tagNbr = field.getCode();
-      if (tagNbr.equals(GlobalStorage.MATERIAL_TAG_CODE) || tagNbr.equals(GlobalStorage.OTHER_MATERIAL_TAG_CODE)) {
-        final org.folio.cataloging.resources.domain.FixedField fixedField = field.getFixedField();
-        final Map <String, Object> mapRecordTypeMaterial = getMaterialTypeInfosByLeaderValues(leader.getValue().charAt(6), leader.getValue().charAt(7), tagNbr);
-        final String formOfMaterial = (String) mapRecordTypeMaterial.get(GlobalStorage.FORM_OF_MATERIAL_LABEL);
-        recordParser.addMaterialDescriptionToCatalog(tagNbr, item, fixedField, giAPI, formOfMaterial);
+    record.getFields().stream ( ).skip (1).forEach (field -> {
+      final String tagNbr = field.getCode ( );
+      if (tagNbr.equals (GlobalStorage.MATERIAL_TAG_CODE) || tagNbr.equals (GlobalStorage.OTHER_MATERIAL_TAG_CODE)) {
+        final org.folio.cataloging.resources.domain.FixedField fixedField = field.getFixedField ( );
+        final Map <String, Object> mapRecordTypeMaterial;
+        final String formOfMaterial;
+        if (tagNbr.equals (GlobalStorage.MATERIAL_TAG_CODE)) {
+          mapRecordTypeMaterial = getMaterialTypeInfosByLeaderValues (leader.getValue ( ).charAt (6), leader.getValue ( ).charAt (7), tagNbr);
+          formOfMaterial = (String) mapRecordTypeMaterial.get (GlobalStorage.FORM_OF_MATERIAL_LABEL);
+          fixedField.setHeaderTypeCode((int) mapRecordTypeMaterial.get(GlobalStorage.HEADER_TYPE_LABEL));
+        } else {
+          mapRecordTypeMaterial = getMaterialTypeInfosByHeaderCode(fixedField.getHeaderTypeCode(), tagNbr);
+          formOfMaterial = (String) mapRecordTypeMaterial.get (GlobalStorage.FORM_OF_MATERIAL_LABEL);
+        }
+
+        recordParser.addMaterialDescriptionToCatalog (tagNbr, item, fixedField, giAPI, formOfMaterial);
       }
 
       if (tagNbr.equals(GlobalStorage.PHYSICAL_DESCRIPTION_TAG_CODE)) {
@@ -1796,17 +1800,13 @@ public class StorageService implements Closeable {
         item.addTag(cst);
       }
 
-      if (field.getVariableField() != null && !tagNbr.equals(GlobalStorage.CATALOGING_SOURCE_TAG_CODE)) {
-        final org.folio.cataloging.resources.domain.VariableField variableField = field.getVariableField();
-        final CorrelationValues correlationValues;
-        if (ofNullable(variableField.getHeadingTypeCode()).isPresent() && isNotNullOrEmpty(variableField.getValue())) {
-          final int value1 = Integer.parseInt(variableField.getHeadingTypeCode());
-          final int value2 = ofNullable(variableField.getItemTypeCode()).isPresent() ? Integer.parseInt(variableField.getItemTypeCode()) : CorrelationValues.UNDEFINED;
-          final int value3 = ofNullable(variableField.getFunctionCode()).isPresent() ? Integer.parseInt(variableField.getFunctionCode()) : CorrelationValues.UNDEFINED;
-          correlationValues = new CorrelationValues(value1, value2, value3);
-        } else {
-          logger.error(MessageCatalogStorage._00018_NO_HEADING_TYPE_CODE, variableField.getCode());
-          throw new DataAccessException();
+      if (field.getVariableField ( ) != null && !tagNbr.equals (GlobalStorage.CATALOGING_SOURCE_TAG_CODE)) {
+        final org.folio.cataloging.resources.domain.VariableField variableField = field.getVariableField ( );
+        final CorrelationValues correlationValues = getCorrelationVariableField(variableField.getCategoryCode(),
+          variableField.getInd1(), variableField.getInd2(), tagNbr);
+        if (correlationValues == null) {
+          logger.error (MessageCatalogStorage._00018_NO_HEADING_TYPE_CODE, variableField.getCode ( ));
+          throw new DataAccessException ( );
         }
         recordParser.insertNewVariableField(item, variableField, bibItemNumber, correlationValues, session, view);
       }
