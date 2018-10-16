@@ -121,4 +121,34 @@ public class BrowseAPI extends BaseResource {
     }, tenant, configurator);
   }
 
+
+  @ApiOperation(value = "Returns all headings associated with a tag")
+  @ApiResponses(value = {
+    @ApiResponse(code = 200, message = "Method successfully returned the requested headings."),
+    @ApiResponse(code = 400, message = "Bad Request"),
+    @ApiResponse(code = 414, message = "Request-URI Too Long"),
+    @ApiResponse(code = 500, message = "System internal failure occurred.")
+  })
+  @GetMapping("/headings-by-tag")
+  public HeadingDecoratorCollection getHeadingsByTag(
+    @RequestParam final String tag,
+    @RequestParam final String indicator1,
+    @RequestParam final String indicator2,
+    @RequestParam final String stringText,
+    @RequestParam final int view,
+    @RequestParam final int mainLibrary,
+    @RequestParam final int pageSize,
+    @RequestParam final String lang,
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    return doGet ((storageService, configuration) -> {
+      List <MapHeading> headings = storageService.getHeadingsByTag (tag, indicator1, indicator2, stringText, view, mainLibrary, pageSize, lang);
+      final HeadingDecoratorCollection headingCollection = new HeadingDecoratorCollection ( );
+      headingCollection.setHeadings (headings
+        .stream ( )
+        .map (toHeading)
+        .collect (toList ( )));
+      return headingCollection;
+    }, tenant, configurator);
+  }
+
 }

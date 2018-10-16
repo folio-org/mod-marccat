@@ -2,13 +2,16 @@ package org.folio.cataloging.search.domain;
 
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
+import org.marc4j.*;
 import org.w3c.dom.Document;
 import org.xml.sax.helpers.DefaultHandler;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.function.Predicate;
 
 import static java.util.Optional.ofNullable;
@@ -22,6 +25,7 @@ import static java.util.Optional.ofNullable;
 public class LightweightXmlRecord extends AbstractRecord {
   private final static Log LOGGER = new Log (LightweightXmlRecord.class);
   private final static String DUMMY_RECORD = "<record></record>";
+  private final static String DUMMY_JSON_RECORD = "{}";
 
   private final static ThreadLocal <SAXParser> SAX_PARSERS =
     ThreadLocal.withInitial (() -> {
@@ -44,12 +48,37 @@ public class LightweightXmlRecord extends AbstractRecord {
 
   private String data;
 
+  /*
   @Override
   public void setContent(final String elementSetName, final Object data) {
     this.data = ofNullable (data)
       .map (Object::toString)
       .filter (isValidXml)
       .orElse (DUMMY_RECORD);
+  }
+  */
+
+  /**
+   * setContent, converting marcxml to jsonxml
+   * @param elementSetName
+   * @param data
+   */
+  @Override
+  public void setContent(final String elementSetName, final Object data) {
+    this.data = ofNullable (data)
+      .map ( o -> {
+        String record = o.toString();
+        MarcReader reader = new MarcXmlReader(new ByteArrayInputStream( record.getBytes() ));
+        OutputStream output = new ByteArrayOutputStream();
+        MarcWriter writer = new MarcJsonWriter(output);
+        while (reader.hasNext()) {
+          org.marc4j.marc.Record marcRecord = reader.next();
+          writer.write(marcRecord);
+        }
+        writer.close();
+        return ((ByteArrayOutputStream) output).toString();
+      })
+      .orElse (DUMMY_JSON_RECORD);
   }
 
 
