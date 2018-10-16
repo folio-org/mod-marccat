@@ -37,7 +37,6 @@ import static org.folio.cataloging.F.isNotNullOrEmpty;
  * @since 1.0
  */
 
-//TODO: some methods can't be modify now, because some implementation logic have to be moved into API and storage
 public class BibliographicCatalogDAO extends CatalogDAO {
   private Log logger = new Log (BibliographicCatalogDAO.class);
 

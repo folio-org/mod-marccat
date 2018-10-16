@@ -25,11 +25,12 @@ public class DAOGlobalVariable extends HibernateUtil implements Serializable {
 
   private Log logger = LogFactory.getLog (DAOGlobalVariable.class);
 
-  //TODO null exception if variable doesn't exist
+  @Deprecated
   public String getValueByName(final String name) throws DataAccessException {
-    //TODO refactoring session
-    final Session session = currentSession ( );
-
+    throw new IllegalArgumentException("don't call me!");
+  }
+  //TODO null exception if variable doesn't exist
+  public String getValueByName(final String name, final Session session) throws DataAccessException {
     String valueByName = null;
     S_SYS_GLBL_VRBL ss = ((S_SYS_GLBL_VRBL) get (session, S_SYS_GLBL_VRBL.class, name));
     if (ss != null) {
