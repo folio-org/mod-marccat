@@ -27,21 +27,21 @@ public class ISBNHyphenAppender {
      *                                       org.folio.cataloging.util.isbn.ISBNAlgorithm group not implemented
      */
     String appendHyphenToISBN10(String ISBN10) {
-        //Checks if the org.folio.cataloging.util.isbn.ISBNAlgorithm is null
+        //Checks if the ISBN10 is null
         if (ISBN10 == null) {
             throw new NullPointerException ("The org.folio.cataloging.util.isbn.ISBNAlgorithm provided cannot be null");
         }
 
-        //Checks if the length of the org.folio.cataloging.util.isbn.ISBNAlgorithm is 10
+        //Checks if the length of ISBN10 is 10
         if (ISBN10.length ( ) != 10) {
             throw new IllegalArgumentException ("The org.folio.cataloging.util.isbn.ISBNAlgorithm " + ISBN10 +
                     " is not an org.folio.cataloging.util.isbn.ISBNAlgorithm-10. The length of the org.folio.cataloging.util.isbn.ISBNAlgorithm is not 10");
         }
 
-        //Gets the group for the org.folio.cataloging.util.isbn.ISBNAlgorithm
+        //Gets the group for the ISBN10
         Group group = Group.getGroup (ISBN10);
 
-        //Checks if the group of the org.folio.cataloging.util.isbn.ISBNAlgorithm is implemented
+        //Checks if the group is implemented
         if (group == null) {
             throw new UnsupportedOperationException (ISBN10 +
                     " is from a group not implemented");
@@ -168,8 +168,9 @@ public class ISBNHyphenAppender {
     }
 
     /**
+     *
      * @param isbn
-     * @return
+     * @return the new isbn with hiphen, 10 digit and 13 digit
      * @throws Exception
      */
     public String formatIsbn(String isbn) throws Exception {
