@@ -36,6 +36,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static java.util.Optional.ofNullable;
+
 /**
  * Represents a physical file of Marc Bibliographic records and provides methods for loading the file into the database.
  *
@@ -112,20 +114,20 @@ public class BibliographicInputFile {
                                   final int recCount, final Session session, final Map <String, String> configuration) throws DataAccessException {
 
     try {
-      final LOADING_MARC_FILE run = new LOADING_MARC_FILE ( );
+      final LOADING_MARC_FILE run = new LOADING_MARC_FILE();
       run.setFileName (fileName);
       stats.generateNewKey (session);
-      stats.getDAO ( ).save (stats, session);
-      run.setLoadingStatisticsNumber (stats.getLoadingStatisticsNumber ( ));
-      run.getDAO ( ).save (run, session);
+      stats.getDAO().save(stats, session);
+      run.setLoadingStatisticsNumber(stats.getLoadingStatisticsNumber());
+      run.getDAO().save(run, session);
       final MarcReader reader = new MarcStreamReader (input);
-      final TagImpl impl = new BibliographicTagImpl ( );
+      final TagImpl impl = new BibliographicTagImpl();
       final BibliographicCatalog catalog = new BibliographicCatalog ( );
       int count = 0;
       int processed = 0;
 
-      while (reader.hasNext ( )) {
-        final Record record = reader.next ( );
+      while (reader.hasNext()) {
+        final Record record = reader.next();
         count++;
         if (count >= startAt && processed <= recCount) {
           processed++;
@@ -135,12 +137,12 @@ public class BibliographicInputFile {
             Leader leader = record.getLeader ( );
             final BibliographicLeader leaderTag = catalog.createRequiredLeaderTag (item);
             setLeaderValues (leaderTag, leader);
-            leaderTag.setCorrelationKey (impl.getMarcEncoding (leaderTag, session));
-            leaderTag.setValidation (impl.getValidation (leaderTag, session));
+            leaderTag.setCorrelationKey(impl.getMarcEncoding (leaderTag, session));
+            leaderTag.setValidation(impl.getValidation (leaderTag, session));
             item.addTag (leaderTag);
 
             List <ControlField> controlFields = record.getControlFields ( );
-            addControlFieldToItem (item, controlFields, impl, session, catalog, detectFormOfMaterial (session, leaderTag.getItemRecordTypeCode ( ), leaderTag.getItemBibliographicLevelCode ( )));
+            addControlFieldToItem (item, controlFields, impl, session, catalog, leaderTag);
 
             List <DataField> dataFields = record.getDataFields ( );
             addDataFieldToItem (item, dataFields, impl, session, catalog, cataloguingView, configuration);
@@ -238,16 +240,22 @@ public class BibliographicInputFile {
    * @param catalog       -- the bibliographic catalog.
    */
   private void addControlFieldToItem(final CatalogItem item, final List <ControlField> controlFields,
-                                     final TagImpl impl, final Session session, final BibliographicCatalog catalog, final String formOfMaterial) {
+                                     final TagImpl impl, final Session session, final BibliographicCatalog catalog, final BibliographicLeader leaderTag) {
     controlFields.forEach (field -> {
       Tag newTag = null;
       final Correlation corr = impl.getCorrelation (field.getTag ( ), ' ', ' ', 0, session);
       if (corr == null) {
         if ("006".equals (field.getTag ( )) || "008".equals (field.getTag ( ))) {
+
+          final RecordTypeMaterial rtm = detectMaterial(session, leaderTag.getItemRecordTypeCode(), leaderTag.getItemBibliographicLevelCode());
+          final String formOfMaterial = ofNullable(rtm).map(material -> rtm.getAmicusMaterialTypeCode()).orElse(" ");
+
           final MaterialDescription md = new MaterialDescription ( );
           md.setFormOfMaterial (formOfMaterial);
-          md.setMaterialDescription008Indicator (("006".equals (field.getTag ( )) ? "0" : "1"));
-          md.setItemEntity (item.getItemEntity ( ));
+          md.setMaterialDescription008Indicator (("006".equals (field.getTag()) ? "0" : "1"));
+          md.setItemEntity (item.getItemEntity());
+          md.setCorrelation (1, (field.getTag().equals(GlobalStorage.MATERIAL_TAG_CODE) ? rtm.getBibHeader008() : rtm.getBibHeader006()));
+
           newTag = md;
         } else if ("007".equals (field.getTag ( ))) {
           char gmd = field.getData ( ).charAt (0);
@@ -261,9 +269,6 @@ public class BibliographicInputFile {
       if (!"003".equals (field.getTag ( ))) {
         final String content = field.getData ( );
         ((FixedField) newTag).setContentFromMarcString (content);
-        if (newTag instanceof MaterialDescription) {
-          newTag.setCorrelation (1, GlobalStorage.MATERIAL_DESCRIPTION_HEADER_TYPE);
-        }
         newTag.setCorrelationKey (impl.getMarcEncoding (newTag, session));
         newTag.setValidation (impl.getValidation (newTag, session));
         item.addTag (newTag);
@@ -271,14 +276,14 @@ public class BibliographicInputFile {
     });
   }
 
-  private String detectFormOfMaterial(final Session session, final char recordTypeCode, final char bibliographicLevel) {
-    final RecordTypeMaterialDAO dao = new RecordTypeMaterialDAO ( );
+  private RecordTypeMaterial detectMaterial(final Session session, final char recordTypeCode, final char bibliographicLevel) {
     try {
+      final RecordTypeMaterialDAO dao = new RecordTypeMaterialDAO ( );
       final RecordTypeMaterial rtm = dao.getMaterialHeaderCode (session, recordTypeCode, bibliographicLevel);
-      return rtm.getAmicusMaterialTypeCode ( );
+      return rtm;
     } catch (HibernateException e) {
       //ignore
-      return " ";
+      return null;
     }
   }
 

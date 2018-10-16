@@ -62,9 +62,6 @@ public class BibliographicRecordAPI extends BaseResource {
         resetStatus (record);
       else {
         return new ResponseEntity <> (record, HttpStatus.NOT_FOUND);
-        /*final ErrorCollection errors = new ErrorCollection();
-        errors.getErrors().add(getError(Global.NO_RECORD_FOUND));
-        return systemInternalFailure(new DataAccessException(), errors);*/
       }
 
       return new ResponseEntity <> (record, HttpStatus.OK);
@@ -145,6 +142,7 @@ public class BibliographicRecordAPI extends BaseResource {
   public ResponseEntity <Object> save(
     @RequestBody final BibliographicRecord record,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
+    @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
 
     return doPost ((storageService, configuration) -> {
@@ -158,8 +156,8 @@ public class BibliographicRecordAPI extends BaseResource {
         gi.setDefaultValues (configuration);
 
         final Leader leader = record.getLeader ( );
-        record.getFields ( ).stream ( ).filter (this::isFixedField)
-          .filter (field -> field.getCode ( ).equalsIgnoreCase (Global.MATERIAL_TAG_CODE) ||
+        record.getFields().stream().filter(this::isFixedField)
+          .filter(field -> field.getCode().equalsIgnoreCase (Global.MATERIAL_TAG_CODE) ||
             field.getCode ( ).equalsIgnoreCase (Global.OTHER_MATERIAL_TAG_CODE) ||
             field.getCode ( ).equalsIgnoreCase (Global.PHYSICAL_DESCRIPTION_TAG_CODE)).forEach (field -> {
 
@@ -171,7 +169,7 @@ public class BibliographicRecordAPI extends BaseResource {
             ConversionFieldUtils.setPhysicalInformationValuesInFixedField (ff);
         });
 
-        storageService.saveBibliographicRecord (record, view, gi);
+        storageService.saveBibliographicRecord (record, view, gi, lang);
         final BibliographicRecord recordSaved = storageService.getBibliographicRecordById (itemNumber, view);
         resetStatus (recordSaved);
 
