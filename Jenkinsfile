@@ -33,7 +33,7 @@ pipeline {
              steps{
                   script{
                        withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
-                            sh('./script/deploy.sh')
+                            sh('./script/depoy.sh')
                         }
                     }
                 }
@@ -80,7 +80,7 @@ pipeline {
               echo 'Pipeline failed!!!!'
               emailext body: "${currentBuild.currentResult}: Job [${env.JOB_NAME}] build #${env.BUILD_NUMBER}\n \nMore info at: ${env.BUILD_URL}\n",
               recipientProviders: [upstreamDevelopers(), developers(), brokenBuildSuspects()],
-              subject: 'FAILURE Jenkins Pipeline mod-cataloging', to: 'christian.chiama@atcult.it',
+              subject: 'FAILURE Jenkins Pipeline mod-cataloging', to: 'christian.chiama@atcult.it,mirko.fronzo@atcult.it',
               attachLog: true,
               compressLog: true
           }
