@@ -142,16 +142,4 @@ public class ISBNAlgorithm {
         }
         return builder.toString ( ).trim ( );
     }
-
-    public static void main(String[] args) throws Exception {
-        ISBNAlgorithm isbnAlgorithm = new ISBNAlgorithm();
-        ISBNHyphenAppender isbnHyphenAppender = new ISBNHyphenAppender ();
-        System.out.println (isbnHyphenAppender.appendHyphenToISBN13 (isbnAlgorithm.ISBN1013 ("8817101648","978")));
-        ISBNValidator isbnValidator = new ISBNValidator();
-        System.out.println (isbnValidator.checkChecksumISBN13 ("978-88-17-10164-6"));
-    }
 }
-//8817101648
-//8817101648
-//88-17-10164-8
-//978-88-17-10164-6
