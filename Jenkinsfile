@@ -1,30 +1,22 @@
 pipeline {
     agent any
      environment {
-         //This variable need be tested as string
          doError = '1'
      }
     stages {
-      stage('Checkout And Clean') {
+      stage('SCM Checkout') {
             steps {
               script {
                     echo 'Pulling...' + env.BRANCH_NAME
                     sh('./script/clean.sh')
-                    def mvnHome = tool 'mvn'
-                    sh "'${mvnHome}/bin/mvn' clean -DskipTests=true"
                 }
              }
-            post {
-                success {
-                    echo 'cleaning succesfully...'
-                }
-            }
         }
         stage('Build') {
             steps {
                 script {
                    def mvnHome = tool 'mvn'
-                   sh "'${mvnHome}/bin/mvn' compile package -DskipTests=true"
+                   sh "'${mvnHome}/bin/mvn' clean compile package -DskipTests=true"
                    archiveArtifacts 'target*//*.jar'
                }
             }
@@ -45,18 +37,6 @@ pipeline {
                         }
                     }
                 }
-            post {
-                success {
-                    echo 'mod-catalogin up and running on port 8080'
-                }
-                failure {
-                     emailext body: "${currentBuild.currentResult}: Job [${env.JOB_NAME}] build #${env.BUILD_NUMBER}\n \nMore info at: ${env.BUILD_URL}\n",
-                     recipientProviders: [upstreamDevelopers(), developers(), brokenBuildSuspects()],
-                     subject: 'FAILURE Jenkins Pipeline mod-cataloging', to: 'christian.chiama@atcult.it',
-                     attachLog: true,
-                     compressLog: true
-               }
-            }
         }
         stage('Deploy ITNET'){
                when {
@@ -69,18 +49,6 @@ pipeline {
                                 }
                             }
                         }
-              post {
-                   success {
-                        echo 'mod-catalogin up and running on port 8080 on ITNET'
-                   }
-                   failure {
-                         emailext body: "${currentBuild.currentResult}: Job [${env.JOB_NAME}] build #${env.BUILD_NUMBER}\n \nMore info at: ${env.BUILD_URL}\n",
-                         recipientProviders: [upstreamDevelopers(), developers(), brokenBuildSuspects()],
-                         subject: 'FAILURE Jenkins Pipeline mod-cataloging', to: 'christian.chiama@atcult.it,mirko.fronzo@atcult.it',
-                         attachLog: true,
-                         compressLog: true
-                   }
-              }
          }
          stage('Publish API Docs') {
              when {
@@ -103,28 +71,18 @@ pipeline {
      post {
           always {
               echo 'delete workspace....'
-              deleteDir() /* clean up our workspace */
-              script {
-                  env.FILENAME = readFile ('script/groovy/sendNotifications.groovy')
-                 }
-              echo "${env.FILENAME}"
+              deleteDir()
           }
           success {
-              echo 'I succeeeded!'
-          }
-          unstable {
-              echo 'I am unstable :/'
+              echo 'mod-catalogin deployed succesfully on Zeta and ITNET and up and running on port 8080'
           }
           failure {
-              echo 'I failed :('
+              echo 'Pipeline failed!!!!'
               emailext body: "${currentBuild.currentResult}: Job [${env.JOB_NAME}] build #${env.BUILD_NUMBER}\n \nMore info at: ${env.BUILD_URL}\n",
               recipientProviders: [upstreamDevelopers(), developers(), brokenBuildSuspects()],
               subject: 'FAILURE Jenkins Pipeline mod-cataloging', to: 'christian.chiama@atcult.it',
               attachLog: true,
               compressLog: true
-          }
-          changed {
-              echo 'SomeThings were changed...'
           }
       }
 }
