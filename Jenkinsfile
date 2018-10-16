@@ -64,7 +64,14 @@ pipeline {
               post {
                    success {
                          echo 'mod-catalogin up and running on port 8080 on ITNET'
-                         notifySuccessful()
+                         echo 'sending email for succesfully deploy'
+                         emailext (
+                              body: '${currentBuild.currentResult}:
+                              Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}',
+                              compressLog: true, recipientProviders: [upstreamDevelopers(), developers(), brokenBuildSuspects()],
+                              subject: 'Jenkins Pipeline mod-cataloging', to: 'christian.chiama@atcult.it',
+                              attachLog: true
+                            )
                    }
               }
          }
@@ -85,10 +92,4 @@ pipeline {
               }
          }
     }
-}
-
-def notifySuccessful() {
-   emailext (
-      body: '${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}', compressLog: true, recipientProviders: [upstreamDevelopers(), developers(), brokenBuildSuspects()], subject: 'Jenkins Pipeline mod-cataloging', to: 'christian.chiama@atcult.it', attachLog: true
-    )
 }
