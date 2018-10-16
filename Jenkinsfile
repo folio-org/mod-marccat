@@ -1,8 +1,6 @@
 pipeline {
     agent any
-     environment {
-         DISABLE_AUTH = 'true'
-     }
+     environment {}
     stages {
       stage('Checkout And Clean') {
             steps {
@@ -75,7 +73,7 @@ pipeline {
                    failure {
                          emailext body: "${currentBuild.currentResult}: Job [${env.JOB_NAME}] build #${env.BUILD_NUMBER}\n \nMore info at: ${env.BUILD_URL}\n",
                          recipientProviders: [upstreamDevelopers(), developers(), brokenBuildSuspects()],
-                         subject: 'FAILURE Jenkins Pipeline mod-cataloging', to: 'christian.chiama@atcult.it,mirko.fronzo@atcult.it'
+                         subject: 'FAILURE Jenkins Pipeline mod-cataloging', to: 'christian.chiama@atcult.it,mirko.fronzo@atcult.it',
                          attachLog: true,
                          compressLog: true
                    }
@@ -98,4 +96,16 @@ pipeline {
               }
          }
     }
+    post {
+                             success {
+                                 echo 'mod-catalogin up and running on port 8080'
+                             }
+                             failure {
+                                  emailext body: "${currentBuild.currentResult}: Job [${env.JOB_NAME}] build #${env.BUILD_NUMBER}\n \nMore info at: ${env.BUILD_URL}\n",
+                                  recipientProviders: [upstreamDevelopers(), developers(), brokenBuildSuspects()],
+                                  subject: 'FAILURE Jenkins Pipeline mod-cataloging', to: 'christian.chiama@atcult.it',
+                                  attachLog: true,
+                                  compressLog: true
+                            }
+                         }
 }
