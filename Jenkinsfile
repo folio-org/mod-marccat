@@ -40,7 +40,7 @@ pipeline {
         }
         stage('Deploy ITNET'){
                when {
-                  expression { BRANCH_NAME ==~ /(master|release)/ }
+                  expression { BRANCH_NAME ==~ /(master|develop|release)/ }
               }
                steps{
                     script{
@@ -70,7 +70,7 @@ pipeline {
 
      post {
           always {
-              echo 'delete workspace....'
+              echo 'pipeline finished!'
           }
           success {
               echo 'mod-catalogin deployed succesfully on Zeta and ITNET and up and running on port 8080'
