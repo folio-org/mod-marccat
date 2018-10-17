@@ -1,6 +1,7 @@
 package org.folio.cataloging.search.engine.impl;
 
 import org.folio.cataloging.integration.StorageService;
+import org.folio.cataloging.search.domain.LightweightJsonRecord;
 import org.folio.cataloging.search.domain.LightweightXmlRecord;
 import org.folio.cataloging.search.domain.Record;
 import org.folio.cataloging.search.engine.ModCatalogingSearchEngine;
@@ -25,6 +26,6 @@ public class LightweightModCatalogingSearchEngine extends ModCatalogingSearchEng
 
   @Override
   public Record newRecord() {
-    return new LightweightXmlRecord ( );
+    return new LightweightJsonRecord( );
   }
 }
