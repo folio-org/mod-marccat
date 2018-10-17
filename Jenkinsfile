@@ -71,7 +71,6 @@ pipeline {
      post {
           always {
               echo 'delete workspace....'
-              deleteDir()
           }
           success {
               echo 'mod-catalogin deployed succesfully on Zeta and ITNET and up and running on port 8080'
