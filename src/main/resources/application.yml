@@ -1,5 +1,5 @@
 configuration:
-  endpoint: http://marcat_st.atcult.it:8085/configurations/entries
+  endpoint: http://151.1.165.20:8085/configurations/entries
 
 logging:
   level:
