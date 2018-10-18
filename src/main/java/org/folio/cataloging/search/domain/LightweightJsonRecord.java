@@ -1,8 +1,14 @@
 package org.folio.cataloging.search.domain;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
-import org.marc4j.*;
+import org.marc4j.MarcJsonWriter;
+import org.marc4j.MarcReader;
+import org.marc4j.MarcWriter;
+import org.marc4j.MarcXmlReader;
 import org.w3c.dom.Document;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -22,9 +28,9 @@ import static java.util.Optional.ofNullable;
  * @author agazzarini
  * @since 1.0
  */
-public class LightweightXmlRecord extends AbstractRecord {
-  private final static Log LOGGER = new Log (LightweightXmlRecord.class);
-  private final static String DUMMY_RECORD = "<record></record>";
+public class LightweightJsonRecord extends AbstractRecord {
+  private final static Log LOGGER = new Log (LightweightJsonRecord.class);
+  private final static JsonNode DUMMY_RECORD =  null;
 
   private final static ThreadLocal <SAXParser> SAX_PARSERS =
     ThreadLocal.withInitial (() -> {
@@ -35,27 +41,38 @@ public class LightweightXmlRecord extends AbstractRecord {
       }
     });
 
-  private Predicate <String> isValidXml = data -> {
-    try (final InputStream stream = new ByteArrayInputStream (data.getBytes ("UTF-8"))) {
-      SAX_PARSERS.get ( ).parse (stream, new DefaultHandler ( ));
-      return true;
-    } catch (final Exception exception) {
-      LOGGER.error (MessageCatalog._00021_UNABLE_TO_PARSE_RECORD_DATA, data);
-      return false;
-    }
-  };
-
-  private String data;
+  private JsonNode data;
 
 
+
+  /**
+   * setContent, converting marcxml to jsonxml
+   * @param elementSetName
+   * @param data
+   */
   @Override
   public void setContent(final String elementSetName, final Object data) {
-    this.data = ofNullable (data)
-      .map (Object::toString)
-      .filter (isValidXml)
-      .orElse (DUMMY_RECORD);
+      String jsonString = ofNullable (data)
+      .map ( o -> {
+        String record = o.toString();
+        MarcReader reader = new MarcXmlReader(new ByteArrayInputStream( record.getBytes() ));
+        OutputStream output = new ByteArrayOutputStream();
+        MarcWriter writer = new MarcJsonWriter(output);
+        while (reader.hasNext()) {
+          org.marc4j.marc.Record marcRecord = reader.next();
+          writer.write(marcRecord);
+        }
+        writer.close();
+        return ((ByteArrayOutputStream) output).toString() ;
+      })
+      .orElse ("");
+      try {
+        this.data = new ObjectMapper().readTree(jsonString);
+      }
+      catch (Exception e) {
+        this.data = DUMMY_RECORD;
+      }
   }
-
 
   @Override
   public Document toXmlDocument(String elementSetName) {
@@ -68,7 +85,7 @@ public class LightweightXmlRecord extends AbstractRecord {
    *
    * @return the content of this record.
    */
-  public String getData() {
+  public JsonNode getData() {
     return ofNullable (data).orElse (DUMMY_RECORD);
   }
 }

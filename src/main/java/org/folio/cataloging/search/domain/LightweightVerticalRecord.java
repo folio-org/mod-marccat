@@ -2,16 +2,15 @@ package org.folio.cataloging.search.domain;
 
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
-import org.marc4j.*;
+import org.marc4j.MarcReader;
+import org.marc4j.MarcXmlReader;
 import org.w3c.dom.Document;
 import org.xml.sax.helpers.DefaultHandler;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.function.Predicate;
 
 import static java.util.Optional.ofNullable;
@@ -22,9 +21,9 @@ import static java.util.Optional.ofNullable;
  * @author agazzarini
  * @since 1.0
  */
-public class LightweightXmlRecord extends AbstractRecord {
-  private final static Log LOGGER = new Log (LightweightXmlRecord.class);
-  private final static String DUMMY_RECORD = "<record></record>";
+public class LightweightVerticalRecord extends AbstractRecord {
+  private final static Log LOGGER = new Log (LightweightVerticalRecord.class);
+  private final static String DUMMY_RECORD = "";
 
   private final static ThreadLocal <SAXParser> SAX_PARSERS =
     ThreadLocal.withInitial (() -> {
@@ -51,8 +50,15 @@ public class LightweightXmlRecord extends AbstractRecord {
   @Override
   public void setContent(final String elementSetName, final Object data) {
     this.data = ofNullable (data)
-      .map (Object::toString)
-      .filter (isValidXml)
+      .map ( o -> {
+        String record = o.toString();
+        MarcReader reader = new MarcXmlReader(new ByteArrayInputStream( record.getBytes() ));
+        while (reader.hasNext()) {
+          org.marc4j.marc.Record marcRecord = reader.next();
+          record=marcRecord.toString();
+        }
+        return record;
+      })
       .orElse (DUMMY_RECORD);
   }
 

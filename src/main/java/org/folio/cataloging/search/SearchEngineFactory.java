@@ -4,6 +4,7 @@ import org.folio.cataloging.integration.StorageService;
 import org.folio.cataloging.search.engine.SearchEngine;
 import org.folio.cataloging.search.engine.impl.DefaultModCatalogingSearchEngine;
 import org.folio.cataloging.search.engine.impl.LightweightModCatalogingSearchEngine;
+import org.folio.cataloging.search.engine.impl.LightweightVerticalModCatalogingSearchEngine;
 
 /**
  * A search engine factory.
@@ -25,11 +26,13 @@ public abstract class SearchEngineFactory {
     switch (type) {
       case LIGHTWEIGHT:
         return new LightweightModCatalogingSearchEngine (mainLibraryId, databasePreferenceOrder, service);
+      case LIGHTWEIGHT_VERTICAL:
+        return new LightweightVerticalModCatalogingSearchEngine(mainLibraryId, databasePreferenceOrder, service);
       default:
         return new DefaultModCatalogingSearchEngine (mainLibraryId, databasePreferenceOrder, service);
     }
   }
   public enum EngineType {
-    DEFAULT, LIGHTWEIGHT
+    DEFAULT, LIGHTWEIGHT, LIGHTWEIGHT_VERTICAL
   }
 }
