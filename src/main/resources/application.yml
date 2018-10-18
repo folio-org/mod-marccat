@@ -1,6 +1,3 @@
-configuration:
-  endpoint: http://marcat_st.atcult.it:8085/configurations/entries
-
 logging:
   level:
     root: ERROR
