@@ -1,16 +1,10 @@
 package org.folio.cataloging;
 
-import javafx.application.Application;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
-
-import static org.springframework.boot.test.context.SpringBootTest.*;
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.*;
 
 /**
  * Main application entry point.
