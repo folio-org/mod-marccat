@@ -30,7 +30,7 @@ public class RemoteConfiguration implements Configuration {
   private final static String BASE_CQUERY = "module==CATALOGING and configName == ";
   private final static int LIMIT = 100;
   private final RestTemplate client;
-  @Value("${configuration.client:http://151.1.165.20:8085/configurations/entries}")
+  @Value("${configuration.client:http://192.168.1.158:8085/configurations/entries}")
   private String endpoint;
 
   /**
@@ -38,6 +38,7 @@ public class RemoteConfiguration implements Configuration {
    *
    * @param client the HTTP / REST client.
    */
+
   public RemoteConfiguration(final RestTemplate client) {
     this.client = client;
   }
