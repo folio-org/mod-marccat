@@ -38,6 +38,7 @@ public class RemoteConfiguration implements Configuration {
    *
    * @param client the HTTP / REST client.
    */
+
   public RemoteConfiguration(final RestTemplate client) {
     this.client = client;
   }

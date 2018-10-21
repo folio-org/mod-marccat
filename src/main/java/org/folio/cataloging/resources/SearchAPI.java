@@ -19,9 +19,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
  * @since 1.0
  */
 @RestController
-@Api(value = "modcat-api", description = "Sample SE API")
+@Api(value = "modcat-api", description = "MARCCat Search API")
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
-public class RemoveMeAPI extends BaseResource {
+public class SearchAPI extends BaseResource {
 
   @GetMapping("/search")
   public SearchResponse search(
@@ -52,4 +52,35 @@ public class RemoveMeAPI extends BaseResource {
         to);
     }, tenant, configurator);
   }
+
+  @GetMapping("/searchVertical")
+  public SearchResponse searchVertical(
+    @RequestParam final String lang,
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestParam("q") final String q,
+    @RequestParam(name = "from", defaultValue = "1") final int from,
+    @RequestParam(name = "to", defaultValue = "10") final int to,
+    @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
+    @RequestParam("ml") final int mainLibraryId,
+    @RequestParam(name = "dpo", defaultValue = "1") final int databasePreferenceOrder,
+    @RequestParam(name = "sortBy", required = false) final String[] sortAttributes,
+    @RequestParam(name = "sortOrder", required = false) final String[] sortOrders) {
+    return doGet ((storageService, configuration) -> {
+      final SearchEngine searchEngine =
+        SearchEngineFactory.create (
+          SearchEngineFactory.EngineType.LIGHTWEIGHT_VERTICAL,
+          mainLibraryId,
+          databasePreferenceOrder,
+          storageService);
+
+      return searchEngine.fetchRecords (
+        (sortAttributes != null && sortOrders != null && sortAttributes.length == sortOrders.length)
+          ? searchEngine.sort (searchEngine.expertSearch (q, locale (lang), view), sortAttributes, sortOrders)
+          : searchEngine.expertSearch (q, locale (lang), view),
+        "F",
+        from,
+        to);
+    }, tenant, configurator);
+  }
+
 }
