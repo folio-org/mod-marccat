@@ -19,9 +19,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
  * @since 1.0
  */
 @RestController
-@Api(value = "modcat-api", description = "Sample SE API")
+@Api(value = "modcat-api", description = "MARCCat Search API")
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
-public class RemoveMeAPI extends BaseResource {
+public class SearchAPI extends BaseResource {
 
   @GetMapping("/search")
   public SearchResponse search(
