@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-#!/usr/bin/env bash
 ########################################################
 #
 # Author : Christian Chiama - christian.chiama@atcult.it
