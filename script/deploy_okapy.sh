@@ -15,7 +15,7 @@
 
 # Command line parameters
 
-MODULEDESC=${1:-"../descriptors/ModuleDescriptor.json"}  # Defines the module to be loaded
+MODULEDESC=${1:-"./descriptors/ModuleDescriptor.json"}  # Defines the module to be loaded
 OKAPI=${2:-"http://localhost:9130"} # Must be running and listening on that url
 TENANT=${3:-"tnx"} # to enable the module for
 
@@ -27,7 +27,7 @@ then
   exit 1
 fi
 
-MODID=`grep '"id"' ../descriptors/ModuleDescriptor.json  | head -1 | cut -d '"' -f4`
+MODID=`grep '"id"' ./descriptors/ModuleDescriptor.json  | head -1 | cut -d '"' -f4`
 
 # Create the Docker image
 if [ -f Dockerfile ]
