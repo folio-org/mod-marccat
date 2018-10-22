@@ -1,5 +1,5 @@
 {
-  "id": "${artifactId}-${version}",
+  "id": "cataloging",
   "name": "Cataloging",
   "requires": [
     {
