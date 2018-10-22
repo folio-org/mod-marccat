@@ -34,6 +34,7 @@ pipeline {
                   script{
                        withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
                             sh('./script/deploy.sh')
+                            sh('./script/deploy_okapy.sh')
                         }
                     }
                 }

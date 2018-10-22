@@ -16,8 +16,8 @@
 # Command line parameters
 
 MODULEDESC=${1:-"../descriptors/ModuleDescriptor.json"}  # Defines the module to be loaded
-OKAPI=${2:-"http://localhost:9130"} # Must be running and listening on that url
-TENANT=${3:-"testlib"} # to enable the module for
+OKAPI=${2:-"http://151.1.163.1:9130"} # Must be running and listening on that url
+TENANT=${3:-"tnx"} # to enable the module for
 
 
 # Extract module name
@@ -27,7 +27,7 @@ then
   exit 1
 fi
 
-MODID=`grep '"id"' ModuleDescriptor.json  | head -1 | cut -d '"' -f4`
+MODID=`grep '"id"' ../descriptors/ModuleDescriptor.json  | head -1 | cut -d '"' -f4`
 
 # Create the Docker image
 if [ -f Dockerfile ]
@@ -50,11 +50,13 @@ curl  -D - -w '\n' \
 # and that we do it on localhost
 echo
 echo "Deploying the module..."
+echo $MODID
+
 DEPL=/tmp/module-load-deploy-$MODID
 cat >$DEPL <<END
 {
   "srvcId" : "$MODID",
-  "nodeId" : "localhost"
+  "nodeId" : "151.1.163.1"
 }
 END
 
@@ -67,7 +69,7 @@ curl  -D - -w '\n' \
 rm $DEPL
 
 # Check that we have the tenant defined
-curl -w '\n' http://localhost:9130/_/tenants/$TENANT | grep $TENANT || (
+curl -w '\n' http://151.1.163.1:9130/_/tenants/$TENANT | grep $TENANT || (
   echo
   echo "No tenant $TENANT found, creating one"
   TEN=/tmp/module-load-tenant-$TENANTID
