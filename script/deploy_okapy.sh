@@ -16,7 +16,7 @@
 # Command line parameters
 
 MODULEDESC=${1:-"../descriptors/ModuleDescriptor.json"}  # Defines the module to be loaded
-OKAPI=${2:-"http://151.1.163.1:9130"} # Must be running and listening on that url
+OKAPI=${2:-"http://localhost:9130"} # Must be running and listening on that url
 TENANT=${3:-"tnx"} # to enable the module for
 
 
@@ -56,7 +56,7 @@ DEPL=/tmp/module-load-deploy-$MODID
 cat >$DEPL <<END
 {
   "srvcId" : "$MODID",
-  "nodeId" : "151.1.163.1"
+  "nodeId" : "localhost"
 }
 END
 
@@ -69,7 +69,7 @@ curl  -D - -w '\n' \
 rm $DEPL
 
 # Check that we have the tenant defined
-curl -w '\n' http://151.1.163.1:9130/_/tenants/$TENANT | grep $TENANT || (
+curl -w '\n' http://localhost:9130/_/tenants/$TENANT | grep $TENANT || (
   echo
   echo "No tenant $TENANT found, creating one"
   TEN=/tmp/module-load-tenant-$TENANTID
