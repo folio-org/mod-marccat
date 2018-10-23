@@ -357,4 +357,23 @@ public class GlobalStorage {
       put ("14", SHLF_LIST.class);
     }
   };
+
+  public final static Map <String, Class> BIBLIOGRAPHIC_ACCESS_POINT_CLASS_MAP = new HashMap <String, Class> ( ) {
+    {
+      put("NH", NameAccessPoint.class);
+      put("TH", TitleAccessPoint.class);
+      put("SH", SubjectAccessPoint.class);
+      put("MH", NameTitleAccessPoint.class);
+    }
+  };
+
+  public final static Map <String, String> INDEX_AUTHORITY_TYPE_MAP = new HashMap <String, String> ( ) {
+    {
+      put("NH", "NK");
+      put("TH", "TK");
+      put("SH", "SK");
+      put("MH", "NTK");
+    }
+  };
+
 }
