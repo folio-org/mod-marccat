@@ -14,6 +14,7 @@ import org.folio.cataloging.business.common.UpdateStatus;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 import org.folio.cataloging.dao.persistence.*;
+import org.folio.cataloging.integration.log.MessageCatalogStorage;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.util.StringText;
 
@@ -22,6 +23,7 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static java.util.Optional.ofNullable;
 import static org.folio.cataloging.F.deepCopy;
 import static org.folio.cataloging.F.fixedCharPadding;
 
@@ -96,20 +98,17 @@ public class DAOCopy extends AbstractDAO {
    */
   public CPY_ID loadByBarcode(final Session session, final String barCode) throws DataAccessException {
     try {
-      List<CPY_ID> listCopies = session.find ("from CPY_ID ci where ci.barCodeNumber = '" + barCode.trim ( ) + "'");
-      return listCopies.stream().filter(Objects::nonNull).reduce((first, second) -> second).get();
+      final List<CPY_ID> listCopies = session.find ("from CPY_ID ci where ci.barCodeNumber = '" + barCode.trim ( ) + "'");
+      return ((listCopies.isEmpty())
+        ? null
+        : listCopies.stream().filter(Objects::nonNull).reduce((first, second) -> second).get());
 
     } catch (HibernateException e) {
+      logger.error(MessageCatalogStorage._00010_DATA_ACCESS_FAILURE, e);
       throw new DataAccessException(e);
-      //log error e return null?
     }
   }
 
-  /**
-   * @param copyBarCode is the barCode of the copy
-   * @return the BibItemNumber from CPY_ID table
-   * @since 1.0
-   */
 
   /**
    * Gets the amicus number associated to copy.
@@ -120,123 +119,107 @@ public class DAOCopy extends AbstractDAO {
    * @throws DataAccessException in case of hibernate exception.
    */
   public int getBibItemNumber(final Session session, final String barCode) throws DataAccessException {
-    int result = 0;
-
     try {
-      List<CPY_ID> listAllCopies = session.find ("from CPY_ID ci where ci.barCodeNumber = '" + barCode + "'");
-      return listAllCopies.stream().filter(Objects::nonNull).reduce((first, second) -> second).get().getBibItemNumber();
+      final List<CPY_ID> listAllCopies = session.find ("from CPY_ID ci where ci.barCodeNumber = '" + barCode + "'");
+      return ((listAllCopies.isEmpty())
+        ? 0
+        : listAllCopies.stream().filter(Objects::nonNull).reduce((first, second) -> second).get().getBibItemNumber());
 
     } catch (HibernateException e) {
+      logger.error(MessageCatalogStorage._00010_DATA_ACCESS_FAILURE, e);
       throw new DataAccessException(e);
-      //log error and return 0?
     }
-
   }
 
   /**
-   * @param copyIdNumber is the copyIdNumber of the copy
-   * @return the BibItemNumber from CPY_ID table
-   * @since 1.0
+   * Gets the amicus number associated to copy.
+   *
+   * @param session -- the hibernate session associated to request.
+   * @param copyIdNumber -- the copy id associated to copy.
+   * @return the amicus number.
+   * @throws DataAccessException in case of hibernate exception.
    */
-
-  public int getBibItemNumber(int copyIdNumber) throws DataAccessException,
-    HibernateException {
-    int result = 0;
-
-    List listAllCopies = null;
+  public int getBibItemNumber(final Session session, final int copyIdNumber) throws DataAccessException {
     try {
-      Session s = currentSession ( );
-      listAllCopies = s.find ("from CPY_ID ci where ci.copyIdNumber = "
-        + copyIdNumber);
 
-      Iterator iter = listAllCopies.iterator ( );
-      while (iter.hasNext ( )) {
-        CPY_ID rawCopy = (CPY_ID) iter.next ( );
-        result = rawCopy.getBibItemNumber ( );
-      }
+      final List<CPY_ID> listAllCopies = session.find ("from CPY_ID ci where ci.copyIdNumber = "+ copyIdNumber);
+      return ((listAllCopies.isEmpty())
+        ? 0
+        : listAllCopies.stream().filter(Objects::nonNull).reduce((first, second) -> second).get().getBibItemNumber());
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logger.error(MessageCatalogStorage._00010_DATA_ACCESS_FAILURE, e);
+      throw new DataAccessException(e);
     }
-
-    return result;
   }
 
-  /**
-   * @param copyBarCode is the barCode of the copy
-   * @return the CopyIdNumber from CPY_ID table
-   * @since 1.0
-   */
 
-  public int getCopyIdNumber(String copyBarCode) throws DataAccessException,
-    HibernateException {
-    int result = 0;
-    List listAllCopies = null;
+  /**
+   * Gets the copy id number associated to copy.
+   *
+   * @param session -- the hibernate session associated to request.
+   * @param barCode -- the barcode associated to copy.
+   * @return the copy id number.
+   * @throws DataAccessException in case of hibernate exception.
+   */
+  public int getCopyIdNumber(final Session session, final String barCode) throws DataAccessException {
     try {
-      Session s = currentSession ( );
-      listAllCopies = s.find ("from CPY_ID ci where ci.barCodeNumber = '"
-        + copyBarCode + "'");
-
-      Iterator iter = listAllCopies.iterator ( );
-      while (iter.hasNext ( )) {
-        CPY_ID rawCopy = (CPY_ID) iter.next ( );
-        result = rawCopy.getCopyIdNumber ( );
-      }
+      final List<CPY_ID> listAllCopies = session.find ("from CPY_ID ci where ci.barCodeNumber = '"+ barCode + "'");
+      return ((listAllCopies.isEmpty())
+        ? 0
+        : listAllCopies.stream().filter(Objects::nonNull).reduce((first, second) -> second).get().getCopyIdNumber());
     } catch (HibernateException e) {
-      logAndWrap (e);
-    }
-    return result;
-  }
-
-  /**
-   * @param copyBarCode is the barCode of the copy
-   * @return the non-labelled copy from CPY_ID table
-   * @since 1.0
-   */
-
-  public CPY_ID getNonLabelledCopy(String copyBarCode)
-    throws DataAccessException {
-    List list = find ("from CPY_ID as c where c.barCodeNumber = rpad(?, 14)"
-        + " and c.bibItemNumber = 0", new Object[]{copyBarCode},
-      new Type[]{Hibernate.STRING});
-    if (list.size ( ) == 1) {
-      return (CPY_ID) list.get (0);
-    } else {
-      return null;
+      logger.error(MessageCatalogStorage._00010_DATA_ACCESS_FAILURE, e);
+      throw new DataAccessException(e);
     }
   }
 
   /**
-   * @param amicusNumber is the bibliographic number
-   * @return a list with all the copies from this amicusNumber access to
-   * CPY_ID table
-   * @since 1.0
+   * Gets the non-labelled copy item from CPY_ID table.
+   *
+   * @param session -- the hibernate session associated to request.
+   * @param barCode -- the barcode associated to copy.
+   * @return the non-labelled CPY_ID.
+   * @throws DataAccessException in case of hibernate exception.
    */
+  public CPY_ID getNonLabelledCopy(final Session session, final String barCode) throws DataAccessException {
+    try {
 
-  public List getAllCopies(int amicusNumber) throws DataAccessException {
+      List<CPY_ID> list = session.find("from CPY_ID as c where c.barCodeNumber = rpad(?, 14) and c.bibItemNumber = 0",
+        new Object[]{barCode},
+        new Type[]{Hibernate.STRING});
+
+      return  ofNullable(list).filter(l -> list.size()==1).map(c -> list.stream().filter(Objects::nonNull).findFirst().get()).orElse(null);
+
+    } catch (HibernateException e) {
+      logger.error(MessageCatalogStorage._00010_DATA_ACCESS_FAILURE, e);
+      throw new DataAccessException(e);
+    }
+  }
+
+  /**
+   * Gets all copies associated to amicus number.
+   *
+   * @param session -- the hibernate session associated to request.
+   * @param amicusNumber -- the amicus number.
+   * @return list of CPY_ID.
+   * @throws DataAccessException in case of hibernate exception.
+   */
+  //TODO
+  public List getAllCopies(final Session session, final int amicusNumber) throws DataAccessException {
     List listAllCopies = null;
     List result = new ArrayList ( );
-    Session s = currentSession ( );
     Query q = null;
     try {
-      // q = s.createQuery("select distinct ci,lib1.librarySymbolCode,
-      // lib2.librarySymbolCode, lctn.labelStringText " +
-      // " from CPY_ID ci, LIB lib1, LIB lib2, LCTN_VW lctn" +
-      // " where ci.bibItemNumber =" +amicusNumber+
-      // " AND (ci.organisationNumber=lib1.organisationNumber and
-      // ci.branchOrganisationNumber=lib2.organisationNumber)" +
-      // " AND (ci.branchOrganisationNumber=lctn.organisationNumber and
-      // ci.locationNameCode=lctn.locationNumber)"+
-      // " order by
-      // lib1.librarySymbolCode,lib2.librarySymbolCode,lctn.labelStringText,ci.barCodeNumber");
-      q = s
-        .createQuery ("select distinct ci,lib1.librarySymbolCode, lib2.librarySymbolCode, lctn.labelStringText "
+
+      q = session
+        .createQuery ("select distinct ci, lib1.librarySymbolCode, lib2.librarySymbolCode, lctn.labelStringText "
           + " from CPY_ID ci, LIB lib1, LIB lib2, LCTN_VW lctn"
           + " where ci.bibItemNumber ="
           + amicusNumber
           + " AND (ci.organisationNumber=lib1.organisationNumber and ci.branchOrganisationNumber=lib2.organisationNumber)"
           + " AND (ci.branchOrganisationNumber=lctn.organisationNumber(+) and ci.locationNameCode=lctn.locationNumber(+))"
           + " order by lib1.librarySymbolCode,lib2.librarySymbolCode,lctn.labelStringText,ci.barCodeNumber");
-      listAllCopies = q.list ( );
+      listAllCopies = q.list();
 
     } catch (HibernateException e) {
       logAndWrap (e);
@@ -249,7 +232,7 @@ public class DAOCopy extends AbstractDAO {
       if (rawCopy.getShelfListKeyNumber ( ) != null) {
         try {
           rawCopy.setShelfList (new ShelfListDAO ( ).load (rawCopy
-            .getShelfListKeyNumber ( ).intValue ( ), s));
+            .getShelfListKeyNumber ( ).intValue ( ), session));
         } catch (Exception e) {
           System.out.println (rawCopy.getShelfListKeyNumber ( ));
         }
@@ -403,7 +386,7 @@ public class DAOCopy extends AbstractDAO {
     DAODiscard ddsc = new DAODiscard ( );
     Format formatter = new SimpleDateFormat ("dd/MM/yyyy");
 
-    listAllCopies = getAllCopies (mainLibrary);
+    listAllCopies = getAllCopies (session, mainLibrary);
     Iterator iter = listAllCopies.iterator ( );
     try {
       while (iter.hasNext ( )) {
