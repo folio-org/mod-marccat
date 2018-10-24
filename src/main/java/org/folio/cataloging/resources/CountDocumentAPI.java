@@ -8,9 +8,7 @@ import net.sf.hibernate.Session;
 import org.folio.cataloging.Global;
 import org.folio.cataloging.ModCataloging;
 import org.folio.cataloging.log.MessageCatalog;
-import org.folio.cataloging.resources.domain.CountDocumentCollection;
-import org.folio.cataloging.resources.domain.FieldCollection;
-import org.folio.cataloging.resources.domain.Heading;
+import org.folio.cataloging.resources.domain.*;
 import org.folio.cataloging.shared.MapHeading;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,15 +39,14 @@ public class CountDocumentAPI extends BaseResource{
     @ApiResponse(code = 500, message = "System internal failure occurred.")
   })
   @GetMapping("/document-count-by-id")
-  public CountDocumentCollection getDocCountById(
+  public CountDocument getDocumentCountById(
     @RequestParam final int id,
     @RequestParam final int view,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
     return doGet ((storageService, configuration) -> {
       try {
-        final CountDocumentCollection container = new CountDocumentCollection ( );
-        storageService.getDocCountByAutNumber(id, view);
-        return container;
+        final CountDocument countDocument = storageService.getCountDocumentByAutNumber(id, view);
+        return countDocument;
       } catch (final Exception exception) {
         logger.error (MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
         return null;

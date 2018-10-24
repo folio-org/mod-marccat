@@ -56,7 +56,6 @@ public class Parser {
     final ExpressionNode n = parse (tokenizer.getTokens ( ));
 
     final String query = "select * from ((" + n.getValue ( ) + ")) foo order by 1 desc";
-
     logger.debug (
       MessageCatalog._00020_SE_QUERY,
       ccl, query);

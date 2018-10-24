@@ -1,6 +1,7 @@
 package org.folio.cataloging.dao;
 
 import net.sf.hibernate.Hibernate;
+import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
 import org.apache.commons.logging.Log;
@@ -88,7 +89,12 @@ public class AuthorityCatalogDAO extends CatalogDAO {
 
     //TODO fix session!
     final Session session = currentSession ( );
-    AUT autItm = new AutDAO ( ).load (session, id);
+    AUT autItm = null;
+    try {
+      autItm = new AutDAO( ).load (session, id);
+    } catch (HibernateException e) {
+      e.printStackTrace();
+    }
     item.setAutItmData (autItm);
     return item;
   }

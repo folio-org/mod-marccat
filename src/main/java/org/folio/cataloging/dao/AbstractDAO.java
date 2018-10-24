@@ -12,6 +12,7 @@ import org.folio.cataloging.business.common.View;
 import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.persistence.S_LCK_TBL;
 import org.folio.cataloging.exception.RecordInUseException;
+import org.folio.cataloging.log.MessageCatalog;
 
 import java.io.Serializable;
 import java.util.List;
@@ -214,6 +215,22 @@ public class AbstractDAO extends HibernateUtil {
   }
 
   /**
+   * Convenience method for session.get(Class clazz, Serializable id)
+   *
+   * @param session the current session
+   * @param clazz   a persistent classaps it in a DataAccessException
+   * @param id      a valid identifier of an existing persistent instance of the class
+   * @return the persistent instance or null
+   */
+  public Object get(Session session, Class clazz, Serializable id) {
+    try {
+      return session.get (clazz, id);
+    } catch (Exception exception) {
+      return null;
+    }
+  }
+
+  /**
    * Lock record or heading for username and uuid.
    *
    * @param key        -- the item key number.
@@ -304,4 +321,6 @@ public class AbstractDAO extends HibernateUtil {
   public String maskOutViewString(String viewString, int cataloguingView) {
     return View.maskOutViewString (viewString, cataloguingView);
   }
+
+
 }
