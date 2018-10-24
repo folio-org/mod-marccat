@@ -57,10 +57,8 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
    * @since 1.0
    */
   public AUT() {
-    setLanguageOfCataloguing (
-      Defaults.getString ("authority.languageOfCataloguing"));
-    setCataloguingSourceStringText (
-      Defaults.getString ("authority.cataloguingSourceStringText"));
+    //setLanguageOfCataloguing (Defaults.getString ("authority.languageOfCataloguing"));
+    //setCataloguingSourceStringText (Defaults.getString ("authority.cataloguingSourceStringText"));
     persistenceState = new PersistenceState ( );
   }
 
