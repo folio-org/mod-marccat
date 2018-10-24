@@ -2127,12 +2127,14 @@ public class StorageService implements Closeable {
    * @return the count of bibliographic records
    * @throws HibernateException
    */
-  //TODO manca la costruzione della query
-  public Integer getDocCountByAutNumber(final int id, final int view) throws HibernateException {
+   public CountDocument getCountDocumentByAutNumber(final int id, final int view) throws HibernateException {
+    final CountDocument countDocument = new CountDocument();
     final AutDAO dao = new AutDAO();
     final AUT aut  = dao.load(session, id);
     final Class accessPoint = GlobalStorage.BIBLIOGRAPHIC_ACCESS_POINT_CLASS_MAP.get(aut.getHeadingType());
-    return dao.getDocCountByAutNumber(aut.getHeadingNumber(), accessPoint, view, session);
+    countDocument.setCountDocuments(dao.getDocCountByAutNumber(aut.getHeadingNumber(), accessPoint, view, session));
+    countDocument.setQuery(GlobalStorage.INDEX_AUTHORITY_TYPE_MAP.get(aut.getHeadingType())+" "+aut.getHeadingNumber());
+    return countDocument;
   }
 
 }

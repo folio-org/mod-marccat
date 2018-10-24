@@ -52,7 +52,7 @@ public class CountDocument {
    * @param query The query
    */
   @JsonProperty("query")
-  public void setQuerys(String query) {
+  public void setQuery(String query) {
     this.query = query;
   }
 
