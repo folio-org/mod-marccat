@@ -88,7 +88,7 @@ public class AuthorityCatalogDAO extends CatalogDAO {
 
     //TODO fix session!
     final Session session = currentSession ( );
-    AUT autItm = new DAOAUT ( ).load (session, id);
+    AUT autItm = new AutDAO ( ).load (session, id);
     item.setAutItmData (autItm);
     return item;
   }
