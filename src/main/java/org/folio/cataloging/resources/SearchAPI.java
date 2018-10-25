@@ -42,14 +42,18 @@ public class SearchAPI extends BaseResource {
           mainLibraryId,
           databasePreferenceOrder,
           storageService);
-
-      return searchEngine.fetchRecords (
+      SearchResponse response = searchEngine.fetchRecords (
         (sortAttributes != null && sortOrders != null && sortAttributes.length == sortOrders.length)
           ? searchEngine.sort (searchEngine.expertSearch (q, locale (lang), view), sortAttributes, sortOrders)
           : searchEngine.expertSearch (q, locale (lang), view),
         "F",
         from,
         to);
+      final int AUTHORITY_VIEW = -1;
+      if ( view == AUTHORITY_VIEW) {
+    	  searchEngine.injectDocCount(response, storageService);
+      }
+      return response;
     }, tenant, configurator);
   }
 

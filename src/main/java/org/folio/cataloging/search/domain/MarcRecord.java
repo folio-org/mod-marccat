@@ -29,6 +29,8 @@ public class MarcRecord extends AbstractRecord {
   private static final Log logger = LogFactory.getLog (MarcRecord.class);
 
   private Map xmlContent = new HashMap ( );
+  private int countDoc;
+  private String queryForAssociatedDoc;
 
   public Document toXmlDocument(String elementSetName) {
     Document xmlDocument = (Document) xmlContent.get (elementSetName);
@@ -100,5 +102,21 @@ public class MarcRecord extends AbstractRecord {
     xmlContent.put (elementSetName, xmlDocument);
     return xmlDocument;
   }
+
+public int getCountDoc() {
+	return countDoc;
+}
+
+public void setCountDoc(int countDoc) {
+	this.countDoc = countDoc;
+}
+
+public String getQueryForAssociatedDoc() {
+	return queryForAssociatedDoc;
+}
+
+public void setQueryForAssociatedDoc(String queryForAssociatedDoc) {
+	this.queryForAssociatedDoc = queryForAssociatedDoc;
+}
 
 }
