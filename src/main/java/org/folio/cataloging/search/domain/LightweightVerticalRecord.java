@@ -24,6 +24,8 @@ import static java.util.Optional.ofNullable;
 public class LightweightVerticalRecord extends AbstractRecord {
   private final static Log LOGGER = new Log (LightweightVerticalRecord.class);
   private final static String DUMMY_RECORD = "";
+  private int countDoc;
+  private String queryForAssociatedDoc;
 
   private final static ThreadLocal <SAXParser> SAX_PARSERS =
     ThreadLocal.withInitial (() -> {
@@ -77,4 +79,24 @@ public class LightweightVerticalRecord extends AbstractRecord {
   public String getData() {
     return ofNullable (data).orElse (DUMMY_RECORD);
   }
+
+
+public int getCountDoc() {
+	return countDoc;
+}
+
+
+public void setCountDoc(int countDoc) {
+	this.countDoc = countDoc;
+}
+
+
+public String getQueryForAssociatedDoc() {
+	return queryForAssociatedDoc;
+}
+
+
+public void setQueryForAssociatedDoc(String queryForAssociatedDoc) {
+	this.queryForAssociatedDoc = queryForAssociatedDoc;
+}
 }

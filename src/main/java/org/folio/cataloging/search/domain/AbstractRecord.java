@@ -44,6 +44,8 @@ public abstract class AbstractRecord implements Record {
   private Map <String, Object> content = new HashMap <> ( );
 
   private int recordView;
+  private int countDoc;
+  private String queryForAssociatedDoc;
 
   @Override
   public boolean hasContent(final String elementSetName) {
@@ -213,5 +215,23 @@ public abstract class AbstractRecord implements Record {
   public void setRecordView(int recordView) {
     this.recordView = recordView;
   }
+
+public int getCountDoc() {
+	return countDoc;
+}
+
+public void setCountDoc(int countDoc) {
+	this.countDoc = countDoc;
+}
+
+public String getQueryForAssociatedDoc() {
+	return queryForAssociatedDoc;
+}
+
+public void setQueryForAssociatedDoc(String queryForAssociatedDoc) {
+	this.queryForAssociatedDoc = queryForAssociatedDoc;
+}
+  
+  
 
 }
