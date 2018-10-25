@@ -2,23 +2,18 @@ package org.folio.cataloging.search.domain;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.folio.cataloging.log.Log;
-import org.folio.cataloging.log.MessageCatalog;
 import org.marc4j.MarcJsonWriter;
 import org.marc4j.MarcReader;
 import org.marc4j.MarcWriter;
 import org.marc4j.MarcXmlReader;
 import org.w3c.dom.Document;
-import org.xml.sax.helpers.DefaultHandler;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.function.Predicate;
 
 import static java.util.Optional.ofNullable;
 
@@ -57,15 +52,19 @@ public class LightweightJsonRecord extends AbstractRecord {
       String jsonString = ofNullable (data)
       .map ( o -> {
         String record = o.toString();
-        MarcReader reader = new MarcXmlReader(new ByteArrayInputStream( record.getBytes() ));
-        OutputStream output = new ByteArrayOutputStream();
-        MarcWriter writer = new MarcJsonWriter(output);
-        while (reader.hasNext()) {
-          org.marc4j.marc.Record marcRecord = reader.next();
-          writer.write(marcRecord);
-        }
-        writer.close();
-        return ((ByteArrayOutputStream) output).toString() ;
+        if (!record.equals("")) {
+          MarcReader reader = new MarcXmlReader(new ByteArrayInputStream(record.getBytes()));
+          OutputStream output = new ByteArrayOutputStream();
+          MarcWriter writer = new MarcJsonWriter(output);
+          while (reader.hasNext()) {
+            org.marc4j.marc.Record marcRecord = reader.next();
+            writer.write(marcRecord);
+          }
+          writer.close();
+          return output.toString();
+        }else
+          return "";
+
       })
       .orElse ("");
       try {

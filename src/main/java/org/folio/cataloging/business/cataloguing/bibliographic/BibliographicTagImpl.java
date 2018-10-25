@@ -57,7 +57,7 @@ public class BibliographicTagImpl extends TagImpl {
       logger.warn ("Corr_1: " + t.getCorrelation (1) + ", Corr_2: "
         + t.getCorrelation (2) + ", Corr_3: " + t.getCorrelation (3)
         + ", Category: " + t.getCategory ( ));
-      throw new MarcCorrelationException ( );
+      //throw new MarcCorrelationException ( );
     }
 
     return key;
