@@ -31,7 +31,7 @@ public class HDG_URI implements Persistence {
   private String uriLabel;
 
   private boolean disabled;
-  private PersistenceState persistenceState = new PersistenceState ( );
+  private PersistenceState persistenceState = new PersistenceState();
 
   public boolean isDisabled() {
     return disabled;
@@ -138,11 +138,11 @@ public class HDG_URI implements Persistence {
   }
 
   public String getCreationDateString() {
-    return (creationDate != null ? Global.FORMATTERS.get ( ).format (creationDate) : "");
+    return (creationDate != null ? Global.FORMATTERS.get().format(creationDate) : "");
   }
 
   public String getLastUpdateDateString() {
-    return (lastUpdateDate != null ? Global.FORMATTERS.get ( ).format (lastUpdateDate) : "");
+    return (lastUpdateDate != null ? Global.FORMATTERS.get().format(lastUpdateDate) : "");
   }
 
   public PersistenceState getPersistenceState() {
@@ -154,71 +154,71 @@ public class HDG_URI implements Persistence {
   }
 
   public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict (obj);
+    persistenceState.evict(obj);
   }
 
   public void evict() throws DataAccessException {
-    evict (this);
+    evict(this);
   }
 
   public AbstractDAO getDAO() {
-    return new DAOHeadingUri ( );
+    return new DAOHeadingUri();
   }
 
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   public void setUpdateStatus(int i) {
-    persistenceState.setUpdateStatus (i);
+    persistenceState.setUpdateStatus(i);
   }
 
   public boolean isChanged() {
-    return persistenceState.isChanged ( );
+    return persistenceState.isChanged();
   }
 
   public boolean isDeleted() {
-    return persistenceState.isDeleted ( );
+    return persistenceState.isDeleted();
   }
 
   public boolean isNew() {
-    return persistenceState.isNew ( );
+    return persistenceState.isNew();
   }
 
   public boolean isRemoved() {
-    return persistenceState.isRemoved ( );
+    return persistenceState.isRemoved();
   }
 
   public void markChanged() {
-    persistenceState.markChanged ( );
+    persistenceState.markChanged();
   }
 
   public void markDeleted() {
-    persistenceState.markDeleted ( );
+    persistenceState.markDeleted();
   }
 
   public void markNew() {
-    persistenceState.markNew ( );
+    persistenceState.markNew();
   }
 
   public void markUnchanged() {
-    persistenceState.markUnchanged ( );
+    persistenceState.markUnchanged();
   }
 
   public boolean onDelete(Session arg0) throws CallbackException {
-    return persistenceState.onDelete (arg0);
+    return persistenceState.onDelete(arg0);
   }
 
   public void onLoad(Session arg0, Serializable arg1) {
-    persistenceState.onLoad (arg0, arg1);
+    persistenceState.onLoad(arg0, arg1);
   }
 
   public boolean onSave(Session arg0) throws CallbackException {
-    return persistenceState.onSave (arg0);
+    return persistenceState.onSave(arg0);
   }
 
   public boolean onUpdate(Session arg0) throws CallbackException {
-    return persistenceState.onUpdate (arg0);
+    return persistenceState.onUpdate(arg0);
   }
 
   public void generateNewKey() throws DataAccessException {
@@ -232,8 +232,8 @@ public class HDG_URI implements Persistence {
     result = prime * result + headingNumber;
     result = prime * result + headingTypeCode;
     result = prime * result + sourceId;
-    result = prime * result + ((uri == null) ? 0 : uri.hashCode ( ));
-    return prime * result + ((userView == null) ? 0 : userView.hashCode ( ));
+    result = prime * result + ((uri == null) ? 0 : uri.hashCode());
+    return prime * result + ((userView == null) ? 0 : userView.hashCode());
   }
 
   @Override
@@ -242,7 +242,7 @@ public class HDG_URI implements Persistence {
       return true;
     }
 
-    if (obj == null || getClass ( ) != obj.getClass ( )) {
+    if (obj == null || getClass() != obj.getClass()) {
       return false;
     }
 
@@ -253,21 +253,21 @@ public class HDG_URI implements Persistence {
     if (uri == null) {
       if (other.uri != null)
         return false;
-    } else if (!uri.equals (other.uri))
+    } else if (!uri.equals(other.uri))
       return false;
     if (userView == null) {
       if (other.userView != null)
         return false;
-    } else if (!userView.equals (other.userView))
+    } else if (!userView.equals(other.userView))
       return false;
     return true;
   }
 
   public String toString() {
-    return ToStringBuilder.reflectionToString (this);
+    return ToStringBuilder.reflectionToString(this);
   }
 
   public boolean isEnableToAlternativeLabelsSearch() {
-    return (Global.SOURCES_ENABLED_TO_ALTERNATIVE_LABELS_SEARCH.contains (sourceId));
+    return (Global.SOURCES_ENABLED_TO_ALTERNATIVE_LABELS_SEARCH.contains(sourceId));
   }
 }

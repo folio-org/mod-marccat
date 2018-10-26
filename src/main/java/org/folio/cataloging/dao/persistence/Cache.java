@@ -42,7 +42,7 @@ public class Cache implements Persistence {
   private String publisherStrngTxt;
   private String collationStrngTxt;
   private String titleHeadingSeriesStringText;
-  private PersistenceState persistenceState = new PersistenceState ( );
+  private PersistenceState persistenceState = new PersistenceState();
 
   /**
    * Class constructor
@@ -50,12 +50,12 @@ public class Cache implements Persistence {
    * @since 1.0
    */
   public Cache() {
-    super ( );
+    super();
     // TODO Auto-generated constructor stub
   }
 
   public Cache(int amicusNumber, short cataloguingView) {
-    this ( );
+    this();
     this.bibItemNumber = amicusNumber;
     this.cataloguingView = cataloguingView;
   }
@@ -108,8 +108,8 @@ public class Cache implements Persistence {
   public boolean equals(Object arg0) {
     if (arg0 instanceof Cache) {
       Cache s = (Cache) arg0;
-      return getBibItemNumber ( ) == s.getBibItemNumber ( ) &&
-        getCataloguingView ( ) == s.getCataloguingView ( );
+      return getBibItemNumber() == s.getBibItemNumber() &&
+        getCataloguingView() == s.getCataloguingView();
     }
     return false;
   }
@@ -118,123 +118,123 @@ public class Cache implements Persistence {
    * @since 1.0
    */
   public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict (obj);
+    persistenceState.evict(obj);
   }
 
   public void evict() throws DataAccessException {
-    evict (this);
+    evict(this);
   }
 
   /**
    * @since 1.0
    */
   public AbstractDAO getDAO() {
-    return persistenceState.getDAO ( );
+    return persistenceState.getDAO();
   }
 
   /**
    * @since 1.0
    */
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   /**
    * @since 1.0
    */
   public void setUpdateStatus(int i) {
-    persistenceState.setUpdateStatus (i);
+    persistenceState.setUpdateStatus(i);
   }
 
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
   public int hashCode() {
-    return getBibItemNumber ( ) + getCataloguingView ( );
+    return getBibItemNumber() + getCataloguingView();
   }
 
   /**
    * @since 1.0
    */
   public boolean isChanged() {
-    return persistenceState.isChanged ( );
+    return persistenceState.isChanged();
   }
 
   /**
    * @since 1.0
    */
   public boolean isDeleted() {
-    return persistenceState.isDeleted ( );
+    return persistenceState.isDeleted();
   }
 
   /**
    * @since 1.0
    */
   public boolean isNew() {
-    return persistenceState.isNew ( );
+    return persistenceState.isNew();
   }
 
   /**
    * @since 1.0
    */
   public boolean isRemoved() {
-    return persistenceState.isRemoved ( );
+    return persistenceState.isRemoved();
   }
 
   /**
    * @since 1.0
    */
   public void markChanged() {
-    persistenceState.markChanged ( );
+    persistenceState.markChanged();
   }
 
   /**
    * @since 1.0
    */
   public void markDeleted() {
-    persistenceState.markDeleted ( );
+    persistenceState.markDeleted();
   }
 
   /**
    * @since 1.0
    */
   public void markNew() {
-    persistenceState.markNew ( );
+    persistenceState.markNew();
   }
 
   /**
    * @since 1.0
    */
   public void markUnchanged() {
-    persistenceState.markUnchanged ( );
+    persistenceState.markUnchanged();
   }
 
   /**
    * @since 1.0
    */
   public boolean onDelete(Session arg0) throws CallbackException {
-    return persistenceState.onDelete (arg0);
+    return persistenceState.onDelete(arg0);
   }
 
   /**
    * @since 1.0
    */
   public void onLoad(Session arg0, Serializable arg1) {
-    persistenceState.onLoad (arg0, arg1);
+    persistenceState.onLoad(arg0, arg1);
   }
 
   /**
    * @since 1.0
    */
   public boolean onSave(Session arg0) throws CallbackException {
-    return persistenceState.onSave (arg0);
+    return persistenceState.onSave(arg0);
   }
 
   /**
    * @since 1.0
    */
   public boolean onUpdate(Session arg0) throws CallbackException {
-    return persistenceState.onUpdate (arg0);
+    return persistenceState.onUpdate(arg0);
   }
 
   /* (non-Javadoc)

@@ -8,11 +8,11 @@ public class UserTempData {
   private String dataValue;
 
   public UserTempData() {
-    super ( );
+    super();
   }
 
   public UserTempData(int tmp_id, String pass, String dataKey, String dataValue) {
-    super ( );
+    super();
     this.tmp_id = tmp_id;
     this.pass = pass;
     this.dataKey = dataKey;
@@ -20,7 +20,7 @@ public class UserTempData {
   }
 
   public UserTempData(String pass, String dataKey, String dataValue) {
-    super ( );
+    super();
     this.pass = pass;
     this.dataKey = dataKey;
     this.dataValue = dataValue;
@@ -70,7 +70,7 @@ public class UserTempData {
       return true;
     if (obj == null)
       return false;
-    if (getClass ( ) != obj.getClass ( ))
+    if (getClass() != obj.getClass())
       return false;
     final UserTempData other = (UserTempData) obj;
     if (tmp_id != other.tmp_id)

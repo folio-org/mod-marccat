@@ -29,9 +29,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class SeriesTreatmentTypeAPI extends BaseResource {
 
   private Function <Avp <String>, SeriesTreatmentType> toSeriesTreatmentType = source -> {
-    final SeriesTreatmentType seriesTreatmentType = new SeriesTreatmentType ( );
-    seriesTreatmentType.setCode (source.getValue ( ));
-    seriesTreatmentType.setDescription (source.getLabel ( ));
+    final SeriesTreatmentType seriesTreatmentType = new SeriesTreatmentType();
+    seriesTreatmentType.setCode(source.getValue());
+    seriesTreatmentType.setDescription(source.getLabel());
     return seriesTreatmentType;
   };
 
@@ -46,13 +46,13 @@ public class SeriesTreatmentTypeAPI extends BaseResource {
   public SeriesTreatmentTypeCollection getSeriesTreatmentTypes(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final SeriesTreatmentTypeCollection container = new SeriesTreatmentTypeCollection ( );
-      container.setSeriesTreatmentTypes (
-        storageService.getSeriesTreatmentTypes (lang)
-          .stream ( )
-          .map (toSeriesTreatmentType)
-          .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      final SeriesTreatmentTypeCollection container = new SeriesTreatmentTypeCollection();
+      container.setSeriesTreatmentTypes(
+        storageService.getSeriesTreatmentTypes(lang)
+          .stream()
+          .map(toSeriesTreatmentType)
+          .collect(toList()));
       return container;
     }, tenant, configurator);
   }

@@ -28,9 +28,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class RetentionAPI extends BaseResource {
 
   private Function <Avp <String>, Retention> toRetention = source -> {
-    final Retention retention = new Retention ( );
-    retention.setCode (Integer.parseInt (source.getValue ( )));
-    retention.setDescription (source.getLabel ( ));
+    final Retention retention = new Retention();
+    retention.setCode(Integer.parseInt(source.getValue()));
+    retention.setDescription(source.getLabel());
     return retention;
   };
 
@@ -45,13 +45,13 @@ public class RetentionAPI extends BaseResource {
   public RetentionCollection getCatalogingRetentions(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final RetentionCollection container = new RetentionCollection ( );
-      container.setRetentions (
-        storageService.getRetentions (lang)
-          .stream ( )
-          .map (toRetention)
-          .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      final RetentionCollection container = new RetentionCollection();
+      container.setRetentions(
+        storageService.getRetentions(lang)
+          .stream()
+          .map(toRetention)
+          .collect(toList()));
       return container;
     }, tenant, configurator);
   }

@@ -25,28 +25,28 @@ public class ProjectedPublicationDateTag extends VariableHeaderUsingItemEntity {
    * @since 1.0
    */
   public ProjectedPublicationDateTag() {
-    super ( );
-    setHeaderType ((short) 38);
+    super();
+    setHeaderType((short) 38);
   }
 
   public StringText getStringText() {
     StringText result = null;
-    String source = "" + ((BIB_ITM) getItemEntity ( )).getProjectedPublicationDateCode ( );
+    String source = "" + ((BIB_ITM) getItemEntity()).getProjectedPublicationDateCode();
 
     if (source == null) {
-      result = new StringText (Subfield.SUBFIELD_DELIMITER + "a");
+      result = new StringText(Subfield.SUBFIELD_DELIMITER + "a");
     } else {
-      result = new StringText (source);
+      result = new StringText(source);
     }
     return result;
   }
 
   public void setStringText(StringText st) {
 //TODO need a more definitive way to set to null
-    if (st.toString ( ).equals (Subfield.SUBFIELD_DELIMITER + "a")) {
-      ((BIB_ITM) getItemEntity ( )).setProjectedPublicationDateCode (null);
+    if (st.toString().equals(Subfield.SUBFIELD_DELIMITER + "a")) {
+      ((BIB_ITM) getItemEntity()).setProjectedPublicationDateCode(null);
     } else {
-      ((BIB_ITM) getItemEntity ( )).setProjectedPublicationDateCode (st.toString ( ));
+      ((BIB_ITM) getItemEntity()).setProjectedPublicationDateCode(st.toString());
     }
   }
 

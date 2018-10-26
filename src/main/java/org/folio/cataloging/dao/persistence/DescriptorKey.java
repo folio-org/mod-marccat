@@ -24,7 +24,7 @@ public class DescriptorKey implements Serializable {
    * Class constructor
    */
   public DescriptorKey() {
-    super ( );
+    super();
     headingNumber = -1;
     userViewString = "0000000000000000";
   }
@@ -33,8 +33,8 @@ public class DescriptorKey implements Serializable {
    * Class constructor
    */
   public DescriptorKey(int headingNumber, String view) {
-    this.setHeadingNumber (headingNumber);
-    this.setUserViewString (view);
+    this.setHeadingNumber(headingNumber);
+    this.setUserViewString(view);
   }
 
   /**
@@ -44,15 +44,15 @@ public class DescriptorKey implements Serializable {
     if (anObject instanceof DescriptorKey) {
       DescriptorKey aKey = (DescriptorKey) anObject;
       return (
-        headingNumber == aKey.getHeadingNumber ( )
-          && userViewString.equals (aKey.getUserViewString ( )));
+        headingNumber == aKey.getHeadingNumber()
+          && userViewString.equals(aKey.getUserViewString()));
     } else {
       return false;
     }
   }
 
   public int hashCode() {
-    return headingNumber + userViewString.hashCode ( );
+    return headingNumber + userViewString.hashCode();
   }
 
   /**
@@ -95,7 +95,7 @@ public class DescriptorKey implements Serializable {
    * @see java.lang.Object#toString()
    */
   public String toString() {
-    return "Heading nbr: " + String.valueOf (headingNumber) + "  User view: " + userViewString;
+    return "Heading nbr: " + String.valueOf(headingNumber) + "  User view: " + userViewString;
   }
 
 }

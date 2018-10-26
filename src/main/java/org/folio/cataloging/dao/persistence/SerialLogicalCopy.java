@@ -34,9 +34,9 @@ public class SerialLogicalCopy implements Persistence, Serializable {
    *
    */
   private static final long serialVersionUID = 1L;
-  private final PersistenceState persistenceState = new PersistenceState ( );
-  private List/* <SerialPart> */issues = new ArrayList ( );
-  private List deletedIssues = new ArrayList ( );
+  private final PersistenceState persistenceState = new PersistenceState();
+  private List/* <SerialPart> */issues = new ArrayList();
+  private List deletedIssues = new ArrayList();
   private int serialCopyNumber;
   private String label;
   private int routingListNumber;
@@ -51,7 +51,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
   private Integer branchNumber;
   private Integer locationCode;
   private char loanPeriod = '2';
-  private SHLF_LIST shelfList = new SHLF_LIST ( );
+  private SHLF_LIST shelfList = new SHLF_LIST();
 
   /**
    * Class constructor
@@ -59,7 +59,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
    * @since 1.0
    */
   public SerialLogicalCopy() {
-    super ( );
+    super();
     // TODO Auto-generated constructor stub
   }
 
@@ -69,14 +69,14 @@ public class SerialLogicalCopy implements Persistence, Serializable {
    * @see librisuite.business.common.Persistence#evict()
    */
   public void evict() throws DataAccessException {
-    evict (this);
+    evict(this);
   }
 
   /**
    * @since 1.0
    */
   public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict (obj);
+    persistenceState.evict(obj);
   }
 
   /*
@@ -85,7 +85,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
    * @see librisuite.business.common.Persistence#generateNewKey()
    */
   public void generateNewKey(final Session session) throws HibernateException {
-    setSerialCopyNumber (new SystemNextNumberDAO ( ).getNextNumber ("EC", session));
+    setSerialCopyNumber(new SystemNextNumberDAO().getNextNumber("EC", session));
   }
 
   /**
@@ -106,7 +106,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
    * @since 1.0
    */
   public AbstractDAO getDAO() {
-    return persistenceState.getDAO ( );
+    return persistenceState.getDAO();
   }
 
   /**
@@ -232,14 +232,14 @@ public class SerialLogicalCopy implements Persistence, Serializable {
    * @since 1.0
    */
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   /**
    * @since 1.0
    */
   public void setUpdateStatus(int i) {
-    persistenceState.setUpdateStatus (i);
+    persistenceState.setUpdateStatus(i);
   }
 
   /**
@@ -260,7 +260,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
    * @since 1.0
    */
   public boolean isChanged() {
-    return persistenceState.isChanged ( );
+    return persistenceState.isChanged();
   }
 
   /**
@@ -281,82 +281,82 @@ public class SerialLogicalCopy implements Persistence, Serializable {
    * @since 1.0
    */
   public boolean isDeleted() {
-    return persistenceState.isDeleted ( );
+    return persistenceState.isDeleted();
   }
 
   /**
    * @since 1.0
    */
   public boolean isNew() {
-    return persistenceState.isNew ( );
+    return persistenceState.isNew();
   }
 
   /**
    * @since 1.0
    */
   public boolean isRemoved() {
-    return persistenceState.isRemoved ( );
+    return persistenceState.isRemoved();
   }
 
   /**
    * @since 1.0
    */
   public void markChanged() {
-    persistenceState.markChanged ( );
+    persistenceState.markChanged();
   }
 
   /**
    * @since 1.0
    */
   public void markDeleted() {
-    persistenceState.markDeleted ( );
+    persistenceState.markDeleted();
   }
 
   /**
    * @since 1.0
    */
   public void markNew() {
-    persistenceState.markNew ( );
+    persistenceState.markNew();
   }
 
   /**
    * @since 1.0
    */
   public void markUnchanged() {
-    persistenceState.markUnchanged ( );
+    persistenceState.markUnchanged();
   }
 
   /**
    * @since 1.0
    */
   public boolean onDelete(Session arg0) throws CallbackException {
-    return persistenceState.onDelete (arg0);
+    return persistenceState.onDelete(arg0);
   }
 
   /**
    * @since 1.0
    */
   public void onLoad(Session arg0, Serializable arg1) {
-    persistenceState.onLoad (arg0, arg1);
+    persistenceState.onLoad(arg0, arg1);
   }
 
   /**
    * @since 1.0
    */
   public boolean onSave(Session arg0) throws CallbackException {
-    return persistenceState.onSave (arg0);
+    return persistenceState.onSave(arg0);
   }
 
   /**
    * @since 1.0
    */
   public boolean onUpdate(Session arg0) throws CallbackException {
-    return persistenceState.onUpdate (arg0);
+    return persistenceState.onUpdate(arg0);
   }
 
   public void validate() throws SubscriptionConfigurationException, SubscriptionNeedsShelfException {
-    if (shelfList == null || shelfList.getShelfListKeyNumber ( ) <= 0) {
-      throw new SubscriptionNeedsShelfException ( );
+    if (shelfList == null || shelfList.getShelfListKeyNumber() <= 0) {
+      throw new SubscriptionNeedsShelfException();
     }
   }
 
@@ -373,9 +373,9 @@ public class SerialLogicalCopy implements Persistence, Serializable {
   //TODO: The session is missing from the method
   public void setShelfListKeyNumber(Integer shelfListKeyNumber) throws HibernateException {
     this.shelfListKeyNumber = shelfListKeyNumber;
-    if (shelfListKeyNumber != null && shelfListKeyNumber.intValue ( ) > 0) {
+    if (shelfListKeyNumber != null && shelfListKeyNumber.intValue() > 0) {
       try {
-        shelfList = new ShelfListDAO ( ).load (shelfListKeyNumber.intValue ( ), null);
+        shelfList = new ShelfListDAO().load(shelfListKeyNumber.intValue(), null);
       } catch (RecordNotFoundException e) {
         // leave shelf unassigned
       } catch (DataAccessException e) {
@@ -428,16 +428,16 @@ public class SerialLogicalCopy implements Persistence, Serializable {
 
   public Character getShelfListType() throws DataAccessException, HibernateException {
     Character result = null;
-    if (getShelfList ( ) != null) {
-      result = new Character (getShelfList ( ).getTypeCode ( ));
+    if (getShelfList() != null) {
+      result = new Character(getShelfList().getTypeCode());
     }
     return result;
   }
 
   public String getShelfListNumber() throws DataAccessException, HibernateException {
     String result = null;
-    if (getShelfList ( ) != null) {
-      result = getShelfList ( ).getDisplayText ( );
+    if (getShelfList() != null) {
+      result = getShelfList().getDisplayText();
     }
     return result;
   }
@@ -450,7 +450,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
   //TODO The session is missing from the method
   public SHLF_LIST getShelfList() throws DataAccessException, HibernateException {
     if (shelfList == null && shelfListKeyNumber != null) {
-      shelfList = new ShelfListDAO ( ).load (shelfListKeyNumber.intValue ( ), null);
+      shelfList = new ShelfListDAO().load(shelfListKeyNumber.intValue(), null);
     }
     return shelfList;
   }
@@ -461,7 +461,7 @@ public class SerialLogicalCopy implements Persistence, Serializable {
   public void setShelfList(SHLF_LIST shelfList) throws HibernateException {
     this.shelfList = shelfList;
     if (shelfList != null) {
-      setShelfListKeyNumber (new Integer (shelfList.getShelfListKeyNumber ( )));
+      setShelfListKeyNumber(new Integer(shelfList.getShelfListKeyNumber()));
     }
   }
 
@@ -471,8 +471,8 @@ public class SerialLogicalCopy implements Persistence, Serializable {
   public boolean equals(Object arg0) {
     if (arg0 instanceof SerialLogicalCopy) {
       SerialLogicalCopy o = (SerialLogicalCopy) arg0;
-      if (o.getSerialCopyNumber ( ) > 0) {
-        return o.getSerialCopyNumber ( ) == this.getSerialCopyNumber ( );
+      if (o.getSerialCopyNumber() > 0) {
+        return o.getSerialCopyNumber() == this.getSerialCopyNumber();
       } else {
         return o == this;
       }
@@ -485,20 +485,20 @@ public class SerialLogicalCopy implements Persistence, Serializable {
    * @see java.lang.Object#hashCode()
    */
   public int hashCode() {
-    return this.getSerialCopyNumber ( );
+    return this.getSerialCopyNumber();
   }
 
   public void deleteIssue(Integer index) {
     if (index == null) {
       return;
     }
-    SerialPart issue = (SerialPart) getIssues ( ).get (index.intValue ( ));
-    if (!issue.isNew ( )) {
-      getDeletedIssues ( ).add (issue);
-      issue.markDeleted ( );
+    SerialPart issue = (SerialPart) getIssues().get(index.intValue());
+    if (!issue.isNew()) {
+      getDeletedIssues().add(issue);
+      issue.markDeleted();
     }
 
-    getIssues ( ).remove (index.intValue ( ));
+    getIssues().remove(index.intValue());
 
   }
 
@@ -506,10 +506,10 @@ public class SerialLogicalCopy implements Persistence, Serializable {
     if (index == null) {
       return;
     }
-    SerialPart issue = (SerialPart) getIssues ( ).get (index.intValue ( ));
-    if (!issue.isNew ( )) {
-      getDeletedIssues ( ).add (issue);
-      issue.markDeleted ( );
+    SerialPart issue = (SerialPart) getIssues().get(index.intValue());
+    if (!issue.isNew()) {
+      getDeletedIssues().add(issue);
+      issue.markDeleted();
     }
 
   }

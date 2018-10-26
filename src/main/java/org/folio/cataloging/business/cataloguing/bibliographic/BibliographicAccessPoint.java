@@ -11,35 +11,35 @@ import java.sql.SQLException;
 
 public abstract class BibliographicAccessPoint extends AccessPoint implements PersistentObjectWithView {
   private String materialSpecified;
-  private UserViewHelper userViewHelper = new UserViewHelper ( );
+  private UserViewHelper userViewHelper = new UserViewHelper();
 
   private Integer sequenceNumber;
 
   public BibliographicAccessPoint() {
-    super ( );
+    super();
   }
 
   public BibliographicAccessPoint(int itemNumber) {
-    super (itemNumber);
+    super(itemNumber);
   }
 
   public StringText getStringText() {
-    StringText result = super.getStringText ( );
-    result.parse (materialSpecified);
+    StringText result = super.getStringText();
+    result.parse(materialSpecified);
     return result;
   }
 
   public void setStringText(StringText stringText) {
-    materialSpecified = stringText.getSubfieldsWithCodes ("3").toString ( );
-    super.setStringText (stringText);
+    materialSpecified = stringText.getSubfieldsWithCodes("3").toString();
+    super.setStringText(stringText);
   }
 
   public void generateNewKey(final Session session) throws HibernateException, SQLException {
-    super.generateNewKey (session);
-    if (getDescriptor ( ).isNew ( )) {
-      getDescriptor ( ).getKey ( ).setUserViewString (getUserViewString ( ));
+    super.generateNewKey(session);
+    if (getDescriptor().isNew()) {
+      getDescriptor().getKey().setUserViewString(getUserViewString());
     }
-    setUserViewString (getDescriptor ( ).getKey ( ).getUserViewString ( ));
+    setUserViewString(getDescriptor().getKey().getUserViewString());
   }
 
   public String getMaterialSpecified() {
@@ -51,32 +51,32 @@ public abstract class BibliographicAccessPoint extends AccessPoint implements Pe
   }
 
   public String getUserViewString() {
-    return userViewHelper.getUserViewString ( );
+    return userViewHelper.getUserViewString();
   }
 
   public void setUserViewString(String s) {
-    userViewHelper.setUserViewString (s);
+    userViewHelper.setUserViewString(s);
   }
 
   public int getBibItemNumber() {
-    return getItemNumber ( );
+    return getItemNumber();
   }
 
   public void setBibItemNumber(int itemNumber) {
-    setItemNumber (itemNumber);
+    setItemNumber(itemNumber);
   }
 
   public boolean equals(Object obj) {
-    if (super.equals (obj)) {
+    if (super.equals(obj)) {
       BibliographicAccessPoint anApf = (BibliographicAccessPoint) obj;
-      return this.getUserViewString ( ).equals (anApf.getUserViewString ( ));
+      return this.getUserViewString().equals(anApf.getUserViewString());
     } else {
       return false;
     }
   }
 
   public int hashCode() {
-    return super.hashCode ( ) + getUserViewString ( ).hashCode ( );
+    return super.hashCode() + getUserViewString().hashCode();
   }
 
   public Integer getSequenceNumber() {

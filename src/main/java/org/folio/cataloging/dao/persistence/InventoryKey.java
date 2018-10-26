@@ -48,8 +48,8 @@ public class InventoryKey implements Serializable {
     if (anObject instanceof InventoryKey) {
       InventoryKey aKey = (InventoryKey) anObject;
       return (
-        inventoryNumber == aKey.getInventoryNumber ( )
-          && mainLibraryNumber == aKey.getMainLibraryNumber ( ));
+        inventoryNumber == aKey.getInventoryNumber()
+          && mainLibraryNumber == aKey.getMainLibraryNumber());
     } else {
       return false;
     }

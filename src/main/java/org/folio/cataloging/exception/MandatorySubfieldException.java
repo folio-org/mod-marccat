@@ -17,7 +17,7 @@ public class MandatorySubfieldException extends RuntimeException {
   private String subfieldCode;
 
   public MandatorySubfieldException(String tagNumber, String subfieldCode) {
-    super ( );
+    super();
     this.tagNumber = tagNumber;
     this.subfieldCode = subfieldCode;
   }
@@ -28,7 +28,7 @@ public class MandatorySubfieldException extends RuntimeException {
    * @since 1.0
    */
   public MandatorySubfieldException() {
-    super ( );
+    super();
     // TODO Auto-generated constructor stub
   }
 
@@ -39,8 +39,8 @@ public class MandatorySubfieldException extends RuntimeException {
    * @since 1.0
    */
   public MandatorySubfieldException(String subfieldCode) {
-    super (subfieldCode);
-    setSubfieldCode (subfieldCode);
+    super(subfieldCode);
+    setSubfieldCode(subfieldCode);
   }
 
   /**
@@ -51,7 +51,7 @@ public class MandatorySubfieldException extends RuntimeException {
    * @since 1.0
    */
   public MandatorySubfieldException(String message, Throwable cause) {
-    super (message, cause);
+    super(message, cause);
     // TODO Auto-generated constructor stub
   }
 
@@ -62,7 +62,7 @@ public class MandatorySubfieldException extends RuntimeException {
    * @since 1.0
    */
   public MandatorySubfieldException(Throwable cause) {
-    super (cause);
+    super(cause);
     // TODO Auto-generated constructor stub
   }
 

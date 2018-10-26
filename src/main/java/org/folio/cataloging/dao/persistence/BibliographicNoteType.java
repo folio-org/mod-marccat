@@ -13,7 +13,7 @@ public class BibliographicNoteType extends T_SINGLE {
     416, 417, 418, 419, 420, 421, 422, 423, 424};
 
   public static boolean isPublisherType(int value) {
-    for ( int s = 0; s < publisherTypes.length; s++ ) {
+    for (int s = 0; s < publisherTypes.length; s++) {
       if (value == publisherTypes[s]) {
         //System.out.println("publisherTypes: "+publisherTypes[s]);
         return true;

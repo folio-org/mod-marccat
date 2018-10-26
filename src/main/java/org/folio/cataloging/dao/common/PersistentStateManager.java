@@ -10,7 +10,7 @@ import java.util.List;
 
 public class PersistentStateManager {
   private static final Log logger =
-    LogFactory.getLog (PersistentStateManager.class);
+    LogFactory.getLog(PersistentStateManager.class);
   boolean acceptRegistrations = false;
   /**
    * Using a list keep can track multiple instances of the same state but only the
@@ -21,29 +21,29 @@ public class PersistentStateManager {
   private List/*<PersistenceState>*/ states = null;
 
   public PersistentStateManager() {
-    super ( );
-    logger.debug ("PersistentStateManager creation for this thread");
-    states = new ArrayList/*<PersistenceState>*/ ( );
+    super();
+    logger.debug("PersistentStateManager creation for this thread");
+    states = new ArrayList/*<PersistenceState>*/();
   }
 
   public void commit() {
-    Iterator it = states.iterator ( );
-    while (it.hasNext ( )) {
-      PersistenceState element = (PersistenceState) it.next ( );
-      element.confirmChanges ( );
+    Iterator it = states.iterator();
+    while (it.hasNext()) {
+      PersistenceState element = (PersistenceState) it.next();
+      element.confirmChanges();
     }
-    logger.debug ("PersistentStateManager " + states.size ( ) + " items committed");
-    reset ( );
+    logger.debug("PersistentStateManager " + states.size() + " items committed");
+    reset();
   }
 
   public void rollback() {
-    logger.warn ("PersistentStateManager rollback");
+    logger.warn("PersistentStateManager rollback");
     // do nothing
   }
 
   public void reset() {
-    logger.debug ("PersistentStateManager reset: unregister " + states.size ( ) + " items");
-    unregisterAll ( );
+    logger.debug("PersistentStateManager reset: unregister " + states.size() + " items");
+    unregisterAll();
   }
 
   /**
@@ -53,20 +53,20 @@ public class PersistentStateManager {
    */
   public void register(PersistenceState newPersistenceState) {
     if (acceptRegistrations) {
-      logger.debug ("change persistent status: " + newPersistenceState.toString ( ));
-      states.add (newPersistenceState);
-    } else newPersistenceState.confirmChanges ( );
+      logger.debug("change persistent status: " + newPersistenceState.toString());
+      states.add(newPersistenceState);
+    } else newPersistenceState.confirmChanges();
   }
 
   /**
    * Remove all registered time shifted persistent states
    */
   private void unregisterAll() {
-    states.clear ( );
+    states.clear();
   }
 
   public void begin() {
-    reset ( );
+    reset();
     acceptRegistrations = true;
   }
 

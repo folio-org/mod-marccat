@@ -31,9 +31,9 @@ public class IndexListElement {
    * @since 1.0
    */
   public IndexListElement(String value, String label, String key) {
-    setValue (value);
-    setLabel (label);
-    setKey (key);
+    setValue(value);
+    setLabel(label);
+    setKey(key);
   }
 
   public String getLabel() {

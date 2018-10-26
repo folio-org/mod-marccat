@@ -27,47 +27,47 @@ import java.util.List;
 public class DAOInventory extends AbstractDAO {
 
   public int getInventoryCount(int copyNumber) throws DataAccessException {
-    Session s = currentSession ( );
+    Session s = currentSession();
     try {
       List l =
-        s.find (
+        s.find(
           "select count(*) from Inventory as i"
             + " where i.copyNumber = ?",
-          new Object[]{new Integer (copyNumber)},
+          new Object[]{new Integer(copyNumber)},
           new Type[]{Hibernate.INTEGER});
-      if (l.size ( ) > 0) {
-        return ((Integer) l.get (0)).intValue ( );
+      if (l.size() > 0) {
+        return ((Integer) l.get(0)).intValue();
       }
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     return 0;
   }
 
   public List loadItems(int copyNumber) throws DataAccessException {
-    Session s = currentSession ( );
+    Session s = currentSession();
     try {
       List l =
-        s.find (
+        s.find(
           "from Inventory as i"
             + " where i.copyNumber = ?",
-          new Object[]{new Integer (copyNumber)},
+          new Object[]{new Integer(copyNumber)},
           new Type[]{Hibernate.INTEGER});
       return l;
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     return null;
   }
 
   private boolean isSerial(Inventory item) throws DataAccessException {
     List l =
-      find (
+      find(
         "select count(*) from SerialPart as s "
           + " where s.copyNumber = ? ",
-        new Object[]{new Integer (item.getCopyNumber ( ))},
+        new Object[]{new Integer(item.getCopyNumber())},
         new Type[]{Hibernate.INTEGER});
-    return l.size ( ) > 0 && ((Integer) l.get (0)).intValue ( ) > 0;
+    return l.size() > 0 && ((Integer) l.get(0)).intValue() > 0;
   }
 
   public void populateNewItem(final Inventory item, final int cataloguingView)
@@ -155,19 +155,19 @@ public class DAOInventory extends AbstractDAO {
   public int getNextNumber(final int mainLibrary)
     throws DataAccessException {
     final S_INVTRY nextNumber =
-      (S_INVTRY) get (S_INVTRY.class,
-        new Integer (mainLibrary),
+      (S_INVTRY) get(S_INVTRY.class,
+        new Integer(mainLibrary),
         LockMode.UPGRADE);
-    int j = nextNumber.getNextNumber ( );
-    new TransactionalHibernateOperation ( ) {
+    int j = nextNumber.getNextNumber();
+    new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
         throws HibernateException {
-        int i = nextNumber.getNextNumber ( ) + 1;
-        nextNumber.setNextNumber (i);
-        s.update (nextNumber);
+        int i = nextNumber.getNextNumber() + 1;
+        nextNumber.setNextNumber(i);
+        s.update(nextNumber);
       }
     }
-      .execute ( );
+      .execute();
 
     return /*nextNumber.getNextNumber()*/j;
   }

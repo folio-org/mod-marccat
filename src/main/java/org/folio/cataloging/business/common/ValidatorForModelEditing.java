@@ -19,11 +19,11 @@ public class ValidatorForModelEditing
   extends Validator {
 
   public StringText getEditableSubfields(VariableField field) {
-    return field.getStringText ( );
+    return field.getStringText();
   }
 
   public StringText getFixedSubfields(VariableField field) {
-    return new StringText ( );
+    return new StringText();
   }
 
 }

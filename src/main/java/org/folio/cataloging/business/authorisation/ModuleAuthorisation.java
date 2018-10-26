@@ -67,8 +67,8 @@ public class ModuleAuthorisation implements Serializable {
   public boolean equals(Object arg0) {
     if (arg0 instanceof ModuleAuthorisation) {
       ModuleAuthorisation ma = (ModuleAuthorisation) arg0;
-      return ma.getUserAccount ( ).equals (getUserAccount ( )) &&
-        ma.getModuleCode ( ).equals (getModuleCode ( ));
+      return ma.getUserAccount().equals(getUserAccount()) &&
+        ma.getModuleCode().equals(getModuleCode());
     } else {
       return false;
     }
@@ -78,8 +78,8 @@ public class ModuleAuthorisation implements Serializable {
    * @see java.lang.Object#hashCode()
    */
   public int hashCode() {
-    return getUserAccount ( ).hashCode ( ) +
-      getModuleCode ( ).hashCode ( );
+    return getUserAccount().hashCode() +
+      getModuleCode().hashCode();
   }
 
 }

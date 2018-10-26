@@ -32,34 +32,34 @@ public class ConversionOutRequest extends SocketMessage {
     int searchingView,
     String elementSetName,
     String librarySymbol) {
-    setBibliographic (bibliographic);
-    setAmicusNumber (amicusNumber);
-    setElementSetName (elementSetName);
-    setSearchingView (searchingView);
-    setLibrarySymbol (librarySymbol);
+    setBibliographic(bibliographic);
+    setAmicusNumber(amicusNumber);
+    setElementSetName(elementSetName);
+    setSearchingView(searchingView);
+    setLibrarySymbol(librarySymbol);
   }
 
   /* (non-Javadoc)
    * @see librisuite.business.common.SocketMessage#asByteArray()
    */
   public byte[] asByteArray() throws IOException {
-    ByteArrayOutputStream bs = new ByteArrayOutputStream ( );
-    OutputStreamWriter ow = new OutputStreamWriter (bs, "US-ASCII");
-    ow.write (bibliographic ? "4" : "3");// 4 for bibliographic and archives, 3 for authority
-    ow.flush ( );
-    ow.write (new DecimalFormat ("0000000000").format (amicusNumber));
-    ow.flush ( );
+    ByteArrayOutputStream bs = new ByteArrayOutputStream();
+    OutputStreamWriter ow = new OutputStreamWriter(bs, "US-ASCII");
+    ow.write(bibliographic ? "4" : "3");// 4 for bibliographic and archives, 3 for authority
+    ow.flush();
+    ow.write(new DecimalFormat("0000000000").format(amicusNumber));
+    ow.flush();
 
     if (searchingView < 0) {
-      ow.write (new DecimalFormat ("0").format (searchingView));
+      ow.write(new DecimalFormat("0").format(searchingView));
     } else {
-      ow.write (new DecimalFormat ("00").format (searchingView));
+      ow.write(new DecimalFormat("00").format(searchingView));
     }
-    ow.flush ( );
-    bs.write (pad (librarySymbol.getBytes ("US-ASCII"), 17));
-    String flags = "-fauh" + (elementSetName.equals ("B") ? "b" : "");
-    bs.write (pad (flags.getBytes ("US-ASCII"), 21));
-    return bs.toByteArray ( );
+    ow.flush();
+    bs.write(pad(librarySymbol.getBytes("US-ASCII"), 17));
+    String flags = "-fauh" + (elementSetName.equals("B") ? "b" : "");
+    bs.write(pad(flags.getBytes("US-ASCII"), 21));
+    return bs.toByteArray();
   }
 
   /* (non-Javadoc)

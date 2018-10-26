@@ -24,8 +24,8 @@ public class PublisherAccessPointComparator implements Comparator {
   public int compare(Object arg0, Object arg1) {
     if (arg0 instanceof PublisherAccessPoint
       && arg1 instanceof PublisherAccessPoint) {
-      int i = ((PublisherAccessPoint) arg0).getSequenceNumber ( );
-      int j = ((PublisherAccessPoint) arg1).getSequenceNumber ( );
+      int i = ((PublisherAccessPoint) arg0).getSequenceNumber();
+      int j = ((PublisherAccessPoint) arg1).getSequenceNumber();
       if (i < j) {
         return -1;
       } else if (i > j) {

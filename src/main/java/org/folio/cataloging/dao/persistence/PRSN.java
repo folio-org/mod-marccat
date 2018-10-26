@@ -40,7 +40,7 @@ public class PRSN implements Serializable {
   private short repMailIndex;
 
   public PRSN() {
-    super ( );
+    super();
   }
 
   public PRSN(int personalNbr, short lockingVersion, short lang, char fAccount,

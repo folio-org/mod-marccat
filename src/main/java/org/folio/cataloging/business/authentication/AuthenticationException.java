@@ -17,14 +17,14 @@ public class AuthenticationException extends ModCatalogingException {
    *
    */
   public AuthenticationException() {
-    super ( );
+    super();
   }
 
   /**
    * @param message
    */
   public AuthenticationException(String message) {
-    super (message);
+    super(message);
   }
 
   /**
@@ -32,14 +32,14 @@ public class AuthenticationException extends ModCatalogingException {
    * @param cause
    */
   public AuthenticationException(String message, Throwable cause) {
-    super (message, cause);
+    super(message, cause);
   }
 
   /**
    * @param cause
    */
   public AuthenticationException(Throwable cause) {
-    super (cause);
+    super(cause);
   }
 
 }

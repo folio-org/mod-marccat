@@ -20,17 +20,17 @@ public class SRL_PRED_PAT_DTL implements Persistence, Serializable {
    */
   private static final long serialVersionUID = 1L;
 
-  private static final Log logger = LogFactory.getLog (SRL_PRED_PAT_DTL.class);
+  private static final Log logger = LogFactory.getLog(SRL_PRED_PAT_DTL.class);
 
   private int predictionPatternNumber;
   private int sequenceNumber;
   private short partType;
   private int patternClass;
-  private Integer ordinal = new Integer (1);
-  private Integer timeField = new Integer (1);
-  private Integer stepCount = new Integer (1);
-  private Integer month = new Integer (0);
-  private Integer day = new Integer (1);
+  private Integer ordinal = new Integer(1);
+  private Integer timeField = new Integer(1);
+  private Integer stepCount = new Integer(1);
+  private Integer month = new Integer(0);
+  private Integer day = new Integer(1);
   private boolean monday;
   private boolean tuesday;
   private boolean wednesday;
@@ -38,7 +38,7 @@ public class SRL_PRED_PAT_DTL implements Persistence, Serializable {
   private boolean friday;
   private boolean saturday;
   private boolean sunday;
-  private PersistenceState persistenceState = new PersistenceState ( );
+  private PersistenceState persistenceState = new PersistenceState();
 
   /**
    * @return the predictionPatternNumber
@@ -155,7 +155,7 @@ public class SRL_PRED_PAT_DTL implements Persistence, Serializable {
    * @return the day
    */
   public Integer getDay() {
-    logger.debug ("getDay()=" + day);
+    logger.debug("getDay()=" + day);
     return day;
   }
 
@@ -163,7 +163,7 @@ public class SRL_PRED_PAT_DTL implements Persistence, Serializable {
    * @param day the day to set
    */
   public void setDay(Integer day) {
-    logger.debug ("setDay(" + day + ")");
+    logger.debug("setDay(" + day + ")");
     this.day = day;
   }
 
@@ -171,14 +171,14 @@ public class SRL_PRED_PAT_DTL implements Persistence, Serializable {
    * @see PersistenceState#cancelChanges()
    */
   public void cancelChanges() {
-    persistenceState.cancelChanges ( );
+    persistenceState.cancelChanges();
   }
 
   /**
    * @see PersistenceState#confirmChanges()
    */
   public void confirmChanges() {
-    persistenceState.confirmChanges ( );
+    persistenceState.confirmChanges();
   }
 
   /**
@@ -189,9 +189,9 @@ public class SRL_PRED_PAT_DTL implements Persistence, Serializable {
   public boolean equals(Object obj) {
     if (obj instanceof SRL_PRED_PAT_DTL) {
       SRL_PRED_PAT_DTL o = (SRL_PRED_PAT_DTL) obj;
-      return o.getPredictionPatternNumber ( ) == this
-        .getPredictionPatternNumber ( )
-        && o.getSequenceNumber ( ) == this.getSequenceNumber ( );
+      return o.getPredictionPatternNumber() == this
+        .getPredictionPatternNumber()
+        && o.getSequenceNumber() == this.getSequenceNumber();
     } else {
       return false;
     }
@@ -203,7 +203,7 @@ public class SRL_PRED_PAT_DTL implements Persistence, Serializable {
    * @see PersistenceState#evict(Object)
    */
   public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict (obj);
+    persistenceState.evict(obj);
   }
 
   /**
@@ -211,7 +211,7 @@ public class SRL_PRED_PAT_DTL implements Persistence, Serializable {
    * @see PersistenceState#getDAO()
    */
   public AbstractDAO getDAO() {
-    return persistenceState.getDAO ( );
+    return persistenceState.getDAO();
   }
 
   /**
@@ -219,7 +219,7 @@ public class SRL_PRED_PAT_DTL implements Persistence, Serializable {
    * @see PersistenceState#getUpdateStatus()
    */
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   /**
@@ -227,7 +227,7 @@ public class SRL_PRED_PAT_DTL implements Persistence, Serializable {
    * @see PersistenceState#setUpdateStatus(int)
    */
   public void setUpdateStatus(int i) {
-    persistenceState.setUpdateStatus (i);
+    persistenceState.setUpdateStatus(i);
   }
 
   /**
@@ -235,7 +235,7 @@ public class SRL_PRED_PAT_DTL implements Persistence, Serializable {
    * @see Object#hashCode()
    */
   public int hashCode() {
-    return getPredictionPatternNumber ( ) * getSequenceNumber ( );
+    return getPredictionPatternNumber() * getSequenceNumber();
   }
 
   /**
@@ -243,7 +243,7 @@ public class SRL_PRED_PAT_DTL implements Persistence, Serializable {
    * @see PersistenceState#isChanged()
    */
   public boolean isChanged() {
-    return persistenceState.isChanged ( );
+    return persistenceState.isChanged();
   }
 
   /**
@@ -251,7 +251,7 @@ public class SRL_PRED_PAT_DTL implements Persistence, Serializable {
    * @see PersistenceState#isDeleted()
    */
   public boolean isDeleted() {
-    return persistenceState.isDeleted ( );
+    return persistenceState.isDeleted();
   }
 
   /**
@@ -259,7 +259,7 @@ public class SRL_PRED_PAT_DTL implements Persistence, Serializable {
    * @see PersistenceState#isNew()
    */
   public boolean isNew() {
-    return persistenceState.isNew ( );
+    return persistenceState.isNew();
   }
 
   /**
@@ -267,35 +267,35 @@ public class SRL_PRED_PAT_DTL implements Persistence, Serializable {
    * @see PersistenceState#isRemoved()
    */
   public boolean isRemoved() {
-    return persistenceState.isRemoved ( );
+    return persistenceState.isRemoved();
   }
 
   /**
    * @see PersistenceState#markChanged()
    */
   public void markChanged() {
-    persistenceState.markChanged ( );
+    persistenceState.markChanged();
   }
 
   /**
    * @see PersistenceState#markDeleted()
    */
   public void markDeleted() {
-    persistenceState.markDeleted ( );
+    persistenceState.markDeleted();
   }
 
   /**
    * @see PersistenceState#markNew()
    */
   public void markNew() {
-    persistenceState.markNew ( );
+    persistenceState.markNew();
   }
 
   /**
    * @see PersistenceState#markUnchanged()
    */
   public void markUnchanged() {
-    persistenceState.markUnchanged ( );
+    persistenceState.markUnchanged();
   }
 
   /**
@@ -305,7 +305,7 @@ public class SRL_PRED_PAT_DTL implements Persistence, Serializable {
    * @see PersistenceState#onDelete(Session)
    */
   public boolean onDelete(Session arg0) throws CallbackException {
-    return persistenceState.onDelete (arg0);
+    return persistenceState.onDelete(arg0);
   }
 
   /**
@@ -315,7 +315,7 @@ public class SRL_PRED_PAT_DTL implements Persistence, Serializable {
    * Serializable)
    */
   public void onLoad(Session arg0, Serializable arg1) {
-    persistenceState.onLoad (arg0, arg1);
+    persistenceState.onLoad(arg0, arg1);
   }
 
   /**
@@ -325,7 +325,7 @@ public class SRL_PRED_PAT_DTL implements Persistence, Serializable {
    * @see PersistenceState#onSave(Session)
    */
   public boolean onSave(Session arg0) throws CallbackException {
-    return persistenceState.onSave (arg0);
+    return persistenceState.onSave(arg0);
   }
 
   /**
@@ -335,7 +335,7 @@ public class SRL_PRED_PAT_DTL implements Persistence, Serializable {
    * @see PersistenceState#onUpdate(Session)
    */
   public boolean onUpdate(Session arg0) throws CallbackException {
-    return persistenceState.onUpdate (arg0);
+    return persistenceState.onUpdate(arg0);
   }
 
   /**
@@ -343,11 +343,11 @@ public class SRL_PRED_PAT_DTL implements Persistence, Serializable {
    * @see PersistenceState#toString()
    */
   public String toString() {
-    return persistenceState.toString ( );
+    return persistenceState.toString();
   }
 
   public void evict() throws DataAccessException {
-    persistenceState.evict (this);
+    persistenceState.evict(this);
   }
 
   public void generateNewKey() throws DataAccessException {
@@ -460,7 +460,7 @@ public class SRL_PRED_PAT_DTL implements Persistence, Serializable {
    * @return
    */
   public int getRecurType() {
-    switch (getPatternClass ( )) {
+    switch (getPatternClass()) {
       case 0:
       case 1:
         return 1;
@@ -484,66 +484,66 @@ public class SRL_PRED_PAT_DTL implements Persistence, Serializable {
    * @throws ChronologyConfigurationException
    */
   public void validate() throws ChronologyConfigurationException {
-    switch (getPatternClass ( )) {
+    switch (getPatternClass()) {
       case 0:
-        if (getStepCount ( ) == null || getStepCount ( ).intValue ( ) <= 0) {
-          throw new ChronologyConfigurationException ( );
+        if (getStepCount() == null || getStepCount().intValue() <= 0) {
+          throw new ChronologyConfigurationException();
         }
         break;
       case 1:
         break;
       case 2:
-        if (getStepCount ( ) == null || getStepCount ( ).intValue ( ) <= 0) {
-          throw new ChronologyConfigurationException ( );
+        if (getStepCount() == null || getStepCount().intValue() <= 0) {
+          throw new ChronologyConfigurationException();
         }
-        if (!(isMonday ( ) || isTuesday ( ) || isWednesday ( ) || isThursday ( )
-          || isFriday ( ) || isSaturday ( ) || isSunday ( ))) {
-          throw new ChronologyConfigurationException ( );
+        if (!(isMonday() || isTuesday() || isWednesday() || isThursday()
+          || isFriday() || isSaturday() || isSunday())) {
+          throw new ChronologyConfigurationException();
         }
         break;
       case 3:
-        if (getDay ( ) == null || getDay ( ).intValue ( ) <= 0) {
-          throw new ChronologyConfigurationException ( );
+        if (getDay() == null || getDay().intValue() <= 0) {
+          throw new ChronologyConfigurationException();
         }
         break;
       case 4:
-        if (getOrdinal ( ) == null) {
-          throw new ChronologyConfigurationException ( );
+        if (getOrdinal() == null) {
+          throw new ChronologyConfigurationException();
         }
-        if (getTimeField ( ) == null) {
-          throw new ChronologyConfigurationException ( );
+        if (getTimeField() == null) {
+          throw new ChronologyConfigurationException();
         }
-        if (getStepCount ( ) == null || getStepCount ( ).intValue ( ) <= 0) {
-          throw new ChronologyConfigurationException ( );
+        if (getStepCount() == null || getStepCount().intValue() <= 0) {
+          throw new ChronologyConfigurationException();
         }
         break;
       case 5:
-        if (getMonth ( ) == null) {
-          throw new ChronologyConfigurationException ( );
+        if (getMonth() == null) {
+          throw new ChronologyConfigurationException();
         }
-        if (getDay ( ) == null || getDay ( ).intValue ( ) <= 0 || getDay ( ).intValue ( ) > 31) {
-          throw new ChronologyConfigurationException ( );
+        if (getDay() == null || getDay().intValue() <= 0 || getDay().intValue() > 31) {
+          throw new ChronologyConfigurationException();
         }
         break;
       case 6:
-        if (getOrdinal ( ) == null) {
-          throw new ChronologyConfigurationException ( );
+        if (getOrdinal() == null) {
+          throw new ChronologyConfigurationException();
         }
-        if (getTimeField ( ) == null) {
-          throw new ChronologyConfigurationException ( );
+        if (getTimeField() == null) {
+          throw new ChronologyConfigurationException();
         }
-        if (getMonth ( ) == null) {
-          throw new ChronologyConfigurationException ( );
+        if (getMonth() == null) {
+          throw new ChronologyConfigurationException();
         }
         break;
       default:
-        throw new ChronologyConfigurationException ( );
+        throw new ChronologyConfigurationException();
     }
   }
 
   public String getPartTypeText(final Session session, final Locale locale) {
     try {
-      return new DAOCodeTable ( ).load (session, T_SRL_PRT_TYP.class, getPartType ( ), locale).getLongText ( );
+      return new DAOCodeTable().load(session, T_SRL_PRT_TYP.class, getPartType(), locale).getLongText();
     } catch (DataAccessException e) {
       return "";
     }

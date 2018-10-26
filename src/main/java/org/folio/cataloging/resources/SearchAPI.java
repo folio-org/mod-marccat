@@ -35,23 +35,23 @@ public class SearchAPI extends BaseResource {
     @RequestParam(name = "dpo", defaultValue = "1") final int databasePreferenceOrder,
     @RequestParam(name = "sortBy", required = false) final String[] sortAttributes,
     @RequestParam(name = "sortOrder", required = false) final String[] sortOrders) {
-    return doGet ((storageService, configuration) -> {
+    return doGet((storageService, configuration) -> {
       final SearchEngine searchEngine =
-        SearchEngineFactory.create (
+        SearchEngineFactory.create(
           SearchEngineFactory.EngineType.LIGHTWEIGHT,
           mainLibraryId,
           databasePreferenceOrder,
           storageService);
-      SearchResponse response = searchEngine.fetchRecords (
+      SearchResponse response = searchEngine.fetchRecords(
         (sortAttributes != null && sortOrders != null && sortAttributes.length == sortOrders.length)
-          ? searchEngine.sort (searchEngine.expertSearch (q, locale (lang), view), sortAttributes, sortOrders)
-          : searchEngine.expertSearch (q, locale (lang), view),
+          ? searchEngine.sort(searchEngine.expertSearch(q, locale(lang), view), sortAttributes, sortOrders)
+          : searchEngine.expertSearch(q, locale(lang), view),
         "F",
         from,
         to);
       final int AUTHORITY_VIEW = -1;
-      if ( view == AUTHORITY_VIEW) {
-    	  searchEngine.injectDocCount(response, storageService);
+      if (view == AUTHORITY_VIEW) {
+        searchEngine.injectDocCount(response, storageService);
       }
       return response;
     }, tenant, configurator);
@@ -69,18 +69,18 @@ public class SearchAPI extends BaseResource {
     @RequestParam(name = "dpo", defaultValue = "1") final int databasePreferenceOrder,
     @RequestParam(name = "sortBy", required = false) final String[] sortAttributes,
     @RequestParam(name = "sortOrder", required = false) final String[] sortOrders) {
-    return doGet ((storageService, configuration) -> {
+    return doGet((storageService, configuration) -> {
       final SearchEngine searchEngine =
-        SearchEngineFactory.create (
+        SearchEngineFactory.create(
           SearchEngineFactory.EngineType.LIGHTWEIGHT_VERTICAL,
           mainLibraryId,
           databasePreferenceOrder,
           storageService);
 
-      return searchEngine.fetchRecords (
+      return searchEngine.fetchRecords(
         (sortAttributes != null && sortOrders != null && sortAttributes.length == sortOrders.length)
-          ? searchEngine.sort (searchEngine.expertSearch (q, locale (lang), view), sortAttributes, sortOrders)
-          : searchEngine.expertSearch (q, locale (lang), view),
+          ? searchEngine.sort(searchEngine.expertSearch(q, locale(lang), view), sortAttributes, sortOrders)
+          : searchEngine.expertSearch(q, locale(lang), view),
         "F",
         from,
         to);

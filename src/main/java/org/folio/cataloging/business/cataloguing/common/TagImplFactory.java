@@ -21,13 +21,13 @@ public class TagImplFactory {
 
   public static TagImpl getNewImplementation(int itemType) {
     if (itemType == AUTHORITY) {
-      return new AuthorityTagImpl ( );
+      return new AuthorityTagImpl();
     } else {
-      return new BibliographicTagImpl ( );
+      return new BibliographicTagImpl();
     }
   }
 
   public static TagImpl getDefaultImplementation() {
-    return new BibliographicTagImpl ( );
+    return new BibliographicTagImpl();
   }
 }

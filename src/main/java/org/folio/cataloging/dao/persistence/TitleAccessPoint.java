@@ -30,7 +30,7 @@ public class TitleAccessPoint extends NameTitleComponent implements OrderedTag, 
   private int secondaryFunctionCode;
   private String volumeNumberDescription;
   private String variantTitle;
-  private TTL_HDG descriptor = new TTL_HDG ( );
+  private TTL_HDG descriptor = new TTL_HDG();
   private Integer sequenceNumber;
   private String issnText;
 
@@ -38,7 +38,7 @@ public class TitleAccessPoint extends NameTitleComponent implements OrderedTag, 
   }
 
   public TitleAccessPoint(final int itemNbr) {
-    super (itemNbr);
+    super(itemNbr);
   }
 
   /**
@@ -69,14 +69,14 @@ public class TitleAccessPoint extends NameTitleComponent implements OrderedTag, 
     if (!(obj instanceof TitleAccessPoint))
       return false;
     final TitleAccessPoint other = (TitleAccessPoint) obj;
-    return super.equals (obj)
-      && (other.getFunctionCode ( ) == this.getFunctionCode ( ))
+    return super.equals(obj)
+      && (other.getFunctionCode() == this.getFunctionCode())
       && (other.nameTitleHeadingNumber == this.nameTitleHeadingNumber);
   }
 
   @Override
   public int hashCode() {
-    return super.hashCode ( );
+    return super.hashCode();
   }
 
   /**
@@ -185,7 +185,7 @@ public class TitleAccessPoint extends NameTitleComponent implements OrderedTag, 
    * @return boolean.
    */
   public boolean correlationChangeAffectsKey(final CorrelationValues v) {
-    return (v.isValueDefined (1) && (v.getValue (1) != getFunctionCode ( )));
+    return (v.isValueDefined(1) && (v.getValue(1) != getFunctionCode()));
   }
 
   /**
@@ -194,7 +194,7 @@ public class TitleAccessPoint extends NameTitleComponent implements OrderedTag, 
    * @return correlationValues.
    */
   public CorrelationValues getCorrelationValues() {
-    return getDescriptor ( ).getCorrelationValues ( ).change (1, getFunctionCode ( )).change (2, getSecondaryFunctionCode ( ));
+    return getDescriptor().getCorrelationValues().change(1, getFunctionCode()).change(2, getSecondaryFunctionCode());
   }
 
   /**
@@ -203,9 +203,9 @@ public class TitleAccessPoint extends NameTitleComponent implements OrderedTag, 
    * @param v -- the correlation values to set.
    */
   public void setCorrelationValues(final CorrelationValues v) {
-    setFunctionCode (v.getValue (1));
-    setSecondaryFunctionCode (v.getValue (2));
-    getDescriptor ( ).setCorrelationValues (v);
+    setFunctionCode(v.getValue(1));
+    setSecondaryFunctionCode(v.getValue(2));
+    getDescriptor().setCorrelationValues(v);
   }
 
   /**
@@ -214,12 +214,12 @@ public class TitleAccessPoint extends NameTitleComponent implements OrderedTag, 
    * @return stringText.
    */
   public StringText getStringText() {
-    final StringText result = new StringText ( );
-    result.add (getAccessPointStringText ( ).getSubfieldsWithCodes ("i"));
-    if (getDescriptor ( ) != null) {
-      result.parse (getDescriptor ( ).getStringText ( ));
+    final StringText result = new StringText();
+    result.add(getAccessPointStringText().getSubfieldsWithCodes("i"));
+    if (getDescriptor() != null) {
+      result.parse(getDescriptor().getStringText());
     }
-    result.add (getAccessPointStringText ( ).getSubfieldsWithoutCodes ("i"));
+    result.add(getAccessPointStringText().getSubfieldsWithoutCodes("i"));
     return result;
   }
 
@@ -229,11 +229,11 @@ public class TitleAccessPoint extends NameTitleComponent implements OrderedTag, 
    * @return stringText.
    */
   public StringText getAccessPointStringText() {
-    StringText text = new StringText (variantTitle);
-    text.parse (institution);
-    if (this.getSeriesIssnHeadingNumber ( ) != null)
-      text.addSubfield (new Subfield (GlobalStorage.TITLE_ISSN_SERIES_SUBFIELD_CODE, "" + getISSNText ( )));
-    text.parse (volumeNumberDescription);
+    StringText text = new StringText(variantTitle);
+    text.parse(institution);
+    if (this.getSeriesIssnHeadingNumber() != null)
+      text.addSubfield(new Subfield(GlobalStorage.TITLE_ISSN_SERIES_SUBFIELD_CODE, "" + getISSNText()));
+    text.parse(volumeNumberDescription);
     return text;
   }
 
@@ -243,14 +243,14 @@ public class TitleAccessPoint extends NameTitleComponent implements OrderedTag, 
    * @param stringText -- the stringText to set.
    */
   public void setAccessPointStringText(final StringText stringText) {
-    variantTitle = stringText.getSubfieldsWithCodes ("ci").toString ( );
-    institution = stringText.getSubfieldsWithCodes (GlobalStorage.NAME_TITLE_INSTITUTION_SUBFIELD_CODE).toString ( );
-    if (!stringText.getSubfieldsWithCodes (GlobalStorage.TITLE_ISSN_SERIES_SUBFIELD_CODE).isEmpty ( ) && this.getSeriesIssnHeadingNumber ( ) != null) {
-      seriesIssnHeadingNumber = this.getSeriesIssnHeadingNumber ( );
+    variantTitle = stringText.getSubfieldsWithCodes("ci").toString();
+    institution = stringText.getSubfieldsWithCodes(GlobalStorage.NAME_TITLE_INSTITUTION_SUBFIELD_CODE).toString();
+    if (!stringText.getSubfieldsWithCodes(GlobalStorage.TITLE_ISSN_SERIES_SUBFIELD_CODE).isEmpty() && this.getSeriesIssnHeadingNumber() != null) {
+      seriesIssnHeadingNumber = this.getSeriesIssnHeadingNumber();
     } else {
       seriesIssnHeadingNumber = null;
     }
-    volumeNumberDescription = stringText.getSubfieldsWithCodes (GlobalStorage.TITLE_VOLUME_SUBFIELD_CODE).toString ( );
+    volumeNumberDescription = stringText.getSubfieldsWithCodes(GlobalStorage.TITLE_VOLUME_SUBFIELD_CODE).toString();
   }
 
   /**
@@ -259,8 +259,8 @@ public class TitleAccessPoint extends NameTitleComponent implements OrderedTag, 
    * @param stringText -- the string text to set.
    */
   public void setDescriptorStringText(final StringText stringText) {
-    getDescriptor ( ).setStringText (
-      stringText.getSubfieldsWithoutCodes (getVariantCodes ( )).toString ( ));
+    getDescriptor().setStringText(
+      stringText.getSubfieldsWithoutCodes(getVariantCodes()).toString());
   }
 
   /**
@@ -316,7 +316,7 @@ public class TitleAccessPoint extends NameTitleComponent implements OrderedTag, 
    */
   public void setSequenceNumber(final Integer sequenceNbr) {
     this.sequenceNumber = sequenceNbr;
-    super.setSequenceNumber (sequenceNumber);
+    super.setSequenceNumber(sequenceNumber);
   }
 
   //TODO: move in storageService and add session

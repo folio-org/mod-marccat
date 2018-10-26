@@ -22,34 +22,34 @@ public abstract class T_SINGLE extends CodeTable {
   }
 
   public String getCodeString() {
-    return String.valueOf (code);
+    return String.valueOf(code);
   }
 
   public boolean equals(Object obj) {
     if (!(obj instanceof T_SINGLE)) {
       return false;
     }
-    return (((T_SINGLE) obj).getCode ( ) == getCode ( )) && (((T_SINGLE) obj).getLanguage ( ).equals (getLanguage ( )));
+    return (((T_SINGLE) obj).getCode() == getCode()) && (((T_SINGLE) obj).getLanguage().equals(getLanguage()));
   }
 
   public int hashCode() {
-    return getCode ( ) + getLanguage ( ).hashCode ( );
+    return getCode() + getLanguage().hashCode();
   }
 
   public void setExternalCode(Object extCode) {
     if (extCode instanceof String) {
-      if (((String) extCode).trim ( ).length ( ) > 0) {
-        code = Short.parseShort ((String) extCode);
+      if (((String) extCode).trim().length() > 0) {
+        code = Short.parseShort((String) extCode);
       } else {
         code = 1;
       }
 
     } else if (extCode instanceof Short) {
-      code = ((Short) extCode).shortValue ( );
+      code = ((Short) extCode).shortValue();
     }
   }
 
   public int getNextNumber() throws DataAccessException {
-    return new DAOCodeTable ( ).suggestNewCode (this);
+    return new DAOCodeTable().suggestNewCode(this);
   }
 }

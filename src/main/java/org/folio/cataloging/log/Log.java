@@ -18,7 +18,7 @@ public class Log {
    * @param clazz the class owner.
    */
   public Log(final Class clazz) {
-    logger = LogManager.getLogger (clazz);
+    logger = LogManager.getLogger(clazz);
   }
 
   /**
@@ -28,7 +28,7 @@ public class Log {
    * @param message the message (with no placeholders).
    */
   public static void error(final Class owner, final String message) {
-    new Log (owner).error (message);
+    new Log(owner).error(message);
   }
 
   /**
@@ -38,7 +38,7 @@ public class Log {
    * @param values  the placeholders values.
    */
   public void info(final String message, final Object... values) {
-    logger.info (values == null ? message : String.format (message, values));
+    logger.info(values == null ? message : String.format(message, values));
   }
 
   /**
@@ -48,8 +48,8 @@ public class Log {
    * @param values  the placeholders values.
    */
   public void debug(final String message, final Object... values) {
-    if (logger.isDebugEnabled ( )) {
-      logger.debug (values == null ? message : String.format (message, values));
+    if (logger.isDebugEnabled()) {
+      logger.debug(values == null ? message : String.format(message, values));
     }
   }
 
@@ -60,7 +60,7 @@ public class Log {
    * @param values  the placeholders values.
    */
   public void error(final String message, final Object... values) {
-    logger.error (values == null ? message : String.format (message, values));
+    logger.error(values == null ? message : String.format(message, values));
   }
 
   /**
@@ -70,7 +70,7 @@ public class Log {
    * @param cause   the exception cause.
    */
   public void error(final String message, final Throwable cause) {
-    logger.error (message, cause);
+    logger.error(message, cause);
   }
 
   /**
@@ -80,6 +80,6 @@ public class Log {
    * @param cause   the exception cause.
    */
   public void error(final String message, final Throwable cause, final Object... values) {
-    logger.error (String.format (message, values), cause);
+    logger.error(String.format(message, values), cause);
   }
 }

@@ -19,7 +19,7 @@ public class ConnectException extends ModCatalogingException {
    * @since 1.0
    */
   public ConnectException(String arg0) {
-    super (arg0);
+    super(arg0);
   }
 
   /**
@@ -28,7 +28,7 @@ public class ConnectException extends ModCatalogingException {
    * @since 1.0
    */
   public ConnectException() {
-    super ( );
+    super();
   }
 
 

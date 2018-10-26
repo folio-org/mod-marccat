@@ -143,13 +143,13 @@ public class Field {
 
   @Generated("org.jsonschema2pojo")
   public static enum FieldStatus {
-    NEW ("new"), CHANGED ("changed"), DELETED ("deleted"), UNCHANGED ("unchanged");
+    NEW("new"), CHANGED("changed"), DELETED("deleted"), UNCHANGED("unchanged");
 
-    private static final Map <String, Field.FieldStatus> CONSTANTS = new HashMap <String, Field.FieldStatus> ( );
+    private static final Map <String, Field.FieldStatus> CONSTANTS = new HashMap <String, Field.FieldStatus>();
 
     static {
-      for ( Field.FieldStatus c : values ( ) ) {
-        CONSTANTS.put (c.value, c);
+      for (Field.FieldStatus c : values()) {
+        CONSTANTS.put(c.value, c);
       }
     }
 
@@ -161,9 +161,9 @@ public class Field {
 
     @JsonCreator
     public static Field.FieldStatus fromValue(String value) {
-      Field.FieldStatus constant = CONSTANTS.get (value);
+      Field.FieldStatus constant = CONSTANTS.get(value);
       if (constant == null) {
-        throw new IllegalArgumentException (value);
+        throw new IllegalArgumentException(value);
       } else {
         return constant;
       }

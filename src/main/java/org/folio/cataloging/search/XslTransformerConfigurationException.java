@@ -22,28 +22,28 @@ public class XslTransformerConfigurationException extends ModCatalogingException
    * @see Exception#Exception()
    */
   public XslTransformerConfigurationException() {
-    super ( );
+    super();
   }
 
   /**
    * @see Exception#Exception(String)
    */
   public XslTransformerConfigurationException(String message) {
-    super (message);
+    super(message);
   }
 
   /**
    * @see Exception#Exception(String, Throwable)
    */
   public XslTransformerConfigurationException(String message, Throwable cause) {
-    super (message, cause);
+    super(message, cause);
   }
 
   /**
    * @see Exception#Exception(Throwable)
    */
   public XslTransformerConfigurationException(Throwable cause) {
-    super (cause);
+    super(cause);
   }
 
 }

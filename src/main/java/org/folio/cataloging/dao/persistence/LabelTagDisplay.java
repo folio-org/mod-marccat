@@ -67,22 +67,22 @@ public abstract class LabelTagDisplay {
     final int prime = 31;
     int result = 1;
     result = prime * result
-      + ((language == null) ? 0 : language.hashCode ( ));
+      + ((language == null) ? 0 : language.hashCode());
     result = prime * result
-      + ((marcFbrType == null) ? 0 : marcFbrType.hashCode ( ));
+      + ((marcFbrType == null) ? 0 : marcFbrType.hashCode());
     result = prime
       * result
       + ((marcFirstIndicator == null) ? 0 : marcFirstIndicator
-      .hashCode ( ));
+      .hashCode());
     result = prime
       * result
       + ((marcSecondIndicator == null) ? 0 : marcSecondIndicator
-      .hashCode ( ));
-    result = prime * result + ((marcTag == null) ? 0 : marcTag.hashCode ( ));
+      .hashCode());
+    result = prime * result + ((marcTag == null) ? 0 : marcTag.hashCode());
     result = prime
       * result
       + ((marcTagSubfieldCode == null) ? 0 : marcTagSubfieldCode
-      .hashCode ( ));
+      .hashCode());
     return result;
   }
 
@@ -92,38 +92,38 @@ public abstract class LabelTagDisplay {
       return true;
     if (obj == null)
       return false;
-    if (getClass ( ) != obj.getClass ( ))
+    if (getClass() != obj.getClass())
       return false;
     final LabelTagDisplay other = (LabelTagDisplay) obj;
     if (language == null) {
       if (other.language != null)
         return false;
-    } else if (!language.equals (other.language))
+    } else if (!language.equals(other.language))
       return false;
     if (marcFbrType == null) {
       if (other.marcFbrType != null)
         return false;
-    } else if (!marcFbrType.equals (other.marcFbrType))
+    } else if (!marcFbrType.equals(other.marcFbrType))
       return false;
     if (marcFirstIndicator == null) {
       if (other.marcFirstIndicator != null)
         return false;
-    } else if (!marcFirstIndicator.equals (other.marcFirstIndicator))
+    } else if (!marcFirstIndicator.equals(other.marcFirstIndicator))
       return false;
     if (marcSecondIndicator == null) {
       if (other.marcSecondIndicator != null)
         return false;
-    } else if (!marcSecondIndicator.equals (other.marcSecondIndicator))
+    } else if (!marcSecondIndicator.equals(other.marcSecondIndicator))
       return false;
     if (marcTag == null) {
       if (other.marcTag != null)
         return false;
-    } else if (!marcTag.equals (other.marcTag))
+    } else if (!marcTag.equals(other.marcTag))
       return false;
     if (marcTagSubfieldCode == null) {
       if (other.marcTagSubfieldCode != null)
         return false;
-    } else if (!marcTagSubfieldCode.equals (other.marcTagSubfieldCode))
+    } else if (!marcTagSubfieldCode.equals(other.marcTagSubfieldCode))
       return false;
     return true;
   }

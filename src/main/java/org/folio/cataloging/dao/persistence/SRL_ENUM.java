@@ -22,9 +22,9 @@ public class SRL_ENUM implements Persistence, Serializable {
   private int sequenceNumber;
   private char continuityType = 'c';
   private int startValue = 1;
-  private Date startPublicationDate = new Date ( );
+  private Date startPublicationDate = new Date();
   private int unitCount = 12;
-  private PersistenceState persistenceState = new PersistenceState ( );
+  private PersistenceState persistenceState = new PersistenceState();
 
   /**
    * @return the predictionPatternNumber
@@ -84,7 +84,7 @@ public class SRL_ENUM implements Persistence, Serializable {
 
   public String getStartPublicationDateAsString() {
     try {
-      return new SimpleDateFormat ("dd/MM/yyyy").format (getStartPublicationDate ( ));
+      return new SimpleDateFormat("dd/MM/yyyy").format(getStartPublicationDate());
     } catch (Exception e) {
       return "";
     }
@@ -108,14 +108,14 @@ public class SRL_ENUM implements Persistence, Serializable {
    * @see PersistenceState#cancelChanges()
    */
   public void cancelChanges() {
-    persistenceState.cancelChanges ( );
+    persistenceState.cancelChanges();
   }
 
   /**
    * @see PersistenceState#confirmChanges()
    */
   public void confirmChanges() {
-    persistenceState.confirmChanges ( );
+    persistenceState.confirmChanges();
   }
 
   /**
@@ -126,8 +126,8 @@ public class SRL_ENUM implements Persistence, Serializable {
   public boolean equals(Object arg0) {
     if (arg0 instanceof SRL_ENUM) {
       SRL_ENUM o = (SRL_ENUM) arg0;
-      return o.getPredictionPatternNumber ( ) == this.getPredictionPatternNumber ( ) &&
-        o.getSequenceNumber ( ) == this.getSequenceNumber ( );
+      return o.getPredictionPatternNumber() == this.getPredictionPatternNumber() &&
+        o.getSequenceNumber() == this.getSequenceNumber();
     } else {
       return false;
     }
@@ -139,7 +139,7 @@ public class SRL_ENUM implements Persistence, Serializable {
    * @see PersistenceState#evict(Object)
    */
   public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict (obj);
+    persistenceState.evict(obj);
   }
 
   /**
@@ -147,7 +147,7 @@ public class SRL_ENUM implements Persistence, Serializable {
    * @see PersistenceState#getDAO()
    */
   public AbstractDAO getDAO() {
-    return persistenceState.getDAO ( );
+    return persistenceState.getDAO();
   }
 
   /**
@@ -155,7 +155,7 @@ public class SRL_ENUM implements Persistence, Serializable {
    * @see PersistenceState#getUpdateStatus()
    */
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   /**
@@ -163,7 +163,7 @@ public class SRL_ENUM implements Persistence, Serializable {
    * @see PersistenceState#setUpdateStatus(int)
    */
   public void setUpdateStatus(int i) {
-    persistenceState.setUpdateStatus (i);
+    persistenceState.setUpdateStatus(i);
   }
 
   /**
@@ -171,7 +171,7 @@ public class SRL_ENUM implements Persistence, Serializable {
    * @see Object#hashCode()
    */
   public int hashCode() {
-    return getPredictionPatternNumber ( ) * getSequenceNumber ( );
+    return getPredictionPatternNumber() * getSequenceNumber();
   }
 
   /**
@@ -179,7 +179,7 @@ public class SRL_ENUM implements Persistence, Serializable {
    * @see PersistenceState#isChanged()
    */
   public boolean isChanged() {
-    return persistenceState.isChanged ( );
+    return persistenceState.isChanged();
   }
 
   /**
@@ -187,7 +187,7 @@ public class SRL_ENUM implements Persistence, Serializable {
    * @see PersistenceState#isDeleted()
    */
   public boolean isDeleted() {
-    return persistenceState.isDeleted ( );
+    return persistenceState.isDeleted();
   }
 
   /**
@@ -195,7 +195,7 @@ public class SRL_ENUM implements Persistence, Serializable {
    * @see PersistenceState#isNew()
    */
   public boolean isNew() {
-    return persistenceState.isNew ( );
+    return persistenceState.isNew();
   }
 
   /**
@@ -203,35 +203,35 @@ public class SRL_ENUM implements Persistence, Serializable {
    * @see PersistenceState#isRemoved()
    */
   public boolean isRemoved() {
-    return persistenceState.isRemoved ( );
+    return persistenceState.isRemoved();
   }
 
   /**
    * @see PersistenceState#markChanged()
    */
   public void markChanged() {
-    persistenceState.markChanged ( );
+    persistenceState.markChanged();
   }
 
   /**
    * @see PersistenceState#markDeleted()
    */
   public void markDeleted() {
-    persistenceState.markDeleted ( );
+    persistenceState.markDeleted();
   }
 
   /**
    * @see PersistenceState#markNew()
    */
   public void markNew() {
-    persistenceState.markNew ( );
+    persistenceState.markNew();
   }
 
   /**
    * @see PersistenceState#markUnchanged()
    */
   public void markUnchanged() {
-    persistenceState.markUnchanged ( );
+    persistenceState.markUnchanged();
   }
 
   /**
@@ -241,7 +241,7 @@ public class SRL_ENUM implements Persistence, Serializable {
    * @see PersistenceState#onDelete(Session)
    */
   public boolean onDelete(Session arg0) throws CallbackException {
-    return persistenceState.onDelete (arg0);
+    return persistenceState.onDelete(arg0);
   }
 
   /**
@@ -250,7 +250,7 @@ public class SRL_ENUM implements Persistence, Serializable {
    * @see PersistenceState#onLoad(Session, Serializable)
    */
   public void onLoad(Session arg0, Serializable arg1) {
-    persistenceState.onLoad (arg0, arg1);
+    persistenceState.onLoad(arg0, arg1);
   }
 
   /**
@@ -260,7 +260,7 @@ public class SRL_ENUM implements Persistence, Serializable {
    * @see PersistenceState#onSave(Session)
    */
   public boolean onSave(Session arg0) throws CallbackException {
-    return persistenceState.onSave (arg0);
+    return persistenceState.onSave(arg0);
   }
 
   /**
@@ -270,7 +270,7 @@ public class SRL_ENUM implements Persistence, Serializable {
    * @see PersistenceState#onUpdate(Session)
    */
   public boolean onUpdate(Session arg0) throws CallbackException {
-    return persistenceState.onUpdate (arg0);
+    return persistenceState.onUpdate(arg0);
   }
 
   /**
@@ -278,11 +278,11 @@ public class SRL_ENUM implements Persistence, Serializable {
    * @see PersistenceState#toString()
    */
   public String toString() {
-    return persistenceState.toString ( );
+    return persistenceState.toString();
   }
 
   public void evict() throws DataAccessException {
-    persistenceState.evict (this);
+    persistenceState.evict(this);
   }
 
   public void generateNewKey() throws DataAccessException {
@@ -311,22 +311,22 @@ public class SRL_ENUM implements Persistence, Serializable {
    * @throws EnumerationConfigurationException
    */
   public void validate() throws EnumerationConfigurationException {
-    switch (getContinuityType ( )) {
+    switch (getContinuityType()) {
       case 'c':
-        if (getStartValue ( ) <= 0) {
-          throw new EnumerationConfigurationException ( );
+        if (getStartValue() <= 0) {
+          throw new EnumerationConfigurationException();
         }
-        if (getStartPublicationDate ( ) == null) {
-          throw new EnumerationConfigurationException ( );
+        if (getStartPublicationDate() == null) {
+          throw new EnumerationConfigurationException();
         }
         break;
       case 'r':
-        if (getUnitCount ( ) <= 0) {
-          throw new EnumerationConfigurationException ( );
+        if (getUnitCount() <= 0) {
+          throw new EnumerationConfigurationException();
         }
         break;
       default:
-        throw new EnumerationConfigurationException ( );
+        throw new EnumerationConfigurationException();
     }
   }
 

@@ -58,9 +58,9 @@ public class SCasCache implements Serializable {
   }
 
   public String toString() {
-    return new ToStringBuilder (this)
-      .append ("bibItmNbr", getBibItmNbr ( ))
-      .toString ( );
+    return new ToStringBuilder(this)
+      .append("bibItmNbr", getBibItmNbr())
+      .toString();
   }
 
 }

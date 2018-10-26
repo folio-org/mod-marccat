@@ -11,7 +11,6 @@ import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Defaults;
 import org.folio.cataloging.business.common.Persistence;
 import org.folio.cataloging.business.common.PersistenceState;
 import org.folio.cataloging.dao.AbstractDAO;
@@ -59,29 +58,29 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
   public AUT() {
     //setLanguageOfCataloguing (Defaults.getString ("authority.languageOfCataloguing"));
     //setCataloguingSourceStringText (Defaults.getString ("authority.cataloguingSourceStringText"));
-    persistenceState = new PersistenceState ( );
+    persistenceState = new PersistenceState();
   }
 
   /**
    * @since 1.0
    */
   public void evict() throws DataAccessException {
-    persistenceState.evict (this);
+    persistenceState.evict(this);
   }
 
   /**
    * @since 1.0
    */
   public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict (obj);
+    persistenceState.evict(obj);
   }
 
   /* (non-Javadoc)
    * @see librisuite.business.common.PersistentObject#generateNewKey()
    */
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
-    SystemNextNumberDAO dao = new SystemNextNumberDAO ( );
-    setAmicusNumber (new Integer (dao.getNextNumber ("AA", session)));
+    SystemNextNumberDAO dao = new SystemNextNumberDAO();
+    setAmicusNumber(new Integer(dao.getNextNumber("AA", session)));
   }
 
 
@@ -145,7 +144,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
    * @since 1.0
    */
   public AbstractDAO getDAO() {
-    return persistenceState.getDAO ( );
+    return persistenceState.getDAO();
   }
 
   /**
@@ -432,98 +431,98 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
    * @since 1.0
    */
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   /**
    * @since 1.0
    */
   public void setUpdateStatus(int i) {
-    persistenceState.setUpdateStatus (i);
+    persistenceState.setUpdateStatus(i);
   }
 
   /**
    * @since 1.0
    */
   public boolean isChanged() {
-    return persistenceState.isChanged ( );
+    return persistenceState.isChanged();
   }
 
   /**
    * @since 1.0
    */
   public boolean isDeleted() {
-    return persistenceState.isDeleted ( );
+    return persistenceState.isDeleted();
   }
 
   /**
    * @since 1.0
    */
   public boolean isNew() {
-    return persistenceState.isNew ( );
+    return persistenceState.isNew();
   }
 
   /**
    * @since 1.0
    */
   public boolean isRemoved() {
-    return persistenceState.isRemoved ( );
+    return persistenceState.isRemoved();
   }
 
   /**
    * @since 1.0
    */
   public void markChanged() {
-    persistenceState.markChanged ( );
+    persistenceState.markChanged();
   }
 
   /**
    * @since 1.0
    */
   public void markDeleted() {
-    persistenceState.markDeleted ( );
+    persistenceState.markDeleted();
   }
 
   /**
    * @since 1.0
    */
   public void markNew() {
-    persistenceState.markNew ( );
+    persistenceState.markNew();
   }
 
   /**
    * @since 1.0
    */
   public void markUnchanged() {
-    persistenceState.markUnchanged ( );
+    persistenceState.markUnchanged();
   }
 
   /**
    * @since 1.0
    */
   public boolean onDelete(Session s) throws CallbackException {
-    return persistenceState.onDelete (s);
+    return persistenceState.onDelete(s);
   }
 
   /**
    * @since 1.0
    */
   public void onLoad(Session s, Serializable id) {
-    persistenceState.onLoad (s, id);
+    persistenceState.onLoad(s, id);
   }
 
   /**
    * @since 1.0
    */
   public boolean onSave(Session s) throws CallbackException {
-    return persistenceState.onSave (s);
+    return persistenceState.onSave(s);
   }
 
   /**
    * @since 1.0
    */
   public boolean onUpdate(Session s) throws CallbackException {
-    return persistenceState.onUpdate (s);
+    return persistenceState.onUpdate(s);
   }
 
   public String getVariableHeadingStringText() {

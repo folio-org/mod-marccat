@@ -18,7 +18,7 @@ public abstract class NameTitleComponent extends BibliographicAccessPoint {
    * @since 1.0
    */
   public NameTitleComponent(final int itemNbr) {
-    super (itemNbr);
+    super(itemNbr);
   }
 
   public int getNameTitleHeadingNumber() {
@@ -30,6 +30,6 @@ public abstract class NameTitleComponent extends BibliographicAccessPoint {
   }
 
   public boolean isPartOfNameTitle() {
-    return getNameTitleHeadingNumber ( ) != 0;
+    return getNameTitleHeadingNumber() != 0;
   }
 }

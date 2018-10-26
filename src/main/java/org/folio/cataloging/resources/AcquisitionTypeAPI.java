@@ -27,9 +27,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
 public class AcquisitionTypeAPI extends BaseResource {
   private Function <Avp <String>, AcquisitionType> toAcquisitionType = source -> {
-    final AcquisitionType acquisitionType = new AcquisitionType ( );
-    acquisitionType.setCode (Integer.parseInt (source.getValue ( )));
-    acquisitionType.setDescription (source.getLabel ( ));
+    final AcquisitionType acquisitionType = new AcquisitionType();
+    acquisitionType.setCode(Integer.parseInt(source.getValue()));
+    acquisitionType.setDescription(source.getLabel());
     return acquisitionType;
   };
 
@@ -44,13 +44,13 @@ public class AcquisitionTypeAPI extends BaseResource {
   public AcquisitionTypeCollection getAcquisitionTypes(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final AcquisitionTypeCollection container = new AcquisitionTypeCollection ( );
-      container.setAcquisitionTypes (
-        storageService.getAcquisitionTypes (lang)
-          .stream ( )
-          .map (toAcquisitionType)
-          .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      final AcquisitionTypeCollection container = new AcquisitionTypeCollection();
+      container.setAcquisitionTypes(
+        storageService.getAcquisitionTypes(lang)
+          .stream()
+          .map(toAcquisitionType)
+          .collect(toList()));
       return container;
     }, tenant, configurator);
   }

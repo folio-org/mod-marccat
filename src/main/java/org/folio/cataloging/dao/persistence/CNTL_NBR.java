@@ -23,7 +23,7 @@ public class CNTL_NBR extends Descriptor {
    * Instantiates a new cntl nbr.
    */
   public CNTL_NBR() {
-    super ( );
+    super();
   }
 
   /* (non-Javadoc)
@@ -39,7 +39,7 @@ public class CNTL_NBR extends Descriptor {
    * @return the dao
    */
   public AbstractDAO getDAO() {
-    return new ControlNumberDescriptorDAO ( );
+    return new ControlNumberDescriptorDAO();
   }
 
   /* (non-Javadoc)
@@ -75,8 +75,8 @@ public class CNTL_NBR extends Descriptor {
    * @see Descriptor#getCorrelationValues()
    */
   public CorrelationValues getCorrelationValues() {
-    return new CorrelationValues (
-      getTypeCode ( ),
+    return new CorrelationValues(
+      getTypeCode(),
       CorrelationValues.UNDEFINED,
       CorrelationValues.UNDEFINED);
   }
@@ -86,14 +86,14 @@ public class CNTL_NBR extends Descriptor {
    * @see Descriptor#setCorrelationValues(CorrelationValues)
    */
   public void setCorrelationValues(CorrelationValues v) {
-    setTypeCode (v.getValue (1));
+    setTypeCode(v.getValue(1));
   }
 
   /* (non-Javadoc)
    * @see Descriptor#getSortFormParameters()
    */
   public SortFormParameters getSortFormParameters() {
-    return new SortFormParameters (300, getTypeCode ( ), 0, 0, 0);
+    return new SortFormParameters(300, getTypeCode(), 0, 0, 0);
   }
 
   /* (non-Javadoc)

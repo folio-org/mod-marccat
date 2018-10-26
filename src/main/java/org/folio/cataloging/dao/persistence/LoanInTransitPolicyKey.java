@@ -24,12 +24,12 @@ public class LoanInTransitPolicyKey implements Serializable {
    * Class constructor
    */
   public LoanInTransitPolicyKey() {
-    super ( );
+    super();
   }
 
   public LoanInTransitPolicyKey(int homeBranch, int foreignBranch) {
-    this.setHomeBranchNumber (homeBranch);
-    this.setForeignBranchNumber (foreignBranch);
+    this.setHomeBranchNumber(homeBranch);
+    this.setForeignBranchNumber(foreignBranch);
   }
 
   /**
@@ -39,8 +39,8 @@ public class LoanInTransitPolicyKey implements Serializable {
   public boolean equals(Object anObject) {
     if (anObject instanceof LoanInTransitPolicyKey) {
       LoanInTransitPolicyKey aKey = (LoanInTransitPolicyKey) anObject;
-      return (homeBranchNumber == aKey.getHomeBranchNumber ( ) && foreignBranchNumber == aKey
-        .getForeignBranchNumber ( ));
+      return (homeBranchNumber == aKey.getHomeBranchNumber() && foreignBranchNumber == aKey
+        .getForeignBranchNumber());
     } else {
       return false;
     }

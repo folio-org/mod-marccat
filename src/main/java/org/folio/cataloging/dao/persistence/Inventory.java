@@ -27,7 +27,7 @@ import java.util.Date;
  * @since 1.0
  */
 public class Inventory implements Persistence {
-  private static DAOInventory daoInventory = new DAOInventory ( );
+  private static DAOInventory daoInventory = new DAOInventory();
   InventoryKey key;
   //private int inventoryNumber;
   //private int mainLibraryNumber;
@@ -47,7 +47,7 @@ public class Inventory implements Persistence {
   private String serialNumber;
   private boolean checked = false;
   private short currencyCode = 0;
-  private PersistenceState persistenceState = new PersistenceState ( );
+  private PersistenceState persistenceState = new PersistenceState();
 
   /**
    * Class constructor
@@ -55,10 +55,10 @@ public class Inventory implements Persistence {
    * @since 1.0
    */
   public Inventory() {
-    super ( );
-    setPrice (new Float (0));
-    setDateReceived (Calendar.getInstance ( ).getTime ( ));
-    setKey (new InventoryKey ( ));
+    super();
+    setPrice(new Float(0));
+    setDateReceived(Calendar.getInstance().getTime());
+    setKey(new InventoryKey());
   }
 
   /**
@@ -67,11 +67,11 @@ public class Inventory implements Persistence {
    * @since 1.0
    */
   public Inventory(int copyNumber, int cataloguingView, int mainLibrary) throws DataAccessException {
-    this ( );
-    setCopyNumber (copyNumber);
-    key.setMainLibraryNumber (mainLibrary);
-    DAOInventory dao = new DAOInventory ( );
-    dao.populateNewItem (this, cataloguingView);
+    this();
+    setCopyNumber(copyNumber);
+    key.setMainLibraryNumber(mainLibrary);
+    DAOInventory dao = new DAOInventory();
+    dao.populateNewItem(this, cataloguingView);
   }
 
   /**
@@ -176,9 +176,9 @@ public class Inventory implements Persistence {
    * @since 1.0
    */
   public String getDateReceivedString() {
-    if (getDateReceived ( ) != null) {
-      DateFormat formatter = new SimpleDateFormat ("yyyy-MM-dd");
-      return formatter.format (getDateReceived ( ));
+    if (getDateReceived() != null) {
+      DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+      return formatter.format(getDateReceived());
     } else {
       return "";
     }
@@ -287,7 +287,7 @@ public class Inventory implements Persistence {
   public int hashCode() {
     final int PRIME = 31;
     int result = 1;
-    result = PRIME * result + ((key == null) ? 0 : key.hashCode ( ));
+    result = PRIME * result + ((key == null) ? 0 : key.hashCode());
     return result;
   }
 
@@ -296,13 +296,13 @@ public class Inventory implements Persistence {
       return true;
     if (obj == null)
       return false;
-    if (getClass ( ) != obj.getClass ( ))
+    if (getClass() != obj.getClass())
       return false;
     final Inventory other = (Inventory) obj;
     if (key == null) {
       if (other.key != null)
         return false;
-    } else if (!key.equals (other.key))
+    } else if (!key.equals(other.key))
       return false;
     return true;
   }
@@ -311,119 +311,119 @@ public class Inventory implements Persistence {
    * @since 1.0
    */
   public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict (obj);
+    persistenceState.evict(obj);
   }
 
   /**
    * @since 1.0
    */
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   /**
    * @since 1.0
    */
   public void setUpdateStatus(int i) {
-    persistenceState.setUpdateStatus (i);
+    persistenceState.setUpdateStatus(i);
   }
 
   /**
    * @since 1.0
    */
   public boolean isChanged() {
-    return persistenceState.isChanged ( );
+    return persistenceState.isChanged();
   }
 
   /**
    * @since 1.0
    */
   public boolean isDeleted() {
-    return persistenceState.isDeleted ( );
+    return persistenceState.isDeleted();
   }
 
   /**
    * @since 1.0
    */
   public boolean isNew() {
-    return persistenceState.isNew ( );
+    return persistenceState.isNew();
   }
 
   /**
    * @since 1.0
    */
   public boolean isRemoved() {
-    return persistenceState.isRemoved ( );
+    return persistenceState.isRemoved();
   }
 
   /**
    * @since 1.0
    */
   public void markChanged() {
-    persistenceState.markChanged ( );
+    persistenceState.markChanged();
   }
 
   /**
    * @since 1.0
    */
   public void markDeleted() {
-    persistenceState.markDeleted ( );
+    persistenceState.markDeleted();
   }
 
   /**
    * @since 1.0
    */
   public void markNew() {
-    persistenceState.markNew ( );
+    persistenceState.markNew();
   }
 
   /**
    * @since 1.0
    */
   public void markUnchanged() {
-    persistenceState.markUnchanged ( );
+    persistenceState.markUnchanged();
   }
 
   /**
    * @since 1.0
    */
   public boolean onDelete(Session arg0) throws CallbackException {
-    return persistenceState.onDelete (arg0);
+    return persistenceState.onDelete(arg0);
   }
 
   /**
    * @since 1.0
    */
   public void onLoad(Session arg0, Serializable arg1) {
-    persistenceState.onLoad (arg0, arg1);
+    persistenceState.onLoad(arg0, arg1);
   }
 
   /**
    * @since 1.0
    */
   public boolean onSave(Session arg0) throws CallbackException {
-    return persistenceState.onSave (arg0);
+    return persistenceState.onSave(arg0);
   }
 
   /**
    * @since 1.0
    */
   public boolean onUpdate(Session arg0) throws CallbackException {
-    return persistenceState.onUpdate (arg0);
+    return persistenceState.onUpdate(arg0);
   }
 
   /* (non-Javadoc)
    * @see librisuite.business.common.Persistence#evict()
    */
   public void evict() throws DataAccessException {
-    evict (this);
+    evict(this);
   }
 
   /* (non-Javadoc)
    * @see librisuite.business.common.Persistence#generateNewKey()
    */
   public void generateNewKey() throws DataAccessException {
-    throw new IllegalArgumentException ("New inventory key requires main library");
+    throw new IllegalArgumentException("New inventory key requires main library");
   }
 
   /**
@@ -432,7 +432,7 @@ public class Inventory implements Persistence {
    * @since 1.0
    */
   public void generateNewKey(int mainLibrary) throws DataAccessException {
-    key.setInventoryNumber (daoInventory.getNextNumber (mainLibrary));
+    key.setInventoryNumber(daoInventory.getNextNumber(mainLibrary));
   }
 
   /* (non-Javadoc)

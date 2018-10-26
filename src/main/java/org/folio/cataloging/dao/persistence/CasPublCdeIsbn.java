@@ -14,7 +14,7 @@ import java.util.Date;
 public class CasPublCdeIsbn implements Persistence {
   private static final long serialVersionUID = 2522128570785338271L;
 
-  static DAOCasDigAdmin dao = new DAOCasDigAdmin ( );
+  static DAOCasDigAdmin dao = new DAOCasDigAdmin();
 
   private String codEditore;
   //	private String codIsbn;
@@ -23,15 +23,15 @@ public class CasPublCdeIsbn implements Persistence {
   private String user;
   private Date date;
 
-  private PersistenceState persistenceState = new PersistenceState ( );
+  private PersistenceState persistenceState = new PersistenceState();
 
   public CasPublCdeIsbn(String editor) {
-    this ( );
-    setCodEditore (editor);
+    this();
+    setCodEditore(editor);
   }
 
   public CasPublCdeIsbn() {
-    super ( );
+    super();
   }
 
   public void setPersistenceState(PersistenceState state) {
@@ -39,16 +39,16 @@ public class CasPublCdeIsbn implements Persistence {
   }
 
   public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict (obj);
+    persistenceState.evict(obj);
   }
 
   public int hashCode() {
     final int prime = 31;
     int result = 1;
     result = prime * result
-      + ((codEditore == null) ? 0 : codEditore.hashCode ( ));
+      + ((codEditore == null) ? 0 : codEditore.hashCode());
     result = prime * result
-      + ((isbnSortForm == null) ? 0 : isbnSortForm.hashCode ( ));
+      + ((isbnSortForm == null) ? 0 : isbnSortForm.hashCode());
     return result;
   }
 
@@ -58,25 +58,25 @@ public class CasPublCdeIsbn implements Persistence {
       return true;
     if (obj == null)
       return false;
-    if (getClass ( ) != obj.getClass ( ))
+    if (getClass() != obj.getClass())
       return false;
     CasPublCdeIsbn other = (CasPublCdeIsbn) obj;
     if (codEditore == null) {
       if (other.codEditore != null)
         return false;
-    } else if (!codEditore.equals (other.codEditore))
+    } else if (!codEditore.equals(other.codEditore))
       return false;
     if (isbnSortForm == null) {
       if (other.isbnSortForm != null)
         return false;
-    } else if (!isbnSortForm.equals (other.isbnSortForm))
+    } else if (!isbnSortForm.equals(other.isbnSortForm))
       return false;
     return true;
   }
 
 
   public void evict() throws DataAccessException {
-    evict (this);
+    evict(this);
   }
 
   public AbstractDAO getDAO() {
@@ -84,59 +84,59 @@ public class CasPublCdeIsbn implements Persistence {
   }
 
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   public void setUpdateStatus(int i) {
-    persistenceState.setUpdateStatus (i);
+    persistenceState.setUpdateStatus(i);
   }
 
   public boolean isChanged() {
-    return persistenceState.isChanged ( );
+    return persistenceState.isChanged();
   }
 
   public boolean isDeleted() {
-    return persistenceState.isDeleted ( );
+    return persistenceState.isDeleted();
   }
 
   public boolean isNew() {
-    return persistenceState.isNew ( );
+    return persistenceState.isNew();
   }
 
   public boolean isRemoved() {
-    return persistenceState.isRemoved ( );
+    return persistenceState.isRemoved();
   }
 
   public void markChanged() {
-    persistenceState.markChanged ( );
+    persistenceState.markChanged();
   }
 
   public void markDeleted() {
-    persistenceState.markDeleted ( );
+    persistenceState.markDeleted();
   }
 
   public void markNew() {
-    persistenceState.markNew ( );
+    persistenceState.markNew();
   }
 
   public void markUnchanged() {
-    persistenceState.markUnchanged ( );
+    persistenceState.markUnchanged();
   }
 
   public boolean onDelete(Session arg0) throws CallbackException {
-    return persistenceState.onDelete (arg0);
+    return persistenceState.onDelete(arg0);
   }
 
   public void onLoad(Session arg0, Serializable arg1) {
-    persistenceState.onLoad (arg0, arg1);
+    persistenceState.onLoad(arg0, arg1);
   }
 
   public boolean onSave(Session arg0) throws CallbackException {
-    return persistenceState.onSave (arg0);
+    return persistenceState.onSave(arg0);
   }
 
   public boolean onUpdate(Session arg0) throws CallbackException {
-    return persistenceState.onUpdate (arg0);
+    return persistenceState.onUpdate(arg0);
   }
 
   /* (non-Javadoc)

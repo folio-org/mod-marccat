@@ -22,7 +22,7 @@ public class SRL_PRED_PAT implements Persistence, Serializable {
   private int amicusNumber;
   private String label;
   private String caption;
-  private PersistenceState persistenceState = new PersistenceState ( );
+  private PersistenceState persistenceState = new PersistenceState();
 
   public SRL_PRED_PAT() {
   }
@@ -30,11 +30,11 @@ public class SRL_PRED_PAT implements Persistence, Serializable {
   public SRL_PRED_PAT(int amicusNumber, int cataloguingView) {
     this.amicusNumber = amicusNumber;
     try {
-      Cache cache = (Cache) new HibernateUtil ( )
-        .load (Cache.class, new Cache (
+      Cache cache = (Cache) new HibernateUtil()
+        .load(Cache.class, new Cache(
           amicusNumber, (short) cataloguingView));
       if (cache != null) {
-        this.label = cache.getTitleHeadingMainStringText ( );
+        this.label = cache.getTitleHeadingMainStringText();
       }
     } catch (Exception e) {
       // do nothing
@@ -101,14 +101,14 @@ public class SRL_PRED_PAT implements Persistence, Serializable {
    * @see PersistenceState#cancelChanges()
    */
   public void cancelChanges() {
-    persistenceState.cancelChanges ( );
+    persistenceState.cancelChanges();
   }
 
   /**
    * @see PersistenceState#confirmChanges()
    */
   public void confirmChanges() {
-    persistenceState.confirmChanges ( );
+    persistenceState.confirmChanges();
   }
 
   /**
@@ -119,8 +119,8 @@ public class SRL_PRED_PAT implements Persistence, Serializable {
   public boolean equals(Object obj) {
     if (obj instanceof SRL_PRED_PAT) {
       SRL_PRED_PAT o = (SRL_PRED_PAT) obj;
-      return o.getPredictionPatternNumber ( ) == this
-        .getPredictionPatternNumber ( );
+      return o.getPredictionPatternNumber() == this
+        .getPredictionPatternNumber();
     } else {
       return false;
     }
@@ -132,7 +132,7 @@ public class SRL_PRED_PAT implements Persistence, Serializable {
    * @see PersistenceState#evict(Object)
    */
   public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict (obj);
+    persistenceState.evict(obj);
   }
 
   /**
@@ -140,7 +140,7 @@ public class SRL_PRED_PAT implements Persistence, Serializable {
    * @see PersistenceState#getDAO()
    */
   public AbstractDAO getDAO() {
-    return persistenceState.getDAO ( );
+    return persistenceState.getDAO();
   }
 
   /**
@@ -148,7 +148,7 @@ public class SRL_PRED_PAT implements Persistence, Serializable {
    * @see PersistenceState#getUpdateStatus()
    */
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   /**
@@ -156,7 +156,7 @@ public class SRL_PRED_PAT implements Persistence, Serializable {
    * @see PersistenceState#setUpdateStatus(int)
    */
   public void setUpdateStatus(int i) {
-    persistenceState.setUpdateStatus (i);
+    persistenceState.setUpdateStatus(i);
   }
 
   /**
@@ -164,7 +164,7 @@ public class SRL_PRED_PAT implements Persistence, Serializable {
    * @see Object#hashCode()
    */
   public int hashCode() {
-    return getPredictionPatternNumber ( );
+    return getPredictionPatternNumber();
   }
 
   /**
@@ -172,7 +172,7 @@ public class SRL_PRED_PAT implements Persistence, Serializable {
    * @see PersistenceState#isChanged()
    */
   public boolean isChanged() {
-    return persistenceState.isChanged ( );
+    return persistenceState.isChanged();
   }
 
   /**
@@ -180,7 +180,7 @@ public class SRL_PRED_PAT implements Persistence, Serializable {
    * @see PersistenceState#isDeleted()
    */
   public boolean isDeleted() {
-    return persistenceState.isDeleted ( );
+    return persistenceState.isDeleted();
   }
 
   /**
@@ -188,7 +188,7 @@ public class SRL_PRED_PAT implements Persistence, Serializable {
    * @see PersistenceState#isNew()
    */
   public boolean isNew() {
-    return persistenceState.isNew ( );
+    return persistenceState.isNew();
   }
 
   /**
@@ -196,35 +196,35 @@ public class SRL_PRED_PAT implements Persistence, Serializable {
    * @see PersistenceState#isRemoved()
    */
   public boolean isRemoved() {
-    return persistenceState.isRemoved ( );
+    return persistenceState.isRemoved();
   }
 
   /**
    * @see PersistenceState#markChanged()
    */
   public void markChanged() {
-    persistenceState.markChanged ( );
+    persistenceState.markChanged();
   }
 
   /**
    * @see PersistenceState#markDeleted()
    */
   public void markDeleted() {
-    persistenceState.markDeleted ( );
+    persistenceState.markDeleted();
   }
 
   /**
    * @see PersistenceState#markNew()
    */
   public void markNew() {
-    persistenceState.markNew ( );
+    persistenceState.markNew();
   }
 
   /**
    * @see PersistenceState#markUnchanged()
    */
   public void markUnchanged() {
-    persistenceState.markUnchanged ( );
+    persistenceState.markUnchanged();
   }
 
   /**
@@ -234,7 +234,7 @@ public class SRL_PRED_PAT implements Persistence, Serializable {
    * @see PersistenceState#onDelete(Session)
    */
   public boolean onDelete(Session arg0) throws CallbackException {
-    return persistenceState.onDelete (arg0);
+    return persistenceState.onDelete(arg0);
   }
 
   /**
@@ -244,7 +244,7 @@ public class SRL_PRED_PAT implements Persistence, Serializable {
    * Serializable)
    */
   public void onLoad(Session arg0, Serializable arg1) {
-    persistenceState.onLoad (arg0, arg1);
+    persistenceState.onLoad(arg0, arg1);
   }
 
   /**
@@ -254,7 +254,7 @@ public class SRL_PRED_PAT implements Persistence, Serializable {
    * @see PersistenceState#onSave(Session)
    */
   public boolean onSave(Session arg0) throws CallbackException {
-    return persistenceState.onSave (arg0);
+    return persistenceState.onSave(arg0);
   }
 
   /**
@@ -264,7 +264,7 @@ public class SRL_PRED_PAT implements Persistence, Serializable {
    * @see PersistenceState#onUpdate(Session)
    */
   public boolean onUpdate(Session arg0) throws CallbackException {
-    return persistenceState.onUpdate (arg0);
+    return persistenceState.onUpdate(arg0);
   }
 
   /**
@@ -272,15 +272,15 @@ public class SRL_PRED_PAT implements Persistence, Serializable {
    * @see PersistenceState#toString()
    */
   public String toString() {
-    return persistenceState.toString ( );
+    return persistenceState.toString();
   }
 
   public void evict() throws DataAccessException {
-    persistenceState.evict (this);
+    persistenceState.evict(this);
   }
 
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
-    SystemNextNumberDAO dao = new SystemNextNumberDAO ( );
-    setPredictionPatternNumber (dao.getNextNumber ("EP", session));
+    SystemNextNumberDAO dao = new SystemNextNumberDAO();
+    setPredictionPatternNumber(dao.getNextNumber("EP", session));
   }
 }

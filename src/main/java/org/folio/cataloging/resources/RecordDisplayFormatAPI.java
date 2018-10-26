@@ -28,9 +28,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class RecordDisplayFormatAPI extends BaseResource {
 
   private Function <Avp <String>, RecordDisplayFormat> toRecordDisplayFormat = source -> {
-    final RecordDisplayFormat recordDisplayFormat = new RecordDisplayFormat ( );
-    recordDisplayFormat.setCode (Integer.parseInt (source.getValue ( )));
-    recordDisplayFormat.setDescription (source.getLabel ( ));
+    final RecordDisplayFormat recordDisplayFormat = new RecordDisplayFormat();
+    recordDisplayFormat.setCode(Integer.parseInt(source.getValue()));
+    recordDisplayFormat.setDescription(source.getLabel());
     return recordDisplayFormat;
   };
 
@@ -45,13 +45,13 @@ public class RecordDisplayFormatAPI extends BaseResource {
   public RecordDisplayFormatCollection getRecordDisplayFormats(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final RecordDisplayFormatCollection container = new RecordDisplayFormatCollection ( );
-      container.setRecordDisplayFormats (
-        storageService.getRecordDisplayFormats (lang)
-          .stream ( )
-          .map (toRecordDisplayFormat)
-          .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      final RecordDisplayFormatCollection container = new RecordDisplayFormatCollection();
+      container.setRecordDisplayFormats(
+        storageService.getRecordDisplayFormats(lang)
+          .stream()
+          .map(toRecordDisplayFormat)
+          .collect(toList()));
       return container;
     }, tenant, configurator);
   }

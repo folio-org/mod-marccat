@@ -23,7 +23,7 @@ import static java.util.stream.Collectors.toList;
  * @since 1.0
  */
 public class DAOSearchIndex extends HibernateUtil {
-  private static final Log logger = LogFactory.getLog (DAOSearchIndex.class);
+  private static final Log logger = LogFactory.getLog(DAOSearchIndex.class);
 
   /**
    * Returns a list of all categories belonging to the requested type.
@@ -38,18 +38,18 @@ public class DAOSearchIndex extends HibernateUtil {
 
     try {
       final List <IndexMain> indices =
-        session.find (
+        session.find(
           "from IndexMain as a " +
             "where a.language = ? and a.indexType = '" + indexType + "' order by a.indexKey",
-          new Object[]{locale.getISO3Language ( )}, new Type[]{Hibernate.STRING});
+          new Object[]{locale.getISO3Language()}, new Type[]{Hibernate.STRING});
       return indices
-        .stream ( )
-        .map (index -> (Avp <Integer>) new Avp (index.getIndexValueCode ( ), index.getIndexMainName ( )))
-        .collect (toList ( ));
+        .stream()
+        .map(index -> (Avp <Integer>) new Avp(index.getIndexValueCode(), index.getIndexMainName()))
+        .collect(toList());
 
     } catch (final HibernateException exception) {
-      logger.error (MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-      return Collections.emptyList ( );
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      return Collections.emptyList();
     }
 
   }
@@ -67,19 +67,19 @@ public class DAOSearchIndex extends HibernateUtil {
   public List <Avp <String>> getIndexes(final Session session, final String indexType, final int categoryCode, final Locale locale) throws DataAccessException {
     try {
       final List <IndexSub> indexCategories =
-        session.find (
+        session.find(
           "from IndexSub as a " +
             "where a.language = ? and a.indexType = '" + indexType + "'" +
             "and a.indexValueCode = '" + categoryCode + "'" + " order by a.indexSubName",
-          new Object[]{locale.getISO3Language ( )}, new Type[]{Hibernate.STRING});
+          new Object[]{locale.getISO3Language()}, new Type[]{Hibernate.STRING});
       return indexCategories
-        .stream ( )
-        .map (indexCategory -> (Avp <String>) new Avp (indexCategory.getIndexSearchCode ( ), indexCategory.getIndexSubName ( )))
-        .collect (toList ( ));
+        .stream()
+        .map(indexCategory -> (Avp <String>) new Avp(indexCategory.getIndexSearchCode(), indexCategory.getIndexSubName()))
+        .collect(toList());
 
     } catch (final HibernateException exception) {
-      logger.error (MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-      return Collections.emptyList ( );
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      return Collections.emptyList();
     }
 
   }
@@ -96,15 +96,15 @@ public class DAOSearchIndex extends HibernateUtil {
   public String getIndexDescription(final Session session, final String code, final Locale locale) throws DataAccessException {
     try {
       final List <IndexSub> index =
-        session.find (
+        session.find(
           "from IndexSub as a " +
             "where a.language = ? " +
             "and a.indexSearchCode = '" + code + "'" + " order by a.indexSubName",
-          new Object[]{locale.getISO3Language ( )}, new Type[]{Hibernate.STRING});
-      return index.stream ( ).findFirst ( ).get ( ).getIndexSubName ( );
+          new Object[]{locale.getISO3Language()}, new Type[]{Hibernate.STRING});
+      return index.stream().findFirst().get().getIndexSubName();
 
     } catch (final HibernateException exception) {
-      logger.error (MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
       return "";
     }
 
@@ -113,32 +113,32 @@ public class DAOSearchIndex extends HibernateUtil {
 
   public List getSubIndex(Locale locale, char indexType) throws DataAccessException {
     List l = null;
-    List result = new ArrayList ( );
-    Session s = currentSession ( );
+    List result = new ArrayList();
+    Session s = currentSession();
 
     try {
       l =
-        s.find (
+        s.find(
           "from IndexSub as a " +
             "where a.language = ? and a.indexType = '" + indexType + "'" +
             /*modifica barbara ordinamento indici*/
             " order by a.indexSubName",
           new Object[]{
-            locale.getISO3Language ( )},
+            locale.getISO3Language()},
           new Type[]{Hibernate.STRING});
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
 
-    Iterator iter = l.iterator ( );
-    while (iter.hasNext ( )) {
-      IndexSub aRow = (IndexSub) iter.next ( );
-      result.add (
-        new SearchIndexElement (
-          aRow.getIndexValueCode ( ),
-          aRow.getIndexSubValueCode ( ),
-          aRow.getIndexSearchCode ( ),
-          aRow.getIndexSubName ( )
+    Iterator iter = l.iterator();
+    while (iter.hasNext()) {
+      IndexSub aRow = (IndexSub) iter.next();
+      result.add(
+        new SearchIndexElement(
+          aRow.getIndexValueCode(),
+          aRow.getIndexSubValueCode(),
+          aRow.getIndexSearchCode(),
+          aRow.getIndexSubName()
         ));
     }
     return result;

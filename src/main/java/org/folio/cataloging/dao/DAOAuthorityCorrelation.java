@@ -31,11 +31,11 @@ import java.util.List;
  */
 public class DAOAuthorityCorrelation extends DAOCorrelation {
   private static final Log logger = LogFactory
-    .getLog (DAOAuthorityCorrelation.class);
+    .getLog(DAOAuthorityCorrelation.class);
 
   private static final String ALPHABETICAL_ORDER = " order by ct.longText ";
   private static final String SEQUENCE_ORDER = " order by ct.sequence ";
-  private String defaultListOrder = Defaults.getBoolean ("labels.alphabetical.order", true) ? ALPHABETICAL_ORDER : SEQUENCE_ORDER;
+  private String defaultListOrder = Defaults.getBoolean("labels.alphabetical.order", true) ? ALPHABETICAL_ORDER : SEQUENCE_ORDER;
 
   /**
    * Returns the AuthorityCorrelation from CorrelationKey
@@ -46,10 +46,10 @@ public class DAOAuthorityCorrelation extends DAOCorrelation {
    */
   public Correlation getAuthorityCorrelation(CorrelationKey correlationKey)
     throws DataAccessException {
-    return getFirstAuthorityCorrelation (correlationKey.getMarcTag ( ),
-      correlationKey.getMarcFirstIndicator ( ), correlationKey
-        .getMarcSecondIndicator ( ), correlationKey
-        .getMarcTagCategoryCode ( ));
+    return getFirstAuthorityCorrelation(correlationKey.getMarcTag(),
+      correlationKey.getMarcFirstIndicator(), correlationKey
+        .getMarcSecondIndicator(), correlationKey
+        .getMarcTagCategoryCode());
   }
 
   /**
@@ -70,18 +70,18 @@ public class DAOAuthorityCorrelation extends DAOCorrelation {
                                              char secondIndicator, short categoryCode)
     throws DataAccessException {
 
-    List l = find ("from AuthorityCorrelation as ac "
+    List l = find("from AuthorityCorrelation as ac "
         + "where ac.key.marcTag = ? and "
         + "ac.key.marcFirstIndicator = ? and "
         + "ac.key.marcSecondIndicator = ? and "
         + "ac.key.marcTagCategoryCode = ?", new Object[]{
-        new String (tag), new Character (firstIndicator),
-        new Character (secondIndicator), new Short (categoryCode)},
+        new String(tag), new Character(firstIndicator),
+        new Character(secondIndicator), new Short(categoryCode)},
       new Type[]{Hibernate.STRING, Hibernate.CHARACTER,
         Hibernate.CHARACTER, Hibernate.SHORT});
 
-    if (l.size ( ) == 1) {
-      return (Correlation) l.get (0);
+    if (l.size() == 1) {
+      return (Correlation) l.get(0);
     } else {
       return null;
     }
@@ -116,7 +116,7 @@ public class DAOAuthorityCorrelation extends DAOCorrelation {
 
     List l = null;
     if (categoryCode != 0) {
-      l = find (
+      l = find(
         "from AuthorityCorrelation as ac "
           + "where ac.key.marcTag = ? and "
           + "(ac.key.marcFirstIndicator = ? or ac.key.marcFirstIndicator in ('S', 'O')) and "
@@ -129,20 +129,20 @@ public class DAOAuthorityCorrelation extends DAOCorrelation {
           Hibernate.CHARACTER, Hibernate.INTEGER});
     } else {
 
-      l = find (
+      l = find(
         "from AuthorityCorrelation as ac "
           + "where ac.key.marcTag = ? and "
           + "(ac.key.marcFirstIndicator = ? or ac.key.marcFirstIndicator in ('S', 'O') )and "
           + "(ac.key.marcSecondIndicator = ? or ac.key.marcSecondIndicator in ('S', 'O') ) order by ac.key.marcTagCategoryCode asc",
-        new Object[]{new String (tag),
+        new Object[]{new String(tag),
           firstIndicator,
           secondIndicator}, new Type[]{
           Hibernate.STRING, Hibernate.CHARACTER,
           Hibernate.CHARACTER});
     }
 
-    if (l != null && !l.isEmpty ( )) {
-      return (Correlation) l.get (0);
+    if (l != null && !l.isEmpty()) {
+      return (Correlation) l.get(0);
     } else {
       return null;
     }
@@ -166,7 +166,7 @@ public class DAOAuthorityCorrelation extends DAOCorrelation {
                                         int value1, int value2, int value3)
     throws DataAccessException {
 
-    List l = find ("from AuthorityCorrelation as ac "
+    List l = find("from AuthorityCorrelation as ac "
       + "where ac.key.marcTagCategoryCode = ? and "
       + "ac.key.headingType = ? and "
       + "ac.databaseFirstValue = ? and "
@@ -177,62 +177,62 @@ public class DAOAuthorityCorrelation extends DAOCorrelation {
       Hibernate.INTEGER, Hibernate.STRING, Hibernate.INTEGER,
       Hibernate.INTEGER, Hibernate.INTEGER});
 
-    if (l.size ( ) == 1) {
-      return ((Correlation) l.get (0)).getKey ( );
+    if (l.size() == 1) {
+      return ((Correlation) l.get(0)).getKey();
     } else {
       return null;
     }
   }
 
   public List getValidReferenceTypeList(Tag t) throws DataAccessException {
-    CorrelationValues v = t.getCorrelationValues ( );
-    int position = v.getLastUsedPosition ( ).intValue ( );
+    CorrelationValues v = t.getCorrelationValues();
+    int position = v.getLastUsedPosition().intValue();
 
     if (position == 1) {
-      return find (" select distinct ct from T_MARC_REF_TYP "
+      return find(" select distinct ct from T_MARC_REF_TYP "
           + " as ct, AuthorityCorrelation as ac "
           + " where ac.key.marcTagCategoryCode = ? and "
           + " ac.key.headingType = ? and "
           + " ac.databaseFirstValue = ct.code order by ct.sequence ",
-        new Object[]{t.getCategory ( ),
-          t.getHeadingType ( )},
+        new Object[]{t.getCategory(),
+          t.getHeadingType()},
         new Type[]{
           Hibernate.INTEGER,
           Hibernate.STRING});
     } else if (position == 2) {
-      return find (
+      return find(
         " select distinct ct from T_MARC_REF_TYP "
           + " as ct, AuthorityCorrelation as ac "
           + " where ac.key.marcTagCategoryCode = ? and "
           + " ac.key.headingType = ? and "
           + " ac.databaseFirstValue = ? and "
           + " ac.databaseSecondValue = ct.code order by ct.sequence ",
-        new Object[]{t.getCategory ( ),
-          t.getHeadingType ( ), v.getValue (1)},
+        new Object[]{t.getCategory(),
+          t.getHeadingType(), v.getValue(1)},
         new Type[]{Hibernate.INTEGER, Hibernate.STRING,
           Hibernate.INTEGER});
     } else if (position == 3) {
-      return find (" select distinct ct from T_MARC_REF_TYP "
+      return find(" select distinct ct from T_MARC_REF_TYP "
           + " as ct, AuthorityCorrelation as ac "
           + " where ac.key.marcTagCategoryCode = ? and "
           + " ac.key.headingType = ? and "
           + " ac.databaseFirstValue = ? and "
           + " ac.databaseSecondValue = ? and "
           + " ac.databaseThirdValue = ct.code order by ct.sequence ",
-        new Object[]{t.getCategory ( ),
-          t.getHeadingType ( ), v.getValue (1),
-          v.getValue (2)}, new Type[]{
+        new Object[]{t.getCategory(),
+          t.getHeadingType(), v.getValue(1),
+          v.getValue(2)}, new Type[]{
           Hibernate.INTEGER, Hibernate.STRING, Hibernate.INTEGER,
           Hibernate.INTEGER});
     } else {
-      throw new RuntimeException ("Invalid correlation data");
+      throw new RuntimeException("Invalid correlation data");
     }
   }
 
   public List getSecondCorrelationList(int category, String headingType,
                                        int value1, Class codeTable) throws DataAccessException {
 
-    return find (" select distinct ct from " + codeTable.getName ( )
+    return find(" select distinct ct from " + codeTable.getName()
         + " as ct, AuthorityCorrelation as ac "
         + " where ac.key.marcTagCategoryCode = ? and "
         + " ac.key.headingType = ? and "
@@ -247,7 +247,7 @@ public class DAOAuthorityCorrelation extends DAOCorrelation {
                                       int value1, int value2, Class codeTable)
     throws DataAccessException {
 
-    return find (" select distinct ct from " + codeTable.getName ( )
+    return find(" select distinct ct from " + codeTable.getName()
         + " as ct, AuthorityCorrelation as ac "
         + " where ac.key.marcTagCategoryCode = ? and "
         + " ac.key.headingType = ? "
@@ -262,20 +262,20 @@ public class DAOAuthorityCorrelation extends DAOCorrelation {
 
   public Correlation getFirstCorrelationByType(String tag, char indicator1,
                                                char indicator2, String headingType) throws DataAccessException {
-    List l = find (
+    List l = find(
       "from AuthorityCorrelation as ac "
         + "where ac.key.marcTag = ? and "
         + "(ac.key.marcFirstIndicator = ? or ac.key.marcFirstIndicator in ('S', 'O') ) and "
         + "(ac.key.marcSecondIndicator = ? or ac.key.marcSecondIndicator in ('S', 'O') ) "
         + " and ac.key.headingType = ? "
         + " order by ac.key.marcTagCategoryCode asc",
-      new Object[]{new String (tag), new Character (indicator1),
-        new Character (indicator2), new String (headingType)},
+      new Object[]{new String(tag), new Character(indicator1),
+        new Character(indicator2), new String(headingType)},
       new Type[]{Hibernate.STRING, Hibernate.CHARACTER,
         Hibernate.CHARACTER, Hibernate.STRING});
 
-    if (l != null && !l.isEmpty ( )) {
-      return (Correlation) l.get (0);
+    if (l != null && !l.isEmpty()) {
+      return (Correlation) l.get(0);
     } else {
       return null;
     }
@@ -311,19 +311,19 @@ public class DAOAuthorityCorrelation extends DAOCorrelation {
     if (alphabeticOrder)
       order = ALPHABETICAL_ORDER;
     try {
-      Session s = currentSession ( );
+      Session s = currentSession();
       listCodeTable =
-        s.find ("select distinct ct from "
-          + c.getName ( )
+        s.find("select distinct ct from "
+          + c.getName()
           + " as ct, AuthorityCorrelation as bc "
           + " where ct.obsoleteIndicator = 0 and bc.key.marcTagCategoryCode= 7"
           + filterTag
           + filtro
           + order);
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
-    logger.debug ("Got codetable for " + c.getName ( ));
+    logger.debug("Got codetable for " + c.getName());
     return listCodeTable;
   }
 

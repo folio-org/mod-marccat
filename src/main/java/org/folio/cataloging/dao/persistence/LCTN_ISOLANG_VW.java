@@ -84,7 +84,7 @@ public class LCTN_ISOLANG_VW implements Serializable {
   }
 
   public short getLocation() {
-    return this.key.getLocationNumber ( );
+    return this.key.getLocationNumber();
   }
 
 }

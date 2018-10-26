@@ -27,7 +27,7 @@ public class SortCriteriaDetails implements Serializable {
    * @since 1.0
    */
   public SortCriteriaDetails() {
-    super ( );
+    super();
     // TODO Auto-generated constructor stub
   }
 
@@ -93,8 +93,8 @@ public class SortCriteriaDetails implements Serializable {
   public boolean equals(Object arg0) {
     if (arg0 instanceof SortCriteriaDetails) {
       SortCriteriaDetails obj = (SortCriteriaDetails) arg0;
-      return obj.getCode ( ) == this.getCode ( ) &&
-        obj.getSequence ( ) == this.getSequence ( );
+      return obj.getCode() == this.getCode() &&
+        obj.getSequence() == this.getSequence();
     }
     return false;
   }
@@ -103,7 +103,7 @@ public class SortCriteriaDetails implements Serializable {
    * @see java.lang.Object#hashCode()
    */
   public int hashCode() {
-    return getCode ( );
+    return getCode();
   }
 
 }

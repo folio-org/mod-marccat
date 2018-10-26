@@ -36,7 +36,7 @@ public class NME_HDG extends Descriptor implements Serializable {
    * Instantiates a new nme hdg.
    */
   public NME_HDG() {
-    super ( );
+    super();
   }
 
   /* (non-Javadoc)
@@ -58,7 +58,7 @@ public class NME_HDG extends Descriptor implements Serializable {
    * @see Descriptor#getCorrelationValues()
    */
   public CorrelationValues getCorrelationValues() {
-    return new CorrelationValues (
+    return new CorrelationValues(
       typeCode,
       subTypeCode,
       CorrelationValues.UNDEFINED);
@@ -68,8 +68,8 @@ public class NME_HDG extends Descriptor implements Serializable {
    * @see Descriptor#setCorrelationValues(CorrelationValues)
    */
   public void setCorrelationValues(CorrelationValues v) {
-    typeCode = v.getValue (1);
-    subTypeCode = v.getValue (2);
+    typeCode = v.getValue(1);
+    subTypeCode = v.getValue(2);
   }
 
   /**
@@ -78,7 +78,7 @@ public class NME_HDG extends Descriptor implements Serializable {
    * @return the dao
    */
   public AbstractDAO getDAO() {
-    return new NameDescriptorDAO ( );
+    return new NameDescriptorDAO();
   }
 
   /* (non-Javadoc)
@@ -135,11 +135,11 @@ public class NME_HDG extends Descriptor implements Serializable {
    * @see Descriptor#getSortFormParameters()
    */
   public SortFormParameters getSortFormParameters() {
-    return new SortFormParameters (
+    return new SortFormParameters(
       100,
       101,
-      getTypeCode ( ),
-      getSubTypeCode ( ),
+      getTypeCode(),
+      getSubTypeCode(),
       0);
   }
 

@@ -19,8 +19,8 @@ public class TactileMaterial extends PhysicalDescription {
   private char specificPhysicalCharacteristicsCode;
 
   public TactileMaterial() {
-    super ( );
-    setHeaderType (46);
+    super();
+    setHeaderType(46);
   }
 
   /* (non-Javadoc)
@@ -29,13 +29,13 @@ public class TactileMaterial extends PhysicalDescription {
   public String getDisplayString() {
     String result =
       ""
-        + getGeneralMaterialDesignationCode ( )
-        + getSpecificMaterialDesignationCode ( )
+        + getGeneralMaterialDesignationCode()
+        + getSpecificMaterialDesignationCode()
         + " "
-        + getClassOfBrailleWritingCodes ( )
-        + getLevelOfContractionCode ( )
-        + getBrailleMusicFormatCodes ( )
-        + getSpecificPhysicalCharacteristicsCode ( );
+        + getClassOfBrailleWritingCodes()
+        + getLevelOfContractionCode()
+        + getBrailleMusicFormatCodes()
+        + getSpecificPhysicalCharacteristicsCode();
     return result;
   }
 
@@ -43,8 +43,8 @@ public class TactileMaterial extends PhysicalDescription {
    * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
    */
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
-    SystemNextNumberDAO dao = new SystemNextNumberDAO ( );
-    setKeyNumber (dao.getNextNumber ("XE", session));
+    SystemNextNumberDAO dao = new SystemNextNumberDAO();
+    setKeyNumber(dao.getNextNumber("XE", session));
   }
 
   /* (non-Javadoc)
@@ -72,7 +72,7 @@ public class TactileMaterial extends PhysicalDescription {
     if (brailleMusicFormatCodes == null) {
       return null;
     } else {
-      return brailleMusicFormatCodes.toCharArray ( );
+      return brailleMusicFormatCodes.toCharArray();
     }
   }
 
@@ -94,7 +94,7 @@ public class TactileMaterial extends PhysicalDescription {
     if (classOfBrailleWritingCodes == null) {
       return null;
     } else {
-      return classOfBrailleWritingCodes.toCharArray ( );
+      return classOfBrailleWritingCodes.toCharArray();
     }
   }
 
@@ -129,35 +129,35 @@ public class TactileMaterial extends PhysicalDescription {
   public Element generateModelXmlElementContent(Document xmlDocument) {
     Element content = null;
     if (xmlDocument != null) {
-      content = xmlDocument.createElement ("content");
-      content.setAttribute ("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode ( ));
-      content.setAttribute ("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode ( ));
-      content.setAttribute ("classOfBrailleWritingCodes", "" + getClassOfBrailleWritingCodes ( ));
-      content.setAttribute ("levelOfContractionCode", "" + getLevelOfContractionCode ( ));
-      content.setAttribute ("brailleMusicFormatCodes", "" + getBrailleMusicFormatCodes ( ));
-      content.setAttribute ("specificPhysicalCharacteristicsCode", "" + getSpecificPhysicalCharacteristicsCode ( ));
+      content = xmlDocument.createElement("content");
+      content.setAttribute("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode());
+      content.setAttribute("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode());
+      content.setAttribute("classOfBrailleWritingCodes", "" + getClassOfBrailleWritingCodes());
+      content.setAttribute("levelOfContractionCode", "" + getLevelOfContractionCode());
+      content.setAttribute("brailleMusicFormatCodes", "" + getBrailleMusicFormatCodes());
+      content.setAttribute("specificPhysicalCharacteristicsCode", "" + getSpecificPhysicalCharacteristicsCode());
     }
     return content;
   }
 
   public void parseModelXmlElementContent(Element xmlElement) {
-    Element content = (Element) xmlElement.getChildNodes ( ).item (0);
-    setGeneralMaterialDesignationCode (content.getAttribute ("generalMaterialDesignationCode").charAt (0));
-    setSpecificMaterialDesignationCode (content.getAttribute ("specificMaterialDesignationCode").charAt (0));
-    setClassOfBrailleWritingCodes (content.getAttribute ("classOfBrailleWritingCodes"));
-    setLevelOfContractionCode (content.getAttribute ("levelOfContractionCode").charAt (0));
-    setBrailleMusicFormatCodes (content.getAttribute ("brailleMusicFormatCodes"));
-    setSpecificPhysicalCharacteristicsCode (content.getAttribute ("specificPhysicalCharacteristicsCode").charAt (0));
+    Element content = (Element) xmlElement.getChildNodes().item(0);
+    setGeneralMaterialDesignationCode(content.getAttribute("generalMaterialDesignationCode").charAt(0));
+    setSpecificMaterialDesignationCode(content.getAttribute("specificMaterialDesignationCode").charAt(0));
+    setClassOfBrailleWritingCodes(content.getAttribute("classOfBrailleWritingCodes"));
+    setLevelOfContractionCode(content.getAttribute("levelOfContractionCode").charAt(0));
+    setBrailleMusicFormatCodes(content.getAttribute("brailleMusicFormatCodes"));
+    setSpecificPhysicalCharacteristicsCode(content.getAttribute("specificPhysicalCharacteristicsCode").charAt(0));
   }
 
   @Override
   public void setContentFromMarcString(final String s) {
-    setGeneralMaterialDesignationCode (s.charAt (0));
-    if (s.length ( ) > 1) setSpecificMaterialDesignationCode (s.charAt (1));
-    else setSpecificMaterialDesignationCode ('u');
-    if (s.length ( ) > 4) setClassOfBrailleWritingCodes (s.substring (3, 5));
-    if (s.length ( ) > 5) setLevelOfContractionCode (s.charAt (5));
-    if (s.length ( ) > 8) setBrailleMusicFormatCodes (s.substring (6, 9));
-    if (s.length ( ) > 9) setSpecificPhysicalCharacteristicsCode (s.charAt (9));
+    setGeneralMaterialDesignationCode(s.charAt(0));
+    if (s.length() > 1) setSpecificMaterialDesignationCode(s.charAt(1));
+    else setSpecificMaterialDesignationCode('u');
+    if (s.length() > 4) setClassOfBrailleWritingCodes(s.substring(3, 5));
+    if (s.length() > 5) setLevelOfContractionCode(s.charAt(5));
+    if (s.length() > 8) setBrailleMusicFormatCodes(s.substring(6, 9));
+    if (s.length() > 9) setSpecificPhysicalCharacteristicsCode(s.charAt(9));
   }
 }

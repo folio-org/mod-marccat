@@ -19,7 +19,7 @@ public class Permission {
   private String name;
 
   public Permission(String name) {
-    setName (name);
+    setName(name);
   }
 
   /**
@@ -41,7 +41,7 @@ public class Permission {
    */
   public boolean equals(Object arg0) {
     if (arg0 instanceof Permission) {
-      return ((Permission) arg0).getName ( ).equals (getName ( ));
+      return ((Permission) arg0).getName().equals(getName());
     } else {
       return false;
     }
@@ -51,14 +51,14 @@ public class Permission {
    * @see java.lang.Object#hashCode()
    */
   public int hashCode() {
-    return getName ( ).hashCode ( );
+    return getName().hashCode();
   }
 
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
   public String toString() {
-    return new ToStringBuilder (this).append ("name", name).toString ( );
+    return new ToStringBuilder(this).append("name", name).toString();
   }
 
 }

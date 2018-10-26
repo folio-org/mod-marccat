@@ -21,7 +21,7 @@ public class SortFormException extends DataAccessException {
    * @since 1.0
    */
   public SortFormException() {
-    super ( );
+    super();
   }
 
   /**
@@ -31,7 +31,7 @@ public class SortFormException extends DataAccessException {
    * @since 1.0
    */
   public SortFormException(String message) {
-    super (message);
+    super(message);
   }
 
   /**
@@ -42,7 +42,7 @@ public class SortFormException extends DataAccessException {
    * @since 1.0
    */
   public SortFormException(String message, Throwable cause) {
-    super (message, cause);
+    super(message, cause);
   }
 
   /**
@@ -52,7 +52,7 @@ public class SortFormException extends DataAccessException {
    * @since 1.0
    */
   public SortFormException(Throwable cause) {
-    super (cause);
+    super(cause);
   }
 
 }

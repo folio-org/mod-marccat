@@ -22,19 +22,19 @@ public class EveryNMonthsOnTheXthYPattern extends AbstractPattern {
   private int stepCount;
 
   EveryNMonthsOnTheXthYPattern(int occ, int time, int step) {
-    setOccurrence (occ);
-    setTimeField (time);
-    setStepCount (step);
+    setOccurrence(occ);
+    setTimeField(time);
+    setStepCount(step);
   }
 
   protected Calendar setFirstDate(Calendar c) {
-    Calendar result = new GregorianCalendar ( );
-    result.setTime (c.getTime ( ));
-    result = applyPattern (result);
-    if (result.before (c)) {
-      result.setTime (c.getTime ( ));
-      result.add (Calendar.MONTH, 1);
-      result = applyPattern (result);
+    Calendar result = new GregorianCalendar();
+    result.setTime(c.getTime());
+    result = applyPattern(result);
+    if (result.before(c)) {
+      result.setTime(c.getTime());
+      result.add(Calendar.MONTH, 1);
+      result = applyPattern(result);
     }
     return result;
   }
@@ -45,33 +45,33 @@ public class EveryNMonthsOnTheXthYPattern extends AbstractPattern {
    * @see com.mouland.patterns.AbstractPattern#setNextDate(java.util.Calendar)
    */
   protected Calendar setNextDate(Calendar c) {
-    c.add (Calendar.MONTH, getStepCount ( ));
-    return applyPattern (c);
+    c.add(Calendar.MONTH, getStepCount());
+    return applyPattern(c);
   }
 
   public String toString() {
-    return "The " + occurText (getOccurrence ( )) + " "
-      + timeText (getTimeField ( )) + " of every " + getStepCount ( )
+    return "The " + occurText(getOccurrence()) + " "
+      + timeText(getTimeField()) + " of every " + getStepCount()
       + " month(s)";
   }
 
   private Calendar applyPattern(Calendar c) {
     Calendar result;
-    if (getOccurrence ( ) == AbstractPattern.LAST) {
-      if (getTimeField ( ) == AbstractPattern.WEEKDAY) {
-        result = lastWeekdayOfTheMonth (c);
-      } else if (getTimeField ( ) == AbstractPattern.WEEKEND) {
-        result = lastWeekendDayOfTheMonth (c);
+    if (getOccurrence() == AbstractPattern.LAST) {
+      if (getTimeField() == AbstractPattern.WEEKDAY) {
+        result = lastWeekdayOfTheMonth(c);
+      } else if (getTimeField() == AbstractPattern.WEEKEND) {
+        result = lastWeekendDayOfTheMonth(c);
       } else {
-        result = secondMondayOfTheMonth (c, getOccurrence ( ), getTimeField ( ));
+        result = secondMondayOfTheMonth(c, getOccurrence(), getTimeField());
       }
     } else {
-      if (getTimeField ( ) == AbstractPattern.WEEKDAY) {
-        result = secondWeekdayOfTheMonth (c, getOccurrence ( ));
-      } else if (getTimeField ( ) == AbstractPattern.WEEKEND) {
-        result = secondWeekendDayOfTheMonth (c, getOccurrence ( ));
+      if (getTimeField() == AbstractPattern.WEEKDAY) {
+        result = secondWeekdayOfTheMonth(c, getOccurrence());
+      } else if (getTimeField() == AbstractPattern.WEEKEND) {
+        result = secondWeekendDayOfTheMonth(c, getOccurrence());
       } else {
-        result = secondMondayOfTheMonth (c, getOccurrence ( ), getTimeField ( ));
+        result = secondMondayOfTheMonth(c, getOccurrence(), getTimeField());
       }
     }
     return result;

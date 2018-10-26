@@ -24,9 +24,9 @@ import java.util.Comparator;
  * @since 1.0
  */
 public class TagComparator implements Comparator {
-  private static Log logger = LogFactory.getLog (TagComparator.class);
+  private static Log logger = LogFactory.getLog(TagComparator.class);
 
-  private GroupManager groupManager = new BibliographicGroupManager ( );
+  private GroupManager groupManager = new BibliographicGroupManager();
 
   /*
    * (non-Javadoc)
@@ -99,17 +99,17 @@ public class TagComparator implements Comparator {
       Tag t0 = (Tag) arg0;
       Tag t1 = (Tag) arg1;
       try {
-        TagGroup group = groupManager.getGroup (t0);
-        if (!group.isCanSort ( )) return compareTagNumber (arg0, arg1);
-        else if (group.isCanSort ( ) && group.isSingleSort ( )) {
-          return ((OrderedTag) t0).getSequenceNumber ( ).compareTo (((OrderedTag) t1).getSequenceNumber ( ));
+        TagGroup group = groupManager.getGroup(t0);
+        if (!group.isCanSort()) return compareTagNumber(arg0, arg1);
+        else if (group.isCanSort() && group.isSingleSort()) {
+          return ((OrderedTag) t0).getSequenceNumber().compareTo(((OrderedTag) t1).getSequenceNumber());
         }
-        if (groupManager.isSameGroup (t0, t1)) {
+        if (groupManager.isSameGroup(t0, t1)) {
           if (t0 instanceof OrderedTag && t1 instanceof OrderedTag) {
-            return ((OrderedTag) t0).getSequenceNumber ( ).compareTo (((OrderedTag) t1).getSequenceNumber ( ));
+            return ((OrderedTag) t0).getSequenceNumber().compareTo(((OrderedTag) t1).getSequenceNumber());
           }
         }
-        return compareTagNumber (arg0, arg1);
+        return compareTagNumber(arg0, arg1);
       } catch (Exception e) {
         return 0;
       }
@@ -119,13 +119,13 @@ public class TagComparator implements Comparator {
 
   protected int compareTagNumber(Object arg0, Object arg1) {
     try {
-      return ((Tag) arg0).getMarcEncoding ( ).getMarcTag ( ).compareTo (
-        ((Tag) arg1).getMarcEncoding ( ).getMarcTag ( ));
+      return ((Tag) arg0).getMarcEncoding().getMarcTag().compareTo(
+        ((Tag) arg1).getMarcEncoding().getMarcTag());
     } catch (MarcCorrelationException e) {
-      logger.warn ("MarcCorrelationException sorting in tag order");
+      logger.warn("MarcCorrelationException sorting in tag order");
       return 0;
     } catch (DataAccessException e) {
-      logger.warn ("DataAccessException sorting in tag order");
+      logger.warn("DataAccessException sorting in tag order");
       return 0;
     }
   }

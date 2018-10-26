@@ -28,7 +28,7 @@ public class AuthorityNameHeadingTag extends AuthorityHeadingTag {
    * @since 1.0
    */
   public AuthorityNameHeadingTag() {
-    super (new NME_HDG ( ));
+    super(new NME_HDG());
   }
 
   /* (non-Javadoc)
@@ -52,10 +52,10 @@ public class AuthorityNameHeadingTag extends AuthorityHeadingTag {
    */
   public List getSecondCorrelationList(short value1)
     throws DataAccessException {
-    DAOAuthorityCorrelation dao = new DAOAuthorityCorrelation ( );
-    return dao.getSecondCorrelationList (
-      getCategory ( ),
-      getHeadingType ( ),
+    DAOAuthorityCorrelation dao = new DAOAuthorityCorrelation();
+    return dao.getSecondCorrelationList(
+      getCategory(),
+      getHeadingType(),
       value1,
       NameSubType.class);
   }
@@ -67,7 +67,7 @@ public class AuthorityNameHeadingTag extends AuthorityHeadingTag {
     /*
      * if v3 is defined then we are a Reference tag and not a heading
      */
-    return v.isValueDefined (3);
+    return v.isValueDefined(3);
   }
 
 }

@@ -20,38 +20,38 @@ import java.io.*;
  * @since 1.0
  */
 public class FindResponse extends SocketMessage {
-  private static final Log logger = LogFactory.getLog (FindResponse.class);
+  private static final Log logger = LogFactory.getLog(FindResponse.class);
   private int returnCode;
   private int resultCount;
   private int[] records;
 
   public void checkReturnCode() throws ModCatalogingException {
-    logger.warn (
-      "Got return code " + getReturnCode ( ) + " from searchEngine");
-    switch (getReturnCode ( )) {
+    logger.warn(
+      "Got return code " + getReturnCode() + " from searchEngine");
+    switch (getReturnCode()) {
       case 0:
         return;
       case 1:
       case 2:
-        throw new TooManyResultsException ( );
+        throw new TooManyResultsException();
       case -4:
       case -7:
       case -8:
-        throw new QueryParsingException ( );
+        throw new QueryParsingException();
       case -5:
-        throw new ConnectException ( );
+        throw new ConnectException();
       case -2:
-        throw new QueryNotSupportedException ( );
+        throw new QueryNotSupportedException();
       case -6:
-        throw new OperatorNotSupportedException ( );
+        throw new OperatorNotSupportedException();
       case -9:
-        throw new SearchFailedException ( );
+        throw new SearchFailedException();
       case -10:
-        throw new PrimaryNotCompatibleException ( );
+        throw new PrimaryNotCompatibleException();
       case -11:
-        throw new ResourceLimitsExceededException ( );
+        throw new ResourceLimitsExceededException();
       default:
-        throw new SearchFailedException ( );
+        throw new SearchFailedException();
     }
   }
 
@@ -67,23 +67,23 @@ public class FindResponse extends SocketMessage {
    * @see librisuite.business.common.SocketMessage#fromByteArray(byte[])
    */
   public void fromByteArray(byte[] msg) throws IOException {
-    ByteArrayInputStream bs = new ByteArrayInputStream (msg);
-    DataInputStream ds = new DataInputStream (bs);
+    ByteArrayInputStream bs = new ByteArrayInputStream(msg);
+    DataInputStream ds = new DataInputStream(bs);
     BufferedReader br =
-      new BufferedReader (new InputStreamReader (bs, "US-ASCII"));
+      new BufferedReader(new InputStreamReader(bs, "US-ASCII"));
 
     try {
-      String line = br.readLine ( ); // NLSEC/1.0 <returnCode> ...
-      String[] tokens = line.split (" ");
-      setReturnCode (Integer.parseInt (tokens[1]));
+      String line = br.readLine(); // NLSEC/1.0 <returnCode> ...
+      String[] tokens = line.split(" ");
+      setReturnCode(Integer.parseInt(tokens[1]));
 
-      line = br.readLine ( ); // content-length
-      tokens = line.split (" ");
-      int contentLength = Integer.parseInt (tokens[1]);
+      line = br.readLine(); // content-length
+      tokens = line.split(" ");
+      int contentLength = Integer.parseInt(tokens[1]);
 
-      line = br.readLine ( ); // RPN-hits: <count>
-      tokens = line.split (" ");
-      setResultCount (Integer.parseInt (tokens[1]));
+      line = br.readLine(); // RPN-hits: <count>
+      tokens = line.split(" ");
+      setResultCount(Integer.parseInt(tokens[1]));
 
       /* BufferedReader is a convenient tool for accessing the header info and
        * it is the only tool that provides a readLine with Charset support.
@@ -93,18 +93,18 @@ public class FindResponse extends SocketMessage {
        * DataInputStream to process the binary data
        */
 
-      bs.reset ( );
-      ds = new DataInputStream (bs);
-      ds.skipBytes (msg.length - contentLength);
+      bs.reset();
+      ds = new DataInputStream(bs);
+      ds.skipBytes(msg.length - contentLength);
 
-      if (getResultCount ( ) > 0) {
-        setRecords (new int[getResultCount ( )]);
-        for ( int i = 0; i < getResultCount ( ); i++ ) {
-          getRecords ( )[i] = ds.readInt ( );
+      if (getResultCount() > 0) {
+        setRecords(new int[getResultCount()]);
+        for (int i = 0; i < getResultCount(); i++) {
+          getRecords()[i] = ds.readInt();
         }
       }
     } catch (Exception e) {
-      throw new IOException ( );
+      throw new IOException();
     }
   }
 
@@ -113,11 +113,11 @@ public class FindResponse extends SocketMessage {
    */
   public boolean isMessageComplete(byte[] b) {
     try {
-      String s = new String (b, "US-ASCII");
+      String s = new String(b, "US-ASCII");
       //	logger.debug(s);
-      return s.endsWith ("</RPN>");
+      return s.endsWith("</RPN>");
     } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException ("US-ASCII is not supported???");
+      throw new RuntimeException("US-ASCII is not supported???");
     }
   }
 

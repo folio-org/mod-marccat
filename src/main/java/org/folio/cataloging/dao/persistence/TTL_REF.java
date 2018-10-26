@@ -20,7 +20,7 @@ public class TTL_REF extends REF {
    * @see REF#getTargetDAO()
    */
   public DAODescriptor getTargetDAO() {
-    return new TitleDescriptorDAO ( );
+    return new TitleDescriptorDAO();
   }
 
 }

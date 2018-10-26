@@ -53,7 +53,7 @@ public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling 
    * Instantiates a new sbjct hdg.
    */
   public SBJCT_HDG() {
-    super ( );
+    super();
   }
 
   /**
@@ -80,21 +80,21 @@ public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling 
   @Override
   public int getAuthoritySourceCode() {
 
-    return getSourceCode ( );
+    return getSourceCode();
   }
 
   /* (non-Javadoc)
    * @see Descriptor#setAuthoritySourceCode(int)
    */
   public void setAuthoritySourceCode(int authoritySourceCode) {
-    setSourceCode (authoritySourceCode);
+    setSourceCode(authoritySourceCode);
   }
 
   /* (non-Javadoc)
    * @see Descriptor#getReferenceClass(java.lang.Class)
    */
   public Class getReferenceClass(Class targetClazz) {
-    if (targetClazz == this.getClass ( )) {
+    if (targetClazz == this.getClass()) {
       return SBJCT_REF.class;
     } else {
       return null;
@@ -121,7 +121,7 @@ public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling 
    * @return the dao
    */
   public AbstractDAO getDAO() {
-    return new SubjectDescriptorDAO ( );
+    return new SubjectDescriptorDAO();
   }
 
   /* (non-Javadoc)
@@ -182,7 +182,7 @@ public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling 
    * @param string the new secondary source code
    */
   public void setSecondarySourceCode(String string) {
-    if (SubjectSource.isOtherSource (getSourceCode ( ))) {
+    if (SubjectSource.isOtherSource(getSourceCode())) {
       secondarySourceCode = string;
     } else {
       secondarySourceCode = null;
@@ -221,8 +221,8 @@ public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling 
    */
   public void setSourceCode(int s) {
     sourceCode = s;
-    if (!SubjectSource.isOtherSource (s)) {
-      setSecondarySourceCode (null);
+    if (!SubjectSource.isOtherSource(s)) {
+      setSecondarySourceCode(null);
     }
   }
 
@@ -238,7 +238,7 @@ public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling 
    * @see Descriptor#getCorrelationValues()
    */
   public CorrelationValues getCorrelationValues() {
-    return new CorrelationValues (typeCode, CorrelationValues.UNDEFINED,
+    return new CorrelationValues(typeCode, CorrelationValues.UNDEFINED,
       sourceCode);
   }
 
@@ -247,8 +247,8 @@ public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling 
    * @see Descriptor#setCorrelationValues(CorrelationValues)
    */
   public void setCorrelationValues(CorrelationValues v) {
-    typeCode = v.getValue (1);
-    sourceCode = v.getValue (3);
+    typeCode = v.getValue(1);
+    sourceCode = v.getValue(3);
   }
 
 
@@ -256,8 +256,8 @@ public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling 
    * @see Descriptor#getSortFormParameters()
    */
   public SortFormParameters getSortFormParameters() {
-    return new SortFormParameters (100, 103, getTypeCode ( ), 0,
-      getSkipInFiling ( ));
+    return new SortFormParameters(100, 103, getTypeCode(), 0,
+      getSkipInFiling());
   }
 
   /* (non-Javadoc)
@@ -280,24 +280,24 @@ public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling 
    */
   @Deprecated
   public String buildBrowseTerm() {
-    String returnString = new String ( );
-    StringText text = new StringText (getStringText ( ));
-    Iterator iter = text.getSubfieldList ( ).iterator ( );
-    while (iter.hasNext ( )) {
-      Subfield aStringTextSubField = (Subfield) iter.next ( );
-      String content = aStringTextSubField.getContent ( );
-      String code = aStringTextSubField.getCode ( );
-      if (code.equals ("v") || code.equals ("x") || code.equals ("y")
-        || code.equals ("z")) {
-        returnString = returnString.trim ( );
-        returnString = returnString.concat ("--");
-        returnString = returnString.concat (content);
+    String returnString = new String();
+    StringText text = new StringText(getStringText());
+    Iterator iter = text.getSubfieldList().iterator();
+    while (iter.hasNext()) {
+      Subfield aStringTextSubField = (Subfield) iter.next();
+      String content = aStringTextSubField.getContent();
+      String code = aStringTextSubField.getCode();
+      if (code.equals("v") || code.equals("x") || code.equals("y")
+        || code.equals("z")) {
+        returnString = returnString.trim();
+        returnString = returnString.concat("--");
+        returnString = returnString.concat(content);
       } else {
-        returnString = returnString.concat (content);
-        returnString = returnString.concat (" ");
+        returnString = returnString.concat(content);
+        returnString = returnString.concat(" ");
       }
     }
 
-    return returnString.trim ( );
+    return returnString.trim();
   }
 }

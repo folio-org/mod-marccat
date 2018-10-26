@@ -27,7 +27,7 @@ public class RecordTypeMaterialDAO extends AbstractDAO {
    */
   @SuppressWarnings("unchecked")
   public RecordTypeMaterial getMaterialHeaderCode(final Session session, final char recordType, final char bibliographicLevel) throws HibernateException {
-    final List <RecordTypeMaterial> recordTypeMaterials = session.find (
+    final List <RecordTypeMaterial> recordTypeMaterials = session.find(
       "from RecordTypeMaterial as t "
         + " where t.recordTypeCode = ? and "
         + "       (t.bibliographicLevel = ? "
@@ -37,17 +37,17 @@ public class RecordTypeMaterialDAO extends AbstractDAO {
         bibliographicLevel},
       new Type[]{Hibernate.CHARACTER, Hibernate.CHARACTER});
 
-    return recordTypeMaterials.stream ( ).filter (Objects::nonNull).findFirst ( ).orElse (null);
+    return recordTypeMaterials.stream().filter(Objects::nonNull).findFirst().orElse(null);
   }
 
   @SuppressWarnings("unchecked")
   public RecordTypeMaterial getDefaultTypeByHeaderCode(final Session session, final int headerCode, final String code) throws HibernateException {
-    final List <RecordTypeMaterial> recordTypeMaterials = session.find (
+    final List <RecordTypeMaterial> recordTypeMaterials = session.find(
       "from RecordTypeMaterial as t "
-        + (code.equals (Global.OTHER_MATERIAL_TAG_CODE) ? " where t.bibHeader006 = ?" : " where t.bibHeader008 = ?"),
+        + (code.equals(Global.OTHER_MATERIAL_TAG_CODE) ? " where t.bibHeader006 = ?" : " where t.bibHeader008 = ?"),
       new Object[]{headerCode},
       new Type[]{Hibernate.INTEGER});
 
-    return recordTypeMaterials.stream ( ).filter (Objects::nonNull).findFirst ( ).orElse (null);
+    return recordTypeMaterials.stream().filter(Objects::nonNull).findFirst().orElse(null);
   }
 }

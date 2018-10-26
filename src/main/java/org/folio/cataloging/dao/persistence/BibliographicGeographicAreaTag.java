@@ -22,8 +22,8 @@ public class BibliographicGeographicAreaTag extends GeographicAreaTag {
    * @since 1.0
    */
   public BibliographicGeographicAreaTag() {
-    super ( );
-    setHeaderType ((short) 5);
+    super();
+    setHeaderType((short) 5);
   }
 
 }

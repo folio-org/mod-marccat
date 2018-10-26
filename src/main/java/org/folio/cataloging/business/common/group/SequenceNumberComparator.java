@@ -18,9 +18,9 @@ import java.util.Comparator;
 
 
 public class SequenceNumberComparator implements Comparator {
-  private static final Integer UNSORTED = new Integer (Integer.MAX_VALUE);
+  private static final Integer UNSORTED = new Integer(Integer.MAX_VALUE);
 
-  private static final Log logger = LogFactory.getLog (SequenceNumberComparator.class);
+  private static final Log logger = LogFactory.getLog(SequenceNumberComparator.class);
 
   /*
    * (non-Javadoc)
@@ -32,21 +32,21 @@ public class SequenceNumberComparator implements Comparator {
       return 0;
     }
     if (tag0 instanceof OrderedTag && tag1 instanceof OrderedTag) {
-      Integer seq0 = ((OrderedTag) tag0).getSequenceNumber ( );
-      Integer seq1 = ((OrderedTag) tag1).getSequenceNumber ( );
+      Integer seq0 = ((OrderedTag) tag0).getSequenceNumber();
+      Integer seq1 = ((OrderedTag) tag1).getSequenceNumber();
       /*test soggetti*/
 			/*if(seq0.intValue()==0) seq0 = UNSORTED;
 			if(seq1.intValue()==0) seq1 = UNSORTED;*/
       if (seq0 == null) seq0 = UNSORTED;
       if (seq1 == null) seq1 = UNSORTED;
-      int snResult = seq0.compareTo (seq1);
+      int snResult = seq0.compareTo(seq1);
       if (snResult != 0) {
         return snResult; // sequenceNumber assegnati e differenti
       }
     }
     // hanno lo stesso sequenceNumber o non Ã¨ assegnato o uno dei due non ha sequenceNumber:
     // ordina per numero di tag
-    return compareTagNumber (tag0, tag1);
+    return compareTagNumber(tag0, tag1);
   }
 
 
@@ -60,12 +60,12 @@ public class SequenceNumberComparator implements Comparator {
   protected int compareTagNumber(final Object tag0, final Object tag1) {
     int compareResult = 0;
     try {
-      compareResult = ((Tag) tag0).getMarcEncoding ( ).getMarcTag ( ).compareTo (
-        ((Tag) tag1).getMarcEncoding ( ).getMarcTag ( ));
+      compareResult = ((Tag) tag0).getMarcEncoding().getMarcTag().compareTo(
+        ((Tag) tag1).getMarcEncoding().getMarcTag());
     } catch (MarcCorrelationException e) {
-      logger.warn ("MarcCorrelationException sorting in tag order");
+      logger.warn("MarcCorrelationException sorting in tag order");
     } catch (DataAccessException e) {
-      logger.warn ("DataAccessException sorting in tag order");
+      logger.warn("DataAccessException sorting in tag order");
     }
     return compareResult;
   }

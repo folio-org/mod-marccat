@@ -27,7 +27,7 @@ public abstract class AuthorityAccessPoint extends AccessPoint implements Persis
    * @since 1.0
    */
   public AuthorityAccessPoint() {
-    super ( );
+    super();
   }
 
   /**
@@ -37,7 +37,7 @@ public abstract class AuthorityAccessPoint extends AccessPoint implements Persis
    * @since 1.0
    */
   public AuthorityAccessPoint(int itemNumber) {
-    super (itemNumber);
+    super(itemNumber);
     // TODO Auto-generated constructor stub
   }
 
@@ -59,14 +59,14 @@ public abstract class AuthorityAccessPoint extends AccessPoint implements Persis
    * @see PersistsViaItem#getItemEntity()
    */
   public ItemEntity getItemEntity() {
-    return getAutItm ( );
+    return getAutItm();
   }
 
   /* (non-Javadoc)
    * @see PersistsViaItem#setItemEntity(ItemEntity)
    */
   public void setItemEntity(ItemEntity item) {
-    setAutItm ((AUT) item);
+    setAutItm((AUT) item);
   }
 
 }

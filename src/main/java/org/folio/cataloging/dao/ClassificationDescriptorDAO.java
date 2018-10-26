@@ -53,25 +53,25 @@ public class ClassificationDescriptorDAO extends DAODescriptor {
   @SuppressWarnings("unchecked")
   public Descriptor getMatchingHeading(final Descriptor descriptor, final Session session) throws HibernateException {
     final CLSTN d = (CLSTN) descriptor;
-    final List <CLSTN> list = session.find (
+    final List <CLSTN> list = session.find(
       "from "
-        + getPersistentClass ( ).getName ( )
+        + getPersistentClass().getName()
         + " as c "
         + " where c.stringText = ?"
         + " and c.typeCode = ?"
         + " and c.deweyEditionNumber =?"
         + " and c.key.userViewString = ? ",
       new Object[]{
-        d.getStringText ( ),
-        d.getTypeCode ( ),
-        d.getDeweyEditionNumber ( ),
-        d.getUserViewString ( )},
+        d.getStringText(),
+        d.getTypeCode(),
+        d.getDeweyEditionNumber(),
+        d.getUserViewString()},
       new Type[]{
         Hibernate.STRING,
         Hibernate.INTEGER,
         Hibernate.SHORT,
         Hibernate.STRING});
-    return list.stream ( ).filter (Objects::nonNull).findFirst ( ).orElse (null);
+    return list.stream().filter(Objects::nonNull).findFirst().orElse(null);
   }
 
   /**
@@ -86,25 +86,25 @@ public class ClassificationDescriptorDAO extends DAODescriptor {
   public boolean isMatchingAnotherHeading(final Descriptor descriptor, final Session session) throws HibernateException {
     final CLSTN d = (CLSTN) descriptor;
     final List <Integer> countList =
-      session.find (
+      session.find(
         "select count(*) from "
-          + getPersistentClass ( ).getName ( )
+          + getPersistentClass().getName()
           + " as c "
           + " where c.stringText = ?"
           + " and c.typeCode = ?"
           + " and c.key.userViewString = ? "
           + " and c.key.headingNumber <> ?",
         new Object[]{
-          d.getStringText ( ),
-          d.getTypeCode ( ),
-          d.getUserViewString ( ),
-          d.getKey ( ).getHeadingNumber ( )},
+          d.getStringText(),
+          d.getTypeCode(),
+          d.getUserViewString(),
+          d.getKey().getHeadingNumber()},
         new Type[]{
           Hibernate.STRING,
           Hibernate.INTEGER,
           Hibernate.STRING,
           Hibernate.INTEGER});
-    return countList.stream ( ).filter (Objects::nonNull).anyMatch (count -> count > 0);
+    return countList.stream().filter(Objects::nonNull).anyMatch(count -> count > 0);
   }
 
   /**
@@ -129,14 +129,14 @@ public class ClassificationDescriptorDAO extends DAODescriptor {
     if (searchingView != View.ANY)
       viewClause = " and SUBSTR(hdg.key.userViewString, " + searchingView + ", 1) = '1' ";
 
-    final Query q = session.createQuery ("from " + getPersistentClass ( ).getName ( )
+    final Query q = session.createQuery("from " + getPersistentClass().getName()
       + " as hdg where hdg.sortForm " + operator
       + " :term  "
       + viewClause
       + filter + " order by hdg.sortForm " + direction);
-    q.setString ("term", term);
-    q.setMaxResults (count);
-    return (List <Descriptor>) q.list ( );
+    q.setString("term", term);
+    q.setMaxResults(count);
+    return (List <Descriptor>) q.list();
   }
 
 

@@ -23,7 +23,7 @@ public class FULL_CACHE implements Persistence {
   private long userView;
   private String recordData;
   private char dirty;
-  private PersistenceState persistentState = new PersistenceState ( );
+  private PersistenceState persistentState = new PersistenceState();
 
   /**
    * Default constructor
@@ -87,112 +87,112 @@ public class FULL_CACHE implements Persistence {
    */
   @Deprecated
   public void evict(Object obj) throws DataAccessException {
-    persistentState.evict (obj);
+    persistentState.evict(obj);
   }
 
   /**
    * @since 1.0
    */
   public AbstractDAO getDAO() {
-    return new DAOFullCache ( );
+    return new DAOFullCache();
   }
 
   /**
    * @since 1.0
    */
   public int getUpdateStatus() {
-    return persistentState.getUpdateStatus ( );
+    return persistentState.getUpdateStatus();
   }
 
   /**
    * @since 1.0
    */
   public void setUpdateStatus(int i) {
-    persistentState.setUpdateStatus (i);
+    persistentState.setUpdateStatus(i);
   }
 
   /**
    * @since 1.0
    */
   public boolean isChanged() {
-    return persistentState.isChanged ( );
+    return persistentState.isChanged();
   }
 
   /**
    * @since 1.0
    */
   public boolean isDeleted() {
-    return persistentState.isDeleted ( );
+    return persistentState.isDeleted();
   }
 
   /**
    * @since 1.0
    */
   public boolean isNew() {
-    return persistentState.isNew ( );
+    return persistentState.isNew();
   }
 
   /**
    * @since 1.0
    */
   public boolean isRemoved() {
-    return persistentState.isRemoved ( );
+    return persistentState.isRemoved();
   }
 
   /**
    * @since 1.0
    */
   public void markChanged() {
-    persistentState.markChanged ( );
+    persistentState.markChanged();
   }
 
   /**
    * @since 1.0
    */
   public void markDeleted() {
-    persistentState.markDeleted ( );
+    persistentState.markDeleted();
   }
 
   /**
    * @since 1.0
    */
   public void markNew() {
-    persistentState.markNew ( );
+    persistentState.markNew();
   }
 
   /**
    * @since 1.0
    */
   public void markUnchanged() {
-    persistentState.markUnchanged ( );
+    persistentState.markUnchanged();
   }
 
   /**
    * @since 1.0
    */
   public boolean onDelete(Session arg0) throws CallbackException {
-    return persistentState.onDelete (arg0);
+    return persistentState.onDelete(arg0);
   }
 
   /**
    * @since 1.0
    */
   public void onLoad(Session arg0, Serializable arg1) {
-    persistentState.onLoad (arg0, arg1);
+    persistentState.onLoad(arg0, arg1);
   }
 
   /**
    * @since 1.0
    */
   public boolean onSave(Session arg0) throws CallbackException {
-    return persistentState.onSave (arg0);
+    return persistentState.onSave(arg0);
   }
 
   /**
    * @since 1.0
    */
   public boolean onUpdate(Session arg0) throws CallbackException {
-    return persistentState.onUpdate (arg0);
+    return persistentState.onUpdate(arg0);
   }
 
   /* (non-Javadoc)
@@ -200,7 +200,7 @@ public class FULL_CACHE implements Persistence {
    */
   @Deprecated
   public void evict() throws DataAccessException {
-    evict (this);
+    evict(this);
   }
 
   /* (non-Javadoc)
@@ -212,7 +212,7 @@ public class FULL_CACHE implements Persistence {
 
   @Override
   public int hashCode() {
-    return (int) getItemNumber ( );
+    return (int) getItemNumber();
   }
 
 
@@ -220,8 +220,8 @@ public class FULL_CACHE implements Persistence {
   public boolean equals(Object arg0) {
     if (arg0 instanceof FULL_CACHE) {
       FULL_CACHE c = (FULL_CACHE) arg0;
-      return this.getItemNumber ( ) == c.getItemNumber ( ) &&
-        this.getUserView ( ) == c.getUserView ( );
+      return this.getItemNumber() == c.getItemNumber() &&
+        this.getUserView() == c.getUserView();
     } else {
       return false;
     }
@@ -238,7 +238,7 @@ public class FULL_CACHE implements Persistence {
 
   @Override
   public String toString() {
-    return "FULL_CACHE(" + getItemNumber ( ) + ", " + getUserView ( ) + ")";
+    return "FULL_CACHE(" + getItemNumber() + ", " + getUserView() + ")";
   }
 
 }

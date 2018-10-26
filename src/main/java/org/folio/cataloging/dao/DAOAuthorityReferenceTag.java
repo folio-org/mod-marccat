@@ -26,8 +26,8 @@ public class DAOAuthorityReferenceTag extends AbstractDAO {
    */
   public void delete(Persistence p) throws DataAccessException {
     AuthorityReferenceTag t = (AuthorityReferenceTag) p;
-    REF ref = t.getReference ( );
-    ref.getDAO ( ).delete (ref);
+    REF ref = t.getReference();
+    ref.getDAO().delete(ref);
 
     /* we do not delete both sides of a dual
      * so comment out the following block */
@@ -45,13 +45,13 @@ public class DAOAuthorityReferenceTag extends AbstractDAO {
    */
   public void save(Persistence p) throws DataAccessException {
     AuthorityReferenceTag t = (AuthorityReferenceTag) p;
-    REF ref = t.getReference ( );
-    ref.getDAO ( ).save (ref);
-    if (t.isHasDualIndicator ( )) {
-      if (T_DUAL_REF.isDual (t.getDualReferenceIndicator ( ))) {
-        REF dualRef = (REF) ref.clone ( );
-        dualRef.setType (ReferenceType.getReciprocal (ref.getType ( )));
-        dualRef.getDAO ( ).save (dualRef);
+    REF ref = t.getReference();
+    ref.getDAO().save(ref);
+    if (t.isHasDualIndicator()) {
+      if (T_DUAL_REF.isDual(t.getDualReferenceIndicator())) {
+        REF dualRef = (REF) ref.clone();
+        dualRef.setType(ReferenceType.getReciprocal(ref.getType()));
+        dualRef.getDAO().save(dualRef);
       }
     }
 
@@ -61,8 +61,8 @@ public class DAOAuthorityReferenceTag extends AbstractDAO {
    * @see HibernateUtil#update(librisuite.business.common.Persistence)
    */
   public void update(Persistence p) throws DataAccessException {
-    delete (p);
-    save (p);
+    delete(p);
+    save(p);
   }
 
 }

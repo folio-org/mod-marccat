@@ -24,11 +24,11 @@ import java.util.List;
  */
 public class DAOAuthorityValidation extends DAOValidation {
 
-  private static final Log logger = LogFactory.getLog (DAOAuthorityValidation.class);
+  private static final Log logger = LogFactory.getLog(DAOAuthorityValidation.class);
 
   public Validation load(String tag, String headingType, int category)
     throws DataAccessException {
-    List l = find ("from AuthorityValidation as v, " +
+    List l = find("from AuthorityValidation as v, " +
         " where v.key.marcTagCategoryCode = ? " +
         " and v.key.marcTag = ? " +
         " and v.key.headingType = ? ",
@@ -39,16 +39,16 @@ public class DAOAuthorityValidation extends DAOValidation {
         Hibernate.STRING,
         Hibernate.STRING}
     );
-    if (l.size ( ) == 1) {
-      if (logger.isDebugEnabled ( )) {
-        logger.debug ("AuthorityValidation(s) found:");
-        for ( int i = 0; i < l.size ( ); i++ ) {
-          logger.debug (l.get (i));
+    if (l.size() == 1) {
+      if (logger.isDebugEnabled()) {
+        logger.debug("AuthorityValidation(s) found:");
+        for (int i = 0; i < l.size(); i++) {
+          logger.debug(l.get(i));
         }
       }
-      return (Validation) l.get (0);
+      return (Validation) l.get(0);
     } else {
-      throw new MarcCorrelationException ("no Validation found");
+      throw new MarcCorrelationException("no Validation found");
     }
   }
 

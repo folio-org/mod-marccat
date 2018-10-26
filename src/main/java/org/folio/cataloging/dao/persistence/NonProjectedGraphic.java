@@ -19,8 +19,8 @@ public class NonProjectedGraphic extends PhysicalDescription {
   private char obsolete1;
 
   public NonProjectedGraphic() {
-    super ( );
-    setHeaderType (27);
+    super();
+    setHeaderType(27);
   }
 
   /* (non-Javadoc)
@@ -29,12 +29,12 @@ public class NonProjectedGraphic extends PhysicalDescription {
   public String getDisplayString() {
     String result =
       ""
-        + getGeneralMaterialDesignationCode ( )
-        + getSpecificMaterialDesignationCode ( )
+        + getGeneralMaterialDesignationCode()
+        + getSpecificMaterialDesignationCode()
         + " "
-        + getColourCode ( )
-        + getPrimarySupportMaterialCode ( )
-        + getSecondarySupportMaterialCode ( );
+        + getColourCode()
+        + getPrimarySupportMaterialCode()
+        + getSecondarySupportMaterialCode();
     return result;
   }
 
@@ -42,8 +42,8 @@ public class NonProjectedGraphic extends PhysicalDescription {
    * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
    */
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
-    SystemNextNumberDAO dao = new SystemNextNumberDAO ( );
-    setKeyNumber (dao.getNextNumber ("X6", session));
+    SystemNextNumberDAO dao = new SystemNextNumberDAO();
+    setKeyNumber(dao.getNextNumber("X6", session));
   }
 
   /* (non-Javadoc)
@@ -112,34 +112,34 @@ public class NonProjectedGraphic extends PhysicalDescription {
   public Element generateModelXmlElementContent(Document xmlDocument) {
     Element content = null;
     if (xmlDocument != null) {
-      content = xmlDocument.createElement ("content");
-      content.setAttribute ("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode ( ));
-      content.setAttribute ("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode ( ));
-      content.setAttribute ("colourCode", "" + getColourCode ( ));
-      content.setAttribute ("primarySupportMaterialCode", "" + getPrimarySupportMaterialCode ( ));
-      content.setAttribute ("secondarySupportMaterialCode", "" + getSecondarySupportMaterialCode ( ));
+      content = xmlDocument.createElement("content");
+      content.setAttribute("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode());
+      content.setAttribute("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode());
+      content.setAttribute("colourCode", "" + getColourCode());
+      content.setAttribute("primarySupportMaterialCode", "" + getPrimarySupportMaterialCode());
+      content.setAttribute("secondarySupportMaterialCode", "" + getSecondarySupportMaterialCode());
     }
     return content;
   }
 
   public void parseModelXmlElementContent(Element xmlElement) {
-    Element content = (Element) xmlElement.getChildNodes ( ).item (0);
-    setGeneralMaterialDesignationCode (content.getAttribute ("generalMaterialDesignationCode").charAt (0));
-    setSpecificMaterialDesignationCode (content.getAttribute ("specificMaterialDesignationCode").charAt (0));
-    setColourCode (content.getAttribute ("colourCode").charAt (0));
-    setPrimarySupportMaterialCode (content.getAttribute ("primarySupportMaterialCode").charAt (0));
-    setSecondarySupportMaterialCode (content.getAttribute ("secondarySupportMaterialCode").charAt (0));
+    Element content = (Element) xmlElement.getChildNodes().item(0);
+    setGeneralMaterialDesignationCode(content.getAttribute("generalMaterialDesignationCode").charAt(0));
+    setSpecificMaterialDesignationCode(content.getAttribute("specificMaterialDesignationCode").charAt(0));
+    setColourCode(content.getAttribute("colourCode").charAt(0));
+    setPrimarySupportMaterialCode(content.getAttribute("primarySupportMaterialCode").charAt(0));
+    setSecondarySupportMaterialCode(content.getAttribute("secondarySupportMaterialCode").charAt(0));
   }
 
   //@paulm, us_bbl_loading
   @Override
   public void setContentFromMarcString(final String s) {
-    setGeneralMaterialDesignationCode (s.charAt (0));
-    if (s.length ( ) > 1) setSpecificMaterialDesignationCode (s.charAt (1));
-    else setSpecificMaterialDesignationCode ('u');
-    if (s.length ( ) > 3) setColourCode (s.charAt (3));
-    if (s.length ( ) > 4) setPrimarySupportMaterialCode (s.charAt (4));
-    if (s.length ( ) > 5) setSecondarySupportMaterialCode (s.charAt (5));
+    setGeneralMaterialDesignationCode(s.charAt(0));
+    if (s.length() > 1) setSpecificMaterialDesignationCode(s.charAt(1));
+    else setSpecificMaterialDesignationCode('u');
+    if (s.length() > 3) setColourCode(s.charAt(3));
+    if (s.length() > 4) setPrimarySupportMaterialCode(s.charAt(4));
+    if (s.length() > 5) setSecondarySupportMaterialCode(s.charAt(5));
   }
 
 }

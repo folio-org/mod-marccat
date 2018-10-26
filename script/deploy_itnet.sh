@@ -30,8 +30,7 @@ ssh_itnet_deploy_demo(){
   echo "uploading artifact via ssh on ITNET [DEMO]"
   scp -P ${SSH_PORT} ${SSH_SRC_FILE} root@${SSH_HOST_DEMO}:${SSH_DEST_FILE}
   sleep ${RESTART_WAIT_SEC}
-  echo "uploaded artifact succesfully. Deploy last demo release of modcat"
   nohup java -jar ${SSH_SRC_FILE} | ssh -p ${SSH_PORT} root@${SSH_HOST_DEMO} &
+  echo "uploaded artifact succesfully. Deploy last demo release of modcat"
 }
 ssh_itnet_deploy
-ssh_itnet_deploy_demo

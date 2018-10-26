@@ -22,25 +22,25 @@ public class TimePeriodOfContentTag extends TimePeriodTag {
    * @since 1.0
    */
   public TimePeriodOfContentTag() {
-    super ( );
-    setHeaderType ((short) 8);
+    super();
+    setHeaderType((short) 8);
   }
 
   public void setItemEntity(ItemEntity bib_itm) {
-    super.setItemEntity (bib_itm);
-    if (" ".equals (bib_itm.getTypeOfDateTimeCode ( ))) {
-      setHeaderType ((short) 8);
-    } else if ("0".equals (bib_itm.getTypeOfDateTimeCode ( ))) {
-      setHeaderType ((short) 9);
-    } else if ("1".equals (bib_itm.getTypeOfDateTimeCode ( ))) {
-      setHeaderType ((short) 10);
-    } else if ("2".equals (bib_itm.getTypeOfDateTimeCode ( ))) {
-      setHeaderType ((short) 11);
+    super.setItemEntity(bib_itm);
+    if (" ".equals(bib_itm.getTypeOfDateTimeCode())) {
+      setHeaderType((short) 8);
+    } else if ("0".equals(bib_itm.getTypeOfDateTimeCode())) {
+      setHeaderType((short) 9);
+    } else if ("1".equals(bib_itm.getTypeOfDateTimeCode())) {
+      setHeaderType((short) 10);
+    } else if ("2".equals(bib_itm.getTypeOfDateTimeCode())) {
+      setHeaderType((short) 11);
     }
   }
 
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
-    return v.isValueDefined (1) && ((v.getValue (1) < 8) || (v.getValue (1) > 11));
+    return v.isValueDefined(1) && ((v.getValue(1) < 8) || (v.getValue(1) > 11));
   }
 
 }

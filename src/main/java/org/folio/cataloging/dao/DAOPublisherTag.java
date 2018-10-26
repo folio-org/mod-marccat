@@ -35,15 +35,15 @@ public class DAOPublisherTag extends HibernateUtil {
    */
   public void delete(Persistence po) throws DataAccessException {
     if (!(po instanceof PublisherTag)) {
-      throw new IllegalArgumentException ("I can only persist PublisherTag objects");
+      throw new IllegalArgumentException("I can only persist PublisherTag objects");
     }
     PublisherTag aPub = (PublisherTag) po;
-    Iterator iter = aPub.getAccessPoints ( ).iterator ( );
+    Iterator iter = aPub.getAccessPoints().iterator();
     PublisherAccessPoint apf;
-    while (iter.hasNext ( )) {
-      apf = (PublisherAccessPoint) iter.next ( );
-      apf.markDeleted ( );
-      super.delete (apf);
+    while (iter.hasNext()) {
+      apf = (PublisherAccessPoint) iter.next();
+      apf.markDeleted();
+      super.delete(apf);
     }
   }
 
@@ -52,9 +52,9 @@ public class DAOPublisherTag extends HibernateUtil {
    */
   public void save(final Persistence po) throws DataAccessException {
     if (!(po instanceof PublisherTag)) {
-      throw new IllegalArgumentException ("I can only persist PublisherTag objects");
+      throw new IllegalArgumentException("I can only persist PublisherTag objects");
     }
-    new TransactionalHibernateOperation ( ) {
+    new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
         throws HibernateException, DataAccessException {
         PublisherTag aPub = (PublisherTag) po;
@@ -62,27 +62,27 @@ public class DAOPublisherTag extends HibernateUtil {
          * The approach taken to saving publisher tags is to first delete all existing
          * apfs for this tag and then to add back the new ones.
          */
-        s.delete (
+        s.delete(
           "from PublisherAccessPoint as apf "
             + " where apf.bibItemNumber = ? and "
             + " apf.userViewString = ? ",
           new Object[]{
-            new Integer (aPub.getItemNumber ( )),
-            aPub.getUserViewString ( )},
+            new Integer(aPub.getItemNumber()),
+            aPub.getUserViewString()},
           new Type[]{Hibernate.INTEGER, Hibernate.STRING});
 
-        Iterator iter = aPub.getAccessPoints ( ).iterator ( );
+        Iterator iter = aPub.getAccessPoints().iterator();
         PublisherAccessPoint apf;
-        while (iter.hasNext ( )) {
-          apf = (PublisherAccessPoint) iter.next ( );
-          apf.setBibItemNumber (aPub.getItemNumber ( ));
-          apf.setUserViewString (aPub.getUserViewString ( ));
-          apf.markNew ( );
-          persistByStatus (apf);
+        while (iter.hasNext()) {
+          apf = (PublisherAccessPoint) iter.next();
+          apf.setBibItemNumber(aPub.getItemNumber());
+          apf.setUserViewString(aPub.getUserViewString());
+          apf.markNew();
+          persistByStatus(apf);
         }
       }
     }
-      .execute ( );
+      .execute();
   }
 
   /* (non-Javadoc)
@@ -92,7 +92,7 @@ public class DAOPublisherTag extends HibernateUtil {
     /*
      * Since we are deleting and re-adding, save and update are the same
      */
-    save (p);
+    save(p);
   }
 
 }

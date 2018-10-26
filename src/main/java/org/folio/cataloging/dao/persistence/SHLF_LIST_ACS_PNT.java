@@ -27,16 +27,16 @@ public class SHLF_LIST_ACS_PNT implements Serializable {
    * @since 1.0
    */
   public SHLF_LIST_ACS_PNT() {
-    super ( );
+    super();
   }
 
   public SHLF_LIST_ACS_PNT(
     int bibItemNumber,
     int mainLibraryNumber,
     int shelfListKeyNumber) {
-    setBibItemNumber (bibItemNumber);
-    setMainLibraryNumber (mainLibraryNumber);
-    setShelfListKeyNumber (shelfListKeyNumber);
+    setBibItemNumber(bibItemNumber);
+    setMainLibraryNumber(mainLibraryNumber);
+    setShelfListKeyNumber(shelfListKeyNumber);
   }
 
   /**
@@ -94,7 +94,7 @@ public class SHLF_LIST_ACS_PNT implements Serializable {
       return true;
     if (obj == null)
       return false;
-    if (getClass ( ) != obj.getClass ( ))
+    if (getClass() != obj.getClass())
       return false;
     final SHLF_LIST_ACS_PNT other = (SHLF_LIST_ACS_PNT) obj;
     if (bibItemNumber != other.bibItemNumber)

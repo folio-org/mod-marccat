@@ -15,13 +15,13 @@ import org.folio.cataloging.dao.*;
  * @since 1.0
  */
 public class TTL_NME_TTL_REF extends REF {
-  private static final DAOTitleNameTitleReferences theDAO = new DAOTitleNameTitleReferences ( );
+  private static final DAOTitleNameTitleReferences theDAO = new DAOTitleNameTitleReferences();
   private int nameTitleHeadingNumber;
   private int titleHeadingNumber;
   private String sourceHeadingType;
 
   public boolean isSourceTitle() {
-    return getSourceHeadingType ( ).equals ("TH");
+    return getSourceHeadingType().equals("TH");
   }
 
   /**
@@ -56,10 +56,10 @@ public class TTL_NME_TTL_REF extends REF {
    * @see REF#getTargetDAO()
    */
   public DAODescriptor getTargetDAO() {
-    if (isSourceTitle ( )) {
-      return new NameTitleDescriptorDAO ( );
+    if (isSourceTitle()) {
+      return new NameTitleDescriptorDAO();
     } else {
-      return new TitleDescriptorDAO ( );
+      return new TitleDescriptorDAO();
     }
 
   }
@@ -73,15 +73,15 @@ public class TTL_NME_TTL_REF extends REF {
     short referenceType,
     int cataloguingView) {
 
-    super.init (source, target, referenceType, cataloguingView);
+    super.init(source, target, referenceType, cataloguingView);
     if (source instanceof TTL_HDG) {
-      setTitleHeadingNumber (source.getKey ( ).getHeadingNumber ( ));
-      setNameTitleHeadingNumber (target.getKey ( ).getHeadingNumber ( ));
-      setSourceHeadingType ("TH");
+      setTitleHeadingNumber(source.getKey().getHeadingNumber());
+      setNameTitleHeadingNumber(target.getKey().getHeadingNumber());
+      setSourceHeadingType("TH");
     } else {
-      setNameTitleHeadingNumber (source.getKey ( ).getHeadingNumber ( ));
-      setTitleHeadingNumber (target.getKey ( ).getHeadingNumber ( ));
-      setSourceHeadingType ("MH");
+      setNameTitleHeadingNumber(source.getKey().getHeadingNumber());
+      setTitleHeadingNumber(target.getKey().getHeadingNumber());
+      setSourceHeadingType("MH");
     }
   }
 
@@ -104,10 +104,10 @@ public class TTL_NME_TTL_REF extends REF {
    * @see REF#getSource()
    */
   public int getSource() {
-    if (isSourceTitle ( )) {
-      return getTitleHeadingNumber ( );
+    if (isSourceTitle()) {
+      return getTitleHeadingNumber();
     } else {
-      return getNameTitleHeadingNumber ( );
+      return getNameTitleHeadingNumber();
     }
   }
 
@@ -115,10 +115,10 @@ public class TTL_NME_TTL_REF extends REF {
    * @see REF#setSource(int)
    */
   public void setSource(int i) {
-    if (isSourceTitle ( )) {
-      setTitleHeadingNumber (i);
+    if (isSourceTitle()) {
+      setTitleHeadingNumber(i);
     } else {
-      setNameTitleHeadingNumber (i);
+      setNameTitleHeadingNumber(i);
     }
   }
 
@@ -126,10 +126,10 @@ public class TTL_NME_TTL_REF extends REF {
    * @see REF#getTarget()
    */
   public int getTarget() {
-    if (isSourceTitle ( )) {
-      return getNameTitleHeadingNumber ( );
+    if (isSourceTitle()) {
+      return getNameTitleHeadingNumber();
     } else {
-      return getTitleHeadingNumber ( );
+      return getTitleHeadingNumber();
     }
   }
 
@@ -137,10 +137,10 @@ public class TTL_NME_TTL_REF extends REF {
    * @see REF#setTarget(int)
    */
   public void setTarget(int i) {
-    if (isSourceTitle ( )) {
-      setNameTitleHeadingNumber (i);
+    if (isSourceTitle()) {
+      setNameTitleHeadingNumber(i);
     } else {
-      setTitleHeadingNumber (i);
+      setTitleHeadingNumber(i);
     }
   }
 
@@ -148,13 +148,13 @@ public class TTL_NME_TTL_REF extends REF {
    * @see REF#createReciprocal()
    */
   public REF createReciprocal() {
-    TTL_NME_TTL_REF result = (TTL_NME_TTL_REF) this.clone ( );
-    if (isSourceTitle ( )) {
-      result.setSourceHeadingType ("MH");
+    TTL_NME_TTL_REF result = (TTL_NME_TTL_REF) this.clone();
+    if (isSourceTitle()) {
+      result.setSourceHeadingType("MH");
     } else {
-      result.setSourceHeadingType ("TH");
+      result.setSourceHeadingType("TH");
     }
-    result.setType (ReferenceType.getReciprocal (getType ( )));
+    result.setType(ReferenceType.getReciprocal(getType()));
     return result;
   }
 
@@ -171,12 +171,12 @@ public class TTL_NME_TTL_REF extends REF {
   public boolean equals(Object obj) {
     if (obj instanceof TTL_NME_TTL_REF) {
       TTL_NME_TTL_REF ref = (TTL_NME_TTL_REF) obj;
-      return this.getTitleHeadingNumber ( ) == ref.getTitleHeadingNumber ( )
-        && this.getNameTitleHeadingNumber ( )
-        == ref.getNameTitleHeadingNumber ( )
-        && this.getType ( ) == ref.getType ( )
-        && this.getSourceHeadingType ( ).equals (ref.getSourceHeadingType ( ))
-        && this.getUserViewString ( ).equals (ref.getUserViewString ( ));
+      return this.getTitleHeadingNumber() == ref.getTitleHeadingNumber()
+        && this.getNameTitleHeadingNumber()
+        == ref.getNameTitleHeadingNumber()
+        && this.getType() == ref.getType()
+        && this.getSourceHeadingType().equals(ref.getSourceHeadingType())
+        && this.getUserViewString().equals(ref.getUserViewString());
     } else {
       return false;
     }
@@ -186,7 +186,7 @@ public class TTL_NME_TTL_REF extends REF {
    * @see java.lang.Object#hashCode()
    */
   public int hashCode() {
-    return getTitleHeadingNumber ( ) + 3 * getNameTitleHeadingNumber ( );
+    return getTitleHeadingNumber() + 3 * getNameTitleHeadingNumber();
   }
 
 }

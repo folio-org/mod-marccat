@@ -24,19 +24,19 @@ public class ValidatorForItemEditing
 
   public StringText getEditableSubfields(VariableField field) {
     if (field instanceof Browsable) {
-      return ((Browsable) field).getEditableSubfields ( );
+      return ((Browsable) field).getEditableSubfields();
     } else {
-      return field.getStringText ( );
+      return field.getStringText();
     }
   }
 
   public StringText getFixedSubfields(VariableField field) {
 
     if (field instanceof Browsable) {
-      return new StringText (
-        ((Browsable) field).getDescriptor ( ).getStringText ( ));
+      return new StringText(
+        ((Browsable) field).getDescriptor().getStringText());
     } else {
-      return new StringText ( );
+      return new StringText();
     }
   }
 
@@ -45,12 +45,12 @@ public class ValidatorForItemEditing
    */
   public Set computeRemainingValidSubfields(VariableField f)
     throws DataAccessException {
-    Set remaining = super.computeRemainingValidSubfields (f);
+    Set remaining = super.computeRemainingValidSubfields(f);
 
     if (f instanceof Browsable) {
-      remaining.retainAll (((Browsable) f).getValidEditableSubfields ( ));
+      remaining.retainAll(((Browsable) f).getValidEditableSubfields());
     } else if (f instanceof BibliographicRelationshipTag) {
-      remaining.retainAll (((BibliographicRelationshipTag) f).getValidEditableSubfields ( ));
+      remaining.retainAll(((BibliographicRelationshipTag) f).getValidEditableSubfields());
     }
     return remaining;
   }

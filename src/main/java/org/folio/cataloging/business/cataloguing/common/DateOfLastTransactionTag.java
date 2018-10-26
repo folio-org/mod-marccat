@@ -28,15 +28,15 @@ public abstract class DateOfLastTransactionTag extends FixedFieldUsingItemEntity
    * @since 1.0
    */
   public DateOfLastTransactionTag() {
-    super ( );
+    super();
   }
 
   /* (non-Javadoc)
    * @see FixedField#getDisplayString()
    */
   public String getDisplayString() {
-    SimpleDateFormat df = new SimpleDateFormat ("yyyyMMddHHmmss.S");
-    String result = df.format (getItemEntity ( ).getDateOfLastTransaction ( ));
+    SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss.S");
+    String result = df.format(getItemEntity().getDateOfLastTransaction());
     return result;
   }
 
@@ -59,7 +59,7 @@ public abstract class DateOfLastTransactionTag extends FixedFieldUsingItemEntity
    */
   public boolean equals(Object obj) {
     if (obj instanceof DateOfLastTransactionTag) {
-      return super.equals (obj);
+      return super.equals(obj);
     } else {
       return false;
     }
@@ -69,26 +69,26 @@ public abstract class DateOfLastTransactionTag extends FixedFieldUsingItemEntity
    * @see java.lang.Object#hashCode()
    */
   public int hashCode() {
-    return super.hashCode ( );
+    return super.hashCode();
   }
 
   public Element generateModelXmlElementContent(Document xmlDocument) {
     Element content = null;
     if (xmlDocument != null) {
-      content = xmlDocument.createElement ("content");
-      SimpleDateFormat df = new SimpleDateFormat ("yyyyMMddHHmmss.S");
-      String result = df.format (getItemEntity ( ).getDateOfLastTransaction ( ));
-      Text text = xmlDocument.createTextNode (result);
-      content.appendChild (text);
+      content = xmlDocument.createElement("content");
+      SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss.S");
+      String result = df.format(getItemEntity().getDateOfLastTransaction());
+      Text text = xmlDocument.createTextNode(result);
+      content.appendChild(text);
     }
     return content;
   }
 
   public void parseModelXmlElementContent(Element xmlElement) {
-    Element content = (Element) xmlElement.getChildNodes ( ).item (0);
-    SimpleDateFormat df = new SimpleDateFormat ("yyyyMMddHHmmss.S");
+    Element content = (Element) xmlElement.getChildNodes().item(0);
+    SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss.S");
     try {
-      getItemEntity ( ).setDateOfLastTransaction (df.parse (((Text) content.getFirstChild ( )).getData ( )));
+      getItemEntity().setDateOfLastTransaction(df.parse(((Text) content.getFirstChild()).getData()));
     } catch (ParseException parseException) {
     }
   }
@@ -96,9 +96,9 @@ public abstract class DateOfLastTransactionTag extends FixedFieldUsingItemEntity
 
   @Override
   public void setContentFromMarcString(String s) {
-    SimpleDateFormat df = new SimpleDateFormat ("yyyyMMddHHmmss.S");
+    SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss.S");
     try {
-      getItemEntity ( ).setDateOfLastTransaction (df.parse (s));
+      getItemEntity().setDateOfLastTransaction(df.parse(s));
     } catch (ParseException e) {
       // date not set if parse error
     }

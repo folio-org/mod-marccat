@@ -22,8 +22,8 @@ public class RemoteSensingImage extends PhysicalDescription {
   private String dataTypeCode;
 
   public RemoteSensingImage() {
-    super ( );
-    setHeaderType (43);
+    super();
+    setHeaderType(43);
   }
 
   /* (non-Javadoc)
@@ -32,16 +32,16 @@ public class RemoteSensingImage extends PhysicalDescription {
   public String getDisplayString() {
     String result =
       ""
-        + getGeneralMaterialDesignationCode ( )
-        + getSpecificMaterialDesignationCode ( )
+        + getGeneralMaterialDesignationCode()
+        + getSpecificMaterialDesignationCode()
         + " "
-        + getAltitudeOfSensorCode ( )
-        + getAttitudeOfSensorCode ( )
-        + getCloudCoverCode ( )
-        + getPlatformConstructionTypeCode ( )
-        + getPlatformUseCode ( )
-        + getSensorTypeCode ( )
-        + getDataTypeCode ( );
+        + getAltitudeOfSensorCode()
+        + getAttitudeOfSensorCode()
+        + getCloudCoverCode()
+        + getPlatformConstructionTypeCode()
+        + getPlatformUseCode()
+        + getSensorTypeCode()
+        + getDataTypeCode();
     return result;
   }
 
@@ -49,8 +49,8 @@ public class RemoteSensingImage extends PhysicalDescription {
    * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
    */
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
-    SystemNextNumberDAO dao = new SystemNextNumberDAO ( );
-    setKeyNumber (dao.getNextNumber ("XB", session));
+    SystemNextNumberDAO dao = new SystemNextNumberDAO();
+    setKeyNumber(dao.getNextNumber("XB", session));
   }
 
   /* (non-Javadoc)
@@ -161,46 +161,46 @@ public class RemoteSensingImage extends PhysicalDescription {
   public Element generateModelXmlElementContent(Document xmlDocument) {
     Element content = null;
     if (xmlDocument != null) {
-      content = xmlDocument.createElement ("content");
-      content.setAttribute ("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode ( ));
-      content.setAttribute ("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode ( ));
-      content.setAttribute ("altitudeOfSensorCode", "" + getAltitudeOfSensorCode ( ));
-      content.setAttribute ("attitudeOfSensorCode", "" + getAttitudeOfSensorCode ( ));
-      content.setAttribute ("cloudCoverCode", "" + getCloudCoverCode ( ));
-      content.setAttribute ("platformConstructionTypeCode", "" + getPlatformConstructionTypeCode ( ));
-      content.setAttribute ("platformUseCode", "" + getPlatformUseCode ( ));
-      content.setAttribute ("sensorTypeCode", "" + getSensorTypeCode ( ));
-      content.setAttribute ("dataTypeCode", "" + getDataTypeCode ( ));
+      content = xmlDocument.createElement("content");
+      content.setAttribute("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode());
+      content.setAttribute("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode());
+      content.setAttribute("altitudeOfSensorCode", "" + getAltitudeOfSensorCode());
+      content.setAttribute("attitudeOfSensorCode", "" + getAttitudeOfSensorCode());
+      content.setAttribute("cloudCoverCode", "" + getCloudCoverCode());
+      content.setAttribute("platformConstructionTypeCode", "" + getPlatformConstructionTypeCode());
+      content.setAttribute("platformUseCode", "" + getPlatformUseCode());
+      content.setAttribute("sensorTypeCode", "" + getSensorTypeCode());
+      content.setAttribute("dataTypeCode", "" + getDataTypeCode());
     }
     return content;
   }
 
   public void parseModelXmlElementContent(Element xmlElement) {
-    Element content = (Element) xmlElement.getChildNodes ( ).item (0);
-    setGeneralMaterialDesignationCode (content.getAttribute ("generalMaterialDesignationCode").charAt (0));
-    setSpecificMaterialDesignationCode (content.getAttribute ("specificMaterialDesignationCode").charAt (0));
-    setAltitudeOfSensorCode (content.getAttribute ("altitudeOfSensorCode").charAt (0));
-    setAttitudeOfSensorCode (content.getAttribute ("attitudeOfSensorCode").charAt (0));
-    setCloudCoverCode (content.getAttribute ("cloudCoverCode").charAt (0));
-    setPlatformConstructionTypeCode (content.getAttribute ("platformConstructionTypeCode").charAt (0));
-    setPlatformUseCode (content.getAttribute ("platformUseCode").charAt (0));
-    setSensorTypeCode (content.getAttribute ("sensorTypeCode").charAt (0));
-    setDataTypeCode (content.getAttribute ("dataTypeCode"));
+    Element content = (Element) xmlElement.getChildNodes().item(0);
+    setGeneralMaterialDesignationCode(content.getAttribute("generalMaterialDesignationCode").charAt(0));
+    setSpecificMaterialDesignationCode(content.getAttribute("specificMaterialDesignationCode").charAt(0));
+    setAltitudeOfSensorCode(content.getAttribute("altitudeOfSensorCode").charAt(0));
+    setAttitudeOfSensorCode(content.getAttribute("attitudeOfSensorCode").charAt(0));
+    setCloudCoverCode(content.getAttribute("cloudCoverCode").charAt(0));
+    setPlatformConstructionTypeCode(content.getAttribute("platformConstructionTypeCode").charAt(0));
+    setPlatformUseCode(content.getAttribute("platformUseCode").charAt(0));
+    setSensorTypeCode(content.getAttribute("sensorTypeCode").charAt(0));
+    setDataTypeCode(content.getAttribute("dataTypeCode"));
   }
 
   //@paulm, us_bbl_loading
   @Override
   public void setContentFromMarcString(final String s) {
-    setGeneralMaterialDesignationCode (s.charAt (0));
-    if (s.length ( ) > 1) setSpecificMaterialDesignationCode (s.charAt (1));
-    else setSpecificMaterialDesignationCode ('u');
-    if (s.length ( ) > 3) setAltitudeOfSensorCode (s.charAt (3));
-    if (s.length ( ) > 4) setAttitudeOfSensorCode (s.charAt (4));
-    if (s.length ( ) > 5) setCloudCoverCode (s.charAt (5));
-    if (s.length ( ) > 6) setPlatformConstructionTypeCode (s.charAt (6));
-    if (s.length ( ) > 7) setPlatformUseCode (s.charAt (7));
-    if (s.length ( ) > 8) setSensorTypeCode (s.charAt (8));
-    if (s.length ( ) > 10) setDataTypeCode (s.substring (9, 11));
+    setGeneralMaterialDesignationCode(s.charAt(0));
+    if (s.length() > 1) setSpecificMaterialDesignationCode(s.charAt(1));
+    else setSpecificMaterialDesignationCode('u');
+    if (s.length() > 3) setAltitudeOfSensorCode(s.charAt(3));
+    if (s.length() > 4) setAttitudeOfSensorCode(s.charAt(4));
+    if (s.length() > 5) setCloudCoverCode(s.charAt(5));
+    if (s.length() > 6) setPlatformConstructionTypeCode(s.charAt(6));
+    if (s.length() > 7) setPlatformUseCode(s.charAt(7));
+    if (s.length() > 8) setSensorTypeCode(s.charAt(8));
+    if (s.length() > 10) setDataTypeCode(s.substring(9, 11));
   }
 
 }

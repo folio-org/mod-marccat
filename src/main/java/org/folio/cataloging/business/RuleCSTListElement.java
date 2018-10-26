@@ -24,11 +24,11 @@ public class RuleCSTListElement {
   private Long collectionTarget;
 
   public RuleCSTListElement(CLCTN_CST_RULE rule) {
-    setRule (rule);
-    setRuleId (rule.getRuleId ( ));
-    setFlagProcessing (rule.getFlagProcessing ( ));
-    setRuleDescription (rule.getRuleDescription ( ));
-    setDataType (rule.getDataType ( ));
+    setRule(rule);
+    setRuleId(rule.getRuleId());
+    setFlagProcessing(rule.getFlagProcessing());
+    setRuleDescription(rule.getRuleDescription());
+    setDataType(rule.getDataType());
   }
 
   public CLCTN_CST_RULE getRule() {

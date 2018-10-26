@@ -21,10 +21,10 @@ public class CountDocumentCollection {
   @JsonProperty("countDocuments")
   @Valid
   @NotNull
-  private List <CountDocument> countDocuments = new ArrayList <CountDocument> ( );
+  private List <CountDocument> countDocuments = new ArrayList <CountDocument>();
 
   @JsonIgnore
-  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
+  private Map <String, Object> additionalProperties = new HashMap <String, Object>();
 
 
   /**
@@ -59,11 +59,11 @@ public class CountDocumentCollection {
 
   @JsonAnySetter
   public void setAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
   }
 
   public CountDocumentCollection withAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
     return this;
   }
 

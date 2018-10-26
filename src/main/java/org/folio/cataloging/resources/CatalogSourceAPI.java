@@ -28,9 +28,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class CatalogSourceAPI extends BaseResource {
 
   private Function <Avp <String>, CatalogSource> toCatalogSource = source -> {
-    final CatalogSource catalogSource = new CatalogSource ( );
-    catalogSource.setCode (source.getValue ( ));
-    catalogSource.setDescription (source.getLabel ( ));
+    final CatalogSource catalogSource = new CatalogSource();
+    catalogSource.setCode(source.getValue());
+    catalogSource.setDescription(source.getLabel());
     return catalogSource;
   };
 
@@ -45,14 +45,14 @@ public class CatalogSourceAPI extends BaseResource {
   public CatalogSourceCollection getCatalogSources(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final CatalogSourceCollection container = new CatalogSourceCollection ( );
-      container.setCatalogSources (
+    return doGet((storageService, configuration) -> {
+      final CatalogSourceCollection container = new CatalogSourceCollection();
+      container.setCatalogSources(
         storageService
-          .getCatalogSources (lang)
-          .stream ( )
-          .map (toCatalogSource)
-          .collect (toList ( )));
+          .getCatalogSources(lang)
+          .stream()
+          .map(toCatalogSource)
+          .collect(toList()));
       return container;
     }, tenant, configurator);
   }

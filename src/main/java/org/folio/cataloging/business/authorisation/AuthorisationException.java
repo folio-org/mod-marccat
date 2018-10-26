@@ -22,7 +22,7 @@ public class AuthorisationException extends ModCatalogingException {
    * @since 1.0
    */
   public AuthorisationException() {
-    super ( );
+    super();
   }
 
   /**
@@ -32,7 +32,7 @@ public class AuthorisationException extends ModCatalogingException {
    * @since 1.0
    */
   public AuthorisationException(String message) {
-    super (message);
+    super(message);
   }
 
   /**
@@ -43,7 +43,7 @@ public class AuthorisationException extends ModCatalogingException {
    * @since 1.0
    */
   public AuthorisationException(String message, Throwable cause) {
-    super (message, cause);
+    super(message, cause);
   }
 
   /**
@@ -53,7 +53,7 @@ public class AuthorisationException extends ModCatalogingException {
    * @since 1.0
    */
   public AuthorisationException(Throwable cause) {
-    super (cause);
+    super(cause);
   }
 
 }

@@ -26,12 +26,12 @@ public class CopyNoteKey implements Serializable {
    * Class constructor
    */
   public CopyNoteKey() {
-    super ( );
+    super();
   }
 
   public CopyNoteKey(int copyId, int copyNote) {
-    this.setCopyIdNumber (copyId);
-    this.setCopyNoteNumber (copyNote);
+    this.setCopyIdNumber(copyId);
+    this.setCopyNoteNumber(copyNote);
   }
 
   /**
@@ -42,8 +42,8 @@ public class CopyNoteKey implements Serializable {
     if (anObject instanceof CopyNoteKey) {
       CopyNoteKey aKey = (CopyNoteKey) anObject;
       return (
-        copyIdNumber == aKey.getCopyIdNumber ( )
-          && copyNoteNumber == aKey.getCopyNoteNumber ( ));
+        copyIdNumber == aKey.getCopyIdNumber()
+          && copyNoteNumber == aKey.getCopyNoteNumber());
     } else {
       return false;
     }

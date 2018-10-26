@@ -27,9 +27,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
 public class SkipInFilingAPI extends BaseResource {
   private Function <Avp <String>, SkipInFiling> toSkipInFile = source -> {
-    final SkipInFiling skipInFile = new SkipInFiling ( );
-    skipInFile.setCode (Integer.parseInt (source.getValue ( )));
-    skipInFile.setDescription (source.getLabel ( ));
+    final SkipInFiling skipInFile = new SkipInFiling();
+    skipInFile.setCode(Integer.parseInt(source.getValue()));
+    skipInFile.setDescription(source.getLabel());
     return skipInFile;
   };
 
@@ -44,13 +44,13 @@ public class SkipInFilingAPI extends BaseResource {
   public SkipInFilingCollection getSkipInFiling(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final SkipInFilingCollection container = new SkipInFilingCollection ( );
-      container.setSkipInFiling (
-        storageService.getSkipInFiling (lang)
-          .stream ( )
-          .map (toSkipInFile)
-          .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      final SkipInFilingCollection container = new SkipInFilingCollection();
+      container.setSkipInFiling(
+        storageService.getSkipInFiling(lang)
+          .stream()
+          .map(toSkipInFile)
+          .collect(toList()));
       return container;
     }, tenant, configurator);
   }

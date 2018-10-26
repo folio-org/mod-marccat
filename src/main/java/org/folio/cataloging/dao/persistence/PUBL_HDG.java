@@ -48,7 +48,7 @@ public class PUBL_HDG extends Descriptor implements Serializable {
    * Instantiates a new publ hdg.
    */
   public PUBL_HDG() {
-    super ( );
+    super();
   }
 
   /* (non-Javadoc)
@@ -71,7 +71,7 @@ public class PUBL_HDG extends Descriptor implements Serializable {
    * @see Descriptor#getReferenceClass(java.lang.Class)
    */
   public Class getReferenceClass(Class targetClazz) {
-    if (targetClazz == this.getClass ( )) {
+    if (targetClazz == this.getClass()) {
       return PUBL_REF.class;
     } else {
       return null;
@@ -91,7 +91,7 @@ public class PUBL_HDG extends Descriptor implements Serializable {
    * @return the dao
    */
   public AbstractDAO getDAO() {
-    return new PublisherDescriptorDAO ( );
+    return new PublisherDescriptorDAO();
   }
 
 
@@ -123,7 +123,7 @@ public class PUBL_HDG extends Descriptor implements Serializable {
    * @see Descriptor#getCorrelationValues()
    */
   public CorrelationValues getCorrelationValues() {
-    return new CorrelationValues (
+    return new CorrelationValues(
       CorrelationValues.UNDEFINED,
       CorrelationValues.UNDEFINED,
       CorrelationValues.UNDEFINED);
@@ -141,7 +141,7 @@ public class PUBL_HDG extends Descriptor implements Serializable {
    * @see Descriptor#getSortFormParameters()
    */
   public SortFormParameters getSortFormParameters() {
-    return new SortFormParameters (100, 104, 0, 0, 0);
+    return new SortFormParameters(100, 104, 0, 0, 0);
   }
 
 
@@ -221,23 +221,23 @@ public class PUBL_HDG extends Descriptor implements Serializable {
    * @see Descriptor#getStringText()
    */
   public String getStringText() {
-    return getPlaceStringText ( ) + getNameStringText ( );
+    return getPlaceStringText() + getNameStringText();
   }
 
   /* (non-Javadoc)
    * @see Descriptor#setStringText(java.lang.String)
    */
   public void setStringText(String string) {
-    StringText s = new StringText (string);
-    setPlaceStringText (s.getSubfieldsWithCodes ("a").toString ( ));
-    setNameStringText (s.getSubfieldsWithCodes ("b").toString ( ));
+    StringText s = new StringText(string);
+    setPlaceStringText(s.getSubfieldsWithCodes("a").toString());
+    setNameStringText(s.getSubfieldsWithCodes("b").toString());
   }
 
   /* (non-Javadoc)
    * @see Descriptor#getSortForm()
    */
   public String getSortForm() {
-    return getPlaceSortForm ( ) + getNameSortForm ( );
+    return getPlaceSortForm() + getNameSortForm();
   }
 
   /* (non-Javadoc)
@@ -251,9 +251,9 @@ public class PUBL_HDG extends Descriptor implements Serializable {
    * @see Descriptor#getDisplayText()
    */
   public String getDisplayText() {
-    return new StringText (getPlaceStringText ( )).toDisplayString ( )
+    return new StringText(getPlaceStringText()).toDisplayString()
       + " : "
-      + new StringText (getNameStringText ( )).toDisplayString ( );
+      + new StringText(getNameStringText()).toDisplayString();
   }
 
 
@@ -270,12 +270,12 @@ public class PUBL_HDG extends Descriptor implements Serializable {
    */
   @Deprecated
   public void validate() throws InvalidDescriptorException {
-    StringText text = new StringText (getStringText ( ));
-    if (text.getSubfieldsWithCodes ("b").getNumberOfSubfields ( ) == 0
-      && (text.getSubfieldsWithCodes ("a").getNumberOfSubfields ( ) != 0
-      && !text.getSubfieldsWithCodes ("a").isEmpty ( )))
-      throw new MandatorySubfieldException ("260", "b");
-    super.validate ( );
+    StringText text = new StringText(getStringText());
+    if (text.getSubfieldsWithCodes("b").getNumberOfSubfields() == 0
+      && (text.getSubfieldsWithCodes("a").getNumberOfSubfields() != 0
+      && !text.getSubfieldsWithCodes("a").isEmpty()))
+      throw new MandatorySubfieldException("260", "b");
+    super.validate();
   }
 
   /* (non-Javadoc)

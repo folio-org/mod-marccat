@@ -15,7 +15,7 @@ public class EveryNDaysPattern extends AbstractPattern {
    * @param step the step count
    */
   EveryNDaysPattern(int step) {
-    setStepCount (step);
+    setStepCount(step);
   }
 
   public int getStepCount() {
@@ -27,11 +27,11 @@ public class EveryNDaysPattern extends AbstractPattern {
   }
 
   protected Calendar setNextDate(Calendar c) {
-    c.add (Calendar.DATE, getStepCount ( ));
+    c.add(Calendar.DATE, getStepCount());
     return c;
   }
 
   public String toString() {
-    return "Every " + getStepCount ( ) + " days ";
+    return "Every " + getStepCount() + " days ";
   }
 }

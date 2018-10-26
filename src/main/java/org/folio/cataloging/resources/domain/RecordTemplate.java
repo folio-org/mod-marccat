@@ -36,7 +36,7 @@ public class RecordTemplate {
 
   @JsonProperty("fields")
   @Valid
-  private List <Field> fields = new ArrayList <Field> ( );
+  private List <Field> fields = new ArrayList <Field>();
 
   /**
    * @return The id

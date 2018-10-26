@@ -22,7 +22,7 @@ public class AuthorityCorrelationKey extends CorrelationKey {
    * @since 1.0
    */
   public AuthorityCorrelationKey() {
-    super ( );
+    super();
     // TODO Auto-generated constructor stub
   }
 
@@ -42,7 +42,7 @@ public class AuthorityCorrelationKey extends CorrelationKey {
     char marcTag1,
     char marcTag2,
     short marcTagCategory) {
-    super (marcTag, marcTag1, marcTag2, marcTagCategory);
+    super(marcTag, marcTag1, marcTag2, marcTagCategory);
     this.headingType = headingType;
   }
 
@@ -69,22 +69,22 @@ public class AuthorityCorrelationKey extends CorrelationKey {
       AuthorityCorrelationKey aKey =
         (AuthorityCorrelationKey) anObject;
       return (
-        getMarcTag ( ).equals (aKey.getMarcTag ( ))
-          && getHeadingType ( ).equals (aKey.getHeadingType ( ))
-          && getMarcFirstIndicator ( ) == aKey.getMarcFirstIndicator ( )
-          && getMarcSecondIndicator ( ) == aKey.getMarcSecondIndicator ( )
-          && getMarcTagCategoryCode ( ) == aKey.getMarcTagCategoryCode ( ));
+        getMarcTag().equals(aKey.getMarcTag())
+          && getHeadingType().equals(aKey.getHeadingType())
+          && getMarcFirstIndicator() == aKey.getMarcFirstIndicator()
+          && getMarcSecondIndicator() == aKey.getMarcSecondIndicator()
+          && getMarcTagCategoryCode() == aKey.getMarcTagCategoryCode());
     } else {
       return false;
     }
   }
 
   public int hashCode() {
-    return getMarcTag ( ).hashCode ( )
-      + getHeadingType ( ).hashCode ( )
-      + (3 * getMarcFirstIndicator ( ))
-      + (5 * getMarcSecondIndicator ( ))
-      + (7 * getMarcTagCategoryCode ( ));
+    return getMarcTag().hashCode()
+      + getHeadingType().hashCode()
+      + (3 * getMarcFirstIndicator())
+      + (5 * getMarcSecondIndicator())
+      + (7 * getMarcTagCategoryCode());
   }
 
 }

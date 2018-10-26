@@ -27,7 +27,7 @@ public class AuthorityNameTitleHeadingTag extends AuthorityHeadingTag {
    * @since 1.0
    */
   public AuthorityNameTitleHeadingTag() {
-    super (new NME_TTL_HDG ( ));
+    super(new NME_TTL_HDG());
   }
 
   /* (non-Javadoc)
@@ -52,10 +52,10 @@ public class AuthorityNameTitleHeadingTag extends AuthorityHeadingTag {
   @Deprecated
   public List getSecondCorrelationList(short value1)
     throws DataAccessException {
-    DAOAuthorityCorrelation dao = new DAOAuthorityCorrelation ( );
-    return dao.getSecondCorrelationList (
-      getCategory ( ),
-      getHeadingType ( ),
+    DAOAuthorityCorrelation dao = new DAOAuthorityCorrelation();
+    return dao.getSecondCorrelationList(
+      getCategory(),
+      getHeadingType(),
       value1,
       NameSubType.class);
   }
@@ -64,7 +64,7 @@ public class AuthorityNameTitleHeadingTag extends AuthorityHeadingTag {
    * @see TagInterface#correlationChangeAffectsKey(librisuite.business.common.CorrelationValues)
    */
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
-    return v.isValueDefined (3);
+    return v.isValueDefined(3);
   }
 
 }

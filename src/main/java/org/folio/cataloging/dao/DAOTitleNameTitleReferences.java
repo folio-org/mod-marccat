@@ -28,11 +28,11 @@ public class DAOTitleNameTitleReferences extends DAOCrossReferences {
    */
   public REF loadReciprocal(REF ref, int cataloguingView) throws DataAccessException {
 
-    int reciprocalType = ReferenceType.getReciprocal (ref.getType ( ));
+    int reciprocalType = ReferenceType.getReciprocal(ref.getType());
 
     REF result = null;
     String queryString;
-    if (((TTL_NME_TTL_REF) ref).isSourceTitle ( )) {
+    if (((TTL_NME_TTL_REF) ref).isSourceTitle()) {
       queryString =
         "from TTL_NME_TTL_REF as ref "
           + " where ref.titleHeadingNumber = ? AND "
@@ -51,11 +51,11 @@ public class DAOTitleNameTitleReferences extends DAOCrossReferences {
           + " ref.type = ?";
     }
     List l =
-      find (
+      find(
         queryString,
         new Object[]{
-          ref.getSource ( ),
-          ref.getTarget ( ),
+          ref.getSource(),
+          ref.getTarget(),
           cataloguingView,
           reciprocalType},
         new Type[]{
@@ -63,8 +63,8 @@ public class DAOTitleNameTitleReferences extends DAOCrossReferences {
           Hibernate.INTEGER,
           Hibernate.INTEGER,
           Hibernate.INTEGER});
-    if (l.size ( ) == 1) {
-      result = (REF) l.get (0);
+    if (l.size() == 1) {
+      result = (REF) l.get(0);
     }
 
     return result;

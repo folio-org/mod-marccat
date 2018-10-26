@@ -21,8 +21,8 @@ public class ConfigHandler implements Serializable {
   private Hashtable <String, String> allGlobalVariable;
 
   private ConfigHandler() {
-    daoGV = new DAOGlobalVariable ( );
-    setAllGlobalVariable (daoGV.getAllGlobalVariable (null));
+    daoGV = new DAOGlobalVariable();
+    setAllGlobalVariable(daoGV.getAllGlobalVariable(null));
   }
 
   /**
@@ -30,13 +30,13 @@ public class ConfigHandler implements Serializable {
    */
   public static ConfigHandler getInstance() {
     if (instance == null) {
-      instance = new ConfigHandler ( );
+      instance = new ConfigHandler();
     }
     return instance;
   }
 
   public String getValue(String name) {
-    String value = getAllGlobalVariable ( ).get (name);
+    String value = getAllGlobalVariable().get(name);
     return value;
   }
 
@@ -61,10 +61,10 @@ public class ConfigHandler implements Serializable {
    */
   public String findValue(String name, String defaultName) {
     String value;
-    if (allGlobalVariable.containsKey (name))
-      value = allGlobalVariable.get (name);
+    if (allGlobalVariable.containsKey(name))
+      value = allGlobalVariable.get(name);
     else
-      value = Defaults.getString (defaultName);
+      value = Defaults.getString(defaultName);
     return value;
   }
 
@@ -75,7 +75,7 @@ public class ConfigHandler implements Serializable {
    * @return true if exist.
    */
   public boolean isParamOfGlobalVariable(String name) {
-    return allGlobalVariable.containsKey (name);
+    return allGlobalVariable.containsKey(name);
   }
 
 }

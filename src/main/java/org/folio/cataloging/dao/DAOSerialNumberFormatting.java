@@ -21,21 +21,21 @@ public class DAOSerialNumberFormatting {
     PreparedStatement stmt;
     ResultSet rs;
     try {
-      conn = ConnectionFactory.getConnection ( );
+      conn = ConnectionFactory.getConnection();
       stmt = conn
-        .prepareStatement ("SELECT VLU FROM S_SRL_NBR_FRMTNG WHERE TYP = ? AND NBR = ?");
-      stmt.setString (1, type);
-      stmt.setInt (2, number);
-      rs = stmt.executeQuery ( );
-      if (rs.next ( )) {
-        result = rs.getString ("vlu");
+        .prepareStatement("SELECT VLU FROM S_SRL_NBR_FRMTNG WHERE TYP = ? AND NBR = ?");
+      stmt.setString(1, type);
+      stmt.setInt(2, number);
+      rs = stmt.executeQuery();
+      if (rs.next()) {
+        result = rs.getString("vlu");
       } else {
-        result = Integer.toString (number);
+        result = Integer.toString(number);
       }
-      rs.close ( );
-      stmt.close ( );
+      rs.close();
+      stmt.close();
     } catch (SQLException e) {
-      result = Integer.toString (number);
+      result = Integer.toString(number);
     }
     return result;
   }

@@ -55,11 +55,11 @@ public class RelationReciprocal implements Serializable {
   public boolean equals(Object other) {
     if (!(other instanceof RelationReciprocal)) return false;
     RelationReciprocal castOther = (RelationReciprocal) other;
-    return ((castOther.getRelationshipTypeCode ( ) == getRelationshipTypeCode ( ))
-      && (castOther.getRelationshipReciprocalTypeCode ( ) == getRelationshipReciprocalTypeCode ( )));
+    return ((castOther.getRelationshipTypeCode() == getRelationshipTypeCode())
+      && (castOther.getRelationshipReciprocalTypeCode() == getRelationshipReciprocalTypeCode()));
   }
 
   public int hashCode() {
-    return super.hashCode ( ) + relationshipTypeCode + relationshipReciprocalTypeCode;
+    return super.hashCode() + relationshipTypeCode + relationshipReciprocalTypeCode;
   }
 }

@@ -18,7 +18,7 @@ public class PublisherListElement {
   private Date dateAssociatedRecord;
 
   public PublisherListElement(CollectionPublisher publisherCollection) {
-    setPublisherCollection (publisherCollection);
+    setPublisherCollection(publisherCollection);
   }
 
   public String getPublCode() {
@@ -75,8 +75,8 @@ public class PublisherListElement {
 
   public void setPublisherCollection(CollectionPublisher publisherCollection) {
     this.publisherCollection = publisherCollection;
-    this.idCollection = publisherCollection.getIdCollection ( );
-    this.publCode = publisherCollection.getPublCode ( );
+    this.idCollection = publisherCollection.getIdCollection();
+    this.publCode = publisherCollection.getPublCode();
   }
 
   public int getCountPub() {

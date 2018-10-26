@@ -28,9 +28,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class RecordTypeAPI extends BaseResource {
 
   private Function <Avp <String>, RecordType> toRecordType = source -> {
-    final RecordType recordType = new RecordType ( );
-    recordType.setCode (source.getValue ( ));
-    recordType.setDescription (source.getLabel ( ));
+    final RecordType recordType = new RecordType();
+    recordType.setCode(source.getValue());
+    recordType.setDescription(source.getLabel());
     return recordType;
   };
 
@@ -45,13 +45,13 @@ public class RecordTypeAPI extends BaseResource {
   public RecordTypeCollection getRecordTypes(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final RecordTypeCollection container = new RecordTypeCollection ( );
-      container.setRecordTypes (
-        storageService.getRecordTypes (lang)
-          .stream ( )
-          .map (toRecordType)
-          .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      final RecordTypeCollection container = new RecordTypeCollection();
+      container.setRecordTypes(
+        storageService.getRecordTypes(lang)
+          .stream()
+          .map(toRecordType)
+          .collect(toList()));
       return container;
     }, tenant, configurator);
   }

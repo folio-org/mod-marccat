@@ -22,30 +22,30 @@ import java.util.List;
  */
 public class SerialsControlManager {
   private static final Log logger = LogFactory
-    .getLog (SerialsControlManager.class);
+    .getLog(SerialsControlManager.class);
 
-  private static DAOPredictionPattern theDAO = new DAOPredictionPattern ( );
+  private static DAOPredictionPattern theDAO = new DAOPredictionPattern();
   private Integer amicusNumber;
-  private SRL_PRED_PAT predictionPattern = new SRL_PRED_PAT ( );
-  private List/* <SRL_PRED_PAT_DTL> */chronologies = new ArrayList ( );
-  private List/* <SRL_ENUM> */enumerations = new ArrayList ( );
-  private List/* <SRL_ORDR> */orders = new ArrayList ( );
-  private List/* <SRL_ORDR> */deletedOrders = new ArrayList ( );
+  private SRL_PRED_PAT predictionPattern = new SRL_PRED_PAT();
+  private List/* <SRL_PRED_PAT_DTL> */chronologies = new ArrayList();
+  private List/* <SRL_ENUM> */enumerations = new ArrayList();
+  private List/* <SRL_ORDR> */orders = new ArrayList();
+  private List/* <SRL_ORDR> */deletedOrders = new ArrayList();
 
   public SerialsControlManager(int amicusNumber, int cataloguingView)
     throws DataAccessException {
-    this.amicusNumber = new Integer (amicusNumber);
-    predictionPattern = theDAO.getPatternByAmicusNumber (amicusNumber);
+    this.amicusNumber = new Integer(amicusNumber);
+    predictionPattern = theDAO.getPatternByAmicusNumber(amicusNumber);
     if (predictionPattern != null) {
-      chronologies = theDAO.loadChronologies (predictionPattern
-        .getPredictionPatternNumber ( ));
-      enumerations = theDAO.loadEnumerations (predictionPattern
-        .getPredictionPatternNumber ( ));
-      orders = theDAO.loadOrders (amicusNumber);
+      chronologies = theDAO.loadChronologies(predictionPattern
+        .getPredictionPatternNumber());
+      enumerations = theDAO.loadEnumerations(predictionPattern
+        .getPredictionPatternNumber());
+      orders = theDAO.loadOrders(amicusNumber);
     } else {
-      predictionPattern = new SRL_PRED_PAT (amicusNumber, cataloguingView);
+      predictionPattern = new SRL_PRED_PAT(amicusNumber, cataloguingView);
       //ADD per Adempiere
-      orders = theDAO.loadOrders (amicusNumber);
+      orders = theDAO.loadOrders(amicusNumber);
     }
   }
 
@@ -71,7 +71,7 @@ public class SerialsControlManager {
    * @see SRL_PRED_PAT#getCaption()
    */
   public String getCaption() {
-    return predictionPattern.getCaption ( );
+    return predictionPattern.getCaption();
   }
 
   /**
@@ -79,7 +79,7 @@ public class SerialsControlManager {
    * @see SRL_PRED_PAT#setCaption(String)
    */
   public void setCaption(String caption) {
-    predictionPattern.setCaption (caption);
+    predictionPattern.setCaption(caption);
   }
 
   /**
@@ -87,7 +87,7 @@ public class SerialsControlManager {
    * @see SRL_PRED_PAT#getLabel()
    */
   public String getLabel() {
-    return predictionPattern.getLabel ( );
+    return predictionPattern.getLabel();
   }
 
   /**
@@ -95,11 +95,11 @@ public class SerialsControlManager {
    * @see SRL_PRED_PAT#setLabel(String)
    */
   public void setLabel(String label) {
-    predictionPattern.setLabel (label);
+    predictionPattern.setLabel(label);
   }
 
   public void save() throws DataAccessException {
-    theDAO.save (this);
+    theDAO.save(this);
   }
 
   /**
@@ -161,30 +161,30 @@ public class SerialsControlManager {
     if (index == null) {
       return;
     }
-    chronologies.remove (index.intValue ( ));
+    chronologies.remove(index.intValue());
   }
 
   public void deleteEnumeration(Integer index) {
     if (index == null) {
       return;
     }
-    enumerations.remove (index.intValue ( ));
+    enumerations.remove(index.intValue());
   }
 
   public void deleteOrder(Integer index) {
     if (index == null) {
       return;
     }
-    SRL_ORDR order = (SRL_ORDR) orders.get (index.intValue ( ));
-    if (!order.isNew ( )) {
-      getDeletedOrders ( ).add (order);
-      order.markDeleted ( );
+    SRL_ORDR order = (SRL_ORDR) orders.get(index.intValue());
+    if (!order.isNew()) {
+      getDeletedOrders().add(order);
+      order.markDeleted();
     }
-    List subscriptions = new ArrayList (order.getSubscriptions ( ));
-    for ( int i = 0; i < subscriptions.size ( ); i++ ) {
-      order.deleteSubscription (new Integer (i));
+    List subscriptions = new ArrayList(order.getSubscriptions());
+    for (int i = 0; i < subscriptions.size(); i++) {
+      order.deleteSubscription(new Integer(i));
     }
-    orders.remove (index.intValue ( ));
+    orders.remove(index.intValue());
   }
 
   /**
@@ -205,57 +205,57 @@ public class SerialsControlManager {
                           SerialPart issue, String barcode, int usersMainLibrary)
     throws DataAccessException {
     CPY_ID cpy = null;
-    if (issue.getCopyNumber ( ) == null) {
-      if (subscription.isCreateCopiesIndicator ( )) {
-        cpy = new CPY_ID ( );
-        cpy.setTransactionDate (new Date ( ));
-        cpy.setCreationDate (new Date ( ));
-        cpy.setBarCodeNumber (barcode);
-        cpy.setBibItemNumber (getAmicusNumber ( ).intValue ( ));
-        cpy.setBranchOrganisationNumber (subscription.getBranchNumber ( )
-          .intValue ( ));
+    if (issue.getCopyNumber() == null) {
+      if (subscription.isCreateCopiesIndicator()) {
+        cpy = new CPY_ID();
+        cpy.setTransactionDate(new Date());
+        cpy.setCreationDate(new Date());
+        cpy.setBarCodeNumber(barcode);
+        cpy.setBibItemNumber(getAmicusNumber().intValue());
+        cpy.setBranchOrganisationNumber(subscription.getBranchNumber()
+          .intValue());
         try {
-          cpy.setCopyIdNumber (new SystemNextNumberDAO ( ).getNextNumber ("HC", null)); //todo pass session
+          cpy.setCopyIdNumber(new SystemNextNumberDAO().getNextNumber("HC", null)); //todo pass session
         } catch (HibernateException e) {
-          throw new DataAccessException (e);
+          throw new DataAccessException(e);
         }
         //cpy.setCopyNumberDescription(issue.getEnumDescription());
-        if (issue.getEnumDescription ( ) != null)
-          cpy.setCopyStatementText (Subfield.SUBFIELD_DELIMITER + "b" + issue.getEnumDescription ( ));
-        cpy.setLoanPrd (subscription.getLoanPeriod ( ));
-        cpy.setLocationNameCode (subscription.getLocationCode ( )
-          .shortValue ( ));
-        cpy.setOrganisationNumber (usersMainLibrary);
-        cpy.setShelfListKeyNumber (subscription.getShelfListKeyNumber ( ));
-        new DAOCopy ( ).save (cpy);
+        if (issue.getEnumDescription() != null)
+          cpy.setCopyStatementText(Subfield.SUBFIELD_DELIMITER + "b" + issue.getEnumDescription());
+        cpy.setLoanPrd(subscription.getLoanPeriod());
+        cpy.setLocationNameCode(subscription.getLocationCode()
+          .shortValue());
+        cpy.setOrganisationNumber(usersMainLibrary);
+        cpy.setShelfListKeyNumber(subscription.getShelfListKeyNumber());
+        new DAOCopy().save(cpy);
       }
-      issue.setCopyNumber (new Integer (cpy.getCopyIdNumber ( )));
-      new DAOPredictionPattern ( ).updateOrderLine (issue.getEnumDescription ( ), issue.getReceivedDateAsString ( ), order.getOrderNo ( ), order.getAmicusNumber ( ));
+      issue.setCopyNumber(new Integer(cpy.getCopyIdNumber()));
+      new DAOPredictionPattern().updateOrderLine(issue.getEnumDescription(), issue.getReceivedDateAsString(), order.getOrderNo(), order.getAmicusNumber());
     }
   }
 
   public void receiveSpecial(SRL_ORDR order, SerialLogicalCopy subscription,
                              SerialPart newPart, String barcode, int usersMainLibrary)
     throws DataAccessException {
-    newPart.setSerialPartNumber (0);
-    newPart.markNew ( );
-    newPart.setType (T_SRL_PRT_TYP.SPECIAL);
-    receiveCopy (order, subscription, newPart, barcode, usersMainLibrary);
-    subscription.getIssues ( ).add (newPart);
+    newPart.setSerialPartNumber(0);
+    newPart.markNew();
+    newPart.setType(T_SRL_PRT_TYP.SPECIAL);
+    receiveCopy(order, subscription, newPart, barcode, usersMainLibrary);
+    subscription.getIssues().add(newPart);
   }
 
   public void combineWithPrevious(SerialLogicalCopy subscription,
                                   SerialPart issue, int index) throws SerialCombineException {
     try {
-      SerialPart prev = (SerialPart) subscription.getIssues ( ).get (
+      SerialPart prev = (SerialPart) subscription.getIssues().get(
         index - 1);
-      String[] words = issue.getEnumDescription ( ).split (" ");
-      prev.setEnumDescription (prev.getEnumDescription ( ) + "/"
+      String[] words = issue.getEnumDescription().split(" ");
+      prev.setEnumDescription(prev.getEnumDescription() + "/"
         + words[words.length - 1]);
-      subscription.deleteIssue (new Integer (index));
+      subscription.deleteIssue(new Integer(index));
     } catch (Exception e) {
-      logger.warn (e);
-      throw new SerialCombineException ( );
+      logger.warn(e);
+      throw new SerialCombineException();
     }
   }
 

@@ -30,44 +30,44 @@ import java.util.TreeSet;
  */
 public abstract class Validator {
 
-  private static final Log logger = LogFactory.getLog (Validator.class);
+  private static final Log logger = LogFactory.getLog(Validator.class);
 
   public abstract StringText getEditableSubfields(VariableField field);
 
   public abstract StringText getFixedSubfields(VariableField f);
 
   public List computeValidSubfieldList(VariableField f) throws DataAccessException {
-    return computeValidSubfieldList (
-      getEditableSubfields (f),
-      computeRemainingValidSubfields (f));
+    return computeValidSubfieldList(
+      getEditableSubfields(f),
+      computeRemainingValidSubfields(f));
   }
 
   public Set computeRemainingValidSubfields(VariableField f) throws DataAccessException {
     Set remaining =
-      computeRemainingValidSubfields (
-        f.getStringText ( ),
-        f.getValidation ( ));
+      computeRemainingValidSubfields(
+        f.getStringText(),
+        f.getValidation());
     return remaining;
   }
 
   public Set computeRemainingValidSubfields(StringText stringText, Validation v) {
-    logger.debug ("computeRemainingValidSubfields   stringText== " + stringText);
+    logger.debug("computeRemainingValidSubfields   stringText== " + stringText);
 
-    Set remainingCodes = new TreeSet (new SubfieldCodeComparator ( ));
-    remainingCodes.addAll (v.getValidSubfieldCodes ( ));
-    remainingCodes.removeAll (stringText.getUsedSubfieldCodes ( ));
-    remainingCodes.addAll (v.getRepeatableSubfieldCodes ( ));
+    Set remainingCodes = new TreeSet(new SubfieldCodeComparator());
+    remainingCodes.addAll(v.getValidSubfieldCodes());
+    remainingCodes.removeAll(stringText.getUsedSubfieldCodes());
+    remainingCodes.addAll(v.getRepeatableSubfieldCodes());
     return remainingCodes;
   }
 
   public List computeValidSubfieldList(StringText stringText, Set remainingCodes) {
-    logger.debug ("computeValidSubfieldList   stringText== " + stringText + "   remainingCodes == " + remainingCodes);
-    List validSubfieldList = new ArrayList ( );
-    for ( int i = 0; i < stringText.getNumberOfSubfields ( ); i++ ) {
-      Set validCodes = new TreeSet (new SubfieldCodeComparator ( ));
-      validCodes.addAll (remainingCodes);
-      validCodes.add (stringText.getSubfield (i).getCode ( ));
-      validSubfieldList.add (validCodes);
+    logger.debug("computeValidSubfieldList   stringText== " + stringText + "   remainingCodes == " + remainingCodes);
+    List validSubfieldList = new ArrayList();
+    for (int i = 0; i < stringText.getNumberOfSubfields(); i++) {
+      Set validCodes = new TreeSet(new SubfieldCodeComparator());
+      validCodes.addAll(remainingCodes);
+      validCodes.add(stringText.getSubfield(i).getCode());
+      validSubfieldList.add(validCodes);
     }
     return validSubfieldList;
   }

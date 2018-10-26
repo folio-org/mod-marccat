@@ -13,6 +13,6 @@ public class SystemInternalFailureException extends RuntimeException {
    * @param exception the underlying cause.
    */
   public SystemInternalFailureException(final Throwable exception) {
-    super (exception);
+    super(exception);
   }
 }

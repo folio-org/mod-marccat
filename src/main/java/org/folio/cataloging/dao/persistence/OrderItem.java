@@ -23,7 +23,7 @@ import java.io.Serializable;
  */
 public class OrderItem implements Persistence {
   private static final long serialVersionUID = -8826668590684591078L;
-  private final PersistenceState persistenceState = new PersistenceState ( );
+  private final PersistenceState persistenceState = new PersistenceState();
   private int orderNumber;
   private int orderItemNumber;
   private short type;
@@ -55,7 +55,7 @@ public class OrderItem implements Persistence {
    * @since 1.0
    */
   public OrderItem() {
-    super ( );
+    super();
     // TODO Auto-generated constructor stub
   }
 
@@ -65,8 +65,8 @@ public class OrderItem implements Persistence {
   public boolean equals(Object arg0) {
     if (arg0 instanceof OrderItem) {
       OrderItem o = (OrderItem) arg0;
-      return o.getOrderNumber ( ) == this.getOrderNumber ( ) &&
-        o.getOrderItemNumber ( ) == this.getOrderItemNumber ( );
+      return o.getOrderNumber() == this.getOrderNumber() &&
+        o.getOrderItemNumber() == this.getOrderItemNumber();
     }
     return false;
   }
@@ -75,119 +75,119 @@ public class OrderItem implements Persistence {
    * @since 1.0
    */
   public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict (obj);
+    persistenceState.evict(obj);
   }
 
   /**
    * @since 1.0
    */
   public AbstractDAO getDAO() {
-    return persistenceState.getDAO ( );
+    return persistenceState.getDAO();
   }
 
   /**
    * @since 1.0
    */
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   /**
    * @since 1.0
    */
   public void setUpdateStatus(int i) {
-    persistenceState.setUpdateStatus (i);
+    persistenceState.setUpdateStatus(i);
   }
 
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
   public int hashCode() {
-    return getOrderNumber ( ) + getOrderItemNumber ( );
+    return getOrderNumber() + getOrderItemNumber();
   }
 
   /**
    * @since 1.0
    */
   public boolean isChanged() {
-    return persistenceState.isChanged ( );
+    return persistenceState.isChanged();
   }
 
   /**
    * @since 1.0
    */
   public boolean isDeleted() {
-    return persistenceState.isDeleted ( );
+    return persistenceState.isDeleted();
   }
 
   /**
    * @since 1.0
    */
   public boolean isNew() {
-    return persistenceState.isNew ( );
+    return persistenceState.isNew();
   }
 
   /**
    * @since 1.0
    */
   public boolean isRemoved() {
-    return persistenceState.isRemoved ( );
+    return persistenceState.isRemoved();
   }
 
   /**
    * @since 1.0
    */
   public void markChanged() {
-    persistenceState.markChanged ( );
+    persistenceState.markChanged();
   }
 
   /**
    * @since 1.0
    */
   public void markDeleted() {
-    persistenceState.markDeleted ( );
+    persistenceState.markDeleted();
   }
 
   /**
    * @since 1.0
    */
   public void markNew() {
-    persistenceState.markNew ( );
+    persistenceState.markNew();
   }
 
   /**
    * @since 1.0
    */
   public void markUnchanged() {
-    persistenceState.markUnchanged ( );
+    persistenceState.markUnchanged();
   }
 
   /**
    * @since 1.0
    */
   public boolean onDelete(Session arg0) throws CallbackException {
-    return persistenceState.onDelete (arg0);
+    return persistenceState.onDelete(arg0);
   }
 
   /**
    * @since 1.0
    */
   public void onLoad(Session arg0, Serializable arg1) {
-    persistenceState.onLoad (arg0, arg1);
+    persistenceState.onLoad(arg0, arg1);
   }
 
   /**
    * @since 1.0
    */
   public boolean onSave(Session arg0) throws CallbackException {
-    return persistenceState.onSave (arg0);
+    return persistenceState.onSave(arg0);
   }
 
   /**
    * @since 1.0
    */
   public boolean onUpdate(Session arg0) throws CallbackException {
-    return persistenceState.onUpdate (arg0);
+    return persistenceState.onUpdate(arg0);
   }
 
   public String getStatus() {
@@ -525,7 +525,7 @@ public class OrderItem implements Persistence {
    * @see librisuite.business.common.Persistence#evict()
    */
   public void evict() throws DataAccessException {
-    evict (this);
+    evict(this);
   }
 
   /* (non-Javadoc)

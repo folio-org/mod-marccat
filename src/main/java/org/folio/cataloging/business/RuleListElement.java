@@ -20,10 +20,10 @@ public class RuleListElement {
 
   public RuleListElement(final CLCTN_MST_RULE rule) {
     this.rule = rule;
-    this.ruleId = rule.getRuleId ( );
-    this.flagProcessing = rule.getFlagProcessing ( );
-    this.ruleDescription = rule.getRuleDescription ( );
-    this.dataType = rule.getDataType ( );
+    this.ruleId = rule.getRuleId();
+    this.flagProcessing = rule.getFlagProcessing();
+    this.ruleDescription = rule.getRuleDescription();
+    this.dataType = rule.getDataType();
   }
 
   public CLCTN_MST_RULE getRule() {

@@ -13,15 +13,15 @@ import java.io.Serializable;
 public class CLCTN_MST_RULE_RECORD implements Persistence, Comparable {
   private static final long serialVersionUID = 2522128570785338271L;
 
-  static DAOCollectionRule dao = new DAOCollectionRule ( );
+  static DAOCollectionRule dao = new DAOCollectionRule();
 
   private Integer ruleId;
   private Long recordId;
 
-  private PersistenceState persistenceState = new PersistenceState ( );
+  private PersistenceState persistenceState = new PersistenceState();
 
   public CLCTN_MST_RULE_RECORD() {
-    super ( );
+    super();
   }
 
   public CLCTN_MST_RULE_RECORD(Integer id, Long record) {
@@ -38,11 +38,11 @@ public class CLCTN_MST_RULE_RECORD implements Persistence, Comparable {
   }
 
   public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict (obj);
+    persistenceState.evict(obj);
   }
 
   public void evict() throws DataAccessException {
-    evict (this);
+    evict(this);
   }
 
   public AbstractDAO getDAO() {
@@ -52,7 +52,7 @@ public class CLCTN_MST_RULE_RECORD implements Persistence, Comparable {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ruleId.intValue ( );
+    result = prime * result + ruleId.intValue();
     return result;
   }
 
@@ -61,66 +61,66 @@ public class CLCTN_MST_RULE_RECORD implements Persistence, Comparable {
       return true;
     if (obj == null)
       return false;
-    if (getClass ( ) != obj.getClass ( ))
+    if (getClass() != obj.getClass())
       return false;
     CLCTN_MST_RULE_RECORD other = (CLCTN_MST_RULE_RECORD) obj;
     return ruleId == other.ruleId;
   }
 
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   public void setUpdateStatus(int i) {
-    persistenceState.setUpdateStatus (i);
+    persistenceState.setUpdateStatus(i);
   }
 
   public boolean isChanged() {
-    return persistenceState.isChanged ( );
+    return persistenceState.isChanged();
   }
 
   public boolean isDeleted() {
-    return persistenceState.isDeleted ( );
+    return persistenceState.isDeleted();
   }
 
   public boolean isNew() {
-    return persistenceState.isNew ( );
+    return persistenceState.isNew();
   }
 
   public boolean isRemoved() {
-    return persistenceState.isRemoved ( );
+    return persistenceState.isRemoved();
   }
 
   public void markChanged() {
-    persistenceState.markChanged ( );
+    persistenceState.markChanged();
   }
 
   public void markDeleted() {
-    persistenceState.markDeleted ( );
+    persistenceState.markDeleted();
   }
 
   public void markNew() {
-    persistenceState.markNew ( );
+    persistenceState.markNew();
   }
 
   public void markUnchanged() {
-    persistenceState.markUnchanged ( );
+    persistenceState.markUnchanged();
   }
 
   public boolean onDelete(Session arg0) throws CallbackException {
-    return persistenceState.onDelete (arg0);
+    return persistenceState.onDelete(arg0);
   }
 
   public void onLoad(Session arg0, Serializable arg1) {
-    persistenceState.onLoad (arg0, arg1);
+    persistenceState.onLoad(arg0, arg1);
   }
 
   public boolean onSave(Session arg0) throws CallbackException {
-    return persistenceState.onSave (arg0);
+    return persistenceState.onSave(arg0);
   }
 
   public boolean onUpdate(Session arg0) throws CallbackException {
-    return persistenceState.onUpdate (arg0);
+    return persistenceState.onUpdate(arg0);
   }
 
   public void generateNewKey() throws DataAccessException {
@@ -145,7 +145,7 @@ public class CLCTN_MST_RULE_RECORD implements Persistence, Comparable {
   public int compareTo(Object o) {
     CLCTN_MST_RULE_RECORD recordRule = (CLCTN_MST_RULE_RECORD) o;
 //		int result = new Long(this.recordId).compareTo(new Long(recordRule.getRecordId()));
-    int result = this.recordId.compareTo (recordRule.getRecordId ( ));
+    int result = this.recordId.compareTo(recordRule.getRecordId());
     return result;
   }
 }

@@ -37,44 +37,44 @@ public class SMRY_HLDG implements Persistence, Serializable {
   /*modifica barbara 24/04/2007 il valore deve essere inizializzato a 0*/
   private char holdingStatusCode = '0';
 
-  private Date creationDate = new Date ( );
+  private Date creationDate = new Date();
 
   private Date transactionDate = creationDate;
 
   private String holdingStatementText;
 
-  private PersistenceState persistenceState = new PersistenceState ( );
+  private PersistenceState persistenceState = new PersistenceState();
 
   public SMRY_HLDG() {
   }
 
   public SMRY_HLDG(CPY_ID copy) {
-    setBibItemNumber (copy.getBibItemNumber ( ));
-    setMainLibraryNumber (copy.getOrganisationNumber ( ));
+    setBibItemNumber(copy.getBibItemNumber());
+    setMainLibraryNumber(copy.getOrganisationNumber());
     try {
-      setLibrarySymbolCode (new DAOLibrary ( ).getLibrarySymbol (copy.getOrganisationNumber ( )));
+      setLibrarySymbolCode(new DAOLibrary().getLibrarySymbol(copy.getOrganisationNumber()));
     } catch (DataAccessException e) {
       // leave symbol null when data access exception
     }
-    setHoldingStatementText (copy.getCopyStatementText ( ));
+    setHoldingStatementText(copy.getCopyStatementText());
   }
 
   public boolean equals(Object obj) {
     if (obj instanceof SMRY_HLDG) {
       SMRY_HLDG aHldg = (SMRY_HLDG) obj;
-      return this.getBibItemNumber ( ) == aHldg.getBibItemNumber ( )
-        && this.getMainLibraryNumber ( ) == aHldg
-        .getMainLibraryNumber ( );
+      return this.getBibItemNumber() == aHldg.getBibItemNumber()
+        && this.getMainLibraryNumber() == aHldg
+        .getMainLibraryNumber();
     }
     return false;
   }
 
   public void evict() throws DataAccessException {
-    evict (this);
+    evict(this);
   }
 
   public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict (obj);
+    persistenceState.evict(obj);
   }
 
   public void generateNewKey() throws DataAccessException {
@@ -110,7 +110,7 @@ public class SMRY_HLDG implements Persistence, Serializable {
   }
 
   public AbstractDAO getDAO() {
-    return persistenceState.getDAO ( );
+    return persistenceState.getDAO();
   }
 
   /**
@@ -212,63 +212,63 @@ public class SMRY_HLDG implements Persistence, Serializable {
   }
 
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   public void setUpdateStatus(int i) {
-    persistenceState.setUpdateStatus (i);
+    persistenceState.setUpdateStatus(i);
   }
 
   public int hashCode() {
-    return getBibItemNumber ( ) + getMainLibraryNumber ( );
+    return getBibItemNumber() + getMainLibraryNumber();
   }
 
   public boolean isChanged() {
-    return persistenceState.isChanged ( );
+    return persistenceState.isChanged();
   }
 
   public boolean isDeleted() {
-    return persistenceState.isDeleted ( );
+    return persistenceState.isDeleted();
   }
 
   public boolean isNew() {
-    return persistenceState.isNew ( );
+    return persistenceState.isNew();
   }
 
   public boolean isRemoved() {
-    return persistenceState.isRemoved ( );
+    return persistenceState.isRemoved();
   }
 
   public void markChanged() {
-    persistenceState.markChanged ( );
+    persistenceState.markChanged();
   }
 
   public void markDeleted() {
-    persistenceState.markDeleted ( );
+    persistenceState.markDeleted();
   }
 
   public void markNew() {
-    persistenceState.markNew ( );
+    persistenceState.markNew();
   }
 
   public void markUnchanged() {
-    persistenceState.markUnchanged ( );
+    persistenceState.markUnchanged();
   }
 
   public boolean onDelete(Session arg0) throws CallbackException {
-    return persistenceState.onDelete (arg0);
+    return persistenceState.onDelete(arg0);
   }
 
   public void onLoad(Session arg0, Serializable arg1) {
-    persistenceState.onLoad (arg0, arg1);
+    persistenceState.onLoad(arg0, arg1);
   }
 
   public boolean onSave(Session arg0) throws CallbackException {
-    return persistenceState.onSave (arg0);
+    return persistenceState.onSave(arg0);
   }
 
   public boolean onUpdate(Session arg0) throws CallbackException {
-    return persistenceState.onUpdate (arg0);
+    return persistenceState.onUpdate(arg0);
   }
 
 }

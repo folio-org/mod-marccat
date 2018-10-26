@@ -40,15 +40,15 @@ public class PatternParameter {
     return daysOfWeek;
   }
 
-  public void setDaysOfWeek(List daysOfWeek) {
-    this.daysOfWeek = new int[daysOfWeek.size ( )];
-    for ( int i = 0; i < daysOfWeek.size ( ); i++ ) {
-      this.daysOfWeek[i] = ((Integer) daysOfWeek.get (i)).intValue ( );
-    }
-  }
-
   public void setDaysOfWeek(int[] daysOfWeek) {
     this.daysOfWeek = daysOfWeek;
+  }
+
+  public void setDaysOfWeek(List daysOfWeek) {
+    this.daysOfWeek = new int[daysOfWeek.size()];
+    for (int i = 0; i < daysOfWeek.size(); i++) {
+      this.daysOfWeek[i] = ((Integer) daysOfWeek.get(i)).intValue();
+    }
   }
 
   public int getMonth() {

@@ -22,8 +22,8 @@ public class BibliographicControlNumberTag extends ControlNumberTag {
    * @since 1.0
    */
   public BibliographicControlNumberTag() {
-    super ( );
-    setHeaderType ((short) 39);
+    super();
+    setHeaderType((short) 39);
   }
 
 }

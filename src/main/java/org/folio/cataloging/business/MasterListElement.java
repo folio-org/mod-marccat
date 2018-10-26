@@ -19,8 +19,8 @@ public class MasterListElement {
   private Date dateAssociatedRecord;
 
   public MasterListElement(CollectionMaster master) {
-    setMaster (master);
-    this.idCollection = master.getIdCollection ( );
+    setMaster(master);
+    this.idCollection = master.getIdCollection();
   }
 
   public boolean isHierarchy() {

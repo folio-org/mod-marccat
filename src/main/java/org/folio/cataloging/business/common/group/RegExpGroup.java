@@ -10,19 +10,19 @@ public class RegExpGroup extends MarcTagGroup {
   private RE regexp;
 
   public RegExpGroup(boolean canSort, boolean singleSort, String pattern) throws RESyntaxException {
-    super (canSort, singleSort);
-    regexp = new RE (pattern);
+    super(canSort, singleSort);
+    regexp = new RE(pattern);
   }
 
   public static void main(String[] args) {
     String pattern = "^52[0124] ";
-    RE regexp = new RE (pattern);
+    RE regexp = new RE(pattern);
 
-    System.out.println ("Value: " + regexp.match ("520 "));
+    System.out.println("Value: " + regexp.match("520 "));
   }
 
   public boolean contains(Tag t) throws DataAccessException {
-    return regexp.match (t.getMarcEncoding ( ).getMarcTag ( ));
+    return regexp.match(t.getMarcEncoding().getMarcTag());
   }
 
 }

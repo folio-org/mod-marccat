@@ -41,14 +41,14 @@ import java.util.stream.Collectors;
 public abstract class CatalogItem implements Serializable {
 
   private static final Comparator <Tag> tagComparator =
-    (Tag tag1, Tag tag2) -> (tag1.getMarcEncoding ( ).getMarcTag ( ).compareTo (tag2.getMarcEncoding ( ).getMarcTag ( )));
-  protected List <Tag> deletedTags = new ArrayList ( );
+    (Tag tag1, Tag tag2) -> (tag1.getMarcEncoding().getMarcTag().compareTo(tag2.getMarcEncoding().getMarcTag()));
+  protected List <Tag> deletedTags = new ArrayList();
   protected ModelItem modelItem = null;
-  protected List <Tag> tags = new ArrayList ( );
-  private Log logger = new Log (CatalogItem.class);
+  protected List <Tag> tags = new ArrayList();
+  private Log logger = new Log(CatalogItem.class);
 
   public CatalogItem() {
-    super ( );
+    super();
   }
 
   /**
@@ -57,37 +57,37 @@ public abstract class CatalogItem implements Serializable {
    * @return an Element
    */
   public Document toExternalMarcSlim() {
-    DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance ( );
+    DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
     DocumentBuilder documentBuilder = null;
     Document xmlDocument = null;
     try {
-      documentBuilder = documentBuilderFactory.newDocumentBuilder ( );
-      xmlDocument = documentBuilder.newDocument ( );
+      documentBuilder = documentBuilderFactory.newDocumentBuilder();
+      xmlDocument = documentBuilder.newDocument();
     } catch (ParserConfigurationException parserConfigurationException) {
-      logger.error ("", parserConfigurationException);
+      logger.error("", parserConfigurationException);
       //throw new XmlParserConfigurationException(parserConfigurationException);
     }
-    Element record = xmlDocument.createElement ("record");
-    for ( Object t : tags ) {
+    Element record = xmlDocument.createElement("record");
+    for (Object t : tags) {
       Tag tag = (Tag) t;
-      logger.debug ("appending " + tag);
-      record.appendChild (tag.toExternalMarcSlim (xmlDocument));
+      logger.debug("appending " + tag);
+      record.appendChild(tag.toExternalMarcSlim(xmlDocument));
     }
-    xmlDocument.appendChild (record);
+    xmlDocument.appendChild(record);
     return xmlDocument;
   }
 
   @Deprecated
   public void addAllTags(Tag[] tags) {
-    for ( int i = 0; i < tags.length; i++ ) {
-      addTag (tags[i]);
+    for (int i = 0; i < tags.length; i++) {
+      addTag(tags[i]);
     }
   }
 
   @Deprecated
   public void addDeletedTag(Tag aTag) {
-    if (!deletedTags.contains (aTag)) {
-      deletedTags.add (aTag);
+    if (!deletedTags.contains(aTag)) {
+      deletedTags.add(aTag);
     }
   }
 
@@ -98,15 +98,15 @@ public abstract class CatalogItem implements Serializable {
    * @param newTag -- the new tag to add.
    */
   public void addTag(final int i, final Tag newTag) {
-    if (tags.size ( ) > i) {
-      tags.add (i + 1, newTag);
+    if (tags.size() > i) {
+      tags.add(i + 1, newTag);
     } else {
-      tags.add (newTag);
+      tags.add(newTag);
     }
   }
 
   public void addTag(Tag newTag) {
-    tags.add (newTag);
+    tags.add(newTag);
   }
 
   abstract public void checkForMandatoryTags() throws MandatoryTagException;
@@ -117,13 +117,13 @@ public abstract class CatalogItem implements Serializable {
    * @param index -- the tag index.
    */
   public void checkRepeatability(final int index) throws DataAccessException, DuplicateTagException {
-    final Tag t = getTag (index);
-    Validation bv = t.getValidation ( );
-    if (!bv.isMarcTagRepeatable ( )) {
-      getTags ( ).remove (index);
-      getTags ( ).sort (tagComparator);
-      if (Collections.binarySearch (getTags ( ), t, tagComparator) >= 0) {
-        throw new DuplicateTagException (index);
+    final Tag t = getTag(index);
+    Validation bv = t.getValidation();
+    if (!bv.isMarcTagRepeatable()) {
+      getTags().remove(index);
+      getTags().sort(tagComparator);
+      if (Collections.binarySearch(getTags(), t, tagComparator) >= 0) {
+        throw new DuplicateTagException(index);
       }
     }
   }
@@ -136,7 +136,7 @@ public abstract class CatalogItem implements Serializable {
    */
   public Tag findFirstTagByNumber(final String s) {
     try {
-      return getTags ( ).stream ( ).filter (tag -> tag.getMarcEncoding ( ).getMarcTag ( ).startsWith (s)).findFirst ( ).orElse (null);
+      return getTags().stream().filter(tag -> tag.getMarcEncoding().getMarcTag().startsWith(s)).findFirst().orElse(null);
     } catch (Exception e) {
       return null;
     }
@@ -146,7 +146,7 @@ public abstract class CatalogItem implements Serializable {
    * @return the Amicus number for the item (aut or bib)
    */
   public Integer getAmicusNumber() {
-    return getItemEntity ( ).getAmicusNumber ( );
+    return getItemEntity().getAmicusNumber();
   }
 
   /**
@@ -171,17 +171,17 @@ public abstract class CatalogItem implements Serializable {
    * @throws DataAccessException in
    */
   public void setModelItem(final Model model) {
-    this.modelItem.setItem (this.getAmicusNumber ( ).longValue ( ));
-    this.modelItem.setModel (model);
-    this.modelItem.setRecordFields (model.getRecordFields ( ));
+    this.modelItem.setItem(this.getAmicusNumber().longValue());
+    this.modelItem.setModel(model);
+    this.modelItem.setRecordFields(model.getRecordFields());
   }
 
   public int getNumberOfTags() {
-    return tags.size ( );
+    return tags.size();
   }
 
   public Tag getTag(int i) {
-    return tags.get (i);
+    return tags.get(i);
   }
 
   public abstract TagImpl getTagImpl();
@@ -200,42 +200,42 @@ public abstract class CatalogItem implements Serializable {
    * @return the verification level of item entity.
    */
   public char getVerificationLevel() {
-    return getItemEntity ( ).getVerificationLevel ( );
+    return getItemEntity().getVerificationLevel();
   }
 
   public void setVerificationLevel(char verificationLevel) {
-    getItemEntity ( ).setVerificationLevel (verificationLevel);
+    getItemEntity().setVerificationLevel(verificationLevel);
   }
 
   /**
    * remove a tag from the deletedTags list (by Object)
    */
   public void removeDeletedTag(Tag tag) {
-    deletedTags.remove (tag);
+    deletedTags.remove(tag);
   }
 
   /**
    * remove a tag from the Item (by Object)
    */
   public void removeTag(Tag tag) {
-    tags.remove (tag);
+    tags.remove(tag);
   }
 
   public void setModelItemNoAN(Model model) {
-    this.modelItem = new BibliographicModelItem ( );
-    this.modelItem.markNew ( );
-    this.modelItem.setModel (model);
-    this.modelItem.setRecordFields (model.getRecordFields ( ));
+    this.modelItem = new BibliographicModelItem();
+    this.modelItem.markNew();
+    this.modelItem.setModel(model);
+    this.modelItem.setRecordFields(model.getRecordFields());
   }
 
   /**
    * Replacing old tag with a new one in the bibItem.
    */
   public void setTag(Tag oldTag, Tag newTag) {
-    if (getAmicusNumber ( ) != null) {
-      newTag.setItemNumber (getAmicusNumber ( ).intValue ( ));
+    if (getAmicusNumber() != null) {
+      newTag.setItemNumber(getAmicusNumber().intValue());
     }
-    tags.set (tags.indexOf (oldTag), newTag);
+    tags.set(tags.indexOf(oldTag), newTag);
   }
 
   /**
@@ -245,15 +245,15 @@ public abstract class CatalogItem implements Serializable {
   public void sortTags() {
     try {
 
-      final LinkedHashMap <Object, TagContainer> groupsHashMap = populateGroups ( );
-      List <TagContainer> tagContainers = new ArrayList <> (groupsHashMap.values ( ));
-      tagContainers.sort (new GroupComparator ( ));
-      final List <Tag> tagSet = unlist (tagContainers);
-      setTags (tagSet);
+      final LinkedHashMap <Object, TagContainer> groupsHashMap = populateGroups();
+      List <TagContainer> tagContainers = new ArrayList <>(groupsHashMap.values());
+      tagContainers.sort(new GroupComparator());
+      final List <Tag> tagSet = unlist(tagContainers);
+      setTags(tagSet);
     } catch (MarcCorrelationException e) {
-      logger.info (MessageCatalogStorage._00017_MARC_CORRELATION_SORTING);
+      logger.info(MessageCatalogStorage._00017_MARC_CORRELATION_SORTING);
     } catch (DataAccessException e) {
-      logger.info (MessageCatalogStorage._00010_DATA_ACCESS_FAILURE);
+      logger.info(MessageCatalogStorage._00010_DATA_ACCESS_FAILURE);
     }
   }
 
@@ -264,13 +264,13 @@ public abstract class CatalogItem implements Serializable {
    * @return list of ordered tags.
    */
   private List <Tag> unlist(final List <TagContainer> tagContainers) {
-    final List <Tag> tagSet = new ArrayList <> ( );
-    tagContainers.stream ( ).forEach (item -> {
+    final List <Tag> tagSet = new ArrayList <>();
+    tagContainers.stream().forEach(item -> {
       if (item instanceof Tag)
-        tagSet.add ((Tag) item);
+        tagSet.add((Tag) item);
       else {
-        item.sort ( );
-        tagSet.addAll (item.getList ( ));
+        item.sort();
+        tagSet.addAll(item.getList());
       }
     });
     return tagSet;
@@ -283,20 +283,20 @@ public abstract class CatalogItem implements Serializable {
    * @throws DataAccessException in case of data access failure.
    */
   private LinkedHashMap <Object, TagContainer> populateGroups() throws DataAccessException {
-    final LinkedHashMap <Object, TagContainer> ht = new LinkedHashMap ( );
-    final GroupManager groupManager = new BibliographicGroupManager ( );
+    final LinkedHashMap <Object, TagContainer> ht = new LinkedHashMap();
+    final GroupManager groupManager = new BibliographicGroupManager();
 
-    tags.stream ( ).forEach (tag -> {
-      final TagGroup group = groupManager.getGroup (tag);
+    tags.stream().forEach(tag -> {
+      final TagGroup group = groupManager.getGroup(tag);
       if (group == null) {
-        ht.put (tag, new UniqueTagContainer (tag));
+        ht.put(tag, new UniqueTagContainer(tag));
       } else {
-        TagContainer tc = ht.get (group);
+        TagContainer tc = ht.get(group);
         if (tc == null) {
-          tc = new MultiTagContainer ( );
-          ht.put (group, tc);
+          tc = new MultiTagContainer();
+          ht.put(group, tc);
         }
-        tc.add (tag);
+        tc.add(tag);
       }
     });
     return ht;
@@ -309,55 +309,55 @@ public abstract class CatalogItem implements Serializable {
    * @throws DataAccessException in case of data access exception.
    */
   public byte[] toMarc() throws DataAccessException {
-    final DecimalFormat n4 = new DecimalFormat ("0000");
-    final DecimalFormat n5 = new DecimalFormat ("00000");
-    final ByteArrayOutputStream directory = new ByteArrayOutputStream ( );
-    final ByteArrayOutputStream body = new ByteArrayOutputStream ( );
-    final ByteArrayOutputStream record = new ByteArrayOutputStream ( );
-    final Leader leaderTag = (Leader) getTag (0);
-    leaderTag.getItemEntity ( ).setCharacterCodingSchemeCode ('a');
-    final String leader = leaderTag.getDisplayString ( );
+    final DecimalFormat n4 = new DecimalFormat("0000");
+    final DecimalFormat n5 = new DecimalFormat("00000");
+    final ByteArrayOutputStream directory = new ByteArrayOutputStream();
+    final ByteArrayOutputStream body = new ByteArrayOutputStream();
+    final ByteArrayOutputStream record = new ByteArrayOutputStream();
+    final Leader leaderTag = (Leader) getTag(0);
+    leaderTag.getItemEntity().setCharacterCodingSchemeCode('a');
+    final String leader = leaderTag.getDisplayString();
 
     try {
-      this.getTags ( ).stream ( ).skip (1).forEach (aTag -> {
+      this.getTags().stream().skip(1).forEach(aTag -> {
         try {
-          final CorrelationKey correlation = aTag.getMarcEncoding ( );
-          final String entry = aTag.isFixedField ( )
-            ? (((FixedField) aTag).getDisplayString ( ) + Subfield.FIELD_DELIMITER)
-            : ("" + correlation.getMarcFirstIndicator ( ) + correlation.getMarcSecondIndicator ( ) +
-            ((VariableField) aTag).getStringText ( ).getMarcDisplayString (Subfield.SUBFIELD_DELIMITER) + Subfield.FIELD_DELIMITER);
+          final CorrelationKey correlation = aTag.getMarcEncoding();
+          final String entry = aTag.isFixedField()
+            ? (((FixedField) aTag).getDisplayString() + Subfield.FIELD_DELIMITER)
+            : ("" + correlation.getMarcFirstIndicator() + correlation.getMarcSecondIndicator() +
+            ((VariableField) aTag).getStringText().getMarcDisplayString(Subfield.SUBFIELD_DELIMITER) + Subfield.FIELD_DELIMITER);
 
-          int offset = body.size ( );
-          body.write (entry.getBytes (GlobalStorage.CHARSET_UTF8));
-          directory.write (correlation.getMarcTag ( ).getBytes (GlobalStorage.CHARSET_UTF8));
-          directory.write (
-            n4.format (body.size ( ) - offset).getBytes (GlobalStorage.CHARSET_UTF8));
-          directory.write (n5.format (offset).getBytes (GlobalStorage.CHARSET_UTF8));
+          int offset = body.size();
+          body.write(entry.getBytes(GlobalStorage.CHARSET_UTF8));
+          directory.write(correlation.getMarcTag().getBytes(GlobalStorage.CHARSET_UTF8));
+          directory.write(
+            n4.format(body.size() - offset).getBytes(GlobalStorage.CHARSET_UTF8));
+          directory.write(n5.format(offset).getBytes(GlobalStorage.CHARSET_UTF8));
         } catch (UnsupportedEncodingException e) {
-          throw new RuntimeException (e);
+          throw new RuntimeException(e);
         } catch (IOException e) {
-          throw new RuntimeException (e);
+          throw new RuntimeException(e);
         }
       });
 
-      directory.write (Subfield.FIELD_DELIMITER.getBytes (GlobalStorage.CHARSET_UTF8));
-      body.write (Subfield.RECORD_DELIMITER.getBytes (GlobalStorage.CHARSET_UTF8));
-      record.write (n5.format (body.size ( ) + directory.size ( ) + leader.length ( )).getBytes (GlobalStorage.CHARSET_UTF8));
-      record.write (leader.substring (5, 12).getBytes (GlobalStorage.CHARSET_UTF8));
-      record.write (
-        n5.format (directory.size ( ) + leader.length ( )).getBytes (
+      directory.write(Subfield.FIELD_DELIMITER.getBytes(GlobalStorage.CHARSET_UTF8));
+      body.write(Subfield.RECORD_DELIMITER.getBytes(GlobalStorage.CHARSET_UTF8));
+      record.write(n5.format(body.size() + directory.size() + leader.length()).getBytes(GlobalStorage.CHARSET_UTF8));
+      record.write(leader.substring(5, 12).getBytes(GlobalStorage.CHARSET_UTF8));
+      record.write(
+        n5.format(directory.size() + leader.length()).getBytes(
           GlobalStorage.CHARSET_UTF8));
-      record.write (leader.substring (17).getBytes (GlobalStorage.CHARSET_UTF8));
-      record.write (directory.toByteArray ( ));
-      record.write (body.toByteArray ( ));
+      record.write(leader.substring(17).getBytes(GlobalStorage.CHARSET_UTF8));
+      record.write(directory.toByteArray());
+      record.write(body.toByteArray());
 
     } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException (e);
+      throw new RuntimeException(e);
     } catch (IOException e) {
-      throw new RuntimeException (e);
+      throw new RuntimeException(e);
     }
 
-    return record.toByteArray ( );
+    return record.toByteArray();
   }
 
 
@@ -368,10 +368,10 @@ public abstract class CatalogItem implements Serializable {
    * @throws DataAccessException in case of data access exception.
    */
   public void validate() throws ValidationException, DataAccessException {
-    checkForMandatoryTags ( );
-    for ( int i = 0; i < getTags ( ).size ( ); i++ ) {
-      checkRepeatability (i);
-      getTag (i).validate (i);
+    checkForMandatoryTags();
+    for (int i = 0; i < getTags().size(); i++) {
+      checkRepeatability(i);
+      getTag(i).validate(i);
     }
   }
 
@@ -383,8 +383,8 @@ public abstract class CatalogItem implements Serializable {
    * @return filtered tag list.
    */
   public List <Tag> findTags(final TagFilter filter, final Object optionalFilterParameter) {
-    List <Tag> tags = getTags ( );
-    return tags.stream ( ).filter (current -> filter.accept (current, optionalFilterParameter)).collect (Collectors.toList ( ));
+    List <Tag> tags = getTags();
+    return tags.stream().filter(current -> filter.accept(current, optionalFilterParameter)).collect(Collectors.toList());
   }
 
   /**
@@ -399,9 +399,9 @@ public abstract class CatalogItem implements Serializable {
     if (!(current instanceof AccessPoint))
       return false;
 
-    if (findTagsEqual (((AccessPoint) current).getFunctionCode ( )).size ( ) >= 2) {
-      if (!descriptor.equals (((Browsable) current).getDescriptor ( )))
-        return !findTags (new SameDescriptorTagFilter ( ), descriptor).isEmpty ( );
+    if (findTagsEqual(((AccessPoint) current).getFunctionCode()).size() >= 2) {
+      if (!descriptor.equals(((Browsable) current).getDescriptor()))
+        return !findTags(new SameDescriptorTagFilter(), descriptor).isEmpty();
     }
     return false;
   }
@@ -414,10 +414,10 @@ public abstract class CatalogItem implements Serializable {
    * @throws DataAccessException in case of data access failure.
    */
   public List <Tag> findTagsEqual(final int functionCode) throws DataAccessException {
-    final List <Tag> tags = getTags ( );
-    return tags.stream ( ).filter (current -> current instanceof AccessPoint)
-      .filter (current -> ((AccessPoint) current).getFunctionCode ( ) == functionCode)
-      .collect (Collectors.toList ( ));
+    final List <Tag> tags = getTags();
+    return tags.stream().filter(current -> current instanceof AccessPoint)
+      .filter(current -> ((AccessPoint) current).getFunctionCode() == functionCode)
+      .collect(Collectors.toList());
   }
 
   /**
@@ -428,10 +428,10 @@ public abstract class CatalogItem implements Serializable {
    * @throws DataAccessException in case of data access failure.
    */
   public List <Tag> findTagsFixedEqual(final String marcTag) throws DataAccessException {
-    List <Tag> tags = getTags ( );
-    return tags.stream ( ).filter (current -> current instanceof FixedField)
-      .filter (tag -> tag.getMarcEncoding ( ).getMarcTag ( ).equals (marcTag))
-      .collect (Collectors.toList ( ));
+    List <Tag> tags = getTags();
+    return tags.stream().filter(current -> current instanceof FixedField)
+      .filter(tag -> tag.getMarcEncoding().getMarcTag().equals(marcTag))
+      .collect(Collectors.toList());
   }
 
   /**
@@ -442,10 +442,10 @@ public abstract class CatalogItem implements Serializable {
    * @throws DataAccessException in case of data access failure.
    */
   public List <Tag> findTagsVariableEqual(final String marcTag) throws DataAccessException {
-    List <Tag> tags = getTags ( );
-    return tags.stream ( ).filter (current -> current instanceof VariableField)
-      .filter (tag -> tag.getMarcEncoding ( ).getMarcTag ( ).equals (marcTag))
-      .collect (Collectors.toList ( ));
+    List <Tag> tags = getTags();
+    return tags.stream().filter(current -> current instanceof VariableField)
+      .filter(tag -> tag.getMarcEncoding().getMarcTag().equals(marcTag))
+      .collect(Collectors.toList());
   }
 
   /**
@@ -456,11 +456,11 @@ public abstract class CatalogItem implements Serializable {
    */
   public List findTagByCategory(final int marcCategory) {
     try {
-      List <Tag> tags = getTags ( );
-      return tags.stream ( ).filter (tag -> tag.getMarcEncoding ( ).getMarcTagCategoryCode ( ) == (marcCategory))
-        .collect (Collectors.toList ( ));
+      List <Tag> tags = getTags();
+      return tags.stream().filter(tag -> tag.getMarcEncoding().getMarcTagCategoryCode() == (marcCategory))
+        .collect(Collectors.toList());
     } catch (Exception e) {
-      return Collections.emptyList ( );
+      return Collections.emptyList();
     }
   }
 }

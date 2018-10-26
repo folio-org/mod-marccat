@@ -24,7 +24,7 @@ public class DAOHeadingUri extends AbstractDAO {
   final static String SELECT_URI_BY_ONE_VIEW = "SELECT COUNT(*) FROM HDG_URI AS HDG WHERE HDG.headingNumber = ? AND HDG.headingTypeCode = ? AND HDG.sourceId = ? AND HDG.uri = ? AND SUBSTR(HDG.userView, ?, 1) = '1'";
   final static String SELECT_SOURCE_LIST_BY_HDG_CATEGORY =
     "SELECT TBL_VLU_CDE, STRING_TEXT FROM OLISUITE.T_SRC_URI_TYP WHERE LANGID = ? AND TBL_URI_CAT_CDE = ? AND TBL_VLU_OBSLT_IND = '0' ORDER BY STRING_TEXT";
-  private Log logger = LogFactory.getLog (DAOHeadingUri.class);
+  private Log logger = LogFactory.getLog(DAOHeadingUri.class);
 
   /* Bug 5424 */
   public boolean isPresentURI(HDG_URI headingUri, int searchingView) throws DataAccessException {
@@ -32,16 +32,16 @@ public class DAOHeadingUri extends AbstractDAO {
     List l = null;
 
     if (searchingView == View.ANY) {
-      l = find (SELECT_URI_BY_ALL_VIEW,
-        new Object[]{new Integer (headingUri.getHeadingNumber ( )), headingUri.getHeadingTypeCode ( ), headingUri.getSourceId ( ), headingUri.getUri ( )},
+      l = find(SELECT_URI_BY_ALL_VIEW,
+        new Object[]{new Integer(headingUri.getHeadingNumber()), headingUri.getHeadingTypeCode(), headingUri.getSourceId(), headingUri.getUri()},
         new Type[]{Hibernate.INTEGER, Hibernate.INTEGER, Hibernate.INTEGER, Hibernate.STRING});
     } else {
-      l = find (SELECT_URI_BY_ONE_VIEW,
-        new Object[]{new Integer (headingUri.getHeadingNumber ( )), headingUri.getHeadingTypeCode ( ), headingUri.getSourceId ( ), headingUri.getUri ( ), new Integer (searchingView)},
+      l = find(SELECT_URI_BY_ONE_VIEW,
+        new Object[]{new Integer(headingUri.getHeadingNumber()), headingUri.getHeadingTypeCode(), headingUri.getSourceId(), headingUri.getUri(), new Integer(searchingView)},
         new Type[]{Hibernate.INTEGER, Hibernate.INTEGER, Hibernate.INTEGER, Hibernate.STRING, Hibernate.INTEGER});
     }
-    if (l.size ( ) > 0) {
-      result = ((Integer) l.get (0)).intValue ( );
+    if (l.size() > 0) {
+      result = ((Integer) l.get(0)).intValue();
     }
     return (result > 0);
   }
@@ -50,31 +50,31 @@ public class DAOHeadingUri extends AbstractDAO {
     Connection connection = null;
     PreparedStatement stmt = null;
     ResultSet rs = null;
-    List <Avp> list = new ArrayList <Avp> ( );
+    List <Avp> list = new ArrayList <Avp>();
 
     try {
-      connection = currentSession ( ).connection ( );
-      stmt = connection.prepareStatement (SELECT_SOURCE_LIST_BY_HDG_CATEGORY);
-      stmt.setString (1, locale.getISO3Language ( ));
-      stmt.setInt (2, hdgCategory);
-      rs = stmt.executeQuery ( );
+      connection = currentSession().connection();
+      stmt = connection.prepareStatement(SELECT_SOURCE_LIST_BY_HDG_CATEGORY);
+      stmt.setString(1, locale.getISO3Language());
+      stmt.setInt(2, hdgCategory);
+      rs = stmt.executeQuery();
 
-      while (rs.next ( )) {
-        Avp ve = new Avp (rs.getString ("TBL_VLU_CDE"), rs.getString ("STRING_TEXT"));
-        list.add (ve);
+      while (rs.next()) {
+        Avp ve = new Avp(rs.getString("TBL_VLU_CDE"), rs.getString("STRING_TEXT"));
+        list.add(ve);
       }
 
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     } catch (SQLException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     } finally {
       try {
-        rs.close ( );
+        rs.close();
       } catch (Exception ex) {
       }
       try {
-        stmt.close ( );
+        stmt.close();
       } catch (Exception ex) {
       }
     }
