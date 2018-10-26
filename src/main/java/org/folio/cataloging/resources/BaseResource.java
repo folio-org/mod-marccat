@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.client.RestTemplate;
 
 @CrossOrigin(origins = {
+  "http://folio.atcult.it:3000",
   "http://151.1.163.20:3000",
   "http://151.1.165.20:3000",
   "http://localhost:3000"
