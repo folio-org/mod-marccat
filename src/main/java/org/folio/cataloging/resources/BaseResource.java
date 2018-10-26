@@ -13,7 +13,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.client.RestTemplate;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {
+  "http://151.1.163.20:3000",
+  "http://151.1.165.20:3000",
+  "http://localhost:3000"
+})
 public abstract class BaseResource {
   protected Log logger = new Log (getClass ( ));
 
