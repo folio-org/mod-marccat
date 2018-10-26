@@ -14,7 +14,6 @@ import org.folio.cataloging.business.common.UpdateStatus;
 import org.folio.cataloging.business.descriptor.SortFormParameters;
 import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
 import org.folio.cataloging.dao.persistence.*;
-import org.folio.cataloging.integration.log.MessageCatalogStorage;
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.util.StringText;
 
@@ -23,7 +22,6 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static java.util.Optional.ofNullable;
 import static org.folio.cataloging.F.deepCopy;
 import static org.folio.cataloging.F.fixedCharPadding;
 
@@ -102,11 +100,16 @@ public class DAOCopy extends AbstractDAO {
       return listCopies.stream().filter(Objects::nonNull).reduce((first, second) -> second).get();
 
     } catch (HibernateException e) {
-      logger.error(MessageCatalogStorage._00010_DATA_ACCESS_FAILURE, e);
       throw new DataAccessException(e);
+      //log error e return null?
     }
   }
 
+  /**
+   * @param copyBarCode is the barCode of the copy
+   * @return the BibItemNumber from CPY_ID table
+   * @since 1.0
+   */
 
   /**
    * Gets the amicus number associated to copy.
@@ -117,25 +120,30 @@ public class DAOCopy extends AbstractDAO {
    * @throws DataAccessException in case of hibernate exception.
    */
   public int getBibItemNumber(final Session session, final String barCode) throws DataAccessException {
+    int result = 0;
+
     try {
       List <CPY_ID> listAllCopies = session.find("from CPY_ID ci where ci.barCodeNumber = '" + barCode + "'");
       return listAllCopies.stream().filter(Objects::nonNull).reduce((first, second) -> second).get().getBibItemNumber();
 
     } catch (HibernateException e) {
-      logger.error(MessageCatalogStorage._00010_DATA_ACCESS_FAILURE, e);
       throw new DataAccessException(e);
+      //log error and return 0?
     }
+
   }
 
   /**
-   * Gets the amicus number associated to copy.
-   *
-   * @param session -- the hibernate session associated to request.
-   * @param copyIdNumber -- the copy id associated to copy.
-   * @return the amicus number.
-   * @throws DataAccessException in case of hibernate exception.
+   * @param copyIdNumber is the copyIdNumber of the copy
+   * @return the BibItemNumber from CPY_ID table
+   * @since 1.0
    */
-  public int getBibItemNumber(final Session session, final int copyIdNumber) throws DataAccessException {
+
+  public int getBibItemNumber(int copyIdNumber) throws DataAccessException,
+    HibernateException {
+    int result = 0;
+
+    List listAllCopies = null;
     try {
       Session s = currentSession();
       listAllCopies = s.find("from CPY_ID ci where ci.copyIdNumber = "
@@ -149,18 +157,20 @@ public class DAOCopy extends AbstractDAO {
     } catch (HibernateException e) {
       logAndWrap(e);
     }
+
+    return result;
   }
 
-
   /**
-   * Gets the copy id number associated to copy.
-   *
-   * @param session -- the hibernate session associated to request.
-   * @param barCode -- the barcode associated to copy.
-   * @return the copy id number.
-   * @throws DataAccessException in case of hibernate exception.
+   * @param copyBarCode is the barCode of the copy
+   * @return the CopyIdNumber from CPY_ID table
+   * @since 1.0
    */
-  public int getCopyIdNumber(final Session session, final String barCode) throws DataAccessException {
+
+  public int getCopyIdNumber(String copyBarCode) throws DataAccessException,
+    HibernateException {
+    int result = 0;
+    List listAllCopies = null;
     try {
       Session s = currentSession();
       listAllCopies = s.find("from CPY_ID ci where ci.barCodeNumber = '"
@@ -174,18 +184,14 @@ public class DAOCopy extends AbstractDAO {
     } catch (HibernateException e) {
       logAndWrap(e);
     }
+    return result;
   }
 
   /**
-   * Gets the non-labelled copy item from CPY_ID table.
-   *
-   * @param session -- the hibernate session associated to request.
-   * @param barCode -- the barcode associated to copy.
-   * @return the non-labelled CPY_ID.
-   * @throws DataAccessException in case of hibernate exception.
+   * @param copyBarCode is the barCode of the copy
+   * @return the non-labelled copy from CPY_ID table
+   * @since 1.0
    */
-  public CPY_ID getNonLabelledCopy(final Session session, final String barCode) throws DataAccessException {
-    try {
 
   public CPY_ID getNonLabelledCopy(String copyBarCode)
     throws DataAccessException {
@@ -200,15 +206,13 @@ public class DAOCopy extends AbstractDAO {
   }
 
   /**
-   * Gets all copies associated to amicus number.
-   *
-   * @param session -- the hibernate session associated to request.
-   * @param amicusNumber -- the amicus number.
-   * @return list of CPY_ID.
-   * @throws DataAccessException in case of hibernate exception.
+   * @param amicusNumber is the bibliographic number
+   * @return a list with all the copies from this amicusNumber access to
+   * CPY_ID table
+   * @since 1.0
    */
-  //TODO
-  public List getAllCopies(final Session session, final int amicusNumber) throws DataAccessException {
+
+  public List getAllCopies(int amicusNumber) throws DataAccessException {
     List listAllCopies = null;
     List result = new ArrayList();
     Session s = currentSession();
