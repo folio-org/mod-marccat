@@ -34,3 +34,4 @@ ssh_itnet_deploy_demo(){
   echo "uploaded artifact succesfully. Deploy last demo release of modcat"
 }
 ssh_itnet_deploy
+echo "deploy on ${SSH_HOST} on $(date) succefully "| mail -s "backup complete" christian.chiama@atcult.it
