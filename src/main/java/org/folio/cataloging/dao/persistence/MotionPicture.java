@@ -31,8 +31,8 @@ public class MotionPicture extends PhysicalDescription {
   private char obsolete1;
 
   public MotionPicture() {
-    super ( );
-    setHeaderType (26);
+    super();
+    setHeaderType(26);
   }
 
   /* (non-Javadoc)
@@ -41,24 +41,24 @@ public class MotionPicture extends PhysicalDescription {
   public String getDisplayString() {
     String result =
       ""
-        + getGeneralMaterialDesignationCode ( )
-        + getSpecificMaterialDesignationCode ( )
+        + getGeneralMaterialDesignationCode()
+        + getSpecificMaterialDesignationCode()
         + " "
-        + getColourCode ( )
-        + getPresentationFormatCode ( )
-        + getIncludesSoundCode ( )
-        + getMediumForSoundCode ( )
-        + getDimensionsCode ( )
-        + getConfigurationCode ( )
-        + getProductionElementsCode ( )
-        + getPolarityCode ( )
-        + getGenerationCode ( )
-        + getBaseOfFilmCode ( )
-        + getRefinedCategoriesOfColourCode ( )
-        + getKindOfColourStockCode ( )
-        + getDeteriorationStageCode ( )
-        + getCompletenessCode ( )
-        + getInspectionDate ( );
+        + getColourCode()
+        + getPresentationFormatCode()
+        + getIncludesSoundCode()
+        + getMediumForSoundCode()
+        + getDimensionsCode()
+        + getConfigurationCode()
+        + getProductionElementsCode()
+        + getPolarityCode()
+        + getGenerationCode()
+        + getBaseOfFilmCode()
+        + getRefinedCategoriesOfColourCode()
+        + getKindOfColourStockCode()
+        + getDeteriorationStageCode()
+        + getCompletenessCode()
+        + getInspectionDate();
     return result;
   }
 
@@ -66,8 +66,8 @@ public class MotionPicture extends PhysicalDescription {
    * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
    */
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
-    SystemNextNumberDAO dao = new SystemNextNumberDAO ( );
-    setKeyNumber (dao.getNextNumber ("X4", session));
+    SystemNextNumberDAO dao = new SystemNextNumberDAO();
+    setKeyNumber(dao.getNextNumber("X4", session));
   }
 
   /* (non-Javadoc)
@@ -304,69 +304,69 @@ public class MotionPicture extends PhysicalDescription {
   public Element generateModelXmlElementContent(Document xmlDocument) {
     Element content = null;
     if (xmlDocument != null) {
-      content = xmlDocument.createElement ("content");
-      content.setAttribute ("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode ( ));
-      content.setAttribute ("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode ( ));
-      content.setAttribute ("colourCode", "" + getColourCode ( ));
-      content.setAttribute ("presentationFormatCode", "" + getPresentationFormatCode ( ));
-      content.setAttribute ("includesSoundCode", "" + getIncludesSoundCode ( ));
-      content.setAttribute ("mediumForSoundCode", "" + getMediumForSoundCode ( ));
-      content.setAttribute ("dimensionsCode", "" + getDimensionsCode ( ));
-      content.setAttribute ("configurationCode", "" + getConfigurationCode ( ));
-      content.setAttribute ("productionElementsCode", "" + getProductionElementsCode ( ));
-      content.setAttribute ("polarityCode", "" + getPolarityCode ( ));
-      content.setAttribute ("generationCode", "" + getGenerationCode ( ));
-      content.setAttribute ("baseOfFilmCode", "" + getBaseOfFilmCode ( ));
-      content.setAttribute ("refinedCategoriesOfColourCode", "" + getRefinedCategoriesOfColourCode ( ));
-      content.setAttribute ("kindOfColourStockCode", "" + getKindOfColourStockCode ( ));
-      content.setAttribute ("deteriorationStageCode", "" + getDeteriorationStageCode ( ));
-      content.setAttribute ("completenessCode", "" + getCompletenessCode ( ));
-      content.setAttribute ("inspectionDate", "" + getInspectionDate ( ));
+      content = xmlDocument.createElement("content");
+      content.setAttribute("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode());
+      content.setAttribute("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode());
+      content.setAttribute("colourCode", "" + getColourCode());
+      content.setAttribute("presentationFormatCode", "" + getPresentationFormatCode());
+      content.setAttribute("includesSoundCode", "" + getIncludesSoundCode());
+      content.setAttribute("mediumForSoundCode", "" + getMediumForSoundCode());
+      content.setAttribute("dimensionsCode", "" + getDimensionsCode());
+      content.setAttribute("configurationCode", "" + getConfigurationCode());
+      content.setAttribute("productionElementsCode", "" + getProductionElementsCode());
+      content.setAttribute("polarityCode", "" + getPolarityCode());
+      content.setAttribute("generationCode", "" + getGenerationCode());
+      content.setAttribute("baseOfFilmCode", "" + getBaseOfFilmCode());
+      content.setAttribute("refinedCategoriesOfColourCode", "" + getRefinedCategoriesOfColourCode());
+      content.setAttribute("kindOfColourStockCode", "" + getKindOfColourStockCode());
+      content.setAttribute("deteriorationStageCode", "" + getDeteriorationStageCode());
+      content.setAttribute("completenessCode", "" + getCompletenessCode());
+      content.setAttribute("inspectionDate", "" + getInspectionDate());
     }
     return content;
   }
 
   public void parseModelXmlElementContent(Element xmlElement) {
-    Element content = (Element) xmlElement.getChildNodes ( ).item (0);
-    setGeneralMaterialDesignationCode (content.getAttribute ("generalMaterialDesignationCode").charAt (0));
-    setSpecificMaterialDesignationCode (content.getAttribute ("specificMaterialDesignationCode").charAt (0));
-    setColourCode (content.getAttribute ("colourCode").charAt (0));
-    setPresentationFormatCode (content.getAttribute ("presentationFormatCode").charAt (0));
-    setIncludesSoundCode (content.getAttribute ("includesSoundCode").charAt (0));
-    setMediumForSoundCode (content.getAttribute ("mediumForSoundCode").charAt (0));
-    setDimensionsCode (content.getAttribute ("dimensionsCode").charAt (0));
-    setConfigurationCode (content.getAttribute ("configurationCode").charAt (0));
-    setProductionElementsCode (content.getAttribute ("productionElementsCode").charAt (0));
-    setPolarityCode (content.getAttribute ("polarityCode").charAt (0));
-    setGenerationCode (content.getAttribute ("generationCode").charAt (0));
-    setBaseOfFilmCode (content.getAttribute ("baseOfFilmCode").charAt (0));
-    setRefinedCategoriesOfColourCode (content.getAttribute ("refinedCategoriesOfColourCode").charAt (0));
-    setKindOfColourStockCode (content.getAttribute ("kindOfColourStockCode").charAt (0));
-    setDeteriorationStageCode (content.getAttribute ("deteriorationStageCode").charAt (0));
-    setCompletenessCode (content.getAttribute ("completenessCode").charAt (0));
-    setInspectionDate (content.getAttribute ("inspectionDate"));
+    Element content = (Element) xmlElement.getChildNodes().item(0);
+    setGeneralMaterialDesignationCode(content.getAttribute("generalMaterialDesignationCode").charAt(0));
+    setSpecificMaterialDesignationCode(content.getAttribute("specificMaterialDesignationCode").charAt(0));
+    setColourCode(content.getAttribute("colourCode").charAt(0));
+    setPresentationFormatCode(content.getAttribute("presentationFormatCode").charAt(0));
+    setIncludesSoundCode(content.getAttribute("includesSoundCode").charAt(0));
+    setMediumForSoundCode(content.getAttribute("mediumForSoundCode").charAt(0));
+    setDimensionsCode(content.getAttribute("dimensionsCode").charAt(0));
+    setConfigurationCode(content.getAttribute("configurationCode").charAt(0));
+    setProductionElementsCode(content.getAttribute("productionElementsCode").charAt(0));
+    setPolarityCode(content.getAttribute("polarityCode").charAt(0));
+    setGenerationCode(content.getAttribute("generationCode").charAt(0));
+    setBaseOfFilmCode(content.getAttribute("baseOfFilmCode").charAt(0));
+    setRefinedCategoriesOfColourCode(content.getAttribute("refinedCategoriesOfColourCode").charAt(0));
+    setKindOfColourStockCode(content.getAttribute("kindOfColourStockCode").charAt(0));
+    setDeteriorationStageCode(content.getAttribute("deteriorationStageCode").charAt(0));
+    setCompletenessCode(content.getAttribute("completenessCode").charAt(0));
+    setInspectionDate(content.getAttribute("inspectionDate"));
   }
 
   //@paulm, us_bbl_loading
   @Override
   public void setContentFromMarcString(final String s) {
-    setGeneralMaterialDesignationCode (s.charAt (0));
-    if (s.length ( ) > 1) setSpecificMaterialDesignationCode (s.charAt (1));
-    else setSpecificMaterialDesignationCode ('u');
-    if (s.length ( ) > 3) setColourCode (s.charAt (3));
-    if (s.length ( ) > 4) setPresentationFormatCode (s.charAt (4));
-    if (s.length ( ) > 5) setIncludesSoundCode (s.charAt (5));
-    if (s.length ( ) > 6) setMediumForSoundCode (s.charAt (6));
-    if (s.length ( ) > 7) setDimensionsCode (s.charAt (7));
-    if (s.length ( ) > 8) setConfigurationCode (s.charAt (8));
-    if (s.length ( ) > 9) setProductionElementsCode (s.charAt (9));
-    if (s.length ( ) > 10) setPolarityCode (s.charAt (10));
-    if (s.length ( ) > 11) setGenerationCode (s.charAt (11));
-    if (s.length ( ) > 12) setBaseOfFilmCode (s.charAt (12));
-    if (s.length ( ) > 13) setRefinedCategoriesOfColourCode (s.charAt (13));
-    if (s.length ( ) > 14) setKindOfColourStockCode (s.charAt (14));
-    if (s.length ( ) > 15) setDeteriorationStageCode (s.charAt (15));
-    if (s.length ( ) > 16) setCompletenessCode (s.charAt (16));
-    if (s.length ( ) > 22) setInspectionDate (s.substring (17, 23));
+    setGeneralMaterialDesignationCode(s.charAt(0));
+    if (s.length() > 1) setSpecificMaterialDesignationCode(s.charAt(1));
+    else setSpecificMaterialDesignationCode('u');
+    if (s.length() > 3) setColourCode(s.charAt(3));
+    if (s.length() > 4) setPresentationFormatCode(s.charAt(4));
+    if (s.length() > 5) setIncludesSoundCode(s.charAt(5));
+    if (s.length() > 6) setMediumForSoundCode(s.charAt(6));
+    if (s.length() > 7) setDimensionsCode(s.charAt(7));
+    if (s.length() > 8) setConfigurationCode(s.charAt(8));
+    if (s.length() > 9) setProductionElementsCode(s.charAt(9));
+    if (s.length() > 10) setPolarityCode(s.charAt(10));
+    if (s.length() > 11) setGenerationCode(s.charAt(11));
+    if (s.length() > 12) setBaseOfFilmCode(s.charAt(12));
+    if (s.length() > 13) setRefinedCategoriesOfColourCode(s.charAt(13));
+    if (s.length() > 14) setKindOfColourStockCode(s.charAt(14));
+    if (s.length() > 15) setDeteriorationStageCode(s.charAt(15));
+    if (s.length() > 16) setCompletenessCode(s.charAt(16));
+    if (s.length() > 22) setInspectionDate(s.substring(17, 23));
   }
 }

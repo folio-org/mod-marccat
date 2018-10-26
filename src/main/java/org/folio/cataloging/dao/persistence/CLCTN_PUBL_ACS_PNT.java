@@ -20,14 +20,14 @@ public class CLCTN_PUBL_ACS_PNT implements Persistence {
   private Date creationDate;
   private Date transactionDate;
 
-  private PersistenceState persistentState = new PersistenceState ( );
+  private PersistenceState persistentState = new PersistenceState();
 
   public CLCTN_PUBL_ACS_PNT() {
-    super ( );
+    super();
   }
 
   public CLCTN_PUBL_ACS_PNT(int itemNumber, int collectionNumber, Date creationDate, Date transactionDate) {
-    super ( );
+    super();
     this.bibItemNumber = itemNumber;
     this.collectionNumber = collectionNumber;
     this.creationDate = creationDate;
@@ -51,71 +51,71 @@ public class CLCTN_PUBL_ACS_PNT implements Persistence {
   }
 
   public void evict(Object obj) throws DataAccessException {
-    persistentState.evict (obj);
+    persistentState.evict(obj);
   }
 
   public AbstractDAO getDAO() {
-    return persistentState.getDAO ( );
+    return persistentState.getDAO();
   }
 
   public int getUpdateStatus() {
-    return persistentState.getUpdateStatus ( );
+    return persistentState.getUpdateStatus();
   }
 
   public void setUpdateStatus(int i) {
-    persistentState.setUpdateStatus (i);
+    persistentState.setUpdateStatus(i);
   }
 
   public boolean isChanged() {
-    return persistentState.isChanged ( );
+    return persistentState.isChanged();
   }
 
   public boolean isDeleted() {
-    return persistentState.isDeleted ( );
+    return persistentState.isDeleted();
   }
 
   public boolean isNew() {
-    return persistentState.isNew ( );
+    return persistentState.isNew();
   }
 
   public boolean isRemoved() {
-    return persistentState.isRemoved ( );
+    return persistentState.isRemoved();
   }
 
   public void markChanged() {
-    persistentState.markChanged ( );
+    persistentState.markChanged();
   }
 
   public void markDeleted() {
-    persistentState.markDeleted ( );
+    persistentState.markDeleted();
   }
 
   public void markNew() {
-    persistentState.markNew ( );
+    persistentState.markNew();
   }
 
   public void markUnchanged() {
-    persistentState.markUnchanged ( );
+    persistentState.markUnchanged();
   }
 
   public boolean onDelete(Session arg0) throws CallbackException {
-    return persistentState.onDelete (arg0);
+    return persistentState.onDelete(arg0);
   }
 
   public void onLoad(Session arg0, Serializable arg1) {
-    persistentState.onLoad (arg0, arg1);
+    persistentState.onLoad(arg0, arg1);
   }
 
   public boolean onSave(Session arg0) throws CallbackException {
-    return persistentState.onSave (arg0);
+    return persistentState.onSave(arg0);
   }
 
   public boolean onUpdate(Session arg0) throws CallbackException {
-    return persistentState.onUpdate (arg0);
+    return persistentState.onUpdate(arg0);
   }
 
   public void evict() throws DataAccessException {
-    evict (this);
+    evict(this);
   }
 
   public void generateNewKey() throws DataAccessException {
@@ -125,15 +125,15 @@ public class CLCTN_PUBL_ACS_PNT implements Persistence {
   public boolean equals(Object arg0) {
     if (arg0 instanceof CLCTN_PUBL_ACS_PNT) {
       CLCTN_PUBL_ACS_PNT c = (CLCTN_PUBL_ACS_PNT) arg0;
-      return this.getBibItemNumber ( ) == c.getBibItemNumber ( ) &&
-        this.getCollectionNumber ( ) == c.collectionNumber;
+      return this.getBibItemNumber() == c.getBibItemNumber() &&
+        this.getCollectionNumber() == c.collectionNumber;
     } else {
       return false;
     }
   }
 
   public int hashCode() {
-    return getBibItemNumber ( ) + getCollectionNumber ( );
+    return getBibItemNumber() + getCollectionNumber();
   }
 
   public Date getCreationDate() {
@@ -145,9 +145,9 @@ public class CLCTN_PUBL_ACS_PNT implements Persistence {
   }
 
   public String getCreationDateString() {
-    if (getCreationDate ( ) != null) {
-      DateFormat formatter = new SimpleDateFormat ("dd-MM-yyyy");
-      return formatter.format (getCreationDate ( ));
+    if (getCreationDate() != null) {
+      DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+      return formatter.format(getCreationDate());
     } else {
       return "";
     }
@@ -162,9 +162,9 @@ public class CLCTN_PUBL_ACS_PNT implements Persistence {
   }
 
   public String getTransactionDateString() {
-    if (getTransactionDate ( ) != null) {
-      DateFormat formatter = new SimpleDateFormat ("dd-MM-yyyy");
-      return formatter.format (getTransactionDate ( ));
+    if (getTransactionDate() != null) {
+      DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+      return formatter.format(getTransactionDate());
     } else {
       return "";
     }

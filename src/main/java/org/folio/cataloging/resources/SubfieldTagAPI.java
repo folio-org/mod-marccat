@@ -41,21 +41,21 @@ public class SubfieldTagAPI extends BaseResource {
     @RequestParam final String code3,
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final int category = Integer.parseInt (marcCategory);
+    return doGet((storageService, configuration) -> {
+      final int category = Integer.parseInt(marcCategory);
 
-      final Validation validation = storageService.getSubfieldsByCorrelations (
+      final Validation validation = storageService.getSubfieldsByCorrelations(
         category,
-        Integer.parseInt (code1),
-        Integer.parseInt (code2),
-        Integer.parseInt (code3));
+        Integer.parseInt(code1),
+        Integer.parseInt(code2),
+        Integer.parseInt(code3));
 
-      final SubfieldsTag subfieldsTag = new SubfieldsTag ( );
-      subfieldsTag.setCategory (category);
-      subfieldsTag.setDefaultSubfield (String.valueOf (validation.getMarcTagDefaultSubfieldCode ( )));
-      subfieldsTag.setSubfields (stream (validation.getMarcValidSubfieldStringCode ( ).split ("")).collect (toList ( )));
-      subfieldsTag.setRepeatable (stream (validation.getRepeatableSubfieldStringCode ( ).split ("")).collect (toList ( )));
-      subfieldsTag.setTag (validation.getKey ( ).getMarcTag ( ));
+      final SubfieldsTag subfieldsTag = new SubfieldsTag();
+      subfieldsTag.setCategory(category);
+      subfieldsTag.setDefaultSubfield(String.valueOf(validation.getMarcTagDefaultSubfieldCode()));
+      subfieldsTag.setSubfields(stream(validation.getMarcValidSubfieldStringCode().split("")).collect(toList()));
+      subfieldsTag.setRepeatable(stream(validation.getRepeatableSubfieldStringCode().split("")).collect(toList()));
+      subfieldsTag.setTag(validation.getKey().getMarcTag());
       return subfieldsTag;
     }, tenant, configurator);
   }

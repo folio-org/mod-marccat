@@ -25,7 +25,7 @@ public class S_SRCH_SRT_RSLTS implements Serializable {
    * @since 1.0
    */
   public S_SRCH_SRT_RSLTS() {
-    super ( );
+    super();
     // TODO Auto-generated constructor stub
   }
 
@@ -45,7 +45,7 @@ public class S_SRCH_SRT_RSLTS implements Serializable {
       return true;
     if (obj == null)
       return false;
-    if (getClass ( ) != obj.getClass ( ))
+    if (getClass() != obj.getClass())
       return false;
     final S_SRCH_SRT_RSLTS other = (S_SRCH_SRT_RSLTS) obj;
     if (itemNbr != other.itemNbr)

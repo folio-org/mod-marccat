@@ -24,12 +24,12 @@ public class BorrowerPostalAdrKey implements Serializable {
    * class  constructor
    */
   public BorrowerPostalAdrKey() {
-    super ( );
+    super();
   }
 
   public BorrowerPostalAdrKey(int brwrNumber, short prsnPostalAdrCde) {
-    this.setBorrowerNumber (brwrNumber);
-    this.setPersonalPostalAddressTypeCode (prsnPostalAdrCde);
+    this.setBorrowerNumber(brwrNumber);
+    this.setPersonalPostalAddressTypeCode(prsnPostalAdrCde);
   }
 
   /**
@@ -77,8 +77,8 @@ public class BorrowerPostalAdrKey implements Serializable {
     if (anObject instanceof BorrowerPostalAdrKey) {
       BorrowerPostalAdrKey aKey = (BorrowerPostalAdrKey) anObject;
       return (
-        borrowerNumber == aKey.getBorrowerNumber ( )
-          && personalPostalAddressTypeCode == aKey.getPersonalPostalAddressTypeCode ( ));
+        borrowerNumber == aKey.getBorrowerNumber()
+          && personalPostalAddressTypeCode == aKey.getPersonalPostalAddressTypeCode());
     } else {
       return false;
     }

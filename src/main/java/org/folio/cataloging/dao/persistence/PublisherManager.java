@@ -33,16 +33,16 @@ import static java.util.Optional.ofNullable;
 @SuppressWarnings("unchecked")
 public class PublisherManager extends VariableField implements PersistentObjectWithView, Equivalent {
   private static final long serialVersionUID = 1L;
-  private static final Log logger = new Log (PublisherManager.class);
-  private static final PublisherManagerDAO daoPublisherTag = new PublisherManagerDAO ( );
+  private static final Log logger = new Log(PublisherManager.class);
+  private static final PublisherManagerDAO daoPublisherTag = new PublisherManagerDAO();
 
-  private PersistenceState persistenceState = new PersistenceState ( );
-  private List <PUBL_TAG> publisherTagUnits = new ArrayList <> ( );
-  private List <PUBL_TAG> deletedUnits = new ArrayList <> ( );
-  private PublisherAccessPoint apf = new PublisherAccessPoint ( );
-  private List <String> dates = new ArrayList <> ( );
+  private PersistenceState persistenceState = new PersistenceState();
+  private List <PUBL_TAG> publisherTagUnits = new ArrayList <>();
+  private List <PUBL_TAG> deletedUnits = new ArrayList <>();
+  private PublisherAccessPoint apf = new PublisherAccessPoint();
+  private List <String> dates = new ArrayList <>();
   private int tagUnitIndex;
-  private UserViewHelper userViewHelper = new UserViewHelper ( );
+  private UserViewHelper userViewHelper = new UserViewHelper();
   private String stringTextForFastDigitPublisher;
   private int noteType;
 
@@ -50,10 +50,10 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    * Default constructor.
    */
   public PublisherManager() {
-    super ( );
-    setPersistenceState (persistenceState);
-    setNoteType (GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE);
-    setApf (new PublisherAccessPoint ( ));
+    super();
+    setPersistenceState(persistenceState);
+    setNoteType(GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE);
+    setApf(new PublisherAccessPoint());
   }
 
   /**
@@ -61,30 +61,30 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    * @param view          -- user view.
    */
   public PublisherManager(final int bibItemNumber, final int view) {
-    super ( );
-    setApf (new PublisherAccessPoint (bibItemNumber));
-    final String singleViewString = View.makeSingleViewString (view);
-    getApf ( ).setUserViewString (singleViewString);
-    setPersistenceState (persistenceState);
-    setBibItemNumber (bibItemNumber);
-    setUserViewString (singleViewString);
-    setNoteType (GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE);
+    super();
+    setApf(new PublisherAccessPoint(bibItemNumber));
+    final String singleViewString = View.makeSingleViewString(view);
+    getApf().setUserViewString(singleViewString);
+    setPersistenceState(persistenceState);
+    setBibItemNumber(bibItemNumber);
+    setUserViewString(singleViewString);
+    setNoteType(GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE);
   }
 
   /**
    * @param apf -- publisher access point.
    */
   public PublisherManager(final PublisherAccessPoint apf) {
-    super ( );
-    setPersistenceState (persistenceState);
-    setItemNumber (apf.getItemNumber ( ));
-    setUserViewString (apf.getUserViewString ( ));
-    setUpdateStatus (apf.getUpdateStatus ( ));
-    setApf (apf);
-    getDates ( ).add ("");
-    setPublisherTagUnits (((PublisherTagDescriptor) getApf ( ).getDescriptor ( )).getPublisherTagUnits ( ));
-    getPublisherTagUnits ( ).sort (new PublisherTagComparator ( ));
-    setNoteType (GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE);
+    super();
+    setPersistenceState(persistenceState);
+    setItemNumber(apf.getItemNumber());
+    setUserViewString(apf.getUserViewString());
+    setUpdateStatus(apf.getUpdateStatus());
+    setApf(apf);
+    getDates().add("");
+    setPublisherTagUnits(((PublisherTagDescriptor) getApf().getDescriptor()).getPublisherTagUnits());
+    getPublisherTagUnits().sort(new PublisherTagComparator());
+    setNoteType(GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE);
   }
 
   /**
@@ -127,8 +127,8 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    * Copy dates from access points into Publisher Tag while editing
    */
   private void copyDates() {
-    getPublisherTagUnits ( ).stream ( ).forEach (publisherTag -> {
-      getDates ( ).add (publisherTag.getDate ( ));
+    getPublisherTagUnits().stream().forEach(publisherTag -> {
+      getDates().add(publisherTag.getDate());
     });
   }
 
@@ -136,15 +136,15 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    * Extracts subfields e,f,g from the "last" access point and stores them in separate member variables.
    */
   private void extractManufacturerData() {
-    final PUBL_TAG last = getPublisherTagUnits ( ).stream ( ).reduce ((a, b) -> b).orElse (null);
-    if (ofNullable (last).isPresent ( )) {
-      final StringText stringText = new StringText (last.getOtherSubfields ( ));
-      last.setOtherSubfields (stringText.getSubfieldsWithoutCodes (GlobalStorage.PUBLISHER_FAST_PRINTER_SUBFIELD_CODES).toString ( ));
-      final String remainingFieldsText = stringText.getSubfieldsWithCodes (GlobalStorage.PUBLISHER_FAST_PRINTER_SUBFIELD_CODES).toString ( );
-      if (F.isNotNullOrEmpty (remainingFieldsText) && remainingFieldsText.contains (Subfield.SUBFIELD_DELIMITER)) {
-        setStringTextForFastDigitPublisher (remainingFieldsText.replaceAll (Subfield.SUBFIELD_DELIMITER, Global.SUBFIELD_DELIMITER_FOR_VIEW));
+    final PUBL_TAG last = getPublisherTagUnits().stream().reduce((a, b) -> b).orElse(null);
+    if (ofNullable(last).isPresent()) {
+      final StringText stringText = new StringText(last.getOtherSubfields());
+      last.setOtherSubfields(stringText.getSubfieldsWithoutCodes(GlobalStorage.PUBLISHER_FAST_PRINTER_SUBFIELD_CODES).toString());
+      final String remainingFieldsText = stringText.getSubfieldsWithCodes(GlobalStorage.PUBLISHER_FAST_PRINTER_SUBFIELD_CODES).toString();
+      if (F.isNotNullOrEmpty(remainingFieldsText) && remainingFieldsText.contains(Subfield.SUBFIELD_DELIMITER)) {
+        setStringTextForFastDigitPublisher(remainingFieldsText.replaceAll(Subfield.SUBFIELD_DELIMITER, Global.SUBFIELD_DELIMITER_FOR_VIEW));
       } else
-        setStringTextForFastDigitPublisher (remainingFieldsText);
+        setStringTextForFastDigitPublisher(remainingFieldsText);
     }
   }
 
@@ -172,9 +172,9 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    * @return stringText.
    */
   public StringText getStringText() {
-    final StringText result = new StringText ( );
-    getPublisherTagUnits ( ).stream ( ).forEach (aTagUnit -> {
-      result.add (new StringText (aTagUnit.getStringText ( )));
+    final StringText result = new StringText();
+    getPublisherTagUnits().stream().forEach(aTagUnit -> {
+      result.add(new StringText(aTagUnit.getStringText()));
     });
     return result;
   }
@@ -185,34 +185,34 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    * @param stringText -- the string text to set.
    */
   public void setStringText(final StringText stringText) {
-    setPublisherTagUnits (new ArrayList <> ( ));
+    setPublisherTagUnits(new ArrayList <>());
     String lastSubfield = "a";
-    StringText newText = new StringText ( );
-    List <Subfield> theList = stringText.getSubfieldList ( );
+    StringText newText = new StringText();
+    List <Subfield> theList = stringText.getSubfieldList();
 
-    for ( Subfield aSubfield : theList ) {
-      if (aSubfield.getCode ( ).compareTo (lastSubfield) < 0 || theList.lastIndexOf (aSubfield) == theList.size ( ) - 1) {
-        if (theList.lastIndexOf (aSubfield) == theList.size ( ) - 1) {
-          newText.addSubfield (aSubfield);
+    for (Subfield aSubfield : theList) {
+      if (aSubfield.getCode().compareTo(lastSubfield) < 0 || theList.lastIndexOf(aSubfield) == theList.size() - 1) {
+        if (theList.lastIndexOf(aSubfield) == theList.size() - 1) {
+          newText.addSubfield(aSubfield);
         }
-        if (newText.getNumberOfSubfields ( ) > 0) {
-          addNewTagUnit ( );
-          final PUBL_TAG p = getPublisherTagUnits ( ).get (getPublisherTagUnits ( ).size ( ) - 1);
-          p.setStringText (newText.toString ( ));
-          newText = new StringText ( );
+        if (newText.getNumberOfSubfields() > 0) {
+          addNewTagUnit();
+          final PUBL_TAG p = getPublisherTagUnits().get(getPublisherTagUnits().size() - 1);
+          p.setStringText(newText.toString());
+          newText = new StringText();
         }
       }
-      newText.addSubfield (aSubfield);
-      lastSubfield = aSubfield.getCode ( );
+      newText.addSubfield(aSubfield);
+      lastSubfield = aSubfield.getCode();
     }
-    parseForEditing ( );
+    parseForEditing();
   }
 
   /**
    * @return the MARC display string for the publisher tag
    */
   public String getDisplayString() {
-    return getStringText ( ).getMarcDisplayString ( );
+    return getStringText().getMarcDisplayString();
   }
 
   /**
@@ -230,7 +230,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    * @return correlationValues.
    */
   public CorrelationValues getCorrelationValues() {
-    return getApf ( ).getCorrelationValues ( );
+    return getApf().getCorrelationValues();
   }
 
   /**
@@ -239,7 +239,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    * @param v -- the correlation values to set.
    */
   public void setCorrelationValues(final CorrelationValues v) {
-    getApf ( ).setCorrelationValues (v);
+    getApf().setCorrelationValues(v);
   }
 
   /**
@@ -275,7 +275,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
   public boolean equals(final Object obj) {
     if (obj instanceof PublisherManager) {
       PublisherManager p = (PublisherManager) obj;
-      return p.getApf ( ).equals (this.getApf ( ));
+      return p.getApf().equals(this.getApf());
     }
     return false;
   }
@@ -353,18 +353,18 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    * Creates a new tag publisher unit and add it to publisherTagUnits list.
    */
   public void addNewTagUnit() {
-    final PUBL_TAG tagUnit = new PUBL_TAG ( );
-    tagUnit.setUserViewString (getUserViewString ( ));
-    getPublisherTagUnits ( ).add (tagUnit);
-    getDates ( ).add ("");
+    final PUBL_TAG tagUnit = new PUBL_TAG();
+    tagUnit.setUserViewString(getUserViewString());
+    getPublisherTagUnits().add(tagUnit);
+    getDates().add("");
   }
 
   /**
    * Extract dates and manufacturer data for editing as individual fields.
    */
   public void parseForEditing() {
-    extractManufacturerData ( );
-    copyDates ( );
+    extractManufacturerData();
+    copyDates();
   }
 
   /**
@@ -372,37 +372,37 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    */
   public void saveEdits() {
 
-    IntStream.range (0, getPublisherTagUnits ( ).size ( ))
-      .forEach (idx -> {
-        final PUBL_TAG publTag = getPublisherTagUnits ( ).get (idx);
-        final PUBL_HDG publUnit = publTag.getDescriptor ( );
-        if (publUnit != null && publUnit.getKey ( ).getHeadingNumber ( ) == -1) {
-          publUnit.setNameStringText ("");
-          publUnit.setPlaceStringText ("");
+    IntStream.range(0, getPublisherTagUnits().size())
+      .forEach(idx -> {
+        final PUBL_TAG publTag = getPublisherTagUnits().get(idx);
+        final PUBL_HDG publUnit = publTag.getDescriptor();
+        if (publUnit != null && publUnit.getKey().getHeadingNumber() == -1) {
+          publUnit.setNameStringText("");
+          publUnit.setPlaceStringText("");
         }
-        publTag.setSequenceNumber (idx + 1);
+        publTag.setSequenceNumber(idx + 1);
         String date = "";
-        if (!"".equals (getDates ( ).get (idx)))
-          date = Subfield.SUBFIELD_DELIMITER + "c" + getDates ( ).get (idx);
+        if (!"".equals(getDates().get(idx)))
+          date = Subfield.SUBFIELD_DELIMITER + "c" + getDates().get(idx);
 
-        publTag.setOtherSubfields (date);
+        publTag.setOtherSubfields(date);
       });
-    setDates (new ArrayList <> ( ));
+    setDates(new ArrayList <>());
 
-    final StringText s = new StringText ( );
-    s.add (new StringText (getStringTextForFastDigitPublisher ( )));
-    if (s.getNumberOfSubfields ( ) > 0) {
-      if (getPublisherTagUnits ( ).size ( ) == 0) {
-        getPublisherTagUnits ( ).add (new PUBL_TAG ( ));
+    final StringText s = new StringText();
+    s.add(new StringText(getStringTextForFastDigitPublisher()));
+    if (s.getNumberOfSubfields() > 0) {
+      if (getPublisherTagUnits().size() == 0) {
+        getPublisherTagUnits().add(new PUBL_TAG());
       }
 
-      final PUBL_TAG last = getPublisherTagUnits ( ).stream ( ).reduce ((a, b) -> b).orElse (null);
-      if (ofNullable (last).isPresent ( )) {
-        StringText st = new StringText (last.getOtherSubfields ( )).add (s);
-        last.setOtherSubfields (st.toString ( ));
+      final PUBL_TAG last = getPublisherTagUnits().stream().reduce((a, b) -> b).orElse(null);
+      if (ofNullable(last).isPresent()) {
+        StringText st = new StringText(last.getOtherSubfields()).add(s);
+        last.setOtherSubfields(st.toString());
       }
     }
-    ((PublisherTagDescriptor) getApf ( ).getDescriptor ( )).setPublisherTagUnits (getPublisherTagUnits ( ));
+    ((PublisherTagDescriptor) getApf().getDescriptor()).setPublisherTagUnits(getPublisherTagUnits());
   }
 
   /**
@@ -411,7 +411,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    * @return userView.
    */
   public String getUserViewString() {
-    return userViewHelper.getUserViewString ( );
+    return userViewHelper.getUserViewString();
   }
 
   /**
@@ -420,7 +420,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    * @param userview -- the param to set.
    */
   public void setUserViewString(final String userview) {
-    userViewHelper.setUserViewString (userview);
+    userViewHelper.setUserViewString(userview);
   }
 
   /**
@@ -429,7 +429,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    * @return itemNumber.
    */
   public int getBibItemNumber() {
-    return getItemNumber ( );
+    return getItemNumber();
   }
 
   /**
@@ -438,7 +438,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    * @param i -- the item number to set.
    */
   public void setBibItemNumber(final int i) {
-    setItemNumber (i);
+    setItemNumber(i);
   }
 
   /**
@@ -447,10 +447,10 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    * @throws DataAccessException in case of data access exception.
    */
   public void evict() throws DataAccessException {
-    final PublisherAccessPoint apf = getApf ( );
-    apf.evict ( );
-    getPublisherTagUnits ( ).stream ( ).forEach (tagUnit -> {
-      tagUnit.evict ( );
+    final PublisherAccessPoint apf = getApf();
+    apf.evict();
+    getPublisherTagUnits().stream().forEach(tagUnit -> {
+      tagUnit.evict();
     });
   }
 
@@ -458,40 +458,40 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    * Mark as changed.
    */
   public void markChanged() {
-    getPublisherTagUnits ( ).forEach (tagUnit -> tagUnit.markChanged ( ));
-    super.markChanged ( );
+    getPublisherTagUnits().forEach(tagUnit -> tagUnit.markChanged());
+    super.markChanged();
   }
 
   /**
    * Mark as deleted.
    */
   public void markDeleted() {
-    getPublisherTagUnits ( ).forEach (tagUnit -> tagUnit.markDeleted ( ));
-    super.markDeleted ( );
+    getPublisherTagUnits().forEach(tagUnit -> tagUnit.markDeleted());
+    super.markDeleted();
   }
 
   /**
    * Mark as new.
    */
   public void markNew() {
-    getPublisherTagUnits ( ).forEach (tagUnit -> tagUnit.markNew ( ));
-    super.markNew ( );
+    getPublisherTagUnits().forEach(tagUnit -> tagUnit.markNew());
+    super.markNew();
   }
 
   /**
    * Mark as unchanged.
    */
   public void markUnchanged() {
-    getPublisherTagUnits ( ).forEach (tagUnit -> tagUnit.markUnchanged ( ));
-    super.markUnchanged ( );
+    getPublisherTagUnits().forEach(tagUnit -> tagUnit.markUnchanged());
+    super.markUnchanged();
   }
 
   /**
    * Sets update status.
    */
   public void setUpdateStatus(final int i) {
-    getPublisherTagUnits ( ).forEach (tagUnit -> tagUnit.setUpdateStatus (i));
-    super.setUpdateStatus (i);
+    getPublisherTagUnits().forEach(tagUnit -> tagUnit.setUpdateStatus(i));
+    super.setUpdateStatus(i);
   }
 
   /**
@@ -501,7 +501,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    * @return boolean.
    */
   public boolean correlationChangeAffectsKey(final CorrelationValues v) {
-    return !BibliographicNoteType.isPublisherType (v.getValue (1));
+    return !BibliographicNoteType.isPublisherType(v.getValue(1));
   }
 
   /**
@@ -523,7 +523,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
   }
 
   public int hashCode() {
-    return getApf ( ).hashCode ( );
+    return getApf().hashCode();
   }
 
   /**
@@ -532,19 +532,19 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    * @param i -- the index of tag unit to remove.
    */
   public void removeDescriptor(final int i) {
-    PUBL_TAG tagUnit = getPublisherTagUnits ( ).get (i);
-    detachDescriptor (tagUnit);
+    PUBL_TAG tagUnit = getPublisherTagUnits().get(i);
+    detachDescriptor(tagUnit);
   }
 
   private void detachDescriptor(final PUBL_TAG tagUnit) {
-    final PUBL_HDG publ_hdg = tagUnit.getDescriptor ( );
-    if (tagUnit.getPublisherHeadingNumber ( ) == null) {
-      publ_hdg.setNameStringText ("");
-      publ_hdg.setPlaceStringText ("");
+    final PUBL_HDG publ_hdg = tagUnit.getDescriptor();
+    if (tagUnit.getPublisherHeadingNumber() == null) {
+      publ_hdg.setNameStringText("");
+      publ_hdg.setPlaceStringText("");
 
     } else {
-      tagUnit.setDescriptor (null);
-      tagUnit.setPublisherHeadingNumber (null);
+      tagUnit.setDescriptor(null);
+      tagUnit.setPublisherHeadingNumber(null);
     }
   }
 

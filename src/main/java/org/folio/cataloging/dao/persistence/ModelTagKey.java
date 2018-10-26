@@ -22,12 +22,12 @@ public class ModelTagKey implements Serializable {
    * Class constructor
    */
   public ModelTagKey() {
-    super ( );
+    super();
   }
 
   public ModelTagKey(int sequence, String language) {
-    this.setSequence (sequence);
-    this.setLanguage (language);
+    this.setSequence(sequence);
+    this.setLanguage(language);
   }
 
 
@@ -50,7 +50,7 @@ public class ModelTagKey implements Serializable {
   public int hashCode() {
     final int PRIME = 31;
     int result = 1;
-    result = PRIME * result + ((language == null) ? 0 : language.hashCode ( ));
+    result = PRIME * result + ((language == null) ? 0 : language.hashCode());
     result = PRIME * result + sequence;
     return result;
   }
@@ -60,13 +60,13 @@ public class ModelTagKey implements Serializable {
       return true;
     if (obj == null)
       return false;
-    if (getClass ( ) != obj.getClass ( ))
+    if (getClass() != obj.getClass())
       return false;
     final ModelTagKey other = (ModelTagKey) obj;
     if (language == null) {
       if (other.language != null)
         return false;
-    } else if (!language.equals (other.language))
+    } else if (!language.equals(other.language))
       return false;
     if (sequence != other.sequence)
       return false;

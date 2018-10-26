@@ -26,7 +26,7 @@ public class T_008_TYPKey implements Serializable {
    */
 
   public T_008_TYPKey() {
-    super ( );
+    super();
   }
 
   /**
@@ -36,8 +36,8 @@ public class T_008_TYPKey implements Serializable {
    */
 
   public T_008_TYPKey(char l, char r) {
-    this.setLevelCode (l);
-    this.setRecordTypeCode (r);
+    this.setLevelCode(l);
+    this.setRecordTypeCode(r);
   }
 
   /**
@@ -47,8 +47,8 @@ public class T_008_TYPKey implements Serializable {
     if (anObject instanceof T_008_TYPKey) {
       T_008_TYPKey aKey = (T_008_TYPKey) anObject;
       return (
-        levelCode == aKey.getLevelCode ( )
-          && recordTypeCode == aKey.getRecordTypeCode ( ));
+        levelCode == aKey.getLevelCode()
+          && recordTypeCode == aKey.getRecordTypeCode());
     } else {
       return false;
     }

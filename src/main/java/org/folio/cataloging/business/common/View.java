@@ -30,10 +30,10 @@ public class View {
    */
   static public String maskOutViewString(String viewString, int cataloguingView) {
     if (cataloguingView < 0)
-      throw new IllegalArgumentException ("view " + cataloguingView + " cannot be converted in string");
-    char[] newArray = viewString.toCharArray ( );
+      throw new IllegalArgumentException("view " + cataloguingView + " cannot be converted in string");
+    char[] newArray = viewString.toCharArray();
     newArray[cataloguingView - 1] = '0';
-    return new String (newArray);
+    return new String(newArray);
   }
 
   /**
@@ -49,14 +49,14 @@ public class View {
 
   static public String maskOnViewString(String viewString, int cataloguingView) {
     if (cataloguingView < 0)
-      throw new IllegalArgumentException ("view " + cataloguingView + " cannot be converted in string");
+      throw new IllegalArgumentException("view " + cataloguingView + " cannot be converted in string");
 
-    char[] newArray = viewString.toCharArray ( );
+    char[] newArray = viewString.toCharArray();
     if (cataloguingView > 0)
       newArray[cataloguingView - 1] = '1';
     else newArray[0] = '1';
 
-    return new String (newArray);
+    return new String(newArray);
 
   }
 
@@ -71,7 +71,7 @@ public class View {
 
   static public String makeSingleViewString(int cataloguingView) {
 
-    return maskOnViewString ("0000000000000000", cataloguingView);
+    return maskOnViewString("0000000000000000", cataloguingView);
   }
 
   /**
@@ -81,7 +81,7 @@ public class View {
    */
 
   static public short toIntView(String userViewString) {
-    return (short) (1 + userViewString.indexOf ("1"));
+    return (short) (1 + userViewString.indexOf("1"));
   }
 
   /**
@@ -93,18 +93,18 @@ public class View {
    * @return
    */
   public static String getViewText(String userViewString, Locale locale) {
-    char[] charArray = userViewString.toCharArray ( );
-    StringBuffer s = new StringBuffer ( );
-    for ( int i = 0; i < charArray.length; i++ ) {
+    char[] charArray = userViewString.toCharArray();
+    StringBuffer s = new StringBuffer();
+    for (int i = 0; i < charArray.length; i++) {
       if (charArray[i] == '1') {
-        s.append (getViewText (i + 1, locale));
-        s.append (", ");
+        s.append(getViewText(i + 1, locale));
+        s.append(", ");
       }
     }
-    if (s.length ( ) > 2) {
-      s.delete (s.length ( ) - 2, s.length ( ) - 1);
+    if (s.length() > 2) {
+      s.delete(s.length() - 2, s.length() - 1);
     }
-    return s.toString ( );
+    return s.toString();
   }
 
   /**
@@ -117,8 +117,8 @@ public class View {
   public static String getViewText(int view, Locale locale) {
     try {
       //TODO: session
-      DAOCodeTable dao = new DAOCodeTable ( );
-      return dao.load (dao.currentSession ( ), DB_LIST.class, (short) (view), locale).getShortText ( );
+      DAOCodeTable dao = new DAOCodeTable();
+      return dao.load(dao.currentSession(), DB_LIST.class, (short) (view), locale).getShortText();
     } catch (Exception e) {
       return null;
     }
@@ -135,9 +135,9 @@ public class View {
   public static String getCompleteViewText(int view, Locale locale) {
     try {
       //TODO session
-      DAOCodeTable daoCodeTable = new DAOCodeTable ( );
-      return daoCodeTable.load (daoCodeTable.currentSession ( ), DB_LIST.class, (short) (view),
-        locale).getLongText ( );
+      DAOCodeTable daoCodeTable = new DAOCodeTable();
+      return daoCodeTable.load(daoCodeTable.currentSession(), DB_LIST.class, (short) (view),
+        locale).getLongText();
     } catch (Exception e) {
       return null;
     }

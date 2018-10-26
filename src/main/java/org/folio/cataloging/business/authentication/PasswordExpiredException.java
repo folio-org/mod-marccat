@@ -17,14 +17,14 @@ public final class PasswordExpiredException extends AuthenticationException {
    *
    */
   public PasswordExpiredException() {
-    super ( );
+    super();
   }
 
   /**
    * @param message
    */
   public PasswordExpiredException(String message) {
-    super (message);
+    super(message);
   }
 
   /**
@@ -32,14 +32,14 @@ public final class PasswordExpiredException extends AuthenticationException {
    * @param cause
    */
   public PasswordExpiredException(String message, Throwable cause) {
-    super (message, cause);
+    super(message, cause);
   }
 
   /**
    * @param cause
    */
   public PasswordExpiredException(Throwable cause) {
-    super (cause);
+    super(cause);
   }
 
 }

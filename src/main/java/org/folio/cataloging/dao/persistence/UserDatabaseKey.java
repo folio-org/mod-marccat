@@ -23,12 +23,12 @@ public class UserDatabaseKey implements Serializable {
    * Class constructor
    */
   public UserDatabaseKey() {
-    super ( );
+    super();
   }
 
   public UserDatabaseKey(int userNumber, int databaseNumber) {
-    this.setUserNumber (userNumber);
-    this.setDatabaseNumber (databaseNumber);
+    this.setUserNumber(userNumber);
+    this.setDatabaseNumber(databaseNumber);
   }
 
   /**
@@ -39,8 +39,8 @@ public class UserDatabaseKey implements Serializable {
     if (anObject instanceof UserDatabaseKey) {
       UserDatabaseKey aKey = (UserDatabaseKey) anObject;
       return (
-        userNumber == aKey.getUserNumber ( )
-          && databaseNumber == aKey.getDatabaseNumber ( ));
+        userNumber == aKey.getUserNumber()
+          && databaseNumber == aKey.getDatabaseNumber());
     } else {
       return false;
     }

@@ -26,18 +26,18 @@ import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
 public class DAOCollectionRule extends AbstractDAO {
-  private final static ThreadLocal <SimpleDateFormat> FORMATTERS = new ThreadLocal ( ) {
+  private final static ThreadLocal <SimpleDateFormat> FORMATTERS = new ThreadLocal() {
     @Override
     protected Object initialValue() {
-      final SimpleDateFormat formatter = new SimpleDateFormat ("dd-MM-yyyy");
-      formatter.setLenient (false);
+      final SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+      formatter.setLenient(false);
       return formatter;
     }
   };
-  private static Log logger = new Log (DAOCollectionRule.class);
+  private static Log logger = new Log(DAOCollectionRule.class);
 
   public DAOCollectionRule() {
-    super ( );
+    super();
   }
 
   /**
@@ -48,30 +48,30 @@ public class DAOCollectionRule extends AbstractDAO {
    *                             TODO: Session needs to be injected from {@link org.folio.cataloging.integration.StorageService}
    */
   public List loadAllRules(final Locale locale, final List <Avp <String>> nrtLvlList) throws DataAccessException {
-    List result2 = new ArrayList ( );
+    List result2 = new ArrayList();
     try {
-      Session s = currentSession ( );
-      Query query = s.createQuery ("Select distinct ct from CLCTN_MST_RULE as ct order by ct.ruleId");
-      List <CLCTN_MST_RULE> rules = query.list ( );
-      return rules.stream ( )
-        .map (rawRule -> {
-          final RuleListElement item = new RuleListElement (rawRule);
-          nrtLvlList.stream ( )
-            .filter (avp -> avp.getValue ( ).equalsIgnoreCase (rawRule.getLevel ( )))
-            .findFirst ( )
-            .ifPresent (avp -> item.setLevel (avp.getLabel ( )));
+      Session s = currentSession();
+      Query query = s.createQuery("Select distinct ct from CLCTN_MST_RULE as ct order by ct.ruleId");
+      List <CLCTN_MST_RULE> rules = query.list();
+      return rules.stream()
+        .map(rawRule -> {
+          final RuleListElement item = new RuleListElement(rawRule);
+          nrtLvlList.stream()
+            .filter(avp -> avp.getValue().equalsIgnoreCase(rawRule.getLevel()))
+            .findFirst()
+            .ifPresent(avp -> item.setLevel(avp.getLabel()));
 
 
-          if (rawRule.getDataProcessing ( ) != null) {
-            item.setDataProcessing (FORMATTERS.get ( ).format (rawRule.getDataProcessing ( )));
+          if (rawRule.getDataProcessing() != null) {
+            item.setDataProcessing(FORMATTERS.get().format(rawRule.getDataProcessing()));
           }
 
-          if (rawRule.getDataInsert ( ) != null) {
-            item.setDataInsert (FORMATTERS.get ( ).format (rawRule.getDataInsert ( )));
+          if (rawRule.getDataInsert() != null) {
+            item.setDataInsert(FORMATTERS.get().format(rawRule.getDataInsert()));
           }
 
-          if (rawRule.getDataUpdate ( ) != null) {
-            item.setDataUpdate (FORMATTERS.get ( ).format (rawRule.getDataUpdate ( )));
+          if (rawRule.getDataUpdate() != null) {
+            item.setDataUpdate(FORMATTERS.get().format(rawRule.getDataUpdate()));
           }
 
 						/*if (RuleCollectionMSTBean.PUBBLICATION_DATE.equalsIgnoreCase(rawRule.getDataType())) {
@@ -89,15 +89,15 @@ public class DAOCollectionRule extends AbstractDAO {
 							}
 						}*/
 
-          item.setCollSource (loadCollections (rawRule.getRuleId ( )).stream ( )
-            .map (CLCTN_MST_RULE_REL::getIdCollection)
-            .map (Object::toString)
-            .collect (joining (", ")));
+          item.setCollSource(loadCollections(rawRule.getRuleId()).stream()
+            .map(CLCTN_MST_RULE_REL::getIdCollection)
+            .map(Object::toString)
+            .collect(joining(", ")));
           return item;
-        }).collect (toList ( ));
+        }).collect(toList());
     } catch (final HibernateException exception) {
-      logger.error (MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-      throw new DataAccessException (exception);
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
     }
   }
 
@@ -110,23 +110,23 @@ public class DAOCollectionRule extends AbstractDAO {
    * @throws DataAccessException
    */
   public List loadRule(int ruleId, Locale locale) throws DataAccessException {
-    List result = new ArrayList ( );
-    List result2 = new ArrayList ( );
+    List result = new ArrayList();
+    List result2 = new ArrayList();
 
     try {
-      Session s = currentSession ( );
-      Query q = s.createQuery ("Select distinct ct from CLCTN_MST_RULE as ct where ct.ruleId = " + ruleId);
-      q.setMaxResults (1);
-      result = q.list ( );
+      Session s = currentSession();
+      Query q = s.createQuery("Select distinct ct from CLCTN_MST_RULE as ct where ct.ruleId = " + ruleId);
+      q.setMaxResults(1);
+      result = q.list();
 
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
 
-    Iterator iter = result.iterator ( );
-    while (iter.hasNext ( )) {
-      CLCTN_MST_RULE rawRule = (CLCTN_MST_RULE) iter.next ( );
-      result2.add (rawRule);
+    Iterator iter = result.iterator();
+    while (iter.hasNext()) {
+      CLCTN_MST_RULE rawRule = (CLCTN_MST_RULE) iter.next();
+      result2.add(rawRule);
     }
     return result2;
   }
@@ -141,18 +141,18 @@ public class DAOCollectionRule extends AbstractDAO {
    * @throws HibernateException
    */
   public void insertTmpTable(List tmpList, Integer idRule) throws DataAccessException, HibernateException {
-    Session s = currentSession ( );
+    Session s = currentSession();
     CLCTN_RULE_TMP tmpTable = null;
-    for ( int i = 0; i < tmpList.size ( ); i++ ) {
-      tmpTable = (CLCTN_RULE_TMP) tmpList.get (i);
-      tmpTable.markNew ( );
-      tmpTable.setIdRule (idRule);
-      logger.debug ("--------> Insert in tabella temporanea CLCTN_RULE_TMP");
-      logger.debug ("IdRule : " + tmpTable.getIdRule ( ));
-      logger.debug ("Type   : " + tmpTable.getType ( ));
-      logger.debug ("IdItem : " + tmpTable.getIdItem ( ));
+    for (int i = 0; i < tmpList.size(); i++) {
+      tmpTable = (CLCTN_RULE_TMP) tmpList.get(i);
+      tmpTable.markNew();
+      tmpTable.setIdRule(idRule);
+      logger.debug("--------> Insert in tabella temporanea CLCTN_RULE_TMP");
+      logger.debug("IdRule : " + tmpTable.getIdRule());
+      logger.debug("Type   : " + tmpTable.getType());
+      logger.debug("IdItem : " + tmpTable.getIdItem());
 //			s.save(tmpTable);
-      persistByStatus (tmpTable);
+      persistByStatus(tmpTable);
     }
   }
 
@@ -163,19 +163,19 @@ public class DAOCollectionRule extends AbstractDAO {
    * @throws DataAccessException
    */
   public void delete(final int idRule) throws DataAccessException {
-    new TransactionalHibernateOperation ( ) {
+    new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s) throws HibernateException, SQLException {
-        s.delete ("from CLCTN_MST_RULE as ct where ct.ruleId = ? ",
-          new Object[]{new Integer (idRule)}, new Type[]{Hibernate.INTEGER});
+        s.delete("from CLCTN_MST_RULE as ct where ct.ruleId = ? ",
+          new Object[]{new Integer(idRule)}, new Type[]{Hibernate.INTEGER});
 
-        s.delete ("from CLCTN_MST_RULE_RECORD as ct where ct.ruleId = ? ",
-          new Object[]{new Integer (idRule)}, new Type[]{Hibernate.INTEGER});
+        s.delete("from CLCTN_MST_RULE_RECORD as ct where ct.ruleId = ? ",
+          new Object[]{new Integer(idRule)}, new Type[]{Hibernate.INTEGER});
 
-        s.delete ("from CLCTN_MST_RULE_REL as ct where ct.ruleId = ? ",
-          new Object[]{new Integer (idRule)}, new Type[]{Hibernate.INTEGER});
+        s.delete("from CLCTN_MST_RULE_REL as ct where ct.ruleId = ? ",
+          new Object[]{new Integer(idRule)}, new Type[]{Hibernate.INTEGER});
       }
     }
-      .execute ( );
+      .execute();
   }
 
   /**
@@ -185,8 +185,8 @@ public class DAOCollectionRule extends AbstractDAO {
    * @throws DataAccessException
    */
   public void loadRelationsRule(CLCTN_MST_RULE rule) throws DataAccessException {
-    rule.setRecordsList (loadRecords (rule.getRuleId ( ).intValue ( )));
-    rule.setCollectionsList (loadCollections (rule.getRuleId ( ).intValue ( )));
+    rule.setRecordsList(loadRecords(rule.getRuleId().intValue()));
+    rule.setCollectionsList(loadCollections(rule.getRuleId().intValue()));
   }
 
   /**
@@ -197,16 +197,16 @@ public class DAOCollectionRule extends AbstractDAO {
    * @throws DataAccessException
    */
   public List loadRecords(int ruleId) throws DataAccessException {
-    List result = new ArrayList ( );
+    List result = new ArrayList();
 
     try {
-      Session s = currentSession ( );
-      Query q = s.createQuery ("Select distinct ct from CLCTN_MST_RULE_RECORD as ct where ct.ruleId = "
+      Session s = currentSession();
+      Query q = s.createQuery("Select distinct ct from CLCTN_MST_RULE_RECORD as ct where ct.ruleId = "
         + ruleId + " order by ct.recordId");
-      result = q.list ( );
+      result = q.list();
 
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     return result;
   }
@@ -220,18 +220,18 @@ public class DAOCollectionRule extends AbstractDAO {
    *                             TODO: Use within {@link org.folio.cataloging.integration.StorageService}
    */
   public List <CLCTN_MST_RULE_REL> loadCollections(final int ruleId) {
-    List result = new ArrayList ( );
+    List result = new ArrayList();
 
     try {
-      Session s = currentSession ( );
-      final Query query = s.createQuery (
+      Session s = currentSession();
+      final Query query = s.createQuery(
         "Select distinct ct from CLCTN_MST_RULE_REL as ct where ct.ruleId = " +
           ruleId +
           " order by ct.idCollection");
-      return query.list ( );
+      return query.list();
     } catch (final HibernateException exception) {
-      logger.error (MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-      throw new DataAccessException (exception);
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
     }
   }
 
@@ -243,46 +243,46 @@ public class DAOCollectionRule extends AbstractDAO {
    * @throws DataAccessException
    */
   public void saveRuleAndRelations(CLCTN_MST_RULE item) throws DataAccessException {
-    Session s = currentSession ( );
+    Session s = currentSession();
     CallableStatement proc = null;
     Transaction tx = null;
     try {
-      tx = s.beginTransaction ( );
+      tx = s.beginTransaction();
 //-------->	Inserisce l'occorrenza in CLCTN_MST_RULE
 //			s.saveOrUpdate(item);  --> NON FUNZIONA FA SEMPRE UPDATE!!!
-      if (item.isNew ( )) {
-        s.save (item);
+      if (item.isNew()) {
+        s.save(item);
       } else {
-        s.update (item);
+        s.update(item);
       }
 //-------->	Inserisce le occorrenze nella CLCTN_MST_RULE_TMP
-      insertTmpTable (item.getRecordCollectionList ( ), item.getRuleId ( ));
+      insertTmpTable(item.getRecordCollectionList(), item.getRuleId());
 //			selectTmp();
 //-------->	Chiama la procedura di aggiornamento delle tabelle CLCNT_MST_RULE_REL e CLCNT_MST_RULE_RECORD
-      Connection connection = s.connection ( );
-      proc = connection.prepareCall ("{call  " + System.getProperty (Global.SCHEMA_CUSTOMER_KEY) + ".CAS_CLCTN.CLCTN_MST_RULE_UPD}");
-      proc.execute ( );
+      Connection connection = s.connection();
+      proc = connection.prepareCall("{call  " + System.getProperty(Global.SCHEMA_CUSTOMER_KEY) + ".CAS_CLCTN.CLCTN_MST_RULE_UPD}");
+      proc.execute();
 //-------->	Se tutto ok COMMIT			
-      tx.commit ( );
+      tx.commit();
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
       try {
-        tx.rollback ( );
+        tx.rollback();
       } catch (HibernateException e1) {
-        logAndWrap (e1);
+        logAndWrap(e1);
       }
     } catch (SQLException e) {
-      logAndWrap (e);
+      logAndWrap(e);
       try {
-        tx.rollback ( );
+        tx.rollback();
       } catch (HibernateException e1) {
-        logAndWrap (e1);
+        logAndWrap(e1);
       }
     } finally {
       try {
-        if (proc != null) proc.close ( );
+        if (proc != null) proc.close();
       } catch (SQLException e) {
-        e.printStackTrace ( );
+        e.printStackTrace();
       }
     }
   }

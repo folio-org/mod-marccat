@@ -18,14 +18,14 @@ public class InvalidPasswordFormatException extends AuthenticationException {
    *
    */
   public InvalidPasswordFormatException() {
-    super ( );
+    super();
   }
 
   /**
    * @param message
    */
   public InvalidPasswordFormatException(String message) {
-    super (message);
+    super(message);
   }
 
   /**
@@ -33,14 +33,14 @@ public class InvalidPasswordFormatException extends AuthenticationException {
    * @param cause
    */
   public InvalidPasswordFormatException(String message, Throwable cause) {
-    super (message, cause);
+    super(message, cause);
   }
 
   /**
    * @param cause
    */
   public InvalidPasswordFormatException(Throwable cause) {
-    super (cause);
+    super(cause);
   }
 
 }

@@ -19,13 +19,13 @@ import java.util.Locale;
  * @since 1.0
  */
 public class Parser {
-  private static final Log logger = new Log (Parser.class);
+  private static final Log logger = new Log(Parser.class);
   private static IndexList defaultIndex;
   private final Locale locale;
   private final int mainLibraryId;
   private final int searchingView;
   private final Session session;
-  private final DAOIndexList dao = new DAOIndexList ( );
+  private final DAOIndexList dao = new DAOIndexList();
   private LinkedList <Token> tokens;
   private Token lookahead;
 
@@ -51,13 +51,12 @@ public class Parser {
    * @throws CclParserException in case of parsing failure.
    */
   public String parse(final String ccl) throws CclParserException {
-    final Tokenizer tokenizer = new Tokenizer ( ).tokenize (ccl);
+    final Tokenizer tokenizer = new Tokenizer().tokenize(ccl);
 
-    final ExpressionNode n = parse (tokenizer.getTokens ( ));
+    final ExpressionNode n = parse(tokenizer.getTokens());
 
-    final String query = "select * from (" + n.getValue ( ) + ") foo order by 1 desc";
-
-    logger.debug (
+    final String query = "select * from ((" + n.getValue() + ")) foo order by 1 desc";
+    logger.debug(
       MessageCatalog._00020_SE_QUERY,
       ccl, query);
 
@@ -72,44 +71,44 @@ public class Parser {
    * @throws CclParserException in case of parsing failure.
    */
   public ExpressionNode parse(final List <Token> tokens) throws CclParserException {
-    this.tokens = new LinkedList <> (tokens);
-    this.lookahead = this.tokens.getFirst ( );
-    return searchGroup ( );
+    this.tokens = new LinkedList <>(tokens);
+    this.lookahead = this.tokens.getFirst();
+    return searchGroup();
   }
 
   /**
    * Advance to the next token.
    */
   private void nextToken() {
-    tokens.poll ( );
+    tokens.poll();
     lookahead =
-      tokens.isEmpty ( )
-        ? new Token (Tokenizer.TokenType.EOL, "")
-        : tokens.getFirst ( );
+      tokens.isEmpty()
+        ? new Token(Tokenizer.TokenType.EOL, "")
+        : tokens.getFirst();
   }
 
   private ExpressionNode searchGroup() throws CclParserException {
     // ( <searchGroup> )
     if (lookahead.token == Tokenizer.TokenType.LP) {
-      nextToken ( );
+      nextToken();
 
-      final ExpressionNode expr = searchGroup ( );
+      final ExpressionNode expr = searchGroup();
       if (lookahead.token != Tokenizer.TokenType.RP) {
-        throw new CclParserException ("Mismatched parentheses");
+        throw new CclParserException("Mismatched parentheses");
       }
 
       return expr;
     } else {
       // <searchExpression> <BOOL> <searchGroup>
-      final ExpressionNode expr = searchExpression ( );
+      final ExpressionNode expr = searchExpression();
       if (lookahead.token == Tokenizer.TokenType.BOOL) {
-        final BooleanExpressionNode op = new BooleanExpressionNode ( );
-        op.setLeft (expr);
-        op.setOp (lookahead.sequence);
+        final BooleanExpressionNode op = new BooleanExpressionNode();
+        op.setLeft(expr);
+        op.setOp(lookahead.sequence);
 
-        nextToken ( );
+        nextToken();
 
-        op.setRight (searchGroup ( ));
+        op.setRight(searchGroup());
 
         return op;
       } else {
@@ -119,47 +118,47 @@ public class Parser {
   }
 
   private ExpressionNode searchExpression() throws CclParserException {
-    final TermExpressionNode expr = new TermExpressionNode (session, locale, mainLibraryId, searchingView);
+    final TermExpressionNode expr = new TermExpressionNode(session, locale, mainLibraryId, searchingView);
     if (lookahead.token == Tokenizer.TokenType.WORD) {
-      if (lookahead.sequence.length ( ) <= 3) {
+      if (lookahead.sequence.length() <= 3) {
         IndexList i;
         try {
-          i = dao.getIndexByLocalAbbreviation (session, lookahead.sequence, locale);
+          i = dao.getIndexByLocalAbbreviation(session, lookahead.sequence, locale);
         } catch (DataAccessException e) {
-          throw new RuntimeException (e);
+          throw new RuntimeException(e);
         }
         if (i != null) {
-          expr.setIndex (i);
+          expr.setIndex(i);
           lookahead.token = Tokenizer.TokenType.INDEX;
         } else {
-          expr.setIndex (getDefaultIndex ( ));
-          return term (expr);
+          expr.setIndex(getDefaultIndex());
+          return term(expr);
         }
       } else {
-        expr.setIndex (getDefaultIndex ( ));
-        return term (expr);
+        expr.setIndex(getDefaultIndex());
+        return term(expr);
       }
     }
     if (lookahead.token == Tokenizer.TokenType.INDEX) {
       // <INDEX> [<REL>] <term>
-      nextToken ( );
+      nextToken();
       if (lookahead.token == Tokenizer.TokenType.REL) {
-        expr.setRelation (lookahead.sequence);
-        nextToken ( );
+        expr.setRelation(lookahead.sequence);
+        nextToken();
       }
-      return term (expr);
+      return term(expr);
     } else {
       // <term>
-      return term (expr);
+      return term(expr);
     }
   }
 
   private IndexList getDefaultIndex() {
     if (defaultIndex == null) {
       try {
-        defaultIndex = dao.getIndexByLocalAbbreviation (session, "AW", Locale.ENGLISH);
+        defaultIndex = dao.getIndexByLocalAbbreviation(session, "AW", Locale.ENGLISH);
       } catch (DataAccessException e) {
-        throw new RuntimeException (e);
+        throw new RuntimeException(e);
       }
     }
     return defaultIndex;
@@ -168,30 +167,30 @@ public class Parser {
   private ExpressionNode term(TermExpressionNode expr) throws CclParserException {
     if (lookahead.token == Tokenizer.TokenType.WORD) {
       // <WORD> <wordlist>
-      expr.appendToTerm (lookahead.sequence + " ");
-      nextToken ( );
-      return wordlist (expr);
+      expr.appendToTerm(lookahead.sequence + " ");
+      nextToken();
+      return wordlist(expr);
     } else {
-      return quotedString (expr);
+      return quotedString(expr);
     }
   }
 
   private ExpressionNode wordlist(TermExpressionNode expr) throws CclParserException {
     if (lookahead.token == Tokenizer.TokenType.PROX) {
-      expr.setProximityOperator (lookahead.sequence);
-      nextToken ( );
+      expr.setProximityOperator(lookahead.sequence);
+      nextToken();
       if (lookahead.token != Tokenizer.TokenType.WORD) {
-        throw new CclParserException ("proximity operator has invalid arguments");
+        throw new CclParserException("proximity operator has invalid arguments");
       } else {
-        expr.setRight (lookahead.sequence);
-        nextToken ( );
+        expr.setRight(lookahead.sequence);
+        nextToken();
         return expr;
       }
     }
     if (lookahead.token == Tokenizer.TokenType.WORD) {
-      expr.appendToTerm (lookahead.sequence + " ");
-      nextToken ( );
-      return wordlist (expr);
+      expr.appendToTerm(lookahead.sequence + " ");
+      nextToken();
+      return wordlist(expr);
     } else {
       // EOL
       return expr;
@@ -200,10 +199,10 @@ public class Parser {
 
   private ExpressionNode quotedString(TermExpressionNode expr) {
     if (lookahead.token == Tokenizer.TokenType.QUOTEDSTRING) {
-      String noQuotes = lookahead.sequence.replace ("\"", "");
-      expr.appendToTerm (noQuotes);
-      nextToken ( );
-      return quotedString (expr);
+      String noQuotes = lookahead.sequence.replace("\"", "");
+      expr.appendToTerm(noQuotes);
+      nextToken();
+      return quotedString(expr);
     } else {
       // EOL
       return expr;

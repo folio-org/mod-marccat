@@ -15,7 +15,7 @@ public class ReferentialIntegrityException extends DataAccessException {
    * @since 1.0
    */
   public ReferentialIntegrityException() {
-    super ( );
+    super();
     // TODO Auto-generated constructor stub
   }
 
@@ -26,7 +26,7 @@ public class ReferentialIntegrityException extends DataAccessException {
    * @since 1.0
    */
   public ReferentialIntegrityException(String message) {
-    super (message);
+    super(message);
     // TODO Auto-generated constructor stub
   }
 
@@ -38,7 +38,7 @@ public class ReferentialIntegrityException extends DataAccessException {
    * @since 1.0
    */
   public ReferentialIntegrityException(String message, Throwable cause) {
-    super (message, cause);
+    super(message, cause);
     // TODO Auto-generated constructor stub
   }
 
@@ -49,7 +49,7 @@ public class ReferentialIntegrityException extends DataAccessException {
    * @since 1.0
    */
   public ReferentialIntegrityException(Throwable cause) {
-    super (cause);
+    super(cause);
     // TODO Auto-generated constructor stub
   }
 
@@ -61,9 +61,9 @@ public class ReferentialIntegrityException extends DataAccessException {
    * @since 1.0
    */
   public ReferentialIntegrityException(String fromTable, String toTable) {
-    super ( );
-    setFromTable (fromTable);
-    setToTable (toTable);
+    super();
+    setFromTable(fromTable);
+    setToTable(toTable);
   }
 
   /**

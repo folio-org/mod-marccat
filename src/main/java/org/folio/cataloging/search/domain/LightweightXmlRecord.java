@@ -2,16 +2,13 @@ package org.folio.cataloging.search.domain;
 
 import org.folio.cataloging.log.Log;
 import org.folio.cataloging.log.MessageCatalog;
-import org.marc4j.*;
 import org.w3c.dom.Document;
 import org.xml.sax.helpers.DefaultHandler;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.function.Predicate;
 
 import static java.util.Optional.ofNullable;
@@ -23,68 +20,43 @@ import static java.util.Optional.ofNullable;
  * @since 1.0
  */
 public class LightweightXmlRecord extends AbstractRecord {
-  private final static Log LOGGER = new Log (LightweightXmlRecord.class);
+  private final static Log LOGGER = new Log(LightweightXmlRecord.class);
   private final static String DUMMY_RECORD = "<record></record>";
-  private final static String DUMMY_JSON_RECORD = "{}";
-
   private final static ThreadLocal <SAXParser> SAX_PARSERS =
-    ThreadLocal.withInitial (() -> {
+    ThreadLocal.withInitial(() -> {
       try {
-        return SAXParserFactory.newInstance ( ).newSAXParser ( );
+        return SAXParserFactory.newInstance().newSAXParser();
       } catch (final Exception exception) {
-        throw new RuntimeException (exception);
+        throw new RuntimeException(exception);
       }
     });
-
+  private int countDoc;
+  private String queryForAssociatedDoc;
   private Predicate <String> isValidXml = data -> {
-    try (final InputStream stream = new ByteArrayInputStream (data.getBytes ("UTF-8"))) {
-      SAX_PARSERS.get ( ).parse (stream, new DefaultHandler ( ));
+    try (final InputStream stream = new ByteArrayInputStream(data.getBytes("UTF-8"))) {
+      SAX_PARSERS.get().parse(stream, new DefaultHandler());
       return true;
     } catch (final Exception exception) {
-      LOGGER.error (MessageCatalog._00021_UNABLE_TO_PARSE_RECORD_DATA, data);
+      LOGGER.error(MessageCatalog._00021_UNABLE_TO_PARSE_RECORD_DATA, data);
       return false;
     }
   };
 
   private String data;
 
-  /*
-  @Override
-  public void setContent(final String elementSetName, final Object data) {
-    this.data = ofNullable (data)
-      .map (Object::toString)
-      .filter (isValidXml)
-      .orElse (DUMMY_RECORD);
-  }
-  */
 
-  /**
-   * setContent, converting marcxml to jsonxml
-   * @param elementSetName
-   * @param data
-   */
   @Override
   public void setContent(final String elementSetName, final Object data) {
-    this.data = ofNullable (data)
-      .map ( o -> {
-        String record = o.toString();
-        MarcReader reader = new MarcXmlReader(new ByteArrayInputStream( record.getBytes() ));
-        OutputStream output = new ByteArrayOutputStream();
-        MarcWriter writer = new MarcJsonWriter(output);
-        while (reader.hasNext()) {
-          org.marc4j.marc.Record marcRecord = reader.next();
-          writer.write(marcRecord);
-        }
-        writer.close();
-        return ((ByteArrayOutputStream) output).toString();
-      })
-      .orElse (DUMMY_JSON_RECORD);
+    this.data = ofNullable(data)
+      .map(Object::toString)
+      .filter(isValidXml)
+      .orElse(DUMMY_RECORD);
   }
 
 
   @Override
   public Document toXmlDocument(String elementSetName) {
-    throw new IllegalArgumentException ("Don't call me!");
+    throw new IllegalArgumentException("Don't call me!");
   }
 
   /**
@@ -94,6 +66,26 @@ public class LightweightXmlRecord extends AbstractRecord {
    * @return the content of this record.
    */
   public String getData() {
-    return ofNullable (data).orElse (DUMMY_RECORD);
+    return ofNullable(data).orElse(DUMMY_RECORD);
+  }
+
+
+  public int getCountDoc() {
+    return countDoc;
+  }
+
+
+  public void setCountDoc(int countDoc) {
+    this.countDoc = countDoc;
+  }
+
+
+  public String getQueryForAssociatedDoc() {
+    return queryForAssociatedDoc;
+  }
+
+
+  public void setQueryForAssociatedDoc(String queryForAssociatedDoc) {
+    this.queryForAssociatedDoc = queryForAssociatedDoc;
   }
 }

@@ -21,7 +21,7 @@ public class MandatoryTagException extends ValidationException {
    * @since 1.0
    */
   public MandatoryTagException() {
-    super ( );
+    super();
     // TODO Auto-generated constructor stub
   }
 
@@ -32,8 +32,8 @@ public class MandatoryTagException extends ValidationException {
    * @since 1.0
    */
   public MandatoryTagException(String message) {
-    super (message);
-    setTagNumber (message);
+    super(message);
+    setTagNumber(message);
   }
 
   /**
@@ -44,7 +44,7 @@ public class MandatoryTagException extends ValidationException {
    * @since 1.0
    */
   public MandatoryTagException(String message, Throwable cause) {
-    super (message, cause);
+    super(message, cause);
     // TODO Auto-generated constructor stub
   }
 
@@ -55,7 +55,7 @@ public class MandatoryTagException extends ValidationException {
    * @since 1.0
    */
   public MandatoryTagException(Throwable cause) {
-    super (cause);
+    super(cause);
     // TODO Auto-generated constructor stub
   }
 
@@ -66,7 +66,7 @@ public class MandatoryTagException extends ValidationException {
    * @since 1.0
    */
   public MandatoryTagException(int index) {
-    super (index);
+    super(index);
     // TODO Auto-generated constructor stub
   }
 

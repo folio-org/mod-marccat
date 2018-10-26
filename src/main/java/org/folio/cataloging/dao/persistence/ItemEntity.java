@@ -23,12 +23,12 @@ public abstract class ItemEntity implements Persistence, Serializable {
   protected String authenticationCenterStringText;
   protected String cataloguingSourceStringText;
   protected char characterCodingSchemeCode = ' ';
-  protected Date dateOfLastTransaction = new Date ( );
+  protected Date dateOfLastTransaction = new Date();
   protected char encodingLevel = ' ';
-  protected Date enteredOnFileDate = new Date ( );
+  protected Date enteredOnFileDate = new Date();
   protected String geographicAreaStringText;
   protected String languageOfCataloguing;
-  protected PersistenceState persistenceState = new PersistenceState ( );
+  protected PersistenceState persistenceState = new PersistenceState();
   protected char recordStatusCode = 'n';
   protected String timePeriodStringText;
   protected String typeOfDateTimeCode = "";
@@ -39,7 +39,7 @@ public abstract class ItemEntity implements Persistence, Serializable {
    * @since 1.0
    */
   public void evict() throws DataAccessException {
-    persistenceState.evict (this);
+    persistenceState.evict(this);
   }
 
   /**
@@ -135,16 +135,16 @@ public abstract class ItemEntity implements Persistence, Serializable {
   }
 
   public String getEnteredOnFileDateYYMMDD() {
-    Format formatter = new SimpleDateFormat ("yyMMdd");
+    Format formatter = new SimpleDateFormat("yyMMdd");
     String result =
-      formatter.format (getEnteredOnFileDate ( ));
+      formatter.format(getEnteredOnFileDate());
     return result;
   }
 
   public String getEnteredOnFileDateYYYYMMDD() {
-    Format formatter = new SimpleDateFormat ("yyyyMMdd");
+    Format formatter = new SimpleDateFormat("yyyyMMdd");
     String result =
-      formatter.format (getEnteredOnFileDate ( ));
+      formatter.format(getEnteredOnFileDate());
     return result;
   }
 
@@ -222,14 +222,14 @@ public abstract class ItemEntity implements Persistence, Serializable {
    * @since 1.0
    */
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   /**
    * @since 1.0
    */
   public void setUpdateStatus(int i) {
-    persistenceState.setUpdateStatus (i);
+    persistenceState.setUpdateStatus(i);
   }
 
   /**
@@ -250,77 +250,77 @@ public abstract class ItemEntity implements Persistence, Serializable {
    * @since 1.0
    */
   public boolean isChanged() {
-    return persistenceState.isChanged ( );
+    return persistenceState.isChanged();
   }
 
   /**
    * @since 1.0
    */
   public boolean isDeleted() {
-    return persistenceState.isDeleted ( );
+    return persistenceState.isDeleted();
   }
 
   /**
    * @since 1.0
    */
   public boolean isNew() {
-    return persistenceState.isNew ( );
+    return persistenceState.isNew();
   }
 
   /**
    * @since 1.0
    */
   public void markChanged() {
-    persistenceState.markChanged ( );
+    persistenceState.markChanged();
   }
 
   /**
    * @since 1.0
    */
   public void markDeleted() {
-    persistenceState.markDeleted ( );
+    persistenceState.markDeleted();
   }
 
   /**
    * @since 1.0
    */
   public void markNew() {
-    persistenceState.markNew ( );
+    persistenceState.markNew();
   }
 
   /**
    * @since 1.0
    */
   public void markUnchanged() {
-    persistenceState.markUnchanged ( );
+    persistenceState.markUnchanged();
   }
 
   /**
    * @since 1.0
    */
   public boolean onDelete(Session arg0) throws CallbackException {
-    return persistenceState.onDelete (arg0);
+    return persistenceState.onDelete(arg0);
   }
 
   /**
    * @since 1.0
    */
   public void onLoad(Session arg0, Serializable arg1) {
-    persistenceState.onLoad (arg0, arg1);
+    persistenceState.onLoad(arg0, arg1);
   }
 
   /**
    * @since 1.0
    */
   public boolean onSave(Session arg0) throws CallbackException {
-    return persistenceState.onSave (arg0);
+    return persistenceState.onSave(arg0);
   }
 
   /**
    * @since 1.0
    */
   public boolean onUpdate(Session arg0) throws CallbackException {
-    return persistenceState.onUpdate (arg0);
+    return persistenceState.onUpdate(arg0);
   }
 
 }

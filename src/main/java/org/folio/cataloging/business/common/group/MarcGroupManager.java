@@ -9,29 +9,29 @@ import java.util.List;
 
 public class MarcGroupManager implements GroupManager {
 
-  private List groupList = new ArrayList/*<TagGroup>*/ ( );
+  private List groupList = new ArrayList/*<TagGroup>*/();
 
   public MarcGroupManager() {
-    super ( );
+    super();
   }
 
   public void add(TagGroup group) {
-    groupList.add (group);
+    groupList.add(group);
   }
 
   public TagGroup getGroup(Tag tag) throws DataAccessException {
-    Iterator it = groupList.iterator ( );
-    while (it.hasNext ( )) {
-      TagGroup group = (TagGroup) it.next ( );
-      if (group.contains (tag)) return group;
+    Iterator it = groupList.iterator();
+    while (it.hasNext()) {
+      TagGroup group = (TagGroup) it.next();
+      if (group.contains(tag)) return group;
     }
     return null;
   }
 
   public boolean isSameGroup(Tag tag1, Tag tag2) throws DataAccessException {
-    TagGroup group = getGroup (tag1);
+    TagGroup group = getGroup(tag1);
     if (group == null) return false;
-    return group.contains (tag2);
+    return group.contains(tag2);
   }
 
 }

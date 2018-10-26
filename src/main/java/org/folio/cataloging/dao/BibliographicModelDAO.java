@@ -13,7 +13,7 @@ public class BibliographicModelDAO extends ModelDAO {
 
   @Override
   protected ModelItemDAO getModelItemDAO() {
-    return new BibliographicModelItemDAO ( );
+    return new BibliographicModelItemDAO();
   }
 
   @Override

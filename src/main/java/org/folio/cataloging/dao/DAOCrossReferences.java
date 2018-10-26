@@ -22,60 +22,60 @@ import java.util.List;
  * @author paulm
  */
 public class DAOCrossReferences extends AbstractDAO {
-  protected Log logger = LogFactory.getLog (DAOCrossReferences.class);
+  protected Log logger = LogFactory.getLog(DAOCrossReferences.class);
 
 
   public void save(Persistence p) throws DataAccessException {
     final REF ref = (REF) p;
-    new TransactionalHibernateOperation ( ) {
+    new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
         throws HibernateException {
         // save this row
-        s.save (ref);
-        logger.debug ("saving ref with linkDisplay '" + ref.getLinkDisplay ( ) + "'");
+        s.save(ref);
+        logger.debug("saving ref with linkDisplay '" + ref.getLinkDisplay() + "'");
         // calculate the reciprocal
-        REF reciprocal = ref.createReciprocal ( );
+        REF reciprocal = ref.createReciprocal();
         // save the reciprocal
-        s.save (reciprocal);
+        s.save(reciprocal);
       }
     }
-      .execute ( );
+      .execute();
   }
 
   public void delete(Persistence p) throws DataAccessException {
     final REF ref = (REF) p;
     final REF reciprocal =
-      loadReciprocal (ref, View.toIntView (ref.getUserViewString ( )));
-    new TransactionalHibernateOperation ( ) {
+      loadReciprocal(ref, View.toIntView(ref.getUserViewString()));
+    new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
         throws HibernateException {
-        s.delete (ref);
-        s.delete (reciprocal);
+        s.delete(ref);
+        s.delete(reciprocal);
       }
     }
-      .execute ( );
+      .execute();
   }
 
   public REF loadReciprocal(REF ref, int cataloguingView)
     throws DataAccessException {
 
     int reciprocalType =
-      ReferenceType.getReciprocal (ref.getType ( ));
+      ReferenceType.getReciprocal(ref.getType());
 
     REF result = null;
 
     List l =
-      find (
+      find(
         "from "
-          + ref.getClass ( ).getName ( )
+          + ref.getClass().getName()
           + " as ref "
           + " where ref.key.target = ? AND "
           + " ref.key.source = ? AND "
           + " substr(ref.key.userViewString, ?, 1) = '1' AND "
           + " ref.key.type = ?",
         new Object[]{
-          ref.getSource ( ),
-          ref.getTarget ( ),
+          ref.getSource(),
+          ref.getTarget(),
           cataloguingView,
           reciprocalType},
         new Type[]{
@@ -83,8 +83,8 @@ public class DAOCrossReferences extends AbstractDAO {
           Hibernate.INTEGER,
           Hibernate.INTEGER,
           Hibernate.INTEGER});
-    if (l.size ( ) == 1) {
-      result = (REF) l.get (0);
+    if (l.size() == 1) {
+      result = (REF) l.get(0);
     }
 
     return result;
@@ -98,7 +98,7 @@ public class DAOCrossReferences extends AbstractDAO {
     final Session session)
     throws DataAccessException, HibernateException {
 
-    return ((DAODescriptor) source.getDAO ( )).loadReference (
+    return ((DAODescriptor) source.getDAO()).loadReference(
       source,
       target,
       referenceType,

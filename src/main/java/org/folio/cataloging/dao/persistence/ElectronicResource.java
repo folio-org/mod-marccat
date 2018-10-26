@@ -26,8 +26,8 @@ public class ElectronicResource extends PhysicalDescription {
 
 
   public ElectronicResource() {
-    super ( );
-    setHeaderType (42);
+    super();
+    setHeaderType(42);
   }
 
   /* (non-Javadoc)
@@ -36,18 +36,18 @@ public class ElectronicResource extends PhysicalDescription {
   public String getDisplayString() {
     String result =
       ""
-        + getGeneralMaterialDesignationCode ( )
-        + getSpecificMaterialDesignationCode ( )
+        + getGeneralMaterialDesignationCode()
+        + getSpecificMaterialDesignationCode()
         + " "
-        + getColourCode ( )
-        + getDimensionsCode ( )
-        + getIncludesSoundCode ( )
-        + getImageBitDepth ( )
-        + getFileFormatsCode ( )
-        + getQualityAssuranceTargetCode ( )
-        + getAntecedentSourceCode ( )
-        + getLevelOfCompressionCode ( )
-        + getReformattingQualityCode ( );
+        + getColourCode()
+        + getDimensionsCode()
+        + getIncludesSoundCode()
+        + getImageBitDepth()
+        + getFileFormatsCode()
+        + getQualityAssuranceTargetCode()
+        + getAntecedentSourceCode()
+        + getLevelOfCompressionCode()
+        + getReformattingQualityCode();
     return result;
   }
 
@@ -55,8 +55,8 @@ public class ElectronicResource extends PhysicalDescription {
    * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
    */
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
-    SystemNextNumberDAO dao = new SystemNextNumberDAO ( );
-    setKeyNumber (dao.getNextNumber ("XA", session));
+    SystemNextNumberDAO dao = new SystemNextNumberDAO();
+    setKeyNumber(dao.getNextNumber("XA", session));
   }
 
   /* (non-Javadoc)
@@ -209,51 +209,51 @@ public class ElectronicResource extends PhysicalDescription {
   public Element generateModelXmlElementContent(Document xmlDocument) {
     Element content = null;
     if (xmlDocument != null) {
-      content = xmlDocument.createElement ("content");
-      content.setAttribute ("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode ( ));
-      content.setAttribute ("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode ( ));
-      content.setAttribute ("colourCode", "" + getColourCode ( ));
-      content.setAttribute ("dimensionsCode", "" + getDimensionsCode ( ));
-      content.setAttribute ("includesSoundCode", "" + getIncludesSoundCode ( ));
-      content.setAttribute ("imageBitDepth", getImageBitDepth ( ));
-      content.setAttribute ("fileFormatsCode", "" + getFileFormatsCode ( ));
-      content.setAttribute ("qualityAssuranceTargetCode", "" + getQualityAssuranceTargetCode ( ));
-      content.setAttribute ("antecedentSourceCode", "" + getAntecedentSourceCode ( ));
-      content.setAttribute ("levelOfCompressionCode", "" + getLevelOfCompressionCode ( ));
-      content.setAttribute ("reformattingQualityCode", "" + getReformattingQualityCode ( ));
+      content = xmlDocument.createElement("content");
+      content.setAttribute("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode());
+      content.setAttribute("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode());
+      content.setAttribute("colourCode", "" + getColourCode());
+      content.setAttribute("dimensionsCode", "" + getDimensionsCode());
+      content.setAttribute("includesSoundCode", "" + getIncludesSoundCode());
+      content.setAttribute("imageBitDepth", getImageBitDepth());
+      content.setAttribute("fileFormatsCode", "" + getFileFormatsCode());
+      content.setAttribute("qualityAssuranceTargetCode", "" + getQualityAssuranceTargetCode());
+      content.setAttribute("antecedentSourceCode", "" + getAntecedentSourceCode());
+      content.setAttribute("levelOfCompressionCode", "" + getLevelOfCompressionCode());
+      content.setAttribute("reformattingQualityCode", "" + getReformattingQualityCode());
     }
     return content;
   }
 
   public void parseModelXmlElementContent(Element xmlElement) {
-    Element content = (Element) xmlElement.getChildNodes ( ).item (0);
-    setGeneralMaterialDesignationCode (content.getAttribute ("generalMaterialDesignationCode").charAt (0));
-    setSpecificMaterialDesignationCode (content.getAttribute ("specificMaterialDesignationCode").charAt (0));
-    setColourCode (content.getAttribute ("colourCode").charAt (0));
-    setDimensionsCode (content.getAttribute ("dimensionsCode").charAt (0));
-    setIncludesSoundCode (content.getAttribute ("includesSoundCode").charAt (0));
-    setImageBitDepth (content.getAttribute ("imageBitDepth"));
-    setFileFormatsCode (content.getAttribute ("fileFormatsCode").charAt (0));
-    setQualityAssuranceTargetCode (content.getAttribute ("qualityAssuranceTargetCode").charAt (0));
-    setAntecedentSourceCode (content.getAttribute ("antecedentSourceCode").charAt (0));
-    setLevelOfCompressionCode (content.getAttribute ("levelOfCompressionCode").charAt (0));
-    setReformattingQualityCode (content.getAttribute ("reformattingQualityCode").charAt (0));
+    Element content = (Element) xmlElement.getChildNodes().item(0);
+    setGeneralMaterialDesignationCode(content.getAttribute("generalMaterialDesignationCode").charAt(0));
+    setSpecificMaterialDesignationCode(content.getAttribute("specificMaterialDesignationCode").charAt(0));
+    setColourCode(content.getAttribute("colourCode").charAt(0));
+    setDimensionsCode(content.getAttribute("dimensionsCode").charAt(0));
+    setIncludesSoundCode(content.getAttribute("includesSoundCode").charAt(0));
+    setImageBitDepth(content.getAttribute("imageBitDepth"));
+    setFileFormatsCode(content.getAttribute("fileFormatsCode").charAt(0));
+    setQualityAssuranceTargetCode(content.getAttribute("qualityAssuranceTargetCode").charAt(0));
+    setAntecedentSourceCode(content.getAttribute("antecedentSourceCode").charAt(0));
+    setLevelOfCompressionCode(content.getAttribute("levelOfCompressionCode").charAt(0));
+    setReformattingQualityCode(content.getAttribute("reformattingQualityCode").charAt(0));
   }
 
   //@paulm, us_bbl_loading
   @Override
   public void setContentFromMarcString(final String content) {
-    setGeneralMaterialDesignationCode (content.charAt (0));
-    if (content.length ( ) > 1) setSpecificMaterialDesignationCode (content.charAt (1));
-    else setSpecificMaterialDesignationCode ('u');
-    if (content.length ( ) > 3) setColourCode (content.charAt (3));
-    if (content.length ( ) > 4) setDimensionsCode (content.charAt (4));
-    if (content.length ( ) > 5) setIncludesSoundCode (content.charAt (5));
-    if (content.length ( ) > 9) setImageBitDepth (content.substring (6, 9));
-    if (content.length ( ) > 9) setFileFormatsCode (content.charAt (9));
-    if (content.length ( ) > 10) setQualityAssuranceTargetCode (content.charAt (10));
-    if (content.length ( ) > 11) setAntecedentSourceCode (content.charAt (11));
-    if (content.length ( ) > 12) setLevelOfCompressionCode (content.charAt (12));
-    if (content.length ( ) > 13) setReformattingQualityCode (content.charAt (13));
+    setGeneralMaterialDesignationCode(content.charAt(0));
+    if (content.length() > 1) setSpecificMaterialDesignationCode(content.charAt(1));
+    else setSpecificMaterialDesignationCode('u');
+    if (content.length() > 3) setColourCode(content.charAt(3));
+    if (content.length() > 4) setDimensionsCode(content.charAt(4));
+    if (content.length() > 5) setIncludesSoundCode(content.charAt(5));
+    if (content.length() > 9) setImageBitDepth(content.substring(6, 9));
+    if (content.length() > 9) setFileFormatsCode(content.charAt(9));
+    if (content.length() > 10) setQualityAssuranceTargetCode(content.charAt(10));
+    if (content.length() > 11) setAntecedentSourceCode(content.charAt(11));
+    if (content.length() > 12) setLevelOfCompressionCode(content.charAt(12));
+    if (content.length() > 13) setReformattingQualityCode(content.charAt(13));
   }
 }

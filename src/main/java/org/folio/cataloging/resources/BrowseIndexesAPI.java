@@ -28,9 +28,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class BrowseIndexesAPI extends BaseResource {
 
   private Function <Avp <String>, Index> convertValueLabelToIndex = source -> {
-    final Index index = new Index ( );
-    index.setCode (source.getValue ( ));
-    index.setDescription (source.getLabel ( ));
+    final Index index = new Index();
+    index.setCode(source.getValue());
+    index.setDescription(source.getLabel());
     return index;
   };
 
@@ -46,13 +46,13 @@ public class BrowseIndexesAPI extends BaseResource {
   public IndexCollection getBrowseIndexes(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final IndexCollection container = new IndexCollection ( );
-      container.setIndexes (
-        storageService.getBrowseIndexes (lang)
-          .stream ( )
-          .map (convertValueLabelToIndex)
-          .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      final IndexCollection container = new IndexCollection();
+      container.setIndexes(
+        storageService.getBrowseIndexes(lang)
+          .stream()
+          .map(convertValueLabelToIndex)
+          .collect(toList()));
       return container;
     }, tenant, configurator);
   }

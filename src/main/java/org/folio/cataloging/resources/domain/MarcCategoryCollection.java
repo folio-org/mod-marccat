@@ -21,10 +21,10 @@ public class MarcCategoryCollection {
   @JsonProperty("categories")
   @Valid
   @NotNull
-  private List <Category> categories = new ArrayList <Category> ( );
+  private List <Category> categories = new ArrayList <Category>();
 
   @JsonIgnore
-  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
+  private Map <String, Object> additionalProperties = new HashMap <String, Object>();
 
   /**
    * (Required)
@@ -58,11 +58,11 @@ public class MarcCategoryCollection {
 
   @JsonAnySetter
   public void setAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
   }
 
   public MarcCategoryCollection withAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
     return this;
   }
 }

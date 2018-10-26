@@ -19,15 +19,15 @@ import org.folio.cataloging.util.StringText;
 public class ClassificationAccessPoint extends BibliographicAccessPoint implements OrderedTag {
   private static final long serialVersionUID = 1L;
 
-  private CLSTN descriptor = new CLSTN ( );
+  private CLSTN descriptor = new CLSTN();
   private Integer sequenceNumber;
 
   public ClassificationAccessPoint() {
-    super ( );
+    super();
   }
 
   public ClassificationAccessPoint(final int itemNbr) {
-    super (itemNbr);
+    super(itemNbr);
   }
 
   /**
@@ -54,7 +54,7 @@ public class ClassificationAccessPoint extends BibliographicAccessPoint implemen
    * @param stringText -- the string text to set.
    */
   public void setDescriptorStringText(final StringText stringText) {
-    descriptor.setStringText (stringText.toString ( ));
+    descriptor.setStringText(stringText.toString());
   }
 
   /**
@@ -63,8 +63,8 @@ public class ClassificationAccessPoint extends BibliographicAccessPoint implemen
    * @return stringText.
    */
   public StringText getAccessPointStringText() {
-    final StringText stringText = new StringText ( );
-    addEditionNumberIfNeeds (stringText);
+    final StringText stringText = new StringText();
+    addEditionNumberIfNeeds(stringText);
     return stringText;
   }
 
@@ -83,8 +83,8 @@ public class ClassificationAccessPoint extends BibliographicAccessPoint implemen
    * @param stringText -- the string text to add text.
    */
   private void addEditionNumberIfNeeds(final StringText stringText) {
-    if (descriptor.getTypeCode ( ) == GlobalStorage.DEWEY_TYPE_CODE && descriptor.getDeweyEditionNumber ( ) != null)
-      stringText.addSubfield (new Subfield ("2", "" + descriptor.getDeweyEditionNumber ( )));
+    if (descriptor.getTypeCode() == GlobalStorage.DEWEY_TYPE_CODE && descriptor.getDeweyEditionNumber() != null)
+      stringText.addSubfield(new Subfield("2", "" + descriptor.getDeweyEditionNumber()));
   }
 
   /**
@@ -102,7 +102,7 @@ public class ClassificationAccessPoint extends BibliographicAccessPoint implemen
    * @return correlationValues.
    */
   public CorrelationValues getCorrelationValues() {
-    return getDescriptor ( ).getCorrelationValues ( ).change (2, getFunctionCode ( ));
+    return getDescriptor().getCorrelationValues().change(2, getFunctionCode());
   }
 
   /**
@@ -111,8 +111,8 @@ public class ClassificationAccessPoint extends BibliographicAccessPoint implemen
    * @param v -- the correlation values to set.
    */
   public void setCorrelationValues(CorrelationValues v) {
-    setFunctionCode (v.getValue (2));
-    getDescriptor ( ).setCorrelationValues (v);
+    setFunctionCode(v.getValue(2));
+    getDescriptor().setCorrelationValues(v);
   }
 
   /**
@@ -122,7 +122,7 @@ public class ClassificationAccessPoint extends BibliographicAccessPoint implemen
    * @return boolean.
    */
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
-    return (v.isValueDefined (2)) && (v.getValue (2) != getFunctionCode ( ));
+    return (v.isValueDefined(2)) && (v.getValue(2) != getFunctionCode());
   }
 
   /**
@@ -145,15 +145,15 @@ public class ClassificationAccessPoint extends BibliographicAccessPoint implemen
       return false;
 
     final ClassificationAccessPoint other = (ClassificationAccessPoint) obj;
-    return super.equals (obj) && (other.functionCode == this.functionCode)
-      && (other.descriptor.getKey ( ).getHeadingNumber ( ) == this.descriptor.getKey ( ).getHeadingNumber ( ));
+    return super.equals(obj) && (other.functionCode == this.functionCode)
+      && (other.descriptor.getKey().getHeadingNumber() == this.descriptor.getKey().getHeadingNumber());
   }
 
   /**
    * @return hashCode.
    */
   public int hashCode() {
-    return super.hashCode ( ); // TODO this is bad, should be changed
+    return super.hashCode(); // TODO this is bad, should be changed
   }
 
   /**
@@ -172,6 +172,6 @@ public class ClassificationAccessPoint extends BibliographicAccessPoint implemen
    */
   public void setSequenceNumber(final Integer sequenceNbr) {
     sequenceNumber = sequenceNbr;
-    super.setSequenceNumber (sequenceNumber);
+    super.setSequenceNumber(sequenceNumber);
   }
 }

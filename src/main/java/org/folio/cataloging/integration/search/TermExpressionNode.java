@@ -20,9 +20,9 @@ import java.util.Locale;
  * @since 1.0
  */
 public class TermExpressionNode implements ExpressionNode {
-  private static final Log logger = new Log (TermExpressionNode.class);
+  private static final Log logger = new Log(TermExpressionNode.class);
 
-  private final StringBuilder term = new StringBuilder ( );
+  private final StringBuilder term = new StringBuilder();
 
   private final Locale locale;
   private final int mainLibraryId;
@@ -52,89 +52,89 @@ public class TermExpressionNode implements ExpressionNode {
   public String getValue() throws CclParserException {
     // get semantic entry based on index and term syntax
     try {
-      String s = prepareTerm ( );
+      String s = prepareTerm();
       if (proximityOperator != null) {
-        int startOfTerm = s.indexOf ('\'') + 1;
+        int startOfTerm = s.indexOf('\'') + 1;
         if (startOfTerm > 0) {
-          int endOfTerm = s.indexOf ('\'', startOfTerm) - 1;
-          String oldTerm = s.substring (startOfTerm, endOfTerm);
-          int posWithin = oldTerm.toUpperCase ( ).indexOf ("WITHIN");
+          int endOfTerm = s.indexOf('\'', startOfTerm) - 1;
+          String oldTerm = s.substring(startOfTerm, endOfTerm);
+          int posWithin = oldTerm.toUpperCase().indexOf("WITHIN");
           if (posWithin > 0) {
-            oldTerm = oldTerm.substring (0, posWithin - 1);
+            oldTerm = oldTerm.substring(0, posWithin - 1);
             endOfTerm = startOfTerm + posWithin - 1;
           }
-          final String ordered = String.valueOf (proximityOperator.startsWith ("N")).toUpperCase ( );
+          final String ordered = String.valueOf(proximityOperator.startsWith("N")).toUpperCase();
 
           int distance = 5;
           try {
-            distance = Integer.parseInt (proximityOperator.substring (1));
+            distance = Integer.parseInt(proximityOperator.substring(1));
           } catch (Exception e) {
             // do nothing take default distance value
           }
 
-          String newText = String.format ("NEAR ((%s,{%s}), %d, %s) ", oldTerm, getRight ( ), distance, ordered);
-          s = s.substring (0, startOfTerm) + newText + s.substring (endOfTerm + 1);
+          String newText = String.format("NEAR ((%s,{%s}), %d, %s) ", oldTerm, getRight(), distance, ordered);
+          s = s.substring(0, startOfTerm) + newText + s.substring(endOfTerm + 1);
         }
       }
 
       return "select distinct "
-        + semantic ( ).getSelectClause ( )
+        + semantic().getSelectClause()
         + " from "
-        + semantic ( ).getFromClause ( )
+        + semantic().getFromClause()
         + " where "
-        + (semantic ( ).getJoinClause ( ) == null ? "" : semantic.getJoinClause ( )) + s + viewClause ( );
+        + (semantic().getJoinClause() == null ? "" : semantic.getJoinClause()) + s + viewClause();
     } catch (final Exception exception) {
-      logger.error (MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-      throw new CclParserException ("Query not supported");
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      throw new CclParserException("Query not supported");
     }
   }
 
   private String prepareTerm() throws CclParserException {
-    removeTrailingBlankInTerm ( );
+    removeTrailingBlankInTerm();
 
     // build sql from semantic entry
     final String preProcessWildCards =
-      term.toString ( )
-        .replace ('?', '\u0002')
-        .replace ('#', '\u0003');
+      term.toString()
+        .replace('?', '\u0002')
+        .replace('#', '\u0003');
 
     try {
       final SortFormParameters sortFormP =
-        new SortFormParameters (
-          semantic ( ).getSortFormMainTypeCode ( ),
-          semantic ( ).getSortFormSubTypeCode ( ),
-          semantic ( ).getSortFormTypeCode ( ),
-          semantic ( ).getSortFormFunctionCode ( ),
-          semantic ( ).getSortFormSkipInFilingCode ( ));
+        new SortFormParameters(
+          semantic().getSortFormMainTypeCode(),
+          semantic().getSortFormSubTypeCode(),
+          semantic().getSortFormTypeCode(),
+          semantic().getSortFormFunctionCode(),
+          semantic().getSortFormSkipInFilingCode());
 
       final String sf =
-        new NameDescriptorDAO ( )
-          .calculateSortForm (preProcessWildCards, sortFormP, session)
-          .replace ('\u0002', '%')
-          .replace ('\u0003', '_');
+        new NameDescriptorDAO()
+          .calculateSortForm(preProcessWildCards, sortFormP, session)
+          .replace('\u0002', '%')
+          .replace('\u0003', '_');
 
-      switch (semantic ( ).getQueryActionCode ( )) {
+      switch (semantic().getQueryActionCode()) {
         case "T":
         case "W":
-          return String.format (semantic ( ).getWhereClause ( ), sf);
+          return String.format(semantic().getWhereClause(), sf);
         case "TT":
         case "WW":
-          return String.format (semantic ( ).getWhereClause ( ), sf, sf);
+          return String.format(semantic().getWhereClause(), sf, sf);
         case "TTT":
-          return String.format (semantic ( ).getWhereClause ( ), sf, sf, sf);
+          return String.format(semantic().getWhereClause(), sf, sf, sf);
         case "TTTT":
-          return String.format (semantic ( ).getWhereClause ( ), sf, sf, sf, sf);
+          return String.format(semantic().getWhereClause(), sf, sf, sf, sf);
         case "TTTTTTT":
-          return String.format (semantic ( ).getWhereClause ( ), sf, sf, sf, sf, sf, sf, sf);
+          return String.format(semantic().getWhereClause(), sf, sf, sf, sf, sf, sf, sf);
         case "TO":
-          return String.format (semantic ( ).getWhereClause ( ), sf, mainLibraryId);
+          return String.format(semantic().getWhereClause(), sf, mainLibraryId);
         case "TTO":
-          return String.format (semantic ( ).getWhereClause ( ), sf, sf, mainLibraryId);
+          return String.format(semantic().getWhereClause(), sf, sf, mainLibraryId);
         default:
           return null;
       }
     } catch (final Exception e) {
-      throw new CclParserException ("Invalid term found in query");
+      throw new CclParserException("Invalid term found in query");
     }
   }
 
@@ -170,9 +170,9 @@ public class TermExpressionNode implements ExpressionNode {
 
   String getInnerJoinValue() {
     try {
-      return prepareTerm ( );
+      return prepareTerm();
     } catch (final Exception exception) {
-      logger.error (MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
       return null;
     }
   }
@@ -180,28 +180,28 @@ public class TermExpressionNode implements ExpressionNode {
   S_BIB1_SMNTC semantic() throws DataAccessException {
     try {
       if (semantic == null) {
-        semantic = new SemanticDAO ( )
-          .getSemanticEntry (
+        semantic = new SemanticDAO()
+          .getSemanticEntry(
             session,
-            index.getUseAttribute ( ),
-            relationAsAttr ( ),
-            positionAsAttr ( ),
-            structureAsAttr ( ),
-            truncationAsAttr ( ),
-            completenessAsAddr ( ),
-            getRecordType ( ));
+            index.getUseAttribute(),
+            relationAsAttr(),
+            positionAsAttr(),
+            structureAsAttr(),
+            truncationAsAttr(),
+            completenessAsAddr(),
+            getRecordType());
       }
       return semantic;
     } catch (final Exception exception) {
-      logger.error (MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-      throw new DataAccessException (exception);
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
     }
   }
 
   private short getRecordType() {
-    if (getSearchingView ( ) >= 0) {
+    if (getSearchingView() >= 0) {
       return 1;
-    } else if (getSearchingView ( ) == -1) {
+    } else if (getSearchingView() == -1) {
       return 0;
     } else { // MADES
       return 3;
@@ -209,7 +209,7 @@ public class TermExpressionNode implements ExpressionNode {
   }
 
   private int structureAsAttr() {
-    int result = index.getStructureAttribute ( );
+    int result = index.getStructureAttribute();
     if (result == 0) {
       result = 1;
     }
@@ -217,9 +217,9 @@ public class TermExpressionNode implements ExpressionNode {
   }
 
   private int positionAsAttr() {
-    int result = index.getPositionAttribute ( );
+    int result = index.getPositionAttribute();
     if (result == 0) {
-      if (index.getStructureAttribute ( ) == 2) {
+      if (index.getStructureAttribute() == 2) {
         result = 3;
       } else {
         result = 1;
@@ -248,8 +248,8 @@ public class TermExpressionNode implements ExpressionNode {
   private int truncationAsAttr() {
     // note that term has an appended blank
     int result = 100;
-    if (term.lastIndexOf ("?") == term.length ( ) - 1) {
-      term.deleteCharAt (term.length ( ) - 1);
+    if (term.lastIndexOf("?") == term.length() - 1) {
+      term.deleteCharAt(term.length() - 1);
       return 1; // right truncation
     }
 
@@ -257,9 +257,9 @@ public class TermExpressionNode implements ExpressionNode {
   }
 
   private int completenessAsAddr() {
-    int result = index.getCompletenessAttribute ( );
-    if (term.lastIndexOf ("!") == term.length ( ) - 1) {
-      term.deleteCharAt (term.length ( ) - 1);
+    int result = index.getCompletenessAttribute();
+    if (term.lastIndexOf("!") == term.length() - 1) {
+      term.deleteCharAt(term.length() - 1);
       result = 3;
     }
     if (result == 0) {
@@ -269,7 +269,7 @@ public class TermExpressionNode implements ExpressionNode {
   }
 
   void appendToTerm(final String sequence) {
-    term.append (sequence);
+    term.append(sequence);
   }
 
   void setRelation(final String sequence) {
@@ -283,8 +283,8 @@ public class TermExpressionNode implements ExpressionNode {
   boolean isType2Index() {
     S_BIB1_SMNTC semantic;
     try {
-      semantic = semantic ( );
-      return semantic != null && semantic ( ).getSecondaryIndexCode ( ) == (byte) 2;
+      semantic = semantic();
+      return semantic != null && semantic().getSecondaryIndexCode() == (byte) 2;
     } catch (Exception e) {
       return false;
     }
@@ -292,21 +292,21 @@ public class TermExpressionNode implements ExpressionNode {
 
   private String viewClause() {
     String viewClause = "";
-    if (getSearchingView ( ) != 0 && semantic ( ).getViewClause ( ) != null && !"".equals (semantic ( ).getViewClause ( ))) {
-      if (getSearchingView ( ) < -1) {
-        viewClause = String.format (" AND (%s.mad_usr_vw_cde = %d)", semantic ( ).getViewClause ( ), getSearchingView ( ));
-      } else if (semantic ( ).getPositionNumber ( ) == 3 && semantic ( ).isFullText ( )) {
-        viewClause = String.format (" AND (%s.usr_vw_cde = %d)", semantic ( ).getViewClause ( ), getSearchingView ( ));
+    if (getSearchingView() != 0 && semantic().getViewClause() != null && !"".equals(semantic().getViewClause())) {
+      if (getSearchingView() < -1) {
+        viewClause = String.format(" AND (%s.mad_usr_vw_cde = %d)", semantic().getViewClause(), getSearchingView());
+      } else if (semantic().getPositionNumber() == 3 && semantic().isFullText()) {
+        viewClause = String.format(" AND (%s.usr_vw_cde = %d)", semantic().getViewClause(), getSearchingView());
       } else {
-        viewClause = String.format (" AND (SUBSTR(%s.usr_vw_ind, %d, 1) = '1')", semantic ( ).getViewClause ( ), getSearchingView ( ));
+        viewClause = String.format(" AND (SUBSTR(%s.usr_vw_ind, %d, 1) = '1')", semantic().getViewClause(), getSearchingView());
       }
     }
     return viewClause;
   }
 
   private void removeTrailingBlankInTerm() {
-    if (term.length ( ) > 0 && term.charAt (term.length ( ) - 1) == ' ') {
-      term.deleteCharAt (term.length ( ) - 1);
+    if (term.length() > 0 && term.charAt(term.length() - 1) == ' ') {
+      term.deleteCharAt(term.length() - 1);
     }
   }
 }

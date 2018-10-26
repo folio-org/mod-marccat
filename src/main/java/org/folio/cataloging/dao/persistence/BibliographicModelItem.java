@@ -20,6 +20,6 @@ public class BibliographicModelItem extends ModelItem implements Persistence, Se
    * @return the dao
    */
   public BibliographicModelItemDAO getDAO() {
-    return new BibliographicModelItemDAO ( );
+    return new BibliographicModelItemDAO();
   }
 }

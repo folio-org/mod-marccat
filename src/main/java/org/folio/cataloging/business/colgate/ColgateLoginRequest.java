@@ -18,7 +18,7 @@ import java.io.IOException;
  * @author paulm
  */
 public class ColgateLoginRequest extends SocketMessage {
-  static private Log logger = LogFactory.getLog (ColgateLoginRequest.class);
+  static private Log logger = LogFactory.getLog(ColgateLoginRequest.class);
   static private byte[] type = {56};
   private byte[] name;
   private byte[] password;
@@ -30,8 +30,8 @@ public class ColgateLoginRequest extends SocketMessage {
    * @param password - byte array of md5 hex representation of password
    */
   public ColgateLoginRequest(byte[] name, byte[] password) {
-    setName (name);
-    setPassword (password);
+    setName(name);
+    setPassword(password);
   }
 
 
@@ -42,8 +42,8 @@ public class ColgateLoginRequest extends SocketMessage {
    * @param clearPassword - string representing the clear text of the user's password
    */
   public ColgateLoginRequest(String name, String clearPassword) {
-    setName (Colgate.asIsoByte (name));
-    setPassword (Colgate.encryptPassword (clearPassword));
+    setName(Colgate.asIsoByte(name));
+    setPassword(Colgate.encryptPassword(clearPassword));
   }
 
   /**
@@ -64,7 +64,7 @@ public class ColgateLoginRequest extends SocketMessage {
    * set the name member (pads to length 33)
    */
   public void setName(byte[] name) {
-    this.name = SocketMessage.pad (name, 33);
+    this.name = SocketMessage.pad(name, 33);
   }
 
   /**
@@ -78,7 +78,7 @@ public class ColgateLoginRequest extends SocketMessage {
    * set the password member (pads to length 33)
    */
   public void setPassword(byte[] password) {
-    this.password = SocketMessage.pad (password, 33);
+    this.password = SocketMessage.pad(password, 33);
   }
 
   /* (non-Javadoc)
@@ -86,12 +86,12 @@ public class ColgateLoginRequest extends SocketMessage {
    */
   public byte[] asByteArray()
     throws IOException {
-    ByteArrayOutputStream s = new ByteArrayOutputStream ( );
+    ByteArrayOutputStream s = new ByteArrayOutputStream();
 
-    s.write (getType ( ));
-    s.write (getName ( ));
-    s.write (getPassword ( ));
-    return s.toByteArray ( );
+    s.write(getType());
+    s.write(getName());
+    s.write(getPassword());
+    return s.toByteArray();
   }
 
   /* (non-Javadoc)

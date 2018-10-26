@@ -23,12 +23,12 @@ public class UserGroupKey implements Serializable {
    * Class constructor
    */
   public UserGroupKey() {
-    super ( );
+    super();
   }
 
   public UserGroupKey(int userNumber, int groupNumber) {
-    this.setUserNumber (userNumber);
-    this.setGroupNumber (groupNumber);
+    this.setUserNumber(userNumber);
+    this.setGroupNumber(groupNumber);
   }
 
   /**
@@ -39,8 +39,8 @@ public class UserGroupKey implements Serializable {
     if (anObject instanceof UserGroupKey) {
       UserGroupKey aKey = (UserGroupKey) anObject;
       return (
-        userNumber == aKey.getUserNumber ( )
-          && groupNumber == aKey.getGroupNumber ( ));
+        userNumber == aKey.getUserNumber()
+          && groupNumber == aKey.getGroupNumber());
     } else {
       return false;
     }

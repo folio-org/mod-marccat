@@ -24,21 +24,21 @@ public class DAOSortResultSets extends HibernateUtil {
     String[] attributes,
     String[] directions)
     throws DataAccessException {
-    final String orderBy = buildOrderByClause (attributes, directions);
+    final String orderBy = buildOrderByClause(attributes, directions);
     /*
      * We use a transaction here to ensure that a commit is NOT done after the
      * insert (since this would delete the rows just inserted).  And also to ensure
      * that the inserted rows are removed before the next sort
      */
-    new TransactionalHibernateOperation ( ) {
+    new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
         throws DataAccessException, HibernateException {
         SearchResponse sortedResults;
-        insertResults (rs);
-        doSort (orderBy, rs);
+        insertResults(rs);
+        doSort(orderBy, rs);
       }
     }
-      .execute (session);
+      .execute(session);
   }
 
   private void doSort(
@@ -46,16 +46,16 @@ public class DAOSortResultSets extends HibernateUtil {
     final SearchResponse rs)
     throws DataAccessException {
 
-    new TransactionalHibernateOperation ( ) {
+    new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
         throws HibernateException, DataAccessException {
-        Connection connection = s.connection ( );
+        Connection connection = s.connection();
         PreparedStatement stmt = null;
         java.sql.ResultSet js = null;
         try {
 
           stmt =
-            connection.prepareStatement (
+            connection.prepareStatement(
               "select bib_itm_nbr "
                 + "from (select bib_itm_nbr, TTL_HDG_MAIN_SRT_FORM, "
                 + "MAIN_ENTRY_SRT_FORM, "
@@ -67,67 +67,67 @@ public class DAOSortResultSets extends HibernateUtil {
                 + ",s_srch_srt_rslts "
                 + "where bib_itm_nbr = itm_nbr and "
                 + "trstn_vw_nbr = "
-                + rs.getSearchingView ( ) + " "
+                + rs.getSearchingView() + " "
                 + orderBy
                 + ")");
 
-          js = stmt.executeQuery ( );
+          js = stmt.executeQuery();
 
-          while (js.next ( )) {
-            rs.getIdSet ( )[js.getRow ( ) - 1] = js.getInt (1);
+          while (js.next()) {
+            rs.getIdSet()[js.getRow() - 1] = js.getInt(1);
           }
         } catch (SQLException e) {
-          throw new DataAccessException ( );
+          throw new DataAccessException();
         } finally {
           if (js != null) {
             try {
-              js.close ( );
+              js.close();
             } catch (SQLException e) {
             }
           }
           if (stmt != null) {
             try {
-              stmt.close ( );
+              stmt.close();
             } catch (SQLException e) {
             }
           }
         }
       }
     }
-      .execute ( );
+      .execute();
   }
 
 
   private void insertResults(final SearchResponse rs)
     throws DataAccessException {
-    new TransactionalHibernateOperation ( ) {
+    new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
         throws HibernateException, DataAccessException {
-        Connection connection = s.connection ( );
+        Connection connection = s.connection();
         PreparedStatement stmt = null;
         int[] iNoRows = null;
 
         try {
-          stmt = connection.prepareStatement (
+          stmt = connection.prepareStatement(
             "INSERT INTO S_SRCH_SRT_RSLTS VALUES(?)");
-          for ( int i = 0; i < rs.getIdSet ( ).length; i++ ) {
-            stmt.setInt (1, rs.getIdSet ( )[i]);
-            stmt.addBatch ( );
+          for (int i = 0; i < rs.getIdSet().length; i++) {
+            stmt.setInt(1, rs.getIdSet()[i]);
+            stmt.addBatch();
           }
-          iNoRows = stmt.executeBatch ( );
+          iNoRows = stmt.executeBatch();
         } catch (SQLException e) {
-          throw new DataAccessException ( );
+          throw new DataAccessException();
         } finally {
           if (stmt != null) {
             try {
-              stmt.close ( );
+              stmt.close();
             } catch (SQLException e) {
             }
           }
         }
       }
     }
-      .execute ( );
+      .execute();
   }
 
 
@@ -138,11 +138,11 @@ public class DAOSortResultSets extends HibernateUtil {
   private String buildOrderByClause(
     String[] attributes,
     String[] directions) {
-    StringBuffer buf = new StringBuffer ( );
+    StringBuffer buf = new StringBuffer();
     int column;
-    buf.append (" ORDER BY ");
-    for ( int i = 0; i < attributes.length; i++ ) {
-      switch (Integer.parseInt (attributes[i])) {
+    buf.append(" ORDER BY ");
+    for (int i = 0; i < attributes.length; i++) {
+      switch (Integer.parseInt(attributes[i])) {
         case 4:
           column = 2;
           break;
@@ -171,13 +171,13 @@ public class DAOSortResultSets extends HibernateUtil {
       }
 
       if (column == 8)
-        buf.append (" UPPER(TTL_HDG_SRS_STRNG_TXT),TTL_VOL_NBR_1_DSC ");
+        buf.append(" UPPER(TTL_HDG_SRS_STRNG_TXT),TTL_VOL_NBR_1_DSC ");
       else
-        buf.append (column + " ");
-      buf.append (directions[i].equals ("0") ? "asc" : "desc");
-      buf.append (", ");
+        buf.append(column + " ");
+      buf.append(directions[i].equals("0") ? "asc" : "desc");
+      buf.append(", ");
     }
-    buf.deleteCharAt (buf.lastIndexOf (",")); // remove trailing comma
-    return buf.toString ( );
+    buf.deleteCharAt(buf.lastIndexOf(",")); // remove trailing comma
+    return buf.toString();
   }
 }

@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
  * @since 1.0
  */
 public abstract class F {
-  private final static Log LOGGER = new Log (F.class);
+  private final static Log LOGGER = new Log(F.class);
   private final static String[] EMPTY_ARRAY = {};
   private final static int[] EMPTY_INT_ARRAY = {};
 
@@ -36,7 +36,7 @@ public abstract class F {
    * @return the same input, if this is not null, otherwise an empty immutable array.
    */
   public static <T> List <T> safe(final List <T> values) {
-    return values != null ? values : Collections.emptyList ( );
+    return values != null ? values : Collections.emptyList();
   }
 
   /**
@@ -67,12 +67,12 @@ public abstract class F {
    * @return the padded string.
    */
   public static String fixedCharPadding(String toPad, int padLength) {
-    toPad = toPad.trim ( ).replaceFirst ("^0+", "");
-    StringBuilder builder = new StringBuilder (toPad);
-    for ( int index = 0, howManyTimes = (padLength - toPad.length ( )); index < howManyTimes; index++ ) {
-      builder.append (" ");
+    toPad = toPad.trim().replaceFirst("^0+", "");
+    StringBuilder builder = new StringBuilder(toPad);
+    for (int index = 0, howManyTimes = (padLength - toPad.length()); index < howManyTimes; index++) {
+      builder.append(" ");
     }
-    return builder.toString ( );
+    return builder.toString();
   }
 
 
@@ -84,7 +84,7 @@ public abstract class F {
    * @return the string representing number.
    */
   public static String padNumber(final String charToAdd, final int howManyChar, final int number) {
-    return String.format ("%" + charToAdd + howManyChar + "d", number);
+    return String.format("%" + charToAdd + howManyChar + "d", number);
   }
 
   /**
@@ -94,7 +94,7 @@ public abstract class F {
    * @return true if the given string is not null or empty.
    */
   public static boolean isNotNullOrEmpty(final String value) {
-    return value != null && value.trim ( ).length ( ) != 0;
+    return value != null && value.trim().length() != 0;
   }
 
   public static boolean isNotNull(final String value) {
@@ -108,7 +108,7 @@ public abstract class F {
    * @return the locale associated with the given code, Locale#ENGLISH in case the code is empty or null.
    */
   public static Locale locale(final String code) {
-    return isNotNullOrEmpty (code) ? Locale.forLanguageTag (code) : Locale.ENGLISH;
+    return isNotNullOrEmpty(code) ? Locale.forLanguageTag(code) : Locale.ENGLISH;
   }
 
   /**
@@ -125,17 +125,17 @@ public abstract class F {
    * @return a copy of the object, or null if the object cannot be serialized.
    */
   public static Object deepCopy(final Object orig) {
-    try (final ByteArrayOutputStream bos = new ByteArrayOutputStream ( );
-         final ObjectOutputStream out = new ObjectOutputStream (bos)) {
+    try (final ByteArrayOutputStream bos = new ByteArrayOutputStream();
+         final ObjectOutputStream out = new ObjectOutputStream(bos)) {
 
-      out.writeObject (orig);
-      out.flush ( );
-      out.close ( );
+      out.writeObject(orig);
+      out.flush();
+      out.close();
 
-      final ObjectInputStream in = new ObjectInputStream (new ByteArrayInputStream (bos.toByteArray ( )));
-      return in.readObject ( );
+      final ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(bos.toByteArray()));
+      return in.readObject();
     } catch (final Exception exception) {
-      LOGGER.error (MessageCatalog._00013_IO_FAILURE, exception);
+      LOGGER.error(MessageCatalog._00013_IO_FAILURE, exception);
       return null;
     }
   }
@@ -147,19 +147,19 @@ public abstract class F {
    * @return the string version of the incoming object, or null.
    */
   public static String asNullableString(final Object obj) {
-    return (obj != null) ? String.valueOf (obj) : null;
+    return (obj != null) ? String.valueOf(obj) : null;
   }
 
   public static Character characterFromXML(String s) {
-    if (s.length ( ) == 0) {
+    if (s.length() == 0) {
       return null;
     } else {
-      return s.charAt (0);
+      return s.charAt(0);
     }
   }
 
   public static String stringFromXML(String s) {
-    if (s.length ( ) == 0) {
+    if (s.length() == 0) {
       return null;
     } else {
       return s;
@@ -167,13 +167,13 @@ public abstract class F {
   }
 
   public static String getFormattedToday(final String formatString) {
-    final DateTimeFormatter formatter = DateTimeFormatter.ofPattern (formatString);
-    return LocalDateTime.now ( ).format (formatter);
+    final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formatString);
+    return LocalDateTime.now().format(formatter);
   }
 
   public static LocalDateTime getFormattedDate(final String formatString, String dateToFormat) {
-    final DateTimeFormatter formatter = DateTimeFormatter.ofPattern (formatString);
-    return LocalDateTime.parse (dateToFormat, formatter);
+    final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formatString);
+    return LocalDateTime.parse(dateToFormat, formatter);
   }
 
   /**
@@ -183,7 +183,7 @@ public abstract class F {
    * @return fixed string.
    */
   public static String fixEmptyFlag(final String flag) {
-    return GlobalStorage.YES_FLAG.equalsIgnoreCase (flag) ? flag.toUpperCase ( ) : GlobalStorage.NO_FLAG;
+    return GlobalStorage.YES_FLAG.equalsIgnoreCase(flag) ? flag.toUpperCase() : GlobalStorage.NO_FLAG;
   }
 
   /**
@@ -194,13 +194,13 @@ public abstract class F {
    * @return list of string.
    */
   public static List <String> splitString(final String inputString, final int lineSize) {
-    List <String> result = new ArrayList <> ( );
+    List <String> result = new ArrayList <>();
 
-    Pattern p = Pattern.compile ("\\b.{1," + (lineSize - 1) + "}\\b\\W?");
-    Matcher m = p.matcher (inputString);
+    Pattern p = Pattern.compile("\\b.{1," + (lineSize - 1) + "}\\b\\W?");
+    Matcher m = p.matcher(inputString);
 
-    while (m.find ( )) {
-      result.add (m.group ( ));
+    while (m.find()) {
+      result.add(m.group());
     }
     return result;
   }

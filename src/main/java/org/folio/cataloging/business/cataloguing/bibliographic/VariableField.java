@@ -25,7 +25,7 @@ public abstract class VariableField extends Tag {
    * @since 1.0
    */
   public VariableField() {
-    super ( );
+    super();
   }
 
   /**
@@ -34,7 +34,7 @@ public abstract class VariableField extends Tag {
    * @since 1.0
    */
   public VariableField(final int itemNumber) {
-    super (itemNumber);
+    super(itemNumber);
   }
 
 
@@ -126,10 +126,10 @@ public abstract class VariableField extends Tag {
    * @return an element content.
    */
   public Element generateModelXmlElementContent(final Document xmlDocument) {
-    return ofNullable (xmlDocument).map (content -> {
-      Element element = getStringText ( ).generateModelXmlElementContent (xmlDocument);
+    return ofNullable(xmlDocument).map(content -> {
+      Element element = getStringText().generateModelXmlElementContent(xmlDocument);
       return element;
-    }).orElse (null);
+    }).orElse(null);
   }
 
   /**
@@ -138,7 +138,7 @@ public abstract class VariableField extends Tag {
    * @param xmlElement -- the xml element content.
    */
   public void parseModelXmlElementContent(final Element xmlElement) {
-    setStringText (StringText.parseModelXmlElementContent (xmlElement));
+    setStringText(StringText.parseModelXmlElementContent(xmlElement));
   }
 
   /**
@@ -147,7 +147,7 @@ public abstract class VariableField extends Tag {
    * @return boolean.
    */
   public boolean isEmpty() {
-    return getStringText ( ) == null || getStringText ( ).isEmpty ( );
+    return getStringText() == null || getStringText().isEmpty();
   }
 
 }

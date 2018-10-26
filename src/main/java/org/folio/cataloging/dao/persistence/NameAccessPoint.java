@@ -26,14 +26,14 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag, E
   private String workRelatorStringtext;
   private String otherSubfields;
   private Integer sequenceNumber;
-  private NME_HDG descriptor = new NME_HDG ( );
+  private NME_HDG descriptor = new NME_HDG();
 
   public NameAccessPoint() {
-    super ( );
+    super();
   }
 
   public NameAccessPoint(final int itemNbr) {
-    super (itemNbr);
+    super(itemNbr);
   }
 
   /**
@@ -88,7 +88,7 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag, E
    */
   public void setSequenceNumber(final Integer sequenceNbr) {
     sequenceNumber = sequenceNbr;
-    super.setSequenceNumber (sequenceNumber);
+    super.setSequenceNumber(sequenceNumber);
   }
 
   /**
@@ -137,13 +137,13 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag, E
     if (!(obj instanceof NameAccessPoint))
       return false;
     NameAccessPoint other = (NameAccessPoint) obj;
-    return super.equals (obj)
-      && (other.getFunctionCode ( ) == this.getFunctionCode ( ))
+    return super.equals(obj)
+      && (other.getFunctionCode() == this.getFunctionCode())
       && (other.nameTitleHeadingNumber == this.nameTitleHeadingNumber);
   }
 
   public int hashCode() {
-    return this.getItemNumber ( ) + this.getNameTitleHeadingNumber ( );
+    return this.getItemNumber() + this.getNameTitleHeadingNumber();
   }
 
   /**
@@ -171,7 +171,7 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag, E
    * @return boolean.
    */
   public boolean correlationChangeAffectsKey(final CorrelationValues v) {
-    return (v.isValueDefined (3) && (v.getValue (3) != getFunctionCode ( )));
+    return (v.isValueDefined(3) && (v.getValue(3) != getFunctionCode()));
   }
 
   /**
@@ -189,7 +189,7 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag, E
    * @return correlationValues.
    */
   public CorrelationValues getCorrelationValues() {
-    return getDescriptor ( ).getCorrelationValues ( ).change (3, getFunctionCode ( ));
+    return getDescriptor().getCorrelationValues().change(3, getFunctionCode());
   }
 
   /**
@@ -198,8 +198,8 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag, E
    * @param v -- the correlation values to set.
    */
   public void setCorrelationValues(CorrelationValues v) {
-    setFunctionCode (v.getValue (3));
-    getDescriptor ( ).setCorrelationValues (v);
+    setFunctionCode(v.getValue(3));
+    getDescriptor().setCorrelationValues(v);
   }
 
   /**
@@ -217,10 +217,10 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag, E
    * @return stringText.
    */
   public StringText getAccessPointStringText() {
-    final StringText text = new StringText (workRelatorStringtext);
-    text.parse (otherSubfields);
-    text.parse (workRelatorCode);
-    text.parse (institution);
+    final StringText text = new StringText(workRelatorStringtext);
+    text.parse(otherSubfields);
+    text.parse(workRelatorCode);
+    text.parse(institution);
     return text;
   }
 
@@ -230,10 +230,10 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag, E
    * @param stringText -- the stringText to set.
    */
   public void setAccessPointStringText(final StringText stringText) {
-    workRelatorStringtext = stringText.getSubfieldsWithCodes (GlobalStorage.NAME_WORK_REL_STRING_TEXT_SUBFIELD_CODES).toString ( );
-    otherSubfields = stringText.getSubfieldsWithCodes (GlobalStorage.NAME_OTHER_SUBFIELD_CODES).toString ( );
-    workRelatorCode = stringText.getSubfieldsWithCodes (GlobalStorage.WORK_REL_SUBFIELD_CODE).toString ( );
-    institution = stringText.getSubfieldsWithCodes (GlobalStorage.NAME_TITLE_INSTITUTION_SUBFIELD_CODE).toString ( );
+    workRelatorStringtext = stringText.getSubfieldsWithCodes(GlobalStorage.NAME_WORK_REL_STRING_TEXT_SUBFIELD_CODES).toString();
+    otherSubfields = stringText.getSubfieldsWithCodes(GlobalStorage.NAME_OTHER_SUBFIELD_CODES).toString();
+    workRelatorCode = stringText.getSubfieldsWithCodes(GlobalStorage.WORK_REL_SUBFIELD_CODE).toString();
+    institution = stringText.getSubfieldsWithCodes(GlobalStorage.NAME_TITLE_INSTITUTION_SUBFIELD_CODE).toString();
   }
 
   /**
@@ -242,7 +242,7 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag, E
    * @param stringText -- the string text to set.
    */
   public void setDescriptorStringText(final StringText stringText) {
-    getDescriptor ( ).setStringText (stringText.getSubfieldsWithoutCodes (GlobalStorage.NAME_VARIANT_SUBFIELD_CODES).toString ( ));
+    getDescriptor().setStringText(stringText.getSubfieldsWithoutCodes(GlobalStorage.NAME_VARIANT_SUBFIELD_CODES).toString());
   }
 
   /**
@@ -252,14 +252,14 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag, E
    * @throws DataAccessException in case of data access exception.
    */
   public String getKey() throws DataAccessException {
-    if (getMarcEncoding ( ).getMarcTag ( ).equals ("700"))
-      return "100" + "." + getCorrelation (2);
-    else if (getMarcEncoding ( ).getMarcTag ( ).equals ("710"))
-      return "110" + "." + getCorrelation (2);
-    else if (getMarcEncoding ( ).getMarcTag ( ).equals ("711"))
-      return "111" + "." + getCorrelation (2);
+    if (getMarcEncoding().getMarcTag().equals("700"))
+      return "100" + "." + getCorrelation(2);
+    else if (getMarcEncoding().getMarcTag().equals("710"))
+      return "110" + "." + getCorrelation(2);
+    else if (getMarcEncoding().getMarcTag().equals("711"))
+      return "111" + "." + getCorrelation(2);
     else
-      return getMarcEncoding ( ).getMarcTag ( ) + "." + getCorrelation (2);
+      return getMarcEncoding().getMarcTag() + "." + getCorrelation(2);
   }
 
   //TODO: move in storageService and add session
@@ -296,12 +296,12 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag, E
    * @return stringText.
    */
   public StringText getStringText() {
-    final StringText result = new StringText ( );
-    result.add (getAccessPointStringText ( ).getSubfieldsWithCodes ("i"));
-    if (getDescriptor ( ) != null) {
-      result.parse (getDescriptor ( ).getStringText ( ));
+    final StringText result = new StringText();
+    result.add(getAccessPointStringText().getSubfieldsWithCodes("i"));
+    if (getDescriptor() != null) {
+      result.parse(getDescriptor().getStringText());
     }
-    result.add (getAccessPointStringText ( ).getSubfieldsWithoutCodes ("i"));
+    result.add(getAccessPointStringText().getSubfieldsWithoutCodes("i"));
     return result;
   }
 }

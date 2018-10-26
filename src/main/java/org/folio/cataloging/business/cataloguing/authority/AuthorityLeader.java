@@ -17,23 +17,23 @@ public class AuthorityLeader extends Leader {
    * @since 1.0
    */
   public AuthorityLeader() {
-    setHeaderField (new AuthorityHeaderFieldHelper ( ));
-    setHeaderType (9);
+    setHeaderField(new AuthorityHeaderFieldHelper());
+    setHeaderType(9);
   }
 
   @Override
   public Element generateModelXmlElementContent(Document xmlDocument) {
     Element content = null;
     if (xmlDocument != null) {
-      content = xmlDocument.createElement ("content");
-      content.setAttribute ("recordStatusCode", "" + getRecordStatusCode ( ));
-      content.setAttribute ("ENCODING_LEVEL", "" + getEncodingLevel ( ));
+      content = xmlDocument.createElement("content");
+      content.setAttribute("recordStatusCode", "" + getRecordStatusCode());
+      content.setAttribute("ENCODING_LEVEL", "" + getEncodingLevel());
     }
     return content;
   }
 
   private AUT getAutItm() {
-    return (AUT) getItemEntity ( );
+    return (AUT) getItemEntity();
   }
 
   @Override
@@ -41,33 +41,33 @@ public class AuthorityLeader extends Leader {
     String result = "00000";
     result =
       result
-        + getRecordStatusCode ( )
+        + getRecordStatusCode()
         + "z   2200000"
-        + getEncodingLevel ( )
+        + getEncodingLevel()
         + "  4500";
     return result;
   }
 
   public char getEncodingLevel() {
-    return getAutItm ( ).getEncodingLevel ( );
+    return getAutItm().getEncodingLevel();
   }
 
   public void setEncodingLevel(char c) {
-    getAutItm ( ).setEncodingLevel (c);
+    getAutItm().setEncodingLevel(c);
   }
 
   public char getRecordStatusCode() {
-    return getAutItm ( ).getRecordStatusCode ( );
+    return getAutItm().getRecordStatusCode();
   }
 
   public void setRecordStatusCode(char c) {
-    getAutItm ( ).setRecordStatusCode (c);
+    getAutItm().setRecordStatusCode(c);
   }
 
   @Override
   public void parseModelXmlElementContent(Element xmlElement) {
-    final Element content = (Element) xmlElement.getChildNodes ( ).item (0);
-    setRecordStatusCode (content.getAttribute ("recordStatusCode").charAt (0));
-    setEncodingLevel (content.getAttribute ("ENCODING_LEVEL").charAt (0));
+    final Element content = (Element) xmlElement.getChildNodes().item(0);
+    setRecordStatusCode(content.getAttribute("recordStatusCode").charAt(0));
+    setEncodingLevel(content.getAttribute("ENCODING_LEVEL").charAt(0));
   }
 }

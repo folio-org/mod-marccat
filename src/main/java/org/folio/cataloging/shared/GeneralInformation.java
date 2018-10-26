@@ -92,9 +92,9 @@ public class GeneralInformation {
    * @param s -- the input string.
    */
   private String leftJustify(final String s) {
-    return ofNullable (s).map (v -> stream (s.split ("")).filter (character -> !" ".equals (character)).collect (joining ( )))
-      .map (result -> StringUtils.leftPad (result, s.length ( ) - result.length ( ), ' '))
-      .orElse ("    ");
+    return ofNullable(s).map(v -> stream(s.split("")).filter(character -> !" ".equals(character)).collect(joining()))
+      .map(result -> StringUtils.leftPad(result, s.length() - result.length(), ' '))
+      .orElse("    ");
   }
 
   /**
@@ -103,48 +103,48 @@ public class GeneralInformation {
    * @param configuration the map that contains configuration values to set.
    */
   public void setDefaultValues(final Map <String, String> configuration) {
-    setRecordModifiedCode (" ");
-    setRecordCataloguingSourceCode (configuration.get ("bibliographicItem.recordCataloguingSourceCode"));
-    setItemDateTypeCode (configuration.get ("bibliographicItem.itemDateTypeCode"));
-    setLanguageCode (configuration.get ("bibliographicItem.languageCode"));
-    setItemDateFirstPublication (Global.ITEM_DATE_FIRST_PUBLICATION);
-    setItemDateLastPublication (Global.ITEM_DATE_LAST_PUBLICATION);
-    setMarcCountryCode (configuration.get ("bibliographicItem.marcCountryCode"));
+    setRecordModifiedCode(" ");
+    setRecordCataloguingSourceCode(configuration.get("bibliographicItem.recordCataloguingSourceCode"));
+    setItemDateTypeCode(configuration.get("bibliographicItem.itemDateTypeCode"));
+    setLanguageCode(configuration.get("bibliographicItem.languageCode"));
+    setItemDateFirstPublication(Global.ITEM_DATE_FIRST_PUBLICATION);
+    setItemDateLastPublication(Global.ITEM_DATE_LAST_PUBLICATION);
+    setMarcCountryCode(configuration.get("bibliographicItem.marcCountryCode"));
 
-    setBookIllustrationCode (configuration.get ("material.bookIllustrationCode"));
-    setTargetAudienceCode (configuration.get ("material.targetAudienceCode"));
-    setFormOfItemCode (configuration.get ("material.formOfItemCode"));
-    setNatureOfContentsCode (configuration.get ("material.natureOfContentsCode"));
-    setConferencePublicationCode (configuration.get ("material.conferencePublicationCode"));
-    setBookFestschrift (configuration.get ("material.bookFestschrift"));
-    setBookIndexAvailabilityCode (configuration.get ("material.bookIndexAvailabilityCode"));
-    setBookLiteraryFormTypeCode (configuration.get ("material.bookLiteraryFormTypeCode"));
-    setBookBiographyCode (configuration.get ("material.bookBiographyCode"));
-    setGovernmentPublicationCode (configuration.get ("material.governmentPublicationCode"));
-    setComputerTargetAudienceCode (configuration.get ("material.targetAudienceCode"));
-    setComputerFileTypeCode (configuration.get ("material.computerFileTypeCode"));
-    setComputerFileFormCode (configuration.get ("material.computerFileFormCode"));
-    setCartographicIndexAvailabilityCode ("0");
-    setCartographicReliefCode (configuration.get ("material.cartographicReliefCode"));
-    setCartographicProjectionCode (configuration.get ("material.cartographicProjectionCode"));
-    setCartographicMaterial (configuration.get ("material.cartographicMaterial"));
-    setCartographicFormatCode (configuration.get ("material.cartographicFormatCode"));
-    setMusicFormOfCompositionCode (configuration.get ("material.musicFormOfCompositionCode"));
-    setMusicFormatCode (configuration.get ("material.musicFormatCode"));
-    setMusicTextualMaterialCode (configuration.get ("material.musicTextualMaterialCode"));
-    setMusicLiteraryTextCode (configuration.get ("material.musicLiteraryTextCode"));
-    setMusicPartsCode (configuration.get ("material.musicPartsCode"));
-    setMusicTranspositionArrangementCode (configuration.get ("material.musicTranspositionArrangementCode"));
-    setSerialFrequencyCode (configuration.get ("material.serialFrequencyCode"));
-    setSerialRegularityCode (configuration.get ("material.serialRegularityCode"));
-    setSerialTypeCode (configuration.get ("material.serialTypeCode"));
-    setSerialFormOriginalItemCode (configuration.get ("material.formOfItemCode"));
-    setSerialOriginalAlphabetOfTitleCode (configuration.get ("material.serialOriginalAlphabetOfTitleCode"));
-    setSerialEntryConventionCode (configuration.get ("material.serialSuccessiveLatestCode"));
-    setVisualRunningTime (configuration.get ("material.visualRunningTime"));
-    setVisualTargetAudienceCode (configuration.get ("material.targetAudienceCode"));
-    setVisualMaterialTypeCode (configuration.get ("material.visualMaterialTypeCode"));
-    setVisualTechniqueCode (configuration.get ("material.visualTechniqueCode"));
+    setBookIllustrationCode(configuration.get("material.bookIllustrationCode"));
+    setTargetAudienceCode(configuration.get("material.targetAudienceCode"));
+    setFormOfItemCode(configuration.get("material.formOfItemCode"));
+    setNatureOfContentsCode(configuration.get("material.natureOfContentsCode"));
+    setConferencePublicationCode(configuration.get("material.conferencePublicationCode"));
+    setBookFestschrift(configuration.get("material.bookFestschrift"));
+    setBookIndexAvailabilityCode(configuration.get("material.bookIndexAvailabilityCode"));
+    setBookLiteraryFormTypeCode(configuration.get("material.bookLiteraryFormTypeCode"));
+    setBookBiographyCode(configuration.get("material.bookBiographyCode"));
+    setGovernmentPublicationCode(configuration.get("material.governmentPublicationCode"));
+    setComputerTargetAudienceCode(configuration.get("material.targetAudienceCode"));
+    setComputerFileTypeCode(configuration.get("material.computerFileTypeCode"));
+    setComputerFileFormCode(configuration.get("material.computerFileFormCode"));
+    setCartographicIndexAvailabilityCode("0");
+    setCartographicReliefCode(configuration.get("material.cartographicReliefCode"));
+    setCartographicProjectionCode(configuration.get("material.cartographicProjectionCode"));
+    setCartographicMaterial(configuration.get("material.cartographicMaterial"));
+    setCartographicFormatCode(configuration.get("material.cartographicFormatCode"));
+    setMusicFormOfCompositionCode(configuration.get("material.musicFormOfCompositionCode"));
+    setMusicFormatCode(configuration.get("material.musicFormatCode"));
+    setMusicTextualMaterialCode(configuration.get("material.musicTextualMaterialCode"));
+    setMusicLiteraryTextCode(configuration.get("material.musicLiteraryTextCode"));
+    setMusicPartsCode(configuration.get("material.musicPartsCode"));
+    setMusicTranspositionArrangementCode(configuration.get("material.musicTranspositionArrangementCode"));
+    setSerialFrequencyCode(configuration.get("material.serialFrequencyCode"));
+    setSerialRegularityCode(configuration.get("material.serialRegularityCode"));
+    setSerialTypeCode(configuration.get("material.serialTypeCode"));
+    setSerialFormOriginalItemCode(configuration.get("material.formOfItemCode"));
+    setSerialOriginalAlphabetOfTitleCode(configuration.get("material.serialOriginalAlphabetOfTitleCode"));
+    setSerialEntryConventionCode(configuration.get("material.serialSuccessiveLatestCode"));
+    setVisualRunningTime(configuration.get("material.visualRunningTime"));
+    setVisualTargetAudienceCode(configuration.get("material.targetAudienceCode"));
+    setVisualMaterialTypeCode(configuration.get("material.visualMaterialTypeCode"));
+    setVisualTechniqueCode(configuration.get("material.visualTechniqueCode"));
   }
 
   /**
@@ -153,40 +153,40 @@ public class GeneralInformation {
    * @return a string representing the field string value.
    */
   public String getValueString() {
-    final StringBuilder sb = new StringBuilder ( );
-    if (getMaterialDescription008Indicator ( ).equals ("1")) {
-      sb.append (getEnteredOnFileDateYYMMDD ( ))
-        .append (getItemDateTypeCode ( ))
-        .append (getItemDateFirstPublication ( ))
-        .append (getItemDateLastPublication ( ))
-        .append (getMarcCountryCode ( ));
+    final StringBuilder sb = new StringBuilder();
+    if (getMaterialDescription008Indicator().equals("1")) {
+      sb.append(getEnteredOnFileDateYYMMDD())
+        .append(getItemDateTypeCode())
+        .append(getItemDateFirstPublication())
+        .append(getItemDateLastPublication())
+        .append(getMarcCountryCode());
     } else { //case tag 006
-      sb.append (getMaterialTypeCode ( ));
+      sb.append(getMaterialTypeCode());
     }
 
-    if (isBook ( )) {
-      sb.append (bookDisplayString ( ));
-    } else if (isComputerFile ( )) {
-      sb.append (computerFileDisplayString ( ));
-    } else if (isMap ( )) {
-      sb.append (mapDisplayString ( ));
-    } else if (isMixedMaterial ( )) {
-      sb.append (mixedMaterialDisplayString ( ));
-    } else if (isMusic ( )) {
-      sb.append (musicDisplayString ( ));
-    } else if (isSerial ( )) {
-      sb.append (serialDisplayString ( ));
-    } else if (isVisualMaterial ( )) {
-      sb.append (visualMaterialDisplayString ( ));
+    if (isBook()) {
+      sb.append(bookDisplayString());
+    } else if (isComputerFile()) {
+      sb.append(computerFileDisplayString());
+    } else if (isMap()) {
+      sb.append(mapDisplayString());
+    } else if (isMixedMaterial()) {
+      sb.append(mixedMaterialDisplayString());
+    } else if (isMusic()) {
+      sb.append(musicDisplayString());
+    } else if (isSerial()) {
+      sb.append(serialDisplayString());
+    } else if (isVisualMaterial()) {
+      sb.append(visualMaterialDisplayString());
     }
 
-    if (getMaterialDescription008Indicator ( ).equals ("1")) {
-      sb.append (getLanguageCode ( ))
-        .append (getRecordModifiedCode ( ))
-        .append (getRecordCataloguingSourceCode ( ));
+    if (getMaterialDescription008Indicator().equals("1")) {
+      sb.append(getLanguageCode())
+        .append(getRecordModifiedCode())
+        .append(getRecordCataloguingSourceCode());
     }
 
-    return sb.toString ( );
+    return sb.toString();
   }
 
 
@@ -196,7 +196,7 @@ public class GeneralInformation {
    * @return true if is a book type false otherwise.
    */
   public boolean isBook() {
-    return "bk".equals (getFormOfMaterial ( ));
+    return "bk".equals(getFormOfMaterial());
   }
 
   /**
@@ -205,7 +205,7 @@ public class GeneralInformation {
    * @return true if is a map type false otherwise.
    */
   public boolean isMap() {
-    return "cm".equals (getFormOfMaterial ( ));
+    return "cm".equals(getFormOfMaterial());
   }
 
   /**
@@ -214,7 +214,7 @@ public class GeneralInformation {
    * @return true if is a computer file type false otherwise.
    */
   public boolean isComputerFile() {
-    return "cf".equals (getFormOfMaterial ( ));
+    return "cf".equals(getFormOfMaterial());
   }
 
   /**
@@ -223,7 +223,7 @@ public class GeneralInformation {
    * @return true if is a mixed material type false otherwise.
    */
   public boolean isMixedMaterial() {
-    return "mm".equals (getFormOfMaterial ( ));
+    return "mm".equals(getFormOfMaterial());
   }
 
   /**
@@ -232,7 +232,7 @@ public class GeneralInformation {
    * @return true if is a music type false otherwise.
    */
   public boolean isMusic() {
-    return "msr".equals (getFormOfMaterial ( ));
+    return "msr".equals(getFormOfMaterial());
   }
 
   /**
@@ -241,7 +241,7 @@ public class GeneralInformation {
    * @return true if is a serial type false otherwise.
    */
   public boolean isSerial() {
-    return "se".equals (getFormOfMaterial ( ));
+    return "se".equals(getFormOfMaterial());
   }
 
   /**
@@ -250,53 +250,53 @@ public class GeneralInformation {
    * @return true if is a visual material type false otherwise.
    */
   public boolean isVisualMaterial() {
-    return "vm".equals (getFormOfMaterial ( ));
+    return "vm".equals(getFormOfMaterial());
   }
 
   /**
    * @return the displayString segment for book material.
    */
   public String bookDisplayString() {
-    return getBookIllustrationCode ( )
-      + getTargetAudienceCode ( )
-      + getFormOfItemCode ( )
-      + getNatureOfContentsCode ( )
-      + getGovernmentPublicationCode ( )
-      + getConferencePublicationCode ( )
-      + getBookFestschrift ( )
-      + getBookIndexAvailabilityCode ( )
+    return getBookIllustrationCode()
+      + getTargetAudienceCode()
+      + getFormOfItemCode()
+      + getNatureOfContentsCode()
+      + getGovernmentPublicationCode()
+      + getConferencePublicationCode()
+      + getBookFestschrift()
+      + getBookIndexAvailabilityCode()
       + " " //undefined position (formerly main entry indicator)
-      + getBookLiteraryFormTypeCode ( ) + getBookBiographyCode ( );
+      + getBookLiteraryFormTypeCode() + getBookBiographyCode();
   }
 
   /**
    * @return the displayString segment for map material.
    */
   public String mapDisplayString() {
-    return getCartographicReliefCode ( )
-      + getCartographicProjectionCode ( )
+    return getCartographicReliefCode()
+      + getCartographicProjectionCode()
       + " " //undefined
-      + getCartographicMaterial ( ) + "  " // two undefined
-      + getGovernmentPublicationCode ( ) + getFormOfItemCode ( ) + " " // undefined
-      + getCartographicIndexAvailabilityCode ( ) + " " //undefined position
-      + getCartographicFormatCode ( );
+      + getCartographicMaterial() + "  " // two undefined
+      + getGovernmentPublicationCode() + getFormOfItemCode() + " " // undefined
+      + getCartographicIndexAvailabilityCode() + " " //undefined position
+      + getCartographicFormatCode();
   }
 
   /**
    * @return the displayString segment for computer file material
    */
   public String computerFileDisplayString() {
-    StringBuilder builder = new StringBuilder ( );
-    builder.append ("    ")                /*18-21 - Undefined             */
-      .append (getComputerTargetAudienceCode ( ))    /*22    - Target audience       */
-      .append (getComputerFileFormCode ( ))      /*23    - Form of item          */
-      .append ("  ")                /*24-25 - Undefined             */
-      .append (getComputerFileTypeCode ( ))      /*26    - Type of computer file */
-      .append (" ")                  /*27    - Undefined             */
-      .append (getGovernmentPublicationCode ( ))    /*28    - Government publication*/
-      .append ("      ");              /*29-34 - Undefined             */
+    StringBuilder builder = new StringBuilder();
+    builder.append("    ")                /*18-21 - Undefined             */
+      .append(getComputerTargetAudienceCode())    /*22    - Target audience       */
+      .append(getComputerFileFormCode())      /*23    - Form of item          */
+      .append("  ")                /*24-25 - Undefined             */
+      .append(getComputerFileTypeCode())      /*26    - Type of computer file */
+      .append(" ")                  /*27    - Undefined             */
+      .append(getGovernmentPublicationCode())    /*28    - Government publication*/
+      .append("      ");              /*29-34 - Undefined             */
 
-    return builder.toString ( );
+    return builder.toString();
   }
 
   /**
@@ -304,58 +304,58 @@ public class GeneralInformation {
    */
   public String mixedMaterialDisplayString() {
     // five undefined + 11 undefined positions
-    return "     " + getFormOfItemCode ( ) + "           ";
+    return "     " + getFormOfItemCode() + "           ";
   }
 
   /**
    * @return the displayString segment for music material
    */
   public String musicDisplayString() {
-    StringBuilder builder = new StringBuilder ( );
-    builder.append (getMusicFormOfCompositionCode ( ))    /* 18-19 - Form of composition */
-      .append (getMusicFormatCode ( ))          /* 20 - Format of music */
-      .append (getMusicPartsCode ( ))          /* 21 - Music parts  */
-      .append (getTargetAudienceCode ( ))        /* 22 - Target audience */
-      .append (getFormOfItemCode ( ))          /* 23 - Form of item */
-      .append (getMusicTextualMaterialCode ( ))      /* 24-29 - Accompanying matter */
-      .append (getMusicLiteraryTextCode ( ))        /* 30-31 - Literary text for sound recordings */
-      .append (" ")                  /* 32 - Undefined */
-      .append (getMusicTranspositionArrangementCode ( ))  /* 33 - Transposition and arrangement */
-      .append (" ");                  /* 34 - Undefined  */
+    StringBuilder builder = new StringBuilder();
+    builder.append(getMusicFormOfCompositionCode())    /* 18-19 - Form of composition */
+      .append(getMusicFormatCode())          /* 20 - Format of music */
+      .append(getMusicPartsCode())          /* 21 - Music parts  */
+      .append(getTargetAudienceCode())        /* 22 - Target audience */
+      .append(getFormOfItemCode())          /* 23 - Form of item */
+      .append(getMusicTextualMaterialCode())      /* 24-29 - Accompanying matter */
+      .append(getMusicLiteraryTextCode())        /* 30-31 - Literary text for sound recordings */
+      .append(" ")                  /* 32 - Undefined */
+      .append(getMusicTranspositionArrangementCode())  /* 33 - Transposition and arrangement */
+      .append(" ");                  /* 34 - Undefined  */
 
-    return builder.toString ( );
+    return builder.toString();
   }
 
   /**
    * @return the displayString segment for visual material
    */
   public String visualMaterialDisplayString() {
-    return getVisualRunningTime ( ) + " " // undefined position
-      + getVisualTargetAudienceCode ( ) + "     " // five undefined
-      + getGovernmentPublicationCode ( ) + getFormOfItemCode ( ) + "   " // three undefined
-      + getVisualMaterialTypeCode ( ) + getVisualTechniqueCode ( );
+    return getVisualRunningTime() + " " // undefined position
+      + getVisualTargetAudienceCode() + "     " // five undefined
+      + getGovernmentPublicationCode() + getFormOfItemCode() + "   " // three undefined
+      + getVisualMaterialTypeCode() + getVisualTechniqueCode();
   }
 
   /**
    * @return the displayString segment for serial (continuing resources) material
    */
   public String serialDisplayString() {
-    StringBuilder builder = new StringBuilder ( );
-    builder.append ("")
-      .append (getSerialFrequencyCode ( ))        /* 18 - Frequency */
-      .append (getSerialRegularityCode ( ))        /* 19 - Regularity */
-      .append (" ")                    /* 20 - Undefined */
-      .append (getSerialTypeCode ( ))            /* 21 - Type of continuing resource */
-      .append (getSerialFormOriginalItemCode ( ))      /* 22 - Form of original item */
-      .append (getFormOfItemCode ( ))            /* 23 - Form of item */
-      .append (getNatureOfContentsCode ( ))        /* 24 - Nature of entire work 25-27 - Nature of contents */
-      .append (getGovernmentPublicationCode ( ))      /* 28 - Government publication */
-      .append (getConferencePublicationCode ( ))      /* 29 - Conference publication */
-      .append ("   ")                  /* 30-32 - Undefined  */
-      .append (getSerialOriginalAlphabetOfTitleCode ( ))  /* 33 - Original alphabet or script of title */
-      .append (getSerialEntryConventionCode ( ));    /* 34 - Entry convention */
+    StringBuilder builder = new StringBuilder();
+    builder.append("")
+      .append(getSerialFrequencyCode())        /* 18 - Frequency */
+      .append(getSerialRegularityCode())        /* 19 - Regularity */
+      .append(" ")                    /* 20 - Undefined */
+      .append(getSerialTypeCode())            /* 21 - Type of continuing resource */
+      .append(getSerialFormOriginalItemCode())      /* 22 - Form of original item */
+      .append(getFormOfItemCode())            /* 23 - Form of item */
+      .append(getNatureOfContentsCode())        /* 24 - Nature of entire work 25-27 - Nature of contents */
+      .append(getGovernmentPublicationCode())      /* 28 - Government publication */
+      .append(getConferencePublicationCode())      /* 29 - Conference publication */
+      .append("   ")                  /* 30-32 - Undefined  */
+      .append(getSerialOriginalAlphabetOfTitleCode())  /* 33 - Original alphabet or script of title */
+      .append(getSerialEntryConventionCode());    /* 34 - Entry convention */
 
-    return builder.toString ( );
+    return builder.toString();
   }
 
   public String getMusicPartsCode() {
@@ -427,7 +427,7 @@ public class GeneralInformation {
   }
 
   public void setBookIllustrationCode(String string) {
-    bookIllustrationCode = leftJustify (string);
+    bookIllustrationCode = leftJustify(string);
   }
 
   public String getBookIndexAvailabilityCode() {
@@ -611,7 +611,7 @@ public class GeneralInformation {
   }
 
   public void setNatureOfContentsCode(String string) {
-    natureOfContentsCode = leftJustify (string);
+    natureOfContentsCode = leftJustify(string);
   }
 
   public String getSerialCumulativeIndexCode() {

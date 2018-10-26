@@ -22,7 +22,7 @@ import static org.folio.cataloging.log.Log.error;
  */
 @FunctionalInterface
 public interface PieceOfExistingLogicAdapter<T> {
-  Log logger = new Log (PieceOfExistingLogicAdapter.class);
+  Log logger = new Log(PieceOfExistingLogicAdapter.class);
 
   /**
    * Executes a piece of existing logic.
@@ -33,16 +33,16 @@ public interface PieceOfExistingLogicAdapter<T> {
   @SuppressWarnings("unchecked")
   default T execute(final StorageService storageService, final Map <String, String> configuration) {
     try {
-      final Optional <T> result = ofNullable (executeAndGet (storageService, configuration));
-      if (result.isPresent ( )) {
-        return result.get ( );
+      final Optional <T> result = ofNullable(executeAndGet(storageService, configuration));
+      if (result.isPresent()) {
+        return result.get();
       } else {
-        error (PieceOfExistingLogicAdapter.class, MessageCatalog._00012_NULL_RESULT);
-        throw new SystemInternalFailureException (new IllegalArgumentException ( ));
+        error(PieceOfExistingLogicAdapter.class, MessageCatalog._00012_NULL_RESULT);
+        throw new SystemInternalFailureException(new IllegalArgumentException());
       }
     } catch (final Exception exception) {
       // Don't log here, the exception is supposed to be logged within the adapter.
-      throw new SystemInternalFailureException (new IllegalArgumentException (exception));
+      throw new SystemInternalFailureException(new IllegalArgumentException(exception));
     }
   }
 

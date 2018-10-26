@@ -28,9 +28,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class BibliographicLevelAPI extends BaseResource {
 
   private Function <Avp <String>, BibliographicLevel> toBibliographicLevel = source -> {
-    final BibliographicLevel bibliographicLevel = new BibliographicLevel ( );
-    bibliographicLevel.setCode (source.getValue ( ));
-    bibliographicLevel.setDescription (source.getLabel ( ));
+    final BibliographicLevel bibliographicLevel = new BibliographicLevel();
+    bibliographicLevel.setCode(source.getValue());
+    bibliographicLevel.setDescription(source.getLabel());
     return bibliographicLevel;
   };
 
@@ -45,13 +45,13 @@ public class BibliographicLevelAPI extends BaseResource {
   public BibliographicLevelCollection getBibliographicLevels(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final BibliographicLevelCollection container = new BibliographicLevelCollection ( );
-      container.setBibliographicLevels (
-        storageService.getBibliographicLevels (lang)
-          .stream ( )
-          .map (toBibliographicLevel)
-          .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      final BibliographicLevelCollection container = new BibliographicLevelCollection();
+      container.setBibliographicLevels(
+        storageService.getBibliographicLevels(lang)
+          .stream()
+          .map(toBibliographicLevel)
+          .collect(toList()));
       return container;
     }, tenant, configurator);
   }

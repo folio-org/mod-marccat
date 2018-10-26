@@ -27,17 +27,17 @@ public abstract class AuthorityHeadingTag extends VariableField implements
 
   private static final String VARIANT_CODES = "ehj";
 
-  private static Log logger = LogFactory.getLog (AuthorityHeadingTag.class);
+  private static Log logger = LogFactory.getLog(AuthorityHeadingTag.class);
   Descriptor descriptor;
   private AUT autItm;
 
   AuthorityHeadingTag(Descriptor d) {
-    setDescriptor (d);
+    setDescriptor(d);
   }
 
   @Override
   public String buildBrowseTerm() {
-    return getDescriptor ( ).buildBrowseTerm ( );
+    return getDescriptor().buildBrowseTerm();
   }
 
   /*
@@ -76,10 +76,10 @@ public abstract class AuthorityHeadingTag extends VariableField implements
    * @since 1.0
    */
   public void setDescriptor(Descriptor descriptor) {
-    logger.debug ("setDescriptor(" + descriptor + ")");
+    logger.debug("setDescriptor(" + descriptor + ")");
     this.descriptor = descriptor;
-    setHeadingNumber (new Integer (descriptor.getKey ( ).getHeadingNumber ( )));
-    logger.debug ("headingNumber set to " + getHeadingNumber ( ));
+    setHeadingNumber(new Integer(descriptor.getKey().getHeadingNumber()));
+    logger.debug("headingNumber set to " + getHeadingNumber());
   }
 
   /*
@@ -88,8 +88,8 @@ public abstract class AuthorityHeadingTag extends VariableField implements
    * @see VariableField#getStringText()
    */
   public StringText getStringText() {
-    StringText result = new StringText (getDescriptor ( ).getStringText ( ));
-    result.parse (getAutItm ( ).getVariableHeadingStringText ( ));
+    StringText result = new StringText(getDescriptor().getStringText());
+    result.parse(getAutItm().getVariableHeadingStringText());
     return result;
   }
 
@@ -100,8 +100,8 @@ public abstract class AuthorityHeadingTag extends VariableField implements
    */
   public void setStringText(StringText stringText) {
     // paulm aut
-    getAutItm ( ).setVariableHeadingStringText (
-      stringText.getSubfieldsWithCodes (getVariantCodes ( )).toString ( ));
+    getAutItm().setVariableHeadingStringText(
+      stringText.getSubfieldsWithCodes(getVariantCodes()).toString());
     // no setting of descriptor from worksheet
     // setDescriptorStringText(stringText);
     // setDescriptorStringText(stringText);
@@ -113,8 +113,8 @@ public abstract class AuthorityHeadingTag extends VariableField implements
    * @see VariableField#parseModelXmlElementContent(org.w3c.dom.Element)
    */
   public void parseModelXmlElementContent(Element xmlElement) {
-    setDescriptorStringText (StringText
-      .parseModelXmlElementContent (xmlElement));
+    setDescriptorStringText(StringText
+      .parseModelXmlElementContent(xmlElement));
   }
 
   /*
@@ -143,7 +143,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
    * @see VariableField#getCorrelationValues()
    */
   public CorrelationValues getCorrelationValues() {
-    return descriptor.getCorrelationValues ( );
+    return descriptor.getCorrelationValues();
   }
 
   /*
@@ -152,7 +152,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
    * @see VariableField#setCorrelationValues(librisuite.business.common.CorrelationValues)
    */
   public void setCorrelationValues(CorrelationValues v) {
-    descriptor.setCorrelationValues (v);
+    descriptor.setCorrelationValues(v);
   }
 
   @Override
@@ -170,7 +170,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
      * once a heading has been selected, it cannot be changed. The user must
      * delete this authority and create a new one with a different heading
      */
-    return getDescriptor ( ).isNew ( );
+    return getDescriptor().isNew();
   }
 
   /*
@@ -189,10 +189,10 @@ public abstract class AuthorityHeadingTag extends VariableField implements
    */
   public Integer getHeadingNumber() {
     int result = -1;
-    if (getAutItm ( ) != null) {
-      result = getAutItm ( ).getHeadingNumber ( );
+    if (getAutItm() != null) {
+      result = getAutItm().getHeadingNumber();
       if (result > 0) {
-        return new Integer (result);
+        return new Integer(result);
       }
     }
     return null;
@@ -208,10 +208,10 @@ public abstract class AuthorityHeadingTag extends VariableField implements
     if (i == null) {
       setting = -1;
     } else {
-      setting = i.intValue ( );
+      setting = i.intValue();
     }
-    if (getAutItm ( ) != null) {
-      getAutItm ( ).setHeadingNumber (setting);
+    if (getAutItm() != null) {
+      getAutItm().setHeadingNumber(setting);
     }
   }
 
@@ -221,7 +221,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
    * @see Browsable#getEditableSubfields()
    */
   public StringText getEditableSubfields() {
-    return new StringText (getAutItm ( ).getVariableHeadingStringText ( ));
+    return new StringText(getAutItm().getVariableHeadingStringText());
   }
 
   /*
@@ -239,7 +239,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
    * @see Browsable#getValidEditableSubfields()
    */
   public Set getValidEditableSubfields() {
-    return getTagImpl ( ).getValidEditableSubfields (getCategory ( ));
+    return getTagImpl().getValidEditableSubfields(getCategory());
   }
 
   /*
@@ -248,7 +248,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
    * @see Browsable#setDescriptorStringText(org.folio.cataloging.util.StringText)
    */
   public void setDescriptorStringText(StringText tagStringText) {
-    getDescriptor ( ).setStringText (tagStringText.toString ( ));
+    getDescriptor().setStringText(tagStringText.toString());
   }
 
   /*
@@ -257,8 +257,8 @@ public abstract class AuthorityHeadingTag extends VariableField implements
    * @see TagInterface#validate(int)
    */
   public void validate(int index) throws ValidationException {
-    if (getDescriptor ( ).isNew ( )) {
-      throw new NoHeadingSetException (index);
+    if (getDescriptor().isNew()) {
+      throw new NoHeadingSetException(index);
     }
   }
 

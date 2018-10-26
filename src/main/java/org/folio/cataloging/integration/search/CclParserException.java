@@ -18,6 +18,6 @@ public class CclParserException extends ModCatalogingException {
    * @param message the exception message.
    */
   public CclParserException(final String message) {
-    super (message);
+    super(message);
   }
 }

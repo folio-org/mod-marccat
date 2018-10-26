@@ -27,7 +27,7 @@ public class T_AMICUS_FIXED implements Serializable {
    * @since 1.0
    */
   public T_AMICUS_FIXED() {
-    super ( );
+    super();
     // TODO Auto-generated constructor stub
   }
 
@@ -93,8 +93,8 @@ public class T_AMICUS_FIXED implements Serializable {
   public boolean equals(Object arg0) {
     if (arg0 instanceof T_AMICUS_FIXED) {
       T_AMICUS_FIXED t = (T_AMICUS_FIXED) arg0;
-      return t.getCodeTableNumber ( ) == this.getCodeTableNumber ( )
-        && t.getSequence ( ) == this.getSequence ( );
+      return t.getCodeTableNumber() == this.getCodeTableNumber()
+        && t.getSequence() == this.getSequence();
     } else {
       return false;
     }
@@ -104,7 +104,7 @@ public class T_AMICUS_FIXED implements Serializable {
    * @see java.lang.Object#hashCode()
    */
   public int hashCode() {
-    return getCodeTableNumber ( ) + getSequence ( );
+    return getCodeTableNumber() + getSequence();
   }
 
   /**

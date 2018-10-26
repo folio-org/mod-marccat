@@ -17,7 +17,7 @@ public class CustomListElement {
   private Date dateAssociatedRecord;
 
   public CustomListElement(CollectionCustomer Custom) {
-    setCustom (custom);
+    setCustom(custom);
 
   }
 

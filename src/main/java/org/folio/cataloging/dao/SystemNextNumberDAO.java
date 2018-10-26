@@ -23,7 +23,7 @@ public class SystemNextNumberDAO extends AbstractDAO {
 
   @Deprecated
   public int getPreviouwsNumber(final String keyFieldCodeValue) throws DataAccessException {
-    throw new IllegalArgumentException ("DON'T CALL ME!");
+    throw new IllegalArgumentException("DON'T CALL ME!");
   }
 
   /**
@@ -35,20 +35,20 @@ public class SystemNextNumberDAO extends AbstractDAO {
    */
   public int getNextNumber(final String keyFieldCodeValue, final Session session) throws HibernateException {
 
-    final S_NXT_NBR snn = (S_NXT_NBR) get (session, S_NXT_NBR.class, keyFieldCodeValue, LockMode.UPGRADE);
-    final int nextNbr = snn.getKeyFieldNextNumber ( );
+    final S_NXT_NBR snn = (S_NXT_NBR) get(session, S_NXT_NBR.class, keyFieldCodeValue, LockMode.UPGRADE);
+    final int nextNbr = snn.getKeyFieldNextNumber();
 
-    final Transaction transaction = getTransaction (session);
+    final Transaction transaction = getTransaction(session);
     try {
 
-      int i = snn.getKeyFieldNextNumber ( ) + 1;
-      snn.setKeyFieldNextNumber (i);
-      session.update (snn);
-      transaction.commit ( );
+      int i = snn.getKeyFieldNextNumber() + 1;
+      snn.setKeyFieldNextNumber(i);
+      session.update(snn);
+      transaction.commit();
 
     } catch (Exception e) {
-      cleanUp (transaction);
-      throw new HibernateException (e);
+      cleanUp(transaction);
+      throw new HibernateException(e);
     }
 
     return nextNbr;
@@ -62,20 +62,20 @@ public class SystemNextNumberDAO extends AbstractDAO {
    * @throws HibernateException in case of Hibernate exception.
    */
   public int getPreviousNumber(final String keyFieldCodeValue, final Session session) throws HibernateException {
-    final S_NXT_NBR snn = (S_NXT_NBR) get (session, S_NXT_NBR.class, keyFieldCodeValue, LockMode.UPGRADE);
-    final int nextNbr = snn.getKeyFieldNextNumber ( );
+    final S_NXT_NBR snn = (S_NXT_NBR) get(session, S_NXT_NBR.class, keyFieldCodeValue, LockMode.UPGRADE);
+    final int nextNbr = snn.getKeyFieldNextNumber();
 
-    final Transaction transaction = getTransaction (session);
+    final Transaction transaction = getTransaction(session);
     try {
 
-      int i = snn.getKeyFieldNextNumber ( ) - 1;
-      snn.setKeyFieldNextNumber (i);
-      session.update (snn);
-      transaction.commit ( );
+      int i = snn.getKeyFieldNextNumber() - 1;
+      snn.setKeyFieldNextNumber(i);
+      session.update(snn);
+      transaction.commit();
 
     } catch (Exception e) {
-      cleanUp (transaction);
-      throw new HibernateException (e);
+      cleanUp(transaction);
+      throw new HibernateException(e);
     }
 
     return nextNbr;

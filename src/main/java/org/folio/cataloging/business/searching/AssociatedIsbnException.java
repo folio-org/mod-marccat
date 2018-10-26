@@ -15,7 +15,7 @@ public class AssociatedIsbnException extends DataAccessException {
    * @since 1.0
    */
   public AssociatedIsbnException() {
-    super ( );
+    super();
     // TODO Auto-generated constructor stub
   }
 
@@ -26,7 +26,7 @@ public class AssociatedIsbnException extends DataAccessException {
    * @since 1.0
    */
   public AssociatedIsbnException(String message) {
-    super (message);
+    super(message);
     // TODO Auto-generated constructor stub
   }
 
@@ -38,7 +38,7 @@ public class AssociatedIsbnException extends DataAccessException {
    * @since 1.0
    */
   public AssociatedIsbnException(String message, Throwable cause) {
-    super (message, cause);
+    super(message, cause);
     // TODO Auto-generated constructor stub
   }
 
@@ -49,7 +49,7 @@ public class AssociatedIsbnException extends DataAccessException {
    * @since 1.0
    */
   public AssociatedIsbnException(Throwable cause) {
-    super (cause);
+    super(cause);
     // TODO Auto-generated constructor stub
   }
 

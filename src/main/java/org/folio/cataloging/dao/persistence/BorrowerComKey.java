@@ -24,12 +24,12 @@ public class BorrowerComKey implements Serializable {
    * class  constructor
    */
   public BorrowerComKey() {
-    super ( );
+    super();
   }
 
   public BorrowerComKey(int brwrNumber, int brwrComKeyNumber) {
-    this.setBorrowerNumber (brwrNumber);
-    this.setPersonalComunicationKeyNumber (brwrComKeyNumber);
+    this.setBorrowerNumber(brwrNumber);
+    this.setPersonalComunicationKeyNumber(brwrComKeyNumber);
   }
 
 
@@ -79,8 +79,8 @@ public class BorrowerComKey implements Serializable {
     if (anObject instanceof BorrowerComKey) {
       BorrowerComKey aKey = (BorrowerComKey) anObject;
       return (
-        borrowerNumber == aKey.getBorrowerNumber ( )
-          && personalComunicationKeyNumber == aKey.getPersonalComunicationKeyNumber ( ));
+        borrowerNumber == aKey.getBorrowerNumber()
+          && personalComunicationKeyNumber == aKey.getPersonalComunicationKeyNumber());
     } else {
       return false;
     }

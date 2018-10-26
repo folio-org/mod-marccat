@@ -149,30 +149,30 @@ public class CART_ITEMS implements Serializable {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((author == null) ? 0 : author.hashCode ( ));
+    result = prime * result + ((author == null) ? 0 : author.hashCode());
     result = prime * result + bibItemNumber;
     result = prime
       * result
       + ((branchDescription == null) ? 0 : branchDescription
-      .hashCode ( ));
+      .hashCode());
     result = prime * result + branchId;
     result = prime
       * result
       + ((descriptionTag300 == null) ? 0 : descriptionTag300
-      .hashCode ( ));
+      .hashCode());
     result = prime * result
-      + ((isJournals == null) ? 0 : isJournals.hashCode ( ));
+      + ((isJournals == null) ? 0 : isJournals.hashCode());
     result = prime * result
-      + ((isbnIssn == null) ? 0 : isbnIssn.hashCode ( ));
+      + ((isbnIssn == null) ? 0 : isbnIssn.hashCode());
     result = prime * result
-      + ((leaderPos6 == null) ? 0 : leaderPos6.hashCode ( ));
+      + ((leaderPos6 == null) ? 0 : leaderPos6.hashCode());
     result = prime * result
-      + ((publisher == null) ? 0 : publisher.hashCode ( ));
-    result = prime * result + ((title == null) ? 0 : title.hashCode ( ));
+      + ((publisher == null) ? 0 : publisher.hashCode());
+    result = prime * result + ((title == null) ? 0 : title.hashCode());
     result = prime * result
-      + ((transactionDate == null) ? 0 : transactionDate.hashCode ( ));
+      + ((transactionDate == null) ? 0 : transactionDate.hashCode());
     result = prime * result
-      + ((userName == null) ? 0 : userName.hashCode ( ));
+      + ((userName == null) ? 0 : userName.hashCode());
     return result;
   }
 
@@ -182,62 +182,62 @@ public class CART_ITEMS implements Serializable {
       return true;
     if (obj == null)
       return false;
-    if (getClass ( ) != obj.getClass ( ))
+    if (getClass() != obj.getClass())
       return false;
     final CART_ITEMS other = (CART_ITEMS) obj;
     if (author == null) {
       if (other.author != null)
         return false;
-    } else if (!author.equals (other.author))
+    } else if (!author.equals(other.author))
       return false;
     if (bibItemNumber != other.bibItemNumber)
       return false;
     if (branchDescription == null) {
       if (other.branchDescription != null)
         return false;
-    } else if (!branchDescription.equals (other.branchDescription))
+    } else if (!branchDescription.equals(other.branchDescription))
       return false;
     if (branchId != other.branchId)
       return false;
     if (descriptionTag300 == null) {
       if (other.descriptionTag300 != null)
         return false;
-    } else if (!descriptionTag300.equals (other.descriptionTag300))
+    } else if (!descriptionTag300.equals(other.descriptionTag300))
       return false;
     if (isJournals == null) {
       if (other.isJournals != null)
         return false;
-    } else if (!isJournals.equals (other.isJournals))
+    } else if (!isJournals.equals(other.isJournals))
       return false;
     if (isbnIssn == null) {
       if (other.isbnIssn != null)
         return false;
-    } else if (!isbnIssn.equals (other.isbnIssn))
+    } else if (!isbnIssn.equals(other.isbnIssn))
       return false;
     if (leaderPos6 == null) {
       if (other.leaderPos6 != null)
         return false;
-    } else if (!leaderPos6.equals (other.leaderPos6))
+    } else if (!leaderPos6.equals(other.leaderPos6))
       return false;
     if (publisher == null) {
       if (other.publisher != null)
         return false;
-    } else if (!publisher.equals (other.publisher))
+    } else if (!publisher.equals(other.publisher))
       return false;
     if (title == null) {
       if (other.title != null)
         return false;
-    } else if (!title.equals (other.title))
+    } else if (!title.equals(other.title))
       return false;
     if (transactionDate == null) {
       if (other.transactionDate != null)
         return false;
-    } else if (!transactionDate.equals (other.transactionDate))
+    } else if (!transactionDate.equals(other.transactionDate))
       return false;
     if (userName == null) {
       if (other.userName != null)
         return false;
-    } else if (!userName.equals (other.userName))
+    } else if (!userName.equals(other.userName))
       return false;
     return true;
   }

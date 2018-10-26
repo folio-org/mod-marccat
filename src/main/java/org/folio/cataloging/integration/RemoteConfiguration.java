@@ -38,24 +38,25 @@ public class RemoteConfiguration implements Configuration {
    *
    * @param client the HTTP / REST client.
    */
+
   public RemoteConfiguration(final RestTemplate client) {
     this.client = client;
   }
 
   @Override
   public ObjectNode attributes(final String tenant, final boolean withDatasource, final String... configurationSets) {
-    final HttpHeaders headers = new HttpHeaders ( );
-    headers.add (Global.OKAPI_TENANT_HEADER_NAME, tenant);
+    final HttpHeaders headers = new HttpHeaders();
+    headers.add(Global.OKAPI_TENANT_HEADER_NAME, tenant);
 
-    return client.exchange (
-      fromUriString (endpoint)
-        .queryParam (cQuery (withDatasource, safe (configurationSets)))
-        .build ( )
-        .toUri ( ),
+    return client.exchange(
+      fromUriString(endpoint)
+        .queryParam(cQuery(withDatasource, safe(configurationSets)))
+        .build()
+        .toUri(),
       HttpMethod.GET,
-      new HttpEntity <> ("parameters", headers),
+      new HttpEntity <>("parameters", headers),
       ObjectNode.class)
-      .getBody ( );
+      .getBody();
   }
 
   /**
@@ -65,13 +66,13 @@ public class RemoteConfiguration implements Configuration {
    * @return the selection criteria that will be used by the current service for gathering the required configuration.
    */
   private String cQuery(boolean withDatasource, final String... configurationsSets) {
-    final String[] values = safe (configurationsSets);
+    final String[] values = safe(configurationsSets);
     return (values.length == 0 && withDatasource)
       ? BASE_CQUERY + "datasource"
       : BASE_CQUERY +
-      stream (values)
-        .filter (Objects::nonNull)
-        .collect (joining (
+      stream(values)
+        .filter(Objects::nonNull)
+        .collect(joining(
           " or ",
           values.length != 0
             ? withDatasource ? "(datasource or " : "("

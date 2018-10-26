@@ -24,20 +24,20 @@ public class ValidationKey implements Serializable {
    * @param marcTagCategory the tag category.
    */
   public ValidationKey(final String marcTag, final int marcTagCategory) {
-    this.setMarcTag (marcTag);
-    this.setMarcTagCategoryCode (marcTagCategory);
+    this.setMarcTag(marcTag);
+    this.setMarcTagCategoryCode(marcTagCategory);
   }
 
   @Override
   public boolean equals(final Object o) {
     return (o instanceof ValidationKey)
-      && marcTag.equals (((ValidationKey) o).getMarcTag ( ))
-      && marcTagCategoryCode == ((ValidationKey) o).getMarcTagCategoryCode ( );
+      && marcTag.equals(((ValidationKey) o).getMarcTag())
+      && marcTagCategoryCode == ((ValidationKey) o).getMarcTagCategoryCode();
   }
 
   @Override
   public int hashCode() {
-    return marcTag.hashCode ( ) + (11 * marcTagCategoryCode);
+    return marcTag.hashCode() + (11 * marcTagCategoryCode);
   }
 
   /**

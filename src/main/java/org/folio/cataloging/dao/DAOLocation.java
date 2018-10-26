@@ -31,26 +31,26 @@ public class DAOLocation extends HibernateUtil {
     short locationNumber,
     Locale locale)
     throws DataAccessException {
-    Session s = currentSession ( );
+    Session s = currentSession();
 
     List result;
 
     result =
-      find (
+      find(
         "from LCTN as l where "
           + " l.key.organisationNumber = ? and l.key.locationNumber = ? and "
           + " l.key.language = ? ",
         new Object[]{
-          new Integer (organisationNumber),
-          new Integer (locationNumber),
-          locale.getISO3Language ( )},
+          new Integer(organisationNumber),
+          new Integer(locationNumber),
+          locale.getISO3Language()},
         new Type[]{
           Hibernate.INTEGER,
           Hibernate.INTEGER,
           Hibernate.STRING});
 
-    if (result.size ( ) > 0) {
-      return (LCTN) result.get (0);
+    if (result.size() > 0) {
+      return (LCTN) result.get(0);
     } else {
       return null;
     }
@@ -61,13 +61,13 @@ public class DAOLocation extends HibernateUtil {
     List lo = null;
 
     lo =
-      find (
+      find(
         "from LCTN as vw"
           + " where vw.key.organisationNumber = ? and "
           + " vw.key.language = ? order by vw.key.locationNumber asc",
         new Object[]{
-          new Integer (organisationNumber),
-          locale.getISO3Language ( )},
+          new Integer(organisationNumber),
+          locale.getISO3Language()},
         new Type[]{Hibernate.INTEGER, Hibernate.STRING});
 
     return lo;
@@ -79,48 +79,48 @@ public class DAOLocation extends HibernateUtil {
     String result = "";
     List lo = null;
     try {
-      Session s = currentSession ( );
+      Session s = currentSession();
 
-      lo = (List) s.find ("from "
-        + c.getName ( )
+      lo = (List) s.find("from "
+        + c.getName()
         + " as vw where vw.key.organisationNumber ="
         + organisationNumber
         + " and vw.key.locationNumber ="
         + locationCode
         + " and vw.isoLanguage ='"
-        + locale.getISO3Language ( )
+        + locale.getISO3Language()
         + "'");
 
-      if (lo.size ( ) <= 0) {
-        lo = (List) s.find ("from "
-          + c.getName ( )
+      if (lo.size() <= 0) {
+        lo = (List) s.find("from "
+          + c.getName()
           + " as vw where vw.key.organisationNumber ="
           + organisationNumber
           + " and vw.key.locationNumber ="
           + locationCode
           + " and vw.isoLanguage ='"
-          + new Locale ("en").getISO3Language ( )
+          + new Locale("en").getISO3Language()
           + "'");
       }
 
-      if (lo.size ( ) > 0) {
+      if (lo.size() > 0) {
 
-        LCTN_ISOLANG_VW location = (LCTN_ISOLANG_VW) lo.get (0);
+        LCTN_ISOLANG_VW location = (LCTN_ISOLANG_VW) lo.get(0);
 
-        result = location.getLabelStringText ( );
+        result = location.getLabelStringText();
 
       }
 
 
     } catch (DataAccessException e) {
       // TODO e.printStackTrace() is evil. If you catch, handle the exception.
-      e.printStackTrace ( );
+      e.printStackTrace();
     } catch (HibernateException e) {
       // TODO e.printStackTrace() is evil. If you catch, handle the exception.
-      e.printStackTrace ( );
+      e.printStackTrace();
     } catch (ClassCastException e) {
       // TODO e.printStackTrace() is evil. If you catch, handle the exception.
-      e.printStackTrace ( );
+      e.printStackTrace();
     }
 
     return result;

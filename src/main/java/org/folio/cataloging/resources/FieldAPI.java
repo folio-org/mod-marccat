@@ -50,17 +50,17 @@ public class FieldAPI extends BaseResource {
   public FieldCollection getMandatoryFields(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
+    return doGet((storageService, configuration) -> {
       try {
-        final FieldCollection container = new FieldCollection ( );
-        container.setFields (
-          asList (createRequiredLeaderField (storageService, lang),
-            createControlNumberField (storageService, lang),
-            createRequiredMaterialDescriptionField (configuration, storageService, lang),
-            createCatalogingSourceField (configuration, storageService, lang)));
+        final FieldCollection container = new FieldCollection();
+        container.setFields(
+          asList(createRequiredLeaderField(storageService, lang),
+            createControlNumberField(storageService, lang),
+            createRequiredMaterialDescriptionField(configuration, storageService, lang),
+            createCatalogingSourceField(configuration, storageService, lang)));
         return container;
       } catch (final Exception exception) {
-        logger.error (MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+        logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
         return null;
       }
     }, tenant, configurator, "bibliographic", "material");
@@ -79,33 +79,33 @@ public class FieldAPI extends BaseResource {
     final StorageService storageService,
     final String lang) {
     final CorrelationValues correlationValues =
-      new CorrelationValues (
+      new CorrelationValues(
         Global.CATALOGING_SOURCE_HEADER_TYPE,
         Global.CORRELATION_UNDEFINED,
         Global.CORRELATION_UNDEFINED);
 
-    final String description = storageService.getHeadingTypeDescription (Global.CATALOGING_SOURCE_HEADER_TYPE, lang, Global.INT_CATEGORY);
+    final String description = storageService.getHeadingTypeDescription(Global.CATALOGING_SOURCE_HEADER_TYPE, lang, Global.INT_CATEGORY);
     final Validation validation =
-      storageService.getSubfieldsByCorrelations (
+      storageService.getSubfieldsByCorrelations(
         Global.INT_CATEGORY,
-        correlationValues.getValue (1),
-        correlationValues.getValue (2),
-        correlationValues.getValue (3));
+        correlationValues.getValue(1),
+        correlationValues.getValue(2),
+        correlationValues.getValue(3));
 
-    final VariableField catalogingSourceField = new VariableField ( );
+    final VariableField catalogingSourceField = new VariableField();
 
-    catalogingSourceField.setCode (Global.CATALOGING_SOURCE_TAG_CODE);
-    catalogingSourceField.setHeadingTypeCode (Integer.toString (Global.CATALOGING_SOURCE_HEADER_TYPE));
-    catalogingSourceField.setSubfields (stream (validation.getMarcValidSubfieldStringCode ( ).split ("")).collect (toList ( )));
-    catalogingSourceField.setDefaultSubfieldCode (String.valueOf (validation.getMarcTagDefaultSubfieldCode ( )));
-    catalogingSourceField.setValue (configuration.get ("bibliographicItem.cataloguingSourceStringText"));
-    catalogingSourceField.setDescription (description);
-    catalogingSourceField.setCategoryCode (Global.INT_CATEGORY);
+    catalogingSourceField.setCode(Global.CATALOGING_SOURCE_TAG_CODE);
+    catalogingSourceField.setHeadingTypeCode(Integer.toString(Global.CATALOGING_SOURCE_HEADER_TYPE));
+    catalogingSourceField.setSubfields(stream(validation.getMarcValidSubfieldStringCode().split("")).collect(toList()));
+    catalogingSourceField.setDefaultSubfieldCode(String.valueOf(validation.getMarcTagDefaultSubfieldCode()));
+    catalogingSourceField.setValue(configuration.get("bibliographicItem.cataloguingSourceStringText"));
+    catalogingSourceField.setDescription(description);
+    catalogingSourceField.setCategoryCode(Global.INT_CATEGORY);
 
-    final Field field = new Field ( );
-    field.setCode (Global.CATALOGING_SOURCE_TAG_CODE);
-    field.setMandatory (true);
-    field.setVariableField (catalogingSourceField);
+    final Field field = new Field();
+    field.setCode(Global.CATALOGING_SOURCE_TAG_CODE);
+    field.setMandatory(true);
+    field.setVariableField(catalogingSourceField);
 
     return field;
   }
@@ -118,18 +118,18 @@ public class FieldAPI extends BaseResource {
    * @return a new 001 {@link Field} entity populated with default values.
    */
   private Field createControlNumberField(final StorageService storageService, final String lang) {
-    final String description = storageService.getHeadingTypeDescription (Global.CONTROL_NUMBER_HEADER_TYPE, lang, Global.INT_CATEGORY);
-    final FixedField controlNumberFixedField = new FixedField ( );
-    controlNumberFixedField.setCode (Global.CONTROL_NUMBER_TAG_CODE);
-    controlNumberFixedField.setDisplayValue (Global.DECIMAL_FORMAT_AN.format (0));
-    controlNumberFixedField.setHeaderTypeCode (Global.CONTROL_NUMBER_HEADER_TYPE);
-    controlNumberFixedField.setDescription (description);
-    controlNumberFixedField.setCategoryCode (Global.INT_CATEGORY);
+    final String description = storageService.getHeadingTypeDescription(Global.CONTROL_NUMBER_HEADER_TYPE, lang, Global.INT_CATEGORY);
+    final FixedField controlNumberFixedField = new FixedField();
+    controlNumberFixedField.setCode(Global.CONTROL_NUMBER_TAG_CODE);
+    controlNumberFixedField.setDisplayValue(Global.DECIMAL_FORMAT_AN.format(0));
+    controlNumberFixedField.setHeaderTypeCode(Global.CONTROL_NUMBER_HEADER_TYPE);
+    controlNumberFixedField.setDescription(description);
+    controlNumberFixedField.setCategoryCode(Global.INT_CATEGORY);
 
-    final Field field = new Field ( );
-    field.setCode (Global.CONTROL_NUMBER_TAG_CODE);
-    field.setMandatory (true);
-    field.setFixedField (controlNumberFixedField);
+    final Field field = new Field();
+    field.setCode(Global.CONTROL_NUMBER_TAG_CODE);
+    field.setMandatory(true);
+    field.setFixedField(controlNumberFixedField);
 
     return field;
 
@@ -143,18 +143,18 @@ public class FieldAPI extends BaseResource {
    * @return a new leader {@link Field} entity populated with default values.
    */
   private Field createRequiredLeaderField(final StorageService storageService, final String lang) {
-    final String description = storageService.getHeadingTypeDescription (Global.LEADER_HEADER_TYPE, lang, Global.INT_CATEGORY);
-    final FixedField leader = new FixedField ( );
-    leader.setHeaderTypeCode (Global.LEADER_HEADER_TYPE);
-    leader.setCode (Global.LEADER_TAG_NUMBER);
-    leader.setDisplayValue (getLeaderValue ( ));
-    leader.setDescription (description);
-    leader.setCategoryCode (Global.INT_CATEGORY);
+    final String description = storageService.getHeadingTypeDescription(Global.LEADER_HEADER_TYPE, lang, Global.INT_CATEGORY);
+    final FixedField leader = new FixedField();
+    leader.setHeaderTypeCode(Global.LEADER_HEADER_TYPE);
+    leader.setCode(Global.LEADER_TAG_NUMBER);
+    leader.setDisplayValue(getLeaderValue());
+    leader.setDescription(description);
+    leader.setCategoryCode(Global.INT_CATEGORY);
 
-    final Field field = new Field ( );
-    field.setCode (Global.LEADER_TAG_NUMBER);
-    field.setMandatory (true);
-    field.setFixedField (leader);
+    final Field field = new Field();
+    field.setCode(Global.LEADER_TAG_NUMBER);
+    field.setMandatory(true);
+    field.setFixedField(leader);
     return field;
   }
 
@@ -168,24 +168,24 @@ public class FieldAPI extends BaseResource {
    */
   private Field createRequiredMaterialDescriptionField(final Map <String, String> configuration, final StorageService storageService, final String lang) {
 
-    final String description = storageService.getHeadingTypeDescription (Global.MATERIAL_DESCRIPTION_HEADER_TYPE, lang, Global.INT_CATEGORY);
-    final GeneralInformation generalInformation = new GeneralInformation ( );
-    generalInformation.setMaterialDescription008Indicator ("1");
-    generalInformation.setFormOfMaterial (Global.BOOKFORM_OF_MATERIAL);
-    generalInformation.setDefaultValues (configuration);
-    generalInformation.setEnteredOnFileDateYYMMDD (F.getFormattedToday ("yyMMdd"));
+    final String description = storageService.getHeadingTypeDescription(Global.MATERIAL_DESCRIPTION_HEADER_TYPE, lang, Global.INT_CATEGORY);
+    final GeneralInformation generalInformation = new GeneralInformation();
+    generalInformation.setMaterialDescription008Indicator("1");
+    generalInformation.setFormOfMaterial(Global.BOOKFORM_OF_MATERIAL);
+    generalInformation.setDefaultValues(configuration);
+    generalInformation.setEnteredOnFileDateYYMMDD(F.getFormattedToday("yyMMdd"));
 
-    final FixedField materialDescription = new FixedField ( );
-    materialDescription.setHeaderTypeCode (Global.MATERIAL_DESCRIPTION_HEADER_TYPE);
-    materialDescription.setCode (Global.MATERIAL_TAG_CODE);
-    materialDescription.setDisplayValue (generalInformation.getValueString ( ));
-    materialDescription.setDescription (description);
-    materialDescription.setCategoryCode (Global.INT_CATEGORY);
+    final FixedField materialDescription = new FixedField();
+    materialDescription.setHeaderTypeCode(Global.MATERIAL_DESCRIPTION_HEADER_TYPE);
+    materialDescription.setCode(Global.MATERIAL_TAG_CODE);
+    materialDescription.setDisplayValue(generalInformation.getValueString());
+    materialDescription.setDescription(description);
+    materialDescription.setCategoryCode(Global.INT_CATEGORY);
 
-    final Field field = new Field ( );
-    field.setCode (Global.MATERIAL_TAG_CODE);
-    field.setMandatory (true);
-    field.setFixedField (materialDescription);
+    final Field field = new Field();
+    field.setCode(Global.MATERIAL_TAG_CODE);
+    field.setMandatory(true);
+    field.setFixedField(materialDescription);
 
     return field;
   }
@@ -196,17 +196,17 @@ public class FieldAPI extends BaseResource {
    * @return the default leader value.
    */
   private String getLeaderValue() {
-    return new StringBuilder (Global.FIXED_LEADER_LENGTH)
-      .append (Global.RECORD_STATUS_CODE)
-      .append (Global.RECORD_TYPE_CODE)
-      .append (Global.BIBLIOGRAPHIC_LEVEL_CODE)
-      .append (Global.CONTROL_TYPE_CODE)
-      .append (Global.CHARACTER_CODING_SCHEME_CODE)
-      .append (Global.FIXED_LEADER_BASE_ADDRESS)
-      .append (Global.ENCODING_LEVEL)
-      .append (Global.DESCRIPTIVE_CATALOGUING_CODE)
-      .append (Global.LINKED_RECORD_CODE)
-      .append (Global.FIXED_LEADER_PORTION)
-      .toString ( );
+    return new StringBuilder(Global.FIXED_LEADER_LENGTH)
+      .append(Global.RECORD_STATUS_CODE)
+      .append(Global.RECORD_TYPE_CODE)
+      .append(Global.BIBLIOGRAPHIC_LEVEL_CODE)
+      .append(Global.CONTROL_TYPE_CODE)
+      .append(Global.CHARACTER_CODING_SCHEME_CODE)
+      .append(Global.FIXED_LEADER_BASE_ADDRESS)
+      .append(Global.ENCODING_LEVEL)
+      .append(Global.DESCRIPTIVE_CATALOGUING_CODE)
+      .append(Global.LINKED_RECORD_CODE)
+      .append(Global.FIXED_LEADER_PORTION)
+      .toString();
   }
 }

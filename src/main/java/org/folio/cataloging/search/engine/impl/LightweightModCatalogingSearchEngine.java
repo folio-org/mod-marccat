@@ -1,9 +1,15 @@
 package org.folio.cataloging.search.engine.impl;
 
+import net.sf.hibernate.HibernateException;
+import org.folio.cataloging.exception.ModCatalogingException;
 import org.folio.cataloging.integration.StorageService;
-import org.folio.cataloging.search.domain.LightweightXmlRecord;
+import org.folio.cataloging.resources.domain.CountDocument;
+import org.folio.cataloging.search.SearchResponse;
+import org.folio.cataloging.search.domain.LightweightJsonRecord;
 import org.folio.cataloging.search.domain.Record;
 import org.folio.cataloging.search.engine.ModCatalogingSearchEngine;
+
+import java.util.Arrays;
 
 /**
  * ModCataloging Search Engine.
@@ -20,11 +26,33 @@ public class LightweightModCatalogingSearchEngine extends ModCatalogingSearchEng
    * @param service                 the {@link StorageService} instance.
    */
   public LightweightModCatalogingSearchEngine(final int mainLibraryId, final int databasePreferenceOrder, final StorageService service) {
-    super (mainLibraryId, databasePreferenceOrder, service);
+    super(mainLibraryId, databasePreferenceOrder, service);
   }
 
   @Override
   public Record newRecord() {
-    return new LightweightXmlRecord ( );
+    return new LightweightJsonRecord();
   }
+
+  @Override
+  public void injectDocCount(SearchResponse searchResponse, final StorageService storageService) throws ModCatalogingException {
+    final int view = 1;
+    //retrieve records id
+    if (searchResponse != null) {
+      Arrays.stream(searchResponse.getRecord()).forEach(singleRecord -> {
+        int an = ((LightweightJsonRecord) singleRecord).getData().get("fields").get(0).get("001").asInt();
+        try {
+          CountDocument countDocument = storageService.getCountDocumentByAutNumber(an, view);
+          singleRecord.setCountDoc(countDocument.getCountDocuments());
+          singleRecord.setQueryForAssociatedDoc(countDocument.getQuery());
+        } catch (HibernateException e) {
+          e.printStackTrace();
+        }
+
+      });
+    }
+
+  }
+
+
 }

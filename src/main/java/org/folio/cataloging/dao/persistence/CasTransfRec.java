@@ -24,16 +24,16 @@ import java.io.Serializable;
  */
 public class CasTransfRec implements Persistence {
 
-  static DAOCasTrnsfPrdct dao = new DAOCasTrnsfPrdct ( );
+  static DAOCasTrnsfPrdct dao = new DAOCasTrnsfPrdct();
 
 
   private int transactionId;
-  private PersistenceState persistenceState = new PersistenceState ( );
+  private PersistenceState persistenceState = new PersistenceState();
 
 
   public CasTransfRec(int transactionId) {
-    this ( );
-    setTransactionId (transactionId);
+    this();
+    setTransactionId(transactionId);
 
   }
 
@@ -43,7 +43,7 @@ public class CasTransfRec implements Persistence {
    * @since 1.0
    */
   public CasTransfRec() {
-    super ( );
+    super();
     // TODO Auto-generated constructor stub
   }
 
@@ -60,11 +60,11 @@ public class CasTransfRec implements Persistence {
   }
 
   public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict (obj);
+    persistenceState.evict(obj);
   }
 
   public void evict() throws DataAccessException {
-    evict (this);
+    evict(this);
   }
 
   /**
@@ -78,7 +78,7 @@ public class CasTransfRec implements Persistence {
    * @since 1.0
    */
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   public void setUpdateStatus(int i) {
@@ -161,9 +161,9 @@ public class CasTransfRec implements Persistence {
       return true;
     if (obj == null)
       return false;
-    if (getClass ( ) != obj.getClass ( ))
+    if (getClass() != obj.getClass())
       return false;
     CasTransfRec other = (CasTransfRec) obj;
-    return transactionId == other.getTransactionId ( );
+    return transactionId == other.getTransactionId();
   }
 }

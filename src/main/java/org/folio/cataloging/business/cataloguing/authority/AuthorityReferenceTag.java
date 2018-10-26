@@ -44,7 +44,7 @@ public abstract class AuthorityReferenceTag
   extends VariableField
   implements PersistsViaItem, PersistentObjectWithView, Browsable, SkipInFiling {
   private static final Log logger =
-    LogFactory.getLog (AuthorityReferenceTag.class);
+    LogFactory.getLog(AuthorityReferenceTag.class);
 
   private static final String VARIANT_CODES = "wehij4";
 
@@ -61,14 +61,14 @@ public abstract class AuthorityReferenceTag
    * @since 1.0
    */
   public AuthorityReferenceTag() {
-    super ( );
-    reference = new NME_REF ( );
-    targetDescriptor = new NME_HDG ( );
+    super();
+    reference = new NME_REF();
+    targetDescriptor = new NME_HDG();
   }
 
   @Override
   public String buildBrowseTerm() {
-    return getDescriptor ( ).buildBrowseTerm ( );
+    return getDescriptor().buildBrowseTerm();
   }
 
 
@@ -78,24 +78,24 @@ public abstract class AuthorityReferenceTag
    * @since 1.0
    */
   public void changeHeadingType(short headingType) {
-    Descriptor d = DescriptorFactory.createDescriptor (headingType);
-    setTargetDescriptor (d);
+    Descriptor d = DescriptorFactory.createDescriptor(headingType);
+    setTargetDescriptor(d);
   }
 
   /* (non-Javadoc)
    * @see TagInterface#correlationChangeAffectsKey(librisuite.business.common.CorrelationValues)
    */
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
-    return !v.isValueDefined (getRefTypeCorrelationPosition ( ));
+    return !v.isValueDefined(getRefTypeCorrelationPosition());
   }
 
   /* (non-Javadoc)
    * @see java.lang.Object#equals(java.lang.Object)
    */
   public boolean equals(Object obj) {
-    if (obj.getClass ( ).equals (this.getClass ( ))) {
+    if (obj.getClass().equals(this.getClass())) {
       AuthorityReferenceTag aRef = (AuthorityReferenceTag) obj;
-      return aRef.getReference ( ).equals (this.getReference ( ));
+      return aRef.getReference().equals(this.getReference());
     }
     return false;
   }
@@ -104,14 +104,14 @@ public abstract class AuthorityReferenceTag
    * @see Tag#evict()
    */
   public void evict() throws DataAccessException {
-    reference.evict ( );
+    reference.evict();
   }
 
   /**
    * @since 1.0
    */
   public void evict(Object obj) throws DataAccessException {
-    reference.evict (((AuthorityReferenceTag) obj).getReference ( ));
+    reference.evict(((AuthorityReferenceTag) obj).getReference());
   }
 
   /* (non-Javadoc)
@@ -119,21 +119,21 @@ public abstract class AuthorityReferenceTag
    */
   public void generateNewKey() throws DataAccessException {
     // called on save for new tags -- make sure source heading is in reference
-    getReference ( ).setSource (getAutItm ( ).getHeadingNumber ( ));
+    getReference().setSource(getAutItm().getHeadingNumber());
   }
 
   /**
    * @since 1.0
    */
   public char getAuthorityStructure() {
-    return reference.getAuthorityStructure ( );
+    return reference.getAuthorityStructure();
   }
 
   /**
    * @since 1.0
    */
   public void setAuthorityStructure(char b) {
-    reference.setAuthorityStructure (b);
+    reference.setAuthorityStructure(b);
   }
 
   /**
@@ -156,14 +156,14 @@ public abstract class AuthorityReferenceTag
   public int getCategory() {
     try {
       return (
-        (AccessPoint) getDescriptor ( )
-          .getAccessPointClass ( )
-          .newInstance ( ))
-        .getCategory ( );
+        (AccessPoint) getDescriptor()
+          .getAccessPointClass()
+          .newInstance())
+        .getCategory();
     } catch (InstantiationException e) {
-      throw new RuntimeException ("Could not create an AccessPoint");
+      throw new RuntimeException("Could not create an AccessPoint");
     } catch (IllegalAccessException e) {
-      throw new RuntimeException ("Could not create an AccessPoint");
+      throw new RuntimeException("Could not create an AccessPoint");
     }
   }
 
@@ -171,15 +171,15 @@ public abstract class AuthorityReferenceTag
    * @see TagInterface#getCorrelationValues()
    */
   public CorrelationValues getCorrelationValues() {
-    CorrelationValues c = getTargetDescriptor ( ).getCorrelationValues ( );
-    setRefTypeCorrelationPosition (c.getFirstUnusedPosition ( ));
-    c = c.change (getRefTypeCorrelationPosition ( ), getReference ( ).getType ( ));
+    CorrelationValues c = getTargetDescriptor().getCorrelationValues();
+    setRefTypeCorrelationPosition(c.getFirstUnusedPosition());
+    c = c.change(getRefTypeCorrelationPosition(), getReference().getType());
     /*
      * subject correlation in bib uses pos 3 for source but authorities
      * does not use this value so set to undefined
      */
-    for ( int i = getRefTypeCorrelationPosition ( ) + 1; i <= 3; i++ ) {
-      c = c.change (i, CorrelationValues.UNDEFINED);
+    for (int i = getRefTypeCorrelationPosition() + 1; i <= 3; i++) {
+      c = c.change(i, CorrelationValues.UNDEFINED);
     }
     return c;
   }
@@ -188,29 +188,29 @@ public abstract class AuthorityReferenceTag
    * @see TagInterface#setCorrelationValues(librisuite.business.common.CorrelationValues)
    */
   public void setCorrelationValues(CorrelationValues v) {
-    getReference ( ).setType (v.getValue (getRefTypeCorrelationPosition ( )));
-    getTargetDescriptor ( ).setCorrelationValues (v);
+    getReference().setType(v.getValue(getRefTypeCorrelationPosition()));
+    getTargetDescriptor().setCorrelationValues(v);
   }
 
   /* (non-Javadoc)
    * @see Tag#getDAO()
    */
   public AbstractDAO getDAO() {
-    return new DAOAuthorityReferenceTag ( );
+    return new DAOAuthorityReferenceTag();
   }
 
   /* (non-Javadoc)
    * @see Browsable#getDescriptor()
    */
   public Descriptor getDescriptor() {
-    return getTargetDescriptor ( );
+    return getTargetDescriptor();
   }
 
   /* (non-Javadoc)
    * @see Browsable#setDescriptor(librisuite.hibernate.Descriptor)
    */
   public void setDescriptor(Descriptor d) {
-    setTargetDescriptor (d);
+    setTargetDescriptor(d);
   }
 
   /* (non-Javadoc)
@@ -238,21 +238,21 @@ public abstract class AuthorityReferenceTag
    * @since 1.0
    */
   public char getEarlierRules() {
-    return reference.getEarlierRules ( );
+    return reference.getEarlierRules();
   }
 
   /**
    * @since 1.0
    */
   public void setEarlierRules(char b) {
-    reference.setEarlierRules (b);
+    reference.setEarlierRules(b);
   }
 
   /* (non-Javadoc)
    * @see Browsable#getEditableSubfields()
    */
   public StringText getEditableSubfields() {
-    return new StringText (getReference ( ).getStringText ( ));
+    return new StringText(getReference().getStringText());
   }
 
   /* (non-Javadoc)
@@ -287,9 +287,9 @@ public abstract class AuthorityReferenceTag
    * @see Browsable#getHeadingNumber()
    */
   public Integer getHeadingNumber() {
-    int result = getAutItm ( ).getHeadingNumber ( );
+    int result = getAutItm().getHeadingNumber();
     if (result > 0) {
-      return new Integer (result);
+      return new Integer(result);
     } else {
       return null;
     }
@@ -303,9 +303,9 @@ public abstract class AuthorityReferenceTag
     if (i == null) {
       setting = -1;
     } else {
-      setting = i.intValue ( );
+      setting = i.intValue();
     }
-    getReference ( ).setTarget (setting);
+    getReference().setTarget(setting);
   }
 
   /* (non-Javadoc)
@@ -319,7 +319,7 @@ public abstract class AuthorityReferenceTag
    * @see PersistsViaItem#setItemEntity(ItemEntity)
    */
   public void setItemEntity(ItemEntity item) {
-    setAutItm ((AUT) item);
+    setAutItm((AUT) item);
   }
 
   /* (non-Javadoc)
@@ -327,36 +327,36 @@ public abstract class AuthorityReferenceTag
    */
   public CorrelationKey getMarcEncoding()
     throws DataAccessException {
-    return super.getMarcEncoding ( ).changeSkipInFilingIndicator (
-      getSkipInFiling ( ));
+    return super.getMarcEncoding().changeSkipInFilingIndicator(
+      getSkipInFiling());
   }
 
   /**
    * @since 1.0
    */
   public char getNoteGeneration() {
-    return reference.getNoteGeneration ( );
+    return reference.getNoteGeneration();
   }
 
   /**
    * @since 1.0
    */
   public void setNoteGeneration(char b) {
-    reference.setNoteGeneration (b);
+    reference.setNoteGeneration(b);
   }
 
   /**
    * @since 1.0
    */
   public char getPrintConstant() {
-    return reference.getPrintConstant ( );
+    return reference.getPrintConstant();
   }
 
   /**
    * @since 1.0
    */
   public void setPrintConstant(char b) {
-    reference.setPrintConstant (b);
+    reference.setPrintConstant(b);
   }
 
   /**
@@ -382,9 +382,9 @@ public abstract class AuthorityReferenceTag
   protected int getRefTypeCorrelationPosition() {
     if (refTypeCorrelationPosition == null) {
       // set the value  by calling getCorrelationValues()
-      getCorrelationValues ( );
+      getCorrelationValues();
     }
-    return refTypeCorrelationPosition.intValue ( );
+    return refTypeCorrelationPosition.intValue();
   }
 
   /**
@@ -399,25 +399,25 @@ public abstract class AuthorityReferenceTag
    */
   public List getSecondCorrelationList(int value1)
     throws DataAccessException {
-    if (getRefTypeCorrelationPosition ( ) > 2) {
-      if (getTargetDescriptor ( ) instanceof NME_TTL_HDG) {
-        return new NameAccessPoint ( ).getSecondCorrelationList (value1);
+    if (getRefTypeCorrelationPosition() > 2) {
+      if (getTargetDescriptor() instanceof NME_TTL_HDG) {
+        return new NameAccessPoint().getSecondCorrelationList(value1);
       } else {
         try {
           return (
-            (AccessPoint) getTargetDescriptor ( )
-              .getAccessPointClass ( )
-              .newInstance ( ))
-            .getSecondCorrelationList (
+            (AccessPoint) getTargetDescriptor()
+              .getAccessPointClass()
+              .newInstance())
+            .getSecondCorrelationList(
               value1);
         } catch (InstantiationException e) {
-          throw new RuntimeException ("ErrorCollection creating AccessPoint");
+          throw new RuntimeException("ErrorCollection creating AccessPoint");
         } catch (IllegalAccessException e) {
-          throw new RuntimeException ("ErrorCollection creating AccessPoint");
+          throw new RuntimeException("ErrorCollection creating AccessPoint");
         }
       }
-    } else if (getRefTypeCorrelationPosition ( ) == 2) {
-      return new DAOAuthorityCorrelation ( ).getValidReferenceTypeList (this);
+    } else if (getRefTypeCorrelationPosition() == 2) {
+      return new DAOAuthorityCorrelation().getValidReferenceTypeList(this);
     } else {
       return null;
     }
@@ -427,8 +427,8 @@ public abstract class AuthorityReferenceTag
    * @see SkipInFiling#getSkipInFiling()
    */
   public int getSkipInFiling() {
-    if (getDescriptor ( ) instanceof SkipInFiling) {
-      return getDescriptor ( ).getSkipInFiling ( );
+    if (getDescriptor() instanceof SkipInFiling) {
+      return getDescriptor().getSkipInFiling();
     } else {
       return 0;
     }
@@ -438,20 +438,20 @@ public abstract class AuthorityReferenceTag
    * @see SkipInFiling#setSkipInFiling(short)
    */
   public void setSkipInFiling(int i) {
-    if (getDescriptor ( ) instanceof SkipInFiling) {
-      getDescriptor ( ).setSkipInFiling (i);
+    if (getDescriptor() instanceof SkipInFiling) {
+      getDescriptor().setSkipInFiling(i);
     }
   }
 
   @Override
   public StringText getStringText() {
-    StringText result = new StringText (getTargetDescriptor ( ).getStringText ( ));
-    StringText variantCodes = new StringText (getReference ( ).getStringText ( ));
-    StringText subi = variantCodes.getSubfieldsWithCodes ("i");
-    if (subi.getNumberOfSubfields ( ) == 1) {
-      result.addSubfield (0, subi.getSubfield (0));
+    StringText result = new StringText(getTargetDescriptor().getStringText());
+    StringText variantCodes = new StringText(getReference().getStringText());
+    StringText subi = variantCodes.getSubfieldsWithCodes("i");
+    if (subi.getNumberOfSubfields() == 1) {
+      result.addSubfield(0, subi.getSubfield(0));
     }
-    result.add (variantCodes.getSubfieldsWithCodes ("ej"));
+    result.add(variantCodes.getSubfieldsWithCodes("ej"));
     return result;
   }
 
@@ -460,8 +460,8 @@ public abstract class AuthorityReferenceTag
    */
   public void setStringText(StringText stringText) {
     //paulm aut
-    getReference ( ).setStringText (stringText.getSubfieldsWithCodes (getVariantCodes ( )).toString ( ));
-    logger.debug ("REF.StringText = " + getReference ( ).getStringText ( ));
+    getReference().setStringText(stringText.getSubfieldsWithCodes(getVariantCodes()).toString());
+    logger.debug("REF.StringText = " + getReference().getStringText());
     // no setting of descriptor from worksheet
     // setDescriptorStringText(stringText);
   }
@@ -481,7 +481,7 @@ public abstract class AuthorityReferenceTag
     /*
      * make sure that the new descriptor is compatible with the reference class
      */
-    reference.setTarget (descriptor.getKey ( ).getHeadingNumber ( ));
+    reference.setTarget(descriptor.getKey().getHeadingNumber());
   }
 
   /* (non-Javadoc)
@@ -489,10 +489,10 @@ public abstract class AuthorityReferenceTag
    */
   public List getThirdCorrelationList(int value1, int value2)
     throws DataAccessException {
-    logger.debug ("getThirdCorrelationList(" + value1 + ", " + value2 + ")");
-    if (getRefTypeCorrelationPosition ( ) == 3) {
-      logger.debug ("refType is in pos 3");
-      return new DAOAuthorityCorrelation ( ).getValidReferenceTypeList (this);
+    logger.debug("getThirdCorrelationList(" + value1 + ", " + value2 + ")");
+    if (getRefTypeCorrelationPosition() == 3) {
+      logger.debug("refType is in pos 3");
+      return new DAOAuthorityCorrelation().getValidReferenceTypeList(this);
     } else {
       return null;
     }
@@ -502,35 +502,35 @@ public abstract class AuthorityReferenceTag
    * @see Tag#getUpdateStatus()
    */
   public int getUpdateStatus() {
-    return reference.getUpdateStatus ( );
+    return reference.getUpdateStatus();
   }
 
   /* (non-Javadoc)
    * @see Tag#setUpdateStatus(int)
    */
   public void setUpdateStatus(int i) {
-    reference.setUpdateStatus (i);
+    reference.setUpdateStatus(i);
   }
 
   /**
    * @since 1.0
    */
   public String getUserViewString() {
-    return getReference ( ).getUserViewString ( );
+    return getReference().getUserViewString();
   }
 
   /**
    * @since 1.0
    */
   public void setUserViewString(String s) {
-    getReference ( ).setUserViewString (s);
+    getReference().setUserViewString(s);
   }
 
   /* (non-Javadoc)
    * @see Browsable#getValidEditableSubfields()
    */
   public Set getValidEditableSubfields() {
-    return getTagImpl ( ).getValidEditableSubfields (getCategory ( ));
+    return getTagImpl().getValidEditableSubfields(getCategory());
   }
 
   public String getVariantCodes() {
@@ -541,7 +541,7 @@ public abstract class AuthorityReferenceTag
    * @see java.lang.Object#hashCode()
    */
   public int hashCode() {
-    return getReference ( ).hashCode ( );
+    return getReference().hashCode();
   }
 
   /* (non-Javadoc)
@@ -555,14 +555,14 @@ public abstract class AuthorityReferenceTag
    * @see Tag#isChanged()
    */
   public boolean isChanged() {
-    return reference.isChanged ( );
+    return reference.isChanged();
   }
 
   /* (non-Javadoc)
    * @see Tag#isDeleted()
    */
   public boolean isDeleted() {
-    return reference.isDeleted ( );
+    return reference.isDeleted();
   }
 
   public boolean isHasDualIndicator() {
@@ -573,14 +573,14 @@ public abstract class AuthorityReferenceTag
    * @see Tag#isNew()
    */
   public boolean isNew() {
-    return reference.isNew ( );
+    return reference.isNew();
   }
 
   /* (non-Javadoc)
    * @see Tag#isRemoved()
    */
   public boolean isRemoved() {
-    return reference.isRemoved ( );
+    return reference.isRemoved();
   }
 
   @Override
@@ -592,95 +592,95 @@ public abstract class AuthorityReferenceTag
    * @see Tag#markChanged()
    */
   public void markChanged() {
-    reference.markChanged ( );
+    reference.markChanged();
   }
 
   /* (non-Javadoc)
    * @see Tag#markDeleted()
    */
   public void markDeleted() {
-    reference.markDeleted ( );
+    reference.markDeleted();
   }
 
   /* (non-Javadoc)
    * @see Tag#markNew()
    */
   public void markNew() {
-    reference.markNew ( );
+    reference.markNew();
   }
 
   /* (non-Javadoc)
    * @see Tag#markUnchanged()
    */
   public void markUnchanged() {
-    reference.markUnchanged ( );
+    reference.markUnchanged();
   }
 
   /* (non-Javadoc)
    * @see Tag#onDelete(net.sf.hibernate.Session)
    */
   public boolean onDelete(Session arg0) throws CallbackException {
-    return reference.onDelete (arg0);
+    return reference.onDelete(arg0);
   }
 
   /* (non-Javadoc)
    * @see Tag#onLoad(net.sf.hibernate.Session, java.io.Serializable)
    */
   public void onLoad(Session arg0, Serializable arg1) {
-    reference.onLoad (arg0, arg1);
+    reference.onLoad(arg0, arg1);
   }
 
   /* (non-Javadoc)
    * @see Tag#onSave(net.sf.hibernate.Session)
    */
   public boolean onSave(Session arg0) throws CallbackException {
-    return reference.onSave (arg0);
+    return reference.onSave(arg0);
   }
 
   /* (non-Javadoc)
    * @see Tag#onUpdate(net.sf.hibernate.Session)
    */
   public boolean onUpdate(Session arg0) throws CallbackException {
-    return reference.onUpdate (arg0);
+    return reference.onUpdate(arg0);
   }
 
   /* (non-Javadoc)
    * @see VariableField#parseModelXmlElementContent(org.w3c.dom.Element)
    */
   public void parseModelXmlElementContent(Element xmlElement) {
-    setDescriptorStringText (StringText.parseModelXmlElementContent (xmlElement));
+    setDescriptorStringText(StringText.parseModelXmlElementContent(xmlElement));
   }
 
   /* (non-Javadoc)
    * @see Browsable#setDescriptorStringText(org.folio.cataloging.util.StringText)
    */
   public void setDescriptorStringText(StringText tagStringText) {
-    getTargetDescriptor ( ).setStringText (
-      tagStringText.getSubfieldsWithoutCodes ("w").toString ( ));
+    getTargetDescriptor().setStringText(
+      tagStringText.getSubfieldsWithoutCodes("w").toString());
   }
 
   public Character getLinkDisplay() {
-    return reference.getLinkDisplay ( );
+    return reference.getLinkDisplay();
   }
 
   public void setLinkDisplay(Character linkDisplay) {
-    reference.setLinkDisplay (linkDisplay);
+    reference.setLinkDisplay(linkDisplay);
   }
 
   public Character getReplacementComplexity() {
-    return reference.getReplacementComplexity ( );
+    return reference.getReplacementComplexity();
   }
 
   public void setReplacementComplexity(Character replacementComplexity) {
-    reference.setReplacementComplexity (replacementComplexity);
+    reference.setReplacementComplexity(replacementComplexity);
   }
 
   /* (non-Javadoc)
    * @see TagInterface#validate()
    */
   public void validate(int index) throws NoHeadingSetException {
-    if (getTargetDescriptor ( ).isNew ( )) {
-      throw new NoHeadingSetException (index);
+    if (getTargetDescriptor().isNew()) {
+      throw new NoHeadingSetException(index);
     }
   }
 

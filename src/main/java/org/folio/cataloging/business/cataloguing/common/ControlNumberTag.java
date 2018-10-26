@@ -27,7 +27,7 @@ public abstract class ControlNumberTag extends FixedFieldUsingItemEntity {
    * @since 1.0
    */
   public ControlNumberTag() {
-    super ( );
+    super();
     /*
      * implementers of this class should setHeaderType() in this constructor
      */
@@ -37,12 +37,12 @@ public abstract class ControlNumberTag extends FixedFieldUsingItemEntity {
    * @see FixedField#getDisplayString()
    */
   public String getDisplayString() {
-    DecimalFormat df = new DecimalFormat ("000000000000");
+    DecimalFormat df = new DecimalFormat("000000000000");
     String result = null;
-    if (getItemEntity ( ).getAmicusNumber ( ) == null) {
-      result = df.format (0);
+    if (getItemEntity().getAmicusNumber() == null) {
+      result = df.format(0);
     } else {
-      result = df.format (getItemEntity ( ).getAmicusNumber ( ));
+      result = df.format(getItemEntity().getAmicusNumber());
     }
     return result;
   }
@@ -66,7 +66,7 @@ public abstract class ControlNumberTag extends FixedFieldUsingItemEntity {
    */
   public boolean equals(Object obj) {
     if (obj instanceof ControlNumberTag) {
-      return super.equals (obj);
+      return super.equals(obj);
     } else {
       return false;
     }
@@ -76,34 +76,34 @@ public abstract class ControlNumberTag extends FixedFieldUsingItemEntity {
    * @see java.lang.Object#hashCode()
    */
   public int hashCode() {
-    return super.hashCode ( );
+    return super.hashCode();
   }
 
   /* (non-Javadoc)
    * @see librisuite.business.cataloguing.bibliographic.Tag#correlationChangeAffectsKey(librisuite.business.common.CorrelationValues)
    */
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
-    return v.isValueDefined (1) && (v.getValue (1) != getHeaderType ( ));
+    return v.isValueDefined(1) && (v.getValue(1) != getHeaderType());
   }
 
   public Element generateModelXmlElementContent(Document xmlDocument) {
     Element content = null;
     if (xmlDocument != null) {
-      content = xmlDocument.createElement ("content");
-      content.setAttribute ("amicusNumber", "" + "000000000000");
+      content = xmlDocument.createElement("content");
+      content.setAttribute("amicusNumber", "" + "000000000000");
     }
     return content;
   }
 
   public void parseModelXmlElementContent(Element xmlElement) {
-    Element content = (Element) xmlElement.getChildNodes ( ).item (0);
+    Element content = (Element) xmlElement.getChildNodes().item(0);
   }
 
   @Override
   public void setContentFromMarcString(final String s) {
     try {
-      int controlNumber = Integer.parseInt (s);
-      getItemEntity ( ).setAmicusNumber (new Integer (controlNumber));
+      int controlNumber = Integer.parseInt(s);
+      getItemEntity().setAmicusNumber(new Integer(controlNumber));
     } catch (NumberFormatException e) {
       // not a number so don't set AMICUS number
     }

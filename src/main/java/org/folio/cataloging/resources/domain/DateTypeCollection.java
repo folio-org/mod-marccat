@@ -21,10 +21,10 @@ public class DateTypeCollection {
   @JsonProperty("dateTypes")
   @Valid
   @NotNull
-  private List <DateType> dateTypes = new ArrayList <DateType> ( );
+  private List <DateType> dateTypes = new ArrayList <DateType>();
 
   @JsonIgnore
-  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
+  private Map <String, Object> additionalProperties = new HashMap <String, Object>();
 
   /**
    * (Required)
@@ -58,11 +58,11 @@ public class DateTypeCollection {
 
   @JsonAnySetter
   public void setAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
   }
 
   public DateTypeCollection withAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
     return this;
   }
 }

@@ -31,9 +31,9 @@ import java.util.TreeSet;
  */
 public abstract class SortformUtils {
   /* Words that keep Alfalam For Arabic Language */
-  private static final TreeSet arabicWordExceptions = new TreeSet (
+  private static final TreeSet arabicWordExceptions = new TreeSet(
     Arrays
-      .asList (new String[]{
+      .asList(new String[]{
         "\u0622\u0644",
         "\u0622\u0644\u0622\u0645",
         "\u0622\u0644\u0627",
@@ -399,152 +399,152 @@ public abstract class SortformUtils {
         "\u0627\u0644\u064A\u0646\u0648\u0649",
         "\u0627\u0644\u064A\u0646\u0648\u064A"}));
   public static boolean isUseDatabase = false;
-  private static Log logger = LogFactory.getLog (SortformUtils.class);
+  private static Log logger = LogFactory.getLog(SortformUtils.class);
 
   public static String defaultSortform(String stringText) {
-    String result = new StringText (stringText).toDisplayString ( )
-      .toUpperCase ( );
-    logger.debug ("display string: " + result);
-    result = stripAccents (result);
-    logger.debug ("strip accents: " + result);
-    result = deleteAlfalam (result);
-    logger.debug ("alfalam: " + result);
-    result = transformALA (result);
-    logger.debug ("ala: " + result);
-    result = stripPunctuation (result);
-    logger.debug ("punc: " + result);
-    result = stripMultipleBlanks (result);
-    logger.debug ("multiblank: " + result);
+    String result = new StringText(stringText).toDisplayString()
+      .toUpperCase();
+    logger.debug("display string: " + result);
+    result = stripAccents(result);
+    logger.debug("strip accents: " + result);
+    result = deleteAlfalam(result);
+    logger.debug("alfalam: " + result);
+    result = transformALA(result);
+    logger.debug("ala: " + result);
+    result = stripPunctuation(result);
+    logger.debug("punc: " + result);
+    result = stripMultipleBlanks(result);
+    logger.debug("multiblank: " + result);
     return result;
   }
 
   private static String stripMultipleBlanks(String s) {
-    return s.replaceAll ("\\s+", " ");
+    return s.replaceAll("\\s+", " ");
   }
 
   private static String transformALA(String s) {
-    StringBuilder result = new StringBuilder ( );
+    StringBuilder result = new StringBuilder();
 
-    for ( int i = 0; i < s.length ( ); i++ ) {
-      char c = s.charAt (i);
+    for (int i = 0; i < s.length(); i++) {
+      char c = s.charAt(i);
       switch (c) {
         case '\u0110': /* Latin capital letter D with stroke */
         case '\u00D0': /* Latin capital letter eth */
         case '\u0189': /* Latin capital letter african D */
-          result.append ('\u0044');
+          result.append('\u0044');
           break;
         case '\u00D8': /* Latin capital letter O with stroke */
-          result.append ('\u004F');
+          result.append('\u004F');
           break;
         case '\u0141': /* Latin capital letter L with stroke */
-          result.append ('\u004C');
+          result.append('\u004C');
           break;
         case '\u0142': /* Latin small letter l with stroke */
-          result.append ('\u006C');
+          result.append('\u006C');
           break;
         case '\u0111': /* Latin small letter d with stroke */
         case '\u00F0': /* Latin small letter eth */
-          result.append ('\u0064');
+          result.append('\u0064');
           break;
         case '\u00F8': /* Latin small letter o with stroke */
-          result.append ('\u006F');
+          result.append('\u006F');
           break;
         case '\u0629': /* Arabic letter teh marbute */
-          result.append ('\u0647'); /* arabic letter heh */
+          result.append('\u0647'); /* arabic letter heh */
           break;
         case '\u0649': /* Arabic letter alef maksura */
-          result.append ('\u064A'); /* arabic letter yeh */
+          result.append('\u064A'); /* arabic letter yeh */
           break;
         case '\u0621': /* Arabic letter hamza */
-          result.append ('\u0627'); /* arabic letter alef */
+          result.append('\u0627'); /* arabic letter alef */
           break;
         case '\u00C6': /* Latin capital letter AE */
-          result.append ("\u0041\u0045");
+          result.append("\u0041\u0045");
           break;
         case '\u00E6': /* Latin small letter ae */
-          result.append ("\u0061\u0065");
+          result.append("\u0061\u0065");
           break;
         case '\u0152': /* Latin capital ligature OE */
-          result.append ("\u004F\u0045");
+          result.append("\u004F\u0045");
           break;
         case '\u0153': /* Latin small ligature oe */
-          result.append ("\u006F\u0065");
+          result.append("\u006F\u0065");
           break;
         case '\u002D':
         case '\u002F':
-          result.append (" ");
+          result.append(" ");
           break;
         default:
-          result.append (c);
+          result.append(c);
           break;
       }
     }
-    return result.toString ( );
+    return result.toString();
   }
 
   private static String stripPunctuation(String s) {
-    StringBuilder result = new StringBuilder ( );
-    for ( int i = 0; i < s.length ( ); i++ ) {
-      char c = s.charAt (i);
-      if (Character.isLetterOrDigit (c) || Character.isSpaceChar (c)) {
-        result.append (c);
+    StringBuilder result = new StringBuilder();
+    for (int i = 0; i < s.length(); i++) {
+      char c = s.charAt(i);
+      if (Character.isLetterOrDigit(c) || Character.isSpaceChar(c)) {
+        result.append(c);
       }
     }
-    return result.toString ( );
+    return result.toString();
   }
 
   private static String stripAccents(String s) {
 
-    String normalized = Normalizer.normalize (
+    String normalized = Normalizer.normalize(
       s,
       Normalizer.Form.NFKD);
-    return normalized.replaceAll ("\\p{InCombiningDiacriticalMarks}+", "");
+    return normalized.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
   }
 
   private static String deleteAlfalam(String s) {
 
     boolean haveArabic = false;
-    for ( int i = 0; i < s.length ( ); i++ ) {
-      if (Character.UnicodeBlock.of (s.charAt (i)) == Character.UnicodeBlock.ARABIC) {
+    for (int i = 0; i < s.length(); i++) {
+      if (Character.UnicodeBlock.of(s.charAt(i)) == Character.UnicodeBlock.ARABIC) {
         haveArabic = true;
         break;
       }
     }
     if (haveArabic == true) {
-      StringBuilder result = new StringBuilder ( );
-      StringBuilder word = new StringBuilder ( );
-      for ( int i = 0; i < s.length ( ); i++ ) {
-        char c = s.charAt (i);
-        if (Character.isLetterOrDigit (c)) {
-          word.append (c);
+      StringBuilder result = new StringBuilder();
+      StringBuilder word = new StringBuilder();
+      for (int i = 0; i < s.length(); i++) {
+        char c = s.charAt(i);
+        if (Character.isLetterOrDigit(c)) {
+          word.append(c);
         } else {
-          if (word.length ( ) > 0) {
-            if (word.toString ( ).startsWith ("\u0644\u0622")
-              || "\u0623\u0625\0627".contains (word
-              .subSequence (0, 1))) {
-              if (!arabicWordExceptions.contains (word.toString ( ))) {
-                result.append (word.substring (2));
+          if (word.length() > 0) {
+            if (word.toString().startsWith("\u0644\u0622")
+              || "\u0623\u0625\0627".contains(word
+              .subSequence(0, 1))) {
+              if (!arabicWordExceptions.contains(word.toString())) {
+                result.append(word.substring(2));
               } else {
-                result.append (word.toString ( ));
+                result.append(word.toString());
               }
-              word = new StringBuilder ( );
+              word = new StringBuilder();
             }
           }
-          result.append (c);
+          result.append(c);
         }
       }
-      return result.toString ( );
+      return result.toString();
     } else { // no arabic
       return s;
     }
   }
 
   public static StringText stripSkipInFiling(String stringText, int skipInFiling) {
-    StringText st = new StringText (stringText);
+    StringText st = new StringText(stringText);
     if (skipInFiling > 0) {
-      Subfield s = st.getSubfield (0);
-      s.setContent (s.getContent ( ).substring (skipInFiling));
-      st.setSubfield (0, s);
+      Subfield s = st.getSubfield(0);
+      s.setContent(s.getContent().substring(skipInFiling));
+      st.setSubfield(0, s);
     }
     return st;
   }

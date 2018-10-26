@@ -20,8 +20,8 @@ public class Globe extends PhysicalDescription {
   private Character obsolete2;
 
   public Globe() {
-    super ( );
-    setHeaderType (23);
+    super();
+    setHeaderType(23);
   }
 
   /* (non-Javadoc)
@@ -30,12 +30,12 @@ public class Globe extends PhysicalDescription {
   public String getDisplayString() {
     String result =
       ""
-        + getGeneralMaterialDesignationCode ( )
-        + getSpecificMaterialDesignationCode ( )
+        + getGeneralMaterialDesignationCode()
+        + getSpecificMaterialDesignationCode()
         + " "
-        + getColourCode ( )
-        + getPhysicalMediumCode ( )
-        + getTypeOfReproductionCode ( );
+        + getColourCode()
+        + getPhysicalMediumCode()
+        + getTypeOfReproductionCode();
     return result;
   }
 
@@ -43,8 +43,8 @@ public class Globe extends PhysicalDescription {
    * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
    */
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
-    SystemNextNumberDAO dao = new SystemNextNumberDAO ( );
-    setKeyNumber (dao.getNextNumber ("X1", session));
+    SystemNextNumberDAO dao = new SystemNextNumberDAO();
+    setKeyNumber(dao.getNextNumber("X1", session));
   }
 
   /* (non-Javadoc)
@@ -127,33 +127,33 @@ public class Globe extends PhysicalDescription {
   public Element generateModelXmlElementContent(Document xmlDocument) {
     Element content = null;
     if (xmlDocument != null) {
-      content = xmlDocument.createElement ("content");
-      content.setAttribute ("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode ( ));
-      content.setAttribute ("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode ( ));
-      content.setAttribute ("colourCode", "" + getColourCode ( ));
-      content.setAttribute ("physicalMediumCode", "" + getPhysicalMediumCode ( ));
-      content.setAttribute ("typeOfReproductionCode", "" + getTypeOfReproductionCode ( ));
+      content = xmlDocument.createElement("content");
+      content.setAttribute("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode());
+      content.setAttribute("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode());
+      content.setAttribute("colourCode", "" + getColourCode());
+      content.setAttribute("physicalMediumCode", "" + getPhysicalMediumCode());
+      content.setAttribute("typeOfReproductionCode", "" + getTypeOfReproductionCode());
     }
     return content;
   }
 
   public void parseModelXmlElementContent(Element xmlElement) {
-    Element content = (Element) xmlElement.getChildNodes ( ).item (0);
-    setGeneralMaterialDesignationCode (content.getAttribute ("generalMaterialDesignationCode").charAt (0));
-    setSpecificMaterialDesignationCode (content.getAttribute ("specificMaterialDesignationCode").charAt (0));
-    setColourCode (content.getAttribute ("colourCode").charAt (0));
-    setPhysicalMediumCode (content.getAttribute ("physicalMediumCode").charAt (0));
-    setTypeOfReproductionCode (content.getAttribute ("typeOfReproductionCode").charAt (0));
+    Element content = (Element) xmlElement.getChildNodes().item(0);
+    setGeneralMaterialDesignationCode(content.getAttribute("generalMaterialDesignationCode").charAt(0));
+    setSpecificMaterialDesignationCode(content.getAttribute("specificMaterialDesignationCode").charAt(0));
+    setColourCode(content.getAttribute("colourCode").charAt(0));
+    setPhysicalMediumCode(content.getAttribute("physicalMediumCode").charAt(0));
+    setTypeOfReproductionCode(content.getAttribute("typeOfReproductionCode").charAt(0));
   }
 
   //@paulm, us_bbl_loading
   @Override
   public void setContentFromMarcString(final String s) {
-    setGeneralMaterialDesignationCode (s.charAt (0));
-    if (s.length ( ) > 1) setSpecificMaterialDesignationCode (s.charAt (1));
-    else setSpecificMaterialDesignationCode ('u');
-    if (s.length ( ) > 3) setColourCode (s.charAt (3));
-    if (s.length ( ) > 4) setPhysicalMediumCode (s.charAt (4));
-    if (s.length ( ) > 5) setTypeOfReproductionCode (s.charAt (5));
+    setGeneralMaterialDesignationCode(s.charAt(0));
+    if (s.length() > 1) setSpecificMaterialDesignationCode(s.charAt(1));
+    else setSpecificMaterialDesignationCode('u');
+    if (s.length() > 3) setColourCode(s.charAt(3));
+    if (s.length() > 4) setPhysicalMediumCode(s.charAt(4));
+    if (s.length() > 5) setTypeOfReproductionCode(s.charAt(5));
   }
 }

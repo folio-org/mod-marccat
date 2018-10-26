@@ -1643,11 +1643,11 @@ public class StorageService implements Closeable {
 
     try {
       CasCache casCache = null;
-      if (item == null || item.getTags ( ).size ( ) == 0) {
-        item = insertBibliographicRecord (record, view, generalInformation, lang);
-        casCache = new CasCache (item.getAmicusNumber ( ));
-        casCache.setLevelCard ("L1");
-        casCache.setStatusDisponibilit (99);
+      if (item == null || item.getTags().size() == 0) {
+        item = insertBibliographicRecord(record, view, generalInformation, lang);
+        casCache = new CasCache(item.getAmicusNumber());
+        casCache.setLevelCard("L1");
+        casCache.setStatusDisponibilit(99);
 
       } else {
         updateBibliographicRecord(record, item, view, generalInformation);
@@ -1715,13 +1715,13 @@ public class StorageService implements Closeable {
           });
         }
 
-        if (field.getVariableField ( ) != null && !tagNbr.equals (GlobalStorage.CATALOGING_SOURCE_TAG_CODE)) {
-          final org.folio.cataloging.resources.domain.VariableField variableField = field.getVariableField ( );
+        if (field.getVariableField() != null && !tagNbr.equals(GlobalStorage.CATALOGING_SOURCE_TAG_CODE)) {
+          final org.folio.cataloging.resources.domain.VariableField variableField = field.getVariableField();
           final CorrelationValues correlationValues = getCorrelationVariableField(variableField.getCategoryCode(),
             variableField.getInd1(), variableField.getInd2(), tagNbr);
           if (correlationValues == null) {
-            logger.error (MessageCatalogStorage._00018_NO_HEADING_TYPE_CODE, variableField.getCode ( ));
-            throw new DataAccessException ( );
+            logger.error(MessageCatalogStorage._00018_NO_HEADING_TYPE_CODE, variableField.getCode());
+            throw new DataAccessException();
           }
 
           try {
@@ -1754,7 +1754,7 @@ public class StorageService implements Closeable {
     final RecordParser recordParser = new RecordParser();
     final BibliographicCatalog catalog = new BibliographicCatalog();
     final int bibItemNumber = record.getId();
-    final CatalogItem item = catalog.newCatalogItem (new Object[]{new Integer (view), new Integer (bibItemNumber)});
+    final CatalogItem item = catalog.newCatalogItem(new Object[]{new Integer(view), new Integer(bibItemNumber)});
 
     Leader leader = record.getLeader();
     item.getItemEntity().setLanguageOfCataloguing(lang);
@@ -1771,22 +1771,22 @@ public class StorageService implements Closeable {
     DateOfLastTransactionTag dateOfLastTransactionTag = catalog.createRequiredDateOfLastTransactionTag(item);
     item.addTag(dateOfLastTransactionTag);
 
-    record.getFields().stream ( ).skip (1).forEach (field -> {
-      final String tagNbr = field.getCode ( );
-      if (tagNbr.equals (GlobalStorage.MATERIAL_TAG_CODE) || tagNbr.equals (GlobalStorage.OTHER_MATERIAL_TAG_CODE)) {
-        final org.folio.cataloging.resources.domain.FixedField fixedField = field.getFixedField ( );
+    record.getFields().stream().skip(1).forEach(field -> {
+      final String tagNbr = field.getCode();
+      if (tagNbr.equals(GlobalStorage.MATERIAL_TAG_CODE) || tagNbr.equals(GlobalStorage.OTHER_MATERIAL_TAG_CODE)) {
+        final org.folio.cataloging.resources.domain.FixedField fixedField = field.getFixedField();
         final Map <String, Object> mapRecordTypeMaterial;
         final String formOfMaterial;
-        if (tagNbr.equals (GlobalStorage.MATERIAL_TAG_CODE)) {
-          mapRecordTypeMaterial = getMaterialTypeInfosByLeaderValues (leader.getValue ( ).charAt (6), leader.getValue ( ).charAt (7), tagNbr);
-          formOfMaterial = (String) mapRecordTypeMaterial.get (GlobalStorage.FORM_OF_MATERIAL_LABEL);
+        if (tagNbr.equals(GlobalStorage.MATERIAL_TAG_CODE)) {
+          mapRecordTypeMaterial = getMaterialTypeInfosByLeaderValues(leader.getValue().charAt(6), leader.getValue().charAt(7), tagNbr);
+          formOfMaterial = (String) mapRecordTypeMaterial.get(GlobalStorage.FORM_OF_MATERIAL_LABEL);
           fixedField.setHeaderTypeCode((int) mapRecordTypeMaterial.get(GlobalStorage.HEADER_TYPE_LABEL));
         } else {
           mapRecordTypeMaterial = getMaterialTypeInfosByHeaderCode(fixedField.getHeaderTypeCode(), tagNbr);
-          formOfMaterial = (String) mapRecordTypeMaterial.get (GlobalStorage.FORM_OF_MATERIAL_LABEL);
+          formOfMaterial = (String) mapRecordTypeMaterial.get(GlobalStorage.FORM_OF_MATERIAL_LABEL);
         }
 
-        recordParser.addMaterialDescriptionToCatalog (tagNbr, item, fixedField, giAPI, formOfMaterial);
+        recordParser.addMaterialDescriptionToCatalog(tagNbr, item, fixedField, giAPI, formOfMaterial);
       }
 
       if (tagNbr.equals(GlobalStorage.PHYSICAL_DESCRIPTION_TAG_CODE)) {
@@ -1801,13 +1801,13 @@ public class StorageService implements Closeable {
         item.addTag(cst);
       }
 
-      if (field.getVariableField ( ) != null && !tagNbr.equals (GlobalStorage.CATALOGING_SOURCE_TAG_CODE)) {
-        final org.folio.cataloging.resources.domain.VariableField variableField = field.getVariableField ( );
+      if (field.getVariableField() != null && !tagNbr.equals(GlobalStorage.CATALOGING_SOURCE_TAG_CODE)) {
+        final org.folio.cataloging.resources.domain.VariableField variableField = field.getVariableField();
         final CorrelationValues correlationValues = getCorrelationVariableField(variableField.getCategoryCode(),
           variableField.getInd1(), variableField.getInd2(), tagNbr);
         if (correlationValues == null) {
-          logger.error (MessageCatalogStorage._00018_NO_HEADING_TYPE_CODE, variableField.getCode ( ));
-          throw new DataAccessException ( );
+          logger.error(MessageCatalogStorage._00018_NO_HEADING_TYPE_CODE, variableField.getCode());
+          throw new DataAccessException();
         }
         recordParser.insertNewVariableField(item, variableField, bibItemNumber, correlationValues, session, view);
       }
@@ -2043,8 +2043,8 @@ public class StorageService implements Closeable {
    * @param indicator1
    * @param indicator2
    */
-  private int updateIndicatorNotNumeric(CorrelationKey coKey, String indicator1, String indicator2) {
-    int skipInFiling = 0;
+  private int updateIndicatorNotNumeric(final CorrelationKey coKey, final String indicator1, final String indicator2) {
+    final int skipInFiling = 0;
     if (coKey.getMarcFirstIndicator() == Global.BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC)
       return (!indicator1.isEmpty()) ? Integer.parseInt(indicator1) : skipInFiling;
     else if (coKey.getMarcSecondIndicator() == Global.BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC)
@@ -2062,8 +2062,8 @@ public class StorageService implements Closeable {
    * @throws HibernateException
    */
   public String getBrowseKey(final Descriptor descriptor, final Session session) throws HibernateException {
-    String result;
-    DAOIndexList dao = new DAOIndexList();
+    final String result;
+    final DAOIndexList dao = new DAOIndexList();
     result = dao.getIndexBySortFormType(descriptor.getSortFormParameters().getSortFormMainType(), descriptor.getCorrelationValues().getValue(1), session);
     return (result != null) ? result : descriptor.getBrowseKey();
   }
@@ -2081,7 +2081,7 @@ public class StorageService implements Closeable {
    * @throws InvalidBrowseIndexException
    */
   public List <MapHeading> getHeadingsByTag(final String tag, final String indicator1, final String indicator2, final String stringText, final int view, final int mainLibrary, final int pageSize, final String lang) {
-     try {
+    try {
       String key = null;
       String browseTerm = null;
       String operator = ">";
@@ -2119,5 +2119,22 @@ public class StorageService implements Closeable {
     return null;
   }
 
-}
+  /**
+   * returns the number of bibliographic records linked to an authority record
+   *
+   * @param id   the authority number, used here as a filter criterion.
+   * @param view the view used here as filter criterion
+   * @return the count of bibliographic records
+   * @throws HibernateException
+   */
+  public CountDocument getCountDocumentByAutNumber(final int id, final int view) throws HibernateException {
+    final CountDocument countDocument = new CountDocument();
+    final AutDAO dao = new AutDAO();
+    final AUT aut = dao.load(session, id);
+    final Class accessPoint = GlobalStorage.BIBLIOGRAPHIC_ACCESS_POINT_CLASS_MAP.get(aut.getHeadingType());
+    countDocument.setCountDocuments(dao.getDocCountByAutNumber(aut.getHeadingNumber(), accessPoint, view, session));
+    countDocument.setQuery(GlobalStorage.INDEX_AUTHORITY_TYPE_MAP.get(aut.getHeadingType()) + " " + aut.getHeadingNumber());
+    return countDocument;
+  }
 
+}

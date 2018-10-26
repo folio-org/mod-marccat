@@ -22,9 +22,9 @@ public class DAOTranslationLanguage extends HibernateUtil {
   public T_TRLTN_LANG_CDE load(final int i) throws DataAccessException {
 
     //TODO fix session!
-    final Session session = currentSession ( );
+    final Session session = currentSession();
 
-    return (T_TRLTN_LANG_CDE) get (session, T_TRLTN_LANG_CDE.class, new Integer (i));
+    return (T_TRLTN_LANG_CDE) get(session, T_TRLTN_LANG_CDE.class, new Integer(i));
   }
 
 }

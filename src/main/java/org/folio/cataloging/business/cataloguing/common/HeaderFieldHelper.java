@@ -20,7 +20,7 @@ import java.util.List;
  * @since 1.0
  */
 public abstract class HeaderFieldHelper implements HeaderField, Serializable {
-  private static DAOCodeTable daoCodeTable = new DAOCodeTable ( );
+  private static DAOCodeTable daoCodeTable = new DAOCodeTable();
 
   protected int headerType = -1;
 
@@ -29,7 +29,7 @@ public abstract class HeaderFieldHelper implements HeaderField, Serializable {
   abstract public Class getHeaderListClass();
 
   public List getFirstCorrelationList() throws DataAccessException {
-    return daoCodeTable.getList (getHeaderListClass ( ), false);
+    return daoCodeTable.getList(getHeaderListClass(), false);
   }
 
   public List getSecondCorrelationList(int value1) throws DataAccessException {
@@ -56,14 +56,14 @@ public abstract class HeaderFieldHelper implements HeaderField, Serializable {
    * @see librisuite.business.cataloguing.bibliographic.HeaderField#getCorrelationValues()
    */
   public CorrelationValues getCorrelationValues() {
-    return (new CorrelationValues ( )).change (1, getHeaderType ( ));
+    return (new CorrelationValues()).change(1, getHeaderType());
   }
 
   /* (non-Javadoc)
    * @see librisuite.business.cataloguing.bibliographic.HeaderField#setCorrelationValues(librisuite.business.common.CorrelationValues)
    */
   public void setCorrelationValues(CorrelationValues v) {
-    setHeaderType (v.getValue (1));
+    setHeaderType(v.getValue(1));
   }
 
 }

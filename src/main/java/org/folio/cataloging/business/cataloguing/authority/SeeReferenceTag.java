@@ -10,7 +10,7 @@ import org.folio.cataloging.shared.CorrelationValues;
  * @since 1.0
  */
 public class SeeReferenceTag extends SeeSeeAlsoReference {
-  private static final Log logger = LogFactory.getLog (SeeReferenceTag.class);
+  private static final Log logger = LogFactory.getLog(SeeReferenceTag.class);
 
   /**
    * Class constructor
@@ -18,22 +18,22 @@ public class SeeReferenceTag extends SeeSeeAlsoReference {
    * @since 1.0
    */
   public SeeReferenceTag() {
-    super ( );
+    super();
   }
 
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
-    logger.debug ("does " + v + " affect my key? ");
-    if (!super.correlationChangeAffectsKey (v)) {
-      logger.debug ("super says no");
-      logger.debug ("position is " + getRefTypeCorrelationPosition ( ));
-      logger.debug (
-        "value is " + v.getValue (getRefTypeCorrelationPosition ( )));
-      logger.debug (
+    logger.debug("does " + v + " affect my key? ");
+    if (!super.correlationChangeAffectsKey(v)) {
+      logger.debug("super says no");
+      logger.debug("position is " + getRefTypeCorrelationPosition());
+      logger.debug(
+        "value is " + v.getValue(getRefTypeCorrelationPosition()));
+      logger.debug(
         "result is "
-          + !ReferenceType.isSeenFrom (
-          v.getValue (getRefTypeCorrelationPosition ( ))));
-      return !ReferenceType.isSeenFrom (
-        v.getValue (getRefTypeCorrelationPosition ( )));
+          + !ReferenceType.isSeenFrom(
+          v.getValue(getRefTypeCorrelationPosition())));
+      return !ReferenceType.isSeenFrom(
+        v.getValue(getRefTypeCorrelationPosition()));
     } else {
       return true;
     }

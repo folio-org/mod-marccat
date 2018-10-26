@@ -67,10 +67,10 @@ public class TagAuthorisation implements Serializable {
   public boolean equals(Object arg0) {
     if (arg0 instanceof TagAuthorisation) {
       TagAuthorisation ta = (TagAuthorisation) arg0;
-      return this.getUserAccount ( ).equals (ta.getUserAccount ( ))
-        && this.getBibliographicOrAuthorityCode ( )
-        == ta.getBibliographicOrAuthorityCode ( )
-        && this.getTagCategory ( ) == ta.getTagCategory ( );
+      return this.getUserAccount().equals(ta.getUserAccount())
+        && this.getBibliographicOrAuthorityCode()
+        == ta.getBibliographicOrAuthorityCode()
+        && this.getTagCategory() == ta.getTagCategory();
     } else {
       return false;
     }
@@ -80,7 +80,7 @@ public class TagAuthorisation implements Serializable {
    * @see java.lang.Object#hashCode()
    */
   public int hashCode() {
-    return getUserAccount ( ).hashCode ( ) + getTagCategory ( );
+    return getUserAccount().hashCode() + getTagCategory();
   }
 
 }

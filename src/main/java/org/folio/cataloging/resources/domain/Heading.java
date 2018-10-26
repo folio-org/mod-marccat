@@ -9,12 +9,10 @@ import javax.annotation.Generated;
 /**
  * Heading
  * <p>
- *
- *
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "tag", "indicator1", "indicator2","category","headingNumber", "stringText"})
+@JsonPropertyOrder({"tag", "indicator1", "indicator2", "category", "headingNumber", "stringText"})
 public class Heading {
 
   @JsonProperty("tag")
@@ -36,12 +34,8 @@ public class Heading {
   private String stringText;
 
 
-
-
   /**
-   *
-   * @return
-   * The headingNumber
+   * @return The headingNumber
    */
   @JsonProperty("headingNumber")
   public Integer getHeadingNumber() {
@@ -49,9 +43,7 @@ public class Heading {
   }
 
   /**
-   *
-   * @param headingNumber
-   * The headingNumber
+   * @param headingNumber The headingNumber
    */
   @JsonProperty("headingNumber")
   public void setHeadingNumber(Integer headingNumber) {
@@ -64,9 +56,7 @@ public class Heading {
   }
 
   /**
-   *
-   * @return
-   * The stringText
+   * @return The stringText
    */
   @JsonProperty("stringText")
   public String getStringText() {
@@ -74,9 +64,7 @@ public class Heading {
   }
 
   /**
-   *
-   * @param stringText
-   * The stringText
+   * @param stringText The stringText
    */
   @JsonProperty("stringText")
   public void setStringText(String stringText) {
@@ -89,12 +77,8 @@ public class Heading {
   }
 
 
-
-
   /**
-   *
-   * @return
-   * The tag
+   * @return The tag
    */
   @JsonProperty("tag")
   public String getTag() {
@@ -102,9 +86,7 @@ public class Heading {
   }
 
   /**
-   *
-   * @param tag
-   * The tag
+   * @param tag The tag
    */
   @JsonProperty("tag")
   public void setTag(String tag) {
@@ -117,9 +99,7 @@ public class Heading {
   }
 
   /**
-   *
-   * @return
-   * The ind1
+   * @return The ind1
    */
   @JsonProperty("indicator1")
   public String getIndicator1() {
@@ -127,9 +107,7 @@ public class Heading {
   }
 
   /**
-   *
-   * @param ind1
-   * The ind1
+   * @param ind1 The ind1
    */
   @JsonProperty("indicator1")
   public void setIndicator1(String indicator1) {
@@ -142,9 +120,7 @@ public class Heading {
   }
 
   /**
-   *
-   * @return
-   * The ind2
+   * @return The ind2
    */
   @JsonProperty("indicator2")
   public String getIndicator2() {
@@ -152,9 +128,7 @@ public class Heading {
   }
 
   /**
-   *
-   * @param ind2
-   * The ind1
+   * @param ind2 The ind1
    */
   @JsonProperty("indicator2")
   public void setInd2(String indicator2) {
@@ -167,9 +141,7 @@ public class Heading {
   }
 
   /**
-   *
-   * @return
-   * The category
+   * @return The category
    */
   @JsonProperty("category")
   public Integer getCategory() {
@@ -177,9 +149,7 @@ public class Heading {
   }
 
   /**
-   *
-   * @param category
-   * The category
+   * @param category The category
    */
   @JsonProperty("category")
   public void setCategory(Integer category) {

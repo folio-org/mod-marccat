@@ -26,7 +26,7 @@ public class SortFormParameters {
    * @since 1.0
    */
   public SortFormParameters() {
-    super ( );
+    super();
   }
 
   /**
@@ -40,11 +40,11 @@ public class SortFormParameters {
     int nameTitleOrSubjectType,
     int nameSubType,
     int skipInFiling) {
-    setSortFormMainType (sortFormMainType);
-    setSortFormSubType (sortFormSubType);
-    setNameTitleOrSubjectType (nameTitleOrSubjectType);
-    setNameSubtype (nameSubType);
-    setSkipInFiling (skipInFiling);
+    setSortFormMainType(sortFormMainType);
+    setSortFormSubType(sortFormSubType);
+    setNameTitleOrSubjectType(nameTitleOrSubjectType);
+    setNameSubtype(nameSubType);
+    setSkipInFiling(skipInFiling);
   }
 
   /**

@@ -30,14 +30,14 @@ import java.util.List;
  */
 public class DAOBibliographicRelationshipTag extends AbstractDAO {
   private static final Log logger =
-    LogFactory.getLog (BibliographicRelationshipTag.class);
+    LogFactory.getLog(BibliographicRelationshipTag.class);
 
   /* (non-Javadoc)
    * @see HibernateUtil#delete(librisuite.business.common.Persistence)
    */
   public void delete(final Session session, final Persistence po) throws DataAccessException {
     if (!(po instanceof BibliographicRelationshipTag)) {
-      throw new IllegalArgumentException ("I can only persist BibliographicRelationshipTag objects");
+      throw new IllegalArgumentException("I can only persist BibliographicRelationshipTag objects");
     }
     /*
      * If we want to delete a relationship tag, it is the last saved values that
@@ -45,17 +45,17 @@ public class DAOBibliographicRelationshipTag extends AbstractDAO {
      * get the originalTag values from the tag.
      */
     BibliographicRelationshipTag aRelation =
-      ((BibliographicRelationshipTag) po).getOriginalTag ( );
-    evictAny (session, aRelation.getSourceRelationship ( ));
-    aRelation.getSourceRelationship ( ).markDeleted ( );
-    super.delete (aRelation.getSourceRelationship ( ));
-    if (aRelation.getTargetRelationship ( ) != null) {
-      evictAny (session, aRelation.getTargetRelationship ( ));
-      aRelation.getTargetRelationship ( ).markDeleted ( );
-      super.delete (aRelation.getTargetRelationship ( ));
+      ((BibliographicRelationshipTag) po).getOriginalTag();
+    evictAny(session, aRelation.getSourceRelationship());
+    aRelation.getSourceRelationship().markDeleted();
+    super.delete(aRelation.getSourceRelationship());
+    if (aRelation.getTargetRelationship() != null) {
+      evictAny(session, aRelation.getTargetRelationship());
+      aRelation.getTargetRelationship().markDeleted();
+      super.delete(aRelation.getTargetRelationship());
     }
 
-    aRelation.setUpdateStatus (UpdateStatus.REMOVED);
+    aRelation.setUpdateStatus(UpdateStatus.REMOVED);
   }
 
   /* (non-Javadoc)
@@ -64,18 +64,18 @@ public class DAOBibliographicRelationshipTag extends AbstractDAO {
   //todo
   public void save(final Persistence po, final Session session) throws DataAccessException {
     if (!(po instanceof BibliographicRelationshipTag)) {
-      throw new IllegalArgumentException ("I can only persist BibliographicRelationshipTag objects");
+      throw new IllegalArgumentException("I can only persist BibliographicRelationshipTag objects");
     }
-    new TransactionalHibernateOperation ( ) {
+    new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
         throws HibernateException, DataAccessException {
         BibliographicRelationshipTag aRelation =
           (BibliographicRelationshipTag) po;
 
 
-        logger.debug ("save bibliographicRelationshipTag");
-        logger.debug ("reciprocalOption is " + aRelation.getReciprocalOption ( ));
-        logger.debug ("target is " + aRelation.getTargetRelationship ( ) == null ? "" : "not " + "null");
+        logger.debug("save bibliographicRelationshipTag");
+        logger.debug("reciprocalOption is " + aRelation.getReciprocalOption());
+        logger.debug("target is " + aRelation.getTargetRelationship() == null ? "" : "not " + "null");
 
         /* first evict all objects from Hibernate cache */
 				/*evictAny(aRelation.getSourceRelationship());
@@ -92,19 +92,19 @@ public class DAOBibliographicRelationshipTag extends AbstractDAO {
          * Then delete any pre-existing RLTSP rows
          */
         BibliographicRelationship aTarget =
-          aRelation.getOriginalTag ( ).getTargetRelationship ( );
+          aRelation.getOriginalTag().getTargetRelationship();
         if (aTarget != null) {
-          s.delete (
+          s.delete(
             "from BibliographicRelationship as rltsp "
               + " where rltsp.bibItemNumber = ? "
               + " and rltsp.targetBibItemNumber = ? "
               + " and rltsp.relationTypeCode = ? "
               + " and rltsp.userViewString = ? ",
             new Object[]{
-              aTarget.getBibItemNumber ( ),
-              aTarget.getTargetBibItemNumber ( ),
-              aTarget.getRelationTypeCode ( ),
-              aTarget.getUserViewString ( )},
+              aTarget.getBibItemNumber(),
+              aTarget.getTargetBibItemNumber(),
+              aTarget.getRelationTypeCode(),
+              aTarget.getUserViewString()},
             new Type[]{
               Hibernate.INTEGER,
               Hibernate.INTEGER,
@@ -112,19 +112,19 @@ public class DAOBibliographicRelationshipTag extends AbstractDAO {
               Hibernate.STRING});
         }
         BibliographicRelationship aSource =
-          aRelation.getOriginalTag ( ).getSourceRelationship ( );
-        if (aSource != null && !aSource.isNew ( )) {
-          s.delete (
+          aRelation.getOriginalTag().getSourceRelationship();
+        if (aSource != null && !aSource.isNew()) {
+          s.delete(
             "from BibliographicRelationship as rltsp "
               + " where rltsp.bibItemNumber = ? "
               + " and rltsp.targetBibItemNumber = ? "
               + " and rltsp.relationTypeCode = ? "
               + " and rltsp.userViewString = ? ",
             new Object[]{
-              aSource.getBibItemNumber ( ),
-              aSource.getTargetBibItemNumber ( ),
-              aSource.getRelationTypeCode ( ),
-              aSource.getUserViewString ( )},
+              aSource.getBibItemNumber(),
+              aSource.getTargetBibItemNumber(),
+              aSource.getRelationTypeCode(),
+              aSource.getUserViewString()},
             new Type[]{
               Hibernate.INTEGER,
               Hibernate.INTEGER,
@@ -136,29 +136,29 @@ public class DAOBibliographicRelationshipTag extends AbstractDAO {
          * otherwise, it seems, duplicate key will be raised
          */
 
-        s.flush ( );
+        s.flush();
 
         /* now add the current values as new rows */
 
-        aRelation.getSourceRelationship ( ).markNew ( );
-        if (BibliographicRelationReciprocal.isBlind (aRelation.getReciprocalOption ( ))) {
-          logger.debug ("Reciprocal option is blind -- generating new key");
-          aRelation.getSourceRelationship ( ).generateNewBlindRelationshipKey (s);
+        aRelation.getSourceRelationship().markNew();
+        if (BibliographicRelationReciprocal.isBlind(aRelation.getReciprocalOption())) {
+          logger.debug("Reciprocal option is blind -- generating new key");
+          aRelation.getSourceRelationship().generateNewBlindRelationshipKey(s);
         } else {
-          logger.debug ("Reciprocal option is not blind -- using existing target bib_itm_nbr");
+          logger.debug("Reciprocal option is not blind -- using existing target bib_itm_nbr");
         }
-        persistByStatus (aRelation.getSourceRelationship ( ));
+        persistByStatus(aRelation.getSourceRelationship());
 
-        if ((aRelation.getTargetRelationship ( ) != null)
-          && (BibliographicRelationReciprocal.isReciprocal (aRelation.getReciprocalOption ( )))) {
-          aRelation.getTargetRelationship ( ).markNew ( );
-          persistByStatus (aRelation.getTargetRelationship ( ));
+        if ((aRelation.getTargetRelationship() != null)
+          && (BibliographicRelationReciprocal.isReciprocal(aRelation.getReciprocalOption()))) {
+          aRelation.getTargetRelationship().markNew();
+          persistByStatus(aRelation.getTargetRelationship());
         }
-        aRelation.markUnchanged ( );
-        aRelation.setOriginalTag ( );
+        aRelation.markUnchanged();
+        aRelation.setOriginalTag();
       }
     }
-      .execute ( );
+      .execute();
 
   }
 
@@ -169,9 +169,9 @@ public class DAOBibliographicRelationshipTag extends AbstractDAO {
     /*
      * Since we are deleting and re-adding, save and update are the same
      */
-    logger.debug ("update bibliographicRelationshipTag");
+    logger.debug("update bibliographicRelationshipTag");
 
-    save (p);
+    save(p);
   }
 
   public short getReciprocalType(int relationTypeCode)
@@ -179,13 +179,13 @@ public class DAOBibliographicRelationshipTag extends AbstractDAO {
 
     try {
       List result =
-        currentSession ( ).find (
+        currentSession().find(
           "select rcpcl.relationshipReciprocalTypeCode from RelationReciprocal rcpcl where rcpcl.relationshipTypeCode = ?",
-          new Object[]{new Integer (relationTypeCode)},
+          new Object[]{new Integer(relationTypeCode)},
           new Type[]{Hibernate.INTEGER});
-      return ((Integer) result.get (0)).shortValue ( );
+      return ((Integer) result.get(0)).shortValue();
     } catch (HibernateException he) {
-      logAndWrap (he);
+      logAndWrap(he);
     }
 
     return -1;
@@ -193,9 +193,9 @@ public class DAOBibliographicRelationshipTag extends AbstractDAO {
 
   private void evictAny(final Session session, final BibliographicRelationship aRelation) throws DataAccessException {
     BibliographicRelationship inCache = (BibliographicRelationship)
-      get (session, BibliographicRelationship.class, aRelation);
+      get(session, BibliographicRelationship.class, aRelation);
     if (inCache != null) {
-      inCache.evict ( );
+      inCache.evict();
     }
   }
 }

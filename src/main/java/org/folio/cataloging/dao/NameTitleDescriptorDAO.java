@@ -51,8 +51,8 @@ public class NameTitleDescriptorDAO extends DAODescriptor {
    */
   protected void loadHeadings(final List <NME_TTL_HDG> nameTitleHeadingList, final int cataloguingView, final Session session)
     throws HibernateException {
-    for ( NME_TTL_HDG aHdg : nameTitleHeadingList ) {
-      loadHeadings (aHdg, cataloguingView, session);
+    for (NME_TTL_HDG aHdg : nameTitleHeadingList) {
+      loadHeadings(aHdg, cataloguingView, session);
     }
   }
 
@@ -66,10 +66,10 @@ public class NameTitleDescriptorDAO extends DAODescriptor {
    */
   protected void loadHeadings(final NME_TTL_HDG d, final int cataloguingView, final Session session)
     throws HibernateException {
-    final NameDescriptorDAO daoName = new NameDescriptorDAO ( );
-    final TitleDescriptorDAO daoTitle = new TitleDescriptorDAO ( );
-    d.setNameHeading ((NME_HDG) daoName.load (d.getNameHeadingNumber ( ), cataloguingView, session));
-    d.setTitleHeading ((TTL_HDG) daoTitle.load (d.getTitleHeadingNumber ( ), cataloguingView, session));
+    final NameDescriptorDAO daoName = new NameDescriptorDAO();
+    final TitleDescriptorDAO daoTitle = new TitleDescriptorDAO();
+    d.setNameHeading((NME_HDG) daoName.load(d.getNameHeadingNumber(), cataloguingView, session));
+    d.setTitleHeading((TTL_HDG) daoTitle.load(d.getTitleHeadingNumber(), cataloguingView, session));
   }
 
   /**
@@ -83,8 +83,8 @@ public class NameTitleDescriptorDAO extends DAODescriptor {
    */
   public Descriptor load(final int headingNumber, final int cataloguingView, final Session session)
     throws HibernateException {
-    NME_TTL_HDG nameTitleHeading = (NME_TTL_HDG) super.load (headingNumber, cataloguingView, session);
-    loadHeadings (nameTitleHeading, cataloguingView, session);
+    NME_TTL_HDG nameTitleHeading = (NME_TTL_HDG) super.load(headingNumber, cataloguingView, session);
+    loadHeadings(nameTitleHeading, cataloguingView, session);
     return nameTitleHeading;
   }
 
@@ -101,30 +101,30 @@ public class NameTitleDescriptorDAO extends DAODescriptor {
   public int getXrefCount(final Descriptor source, final int cataloguingView, final Session session)
     throws HibernateException {
 
-    int count = super.getXrefCount (source, cataloguingView, session);
-    List <Integer> countList = session.find ("select count(*) from NME_NME_TTL_REF as ref "
+    int count = super.getXrefCount(source, cataloguingView, session);
+    List <Integer> countList = session.find("select count(*) from NME_NME_TTL_REF as ref "
         + " where ref.nameTitleHeadingNumber = ? "
         + " and ref.sourceHeadingType = 'MH' "
         + " and substr(ref.userViewString, ?, 1) = '1'",
       new Object[]{
-        source.getKey ( ).getHeadingNumber ( ),
+        source.getKey().getHeadingNumber(),
         cataloguingView},
       new Type[]{
         Hibernate.INTEGER,
         Hibernate.INTEGER});
-    count += countList.get (0);
+    count += countList.get(0);
 
-    countList = session.find ("select count(*) from TTL_NME_TTL_REF as ref "
+    countList = session.find("select count(*) from TTL_NME_TTL_REF as ref "
         + " where ref.nameTitleHeadingNumber = ? "
         + " and ref.sourceHeadingType = 'MH' "
         + " and substr(ref.userViewString, ?, 1) = '1'", new Object[]{
-        source.getKey ( ).getHeadingNumber ( ),
+        source.getKey().getHeadingNumber(),
         cataloguingView},
       new Type[]{
         Hibernate.INTEGER,
         Hibernate.INTEGER});
 
-    count += countList.get (0);
+    count += countList.get(0);
     return count;
   }
 
@@ -141,24 +141,24 @@ public class NameTitleDescriptorDAO extends DAODescriptor {
   public List <REF> getCrossReferences(final Descriptor source, final int cataloguingView, final Session session)
     throws HibernateException {
 
-    List <REF> refList = super.getCrossReferences (source, cataloguingView);
-    refList.addAll (session.find ("from NME_NME_TTL_REF as ref "
+    List <REF> refList = super.getCrossReferences(source, cataloguingView);
+    refList.addAll(session.find("from NME_NME_TTL_REF as ref "
         + " where ref.nameTitleHeadingNumber = ? "
         + " and ref.sourceHeadingType = 'MH' "
         + " and substr(ref.userViewString, ?, 1) = '1'",
       new Object[]{
-        source.getKey ( ).getHeadingNumber ( ),
+        source.getKey().getHeadingNumber(),
         cataloguingView},
       new Type[]{
         Hibernate.INTEGER,
         Hibernate.INTEGER}));
 
-    refList.addAll (session.find ("from TTL_NME_TTL_REF as ref "
+    refList.addAll(session.find("from TTL_NME_TTL_REF as ref "
         + " where ref.nameTitleHeadingNumber = ? "
         + " and ref.sourceHeadingType = 'MH' "
         + " and substr(ref.userViewString, ?, 1) = '1'",
       new Object[]{
-        source.getKey ( ).getHeadingNumber ( ),
+        source.getKey().getHeadingNumber(),
         cataloguingView},
       new Type[]{
         Hibernate.INTEGER,
@@ -183,25 +183,25 @@ public class NameTitleDescriptorDAO extends DAODescriptor {
     throws HibernateException {
 
     REF ref = null;
-    if (source.getClass ( ) == target.getClass ( )) {
-      return super.loadReference (source, target, referenceType,
+    if (source.getClass() == target.getClass()) {
+      return super.loadReference(source, target, referenceType,
         cataloguingView, session);
-    } else if (target.getClass ( ) == NME_HDG.class) {
+    } else if (target.getClass() == NME_HDG.class) {
       final String query = "from NME_NME_TTL_REF as ref "
         + " where ref.nameTitleHeadingNumber = ? AND "
         + " ref.nameHeadingNumber = ? AND "
         + " ref.sourceHeadingType = 'MH' AND "
         + " substr(ref.userViewString, ?, 1) = '1' AND "
         + " ref.type = ?";
-      return loadReferenceByQuery (source, target, referenceType, cataloguingView, query, session);
-    } else if (target.getClass ( ) == TTL_HDG.class) {
+      return loadReferenceByQuery(source, target, referenceType, cataloguingView, query, session);
+    } else if (target.getClass() == TTL_HDG.class) {
       final String query = "from TTL_NME_TTL_REF as ref "
         + " where ref.nameTitleHeadingNumber = ? AND "
         + " ref.titleHeadingNumber = ? AND "
         + " ref.sourceHeadingType = 'MH' AND "
         + " substr(ref.userViewString, ?, 1) = '1' AND "
         + " ref.type = ?";
-      return loadReferenceByQuery (source, target, referenceType, cataloguingView, query, session);
+      return loadReferenceByQuery(source, target, referenceType, cataloguingView, query, session);
 
     }
     return ref;
@@ -219,12 +219,12 @@ public class NameTitleDescriptorDAO extends DAODescriptor {
   public Descriptor getMatchingHeading(final Descriptor d, final Session session)
     throws HibernateException, SortFormException {
     NME_TTL_HDG nameTitleHeading = (NME_TTL_HDG) d;
-    List <NME_TTL_HDG> l = loadHeadings (nameTitleHeading.getNameHeading ( ), nameTitleHeading.getTitleHeading ( ), nameTitleHeading
-      .getKey ( ).getUserViewString ( ), session);
-    if (l != null && l.size ( ) > 0) {
-      NME_TTL_HDG hdg = l.get (0);
-      hdg.setNameHeading (nameTitleHeading.getNameHeading ( ));
-      hdg.setTitleHeading (nameTitleHeading.getTitleHeading ( ));
+    List <NME_TTL_HDG> l = loadHeadings(nameTitleHeading.getNameHeading(), nameTitleHeading.getTitleHeading(), nameTitleHeading
+      .getKey().getUserViewString(), session);
+    if (l != null && l.size() > 0) {
+      NME_TTL_HDG hdg = l.get(0);
+      hdg.setNameHeading(nameTitleHeading.getNameHeading());
+      hdg.setTitleHeading(nameTitleHeading.getTitleHeading());
       return hdg;
     }
     return null;
@@ -243,21 +243,21 @@ public class NameTitleDescriptorDAO extends DAODescriptor {
     throws HibernateException {
 
     final NME_TTL_HDG nameTitleHeading = (NME_TTL_HDG) desc;
-    final int view = View.toIntView (nameTitleHeading.getUserViewString ( ));
-    final Query q = session.createQuery ("select distinct hdg from "
+    final int view = View.toIntView(nameTitleHeading.getUserViewString());
+    final Query q = session.createQuery("select distinct hdg from "
       + "NME_TTL_HDG as hdg, "
       + " where hdg.nameHeadingNumber = :nameKey "
       + " and hdg.titleHeadingNumber = :titleKey "
       + " and c.key.headingNumber <> :currHdgNbr "
       + " and SUBSTR(hdg.key.userViewString, :view, 1) = '1' ");
-    q.setInteger ("nameKey", nameTitleHeading.getNameHeadingNumber ( ));
-    q.setInteger ("titleKey", nameTitleHeading.getTitleHeadingNumber ( ));
-    q.setInteger ("currHdgNbr", nameTitleHeading.getHeadingNumber ( ));
-    q.setInteger ("view", view);
-    List <NME_TTL_HDG> nameTitleHeadingList = (List <NME_TTL_HDG>) q.list ( );
-    nameTitleHeadingList = (List <NME_TTL_HDG>) isolateViewForList (nameTitleHeadingList, view, session);
-    nameTitleHeadingList.forEach ((NME_TTL_HDG descriptor) ->
-      compareHeading (nameTitleHeading, descriptor));
+    q.setInteger("nameKey", nameTitleHeading.getNameHeadingNumber());
+    q.setInteger("titleKey", nameTitleHeading.getTitleHeadingNumber());
+    q.setInteger("currHdgNbr", nameTitleHeading.getHeadingNumber());
+    q.setInteger("view", view);
+    List <NME_TTL_HDG> nameTitleHeadingList = (List <NME_TTL_HDG>) q.list();
+    nameTitleHeadingList = (List <NME_TTL_HDG>) isolateViewForList(nameTitleHeadingList, view, session);
+    nameTitleHeadingList.forEach((NME_TTL_HDG descriptor) ->
+      compareHeading(nameTitleHeading, descriptor));
     return false;
 
   }
@@ -271,9 +271,9 @@ public class NameTitleDescriptorDAO extends DAODescriptor {
    */
   //TODO: to check
   private boolean compareHeading(Descriptor descriptorFrom, Descriptor descriptorTo) {
-    if (descriptorFrom.getAuthoritySourceCode ( ) == descriptorTo.getAuthoritySourceCode ( )) {
-      if (descriptorFrom.getAuthoritySourceCode ( ) == T_AUT_HDG_SRC.SOURCE_IN_SUBFIELD_2) {
-        if (descriptorFrom.getAuthoritySourceText ( ).equals (descriptorTo.getAuthoritySourceText ( ))) {
+    if (descriptorFrom.getAuthoritySourceCode() == descriptorTo.getAuthoritySourceCode()) {
+      if (descriptorFrom.getAuthoritySourceCode() == T_AUT_HDG_SRC.SOURCE_IN_SUBFIELD_2) {
+        if (descriptorFrom.getAuthoritySourceText().equals(descriptorTo.getAuthoritySourceText())) {
           return true;
         }
       } else {
@@ -295,13 +295,13 @@ public class NameTitleDescriptorDAO extends DAODescriptor {
   public String calculateSearchTerm(final String term, final String browseIndex, final Session session)
     throws HibernateException, SQLException {
 
-    String searchTerm = super.calculateSearchTerm (term, browseIndex, session);
-    if (term.indexOf (":") > 0) {
-      String[] parsedTerm = term.split (":");
-      String name = parsedTerm[0].trim ( );
-      String title = parsedTerm[1].trim ( );
-      searchTerm = calculateSearchTerm (name, "2P0", session) + " : "
-        + calculateSearchTerm (title, "7P0", session);
+    String searchTerm = super.calculateSearchTerm(term, browseIndex, session);
+    if (term.indexOf(":") > 0) {
+      String[] parsedTerm = term.split(":");
+      String name = parsedTerm[0].trim();
+      String title = parsedTerm[1].trim();
+      searchTerm = calculateSearchTerm(name, "2P0", session) + " : "
+        + calculateSearchTerm(title, "7P0", session);
     }
     return searchTerm;
   }
@@ -319,17 +319,17 @@ public class NameTitleDescriptorDAO extends DAODescriptor {
   private List <NME_TTL_HDG> loadHeadings(final NME_HDG nameHdg, final TTL_HDG titleHdg,
                                           final String cataloguingViewString, final Session session) throws HibernateException {
 
-    final int view = View.toIntView (cataloguingViewString);
-    final Query q = session.createQuery ("select distinct hdg from "
+    final int view = View.toIntView(cataloguingViewString);
+    final Query q = session.createQuery("select distinct hdg from "
       + "NME_TTL_HDG as hdg, "
       + " where hdg.nameHeadingNumber = :nameKey "
       + " and hdg.titleHeadingNumber = :titleKey " + "  and "
       + " SUBSTR(hdg.key.userViewString, :view, 1) = '1' ");
-    q.setInteger ("nameKey", nameHdg.getKey ( ).getHeadingNumber ( ));
-    q.setInteger ("titleKey", titleHdg.getKey ( ).getHeadingNumber ( ));
-    q.setInteger ("view", view);
-    List <NME_TTL_HDG> nameTitleHeadingList = q.list ( );
-    nameTitleHeadingList = (List <NME_TTL_HDG>) isolateViewForList (nameTitleHeadingList, view, session);
+    q.setInteger("nameKey", nameHdg.getKey().getHeadingNumber());
+    q.setInteger("titleKey", titleHdg.getKey().getHeadingNumber());
+    q.setInteger("view", view);
+    List <NME_TTL_HDG> nameTitleHeadingList = q.list();
+    nameTitleHeadingList = (List <NME_TTL_HDG>) isolateViewForList(nameTitleHeadingList, view, session);
     return nameTitleHeadingList;
   }
 

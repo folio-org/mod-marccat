@@ -26,7 +26,7 @@ public class BRWR_FINE_PAYMT implements Serializable {
   private String finePaymentAdjmtNote;
 
   public BRWR_FINE_PAYMT() {
-    super ( );
+    super();
   }
 
   public BRWR_FINE_PAYMT(int fineNbr, Date pay, int brwrNbr, float amount, char indic) {

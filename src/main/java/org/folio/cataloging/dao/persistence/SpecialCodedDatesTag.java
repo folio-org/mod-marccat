@@ -26,28 +26,28 @@ public class SpecialCodedDatesTag extends VariableHeaderUsingItemEntity {
    * @since 1.0
    */
   public SpecialCodedDatesTag() {
-    super ( );
-    setHeaderType ((short) 12);
+    super();
+    setHeaderType((short) 12);
   }
 
   public StringText getStringText() {
     StringText result = null;
-    String source = ((BIB_ITM) getItemEntity ( )).getSpecialCodedDatesStringText ( );
+    String source = ((BIB_ITM) getItemEntity()).getSpecialCodedDatesStringText();
 
     if (source == null) {
-      result = new StringText (Subfield.SUBFIELD_DELIMITER + "a");
+      result = new StringText(Subfield.SUBFIELD_DELIMITER + "a");
     } else {
-      result = new StringText (source);
+      result = new StringText(source);
     }
     return result;
   }
 
   public void setStringText(StringText st) {
 //TODO need a more definitive way to set to null		
-    if (st.toString ( ).equals (Subfield.SUBFIELD_DELIMITER + "a")) {
-      ((BIB_ITM) getItemEntity ( )).setSpecialCodedDatesStringText (null);
+    if (st.toString().equals(Subfield.SUBFIELD_DELIMITER + "a")) {
+      ((BIB_ITM) getItemEntity()).setSpecialCodedDatesStringText(null);
     } else {
-      ((BIB_ITM) getItemEntity ( )).setSpecialCodedDatesStringText (st.toString ( ));
+      ((BIB_ITM) getItemEntity()).setSpecialCodedDatesStringText(st.toString());
     }
   }
 

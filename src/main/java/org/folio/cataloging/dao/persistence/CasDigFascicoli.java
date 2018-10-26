@@ -114,9 +114,9 @@ public class CasDigFascicoli implements Serializable {
   }
 
   public String toString() {
-    return new ToStringBuilder (this)
-      .append ("idFascicolo", getIdFascicolo ( ))
-      .toString ( );
+    return new ToStringBuilder(this)
+      .append("idFascicolo", getIdFascicolo())
+      .toString();
   }
 
 }

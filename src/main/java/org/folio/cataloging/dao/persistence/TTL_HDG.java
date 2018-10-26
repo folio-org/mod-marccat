@@ -35,7 +35,7 @@ public class TTL_HDG extends Descriptor implements SkipInFiling, Serializable {
    * Instantiates a new ttl hdg.
    */
   public TTL_HDG() {
-    super ( );
+    super();
   }
 
 
@@ -118,7 +118,7 @@ public class TTL_HDG extends Descriptor implements SkipInFiling, Serializable {
    * @return the dao
    */
   public AbstractDAO getDAO() {
-    return new TitleDescriptorDAO ( );
+    return new TitleDescriptorDAO();
   }
 
 
@@ -150,7 +150,7 @@ public class TTL_HDG extends Descriptor implements SkipInFiling, Serializable {
    * @see Descriptor#getCorrelationValues()
    */
   public CorrelationValues getCorrelationValues() {
-    return new CorrelationValues ( );
+    return new CorrelationValues();
   }
 
   /* (non-Javadoc)
@@ -165,7 +165,7 @@ public class TTL_HDG extends Descriptor implements SkipInFiling, Serializable {
    * @see Descriptor#getSortFormParameters()
    */
   public SortFormParameters getSortFormParameters() {
-    return new SortFormParameters (100, 102, 0, 0, getSkipInFiling ( ));
+    return new SortFormParameters(100, 102, 0, 0, getSkipInFiling());
   }
 
   /* (non-Javadoc)

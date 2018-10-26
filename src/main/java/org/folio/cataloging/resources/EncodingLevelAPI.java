@@ -28,9 +28,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class EncodingLevelAPI extends BaseResource {
 
   private Function <Avp <String>, EncodingLevel> toEncodingLevel = source -> {
-    final EncodingLevel encodingLevel = new EncodingLevel ( );
-    encodingLevel.setCode (source.getValue ( ));
-    encodingLevel.setDescription (source.getLabel ( ));
+    final EncodingLevel encodingLevel = new EncodingLevel();
+    encodingLevel.setCode(source.getValue());
+    encodingLevel.setDescription(source.getLabel());
     return encodingLevel;
   };
 
@@ -45,13 +45,13 @@ public class EncodingLevelAPI extends BaseResource {
   public EncodingLevelCollection getEncodingLevels(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final EncodingLevelCollection container = new EncodingLevelCollection ( );
-      container.setEncodingLevels (
-        storageService.getEncodingLevels (lang)
-          .stream ( )
-          .map (toEncodingLevel)
-          .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      final EncodingLevelCollection container = new EncodingLevelCollection();
+      container.setEncodingLevels(
+        storageService.getEncodingLevels(lang)
+          .stream()
+          .map(toEncodingLevel)
+          .collect(toList()));
       return container;
     }, tenant, configurator);
 

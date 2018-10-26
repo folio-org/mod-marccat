@@ -31,20 +31,20 @@ public class MarcCommandLibrary {
    * @throws DataAccessException
    */
   public static Tag replaceDescriptor(CatalogItem catalogItem, Tag srcTag, Descriptor replacingDescriptor) throws DataAccessException {
-    Tag newTag = (Tag) deepCopy (srcTag);
+    Tag newTag = (Tag) deepCopy(srcTag);
     if (newTag instanceof PersistsViaItem) {
-      ((PersistsViaItem) newTag).setItemEntity (
-        ((PersistsViaItem) srcTag).getItemEntity ( ));
+      ((PersistsViaItem) newTag).setItemEntity(
+        ((PersistsViaItem) srcTag).getItemEntity());
     }
-    newTag.markNew ( );
-    if (!srcTag.isNew ( )) {
-      srcTag.markDeleted ( );
-      catalogItem.getDeletedTags ( ).add (srcTag);
+    newTag.markNew();
+    if (!srcTag.isNew()) {
+      srcTag.markDeleted();
+      catalogItem.getDeletedTags().add(srcTag);
     }
 
-    replaceDescriptor ((Browsable) newTag, replacingDescriptor);
+    replaceDescriptor((Browsable) newTag, replacingDescriptor);
 
-    catalogItem.setTag (srcTag, newTag);
+    catalogItem.setTag(srcTag, newTag);
     return newTag;
   }
 
@@ -57,9 +57,9 @@ public class MarcCommandLibrary {
    */
   private static void replaceDescriptor(Browsable tag, Descriptor newDescriptor) throws DataAccessException {
     // backup to prevent losing after catching exception
-    Descriptor oldDescriptor = tag.getDescriptor ( );
+    Descriptor oldDescriptor = tag.getDescriptor();
 
-    tag.setDescriptor (newDescriptor);
+    tag.setDescriptor(newDescriptor);
     /*TODO SubjectAccessPoint.setDescriptor has been modified to verify
      * that the encoding of the resultant tag after updating the descriptor
      * is still valid.  If not, it will re-assign a valid value2.  It may
@@ -74,49 +74,49 @@ public class MarcCommandLibrary {
      * See the Subject with correlation 19, ?, 14
      */
     try {
-      if (((Tag) tag).getMarcEncoding ( ) == null)
-        throw new MarcCorrelationException ( );
+      if (((Tag) tag).getMarcEncoding() == null)
+        throw new MarcCorrelationException();
     } catch (MarcCorrelationException me) {
       // revert descriptor with the original
-      tag.setDescriptor (oldDescriptor);
-      throw new DataAccessException ( );
+      tag.setDescriptor(oldDescriptor);
+      throw new DataAccessException();
     } catch (DataAccessException dae) {
       // revert descriptor with the original
-      tag.setDescriptor (oldDescriptor);
+      tag.setDescriptor(oldDescriptor);
       throw dae;
     }
 
     /* -- End block -- */
 
-    tag.setHeadingNumber (
-      new Integer (newDescriptor.getKey ( ).getHeadingNumber ( )));
+    tag.setHeadingNumber(
+      new Integer(newDescriptor.getKey().getHeadingNumber()));
   }
 
   public static Tag replaceTagWithClone(CatalogItem catalogItem, Tag srcTag) {
-    Tag newTag = (Tag) deepCopy (srcTag);
+    Tag newTag = (Tag) deepCopy(srcTag);
     if (newTag instanceof PersistsViaItem) {
-      ((PersistsViaItem) newTag).setItemEntity (
-        ((PersistsViaItem) srcTag).getItemEntity ( ));
+      ((PersistsViaItem) newTag).setItemEntity(
+        ((PersistsViaItem) srcTag).getItemEntity());
     }
-    newTag.markNew ( );
-    if (!srcTag.isNew ( )) {
-      srcTag.markDeleted ( );
-      catalogItem.addDeletedTag (srcTag);
+    newTag.markNew();
+    if (!srcTag.isNew()) {
+      srcTag.markDeleted();
+      catalogItem.addDeletedTag(srcTag);
     }
 
-    catalogItem.setTag (srcTag, newTag);
+    catalogItem.setTag(srcTag, newTag);
     return newTag;
   }
 
   public static Descriptor createNewDescriptor(final Descriptor currDescriptor, final String headingView, final Session session) throws DataAccessException, HibernateException, SQLException {
-    if (!currDescriptor.isNew ( )) return currDescriptor;
-    Descriptor matchDescriptor = ((DAODescriptor) currDescriptor.getDAO ( )).getMatchingHeading (currDescriptor, session);
+    if (!currDescriptor.isNew()) return currDescriptor;
+    Descriptor matchDescriptor = ((DAODescriptor) currDescriptor.getDAO()).getMatchingHeading(currDescriptor, session);
     if (matchDescriptor == null) {
-      if (currDescriptor.getKey ( ).getHeadingNumber ( ) == -1) {// key is not null by default
-        currDescriptor.generateNewKey (session);
-        currDescriptor.getKey ( ).setUserViewString (headingView);
+      if (currDescriptor.getKey().getHeadingNumber() == -1) {// key is not null by default
+        currDescriptor.generateNewKey(session);
+        currDescriptor.getKey().setUserViewString(headingView);
       }
-      currDescriptor.getDAO ( ).persistByStatus (currDescriptor, session);
+      currDescriptor.getDAO().persistByStatus(currDescriptor, session);
       return currDescriptor;
     } else {
       return matchDescriptor;
@@ -126,17 +126,17 @@ public class MarcCommandLibrary {
   public static void setNewStringText(AccessPoint tag, StringText text, String headingView,
                                       final Session session) throws DataAccessException, HibernateException, SQLException {
     //if(!tag.isNew()) throw new IllegalArgumentException("this method can be used only for new tags");
-    tag.getDescriptor ( ).setUserViewString (headingView);
-    tag.setDescriptorStringText (text);
+    tag.getDescriptor().setUserViewString(headingView);
+    tag.setDescriptorStringText(text);
     Descriptor newDescriptor = null;
-    if (tag.getDescriptor ( ) instanceof PublisherTagDescriptor) {
-      PUBL_TAG pu = ((PublisherTagDescriptor) tag.getDescriptor ( )).getPublisherTagUnits ( ).get (0);
-      newDescriptor = createNewDescriptor (pu.getDescriptor ( ), headingView, session);
-      pu.setDescriptor ((PUBL_HDG) newDescriptor);
+    if (tag.getDescriptor() instanceof PublisherTagDescriptor) {
+      PUBL_TAG pu = ((PublisherTagDescriptor) tag.getDescriptor()).getPublisherTagUnits().get(0);
+      newDescriptor = createNewDescriptor(pu.getDescriptor(), headingView, session);
+      pu.setDescriptor((PUBL_HDG) newDescriptor);
     } else {
-      newDescriptor = createNewDescriptor (tag.getDescriptor ( ), headingView, session);
-      tag.setDescriptor (newDescriptor);
-      tag.setHeadingNumber (new Integer (newDescriptor.getKey ( ).getHeadingNumber ( )));
+      newDescriptor = createNewDescriptor(tag.getDescriptor(), headingView, session);
+      tag.setDescriptor(newDescriptor);
+      tag.setHeadingNumber(new Integer(newDescriptor.getKey().getHeadingNumber()));
     }
   }
 
@@ -147,8 +147,8 @@ public class MarcCommandLibrary {
     }*/
   public static void setNewStringText(final PublisherManager tag, final StringText text, final String headingView, final Session session) throws DataAccessException, HibernateException, SQLException {
     //if(!tag.isNew()) throw new IllegalArgumentException("this method can be used only for new publisher tags");
-    PublisherAccessPoint pap = tag.getApf ( );
-    setNewStringText (pap, text, headingView, session);
+    PublisherAccessPoint pap = tag.getApf();
+    setNewStringText(pap, text, headingView, session);
   }
 
 }

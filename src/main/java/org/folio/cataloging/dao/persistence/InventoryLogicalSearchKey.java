@@ -24,7 +24,7 @@ public class InventoryLogicalSearchKey implements Serializable {
    * Class constructor
    */
   public InventoryLogicalSearchKey() {
-    super ( );
+    super();
   }
 
 
@@ -70,7 +70,7 @@ public class InventoryLogicalSearchKey implements Serializable {
    */
   public boolean equals(Object arg0) {
     // TODO Auto-generated method stub
-    return super.equals (arg0);
+    return super.equals(arg0);
   }
 
   /* (non-Javadoc)
@@ -78,6 +78,6 @@ public class InventoryLogicalSearchKey implements Serializable {
    */
   public int hashCode() {
     // TODO Auto-generated method stub
-    return super.hashCode ( );
+    return super.hashCode();
   }
 }

@@ -29,16 +29,16 @@ import java.util.TreeSet;
  * @author janick
  */
 public class BibliographicTagImpl extends TagImpl {
-  private static final Log logger = LogFactory.getLog (BibliographicTagImpl.class);
+  private static final Log logger = LogFactory.getLog(BibliographicTagImpl.class);
 
-  private static final BibliographicValidationDAO daoValidation = new BibliographicValidationDAO ( );
-  private static final BibliographicCorrelationDAO daoCorrelation = new BibliographicCorrelationDAO ( );
+  private static final BibliographicValidationDAO daoValidation = new BibliographicValidationDAO();
+  private static final BibliographicCorrelationDAO daoCorrelation = new BibliographicCorrelationDAO();
 
   /**
    *
    */
   public BibliographicTagImpl() {
-    super ( );
+    super();
   }
 
   /**
@@ -47,17 +47,17 @@ public class BibliographicTagImpl extends TagImpl {
   public CorrelationKey getMarcEncoding(final Tag t, final Session session) throws DataAccessException {
     CorrelationKey key = null;
     try {
-      key = daoCorrelation.getMarcEncoding (t.getCategory ( ), t.getCorrelation (1), t.getCorrelation (2), t.getCorrelation (3), session);
+      key = daoCorrelation.getMarcEncoding(t.getCategory(), t.getCorrelation(1), t.getCorrelation(2), t.getCorrelation(3), session);
     } catch (HibernateException e) {
-      throw new DataAccessException ( );
+      throw new DataAccessException();
     }
 
     if (key == null) {
-      logger.warn ("MarcCorrelationException in getMarcEncoding for values: ");
-      logger.warn ("Corr_1: " + t.getCorrelation (1) + ", Corr_2: "
-        + t.getCorrelation (2) + ", Corr_3: " + t.getCorrelation (3)
-        + ", Category: " + t.getCategory ( ));
-      throw new MarcCorrelationException ( );
+      logger.warn("MarcCorrelationException in getMarcEncoding for values: ");
+      logger.warn("Corr_1: " + t.getCorrelation(1) + ", Corr_2: "
+        + t.getCorrelation(2) + ", Corr_3: " + t.getCorrelation(3)
+        + ", Category: " + t.getCategory());
+      //throw new MarcCorrelationException ( );
     }
 
     return key;
@@ -74,9 +74,9 @@ public class BibliographicTagImpl extends TagImpl {
 
   public Validation getValidation(Tag t, final Session session) throws DataAccessException {
     try {
-      return daoValidation.load (session, t.getCategory ( ), t.getCorrelationValues ( ));
+      return daoValidation.load(session, t.getCategory(), t.getCorrelationValues());
     } catch (HibernateException e) {
-      throw new DataAccessException (e);
+      throw new DataAccessException(e);
     }
   }
 
@@ -91,7 +91,7 @@ public class BibliographicTagImpl extends TagImpl {
    * @see TagImpl#getCatalog()
    */
   public Catalog getCatalog() {
-    return new BibliographicCatalog ( );
+    return new BibliographicCatalog();
   }
 
   @Deprecated
@@ -105,24 +105,24 @@ public class BibliographicTagImpl extends TagImpl {
    * @see TagImpl#getValidEditableSubfields(short)
    */
   public Set getValidEditableSubfields(int category) {
-    Set set = new TreeSet (new SubfieldCodeComparator ( ));
+    Set set = new TreeSet(new SubfieldCodeComparator());
     switch (category) {
       case 2:
-        set.addAll (Arrays.asList ("e", "i", "o", "u", "x",
+        set.addAll(Arrays.asList("e", "i", "o", "u", "x",
           "3", "4", "5"));
         break;
       case 3:
-        set.addAll (Arrays.asList ("c", "i", "v", "x", "3",
+        set.addAll(Arrays.asList("c", "i", "v", "x", "3",
           "5"));
         break;
       case 4:
-        set.addAll (Arrays.asList ("e", "u", "3", "4"));
+        set.addAll(Arrays.asList("e", "u", "3", "4"));
         break;
       case 11:
-        set.addAll (Arrays.asList ("v", "3", "5"));
+        set.addAll(Arrays.asList("v", "3", "5"));
         break;
       case 12:
-        set.addAll (Arrays.asList ("v", "3", "5"));
+        set.addAll(Arrays.asList("v", "3", "5"));
         break;
     }
     return set;
@@ -130,9 +130,9 @@ public class BibliographicTagImpl extends TagImpl {
 
   public Correlation getCorrelation(String tagNumber, char indicator1, char indicator2, final int category, final Session session) throws DataAccessException {
     try {
-      return daoCorrelation.getBibliographicCorrelation (session, tagNumber, indicator1, indicator2, category);
+      return daoCorrelation.getBibliographicCorrelation(session, tagNumber, indicator1, indicator2, category);
     } catch (HibernateException e) {
-      throw new DataAccessException (e);
+      throw new DataAccessException(e);
     }
   }
 

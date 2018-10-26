@@ -56,14 +56,14 @@ public class USR_ACNT implements Serializable, Persistence {
   private int displayLimit;
   private Integer defaultAuthorityModel;
   private Integer defaultBibliographicModel;
-  private PersistenceState persistenceState = new PersistenceState ( );
+  private PersistenceState persistenceState = new PersistenceState();
 
   public void cancelChanges() {
-    persistenceState.cancelChanges ( );
+    persistenceState.cancelChanges();
   }
 
   public void confirmChanges() {
-    persistenceState.confirmChanges ( );
+    persistenceState.confirmChanges();
   }
 
   @Override
@@ -72,24 +72,24 @@ public class USR_ACNT implements Serializable, Persistence {
       return true;
     if (obj == null)
       return false;
-    if (getClass ( ) != obj.getClass ( ))
+    if (getClass() != obj.getClass())
       return false;
     final USR_ACNT other = (USR_ACNT) obj;
     if (name == null) {
       if (other.name != null)
         return false;
-    } else if (!name.equals (other.name))
+    } else if (!name.equals(other.name))
       return false;
     return true;
   }
 
   @Override
   public void evict() throws DataAccessException {
-    persistenceState.evict (this);
+    persistenceState.evict(this);
   }
 
   public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict (obj);
+    persistenceState.evict(obj);
   }
 
 	/*
@@ -153,7 +153,7 @@ public class USR_ACNT implements Serializable, Persistence {
   }
 
   public AbstractDAO getDAO() {
-    return persistenceState.getDAO ( );
+    return persistenceState.getDAO();
   }
 
   /**
@@ -569,18 +569,18 @@ public class USR_ACNT implements Serializable, Persistence {
   }
 
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   public void setUpdateStatus(int i) {
-    persistenceState.setUpdateStatus (i);
+    persistenceState.setUpdateStatus(i);
   }
 
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((name == null) ? 0 : name.hashCode ( ));
+    result = prime * result + ((name == null) ? 0 : name.hashCode());
     return result;
   }
 
@@ -603,19 +603,19 @@ public class USR_ACNT implements Serializable, Persistence {
   }
 
   public boolean isChanged() {
-    return persistenceState.isChanged ( );
+    return persistenceState.isChanged();
   }
 
   public boolean isDeleted() {
-    return persistenceState.isDeleted ( );
+    return persistenceState.isDeleted();
   }
 
   public boolean isNew() {
-    return persistenceState.isNew ( );
+    return persistenceState.isNew();
   }
 
   public boolean isRemoved() {
-    return persistenceState.isRemoved ( );
+    return persistenceState.isRemoved();
   }
 
   /**
@@ -637,39 +637,39 @@ public class USR_ACNT implements Serializable, Persistence {
   }
 
   public void markChanged() {
-    persistenceState.markChanged ( );
+    persistenceState.markChanged();
   }
 
   public void markDeleted() {
-    persistenceState.markDeleted ( );
+    persistenceState.markDeleted();
   }
 
   public void markNew() {
-    persistenceState.markNew ( );
+    persistenceState.markNew();
   }
 
   public void markUnchanged() {
-    persistenceState.markUnchanged ( );
+    persistenceState.markUnchanged();
   }
 
   public boolean onDelete(Session arg0) throws CallbackException {
-    return persistenceState.onDelete (arg0);
+    return persistenceState.onDelete(arg0);
   }
 
   public void onLoad(Session arg0, Serializable arg1) {
-    persistenceState.onLoad (arg0, arg1);
+    persistenceState.onLoad(arg0, arg1);
   }
 
   public boolean onSave(Session arg0) throws CallbackException {
-    return persistenceState.onSave (arg0);
+    return persistenceState.onSave(arg0);
   }
 
   public boolean onUpdate(Session arg0) throws CallbackException {
-    return persistenceState.onUpdate (arg0);
+    return persistenceState.onUpdate(arg0);
   }
 
   public String toString() {
-    return persistenceState.toString ( );
+    return persistenceState.toString();
   }
 
 }

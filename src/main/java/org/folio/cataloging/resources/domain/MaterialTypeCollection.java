@@ -21,10 +21,10 @@ public class MaterialTypeCollection {
   @JsonProperty("materialTypes")
   @Valid
   @NotNull
-  private List <MaterialType> materialTypes = new ArrayList <MaterialType> ( );
+  private List <MaterialType> materialTypes = new ArrayList <MaterialType>();
 
   @JsonIgnore
-  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
+  private Map <String, Object> additionalProperties = new HashMap <String, Object>();
 
   /**
    * (Required)
@@ -58,11 +58,11 @@ public class MaterialTypeCollection {
 
   @JsonAnySetter
   public void setAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
   }
 
   public MaterialTypeCollection withAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
     return this;
   }
 }

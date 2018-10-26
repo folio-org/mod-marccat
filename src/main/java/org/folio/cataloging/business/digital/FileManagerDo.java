@@ -19,12 +19,12 @@ import java.util.List;
 
 public class FileManagerDo {
   private static final String SLASH = "/";
-  private static final String DIG_PROC_LOADED = Defaults.getString ("digital.proc.isLoaded");
-  private static final String DIG_PROC_LOAD = Defaults.getString ("digital.proc.load");
-  private static final String DIG_PROC_DELETE = Defaults.getString ("digital.proc.delete");
-  private static final String DIG_VIRTUAL_PATH = Defaults.getString ("digital.virtual.path");
-  private static final String DIG_HOME_REPOSITORY = Defaults.getString ("digital.home.rep");
-  private static final Log logger = LogFactory.getLog (FileManagerDo.class);
+  private static final String DIG_PROC_LOADED = Defaults.getString("digital.proc.isLoaded");
+  private static final String DIG_PROC_LOAD = Defaults.getString("digital.proc.load");
+  private static final String DIG_PROC_DELETE = Defaults.getString("digital.proc.delete");
+  private static final String DIG_VIRTUAL_PATH = Defaults.getString("digital.virtual.path");
+  private static final String DIG_HOME_REPOSITORY = Defaults.getString("digital.home.rep");
+  private static final Log logger = LogFactory.getLog(FileManagerDo.class);
   private List listChilds = null;
   private String DIGITAL_CONTEXT = "";
   private String DIGITAL_VIRTUAL_PATH = "";
@@ -40,31 +40,31 @@ public class FileManagerDo {
 
 
   public FileManagerDo() throws DataAccessException {
-    getHomeRepositoryProc ( );
-    getDigVirtualPathProc ( );
+    getHomeRepositoryProc();
+    getDigVirtualPathProc();
   }
 
   public boolean isDirectoryExists(String path) {
-    File f = new File (path);
-    return (f.exists ( ) && f.isDirectory ( ));
+    File f = new File(path);
+    return (f.exists() && f.isDirectory());
   }
 
   public void directoryCreate(String path) throws DirectoryCreationException {
-    File f = new File (path);
-    if (!f.mkdirs ( )) {
-      logger.error ("Errore nella creazione della directory : " + path);
-      throw new DirectoryCreationException ( );
+    File f = new File(path);
+    if (!f.mkdirs()) {
+      logger.error("Errore nella creazione della directory : " + path);
+      throw new DirectoryCreationException();
     } else {
       /* 20130924: Sotto weblogic il file creato non aveva i permessi di lettura */
-      f.setReadable (true, false);
+      f.setReadable(true, false);
     }
   }
 
 
   public boolean repositoryExsist(String path) {
     boolean exist = true;
-    File fileCreated = new File (path);
-    File filesList[] = fileCreated.listFiles ( );
+    File fileCreated = new File(path);
+    File filesList[] = fileCreated.listFiles();
     if (filesList == null || filesList.length == 0) {
       exist = false;
     }
@@ -75,7 +75,7 @@ public class FileManagerDo {
 //		System.out.println("Path ----------------> " + path);
 //		System.out.println("File separator usato : " + File.separator);
 
-    String[] arr = path.split (File.separator);
+    String[] arr = path.split(File.separator);
 //		for (int i = 0; i < arr.length; i++) {
 //			System.out.println(i + " => " +arr[i]);
 //		}
@@ -85,30 +85,30 @@ public class FileManagerDo {
         nameFile = arr[arr.length - 1];
 //				System.out.println("nome file " + arr[arr.length-1]);
       } else
-        throw new Exception ( );
+        throw new Exception();
     } else
-      throw new Exception ( );
+      throw new Exception();
 
     return nameFile;
   }
 
   public void copyFile(String pathOrigine, String pathDestinazione, String fileName) throws IOException, Exception {
-    FileInputStream fis = new FileInputStream (pathOrigine);
+    FileInputStream fis = new FileInputStream(pathOrigine);
 //		String fileNew = pathDestinazione + File.separator + fileName;
-    String fileNew = (new StringBuffer ( ).append (pathDestinazione).append (File.separator).append (fileName).toString ( ));
+    String fileNew = (new StringBuffer().append(pathDestinazione).append(File.separator).append(fileName).toString());
 //		System.out.println("File new in copyFile : " + fileNew);
-    FileOutputStream fos = new FileOutputStream (fileNew);
+    FileOutputStream fos = new FileOutputStream(fileNew);
 
-    byte[] dati = new byte[fis.available ( )];
-    setSizeFileCopy (dati.length);
+    byte[] dati = new byte[fis.available()];
+    setSizeFileCopy(dati.length);
 //		int appo = dati.length;
 //		System.out.println("appo size : " + appo); 
 
-    fis.read (dati);
-    fos.write (dati);
+    fis.read(dati);
+    fos.write(dati);
 
-    fis.close ( );
-    fos.close ( );
+    fis.close();
+    fos.close();
   }
 
   public String getPathParent() {
@@ -126,13 +126,13 @@ public class FileManagerDo {
   public void setPathCorr(String pathCorr) {
     this.pathCorr = pathCorr;
 
-    String appo = getpathCorr ( );
+    String appo = getpathCorr();
 
-    if (getpathCorr ( ) != null) {
-      appo = appo.replaceAll (getDIGITAL_CONTEXT ( ), "/HomeRepository/");
-      setPathCorrDisplay (appo);
+    if (getpathCorr() != null) {
+      appo = appo.replaceAll(getDIGITAL_CONTEXT(), "/HomeRepository/");
+      setPathCorrDisplay(appo);
     } else
-      setPathCorrDisplay (null);
+      setPathCorrDisplay(null);
   }
 
   public String getDIGITAL_CONTEXT() {
@@ -144,133 +144,133 @@ public class FileManagerDo {
   }
 
   public void getHomeRepositoryProc() throws DataAccessException {
-    new TransactionalHibernateOperation ( ) {
+    new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s) throws SQLException, HibernateException, UploadFileDigitalException {
         CallableStatement proc = null;
         try {
 
-          Connection connection = s.connection ( );
-          proc = connection.prepareCall ("{ ? = call " + DIG_HOME_REPOSITORY + "() }");
-          proc.registerOutParameter (1, Types.CHAR);
-          proc.execute ( );
-          String home = proc.getString (1);
+          Connection connection = s.connection();
+          proc = connection.prepareCall("{ ? = call " + DIG_HOME_REPOSITORY + "() }");
+          proc.registerOutParameter(1, Types.CHAR);
+          proc.execute();
+          String home = proc.getString(1);
           if (home == null) {
-            throw new UploadFileDigitalException ("error.digital.loadedFile");
+            throw new UploadFileDigitalException("error.digital.loadedFile");
           }
-          setDIGITAL_CONTEXT (home);
-          logger.debug ("HOME digital repository --> " + home);
+          setDIGITAL_CONTEXT(home);
+          logger.debug("HOME digital repository --> " + home);
 
         } finally {
           try {
-            if (proc != null) proc.close ( );
+            if (proc != null) proc.close();
           } catch (SQLException ex) {
-            ex.printStackTrace ( );
+            ex.printStackTrace();
           }
         }
       }
     }
-      .execute ( );
+      .execute();
   }
 
   public void getDigVirtualPathProc() throws DataAccessException {
-    new TransactionalHibernateOperation ( ) {
+    new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s) throws SQLException, HibernateException, UploadFileDigitalException {
         CallableStatement proc = null;
         try {
 
-          Connection connection = s.connection ( );
-          proc = connection.prepareCall ("{ ? = call " + DIG_VIRTUAL_PATH + "() }");
-          proc.registerOutParameter (1, Types.CHAR);
-          proc.execute ( );
-          String virtualPath = proc.getString (1);
+          Connection connection = s.connection();
+          proc = connection.prepareCall("{ ? = call " + DIG_VIRTUAL_PATH + "() }");
+          proc.registerOutParameter(1, Types.CHAR);
+          proc.execute();
+          String virtualPath = proc.getString(1);
           if (virtualPath == null) {
-            throw new UploadFileDigitalException ("error.digital.loadedFile");
+            throw new UploadFileDigitalException("error.digital.loadedFile");
           }
-          setDIGITAL_VIRTUAL_PATH (virtualPath);
+          setDIGITAL_VIRTUAL_PATH(virtualPath);
 
         } finally {
           try {
-            if (proc != null) proc.close ( );
+            if (proc != null) proc.close();
           } catch (SQLException ex) {
-            ex.printStackTrace ( );
+            ex.printStackTrace();
           }
         }
       }
     }
-      .execute ( );
+      .execute();
   }
 
   public void isFileLoadedDigProc(final String directoryFile, final String fileName) throws DataAccessException, UploadFileDigitalException {
-    new TransactionalHibernateOperation ( ) {
+    new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s) throws SQLException, HibernateException, UploadFileDigitalException {
         CallableStatement proc = null;
         try {
 
-          String pathRelativo = findPathRelative (directoryFile);
+          String pathRelativo = findPathRelative(directoryFile);
 
-          logger.debug ("PARAMETRI CHIAMATA PROC " + DIG_PROC_LOADED);
-          logger.debug ("directoryFile    : " + directoryFile);
-          logger.debug ("path relativo    : " + pathRelativo);
-          logger.debug ("fileName         : " + fileName);
+          logger.debug("PARAMETRI CHIAMATA PROC " + DIG_PROC_LOADED);
+          logger.debug("directoryFile    : " + directoryFile);
+          logger.debug("path relativo    : " + pathRelativo);
+          logger.debug("fileName         : " + fileName);
 
-          Connection connection = s.connection ( );
-          proc = connection.prepareCall ("{ ? = call " + DIG_PROC_LOADED + "(?,?) }");
-          proc.registerOutParameter (1, Types.INTEGER);
-          proc.setString (2, pathRelativo);
-          proc.setString (3, fileName);
-          proc.execute ( );
-          int rc = proc.getInt (1);
+          Connection connection = s.connection();
+          proc = connection.prepareCall("{ ? = call " + DIG_PROC_LOADED + "(?,?) }");
+          proc.registerOutParameter(1, Types.INTEGER);
+          proc.setString(2, pathRelativo);
+          proc.setString(3, fileName);
+          proc.execute();
+          int rc = proc.getInt(1);
           if (rc > 0) {
-            throw new UploadFileDigitalException ("error.digital.loadedFile");
+            throw new UploadFileDigitalException("error.digital.loadedFile");
           }
 
         } finally {
           try {
-            if (proc != null) proc.close ( );
+            if (proc != null) proc.close();
           } catch (SQLException ex) {
-            ex.printStackTrace ( );
+            ex.printStackTrace();
           }
         }
       }
     }
-      .execute ( );
+      .execute();
   }
 
   public void loadDigProc(final String directoryFile, final String fileName, final long size, final int amicusNumber, final int userView, final String operation) throws DataAccessException {
-    new TransactionalHibernateOperation ( ) {
+    new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s) throws HibernateException, SQLException {
         CallableStatement proc = null;
         try {
           Date dataSys = null;
-          logger.info ("PROCEDURA RICHIAMATA : " + DIG_PROC_LOAD);
-          logger.debug (" directoryFile    : " + directoryFile);
-          logger.debug (" fileName         : " + fileName);
-          logger.debug (" amicusNumber     : " + amicusNumber);
-          logger.debug (" data sql systema : " + dataSys);
-          logger.debug (" user view        : " + userView);
-          logger.debug (" Nuovo parametro: SIZE FILE : " + size);
+          logger.info("PROCEDURA RICHIAMATA : " + DIG_PROC_LOAD);
+          logger.debug(" directoryFile    : " + directoryFile);
+          logger.debug(" fileName         : " + fileName);
+          logger.debug(" amicusNumber     : " + amicusNumber);
+          logger.debug(" data sql systema : " + dataSys);
+          logger.debug(" user view        : " + userView);
+          logger.debug(" Nuovo parametro: SIZE FILE : " + size);
 
-          Connection connection = s.connection ( );
-          proc = connection.prepareCall ("{call " + DIG_PROC_LOAD + " (?,?,?,?,?,?,?) }");
-          proc.setString (1, directoryFile);
-          proc.setString (2, fileName);
-          proc.setInt (3, amicusNumber);
-          proc.setInt (4, userView);
-          proc.setDate (5, dataSys);
-          proc.setLong (6, size);
-          proc.setString (7, operation);
-          proc.execute ( );
+          Connection connection = s.connection();
+          proc = connection.prepareCall("{call " + DIG_PROC_LOAD + " (?,?,?,?,?,?,?) }");
+          proc.setString(1, directoryFile);
+          proc.setString(2, fileName);
+          proc.setInt(3, amicusNumber);
+          proc.setInt(4, userView);
+          proc.setDate(5, dataSys);
+          proc.setLong(6, size);
+          proc.setString(7, operation);
+          proc.execute();
 
         } finally {
           try {
-            if (proc != null) proc.close ( );
+            if (proc != null) proc.close();
           } catch (SQLException ex) {
-            ex.printStackTrace ( );
+            ex.printStackTrace();
           }
         }
       }
     }
-      .execute ( );
+      .execute();
   }
 
 
@@ -280,11 +280,11 @@ public class FileManagerDo {
 
 //		System.out.println("path iniziale : " + fullPath);
 
-    workPath = cntrPath (fullPath);
+    workPath = cntrPath(fullPath);
 
-    int diff = workPath.length ( ) - getDIGITAL_CONTEXT ( ).length ( );
+    int diff = workPath.length() - getDIGITAL_CONTEXT().length();
     if (diff != 0) {
-      pathRelativo = workPath.substring (workPath.length ( ) - diff);
+      pathRelativo = workPath.substring(workPath.length() - diff);
     }
 
 //		System.out.println("path relativo : " + pathRelativo);
@@ -295,45 +295,45 @@ public class FileManagerDo {
   private String cntrPath(String fullPath) {
     String workPath = fullPath;
 
-    if (fullPath.length ( ) < getDIGITAL_CONTEXT ( ).length ( )) {
+    if (fullPath.length() < getDIGITAL_CONTEXT().length()) {
 //--->  Se stiamo sulla root, l'ultimo carattere del path deve essere "/" altrimenti ha problemi nel riconoscimento dello stesso
-      if (!fullPath.substring (fullPath.length ( ) - 1).equalsIgnoreCase (SLASH))
+      if (!fullPath.substring(fullPath.length() - 1).equalsIgnoreCase(SLASH))
         workPath = fullPath + SLASH;
 
-    } else if (fullPath.length ( ) > getDIGITAL_CONTEXT ( ).length ( )) {
+    } else if (fullPath.length() > getDIGITAL_CONTEXT().length()) {
 //--->  Se non stiamo sulla root, l'ultimo carattere del path NON deve essere "/" altrimenti inserisce un path errato in base dati
-      if (fullPath.substring (fullPath.length ( ) - 1).equalsIgnoreCase (SLASH))
-        workPath = fullPath.substring (0, fullPath.length ( ) - 1);
+      if (fullPath.substring(fullPath.length() - 1).equalsIgnoreCase(SLASH))
+        workPath = fullPath.substring(0, fullPath.length() - 1);
     }
     return workPath;
   }
 
   public void deleteDigProc(final String directoryFile, final String fileName, final String operation) throws DataAccessException {
-    new TransactionalHibernateOperation ( ) {
+    new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s) throws HibernateException, SQLException {
         CallableStatement proc = null;
         try {
-          logger.debug ("PROCEDURA RICHIAMATA : " + DIG_PROC_DELETE);
-          logger.debug (" directoryFile    : " + directoryFile);
-          logger.debug (" fileName         : " + fileName);
+          logger.debug("PROCEDURA RICHIAMATA : " + DIG_PROC_DELETE);
+          logger.debug(" directoryFile    : " + directoryFile);
+          logger.debug(" fileName         : " + fileName);
 
-          Connection connection = s.connection ( );
-          proc = connection.prepareCall ("{call " + DIG_PROC_DELETE + " (?,?,?) }");
-          proc.setString (1, directoryFile);
-          proc.setString (2, fileName);
-          proc.setString (3, operation);
-          proc.execute ( );
+          Connection connection = s.connection();
+          proc = connection.prepareCall("{call " + DIG_PROC_DELETE + " (?,?,?) }");
+          proc.setString(1, directoryFile);
+          proc.setString(2, fileName);
+          proc.setString(3, operation);
+          proc.execute();
 
         } finally {
           try {
-            if (proc != null) proc.close ( );
+            if (proc != null) proc.close();
           } catch (SQLException ex) {
-            ex.printStackTrace ( );
+            ex.printStackTrace();
           }
         }
       }
     }
-      .execute ( );
+      .execute();
   }
 
   public String getPathCopyFile() {
@@ -387,14 +387,14 @@ public class FileManagerDo {
 
 //----> Dal nome file tolgo l'estenzione (individiata dal .) tolgo gli eventuali _tipo 
 //----> per ottenere l'amicus Number puro per la count nel db		
-    String fileName = amicusNumber.substring (0, amicusNumber.indexOf ("."));
+    String fileName = amicusNumber.substring(0, amicusNumber.indexOf("."));
 //		System.out.println("Nome file per il dao : " + fileName);
-    int i = fileName.indexOf ("_");
+    int i = fileName.indexOf("_");
     if (i != -1) {
-      fileName = fileName.substring (0, i);
+      fileName = fileName.substring(0, i);
     }
-    DAODigital daoDigital = new DAODigital ( );
-    return daoDigital.countRLTSP (Integer.parseInt (fileName));
+    DAODigital daoDigital = new DAODigital();
+    return daoDigital.countRLTSP(Integer.parseInt(fileName));
   }
 
   public String getMainDirectoryByOperation() {

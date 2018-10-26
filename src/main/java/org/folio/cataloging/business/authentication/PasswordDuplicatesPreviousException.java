@@ -20,14 +20,14 @@ public class PasswordDuplicatesPreviousException
    *
    */
   public PasswordDuplicatesPreviousException() {
-    super ( );
+    super();
   }
 
   /**
    * @param message
    */
   public PasswordDuplicatesPreviousException(String message) {
-    super (message);
+    super(message);
   }
 
   /**
@@ -37,14 +37,14 @@ public class PasswordDuplicatesPreviousException
   public PasswordDuplicatesPreviousException(
     String message,
     Throwable cause) {
-    super (message, cause);
+    super(message, cause);
   }
 
   /**
    * @param cause
    */
   public PasswordDuplicatesPreviousException(Throwable cause) {
-    super (cause);
+    super(cause);
   }
 
 }

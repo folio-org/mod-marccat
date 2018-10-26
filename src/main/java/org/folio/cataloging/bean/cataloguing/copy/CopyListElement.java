@@ -19,7 +19,7 @@ public class CopyListElement {
   private String shelfList;
   private int howManyNotes;
   private int howManyInventory;
-  private List notesList = new Vector ( );
+  private List notesList = new Vector();
   private Integer hldgNbr;
   private String hldgText;
   private int bndCpyIdNbr;
@@ -42,7 +42,7 @@ public class CopyListElement {
 
 
   public CopyListElement(CPY_ID copy) {
-    setCopy (copy);
+    setCopy(copy);
 
   }
 
@@ -55,7 +55,7 @@ public class CopyListElement {
   }
 
   public String getShortCopyStatementText() {
-    return copyStatementText != null && copyStatementText.length ( ) > 20 ? copyStatementText.substring (0, 20) + "..." : copyStatementText;
+    return copyStatementText != null && copyStatementText.length() > 20 ? copyStatementText.substring(0, 20) + "..." : copyStatementText;
   }
 
   public void setShortCopyStatementText(String shortCopyStatementText) {
@@ -66,7 +66,7 @@ public class CopyListElement {
    * @since 1.0
    */
   public String getBarCodeNumber() {
-    return getCopy ( ).getBarCodeNumber ( );
+    return getCopy().getBarCodeNumber();
   }
 
   /**
@@ -74,14 +74,14 @@ public class CopyListElement {
    * @since 1.0
    */
   public void setBarCodeNumber(String string) {
-    getCopy ( ).setBarCodeNumber (string);
+    getCopy().setBarCodeNumber(string);
   }
 
   /**
    * @since 1.0
    */
   public int getCopyIdNumber() {
-    return getCopy ( ).getCopyIdNumber ( );
+    return getCopy().getCopyIdNumber();
   }
 
   /**
@@ -89,7 +89,7 @@ public class CopyListElement {
    * @since 1.0
    */
   public void setCopyIdNumber(int i) {
-    getCopy ( ).setCopyIdNumber (i);
+    getCopy().setCopyIdNumber(i);
   }
 
   /**

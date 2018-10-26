@@ -22,7 +22,7 @@ public class InvalidBrowseIndexException extends ModCatalogingException {
    * @since 1.0
    */
   public InvalidBrowseIndexException() {
-    super ( );
+    super();
     // TODO Auto-generated constructor stub
   }
 
@@ -33,7 +33,7 @@ public class InvalidBrowseIndexException extends ModCatalogingException {
    * @since 1.0
    */
   public InvalidBrowseIndexException(String message) {
-    super (message);
+    super(message);
     // TODO Auto-generated constructor stub
   }
 
@@ -45,7 +45,7 @@ public class InvalidBrowseIndexException extends ModCatalogingException {
    * @since 1.0
    */
   public InvalidBrowseIndexException(String message, Throwable cause) {
-    super (message, cause);
+    super(message, cause);
     // TODO Auto-generated constructor stub
   }
 
@@ -56,11 +56,11 @@ public class InvalidBrowseIndexException extends ModCatalogingException {
    * @since 1.0
    */
   public InvalidBrowseIndexException(Throwable cause) {
-    super (cause);
+    super(cause);
     // TODO Auto-generated constructor stub
   }
 
   public InvalidBrowseIndexException(Integer o) {
-    super (o.toString ( ));
+    super(o.toString());
   }
 }

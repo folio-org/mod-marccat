@@ -46,12 +46,12 @@ public class CorrelationValues implements Cloneable {
   }
 
   public boolean isValueDefined(final int i) {
-    return (getValue (i) != UNDEFINED);
+    return (getValue(i) != UNDEFINED);
   }
 
   public CorrelationValues change(final int i, final int v) {
-    final CorrelationValues val = (CorrelationValues) clone ( );
-    val.setValue (i, v);
+    final CorrelationValues val = (CorrelationValues) clone();
+    val.setValue(i, v);
     return val;
   }
 
@@ -59,17 +59,17 @@ public class CorrelationValues implements Cloneable {
    * Places the argument value in the first unused correlation slot.
    */
   public CorrelationValues append(final int v) {
-    for ( int i = 0; i < values.length; i++ ) {
-      if (!isValueDefined (i + 1)) {
-        return change (i + 1, v);
+    for (int i = 0; i < values.length; i++) {
+      if (!isValueDefined(i + 1)) {
+        return change(i + 1, v);
       }
     }
     return this;
   }
 
   public Integer getFirstUnusedPosition() {
-    for ( int i = 0; i < values.length; i++ ) {
-      if (!isValueDefined (i + 1)) {
+    for (int i = 0; i < values.length; i++) {
+      if (!isValueDefined(i + 1)) {
         return i + 1;
       }
     }
@@ -77,8 +77,8 @@ public class CorrelationValues implements Cloneable {
   }
 
   public Integer getLastUsedPosition() {
-    for ( int i = values.length - 1; i >= 0; i-- ) {
-      if (isValueDefined (i + 1)) {
+    for (int i = values.length - 1; i >= 0; i--) {
+      if (isValueDefined(i + 1)) {
         return i + 1;
       }
     }
@@ -87,16 +87,16 @@ public class CorrelationValues implements Cloneable {
 
   @Override
   public Object clone() {
-    final CorrelationValues v = new CorrelationValues ( );
-    v.values = values.clone ( );
+    final CorrelationValues v = new CorrelationValues();
+    v.values = values.clone();
     return v;
   }
 
   @Override
   public boolean equals(Object o) {
-    if (o.getClass ( ) == getClass ( )) {
+    if (o.getClass() == getClass()) {
       final CorrelationValues other = (CorrelationValues) o;
-      return Arrays.equals (values, other.values);
+      return Arrays.equals(values, other.values);
     }
     return false;
   }

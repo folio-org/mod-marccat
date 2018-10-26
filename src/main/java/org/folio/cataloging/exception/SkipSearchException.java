@@ -20,7 +20,7 @@ public class SkipSearchException extends ModCatalogingException {
    * @since 1.0
    */
   public SkipSearchException() {
-    super ( );
+    super();
     // TODO Auto-generated constructor stub
   }
 
@@ -31,7 +31,7 @@ public class SkipSearchException extends ModCatalogingException {
    * @since 1.0
    */
   public SkipSearchException(String message) {
-    super (message);
+    super(message);
     // TODO Auto-generated constructor stub
   }
 
@@ -43,7 +43,7 @@ public class SkipSearchException extends ModCatalogingException {
    * @since 1.0
    */
   public SkipSearchException(String message, Throwable cause) {
-    super (message, cause);
+    super(message, cause);
     // TODO Auto-generated constructor stub
   }
 
@@ -54,7 +54,7 @@ public class SkipSearchException extends ModCatalogingException {
    * @since 1.0
    */
   public SkipSearchException(Throwable cause) {
-    super (cause);
+    super(cause);
     // TODO Auto-generated constructor stub
   }
 

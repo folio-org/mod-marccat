@@ -20,7 +20,7 @@ public class RecordNotFoundException extends DataAccessException {
    * @since 1.0
    */
   public RecordNotFoundException() {
-    super ( );
+    super();
     // TODO Auto-generated constructor stub
   }
 
@@ -31,7 +31,7 @@ public class RecordNotFoundException extends DataAccessException {
    * @since 1.0
    */
   public RecordNotFoundException(String message) {
-    super (message);
+    super(message);
   }
 
   /**
@@ -42,7 +42,7 @@ public class RecordNotFoundException extends DataAccessException {
    * @since 1.0
    */
   public RecordNotFoundException(String message, Throwable cause) {
-    super (message, cause);
+    super(message, cause);
     // TODO Auto-generated constructor stub
   }
 
@@ -53,7 +53,7 @@ public class RecordNotFoundException extends DataAccessException {
    * @since 1.0
    */
   public RecordNotFoundException(Throwable cause) {
-    super (cause);
+    super(cause);
     // TODO Auto-generated constructor stub
   }
 

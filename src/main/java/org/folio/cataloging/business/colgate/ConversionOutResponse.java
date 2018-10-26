@@ -33,9 +33,9 @@ public class ConversionOutResponse extends SocketMessage {
    * @see librisuite.business.common.SocketMessage#fromByteArray(byte[])
    */
   public void fromByteArray(byte[] msg) throws IOException {
-    String message = new String (msg, "UTF-8");
-    setErrorCode (Integer.parseInt (message.substring (1, 2)));
-    setMarcRecord (message.substring (8));
+    String message = new String(msg, "UTF-8");
+    setErrorCode(Integer.parseInt(message.substring(1, 2)));
+    setMarcRecord(message.substring(8));
   }
 
   /* (non-Javadoc)
@@ -47,10 +47,10 @@ public class ConversionOutResponse extends SocketMessage {
       return false;
     }
     try {
-      recLen = new String (b, "US-ASCII").substring (2, 7);
-      return b.length >= 8 + Integer.parseInt (recLen);
+      recLen = new String(b, "US-ASCII").substring(2, 7);
+      return b.length >= 8 + Integer.parseInt(recLen);
     } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException ("US-ASCII not supported???");
+      throw new RuntimeException("US-ASCII not supported???");
     }
 
   }

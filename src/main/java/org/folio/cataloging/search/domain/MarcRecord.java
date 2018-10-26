@@ -26,18 +26,20 @@ import java.util.Map;
  */
 public class MarcRecord extends AbstractRecord {
 
-  private static final Log logger = LogFactory.getLog (MarcRecord.class);
+  private static final Log logger = LogFactory.getLog(MarcRecord.class);
 
-  private Map xmlContent = new HashMap ( );
+  private Map xmlContent = new HashMap();
+  private int countDoc;
+  private String queryForAssociatedDoc;
 
   public Document toXmlDocument(String elementSetName) {
-    Document xmlDocument = (Document) xmlContent.get (elementSetName);
+    Document xmlDocument = (Document) xmlContent.get(elementSetName);
     String marcRecord;
 
     if (xmlDocument != null) {
       return xmlDocument;
     } else {
-      marcRecord = (String) getContent (elementSetName);
+      marcRecord = (String) getContent(elementSetName);
       if (marcRecord == null) {
         return null;
       }
@@ -47,46 +49,46 @@ public class MarcRecord extends AbstractRecord {
     try {
       xmlDocument =
         DocumentBuilderFactory
-          .newInstance ( )
-          .newDocumentBuilder ( )
-          .newDocument ( );
+          .newInstance()
+          .newDocumentBuilder()
+          .newDocument();
     } catch (Exception e) {
-      throw new RuntimeException ("Unable to create new xml document");
+      throw new RuntimeException("Unable to create new xml document");
     }
-    Element record = xmlDocument.createElement ("record");
-    xmlDocument.appendChild (record);
-    String[] tags = marcRecord.split ("\u001E");
+    Element record = xmlDocument.createElement("record");
+    xmlDocument.appendChild(record);
+    String[] tags = marcRecord.split("\u001E");
     if (tags.length <= 2) {
-      return createErrorMessage (record, elementSetName, xmlDocument);
+      return createErrorMessage(record, elementSetName, xmlDocument);
     }
     try {
-      Element leader = xmlDocument.createElement ("leader");
-      leader.appendChild (
-        xmlDocument.createTextNode (tags[0].substring (0, 24)));
-      record.appendChild (leader);
-      for ( int i = 1; i < tags.length - 1; i++ ) {
-        String tag = tags[0].substring (12 * (i + 1), 12 * (i + 1) + 3);
-        if (tag.compareTo ("010") < 0) {
+      Element leader = xmlDocument.createElement("leader");
+      leader.appendChild(
+        xmlDocument.createTextNode(tags[0].substring(0, 24)));
+      record.appendChild(leader);
+      for (int i = 1; i < tags.length - 1; i++) {
+        String tag = tags[0].substring(12 * (i + 1), 12 * (i + 1) + 3);
+        if (tag.compareTo("010") < 0) {
           Element controlField =
-            xmlDocument.createElement ("controlfield");
-          controlField.setAttribute ("tag", tag);
-          controlField.appendChild (xmlDocument.createTextNode (tags[i]));
-          record.appendChild (controlField);
+            xmlDocument.createElement("controlfield");
+          controlField.setAttribute("tag", tag);
+          controlField.appendChild(xmlDocument.createTextNode(tags[i]));
+          record.appendChild(controlField);
         } else {
-          Element dataField = xmlDocument.createElement ("datafield");
-          dataField.setAttribute ("tag", tag);
-          dataField.setAttribute ("ind1", tags[i].substring (0, 1));
-          dataField.setAttribute ("ind2", tags[i].substring (1, 2));
-          new StringText (
-            tags[i].substring (2)).generateMarcXmlElementContent (
-            dataField, xmlDocument, this.getCclQuery ( ));
-          record.appendChild (dataField);
+          Element dataField = xmlDocument.createElement("datafield");
+          dataField.setAttribute("tag", tag);
+          dataField.setAttribute("ind1", tags[i].substring(0, 1));
+          dataField.setAttribute("ind2", tags[i].substring(1, 2));
+          new StringText(
+            tags[i].substring(2)).generateMarcXmlElementContent(
+            dataField, xmlDocument, this.getCclQuery());
+          record.appendChild(dataField);
         }
       }
-      xmlContent.put (elementSetName, xmlDocument);
+      xmlContent.put(elementSetName, xmlDocument);
     } catch (StringIndexOutOfBoundsException e) {
-      logger.error ("out of bounds", e);
-      return createErrorMessage (record, elementSetName, xmlDocument);
+      logger.error("out of bounds", e);
+      return createErrorMessage(record, elementSetName, xmlDocument);
     }
     return xmlDocument;
   }
@@ -94,11 +96,27 @@ public class MarcRecord extends AbstractRecord {
   private Document createErrorMessage(Element record, String elementSetName,
                                       Document xmlDocument) {
     // Marc record is in error
-    logger.error ("record data [" + elementSetName + "]: " + getContent (elementSetName));
-    Element error = xmlDocument.createElement ("error");
-    record.appendChild (error);
-    xmlContent.put (elementSetName, xmlDocument);
+    logger.error("record data [" + elementSetName + "]: " + getContent(elementSetName));
+    Element error = xmlDocument.createElement("error");
+    record.appendChild(error);
+    xmlContent.put(elementSetName, xmlDocument);
     return xmlDocument;
+  }
+
+  public int getCountDoc() {
+    return countDoc;
+  }
+
+  public void setCountDoc(int countDoc) {
+    this.countDoc = countDoc;
+  }
+
+  public String getQueryForAssociatedDoc() {
+    return queryForAssociatedDoc;
+  }
+
+  public void setQueryForAssociatedDoc(String queryForAssociatedDoc) {
+    this.queryForAssociatedDoc = queryForAssociatedDoc;
   }
 
 }

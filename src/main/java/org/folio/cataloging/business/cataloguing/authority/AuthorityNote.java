@@ -33,9 +33,9 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
   private AUT autItm;
   private int noteNumber;
   private int itemNumber;
-  private int noteType = Defaults.getShort ("authorityNote.noteType");
+  private int noteType = Defaults.getShort("authorityNote.noteType");
   private String noteStringText;
-  private PersistenceState persistenceState = new PersistenceState ( );
+  private PersistenceState persistenceState = new PersistenceState();
 
   /**
    * Class constructor
@@ -43,11 +43,11 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
    * @since 1.0
    */
   public AuthorityNote() {
-    super ( );
-    StringText s = new StringText ( );
-    s.addSubfield (new Subfield ("a", ""));
-    setStringText (s);
-    setPersistenceState (persistenceState);
+    super();
+    StringText s = new StringText();
+    s.addSubfield(new Subfield("a", ""));
+    setStringText(s);
+    setPersistenceState(persistenceState);
   }
 
   /**
@@ -57,16 +57,16 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
    * @since 1.0
    */
   public AuthorityNote(int itemNumber) {
-    super (itemNumber);
-    setPersistenceState (persistenceState);
+    super(itemNumber);
+    setPersistenceState(persistenceState);
   }
 
   /* (non-Javadoc)
    * @see TagInterface#generateNewKey()
    */
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
-    SystemNextNumberDAO dao = new SystemNextNumberDAO ( );
-    setNoteNumber (dao.getNextNumber ("AN", session));
+    SystemNextNumberDAO dao = new SystemNextNumberDAO();
+    setNoteNumber(dao.getNextNumber("AN", session));
   }
 
 
@@ -81,14 +81,14 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
    * @see TagInterface#getCorrelationValues()
    */
   public CorrelationValues getCorrelationValues() {
-    return new CorrelationValues ( ).change (1, getNoteType ( ));
+    return new CorrelationValues().change(1, getNoteType());
   }
 
   /* (non-Javadoc)
    * @see TagInterface#setCorrelationValues(librisuite.business.common.CorrelationValues)
    */
   public void setCorrelationValues(CorrelationValues v) {
-    setNoteType (v.getValue (1));
+    setNoteType(v.getValue(1));
   }
 
   @Deprecated
@@ -101,14 +101,14 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
    * @see VariableField#getStringText()
    */
   public StringText getStringText() {
-    return new StringText (getNoteStringText ( ));
+    return new StringText(getNoteStringText());
   }
 
   /* (non-Javadoc)
    * @see VariableField#setStringText(org.folio.cataloging.util.StringText)
    */
   public void setStringText(StringText stringText) {
-    setNoteStringText (stringText.toString ( ));
+    setNoteStringText(stringText.toString());
   }
 
   /* (non-Javadoc)
@@ -185,7 +185,7 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
   @Override
   public int hashCode() {
     final int prime = 31;
-    int result = super.hashCode ( );
+    int result = super.hashCode();
     //result = prime * result + itemNumber;
     result = prime * result + noteNumber;
     //result = prime * result + noteType;
@@ -196,9 +196,9 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
   public boolean equals(Object obj) {
     if (this == obj)
       return true;
-    if (!super.equals (obj))
+    if (!super.equals(obj))
       return false;
-    if (getClass ( ) != obj.getClass ( ))
+    if (getClass() != obj.getClass())
       return false;
     final AuthorityNote other = (AuthorityNote) obj;
 		/*if (itemNumber != other.itemNumber)

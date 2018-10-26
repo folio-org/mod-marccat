@@ -26,12 +26,12 @@ public class BorrowerNoteKey implements Serializable {
    * Class constructor
    */
   public BorrowerNoteKey() {
-    super ( );
+    super();
   }
 
   public BorrowerNoteKey(int brwrNbr, int brwrNote) {
-    this.setBorrowerNumber (brwrNbr);
-    this.setBorrowerNoteNumber (brwrNote);
+    this.setBorrowerNumber(brwrNbr);
+    this.setBorrowerNoteNumber(brwrNote);
   }
 
   /**
@@ -42,8 +42,8 @@ public class BorrowerNoteKey implements Serializable {
     if (anObject instanceof BorrowerNoteKey) {
       BorrowerNoteKey aKey = (BorrowerNoteKey) anObject;
       return (
-        borrowerNumber == aKey.getBorrowerNumber ( )
-          && borrowerNoteNumber == aKey.getBorrowerNoteNumber ( ));
+        borrowerNumber == aKey.getBorrowerNumber()
+          && borrowerNoteNumber == aKey.getBorrowerNoteNumber());
     } else {
       return false;
     }

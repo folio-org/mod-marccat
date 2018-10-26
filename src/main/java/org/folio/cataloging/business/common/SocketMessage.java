@@ -18,8 +18,8 @@ import java.net.Socket;
  * @author paulm
  */
 public abstract class SocketMessage {
-  static int timeout = Defaults.getInteger ("socket.timeout.seconds") * 1000;
-  static private Log logger = LogFactory.getLog (SocketMessage.class);
+  static int timeout = Defaults.getInteger("socket.timeout.seconds") * 1000;
+  static private Log logger = LogFactory.getLog(SocketMessage.class);
 
   /**
    * pads a byte array (in) to a specific length.  Padding with 0 bytes.
@@ -31,11 +31,11 @@ public abstract class SocketMessage {
   static public byte[] pad(byte[] in, int len) {
     byte[] result = new byte[len];
 
-    for ( int i = 0; i < in.length; i++ ) {
+    for (int i = 0; i < in.length; i++) {
       result[i] = in[i];
     }
 
-    for ( int i = in.length; i < len; i++ ) {
+    for (int i = in.length; i < len; i++) {
       result[i] = 0;
     }
 
@@ -85,7 +85,7 @@ public abstract class SocketMessage {
    */
   public void send(Socket s)
     throws IOException {
-    s.getOutputStream ( ).write (this.asByteArray ( ));
+    s.getOutputStream().write(this.asByteArray());
   }
 
   /**
@@ -97,24 +97,24 @@ public abstract class SocketMessage {
   public void recv(Socket s)
     throws IOException {
     byte[] buf = new byte[512];
-    ByteArrayOutputStream out = new ByteArrayOutputStream ( );
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
     int rc = 0;
     int bytesRead = 0;
 
-    s.setSoTimeout (getTimeout ( ));
-    while (this.isMessageComplete (out.toByteArray ( )) == false) {
-      rc = s.getInputStream ( ).read (buf);
+    s.setSoTimeout(getTimeout());
+    while (this.isMessageComplete(out.toByteArray()) == false) {
+      rc = s.getInputStream().read(buf);
       if (rc > 0) {
         //			logger.debug("got " + rc + " bytes");
         bytesRead = bytesRead + rc;
-        out.write (buf, 0, rc);
+        out.write(buf, 0, rc);
       } else {
         // read returns -1 ==> EOF
-        logger.warn ("Did not receive expected number of bytes");
+        logger.warn("Did not receive expected number of bytes");
         break;
       }
     }
-    this.fromByteArray (out.toByteArray ( ));
+    this.fromByteArray(out.toByteArray());
   }
 
 }

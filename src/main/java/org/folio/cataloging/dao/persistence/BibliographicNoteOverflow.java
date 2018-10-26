@@ -24,10 +24,10 @@ public class BibliographicNoteOverflow implements PersistentObjectWithView, Seri
   private int noteNbr = -1;
   private int noteOverflowNumber = -1;
   private String userViewString = "0000000000000000";
-  private PersistenceState persistenceState = new PersistenceState ( );
+  private PersistenceState persistenceState = new PersistenceState();
 
   public BibliographicNoteOverflow() {
-    super ( );
+    super();
   }
 
   /**
@@ -49,17 +49,17 @@ public class BibliographicNoteOverflow implements PersistentObjectWithView, Seri
     if (!(obj instanceof BibliographicNoteOverflow))
       return false;
     BibliographicNoteOverflow noteOverflow = (BibliographicNoteOverflow) obj;
-    return (noteOverflow.getBibItemNumber ( ) == getBibItemNumber ( ))
-      && (noteOverflow.getNoteNbr ( ) == getNoteNbr ( ))
-      && (noteOverflow.getNoteOverflowNumber ( ) == getNoteOverflowNumber ( ))
-      && (noteOverflow.getUserViewString ( ) == getUserViewString ( ));
+    return (noteOverflow.getBibItemNumber() == getBibItemNumber())
+      && (noteOverflow.getNoteNbr() == getNoteNbr())
+      && (noteOverflow.getNoteOverflowNumber() == getNoteOverflowNumber())
+      && (noteOverflow.getUserViewString() == getUserViewString());
   }
 
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
   public int hashCode() {
-    return bibItemNumber + noteNbr + noteOverflowNumber + userViewString.hashCode ( );
+    return bibItemNumber + noteNbr + noteOverflowNumber + userViewString.hashCode();
   }
 
   /**
@@ -143,13 +143,13 @@ public class BibliographicNoteOverflow implements PersistentObjectWithView, Seri
   }
 
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
-    SystemNextNumberDAO dao = new SystemNextNumberDAO ( );
-    setNoteOverflowNumber (dao.getNextNumber ("BO", session));
+    SystemNextNumberDAO dao = new SystemNextNumberDAO();
+    setNoteOverflowNumber(dao.getNextNumber("BO", session));
   }
 
   public boolean onSave(Session arg0) throws CallbackException {
     if (persistenceState != null) {
-      return persistenceState.onSave (arg0);
+      return persistenceState.onSave(arg0);
     } else {
       return true;
     }
@@ -157,7 +157,7 @@ public class BibliographicNoteOverflow implements PersistentObjectWithView, Seri
 
   public boolean onDelete(Session arg0) throws CallbackException {
     if (persistenceState != null) {
-      return persistenceState.onDelete (arg0);
+      return persistenceState.onDelete(arg0);
     } else {
       return true;
     }
@@ -165,13 +165,13 @@ public class BibliographicNoteOverflow implements PersistentObjectWithView, Seri
 
   public void onLoad(Session arg0, Serializable arg1) {
     if (persistenceState != null) {
-      persistenceState.onLoad (arg0, arg1);
+      persistenceState.onLoad(arg0, arg1);
     }
   }
 
   public boolean onUpdate(Session arg0) throws CallbackException {
     if (persistenceState != null) {
-      return persistenceState.onUpdate (arg0);
+      return persistenceState.onUpdate(arg0);
     } else {
       return true;
     }
@@ -179,7 +179,7 @@ public class BibliographicNoteOverflow implements PersistentObjectWithView, Seri
 
   public void markChanged() {
     if (persistenceState != null) {
-      persistenceState.markChanged ( );
+      persistenceState.markChanged();
     }
   }
 
@@ -188,7 +188,7 @@ public class BibliographicNoteOverflow implements PersistentObjectWithView, Seri
    */
   public void markDeleted() {
     if (persistenceState != null) {
-      persistenceState.markDeleted ( );
+      persistenceState.markDeleted();
     }
   }
 
@@ -197,7 +197,7 @@ public class BibliographicNoteOverflow implements PersistentObjectWithView, Seri
    */
   public void markNew() {
     if (persistenceState != null) {
-      persistenceState.markNew ( );
+      persistenceState.markNew();
     }
   }
 
@@ -206,13 +206,13 @@ public class BibliographicNoteOverflow implements PersistentObjectWithView, Seri
    */
   public void markUnchanged() {
     if (persistenceState != null) {
-      persistenceState.markUnchanged ( );
+      persistenceState.markUnchanged();
     }
   }
 
   public void evict() throws DataAccessException {
     if (persistenceState != null) {
-      persistenceState.evict (this);
+      persistenceState.evict(this);
     }
   }
 
@@ -220,13 +220,13 @@ public class BibliographicNoteOverflow implements PersistentObjectWithView, Seri
     if (persistenceState == null) {
       return -1;
     } else {
-      return persistenceState.getUpdateStatus ( );
+      return persistenceState.getUpdateStatus();
     }
   }
 
   public void setUpdateStatus(int i) {
     if (persistenceState != null) {
-      persistenceState.setUpdateStatus (i);
+      persistenceState.setUpdateStatus(i);
     }
   }
 
@@ -234,7 +234,7 @@ public class BibliographicNoteOverflow implements PersistentObjectWithView, Seri
     if (persistenceState == null) {
       return false;
     } else {
-      return persistenceState.isChanged ( );
+      return persistenceState.isChanged();
     }
   }
 
@@ -245,7 +245,7 @@ public class BibliographicNoteOverflow implements PersistentObjectWithView, Seri
     if (persistenceState == null) {
       return false;
     } else {
-      return persistenceState.isDeleted ( );
+      return persistenceState.isDeleted();
     }
   }
 
@@ -256,7 +256,7 @@ public class BibliographicNoteOverflow implements PersistentObjectWithView, Seri
     if (persistenceState == null) {
       return false;
     } else {
-      return persistenceState.isNew ( );
+      return persistenceState.isNew();
     }
   }
 
@@ -267,12 +267,12 @@ public class BibliographicNoteOverflow implements PersistentObjectWithView, Seri
     if (persistenceState == null) {
       return false;
     } else {
-      return persistenceState.isRemoved ( );
+      return persistenceState.isRemoved();
     }
   }
 
   public AbstractDAO getDAO() {
-    return new DAOBibliographicNotesOverflow ( );
+    return new DAOBibliographicNotesOverflow();
   }
 
 }

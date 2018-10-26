@@ -31,30 +31,30 @@ import java.util.*;
  * @since 1.0
  */
 public class DAOLibrary extends HibernateUtil {
-  private Log logger = LogFactory.getLog (DAOLibrary.class);
+  private Log logger = LogFactory.getLog(DAOLibrary.class);
 
   public LIB load(int organisationNumber) throws DataAccessException {
-    return (LIB) load (LIB.class, new Integer (organisationNumber));
+    return (LIB) load(LIB.class, new Integer(organisationNumber));
   }
 
   public LIB_HRS_OPRTN loadLibHours(int organisationNumber) throws DataAccessException, NullPointerException {
-    Session s = currentSession ( );
+    Session s = currentSession();
 
     LIB_HRS_OPRTN result = null;
 
     try {
-      result = (LIB_HRS_OPRTN) s.get (LIB_HRS_OPRTN.class, new Integer (organisationNumber));
+      result = (LIB_HRS_OPRTN) s.get(LIB_HRS_OPRTN.class, new Integer(organisationNumber));
 
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     return result;
   }
 
   public String getLibrarySymbol(int organisationNumber) throws DataAccessException {
-    LIB lib = load (organisationNumber);
+    LIB lib = load(organisationNumber);
     if (lib != null) {
-      return lib.getLibrarySymbolCode ( );
+      return lib.getLibrarySymbolCode();
     } else {
       return null;
     }
@@ -66,29 +66,29 @@ public class DAOLibrary extends HibernateUtil {
     ResultSet rs = null;
     String result = "";
     try {
-      connection = currentSession ( ).connection ( );
-      stmt = connection.prepareStatement ("select lib_smbl_cde from smry_hldg where org_nbr=? and bib_itm_nbr=?");
-      stmt.setInt (1, organisationNumber);
-      stmt.setLong (2, bibItmNbr);
+      connection = currentSession().connection();
+      stmt = connection.prepareStatement("select lib_smbl_cde from smry_hldg where org_nbr=? and bib_itm_nbr=?");
+      stmt.setInt(1, organisationNumber);
+      stmt.setLong(2, bibItmNbr);
 
-      rs = stmt.executeQuery ( );
+      rs = stmt.executeQuery();
 
-      while (rs.next ( )) {
-        return rs.getString ("lib_smbl_cde");
+      while (rs.next()) {
+        return rs.getString("lib_smbl_cde");
       }
     } catch (Exception e) {
       try {
-        logAndWrap (e);
+        logAndWrap(e);
       } catch (DataAccessException e1) {
-        e1.printStackTrace ( );
+        e1.printStackTrace();
       }
     } finally {
       try {
-        rs.close ( );
+        rs.close();
       } catch (SQLException e) {
       }
       try {
-        stmt.close ( );
+        stmt.close();
       } catch (SQLException e) {
       }
     }
@@ -97,119 +97,119 @@ public class DAOLibrary extends HibernateUtil {
 
   public LIB_HRS_OPRTN loadSchedule(int organisationNumber)
     throws DataAccessException, NullPointerException {
-    Session s = currentSession ( );
+    Session s = currentSession();
 
     LIB_HRS_OPRTN result = null;
 
     try {
-      result = (LIB_HRS_OPRTN) s.get (LIB_HRS_OPRTN.class, new Integer (
+      result = (LIB_HRS_OPRTN) s.get(LIB_HRS_OPRTN.class, new Integer(
         organisationNumber));
 
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     return result;
   }
 
   public LIB_DTE_CLSE loadDateClose(int organisationNumber, Date theDateClosed)
     throws DataAccessException, NullPointerException {
-    Session s = currentSession ( );
+    Session s = currentSession();
 
     LIB_DTE_CLSE result = null;
 
     try {
-      result = (LIB_DTE_CLSE) s.get (LIB_DTE_CLSE.class, new LibraryDateClosedKey (
+      result = (LIB_DTE_CLSE) s.get(LIB_DTE_CLSE.class, new LibraryDateClosedKey(
         organisationNumber, theDateClosed));
 
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     return result;
   }
 
   public String getLibScheduleOpening(int orgNbr) throws DataAccessException,
     HibernateException {
-    String result = new String ("");
-    Session s = currentSession ( );
-    Date theDate = new Date ( );
+    String result = new String("");
+    Session s = currentSession();
+    Date theDate = new Date();
     int theHour = 0;
     int theMinutes = 0;
 
-    LIB_HRS_OPRTN libSchedule = loadSchedule (orgNbr);
-    Calendar theDay = new GregorianCalendar ( );
-    int dayOfWeek = theDay.get (Calendar.DAY_OF_WEEK);
+    LIB_HRS_OPRTN libSchedule = loadSchedule(orgNbr);
+    Calendar theDay = new GregorianCalendar();
+    int dayOfWeek = theDay.get(Calendar.DAY_OF_WEEK);
     if (dayOfWeek == Calendar.MONDAY) {
-      theDate = libSchedule.getMondayHoursOpeningTime ( );
+      theDate = libSchedule.getMondayHoursOpeningTime();
     } else if (dayOfWeek == Calendar.TUESDAY) {
-      theDate = libSchedule.getTuesdayHoursOpeningTime ( );
+      theDate = libSchedule.getTuesdayHoursOpeningTime();
     } else if (dayOfWeek == Calendar.WEDNESDAY) {
-      theDate = libSchedule.getWednesdayHoursOpeningTime ( );
+      theDate = libSchedule.getWednesdayHoursOpeningTime();
     } else if (dayOfWeek == Calendar.THURSDAY) {
-      theDate = libSchedule.getThursdayHoursOpeningTime ( );
+      theDate = libSchedule.getThursdayHoursOpeningTime();
     } else if (dayOfWeek == Calendar.FRIDAY) {
-      theDate = libSchedule.getFridayHoursOpeningTime ( );
+      theDate = libSchedule.getFridayHoursOpeningTime();
     } else if (dayOfWeek == Calendar.SATURDAY) {
-      theDate = libSchedule.getSaturdayHoursOpeningTime ( );
+      theDate = libSchedule.getSaturdayHoursOpeningTime();
     } else if (dayOfWeek == Calendar.SUNDAY) {
-      theDate = libSchedule.getSundayHoursOpeningTime ( );
+      theDate = libSchedule.getSundayHoursOpeningTime();
     }
 
-    theDay.setTime (theDate);
-    theHour = theDay.get (Calendar.HOUR_OF_DAY);
-    theMinutes = theDay.get (Calendar.MINUTE);
+    theDay.setTime(theDate);
+    theHour = theDay.get(Calendar.HOUR_OF_DAY);
+    theMinutes = theDay.get(Calendar.MINUTE);
     if (theHour < 10)
-      result = "0" + String.valueOf (theHour) + ":";
+      result = "0" + String.valueOf(theHour) + ":";
     else
-      result = String.valueOf (theHour) + ":";
+      result = String.valueOf(theHour) + ":";
     if (theMinutes < 10)
-      result = result + "0" + String.valueOf (theMinutes);
+      result = result + "0" + String.valueOf(theMinutes);
     else
-      result = result + String.valueOf (theMinutes);
+      result = result + String.valueOf(theMinutes);
     return result;
   }
 
   public String getLibScheduleClosing(int orgNbr) throws DataAccessException,
     HibernateException {
-    String result = new String ("");
-    Session s = currentSession ( );
-    Date theDate = new Date ( );
+    String result = new String("");
+    Session s = currentSession();
+    Date theDate = new Date();
     int theHour = 0;
     int theMinutes = 0;
     try {
-      LIB_HRS_OPRTN libSchedule = (LIB_HRS_OPRTN) s.get (
-        LIB_HRS_OPRTN.class, new Integer (orgNbr));
-      Calendar theDay = new GregorianCalendar ( );
-      int dayOfWeek = theDay.get (Calendar.DAY_OF_WEEK);
+      LIB_HRS_OPRTN libSchedule = (LIB_HRS_OPRTN) s.get(
+        LIB_HRS_OPRTN.class, new Integer(orgNbr));
+      Calendar theDay = new GregorianCalendar();
+      int dayOfWeek = theDay.get(Calendar.DAY_OF_WEEK);
       if (dayOfWeek == Calendar.MONDAY) {
-        theDate = libSchedule.getMondayHoursClosingTime ( );
+        theDate = libSchedule.getMondayHoursClosingTime();
       } else if (dayOfWeek == Calendar.TUESDAY) {
-        theDate = libSchedule.getTuesdayHoursClosingTime ( );
+        theDate = libSchedule.getTuesdayHoursClosingTime();
       } else if (dayOfWeek == Calendar.WEDNESDAY) {
-        theDate = libSchedule.getWednesdayHoursClosingTime ( );
+        theDate = libSchedule.getWednesdayHoursClosingTime();
       } else if (dayOfWeek == Calendar.THURSDAY) {
-        theDate = libSchedule.getThursdayHoursClosingTime ( );
+        theDate = libSchedule.getThursdayHoursClosingTime();
       } else if (dayOfWeek == Calendar.FRIDAY) {
-        theDate = libSchedule.getFridayHoursClosingTime ( );
+        theDate = libSchedule.getFridayHoursClosingTime();
       } else if (dayOfWeek == Calendar.SATURDAY) {
-        theDate = libSchedule.getSaturdayHoursClosingTime ( );
+        theDate = libSchedule.getSaturdayHoursClosingTime();
       } else if (dayOfWeek == Calendar.SUNDAY) {
-        theDate = libSchedule.getSundayHoursClosingTime ( );
+        theDate = libSchedule.getSundayHoursClosingTime();
       }
-      theDay.setTime (theDate);
-      theHour = theDay.get (Calendar.HOUR_OF_DAY);
-      theMinutes = theDay.get (Calendar.MINUTE);
+      theDay.setTime(theDate);
+      theHour = theDay.get(Calendar.HOUR_OF_DAY);
+      theMinutes = theDay.get(Calendar.MINUTE);
       if (theHour < 10)
-        result = "0" + String.valueOf (theHour) + ":";
+        result = "0" + String.valueOf(theHour) + ":";
       else
-        result = String.valueOf (theHour) + ":";
+        result = String.valueOf(theHour) + ":";
       if (theMinutes < 10)
-        result = result + "0" + String.valueOf (theMinutes);
+        result = result + "0" + String.valueOf(theMinutes);
       else
-        result = result + String.valueOf (theMinutes);
+        result = result + String.valueOf(theMinutes);
 
     } catch (HibernateException e) {
       // TODO e.printStackTrace() is evil. If you catch, handle the
-      e.printStackTrace ( );
+      e.printStackTrace();
     }
 
     return result;
@@ -218,49 +218,49 @@ public class DAOLibrary extends HibernateUtil {
 
   public String getLibOpeningDate(int orgNumber, int day) throws DataAccessException, HibernateException {
 
-    String result = new String ("");
-    Session s = currentSession ( );
-    Date theDate = new Date ( );
+    String result = new String("");
+    Session s = currentSession();
+    Date theDate = new Date();
     int theHour = 0;
     int theMinutes = 0;
 //        logger.info("eguna " + orgNumber + " "+ day);
     try {
-      LIB_HRS_OPRTN libSchedule = (LIB_HRS_OPRTN) s.get (
-        LIB_HRS_OPRTN.class, new Integer (orgNumber));
+      LIB_HRS_OPRTN libSchedule = (LIB_HRS_OPRTN) s.get(
+        LIB_HRS_OPRTN.class, new Integer(orgNumber));
       if (!(libSchedule == null)) {
         if (day == 1) {
 //	                logger.info("astelehena " + libSchedule.getMondayHoursOpeningTime());
-          theDate = libSchedule.getMondayHoursOpeningTime ( );
+          theDate = libSchedule.getMondayHoursOpeningTime();
         } else if (day == 2) {
-          theDate = libSchedule.getTuesdayHoursOpeningTime ( );
+          theDate = libSchedule.getTuesdayHoursOpeningTime();
         } else if (day == 3) {
-          theDate = libSchedule.getWednesdayHoursOpeningTime ( );
+          theDate = libSchedule.getWednesdayHoursOpeningTime();
         } else if (day == 4) {
-          theDate = libSchedule.getThursdayHoursOpeningTime ( );
+          theDate = libSchedule.getThursdayHoursOpeningTime();
         } else if (day == 5) {
-          theDate = libSchedule.getFridayHoursOpeningTime ( );
+          theDate = libSchedule.getFridayHoursOpeningTime();
         } else if (day == 6) {
-          theDate = libSchedule.getSaturdayHoursOpeningTime ( );
+          theDate = libSchedule.getSaturdayHoursOpeningTime();
         } else if (day == 7) {
-          theDate = libSchedule.getSundayHoursOpeningTime ( );
+          theDate = libSchedule.getSundayHoursOpeningTime();
         }
-        Calendar theDay = new GregorianCalendar ( );
-        theDay.setTime (theDate);
-        theHour = theDay.get (Calendar.HOUR_OF_DAY);
-        theMinutes = theDay.get (Calendar.MINUTE);
+        Calendar theDay = new GregorianCalendar();
+        theDay.setTime(theDate);
+        theHour = theDay.get(Calendar.HOUR_OF_DAY);
+        theMinutes = theDay.get(Calendar.MINUTE);
         if (theHour < 10)
-          result = "0" + String.valueOf (theHour) + ":";
+          result = "0" + String.valueOf(theHour) + ":";
         else
-          result = String.valueOf (theHour) + ":";
+          result = String.valueOf(theHour) + ":";
         if (theMinutes < 10)
-          result = result + "0" + String.valueOf (theMinutes);
+          result = result + "0" + String.valueOf(theMinutes);
         else
-          result = result + String.valueOf (theMinutes);
+          result = result + String.valueOf(theMinutes);
 
       } else result = "00:00";
     } catch (HibernateException e) {
       // TODO e.printStackTrace() is evil. If you catch, handle the
-      e.printStackTrace ( );
+      e.printStackTrace();
     }
     return result;
 
@@ -268,49 +268,49 @@ public class DAOLibrary extends HibernateUtil {
 
   public String getLibClosingDate(int orgNumber, int day) throws DataAccessException, HibernateException {
 
-    String result = new String ("");
-    Session s = currentSession ( );
-    Date theDate = new Date ( );
+    String result = new String("");
+    Session s = currentSession();
+    Date theDate = new Date();
     int theHour = 0;
     int theMinutes = 0;
 
     try {
-      LIB_HRS_OPRTN libSchedule = (LIB_HRS_OPRTN) s.get (
-        LIB_HRS_OPRTN.class, new Integer (orgNumber));
+      LIB_HRS_OPRTN libSchedule = (LIB_HRS_OPRTN) s.get(
+        LIB_HRS_OPRTN.class, new Integer(orgNumber));
 
       if (!(libSchedule == null)) {
         if (day == 1) {
-          theDate = libSchedule.getMondayHoursClosingTime ( );
+          theDate = libSchedule.getMondayHoursClosingTime();
         } else if (day == 2) {
-          theDate = libSchedule.getTuesdayHoursClosingTime ( );
+          theDate = libSchedule.getTuesdayHoursClosingTime();
         } else if (day == 3) {
-          theDate = libSchedule.getWednesdayHoursClosingTime ( );
+          theDate = libSchedule.getWednesdayHoursClosingTime();
         } else if (day == 4) {
-          theDate = libSchedule.getThursdayHoursClosingTime ( );
+          theDate = libSchedule.getThursdayHoursClosingTime();
         } else if (day == 5) {
-          theDate = libSchedule.getFridayHoursClosingTime ( );
+          theDate = libSchedule.getFridayHoursClosingTime();
         } else if (day == 6) {
-          theDate = libSchedule.getSaturdayHoursClosingTime ( );
+          theDate = libSchedule.getSaturdayHoursClosingTime();
         } else if (day == 7) {
-          theDate = libSchedule.getSundayHoursClosingTime ( );
+          theDate = libSchedule.getSundayHoursClosingTime();
         }
-        Calendar theDay = new GregorianCalendar ( );
-        theDay.setTime (theDate);
-        theHour = theDay.get (Calendar.HOUR_OF_DAY);
-        theMinutes = theDay.get (Calendar.MINUTE);
+        Calendar theDay = new GregorianCalendar();
+        theDay.setTime(theDate);
+        theHour = theDay.get(Calendar.HOUR_OF_DAY);
+        theMinutes = theDay.get(Calendar.MINUTE);
         if (theHour < 10)
-          result = "0" + String.valueOf (theHour) + ":";
+          result = "0" + String.valueOf(theHour) + ":";
         else
-          result = String.valueOf (theHour) + ":";
+          result = String.valueOf(theHour) + ":";
         if (theMinutes < 10)
-          result = result + "0" + String.valueOf (theMinutes);
+          result = result + "0" + String.valueOf(theMinutes);
         else
-          result = result + String.valueOf (theMinutes);
+          result = result + String.valueOf(theMinutes);
       } else result = "00:00";
 
     } catch (HibernateException e) {
       // TODO e.printStackTrace() is evil. If you catch, handle the
-      e.printStackTrace ( );
+      e.printStackTrace();
     }
     return result;
 
@@ -318,8 +318,8 @@ public class DAOLibrary extends HibernateUtil {
 
   public List getTimeTable(int orgNumber) throws DataAccessException, HibernateException {
 
-    DAOLibrary dl = new DAOLibrary ( );
-    List result = new Vector ( );
+    DAOLibrary dl = new DAOLibrary();
+    List result = new Vector();
     int i = 1;
 /*      logger.info("Liburutegi timetlabe 1");
        for (i = 1;i<8;i++){
@@ -339,47 +339,47 @@ public class DAOLibrary extends HibernateUtil {
 
 
   public void save(final LIB_HRS_OPRTN libHours) throws DataAccessException {
-    new TransactionalHibernateOperation ( ) {
+    new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s) throws HibernateException {
-        s.save (libHours);
+        s.save(libHours);
       }
-    }.execute ( );
+    }.execute();
   }
 
 
   public void edit(final LIB_HRS_OPRTN libHours) throws DataAccessException {
-    new TransactionalHibernateOperation ( ) {
+    new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s) throws HibernateException {
-        s.update (libHours);
+        s.update(libHours);
       }
-    }.execute ( );
+    }.execute();
   }
 
 
   public void delete(final LIB_HRS_OPRTN libHours) throws DataAccessException {
-    new TransactionalHibernateOperation ( ) {
+    new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s) throws HibernateException {
-        s.delete (libHours);
+        s.delete(libHours);
       }
-    }.execute ( );
+    }.execute();
   }
 
   public void saveClosedDates(final LIB_DTE_CLSE closedDates) throws DataAccessException {
-    new TransactionalHibernateOperation ( ) {
+    new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
         throws HibernateException {
-        s.save (closedDates);
+        s.save(closedDates);
       }
-    }.execute ( );
+    }.execute();
   }
 
 
   public void deleteClosedDates(final LIB_DTE_CLSE closedDates) throws DataAccessException {
-    new TransactionalHibernateOperation ( ) {
+    new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
         throws HibernateException {
-        s.delete (closedDates);
+        s.delete(closedDates);
       }
-    }.execute ( );
+    }.execute();
   }
 }

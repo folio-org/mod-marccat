@@ -20,7 +20,7 @@ public class THS_ATRIB extends REF {
    * @see REF#getTargetDAO()
    */
   public DAODescriptor getTargetDAO() {
-    return new DAOThesaurusDescriptor ( );
+    return new DAOThesaurusDescriptor();
   }
 
 }

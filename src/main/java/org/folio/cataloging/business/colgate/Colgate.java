@@ -26,7 +26,7 @@ import java.security.NoSuchAlgorithmException;
  * @author Paul Mouland
  */
 public class Colgate implements AuthenticationBroker {
-  private static Log logger = LogFactory.getLog (Colgate.class);
+  private static Log logger = LogFactory.getLog(Colgate.class);
   private static int minPasswordLength = 5;
   private static String hostName = null;
   private static short portNumber = 0;
@@ -43,19 +43,19 @@ public class Colgate implements AuthenticationBroker {
    * @return the converted string
    */
   static public String toHexString(byte[] array) {
-    String aString = new String ( );
-    String hexString = new String ( );
-    for ( int i = 0; i < array.length; i++ ) {
-      aString = Integer.toHexString (array[i]);
+    String aString = new String();
+    String hexString = new String();
+    for (int i = 0; i < array.length; i++) {
+      aString = Integer.toHexString(array[i]);
       if (array[i] < 0) {
-        aString = aString.substring (6, 8);
+        aString = aString.substring(6, 8);
       } else if (array[i] <= 15) {
         aString = "0" + aString;
       }
       hexString = hexString + aString;
     }
-    hexString = hexString.toUpperCase ( );
-    logger.debug ("hexString is " + hexString);
+    hexString = hexString.toUpperCase();
+    logger.debug("hexString is " + hexString);
     return hexString;
   }
 
@@ -68,11 +68,11 @@ public class Colgate implements AuthenticationBroker {
   public static byte[] encryptPassword(byte[] clearPassword) {
     MessageDigest md;
     try {
-      md = MessageDigest.getInstance ("MD5");
-      md.update (clearPassword);
-      return asIsoByte (toHexString (md.digest ( )));
+      md = MessageDigest.getInstance("MD5");
+      md.update(clearPassword);
+      return asIsoByte(toHexString(md.digest()));
     } catch (NoSuchAlgorithmException e) {
-      logger.warn ("MD5 encryption not supported");
+      logger.warn("MD5 encryption not supported");
       return null;
     }
   }
@@ -84,7 +84,7 @@ public class Colgate implements AuthenticationBroker {
    * @return - the encrypted password
    */
   public static byte[] encryptPassword(String clearPassword) {
-    return encryptPassword (asIsoByte (clearPassword));
+    return encryptPassword(asIsoByte(clearPassword));
   }
 
   /**
@@ -95,9 +95,9 @@ public class Colgate implements AuthenticationBroker {
    */
   public static byte[] asIsoByte(String s) {
     try {
-      return s.getBytes ("ISO-8859-1");
+      return s.getBytes("ISO-8859-1");
     } catch (UnsupportedEncodingException e) {
-      logger.warn ("No support for ISO-8859-1");
+      logger.warn("No support for ISO-8859-1");
       return null;
     }
   }
@@ -111,24 +111,24 @@ public class Colgate implements AuthenticationBroker {
   public void authenticateUser(String userName, String password)
     throws ConnectException, AuthenticationException {
 
-    connect ( );
+    connect();
 
-    ColgateLoginRequest q = new ColgateLoginRequest (userName, password);
+    ColgateLoginRequest q = new ColgateLoginRequest(userName, password);
 
     ColgateLoginResponse r;
     try {
-      q.send (getSocket ( ));
+      q.send(getSocket());
 
-      r = new ColgateLoginResponse ( );
+      r = new ColgateLoginResponse();
 
-      r.recv (getSocket ( ));
+      r.recv(getSocket());
     } catch (IOException e1) {
-      throw new ConnectException ( );
+      throw new ConnectException();
     }
 
-    disconnect ( );
+    disconnect();
 
-    r.testExceptions ( );
+    r.testExceptions();
     // throws specific exceptions based on Colgate rc
   }
 
@@ -139,10 +139,10 @@ public class Colgate implements AuthenticationBroker {
     byte closeRequest[] = {50, 0, 0, 0, 0};
 
     try {
-      getSocket ( ).getOutputStream ( ).write (closeRequest);
-      getSocket ( ).close ( );
+      getSocket().getOutputStream().write(closeRequest);
+      getSocket().close();
     } catch (IOException e) {
-      throw new ConnectException ( );
+      throw new ConnectException();
     }
   }
 
@@ -154,26 +154,26 @@ public class Colgate implements AuthenticationBroker {
     try {
       if (hostName == null) {
         // Get the host and port from the database
-        DAOGlobalVariable dao = new DAOGlobalVariable ( );
-        hostName = dao.getValueByName ("host_ip_nme");
-        portNumber = Short.parseShort (dao.getValueByName ("ir_coport_id"));
+        DAOGlobalVariable dao = new DAOGlobalVariable();
+        hostName = dao.getValueByName("host_ip_nme");
+        portNumber = Short.parseShort(dao.getValueByName("ir_coport_id"));
 
-        logger.warn ("Host name: " + hostName);
-        logger.warn ("Port number: " + portNumber);
+        logger.warn("Host name: " + hostName);
+        logger.warn("Port number: " + portNumber);
 
       }
-      setSocket (new Socket (hostName, portNumber));
+      setSocket(new Socket(hostName, portNumber));
     } catch (NumberFormatException e1) {
-      logger.warn ("Global Variable ir_coport_id is not a valid number");
-      throw new ConnectException ( );
+      logger.warn("Global Variable ir_coport_id is not a valid number");
+      throw new ConnectException();
     } catch (DataAccessException e1) {
-      throw new ConnectException ( );
+      throw new ConnectException();
     } catch (UnknownHostException e) {
-      logger.warn ("Cannot resolve" + hostName + ":" + portNumber);
-      throw new ConnectException ("Host_unknown");
+      logger.warn("Cannot resolve" + hostName + ":" + portNumber);
+      throw new ConnectException("Host_unknown");
     } catch (IOException e) {
-      logger.warn ("IOException creating socket");
-      throw new ConnectException ("IO_error_2");
+      logger.warn("IOException creating socket");
+      throw new ConnectException("IO_error_2");
     }
   }
 
@@ -203,17 +203,17 @@ public class Colgate implements AuthenticationBroker {
    */
   public void validatePasswordFormat(String password)
     throws AuthenticationException {
-    if (password.length ( ) < minPasswordLength) {
-      throw new InvalidPasswordFormatException ("A password should contain at least " + minPasswordLength + " characters");
+    if (password.length() < minPasswordLength) {
+      throw new InvalidPasswordFormatException("A password should contain at least " + minPasswordLength + " characters");
     }
-    if (password.matches ("[a-zA-Z0-9$_]*") == false) {
-      throw new InvalidPasswordFormatException ("A password can only contain alphabetic and numeric characters: a-z , A-Z, 0-9");
+    if (password.matches("[a-zA-Z0-9$_]*") == false) {
+      throw new InvalidPasswordFormatException("A password can only contain alphabetic and numeric characters: a-z , A-Z, 0-9");
     }
-    if (password.matches (".*\\d+.*") == false) { // at least one digit
-      throw new InvalidPasswordFormatException ("A password should contain at least one digit");
+    if (password.matches(".*\\d+.*") == false) { // at least one digit
+      throw new InvalidPasswordFormatException("A password should contain at least one digit");
     }
-    if (password.matches (".*[a-zA-Z]+.*") == false) { // at least one alpha
-      throw new InvalidPasswordFormatException ("A password should contain at least one alphabetical character");
+    if (password.matches(".*[a-zA-Z]+.*") == false) { // at least one alpha
+      throw new InvalidPasswordFormatException("A password should contain at least one alphabetical character");
     }
   }
 
@@ -226,30 +226,30 @@ public class Colgate implements AuthenticationBroker {
     String newPassword)
     throws ConnectException, AuthenticationException {
 
-    validatePasswordFormat (newPassword);
+    validatePasswordFormat(newPassword);
 
-    connect ( );
+    connect();
 
     ColgateChangePasswordRequest q =
-      new ColgateChangePasswordRequest (
+      new ColgateChangePasswordRequest(
         userName,
         oldPassword,
         newPassword);
 
     ColgateChangePasswordResponse r;
     try {
-      q.send (getSocket ( ));
+      q.send(getSocket());
 
-      r = new ColgateChangePasswordResponse ( );
+      r = new ColgateChangePasswordResponse();
 
-      r.recv (getSocket ( ));
+      r.recv(getSocket());
     } catch (IOException e1) {
-      throw new ConnectException ( );
+      throw new ConnectException();
     }
 
-    disconnect ( );
+    disconnect();
 
-    r.testExceptions ( );
+    r.testExceptions();
     // throws specific exceptions based on Colgate rc
   }
 

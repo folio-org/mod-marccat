@@ -23,9 +23,9 @@ public class AuthorityDateOfLastTransactionTag
    * @since 1.0
    */
   public AuthorityDateOfLastTransactionTag() {
-    super ( );
-    setHeaderField (new AuthorityHeaderFieldHelper ( ));
-    setHeaderType ((short) 12);
+    super();
+    setHeaderField(new AuthorityHeaderFieldHelper());
+    setHeaderType((short) 12);
   }
 
 }

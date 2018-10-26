@@ -16,7 +16,7 @@ import java.util.Date;
 
 public class CasCache implements Persistence {
 
-  private DateFormat formatter = new SimpleDateFormat ("dd-MM-yyyy");
+  private DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 
   private boolean existAdminData;
   private int bibItemNumber;
@@ -61,15 +61,15 @@ public class CasCache implements Persistence {
 
   private Timestamp priceListDateSql;
   private Timestamp lstDtCrtSql;
-  private PersistenceState persistenceState = new PersistenceState ( );
+  private PersistenceState persistenceState = new PersistenceState();
 
   public CasCache(int bibItemNumber) {
-    this ( );
-    setBibItemNumber (bibItemNumber);
+    this();
+    setBibItemNumber(bibItemNumber);
   }
 
   public CasCache() {
-    super ( );
+    super();
   }
 
   public Timestamp getPriceListDateSql() {
@@ -129,29 +129,29 @@ public class CasCache implements Persistence {
   }
 
   public String getlstPriceDtIniString() {
-    if (getLstPriceDtIni ( ) != null)
-      return formatter.format (getLstPriceDtIni ( ));
+    if (getLstPriceDtIni() != null)
+      return formatter.format(getLstPriceDtIni());
     else
       return "";
   }
 
   public String getlstPriceDtFinString() {
-    if (getLstPriceDtFin ( ) != null)
-      return formatter.format (getLstPriceDtFin ( ));
+    if (getLstPriceDtFin() != null)
+      return formatter.format(getLstPriceDtFin());
     else
       return "";
   }
 
   public String getLstDtCrtString() {
-    if (getLstDtCrt ( ) != null)
-      return formatter.format (getLstDtCrt ( ));
+    if (getLstDtCrt() != null)
+      return formatter.format(getLstDtCrt());
     else
       return "";
   }
 
   public String getPriceListDateString() {
-    if (getPriceListDate ( ) != null)
-      return formatter.format (getPriceListDate ( ));
+    if (getPriceListDate() != null)
+      return formatter.format(getPriceListDate());
     else
       return "";
   }
@@ -213,8 +213,8 @@ public class CasCache implements Persistence {
   }
 
   public String getDateDisponibilitString() {
-    if (getDateDisponibilit ( ) != null)
-      return formatter.format (getDateDisponibilit ( ));
+    if (getDateDisponibilit() != null)
+      return formatter.format(getDateDisponibilit());
     else
       return "";
   }
@@ -300,19 +300,19 @@ public class CasCache implements Persistence {
   }
 
   public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict (obj);
+    persistenceState.evict(obj);
   }
 
   public void evict() throws DataAccessException {
-    evict (this);
+    evict(this);
   }
 
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   public void setUpdateStatus(int i) {
-    persistenceState.setUpdateStatus (i);
+    persistenceState.setUpdateStatus(i);
   }
 
   public int hashCode() {
@@ -327,58 +327,58 @@ public class CasCache implements Persistence {
       return true;
     if (obj == null)
       return false;
-    if (getClass ( ) != obj.getClass ( ))
+    if (getClass() != obj.getClass())
       return false;
     CasCache other = (CasCache) obj;
     return bibItemNumber == other.bibItemNumber;
   }
 
   public boolean isChanged() {
-    return persistenceState.isChanged ( );
+    return persistenceState.isChanged();
   }
 
   public boolean isDeleted() {
-    return persistenceState.isDeleted ( );
+    return persistenceState.isDeleted();
   }
 
   public boolean isNew() {
-    return persistenceState.isNew ( );
+    return persistenceState.isNew();
   }
 
   public boolean isRemoved() {
-    return persistenceState.isRemoved ( );
+    return persistenceState.isRemoved();
   }
 
   public void markChanged() {
-    persistenceState.markChanged ( );
+    persistenceState.markChanged();
   }
 
   public void markDeleted() {
-    persistenceState.markDeleted ( );
+    persistenceState.markDeleted();
   }
 
   public void markNew() {
-    persistenceState.markNew ( );
+    persistenceState.markNew();
   }
 
   public void markUnchanged() {
-    persistenceState.markUnchanged ( );
+    persistenceState.markUnchanged();
   }
 
   public boolean onDelete(Session arg0) throws CallbackException {
-    return persistenceState.onDelete (arg0);
+    return persistenceState.onDelete(arg0);
   }
 
   public void onLoad(Session arg0, Serializable arg1) {
-    persistenceState.onLoad (arg0, arg1);
+    persistenceState.onLoad(arg0, arg1);
   }
 
   public boolean onSave(Session arg0) throws CallbackException {
-    return persistenceState.onSave (arg0);
+    return persistenceState.onSave(arg0);
   }
 
   public boolean onUpdate(Session arg0) throws CallbackException {
-    return persistenceState.onUpdate (arg0);
+    return persistenceState.onUpdate(arg0);
   }
 
   public void generateNewKey() throws DataAccessException {
@@ -387,7 +387,7 @@ public class CasCache implements Persistence {
 
   @Override
   public AbstractDAO getDAO() {
-    return new CasCacheDAO ( );
+    return new CasCacheDAO();
   }
 
   public String getNtrLevel() {

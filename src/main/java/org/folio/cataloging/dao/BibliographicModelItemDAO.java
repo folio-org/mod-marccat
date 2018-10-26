@@ -39,15 +39,15 @@ public class BibliographicModelItemDAO extends ModelItemDAO {
   public boolean getModelUsageByItem(int bibItem, final Session session)
     throws HibernateException {
     List <Integer> list =
-      session.find (
+      session.find(
         "select count(*) from "
-          + getPersistentClass ( ).getName ( )
+          + getPersistentClass().getName()
           + " as b"
           + " where b.item = ?",
-        new Object[]{new Integer (bibItem)},
+        new Object[]{new Integer(bibItem)},
         new Type[]{Hibernate.INTEGER});
-    final Optional <Integer> firstElement = list.stream ( ).filter (Objects::nonNull).findFirst ( ).filter (count -> count > 0);
-    return firstElement.isPresent ( );
+    final Optional <Integer> firstElement = list.stream().filter(Objects::nonNull).findFirst().filter(count -> count > 0);
+    return firstElement.isPresent();
   }
 
 }

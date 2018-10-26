@@ -21,14 +21,14 @@ public class PublisherAccessPoint extends BibliographicAccessPoint {
 
   private String otherSubfields;
   private int sequenceNumber;
-  private PublisherTagDescriptor descriptor = new PublisherTagDescriptor ( );
+  private PublisherTagDescriptor descriptor = new PublisherTagDescriptor();
 
   public PublisherAccessPoint() {
-    super ( );
+    super();
   }
 
   public PublisherAccessPoint(final int itemNbr) {
-    super (itemNbr);
+    super(itemNbr);
   }
 
   /**
@@ -53,7 +53,7 @@ public class PublisherAccessPoint extends BibliographicAccessPoint {
    * @return the content of subfield c
    */
   public String getDate() {
-    return new StringText (getOtherSubfields ( )).getSubfieldsWithCodes ("c").toDisplayString ( );
+    return new StringText(getOtherSubfields()).getSubfieldsWithCodes("c").toDisplayString();
   }
 
   /**
@@ -86,7 +86,7 @@ public class PublisherAccessPoint extends BibliographicAccessPoint {
    */
   public void setSequenceNumber(final int sequence) {
     sequenceNumber = sequence;
-    super.setSequenceNumber (sequenceNumber);
+    super.setSequenceNumber(sequenceNumber);
   }
 
   /**
@@ -100,13 +100,13 @@ public class PublisherAccessPoint extends BibliographicAccessPoint {
       return false;
 
     final PublisherAccessPoint other = (PublisherAccessPoint) obj;
-    if (this.getHeadingNumber ( ) == null) {
-      return (other.getItemNumber ( ) == this.getItemNumber ( ) && other.getUserViewString ( ).equals (this.getUserViewString ( ))
-        && other.getHeadingNumber ( ) == null && other.getFunctionCode ( ) == this.getFunctionCode ( ));
+    if (this.getHeadingNumber() == null) {
+      return (other.getItemNumber() == this.getItemNumber() && other.getUserViewString().equals(this.getUserViewString())
+        && other.getHeadingNumber() == null && other.getFunctionCode() == this.getFunctionCode());
     } else {
-      return (other.getItemNumber ( ) == this.getItemNumber ( ) && other.getUserViewString ( ).equals (this.getUserViewString ( ))
-        && (!(other.getHeadingNumber ( ) == null)) && other.getHeadingNumber ( ).equals (this.getHeadingNumber ( ))
-        && other.getFunctionCode ( ) == this.getFunctionCode ( ));
+      return (other.getItemNumber() == this.getItemNumber() && other.getUserViewString().equals(this.getUserViewString())
+        && (!(other.getHeadingNumber() == null)) && other.getHeadingNumber().equals(this.getHeadingNumber())
+        && other.getFunctionCode() == this.getFunctionCode());
     }
   }
 
@@ -114,7 +114,7 @@ public class PublisherAccessPoint extends BibliographicAccessPoint {
    * @return hashCode.
    */
   public int hashCode() {
-    return this.getItemNumber ( ) + 3 * this.getFunctionCode ( );
+    return this.getItemNumber() + 3 * this.getFunctionCode();
   }
 
   @Deprecated
@@ -137,7 +137,7 @@ public class PublisherAccessPoint extends BibliographicAccessPoint {
    * @return correlationValues.
    */
   public CorrelationValues getCorrelationValues() {
-    return getDescriptor ( ).getCorrelationValues ( ).change (1, getFunctionCode ( ));
+    return getDescriptor().getCorrelationValues().change(1, getFunctionCode());
   }
 
   /**
@@ -146,8 +146,8 @@ public class PublisherAccessPoint extends BibliographicAccessPoint {
    * @param v -- the correlation values to set.
    */
   public void setCorrelationValues(final CorrelationValues v) {
-    setFunctionCode (v.getValue (1));
-    getDescriptor ( ).setCorrelationValues (v);
+    setFunctionCode(v.getValue(1));
+    getDescriptor().setCorrelationValues(v);
   }
 
   /**
@@ -165,7 +165,7 @@ public class PublisherAccessPoint extends BibliographicAccessPoint {
    * @return stringText.
    */
   public StringText getAccessPointStringText() {
-    return new StringText (otherSubfields);
+    return new StringText(otherSubfields);
   }
 
   /**
@@ -174,7 +174,7 @@ public class PublisherAccessPoint extends BibliographicAccessPoint {
    * @param stringText -- the stringText to set.
    */
   public void setAccessPointStringText(final StringText stringText) {
-    otherSubfields = stringText.getSubfieldsWithCodes (GlobalStorage.PUBLISHER_OTHER_SUBFIELD_CODES).toString ( );
+    otherSubfields = stringText.getSubfieldsWithCodes(GlobalStorage.PUBLISHER_OTHER_SUBFIELD_CODES).toString();
   }
 
   /**
@@ -183,7 +183,7 @@ public class PublisherAccessPoint extends BibliographicAccessPoint {
    * @param stringText -- the string text to set.
    */
   public void setDescriptorStringText(final StringText stringText) {
-    getDescriptor ( ).setStringText (stringText.getSubfieldsWithoutCodes (GlobalStorage.PUBLISHER_VARIANT_CODES).toString ( ));
+    getDescriptor().setStringText(stringText.getSubfieldsWithoutCodes(GlobalStorage.PUBLISHER_VARIANT_CODES).toString());
   }
 
   /**
@@ -206,7 +206,7 @@ public class PublisherAccessPoint extends BibliographicAccessPoint {
    * Mark descriptor as "changed".
    */
   public void markChanged() {
-    if (getDescriptor ( ) != null)
-      getDescriptor ( ).markChanged ( );
+    if (getDescriptor() != null)
+      getDescriptor().markChanged();
   }
 }

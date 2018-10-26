@@ -24,7 +24,7 @@ import java.util.Comparator;
  */
 public class AuthorityItem extends CatalogItem {
 
-  private static final Log logger = LogFactory.getLog (AuthorityItem.class);
+  private static final Log logger = LogFactory.getLog(AuthorityItem.class);
   private AUT autItmData;
 
   /**
@@ -33,7 +33,7 @@ public class AuthorityItem extends CatalogItem {
    * @since 1.0
    */
   public AuthorityItem() {
-    super ( );
+    super();
     // TODO Auto-generated constructor stub
   }
 
@@ -55,14 +55,14 @@ public class AuthorityItem extends CatalogItem {
    * @see CatalogItem#getItemEntity()
    */
   public ItemEntity getItemEntity() {
-    return getAutItmData ( );
+    return getAutItmData();
   }
 
   /* (non-Javadoc)
    * @see CatalogItem#setItemEntity(ItemEntity)
    */
   public void setItemEntity(ItemEntity item) {
-    setAutItmData ((AUT) item);
+    setAutItmData((AUT) item);
   }
 
   /**
@@ -70,6 +70,18 @@ public class AuthorityItem extends CatalogItem {
    */
   public ModelItem getModelItem() {
     return modelItem;
+  }
+
+  /**
+   * @since 1.0
+   */
+  public void setModelItem(Model model) {
+    this.modelItem = new AuthorityModelItem();
+    this.modelItem.markNew();
+    this.modelItem.setItem(this.getAmicusNumber().longValue());
+    this.modelItem.setModel(model);
+    this.modelItem.setRecordFields(
+      model.getRecordFields());
   }
 
   /**
@@ -83,19 +95,7 @@ public class AuthorityItem extends CatalogItem {
    * @see CatalogItem#getTagImpl()
    */
   public TagImpl getTagImpl() {
-    return new AuthorityTagImpl ( );
-  }
-
-  /**
-   * @since 1.0
-   */
-  public void setModelItem(Model model) {
-    this.modelItem = new AuthorityModelItem ( );
-    this.modelItem.markNew ( );
-    this.modelItem.setItem (this.getAmicusNumber ( ).longValue ( ));
-    this.modelItem.setModel (model);
-    this.modelItem.setRecordFields (
-      model.getRecordFields ( ));
+    return new AuthorityTagImpl();
   }
 
   /* (non-Javadoc)
@@ -110,12 +110,12 @@ public class AuthorityItem extends CatalogItem {
    */
   public void checkForMandatoryTags() throws MandatoryTagException {
     final String[] tags = new String[]{"000", "008", "040", "1"};
-    for ( int i = 0; i < tags.length; i++ ) {
-      if (findFirstTagByNumber (tags[i]) == null) {
-        if ("1".equals (tags[i])) {
-          throw new MandatoryTagException ("1XX");
+    for (int i = 0; i < tags.length; i++) {
+      if (findFirstTagByNumber(tags[i]) == null) {
+        if ("1".equals(tags[i])) {
+          throw new MandatoryTagException("1XX");
         } else {
-          throw new MandatoryTagException (tags[i]);
+          throw new MandatoryTagException(tags[i]);
         }
       }
     }
@@ -123,16 +123,16 @@ public class AuthorityItem extends CatalogItem {
 
   @Override
   public void sortTags() {
-    Collections.sort (getTags ( ), new Comparator ( ) {
+    Collections.sort(getTags(), new Comparator() {
       @Override
       public int compare(Object o1, Object o2) {
         Tag t1 = (Tag) o1;
         Tag t2 = (Tag) o2;
         try {
-          return t1.getMarcEncoding ( ).getMarcTag ( ).
-            compareTo (t2.getMarcEncoding ( ).getMarcTag ( ));
+          return t1.getMarcEncoding().getMarcTag().
+            compareTo(t2.getMarcEncoding().getMarcTag());
         } catch (Exception e) {
-          logger.warn (e);
+          logger.warn(e);
           return 0;
         }
       }

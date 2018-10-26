@@ -27,9 +27,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
 public class DetailLevelAPI extends BaseResource {
   private Function <Avp <String>, DetailLevel> toDetailLevel = source -> {
-    final DetailLevel detailLevel = new DetailLevel ( );
-    detailLevel.setCode (source.getValue ( ));
-    detailLevel.setDescription (source.getLabel ( ));
+    final DetailLevel detailLevel = new DetailLevel();
+    detailLevel.setCode(source.getValue());
+    detailLevel.setDescription(source.getLabel());
     return detailLevel;
   };
 
@@ -44,13 +44,13 @@ public class DetailLevelAPI extends BaseResource {
   public DetailLevelCollection getDetailLevels(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final DetailLevelCollection container = new DetailLevelCollection ( );
-      container.setDetailLevels (
-        storageService.getDetailLevels (lang)
-          .stream ( )
-          .map (toDetailLevel)
-          .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      final DetailLevelCollection container = new DetailLevelCollection();
+      container.setDetailLevels(
+        storageService.getDetailLevels(lang)
+          .stream()
+          .map(toDetailLevel)
+          .collect(toList()));
       return container;
     }, tenant, configurator);
 

@@ -27,13 +27,13 @@ public class SeeAlsoReferenceTag extends SeeSeeAlsoReference {
    * @since 1.0
    */
   public SeeAlsoReferenceTag() {
-    super ( );
+    super();
   }
 
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
-    if (!super.correlationChangeAffectsKey (v)) {
-      return !ReferenceType.isSeeAlsoFrom (
-        v.getValue (getRefTypeCorrelationPosition ( )));
+    if (!super.correlationChangeAffectsKey(v)) {
+      return !ReferenceType.isSeeAlsoFrom(
+        v.getValue(getRefTypeCorrelationPosition()));
     } else {
       return false;
     }

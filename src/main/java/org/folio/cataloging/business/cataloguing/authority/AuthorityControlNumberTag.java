@@ -22,8 +22,8 @@ public class AuthorityControlNumberTag extends ControlNumberTag {
    * @since 1.0
    */
   public AuthorityControlNumberTag() {
-    super ( );
-    setHeaderField (new AuthorityHeaderFieldHelper ( ));
-    setHeaderType ((short) 11);
+    super();
+    setHeaderField(new AuthorityHeaderFieldHelper());
+    setHeaderType((short) 11);
   }
 }

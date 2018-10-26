@@ -11,24 +11,24 @@ import org.folio.cataloging.dao.common.HibernateUtil;
 import java.util.List;
 
 public class DAOCasSapPubl extends HibernateUtil {
-  private static Log logger = LogFactory.getLog (DAOCasSapPubl.class);
+  private static Log logger = LogFactory.getLog(DAOCasSapPubl.class);
 
   public DAOCasSapPubl() {
-    super ( );
+    super();
   }
 
   public List loadCasSapPubl(String editor) throws DataAccessException {
     List result = null;
     try {
-      Session s = currentSession ( );
-      Query q = s.createQuery ("select distinct ct"
+      Session s = currentSession();
+      Query q = s.createQuery("select distinct ct"
         + " from CasSapPubl as ct " + " where ct.codEditore ="
         + editor);
-      q.setMaxResults (1);
-      result = q.list ( );
+      q.setMaxResults(1);
+      result = q.list();
 
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     return result;
   }
@@ -43,12 +43,12 @@ public class DAOCasSapPubl extends HibernateUtil {
   public List loadPublishersWithShortCode() throws DataAccessException {
     List result = null;
     try {
-      Session s = currentSession ( );
-      Query q = s.createQuery ("Select distinct ct from CasSapPubl as ct where ct.codEditoreBreve is not null");
-      result = q.list ( );
+      Session s = currentSession();
+      Query q = s.createQuery("Select distinct ct from CasSapPubl as ct where ct.codEditoreBreve is not null");
+      result = q.list();
 
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     return result;
   }

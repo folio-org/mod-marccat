@@ -1,6 +1,7 @@
 package org.folio.cataloging.search.engine;
 
 import org.folio.cataloging.exception.ModCatalogingException;
+import org.folio.cataloging.integration.StorageService;
 import org.folio.cataloging.search.SearchResponse;
 
 import java.util.List;
@@ -84,4 +85,12 @@ public interface SearchEngine {
     SearchResponse searchResponse,
     String[] attributes,
     String[] directions) throws ModCatalogingException;
+
+  /**
+   * Inject in searchResponse of authority records counter of associated bibliographic records and query to retrieve them
+   *
+   * @param searchResponse
+   * @throws ModCatalogingException
+   */
+  void injectDocCount(SearchResponse searchResponse, StorageService service) throws ModCatalogingException;
 }

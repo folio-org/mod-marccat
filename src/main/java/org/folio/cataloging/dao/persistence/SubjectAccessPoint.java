@@ -22,14 +22,14 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
   private String workRelatorCode;
   private String workRelatorStringtext;
   private int sequenceNumber;
-  private SBJCT_HDG descriptor = new SBJCT_HDG ( );
+  private SBJCT_HDG descriptor = new SBJCT_HDG();
 
   public SubjectAccessPoint() {
-    super ( );
+    super();
   }
 
   public SubjectAccessPoint(final int itemNbr) {
-    super (itemNbr);
+    super(itemNbr);
   }
 
   /**
@@ -54,7 +54,7 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
    * @return sequenceNumber.
    */
   public Integer getSequenceNumber() {
-    return new Integer (sequenceNumber);
+    return new Integer(sequenceNumber);
   }
 
   /**
@@ -64,7 +64,7 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
    */
   public void setSequenceNumber(final Integer sequenceNbr) {
     sequenceNumber = (sequenceNbr != null) ? sequenceNbr : 0;
-    super.setSequenceNumber (sequenceNumber);
+    super.setSequenceNumber(sequenceNumber);
   }
 
   /**
@@ -113,14 +113,14 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
     if (!(obj instanceof SubjectAccessPoint))
       return false;
     final SubjectAccessPoint other = (SubjectAccessPoint) obj;
-    return super.equals (obj) && (other.functionCode == this.functionCode);
+    return super.equals(obj) && (other.functionCode == this.functionCode);
   }
 
   /**
    * @return hashCode.
    */
   public int hashCode() {
-    return super.hashCode ( ); // TODO this is bad, should be changed
+    return super.hashCode(); // TODO this is bad, should be changed
   }
 
   /**
@@ -148,7 +148,7 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
    * @return boolean.
    */
   public boolean correlationChangeAffectsKey(final CorrelationValues v) {
-    return (v.isValueDefined (2)) && (v.getValue (2) != getFunctionCode ( ));
+    return (v.isValueDefined(2)) && (v.getValue(2) != getFunctionCode());
   }
 
   /**
@@ -166,7 +166,7 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
    * @return correlationValues.
    */
   public CorrelationValues getCorrelationValues() {
-    return getDescriptor ( ).getCorrelationValues ( ).change (2, getFunctionCode ( ));
+    return getDescriptor().getCorrelationValues().change(2, getFunctionCode());
   }
 
   /**
@@ -175,8 +175,8 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
    * @param v -- the correlation values to set.
    */
   public void setCorrelationValues(final CorrelationValues v) {
-    setFunctionCode (v.getValue (2));
-    getDescriptor ( ).setCorrelationValues (v);
+    setFunctionCode(v.getValue(2));
+    getDescriptor().setCorrelationValues(v);
   }
 
   /**
@@ -194,8 +194,8 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
    * @return stringText.
    */
   public StringText getAccessPointStringText() {
-    StringText text = new StringText (workRelatorStringtext);
-    text.parse (workRelatorCode);
+    StringText text = new StringText(workRelatorStringtext);
+    text.parse(workRelatorCode);
     return text;
   }
 
@@ -205,8 +205,8 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
    * @param stringText -- the stringText to set.
    */
   public void setAccessPointStringText(final StringText stringText) {
-    workRelatorCode = stringText.getSubfieldsWithCodes (GlobalStorage.WORK_REL_SUBFIELD_CODE).toString ( );
-    workRelatorStringtext = stringText.getSubfieldsWithCodes (GlobalStorage.SUBJECT_WORK_REL_STRING_TEXT_SUBFIELD_CODES).toString ( );
+    workRelatorCode = stringText.getSubfieldsWithCodes(GlobalStorage.WORK_REL_SUBFIELD_CODE).toString();
+    workRelatorStringtext = stringText.getSubfieldsWithCodes(GlobalStorage.SUBJECT_WORK_REL_STRING_TEXT_SUBFIELD_CODES).toString();
   }
 
   /**
@@ -215,7 +215,7 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
    * @param stringText -- the string text to set.
    */
   public void setDescriptorStringText(final StringText stringText) {
-    getDescriptor ( ).setStringText (stringText.getSubfieldsWithoutCodes (GlobalStorage.SUBJECT_VARIANT_CODES).toString ( ));
+    getDescriptor().setStringText(stringText.getSubfieldsWithoutCodes(GlobalStorage.SUBJECT_VARIANT_CODES).toString());
   }
 
   /**
