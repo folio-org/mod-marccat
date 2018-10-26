@@ -24,11 +24,10 @@ ssh_itnet_deploy(){
   nohup echo "cd /usr/local/folio/bin ; sh deploy_mod-cat.sh" | ssh -p ${SSH_PORT} folio@${SSH_HOST} &
 }
 ssh_itnet_deploy_demo(){
-  echo "uploading artifact via ssh on ITNET"
-  scp -P ${SSH_PORT} ${SSH_SRC_FILE} folio@${SSH_HOST}:${SSH_DEST_FILE}
+  echo "uploading artifact via ssh on ITNET [DEMO]"
+  scp -P ${SSH_PORT} ${SSH_SRC_FILE} folio@${SSH_HOST_DEMO}:${SSH_DEST_FILE}
   sleep ${RESTART_WAIT_SEC}
-  echo "uploaded artifact succesfully. Deploy last release of modcat"
+  echo "uploaded artifact succesfully. Deploy last demo release of modcat"
   nohup echo "cd /usr/local/folio/bin ; sh deploy_mod-cat.sh" | ssh -p ${SSH_PORT} folio@${SSH_HOST_DEMO} &
 }
-ssh_itnet_deploy_demo
 ssh_itnet_deploy
