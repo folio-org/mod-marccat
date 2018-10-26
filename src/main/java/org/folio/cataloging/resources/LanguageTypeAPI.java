@@ -28,9 +28,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class LanguageTypeAPI extends BaseResource {
 
   private Function <Avp <String>, LanguageType> toLanguageType = source -> {
-    final LanguageType languageType = new LanguageType ( );
-    languageType.setCode (source.getValue ( ));
-    languageType.setDescription (source.getLabel ( ));
+    final LanguageType languageType = new LanguageType();
+    languageType.setCode(source.getValue());
+    languageType.setDescription(source.getLabel());
     return languageType;
   };
 
@@ -45,13 +45,13 @@ public class LanguageTypeAPI extends BaseResource {
   public LanguageTypeCollection getLanguageTypes(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final LanguageTypeCollection container = new LanguageTypeCollection ( );
-      container.setLanguageTypes (
-        storageService.getLanguageTypes (lang)
-          .stream ( )
-          .map (toLanguageType)
-          .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      final LanguageTypeCollection container = new LanguageTypeCollection();
+      container.setLanguageTypes(
+        storageService.getLanguageTypes(lang)
+          .stream()
+          .map(toLanguageType)
+          .collect(toList()));
       return container;
     }, tenant, configurator);
   }

@@ -16,19 +16,19 @@ package org.folio.cataloging.business.common;
 public class CacheUpdateException extends DataAccessException {
 
   public CacheUpdateException() {
-    super ( );
+    super();
   }
 
   public CacheUpdateException(String message, Throwable cause) {
-    super (message, cause);
+    super(message, cause);
   }
 
   public CacheUpdateException(String message) {
-    super (message);
+    super(message);
   }
 
   public CacheUpdateException(Throwable cause) {
-    super (cause);
+    super(cause);
   }
 
 }

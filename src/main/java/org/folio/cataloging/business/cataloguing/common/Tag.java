@@ -37,7 +37,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
 
   public static final int PHYSICAL_MATERIAL = 1;
   public static final int NOT_PHYSICAL_MATERIAL = 0;
-  private static Log logger = LogFactory.getLog (Tag.class);
+  private static Log logger = LogFactory.getLog(Tag.class);
   protected PersistenceState persistenceState;
   private TagImpl tagImpl;
   private int itemNumber = -1;
@@ -52,20 +52,20 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
      * This default implementation can be overridden either in individual tag
      * constructors or when the tag is added to a CatalogItem
      */
-    setTagImpl (TagImplFactory.getDefaultImplementation ( ));
+    setTagImpl(TagImplFactory.getDefaultImplementation());
   }
 
   public Tag(int itemNumber) {
-    this ( );
-    setItemNumber (itemNumber);
+    this();
+    setItemNumber(itemNumber);
   }
 
   public String getHeadingType() {
-    return tagImpl.getHeadingType (this);
+    return tagImpl.getHeadingType(this);
   }
 
   public Catalog getCatalog() {
-    return tagImpl.getCatalog ( );
+    return tagImpl.getCatalog();
   }
 
   /**
@@ -76,8 +76,8 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
     int value1,
     int value2,
     int value3) {
-    return correlationChangeAffectsKey (
-      new CorrelationValues (value1, value2, value3));
+    return correlationChangeAffectsKey(
+      new CorrelationValues(value1, value2, value3));
   }
 
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
@@ -119,7 +119,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
    * stringValue is available or known)
    */
   public int getCorrelation(int i) {
-    return getCorrelationValues ( ).getValue (i);
+    return getCorrelationValues().getValue(i);
   }
 
   /**
@@ -130,7 +130,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
    * @since 1.0
    */
   final public void setCorrelation(int i, int s) {
-    setCorrelationValues (getCorrelationValues ( ).change (i, s));
+    setCorrelationValues(getCorrelationValues().change(i, s));
   }
 
   /**
@@ -144,7 +144,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
    * @return the MARC tag and indicators for this tag
    */
   public CorrelationKey getMarcEncoding(final Session session) throws DataAccessException {
-    correlationKey = tagImpl.getMarcEncoding (this, session);
+    correlationKey = tagImpl.getMarcEncoding(this, session);
     return correlationKey;
   }
 
@@ -161,10 +161,10 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
    * required
    */
   public boolean equals(Object obj) {
-    if (!(obj.getClass ( ).equals (this.getClass ( ))))
+    if (!(obj.getClass().equals(this.getClass())))
       return false;
     Tag other = (Tag) obj;
-    return (other.getItemNumber ( ) == this.getItemNumber ( ));
+    return (other.getItemNumber() == this.getItemNumber());
   }
 
   /**
@@ -175,7 +175,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
    * @return
    */
   public Element toExternalMarcSlim(Document xmlDocument) {
-    return toXmlElement (xmlDocument, true);
+    return toXmlElement(xmlDocument, true);
   }
 
   // 2018 Paul Search Engine Java
@@ -239,7 +239,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
   }
 
   public int hashCode() {
-    return getItemNumber ( );
+    return getItemNumber();
   }
 
 	/* nat: public DAOCodeTable getDaoCodeTable() {
@@ -253,10 +253,10 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
    * @param s the new value1
    */
   public void updateFirstCorrelation(int s) throws DataAccessException {
-    setCorrelation (1, s);
-    List l = getSecondCorrelationList (s);
+    setCorrelation(1, s);
+    List l = getSecondCorrelationList(s);
     if (l != null) {
-      updateSecondCorrelation (((T_SINGLE) l.get (0)).getCode ( ));
+      updateSecondCorrelation(((T_SINGLE) l.get(0)).getCode());
     }
   }
 
@@ -267,10 +267,10 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
    * @param s the new stringValue 2
    */
   public void updateSecondCorrelation(int s) throws DataAccessException {
-    setCorrelation (2, s);
-    List l = getThirdCorrelationList (getCorrelation (1), getCorrelation (2));
+    setCorrelation(2, s);
+    List l = getThirdCorrelationList(getCorrelation(1), getCorrelation(2));
     if (l != null) {
-      setCorrelation (3, ((T_SINGLE) l.get (0)).getCode ( ));
+      setCorrelation(3, ((T_SINGLE) l.get(0)).getCode());
     }
   }
 
@@ -289,13 +289,13 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
     if (persistenceState == null) {
       return -1;
     } else {
-      return persistenceState.getUpdateStatus ( );
+      return persistenceState.getUpdateStatus();
     }
   }
 
   public void setUpdateStatus(int i) {
     if (persistenceState != null) {
-      persistenceState.setUpdateStatus (i);
+      persistenceState.setUpdateStatus(i);
     }
   }
 
@@ -303,7 +303,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
     if (persistenceState == null) {
       return false;
     } else {
-      return persistenceState.isChanged ( );
+      return persistenceState.isChanged();
     }
   }
 
@@ -311,7 +311,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
     if (persistenceState == null) {
       return false;
     } else {
-      return persistenceState.isDeleted ( );
+      return persistenceState.isDeleted();
     }
   }
 
@@ -319,7 +319,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
     if (persistenceState == null) {
       return false;
     } else {
-      return persistenceState.isNew ( );
+      return persistenceState.isNew();
     }
   }
 
@@ -327,37 +327,37 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
     if (persistenceState == null) {
       return false;
     } else {
-      return persistenceState.isRemoved ( );
+      return persistenceState.isRemoved();
     }
   }
 
   public void markChanged() {
     if (persistenceState != null) {
-      persistenceState.markChanged ( );
+      persistenceState.markChanged();
     }
   }
 
   public void markDeleted() {
     if (persistenceState != null) {
-      persistenceState.markDeleted ( );
+      persistenceState.markDeleted();
     }
   }
 
   public void markNew() {
     if (persistenceState != null) {
-      persistenceState.markNew ( );
+      persistenceState.markNew();
     }
   }
 
   public void markUnchanged() {
     if (persistenceState != null) {
-      persistenceState.markUnchanged ( );
+      persistenceState.markUnchanged();
     }
   }
 
   public boolean onDelete(Session arg0) throws CallbackException {
     if (persistenceState != null) {
-      return persistenceState.onDelete (arg0);
+      return persistenceState.onDelete(arg0);
     } else {
       return true;
     }
@@ -365,13 +365,13 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
 
   public void onLoad(Session arg0, Serializable arg1) {
     if (persistenceState != null) {
-      persistenceState.onLoad (arg0, arg1);
+      persistenceState.onLoad(arg0, arg1);
     }
   }
 
   public boolean onSave(Session arg0) throws CallbackException {
     if (persistenceState != null) {
-      return persistenceState.onSave (arg0);
+      return persistenceState.onSave(arg0);
     } else {
       return true;
     }
@@ -379,7 +379,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
 
   public boolean onUpdate(Session arg0) throws CallbackException {
     if (persistenceState != null) {
-      return persistenceState.onUpdate (arg0);
+      return persistenceState.onUpdate(arg0);
     } else {
       return true;
     }
@@ -387,7 +387,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
 
   public void evict() throws DataAccessException {
     if (persistenceState != null) {
-      persistenceState.evict (this);
+      persistenceState.evict(this);
     }
   }
 
@@ -404,15 +404,15 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
    */
   public Document toXmlDocument() {
     DocumentBuilderFactory documentBuilderFactory =
-      DocumentBuilderFactory.newInstance ( );
+      DocumentBuilderFactory.newInstance();
     DocumentBuilder documentBuilder = null;
     Document xmlDocument = null;
     try {
-      documentBuilder = documentBuilderFactory.newDocumentBuilder ( );
-      xmlDocument = documentBuilder.newDocument ( );
-      xmlDocument.appendChild (toXmlElement (xmlDocument));
+      documentBuilder = documentBuilderFactory.newDocumentBuilder();
+      xmlDocument = documentBuilder.newDocument();
+      xmlDocument.appendChild(toXmlElement(xmlDocument));
     } catch (ParserConfigurationException parserConfigurationException) {
-      logger.error ("", parserConfigurationException);
+      logger.error("", parserConfigurationException);
       //throw new XmlParserConfigurationException(parserConfigurationException);
     }
     return xmlDocument;
@@ -504,7 +504,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
   }
 
   public Object clone() {
-    return deepCopy (this);
+    return deepCopy(this);
   }
 
   public TagImpl getTagImpl() {
@@ -533,7 +533,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
   }
 
   public Validation getValidation(final Session session) throws DataAccessException {
-    validation = tagImpl.getValidation (this, session);
+    validation = tagImpl.getValidation(this, session);
     return validation;
   }
 
@@ -562,7 +562,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
    * @see TagInterface#getDisplayCategory()
    */
   public int getDisplayCategory() {
-    return getCategory ( );
+    return getCategory();
   }
 
   /* (non-Javadoc)
@@ -585,8 +585,8 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
    * to a pre-existing key
    */
   public void reinstateDeletedTag() {
-    markUnchanged ( );
-    markChanged ( );
+    markUnchanged();
+    markChanged();
   }
 
   public String getNewSubfieldContent() {
@@ -602,6 +602,6 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
   }
 
   public AbstractDAO getDAO() {
-    return persistenceState.getDAO ( );
+    return persistenceState.getDAO();
   }
 }

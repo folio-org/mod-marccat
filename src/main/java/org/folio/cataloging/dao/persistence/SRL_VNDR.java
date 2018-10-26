@@ -18,7 +18,7 @@ public class SRL_VNDR implements Persistence, Serializable {
    *
    */
   private static final long serialVersionUID = 1L;
-  private PersistenceState persistenceState = new PersistenceState ( );
+  private PersistenceState persistenceState = new PersistenceState();
 
   private int vendorNumber;
   private String name;
@@ -33,14 +33,14 @@ public class SRL_VNDR implements Persistence, Serializable {
    * @see PersistenceState#cancelChanges()
    */
   public void cancelChanges() {
-    persistenceState.cancelChanges ( );
+    persistenceState.cancelChanges();
   }
 
   /**
    * @see PersistenceState#confirmChanges()
    */
   public void confirmChanges() {
-    persistenceState.confirmChanges ( );
+    persistenceState.confirmChanges();
   }
 
   /**
@@ -49,7 +49,7 @@ public class SRL_VNDR implements Persistence, Serializable {
    * @see PersistenceState#evict(Object)
    */
   public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict (obj);
+    persistenceState.evict(obj);
   }
 
   /**
@@ -57,7 +57,7 @@ public class SRL_VNDR implements Persistence, Serializable {
    * @see PersistenceState#getUpdateStatus()
    */
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   /**
@@ -65,7 +65,7 @@ public class SRL_VNDR implements Persistence, Serializable {
    * @see PersistenceState#setUpdateStatus(int)
    */
   public void setUpdateStatus(int i) {
-    persistenceState.setUpdateStatus (i);
+    persistenceState.setUpdateStatus(i);
   }
 
   /**
@@ -73,7 +73,7 @@ public class SRL_VNDR implements Persistence, Serializable {
    * @see PersistenceState#isChanged()
    */
   public boolean isChanged() {
-    return persistenceState.isChanged ( );
+    return persistenceState.isChanged();
   }
 
   /**
@@ -81,7 +81,7 @@ public class SRL_VNDR implements Persistence, Serializable {
    * @see PersistenceState#isDeleted()
    */
   public boolean isDeleted() {
-    return persistenceState.isDeleted ( );
+    return persistenceState.isDeleted();
   }
 
   /**
@@ -89,7 +89,7 @@ public class SRL_VNDR implements Persistence, Serializable {
    * @see PersistenceState#isNew()
    */
   public boolean isNew() {
-    return persistenceState.isNew ( );
+    return persistenceState.isNew();
   }
 
   /**
@@ -97,35 +97,35 @@ public class SRL_VNDR implements Persistence, Serializable {
    * @see PersistenceState#isRemoved()
    */
   public boolean isRemoved() {
-    return persistenceState.isRemoved ( );
+    return persistenceState.isRemoved();
   }
 
   /**
    * @see PersistenceState#markChanged()
    */
   public void markChanged() {
-    persistenceState.markChanged ( );
+    persistenceState.markChanged();
   }
 
   /**
    * @see PersistenceState#markDeleted()
    */
   public void markDeleted() {
-    persistenceState.markDeleted ( );
+    persistenceState.markDeleted();
   }
 
   /**
    * @see PersistenceState#markNew()
    */
   public void markNew() {
-    persistenceState.markNew ( );
+    persistenceState.markNew();
   }
 
   /**
    * @see PersistenceState#markUnchanged()
    */
   public void markUnchanged() {
-    persistenceState.markUnchanged ( );
+    persistenceState.markUnchanged();
   }
 
   /**
@@ -135,7 +135,7 @@ public class SRL_VNDR implements Persistence, Serializable {
    * @see PersistenceState#onDelete(Session)
    */
   public boolean onDelete(Session arg0) throws CallbackException {
-    return persistenceState.onDelete (arg0);
+    return persistenceState.onDelete(arg0);
   }
 
   /**
@@ -145,7 +145,7 @@ public class SRL_VNDR implements Persistence, Serializable {
    * Serializable)
    */
   public void onLoad(Session arg0, Serializable arg1) {
-    persistenceState.onLoad (arg0, arg1);
+    persistenceState.onLoad(arg0, arg1);
   }
 
   /**
@@ -155,7 +155,7 @@ public class SRL_VNDR implements Persistence, Serializable {
    * @see PersistenceState#onSave(Session)
    */
   public boolean onSave(Session arg0) throws CallbackException {
-    return persistenceState.onSave (arg0);
+    return persistenceState.onSave(arg0);
   }
 
   /**
@@ -165,19 +165,19 @@ public class SRL_VNDR implements Persistence, Serializable {
    * @see PersistenceState#onUpdate(Session)
    */
   public boolean onUpdate(Session arg0) throws CallbackException {
-    return persistenceState.onUpdate (arg0);
+    return persistenceState.onUpdate(arg0);
   }
 
   public void evict() throws DataAccessException {
-    evict (this);
+    evict(this);
   }
 
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
-    setVendorNumber (new SystemNextNumberDAO ( ).getNextNumber ("SV", session));
+    setVendorNumber(new SystemNextNumberDAO().getNextNumber("SV", session));
   }
 
   public AbstractDAO getDAO() {
-    return persistenceState.getDAO ( );
+    return persistenceState.getDAO();
   }
 
   /**
@@ -300,8 +300,8 @@ public class SRL_VNDR implements Persistence, Serializable {
   public boolean equals(Object arg0) {
     if (arg0 instanceof SRL_VNDR) {
       SRL_VNDR v = (SRL_VNDR) arg0;
-      return v.getVendorNumber ( ) > 0
-        && v.getVendorNumber ( ) == this.getVendorNumber ( );
+      return v.getVendorNumber() > 0
+        && v.getVendorNumber() == this.getVendorNumber();
     }
     return false;
   }
@@ -312,7 +312,7 @@ public class SRL_VNDR implements Persistence, Serializable {
    * @see java.lang.Object#hashCode()
    */
   public int hashCode() {
-    return this.getVendorNumber ( );
+    return this.getVendorNumber();
   }
 
   /*
@@ -322,12 +322,12 @@ public class SRL_VNDR implements Persistence, Serializable {
    */
   public String toString() {
     // TODO Auto-generated method stub
-    return "SRL_VNDR(" + getName ( ) + " '" + getVendorNumber ( ) + "')";
+    return "SRL_VNDR(" + getName() + " '" + getVendorNumber() + "')";
   }
 
   public void validate() throws DataAccessException, DuplicateVendorException {
-    if (isNew ( )) {
-      new DAOPredictionPattern ( ).checkDuplicateVendor (this);
+    if (isNew()) {
+      new DAOPredictionPattern().checkDuplicateVendor(this);
     }
   }
 }

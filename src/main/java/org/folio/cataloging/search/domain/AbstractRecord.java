@@ -38,10 +38,10 @@ import java.util.Map;
 public abstract class AbstractRecord implements Record {
 
   private static final String XSLT_PATH = "/xslt/";
-  private static final Log logger = new Log (AbstractRecord.class);
+  private static final Log logger = new Log(AbstractRecord.class);
   @JsonIgnore
   private String cclQuery = "";
-  private Map <String, Object> content = new HashMap <> ( );
+  private Map <String, Object> content = new HashMap <>();
 
   private int recordView;
   private int countDoc;
@@ -49,25 +49,25 @@ public abstract class AbstractRecord implements Record {
 
   @Override
   public boolean hasContent(final String elementSetName) {
-    return content.containsKey (elementSetName);
+    return content.containsKey(elementSetName);
   }
 
   @Override
   public void setContent(final String elementSetName, final Object data) {
     if (elementSetName != null && data != null) {
-      content.put (elementSetName, data);
+      content.put(elementSetName, data);
     }
   }
 
   @Override
   public Object getContent(final String elementSetName) {
-    return content.get (elementSetName);
+    return content.get(elementSetName);
   }
 
   @Override
   public String toXmlString(String elementSetName) {
-    if (this.hasContent (elementSetName)) {
-      return XmlUtils.documentToString (toXmlDocument (elementSetName));
+    if (this.hasContent(elementSetName)) {
+      return XmlUtils.documentToString(toXmlDocument(elementSetName));
     } else {
       return null;
     }
@@ -78,10 +78,10 @@ public abstract class AbstractRecord implements Record {
     final String elementSetName,
     final String stylesheet,
     final Map xsltParameters) throws XmlParserConfigurationException {
-    URL styleURL = AbstractRecord.class.getResource (XSLT_PATH + stylesheet);
+    URL styleURL = AbstractRecord.class.getResource(XSLT_PATH + stylesheet);
     if (styleURL == null)
-      throw new XmlParserConfigurationException ("stylesheet " + stylesheet + " not found in " + XSLT_PATH);
-    return toXmlStyledDocument (elementSetName, styleURL, xsltParameters);
+      throw new XmlParserConfigurationException("stylesheet " + stylesheet + " not found in " + XSLT_PATH);
+    return toXmlStyledDocument(elementSetName, styleURL, xsltParameters);
   }
 
   @Override
@@ -94,42 +94,42 @@ public abstract class AbstractRecord implements Record {
 
     try {
       // load the transformer using JAXP
-      TransformerFactory factory = TransformerFactory.newInstance ( );
-      Transformer transformer = factory.newTransformer (new StreamSource (
-        stylesheet.getFile ( )));
+      TransformerFactory factory = TransformerFactory.newInstance();
+      Transformer transformer = factory.newTransformer(new StreamSource(
+        stylesheet.getFile()));
 
       // First set some parameters if there are any
       if (xsltParameters != null) {
-        Iterator iterator = xsltParameters.entrySet ( ).iterator ( );
-        while (iterator.hasNext ( )) {
-          Map.Entry entry = (Map.Entry) iterator.next ( );
-          transformer.setParameter (entry.getKey ( ).toString ( ), entry
-            .getValue ( ).toString ( ));
+        Iterator iterator = xsltParameters.entrySet().iterator();
+        while (iterator.hasNext()) {
+          Map.Entry entry = (Map.Entry) iterator.next();
+          transformer.setParameter(entry.getKey().toString(), entry
+            .getValue().toString());
         }
       }
 
       // now lets style the given document
-      DOMSource source = new DOMSource (this
-        .toXmlDocument (elementSetName));
+      DOMSource source = new DOMSource(this
+        .toXmlDocument(elementSetName));
       DocumentBuilderFactory documentBuilderFactory =
-        DocumentBuilderFactory.newInstance ( );
+        DocumentBuilderFactory.newInstance();
       DocumentBuilder documentBuilder = null;
       try {
-        documentBuilder = documentBuilderFactory.newDocumentBuilder ( );
-        xmlStyledDocument = documentBuilder.newDocument ( );
-        DOMResult result = new DOMResult (xmlStyledDocument);
-        transformer.transform (source, result);
+        documentBuilder = documentBuilderFactory.newDocumentBuilder();
+        xmlStyledDocument = documentBuilder.newDocument();
+        DOMResult result = new DOMResult(xmlStyledDocument);
+        transformer.transform(source, result);
       } catch (ParserConfigurationException parserConfigurationException) {
-        logger.error ("", parserConfigurationException);
-        throw new XmlParserConfigurationException (parserConfigurationException);
+        logger.error("", parserConfigurationException);
+        throw new XmlParserConfigurationException(parserConfigurationException);
       }
     } catch (TransformerConfigurationException transformerConfigurationException) {
-      logger.error (transformerConfigurationException.getMessage ( ));
-      throw new XslTransformerConfigurationException (
+      logger.error(transformerConfigurationException.getMessage());
+      throw new XslTransformerConfigurationException(
         transformerConfigurationException);
     } catch (TransformerException transformerException) {
-      logger.error (transformerException.getMessage ( ));
-      throw new XslTransformerException (transformerException);
+      logger.error(transformerException.getMessage());
+      throw new XslTransformerException(transformerException);
     }
 
     return xmlStyledDocument;
@@ -139,52 +139,52 @@ public abstract class AbstractRecord implements Record {
                                  Map xsltParameters) throws XmlDocumentException,
     XslTransformerConfigurationException, XslTransformerException {
     // MIKE: helpful in configuration time
-    URL styleURL = AbstractRecord.class.getResource (XSLT_PATH + stylesheet);
-    if (styleURL == null) throw new XmlDocumentException ("stylesheet " + stylesheet + " not found in " + XSLT_PATH);
-    return toStyledDocument (elementSetName, styleURL, xsltParameters);
+    URL styleURL = AbstractRecord.class.getResource(XSLT_PATH + stylesheet);
+    if (styleURL == null) throw new XmlDocumentException("stylesheet " + stylesheet + " not found in " + XSLT_PATH);
+    return toStyledDocument(elementSetName, styleURL, xsltParameters);
   }
 
   public String toStyledDocument(String elementSetName, URL stylesheet,
                                  Map xsltParameters) throws XmlDocumentException,
     XslTransformerConfigurationException, XslTransformerException {
-    String styledDocument = new String ( );
+    String styledDocument = new String();
     try {
       // load the transformer using JAXP
-      TransformerFactory factory = TransformerFactory.newInstance ( );
-      Transformer transformer = factory.newTransformer (new StreamSource (
-        stylesheet.openStream ( )));
+      TransformerFactory factory = TransformerFactory.newInstance();
+      Transformer transformer = factory.newTransformer(new StreamSource(
+        stylesheet.openStream()));
 
       // First set some parameters if there are any
       if (xsltParameters != null) {
-        Iterator iterator = xsltParameters.entrySet ( ).iterator ( );
-        while (iterator.hasNext ( )) {
-          Map.Entry entry = (Map.Entry) iterator.next ( );
+        Iterator iterator = xsltParameters.entrySet().iterator();
+        while (iterator.hasNext()) {
+          Map.Entry entry = (Map.Entry) iterator.next();
 //CAMMILLETTI inizio
 //					transformer.setParameter(entry.getKey().toString(), entry.getValue().toString());
-          transformer.setParameter (entry.getKey ( ).toString ( ), entry.getValue ( ));
+          transformer.setParameter(entry.getKey().toString(), entry.getValue());
 //CAMMILLETTI fine
         }
       }
 
       // now lets style the given document
-      DOMSource source = new DOMSource (this
-        .toXmlDocument (elementSetName));
-      StringWriter buffer = new StringWriter ( );
-      StreamResult result = new StreamResult (buffer);
-      transformer.transform (source, result);
+      DOMSource source = new DOMSource(this
+        .toXmlDocument(elementSetName));
+      StringWriter buffer = new StringWriter();
+      StreamResult result = new StreamResult(buffer);
+      transformer.transform(source, result);
 
       // return the transformed document
-      styledDocument = buffer.toString ( );
+      styledDocument = buffer.toString();
     } catch (TransformerConfigurationException transformerConfigurationException) {
-      logger.error (transformerConfigurationException.getMessage ( ));
-      throw new XslTransformerConfigurationException (
+      logger.error(transformerConfigurationException.getMessage());
+      throw new XslTransformerConfigurationException(
         transformerConfigurationException);
     } catch (TransformerException transformerException) {
-      logger.error (transformerException.getMessage ( ));
-      throw new XslTransformerException (transformerException);
+      logger.error(transformerException.getMessage());
+      throw new XslTransformerException(transformerException);
     } catch (IOException e) {
       // TODO Auto-generated catch block
-      e.printStackTrace ( );
+      e.printStackTrace();
     }
 
     return styledDocument;
@@ -216,22 +216,21 @@ public abstract class AbstractRecord implements Record {
     this.recordView = recordView;
   }
 
-public int getCountDoc() {
-	return countDoc;
-}
+  public int getCountDoc() {
+    return countDoc;
+  }
 
-public void setCountDoc(int countDoc) {
-	this.countDoc = countDoc;
-}
+  public void setCountDoc(int countDoc) {
+    this.countDoc = countDoc;
+  }
 
-public String getQueryForAssociatedDoc() {
-	return queryForAssociatedDoc;
-}
+  public String getQueryForAssociatedDoc() {
+    return queryForAssociatedDoc;
+  }
 
-public void setQueryForAssociatedDoc(String queryForAssociatedDoc) {
-	this.queryForAssociatedDoc = queryForAssociatedDoc;
-}
-  
-  
+  public void setQueryForAssociatedDoc(String queryForAssociatedDoc) {
+    this.queryForAssociatedDoc = queryForAssociatedDoc;
+  }
+
 
 }

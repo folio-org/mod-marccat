@@ -17,7 +17,7 @@ import java.io.Serializable;
  */
 public abstract class ModelItem implements Persistence, Serializable {
 
-  private PersistenceState persistenceState = new PersistenceState ( );
+  private PersistenceState persistenceState = new PersistenceState();
   private long item;
   private Model model;
   private String recordFields;
@@ -95,7 +95,7 @@ public abstract class ModelItem implements Persistence, Serializable {
    * @throws DataAccessException in case of data access failure.
    */
   public void evict(final Object obj) throws DataAccessException {
-    persistenceState.evict (obj);
+    persistenceState.evict(obj);
   }
 
   /**
@@ -104,7 +104,7 @@ public abstract class ModelItem implements Persistence, Serializable {
    * @throws DataAccessException in case of data access failure.
    */
   public void evict() throws DataAccessException {
-    persistenceState.evict (this);
+    persistenceState.evict(this);
   }
 
   /**
@@ -114,7 +114,7 @@ public abstract class ModelItem implements Persistence, Serializable {
    * @since 1.0
    */
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   /**
@@ -123,7 +123,7 @@ public abstract class ModelItem implements Persistence, Serializable {
    * @param i the new update status
    */
   public void setUpdateStatus(final int i) {
-    persistenceState.setUpdateStatus (i);
+    persistenceState.setUpdateStatus(i);
   }
 
   /**
@@ -133,7 +133,7 @@ public abstract class ModelItem implements Persistence, Serializable {
    * @since 1.0
    */
   public boolean isChanged() {
-    return persistenceState.isChanged ( );
+    return persistenceState.isChanged();
   }
 
   /**
@@ -143,7 +143,7 @@ public abstract class ModelItem implements Persistence, Serializable {
    * @since 1.0
    */
   public boolean isDeleted() {
-    return persistenceState.isDeleted ( );
+    return persistenceState.isDeleted();
   }
 
   /**
@@ -153,7 +153,7 @@ public abstract class ModelItem implements Persistence, Serializable {
    * @since 1.0
    */
   public boolean isNew() {
-    return persistenceState.isNew ( );
+    return persistenceState.isNew();
   }
 
   /**
@@ -163,7 +163,7 @@ public abstract class ModelItem implements Persistence, Serializable {
    * @since 1.0
    */
   public boolean isRemoved() {
-    return persistenceState.isRemoved ( );
+    return persistenceState.isRemoved();
   }
 
   /**
@@ -172,7 +172,7 @@ public abstract class ModelItem implements Persistence, Serializable {
    * @since 1.0
    */
   public void markChanged() {
-    persistenceState.markChanged ( );
+    persistenceState.markChanged();
   }
 
   /**
@@ -181,7 +181,7 @@ public abstract class ModelItem implements Persistence, Serializable {
    * @since 1.0
    */
   public void markDeleted() {
-    persistenceState.markDeleted ( );
+    persistenceState.markDeleted();
   }
 
   /**
@@ -190,7 +190,7 @@ public abstract class ModelItem implements Persistence, Serializable {
    * @since 1.0
    */
   public void markNew() {
-    persistenceState.markNew ( );
+    persistenceState.markNew();
   }
 
   /**
@@ -199,7 +199,7 @@ public abstract class ModelItem implements Persistence, Serializable {
    * @since 1.0
    */
   public void markUnchanged() {
-    persistenceState.markUnchanged ( );
+    persistenceState.markUnchanged();
   }
 
   /**
@@ -210,7 +210,7 @@ public abstract class ModelItem implements Persistence, Serializable {
    * @throws CallbackException the callback exception
    */
   public boolean onDelete(final Session session) throws CallbackException {
-    return persistenceState.onDelete (session);
+    return persistenceState.onDelete(session);
   }
 
   /**
@@ -220,7 +220,7 @@ public abstract class ModelItem implements Persistence, Serializable {
    * @param serializable the serializable
    */
   public void onLoad(final Session session, final Serializable serializable) {
-    persistenceState.onLoad (session, serializable);
+    persistenceState.onLoad(session, serializable);
   }
 
   /**
@@ -231,7 +231,7 @@ public abstract class ModelItem implements Persistence, Serializable {
    * @throws CallbackException the callback exception
    */
   public boolean onSave(final Session session) throws CallbackException {
-    return persistenceState.onSave (session);
+    return persistenceState.onSave(session);
   }
 
   /**
@@ -242,7 +242,7 @@ public abstract class ModelItem implements Persistence, Serializable {
    * @throws CallbackException the callback exception
    */
   public boolean onUpdate(final Session session) throws CallbackException {
-    return persistenceState.onUpdate (session);
+    return persistenceState.onUpdate(session);
   }
 
 }

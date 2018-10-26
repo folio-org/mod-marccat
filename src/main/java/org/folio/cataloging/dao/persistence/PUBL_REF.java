@@ -20,7 +20,7 @@ public class PUBL_REF extends REF {
    * @see REF#getTargetDAO()
    */
   public DAODescriptor getTargetDAO() {
-    return new PublisherDescriptorDAO ( );
+    return new PublisherDescriptorDAO();
   }
 
 }

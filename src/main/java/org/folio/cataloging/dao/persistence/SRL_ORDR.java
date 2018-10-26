@@ -24,29 +24,30 @@ public class SRL_ORDR implements Persistence, Serializable {
    *
    */
   private static final long serialVersionUID = 1L;
-  private static final Log logger = LogFactory.getLog (SRL_ORDR.class);
+  private static final Log logger = LogFactory.getLog(SRL_ORDR.class);
 
   private int orderNumber;
   private int amicusNumber;
   private Date reminderDate;
   private Date expiryDate;
   private int quantity = 1;
-  private List/* <SRL_LGCL_CPY> */subscriptions = new ArrayList ( );
-  private List deletedSubscriptions = new ArrayList ( );
+  private List/* <SRL_LGCL_CPY> */subscriptions = new ArrayList();
+  private List deletedSubscriptions = new ArrayList();
   private SRL_VNDR vendor;
   private int orderNo;
   private String documentNo;
   private Integer vendorNumber;
   private BigDecimal price;
   private String currency = T_SRL_CURCY_TYP.EURO;
-  private PersistenceState persistenceState = new PersistenceState ( );
+  private PersistenceState persistenceState = new PersistenceState();
+
   public SRL_ORDR() {
-    GregorianCalendar gc = new GregorianCalendar ( );
-    gc.add (Calendar.MONTH, 8);
-    reminderDate = gc.getTime ( );
-    gc = new GregorianCalendar ( );
-    gc.add (Calendar.MONTH, 12);
-    expiryDate = gc.getTime ( );
+    GregorianCalendar gc = new GregorianCalendar();
+    gc.add(Calendar.MONTH, 8);
+    reminderDate = gc.getTime();
+    gc = new GregorianCalendar();
+    gc.add(Calendar.MONTH, 12);
+    expiryDate = gc.getTime();
   }
 
   /**
@@ -88,11 +89,11 @@ public class SRL_ORDR implements Persistence, Serializable {
    * @param vendorNumber the vendorNumber to set
    */
   public void setVendorNumber(Integer vendorNumber) {
-    logger.debug ("setVendorNumber(" + vendorNumber + ")");
-    if (getVendorNumber ( ) != null) {
-      if (!getVendorNumber ( ).equals (vendorNumber)) {
-        logger.debug ("setting Vendor to null");
-        setVendor (null);
+    logger.debug("setVendorNumber(" + vendorNumber + ")");
+    if (getVendorNumber() != null) {
+      if (!getVendorNumber().equals(vendorNumber)) {
+        logger.debug("setting Vendor to null");
+        setVendor(null);
       }
     }
     this.vendorNumber = vendorNumber;
@@ -130,14 +131,14 @@ public class SRL_ORDR implements Persistence, Serializable {
    * @see PersistenceState#cancelChanges()
    */
   public void cancelChanges() {
-    persistenceState.cancelChanges ( );
+    persistenceState.cancelChanges();
   }
 
   /**
    * @see PersistenceState#confirmChanges()
    */
   public void confirmChanges() {
-    persistenceState.confirmChanges ( );
+    persistenceState.confirmChanges();
   }
 
   /**
@@ -148,7 +149,7 @@ public class SRL_ORDR implements Persistence, Serializable {
   public boolean equals(Object obj) {
     if (obj instanceof SRL_ORDR) {
       SRL_ORDR o = (SRL_ORDR) obj;
-      return o.getOrderNumber ( ) == this.getOrderNumber ( );
+      return o.getOrderNumber() == this.getOrderNumber();
     } else {
       return false;
     }
@@ -160,7 +161,7 @@ public class SRL_ORDR implements Persistence, Serializable {
    * @see PersistenceState#evict(Object)
    */
   public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict (obj);
+    persistenceState.evict(obj);
   }
 
   /**
@@ -168,7 +169,7 @@ public class SRL_ORDR implements Persistence, Serializable {
    * @see PersistenceState#getDAO()
    */
   public AbstractDAO getDAO() {
-    return persistenceState.getDAO ( );
+    return persistenceState.getDAO();
   }
 
   /**
@@ -176,7 +177,7 @@ public class SRL_ORDR implements Persistence, Serializable {
    * @see PersistenceState#getUpdateStatus()
    */
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   /**
@@ -184,7 +185,7 @@ public class SRL_ORDR implements Persistence, Serializable {
    * @see PersistenceState#setUpdateStatus(int)
    */
   public void setUpdateStatus(int i) {
-    persistenceState.setUpdateStatus (i);
+    persistenceState.setUpdateStatus(i);
   }
 
   /**
@@ -192,7 +193,7 @@ public class SRL_ORDR implements Persistence, Serializable {
    * @see Object#hashCode()
    */
   public int hashCode() {
-    return this.getOrderNumber ( );
+    return this.getOrderNumber();
   }
 
   /**
@@ -200,7 +201,7 @@ public class SRL_ORDR implements Persistence, Serializable {
    * @see PersistenceState#isChanged()
    */
   public boolean isChanged() {
-    return persistenceState.isChanged ( );
+    return persistenceState.isChanged();
   }
 
   /**
@@ -208,7 +209,7 @@ public class SRL_ORDR implements Persistence, Serializable {
    * @see PersistenceState#isDeleted()
    */
   public boolean isDeleted() {
-    return persistenceState.isDeleted ( );
+    return persistenceState.isDeleted();
   }
 
   /**
@@ -216,7 +217,7 @@ public class SRL_ORDR implements Persistence, Serializable {
    * @see PersistenceState#isNew()
    */
   public boolean isNew() {
-    return persistenceState.isNew ( );
+    return persistenceState.isNew();
   }
 
   /**
@@ -224,35 +225,35 @@ public class SRL_ORDR implements Persistence, Serializable {
    * @see PersistenceState#isRemoved()
    */
   public boolean isRemoved() {
-    return persistenceState.isRemoved ( );
+    return persistenceState.isRemoved();
   }
 
   /**
    * @see PersistenceState#markChanged()
    */
   public void markChanged() {
-    persistenceState.markChanged ( );
+    persistenceState.markChanged();
   }
 
   /**
    * @see PersistenceState#markDeleted()
    */
   public void markDeleted() {
-    persistenceState.markDeleted ( );
+    persistenceState.markDeleted();
   }
 
   /**
    * @see PersistenceState#markNew()
    */
   public void markNew() {
-    persistenceState.markNew ( );
+    persistenceState.markNew();
   }
 
   /**
    * @see PersistenceState#markUnchanged()
    */
   public void markUnchanged() {
-    persistenceState.markUnchanged ( );
+    persistenceState.markUnchanged();
   }
 
   /**
@@ -262,7 +263,7 @@ public class SRL_ORDR implements Persistence, Serializable {
    * @see PersistenceState#onDelete(Session)
    */
   public boolean onDelete(Session arg0) throws CallbackException {
-    return persistenceState.onDelete (arg0);
+    return persistenceState.onDelete(arg0);
   }
 
   /**
@@ -272,7 +273,7 @@ public class SRL_ORDR implements Persistence, Serializable {
    * Serializable)
    */
   public void onLoad(Session arg0, Serializable arg1) {
-    persistenceState.onLoad (arg0, arg1);
+    persistenceState.onLoad(arg0, arg1);
   }
 
   /**
@@ -282,7 +283,7 @@ public class SRL_ORDR implements Persistence, Serializable {
    * @see PersistenceState#onSave(Session)
    */
   public boolean onSave(Session arg0) throws CallbackException {
-    return persistenceState.onSave (arg0);
+    return persistenceState.onSave(arg0);
   }
 
   /**
@@ -292,7 +293,7 @@ public class SRL_ORDR implements Persistence, Serializable {
    * @see PersistenceState#onUpdate(Session)
    */
   public boolean onUpdate(Session arg0) throws CallbackException {
-    return persistenceState.onUpdate (arg0);
+    return persistenceState.onUpdate(arg0);
   }
 
   /**
@@ -300,15 +301,15 @@ public class SRL_ORDR implements Persistence, Serializable {
    * @see PersistenceState#toString()
    */
   public String toString() {
-    return "SRL_ORDR(" + getOrderNumber ( ) + ")";
+    return "SRL_ORDR(" + getOrderNumber() + ")";
   }
 
   public void evict() throws DataAccessException {
-    persistenceState.evict (this);
+    persistenceState.evict(this);
   }
 
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
-    setOrderNumber (new SystemNextNumberDAO ( ).getNextNumber ("SO", session));
+    setOrderNumber(new SystemNextNumberDAO().getNextNumber("SO", session));
   }
 
   /**
@@ -332,8 +333,8 @@ public class SRL_ORDR implements Persistence, Serializable {
    * @throws OrderConfigurationException
    */
   public void validate() throws OrderConfigurationException {
-    if (getQuantity ( ) <= 0) {
-      throw new OrderConfigurationException ( );
+    if (getQuantity() <= 0) {
+      throw new OrderConfigurationException();
     }
   }
 
@@ -353,7 +354,7 @@ public class SRL_ORDR implements Persistence, Serializable {
 
   public String getReminderDateAsString() {
     try {
-      return new SimpleDateFormat ("dd/MM/yyyy").format (getReminderDate ( ));
+      return new SimpleDateFormat("dd/MM/yyyy").format(getReminderDate());
     } catch (Exception e) {
       return null;
     }
@@ -375,7 +376,7 @@ public class SRL_ORDR implements Persistence, Serializable {
 
   public String getExpiryDateAsString() {
     try {
-      return new SimpleDateFormat ("dd/MM/yyyy").format (getExpiryDate ( ));
+      return new SimpleDateFormat("dd/MM/yyyy").format(getExpiryDate());
     } catch (Exception e) {
       return null;
     }
@@ -402,10 +403,10 @@ public class SRL_ORDR implements Persistence, Serializable {
   public SRL_VNDR getVendor() throws DataAccessException {
     //Modificato
     //if (vendor == null && getVendorNumber() != null) {
-    if (getVendorNumber ( ).intValue ( ) != 0) {
-      logger.debug ("lazy init of vendor" + getVendorNumber ( ));
-      vendor = (SRL_VNDR) new HibernateUtil ( ).load (SRL_VNDR.class,
-        getVendorNumber ( ));
+    if (getVendorNumber().intValue() != 0) {
+      logger.debug("lazy init of vendor" + getVendorNumber());
+      vendor = (SRL_VNDR) new HibernateUtil().load(SRL_VNDR.class,
+        getVendorNumber());
     }
     return vendor;
   }
@@ -416,7 +417,7 @@ public class SRL_ORDR implements Persistence, Serializable {
   public void setVendor(SRL_VNDR vendor) {
     this.vendor = vendor;
     if (vendor != null) {
-      this.vendorNumber = new Integer (vendor.getVendorNumber ( ));
+      this.vendorNumber = new Integer(vendor.getVendorNumber());
     } else {
       this.vendorNumber = null;
     }
@@ -424,8 +425,8 @@ public class SRL_ORDR implements Persistence, Serializable {
 
   public String getVendorName() {
     try {
-      if (getVendor ( ) != null) {
-        return getVendor ( ).getName ( );
+      if (getVendor() != null) {
+        return getVendor().getName();
       } else {
         return null;
       }
@@ -435,34 +436,34 @@ public class SRL_ORDR implements Persistence, Serializable {
   }
 
   public void saveVendor(final Session session) throws DataAccessException, DuplicateVendorException, HibernateException {
-    vendor.validate ( );
-    if (vendor.isNew ( )) {
-      vendor.generateNewKey (session);
+    vendor.validate();
+    if (vendor.isNew()) {
+      vendor.generateNewKey(session);
     }
-    vendor.markChanged ( );
-    getDAO ( ).persistByStatus (vendor, session);
-    setVendorNumber (new Integer (vendor.getVendorNumber ( )));
+    vendor.markChanged();
+    getDAO().persistByStatus(vendor, session);
+    setVendorNumber(new Integer(vendor.getVendorNumber()));
   }
 
   public void deleteSubscription(Integer index) {
     if (index == null) {
       return;
     }
-    SerialLogicalCopy lc = (SerialLogicalCopy) getSubscriptions ( ).get (
-      index.intValue ( ));
-    if (!lc.isNew ( )) {
-      getDeletedSubscriptions ( ).add (lc);
-      lc.markDeleted ( );
+    SerialLogicalCopy lc = (SerialLogicalCopy) getSubscriptions().get(
+      index.intValue());
+    if (!lc.isNew()) {
+      getDeletedSubscriptions().add(lc);
+      lc.markDeleted();
     }
-    List issues = new ArrayList (lc.getIssues ( ));
-    for ( int i = 0; i < issues.size ( ); i++ ) {
+    List issues = new ArrayList(lc.getIssues());
+    for (int i = 0; i < issues.size(); i++) {
       //07/10/2014 modificato by Carmen
-      lc.deleteSingleIssue (new Integer (i));
+      lc.deleteSingleIssue(new Integer(i));
     }
     //07/10/2014
-    lc.getIssues ( ).removeAll (lc.getIssues ( ));
+    lc.getIssues().removeAll(lc.getIssues());
 
-    getSubscriptions ( ).remove (index.intValue ( ));
+    getSubscriptions().remove(index.intValue());
   }
 
   /**

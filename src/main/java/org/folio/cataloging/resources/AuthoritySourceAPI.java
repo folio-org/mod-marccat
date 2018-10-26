@@ -28,9 +28,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class AuthoritySourceAPI extends BaseResource {
 
   private Function <Avp <String>, AuthoritySource> toAuthoritySource = source -> {
-    final AuthoritySource authoritySource = new AuthoritySource ( );
-    authoritySource.setCode (Integer.parseInt (source.getValue ( )));
-    authoritySource.setDescription (source.getLabel ( ));
+    final AuthoritySource authoritySource = new AuthoritySource();
+    authoritySource.setCode(Integer.parseInt(source.getValue()));
+    authoritySource.setDescription(source.getLabel());
     return authoritySource;
   };
 
@@ -45,13 +45,13 @@ public class AuthoritySourceAPI extends BaseResource {
   public AuthoritySourceCollection getAuthoritySources(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final AuthoritySourceCollection container = new AuthoritySourceCollection ( );
-      container.setAuthoritySources (
-        storageService.getAuthoritySources (lang)
-          .stream ( )
-          .map (toAuthoritySource)
-          .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      final AuthoritySourceCollection container = new AuthoritySourceCollection();
+      container.setAuthoritySources(
+        storageService.getAuthoritySources(lang)
+          .stream()
+          .map(toAuthoritySource)
+          .collect(toList()));
       return container;
     }, tenant, configurator);
 

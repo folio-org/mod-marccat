@@ -28,9 +28,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class DescriptiveCatalogFormAPI extends BaseResource {
 
   private Function <Avp <String>, DescriptiveCatalogForm> toDescriptiveCatalogForm = source -> {
-    final DescriptiveCatalogForm descriptiveCatalogForm = new DescriptiveCatalogForm ( );
-    descriptiveCatalogForm.setCode (source.getValue ( ));
-    descriptiveCatalogForm.setDescription (source.getLabel ( ));
+    final DescriptiveCatalogForm descriptiveCatalogForm = new DescriptiveCatalogForm();
+    descriptiveCatalogForm.setCode(source.getValue());
+    descriptiveCatalogForm.setDescription(source.getLabel());
     return descriptiveCatalogForm;
   };
 
@@ -45,13 +45,13 @@ public class DescriptiveCatalogFormAPI extends BaseResource {
   public DescriptiveCatalogFormCollection getDescriptiveCatalogForms(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final DescriptiveCatalogFormCollection container = new DescriptiveCatalogFormCollection ( );
-      container.setDescriptiveCatalogForms (
-        storageService.getDescriptiveCatalogForms (lang)
-          .stream ( )
-          .map (toDescriptiveCatalogForm)
-          .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      final DescriptiveCatalogFormCollection container = new DescriptiveCatalogFormCollection();
+      container.setDescriptiveCatalogForms(
+        storageService.getDescriptiveCatalogForms(lang)
+          .stream()
+          .map(toDescriptiveCatalogForm)
+          .collect(toList()));
       return container;
     }, tenant, configurator);
   }

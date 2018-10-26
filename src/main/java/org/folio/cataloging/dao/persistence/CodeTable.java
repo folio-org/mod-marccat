@@ -19,10 +19,10 @@ public abstract class CodeTable implements Persistence {
   //-----------------------------
   // Persistence and LifeCycle
   //-----------------------------
-  private PersistenceState persistenceState = new PersistenceState ( );
+  private PersistenceState persistenceState = new PersistenceState();
 
   public CodeTable() {
-    super ( );
+    super();
   }
 
   public abstract int getNextNumber() throws DataAccessException;
@@ -70,66 +70,66 @@ public abstract class CodeTable implements Persistence {
   }
 
   public void evict() throws DataAccessException {
-    persistenceState.evict (this);
+    persistenceState.evict(this);
   }
 
   public void generateNewKey() throws DataAccessException {
   }
 
   public AbstractDAO getDAO() {
-    return new DAOCodeTable ( );
+    return new DAOCodeTable();
   }
 
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   public void setUpdateStatus(int i) {
-    persistenceState.setUpdateStatus (i);
+    persistenceState.setUpdateStatus(i);
   }
 
   public boolean isChanged() {
-    return persistenceState.isChanged ( );
+    return persistenceState.isChanged();
   }
 
   public boolean isDeleted() {
-    return persistenceState.isDeleted ( );
+    return persistenceState.isDeleted();
   }
 
   public boolean isNew() {
-    return persistenceState.isNew ( );
+    return persistenceState.isNew();
   }
 
   public void markChanged() {
-    persistenceState.markChanged ( );
+    persistenceState.markChanged();
   }
 
   public void markDeleted() {
-    persistenceState.markDeleted ( );
+    persistenceState.markDeleted();
   }
 
   public void markNew() {
-    persistenceState.markNew ( );
+    persistenceState.markNew();
   }
 
   public void markUnchanged() {
-    persistenceState.markUnchanged ( );
+    persistenceState.markUnchanged();
   }
 
   public boolean onDelete(Session arg0) throws CallbackException {
-    return persistenceState.onDelete (arg0);
+    return persistenceState.onDelete(arg0);
   }
 
   public void onLoad(Session arg0, Serializable arg1) {
-    persistenceState.onLoad (arg0, arg1);
+    persistenceState.onLoad(arg0, arg1);
   }
 
   public boolean onSave(Session arg0) throws CallbackException {
-    return persistenceState.onSave (arg0);
+    return persistenceState.onSave(arg0);
   }
 
   public boolean onUpdate(Session arg0) throws CallbackException {
-    return persistenceState.onUpdate (arg0);
+    return persistenceState.onUpdate(arg0);
   }
   //-------------------------------
   // END Persistence and LifeCycle
@@ -140,7 +140,7 @@ public abstract class CodeTable implements Persistence {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((language == null) ? 0 : language.hashCode ( ));
+    result = prime * result + ((language == null) ? 0 : language.hashCode());
     result = prime * result + sequence;
     return result;
   }
@@ -150,13 +150,13 @@ public abstract class CodeTable implements Persistence {
       return true;
     if (obj == null)
       return false;
-    if (getClass ( ) != obj.getClass ( ))
+    if (getClass() != obj.getClass())
       return false;
     final CodeTable other = (CodeTable) obj;
     if (language == null) {
       if (other.language != null)
         return false;
-    } else if (!language.equals (other.language))
+    } else if (!language.equals(other.language))
       return false;
     return sequence == other.sequence;
   }

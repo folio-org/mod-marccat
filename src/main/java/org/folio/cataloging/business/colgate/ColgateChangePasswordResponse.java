@@ -23,7 +23,7 @@ import java.io.IOException;
  * @author paulm
  */
 public class ColgateChangePasswordResponse extends SocketMessage {
-  private static Log logger = LogFactory.getLog (ColgateChangePasswordResponse.class);
+  private static Log logger = LogFactory.getLog(ColgateChangePasswordResponse.class);
   private static int expectedLength = 44;
   private static byte type = 59;
   public int errorNumber;
@@ -62,23 +62,23 @@ public class ColgateChangePasswordResponse extends SocketMessage {
    */
   public void fromByteArray(byte[] msg) throws IOException {
     if (msg.length != expectedLength) {
-      logger.warn ("Wrong length message returned from Colgate");
-      throw new IOException ( );
+      logger.warn("Wrong length message returned from Colgate");
+      throw new IOException();
     }
 
-    if (msg[0] != getType ( )) {
-      logger.warn ("Unexpected message type received from Colgate");
-      throw new IOException ( );
+    if (msg[0] != getType()) {
+      logger.warn("Unexpected message type received from Colgate");
+      throw new IOException();
     }
 
-    ByteArrayInputStream bs = new ByteArrayInputStream (msg);
-    DataInputStream ds = new DataInputStream (bs);
-    ds.skipBytes (4);
-    setErrorNumber (ds.readInt ( ));
-    logger.info ("Colgate error number is :" + getErrorNumber ( ));
+    ByteArrayInputStream bs = new ByteArrayInputStream(msg);
+    DataInputStream ds = new DataInputStream(bs);
+    ds.skipBytes(4);
+    setErrorNumber(ds.readInt());
+    logger.info("Colgate error number is :" + getErrorNumber());
     byte[] encodedPassword = new byte[33];
-    ds.read (encodedPassword, 0, 33);
-    setEncodedPassword (encodedPassword);
+    ds.read(encodedPassword, 0, 33);
+    setEncodedPassword(encodedPassword);
   }
 
   /**
@@ -87,13 +87,13 @@ public class ColgateChangePasswordResponse extends SocketMessage {
    * @throws AuthenticationException
    */
   public void testExceptions() throws AuthenticationException {
-    switch (getErrorNumber ( )) {
+    switch (getErrorNumber()) {
       case 0:
         return;
       case 11:
-        throw new PasswordDuplicatesPreviousException ("Colgate returned error number 11");
+        throw new PasswordDuplicatesPreviousException("Colgate returned error number 11");
       default:
-        throw new AuthenticationException ("Colgate returned error number: " + getErrorNumber ( ));
+        throw new AuthenticationException("Colgate returned error number: " + getErrorNumber());
     }
   }
 

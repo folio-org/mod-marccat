@@ -22,9 +22,9 @@ public class AuthorityCataloguingSourceTag extends CataloguingSourceTag {
    * @since 1.0
    */
   public AuthorityCataloguingSourceTag() {
-    super ( );
-    setHeaderField (new AuthorityHeaderFieldHelper ( ));
-    setHeaderType ((short) 1);
+    super();
+    setHeaderField(new AuthorityHeaderFieldHelper());
+    setHeaderType((short) 1);
   }
 
 }

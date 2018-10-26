@@ -37,7 +37,7 @@ import java.util.Iterator;
  * @since 1.0
  */
 public class CPY_ID implements Persistence, Serializable {
-  private static final Log logger = LogFactory.getLog (CPY_ID.class);
+  private static final Log logger = LogFactory.getLog(CPY_ID.class);
 
   private int copyIdNumber;
   private int bibItemNumber;
@@ -72,8 +72,8 @@ public class CPY_ID implements Persistence, Serializable {
   private Float currencyExchangeRte;
   private Integer transferCstdyNumber;
   private Integer physicalCopyType;
-  private Character methodAdquisition = new Character (' ');
-  private PersistenceState persistenceState = new PersistenceState ( );
+  private Character methodAdquisition = new Character(' ');
+  private PersistenceState persistenceState = new PersistenceState();
 
   private boolean barcodeAssigned = false;
 
@@ -124,10 +124,10 @@ public class CPY_ID implements Persistence, Serializable {
   public void setCopyRemarkNote(String s) {
     this.copyRemarkNote = s;
     try {
-      this.copyRemarkNoteSortForm = calculateSortForm (s);
+      this.copyRemarkNoteSortForm = calculateSortForm(s);
     } catch (Exception e) {
       // ignore sortform exception for copy remark note
-      logger.warn ("sortform creation failed for copyRemarkNote");
+      logger.warn("sortform creation failed for copyRemarkNote");
     }
   }
 
@@ -189,7 +189,7 @@ public class CPY_ID implements Persistence, Serializable {
 
   public String getHoldingAcsnListCode() {
     if (holdingAcsnListCode != null)
-      return holdingAcsnListCode.trim ( );
+      return holdingAcsnListCode.trim();
     else
       return holdingAcsnListCode;
   }
@@ -383,109 +383,109 @@ public class CPY_ID implements Persistence, Serializable {
    * @since 1.0
    */
   public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict (obj);
+    persistenceState.evict(obj);
   }
 
   public void evict() throws DataAccessException {
-    persistenceState.evict (this);
+    persistenceState.evict(this);
   }
 
   /**
    * @since 1.0
    */
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   /**
    * @since 1.0
    */
   public void setUpdateStatus(int i) {
-    persistenceState.setUpdateStatus (i);
+    persistenceState.setUpdateStatus(i);
   }
 
   /**
    * @since 1.0
    */
   public boolean isChanged() {
-    return persistenceState.isChanged ( );
+    return persistenceState.isChanged();
   }
 
   /**
    * @since 1.0
    */
   public boolean isDeleted() {
-    return persistenceState.isDeleted ( );
+    return persistenceState.isDeleted();
   }
 
   /**
    * @since 1.0
    */
   public boolean isNew() {
-    return persistenceState.isNew ( );
+    return persistenceState.isNew();
   }
 
   /**
    * @since 1.0
    */
   public boolean isRemoved() {
-    return persistenceState.isRemoved ( );
+    return persistenceState.isRemoved();
   }
 
   /**
    * @since 1.0
    */
   public void markChanged() {
-    persistenceState.markChanged ( );
+    persistenceState.markChanged();
   }
 
   /**
    * @since 1.0
    */
   public void markDeleted() {
-    persistenceState.markDeleted ( );
+    persistenceState.markDeleted();
   }
 
   /**
    * @since 1.0
    */
   public void markNew() {
-    persistenceState.markNew ( );
+    persistenceState.markNew();
   }
 
   /**
    * @since 1.0
    */
   public void markUnchanged() {
-    persistenceState.markUnchanged ( );
+    persistenceState.markUnchanged();
   }
 
   /**
    * @since 1.0
    */
   public boolean onDelete(Session arg0) throws CallbackException {
-    return persistenceState.onDelete (arg0);
+    return persistenceState.onDelete(arg0);
   }
 
   /**
    * @since 1.0
    */
   public void onLoad(Session arg0, Serializable arg1) {
-    persistenceState.onLoad (arg0, arg1);
+    persistenceState.onLoad(arg0, arg1);
   }
 
   /**
    * @since 1.0
    */
   public boolean onSave(Session arg0) throws CallbackException {
-    return persistenceState.onSave (arg0);
+    return persistenceState.onSave(arg0);
   }
 
   /**
    * @since 1.0
    */
   public boolean onUpdate(Session arg0) throws CallbackException {
-    return persistenceState.onUpdate (arg0);
+    return persistenceState.onUpdate(arg0);
   }
 
   /**
@@ -500,46 +500,46 @@ public class CPY_ID implements Persistence, Serializable {
 			throw new InvalidTransactionDateException();
 		}*/
 
-    StringText remark = new StringText (getCopyRemarkNote ( ));
-    Iterator iter = remark.getSubfieldList ( ).iterator ( );
-    while (iter.hasNext ( )) {
-      Subfield s = (Subfield) iter.next ( );
-      if (s.isEmpty ( )) {
-        throw new EmptySubfieldException ( );
+    StringText remark = new StringText(getCopyRemarkNote());
+    Iterator iter = remark.getSubfieldList().iterator();
+    while (iter.hasNext()) {
+      Subfield s = (Subfield) iter.next();
+      if (s.isEmpty()) {
+        throw new EmptySubfieldException();
       }
     }
 
-    String stmt = getCopyStatementText ( );
-    if (stmt != null && stmt.length ( ) > 0) {
-      StringText s = new StringText (stmt);
-      if (s.isEmpty ( )) {
-        throw new NoSubfieldCodeException ( );
+    String stmt = getCopyStatementText();
+    if (stmt != null && stmt.length() > 0) {
+      StringText s = new StringText(stmt);
+      if (s.isEmpty()) {
+        throw new NoSubfieldCodeException();
       }
 
-      iter = s.getSubfieldList ( ).iterator ( );
-      while (iter.hasNext ( )) {
-        if (((Subfield) iter.next ( )).isEmpty ( )) {
-          throw new EmptySubfieldException ( );
+      iter = s.getSubfieldList().iterator();
+      while (iter.hasNext()) {
+        if (((Subfield) iter.next()).isEmpty()) {
+          throw new EmptySubfieldException();
         }
       }
       StringText invalid = s
-        .getSubfieldsWithoutCodes ("abceghjiklmnpqstxz");
-      if (invalid.getNumberOfSubfields ( ) > 0) {
-        throw new ValidationException ( );
+        .getSubfieldsWithoutCodes("abceghjiklmnpqstxz");
+      if (invalid.getNumberOfSubfields() > 0) {
+        throw new ValidationException();
       }
     }
 
-    if (getShelfList ( ) != null && getShelfList ( ).getTypeCode ( ) == '?') {
-      throw new InvalidShelfListTypeException ( );
+    if (getShelfList() != null && getShelfList().getTypeCode() == '?') {
+      throw new InvalidShelfListTypeException();
     }
   }
 
   public String calculateSortForm(String s) throws
     DataAccessException {
     String sortForm = "";
-    if (s != null && s.length ( ) > 0) {
-      SortFormParameters parms = new SortFormParameters (100, 105, 0, 0, 0);
-      sortForm = new DAOCopy ( ).calculateSortForm (s, parms);
+    if (s != null && s.length() > 0) {
+      SortFormParameters parms = new SortFormParameters(100, 105, 0, 0, 0);
+      sortForm = new DAOCopy().calculateSortForm(s, parms);
     }
     return sortForm;
   }
@@ -551,8 +551,8 @@ public class CPY_ID implements Persistence, Serializable {
    * @return
    */
   public String getCopyRemarkNoteForMap() {
-    String result = new StringText (getCopyRemarkNote ( )).getMarcDisplayString ( );
-    logger.debug ("Converting '" + getCopyRemarkNote ( ) + "' to '" + result + "'");
+    String result = new StringText(getCopyRemarkNote()).getMarcDisplayString();
+    logger.debug("Converting '" + getCopyRemarkNote() + "' to '" + result + "'");
     return result;
   }
 
@@ -563,7 +563,7 @@ public class CPY_ID implements Persistence, Serializable {
    * @return
    */
   public String getCopyStatementTextForMap() {
-    return new StringText (getCopyStatementText ( )).getMarcDisplayString ( );
+    return new StringText(getCopyStatementText()).getMarcDisplayString();
   }
 
   /*
@@ -572,33 +572,33 @@ public class CPY_ID implements Persistence, Serializable {
    * @see librisuite.business.common.Persistence#generateNewKey()
    */
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
-    SystemNextNumberDAO dao = new SystemNextNumberDAO ( );
-    setCopyIdNumber (dao.getNextNumber ("HC", session));
-    Date createTime = new Date ( );
-    setCreationDate (createTime);
-    setTransactionDate (createTime);
+    SystemNextNumberDAO dao = new SystemNextNumberDAO();
+    setCopyIdNumber(dao.getNextNumber("HC", session));
+    Date createTime = new Date();
+    setCreationDate(createTime);
+    setTransactionDate(createTime);
 
-    if ((new DAOGlobalVariable ( ).getValueByName ("barrcode", session)).equals ("1")) {
-      setBarcodeAssigned (true);
-      setBarCodeNumber (String.valueOf (getCopyIdNumber ( )));
+    if ((new DAOGlobalVariable().getValueByName("barrcode", session)).equals("1")) {
+      setBarcodeAssigned(true);
+      setBarCodeNumber(String.valueOf(getCopyIdNumber()));
     } else {
-      setBarCodeNumber ("");
+      setBarCodeNumber("");
     }
   }
 
 
   public void deleteNewKey(final Session session) throws DataAccessException {
-    SystemNextNumberDAO dao = new SystemNextNumberDAO ( );
-    setCopyIdNumber (dao.getPreviouwsNumber ("HC"));
-    setCreationDate (new Date ( ));
-    setTransactionDate (new Date ( ));
+    SystemNextNumberDAO dao = new SystemNextNumberDAO();
+    setCopyIdNumber(dao.getPreviouwsNumber("HC"));
+    setCreationDate(new Date());
+    setTransactionDate(new Date());
 
-    if ((new DAOGlobalVariable ( ).getValueByName ("barrcode", session)).equals ("1")) {
-      setBarcodeAssigned (true);
-      setBarCodeNumber (String.valueOf (getCopyIdNumber ( )));
+    if ((new DAOGlobalVariable().getValueByName("barrcode", session)).equals("1")) {
+      setBarcodeAssigned(true);
+      setBarCodeNumber(String.valueOf(getCopyIdNumber()));
     } else {
-      setBarcodeAssigned (false);
-      setBarCodeNumber ("");
+      setBarcodeAssigned(false);
+      setBarCodeNumber("");
     }
   }
 
@@ -608,7 +608,7 @@ public class CPY_ID implements Persistence, Serializable {
    * @see librisuite.business.common.Persistence#getDAO()
    */
   public AbstractDAO getDAO() {
-    return new DAOCopy ( );
+    return new DAOCopy();
   }
 
 
@@ -634,7 +634,7 @@ public class CPY_ID implements Persistence, Serializable {
       return true;
     if (obj == null)
       return false;
-    if (getClass ( ) != obj.getClass ( ))
+    if (getClass() != obj.getClass())
       return false;
     final CPY_ID other = (CPY_ID) obj;
     return copyIdNumber == other.copyIdNumber;

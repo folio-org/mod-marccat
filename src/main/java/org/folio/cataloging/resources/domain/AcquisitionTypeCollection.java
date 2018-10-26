@@ -21,10 +21,10 @@ public class AcquisitionTypeCollection {
   @JsonProperty("acquisitionTypes")
   @Valid
   @NotNull
-  private List <AcquisitionType> acquisitionTypes = new ArrayList <AcquisitionType> ( );
+  private List <AcquisitionType> acquisitionTypes = new ArrayList <AcquisitionType>();
 
   @JsonIgnore
-  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
+  private Map <String, Object> additionalProperties = new HashMap <String, Object>();
 
   /**
    * (Required)
@@ -58,11 +58,11 @@ public class AcquisitionTypeCollection {
 
   @JsonAnySetter
   public void setAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
   }
 
   public AcquisitionTypeCollection withAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
     return this;
   }
 }

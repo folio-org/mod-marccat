@@ -21,8 +21,8 @@ public class Map extends PhysicalDescription {
   private char obsolete1;
 
   public Map() {
-    super ( );
-    setHeaderType (24);
+    super();
+    setHeaderType(24);
   }
 
   /* (non-Javadoc)
@@ -31,14 +31,14 @@ public class Map extends PhysicalDescription {
   public String getDisplayString() {
     String result =
       ""
-        + getGeneralMaterialDesignationCode ( )
-        + getSpecificMaterialDesignationCode ( )
+        + getGeneralMaterialDesignationCode()
+        + getSpecificMaterialDesignationCode()
         + " "
-        + getMapColourCode ( )
-        + getMapPhysicalMediumCode ( )
-        + getMapTypeOfReproductionCode ( )
-        + getMapProductionDetailsCode ( )
-        + getMapPolarityCode ( );
+        + getMapColourCode()
+        + getMapPhysicalMediumCode()
+        + getMapTypeOfReproductionCode()
+        + getMapProductionDetailsCode()
+        + getMapPolarityCode();
     return result;
   }
 
@@ -137,46 +137,46 @@ public class Map extends PhysicalDescription {
    * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
    */
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
-    SystemNextNumberDAO dao = new SystemNextNumberDAO ( );
-    setKeyNumber (dao.getNextNumber ("X2", session));
+    SystemNextNumberDAO dao = new SystemNextNumberDAO();
+    setKeyNumber(dao.getNextNumber("X2", session));
   }
 
   public Element generateModelXmlElementContent(Document xmlDocument) {
     Element content = null;
     if (xmlDocument != null) {
-      content = xmlDocument.createElement ("content");
-      content.setAttribute ("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode ( ));
-      content.setAttribute ("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode ( ));
-      content.setAttribute ("mapColourCode", "" + getMapColourCode ( ));
-      content.setAttribute ("mapPhysicalMediumCode", "" + getMapPhysicalMediumCode ( ));
-      content.setAttribute ("mapTypeOfReproductionCode", "" + getMapTypeOfReproductionCode ( ));
-      content.setAttribute ("mapProductionDetailsCode", "" + getMapProductionDetailsCode ( ));
-      content.setAttribute ("mapPolarityCode", "" + getMapPolarityCode ( ));
+      content = xmlDocument.createElement("content");
+      content.setAttribute("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode());
+      content.setAttribute("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode());
+      content.setAttribute("mapColourCode", "" + getMapColourCode());
+      content.setAttribute("mapPhysicalMediumCode", "" + getMapPhysicalMediumCode());
+      content.setAttribute("mapTypeOfReproductionCode", "" + getMapTypeOfReproductionCode());
+      content.setAttribute("mapProductionDetailsCode", "" + getMapProductionDetailsCode());
+      content.setAttribute("mapPolarityCode", "" + getMapPolarityCode());
     }
     return content;
   }
 
   public void parseModelXmlElementContent(Element xmlElement) {
-    Element content = (Element) xmlElement.getChildNodes ( ).item (0);
-    setGeneralMaterialDesignationCode (content.getAttribute ("generalMaterialDesignationCode").charAt (0));
-    setSpecificMaterialDesignationCode (content.getAttribute ("specificMaterialDesignationCode").charAt (0));
-    setMapColourCode (content.getAttribute ("mapColourCode").charAt (0));
-    setMapPhysicalMediumCode (content.getAttribute ("mapPhysicalMediumCode").charAt (0));
-    setMapTypeOfReproductionCode (content.getAttribute ("mapTypeOfReproductionCode").charAt (0));
-    setMapProductionDetailsCode (content.getAttribute ("mapProductionDetailsCode").charAt (0));
-    setMapPolarityCode (content.getAttribute ("mapPolarityCode").charAt (0));
+    Element content = (Element) xmlElement.getChildNodes().item(0);
+    setGeneralMaterialDesignationCode(content.getAttribute("generalMaterialDesignationCode").charAt(0));
+    setSpecificMaterialDesignationCode(content.getAttribute("specificMaterialDesignationCode").charAt(0));
+    setMapColourCode(content.getAttribute("mapColourCode").charAt(0));
+    setMapPhysicalMediumCode(content.getAttribute("mapPhysicalMediumCode").charAt(0));
+    setMapTypeOfReproductionCode(content.getAttribute("mapTypeOfReproductionCode").charAt(0));
+    setMapProductionDetailsCode(content.getAttribute("mapProductionDetailsCode").charAt(0));
+    setMapPolarityCode(content.getAttribute("mapPolarityCode").charAt(0));
   }
 
   //@paulm, us_bbl_loading
   @Override
   public void setContentFromMarcString(final String s) {
-    setGeneralMaterialDesignationCode (s.charAt (0));
-    if (s.length ( ) > 1) setSpecificMaterialDesignationCode (s.charAt (1));
-    else setSpecificMaterialDesignationCode ('u');
-    if (s.length ( ) > 3) setMapColourCode (s.charAt (3));
-    if (s.length ( ) > 4) setMapPhysicalMediumCode (s.charAt (4));
-    if (s.length ( ) > 5) setMapTypeOfReproductionCode (s.charAt (5));
-    if (s.length ( ) > 6) setMapProductionDetailsCode (s.charAt (6));
-    if (s.length ( ) > 7) setMapPolarityCode (s.charAt (7));
+    setGeneralMaterialDesignationCode(s.charAt(0));
+    if (s.length() > 1) setSpecificMaterialDesignationCode(s.charAt(1));
+    else setSpecificMaterialDesignationCode('u');
+    if (s.length() > 3) setMapColourCode(s.charAt(3));
+    if (s.length() > 4) setMapPhysicalMediumCode(s.charAt(4));
+    if (s.length() > 5) setMapTypeOfReproductionCode(s.charAt(5));
+    if (s.length() > 6) setMapProductionDetailsCode(s.charAt(6));
+    if (s.length() > 7) setMapPolarityCode(s.charAt(7));
   }
 }

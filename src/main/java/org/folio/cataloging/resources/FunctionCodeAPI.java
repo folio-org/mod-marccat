@@ -29,9 +29,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class FunctionCodeAPI extends BaseResource {
 
   private Function <Avp <String>, FunctionCode> toFunctionCode = source -> {
-    final FunctionCode functionCode = new FunctionCode ( );
-    functionCode.setCode (Integer.parseInt (source.getValue ( )));
-    functionCode.setDescription (source.getLabel ( ));
+    final FunctionCode functionCode = new FunctionCode();
+    functionCode.setCode(Integer.parseInt(source.getValue()));
+    functionCode.setDescription(source.getLabel());
     return functionCode;
   };
 
@@ -49,19 +49,19 @@ public class FunctionCodeAPI extends BaseResource {
     @RequestParam final int code2,
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final int category = "17".equals (marcCategory) ? Global.NAME_CATEGORY_DEFAULT : Integer.parseInt (marcCategory);
-      final FunctionCodeCollection container = new FunctionCodeCollection ( );
-      return (storageService.existFunctionCodeByCategory (category))
-        ? ofNullable (storageService.getThirdCorrelation (category, code1, code2, lang))
-        .map (functionCodeList -> {
-          container.setFunctionCodes (functionCodeList
-            .stream ( )
-            .map (toFunctionCode)
-            .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      final int category = "17".equals(marcCategory) ? Global.NAME_CATEGORY_DEFAULT : Integer.parseInt(marcCategory);
+      final FunctionCodeCollection container = new FunctionCodeCollection();
+      return (storageService.existFunctionCodeByCategory(category))
+        ? ofNullable(storageService.getThirdCorrelation(category, code1, code2, lang))
+        .map(functionCodeList -> {
+          container.setFunctionCodes(functionCodeList
+            .stream()
+            .map(toFunctionCode)
+            .collect(toList()));
 
           return container;
-        }).orElse (container)
+        }).orElse(container)
         : container;
     }, tenant, configurator);
   }

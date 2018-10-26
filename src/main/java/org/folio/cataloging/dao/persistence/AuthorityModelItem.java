@@ -18,7 +18,7 @@ public class AuthorityModelItem extends ModelItem {
    */
 
   public AbstractDAO getDAO() {
-    return new AuthorityModelItemDAO ( );
+    return new AuthorityModelItemDAO();
   }
 
 

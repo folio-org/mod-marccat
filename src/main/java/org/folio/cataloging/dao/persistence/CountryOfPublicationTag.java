@@ -26,28 +26,28 @@ public class CountryOfPublicationTag extends VariableHeaderUsingItemEntity {
    * @since 1.0
    */
   public CountryOfPublicationTag() {
-    super ( );
-    setHeaderType ((short) 6);
+    super();
+    setHeaderType((short) 6);
   }
 
   public StringText getStringText() {
     StringText result = null;
-    String source = ((BIB_ITM) getItemEntity ( )).getCountryStringText ( );
+    String source = ((BIB_ITM) getItemEntity()).getCountryStringText();
 
     if (source == null) {
-      result = new StringText (Subfield.SUBFIELD_DELIMITER + "a");
+      result = new StringText(Subfield.SUBFIELD_DELIMITER + "a");
     } else {
-      result = new StringText (source);
+      result = new StringText(source);
     }
     return result;
   }
 
   public void setStringText(StringText st) {
 //TODO need a more definitive way to set to null		
-    if (st.toString ( ).equals (Subfield.SUBFIELD_DELIMITER + "a")) {
-      ((BIB_ITM) getItemEntity ( )).setCountryStringText (null);
+    if (st.toString().equals(Subfield.SUBFIELD_DELIMITER + "a")) {
+      ((BIB_ITM) getItemEntity()).setCountryStringText(null);
     } else {
-      ((BIB_ITM) getItemEntity ( )).setCountryStringText (st.toString ( ));
+      ((BIB_ITM) getItemEntity()).setCountryStringText(st.toString());
     }
   }
 

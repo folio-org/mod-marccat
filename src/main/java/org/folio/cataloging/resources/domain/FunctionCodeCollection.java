@@ -21,10 +21,10 @@ public class FunctionCodeCollection {
   @JsonProperty("functionCodes")
   @Valid
   @NotNull
-  private List <FunctionCode> functionCodes = new ArrayList <FunctionCode> ( );
+  private List <FunctionCode> functionCodes = new ArrayList <FunctionCode>();
 
   @JsonIgnore
-  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
+  private Map <String, Object> additionalProperties = new HashMap <String, Object>();
 
   /**
    * (Required)
@@ -58,11 +58,11 @@ public class FunctionCodeCollection {
 
   @JsonAnySetter
   public void setAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
   }
 
   public FunctionCodeCollection withAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
     return this;
   }
 }

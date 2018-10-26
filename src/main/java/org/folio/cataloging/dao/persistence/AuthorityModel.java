@@ -21,7 +21,7 @@ public class AuthorityModel extends Model {
    * @return the authority model DAO
    */
   public AuthorityModelDAO getAuthorityModelDAO() {
-    return new AuthorityModelDAO ( );
+    return new AuthorityModelDAO();
   }
 
   /**

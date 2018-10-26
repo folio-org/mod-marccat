@@ -17,7 +17,7 @@ public class AvpInfo<I> extends Avp <String> {
    * @param label
    */
   public AvpInfo(final String value, final String label, final I info) {
-    super (value, label);
+    super(value, label);
     this.info = info;
   }
 
@@ -27,7 +27,7 @@ public class AvpInfo<I> extends Avp <String> {
    * @param avp the Avp prototype.
    */
   public AvpInfo(final Avp <String> avp, final I info) {
-    this (avp.getValue ( ), avp.getLabel ( ), info);
+    this(avp.getValue(), avp.getLabel(), info);
   }
 
   /**

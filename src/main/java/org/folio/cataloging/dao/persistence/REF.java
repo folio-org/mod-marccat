@@ -19,9 +19,9 @@ import java.io.Serializable;
  * @since 1.0
  */
 public abstract class REF extends PersistenceState implements Serializable, Cloneable, PersistentObjectWithView {
-  private static final DAOCrossReferences theDAO = new DAOCrossReferences ( );
-  private final PersistenceState persistenceState = new PersistenceState ( );
-  private REF_KEY key = new REF_KEY ( );
+  private static final DAOCrossReferences theDAO = new DAOCrossReferences();
+  private final PersistenceState persistenceState = new PersistenceState();
+  private REF_KEY key = new REF_KEY();
   private Character printConstant;
   private Character noteGeneration;
   private Character formerHeading;
@@ -33,18 +33,18 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
   private String stringText;
 
   public REF() {
-    setDefault ( );
+    setDefault();
   }
 
   public static REF add(Descriptor source, Descriptor target, short referenceType, int cataloguingView, boolean isAttribute, Session session) throws DataAccessException, HibernateException {
     /* instantiate the appropriate REF type and populate key from arguments */
-    REF ref = REF.newInstance (source, target, referenceType, cataloguingView, isAttribute);
-    DAOCrossReferences dao = (DAOCrossReferences) ref.getDAO ( );
+    REF ref = REF.newInstance(source, target, referenceType, cataloguingView, isAttribute);
+    DAOCrossReferences dao = (DAOCrossReferences) ref.getDAO();
     /* verify that this xref doesn't already exist in the database */
-    if (dao.load (source, target, referenceType, cataloguingView, session) != null) {
-      throw new CrossReferenceExistsException ( );
+    if (dao.load(source, target, referenceType, cataloguingView, session) != null) {
+      throw new CrossReferenceExistsException();
     }
-    dao.save (ref);
+    dao.save(ref);
     return ref;
   }
 
@@ -52,48 +52,48 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
     REF ref = null;
     try {
       if (isAttribute)
-        ref = new THS_ATRIB ( );
+        ref = new THS_ATRIB();
       else
-        ref = (REF) source.getReferenceClass (target.getClass ( )).newInstance ( );
+        ref = (REF) source.getReferenceClass(target.getClass()).newInstance();
     } catch (Exception e) {
-      throw new RuntimeException ("error creating cross-reference object");
+      throw new RuntimeException("error creating cross-reference object");
     }
-    ref.init (source, target, referenceType, cataloguingView);
+    ref.init(source, target, referenceType, cataloguingView);
     return ref;
   }
 
   abstract public DAODescriptor getTargetDAO();
 
   public void init(Descriptor source, Descriptor target, int referenceType, int cataloguingView) {
-    setKey (new REF_KEY ( ));
-    getKey ( ).setSource (source.getKey ( ).getHeadingNumber ( ));
-    getKey ( ).setTarget (target.getKey ( ).getHeadingNumber ( ));
-    getKey ( ).setType (referenceType);
-    getKey ( ).setUserViewString (View.makeSingleViewString (cataloguingView));
-    setDefault ( );
+    setKey(new REF_KEY());
+    getKey().setSource(source.getKey().getHeadingNumber());
+    getKey().setTarget(target.getKey().getHeadingNumber());
+    getKey().setType(referenceType);
+    getKey().setUserViewString(View.makeSingleViewString(cataloguingView));
+    setDefault();
   }
 
   public void setDefault() {
-    this.setAuthorityStructure ('a');
-    this.setEarlierRules ('x');
-    this.setFormerHeading ('x');
-    if (getKey ( ) != null
-      && ReferenceType.isEquivalence (getKey ( ).getType ( ))) {
-      this.setNoteGeneration ('x');
+    this.setAuthorityStructure('a');
+    this.setEarlierRules('x');
+    this.setFormerHeading('x');
+    if (getKey() != null
+      && ReferenceType.isEquivalence(getKey().getType())) {
+      this.setNoteGeneration('x');
     } else {
-      this.setNoteGeneration ('@');
+      this.setNoteGeneration('@');
     }
-    this.setPrintConstant (Defaults.getChar ("authority.reference.specialRelationship"));
-    this.setLinkDisplay ('n');
-    this.setReplacementComplexity ('n');
-    this.setVerificationLevel ('1');
+    this.setPrintConstant(Defaults.getChar("authority.reference.specialRelationship"));
+    this.setLinkDisplay('n');
+    this.setReplacementComplexity('n');
+    this.setVerificationLevel('1');
   }
 
   public Object clone() {
     try {
-      REF_KEY newKey = (REF_KEY) getKey ( ).clone ( );
-      REF result = (REF) super.clone ( );
-      result.setKey (newKey);
+      REF_KEY newKey = (REF_KEY) getKey().clone();
+      REF result = (REF) super.clone();
+      result.setKey(newKey);
       return result;
     } catch (CloneNotSupportedException e) {
       return null;
@@ -101,22 +101,22 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
   }
 
   public REF createReciprocal() {
-    REF result = (REF) this.clone ( );
-    result.setSource (getTarget ( ));
-    result.setTarget (getSource ( ));
-    result.setType (ReferenceType.getReciprocal (result.getType ( )));
+    REF result = (REF) this.clone();
+    result.setSource(getTarget());
+    result.setTarget(getSource());
+    result.setType(ReferenceType.getReciprocal(result.getType()));
     return result;
   }
 
   public boolean equals(Object obj) {
-    if (obj.getClass ( ).equals (this.getClass ( ))) {
-      return this.getKey ( ).equals (((REF) obj).getKey ( ));
+    if (obj.getClass().equals(this.getClass())) {
+      return this.getKey().equals(((REF) obj).getKey());
     }
     return false;
   }
 
   public void evict() throws DataAccessException {
-    persistenceState.evict (this);
+    persistenceState.evict(this);
   }
 
   public void generateNewKey() throws DataAccessException {
@@ -132,7 +132,7 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
   }
 
   public AbstractDAO getDAO() {
-    return new DAOCrossReferences ( );
+    return new DAOCrossReferences();
   }
 
   public Character getEarlierRules() {
@@ -180,11 +180,11 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
   }
 
   public int getSource() {
-    return key.getSource ( );
+    return key.getSource();
   }
 
   public void setSource(int i) {
-    key.setSource (i);
+    key.setSource(i);
   }
 
   public String getStringText() {
@@ -196,35 +196,35 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
   }
 
   public int getTarget() {
-    return key.getTarget ( );
+    return key.getTarget();
   }
 
   public void setTarget(int i) {
-    key.setTarget (i);
+    key.setTarget(i);
   }
 
   public Integer getType() {
-    return key.getType ( );
+    return key.getType();
   }
 
   public void setType(int s) {
-    key.setType (s);
+    key.setType(s);
   }
 
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   public void setUpdateStatus(int i) {
-    persistenceState.setUpdateStatus (i);
+    persistenceState.setUpdateStatus(i);
   }
 
   public String getUserViewString() {
-    return getKey ( ).getUserViewString ( );
+    return getKey().getUserViewString();
   }
 
   public void setUserViewString(String s) {
-    getKey ( ).setUserViewString (s);
+    getKey().setUserViewString(s);
   }
 
   public Character getVerificationLevel() {
@@ -236,55 +236,55 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
   }
 
   public int hashCode() {
-    return getKey ( ).hashCode ( );
+    return getKey().hashCode();
   }
 
   public boolean isChanged() {
-    return persistenceState.isChanged ( );
+    return persistenceState.isChanged();
   }
 
   public boolean isDeleted() {
-    return persistenceState.isDeleted ( );
+    return persistenceState.isDeleted();
   }
 
   public boolean isNew() {
-    return persistenceState.isNew ( );
+    return persistenceState.isNew();
   }
 
   public boolean isRemoved() {
-    return persistenceState.isRemoved ( );
+    return persistenceState.isRemoved();
   }
 
   public void markChanged() {
-    persistenceState.markChanged ( );
+    persistenceState.markChanged();
   }
 
   public void markDeleted() {
-    persistenceState.markDeleted ( );
+    persistenceState.markDeleted();
   }
 
   public void markNew() {
-    persistenceState.markNew ( );
+    persistenceState.markNew();
   }
 
   public void markUnchanged() {
-    persistenceState.markUnchanged ( );
+    persistenceState.markUnchanged();
   }
 
   public boolean onDelete(Session s) throws CallbackException {
-    return persistenceState.onDelete (s);
+    return persistenceState.onDelete(s);
   }
 
   public void onLoad(Session s, Serializable id) {
-    persistenceState.onLoad (s, id);
+    persistenceState.onLoad(s, id);
   }
 
   public boolean onSave(Session s) throws CallbackException {
-    return persistenceState.onSave (s);
+    return persistenceState.onSave(s);
   }
 
   public boolean onUpdate(Session s) throws CallbackException {
-    return persistenceState.onUpdate (s);
+    return persistenceState.onUpdate(s);
   }
 
   public Character getLinkDisplay() {

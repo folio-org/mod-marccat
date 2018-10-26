@@ -24,7 +24,7 @@ public class ValidationException extends ModCatalogingException {
    * @since 1.0
    */
   public ValidationException() {
-    super ( );
+    super();
     // TODO Auto-generated constructor stub
   }
 
@@ -35,7 +35,7 @@ public class ValidationException extends ModCatalogingException {
    * @since 1.0
    */
   public ValidationException(String message) {
-    super (message);
+    super(message);
     // TODO Auto-generated constructor stub
   }
 
@@ -47,7 +47,7 @@ public class ValidationException extends ModCatalogingException {
    * @since 1.0
    */
   public ValidationException(String message, Throwable cause) {
-    super (message, cause);
+    super(message, cause);
     // TODO Auto-generated constructor stub
   }
 
@@ -58,7 +58,7 @@ public class ValidationException extends ModCatalogingException {
    * @since 1.0
    */
   public ValidationException(Throwable cause) {
-    super (cause);
+    super(cause);
     // TODO Auto-generated constructor stub
   }
 
@@ -71,7 +71,7 @@ public class ValidationException extends ModCatalogingException {
    * @since 1.0
    */
   public ValidationException(int index) {
-    setTagIndex (index);
+    setTagIndex(index);
   }
 
   /**

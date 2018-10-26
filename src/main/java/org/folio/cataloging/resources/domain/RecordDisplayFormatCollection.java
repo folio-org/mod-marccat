@@ -21,10 +21,10 @@ public class RecordDisplayFormatCollection {
   @JsonProperty("recordDisplayFormats")
   @Valid
   @NotNull
-  private List <RecordDisplayFormat> recordDisplayFormats = new ArrayList <RecordDisplayFormat> ( );
+  private List <RecordDisplayFormat> recordDisplayFormats = new ArrayList <RecordDisplayFormat>();
 
   @JsonIgnore
-  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
+  private Map <String, Object> additionalProperties = new HashMap <String, Object>();
 
   /**
    * (Required)
@@ -58,11 +58,11 @@ public class RecordDisplayFormatCollection {
 
   @JsonAnySetter
   public void setAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
   }
 
   public RecordDisplayFormatCollection withAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
     return this;
   }
 }

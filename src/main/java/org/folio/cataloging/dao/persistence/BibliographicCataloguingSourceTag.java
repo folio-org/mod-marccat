@@ -15,9 +15,9 @@ public class BibliographicCataloguingSourceTag extends CataloguingSourceTag {
    * @since 1.0
    */
   public BibliographicCataloguingSourceTag() {
-    super ( );
-    setHeaderType ((short) 1);
-    setPersistenceState (new PersistenceState ( ));
+    super();
+    setHeaderType((short) 1);
+    setPersistenceState(new PersistenceState());
   }
 
 }

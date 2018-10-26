@@ -59,8 +59,8 @@ public class SearchResponse {
    */
   public SearchResponse(final int searchingView, final String query, final int[] idSet) {
     this.searchingView = searchingView;
-    this.displayQuery = ofNullable (query).orElse (Global.EMPTY_STRING);
-    this.idSet = safe (idSet);
+    this.displayQuery = ofNullable(query).orElse(Global.EMPTY_STRING);
+    this.idSet = safe(idSet);
   }
 
   /**
@@ -73,15 +73,15 @@ public class SearchResponse {
     this.searchingView = Integer.MIN_VALUE;
     this.displayQuery = Global.EMPTY_STRING;
     this.record =
-      safe (variantViews)
-        .stream ( )
-        .map (view -> {
-          final Record record = new MarcRecord ( );
-          record.setRecordView (view);
+      safe(variantViews)
+        .stream()
+        .map(view -> {
+          final Record record = new MarcRecord();
+          record.setRecordView(view);
           return record;
         })
-        .toArray (Record[]::new);
-    this.idSet = stream (record).mapToInt (record -> recordId).toArray ( );
+        .toArray(Record[]::new);
+    this.idSet = stream(record).mapToInt(record -> recordId).toArray();
   }
 
   /**
@@ -94,9 +94,9 @@ public class SearchResponse {
   }
 
   public OptionalInt getRecordIdentifier(final int index) {
-    return (index >= 0 && index < getIdSet ( ).length)
-      ? OptionalInt.of (idSet[index])
-      : OptionalInt.empty ( );
+    return (index >= 0 && index < getIdSet().length)
+      ? OptionalInt.of(idSet[index])
+      : OptionalInt.empty();
   }
 
   /**
@@ -124,7 +124,7 @@ public class SearchResponse {
    */
   @JsonIgnore
   public boolean isBibliographic() {
-    return getSearchingView ( ) != View.AUTHORITY;
+    return getSearchingView() != View.AUTHORITY;
   }
 
   /**
@@ -143,7 +143,7 @@ public class SearchResponse {
    * @return the total size of this result set.
    */
   public long getNumFound() {
-    return safe (getIdSet ( )).length;
+    return safe(getIdSet()).length;
   }
 
   @JsonProperty("docs")
@@ -153,8 +153,8 @@ public class SearchResponse {
 
   public Record getRecord(final int recordNumber, final String elementSetName, final SearchEngine searchEngine) {
     if ((recordNumber < this.record.length) && (recordNumber >= 0)) {
-      if ((this.record[recordNumber] == null) || (!this.record[recordNumber].hasContent (elementSetName))) {
-        retrieveRecords (recordNumber, elementSetName, searchEngine);
+      if ((this.record[recordNumber] == null) || (!this.record[recordNumber].hasContent(elementSetName))) {
+        retrieveRecords(recordNumber, elementSetName, searchEngine);
       }
       return this.record[recordNumber];
     } else {
@@ -178,20 +178,20 @@ public class SearchResponse {
     if ((recordNumber < this.record.length)
       && (recordNumber >= 0)
       && ((this.record[recordNumber] == null)
-      || (!this.record[recordNumber].hasContent (elementSetName)))) {
+      || (!this.record[recordNumber].hasContent(elementSetName)))) {
       lastRecordNumber =
-        computeLastRecordNumber (
+        computeLastRecordNumber(
           firstRecordNumber + 1,
           elementSetName,
           RETRIEVE_MAX_NUMBER_OF_RECORDS);
       firstRecordNumber =
-        computeFirstRecordNumber (
+        computeFirstRecordNumber(
           lastRecordNumber,
           elementSetName,
           RETRIEVE_MAX_NUMBER_OF_RECORDS);
     }
 
-    searchEngine.fetchRecords (
+    searchEngine.fetchRecords(
       this,
       elementSetName,
       firstRecordNumber,
@@ -201,8 +201,8 @@ public class SearchResponse {
   private int computeLastRecordNumber(final int firstRecordNumber, final String elementSetName, final int maxNumberOfRecords) {
     int lastRecordNumber = firstRecordNumber;
     while (((lastRecordNumber - firstRecordNumber) < (maxNumberOfRecords - 1))
-      && (lastRecordNumber < getPageSize ( ))
-      && ((this.record[lastRecordNumber] == null) || (!this.record[lastRecordNumber].hasContent (elementSetName)))) {
+      && (lastRecordNumber < getPageSize())
+      && ((this.record[lastRecordNumber] == null) || (!this.record[lastRecordNumber].hasContent(elementSetName)))) {
       lastRecordNumber++;
     }
     return lastRecordNumber;
@@ -212,14 +212,14 @@ public class SearchResponse {
     int firstRecordNumber = lastRecordNumber;
     while (((lastRecordNumber - firstRecordNumber) < (maxNumberOfRecords - 1))
       && (firstRecordNumber > 1)
-      && ((this.record[firstRecordNumber - 2] == null) || (!this.record[firstRecordNumber - 2].hasContent (elementSetName)))) {
+      && ((this.record[firstRecordNumber - 2] == null) || (!this.record[firstRecordNumber - 2].hasContent(elementSetName)))) {
       firstRecordNumber--;
     }
     return firstRecordNumber;
   }
 
   public void clearRecords() {
-    Arrays.fill (record, null);
+    Arrays.fill(record, null);
   }
 
   public int getSortCriteria() {
@@ -231,13 +231,13 @@ public class SearchResponse {
   }
 
   public void sort(final String[] attributes, final String[] directions, final SearchEngine searchEngine) throws ModCatalogingException {
-    searchEngine.sort (this, attributes, directions);
+    searchEngine.sort(this, attributes, directions);
   }
 
   public T_ITM_DSPLY_FRMT getDisplayFormat(final Session session, final short code, final Locale locale) throws DataAccessException {
-    return (isBibliographic ( ))
-      ? (T_BIB_DSPLY_FRMT) new DAOCodeTable ( ).load (session, T_BIB_DSPLY_FRMT.class, code, locale)
-      : (T_AUT_DSPLY_FRMT) new DAOCodeTable ( ).load (session, T_AUT_DSPLY_FRMT.class, code, locale);
+    return (isBibliographic())
+      ? (T_BIB_DSPLY_FRMT) new DAOCodeTable().load(session, T_BIB_DSPLY_FRMT.class, code, locale)
+      : (T_AUT_DSPLY_FRMT) new DAOCodeTable().load(session, T_AUT_DSPLY_FRMT.class, code, locale);
   }
 
   public int getFrom() {

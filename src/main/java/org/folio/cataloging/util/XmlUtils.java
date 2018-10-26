@@ -22,9 +22,9 @@ import java.util.Vector;
  */
 public final class XmlUtils {
 
-  private final static ThreadLocal <TransformerFactory> FACTORIES = ThreadLocal.withInitial (TransformerFactory::newInstance);
+  private final static ThreadLocal <TransformerFactory> FACTORIES = ThreadLocal.withInitial(TransformerFactory::newInstance);
 
-  private static final Log LOGGER = new Log (XmlUtils.class);
+  private static final Log LOGGER = new Log(XmlUtils.class);
 
   /**
    * Returns a string representation of the given XML document.
@@ -33,22 +33,22 @@ public final class XmlUtils {
    * @return a string representation of the given XML document.
    */
   public static String documentToString(final Document document) {
-    final StringBuilder builder = new StringBuilder ( );
+    final StringBuilder builder = new StringBuilder();
 
     if (document != null) {
       try {
-        final Transformer transformer = FACTORIES.get ( ).newTransformer ( );
-        final DOMSource source = new DOMSource (document);
-        final StringWriter writer = new StringWriter ( );
+        final Transformer transformer = FACTORIES.get().newTransformer();
+        final DOMSource source = new DOMSource(document);
+        final StringWriter writer = new StringWriter();
 
-        transformer.transform (source, new StreamResult (writer));
+        transformer.transform(source, new StreamResult(writer));
 
-        builder.append (writer.getBuffer ( ));
+        builder.append(writer.getBuffer());
       } catch (final TransformerException transformerException) {
-        LOGGER.error (MessageCatalog._00024_XSLT_FAILURE, transformerException);
+        LOGGER.error(MessageCatalog._00024_XSLT_FAILURE, transformerException);
       }
     }
-    return builder.toString ( );
+    return builder.toString();
   }
 
   /**
@@ -60,25 +60,25 @@ public final class XmlUtils {
    * @return array di termini ricercati
    */
   public static String[] getHighlightedTerms(String cclQuery) {
-    Vector nodes = new Vector ( );
-    String[] nodesAND = cclQuery.split (" and ");
-    for ( int i = 0; i < nodesAND.length; i++ ) {
-      String[] nodesOR = nodesAND[i].split (" or ");
-      for ( int j = 0; j < nodesOR.length; j++ ) {
-        nodesOR[j] = nodesOR[j].replaceAll ("not ", " ");
-        nodesOR[j] = nodesOR[j].replaceAll (" near ", " ");
-        nodesOR[j] = nodesOR[j].replace ('(', ' ');
-        nodesOR[j] = nodesOR[j].replace (')', ' ');
-        nodesOR[j] = nodesOR[j].replaceAll ("\"", " ");
-        nodesOR[j] = nodesOR[j].replaceAll ("'", " ");
-        nodesOR[j] = nodesOR[j].trim ( );
-        if (nodesOR[j].contains (" "))
-          nodesOR[j] = nodesOR[j].substring (nodesOR[j].indexOf (" ")).trim ( );
+    Vector nodes = new Vector();
+    String[] nodesAND = cclQuery.split(" and ");
+    for (int i = 0; i < nodesAND.length; i++) {
+      String[] nodesOR = nodesAND[i].split(" or ");
+      for (int j = 0; j < nodesOR.length; j++) {
+        nodesOR[j] = nodesOR[j].replaceAll("not ", " ");
+        nodesOR[j] = nodesOR[j].replaceAll(" near ", " ");
+        nodesOR[j] = nodesOR[j].replace('(', ' ');
+        nodesOR[j] = nodesOR[j].replace(')', ' ');
+        nodesOR[j] = nodesOR[j].replaceAll("\"", " ");
+        nodesOR[j] = nodesOR[j].replaceAll("'", " ");
+        nodesOR[j] = nodesOR[j].trim();
+        if (nodesOR[j].contains(" "))
+          nodesOR[j] = nodesOR[j].substring(nodesOR[j].indexOf(" ")).trim();
 
-        nodes.addElement (nodesOR[j]);
+        nodes.addElement(nodesOR[j]);
       }
     }
-    return (String[]) nodes.toArray (new String[0]);
+    return (String[]) nodes.toArray(new String[0]);
   }
 
   /**
@@ -94,29 +94,29 @@ public final class XmlUtils {
     int indiceInizio = 0;
     int indiceFine = 0;
     String delimitatori = " !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
-    if ((indiceInizio = text.toLowerCase ( ).indexOf (pattern.toLowerCase ( ))) != -1) { // se il pattern è presente nel testo
+    if ((indiceInizio = text.toLowerCase().indexOf(pattern.toLowerCase())) != -1) { // se il pattern è presente nel testo
       char caratterePrima = ' ';
       char carattereDopo = ' ';
 
       if (indiceInizio != 0)
-        caratterePrima = text.charAt (indiceInizio - 1);
-      if (indiceInizio + pattern.length ( ) < text.length ( ))
-        carattereDopo = text.charAt (indiceInizio + pattern.length ( ));
+        caratterePrima = text.charAt(indiceInizio - 1);
+      if (indiceInizio + pattern.length() < text.length())
+        carattereDopo = text.charAt(indiceInizio + pattern.length());
 
-      if (((delimitatori.indexOf (caratterePrima)) == -1) || ((delimitatori.indexOf ("" + carattereDopo)) == -1)) // se il pattern non è delimitato da un carattere speciale (è parte di una parola)
+      if (((delimitatori.indexOf(caratterePrima)) == -1) || ((delimitatori.indexOf("" + carattereDopo)) == -1)) // se il pattern non è delimitato da un carattere speciale (è parte di una parola)
         indiceInizio = -1;
 
-      indiceFine = indiceInizio + pattern.length ( );
+      indiceFine = indiceInizio + pattern.length();
     } else {
-      String testoRipulito = text.replaceAll ("\u00FE", "");
-      testoRipulito = testoRipulito.replaceAll ("\u00FF", "");
+      String testoRipulito = text.replaceAll("\u00FE", "");
+      testoRipulito = testoRipulito.replaceAll("\u00FF", "");
 
-      if (testoRipulito.toLowerCase ( ).indexOf (pattern.toLowerCase ( )) != -1) {
-        String[] elencoParole = pattern.split (" ");
+      if (testoRipulito.toLowerCase().indexOf(pattern.toLowerCase()) != -1) {
+        String[] elencoParole = pattern.split(" ");
 
 
-        indiceInizio = text.indexOf (elencoParole[0]);
-        indiceFine = text.indexOf (elencoParole[elencoParole.length - 1]) + elencoParole[elencoParole.length - 1].length ( );
+        indiceInizio = text.indexOf(elencoParole[0]);
+        indiceFine = text.indexOf(elencoParole[elencoParole.length - 1]) + elencoParole[elencoParole.length - 1].length();
       }
     }
     coppiaIndici[0] = indiceInizio;
@@ -137,15 +137,15 @@ public final class XmlUtils {
     String delimApertura = "\u00FE";
     String delimChiusura = "\u00FF";
 
-    String primaParte = text.substring (0, end);
-    String secondaParte = text.substring (end);
+    String primaParte = text.substring(0, end);
+    String secondaParte = text.substring(end);
     text = primaParte + delimChiusura + secondaParte;
 
-    primaParte = text.substring (0, begin);
-    secondaParte = text.substring (begin);
+    primaParte = text.substring(0, begin);
+    secondaParte = text.substring(begin);
     text = primaParte + delimApertura + secondaParte;
 
-    return cleanUpDelimiters (text);
+    return cleanUpDelimiters(text);
   }
 
   /**
@@ -157,8 +157,8 @@ public final class XmlUtils {
   private static String cleanUpDelimiters(final String text) {
     boolean open = false;
     String cleanedText = "";
-    for ( int i = 0; i < text.length ( ); i++ ) {
-      switch (text.charAt (i)) {
+    for (int i = 0; i < text.length(); i++) {
+      switch (text.charAt(i)) {
         case '\u00FE':
           if (!open) {
             cleanedText += "\u00FE";
@@ -169,13 +169,13 @@ public final class XmlUtils {
           if (open) {
             cleanedText += "\u00FF";
           } else {
-            int indiceChiusura = cleanedText.lastIndexOf ("\u00FF");
-            cleanedText = cleanedText.substring (0, indiceChiusura) + cleanedText.substring (indiceChiusura + 1) + "\u00FF";
+            int indiceChiusura = cleanedText.lastIndexOf("\u00FF");
+            cleanedText = cleanedText.substring(0, indiceChiusura) + cleanedText.substring(indiceChiusura + 1) + "\u00FF";
           }
           open = false;
           break;
         default:
-          cleanedText += text.charAt (i);
+          cleanedText += text.charAt(i);
       }
     }
 
@@ -190,14 +190,14 @@ public final class XmlUtils {
    * @return la stringa con tutti i delimitatori
    */
   public static String parseString(final String cclQuery, final Subfield subfield) {
-    final String[] termsToBeHighlighted = getHighlightedTerms (cclQuery);
-    String text = subfield.getContent ( );
-    for ( int i = 0; i < termsToBeHighlighted.length; i++ ) {
+    final String[] termsToBeHighlighted = getHighlightedTerms(cclQuery);
+    String text = subfield.getContent();
+    for (int i = 0; i < termsToBeHighlighted.length; i++) {
       String termineCorrente = termsToBeHighlighted[i];
-      int[] indiciDelimitatore = indexesToBeHighlighted (termineCorrente, text);
+      int[] indiciDelimitatore = indexesToBeHighlighted(termineCorrente, text);
 
       if (indiciDelimitatore[0] != -1)
-        text = addDelimiters (indiciDelimitatore[0], indiciDelimitatore[1], text);
+        text = addDelimiters(indiciDelimitatore[0], indiciDelimitatore[1], text);
     }
     return text;
   }

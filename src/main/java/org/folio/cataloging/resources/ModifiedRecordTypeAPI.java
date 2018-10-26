@@ -29,9 +29,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class ModifiedRecordTypeAPI extends BaseResource {
 
   private Function <Avp <String>, ModifiedRecordType> toModifiedRecordType = source -> {
-    final ModifiedRecordType modifiedRecordType = new ModifiedRecordType ( );
-    modifiedRecordType.setCode (source.getValue ( ));
-    modifiedRecordType.setDescription (source.getLabel ( ));
+    final ModifiedRecordType modifiedRecordType = new ModifiedRecordType();
+    modifiedRecordType.setCode(source.getValue());
+    modifiedRecordType.setDescription(source.getLabel());
     return modifiedRecordType;
   };
 
@@ -46,13 +46,13 @@ public class ModifiedRecordTypeAPI extends BaseResource {
   public ModifiedRecordTypeCollection getModifiedRecordTypes(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final ModifiedRecordTypeCollection container = new ModifiedRecordTypeCollection ( );
-      container.setModifiedRecordTypes (
-        storageService.getModifiedRecordTypes (lang)
-          .stream ( )
-          .map (toModifiedRecordType)
-          .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      final ModifiedRecordTypeCollection container = new ModifiedRecordTypeCollection();
+      container.setModifiedRecordTypes(
+        storageService.getModifiedRecordTypes(lang)
+          .stream()
+          .map(toModifiedRecordType)
+          .collect(toList()));
       return container;
     }, tenant, configurator);
   }

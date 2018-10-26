@@ -28,9 +28,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class CharacterEncodingSchemaAPI extends BaseResource {
 
   private Function <Avp <String>, CharacterEncodingSchema> toCharacterEncodingSchema = source -> {
-    final CharacterEncodingSchema characterEncodingSchema = new CharacterEncodingSchema ( );
-    characterEncodingSchema.setCode (source.getValue ( ));
-    characterEncodingSchema.setDescription (source.getLabel ( ));
+    final CharacterEncodingSchema characterEncodingSchema = new CharacterEncodingSchema();
+    characterEncodingSchema.setCode(source.getValue());
+    characterEncodingSchema.setDescription(source.getLabel());
     return characterEncodingSchema;
   };
 
@@ -45,13 +45,13 @@ public class CharacterEncodingSchemaAPI extends BaseResource {
   public CharacterEncodingSchemaCollection getCharacterEncodingSchemas(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final CharacterEncodingSchemaCollection container = new CharacterEncodingSchemaCollection ( );
-      container.setCharacterEncodingSchemas (
-        storageService.getCharacterEncodingSchemas (lang)
-          .stream ( )
-          .map (toCharacterEncodingSchema)
-          .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      final CharacterEncodingSchemaCollection container = new CharacterEncodingSchemaCollection();
+      container.setCharacterEncodingSchemas(
+        storageService.getCharacterEncodingSchemas(lang)
+          .stream()
+          .map(toCharacterEncodingSchema)
+          .collect(toList()));
       return container;
     }, tenant, configurator);
   }

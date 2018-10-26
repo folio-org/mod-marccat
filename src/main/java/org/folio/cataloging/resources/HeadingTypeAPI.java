@@ -29,9 +29,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class HeadingTypeAPI extends BaseResource {
 
   private Function <Avp <String>, HeadingType> toHeadingType = source -> {
-    final HeadingType headingType = new HeadingType ( );
-    headingType.setCode (Integer.parseInt (source.getValue ( )));
-    headingType.setDescription (source.getLabel ( ));
+    final HeadingType headingType = new HeadingType();
+    headingType.setCode(Integer.parseInt(source.getValue()));
+    headingType.setDescription(source.getLabel());
     return headingType;
   };
 
@@ -47,19 +47,19 @@ public class HeadingTypeAPI extends BaseResource {
     @RequestParam final String marcCategory,
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final int category = (marcCategory.equals ("17") ? Global.NAME_CATEGORY_DEFAULT : Integer.parseInt (marcCategory));
-      return (storageService.existHeadingTypeByCategory (category))
-        ? ofNullable (storageService.getFirstCorrelation (lang, category))
-        .map (headingTypeList -> {
-          final HeadingTypeCollection container = new HeadingTypeCollection ( );
-          container.setHeadingTypes (headingTypeList
-            .stream ( )
-            .map (toHeadingType)
-            .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      final int category = (marcCategory.equals("17") ? Global.NAME_CATEGORY_DEFAULT : Integer.parseInt(marcCategory));
+      return (storageService.existHeadingTypeByCategory(category))
+        ? ofNullable(storageService.getFirstCorrelation(lang, category))
+        .map(headingTypeList -> {
+          final HeadingTypeCollection container = new HeadingTypeCollection();
+          container.setHeadingTypes(headingTypeList
+            .stream()
+            .map(toHeadingType)
+            .collect(toList()));
 
           return container;
-        }).orElse (null)
+        }).orElse(null)
         : null;
     }, tenant, configurator);
   }

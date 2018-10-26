@@ -21,10 +21,10 @@ public class NoteGroupTypeCollection {
   @JsonProperty("noteGroupTypes")
   @Valid
   @NotNull
-  private List <NoteGroupType> noteGroupTypes = new ArrayList <NoteGroupType> ( );
+  private List <NoteGroupType> noteGroupTypes = new ArrayList <NoteGroupType>();
 
   @JsonIgnore
-  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
+  private Map <String, Object> additionalProperties = new HashMap <String, Object>();
 
   /**
    * (Required)
@@ -58,11 +58,11 @@ public class NoteGroupTypeCollection {
 
   @JsonAnySetter
   public void setAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
   }
 
   public NoteGroupTypeCollection withAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
     return this;
   }
 }

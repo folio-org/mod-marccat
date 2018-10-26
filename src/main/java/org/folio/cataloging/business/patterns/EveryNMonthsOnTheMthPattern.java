@@ -17,13 +17,13 @@ public class EveryNMonthsOnTheMthPattern extends AbstractPattern {
   private int callCount = 0;
 
   EveryNMonthsOnTheMthPattern(int step, int day) {
-    setStepCount (step);
-    setDay (day);
+    setStepCount(step);
+    setDay(day);
   }
 
   protected Calendar setFirstDate(Calendar c) {
-    c.set (Calendar.DAY_OF_MONTH, getDay ( ));
-    firstDate = c.getTime ( );
+    c.set(Calendar.DAY_OF_MONTH, getDay());
+    firstDate = c.getTime();
     return c;
   }
 
@@ -32,13 +32,13 @@ public class EveryNMonthsOnTheMthPattern extends AbstractPattern {
    */
   protected Calendar setNextDate(Calendar c) {
     callCount++;
-    c.setTime (firstDate);
-    c.add (Calendar.MONTH, getStepCount ( ) * callCount);
+    c.setTime(firstDate);
+    c.add(Calendar.MONTH, getStepCount() * callCount);
     return c;
   }
 
   public String toString() {
-    return "Every " + getStepCount ( ) + " month(s) on day " + getDay ( );
+    return "Every " + getStepCount() + " month(s) on day " + getDay();
   }
 
   protected int getDay() {

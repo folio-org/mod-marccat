@@ -38,8 +38,8 @@ public class CasFiltriMigrazione implements Serializable {
   public boolean equals(Object arg0) {
     if (arg0 instanceof CasFiltriMigrazione) {
       CasFiltriMigrazione cfm = (CasFiltriMigrazione) arg0;
-      return cfm.getIdFonte ( ).equals (getIdFonte ( )) &&
-        cfm.getFiltro ( ).equals (getFiltro ( ));
+      return cfm.getIdFonte().equals(getIdFonte()) &&
+        cfm.getFiltro().equals(getFiltro());
     } else {
       return false;
     }
@@ -49,8 +49,8 @@ public class CasFiltriMigrazione implements Serializable {
    * @see java.lang.Object#hashCode()
    */
   public int hashCode() {
-    return getIdFonte ( ).hashCode ( ) +
-      getFiltro ( ).hashCode ( );
+    return getIdFonte().hashCode() +
+      getFiltro().hashCode();
   }
 
 }

@@ -42,7 +42,7 @@ public class SHLF_LIST extends Descriptor implements Serializable {
    * Instantiates a new shlf list.
    */
   public SHLF_LIST() {
-    super ( );
+    super();
   }
 
   /**
@@ -97,7 +97,7 @@ public class SHLF_LIST extends Descriptor implements Serializable {
    */
   public void setShelfListKeyNumber(int i) {
     shelfListKeyNumber = i;
-    getKey ( ).setHeadingNumber (i);
+    getKey().setHeadingNumber(i);
   }
 
   /**
@@ -139,8 +139,8 @@ public class SHLF_LIST extends Descriptor implements Serializable {
    * @see Descriptor#getCorrelationValues()
    */
   public CorrelationValues getCorrelationValues() {
-    return new CorrelationValues (
-      (short) getTypeCode ( ),
+    return new CorrelationValues(
+      (short) getTypeCode(),
       CorrelationValues.UNDEFINED,
       CorrelationValues.UNDEFINED);
   }
@@ -149,7 +149,7 @@ public class SHLF_LIST extends Descriptor implements Serializable {
    * @see Descriptor#setCorrelationValues(CorrelationValues)
    */
   public void setCorrelationValues(CorrelationValues v) {
-    setTypeCode ((char) v.getValue (1));
+    setTypeCode((char) v.getValue(1));
   }
 
   /* (non-Javadoc)
@@ -162,8 +162,8 @@ public class SHLF_LIST extends Descriptor implements Serializable {
    */
   @Override
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
-    super.generateNewKey (session);
-    setShelfListKeyNumber (getKey ( ).getHeadingNumber ( ));
+    super.generateNewKey(session);
+    setShelfListKeyNumber(getKey().getHeadingNumber());
   }
 
   /**
@@ -172,7 +172,7 @@ public class SHLF_LIST extends Descriptor implements Serializable {
    * @return the dao
    */
   public AbstractDAO getDAO() {
-    return new ShelfListDAO ( );
+    return new ShelfListDAO();
   }
 
   /* (non-Javadoc)
@@ -200,7 +200,7 @@ public class SHLF_LIST extends Descriptor implements Serializable {
    * @see Descriptor#getSortFormParameters()
    */
   public SortFormParameters getSortFormParameters() {
-    return new SortFormParameters (200, (int) getTypeCode ( ), 0, 0, 0);
+    return new SortFormParameters(200, (int) getTypeCode(), 0, 0, 0);
   }
 
   /* (non-Javadoc)

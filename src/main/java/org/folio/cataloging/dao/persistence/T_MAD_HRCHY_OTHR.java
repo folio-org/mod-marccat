@@ -17,7 +17,7 @@ package org.folio.cataloging.dao.persistence;
 public class T_MAD_HRCHY_OTHR extends T_SINGLE_LONGCHAR {
 
   public T_MAD_HRCHY_OTHR() {
-    super ( );
+    super();
   }
 
 }

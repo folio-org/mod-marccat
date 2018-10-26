@@ -24,7 +24,7 @@ public class T_AUT_SHLF_LIST_TYP extends T_SINGLE_CHAR {
    * expects short values.
    */
   public String getCodeString() {
-    return String.valueOf ((short) getCode ( ));
+    return String.valueOf((short) getCode());
   }
 
 }

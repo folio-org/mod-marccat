@@ -31,7 +31,7 @@ public class T_FILES_HRCY implements Serializable {
     final int prime = 31;
     int result = 1;
     result = prime * result
-      + ((natureLevel == null) ? 0 : natureLevel.hashCode ( ));
+      + ((natureLevel == null) ? 0 : natureLevel.hashCode());
     return result;
   }
 
@@ -40,13 +40,13 @@ public class T_FILES_HRCY implements Serializable {
       return true;
     if (obj == null)
       return false;
-    if (getClass ( ) != obj.getClass ( ))
+    if (getClass() != obj.getClass())
       return false;
     T_FILES_HRCY other = (T_FILES_HRCY) obj;
     if (natureLevel == null) {
       if (other.natureLevel != null)
         return false;
-    } else if (!natureLevel.equals (other.natureLevel))
+    } else if (!natureLevel.equals(other.natureLevel))
       return false;
     return true;
   }

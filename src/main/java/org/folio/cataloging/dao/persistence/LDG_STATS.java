@@ -26,7 +26,7 @@ public class LDG_STATS implements Serializable, Persistence {
   private int detatiledHoldingsCount = 0;
   private int errorCount = 0;
   private int processedCount = 0;
-  private Date loadingDate = new Date ( );
+  private Date loadingDate = new Date();
   private char statusCode = 'c';
   private String retroCurrentCode = "C";
   private String librarySymbolCode = "DOBIS";
@@ -34,36 +34,37 @@ public class LDG_STATS implements Serializable, Persistence {
   private int loadingStatisticsNumber;
   private int recordsAdded;
   private int recordsRejected;
-  private PersistenceState persistenceState = new PersistenceState ( );
+  private PersistenceState persistenceState = new PersistenceState();
+
   /**
    * Class constructor
    *
    * @since 1.0
    */
   public LDG_STATS() {
-    super ( );
+    super();
     // TODO Auto-generated constructor stub
   }
 
   public void generateNewKey(final Session session) throws DataAccessException {
     try {
-      setLoadingStatisticsNumber (new SystemNextNumberDAO ( ).getNextNumber ("E0", session));
+      setLoadingStatisticsNumber(new SystemNextNumberDAO().getNextNumber("E0", session));
     } catch (HibernateException e) {
-      throw new DataAccessException (e);
+      throw new DataAccessException(e);
     }
   }
 
   public void cancelChanges() {
-    persistenceState.cancelChanges ( );
+    persistenceState.cancelChanges();
   }
 
   public void confirmChanges() {
-    persistenceState.confirmChanges ( );
+    persistenceState.confirmChanges();
   }
 
   //todo
   public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict (obj);
+    persistenceState.evict(obj);
   }
 
   public int getModifiedRecords() {
@@ -163,67 +164,67 @@ public class LDG_STATS implements Serializable, Persistence {
   }
 
   public AbstractDAO getDAO() {
-    return persistenceState.getDAO ( );
+    return persistenceState.getDAO();
   }
 
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   public void setUpdateStatus(int i) {
-    persistenceState.setUpdateStatus (i);
+    persistenceState.setUpdateStatus(i);
   }
 
   public boolean isChanged() {
-    return persistenceState.isChanged ( );
+    return persistenceState.isChanged();
   }
 
   public boolean isDeleted() {
-    return persistenceState.isDeleted ( );
+    return persistenceState.isDeleted();
   }
 
   public boolean isNew() {
-    return persistenceState.isNew ( );
+    return persistenceState.isNew();
   }
 
   public boolean isRemoved() {
-    return persistenceState.isRemoved ( );
+    return persistenceState.isRemoved();
   }
 
   public void markChanged() {
-    persistenceState.markChanged ( );
+    persistenceState.markChanged();
   }
 
   public void markDeleted() {
-    persistenceState.markDeleted ( );
+    persistenceState.markDeleted();
   }
 
   public void markNew() {
-    persistenceState.markNew ( );
+    persistenceState.markNew();
   }
 
   public void markUnchanged() {
-    persistenceState.markUnchanged ( );
+    persistenceState.markUnchanged();
   }
 
   public boolean onDelete(Session arg0) throws CallbackException {
-    return persistenceState.onDelete (arg0);
+    return persistenceState.onDelete(arg0);
   }
 
   public void onLoad(Session arg0, Serializable arg1) {
-    persistenceState.onLoad (arg0, arg1);
+    persistenceState.onLoad(arg0, arg1);
   }
 
   public boolean onSave(Session arg0) throws CallbackException {
-    return persistenceState.onSave (arg0);
+    return persistenceState.onSave(arg0);
   }
 
   public boolean onUpdate(Session arg0) throws CallbackException {
-    return persistenceState.onUpdate (arg0);
+    return persistenceState.onUpdate(arg0);
   }
 
   public String toString() {
-    return persistenceState.toString ( );
+    return persistenceState.toString();
   }
 
   /**
@@ -276,8 +277,8 @@ public class LDG_STATS implements Serializable, Persistence {
   public boolean equals(Object arg0) {
     if (arg0 instanceof LDG_STATS) {
       LDG_STATS l = (LDG_STATS) arg0;
-      return l.getLoadingStatisticsNumber ( ) == this
-        .getLoadingStatisticsNumber ( );
+      return l.getLoadingStatisticsNumber() == this
+        .getLoadingStatisticsNumber();
     } else {
       return false;
     }
@@ -289,12 +290,12 @@ public class LDG_STATS implements Serializable, Persistence {
    * @see java.lang.Object#hashCode()
    */
   public int hashCode() {
-    return getLoadingStatisticsNumber ( );
+    return getLoadingStatisticsNumber();
   }
 
   @Override
   public void evict() throws DataAccessException {
-    evict (this);
+    evict(this);
   }
 
 }

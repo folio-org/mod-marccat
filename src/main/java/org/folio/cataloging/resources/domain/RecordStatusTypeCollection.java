@@ -21,10 +21,10 @@ public class RecordStatusTypeCollection {
   @JsonProperty("recordStatusTypes")
   @Valid
   @NotNull
-  private List <RecordStatusType> recordStatusTypes = new ArrayList <RecordStatusType> ( );
+  private List <RecordStatusType> recordStatusTypes = new ArrayList <RecordStatusType>();
 
   @JsonIgnore
-  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
+  private Map <String, Object> additionalProperties = new HashMap <String, Object>();
 
   /**
    * (Required)
@@ -58,11 +58,11 @@ public class RecordStatusTypeCollection {
 
   @JsonAnySetter
   public void setAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
   }
 
   public RecordStatusTypeCollection withAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
     return this;
   }
 }

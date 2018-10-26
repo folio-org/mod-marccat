@@ -18,8 +18,8 @@ import java.util.List;
  */
 public class PublisherTagDescriptor extends Descriptor {
   private static final long serialVersionUID = 1L;
-  private final PublisherTagDescriptorDAO theDAO = new PublisherTagDescriptorDAO ( );
-  private List <PUBL_TAG> publisherTagUnits = new ArrayList <> ( );
+  private final PublisherTagDescriptorDAO theDAO = new PublisherTagDescriptorDAO();
+  private List <PUBL_TAG> publisherTagUnits = new ArrayList <>();
 
   @Override
   public Class getAccessPointClass() {
@@ -33,7 +33,7 @@ public class PublisherTagDescriptor extends Descriptor {
 
   @Override
   public CorrelationValues getCorrelationValues() {
-    return new CorrelationValues ( );
+    return new CorrelationValues();
   }
 
   @Override

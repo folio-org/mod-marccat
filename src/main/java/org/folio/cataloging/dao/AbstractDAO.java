@@ -12,7 +12,6 @@ import org.folio.cataloging.business.common.View;
 import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.persistence.S_LCK_TBL;
 import org.folio.cataloging.exception.RecordInUseException;
-import org.folio.cataloging.log.MessageCatalog;
 
 import java.io.Serializable;
 import java.util.List;
@@ -34,11 +33,11 @@ public class AbstractDAO extends HibernateUtil {
    */
 
   public static String makeSingleViewString(int cataloguingView) {
-    return View.makeSingleViewString (cataloguingView);
+    return View.makeSingleViewString(cataloguingView);
   }
 
   public Transaction getTransaction(final Session session) throws HibernateException {
-    return session.beginTransaction ( );
+    return session.beginTransaction();
   }
 
   /**
@@ -50,12 +49,12 @@ public class AbstractDAO extends HibernateUtil {
    * @throws HibernateException in case of hibernate exception.
    */
   public void persistByStatus(final Persistence persistentObject, final Session session) throws HibernateException {
-    if (persistentObject.isNew ( )) {
-      persistentObject.getDAO ( ).save (persistentObject, session);
-    } else if (persistentObject.isChanged ( )) {
-      persistentObject.getDAO ( ).update (persistentObject, session);
-    } else if (persistentObject.isDeleted ( )) {
-      persistentObject.getDAO ( ).delete (persistentObject, session);
+    if (persistentObject.isNew()) {
+      persistentObject.getDAO().save(persistentObject, session);
+    } else if (persistentObject.isChanged()) {
+      persistentObject.getDAO().update(persistentObject, session);
+    } else if (persistentObject.isDeleted()) {
+      persistentObject.getDAO().delete(persistentObject, session);
     }
   }
 
@@ -69,12 +68,12 @@ public class AbstractDAO extends HibernateUtil {
   public void delete(final Persistence persistentObject, final Session session) throws HibernateException {
     Transaction tx = null;
     try {
-      tx = getTransaction (session);
-      session.delete (persistentObject);
-      tx.commit ( );
+      tx = getTransaction(session);
+      session.delete(persistentObject);
+      tx.commit();
     } catch (HibernateException exception) {
-      cleanUp (tx);
-      throw new HibernateException (exception);
+      cleanUp(tx);
+      throw new HibernateException(exception);
     }
   }
 
@@ -89,12 +88,12 @@ public class AbstractDAO extends HibernateUtil {
 
     Transaction tx = null;
     try {
-      tx = getTransaction (session);
-      session.save (persistentObject);
-      tx.commit ( );
+      tx = getTransaction(session);
+      session.save(persistentObject);
+      tx.commit();
     } catch (HibernateException exception) {
-      cleanUp (tx);
-      throw new HibernateException (exception);
+      cleanUp(tx);
+      throw new HibernateException(exception);
     }
   }
 
@@ -108,12 +107,12 @@ public class AbstractDAO extends HibernateUtil {
   public void update(final Persistence persistentObject, final Session session) throws HibernateException {
     Transaction tx = null;
     try {
-      tx = getTransaction (session);
-      session.update (persistentObject);
-      tx.commit ( );
+      tx = getTransaction(session);
+      session.update(persistentObject);
+      tx.commit();
     } catch (HibernateException exception) {
-      cleanUp (tx);
-      throw new HibernateException (exception);
+      cleanUp(tx);
+      throw new HibernateException(exception);
     }
   }
 
@@ -124,7 +123,7 @@ public class AbstractDAO extends HibernateUtil {
    */
   public void cleanUp(final Transaction transaction) {
     try {
-      transaction.rollback ( );
+      transaction.rollback();
     } catch (HibernateException ignore) {
     }
   }
@@ -133,13 +132,13 @@ public class AbstractDAO extends HibernateUtil {
     if (userView == View.ANY) {
       return multiView;
     }
-    return multiView.stream ( ).map (po -> {
+    return multiView.stream().map(po -> {
       try {
-        return isolateView (po, userView, session);
+        return isolateView(po, userView, session);
       } catch (HibernateException he) {
-        throw new RuntimeException (he);
+        throw new RuntimeException(he);
       }
-    }).collect (Collectors.toList ( ));
+    }).collect(Collectors.toList());
   }
 
   /**
@@ -152,29 +151,29 @@ public class AbstractDAO extends HibernateUtil {
    * @throws HibernateException in case of hibernate exception.
    */
   public PersistentObjectWithView isolateView(final PersistentObjectWithView p, final int userView, final Session session) throws HibernateException {
-    final String myView = makeSingleViewString (userView);
+    final String myView = makeSingleViewString(userView);
 
-    if (p.getUserViewString ( ).compareTo (myView) != 0) {
-      final PersistentObjectWithView pObjectOriginalView = (PersistentObjectWithView) deepCopy (p);
-      final PersistentObjectWithView pObjectWithMyView = (PersistentObjectWithView) deepCopy (p);
+    if (p.getUserViewString().compareTo(myView) != 0) {
+      final PersistentObjectWithView pObjectOriginalView = (PersistentObjectWithView) deepCopy(p);
+      final PersistentObjectWithView pObjectWithMyView = (PersistentObjectWithView) deepCopy(p);
 
-      final Transaction transaction = getTransaction (session);
+      final Transaction transaction = getTransaction(session);
 
       try {
-        session.delete (p);
+        session.delete(p);
 
-        pObjectOriginalView.setUserViewString (maskOutViewString (p.getUserViewString ( ), userView));
-        session.save (pObjectOriginalView);
+        pObjectOriginalView.setUserViewString(maskOutViewString(p.getUserViewString(), userView));
+        session.save(pObjectOriginalView);
 
-        pObjectWithMyView.setUserViewString (myView);
-        session.save (pObjectWithMyView);
-        transaction.commit ( );
+        pObjectWithMyView.setUserViewString(myView);
+        session.save(pObjectWithMyView);
+        transaction.commit();
 
         return pObjectWithMyView;
 
       } catch (HibernateException exception) {
-        cleanUp (transaction);
-        throw new HibernateException (exception);
+        cleanUp(transaction);
+        throw new HibernateException(exception);
       }
 
     } else {
@@ -193,7 +192,7 @@ public class AbstractDAO extends HibernateUtil {
    */
   public List find(final Session session, final String query, final Object[] values, final Type[] types) {
     try {
-      return session.find (query, values, types);
+      return session.find(query, values, types);
     } catch (HibernateException e) {
       return null;
     }
@@ -208,7 +207,7 @@ public class AbstractDAO extends HibernateUtil {
    */
   public Object get(final Session session, final Class clazz, final Serializable id, final LockMode l) {
     try {
-      return session.get (clazz, id, l);
+      return session.get(clazz, id, l);
     } catch (HibernateException e) {
       return null;
     }
@@ -224,7 +223,7 @@ public class AbstractDAO extends HibernateUtil {
    */
   public Object get(Session session, Class clazz, Serializable id) {
     try {
-      return session.get (clazz, id);
+      return session.get(clazz, id);
     } catch (Exception exception) {
       return null;
     }
@@ -244,27 +243,27 @@ public class AbstractDAO extends HibernateUtil {
   public void lock(final int key, final String entityType, final String userName, final String uuid, final Session session) throws DataAccessException, RecordInUseException {
     try {
 
-      S_LCK_TBL myLock = new S_LCK_TBL (key, entityType);
-      S_LCK_TBL existingLock = (S_LCK_TBL) get (session, S_LCK_TBL.class, myLock);
+      S_LCK_TBL myLock = new S_LCK_TBL(key, entityType);
+      S_LCK_TBL existingLock = (S_LCK_TBL) get(session, S_LCK_TBL.class, myLock);
 
       if (existingLock != null) {
-        if (!existingLock.getDbSession ( ).trim ( ).equals (uuid.trim ( )) && !existingLock.getUserName ( ).trim ( ).equals (userName.trim ( )))
-          throw new RecordInUseException ( );
-        else if (existingLock.getDbSession ( ).trim ( ).equals (uuid.trim ( )) && existingLock.getUserName ( ).trim ( ).equals (userName.trim ( )))
+        if (!existingLock.getDbSession().trim().equals(uuid.trim()) && !existingLock.getUserName().trim().equals(userName.trim()))
+          throw new RecordInUseException();
+        else if (existingLock.getDbSession().trim().equals(uuid.trim()) && existingLock.getUserName().trim().equals(userName.trim()))
           return;
-        else if (!existingLock.getDbSession ( ).trim ( ).equals (uuid.trim ( )) && existingLock.getUserName ( ).trim ( ).equals (userName.trim ( ))) { //sessione appesa/vecchia
-          existingLock.markDeleted ( );
-          persistByStatus (existingLock, session);
+        else if (!existingLock.getDbSession().trim().equals(uuid.trim()) && existingLock.getUserName().trim().equals(userName.trim())) { //sessione appesa/vecchia
+          existingLock.markDeleted();
+          persistByStatus(existingLock, session);
         }
       }
 
-      myLock.setDbSession (uuid);
-      myLock.setUserName (userName);
-      myLock.markNew ( );
-      persistByStatus (myLock, session);
+      myLock.setDbSession(uuid);
+      myLock.setUserName(userName);
+      myLock.markNew();
+      persistByStatus(myLock, session);
 
     } catch (HibernateException e) {
-      throw new DataAccessException (e);
+      throw new DataAccessException(e);
     }
   }
 
@@ -279,15 +278,15 @@ public class AbstractDAO extends HibernateUtil {
    */
   public void unlock(final int key, final String entityType, final String userName, final Session session) throws DataAccessException {
     try {
-      S_LCK_TBL myLock = new S_LCK_TBL (key, entityType);
-      S_LCK_TBL existingLock = (S_LCK_TBL) get (session, S_LCK_TBL.class, myLock);
+      S_LCK_TBL myLock = new S_LCK_TBL(key, entityType);
+      S_LCK_TBL existingLock = (S_LCK_TBL) get(session, S_LCK_TBL.class, myLock);
 
-      if (existingLock != null && existingLock.getUserName ( ).trim ( ).equals (userName.trim ( ))) {
-        existingLock.markDeleted ( );
-        persistByStatus (existingLock, session);
+      if (existingLock != null && existingLock.getUserName().trim().equals(userName.trim())) {
+        existingLock.markDeleted();
+        persistByStatus(existingLock, session);
       }
     } catch (HibernateException e) {
-      throw new DataAccessException (e);
+      throw new DataAccessException(e);
     }
   }
 
@@ -304,7 +303,7 @@ public class AbstractDAO extends HibernateUtil {
    */
 
   public String maskOnViewString(String viewString, int cataloguingView) {
-    return View.maskOnViewString (viewString, cataloguingView);
+    return View.maskOnViewString(viewString, cataloguingView);
   }
 
   /**
@@ -319,7 +318,7 @@ public class AbstractDAO extends HibernateUtil {
    *                        the position to be set to '0' (1 indexing)
    */
   public String maskOutViewString(String viewString, int cataloguingView) {
-    return View.maskOutViewString (viewString, cataloguingView);
+    return View.maskOutViewString(viewString, cataloguingView);
   }
 
 

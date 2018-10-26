@@ -29,9 +29,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class MultipartResourceLevelAPI extends BaseResource {
 
   private Function <Avp <String>, MultipartResourceLevel> toMultipartResourceLevel = source -> {
-    final MultipartResourceLevel multipartResourceLevel = new MultipartResourceLevel ( );
-    multipartResourceLevel.setCode (source.getValue ( ));
-    multipartResourceLevel.setDescription (source.getLabel ( ));
+    final MultipartResourceLevel multipartResourceLevel = new MultipartResourceLevel();
+    multipartResourceLevel.setCode(source.getValue());
+    multipartResourceLevel.setDescription(source.getLabel());
     return multipartResourceLevel;
   };
 
@@ -47,13 +47,13 @@ public class MultipartResourceLevelAPI extends BaseResource {
   public MultipartResourceLevelCollection getMultipartResourceLevels(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final MultipartResourceLevelCollection container = new MultipartResourceLevelCollection ( );
-      container.setMultipartResourceLevels (
-        storageService.getMultipartResourceLevels (lang)
-          .stream ( )
-          .map (toMultipartResourceLevel)
-          .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      final MultipartResourceLevelCollection container = new MultipartResourceLevelCollection();
+      container.setMultipartResourceLevels(
+        storageService.getMultipartResourceLevels(lang)
+          .stream()
+          .map(toMultipartResourceLevel)
+          .collect(toList()));
       return container;
     }, tenant, configurator);
   }

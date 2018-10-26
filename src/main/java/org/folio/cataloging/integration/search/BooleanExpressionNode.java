@@ -28,25 +28,25 @@ public class BooleanExpressionNode implements ExpressionNode {
       if (left instanceof TermExpressionNode && right instanceof TermExpressionNode) {
         TermExpressionNode leftTerm = (TermExpressionNode) left;
         TermExpressionNode rightTerm = (TermExpressionNode) right;
-        if (leftTerm.isType2Index ( ) || rightTerm.isType2Index ( )) {
-          if ("AND".equals (op.toUpperCase ( ))) { // we only handle and operator
-            if (!rightTerm.isType2Index ( )) {
+        if (leftTerm.isType2Index() || rightTerm.isType2Index()) {
+          if ("AND".equals(op.toUpperCase())) { // we only handle and operator
+            if (!rightTerm.isType2Index()) {
               //swap terms so that right is type 2
               TermExpressionNode temp = rightTerm;
               rightTerm = leftTerm;
               leftTerm = temp;
             }
             //check that from clauses are compatible
-            if (leftTerm.semantic ( ).getFromClause ( ).contains (rightTerm.semantic ( ).getFromClause ( ))) {
-              return "(( " + leftTerm.getValue ( ) + " and " + rightTerm.getInnerJoinValue ( ) + " ))";
+            if (leftTerm.semantic().getFromClause().contains(rightTerm.semantic().getFromClause())) {
+              return "(( " + leftTerm.getValue() + " and " + rightTerm.getInnerJoinValue() + " ))";
             }
           }
         }
       }
 
-      return "(( " + left.getValue ( ) + " ) " + operator (op) + " ( " + right.getValue ( ) + " ))";
+      return "(( " + left.getValue() + " ) " + operator(op) + " ( " + right.getValue() + " ))";
     } catch (final Exception e) {
-      throw new CclParserException ("Query parsing error: " + e.getMessage ( ));
+      throw new CclParserException("Query parsing error: " + e.getMessage());
     }
   }
 
@@ -79,7 +79,7 @@ public class BooleanExpressionNode implements ExpressionNode {
   }
 
   private String operator(final String input) {
-    switch (input.toUpperCase ( )) {
+    switch (input.toUpperCase()) {
       case "AND":
         return "intersect";
       case "OR":

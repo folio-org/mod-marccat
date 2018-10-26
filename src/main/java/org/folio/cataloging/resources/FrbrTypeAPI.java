@@ -28,9 +28,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class FrbrTypeAPI extends BaseResource {
 
   private Function <Avp <String>, FrbrType> toFrbrType = source -> {
-    final FrbrType frbrType = new FrbrType ( );
-    frbrType.setCode (Integer.parseInt (source.getValue ( )));
-    frbrType.setDescription (source.getLabel ( ));
+    final FrbrType frbrType = new FrbrType();
+    frbrType.setCode(Integer.parseInt(source.getValue()));
+    frbrType.setDescription(source.getLabel());
     return frbrType;
   };
 
@@ -45,13 +45,13 @@ public class FrbrTypeAPI extends BaseResource {
   public FrbrTypeCollection getFrbrTypes(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final FrbrTypeCollection container = new FrbrTypeCollection ( );
-      container.setFrbrTypes (
-        storageService.getFrbrTypes (lang)
-          .stream ( )
-          .map (toFrbrType)
-          .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      final FrbrTypeCollection container = new FrbrTypeCollection();
+      container.setFrbrTypes(
+        storageService.getFrbrTypes(lang)
+          .stream()
+          .map(toFrbrType)
+          .collect(toList()));
       return container;
     }, tenant, configurator);
   }
@@ -68,10 +68,10 @@ public class FrbrTypeAPI extends BaseResource {
     @PathVariable("code") final String code,
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final FrbrType frbrType = new FrbrType ( );
-      frbrType.setCode (Integer.parseInt (code));
-      frbrType.setDescription (storageService.getFrbrDescriptionByCode (code, lang));
+    return doGet((storageService, configuration) -> {
+      final FrbrType frbrType = new FrbrType();
+      frbrType.setCode(Integer.parseInt(code));
+      frbrType.setDescription(storageService.getFrbrDescriptionByCode(code, lang));
       return frbrType;
     }, tenant, configurator);
   }

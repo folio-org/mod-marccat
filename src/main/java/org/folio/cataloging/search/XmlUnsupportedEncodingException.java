@@ -22,28 +22,28 @@ public class XmlUnsupportedEncodingException extends ModCatalogingException {
    * @see Exception#Exception()
    */
   public XmlUnsupportedEncodingException() {
-    super ( );
+    super();
   }
 
   /**
    * @see Exception#Exception(String)
    */
   public XmlUnsupportedEncodingException(String message) {
-    super (message);
+    super(message);
   }
 
   /**
    * @see Exception#Exception(String, Throwable)
    */
   public XmlUnsupportedEncodingException(String message, Throwable cause) {
-    super (message, cause);
+    super(message, cause);
   }
 
   /**
    * @see Exception#Exception(Throwable)
    */
   public XmlUnsupportedEncodingException(Throwable cause) {
-    super (cause);
+    super(cause);
   }
 
 }

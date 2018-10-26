@@ -26,13 +26,13 @@ public class THS_HDG extends Descriptor implements Serializable, SkipInFiling {
   private int indexingLanguage;
 
   public THS_HDG() {
-    super ( );
+    super();
     //setAccessPointLanguage(Defaults.getShort("thesaurus.accessPointLanguage"));
-    setScriptingLanguage (Defaults.getString ("thesaurus.scriptingLanguage"));
+    setScriptingLanguage(Defaults.getString("thesaurus.scriptingLanguage"));
     //setIndexingLanguage(Defaults.getShort("thesaurus.indexingLanguage"));
     //setSkipInFiling(Defaults.getShort("title.skipInFiling"));
-    setTypeCode (Defaults.getShort ("thesaurus.typeCode"));
-    setVerificationLevel (Defaults.getChar ("thesaurus.verificationLevel"));
+    setTypeCode(Defaults.getShort("thesaurus.typeCode"));
+    setVerificationLevel(Defaults.getChar("thesaurus.verificationLevel"));
 
   }
 
@@ -76,7 +76,7 @@ public class THS_HDG extends Descriptor implements Serializable, SkipInFiling {
    * @see com.libricore.librisuite.business.rdms.Descriptor#getReferenceClass()
    */
   public Class getReferenceClass(Class targetClazz) {
-    if (targetClazz == this.getClass ( )) {
+    if (targetClazz == this.getClass()) {
       return THS_REF.class;
     } else {
       return null;
@@ -98,7 +98,7 @@ public class THS_HDG extends Descriptor implements Serializable, SkipInFiling {
    * @see librisuite.hibernate.Descriptor#getDAO()
    */
   public AbstractDAO getDAO() {
-    return new DAOThesaurusDescriptor ( );
+    return new DAOThesaurusDescriptor();
   }
 
   /* (non-Javadoc)
@@ -136,14 +136,14 @@ public class THS_HDG extends Descriptor implements Serializable, SkipInFiling {
    * @see librisuite.hibernate.Descriptor#getCorrelationValues()
    */
   public CorrelationValues getCorrelationValues() {
-    return new CorrelationValues (typeCode, CorrelationValues.UNDEFINED, CorrelationValues.UNDEFINED);
+    return new CorrelationValues(typeCode, CorrelationValues.UNDEFINED, CorrelationValues.UNDEFINED);
   }
 
   /* (non-Javadoc)
    * @see librisuite.hibernate.Descriptor#setCorrelationValues(librisuite.business.common.CorrelationValues)
    */
   public void setCorrelationValues(CorrelationValues v) {
-    typeCode = v.getValue (1);
+    typeCode = v.getValue(1);
 
   }
 
@@ -151,7 +151,7 @@ public class THS_HDG extends Descriptor implements Serializable, SkipInFiling {
    * @see librisuite.hibernate.Descriptor#getSortFormParameters()
    */
   public SortFormParameters getSortFormParameters() {
-    return new SortFormParameters (100, 103, getTypeCode ( ), 0, getSkipInFiling ( ));
+    return new SortFormParameters(100, 103, getTypeCode(), 0, getSkipInFiling());
   }
 
   /* (non-Javadoc)

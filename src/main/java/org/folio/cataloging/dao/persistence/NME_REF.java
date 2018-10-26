@@ -20,7 +20,7 @@ public class NME_REF extends REF {
    * @see REF#getTargetDAO()
    */
   public DAODescriptor getTargetDAO() {
-    return new NameDescriptorDAO ( );
+    return new NameDescriptorDAO();
   }
 
 }

@@ -28,9 +28,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class VerificationLevelAPI extends BaseResource {
 
   private Function <Avp <String>, VerificationLevel> toVerificationLevel = source -> {
-    final VerificationLevel verificationLevel = new VerificationLevel ( );
-    verificationLevel.setCode (source.getValue ( ));
-    verificationLevel.setDescription (source.getLabel ( ));
+    final VerificationLevel verificationLevel = new VerificationLevel();
+    verificationLevel.setCode(source.getValue());
+    verificationLevel.setDescription(source.getLabel());
     return verificationLevel;
   };
 
@@ -45,13 +45,13 @@ public class VerificationLevelAPI extends BaseResource {
   public VerificationLevelCollection getVerificationLevels(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final VerificationLevelCollection container = new VerificationLevelCollection ( );
-      container.setVerificationLevels (
-        storageService.getVerificationLevels (lang)
-          .stream ( )
-          .map (toVerificationLevel)
-          .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      final VerificationLevelCollection container = new VerificationLevelCollection();
+      container.setVerificationLevels(
+        storageService.getVerificationLevels(lang)
+          .stream()
+          .map(toVerificationLevel)
+          .collect(toList()));
       return container;
     }, tenant, configurator);
   }

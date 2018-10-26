@@ -20,8 +20,8 @@ import java.util.Locale;
  * @since 1.0
  */
 public class T_VIEW_SHORT extends CodeTable {
-  private static final Log logger = LogFactory.getLog (T_VIEW_SHORT.class);
-  private static final DAOCodeTable daoCodeTable = new DAOCodeTable ( );
+  private static final Log logger = LogFactory.getLog(T_VIEW_SHORT.class);
+  private static final DAOCodeTable daoCodeTable = new DAOCodeTable();
   private short code;
   private long translationKey;
 
@@ -31,7 +31,7 @@ public class T_VIEW_SHORT extends CodeTable {
    * @since 1.0
    */
   public T_VIEW_SHORT() {
-    super ( );
+    super();
     // TODO Auto-generated constructor stub
   }
 
@@ -53,9 +53,9 @@ public class T_VIEW_SHORT extends CodeTable {
    * @see java.lang.Object#equals(java.lang.Object)
    */
   public boolean equals(Object arg0) {
-    if (arg0.getClass ( ).equals (this.getClass ( ))) {
+    if (arg0.getClass().equals(this.getClass())) {
       T_VIEW_SHORT t = (T_VIEW_SHORT) arg0;
-      return t.getCode ( ) == this.getCode ( );
+      return t.getCode() == this.getCode();
     } else {
       return false;
     }
@@ -65,14 +65,14 @@ public class T_VIEW_SHORT extends CodeTable {
    * @see java.lang.Object#hashCode()
    */
   public int hashCode() {
-    return getCode ( );
+    return getCode();
   }
 
   /* (non-Javadoc)
    * @see CodeTable#getCodeString()
    */
   public String getCodeString() {
-    return String.valueOf (getCode ( ));
+    return String.valueOf(getCode());
   }
 
   /* (non-Javadoc)
@@ -80,11 +80,11 @@ public class T_VIEW_SHORT extends CodeTable {
    */
   public String getLongText(Locale locale) {
     try {
-      return daoCodeTable.getTranslationString (getTranslationKey ( ), locale);
+      return daoCodeTable.getTranslationString(getTranslationKey(), locale);
     } catch (DataAccessException e) {
 //TODO we catch a Data exception here for convenience
 // since only this class does db activity to get text values		
-      logger.warn ("Data Exception reading translations");
+      logger.warn("Data Exception reading translations");
       return null;
     }
   }
@@ -105,9 +105,9 @@ public class T_VIEW_SHORT extends CodeTable {
 
   public void setExternalCode(Object extCode) {
     if (extCode instanceof String) {
-      code = Short.parseShort ((String) extCode);
+      code = Short.parseShort((String) extCode);
     } else if (extCode instanceof Short) {
-      code = ((Short) extCode).shortValue ( );
+      code = ((Short) extCode).shortValue();
     }
   }
 

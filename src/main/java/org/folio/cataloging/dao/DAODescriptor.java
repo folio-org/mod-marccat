@@ -83,11 +83,11 @@ public abstract class DAODescriptor extends AbstractDAO {
    */
   public String calculateSortForm(final Descriptor descriptor, final Session session) throws HibernateException, SQLException {
 
-    if ("".equals (descriptor.getStringText ( ))) {
+    if ("".equals(descriptor.getStringText())) {
       return BLANK_SORTFORM;
     }
-    final SortFormParameters parms = descriptor.getSortFormParameters ( );
-    return calculateSortForm (descriptor.getStringText ( ), parms, session);
+    final SortFormParameters parms = descriptor.getSortFormParameters();
+    return calculateSortForm(descriptor.getStringText(), parms, session);
   }
 
   /**
@@ -104,12 +104,12 @@ public abstract class DAODescriptor extends AbstractDAO {
    */
   public String calculateSortForm(final String s, final String browseIndexKey, final Session session)
     throws HibernateException, SQLException {
-    if ("".equals (s)) {
+    if ("".equals(s)) {
       return " ";
     }
-    final SortFormParameters parms = new DAOIndexList ( )
-      .getSortFormParametersByKey (browseIndexKey, session);
-    return calculateSortForm (s, parms, session);
+    final SortFormParameters parms = new DAOIndexList()
+      .getSortFormParametersByKey(browseIndexKey, session);
+    return calculateSortForm(s, parms, session);
   }
 
   /**
@@ -130,48 +130,48 @@ public abstract class DAODescriptor extends AbstractDAO {
     Connection connection;
     final int bufSize = 300;
     int rc;
-    connection = session.connection ( );
+    connection = session.connection();
     try {
-      proc = connection.prepareCall ("{ call PACK_SORTFORM.SF_PREPROCESS(?, ?, ?, ?, ?, ?, ?, ?, ?) }");
-      proc.setString (1, text);
-      proc.setInt (2, bufSize);
-      proc.setInt (3, parms.getSortFormMainType ( ));
-      proc.setInt (4, parms.getSortFormSubType ( ));
-      proc.setInt (5, parms.getNameTitleOrSubjectType ( ));
-      proc.setInt (6, parms.getNameSubtype ( ));
-      proc.setInt (7, parms.getSkipInFiling ( ));
-      proc.registerOutParameter (8, Types.INTEGER);
-      proc.registerOutParameter (9, Types.VARCHAR);
-      proc.execute ( );
-      rc = proc.getInt (8);
+      proc = connection.prepareCall("{ call PACK_SORTFORM.SF_PREPROCESS(?, ?, ?, ?, ?, ?, ?, ?, ?) }");
+      proc.setString(1, text);
+      proc.setInt(2, bufSize);
+      proc.setInt(3, parms.getSortFormMainType());
+      proc.setInt(4, parms.getSortFormSubType());
+      proc.setInt(5, parms.getNameTitleOrSubjectType());
+      proc.setInt(6, parms.getNameSubtype());
+      proc.setInt(7, parms.getSkipInFiling());
+      proc.registerOutParameter(8, Types.INTEGER);
+      proc.registerOutParameter(9, Types.VARCHAR);
+      proc.execute();
+      rc = proc.getInt(8);
       if (rc != 0) {
-        throw new SortFormException (String.valueOf (rc));
+        throw new SortFormException(String.valueOf(rc));
       }
-      result = proc.getString (9);
-      proc.close ( );
-      proc = connection.prepareCall ("{ call PACK_SORTFORM.SF_BUILDSRTFRM(?, ?, ?, ?, ?, ?, ?, ?, ?) }");
-      proc.setString (1, result);
-      proc.setInt (2, bufSize);
-      proc.setInt (3, parms.getSortFormMainType ( ));
-      proc.setInt (4, parms.getSortFormSubType ( ));
-      proc.setInt (5, parms.getNameTitleOrSubjectType ( ));
-      proc.setInt (6, parms.getNameSubtype ( ));
-      proc.setInt (7, parms.getSkipInFiling ( ));
-      proc.registerOutParameter (8, Types.INTEGER);
-      proc.registerOutParameter (9, Types.VARCHAR);
-      proc.execute ( );
+      result = proc.getString(9);
+      proc.close();
+      proc = connection.prepareCall("{ call PACK_SORTFORM.SF_BUILDSRTFRM(?, ?, ?, ?, ?, ?, ?, ?, ?) }");
+      proc.setString(1, result);
+      proc.setInt(2, bufSize);
+      proc.setInt(3, parms.getSortFormMainType());
+      proc.setInt(4, parms.getSortFormSubType());
+      proc.setInt(5, parms.getNameTitleOrSubjectType());
+      proc.setInt(6, parms.getNameSubtype());
+      proc.setInt(7, parms.getSkipInFiling());
+      proc.registerOutParameter(8, Types.INTEGER);
+      proc.registerOutParameter(9, Types.VARCHAR);
+      proc.execute();
 
-      rc = proc.getInt (8);
+      rc = proc.getInt(8);
 
       if (rc != 0) {
-        throw new SortFormException (String.valueOf (rc));
+        throw new SortFormException(String.valueOf(rc));
       }
-      result = proc.getString (9);
+      result = proc.getString(9);
     } catch (SQLException e) {
-      throw new SQLException (e);
+      throw new SQLException(e);
     } finally {
       if (proc != null) {
-        proc.close ( );
+        proc.close();
       }
 
     }
@@ -203,7 +203,7 @@ public abstract class DAODescriptor extends AbstractDAO {
    */
   public Descriptor load(final int headingNumber, final int cataloguingView, final Session session)
     throws HibernateException {
-    return load (headingNumber, cataloguingView, getPersistentClass ( ), session);
+    return load(headingNumber, cataloguingView, getPersistentClass(), session);
   }
 
 
@@ -221,7 +221,7 @@ public abstract class DAODescriptor extends AbstractDAO {
   public Descriptor load(final int headingNumber, final int cataloguingView,
                          final Class persistentClass, final Session session) throws HibernateException {
 
-    final List <Descriptor> descriptorList = session.find ("from " + persistentClass.getName ( )
+    final List <Descriptor> descriptorList = session.find("from " + persistentClass.getName()
         + " as hdg where hdg.key.headingNumber = ? "
         + " AND substr(hdg.key.userViewString, ?, 1) = '1'",
       new Object[]{
@@ -231,9 +231,9 @@ public abstract class DAODescriptor extends AbstractDAO {
         Hibernate.INTEGER, Hibernate.INTEGER});
 
     Descriptor descriptor = null;
-    if (!descriptorList.isEmpty ( )) {
-      descriptor = descriptorList.get (0);
-      descriptor = (Descriptor) isolateView (descriptor, cataloguingView, session);
+    if (!descriptorList.isEmpty()) {
+      descriptor = descriptorList.get(0);
+      descriptor = (Descriptor) isolateView(descriptor, cataloguingView, session);
     }
     return descriptor;
   }
@@ -250,15 +250,15 @@ public abstract class DAODescriptor extends AbstractDAO {
   @SuppressWarnings("unchecked")
   public Descriptor load(final int headingNumber, final Class persistentClass, final Session session)
     throws HibernateException {
-    List <Descriptor> l = session.find ("from " + persistentClass.getName ( )
+    List <Descriptor> l = session.find("from " + persistentClass.getName()
         + " as hdg where hdg.key.headingNumber = ? ",
       new Object[]{
         headingNumber},
       new Type[]{
         Hibernate.INTEGER});
     Descriptor result = null;
-    if (!l.isEmpty ( )) {
-      result = l.get (0);
+    if (!l.isEmpty()) {
+      result = l.get(0);
     }
     return result;
   }
@@ -288,14 +288,14 @@ public abstract class DAODescriptor extends AbstractDAO {
       viewClause = " and SUBSTR(hdg.key.userViewString, " + searchingView
         + ", 1) = '1' ";
     }
-    final Query q = session.createQuery (" select hdg from " + getPersistentClass ( ).getName ( )
+    final Query q = session.createQuery(" select hdg from " + getPersistentClass().getName()
       + " as hdg where hdg.sortForm " + operator + " :term "
       + viewClause + filter + " order by hdg.sortForm "
       + direction);
-    q.setString ("term", term);
-    q.setMaxResults (count);
-    descriptorList = q.list ( );
-    return (List <Descriptor>) isolateViewForList (descriptorList, searchingView, session);
+    q.setString("term", term);
+    q.setMaxResults(count);
+    descriptorList = q.list();
+    return (List <Descriptor>) isolateViewForList(descriptorList, searchingView, session);
 
   }
 
@@ -313,28 +313,28 @@ public abstract class DAODescriptor extends AbstractDAO {
     final List <Integer> counList;
     int result = 0;
     if (searchingView == View.ANY) {
-      counList = session.find (" select count(distinct apf.bibItemNumber) from "
-          + d.getAccessPointClass ( ).getName ( ) + " as apf "
+      counList = session.find(" select count(distinct apf.bibItemNumber) from "
+          + d.getAccessPointClass().getName() + " as apf "
           + " where apf.headingNumber = ? ",
         new Object[]{
-          d.getKey ( ).getHeadingNumber ( )},
+          d.getKey().getHeadingNumber()},
         new Type[]{
           Hibernate.INTEGER});
 
-      if (counList.size ( ) > 0) result = counList.get (0);
+      if (counList.size() > 0) result = counList.get(0);
       return result;
     } else {
-      counList = session.find (" select count(distinct apf.bibItemNumber) from "
-          + d.getAccessPointClass ( ).getName ( ) + " as apf "
+      counList = session.find(" select count(distinct apf.bibItemNumber) from "
+          + d.getAccessPointClass().getName() + " as apf "
           + " where apf.headingNumber = ? and "
           + " substr(apf.userViewString, ?, 1) = '1'",
         new Object[]{
-          d.getKey ( ).getHeadingNumber ( ),
+          d.getKey().getHeadingNumber(),
           searchingView},
         new Type[]{
           Hibernate.INTEGER,
           Hibernate.INTEGER});
-      if (counList.size ( ) > 0) result = counList.get (0);
+      if (counList.size() > 0) result = counList.get(0);
       return result;
     }
   }
@@ -353,19 +353,19 @@ public abstract class DAODescriptor extends AbstractDAO {
   public List <Integer> getDocList(final Descriptor descriptor, final int searchingView, final Session session) throws HibernateException {
     final List <Integer> documentList;
     if (searchingView == View.ANY) {
-      documentList = session.find (
+      documentList = session.find(
         " select apf.bibItemNumber from "
-          + descriptor.getAccessPointClass ( ).getName ( ) + " as apf "
+          + descriptor.getAccessPointClass().getName() + " as apf "
           + " where apf.headingNumber = ?",
         new Object[]{
-          descriptor.getKey ( ).getHeadingNumber ( )},
+          descriptor.getKey().getHeadingNumber()},
         new Type[]{Hibernate.INTEGER});
     } else {
-      documentList = session.find (" select apf.bibItemNumber from "
-          + descriptor.getAccessPointClass ( ).getName ( ) + " as apf "
+      documentList = session.find(" select apf.bibItemNumber from "
+          + descriptor.getAccessPointClass().getName() + " as apf "
           + " where apf.headingNumber = ? and "
           + " substr(apf.userViewString, ?, 1) = '1'", new Object[]{
-          descriptor.getKey ( ).getHeadingNumber ( ),
+          descriptor.getKey().getHeadingNumber(),
           searchingView},
         new Type[]{
           Hibernate.INTEGER,
@@ -385,16 +385,16 @@ public abstract class DAODescriptor extends AbstractDAO {
   @SuppressWarnings("unchecked")
   public int getAuthCount(final Descriptor descriptor, final Session session) throws HibernateException {
     int count = 0;
-    if (supportsAuthorities ( )) {
-      List <Integer> l = session.find ("select count(*) from AUT as aut "
+    if (supportsAuthorities()) {
+      List <Integer> l = session.find("select count(*) from AUT as aut "
           + " where aut.headingNumber = ? and "
           + " aut.headingType = ?", new Object[]{
-          descriptor.getHeadingNumber ( ),
-          AuthorityCatalog.getAutTypeByDescriptorType (descriptor.getCategory ( ))},
+          descriptor.getHeadingNumber(),
+          AuthorityCatalog.getAutTypeByDescriptorType(descriptor.getCategory())},
         new Type[]{
           Hibernate.INTEGER,
           Hibernate.STRING});
-      count = l.get (0);
+      count = l.get(0);
     }
     return count;
   }
@@ -408,18 +408,18 @@ public abstract class DAODescriptor extends AbstractDAO {
    * @throws HibernateException the hibernate exception
    */
   public void persist(final Descriptor descriptor, final Session session) throws HibernateException {
-    if (descriptor.isNew ( )) {
-      final int headingNumber = (new SystemNextNumberDAO ( ))
-        .getNextNumber (descriptor.getNextNumberKeyFieldCode ( ), session);
-      descriptor.setKey (new DescriptorKey (headingNumber, descriptor
-        .getKey ( ).getUserViewString ( )));
-      descriptor.setHeadingNumber (headingNumber);
+    if (descriptor.isNew()) {
+      final int headingNumber = (new SystemNextNumberDAO())
+        .getNextNumber(descriptor.getNextNumberKeyFieldCode(), session);
+      descriptor.setKey(new DescriptorKey(headingNumber, descriptor
+        .getKey().getUserViewString()));
+      descriptor.setHeadingNumber(headingNumber);
     }
-    if (descriptor.isChanged ( ) && descriptor.changeAffectsCacheTable ( )) {
-      persistByStatus (descriptor, session);
-      updateCacheTable (descriptor, session);
+    if (descriptor.isChanged() && descriptor.changeAffectsCacheTable()) {
+      persistByStatus(descriptor, session);
+      updateCacheTable(descriptor, session);
     } else {
-      persistByStatus (descriptor, session);
+      persistByStatus(descriptor, session);
     }
   }
 
@@ -442,11 +442,11 @@ public abstract class DAODescriptor extends AbstractDAO {
    * @throws HibernateException in case of hibernate exception.
    */
   public void updateCacheTable(final Descriptor descriptor, final Session session) throws HibernateException {
-    final BibliographicCatalogDAO dao = new BibliographicCatalogDAO ( );
-    int cataloguingView = View.toIntView (descriptor.getUserViewString ( ));
-    List <Integer> ids = getDocList (descriptor, cataloguingView, session);
-    ids.stream ( ).forEach (amicusNumber -> {
-      dao.updateCacheTable (amicusNumber, cataloguingView);
+    final BibliographicCatalogDAO dao = new BibliographicCatalogDAO();
+    int cataloguingView = View.toIntView(descriptor.getUserViewString());
+    List <Integer> ids = getDocList(descriptor, cataloguingView, session);
+    ids.stream().forEach(amicusNumber -> {
+      dao.updateCacheTable(amicusNumber, cataloguingView);
     });
   }
 
@@ -458,7 +458,7 @@ public abstract class DAODescriptor extends AbstractDAO {
    * @return the browsing sort form
    */
   public String getBrowsingSortForm(Descriptor descriptor) {
-    return descriptor.getSortForm ( );
+    return descriptor.getSortForm();
   }
 
   /**
@@ -478,15 +478,15 @@ public abstract class DAODescriptor extends AbstractDAO {
                                        final String recordViewString, int cataloguingView,
                                        final Session session)
     throws HibernateException {
-    final short onFileView = View.toIntView (recordViewString);
-    final Descriptor existing = load (headingNumber, cataloguingView, session);
+    final short onFileView = View.toIntView(recordViewString);
+    final Descriptor existing = load(headingNumber, cataloguingView, session);
     if (existing != null) {
       return existing;
     } else {
-      final Descriptor descriptor = load (headingNumber, onFileView, session);
-      final Descriptor newDescriptor = (Descriptor) deepCopy (descriptor);
-      newDescriptor.setUserViewString (View.makeSingleViewString (cataloguingView));
-      save (newDescriptor);
+      final Descriptor descriptor = load(headingNumber, onFileView, session);
+      final Descriptor newDescriptor = (Descriptor) deepCopy(descriptor);
+      newDescriptor.setUserViewString(View.makeSingleViewString(cataloguingView));
+      save(newDescriptor);
       return newDescriptor;
     }
   }
@@ -508,20 +508,20 @@ public abstract class DAODescriptor extends AbstractDAO {
    */
   @SuppressWarnings("unchecked")
   public boolean isMatchingAnotherHeading(final Descriptor descriptor, final Session session) throws HibernateException, SQLException {
-    final String sortForm = calculateSortForm (descriptor, session);
-    final List <Integer> countList = session.find (
-      "select count(*) from " + getPersistentClass ( ).getName ( )
+    final String sortForm = calculateSortForm(descriptor, session);
+    final List <Integer> countList = session.find(
+      "select count(*) from " + getPersistentClass().getName()
         + " as c "
         + " where c.sortForm = ? and c.stringText = ? "
         + " and c.key.userViewString = ?"
         + " and c.key.headingNumber <> ?",
-      new Object[]{sortForm, descriptor.getStringText ( ),
-        descriptor.getUserViewString ( ),
-        descriptor.getKey ( ).getHeadingNumber ( )},
+      new Object[]{sortForm, descriptor.getStringText(),
+        descriptor.getUserViewString(),
+        descriptor.getKey().getHeadingNumber()},
       new Type[]{
         Hibernate.STRING, Hibernate.STRING,
         Hibernate.STRING, Hibernate.INTEGER});
-    return countList.get (0) > 0;
+    return countList.get(0) > 0;
 
   }
 
@@ -537,23 +537,23 @@ public abstract class DAODescriptor extends AbstractDAO {
   @SuppressWarnings("unchecked")
   public Descriptor getMatchingHeading(final Descriptor descriptor, final Session session)
     throws HibernateException, SQLException {
-    descriptor.setSortForm (calculateSortForm (descriptor, session));
-    final List <Descriptor> descriptorList = session.find (
-      "from " + getPersistentClass ( ).getName ( ) + " as c "
+    descriptor.setSortForm(calculateSortForm(descriptor, session));
+    final List <Descriptor> descriptorList = session.find(
+      "from " + getPersistentClass().getName() + " as c "
         + " where c.sortForm = ? and c.stringText = ? "
         + " and c.key.userViewString = ? ",
       new Object[]{
-        descriptor.getSortForm ( ),
-        descriptor.getStringText ( ),
-        descriptor.getUserViewString ( )},
+        descriptor.getSortForm(),
+        descriptor.getStringText(),
+        descriptor.getUserViewString()},
       new Type[]{
         Hibernate.STRING,
         Hibernate.STRING,
         Hibernate.STRING});
 
-    final Optional <Descriptor> firstElement = descriptorList.stream ( )
-      .filter (Objects::nonNull).findFirst ( );
-    return firstElement.isPresent ( ) ? firstElement.get ( ) : null;
+    final Optional <Descriptor> firstElement = descriptorList.stream()
+      .filter(Objects::nonNull).findFirst();
+    return firstElement.isPresent() ? firstElement.get() : null;
 
   }
 
@@ -568,32 +568,32 @@ public abstract class DAODescriptor extends AbstractDAO {
   public void delete(final Persistence p, final Session session) throws
     HibernateException {
     if (!(p instanceof Descriptor)) {
-      throw new IllegalArgumentException ("I can only delete Descriptor objects");
+      throw new IllegalArgumentException("I can only delete Descriptor objects");
     }
     final Descriptor descriptor = ((Descriptor) p);
-    if (getDocCount (descriptor, View.toIntView (descriptor.getUserViewString ( )), session) > 0) {
-      throw new ReferentialIntegrityException (descriptor.getAccessPointClass ( )
-        .getName ( ), descriptor.getClass ( ).getName ( ));
+    if (getDocCount(descriptor, View.toIntView(descriptor.getUserViewString()), session) > 0) {
+      throw new ReferentialIntegrityException(descriptor.getAccessPointClass()
+        .getName(), descriptor.getClass().getName());
     }
-    if (supportsCrossReferences ( )) {
-      if (getXrefCount (descriptor, View.toIntView (descriptor.getUserViewString ( )), session) > 0) {
-        throw new ReferentialIntegrityException (descriptor.getReferenceClass (
-          descriptor.getClass ( )).getName ( ), descriptor.getClass ( ).getName ( ));
+    if (supportsCrossReferences()) {
+      if (getXrefCount(descriptor, View.toIntView(descriptor.getUserViewString()), session) > 0) {
+        throw new ReferentialIntegrityException(descriptor.getReferenceClass(
+          descriptor.getClass()).getName(), descriptor.getClass().getName());
       }
     }
-    if (supportsAuthorities ( )) {
-      if (descriptor.getAuthorityCount ( ) > 0) {
-        throw new ReferentialIntegrityException (descriptor.getReferenceClass (
-          descriptor.getClass ( )).getName ( ), descriptor.getClass ( ).getName ( ));
+    if (supportsAuthorities()) {
+      if (descriptor.getAuthorityCount() > 0) {
+        throw new ReferentialIntegrityException(descriptor.getReferenceClass(
+          descriptor.getClass()).getName(), descriptor.getClass().getName());
       }
     }
 
-    if (getAuthorityApfReferenceCount (descriptor, session) > 0) {
-      throw new ReferentialIntegrityException ("AUT_X_ACS_PNT", descriptor
-        .getClass ( ).getName ( ));
+    if (getAuthorityApfReferenceCount(descriptor, session) > 0) {
+      throw new ReferentialIntegrityException("AUT_X_ACS_PNT", descriptor
+        .getClass().getName());
     }
 
-    super.delete (p, session);
+    super.delete(p, session);
   }
 
   /**
@@ -607,14 +607,14 @@ public abstract class DAODescriptor extends AbstractDAO {
    */
   @SuppressWarnings("unchecked")
   private int getAuthorityApfReferenceCount(final Descriptor descriptor, final Session session) throws HibernateException {
-    if (View.toIntView (descriptor.getUserViewString ( )) != 1 || descriptor.getAuthorityAccessPointClass ( ) == null)
+    if (View.toIntView(descriptor.getUserViewString()) != 1 || descriptor.getAuthorityAccessPointClass() == null)
       return 0;
-    List <Integer> countList = session.find ("from " + descriptor.getAuthorityAccessPointClass ( ).getName ( ) + " as apf where apf.headingNumber = ?",
+    List <Integer> countList = session.find("from " + descriptor.getAuthorityAccessPointClass().getName() + " as apf where apf.headingNumber = ?",
       new Object[]{
-        descriptor.getHeadingNumber ( )},
+        descriptor.getHeadingNumber()},
       new Type[]{
         Hibernate.INTEGER});
-    return countList.size ( );
+    return countList.size();
   }
 
   /**
@@ -631,20 +631,20 @@ public abstract class DAODescriptor extends AbstractDAO {
   @SuppressWarnings("unchecked")
   public int getXrefCount(final Descriptor source, final int cataloguingView, final Session session)
     throws HibernateException {
-    if (source.getReferenceClass (source.getClass ( )) == null)
+    if (source.getReferenceClass(source.getClass()) == null)
       return 0;
-    final List <Integer> countList = session.find ("select count(*) from "
-        + source.getReferenceClass (source.getClass ( )).getName ( )
+    final List <Integer> countList = session.find("select count(*) from "
+        + source.getReferenceClass(source.getClass()).getName()
         + " as ref where ref.key.source = ? and "
         + " substr(ref.key.userViewString, ?, 1) = '1' ", new Object[]{
-        source.getKey ( ).getHeadingNumber ( ),
+        source.getKey().getHeadingNumber(),
         cataloguingView},
       new Type[]{
         Hibernate.INTEGER,
         Hibernate.INTEGER});
 
-    final Optional <Integer> firstElement = countList.stream ( ).filter (Objects::nonNull).findFirst ( );
-    return firstElement.isPresent ( ) ? firstElement.get ( ) : 0;
+    final Optional <Integer> firstElement = countList.stream().filter(Objects::nonNull).findFirst();
+    return firstElement.isPresent() ? firstElement.get() : 0;
 
   }
 
@@ -660,13 +660,13 @@ public abstract class DAODescriptor extends AbstractDAO {
   @SuppressWarnings("unchecked")
   public List <REF> getCrossReferences(final Descriptor source, final int cataloguingView, final Session session)
     throws HibernateException {
-    return session.find ("from "
-        + source.getReferenceClass (source.getClass ( )).getName ( )
+    return session.find("from "
+        + source.getReferenceClass(source.getClass()).getName()
         + " as ref " + " where ref.key.source = ? "
         + " AND substr(ref.key.userViewString, ?, 1) = '1' "
         + " order by ref.key.target, ref.key.type",
       new Object[]{
-        source.getKey ( ).getHeadingNumber ( ),
+        source.getKey().getHeadingNumber(),
         cataloguingView},
       new Type[]{
         Hibernate.INTEGER,
@@ -700,12 +700,12 @@ public abstract class DAODescriptor extends AbstractDAO {
   public List <REF> getCrossReferences(Descriptor source)
     throws DataAccessException {
 
-    return find (
-      "from " + source.getReferenceClass (source.getClass ( )).getName ( )
+    return find(
+      "from " + source.getReferenceClass(source.getClass()).getName()
         + " as ref " + " where ref.key.source = ? "
         + " order by ref.key.target, ref.key.type",
       new Object[]{
-        source.getKey ( ).getHeadingNumber ( )},
+        source.getKey().getHeadingNumber()},
       new Type[]{
         Hibernate.INTEGER});
 
@@ -728,15 +728,15 @@ public abstract class DAODescriptor extends AbstractDAO {
     throws HibernateException {
 
     REF result = null;
-    if (source.getClass ( ) == target.getClass ( )) {
-      final List <REF> refList = find ("from "
-          + source.getReferenceClass (target.getClass ( )).getName ( )
+    if (source.getClass() == target.getClass()) {
+      final List <REF> refList = find("from "
+          + source.getReferenceClass(target.getClass()).getName()
           + " as ref " + " where ref.key.source = ? AND "
           + " ref.key.target = ? AND "
           + " substr(ref.key.userViewString, ?, 1) = '1' AND "
           + " ref.key.type = ?", new Object[]{
-          source.getKey ( ).getHeadingNumber ( ),
-          target.getKey ( ).getHeadingNumber ( ),
+          source.getKey().getHeadingNumber(),
+          target.getKey().getHeadingNumber(),
           cataloguingView,
           referenceType},
         new Type[]{
@@ -744,9 +744,9 @@ public abstract class DAODescriptor extends AbstractDAO {
           Hibernate.INTEGER,
           Hibernate.INTEGER,
           Hibernate.SHORT});
-      if (refList.size ( ) == 1) {
-        result = refList.get (0);
-        result = (REF) isolateView (result, cataloguingView);
+      if (refList.size() == 1) {
+        result = refList.get(0);
+        result = (REF) isolateView(result, cataloguingView);
       }
     }
 
@@ -764,13 +764,13 @@ public abstract class DAODescriptor extends AbstractDAO {
    */
   public Descriptor getSeeReference(final Descriptor descriptor, final int cataloguingView, final Session session)
     throws HibernateException {
-    if (supportsCrossReferences ( )) {
-      List <REF> xRefs = getCrossReferences (descriptor, cataloguingView, session);
-      Iterator iter = xRefs.iterator ( );
-      while (iter.hasNext ( )) {
-        REF ref = (REF) iter.next ( );
-        if (ReferenceType.isSee (ref.getType ( ))) {
-          return ref.getTargetDAO ( ).load (ref.getTarget ( ),
+    if (supportsCrossReferences()) {
+      List <REF> xRefs = getCrossReferences(descriptor, cataloguingView, session);
+      Iterator iter = xRefs.iterator();
+      while (iter.hasNext()) {
+        REF ref = (REF) iter.next();
+        if (ReferenceType.isSee(ref.getType())) {
+          return ref.getTargetDAO().load(ref.getTarget(),
             cataloguingView, session);
         }
       }
@@ -792,13 +792,13 @@ public abstract class DAODescriptor extends AbstractDAO {
     throws HibernateException, SQLException {
     String searchTerm;
     try {
-      searchTerm = calculateSortForm (term, browseIndex, session);
+      searchTerm = calculateSortForm(term, browseIndex, session);
     } catch (SortFormException e) {
-      int lterm = term.getBytes ( ).length;
+      int lterm = term.getBytes().length;
       String newTerm = lterm > BrowseManager.SORTFORM_LENGTH ? term
-        .substring (0, BrowseManager.MAX_SORTFORM_LENGTH) : term;
+        .substring(0, BrowseManager.MAX_SORTFORM_LENGTH) : term;
       try {
-        searchTerm = calculateSortForm (newTerm, browseIndex, session);
+        searchTerm = calculateSortForm(newTerm, browseIndex, session);
       } catch (SortFormException e1) {
         searchTerm = " ";
       }
@@ -822,25 +822,25 @@ public abstract class DAODescriptor extends AbstractDAO {
     REF result;
     final List <REF> refList;
     if (source instanceof SBJCT_HDG) {
-      refList = session.find ("select ref from "
-          + source.getReferenceClass (source.getClass ( )).getName ( )
-          + " as ref, " + source.getClass ( ).getName ( ) + " as hdg "
+      refList = session.find("select ref from "
+          + source.getReferenceClass(source.getClass()).getName()
+          + " as ref, " + source.getClass().getName() + " as hdg "
           + " where ref.key.source = ? "
           + " AND substr(ref.key.userViewString, ?, 1) = '1' "
           + " AND ref.key.type=5 "
           + " AND ref.key.target=hdg.key.headingNumber "
           + " AND hdg.accessPointLanguage=? ",
         new Object[]{
-          source.getKey ( ).getHeadingNumber ( ),
+          source.getKey().getHeadingNumber(),
           cataloguingView,
           indexingLanguage}, new Type[]{
           Hibernate.INTEGER, Hibernate.INTEGER,
           Hibernate.SHORT});
 
     } else if (source instanceof NME_TTL_HDG) {
-      refList = session.find ("select ref from "
-          + source.getReferenceClass (source.getClass ( )).getName ( )
-          + " as ref, " + "" + source.getClass ( ).getName ( )
+      refList = session.find("select ref from "
+          + source.getReferenceClass(source.getClass()).getName()
+          + " as ref, " + "" + source.getClass().getName()
           + " as hdg, " + " NME_HDG as nme, " + " TTL_HDG as ttl "
           + " where hdg.nameHeadingNumber = nme.key.headingNumber "
           + " and hdg.titleHeadingNumber = ttl.key.headingNumber "
@@ -850,7 +850,7 @@ public abstract class DAODescriptor extends AbstractDAO {
           + " AND ref.key.target=hdg.key.headingNumber "
           + " AND nme.indexingLanguage=? "
           + " AND ttl.indexingLanguage=? ", new Object[]{
-          source.getKey ( ).getHeadingNumber ( ),
+          source.getKey().getHeadingNumber(),
           cataloguingView,
           indexingLanguage,
           indexingLanguage},
@@ -859,16 +859,16 @@ public abstract class DAODescriptor extends AbstractDAO {
           Hibernate.INTEGER, Hibernate.SHORT,
           Hibernate.SHORT});
     } else {
-      refList = session.find ("select ref from "
-          + source.getReferenceClass (source.getClass ( )).getName ( )
-          + " as ref, " + source.getClass ( ).getName ( ) + " as hdg "
+      refList = session.find("select ref from "
+          + source.getReferenceClass(source.getClass()).getName()
+          + " as ref, " + source.getClass().getName() + " as hdg "
           + " where ref.key.source = ? "
           + " AND substr(ref.key.userViewString, ?, 1) = '1' "
           + " AND ref.key.type=5 "
           + " AND ref.key.target=hdg.key.headingNumber "
           + " AND hdg.accessPointLanguage=? ",
         new Object[]{
-          source.getKey ( ).getHeadingNumber ( ),
+          source.getKey().getHeadingNumber(),
           cataloguingView,
           indexingLanguage}, new Type[]{
           Hibernate.INTEGER,
@@ -876,11 +876,11 @@ public abstract class DAODescriptor extends AbstractDAO {
           Hibernate.SHORT});
 
     }
-    if (refList.size ( ) == 1) {
-      result = refList.get (0);
-      result = (REF) isolateView (result, cataloguingView);
+    if (refList.size() == 1) {
+      result = refList.get(0);
+      result = (REF) isolateView(result, cataloguingView);
     } else {
-      result = getSourceHeadingNumberByTarget (source, cataloguingView,
+      result = getSourceHeadingNumberByTarget(source, cataloguingView,
         indexingLanguage, session);
     }
     return result;
@@ -905,24 +905,24 @@ public abstract class DAODescriptor extends AbstractDAO {
     REF result = null;
     int targetHeadingNumber = 0;
 
-    secondList = session.find ("select ref from "
-        + source.getReferenceClass (source.getClass ( )).getName ( )
-        + " as ref, " + source.getClass ( ).getName ( ) + " as hdg "
+    secondList = session.find("select ref from "
+        + source.getReferenceClass(source.getClass()).getName()
+        + " as ref, " + source.getClass().getName() + " as hdg "
         + " where ref.key.source = ? "
         + " AND substr(ref.key.userViewString, ?, 1) = '1' "
         + " AND ref.key.target=hdg.key.headingNumber "
         + " AND ref.key.type=5 ", new Object[]{
-        source.getKey ( ).getHeadingNumber ( ),
+        source.getKey().getHeadingNumber(),
         cataloguingView},
       new Type[]{
         Hibernate.INTEGER,
         Hibernate.INTEGER});
 
-    if (secondList.size ( ) == 1) {
-      targetHeadingNumber = secondList.get (0).getTarget ( );
-      firstList = session.find ("select ref from "
-          + source.getReferenceClass (source.getClass ( )).getName ( )
-          + " as ref, " + source.getClass ( ).getName ( ) + " as hdg "
+    if (secondList.size() == 1) {
+      targetHeadingNumber = secondList.get(0).getTarget();
+      firstList = session.find("select ref from "
+          + source.getReferenceClass(source.getClass()).getName()
+          + " as ref, " + source.getClass().getName() + " as hdg "
           + " where ref.key.source = ? "
           + " AND substr(ref.key.userViewString, ?, 1) = '1' "
           + " AND ref.key.type=5 "
@@ -937,9 +937,9 @@ public abstract class DAODescriptor extends AbstractDAO {
           Hibernate.INTEGER,
           Hibernate.INTEGER,
           Hibernate.SHORT});
-      if (firstList.size ( ) == 1) {
-        result = firstList.get (0);
-        result = (REF) isolateView (result, cataloguingView);
+      if (firstList.size() == 1) {
+        result = firstList.get(0);
+        result = (REF) isolateView(result, cataloguingView);
       }
     }
     return result;
@@ -967,19 +967,19 @@ public abstract class DAODescriptor extends AbstractDAO {
       viewClause = " and substr(hdg.key.userViewString, " + searchingView + ", 1) = '1' ";
     }
     if (descriptor instanceof NME_HDG) {
-      final Query q = session.createQuery (" select count(*) from  NME_TTL_HDG as hdg"
-        + " where hdg.nameHeadingNumber = " + descriptor.getKey ( ).getHeadingNumber ( )
+      final Query q = session.createQuery(" select count(*) from  NME_TTL_HDG as hdg"
+        + " where hdg.nameHeadingNumber = " + descriptor.getKey().getHeadingNumber()
         + viewClause);
-      countList = q.list ( );
+      countList = q.list();
 
     } else if (descriptor instanceof TTL_HDG) {
-      final Query q = session.createQuery (" select count(*) from  NME_TTL_HDG as hdg"
-        + " where hdg.titleHeadingNumber = " + descriptor.getKey ( ).getHeadingNumber ( )
+      final Query q = session.createQuery(" select count(*) from  NME_TTL_HDG as hdg"
+        + " where hdg.titleHeadingNumber = " + descriptor.getKey().getHeadingNumber()
         + viewClause);
-      countList = q.list ( );
+      countList = q.list();
     }
-    if (countList != null && countList.size ( ) > 0)
-      result = countList.get (0);
+    if (countList != null && countList.size() > 0)
+      result = countList.get(0);
     return result;
   }
 
@@ -995,18 +995,18 @@ public abstract class DAODescriptor extends AbstractDAO {
    */
   @SuppressWarnings("unchecked")
   public boolean hasMatchingSortformInAnotherView(final Descriptor descriptor, final Session session) throws HibernateException, SQLException {
-    final String sortForm = calculateSortForm (descriptor, session);
-    final List <Integer> countList = session.find (
-      "select count(*) from " + getPersistentClass ( ).getName ( )
+    final String sortForm = calculateSortForm(descriptor, session);
+    final List <Integer> countList = session.find(
+      "select count(*) from " + getPersistentClass().getName()
         + " as c " + " where c.sortForm = ? "
         + " and c.key.userViewString <> ?",
       new Object[]{
         sortForm,
-        descriptor.getUserViewString ( )},
+        descriptor.getUserViewString()},
       new Type[]{
         Hibernate.STRING,
         Hibernate.STRING});
-    return countList.get (0) > 0;
+    return countList.get(0) > 0;
   }
 
   /**
@@ -1025,11 +1025,11 @@ public abstract class DAODescriptor extends AbstractDAO {
   protected REF loadReferenceByQuery(final Descriptor source, final Descriptor target, final short referenceType, final int cataloguingView, final String query, final Session session) throws HibernateException {
     REF ref = null;
     final List <REF> refList =
-      session.find (
+      session.find(
         query,
         new Object[]{
-          source.getKey ( ).getHeadingNumber ( ),
-          target.getKey ( ).getHeadingNumber ( ),
+          source.getKey().getHeadingNumber(),
+          target.getKey().getHeadingNumber(),
           cataloguingView,
           referenceType},
         new Type[]{
@@ -1037,9 +1037,9 @@ public abstract class DAODescriptor extends AbstractDAO {
           Hibernate.INTEGER,
           Hibernate.INTEGER,
           Hibernate.SHORT});
-    if (refList.size ( ) == 1) {
-      ref = refList.get (0);
-      ref = (REF) isolateView (ref, cataloguingView, session);
+    if (refList.size() == 1) {
+      ref = refList.get(0);
+      ref = (REF) isolateView(ref, cataloguingView, session);
     }
     return ref;
   }

@@ -111,9 +111,9 @@ public class LCTN_VW implements Serializable {
       return false;
     }
     LCTN_VW obj = (LCTN_VW) arg0;
-    return obj.getOrganisationNumber ( ) == this.getOrganisationNumber ( ) &&
-      obj.getLocationNumber ( ) == this.getLocationNumber ( ) &&
-      obj.getLanguageCode ( ) == this.getLanguageCode ( );
+    return obj.getOrganisationNumber() == this.getOrganisationNumber() &&
+      obj.getLocationNumber() == this.getLocationNumber() &&
+      obj.getLanguageCode() == this.getLanguageCode();
 
   }
 
@@ -121,7 +121,7 @@ public class LCTN_VW implements Serializable {
    * @see java.lang.Object#hashCode()
    */
   public int hashCode() {
-    return getOrganisationNumber ( ) + getLocationNumber ( ) + getLanguageCode ( );
+    return getOrganisationNumber() + getLocationNumber() + getLanguageCode();
   }
 
 }

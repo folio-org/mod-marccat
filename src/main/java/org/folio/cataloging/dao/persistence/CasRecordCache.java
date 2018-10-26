@@ -60,24 +60,24 @@ public class CasRecordCache implements Serializable {
   }
 
   public String toString() {
-    return new ToStringBuilder (this)
-      .append ("comp_id", getComp_id ( ))
-      .toString ( );
+    return new ToStringBuilder(this)
+      .append("comp_id", getComp_id())
+      .toString();
   }
 
   public boolean equals(Object other) {
     if ((this == other)) return true;
     if (!(other instanceof CasRecordCache)) return false;
     CasRecordCache castOther = (CasRecordCache) other;
-    return new EqualsBuilder ( )
-      .append (this.getComp_id ( ), castOther.getComp_id ( ))
-      .isEquals ( );
+    return new EqualsBuilder()
+      .append(this.getComp_id(), castOther.getComp_id())
+      .isEquals();
   }
 
   public int hashCode() {
-    return new HashCodeBuilder ( )
-      .append (getComp_id ( ))
-      .toHashCode ( );
+    return new HashCodeBuilder()
+      .append(getComp_id())
+      .toHashCode();
   }
 
 }

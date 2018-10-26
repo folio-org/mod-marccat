@@ -21,10 +21,10 @@ public class ModifiedRecordTypeCollection {
   @JsonProperty("modifiedRecordTypes")
   @Valid
   @NotNull
-  private List <ModifiedRecordType> modifiedRecordTypes = new ArrayList <ModifiedRecordType> ( );
+  private List <ModifiedRecordType> modifiedRecordTypes = new ArrayList <ModifiedRecordType>();
 
   @JsonIgnore
-  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
+  private Map <String, Object> additionalProperties = new HashMap <String, Object>();
 
   /**
    * (Required)
@@ -58,11 +58,11 @@ public class ModifiedRecordTypeCollection {
 
   @JsonAnySetter
   public void setAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
   }
 
   public ModifiedRecordTypeCollection withAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
     return this;
   }
 }

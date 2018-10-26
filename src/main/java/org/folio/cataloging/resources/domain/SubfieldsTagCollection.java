@@ -16,10 +16,10 @@ public class SubfieldsTagCollection {
 
   @JsonProperty("subfieldsTag")
   @Valid
-  private List <SubfieldsTag> subfieldsTag = new ArrayList <SubfieldsTag> ( );
+  private List <SubfieldsTag> subfieldsTag = new ArrayList <SubfieldsTag>();
 
   @JsonIgnore
-  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
+  private Map <String, Object> additionalProperties = new HashMap <String, Object>();
 
   /**
    * @return The subfieldsTag
@@ -49,11 +49,11 @@ public class SubfieldsTagCollection {
 
   @JsonAnySetter
   public void setAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
   }
 
   public SubfieldsTagCollection withAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
     return this;
   }
 }

@@ -23,12 +23,12 @@ public class UserCommunicationKey implements Serializable {
    * Class constructor
    */
   public UserCommunicationKey() {
-    super ( );
+    super();
   }
 
   public UserCommunicationKey(int userNumber, int indexNumber) {
-    this.setUserNumber (userNumber);
-    this.setIndexNumber (indexNumber);
+    this.setUserNumber(userNumber);
+    this.setIndexNumber(indexNumber);
   }
 
   /**
@@ -39,8 +39,8 @@ public class UserCommunicationKey implements Serializable {
     if (anObject instanceof UserCommunicationKey) {
       UserCommunicationKey aKey = (UserCommunicationKey) anObject;
       return (
-        userNumber == aKey.getUserNumber ( )
-          && indexNumber == aKey.getIndexNumber ( ));
+        userNumber == aKey.getUserNumber()
+          && indexNumber == aKey.getIndexNumber());
     } else {
       return false;
     }

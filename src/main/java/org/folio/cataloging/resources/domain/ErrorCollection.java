@@ -12,7 +12,7 @@ public class ErrorCollection {
   @JsonProperty("errors")
   @Valid
   @NotNull
-  private List <Error> errors = new ArrayList <> ( );
+  private List <Error> errors = new ArrayList <>();
 
   /**
    * (Required)

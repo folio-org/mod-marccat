@@ -29,14 +29,14 @@ import static org.folio.cataloging.Global.HCONFIGURATION;
  * @since 1.0
  */
 public abstract class CatalogingHelper {
-  private final static Properties DEFAULT_VALUES = new Properties ( );
-  private final static Map <String, DataSource> DATASOURCES = new HashMap <> ( );
+  private final static Properties DEFAULT_VALUES = new Properties();
+  private final static Map <String, DataSource> DATASOURCES = new HashMap <>();
 
   static {
     try {
-      DEFAULT_VALUES.load (CatalogingHelper.class.getResourceAsStream ("/defaults.properties"));
+      DEFAULT_VALUES.load(CatalogingHelper.class.getResourceAsStream("/defaults.properties"));
     } catch (final Throwable exception) {
-      throw new ExceptionInInitializerError (exception);
+      throw new ExceptionInInitializerError(exception);
     }
   }
 
@@ -53,7 +53,7 @@ public abstract class CatalogingHelper {
     final String tenant,
     final Configuration configurator,
     final String... configurationSets) {
-    return exec (adapter, tenant, configurator, configurationSets);
+    return exec(adapter, tenant, configurator, configurationSets);
   }
 
   /**
@@ -71,13 +71,13 @@ public abstract class CatalogingHelper {
     final Configuration configurator,
     final BooleanSupplier validator,
     final String... configurationSets) {
-    if (validator.getAsBoolean ( )) {
-      final T result = exec (adapter, tenant, configurator, configurationSets);
-      final HttpHeaders headers = new HttpHeaders ( );
-      headers.add (HttpHeaders.CONTENT_TYPE, "application/json");
-      return new ResponseEntity <> (result, headers, HttpStatus.CREATED);
+    if (validator.getAsBoolean()) {
+      final T result = exec(adapter, tenant, configurator, configurationSets);
+      final HttpHeaders headers = new HttpHeaders();
+      headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
+      return new ResponseEntity <>(result, headers, HttpStatus.CREATED);
     } else {
-      throw new UnableToCreateOrUpdateEntityException ( );
+      throw new UnableToCreateOrUpdateEntityException();
     }
   }
 
@@ -96,10 +96,10 @@ public abstract class CatalogingHelper {
     final Configuration configurator,
     final BooleanSupplier validator,
     final String... configurationSets) {
-    if (validator.getAsBoolean ( )) {
-      exec (adapter, tenant, configurator, configurationSets);
+    if (validator.getAsBoolean()) {
+      exec(adapter, tenant, configurator, configurationSets);
     } else {
-      throw new UnableToCreateOrUpdateEntityException ( );
+      throw new UnableToCreateOrUpdateEntityException();
     }
   }
 
@@ -116,7 +116,7 @@ public abstract class CatalogingHelper {
     final String tenant,
     final Configuration configurator,
     final String... configurationSets) {
-    exec (adapter, tenant, configurator, configurationSets);
+    exec(adapter, tenant, configurator, configurationSets);
   }
 
   /**
@@ -131,20 +131,20 @@ public abstract class CatalogingHelper {
     final Configuration configurator,
     final String... configurationSets) {
     try {
-      final ObjectNode settings = configurator.attributes (tenant, true, configurationSets);
-      final DataSource datasource = datasource (tenant, settings);
-      try (final Connection connection = datasource.getConnection ( );
+      final ObjectNode settings = configurator.attributes(tenant, true, configurationSets);
+      final DataSource datasource = datasource(tenant, settings);
+      try (final Connection connection = datasource.getConnection();
            final StorageService service =
-             new StorageService (
-               HCONFIGURATION.buildSessionFactory ( ).openSession (connection))) {
-        return adapter.execute (service, configuration (settings));
+             new StorageService(
+               HCONFIGURATION.buildSessionFactory().openSession(connection))) {
+        return adapter.execute(service, configuration(settings));
       } catch (final SQLException exception) {
-        throw new DataAccessException (exception);
+        throw new DataAccessException(exception);
       } catch (final Throwable exception) {
-        throw new SystemInternalFailureException (exception);
+        throw new SystemInternalFailureException(exception);
       }
     } catch (final Throwable throwable) {
-      throw new SystemInternalFailureException (throwable);
+      throw new SystemInternalFailureException(throwable);
     }
   }
 
@@ -155,10 +155,10 @@ public abstract class CatalogingHelper {
    * @return a dedicated configuration for the current service.
    */
   private static Map <String, String> configuration(final ObjectNode value) {
-    return StreamSupport.stream (value.withArray ("configs").spliterator ( ), false)
-      .filter (node -> !"datasource".equals (node.get ("configName").asText ( )))
-      .map (node -> new AbstractMap.SimpleEntry <> (node.get ("code").asText ( ), node.get ("value").asText ( )))
-      .collect (toMap (AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
+    return StreamSupport.stream(value.withArray("configs").spliterator(), false)
+      .filter(node -> !"datasource".equals(node.get("configName").asText()))
+      .map(node -> new AbstractMap.SimpleEntry <>(node.get("code").asText(), node.get("value").asText()))
+      .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
   }
 
   /**
@@ -169,7 +169,7 @@ public abstract class CatalogingHelper {
    * @return the datasource configuration used within this module.
    */
   private static DataSource datasource(final String tenant, final ObjectNode value) {
-    return DATASOURCES.computeIfAbsent (tenant, k -> newDataSourceInstance (value));
+    return DATASOURCES.computeIfAbsent(tenant, k -> newDataSourceInstance(value));
   }
 
   /**
@@ -178,16 +178,16 @@ public abstract class CatalogingHelper {
    * @return a new datasource reference.
    */
   private static DataSource newDataSourceInstance(final ObjectNode value) {
-    final Map <String, String> config = StreamSupport.stream (value.withArray ("configs").spliterator ( ), false)
-      .filter (node -> "datasource".equals (node.get ("configName").asText ( )))
-      .map (node -> new AbstractMap.SimpleEntry <> (node.get ("code").asText ( ), node.get ("value").asText ( )))
-      .collect (toMap (AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
+    final Map <String, String> config = StreamSupport.stream(value.withArray("configs").spliterator(), false)
+      .filter(node -> "datasource".equals(node.get("configName").asText()))
+      .map(node -> new AbstractMap.SimpleEntry <>(node.get("code").asText(), node.get("value").asText()))
+      .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
     return DataSourceBuilder
-      .create ( )
-      .username (config.get ("user"))
-      .password (config.get ("password"))
-      .url (config.get ("url"))
-      .build ( );
+      .create()
+      .username(config.get("user"))
+      .password(config.get("password"))
+      .url(config.get("url"))
+      .build();
   }
 
   /**

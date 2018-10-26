@@ -21,7 +21,7 @@ import java.util.Comparator;
  * @since 1.0
  */
 public class GroupComparator implements Comparator {
-  private static Log logger = LogFactory.getLog (GroupComparator.class);
+  private static Log logger = LogFactory.getLog(GroupComparator.class);
 
   /*
    * (non-Javadoc)
@@ -34,25 +34,25 @@ public class GroupComparator implements Comparator {
     // recupera il tag leader del gruppo 0
     Tag t0 = null;
     if (arg0 instanceof Tag) t0 = (Tag) arg0;
-    else t0 = ((TagContainer) arg0).getLeaderTag ( );
+    else t0 = ((TagContainer) arg0).getLeaderTag();
 
     // recupera il tag leader del gruppo 1
     Tag t1 = null;
     if (arg1 instanceof Tag) t1 = (Tag) arg1;
-    else t1 = ((TagContainer) arg1).getLeaderTag ( );
+    else t1 = ((TagContainer) arg1).getLeaderTag();
 
-    return compareTagNumber (t0, t1);
+    return compareTagNumber(t0, t1);
   }
 
   protected int compareTagNumber(Object t0, Object t1) {
     try {
-      return ((Tag) t0).getMarcEncoding ( ).getMarcTag ( ).compareTo (
-        ((Tag) t1).getMarcEncoding ( ).getMarcTag ( ));
+      return ((Tag) t0).getMarcEncoding().getMarcTag().compareTo(
+        ((Tag) t1).getMarcEncoding().getMarcTag());
     } catch (MarcCorrelationException e) {
-      logger.warn ("MarcCorrelationException sorting in tag order");
+      logger.warn("MarcCorrelationException sorting in tag order");
       return 0;
     } catch (DataAccessException e) {
-      logger.warn ("DataAccessException sorting in tag order");
+      logger.warn("DataAccessException sorting in tag order");
       return 0;
     }
   }

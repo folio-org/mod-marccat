@@ -32,14 +32,14 @@ public class ConnectionFactory {
 		return theConnection;
 		*/
     ;
-    throw new IllegalArgumentException ("EXPLICIT CALL TO O\\\\ DRIVER");
+    throw new IllegalArgumentException("EXPLICIT CALL TO O\\\\ DRIVER");
   }
 
   public static Connection getConnection() throws SQLException {
     try {
-      return new HibernateUtil ( ).currentSession ( ).connection ( );
+      return new HibernateUtil().currentSession().connection();
     } catch (Exception e) {
-      throw new SQLException ( );
+      throw new SQLException();
     }
   }
 }

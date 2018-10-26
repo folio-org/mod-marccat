@@ -21,7 +21,7 @@ import java.util.List;
  * @since 1.0
  */
 public class AuthorityControlNumberAccessPoint extends AuthorityAccessPoint {
-  private CNTL_NBR descriptor = new CNTL_NBR ( );
+  private CNTL_NBR descriptor = new CNTL_NBR();
   private char validationCode = 'a';
 
   /**
@@ -30,7 +30,7 @@ public class AuthorityControlNumberAccessPoint extends AuthorityAccessPoint {
    * @since 1.0
    */
   public AuthorityControlNumberAccessPoint() {
-    super ( );
+    super();
   }
 
   /**
@@ -40,14 +40,14 @@ public class AuthorityControlNumberAccessPoint extends AuthorityAccessPoint {
    * @since 1.0
    */
   public AuthorityControlNumberAccessPoint(int itemNumber) {
-    super (itemNumber);
+    super(itemNumber);
   }
 
   /* (non-Javadoc)
    * @see AccessPoint#getAccessPointStringText()
    */
   public StringText getAccessPointStringText() {
-    return new StringText ( );
+    return new StringText();
   }
 
   /* (non-Javadoc)
@@ -68,14 +68,14 @@ public class AuthorityControlNumberAccessPoint extends AuthorityAccessPoint {
    * @see TagInterface#getCorrelationValues()
    */
   public CorrelationValues getCorrelationValues() {
-    return getDescriptor ( ).getCorrelationValues ( );
+    return getDescriptor().getCorrelationValues();
   }
 
   /* (non-Javadoc)
    * @see TagInterface#setCorrelationValues(librisuite.business.common.CorrelationValues)
    */
   public void setCorrelationValues(CorrelationValues v) {
-    getDescriptor ( ).setCorrelationValues (v);
+    getDescriptor().setCorrelationValues(v);
   }
 
   /**
@@ -96,9 +96,9 @@ public class AuthorityControlNumberAccessPoint extends AuthorityAccessPoint {
    * @see VariableField#getStringText()
    */
   public StringText getStringText() {
-    StringText s = super.getStringText ( );
-    if (getValidationCode ( ) != 'a') {
-      s.getSubfield (0).setCode (String.valueOf (getValidationCode ( )));
+    StringText s = super.getStringText();
+    if (getValidationCode() != 'a') {
+      s.getSubfield(0).setCode(String.valueOf(getValidationCode()));
     }
     return s;
   }
@@ -130,7 +130,7 @@ public class AuthorityControlNumberAccessPoint extends AuthorityAccessPoint {
    * @see AccessPoint#setDescriptorStringText(org.folio.cataloging.util.StringText)
    */
   public void setDescriptorStringText(StringText tagStringText) {
-    getDescriptor ( ).setStringText (tagStringText.toString ( ));
+    getDescriptor().setStringText(tagStringText.toString());
   }
 
 }

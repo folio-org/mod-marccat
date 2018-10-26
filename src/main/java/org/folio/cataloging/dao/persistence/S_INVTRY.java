@@ -22,7 +22,7 @@ public class S_INVTRY {
    * @since 1.0
    */
   public S_INVTRY() {
-    super ( );
+    super();
     // TODO Auto-generated constructor stub
   }
 

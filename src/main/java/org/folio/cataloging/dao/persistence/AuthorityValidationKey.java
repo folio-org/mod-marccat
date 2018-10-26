@@ -26,7 +26,7 @@ public class AuthorityValidationKey extends ValidationKey implements Serializabl
    * @since 1.0
    */
   public AuthorityValidationKey() {
-    super ( );
+    super();
     // TODO Auto-generated constructor stub
   }
 

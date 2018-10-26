@@ -35,15 +35,15 @@ public class DAOUserAccount extends HibernateUtil {
    * <p>
    * Oracle 9.1 not tested
    */
-  private static String padding = Defaults.getString ("padding.user");
-  private static String broker = Defaults.getString ("authentication.broker");
-  private static String ldapPrefix = Defaults.getString ("username.ldap.prefix");
+  private static String padding = Defaults.getString("padding.user");
+  private static String broker = Defaults.getString("authentication.broker");
+  private static String ldapPrefix = Defaults.getString("username.ldap.prefix");
 
 
   private String toStringUserAccount(String name) {
     String stringName = name;
-    if (DEFAULT_LDAP_AUTH_BROKER.equals (broker)) {
-      if (Character.isDigit (name.charAt (0))) {
+    if (DEFAULT_LDAP_AUTH_BROKER.equals(broker)) {
+      if (Character.isDigit(name.charAt(0))) {
         stringName = ldapPrefix + name;
       }
     }
@@ -57,29 +57,29 @@ public class DAOUserAccount extends HibernateUtil {
     //Defaults.getBoolean("padding.user").handle(result -> {
 
     //})
-    if (padding == null || "true".equalsIgnoreCase (padding.trim ( ))) {
-      return name.concat ("            ").substring (0, 12);
+    if (padding == null || "true".equalsIgnoreCase(padding.trim())) {
+      return name.concat("            ").substring(0, 12);
     } else return name;
   }
 
   public USR_ACNT load(final String userAccount) throws DataAccessException {
-    final Session session = currentSession ( );
-    return (USR_ACNT) get (session, USR_ACNT.class, padUserAccount (toStringUserAccount (userAccount)));
+    final Session session = currentSession();
+    return (USR_ACNT) get(session, USR_ACNT.class, padUserAccount(toStringUserAccount(userAccount)));
   }
 
   public List getModuleAuthorisations(String userAccount)
     throws DataAccessException {
-    Session s = currentSession ( );
+    Session s = currentSession();
     List result = null;
     try {
       result =
-        s.find (
+        s.find(
           "from ModuleAuthorisation ma where ma.userAccount = ?",
-          padUserAccount (toStringUserAccount (userAccount)),
+          padUserAccount(toStringUserAccount(userAccount)),
           Hibernate.STRING);
 
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
 
     return result;
@@ -87,20 +87,20 @@ public class DAOUserAccount extends HibernateUtil {
 
   public List getTagAuthorisations(String userAccount)
     throws DataAccessException {
-    Session s = currentSession ( );
+    Session s = currentSession();
     List result = null;
     try {
       result =
-        s.find (
+        s.find(
           "from TagAuthorisation ta where ta.userAccount = ?",
           /*
            * Note that userAccount in this table is VARCHAR and therefore
            * should not be padded to 12
            */
-          toStringUserAccount (userAccount),
+          toStringUserAccount(userAccount),
           Hibernate.STRING);
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     return result;
   }

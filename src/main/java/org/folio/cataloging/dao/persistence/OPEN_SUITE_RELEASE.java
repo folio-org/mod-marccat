@@ -38,7 +38,7 @@ public class OPEN_SUITE_RELEASE implements Serializable {
       return true;
     if (obj == null)
       return false;
-    if (getClass ( ) != obj.getClass ( ))
+    if (getClass() != obj.getClass())
       return false;
     OPEN_SUITE_RELEASE other = (OPEN_SUITE_RELEASE) obj;
     if (releaseNumber != other.releaseNumber)

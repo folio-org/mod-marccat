@@ -28,7 +28,7 @@ public class LocationKey implements Serializable {
    */
 
   public LocationKey() {
-    super ( );
+    super();
   }
 
   /**
@@ -38,8 +38,8 @@ public class LocationKey implements Serializable {
    */
 
   public LocationKey(int orgNbr, short locNbr) {
-    this.setOrganisationNumber (orgNbr);
-    this.setLocationNumber (locNbr);
+    this.setOrganisationNumber(orgNbr);
+    this.setLocationNumber(locNbr);
   }
 
   /**
@@ -49,16 +49,16 @@ public class LocationKey implements Serializable {
     if (anObject instanceof LocationKey) {
       LocationKey aKey = (LocationKey) anObject;
       return (
-        organisationNumber == aKey.getOrganisationNumber ( )
-          && locationNumber == aKey.getLocationNumber ( )
-          && language.equals (aKey.language));
+        organisationNumber == aKey.getOrganisationNumber()
+          && locationNumber == aKey.getLocationNumber()
+          && language.equals(aKey.language));
     } else {
       return false;
     }
   }
 
   public int hashCode() {
-    return organisationNumber + locationNumber + getLanguage ( ).hashCode ( );
+    return organisationNumber + locationNumber + getLanguage().hashCode();
   }
 
 

@@ -28,55 +28,55 @@ public class PublisherManagerDAO extends AbstractDAO {
 
   public void delete(Persistence po, final Session session) throws DataAccessException {
     if (!(po instanceof PublisherManager)) {
-      throw new IllegalArgumentException (
+      throw new IllegalArgumentException(
         "I can only persist PublisherManager objects");
     }
     PublisherManager aPub = (PublisherManager) po;
-    PublisherAccessPoint apf = aPub.getApf ( );
-    apf.markDeleted ( );
+    PublisherAccessPoint apf = aPub.getApf();
+    apf.markDeleted();
 
     try {
-      persistByStatus (apf, session);
+      persistByStatus(apf, session);
     } catch (HibernateException e) {
-      throw new DataAccessException (e);
+      throw new DataAccessException(e);
     }
   }
 
 
   public void save(final Persistence po, final Session session) throws DataAccessException {
     if (!(po instanceof PublisherManager)) {
-      throw new IllegalArgumentException (
+      throw new IllegalArgumentException(
         "I can only persist PublisherManager objects");
     }
     Transaction tx = null;
     try {
-      tx = getTransaction (session);
+      tx = getTransaction(session);
 
-      int tagNumber = getNextPublisherTagNumber (session);
+      int tagNumber = getNextPublisherTagNumber(session);
       PublisherManager aPub = (PublisherManager) po;
-      PublisherAccessPoint apf = aPub.getApf ( );
+      PublisherAccessPoint apf = aPub.getApf();
 
-      List <PUBL_TAG> publTags = aPub.getPublisherTagUnits ( );
-      publTags.forEach (ptag -> {
+      List <PUBL_TAG> publTags = aPub.getPublisherTagUnits();
+      publTags.forEach(ptag -> {
         try {
-          session.evict (ptag);
-          ptag.markNew ( );
-          ptag.setPublisherTagNumber (tagNumber);
-          persistByStatus (ptag, session);
+          session.evict(ptag);
+          ptag.markNew();
+          ptag.setPublisherTagNumber(tagNumber);
+          persistByStatus(ptag, session);
         } catch (HibernateException e) {
-          throw new DataAccessException (e);
+          throw new DataAccessException(e);
         }
       });
 
-      session.evict (apf);
-      apf.markNew ( );
-      apf.setHeadingNumber (new Integer (tagNumber));
-      persistByStatus (apf, session);
+      session.evict(apf);
+      apf.markNew();
+      apf.setHeadingNumber(new Integer(tagNumber));
+      persistByStatus(apf, session);
 
-      tx.commit ( );
+      tx.commit();
     } catch (HibernateException exception) {
-      cleanUp (tx);
-      throw new DataAccessException (exception);
+      cleanUp(tx);
+      throw new DataAccessException(exception);
     }
 
   }
@@ -88,24 +88,24 @@ public class PublisherManagerDAO extends AbstractDAO {
    */
   public void update(final Persistence p, final Session session) throws DataAccessException {
     if (!(p instanceof PublisherManager)) {
-      throw new IllegalArgumentException (
+      throw new IllegalArgumentException(
         "Can only persist PublisherManager objects");
     }
     Transaction tx = null;
     try {
-      tx = getTransaction (session);
+      tx = getTransaction(session);
       PublisherManager aPub = (PublisherManager) p;
-      PublisherAccessPoint apf = aPub.getApf ( );
-      apf.markDeleted ( );
-      persistByStatus (apf, session);
-      session.flush ( );
-      session.evict (apf);
-      apf.markNew ( );
-      save (p, session);
-      tx.commit ( );
+      PublisherAccessPoint apf = aPub.getApf();
+      apf.markDeleted();
+      persistByStatus(apf, session);
+      session.flush();
+      session.evict(apf);
+      apf.markNew();
+      save(p, session);
+      tx.commit();
     } catch (HibernateException exception) {
-      cleanUp (tx);
-      throw new DataAccessException (exception);
+      cleanUp(tx);
+      throw new DataAccessException(exception);
     }
   }
 
@@ -115,18 +115,18 @@ public class PublisherManagerDAO extends AbstractDAO {
     ResultSet rs = null;
 
     try {
-      stmt = session.connection ( ).prepareStatement ("SELECT nextval('publ_tag_seq')");
-      rs = stmt.executeQuery ( );
-      rs.next ( );
-      result = rs.getInt (1);
+      stmt = session.connection().prepareStatement("SELECT nextval('publ_tag_seq')");
+      rs = stmt.executeQuery();
+      rs.next();
+      result = rs.getInt(1);
     } catch (SQLException | HibernateException e) {
-      throw new DataAccessException (e);
+      throw new DataAccessException(e);
     } finally {
       try {
-        if (stmt != null) stmt.close ( );
-        if (rs != null) rs.close ( );
+        if (stmt != null) stmt.close();
+        if (rs != null) rs.close();
       } catch (SQLException e) {
-        throw new DataAccessException (e);
+        throw new DataAccessException(e);
       }
     }
     return result;

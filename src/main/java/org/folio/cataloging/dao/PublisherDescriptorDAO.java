@@ -41,8 +41,8 @@ public class PublisherDescriptorDAO extends DAODescriptor {
   public PUBL_HDG getMatchingHeading(final Descriptor descriptor, final Session session)
     throws HibernateException {
     final PUBL_HDG publisher = (PUBL_HDG) descriptor;
-    final List <PUBL_HDG> l = session.find ("from "
-        + getPersistentClass ( ).getName ( )
+    final List <PUBL_HDG> l = session.find("from "
+        + getPersistentClass().getName()
         + " as c "
         + " where c.nameStringText = ?"
         + " and c.placeStringText = ? "
@@ -50,19 +50,19 @@ public class PublisherDescriptorDAO extends DAODescriptor {
         + " and c.accessPointLanguage = ?"
         + " and c.key.userViewString = ? ",
       new Object[]{
-        publisher.getNameStringText ( ),
-        publisher.getPlaceStringText ( ),
-        publisher.getIndexingLanguage ( ),
-        publisher.getAccessPointLanguage ( ),
-        publisher.getUserViewString ( )},
+        publisher.getNameStringText(),
+        publisher.getPlaceStringText(),
+        publisher.getIndexingLanguage(),
+        publisher.getAccessPointLanguage(),
+        publisher.getUserViewString()},
       new Type[]{
         Hibernate.STRING,
         Hibernate.STRING,
         Hibernate.INTEGER,
         Hibernate.INTEGER,
         Hibernate.STRING});
-    if (l.size ( ) == 1) {
-      return l.get (0);
+    if (l.size() == 1) {
+      return l.get(0);
     } else {
       return null;
     }
@@ -81,9 +81,9 @@ public class PublisherDescriptorDAO extends DAODescriptor {
   public boolean isMatchingAnotherHeading(final Descriptor descriptor, final Session session)
     throws HibernateException {
     final PUBL_HDG publisher = (PUBL_HDG) descriptor;
-    final List <Integer> publisherList = session.find (
+    final List <Integer> publisherList = session.find(
       "select count(*) from "
-        + getPersistentClass ( ).getName ( )
+        + getPersistentClass().getName()
         + " as c "
         + " where c.nameStringText = ?"
         + " and c.placeStringText = ? "
@@ -92,12 +92,12 @@ public class PublisherDescriptorDAO extends DAODescriptor {
         + " and c.key.userViewString = ? "
         + " and c.key.headingNumber <> ?",
       new Object[]{
-        publisher.getNameStringText ( ),
-        publisher.getPlaceStringText ( ),
-        publisher.getIndexingLanguage ( ),
-        publisher.getAccessPointLanguage ( ),
-        publisher.getUserViewString ( ),
-        descriptor.getKey ( ).getHeadingNumber ( )},
+        publisher.getNameStringText(),
+        publisher.getPlaceStringText(),
+        publisher.getIndexingLanguage(),
+        publisher.getAccessPointLanguage(),
+        publisher.getUserViewString(),
+        descriptor.getKey().getHeadingNumber()},
       new Type[]{Hibernate.STRING,
         Hibernate.STRING,
         Hibernate.INTEGER,
@@ -105,7 +105,7 @@ public class PublisherDescriptorDAO extends DAODescriptor {
         Hibernate.STRING,
         Hibernate.INTEGER
       });
-    return publisherList.get (0) > 0;
+    return publisherList.get(0) > 0;
 
   }
 
@@ -120,14 +120,14 @@ public class PublisherDescriptorDAO extends DAODescriptor {
    */
   public String calculateSearchTerm(final String term, final String browseIndex, final Session session)
     throws HibernateException, SQLException {
-    String searchTerm = super.calculateSearchTerm (term, browseIndex, session);
-    final String[] parsedTerm = term.split (":");
+    String searchTerm = super.calculateSearchTerm(term, browseIndex, session);
+    final String[] parsedTerm = term.split(":");
     if (parsedTerm.length == 2) {
-      String place = parsedTerm[0].trim ( );
-      String name = parsedTerm[1].trim ( );
-      searchTerm = new StringBuilder ( ).append (calculateSearchTerm (place, browseIndex, session))
-        .append (" : ")
-        .append (calculateSearchTerm (name, browseIndex, session)).toString ( );
+      String place = parsedTerm[0].trim();
+      String name = parsedTerm[1].trim();
+      searchTerm = new StringBuilder().append(calculateSearchTerm(place, browseIndex, session))
+        .append(" : ")
+        .append(calculateSearchTerm(name, browseIndex, session)).toString();
     }
     return searchTerm;
   }
@@ -146,29 +146,29 @@ public class PublisherDescriptorDAO extends DAODescriptor {
     throws HibernateException {
     if (searchingView == View.ANY) {
       List <Integer> countList =
-        session.find (
+        session.find(
           "select count(*) from PublisherAccessPoint as a, PUBL_TAG as b "
             + " where a.headingNumber = b.publisherTagNumber "
             + " and b.publisherHeadingNumber = ? ",
           new Object[]{
-            descriptor.getHeadingNumber ( )},
+            descriptor.getHeadingNumber()},
           new Type[]{
             Hibernate.INTEGER});
-      return countList.get (0);
+      return countList.get(0);
     } else {
       List <Integer> countList =
-        session.find (
+        session.find(
           "select count(*) from PublisherAccessPoint as a, PUBL_TAG as b "
             + " where a.headingNumber = b.publisherTagNumber "
             + " and b.publisherHeadingNumber = ? "
             + " and substr(b.userViewString, ?, 1) = '1'",
           new Object[]{
-            descriptor.getHeadingNumber ( ),
+            descriptor.getHeadingNumber(),
             searchingView},
           new Type[]{
             Hibernate.INTEGER,
             Hibernate.INTEGER});
-      return countList.get (0);
+      return countList.get(0);
     }
 
   }

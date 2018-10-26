@@ -29,7 +29,7 @@ public class EquivalenceReference extends AuthorityReferenceTag {
    */
   private static final long serialVersionUID = 1L;
 
-  private static final Log logger = LogFactory.getLog (EquivalenceReference.class);
+  private static final Log logger = LogFactory.getLog(EquivalenceReference.class);
 
   /**
    * Class constructor
@@ -37,7 +37,7 @@ public class EquivalenceReference extends AuthorityReferenceTag {
    * @since 1.0
    */
   public EquivalenceReference() {
-    super ( );
+    super();
   }
 
   @Override
@@ -47,10 +47,10 @@ public class EquivalenceReference extends AuthorityReferenceTag {
 
   @Override
   public CorrelationKey getMarcEncoding() throws DataAccessException {
-    CorrelationKey key = super.getMarcEncoding ( );
-    logger.debug ("getMarcEncoding before source: " + key);
-    key = key.changeAuthoritySourceIndicator (getDescriptor ( ).getAuthoritySourceCode ( ));
-    logger.debug ("getMarcEncoding after source: " + key);
+    CorrelationKey key = super.getMarcEncoding();
+    logger.debug("getMarcEncoding before source: " + key);
+    key = key.changeAuthoritySourceIndicator(getDescriptor().getAuthoritySourceCode());
+    logger.debug("getMarcEncoding after source: " + key);
     return key;
   }
 
@@ -61,10 +61,10 @@ public class EquivalenceReference extends AuthorityReferenceTag {
   public StringText getStringText() {
     String subw =
       ""
-        + getReference ( ).getLinkDisplay ( )
-        + getReference ( ).getReplacementComplexity ( );
-    StringText result = super.getStringText ( );
-    result.addSubfield (new Subfield ("w", subw));
+        + getReference().getLinkDisplay()
+        + getReference().getReplacementComplexity();
+    StringText result = super.getStringText();
+    result.addSubfield(new Subfield("w", subw));
     return result;
   }
 
@@ -72,8 +72,8 @@ public class EquivalenceReference extends AuthorityReferenceTag {
    * @see TagInterface#correlationChangeAffectsKey(librisuite.business.common.CorrelationValues)
    */
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
-    if (!super.correlationChangeAffectsKey (v)) {
-      return !ReferenceType.isEquivalence (v.getValue (getRefTypeCorrelationPosition ( )));
+    if (!super.correlationChangeAffectsKey(v)) {
+      return !ReferenceType.isEquivalence(v.getValue(getRefTypeCorrelationPosition()));
     } else {
       return false;
     }
@@ -81,10 +81,10 @@ public class EquivalenceReference extends AuthorityReferenceTag {
 
   @Override
   public void parseModelXmlElementContent(Element xmlElement) {
-    StringText s = StringText.parseModelXmlElementContent (xmlElement);
-    String subw = s.getSubfieldsWithCodes ("w").getSubfield (0).getContent ( );
-    getReference ( ).setLinkDisplay (subw.charAt (0));
-    getReference ( ).setReplacementComplexity (subw.charAt (1));
+    StringText s = StringText.parseModelXmlElementContent(xmlElement);
+    String subw = s.getSubfieldsWithCodes("w").getSubfield(0).getContent();
+    getReference().setLinkDisplay(subw.charAt(0));
+    getReference().setReplacementComplexity(subw.charAt(1));
   }
 
 }

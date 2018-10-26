@@ -21,10 +21,10 @@ public class FrbrTypeCollection {
   @JsonProperty("frbrTypes")
   @Valid
   @NotNull
-  private List <FrbrType> frbrTypes = new ArrayList <FrbrType> ( );
+  private List <FrbrType> frbrTypes = new ArrayList <FrbrType>();
 
   @JsonIgnore
-  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
+  private Map <String, Object> additionalProperties = new HashMap <String, Object>();
 
   /**
    * (Required)
@@ -58,11 +58,11 @@ public class FrbrTypeCollection {
 
   @JsonAnySetter
   public void setAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
   }
 
   public FrbrTypeCollection withAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
     return this;
   }
 }

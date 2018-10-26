@@ -42,11 +42,11 @@ public class PublisherNameDescriptorDAO extends PublisherDescriptorDAO {
    */
   public List <Descriptor> getHeadingsBySortform(final String operator, final String direction, final String term, final String filter, final int searchingView, final int count, final Session session)
     throws HibernateException {
-    final String[] parsedTerm = term.split (" : ");
+    final String[] parsedTerm = term.split(" : ");
     if (parsedTerm.length < 2) {
-      return getSortformByOneSearchTerm (operator, direction, term, filter, searchingView, count, session);
+      return getSortformByOneSearchTerm(operator, direction, term, filter, searchingView, count, session);
     } else {
-      return getSortformByTwoSearchTerms (operator, direction, filter, searchingView, count, parsedTerm, session);
+      return getSortformByTwoSearchTerms(operator, direction, filter, searchingView, count, parsedTerm, session);
     }
   }
 
@@ -68,21 +68,21 @@ public class PublisherNameDescriptorDAO extends PublisherDescriptorDAO {
     final String name;
     final String place;
     String viewClause = "";
-    place = parsedTerm[0].trim ( );
-    name = parsedTerm[1].trim ( );
+    place = parsedTerm[0].trim();
+    name = parsedTerm[1].trim();
     List <Descriptor> publisherList = null;
 
     if (searchingView != View.ANY) {
       viewClause = " and SUBSTR(hdg.key.userViewString, " + searchingView + ", 1) = '1' ";
     }
 
-    if (operator.equals ("<")) {
+    if (operator.equals("<")) {
       Query q =
-        session.createQuery (
+        session.createQuery(
           "from "
-            + getPersistentClass ( ).getName ( )
+            + getPersistentClass().getName()
             + " as hdg where hdg.nameSortForm "
-            + (operator.equals ("<") ? "<=" : operator)
+            + (operator.equals("<") ? "<=" : operator)
             + " :name  and "
             + " hdg.placeSortForm "
             + operator
@@ -93,18 +93,18 @@ public class PublisherNameDescriptorDAO extends PublisherDescriptorDAO {
             + direction
             + ", hdg.placeSortForm "
             + direction);
-      q.setString ("place", place);
-      q.setString ("name", name);
-      q.setMaxResults (count);
-      publisherList = q.list ( );
+      q.setString("place", place);
+      q.setString("name", name);
+      q.setMaxResults(count);
+      publisherList = q.list();
       return publisherList;
 
-    } else if (operator.contains (">=") || operator.contains ("<=")) {
+    } else if (operator.contains(">=") || operator.contains("<=")) {
       String nextOperator = operator;
-      nextOperator = nextOperator.replaceAll ("=", "");
+      nextOperator = nextOperator.replaceAll("=", "");
 
       final String select = "select distinct hdg from "
-        + getPersistentClass ( ).getName ( )
+        + getPersistentClass().getName()
         + " as hdg where "
         + " (hdg.nameSortForm = "
         + " :name  and "
@@ -117,7 +117,7 @@ public class PublisherNameDescriptorDAO extends PublisherDescriptorDAO {
         + " :name ";
 
       final Query q =
-        session.createQuery (select
+        session.createQuery(select
           + viewClause
           + filter
           + " order by hdg.nameSortForm "
@@ -125,10 +125,10 @@ public class PublisherNameDescriptorDAO extends PublisherDescriptorDAO {
           + ", hdg.placeSortForm "
           + direction);
 
-      q.setString ("place", place);
-      q.setString ("name", name);
-      q.setMaxResults (count);
-      publisherList = q.list ( );
+      q.setString("place", place);
+      q.setString("name", name);
+      q.setMaxResults(count);
+      publisherList = q.list();
       return publisherList;
 
     }
@@ -155,9 +155,9 @@ public class PublisherNameDescriptorDAO extends PublisherDescriptorDAO {
       viewClause = " and SUBSTR(hdg.key.userViewString, " + searchingView + ", 1) = '1' ";
     }
     final Query q =
-      session.createQuery (
+      session.createQuery(
         "from "
-          + getPersistentClass ( ).getName ( )
+          + getPersistentClass().getName()
           + " as hdg where hdg.nameSortForm "
           + operator
           + " :term  "
@@ -167,9 +167,9 @@ public class PublisherNameDescriptorDAO extends PublisherDescriptorDAO {
           + direction
           + ", hdg.placeSortForm "
           + direction);
-    q.setString ("term", term);
-    q.setMaxResults (count);
-    return q.list ( );
+    q.setString("term", term);
+    q.setMaxResults(count);
+    return q.list();
   }
 
 
@@ -181,11 +181,11 @@ public class PublisherNameDescriptorDAO extends PublisherDescriptorDAO {
    */
   public String getBrowsingSortForm(final Descriptor descriptor) {
     if (!(descriptor instanceof PUBL_HDG)) {
-      throw new IllegalArgumentException ( );
+      throw new IllegalArgumentException();
     }
     PUBL_HDG publisher = (PUBL_HDG) descriptor;
-    return new StringBuilder ( ).append (publisher.getPlaceSortForm ( ))
-      .append (" : ")
-      .append (publisher.getNameSortForm ( )).toString ( );
+    return new StringBuilder().append(publisher.getPlaceSortForm())
+      .append(" : ")
+      .append(publisher.getNameSortForm()).toString();
   }
 }

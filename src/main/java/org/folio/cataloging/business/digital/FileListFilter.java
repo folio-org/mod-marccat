@@ -12,6 +12,6 @@ public class FileListFilter implements FilenameFilter {
 
   public boolean accept(File dir, String name) {
 //---->	Deve accettare tutte le directory e tutti i files che iniziano per la stringa passata
-    return ((new File (dir, name).isDirectory ( )) || (name.toLowerCase ( ).startsWith (pattern.toLowerCase ( ))));
+    return ((new File(dir, name).isDirectory()) || (name.toLowerCase().startsWith(pattern.toLowerCase())));
   }
 }

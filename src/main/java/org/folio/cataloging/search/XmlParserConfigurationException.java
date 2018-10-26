@@ -22,28 +22,28 @@ public class XmlParserConfigurationException extends ModCatalogingException {
    * @see Exception#Exception()
    */
   public XmlParserConfigurationException() {
-    super ( );
+    super();
   }
 
   /**
    * @see Exception#Exception(String)
    */
   public XmlParserConfigurationException(String message) {
-    super (message);
+    super(message);
   }
 
   /**
    * @see Exception#Exception(String, Throwable)
    */
   public XmlParserConfigurationException(String message, Throwable cause) {
-    super (message, cause);
+    super(message, cause);
   }
 
   /**
    * @see Exception#Exception(Throwable)
    */
   public XmlParserConfigurationException(Throwable cause) {
-    super (cause);
+    super(cause);
   }
 
 }

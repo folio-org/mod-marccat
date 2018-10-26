@@ -28,8 +28,8 @@ public class SoundRecording extends PhysicalDescription {
 
 
   public SoundRecording() {
-    super ( );
-    setHeaderType (29);
+    super();
+    setHeaderType(29);
   }
 
   /* (non-Javadoc)
@@ -38,20 +38,20 @@ public class SoundRecording extends PhysicalDescription {
   public String getDisplayString() {
     String result =
       ""
-        + getGeneralMaterialDesignationCode ( )
-        + getSpecificMaterialDesignationCode ( )
+        + getGeneralMaterialDesignationCode()
+        + getSpecificMaterialDesignationCode()
         + " "
-        + getSpeedCode ( )
-        + getConfigurationCode ( )
-        + getGrooveWidthCode ( )
-        + getDimensionsCode ( )
-        + getTapeWidthCode ( )
-        + getTapeConfigurationCode ( )
-        + getDiscTypeCode ( )
-        + getSndMaterialTypeCode ( )
-        + getCuttingTypeCode ( )
-        + getSpecialPlaybackCharacteristicsCode ( )
-        + getStorageTechniqueCode ( );
+        + getSpeedCode()
+        + getConfigurationCode()
+        + getGrooveWidthCode()
+        + getDimensionsCode()
+        + getTapeWidthCode()
+        + getTapeConfigurationCode()
+        + getDiscTypeCode()
+        + getSndMaterialTypeCode()
+        + getCuttingTypeCode()
+        + getSpecialPlaybackCharacteristicsCode()
+        + getStorageTechniqueCode();
     return result;
   }
 
@@ -59,8 +59,8 @@ public class SoundRecording extends PhysicalDescription {
    * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
    */
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
-    SystemNextNumberDAO dao = new SystemNextNumberDAO ( );
-    setKeyNumber (dao.getNextNumber ("X8", session));
+    SystemNextNumberDAO dao = new SystemNextNumberDAO();
+    setKeyNumber(dao.getNextNumber("X8", session));
   }
 
   /* (non-Javadoc)
@@ -241,57 +241,57 @@ public class SoundRecording extends PhysicalDescription {
   public Element generateModelXmlElementContent(Document xmlDocument) {
     Element content = null;
     if (xmlDocument != null) {
-      content = xmlDocument.createElement ("content");
-      content.setAttribute ("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode ( ));
-      content.setAttribute ("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode ( ));
-      content.setAttribute ("speedCode", "" + getSpeedCode ( ));
-      content.setAttribute ("configurationCode", "" + getConfigurationCode ( ));
-      content.setAttribute ("grooveWidthCode", "" + getGrooveWidthCode ( ));
-      content.setAttribute ("dimensionsCode", "" + getDimensionsCode ( ));
-      content.setAttribute ("tapeWidthCode", "" + getTapeWidthCode ( ));
-      content.setAttribute ("tapeConfigurationCode", "" + getTapeConfigurationCode ( ));
-      content.setAttribute ("discTypeCode", "" + getDiscTypeCode ( ));
-      content.setAttribute ("sndMaterialTypeCode", "" + getSndMaterialTypeCode ( ));
-      content.setAttribute ("cuttingTypeCode", "" + getCuttingTypeCode ( ));
-      content.setAttribute ("specialPlaybackCharacteristicsCode", "" + getSpecialPlaybackCharacteristicsCode ( ));
-      content.setAttribute ("storageTechniqueCode", "" + getStorageTechniqueCode ( ));
+      content = xmlDocument.createElement("content");
+      content.setAttribute("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode());
+      content.setAttribute("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode());
+      content.setAttribute("speedCode", "" + getSpeedCode());
+      content.setAttribute("configurationCode", "" + getConfigurationCode());
+      content.setAttribute("grooveWidthCode", "" + getGrooveWidthCode());
+      content.setAttribute("dimensionsCode", "" + getDimensionsCode());
+      content.setAttribute("tapeWidthCode", "" + getTapeWidthCode());
+      content.setAttribute("tapeConfigurationCode", "" + getTapeConfigurationCode());
+      content.setAttribute("discTypeCode", "" + getDiscTypeCode());
+      content.setAttribute("sndMaterialTypeCode", "" + getSndMaterialTypeCode());
+      content.setAttribute("cuttingTypeCode", "" + getCuttingTypeCode());
+      content.setAttribute("specialPlaybackCharacteristicsCode", "" + getSpecialPlaybackCharacteristicsCode());
+      content.setAttribute("storageTechniqueCode", "" + getStorageTechniqueCode());
     }
     return content;
   }
 
   public void parseModelXmlElementContent(Element xmlElement) {
-    Element content = (Element) xmlElement.getChildNodes ( ).item (0);
-    setGeneralMaterialDesignationCode (content.getAttribute ("generalMaterialDesignationCode").charAt (0));
-    setSpecificMaterialDesignationCode (content.getAttribute ("specificMaterialDesignationCode").charAt (0));
-    setSpeedCode (content.getAttribute ("speedCode").charAt (0));
-    setConfigurationCode (content.getAttribute ("configurationCode").charAt (0));
-    setGrooveWidthCode (content.getAttribute ("grooveWidthCode").charAt (0));
-    setDimensionsCode (content.getAttribute ("dimensionsCode").charAt (0));
-    setTapeWidthCode (content.getAttribute ("tapeWidthCode").charAt (0));
-    setTapeConfigurationCode (content.getAttribute ("tapeConfigurationCode").charAt (0));
-    setDiscTypeCode (content.getAttribute ("discTypeCode").charAt (0));
-    setSndMaterialTypeCode (content.getAttribute ("sndMaterialTypeCode").charAt (0));
-    setCuttingTypeCode (content.getAttribute ("cuttingTypeCode").charAt (0));
-    setSpecialPlaybackCharacteristicsCode (content.getAttribute ("specialPlaybackCharacteristicsCode").charAt (0));
-    setStorageTechniqueCode (content.getAttribute ("storageTechniqueCode").charAt (0));
+    Element content = (Element) xmlElement.getChildNodes().item(0);
+    setGeneralMaterialDesignationCode(content.getAttribute("generalMaterialDesignationCode").charAt(0));
+    setSpecificMaterialDesignationCode(content.getAttribute("specificMaterialDesignationCode").charAt(0));
+    setSpeedCode(content.getAttribute("speedCode").charAt(0));
+    setConfigurationCode(content.getAttribute("configurationCode").charAt(0));
+    setGrooveWidthCode(content.getAttribute("grooveWidthCode").charAt(0));
+    setDimensionsCode(content.getAttribute("dimensionsCode").charAt(0));
+    setTapeWidthCode(content.getAttribute("tapeWidthCode").charAt(0));
+    setTapeConfigurationCode(content.getAttribute("tapeConfigurationCode").charAt(0));
+    setDiscTypeCode(content.getAttribute("discTypeCode").charAt(0));
+    setSndMaterialTypeCode(content.getAttribute("sndMaterialTypeCode").charAt(0));
+    setCuttingTypeCode(content.getAttribute("cuttingTypeCode").charAt(0));
+    setSpecialPlaybackCharacteristicsCode(content.getAttribute("specialPlaybackCharacteristicsCode").charAt(0));
+    setStorageTechniqueCode(content.getAttribute("storageTechniqueCode").charAt(0));
   }
 
   //@paulm, us_bbl_loading
   @Override
   public void setContentFromMarcString(final String s) {
-    setGeneralMaterialDesignationCode (s.charAt (0));
-    if (s.length ( ) > 1) setSpecificMaterialDesignationCode (s.charAt (1));
-    else setSpecificMaterialDesignationCode ('u');
-    if (s.length ( ) > 3) setSpeedCode (s.charAt (3));
-    if (s.length ( ) > 4) setConfigurationCode (s.charAt (4));
-    if (s.length ( ) > 5) setGrooveWidthCode (s.charAt (5));
-    if (s.length ( ) > 6) setDimensionsCode (s.charAt (6));
-    if (s.length ( ) > 7) setTapeWidthCode (s.charAt (7));
-    if (s.length ( ) > 8) setTapeConfigurationCode (s.charAt (8));
-    if (s.length ( ) > 9) setDiscTypeCode (s.charAt (9));
-    if (s.length ( ) > 10) setSndMaterialTypeCode (s.charAt (10));
-    if (s.length ( ) > 11) setCuttingTypeCode (s.charAt (11));
-    if (s.length ( ) > 12) setSpecialPlaybackCharacteristicsCode (s.charAt (12));
-    if (s.length ( ) > 13) setStorageTechniqueCode (s.charAt (13));
+    setGeneralMaterialDesignationCode(s.charAt(0));
+    if (s.length() > 1) setSpecificMaterialDesignationCode(s.charAt(1));
+    else setSpecificMaterialDesignationCode('u');
+    if (s.length() > 3) setSpeedCode(s.charAt(3));
+    if (s.length() > 4) setConfigurationCode(s.charAt(4));
+    if (s.length() > 5) setGrooveWidthCode(s.charAt(5));
+    if (s.length() > 6) setDimensionsCode(s.charAt(6));
+    if (s.length() > 7) setTapeWidthCode(s.charAt(7));
+    if (s.length() > 8) setTapeConfigurationCode(s.charAt(8));
+    if (s.length() > 9) setDiscTypeCode(s.charAt(9));
+    if (s.length() > 10) setSndMaterialTypeCode(s.charAt(10));
+    if (s.length() > 11) setCuttingTypeCode(s.charAt(11));
+    if (s.length() > 12) setSpecialPlaybackCharacteristicsCode(s.charAt(12));
+    if (s.length() > 13) setStorageTechniqueCode(s.charAt(13));
   }
 }

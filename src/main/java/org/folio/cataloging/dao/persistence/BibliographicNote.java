@@ -26,7 +26,7 @@ import java.util.List;
 public class BibliographicNote extends VariableField implements PersistentObjectWithView, OrderedTag {
 
   private static final short bibliographicNoteCategory = 7;
-  public List <BibliographicNoteOverflow> overflowList = new ArrayList <> ( );
+  public List <BibliographicNoteOverflow> overflowList = new ArrayList <>();
   /**
    * The content is all or a part of the stringText.toString() result.
    */
@@ -34,19 +34,19 @@ public class BibliographicNote extends VariableField implements PersistentObject
   private int noteType;
   private int noteNbr = -1;
   private char overflowIndicator = '0';
-  private UserViewHelper userViewHelper = new UserViewHelper ( );
+  private UserViewHelper userViewHelper = new UserViewHelper();
   private Integer sequenceNumber;
 
   public BibliographicNote() {
-    super ( );
-    setPersistenceState (new PersistenceState ( ));
+    super();
+    setPersistenceState(new PersistenceState());
   }
 
   /**
    *
    */
   public BibliographicNote(final int itemNbr) {
-    super (itemNbr);
+    super(itemNbr);
   }
 
   public boolean isBrowsable() {
@@ -90,9 +90,9 @@ public class BibliographicNote extends VariableField implements PersistentObject
       return false;
     } else {
       BibliographicNote aNote = (BibliographicNote) obj;
-      return aNote.getBibItemNumber ( ) == this.getBibItemNumber ( ) &&
-        aNote.getUserViewString ( ).equals (this.getUserViewString ( )) &&
-        aNote.getNoteNbr ( ) == this.getNoteNbr ( );
+      return aNote.getBibItemNumber() == this.getBibItemNumber() &&
+        aNote.getUserViewString().equals(this.getUserViewString()) &&
+        aNote.getNoteNbr() == this.getNoteNbr();
     }
   }
 
@@ -100,18 +100,18 @@ public class BibliographicNote extends VariableField implements PersistentObject
    * @see java.lang.Object#hashCode()
    */
   public int hashCode() {
-    return getNoteNbr ( );
+    return getNoteNbr();
   }
 
   public StringText getStringText() {
-    return new StringText (content);
+    return new StringText(content);
   }
 
   /**
    * @param text should not ends with Subfield separator
    */
   public void setStringText(final StringText text) {
-    content = text.toString ( );
+    content = text.toString();
   }
 
   public int getCategory() {
@@ -126,7 +126,7 @@ public class BibliographicNote extends VariableField implements PersistentObject
 
   @Deprecated
   public void setCorrelationValues(final CorrelationValues v) {
-    setNoteType (v.getValue (1));
+    setNoteType(v.getValue(1));
   }
 
   /**
@@ -159,7 +159,7 @@ public class BibliographicNote extends VariableField implements PersistentObject
 
   @Override
   public AbstractDAO getDAO() {
-    return new DAOBibliographicNote ( );
+    return new DAOBibliographicNote();
   }
 
   /**
@@ -179,11 +179,11 @@ public class BibliographicNote extends VariableField implements PersistentObject
 
   @Deprecated
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
-    if (v.getValue (1) == GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE) {
+    if (v.getValue(1) == GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE) {
       return true;
-    } else if (v.getValue (1) == 381) {
+    } else if (v.getValue(1) == 381) {
       return true;
-    } else if (v.getValue (1) == 382) {
+    } else if (v.getValue(1) == 382) {
       return true;
     }
     return false;
@@ -193,28 +193,28 @@ public class BibliographicNote extends VariableField implements PersistentObject
    * @since 1.0
    */
   public String getUserViewString() {
-    return userViewHelper.getUserViewString ( );
+    return userViewHelper.getUserViewString();
   }
 
   /**
    * @since 1.0
    */
   public void setUserViewString(String string) {
-    userViewHelper.setUserViewString (string);
+    userViewHelper.setUserViewString(string);
   }
 
   /**
    * @since 1.0
    */
   public int getBibItemNumber() {
-    return getItemNumber ( );
+    return getItemNumber();
   }
 
   /**
    * @since 1.0
    */
   public void setBibItemNumber(int i) {
-    setItemNumber (i);
+    setItemNumber(i);
   }
 
   public String getContent() {

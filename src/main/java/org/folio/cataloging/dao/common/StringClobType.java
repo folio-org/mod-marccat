@@ -15,17 +15,17 @@ import java.sql.*;
  */
 public class StringClobType implements UserType {
 
-  private static final Log logger = LogFactory.getLog (StringClobType.class);
+  private static final Log logger = LogFactory.getLog(StringClobType.class);
 
   @Override
   public Object deepCopy(final Object object) {
-    return object != null ? object.toString ( ) : null;
+    return object != null ? object.toString() : null;
   }
 
   @Override
   public boolean equals(final Object objectOne, final Object objectTwo) {
     return (objectOne == objectTwo)
-      || (objectOne != null && objectTwo != null && (objectOne.equals (objectTwo)));
+      || (objectOne != null && objectTwo != null && (objectOne.equals(objectTwo)));
   }
 
   @Override
@@ -38,26 +38,26 @@ public class StringClobType implements UserType {
     final ResultSet resultSet,
     final String[] names,
     final Object owner) throws SQLException {
-    final Clob clob = resultSet.getClob (names[0]);
+    final Clob clob = resultSet.getClob(names[0]);
     if (clob != null) {
-      StringBuffer stringBuffer = new StringBuffer ("");
-      Reader reader = clob.getCharacterStream ( );
+      StringBuffer stringBuffer = new StringBuffer("");
+      Reader reader = clob.getCharacterStream();
       int charactersRead = 0;
       char[] charArrayBuffer = new char[1024];
 
       while (charactersRead != -1) {
         charactersRead = -1;
         try {
-          charactersRead = reader.read (charArrayBuffer, 0, 1024);
+          charactersRead = reader.read(charArrayBuffer, 0, 1024);
         } catch (IOException ioException) {
-          logger.error ("", ioException);
+          logger.error("", ioException);
         }
         if (charactersRead != -1) {
-          stringBuffer.append (charArrayBuffer, 0, charactersRead);
+          stringBuffer.append(charArrayBuffer, 0, charactersRead);
         }
       }
 
-      return new String (stringBuffer);
+      return new String(stringBuffer);
     } else {
       return null;
     }
@@ -70,7 +70,7 @@ public class StringClobType implements UserType {
     Object object,
     int index)
     throws HibernateException, SQLException {
-    throw new IllegalArgumentException ("Don't call me!");
+    throw new IllegalArgumentException("Don't call me!");
 /*
 		if (preparedStatement instanceof OraclePreparedStatement) {
 			oracle.sql.CLOB clob =

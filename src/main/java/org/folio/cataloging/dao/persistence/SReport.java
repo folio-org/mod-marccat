@@ -57,7 +57,7 @@ public class SReport implements Serializable {
   private String emailAddr;
 
   public SReport(String appNme) {
-    super ( );
+    super();
     this.appNme = appNme;
   }
 
@@ -155,47 +155,47 @@ public class SReport implements Serializable {
   }
 
   public String toString() {
-    return new ToStringBuilder (this)
-      .append ("appNme", getAppNme ( ))
-      .append ("compNme", getCompNme ( ))
-      .append ("reportCall", getReportCall ( ))
-      .append ("paramCall", getParamCall ( ))
-      .append ("menuEntry", getMenuEntry ( ))
-      .append ("preview", getPreview ( ))
-      .append ("printdlg", getPrintdlg ( ))
-      .append ("sendByMail", getSendByMail ( ))
-      .append ("emailAddr", getEmailAddr ( ))
-      .toString ( );
+    return new ToStringBuilder(this)
+      .append("appNme", getAppNme())
+      .append("compNme", getCompNme())
+      .append("reportCall", getReportCall())
+      .append("paramCall", getParamCall())
+      .append("menuEntry", getMenuEntry())
+      .append("preview", getPreview())
+      .append("printdlg", getPrintdlg())
+      .append("sendByMail", getSendByMail())
+      .append("emailAddr", getEmailAddr())
+      .toString();
   }
 
   public boolean equals(Object other) {
     if (!(other instanceof SReport)) return false;
     SReport castOther = (SReport) other;
-    return new EqualsBuilder ( )
-      .append (this.getAppNme ( ), castOther.getAppNme ( ))
-      .append (this.getCompNme ( ), castOther.getCompNme ( ))
-      .append (this.getReportCall ( ), castOther.getReportCall ( ))
-      .append (this.getParamCall ( ), castOther.getParamCall ( ))
-      .append (this.getMenuEntry ( ), castOther.getMenuEntry ( ))
-      .append (this.getPreview ( ), castOther.getPreview ( ))
-      .append (this.getPrintdlg ( ), castOther.getPrintdlg ( ))
-      .append (this.getSendByMail ( ), castOther.getSendByMail ( ))
-      .append (this.getEmailAddr ( ), castOther.getEmailAddr ( ))
-      .isEquals ( );
+    return new EqualsBuilder()
+      .append(this.getAppNme(), castOther.getAppNme())
+      .append(this.getCompNme(), castOther.getCompNme())
+      .append(this.getReportCall(), castOther.getReportCall())
+      .append(this.getParamCall(), castOther.getParamCall())
+      .append(this.getMenuEntry(), castOther.getMenuEntry())
+      .append(this.getPreview(), castOther.getPreview())
+      .append(this.getPrintdlg(), castOther.getPrintdlg())
+      .append(this.getSendByMail(), castOther.getSendByMail())
+      .append(this.getEmailAddr(), castOther.getEmailAddr())
+      .isEquals();
   }
 
   public int hashCode() {
-    return new HashCodeBuilder ( )
-      .append (getAppNme ( ))
-      .append (getCompNme ( ))
-      .append (getReportCall ( ))
-      .append (getParamCall ( ))
-      .append (getMenuEntry ( ))
-      .append (getPreview ( ))
-      .append (getPrintdlg ( ))
-      .append (getSendByMail ( ))
-      .append (getEmailAddr ( ))
-      .toHashCode ( );
+    return new HashCodeBuilder()
+      .append(getAppNme())
+      .append(getCompNme())
+      .append(getReportCall())
+      .append(getParamCall())
+      .append(getMenuEntry())
+      .append(getPreview())
+      .append(getPrintdlg())
+      .append(getSendByMail())
+      .append(getEmailAddr())
+      .toHashCode();
   }
 
 }

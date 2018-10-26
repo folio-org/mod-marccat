@@ -25,13 +25,14 @@ public abstract class SearchEngineFactory {
   public static SearchEngine create(final EngineType type, final int mainLibraryId, final int databasePreferenceOrder, final StorageService service) {
     switch (type) {
       case LIGHTWEIGHT:
-        return new LightweightModCatalogingSearchEngine (mainLibraryId, databasePreferenceOrder, service);
+        return new LightweightModCatalogingSearchEngine(mainLibraryId, databasePreferenceOrder, service);
       case LIGHTWEIGHT_VERTICAL:
         return new LightweightVerticalModCatalogingSearchEngine(mainLibraryId, databasePreferenceOrder, service);
       default:
-        return new DefaultModCatalogingSearchEngine (mainLibraryId, databasePreferenceOrder, service);
+        return new DefaultModCatalogingSearchEngine(mainLibraryId, databasePreferenceOrder, service);
     }
   }
+
   public enum EngineType {
     DEFAULT, LIGHTWEIGHT, LIGHTWEIGHT_VERTICAL
   }

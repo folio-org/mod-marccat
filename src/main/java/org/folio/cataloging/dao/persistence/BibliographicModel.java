@@ -17,7 +17,7 @@ public class BibliographicModel extends Model {
    * @since 1.0
    */
   public BibliographicModel() {
-    super ( );
+    super();
   }
 
   /**

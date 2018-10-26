@@ -16,7 +16,7 @@ public class BibliographicValidationKey extends ValidationKey {
    * @since 1.0
    */
   public BibliographicValidationKey() {
-    super ( );
+    super();
   }
 
   /**
@@ -26,6 +26,6 @@ public class BibliographicValidationKey extends ValidationKey {
    * @param marcTagCategory the tag category.
    */
   public BibliographicValidationKey(final String marcTag, final int marcTagCategory) {
-    super (marcTag, marcTagCategory);
+    super(marcTag, marcTagCategory);
   }
 }

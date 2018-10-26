@@ -30,7 +30,7 @@ public class AuthorityTitleHeadingTag
    * @since 1.0
    */
   public AuthorityTitleHeadingTag() {
-    super (new TTL_HDG ( ));
+    super(new TTL_HDG());
   }
 
   /* (non-Javadoc)
@@ -44,14 +44,14 @@ public class AuthorityTitleHeadingTag
    * @see SkipInFiling#getSkipInFiling()
    */
   public int getSkipInFiling() {
-    return getDescriptor ( ).getSkipInFiling ( );
+    return getDescriptor().getSkipInFiling();
   }
 
   /* (non-Javadoc)
    * @see SkipInFiling#setSkipInFiling(short)
    */
   public void setSkipInFiling(int i) {
-    getDescriptor ( ).setSkipInFiling (i);
+    getDescriptor().setSkipInFiling(i);
   }
 
   /* (non-Javadoc)
@@ -59,8 +59,8 @@ public class AuthorityTitleHeadingTag
    */
   public CorrelationKey getMarcEncoding()
     throws DataAccessException {
-    return super.getMarcEncoding ( ).changeSkipInFilingIndicator (
-      getSkipInFiling ( ));
+    return super.getMarcEncoding().changeSkipInFilingIndicator(
+      getSkipInFiling());
   }
 
   /* (non-Javadoc)
@@ -75,7 +75,7 @@ public class AuthorityTitleHeadingTag
    * @see TagInterface#correlationChangeAffectsKey(librisuite.business.common.CorrelationValues)
    */
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
-    return v.isValueDefined (1);
+    return v.isValueDefined(1);
   }
 
 }

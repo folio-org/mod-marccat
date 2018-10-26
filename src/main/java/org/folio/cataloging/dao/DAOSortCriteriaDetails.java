@@ -22,10 +22,10 @@ import java.util.List;
 public class DAOSortCriteriaDetails extends HibernateUtil {
 
   public List getDetails(int sortCriteria) throws DataAccessException {
-    return find (
+    return find(
       "from SortCriteriaDetails as c "
         + " where c.code = ? order by c.sequence",
-      new Object[]{new Integer (sortCriteria)},
+      new Object[]{new Integer(sortCriteria)},
       new Type[]{Hibernate.INTEGER});
   }
 }

@@ -20,7 +20,7 @@ public class DuplicateDescriptorException extends DataAccessException {
   private Descriptor descriptorFound = null;
 
   public DuplicateDescriptorException(Descriptor descriptorFound) {
-    super ( );
+    super();
     this.descriptorFound = descriptorFound;
   }
 
@@ -30,7 +30,7 @@ public class DuplicateDescriptorException extends DataAccessException {
    * @since 1.0
    */
   public DuplicateDescriptorException() {
-    super ( );
+    super();
   }
 
   /**
@@ -40,7 +40,7 @@ public class DuplicateDescriptorException extends DataAccessException {
    * @since 1.0
    */
   public DuplicateDescriptorException(String message) {
-    super (message);
+    super(message);
   }
 
   /**
@@ -51,7 +51,7 @@ public class DuplicateDescriptorException extends DataAccessException {
    * @since 1.0
    */
   public DuplicateDescriptorException(String message, Throwable cause) {
-    super (message, cause);
+    super(message, cause);
   }
 
   /**
@@ -61,7 +61,7 @@ public class DuplicateDescriptorException extends DataAccessException {
    * @since 1.0
    */
   public DuplicateDescriptorException(Throwable cause) {
-    super (cause);
+    super(cause);
   }
 
   public Descriptor getDescriptorFound() {

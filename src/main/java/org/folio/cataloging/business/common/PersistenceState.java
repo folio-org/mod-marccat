@@ -42,14 +42,14 @@ public class PersistenceState implements Lifecycle, Serializable {
   public void onLoad(Session arg0, Serializable arg1) {
     // MIKE: do not register for onLoad. All read objects must be marked as unchanged
     // as internal as external of a transaction
-    setUpdateStatus (UpdateStatus.UNCHANGED);
+    setUpdateStatus(UpdateStatus.UNCHANGED);
   }
 
   /* (non-Javadoc)
    * @see net.sf.hibernate.Lifecycle#onDelete(net.sf.hibernate.Session)
    */
   public boolean onDelete(Session arg0) throws CallbackException {
-    registerNextStatus (updateStatus, UpdateStatus.REMOVED);
+    registerNextStatus(updateStatus, UpdateStatus.REMOVED);
     //setUpdateStatus(UpdateStatus.REMOVED);
     return false;
   }
@@ -58,7 +58,7 @@ public class PersistenceState implements Lifecycle, Serializable {
    * @see net.sf.hibernate.Lifecycle#onSave(net.sf.hibernate.Session)
    */
   public boolean onSave(Session arg0) throws CallbackException {
-    registerNextStatus (updateStatus, UpdateStatus.UNCHANGED);
+    registerNextStatus(updateStatus, UpdateStatus.UNCHANGED);
     //setUpdateStatus(UpdateStatus.UNCHANGED);
     return false;
   }
@@ -67,7 +67,7 @@ public class PersistenceState implements Lifecycle, Serializable {
    * @see net.sf.hibernate.Lifecycle#onUpdate(net.sf.hibernate.Session)
    */
   public boolean onUpdate(Session arg0) throws CallbackException {
-    registerNextStatus (updateStatus, UpdateStatus.UNCHANGED);
+    registerNextStatus(updateStatus, UpdateStatus.UNCHANGED);
     //setUpdateStatus(UpdateStatus.UNCHANGED);
     return false;
   }
@@ -95,20 +95,20 @@ public class PersistenceState implements Lifecycle, Serializable {
   public void markChanged() {
     if (updateStatus == UpdateStatus.UNCHANGED
       || updateStatus == UpdateStatus.REMOVED) {
-      setUpdateStatus (UpdateStatus.CHANGED);
+      setUpdateStatus(UpdateStatus.CHANGED);
     }
   }
 
   public void markNew() {
-    setUpdateStatus (UpdateStatus.NEW);
+    setUpdateStatus(UpdateStatus.NEW);
   }
 
   public void markUnchanged() {
-    setUpdateStatus (UpdateStatus.UNCHANGED);
+    setUpdateStatus(UpdateStatus.UNCHANGED);
   }
 
   public void markDeleted() {
-    setUpdateStatus (UpdateStatus.DELETED);
+    setUpdateStatus(UpdateStatus.DELETED);
   }
 
   @Deprecated
@@ -121,7 +121,7 @@ public class PersistenceState implements Lifecycle, Serializable {
    * @since 1.0
    */
   public AbstractDAO getDAO() {
-    return new AbstractDAO ( );
+    return new AbstractDAO();
   }
 
   /**
@@ -132,8 +132,8 @@ public class PersistenceState implements Lifecycle, Serializable {
    */
   private void registerNextStatus(int fromStatus, int toStatus) {
     if (fromStatus == toStatus) return;
-    committedStatus = new Integer (toStatus);
-    TransactionalHibernateOperation.register (this);
+    committedStatus = new Integer(toStatus);
+    TransactionalHibernateOperation.register(this);
   }
 
   /**
@@ -141,7 +141,7 @@ public class PersistenceState implements Lifecycle, Serializable {
    */
   public void confirmChanges() {
     if (committedStatus == null) return;
-    updateStatus = committedStatus.intValue ( );
+    updateStatus = committedStatus.intValue();
   }
 
   /**
@@ -152,7 +152,7 @@ public class PersistenceState implements Lifecycle, Serializable {
   }
 
   public String toString() {
-    return super.toString ( ) + " " + updateStatus + "->" + committedStatus;
+    return super.toString() + " " + updateStatus + "->" + committedStatus;
   }
 
 

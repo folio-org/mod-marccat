@@ -25,10 +25,10 @@ import java.util.Vector;
  * @since 1.0
  */
 public class DAOOrganisationHierarchy extends HibernateUtil {
-  private Log logger = LogFactory.getLog (DAOOrganisationHierarchy.class);
+  private Log logger = LogFactory.getLog(DAOOrganisationHierarchy.class);
 
   public ORG_HRCHY load(final Session session, final int branchLibrary) throws DataAccessException {
-    return (ORG_HRCHY) get (session, ORG_HRCHY.class, new Integer (branchLibrary));
+    return (ORG_HRCHY) get(session, ORG_HRCHY.class, new Integer(branchLibrary));
   }
 
   /**
@@ -43,13 +43,13 @@ public class DAOOrganisationHierarchy extends HibernateUtil {
     String result = "";
 
     ORG_NME orgNmeRegister =
-      (ORG_NME) load (ORG_NME.class, new Integer (orgNbr));
+      (ORG_NME) load(ORG_NME.class, new Integer(orgNbr));
     if (locale
-      .getLanguage ( )
-      .equals (Defaults.getString ("amicus.codeTable.language1"))) {
-      result = orgNmeRegister.getOrganisationEnglishName ( );
+      .getLanguage()
+      .equals(Defaults.getString("amicus.codeTable.language1"))) {
+      result = orgNmeRegister.getOrganisationEnglishName();
     } else {
-      result = orgNmeRegister.getOrganisationFrenchName ( );
+      result = orgNmeRegister.getOrganisationFrenchName();
     }
     return result;
   }
@@ -60,10 +60,10 @@ public class DAOOrganisationHierarchy extends HibernateUtil {
    * @since 1.0
    */
   public String getLibOrBranchSymbol(int orgNbr) throws DataAccessException {
-    String result = new String ("");
+    String result = new String("");
 
-    LIB libRegister = (LIB) load (LIB.class, new Integer (orgNbr));
-    result = libRegister.getLibrarySymbolCode ( );
+    LIB libRegister = (LIB) load(LIB.class, new Integer(orgNbr));
+    result = libRegister.getLibrarySymbolCode();
 
     return result;
   }
@@ -75,36 +75,36 @@ public class DAOOrganisationHierarchy extends HibernateUtil {
    */
   public List getListOfBranchesFromALibrary(int parentOrgNbr) {
     List listList = null;
-    List result = new Vector ( );
+    List result = new Vector();
 
     try {
-      Session s = currentSession ( );
+      Session s = currentSession();
 
       listList =
-        s.find (
+        s.find(
           "from ORG_HRCHY as o where o.PARNT_ORG_NBR = "
-            + new Integer (parentOrgNbr)
+            + new Integer(parentOrgNbr)
             + "and o.ORG_NBR <> "
-            + new Integer (parentOrgNbr));
-      Iterator iter = listList.iterator ( );
-      while (iter.hasNext ( )) {
-        ORG_HRCHY rawList = (ORG_HRCHY) iter.next ( );
+            + new Integer(parentOrgNbr));
+      Iterator iter = listList.iterator();
+      while (iter.hasNext()) {
+        ORG_HRCHY rawList = (ORG_HRCHY) iter.next();
 
         ORG_NME orgNmeRegister =
-          (ORG_NME) s.get (
+          (ORG_NME) s.get(
             ORG_NME.class,
-            new Integer (rawList.getORG_NBR ( )));
+            new Integer(rawList.getORG_NBR()));
 
-        result.add (orgNmeRegister);
+        result.add(orgNmeRegister);
       }
     } catch (HibernateException e) {
       // TODO Treat exception
-      logger.warn ("HibernateException loading cross references");
+      logger.warn("HibernateException loading cross references");
       //				return null;
     } catch (DataAccessException e) {
       // TODO e.printStackTrace() is evil. If you catch, handle the
       // exception.
-      e.printStackTrace ( );
+      e.printStackTrace();
 
     }
     return result;
@@ -260,32 +260,32 @@ public class DAOOrganisationHierarchy extends HibernateUtil {
   public int getOrgNumberByName(String libName, Locale locale) {
     List listList = null;
     int result = 0;
-    String field = new String ("");
+    String field = new String("");
 
-    if (locale.getLanguage ( ).equals ("en")) {
+    if (locale.getLanguage().equals("en")) {
       field = "organisationEnglishName";
     } else
       field = "organisationFrenchName";
 
     try {
-      Session s = currentSession ( );
+      Session s = currentSession();
 
       listList =
-        s.find ("from ORG_NME as o where o." + field + "= " + libName);
+        s.find("from ORG_NME as o where o." + field + "= " + libName);
 
-      Iterator iter = listList.iterator ( );
-      while (iter.hasNext ( )) {
-        ORG_NME rawList = (ORG_NME) iter.next ( );
-        result = rawList.getOrganisationNumber ( );
+      Iterator iter = listList.iterator();
+      while (iter.hasNext()) {
+        ORG_NME rawList = (ORG_NME) iter.next();
+        result = rawList.getOrganisationNumber();
       }
     } catch (HibernateException e) {
       // TODO Treat exception
-      logger.warn ("HibernateException loading cross references");
+      logger.warn("HibernateException loading cross references");
       //				return null;
     } catch (DataAccessException e) {
       // TODO e.printStackTrace() is evil. If you catch, handle the
       // exception.
-      e.printStackTrace ( );
+      e.printStackTrace();
 
     }
     return result;

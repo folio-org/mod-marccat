@@ -29,9 +29,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class IndexCategoryAPI extends BaseResource {
 
   private Function <Avp <Integer>, Category> convertValueLabelToCategory = source -> {
-    final Category category = new Category ( );
-    category.setCode (source.getValue ( ));
-    category.setDescription (source.getLabel ( ));
+    final Category category = new Category();
+    category.setCode(source.getValue());
+    category.setDescription(source.getLabel());
     return category;
   };
 
@@ -47,13 +47,13 @@ public class IndexCategoryAPI extends BaseResource {
     @RequestParam final CategoryType type,
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final IndexCategoryCollection container = new IndexCategoryCollection ( );
-      container.setCategories (
-        storageService.getIndexCategories (type.name ( ), lang)
-          .stream ( )
-          .map (convertValueLabelToCategory)
-          .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      final IndexCategoryCollection container = new IndexCategoryCollection();
+      container.setCategories(
+        storageService.getIndexCategories(type.name(), lang)
+          .stream()
+          .map(convertValueLabelToCategory)
+          .collect(toList()));
       return container;
     }, tenant, configurator);
   }

@@ -6,11 +6,11 @@ public abstract class MarcTagGroup implements TagGroup {
   private boolean singleSort = false;
 
   public MarcTagGroup() {
-    super ( );
+    super();
   }
 
   public MarcTagGroup(boolean canSort, boolean singleSort) {
-    super ( );
+    super();
     this.canSort = canSort;
     this.singleSort = singleSort;
   }

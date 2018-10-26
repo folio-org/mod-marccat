@@ -34,7 +34,7 @@ public class BRWR_FINE implements Serializable {
   private float borrowerFineTotalFineAmount;
 
   public BRWR_FINE() {
-    super ( );
+    super();
   }
 
   public BRWR_FINE(int fineNbr, int brwrNbr, int copy, Date due, Date chargeOut,

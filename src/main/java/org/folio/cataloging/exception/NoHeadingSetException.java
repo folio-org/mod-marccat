@@ -20,7 +20,7 @@ public class NoHeadingSetException extends ValidationException {
    * @since 1.0
    */
   public NoHeadingSetException() {
-    super ( );
+    super();
     // TODO Auto-generated constructor stub
   }
 
@@ -31,7 +31,7 @@ public class NoHeadingSetException extends ValidationException {
    * @since 1.0
    */
   public NoHeadingSetException(String message) {
-    super (message);
+    super(message);
     // TODO Auto-generated constructor stub
   }
 
@@ -43,7 +43,7 @@ public class NoHeadingSetException extends ValidationException {
    * @since 1.0
    */
   public NoHeadingSetException(String message, Throwable cause) {
-    super (message, cause);
+    super(message, cause);
     // TODO Auto-generated constructor stub
   }
 
@@ -54,7 +54,7 @@ public class NoHeadingSetException extends ValidationException {
    * @since 1.0
    */
   public NoHeadingSetException(Throwable cause) {
-    super (cause);
+    super(cause);
     // TODO Auto-generated constructor stub
   }
 
@@ -65,7 +65,7 @@ public class NoHeadingSetException extends ValidationException {
    * @since 1.0
    */
   public NoHeadingSetException(int index) {
-    super (index);
+    super(index);
   }
 
 }

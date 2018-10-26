@@ -32,9 +32,9 @@ public class REF_KEY implements Serializable, Cloneable {
     if (anObject instanceof REF_KEY) {
       REF_KEY aKey = (REF_KEY) anObject;
       return (
-        source.equals (aKey.getSource ( ))
-          && target.equals (aKey.getTarget ( ))
-          && type.equals (aKey.getType ( ))
+        source.equals(aKey.getSource())
+          && target.equals(aKey.getTarget())
+          && type.equals(aKey.getType())
         /*&& view.toString().matches(aKey.getView().toString())*/);
     } else {
       return false;
@@ -122,7 +122,7 @@ public class REF_KEY implements Serializable, Cloneable {
    */
   public Object clone() {
     try {
-      return super.clone ( );
+      return super.clone();
     } catch (CloneNotSupportedException e) {
       return null;
     }

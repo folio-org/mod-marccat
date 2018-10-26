@@ -23,17 +23,17 @@ import java.util.List;
 public class BibliographicItem extends CatalogItem implements Serializable {
   private static final long serialVersionUID = 8676099561229020012L;
   private static List nameOrderTags = null;
-  private Log logger = new Log (BibliographicItem.class);
+  private Log logger = new Log(BibliographicItem.class);
   private BIB_ITM bibItmData;
   private int userView;
 
   public BibliographicItem() {
-    super ( );
+    super();
   }
 
   public BibliographicItem(Integer id) {
-    super ( );
-    this.bibItmData.setAmicusNumber (id);
+    super();
+    this.bibItmData.setAmicusNumber(id);
   }
 
   public BIB_ITM getBibItmData() {
@@ -45,11 +45,11 @@ public class BibliographicItem extends CatalogItem implements Serializable {
     /*
      * Set all PersistsViaBibItem tags
      */
-    Iterator iter = getTags ( ).iterator ( );
-    while (iter.hasNext ( )) {
-      Tag aTag = (Tag) iter.next ( );
+    Iterator iter = getTags().iterator();
+    while (iter.hasNext()) {
+      Tag aTag = (Tag) iter.next();
       if (aTag instanceof PersistsViaItem) {
-        ((PersistsViaItem) aTag).setItemEntity (bib_itm);
+        ((PersistsViaItem) aTag).setItemEntity(bib_itm);
       }
     }
   }
@@ -62,12 +62,12 @@ public class BibliographicItem extends CatalogItem implements Serializable {
    * @see CatalogItem#setItemEntity(ItemEntity)
    */
   public void setItemEntity(ItemEntity item) {
-    setBibItmData ((BIB_ITM) item);
+    setBibItmData((BIB_ITM) item);
   }
 
   @Override
   public TagImpl getTagImpl() {
-    return new BibliographicTagImpl ( );
+    return new BibliographicTagImpl();
   }
 
   public int getUserView() {
@@ -83,9 +83,9 @@ public class BibliographicItem extends CatalogItem implements Serializable {
   }
 
   public Record toRecord(String elementSetName) {
-    Document xmlDocument = toXmlDocument ( );
-    XmlRecord xmlRecord = new XmlRecord ( );
-    xmlRecord.setContent (elementSetName, xmlDocument);
+    Document xmlDocument = toXmlDocument();
+    XmlRecord xmlRecord = new XmlRecord();
+    xmlRecord.setContent(elementSetName, xmlDocument);
     return xmlRecord;
   }
 
@@ -103,15 +103,15 @@ public class BibliographicItem extends CatalogItem implements Serializable {
    * @return a Document
    */
   public Document toXmlDocument() {
-    DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance ( );
+    DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
     DocumentBuilder documentBuilder = null;
     Document xmlDocument = null;
     try {
-      documentBuilder = documentBuilderFactory.newDocumentBuilder ( );
-      xmlDocument = documentBuilder.newDocument ( );
-      xmlDocument.appendChild (toXmlElement (xmlDocument));
+      documentBuilder = documentBuilderFactory.newDocumentBuilder();
+      xmlDocument = documentBuilder.newDocument();
+      xmlDocument.appendChild(toXmlElement(xmlDocument));
     } catch (ParserConfigurationException parserConfigurationException) {
-      logger.error ("", parserConfigurationException);
+      logger.error("", parserConfigurationException);
       //throw new XmlParserConfigurationException(parserConfigurationException);
     }
     return xmlDocument;
@@ -131,13 +131,13 @@ public class BibliographicItem extends CatalogItem implements Serializable {
    * @return an Element
    */
   public Element toXmlElement(Document xmlDocument) {
-    Element record = xmlDocument.createElement ("record");
+    Element record = xmlDocument.createElement("record");
     //bElement author1 = record.addElement("leader").addText("00451nam a2200109 a 4500");
     // TODO set the leader correctly
-    Iterator tagIterator = this.tags.iterator ( );
-    while (tagIterator.hasNext ( )) {
-      Tag tag = (Tag) tagIterator.next ( );
-      record.appendChild (tag.toXmlElement (xmlDocument));
+    Iterator tagIterator = this.tags.iterator();
+    while (tagIterator.hasNext()) {
+      Tag tag = (Tag) tagIterator.next();
+      record.appendChild(tag.toXmlElement(xmlDocument));
     }
     return record;
   }
@@ -152,20 +152,20 @@ public class BibliographicItem extends CatalogItem implements Serializable {
    */
   public void checkForMandatoryTags() throws MandatoryTagException {
     final String[] tags = new String[]{"000", "008", "040"};
-    for ( int i = 0; i < tags.length; i++ ) {
-      if (findFirstTagByNumber (tags[i]) == null) {
-        throw new MandatoryTagException (tags[i]);
+    for (int i = 0; i < tags.length; i++) {
+      if (findFirstTagByNumber(tags[i]) == null) {
+        throw new MandatoryTagException(tags[i]);
       }
     }
   }
 
   private boolean isOrderableNameTag(String string) throws DataAccessException {
-    Iterator iter = getOrderableNameTags ( ).iterator ( );
-    while (iter.hasNext ( )) {
-      OrderNames anOrderNameTag = (OrderNames) iter.next ( );
+    Iterator iter = getOrderableNameTags().iterator();
+    while (iter.hasNext()) {
+      OrderNames anOrderNameTag = (OrderNames) iter.next();
       if (anOrderNameTag
-        .getTagNumber ( )
-        .equals (string)) {
+        .getTagNumber()
+        .equals(string)) {
         return true;
       }
     }
@@ -175,21 +175,21 @@ public class BibliographicItem extends CatalogItem implements Serializable {
   private List getOrderableNameTags() throws DataAccessException {
     if (nameOrderTags == null) {
       // FIXME: this takes a session so that means it should be moved on the persistence layer.
-      nameOrderTags = new DAOOrderNames ( ).getOrderNames (null);
+      nameOrderTags = new DAOOrderNames().getOrderNames(null);
     }
     return nameOrderTags;
   }
 
   public List getOrderableNames() throws DataAccessException {
-    List tags = new ArrayList ( );
-    Iterator iter = getTags ( ).iterator ( );
-    while (iter.hasNext ( )) {
-      Tag aTag = (Tag) iter.next ( );
+    List tags = new ArrayList();
+    Iterator iter = getTags().iterator();
+    while (iter.hasNext()) {
+      Tag aTag = (Tag) iter.next();
       if (aTag instanceof NameAccessPoint) {
-        if (isOrderableNameTag ((aTag)
-          .getMarcEncoding ( )
-          .getMarcTag ( ))) {
-          tags.add (aTag);
+        if (isOrderableNameTag((aTag)
+          .getMarcEncoding()
+          .getMarcTag())) {
+          tags.add(aTag);
         }
       }
     }
@@ -197,73 +197,73 @@ public class BibliographicItem extends CatalogItem implements Serializable {
   }
 
   public List getOrderableSubjects() {
-    List tags = new ArrayList ( );
-    Iterator iter = getTags ( ).iterator ( );
-    while (iter.hasNext ( )) {
-      Tag aTag = (Tag) iter.next ( );
+    List tags = new ArrayList();
+    Iterator iter = getTags().iterator();
+    while (iter.hasNext()) {
+      Tag aTag = (Tag) iter.next();
       if (aTag instanceof SubjectAccessPoint) {
-        tags.add (aTag);
+        tags.add(aTag);
       }
     }
     return tags;
   }
 
   public List getOrderableNotes() {
-    List tags = new ArrayList ( );
-    Iterator iter = getTags ( ).iterator ( );
-    while (iter.hasNext ( )) {
-      Tag aTag = (Tag) iter.next ( );
+    List tags = new ArrayList();
+    Iterator iter = getTags().iterator();
+    while (iter.hasNext()) {
+      Tag aTag = (Tag) iter.next();
       if (aTag instanceof BibliographicNoteTag) {
-        tags.add (((BibliographicNoteTag) aTag).getNote ( ));
+        tags.add(((BibliographicNoteTag) aTag).getNote());
       }
     }
     return tags;
   }
 
   public List getOrderableTitles() {
-    List tags = new ArrayList ( );
-    Iterator iter = getTags ( ).iterator ( );
-    while (iter.hasNext ( )) {
-      Tag aTag = (Tag) iter.next ( );
+    List tags = new ArrayList();
+    Iterator iter = getTags().iterator();
+    while (iter.hasNext()) {
+      Tag aTag = (Tag) iter.next();
       if (aTag instanceof TitleAccessPoint) {
-        tags.add (aTag);
+        tags.add(aTag);
       }
     }
     return tags;
   }
 
   public List getOrderableClassifications() {
-    List tags = new ArrayList ( );
-    Iterator iter = getTags ( ).iterator ( );
-    while (iter.hasNext ( )) {
-      Tag aTag = (Tag) iter.next ( );
+    List tags = new ArrayList();
+    Iterator iter = getTags().iterator();
+    while (iter.hasNext()) {
+      Tag aTag = (Tag) iter.next();
       if (aTag instanceof ClassificationAccessPoint) {
-        tags.add (aTag);
+        tags.add(aTag);
       }
     }
     return tags;
   }
 
   public List getOrderableControlNumbers() {
-    List tags = new ArrayList ( );
-    Iterator iter = getTags ( ).iterator ( );
-    while (iter.hasNext ( )) {
-      Tag aTag = (Tag) iter.next ( );
+    List tags = new ArrayList();
+    Iterator iter = getTags().iterator();
+    while (iter.hasNext()) {
+      Tag aTag = (Tag) iter.next();
       if (aTag instanceof ControlNumberAccessPoint) {
-        tags.add (aTag);
+        tags.add(aTag);
       }
     }
     return tags;
   }
 
   public List getOrderableRelations() {
-    List tags = new ArrayList ( );
-    Iterator iter = getTags ( ).iterator ( );
-    while (iter.hasNext ( )) {
-      Tag aTag = (Tag) iter.next ( );
+    List tags = new ArrayList();
+    Iterator iter = getTags().iterator();
+    while (iter.hasNext()) {
+      Tag aTag = (Tag) iter.next();
       //Dubbio getSourceRelationship() c'è anche il target
       if (aTag instanceof BibliographicRelationshipTag) {
-        tags.add (((BibliographicRelationshipTag) aTag).getSourceRelationship ( ));
+        tags.add(((BibliographicRelationshipTag) aTag).getSourceRelationship());
       }
     }
     return tags;

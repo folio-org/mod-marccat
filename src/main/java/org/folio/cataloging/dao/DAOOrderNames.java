@@ -10,10 +10,10 @@ import java.util.List;
 
 public class DAOOrderNames extends HibernateUtil {
 
-  private static final Log logger = LogFactory.getLog (DAOOrderNames.class);
+  private static final Log logger = LogFactory.getLog(DAOOrderNames.class);
 
   public List getOrderNames(final Session session) throws DataAccessException {
-    List list = find (session, "from librisuite.hibernate.OrderNames t");
+    List list = find(session, "from librisuite.hibernate.OrderNames t");
     return list;
   }
 

@@ -29,11 +29,11 @@ public class SubfieldsTag {
 
   @JsonProperty("subfields")
   @Valid
-  private List <String> subfields = new ArrayList <String> ( );
+  private List <String> subfields = new ArrayList <String>();
 
   @JsonProperty("repeatable")
   @Valid
-  private List <String> repeatable = new ArrayList <String> ( );
+  private List <String> repeatable = new ArrayList <String>();
 
   /**
    * @return The category

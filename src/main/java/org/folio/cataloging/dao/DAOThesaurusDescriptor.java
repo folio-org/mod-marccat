@@ -40,11 +40,11 @@ public class DAOThesaurusDescriptor extends DAODescriptor {
   }
 
   public List getHeadingsBySortform(String operator, String direction, String term, String filter, int cataloguingView, int count) throws DataAccessException {
-    Session s = currentSession ( );
+    Session s = currentSession();
     List l = null;
     try {
       String quetyString = "select distinct ths_hdg from "
-        + getPersistentClass ( ).getName ( )
+        + getPersistentClass().getName()
         + " as ths_hdg where ths_hdg.sortForm "
         + operator
         + " :term  and "
@@ -56,15 +56,15 @@ public class DAOThesaurusDescriptor extends DAODescriptor {
 
 
       Query q =
-        s.createQuery (
+        s.createQuery(
           quetyString);
-      q.setString ("term", term);
-      q.setInteger ("view", cataloguingView);
-      q.setMaxResults (count);
-      l = q.list ( );
+      q.setString("term", term);
+      q.setInteger("view", cataloguingView);
+      q.setMaxResults(count);
+      l = q.list();
 
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
 
     return l;
@@ -74,7 +74,7 @@ public class DAOThesaurusDescriptor extends DAODescriptor {
   public void delete(Persistence p)
     throws DataAccessException {
     if (!(p instanceof Descriptor)) {
-      throw new IllegalArgumentException ("I can only delete Descriptor objects");
+      throw new IllegalArgumentException("I can only delete Descriptor objects");
     }
     Descriptor d = ((Descriptor) p);
 
@@ -96,16 +96,16 @@ public class DAOThesaurusDescriptor extends DAODescriptor {
 			}
 		}*/
     // check for authorities
-    if (supportsAuthorities ( )) {
-      if (d.getAuthorityCount ( ) > 0) {
-        throw new ReferentialIntegrityException (
-          d.getReferenceClass (d.getClass ( )).getName ( ),
-          d.getClass ( ).getName ( ));
+    if (supportsAuthorities()) {
+      if (d.getAuthorityCount() > 0) {
+        throw new ReferentialIntegrityException(
+          d.getReferenceClass(d.getClass()).getName(),
+          d.getClass().getName());
       }
     }
 
     // OK, go ahead and delete
-    deleteDescriptor (p);
+    deleteDescriptor(p);
 
   }
 
@@ -115,13 +115,13 @@ public class DAOThesaurusDescriptor extends DAODescriptor {
    * @since 1.0
    */
   public void deleteDescriptor(final Persistence p) throws DataAccessException {
-    new TransactionalHibernateOperation ( ) {
+    new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
         throws HibernateException {
-        s.delete (p);
+        s.delete(p);
       }
     }
-      .execute ( );
+      .execute();
   }
 
 

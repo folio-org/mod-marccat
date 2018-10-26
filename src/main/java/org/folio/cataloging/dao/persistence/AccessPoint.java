@@ -36,8 +36,8 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
    * @since 1.0
    */
   public AccessPoint() {
-    super ( );
-    setPersistenceState (new PersistenceState ( ));
+    super();
+    setPersistenceState(new PersistenceState());
   }
 
   /**
@@ -46,13 +46,13 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
    * @param itemNumber -- the record item number.
    */
   public AccessPoint(final int itemNumber) {
-    this ( );
-    setItemNumber (itemNumber);
+    this();
+    setItemNumber(itemNumber);
   }
 
   @Override
   public String buildBrowseTerm() {
-    return getDescriptor ( ).buildBrowseTerm ( );
+    return getDescriptor().buildBrowseTerm();
   }
 
   /**
@@ -61,16 +61,16 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
    * @return a StringText with content field.
    */
   public StringText getStringText() {
-    final StringText result = new StringText ( );
-    if (getDescriptor ( ) != null) {
-      result.parse (getDescriptor ( ).getStringText ( ));
+    final StringText result = new StringText();
+    if (getDescriptor() != null) {
+      result.parse(getDescriptor().getStringText());
     }
-    result.add (getAccessPointStringText ( ));
+    result.add(getAccessPointStringText());
     return result;
   }
 
   public void setStringText(final StringText stringText) {
-    setAccessPointStringText (stringText);
+    setAccessPointStringText(stringText);
   }
 
   /**
@@ -96,21 +96,21 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
 
   public void generateNewKey(final Session session) throws HibernateException, SQLException {
 
-    if (getDescriptor ( ).isNew ( )) {
-      Descriptor d = ((DAODescriptor) getDescriptor ( ).getDAO ( )).getMatchingHeading (getDescriptor ( ), session);
+    if (getDescriptor().isNew()) {
+      Descriptor d = ((DAODescriptor) getDescriptor().getDAO()).getMatchingHeading(getDescriptor(), session);
       if (d == null) {
-        getDescriptor ( ).generateNewKey (session);
+        getDescriptor().generateNewKey(session);
       } else {
-        setDescriptor (d);
+        setDescriptor(d);
       }
     }
-    setHeadingNumber (getDescriptor ( ).getKey ( ).getHeadingNumber ( ));
+    setHeadingNumber(getDescriptor().getKey().getHeadingNumber());
   }
 
 
   public Object clone() {
-    final AccessPoint ap = (AccessPoint) super.clone ( );
-    ap.setDescriptor (this.getDescriptor ( ));
+    final AccessPoint ap = (AccessPoint) super.clone();
+    ap.setDescriptor(this.getDescriptor());
     return ap;
   }
 
@@ -119,11 +119,11 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
       return false;
     }
     AccessPoint other = (AccessPoint) obj;
-    if (super.equals (obj)) {
-      if (other.getHeadingNumber ( ) != null) {
-        return other.getHeadingNumber ( ).equals (this.getHeadingNumber ( ));
+    if (super.equals(obj)) {
+      if (other.getHeadingNumber() != null) {
+        return other.getHeadingNumber().equals(this.getHeadingNumber());
       } else {
-        return this.getHeadingNumber ( ) == null;
+        return this.getHeadingNumber() == null;
       }
     } else {
       return false;
@@ -131,8 +131,8 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
   }
 
   public void markChanged() {
-    super.markChanged ( );
-    getDescriptor ( ).markChanged ( );
+    super.markChanged();
+    getDescriptor().markChanged();
   }
 
   /**
@@ -147,7 +147,7 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
   }
 
   public DAODescriptor getDAODescriptor() {
-    return (DAODescriptor) getDescriptor ( ).getDAO ( );
+    return (DAODescriptor) getDescriptor().getDAO();
   }
 
 
@@ -157,7 +157,7 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
    * @return the category.
    */
   public int getCategory() {
-    return getDescriptor ( ).getCategory ( );
+    return getDescriptor().getCategory();
   }
 
   /**
@@ -171,14 +171,14 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
   public abstract void setAccessPointStringText(StringText stringText);
 
   public CorrelationKey getMarcEncoding() throws DataAccessException {
-    return (getDescriptor ( ) instanceof SkipInFiling)
-      ? (super.getMarcEncoding ( )).changeSkipInFilingIndicator (getDescriptor ( ).getSkipInFiling ( ))
-      : super.getMarcEncoding ( );
+    return (getDescriptor() instanceof SkipInFiling)
+      ? (super.getMarcEncoding()).changeSkipInFilingIndicator(getDescriptor().getSkipInFiling())
+      : super.getMarcEncoding();
 
   }
 
   public AbstractDAO getDAO() {
-    return getPersistenceState ( ).getDAO ( );
+    return getPersistenceState().getDAO();
   }
 
   /**
@@ -187,9 +187,9 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
    * @param xmlElement -- the xml element content.
    */
   public void parseModelXmlElementContent(final Element xmlElement) {
-    final StringText s = StringText.parseModelXmlElementContent (xmlElement);
-    setStringText (s);
-    setDescriptorStringText (s);
+    final StringText s = StringText.parseModelXmlElementContent(xmlElement);
+    setStringText(s);
+    setDescriptorStringText(s);
   }
 
   /**
@@ -198,12 +198,12 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
    * @return int that represent the hashCode of access point.
    */
   public int hashCode() {
-    return ofNullable (getHeadingNumber ( )).map (hashCode -> getItemNumber ( ) + getHeadingNumber ( ).intValue ( ))
-      .orElse (getItemNumber ( ));
+    return ofNullable(getHeadingNumber()).map(hashCode -> getItemNumber() + getHeadingNumber().intValue())
+      .orElse(getItemNumber());
   }
 
   public StringText getEditableSubfields() {
-    return getAccessPointStringText ( );
+    return getAccessPointStringText();
   }
 
   /**
@@ -212,7 +212,7 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
    * @return set of subfields.
    */
   public Set getValidEditableSubfields() {
-    return getTagImpl ( ).getValidEditableSubfields (getCategory ( ));
+    return getTagImpl().getValidEditableSubfields(getCategory());
   }
 
   /**

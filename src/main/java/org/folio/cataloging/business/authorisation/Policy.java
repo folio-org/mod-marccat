@@ -20,25 +20,25 @@ public class Policy {
   private Set permissions;
 
   private Policy() {
-    setPermissions (new HashSet ( ));
-    getPermissions ( ).add (new Permission ("basicCataloguing"));
-    getPermissions ( ).add (new Permission ("advancedCataloguing"));
-    getPermissions ( ).add (new Permission ("editNotes"));
-    getPermissions ( ).add (new Permission ("editCopies"));
-    getPermissions ( ).add (new Permission ("editClassificationNumbers"));
-    getPermissions ( ).add (new Permission ("editHeaders"));
-    getPermissions ( ).add (new Permission ("editTitles"));
-    getPermissions ( ).add (new Permission ("editNames"));
-    getPermissions ( ).add (new Permission ("editSummaryHoldings"));
-    getPermissions ( ).add (new Permission ("editControlNumbers"));
-    getPermissions ( ).add (new Permission ("editNameTitles"));
-    getPermissions ( ).add (new Permission ("editRelationships"));
-    getPermissions ( ).add (new Permission ("editSubjects"));
+    setPermissions(new HashSet());
+    getPermissions().add(new Permission("basicCataloguing"));
+    getPermissions().add(new Permission("advancedCataloguing"));
+    getPermissions().add(new Permission("editNotes"));
+    getPermissions().add(new Permission("editCopies"));
+    getPermissions().add(new Permission("editClassificationNumbers"));
+    getPermissions().add(new Permission("editHeaders"));
+    getPermissions().add(new Permission("editTitles"));
+    getPermissions().add(new Permission("editNames"));
+    getPermissions().add(new Permission("editSummaryHoldings"));
+    getPermissions().add(new Permission("editControlNumbers"));
+    getPermissions().add(new Permission("editNameTitles"));
+    getPermissions().add(new Permission("editRelationships"));
+    getPermissions().add(new Permission("editSubjects"));
   }
 
   static public Policy getInstance() {
     if (theInstance == null) {
-      theInstance = new Policy ( );
+      theInstance = new Policy();
     }
     return theInstance;
   }

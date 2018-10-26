@@ -149,15 +149,15 @@ public class T_SRCH_KYWRD_IDX implements Serializable {
   public boolean equals(Object obj) {
     if (!(obj instanceof T_SRCH_KYWRD_IDX))
       return false;
-    return (((T_SRCH_KYWRD_IDX) obj).getKeywordIndexValueCode ( ) == getKeywordIndexValueCode ( ))
-      && (((T_SRCH_KYWRD_IDX) obj).getLanguage ( ).equals (getLanguage ( )));
+    return (((T_SRCH_KYWRD_IDX) obj).getKeywordIndexValueCode() == getKeywordIndexValueCode())
+      && (((T_SRCH_KYWRD_IDX) obj).getLanguage().equals(getLanguage()));
   }
 
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
   public int hashCode() {
-    return getKeywordIndexValueCode ( ) + getLanguage ( ).hashCode ( );
+    return getKeywordIndexValueCode() + getLanguage().hashCode();
   }
 
 }

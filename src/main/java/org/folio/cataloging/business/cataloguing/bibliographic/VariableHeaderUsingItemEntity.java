@@ -22,7 +22,7 @@ public abstract class VariableHeaderUsingItemEntity extends VariableHeader imple
    * @since 1.0
    */
   public VariableHeaderUsingItemEntity(int itemNumber) {
-    super (itemNumber);
+    super(itemNumber);
   }
 
   /**
@@ -31,15 +31,15 @@ public abstract class VariableHeaderUsingItemEntity extends VariableHeader imple
    * @since 1.0
    */
   public VariableHeaderUsingItemEntity() {
-    super ( );
+    super();
   }
 
   /* (non-Javadoc)
    * @see java.lang.Object#equals(java.lang.Object)
    */
   public boolean equals(Object obj) {
-    if (obj.getClass ( ) == this.getClass ( )) {
-      return super.equals (obj);
+    if (obj.getClass() == this.getClass()) {
+      return super.equals(obj);
     } else {
       return false;
     }
@@ -49,14 +49,14 @@ public abstract class VariableHeaderUsingItemEntity extends VariableHeader imple
    * @see java.lang.Object#hashCode()
    */
   public int hashCode() {
-    return super.hashCode ( );
+    return super.hashCode();
   }
 
   /* (non-Javadoc)
    * @see librisuite.business.cataloguing.bibliographic.Tag#correlationChangeAffectsKey(librisuite.business.common.CorrelationValues)
    */
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
-    return (v.isValueDefined (1) && (v.getValue (1) != getHeaderType ( )));
+    return (v.isValueDefined(1) && (v.getValue(1) != getHeaderType()));
   }
 
   /* (non-Javadoc)
@@ -74,8 +74,8 @@ public abstract class VariableHeaderUsingItemEntity extends VariableHeader imple
   }
 
   public void deleteFromItem() {
-    if (isAbleToBeDeleted ( )) {
-      setStringText (new StringText (Subfield.SUBFIELD_DELIMITER + "a"));
+    if (isAbleToBeDeleted()) {
+      setStringText(new StringText(Subfield.SUBFIELD_DELIMITER + "a"));
     }
   }
 

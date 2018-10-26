@@ -46,13 +46,13 @@ public abstract class AbstractMapBackedFactory {
    * @return a new object beloging to the given type.
    */
   protected Object newInstance(final Class type) {
-    return ofNullable (type).map (clazz -> {
+    return ofNullable(type).map(clazz -> {
       try {
-        return clazz.newInstance ( );
+        return clazz.newInstance();
       } catch (final Exception exception) {
-        throw new RuntimeException (exception);
+        throw new RuntimeException(exception);
       }
-    }).orElseThrow (() -> new RuntimeException ("Unable to create a valid instance of " + type));
+    }).orElseThrow(() -> new RuntimeException("Unable to create a valid instance of " + type));
   }
 
   /**
@@ -62,7 +62,7 @@ public abstract class AbstractMapBackedFactory {
    * @return an instance of the product associated with the given factory identifier.
    */
   public Object create(final int key) {
-    return ofNullable (getInstance (key))
-      .orElseThrow (() -> new RuntimeException ("No Class found for key " + key));
+    return ofNullable(getInstance(key))
+      .orElseThrow(() -> new RuntimeException("No Class found for key " + key));
   }
 }

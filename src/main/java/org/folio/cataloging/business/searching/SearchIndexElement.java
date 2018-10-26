@@ -10,10 +10,10 @@ public class SearchIndexElement {
   }
 
   public SearchIndexElement(int key, int subKey, String value, String label) {
-    setKey (key);
-    setSubKey (subKey);
-    setValue (value);
-    setLabel (label);
+    setKey(key);
+    setSubKey(subKey);
+    setValue(value);
+    setLabel(label);
   }
 
   /**

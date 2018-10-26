@@ -53,21 +53,21 @@ public class ControlNumberDescriptorDAO extends DAODescriptor {
   public Descriptor getMatchingHeading(final Descriptor descriptor, final Session session)
     throws HibernateException {
     CNTL_NBR controlNumber = (CNTL_NBR) descriptor;
-    List controlNumberList = session.find (
-      "from " + getPersistentClass ( ).getName ( ) + " as c "
+    List controlNumberList = session.find(
+      "from " + getPersistentClass().getName() + " as c "
         + " where c.stringText = ?"
         + " and c.typeCode = ?"
         + " and c.key.userViewString = ? ",
       new Object[]{
-        controlNumber.getStringText ( ),
-        controlNumber.getTypeCode ( ),
-        controlNumber.getUserViewString ( )},
+        controlNumber.getStringText(),
+        controlNumber.getTypeCode(),
+        controlNumber.getUserViewString()},
       new Type[]{
         Hibernate.STRING,
         Hibernate.INTEGER,
         Hibernate.STRING});
-    final Optional <CNTL_NBR> firstElement = controlNumberList.stream ( ).filter (Objects::nonNull).findFirst ( );
-    return firstElement.isPresent ( ) ? firstElement.get ( ) : null;
+    final Optional <CNTL_NBR> firstElement = controlNumberList.stream().filter(Objects::nonNull).findFirst();
+    return firstElement.isPresent() ? firstElement.get() : null;
   }
 
   /**
@@ -88,23 +88,23 @@ public class ControlNumberDescriptorDAO extends DAODescriptor {
   public boolean isMatchingAnotherHeading(final Descriptor descriptor, final Session session)
     throws HibernateException {
     CNTL_NBR controlNumber = (CNTL_NBR) descriptor;
-    List <Integer> countList = session.find (
+    List <Integer> countList = session.find(
       "select count(*) from "
-        + getPersistentClass ( ).getName ( )
+        + getPersistentClass().getName()
         + " as c "
         + " where  c.stringText = ? "
         + " and c.typeCode = ?"
         + " and c.key.userViewString = ?"
         + " and c.key.headingNumber <> ?",
       new Object[]{
-        controlNumber.getStringText ( ),
-        controlNumber.getTypeCode ( ),
-        controlNumber.getUserViewString ( ),
-        controlNumber.getKey ( ).getHeadingNumber ( )},
+        controlNumber.getStringText(),
+        controlNumber.getTypeCode(),
+        controlNumber.getUserViewString(),
+        controlNumber.getKey().getHeadingNumber()},
       new Type[]{Hibernate.STRING,
         Hibernate.INTEGER,
         Hibernate.STRING, Hibernate.INTEGER});
-    return countList.stream ( ).filter (Objects::nonNull).anyMatch (count -> count > 0);
+    return countList.stream().filter(Objects::nonNull).anyMatch(count -> count > 0);
 
   }
 
@@ -122,18 +122,18 @@ public class ControlNumberDescriptorDAO extends DAODescriptor {
     int count = 0;
     String viewClause = "";
     final CNTL_NBR controlNumber = (CNTL_NBR) descriptor;
-    if (controlNumber.getTypeCode ( ) == 10) {
+    if (controlNumber.getTypeCode() == 10) {
       if (searchingView != View.ANY) {
         viewClause = " and SUBSTR(title.userViewString, " + searchingView + ", 1) = '1' ";
       }
-      final Query q = session.createQuery ("select count(*) from TitleAccessPoint as title " +
+      final Query q = session.createQuery("select count(*) from TitleAccessPoint as title " +
         " where title.seriesIssnHeadingNumber = :headingNumber " +
         viewClause);
-      q.setInteger ("headingNumber", descriptor.getHeadingNumber ( ));
-      final List <Integer> countList = q.list ( );
-      count = countList.get (0);
+      q.setInteger("headingNumber", descriptor.getHeadingNumber());
+      final List <Integer> countList = q.list();
+      count = countList.get(0);
     }
-    count += super.getDocCount (controlNumber, searchingView, session);
+    count += super.getDocCount(controlNumber, searchingView, session);
     return count;
   }
 

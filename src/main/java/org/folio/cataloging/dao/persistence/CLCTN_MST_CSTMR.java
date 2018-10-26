@@ -26,7 +26,7 @@ public class CLCTN_MST_CSTMR implements Persistence {
   //-----------------------------
   // Persistence and LifeCycle
   //-----------------------------
-  private PersistenceState persistenceState = new PersistenceState ( );
+  private PersistenceState persistenceState = new PersistenceState();
 
   public String getCustomerCode() {
     return customerCode;
@@ -48,7 +48,7 @@ public class CLCTN_MST_CSTMR implements Persistence {
     final int prime = 31;
     int result = 1;
     result = prime * result + collectionCode;
-    result = prime * result + ((customerCode == null) ? 0 : customerCode.hashCode ( ));
+    result = prime * result + ((customerCode == null) ? 0 : customerCode.hashCode());
     return result;
   }
 
@@ -57,7 +57,7 @@ public class CLCTN_MST_CSTMR implements Persistence {
       return true;
     if (obj == null)
       return false;
-    if (getClass ( ) != obj.getClass ( ))
+    if (getClass() != obj.getClass())
       return false;
     CLCTN_MST_CSTMR other = (CLCTN_MST_CSTMR) obj;
     if (collectionCode != other.collectionCode)
@@ -65,13 +65,13 @@ public class CLCTN_MST_CSTMR implements Persistence {
     if (customerCode == null) {
       if (other.customerCode != null)
         return false;
-    } else if (!customerCode.equals (other.customerCode))
+    } else if (!customerCode.equals(other.customerCode))
       return false;
     return true;
   }
 
   public void evict() throws DataAccessException {
-    persistenceState.evict (this);
+    persistenceState.evict(this);
   }
 
   public void generateNewKey() throws DataAccessException {
@@ -81,59 +81,59 @@ public class CLCTN_MST_CSTMR implements Persistence {
   }
 
   public AbstractDAO getDAO() {
-    return new DAOCollectionMaster ( );
+    return new DAOCollectionMaster();
   }
 
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   public void setUpdateStatus(int i) {
-    persistenceState.setUpdateStatus (i);
+    persistenceState.setUpdateStatus(i);
   }
 
   public boolean isChanged() {
-    return persistenceState.isChanged ( );
+    return persistenceState.isChanged();
   }
 
   public boolean isDeleted() {
-    return persistenceState.isDeleted ( );
+    return persistenceState.isDeleted();
   }
 
   public boolean isNew() {
-    return persistenceState.isNew ( );
+    return persistenceState.isNew();
   }
 
   public void markChanged() {
-    persistenceState.markChanged ( );
+    persistenceState.markChanged();
   }
 
   public void markDeleted() {
-    persistenceState.markDeleted ( );
+    persistenceState.markDeleted();
   }
 
   public void markNew() {
-    persistenceState.markNew ( );
+    persistenceState.markNew();
   }
 
   public void markUnchanged() {
-    persistenceState.markUnchanged ( );
+    persistenceState.markUnchanged();
   }
 
   public boolean onDelete(Session arg0) throws CallbackException {
-    return persistenceState.onDelete (arg0);
+    return persistenceState.onDelete(arg0);
   }
 
   public void onLoad(Session arg0, Serializable arg1) {
-    persistenceState.onLoad (arg0, arg1);
+    persistenceState.onLoad(arg0, arg1);
   }
 
   public boolean onSave(Session arg0) throws CallbackException {
-    return persistenceState.onSave (arg0);
+    return persistenceState.onSave(arg0);
   }
 
   public boolean onUpdate(Session arg0) throws CallbackException {
-    return persistenceState.onUpdate (arg0);
+    return persistenceState.onUpdate(arg0);
   }
   //-------------------------------
   // END Persistence and LifeCycle

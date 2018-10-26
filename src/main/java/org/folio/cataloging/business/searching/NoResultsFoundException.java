@@ -15,7 +15,7 @@ public class NoResultsFoundException extends ModCatalogingException {
    * @since 1.0
    */
   public NoResultsFoundException() {
-    super ( );
+    super();
     // TODO Auto-generated constructor stub
   }
 
@@ -26,7 +26,7 @@ public class NoResultsFoundException extends ModCatalogingException {
    * @since 1.0
    */
   public NoResultsFoundException(String message) {
-    super (message);
+    super(message);
     // TODO Auto-generated constructor stub
   }
 
@@ -38,7 +38,7 @@ public class NoResultsFoundException extends ModCatalogingException {
    * @since 1.0
    */
   public NoResultsFoundException(String message, Throwable cause) {
-    super (message, cause);
+    super(message, cause);
     // TODO Auto-generated constructor stub
   }
 
@@ -49,7 +49,7 @@ public class NoResultsFoundException extends ModCatalogingException {
    * @since 1.0
    */
   public NoResultsFoundException(Throwable cause) {
-    super (cause);
+    super(cause);
     // TODO Auto-generated constructor stub
   }
 

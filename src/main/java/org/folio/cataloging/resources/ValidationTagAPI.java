@@ -38,11 +38,11 @@ public class ValidationTagAPI extends BaseResource {
     @RequestParam final Integer code3,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
 
-    return doGet ((storageService, configuration) -> {
+    return doGet((storageService, configuration) -> {
       final int wrapCode2 = (code2 == null) ? -1 : code2;
       final int wrapCode3 = (code3 == null) ? -1 : code3;
 
-      return storageService.getTagMarcEncoding (categoryCode, code1, wrapCode2, wrapCode3);
+      return storageService.getTagMarcEncoding(categoryCode, code1, wrapCode2, wrapCode3);
 
     }, tenant, configurator);
   }

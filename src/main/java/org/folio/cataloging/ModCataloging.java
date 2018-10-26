@@ -24,11 +24,11 @@ public class ModCataloging {
    * @param args the command line arguments.
    */
   public static void main(final String[] args) {
-    SpringApplication.run (ModCataloging.class, args);
+    SpringApplication.run(ModCataloging.class, args);
   }
 
   @Bean
   public RestTemplate restTemplate(final RestTemplateBuilder builder) {
-    return builder.build ( );
+    return builder.build();
   }
 }

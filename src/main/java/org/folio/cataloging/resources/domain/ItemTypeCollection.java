@@ -21,10 +21,10 @@ public class ItemTypeCollection {
   @JsonProperty("itemTypes")
   @Valid
   @NotNull
-  private List <ItemType> itemTypes = new ArrayList <ItemType> ( );
+  private List <ItemType> itemTypes = new ArrayList <ItemType>();
 
   @JsonIgnore
-  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
+  private Map <String, Object> additionalProperties = new HashMap <String, Object>();
 
   /**
    * (Required)
@@ -58,11 +58,11 @@ public class ItemTypeCollection {
 
   @JsonAnySetter
   public void setAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
   }
 
   public ItemTypeCollection withAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
     return this;
   }
 }

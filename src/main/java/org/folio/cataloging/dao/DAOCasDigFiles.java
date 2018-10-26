@@ -12,23 +12,23 @@ import org.folio.cataloging.dao.persistence.ControlNumberAccessPoint;
 import java.util.List;
 
 public class DAOCasDigFiles extends AbstractDAO {
-  private static Log logger = LogFactory.getLog (DAOCasDigFiles.class);
+  private static Log logger = LogFactory.getLog(DAOCasDigFiles.class);
 
   public DAOCasDigFiles() {
-    super ( );
+    super();
   }
 
   public void persistCasDigFiles(CasDigFiles digFiles) throws DataAccessException {
     CasDigFiles digFiles2;
-    List result = loadCasDigFilesByKey (digFiles.getBibItemNumberFiglia ( ), digFiles.getBibItemNumberMadre ( ));
+    List result = loadCasDigFilesByKey(digFiles.getBibItemNumberFiglia(), digFiles.getBibItemNumberMadre());
 
-    if (result.size ( ) == 0) {
-      digFiles.markNew ( );
-      persistByStatus (digFiles);
+    if (result.size() == 0) {
+      digFiles.markNew();
+      persistByStatus(digFiles);
     } else {
-      digFiles2 = (CasDigFiles) result.get (0);
-      digFiles2.markChanged ( );
-      persistByStatus (digFiles2);
+      digFiles2 = (CasDigFiles) result.get(0);
+      digFiles2.markChanged();
+      persistByStatus(digFiles2);
     }
   }
 
@@ -38,16 +38,16 @@ public class DAOCasDigFiles extends AbstractDAO {
   public List loadCasDigFilesByKey(int bibItemFiglia, int bibItemMadre) throws DataAccessException {
     List result = null;
     try {
-      Session s = currentSession ( );
-      Query q = s.createQuery ("select distinct ct"
+      Session s = currentSession();
+      Query q = s.createQuery("select distinct ct"
         + " from CasDigFiles as ct "
         + " where ct.bibItemNumberFiglia = " + bibItemFiglia
         + " and ct.bibItemNumberMadre = " + bibItemMadre);
-      q.setMaxResults (1);
-      result = q.list ( );
+      q.setMaxResults(1);
+      result = q.list();
 
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     return result;
   }
@@ -61,25 +61,25 @@ public class DAOCasDigFiles extends AbstractDAO {
   public void deleteCasDigFiles(ControlNumberAccessPoint tag097) throws DataAccessException {
     int bibItemNumberMadre = 0;
     int bibItemNumberFiglia = 0;
-    StringBuffer buffer = new StringBuffer ( );
+    StringBuffer buffer = new StringBuffer();
     CasDigFiles digFiles;
 
-    if (tag097.getStringText ( ).getSubfieldsWithCodes ("c").getDisplayText ( ).toString ( ).trim ( ).length ( ) > 0)
-      bibItemNumberFiglia = Integer.parseInt (tag097.getStringText ( ).getSubfieldsWithCodes ("c").getDisplayText ( ).toString ( ).trim ( ));
-    if (tag097.getStringText ( ).getSubfieldsWithCodes ("a").getDisplayText ( ).toString ( ).trim ( ).length ( ) > 0)
-      bibItemNumberMadre = Integer.parseInt (tag097.getStringText ( ).getSubfieldsWithCodes ("a").getDisplayText ( ).toString ( ).trim ( ));
+    if (tag097.getStringText().getSubfieldsWithCodes("c").getDisplayText().toString().trim().length() > 0)
+      bibItemNumberFiglia = Integer.parseInt(tag097.getStringText().getSubfieldsWithCodes("c").getDisplayText().toString().trim());
+    if (tag097.getStringText().getSubfieldsWithCodes("a").getDisplayText().toString().trim().length() > 0)
+      bibItemNumberMadre = Integer.parseInt(tag097.getStringText().getSubfieldsWithCodes("a").getDisplayText().toString().trim());
 
-    List result = loadCasDigFilesByKey (bibItemNumberFiglia, bibItemNumberMadre);
-    if (result.size ( ) == 0) {
-      buffer.append ("ATTENZIONE --> In DAOCasDigFiles, metodo deleteCasDigFiles - Cancellazione impossibile record non trovato per AN_FIGLIA: ")
-        .append (bibItemNumberFiglia)
-        .append (" e AN_MADRE: ")
-        .append (bibItemNumberMadre);
-      logger.error (buffer.toString ( ));
+    List result = loadCasDigFilesByKey(bibItemNumberFiglia, bibItemNumberMadre);
+    if (result.size() == 0) {
+      buffer.append("ATTENZIONE --> In DAOCasDigFiles, metodo deleteCasDigFiles - Cancellazione impossibile record non trovato per AN_FIGLIA: ")
+        .append(bibItemNumberFiglia)
+        .append(" e AN_MADRE: ")
+        .append(bibItemNumberMadre);
+      logger.error(buffer.toString());
     } else {
-      digFiles = (CasDigFiles) result.get (0);
-      digFiles.markDeleted ( );
-      digFiles.getDAO ( ).persistByStatus (digFiles);
+      digFiles = (CasDigFiles) result.get(0);
+      digFiles.markDeleted();
+      digFiles.getDAO().persistByStatus(digFiles);
     }
   }
 
@@ -89,13 +89,13 @@ public class DAOCasDigFiles extends AbstractDAO {
   public List loadCasDigFilesByBibItemFiglia(int bibItemFiglia) throws DataAccessException {
     List result = null;
     try {
-      Session s = currentSession ( );
-      Query q = s.createQuery ("select distinct ct from CasDigFiles as ct where ct.bibItemNumberFiglia = " + bibItemFiglia);
-      q.setMaxResults (1);
-      result = q.list ( );
+      Session s = currentSession();
+      Query q = s.createQuery("select distinct ct from CasDigFiles as ct where ct.bibItemNumberFiglia = " + bibItemFiglia);
+      q.setMaxResults(1);
+      result = q.list();
 
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     return result;
   }
@@ -107,12 +107,12 @@ public class DAOCasDigFiles extends AbstractDAO {
   public List loadCasDigFilesByBibItemMadre(int bibItemMadre) throws DataAccessException {
     List result = null;
     try {
-      Session s = currentSession ( );
-      Query q = s.createQuery ("select distinct ct from CasDigFiles as ct where ct.bibItemNumberMadre = " + bibItemMadre);
-      result = q.list ( );
+      Session s = currentSession();
+      Query q = s.createQuery("select distinct ct from CasDigFiles as ct where ct.bibItemNumberMadre = " + bibItemMadre);
+      result = q.list();
 
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     return result;
   }

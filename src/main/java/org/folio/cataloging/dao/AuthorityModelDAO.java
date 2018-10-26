@@ -13,7 +13,7 @@ public class AuthorityModelDAO extends ModelDAO {
 
   @Override
   protected ModelItemDAO getModelItemDAO() {
-    return new AuthorityModelItemDAO ( );
+    return new AuthorityModelItemDAO();
   }
 
   @Override

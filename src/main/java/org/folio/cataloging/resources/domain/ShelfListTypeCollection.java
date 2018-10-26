@@ -21,10 +21,10 @@ public class ShelfListTypeCollection {
   @JsonProperty("shelfListTypes")
   @Valid
   @NotNull
-  private List <ShelfListType> shelfListTypes = new ArrayList <ShelfListType> ( );
+  private List <ShelfListType> shelfListTypes = new ArrayList <ShelfListType>();
 
   @JsonIgnore
-  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
+  private Map <String, Object> additionalProperties = new HashMap <String, Object>();
 
   /**
    * (Required)
@@ -58,11 +58,11 @@ public class ShelfListTypeCollection {
 
   @JsonAnySetter
   public void setAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
   }
 
   public ShelfListTypeCollection withAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
     return this;
   }
 }

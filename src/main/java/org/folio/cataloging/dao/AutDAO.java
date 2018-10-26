@@ -6,9 +6,7 @@ import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
 import org.folio.cataloging.business.common.DataAccessException;
 import org.folio.cataloging.business.common.RecordNotFoundException;
-import org.folio.cataloging.dao.common.HibernateUtil;
 import org.folio.cataloging.dao.persistence.AUT;
-import org.folio.cataloging.dao.persistence.AccessPoint;
 
 import java.util.List;
 
@@ -30,9 +28,9 @@ public class AutDAO extends AbstractDAO {
    * @throws DataAccessException
    */
   public AUT load(final Session session, final int id) throws HibernateException {
-    AUT itm = (AUT) session.get (AUT.class, new Integer (id));
+    AUT itm = (AUT) session.get(AUT.class, new Integer(id));
     if (itm == null) {
-      throw new RecordNotFoundException ( );
+      throw new RecordNotFoundException();
     } else {
       return itm;
     }
@@ -51,14 +49,14 @@ public class AutDAO extends AbstractDAO {
    */
   public Integer getDocCountByAutNumber(final int headingNumber, final Class accessPoint, final Integer searchingView, final Session session) throws HibernateException {
     final List countDoc = session.find(" select count(distinct apf.bibItemNumber) from "
-        + accessPoint.getName() + " as apf "
-        + " where apf.headingNumber = ? and "
-        + " substr(apf.userViewString, ?, 1) = '1'", new Object[] {
-        headingNumber,
-        searchingView }, new Type[] {
-        Hibernate.INTEGER, Hibernate.INTEGER });
-      return (countDoc.size() > 0) ? (Integer) countDoc.get(0) : 0;
-    }
+      + accessPoint.getName() + " as apf "
+      + " where apf.headingNumber = ? and "
+      + " substr(apf.userViewString, ?, 1) = '1'", new Object[]{
+      headingNumber,
+      searchingView}, new Type[]{
+      Hibernate.INTEGER, Hibernate.INTEGER});
+    return (countDoc.size() > 0) ? (Integer) countDoc.get(0) : 0;
+  }
 
 
 }

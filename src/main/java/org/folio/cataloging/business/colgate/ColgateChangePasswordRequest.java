@@ -20,7 +20,7 @@ import java.io.IOException;
  * @author paulm
  */
 public class ColgateChangePasswordRequest extends SocketMessage {
-  static private Log logger = LogFactory.getLog (ColgateChangePasswordRequest.class);
+  static private Log logger = LogFactory.getLog(ColgateChangePasswordRequest.class);
   static private byte[] type = {58};
   private byte[] name;
   private byte[] oldPassword;
@@ -34,9 +34,9 @@ public class ColgateChangePasswordRequest extends SocketMessage {
    * @param newPassword - byte array of md5, hex representation of new password
    */
   public ColgateChangePasswordRequest(byte[] name, byte[] oldPassword, byte[] newPassword) {
-    setName (name);
-    setOldPassword (oldPassword);
-    setNewPassword (newPassword);
+    setName(name);
+    setOldPassword(oldPassword);
+    setNewPassword(newPassword);
   }
 
   /**
@@ -47,9 +47,9 @@ public class ColgateChangePasswordRequest extends SocketMessage {
    * @param clearNewPassword - string of new password in clear text
    */
   public ColgateChangePasswordRequest(String name, String clearPassword, String clearNewPassword) {
-    setName (Colgate.asIsoByte (name));
-    setOldPassword (Colgate.encryptPassword (clearPassword));
-    setNewPassword (Colgate.encryptPassword (clearNewPassword));
+    setName(Colgate.asIsoByte(name));
+    setOldPassword(Colgate.encryptPassword(clearPassword));
+    setNewPassword(Colgate.encryptPassword(clearNewPassword));
   }
 
   /**
@@ -70,13 +70,13 @@ public class ColgateChangePasswordRequest extends SocketMessage {
    * @see com.libricore.librisuite.business.ColgateMessage#asByteArray()
    */
   public byte[] asByteArray() throws IOException {
-    ByteArrayOutputStream s = new ByteArrayOutputStream ( );
+    ByteArrayOutputStream s = new ByteArrayOutputStream();
 
-    s.write (getType ( ));
-    s.write (getName ( ));
-    s.write (getOldPassword ( ));
-    s.write (getNewPassword ( ));
-    return s.toByteArray ( );
+    s.write(getType());
+    s.write(getName());
+    s.write(getOldPassword());
+    s.write(getNewPassword());
+    return s.toByteArray();
   }
 
   /* (non-Javadoc)
@@ -96,7 +96,7 @@ public class ColgateChangePasswordRequest extends SocketMessage {
    * sets the name member (pads byte array to length of 33)
    */
   public void setName(byte[] bs) {
-    name = SocketMessage.pad (bs, 33);
+    name = SocketMessage.pad(bs, 33);
   }
 
   /**
@@ -110,7 +110,7 @@ public class ColgateChangePasswordRequest extends SocketMessage {
    * sets the newPassword member (pads to length 33)
    */
   public void setNewPassword(byte[] bs) {
-    newPassword = SocketMessage.pad (bs, 33);
+    newPassword = SocketMessage.pad(bs, 33);
   }
 
   /**
@@ -124,7 +124,7 @@ public class ColgateChangePasswordRequest extends SocketMessage {
    * sets the oldPassword member (pads to length 33)
    */
   public void setOldPassword(byte[] bs) {
-    oldPassword = SocketMessage.pad (bs, 33);
+    oldPassword = SocketMessage.pad(bs, 33);
   }
 
   /* (non-Javadoc)

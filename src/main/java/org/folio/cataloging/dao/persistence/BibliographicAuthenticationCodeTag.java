@@ -22,8 +22,8 @@ public class BibliographicAuthenticationCodeTag extends AuthenticationCodeTag {
    * @since 1.0
    */
   public BibliographicAuthenticationCodeTag() {
-    super ( );
-    setHeaderType ((short) 4);
+    super();
+    setHeaderType((short) 4);
   }
 
 }

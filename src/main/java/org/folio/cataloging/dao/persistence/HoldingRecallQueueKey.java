@@ -23,13 +23,13 @@ public class HoldingRecallQueueKey implements Serializable {
    * Class constructor
    */
   public HoldingRecallQueueKey() {
-    super ( );
+    super();
   }
 
   public HoldingRecallQueueKey(int bibItemNumber, int personNumber, int organisationNumber) {
-    this.setBibItemNumber (bibItemNumber);
-    this.setPersonNumber (personNumber);
-    this.setOrganisationNumber (organisationNumber);
+    this.setBibItemNumber(bibItemNumber);
+    this.setPersonNumber(personNumber);
+    this.setOrganisationNumber(organisationNumber);
   }
 
   /**
@@ -40,9 +40,9 @@ public class HoldingRecallQueueKey implements Serializable {
     if (anObject instanceof HoldingRecallQueueKey) {
       HoldingRecallQueueKey aKey = (HoldingRecallQueueKey) anObject;
       return (
-        bibItemNumber == aKey.getBibItemNumber ( )
-          && personNumber == aKey.getPersonNumber ( )
-          && organisationNumber == aKey.getOrganisationNumber ( ));
+        bibItemNumber == aKey.getBibItemNumber()
+          && personNumber == aKey.getPersonNumber()
+          && organisationNumber == aKey.getOrganisationNumber());
     } else {
       return false;
     }

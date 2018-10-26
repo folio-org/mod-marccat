@@ -29,7 +29,7 @@ public class CLSTN extends Descriptor {
    * Instantiates a new clstn.
    */
   public CLSTN() {
-    super ( );
+    super();
   }
 
 
@@ -47,7 +47,7 @@ public class CLSTN extends Descriptor {
    * @return the dao
    */
   public AbstractDAO getDAO() {
-    return new ClassificationDescriptorDAO ( );
+    return new ClassificationDescriptorDAO();
   }
 
 
@@ -86,8 +86,8 @@ public class CLSTN extends Descriptor {
    * @see Descriptor#getCorrelationValues()
    */
   public CorrelationValues getCorrelationValues() {
-    return new CorrelationValues (
-      getTypeCode ( ),
+    return new CorrelationValues(
+      getTypeCode(),
       CorrelationValues.UNDEFINED,
       CorrelationValues.UNDEFINED);
   }
@@ -96,7 +96,7 @@ public class CLSTN extends Descriptor {
    * @see Descriptor#setCorrelationValues(CorrelationValues)
    */
   public void setCorrelationValues(CorrelationValues v) {
-    setTypeCode (v.getValue (1));
+    setTypeCode(v.getValue(1));
   }
 
 
@@ -104,7 +104,7 @@ public class CLSTN extends Descriptor {
    * @see Descriptor#getSortFormParameters()
    */
   public SortFormParameters getSortFormParameters() {
-    return new SortFormParameters (400, getTypeCode ( ), 0, 0, 0);
+    return new SortFormParameters(400, getTypeCode(), 0, 0, 0);
   }
 
 
@@ -168,20 +168,20 @@ public class CLSTN extends Descriptor {
 
   @Override
   public void setStringText(String string) {
-    if (ClassificationType.isDewey (getTypeCode ( ))) {
-      StringText st = new StringText (string);
-      StringText sub2 = st.getSubfieldsWithCodes ("2");
-      if (!sub2.isEmpty ( )) {
+    if (ClassificationType.isDewey(getTypeCode())) {
+      StringText st = new StringText(string);
+      StringText sub2 = st.getSubfieldsWithCodes("2");
+      if (!sub2.isEmpty()) {
         try {
-          setDeweyEditionNumber (Integer.valueOf (sub2.getSubfield (0).getContent ( )));
+          setDeweyEditionNumber(Integer.valueOf(sub2.getSubfield(0).getContent()));
         } catch (NumberFormatException e) {
           // ignore non numeric $2
         }
-        st = st.getSubfieldsWithoutCodes ("2");
+        st = st.getSubfieldsWithoutCodes("2");
       }
-      super.setStringText (st.toString ( ));
+      super.setStringText(st.toString());
     } else {
-      super.setStringText (string);
+      super.setStringText(string);
     }
   }
 }

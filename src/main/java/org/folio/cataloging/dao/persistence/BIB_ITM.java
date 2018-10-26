@@ -35,7 +35,7 @@ public class BIB_ITM extends ItemEntity implements PersistentObjectWithView, Ser
   private String userViewString = "0000000000000000";
 
   public BIB_ITM() {
-    super ( );
+    super();
   }
 
   public boolean equals(Object obj) {
@@ -43,17 +43,17 @@ public class BIB_ITM extends ItemEntity implements PersistentObjectWithView, Ser
       return false;
 
     BIB_ITM other = (BIB_ITM) obj;
-    return (other.getAmicusNumber ( ).equals (this.getAmicusNumber ( )) && other.getUserViewString ( ).equals (this.getUserViewString ( )));
+    return (other.getAmicusNumber().equals(this.getAmicusNumber()) && other.getUserViewString().equals(this.getUserViewString()));
   }
 
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
   public int hashCode() {
-    if (getAmicusNumber ( ) == null) {
+    if (getAmicusNumber() == null) {
       return -1;
     } else {
-      return getAmicusNumber ( ).intValue ( );
+      return getAmicusNumber().intValue();
     }
   }
 
@@ -90,7 +90,7 @@ public class BIB_ITM extends ItemEntity implements PersistentObjectWithView, Ser
   }
 
   public AbstractDAO getDAO() {
-    return new DAOBibItem ( );
+    return new DAOBibItem();
   }
 
   public char getDescriptiveCataloguingCode() {
