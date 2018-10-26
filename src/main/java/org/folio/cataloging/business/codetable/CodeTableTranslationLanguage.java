@@ -28,7 +28,7 @@ public class CodeTableTranslationLanguage {
    * @since 1.0
    */
   public CodeTableTranslationLanguage(short code) {
-    setCode (code);
+    setCode(code);
   }
 
   /* (non-Javadoc)
@@ -37,27 +37,27 @@ public class CodeTableTranslationLanguage {
   public String decode(Locale locale) throws DataAccessException {
     short language = 0; /* default to english */
 
-    if (locale.getLanguage ( ).compareTo ("en") == 0) {
+    if (locale.getLanguage().compareTo("en") == 0) {
       language = 0;
-    } else if (locale.getLanguage ( ).compareTo ("it") == 0) {
+    } else if (locale.getLanguage().compareTo("it") == 0) {
       language = 5;
-    } else if (locale.getLanguage ( ).compareTo ("es") == 0) {
+    } else if (locale.getLanguage().compareTo("es") == 0) {
       language = 3;
-    } else if (locale.getLanguage ( ).compareTo ("hu") == 0) {
+    } else if (locale.getLanguage().compareTo("hu") == 0) {
       language = 2;
-    } else if (locale.getLanguage ( ).compareTo ("ar") == 0) {
+    } else if (locale.getLanguage().compareTo("ar") == 0) {
       language = 4;
-    } else if (locale.getLanguage ( ).compareTo ("fr") == 0) {
+    } else if (locale.getLanguage().compareTo("fr") == 0) {
       language = 1;
     }
 
     T_TRLTN_LANG_CDE c;
 
     c =
-      new DAOTranslationLanguage ( ).load (
-        (language * 100000) + getCode ( ));
+      new DAOTranslationLanguage().load(
+        (language * 100000) + getCode());
 
-    return c.getText ( );
+    return c.getText();
   }
 
   public short getCode() {

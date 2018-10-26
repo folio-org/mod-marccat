@@ -11,7 +11,7 @@ import java.io.Serializable;
  */
 public class CorrelationKey implements Serializable {
 
-  private static final Log logger = LogFactory.getLog (CorrelationKey.class);
+  private static final Log logger = LogFactory.getLog(CorrelationKey.class);
 
   private String marcTag;
   private char marcFirstIndicator;
@@ -24,7 +24,7 @@ public class CorrelationKey implements Serializable {
    * @since 1.0
    */
   public CorrelationKey() {
-    super ( );
+    super();
   }
 
   public CorrelationKey(final String marcTag,
@@ -32,10 +32,10 @@ public class CorrelationKey implements Serializable {
                         final char ind2,
                         final int marcCategory) {
 
-    this.setMarcTag (marcTag);
-    this.setMarcFirstIndicator (ind1);
-    this.setMarcSecondIndicator (ind2);
-    this.setMarcTagCategoryCode (marcCategory);
+    this.setMarcTag(marcTag);
+    this.setMarcFirstIndicator(ind1);
+    this.setMarcSecondIndicator(ind2);
+    this.setMarcTagCategoryCode(marcCategory);
   }
 
   /**
@@ -47,17 +47,17 @@ public class CorrelationKey implements Serializable {
       CorrelationKey aKey =
         (CorrelationKey) anObject;
       return (
-        marcTag.equals (aKey.getMarcTag ( ))
-          && marcFirstIndicator == aKey.getMarcFirstIndicator ( )
-          && marcSecondIndicator == aKey.getMarcSecondIndicator ( )
-          && marcTagCategoryCode == aKey.getMarcTagCategoryCode ( ));
+        marcTag.equals(aKey.getMarcTag())
+          && marcFirstIndicator == aKey.getMarcFirstIndicator()
+          && marcSecondIndicator == aKey.getMarcSecondIndicator()
+          && marcTagCategoryCode == aKey.getMarcTagCategoryCode());
     } else {
       return false;
     }
   }
 
   public int hashCode() {
-    return marcTag.hashCode ( )
+    return marcTag.hashCode()
       + (3 * marcFirstIndicator)
       + (5 * marcSecondIndicator)
       + (7 * marcTagCategoryCode);
@@ -96,34 +96,34 @@ public class CorrelationKey implements Serializable {
   }
 
   public CorrelationKey changeSkipInFilingIndicator(int skip) {
-    if (marcFirstIndicator == 'S') return changeFirstIndicator (Integer.toString (skip).charAt (0));
-    if (marcSecondIndicator == 'S') return changeSecondIndicator (Integer.toString (skip).charAt (0));
+    if (marcFirstIndicator == 'S') return changeFirstIndicator(Integer.toString(skip).charAt(0));
+    if (marcSecondIndicator == 'S') return changeSecondIndicator(Integer.toString(skip).charAt(0));
     return this;
   }
 
   public CorrelationKey changeAuthoritySourceIndicator(int source) {
-    logger.debug ("changeAuthoritySource: " + getMarcSecondIndicator ( ));
+    logger.debug("changeAuthoritySource: " + getMarcSecondIndicator());
     if (marcFirstIndicator == 'O') {
-      return changeFirstIndicator (T_AUT_HDG_SRC.toMarcIndicator (source));
+      return changeFirstIndicator(T_AUT_HDG_SRC.toMarcIndicator(source));
     }
     if (marcSecondIndicator == 'O') {
-      logger.debug ("changing to " + T_AUT_HDG_SRC.toMarcIndicator (source));
-      return changeSecondIndicator (T_AUT_HDG_SRC.toMarcIndicator (source));
+      logger.debug("changing to " + T_AUT_HDG_SRC.toMarcIndicator(source));
+      return changeSecondIndicator(T_AUT_HDG_SRC.toMarcIndicator(source));
     }
     return this;
   }
 
   public CorrelationKey changeFirstIndicator(char c) {
-    return new CorrelationKey (marcTag, c, marcSecondIndicator, marcTagCategoryCode);
+    return new CorrelationKey(marcTag, c, marcSecondIndicator, marcTagCategoryCode);
   }
 
   public CorrelationKey changeSecondIndicator(char c) {
-    return new CorrelationKey (marcTag, marcFirstIndicator, c, marcTagCategoryCode);
+    return new CorrelationKey(marcTag, marcFirstIndicator, c, marcTagCategoryCode);
   }
 
   @Override
   public String toString() {
-    return "CorrelationKey('" + getMarcTag ( ) + getMarcFirstIndicator ( ) + getMarcSecondIndicator ( ) + "')";
+    return "CorrelationKey('" + getMarcTag() + getMarcFirstIndicator() + getMarcSecondIndicator() + "')";
   }
 
 }

@@ -17,13 +17,13 @@ public class Range {
   private Date endDate;
 
   Range(Date start, int repeat) {
-    setStartDate (start);
-    setRepeatCount (new Integer (repeat));
+    setStartDate(start);
+    setRepeatCount(new Integer(repeat));
   }
 
   Range(Date start, Date end) {
-    setStartDate (start);
-    setEndDate (end);
+    setStartDate(start);
+    setEndDate(end);
   }
 
   public Date getEndDate() {
@@ -51,12 +51,12 @@ public class Range {
   }
 
   public String toString() {
-    DateFormat df = new SimpleDateFormat ("EEE dd MM yyyy");
-    String result = " from " + df.format (getStartDate ( ));
-    if (getRepeatCount ( ) == null) {
-      result = result + " until " + df.format (getEndDate ( ));
+    DateFormat df = new SimpleDateFormat("EEE dd MM yyyy");
+    String result = " from " + df.format(getStartDate());
+    if (getRepeatCount() == null) {
+      result = result + " until " + df.format(getEndDate());
     } else {
-      result = result + " for " + getRepeatCount ( ) + " occurrences ";
+      result = result + " for " + getRepeatCount() + " occurrences ";
     }
 
     return result;

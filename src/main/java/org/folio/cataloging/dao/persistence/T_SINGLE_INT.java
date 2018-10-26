@@ -32,28 +32,28 @@ public class T_SINGLE_INT extends CodeTable {
    * @see CodeTable#getCodeString()
    */
   public String getCodeString() {
-    return String.valueOf (code);
+    return String.valueOf(code);
   }
 
   public boolean equals(Object obj) {
     if (!(obj instanceof T_SINGLE_INT))
       return false;
-    return (((T_SINGLE_INT) obj).getCode ( ) == getCode ( ))
-      && (((T_SINGLE_INT) obj).getLanguage ( ).equals (getLanguage ( )));
+    return (((T_SINGLE_INT) obj).getCode() == getCode())
+      && (((T_SINGLE_INT) obj).getLanguage().equals(getLanguage()));
   }
 
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
   public int hashCode() {
-    return getCode ( ) + getLanguage ( ).hashCode ( );
+    return getCode() + getLanguage().hashCode();
   }
 
   public void setExternalCode(Object extCode) {
     if (extCode instanceof String) {
-      code = Short.parseShort ((String) extCode);
+      code = Short.parseShort((String) extCode);
     } else if (extCode instanceof Short) {
-      code = ((Short) extCode).shortValue ( );
+      code = ((Short) extCode).shortValue();
     }
   }
 

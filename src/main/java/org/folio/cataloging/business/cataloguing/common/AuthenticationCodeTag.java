@@ -26,26 +26,26 @@ public abstract class AuthenticationCodeTag extends VariableHeaderUsingItemEntit
    * @since 1.0
    */
   public AuthenticationCodeTag() {
-    super ( );
+    super();
   }
 
   public StringText getStringText() {
     StringText result = null;
-    String source = getItemEntity ( ).getAuthenticationCenterStringText ( );
+    String source = getItemEntity().getAuthenticationCenterStringText();
 
     if (source == null) {
-      result = new StringText (Subfield.SUBFIELD_DELIMITER + "a");
+      result = new StringText(Subfield.SUBFIELD_DELIMITER + "a");
     } else {
-      result = new StringText (source);
+      result = new StringText(source);
     }
     return result;
   }
 
   public void setStringText(StringText st) {
-    if (st.toString ( ).equals (Subfield.SUBFIELD_DELIMITER + "a")) {
-      getItemEntity ( ).setAuthenticationCenterStringText (null);
+    if (st.toString().equals(Subfield.SUBFIELD_DELIMITER + "a")) {
+      getItemEntity().setAuthenticationCenterStringText(null);
     } else {
-      getItemEntity ( ).setAuthenticationCenterStringText (st.toString ( ));
+      getItemEntity().setAuthenticationCenterStringText(st.toString());
     }
   }
 

@@ -51,9 +51,9 @@ public class SubjectDescriptorDAO extends DAODescriptor {
     throws HibernateException {
 
     final SBJCT_HDG subjectHeading = (SBJCT_HDG) desc;
-    final List <Integer> countList = session.find (
+    final List <Integer> countList = session.find(
       "select count(*) from "
-        + getPersistentClass ( ).getName ( )
+        + getPersistentClass().getName()
         + " as c "
         + " where c.stringText= ? "
         + " and c.accessPointLanguage = ?"
@@ -62,19 +62,19 @@ public class SubjectDescriptorDAO extends DAODescriptor {
         + " and c.key.userViewString = ?"
         + " and c.key.headingNumber <> ?",
       new Object[]{
-        subjectHeading.getStringText ( ),
-        subjectHeading.getAccessPointLanguage ( ),
-        subjectHeading.getTypeCode ( ),
-        subjectHeading.getSourceCode ( ),
-        subjectHeading.getUserViewString ( ),
-        subjectHeading.getKey ( ).getHeadingNumber ( )},
+        subjectHeading.getStringText(),
+        subjectHeading.getAccessPointLanguage(),
+        subjectHeading.getTypeCode(),
+        subjectHeading.getSourceCode(),
+        subjectHeading.getUserViewString(),
+        subjectHeading.getKey().getHeadingNumber()},
       new Type[]{Hibernate.STRING,
         Hibernate.INTEGER,
         Hibernate.INTEGER,
         Hibernate.INTEGER,
         Hibernate.STRING,
         Hibernate.INTEGER});
-    return countList.get (0) > 0;
+    return countList.get(0) > 0;
 
   }
 

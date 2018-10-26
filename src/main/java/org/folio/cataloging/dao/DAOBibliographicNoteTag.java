@@ -28,31 +28,31 @@ import java.util.Iterator;
  */
 //TODO refactor!
 public class DAOBibliographicNoteTag extends AbstractDAO {
-  private static final Log logger = LogFactory.getLog (BibliographicNoteTag.class);
+  private static final Log logger = LogFactory.getLog(BibliographicNoteTag.class);
 
   /* (non-Javadoc)
    * @see HibernateUtil#delete(librisuite.business.common.Persistence)
    */
   public void delete(Persistence po) throws DataAccessException {
     if (!(po instanceof BibliographicNoteTag)) {
-      throw new IllegalArgumentException ("I can only persist BibliographicNoteTag objects");
+      throw new IllegalArgumentException("I can only persist BibliographicNoteTag objects");
     }
     BibliographicNoteTag aNote = (BibliographicNoteTag) po;
-    aNote.getNote ( ).markDeleted ( );
-    persistByStatus (aNote.getNote ( ));
-    if (aNote.getNoteStandard ( ) != null) {
-      aNote.getNoteStandard ( ).markDeleted ( );
-      persistByStatus (aNote.getNoteStandard ( ));
+    aNote.getNote().markDeleted();
+    persistByStatus(aNote.getNote());
+    if (aNote.getNoteStandard() != null) {
+      aNote.getNoteStandard().markDeleted();
+      persistByStatus(aNote.getNoteStandard());
     }
-    Iterator iter = aNote.getOverflowList ( ).iterator ( );
+    Iterator iter = aNote.getOverflowList().iterator();
     BibliographicNoteOverflow overflow;
-    while (iter.hasNext ( )) {
-      overflow = (BibliographicNoteOverflow) iter.next ( );
-      overflow.markDeleted ( );
-      persistByStatus (overflow);
-      super.delete (overflow);
+    while (iter.hasNext()) {
+      overflow = (BibliographicNoteOverflow) iter.next();
+      overflow.markDeleted();
+      persistByStatus(overflow);
+      super.delete(overflow);
     }
-    aNote.setUpdateStatus (UpdateStatus.REMOVED);
+    aNote.setUpdateStatus(UpdateStatus.REMOVED);
   }
 
   /* (non-Javadoc)
@@ -60,42 +60,42 @@ public class DAOBibliographicNoteTag extends AbstractDAO {
    */
   public void save(final Persistence po, final Session session) throws DataAccessException, HibernateException {
     if (!(po instanceof BibliographicNoteTag)) {
-      throw new IllegalArgumentException ("I can only persist BibliographicNoteTag objects");
+      throw new IllegalArgumentException("I can only persist BibliographicNoteTag objects");
     }
 
     BibliographicNoteTag aNote = (BibliographicNoteTag) po;
 
-    Iterator iter = aNote.getOverflowList ( ).iterator ( );
-    BibliographicNote note = aNote.getNote ( );
-    while (iter.hasNext ( )) {
-      BibliographicNoteOverflow noteOverflow = (BibliographicNoteOverflow) iter.next ( );
-      noteOverflow.setBibItemNumber (note.getItemNumber ( ));
-      noteOverflow.setUserViewString (note.getUserViewString ( ));
-      noteOverflow.setNoteNbr (note.getNoteNbr ( ));
-      if (noteOverflow.isNew ( )) {
-        noteOverflow.generateNewKey (session);
+    Iterator iter = aNote.getOverflowList().iterator();
+    BibliographicNote note = aNote.getNote();
+    while (iter.hasNext()) {
+      BibliographicNoteOverflow noteOverflow = (BibliographicNoteOverflow) iter.next();
+      noteOverflow.setBibItemNumber(note.getItemNumber());
+      noteOverflow.setUserViewString(note.getUserViewString());
+      noteOverflow.setNoteNbr(note.getNoteNbr());
+      if (noteOverflow.isNew()) {
+        noteOverflow.generateNewKey(session);
       }
-      persistByStatus (noteOverflow, session);
+      persistByStatus(noteOverflow, session);
     }
 
-    iter = aNote.getDeletedOverflowList ( ).iterator ( );
-    while (iter.hasNext ( )) {
-      BibliographicNoteOverflow noteOverflow = (BibliographicNoteOverflow) iter.next ( );
-      if (noteOverflow.isDeleted ( )) {
-        persistByStatus (noteOverflow, session);
+    iter = aNote.getDeletedOverflowList().iterator();
+    while (iter.hasNext()) {
+      BibliographicNoteOverflow noteOverflow = (BibliographicNoteOverflow) iter.next();
+      if (noteOverflow.isDeleted()) {
+        persistByStatus(noteOverflow, session);
       }
     }
 
-    aNote.getDeletedOverflowList ( ).clear ( );
+    aNote.getDeletedOverflowList().clear();
 
     // StandardNotes
-    StandardNoteAccessPoint noteStandard = aNote.getNoteStandard ( );
-    if (aNote.isStandardNoteType ( )) {
-      noteStandard.setBibItemNumber (note.getItemNumber ( ));
-      noteStandard.setUserViewString (note.getUserViewString ( ));
-      noteStandard.setNoteNbr (note.getNoteNbr ( ));
+    StandardNoteAccessPoint noteStandard = aNote.getNoteStandard();
+    if (aNote.isStandardNoteType()) {
+      noteStandard.setBibItemNumber(note.getItemNumber());
+      noteStandard.setUserViewString(note.getUserViewString());
+      noteStandard.setNoteNbr(note.getNoteNbr());
       /* Testo variabile RIMOZIONE CODICE SOTTOCAMPO 03/04/2009*/
-      persistByStatus (noteStandard, session);
+      persistByStatus(noteStandard, session);
 			/*if (aNote.isStandardNoteType()){
 				if(note.getContent().substring(2).trim().length()>0)
 				note.setContent(note.getContent().substring(2));
@@ -105,18 +105,18 @@ public class DAOBibliographicNoteTag extends AbstractDAO {
 
     }
 
-    if (aNote.isNew ( )) {
-      aNote.getNote ( ).markNew ( );
-      if (aNote.isStandardNoteType ( ))
-        aNote.getNoteStandard ( ).markNew ( );
+    if (aNote.isNew()) {
+      aNote.getNote().markNew();
+      if (aNote.isStandardNoteType())
+        aNote.getNoteStandard().markNew();
 
     }
 
-    persistByStatus (note, session);
+    persistByStatus(note, session);
 
-    if (aNote.isStandardNoteType ( ))
-      persistByStatus (aNote.getNoteStandard ( ), session);
-    aNote.markUnchanged ( );
+    if (aNote.isStandardNoteType())
+      persistByStatus(aNote.getNoteStandard(), session);
+    aNote.markUnchanged();
   }
 
   /* (non-Javadoc)
@@ -124,9 +124,9 @@ public class DAOBibliographicNoteTag extends AbstractDAO {
    */
   public void update(final Persistence p, final Session session) throws DataAccessException {
     try {
-      save (p, session);
+      save(p, session);
     } catch (HibernateException e) {
-      throw new DataAccessException (e);
+      throw new DataAccessException(e);
     }
   }
 

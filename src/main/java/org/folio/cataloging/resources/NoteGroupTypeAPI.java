@@ -29,9 +29,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class NoteGroupTypeAPI extends BaseResource {
 
   private Function <Avp <String>, NoteGroupType> toNoteGroupType = source -> {
-    final NoteGroupType noteGroupType = new NoteGroupType ( );
-    noteGroupType.setCode (Integer.parseInt (source.getValue ( )));
-    noteGroupType.setDescription (source.getLabel ( ));
+    final NoteGroupType noteGroupType = new NoteGroupType();
+    noteGroupType.setCode(Integer.parseInt(source.getValue()));
+    noteGroupType.setDescription(source.getLabel());
     return noteGroupType;
   };
 
@@ -46,12 +46,12 @@ public class NoteGroupTypeAPI extends BaseResource {
   public NoteGroupTypeCollection getNoteGroupTypes(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final NoteGroupTypeCollection container = new NoteGroupTypeCollection ( );
-      container.setNoteGroupTypes (storageService.getNoteGroupTypeList (lang)
-        .stream ( )
-        .map (toNoteGroupType)
-        .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      final NoteGroupTypeCollection container = new NoteGroupTypeCollection();
+      container.setNoteGroupTypes(storageService.getNoteGroupTypeList(lang)
+        .stream()
+        .map(toNoteGroupType)
+        .collect(toList()));
       return container;
     }, tenant, configurator);
   }

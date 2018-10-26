@@ -22,8 +22,8 @@ public class VideoRecording extends PhysicalDescription {
   private char obsolete1;
 
   public VideoRecording() {
-    super ( );
-    setHeaderType (30);
+    super();
+    setHeaderType(30);
   }
 
   /* (non-Javadoc)
@@ -32,15 +32,15 @@ public class VideoRecording extends PhysicalDescription {
   public String getDisplayString() {
     String result =
       ""
-        + getGeneralMaterialDesignationCode ( )
-        + getSpecificMaterialDesignationCode ( )
+        + getGeneralMaterialDesignationCode()
+        + getSpecificMaterialDesignationCode()
         + " "
-        + getColourCode ( )
-        + getFormatCode ( )
-        + getIncludesSoundCode ( )
-        + getMediumForSoundCode ( )
-        + getDimensionsCode ( )
-        + getConfigurationCode ( );
+        + getColourCode()
+        + getFormatCode()
+        + getIncludesSoundCode()
+        + getMediumForSoundCode()
+        + getDimensionsCode()
+        + getConfigurationCode();
     return result;
   }
 
@@ -48,8 +48,8 @@ public class VideoRecording extends PhysicalDescription {
    * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
    */
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
-    SystemNextNumberDAO dao = new SystemNextNumberDAO ( );
-    setKeyNumber (dao.getNextNumber ("X9", session));
+    SystemNextNumberDAO dao = new SystemNextNumberDAO();
+    setKeyNumber(dao.getNextNumber("X9", session));
   }
 
   /* (non-Javadoc)
@@ -160,42 +160,42 @@ public class VideoRecording extends PhysicalDescription {
   public Element generateModelXmlElementContent(Document xmlDocument) {
     Element content = null;
     if (xmlDocument != null) {
-      content = xmlDocument.createElement ("content");
-      content.setAttribute ("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode ( ));
-      content.setAttribute ("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode ( ));
-      content.setAttribute ("colourCode", "" + getColourCode ( ));
-      content.setAttribute ("formatCode", "" + getFormatCode ( ));
-      content.setAttribute ("includesSoundCode", "" + getIncludesSoundCode ( ));
-      content.setAttribute ("mediumForSoundCode", "" + getMediumForSoundCode ( ));
-      content.setAttribute ("dimensionsCode", "" + getDimensionsCode ( ));
-      content.setAttribute ("configurationCode", "" + getConfigurationCode ( ));
+      content = xmlDocument.createElement("content");
+      content.setAttribute("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode());
+      content.setAttribute("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode());
+      content.setAttribute("colourCode", "" + getColourCode());
+      content.setAttribute("formatCode", "" + getFormatCode());
+      content.setAttribute("includesSoundCode", "" + getIncludesSoundCode());
+      content.setAttribute("mediumForSoundCode", "" + getMediumForSoundCode());
+      content.setAttribute("dimensionsCode", "" + getDimensionsCode());
+      content.setAttribute("configurationCode", "" + getConfigurationCode());
     }
     return content;
   }
 
   public void parseModelXmlElementContent(Element xmlElement) {
-    Element content = (Element) xmlElement.getChildNodes ( ).item (0);
-    setGeneralMaterialDesignationCode (content.getAttribute ("generalMaterialDesignationCode").charAt (0));
-    setSpecificMaterialDesignationCode (content.getAttribute ("specificMaterialDesignationCode").charAt (0));
-    setColourCode (content.getAttribute ("colourCode").charAt (0));
-    setFormatCode (content.getAttribute ("formatCode").charAt (0));
-    setIncludesSoundCode (content.getAttribute ("includesSoundCode").charAt (0));
-    setMediumForSoundCode (content.getAttribute ("mediumForSoundCode").charAt (0));
-    setDimensionsCode (content.getAttribute ("dimensionsCode").charAt (0));
-    setConfigurationCode (content.getAttribute ("configurationCode").charAt (0));
+    Element content = (Element) xmlElement.getChildNodes().item(0);
+    setGeneralMaterialDesignationCode(content.getAttribute("generalMaterialDesignationCode").charAt(0));
+    setSpecificMaterialDesignationCode(content.getAttribute("specificMaterialDesignationCode").charAt(0));
+    setColourCode(content.getAttribute("colourCode").charAt(0));
+    setFormatCode(content.getAttribute("formatCode").charAt(0));
+    setIncludesSoundCode(content.getAttribute("includesSoundCode").charAt(0));
+    setMediumForSoundCode(content.getAttribute("mediumForSoundCode").charAt(0));
+    setDimensionsCode(content.getAttribute("dimensionsCode").charAt(0));
+    setConfigurationCode(content.getAttribute("configurationCode").charAt(0));
   }
 
   //@paulm, us_bbl_loading
   @Override
   public void setContentFromMarcString(final String s) {
-    setGeneralMaterialDesignationCode (s.charAt (0));
-    if (s.length ( ) > 1) setSpecificMaterialDesignationCode (s.charAt (1));
-    else setSpecificMaterialDesignationCode ('u');
-    if (s.length ( ) > 3) setColourCode (s.charAt (3));
-    if (s.length ( ) > 4) setFormatCode (s.charAt (4));
-    if (s.length ( ) > 5) setIncludesSoundCode (s.charAt (5));
-    if (s.length ( ) > 6) setMediumForSoundCode (s.charAt (6));
-    if (s.length ( ) > 7) setDimensionsCode (s.charAt (7));
-    if (s.length ( ) > 8) setConfigurationCode (s.charAt (8));
+    setGeneralMaterialDesignationCode(s.charAt(0));
+    if (s.length() > 1) setSpecificMaterialDesignationCode(s.charAt(1));
+    else setSpecificMaterialDesignationCode('u');
+    if (s.length() > 3) setColourCode(s.charAt(3));
+    if (s.length() > 4) setFormatCode(s.charAt(4));
+    if (s.length() > 5) setIncludesSoundCode(s.charAt(5));
+    if (s.length() > 6) setMediumForSoundCode(s.charAt(6));
+    if (s.length() > 7) setDimensionsCode(s.charAt(7));
+    if (s.length() > 8) setConfigurationCode(s.charAt(8));
   }
 }

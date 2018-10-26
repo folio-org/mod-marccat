@@ -28,10 +28,10 @@ import static org.folio.cataloging.F.fixedCharPadding;
 @SuppressWarnings("unchecked")
 public class DAOCopy extends AbstractDAO {
 
-  public static final Comparator <CPY_ID> CPY_ID_COMPARATOR  =
-    (CPY_ID o1, CPY_ID o2)-> {
-      int i1 = o1.getCopyIdNumber ( );
-      int i2 = o2.getCopyIdNumber ( );
+  public static final Comparator <CPY_ID> CPY_ID_COMPARATOR =
+    (CPY_ID o1, CPY_ID o2) -> {
+      int i1 = o1.getCopyIdNumber();
+      int i2 = o2.getCopyIdNumber();
       if (i1 == i2) return 0;
       else if (i1 < i2) return -1;
       return 1;
@@ -58,7 +58,7 @@ public class DAOCopy extends AbstractDAO {
   /**
    * Loads copy by copy number.
    *
-   * @param session -- the hibernate session associated to request.
+   * @param session    -- the hibernate session associated to request.
    * @param copyNumber -- the copy number.
    * @return {@link CPY_ID}
    * @throws DataAccessException in case of hibernate exception.
@@ -66,7 +66,7 @@ public class DAOCopy extends AbstractDAO {
   public CPY_ID load(final Session session, final int copyNumber) throws DataAccessException {
     CPY_ID c = null;
     try {
-      c = (CPY_ID) session.get (CPY_ID.class, copyNumber);
+      c = (CPY_ID) session.get(CPY_ID.class, copyNumber);
       if (c != null) {
         if (c.getShelfListKeyNumber() != null) {
           c.setShelfList(new ShelfListDAO().load(c.getShelfListKeyNumber(), session));
@@ -96,7 +96,7 @@ public class DAOCopy extends AbstractDAO {
    */
   public CPY_ID loadByBarcode(final Session session, final String barCode) throws DataAccessException {
     try {
-      List<CPY_ID> listCopies = session.find ("from CPY_ID ci where ci.barCodeNumber = '" + barCode.trim ( ) + "'");
+      List <CPY_ID> listCopies = session.find("from CPY_ID ci where ci.barCodeNumber = '" + barCode.trim() + "'");
       return listCopies.stream().filter(Objects::nonNull).reduce((first, second) -> second).get();
 
     } catch (HibernateException e) {
@@ -123,7 +123,7 @@ public class DAOCopy extends AbstractDAO {
     int result = 0;
 
     try {
-      List<CPY_ID> listAllCopies = session.find ("from CPY_ID ci where ci.barCodeNumber = '" + barCode + "'");
+      List <CPY_ID> listAllCopies = session.find("from CPY_ID ci where ci.barCodeNumber = '" + barCode + "'");
       return listAllCopies.stream().filter(Objects::nonNull).reduce((first, second) -> second).get().getBibItemNumber();
 
     } catch (HibernateException e) {
@@ -145,17 +145,17 @@ public class DAOCopy extends AbstractDAO {
 
     List listAllCopies = null;
     try {
-      Session s = currentSession ( );
-      listAllCopies = s.find ("from CPY_ID ci where ci.copyIdNumber = "
+      Session s = currentSession();
+      listAllCopies = s.find("from CPY_ID ci where ci.copyIdNumber = "
         + copyIdNumber);
 
-      Iterator iter = listAllCopies.iterator ( );
-      while (iter.hasNext ( )) {
-        CPY_ID rawCopy = (CPY_ID) iter.next ( );
-        result = rawCopy.getBibItemNumber ( );
+      Iterator iter = listAllCopies.iterator();
+      while (iter.hasNext()) {
+        CPY_ID rawCopy = (CPY_ID) iter.next();
+        result = rawCopy.getBibItemNumber();
       }
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
 
     return result;
@@ -172,17 +172,17 @@ public class DAOCopy extends AbstractDAO {
     int result = 0;
     List listAllCopies = null;
     try {
-      Session s = currentSession ( );
-      listAllCopies = s.find ("from CPY_ID ci where ci.barCodeNumber = '"
+      Session s = currentSession();
+      listAllCopies = s.find("from CPY_ID ci where ci.barCodeNumber = '"
         + copyBarCode + "'");
 
-      Iterator iter = listAllCopies.iterator ( );
-      while (iter.hasNext ( )) {
-        CPY_ID rawCopy = (CPY_ID) iter.next ( );
-        result = rawCopy.getCopyIdNumber ( );
+      Iterator iter = listAllCopies.iterator();
+      while (iter.hasNext()) {
+        CPY_ID rawCopy = (CPY_ID) iter.next();
+        result = rawCopy.getCopyIdNumber();
       }
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     return result;
   }
@@ -195,11 +195,11 @@ public class DAOCopy extends AbstractDAO {
 
   public CPY_ID getNonLabelledCopy(String copyBarCode)
     throws DataAccessException {
-    List list = find ("from CPY_ID as c where c.barCodeNumber = rpad(?, 14)"
+    List list = find("from CPY_ID as c where c.barCodeNumber = rpad(?, 14)"
         + " and c.bibItemNumber = 0", new Object[]{copyBarCode},
       new Type[]{Hibernate.STRING});
-    if (list.size ( ) == 1) {
-      return (CPY_ID) list.get (0);
+    if (list.size() == 1) {
+      return (CPY_ID) list.get(0);
     } else {
       return null;
     }
@@ -214,8 +214,8 @@ public class DAOCopy extends AbstractDAO {
 
   public List getAllCopies(int amicusNumber) throws DataAccessException {
     List listAllCopies = null;
-    List result = new ArrayList ( );
-    Session s = currentSession ( );
+    List result = new ArrayList();
+    Session s = currentSession();
     Query q = null;
     try {
       // q = s.createQuery("select distinct ci,lib1.librarySymbolCode,
@@ -229,32 +229,32 @@ public class DAOCopy extends AbstractDAO {
       // " order by
       // lib1.librarySymbolCode,lib2.librarySymbolCode,lctn.labelStringText,ci.barCodeNumber");
       q = s
-        .createQuery ("select distinct ci,lib1.librarySymbolCode, lib2.librarySymbolCode, lctn.labelStringText "
+        .createQuery("select distinct ci,lib1.librarySymbolCode, lib2.librarySymbolCode, lctn.labelStringText "
           + " from CPY_ID ci, LIB lib1, LIB lib2, LCTN_VW lctn"
           + " where ci.bibItemNumber ="
           + amicusNumber
           + " AND (ci.organisationNumber=lib1.organisationNumber and ci.branchOrganisationNumber=lib2.organisationNumber)"
           + " AND (ci.branchOrganisationNumber=lctn.organisationNumber(+) and ci.locationNameCode=lctn.locationNumber(+))"
           + " order by lib1.librarySymbolCode,lib2.librarySymbolCode,lctn.labelStringText,ci.barCodeNumber");
-      listAllCopies = q.list ( );
+      listAllCopies = q.list();
 
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
 
-    Iterator iter = listAllCopies.iterator ( );
-    while (iter.hasNext ( )) {
-      Object[] obj = (Object[]) iter.next ( );
+    Iterator iter = listAllCopies.iterator();
+    while (iter.hasNext()) {
+      Object[] obj = (Object[]) iter.next();
       CPY_ID rawCopy = (CPY_ID) (obj[0]);
-      if (rawCopy.getShelfListKeyNumber ( ) != null) {
+      if (rawCopy.getShelfListKeyNumber() != null) {
         try {
-          rawCopy.setShelfList (new ShelfListDAO ( ).load (rawCopy
-            .getShelfListKeyNumber ( ).intValue ( ), s));
+          rawCopy.setShelfList(new ShelfListDAO().load(rawCopy
+            .getShelfListKeyNumber().intValue(), s));
         } catch (Exception e) {
-          System.out.println (rawCopy.getShelfListKeyNumber ( ));
+          System.out.println(rawCopy.getShelfListKeyNumber());
         }
       }
-      result.add (rawCopy);
+      result.add(rawCopy);
     }
 
     return result;
@@ -263,16 +263,16 @@ public class DAOCopy extends AbstractDAO {
   public List getAllCopiesByMainLibrary(int amicusNumber, int mainLibrary)
     throws DataAccessException {
     List listAllCopies = null;
-    List result = new ArrayList ( );
-    listAllCopies = find (" from CPY_ID ci where ci.bibItemNumber = ? "
+    List result = new ArrayList();
+    listAllCopies = find(" from CPY_ID ci where ci.bibItemNumber = ? "
         + " AND ci.organisationNumber = ? ", new Object[]{
-        new Integer (amicusNumber), new Integer (mainLibrary)},
+        new Integer(amicusNumber), new Integer(mainLibrary)},
       new Type[]{Hibernate.INTEGER, Hibernate.INTEGER});
 
-    Iterator iter = listAllCopies.iterator ( );
-    while (iter.hasNext ( )) {
-      CPY_ID rawCopy = (CPY_ID) iter.next ( );
-      result.add (rawCopy);
+    Iterator iter = listAllCopies.iterator();
+    while (iter.hasNext()) {
+      CPY_ID rawCopy = (CPY_ID) iter.next();
+      result.add(rawCopy);
     }
     return result;
   }
@@ -280,16 +280,16 @@ public class DAOCopy extends AbstractDAO {
   public List getAllCopiesByBranch(int amicusNumber, int branchNumber)
     throws DataAccessException {
     List listAllCopies = null;
-    List result = new ArrayList ( );
+    List result = new ArrayList();
 
-    listAllCopies = find ("from CPY_ID ci where ci.bibItemNumber = ? "
+    listAllCopies = find("from CPY_ID ci where ci.bibItemNumber = ? "
         + " AND ci.branchOrganisationNumber = ? ", new Object[]{
-        new Integer (amicusNumber), new Integer (branchNumber)},
+        new Integer(amicusNumber), new Integer(branchNumber)},
       new Type[]{Hibernate.INTEGER, Hibernate.INTEGER});
-    Iterator iter = listAllCopies.iterator ( );
-    while (iter.hasNext ( )) {
-      CPY_ID rawCopy = (CPY_ID) iter.next ( );
-      result.add (rawCopy);
+    Iterator iter = listAllCopies.iterator();
+    while (iter.hasNext()) {
+      CPY_ID rawCopy = (CPY_ID) iter.next();
+      result.add(rawCopy);
     }
     return result;
   }
@@ -297,17 +297,17 @@ public class DAOCopy extends AbstractDAO {
   public List getAllCopiesByShelfListKey(int shelfListKeyNumber,
                                          int mainLibrary) throws DataAccessException {
     List listAllCopies = null;
-    List result = new ArrayList ( );
+    List result = new ArrayList();
 
-    listAllCopies = find ("from CPY_ID ci where ci.shelfListKeyNumber = ? "
+    listAllCopies = find("from CPY_ID ci where ci.shelfListKeyNumber = ? "
         + " AND ci.organisationNumber = ? ", new Object[]{
-        new Integer (shelfListKeyNumber), new Integer (mainLibrary)},
+        new Integer(shelfListKeyNumber), new Integer(mainLibrary)},
       new Type[]{Hibernate.INTEGER, Hibernate.INTEGER});
 
-    Iterator iter = listAllCopies.iterator ( );
-    while (iter.hasNext ( )) {
-      CPY_ID rawCopy = (CPY_ID) iter.next ( );
-      result.add (rawCopy);
+    Iterator iter = listAllCopies.iterator();
+    while (iter.hasNext()) {
+      CPY_ID rawCopy = (CPY_ID) iter.next();
+      result.add(rawCopy);
     }
     return result;
   }
@@ -323,62 +323,62 @@ public class DAOCopy extends AbstractDAO {
                                    final int mainLibrary,
                                    final Locale locale) throws DataAccessException, HibernateException {
     List listAllCopies = null;
-    List result = new ArrayList ( );
-    DAOOrganisationHierarchy doh = new DAOOrganisationHierarchy ( );
-    DAOLocation dl = new DAOLocation ( );
-    ShelfListDAO dsl = new ShelfListDAO ( );
-    DAOCopyNotes dcn = new DAOCopyNotes ( );
-    DAOInventory dci = new DAOInventory ( );
-    DAODiscard ddsc = new DAODiscard ( );
-    Format formatter = new SimpleDateFormat ("dd/MM/yyyy");
+    List result = new ArrayList();
+    DAOOrganisationHierarchy doh = new DAOOrganisationHierarchy();
+    DAOLocation dl = new DAOLocation();
+    ShelfListDAO dsl = new ShelfListDAO();
+    DAOCopyNotes dcn = new DAOCopyNotes();
+    DAOInventory dci = new DAOInventory();
+    DAODiscard ddsc = new DAODiscard();
+    Format formatter = new SimpleDateFormat("dd/MM/yyyy");
 
-    listAllCopies = getAllCopiesByMainLibrary (amicusNumber, mainLibrary);
-    Iterator iter = listAllCopies.iterator ( );
-    while (iter.hasNext ( )) {
-      CPY_ID rawCopy = (CPY_ID) iter.next ( );
+    listAllCopies = getAllCopiesByMainLibrary(amicusNumber, mainLibrary);
+    Iterator iter = listAllCopies.iterator();
+    while (iter.hasNext()) {
+      CPY_ID rawCopy = (CPY_ID) iter.next();
 
-      CopyListElement rawCopyListElement = new CopyListElement (rawCopy);
-      List discaredList = ddsc.loadItem (rawCopy.getCopyIdNumber ( ));
-      if (discaredList.size ( ) > 0) {
-        DiscardCopy discard = (DiscardCopy) discaredList.get (0);
-        rawCopyListElement.setDiscardCode (discard.getDiscardCode ( ));
-        rawCopyListElement.setDiscardDate (formatter.format (discard
-          .getDiscardDate ( )));
+      CopyListElement rawCopyListElement = new CopyListElement(rawCopy);
+      List discaredList = ddsc.loadItem(rawCopy.getCopyIdNumber());
+      if (discaredList.size() > 0) {
+        DiscardCopy discard = (DiscardCopy) discaredList.get(0);
+        rawCopyListElement.setDiscardCode(discard.getDiscardCode());
+        rawCopyListElement.setDiscardDate(formatter.format(discard
+          .getDiscardDate()));
       }
       rawCopyListElement
-        .setDueDate (getDueDate (rawCopy.getCopyIdNumber ( )));
-      rawCopyListElement.setBranchSymbol (doh.getLibOrBranchSymbol (rawCopy
-        .getBranchOrganisationNumber ( )));
-      rawCopyListElement.setLibrarySymbol (doh
-        .getLibOrBranchSymbol (rawCopy.getOrganisationNumber ( ))); // NIC
+        .setDueDate(getDueDate(rawCopy.getCopyIdNumber()));
+      rawCopyListElement.setBranchSymbol(doh.getLibOrBranchSymbol(rawCopy
+        .getBranchOrganisationNumber()));
+      rawCopyListElement.setLibrarySymbol(doh
+        .getLibOrBranchSymbol(rawCopy.getOrganisationNumber())); // NIC
 
-      LCTN location = dl.load (rawCopy.getBranchOrganisationNumber ( ),
-        rawCopy.getLocationNameCode ( ), locale);
+      LCTN location = dl.load(rawCopy.getBranchOrganisationNumber(),
+        rawCopy.getLocationNameCode(), locale);
       if (location == null) {
-        logger.info("Invalid location code in copy " + rawCopy.getCopyIdNumber ( ));
-        throw new DataAccessException ( );
+        logger.info("Invalid location code in copy " + rawCopy.getCopyIdNumber());
+        throw new DataAccessException();
       } else {
-        rawCopyListElement.setLocation (location.getLabelStringText ( ));
+        rawCopyListElement.setLocation(location.getLabelStringText());
       }
 
-      if (rawCopy.getShelfListKeyNumber ( ) != null) {
-        rawCopy.setShelfList (new ShelfListDAO ( ).load (rawCopy
-          .getShelfListKeyNumber ( ).intValue ( ), session));
-        if (rawCopy.getShelfList ( ) != null) {
+      if (rawCopy.getShelfListKeyNumber() != null) {
+        rawCopy.setShelfList(new ShelfListDAO().load(rawCopy
+          .getShelfListKeyNumber().intValue(), session));
+        if (rawCopy.getShelfList() != null) {
           rawCopyListElement
-            .setShelfList ((new StringText (rawCopy
-              .getShelfList ( ).getStringText ( )))
-              .toDisplayString ( ));
+            .setShelfList((new StringText(rawCopy
+              .getShelfList().getStringText()))
+              .toDisplayString());
         }
       }
 
-      rawCopyListElement.setLoanType (new DAOCodeTable ( ).getLongText (
-        session, rawCopy.getLoanPrd ( ), T_LOAN_PRD.class, locale));
-      rawCopyListElement.setCopyStatementText (rawCopy.getCopyStatementText ( ));
-      rawCopyListElement.setCopyRemarkNote (rawCopy.getCopyRemarkNote ( ));
-      rawCopyListElement.setHowManyNotes (dcn.getCopyNotesList (rawCopy.getCopyIdNumber ( ), locale).size ( ));
-      rawCopyListElement.setHowManyInventory (dci.getInventoryCount (rawCopy.getCopyIdNumber ( )));
-      result.add (rawCopyListElement);
+      rawCopyListElement.setLoanType(new DAOCodeTable().getLongText(
+        session, rawCopy.getLoanPrd(), T_LOAN_PRD.class, locale));
+      rawCopyListElement.setCopyStatementText(rawCopy.getCopyStatementText());
+      rawCopyListElement.setCopyRemarkNote(rawCopy.getCopyRemarkNote());
+      rawCopyListElement.setHowManyNotes(dcn.getCopyNotesList(rawCopy.getCopyIdNumber(), locale).size());
+      rawCopyListElement.setHowManyInventory(dci.getInventoryCount(rawCopy.getCopyIdNumber()));
+      result.add(rawCopyListElement);
     }
     return result;
   }
@@ -394,44 +394,44 @@ public class DAOCopy extends AbstractDAO {
   public List getListCopiesElement(final Session session, final int mainLibrary, final Locale locale)
     throws DataAccessException {
     List listAllCopies = null;
-    List result = new ArrayList ( );
-    DAOOrganisationHierarchy doh = new DAOOrganisationHierarchy ( );
-    DAOLocation dl = new DAOLocation ( );
-    ShelfListDAO dsl = new ShelfListDAO ( );
-    DAOCopyNotes dcn = new DAOCopyNotes ( );
-    DAOInventory dci = new DAOInventory ( );
-    DAODiscard ddsc = new DAODiscard ( );
-    Format formatter = new SimpleDateFormat ("dd/MM/yyyy");
+    List result = new ArrayList();
+    DAOOrganisationHierarchy doh = new DAOOrganisationHierarchy();
+    DAOLocation dl = new DAOLocation();
+    ShelfListDAO dsl = new ShelfListDAO();
+    DAOCopyNotes dcn = new DAOCopyNotes();
+    DAOInventory dci = new DAOInventory();
+    DAODiscard ddsc = new DAODiscard();
+    Format formatter = new SimpleDateFormat("dd/MM/yyyy");
 
-    listAllCopies = getAllCopies (mainLibrary);
-    Iterator iter = listAllCopies.iterator ( );
+    listAllCopies = getAllCopies(mainLibrary);
+    Iterator iter = listAllCopies.iterator();
     try {
-      while (iter.hasNext ( )) {
-        CPY_ID rawCopy = (CPY_ID) iter.next ( );
+      while (iter.hasNext()) {
+        CPY_ID rawCopy = (CPY_ID) iter.next();
 
-        CopyListElement rawCopyListElement = new CopyListElement (
+        CopyListElement rawCopyListElement = new CopyListElement(
           rawCopy);
-        List discaredList = ddsc.loadItem (rawCopy.getCopyIdNumber ( ));
-        if (discaredList.size ( ) > 0) {
-          DiscardCopy discard = (DiscardCopy) discaredList.get (0);
-          rawCopyListElement.setDiscardCode (discard.getDiscardCode ( ));
-          rawCopyListElement.setDiscardDate (formatter.format (discard
-            .getDiscardDate ( )));
+        List discaredList = ddsc.loadItem(rawCopy.getCopyIdNumber());
+        if (discaredList.size() > 0) {
+          DiscardCopy discard = (DiscardCopy) discaredList.get(0);
+          rawCopyListElement.setDiscardCode(discard.getDiscardCode());
+          rawCopyListElement.setDiscardDate(formatter.format(discard
+            .getDiscardDate()));
         }
         try {
-          rawCopyListElement.setDueDate (getDueDate (rawCopy
-            .getCopyIdNumber ( )));
+          rawCopyListElement.setDueDate(getDueDate(rawCopy
+            .getCopyIdNumber()));
         } catch (Exception e) {
         }
 
-        rawCopyListElement.setBranchSymbol (doh
-          .getLibOrBranchSymbol (rawCopy
-            .getBranchOrganisationNumber ( )));
-        rawCopyListElement.setLibrarySymbol (doh
-          .getLibOrBranchSymbol (rawCopy.getOrganisationNumber ( ))); // NIC
+        rawCopyListElement.setBranchSymbol(doh
+          .getLibOrBranchSymbol(rawCopy
+            .getBranchOrganisationNumber()));
+        rawCopyListElement.setLibrarySymbol(doh
+          .getLibOrBranchSymbol(rawCopy.getOrganisationNumber())); // NIC
 
-        LCTN location = dl.load (rawCopy.getBranchOrganisationNumber ( ),
-          rawCopy.getLocationNameCode ( ), locale);
+        LCTN location = dl.load(rawCopy.getBranchOrganisationNumber(),
+          rawCopy.getLocationNameCode(), locale);
         if (location == null) {
           // logger.warn("Invalid location code in copy " +
           // rawCopy.getCopyIdNumber() + "(Org number : " +
@@ -440,34 +440,34 @@ public class DAOCopy extends AbstractDAO {
           // locale.getISO3Language() + ")");
           // throw new DataAccessException();
         } else {
-          rawCopyListElement.setLocation (location
-            .getLabelStringText ( ));
+          rawCopyListElement.setLocation(location
+            .getLabelStringText());
         }
 
-        if (rawCopy.getShelfListKeyNumber ( ) != null) {
-          rawCopy.setShelfList (new ShelfListDAO ( ).load (rawCopy
-            .getShelfListKeyNumber ( ).intValue ( ), session));
-          if (rawCopy.getShelfList ( ) != null) {
-            rawCopyListElement.setShelfList ((new StringText (rawCopy
-              .getShelfList ( ).getStringText ( )))
-              .toDisplayString ( ));
+        if (rawCopy.getShelfListKeyNumber() != null) {
+          rawCopy.setShelfList(new ShelfListDAO().load(rawCopy
+            .getShelfListKeyNumber().intValue(), session));
+          if (rawCopy.getShelfList() != null) {
+            rawCopyListElement.setShelfList((new StringText(rawCopy
+              .getShelfList().getStringText()))
+              .toDisplayString());
           }
         }
 
-        rawCopyListElement.setLoanType (new DAOCodeTable ( ).getLongText (session, rawCopy.getLoanPrd ( ), T_LOAN_PRD.class, locale));
-        rawCopyListElement.setCopyStatementText (rawCopy.getCopyStatementText ( ));
-        rawCopyListElement.setCopyRemarkNote (rawCopy.getCopyRemarkNote ( ));
+        rawCopyListElement.setLoanType(new DAOCodeTable().getLongText(session, rawCopy.getLoanPrd(), T_LOAN_PRD.class, locale));
+        rawCopyListElement.setCopyStatementText(rawCopy.getCopyStatementText());
+        rawCopyListElement.setCopyRemarkNote(rawCopy.getCopyRemarkNote());
 
-        rawCopyListElement.setHowManyNotes (dcn.getCopyNotesList (rawCopy.getCopyIdNumber ( ), locale).size ( ));
-        rawCopyListElement.setHowManyInventory (dci
-          .getInventoryCount (rawCopy.getCopyIdNumber ( )));
+        rawCopyListElement.setHowManyNotes(dcn.getCopyNotesList(rawCopy.getCopyIdNumber(), locale).size());
+        rawCopyListElement.setHowManyInventory(dci
+          .getInventoryCount(rawCopy.getCopyIdNumber()));
 
-        refineCopyListElementForSummarizeHolding (rawCopyListElement,
+        refineCopyListElementForSummarizeHolding(rawCopyListElement,
           result, locale);
-        result.add (rawCopyListElement);
+        result.add(rawCopyListElement);
       }
     } catch (Exception e) {
-      e.printStackTrace ( );
+      e.printStackTrace();
     }
     return result;
   }
@@ -481,74 +481,74 @@ public class DAOCopy extends AbstractDAO {
     ResultSet rs = null;
     ResultSet rs1 = null;
     try {
-      connection = currentSession ( ).connection ( );
+      connection = currentSession().connection();
       stmt = connection
-        .prepareStatement ("select hl.hldg_nbr,hl.hldg_stmt_txt,hl.bnd_vol_cpy_id from hldg hl left outer join hldg_bnd_cpy_acs_pnt bnd on hl.hldg_nbr=bnd.hldg_nbr left outer join hldg_cpy_acs_pnt cpy on hl.hldg_nbr=cpy.hldg_nbr where bnd.cpy_id_nbr=? or cpy.cpy_id_nbr=? or hl.bnd_vol_cpy_id=?");
-      stmt.setInt (1, rawCopyListElement.getCopyIdNumber ( ));
-      stmt.setInt (2, rawCopyListElement.getCopyIdNumber ( ));
-      stmt.setInt (3, rawCopyListElement.getCopyIdNumber ( ));
-      rs = stmt.executeQuery ( );
+        .prepareStatement("select hl.hldg_nbr,hl.hldg_stmt_txt,hl.bnd_vol_cpy_id from hldg hl left outer join hldg_bnd_cpy_acs_pnt bnd on hl.hldg_nbr=bnd.hldg_nbr left outer join hldg_cpy_acs_pnt cpy on hl.hldg_nbr=cpy.hldg_nbr where bnd.cpy_id_nbr=? or cpy.cpy_id_nbr=? or hl.bnd_vol_cpy_id=?");
+      stmt.setInt(1, rawCopyListElement.getCopyIdNumber());
+      stmt.setInt(2, rawCopyListElement.getCopyIdNumber());
+      stmt.setInt(3, rawCopyListElement.getCopyIdNumber());
+      rs = stmt.executeQuery();
 
-      while (rs.next ( )) {
-        rawCopyListElement.setHldgNbr (rs.getInt ("hldg_nbr"));
-        rawCopyListElement.setHldgText (rs.getString ("hldg_stmt_txt"));
-        rawCopyListElement.setBndCpyIdNbr (rs.getInt ("bnd_vol_cpy_id"));
+      while (rs.next()) {
+        rawCopyListElement.setHldgNbr(rs.getInt("hldg_nbr"));
+        rawCopyListElement.setHldgText(rs.getString("hldg_stmt_txt"));
+        rawCopyListElement.setBndCpyIdNbr(rs.getInt("bnd_vol_cpy_id"));
       }
 
-      if (rawCopyListElement.getBndCpyIdNbr ( ) != 0) {
+      if (rawCopyListElement.getBndCpyIdNbr() != 0) {
 
-        connection = currentSession ( ).connection ( );
+        connection = currentSession().connection();
         stmt1 = connection
-          .prepareStatement ("select * from bnd_cpy where bib_itm_nbr=?");
+          .prepareStatement("select * from bnd_cpy where bib_itm_nbr=?");
         stmt1
-          .setInt (1, rawCopyListElement.getCopy ( )
-            .getBibItemNumber ( ));
-        rs1 = stmt1.executeQuery ( );
+          .setInt(1, rawCopyListElement.getCopy()
+            .getBibItemNumber());
+        rs1 = stmt1.executeQuery();
 
-        while (rs1.next ( )) {
+        while (rs1.next()) {
 
-          CPY_ID cpy = new CPY_ID ( );
-          cpy.setBibItemNumber (rawCopyListElement.getCopy ( )
-            .getBibItemNumber ( ));
-          CopyListElement copy = new CopyListElement (cpy);
+          CPY_ID cpy = new CPY_ID();
+          cpy.setBibItemNumber(rawCopyListElement.getCopy()
+            .getBibItemNumber());
+          CopyListElement copy = new CopyListElement(cpy);
 
-          int cpy_id = rs1.getInt ("CPY_ID_NBR");
-          int brnch = rs1.getInt ("BRNCH_ORG_NBR");
-          copy.setBndCpyIdNbr (rawCopyListElement.getBndCpyIdNbr ( ));
-          copy.getCopy ( ).setCopyIdNumber (cpy_id);
-          copy.setHldgNbr (rawCopyListElement.getHldgNbr ( ));
-          copy.getCopy ( ).setBarCodeNumber (rs1.getString ("BRCDE_NBR"));
+          int cpy_id = rs1.getInt("CPY_ID_NBR");
+          int brnch = rs1.getInt("BRNCH_ORG_NBR");
+          copy.setBndCpyIdNbr(rawCopyListElement.getBndCpyIdNbr());
+          copy.getCopy().setCopyIdNumber(cpy_id);
+          copy.setHldgNbr(rawCopyListElement.getHldgNbr());
+          copy.getCopy().setBarCodeNumber(rs1.getString("BRCDE_NBR"));
 
-          copy.getCopy ( ).setBranchOrganisationNumber (brnch);
-          copy.getCopy ( ).setOrganisationNumber (rs1.getInt ("ORG_NBR"));
+          copy.getCopy().setBranchOrganisationNumber(brnch);
+          copy.getCopy().setOrganisationNumber(rs1.getInt("ORG_NBR"));
 
-          copy.setShelfList (getShelfListFromBndTable ((rs1
-            .getInt ("SHLF_LIST_KEY_NBR"))));
-          LCTN location = new DAOLocation ( ).load (brnch, rs1
-            .getShort ("LCTN_NME_CDE"), locale);
-          copy.setLocation (location.getLabelStringText ( ));
+          copy.setShelfList(getShelfListFromBndTable((rs1
+            .getInt("SHLF_LIST_KEY_NBR"))));
+          LCTN location = new DAOLocation().load(brnch, rs1
+            .getShort("LCTN_NME_CDE"), locale);
+          copy.setLocation(location.getLabelStringText());
 
-          result.add (copy);
+          result.add(copy);
         }
       }
 
     } catch (Exception e) {
       try {
-        logAndWrap (e);
+        logAndWrap(e);
       } catch (DataAccessException e1) {
-        e1.printStackTrace ( );
+        e1.printStackTrace();
       }
     } finally {
       try {
-        rs.close ( );
+        rs.close();
         if (rs1 != null)
-          rs1.close ( );
+          rs1.close();
       } catch (SQLException e) {
       }
       try {
-        stmt.close ( );
+        stmt.close();
         if (stmt1 != null)
-          stmt1.close ( );
+          stmt1.close();
       } catch (SQLException e) {
       }
     }
@@ -560,31 +560,31 @@ public class DAOCopy extends AbstractDAO {
     ResultSet rs = null;
     String result = "";
     try {
-      connection = currentSession ( ).connection ( );
+      connection = currentSession().connection();
       stmt = connection
-        .prepareStatement ("select shlf_list_strng_text from bnd_shlf_list where shlf_list_key_nbr=?");
-      stmt.setInt (1, shlfKey);
+        .prepareStatement("select shlf_list_strng_text from bnd_shlf_list where shlf_list_key_nbr=?");
+      stmt.setInt(1, shlfKey);
 
-      rs = stmt.executeQuery ( );
+      rs = stmt.executeQuery();
 
-      while (rs.next ( )) {
-        String shlfText = rs.getString ("shlf_list_strng_text");
-        shlfText = new StringText (shlfText).toDisplayString ( );
+      while (rs.next()) {
+        String shlfText = rs.getString("shlf_list_strng_text");
+        shlfText = new StringText(shlfText).toDisplayString();
         return shlfText;
       }
     } catch (Exception e) {
       try {
-        logAndWrap (e);
+        logAndWrap(e);
       } catch (DataAccessException e1) {
-        e1.printStackTrace ( );
+        e1.printStackTrace();
       }
     } finally {
       try {
-        rs.close ( );
+        rs.close();
       } catch (SQLException e) {
       }
       try {
-        stmt.close ( );
+        stmt.close();
       } catch (SQLException e) {
       }
     }
@@ -593,7 +593,7 @@ public class DAOCopy extends AbstractDAO {
 
   public String getCopyStatus(int copyNumber, Character loanType)
     throws DataAccessException {
-    String result = new String ("");
+    String result = new String("");
 /*
 		DAOCirculationItem dci = new DAOCirculationItem();
 
@@ -624,20 +624,20 @@ public class DAOCopy extends AbstractDAO {
 
   public String getBarcode(int copyIdNumber) throws DataAccessException,
     HibernateException {
-    String result = new String ( );
+    String result = new String();
     List listAllCopies = null;
     try {
-      Session s = currentSession ( );
-      listAllCopies = s.find ("from CPY_ID ci where ci.copyIdNumber = "
+      Session s = currentSession();
+      listAllCopies = s.find("from CPY_ID ci where ci.copyIdNumber = "
         + copyIdNumber);
 
-      Iterator iter = listAllCopies.iterator ( );
-      while (iter.hasNext ( )) {
-        CPY_ID rawCopy = (CPY_ID) iter.next ( );
-        result = rawCopy.getBarCodeNumber ( );
+      Iterator iter = listAllCopies.iterator();
+      while (iter.hasNext()) {
+        CPY_ID rawCopy = (CPY_ID) iter.next();
+        result = rawCopy.getBarCodeNumber();
       }
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     return result;
   }
@@ -647,16 +647,16 @@ public class DAOCopy extends AbstractDAO {
     int result = 0;
     List listAllCopies = null;
     try {
-      Session s = currentSession ( );
-      listAllCopies = s.find ("from CPY_ID ci where ci.copyIdNumber = "
+      Session s = currentSession();
+      listAllCopies = s.find("from CPY_ID ci where ci.copyIdNumber = "
         + copyIdNumber);
-      Iterator iter = listAllCopies.iterator ( );
-      while (iter.hasNext ( )) {
-        CPY_ID rawCopy = (CPY_ID) iter.next ( );
-        result = rawCopy.getBranchOrganisationNumber ( );
+      Iterator iter = listAllCopies.iterator();
+      while (iter.hasNext()) {
+        CPY_ID rawCopy = (CPY_ID) iter.next();
+        result = rawCopy.getBranchOrganisationNumber();
       }
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     return result;
   }
@@ -667,27 +667,27 @@ public class DAOCopy extends AbstractDAO {
     char result = '0';
     List listAllCopies = null;
     try {
-      Session s = currentSession ( );
+      Session s = currentSession();
 
-      listAllCopies = s.find (
+      listAllCopies = s.find(
         "from CPY_ID ci where ci.copyIdNumber = ?",
-        new Object[]{new Integer (copyIdNumber)},
+        new Object[]{new Integer(copyIdNumber)},
         new Type[]{Hibernate.INTEGER});
 
-      Iterator iter = listAllCopies.iterator ( );
-      while (iter.hasNext ( )) {
-        CPY_ID rawCopy = (CPY_ID) iter.next ( );
-        result = rawCopy.getLoanPrd ( );
+      Iterator iter = listAllCopies.iterator();
+      while (iter.hasNext()) {
+        CPY_ID rawCopy = (CPY_ID) iter.next();
+        result = rawCopy.getLoanPrd();
 
       }
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     return result;
   }
 
   public String getDueDate(int copyNumber) throws DataAccessException {
-    String result = new String ("");
+    String result = new String("");
 /*		DAOCirculationItem dci = new DAOCirculationItem();
 
 		CIRT_ITM ci = dci.load(copyNumber);
@@ -702,19 +702,19 @@ public class DAOCopy extends AbstractDAO {
 
   public List getBranchSymbolsHoldingCopies(int amicusNumber)
     throws DataAccessException {
-    List raw = find (" select distinct cpy.branchOrganisationNumber, "
+    List raw = find(" select distinct cpy.branchOrganisationNumber, "
         + " lib.librarySymbolCode from "
         + " CPY_ID as cpy, LIB as lib "
         + " where cpy.bibItemNumber = ? and "
         + " cpy.branchOrganisationNumber = lib.organisationNumber",
-      new Object[]{new Integer (amicusNumber)},
+      new Object[]{new Integer(amicusNumber)},
       new Type[]{Hibernate.INTEGER});
-    List result = new ArrayList ( );
-    Iterator iter = raw.iterator ( );
+    List result = new ArrayList();
+    Iterator iter = raw.iterator();
     Object[] aRow;
-    while (iter.hasNext ( )) {
-      aRow = (Object[]) iter.next ( );
-      result.add (new Avp (String.valueOf (aRow[0]),
+    while (iter.hasNext()) {
+      aRow = (Object[]) iter.next();
+      result.add(new Avp(String.valueOf(aRow[0]),
         (String) aRow[1]));
     }
     return result;
@@ -726,30 +726,30 @@ public class DAOCopy extends AbstractDAO {
     List raw;
 
     if (mainLibrary != 0)
-      raw = find (" select distinct cpy.branchOrganisationNumber, "
+      raw = find(" select distinct cpy.branchOrganisationNumber, "
           + " lib.librarySymbolCode from "
           + " CPY_ID as cpy, LIB as lib "
           + " where cpy.bibItemNumber = ? and "
           + " cpy.organisationNumber = ? and "
           + " cpy.branchOrganisationNumber = lib.organisationNumber",
-        new Object[]{new Integer (amicusNumber),
-          new Integer (mainLibrary)}, new Type[]{
+        new Object[]{new Integer(amicusNumber),
+          new Integer(mainLibrary)}, new Type[]{
           Hibernate.INTEGER, Hibernate.INTEGER});
     else
-      raw = find (" select distinct cpy.branchOrganisationNumber, "
+      raw = find(" select distinct cpy.branchOrganisationNumber, "
           + " lib.librarySymbolCode from "
           + " CPY_ID as cpy, LIB as lib "
           + " where cpy.bibItemNumber = ? and "
           + " cpy.branchOrganisationNumber = lib.organisationNumber",
-        new Object[]{new Integer (amicusNumber)},
+        new Object[]{new Integer(amicusNumber)},
         new Type[]{Hibernate.INTEGER});
 
-    List result = new ArrayList ( );
-    Iterator iter = raw.iterator ( );
+    List result = new ArrayList();
+    Iterator iter = raw.iterator();
     Object[] aRow;
-    while (iter.hasNext ( )) {
-      aRow = (Object[]) iter.next ( );
-      result.add (new Avp (String.valueOf (aRow[0]),
+    while (iter.hasNext()) {
+      aRow = (Object[]) iter.next();
+      result.add(new Avp(String.valueOf(aRow[0]),
         (String) aRow[1]));
     }
     return result;
@@ -757,61 +757,61 @@ public class DAOCopy extends AbstractDAO {
 
   public List getLibrarySymbolsHoldingCopies(int amicusNumber) // NIC
     throws DataAccessException {
-    List raw = find (" select distinct cpy.organisationNumber, "
+    List raw = find(" select distinct cpy.organisationNumber, "
         + " lib.librarySymbolCode from "
         + " CPY_ID as cpy, LIB as lib "
         + " where cpy.bibItemNumber = ? and "
         + " cpy.organisationNumber = lib.organisationNumber",
-      new Object[]{new Integer (amicusNumber)},
+      new Object[]{new Integer(amicusNumber)},
       new Type[]{Hibernate.INTEGER});
-    List result = new ArrayList ( );
-    Iterator iter = raw.iterator ( );
+    List result = new ArrayList();
+    Iterator iter = raw.iterator();
     Object[] aRow;
-    while (iter.hasNext ( )) {
-      aRow = (Object[]) iter.next ( );
-      result.add (new Avp (String.valueOf (aRow[0]),
+    while (iter.hasNext()) {
+      aRow = (Object[]) iter.next();
+      result.add(new Avp(String.valueOf(aRow[0]),
         (String) aRow[1]));
     }
     return result;
   }
 
   public void delete(final int copyNumber, final String userName) throws DataAccessException {
-    new TransactionalHibernateOperation ( ) {
+    new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
         throws HibernateException,
         DataAccessException {
         // TODO make sure no circulation records (AMICUS doesn't)
-        CPY_ID copy = (CPY_ID) s.get (CPY_ID.class, new Integer (
+        CPY_ID copy = (CPY_ID) s.get(CPY_ID.class, new Integer(
           copyNumber));
-        if (copy.getShelfListKeyNumber ( ) != null) {
+        if (copy.getShelfListKeyNumber() != null) {
           //TODO passare la session
-          copy.setShelfList (new ShelfListDAO ( ).load (copy.getShelfListKeyNumber ( ).intValue ( ), null));
+          copy.setShelfList(new ShelfListDAO().load(copy.getShelfListKeyNumber().intValue(), null));
         }
         if (copy == null) {
-          throw new RecordNotFoundException ( );
+          throw new RecordNotFoundException();
         }
 
         // detach the shelflist
-        detachShelfList (copy, copy.getShelfList ( ));
+        detachShelfList(copy, copy.getShelfList());
 
-        saveCpyIdAgent (userName, copy.getCopyIdNumber ( ));
+        saveCpyIdAgent(userName, copy.getCopyIdNumber());
 
         // delete the copy itself
-        s.delete (copy);
+        s.delete(copy);
 
 
-        DAOSummaryHolding ds = new DAOSummaryHolding ( );
-        ds.deleteRecord (copy.getBibItemNumber ( ), copy
-          .getOrganisationNumber ( ));
+        DAOSummaryHolding ds = new DAOSummaryHolding();
+        ds.deleteRecord(copy.getBibItemNumber(), copy
+          .getOrganisationNumber());
 
 
       }
-    }.execute ( );
+    }.execute();
   }
 
   public void detachShelfList(CPY_ID copy, SHLF_LIST shelf)
     throws DataAccessException {
-    Session s = currentSession ( );
+    Session s = currentSession();
 
     if (shelf == null) {
       return;
@@ -822,36 +822,36 @@ public class DAOCopy extends AbstractDAO {
        * the entry from SHLF_LIST_ACS_PNT
        */
 
-      if (countShelfFromCopyUses (copy, shelf) != 0) {
-        if (countShelfListAccessPointUses (copy, shelf) == 1) {
-          logger.info ("Cancella  SHLF_LIST_ACS_PNT");
+      if (countShelfFromCopyUses(copy, shelf) != 0) {
+        if (countShelfListAccessPointUses(copy, shelf) == 1) {
+          logger.info("Cancella  SHLF_LIST_ACS_PNT");
 
           s
-            .delete (
+            .delete(
               "from SHLF_LIST_ACS_PNT as c where c.shelfListKeyNumber = ?"
                 + " and c.bibItemNumber = ?",
               new Object[]{
-                new Integer (shelf
-                  .getShelfListKeyNumber ( )),
-                new Integer (copy.getBibItemNumber ( ))},
+                new Integer(shelf
+                  .getShelfListKeyNumber()),
+                new Integer(copy.getBibItemNumber())},
               new Type[]{Hibernate.INTEGER,
                 Hibernate.INTEGER});
           /*
            * AND if only our copy is using this shelf list number then
            * delete the shelf list number
            */
-          List l = find (
+          List l = find(
             "select count(*) from CPY_ID as c where c.shelfListKeyNumber = ?",
-            new Object[]{new Integer (shelf
-              .getShelfListKeyNumber ( ))},
+            new Object[]{new Integer(shelf
+              .getShelfListKeyNumber())},
             new Type[]{Hibernate.INTEGER});
-          if (l.size ( ) > 0 && ((Integer) l.get (0)).intValue ( ) == 1) {
-            s.delete (shelf);
+          if (l.size() > 0 && ((Integer) l.get(0)).intValue() == 1) {
+            s.delete(shelf);
           }
         }
       }
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
   }
 
@@ -862,14 +862,14 @@ public class DAOCopy extends AbstractDAO {
    */
   public int countShelfListAccessPointUses(CPY_ID copy, SHLF_LIST shelf)
     throws DataAccessException {
-    List l = find (
+    List l = find(
       "select count(*) from CPY_ID as c where c.shelfListKeyNumber = ?"
         + " and c.bibItemNumber = ?", new Object[]{
-        new Integer (shelf.getShelfListKeyNumber ( )),
-        new Integer (copy.getBibItemNumber ( ))}, new Type[]{
+        new Integer(shelf.getShelfListKeyNumber()),
+        new Integer(copy.getBibItemNumber())}, new Type[]{
         Hibernate.INTEGER, Hibernate.INTEGER});
-    if (l.size ( ) > 0) {
-      return ((Integer) l.get (0)).intValue ( );
+    if (l.size() > 0) {
+      return ((Integer) l.get(0)).intValue();
     } else {
       return 0;
     }
@@ -882,16 +882,16 @@ public class DAOCopy extends AbstractDAO {
    */
   public int countShelfListAccessPointUsesForModifyHeading(CPY_ID copy,
                                                            SHLF_LIST shelf) throws DataAccessException {
-    List l = find (
+    List l = find(
       "select count(*) from SHLF_LIST_ACS_PNT as c where c.shelfListKeyNumber = ?"
         + " and c.bibItemNumber = ? and c.mainLibraryNumber=?",
-      new Object[]{new Integer (shelf.getShelfListKeyNumber ( )),
-        new Integer (copy.getBibItemNumber ( )),
-        new Integer (copy.getOrganisationNumber ( ))},
+      new Object[]{new Integer(shelf.getShelfListKeyNumber()),
+        new Integer(copy.getBibItemNumber()),
+        new Integer(copy.getOrganisationNumber())},
       new Type[]{Hibernate.INTEGER, Hibernate.INTEGER,
         Hibernate.INTEGER});
-    if (l.size ( ) > 0) {
-      return ((Integer) l.get (0)).intValue ( );
+    if (l.size() > 0) {
+      return ((Integer) l.get(0)).intValue();
     } else {
       return 0;
     }
@@ -899,16 +899,16 @@ public class DAOCopy extends AbstractDAO {
 
   public int countCopyByShelf(CPY_ID copy, SHLF_LIST shelf)
     throws DataAccessException, HibernateException {
-    ShelfListDAO ds = (ShelfListDAO) shelf.getDAO ( );
-    SHLF_LIST match = (SHLF_LIST) ds.getMatchingHeading (shelf, null);
+    ShelfListDAO ds = (ShelfListDAO) shelf.getDAO();
+    SHLF_LIST match = (SHLF_LIST) ds.getMatchingHeading(shelf, null);
     if (match != null) {
-      List l = find (
+      List l = find(
         "select count(*) from CPY_ID as c where c.shelfListKeyNumber = ? and c.copyIdNumber<> ?",
-        new Object[]{new Integer (match.getShelfListKeyNumber ( )),
-          new Integer (copy.getCopyIdNumber ( ))}, new Type[]{
+        new Object[]{new Integer(match.getShelfListKeyNumber()),
+          new Integer(copy.getCopyIdNumber())}, new Type[]{
           Hibernate.INTEGER, Hibernate.INTEGER});
-      if (l.size ( ) > 0) {
-        return ((Integer) l.get (0)).intValue ( );
+      if (l.size() > 0) {
+        return ((Integer) l.get(0)).intValue();
       }
     }
     return 0;
@@ -921,17 +921,17 @@ public class DAOCopy extends AbstractDAO {
    */
   public int countShelfFromCopyUses(CPY_ID copy, SHLF_LIST shelf)
     throws DataAccessException {
-    List l = find (
+    List l = find(
       "select count(*) from CPY_ID as c where c.shelfListKeyNumber = ?"
         + " and c.bibItemNumber = ?"
         + " and c.copyIdNumber = ?", new Object[]{
-        new Integer (shelf.getShelfListKeyNumber ( )),
-        new Integer (copy.getBibItemNumber ( )),
-        new Integer (copy.getCopyIdNumber ( ))},
+        new Integer(shelf.getShelfListKeyNumber()),
+        new Integer(copy.getBibItemNumber()),
+        new Integer(copy.getCopyIdNumber())},
       new Type[]{Hibernate.INTEGER, Hibernate.INTEGER,
         Hibernate.INTEGER});
-    if (l.size ( ) > 0) {
-      return ((Integer) l.get (0)).intValue ( );
+    if (l.size() > 0) {
+      return ((Integer) l.get(0)).intValue();
     } else {
       return 0;
     }
@@ -952,47 +952,47 @@ public class DAOCopy extends AbstractDAO {
                        final CPY_ID copy,
                        final SHLF_LIST oldShelfList,
                        final String userName) throws DataAccessException {
-    new TransactionalHibernateOperation ( ) {
+    new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
         throws HibernateException, DataAccessException {
         /*
          *
          */
         if (oldShelfList != null) {
-          detachShelfList (copy, oldShelfList);
+          detachShelfList(copy, oldShelfList);
         }
-        if (copy.getShelfList ( ) != null) {
-          logger.debug ("shelf is not null!!");
+        if (copy.getShelfList() != null) {
+          logger.debug("shelf is not null!!");
 
-          if (copy.getShelfList ( ).isChanged ( )) {
+          if (copy.getShelfList().isChanged()) {
             /*
              * If the shelf list is changed, the approach is to
              * detach the current shelf list (which will be deleted
              * if it is no longer used), and then to generate a new
              * shelf list with the modified settings
              */
-            detachShelfList (copy, copy.getShelfList ( ));
+            detachShelfList(copy, copy.getShelfList());
             /*
              * TODO originally an evict was here. It may be safer to
              * deep copy and or newInstance at this point
              */
-            copy.getShelfList ( ).markNew ( );
+            copy.getShelfList().markNew();
           }
-          if (copy.getShelfList ( ).getUpdateStatus ( ) == UpdateStatus.UNCHANGED) {
+          if (copy.getShelfList().getUpdateStatus() == UpdateStatus.UNCHANGED) {
             // if the edited version was scanned from the db then
             // add
             // a new entry to the acs_pnt table
-            logger.debug ("shelf is UNCHANGED");
-            attachShelfList (copy, copy.getShelfList ( ));
+            logger.debug("shelf is UNCHANGED");
+            attachShelfList(copy, copy.getShelfList());
           }
-          if (copy.getShelfList ( ).isNew ( )) {
-            SHLF_LIST match = getMatchHeading (copy);
+          if (copy.getShelfList().isNew()) {
+            SHLF_LIST match = getMatchHeading(copy);
             if (match != null) {
-              copy.setShelfList (match);
+              copy.setShelfList(match);
             } else {
-              SHLF_LIST shelf = (SHLF_LIST) deepCopy (copy.getShelfList ( ));
-              shelf.generateNewKey (session);
-              copy.setShelfList (shelf);
+              SHLF_LIST shelf = (SHLF_LIST) deepCopy(copy.getShelfList());
+              shelf.generateNewKey(session);
+              copy.setShelfList(shelf);
               /*
                * When string text is modified in UI, the sortform
                * is not changed (still old stringValue). The trigger to
@@ -1000,29 +1000,29 @@ public class DAOCopy extends AbstractDAO {
                * inserted sortform is null. Without the below
                * line, the SHLF_LIST_I3 unique index is violated
                */
-              copy.getShelfList ( ).setSortForm (null); // otherwise
+              copy.getShelfList().setSortForm(null); // otherwise
             }
-            attachShelfList (copy, copy.getShelfList ( ));
-            copy.markChanged ( );
+            attachShelfList(copy, copy.getShelfList());
+            copy.markChanged();
           }
 
-          persistByStatus (copy.getShelfList ( ), session);
-          copy.setShelfListKeyNumber (copy.getShelfList ( ).getShelfListKeyNumber ( ));
+          persistByStatus(copy.getShelfList(), session);
+          copy.setShelfListKeyNumber(copy.getShelfList().getShelfListKeyNumber());
         } else { // shelf list is null
-          logger.debug ("setting key to null");
-          copy.setShelfListKeyNumber (null);
+          logger.debug("setting key to null");
+          copy.setShelfListKeyNumber(null);
         }
-        if (copy.isNew ( )) {
-          copy.generateNewKey (session);
+        if (copy.isNew()) {
+          copy.generateNewKey(session);
           //copy.setCreationDate(new Date());
         }
 
-        saveCpyIdAgent (userName, copy.getCopyIdNumber ( ));
+        saveCpyIdAgent(userName, copy.getCopyIdNumber());
 
-        persistByStatus (copy, session);
-        createSummaryHolding (session, copy);
+        persistByStatus(copy, session);
+        createSummaryHolding(session, copy);
       }
-    }.execute ( );
+    }.execute();
   }
 
   /**
@@ -1032,43 +1032,43 @@ public class DAOCopy extends AbstractDAO {
    */
   //TODO: The session is missing from the method
   public SHLF_LIST getMatchHeading(CPY_ID copy) throws DataAccessException, HibernateException {
-    ShelfListDAO ds = (ShelfListDAO) copy.getShelfList ( ).getDAO ( );
+    ShelfListDAO ds = (ShelfListDAO) copy.getShelfList().getDAO();
     SHLF_LIST match = (SHLF_LIST) ds
-      .getMatchingHeading (copy.getShelfList ( ), null);
+      .getMatchingHeading(copy.getShelfList(), null);
     return match;
   }
 
   private void createSummaryHolding(final Session session, final CPY_ID copy) throws DataAccessException {
-    new DAOSummaryHolding ( ).createSummaryHoldingIfRequired (session, copy);
+    new DAOSummaryHolding().createSummaryHoldingIfRequired(session, copy);
   }
 
   public void attachShelfList(CPY_ID copy, SHLF_LIST shelf)
     throws DataAccessException {
-    if (countShelfListAccessPointUses (copy, shelf) == 0) {
+    if (countShelfListAccessPointUses(copy, shelf) == 0) {
       // logger.warn("Attacca SHLF_LIST_ACS_PNT");
       try {
-        SHLF_LIST_ACS_PNT ap = new SHLF_LIST_ACS_PNT (copy
-          .getBibItemNumber ( ), copy.getOrganisationNumber ( ),
-          shelf.getShelfListKeyNumber ( ));
-        currentSession ( ).save (ap);
+        SHLF_LIST_ACS_PNT ap = new SHLF_LIST_ACS_PNT(copy
+          .getBibItemNumber(), copy.getOrganisationNumber(),
+          shelf.getShelfListKeyNumber());
+        currentSession().save(ap);
       } catch (HibernateException e) {
-        logAndWrap (e);
+        logAndWrap(e);
       }
     }
   }
 
   public void attachShelfListForModifyCopy(CPY_ID copy, SHLF_LIST shelf)
     throws DataAccessException {
-    if (countShelfFromCopyUses (copy, shelf) != 0) {
-      if (countShelfListAccessPointUses (copy, shelf) == 1) {
+    if (countShelfFromCopyUses(copy, shelf) != 0) {
+      if (countShelfListAccessPointUses(copy, shelf) == 1) {
         // logger.warn("Attacca SHLF_LIST_ACS_PNT");
         try {
-          SHLF_LIST_ACS_PNT ap = new SHLF_LIST_ACS_PNT (copy
-            .getBibItemNumber ( ), copy.getOrganisationNumber ( ),
-            shelf.getShelfListKeyNumber ( ));
-          currentSession ( ).save (ap);
+          SHLF_LIST_ACS_PNT ap = new SHLF_LIST_ACS_PNT(copy
+            .getBibItemNumber(), copy.getOrganisationNumber(),
+            shelf.getShelfListKeyNumber());
+          currentSession().save(ap);
         } catch (HibernateException e) {
-          logAndWrap (e);
+          logAndWrap(e);
         }
       }
     }
@@ -1077,23 +1077,23 @@ public class DAOCopy extends AbstractDAO {
   public void saveOrUpdateShelfList(CPY_ID copy, SHLF_LIST shelf)
     throws DataAccessException {
     try {
-      SHLF_LIST_ACS_PNT ap = new SHLF_LIST_ACS_PNT (copy
-        .getBibItemNumber ( ), copy.getOrganisationNumber ( ), shelf
-        .getShelfListKeyNumber ( ));
-      currentSession ( ).update (ap);
+      SHLF_LIST_ACS_PNT ap = new SHLF_LIST_ACS_PNT(copy
+        .getBibItemNumber(), copy.getOrganisationNumber(), shelf
+        .getShelfListKeyNumber());
+      currentSession().update(ap);
 
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
   }
 
   public void edit(final CPY_ID copyId) throws DataAccessException {
-    new TransactionalHibernateOperation ( ) {
+    new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
         throws HibernateException {
-        s.update (copyId);
+        s.update(copyId);
       }
-    }.execute ( );
+    }.execute();
   }
 
   public Integer getOrganizationNumbe(int copyIdNumber) throws SQLException {
@@ -1102,27 +1102,27 @@ public class DAOCopy extends AbstractDAO {
     ResultSet resultSet = null;
     try {
 
-      connection = currentSession ( ).connection ( );
+      connection = currentSession().connection();
       queryStatement = connection
-        .prepareStatement ("SELECT ORG_NBR FROM CPY_ID WHERE CPY_ID_NBR=?");
-      queryStatement.setInt (1, copyIdNumber);
-      resultSet = queryStatement.executeQuery ( );
+        .prepareStatement("SELECT ORG_NBR FROM CPY_ID WHERE CPY_ID_NBR=?");
+      queryStatement.setInt(1, copyIdNumber);
+      resultSet = queryStatement.executeQuery();
 
-      resultSet.next ( );
+      resultSet.next();
 
-      return resultSet.getInt ("ORG_NBR");
+      return resultSet.getInt("ORG_NBR");
 
     } catch (SQLException exception) {
       throw exception;
     } catch (Exception exception) {
-      throw new SQLException (exception);
+      throw new SQLException(exception);
     } finally {
       try {
-        resultSet.close ( );
+        resultSet.close();
       } catch (Exception ignore) {
       }
       try {
-        queryStatement.close ( );
+        queryStatement.close();
       } catch (Exception ignore) {
       }
 
@@ -1134,17 +1134,17 @@ public class DAOCopy extends AbstractDAO {
     Connection connection = null;
     PreparedStatement queryStatement = null;
     ResultSet resultSet = null;
-    List <String> views = new ArrayList <String> ( );
+    List <String> views = new ArrayList <String>();
     try {
 
-      connection = currentSession ( ).connection ( );
+      connection = currentSession().connection();
       queryStatement = connection
-        .prepareStatement ("SELECT USR_VW_IND FROM BIB_ITM WHERE BIB_ITM_NBR=?");
-      queryStatement.setInt (1, amicusNumber);
-      resultSet = queryStatement.executeQuery ( );
+        .prepareStatement("SELECT USR_VW_IND FROM BIB_ITM WHERE BIB_ITM_NBR=?");
+      queryStatement.setInt(1, amicusNumber);
+      resultSet = queryStatement.executeQuery();
 
-      while (resultSet.next ( )) {
-        views.add (resultSet.getString ("USR_VW_IND"));
+      while (resultSet.next()) {
+        views.add(resultSet.getString("USR_VW_IND"));
       }
 
       return views;
@@ -1152,14 +1152,14 @@ public class DAOCopy extends AbstractDAO {
     } catch (SQLException exception) {
       throw exception;
     } catch (Exception exception) {
-      throw new SQLException (exception);
+      throw new SQLException(exception);
     } finally {
       try {
-        resultSet.close ( );
+        resultSet.close();
       } catch (Exception ignore) {
       }
       try {
-        queryStatement.close ( );
+        queryStatement.close();
       } catch (Exception ignore) {
       }
 
@@ -1172,64 +1172,64 @@ public class DAOCopy extends AbstractDAO {
     int bufSize = 600;
     int rc;
 
-    Session s = currentSession ( );
+    Session s = currentSession();
     CallableStatement proc = null;
     Connection connection = null;
 
     try {
-      connection = s.connection ( );
+      connection = s.connection();
       proc = connection
-        .prepareCall ("{ ? = call AMICUS.PACK_SORTFORM.SF_PREPROCESS(?, ?, ?, ?, ?, ?, ?, ?) }");
-      proc.registerOutParameter (1, Types.INTEGER);
-      proc.setString (2, text);
-      proc.registerOutParameter (3, Types.VARCHAR);
-      proc.setInt (4, bufSize);
-      proc.setInt (5, parms.getSortFormMainType ( ));
-      proc.setInt (6, parms.getSortFormSubType ( ));
-      proc.setInt (7, parms.getNameTitleOrSubjectType ( ));
-      proc.setInt (8, parms.getNameSubtype ( ));
-      proc.setInt (9, parms.getSkipInFiling ( ));
-      proc.execute ( );
+        .prepareCall("{ ? = call AMICUS.PACK_SORTFORM.SF_PREPROCESS(?, ?, ?, ?, ?, ?, ?, ?) }");
+      proc.registerOutParameter(1, Types.INTEGER);
+      proc.setString(2, text);
+      proc.registerOutParameter(3, Types.VARCHAR);
+      proc.setInt(4, bufSize);
+      proc.setInt(5, parms.getSortFormMainType());
+      proc.setInt(6, parms.getSortFormSubType());
+      proc.setInt(7, parms.getNameTitleOrSubjectType());
+      proc.setInt(8, parms.getNameSubtype());
+      proc.setInt(9, parms.getSkipInFiling());
+      proc.execute();
 
-      rc = proc.getInt (1);
+      rc = proc.getInt(1);
 
       if (rc != 0) {
-        throw new SortFormException (String.valueOf (rc));
+        throw new SortFormException(String.valueOf(rc));
       }
-      result = proc.getString (3);
+      result = proc.getString(3);
 
-      proc.close ( );
+      proc.close();
 
       proc = connection
-        .prepareCall ("{ ? = call AMICUS.PACK_SORTFORM.SF_BUILDSRTFRM(?, ?, ?, ?, ?, ?, ?, ?) }");
-      proc.registerOutParameter (1, Types.INTEGER);
-      proc.setString (2, result);
-      proc.registerOutParameter (3, Types.VARCHAR);
-      proc.setInt (4, bufSize);
-      proc.setInt (5, parms.getSortFormMainType ( ));
-      proc.setInt (6, parms.getSortFormSubType ( ));
-      proc.setInt (7, parms.getNameTitleOrSubjectType ( ));
-      proc.setInt (8, parms.getNameSubtype ( ));
-      proc.setInt (9, parms.getSkipInFiling ( ));
-      proc.execute ( );
+        .prepareCall("{ ? = call AMICUS.PACK_SORTFORM.SF_BUILDSRTFRM(?, ?, ?, ?, ?, ?, ?, ?) }");
+      proc.registerOutParameter(1, Types.INTEGER);
+      proc.setString(2, result);
+      proc.registerOutParameter(3, Types.VARCHAR);
+      proc.setInt(4, bufSize);
+      proc.setInt(5, parms.getSortFormMainType());
+      proc.setInt(6, parms.getSortFormSubType());
+      proc.setInt(7, parms.getNameTitleOrSubjectType());
+      proc.setInt(8, parms.getNameSubtype());
+      proc.setInt(9, parms.getSkipInFiling());
+      proc.execute();
 
-      rc = proc.getInt (1);
+      rc = proc.getInt(1);
 
       if (rc != 0) {
-        throw new SortFormException (String.valueOf (rc));
+        throw new SortFormException(String.valueOf(rc));
       }
-      result = proc.getString (3);
+      result = proc.getString(3);
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     } catch (SQLException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     } finally {
       try {
         if (proc != null) {
-          proc.close ( );
+          proc.close();
         }
       } catch (SQLException e) {
-        e.printStackTrace ( );
+        e.printStackTrace();
       }
     }
     return result;
@@ -1243,22 +1243,22 @@ public class DAOCopy extends AbstractDAO {
     ResultSet rs = null;
 
     try {
-      connection = currentSession ( ).connection ( );
-      stmt = connection.createStatement ( );
+      connection = currentSession().connection();
+      stmt = connection.createStatement();
       rs = stmt
-        .executeQuery ("select HLDG_SEQ.NEXTVAL   l_hldg_nbr from DUAL");
+        .executeQuery("select HLDG_SEQ.NEXTVAL   l_hldg_nbr from DUAL");
       int value = 0;
 
-      while (rs.next ( ))
-        value = rs.getInt ("l_hldg_nbr");
+      while (rs.next())
+        value = rs.getInt("l_hldg_nbr");
 
-      insertHardbackTable (elements, posseduto, value);
+      insertHardbackTable(elements, posseduto, value);
 
       stmt1 = connection
-        .prepareStatement ("INSERT INTO HLDG(HLDG_NBR, HLDG_STMT_TXT) VALUES (?, ?)");
-      stmt1.setInt (1, value);
-      stmt1.setString (2, posseduto);
-      stmt1.executeUpdate ( );
+        .prepareStatement("INSERT INTO HLDG(HLDG_NBR, HLDG_STMT_TXT) VALUES (?, ?)");
+      stmt1.setInt(1, value);
+      stmt1.setString(2, posseduto);
+      stmt1.executeUpdate();
 
       // for(CopyListElement element: elements)
       // {
@@ -1271,22 +1271,22 @@ public class DAOCopy extends AbstractDAO {
 
     } catch (Exception e) {
       try {
-        logAndWrap (e);
+        logAndWrap(e);
       } catch (DataAccessException e1) {
-        e1.printStackTrace ( );
+        e1.printStackTrace();
       }
     } finally {
       try {
-        rs.close ( );
+        rs.close();
       } catch (SQLException e) {
       }
       try {
-        stmt.close ( );
+        stmt.close();
       } catch (SQLException e) {
       }
       try {
 
-        stmt1.close ( );
+        stmt1.close();
       } catch (SQLException e) {
       }
 
@@ -1299,25 +1299,25 @@ public class DAOCopy extends AbstractDAO {
     Connection connection = null;
     PreparedStatement stmt2 = null;
     try {
-      connection = currentSession ( ).connection ( );
+      connection = currentSession().connection();
 
-      for ( CopyListElement element : elements ) {
+      for (CopyListElement element : elements) {
         stmt2 = connection
-          .prepareStatement ("INSERT INTO HLDG_CPY_ACS_PNT(HLDG_NBR, CPY_ID_NBR) VALUES (?, ?)");
-        stmt2.setInt (1, value);
-        stmt2.setInt (2, element.getCopy ( ).getCopyIdNumber ( ));
-        stmt2.executeUpdate ( );
+          .prepareStatement("INSERT INTO HLDG_CPY_ACS_PNT(HLDG_NBR, CPY_ID_NBR) VALUES (?, ?)");
+        stmt2.setInt(1, value);
+        stmt2.setInt(2, element.getCopy().getCopyIdNumber());
+        stmt2.executeUpdate();
       }
 
     } catch (Exception e) {
       try {
-        logAndWrap (e);
+        logAndWrap(e);
       } catch (DataAccessException e1) {
-        e1.printStackTrace ( );
+        e1.printStackTrace();
       }
     } finally {
       try {
-        stmt2.close ( );
+        stmt2.close();
 
       } catch (SQLException e) {
       }
@@ -1329,25 +1329,25 @@ public class DAOCopy extends AbstractDAO {
     Connection connection = null;
     PreparedStatement stmt2 = null;
     try {
-      connection = currentSession ( ).connection ( );
+      connection = currentSession().connection();
 
-      for ( int i = 0; i < copyIdList.length; i++ ) {
+      for (int i = 0; i < copyIdList.length; i++) {
         stmt2 = connection
-          .prepareStatement ("DELETE HLDG_CPY_ACS_PNT  WHERE HLDG_NBR=? AND CPY_ID_NBR=?");
-        stmt2.setInt (1, value);
-        stmt2.setInt (2, Integer.parseInt (copyIdList[i]));
-        stmt2.executeUpdate ( );
+          .prepareStatement("DELETE HLDG_CPY_ACS_PNT  WHERE HLDG_NBR=? AND CPY_ID_NBR=?");
+        stmt2.setInt(1, value);
+        stmt2.setInt(2, Integer.parseInt(copyIdList[i]));
+        stmt2.executeUpdate();
       }
 
     } catch (Exception e) {
       try {
-        logAndWrap (e);
+        logAndWrap(e);
       } catch (DataAccessException e1) {
-        e1.printStackTrace ( );
+        e1.printStackTrace();
       }
     } finally {
       try {
-        stmt2.close ( );
+        stmt2.close();
       } catch (SQLException e) {
       }
     }
@@ -1361,30 +1361,30 @@ public class DAOCopy extends AbstractDAO {
     PreparedStatement stmt2 = null;
 
     try {
-      connection = currentSession ( ).connection ( );
+      connection = currentSession().connection();
       stmt2 = connection
-        .prepareStatement ("DELETE HLDG  WHERE HLDG_NBR=?");
-      stmt2.setInt (1, value);
-      stmt2.executeUpdate ( );
+        .prepareStatement("DELETE HLDG  WHERE HLDG_NBR=?");
+      stmt2.setInt(1, value);
+      stmt2.executeUpdate();
 
       stmt1 = connection
-        .prepareStatement ("DELETE HLDG_CPY_ACS_PNT WHERE HLDG_NBR=?");
-      stmt1.setInt (1, value);
-      stmt1.executeUpdate ( );
+        .prepareStatement("DELETE HLDG_CPY_ACS_PNT WHERE HLDG_NBR=?");
+      stmt1.setInt(1, value);
+      stmt1.executeUpdate();
 
     } catch (Exception e) {
       try {
-        logAndWrap (e);
+        logAndWrap(e);
       } catch (DataAccessException e1) {
-        e1.printStackTrace ( );
+        e1.printStackTrace();
       }
     } finally {
       try {
-        stmt2.close ( );
+        stmt2.close();
       } catch (SQLException e) {
       }
       try {
-        stmt1.close ( );
+        stmt1.close();
       } catch (SQLException e) {
       }
     }
@@ -1395,22 +1395,22 @@ public class DAOCopy extends AbstractDAO {
     Connection connection = null;
     PreparedStatement stmt2 = null;
     try {
-      connection = currentSession ( ).connection ( );
+      connection = currentSession().connection();
 
       stmt2 = connection
-        .prepareStatement ("DELETE HLDG_CPY_ACS_PNT  WHERE HLDG_NBR=?");
-      stmt2.setInt (1, value);
-      stmt2.executeUpdate ( );
+        .prepareStatement("DELETE HLDG_CPY_ACS_PNT  WHERE HLDG_NBR=?");
+      stmt2.setInt(1, value);
+      stmt2.executeUpdate();
 
     } catch (Exception e) {
       try {
-        logAndWrap (e);
+        logAndWrap(e);
       } catch (DataAccessException e1) {
-        e1.printStackTrace ( );
+        e1.printStackTrace();
       }
     } finally {
       try {
-        stmt2.close ( );
+        stmt2.close();
       } catch (SQLException e) {
       }
     }
@@ -1422,23 +1422,23 @@ public class DAOCopy extends AbstractDAO {
     Connection connection = null;
     PreparedStatement stmt = null;
     try {
-      connection = currentSession ( ).connection ( );
+      connection = currentSession().connection();
 
       stmt = connection
-        .prepareStatement ("INSERT INTO HLDG_BND_CPY_ACS_PNT (HLDG_NBR, CPY_ID_NBR) VALUES (?, ?)");
-      stmt.setInt (1, hldg_nbr);
-      stmt.setInt (2, cpy_id);
-      stmt.executeUpdate ( );
+        .prepareStatement("INSERT INTO HLDG_BND_CPY_ACS_PNT (HLDG_NBR, CPY_ID_NBR) VALUES (?, ?)");
+      stmt.setInt(1, hldg_nbr);
+      stmt.setInt(2, cpy_id);
+      stmt.executeUpdate();
 
     } catch (Exception e) {
       try {
-        logAndWrap (e);
+        logAndWrap(e);
       } catch (DataAccessException e1) {
-        e1.printStackTrace ( );
+        e1.printStackTrace();
       }
     } finally {
       try {
-        stmt.close ( );
+        stmt.close();
       } catch (SQLException e) {
       }
     }
@@ -1448,22 +1448,22 @@ public class DAOCopy extends AbstractDAO {
     Connection connection = null;
     PreparedStatement stmt = null;
     try {
-      connection = currentSession ( ).connection ( );
+      connection = currentSession().connection();
 
       stmt = connection
-        .prepareStatement ("DELETE CPY_ID WHERE CPY_ID_NBR IN (SELECT CPY_ID_NBR FROM HLDG_CPY_ACS_PNT WHERE HLDG_NBR=? )");
-      stmt.setInt (1, hldg_nbr);
-      stmt.executeUpdate ( );
+        .prepareStatement("DELETE CPY_ID WHERE CPY_ID_NBR IN (SELECT CPY_ID_NBR FROM HLDG_CPY_ACS_PNT WHERE HLDG_NBR=? )");
+      stmt.setInt(1, hldg_nbr);
+      stmt.executeUpdate();
 
     } catch (Exception e) {
       try {
-        logAndWrap (e);
+        logAndWrap(e);
       } catch (DataAccessException e1) {
-        e1.printStackTrace ( );
+        e1.printStackTrace();
       }
     } finally {
       try {
-        stmt.close ( );
+        stmt.close();
       } catch (SQLException e) {
       }
     }
@@ -1474,23 +1474,23 @@ public class DAOCopy extends AbstractDAO {
     Connection connection = null;
     PreparedStatement stmt = null;
     try {
-      connection = currentSession ( ).connection ( );
+      connection = currentSession().connection();
 
       stmt = connection
-        .prepareStatement ("UPDATE HLDG SET BND_VOL_CPY_ID=? WHERE HLDG_NBR=?");
-      stmt.setInt (1, cpy_id);
-      stmt.setInt (2, hldg_nbr);
-      stmt.executeUpdate ( );
+        .prepareStatement("UPDATE HLDG SET BND_VOL_CPY_ID=? WHERE HLDG_NBR=?");
+      stmt.setInt(1, cpy_id);
+      stmt.setInt(2, hldg_nbr);
+      stmt.executeUpdate();
 
     } catch (Exception e) {
       try {
-        logAndWrap (e);
+        logAndWrap(e);
       } catch (DataAccessException e1) {
-        e1.printStackTrace ( );
+        e1.printStackTrace();
       }
     } finally {
       try {
-        stmt.close ( );
+        stmt.close();
       } catch (SQLException e) {
       }
     }
@@ -1507,76 +1507,76 @@ public class DAOCopy extends AbstractDAO {
     ResultSet rs = null;
     ResultSet rs2 = null;
     try {
-      connection = currentSession ( ).connection ( );
+      connection = currentSession().connection();
 
       stmt = connection
-        .prepareStatement ("SELECT A.SHLF_LIST_KEY_NBR FROM CPY_ID A WHERE A.CPY_ID_NBR IN (SELECT CPY_ID_NBR FROM HLDG_CPY_ACS_PNT WHERE HLDG_NBR=?)");
-      stmt.setInt (1, hldg_nbr);
-      rs = stmt.executeQuery ( );
+        .prepareStatement("SELECT A.SHLF_LIST_KEY_NBR FROM CPY_ID A WHERE A.CPY_ID_NBR IN (SELECT CPY_ID_NBR FROM HLDG_CPY_ACS_PNT WHERE HLDG_NBR=?)");
+      stmt.setInt(1, hldg_nbr);
+      rs = stmt.executeQuery();
 
-      while (rs.next ( )) {
-        int key = rs.getInt ("SHLF_LIST_KEY_NBR");
+      while (rs.next()) {
+        int key = rs.getInt("SHLF_LIST_KEY_NBR");
 
         stmt2 = connection
-          .prepareStatement ("SELECT count(*) FROM CPY_ID A WHERE A.SHLF_LIST_KEY_NBR=?");
-        stmt2.setInt (1, key);
-        rs2 = stmt2.executeQuery ( );
+          .prepareStatement("SELECT count(*) FROM CPY_ID A WHERE A.SHLF_LIST_KEY_NBR=?");
+        stmt2.setInt(1, key);
+        rs2 = stmt2.executeQuery();
         int count = 0;
-        if (rs2.next ( ))
-          count = rs2.getInt (1);
+        if (rs2.next())
+          count = rs2.getInt(1);
 
         if (count == 1) {
           stmt3 = connection
-            .prepareStatement ("DELETE FROM SHLF_LIST WHERE SHLF_LIST_KEY_NBR=?");
-          stmt3.setInt (1, key);
-          stmt3.executeUpdate ( );
+            .prepareStatement("DELETE FROM SHLF_LIST WHERE SHLF_LIST_KEY_NBR=?");
+          stmt3.setInt(1, key);
+          stmt3.executeUpdate();
 
           stmt4 = connection
-            .prepareStatement ("DELETE FROM SHLF_LIST_ACS_PNT WHERE SHLF_LIST_KEY_NBR=?");
-          stmt4.setInt (1, key);
-          stmt4.executeUpdate ( );
+            .prepareStatement("DELETE FROM SHLF_LIST_ACS_PNT WHERE SHLF_LIST_KEY_NBR=?");
+          stmt4.setInt(1, key);
+          stmt4.executeUpdate();
         } else if (count > 1) {
           stmt4 = connection
-            .prepareStatement ("DELETE FROM SHLF_LIST_ACS_PNT WHERE SHLF_LIST_KEY_NBR=?");
-          stmt4.setInt (1, key);
-          stmt4.executeUpdate ( );
+            .prepareStatement("DELETE FROM SHLF_LIST_ACS_PNT WHERE SHLF_LIST_KEY_NBR=?");
+          stmt4.setInt(1, key);
+          stmt4.executeUpdate();
         }
 
       }
 
     } catch (Exception e) {
       try {
-        logAndWrap (e);
+        logAndWrap(e);
       } catch (DataAccessException e1) {
-        e1.printStackTrace ( );
+        e1.printStackTrace();
       }
     } finally {
       try {
-        rs.close ( );
+        rs.close();
       } catch (SQLException e) {
       }
       try {
         if (rs2 != null)
-          rs2.close ( );
+          rs2.close();
       } catch (SQLException e) {
       }
       try {
-        stmt.close ( );
+        stmt.close();
       } catch (SQLException e) {
       }
       try {
         if (stmt2 != null)
-          stmt2.close ( );
+          stmt2.close();
       } catch (SQLException e) {
       }
       try {
         if (stmt3 != null)
-          stmt3.close ( );
+          stmt3.close();
       } catch (SQLException e) {
       }
       try {
         if (stmt4 != null)
-          stmt4.close ( );
+          stmt4.close();
       } catch (SQLException e) {
       }
 
@@ -1591,41 +1591,41 @@ public class DAOCopy extends AbstractDAO {
     PreparedStatement stmt1 = null;
     ResultSet rs = null;
     try {
-      connection = currentSession ( ).connection ( );
+      connection = currentSession().connection();
 
-      connection = currentSession ( ).connection ( );
+      connection = currentSession().connection();
       stmt = connection
-        .prepareStatement ("SELECT CPY_ID_NBR FROM HLDG_CPY_ACS_PNT WHERE HLDG_NBR=?");
-      stmt.setInt (1, hldg_nbr);
+        .prepareStatement("SELECT CPY_ID_NBR FROM HLDG_CPY_ACS_PNT WHERE HLDG_NBR=?");
+      stmt.setInt(1, hldg_nbr);
 
-      rs = stmt.executeQuery ( );
+      rs = stmt.executeQuery();
 
-      while (rs.next ( )) {
-        int cpy_id_nbr = rs.getInt ("CPY_ID_NBR");
-        stmt1 = connection.prepareStatement (INSERT_BND_CPY);
-        stmt1.setInt (1, cpy_id_nbr);
-        stmt1.executeUpdate ( );
+      while (rs.next()) {
+        int cpy_id_nbr = rs.getInt("CPY_ID_NBR");
+        stmt1 = connection.prepareStatement(INSERT_BND_CPY);
+        stmt1.setInt(1, cpy_id_nbr);
+        stmt1.executeUpdate();
       }
 
     } catch (Exception e) {
       try {
-        logAndWrap (e);
+        logAndWrap(e);
       } catch (DataAccessException e1) {
-        e1.printStackTrace ( );
+        e1.printStackTrace();
       }
     } finally {
 
       try {
-        rs.close ( );
+        rs.close();
       } catch (SQLException e) {
       }
       try {
-        stmt.close ( );
+        stmt.close();
       } catch (SQLException e) {
       }
       try {
         if (stmt1 != null)
-          stmt1.close ( );
+          stmt1.close();
       } catch (SQLException e) {
       }
     }
@@ -1638,41 +1638,41 @@ public class DAOCopy extends AbstractDAO {
     PreparedStatement stmt1 = null;
     ResultSet rs = null;
     try {
-      connection = currentSession ( ).connection ( );
+      connection = currentSession().connection();
 
-      connection = currentSession ( ).connection ( );
+      connection = currentSession().connection();
       stmt = connection
-        .prepareStatement ("SELECT A.SHLF_LIST_KEY_NBR FROM CPY_ID A WHERE A.CPY_ID_NBR IN (SELECT CPY_ID_NBR FROM HLDG_CPY_ACS_PNT WHERE HLDG_NBR=?)");
-      stmt.setInt (1, hldg_nbr);
-      rs = stmt.executeQuery ( );
-      while (rs.next ( )) {
-        int shlfListKey = rs.getInt ("SHLF_LIST_KEY_NBR");
-        if (!isBNDShelfList (shlfListKey)) {
-          stmt1 = connection.prepareStatement (INSERT_BND_SHLF_LIST);
-          stmt1.setInt (1, shlfListKey);
-          stmt1.executeUpdate ( );
+        .prepareStatement("SELECT A.SHLF_LIST_KEY_NBR FROM CPY_ID A WHERE A.CPY_ID_NBR IN (SELECT CPY_ID_NBR FROM HLDG_CPY_ACS_PNT WHERE HLDG_NBR=?)");
+      stmt.setInt(1, hldg_nbr);
+      rs = stmt.executeQuery();
+      while (rs.next()) {
+        int shlfListKey = rs.getInt("SHLF_LIST_KEY_NBR");
+        if (!isBNDShelfList(shlfListKey)) {
+          stmt1 = connection.prepareStatement(INSERT_BND_SHLF_LIST);
+          stmt1.setInt(1, shlfListKey);
+          stmt1.executeUpdate();
         }
       }
 
     } catch (Exception e) {
       try {
-        logAndWrap (e);
+        logAndWrap(e);
       } catch (DataAccessException e1) {
-        e1.printStackTrace ( );
+        e1.printStackTrace();
       }
     } finally {
 
       try {
-        rs.close ( );
+        rs.close();
       } catch (SQLException e) {
       }
       try {
-        stmt.close ( );
+        stmt.close();
       } catch (SQLException e) {
       }
       try {
         if (stmt1 != null)
-          stmt1.close ( );
+          stmt1.close();
       } catch (SQLException e) {
       }
     }
@@ -1685,30 +1685,30 @@ public class DAOCopy extends AbstractDAO {
     PreparedStatement stmt = null;
     ResultSet rs = null;
     try {
-      connection = currentSession ( ).connection ( );
+      connection = currentSession().connection();
 
-      connection = currentSession ( ).connection ( );
+      connection = currentSession().connection();
       stmt = connection
-        .prepareStatement ("SELECT A.SHLF_LIST_KEY_NBR FROM BND_SHLF_LIST A WHERE A.SHLF_LIST_KEY_NBR=?");
-      stmt.setInt (1, shelfListKey);
-      rs = stmt.executeQuery ( );
+        .prepareStatement("SELECT A.SHLF_LIST_KEY_NBR FROM BND_SHLF_LIST A WHERE A.SHLF_LIST_KEY_NBR=?");
+      stmt.setInt(1, shelfListKey);
+      rs = stmt.executeQuery();
 
-      return rs.next ( );
+      return rs.next();
 
     } catch (Exception e) {
       try {
-        logAndWrap (e);
+        logAndWrap(e);
       } catch (DataAccessException e1) {
-        e1.printStackTrace ( );
+        e1.printStackTrace();
       }
     } finally {
 
       try {
-        rs.close ( );
+        rs.close();
       } catch (SQLException e) {
       }
       try {
-        stmt.close ( );
+        stmt.close();
       } catch (SQLException e) {
       }
     }
@@ -1718,13 +1718,13 @@ public class DAOCopy extends AbstractDAO {
   public void definitivehardback(Integer cpy_id, Integer hldg_nbr,
                                  List <CopyListElement> elements) {
 
-    updatedefiniteCopyHLDG (cpy_id, hldg_nbr);
-    insertDefinitiveHardbackBNDTable (elements, "", hldg_nbr);
-    insertBND_CPY (hldg_nbr);
-    insertBND_SHLF_LIST (hldg_nbr);
-    deleteHardbackShelflistKey (hldg_nbr);
-    deleteTemporaryCopiesFromCPY_IDTable (hldg_nbr);
-    removeHardbackHLDG_CPY_ACS_PNT (hldg_nbr);
+    updatedefiniteCopyHLDG(cpy_id, hldg_nbr);
+    insertDefinitiveHardbackBNDTable(elements, "", hldg_nbr);
+    insertBND_CPY(hldg_nbr);
+    insertBND_SHLF_LIST(hldg_nbr);
+    deleteHardbackShelflistKey(hldg_nbr);
+    deleteTemporaryCopiesFromCPY_IDTable(hldg_nbr);
+    removeHardbackHLDG_CPY_ACS_PNT(hldg_nbr);
 
   }
 
@@ -1733,17 +1733,17 @@ public class DAOCopy extends AbstractDAO {
     PreparedStatement stmt = null;
     ResultSet rs = null;
     try {
-      connection = currentSession ( ).connection ( );
+      connection = currentSession().connection();
       stmt = connection
-        .prepareStatement ("SELECT * FROM S_LCK_TBL WHERE TBL_KEY_NBR=?");
-      stmt.setInt (1, bibItmNbr);
+        .prepareStatement("SELECT * FROM S_LCK_TBL WHERE TBL_KEY_NBR=?");
+      stmt.setInt(1, bibItmNbr);
 
-      rs = stmt.executeQuery ( );
+      rs = stmt.executeQuery();
 
-      return rs.next ( );
+      return rs.next();
 
     } catch (Exception e) {
-      throw new DataAccessException ( );
+      throw new DataAccessException();
     }
   }
 
@@ -1753,18 +1753,18 @@ public class DAOCopy extends AbstractDAO {
     PreparedStatement stmt = null;
     ResultSet rs = null;
     try {
-      connection = currentSession ( ).connection ( );
+      connection = currentSession().connection();
       stmt = connection
-        .prepareStatement ("SELECT * FROM S_LCK_TBL WHERE TBL_KEY_NBR=? AND USR_NME=?");
-      stmt.setInt (1, bibItmNbr);
-      stmt.setString (2, fixedCharPadding (userName, 12));
+        .prepareStatement("SELECT * FROM S_LCK_TBL WHERE TBL_KEY_NBR=? AND USR_NME=?");
+      stmt.setInt(1, bibItmNbr);
+      stmt.setString(2, fixedCharPadding(userName, 12));
 
-      rs = stmt.executeQuery ( );
+      rs = stmt.executeQuery();
 
-      return rs.next ( );
+      return rs.next();
 
     } catch (Exception e) {
-      throw new DataAccessException ( );
+      throw new DataAccessException();
     }
   }
 
@@ -1780,15 +1780,15 @@ public class DAOCopy extends AbstractDAO {
    */
   public int countCopies(int amicusNumber, int orgNumber, String condition)
     throws DataAccessException {
-    List l = find ("select count(*) from CPY_ID as c"
+    List l = find("select count(*) from CPY_ID as c"
       + " where c.organisationNumber = ?"
       + " and c.bibItemNumber = ?" + " and c.copyIdNumber "
-      + condition, new Object[]{new Integer (orgNumber),
-      new Integer (amicusNumber)}, new Type[]{Hibernate.INTEGER,
+      + condition, new Object[]{new Integer(orgNumber),
+      new Integer(amicusNumber)}, new Type[]{Hibernate.INTEGER,
       Hibernate.INTEGER});
 
-    if (l.size ( ) > 0) {
-      return ((Integer) l.get (0)).intValue ( );
+    if (l.size() > 0) {
+      return ((Integer) l.get(0)).intValue();
     } else {
       return 0;
     }
@@ -1808,16 +1808,16 @@ public class DAOCopy extends AbstractDAO {
   public int countCopiesByShelfListKeyNbr(int amicusNumber, int orgNumber,
                                           int shelfListKeyNumber, String condition)
     throws DataAccessException {
-    List l = find ("select count(*) from CPY_ID as c"
+    List l = find("select count(*) from CPY_ID as c"
       + " where c.organisationNumber = ?"
       + " and c.bibItemNumber = ?" + " and c.shelfListKeyNumber = ?"
       + " and c.copyIdNumber " + condition, new Object[]{
-      new Integer (orgNumber), new Integer (amicusNumber),
-      new Integer (shelfListKeyNumber)}, new Type[]{
+      new Integer(orgNumber), new Integer(amicusNumber),
+      new Integer(shelfListKeyNumber)}, new Type[]{
       Hibernate.INTEGER, Hibernate.INTEGER, Hibernate.INTEGER});
 
-    if (l.size ( ) > 0) {
-      return ((Integer) l.get (0)).intValue ( );
+    if (l.size() > 0) {
+      return ((Integer) l.get(0)).intValue();
     } else {
       return 0;
     }
@@ -1825,36 +1825,36 @@ public class DAOCopy extends AbstractDAO {
 
   public List <Avp> getDescriptionSubfieldE()
     throws DataAccessException {
-    List <Avp> result = new ArrayList <Avp> ( );
+    List <Avp> result = new ArrayList <Avp>();
     Connection connection = null;
     PreparedStatement stmt = null;
     ResultSet rs = null;
     try {
-      connection = currentSession ( ).connection ( );
+      connection = currentSession().connection();
       stmt = connection
-        .prepareStatement ("SELECT T_NME_WRK_RLTR.TBL_LNG_ENG_TXT FROM T_NME_WRK_RLTR  ORDER BY T_NME_WRK_RLTR.TBL_LNG_ENG_TXT ASC");
-      rs = stmt.executeQuery ( );
+        .prepareStatement("SELECT T_NME_WRK_RLTR.TBL_LNG_ENG_TXT FROM T_NME_WRK_RLTR  ORDER BY T_NME_WRK_RLTR.TBL_LNG_ENG_TXT ASC");
+      rs = stmt.executeQuery();
 
-      while (rs.next ( )) {
-        String row = rs.getString ("TBL_LNG_ENG_TXT");
-        result.add (new Avp (row, row));
+      while (rs.next()) {
+        String row = rs.getString("TBL_LNG_ENG_TXT");
+        result.add(new Avp(row, row));
       }
       return result;
 
     } catch (Exception e) {
       try {
-        logAndWrap (e);
+        logAndWrap(e);
         return result;
       } catch (DataAccessException e1) {
-        logAndWrap (e1);
+        logAndWrap(e1);
         return result;
       } finally {
         try {
-          rs.close ( );
+          rs.close();
         } catch (SQLException s) {
         }
         try {
-          stmt.close ( );
+          stmt.close();
         } catch (SQLException q) {
         }
       }
@@ -1867,42 +1867,42 @@ public class DAOCopy extends AbstractDAO {
     PreparedStatement stmt0 = null;
     PreparedStatement stmt1 = null;
     PreparedStatement stmt2 = null;
-    Session session = currentSession ( );
+    Session session = currentSession();
     int count = 0;
     try {
-      connection = session.connection ( );
+      connection = session.connection();
       // --------> Lock della riga
-      stmt0 = connection.prepareStatement ("SELECT * FROM CPY_ID_AGENT WHERE CPY_ID_NBR = ? FOR UPDATE");
-      stmt0.setInt (1, cpyIdNbr);
+      stmt0 = connection.prepareStatement("SELECT * FROM CPY_ID_AGENT WHERE CPY_ID_NBR = ? FOR UPDATE");
+      stmt0.setInt(1, cpyIdNbr);
 
-      stmt1 = connection.prepareStatement ("UPDATE CPY_ID_AGENT SET USERNAME = ?, TRSTN_DTE = SYSDATE , AGENT_ID = 1 WHERE CPY_ID_NBR = ?");
-      stmt1.setString (1, userName);
+      stmt1 = connection.prepareStatement("UPDATE CPY_ID_AGENT SET USERNAME = ?, TRSTN_DTE = SYSDATE , AGENT_ID = 1 WHERE CPY_ID_NBR = ?");
+      stmt1.setString(1, userName);
       // stmt1.setDate(2, new java.sql.Date(System.currentTimeMillis()));
-      stmt1.setInt (2, cpyIdNbr);
-      count = stmt1.executeUpdate ( );
+      stmt1.setInt(2, cpyIdNbr);
+      count = stmt1.executeUpdate();
 
       if (!(count > 0)) {
-        stmt2 = connection.prepareStatement ("INSERT INTO CPY_ID_AGENT (CPY_ID_NBR, USERNAME, AGENT_ID, TRSTN_DTE) VALUES (?,?,?,SYSDATE)");
-        stmt2.setInt (1, cpyIdNbr);
-        stmt2.setString (2, userName);
-        stmt2.setInt (3, 1);
+        stmt2 = connection.prepareStatement("INSERT INTO CPY_ID_AGENT (CPY_ID_NBR, USERNAME, AGENT_ID, TRSTN_DTE) VALUES (?,?,?,SYSDATE)");
+        stmt2.setInt(1, cpyIdNbr);
+        stmt2.setString(2, userName);
+        stmt2.setInt(3, 1);
         // stmt2.setDate(4, new
         // java.sql.Date(System.currentTimeMillis()));
-        stmt2.execute ( );
+        stmt2.execute();
       }
       /* Il commit o rollback lo fa hibernate in automatico se le operazioni successive vanno bene: quindi se sulla CPY_ID va tutto ok committa altrimenti no */
       // connection.commit();
     } catch (HibernateException e) {
-      e.printStackTrace ( );
-      logAndWrap (e);
+      e.printStackTrace();
+      logAndWrap(e);
       // try {
       // connection.rollback();
       // } catch (SQLException e1) {
       // e1.printStackTrace();
       // }
     } catch (SQLException e) {
-      e.printStackTrace ( );
-      logAndWrap (e);
+      e.printStackTrace();
+      logAndWrap(e);
       // try {
       // connection.rollback();
       // } catch (SQLException e1) {
@@ -1911,17 +1911,17 @@ public class DAOCopy extends AbstractDAO {
     } finally {
       try {
         if (stmt0 != null) {
-          stmt0.close ( );
+          stmt0.close();
         }
         if (stmt1 != null) {
-          stmt1.close ( );
+          stmt1.close();
         }
         if (stmt2 != null) {
-          stmt2.close ( );
+          stmt2.close();
         }
       } catch (SQLException e) {
-        e.printStackTrace ( );
-        logAndWrap (e);
+        e.printStackTrace();
+        logAndWrap(e);
       }
     }
   }
@@ -1932,25 +1932,25 @@ public class DAOCopy extends AbstractDAO {
     Connection connection = null;
     PreparedStatement stmt2 = null;
     try {
-      connection = currentSession ( ).connection ( );
+      connection = currentSession().connection();
 
-      for ( CopyListElement element : elements ) {
+      for (CopyListElement element : elements) {
         stmt2 = connection
-          .prepareStatement ("INSERT INTO HLDG_BND_CPY_ACS_PNT (HLDG_NBR, CPY_ID_NBR) VALUES (?, ?)");
-        stmt2.setInt (1, value);
-        stmt2.setInt (2, element.getCopy ( ).getCopyIdNumber ( ));
-        stmt2.executeUpdate ( );
+          .prepareStatement("INSERT INTO HLDG_BND_CPY_ACS_PNT (HLDG_NBR, CPY_ID_NBR) VALUES (?, ?)");
+        stmt2.setInt(1, value);
+        stmt2.setInt(2, element.getCopy().getCopyIdNumber());
+        stmt2.executeUpdate();
       }
 
     } catch (Exception e) {
       try {
-        logAndWrap (e);
+        logAndWrap(e);
       } catch (DataAccessException e1) {
-        e1.printStackTrace ( );
+        e1.printStackTrace();
       }
     } finally {
       try {
-        stmt2.close ( );
+        stmt2.close();
 
       } catch (SQLException e) {
       }
@@ -1962,8 +1962,8 @@ public class DAOCopy extends AbstractDAO {
    * HLDG_BND_CPY_ACS_PNT
    */
   public void removeDefinitiveHardback(Integer hldgNbr) {
-    removeDefinitiveBndShelfAndCopy (hldgNbr);
-    removeDefinitiveHldgAndBndCopy (hldgNbr);
+    removeDefinitiveBndShelfAndCopy(hldgNbr);
+    removeDefinitiveHldgAndBndCopy(hldgNbr);
   }
 
   public void removeDefinitiveHldgAndBndCopy(Integer hldgNbr) {
@@ -1974,30 +1974,30 @@ public class DAOCopy extends AbstractDAO {
     PreparedStatement stmt2 = null;
 
     try {
-      connection = currentSession ( ).connection ( );
+      connection = currentSession().connection();
       stmt2 = connection
-        .prepareStatement ("DELETE HLDG  WHERE HLDG_NBR=?");
-      stmt2.setInt (1, hldgNbr);
-      stmt2.executeUpdate ( );
+        .prepareStatement("DELETE HLDG  WHERE HLDG_NBR=?");
+      stmt2.setInt(1, hldgNbr);
+      stmt2.executeUpdate();
 
       stmt1 = connection
-        .prepareStatement ("DELETE HLDG_BND_CPY_ACS_PNT WHERE HLDG_NBR=?");
-      stmt1.setInt (1, hldgNbr);
-      stmt1.executeUpdate ( );
+        .prepareStatement("DELETE HLDG_BND_CPY_ACS_PNT WHERE HLDG_NBR=?");
+      stmt1.setInt(1, hldgNbr);
+      stmt1.executeUpdate();
 
     } catch (Exception e) {
       try {
-        logAndWrap (e);
+        logAndWrap(e);
       } catch (DataAccessException e1) {
-        e1.printStackTrace ( );
+        e1.printStackTrace();
       }
     } finally {
       try {
-        stmt2.close ( );
+        stmt2.close();
       } catch (SQLException e) {
       }
       try {
-        stmt1.close ( );
+        stmt1.close();
       } catch (SQLException e) {
       }
     }
@@ -2013,73 +2013,73 @@ public class DAOCopy extends AbstractDAO {
     ResultSet rs = null;
     ResultSet rs2 = null;
     try {
-      connection = currentSession ( ).connection ( );
+      connection = currentSession().connection();
 
       stmt = connection
-        .prepareStatement ("SELECT A.SHLF_LIST_KEY_NBR, A.CPY_ID_NBR  FROM BND_CPY A WHERE A.CPY_ID_NBR IN (SELECT CPY_ID_NBR FROM HLDG_BND_CPY_ACS_PNT WHERE HLDG_NBR=?)");
-      stmt.setInt (1, hldg_nbr);
-      rs = stmt.executeQuery ( );
+        .prepareStatement("SELECT A.SHLF_LIST_KEY_NBR, A.CPY_ID_NBR  FROM BND_CPY A WHERE A.CPY_ID_NBR IN (SELECT CPY_ID_NBR FROM HLDG_BND_CPY_ACS_PNT WHERE HLDG_NBR=?)");
+      stmt.setInt(1, hldg_nbr);
+      rs = stmt.executeQuery();
 
-      while (rs.next ( )) {
-        int key = rs.getInt ("SHLF_LIST_KEY_NBR");
-        int cpyId = rs.getInt ("CPY_ID_NBR");
+      while (rs.next()) {
+        int key = rs.getInt("SHLF_LIST_KEY_NBR");
+        int cpyId = rs.getInt("CPY_ID_NBR");
 
         stmt2 = connection
-          .prepareStatement ("SELECT count(*) FROM BND_CPY A WHERE A.SHLF_LIST_KEY_NBR=?");
-        stmt2.setInt (1, key);
-        rs2 = stmt2.executeQuery ( );
+          .prepareStatement("SELECT count(*) FROM BND_CPY A WHERE A.SHLF_LIST_KEY_NBR=?");
+        stmt2.setInt(1, key);
+        rs2 = stmt2.executeQuery();
         int count = 0;
-        if (rs2.next ( ))
-          count = rs2.getInt (1);
+        if (rs2.next())
+          count = rs2.getInt(1);
 
         if (count == 1) {
           stmt3 = connection
-            .prepareStatement ("DELETE FROM BND_SHLF_LIST WHERE SHLF_LIST_KEY_NBR=?");
-          stmt3.setInt (1, key);
-          stmt3.executeUpdate ( );
+            .prepareStatement("DELETE FROM BND_SHLF_LIST WHERE SHLF_LIST_KEY_NBR=?");
+          stmt3.setInt(1, key);
+          stmt3.executeUpdate();
 
         }
         stmt4 = connection
-          .prepareStatement ("DELETE FROM BND_CPY WHERE SHLF_LIST_KEY_NBR=? and CPY_ID_NBR =?");
-        stmt4.setInt (1, key);
-        stmt4.setInt (2, cpyId);
-        stmt4.executeUpdate ( );
+          .prepareStatement("DELETE FROM BND_CPY WHERE SHLF_LIST_KEY_NBR=? and CPY_ID_NBR =?");
+        stmt4.setInt(1, key);
+        stmt4.setInt(2, cpyId);
+        stmt4.executeUpdate();
 
       }
 
     } catch (Exception e) {
       try {
-        logAndWrap (e);
+        logAndWrap(e);
       } catch (DataAccessException e1) {
-        e1.printStackTrace ( );
+        e1.printStackTrace();
       }
     } finally {
       try {
-        rs.close ( );
+        rs.close();
       } catch (SQLException e) {
       }
       try {
         if (rs2 != null)
-          rs2.close ( );
+          rs2.close();
       } catch (SQLException e) {
       }
       try {
-        stmt.close ( );
+        stmt.close();
       } catch (SQLException e) {
       }
       try {
         if (stmt2 != null)
-          stmt2.close ( );
+          stmt2.close();
       } catch (SQLException e) {
       }
       try {
         if (stmt3 != null)
-          stmt3.close ( );
+          stmt3.close();
       } catch (SQLException e) {
       }
       try {
         if (stmt4 != null)
-          stmt4.close ( );
+          stmt4.close();
       } catch (SQLException e) {
       }
 

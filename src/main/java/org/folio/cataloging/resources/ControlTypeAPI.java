@@ -28,9 +28,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class ControlTypeAPI extends BaseResource {
 
   private Function <Avp <String>, ControlType> toControlType = source -> {
-    final ControlType controlType = new ControlType ( );
-    controlType.setCode (source.getValue ( ));
-    controlType.setDescription (source.getLabel ( ));
+    final ControlType controlType = new ControlType();
+    controlType.setCode(source.getValue());
+    controlType.setDescription(source.getLabel());
     return controlType;
   };
 
@@ -45,13 +45,13 @@ public class ControlTypeAPI extends BaseResource {
   public ControlTypeCollection getControlTypes(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final ControlTypeCollection container = new ControlTypeCollection ( );
-      container.setControlTypes (
-        storageService.getControlTypes (lang)
-          .stream ( )
-          .map (toControlType)
-          .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      final ControlTypeCollection container = new ControlTypeCollection();
+      container.setControlTypes(
+        storageService.getControlTypes(lang)
+          .stream()
+          .map(toControlType)
+          .collect(toList()));
       return container;
     }, tenant, configurator);
   }

@@ -45,25 +45,25 @@ public class PublisherTagDescriptorDAO extends DAODescriptor {
    */
   @Override
   public Descriptor load(final int headingNumber, final int cataloguingView, final Class clazz, final Session session) throws DataAccessException, HibernateException {
-    final PublisherTagDescriptor descriptor = new PublisherTagDescriptor ( );
-    descriptor.setHeadingNumber (headingNumber);
-    descriptor.setUserViewString (View.makeSingleViewString (cataloguingView));
-    final List <PUBL_TAG> multiView = session.find ("from PUBL_TAG as t "
+    final PublisherTagDescriptor descriptor = new PublisherTagDescriptor();
+    descriptor.setHeadingNumber(headingNumber);
+    descriptor.setUserViewString(View.makeSingleViewString(cataloguingView));
+    final List <PUBL_TAG> multiView = session.find("from PUBL_TAG as t "
         + " where t.publisherTagNumber = ? "
         + " and substr(t.userViewString, ?, 1) = '1' "
         + " order by t.sequenceNumber ", new Object[]{
-        new Integer (headingNumber), new Integer (cataloguingView)},
+        new Integer(headingNumber), new Integer(cataloguingView)},
       new Type[]{Hibernate.INTEGER, Hibernate.INTEGER});
-    final List <PUBL_TAG> singleView = (List <PUBL_TAG>) isolateViewForList (multiView, cataloguingView, session);
+    final List <PUBL_TAG> singleView = (List <PUBL_TAG>) isolateViewForList(multiView, cataloguingView, session);
 
-    singleView.forEach (publTag -> {
-      if (publTag.getPublisherHeadingNumber ( ) != null) {
+    singleView.forEach(publTag -> {
+      if (publTag.getPublisherHeadingNumber() != null) {
         try {
-          PUBL_HDG publHdg = (PUBL_HDG) publTag.getDescriptorDAO ( ).load ((publTag.getPublisherHeadingNumber ( )).intValue ( ), cataloguingView, session);
-          publTag.setDescriptor (publHdg);
-          descriptor.getPublisherTagUnits ( ).add (publTag);
+          PUBL_HDG publHdg = (PUBL_HDG) publTag.getDescriptorDAO().load((publTag.getPublisherHeadingNumber()).intValue(), cataloguingView, session);
+          publTag.setDescriptor(publHdg);
+          descriptor.getPublisherTagUnits().add(publTag);
         } catch (HibernateException e) {
-          throw new RuntimeException (e);
+          throw new RuntimeException(e);
         }
       }
     });

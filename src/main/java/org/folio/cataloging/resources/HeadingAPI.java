@@ -1,6 +1,5 @@
 package org.folio.cataloging.resources;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -9,19 +8,14 @@ import org.folio.cataloging.Global;
 import org.folio.cataloging.ModCataloging;
 import org.folio.cataloging.business.common.View;
 import org.folio.cataloging.log.MessageCatalog;
-import org.folio.cataloging.resources.domain.CatalogingEntityType;
 import org.folio.cataloging.resources.domain.Heading;
-import org.folio.cataloging.resources.domain.HeadingCollection;
-import org.folio.cataloging.resources.domain.RecordTemplate;
 import org.folio.cataloging.shared.MapHeading;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.function.Function;
 
-import static java.util.stream.Collectors.toList;
 import static org.folio.cataloging.F.isNotNullOrEmpty;
 import static org.folio.cataloging.integration.CatalogingHelper.*;
 
@@ -36,7 +30,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.*;
 @RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
 public class HeadingAPI extends BaseResource {
 
-  private Function<MapHeading, Heading> toHeading = source -> {
+  private Function <MapHeading, Heading> toHeading = source -> {
     final Heading heading = new Heading();
     heading.setStringText(source.getStringText());
     return heading;
@@ -51,14 +45,14 @@ public class HeadingAPI extends BaseResource {
   })
 
   @PostMapping("/create-heading")
-  public ResponseEntity<Heading> createHeading(
+  public ResponseEntity <Heading> createHeading(
     @RequestBody final Heading heading,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
     return doPost((storageService, configuration) -> {
       storageService.saveHeading(heading, view, configuration);
       return heading;
-    }, tenant, configurator, () -> (isNotNullOrEmpty(heading.getStringText())), "title","subject","name");
+    }, tenant, configurator, () -> (isNotNullOrEmpty(heading.getStringText())), "title", "subject", "name");
   }
 
   @ApiOperation(value = "Updates an existing heading.")
@@ -74,15 +68,15 @@ public class HeadingAPI extends BaseResource {
     @RequestBody final Heading heading,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    doPut ((storageService, configuration) -> {
+    doPut((storageService, configuration) -> {
       try {
         storageService.updateHeading(heading, view);
         return heading;
       } catch (final Exception exception) {
-        logger.error (MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+        logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
         return null;
       }
-    }, tenant, configurator, () -> (isNotNullOrEmpty (heading.getStringText()) && heading.getHeadingNumber()!=0));
+    }, tenant, configurator, () -> (isNotNullOrEmpty(heading.getStringText()) && heading.getHeadingNumber() != 0));
   }
 
 
@@ -99,12 +93,12 @@ public class HeadingAPI extends BaseResource {
     @RequestBody final Heading heading,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    doDelete ((storageService, configuration) -> {
+    doDelete((storageService, configuration) -> {
       try {
         storageService.deleteHeadingById(heading, view);
         return heading;
       } catch (final Exception exception) {
-        logger.error (MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+        logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
         return null;
       }
     }, tenant, configurator);

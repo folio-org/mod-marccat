@@ -100,17 +100,17 @@ public class RecordTypeMaterial implements Serializable {
   public boolean equals(Object arg0) {
     if (arg0 instanceof RecordTypeMaterial) {
       RecordTypeMaterial rtm = (RecordTypeMaterial) arg0;
-      if (getBibliographicLevel ( ) == null) {
-        if (rtm.getBibliographicLevel ( ) == null) {
-          return getRecordTypeCode ( ) == rtm.getRecordTypeCode ( );
+      if (getBibliographicLevel() == null) {
+        if (rtm.getBibliographicLevel() == null) {
+          return getRecordTypeCode() == rtm.getRecordTypeCode();
         } else {
           return false;
         }
       } else {
-        if (rtm.getBibliographicLevel ( ) == null) {
+        if (rtm.getBibliographicLevel() == null) {
           return false;
         } else {
-          return getRecordTypeCode ( ) == rtm.getRecordTypeCode ( );
+          return getRecordTypeCode() == rtm.getRecordTypeCode();
         }
       }
     } else {
@@ -122,11 +122,11 @@ public class RecordTypeMaterial implements Serializable {
    * @see java.lang.Object#hashCode()
    */
   public int hashCode() {
-    if (getBibliographicLevel ( ) == null) {
-      return getRecordTypeCode ( ).hashCode ( );
+    if (getBibliographicLevel() == null) {
+      return getRecordTypeCode().hashCode();
     } else {
-      return getRecordTypeCode ( ).hashCode ( )
-        + getBibliographicLevel ( ).hashCode ( );
+      return getRecordTypeCode().hashCode()
+        + getBibliographicLevel().hashCode();
     }
   }
 

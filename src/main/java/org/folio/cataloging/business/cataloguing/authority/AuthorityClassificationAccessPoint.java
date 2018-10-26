@@ -28,10 +28,10 @@ import java.util.List;
  */
 public class AuthorityClassificationAccessPoint extends AuthorityAccessPoint {
 
-  private static final Log logger = LogFactory.getLog (AuthorityClassificationAccessPoint.class);
+  private static final Log logger = LogFactory.getLog(AuthorityClassificationAccessPoint.class);
   private static final String VARIANT_CODES = "d";
 
-  private CLSTN descriptor = new CLSTN ( );
+  private CLSTN descriptor = new CLSTN();
 
   private String volumeDate;
 
@@ -41,9 +41,9 @@ public class AuthorityClassificationAccessPoint extends AuthorityAccessPoint {
    * @since 1.0
    */
   public AuthorityClassificationAccessPoint() {
-    super ( );
-    descriptor.setTypeCode (Defaults.getShort ("authority.classification.type"));
-    setFunctionCode (Defaults.getShort ("authority.classification.function"));
+    super();
+    descriptor.setTypeCode(Defaults.getShort("authority.classification.type"));
+    setFunctionCode(Defaults.getShort("authority.classification.function"));
   }
 
   /**
@@ -53,23 +53,23 @@ public class AuthorityClassificationAccessPoint extends AuthorityAccessPoint {
    * @since 1.0
    */
   public AuthorityClassificationAccessPoint(int itemNumber) {
-    super (itemNumber);
-    descriptor.setTypeCode (Defaults.getShort ("authority.classification.type"));
-    setFunctionCode (Defaults.getShort ("authority.classification.function"));
+    super(itemNumber);
+    descriptor.setTypeCode(Defaults.getShort("authority.classification.type"));
+    setFunctionCode(Defaults.getShort("authority.classification.function"));
   }
 
   /* (non-Javadoc)
    * @see AccessPoint#getAccessPointStringText()
    */
   public StringText getAccessPointStringText() {
-    return new StringText (getVolumeDate ( ));
+    return new StringText(getVolumeDate());
   }
 
   /* (non-Javadoc)
    * @see AccessPoint#setAccessPointStringText(org.folio.cataloging.util.StringText)
    */
   public void setAccessPointStringText(StringText stringText) {
-    setVolumeDate (stringText.getSubfieldsWithCodes ("d").toString ( ));
+    setVolumeDate(stringText.getSubfieldsWithCodes("d").toString());
   }
 
   /* (non-Javadoc)
@@ -83,16 +83,16 @@ public class AuthorityClassificationAccessPoint extends AuthorityAccessPoint {
    * @see TagInterface#getCorrelationValues()
    */
   public CorrelationValues getCorrelationValues() {
-    CorrelationValues v = getDescriptor ( ).getCorrelationValues ( );
-    return v.change (2, getFunctionCode ( ));
+    CorrelationValues v = getDescriptor().getCorrelationValues();
+    return v.change(2, getFunctionCode());
   }
 
   /* (non-Javadoc)
    * @see TagInterface#setCorrelationValues(librisuite.business.common.CorrelationValues)
    */
   public void setCorrelationValues(CorrelationValues v) {
-    setFunctionCode (v.getValue (2));
-    getDescriptor ( ).setCorrelationValues (v);
+    setFunctionCode(v.getValue(2));
+    getDescriptor().setCorrelationValues(v);
   }
 
   /**
@@ -123,17 +123,17 @@ public class AuthorityClassificationAccessPoint extends AuthorityAccessPoint {
    */
   public List getSecondCorrelationList(short value1)
     throws DataAccessException {
-    DAOAuthorityCorrelation dao = new DAOAuthorityCorrelation ( );
-    List l = dao.getSecondCorrelationList (
-      getCategory ( ),
-      getHeadingType ( ),
+    DAOAuthorityCorrelation dao = new DAOAuthorityCorrelation();
+    List l = dao.getSecondCorrelationList(
+      getCategory(),
+      getHeadingType(),
       value1,
       T_AUT_CLSTN_FNCTN.class);
-    Iterator iter = l.iterator ( );
-    logger.debug ("cat " + getCategory ( ) + " type " + getHeadingType ( ) + " val1 " + value1);
-    while (iter.hasNext ( )) {
-      T_AUT_CLSTN_FNCTN f = (T_AUT_CLSTN_FNCTN) iter.next ( );
-      logger.debug ("2nd corr: " + f.getCode ( ) + " -- " + f.getLongText ( ));
+    Iterator iter = l.iterator();
+    logger.debug("cat " + getCategory() + " type " + getHeadingType() + " val1 " + value1);
+    while (iter.hasNext()) {
+      T_AUT_CLSTN_FNCTN f = (T_AUT_CLSTN_FNCTN) iter.next();
+      logger.debug("2nd corr: " + f.getCode() + " -- " + f.getLongText());
     }
     return l;
   }
@@ -142,8 +142,8 @@ public class AuthorityClassificationAccessPoint extends AuthorityAccessPoint {
    * @see VariableField#getStringText()
    */
   public StringText getStringText() {
-    StringText s = super.getStringText ( );
-    s.parse (getVolumeDate ( ));
+    StringText s = super.getStringText();
+    s.parse(getVolumeDate());
     return s;
   }
 
@@ -165,8 +165,8 @@ public class AuthorityClassificationAccessPoint extends AuthorityAccessPoint {
    * @see AccessPoint#setDescriptorStringText(org.folio.cataloging.util.StringText)
    */
   public void setDescriptorStringText(StringText tagStringText) {
-    getDescriptor ( ).setStringText (
-      tagStringText.getSubfieldsWithoutCodes (VARIANT_CODES).toString ( ));
+    getDescriptor().setStringText(
+      tagStringText.getSubfieldsWithoutCodes(VARIANT_CODES).toString());
   }
 
   public String getVariantCodes() {

@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
  * @since 1.0
  */
 public class IndexListKey implements Serializable {
-  private static final Pattern p = Pattern.compile ("(\\d+)(.+)");  //digits then the rest
+  private static final Pattern p = Pattern.compile("(\\d+)(.+)");  //digits then the rest
   private int keyNumber;
   private String typeCode;
   private String language;
@@ -42,11 +42,11 @@ public class IndexListKey implements Serializable {
    * @since 1.0
    */
   public IndexListKey(String key) {
-    Matcher m = p.matcher (key);
-    m.find ( );
-    setKeyNumber (Integer.parseInt (m.group (1)));
-    setTypeCode (m.group (2));
-    setLanguage (Locale.ENGLISH.getISO3Language ( ));
+    Matcher m = p.matcher(key);
+    m.find();
+    setKeyNumber(Integer.parseInt(m.group(1)));
+    setTypeCode(m.group(2));
+    setLanguage(Locale.ENGLISH.getISO3Language());
   }
 
   public int getKeyNumber() {
@@ -70,8 +70,8 @@ public class IndexListKey implements Serializable {
    */
   public boolean equals(Object anObject) {
     IndexListKey aKey = (IndexListKey) anObject;
-    if (this.getKeyNumber ( ) == aKey.getKeyNumber ( )) {
-      if (this.getTypeCode ( ).compareTo (aKey.getTypeCode ( )) == 0) {
+    if (this.getKeyNumber() == aKey.getKeyNumber()) {
+      if (this.getTypeCode().compareTo(aKey.getTypeCode()) == 0) {
         return true;
       }
     }
@@ -82,7 +82,7 @@ public class IndexListKey implements Serializable {
    * @see java.lang.Object#hashCode()
    */
   public int hashCode() {
-    return this.getKeyNumber ( );
+    return this.getKeyNumber();
   }
 
   /**

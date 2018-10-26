@@ -37,9 +37,9 @@ public class S_BIB1_SMNTC {
 
   @Override
   public String toString() {
-    return "S_BIB1_SMNTC(use=" + getUseNumber ( ) + ", rel=" + getRelationNumber ( ) + ", pos=" +
-      getPositionNumber ( ) + ", struc=" + getStructureNumber ( ) + ", trunc=" + getTruncationNumber ( ) +
-      ", cmplt=" + getCompletenessNumber ( ) + ")";
+    return "S_BIB1_SMNTC(use=" + getUseNumber() + ", rel=" + getRelationNumber() + ", pos=" +
+      getPositionNumber() + ", struc=" + getStructureNumber() + ", trunc=" + getTruncationNumber() +
+      ", cmplt=" + getCompletenessNumber() + ")";
   }
 
   public int getUseNumber() {

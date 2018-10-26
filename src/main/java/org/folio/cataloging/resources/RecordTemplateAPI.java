@@ -38,9 +38,9 @@ import static org.folio.cataloging.resources.domain.CatalogingEntityType.A;
 public class RecordTemplateAPI extends BaseResource {
 
   private Function <Avp <Integer>, RecordTemplate> toRecordTemplate = avp -> {
-    final RecordTemplate template = new RecordTemplate ( );
-    template.setId (avp.getValue ( ));
-    template.setName (avp.getLabel ( ));
+    final RecordTemplate template = new RecordTemplate();
+    template.setId(avp.getValue());
+    template.setName(avp.getLabel());
     return template;
 
   };
@@ -57,14 +57,14 @@ public class RecordTemplateAPI extends BaseResource {
     @RequestParam final CatalogingEntityType type,
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
+    return doGet((storageService, configuration) -> {
       final List <Avp <Integer>> templates =
         type == A
-          ? storageService.getAuthorityRecordTemplates ( )
-          : storageService.getBibliographicRecordTemplates ( );
+          ? storageService.getAuthorityRecordTemplates()
+          : storageService.getBibliographicRecordTemplates();
 
-      final RecordTemplateCollection collection = new RecordTemplateCollection ( );
-      collection.setRecordTemplates (templates.stream ( ).map (toRecordTemplate).collect (toList ( )));
+      final RecordTemplateCollection collection = new RecordTemplateCollection();
+      collection.setRecordTemplates(templates.stream().map(toRecordTemplate).collect(toList()));
       return collection;
     }, tenant, configurator);
   }
@@ -82,10 +82,10 @@ public class RecordTemplateAPI extends BaseResource {
     @RequestParam final CatalogingEntityType type,
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) ->
+    return doGet((storageService, configuration) ->
         type == A
-          ? storageService.getAuthorityRecordRecordTemplatesById (id)
-          : storageService.getBibliographicRecordRecordTemplatesById (id)
+          ? storageService.getAuthorityRecordRecordTemplatesById(id)
+          : storageService.getBibliographicRecordRecordTemplatesById(id)
       , tenant, configurator);
   }
 
@@ -101,14 +101,14 @@ public class RecordTemplateAPI extends BaseResource {
     @RequestBody final RecordTemplate template,
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doPost ((storageService, configuration) -> {
-      if ("A".equals (template.getType ( ))) {
-        storageService.saveAuthorityRecordTemplate (template);
+    return doPost((storageService, configuration) -> {
+      if ("A".equals(template.getType())) {
+        storageService.saveAuthorityRecordTemplate(template);
       } else {
-        storageService.saveBibliographicRecordTemplate (template);
+        storageService.saveBibliographicRecordTemplate(template);
       }
       return template;
-    }, tenant, configurator, () -> isNotNullOrEmpty (template.getName ( )));
+    }, tenant, configurator, () -> isNotNullOrEmpty(template.getName()));
   }
 
   @ApiOperation(value = "Updates an existing template.")
@@ -125,21 +125,21 @@ public class RecordTemplateAPI extends BaseResource {
     @RequestBody final RecordTemplate template,
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    doPut ((storageService, configuration) -> {
+    doPut((storageService, configuration) -> {
       try {
-        final ObjectMapper mapper = new ObjectMapper ( );
-        final String jsonInString = mapper.writeValueAsString (template);
-        if ("A".equals (template.getType ( ))) {
-          storageService.updateAuthorityRecordTemplate (template);
+        final ObjectMapper mapper = new ObjectMapper();
+        final String jsonInString = mapper.writeValueAsString(template);
+        if ("A".equals(template.getType())) {
+          storageService.updateAuthorityRecordTemplate(template);
         } else {
-          storageService.updateBibliographicRecordTemplate (template);
+          storageService.updateBibliographicRecordTemplate(template);
         }
         return template;
       } catch (final Exception exception) {
-        logger.error (MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+        logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
         return null;
       }
-    }, tenant, configurator, () -> isNotNullOrEmpty (id) && isNotNullOrEmpty (template.getName ( )));
+    }, tenant, configurator, () -> isNotNullOrEmpty(id) && isNotNullOrEmpty(template.getName()));
   }
 
   @ApiOperation(value = "Deletes a template.")
@@ -156,13 +156,13 @@ public class RecordTemplateAPI extends BaseResource {
     @RequestParam final CatalogingEntityType type,
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    doDelete ((storageService, configuration) -> {
+    doDelete((storageService, configuration) -> {
       switch (type) {
         case A:
-          storageService.deleteAuthorityRecordTemplate (id);
+          storageService.deleteAuthorityRecordTemplate(id);
           break;
         case B:
-          storageService.deleteBibliographicRecordTemplate (id);
+          storageService.deleteBibliographicRecordTemplate(id);
       }
       return id;
     }, tenant, configurator);

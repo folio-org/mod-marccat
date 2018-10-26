@@ -20,7 +20,7 @@ public class NME_TTL_REF extends REF {
    * @see REF#getTargetDAO()
    */
   public DAODescriptor getTargetDAO() {
-    return new NameTitleDescriptorDAO ( );
+    return new NameTitleDescriptorDAO();
   }
 
 }

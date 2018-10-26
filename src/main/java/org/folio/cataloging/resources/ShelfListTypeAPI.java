@@ -29,9 +29,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class ShelfListTypeAPI extends BaseResource {
 
   private Function <Avp <String>, ShelfListType> toShelfListType = source -> {
-    final ShelfListType shelfListType = new ShelfListType ( );
-    shelfListType.setCode (source.getValue ( ));
-    shelfListType.setDescription (source.getLabel ( ));
+    final ShelfListType shelfListType = new ShelfListType();
+    shelfListType.setCode(source.getValue());
+    shelfListType.setDescription(source.getLabel());
     return shelfListType;
   };
 
@@ -46,13 +46,13 @@ public class ShelfListTypeAPI extends BaseResource {
   public ShelfListTypeCollection getShelfListTypes(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final ShelfListTypeCollection container = new ShelfListTypeCollection ( );
-      container.setShelfListTypes (
-        storageService.getShelfListTypes (lang)
-          .stream ( )
-          .map (toShelfListType)
-          .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      final ShelfListTypeCollection container = new ShelfListTypeCollection();
+      container.setShelfListTypes(
+        storageService.getShelfListTypes(lang)
+          .stream()
+          .map(toShelfListType)
+          .collect(toList()));
       return container;
     }, tenant, configurator);
   }

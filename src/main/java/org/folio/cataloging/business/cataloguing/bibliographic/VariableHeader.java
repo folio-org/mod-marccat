@@ -21,15 +21,15 @@ import java.util.List;
  * @since 1.0
  */
 public abstract class VariableHeader extends VariableField implements HeaderField {
-  private HeaderFieldHelper headerField = new BibliographicHeaderFieldHelper ( );
+  private HeaderFieldHelper headerField = new BibliographicHeaderFieldHelper();
 
   public VariableHeader(int itemNumber) {
-    super (itemNumber);
+    super(itemNumber);
   }
 
 
   public VariableHeader() {
-    super ( );
+    super();
   }
 
   /* (non-Javadoc)
@@ -49,7 +49,7 @@ public abstract class VariableHeader extends VariableField implements HeaderFiel
   }
 
   public String getDisplayString() {
-    return getStringText ( ).getMarcDisplayString ("$");
+    return getStringText().getMarcDisplayString("$");
   }
 
   /**
@@ -63,28 +63,28 @@ public abstract class VariableHeader extends VariableField implements HeaderFiel
    * @since 1.0
    */
   public int getHeaderType() {
-    return headerField.getHeaderType ( );
+    return headerField.getHeaderType();
   }
 
   /**
    * @since 1.0
    */
   public void setHeaderType(int s) {
-    headerField.setHeaderType (s);
+    headerField.setHeaderType(s);
   }
 
   /* (non-Javadoc)
    * @see VariableField#getCategory()
    */
   public int getCategory() {
-    return headerField.getCategory ( );
+    return headerField.getCategory();
   }
 
   /* (non-Javadoc)
    * @see VariableField#getFirstCorrelationList()
    */
   public List getFirstCorrelationList() throws DataAccessException {
-    return headerField.getFirstCorrelationList ( );
+    return headerField.getFirstCorrelationList();
   }
 
   /* (non-Javadoc)
@@ -92,7 +92,7 @@ public abstract class VariableHeader extends VariableField implements HeaderFiel
    */
   public List getSecondCorrelationList(int value1)
     throws DataAccessException {
-    return headerField.getSecondCorrelationList (value1);
+    return headerField.getSecondCorrelationList(value1);
   }
 
   /* (non-Javadoc)
@@ -100,14 +100,14 @@ public abstract class VariableHeader extends VariableField implements HeaderFiel
    */
   public List getThirdCorrelationList(int value1, int value2)
     throws DataAccessException {
-    return headerField.getThirdCorrelationList (value1, value2);
+    return headerField.getThirdCorrelationList(value1, value2);
   }
 
   /* (non-Javadoc)
    * @see VariableField#isHeaderField()
    */
   public boolean isHeaderField() {
-    return headerField.isHeaderField ( );
+    return headerField.isHeaderField();
   }
 
   /**
@@ -121,14 +121,14 @@ public abstract class VariableHeader extends VariableField implements HeaderFiel
    * @see librisuite.business.cataloguing.bibliographic.Tag#getCorrelationValues()
    */
   public CorrelationValues getCorrelationValues() {
-    return headerField.getCorrelationValues ( );
+    return headerField.getCorrelationValues();
   }
 
   /* (non-Javadoc)
    * @see librisuite.business.cataloguing.bibliographic.Tag#setCorrelationValues(librisuite.business.common.CorrelationValues)
    */
   public void setCorrelationValues(CorrelationValues v) {
-    headerField.setCorrelationValues (v);
+    headerField.setCorrelationValues(v);
   }
 
   /* (non-Javadoc)

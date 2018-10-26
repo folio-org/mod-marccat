@@ -21,10 +21,10 @@ public class SkipInFilingCollection {
   @JsonProperty("skipInFiling")
   @Valid
   @NotNull
-  private List <SkipInFiling> skipInFiling = new ArrayList <SkipInFiling> ( );
+  private List <SkipInFiling> skipInFiling = new ArrayList <SkipInFiling>();
 
   @JsonIgnore
-  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
+  private Map <String, Object> additionalProperties = new HashMap <String, Object>();
 
   /**
    * (Required)
@@ -58,11 +58,11 @@ public class SkipInFilingCollection {
 
   @JsonAnySetter
   public void setAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
   }
 
   public SkipInFilingCollection withAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
     return this;
   }
 }

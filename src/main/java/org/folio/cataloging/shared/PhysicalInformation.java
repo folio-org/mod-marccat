@@ -97,7 +97,7 @@ public class PhysicalInformation {
    * @return true if is a map type false otherwise.
    */
   public boolean isMap(final String categoryOfMaterial) {
-    return categoryOfMaterial.equals (Global.MAP_CODE);
+    return categoryOfMaterial.equals(Global.MAP_CODE);
   }
 
   /**
@@ -106,7 +106,7 @@ public class PhysicalInformation {
    * @return true if is a electronic resource type false otherwise.
    */
   public boolean isElectronicResource(final String categoryOfMaterial) {
-    return categoryOfMaterial.equals (Global.ELECTRONIC_RESOURCE);
+    return categoryOfMaterial.equals(Global.ELECTRONIC_RESOURCE);
   }
 
   /**
@@ -115,7 +115,7 @@ public class PhysicalInformation {
    * @return true if is a GLOBE type false otherwise.
    */
   public boolean isGlobe(final String categoryOfMaterial) {
-    return categoryOfMaterial.equals (Global.GLOBE);
+    return categoryOfMaterial.equals(Global.GLOBE);
   }
 
   /**
@@ -124,7 +124,7 @@ public class PhysicalInformation {
    * @return true if is a tactile material type false otherwise.
    */
   public boolean isTactileMaterial(final String categoryOfMaterial) {
-    return categoryOfMaterial.equals (Global.TACTILE_MATERIAL);
+    return categoryOfMaterial.equals(Global.TACTILE_MATERIAL);
   }
 
   /**
@@ -133,7 +133,7 @@ public class PhysicalInformation {
    * @return true if is a projected graphic type false otherwise.
    */
   public boolean isProjectedGraphic(final String categoryOfMaterial) {
-    return categoryOfMaterial.equals (Global.PROJECTED_GRAPHIC);
+    return categoryOfMaterial.equals(Global.PROJECTED_GRAPHIC);
   }
 
   /**
@@ -142,7 +142,7 @@ public class PhysicalInformation {
    * @return true if is a MICROFORM type false otherwise.
    */
   public boolean isMicroform(final String categoryOfMaterial) {
-    return categoryOfMaterial.equals (Global.MICROFORM);
+    return categoryOfMaterial.equals(Global.MICROFORM);
   }
 
   /**
@@ -151,7 +151,7 @@ public class PhysicalInformation {
    * @return true if is a non projected graphic type false otherwise.
    */
   public boolean isNonProjectedGraphic(final String categoryOfMaterial) {
-    return categoryOfMaterial.equals (Global.NON_PROJECTED_GRAPHIC);
+    return categoryOfMaterial.equals(Global.NON_PROJECTED_GRAPHIC);
   }
 
   /**
@@ -160,7 +160,7 @@ public class PhysicalInformation {
    * @return true if is a motion picture type false otherwise.
    */
   public boolean isMotionPicture(final String categoryOfMaterial) {
-    return categoryOfMaterial.equals (Global.MOTION_PICTURE);
+    return categoryOfMaterial.equals(Global.MOTION_PICTURE);
   }
 
   /**
@@ -169,7 +169,7 @@ public class PhysicalInformation {
    * @return true if is a kit type false otherwise.
    */
   public boolean isKit(final String categoryOfMaterial) {
-    return categoryOfMaterial.equals (Global.KIT_CODE);
+    return categoryOfMaterial.equals(Global.KIT_CODE);
   }
 
   /**
@@ -178,7 +178,7 @@ public class PhysicalInformation {
    * @return true if is a notated music type false otherwise.
    */
   public boolean isNotatedMusic(final String categoryOfMaterial) {
-    return categoryOfMaterial.equals (Global.NOTATED_MUSIC);
+    return categoryOfMaterial.equals(Global.NOTATED_MUSIC);
   }
 
   /**
@@ -187,7 +187,7 @@ public class PhysicalInformation {
    * @return true if is a remote sensing image type false otherwise.
    */
   public boolean isRemoteSensingImage(final String categoryOfMaterial) {
-    return categoryOfMaterial.equals (Global.REMOTE_SENSING_IMAGE);
+    return categoryOfMaterial.equals(Global.REMOTE_SENSING_IMAGE);
   }
 
   /**
@@ -196,7 +196,7 @@ public class PhysicalInformation {
    * @return true if is a sound recording type false otherwise.
    */
   public boolean isSoundRecording(final String categoryOfMaterial) {
-    return categoryOfMaterial.equals (Global.SOUND_RECORDING);
+    return categoryOfMaterial.equals(Global.SOUND_RECORDING);
   }
 
   /**
@@ -205,7 +205,7 @@ public class PhysicalInformation {
    * @return true if is a text type false otherwise.
    */
   public boolean isText(final String categoryOfMaterial) {
-    return categoryOfMaterial.equals (Global.TEXT_CODE);
+    return categoryOfMaterial.equals(Global.TEXT_CODE);
   }
 
   /**
@@ -214,7 +214,7 @@ public class PhysicalInformation {
    * @return true if is a video recording type false otherwise.
    */
   public boolean isVideoRecording(final String categoryOfMaterial) {
-    return categoryOfMaterial.equals (Global.VIDEO_RECORDING);
+    return categoryOfMaterial.equals(Global.VIDEO_RECORDING);
   }
 
   /**
@@ -223,7 +223,7 @@ public class PhysicalInformation {
    * @return true if is a UNSPECIFIED type false otherwise.
    */
   public boolean isUnspecified(final String categoryOfMaterial) {
-    return categoryOfMaterial.equals (Global.UNSPECIFIED);
+    return categoryOfMaterial.equals(Global.UNSPECIFIED);
   }
 
   /**
@@ -233,35 +233,35 @@ public class PhysicalInformation {
    * @return the value string text.
    */
   public String getValueString(final String categoryOfMaterial) {
-    if (isMap (categoryOfMaterial))
+    if (isMap(categoryOfMaterial))
       return Global.MAP_CODE + "d" + " " + "aunun";
-    else if (isElectronicResource (categoryOfMaterial))
+    else if (isElectronicResource(categoryOfMaterial))
       return Global.ELECTRONIC_RESOURCE + "u" + " " + "uuu---uuuuu";
-    else if (isGlobe (categoryOfMaterial))
+    else if (isGlobe(categoryOfMaterial))
       return Global.GLOBE + "u" + " " + "auu";
-    else if (isTactileMaterial (categoryOfMaterial))
+    else if (isTactileMaterial(categoryOfMaterial))
       return Global.TACTILE_MATERIAL + "u" + " " + "uuuuuuu";
-    else if (isProjectedGraphic (categoryOfMaterial))
+    else if (isProjectedGraphic(categoryOfMaterial))
       return Global.PROJECTED_GRAPHIC + "u" + " " + "uuuuuu";
-    else if (isMicroform (categoryOfMaterial))
+    else if (isMicroform(categoryOfMaterial))
       return Global.MICROFORM + "u" + " " + "uuu---uuuu";
-    else if (isNonProjectedGraphic (categoryOfMaterial))
+    else if (isNonProjectedGraphic(categoryOfMaterial))
       return Global.NON_PROJECTED_GRAPHIC + "u" + " " + "uuu";
-    else if (isMotionPicture (categoryOfMaterial))
+    else if (isMotionPicture(categoryOfMaterial))
       return Global.MOTION_PICTURE + "u" + " " + "uuuuuu|uuuuu|u||||||";
-    else if (isRemoteSensingImage (categoryOfMaterial))
+    else if (isRemoteSensingImage(categoryOfMaterial))
       return Global.REMOTE_SENSING_IMAGE + "u" + " " + "uuuuuuuu";
-    else if (isSoundRecording (categoryOfMaterial))
+    else if (isSoundRecording(categoryOfMaterial))
       return Global.SOUND_RECORDING + "u" + " " + "uuuuuuuuuuu";
-    else if (isKit (categoryOfMaterial))
+    else if (isKit(categoryOfMaterial))
       return Global.KIT_CODE + "u";
-    else if (isNotatedMusic (categoryOfMaterial))
+    else if (isNotatedMusic(categoryOfMaterial))
       return Global.NOTATED_MUSIC + "u";
-    else if (isText (categoryOfMaterial))
+    else if (isText(categoryOfMaterial))
       return Global.TEXT_CODE + "u";
-    else if (isVideoRecording (categoryOfMaterial))
+    else if (isVideoRecording(categoryOfMaterial))
       return Global.VIDEO_RECORDING + "u" + " " + "uuuuuu";
-    else if (isUnspecified (categoryOfMaterial))
+    else if (isUnspecified(categoryOfMaterial))
       return Global.UNSPECIFIED + "u";
 
     return null;

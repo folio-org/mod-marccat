@@ -22,10 +22,10 @@ public class HeadingCollection {
   @JsonProperty("headings")
   @Valid
   @NotNull
-  private List <Heading> headings = new ArrayList <Heading> ( );
+  private List <Heading> headings = new ArrayList <Heading>();
 
   @JsonIgnore
-  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
+  private Map <String, Object> additionalProperties = new HashMap <String, Object>();
 
 
   /**
@@ -60,11 +60,11 @@ public class HeadingCollection {
 
   @JsonAnySetter
   public void setAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
   }
 
   public HeadingCollection withAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
     return this;
   }
 

@@ -26,12 +26,12 @@ public class ThesaurusNoteKey implements Serializable {
    * Class constructor
    */
   public ThesaurusNoteKey() {
-    super ( );
+    super();
   }
 
   public ThesaurusNoteKey(int headingNumber, int noteNumber) {
-    this.setHeadingNumber (headingNumber);
-    this.setNoteNumber (noteNumber);
+    this.setHeadingNumber(headingNumber);
+    this.setNoteNumber(noteNumber);
   }
 
   public int getHeadingNumber() {
@@ -58,8 +58,8 @@ public class ThesaurusNoteKey implements Serializable {
     if (anObject instanceof ThesaurusNoteKey) {
       ThesaurusNoteKey aKey = (ThesaurusNoteKey) anObject;
       return (
-        headingNumber == aKey.getHeadingNumber ( )
-          && noteNumber == aKey.getNoteNumber ( ));
+        headingNumber == aKey.getHeadingNumber()
+          && noteNumber == aKey.getNoteNumber());
     } else {
       return false;
     }

@@ -23,12 +23,12 @@ public class UserPostalAddressKey implements Serializable {
    * Class constructor
    */
   public UserPostalAddressKey() {
-    super ( );
+    super();
   }
 
   public UserPostalAddressKey(int userNumber, int indexNumber) {
-    this.setUserNumber (userNumber);
-    this.setIndexNumber (indexNumber);
+    this.setUserNumber(userNumber);
+    this.setIndexNumber(indexNumber);
   }
 
   /**
@@ -39,8 +39,8 @@ public class UserPostalAddressKey implements Serializable {
     if (anObject instanceof UserPostalAddressKey) {
       UserPostalAddressKey aKey = (UserPostalAddressKey) anObject;
       return (
-        userNumber == aKey.getUserNumber ( )
-          && indexNumber == aKey.getIndexNumber ( ));
+        userNumber == aKey.getUserNumber()
+          && indexNumber == aKey.getIndexNumber());
     } else {
       return false;
     }

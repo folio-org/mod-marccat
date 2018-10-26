@@ -15,14 +15,14 @@ public class MarcCorrelationException extends DataAccessException {
    *
    */
   public MarcCorrelationException() {
-    super ( );
+    super();
   }
 
   /**
    * @param message
    */
   public MarcCorrelationException(String message) {
-    super (message);
+    super(message);
   }
 
   /**
@@ -30,14 +30,14 @@ public class MarcCorrelationException extends DataAccessException {
    * @param cause
    */
   public MarcCorrelationException(String message, Throwable cause) {
-    super (message, cause);
+    super(message, cause);
   }
 
   /**
    * @param cause
    */
   public MarcCorrelationException(Throwable cause) {
-    super (cause);
+    super(cause);
   }
 
 }

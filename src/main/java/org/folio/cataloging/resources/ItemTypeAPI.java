@@ -29,9 +29,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class ItemTypeAPI extends BaseResource {
 
   private Function <Avp <String>, ItemType> toItemType = source -> {
-    final ItemType itemType = new ItemType ( );
-    itemType.setCode (Integer.parseInt (source.getValue ( )));
-    itemType.setDescription (source.getLabel ( ));
+    final ItemType itemType = new ItemType();
+    itemType.setCode(Integer.parseInt(source.getValue()));
+    itemType.setDescription(source.getLabel());
     return itemType;
   };
 
@@ -48,18 +48,18 @@ public class ItemTypeAPI extends BaseResource {
     @RequestParam final int code,
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configurator) -> {
-      final int category = (marcCategory.equals ("17") ? Global.NAME_CATEGORY_DEFAULT : Integer.parseInt (marcCategory));
-      final ItemTypeCollection container = new ItemTypeCollection ( );
-      return (storageService.existItemTypeByCategory (category))
-        ? ofNullable (storageService.getSecondCorrelation (category, code, lang))
-        .map (itemTypeList -> {
-          container.setItemTypes (
-            itemTypeList.stream ( )
-              .map (toItemType)
-              .collect (toList ( )));
+    return doGet((storageService, configurator) -> {
+      final int category = (marcCategory.equals("17") ? Global.NAME_CATEGORY_DEFAULT : Integer.parseInt(marcCategory));
+      final ItemTypeCollection container = new ItemTypeCollection();
+      return (storageService.existItemTypeByCategory(category))
+        ? ofNullable(storageService.getSecondCorrelation(category, code, lang))
+        .map(itemTypeList -> {
+          container.setItemTypes(
+            itemTypeList.stream()
+              .map(toItemType)
+              .collect(toList()));
           return container;
-        }).orElse (container)
+        }).orElse(container)
         : container;
     }, tenant, configurator);
   }

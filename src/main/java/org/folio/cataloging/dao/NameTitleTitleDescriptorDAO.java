@@ -32,7 +32,7 @@ public class NameTitleTitleDescriptorDAO extends NameTitleDescriptorDAO {
    */
   public List <Descriptor> getHeadingsBySortform(final String operator, final String direction, final String term, final String filter, final int cataloguingView, final int count, final Session session)
     throws HibernateException {
-    final Query q = session.createQuery (
+    final Query q = session.createQuery(
       "select distinct hdg, nme.sortForm, ttl.sortForm from "
         + "NME_TTL_HDG as hdg, "
         + "NME_HDG as nme, "
@@ -48,14 +48,14 @@ public class NameTitleTitleDescriptorDAO extends NameTitleDescriptorDAO {
         + direction
         + ", nme.sortForm "
         + direction);
-    q.setString ("term", term);
-    q.setInteger ("view", cataloguingView);
-    q.setMaxResults (count);
-    final List <?> nameTitleHedingList = q.list ( );
-    final List <NME_TTL_HDG> nameTitleHedings = new ArrayList ( );
-    nameTitleHedingList.forEach (nameTitleHeading -> nameTitleHedings.add ((NME_TTL_HDG) ((Object[]) nameTitleHeading)[0]));
-    final List isolateHeadingList = isolateViewForList (nameTitleHedings, cataloguingView, session);
-    loadHeadings (isolateHeadingList, cataloguingView, session);
+    q.setString("term", term);
+    q.setInteger("view", cataloguingView);
+    q.setMaxResults(count);
+    final List <?> nameTitleHedingList = q.list();
+    final List <NME_TTL_HDG> nameTitleHedings = new ArrayList();
+    nameTitleHedingList.forEach(nameTitleHeading -> nameTitleHedings.add((NME_TTL_HDG) ((Object[]) nameTitleHeading)[0]));
+    final List isolateHeadingList = isolateViewForList(nameTitleHedings, cataloguingView, session);
+    loadHeadings(isolateHeadingList, cataloguingView, session);
     return isolateHeadingList;
 
   }
@@ -68,9 +68,9 @@ public class NameTitleTitleDescriptorDAO extends NameTitleDescriptorDAO {
    */
   public String getBrowsingSortForm(final Descriptor descriptor) {
     if (!(descriptor instanceof NME_TTL_HDG)) {
-      throw new IllegalArgumentException ( );
+      throw new IllegalArgumentException();
     }
-    return ((NME_TTL_HDG) descriptor).getTitleHeading ( ).getSortForm ( );
+    return ((NME_TTL_HDG) descriptor).getTitleHeading().getSortForm();
   }
 
 }

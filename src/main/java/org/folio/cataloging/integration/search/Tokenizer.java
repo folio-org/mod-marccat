@@ -16,25 +16,26 @@ import java.util.regex.Pattern;
  * @since 1.0
  */
 public final class Tokenizer {
-  private static final Log logger = new Log (Tokenizer.class);
+  private static final Log logger = new Log(Tokenizer.class);
   private final List <TokenInfo> tokenInfos;
   private final List <Token> tokens;
+
   /**
    * Builds a new Tokenizer.
    */
   Tokenizer() {
-    tokenInfos = new ArrayList <> ( );
-    tokens = new ArrayList <> ( );
+    tokenInfos = new ArrayList <>();
+    tokens = new ArrayList <>();
 
-    register ("\\[[^\\]]*\\]", TokenType.COMMENT);
-    register ("\"[^\"]*\"", TokenType.QUOTEDSTRING);
-    register ("\\(", TokenType.LP);
-    register ("\\)", TokenType.RP);
-    register ("(and|AND|or|OR|not|NOT)", TokenType.BOOL);
-    register ("((>=)|(<=)|>|<|=)", TokenType.REL);
-    register ("(n|N|w|W)([0-9]+)(?:(\\b))", TokenType.PROX);
-    register ("\\s", TokenType.WHITE);
-    register ("[^\\s=<>\\[\\(]*", TokenType.WORD);
+    register("\\[[^\\]]*\\]", TokenType.COMMENT);
+    register("\"[^\"]*\"", TokenType.QUOTEDSTRING);
+    register("\\(", TokenType.LP);
+    register("\\)", TokenType.RP);
+    register("(and|AND|or|OR|not|NOT)", TokenType.BOOL);
+    register("((>=)|(<=)|>|<|=)", TokenType.REL);
+    register("(n|N|w|W)([0-9]+)(?:(\\b))", TokenType.PROX);
+    register("\\s", TokenType.WHITE);
+    register("[^\\s=<>\\[\\(]*", TokenType.WORD);
   }
 
   /**
@@ -45,29 +46,29 @@ public final class Tokenizer {
    * @throws CclParserException in case of parser failure.
    */
   Tokenizer tokenize(final String query) throws CclParserException {
-    String value = Objects.requireNonNull (query).trim ( );
-    tokens.clear ( );
+    String value = Objects.requireNonNull(query).trim();
+    tokens.clear();
 
-    while (!value.equals ("")) {
+    while (!value.equals("")) {
       boolean match = false;
-      for ( TokenInfo info : tokenInfos ) {
-        Matcher m = info.regex.matcher (value);
-        if (m.find ( )) {
+      for (TokenInfo info : tokenInfos) {
+        Matcher m = info.regex.matcher(value);
+        if (m.find()) {
           match = true;
-          String tok = m.group ( ).trim ( );
+          String tok = m.group().trim();
 
-          logger.debug ("matched '" + tok + "'");
+          logger.debug("matched '" + tok + "'");
 
-          value = m.replaceFirst ("").trim ( );
+          value = m.replaceFirst("").trim();
           if (info.type != TokenType.COMMENT && info.type != TokenType.WHITE) {
-            tokens.add (new Token (info.type, tok));
+            tokens.add(new Token(info.type, tok));
           }
           break;
         }
       }
 
       if (!match) {
-        throw new CclParserException ("Unexpected character in input: " + value);
+        throw new CclParserException("Unexpected character in input: " + value);
       }
     }
     return this;
@@ -89,7 +90,7 @@ public final class Tokenizer {
    * @param tokenType the token type.
    */
   private void register(final String regex, final TokenType tokenType) {
-    tokenInfos.add (new TokenInfo (Pattern.compile ("^" + regex), tokenType));
+    tokenInfos.add(new TokenInfo(Pattern.compile("^" + regex), tokenType));
   }
 
   /**

@@ -29,9 +29,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class RecordStatusTypeAPI extends BaseResource {
 
   private Function <Avp <String>, RecordStatusType> toRecordStatusType = source -> {
-    final RecordStatusType recordStatusType = new RecordStatusType ( );
-    recordStatusType.setCode (source.getValue ( ));
-    recordStatusType.setDescription (source.getLabel ( ));
+    final RecordStatusType recordStatusType = new RecordStatusType();
+    recordStatusType.setCode(source.getValue());
+    recordStatusType.setDescription(source.getLabel());
     return recordStatusType;
   };
 
@@ -46,13 +46,13 @@ public class RecordStatusTypeAPI extends BaseResource {
   public RecordStatusTypeCollection getCatalogingRecordStatusTypes(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final RecordStatusTypeCollection container = new RecordStatusTypeCollection ( );
-      container.setRecordStatusTypes (
-        storageService.getRecordStatusTypes (lang)
-          .stream ( )
-          .map (toRecordStatusType)
-          .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      final RecordStatusTypeCollection container = new RecordStatusTypeCollection();
+      container.setRecordStatusTypes(
+        storageService.getRecordStatusTypes(lang)
+          .stream()
+          .map(toRecordStatusType)
+          .collect(toList()));
       return container;
     }, tenant, configurator);
 

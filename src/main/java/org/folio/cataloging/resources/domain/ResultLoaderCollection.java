@@ -18,7 +18,7 @@ public class ResultLoaderCollection {
   @JsonProperty("resultLoaders")
   @Valid
   @NotNull
-  private List <ResultLoader> resultLoaders = new ArrayList <ResultLoader> ( );
+  private List <ResultLoader> resultLoaders = new ArrayList <ResultLoader>();
 
   /**
    * (Required)

@@ -20,15 +20,15 @@ public class HibernateSessionProvider {
   // TODO: Optional usage (check and fix the call hierarchy)
   public static Class getHibernateClassName(final String tableName) {
     final Spliterator <PersistentClass> iterator =
-      spliteratorUnknownSize (
-        Global.HCONFIGURATION.getClassMappings ( ),
+      spliteratorUnknownSize(
+        Global.HCONFIGURATION.getClassMappings(),
         Spliterator.IMMUTABLE);
 
-    return stream (iterator, false)
-      .filter (clazz -> clazz.getTable ( ).getName ( ).equals (tableName.toUpperCase ( )))
-      .findFirst ( )
-      .map (PersistentClass::getMappedClass)
-      .orElse (null); // TODO: Optional
+    return stream(iterator, false)
+      .filter(clazz -> clazz.getTable().getName().equals(tableName.toUpperCase()))
+      .findFirst()
+      .map(PersistentClass::getMappedClass)
+      .orElse(null); // TODO: Optional
   }
 
   /**
@@ -40,8 +40,8 @@ public class HibernateSessionProvider {
    */
   // TODO: Optional usage (check and fix the call hierarchy)
   public static String getHibernateTableName(final Class clazz) {
-    final PersistentClass pc = Global.HCONFIGURATION.getClassMapping (clazz);
-    return pc != null ? pc.getTable ( ).getName ( ) : null;
+    final PersistentClass pc = Global.HCONFIGURATION.getClassMapping(clazz);
+    return pc != null ? pc.getTable().getName() : null;
   }
 
   /**
@@ -53,21 +53,21 @@ public class HibernateSessionProvider {
    * @return the column columnName associated with the given property.
    */
   public static String getHibernateColumnName(final Class clazz, final String propertyName) {
-    final Optional <PersistentClass> pclass = ofNullable (Global.HCONFIGURATION.getClassMapping (clazz));
-    if (pclass.isPresent ( )) {
+    final Optional <PersistentClass> pclass = ofNullable(Global.HCONFIGURATION.getClassMapping(clazz));
+    if (pclass.isPresent()) {
       try {
-        return columnName (pclass.get ( ).getProperty (propertyName));
+        return columnName(pclass.get().getProperty(propertyName));
       } catch (final MappingException exception) {
         final Spliterator <Property> iterator =
-          spliteratorUnknownSize (
-            ((Component) pclass.get ( ).getIdentifier ( )).getPropertyIterator ( ),
+          spliteratorUnknownSize(
+            ((Component) pclass.get().getIdentifier()).getPropertyIterator(),
             Spliterator.IMMUTABLE);
 
-        return stream (iterator, false)
-          .filter (property -> property.getName ( ).equals (propertyName))
-          .findFirst ( )
-          .map (HibernateSessionProvider::columnName)
-          .orElse (null);
+        return stream(iterator, false)
+          .filter(property -> property.getName().equals(propertyName))
+          .findFirst()
+          .map(HibernateSessionProvider::columnName)
+          .orElse(null);
       }
     }
     return null;
@@ -80,16 +80,16 @@ public class HibernateSessionProvider {
    * @return the column name associated with the given property.
    */
   private static String columnName(final Property property) {
-    return ((Column) property.getColumnIterator ( ).next ( )).getName ( );
+    return ((Column) property.getColumnIterator().next()).getName();
   }
 
   @Deprecated
   public void closeSession() {
-    throw new IllegalArgumentException ("Don't call me!");
+    throw new IllegalArgumentException("Don't call me!");
   }
 
   @Deprecated
   public Session currentSession() {
-    throw new IllegalArgumentException ("Don't call me!");
+    throw new IllegalArgumentException("Don't call me!");
   }
 }

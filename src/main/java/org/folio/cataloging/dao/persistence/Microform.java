@@ -24,8 +24,8 @@ public class Microform extends PhysicalDescription {
   private char obsolete1;
 
   public Microform() {
-    super ( );
-    setHeaderType (25);
+    super();
+    setHeaderType(25);
   }
 
   /* (non-Javadoc)
@@ -34,17 +34,17 @@ public class Microform extends PhysicalDescription {
   public String getDisplayString() {
     String result =
       ""
-        + getGeneralMaterialDesignationCode ( )
-        + getSpecificMaterialDesignationCode ( )
+        + getGeneralMaterialDesignationCode()
+        + getSpecificMaterialDesignationCode()
         + " "
-        + getPolarityCode ( )
-        + getDimensionsCode ( )
-        + getReductionRatioRangeCode ( )
-        + getReductionRatioCode ( )
-        + getColourCode ( )
-        + getEmulsionOnFilmCode ( )
-        + getGenerationCode ( )
-        + getBaseOfFilmCode ( );
+        + getPolarityCode()
+        + getDimensionsCode()
+        + getReductionRatioRangeCode()
+        + getReductionRatioCode()
+        + getColourCode()
+        + getEmulsionOnFilmCode()
+        + getGenerationCode()
+        + getBaseOfFilmCode();
     return result;
   }
 
@@ -52,8 +52,8 @@ public class Microform extends PhysicalDescription {
    * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
    */
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
-    SystemNextNumberDAO dao = new SystemNextNumberDAO ( );
-    setKeyNumber (dao.getNextNumber ("X3", session));
+    SystemNextNumberDAO dao = new SystemNextNumberDAO();
+    setKeyNumber(dao.getNextNumber("X3", session));
   }
 
   /* (non-Javadoc)
@@ -192,48 +192,48 @@ public class Microform extends PhysicalDescription {
   public Element generateModelXmlElementContent(Document xmlDocument) {
     Element content = null;
     if (xmlDocument != null) {
-      content = xmlDocument.createElement ("content");
-      content.setAttribute ("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode ( ));
-      content.setAttribute ("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode ( ));
-      content.setAttribute ("polarityCode", "" + getPolarityCode ( ));
-      content.setAttribute ("dimensionsCode", "" + getDimensionsCode ( ));
-      content.setAttribute ("reductionRatioRangeCode", "" + getReductionRatioRangeCode ( ));
-      content.setAttribute ("reductionRatioCode", "" + getReductionRatioCode ( ));
-      content.setAttribute ("colourCode", "" + getColourCode ( ));
-      content.setAttribute ("emulsionOnFilmCode", "" + getEmulsionOnFilmCode ( ));
-      content.setAttribute ("generationCode", "" + getGenerationCode ( ));
-      content.setAttribute ("baseOfFilmCode", "" + getBaseOfFilmCode ( ));
+      content = xmlDocument.createElement("content");
+      content.setAttribute("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode());
+      content.setAttribute("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode());
+      content.setAttribute("polarityCode", "" + getPolarityCode());
+      content.setAttribute("dimensionsCode", "" + getDimensionsCode());
+      content.setAttribute("reductionRatioRangeCode", "" + getReductionRatioRangeCode());
+      content.setAttribute("reductionRatioCode", "" + getReductionRatioCode());
+      content.setAttribute("colourCode", "" + getColourCode());
+      content.setAttribute("emulsionOnFilmCode", "" + getEmulsionOnFilmCode());
+      content.setAttribute("generationCode", "" + getGenerationCode());
+      content.setAttribute("baseOfFilmCode", "" + getBaseOfFilmCode());
     }
     return content;
   }
 
   public void parseModelXmlElementContent(Element xmlElement) {
-    Element content = (Element) xmlElement.getChildNodes ( ).item (0);
-    setGeneralMaterialDesignationCode (content.getAttribute ("generalMaterialDesignationCode").charAt (0));
-    setSpecificMaterialDesignationCode (content.getAttribute ("specificMaterialDesignationCode").charAt (0));
-    setPolarityCode (content.getAttribute ("polarityCode").charAt (0));
-    setDimensionsCode (content.getAttribute ("dimensionsCode").charAt (0));
-    setReductionRatioRangeCode (content.getAttribute ("reductionRatioRangeCode").charAt (0));
-    setReductionRatioCode (content.getAttribute ("reductionRatioCode"));
-    setColourCode (content.getAttribute ("colourCode").charAt (0));
-    setEmulsionOnFilmCode (content.getAttribute ("emulsionOnFilmCode").charAt (0));
-    setGenerationCode (content.getAttribute ("generationCode").charAt (0));
-    setBaseOfFilmCode (content.getAttribute ("baseOfFilmCode").charAt (0));
+    Element content = (Element) xmlElement.getChildNodes().item(0);
+    setGeneralMaterialDesignationCode(content.getAttribute("generalMaterialDesignationCode").charAt(0));
+    setSpecificMaterialDesignationCode(content.getAttribute("specificMaterialDesignationCode").charAt(0));
+    setPolarityCode(content.getAttribute("polarityCode").charAt(0));
+    setDimensionsCode(content.getAttribute("dimensionsCode").charAt(0));
+    setReductionRatioRangeCode(content.getAttribute("reductionRatioRangeCode").charAt(0));
+    setReductionRatioCode(content.getAttribute("reductionRatioCode"));
+    setColourCode(content.getAttribute("colourCode").charAt(0));
+    setEmulsionOnFilmCode(content.getAttribute("emulsionOnFilmCode").charAt(0));
+    setGenerationCode(content.getAttribute("generationCode").charAt(0));
+    setBaseOfFilmCode(content.getAttribute("baseOfFilmCode").charAt(0));
   }
 
   //@paulm, us_bbl_loading
   @Override
   public void setContentFromMarcString(final String s) {
-    setGeneralMaterialDesignationCode (s.charAt (0));
-    if (s.length ( ) > 1) setSpecificMaterialDesignationCode (s.charAt (1));
-    else setSpecificMaterialDesignationCode ('u');
-    if (s.length ( ) > 3) setPolarityCode (s.charAt (3));
-    if (s.length ( ) > 4) setDimensionsCode (s.charAt (4));
-    if (s.length ( ) > 5) setReductionRatioRangeCode (s.charAt (5));
-    if (s.length ( ) > 8) setReductionRatioCode (s.substring (6, 9));
-    if (s.length ( ) > 9) setColourCode (s.charAt (9));
-    if (s.length ( ) > 10) setEmulsionOnFilmCode (s.charAt (10));
-    if (s.length ( ) > 11) setGenerationCode (s.charAt (11));
-    if (s.length ( ) > 12) setBaseOfFilmCode (s.charAt (12));
+    setGeneralMaterialDesignationCode(s.charAt(0));
+    if (s.length() > 1) setSpecificMaterialDesignationCode(s.charAt(1));
+    else setSpecificMaterialDesignationCode('u');
+    if (s.length() > 3) setPolarityCode(s.charAt(3));
+    if (s.length() > 4) setDimensionsCode(s.charAt(4));
+    if (s.length() > 5) setReductionRatioRangeCode(s.charAt(5));
+    if (s.length() > 8) setReductionRatioCode(s.substring(6, 9));
+    if (s.length() > 9) setColourCode(s.charAt(9));
+    if (s.length() > 10) setEmulsionOnFilmCode(s.charAt(10));
+    if (s.length() > 11) setGenerationCode(s.charAt(11));
+    if (s.length() > 12) setBaseOfFilmCode(s.charAt(12));
   }
 }

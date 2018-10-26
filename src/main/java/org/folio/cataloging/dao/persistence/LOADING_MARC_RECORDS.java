@@ -19,7 +19,7 @@ public class LOADING_MARC_RECORDS implements Serializable, Persistence {
   private int loadingStatisticsNumber;
   private int oldBibItemNumber;
   private int BibItemNumber;
-  private PersistenceState persistenceState = new PersistenceState ( );
+  private PersistenceState persistenceState = new PersistenceState();
 
   /**
    * Class constructor
@@ -27,7 +27,7 @@ public class LOADING_MARC_RECORDS implements Serializable, Persistence {
    * @since 1.0
    */
   public LOADING_MARC_RECORDS() {
-    super ( );
+    super();
     // TODO Auto-generated constructor stub
   }
 
@@ -97,9 +97,9 @@ public class LOADING_MARC_RECORDS implements Serializable, Persistence {
   public boolean equals(Object arg0) {
     if (arg0 instanceof LOADING_MARC_RECORDS) {
       LOADING_MARC_RECORDS l = (LOADING_MARC_RECORDS) arg0;
-      return l.getLoadingStatisticsNumber ( )
-        == this.getLoadingStatisticsNumber ( )
-        && l.getSequence ( ) == this.getSequence ( );
+      return l.getLoadingStatisticsNumber()
+        == this.getLoadingStatisticsNumber()
+        && l.getSequence() == this.getSequence();
     } else {
       return false;
     }
@@ -109,86 +109,86 @@ public class LOADING_MARC_RECORDS implements Serializable, Persistence {
    * @see java.lang.Object#hashCode()
    */
   public int hashCode() {
-    return this.getLoadingStatisticsNumber ( ) + this.getSequence ( );
+    return this.getLoadingStatisticsNumber() + this.getSequence();
   }
 
   public void cancelChanges() {
-    persistenceState.cancelChanges ( );
+    persistenceState.cancelChanges();
   }
 
   public void confirmChanges() {
-    persistenceState.confirmChanges ( );
+    persistenceState.confirmChanges();
   }
 
   @Deprecated
   public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict (obj);
+    persistenceState.evict(obj);
   }
 
   public AbstractDAO getDAO() {
-    return persistenceState.getDAO ( );
+    return persistenceState.getDAO();
   }
 
   @Override
   @Deprecated
   public void evict() throws DataAccessException {
-    evict (this);
+    evict(this);
   }
 
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   public void setUpdateStatus(int i) {
-    persistenceState.setUpdateStatus (i);
+    persistenceState.setUpdateStatus(i);
   }
 
   public boolean isChanged() {
-    return persistenceState.isChanged ( );
+    return persistenceState.isChanged();
   }
 
   public boolean isDeleted() {
-    return persistenceState.isDeleted ( );
+    return persistenceState.isDeleted();
   }
 
   public boolean isNew() {
-    return persistenceState.isNew ( );
+    return persistenceState.isNew();
   }
 
   public boolean isRemoved() {
-    return persistenceState.isRemoved ( );
+    return persistenceState.isRemoved();
   }
 
   public void markChanged() {
-    persistenceState.markChanged ( );
+    persistenceState.markChanged();
   }
 
   public void markDeleted() {
-    persistenceState.markDeleted ( );
+    persistenceState.markDeleted();
   }
 
   public void markNew() {
-    persistenceState.markNew ( );
+    persistenceState.markNew();
   }
 
   public void markUnchanged() {
-    persistenceState.markUnchanged ( );
+    persistenceState.markUnchanged();
   }
 
   public boolean onDelete(Session arg0) throws CallbackException {
-    return persistenceState.onDelete (arg0);
+    return persistenceState.onDelete(arg0);
   }
 
   public void onLoad(Session arg0, Serializable arg1) {
-    persistenceState.onLoad (arg0, arg1);
+    persistenceState.onLoad(arg0, arg1);
   }
 
   public boolean onUpdate(Session arg0) throws CallbackException {
-    return persistenceState.onUpdate (arg0);
+    return persistenceState.onUpdate(arg0);
   }
 
   public String toString() {
-    return persistenceState.toString ( );
+    return persistenceState.toString();
   }
 
   @Override

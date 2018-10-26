@@ -28,9 +28,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class MaterialTypeAPI extends BaseResource {
 
   private Function <Avp <String>, MaterialType> toMaterialType = source -> {
-    final MaterialType materialType = new MaterialType ( );
-    materialType.setCode (source.getValue ( ));
-    materialType.setDescription (source.getLabel ( ));
+    final MaterialType materialType = new MaterialType();
+    materialType.setCode(source.getValue());
+    materialType.setDescription(source.getLabel());
     return materialType;
   };
 
@@ -45,13 +45,13 @@ public class MaterialTypeAPI extends BaseResource {
   public MaterialTypeCollection getMaterialTypes(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final MaterialTypeCollection container = new MaterialTypeCollection ( );
-      container.setMaterialTypes (
-        storageService.getMaterialTypes (lang)
-          .stream ( )
-          .map (toMaterialType)
-          .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      final MaterialTypeCollection container = new MaterialTypeCollection();
+      container.setMaterialTypes(
+        storageService.getMaterialTypes(lang)
+          .stream()
+          .map(toMaterialType)
+          .collect(toList()));
       return container;
     }, tenant, configurator);
   }

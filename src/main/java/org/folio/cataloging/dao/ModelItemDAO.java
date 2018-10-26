@@ -28,7 +28,7 @@ public abstract class ModelItemDAO extends AbstractDAO {
    * @throws ReferentialIntegrityException the referential integrity exception
    */
   public void delete(final ModelItem modelItem, final Session session) throws HibernateException {
-    session.delete (modelItem);
+    session.delete(modelItem);
   }
 
   /**
@@ -41,13 +41,13 @@ public abstract class ModelItemDAO extends AbstractDAO {
    */
   @SuppressWarnings("unchecked")
   public ModelItem load(final int id, final Session session) throws HibernateException {
-    final List <ModelItem> list = session.find (
+    final List <ModelItem> list = session.find(
       "from "
-        + getPersistentClass ( ).getName ( )
+        + getPersistentClass().getName()
         + " as itm where itm.item = ? ",
       new Object[]{id},
       new Type[]{Hibernate.LONG});
-    return list.stream ( ).filter (Objects::nonNull).findFirst ( ).orElse (null);
+    return list.stream().filter(Objects::nonNull).findFirst().orElse(null);
   }
 
   protected abstract Class getPersistentClass();
@@ -62,14 +62,14 @@ public abstract class ModelItemDAO extends AbstractDAO {
   @SuppressWarnings("unchecked")
   public boolean getModelUsage(final int id, final Session session) throws HibernateException {
     final List <Integer> list =
-      session.find (
+      session.find(
         "select count(*) from "
-          + getPersistentClass ( ).getName ( )
+          + getPersistentClass().getName()
           + " as b"
           + " where b.model.id = ?",
         new Object[]{id},
         new Type[]{Hibernate.INTEGER});
 
-    return list.stream ( ).filter (Objects::nonNull).anyMatch (count -> count > 0);
+    return list.stream().filter(Objects::nonNull).anyMatch(count -> count > 0);
   }
 }

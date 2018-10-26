@@ -52,8 +52,8 @@ public class BND_CPY implements Persistence, Serializable {
   private Float currencyExchangeRte;
   private Integer transferCstdyNumber;
   private Integer physicalCopyType;
-  private Character methodAdquisition = new Character (' ');
-  private PersistenceState persistenceState = new PersistenceState ( );
+  private Character methodAdquisition = new Character(' ');
+  private PersistenceState persistenceState = new PersistenceState();
   private boolean barcodeAssigned = false;
 
   public String getBarCodeNumber() {
@@ -105,8 +105,8 @@ public class BND_CPY implements Persistence, Serializable {
     this.copyRemarkNoteForMap = string;
 
 //---->	Devo togliere tutti i $ + sottocampo per visualizzare il campo in mappa
-    if (string != null && string.length ( ) > 0) {
-      this.copyRemarkNoteForMap = string.replaceAll (Subfield.SUBFIELD_DELIMITER + ".{1}", " ");
+    if (string != null && string.length() > 0) {
+      this.copyRemarkNoteForMap = string.replaceAll(Subfield.SUBFIELD_DELIMITER + ".{1}", " ");
     }
   }
 
@@ -127,8 +127,8 @@ public class BND_CPY implements Persistence, Serializable {
     this.copyStatementTextForMap = string;
 
 //---->	Devo togliere tutti i $ + sottocampo per visualizzare il campo in mappa
-    if (string != null && string.length ( ) > 0) {
-      this.copyStatementTextForMap = string.replaceAll (Subfield.SUBFIELD_DELIMITER + ".{1}", " ");
+    if (string != null && string.length() > 0) {
+      this.copyStatementTextForMap = string.replaceAll(Subfield.SUBFIELD_DELIMITER + ".{1}", " ");
     }
   }
 
@@ -174,7 +174,7 @@ public class BND_CPY implements Persistence, Serializable {
 
   public String getHoldingAcsnListCode() {
     if (holdingAcsnListCode != null)
-      return holdingAcsnListCode.trim ( );
+      return holdingAcsnListCode.trim();
     else
       return holdingAcsnListCode;
   }
@@ -296,7 +296,7 @@ public class BND_CPY implements Persistence, Serializable {
      * The AMICUS database, for historic reasons?, has rows with both 0 and null in this
      * column -- both should be treated as null
      */
-    if (integer != null && integer.intValue ( ) == 0) {
+    if (integer != null && integer.intValue() == 0) {
       shelfListKeyNumber = null;
     } else {
       shelfListKeyNumber = integer;
@@ -352,100 +352,100 @@ public class BND_CPY implements Persistence, Serializable {
   }
 
   public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict (obj);
+    persistenceState.evict(obj);
   }
 
   public void evict() throws DataAccessException {
-    persistenceState.evict (this);
+    persistenceState.evict(this);
   }
 
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   public void setUpdateStatus(int i) {
-    persistenceState.setUpdateStatus (i);
+    persistenceState.setUpdateStatus(i);
   }
 
   public boolean isChanged() {
-    return persistenceState.isChanged ( );
+    return persistenceState.isChanged();
   }
 
   public boolean isDeleted() {
-    return persistenceState.isDeleted ( );
+    return persistenceState.isDeleted();
   }
 
   public boolean isNew() {
-    return persistenceState.isNew ( );
+    return persistenceState.isNew();
   }
 
   public boolean isRemoved() {
-    return persistenceState.isRemoved ( );
+    return persistenceState.isRemoved();
   }
 
   public void markChanged() {
-    persistenceState.markChanged ( );
+    persistenceState.markChanged();
   }
 
   public void markDeleted() {
-    persistenceState.markDeleted ( );
+    persistenceState.markDeleted();
   }
 
   public void markNew() {
-    persistenceState.markNew ( );
+    persistenceState.markNew();
   }
 
   public void markUnchanged() {
-    persistenceState.markUnchanged ( );
+    persistenceState.markUnchanged();
   }
 
   public boolean onDelete(Session arg0) throws CallbackException {
-    return persistenceState.onDelete (arg0);
+    return persistenceState.onDelete(arg0);
   }
 
   public void onLoad(Session arg0, Serializable arg1) {
-    persistenceState.onLoad (arg0, arg1);
+    persistenceState.onLoad(arg0, arg1);
   }
 
   public boolean onSave(Session arg0) throws CallbackException {
-    return persistenceState.onSave (arg0);
+    return persistenceState.onSave(arg0);
   }
 
   public boolean onUpdate(Session arg0) throws CallbackException {
-    return persistenceState.onUpdate (arg0);
+    return persistenceState.onUpdate(arg0);
   }
 
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
-    SystemNextNumberDAO dao = new SystemNextNumberDAO ( );
-    setCopyIdNumber (dao.getNextNumber ("HC", session));
-    setCreationDate (new Date ( ));
-    setTransactionDate (new Date ( ));
+    SystemNextNumberDAO dao = new SystemNextNumberDAO();
+    setCopyIdNumber(dao.getNextNumber("HC", session));
+    setCreationDate(new Date());
+    setTransactionDate(new Date());
 
-    if ((new DAOGlobalVariable ( ).getValueByName ("barrcode", session)).equals ("1")) {
-      setBarcodeAssigned (true);
-      setBarCodeNumber (String.valueOf (getCopyIdNumber ( )));
+    if ((new DAOGlobalVariable().getValueByName("barrcode", session)).equals("1")) {
+      setBarcodeAssigned(true);
+      setBarCodeNumber(String.valueOf(getCopyIdNumber()));
     } else {
-      setBarCodeNumber ("");
+      setBarCodeNumber("");
     }
   }
 
   public void deleteNewKey(final Session session) throws DataAccessException {
-    SystemNextNumberDAO dao = new SystemNextNumberDAO ( );
-    setCopyIdNumber (dao.getPreviouwsNumber ("HC"));
-    setCreationDate (new Date ( ));
-    setTransactionDate (new Date ( ));
+    SystemNextNumberDAO dao = new SystemNextNumberDAO();
+    setCopyIdNumber(dao.getPreviouwsNumber("HC"));
+    setCreationDate(new Date());
+    setTransactionDate(new Date());
 
-    if ((new DAOGlobalVariable ( ).getValueByName ("barrcode", session)).equals ("1")) {
-      setBarcodeAssigned (true);
-      setBarCodeNumber (String.valueOf (getCopyIdNumber ( )));
+    if ((new DAOGlobalVariable().getValueByName("barrcode", session)).equals("1")) {
+      setBarcodeAssigned(true);
+      setBarCodeNumber(String.valueOf(getCopyIdNumber()));
     } else {
-      setBarcodeAssigned (false);
-      setBarCodeNumber ("");
+      setBarcodeAssigned(false);
+      setBarCodeNumber("");
     }
   }
 
   public AbstractDAO getDAO() {
-    return new DAOCopy ( );
+    return new DAOCopy();
   }
 
   public boolean isBarcodeAssigned() {

@@ -25,7 +25,7 @@ public class T_TRLTN implements Serializable {
    * @since 1.0
    */
   public T_TRLTN() {
-    super ( );
+    super();
     // TODO Auto-generated constructor stub
   }
 
@@ -77,8 +77,8 @@ public class T_TRLTN implements Serializable {
   public boolean equals(Object arg0) {
     if (arg0 instanceof T_TRLTN) {
       T_TRLTN t = (T_TRLTN) arg0;
-      return t.getStringNumber ( ) == this.getStringNumber ( ) &&
-        t.getLanguageNumber ( ) == this.getLanguageNumber ( );
+      return t.getStringNumber() == this.getStringNumber() &&
+        t.getLanguageNumber() == this.getLanguageNumber();
     } else {
       return false;
     }
@@ -88,7 +88,7 @@ public class T_TRLTN implements Serializable {
    * @see java.lang.Object#hashCode()
    */
   public int hashCode() {
-    return new Long (getStringNumber ( )).intValue ( ) + getLanguageNumber ( );
+    return new Long(getStringNumber()).intValue() + getLanguageNumber();
   }
 
 }

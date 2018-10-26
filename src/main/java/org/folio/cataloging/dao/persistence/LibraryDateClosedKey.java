@@ -21,7 +21,7 @@ public class LibraryDateClosedKey implements Serializable {
 
 
   public LibraryDateClosedKey() {
-    super ( );
+    super();
   }
 
 
@@ -40,9 +40,9 @@ public class LibraryDateClosedKey implements Serializable {
   public boolean equals(Object obj) {
     if (!(obj instanceof LibraryDateClosedKey))
       return false;
-    return super.equals (obj)
-      && (((LibraryDateClosedKey) obj).getOrganisationNumber ( ) == getOrganisationNumber ( )) &&
-      (0 == ((LibraryDateClosedKey) obj).getLibraryDateCloseDate ( ).compareTo (getLibraryDateCloseDate ( )));
+    return super.equals(obj)
+      && (((LibraryDateClosedKey) obj).getOrganisationNumber() == getOrganisationNumber()) &&
+      (0 == ((LibraryDateClosedKey) obj).getLibraryDateCloseDate().compareTo(getLibraryDateCloseDate()));
     //TODO don't know if this is right
   }
 
@@ -50,7 +50,7 @@ public class LibraryDateClosedKey implements Serializable {
    * @see java.lang.Object#hashCode()
    */
   public int hashCode() {
-    return getOrganisationNumber ( ); //TODO don't know if this is right
+    return getOrganisationNumber(); //TODO don't know if this is right
   }
 
   /**

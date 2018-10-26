@@ -29,9 +29,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class StatusTypeAPI extends BaseResource {
 
   private Function <Avp <String>, StatusType> toStatusType = source -> {
-    final StatusType statusType = new StatusType ( );
-    statusType.setCode (source.getValue ( ));
-    statusType.setDescription (source.getLabel ( ));
+    final StatusType statusType = new StatusType();
+    statusType.setCode(source.getValue());
+    statusType.setDescription(source.getLabel());
     return statusType;
   };
 
@@ -46,13 +46,13 @@ public class StatusTypeAPI extends BaseResource {
   public StatusTypeCollection getStatusTypes(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final StatusTypeCollection container = new StatusTypeCollection ( );
-      container.setStatusTypes (
-        storageService.getStatusTypes (lang)
-          .stream ( )
-          .map (toStatusType)
-          .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      final StatusTypeCollection container = new StatusTypeCollection();
+      container.setStatusTypes(
+        storageService.getStatusTypes(lang)
+          .stream()
+          .map(toStatusType)
+          .collect(toList()));
       return container;
     }, tenant, configurator);
   }

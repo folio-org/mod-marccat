@@ -13,7 +13,7 @@ import java.io.Serializable;
 public class CasEresourceAdmin implements Persistence {
   private static final long serialVersionUID = 2522128570785338271L;
 
-  static DAOCasEresourceAdmin dao = new DAOCasEresourceAdmin ( );
+  static DAOCasEresourceAdmin dao = new DAOCasEresourceAdmin();
 
   private int bibItemNumber;
   private String fileName;
@@ -52,18 +52,18 @@ public class CasEresourceAdmin implements Persistence {
   private String progressivo;
   private String descrizione;
   private String Pdf;
-  private PersistenceState persistenceState = new PersistenceState ( );
+  private PersistenceState persistenceState = new PersistenceState();
 
   public CasEresourceAdmin(int bibItemNumber) {
-    this ( );
-    setBibItemNumber (bibItemNumber);
+    this();
+    setBibItemNumber(bibItemNumber);
   }
 
   /**
    * Class constructor
    */
   public CasEresourceAdmin() {
-    super ( );
+    super();
   }
 
   public int getBibItemNumber() {
@@ -83,11 +83,11 @@ public class CasEresourceAdmin implements Persistence {
   }
 
   public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict (obj);
+    persistenceState.evict(obj);
   }
 
   public void evict() throws DataAccessException {
-    evict (this);
+    evict(this);
   }
 
   public AbstractDAO getDAO() {
@@ -95,11 +95,11 @@ public class CasEresourceAdmin implements Persistence {
   }
 
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   public void setUpdateStatus(int i) {
-    persistenceState.setUpdateStatus (i);
+    persistenceState.setUpdateStatus(i);
   }
 
   public int hashCode() {
@@ -114,58 +114,58 @@ public class CasEresourceAdmin implements Persistence {
       return true;
     if (obj == null)
       return false;
-    if (getClass ( ) != obj.getClass ( ))
+    if (getClass() != obj.getClass())
       return false;
     final CasEresourceAdmin other = (CasEresourceAdmin) obj;
     return bibItemNumber == other.bibItemNumber;
   }
 
   public boolean isChanged() {
-    return persistenceState.isChanged ( );
+    return persistenceState.isChanged();
   }
 
   public boolean isDeleted() {
-    return persistenceState.isDeleted ( );
+    return persistenceState.isDeleted();
   }
 
   public boolean isNew() {
-    return persistenceState.isNew ( );
+    return persistenceState.isNew();
   }
 
   public boolean isRemoved() {
-    return persistenceState.isRemoved ( );
+    return persistenceState.isRemoved();
   }
 
   public void markChanged() {
-    persistenceState.markChanged ( );
+    persistenceState.markChanged();
   }
 
   public void markDeleted() {
-    persistenceState.markDeleted ( );
+    persistenceState.markDeleted();
   }
 
   public void markNew() {
-    persistenceState.markNew ( );
+    persistenceState.markNew();
   }
 
   public void markUnchanged() {
-    persistenceState.markUnchanged ( );
+    persistenceState.markUnchanged();
   }
 
   public boolean onDelete(Session arg0) throws CallbackException {
-    return persistenceState.onDelete (arg0);
+    return persistenceState.onDelete(arg0);
   }
 
   public void onLoad(Session arg0, Serializable arg1) {
-    persistenceState.onLoad (arg0, arg1);
+    persistenceState.onLoad(arg0, arg1);
   }
 
   public boolean onSave(Session arg0) throws CallbackException {
-    return persistenceState.onSave (arg0);
+    return persistenceState.onSave(arg0);
   }
 
   public boolean onUpdate(Session arg0) throws CallbackException {
-    return persistenceState.onUpdate (arg0);
+    return persistenceState.onUpdate(arg0);
   }
 
   /* (non-Javadoc)

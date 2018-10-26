@@ -58,8 +58,8 @@ public class Correlation implements Serializable {
   }
 
   public CorrelationValues getValues() {
-    return new CorrelationValues (getDatabaseFirstValue ( ),
-      getDatabaseSecondValue ( ), getDatabaseThirdValue ( ));
+    return new CorrelationValues(getDatabaseFirstValue(),
+      getDatabaseSecondValue(), getDatabaseThirdValue());
   }
 
 }

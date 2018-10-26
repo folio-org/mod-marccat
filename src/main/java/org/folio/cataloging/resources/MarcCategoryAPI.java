@@ -28,9 +28,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class MarcCategoryAPI extends BaseResource {
 
   private Function <Avp <String>, Category> toCategory = source -> {
-    final Category category = new Category ( );
-    category.setCode (Integer.parseInt (source.getValue ( )));
-    category.setDescription (source.getLabel ( ));
+    final Category category = new Category();
+    category.setCode(Integer.parseInt(source.getValue()));
+    category.setDescription(source.getLabel());
     return category;
   };
 
@@ -45,13 +45,13 @@ public class MarcCategoryAPI extends BaseResource {
   public MarcCategoryCollection getCategories(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final MarcCategoryCollection categories = new MarcCategoryCollection ( );
-      categories.setCategories (
-        storageService.getMarcCategories (lang)
-          .stream ( )
-          .map (toCategory)
-          .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      final MarcCategoryCollection categories = new MarcCategoryCollection();
+      categories.setCategories(
+        storageService.getMarcCategories(lang)
+          .stream()
+          .map(toCategory)
+          .collect(toList()));
       return categories;
     }, tenant, configurator);
   }

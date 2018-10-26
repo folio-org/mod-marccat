@@ -28,32 +28,32 @@ import java.util.List;
  * @since 1.0
  */
 public class DAOBibliographicRelationship extends AbstractDAO {
-  private static final Log logger = LogFactory.getLog (DAOBibliographicRelationship.class);
+  private static final Log logger = LogFactory.getLog(DAOBibliographicRelationship.class);
 
   public short getReciprocalBibItem(int bibItemNumber, int targetBibItemNumber, int userView) throws DataAccessException {
-    Session s = currentSession ( );
+    Session s = currentSession();
     List l = null;
     try {
       l =
-        s.find (
+        s.find(
           " select count(*) from "
             + "BibliographicRelationship t "
             + " where t.bibItemNumber = ? and "
             + " t.targetBibItemNumber = ? and "
             + " substr(t.userViewString, ?, 1) = '1'",
           new Object[]{
-            new Integer (bibItemNumber),
-            new Integer (targetBibItemNumber),
-            new Integer (userView)},
+            new Integer(bibItemNumber),
+            new Integer(targetBibItemNumber),
+            new Integer(userView)},
           new Type[]{
             Hibernate.INTEGER,
             Hibernate.INTEGER,
             Hibernate.INTEGER});
-      if (((Integer) l.get (0)).shortValue ( ) > 0) {
+      if (((Integer) l.get(0)).shortValue() > 0) {
         return 1;
       }
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
 
     return 2;
@@ -63,122 +63,122 @@ public class DAOBibliographicRelationship extends AbstractDAO {
     BibliographicRelationship relationship = null;
     try {
       List multiView =
-        currentSession ( ).find (
+        currentSession().find(
           "from BibliographicRelationship t "
             + "where t.bibItemNumber = ? and t.targetBibItemNumber = ? and substr(t.userViewString,?,1) = '1'",
           new Object[]{
-            new Integer (bibItemNumber),
-            new Integer (targetBibItemNumber),
-            new Integer (userView)},
+            new Integer(bibItemNumber),
+            new Integer(targetBibItemNumber),
+            new Integer(userView)},
           new Type[]{
             Hibernate.INTEGER,
             Hibernate.INTEGER,
             Hibernate.INTEGER});
 
-      List singleView = isolateViewForList (multiView, userView);
+      List singleView = isolateViewForList(multiView, userView);
 
-      if (singleView.size ( ) > 0) {
-        return (BibliographicRelationship) singleView.get (0);
+      if (singleView.size() > 0) {
+        return (BibliographicRelationship) singleView.get(0);
       }
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
 
     return relationship;
   }
 
   public StringText buildRelationStringText(int bibItemNumber, int userView) throws DataAccessException {
-    StringText stringText = new StringText ( );
-    BibliographicCatalogDAO catalog = new BibliographicCatalogDAO ( );
+    StringText stringText = new StringText();
+    BibliographicCatalogDAO catalog = new BibliographicCatalogDAO();
 
-    BibliographicItem item = catalog.getBibliographicItemWithoutRelationships (bibItemNumber, userView);
+    BibliographicItem item = catalog.getBibliographicItemWithoutRelationships(bibItemNumber, userView);
 
     /* Name Tags */
 
-    VariableField t = (VariableField) item.findFirstTagByNumber ("1");
+    VariableField t = (VariableField) item.findFirstTagByNumber("1");
     if (t != null && t instanceof NameAccessPoint) {
-      stringText.addSubfield (
-        new Subfield ("a", t.getStringText ( ).toDisplayString ( )));
+      stringText.addSubfield(
+        new Subfield("a", t.getStringText().toDisplayString()));
     }
 
     /* Title Tags */
 
-    t = (VariableField) item.findFirstTagByNumber ("130");
+    t = (VariableField) item.findFirstTagByNumber("130");
 
     if (t != null) {
-      stringText.addSubfield (
-        new Subfield ("t", t.getStringText ( ).toDisplayString ( )));
+      stringText.addSubfield(
+        new Subfield("t", t.getStringText().toDisplayString()));
     } else {
-      t = (VariableField) item.findFirstTagByNumber ("245");
+      t = (VariableField) item.findFirstTagByNumber("245");
       if (t != null) {
-        stringText.addSubfield (
-          new Subfield ("t", t.getStringText ( ).toDisplayString ( )));
+        stringText.addSubfield(
+          new Subfield("t", t.getStringText().toDisplayString()));
       }
       // TODO _MIKE: This code is evil! Cavolo, non va per niente bene...
-      else logger.error ("245 is a required tag");
+      else logger.error("245 is a required tag");
     }
 
-    t = (VariableField) item.findFirstTagByNumber ("210");
+    t = (VariableField) item.findFirstTagByNumber("210");
     if (t != null) {
-      stringText.addSubfield (
-        new Subfield ("p", t.getStringText ( ).toDisplayString ( )));
+      stringText.addSubfield(
+        new Subfield("p", t.getStringText().toDisplayString()));
     }
 
     /* Note Tags */
 
-    t = (VariableField) item.findFirstTagByNumber ("250");
+    t = (VariableField) item.findFirstTagByNumber("250");
     if (t != null) {
-      stringText.addSubfield (
-        new Subfield ("b", t.getStringText ( ).toDisplayString ( )));
+      stringText.addSubfield(
+        new Subfield("b", t.getStringText().toDisplayString()));
     }
 
     /* Publisher Tags */
 
-    t = (VariableField) item.findFirstTagByNumber ("260");
+    t = (VariableField) item.findFirstTagByNumber("260");
     if (t != null) {
-      stringText.addSubfield (
-        new Subfield ("d", t.getStringText ( ).toDisplayString ( )));
+      stringText.addSubfield(
+        new Subfield("d", t.getStringText().toDisplayString()));
     }
 
     /* ControlNumber Tags */
 
-    t = (VariableField) item.findFirstTagByNumber ("020");
+    t = (VariableField) item.findFirstTagByNumber("020");
     if (t != null) {
-      stringText.addSubfield (
-        new Subfield ("z", t.getStringText ( ).toDisplayString ( )));
+      stringText.addSubfield(
+        new Subfield("z", t.getStringText().toDisplayString()));
     } else {
-      t = (VariableField) item.findFirstTagByNumber ("022");
+      t = (VariableField) item.findFirstTagByNumber("022");
       if (t != null) {
-        stringText.addSubfield (
-          new Subfield ("x", t.getStringText ( ).toDisplayString ( )));
+        stringText.addSubfield(
+          new Subfield("x", t.getStringText().toDisplayString()));
       }
     }
 
     /* ClassificationNumber Tags */
 
-    t = (VariableField) item.findFirstTagByNumber ("088");
+    t = (VariableField) item.findFirstTagByNumber("088");
     if (t != null) {
-      stringText.addSubfield (
-        new Subfield ("r", t.getStringText ( ).toDisplayString ( )));
+      stringText.addSubfield(
+        new Subfield("r", t.getStringText().toDisplayString()));
     }
 
-    t = (VariableField) item.findFirstTagByNumber ("027");
+    t = (VariableField) item.findFirstTagByNumber("027");
     if (t != null) {
-      stringText.addSubfield (
-        new Subfield ("u", t.getStringText ( ).toDisplayString ( )));
+      stringText.addSubfield(
+        new Subfield("u", t.getStringText().toDisplayString()));
     }
 
-    t = (VariableField) item.findFirstTagByNumber ("030");
+    t = (VariableField) item.findFirstTagByNumber("030");
     if (t != null) {
-      stringText.addSubfield (
-        new Subfield ("y", t.getStringText ( ).toDisplayString ( )));
+      stringText.addSubfield(
+        new Subfield("y", t.getStringText().toDisplayString()));
     }
 
     /* BibItem data */
-    stringText.addSubfield (
-      new Subfield ("e", item.getBibItmData ( ).getLanguageCode ( )));
-    stringText.addSubfield (
-      new Subfield ("f", item.getBibItmData ( ).getMarcCountryCode ( )));
+    stringText.addSubfield(
+      new Subfield("e", item.getBibItmData().getLanguageCode()));
+    stringText.addSubfield(
+      new Subfield("f", item.getBibItmData().getMarcCountryCode()));
 
     //TODO add missing subfields s and k
 
@@ -186,16 +186,16 @@ public class DAOBibliographicRelationship extends AbstractDAO {
   }
 
   public void updateRelation(BibliographicRelationshipTag tag, int amicusNumberTo, int cataloguingView) throws DataAccessException, NoResultsFoundException {
-    if (isReciprocalRelation (tag.getItemNumber ( ), tag.getTargetBibItemNumber ( ))) {
-      updateReciprocalRelation (tag, amicusNumberTo, cataloguingView, "SOURCE_TARGET");
+    if (isReciprocalRelation(tag.getItemNumber(), tag.getTargetBibItemNumber())) {
+      updateReciprocalRelation(tag, amicusNumberTo, cataloguingView, "SOURCE_TARGET");
 
-    } else if (isUnivocalRelation (tag.getItemNumber ( ), tag.getTargetBibItemNumber ( ))) {
-      updateReciprocalRelation (tag, amicusNumberTo, cataloguingView, "TARGET");
+    } else if (isUnivocalRelation(tag.getItemNumber(), tag.getTargetBibItemNumber())) {
+      updateReciprocalRelation(tag, amicusNumberTo, cataloguingView, "TARGET");
 
-    } else if (isBlindRelation (tag.getItemNumber ( ))) {
-      updateReciprocalRelation (tag, amicusNumberTo, cataloguingView, "SOURCE");
+    } else if (isBlindRelation(tag.getItemNumber())) {
+      updateReciprocalRelation(tag, amicusNumberTo, cataloguingView, "SOURCE");
     } else {
-      throw new NoResultsFoundException ( );
+      throw new NoResultsFoundException();
     }
   }
 
@@ -203,75 +203,75 @@ public class DAOBibliographicRelationship extends AbstractDAO {
     throws DataAccessException, NoResultsFoundException {
     Connection connection = null;
     PreparedStatement stmt = null;
-    Session session = currentSession ( );
+    Session session = currentSession();
     int count = 0;
     try {
-      connection = session.connection ( );
+      connection = session.connection();
 
-      if ("SOURCE".equalsIgnoreCase (typeQuery)) {
+      if ("SOURCE".equalsIgnoreCase(typeQuery)) {
         stmt = null;
-        stmt = connection.prepareStatement (
+        stmt = connection.prepareStatement(
           "UPDATE RLTSP SET SRC_BIB_ITM_NBR = ? WHERE SRC_BIB_ITM_NBR = ? AND TRGT_BIB_ITM_NBR = ? AND RLTSP_TYP_CDE = ? " +
             "AND SUBSTR(USR_VW_IND,?,1) = '1'");
-        stmt.setInt (1, amicusNumberTo);
-        stmt.setInt (2, tag.getItemNumber ( ));
-        stmt.setInt (3, tag.getTargetBibItemNumber ( ));
-        stmt.setInt (4, tag.getRelationTypeCode ( ));
-        stmt.setInt (5, cataloguingView);
-        count = count + stmt.executeUpdate ( );
+        stmt.setInt(1, amicusNumberTo);
+        stmt.setInt(2, tag.getItemNumber());
+        stmt.setInt(3, tag.getTargetBibItemNumber());
+        stmt.setInt(4, tag.getRelationTypeCode());
+        stmt.setInt(5, cataloguingView);
+        count = count + stmt.executeUpdate();
 
-      } else if ("TARGET".equalsIgnoreCase (typeQuery)) {
+      } else if ("TARGET".equalsIgnoreCase(typeQuery)) {
         stmt = null;
 
-        stmt = connection.prepareStatement (
+        stmt = connection.prepareStatement(
           "UPDATE RLTSP SET SRC_BIB_ITM_NBR = ? WHERE SRC_BIB_ITM_NBR = ? AND TRGT_BIB_ITM_NBR = ? AND RLTSP_TYP_CDE = ? " +
             "AND SUBSTR(USR_VW_IND,?,1) = '1'");
-        stmt.setInt (1, amicusNumberTo);
-        stmt.setInt (2, tag.getItemNumber ( ));
-        stmt.setInt (3, tag.getTargetBibItemNumber ( ));
-        stmt.setInt (4, tag.getRelationTypeCode ( ));
-        stmt.setInt (5, cataloguingView);
-        count = count + stmt.executeUpdate ( );
+        stmt.setInt(1, amicusNumberTo);
+        stmt.setInt(2, tag.getItemNumber());
+        stmt.setInt(3, tag.getTargetBibItemNumber());
+        stmt.setInt(4, tag.getRelationTypeCode());
+        stmt.setInt(5, cataloguingView);
+        count = count + stmt.executeUpdate();
 
-      } else if ("SOURCE_TARGET".equalsIgnoreCase (typeQuery)) {
+      } else if ("SOURCE_TARGET".equalsIgnoreCase(typeQuery)) {
 //------------> Se relazione reciproca devo modificare due righe nel db le ho messe insieme per poter fare un solo committ solo se vanno bene tutte e due
         stmt = null;
 
-        stmt = connection.prepareStatement (
+        stmt = connection.prepareStatement(
           "UPDATE RLTSP SET TRGT_BIB_ITM_NBR = ? WHERE SRC_BIB_ITM_NBR = ? AND TRGT_BIB_ITM_NBR = ? AND RLTSP_TYP_CDE = ? " +
             "AND SUBSTR(USR_VW_IND,?,1) = '1'");
-        stmt.setInt (1, amicusNumberTo);
-        stmt.setInt (2, tag.getTargetBibItemNumber ( ));
-        stmt.setInt (3, tag.getItemNumber ( ));
+        stmt.setInt(1, amicusNumberTo);
+        stmt.setInt(2, tag.getTargetBibItemNumber());
+        stmt.setInt(3, tag.getItemNumber());
 
-        stmt.setInt (4, tag.getTargetRelationship ( ).getRelationTypeCode ( ));
-        stmt.setInt (5, cataloguingView);
-        count = count + stmt.executeUpdate ( );
+        stmt.setInt(4, tag.getTargetRelationship().getRelationTypeCode());
+        stmt.setInt(5, cataloguingView);
+        count = count + stmt.executeUpdate();
 
         stmt = null;
 
-        stmt = connection.prepareStatement (
+        stmt = connection.prepareStatement(
           "UPDATE RLTSP SET SRC_BIB_ITM_NBR = ? WHERE SRC_BIB_ITM_NBR = ? AND TRGT_BIB_ITM_NBR = ? AND RLTSP_TYP_CDE = ? " +
             "AND SUBSTR(USR_VW_IND,?,1) = '1'");
-        stmt.setInt (1, amicusNumberTo);
-        stmt.setInt (2, tag.getItemNumber ( ));
-        stmt.setInt (3, tag.getTargetBibItemNumber ( ));
+        stmt.setInt(1, amicusNumberTo);
+        stmt.setInt(2, tag.getItemNumber());
+        stmt.setInt(3, tag.getTargetBibItemNumber());
 
-        stmt.setInt (4, tag.getRelationTypeCode ( ));
-        stmt.setInt (5, cataloguingView);
-        count = count + stmt.executeUpdate ( );
+        stmt.setInt(4, tag.getRelationTypeCode());
+        stmt.setInt(5, cataloguingView);
+        count = count + stmt.executeUpdate();
       }
       if (count == 0) {
-        throw new NoResultsFoundException ( );
+        throw new NoResultsFoundException();
       }
-      logger.debug ("Count: " + count);
+      logger.debug("Count: " + count);
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     } catch (SQLException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     } finally {
       try {
-        stmt.close ( );
+        stmt.close();
       } catch (SQLException e) {
       }
     }
@@ -288,14 +288,14 @@ public class DAOBibliographicRelationship extends AbstractDAO {
   public int countRLTSP(int amicusNumber) throws DataAccessException {
     int result = 0;
     try {
-      Session s = currentSession ( );
-      Query q = s.createQuery ("select count(*) from BibliographicRelationship as br where br.bibItemNumber = "
+      Session s = currentSession();
+      Query q = s.createQuery("select count(*) from BibliographicRelationship as br where br.bibItemNumber = "
         + amicusNumber + "and br.targetBibItemNumber > 0");
-      q.setMaxResults (1);
-      result = ((Integer) q.list ( ).get (0)).intValue ( );
+      q.setMaxResults(1);
+      result = ((Integer) q.list().get(0)).intValue();
 
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     return result;
   }
@@ -312,19 +312,19 @@ public class DAOBibliographicRelationship extends AbstractDAO {
     int count = 0;
     boolean result = false;
     try {
-      Session s = currentSession ( );
-      Query q = s.createQuery ("select count(*) from BibliographicRelationship as br "
+      Session s = currentSession();
+      Query q = s.createQuery("select count(*) from BibliographicRelationship as br "
         + "where (br.bibItemNumber = " + source + " and br.targetBibItemNumber = " + target + ")"
 //					+ " and br.bibItemNumber = " + target + " and br.targetBibItemNumber = " + source);
         + " or (br.bibItemNumber = " + target + " and br.targetBibItemNumber = " + source + ")");
 
-      q.setMaxResults (1);
-      count = ((Integer) q.list ( ).get (0)).intValue ( );
+      q.setMaxResults(1);
+      count = ((Integer) q.list().get(0)).intValue();
       if (count == 2) {
         result = true;
       }
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     return result;
   }
@@ -341,18 +341,18 @@ public class DAOBibliographicRelationship extends AbstractDAO {
     int count = 0;
     boolean result = false;
     try {
-      Session s = currentSession ( );
-      Query q = s.createQuery ("select count(*) from BibliographicRelationship as br "
+      Session s = currentSession();
+      Query q = s.createQuery("select count(*) from BibliographicRelationship as br "
         + "where br.bibItemNumber = " + source + " and br.targetBibItemNumber = " + target
         + " and br.targetBibItemNumber >0");
 
-      q.setMaxResults (1);
-      count = ((Integer) q.list ( ).get (0)).intValue ( );
+      q.setMaxResults(1);
+      count = ((Integer) q.list().get(0)).intValue();
       if (count == 1) {
         result = true;
       }
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     return result;
   }
@@ -369,17 +369,17 @@ public class DAOBibliographicRelationship extends AbstractDAO {
     int count = 0;
     boolean result = false;
     try {
-      Session s = currentSession ( );
-      Query q = s.createQuery ("select count(*) from BibliographicRelationship as br "
+      Session s = currentSession();
+      Query q = s.createQuery("select count(*) from BibliographicRelationship as br "
         + "where br.bibItemNumber = " + source + " and br.targetBibItemNumber < 0");
 
-      q.setMaxResults (1);
-      count = ((Integer) q.list ( ).get (0)).intValue ( );
+      q.setMaxResults(1);
+      count = ((Integer) q.list().get(0)).intValue();
       if (count == 1) {
         result = true;
       }
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     return result;
   }

@@ -38,7 +38,7 @@ public class BRWR implements Serializable {
 
 
   public BRWR() {
-    super ( );
+    super();
   }
 
   /**

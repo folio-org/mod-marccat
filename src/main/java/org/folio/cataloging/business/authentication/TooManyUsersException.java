@@ -19,14 +19,14 @@ public class TooManyUsersException extends AuthenticationException {
    *
    */
   public TooManyUsersException() {
-    super ( );
+    super();
   }
 
   /**
    * @param message
    */
   public TooManyUsersException(String message) {
-    super (message);
+    super(message);
   }
 
   /**
@@ -34,14 +34,14 @@ public class TooManyUsersException extends AuthenticationException {
    * @param cause
    */
   public TooManyUsersException(String message, Throwable cause) {
-    super (message, cause);
+    super(message, cause);
   }
 
   /**
    * @param cause
    */
   public TooManyUsersException(Throwable cause) {
-    super (cause);
+    super(cause);
   }
 
 }

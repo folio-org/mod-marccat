@@ -16,45 +16,45 @@ public abstract class PhysicalDescription extends FixedField implements Persiste
   protected char specificMaterialDesignationCode = 'd';
   private char generalMaterialDesignationCode;
   private int keyNumber;
-  private UserViewHelper userViewHelper = new UserViewHelper ( );
+  private UserViewHelper userViewHelper = new UserViewHelper();
 
   public PhysicalDescription() {
-    setPersistenceState (new PersistenceState ( ));
+    setPersistenceState(new PersistenceState());
   }
 
   //@paulm, us_bbl_loading
   public static PhysicalDescription getInstanceByGMD(final char gmd) {
     switch (gmd) {
       case 'a':
-        return new Map ( );
+        return new Map();
       case 'c':
-        return new ElectronicResource ( );
+        return new ElectronicResource();
       case 'd':
-        return new Globe ( );
+        return new Globe();
       case 'f':
-        return new TactileMaterial ( );
+        return new TactileMaterial();
       case 'g':
-        return new ProjectedGraphic ( );
+        return new ProjectedGraphic();
       case 'h':
-        return new Microform ( );
+        return new Microform();
       case 'k':
-        return new NonProjectedGraphic ( );
+        return new NonProjectedGraphic();
       case 'm':
-        return new MotionPicture ( );
+        return new MotionPicture();
       case 'o':
-        return new Kit ( );
+        return new Kit();
       case 'q':
-        return new NotatedMusic ( );
+        return new NotatedMusic();
       case 'r':
-        return new RemoteSensingImage ( );
+        return new RemoteSensingImage();
       case 's':
-        return new SoundRecording ( );
+        return new SoundRecording();
       case 't':
-        return new Text ( );
+        return new Text();
       case 'v':
-        return new VideoRecording ( );
+        return new VideoRecording();
       case 'z':
-        return new Unspecified ( );
+        return new Unspecified();
       default:
         return null;
     }
@@ -144,11 +144,11 @@ public abstract class PhysicalDescription extends FixedField implements Persiste
   @Override
   public boolean equals(Object obj) {
     if (obj instanceof PhysicalDescription) {
-      if (super.equals (obj)) {
-        return ((PhysicalDescription) obj).getKeyNumber ( )
-          == this.getKeyNumber ( )
-          && ((PhysicalDescription) obj).getHeaderType ( )
-          == this.getHeaderType ( );
+      if (super.equals(obj)) {
+        return ((PhysicalDescription) obj).getKeyNumber()
+          == this.getKeyNumber()
+          && ((PhysicalDescription) obj).getHeaderType()
+          == this.getHeaderType();
       }
     }
     return false;
@@ -156,7 +156,7 @@ public abstract class PhysicalDescription extends FixedField implements Persiste
 
   @Override
   public int hashCode() {
-    return getBibItemNumber ( ) + getKeyNumber ( );
+    return getBibItemNumber() + getKeyNumber();
   }
 
   @Override
@@ -174,29 +174,29 @@ public abstract class PhysicalDescription extends FixedField implements Persiste
 
   @Override
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
-    return v.isValueDefined (1);
+    return v.isValueDefined(1);
   }
 
   @Override
   public AbstractDAO getDAO() {
-    return getPersistenceState ( ).getDAO ( );
+    return getPersistenceState().getDAO();
   }
 
   @Override
   public String getUserViewString() {
-    return userViewHelper.getUserViewString ( );
+    return userViewHelper.getUserViewString();
   }
 
   @Override
   public void setUserViewString(String string) {
-    userViewHelper.setUserViewString (string);
+    userViewHelper.setUserViewString(string);
   }
 
   public int getBibItemNumber() {
-    return getItemNumber ( );
+    return getItemNumber();
   }
 
   public void setBibItemNumber(int i) {
-    setItemNumber (i);
+    setItemNumber(i);
   }
 }

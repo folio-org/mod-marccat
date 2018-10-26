@@ -21,10 +21,10 @@ public class DetailLevelCollection {
   @JsonProperty("detailLevels")
   @Valid
   @NotNull
-  private List <DetailLevel> detailLevels = new ArrayList <DetailLevel> ( );
+  private List <DetailLevel> detailLevels = new ArrayList <DetailLevel>();
 
   @JsonIgnore
-  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
+  private Map <String, Object> additionalProperties = new HashMap <String, Object>();
 
   /**
    * (Required)
@@ -58,11 +58,11 @@ public class DetailLevelCollection {
 
   @JsonAnySetter
   public void setAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
   }
 
   public DetailLevelCollection withAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
     return this;
   }
 }

@@ -34,21 +34,21 @@ public class DAOCodeTable extends AbstractDAO {
   private static final String ALPHABETICAL_ORDER = " order by ct.longText ";
   private static final String SEQUENCE_ORDER = " order by ct.sequence ";
   private final String SELECT_RDA_CARRIER_LIST = /*"SELECT * FROM OLISUITE.T_RDA_CARRIER WHERE LANGID = ? ORDER BY STRING_TEXT";*/
-    "SELECT * FROM " + System.getProperty (Global.SCHEMA_SUITE_KEY) + ".T_RDA_CARRIER WHERE LANGID = ? ORDER BY STRING_TEXT";
-  private Log logger = new Log (DAOCodeTable.class);
+    "SELECT * FROM " + System.getProperty(Global.SCHEMA_SUITE_KEY) + ".T_RDA_CARRIER WHERE LANGID = ? ORDER BY STRING_TEXT";
+  private Log logger = new Log(DAOCodeTable.class);
 
   public static List asOptionList(List raw, Locale locale) {
     if (raw == null) {
       return null;
     }
 
-    List result = new ArrayList ( );
-    Iterator iterator = raw.iterator ( );
+    List result = new ArrayList();
+    Iterator iterator = raw.iterator();
 
-    while (iterator.hasNext ( )) {
-      CodeTable element = (CodeTable) iterator.next ( );
-      if (element.getLanguage ( ).equals (locale.getISO3Language ( ))) {
-        result.add (new Avp (element.getCodeString ( ), element.getLongText ( )));
+    while (iterator.hasNext()) {
+      CodeTable element = (CodeTable) iterator.next();
+      if (element.getLanguage().equals(locale.getISO3Language())) {
+        result.add(new Avp(element.getCodeString(), element.getLongText()));
       }
     }
     return result;
@@ -64,13 +64,13 @@ public class DAOCodeTable extends AbstractDAO {
     if (raw == null) {
       return null;
     }
-    List result = new ArrayList ( );
-    Iterator iterator = raw.iterator ( );
+    List result = new ArrayList();
+    Iterator iterator = raw.iterator();
     Avp element = null;
 
-    while (iterator.hasNext ( )) {
-      element = (Avp) iterator.next ( );
-      result.add (new Avp (element.getLabel ( ), element.getLabel ( )));
+    while (iterator.hasNext()) {
+      element = (Avp) iterator.next();
+      result.add(new Avp(element.getLabel(), element.getLabel()));
     }
     return result;
   }
@@ -80,11 +80,11 @@ public class DAOCodeTable extends AbstractDAO {
       return null;
     }
 
-    Iterator iterator = raw.iterator ( );
+    Iterator iterator = raw.iterator();
 
-    while (iterator.hasNext ( )) {
-      T_SINGLE element = (T_SINGLE) iterator.next ( );
-      if (element.getLanguage ( ).equals (locale.getISO3Language ( )) && element.getCode ( ) == code) {
+    while (iterator.hasNext()) {
+      T_SINGLE element = (T_SINGLE) iterator.next();
+      if (element.getLanguage().equals(locale.getISO3Language()) && element.getCode() == code) {
         return element;
       }
     }
@@ -103,39 +103,39 @@ public class DAOCodeTable extends AbstractDAO {
     try {
       // NOTE: two steps are required because Hibernate doesn't use generics and the inference type
       // mechanism doesn't work.
-      final List <CodeTable> codeTables = session.find (
+      final List <CodeTable> codeTables = session.find(
         "from "
-          + c.getName ( )
+          + c.getName()
           + " as ct "
           + " where ct.language = ?"
           + " and ct.obsoleteIndicator = '0'"
           + " order by ct.code ",
-        new Object[]{locale.getISO3Language ( )},
+        new Object[]{locale.getISO3Language()},
         new Type[]{Hibernate.STRING});
 
       return codeTables
-        .stream ( )
-        .map (codeTable -> (Avp <String>) new Avp (codeTable.getCodeString ( ).trim ( ), codeTable.getLongText ( )))
-        .collect (toList ( ));
+        .stream()
+        .map(codeTable -> (Avp <String>) new Avp(codeTable.getCodeString().trim(), codeTable.getLongText()))
+        .collect(toList());
     } catch (final HibernateException exception) {
-      logger.error (MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-      return Collections.emptyList ( );
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      return Collections.emptyList();
     }
   }
 
   public List getList(Class c) throws DataAccessException {
     List listCodeTable = null;
     try {
-      Session s = currentSession ( );
+      Session s = currentSession();
       listCodeTable =
-        s.find ("from "
-          + c.getName ( )
+        s.find("from "
+          + c.getName()
           + " as ct "
           + " order by ct.sequence ");
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
-    logger.debug ("Got codetable for " + c.getName ( ));
+    logger.debug("Got codetable for " + c.getName());
     return listCodeTable;
   }
 
@@ -145,18 +145,18 @@ public class DAOCodeTable extends AbstractDAO {
     if (alphabeticOrder)
       order = ALPHABETICAL_ORDER;
     try {
-      Session s = currentSession ( );
+      Session s = currentSession();
       listCodeTable =
-        s.find (
+        s.find(
           "from "
-            + c.getName ( )
+            + c.getName()
             + " as ct "
             + " where ct.obsoleteIndicator = 0"
             + order);
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
-    logger.debug ("Got codetable for " + c.getName ( ));
+    logger.debug("Got codetable for " + c.getName());
     return listCodeTable;
   }
 
@@ -167,18 +167,18 @@ public class DAOCodeTable extends AbstractDAO {
     if (alphabeticOrder)
       order = ALPHABETICAL_ORDER;
     try {
-      Session s = currentSession ( );
+      Session s = currentSession();
       listCodeTable =
-        s.find ("select distinct ct from "
-          + c.getName ( )
+        s.find("select distinct ct from "
+          + c.getName()
           + " as ct, BibliographicCorrelation as bc "
           + " where ct.obsoleteIndicator = 0"
           + filtro
           + order);
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
-    logger.debug ("Got codetable for " + c.getName ( ));
+    logger.debug("Got codetable for " + c.getName());
     return listCodeTable;
   }
 
@@ -189,19 +189,19 @@ public class DAOCodeTable extends AbstractDAO {
       order = ALPHABETICAL_ORDER;
 
     try {
-      Session s = currentSession ( );
+      Session s = currentSession();
       listCodeTable =
-        s.find (
+        s.find(
           "from "
-            + c.getName ( )
+            + c.getName()
             + " as ct "
             + " where ct.obsoleteIndicator = 0"
             + " and (ct.code<>94 and ct.code<>102 and ct.code<>103)"
             + order);
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
-    logger.debug ("Got codetable for " + c.getName ( ));
+    logger.debug("Got codetable for " + c.getName());
     return listCodeTable;
   }
 
@@ -212,18 +212,18 @@ public class DAOCodeTable extends AbstractDAO {
       order = ALPHABETICAL_ORDER;
 
     try {
-      Session s = currentSession ( );
+      Session s = currentSession();
       listCodeTable =
-        s.find (
+        s.find(
           "from "
-            + c.getName ( )
+            + c.getName()
             + " as ct "
             + " where ct.obsoleteIndicator = 0"
             + " and ct.longText like '%008%'"
             + order);
 
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     return listCodeTable;
   }
@@ -236,11 +236,11 @@ public class DAOCodeTable extends AbstractDAO {
       order = ALPHABETICAL_ORDER;
 
     try {
-      Session s = currentSession ( );
+      Session s = currentSession();
       listCodeTable =
-        s.find (
+        s.find(
           "from "
-            + c.getName ( )
+            + c.getName()
             + " as ct "
             + " where ct.obsoleteIndicator = 0"
             + " and ct.code <> '31' "
@@ -256,7 +256,7 @@ public class DAOCodeTable extends AbstractDAO {
             + order);
 
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
 
     return listCodeTable;
@@ -265,41 +265,41 @@ public class DAOCodeTable extends AbstractDAO {
   public List getList(Class c, Locale locale) throws DataAccessException {
     List listCodeTable = null;
     try {
-      Session s = currentSession ( );
+      Session s = currentSession();
       listCodeTable =
-        s.find (
+        s.find(
           "from "
-            + c.getName ( )
+            + c.getName()
             + " as ct "
             + " where ct.language = ?"
             + " and ct.obsoleteIndicator = '0'"
             // TODO pass Context and Session to this method (when needed)
             // TODO The return type of this method is a future, not a boolean
-            + Defaults.getBoolean ("labels.alphabetical.order", false),
-          new Object[]{locale.getISO3Language ( )},
+            + Defaults.getBoolean("labels.alphabetical.order", false),
+          new Object[]{locale.getISO3Language()},
           new Type[]{Hibernate.STRING});
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
-    logger.debug ("Got codetable for " + c.getName ( ));
+    logger.debug("Got codetable for " + c.getName());
     return listCodeTable;
   }
 
   public List getListOrderAlphab(Class c, Locale locale) throws DataAccessException {
     List listCodeTable = null;
     try {
-      Session s = currentSession ( );
+      Session s = currentSession();
       listCodeTable =
-        s.find (
+        s.find(
           "from "
-            + c.getName ( )
+            + c.getName()
             + " as ct "
             + ALPHABETICAL_ORDER);
 
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
-    logger.debug ("Got codetable for " + c.getName ( ));
+    logger.debug("Got codetable for " + c.getName());
     return listCodeTable;
   }
 
@@ -310,35 +310,35 @@ public class DAOCodeTable extends AbstractDAO {
    * @since 1.0
    */
   public List getOptionList(Class c, Locale locale) throws DataAccessException {
-    return asOptionList (getList (c, locale), locale);
+    return asOptionList(getList(c, locale), locale);
   }
 
   public List getOptionListOrderAlphab(Class c, Locale locale) throws DataAccessException {
-    return asOptionList (getListOrderAlphab (c, locale), locale);
+    return asOptionList(getListOrderAlphab(c, locale), locale);
   }
 
   public T_SINGLE_CHAR load(Session session, Class c, char code, Locale locale) throws DataAccessException {
     T_SINGLE_CHAR key;
     try {
-      key = (T_SINGLE_CHAR) c.newInstance ( );
-      key.setCode (code);
-      key.setLanguage (locale.getISO3Language ( ));
+      key = (T_SINGLE_CHAR) c.newInstance();
+      key.setCode(code);
+      key.setLanguage(locale.getISO3Language());
     } catch (Exception e) {
-      throw new RuntimeException ("unable to create code table object");
+      throw new RuntimeException("unable to create code table object");
     }
-    return (T_SINGLE_CHAR) loadCodeTableEntry (session, c, key);
+    return (T_SINGLE_CHAR) loadCodeTableEntry(session, c, key);
   }
 
   public T_SINGLE load(Session session, Class c, int code, Locale locale) throws DataAccessException {
     T_SINGLE key;
     try {
-      key = (T_SINGLE) c.newInstance ( );
-      key.setCode (code);
-      key.setLanguage (locale.getISO3Language ( ));
+      key = (T_SINGLE) c.newInstance();
+      key.setCode(code);
+      key.setLanguage(locale.getISO3Language());
     } catch (Exception e) {
-      throw new RuntimeException ("unable to create code table object");
+      throw new RuntimeException("unable to create code table object");
     }
-    return (T_SINGLE) loadCodeTableEntry (session, c, key);
+    return (T_SINGLE) loadCodeTableEntry(session, c, key);
   }
 
   /**
@@ -350,7 +350,7 @@ public class DAOCodeTable extends AbstractDAO {
    */
 
   public CodeTable loadCodeTableEntry(Session session, Class c, Serializable ser) throws DataAccessException {
-    return (CodeTable) get (session, c, ser);
+    return (CodeTable) get(session, c, ser);
   }
 
   /**
@@ -362,9 +362,9 @@ public class DAOCodeTable extends AbstractDAO {
    * @throws DataAccessException
    */
   public String getLongText(final Session session, final char code, final Class c, final Locale locale) throws DataAccessException {
-    return ofNullable (load (session, c, code, locale))
-      .map (CodeTable::getLongText)
-      .orElse (Global.EMPTY_STRING);
+    return ofNullable(load(session, c, code, locale))
+      .map(CodeTable::getLongText)
+      .orElse(Global.EMPTY_STRING);
   }
 
   /**
@@ -376,9 +376,9 @@ public class DAOCodeTable extends AbstractDAO {
    * @throws DataAccessException
    */
   public String getLongText(final Session session, final int code, final Class c, final Locale locale) throws DataAccessException {
-    return ofNullable (load (session, c, code, locale))
-      .map (CodeTable::getLongText)
-      .orElse (Global.EMPTY_STRING);
+    return ofNullable(load(session, c, code, locale))
+      .map(CodeTable::getLongText)
+      .orElse(Global.EMPTY_STRING);
   }
 
   /**
@@ -390,24 +390,24 @@ public class DAOCodeTable extends AbstractDAO {
    * @throws DataAccessException
    */
   public String getLongText(final Session session, final String code, final Class c, final Locale locale) throws DataAccessException {
-    return ofNullable (load (session, c, code, locale))
-      .map (CodeTable::getLongText)
-      .orElse (Global.EMPTY_STRING);
+    return ofNullable(load(session, c, code, locale))
+      .map(CodeTable::getLongText)
+      .orElse(Global.EMPTY_STRING);
   }
 
   public String getTranslationString(long translationKey, Locale locale) throws DataAccessException {
     List l =
-      find (
+      find(
         "select t.text "
           + " from T_TRLTN as t, T_LANG as l "
           + " where t.stringNumber = ? and t.languageNumber = l.sequence / 10 "
           + " and l.code = ? ",
         new Object[]{
           translationKey,
-          locale.getISO3Language ( )},
+          locale.getISO3Language()},
         new Type[]{Hibernate.LONG, Hibernate.STRING});
-    if (l.size ( ) > 0) {
-      return (String) l.get (0);
+    if (l.size() > 0) {
+      return (String) l.get(0);
     } else {
       return null;
     }
@@ -422,23 +422,23 @@ public class DAOCodeTable extends AbstractDAO {
     String result = "und";
     List scriptingLanguage = null;
     int valueCode = 0;
-    scriptingLanguage = session.find ("from T_LANG_OF_IDXG as t where t.code = '" + code + "'");
-    Iterator iter = scriptingLanguage.iterator ( );
-    while (iter.hasNext ( )) {
-      T_LANG_OF_IDXG rawElmt = (T_LANG_OF_IDXG) iter.next ( );
-      valueCode = rawElmt.getSequence ( );
+    scriptingLanguage = session.find("from T_LANG_OF_IDXG as t where t.code = '" + code + "'");
+    Iterator iter = scriptingLanguage.iterator();
+    while (iter.hasNext()) {
+      T_LANG_OF_IDXG rawElmt = (T_LANG_OF_IDXG) iter.next();
+      valueCode = rawElmt.getSequence();
     }
-    scriptingLanguage = session.find ("from T_LANG_OF_IDXG_LANG as t where t.languageIndexing = " + valueCode);
-    iter = scriptingLanguage.iterator ( );
-    while (iter.hasNext ( )) {
-      T_LANG_OF_IDXG_LANG rawElmt = (T_LANG_OF_IDXG_LANG) iter.next ( );
-      valueCode = rawElmt.getLanguage ( );
+    scriptingLanguage = session.find("from T_LANG_OF_IDXG_LANG as t where t.languageIndexing = " + valueCode);
+    iter = scriptingLanguage.iterator();
+    while (iter.hasNext()) {
+      T_LANG_OF_IDXG_LANG rawElmt = (T_LANG_OF_IDXG_LANG) iter.next();
+      valueCode = rawElmt.getLanguage();
     }
-    scriptingLanguage = session.find ("from T_LANG as t where t.sequence = " + valueCode);
-    iter = scriptingLanguage.iterator ( );
-    while (iter.hasNext ( )) {
-      T_LANG rawElmt = (T_LANG) iter.next ( );
-      result = rawElmt.getCode ( );
+    scriptingLanguage = session.find("from T_LANG as t where t.sequence = " + valueCode);
+    iter = scriptingLanguage.iterator();
+    while (iter.hasNext()) {
+      T_LANG rawElmt = (T_LANG) iter.next();
+      result = rawElmt.getCode();
     }
     return result;
   }
@@ -458,33 +458,33 @@ public class DAOCodeTable extends AbstractDAO {
     int valueCode = 0;
     Iterator iter;
     if (aDescriptor instanceof SBJCT_HDG) {
-      scriptingLanguage = session.find ("from T_LANG_OF_ACS_PNT_SBJCT as t where t.code = '" + code + "'");
-      iter = scriptingLanguage.iterator ( );
-      while (iter.hasNext ( )) {
-        T_LANG_OF_ACS_PNT_SBJCT rawElmt = (T_LANG_OF_ACS_PNT_SBJCT) iter.next ( );
-        valueCode = rawElmt.getSequence ( );
+      scriptingLanguage = session.find("from T_LANG_OF_ACS_PNT_SBJCT as t where t.code = '" + code + "'");
+      iter = scriptingLanguage.iterator();
+      while (iter.hasNext()) {
+        T_LANG_OF_ACS_PNT_SBJCT rawElmt = (T_LANG_OF_ACS_PNT_SBJCT) iter.next();
+        valueCode = rawElmt.getSequence();
       }
 
     } else {
-      scriptingLanguage = session.find ("from T_LANG_OF_ACS_PNT as t where t.code = '" + code + "'");
-      iter = scriptingLanguage.iterator ( );
-      while (iter.hasNext ( )) {
-        T_LANG_OF_ACS_PNT rawElmt = (T_LANG_OF_ACS_PNT) iter.next ( );
-        valueCode = rawElmt.getSequence ( );
+      scriptingLanguage = session.find("from T_LANG_OF_ACS_PNT as t where t.code = '" + code + "'");
+      iter = scriptingLanguage.iterator();
+      while (iter.hasNext()) {
+        T_LANG_OF_ACS_PNT rawElmt = (T_LANG_OF_ACS_PNT) iter.next();
+        valueCode = rawElmt.getSequence();
       }
     }
 
-    scriptingLanguage = session.find ("from T_LANG_OF_IDXG_LANG as t where t.languageIndexing = " + valueCode);
-    iter = scriptingLanguage.iterator ( );
-    while (iter.hasNext ( )) {
-      T_LANG_OF_IDXG_LANG rawElmt = (T_LANG_OF_IDXG_LANG) iter.next ( );
-      valueCode = rawElmt.getLanguage ( );
+    scriptingLanguage = session.find("from T_LANG_OF_IDXG_LANG as t where t.languageIndexing = " + valueCode);
+    iter = scriptingLanguage.iterator();
+    while (iter.hasNext()) {
+      T_LANG_OF_IDXG_LANG rawElmt = (T_LANG_OF_IDXG_LANG) iter.next();
+      valueCode = rawElmt.getLanguage();
     }
-    scriptingLanguage = session.find ("from T_LANG as t where t.sequence = " + valueCode);
-    iter = scriptingLanguage.iterator ( );
-    while (iter.hasNext ( )) {
-      T_LANG rawElmt = (T_LANG) iter.next ( );
-      result = rawElmt.getCode ( );
+    scriptingLanguage = session.find("from T_LANG as t where t.sequence = " + valueCode);
+    iter = scriptingLanguage.iterator();
+    while (iter.hasNext()) {
+      T_LANG rawElmt = (T_LANG) iter.next();
+      result = rawElmt.getCode();
     }
     return result;
   }
@@ -495,24 +495,24 @@ public class DAOCodeTable extends AbstractDAO {
     if (alphabeticOrder)
       order = ALPHABETICAL_ORDER;
     try {
-      Session s = currentSession ( );
+      Session s = currentSession();
       listCodeTable =
-        s.find (
+        s.find(
           "from "
-            + c.getName ( )
+            + c.getName()
             + " as ct "
             + " where ct.obsoleteIndicator = 0"
-            + " and ct.code = " + getCorrectValue (c, code) + " "
+            + " and ct.code = " + getCorrectValue(c, code) + " "
             + order);
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
-    logger.debug ("Got codetable for " + c.getName ( ));
+    logger.debug("Got codetable for " + c.getName());
     return listCodeTable;
   }
 
   private String getCorrectValue(Class type, Object code) throws InstantiationException, IllegalAccessException {
-    Object obj = type.newInstance ( );
+    Object obj = type.newInstance();
     if (obj instanceof T_SINGLE_CHAR || obj instanceof T_SINGLE_LONGCHAR) {
       return "'" + code + "'";
     } else return "" + code;
@@ -527,23 +527,23 @@ public class DAOCodeTable extends AbstractDAO {
    * @throws DataAccessException
    */
   public void save(final List/*<CodeTable>*/ items) throws DataAccessException {
-    new TransactionalHibernateOperation ( ) {
+    new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
         throws HibernateException, DataAccessException {
-        if (items == null || items.isEmpty ( )) {
+        if (items == null || items.isEmpty()) {
           return;
         }
-        int sequence = suggestNewSequence ((CodeTable) items.get (0));
-        Iterator it = items.iterator ( );
-        while (it.hasNext ( )) {
-          CodeTable nextCodeTable = (CodeTable) it.next ( );
-          if (nextCodeTable.isNew ( )) {
-            nextCodeTable.setSequence (sequence);
+        int sequence = suggestNewSequence((CodeTable) items.get(0));
+        Iterator it = items.iterator();
+        while (it.hasNext()) {
+          CodeTable nextCodeTable = (CodeTable) it.next();
+          if (nextCodeTable.isNew()) {
+            nextCodeTable.setSequence(sequence);
           }
-          persistByStatus (nextCodeTable);
+          persistByStatus(nextCodeTable);
         }
       }
-    }.execute ( );
+    }.execute();
   }
 
   /**
@@ -555,19 +555,19 @@ public class DAOCodeTable extends AbstractDAO {
    */
   public synchronized int suggestSequence(CodeTable codeTable) throws DataAccessException {
     try {
-      Session s = currentSession ( );
-      Query q = s.createQuery ("select ct.sequence from "
-        + codeTable.getClass ( ).getName ( )
+      Session s = currentSession();
+      Query q = s.createQuery("select ct.sequence from "
+        + codeTable.getClass().getName()
         + " as ct order by ct.sequence desc");
-      q.setMaxResults (1);
-      List results = q.list ( );
+      q.setMaxResults(1);
+      List results = q.list();
       int newSequence = STEP; // default for empty table
-      if (results.size ( ) > 0) {
-        newSequence = ((Integer) results.get (0)).intValue ( ) + STEP;
+      if (results.size() > 0) {
+        newSequence = ((Integer) results.get(0)).intValue() + STEP;
       }
       return newSequence;
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     /* pratically unreachable because logAndWrap throws an exception everytime */
     return STEP;
@@ -575,19 +575,19 @@ public class DAOCodeTable extends AbstractDAO {
 
   public synchronized int suggestNewSequence(CodeTable codeTable) throws DataAccessException {
     try {
-      Session s = currentSession ( );
-      Query q = s.createQuery ("select distinct ct.sequence from "
-        + codeTable.getClass ( ).getName ( )
+      Session s = currentSession();
+      Query q = s.createQuery("select distinct ct.sequence from "
+        + codeTable.getClass().getName()
         + " as ct order by ct.sequence desc");
-      q.setMaxResults (1);
-      List results = q.list ( );
+      q.setMaxResults(1);
+      List results = q.list();
       int newSequence = STEP; // default for empty table
-      if (results.size ( ) > 0) {
-        newSequence = ((Integer) results.get (0)).intValue ( ) + STEP;
+      if (results.size() > 0) {
+        newSequence = ((Integer) results.get(0)).intValue() + STEP;
       }
       return newSequence;
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     /* pratically unreachable because logAndWrap throws an exception everytime */
     return STEP;
@@ -596,19 +596,19 @@ public class DAOCodeTable extends AbstractDAO {
   public synchronized int suggestNewCode(CodeTable codeTable) throws DataAccessException {
     int newCode = 0;
     try {
-      Session s = currentSession ( );
-      Query q = s.createQuery ("select ct.code from "
-        + codeTable.getClass ( ).getName ( )
+      Session s = currentSession();
+      Query q = s.createQuery("select ct.code from "
+        + codeTable.getClass().getName()
         + " as ct order by ct.code desc");
-      q.setMaxResults (1);
-      List results = q.list ( );
+      q.setMaxResults(1);
+      List results = q.list();
       // default for empty table
-      if (results.size ( ) > 0) {
-        newCode = ((Short) results.get (0)).intValue ( ) + 1;
+      if (results.size() > 0) {
+        newCode = ((Short) results.get(0)).intValue() + 1;
       }
 
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     /* pratically unreachable because logAndWrap throws an exception everytime */
     return newCode;
@@ -621,76 +621,76 @@ public class DAOCodeTable extends AbstractDAO {
       order = ALPHABETICAL_ORDER;
 
     try {
-      Session s = currentSession ( );
+      Session s = currentSession();
       listCodeTable =
-        s.find (
+        s.find(
           "from "
-            + c.getName ( )
+            + c.getName()
             + " as ct "
             + " where ct.language = ?"
             /*Carmen modifica 01/02/2008 non devo visualizzare nella lista gli obsoleti*/
             + " and ct.obsoleteIndicator = 0"
             + order,
-          new Object[]{locale.getISO3Language ( )},
+          new Object[]{locale.getISO3Language()},
           new Type[]{Hibernate.STRING});
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
-    logger.debug ("Got codetable for " + c.getName ( ));
+    logger.debug("Got codetable for " + c.getName());
     return listCodeTable;
   }
 
   public boolean findHeading(String code) throws DataAccessException {
     try {
-      Session s = currentSession ( );
-      List l = s.createCriteria (CLSTN.class)
-        .add (Expression.like ("stringText", "%" + code + "%"))
-        .add (Expression.eq ("typeCode", new Short ((short) 29)))
-        .list ( );
+      Session s = currentSession();
+      List l = s.createCriteria(CLSTN.class)
+        .add(Expression.like("stringText", "%" + code + "%"))
+        .add(Expression.eq("typeCode", new Short((short) 29)))
+        .list();
 
-      return l.size ( ) >= 1;
+      return l.size() >= 1;
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
       return false;
     }
   }
 
   public void deleteCode(Class c, String code) throws DataAccessException {
-    Session s = currentSession ( );
+    Session s = currentSession();
     Transaction tx = null;
     try {
-      tx = s.beginTransaction ( );
-      s.delete ("from " + c.getName ( ) + " as ct " + " where ct.code = ?",
+      tx = s.beginTransaction();
+      s.delete("from " + c.getName() + " as ct " + " where ct.code = ?",
         new Object[]{code}, new Type[]{Hibernate.STRING});
-      tx.commit ( );
+      tx.commit();
 
     } catch (HibernateException e) {
       if (tx != null) {
         try {
-          tx.rollback ( );
+          tx.rollback();
         } catch (HibernateException e1) {
-          logAndWrap (e);
+          logAndWrap(e);
         }
       }
     }
   }
 
   public void deleteNoteSubCode(String code) throws DataAccessException {
-    Session s = currentSession ( );
+    Session s = currentSession();
     Transaction tx = null;
     try {
-      tx = s.beginTransaction ( );
-      s.delete (
+      tx = s.beginTransaction();
+      s.delete(
         "from T_CAS_STND_NTE_SUB_TYP as ct where ct.sequence = ?",
         new Object[]{code}, new Type[]{Hibernate.STRING});
-      tx.commit ( );
+      tx.commit();
 
     } catch (HibernateException e) {
       if (tx != null) {
         try {
-          tx.rollback ( );
+          tx.rollback();
         } catch (HibernateException e1) {
-          logAndWrap (e);
+          logAndWrap(e);
         }
       }
     }
@@ -699,16 +699,16 @@ public class DAOCodeTable extends AbstractDAO {
   public int getCodeNote(int code) throws DataAccessException {
     int newCode = 0;
     try {
-      Session s = currentSession ( );
-      Query q = s.createQuery ("select distinct ct.code from T_CAS_STND_NTE_SUB_TYP as ct where ct.sequence =" + code);
-      q.setMaxResults (1);
-      List results = q.list ( );
-      if (results.size ( ) > 0) {
-        newCode = ((Integer) results.get (0)).intValue ( );
+      Session s = currentSession();
+      Query q = s.createQuery("select distinct ct.code from T_CAS_STND_NTE_SUB_TYP as ct where ct.sequence =" + code);
+      q.setMaxResults(1);
+      List results = q.list();
+      if (results.size() > 0) {
+        newCode = ((Integer) results.get(0)).intValue();
       }
 
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     return newCode;
   }
@@ -716,17 +716,17 @@ public class DAOCodeTable extends AbstractDAO {
   public String getCodeCache(String code) throws DataAccessException {
     String newCode = "";
     try {
-      Session s = currentSession ( );
-      Query q = s.createQuery ("select distinct ct.levelCard from CasCache as ct where ct.levelCard = :code");
-      q.setString ("code", code);
-      q.setMaxResults (1);
-      List results = q.list ( );
-      if (results.size ( ) > 0) {
-        newCode = (String) results.get (0);
+      Session s = currentSession();
+      Query q = s.createQuery("select distinct ct.levelCard from CasCache as ct where ct.levelCard = :code");
+      q.setString("code", code);
+      q.setMaxResults(1);
+      List results = q.list();
+      if (results.size() > 0) {
+        newCode = (String) results.get(0);
       }
 
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     return newCode;
   }
@@ -734,13 +734,13 @@ public class DAOCodeTable extends AbstractDAO {
   public List getCodeNoteList(int code) throws DataAccessException {
     List result = null;
     try {
-      Session s = currentSession ( );
-      Query q = s.createQuery ("select distinct ct from T_CAS_STND_NTE_SUB_TYP as ct where ct.sequence =" + code);
-      q.setMaxResults (1);
-      result = q.list ( );
+      Session s = currentSession();
+      Query q = s.createQuery("select distinct ct from T_CAS_STND_NTE_SUB_TYP as ct where ct.sequence =" + code);
+      q.setMaxResults(1);
+      result = q.list();
 
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     return result;
   }
@@ -748,13 +748,13 @@ public class DAOCodeTable extends AbstractDAO {
   public List getMasterClient(int code) throws DataAccessException {
     List result = null;
     try {
-      Session s = currentSession ( );
-      Query q = s.createQuery ("select distinct ct from CLCTN_MST_CSTMR as ct where ct.collectionCode =" + code);
-      q.setMaxResults (1);
-      result = q.list ( );
+      Session s = currentSession();
+      Query q = s.createQuery("select distinct ct from CLCTN_MST_CSTMR as ct where ct.collectionCode =" + code);
+      q.setMaxResults(1);
+      result = q.list();
 
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     return result;
   }
@@ -766,7 +766,7 @@ public class DAOCodeTable extends AbstractDAO {
    */
 
   public List <Diacritics> getDiacritics(final Session session) throws HibernateException {
-    return session.find ("select distinct from Diacritics as a order by 1");
+    return session.find("select distinct from Diacritics as a order by 1");
   }
 
   @Deprecated
@@ -781,29 +781,29 @@ public class DAOCodeTable extends AbstractDAO {
    * @throws DataAccessException
    */
   public List getDiacriticsDistinctCharacter() throws DataAccessException {
-    Session s = currentSession ( );
+    Session s = currentSession();
     Statement st = null;
     ResultSet rs = null;
-    List <String> characterList = new ArrayList <String> ( );
+    List <String> characterList = new ArrayList <String>();
     try {
-      Connection con = s.connection ( );
+      Connection con = s.connection();
       String sql = "Select distinct carattere from Diacritici as a order by carattere";
-      st = con.createStatement ( );
-      rs = st.executeQuery (sql);
-      while (rs.next ( )) {
-        characterList.add ((rs.getString ("CARATTERE")));
+      st = con.createStatement();
+      rs = st.executeQuery(sql);
+      while (rs.next()) {
+        characterList.add((rs.getString("CARATTERE")));
       }
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     } catch (SQLException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     } finally {
       try {
-        rs.close ( );
+        rs.close();
       } catch (Exception e) {
       }
       try {
-        st.close ( );
+        st.close();
       } catch (Exception e) {
       }
     }
@@ -812,15 +812,15 @@ public class DAOCodeTable extends AbstractDAO {
 
   public List getNoteTranslation(String code2, String language) throws DataAccessException {
     List result = null;
-    int code = new Integer (code2).intValue ( );
+    int code = new Integer(code2).intValue();
     try {
-      Session s = currentSession ( );
-      Query q = s.createQuery ("select distinct ct from T_TRSLTN_NTE_TYP as ct where ct.code = " + code + " and ct.language=" + "'" + language + "'");
-      q.setMaxResults (1);
-      result = q.list ( );
+      Session s = currentSession();
+      Query q = s.createQuery("select distinct ct from T_TRSLTN_NTE_TYP as ct where ct.code = " + code + " and ct.language=" + "'" + language + "'");
+      q.setMaxResults(1);
+      result = q.list();
 
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     return result;
   }
@@ -829,28 +829,28 @@ public class DAOCodeTable extends AbstractDAO {
     List result = null;
 
     try {
-      Session s = currentSession ( );
-      Query q = s.createQuery ("select distinct ct from T_TRSLTN_NTE_TYP as ct where ct.language=" + "'" + language + "'");
-      q.setMaxResults (1);
-      result = q.list ( );
+      Session s = currentSession();
+      Query q = s.createQuery("select distinct ct from T_TRSLTN_NTE_TYP as ct where ct.language=" + "'" + language + "'");
+      q.setMaxResults(1);
+      result = q.list();
 
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     return result;
   }
 
   public List getDefaultNoteTranslation(String code2, String language) throws DataAccessException {
     List result = null;
-    int code = new Integer (code2).intValue ( );
+    int code = new Integer(code2).intValue();
     try {
-      Session s = currentSession ( );
-      Query q = s.createQuery ("select distinct ct from T_DFLT_TRSLTN_NTE as ct where ct.code = " + code + " and ct.language=" + "'" + language + "'");
-      q.setMaxResults (1);
-      result = q.list ( );
+      Session s = currentSession();
+      Query q = s.createQuery("select distinct ct from T_DFLT_TRSLTN_NTE as ct where ct.code = " + code + " and ct.language=" + "'" + language + "'");
+      q.setMaxResults(1);
+      result = q.list();
 
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     return result;
   }
@@ -859,13 +859,13 @@ public class DAOCodeTable extends AbstractDAO {
     List result = null;
 
     try {
-      Session s = currentSession ( );
-      Query q = s.createQuery ("select distinct ct from T_DFLT_TRSLTN_NTE as ct where  ct.language=" + "'" + language + "'");
-      q.setMaxResults (1);
-      result = q.list ( );
+      Session s = currentSession();
+      Query q = s.createQuery("select distinct ct from T_DFLT_TRSLTN_NTE as ct where  ct.language=" + "'" + language + "'");
+      q.setMaxResults(1);
+      result = q.list();
 
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     return result;
   }
@@ -873,13 +873,13 @@ public class DAOCodeTable extends AbstractDAO {
   public T_SINGLE_LONGCHAR load(final Session session, final Class c, final String code, final Locale locale) throws DataAccessException {
     T_SINGLE_LONGCHAR key;
     try {
-      key = (T_SINGLE_LONGCHAR) c.newInstance ( );
-      key.setCode (code);
-      key.setLanguage (locale.getISO3Language ( ));
+      key = (T_SINGLE_LONGCHAR) c.newInstance();
+      key.setCode(code);
+      key.setLanguage(locale.getISO3Language());
     } catch (Exception e) {
-      throw new RuntimeException ("unable to create code table object");
+      throw new RuntimeException("unable to create code table object");
     }
-    return (T_SINGLE_LONGCHAR) loadCodeTableEntry (session, c, key);
+    return (T_SINGLE_LONGCHAR) loadCodeTableEntry(session, c, key);
   }
 
   /**
@@ -887,16 +887,16 @@ public class DAOCodeTable extends AbstractDAO {
    * with digital repository
    */
   public String getShortText(final Session session, final String code, final Class c, final Locale locale) throws DataAccessException {
-    String result = new String ("");
-    CodeTable ct = load (session, c, code, locale);
-    result = ct.getShortText ( );
+    String result = new String("");
+    CodeTable ct = load(session, c, code, locale);
+    result = ct.getShortText();
     return result;
   }
 
   public String getShortText(final Session session, final short code, final Class c, final Locale locale) throws DataAccessException {
-    String result = new String ("");
-    CodeTable ct = load (session, c, code, locale);
-    result = ct.getShortText ( );
+    String result = new String("");
+    CodeTable ct = load(session, c, code, locale);
+    result = ct.getShortText();
     return result;
   }
 
@@ -904,59 +904,59 @@ public class DAOCodeTable extends AbstractDAO {
     final Integer headingNumber,
     final Integer amicusNumber,
     final Integer mainLibrary) throws DataAccessException {
-    final Session s = currentSession ( );
+    final Session s = currentSession();
     try {
-      final Connection con = s.connection ( );
+      final Connection con = s.connection();
       final String sql = "select * from s_cache_bib_itm_dsply where bib_itm_nbr=" +
         "(select bib_itm_nbr from shlf_list_acs_pnt where bib_itm_nbr=" +
         amicusNumber + " and shlf_list_key_nbr=" +
         headingNumber + " and org_nbr=" + mainLibrary + ")";
-      try (final Statement st = con.createStatement ( );
-           final ResultSet rs = st.executeQuery (sql)) {
-        final StringBuffer sb = new StringBuffer ( );
-        while (rs.next ( )) {
-          sb.append (rs.getString ("TTL_HDG_MAIN_STRNG_TXT")).append (" ")
+      try (final Statement st = con.createStatement();
+           final ResultSet rs = st.executeQuery(sql)) {
+        final StringBuffer sb = new StringBuffer();
+        while (rs.next()) {
+          sb.append(rs.getString("TTL_HDG_MAIN_STRNG_TXT")).append(" ")
             //append(rs.getString("NME_MAIN_ENTRY_STRNG_TXT")).append("\n")
-            .append (rs.getString ("BIB_NTE_EDTN_STRNG_TXT")).append (" ")
-            .append (rs.getString ("BIB_NTE_IPRNT_STRNG_TXT")).append (" ")
-            .append (rs.getString ("BIB_NTE_EXTNT_STRNG_TXT")).append ("\n");
-          final String serie = rs.getString ("TTL_HDG_SRS_STRNG_TXT");
-          if (isNotNullOrEmpty (serie)) {
-            sb.append ("(").append (serie).append (")").append (" ");
+            .append(rs.getString("BIB_NTE_EDTN_STRNG_TXT")).append(" ")
+            .append(rs.getString("BIB_NTE_IPRNT_STRNG_TXT")).append(" ")
+            .append(rs.getString("BIB_NTE_EXTNT_STRNG_TXT")).append("\n");
+          final String serie = rs.getString("TTL_HDG_SRS_STRNG_TXT");
+          if (isNotNullOrEmpty(serie)) {
+            sb.append("(").append(serie).append(")").append(" ");
           }
         }
-        return sb.toString ( );
+        return sb.toString();
       }
     } catch (final Exception exception) {
-      logger.error (MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
       return "CHANGEME!";
     }
   }
 
   public int countStandardNote(String code) throws DataAccessException {
-    Session s = currentSession ( );
+    Session s = currentSession();
     Statement st = null;
     ResultSet rs = null;
     try {
-      Connection con = s.connection ( );
+      Connection con = s.connection();
       String sql = "select count(*) from STD_NTE_ACS_PNT where STD_NTE_TYP_CDE=" + code;
-      st = con.createStatement ( );
-      rs = st.executeQuery (sql);
+      st = con.createStatement();
+      rs = st.executeQuery(sql);
 
-      while (rs.next ( ))
-        return rs.getInt (1);
+      while (rs.next())
+        return rs.getInt(1);
 
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     } catch (SQLException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     } finally {
       try {
-        rs.close ( );
+        rs.close();
       } catch (Exception e) {
       }
       try {
-        st.close ( );
+        st.close();
       } catch (Exception e) {
       }
     }
@@ -964,7 +964,7 @@ public class DAOCodeTable extends AbstractDAO {
   }
 
   public List getOptionList(Class c, Locale locale, boolean alphabetic) throws DataAccessException {
-    return asOptionList (getList (c, locale, alphabetic), locale);
+    return asOptionList(getList(c, locale, alphabetic), locale);
   }
 
   /**
@@ -977,30 +977,30 @@ public class DAOCodeTable extends AbstractDAO {
   public List <Avp> getRdaCarrierList(Locale locale) throws DataAccessException {
     PreparedStatement statement = null;
     ResultSet rs = null;
-    List <Avp> list = new ArrayList <Avp> ( );
+    List <Avp> list = new ArrayList <Avp>();
     Avp element = null;
 
     try {
-      statement = currentSession ( ).connection ( ).prepareStatement (SELECT_RDA_CARRIER_LIST);
-      statement.setString (1, locale.getISO3Language ( ));
-      rs = statement.executeQuery ( );
-      while (rs.next ( )) {
-        element = new Avp (rs.getString ("TBL_VLU_CDE"), rs.getString ("STRING_TEXT"));
-        list.add (element);
+      statement = currentSession().connection().prepareStatement(SELECT_RDA_CARRIER_LIST);
+      statement.setString(1, locale.getISO3Language());
+      rs = statement.executeQuery();
+      while (rs.next()) {
+        element = new Avp(rs.getString("TBL_VLU_CDE"), rs.getString("STRING_TEXT"));
+        list.add(element);
       }
 
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     } catch (SQLException e) {
-      logAndWrap (e);
+      logAndWrap(e);
 
     } finally {
       try {
-        rs.close ( );
+        rs.close();
       } catch (Exception ex) {
       }
       try {
-        statement.close ( );
+        statement.close();
       } catch (Exception ex) {
       }
     }
@@ -1018,17 +1018,17 @@ public class DAOCodeTable extends AbstractDAO {
   public void updateCodeTable(final Object c, final Session session) {
     Transaction tx = null;
     try {
-      tx = session.beginTransaction ( );
-      session.update (c);
-      tx.commit ( );
+      tx = session.beginTransaction();
+      session.update(c);
+      tx.commit();
 
     } catch (HibernateException e) {
       if (tx != null) {
         try {
-          tx.rollback ( );
+          tx.rollback();
         } catch (final HibernateException exception) {
-          logger.error (MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-          logger.error (exception.getMessage ( ), exception);
+          logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+          logger.error(exception.getMessage(), exception);
           return;
         }
       }
@@ -1046,9 +1046,9 @@ public class DAOCodeTable extends AbstractDAO {
    */
   public LDG_STATS getStats(final Session session, final int loadingStatisticsNumber) throws DataAccessException {
     try {
-      return (LDG_STATS) session.load (LDG_STATS.class, loadingStatisticsNumber);
+      return (LDG_STATS) session.load(LDG_STATS.class, loadingStatisticsNumber);
     } catch (HibernateException e) {
-      throw new DataAccessException (e);
+      throw new DataAccessException(e);
     }
   }
 
@@ -1056,14 +1056,14 @@ public class DAOCodeTable extends AbstractDAO {
   public List <LOADING_MARC_RECORDS> getResults(final Session session, final int loadingStatisticsNumber) throws DataAccessException {
 
     try {
-      return session.find (
+      return session.find(
         "from LOADING_MARC_RECORDS as r "
           + " where r.loadingStatisticsNumber = ? "
           + " order by r.sequence ",
         new Object[]{loadingStatisticsNumber},
         new Type[]{Hibernate.INTEGER});
     } catch (HibernateException e) {
-      throw new DataAccessException (e);
+      throw new DataAccessException(e);
     }
 
   }

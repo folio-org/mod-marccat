@@ -28,9 +28,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class DateTypeAPI extends BaseResource {
 
   private Function <Avp <String>, DateType> toDateType = source -> {
-    final DateType dateType = new DateType ( );
-    dateType.setCode (source.getValue ( ));
-    dateType.setDescription (source.getLabel ( ));
+    final DateType dateType = new DateType();
+    dateType.setCode(source.getValue());
+    dateType.setDescription(source.getLabel());
     return dateType;
   };
 
@@ -45,13 +45,13 @@ public class DateTypeAPI extends BaseResource {
   public DateTypeCollection getDateTypes(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final DateTypeCollection container = new DateTypeCollection ( );
-      container.setDateTypes (
-        storageService.getDateTypes (lang)
-          .stream ( )
-          .map (toDateType)
-          .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      final DateTypeCollection container = new DateTypeCollection();
+      container.setDateTypes(
+        storageService.getDateTypes(lang)
+          .stream()
+          .map(toDateType)
+          .collect(toList()));
       return container;
     }, tenant, configurator);
   }

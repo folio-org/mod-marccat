@@ -42,411 +42,411 @@ public class FixedFieldCodesGroup {
 
   @JsonProperty("itemRecordStatusCode")
   @Valid
-  private List <Pair> recordStatusTypes = new ArrayList <Pair> ( );
+  private List <Pair> recordStatusTypes = new ArrayList <Pair>();
 
   @JsonProperty("itemRecordTypeCode")
   @Valid
-  private List <Pair> recordTypes = new ArrayList <Pair> ( );
+  private List <Pair> recordTypes = new ArrayList <Pair>();
 
   @JsonProperty("itemBibliographicLevelCode")
   @Valid
-  private List <Pair> bibliographicLevels = new ArrayList <Pair> ( );
+  private List <Pair> bibliographicLevels = new ArrayList <Pair>();
 
   @JsonProperty("itemControlTypeCode")
   @Valid
-  private List <Pair> controlTypes = new ArrayList <Pair> ( );
+  private List <Pair> controlTypes = new ArrayList <Pair>();
 
   @JsonProperty("characterEncodingSchemas")
   @Valid
-  private List <Pair> characterEncodingSchemas = new ArrayList <Pair> ( );
+  private List <Pair> characterEncodingSchemas = new ArrayList <Pair>();
 
   @JsonProperty("encodingLevel")
   @Valid
-  private List <Pair> encodingLevels = new ArrayList <Pair> ( );
+  private List <Pair> encodingLevels = new ArrayList <Pair>();
 
   @JsonProperty("descriptiveCatalogForms")
   @Valid
-  private List <Pair> descriptiveCatalogForms = new ArrayList <Pair> ( );
+  private List <Pair> descriptiveCatalogForms = new ArrayList <Pair>();
 
   @JsonProperty("linkedRecordCode")
   @Valid
-  private List <Pair> linkedRecordCodes = new ArrayList <Pair> ( );
+  private List <Pair> linkedRecordCodes = new ArrayList <Pair>();
 
   @JsonProperty("dateTypes")
   @Valid
-  private List <Pair> dateTypes = new ArrayList <Pair> ( );
+  private List <Pair> dateTypes = new ArrayList <Pair>();
 
   @JsonProperty("bookIllustrationCode1")
   @Valid
-  private List <Pair> bookIllustrationCodes1 = new ArrayList <Pair> ( );
+  private List <Pair> bookIllustrationCodes1 = new ArrayList <Pair>();
 
   @JsonProperty("bookIllustrationCode2")
   @Valid
-  private List <Pair> bookIllustrationCodes2 = new ArrayList <Pair> ( );
+  private List <Pair> bookIllustrationCodes2 = new ArrayList <Pair>();
 
   @JsonProperty("bookIllustrationCode3")
   @Valid
-  private List <Pair> bookIllustrationCodes3 = new ArrayList <Pair> ( );
+  private List <Pair> bookIllustrationCodes3 = new ArrayList <Pair>();
 
   @JsonProperty("bookIllustrationCode4")
   @Valid
-  private List <Pair> bookIllustrationCodes4 = new ArrayList <Pair> ( );
+  private List <Pair> bookIllustrationCodes4 = new ArrayList <Pair>();
 
   @JsonProperty("targetAudienceCode")
   @Valid
-  private List <Pair> targetAudienceCodes = new ArrayList <Pair> ( );
+  private List <Pair> targetAudienceCodes = new ArrayList <Pair>();
 
   @JsonProperty("formOfItemCode")
   @Valid
-  private List <Pair> formOfItemCodes = new ArrayList <Pair> ( );
+  private List <Pair> formOfItemCodes = new ArrayList <Pair>();
 
   @JsonProperty("natureOfContent1")
   @Valid
-  private List <Pair> natureOfContents1 = new ArrayList <Pair> ( );
+  private List <Pair> natureOfContents1 = new ArrayList <Pair>();
 
   @JsonProperty("natureOfContent2")
   @Valid
-  private List <Pair> natureOfContents2 = new ArrayList <Pair> ( );
+  private List <Pair> natureOfContents2 = new ArrayList <Pair>();
 
   @JsonProperty("natureOfContent3")
   @Valid
-  private List <Pair> natureOfContents3 = new ArrayList <Pair> ( );
+  private List <Pair> natureOfContents3 = new ArrayList <Pair>();
 
   @JsonProperty("natureOfContent4")
   @Valid
-  private List <Pair> natureOfContents4 = new ArrayList <Pair> ( );
+  private List <Pair> natureOfContents4 = new ArrayList <Pair>();
 
   @JsonProperty("governmentPublicationCode")
   @Valid
-  private List <Pair> governmentPublicationCodes = new ArrayList <Pair> ( );
+  private List <Pair> governmentPublicationCodes = new ArrayList <Pair>();
 
   @JsonProperty("conferencePublicationCode")
   @Valid
-  private List <Pair> conferencePublicationCodes = new ArrayList <Pair> ( );
+  private List <Pair> conferencePublicationCodes = new ArrayList <Pair>();
 
   @JsonProperty("bookFestschrift")
   @Valid
-  private List <Pair> bookFestschrifts = new ArrayList <Pair> ( );
+  private List <Pair> bookFestschrifts = new ArrayList <Pair>();
 
   @JsonProperty("bookIndexAvailabilityCode")
   @Valid
-  private List <Pair> bookIndexAvailabilityCodes = new ArrayList <Pair> ( );
+  private List <Pair> bookIndexAvailabilityCodes = new ArrayList <Pair>();
 
   @JsonProperty("bookLiteraryFormTypeCode")
   @Valid
-  private List <Pair> bookLiteraryFormTypeCodes = new ArrayList <Pair> ( );
+  private List <Pair> bookLiteraryFormTypeCodes = new ArrayList <Pair>();
 
   @JsonProperty("bookBiographyCode")
   @Valid
-  private List <Pair> bookBiographyCodes = new ArrayList <Pair> ( );
+  private List <Pair> bookBiographyCodes = new ArrayList <Pair>();
 
   @JsonProperty("musicFormOfCompositions")
   @Valid
-  private List <Pair> musicFormOfCompositionCodes = new ArrayList <Pair> ( );
+  private List <Pair> musicFormOfCompositionCodes = new ArrayList <Pair>();
 
   @JsonProperty("musicParts")
   @Valid
-  private List <Pair> musicPartCodes = new ArrayList <Pair> ( );
+  private List <Pair> musicPartCodes = new ArrayList <Pair>();
 
   @JsonProperty("musicFormats")
   @Valid
-  private List <Pair> musicFormatCodes = new ArrayList <Pair> ( );
+  private List <Pair> musicFormatCodes = new ArrayList <Pair>();
 
   @JsonProperty("musicTextualMaterialCodes")
   @Valid
-  private List <Pair> musicTextualMaterialCodes = new ArrayList <Pair> ( );
+  private List <Pair> musicTextualMaterialCodes = new ArrayList <Pair>();
 
   @JsonProperty("musicLiteraryTextCodes")
   @Valid
-  private List <Pair> musicLiteraryTextCodes = new ArrayList <Pair> ( );
+  private List <Pair> musicLiteraryTextCodes = new ArrayList <Pair>();
 
   @JsonProperty("musicTranspositionArrangementCode")
   @Valid
-  private List <Pair> musicTranspositionArrangementCodes = new ArrayList <Pair> ( );
+  private List <Pair> musicTranspositionArrangementCodes = new ArrayList <Pair>();
 
   @JsonProperty("serialFrequencyCode")
   @Valid
-  private List <Pair> serialFrequencyCodes = new ArrayList <Pair> ( );
+  private List <Pair> serialFrequencyCodes = new ArrayList <Pair>();
 
   @JsonProperty("serialRegularityCode")
   @Valid
-  private List <Pair> serialRegularityCodes = new ArrayList <Pair> ( );
+  private List <Pair> serialRegularityCodes = new ArrayList <Pair>();
 
   @JsonProperty("serialTypeOfContinuingResourceCodes")
   @Valid
-  private List <Pair> serialTypeOfContinuingResourceCodes = new ArrayList <Pair> ( );
+  private List <Pair> serialTypeOfContinuingResourceCodes = new ArrayList <Pair>();
 
   @JsonProperty("serialFormOriginalCodes")
   @Valid
-  private List <Pair> serialFormOriginalCodes = new ArrayList <Pair> ( );
+  private List <Pair> serialFormOriginalCodes = new ArrayList <Pair>();
 
   @JsonProperty("serialNatureOfWorkCodes")
   @Valid
-  private List <Pair> serialNatureOfWorkCodes = new ArrayList <Pair> ( );
+  private List <Pair> serialNatureOfWorkCodes = new ArrayList <Pair>();
 
   @JsonProperty("serialOriginAlphabetCodes")
   @Valid
-  private List <Pair> serialOriginAlphabetCodes = new ArrayList <Pair> ( );
+  private List <Pair> serialOriginAlphabetCodes = new ArrayList <Pair>();
 
   @JsonProperty("serialEntryConvCodes")
   @Valid
-  private List <Pair> serialEntryConvCodes = new ArrayList <Pair> ( );
+  private List <Pair> serialEntryConvCodes = new ArrayList <Pair>();
 
   @JsonProperty("mapReliefCodes")
   @Valid
-  private List <Pair> mapReliefCodes = new ArrayList <Pair> ( );
+  private List <Pair> mapReliefCodes = new ArrayList <Pair>();
 
   @JsonProperty("mapProjectionCodes")
   @Valid
-  private List <Pair> mapProjectionCodes = new ArrayList <Pair> ( );
+  private List <Pair> mapProjectionCodes = new ArrayList <Pair>();
 
   @JsonProperty("mapTypeCartographicMaterialCodes")
   @Valid
-  private List <Pair> mapTypeCartographicMaterialCodes = new ArrayList <Pair> ( );
+  private List <Pair> mapTypeCartographicMaterialCodes = new ArrayList <Pair>();
 
   @JsonProperty("mapIndexCodes")
   @Valid
-  private List <Pair> mapIndexCodes = new ArrayList <Pair> ( );
+  private List <Pair> mapIndexCodes = new ArrayList <Pair>();
 
   @JsonProperty("mapSpecialFormatCharacteristicCodes")
   @Valid
-  private List <Pair> mapSpecialFormatCharacteristicCodes = new ArrayList <Pair> ( );
+  private List <Pair> mapSpecialFormatCharacteristicCodes = new ArrayList <Pair>();
 
   @JsonProperty("visualTargetAudienceCodes")
   @Valid
-  private List <Pair> visualTargetAudienceCodes = new ArrayList <Pair> ( );
+  private List <Pair> visualTargetAudienceCodes = new ArrayList <Pair>();
 
   @JsonProperty("visualTypeMaterialCodes")
   @Valid
-  private List <Pair> visualTypeMaterialCodes = new ArrayList <Pair> ( );
+  private List <Pair> visualTypeMaterialCodes = new ArrayList <Pair>();
 
   @JsonProperty("visualTechnique")
   @Valid
-  private List <Pair> visualTechnique = new ArrayList <Pair> ( );
+  private List <Pair> visualTechnique = new ArrayList <Pair>();
 
   @JsonProperty("computerTargetAudienceCodes")
   @Valid
-  private List <Pair> computerTargetAudienceCodes = new ArrayList <Pair> ( );
+  private List <Pair> computerTargetAudienceCodes = new ArrayList <Pair>();
 
   @JsonProperty("computerFormOfItemCodes")
   @Valid
-  private List <Pair> computerFormOfItemCodes = new ArrayList <Pair> ( );
+  private List <Pair> computerFormOfItemCodes = new ArrayList <Pair>();
 
   @JsonProperty("computerTypeMaterialCodes")
   @Valid
-  private List <Pair> computerTypeMaterialCodes = new ArrayList <Pair> ( );
+  private List <Pair> computerTypeMaterialCodes = new ArrayList <Pair>();
 
   @JsonProperty("modifiedRecordTypes")
   @Valid
-  private List <Pair> modifiedRecordTypes = new ArrayList <Pair> ( );
+  private List <Pair> modifiedRecordTypes = new ArrayList <Pair>();
 
   @JsonProperty("catalogSources")
   @Valid
-  private List <Pair> catalogSources = new ArrayList <Pair> ( );
+  private List <Pair> catalogSources = new ArrayList <Pair>();
 
   @JsonProperty("categoryOfMaterial")
   @Valid
-  private List <Pair> categoryOfMaterialCodes = new ArrayList <Pair> ( );
+  private List <Pair> categoryOfMaterialCodes = new ArrayList <Pair>();
 
   @JsonProperty("specificMaterialDesignationCode")
   @Valid
-  private List <Pair> specificMaterialDesignationCodes = new ArrayList <Pair> ( );
+  private List <Pair> specificMaterialDesignationCodes = new ArrayList <Pair>();
 
   @JsonProperty("colourCode")
   @Valid
-  private List <Pair> colorCodes = new ArrayList <Pair> ( );
+  private List <Pair> colorCodes = new ArrayList <Pair>();
 
   @JsonProperty("physicalMediumCode")
   @Valid
-  private List <Pair> physicalMediumCodes = new ArrayList <Pair> ( );
+  private List <Pair> physicalMediumCodes = new ArrayList <Pair>();
 
   @JsonProperty("mediumForSoundCode")
   @Valid
-  private List <Pair> mediumForSoundCodes = new ArrayList <Pair> ( );
+  private List <Pair> mediumForSoundCodes = new ArrayList <Pair>();
 
   @JsonProperty("secondarySupportMaterialCode")
   @Valid
-  private List <Pair> secondarySupportMaterialCodes = new ArrayList <Pair> ( );
+  private List <Pair> secondarySupportMaterialCodes = new ArrayList <Pair>();
 
   @JsonProperty("typeOfReproductionCode")
   @Valid
-  private List <Pair> typeOfReproductionCodes = new ArrayList <Pair> ( );
+  private List <Pair> typeOfReproductionCodes = new ArrayList <Pair>();
 
   @JsonProperty("polarityCode")
   @Valid
-  private List <Pair> polarityCodes = new ArrayList <Pair> ( );
+  private List <Pair> polarityCodes = new ArrayList <Pair>();
 
   @JsonProperty("dimensionCodes")
   @Valid
-  private List <Pair> dimensionCodes = new ArrayList <Pair> ( );
+  private List <Pair> dimensionCodes = new ArrayList <Pair>();
 
   @JsonProperty("primarySupportMaterialCode")
   @Valid
-  private List <Pair> primarySupportMaterialCodes = new ArrayList <Pair> ( );
+  private List <Pair> primarySupportMaterialCodes = new ArrayList <Pair>();
 
   @JsonProperty("configurationCode")
   @Valid
-  private List <Pair> configurationCodes = new ArrayList <Pair> ( );
+  private List <Pair> configurationCodes = new ArrayList <Pair>();
 
   @JsonProperty("generationCode")
   @Valid
-  private List <Pair> generationCodes = new ArrayList <Pair> ( );
+  private List <Pair> generationCodes = new ArrayList <Pair>();
 
   @JsonProperty("baseOfFilmCode")
   @Valid
-  private List <Pair> baseOfFilmCodes = new ArrayList <Pair> ( );
+  private List <Pair> baseOfFilmCodes = new ArrayList <Pair>();
 
   @JsonProperty("productionDetailsCode")
   @Valid
-  private List <Pair> productionDetailsCodes = new ArrayList <Pair> ( );
+  private List <Pair> productionDetailsCodes = new ArrayList <Pair>();
 
   @JsonProperty("includesSoundCodes")
   @Valid
-  private List <Pair> includesSoundCodes = new ArrayList <Pair> ( );
+  private List <Pair> includesSoundCodes = new ArrayList <Pair>();
 
   @JsonProperty("fileFormatsCode")
   @Valid
-  private List <Pair> fileFormatsCodes = new ArrayList <Pair> ( );
+  private List <Pair> fileFormatsCodes = new ArrayList <Pair>();
 
   @JsonProperty("qualityAssuranceTargetCode")
   @Valid
-  private List <Pair> qualityAssuranceTargetCodes = new ArrayList <Pair> ( );
+  private List <Pair> qualityAssuranceTargetCodes = new ArrayList <Pair>();
 
   @JsonProperty("antecedentSourceCode")
   @Valid
-  private List <Pair> antecedentSourceCodes = new ArrayList <Pair> ( );
+  private List <Pair> antecedentSourceCodes = new ArrayList <Pair>();
 
   @JsonProperty("levelOfCompressionCode")
   @Valid
-  private List <Pair> levelOfCompressionCodes = new ArrayList <Pair> ( );
+  private List <Pair> levelOfCompressionCodes = new ArrayList <Pair>();
 
   @JsonProperty("reformattingQualityCode")
   @Valid
-  private List <Pair> reformattingQualityCodes = new ArrayList <Pair> ( );
+  private List <Pair> reformattingQualityCodes = new ArrayList <Pair>();
 
   @JsonProperty("classOfBrailleWritingCodes")
   @Valid
-  private List <Pair> classOfBrailleWritingCodes = new ArrayList <Pair> ( );
+  private List <Pair> classOfBrailleWritingCodes = new ArrayList <Pair>();
 
   @JsonProperty("levelOfContractionCode")
   @Valid
-  private List <Pair> levelOfContractionCodes = new ArrayList <Pair> ( );
+  private List <Pair> levelOfContractionCodes = new ArrayList <Pair>();
 
   @JsonProperty("brailleMusicFormatCodes")
   @Valid
-  private List <Pair> brailleMusicFormatCodes = new ArrayList <Pair> ( );
+  private List <Pair> brailleMusicFormatCodes = new ArrayList <Pair>();
 
   @JsonProperty("specificPhysicalCharacteristicsCode")
   @Valid
-  private List <Pair> specificPhysicalCharacteristicsCodes = new ArrayList <Pair> ( );
+  private List <Pair> specificPhysicalCharacteristicsCodes = new ArrayList <Pair>();
 
   @JsonProperty("baseOfEmulsionCode")
   @Valid
-  private List <Pair> baseOfEmulsionCodes = new ArrayList <Pair> ( );
+  private List <Pair> baseOfEmulsionCodes = new ArrayList <Pair>();
 
   @JsonProperty("soundOnMediumOrSeparateCode")
   @Valid
-  private List <Pair> soundOnMediumOrSeparateCodes = new ArrayList <Pair> ( );
+  private List <Pair> soundOnMediumOrSeparateCodes = new ArrayList <Pair>();
 
   @JsonProperty("presentationFormatCode")
   @Valid
-  private List <Pair> presentationFormatCodes = new ArrayList <Pair> ( );
+  private List <Pair> presentationFormatCodes = new ArrayList <Pair>();
 
   @JsonProperty("productionElementsCode")
   @Valid
-  private List <Pair> productionElementsCodes = new ArrayList <Pair> ( );
+  private List <Pair> productionElementsCodes = new ArrayList <Pair>();
 
   @JsonProperty("refinedCategoriesOfColourCode")
   @Valid
-  private List <Pair> refinedCategoriesOfColourCodes = new ArrayList <Pair> ( );
+  private List <Pair> refinedCategoriesOfColourCodes = new ArrayList <Pair>();
 
   @JsonProperty("kindOfColourStockCode")
   @Valid
-  private List <Pair> kindOfColourStockCodes = new ArrayList <Pair> ( );
+  private List <Pair> kindOfColourStockCodes = new ArrayList <Pair>();
 
   @JsonProperty("deteriorationStageCode")
   @Valid
-  private List <Pair> deteriorationStageCodes = new ArrayList <Pair> ( );
+  private List <Pair> deteriorationStageCodes = new ArrayList <Pair>();
 
   @JsonProperty("completenessCode")
   @Valid
-  private List <Pair> completenessCodes = new ArrayList <Pair> ( );
+  private List <Pair> completenessCodes = new ArrayList <Pair>();
 
   @JsonProperty("altitudeOfSensorCode")
   @Valid
-  private List <Pair> altitudeOfSensorCodes = new ArrayList <Pair> ( );
+  private List <Pair> altitudeOfSensorCodes = new ArrayList <Pair>();
 
   @JsonProperty("attitudeOfSensorCode")
   @Valid
-  private List <Pair> attitudeOfSensorCodes = new ArrayList <Pair> ( );
+  private List <Pair> attitudeOfSensorCodes = new ArrayList <Pair>();
 
   @JsonProperty("cloudCoverCode")
   @Valid
-  private List <Pair> cloudCoverCodes = new ArrayList <Pair> ( );
+  private List <Pair> cloudCoverCodes = new ArrayList <Pair>();
 
   @JsonProperty("platformConstructionTypeCode")
   @Valid
-  private List <Pair> platformConstructionTypeCodes = new ArrayList <Pair> ( );
+  private List <Pair> platformConstructionTypeCodes = new ArrayList <Pair>();
 
   @JsonProperty("platformUseCode")
   @Valid
-  private List <Pair> platformUseCodes = new ArrayList <Pair> ( );
+  private List <Pair> platformUseCodes = new ArrayList <Pair>();
 
   @JsonProperty("sensorTypeCode")
   @Valid
-  private List <Pair> sensorTypeCodes = new ArrayList <Pair> ( );
+  private List <Pair> sensorTypeCodes = new ArrayList <Pair>();
 
   @JsonProperty("remoteSensingDataTypeCodes")
   @Valid
-  private List <Pair> remoteSensingDataTypeCodes = new ArrayList <Pair> ( );
+  private List <Pair> remoteSensingDataTypeCodes = new ArrayList <Pair>();
 
   @JsonProperty("speedCode")
   @Valid
-  private List <Pair> speedCodes = new ArrayList <Pair> ( );
+  private List <Pair> speedCodes = new ArrayList <Pair>();
 
   @JsonProperty("grooveWidthCode")
   @Valid
-  private List <Pair> grooveWidthCodes = new ArrayList <Pair> ( );
+  private List <Pair> grooveWidthCodes = new ArrayList <Pair>();
 
   @JsonProperty("tapeWidthCode")
   @Valid
-  private List <Pair> tapeWidthCodes = new ArrayList <Pair> ( );
+  private List <Pair> tapeWidthCodes = new ArrayList <Pair>();
 
   @JsonProperty("tapeConfigurationCode")
   @Valid
-  private List <Pair> tapeConfigurationCodes = new ArrayList <Pair> ( );
+  private List <Pair> tapeConfigurationCodes = new ArrayList <Pair>();
 
   @JsonProperty("discTypeCode")
   @Valid
-  private List <Pair> discTypeCodes = new ArrayList <Pair> ( );
+  private List <Pair> discTypeCodes = new ArrayList <Pair>();
 
   @JsonProperty("sndMaterialTypeCode")
   @Valid
-  private List <Pair> sndMaterialTypeCodes = new ArrayList <Pair> ( );
+  private List <Pair> sndMaterialTypeCodes = new ArrayList <Pair>();
 
   @JsonProperty("cuttingTypeCode")
   @Valid
-  private List <Pair> cuttingTypeCodes = new ArrayList <Pair> ( );
+  private List <Pair> cuttingTypeCodes = new ArrayList <Pair>();
 
   @JsonProperty("specialPlaybackCharacteristicsCode")
   @Valid
-  private List <Pair> specialPlaybackCharacteristicsCodes = new ArrayList <Pair> ( );
+  private List <Pair> specialPlaybackCharacteristicsCodes = new ArrayList <Pair>();
 
   @JsonProperty("storageTechniqueCode")
   @Valid
-  private List <Pair> storageTechniqueCodes = new ArrayList <Pair> ( );
+  private List <Pair> storageTechniqueCodes = new ArrayList <Pair>();
 
   @JsonProperty("videoRecordingFormatCodes")
   @Valid
-  private List <Pair> videoRecordingFormatCodes = new ArrayList <Pair> ( );
+  private List <Pair> videoRecordingFormatCodes = new ArrayList <Pair>();
 
   @JsonProperty("emulsionOnFilmCode")
   @Valid
-  private List <Pair> emulsionOnFilmCodes = new ArrayList <Pair> ( );
+  private List <Pair> emulsionOnFilmCodes = new ArrayList <Pair>();
 
   @JsonProperty("reductionRatioRangeCode")
   @Valid
-  private List <Pair> reductionRatioRangeCodes = new ArrayList <Pair> ( );
+  private List <Pair> reductionRatioRangeCodes = new ArrayList <Pair>();
 
   /**
    * @return videoRecordingFormatCodes

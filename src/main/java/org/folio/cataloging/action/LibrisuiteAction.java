@@ -6,6 +6,6 @@ import org.folio.cataloging.dao.DAOCodeTable;
 public abstract class LibrisuiteAction {
   @Deprecated
   public static DAOCodeTable getDaoCodeTable() {
-    throw new IllegalArgumentException ("LS Action is going to be removed!");
+    throw new IllegalArgumentException("LS Action is going to be removed!");
   }
 }

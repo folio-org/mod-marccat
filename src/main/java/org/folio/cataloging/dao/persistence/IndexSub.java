@@ -98,7 +98,7 @@ public class IndexSub implements Serializable {
 
   public boolean equals(Object anObject) {
     IndexSub aKey = (IndexSub) anObject;
-    if (this.getListKey ( ) == aKey.getListKey ( )) {
+    if (this.getListKey() == aKey.getListKey()) {
       return true;
     }
     return false;
@@ -108,7 +108,7 @@ public class IndexSub implements Serializable {
    * @see java.lang.Object#hashCode()
    */
   public int hashCode() {
-    return this.getListKey ( );
+    return this.getListKey();
   }
 
 

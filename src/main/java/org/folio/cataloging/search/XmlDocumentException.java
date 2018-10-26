@@ -22,28 +22,28 @@ public class XmlDocumentException extends ModCatalogingException {
    * @see Exception#Exception()
    */
   public XmlDocumentException() {
-    super ( );
+    super();
   }
 
   /**
    * @see Exception#Exception(String)
    */
   public XmlDocumentException(String message) {
-    super (message);
+    super(message);
   }
 
   /**
    * @see Exception#Exception(String, Throwable)
    */
   public XmlDocumentException(String message, Throwable cause) {
-    super (message, cause);
+    super(message, cause);
   }
 
   /**
    * @see Exception#Exception(Throwable)
    */
   public XmlDocumentException(Throwable cause) {
-    super (cause);
+    super(cause);
   }
 
 }

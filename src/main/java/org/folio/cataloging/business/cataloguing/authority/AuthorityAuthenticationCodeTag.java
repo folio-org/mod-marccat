@@ -15,9 +15,9 @@ public class AuthorityAuthenticationCodeTag extends AuthenticationCodeTag {
    * @since 1.0
    */
   public AuthorityAuthenticationCodeTag() {
-    super ( );
-    setHeaderField (new AuthorityHeaderFieldHelper ( ));
-    setHeaderType (2);
+    super();
+    setHeaderField(new AuthorityHeaderFieldHelper());
+    setHeaderType(2);
   }
 
 }

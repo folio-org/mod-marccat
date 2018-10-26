@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
  */
 
 public abstract class CatalogDAO extends AbstractDAO {
-  private static Log logger = new Log (CatalogDAO.class);
+  private static Log logger = new Log(CatalogDAO.class);
 
   public abstract CatalogItem getCatalogItemByKey(Session session, int... key) throws DataAccessException;
 
@@ -43,22 +43,22 @@ public abstract class CatalogDAO extends AbstractDAO {
    * @throws DataAccessException in case of data access failure.
    */
   public void deleteCatalogItem(final CatalogItem item, final Session session) throws HibernateException, DataAccessException {
-    final Transaction transaction = getTransaction (session);
-    item.getTags ( ).stream ( )
-      .filter (aTag -> aTag instanceof Persistence && !(aTag instanceof AuthorityReferenceTag))
-      .forEach (tag -> {
+    final Transaction transaction = getTransaction(session);
+    item.getTags().stream()
+      .filter(aTag -> aTag instanceof Persistence && !(aTag instanceof AuthorityReferenceTag))
+      .forEach(tag -> {
         try {
-          session.delete (tag);
+          session.delete(tag);
         } catch (HibernateException e) {
-          cleanUp (transaction);
-          throw new RuntimeException (e);
+          cleanUp(transaction);
+          throw new RuntimeException(e);
         }
       });
 
-    session.delete (item.getItemEntity ( ));
-    if (item.getModelItem ( ) != null)
-      session.delete (item.getModelItem ( ));
-    transaction.commit ( );
+    session.delete(item.getItemEntity());
+    if (item.getModelItem() != null)
+      session.delete(item.getModelItem());
+    transaction.commit();
   }
 
   abstract void updateFullRecordCacheTable(Session session, CatalogItem item) throws HibernateException;
@@ -76,21 +76,21 @@ public abstract class CatalogDAO extends AbstractDAO {
    * @throws DataAccessException in case of data access failure.
    */
   protected void loadHeadings(final List <? extends PersistentObjectWithView> allTags, final int userView, final Session session) throws DataAccessException {
-    allTags.forEach (tag -> {
-      loadHeading ((AccessPoint) tag, userView, session);
+    allTags.forEach(tag -> {
+      loadHeading((AccessPoint) tag, userView, session);
     });
   }
 
   private void loadHeading(final AccessPoint tag, final int userView, final Session session) throws DataAccessException {
-    if (tag.getHeadingNumber ( ) != null) {
+    if (tag.getHeadingNumber() != null) {
       try {
-        Descriptor descriptor = tag.getDAODescriptor ( ).load (tag.getHeadingNumber ( ).intValue ( ), userView, session);
+        Descriptor descriptor = tag.getDAODescriptor().load(tag.getHeadingNumber().intValue(), userView, session);
         if (descriptor == null)
-          throw new DataAccessException (String.format (MessageCatalogStorage._00016_NO_HEADING_FOUND, tag.getHeadingNumber ( )));
-        tag.setDescriptor (descriptor);
+          throw new DataAccessException(String.format(MessageCatalogStorage._00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
+        tag.setDescriptor(descriptor);
 
       } catch (HibernateException e) {
-        throw new DataAccessException (String.format (MessageCatalogStorage._00016_NO_HEADING_FOUND, tag.getHeadingNumber ( )));
+        throw new DataAccessException(String.format(MessageCatalogStorage._00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
       }
     }
   }
@@ -105,73 +105,73 @@ public abstract class CatalogDAO extends AbstractDAO {
    */
   public void saveCatalogItem(final CatalogItem item, final CasCache casCache, final Session session) throws HibernateException {
 
-    final Transaction transaction = getTransaction (session);
-    final String myView = makeSingleViewString (item.getUserView ( ));
-    final ItemEntity itemEntity = item.getItemEntity ( );
+    final Transaction transaction = getTransaction(session);
+    final String myView = makeSingleViewString(item.getUserView());
+    final ItemEntity itemEntity = item.getItemEntity();
 
-    final List <Tag> tagList = item.getTags ( ).stream ( ).map (aTag -> {
+    final List <Tag> tagList = item.getTags().stream().map(aTag -> {
 
-      if (aTag.isNew ( )) {
-        aTag.setItemNumber (item.getAmicusNumber ( ).intValue ( ));
+      if (aTag.isNew()) {
+        aTag.setItemNumber(item.getAmicusNumber().intValue());
         if (aTag instanceof PersistentObjectWithView)
-          ((PersistentObjectWithView) aTag).setUserViewString (myView);
+          ((PersistentObjectWithView) aTag).setUserViewString(myView);
 
         try {
-          aTag.generateNewKey (session);
+          aTag.generateNewKey(session);
         } catch (HibernateException e) {
-          throw new RuntimeException (e);
+          throw new RuntimeException(e);
         } catch (SQLException e) {
-          throw new RuntimeException (e);
+          throw new RuntimeException(e);
         }
 
-        if (item.getDeletedTags ( ).contains (aTag)) {
-          aTag.reinstateDeletedTag ( );
+        if (item.getDeletedTags().contains(aTag)) {
+          aTag.reinstateDeletedTag();
         }
       }
 
       if (aTag instanceof Persistence) {
         try {
-          persistByStatus ((Persistence) aTag, session);
+          persistByStatus((Persistence) aTag, session);
         } catch (HibernateException e) {
-          throw new RuntimeException (e);
+          throw new RuntimeException(e);
         }
       }
       return aTag;
-    }).collect (Collectors.toList ( ));
+    }).collect(Collectors.toList());
 
-    final List <Tag> toRemove = new ArrayList <> (item.getDeletedTags ( ));
-    toRemove.forEach (aTag -> {
-      if (!tagList.contains (aTag)) {
+    final List <Tag> toRemove = new ArrayList <>(item.getDeletedTags());
+    toRemove.forEach(aTag -> {
+      if (!tagList.contains(aTag)) {
         if (aTag instanceof Persistence) {
           try {
-            persistByStatus ((Persistence) aTag, session);
+            persistByStatus((Persistence) aTag, session);
           } catch (HibernateException e) {
-            throw new RuntimeException (e);
+            throw new RuntimeException(e);
           }
         }
 
         if (aTag instanceof VariableHeaderUsingItemEntity) {
           ((VariableHeaderUsingItemEntity) aTag)
-            .deleteFromItem ( );
+            .deleteFromItem();
         }
       }
-      item.getDeletedTags ( ).remove (aTag);
+      item.getDeletedTags().remove(aTag);
     });
 
-    if (!itemEntity.isNew ( )) {
-      itemEntity.setUpdateStatus (UpdateStatus.CHANGED);
+    if (!itemEntity.isNew()) {
+      itemEntity.setUpdateStatus(UpdateStatus.CHANGED);
     }
-    persistByStatus (itemEntity, session);
-    if (item.getModelItem ( ) != null) {
-      persistByStatus (item.getModelItem ( ), session);
+    persistByStatus(itemEntity, session);
+    if (item.getModelItem() != null) {
+      persistByStatus(item.getModelItem(), session);
     }
 
     if (casCache != null)
-      saveCasCache (itemEntity.getAmicusNumber ( ).intValue ( ), casCache, session);
+      saveCasCache(itemEntity.getAmicusNumber().intValue(), casCache, session);
 
-    updateItemDisplayCacheTable (item, session);
-    modifyNoteStandard (item, session);
-    transaction.commit ( );
+    updateItemDisplayCacheTable(item, session);
+    modifyNoteStandard(item, session);
+    transaction.commit();
 
   }
 
@@ -184,8 +184,8 @@ public abstract class CatalogDAO extends AbstractDAO {
    * @throws HibernateException in case of hibernate exception.
    */
   protected void saveCasCache(final int amicusNumber, CasCache casCache, final Session session) throws HibernateException {
-    final CasCacheDAO casCacheDAO = new CasCacheDAO ( );
-    casCacheDAO.persistCasCache (amicusNumber, casCache, session);
+    final CasCacheDAO casCacheDAO = new CasCacheDAO();
+    casCacheDAO.persistCasCache(amicusNumber, casCache, session);
   }
 
   /**
@@ -196,16 +196,16 @@ public abstract class CatalogDAO extends AbstractDAO {
    * @throws HibernateException in case of hibernate exception.
    */
   public void modifyNoteStandard(final CatalogItem item, final Session session) throws HibernateException {
-    final int amicusNumber = item.getItemEntity ( ).getAmicusNumber ( ).intValue ( );
-    item.getTags ( ).stream ( )
-      .filter (aTag -> aTag instanceof BibliographicNoteTag && ((BibliographicNoteTag) aTag).isStandardNoteType ( ))
-      .forEach (tag -> {
+    final int amicusNumber = item.getItemEntity().getAmicusNumber().intValue();
+    item.getTags().stream()
+      .filter(aTag -> aTag instanceof BibliographicNoteTag && ((BibliographicNoteTag) aTag).isStandardNoteType())
+      .forEach(tag -> {
         try {
-          updateBibNote (amicusNumber, ((BibliographicNoteTag) tag).getNoteNbr ( ), session);
+          updateBibNote(amicusNumber, ((BibliographicNoteTag) tag).getNoteNbr(), session);
         } catch (HibernateException he) {
-          throw new RuntimeException (he);
+          throw new RuntimeException(he);
         } catch (SQLException sqle) {
-          throw new RuntimeException (sqle);
+          throw new RuntimeException(sqle);
         }
       });
   }
@@ -220,63 +220,63 @@ public abstract class CatalogDAO extends AbstractDAO {
    * @throws SQLException       in case of sql exception.
    */
   public void updateBibNote(final int amicusNumber, final int noteNumber, final Session session) throws HibernateException, SQLException {
-    final Transaction transaction = getTransaction (session);
+    final Transaction transaction = getTransaction(session);
     CallableStatement proc = null;
     try {
-      Connection connection = session.connection ( );
-      proc = connection.prepareCall ("{call AMICUS.updateNotaStandard(?, ?) }");
-      proc.setInt (1, amicusNumber);
-      proc.setInt (2, noteNumber);
-      proc.execute ( );
+      Connection connection = session.connection();
+      proc = connection.prepareCall("{call AMICUS.updateNotaStandard(?, ?) }");
+      proc.setInt(1, amicusNumber);
+      proc.setInt(2, noteNumber);
+      proc.execute();
 
     } finally {
       try {
-        if (proc != null) proc.close ( );
+        if (proc != null) proc.close();
       } catch (SQLException ex) {
         // TODO: ignore or print exception?
       }
     }
-    transaction.commit ( );
+    transaction.commit();
   }
 
   // ----------- deprecated methods
   @Deprecated
   public void updateBibNoteTable(final int bibItemNumber, final int numNote) throws DataAccessException {
-    new TransactionalHibernateOperation ( ) {
+    new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s) throws SQLException, HibernateException, CacheUpdateException {
         int result;
         CallableStatement proc = null;
         try {
-          Connection connection = s.connection ( );
-          proc = connection.prepareCall ("{call AMICUS.updateNotaStandard(?, ?) }");
-          proc.setInt (1, bibItemNumber);
-          proc.setInt (2, numNote);
-          proc.execute ( );
+          Connection connection = s.connection();
+          proc = connection.prepareCall("{call AMICUS.updateNotaStandard(?, ?) }");
+          proc.setInt(1, bibItemNumber);
+          proc.setInt(2, numNote);
+          proc.execute();
 
         } finally {
           try {
-            if (proc != null) proc.close ( );
+            if (proc != null) proc.close();
           } catch (SQLException ex) {
             // TODO _MIKE Auto-generated catch block
-            ex.printStackTrace ( );
+            ex.printStackTrace();
           }
         }
       }
     }
-      .execute ( );
+      .execute();
   }
 
   @Deprecated
   public void modifyNoteStandard(final CatalogItem item) throws DataAccessException {
     Tag aTag = null;
-    Iterator iter = item.getTags ( ).iterator ( );
-    while (iter.hasNext ( )) {
+    Iterator iter = item.getTags().iterator();
+    while (iter.hasNext()) {
       // TODO if apf data is changed check for match in db
-      aTag = (Tag) iter.next ( );
+      aTag = (Tag) iter.next();
       if (aTag instanceof BibliographicNoteTag) {
         BibliographicNoteTag note = (BibliographicNoteTag) aTag;
-        if (note.isStandardNoteType ( )) {
-          updateBibNoteTable (item.getItemEntity ( ).getAmicusNumber ( ).intValue ( ), note.getNoteNbr ( ));
+        if (note.isStandardNoteType()) {
+          updateBibNoteTable(item.getItemEntity().getAmicusNumber().intValue(), note.getNoteNbr());
         }
       }
     }
@@ -284,22 +284,22 @@ public abstract class CatalogDAO extends AbstractDAO {
 
   @Deprecated
   protected void loadHeadings(final List allTags, final int userView) throws DataAccessException {
-    final Iterator iterator = allTags.iterator ( );
-    while (iterator.hasNext ( )) {
-      AccessPoint tag = (AccessPoint) iterator.next ( );
-      loadHeading (tag, userView);
+    final Iterator iterator = allTags.iterator();
+    while (iterator.hasNext()) {
+      AccessPoint tag = (AccessPoint) iterator.next();
+      loadHeading(tag, userView);
     }
   }
 
   @Deprecated
   private void loadHeading(AccessPoint tag, int userView) throws DataAccessException {
-    if (tag.getHeadingNumber ( ) != null) {
-      Descriptor heading = tag.getDAODescriptor ( ).load (tag.getHeadingNumber ( ).intValue ( ), userView);
+    if (tag.getHeadingNumber() != null) {
+      Descriptor heading = tag.getDAODescriptor().load(tag.getHeadingNumber().intValue(), userView);
       if (heading == null) {
-        throw new DataAccessException ("No heading found for heading nbr:" + tag.getHeadingNumber ( ));
+        throw new DataAccessException("No heading found for heading nbr:" + tag.getHeadingNumber());
       }
-      logger.debug ("heading loaded: " + heading);
-      tag.setDescriptor (heading);
+      logger.debug("heading loaded: " + heading);
+      tag.setDescriptor(heading);
     }
   }
 }

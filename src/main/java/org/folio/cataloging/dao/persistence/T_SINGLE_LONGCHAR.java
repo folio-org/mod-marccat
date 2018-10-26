@@ -35,17 +35,17 @@ public class T_SINGLE_LONGCHAR extends CodeTable {
   }
 
   public boolean equals(Object obj) {
-    if (!(obj.getClass ( ).equals (this.getClass ( ))))
+    if (!(obj.getClass().equals(this.getClass())))
       return false;
-    return (((T_SINGLE_LONGCHAR) obj).getCode ( ).equals (getCode ( )))
-      && (((T_SINGLE_LONGCHAR) obj).getLanguage ( ).equals (getLanguage ( )));
+    return (((T_SINGLE_LONGCHAR) obj).getCode().equals(getCode()))
+      && (((T_SINGLE_LONGCHAR) obj).getLanguage().equals(getLanguage()));
   }
 
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
   public int hashCode() {
-    return getCode ( ).hashCode ( ) + getLanguage ( ).hashCode ( );
+    return getCode().hashCode() + getLanguage().hashCode();
   }
 
   public void setExternalCode(Object extCode) {

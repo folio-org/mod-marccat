@@ -30,16 +30,16 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class IndexesAPI extends BaseResource {
 
   private Function <Avp <String>, Index> convertValueLabelToIndex = source -> {
-    final Index index = new Index ( );
-    index.setCode (source.getValue ( ));
-    index.setDescription (source.getLabel ( ));
+    final Index index = new Index();
+    index.setCode(source.getValue());
+    index.setDescription(source.getLabel());
     return index;
   };
 
   private Function <Avp <String>, Constraint> convertValueLabelToConstraint = source -> {
-    final Constraint constraint = new Constraint ( );
-    constraint.setCode (source.getValue ( ));
-    constraint.setLabel (source.getLabel ( ));
+    final Constraint constraint = new Constraint();
+    constraint.setCode(source.getValue());
+    constraint.setLabel(source.getLabel());
     return constraint;
   };
 
@@ -55,15 +55,15 @@ public class IndexesAPI extends BaseResource {
     @PathVariable final String code,
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configurator) -> {
-      final Index container = new Index ( );
-      container.setCode (code);
-      container.setDescription (storageService.getIndexDescription (code, lang));
-      container.setConstraints (
-        storageService.getIndexesByCode (code, lang)
-          .stream ( )
-          .map (convertValueLabelToConstraint)
-          .collect (toList ( )));
+    return doGet((storageService, configurator) -> {
+      final Index container = new Index();
+      container.setCode(code);
+      container.setDescription(storageService.getIndexDescription(code, lang));
+      container.setConstraints(
+        storageService.getIndexesByCode(code, lang)
+          .stream()
+          .map(convertValueLabelToConstraint)
+          .collect(toList()));
       return container;
     }, tenant, configurator);
   }
@@ -81,13 +81,13 @@ public class IndexesAPI extends BaseResource {
     @RequestParam final int categoryCode,
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final IndexCollection container = new IndexCollection ( );
-      container.setIndexes (
-        storageService.getIndexes (categoryType.name ( ), categoryCode, lang)
-          .stream ( )
-          .map (convertValueLabelToIndex)
-          .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      final IndexCollection container = new IndexCollection();
+      container.setIndexes(
+        storageService.getIndexes(categoryType.name(), categoryCode, lang)
+          .stream()
+          .map(convertValueLabelToIndex)
+          .collect(toList()));
       return container;
     }, tenant, configurator);
   }

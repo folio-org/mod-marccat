@@ -19,16 +19,16 @@ import static java.util.Optional.ofNullable;
  */
 public class ControlNumberAccessPoint extends BibliographicAccessPoint implements OrderedTag {
 
-  private CNTL_NBR descriptor = new CNTL_NBR ( );
+  private CNTL_NBR descriptor = new CNTL_NBR();
   private char validationCode = 'a';
   private Integer sequenceNumber;
 
   public ControlNumberAccessPoint() {
-    super ( );
+    super();
   }
 
   public ControlNumberAccessPoint(final int itemNbr) {
-    super (itemNbr);
+    super(itemNbr);
   }
 
   /**
@@ -55,9 +55,9 @@ public class ControlNumberAccessPoint extends BibliographicAccessPoint implement
    * @return stringText.
    */
   public StringText getStringText() {
-    final StringText s = super.getStringText ( );
-    if (getValidationCode ( ) != 'a') {
-      s.getSubfield (0).setCode (String.valueOf (getValidationCode ( )));
+    final StringText s = super.getStringText();
+    if (getValidationCode() != 'a') {
+      s.getSubfield(0).setCode(String.valueOf(getValidationCode()));
     }
     return s;
   }
@@ -68,7 +68,7 @@ public class ControlNumberAccessPoint extends BibliographicAccessPoint implement
    * @param stringText -- the string text to set.
    */
   public void setDescriptorStringText(final StringText stringText) {
-    descriptor.setStringText (stringText.toString ( ));
+    descriptor.setStringText(stringText.toString());
   }
 
   /**
@@ -77,7 +77,7 @@ public class ControlNumberAccessPoint extends BibliographicAccessPoint implement
    * @return stringText.
    */
   public StringText getAccessPointStringText() {
-    return new StringText ( );
+    return new StringText();
   }
 
   /**
@@ -103,7 +103,7 @@ public class ControlNumberAccessPoint extends BibliographicAccessPoint implement
    * @return correlationValues.
    */
   public CorrelationValues getCorrelationValues() {
-    return getDescriptor ( ).getCorrelationValues ( ).change (2, getFunctionCode ( ));
+    return getDescriptor().getCorrelationValues().change(2, getFunctionCode());
   }
 
   /**
@@ -112,8 +112,8 @@ public class ControlNumberAccessPoint extends BibliographicAccessPoint implement
    * @param v -- the correlation values to set.
    */
   public void setCorrelationValues(final CorrelationValues v) {
-    setFunctionCode (v.getValue (2));
-    getDescriptor ( ).setCorrelationValues (v);
+    setFunctionCode(v.getValue(2));
+    getDescriptor().setCorrelationValues(v);
   }
 
   /**
@@ -123,7 +123,7 @@ public class ControlNumberAccessPoint extends BibliographicAccessPoint implement
    * @return boolean.
    */
   public boolean correlationChangeAffectsKey(final CorrelationValues v) {
-    return (v.isValueDefined (2)) && (v.getValue (2) != getFunctionCode ( ));
+    return (v.isValueDefined(2)) && (v.getValue(2) != getFunctionCode());
   }
 
   /**
@@ -160,10 +160,10 @@ public class ControlNumberAccessPoint extends BibliographicAccessPoint implement
    * @return an element content.
    */
   public Element generateModelXmlElementContent(final Document xmlDocument) {
-    return ofNullable (xmlDocument).map (content -> {
-      Element element = getStringText ( ).generateModelXmlElementContent (xmlDocument);
+    return ofNullable(xmlDocument).map(content -> {
+      Element element = getStringText().generateModelXmlElementContent(xmlDocument);
       return element;
-    }).orElse (null);
+    }).orElse(null);
   }
 
   /**
@@ -177,11 +177,11 @@ public class ControlNumberAccessPoint extends BibliographicAccessPoint implement
       return false;
 
     ControlNumberAccessPoint other = (ControlNumberAccessPoint) obj;
-    return super.equals (obj) && (other.functionCode == this.functionCode) && (other.descriptor.getKey ( ).getHeadingNumber ( ) == this.descriptor.getKey ( ).getHeadingNumber ( ));
+    return super.equals(obj) && (other.functionCode == this.functionCode) && (other.descriptor.getKey().getHeadingNumber() == this.descriptor.getKey().getHeadingNumber());
   }
 
   public int hashCode() {
-    return super.hashCode ( );
+    return super.hashCode();
   }
 
   /**
@@ -200,7 +200,7 @@ public class ControlNumberAccessPoint extends BibliographicAccessPoint implement
    */
   public void setSequenceNumber(final Integer seqNumber) {
     sequenceNumber = seqNumber;
-    super.setSequenceNumber (sequenceNumber);
+    super.setSequenceNumber(sequenceNumber);
   }
 
   //TODO move in storageService and set after creation (as was: called two constructor)

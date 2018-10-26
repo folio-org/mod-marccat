@@ -20,10 +20,10 @@ import static springfox.documentation.builders.PathSelectors.any;
 public class SwaggerConfig {
   @Bean
   public Docket productApi() {
-    return new Docket (DocumentationType.SWAGGER_2)
-      .select ( )
-      .apis (RequestHandlerSelectors.any ( ))
-      .paths (any ( ))
-      .build ( );
+    return new Docket(DocumentationType.SWAGGER_2)
+      .select()
+      .apis(RequestHandlerSelectors.any())
+      .paths(any())
+      .build();
   }
 }

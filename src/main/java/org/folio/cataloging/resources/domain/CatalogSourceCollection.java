@@ -21,10 +21,10 @@ public class CatalogSourceCollection {
   @JsonProperty("catalogSources")
   @Valid
   @NotNull
-  private List <CatalogSource> catalogSources = new ArrayList <CatalogSource> ( );
+  private List <CatalogSource> catalogSources = new ArrayList <CatalogSource>();
 
   @JsonIgnore
-  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
+  private Map <String, Object> additionalProperties = new HashMap <String, Object>();
 
   /**
    * (Required)
@@ -58,11 +58,11 @@ public class CatalogSourceCollection {
 
   @JsonAnySetter
   public void setAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
   }
 
   public CatalogSourceCollection withAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
     return this;
   }
 }

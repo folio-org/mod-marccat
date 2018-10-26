@@ -45,11 +45,11 @@ public class PublisherPlaceDescriptorDAO extends PublisherDescriptorDAO {
   public List <Descriptor> getHeadingsBySortform(final String operator, final String direction, final String term, String filter, final int cataloguingView, final int count, final Session session)
     throws HibernateException {
 
-    final String[] parsedTerm = term.split (" : ");
+    final String[] parsedTerm = term.split(" : ");
     if (parsedTerm.length < 2) {
-      return getSortformByOneSearchTerm (operator, direction, term, filter, cataloguingView, count, session);
+      return getSortformByOneSearchTerm(operator, direction, term, filter, cataloguingView, count, session);
     } else {
-      return getSortformByTwoSearchTerms (operator, direction, filter, cataloguingView, count, parsedTerm, session);
+      return getSortformByTwoSearchTerms(operator, direction, filter, cataloguingView, count, parsedTerm, session);
     }
   }
 
@@ -69,9 +69,9 @@ public class PublisherPlaceDescriptorDAO extends PublisherDescriptorDAO {
   private List <Descriptor> getSortformByOneSearchTerm(final String operator, final String direction, final String term, final String filter, final int cataloguingView, final int count, final Session session)
     throws HibernateException {
     Query q =
-      session.createQuery (
+      session.createQuery(
         "from "
-          + getPersistentClass ( ).getName ( )
+          + getPersistentClass().getName()
           + " as hdg where hdg.placeSortForm "
           + operator
           + " :term  and "
@@ -81,11 +81,11 @@ public class PublisherPlaceDescriptorDAO extends PublisherDescriptorDAO {
           + direction
           + ", hdg.nameSortForm "
           + direction);
-    q.setString ("term", term);
-    q.setInteger ("view", cataloguingView);
-    q.setMaxResults (count);
-    List <Descriptor> publisherList = q.list ( );
-    publisherList = (List <Descriptor>) isolateViewForList (publisherList, cataloguingView, session);
+    q.setString("term", term);
+    q.setInteger("view", cataloguingView);
+    q.setMaxResults(count);
+    List <Descriptor> publisherList = q.list();
+    publisherList = (List <Descriptor>) isolateViewForList(publisherList, cataloguingView, session);
     return publisherList;
   }
 
@@ -107,24 +107,24 @@ public class PublisherPlaceDescriptorDAO extends PublisherDescriptorDAO {
     throws HibernateException {
     final String name;
     final String place;
-    place = parsedTerm[0].trim ( );
-    name = parsedTerm[1].trim ( );
+    place = parsedTerm[0].trim();
+    name = parsedTerm[1].trim();
     List <Descriptor> publisherList = null;
     String viewClause = "";
 
     if (cataloguingView != View.ANY) {
       viewClause = " and SUBSTR(hdg.key.userViewString, " + cataloguingView + ", 1) = '1' ";
     }
-    if (operator.equals ("<")) {
+    if (operator.equals("<")) {
       final Query q =
-        session.createQuery (
+        session.createQuery(
           "from "
-            + getPersistentClass ( ).getName ( )
+            + getPersistentClass().getName()
             + " as hdg where hdg.nameSortForm "
             + operator
             + " :name  and "
             + " hdg.placeSortForm "
-            + (operator.equals ("<") ? "<=" : operator)
+            + (operator.equals("<") ? "<=" : operator)
             + " :place "
             + viewClause
             + filter
@@ -132,19 +132,19 @@ public class PublisherPlaceDescriptorDAO extends PublisherDescriptorDAO {
             + direction
             + ", hdg.nameSortForm "
             + direction);
-      q.setString ("place", place);
-      q.setString ("name", name);
-      q.setMaxResults (count);
-      publisherList = q.list ( );
-      publisherList = (List <Descriptor>) isolateViewForList (publisherList, cataloguingView, session);
+      q.setString("place", place);
+      q.setString("name", name);
+      q.setMaxResults(count);
+      publisherList = q.list();
+      publisherList = (List <Descriptor>) isolateViewForList(publisherList, cataloguingView, session);
       return publisherList;
 
-    } else if (operator.contains (">=") || operator.contains ("<=")) {
+    } else if (operator.contains(">=") || operator.contains("<=")) {
       String nextOperator = operator;
-      nextOperator = nextOperator.replaceAll ("=", "");
+      nextOperator = nextOperator.replaceAll("=", "");
 
       final String select = "select distinct hdg from "
-        + getPersistentClass ( ).getName ( )
+        + getPersistentClass().getName()
         + " as hdg where "
         + " (hdg.placeSortForm = "
         + " :place  and "
@@ -157,17 +157,17 @@ public class PublisherPlaceDescriptorDAO extends PublisherDescriptorDAO {
         + " :place ";
 
       final Query firstQuery =
-        session.createQuery (select
+        session.createQuery(select
           + viewClause
           + filter
           + " order by hdg.placeSortForm "
           + direction
           + ", hdg.nameSortForm "
           + direction);
-      firstQuery.setString ("place", place);
-      firstQuery.setString ("name", name);
-      firstQuery.setMaxResults (count);
-      publisherList = firstQuery.list ( );
+      firstQuery.setString("place", place);
+      firstQuery.setString("name", name);
+      firstQuery.setMaxResults(count);
+      publisherList = firstQuery.list();
       return publisherList;
     }
     return publisherList;
@@ -182,12 +182,12 @@ public class PublisherPlaceDescriptorDAO extends PublisherDescriptorDAO {
    */
   public String getBrowsingSortForm(final Descriptor descriptor) {
     if (!(descriptor instanceof PUBL_HDG)) {
-      throw new IllegalArgumentException ( );
+      throw new IllegalArgumentException();
     }
     final PUBL_HDG publisher = (PUBL_HDG) descriptor;
-    return new StringBuilder ( )
-      .append (publisher.getPlaceSortForm ( ))
-      .append (" : ").append (publisher.getNameSortForm ( )).toString ( );
+    return new StringBuilder()
+      .append(publisher.getPlaceSortForm())
+      .append(" : ").append(publisher.getNameSortForm()).toString();
   }
 
 

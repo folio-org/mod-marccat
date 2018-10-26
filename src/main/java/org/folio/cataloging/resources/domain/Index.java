@@ -26,7 +26,7 @@ public class Index {
 
   @JsonProperty("constraints")
   @Valid
-  private List <Constraint> constraints = new ArrayList <Constraint> ( );
+  private List <Constraint> constraints = new ArrayList <Constraint>();
 
   /**
    * @return The code

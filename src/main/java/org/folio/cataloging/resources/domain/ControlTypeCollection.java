@@ -21,10 +21,10 @@ public class ControlTypeCollection {
   @JsonProperty("controlTypes")
   @Valid
   @NotNull
-  private List <ControlType> controlTypes = new ArrayList <ControlType> ( );
+  private List <ControlType> controlTypes = new ArrayList <ControlType>();
 
   @JsonIgnore
-  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
+  private Map <String, Object> additionalProperties = new HashMap <String, Object>();
 
   /**
    * (Required)
@@ -58,11 +58,11 @@ public class ControlTypeCollection {
 
   @JsonAnySetter
   public void setAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
   }
 
   public ControlTypeCollection withAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
     return this;
   }
 }

@@ -17,10 +17,10 @@ public class CLCTN_MST_RULE_REL implements Persistence, Comparable {
   private Integer ruleId;
   private Long idCollection;
 
-  private PersistenceState persistenceState = new PersistenceState ( );
+  private PersistenceState persistenceState = new PersistenceState();
 
   public CLCTN_MST_RULE_REL() {
-    super ( );
+    super();
   }
 
   public CLCTN_MST_RULE_REL(Integer id, Long coll) {
@@ -37,11 +37,11 @@ public class CLCTN_MST_RULE_REL implements Persistence, Comparable {
   }
 
   public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict (obj);
+    persistenceState.evict(obj);
   }
 
   public void evict() throws DataAccessException {
-    evict (this);
+    evict(this);
   }
 
   public AbstractDAO getDAO() {
@@ -49,11 +49,11 @@ public class CLCTN_MST_RULE_REL implements Persistence, Comparable {
   }
 
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   public void setUpdateStatus(int i) {
-    persistenceState.setUpdateStatus (i);
+    persistenceState.setUpdateStatus(i);
   }
 
   /* (non-Javadoc)
@@ -62,8 +62,8 @@ public class CLCTN_MST_RULE_REL implements Persistence, Comparable {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((idCollection == null) ? 0 : idCollection.hashCode ( ));
-    result = prime * result + ((ruleId == null) ? 0 : ruleId.hashCode ( ));
+    result = prime * result + ((idCollection == null) ? 0 : idCollection.hashCode());
+    result = prime * result + ((ruleId == null) ? 0 : ruleId.hashCode());
     return result;
   }
 
@@ -75,68 +75,68 @@ public class CLCTN_MST_RULE_REL implements Persistence, Comparable {
       return true;
     if (obj == null)
       return false;
-    if (getClass ( ) != obj.getClass ( ))
+    if (getClass() != obj.getClass())
       return false;
     CLCTN_MST_RULE_REL other = (CLCTN_MST_RULE_REL) obj;
     if (idCollection == null) {
       if (other.idCollection != null)
         return false;
-    } else if (!idCollection.equals (other.idCollection))
+    } else if (!idCollection.equals(other.idCollection))
       return false;
     if (ruleId == null) {
       if (other.ruleId != null)
         return false;
-    } else if (!ruleId.equals (other.ruleId))
+    } else if (!ruleId.equals(other.ruleId))
       return false;
     return true;
   }
 
   public boolean isChanged() {
-    return persistenceState.isChanged ( );
+    return persistenceState.isChanged();
   }
 
   public boolean isDeleted() {
-    return persistenceState.isDeleted ( );
+    return persistenceState.isDeleted();
   }
 
   public boolean isNew() {
-    return persistenceState.isNew ( );
+    return persistenceState.isNew();
   }
 
   public boolean isRemoved() {
-    return persistenceState.isRemoved ( );
+    return persistenceState.isRemoved();
   }
 
   public void markChanged() {
-    persistenceState.markChanged ( );
+    persistenceState.markChanged();
   }
 
   public void markDeleted() {
-    persistenceState.markDeleted ( );
+    persistenceState.markDeleted();
   }
 
   public void markNew() {
-    persistenceState.markNew ( );
+    persistenceState.markNew();
   }
 
   public void markUnchanged() {
-    persistenceState.markUnchanged ( );
+    persistenceState.markUnchanged();
   }
 
   public boolean onDelete(Session arg0) throws CallbackException {
-    return persistenceState.onDelete (arg0);
+    return persistenceState.onDelete(arg0);
   }
 
   public void onLoad(Session arg0, Serializable arg1) {
-    persistenceState.onLoad (arg0, arg1);
+    persistenceState.onLoad(arg0, arg1);
   }
 
   public boolean onSave(Session arg0) throws CallbackException {
-    return persistenceState.onSave (arg0);
+    return persistenceState.onSave(arg0);
   }
 
   public boolean onUpdate(Session arg0) throws CallbackException {
-    return persistenceState.onUpdate (arg0);
+    return persistenceState.onUpdate(arg0);
   }
 
   public void generateNewKey() throws DataAccessException {
@@ -161,7 +161,7 @@ public class CLCTN_MST_RULE_REL implements Persistence, Comparable {
   public int compareTo(Object o) {
     CLCTN_MST_RULE_REL collRule = (CLCTN_MST_RULE_REL) o;
 //		int result = new Long(this.idCollection).compareTo(new Long(collRule.getIdCollection()));
-    int result = this.idCollection.compareTo (collRule.getIdCollection ( ));
+    int result = this.idCollection.compareTo(collRule.getIdCollection());
     return result;
   }
 }

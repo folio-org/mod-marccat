@@ -40,16 +40,16 @@ import static org.folio.cataloging.F.deepCopy;
  * @since 1.0
  */
 public class PublisherTag extends VariableField implements PersistentObjectWithView, Equivalent {
-  private static Log logger = LogFactory.getLog (PublisherTag.class);
-  private PersistenceState persistenceState = new PersistenceState ( );
-  private List accessPoints = new ArrayList ( );
-  private List deletedApfs = new ArrayList ( );
-  private List dates = new ArrayList ( );
+  private static Log logger = LogFactory.getLog(PublisherTag.class);
+  private PersistenceState persistenceState = new PersistenceState();
+  private List accessPoints = new ArrayList();
+  private List deletedApfs = new ArrayList();
+  private List dates = new ArrayList();
   private int apfIndex;
   private String manufacturerPlace = "";
   private String manufacturer = "";
   private String manufacturerDate = "";
-  private UserViewHelper userViewHelper = new UserViewHelper ( );
+  private UserViewHelper userViewHelper = new UserViewHelper();
 
   /*
    * noteType is used only for the edit page correlation to allow for the possibility
@@ -63,9 +63,9 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
    * @since 1.0
    */
   public PublisherTag() {
-    super ( );
-    setPersistenceState (persistenceState);
-    addNewAccessPoint ( );
+    super();
+    setPersistenceState(persistenceState);
+    addNewAccessPoint();
   }
 
   /**
@@ -74,36 +74,36 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
    * @since 1.0
    */
   public PublisherTag(int bib_itm, int view) {
-    super ( );
-    setPersistenceState (persistenceState);
-    setBibItemNumber (bib_itm);
-    setUserViewString (View.makeSingleViewString (view));
-    addNewAccessPoint ( );
+    super();
+    setPersistenceState(persistenceState);
+    setBibItemNumber(bib_itm);
+    setUserViewString(View.makeSingleViewString(view));
+    addNewAccessPoint();
   }
 
   /**
    * Class constructor
    */
   public PublisherTag(List accessPoints) {
-    super ( );
-    setPersistenceState (persistenceState);
-    PublisherAccessPoint anApf = (PublisherAccessPoint) accessPoints.get (0);
-    setItemNumber (anApf.getItemNumber ( ));
-    setUserViewString (anApf.getUserViewString ( ));
-    setUpdateStatus (anApf.getUpdateStatus ( ));
-    setAccessPoints (accessPoints);
-    Collections.sort (accessPoints, new PublisherAccessPointComparator ( ));
+    super();
+    setPersistenceState(persistenceState);
+    PublisherAccessPoint anApf = (PublisherAccessPoint) accessPoints.get(0);
+    setItemNumber(anApf.getItemNumber());
+    setUserViewString(anApf.getUserViewString());
+    setUpdateStatus(anApf.getUpdateStatus());
+    setAccessPoints(accessPoints);
+    Collections.sort(accessPoints, new PublisherAccessPointComparator());
   }
 
   /*
    * Copy dates from access points into Publisher Tag while editing
    */
   private void copyDates() {
-    Iterator iter = getAccessPoints ( ).iterator ( );
+    Iterator iter = getAccessPoints().iterator();
     PublisherAccessPoint apf;
-    while (iter.hasNext ( )) {
-      apf = (PublisherAccessPoint) iter.next ( );
-      getDates ( ).add (apf.getDate ( ));
+    while (iter.hasNext()) {
+      apf = (PublisherAccessPoint) iter.next();
+      getDates().add(apf.getDate());
     }
   }
 
@@ -112,16 +112,16 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
    * member variables
    */
   private void extractManufacturerData() {
-    if (getAccessPoints ( ).size ( ) > 0) {
+    if (getAccessPoints().size() > 0) {
       PublisherAccessPoint lastApf =
-        (PublisherAccessPoint) accessPoints.get (
-          accessPoints.size ( ) - 1);
-      StringText s = lastApf.getAccessPointStringText ( );
-      lastApf.setAccessPointStringText (s.getSubfieldsWithoutCodes ("efg"));
-      setManufacturerPlace (
-        s.getSubfieldsWithCodes ("e").toDisplayString ( ));
-      setManufacturer (s.getSubfieldsWithCodes ("f").toDisplayString ( ));
-      setManufacturerDate (s.getSubfieldsWithCodes ("g").toDisplayString ( ));
+        (PublisherAccessPoint) accessPoints.get(
+          accessPoints.size() - 1);
+      StringText s = lastApf.getAccessPointStringText();
+      lastApf.setAccessPointStringText(s.getSubfieldsWithoutCodes("efg"));
+      setManufacturerPlace(
+        s.getSubfieldsWithCodes("e").toDisplayString());
+      setManufacturer(s.getSubfieldsWithCodes("f").toDisplayString());
+      setManufacturerDate(s.getSubfieldsWithCodes("g").toDisplayString());
     }
   }
 
@@ -130,20 +130,20 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
    */
   public void updatePublisherFromBrowse(PUBL_HDG p) {
     PublisherAccessPoint apf =
-      (PublisherAccessPoint) getAccessPoints ( ).get (getApfIndex ( ));
-    apf.setDescriptor (p);
+      (PublisherAccessPoint) getAccessPoints().get(getApfIndex());
+    apf.setDescriptor(p);
   }
 
   /* (non-Javadoc)
    * @see VariableField#getStringText()
    */
   public StringText getStringText() {
-    StringText result = new StringText ( );
+    StringText result = new StringText();
     PublisherAccessPoint aPub;
-    Iterator iter = getAccessPoints ( ).iterator ( );
-    while (iter.hasNext ( )) {
-      aPub = (PublisherAccessPoint) iter.next ( );
-      result.add (aPub.getStringText ( ));
+    Iterator iter = getAccessPoints().iterator();
+    while (iter.hasNext()) {
+      aPub = (PublisherAccessPoint) iter.next();
+      result.add(aPub.getStringText());
     }
     return result;
   }
@@ -156,38 +156,38 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
     /*
      * clear the current apf's
      */
-    setAccessPoints (new ArrayList ( ));
+    setAccessPoints(new ArrayList());
     /*
      * break up the string text into constituent PublisherAccessPoints
      */
-    StringText newText = new StringText ( );
+    StringText newText = new StringText();
     String lastSubfield = "z";
-    Iterator iter = stringText.getSubfieldList ( ).iterator ( );
-    while (iter.hasNext ( )) {
-      Subfield aSubfield = (Subfield) iter.next ( );
-      if (aSubfield.getCode ( ).compareTo (lastSubfield) < 0
-        || !iter.hasNext ( )) {
-        if (!iter.hasNext ( )) {
+    Iterator iter = stringText.getSubfieldList().iterator();
+    while (iter.hasNext()) {
+      Subfield aSubfield = (Subfield) iter.next();
+      if (aSubfield.getCode().compareTo(lastSubfield) < 0
+        || !iter.hasNext()) {
+        if (!iter.hasNext()) {
           // add the last subfield to newText
-          newText.addSubfield (aSubfield);
+          newText.addSubfield(aSubfield);
         }
         /*
          * we have reached the end of an APF group of subfields
          * so create a new APF and set the text
          */
-        if (newText.getNumberOfSubfields ( ) > 0) {
-          addNewAccessPoint ( );
+        if (newText.getNumberOfSubfields() > 0) {
+          addNewAccessPoint();
           PublisherAccessPoint p =
-            (PublisherAccessPoint) getAccessPoints ( ).get (
-              getAccessPoints ( ).size ( ) - 1);
-          p.setStringText (newText);
-          newText = new StringText ( );
+            (PublisherAccessPoint) getAccessPoints().get(
+              getAccessPoints().size() - 1);
+          p.setStringText(newText);
+          newText = new StringText();
         }
       }
-      newText.addSubfield (aSubfield);
-      lastSubfield = aSubfield.getCode ( );
+      newText.addSubfield(aSubfield);
+      lastSubfield = aSubfield.getCode();
     }
-    parseForEditing ( );
+    parseForEditing();
   }
 
   /**
@@ -198,7 +198,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
      * This is used in the worksheet jsp for displaying tags that
      * cannot be directly edited on the page (as with publisher)
      */
-    return getStringText ( ).getMarcDisplayString ( );
+    return getStringText().getMarcDisplayString();
   }
 
   /* (non-Javadoc)
@@ -212,7 +212,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
    * @see librisuite.business.cataloguing.bibliographic.Tag#getCorrelationValues()
    */
   public CorrelationValues getCorrelationValues() {
-    return new CorrelationValues (
+    return new CorrelationValues(
       noteType,
       CorrelationValues.UNDEFINED,
       CorrelationValues.UNDEFINED);
@@ -222,7 +222,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
    * @see TagInterface#setCorrelationValues(librisuite.business.common.CorrelationValues)
    */
   public void setCorrelationValues(CorrelationValues v) {
-    noteType = v.getValue (1);
+    noteType = v.getValue(1);
   }
 
   /**
@@ -240,9 +240,9 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
   }
 
   public PublisherAccessPoint getAnyPublisher() {
-    PublisherAccessPoint result = new PublisherAccessPoint ( );
-    if (getAccessPoints ( ) != null & getAccessPoints ( ).size ( ) > 0) {
-      result = (PublisherAccessPoint) getAccessPoints ( ).get (0);
+    PublisherAccessPoint result = new PublisherAccessPoint();
+    if (getAccessPoints() != null & getAccessPoints().size() > 0) {
+      result = (PublisherAccessPoint) getAccessPoints().get(0);
     }
     return result;
   }
@@ -269,7 +269,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
   public boolean equals(Object obj) {
     if (obj instanceof PublisherTag) {
       PublisherTag p = (PublisherTag) obj;
-      return p.getItemNumber ( ) == this.getItemNumber ( );
+      return p.getItemNumber() == this.getItemNumber();
     }
     return false;
   }
@@ -369,10 +369,10 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
    * @since 1.0
    */
   public void setDates(List list) {
-    logger.debug ("setting all dates");
+    logger.debug("setting all dates");
     dates = list;
-    for ( int i = 0; i < dates.size ( ); i++ ) {
-      logger.debug ("dates[" + i + "]='" + dates.get (i) + "'");
+    for (int i = 0; i < dates.size(); i++) {
+      logger.debug("dates[" + i + "]='" + dates.get(i) + "'");
     }
   }
 
@@ -380,17 +380,17 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
    * @since 1.0
    */
   public List getDates(int i) {
-    logger.debug ("getting date[" + i + "] = " + dates.get (i));
+    logger.debug("getting date[" + i + "] = " + dates.get(i));
     return dates;
   }
 
   public void addNewAccessPoint() {
-    PublisherAccessPoint apf = new PublisherAccessPoint ( );
-    apf.setTagImpl (new BibliographicTagImpl ( ));
-    apf.setItemNumber (getItemNumber ( ));
-    apf.setUserViewString (getUserViewString ( ));
-    getAccessPoints ( ).add (apf);
-    getDates ( ).add ("");
+    PublisherAccessPoint apf = new PublisherAccessPoint();
+    apf.setTagImpl(new BibliographicTagImpl());
+    apf.setItemNumber(getItemNumber());
+    apf.setUserViewString(getUserViewString());
+    getAccessPoints().add(apf);
+    getDates().add("");
   }
 
   /**
@@ -399,8 +399,8 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
    * @since 1.0
    */
   public void parseForEditing() {
-    extractManufacturerData ( );
-    copyDates ( );
+    extractManufacturerData();
+    copyDates();
   }
 
   /**
@@ -411,78 +411,78 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
    */
   public void saveEdits() {
     PublisherAccessPoint apf;
-    for ( int i = 0; i < getAccessPoints ( ).size ( ); i++ ) {
-      apf = (PublisherAccessPoint) getAccessPoints ( ).get (i);
-      apf.setSequenceNumber (i + 1);
+    for (int i = 0; i < getAccessPoints().size(); i++) {
+      apf = (PublisherAccessPoint) getAccessPoints().get(i);
+      apf.setSequenceNumber(i + 1);
       /*modifica barbara PRN 101*/
-      if (getDates ( ).size ( ) > 0) {
-        if (!("".equals (getDates ( ).get (i)))) {
-          apf.setAccessPointStringText (
-            new StringText (
-              Subfield.SUBFIELD_DELIMITER + "c" + getDates ( ).get (i)));
+      if (getDates().size() > 0) {
+        if (!("".equals(getDates().get(i)))) {
+          apf.setAccessPointStringText(
+            new StringText(
+              Subfield.SUBFIELD_DELIMITER + "c" + getDates().get(i)));
         } else {
-          apf.setAccessPointStringText (
-            new StringText (""));
+          apf.setAccessPointStringText(
+            new StringText(""));
         }
 
       } else {
-        apf.setAccessPointStringText (
-          new StringText (""));
+        apf.setAccessPointStringText(
+          new StringText(""));
       }
 
     }
-    setDates (new ArrayList ( ));
+    setDates(new ArrayList());
     // check if any of subfields e,f,g are present
-    StringText s = new StringText ( );
+    StringText s = new StringText();
     String luogo = "";
     String nome = "";
     String data = "";
 
-    if (!("".equals (getManufacturerPlace ( )))) {
-      luogo = getManufacturerPlace ( );
-      if (luogo.indexOf ("(") == -1)
+    if (!("".equals(getManufacturerPlace()))) {
+      luogo = getManufacturerPlace();
+      if (luogo.indexOf("(") == -1)
         luogo = "(" + luogo;
-      if (getManufacturer ( ).equals ("") && getManufacturerDate ( ).equals ("")) {
-        if (luogo.indexOf (")") == -1)
+      if (getManufacturer().equals("") && getManufacturerDate().equals("")) {
+        if (luogo.indexOf(")") == -1)
           luogo = luogo + ")";
       }
-      s.addSubfield (new Subfield ("e", luogo));
-      setManufacturerPlace ("");
+      s.addSubfield(new Subfield("e", luogo));
+      setManufacturerPlace("");
     }
-    if (!("".equals (getManufacturer ( )))) {
-      nome = getManufacturer ( );
-      if (luogo.equals ("") && nome.indexOf ("(") == -1)
+    if (!("".equals(getManufacturer()))) {
+      nome = getManufacturer();
+      if (luogo.equals("") && nome.indexOf("(") == -1)
         nome = "(" + nome;
-      if (getManufacturerDate ( ).equals ("") && nome.indexOf (")") == -1)
+      if (getManufacturerDate().equals("") && nome.indexOf(")") == -1)
         nome = nome + ")";
-      s.addSubfield (new Subfield ("f", nome));
-      setManufacturer ("");
+      s.addSubfield(new Subfield("f", nome));
+      setManufacturer("");
     }
-    if (!("".equals (getManufacturerDate ( )))) {
-      data = getManufacturerDate ( );
-      if (luogo.equals ("") && nome.equals ("")) {
-        if (data.indexOf ("(") == -1)
+    if (!("".equals(getManufacturerDate()))) {
+      data = getManufacturerDate();
+      if (luogo.equals("") && nome.equals("")) {
+        if (data.indexOf("(") == -1)
           data = "(" + data;
-        if (data.indexOf (")") == -1)
+        if (data.indexOf(")") == -1)
           data = data + ")";
-      } else if (data.indexOf (")") == -1)
+      } else if (data.indexOf(")") == -1)
         data = data + ")";
-      s.addSubfield (new Subfield ("g", data));
-      setManufacturerDate ("");
+      s.addSubfield(new Subfield("g", data));
+      setManufacturerDate("");
     }
 
-    if (s.getNumberOfSubfields ( ) > 0) {
-      if (getAccessPoints ( ).size ( ) == 0) {
+    if (s.getNumberOfSubfields() > 0) {
+      if (getAccessPoints().size() == 0) {
         // create a new apf to hold the manufacturer data
-        getAccessPoints ( ).add (new PublisherAccessPoint ( ));
+        getAccessPoints().add(new PublisherAccessPoint());
       }
       // add the manufacturer data to the last apf
       apf =
-        (PublisherAccessPoint) getAccessPoints ( ).get (
-          getAccessPoints ( ).size ( ) - 1);
-      StringText s2 = apf.getAccessPointStringText ( );
-      s2.add (s);
-      apf.setAccessPointStringText (s2);
+        (PublisherAccessPoint) getAccessPoints().get(
+          getAccessPoints().size() - 1);
+      StringText s2 = apf.getAccessPointStringText();
+      s2.add(s);
+      apf.setAccessPointStringText(s2);
 
     }
   }
@@ -491,50 +491,50 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
     Element content = null;
     if (xmlDocument != null) {
       content =
-        getStringText ( ).generateModelXmlElementContent (xmlDocument);
+        getStringText().generateModelXmlElementContent(xmlDocument);
     }
     return content;
   }
 
   public void parseModelXmlElementContent(Element xmlElement) {
-    setStringText (StringText.parseModelXmlElementContent (xmlElement));
+    setStringText(StringText.parseModelXmlElementContent(xmlElement));
   }
 
   /**
    * @since 1.0
    */
   public String getUserViewString() {
-    return userViewHelper.getUserViewString ( );
+    return userViewHelper.getUserViewString();
   }
 
   /**
    * @since 1.0
    */
   public void setUserViewString(String string) {
-    userViewHelper.setUserViewString (string);
+    userViewHelper.setUserViewString(string);
   }
 
   /**
    * @since 1.0
    */
   public int getBibItemNumber() {
-    return getItemNumber ( );
+    return getItemNumber();
   }
 
   /**
    * @since 1.0
    */
   public void setBibItemNumber(int i) {
-    setItemNumber (i);
+    setItemNumber(i);
   }
 
   /* (non-Javadoc)
    * @see TagInterface#evict()
    */
   public void evict() throws DataAccessException {
-    Iterator iter = getAccessPoints ( ).iterator ( );
-    while (iter.hasNext ( )) {
-      ((PublisherAccessPoint) iter.next ( )).evict ( );
+    Iterator iter = getAccessPoints().iterator();
+    while (iter.hasNext()) {
+      ((PublisherAccessPoint) iter.next()).evict();
     }
   }
 
@@ -542,90 +542,90 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
    * @see TagInterface#markChanged()
    */
   public void markChanged() {
-    Iterator iter = getAccessPoints ( ).iterator ( );
-    while (iter.hasNext ( )) {
-      ((PublisherAccessPoint) iter.next ( )).markChanged ( );
+    Iterator iter = getAccessPoints().iterator();
+    while (iter.hasNext()) {
+      ((PublisherAccessPoint) iter.next()).markChanged();
     }
-    super.markChanged ( );
+    super.markChanged();
   }
 
   /* (non-Javadoc)
    * @see TagInterface#markDeleted()
    */
   public void markDeleted() {
-    Iterator iter = getAccessPoints ( ).iterator ( );
-    while (iter.hasNext ( )) {
-      ((PublisherAccessPoint) iter.next ( )).markDeleted ( );
+    Iterator iter = getAccessPoints().iterator();
+    while (iter.hasNext()) {
+      ((PublisherAccessPoint) iter.next()).markDeleted();
     }
-    super.markDeleted ( );
+    super.markDeleted();
   }
 
   /* (non-Javadoc)
    * @see TagInterface#markNew()
    */
   public void markNew() {
-    Iterator iter = getAccessPoints ( ).iterator ( );
-    while (iter.hasNext ( )) {
-      ((PublisherAccessPoint) iter.next ( )).markNew ( );
+    Iterator iter = getAccessPoints().iterator();
+    while (iter.hasNext()) {
+      ((PublisherAccessPoint) iter.next()).markNew();
     }
-    super.markNew ( );
+    super.markNew();
   }
 
   /* (non-Javadoc)
    * @see TagInterface#markUnchanged()
    */
   public void markUnchanged() {
-    Iterator iter = getAccessPoints ( ).iterator ( );
-    while (iter.hasNext ( )) {
-      ((PublisherAccessPoint) iter.next ( )).markUnchanged ( );
+    Iterator iter = getAccessPoints().iterator();
+    while (iter.hasNext()) {
+      ((PublisherAccessPoint) iter.next()).markUnchanged();
     }
-    super.markUnchanged ( );
+    super.markUnchanged();
   }
 
   /* (non-Javadoc)
    * @see TagInterface#setUpdateStatus(int)
    */
   public void setUpdateStatus(int i) {
-    Iterator iter = getAccessPoints ( ).iterator ( );
-    while (iter.hasNext ( )) {
-      ((PublisherAccessPoint) iter.next ( )).setUpdateStatus (i);
+    Iterator iter = getAccessPoints().iterator();
+    while (iter.hasNext()) {
+      ((PublisherAccessPoint) iter.next()).setUpdateStatus(i);
     }
-    super.setUpdateStatus (i);
+    super.setUpdateStatus(i);
   }
 
   /* (non-Javadoc)
    * @see TagInterface#correlationChangeAffectsKey(librisuite.business.common.CorrelationValues)
    */
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
-    return v.getValue (1) != 24;
+    return v.getValue(1) != 24;
   }
 
   public void removeDescriptorDefaults(int i) {
-    PublisherAccessPoint pap = (PublisherAccessPoint) getAccessPoints ( ).get (i);
-    removeDescriptorDefaults (pap);
+    PublisherAccessPoint pap = (PublisherAccessPoint) getAccessPoints().get(i);
+    removeDescriptorDefaults(pap);
   }
 
   public void removeDescriptorDefaults() {
-    Iterator iter = getAccessPoints ( ).iterator ( );
-    while (iter.hasNext ( )) {
-      PublisherAccessPoint pap = ((PublisherAccessPoint) iter.next ( ));
-      removeDescriptorDefaults (pap);
+    Iterator iter = getAccessPoints().iterator();
+    while (iter.hasNext()) {
+      PublisherAccessPoint pap = ((PublisherAccessPoint) iter.next());
+      removeDescriptorDefaults(pap);
     }
   }
 
   public void removeDescriptor(int i) {
-    PublisherAccessPoint pap = (PublisherAccessPoint) getAccessPoints ( ).get (i);
-    detachDescriptor (pap);
+    PublisherAccessPoint pap = (PublisherAccessPoint) getAccessPoints().get(i);
+    detachDescriptor(pap);
   }
 
   /**
    * @param pap
    */
   private void removeDescriptorDefaults(PublisherAccessPoint pap) {
-    PUBL_HDG publ_hdg = ((PUBL_HDG) pap.getDescriptor ( ));
-    if (pap.getHeadingNumber ( ) == null) {
-      publ_hdg.setNameStringText ("");
-      publ_hdg.setPlaceStringText ("");
+    PUBL_HDG publ_hdg = ((PUBL_HDG) pap.getDescriptor());
+    if (pap.getHeadingNumber() == null) {
+      publ_hdg.setNameStringText("");
+      publ_hdg.setPlaceStringText("");
     }
   }
 
@@ -634,46 +634,46 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
    */
 
   private void detachDescriptor(PublisherAccessPoint pap) {
-    PUBL_HDG publ_hdg = ((PUBL_HDG) pap.getDescriptor ( ));
-    if (pap.getHeadingNumber ( ) == null) {
-      publ_hdg.setNameStringText ("");
-      publ_hdg.setPlaceStringText ("");
+    PUBL_HDG publ_hdg = ((PUBL_HDG) pap.getDescriptor());
+    if (pap.getHeadingNumber() == null) {
+      publ_hdg.setNameStringText("");
+      publ_hdg.setPlaceStringText("");
 
     } else {
-      pap.setDescriptor (null);
-      pap.setHeadingNumber (null);
+      pap.setDescriptor(null);
+      pap.setHeadingNumber(null);
     }
   }
 
   //todo: add session
   public List replaceEquivalentDescriptor(short indexingLanguage, int cataloguingView) throws DataAccessException {
-    final DAODescriptor dao = new PublisherDescriptorDAO ( );
-    List newTags = new ArrayList ( );
+    final DAODescriptor dao = new PublisherDescriptorDAO();
+    List newTags = new ArrayList();
     PublisherAccessPoint anApf = null;
-    List accessPointsApp = new ArrayList ( );
-    PublisherTag aTag = (PublisherTag) deepCopy (this);
-    for ( int i = 0; i < getAccessPoints ( ).size ( ); i++ ) {
-      anApf = (PublisherAccessPoint) getAccessPoints ( ).get (i);
-      Descriptor d = anApf.getDescriptor ( );
+    List accessPointsApp = new ArrayList();
+    PublisherTag aTag = (PublisherTag) deepCopy(this);
+    for (int i = 0; i < getAccessPoints().size(); i++) {
+      anApf = (PublisherAccessPoint) getAccessPoints().get(i);
+      Descriptor d = anApf.getDescriptor();
       REF ref = null;
       try {
-        ref = dao.getCrossReferencesWithLanguage (d, cataloguingView, indexingLanguage, null);
+        ref = dao.getCrossReferencesWithLanguage(d, cataloguingView, indexingLanguage, null);
       } catch (HibernateException e) {
-        e.printStackTrace ( );
+        e.printStackTrace();
       }
       if (ref != null) {
-        aTag.markNew ( );
-        anApf.setDescriptor (dao.load (ref.getTarget ( ), cataloguingView));
-        anApf.setHeadingNumber (new Integer (anApf.getDescriptor ( )
-          .getKey ( ).getHeadingNumber ( )));
-        accessPointsApp.add (anApf);
+        aTag.markNew();
+        anApf.setDescriptor(dao.load(ref.getTarget(), cataloguingView));
+        anApf.setHeadingNumber(new Integer(anApf.getDescriptor()
+          .getKey().getHeadingNumber()));
+        accessPointsApp.add(anApf);
 
       } else
-        accessPointsApp.add (anApf);
+        accessPointsApp.add(anApf);
     }
     if (aTag != null) {
-      aTag.setAccessPoints (accessPointsApp);
-      newTags.add (aTag);
+      aTag.setAccessPoints(accessPointsApp);
+      newTags.add(aTag);
     }
 
     return newTags;

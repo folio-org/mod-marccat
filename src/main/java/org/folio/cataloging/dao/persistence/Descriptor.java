@@ -63,7 +63,7 @@ public abstract class Descriptor implements PersistentObjectWithView {
   /**
    * The po.
    */
-  private PersistenceState po = new PersistenceState ( );
+  private PersistenceState po = new PersistenceState();
 
   /**
    * The scripting language.
@@ -99,10 +99,10 @@ public abstract class Descriptor implements PersistentObjectWithView {
    * Instantiates a new descriptor.
    */
   public Descriptor() {
-    setKey (new DescriptorKey ( ));
-    StringText s = new StringText ( );
-    s.addSubfield (new Subfield ("a", ""));
-    setStringText (s.toString ( ));
+    setKey(new DescriptorKey());
+    StringText s = new StringText();
+    s.addSubfield(new Subfield("a", ""));
+    setStringText(s.toString());
   }
 
   /**
@@ -129,7 +129,7 @@ public abstract class Descriptor implements PersistentObjectWithView {
    * @throws DataAccessException the data access exception
    */
   public void evict() throws DataAccessException {
-    po.evict (this);
+    po.evict(this);
   }
 
   /**
@@ -138,7 +138,7 @@ public abstract class Descriptor implements PersistentObjectWithView {
    * @return the string
    */
   public String buildBrowseTerm() {
-    return getDisplayText ( );
+    return getDisplayText();
   }
 
   /**
@@ -202,7 +202,7 @@ public abstract class Descriptor implements PersistentObjectWithView {
    * @since 1.0
    */
   public String getBrowseKey() {
-    return getDefaultBrowseKey ( );
+    return getDefaultBrowseKey();
   }
 
   /**
@@ -242,7 +242,7 @@ public abstract class Descriptor implements PersistentObjectWithView {
    * @return the display text
    */
   public String getDisplayText() {
-    return new StringText (getStringText ( )).toDisplayString ( );
+    return new StringText(getStringText()).toDisplayString();
   }
 
   /**
@@ -356,7 +356,7 @@ public abstract class Descriptor implements PersistentObjectWithView {
    * @return the update status
    */
   public int getUpdateStatus() {
-    return po.getUpdateStatus ( );
+    return po.getUpdateStatus();
   }
 
   /**
@@ -365,7 +365,7 @@ public abstract class Descriptor implements PersistentObjectWithView {
    * @param i the new update status
    */
   public void setUpdateStatus(int i) {
-    po.setUpdateStatus (i);
+    po.setUpdateStatus(i);
   }
 
   /**
@@ -374,7 +374,7 @@ public abstract class Descriptor implements PersistentObjectWithView {
    * @return the user view string
    */
   public String getUserViewString() {
-    return getKey ( ).getUserViewString ( );
+    return getKey().getUserViewString();
   }
 
   /**
@@ -383,7 +383,7 @@ public abstract class Descriptor implements PersistentObjectWithView {
    * @param s the new user view string
    */
   public void setUserViewString(String s) {
-    getKey ( ).setUserViewString (s);
+    getKey().setUserViewString(s);
   }
 
   /**
@@ -410,7 +410,7 @@ public abstract class Descriptor implements PersistentObjectWithView {
    * @return true, if is changed
    */
   public boolean isChanged() {
-    return po.isChanged ( );
+    return po.isChanged();
   }
 
   /**
@@ -419,7 +419,7 @@ public abstract class Descriptor implements PersistentObjectWithView {
    * @return true, if is deleted
    */
   public boolean isDeleted() {
-    return po.isDeleted ( );
+    return po.isDeleted();
   }
 
   /**
@@ -428,35 +428,35 @@ public abstract class Descriptor implements PersistentObjectWithView {
    * @return true, if is new
    */
   public boolean isNew() {
-    return po.isNew ( );
+    return po.isNew();
   }
 
   /**
    * Mark changed.
    */
   public void markChanged() {
-    po.markChanged ( );
+    po.markChanged();
   }
 
   /**
    * Mark deleted.
    */
   public void markDeleted() {
-    po.markDeleted ( );
+    po.markDeleted();
   }
 
   /**
    * Mark new.
    */
   public void markNew() {
-    po.markNew ( );
+    po.markNew();
   }
 
   /**
    * Mark unchanged.
    */
   public void markUnchanged() {
-    po.markUnchanged ( );
+    po.markUnchanged();
   }
 
   /**
@@ -467,7 +467,7 @@ public abstract class Descriptor implements PersistentObjectWithView {
    * @throws CallbackException the callback exception
    */
   public boolean onDelete(Session arg0) throws CallbackException {
-    return po.onDelete (arg0);
+    return po.onDelete(arg0);
   }
 
   /**
@@ -477,7 +477,7 @@ public abstract class Descriptor implements PersistentObjectWithView {
    * @param arg1 the arg 1
    */
   public void onLoad(Session arg0, Serializable arg1) {
-    po.onLoad (arg0, arg1);
+    po.onLoad(arg0, arg1);
   }
 
   /**
@@ -488,7 +488,7 @@ public abstract class Descriptor implements PersistentObjectWithView {
    * @throws CallbackException the callback exception
    */
   public boolean onSave(Session arg0) throws CallbackException {
-    return po.onSave (arg0);
+    return po.onSave(arg0);
   }
 
   /**
@@ -499,7 +499,7 @@ public abstract class Descriptor implements PersistentObjectWithView {
    * @throws CallbackException the callback exception
    */
   public boolean onUpdate(Session arg0) throws CallbackException {
-    return po.onUpdate (arg0);
+    return po.onUpdate(arg0);
   }
 
   /**
@@ -545,7 +545,7 @@ public abstract class Descriptor implements PersistentObjectWithView {
   public int hashCode() {
     final int PRIME = 31;
     int result = 1;
-    result = PRIME * result + ((key == null) ? 0 : key.hashCode ( ));
+    result = PRIME * result + ((key == null) ? 0 : key.hashCode());
     return result;
   }
 
@@ -557,13 +557,13 @@ public abstract class Descriptor implements PersistentObjectWithView {
       return true;
     if (obj == null)
       return false;
-    if (getClass ( ) != obj.getClass ( ))
+    if (getClass() != obj.getClass())
       return false;
     final Descriptor other = (Descriptor) obj;
     if (key == null) {
       if (other.key != null)
         return false;
-    } else if (!key.equals (other.key))
+    } else if (!key.equals(other.key))
       return false;
     return true;
   }
@@ -581,7 +581,7 @@ public abstract class Descriptor implements PersistentObjectWithView {
    * @return the heading number
    */
   public int getHeadingNumber() {
-    return key.getHeadingNumber ( );
+    return key.getHeadingNumber();
   }
 
   /**
@@ -590,7 +590,7 @@ public abstract class Descriptor implements PersistentObjectWithView {
    * @param i the new heading number
    */
   public void setHeadingNumber(int i) {
-    key.setHeadingNumber (i);
+    key.setHeadingNumber(i);
   }
 
 
@@ -637,7 +637,7 @@ public abstract class Descriptor implements PersistentObjectWithView {
   public void setAuthoritySourceCode(int authoritySourceCode) {
     this.authoritySourceCode = authoritySourceCode;
     if (authoritySourceCode != T_AUT_HDG_SRC.SOURCE_IN_SUBFIELD_2) {
-      setAuthoritySourceText (null);
+      setAuthoritySourceText(null);
     }
   }
 
@@ -658,14 +658,14 @@ public abstract class Descriptor implements PersistentObjectWithView {
     throws DuplicateDescriptorException,
     MatchedHeadingInAnotherViewException, HibernateException, SQLException {
 
-    if (isDeleted ( )) { // no check needed
+    if (isDeleted()) { // no check needed
       return;
     }
-    if (isMatchingAnotherHeading (session)) {
-      throw new DuplicateDescriptorException (this);
+    if (isMatchingAnotherHeading(session)) {
+      throw new DuplicateDescriptorException(this);
     }
-    if (!allowPotentialDup && hasMatchingSortformInAnotherView (session)) {
-      throw new MatchedHeadingInAnotherViewException ( );
+    if (!allowPotentialDup && hasMatchingSortformInAnotherView(session)) {
+      throw new MatchedHeadingInAnotherViewException();
     }
   }
 
@@ -680,7 +680,7 @@ public abstract class Descriptor implements PersistentObjectWithView {
   @Deprecated
   //TODO: move this method in API
   public boolean isMatchingAnotherHeading(final Session session) throws HibernateException, SQLException {
-    return ((DAODescriptor) getDAO ( )).isMatchingAnotherHeading (this, session);
+    return ((DAODescriptor) getDAO()).isMatchingAnotherHeading(this, session);
   }
 
   /**
@@ -694,8 +694,8 @@ public abstract class Descriptor implements PersistentObjectWithView {
   @Deprecated
   //TODO: move this method in API
   public boolean hasMatchingSortformInAnotherView(final Session session) throws HibernateException, SQLException {
-    return ((DAODescriptor) getDAO ( ))
-      .hasMatchingSortformInAnotherView (this, session);
+    return ((DAODescriptor) getDAO())
+      .hasMatchingSortformInAnotherView(this, session);
   }
 
   /**
@@ -704,8 +704,8 @@ public abstract class Descriptor implements PersistentObjectWithView {
    * @throws DataAccessException the data access exception
    */
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
-    SystemNextNumberDAO dao = new SystemNextNumberDAO ( );
-    getKey ( ).setHeadingNumber (dao.getNextNumber (getNextNumberKeyFieldCode ( ), session));
+    SystemNextNumberDAO dao = new SystemNextNumberDAO();
+    getKey().setHeadingNumber(dao.getNextNumber(getNextNumberKeyFieldCode(), session));
   }
 
   /**
@@ -717,15 +717,15 @@ public abstract class Descriptor implements PersistentObjectWithView {
   @Deprecated
   //TODO: move this method in API
   public void validate() throws InvalidDescriptorException {
-    StringText st = new StringText (getStringText ( ));
-    if (st.getSubfieldList ( ).size ( ) == 0) {
-      throw new DescriptorHasNoSubfieldsException ( );
+    StringText st = new StringText(getStringText());
+    if (st.getSubfieldList().size() == 0) {
+      throw new DescriptorHasNoSubfieldsException();
     }
-    Iterator iter = st.getSubfieldList ( ).iterator ( );
-    while (iter.hasNext ( )) {
-      Subfield s = (Subfield) iter.next ( );
-      if (s.getContent ( ) == null || "".equals (s.getContent ( ))) {
-        throw new DescriptorHasEmptySubfieldsException ( );
+    Iterator iter = st.getSubfieldList().iterator();
+    while (iter.hasNext()) {
+      Subfield s = (Subfield) iter.next();
+      if (s.getContent() == null || "".equals(s.getContent())) {
+        throw new DescriptorHasEmptySubfieldsException();
       }
     }
   }
@@ -752,7 +752,7 @@ public abstract class Descriptor implements PersistentObjectWithView {
    * @see java.lang.Object#toString()
    */
   public String toString() {
-    return ToStringBuilder.reflectionToString (this);
+    return ToStringBuilder.reflectionToString(this);
   }
 
   /**
@@ -774,10 +774,10 @@ public abstract class Descriptor implements PersistentObjectWithView {
   }
 
   public void setConfigValues(final Map <String, String> configuration) {
-    setVerificationLevel (configuration.get ("title.verificationLevel").charAt (0));
-    setAccessPointLanguage (Integer.parseInt (configuration.get ("title.accessPointLanguage")));
-    setIndexingLanguage (Integer.parseInt (configuration.get ("title.indexingLanguage")));
-    setScriptingLanguage (configuration.get ("subject.scriptingLanguage"));
-    setCopyToSubjectIndicator (configuration.get ("name.copyToSubjectIndicator").charAt (0));
+    setVerificationLevel(configuration.get("title.verificationLevel").charAt(0));
+    setAccessPointLanguage(Integer.parseInt(configuration.get("title.accessPointLanguage")));
+    setIndexingLanguage(Integer.parseInt(configuration.get("title.indexingLanguage")));
+    setScriptingLanguage(configuration.get("subject.scriptingLanguage"));
+    setCopyToSubjectIndicator(configuration.get("name.copyToSubjectIndicator").charAt(0));
   }
 }

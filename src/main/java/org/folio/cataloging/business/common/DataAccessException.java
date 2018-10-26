@@ -31,53 +31,53 @@ public class DataAccessException extends ModCatalogingException {
    * @see ModCatalogingException#ModCatalogingException()
    */
   public DataAccessException() {
-    super ( );
+    super();
   }
 
   /**
    * @see ModCatalogingException#ModCatalogingException(String)
    */
   public DataAccessException(String message) {
-    super (message);
+    super(message);
   }
 
   /**
    * @see ModCatalogingException#ModCatalogingException(String, Throwable)
    */
   public DataAccessException(String message, Throwable cause) {
-    super (message, cause);
-    getCodeAndState (cause);
+    super(message, cause);
+    getCodeAndState(cause);
   }
 
   /**
    * @see ModCatalogingException#ModCatalogingException(Throwable)
    */
   public DataAccessException(Throwable cause) {
-    super (cause);
+    super(cause);
   }
 
 
   private void getCodeAndState(Throwable cause) {
     if (cause instanceof SQLException) {
-      errorCode = ((SQLException) cause).getErrorCode ( );
-      state = ((SQLException) cause).getSQLState ( );
+      errorCode = ((SQLException) cause).getErrorCode();
+      state = ((SQLException) cause).getSQLState();
     } else {
       errorCode = -1;
-      state = cause.getMessage ( );
+      state = cause.getMessage();
     }
   }
 
 
   @Override
   public String toString() {
-    return new StringBuilder (
-      getClass ( ).getName ( ))
-      .append ('[')
-      .append (errorCode)
-      .append (',')
-      .append (state).append ("]: ")
-      .append (getLocalizedMessage ( ))
-      .toString ( );
+    return new StringBuilder(
+      getClass().getName())
+      .append('[')
+      .append(errorCode)
+      .append(',')
+      .append(state).append("]: ")
+      .append(getLocalizedMessage())
+      .toString();
   }
 
 }

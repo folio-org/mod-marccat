@@ -23,7 +23,7 @@ public class T_CAS_STND_NTE_SUB_TYP implements Persistence {
   //-----------------------------
   // Persistence and LifeCycle
   //-----------------------------
-  private PersistenceState persistenceState = new PersistenceState ( );
+  private PersistenceState persistenceState = new PersistenceState();
 
   public int getSequence() {
     return sequence;
@@ -55,7 +55,7 @@ public class T_CAS_STND_NTE_SUB_TYP implements Persistence {
    * @see CodeTable#getCodeString()
    */
   public String getCodeString() {
-    return String.valueOf (code);
+    return String.valueOf(code);
   }
 
   public int hashCode() {
@@ -70,14 +70,14 @@ public class T_CAS_STND_NTE_SUB_TYP implements Persistence {
       return true;
     if (obj == null)
       return false;
-    if (getClass ( ) != obj.getClass ( ))
+    if (getClass() != obj.getClass())
       return false;
     T_CAS_STND_NTE_SUB_TYP other = (T_CAS_STND_NTE_SUB_TYP) obj;
     return sequence == other.sequence;
   }
 
   public void evict() throws DataAccessException {
-    persistenceState.evict (this);
+    persistenceState.evict(this);
   }
 
   public void generateNewKey() throws DataAccessException {
@@ -87,59 +87,59 @@ public class T_CAS_STND_NTE_SUB_TYP implements Persistence {
   }
 
   public AbstractDAO getDAO() {
-    return new DAOCodeTable ( );
+    return new DAOCodeTable();
   }
 
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   public void setUpdateStatus(int i) {
-    persistenceState.setUpdateStatus (i);
+    persistenceState.setUpdateStatus(i);
   }
 
   public boolean isChanged() {
-    return persistenceState.isChanged ( );
+    return persistenceState.isChanged();
   }
 
   public boolean isDeleted() {
-    return persistenceState.isDeleted ( );
+    return persistenceState.isDeleted();
   }
 
   public boolean isNew() {
-    return persistenceState.isNew ( );
+    return persistenceState.isNew();
   }
 
   public void markChanged() {
-    persistenceState.markChanged ( );
+    persistenceState.markChanged();
   }
 
   public void markDeleted() {
-    persistenceState.markDeleted ( );
+    persistenceState.markDeleted();
   }
 
   public void markNew() {
-    persistenceState.markNew ( );
+    persistenceState.markNew();
   }
 
   public void markUnchanged() {
-    persistenceState.markUnchanged ( );
+    persistenceState.markUnchanged();
   }
 
   public boolean onDelete(Session arg0) throws CallbackException {
-    return persistenceState.onDelete (arg0);
+    return persistenceState.onDelete(arg0);
   }
 
   public void onLoad(Session arg0, Serializable arg1) {
-    persistenceState.onLoad (arg0, arg1);
+    persistenceState.onLoad(arg0, arg1);
   }
 
   public boolean onSave(Session arg0) throws CallbackException {
-    return persistenceState.onSave (arg0);
+    return persistenceState.onSave(arg0);
   }
 
   public boolean onUpdate(Session arg0) throws CallbackException {
-    return persistenceState.onUpdate (arg0);
+    return persistenceState.onUpdate(arg0);
   }
   //-------------------------------
   // END Persistence and LifeCycle

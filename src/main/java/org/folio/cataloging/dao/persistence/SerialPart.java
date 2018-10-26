@@ -30,7 +30,7 @@ public class SerialPart implements Persistence, Serializable {
    *
    */
   private static final long serialVersionUID = 1L;
-  private final PersistenceState persistenceState = new PersistenceState ( );
+  private final PersistenceState persistenceState = new PersistenceState();
   private int serialPartNumber;
   private Integer serialCopyNumber;
   private Integer copyNumber;
@@ -149,7 +149,7 @@ public class SerialPart implements Persistence, Serializable {
   }
 
   public String getPublicationDateAsString() {
-    return new SimpleDateFormat ("dd/MM/yyyy").format (getPublicationDate ( ));
+    return new SimpleDateFormat("dd/MM/yyyy").format(getPublicationDate());
   }
 
   /**
@@ -167,8 +167,8 @@ public class SerialPart implements Persistence, Serializable {
   }
 
   public String getReceivedDateAsString() {
-    if (getReceivedDate ( ) != null) {
-      return new SimpleDateFormat ("dd/MM/yyyy").format (getReceivedDate ( ));
+    if (getReceivedDate() != null) {
+      return new SimpleDateFormat("dd/MM/yyyy").format(getReceivedDate());
     } else {
       return "";
     }
@@ -271,112 +271,112 @@ public class SerialPart implements Persistence, Serializable {
    * @since 1.0
    */
   public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict (obj);
+    persistenceState.evict(obj);
   }
 
   /**
    * @since 1.0
    */
   public AbstractDAO getDAO() {
-    return persistenceState.getDAO ( );
+    return persistenceState.getDAO();
   }
 
   /**
    * @since 1.0
    */
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   /**
    * @since 1.0
    */
   public void setUpdateStatus(int i) {
-    persistenceState.setUpdateStatus (i);
+    persistenceState.setUpdateStatus(i);
   }
 
   /**
    * @since 1.0
    */
   public boolean isChanged() {
-    return persistenceState.isChanged ( );
+    return persistenceState.isChanged();
   }
 
   /**
    * @since 1.0
    */
   public boolean isDeleted() {
-    return persistenceState.isDeleted ( );
+    return persistenceState.isDeleted();
   }
 
   /**
    * @since 1.0
    */
   public boolean isNew() {
-    return persistenceState.isNew ( );
+    return persistenceState.isNew();
   }
 
   /**
    * @since 1.0
    */
   public boolean isRemoved() {
-    return persistenceState.isRemoved ( );
+    return persistenceState.isRemoved();
   }
 
   /**
    * @since 1.0
    */
   public void markChanged() {
-    persistenceState.markChanged ( );
+    persistenceState.markChanged();
   }
 
   /**
    * @since 1.0
    */
   public void markDeleted() {
-    persistenceState.markDeleted ( );
+    persistenceState.markDeleted();
   }
 
   /**
    * @since 1.0
    */
   public void markNew() {
-    persistenceState.markNew ( );
+    persistenceState.markNew();
   }
 
   /**
    * @since 1.0
    */
   public void markUnchanged() {
-    persistenceState.markUnchanged ( );
+    persistenceState.markUnchanged();
   }
 
   /**
    * @since 1.0
    */
   public boolean onDelete(Session arg0) throws CallbackException {
-    return persistenceState.onDelete (arg0);
+    return persistenceState.onDelete(arg0);
   }
 
   /**
    * @since 1.0
    */
   public void onLoad(Session arg0, Serializable arg1) {
-    persistenceState.onLoad (arg0, arg1);
+    persistenceState.onLoad(arg0, arg1);
   }
 
   /**
    * @since 1.0
    */
   public boolean onSave(Session arg0) throws CallbackException {
-    return persistenceState.onSave (arg0);
+    return persistenceState.onSave(arg0);
   }
 
   /**
    * @since 1.0
    */
   public boolean onUpdate(Session arg0) throws CallbackException {
-    return persistenceState.onUpdate (arg0);
+    return persistenceState.onUpdate(arg0);
   }
 
   /*
@@ -385,7 +385,7 @@ public class SerialPart implements Persistence, Serializable {
    * @see librisuite.business.common.Persistence#evict()
    */
   public void evict() throws DataAccessException {
-    evict (this);
+    evict(this);
   }
 
   /*
@@ -406,8 +406,8 @@ public class SerialPart implements Persistence, Serializable {
   public boolean equals(Object arg0) {
     if (arg0 instanceof SerialPart) {
       SerialPart o = (SerialPart) arg0;
-      return o.getSerialPartNumber ( ) > 0
-        && o.getSerialPartNumber ( ) == this.getSerialPartNumber ( );
+      return o.getSerialPartNumber() > 0
+        && o.getSerialPartNumber() == this.getSerialPartNumber();
     } else {
       return false;
     }
@@ -419,7 +419,7 @@ public class SerialPart implements Persistence, Serializable {
    * @see java.lang.Object#hashCode()
    */
   public int hashCode() {
-    return this.getSerialPartNumber ( );
+    return this.getSerialPartNumber();
   }
 
   /**

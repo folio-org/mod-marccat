@@ -30,24 +30,24 @@ import java.util.List;
 @Deprecated
 public class HibernateUtil {
 
-  private static Log logger = LogFactory.getLog (HibernateUtil.class);
-  private static ThreadLocal/* <Connection> */lockingSession = new ThreadLocal/* <Connection> */ ( );
-  private static ThreadLocal/* <String> */lockingSessionId = new ThreadLocal/* <String> */ ( );
+  private static Log logger = LogFactory.getLog(HibernateUtil.class);
+  private static ThreadLocal/* <Connection> */lockingSession = new ThreadLocal/* <Connection> */();
+  private static ThreadLocal/* <String> */lockingSessionId = new ThreadLocal/* <String> */();
 
   private static Connection getLockingSession() {
-    return (Connection) lockingSession.get ( );
+    return (Connection) lockingSession.get();
   }
 
   private static void setLockingSession(Connection con) {
-    lockingSession.set (con);
+    lockingSession.set(con);
   }
 
   private static String getLockingSessionId() {
-    return (String) lockingSessionId.get ( );
+    return (String) lockingSessionId.get();
   }
 
   private static void setLockingSessionId(String s) {
-    lockingSessionId.set (s);
+    lockingSessionId.set(s);
   }
 
   /*
@@ -58,11 +58,11 @@ public class HibernateUtil {
   @Deprecated
   public String getUniqueSessionId() {
     try {
-      if (getLockingSession ( ) == null) {
-        setLockingSession (createNewDBSession ( ));
-        setLockingSessionId (getSessionID (getLockingSession ( )));
+      if (getLockingSession() == null) {
+        setLockingSession(createNewDBSession());
+        setLockingSessionId(getSessionID(getLockingSession()));
       }
-      return getLockingSessionId ( );
+      return getLockingSessionId();
     } catch (Exception e) {
       return null;
     }
@@ -70,18 +70,18 @@ public class HibernateUtil {
 
   @Deprecated
   public Session currentSession() throws DataAccessException {
-    throw new IllegalArgumentException ("Don't call me!");
+    throw new IllegalArgumentException("Don't call me!");
 
   }
 
   @Deprecated
   public void closeSession() {
-    throw new IllegalArgumentException ("Don't call me!");
+    throw new IllegalArgumentException("Don't call me!");
   }
 
   @Deprecated
   public void logAndWrap(Throwable e) {
-    throw new IllegalArgumentException ("Don't call me!");
+    throw new IllegalArgumentException("Don't call me!");
   }
 
 
@@ -92,21 +92,21 @@ public class HibernateUtil {
    */
   @Deprecated
   public void persistByStatus(Persistence po) throws DataAccessException {
-    throw new IllegalArgumentException ("DON'T CALL ME!!!");
+    throw new IllegalArgumentException("DON'T CALL ME!!!");
   }
 
   private AuthorityNote getNewInstanceOfAuthorityNote(AuthorityNote note) {
-    AuthorityNote newNote = new AuthorityNote ( );
+    AuthorityNote newNote = new AuthorityNote();
 
-    newNote.setCorrelationValues (note.getCorrelationValues ( ));
+    newNote.setCorrelationValues(note.getCorrelationValues());
     // newNote.setItemEntity(note.getItemEntity());
-    newNote.setItemNumber (note.getItemNumber ( ));
-    newNote.setNewSubfieldContent (note.getNewSubfieldContent ( ));
-    newNote.setNoteNumber (note.getNoteNumber ( ));
-    newNote.setNoteStringText (note.getNoteStringText ( ));
-    newNote.setNoteType (note.getNoteType ( ));
-    newNote.setTagImpl (note.getTagImpl ( ));
-    newNote.setUpdateStatus (note.getUpdateStatus ( ));
+    newNote.setItemNumber(note.getItemNumber());
+    newNote.setNewSubfieldContent(note.getNewSubfieldContent());
+    newNote.setNoteNumber(note.getNoteNumber());
+    newNote.setNoteStringText(note.getNoteStringText());
+    newNote.setNoteType(note.getNoteType());
+    newNote.setTagImpl(note.getTagImpl());
+    newNote.setUpdateStatus(note.getUpdateStatus());
 
     return newNote;
   }
@@ -120,10 +120,10 @@ public class HibernateUtil {
     if (userView == View.ANY) {
       return multiView;
     }
-    List singleView = new ArrayList ( );
-    Iterator iter = multiView.iterator ( );
-    while (iter.hasNext ( )) {
-      singleView.add (isolateView ((PersistentObjectWithView) iter.next ( ),
+    List singleView = new ArrayList();
+    Iterator iter = multiView.iterator();
+    while (iter.hasNext()) {
+      singleView.add(isolateView((PersistentObjectWithView) iter.next(),
         userView));
     }
     return singleView;
@@ -151,9 +151,9 @@ public class HibernateUtil {
    */
   public Object load(Class clazz, Serializable id) throws DataAccessException {
     try {
-      return currentSession ( ).load (clazz, id);
+      return currentSession().load(clazz, id);
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
       return null;
     }
   }
@@ -168,9 +168,9 @@ public class HibernateUtil {
    */
   public Object get(Session session, Class clazz, Serializable id) {
     try {
-      return session.get (clazz, id);
+      return session.get(clazz, id);
     } catch (Exception exception) {
-      logger.error (MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
       return null;
     }
   }
@@ -190,9 +190,9 @@ public class HibernateUtil {
   public Object get(Class clazz, Serializable id, LockMode l)
     throws DataAccessException {
     try {
-      return currentSession ( ).get (clazz, id, l);
+      return currentSession().get(clazz, id, l);
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
       return null;
     }
   }
@@ -213,9 +213,9 @@ public class HibernateUtil {
   public List find(String query, Object[] values, Type[] types)
     throws DataAccessException {
     try {
-      return currentSession ( ).find (query, values, types);
+      return currentSession().find(query, values, types);
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
       return null;
     }
   }
@@ -232,9 +232,9 @@ public class HibernateUtil {
    */
   public List find(Session session, String query) throws DataAccessException {
     try {
-      return session.find (query);
+      return session.find(query);
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
       return null;
     }
   }
@@ -245,12 +245,12 @@ public class HibernateUtil {
    * @since 1.0
    */
   public void save(final Persistence p) throws DataAccessException {
-    new TransactionalHibernateOperation ( ) {
+    new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
         throws HibernateException {
-        s.save (p);
+        s.save(p);
       }
-    }.execute ( );
+    }.execute();
   }
 
   /**
@@ -259,12 +259,12 @@ public class HibernateUtil {
    * @since 1.0
    */
   public void update(final Persistence p) throws DataAccessException {
-    new TransactionalHibernateOperation ( ) {
+    new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
         throws HibernateException {
-        s.update (p);
+        s.update(p);
       }
-    }.execute ( );
+    }.execute();
   }
 
   /**
@@ -273,12 +273,12 @@ public class HibernateUtil {
    * @since 1.0
    */
   public void delete(final Persistence p) throws DataAccessException {
-    new TransactionalHibernateOperation ( ) {
+    new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
         throws HibernateException {
-        s.delete (p);
+        s.delete(p);
       }
-    }.execute ( );
+    }.execute();
   }
 
   @Deprecated
@@ -294,36 +294,36 @@ public class HibernateUtil {
 
   @Deprecated
   private boolean isSessionAlive(String sessionId) {
-    throw new IllegalArgumentException ("Don't call me!");
+    throw new IllegalArgumentException("Don't call me!");
   }
 
   @Deprecated
   private boolean isUserPresent(String user) {
-    throw new IllegalArgumentException ("Don't call me!");
+    throw new IllegalArgumentException("Don't call me!");
   }
 
   @Deprecated
   private Connection createNewDBSession() throws SQLException {
-    throw new IllegalArgumentException ("Don't call me!");
+    throw new IllegalArgumentException("Don't call me!");
   }
 
   private String getSessionID(Connection con) throws SQLException {
     ResultSet rs = con
-      .createStatement ( )
-      .executeQuery (
+      .createStatement()
+      .executeQuery(
         "SELECT audsid from v$session where audsid = userenv('sessionid') ");
-    if (rs.next ( )) {
-      return rs.getString (1);
+    if (rs.next()) {
+      return rs.getString(1);
     } else {
       return null;
     }
   }
 
   protected String getHibernateTableName(Class c) {
-    return HibernateSessionProvider.getHibernateTableName (c);
+    return HibernateSessionProvider.getHibernateTableName(c);
   }
 
   protected String getHibernateColumnName(Class c, String property) {
-    return HibernateSessionProvider.getHibernateColumnName (c, property);
+    return HibernateSessionProvider.getHibernateColumnName(c, property);
   }
 }

@@ -24,33 +24,31 @@ import static java.util.Optional.ofNullable;
  * @since 1.0
  */
 public class LightweightJsonRecord extends AbstractRecord {
-  private final static Log LOGGER = new Log (LightweightJsonRecord.class);
-  private final static JsonNode DUMMY_RECORD =  null;
-  private int countDoc;
-  private String queryForAssociatedDoc;
-
+  private final static Log LOGGER = new Log(LightweightJsonRecord.class);
+  private final static JsonNode DUMMY_RECORD = null;
   private final static ThreadLocal <SAXParser> SAX_PARSERS =
-    ThreadLocal.withInitial (() -> {
+    ThreadLocal.withInitial(() -> {
       try {
-        return SAXParserFactory.newInstance ( ).newSAXParser ( );
+        return SAXParserFactory.newInstance().newSAXParser();
       } catch (final Exception exception) {
-        throw new RuntimeException (exception);
+        throw new RuntimeException(exception);
       }
     });
-
+  private int countDoc;
+  private String queryForAssociatedDoc;
   private JsonNode data;
-
 
 
   /**
    * setContent, converting marcxml to jsonxml
+   *
    * @param elementSetName
    * @param data
    */
   @Override
   public void setContent(final String elementSetName, final Object data) {
-      String jsonString = ofNullable (data)
-      .map ( o -> {
+    String jsonString = ofNullable(data)
+      .map(o -> {
         String record = o.toString();
         if (!record.equals("")) {
           MarcReader reader = new MarcXmlReader(new ByteArrayInputStream(record.getBytes()));
@@ -62,22 +60,21 @@ public class LightweightJsonRecord extends AbstractRecord {
           }
           writer.close();
           return output.toString();
-        }else
+        } else
           return "";
 
       })
-      .orElse ("");
-      try {
-        this.data = new ObjectMapper().readTree(jsonString);
-      }
-      catch (Exception e) {
-        this.data = DUMMY_RECORD;
-      }
+      .orElse("");
+    try {
+      this.data = new ObjectMapper().readTree(jsonString);
+    } catch (Exception e) {
+      this.data = DUMMY_RECORD;
+    }
   }
 
   @Override
   public Document toXmlDocument(String elementSetName) {
-    throw new IllegalArgumentException ("Don't call me!");
+    throw new IllegalArgumentException("Don't call me!");
   }
 
   /**
@@ -87,22 +84,22 @@ public class LightweightJsonRecord extends AbstractRecord {
    * @return the content of this record.
    */
   public JsonNode getData() {
-    return ofNullable (data).orElse (DUMMY_RECORD);
+    return ofNullable(data).orElse(DUMMY_RECORD);
   }
 
-public int getCountDoc() {
-	return countDoc;
-}
+  public int getCountDoc() {
+    return countDoc;
+  }
 
-public void setCountDoc(int countDoc) {
-	this.countDoc = countDoc;
-}
+  public void setCountDoc(int countDoc) {
+    this.countDoc = countDoc;
+  }
 
-public String getQueryForAssociatedDoc() {
-	return queryForAssociatedDoc;
-}
+  public String getQueryForAssociatedDoc() {
+    return queryForAssociatedDoc;
+  }
 
-public void setQueryForAssociatedDoc(String queryForAssociatedDoc) {
-	this.queryForAssociatedDoc = queryForAssociatedDoc;
-}
+  public void setQueryForAssociatedDoc(String queryForAssociatedDoc) {
+    this.queryForAssociatedDoc = queryForAssociatedDoc;
+  }
 }

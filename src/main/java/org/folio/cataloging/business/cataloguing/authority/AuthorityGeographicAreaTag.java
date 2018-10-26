@@ -22,9 +22,9 @@ public class AuthorityGeographicAreaTag extends GeographicAreaTag {
    * @since 1.0
    */
   public AuthorityGeographicAreaTag() {
-    super ( );
-    setHeaderField (new AuthorityHeaderFieldHelper ( ));
-    setHeaderType ((short) 3);
+    super();
+    setHeaderField(new AuthorityHeaderFieldHelper());
+    setHeaderType((short) 3);
   }
 
 }

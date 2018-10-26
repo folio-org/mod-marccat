@@ -28,9 +28,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class CurrencyAPI extends BaseResource {
 
   private Function <Avp <String>, Currency> toCurrency = source -> {
-    final Currency currency = new Currency ( );
-    currency.setCode (Integer.parseInt (source.getValue ( )));
-    currency.setDescription (source.getLabel ( ));
+    final Currency currency = new Currency();
+    currency.setCode(Integer.parseInt(source.getValue()));
+    currency.setDescription(source.getLabel());
     return currency;
   };
 
@@ -45,13 +45,13 @@ public class CurrencyAPI extends BaseResource {
   public CurrencyCollection getCurrencies(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final CurrencyCollection container = new CurrencyCollection ( );
-      container.setCurrencies (
-        storageService.getCurrencies (lang)
-          .stream ( )
-          .map (toCurrency)
-          .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      final CurrencyCollection container = new CurrencyCollection();
+      container.setCurrencies(
+        storageService.getCurrencies(lang)
+          .stream()
+          .map(toCurrency)
+          .collect(toList()));
       return container;
     }, tenant, configurator);
   }

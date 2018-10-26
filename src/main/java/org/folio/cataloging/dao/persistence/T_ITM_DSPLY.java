@@ -26,7 +26,7 @@ public class T_ITM_DSPLY extends T_SINGLE_INT implements Serializable {
    * @since 1.0
    */
   public T_ITM_DSPLY() {
-    super ( );
+    super();
     // TODO Auto-generated constructor stub
   }
 
@@ -59,11 +59,11 @@ public class T_ITM_DSPLY extends T_SINGLE_INT implements Serializable {
   }
 
   public boolean isFull() {
-    return getFrmt ( ).equals ("Full");
+    return getFrmt().equals("Full");
   }
 
   public boolean isBrief() {
-    return !isFull ( );
+    return !isFull();
   }
 
   /**
@@ -81,7 +81,7 @@ public class T_ITM_DSPLY extends T_SINGLE_INT implements Serializable {
   }
 
   public boolean isMarc() {
-    return !isLabelled ( );
+    return !isLabelled();
   }
 
 }

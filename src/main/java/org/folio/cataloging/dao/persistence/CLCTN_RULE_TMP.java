@@ -12,19 +12,19 @@ import java.io.Serializable;
 
 public class CLCTN_RULE_TMP implements Persistence {
   private static final long serialVersionUID = 2522128570785338271L;
-  static DAOCollectionRule dao = new DAOCollectionRule ( );
-  private PersistenceState persistenceState = new PersistenceState ( );
+  static DAOCollectionRule dao = new DAOCollectionRule();
+  private PersistenceState persistenceState = new PersistenceState();
 
   private Integer idRule;
   private Integer type;
   private Long idItem;
 
   public CLCTN_RULE_TMP() {
-    super ( );
+    super();
   }
 
   public CLCTN_RULE_TMP(Integer type, Long idItem, Integer idRule) {
-    super ( );
+    super();
     this.type = type;
     this.idItem = idItem;
     this.idRule = idRule;
@@ -67,11 +67,11 @@ public class CLCTN_RULE_TMP implements Persistence {
   }
 
   public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict (obj);
+    persistenceState.evict(obj);
   }
 
   public void evict() throws DataAccessException {
-    evict (this);
+    evict(this);
   }
 
   public AbstractDAO getDAO() {
@@ -79,59 +79,59 @@ public class CLCTN_RULE_TMP implements Persistence {
   }
 
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   public void setUpdateStatus(int i) {
-    persistenceState.setUpdateStatus (i);
+    persistenceState.setUpdateStatus(i);
   }
 
   public boolean isChanged() {
-    return persistenceState.isChanged ( );
+    return persistenceState.isChanged();
   }
 
   public boolean isDeleted() {
-    return persistenceState.isDeleted ( );
+    return persistenceState.isDeleted();
   }
 
   public boolean isNew() {
-    return persistenceState.isNew ( );
+    return persistenceState.isNew();
   }
 
   public boolean isRemoved() {
-    return persistenceState.isRemoved ( );
+    return persistenceState.isRemoved();
   }
 
   public void markChanged() {
-    persistenceState.markChanged ( );
+    persistenceState.markChanged();
   }
 
   public void markDeleted() {
-    persistenceState.markDeleted ( );
+    persistenceState.markDeleted();
   }
 
   public void markNew() {
-    persistenceState.markNew ( );
+    persistenceState.markNew();
   }
 
   public void markUnchanged() {
-    persistenceState.markUnchanged ( );
+    persistenceState.markUnchanged();
   }
 
   public boolean onDelete(Session arg0) throws CallbackException {
-    return persistenceState.onDelete (arg0);
+    return persistenceState.onDelete(arg0);
   }
 
   public void onLoad(Session arg0, Serializable arg1) {
-    persistenceState.onLoad (arg0, arg1);
+    persistenceState.onLoad(arg0, arg1);
   }
 
   public boolean onSave(Session arg0) throws CallbackException {
-    return persistenceState.onSave (arg0);
+    return persistenceState.onSave(arg0);
   }
 
   public boolean onUpdate(Session arg0) throws CallbackException {
-    return persistenceState.onUpdate (arg0);
+    return persistenceState.onUpdate(arg0);
   }
 
   /* (non-Javadoc)
@@ -147,9 +147,9 @@ public class CLCTN_RULE_TMP implements Persistence {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((idItem == null) ? 0 : idItem.hashCode ( ));
-    result = prime * result + ((idRule == null) ? 0 : idRule.hashCode ( ));
-    result = prime * result + ((type == null) ? 0 : type.hashCode ( ));
+    result = prime * result + ((idItem == null) ? 0 : idItem.hashCode());
+    result = prime * result + ((idRule == null) ? 0 : idRule.hashCode());
+    result = prime * result + ((type == null) ? 0 : type.hashCode());
     return result;
   }
 
@@ -161,23 +161,23 @@ public class CLCTN_RULE_TMP implements Persistence {
       return true;
     if (obj == null)
       return false;
-    if (getClass ( ) != obj.getClass ( ))
+    if (getClass() != obj.getClass())
       return false;
     CLCTN_RULE_TMP other = (CLCTN_RULE_TMP) obj;
     if (idItem == null) {
       if (other.idItem != null)
         return false;
-    } else if (!idItem.equals (other.idItem))
+    } else if (!idItem.equals(other.idItem))
       return false;
     if (idRule == null) {
       if (other.idRule != null)
         return false;
-    } else if (!idRule.equals (other.idRule))
+    } else if (!idRule.equals(other.idRule))
       return false;
     if (type == null) {
       if (other.type != null)
         return false;
-    } else if (!type.equals (other.type))
+    } else if (!type.equals(other.type))
       return false;
     return true;
   }

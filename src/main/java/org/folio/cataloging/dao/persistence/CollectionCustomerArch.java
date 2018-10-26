@@ -14,7 +14,7 @@ import java.util.Date;
 public class CollectionCustomerArch implements Persistence {
   private static final long serialVersionUID = 2522128570785338271L;
 
-  static DAOCollectionCustom dao = new DAOCollectionCustom ( );
+  static DAOCollectionCustom dao = new DAOCollectionCustom();
 
   private Integer idCollection;
   private String customerId;
@@ -34,31 +34,31 @@ public class CollectionCustomerArch implements Persistence {
   private String dateType;
   private Date dateCancelColl;
   private String userCancel;
-  private PersistenceState persistenceState = new PersistenceState ( );
+  private PersistenceState persistenceState = new PersistenceState();
 
   public CollectionCustomerArch(CollectionCustomer customer, String userCancel) {
-    this.idCollection = customer.getIdCollection ( );
-    this.customerId = customer.getCustomerId ( );
-    this.nameIta = customer.getNameIta ( );
-    this.idCollectionMST = customer.getIdCollectionMST ( );
-    this.statusCode = customer.getStatusCode ( );
-    this.dateCreation = customer.getDateCreation ( );
-    this.dateCancel = customer.getDateCancel ( );
-    this.dateModify = customer.getDateModify ( );
-    this.typologyCode = customer.getTypologyCode ( );
-    this.upgrade = customer.getUpgrade ( );
-    this.userCreate = customer.getUserCreate ( );
-    this.userModify = customer.getUserModify ( );
-    this.year = customer.getYear ( );
-    this.dateIniVal = customer.getDateIniVal ( );
-    this.dateFinVal = customer.getDateFinVal ( );
-    this.dateType = customer.getDateType ( );
-    this.dateCancelColl = new Date ( );
+    this.idCollection = customer.getIdCollection();
+    this.customerId = customer.getCustomerId();
+    this.nameIta = customer.getNameIta();
+    this.idCollectionMST = customer.getIdCollectionMST();
+    this.statusCode = customer.getStatusCode();
+    this.dateCreation = customer.getDateCreation();
+    this.dateCancel = customer.getDateCancel();
+    this.dateModify = customer.getDateModify();
+    this.typologyCode = customer.getTypologyCode();
+    this.upgrade = customer.getUpgrade();
+    this.userCreate = customer.getUserCreate();
+    this.userModify = customer.getUserModify();
+    this.year = customer.getYear();
+    this.dateIniVal = customer.getDateIniVal();
+    this.dateFinVal = customer.getDateFinVal();
+    this.dateType = customer.getDateType();
+    this.dateCancelColl = new Date();
     this.userCancel = userCancel;
   }
 
   public CollectionCustomerArch() {
-    super ( );
+    super();
   }
 
   public Date getDateCancelColl() {
@@ -190,11 +190,11 @@ public class CollectionCustomerArch implements Persistence {
   }
 
   public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict (obj);
+    persistenceState.evict(obj);
   }
 
   public void evict() throws DataAccessException {
-    evict (this);
+    evict(this);
   }
 
   public AbstractDAO getDAO() {
@@ -204,7 +204,7 @@ public class CollectionCustomerArch implements Persistence {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + idCollection.intValue ( );
+    result = prime * result + idCollection.intValue();
     return result;
   }
 
@@ -213,66 +213,66 @@ public class CollectionCustomerArch implements Persistence {
       return true;
     if (obj == null)
       return false;
-    if (getClass ( ) != obj.getClass ( ))
+    if (getClass() != obj.getClass())
       return false;
     CollectionCustomerArch other = (CollectionCustomerArch) obj;
     return idCollection == other.idCollection;
   }
 
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   public void setUpdateStatus(int i) {
-    persistenceState.setUpdateStatus (i);
+    persistenceState.setUpdateStatus(i);
   }
 
   public boolean isChanged() {
-    return persistenceState.isChanged ( );
+    return persistenceState.isChanged();
   }
 
   public boolean isDeleted() {
-    return persistenceState.isDeleted ( );
+    return persistenceState.isDeleted();
   }
 
   public boolean isNew() {
-    return persistenceState.isNew ( );
+    return persistenceState.isNew();
   }
 
   public boolean isRemoved() {
-    return persistenceState.isRemoved ( );
+    return persistenceState.isRemoved();
   }
 
   public void markChanged() {
-    persistenceState.markChanged ( );
+    persistenceState.markChanged();
   }
 
   public void markDeleted() {
-    persistenceState.markDeleted ( );
+    persistenceState.markDeleted();
   }
 
   public void markNew() {
-    persistenceState.markNew ( );
+    persistenceState.markNew();
   }
 
   public void markUnchanged() {
-    persistenceState.markUnchanged ( );
+    persistenceState.markUnchanged();
   }
 
   public boolean onDelete(Session arg0) throws CallbackException {
-    return persistenceState.onDelete (arg0);
+    return persistenceState.onDelete(arg0);
   }
 
   public void onLoad(Session arg0, Serializable arg1) {
-    persistenceState.onLoad (arg0, arg1);
+    persistenceState.onLoad(arg0, arg1);
   }
 
   public boolean onSave(Session arg0) throws CallbackException {
-    return persistenceState.onSave (arg0);
+    return persistenceState.onSave(arg0);
   }
 
   public boolean onUpdate(Session arg0) throws CallbackException {
-    return persistenceState.onUpdate (arg0);
+    return persistenceState.onUpdate(arg0);
   }
 
   public void generateNewKey() throws DataAccessException {

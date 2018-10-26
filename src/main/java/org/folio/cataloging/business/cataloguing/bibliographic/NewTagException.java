@@ -20,14 +20,14 @@ public class NewTagException extends ModCatalogingException {
    *
    */
   public NewTagException() {
-    super ( );
+    super();
   }
 
   /**
    * @param message
    */
   public NewTagException(String message) {
-    super (message);
+    super(message);
   }
 
   /**
@@ -35,14 +35,14 @@ public class NewTagException extends ModCatalogingException {
    * @param cause
    */
   public NewTagException(String message, Throwable cause) {
-    super (message, cause);
+    super(message, cause);
   }
 
   /**
    * @param cause
    */
   public NewTagException(Throwable cause) {
-    super (cause);
+    super(cause);
   }
 
 }

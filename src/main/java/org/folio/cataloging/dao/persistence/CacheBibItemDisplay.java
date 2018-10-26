@@ -26,12 +26,12 @@ public class CacheBibItemDisplay implements Serializable {
    * Class constructor
    */
   public CacheBibItemDisplay() {
-    super ( );
+    super();
   }
 
   public CacheBibItemDisplay(int amicusNbr, int transactionViewNbr) {
-    this.setAmicusNumber (amicusNbr);
-    this.setTransactionViewNumber (transactionViewNbr);
+    this.setAmicusNumber(amicusNbr);
+    this.setTransactionViewNumber(transactionViewNbr);
   }
 
   /**
@@ -42,8 +42,8 @@ public class CacheBibItemDisplay implements Serializable {
     if (anObject instanceof CacheBibItemDisplay) {
       CacheBibItemDisplay aKey = (CacheBibItemDisplay) anObject;
       return (
-        amicusNumber == aKey.getAmicusNumber ( )
-          && transactionViewNumber == aKey.getTransactionViewNumber ( ));
+        amicusNumber == aKey.getAmicusNumber()
+          && transactionViewNumber == aKey.getTransactionViewNumber());
     } else {
       return false;
     }

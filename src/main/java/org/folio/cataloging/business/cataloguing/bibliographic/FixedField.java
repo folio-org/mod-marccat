@@ -15,13 +15,13 @@ import java.util.List;
  * @since 1.0
  */
 public abstract class FixedField extends Tag implements HeaderField {
-  private HeaderFieldHelper headerField = new BibliographicHeaderFieldHelper ( );
+  private HeaderFieldHelper headerField = new BibliographicHeaderFieldHelper();
 
   public FixedField() {
   }
 
   public FixedField(int itemNumber) {
-    super (itemNumber);
+    super(itemNumber);
   }
 
   public boolean isBrowsable() {
@@ -53,14 +53,14 @@ public abstract class FixedField extends Tag implements HeaderField {
    * @since 1.0
    */
   public int getCategory() {
-    return headerField.getCategory ( );
+    return headerField.getCategory();
   }
 
   /**
    * @since 1.0
    */
   public List getFirstCorrelationList() throws DataAccessException {
-    return headerField.getFirstCorrelationList ( );
+    return headerField.getFirstCorrelationList();
   }
 
   /**
@@ -68,7 +68,7 @@ public abstract class FixedField extends Tag implements HeaderField {
    */
   public List getSecondCorrelationList(int value1)
     throws DataAccessException {
-    return headerField.getSecondCorrelationList (value1);
+    return headerField.getSecondCorrelationList(value1);
   }
 
   /**
@@ -76,14 +76,14 @@ public abstract class FixedField extends Tag implements HeaderField {
    */
   public List getThirdCorrelationList(int value1, int value2)
     throws DataAccessException {
-    return headerField.getThirdCorrelationList (value1, value2);
+    return headerField.getThirdCorrelationList(value1, value2);
   }
 
   /**
    * @since 1.0
    */
   public boolean isHeaderField() {
-    return headerField.isHeaderField ( );
+    return headerField.isHeaderField();
   }
 
   /**
@@ -95,12 +95,12 @@ public abstract class FixedField extends Tag implements HeaderField {
 
   public CorrelationKey getMarcEncoding(final Session session)
     throws DataAccessException {
-    CorrelationKey key = super.getMarcEncoding (session);
-    return new CorrelationKey (
-      key.getMarcTag ( ),
+    CorrelationKey key = super.getMarcEncoding(session);
+    return new CorrelationKey(
+      key.getMarcTag(),
       ' ',
       ' ',
-      key.getMarcTagCategoryCode ( ));
+      key.getMarcTagCategoryCode());
   }
 
   /* (non-Javadoc)
@@ -114,14 +114,14 @@ public abstract class FixedField extends Tag implements HeaderField {
    * @see librisuite.business.cataloguing.bibliographic.Tag#getCorrelationValues()
    */
   public CorrelationValues getCorrelationValues() {
-    return headerField.getCorrelationValues ( );
+    return headerField.getCorrelationValues();
   }
 
   /* (non-Javadoc)
    * @see librisuite.business.cataloguing.bibliographic.Tag#setCorrelationValues(librisuite.business.common.CorrelationValues)
    */
   public void setCorrelationValues(CorrelationValues v) {
-    headerField.setCorrelationValues (v);
+    headerField.setCorrelationValues(v);
   }
 
   /* (non-Javadoc)
@@ -136,14 +136,14 @@ public abstract class FixedField extends Tag implements HeaderField {
    * @since 1.0
    */
   public int getHeaderType() {
-    return headerField.getHeaderType ( );
+    return headerField.getHeaderType();
   }
 
   /**
    * @since 1.0
    */
   public void setHeaderType(int s) {
-    headerField.setHeaderType (s);
+    headerField.setHeaderType(s);
   }
 
   public void setContentFromMarcString(String s) {

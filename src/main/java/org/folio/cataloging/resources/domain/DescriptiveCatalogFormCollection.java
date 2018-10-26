@@ -21,10 +21,10 @@ public class DescriptiveCatalogFormCollection {
   @JsonProperty("descriptiveCatalogForms")
   @Valid
   @NotNull
-  private List <DescriptiveCatalogForm> descriptiveCatalogForms = new ArrayList <DescriptiveCatalogForm> ( );
+  private List <DescriptiveCatalogForm> descriptiveCatalogForms = new ArrayList <DescriptiveCatalogForm>();
 
   @JsonIgnore
-  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
+  private Map <String, Object> additionalProperties = new HashMap <String, Object>();
 
   /**
    * (Required)
@@ -58,11 +58,11 @@ public class DescriptiveCatalogFormCollection {
 
   @JsonAnySetter
   public void setAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
   }
 
   public DescriptiveCatalogFormCollection withAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
     return this;
   }
 }

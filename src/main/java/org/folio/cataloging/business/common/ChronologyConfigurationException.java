@@ -14,22 +14,22 @@ public class ChronologyConfigurationException extends ValidationException {
   }
 
   public ChronologyConfigurationException(String message) {
-    super (message);
+    super(message);
     // TODO Auto-generated constructor stub
   }
 
   public ChronologyConfigurationException(String message, Throwable cause) {
-    super (message, cause);
+    super(message, cause);
     // TODO Auto-generated constructor stub
   }
 
   public ChronologyConfigurationException(Throwable cause) {
-    super (cause);
+    super(cause);
     // TODO Auto-generated constructor stub
   }
 
   public ChronologyConfigurationException(int index) {
-    super (index);
+    super(index);
     // TODO Auto-generated constructor stub
   }
 

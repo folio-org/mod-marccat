@@ -17,10 +17,10 @@ import java.io.Serializable;
  */
 public class SubjectTerm implements Persistence {
 
-  static DAOSubjectTerm dao = new DAOSubjectTerm ( );
+  static DAOSubjectTerm dao = new DAOSubjectTerm();
   private int headingNumber;
   private int codeTerm;
-  private PersistenceState persistenceState = new PersistenceState ( );
+  private PersistenceState persistenceState = new PersistenceState();
 
   /**
    * Class constructor
@@ -28,7 +28,7 @@ public class SubjectTerm implements Persistence {
    * @since 1.0
    */
   public SubjectTerm() {
-    super ( );
+    super();
     // TODO Auto-generated constructor stub
   }
 
@@ -53,7 +53,7 @@ public class SubjectTerm implements Persistence {
       return true;
     if (obj == null)
       return false;
-    if (getClass ( ) != obj.getClass ( ))
+    if (getClass() != obj.getClass())
       return false;
     SubjectTerm other = (SubjectTerm) obj;
     if (codeTerm != other.codeTerm)
@@ -95,11 +95,11 @@ public class SubjectTerm implements Persistence {
    * @since 1.0
    */
   public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict (obj);
+    persistenceState.evict(obj);
   }
 
   public void evict() throws DataAccessException {
-    evict (this);
+    evict(this);
   }
 
   /**
@@ -113,98 +113,98 @@ public class SubjectTerm implements Persistence {
    * @since 1.0
    */
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   /**
    * @since 1.0
    */
   public void setUpdateStatus(int i) {
-    persistenceState.setUpdateStatus (i);
+    persistenceState.setUpdateStatus(i);
   }
 
   /**
    * @since 1.0
    */
   public boolean isChanged() {
-    return persistenceState.isChanged ( );
+    return persistenceState.isChanged();
   }
 
   /**
    * @since 1.0
    */
   public boolean isDeleted() {
-    return persistenceState.isDeleted ( );
+    return persistenceState.isDeleted();
   }
 
   /**
    * @since 1.0
    */
   public boolean isNew() {
-    return persistenceState.isNew ( );
+    return persistenceState.isNew();
   }
 
   /**
    * @since 1.0
    */
   public boolean isRemoved() {
-    return persistenceState.isRemoved ( );
+    return persistenceState.isRemoved();
   }
 
   /**
    * @since 1.0
    */
   public void markChanged() {
-    persistenceState.markChanged ( );
+    persistenceState.markChanged();
   }
 
   /**
    * @since 1.0
    */
   public void markDeleted() {
-    persistenceState.markDeleted ( );
+    persistenceState.markDeleted();
   }
 
   /**
    * @since 1.0
    */
   public void markNew() {
-    persistenceState.markNew ( );
+    persistenceState.markNew();
   }
 
   /**
    * @since 1.0
    */
   public void markUnchanged() {
-    persistenceState.markUnchanged ( );
+    persistenceState.markUnchanged();
   }
 
   /**
    * @since 1.0
    */
   public boolean onDelete(Session arg0) throws CallbackException {
-    return persistenceState.onDelete (arg0);
+    return persistenceState.onDelete(arg0);
   }
 
   /**
    * @since 1.0
    */
   public void onLoad(Session arg0, Serializable arg1) {
-    persistenceState.onLoad (arg0, arg1);
+    persistenceState.onLoad(arg0, arg1);
   }
 
   /**
    * @since 1.0
    */
   public boolean onSave(Session arg0) throws CallbackException {
-    return persistenceState.onSave (arg0);
+    return persistenceState.onSave(arg0);
   }
 
   /**
    * @since 1.0
    */
   public boolean onUpdate(Session arg0) throws CallbackException {
-    return persistenceState.onUpdate (arg0);
+    return persistenceState.onUpdate(arg0);
   }
 
   /* (non-Javadoc)

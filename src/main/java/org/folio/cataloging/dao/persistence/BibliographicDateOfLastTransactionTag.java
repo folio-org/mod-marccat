@@ -24,9 +24,9 @@ public class BibliographicDateOfLastTransactionTag
    * @since 1.0
    */
   public BibliographicDateOfLastTransactionTag() {
-    super ( );
-    setHeaderType ((short) 41);
-    setPersistenceState (new PersistenceState ( ));
+    super();
+    setHeaderType((short) 41);
+    setPersistenceState(new PersistenceState());
   }
 
 }

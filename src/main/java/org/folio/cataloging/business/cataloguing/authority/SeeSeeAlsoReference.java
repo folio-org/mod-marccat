@@ -18,7 +18,7 @@ public abstract class SeeSeeAlsoReference extends AuthorityReferenceTag {
    * @since 1.0
    */
   public SeeSeeAlsoReference() {
-    super ( );
+    super();
   }
 
   /* (non-Javadoc)
@@ -28,12 +28,12 @@ public abstract class SeeSeeAlsoReference extends AuthorityReferenceTag {
   public StringText getStringText() {
     String subw =
       ""
-        + getReference ( ).getPrintConstant ( )
-        + getReference ( ).getAuthorityStructure ( )
-        + getReference ( ).getEarlierRules ( )
-        + getReference ( ).getNoteGeneration ( );
-    StringText result = super.getStringText ( );
-    result.addSubfield (new Subfield ("w", subw));
+        + getReference().getPrintConstant()
+        + getReference().getAuthorityStructure()
+        + getReference().getEarlierRules()
+        + getReference().getNoteGeneration();
+    StringText result = super.getStringText();
+    result.addSubfield(new Subfield("w", subw));
     return result;
   }
 
@@ -49,12 +49,12 @@ public abstract class SeeSeeAlsoReference extends AuthorityReferenceTag {
    * @see TagInterface#parseModelXmlElementContent(org.w3c.dom.Element)
    */
   public void parseModelXmlElementContent(Element xmlElement) {
-    StringText s = StringText.parseModelXmlElementContent (xmlElement);
-    String subw = s.getSubfieldsWithCodes ("w").getSubfield (0).getContent ( );
-    getReference ( ).setPrintConstant (subw.charAt (0));
-    getReference ( ).setAuthorityStructure (subw.charAt (1));
-    getReference ( ).setEarlierRules (subw.charAt (2));
-    getReference ( ).setNoteGeneration (subw.charAt (3));
+    StringText s = StringText.parseModelXmlElementContent(xmlElement);
+    String subw = s.getSubfieldsWithCodes("w").getSubfield(0).getContent();
+    getReference().setPrintConstant(subw.charAt(0));
+    getReference().setAuthorityStructure(subw.charAt(1));
+    getReference().setEarlierRules(subw.charAt(2));
+    getReference().setNoteGeneration(subw.charAt(3));
   }
 
   public String getVariantCodes() {

@@ -21,8 +21,8 @@ import java.util.List;
  */
 public class NameTitleAccessPoint extends NameTitleComponent implements OrderedTag, Equivalent {
 
-  private static final DAONameTitleAccessPoint daoNameTitleAccessPoint = new DAONameTitleAccessPoint ( );
-  private NME_TTL_HDG descriptor = new NME_TTL_HDG ( );
+  private static final DAONameTitleAccessPoint daoNameTitleAccessPoint = new DAONameTitleAccessPoint();
+  private NME_TTL_HDG descriptor = new NME_TTL_HDG();
   private String institution;
   private int secondaryFunctionCode;
   private String seriesIssnHeadingNumber;
@@ -30,20 +30,20 @@ public class NameTitleAccessPoint extends NameTitleComponent implements OrderedT
   private Integer sequenceNumber;
 
   public NameTitleAccessPoint() {
-    super ( );
+    super();
     //setDefaultFunctionCode();
     //setSecondaryFunctionCode(new Short(Defaults.getShort("nameTitleAccessPoint.secondaryFunctionCode")));
   }
 
   //TODO: set functionCode/secondaryFunctionCode using configuration module
   public NameTitleAccessPoint(final int functionCode, final int secondaryFunctionCode) {
-    super ( );
-    setFunctionCode (functionCode);
+    super();
+    setFunctionCode(functionCode);
     this.secondaryFunctionCode = secondaryFunctionCode;
   }
 
   public NameTitleAccessPoint(final int itemNbr) {
-    super (itemNbr);
+    super(itemNbr);
   }
 
   /**
@@ -52,8 +52,8 @@ public class NameTitleAccessPoint extends NameTitleComponent implements OrderedT
    * @return stringText.
    */
   public StringText getAccessPointStringText() {
-    final StringText text = new StringText (volumeNumberDescription);
-    text.parse (institution);
+    final StringText text = new StringText(volumeNumberDescription);
+    text.parse(institution);
     return text;
   }
 
@@ -63,8 +63,8 @@ public class NameTitleAccessPoint extends NameTitleComponent implements OrderedT
    * @param stringText -- the stringText to set.
    */
   public void setAccessPointStringText(final StringText stringText) {
-    volumeNumberDescription = stringText.getSubfieldsWithCodes (GlobalStorage.TITLE_VOLUME_SUBFIELD_CODE).toString ( );
-    institution = stringText.getSubfieldsWithCodes (GlobalStorage.NAME_TITLE_INSTITUTION_SUBFIELD_CODE).toString ( );
+    volumeNumberDescription = stringText.getSubfieldsWithCodes(GlobalStorage.TITLE_VOLUME_SUBFIELD_CODE).toString();
+    institution = stringText.getSubfieldsWithCodes(GlobalStorage.NAME_TITLE_INSTITUTION_SUBFIELD_CODE).toString();
   }
 
   /**
@@ -73,10 +73,10 @@ public class NameTitleAccessPoint extends NameTitleComponent implements OrderedT
    * @return correlationValues.
    */
   public CorrelationValues getCorrelationValues() {
-    CorrelationValues v = getDescriptor ( ).getCorrelationValues ( );
-    v = v.change (3, v.getValue (2));
-    v = v.change (2, v.getValue (1));
-    v = v.change (1, getFunctionCode ( ));
+    CorrelationValues v = getDescriptor().getCorrelationValues();
+    v = v.change(3, v.getValue(2));
+    v = v.change(2, v.getValue(1));
+    v = v.change(1, getFunctionCode());
     return v;
   }
 
@@ -86,12 +86,12 @@ public class NameTitleAccessPoint extends NameTitleComponent implements OrderedT
    * @param v -- the correlation values to set.
    */
   public void setCorrelationValues(final CorrelationValues v) {
-    setFunctionCode (v.getValue (1));
-    CorrelationValues v2 = new CorrelationValues (v.getValue (2), v.getValue (3), CorrelationValues.UNDEFINED);
+    setFunctionCode(v.getValue(1));
+    CorrelationValues v2 = new CorrelationValues(v.getValue(2), v.getValue(3), CorrelationValues.UNDEFINED);
 		/*v = v.change(1, v.getValue(2));
 		v = v.change(2, v.getValue(3));
 		v = v.change(3, CorrelationValues.UNDEFINED);*/
-    getDescriptor ( ).setCorrelationValues (v2);
+    getDescriptor().setCorrelationValues(v2);
   }
 
   /**
@@ -190,7 +190,7 @@ public class NameTitleAccessPoint extends NameTitleComponent implements OrderedT
    * @param stringText -- the stringText to set.
    */
   public void setDescriptorStringText(StringText stringText) {
-    getDescriptor ( ).setStringText (stringText.getSubfieldsWithoutCodes (GlobalStorage.NAME_TITLE_VARIANT_CODES).toString ( ));
+    getDescriptor().setStringText(stringText.getSubfieldsWithoutCodes(GlobalStorage.NAME_TITLE_VARIANT_CODES).toString());
   }
 
   /**
@@ -220,7 +220,7 @@ public class NameTitleAccessPoint extends NameTitleComponent implements OrderedT
    */
   public void setSequenceNumber(final Integer sequenceNumber) {
     this.sequenceNumber = sequenceNumber;
-    super.setSequenceNumber (sequenceNumber);
+    super.setSequenceNumber(sequenceNumber);
   }
 
   //TODO: move in storageService and add session

@@ -13,7 +13,7 @@ import java.io.Serializable;
 public class CasDigFiles implements Persistence {
   private static final long serialVersionUID = 2522128570785338271L;
 
-  static DAOCasDigFiles dao = new DAOCasDigFiles ( );
+  static DAOCasDigFiles dao = new DAOCasDigFiles();
 
   private int bibItemNumberMadre;
   private int bibItemNumberFiglia;
@@ -25,19 +25,19 @@ public class CasDigFiles implements Persistence {
   private String progressiveType;
   //	20110201 inizio: aggiunto anno
   private Integer year;
-//	20110201 fine
-  private PersistenceState persistenceState = new PersistenceState ( );
+  //	20110201 fine
+  private PersistenceState persistenceState = new PersistenceState();
 
   public CasDigFiles(int bibItemNumberFiglia) {
-    this ( );
-    setBibItemNumberFiglia (bibItemNumberFiglia);
+    this();
+    setBibItemNumberFiglia(bibItemNumberFiglia);
   }
 
   /**
    * Class constructor
    */
   public CasDigFiles() {
-    super ( );
+    super();
   }
 
   public PersistenceState getPersistenceState() {
@@ -49,11 +49,11 @@ public class CasDigFiles implements Persistence {
   }
 
   public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict (obj);
+    persistenceState.evict(obj);
   }
 
   public void evict() throws DataAccessException {
-    evict (this);
+    evict(this);
   }
 
   public AbstractDAO getDAO() {
@@ -61,11 +61,11 @@ public class CasDigFiles implements Persistence {
   }
 
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   public void setUpdateStatus(int i) {
-    persistenceState.setUpdateStatus (i);
+    persistenceState.setUpdateStatus(i);
   }
 
   public int hashCode() {
@@ -81,7 +81,7 @@ public class CasDigFiles implements Persistence {
       return true;
     if (obj == null)
       return false;
-    if (getClass ( ) != obj.getClass ( ))
+    if (getClass() != obj.getClass())
       return false;
     final CasDigFiles other = (CasDigFiles) obj;
 //		if (bibItemNumberFiglia != other.bibItemNumberFiglia)
@@ -89,51 +89,51 @@ public class CasDigFiles implements Persistence {
   }
 
   public boolean isChanged() {
-    return persistenceState.isChanged ( );
+    return persistenceState.isChanged();
   }
 
   public boolean isDeleted() {
-    return persistenceState.isDeleted ( );
+    return persistenceState.isDeleted();
   }
 
   public boolean isNew() {
-    return persistenceState.isNew ( );
+    return persistenceState.isNew();
   }
 
   public boolean isRemoved() {
-    return persistenceState.isRemoved ( );
+    return persistenceState.isRemoved();
   }
 
   public void markChanged() {
-    persistenceState.markChanged ( );
+    persistenceState.markChanged();
   }
 
   public void markDeleted() {
-    persistenceState.markDeleted ( );
+    persistenceState.markDeleted();
   }
 
   public void markNew() {
-    persistenceState.markNew ( );
+    persistenceState.markNew();
   }
 
   public void markUnchanged() {
-    persistenceState.markUnchanged ( );
+    persistenceState.markUnchanged();
   }
 
   public boolean onDelete(Session arg0) throws CallbackException {
-    return persistenceState.onDelete (arg0);
+    return persistenceState.onDelete(arg0);
   }
 
   public void onLoad(Session arg0, Serializable arg1) {
-    persistenceState.onLoad (arg0, arg1);
+    persistenceState.onLoad(arg0, arg1);
   }
 
   public boolean onSave(Session arg0) throws CallbackException {
-    return persistenceState.onSave (arg0);
+    return persistenceState.onSave(arg0);
   }
 
   public boolean onUpdate(Session arg0) throws CallbackException {
-    return persistenceState.onUpdate (arg0);
+    return persistenceState.onUpdate(arg0);
   }
 
   /* (non-Javadoc)

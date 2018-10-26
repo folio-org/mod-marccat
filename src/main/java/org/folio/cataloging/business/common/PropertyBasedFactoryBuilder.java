@@ -38,12 +38,12 @@ public class PropertyBasedFactoryBuilder {
    */
   public void load(final String fileName, final AbstractMapBackedFactory factory) {
     try {
-      factory.clear ( );
-      readProperties (getClass ( ).getResourceAsStream (fileName), factory);
+      factory.clear();
+      readProperties(getClass().getResourceAsStream(fileName), factory);
     } catch (final IOException exception) {
-      throw new RuntimeException ("ErrorCollection reading properties from stream for file " + fileName, exception);
+      throw new RuntimeException("ErrorCollection reading properties from stream for file " + fileName, exception);
     } catch (final ClassNotFoundException exception) {
-      throw new RuntimeException ("ErrorCollection finding a class for a key in " + fileName, exception);
+      throw new RuntimeException("ErrorCollection finding a class for a key in " + fileName, exception);
     }
   }
 
@@ -56,28 +56,28 @@ public class PropertyBasedFactoryBuilder {
    * @throws ClassNotFoundException in case a property refers to a class which is not found.
    */
   private void readProperties(final InputStream stream, final AbstractMapBackedFactory factory) throws IOException, ClassNotFoundException {
-    final Properties properties = new Properties ( );
-    properties.load (stream);
+    final Properties properties = new Properties();
+    properties.load(stream);
 
-    final String packageString = properties.getProperty (PACKAGE_STRING_KEY);
-    properties.stringPropertyNames ( )
-      .stream ( )
-      .filter (name -> !PACKAGE_STRING_KEY.equals (name))
-      .forEach (name -> mapNumbers (integerKeys (properties.getProperty (name)), findClass (packageString, name), factory));
+    final String packageString = properties.getProperty(PACKAGE_STRING_KEY);
+    properties.stringPropertyNames()
+      .stream()
+      .filter(name -> !PACKAGE_STRING_KEY.equals(name))
+      .forEach(name -> mapNumbers(integerKeys(properties.getProperty(name)), findClass(packageString, name), factory));
   }
 
   private void mapNumbers(final List <Integer> keys, final Class clazz, final AbstractMapBackedFactory factory) {
-    factory.put (
-      keys.stream ( )
-        .map (key -> new AbstractMap.SimpleEntry <> (key, clazz))
-        .collect (toMap (AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue)));
+    factory.put(
+      keys.stream()
+        .map(key -> new AbstractMap.SimpleEntry <>(key, clazz))
+        .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue)));
   }
 
   private List <Integer> integerKeys(final String value) {
-    return stream (value.split (NUMBER_DELIMITER))
-      .map (this::integersFromToken)
-      .flatMap (Collection::stream)
-      .collect (toList ( ));
+    return stream(value.split(NUMBER_DELIMITER))
+      .map(this::integersFromToken)
+      .flatMap(Collection::stream)
+      .collect(toList());
   }
 
   /**
@@ -86,21 +86,21 @@ public class PropertyBasedFactoryBuilder {
    * @param token the input type.
    */
   private List <Integer> integersFromToken(final String token) {
-    final int dashIndex = token.indexOf (RANGE_INDICATOR);
+    final int dashIndex = token.indexOf(RANGE_INDICATOR);
     return (dashIndex == -1)
-      ? asList (Integer.valueOf (token))
-      : range (parseInt (token.substring (0, dashIndex)), parseInt (token.substring (dashIndex + 1)))
-      .mapToObj (Integer::valueOf)
-      .collect (toList ( ));
+      ? asList(Integer.valueOf(token))
+      : range(parseInt(token.substring(0, dashIndex)), parseInt(token.substring(dashIndex + 1)))
+      .mapToObj(Integer::valueOf)
+      .collect(toList());
   }
 
   private Class findClass(final String packageString, final String name) {
     try {
-      return forName (ofNullable (packageString)
-        .map (pack -> pack + "." + name)
-        .orElse (name));
+      return forName(ofNullable(packageString)
+        .map(pack -> pack + "." + name)
+        .orElse(name));
     } catch (final Exception exception) {
-      throw new RuntimeException (exception);
+      throw new RuntimeException(exception);
     }
   }
 }

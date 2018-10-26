@@ -13,29 +13,29 @@ import java.util.List;
 
 public class DAOCasTrnsfPrdct extends AbstractDAO {
   public DAOCasTrnsfPrdct() {
-    super ( );
+    super();
   }
 
   public void persistCasTrnsfPrdct(int bibNumber, CasCache cache)
     throws DataAccessException {
     CasCache cache2;
-    if (loadCasTrnsfPrdct (bibNumber).size ( ) == 0) {
-      cache.setLevelCard (cache.getLevelCard ( ));
-      cache.setNtrLevel (cache.getNtrLevel ( ));
-      cache.setDigCheck (cache.getDigCheck ( ));
-      cache.setBibItemNumber (bibNumber);
-      persistByStatus (cache);
+    if (loadCasTrnsfPrdct(bibNumber).size() == 0) {
+      cache.setLevelCard(cache.getLevelCard());
+      cache.setNtrLevel(cache.getNtrLevel());
+      cache.setDigCheck(cache.getDigCheck());
+      cache.setBibItemNumber(bibNumber);
+      persistByStatus(cache);
 
 
     } else {
-      cache2 = (CasCache) loadCasTrnsfPrdct (bibNumber).get (0);
-      cache2.setLevelCard (cache.getLevelCard ( ));
+      cache2 = (CasCache) loadCasTrnsfPrdct(bibNumber).get(0);
+      cache2.setLevelCard(cache.getLevelCard());
 //	inizio
-      cache2.setNtrLevel (cache.getNtrLevel ( ));
-      cache2.setDigCheck (cache.getDigCheck ( ));
+      cache2.setNtrLevel(cache.getNtrLevel());
+      cache2.setDigCheck(cache.getDigCheck());
 //	fine
-      cache2.markChanged ( );
-      persistByStatus (cache2);
+      cache2.markChanged();
+      persistByStatus(cache2);
     }
 
   }
@@ -43,17 +43,17 @@ public class DAOCasTrnsfPrdct extends AbstractDAO {
   public List loadListToTransfer(int transactionId) throws DataAccessException {
     List result = null;
     try {
-      Session s = currentSession ( );
+      Session s = currentSession();
 
-      Query q = s.createQuery ("select distinct ct"
+      Query q = s.createQuery("select distinct ct"
         + " from CasTransferProd as ct "
         + " where ct.transactionId = " + transactionId
         + " and ct.booked = 'Y'");
       //q.setMaxResults(1);
-      result = q.list ( );
+      result = q.list();
 
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     return result;
   }
@@ -61,15 +61,15 @@ public class DAOCasTrnsfPrdct extends AbstractDAO {
   public List loadCasTrnsfPrdct(int bibNumber) throws DataAccessException {
     List result = null;
     try {
-      Session s = currentSession ( );
-      Query q = s.createQuery ("select distinct ct"
+      Session s = currentSession();
+      Query q = s.createQuery("select distinct ct"
         + " from CasCache as ct " + " where ct.bibItemNumber ="
         + bibNumber);
-      q.setMaxResults (1);
-      result = q.list ( );
+      q.setMaxResults(1);
+      result = q.list();
 
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     return result;
   }
@@ -78,37 +78,37 @@ public class DAOCasTrnsfPrdct extends AbstractDAO {
     List result = null;
     CasCache cas = null;
     try {
-      Session s = currentSession ( );
-      Query q = s.createQuery ("select distinct ct"
+      Session s = currentSession();
+      Query q = s.createQuery("select distinct ct"
         + " from CasCache as ct " + " where ct.bibItemNumber ="
         + bibNumber);
-      q.setMaxResults (1);
-      result = q.list ( );
-      if (result.size ( ) == 1)
-        cas = (CasCache) result.get (0);
+      q.setMaxResults(1);
+      result = q.list();
+      if (result.size() == 1)
+        cas = (CasCache) result.get(0);
 
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
     return cas;
   }
 
   public void updateCasTrnsfPrdct(List transfProdList) throws DataAccessException {
-    Session s = currentSession ( );
+    Session s = currentSession();
     try {
 
-      for ( int i = 0; i < transfProdList.size ( ); i++ ) {
+      for (int i = 0; i < transfProdList.size(); i++) {
 
-        Transaction tr = s.beginTransaction ( );
+        Transaction tr = s.beginTransaction();
 
-        s.update (transfProdList.get (i));
+        s.update(transfProdList.get(i));
 
-        tr.commit ( );
+        tr.commit();
 
 //				System.out.println("Update successfully!");
       }
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
   }
 
@@ -116,20 +116,20 @@ public class DAOCasTrnsfPrdct extends AbstractDAO {
 
     List l = null;
     int transactionId = 0;
-    Session s = currentSession ( );
-    CasTransfRec sequence = new CasTransfRec ( );
+    Session s = currentSession();
+    CasTransfRec sequence = new CasTransfRec();
 
     try {
-      Transaction tr = s.beginTransaction ( );
+      Transaction tr = s.beginTransaction();
 //			l = s.find("select d.TRANSF_REC_SEQ.NEXTVAL from dual d");
-      s.save (sequence);
-      transactionId = sequence.getTransactionId ( );
-      tr.commit ( );
+      s.save(sequence);
+      transactionId = sequence.getTransactionId();
+      tr.commit();
       //		Query q= (Query) s.createSQLQuery("select TRANSF_REC_SEQ.NEXTVAL as id from dual").addScalar("id", Hibernate.LONG);
 //			Query q=s.createQuery("select (max)TRANSACTION_ID from CasTransfRec");
 //			l=q.list();
     } catch (HibernateException e) {
-      logAndWrap (e);
+      logAndWrap(e);
     }
 
 //		if (l.size()>0)

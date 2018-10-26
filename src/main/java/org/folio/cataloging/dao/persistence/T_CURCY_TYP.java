@@ -20,7 +20,7 @@ public class T_CURCY_TYP extends T_SINGLE_INT {
    * @since 1.0
    */
   public T_CURCY_TYP() {
-    super ( );
+    super();
     // TODO Auto-generated constructor stub
   }
 

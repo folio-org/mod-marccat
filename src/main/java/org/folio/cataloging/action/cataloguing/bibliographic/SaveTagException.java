@@ -7,20 +7,20 @@ public class SaveTagException extends ModCatalogingException {
   private String tagNumber;
 
   public SaveTagException() {
-    super ( );
+    super();
   }
 
   public SaveTagException(String message, Throwable cause) {
-    super (message, cause);
+    super(message, cause);
   }
 
   public SaveTagException(String message) {
-    super (message);
-    setTagNumber (message);
+    super(message);
+    setTagNumber(message);
   }
 
   public SaveTagException(Throwable cause) {
-    super (cause);
+    super(cause);
   }
 
   /**

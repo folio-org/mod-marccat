@@ -35,9 +35,9 @@ import static java.util.Optional.ofNullable;
 public class BibliographicNoteTag extends VariableField implements PersistentObjectWithView, OrderedTag {
 
   private static final long serialVersionUID = 5008624075912779670L;
-  private static final Log logger = new Log (BibliographicNoteTag.class);
-  public BibliographicNote note = new BibliographicNote ( );
-  public List <BibliographicNoteOverflow> deletedOverflowList = new ArrayList <> ( );
+  private static final Log logger = new Log(BibliographicNoteTag.class);
+  public BibliographicNote note = new BibliographicNote();
+  public List <BibliographicNoteOverflow> deletedOverflowList = new ArrayList <>();
   private StringText stringText;
   private int noteType;
   private int noteNbr;
@@ -46,23 +46,23 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
   private StandardNoteAccessPoint noteStandard;
 
   public BibliographicNoteTag() {
-    super ( );
-    final StringText s = new StringText ( );
-    s.addSubfield (new Subfield ("a", ""));
-    setStringText (s);
+    super();
+    final StringText s = new StringText();
+    s.addSubfield(new Subfield("a", ""));
+    setStringText(s);
 
-    setNote (new BibliographicNote ( ));
-    setPersistenceState (new PersistenceState ( ));
+    setNote(new BibliographicNote());
+    setPersistenceState(new PersistenceState());
   }
 
   public BibliographicNoteTag(final BibliographicNote note) {
-    super ( );
-    setNote (note);
-    setPersistenceState (new PersistenceState ( ));
+    super();
+    setNote(note);
+    setPersistenceState(new PersistenceState());
   }
 
   public BibliographicNoteTag(final int itemNbr) {
-    super (itemNbr);
+    super(itemNbr);
   }
 
   /**
@@ -73,14 +73,14 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    * @param overflowList -- overflow list to set result.
    */
   public static void wrapNoteOverflow(final String inputString, final int charWrap, final List <BibliographicNoteOverflow> overflowList) {
-    final List <String> overflows = F.splitString (inputString, charWrap);
-    overflowList.addAll (
-      overflows.stream ( ).map (overString -> {
-        final BibliographicNoteOverflow overflowNote = new BibliographicNoteOverflow ( );
-        overflowNote.setStringText (overString);
-        overflowNote.markNew ( );
+    final List <String> overflows = F.splitString(inputString, charWrap);
+    overflowList.addAll(
+      overflows.stream().map(overString -> {
+        final BibliographicNoteOverflow overflowNote = new BibliographicNoteOverflow();
+        overflowNote.setStringText(overString);
+        overflowNote.markNew();
         return overflowNote;
-      }).collect (Collectors.toList ( )));
+      }).collect(Collectors.toList()));
   }
 
   @Deprecated
@@ -130,7 +130,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    * @return the sequence number.
    */
   public Integer getSequenceNumber() {
-    return this.getNote ( ).getSequenceNumber ( );
+    return this.getNote().getSequenceNumber();
   }
 
   /**
@@ -140,8 +140,8 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    */
   public void setSequenceNumber(final Integer sequenceNbr) {
     sequenceNumber = sequenceNbr;
-    this.getNote ( ).setSequenceNumber (sequenceNbr);
-    this.getNote ( ).markChanged ( );
+    this.getNote().setSequenceNumber(sequenceNbr);
+    this.getNote().markChanged();
   }
 
   /**
@@ -159,7 +159,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    * @return note number.
    */
   public int getNoteNbr() {
-    return note.getNoteNbr ( );
+    return note.getNoteNbr();
   }
 
   /**
@@ -168,7 +168,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    * @param i -- note number to set.
    */
   private void setNoteNbr(int i) {
-    note.setNoteNbr (i);
+    note.setNoteNbr(i);
   }
 
   /**
@@ -179,10 +179,10 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    */
   private String getOverFlowString(final List <BibliographicNoteOverflow> overflowNoteList) {
     try {
-      final String overflowString = overflowNoteList.stream ( ).map (oNote -> oNote.getStringText ( ).toString ( )).collect (Collectors.joining ( ));
+      final String overflowString = overflowNoteList.stream().map(oNote -> oNote.getStringText().toString()).collect(Collectors.joining());
       return overflowString;
     } catch (Exception exception) {
-      return (stringText == null ? "" : stringText.toString ( ));
+      return (stringText == null ? "" : stringText.toString());
     }
   }
 
@@ -190,7 +190,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    * @return note string text.
    */
   public StringText getStringText() {
-    return new StringText (note.getContent ( ) + getOverFlowString (getOverflowList ( )));
+    return new StringText(note.getContent() + getOverFlowString(getOverflowList()));
   }
 
   /**
@@ -200,7 +200,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    */
   public void setStringText(final StringText text) {
     stringText = text;
-    breakNotesStringText ( );
+    breakNotesStringText();
   }
 
   /**
@@ -210,14 +210,14 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    * @return note standard stringText.
    */
   public StringText getStandardNoteStringText() {
-    String value = (ofNullable (valueElement.getLabel ( )).isPresent ( )) ? valueElement.getLabel ( ) : "";
-    if (value.contains ("@1")) {
-      if (note.getContent ( ).indexOf (GlobalStorage.DOLLAR) != -1)
-        value = value.replaceAll ("@1", note.getContent ( ).substring (2));
+    String value = (ofNullable(valueElement.getLabel()).isPresent()) ? valueElement.getLabel() : "";
+    if (value.contains("@1")) {
+      if (note.getContent().indexOf(GlobalStorage.DOLLAR) != -1)
+        value = value.replaceAll("@1", note.getContent().substring(2));
       else
-        value = value.replaceAll ("@1", note.getContent ( ));
+        value = value.replaceAll("@1", note.getContent());
     }
-    return new StringText (value);
+    return new StringText(value);
   }
 
   /**
@@ -226,7 +226,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    * @return stringText.
    */
   public String getStringTextString() {
-    return getStringText ( ).toString ( );
+    return getStringText().toString();
   }
 
   /**
@@ -242,7 +242,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    * @return type note.
    */
   public int getNoteType() {
-    return note.getNoteType ( );
+    return note.getNoteType();
   }
 
   /**
@@ -252,12 +252,12 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    */
   public void setNoteType(final int type) {
     noteType = type;
-    note.setNoteType (type);
+    note.setNoteType(type);
   }
 
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
-    SystemNextNumberDAO dao = new SystemNextNumberDAO ( );
-    setNoteNbr (dao.getNextNumber ("BN", session));
+    SystemNextNumberDAO dao = new SystemNextNumberDAO();
+    setNoteNbr(dao.getNextNumber("BN", session));
   }
 
   /**
@@ -275,7 +275,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    * @return correlationValues.
    */
   public CorrelationValues getCorrelationValues() {
-    return (new CorrelationValues ( )).change (1, getNoteType ( ));
+    return (new CorrelationValues()).change(1, getNoteType());
   }
 
   /**
@@ -284,36 +284,36 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    * @param v -- the correlation values to set.
    */
   public void setCorrelationValues(final CorrelationValues v) {
-    setNoteType (v.getValue (1));
+    setNoteType(v.getValue(1));
   }
 
   /**
    * @return the dao associated.
    */
   public AbstractDAO getDAO() {
-    return new DAOBibliographicNoteTag ( );
+    return new DAOBibliographicNoteTag();
   }
 
   /**
    * Breaks content note if is an overflow of 1024 characters and split overflows into overflow-list notes of maximum 1000 characters.
    */
   private void breakNotesStringText() {
-    deletedOverflowList.addAll (getOverflowList ( ));
-    deletedOverflowList.forEach (noteOverflow -> {
-      if (!noteOverflow.isNew ( )) {
-        noteOverflow.markDeleted ( );
+    deletedOverflowList.addAll(getOverflowList());
+    deletedOverflowList.forEach(noteOverflow -> {
+      if (!noteOverflow.isNew()) {
+        noteOverflow.markDeleted();
       }
     });
 
-    setOverflowList (new ArrayList ( ));
-    final String content = stringText.toString ( );
+    setOverflowList(new ArrayList());
+    final String content = stringText.toString();
 
-    final String standardNote = F.splitString (content, GlobalStorage.STANDARD_NOTE_MAX_LENGHT).stream ( ).findFirst ( ).get ( );
-    note.setContent (standardNote);
-    note.markChanged ( );
+    final String standardNote = F.splitString(content, GlobalStorage.STANDARD_NOTE_MAX_LENGHT).stream().findFirst().get();
+    note.setContent(standardNote);
+    note.markChanged();
 
-    if (standardNote.length ( ) + 1 < content.length ( )) {
-      wrapNoteOverflow (content.substring (standardNote.length ( ) + 1), GlobalStorage.OVERFLOW_NOTE_MAX_LENGHT, getOverflowList ( ));
+    if (standardNote.length() + 1 < content.length()) {
+      wrapNoteOverflow(content.substring(standardNote.length() + 1), GlobalStorage.OVERFLOW_NOTE_MAX_LENGHT, getOverflowList());
     }
   }
 
@@ -330,7 +330,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    * @param list -- the list to set.
    */
   public void setOverflowList(final List <BibliographicNoteOverflow> list) {
-    note.setOverflowList (list);
+    note.setOverflowList(list);
   }
 
   @Deprecated
@@ -345,11 +345,11 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    * @return boolean.
    */
   public boolean correlationChangeAffectsKey(final CorrelationValues v) {
-    final int firstCorrelation = v.getValue (1);
+    final int firstCorrelation = v.getValue(1);
     if (firstCorrelation == GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE
       || firstCorrelation == 381 || firstCorrelation == 382 ||
       (firstCorrelation >= 410 && firstCorrelation <= 424)) {
-      setNoteType (firstCorrelation);
+      setNoteType(firstCorrelation);
       return true;
     }
 
@@ -369,7 +369,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    * @param an -- the amicus number to set.
    */
   public void setBibItemNumber(final int an) {
-    note.setItemNumber (an);
+    note.setItemNumber(an);
   }
 
   /**
@@ -408,7 +408,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    * @return the user view string associated to tag.
    */
   public String getUserViewString() {
-    return note.getUserViewString ( );
+    return note.getUserViewString();
   }
 
   /**
@@ -417,7 +417,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    * @param userViewString -- the user view to set.
    */
   public void setUserViewString(final String userViewString) {
-    note.setUserViewString (userViewString);
+    note.setUserViewString(userViewString);
   }
 
   /**
@@ -426,17 +426,17 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    * @param itemNumber -- the item number to set.
    */
   public void setItemNumber(int itemNumber) {
-    super.setItemNumber (itemNumber);
-    setBibItemNumber (itemNumber);  // also sets the notes
+    super.setItemNumber(itemNumber);
+    setBibItemNumber(itemNumber);  // also sets the notes
   }
 
   public String toString() {
-    return super.toString ( ) + " n. " + noteNbr + " type: " + noteType;
+    return super.toString() + " n. " + noteNbr + " type: " + noteType;
   }
 
   public int hashCode() {
     final int PRIME = 31;
-    int result = super.hashCode ( );
+    int result = super.hashCode();
     result = PRIME * result + noteNbr;
     return result;
   }
@@ -450,9 +450,9 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
   public boolean equals(Object obj) {
     if (this == obj)
       return true;
-    if (!super.equals (obj))
+    if (!super.equals(obj))
       return false;
-    if (getClass ( ) != obj.getClass ( ))
+    if (getClass() != obj.getClass())
       return false;
 
     final BibliographicNoteTag other = (BibliographicNoteTag) obj;
@@ -478,7 +478,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    * @throws DataAccessException in case of data access exception.
    */
   public String getKey() throws DataAccessException {
-    return getMarcEncoding ( ).getMarcTag ( );
+    return getMarcEncoding().getMarcTag();
   }
 
 }

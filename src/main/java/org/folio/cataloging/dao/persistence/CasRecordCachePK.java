@@ -54,27 +54,27 @@ public class CasRecordCachePK implements Serializable {
   }
 
   public String toString() {
-    return new ToStringBuilder (this)
-      .append ("bibItmNbr", getBibItmNbr ( ))
-      .append ("usrVwCde", getUsrVwCde ( ))
-      .toString ( );
+    return new ToStringBuilder(this)
+      .append("bibItmNbr", getBibItmNbr())
+      .append("usrVwCde", getUsrVwCde())
+      .toString();
   }
 
   public boolean equals(Object other) {
     if ((this == other)) return true;
     if (!(other instanceof CasRecordCachePK)) return false;
     CasRecordCachePK castOther = (CasRecordCachePK) other;
-    return new EqualsBuilder ( )
-      .append (this.getBibItmNbr ( ), castOther.getBibItmNbr ( ))
-      .append (this.getUsrVwCde ( ), castOther.getUsrVwCde ( ))
-      .isEquals ( );
+    return new EqualsBuilder()
+      .append(this.getBibItmNbr(), castOther.getBibItmNbr())
+      .append(this.getUsrVwCde(), castOther.getUsrVwCde())
+      .isEquals();
   }
 
   public int hashCode() {
-    return new HashCodeBuilder ( )
-      .append (getBibItmNbr ( ))
-      .append (getUsrVwCde ( ))
-      .toHashCode ( );
+    return new HashCodeBuilder()
+      .append(getBibItmNbr())
+      .append(getUsrVwCde())
+      .toHashCode();
   }
 
 }

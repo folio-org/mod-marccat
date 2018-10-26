@@ -16,9 +16,9 @@ public class NME_TTL_HDG extends Descriptor {
   private static final long serialVersionUID = 1L;
   private char copyToSubjectIndicator;
 
-  private NME_HDG nameHeading = new NME_HDG ( );
+  private NME_HDG nameHeading = new NME_HDG();
   private int nameHeadingNumber;
-  private TTL_HDG titleHeading = new TTL_HDG ( );
+  private TTL_HDG titleHeading = new TTL_HDG();
   private int titleHeadingNumber;
 
   /**
@@ -27,7 +27,7 @@ public class NME_TTL_HDG extends Descriptor {
    * @since 1.0
    */
   public NME_TTL_HDG() {
-    super ( );
+    super();
   }
 
   /* (non-Javadoc)
@@ -35,7 +35,7 @@ public class NME_TTL_HDG extends Descriptor {
    */
   public boolean equals(Object obj) {
     if (obj instanceof NME_TTL_HDG) {
-      return getKey ( ).equals (obj);
+      return getKey().equals(obj);
     } else {
       return false;
     }
@@ -73,9 +73,9 @@ public class NME_TTL_HDG extends Descriptor {
    * @see Descriptor#getCorrelationValues()
    */
   public CorrelationValues getCorrelationValues() {
-    CorrelationValues v = new CorrelationValues ( );
-    v = v.change (1, getNameHeading ( ).getTypeCode ( ));
-    v = v.change (2, getNameHeading ( ).getSubTypeCode ( ));
+    CorrelationValues v = new CorrelationValues();
+    v = v.change(1, getNameHeading().getTypeCode());
+    v = v.change(2, getNameHeading().getSubTypeCode());
     return v;
   }
 
@@ -89,14 +89,14 @@ public class NME_TTL_HDG extends Descriptor {
      * models, the actual name heading is not stored.  In the case of the edit screen,
      * the attached heading is also not modified.
      */
-    getNameHeading ( ).setCorrelationValues (v);
+    getNameHeading().setCorrelationValues(v);
   }
 
   /* (non-Javadoc)
    * @see librisuite.business.common.Persistence#getDAO()
    */
   public AbstractDAO getDAO() {
-    return new NameTitleDescriptorDAO ( );
+    return new NameTitleDescriptorDAO();
   }
 
   /* (non-Javadoc)
@@ -118,7 +118,7 @@ public class NME_TTL_HDG extends Descriptor {
    */
   public void setNameHeading(NME_HDG nme_hdg) {
     nameHeading = nme_hdg;
-    setNameHeadingNumber (nme_hdg.getKey ( ).getHeadingNumber ( ));
+    setNameHeadingNumber(nme_hdg.getKey().getHeadingNumber());
   }
 
   /**
@@ -146,7 +146,7 @@ public class NME_TTL_HDG extends Descriptor {
    * @see Descriptor#getReferenceClass()
    */
   public Class getReferenceClass(Class targetClazz) {
-    if (targetClazz == this.getClass ( )) {
+    if (targetClazz == this.getClass()) {
       return NME_TTL_REF.class;
     } else if (targetClazz == NME_HDG.class) {
       return NME_NME_TTL_REF.class;
@@ -166,7 +166,7 @@ public class NME_TTL_HDG extends Descriptor {
      * Could be implemented similar to Publishers (name and place) but then you
      * would need to look in two places if you were looking for name usage (for ex.)
      */
-    return getTitleHeading ( ).getSortFormParameters ( );
+    return getTitleHeading().getSortFormParameters();
   }
 
   /**
@@ -181,7 +181,7 @@ public class NME_TTL_HDG extends Descriptor {
    */
   public void setTitleHeading(TTL_HDG ttl_hdg) {
     titleHeading = ttl_hdg;
-    setTitleHeadingNumber (ttl_hdg.getKey ( ).getHeadingNumber ( ));
+    setTitleHeadingNumber(ttl_hdg.getKey().getHeadingNumber());
   }
 
   /**
@@ -202,22 +202,22 @@ public class NME_TTL_HDG extends Descriptor {
    * @see java.lang.Object#hashCode()
    */
   public int hashCode() {
-    return getKey ( ).hashCode ( );
+    return getKey().hashCode();
   }
 
   /* (non-Javadoc)
    * @see Descriptor#getStringText()
    */
   public String getStringText() {
-    StringText result = new StringText (getNameHeading ( ).getStringText ( ));
-    StringText title = new StringText (getTitleHeading ( ).getStringText ( ));
-    StringText subA = title.getSubfieldsWithCodes ("a");
-    if (subA.getNumberOfSubfields ( ) > 0) {
-      subA.getSubfield (0).setCode ("t");
+    StringText result = new StringText(getNameHeading().getStringText());
+    StringText title = new StringText(getTitleHeading().getStringText());
+    StringText subA = title.getSubfieldsWithCodes("a");
+    if (subA.getNumberOfSubfields() > 0) {
+      subA.getSubfield(0).setCode("t");
     }
-    result.add (subA);
-    result.add (title.getSubfieldsWithoutCodes ("a"));
-    return result.toString ( );
+    result.add(subA);
+    result.add(title.getSubfieldsWithoutCodes("a"));
+    return result.toString();
   }
 
   /* (non-Javadoc)
@@ -229,28 +229,28 @@ public class NME_TTL_HDG extends Descriptor {
      * this may result in invalid subfields if input does not follow this
      * convention
      */
-    if (getNameHeading ( ) != null) {
+    if (getNameHeading() != null) {
       /*
        * if the name heading is null then we are being called from the
        * Descriptor constructor (before init) so bypass this activity
        */
-      StringText s = new StringText (string);
-      StringText name = new StringText ( );
-      StringText title = new StringText ( );
+      StringText s = new StringText(string);
+      StringText name = new StringText();
+      StringText title = new StringText();
       int i;
-      for ( i = 0; i < s.getNumberOfSubfields ( ); i++ ) {
-        Subfield f = s.getSubfield (i);
-        if (f.getCode ( ).equals ("t")) {
-          f.setCode ("a");
+      for (i = 0; i < s.getNumberOfSubfields(); i++) {
+        Subfield f = s.getSubfield(i);
+        if (f.getCode().equals("t")) {
+          f.setCode("a");
           break;
         }
-        name.addSubfield (f);
+        name.addSubfield(f);
       }
-      for ( int j = i; j < s.getNumberOfSubfields ( ); j++ ) {
-        title.addSubfield (s.getSubfield (j));
+      for (int j = i; j < s.getNumberOfSubfields(); j++) {
+        title.addSubfield(s.getSubfield(j));
       }
-      getNameHeading ( ).setStringText (name.toString ( ));
-      getTitleHeading ( ).setStringText (title.toString ( ));
+      getNameHeading().setStringText(name.toString());
+      getTitleHeading().setStringText(title.toString());
     }
   }
 
@@ -258,10 +258,10 @@ public class NME_TTL_HDG extends Descriptor {
    * @see Descriptor#getDisplayText()
    */
   public String getDisplayText() {
-    String name = getNameHeading ( ).getDisplayText ( );
-    String title = getTitleHeading ( ).getDisplayText ( );
+    String name = getNameHeading().getDisplayText();
+    String title = getTitleHeading().getDisplayText();
     String spacer;
-    if (name.endsWith (".")) {
+    if (name.endsWith(".")) {
       spacer = " ";
     } else {
       spacer = ". ";
@@ -282,7 +282,7 @@ public class NME_TTL_HDG extends Descriptor {
 
   @Override
   public String buildBrowseTerm() {
-    return getNameHeading ( ).getDisplayText ( ) + " : " + getTitleHeading ( ).getDisplayText ( );
+    return getNameHeading().getDisplayText() + " : " + getTitleHeading().getDisplayText();
   }
 
 }

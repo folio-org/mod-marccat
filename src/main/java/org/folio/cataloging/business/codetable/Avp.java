@@ -36,11 +36,11 @@ public class Avp<V> implements Comparable <Avp>, Serializable {
    * @return the label associated with the matching element, null otherwise.
    */
   public static String decode(final String value, final List <Avp> elements) {
-    return elements.stream ( )
-      .filter (element -> element.getValue ( ).equals (value))
-      .findFirst ( )
-      .map (Avp::getLabel)
-      .orElse (null);
+    return elements.stream()
+      .filter(element -> element.getValue().equals(value))
+      .findFirst()
+      .map(Avp::getLabel)
+      .orElse(null);
   }
 
   /**
@@ -82,13 +82,13 @@ public class Avp<V> implements Comparable <Avp>, Serializable {
   @Override
   public boolean equals(Object obj) {
     return (obj instanceof Avp)
-      && ((Avp) obj).value.equals (value)
-      && ((Avp) obj).label.equals (label);
+      && ((Avp) obj).value.equals(value)
+      && ((Avp) obj).label.equals(label);
   }
 
   @Override
   public int hashCode() {
-    return value.hashCode ( ) + label.hashCode ( );
+    return value.hashCode() + label.hashCode();
   }
 
   @Override
@@ -99,6 +99,6 @@ public class Avp<V> implements Comparable <Avp>, Serializable {
   @Override
   public int compareTo(final Avp pair) {
     if (pair == null) return -1;
-    return label.compareTo (pair.getLabel ( ));
+    return label.compareTo(pair.getLabel());
   }
 }

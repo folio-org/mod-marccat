@@ -28,9 +28,9 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 public class LogicalViewAPI extends BaseResource {
 
   private Function <Avp <String>, View> adapter = source -> {
-    final View logicalView = new View ( );
-    logicalView.setCode (source.getValue ( ));
-    logicalView.setLongDescription (source.getLabel ( ));
+    final View logicalView = new View();
+    logicalView.setCode(source.getValue());
+    logicalView.setLongDescription(source.getLabel());
     return logicalView;
   };
 
@@ -45,13 +45,13 @@ public class LogicalViewAPI extends BaseResource {
   public LogicalViewCollection getLogicalViews(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final LogicalViewCollection container = new LogicalViewCollection ( );
-      container.setViews (
-        storageService.getLogicalViews (lang)
-          .stream ( )
-          .map (adapter)
-          .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      final LogicalViewCollection container = new LogicalViewCollection();
+      container.setViews(
+        storageService.getLogicalViews(lang)
+          .stream()
+          .map(adapter)
+          .collect(toList()));
       return container;
     }, tenant, configurator);
   }

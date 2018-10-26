@@ -795,9 +795,9 @@ public class SCasSapCache implements Serializable {
   }
 
   public String toString() {
-    return new ToStringBuilder (this)
-      .append ("bibItmNbr", getBibItmNbr ( ))
-      .toString ( );
+    return new ToStringBuilder(this)
+      .append("bibItmNbr", getBibItmNbr())
+      .toString();
   }
 
   public String getTag900$a() {
@@ -948,10 +948,10 @@ public class SCasSapCache implements Serializable {
     final int prime = 31;
     int result = 1;
     result = prime * result
-      + ((bibItmNbr == null) ? 0 : bibItmNbr.hashCode ( ));
-    result = prime * result + ((idFile == null) ? 0 : idFile.hashCode ( ));
+      + ((bibItmNbr == null) ? 0 : bibItmNbr.hashCode());
+    result = prime * result + ((idFile == null) ? 0 : idFile.hashCode());
     result = prime * result
-      + ((idSpedizione == null) ? 0 : idSpedizione.hashCode ( ));
+      + ((idSpedizione == null) ? 0 : idSpedizione.hashCode());
     return result;
   }
 
@@ -960,23 +960,23 @@ public class SCasSapCache implements Serializable {
       return true;
     if (obj == null)
       return false;
-    if (getClass ( ) != obj.getClass ( ))
+    if (getClass() != obj.getClass())
       return false;
     final SCasSapCache other = (SCasSapCache) obj;
     if (bibItmNbr == null) {
       if (other.bibItmNbr != null)
         return false;
-    } else if (!bibItmNbr.equals (other.bibItmNbr))
+    } else if (!bibItmNbr.equals(other.bibItmNbr))
       return false;
     if (idFile == null) {
       if (other.idFile != null)
         return false;
-    } else if (!idFile.equals (other.idFile))
+    } else if (!idFile.equals(other.idFile))
       return false;
     if (idSpedizione == null) {
       if (other.idSpedizione != null)
         return false;
-    } else if (!idSpedizione.equals (other.idSpedizione))
+    } else if (!idSpedizione.equals(other.idSpedizione))
       return false;
     return true;
   }

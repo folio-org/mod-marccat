@@ -23,19 +23,19 @@ import static java.util.stream.IntStream.rangeClosed;
  * @since 1.0
  */
 public abstract class ModCatalogingSearchEngine implements SearchEngine {
-  private final static Log LOGGER = new Log (ModCatalogingSearchEngine.class);
-  private final static SearchResponse EMPTY_RESULTSET = new SearchResponse (Integer.MIN_VALUE, Collections.emptyList ( )) {
+  private final static Log LOGGER = new Log(ModCatalogingSearchEngine.class);
+  private final static SearchResponse EMPTY_RESULTSET = new SearchResponse(Integer.MIN_VALUE, Collections.emptyList()) {
     @Override
     public OptionalInt getRecordIdentifier(final int index) {
-      return OptionalInt.empty ( );
+      return OptionalInt.empty();
     }
   };
   private static final String[] RELATIONSHIP_TABLE = new String[]{"dummy", "<", "<=", "=", ">", ">="};
-  private static final Map <Locale, String[]> OPERATORS = new HashMap <> ( );
-  private static Map <Locale, String> DEFAULT_SEARCH_INDEX = new Hashtable <> ( );
+  private static final Map <Locale, String[]> OPERATORS = new HashMap <>();
+  private static Map <Locale, String> DEFAULT_SEARCH_INDEX = new Hashtable <>();
 
   static {
-    DEFAULT_SEARCH_INDEX.put (Locale.ENGLISH, "AW");
+    DEFAULT_SEARCH_INDEX.put(Locale.ENGLISH, "AW");
   }
 
   private final int mainLibraryId;
@@ -57,45 +57,45 @@ public abstract class ModCatalogingSearchEngine implements SearchEngine {
 
   @Override
   public SearchResponse expertSearch(final String cclQuery, final Locale locale, final int searchingView) throws ModCatalogingException {
-    return new SearchResponse (
+    return new SearchResponse(
       searchingView,
       cclQuery,
-      storageService.executeQuery (
+      storageService.executeQuery(
         cclQuery,
         mainLibraryId,
         locale,
         searchingView)
-        .stream ( )
-        .mapToInt (Integer::intValue).toArray ( ));
+        .stream()
+        .mapToInt(Integer::intValue).toArray());
   }
 
   @Override
   public SearchResponse fetchRecords(final SearchResponse response, final String elementSetName, final int firstRecord, final int lastRecord) {
-    final AtomicInteger searchingView = new AtomicInteger (response.getSearchingView ( ));
-    response.setRecordSet (
-      rangeClosed (firstRecord, lastRecord)
-        .map (index -> index - 1)
-        .filter (pos -> response.getIdSet ( ).length > pos)
-        .mapToObj (pos -> {
-          final int itemNumber = response.getIdSet ( )[pos];
-          if (response.getSearchingView ( ) == View.ANY) {
-            searchingView.set (storageService.getPreferredView (itemNumber, databasePreferenceOrder));
+    final AtomicInteger searchingView = new AtomicInteger(response.getSearchingView());
+    response.setRecordSet(
+      rangeClosed(firstRecord, lastRecord)
+        .map(index -> index - 1)
+        .filter(pos -> response.getIdSet().length > pos)
+        .mapToObj(pos -> {
+          final int itemNumber = response.getIdSet()[pos];
+          if (response.getSearchingView() == View.ANY) {
+            searchingView.set(storageService.getPreferredView(itemNumber, databasePreferenceOrder));
           }
 
-          final Record record = newRecord ( );
-          record.setContent (elementSetName, recordData (itemNumber, searchingView.get ( )));
-          record.setRecordView (searchingView.get ( ));
+          final Record record = newRecord();
+          record.setContent(elementSetName, recordData(itemNumber, searchingView.get()));
+          record.setRecordView(searchingView.get());
           return record;
-        }).toArray (Record[]::new));
-    response.setFrom (firstRecord);
-    response.setTo (Math.min (lastRecord, (firstRecord + response.getPageSize ( ))));
+        }).toArray(Record[]::new));
+    response.setFrom(firstRecord);
+    response.setTo(Math.min(lastRecord, (firstRecord + response.getPageSize())));
 
     return response;
   }
 
   @Override
   public SearchResponse simpleSearch(final String query, final String use, final Locale locale, final int searchingView) throws ModCatalogingException {
-    return expertSearch (buildCclQuery (query, use, locale), locale, searchingView);
+    return expertSearch(buildCclQuery(query, use, locale), locale, searchingView);
   }
 
   @Override
@@ -105,15 +105,15 @@ public abstract class ModCatalogingSearchEngine implements SearchEngine {
                                        final List <Integer> operatorList,
                                        final Locale locale,
                                        final int searchingView) throws ModCatalogingException {
-    return expertSearch (
-      buildCclQuery (termList, relationList, useList, operatorList, locale),
+    return expertSearch(
+      buildCclQuery(termList, relationList, useList, operatorList, locale),
       locale,
       searchingView);
   }
 
   @Override
   public SearchResponse sort(final SearchResponse rs, final String[] attributes, final String[] directions) throws ModCatalogingException {
-    return storageService.sortResults (rs, attributes, directions);
+    return storageService.sortResults(rs, attributes, directions);
   }
 
   private String buildCclQuery(
@@ -122,21 +122,21 @@ public abstract class ModCatalogingSearchEngine implements SearchEngine {
     final List <String> useList,
     final List <Integer> operatorList,
     final Locale locale) {
-    final StringBuilder buffer = new StringBuilder ( );
-    for ( int i = 0; i < useList.size ( ); i++ ) {
+    final StringBuilder buffer = new StringBuilder();
+    for (int i = 0; i < useList.size(); i++) {
       if (i > 0) {
         buffer
-          .append (" ")
-          .append (getLocalisedOperator (operatorList.get (i), locale))
-          .append (" ");
+          .append(" ")
+          .append(getLocalisedOperator(operatorList.get(i), locale))
+          .append(" ");
       }
       buffer
-        .append (useList.get (i)).append (" ")
-        .append (RELATIONSHIP_TABLE[Integer.parseInt (relationList.get (i))])
-        .append (" ").append (termList.get (i)).append (" ");
+        .append(useList.get(i)).append(" ")
+        .append(RELATIONSHIP_TABLE[Integer.parseInt(relationList.get(i))])
+        .append(" ").append(termList.get(i)).append(" ");
     }
 
-    return buffer.toString ( );
+    return buffer.toString();
   }
 
   /**
@@ -148,26 +148,26 @@ public abstract class ModCatalogingSearchEngine implements SearchEngine {
    * @return the CCL query.
    */
   private String buildCclQuery(final String query, final String useIn, final Locale locale) {
-    final StringBuilder buffer = new StringBuilder ( );
-    final String use = (useIn == null || useIn.trim ( ).isEmpty ( )) ? getDefaultSearchIndex (locale) : useIn;
+    final StringBuilder buffer = new StringBuilder();
+    final String use = (useIn == null || useIn.trim().isEmpty()) ? getDefaultSearchIndex(locale) : useIn;
 
-    buffer.append (use).append (" = ");
-    if (query.trim ( ).matches ("\".*\"")) {
-      buffer.append (query);
+    buffer.append(use).append(" = ");
+    if (query.trim().matches("\".*\"")) {
+      buffer.append(query);
     } else {
-      final String[] words = query.trim ( ).split (" ");
-      for ( int i = 0; i < words.length - 1; i++ ) {
-        buffer.append (
+      final String[] words = query.trim().split(" ");
+      for (int i = 0; i < words.length - 1; i++) {
+        buffer.append(
           words[i]
             + " "
-            + getLocalisedOperator (1, locale)
+            + getLocalisedOperator(1, locale)
             + " "
             + use
             + " = ");
       }
-      buffer.append (words[words.length - 1]);
+      buffer.append(words[words.length - 1]);
     }
-    return buffer.toString ( );
+    return buffer.toString();
   }
 
   /**
@@ -188,15 +188,15 @@ public abstract class ModCatalogingSearchEngine implements SearchEngine {
    * @return the localized version of the boolean operator associated with the given index.
    */
   private String getLocalisedOperator(final int index, final Locale locale) {
-    final String[] results = OPERATORS.computeIfAbsent (locale, k -> {
-      final ResourceBundle bundle = ResourceBundle.getBundle ("/advancedSearch", locale);
+    final String[] results = OPERATORS.computeIfAbsent(locale, k -> {
+      final ResourceBundle bundle = ResourceBundle.getBundle("/advancedSearch", locale);
       return new String[]{
         "",
-        bundle.getString ("and"),
-        bundle.getString ("or"),
-        bundle.getString ("not"),
-        bundle.getString ("near"),
-        bundle.getString ("with")};
+        bundle.getString("and"),
+        bundle.getString("or"),
+        bundle.getString("not"),
+        bundle.getString("near"),
+        bundle.getString("with")};
     });
     return results[index];
   }
@@ -208,7 +208,7 @@ public abstract class ModCatalogingSearchEngine implements SearchEngine {
    * @return the default index associated with the input locale.
    */
   private String getDefaultSearchIndex(final Locale locale) {
-    return DEFAULT_SEARCH_INDEX.getOrDefault (locale, "AW");
+    return DEFAULT_SEARCH_INDEX.getOrDefault(locale, "AW");
   }
 
   /**
@@ -220,12 +220,12 @@ public abstract class ModCatalogingSearchEngine implements SearchEngine {
    */
   private String recordData(final int itemNumber, final int searchingView) {
     try {
-      return storageService.getRecordData (itemNumber, searchingView);
+      return storageService.getRecordData(itemNumber, searchingView);
     } catch (final RecordNotFoundException exception) {
       try {
-        final CatalogItem item = storageService.getCatalogItemByKey (itemNumber, searchingView);
-        storageService.updateFullRecordCacheTable (item, searchingView);
-        return storageService.getRecordData (itemNumber, searchingView);
+        final CatalogItem item = storageService.getCatalogItemByKey(itemNumber, searchingView);
+        storageService.updateFullRecordCacheTable(item, searchingView);
+        return storageService.getRecordData(itemNumber, searchingView);
       } catch (final Exception fallback) {
         return Global.EMPTY_STRING;
       }

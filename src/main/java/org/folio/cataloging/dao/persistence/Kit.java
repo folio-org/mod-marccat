@@ -15,8 +15,8 @@ import org.w3c.dom.Element;
 public class Kit extends PhysicalDescription {
 
   public Kit() {
-    super ( );
-    setHeaderType (47);
+    super();
+    setHeaderType(47);
   }
 
   /* (non-Javadoc)
@@ -25,8 +25,8 @@ public class Kit extends PhysicalDescription {
   public String getDisplayString() {
     String result =
       ""
-        + getGeneralMaterialDesignationCode ( )
-        + getSpecificMaterialDesignationCode ( );
+        + getGeneralMaterialDesignationCode()
+        + getSpecificMaterialDesignationCode();
     return result;
   }
 
@@ -34,8 +34,8 @@ public class Kit extends PhysicalDescription {
    * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
    */
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
-    SystemNextNumberDAO dao = new SystemNextNumberDAO ( );
-    setKeyNumber (dao.getNextNumber ("XF", session));
+    SystemNextNumberDAO dao = new SystemNextNumberDAO();
+    setKeyNumber(dao.getNextNumber("XF", session));
   }
 
   /* (non-Javadoc)
@@ -48,24 +48,24 @@ public class Kit extends PhysicalDescription {
   public Element generateModelXmlElementContent(Document xmlDocument) {
     Element content = null;
     if (xmlDocument != null) {
-      content = xmlDocument.createElement ("content");
-      content.setAttribute ("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode ( ));
-      content.setAttribute ("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode ( ));
+      content = xmlDocument.createElement("content");
+      content.setAttribute("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode());
+      content.setAttribute("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode());
     }
     return content;
   }
 
   public void parseModelXmlElementContent(Element xmlElement) {
-    Element content = (Element) xmlElement.getChildNodes ( ).item (0);
-    setGeneralMaterialDesignationCode (content.getAttribute ("generalMaterialDesignationCode").charAt (0));
-    setSpecificMaterialDesignationCode (content.getAttribute ("specificMaterialDesignationCode").charAt (0));
+    Element content = (Element) xmlElement.getChildNodes().item(0);
+    setGeneralMaterialDesignationCode(content.getAttribute("generalMaterialDesignationCode").charAt(0));
+    setSpecificMaterialDesignationCode(content.getAttribute("specificMaterialDesignationCode").charAt(0));
   }
 
   //@paulm, us_bbl_loading
   @Override
   public void setContentFromMarcString(final String s) {
-    setGeneralMaterialDesignationCode (s.charAt (0));
-    if (s.length ( ) > 1) setSpecificMaterialDesignationCode (s.charAt (1));
-    else setSpecificMaterialDesignationCode ('u');
+    setGeneralMaterialDesignationCode(s.charAt(0));
+    if (s.length() > 1) setSpecificMaterialDesignationCode(s.charAt(1));
+    else setSpecificMaterialDesignationCode('u');
   }
 }

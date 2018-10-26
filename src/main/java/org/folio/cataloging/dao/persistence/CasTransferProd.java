@@ -12,19 +12,19 @@ import java.io.Serializable;
 
 public class CasTransferProd implements Persistence {
 
-  static DAOCasTrnsfPrdct dao = new DAOCasTrnsfPrdct ( );
+  static DAOCasTrnsfPrdct dao = new DAOCasTrnsfPrdct();
 
 
   private int bibItemNumber;
   private char booked;
   private char imported;
   private int transactionId;
-  private PersistenceState persistenceState = new PersistenceState ( );
+  private PersistenceState persistenceState = new PersistenceState();
 
 
   public CasTransferProd(int bibItemNumber) {
-    this ( );
-    setBibItemNumber (bibItemNumber);
+    this();
+    setBibItemNumber(bibItemNumber);
 
   }
 
@@ -34,7 +34,7 @@ public class CasTransferProd implements Persistence {
    * @since 1.0
    */
   public CasTransferProd() {
-    super ( );
+    super();
     // TODO Auto-generated constructor stub
   }
 
@@ -75,11 +75,11 @@ public class CasTransferProd implements Persistence {
   }
 
   public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict (obj);
+    persistenceState.evict(obj);
   }
 
   public void evict() throws DataAccessException {
-    evict (this);
+    evict(this);
   }
 
   /**
@@ -93,7 +93,7 @@ public class CasTransferProd implements Persistence {
    * @since 1.0
    */
   public int getUpdateStatus() {
-    return persistenceState.getUpdateStatus ( );
+    return persistenceState.getUpdateStatus();
   }
 
   public void setUpdateStatus(int i) {
@@ -176,7 +176,7 @@ public class CasTransferProd implements Persistence {
       return true;
     if (obj == null)
       return false;
-    if (getClass ( ) != obj.getClass ( ))
+    if (getClass() != obj.getClass())
       return false;
     CasTransferProd other = (CasTransferProd) obj;
     return bibItemNumber == other.bibItemNumber;

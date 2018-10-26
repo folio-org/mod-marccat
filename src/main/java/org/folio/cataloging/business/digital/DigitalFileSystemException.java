@@ -5,19 +5,19 @@ import org.folio.cataloging.exception.ModCatalogingException;
 public class DigitalFileSystemException extends ModCatalogingException {
 
   public DigitalFileSystemException() {
-    super ( );
+    super();
   }
 
   public DigitalFileSystemException(String message, Throwable cause) {
-    super (message, cause);
+    super(message, cause);
   }
 
   public DigitalFileSystemException(String message) {
-    super (message);
+    super(message);
   }
 
   public DigitalFileSystemException(Throwable cause) {
-    super (cause);
+    super(cause);
   }
 
 }
