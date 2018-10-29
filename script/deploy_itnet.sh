@@ -33,5 +33,9 @@ ssh_itnet_deploy_demo(){
   nohup java -jar ${SSH_SRC_FILE} | ssh -p ${SSH_PORT} root@${SSH_HOST_DEMO} &
   echo "uploaded artifact succesfully. Deploy last demo release of modcat"
 }
+sendmail(){
+   echo "deploy on ${SSH_HOST} on $(date) succefully "| mail -s "Deploy Mod Cataloging" christian.chiama@atcult.it
+}
+
 ssh_itnet_deploy
-echo "deploy on ${SSH_HOST} on $(date) succefully "| mail -s "backup complete" christian.chiama@atcult.it
+sendmail
