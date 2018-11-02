@@ -1,20 +1,27 @@
 {
-  "id": "cataloging",
-  "name": "Cataloging",
+  "id": "${artifactId}-${version}",
+  "name": "MARCcat Import Module",
   "requires": [
     {
-      "id": "cataloging",
+      "id": "marc-record-manager",
       "version": "1.0"
     }
   ],
   "provides": [
     {
-      "id": "cataloging",
+      "id": "marccat",
       "version": "1.0",
       "handlers": [
         {
           "methods": ["GET"],
           "pathPattern": "/search",
+          "permissionsRequired": [
+            "marccat.records.collection.get"
+          ]
+        },
+        {
+          "methods": ["GET"],
+          "pathPattern": "/searchVertical",
           "permissionsRequired": []
         }
       ]
@@ -39,7 +46,13 @@
       ]
     }
   ],
-  "permissionSets": [],
+  "permissionSets": [
+    {
+      "permissionName": "marccat.records.collection.get",
+      "displayName": "MARCcat - get records collection",
+      "description": "Get record collection"
+    },
+  ],
   "launchDescriptor": {
     "dockerImage": "${artifactId}:${version}",
     "dockerArgs": {
