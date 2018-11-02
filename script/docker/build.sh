@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
-mvn clean install
+mvn clean compile install -DskipTests=true
 
 docker build -t mod-marccat .

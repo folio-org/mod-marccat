@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+<class name="org.folio.marccat.dao.persistence.SerialPart" schema="olisuite" table="SRL_PRT">
+    <id name="serialPartNumber" column="SRL_PRT_NBR">
+    	<generator class="assigned"/>
+    </id>
+    <property name="serialCopyNumber"> 
+    	<column name="SRL_CPY_ID_NBR"/>
+    </property>
+    <property name="copyNumber"> 
+    	<column name="CPY_ID_NBR"/>
+    </property>
+    <property name="serialCopyStatusCode"> 
+    	<column name="SRL_CPY_STUS_CDE" />
+    </property>
+    <property name="receivedDate"> 
+    	<column name="RECVD_DTE"/>
+    </property>
+    <property name="publicationDate"> 
+    	<column name="PUB_DTE"/>
+    </property>
+    <property name="type"> 
+    	<column name="TYPE"/>
+    </property>
+    <property name="note"> 
+    	<column name="NOTE"/>
+    </property>
+    <property name="enumDescription"> 
+    	<column name="ENUM_DESC"/>
+    </property>
+    <property name="nameUnit"> 
+    	<column name="NME_UNIT"/>
+    </property>
+    <property name="typeOfSupplementMaterial"> 
+    	<column name="TPE_SUP_MTRL_IND"/>
+    </property>
+    <property name="convertedGregorianYear"> 
+    	<column name="CNVRTD_GREGN_YR"/>
+    </property>
+    <property name="titleOfSupplementMaterial"> 
+    	<column name="TTL_SUP_MTRL_IND"/>
+    </property>
+    <property name="tableOfContents"> 
+    	<column name="TOC_IND" not-null="true"/>
+    </property>
+    <property name="price"> 
+    	<column name="PRICE"/>
+    </property>
+    <property name="localStatusCode"> 
+    	<column name="SRL_LCL_STUS_CDE"/>
+    </property>
+    <property name="supplementaryMaterialCode"> 
+    	<column name="SRL_SUP_MTRL_CDE"/>
+    </property>
+</class>
+</hibernate-mapping>

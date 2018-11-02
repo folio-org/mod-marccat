@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="org.folio.marccat.dao.persistence">
+	<class name="SBJCT_HDG" table="SBJCT_HDG">
+		<composite-id name="key" class="DescriptorKey">
+			<key-property name="headingNumber" column="SBJCT_HDG_NBR"/>
+			<key-property name="userViewString" column="USR_VW_IND" length="16"/>
+		</composite-id>
+		<property name="authorityCount">
+			<column name="HDG_AUT_CNT"/>
+		</property>
+		<property name="skipInFiling">
+			<column name="SKP_IN_FLNG_CNT"/>
+		</property>		
+		<property name="copyFromHeadingNumber">
+			<column name="CPY_FRM_HDG_NBR"/>
+		</property>
+		<property name="typeCode">
+			<column name="SBJCT_HDG_TYP_CDE"/>
+		</property>
+		<property name="sourceCode">
+			<column name="SBJCT_HDG_SRC_CDE"/>
+		</property>		
+		<property name="copyFromHeadingType">
+			<column name="CPY_FRM_HDG_TYP_CDE"/>
+		</property>		
+		<property name="secondarySourceCode">
+			<column name="SBJCT_HDG_SCDRY_SRC_CDE"/>
+		</property>		
+		<property name="verificationLevel">
+			<column name="VRFTN_LVL_CDE"/>
+		</property>
+		<property name="accessPointLanguage">
+			<column name="LANG_OF_ACS_PNT_CDE"/>
+		</property>
+		<property name="scriptingLanguage">
+			<column name="SBJCT_HDG_LANG_SCRPT_CDE" sql-type="CHAR (3)"/>
+		</property>
+		<property name="sortForm">
+			<column name="SBJCT_HDG_SRT_FORM"/>
+		</property>
+		<property name="stringText">
+			<column name="SBJCT_HDG_STRNG_TXT"/>
+		</property>
+	</class>
+</hibernate-mapping>

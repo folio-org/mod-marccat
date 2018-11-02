@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+<class 
+    name="org.folio.marccat.dao.persistence.ORDR_ITM_BIB_ITM"
+    table="ORDR_ITM_BIB_ITM"
+>
+    <cache usage="read-only"/>
+
+<!-- this mapping is incomplete; it is only currently used for referential integrity
+	 checking
+-->
+	 
+    <composite-id>
+        <key-property name="orderNumber" 
+            column="ORDR_NBR"/>
+        <key-property name="orderItemNumber" 
+            column="ORDR_ITM_NBR"/>
+        <key-property name="packageNumber" 
+            column="PCKG_ITM_NBR"/>
+    </composite-id>    
+	<property name="bibItemNumber">
+		<column name="BIB_ITM_NBR"/>
+	</property>
+</class>
+</hibernate-mapping>

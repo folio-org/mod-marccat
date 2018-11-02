@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+<class schema="olisuite" name="org.folio.marccat.dao.persistence.SRL_ORDR" table="SRL_ORDR">
+
+    <id name="orderNumber" column="SRL_ORDR_NBR">
+        <generator class="assigned" />
+    </id>
+    <property name="amicusNumber">
+    <column name="BIB_ITM_NBR" not-null="true"/>
+    </property>
+    <property name="vendorNumber"> 
+    	<column name="VNDR_NBR"/>
+    </property>
+    <property name="price"> 
+    	<column name="PRICE"/>
+    </property>
+    <property name="currency"> 
+    	<column name="CURRENCY"/>
+    </property>
+    <property name="reminderDate"> 
+    	<column name="RMNDR_DTE"/>
+    </property>
+    <property name="expiryDate"> 
+    	<column name="EXPRY_DTE"/>
+    </property>
+    <property name="quantity"> 
+    	<column name="QTY" not-null="true"/>
+    </property>
+     <property name="orderNo"> 
+    	<column name="C_ORDER_ID"/>
+    </property>
+     <property name="documentNo"> 
+    	<column name="DOCUMENTNO"/>
+    </property>
+</class>
+</hibernate-mapping>

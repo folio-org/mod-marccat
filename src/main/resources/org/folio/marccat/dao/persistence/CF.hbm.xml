@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+<class name="org.folio.marccat.dao.persistence.ElectronicResource" table="CF" >
+
+    <composite-id>
+        <key-property name="bibItemNumber" column="BIB_ITM_NBR"/>
+        <key-property name="keyNumber" column="CF_KEY_NBR" />
+        <key-property name="userViewString" column="USR_VW_IND" length="16"/>
+    </composite-id>
+    <property name="generalMaterialDesignationCode">
+    		<column name="GMD_CDE"/>
+    </property>
+    <property name="specificMaterialDesignationCode"> 
+            <column name="CF_SMD_CDE"/>
+    </property>
+    <property name="colourCode" >
+            <column name="CF_CLR_CDE"/>
+    </property>
+    <property name="dimensionsCode">
+            <column name="CF_DMNSN_CDE"/>
+    </property>
+    <property name="includesSoundCode"> 
+            <column name="SND_MDM_OR_SEPRT_CDE"/>
+    </property>
+    <property name="imageBitDepth">
+            <column name="CF_IBD"/>
+    </property>
+    <property name="fileFormatsCode"> 
+            <column name="CF_FF"/>
+    </property>
+    <property name="qualityAssuranceTargetCode"> 
+            <column name="CF_QAT"/>
+    </property>
+    <property name="antecedentSourceCode">
+            <column name="CF_ANTSRC"/>
+    </property>
+    <property name="levelOfCompressionCode"> 
+            <column name="CF_LOC"/>
+    </property>
+     <property name="reformattingQualityCode">
+            <column name="CF_RQ"/>
+    </property>
+     <property name="obsolete1"> 
+            <column name="ORGNL_VS_RPDTN_ASPCT_CDE"/>
+    </property>
+
+</class>
+</hibernate-mapping>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+<class name="org.folio.marccat.dao.persistence.CLCTN_CST_ACS_PNT" schema="custom" table="CLCTN_CST_ACS_PNT">
+    <composite-id>
+        <key-property name="collectionNumber" column="CLCTN_CST_CDE"/>
+        <key-property name="bibItemNumber" column="BIB_ITM_NBR"/>
+    </composite-id>    
+    <property name="creationDate">
+		<column name="CRTN_DTE" not-null="true"/>
+	</property>
+	<property name="transactionDate">
+		<column name="TRSN_DTE" />
+	</property>
+	
+</class>
+</hibernate-mapping>

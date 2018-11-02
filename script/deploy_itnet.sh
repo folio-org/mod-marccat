@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ########################################################
-# Synchronise remote test Folio mod-cataloging
+# Synchronise remote test Folio mod-marccat
 #
 # Author : Christian Chiama - christian.chiama@atcult.it
 # Version: 1.0

@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="org.folio.marccat.dao.persistence">
+	<class name="TTL_HDG" table="TTL_HDG">
+		<composite-id name="key" class="DescriptorKey">
+			<key-property name="headingNumber" column="TTL_HDG_NBR"/>
+			<key-property name="userViewString" column="USR_VW_IND" length="16"/>
+		</composite-id>
+		<property name="skipInFiling">
+			<column name="SKP_IN_FLNG_CNT"/>
+		</property>
+		<property name="authorityCount">
+			<column name="HDG_AUT_CNT"/>
+		</property>
+		<property name="copyToSubjectIndicator">
+			<column name="CPY_TO_SBJCT_HDG_IND"/>
+		</property>
+		<property name="verificationLevel">
+			<column name="VRFTN_LVL_CDE"/>
+		</property>
+		<property name="accessPointLanguage">
+			<column name="LANG_OF_ACS_PNT_CDE"/>
+		</property>
+		<property name="indexingLanguage">
+			<column name="LANG_OF_IDXG_CDE"/>
+		</property>
+		<property name="scriptingLanguage">
+			<column name="TTL_HDG_LANG_SCRPT_CDE" sql-type="CHAR (3)"/>
+		</property>
+		<property name="sortForm">
+			<column name="TTL_HDG_SRT_FORM"/>
+		</property>
+		<property name="stringText">
+			<column name="TTL_HDG_STRNG_TXT"/>
+		</property>
+		<property name="authoritySourceCode">
+			<column name="AUT_SRC_CDE"/>
+		</property>
+		<property name="authoritySourceText">
+			<column name="AUT_SRC_TXT"/>
+		</property>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+<class 
+    name="org.folio.marccat.business.authorisation.TagAuthorisation"
+    table="USR_CATL_TAG_CAT_AUTH"
+>
+
+    <composite-id>
+        <key-property name="userAccount" 
+            column="USR_NME" length="12"/>
+        <key-property name="bibliographicOrAuthorityCode" 
+            column="CATL_TYP"/>
+        <key-property name="tagCategory" 
+            column="TAG_CAT_NBR"/>
+    </composite-id>    
+</class>
+</hibernate-mapping>

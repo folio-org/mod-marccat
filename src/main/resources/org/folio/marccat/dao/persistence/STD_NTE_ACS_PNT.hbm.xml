@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="org.folio.marccat.dao.persistence">
+	<class schema="amicus" name="StandardNoteAccessPoint" table="STD_NTE_ACS_PNT">
+		<composite-id>
+			<key-property name="bibItemNumber" column="BIB_ITM_NBR"/>
+			<key-property name="userViewString" column="USR_VW_IND" length="16"/>
+			<key-property name="noteNbr" column="BIB_NTE_NBR"/>
+		</composite-id>
+		
+		<property name="typeCode">
+			<column name="STD_NTE_TYP_CDE"/>
+		</property>
+
+	</class>
+</hibernate-mapping>

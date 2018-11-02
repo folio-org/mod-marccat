@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+
+<hibernate-mapping>
+<class
+    name="org.folio.marccat.dao.persistence.LDG_STATS"
+    table="LDG_STATS"
+    mutable="false">
+
+  <id name="loadingStatisticsNumber">
+    <column name="LDG_STATS_RUN_NBR"/>
+    <generator class="assigned"/>
+  </id>
+  <property name="recordsAdded">
+    <column name="LDG_STATS_NEW_REC_CNT"/>
+  </property>
+  <property name="recordsRejected">
+    <column name="LDG_STATS_RJCT_CNT"/>
+  </property>
+  <property name="modifiedRecords">
+    <column name="LDG_STATS_MOD_CNT"/>
+  </property>
+  <property name="modifiedHoldingsCount">
+    <column name="LDG_STATS_RVS_HLDG_CNT"/>
+  </property>
+  <property name="newLocationsCount">
+    <column name="LDG_STATS_NEW_LCTN_CNT"/>
+  </property>
+  <property name="detatiledHoldingsCount">
+    <column name="LDG_STATS_DLT_HLDG_CNT"/>
+  </property>
+  <property name="errorCount">
+    <column name="LDG_STATS_ERROR_CNT"/>
+  </property>
+  <property name="processedCount">
+    <column name="LDG_STATS_PRCS_CNT"/>
+  </property>
+  <property name="inputSourceCode">
+    <column name="INPT_SRC_CDE"/>
+  </property>
+  <property name="loadingDate">
+    <column name="LDG_STATS_DTE"/>
+  </property>
+  <property name="statusCode">
+    <column name="LDG_RUN_STUS_CDE"/>
+  </property>
+  <property name="retroCurrentCode">
+    <column name="LDG_STATS_RTRO_CURNT_CDE"/>
+  </property>
+  <property name="librarySymbolCode">
+    <column name="LIB_SMBL_CDE"/>
+  </property>
+</class>
+</hibernate-mapping>

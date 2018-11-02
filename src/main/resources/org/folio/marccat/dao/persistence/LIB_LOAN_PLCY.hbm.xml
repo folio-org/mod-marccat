@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="org.folio.marccat.dao.persistence">
+	<class name="LIB_LOAN_PLCY" table="LIB_LOAN_PLCY">
+		<id name="libraryLoanPolicyNumber">
+			<column name="LIB_LOAN_PLCY_NBR" not-null="true"/>
+			<generator class="native">
+				<param name="sequence">LIB_LOAN_PLCY_SEQUENCE</param>
+			</generator>
+		</id>
+		<property name="organisationNumber">
+			<column name="ORG_NBR" sql-type="NUMBER (11)" not-null="true"/>
+		</property>
+		<property name="loanPeriodCode">
+			<column name="LOAN_PRD_CDE" sql-type="CHAR (1)" not-null="true"/>
+		</property>
+		<property name="borrowerTypeCode">
+			<column name="BRWR_TYP_CDE" sql-type="NUMBER (6)" not-null="true"/>
+		</property>
+		<property name="libraryLoanTypeCode">
+			<column name="LIB_LOAN_TYP_CDE" sql-type="NUMBER (6)" not-null="true"/>
+		</property>
+		<property name="normalLoanPeriodQuality">
+			<column name="NORMAL_LOAN_PRD_QTY" sql-type="NUMBER (6)"/>
+		</property>
+		<property name="normalLoanPeriodUnit">
+			<column name="NORMAL_LOAN_PRD_UNIT" sql-type="CHAR (1)"/>
+		</property>
+		<property name="onDemandLoanPeriodQuality">
+			<column name="ON_DEMAND_LOAN_PRD_QTY" sql-type="NUMBER (6)"/>
+		</property>
+		<property name="onDemandLoanPeriodUnit">
+			<column name="ON_DEMAND_LOAN_PRD_UNIT" sql-type="CHAR (1)"/>
+		</property>
+		<property name="hourlyLoanPeriodQuality">
+			<column name="HOURLY_LOAN_PRD_QTY" sql-type="NUMBER (6)"/>
+		</property>
+		<property name="hourlyLoanPeriodUnit">
+			<column name="HOURLY_LOAN_PRD_UNIT" sql-type="CHAR (1)"/>
+		</property>
+		<property name="overnightTimeThresholdQuality">
+			<column name="OVERNIGHT_TIME_THRESHOLD_QTY" sql-type="NUMBER (6)"/>
+		</property>
+		<property name="overnightTimeThresholdUnit">
+			<column name="OVERNIGHT_TIME_THRESHOLD_UNIT" sql-type="CHAR (1)"/>
+		</property>
+			<property name="noOvernightRefusalTimeQuality">
+			<column name="NO_OVERNIGHT_REFUSAL_TIME_QTY" sql-type="NUMBER (6)"/>
+		</property>
+		<property name="noOvernightRefusalTimeUnit">
+			<column name="NO_OVERNIGHT_REFUSAL_TIME_UNIT" sql-type="CHAR (1)"/>
+		</property>
+			<property name="fixLoanDate">
+			<column name="FIX_LOAN_DATE" sql-type="DATE"/>
+		</property>
+		<property name="extendedLoanMinimunGuaranteeQuality">
+			<column name="EXTENDED_LOAN_MIN_GRNTD_QTY" sql-type="NUMBER (6)"/>
+		</property>
+		<property name="extendedLoanMinimunGaranteeUnit">
+			<column name="EXTENDED_LOAN_MIN_GRNTD_UNIT" sql-type="CHAR (1)"/>
+		</property>
+		<property name="maximunRenewalCount">
+			<column name="MAX_RENEWAL_COUNT" sql-type="NUMBER (6)"/>
+		</property> 
+		<property name="loanMaxCount">
+			<column name="MAX_LOAN_COUNT" sql-type="NUMBER (6)"/>
+		</property> 
+		<property name="generalIndicator">
+			<column name="GNRL_IND" sql-type="CHAR (1)"/>
+		</property>
+	</class>
+</hibernate-mapping>

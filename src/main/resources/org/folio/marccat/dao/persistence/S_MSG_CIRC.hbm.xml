@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="org.folio.marccat.dao.persistence">
+	<class name="S_MSG_CIRC" table="S_MSG_CIRC">
+		<id name="messageNumber">
+			<column name="MSG_NBR" not-null="true"/>
+			<generator class="assigned"/>
+		</id>
+		<property name="messageTypeCode">
+			<column name="MSG_TYP_CDE" sql-type="NUMBER (6)" not-null="true"/>
+		</property>
+		<property name="messageEnglishHelpName">
+			<column name="MSG_ENG_HLP_NME" sql-type="VARCHAR2 (96)"/>
+		</property>
+		<property name="messageFrenchHelpName">
+			<column name="MSG_FR_HLP_NME" sql-type="VARCHAR2 (96)"/>
+		</property>
+		<property name="messageEnglishDescription">
+			<column name="MSG_ENG_DSC" sql-type="VARCHAR2 (768)" not-null="true"/>
+		</property>
+		<property name="messageFrenchDescription">
+			<column name="MSG_FR_DSC" sql-type="VARCHAR2 (768)" not-null="true"/>
+		</property>
+		<property name="messageTechnicalDescription">
+			<column name="MSG_TCHNL_DSC" sql-type="VARCHAR2 (768)"/>
+		</property>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="org.folio.marccat.dao.persistence">
+	<class name="LOAN_ARCH" table="LOAN_ARCH">
+		<id name="loanArchiveNumber">
+			<column name="LOAN_ARCH_NBR" not-null="true"/>
+			<generator class="native">
+				<param name="sequence">LOAN_ARCH_SEQUENCE</param>
+			</generator>	
+		</id>
+		<property name="organisationNumber">
+			<column name="ORG_NBR" sql-type="NUMBER (11)" not-null="true"/>
+		</property>
+		<property name="copyIdNumber">
+			<column name="CPY_ID_NBR" sql-type="NUMBER (11)" not-null="true"/>
+		</property>
+		<property name="borrowerNumber">
+			<column name="BRWR_NBR" sql-type="NUMBER (11)" not-null="true"/>
+		</property>
+		<property name="loanStatisticsTypeCode">
+			<column name="LOAN_STATS_TYP_CDE" sql-type="NUMBER (6)" not-null="true"/>
+		</property>
+		<property name="loanChargeOutDate">
+			<column name="LOAN_CHRG_OUT_DTE" sql-type="DATE"/>
+		</property>
+		<property name="loanDueDate">
+			<column name="LOAN_DUE_DTE" sql-type="DATE"/>
+		</property>
+		<property name="loanPreviousDueDate">
+			<column name="LOAN_PRVS_DUE_DTE" sql-type="DATE"/>
+		</property>
+		<property name="loanRecallNotificationDate">
+			<column name="LOAN_RCALL_NTFCT_DTE" sql-type="DATE"/>
+		</property>
+		<property name="loanFirstOverdueDate">
+			<column name="LOAN_1ST_OVRD_DTE" sql-type="DATE"/>
+		</property>
+		<property name="loanSecondOverdueDate">
+			<column name="LOAN_2ND_OVRD_DTE" sql-type="DATE"/>
+		</property>
+		<property name="loanThirdOverdueDate">
+			<column name="LOAN_3RD_OVRD_DTE" sql-type="DATE"/>
+		</property>
+		<property name="loanRenewalCounterCount">
+			<column name="LOAN_RNWL_CNTER_CNT" sql-type="NUMBER (11)" not-null="true"/>
+		</property>
+		<property name="loanExtendedLoanIndex">
+			<column name="LOAN_EXTD_LOAN_IND" sql-type="CHAR (1)" not-null="true"/>
+		</property>
+		<property name="archiveDate">
+			<column name="ARCHIVE_DTE" sql-type="DATE" not-null="true"/>
+		</property>
+	</class>
+</hibernate-mapping>

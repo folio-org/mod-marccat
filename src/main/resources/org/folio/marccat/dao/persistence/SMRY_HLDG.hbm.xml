@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="org.folio.marccat.dao.persistence">
+	<class name="SMRY_HLDG" table="SMRY_HLDG">
+		<composite-id>
+			<key-property name="bibItemNumber" column="BIB_ITM_NBR"/>
+			<key-property name="mainLibraryNumber" column="ORG_NBR"/>
+		</composite-id>
+		<property name="holdingFirstIndexCode">
+			<column name="HLDG_1ST_IND_CDE" sql-type="NUMBER (6)" not-null="true"/>
+		</property>
+		<property name="holdingSecondIndexCode">
+			<column name="HLDG_2ND_IND_CDE" sql-type="NUMBER (6)" not-null="true"/>
+		</property>
+		<property name="librarySymbolCode">
+			<column name="LIB_SMBL_CDE" sql-type="VARCHAR2 (60)" not-null="true"/>
+		</property>
+		<property name="holdingStatusCode">
+			<column name="HLDG_STUS_CDE" sql-type="CHAR (1)" not-null="true"/>
+		</property>
+		<property name="creationDate">
+			<column name="CRTN_DTE" sql-type="DATE" not-null="true"/>
+		</property>
+		<property name="transactionDate">
+			<column name="TRSTN_DTE" sql-type="DATE" not-null="true"/>
+		</property>
+		<property name="holdingStatementText">
+			<column name="HLDG_STMT_TXT" sql-type="VARCHAR2 (2304)" not-null="false"/>
+		</property>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+<class name="org.folio.marccat.dao.persistence.Text" table="TXT" >
+
+    <composite-id>
+        <key-property name="bibItemNumber" 
+            column="BIB_ITM_NBR"/>
+        <key-property name="keyNumber"
+            column="TXT_KEY_NBR"/>
+        <key-property name="userViewString" 
+            column="USR_VW_IND" length="16"/>
+    </composite-id>    
+    <property name="generalMaterialDesignationCode"> 
+            <column name="GMD_CDE"/>
+    </property>
+    <property name="specificMaterialDesignationCode"> 
+            <column name="TXT_SMD_CDE"/>
+    </property>
+</class>
+</hibernate-mapping>

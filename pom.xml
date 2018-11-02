@@ -8,17 +8,45 @@
     <version>2.0.0.RELEASE</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
+
   <groupId>org.folio</groupId>
-  <artifactId>mod-cataloging</artifactId>
-  <version>1.0</version>
+  <artifactId>mod-marccat</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>mod-marccat</name>
+  <description>Module to handle MARC record</description>
+  <url>https://github.com/folio-org/mod-marccat</url>
+  <inceptionYear>2018</inceptionYear>
+
+  <organization>
+    <name>The Open Library Foundation</name>
+    <url>https://dev.folio.org/</url>
+  </organization>
+
+  <issueManagement>
+    <url>https://issues.folio.org/projects/MODMARCAT</url>
+    <system>JIRA</system>
+  </issueManagement>
+
+  <ciManagement>
+    <system>Jenkins</system>
+    <url>https://jenkins-aws.indexdata.com/job/folio-org/job/mod-marccat/</url>
+  </ciManagement>
+
+  <scm>
+    <url>https://github.com/folio-org/mod-marccat</url>
+    <connection>scm:git:git://github.com/folio-org/mod-marccat</connection>
+    <developerConnection>scm:git:git@github.com:folio-org/mod-marccat.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <raml-module-builder.version>13.0.2</raml-module-builder.version>
-    <ramlfiles_path>${basedir}/raml</ramlfiles_path>
+    <raml-module-builder.version>19.0.0</raml-module-builder.version>
     <ramlfiles_util_path>${basedir}/raml-util</ramlfiles_util_path>
     <descriptors_path>${basedir}/descriptors</descriptors_path>
     <swagger-version>2.8.0</swagger-version>
@@ -83,15 +111,8 @@
     </snapshotRepository>
   </distributionManagement>
 
-  <scm>
-    <url>https://github.com/atcult/mod-cataloging.git</url>
-    <connection>scm:git:https://github.com/atcult/mod-cataloging.git</connection>
-    <developerConnection>scm:git:git@github.com:atcult/mod-cataloging.git</developerConnection>
-  <tag>HEAD</tag>
-</scm>
 
-<dependencies>
-<!-- OLISUITE deps -->
+  <dependencies>
     <dependency>
       <groupId>commons-httpclient</groupId>
       <artifactId>commons-httpclient</artifactId>
@@ -192,27 +213,27 @@
       <version>${lombok-version}</version>
       <scope>provided</scope>
     </dependency>
-  <dependency>
-    <groupId>org.testng</groupId>
-    <artifactId>testng</artifactId>
-    <version>RELEASE</version>
-    <scope>test</scope>
-  </dependency>
-  <dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-test</artifactId>
-  </dependency>
-  <dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-test-autoconfigure</artifactId>
-  </dependency>
-</dependencies>
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>RELEASE</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-test</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-test-autoconfigure</artifactId>
+    </dependency>
+  </dependencies>
   <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.1</version>
+        <version>3.8.0</version>
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
@@ -223,7 +244,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
-      <!-- Release management -->
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
@@ -235,6 +256,91 @@
           <localCheckout>true</localCheckout>
         </configuration>
       </plugin>
+
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.0.1</version>
+        <executions>
+          <execution>
+            <id>copy-resources</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/target/classes/apidocs/raml</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${ramlfiles_path}</directory>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>copy-resources-2</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/target/classes/apidocs/raml-util</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${ramlfiles_util_path}</directory>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>filter-descriptor-inputs</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${basedir}/descriptors</directory>
+                  <include>*Descriptor*-template.json</include>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+
+      <plugin>
+        <groupId>com.coderplus.maven.plugins</groupId>
+        <artifactId>copy-rename-maven-plugin</artifactId>
+        <version>1.0</version>
+        <executions>
+          <execution>
+            <id>rename-descriptor-outputs</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>rename</goal>
+            </goals>
+            <configuration>
+              <fileSets>
+                <fileSet>
+                  <sourceFile>${project.build.directory}/ModuleDescriptor-template.json</sourceFile>
+                  <destinationFile>${project.build.directory}/ModuleDescriptor.json</destinationFile>
+                </fileSet>
+                <fileSet>
+                  <sourceFile>${project.build.directory}/DeploymentDescriptor-template.json</sourceFile>
+                  <destinationFile>${project.build.directory}/DeploymentDescriptor.json</destinationFile>
+                </fileSet>
+              </fileSets>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
     </plugins>
   </build>
 </project>

@@ -1,0 +1,21 @@
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="org.folio.marccat.dao.persistence">
+	<class name="LCTN"  schema="olisuite"  table="LCTN">
+		<composite-id name="key" class="LocationKey">
+			<key-property name="organisationNumber" column="ORG_NBR" />
+			<key-property name="locationNumber" column="LCTN_NBR"/>
+			<key-property name="language" column="LANGUAGE"/>
+		</composite-id>
+		<property name="tableSequenceNumber">
+			<column name="TBL_SEQ_NBR" sql-type="NUMBER (6)" not-null="true"/>
+		</property>
+		<property name="tableObsoleteIndicator">
+			<column name="TBL_OBS_IND" sql-type="NUMBER (1)" not-null="true"/>
+		</property>
+		<property name="labelStringText">
+			<column name="LBL_STR_TXT" sql-type="VARCHAR2 (192)" />
+		</property>
+	</class>
+</hibernate-mapping>

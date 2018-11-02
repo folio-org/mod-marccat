@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+<class 
+    name="org.folio.marccat.dao.persistence.SoundRecording"
+    table="SND"
+>
+
+    <composite-id>
+        <key-property name="bibItemNumber" 
+            column="BIB_ITM_NBR"/>
+        <key-property name="keyNumber" 
+            column="SND_KEY_NBR"/>
+        <key-property name="userViewString" 
+            column="USR_VW_IND"/>
+    </composite-id>    
+    <property name="generalMaterialDesignationCode">
+            <column name="GMD_CDE"/>
+    </property>
+    <property name="specificMaterialDesignationCode">
+            <column name="SND_SMD_CDE"/>
+    </property>
+    <property name="speedCode">
+            <column name="SND_SPD_CDE"/>
+    </property>
+     <property name="configurationCode">
+            <column name="SND_PLYBC_CHNL_CFGTN_CDE"/>
+    </property>
+    <property name="grooveWidthCode">
+            <column name="SND_DISC_GRV_WDTH_CDE"/>
+    </property>
+     <property name="dimensionsCode">
+            <column name="SND_DMNSN_CDE"/>
+    </property>
+    <property name="tapeWidthCode">
+            <column name="SND_TAPE_WDTH_CDE"/>
+    </property>
+    <property name="tapeConfigurationCode">
+            <column name="SND_TAPE_CFGTN_CDE"/>
+    </property>
+    <property name="discTypeCode">
+            <column name="SND_DISC_CYLND_TAPE_CDE"/>
+    </property>
+    <property name="sndMaterialTypeCode">
+            <column name="SND_MTRL_TYP_CDE"/>
+    </property>
+    <property name="cuttingTypeCode">
+            <column name="SND_DISC_CTG_CDE"/>
+    </property>
+    <property name="specialPlaybackCharacteristicsCode">
+            <column name="SND_SPCL_PLYBC_CHAR_CDE"/>
+    </property>
+    <property name="storageTechniqueCode">
+            <column name="SND_STRG_TECH_CDE"/>
+    </property>
+    <property name="obsolete1">
+            <column name="ORGNL_VS_RPDTN_ASPCT_CDE"/>
+    </property>
+</class>
+</hibernate-mapping>

@@ -1,5 +1,6 @@
 configuration:
   endpoint: http://marcat_st.atcult.it:8085/configurations/entries
+  baseUrl: marccat
 
 logging:
   level:
@@ -8,7 +9,11 @@ logging:
     org.springframework: ERROR
     org.hibernate: ERROR
     ru.yandex: ERROR
-    org.folio.cataloging: INFO
+    org.folio.marccat: INFO
 
 server:
   port: 8080
+
+configuration:
+  cache:
+    expire: 120

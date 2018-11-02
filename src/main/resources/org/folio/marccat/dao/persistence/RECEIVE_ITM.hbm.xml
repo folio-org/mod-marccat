@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+<class name="org.folio.marccat.dao.persistence.ReceiveItem" table="RECEIVE_ITM">
+
+    <id name="receiveItemNumber" column="RECEIVE_ITM_NBR">
+    	<generator class="assigned"/>
+    </id>
+	<property name="orderNumber">
+		<column name="ORDR_NBR"/>
+	</property>
+	<property name="orderItemNumber">
+		<column name="ORDR_ITM_NBR"/>
+	</property>
+	<property name="packageItemNumber">
+		<column name="PCKG_ITM_NBR"/>
+	</property>
+	<property name="receivedDate">
+		<column name="RCVD_DTE"/>
+	</property>
+	<property name="bibItemNumber">
+		<column name="BIB_ITM_NBR"/>
+	</property>
+	<property name="librarySymbolCode">
+		<column name="LIB_SMBL_CDE"/>
+	</property>
+	<property name="locationText">
+		<column name="ORDR_ITM_LCTN"/>
+	</property>
+	<property name="receivedCopyQuantity">
+		<column name="RECVD_CPY_QTY"/>
+	</property>
+	<property name="conditionNote">
+		<column name="CONDITION_NTE"/>
+	</property>
+</class>
+</hibernate-mapping>

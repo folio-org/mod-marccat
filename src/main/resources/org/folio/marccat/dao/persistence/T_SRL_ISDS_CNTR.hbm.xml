@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="org.folio.marccat.dao.persistence">
+	<class name="T_SRL_ISDS_CNTR"  schema="olisuite"  table="T_SRL_ISDS_CNTR">
+	<composite-id>
+		<key-property name="code" column="TBL_VLU_CDE" />
+		<key-property name="language" column="LANGID" />
+  	</composite-id>		
+		<property name="sequence">
+			<column name="TBL_SEQ_NBR" not-null="true"/>
+		</property>
+		<property name="obsoleteIndicator">
+			<column name="TBL_VLU_OBSLT_IND" sql-type="CHAR (1)" not-null="true"/>
+		</property>
+		<property name="shortText">
+			<column name="SHORT_STRING_TEXT" not-null="true"/>
+		</property>
+		<property name="longText">
+			<column name="STRING_TEXT" not-null="true"/>
+		</property>
+	</class>
+</hibernate-mapping>

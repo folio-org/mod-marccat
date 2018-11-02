@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+<class schema="olisuite" name="org.folio.marccat.dao.persistence.SRL_VNDR" table="SRL_VNDR">
+
+    <id name="vendorNumber" column="VNDR_NBR">
+        <generator class="assigned" />
+    </id>
+    <property name="name">
+    <column name="NME" not-null="true"/>
+    </property>
+    <property name="address"> 
+    	<column name="ADRS"/>
+    </property>
+    <property name="url"> 
+    	<column name="URL"/>
+    </property>
+    <property name="currency"> 
+    	<column name="CURCY_CDE"/>
+    </property>
+    <property name="acquisitionType"> 
+    	<column name="ACQ_TYP_CDE"/>
+    </property>
+    <property name="email"> 
+    	<column name="EMAIL"/>
+    </property>
+    <property name="phone"> 
+    	<column name="PHONE"/>
+    </property>
+</class>
+</hibernate-mapping>

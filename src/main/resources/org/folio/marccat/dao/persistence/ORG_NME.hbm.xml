@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="org.folio.marccat.dao.persistence">
+	<class name="ORG_NME" table="ORG_NME">
+		<id name="organisationNumber" type="int">
+			<column name="ORG_NBR" not-null="true"/>
+			<generator class="assigned"/>
+		</id>
+		<property name="organisationVariantEnglishShortForm">
+			<column name="ORG_VRNT_ENG_SRT_FORM" sql-type="VARCHAR2 (384)"/>
+		</property>
+		<property name="organisationVariantFrenchShortForm">
+			<column name="ORG_VRNT_FR_SRT_FORM" sql-type="VARCHAR2 (384)"/>
+		</property>
+		<property name="organisationAcronymEnglishShortForm">
+			<column name="ORG_ACRNM_ENG_SRT_FORM" sql-type="VARCHAR2 (96)"/>
+		</property>
+		<property name="organisationAcronymFrenchShortForm">
+			<column name="ORG_ACRNM_FR_SRT_FORM" sql-type="VARCHAR2 (96)"/>
+			</property>
+		<property name="organisationAbbreviateEnglishShortForm">
+			<column name="ORG_ABRVT_ENG_SRT_FORM" sql-type="VARCHAR2 (96)"/>
+			</property>
+		<property name="organisationAbbreviateFrenchShortForm">
+			<column name="ORG_ABRVT_FR_SRT_FORM" sql-type="VARCHAR2 (96)"/>
+			</property>
+		<property name="organisationEnglishShortForm">
+			<column name="ORG_ENG_SRT_FORM" sql-type="VARCHAR2 (768)"/>
+			</property>
+		<property name="organisationFrenchShortForm">
+			<column name="ORG_FR_SRT_FORM" sql-type="VARCHAR2 (768)"/>
+			</property>
+		<property name="organisationVariantEnglishName">
+			<column name="ORG_VRNT_ENG_NME" sql-type="VARCHAR2 (384)"/>
+			</property>
+		<property name="organisationVariantFrenchName">
+			<column name="ORG_VRNT_FR_NME" sql-type="VARCHAR2 (384)"/>
+			</property>
+		<property name="organisationAcronymEnglishName">
+			<column name="ORG_ACRNM_ENG_NME" sql-type="VARCHAR2 (96)"/>
+			</property>
+		<property name="organisationAcronymFrenchName">
+			<column name="ORG_ACRNM_FR_NME" sql-type="VARCHAR2 (96)"/>
+			</property>
+		<property name="organisationAbbreviateEnglishName">
+			<column name="ORG_ABRVT_ENG_NME" sql-type="VARCHAR2 (96)"/>
+			</property>
+		<property name="organisationAbbreviateFrenchName">
+			<column name="ORG_ABRVT_FR_NME" sql-type="VARCHAR2 (96)"/>
+		</property>
+		<property name="organisationEnglishName">
+			<column name="ORG_ENG_NME" sql-type="VARCHAR2 (768)"/>
+		</property>
+		<property name="organisationFrenchName">
+			<column name="ORG_FR_NME" sql-type="VARCHAR2 (768)"/>
+		</property>	
+	</class>
+</hibernate-mapping>

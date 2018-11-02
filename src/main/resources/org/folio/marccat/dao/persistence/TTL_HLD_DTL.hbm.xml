@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="org.folio.marccat.dao.persistence">
+	<class name="TTL_HLD_DTL" table="TTL_HLD_DTL">
+		<id name="titleHoldDetailNumber" type="int">
+			<column name="TTL_HLD_DTL_NBR" not-null="true"/>
+			<generator class="native">
+				<param name="sequence">TTL_HLD_DTL_SEQUENCE</param>
+			</generator>	
+		</id>
+		<property name="titleHoldNumber">
+			<column name="TTL_HLD_NBR" sql-type="NUMBER (11)" not-null="true"/>
+		</property>
+		<property name="titleHoldTimeStartingDate">
+			<column name="TTL_HLD_TME_STRT_DTE" sql-type="DATE" />
+		</property>
+		<property name="titleHoldTimeEndDate">
+			<column name="TTL_HLD_TME_END_DTE" sql-type="DATE" />
+		</property>
+		<property name="titleHoldTimeStatusIndicator">
+			<column name="TTL_HLD_TME_STUS_IND" sql-type="CHAR (1)" not-null="true"/>
+		</property>
+		<property name="holdRecallQueueTypeCode">
+			<column name="HLD_RCALL_QUEUE_TYP_CDE" sql-type="CHAR (1)" not-null="true"/>
+		</property>
+	</class>
+</hibernate-mapping>

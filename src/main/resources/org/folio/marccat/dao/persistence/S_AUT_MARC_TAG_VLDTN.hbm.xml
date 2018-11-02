@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="org.folio.marccat.dao.persistence">
+	<class name="AuthorityValidation"  schema="olisuite"  table="S_AUT_MARC_TAG_VLDTN" mutable="false">
+		<cache usage="read-only"/>
+		<composite-id name="key" class="AuthorityValidationKey">
+			<key-property name="marcTag" column="MARC_TAG_NBR" />
+			<key-property name="headingType" column="AUT_TYP_CDE"/>
+			<key-property name="marcTagCategoryCode" column="MARC_TAG_CAT_CDE"/>
+		</composite-id>
+		<property name="marcTagObsoleteIndicator">
+			<column name="MARC_TAG_OBSLT_IND" sql-type="CHAR (1)" not-null="true"/>
+		</property>
+		<property name="marcTagRepeatableIndicator">
+			<column name="MARC_TAG_RPTBL_IND" sql-type="CHAR (1)" not-null="true"/>
+		</property>
+		<property name="marcTagEditableIndicator">
+			<column name="MARC_TAG_EDTBL_IND" sql-type="CHAR (1)" not-null="true"/>
+		</property>
+		<property name="marcTagDefaultSubfieldCode">
+			<column name="MARC_TAG_DFLT_SBFLD_CDE" sql-type="CHAR (1)" not-null="true"/>
+		</property>
+		<property name="marcValidSubfieldStringCode">
+			<column name="MARC_VLD_SBFLD_STRNG_CDE" sql-type="VARCHAR2 (64)" not-null="true"/>
+		</property>
+		<property name="repeatableSubfieldStringCode">
+			<column name="RPTBL_SBFLD_STRNG_CDE" sql-type="VARCHAR2 (64)" not-null="true"/>
+		</property>
+		<property name="skipInFlngCode">
+			<column name="SKP_IN_FLNG_CDE" sql-type="CHAR (1)" not-null="true"/>
+		</property>
+	</class>
+</hibernate-mapping>
+

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="org.folio.marccat.dao.persistence">
+ 	<class name="BRWR_CMCTN" table="BRWR_CMCTN">
+ 	
+		<composite-id name="key" class="BorrowerComKey">
+			<key-property name="borrowerNumber" column="BRWR_NBR" />
+			<key-property name="personalComunicationKeyNumber" column="PRSN_CMCTN_KEY_NBR"/>
+		</composite-id>
+		
+		<property name="lockingVersionUpdateNumber">
+			<column name="LCKG_VRSN_UPDT_NBR" sql-type="NUMBER (6)" not-null="true"/>
+		</property>
+		<property name="borrowerComunicationNumber">
+			<column name="BRWR_CMCTN_NBR" sql-type="VARCHAR2 (384)" not-null="true"/>
+		</property>
+		<property name="personalComunicationTypeCode">
+			<column name="PRSN_CMCTN_TYP_CDE" sql-type="NUMBER(6)" not-null="true"/>
+		</property>
+		<property name="personalComunicationMediumTypeCode">
+			<column name="PRSN_CMCTN_MDM_TYP_CDE" sql-type="NUMBER(6)" not-null="true"/>
+		</property>
+		<property name="preferenceComunicationTypeCode">
+			<column name="PRFR_CMCTN_TYP_CDE" sql-type="NUMBER (6)"/>
+		</property>
+	</class>
+</hibernate-mapping>

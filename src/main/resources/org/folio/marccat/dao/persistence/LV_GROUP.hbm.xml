@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="org.folio.marccat.dao.persistence">
+	<class name="LV_GROUP" table="LV_GROUP">
+		<id name="groupNumber" type="int">
+			<column name="GRP_NBR" not-null="true"/>
+			<generator class="assigned"/>
+		</id>
+		<property name="groupName">
+			<column name="NAME" sql-type="VARCHAR2 (256)" not-null="true"/>
+		</property>
+		<property name="groupDescription">
+			<column name="DESCRIPTION" sql-type="VARCHAR2 (1024)" />
+		</property>
+		<property name="groupPassword">
+			<column name="PASSWORD" sql-type="VARCHAR2 (256)" />
+		</property>
+		<property name="deletionIndicator">
+			<column name="DELETION_INDICATOR" sql-type="NUMBER (1)" not-null="true"/>
+		</property>
+	</class>
+</hibernate-mapping>
