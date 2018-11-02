@@ -26,7 +26,6 @@
 
   ],
   "launchDescriptor": {
-    "exec": "java -Dport=%p -jar ./target/mod-cataloging-1.0.jar",
     "dockerImage": "${artifactId}:${version}",
     "dockerArgs": {
       "HostConfig": { "PortBindings": { "9403/tcp":  [{ "HostPort": "%p" }] } }
