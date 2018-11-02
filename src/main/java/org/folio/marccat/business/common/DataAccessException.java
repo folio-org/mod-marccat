@@ -7,8 +7,6 @@
  */
 package org.folio.marccat.business.common;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.folio.marccat.exception.ModCatalogingException;
 
 import java.sql.SQLException;
@@ -19,8 +17,6 @@ import java.sql.SQLException;
  * @version %I%, %G%
  * @since 1.0
  */
-@Getter
-@Setter
 public class DataAccessException extends ModCatalogingException {
 
 
@@ -56,6 +52,21 @@ public class DataAccessException extends ModCatalogingException {
     super(cause);
   }
 
+  public int getErrorCode() {
+    return errorCode;
+  }
+
+  public void setErrorCode(int errorCode) {
+    this.errorCode = errorCode;
+  }
+
+  public String getState() {
+    return state;
+  }
+
+  public void setState(String state) {
+    this.state = state;
+  }
 
   private void getCodeAndState(Throwable cause) {
     if (cause instanceof SQLException) {

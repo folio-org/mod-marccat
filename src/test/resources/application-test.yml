@@ -5,7 +5,7 @@ logging:
     org.springframework: ERROR
     org.hibernate: ERROR
     ru.yandex: ERROR
-    org.folio.cataloging: INFO
+    org.folio.marccat: INFO
 
 db:
   username: amicus

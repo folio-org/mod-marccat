@@ -1,7 +1,5 @@
 package org.folio.marccat.util.isbn;
 
-import lombok.Data;
-
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Function;
@@ -11,7 +9,6 @@ import java.util.regex.Pattern;
  * @author Christian Chiama
  * @version $Revision: 4 $ $Date: 2018-10-1
  */
-@Data
 public class ISBNValidator {
 
   /**
@@ -24,6 +21,37 @@ public class ISBNValidator {
 
   private Function <String, Boolean> checkChecksumFunction;
 
+  public static String getREGEX() {
+    return REGEX;
+  }
+
+  public static void setREGEX(String REGEX) {
+    ISBNValidator.REGEX = REGEX;
+  }
+
+  public static Pattern getNonIsbnCharacters() {
+    return NON_ISBN_CHARACTERS;
+  }
+
+  public static void setNonIsbnCharacters(Pattern nonIsbnCharacters) {
+    NON_ISBN_CHARACTERS = nonIsbnCharacters;
+  }
+
+  public int getLength() {
+    return length;
+  }
+
+  public void setLength(int length) {
+    this.length = length;
+  }
+
+  public Function <String, Boolean> getCheckChecksumFunction() {
+    return checkChecksumFunction;
+  }
+
+  public void setCheckChecksumFunction(Function <String, Boolean> checkChecksumFunction) {
+    this.checkChecksumFunction = checkChecksumFunction;
+  }
 
   /**
    * @param isbnType
