@@ -5,7 +5,7 @@
  *
  * DescriptorHasNoSubfieldsException.java
  */
-package org.folio.cataloging.exception;
+package org.folio.marccat.exception;
 
 /**
  * @author paulm

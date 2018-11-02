@@ -5,12 +5,12 @@
  *
  * BibliographicValidatorForItemEditing.java
  */
-package org.folio.cataloging.business.common;
+package org.folio.marccat.business.common;
 
-import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
-import org.folio.cataloging.business.cataloguing.common.Browsable;
-import org.folio.cataloging.dao.persistence.BibliographicRelationshipTag;
-import org.folio.cataloging.util.StringText;
+import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
+import org.folio.marccat.business.cataloguing.common.Browsable;
+import org.folio.marccat.dao.persistence.BibliographicRelationshipTag;
+import org.folio.marccat.util.StringText;
 
 import java.util.Set;
 

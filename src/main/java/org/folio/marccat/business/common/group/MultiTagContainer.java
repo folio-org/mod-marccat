@@ -1,6 +1,6 @@
-package org.folio.cataloging.business.common.group;
+package org.folio.marccat.business.common.group;
 
-import org.folio.cataloging.business.cataloguing.common.Tag;
+import org.folio.marccat.business.cataloguing.common.Tag;
 
 import java.util.*;
 

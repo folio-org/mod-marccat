@@ -5,9 +5,9 @@
  *
  * T_SINGLE_LONGCHAR.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
-import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.marccat.business.common.DataAccessException;
 
 
 /**

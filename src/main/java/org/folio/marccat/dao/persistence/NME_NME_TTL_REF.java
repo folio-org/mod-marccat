@@ -5,9 +5,9 @@
  *
  * NME_NME_TTL_REF.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
-import org.folio.cataloging.dao.*;
+import org.folio.marccat.dao.*;
 
 /**
  * @author paulm

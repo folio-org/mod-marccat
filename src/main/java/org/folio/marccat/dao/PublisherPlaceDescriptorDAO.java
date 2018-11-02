@@ -1,11 +1,11 @@
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Query;
 import net.sf.hibernate.Session;
-import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.dao.persistence.Descriptor;
-import org.folio.cataloging.dao.persistence.PUBL_HDG;
+import org.folio.marccat.business.common.View;
+import org.folio.marccat.dao.persistence.Descriptor;
+import org.folio.marccat.dao.persistence.PUBL_HDG;
 
 import java.util.List;
 

@@ -1,12 +1,12 @@
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.descriptor.SortFormParameters;
-import org.folio.cataloging.dao.AbstractDAO;
-import org.folio.cataloging.dao.ShelfListDAO;
-import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.descriptor.SortFormParameters;
+import org.folio.marccat.dao.AbstractDAO;
+import org.folio.marccat.dao.ShelfListDAO;
+import org.folio.marccat.shared.CorrelationValues;
 
 import java.io.Serializable;
 

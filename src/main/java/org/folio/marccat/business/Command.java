@@ -5,9 +5,9 @@
  *
  * Command.java
  */
-package org.folio.cataloging.business;
+package org.folio.marccat.business;
 
-import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.marccat.business.common.DataAccessException;
 
 /**
  * Interface for implementing undo/redo

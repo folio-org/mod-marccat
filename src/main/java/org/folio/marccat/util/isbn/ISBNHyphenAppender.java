@@ -1,9 +1,9 @@
-package org.folio.cataloging.util.isbn;
+package org.folio.marccat.util.isbn;
 
 import java.util.Arrays;
 
 /**
- * Appends hyphens to org.folio.cataloging.util.isbn.ISBNAlgorithm-10 and org.folio.cataloging.util.isbn.ISBNAlgorithm-13 without hyphens.
+ * Appends hyphens to org.folio.marccat.util.isbn.ISBNAlgorithm-10 and org.folio.marccat.util.isbn.ISBNAlgorithm-13 without hyphens.
  *
  * @author Christian Chiama
  * @version $Revision: 4 $ $Date: 2018-10-1
@@ -12,30 +12,30 @@ public class ISBNHyphenAppender {
 
 
   /**
-   * Appends hyphens to an org.folio.cataloging.util.isbn.ISBNAlgorithm-10 without hyphens.
+   * Appends hyphens to an org.folio.marccat.util.isbn.ISBNAlgorithm-10 without hyphens.
    * <p>
-   * In an org.folio.cataloging.util.isbn.ISBNAlgorithm-10 with hyphens, these hyphens separate the number of the
+   * In an org.folio.marccat.util.isbn.ISBNAlgorithm-10 with hyphens, these hyphens separate the number of the
    * group (similar but no equal to country), the number of the editor, the
    * number of the title and the "checksum" number.
    *
-   * @param ISBN10 org.folio.cataloging.util.isbn.ISBNAlgorithm to which hyphens are to be added
-   * @return the org.folio.cataloging.util.isbn.ISBNAlgorithm-10 with the added hyphens
-   * @throws NullPointerException          if the org.folio.cataloging.util.isbn.ISBNAlgorithm-10 provided is {@code null}
-   * @throws IllegalArgumentException      if the length of the org.folio.cataloging.util.isbn.ISBNAlgorithm-10 provided is
+   * @param ISBN10 org.folio.marccat.util.isbn.ISBNAlgorithm to which hyphens are to be added
+   * @return the org.folio.marccat.util.isbn.ISBNAlgorithm-10 with the added hyphens
+   * @throws NullPointerException          if the org.folio.marccat.util.isbn.ISBNAlgorithm-10 provided is {@code null}
+   * @throws IllegalArgumentException      if the length of the org.folio.marccat.util.isbn.ISBNAlgorithm-10 provided is
    *                                       not 10
-   * @throws UnsupportedOperationException if the org.folio.cataloging.util.isbn.ISBNAlgorithm-10 provided is from a
-   *                                       org.folio.cataloging.util.isbn.ISBNAlgorithm group not implemented
+   * @throws UnsupportedOperationException if the org.folio.marccat.util.isbn.ISBNAlgorithm-10 provided is from a
+   *                                       org.folio.marccat.util.isbn.ISBNAlgorithm group not implemented
    */
   String appendHyphenToISBN10(String ISBN10) {
     //Checks if the ISBN10 is null
     if (ISBN10 == null) {
-      throw new NullPointerException("The org.folio.cataloging.util.isbn.ISBNAlgorithm provided cannot be null");
+      throw new NullPointerException("The org.folio.marccat.util.isbn.ISBNAlgorithm provided cannot be null");
     }
 
     //Checks if the length of ISBN10 is 10
     if (ISBN10.length() != 10) {
-      throw new IllegalArgumentException("The org.folio.cataloging.util.isbn.ISBNAlgorithm " + ISBN10 +
-        " is not an org.folio.cataloging.util.isbn.ISBNAlgorithm-10. The length of the org.folio.cataloging.util.isbn.ISBNAlgorithm is not 10");
+      throw new IllegalArgumentException("The org.folio.marccat.util.isbn.ISBNAlgorithm " + ISBN10 +
+        " is not an org.folio.marccat.util.isbn.ISBNAlgorithm-10. The length of the org.folio.marccat.util.isbn.ISBNAlgorithm is not 10");
     }
 
     //Gets the group for the ISBN10
@@ -87,7 +87,7 @@ public class ISBNHyphenAppender {
     String result;
     if (found) {
       //Gets the mid part
-      //The mid part is the org.folio.cataloging.util.isbn.ISBNAlgorithm part without the group number and the
+      //The mid part is the org.folio.marccat.util.isbn.ISBNAlgorithm part without the group number and the
       //check digit
       String midPart = ISBN10.substring(groupNumberLength, 9);
 
@@ -104,35 +104,35 @@ public class ISBNHyphenAppender {
 
     } else {
       throw new IllegalArgumentException(ISBN10 +
-        " is a invalid org.folio.cataloging.util.isbn.ISBNAlgorithm for this group");
+        " is a invalid org.folio.marccat.util.isbn.ISBNAlgorithm for this group");
     }
 
     return result;
   }
 
   /**
-   * Appends hyphens to an org.folio.cataloging.util.isbn.ISBNAlgorithm-13 without hyphens.
+   * Appends hyphens to an org.folio.marccat.util.isbn.ISBNAlgorithm-13 without hyphens.
    * <p>
-   * In an org.folio.cataloging.util.isbn.ISBNAlgorithm-13 with hyphens, these hyphens separate the first three
+   * In an org.folio.marccat.util.isbn.ISBNAlgorithm-13 with hyphens, these hyphens separate the first three
    * digits, the number of the group (similar but no equal to country), the
    * number of the editor, the number of the title and the "checksum" number.
    *
-   * @param ISBN13 org.folio.cataloging.util.isbn.ISBNAlgorithm to which hyphens are to be added
-   * @return the org.folio.cataloging.util.isbn.ISBNAlgorithm-13 with the added hyphens
-   * @throws NullPointerException          if the org.folio.cataloging.util.isbn.ISBNAlgorithm-13 provided is {@code null}
-   * @throws IllegalArgumentException      if the length of the org.folio.cataloging.util.isbn.ISBNAlgorithm-13 provided is
+   * @param ISBN13 org.folio.marccat.util.isbn.ISBNAlgorithm to which hyphens are to be added
+   * @return the org.folio.marccat.util.isbn.ISBNAlgorithm-13 with the added hyphens
+   * @throws NullPointerException          if the org.folio.marccat.util.isbn.ISBNAlgorithm-13 provided is {@code null}
+   * @throws IllegalArgumentException      if the length of the org.folio.marccat.util.isbn.ISBNAlgorithm-13 provided is
    *                                       not 13
-   * @throws UnsupportedOperationException if the org.folio.cataloging.util.isbn.ISBNAlgorithm-13 provided is from a
-   *                                       org.folio.cataloging.util.isbn.ISBNAlgorithm group not implemented
+   * @throws UnsupportedOperationException if the org.folio.marccat.util.isbn.ISBNAlgorithm-13 provided is from a
+   *                                       org.folio.marccat.util.isbn.ISBNAlgorithm group not implemented
    */
   public String appendHyphenToISBN13(String ISBN13) {
     if (ISBN13 == null) {
-      throw new NullPointerException("The org.folio.cataloging.util.isbn.ISBNAlgorithm provided cannot be null");
+      throw new NullPointerException("The org.folio.marccat.util.isbn.ISBNAlgorithm provided cannot be null");
     }
 
     if (ISBN13.length() != 13) {
-      throw new IllegalArgumentException("The org.folio.cataloging.util.isbn.ISBNAlgorithm " + ISBN13 +
-        " is not an org.folio.cataloging.util.isbn.ISBNAlgorithm-13. The length of the ISBNAlgorithm is not 13");
+      throw new IllegalArgumentException("The org.folio.marccat.util.isbn.ISBNAlgorithm " + ISBN13 +
+        " is not an org.folio.marccat.util.isbn.ISBNAlgorithm-13. The length of the ISBNAlgorithm is not 13");
     }
 
     return new StringBuilder(ISBN13.substring(0, 3))
@@ -194,7 +194,7 @@ public class ISBNHyphenAppender {
       } else if (isbn.length() == 13) {
         newIsbn = hyphenAppender.appendHyphenToISBN13(isbn);
       } else {
-        throw new Exception("Length org.folio.cataloging.util.isbn.ISBNAlgorithm not provided");
+        throw new Exception("Length org.folio.marccat.util.isbn.ISBNAlgorithm not provided");
       }
     } catch (Exception ex) {
       throw new Exception(ex.getMessage());

@@ -1,4 +1,4 @@
-package org.folio.cataloging.business.common.group;
+package org.folio.marccat.business.common.group;
 
 
 public abstract class MarcTagGroup implements TagGroup {

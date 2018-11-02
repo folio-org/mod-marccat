@@ -5,7 +5,7 @@
  *
  * T_REF_EARLR_CTLG_RLE.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 /**
  * @author paulm

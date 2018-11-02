@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 /**
  * pm 2011

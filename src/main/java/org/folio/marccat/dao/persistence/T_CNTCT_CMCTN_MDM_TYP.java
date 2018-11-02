@@ -5,7 +5,7 @@
  *
  * T_CNTCT_CMCTN_MDM_TYP.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 /**
  * @author Elena

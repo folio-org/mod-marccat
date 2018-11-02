@@ -1,26 +1,26 @@
-package org.folio.cataloging.resources;
+package org.folio.marccat.resources;
 
 import io.swagger.annotations.Api;
-import org.folio.cataloging.Global;
-import org.folio.cataloging.ModCataloging;
-import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.search.SearchEngineFactory;
-import org.folio.cataloging.search.SearchResponse;
-import org.folio.cataloging.search.engine.SearchEngine;
+import org.folio.marccat.Global;
+import org.folio.marccat.ModMarccat;
+import org.folio.marccat.business.common.View;
+import org.folio.marccat.search.SearchEngineFactory;
+import org.folio.marccat.search.SearchResponse;
+import org.folio.marccat.search.engine.SearchEngine;
 import org.springframework.web.bind.annotation.*;
 
-import static org.folio.cataloging.F.locale;
-import static org.folio.cataloging.integration.CatalogingHelper.doGet;
+import static org.folio.marccat.F.locale;
+import static org.folio.marccat.integration.CatalogingHelper.doGet;
 
 /**
  * Search Engine TEST RESTful APIs.
  *
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 @RestController
 @Api(value = "modcat-api", description = "MARCCat Search API")
-@RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
+@RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class SearchAPI extends BaseResource {
 
   @GetMapping("/search")

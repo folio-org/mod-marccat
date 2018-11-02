@@ -5,9 +5,9 @@
  *
  * AuthorisationException.java
  */
-package org.folio.cataloging.business.authorisation;
+package org.folio.marccat.business.authorisation;
 
-import org.folio.cataloging.exception.ModCatalogingException;
+import org.folio.marccat.exception.ModCatalogingException;
 
 /**
  * @author paulm

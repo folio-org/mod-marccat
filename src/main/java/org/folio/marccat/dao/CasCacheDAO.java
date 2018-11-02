@@ -1,12 +1,12 @@
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
 import net.sf.hibernate.*;
 import net.sf.hibernate.type.Type;
-import org.folio.cataloging.F;
-import org.folio.cataloging.dao.persistence.CasCache;
-import org.folio.cataloging.integration.GlobalStorage;
-import org.folio.cataloging.integration.log.MessageCatalogStorage;
-import org.folio.cataloging.log.Log;
+import org.folio.marccat.F;
+import org.folio.marccat.dao.persistence.CasCache;
+import org.folio.marccat.integration.GlobalStorage;
+import org.folio.marccat.integration.log.MessageCatalogStorage;
+import org.folio.marccat.log.Log;
 
 import java.sql.Timestamp;
 import java.util.List;

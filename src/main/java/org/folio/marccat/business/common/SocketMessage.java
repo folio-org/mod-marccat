@@ -2,7 +2,7 @@
  * Created on May 13, 2004
  *
  */
-package org.folio.cataloging.business.common;
+package org.folio.marccat.business.common;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

@@ -5,7 +5,7 @@
  *
  * T_ADR_PROV_TRTRY_STATE.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 /**
  * @author Maite

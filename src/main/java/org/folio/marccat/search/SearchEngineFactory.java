@@ -1,15 +1,15 @@
-package org.folio.cataloging.search;
+package org.folio.marccat.search;
 
-import org.folio.cataloging.integration.StorageService;
-import org.folio.cataloging.search.engine.SearchEngine;
-import org.folio.cataloging.search.engine.impl.DefaultModCatalogingSearchEngine;
-import org.folio.cataloging.search.engine.impl.LightweightModCatalogingSearchEngine;
-import org.folio.cataloging.search.engine.impl.LightweightVerticalModCatalogingSearchEngine;
+import org.folio.marccat.integration.StorageService;
+import org.folio.marccat.search.engine.SearchEngine;
+import org.folio.marccat.search.engine.impl.DefaultModCatalogingSearchEngine;
+import org.folio.marccat.search.engine.impl.LightweightModCatalogingSearchEngine;
+import org.folio.marccat.search.engine.impl.LightweightVerticalModCatalogingSearchEngine;
 
 /**
  * A search engine factory.
  *
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 public abstract class SearchEngineFactory {

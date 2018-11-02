@@ -4,7 +4,7 @@ package org.folio.marccat.integration.search;
  * Query Term / Token.
  *
  * @author paulm
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 public class Token {

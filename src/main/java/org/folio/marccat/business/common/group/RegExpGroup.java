@@ -1,9 +1,9 @@
-package org.folio.cataloging.business.common.group;
+package org.folio.marccat.business.common.group;
 
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
-import org.folio.cataloging.business.cataloguing.common.Tag;
-import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.marccat.business.cataloguing.common.Tag;
+import org.folio.marccat.business.common.DataAccessException;
 
 
 public class RegExpGroup extends MarcTagGroup {

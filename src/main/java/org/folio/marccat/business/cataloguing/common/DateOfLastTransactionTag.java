@@ -5,9 +5,9 @@
  *
  * DateOfLastTransactionTag.java
  */
-package org.folio.cataloging.business.cataloguing.common;
+package org.folio.marccat.business.cataloguing.common;
 
-import org.folio.cataloging.business.cataloguing.bibliographic.FixedFieldUsingItemEntity;
+import org.folio.marccat.business.cataloguing.bibliographic.FixedFieldUsingItemEntity;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;

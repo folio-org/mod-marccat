@@ -1,6 +1,6 @@
-package org.folio.cataloging.business.digital;
+package org.folio.marccat.business.digital;
 
-import org.folio.cataloging.exception.ModCatalogingException;
+import org.folio.marccat.exception.ModCatalogingException;
 
 public class DigitalDoiException extends ModCatalogingException {
 

@@ -1,6 +1,6 @@
-package org.folio.cataloging.business.cataloguing.bibliographic;
+package org.folio.marccat.business.cataloguing.bibliographic;
 
-import org.folio.cataloging.dao.persistence.ItemEntity;
+import org.folio.marccat.dao.persistence.ItemEntity;
 
 /**
  * Interface for tags that get some/all of their data from BIB_ITM/AUT table.

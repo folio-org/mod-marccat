@@ -1,4 +1,4 @@
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 public class T_SRL_SUP_MTRL extends T_SINGLE {
 

@@ -1,4 +1,4 @@
-package org.folio.cataloging.business.digital;
+package org.folio.marccat.business.digital;
 
 import java.io.File;
 import java.io.FilenameFilter;

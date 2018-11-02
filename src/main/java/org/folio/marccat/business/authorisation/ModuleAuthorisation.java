@@ -5,7 +5,7 @@
  *
  * ModuleAuthorisation.java
  */
-package org.folio.cataloging.business.authorisation;
+package org.folio.marccat.business.authorisation;
 
 import java.io.Serializable;
 

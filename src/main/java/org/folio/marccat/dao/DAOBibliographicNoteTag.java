@@ -5,19 +5,19 @@
  *
  * DAOPublisherTag.java
  */
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Persistence;
-import org.folio.cataloging.business.common.UpdateStatus;
-import org.folio.cataloging.dao.persistence.BibliographicNote;
-import org.folio.cataloging.dao.persistence.BibliographicNoteOverflow;
-import org.folio.cataloging.dao.persistence.BibliographicNoteTag;
-import org.folio.cataloging.dao.persistence.StandardNoteAccessPoint;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.common.Persistence;
+import org.folio.marccat.business.common.UpdateStatus;
+import org.folio.marccat.dao.persistence.BibliographicNote;
+import org.folio.marccat.dao.persistence.BibliographicNoteOverflow;
+import org.folio.marccat.dao.persistence.BibliographicNoteTag;
+import org.folio.marccat.dao.persistence.StandardNoteAccessPoint;
 
 import java.util.Iterator;
 

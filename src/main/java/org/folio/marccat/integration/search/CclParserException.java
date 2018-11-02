@@ -1,12 +1,12 @@
-package org.folio.cataloging.integration.search;
+package org.folio.marccat.integration.search;
 
-import org.folio.cataloging.exception.ModCatalogingException;
+import org.folio.marccat.exception.ModCatalogingException;
 
 /**
  * Thrown in case a given expression cannot be parsed as a valid CCL.
  *
  * @author paulm
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 public class CclParserException extends ModCatalogingException {

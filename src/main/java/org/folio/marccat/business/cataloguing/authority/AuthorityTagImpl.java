@@ -5,22 +5,22 @@
  *
  * AuthorityTag.java
  */
-package org.folio.cataloging.business.cataloguing.authority;
+package org.folio.marccat.business.cataloguing.authority;
 
 import net.sf.hibernate.Session;
-import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
-import org.folio.cataloging.business.cataloguing.bibliographic.PersistsViaItem;
-import org.folio.cataloging.business.cataloguing.common.Catalog;
-import org.folio.cataloging.business.cataloguing.common.Tag;
-import org.folio.cataloging.business.cataloguing.common.TagImpl;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.SubfieldCodeComparator;
-import org.folio.cataloging.dao.DAOAuthorityCorrelation;
-import org.folio.cataloging.dao.DAOAuthorityValidation;
-import org.folio.cataloging.dao.persistence.AUT;
-import org.folio.cataloging.dao.persistence.Correlation;
-import org.folio.cataloging.dao.persistence.CorrelationKey;
-import org.folio.cataloging.shared.Validation;
+import org.folio.marccat.business.cataloguing.bibliographic.MarcCorrelationException;
+import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
+import org.folio.marccat.business.cataloguing.common.Catalog;
+import org.folio.marccat.business.cataloguing.common.Tag;
+import org.folio.marccat.business.cataloguing.common.TagImpl;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.common.SubfieldCodeComparator;
+import org.folio.marccat.dao.DAOAuthorityCorrelation;
+import org.folio.marccat.dao.DAOAuthorityValidation;
+import org.folio.marccat.dao.persistence.AUT;
+import org.folio.marccat.dao.persistence.Correlation;
+import org.folio.marccat.dao.persistence.CorrelationKey;
+import org.folio.marccat.shared.Validation;
 
 import java.util.Arrays;
 import java.util.Set;

@@ -1,14 +1,14 @@
-package org.folio.cataloging.resources;
+package org.folio.marccat.resources;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.folio.cataloging.Global;
-import org.folio.cataloging.ModCataloging;
-import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.resources.domain.ResultLoader;
-import org.folio.cataloging.resources.domain.ResultLoaderCollection;
+import org.folio.marccat.Global;
+import org.folio.marccat.ModMarccat;
+import org.folio.marccat.business.common.View;
+import org.folio.marccat.resources.domain.ResultLoader;
+import org.folio.marccat.resources.domain.ResultLoaderCollection;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static org.folio.cataloging.integration.CatalogingHelper.doPost;
+import static org.folio.marccat.integration.CatalogingHelper.doPost;
 
 /**
  * Loads bibliographic records contents in a binary marc21 file.
@@ -30,7 +30,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doPost;
 
 @RestController
 @Api(value = "modcat-api", description = "Load from file API")
-@RequestMapping(value = ModCataloging.BASE_URI) //, produces = "multipart/form-data"
+@RequestMapping(value = ModMarccat.BASE_URI) //, produces = "multipart/form-data"
 public class LoadFromFileAPI extends BaseResource {
 
   @ApiOperation(value = "Load bibliographic records from file.")

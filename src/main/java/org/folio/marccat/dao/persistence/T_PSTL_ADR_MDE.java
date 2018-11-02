@@ -5,7 +5,7 @@
  *
  * T_PSTL_ADR_MDE.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 /**
  * @author Elena

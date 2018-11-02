@@ -5,7 +5,7 @@
  *
  * T_SKP_IN_FLNG_CNT.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 /**
  * @author elena

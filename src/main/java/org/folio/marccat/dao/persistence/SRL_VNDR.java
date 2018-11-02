@@ -1,15 +1,15 @@
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Persistence;
-import org.folio.cataloging.business.common.PersistenceState;
-import org.folio.cataloging.business.serialControl.DuplicateVendorException;
-import org.folio.cataloging.dao.AbstractDAO;
-import org.folio.cataloging.dao.DAOPredictionPattern;
-import org.folio.cataloging.dao.SystemNextNumberDAO;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.common.Persistence;
+import org.folio.marccat.business.common.PersistenceState;
+import org.folio.marccat.business.serialControl.DuplicateVendorException;
+import org.folio.marccat.dao.AbstractDAO;
+import org.folio.marccat.dao.DAOPredictionPattern;
+import org.folio.marccat.dao.SystemNextNumberDAO;
 
 import java.io.Serializable;
 

@@ -5,11 +5,11 @@
  *
  * ColgateChangePasswordRequest.java
  */
-package org.folio.cataloging.business.colgate;
+package org.folio.marccat.business.colgate;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.common.SocketMessage;
+import org.folio.marccat.business.common.SocketMessage;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

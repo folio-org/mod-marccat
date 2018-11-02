@@ -1,7 +1,7 @@
-package org.folio.cataloging.business.cataloguing.authority;
+package org.folio.marccat.business.cataloguing.authority;
 
-import org.folio.cataloging.model.Subfield;
-import org.folio.cataloging.util.StringText;
+import org.folio.marccat.model.Subfield;
+import org.folio.marccat.util.StringText;
 import org.w3c.dom.Element;
 
 /**

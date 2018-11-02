@@ -1,12 +1,12 @@
-package org.folio.cataloging.business.cataloguing.bibliographic;
+package org.folio.marccat.business.cataloguing.bibliographic;
 
 import net.sf.hibernate.Session;
-import org.folio.cataloging.business.cataloguing.common.HeaderField;
-import org.folio.cataloging.business.cataloguing.common.HeaderFieldHelper;
-import org.folio.cataloging.business.cataloguing.common.Tag;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.persistence.CorrelationKey;
-import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.marccat.business.cataloguing.common.HeaderField;
+import org.folio.marccat.business.cataloguing.common.HeaderFieldHelper;
+import org.folio.marccat.business.cataloguing.common.Tag;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.dao.persistence.CorrelationKey;
+import org.folio.marccat.shared.CorrelationValues;
 
 import java.util.List;
 

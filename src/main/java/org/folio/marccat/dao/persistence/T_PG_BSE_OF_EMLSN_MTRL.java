@@ -5,7 +5,7 @@
  *
  * T_PG_BSE_OF_EMLSN_MTRL.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 /**
  * @author paulm

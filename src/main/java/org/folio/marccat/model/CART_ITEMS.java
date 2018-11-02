@@ -1,6 +1,6 @@
-package org.folio.cataloging.model;
+package org.folio.marccat.model;
 
-import org.folio.cataloging.business.codetable.Avp;
+import org.folio.marccat.business.codetable.Avp;
 
 import java.io.Serializable;
 import java.util.Date;

@@ -1,22 +1,22 @@
-package org.folio.cataloging.resources;
+package org.folio.marccat.resources;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.folio.cataloging.F;
-import org.folio.cataloging.Global;
-import org.folio.cataloging.ModCataloging;
-import org.folio.cataloging.domain.ConversionFieldUtils;
-import org.folio.cataloging.integration.StorageService;
-import org.folio.cataloging.log.MessageCatalog;
-import org.folio.cataloging.resources.domain.FieldTemplate;
-import org.folio.cataloging.resources.domain.FixedField;
-import org.folio.cataloging.resources.domain.VariableField;
-import org.folio.cataloging.shared.CorrelationValues;
-import org.folio.cataloging.shared.GeneralInformation;
-import org.folio.cataloging.shared.PhysicalInformation;
-import org.folio.cataloging.shared.Validation;
+import org.folio.marccat.F;
+import org.folio.marccat.Global;
+import org.folio.marccat.ModMarccat;
+import org.folio.marccat.domain.ConversionFieldUtils;
+import org.folio.marccat.integration.StorageService;
+import org.folio.marccat.log.MessageCatalog;
+import org.folio.marccat.resources.domain.FieldTemplate;
+import org.folio.marccat.resources.domain.FixedField;
+import org.folio.marccat.resources.domain.VariableField;
+import org.folio.marccat.shared.CorrelationValues;
+import org.folio.marccat.shared.GeneralInformation;
+import org.folio.marccat.shared.PhysicalInformation;
+import org.folio.marccat.shared.Validation;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -24,7 +24,7 @@ import java.util.Map;
 import static java.util.Arrays.stream;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
-import static org.folio.cataloging.integration.CatalogingHelper.doGet;
+import static org.folio.marccat.integration.CatalogingHelper.doGet;
 
 /**
  * FieldTemplate Restful API.
@@ -35,7 +35,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 @RestController
 @CrossOrigin("http://localhost:3000")
 @Api(value = "modcat-api", description = "Field template resource API")
-@RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
+@RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class FieldTemplateAPI extends BaseResource {
 
   @ApiOperation(value = "Returns all field template associated with the given data.")

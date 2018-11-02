@@ -1,14 +1,14 @@
-package org.folio.cataloging.business.cataloguing.bibliographic;
+package org.folio.marccat.business.cataloguing.bibliographic;
 
-import org.folio.cataloging.business.cataloguing.common.Tag;
-import org.folio.cataloging.business.cataloguing.common.TagImpl;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.DAOOrderNames;
-import org.folio.cataloging.dao.persistence.*;
-import org.folio.cataloging.exception.MandatoryTagException;
-import org.folio.cataloging.log.Log;
-import org.folio.cataloging.search.XmlRecord;
-import org.folio.cataloging.search.domain.Record;
+import org.folio.marccat.business.cataloguing.common.Tag;
+import org.folio.marccat.business.cataloguing.common.TagImpl;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.dao.DAOOrderNames;
+import org.folio.marccat.dao.persistence.*;
+import org.folio.marccat.exception.MandatoryTagException;
+import org.folio.marccat.log.Log;
+import org.folio.marccat.search.XmlRecord;
+import org.folio.marccat.search.domain.Record;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

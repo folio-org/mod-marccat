@@ -1,12 +1,12 @@
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.ReferentialIntegrityException;
-import org.folio.cataloging.dao.persistence.ModelItem;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.common.ReferentialIntegrityException;
+import org.folio.marccat.dao.persistence.ModelItem;
 
 import java.util.List;
 import java.util.Objects;

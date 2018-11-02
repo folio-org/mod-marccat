@@ -5,7 +5,7 @@
  *
  * T_HLDG_NT_VW.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 import java.util.Date;
 

@@ -1,11 +1,11 @@
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-import org.folio.cataloging.Global;
-import org.folio.cataloging.dao.persistence.RecordTypeMaterial;
+import org.folio.marccat.Global;
+import org.folio.marccat.dao.persistence.RecordTypeMaterial;
 
 import java.util.List;
 import java.util.Objects;

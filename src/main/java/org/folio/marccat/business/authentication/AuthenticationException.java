@@ -1,9 +1,9 @@
 /*
  * Created on Jun 10, 2004
  */
-package org.folio.cataloging.business.authentication;
+package org.folio.marccat.business.authentication;
 
-import org.folio.cataloging.exception.ModCatalogingException;
+import org.folio.marccat.exception.ModCatalogingException;
 
 /**
  * An extendable exception to represent authentication exceptions thrown by implementations

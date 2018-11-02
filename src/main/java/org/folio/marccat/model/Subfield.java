@@ -1,4 +1,4 @@
-package org.folio.cataloging.model;
+package org.folio.marccat.model;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -12,7 +12,7 @@ import java.io.Serializable;
  * MARC Subfield definition.
  *
  * @author Wim Crols
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 public class Subfield implements Serializable {

@@ -1,8 +1,8 @@
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
 import net.sf.hibernate.Session;
-import org.folio.cataloging.dao.persistence.S_BIB1_SMNTC;
-import org.folio.cataloging.log.Log;
+import org.folio.marccat.dao.persistence.S_BIB1_SMNTC;
+import org.folio.marccat.log.Log;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

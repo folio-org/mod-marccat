@@ -5,7 +5,7 @@
  *
  * T_SRL_FORM_ORGNL_ITM.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 /**
  * @author paulm

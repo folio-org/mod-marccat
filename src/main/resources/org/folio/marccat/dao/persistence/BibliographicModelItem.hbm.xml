@@ -4,13 +4,13 @@
 	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
 <hibernate-mapping>
 	<class
-		name="org.folio.cataloging.dao.persistence.BibliographicModelItem"
+		name="org.folio.marccat.dao.persistence.BibliographicModelItem"
 		table="BIBLIOGRAPHIC_MODEL_ITEM">
 		<id name="item">
 			<column name="ITEM" sql-type="NUMBER (11)" not-null="true"/>
 			<generator class="assigned"/>
 		</id>
-		<many-to-one name="model" column="MODEL" class="org.folio.cataloging.dao.persistence.BibliographicModel" not-null="true"/>
+		<many-to-one name="model" column="MODEL" class="org.folio.marccat.dao.persistence.BibliographicModel" not-null="true"/>
 		<property name="xmlFields" column="XML_FIELDS" type="librisuite.business.common.hibernate.StringClobType"/>
 	</class>
 </hibernate-mapping>

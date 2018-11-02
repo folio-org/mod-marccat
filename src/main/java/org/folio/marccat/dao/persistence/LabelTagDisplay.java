@@ -1,4 +1,4 @@
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 public abstract class LabelTagDisplay {
   private static final long serialVersionUID = -8261629624048690065L;

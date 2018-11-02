@@ -5,10 +5,10 @@
  *
  * NME_TTL_REF.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
-import org.folio.cataloging.dao.DAODescriptor;
-import org.folio.cataloging.dao.NameTitleDescriptorDAO;
+import org.folio.marccat.dao.DAODescriptor;
+import org.folio.marccat.dao.NameTitleDescriptorDAO;
 
 /**
  * @author paulm

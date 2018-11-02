@@ -1,7 +1,7 @@
-package org.folio.cataloging.integration;
+package org.folio.marccat.integration;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.folio.cataloging.Global;
+import org.folio.marccat.Global;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpEntity;
@@ -14,20 +14,20 @@ import java.util.Objects;
 
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.joining;
-import static org.folio.cataloging.F.safe;
+import static org.folio.marccat.F.safe;
 import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
 
 /**
  * Mod Cataloging configuration subsystem facade.
  *
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 @Component
 @Profile({"!test"})
 public class RemoteConfiguration implements Configuration {
 
-  private final static String BASE_CQUERY = "module==CATALOGING and configName == ";
+  private final static String BASE_CQUERY = "module==MARCCAT and configName == ";
   private final static int LIMIT = 100;
   private final RestTemplate client;
   @Value("${configuration.client:http://192.168.0.158:8085/configurations/entries}")
@@ -38,7 +38,6 @@ public class RemoteConfiguration implements Configuration {
    *
    * @param client the HTTP / REST client.
    */
-
   public RemoteConfiguration(final RestTemplate client) {
     this.client = client;
   }

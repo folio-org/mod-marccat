@@ -5,9 +5,9 @@
  *
  * DataAccessException.java
  */
-package org.folio.cataloging.business.common;
+package org.folio.marccat.business.common;
 
-import org.folio.cataloging.exception.ModCatalogingException;
+import org.folio.marccat.exception.ModCatalogingException;
 
 
 /**

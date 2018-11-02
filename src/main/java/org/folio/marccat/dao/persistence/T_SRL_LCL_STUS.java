@@ -1,4 +1,4 @@
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 public class T_SRL_LCL_STUS extends T_SINGLE {
 

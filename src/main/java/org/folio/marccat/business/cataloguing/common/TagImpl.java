@@ -5,13 +5,13 @@
  *
  * TagImpl.java
  */
-package org.folio.cataloging.business.cataloguing.common;
+package org.folio.marccat.business.cataloguing.common;
 
 import net.sf.hibernate.Session;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.persistence.Correlation;
-import org.folio.cataloging.dao.persistence.CorrelationKey;
-import org.folio.cataloging.shared.Validation;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.dao.persistence.Correlation;
+import org.folio.marccat.dao.persistence.CorrelationKey;
+import org.folio.marccat.shared.Validation;
 
 import java.io.Serializable;
 import java.util.Set;

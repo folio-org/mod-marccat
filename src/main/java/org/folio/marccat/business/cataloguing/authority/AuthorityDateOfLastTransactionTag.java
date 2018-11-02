@@ -5,9 +5,9 @@
  *
  * AuthorityDateOfLastTransactionTag.java
  */
-package org.folio.cataloging.business.cataloguing.authority;
+package org.folio.marccat.business.cataloguing.authority;
 
-import org.folio.cataloging.business.cataloguing.common.DateOfLastTransactionTag;
+import org.folio.marccat.business.cataloguing.common.DateOfLastTransactionTag;
 
 /**
  * @author paulm

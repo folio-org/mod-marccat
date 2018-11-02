@@ -1,15 +1,15 @@
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.common.ChronologyConfigurationException;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Persistence;
-import org.folio.cataloging.business.common.PersistenceState;
-import org.folio.cataloging.dao.AbstractDAO;
-import org.folio.cataloging.dao.DAOCodeTable;
+import org.folio.marccat.business.common.ChronologyConfigurationException;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.common.Persistence;
+import org.folio.marccat.business.common.PersistenceState;
+import org.folio.marccat.dao.AbstractDAO;
+import org.folio.marccat.dao.DAOCodeTable;
 
 import java.io.Serializable;
 import java.util.Locale;

@@ -1,6 +1,6 @@
-package org.folio.cataloging.business.serialControl;
+package org.folio.marccat.business.serialControl;
 
-import org.folio.cataloging.exception.ValidationException;
+import org.folio.marccat.exception.ValidationException;
 
 public class SerialCombineException extends ValidationException {
 

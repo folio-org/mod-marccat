@@ -5,7 +5,7 @@
  *
  * T_VR_PLYBC_CHNL_CFGTN.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 /**
  * @author paulm

@@ -6,7 +6,7 @@
 <hibernate-mapping>
 
 <class 
-    name="org.folio.cataloging.dao.persistence.CasQltyStus"
+    name="org.folio.marccat.dao.persistence.CasQltyStus"
      schema="custom" 
     table="CAS_QLTY_STUS"
     lazy="false"

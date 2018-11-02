@@ -1,6 +1,6 @@
-package org.folio.cataloging.business;
+package org.folio.marccat.business;
 
-import org.folio.cataloging.dao.persistence.CLCTN_MST_RULE;
+import org.folio.marccat.dao.persistence.CLCTN_MST_RULE;
 
 // TODO: Javadoc
 public class RuleListElement {

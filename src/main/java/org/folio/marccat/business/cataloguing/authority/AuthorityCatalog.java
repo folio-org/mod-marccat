@@ -1,19 +1,19 @@
-package org.folio.cataloging.business.cataloguing.authority;
+package org.folio.marccat.business.cataloguing.authority;
 
 import net.sf.hibernate.HibernateException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.cataloguing.bibliographic.NewTagException;
-import org.folio.cataloging.business.cataloguing.bibliographic.PersistsViaItem;
-import org.folio.cataloging.business.cataloguing.common.*;
-import org.folio.cataloging.business.common.AbstractMapBackedFactory;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.MapBackedFactory;
-import org.folio.cataloging.business.common.PropertyBasedFactoryBuilder;
-import org.folio.cataloging.business.descriptor.DescriptorFactory;
-import org.folio.cataloging.dao.*;
-import org.folio.cataloging.dao.persistence.*;
-import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.marccat.business.cataloguing.bibliographic.NewTagException;
+import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
+import org.folio.marccat.business.cataloguing.common.*;
+import org.folio.marccat.business.common.AbstractMapBackedFactory;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.common.MapBackedFactory;
+import org.folio.marccat.business.common.PropertyBasedFactoryBuilder;
+import org.folio.marccat.business.descriptor.DescriptorFactory;
+import org.folio.marccat.dao.*;
+import org.folio.marccat.dao.persistence.*;
+import org.folio.marccat.shared.CorrelationValues;
 
 import java.util.*;
 import java.util.Map;

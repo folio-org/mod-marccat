@@ -1,10 +1,10 @@
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-import org.folio.cataloging.business.common.RecordNotFoundException;
-import org.folio.cataloging.dao.persistence.FULL_CACHE;
+import org.folio.marccat.business.common.RecordNotFoundException;
+import org.folio.marccat.dao.persistence.FULL_CACHE;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  * 2018 Paul Search Engine Java
  *
  * @author paulm
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 public class DAOFullCache extends AbstractDAO {

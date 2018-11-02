@@ -5,7 +5,7 @@
  *
  * T_CAS_SDIV_PRTC_TYP.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 /**
  * @author Maite

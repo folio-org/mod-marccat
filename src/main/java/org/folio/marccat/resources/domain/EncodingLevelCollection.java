@@ -1,4 +1,4 @@
-package org.folio.cataloging.resources.domain;
+package org.folio.marccat.resources.domain;
 
 import com.fasterxml.jackson.annotation.*;
 

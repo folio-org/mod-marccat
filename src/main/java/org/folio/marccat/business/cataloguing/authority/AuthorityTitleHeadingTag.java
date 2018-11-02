@@ -5,13 +5,13 @@
  *
  * AuthorityTitleHeadingTag.java
  */
-package org.folio.cataloging.business.cataloguing.authority;
+package org.folio.marccat.business.cataloguing.authority;
 
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.descriptor.SkipInFiling;
-import org.folio.cataloging.dao.persistence.CorrelationKey;
-import org.folio.cataloging.dao.persistence.TTL_HDG;
-import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.descriptor.SkipInFiling;
+import org.folio.marccat.dao.persistence.CorrelationKey;
+import org.folio.marccat.dao.persistence.TTL_HDG;
+import org.folio.marccat.shared.CorrelationValues;
 
 import java.util.List;
 

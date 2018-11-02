@@ -1,19 +1,19 @@
-package org.folio.cataloging.search;
+package org.folio.marccat.search;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import net.sf.hibernate.Session;
-import org.folio.cataloging.Global;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.dao.DAOCodeTable;
-import org.folio.cataloging.dao.persistence.T_AUT_DSPLY_FRMT;
-import org.folio.cataloging.dao.persistence.T_BIB_DSPLY_FRMT;
-import org.folio.cataloging.dao.persistence.T_ITM_DSPLY_FRMT;
-import org.folio.cataloging.exception.ModCatalogingException;
-import org.folio.cataloging.search.domain.MarcRecord;
-import org.folio.cataloging.search.domain.Record;
-import org.folio.cataloging.search.engine.SearchEngine;
+import org.folio.marccat.Global;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.common.View;
+import org.folio.marccat.dao.DAOCodeTable;
+import org.folio.marccat.dao.persistence.T_AUT_DSPLY_FRMT;
+import org.folio.marccat.dao.persistence.T_BIB_DSPLY_FRMT;
+import org.folio.marccat.dao.persistence.T_ITM_DSPLY_FRMT;
+import org.folio.marccat.exception.ModCatalogingException;
+import org.folio.marccat.search.domain.MarcRecord;
+import org.folio.marccat.search.domain.Record;
+import org.folio.marccat.search.engine.SearchEngine;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,13 +22,13 @@ import java.util.OptionalInt;
 
 import static java.util.Arrays.stream;
 import static java.util.Optional.ofNullable;
-import static org.folio.cataloging.F.safe;
+import static org.folio.marccat.F.safe;
 
 /**
  * Mod-Cataloging search SearchResponse implementation.
  *
  * @author paulm
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 public class SearchResponse {

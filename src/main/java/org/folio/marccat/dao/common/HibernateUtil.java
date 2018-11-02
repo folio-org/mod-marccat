@@ -1,4 +1,4 @@
-package org.folio.cataloging.dao.common;
+package org.folio.marccat.dao.common;
 
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.LockMode;
@@ -6,13 +6,13 @@ import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.cataloguing.authority.AuthorityNote;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Persistence;
-import org.folio.cataloging.business.common.PersistentObjectWithView;
-import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.exception.RecordInUseException;
-import org.folio.cataloging.log.MessageCatalog;
+import org.folio.marccat.business.cataloguing.authority.AuthorityNote;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.common.Persistence;
+import org.folio.marccat.business.common.PersistentObjectWithView;
+import org.folio.marccat.business.common.View;
+import org.folio.marccat.exception.RecordInUseException;
+import org.folio.marccat.log.MessageCatalog;
 
 import java.io.Serializable;
 import java.sql.Connection;

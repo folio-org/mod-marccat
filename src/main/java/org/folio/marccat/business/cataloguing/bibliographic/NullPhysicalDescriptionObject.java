@@ -5,9 +5,9 @@
  *
  * Map.java
  */
-package org.folio.cataloging.business.cataloguing.bibliographic;
+package org.folio.marccat.business.cataloguing.bibliographic;
 
-import org.folio.cataloging.dao.persistence.PhysicalDescription;
+import org.folio.marccat.dao.persistence.PhysicalDescription;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

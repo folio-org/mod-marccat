@@ -1,10 +1,10 @@
-package org.folio.cataloging.integration.search;
+package org.folio.marccat.integration.search;
 
 /**
  * Search Engine query expression node
  *
  * @author paulm
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 public interface ExpressionNode {

@@ -1,12 +1,12 @@
 /**
  *
  */
-package org.folio.cataloging.business.descriptor;
+package org.folio.marccat.business.descriptor;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.model.Subfield;
-import org.folio.cataloging.util.StringText;
+import org.folio.marccat.model.Subfield;
+import org.folio.marccat.util.StringText;
 
 import java.text.Normalizer;
 import java.util.Arrays;

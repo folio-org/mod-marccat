@@ -1,4 +1,4 @@
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
@@ -7,15 +7,15 @@ import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicItem;
-import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.searching.NoResultsFoundException;
-import org.folio.cataloging.dao.persistence.BibliographicRelationship;
-import org.folio.cataloging.dao.persistence.BibliographicRelationshipTag;
-import org.folio.cataloging.dao.persistence.NameAccessPoint;
-import org.folio.cataloging.model.Subfield;
-import org.folio.cataloging.util.StringText;
+import org.folio.marccat.business.cataloguing.bibliographic.BibliographicItem;
+import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.searching.NoResultsFoundException;
+import org.folio.marccat.dao.persistence.BibliographicRelationship;
+import org.folio.marccat.dao.persistence.BibliographicRelationshipTag;
+import org.folio.marccat.dao.persistence.NameAccessPoint;
+import org.folio.marccat.model.Subfield;
+import org.folio.marccat.util.StringText;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

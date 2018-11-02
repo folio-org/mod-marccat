@@ -1,6 +1,6 @@
-package org.folio.cataloging.business.common;
+package org.folio.marccat.business.common;
 
-import org.folio.cataloging.log.Log;
+import org.folio.marccat.log.Log;
 
 import java.util.MissingResourceException;
 
@@ -8,7 +8,7 @@ import java.util.MissingResourceException;
  * Provides access to default values established in configuration.
  *
  * @author paulm
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 // TODO all old methods have been retained for retro-compatibility purposes, but they don't have to be called!

@@ -9,13 +9,13 @@
  * $Source: /source/LibriSuite/src/librisuite/business/common/Validator.java,v $
  * $State: Exp $
  */
-package org.folio.cataloging.business.common;
+package org.folio.marccat.business.common;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
-import org.folio.cataloging.shared.Validation;
-import org.folio.cataloging.util.StringText;
+import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
+import org.folio.marccat.shared.Validation;
+import org.folio.marccat.util.StringText;
 
 import java.util.ArrayList;
 import java.util.List;

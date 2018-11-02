@@ -5,7 +5,7 @@
  *
  * T_AUT_SHLF_LIST_FNCTN.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 /**
  * @author paulm

@@ -1,4 +1,4 @@
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
 
 /**

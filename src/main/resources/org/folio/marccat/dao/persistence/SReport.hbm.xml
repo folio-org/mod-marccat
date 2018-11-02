@@ -12,7 +12,7 @@
 -->
 
 <class 
-    name="org.folio.cataloging.dao.persistence.SReport"
+    name="org.folio.marccat.dao.persistence.SReport"
     table="S_REPORT"
 >
 

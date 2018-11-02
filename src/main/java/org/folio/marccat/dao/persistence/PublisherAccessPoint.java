@@ -1,11 +1,11 @@
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicAccessPoint;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.descriptor.PublisherTagDescriptor;
-import org.folio.cataloging.integration.GlobalStorage;
-import org.folio.cataloging.shared.CorrelationValues;
-import org.folio.cataloging.util.StringText;
+import org.folio.marccat.business.cataloguing.bibliographic.BibliographicAccessPoint;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.descriptor.PublisherTagDescriptor;
+import org.folio.marccat.integration.GlobalStorage;
+import org.folio.marccat.shared.CorrelationValues;
+import org.folio.marccat.util.StringText;
 
 import java.util.List;
 

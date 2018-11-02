@@ -5,9 +5,9 @@
  *
  * AuthorityControlNumberTag.java
  */
-package org.folio.cataloging.business.cataloguing.authority;
+package org.folio.marccat.business.cataloguing.authority;
 
-import org.folio.cataloging.business.cataloguing.common.ControlNumberTag;
+import org.folio.marccat.business.cataloguing.common.ControlNumberTag;
 
 /**
  * @author paulm

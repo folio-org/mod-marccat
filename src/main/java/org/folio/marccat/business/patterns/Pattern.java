@@ -1,4 +1,4 @@
-package org.folio.cataloging.business.patterns;
+package org.folio.marccat.business.patterns;
 
 import java.util.Date;
 

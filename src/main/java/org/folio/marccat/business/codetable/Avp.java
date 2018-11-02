@@ -1,4 +1,4 @@
-package org.folio.cataloging.business.codetable;
+package org.folio.marccat.business.codetable;
 
 import java.io.Serializable;
 import java.util.List;
@@ -7,7 +7,7 @@ import java.util.List;
  * Holds a single attribute-stringValue pair (AVP).
  *
  * @author paulm
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 public class Avp<V> implements Comparable <Avp>, Serializable {

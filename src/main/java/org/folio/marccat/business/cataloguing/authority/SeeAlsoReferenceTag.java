@@ -5,11 +5,11 @@
  *
  * SeeAlsoReferenceTag.java
  */
-package org.folio.cataloging.business.cataloguing.authority;
+package org.folio.marccat.business.cataloguing.authority;
 
-import org.folio.cataloging.dao.persistence.REF;
-import org.folio.cataloging.dao.persistence.ReferenceType;
-import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.marccat.dao.persistence.REF;
+import org.folio.marccat.dao.persistence.ReferenceType;
+import org.folio.marccat.shared.CorrelationValues;
 
 /**
  * @author paulm

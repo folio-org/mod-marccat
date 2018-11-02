@@ -1,11 +1,11 @@
-package org.folio.cataloging.resources;
+package org.folio.marccat.resources;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.folio.cataloging.Global;
-import org.folio.cataloging.ModCataloging;
+import org.folio.marccat.Global;
+import org.folio.marccat.ModMarccat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @Api(value = "modcat-api", description = "Data Loader API")
-@RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
+@RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class DataLoaderAPI extends BaseResource {
 
   @ApiOperation(value = "Returns Data Loader")

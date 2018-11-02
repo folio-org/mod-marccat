@@ -1,4 +1,4 @@
-package org.folio.cataloging.business.cataloguing.common;
+package org.folio.marccat.business.cataloguing.common;
 
 /**
  * @author paulm

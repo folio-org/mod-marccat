@@ -1,19 +1,19 @@
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
-import org.folio.cataloging.F;
-import org.folio.cataloging.Global;
-import org.folio.cataloging.business.cataloguing.bibliographic.Equivalent;
-import org.folio.cataloging.business.cataloguing.bibliographic.PublisherTagComparator;
-import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
-import org.folio.cataloging.business.common.*;
-import org.folio.cataloging.business.descriptor.PublisherTagDescriptor;
-import org.folio.cataloging.dao.AbstractDAO;
-import org.folio.cataloging.dao.PublisherManagerDAO;
-import org.folio.cataloging.integration.GlobalStorage;
-import org.folio.cataloging.log.Log;
-import org.folio.cataloging.model.Subfield;
-import org.folio.cataloging.shared.CorrelationValues;
-import org.folio.cataloging.util.StringText;
+import org.folio.marccat.F;
+import org.folio.marccat.Global;
+import org.folio.marccat.business.cataloguing.bibliographic.Equivalent;
+import org.folio.marccat.business.cataloguing.bibliographic.PublisherTagComparator;
+import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
+import org.folio.marccat.business.common.*;
+import org.folio.marccat.business.descriptor.PublisherTagDescriptor;
+import org.folio.marccat.dao.AbstractDAO;
+import org.folio.marccat.dao.PublisherManagerDAO;
+import org.folio.marccat.integration.GlobalStorage;
+import org.folio.marccat.log.Log;
+import org.folio.marccat.model.Subfield;
+import org.folio.marccat.shared.CorrelationValues;
+import org.folio.marccat.util.StringText;
 
 import java.util.ArrayList;
 import java.util.List;

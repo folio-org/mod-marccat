@@ -1,6 +1,6 @@
-package org.folio.cataloging.business.serialControl;
+package org.folio.marccat.business.serialControl;
 
-import org.folio.cataloging.exception.ModCatalogingException;
+import org.folio.marccat.exception.ModCatalogingException;
 
 public class DuplicateVendorException extends ModCatalogingException {
 

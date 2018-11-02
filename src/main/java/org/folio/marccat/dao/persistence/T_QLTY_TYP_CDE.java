@@ -5,7 +5,7 @@
  *
  * T_LANG_OF_ACS_PNT.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 /**
  * @author

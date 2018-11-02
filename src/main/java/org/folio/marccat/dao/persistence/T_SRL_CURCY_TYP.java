@@ -5,7 +5,7 @@
  *
  * T_ACQ_MTHD_TYP.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 /**
  * @author paulm

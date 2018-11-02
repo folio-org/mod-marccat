@@ -1,11 +1,11 @@
-package org.folio.cataloging.business.descriptor;
+package org.folio.marccat.business.descriptor;
 
-import org.folio.cataloging.dao.AbstractDAO;
-import org.folio.cataloging.dao.PublisherTagDescriptorDAO;
-import org.folio.cataloging.dao.persistence.Descriptor;
-import org.folio.cataloging.dao.persistence.PUBL_TAG;
-import org.folio.cataloging.dao.persistence.PublisherAccessPoint;
-import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.marccat.dao.AbstractDAO;
+import org.folio.marccat.dao.PublisherTagDescriptorDAO;
+import org.folio.marccat.dao.persistence.Descriptor;
+import org.folio.marccat.dao.persistence.PUBL_TAG;
+import org.folio.marccat.dao.persistence.PublisherAccessPoint;
+import org.folio.marccat.shared.CorrelationValues;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,20 +1,20 @@
-package org.folio.cataloging.search.engine.impl;
+package org.folio.marccat.search.engine.impl;
 
 import net.sf.hibernate.HibernateException;
-import org.folio.cataloging.exception.ModCatalogingException;
-import org.folio.cataloging.integration.StorageService;
-import org.folio.cataloging.resources.domain.CountDocument;
-import org.folio.cataloging.search.SearchResponse;
-import org.folio.cataloging.search.domain.LightweightJsonRecord;
-import org.folio.cataloging.search.domain.Record;
-import org.folio.cataloging.search.engine.ModCatalogingSearchEngine;
+import org.folio.marccat.exception.ModCatalogingException;
+import org.folio.marccat.integration.StorageService;
+import org.folio.marccat.resources.domain.CountDocument;
+import org.folio.marccat.search.SearchResponse;
+import org.folio.marccat.search.domain.LightweightJsonRecord;
+import org.folio.marccat.search.domain.Record;
+import org.folio.marccat.search.engine.ModCatalogingSearchEngine;
 
 import java.util.Arrays;
 
 /**
- * ModCataloging Search Engine.
+ * ModMarccat Search Engine.
  *
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 public class LightweightModCatalogingSearchEngine extends ModCatalogingSearchEngine {

@@ -1,10 +1,10 @@
-package org.folio.cataloging.integration.log;
+package org.folio.marccat.integration.log;
 
 /**
  * Storage layer Message Catalog.
  *
  * @author nbianchini
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 public interface MessageCatalogStorage {

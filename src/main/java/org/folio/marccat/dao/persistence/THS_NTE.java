@@ -5,9 +5,9 @@
  *
  * HLDG_NTE.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
-import org.folio.cataloging.business.common.Defaults;
+import org.folio.marccat.business.common.Defaults;
 
 import java.io.Serializable;
 

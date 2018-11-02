@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.folio.marccat.Global;
-import org.folio.marccat.ModCataloging;
+import org.folio.marccat.ModMarccat;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.log.MessageCatalog;
 import org.folio.marccat.resources.domain.Heading;
@@ -27,7 +27,7 @@ import static org.folio.marccat.integration.CatalogingHelper.*;
  */
 @RestController
 @Api(value = "modcat-api", description = "Heading resource API")
-@RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
+@RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class HeadingAPI extends BaseResource {
 
   private Function <MapHeading, Heading> toHeading = source -> {

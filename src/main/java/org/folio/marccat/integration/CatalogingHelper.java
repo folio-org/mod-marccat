@@ -1,9 +1,9 @@
-package org.folio.cataloging.integration;
+package org.folio.marccat.integration;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.resources.SystemInternalFailureException;
-import org.folio.cataloging.resources.UnableToCreateOrUpdateEntityException;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.resources.SystemInternalFailureException;
+import org.folio.marccat.resources.UnableToCreateOrUpdateEntityException;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,14 +18,14 @@ import java.util.function.Function;
 import java.util.stream.StreamSupport;
 
 import static java.util.stream.Collectors.toMap;
-import static org.folio.cataloging.Global.HCONFIGURATION;
+import static org.folio.marccat.Global.HCONFIGURATION;
 
 /**
- * Helper functions used within the cataloging module.
+ * Helper functions used within the marccat module.
  * Specifically, this class was originally thought as a supertype layer of each resource implementor; later, it has
  * been converted in this way (i.e. a collection of static methods) because https://issues.folio.org/browse/RMB-95
  *
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 public abstract class CatalogingHelper {
@@ -120,7 +120,7 @@ public abstract class CatalogingHelper {
   }
 
   /**
-   * Provides a unified approach (within the cataloging module) for wrapping an existing blocking flow.
+   * Provides a unified approach (within the marccat module) for wrapping an existing blocking flow.
    *
    * @param adapter           the bridge that carries on the existing logic.
    * @param configurationSets the configurationSets required by the current service.
@@ -155,9 +155,10 @@ public abstract class CatalogingHelper {
    * @return a dedicated configuration for the current service.
    */
   private static Map <String, String> configuration(final ObjectNode value) {
-    return StreamSupport.stream(value.withArray("configs").spliterator(), false)
+    return StreamSupport
+      .stream(value.withArray("configs").spliterator(), false)
       .filter(node -> !"datasource".equals(node.get("configName").asText()))
-      .map(node -> new AbstractMap.SimpleEntry <>(node.get("code").asText(), node.get("value").asText()))
+      .map(node -> new AbstractMap.SimpleEntry<>(node.get("code").asText(), node.get("value").asText()))
       .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
   }
 

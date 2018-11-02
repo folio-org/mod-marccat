@@ -5,7 +5,7 @@
  *
  * Permission.java
  */
-package org.folio.cataloging.business.authorisation;
+package org.folio.marccat.business.authorisation;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 

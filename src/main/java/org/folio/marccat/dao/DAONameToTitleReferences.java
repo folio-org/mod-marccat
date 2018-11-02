@@ -5,14 +5,14 @@
  *
  * DAONameToTitleReferences.java
  */
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.type.Type;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.persistence.NME_TO_TTL_REF;
-import org.folio.cataloging.dao.persistence.REF;
-import org.folio.cataloging.dao.persistence.ReferenceType;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.dao.persistence.NME_TO_TTL_REF;
+import org.folio.marccat.dao.persistence.REF;
+import org.folio.marccat.dao.persistence.ReferenceType;
 
 import java.util.List;
 

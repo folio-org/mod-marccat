@@ -1,17 +1,17 @@
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
-import org.folio.cataloging.business.cataloguing.authority.AuthorityReferenceTag;
-import org.folio.cataloging.business.cataloguing.bibliographic.VariableHeaderUsingItemEntity;
-import org.folio.cataloging.business.cataloguing.common.Tag;
-import org.folio.cataloging.business.common.*;
-import org.folio.cataloging.business.controller.UserProfile;
-import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
-import org.folio.cataloging.dao.persistence.*;
-import org.folio.cataloging.integration.log.MessageCatalogStorage;
-import org.folio.cataloging.log.Log;
+import org.folio.marccat.business.cataloguing.authority.AuthorityReferenceTag;
+import org.folio.marccat.business.cataloguing.bibliographic.VariableHeaderUsingItemEntity;
+import org.folio.marccat.business.cataloguing.common.Tag;
+import org.folio.marccat.business.common.*;
+import org.folio.marccat.business.controller.UserProfile;
+import org.folio.marccat.dao.common.TransactionalHibernateOperation;
+import org.folio.marccat.dao.persistence.*;
+import org.folio.marccat.integration.log.MessageCatalogStorage;
+import org.folio.marccat.log.Log;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;

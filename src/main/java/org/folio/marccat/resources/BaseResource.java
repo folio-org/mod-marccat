@@ -1,10 +1,10 @@
-package org.folio.cataloging.resources;
+package org.folio.marccat.resources;
 
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.integration.Configuration;
-import org.folio.cataloging.log.Log;
-import org.folio.cataloging.log.MessageCatalog;
-import org.folio.cataloging.resources.domain.ErrorCollection;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.integration.Configuration;
+import org.folio.marccat.log.Log;
+import org.folio.marccat.log.MessageCatalog;
+import org.folio.marccat.resources.domain.ErrorCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

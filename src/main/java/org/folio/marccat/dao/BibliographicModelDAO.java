@@ -1,6 +1,6 @@
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
-import org.folio.cataloging.dao.persistence.BibliographicModel;
+import org.folio.marccat.dao.persistence.BibliographicModel;
 
 /**
  * The Class BibliographicModelDAO.

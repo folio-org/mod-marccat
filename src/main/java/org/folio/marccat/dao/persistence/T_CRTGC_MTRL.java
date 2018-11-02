@@ -5,7 +5,7 @@
  *
  * T_CRTGC_MTRL.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 /**
  * @author Maite

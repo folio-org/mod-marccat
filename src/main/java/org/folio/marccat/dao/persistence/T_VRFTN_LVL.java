@@ -5,7 +5,7 @@
  *
  * T_VRFTN_LVL.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 /**
  * @author elena

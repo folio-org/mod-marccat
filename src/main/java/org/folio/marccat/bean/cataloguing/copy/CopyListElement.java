@@ -1,6 +1,6 @@
-package org.folio.cataloging.bean.cataloguing.copy;
+package org.folio.marccat.bean.cataloguing.copy;
 
-import org.folio.cataloging.dao.persistence.CPY_ID;
+import org.folio.marccat.dao.persistence.CPY_ID;
 
 import java.util.List;
 import java.util.Vector;

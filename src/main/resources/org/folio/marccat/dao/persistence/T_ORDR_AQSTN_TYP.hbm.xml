@@ -5,7 +5,7 @@
     
 <hibernate-mapping>
 <class 
-    name="org.folio.cataloging.dao.persistence.T_ORDR_AQSTN_TYP"
+    name="org.folio.marccat.dao.persistence.T_ORDR_AQSTN_TYP"
      schema="olisuite"  
     table="T_ORDR_AQSTN_TYP"
     mutable="false"

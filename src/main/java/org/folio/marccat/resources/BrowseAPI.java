@@ -1,21 +1,21 @@
-package org.folio.cataloging.resources;
+package org.folio.marccat.resources;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.folio.cataloging.Global;
-import org.folio.cataloging.ModCataloging;
-import org.folio.cataloging.resources.domain.HeadingDecorator;
-import org.folio.cataloging.resources.domain.HeadingDecoratorCollection;
-import org.folio.cataloging.shared.MapHeading;
+import org.folio.marccat.Global;
+import org.folio.marccat.ModMarccat;
+import org.folio.marccat.resources.domain.HeadingDecorator;
+import org.folio.marccat.resources.domain.HeadingDecoratorCollection;
+import org.folio.marccat.shared.MapHeading;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
-import static org.folio.cataloging.integration.CatalogingHelper.doGet;
+import static org.folio.marccat.integration.CatalogingHelper.doGet;
 
 /**
  * Headings RESTful APIs.
@@ -25,7 +25,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
  */
 @RestController
 @Api(value = "modcat-api", description = "Browse resource API")
-@RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
+@RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class BrowseAPI extends BaseResource {
 
   private Function <MapHeading, HeadingDecorator> toHeading = source -> {

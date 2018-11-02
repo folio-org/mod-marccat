@@ -5,9 +5,9 @@
  *
  * ConnectionFactory.java
  */
-package org.folio.cataloging.business.patterns;
+package org.folio.marccat.business.patterns;
 
-import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.marccat.dao.common.HibernateUtil;
 
 import java.sql.Connection;
 import java.sql.SQLException;

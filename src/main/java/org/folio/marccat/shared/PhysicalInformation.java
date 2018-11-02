@@ -1,6 +1,6 @@
-package org.folio.cataloging.shared;
+package org.folio.marccat.shared;
 
-import org.folio.cataloging.Global;
+import org.folio.marccat.Global;
 
 /**
  * Class related to:

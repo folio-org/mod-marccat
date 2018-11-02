@@ -1,4 +1,4 @@
-package org.folio.cataloging.business.searching;
+package org.folio.marccat.business.searching;
 
 public class SearchIndexElement {
   private int key;

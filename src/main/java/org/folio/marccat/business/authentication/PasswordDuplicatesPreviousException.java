@@ -5,7 +5,7 @@
  *
  * PasswordDuplicatesPreviousException.java
  */
-package org.folio.cataloging.business.authentication;
+package org.folio.marccat.business.authentication;
 
 /**
  * Denotes an attempt to reuse a previous password when

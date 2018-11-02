@@ -1,12 +1,12 @@
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
-import org.folio.cataloging.business.descriptor.SortFormParameters;
-import org.folio.cataloging.dao.AbstractDAO;
-import org.folio.cataloging.dao.PublisherDescriptorDAO;
-import org.folio.cataloging.exception.InvalidDescriptorException;
-import org.folio.cataloging.exception.MandatorySubfieldException;
-import org.folio.cataloging.shared.CorrelationValues;
-import org.folio.cataloging.util.StringText;
+import org.folio.marccat.business.descriptor.SortFormParameters;
+import org.folio.marccat.dao.AbstractDAO;
+import org.folio.marccat.dao.PublisherDescriptorDAO;
+import org.folio.marccat.exception.InvalidDescriptorException;
+import org.folio.marccat.exception.MandatorySubfieldException;
+import org.folio.marccat.shared.CorrelationValues;
+import org.folio.marccat.util.StringText;
 
 import java.io.Serializable;
 

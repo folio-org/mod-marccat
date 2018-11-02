@@ -5,7 +5,7 @@
  *
  * LV_USER_POSTAL_ADDRESS.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 /**
  * @author Elena

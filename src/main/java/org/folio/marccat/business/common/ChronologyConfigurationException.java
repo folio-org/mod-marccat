@@ -1,6 +1,6 @@
-package org.folio.cataloging.business.common;
+package org.folio.marccat.business.common;
 
-import org.folio.cataloging.exception.ValidationException;
+import org.folio.marccat.exception.ValidationException;
 
 public class ChronologyConfigurationException extends ValidationException {
 

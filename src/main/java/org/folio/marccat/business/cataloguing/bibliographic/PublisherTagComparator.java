@@ -1,6 +1,6 @@
-package org.folio.cataloging.business.cataloguing.bibliographic;
+package org.folio.marccat.business.cataloguing.bibliographic;
 
-import org.folio.cataloging.dao.persistence.PUBL_TAG;
+import org.folio.marccat.dao.persistence.PUBL_TAG;
 
 import java.util.Comparator;
 

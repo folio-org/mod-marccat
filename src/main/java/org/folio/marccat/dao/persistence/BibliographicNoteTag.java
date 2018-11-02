@@ -1,22 +1,22 @@
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
-import org.folio.cataloging.F;
-import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
-import org.folio.cataloging.business.cataloguing.common.OrderedTag;
-import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.PersistenceState;
-import org.folio.cataloging.business.common.PersistentObjectWithView;
-import org.folio.cataloging.dao.AbstractDAO;
-import org.folio.cataloging.dao.DAOBibliographicNoteTag;
-import org.folio.cataloging.dao.SystemNextNumberDAO;
-import org.folio.cataloging.integration.GlobalStorage;
-import org.folio.cataloging.log.Log;
-import org.folio.cataloging.model.Subfield;
-import org.folio.cataloging.shared.CorrelationValues;
-import org.folio.cataloging.util.StringText;
+import org.folio.marccat.F;
+import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
+import org.folio.marccat.business.cataloguing.common.OrderedTag;
+import org.folio.marccat.business.codetable.Avp;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.common.PersistenceState;
+import org.folio.marccat.business.common.PersistentObjectWithView;
+import org.folio.marccat.dao.AbstractDAO;
+import org.folio.marccat.dao.DAOBibliographicNoteTag;
+import org.folio.marccat.dao.SystemNextNumberDAO;
+import org.folio.marccat.integration.GlobalStorage;
+import org.folio.marccat.log.Log;
+import org.folio.marccat.model.Subfield;
+import org.folio.marccat.shared.CorrelationValues;
+import org.folio.marccat.util.StringText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ import static java.util.Optional.ofNullable;
  * Manager class for bibliographic note tag.
  *
  * @author paulm
- * @author agazzarini
+ * @author cchiama
  * @author nbianchini
  */
 @SuppressWarnings("unchecked")

@@ -1,6 +1,6 @@
-package org.folio.cataloging.business.searching;
+package org.folio.marccat.business.searching;
 
-import org.folio.cataloging.exception.ModCatalogingException;
+import org.folio.marccat.exception.ModCatalogingException;
 
 /**
  * @author paulm

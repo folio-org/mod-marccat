@@ -1,8 +1,8 @@
-package org.folio.cataloging.business.cataloguing.bibliographic;
+package org.folio.marccat.business.cataloguing.bibliographic;
 
-import org.folio.cataloging.business.cataloguing.common.Tag;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.util.StringText;
+import org.folio.marccat.business.cataloguing.common.Tag;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.util.StringText;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

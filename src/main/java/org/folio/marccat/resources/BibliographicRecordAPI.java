@@ -1,23 +1,23 @@
-package org.folio.cataloging.resources;
+package org.folio.marccat.resources;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.folio.cataloging.F;
-import org.folio.cataloging.Global;
-import org.folio.cataloging.ModCataloging;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.domain.ConversionFieldUtils;
-import org.folio.cataloging.exception.DuplicateTagException;
-import org.folio.cataloging.integration.StorageService;
-import org.folio.cataloging.log.MessageCatalog;
-import org.folio.cataloging.resources.domain.*;
-import org.folio.cataloging.resources.domain.Error;
-import org.folio.cataloging.shared.GeneralInformation;
-import org.folio.cataloging.shared.Validation;
-import org.folio.cataloging.util.StringText;
+import org.folio.marccat.F;
+import org.folio.marccat.Global;
+import org.folio.marccat.ModMarccat;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.common.View;
+import org.folio.marccat.domain.ConversionFieldUtils;
+import org.folio.marccat.exception.DuplicateTagException;
+import org.folio.marccat.integration.StorageService;
+import org.folio.marccat.log.MessageCatalog;
+import org.folio.marccat.resources.domain.*;
+import org.folio.marccat.resources.domain.Error;
+import org.folio.marccat.shared.GeneralInformation;
+import org.folio.marccat.shared.Validation;
+import org.folio.marccat.util.StringText;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +28,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static java.util.Optional.ofNullable;
-import static org.folio.cataloging.F.isNotNullOrEmpty;
-import static org.folio.cataloging.integration.CatalogingHelper.*;
+import static org.folio.marccat.F.isNotNullOrEmpty;
+import static org.folio.marccat.integration.CatalogingHelper.*;
 
 /**
  * Bibliographic records API.
@@ -40,7 +40,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.*;
 
 @RestController
 @Api(value = "modcat-api", description = "Get bibliographic record API")
-@RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
+@RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class BibliographicRecordAPI extends BaseResource {
 
   @ApiOperation(value = "Returns the bibliographic record associated with a given id")

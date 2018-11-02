@@ -1,9 +1,9 @@
-package org.folio.cataloging.exception;
+package org.folio.marccat.exception;
 
 /**
- * Base class for ModCataloging exceptions.
+ * Base class for ModMarccat exceptions.
  *
- * @author agazzarini
+ * @author cchiama
  * @author paulm
  * @since 1.0
  */

@@ -6,7 +6,7 @@
 <hibernate-mapping>
 
 <class 
-    name="org.folio.cataloging.business.cataloguing.authority.AuthorityClassificationAccessPoint"
+    name="org.folio.marccat.business.cataloguing.authority.AuthorityClassificationAccessPoint"
     table="AUT_CLSTN_ACS_PNT"
 >
 

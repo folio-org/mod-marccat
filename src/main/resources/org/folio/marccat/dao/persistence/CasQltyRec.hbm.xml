@@ -6,7 +6,7 @@
 <hibernate-mapping>
 
 <class 
-    name="org.folio.cataloging.dao.persistence.CasQltyRec"
+    name="org.folio.marccat.dao.persistence.CasQltyRec"
      schema="custom" 
     table="CAS_QLTY_REC"
     lazy="false"

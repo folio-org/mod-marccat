@@ -1,17 +1,17 @@
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.Session;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.PersistenceState;
-import org.folio.cataloging.business.common.PersistentObjectWithView;
-import org.folio.cataloging.business.common.UserViewHelper;
-import org.folio.cataloging.dao.AbstractDAO;
-import org.folio.cataloging.dao.DAODescriptor;
-import org.folio.cataloging.dao.DAOPublTag;
-import org.folio.cataloging.dao.PublisherDescriptorDAO;
-import org.folio.cataloging.log.Log;
-import org.folio.cataloging.util.StringText;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.common.PersistenceState;
+import org.folio.marccat.business.common.PersistentObjectWithView;
+import org.folio.marccat.business.common.UserViewHelper;
+import org.folio.marccat.dao.AbstractDAO;
+import org.folio.marccat.dao.DAODescriptor;
+import org.folio.marccat.dao.DAOPublTag;
+import org.folio.marccat.dao.PublisherDescriptorDAO;
+import org.folio.marccat.log.Log;
+import org.folio.marccat.util.StringText;
 
 import java.io.Serializable;
 

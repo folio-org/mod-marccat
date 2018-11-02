@@ -5,7 +5,7 @@
  *
  * Policy.java
  */
-package org.folio.cataloging.business.authorisation;
+package org.folio.marccat.business.authorisation;
 
 import java.util.HashSet;
 import java.util.Set;

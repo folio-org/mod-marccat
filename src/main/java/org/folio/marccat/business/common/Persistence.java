@@ -1,7 +1,7 @@
-package org.folio.cataloging.business.common;
+package org.folio.marccat.business.common;
 
 import net.sf.hibernate.Lifecycle;
-import org.folio.cataloging.dao.AbstractDAO;
+import org.folio.marccat.dao.AbstractDAO;
 
 import java.io.Serializable;
 

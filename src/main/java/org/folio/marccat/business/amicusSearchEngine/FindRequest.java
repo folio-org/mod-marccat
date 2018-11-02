@@ -5,13 +5,13 @@
  *
  * FindRequest.java
  */
-package org.folio.cataloging.business.amicusSearchEngine;
+package org.folio.marccat.business.amicusSearchEngine;
 
-import org.folio.cataloging.business.authorisation.AuthorisationException;
-import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.business.common.SocketMessage;
-import org.folio.cataloging.business.controller.UserProfile;
-import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.marccat.business.authorisation.AuthorisationException;
+import org.folio.marccat.business.common.Defaults;
+import org.folio.marccat.business.common.SocketMessage;
+import org.folio.marccat.business.controller.UserProfile;
+import org.folio.marccat.dao.common.HibernateUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;

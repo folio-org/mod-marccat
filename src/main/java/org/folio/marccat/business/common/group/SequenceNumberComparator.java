@@ -5,14 +5,14 @@
  *
  * TagComparator.java
  */
-package org.folio.cataloging.business.common.group;
+package org.folio.marccat.business.common.group;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
-import org.folio.cataloging.business.cataloguing.common.OrderedTag;
-import org.folio.cataloging.business.cataloguing.common.Tag;
-import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.marccat.business.cataloguing.bibliographic.MarcCorrelationException;
+import org.folio.marccat.business.cataloguing.common.OrderedTag;
+import org.folio.marccat.business.cataloguing.common.Tag;
+import org.folio.marccat.business.common.DataAccessException;
 
 import java.util.Comparator;
 

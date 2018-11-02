@@ -1,15 +1,15 @@
-package org.folio.cataloging.resources;
+package org.folio.marccat.resources;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.folio.cataloging.Global;
-import org.folio.cataloging.ModCataloging;
-import org.folio.cataloging.resources.domain.TagMarcEncoding;
+import org.folio.marccat.Global;
+import org.folio.marccat.ModMarccat;
+import org.folio.marccat.resources.domain.TagMarcEncoding;
 import org.springframework.web.bind.annotation.*;
 
-import static org.folio.cataloging.integration.CatalogingHelper.doGet;
+import static org.folio.marccat.integration.CatalogingHelper.doGet;
 
 /**
  * ValidationTagAPI RestFul service to validate variable tag.
@@ -20,7 +20,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
 
 @RestController
 @Api(value = "modcat-api", description = "Validation tag API")
-@RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
+@RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class ValidationTagAPI extends BaseResource {
 
   @ApiOperation(value = "Returns tag marc encoding associated with the given data.")

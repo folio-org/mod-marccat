@@ -1,4 +1,4 @@
-package org.folio.cataloging.business.common;
+package org.folio.marccat.business.common;
 
 import java.util.Map;
 

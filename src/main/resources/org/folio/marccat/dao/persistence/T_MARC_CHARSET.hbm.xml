@@ -5,7 +5,7 @@
     
 <hibernate-mapping>
 <class 
-    name="org.folio.cataloging.dao.persistence.T_MARC_CHARSET"
+    name="org.folio.marccat.dao.persistence.T_MARC_CHARSET"
      schema="olisuite" 
     table="T_MARC_CHARSET"
     mutable="false"

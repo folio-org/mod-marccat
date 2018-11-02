@@ -1,14 +1,14 @@
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.persistence.*;
-import org.folio.cataloging.log.Log;
-import org.folio.cataloging.log.MessageCatalog;
+import org.folio.marccat.business.codetable.Avp;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.dao.persistence.*;
+import org.folio.marccat.log.Log;
+import org.folio.marccat.log.MessageCatalog;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

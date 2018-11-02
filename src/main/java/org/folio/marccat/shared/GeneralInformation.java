@@ -1,7 +1,7 @@
-package org.folio.cataloging.shared;
+package org.folio.marccat.shared;
 
 import org.apache.commons.lang.StringUtils;
-import org.folio.cataloging.Global;
+import org.folio.marccat.Global;
 
 import java.util.Map;
 

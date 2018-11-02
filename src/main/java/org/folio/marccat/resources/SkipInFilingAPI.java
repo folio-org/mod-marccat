@@ -1,20 +1,20 @@
-package org.folio.cataloging.resources;
+package org.folio.marccat.resources;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.folio.cataloging.Global;
-import org.folio.cataloging.ModCataloging;
-import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.resources.domain.SkipInFiling;
-import org.folio.cataloging.resources.domain.SkipInFilingCollection;
+import org.folio.marccat.Global;
+import org.folio.marccat.ModMarccat;
+import org.folio.marccat.business.codetable.Avp;
+import org.folio.marccat.resources.domain.SkipInFiling;
+import org.folio.marccat.resources.domain.SkipInFilingCollection;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
-import static org.folio.cataloging.integration.CatalogingHelper.doGet;
+import static org.folio.marccat.integration.CatalogingHelper.doGet;
 
 /**
  * SkipInFiling RESTful APIs.
@@ -24,7 +24,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
  */
 @RestController
 @Api(value = "modcat-api", description = "SkipInFiling resource API")
-@RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
+@RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class SkipInFilingAPI extends BaseResource {
   private Function <Avp <String>, SkipInFiling> toSkipInFile = source -> {
     final SkipInFiling skipInFile = new SkipInFiling();

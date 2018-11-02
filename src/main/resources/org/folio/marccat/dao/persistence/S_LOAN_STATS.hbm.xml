@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC 
 	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
-<hibernate-mapping package="org.folio.cataloging.dao.persistence">
+<hibernate-mapping package="org.folio.marccat.dao.persistence">
 	<class name="S_LOAN_STATS" table="S_LOAN_STATS">
 		<id name="loanStatisticsNumber">
 			<column name="S_LOAN_STATS_NBR" not-null="true"/>
@@ -49,4 +49,3 @@
 		</property>
 	</class>
 </hibernate-mapping>
-	

@@ -1,17 +1,17 @@
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
 import net.sf.hibernate.*;
 import net.sf.hibernate.type.Type;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.Global;
-import org.folio.cataloging.business.*;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.persistence.CollectionMaster;
-import org.folio.cataloging.dao.persistence.T_CLCTN_MST_TYP;
-import org.folio.cataloging.dao.persistence.T_CLCTN_TYP;
-import org.folio.cataloging.dao.persistence.T_STS_CLCTN_TYP;
-import org.folio.cataloging.log.MessageCatalog;
+import org.folio.marccat.Global;
+import org.folio.marccat.business.*;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.dao.persistence.CollectionMaster;
+import org.folio.marccat.dao.persistence.T_CLCTN_MST_TYP;
+import org.folio.marccat.dao.persistence.T_CLCTN_TYP;
+import org.folio.marccat.dao.persistence.T_STS_CLCTN_TYP;
+import org.folio.marccat.log.MessageCatalog;
 
 import java.sql.*;
 import java.sql.Date;

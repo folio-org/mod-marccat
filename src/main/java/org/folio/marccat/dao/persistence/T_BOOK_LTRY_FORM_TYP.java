@@ -5,7 +5,7 @@
  *
  * T_BOOK_LTRY_FORM_TYP.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 /**
  * @author Maite

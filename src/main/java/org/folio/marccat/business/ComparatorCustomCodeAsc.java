@@ -1,4 +1,4 @@
-package org.folio.cataloging.business;
+package org.folio.marccat.business;
 
 import java.util.Comparator;
 

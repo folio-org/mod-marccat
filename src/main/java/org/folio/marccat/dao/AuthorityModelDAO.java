@@ -1,6 +1,6 @@
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
-import org.folio.cataloging.dao.persistence.AuthorityModel;
+import org.folio.marccat.dao.persistence.AuthorityModel;
 
 /**
  * The Class AuthorityModelDAO.

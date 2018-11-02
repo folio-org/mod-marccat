@@ -1,17 +1,17 @@
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Query;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-import org.folio.cataloging.Global;
-import org.folio.cataloging.business.PublisherListElement;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.persistence.CollectionPublisher;
-import org.folio.cataloging.dao.persistence.T_CLCTN_PUBL_LVL_TYP;
-import org.folio.cataloging.dao.persistence.T_CLCTN_PUBL_TYP;
-import org.folio.cataloging.dao.persistence.T_STS_CLCTN_TYP;
+import org.folio.marccat.Global;
+import org.folio.marccat.business.PublisherListElement;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.dao.persistence.CollectionPublisher;
+import org.folio.marccat.dao.persistence.T_CLCTN_PUBL_LVL_TYP;
+import org.folio.marccat.dao.persistence.T_CLCTN_PUBL_TYP;
+import org.folio.marccat.dao.persistence.T_STS_CLCTN_TYP;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

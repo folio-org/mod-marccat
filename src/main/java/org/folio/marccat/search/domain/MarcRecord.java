@@ -5,11 +5,11 @@
  *
  * MarcRecord.java
  */
-package org.folio.cataloging.search.domain;
+package org.folio.marccat.search.domain;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.util.StringText;
+import org.folio.marccat.util.StringText;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

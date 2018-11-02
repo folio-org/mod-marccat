@@ -1,38 +1,38 @@
-package org.folio.cataloging.integration;
+package org.folio.marccat.integration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
-import org.folio.cataloging.F;
-import org.folio.cataloging.Global;
-import org.folio.cataloging.business.cataloguing.bibliographic.*;
-import org.folio.cataloging.business.cataloguing.bibliographic.FixedField;
-import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
-import org.folio.cataloging.business.cataloguing.common.*;
-import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.RecordNotFoundException;
-import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.business.descriptor.DescriptorFactory;
-import org.folio.cataloging.business.searching.InvalidBrowseIndexException;
-import org.folio.cataloging.dao.*;
-import org.folio.cataloging.dao.common.HibernateSessionProvider;
-import org.folio.cataloging.dao.persistence.*;
-import org.folio.cataloging.exception.ModCatalogingException;
-import org.folio.cataloging.exception.RecordInUseException;
-import org.folio.cataloging.integration.log.MessageCatalogStorage;
-import org.folio.cataloging.integration.record.BibliographicInputFile;
-import org.folio.cataloging.integration.record.RecordParser;
-import org.folio.cataloging.integration.search.Parser;
-import org.folio.cataloging.log.Log;
-import org.folio.cataloging.log.MessageCatalog;
-import org.folio.cataloging.model.Subfield;
-import org.folio.cataloging.resources.domain.*;
-import org.folio.cataloging.resources.domain.Leader;
-import org.folio.cataloging.search.SearchResponse;
-import org.folio.cataloging.shared.*;
-import org.folio.cataloging.util.StringText;
+import org.folio.marccat.F;
+import org.folio.marccat.Global;
+import org.folio.marccat.business.cataloguing.bibliographic.*;
+import org.folio.marccat.business.cataloguing.bibliographic.FixedField;
+import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
+import org.folio.marccat.business.cataloguing.common.*;
+import org.folio.marccat.business.codetable.Avp;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.common.RecordNotFoundException;
+import org.folio.marccat.business.common.View;
+import org.folio.marccat.business.descriptor.DescriptorFactory;
+import org.folio.marccat.business.searching.InvalidBrowseIndexException;
+import org.folio.marccat.dao.*;
+import org.folio.marccat.dao.common.HibernateSessionProvider;
+import org.folio.marccat.dao.persistence.*;
+import org.folio.marccat.exception.ModCatalogingException;
+import org.folio.marccat.exception.RecordInUseException;
+import org.folio.marccat.integration.log.MessageCatalogStorage;
+import org.folio.marccat.integration.record.BibliographicInputFile;
+import org.folio.marccat.integration.record.RecordParser;
+import org.folio.marccat.integration.search.Parser;
+import org.folio.marccat.log.Log;
+import org.folio.marccat.log.MessageCatalog;
+import org.folio.marccat.model.Subfield;
+import org.folio.marccat.resources.domain.*;
+import org.folio.marccat.resources.domain.Leader;
+import org.folio.marccat.search.SearchResponse;
+import org.folio.marccat.shared.*;
+import org.folio.marccat.util.StringText;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Closeable;
@@ -48,15 +48,15 @@ import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
-import static org.folio.cataloging.F.isNotNullOrEmpty;
-import static org.folio.cataloging.F.locale;
+import static org.folio.marccat.F.isNotNullOrEmpty;
+import static org.folio.marccat.F.locale;
 
 /**
  * Storage layer service.
  * This is the interface towards our storage service. Any R/W access to the persistence layer needs to pass through
  * this interface.
  *
- * @author agazzarini
+ * @author cchiama
  * @author carment
  * @author nbianchini
  * @since 1.0
@@ -1375,9 +1375,9 @@ public class StorageService implements Closeable {
     bibliographicRecord.setId(item.getAmicusNumber());
     bibliographicRecord.setRecordView(item.getUserView());
 
-    org.folio.cataloging.resources.domain.Leader leader = new org.folio.cataloging.resources.domain.Leader();
+    org.folio.marccat.resources.domain.Leader leader = new org.folio.marccat.resources.domain.Leader();
     leader.setCode("000");
-    leader.setValue(((org.folio.cataloging.dao.persistence.Leader) item.getTag(0)).getDisplayString());
+    leader.setValue(((org.folio.marccat.dao.persistence.Leader) item.getTag(0)).getDisplayString());
     bibliographicRecord.setLeader(leader);
     final char canadianIndicator = ((BibliographicItem) item).getBibItmData().getCanadianContentIndicator();
     bibliographicRecord.setCanadianContentIndicator(String.valueOf(canadianIndicator));
@@ -1435,12 +1435,12 @@ public class StorageService implements Closeable {
         ? (((FixedField) aTag).getDisplayString())
         : ((VariableField) aTag).getStringText().getMarcDisplayString(Subfield.SUBFIELD_DELIMITER);
 
-      final org.folio.cataloging.resources.domain.Field field = new org.folio.cataloging.resources.domain.Field();
-      org.folio.cataloging.resources.domain.VariableField variableField;
-      org.folio.cataloging.resources.domain.FixedField fixedField;
+      final org.folio.marccat.resources.domain.Field field = new org.folio.marccat.resources.domain.Field();
+      org.folio.marccat.resources.domain.VariableField variableField;
+      org.folio.marccat.resources.domain.FixedField fixedField;
       String tagNumber = correlation.getMarcTag();
       if (aTag.isFixedField()) {
-        fixedField = new org.folio.cataloging.resources.domain.FixedField();
+        fixedField = new org.folio.marccat.resources.domain.FixedField();
         fixedField.setSequenceNumber(ofNullable(sequenceNbr).isPresent() ? sequenceNbr : 0);
         fixedField.setCode(tagNumber);
         fixedField.setDisplayValue(entry);
@@ -1449,7 +1449,7 @@ public class StorageService implements Closeable {
         fixedField.setKeyNumber(keyNumber);
         field.setFixedField(fixedField);
       } else {
-        variableField = new org.folio.cataloging.resources.domain.VariableField();
+        variableField = new org.folio.marccat.resources.domain.VariableField();
         variableField.setSequenceNumber(ofNullable(sequenceNbr).isPresent() ? sequenceNbr : 0);
         variableField.setCode(correlation.getMarcTag());
         variableField.setInd1("" + correlation.getMarcFirstIndicator());
@@ -1716,7 +1716,7 @@ public class StorageService implements Closeable {
         }
 
         if (field.getVariableField() != null && !tagNbr.equals(GlobalStorage.CATALOGING_SOURCE_TAG_CODE)) {
-          final org.folio.cataloging.resources.domain.VariableField variableField = field.getVariableField();
+          final org.folio.marccat.resources.domain.VariableField variableField = field.getVariableField();
           final CorrelationValues correlationValues = getCorrelationVariableField(variableField.getCategoryCode(),
             variableField.getInd1(), variableField.getInd2(), tagNbr);
           if (correlationValues == null) {
@@ -1774,7 +1774,7 @@ public class StorageService implements Closeable {
     record.getFields().stream().skip(1).forEach(field -> {
       final String tagNbr = field.getCode();
       if (tagNbr.equals(GlobalStorage.MATERIAL_TAG_CODE) || tagNbr.equals(GlobalStorage.OTHER_MATERIAL_TAG_CODE)) {
-        final org.folio.cataloging.resources.domain.FixedField fixedField = field.getFixedField();
+        final org.folio.marccat.resources.domain.FixedField fixedField = field.getFixedField();
         final Map <String, Object> mapRecordTypeMaterial;
         final String formOfMaterial;
         if (tagNbr.equals(GlobalStorage.MATERIAL_TAG_CODE)) {
@@ -1790,19 +1790,19 @@ public class StorageService implements Closeable {
       }
 
       if (tagNbr.equals(GlobalStorage.PHYSICAL_DESCRIPTION_TAG_CODE)) {
-        final org.folio.cataloging.resources.domain.FixedField fixedField = field.getFixedField();
+        final org.folio.marccat.resources.domain.FixedField fixedField = field.getFixedField();
         recordParser.addPhysicalDescriptionTag(item, fixedField, bibItemNumber);
       }
 
       if (tagNbr.equals(GlobalStorage.CATALOGING_SOURCE_TAG_CODE)) {
-        final org.folio.cataloging.resources.domain.VariableField variableField = field.getVariableField();
+        final org.folio.marccat.resources.domain.VariableField variableField = field.getVariableField();
         CataloguingSourceTag cst = catalog.createRequiredCataloguingSourceTag(item);
         cst.setStringText(new StringText(variableField.getValue()));
         item.addTag(cst);
       }
 
       if (field.getVariableField() != null && !tagNbr.equals(GlobalStorage.CATALOGING_SOURCE_TAG_CODE)) {
-        final org.folio.cataloging.resources.domain.VariableField variableField = field.getVariableField();
+        final org.folio.marccat.resources.domain.VariableField variableField = field.getVariableField();
         final CorrelationValues correlationValues = getCorrelationVariableField(variableField.getCategoryCode(),
           variableField.getInd1(), variableField.getInd2(), tagNbr);
         if (correlationValues == null) {

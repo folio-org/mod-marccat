@@ -5,15 +5,15 @@
  *
  * TimePeriodTag.java
  */
-package org.folio.cataloging.business.cataloguing.common;
+package org.folio.marccat.business.cataloguing.common;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.cataloguing.bibliographic.VariableHeaderUsingItemEntity;
-import org.folio.cataloging.dao.persistence.TimePeriodOfContentTag;
-import org.folio.cataloging.model.Subfield;
-import org.folio.cataloging.shared.CorrelationValues;
-import org.folio.cataloging.util.StringText;
+import org.folio.marccat.business.cataloguing.bibliographic.VariableHeaderUsingItemEntity;
+import org.folio.marccat.dao.persistence.TimePeriodOfContentTag;
+import org.folio.marccat.model.Subfield;
+import org.folio.marccat.shared.CorrelationValues;
+import org.folio.marccat.util.StringText;
 
 /**
  * @author paulm

@@ -1,10 +1,10 @@
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
-import org.folio.cataloging.business.cataloguing.authority.AuthorityControlNumberAccessPoint;
-import org.folio.cataloging.business.descriptor.SortFormParameters;
-import org.folio.cataloging.dao.AbstractDAO;
-import org.folio.cataloging.dao.ControlNumberDescriptorDAO;
-import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.marccat.business.cataloguing.authority.AuthorityControlNumberAccessPoint;
+import org.folio.marccat.business.descriptor.SortFormParameters;
+import org.folio.marccat.dao.AbstractDAO;
+import org.folio.marccat.dao.ControlNumberDescriptorDAO;
+import org.folio.marccat.shared.CorrelationValues;
 
 /**
  * Hibernate class for table CNTL_NBR.

@@ -1,8 +1,8 @@
-package org.folio.cataloging.domain;
+package org.folio.marccat.domain;
 
-import org.folio.cataloging.Global;
-import org.folio.cataloging.resources.domain.FixedField;
-import org.folio.cataloging.shared.GeneralInformation;
+import org.folio.marccat.Global;
+import org.folio.marccat.resources.domain.FixedField;
+import org.folio.marccat.shared.GeneralInformation;
 
 import static java.util.Optional.ofNullable;
 

@@ -1,29 +1,29 @@
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Query;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-import org.folio.cataloging.bean.cataloguing.copy.CopyListElement;
-import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.RecordNotFoundException;
-import org.folio.cataloging.business.common.SortFormException;
-import org.folio.cataloging.business.common.UpdateStatus;
-import org.folio.cataloging.business.descriptor.SortFormParameters;
-import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
-import org.folio.cataloging.dao.persistence.*;
-import org.folio.cataloging.log.Log;
-import org.folio.cataloging.util.StringText;
+import org.folio.marccat.bean.cataloguing.copy.CopyListElement;
+import org.folio.marccat.business.codetable.Avp;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.common.RecordNotFoundException;
+import org.folio.marccat.business.common.SortFormException;
+import org.folio.marccat.business.common.UpdateStatus;
+import org.folio.marccat.business.descriptor.SortFormParameters;
+import org.folio.marccat.dao.common.TransactionalHibernateOperation;
+import org.folio.marccat.dao.persistence.*;
+import org.folio.marccat.log.Log;
+import org.folio.marccat.util.StringText;
 
 import java.sql.*;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static org.folio.cataloging.F.deepCopy;
-import static org.folio.cataloging.F.fixedCharPadding;
+import static org.folio.marccat.F.deepCopy;
+import static org.folio.marccat.F.fixedCharPadding;
 
 @SuppressWarnings("unchecked")
 public class DAOCopy extends AbstractDAO {

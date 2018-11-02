@@ -1,4 +1,4 @@
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
@@ -7,14 +7,14 @@ import net.sf.hibernate.Transaction;
 import net.sf.hibernate.type.Type;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.Global;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.patterns.PredictionPattern.PopulationEntry;
-import org.folio.cataloging.business.serialControl.DuplicateVendorException;
-import org.folio.cataloging.business.serialControl.SerialsControlManager;
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
-import org.folio.cataloging.dao.persistence.*;
+import org.folio.marccat.Global;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.patterns.PredictionPattern.PopulationEntry;
+import org.folio.marccat.business.serialControl.DuplicateVendorException;
+import org.folio.marccat.business.serialControl.SerialsControlManager;
+import org.folio.marccat.dao.common.HibernateUtil;
+import org.folio.marccat.dao.common.TransactionalHibernateOperation;
+import org.folio.marccat.dao.persistence.*;
 
 import java.io.IOException;
 import java.sql.Connection;

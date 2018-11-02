@@ -1,14 +1,14 @@
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
-import org.folio.cataloging.bean.cataloguing.copy.CopyNoteListElement;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
-import org.folio.cataloging.dao.persistence.CopyNoteKey;
-import org.folio.cataloging.dao.persistence.HLDG_NTE;
-import org.folio.cataloging.dao.persistence.T_HLDG_NTE_ISOLANG_VW;
+import org.folio.marccat.bean.cataloguing.copy.CopyNoteListElement;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.dao.common.HibernateUtil;
+import org.folio.marccat.dao.common.TransactionalHibernateOperation;
+import org.folio.marccat.dao.persistence.CopyNoteKey;
+import org.folio.marccat.dao.persistence.HLDG_NTE;
+import org.folio.marccat.dao.persistence.T_HLDG_NTE_ISOLANG_VW;
 
 import java.util.Iterator;
 import java.util.List;

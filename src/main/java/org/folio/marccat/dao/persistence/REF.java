@@ -1,12 +1,12 @@
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
-import org.folio.cataloging.business.common.*;
-import org.folio.cataloging.dao.AbstractDAO;
-import org.folio.cataloging.dao.DAOCrossReferences;
-import org.folio.cataloging.dao.DAODescriptor;
+import org.folio.marccat.business.common.*;
+import org.folio.marccat.dao.AbstractDAO;
+import org.folio.marccat.dao.DAOCrossReferences;
+import org.folio.marccat.dao.DAODescriptor;
 
 import java.io.Serializable;
 

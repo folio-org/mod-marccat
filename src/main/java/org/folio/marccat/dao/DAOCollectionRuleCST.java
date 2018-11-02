@@ -1,14 +1,14 @@
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
 import net.sf.hibernate.*;
 import net.sf.hibernate.type.Type;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.Global;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
-import org.folio.cataloging.dao.persistence.CLCTN_CST_RULE;
-import org.folio.cataloging.dao.persistence.CLCTN_RULE_TMP;
+import org.folio.marccat.Global;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.dao.common.TransactionalHibernateOperation;
+import org.folio.marccat.dao.persistence.CLCTN_CST_RULE;
+import org.folio.marccat.dao.persistence.CLCTN_RULE_TMP;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -76,7 +76,7 @@ public class DAOCollectionRuleCST extends AbstractDAO {
     /**
      * Se non ci sono records da inserire, significa che TUTTI i records della collection source devono alimentare
      * la collection target. La procedura viene richiamata lo stesso con typ=0 per fare solo la cancelazione della
-     *  " + System.getProperty(org.folio.cataloging.Global.SCHEMA_CUSTOMER_KEY) + ".CLCTN_CST_RULE_RECORD per l'id regola
+     *  " + System.getProperty(org.folio.marccat.Global.SCHEMA_CUSTOMER_KEY) + ".CLCTN_CST_RULE_RECORD per l'id regola
      */
     if (tmpList.size() == 0) {
       tmpTable = new CLCTN_RULE_TMP(new Integer(0), new Long(0), idRule);

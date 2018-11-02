@@ -1,16 +1,16 @@
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Persistence;
-import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
-import org.folio.cataloging.dao.persistence.NME_TTL_HDG;
-import org.folio.cataloging.dao.persistence.NameAccessPoint;
-import org.folio.cataloging.dao.persistence.NameTitleAccessPoint;
-import org.folio.cataloging.dao.persistence.TitleAccessPoint;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.common.Persistence;
+import org.folio.marccat.dao.common.TransactionalHibernateOperation;
+import org.folio.marccat.dao.persistence.NME_TTL_HDG;
+import org.folio.marccat.dao.persistence.NameAccessPoint;
+import org.folio.marccat.dao.persistence.NameTitleAccessPoint;
+import org.folio.marccat.dao.persistence.TitleAccessPoint;
 
 /**
  * Data access object to Name-Title access point.

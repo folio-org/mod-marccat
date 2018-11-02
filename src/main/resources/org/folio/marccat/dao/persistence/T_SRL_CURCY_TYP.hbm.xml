@@ -5,7 +5,7 @@
     
 <hibernate-mapping>
 <class 
-    name="org.folio.cataloging.dao.persistence.T_SRL_CURCY_TYP"
+    name="org.folio.marccat.dao.persistence.T_SRL_CURCY_TYP"
     schema = "OLISUITE"
     table="T_SRL_CURCY_TYP"
     mutable="false"

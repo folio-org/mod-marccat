@@ -1,6 +1,6 @@
-package org.folio.cataloging.business.searching;
+package org.folio.marccat.business.searching;
 
-import org.folio.cataloging.business.codetable.Avp;
+import org.folio.marccat.business.codetable.Avp;
 
 import java.util.Comparator;
 
@@ -8,7 +8,7 @@ import java.util.Comparator;
  * Comparator for weighted AVPs.
  *
  * @author paulm
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 public class WeightedAvpComparator implements Comparator <Avp> {

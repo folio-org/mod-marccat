@@ -12,12 +12,12 @@
 -->
 
 <class 
-    name="org.folio.cataloging.dao.persistence.CasRecordCache"
+    name="org.folio.marccat.dao.persistence.CasRecordCache"
     table="CAS_RECORD_CACHE"
     lazy="false"
 >
 
-    <composite-id name="comp_id" class="org.folio.cataloging.dao.persistence.CasRecordCachePK">
+    <composite-id name="comp_id" class="org.folio.marccat.dao.persistence.CasRecordCachePK">
         <key-property 
             name="bibItmNbr" 
             column="BIB_ITM_NBR" 

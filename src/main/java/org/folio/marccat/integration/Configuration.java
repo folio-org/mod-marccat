@@ -1,4 +1,4 @@
-package org.folio.cataloging.integration;
+package org.folio.marccat.integration;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 

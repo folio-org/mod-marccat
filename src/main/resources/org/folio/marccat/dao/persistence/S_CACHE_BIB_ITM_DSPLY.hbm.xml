@@ -5,7 +5,7 @@
     
 <hibernate-mapping>
 <class 
-    name="org.folio.cataloging.dao.persistence.Cache"
+    name="org.folio.marccat.dao.persistence.Cache"
     table="S_CACHE_BIB_ITM_DSPLY"
 >
 

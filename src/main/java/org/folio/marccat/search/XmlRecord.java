@@ -1,8 +1,8 @@
-package org.folio.cataloging.search;
+package org.folio.marccat.search;
 
-import org.folio.cataloging.log.Log;
-import org.folio.cataloging.log.MessageCatalog;
-import org.folio.cataloging.search.domain.AbstractRecord;
+import org.folio.marccat.log.Log;
+import org.folio.marccat.log.MessageCatalog;
+import org.folio.marccat.search.domain.AbstractRecord;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -19,7 +19,7 @@ import static java.util.Optional.ofNullable;
  * A MARC XML record.
  *
  * @author Wim Crols
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 public class XmlRecord extends AbstractRecord {

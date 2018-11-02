@@ -1,7 +1,7 @@
-package org.folio.cataloging.business.common;
+package org.folio.marccat.business.common;
 
-import org.folio.cataloging.dao.DAOCodeTable;
-import org.folio.cataloging.dao.persistence.DB_LIST;
+import org.folio.marccat.dao.DAOCodeTable;
+import org.folio.marccat.dao.persistence.DB_LIST;
 
 import java.util.Locale;
 

@@ -1,30 +1,30 @@
-package org.folio.cataloging.business.cataloguing.bibliographic;
+package org.folio.marccat.business.cataloguing.bibliographic;
 
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
-import org.folio.cataloging.business.cataloguing.common.*;
-import org.folio.cataloging.business.common.*;
-import org.folio.cataloging.business.descriptor.PublisherTagDescriptor;
-import org.folio.cataloging.dao.*;
-import org.folio.cataloging.dao.persistence.*;
-import org.folio.cataloging.dao.persistence.Map;
-import org.folio.cataloging.exception.ValidationException;
-import org.folio.cataloging.integration.GlobalStorage;
-import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.marccat.business.cataloguing.common.*;
+import org.folio.marccat.business.common.*;
+import org.folio.marccat.business.descriptor.PublisherTagDescriptor;
+import org.folio.marccat.dao.*;
+import org.folio.marccat.dao.persistence.*;
+import org.folio.marccat.dao.persistence.Map;
+import org.folio.marccat.exception.ValidationException;
+import org.folio.marccat.integration.GlobalStorage;
+import org.folio.marccat.shared.CorrelationValues;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static org.folio.cataloging.F.deepCopy;
-import static org.folio.cataloging.F.isNotNull;
+import static org.folio.marccat.F.deepCopy;
+import static org.folio.marccat.F.isNotNull;
 
 /**
  * Bibliographic implementation of {@link Catalog} interface.
  *
  * @author paulm
  * @author janick
- * @author agazzarini
+ * @author cchiama
  */
 public class BibliographicCatalog extends Catalog {
 
@@ -465,7 +465,7 @@ public class BibliographicCatalog extends Catalog {
    * @param ff                  -- the fixed field representing material description.
    * @param materialDescription -- the persistent hibernate class {@link MaterialDescription}.
    */
-  public void toMaterialDescription(final org.folio.cataloging.resources.domain.FixedField ff,
+  public void toMaterialDescription(final org.folio.marccat.resources.domain.FixedField ff,
                                     final MaterialDescription materialDescription) {
     materialDescription.setMaterialTypeCode(ff.getMaterialTypeCode());
     if (materialDescription.isBook()) {
@@ -606,7 +606,7 @@ public class BibliographicCatalog extends Catalog {
    * @param ff                  -- the fixed field representing material description.
    * @param physicalDescription -- the persistent hibernate class {@link PhysicalDescription}.
    */
-  public void toPhysicalDescription(final org.folio.cataloging.resources.domain.FixedField ff,
+  public void toPhysicalDescription(final org.folio.marccat.resources.domain.FixedField ff,
                                     final PhysicalDescription physicalDescription) {
 
     physicalDescription.setGeneralMaterialDesignationCode(ff.getCategoryOfMaterial().charAt(0));
