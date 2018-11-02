@@ -5,10 +5,10 @@
  *
  * Leader.java
  */
-package org.folio.cataloging.business.cataloguing.common;
+package org.folio.marccat.business.cataloguing.common;
 
-import org.folio.cataloging.business.cataloguing.bibliographic.FixedFieldUsingItemEntity;
-import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.marccat.business.cataloguing.bibliographic.FixedFieldUsingItemEntity;
+import org.folio.marccat.shared.CorrelationValues;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

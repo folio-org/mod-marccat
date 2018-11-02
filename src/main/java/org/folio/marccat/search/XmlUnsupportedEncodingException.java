@@ -5,9 +5,9 @@
  *
  * XmlDocumentException.java
  */
-package org.folio.cataloging.search;
+package org.folio.marccat.search;
 
-import org.folio.cataloging.exception.ModCatalogingException;
+import org.folio.marccat.exception.ModCatalogingException;
 
 /**
  * This exception is thrown when there is a XML Document exception.

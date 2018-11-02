@@ -5,7 +5,7 @@
  *
  * T_PRSN_LCL_4TH_TYP_1.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 /**
  * @author Maite

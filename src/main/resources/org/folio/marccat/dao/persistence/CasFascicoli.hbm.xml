@@ -12,7 +12,7 @@
 -->
 
 <class 
-    name="org.folio.cataloging.dao.persistence.CasFascicoli"
+    name="org.folio.marccat.dao.persistence.CasFascicoli"
     table="CAS_FASCICOLI"
     lazy="false"
 >

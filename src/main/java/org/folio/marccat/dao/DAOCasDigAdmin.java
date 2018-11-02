@@ -1,9 +1,9 @@
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
 import net.sf.hibernate.*;
 import net.sf.hibernate.type.Type;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.RecordNotFoundException;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.common.RecordNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;

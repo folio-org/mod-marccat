@@ -1,8 +1,8 @@
-package org.folio.cataloging.resources;
+package org.folio.marccat.resources;
 
 import io.swagger.annotations.Api;
-import org.folio.cataloging.Global;
-import org.folio.cataloging.ModCataloging;
+import org.folio.marccat.Global;
+import org.folio.marccat.ModMarccat;
 import org.hibernate.validator.constraints.ISBN;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @Api(value = "modcat-api", description = "ISBNAlgorithm Utility  API")
-@RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
+@RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class ISBNNormalizationAPI extends BaseResource {
 
 

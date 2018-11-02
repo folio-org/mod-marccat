@@ -1,17 +1,17 @@
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
 import net.sf.hibernate.*;
 import net.sf.hibernate.type.Type;
-import org.folio.cataloging.Global;
-import org.folio.cataloging.business.RuleListElement;
-import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
-import org.folio.cataloging.dao.persistence.CLCTN_MST_RULE;
-import org.folio.cataloging.dao.persistence.CLCTN_MST_RULE_REL;
-import org.folio.cataloging.dao.persistence.CLCTN_RULE_TMP;
-import org.folio.cataloging.log.Log;
-import org.folio.cataloging.log.MessageCatalog;
+import org.folio.marccat.Global;
+import org.folio.marccat.business.RuleListElement;
+import org.folio.marccat.business.codetable.Avp;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.dao.common.TransactionalHibernateOperation;
+import org.folio.marccat.dao.persistence.CLCTN_MST_RULE;
+import org.folio.marccat.dao.persistence.CLCTN_MST_RULE_REL;
+import org.folio.marccat.dao.persistence.CLCTN_RULE_TMP;
+import org.folio.marccat.log.Log;
+import org.folio.marccat.log.MessageCatalog;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -45,7 +45,7 @@ public class DAOCollectionRule extends AbstractDAO {
    *
    * @return a list of configured rules.
    * @throws DataAccessException in case of data access failure.
-   *                             TODO: Session needs to be injected from {@link org.folio.cataloging.integration.StorageService}
+   *                             TODO: Session needs to be injected from {@link org.folio.marccat.integration.StorageService}
    */
   public List loadAllRules(final Locale locale, final List <Avp <String>> nrtLvlList) throws DataAccessException {
     List result2 = new ArrayList();
@@ -217,7 +217,7 @@ public class DAOCollectionRule extends AbstractDAO {
    * @param ruleId the rule identifier.
    * @return the collections associated with the given rule identifier.
    * @throws DataAccessException in case of data access failure.
-   *                             TODO: Use within {@link org.folio.cataloging.integration.StorageService}
+   *                             TODO: Use within {@link org.folio.marccat.integration.StorageService}
    */
   public List <CLCTN_MST_RULE_REL> loadCollections(final int ruleId) {
     List result = new ArrayList();
@@ -315,7 +315,7 @@ public class DAOCollectionRule extends AbstractDAO {
 //					}
 //					selectTmp();
 //					Connection connection = s.connection();
-//					proc = connection.prepareCall("{call  " + System.getProperty(org.folio.cataloging.Global.SCHEMA_CUSTOMER_KEY) + ".CLCTN_MST_RULE_UPD}");
+//					proc = connection.prepareCall("{call  " + System.getProperty(org.folio.marccat.Global.SCHEMA_CUSTOMER_KEY) + ".CLCTN_MST_RULE_UPD}");
 //					proc.execute();
 //				} catch (HibernateException e) {
 //					logAndWrap(e);

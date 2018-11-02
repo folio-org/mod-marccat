@@ -1,6 +1,6 @@
-package org.folio.cataloging.business.common;
+package org.folio.marccat.business.common;
 
-import org.folio.cataloging.dao.DAOGlobalVariable;
+import org.folio.marccat.dao.DAOGlobalVariable;
 
 import java.io.Serializable;
 import java.util.Hashtable;

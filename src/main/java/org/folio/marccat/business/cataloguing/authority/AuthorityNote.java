@@ -5,22 +5,22 @@
  *
  * AuthorityNote.java
  */
-package org.folio.cataloging.business.cataloguing.authority;
+package org.folio.marccat.business.cataloguing.authority;
 
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
-import org.folio.cataloging.business.cataloguing.bibliographic.PersistsViaItem;
-import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.business.common.Persistence;
-import org.folio.cataloging.business.common.PersistenceState;
-import org.folio.cataloging.dao.SystemNextNumberDAO;
-import org.folio.cataloging.dao.persistence.AUT;
-import org.folio.cataloging.dao.persistence.ItemEntity;
-import org.folio.cataloging.model.Subfield;
-import org.folio.cataloging.shared.CorrelationValues;
-import org.folio.cataloging.util.StringText;
+import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
+import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.common.Defaults;
+import org.folio.marccat.business.common.Persistence;
+import org.folio.marccat.business.common.PersistenceState;
+import org.folio.marccat.dao.SystemNextNumberDAO;
+import org.folio.marccat.dao.persistence.AUT;
+import org.folio.marccat.dao.persistence.ItemEntity;
+import org.folio.marccat.model.Subfield;
+import org.folio.marccat.shared.CorrelationValues;
+import org.folio.marccat.util.StringText;
 
 import java.util.List;
 
@@ -105,7 +105,7 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
   }
 
   /* (non-Javadoc)
-   * @see VariableField#setStringText(org.folio.cataloging.util.StringText)
+   * @see VariableField#setStringText(org.folio.marccat.util.StringText)
    */
   public void setStringText(StringText stringText) {
     setNoteStringText(stringText.toString());

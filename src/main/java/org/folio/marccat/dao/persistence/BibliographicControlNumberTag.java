@@ -5,9 +5,9 @@
  *
  * BibliographicControlNumberTag.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
-import org.folio.cataloging.business.cataloguing.common.ControlNumberTag;
+import org.folio.marccat.business.cataloguing.common.ControlNumberTag;
 
 /**
  * @author paulm

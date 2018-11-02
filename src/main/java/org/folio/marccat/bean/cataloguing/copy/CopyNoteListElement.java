@@ -1,4 +1,4 @@
-package org.folio.cataloging.bean.cataloguing.copy;
+package org.folio.marccat.bean.cataloguing.copy;
 
 /**
  * @author elena

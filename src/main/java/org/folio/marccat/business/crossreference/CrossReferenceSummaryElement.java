@@ -5,10 +5,10 @@
  *
  * MassagedCrossReferences.java
  */
-package org.folio.cataloging.business.crossreference;
+package org.folio.marccat.business.crossreference;
 
-import org.folio.cataloging.dao.persistence.Descriptor;
-import org.folio.cataloging.dao.persistence.REF;
+import org.folio.marccat.dao.persistence.Descriptor;
+import org.folio.marccat.dao.persistence.REF;
 
 
 /**

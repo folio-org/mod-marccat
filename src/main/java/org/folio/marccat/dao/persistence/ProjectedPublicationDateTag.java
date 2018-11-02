@@ -5,11 +5,11 @@
  *
  * CataloguingSourceTag.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
-import org.folio.cataloging.business.cataloguing.bibliographic.VariableHeaderUsingItemEntity;
-import org.folio.cataloging.model.Subfield;
-import org.folio.cataloging.util.StringText;
+import org.folio.marccat.business.cataloguing.bibliographic.VariableHeaderUsingItemEntity;
+import org.folio.marccat.model.Subfield;
+import org.folio.marccat.util.StringText;
 
 /**
  * @author paulm

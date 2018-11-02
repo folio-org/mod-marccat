@@ -5,7 +5,7 @@
  *
  * CIRT_ITM.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 import java.util.Date;
 

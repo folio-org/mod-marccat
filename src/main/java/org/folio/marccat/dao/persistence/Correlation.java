@@ -1,6 +1,6 @@
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
-import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.marccat.shared.CorrelationValues;
 
 import java.io.Serializable;
 

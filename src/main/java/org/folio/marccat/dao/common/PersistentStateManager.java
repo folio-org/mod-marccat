@@ -1,8 +1,8 @@
-package org.folio.cataloging.dao.common;
+package org.folio.marccat.dao.common;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.common.PersistenceState;
+import org.folio.marccat.business.common.PersistenceState;
 
 import java.util.ArrayList;
 import java.util.Iterator;

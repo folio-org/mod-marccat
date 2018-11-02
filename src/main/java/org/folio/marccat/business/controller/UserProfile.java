@@ -1,23 +1,23 @@
-package org.folio.cataloging.business.controller;
+package org.folio.marccat.business.controller;
 
 import net.sf.hibernate.Session;
-import org.folio.cataloging.business.authorisation.AmicusAuthority;
-import org.folio.cataloging.business.authorisation.AuthorisationAgent;
-import org.folio.cataloging.business.authorisation.AuthorisationException;
-import org.folio.cataloging.business.authorisation.Permission;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.DAOOrganisationHierarchy;
-import org.folio.cataloging.dao.DAOUserAccount;
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.dao.persistence.ORG_HRCHY;
-import org.folio.cataloging.dao.persistence.T_ITM_DSPLY;
-import org.folio.cataloging.dao.persistence.USR_ACNT;
+import org.folio.marccat.business.authorisation.AmicusAuthority;
+import org.folio.marccat.business.authorisation.AuthorisationAgent;
+import org.folio.marccat.business.authorisation.AuthorisationException;
+import org.folio.marccat.business.authorisation.Permission;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.dao.DAOOrganisationHierarchy;
+import org.folio.marccat.dao.DAOUserAccount;
+import org.folio.marccat.dao.common.HibernateUtil;
+import org.folio.marccat.dao.persistence.ORG_HRCHY;
+import org.folio.marccat.dao.persistence.T_ITM_DSPLY;
+import org.folio.marccat.dao.persistence.USR_ACNT;
 
 /**
  * User information affecting application behaviour.
  *
  * @author paulm
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 public class UserProfile {

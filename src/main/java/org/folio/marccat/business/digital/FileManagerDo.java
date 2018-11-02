@@ -1,14 +1,14 @@
-package org.folio.cataloging.business.digital;
+package org.folio.marccat.business.digital;
 
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.business.common.UploadFileDigitalException;
-import org.folio.cataloging.dao.DAODigital;
-import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.common.Defaults;
+import org.folio.marccat.business.common.UploadFileDigitalException;
+import org.folio.marccat.dao.DAODigital;
+import org.folio.marccat.dao.common.TransactionalHibernateOperation;
 
 import java.io.File;
 import java.io.FileInputStream;

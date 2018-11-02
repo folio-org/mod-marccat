@@ -1,7 +1,7 @@
 /*
  * Created on Nov 26, 2004
  */
-package org.folio.cataloging.business.common;
+package org.folio.marccat.business.common;
 
 import java.util.HashMap;
 import java.util.Map;

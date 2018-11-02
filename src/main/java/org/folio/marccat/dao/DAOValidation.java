@@ -1,6 +1,6 @@
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
-import org.folio.cataloging.dao.common.HibernateUtil;
+import org.folio.marccat.dao.common.HibernateUtil;
 
 /**
  * @author paulm

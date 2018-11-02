@@ -1,4 +1,4 @@
-package org.folio.cataloging.shared;
+package org.folio.marccat.shared;
 
 import java.util.Arrays;
 
@@ -10,7 +10,7 @@ import java.util.Arrays;
  *
  * @author janick
  * @author nbianchini
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 public class CorrelationValues implements Cloneable {

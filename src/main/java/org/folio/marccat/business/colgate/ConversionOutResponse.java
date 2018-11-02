@@ -5,9 +5,9 @@
  *
  * ConversionOutResponse.java
  */
-package org.folio.cataloging.business.colgate;
+package org.folio.marccat.business.colgate;
 
-import org.folio.cataloging.business.common.SocketMessage;
+import org.folio.marccat.business.common.SocketMessage;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

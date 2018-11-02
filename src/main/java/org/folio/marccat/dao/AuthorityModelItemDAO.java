@@ -5,9 +5,9 @@
  *
  * DAOAuthorityModelItem.java
  */
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
-import org.folio.cataloging.dao.persistence.AuthorityModelItem;
+import org.folio.marccat.dao.persistence.AuthorityModelItem;
 
 /**
  * The Class AuthorityModelItemDAO.

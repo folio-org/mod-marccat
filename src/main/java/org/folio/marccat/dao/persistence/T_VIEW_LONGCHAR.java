@@ -5,12 +5,12 @@
  *
  * T_VIEW_LONGCHAR.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.DAOCodeTable;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.dao.DAOCodeTable;
 
 import java.util.Locale;
 

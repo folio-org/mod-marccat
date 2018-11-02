@@ -5,11 +5,11 @@
  *
  * HeaderFieldHelper.java
  */
-package org.folio.cataloging.business.cataloguing.common;
+package org.folio.marccat.business.cataloguing.common;
 
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.DAOCodeTable;
-import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.dao.DAOCodeTable;
+import org.folio.marccat.shared.CorrelationValues;
 
 import java.io.Serializable;
 import java.util.List;

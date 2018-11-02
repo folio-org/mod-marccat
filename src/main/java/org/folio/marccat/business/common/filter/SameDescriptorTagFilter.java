@@ -1,9 +1,9 @@
-package org.folio.cataloging.business.common.filter;
+package org.folio.marccat.business.common.filter;
 
-import org.folio.cataloging.business.cataloguing.common.Browsable;
-import org.folio.cataloging.business.cataloguing.common.Tag;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.persistence.Descriptor;
+import org.folio.marccat.business.cataloguing.common.Browsable;
+import org.folio.marccat.business.cataloguing.common.Tag;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.dao.persistence.Descriptor;
 
 public class SameDescriptorTagFilter implements TagFilter {
 

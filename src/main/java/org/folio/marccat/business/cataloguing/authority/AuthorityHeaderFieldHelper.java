@@ -5,10 +5,10 @@
  *
  * AuthorityHeaderFieldHelper.java
  */
-package org.folio.cataloging.business.cataloguing.authority;
+package org.folio.marccat.business.cataloguing.authority;
 
-import org.folio.cataloging.business.cataloguing.common.HeaderFieldHelper;
-import org.folio.cataloging.dao.persistence.T_AUT_HDR;
+import org.folio.marccat.business.cataloguing.common.HeaderFieldHelper;
+import org.folio.marccat.dao.persistence.T_AUT_HDR;
 
 /**
  * @author paulm

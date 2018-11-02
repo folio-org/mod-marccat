@@ -5,7 +5,7 @@
  *
  * T_MIC_RDCTN_RATIO_RNG.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 /**
  * @author paulm

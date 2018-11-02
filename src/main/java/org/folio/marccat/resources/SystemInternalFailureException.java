@@ -1,9 +1,9 @@
-package org.folio.cataloging.resources;
+package org.folio.marccat.resources;
 
 /**
  * System internal failure marker.
  *
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 public class SystemInternalFailureException extends RuntimeException {

@@ -5,16 +5,16 @@
  *
  * EquivalenceReference.java
  */
-package org.folio.cataloging.business.cataloguing.authority;
+package org.folio.marccat.business.cataloguing.authority;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.persistence.CorrelationKey;
-import org.folio.cataloging.dao.persistence.ReferenceType;
-import org.folio.cataloging.model.Subfield;
-import org.folio.cataloging.shared.CorrelationValues;
-import org.folio.cataloging.util.StringText;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.dao.persistence.CorrelationKey;
+import org.folio.marccat.dao.persistence.ReferenceType;
+import org.folio.marccat.model.Subfield;
+import org.folio.marccat.shared.CorrelationValues;
+import org.folio.marccat.util.StringText;
 import org.w3c.dom.Element;
 
 /**

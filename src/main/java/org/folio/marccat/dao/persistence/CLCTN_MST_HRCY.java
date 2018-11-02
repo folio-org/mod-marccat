@@ -4,14 +4,14 @@
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.Session;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Persistence;
-import org.folio.cataloging.business.common.PersistenceState;
-import org.folio.cataloging.dao.AbstractDAO;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.common.Persistence;
+import org.folio.marccat.business.common.PersistenceState;
+import org.folio.marccat.dao.AbstractDAO;
 
 import java.io.Serializable;
 

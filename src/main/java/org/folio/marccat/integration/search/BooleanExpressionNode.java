@@ -1,9 +1,9 @@
-package org.folio.cataloging.integration.search;
+package org.folio.marccat.integration.search;
 
 /**
  * Boolean expression node.
  *
- * @author agazzarini
+ * @author cchiama
  * @author paulm
  * @since 1.0
  */

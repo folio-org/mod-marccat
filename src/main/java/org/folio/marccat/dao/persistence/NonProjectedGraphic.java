@@ -1,9 +1,9 @@
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.SystemNextNumberDAO;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.dao.SystemNextNumberDAO;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

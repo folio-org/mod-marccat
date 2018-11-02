@@ -5,19 +5,19 @@
  *
  * DAOLibrary.java
  */
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
-import org.folio.cataloging.dao.persistence.LIB;
-import org.folio.cataloging.dao.persistence.LIB_DTE_CLSE;
-import org.folio.cataloging.dao.persistence.LIB_HRS_OPRTN;
-import org.folio.cataloging.dao.persistence.LibraryDateClosedKey;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.dao.common.HibernateUtil;
+import org.folio.marccat.dao.common.TransactionalHibernateOperation;
+import org.folio.marccat.dao.persistence.LIB;
+import org.folio.marccat.dao.persistence.LIB_DTE_CLSE;
+import org.folio.marccat.dao.persistence.LIB_HRS_OPRTN;
+import org.folio.marccat.dao.persistence.LibraryDateClosedKey;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

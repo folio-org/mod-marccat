@@ -1,4 +1,4 @@
-package org.folio.cataloging.util.isbn;
+package org.folio.marccat.util.isbn;
 
 import java.util.List;
 

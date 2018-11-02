@@ -1,9 +1,9 @@
-package org.folio.cataloging.business.cataloguing.authority;
+package org.folio.marccat.business.cataloguing.authority;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.dao.persistence.ReferenceType;
-import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.marccat.dao.persistence.ReferenceType;
+import org.folio.marccat.shared.CorrelationValues;
 
 /**
  * @author paulm

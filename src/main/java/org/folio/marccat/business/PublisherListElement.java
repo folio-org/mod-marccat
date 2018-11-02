@@ -1,6 +1,6 @@
-package org.folio.cataloging.business;
+package org.folio.marccat.business;
 
-import org.folio.cataloging.dao.persistence.CollectionPublisher;
+import org.folio.marccat.dao.persistence.CollectionPublisher;
 
 import java.sql.Date;
 

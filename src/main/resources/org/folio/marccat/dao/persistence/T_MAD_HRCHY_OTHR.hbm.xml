@@ -5,7 +5,7 @@
     
 <hibernate-mapping>
 <class 
-    name="org.folio.cataloging.dao.persistence.T_MAD_HRCHY_OTHR"
+    name="org.folio.marccat.dao.persistence.T_MAD_HRCHY_OTHR"
     schema = "librisuite"
     table="T_MAD_HRCHY_OTHR"
     mutable="false"

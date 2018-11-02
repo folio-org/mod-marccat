@@ -1,4 +1,4 @@
-package org.folio.cataloging.business.common;
+package org.folio.marccat.business.common;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,7 +21,7 @@ import static java.util.stream.IntStream.range;
  *
  * @author janick
  * @author paulm
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 public class PropertyBasedFactoryBuilder {

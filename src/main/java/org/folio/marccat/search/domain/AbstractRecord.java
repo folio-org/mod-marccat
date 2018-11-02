@@ -1,12 +1,12 @@
-package org.folio.cataloging.search.domain;
+package org.folio.marccat.search.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.folio.cataloging.log.Log;
-import org.folio.cataloging.search.XmlDocumentException;
-import org.folio.cataloging.search.XmlParserConfigurationException;
-import org.folio.cataloging.search.XslTransformerConfigurationException;
-import org.folio.cataloging.search.XslTransformerException;
-import org.folio.cataloging.util.XmlUtils;
+import org.folio.marccat.log.Log;
+import org.folio.marccat.search.XmlDocumentException;
+import org.folio.marccat.search.XmlParserConfigurationException;
+import org.folio.marccat.search.XslTransformerConfigurationException;
+import org.folio.marccat.search.XslTransformerException;
+import org.folio.marccat.util.XmlUtils;
 import org.w3c.dom.Document;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -32,7 +32,7 @@ import java.util.Map;
  * interface.
  *
  * @author Wim Crols
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 public abstract class AbstractRecord implements Record {

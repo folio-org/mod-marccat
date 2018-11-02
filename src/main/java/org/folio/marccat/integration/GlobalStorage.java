@@ -1,7 +1,7 @@
-package org.folio.cataloging.integration;
+package org.folio.marccat.integration;
 
-import org.folio.cataloging.dao.*;
-import org.folio.cataloging.dao.persistence.*;
+import org.folio.marccat.dao.*;
+import org.folio.marccat.dao.persistence.*;
 
 import java.util.HashMap;
 import java.util.Map;

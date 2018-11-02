@@ -5,21 +5,21 @@
  *
  * PublisherTag.java
  */
-package org.folio.cataloging.business.cataloguing.bibliographic;
+package org.folio.marccat.business.cataloguing.bibliographic;
 
 import net.sf.hibernate.HibernateException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.common.*;
-import org.folio.cataloging.dao.DAODescriptor;
-import org.folio.cataloging.dao.PublisherDescriptorDAO;
-import org.folio.cataloging.dao.persistence.Descriptor;
-import org.folio.cataloging.dao.persistence.PUBL_HDG;
-import org.folio.cataloging.dao.persistence.PublisherAccessPoint;
-import org.folio.cataloging.dao.persistence.REF;
-import org.folio.cataloging.model.Subfield;
-import org.folio.cataloging.shared.CorrelationValues;
-import org.folio.cataloging.util.StringText;
+import org.folio.marccat.business.common.*;
+import org.folio.marccat.dao.DAODescriptor;
+import org.folio.marccat.dao.PublisherDescriptorDAO;
+import org.folio.marccat.dao.persistence.Descriptor;
+import org.folio.marccat.dao.persistence.PUBL_HDG;
+import org.folio.marccat.dao.persistence.PublisherAccessPoint;
+import org.folio.marccat.dao.persistence.REF;
+import org.folio.marccat.model.Subfield;
+import org.folio.marccat.shared.CorrelationValues;
+import org.folio.marccat.util.StringText;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -28,7 +28,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.folio.cataloging.F.deepCopy;
+import static org.folio.marccat.F.deepCopy;
 
 /**
  * Publisher Tag differs from other access points in that multiple publisher access
@@ -149,7 +149,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
   }
 
   /* (non-Javadoc)
-   * @see VariableField#setStringText(org.folio.cataloging.util.StringText)
+   * @see VariableField#setStringText(org.folio.marccat.util.StringText)
    */
   public void setStringText(StringText stringText) {
     // should only be called from model parsing

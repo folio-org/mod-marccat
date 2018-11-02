@@ -1,8 +1,8 @@
-package org.folio.cataloging.search.domain;
+package org.folio.marccat.search.domain;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.folio.cataloging.log.Log;
+import org.folio.marccat.log.Log;
 import org.marc4j.MarcJsonWriter;
 import org.marc4j.MarcReader;
 import org.marc4j.MarcWriter;
@@ -20,7 +20,7 @@ import static java.util.Optional.ofNullable;
 /**
  * A simple XML record which retains the data in a lightweight string format.
  *
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 public class LightweightJsonRecord extends AbstractRecord {

@@ -5,7 +5,7 @@
  *
  * PersistentObjectWithView.java
  */
-package org.folio.cataloging.business.common;
+package org.folio.marccat.business.common;
 
 /**
  * @author paulm

@@ -1,10 +1,10 @@
-package org.folio.cataloging.business.codetable;
+package org.folio.marccat.business.codetable;
 
 /**
  * An {@link Avp} which contains additional info.
  *
  * @author paulm
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 public class AvpInfo<I> extends Avp <String> {

@@ -5,7 +5,7 @@
  *
  * DAOPredictionPattern.java
  */
-package org.folio.cataloging.business.patterns;
+package org.folio.marccat.business.patterns;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

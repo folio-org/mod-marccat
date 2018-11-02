@@ -5,16 +5,16 @@
  *
  * DAOBibItem.java
  */
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-import org.folio.cataloging.business.common.*;
-import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
-import org.folio.cataloging.dao.persistence.BIB_ITM;
-import org.folio.cataloging.dao.persistence.Cache;
+import org.folio.marccat.business.common.*;
+import org.folio.marccat.dao.common.TransactionalHibernateOperation;
+import org.folio.marccat.dao.persistence.BIB_ITM;
+import org.folio.marccat.dao.persistence.Cache;
 
 import java.util.List;
 import java.util.Objects;

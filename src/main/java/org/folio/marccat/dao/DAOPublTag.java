@@ -1,6 +1,6 @@
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
-import org.folio.cataloging.dao.persistence.PUBL_TAG;
+import org.folio.marccat.dao.persistence.PUBL_TAG;
 
 public class DAOPublTag extends DAODescriptor {
 

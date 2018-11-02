@@ -5,7 +5,7 @@
  *
  * CIRTN_PHSCL_INVTY.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 import java.io.Serializable;
 

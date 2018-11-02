@@ -1,4 +1,4 @@
-package org.folio.cataloging.log;
+package org.folio.marccat.log;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -6,7 +6,7 @@ import org.apache.logging.log4j.Logger;
 /**
  * OKAPI Cataloging module Logging utility.
  *
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 public class Log {

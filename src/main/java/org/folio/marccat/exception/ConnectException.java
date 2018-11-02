@@ -2,7 +2,7 @@
  * Created on May 5, 2004
  *
  */
-package org.folio.cataloging.exception;
+package org.folio.marccat.exception;
 
 
 /**

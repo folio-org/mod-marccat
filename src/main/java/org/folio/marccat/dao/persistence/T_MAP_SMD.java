@@ -5,7 +5,7 @@
  *
  * T_MAP_SMD.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 /**
  * @author paulm

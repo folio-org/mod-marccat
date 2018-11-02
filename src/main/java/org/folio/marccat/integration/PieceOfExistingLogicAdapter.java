@@ -17,7 +17,7 @@ import static org.folio.marccat.log.Log.error;
  * Once a given flow will be executed, the adapter can use the provided Future for communicating back the outcome
  * (positive or negative).
  *
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 @FunctionalInterface

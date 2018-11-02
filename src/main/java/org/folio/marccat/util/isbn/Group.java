@@ -1,7 +1,7 @@
-package org.folio.cataloging.util.isbn;
+package org.folio.marccat.util.isbn;
 
 /**
- * Represents an org.folio.cataloging.util.isbn.ISBNAlgorithm group.
+ * Represents an org.folio.marccat.util.isbn.ISBNAlgorithm group.
  * <p>
  * Each group is based in the information on
  * https://www.isbn-international.org/range_file_generation [revision Oct 5, 2018]
@@ -12,7 +12,7 @@ package org.folio.cataloging.util.isbn;
 public enum Group {
 
   /**
-   * org.folio.cataloging.util.isbn.Group: 0. English speaking area.
+   * org.folio.marccat.util.isbn.Group: 0. English speaking area.
    */
   _0(0, new String[][]{
     {"00", "19"},
@@ -23,7 +23,7 @@ public enum Group {
     {"9500000", "9999999"}
   }, 7),
   /**
-   * org.folio.cataloging.util.isbn.Group: 1. English speaking area.
+   * org.folio.marccat.util.isbn.Group: 1. English speaking area.
    */
   _1(1, new String[][]{
     {"00", "09"},
@@ -33,7 +33,7 @@ public enum Group {
     {"869800", "998999"}
   }, 6),
   /**
-   * org.folio.cataloging.util.isbn.Group: 2. French speaking area.
+   * org.folio.marccat.util.isbn.Group: 2. French speaking area.
    */
   _2(2, new String[][]{
     {"00", "19"},
@@ -46,7 +46,7 @@ public enum Group {
     {"9500000", "9999999"}
   }, 7),
   /**
-   * org.folio.cataloging.util.isbn.Group: 3. German speaking area.
+   * org.folio.marccat.util.isbn.Group: 3. German speaking area.
    */
   _3(3, new String[][]{
     {"00", "02"},
@@ -65,7 +65,7 @@ public enum Group {
     {"99500", "99999"}
   }, 7),
   /**
-   * org.folio.cataloging.util.isbn.Group: 4. Japan.
+   * org.folio.marccat.util.isbn.Group: 4. Japan.
    */
   _4(4, new String[][]{
     {"00", "19"},
@@ -76,7 +76,7 @@ public enum Group {
     {"9500000", "9999999"}
   }, 7),
   /**
-   * org.folio.cataloging.util.isbn.Group: 5. Russian Federation.
+   * org.folio.marccat.util.isbn.Group: 5. Russian Federation.
    */
   _5(5, new String[][]{
     {"00", "19"},
@@ -100,7 +100,7 @@ public enum Group {
     {"9910", "9999"}
   }, 7),
   /**
-   * org.folio.cataloging.util.isbn.Group: 600. Iran.
+   * org.folio.marccat.util.isbn.Group: 600. Iran.
    */
   _600(600, new String[][]{
     {"00", "09"},
@@ -109,7 +109,7 @@ public enum Group {
     {"90000", "99999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 601. Kazakhstan.
+   * org.folio.marccat.util.isbn.Group: 601. Kazakhstan.
    */
   _601(601, new String[][]{
     {"00", "19"},
@@ -119,7 +119,7 @@ public enum Group {
     {"85", "99"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 602. Indonesia.
+   * org.folio.marccat.util.isbn.Group: 602. Indonesia.
    */
   _602(602, new String[][]{
     {"00", "19"},
@@ -128,7 +128,7 @@ public enum Group {
     {"95000", "99999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 603. Saudi Arabia.
+   * org.folio.marccat.util.isbn.Group: 603. Saudi Arabia.
    */
   _603(603, new String[][]{
     {"00", "04"},
@@ -137,7 +137,7 @@ public enum Group {
     {"90000", "99999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 604. Vietnam.
+   * org.folio.marccat.util.isbn.Group: 604. Vietnam.
    */
   _604(604, new String[][]{
     {"0", "4"},
@@ -146,7 +146,7 @@ public enum Group {
     {"9800", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 605. Turkey.
+   * org.folio.marccat.util.isbn.Group: 605. Turkey.
    */
   _605(605, new String[][]{
     {"00", "09"},
@@ -155,7 +155,7 @@ public enum Group {
     {"60000", "89999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 606. Romania.
+   * org.folio.marccat.util.isbn.Group: 606. Romania.
    */
   _606(606, new String[][]{
     {"0", "0"},
@@ -165,7 +165,7 @@ public enum Group {
     {"92000", "99999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 607. Mexico.
+   * org.folio.marccat.util.isbn.Group: 607. Mexico.
    */
   _607(607, new String[][]{
     {"00", "39"},
@@ -174,7 +174,7 @@ public enum Group {
     {"95000", "99999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 608. Macedonia.
+   * org.folio.marccat.util.isbn.Group: 608. Macedonia.
    */
   _608(608, new String[][]{
     {"0", "0"},
@@ -185,7 +185,7 @@ public enum Group {
     {"7", "9"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 609. Lithuania.
+   * org.folio.marccat.util.isbn.Group: 609. Lithuania.
    */
   _609(609, new String[][]{
     {"00", "39"},
@@ -194,7 +194,7 @@ public enum Group {
     {"95000", "99999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 611. Ukraine.
+   * org.folio.marccat.util.isbn.Group: 611. Ukraine.
    */
   _611(611, new String[][]{
     {"00", "49"},
@@ -203,7 +203,7 @@ public enum Group {
     {"90000", "99999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 612. Peru.
+   * org.folio.marccat.util.isbn.Group: 612. Peru.
    */
   _612(612, new String[][]{
     {"00", "29"},
@@ -213,13 +213,13 @@ public enum Group {
     {"50", "99"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 613. Mauritius.
+   * org.folio.marccat.util.isbn.Group: 613. Mauritius.
    */
   _613(613, new String[][]{
     {"0", "9"}
   }, 1),
   /**
-   * org.folio.cataloging.util.isbn.Group: 614. Lebanon.
+   * org.folio.marccat.util.isbn.Group: 614. Lebanon.
    */
   _614(614, new String[][]{
     {"00", "39"},
@@ -228,7 +228,7 @@ public enum Group {
     {"95000", "99999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 615. Hungary.
+   * org.folio.marccat.util.isbn.Group: 615. Hungary.
    */
   _615(615, new String[][]{
     {"00", "09"},
@@ -237,7 +237,7 @@ public enum Group {
     {"80000", "89999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 616. Thailand.
+   * org.folio.marccat.util.isbn.Group: 616. Thailand.
    */
   _616(616, new String[][]{
     {"00", "19"},
@@ -246,7 +246,7 @@ public enum Group {
     {"90000", "99999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 617. Ukraine.
+   * org.folio.marccat.util.isbn.Group: 617. Ukraine.
    */
   _617(617, new String[][]{
     {"00", "49"},
@@ -255,7 +255,7 @@ public enum Group {
     {"90000", "99999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 7. China, People's Republic.
+   * org.folio.marccat.util.isbn.Group: 7. China, People's Republic.
    */
   _7(7, new String[][]{
     {"00", "09"},
@@ -265,7 +265,7 @@ public enum Group {
     {"900000", "999999"}
   }, 6),
   /**
-   * org.folio.cataloging.util.isbn.Group: 80. Czech Republic  Slovakia.
+   * org.folio.marccat.util.isbn.Group: 80. Czech Republic  Slovakia.
    */
   _80(80, new String[][]{
     {"00", "19"},
@@ -275,7 +275,7 @@ public enum Group {
     {"900000", "999999"}
   }, 6),
   /**
-   * org.folio.cataloging.util.isbn.Group: 81. India.
+   * org.folio.marccat.util.isbn.Group: 81. India.
    */
   _81(81, new String[][]{
     {"00", "19"},
@@ -285,7 +285,7 @@ public enum Group {
     {"900000", "999999"}
   }, 6),
   /**
-   * org.folio.cataloging.util.isbn.Group: 82. Norway.
+   * org.folio.marccat.util.isbn.Group: 82. Norway.
    */
   _82(82, new String[][]{
     {"00", "19"},
@@ -295,7 +295,7 @@ public enum Group {
     {"990000", "999999"}
   }, 6),
   /**
-   * org.folio.cataloging.util.isbn.Group: 83. Poland.
+   * org.folio.marccat.util.isbn.Group: 83. Poland.
    */
   _83(83, new String[][]{
     {"00", "19"},
@@ -306,7 +306,7 @@ public enum Group {
     {"900000", "999999"}
   }, 6),
   /**
-   * org.folio.cataloging.util.isbn.Group: 84. Spain.
+   * org.folio.marccat.util.isbn.Group: 84. Spain.
    */
   _84(84, new String[][]{
     {"00", "19"},
@@ -321,7 +321,7 @@ public enum Group {
     {"9700", "9999"}
   }, 6),
   /**
-   * org.folio.cataloging.util.isbn.Group: 85. Brazil.
+   * org.folio.marccat.util.isbn.Group: 85. Brazil.
    */
   _85(85, new String[][]{
     {"00", "19"},
@@ -333,7 +333,7 @@ public enum Group {
     {"98000", "99999"}
   }, 6),
   /**
-   * org.folio.cataloging.util.isbn.Group: 86. Serbia and Montenegro.
+   * org.folio.marccat.util.isbn.Group: 86. Serbia and Montenegro.
    */
   _86(86, new String[][]{
     {"00", "29"},
@@ -343,7 +343,7 @@ public enum Group {
     {"900000", "999999"}
   }, 6),
   /**
-   * org.folio.cataloging.util.isbn.Group: 87. Denmark.
+   * org.folio.marccat.util.isbn.Group: 87. Denmark.
    */
   _87(87, new String[][]{
     {"00", "29"},
@@ -353,7 +353,7 @@ public enum Group {
     {"970000", "999999"}
   }, 6),
   /**
-   * org.folio.cataloging.util.isbn.Group: 88. Italian speaking area.
+   * org.folio.marccat.util.isbn.Group: 88. Italian speaking area.
    */
   _88(88, new String[][]{
     {"00", "19"},
@@ -364,7 +364,7 @@ public enum Group {
     {"95000", "99999"}
   }, 6),
   /**
-   * org.folio.cataloging.util.isbn.Group: 89. Korea.
+   * org.folio.marccat.util.isbn.Group: 89. Korea.
    */
   _89(89, new String[][]{
     {"00", "24"},
@@ -374,7 +374,7 @@ public enum Group {
     {"950000", "999999"}
   }, 6),
   /**
-   * org.folio.cataloging.util.isbn.Group: 90. Netherlands, Belgium (Flemish).
+   * org.folio.marccat.util.isbn.Group: 90. Netherlands, Belgium (Flemish).
    */
   _90(90, new String[][]{
     {"00", "19"},
@@ -387,7 +387,7 @@ public enum Group {
     {"940000", "949999"}
   }, 6),
   /**
-   * org.folio.cataloging.util.isbn.Group: 91. Sweden.
+   * org.folio.marccat.util.isbn.Group: 91. Sweden.
    */
   _91(91, new String[][]{
     {"0", "1"},
@@ -398,7 +398,7 @@ public enum Group {
     {"970000", "999999"}
   }, 6),
   /**
-   * org.folio.cataloging.util.isbn.Group: 92. International Publishers (Unesco, EU), European Community Organizations.
+   * org.folio.marccat.util.isbn.Group: 92. International Publishers (Unesco, EU), European Community Organizations.
    */
   _92(92, new String[][]{
     {"0", "5"},
@@ -409,7 +409,7 @@ public enum Group {
     {"990000", "999999"}
   }, 6),
   /**
-   * org.folio.cataloging.util.isbn.Group: 93. India.
+   * org.folio.marccat.util.isbn.Group: 93. India.
    */
   _93(93, new String[][]{
     {"00", "09"},
@@ -419,7 +419,7 @@ public enum Group {
     {"950000", "999999"}
   }, 6),
   /**
-   * org.folio.cataloging.util.isbn.Group: 94. Netherlands.
+   * org.folio.marccat.util.isbn.Group: 94. Netherlands.
    */
   _94(94, new String[][]{
     {"000", "599"},
@@ -427,7 +427,7 @@ public enum Group {
     {"90000", "99999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 950. Argentina.
+   * org.folio.marccat.util.isbn.Group: 950. Argentina.
    */
   _950(950, new String[][]{
     {"00", "49"},
@@ -436,7 +436,7 @@ public enum Group {
     {"99000", "99999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 951. Finland.
+   * org.folio.marccat.util.isbn.Group: 951. Finland.
    */
   _951(951, new String[][]{
     {"0", "1"},
@@ -446,7 +446,7 @@ public enum Group {
     {"95000", "99999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 952. Finland.
+   * org.folio.marccat.util.isbn.Group: 952. Finland.
    */
   _952(952, new String[][]{
     {"00", "19"},
@@ -461,7 +461,7 @@ public enum Group {
     {"99000", "99999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 953. Croatia.
+   * org.folio.marccat.util.isbn.Group: 953. Croatia.
    */
   _953(953, new String[][]{
     {"0", "0"},
@@ -472,7 +472,7 @@ public enum Group {
     {"95000", "99999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 954. Bulgaria.
+   * org.folio.marccat.util.isbn.Group: 954. Bulgaria.
    */
   _954(954, new String[][]{
     {"00", "29"},
@@ -482,7 +482,7 @@ public enum Group {
     {"9300", "9999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 955. Sri Lanka.
+   * org.folio.marccat.util.isbn.Group: 955. Sri Lanka.
    */
   _955(955, new String[][]{
     {"0000", "0999"},
@@ -493,7 +493,7 @@ public enum Group {
     {"95000", "99999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 956. Chile.
+   * org.folio.marccat.util.isbn.Group: 956. Chile.
    */
   _956(956, new String[][]{
     {"00", "19"},
@@ -501,7 +501,7 @@ public enum Group {
     {"7000", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 957. Taiwan, China.
+   * org.folio.marccat.util.isbn.Group: 957. Taiwan, China.
    */
   _957(957, new String[][]{
     {"00", "02"},
@@ -516,7 +516,7 @@ public enum Group {
     {"97000", "99999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 958. Colombia.
+   * org.folio.marccat.util.isbn.Group: 958. Colombia.
    */
   _958(958, new String[][]{
     {"00", "56"},
@@ -526,7 +526,7 @@ public enum Group {
     {"95000", "99999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 959. Cuba.
+   * org.folio.marccat.util.isbn.Group: 959. Cuba.
    */
   _959(959, new String[][]{
     {"00", "19"},
@@ -534,7 +534,7 @@ public enum Group {
     {"7000", "8499"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 960. Greece.
+   * org.folio.marccat.util.isbn.Group: 960. Greece.
    */
   _960(960, new String[][]{
     {"00", "19"},
@@ -545,7 +545,7 @@ public enum Group {
     {"85000", "99999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 961. Slovenia.
+   * org.folio.marccat.util.isbn.Group: 961. Slovenia.
    */
   _961(961, new String[][]{
     {"00", "19"},
@@ -554,7 +554,7 @@ public enum Group {
     {"90000", "94999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 962. Hong Kong.
+   * org.folio.marccat.util.isbn.Group: 962. Hong Kong.
    */
   _962(962, new String[][]{
     {"00", "19"},
@@ -565,7 +565,7 @@ public enum Group {
     {"900", "999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 963. Hungary.
+   * org.folio.marccat.util.isbn.Group: 963. Hungary.
    */
   _963(963, new String[][]{
     {"00", "19"},
@@ -575,7 +575,7 @@ public enum Group {
     {"9000", "9999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 964. Iran.
+   * org.folio.marccat.util.isbn.Group: 964. Iran.
    */
   _964(964, new String[][]{
     {"00", "14"},
@@ -588,7 +588,7 @@ public enum Group {
     {"9900", "9999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 965. Israel.
+   * org.folio.marccat.util.isbn.Group: 965. Israel.
    */
   _965(965, new String[][]{
     {"00", "19"},
@@ -597,7 +597,7 @@ public enum Group {
     {"90000", "99999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 966. Ukraine.
+   * org.folio.marccat.util.isbn.Group: 966. Ukraine.
    */
   _966(966, new String[][]{
     {"00", "14"},
@@ -609,7 +609,7 @@ public enum Group {
     {"90000", "99999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 967. Malaysia.
+   * org.folio.marccat.util.isbn.Group: 967. Malaysia.
    */
   _967(967, new String[][]{
     {"00", "29"},
@@ -621,7 +621,7 @@ public enum Group {
     {"99900", "99999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 968. Mexico.
+   * org.folio.marccat.util.isbn.Group: 968. Mexico.
    */
   _968(968, new String[][]{
     {"01", "39"},
@@ -631,7 +631,7 @@ public enum Group {
     {"9000", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 969. Pakistan.
+   * org.folio.marccat.util.isbn.Group: 969. Pakistan.
    */
   _969(969, new String[][]{
     {"0", "1"},
@@ -640,7 +640,7 @@ public enum Group {
     {"8000", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 970. Mexico.
+   * org.folio.marccat.util.isbn.Group: 970. Mexico.
    */
   _970(970, new String[][]{
     {"01", "59"},
@@ -650,7 +650,7 @@ public enum Group {
     {"9700", "9999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 971. Philippines.
+   * org.folio.marccat.util.isbn.Group: 971. Philippines.
    */
   _971(971, new String[][]{
     {"000", "019"},
@@ -663,7 +663,7 @@ public enum Group {
     {"91000", "99999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 972. Portugal.
+   * org.folio.marccat.util.isbn.Group: 972. Portugal.
    */
   _972(972, new String[][]{
     {"0", "1"},
@@ -673,7 +673,7 @@ public enum Group {
     {"95000", "99999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 973. Romania.
+   * org.folio.marccat.util.isbn.Group: 973. Romania.
    */
   _973(973, new String[][]{
     {"0", "0"},
@@ -687,7 +687,7 @@ public enum Group {
     {"95000", "99999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 974. Thailand.
+   * org.folio.marccat.util.isbn.Group: 974. Thailand.
    */
   _974(974, new String[][]{
     {"00", "19"},
@@ -698,7 +698,7 @@ public enum Group {
     {"9500", "9999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 975. Turkey.
+   * org.folio.marccat.util.isbn.Group: 975. Turkey.
    */
   _975(975, new String[][]{
     {"00000", "00999"},
@@ -709,7 +709,7 @@ public enum Group {
     {"990", "999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 976. Caribbean Community.
+   * org.folio.marccat.util.isbn.Group: 976. Caribbean Community.
    */
   _976(976, new String[][]{
     {"0", "3"},
@@ -719,7 +719,7 @@ public enum Group {
     {"95000", "99999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 977. Egypr.
+   * org.folio.marccat.util.isbn.Group: 977. Egypr.
    */
   _977(977, new String[][]{
     {"00", "19"},
@@ -728,7 +728,7 @@ public enum Group {
     {"700", "999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 978. Nigeria.
+   * org.folio.marccat.util.isbn.Group: 978. Nigeria.
    */
   _978(978, new String[][]{
     {"000", "199"},
@@ -738,7 +738,7 @@ public enum Group {
     {"900", "999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 979. Indonesia.
+   * org.folio.marccat.util.isbn.Group: 979. Indonesia.
    */
   _979(979, new String[][]{
     {"000", "099"},
@@ -751,7 +751,7 @@ public enum Group {
     {"95000", "99999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 980. Venezuela.
+   * org.folio.marccat.util.isbn.Group: 980. Venezuela.
    */
   _980(980, new String[][]{
     {"00", "19"},
@@ -759,7 +759,7 @@ public enum Group {
     {"6000", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 981. Singapore.
+   * org.folio.marccat.util.isbn.Group: 981. Singapore.
    */
   _981(981, new String[][]{
     {"00", "11"},
@@ -768,7 +768,7 @@ public enum Group {
     {"2900", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 982. South Pacific.
+   * org.folio.marccat.util.isbn.Group: 982. South Pacific.
    */
   _982(982, new String[][]{
     {"00", "09"},
@@ -777,7 +777,7 @@ public enum Group {
     {"9000", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 983. Malaysia.
+   * org.folio.marccat.util.isbn.Group: 983. Malaysia.
    */
   _983(983, new String[][]{
     {"00", "01"},
@@ -791,7 +791,7 @@ public enum Group {
     {"99000", "99999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 984. Bangladesh.
+   * org.folio.marccat.util.isbn.Group: 984. Bangladesh.
    */
   _984(984, new String[][]{
     {"00", "39"},
@@ -800,7 +800,7 @@ public enum Group {
     {"90000", "99999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 985. Belarus.
+   * org.folio.marccat.util.isbn.Group: 985. Belarus.
    */
   _985(985, new String[][]{
     {"00", "39"},
@@ -809,7 +809,7 @@ public enum Group {
     {"90000", "99999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 986. Taiwan, China.
+   * org.folio.marccat.util.isbn.Group: 986. Taiwan, China.
    */
   _986(986, new String[][]{
     {"00", "11"},
@@ -818,7 +818,7 @@ public enum Group {
     {"80000", "99999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 987. Argentina.
+   * org.folio.marccat.util.isbn.Group: 987. Argentina.
    */
   _987(987, new String[][]{
     {"00", "09"},
@@ -830,7 +830,7 @@ public enum Group {
     {"95000", "99999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 988. Hongkong.
+   * org.folio.marccat.util.isbn.Group: 988. Hongkong.
    */
   _988(988, new String[][]{
     {"00", "16"},
@@ -840,7 +840,7 @@ public enum Group {
     {"97000", "99999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 989. Portugal.
+   * org.folio.marccat.util.isbn.Group: 989. Portugal.
    */
   _989(989, new String[][]{
     {"0", "1"},
@@ -850,7 +850,7 @@ public enum Group {
     {"95000", "99999"}
   }, 5),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9933. Syria.
+   * org.folio.marccat.util.isbn.Group: 9933. Syria.
    */
   _9933(9933, new String[][]{
     {"0", "0"},
@@ -859,7 +859,7 @@ public enum Group {
     {"9000", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9934. Latvia.
+   * org.folio.marccat.util.isbn.Group: 9934. Latvia.
    */
   _9934(9934, new String[][]{
     {"0", "0"},
@@ -868,7 +868,7 @@ public enum Group {
     {"8000", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9935. Iceland.
+   * org.folio.marccat.util.isbn.Group: 9935. Iceland.
    */
   _9935(9935, new String[][]{
     {"0", "0"},
@@ -877,7 +877,7 @@ public enum Group {
     {"9000", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9936. Afghanistan.
+   * org.folio.marccat.util.isbn.Group: 9936. Afghanistan.
    */
   _9936(9936, new String[][]{
     {"0", "1"},
@@ -886,7 +886,7 @@ public enum Group {
     {"8000", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9937. Nepal.
+   * org.folio.marccat.util.isbn.Group: 9937. Nepal.
    */
   _9937(9937, new String[][]{
     {"0", "2"},
@@ -895,7 +895,7 @@ public enum Group {
     {"8000", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9938. Tunisia.
+   * org.folio.marccat.util.isbn.Group: 9938. Tunisia.
    */
   _9938(9938, new String[][]{
     {"00", "79"},
@@ -903,7 +903,7 @@ public enum Group {
     {"9500", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9939. Armenia.
+   * org.folio.marccat.util.isbn.Group: 9939. Armenia.
    */
   _9939(9939, new String[][]{
     {"0", "4"},
@@ -912,7 +912,7 @@ public enum Group {
     {"9000", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9940. Montenegro.
+   * org.folio.marccat.util.isbn.Group: 9940. Montenegro.
    */
   _9940(9940, new String[][]{
     {"0", "1"},
@@ -921,7 +921,7 @@ public enum Group {
     {"9000", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9941. Georgia.
+   * org.folio.marccat.util.isbn.Group: 9941. Georgia.
    */
   _9941(9941, new String[][]{
     {"0", "0"},
@@ -930,7 +930,7 @@ public enum Group {
     {"9000", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9942. Ecuador.
+   * org.folio.marccat.util.isbn.Group: 9942. Ecuador.
    */
   _9942(9942, new String[][]{
     {"00", "89"},
@@ -938,7 +938,7 @@ public enum Group {
     {"9950", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9943. Uzbekistan.
+   * org.folio.marccat.util.isbn.Group: 9943. Uzbekistan.
    */
   _9943(9943, new String[][]{
     {"00", "29"},
@@ -946,7 +946,7 @@ public enum Group {
     {"4000", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9944. Turkey.
+   * org.folio.marccat.util.isbn.Group: 9944. Turkey.
    */
   _9944(9944, new String[][]{
     {"0", "2"},
@@ -956,7 +956,7 @@ public enum Group {
     {"900", "999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9945. Dominican Republic.
+   * org.folio.marccat.util.isbn.Group: 9945. Dominican Republic.
    */
   _9945(9945, new String[][]{
     {"00", "00"},
@@ -968,7 +968,7 @@ public enum Group {
     {"8500", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9946. Korea, P.D.R..
+   * org.folio.marccat.util.isbn.Group: 9946. Korea, P.D.R..
    */
   _9946(9946, new String[][]{
     {"0", "1"},
@@ -977,7 +977,7 @@ public enum Group {
     {"9000", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9947. Algeria.
+   * org.folio.marccat.util.isbn.Group: 9947. Algeria.
    */
   _9947(9947, new String[][]{
     {"0", "1"},
@@ -985,7 +985,7 @@ public enum Group {
     {"800", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9948. United Arab Emirates.
+   * org.folio.marccat.util.isbn.Group: 9948. United Arab Emirates.
    */
   _9948(9948, new String[][]{
     {"00", "39"},
@@ -993,7 +993,7 @@ public enum Group {
     {"8500", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9949. Estonia.
+   * org.folio.marccat.util.isbn.Group: 9949. Estonia.
    */
   _9949(9949, new String[][]{
     {"0", "0"},
@@ -1002,7 +1002,7 @@ public enum Group {
     {"9000", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9950. Palestine.
+   * org.folio.marccat.util.isbn.Group: 9950. Palestine.
    */
   _9950(9950, new String[][]{
     {"00", "29"},
@@ -1010,7 +1010,7 @@ public enum Group {
     {"8500", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9951. Kosova.
+   * org.folio.marccat.util.isbn.Group: 9951. Kosova.
    */
   _9951(9951, new String[][]{
     {"00", "39"},
@@ -1018,7 +1018,7 @@ public enum Group {
     {"8500", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9952. Azerbaijan.
+   * org.folio.marccat.util.isbn.Group: 9952. Azerbaijan.
    */
   _9952(9952, new String[][]{
     {"0", "1"},
@@ -1027,7 +1027,7 @@ public enum Group {
     {"8000", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9953. Lebanon.
+   * org.folio.marccat.util.isbn.Group: 9953. Lebanon.
    */
   _9953(9953, new String[][]{
     {"0", "0"},
@@ -1037,7 +1037,7 @@ public enum Group {
     {"9000", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9954. Morocco.
+   * org.folio.marccat.util.isbn.Group: 9954. Morocco.
    */
   _9954(9954, new String[][]{
     {"0", "1"},
@@ -1046,7 +1046,7 @@ public enum Group {
     {"8000", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9955. Lithuania.
+   * org.folio.marccat.util.isbn.Group: 9955. Lithuania.
    */
   _9955(9955, new String[][]{
     {"00", "39"},
@@ -1054,7 +1054,7 @@ public enum Group {
     {"9300", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9956. Cameroon.
+   * org.folio.marccat.util.isbn.Group: 9956. Cameroon.
    */
   _9956(9956, new String[][]{
     {"0", "0"},
@@ -1063,7 +1063,7 @@ public enum Group {
     {"9000", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9957. Jordan.
+   * org.folio.marccat.util.isbn.Group: 9957. Jordan.
    */
   _9957(9957, new String[][]{
     {"00", "39"},
@@ -1072,7 +1072,7 @@ public enum Group {
     {"8500", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9958. Bosnia and Herzegovina.
+   * org.folio.marccat.util.isbn.Group: 9958. Bosnia and Herzegovina.
    */
   _9958(9958, new String[][]{
     {"0", "0"},
@@ -1081,7 +1081,7 @@ public enum Group {
     {"9000", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9959. Libya.
+   * org.folio.marccat.util.isbn.Group: 9959. Libya.
    */
   _9959(9959, new String[][]{
     {"0", "1"},
@@ -1090,7 +1090,7 @@ public enum Group {
     {"9500", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9960. Saudi Arabia.
+   * org.folio.marccat.util.isbn.Group: 9960. Saudi Arabia.
    */
   _9960(9960, new String[][]{
     {"00", "59"},
@@ -1098,7 +1098,7 @@ public enum Group {
     {"9000", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9961. Algeria.
+   * org.folio.marccat.util.isbn.Group: 9961. Algeria.
    */
   _9961(9961, new String[][]{
     {"0", "2"},
@@ -1107,7 +1107,7 @@ public enum Group {
     {"9500", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9962. Panama.
+   * org.folio.marccat.util.isbn.Group: 9962. Panama.
    */
   _9962(9962, new String[][]{
     {"00", "54"},
@@ -1117,7 +1117,7 @@ public enum Group {
     {"8500", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9963. Cyprus.
+   * org.folio.marccat.util.isbn.Group: 9963. Cyprus.
    */
   _9963(9963, new String[][]{
     {"0", "2"},
@@ -1126,7 +1126,7 @@ public enum Group {
     {"7500", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9964. Ghana.
+   * org.folio.marccat.util.isbn.Group: 9964. Ghana.
    */
   _9964(9964, new String[][]{
     {"0", "6"},
@@ -1134,7 +1134,7 @@ public enum Group {
     {"950", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9965. Kazakhstan.
+   * org.folio.marccat.util.isbn.Group: 9965. Kazakhstan.
    */
   _9965(9965, new String[][]{
     {"00", "39"},
@@ -1142,7 +1142,7 @@ public enum Group {
     {"9000", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9966. Kenya.
+   * org.folio.marccat.util.isbn.Group: 9966. Kenya.
    */
   _9966(9966, new String[][]{
     {"000", "199"},
@@ -1152,7 +1152,7 @@ public enum Group {
     {"9600", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9967. Kyrgyzstan.
+   * org.folio.marccat.util.isbn.Group: 9967. Kyrgyzstan.
    */
   _9967(9967, new String[][]{
     {"00", "39"},
@@ -1160,7 +1160,7 @@ public enum Group {
     {"9000", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9968. Costa Rica.
+   * org.folio.marccat.util.isbn.Group: 9968. Costa Rica.
    */
   _9968(9968, new String[][]{
     {"00", "49"},
@@ -1168,7 +1168,7 @@ public enum Group {
     {"9400", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9970. Uganda.
+   * org.folio.marccat.util.isbn.Group: 9970. Uganda.
    */
   _9970(9970, new String[][]{
     {"00", "39"},
@@ -1176,7 +1176,7 @@ public enum Group {
     {"9000", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9971. Singapore.
+   * org.folio.marccat.util.isbn.Group: 9971. Singapore.
    */
   _9971(9971, new String[][]{
     {"0", "5"},
@@ -1185,7 +1185,7 @@ public enum Group {
     {"9900", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9972. Peru.
+   * org.folio.marccat.util.isbn.Group: 9972. Peru.
    */
   _9972(9972, new String[][]{
     {"00", "09"},
@@ -1197,7 +1197,7 @@ public enum Group {
     {"9000", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9973. Tunisia.
+   * org.folio.marccat.util.isbn.Group: 9973. Tunisia.
    */
   _9973(9973, new String[][]{
     {"00", "05"},
@@ -1208,7 +1208,7 @@ public enum Group {
     {"9700", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9974. Uruguay.
+   * org.folio.marccat.util.isbn.Group: 9974. Uruguay.
    */
   _9974(9974, new String[][]{
     {"0", "2"},
@@ -1218,7 +1218,7 @@ public enum Group {
     {"95", "99"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9975. Moldova.
+   * org.folio.marccat.util.isbn.Group: 9975. Moldova.
    */
   _9975(9975, new String[][]{
     {"0", "0"},
@@ -1229,7 +1229,7 @@ public enum Group {
     {"9500", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9976. Tanzania.
+   * org.folio.marccat.util.isbn.Group: 9976. Tanzania.
    */
   _9976(9976, new String[][]{
     {"0", "5"},
@@ -1238,7 +1238,7 @@ public enum Group {
     {"9990", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9977. Costa Rica.
+   * org.folio.marccat.util.isbn.Group: 9977. Costa Rica.
    */
   _9977(9977, new String[][]{
     {"00", "89"},
@@ -1246,7 +1246,7 @@ public enum Group {
     {"9900", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9978. Ecuador.
+   * org.folio.marccat.util.isbn.Group: 9978. Ecuador.
    */
   _9978(9978, new String[][]{
     {"00", "29"},
@@ -1256,7 +1256,7 @@ public enum Group {
     {"9900", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9979. Iceland.
+   * org.folio.marccat.util.isbn.Group: 9979. Iceland.
    */
   _9979(9979, new String[][]{
     {"0", "4"},
@@ -1267,7 +1267,7 @@ public enum Group {
     {"9000", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9980. Papua New Guinea.
+   * org.folio.marccat.util.isbn.Group: 9980. Papua New Guinea.
    */
   _9980(9980, new String[][]{
     {"0", "3"},
@@ -1276,7 +1276,7 @@ public enum Group {
     {"9900", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9981. Morocco.
+   * org.folio.marccat.util.isbn.Group: 9981. Morocco.
    */
   _9981(9981, new String[][]{
     {"00", "09"},
@@ -1287,7 +1287,7 @@ public enum Group {
     {"9500", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9982. Zambia.
+   * org.folio.marccat.util.isbn.Group: 9982. Zambia.
    */
   _9982(9982, new String[][]{
     {"00", "79"},
@@ -1295,7 +1295,7 @@ public enum Group {
     {"9900", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9983. Gambia.
+   * org.folio.marccat.util.isbn.Group: 9983. Gambia.
    */
   _9983(9983, new String[][]{
     {"80", "94"},
@@ -1303,7 +1303,7 @@ public enum Group {
     {"9900", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9984. Latvia.
+   * org.folio.marccat.util.isbn.Group: 9984. Latvia.
    */
   _9984(9984, new String[][]{
     {"00", "49"},
@@ -1311,7 +1311,7 @@ public enum Group {
     {"9000", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9985. Estonia.
+   * org.folio.marccat.util.isbn.Group: 9985. Estonia.
    */
   _9985(9985, new String[][]{
     {"0", "4"},
@@ -1320,7 +1320,7 @@ public enum Group {
     {"9000", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9986. Lithuania.
+   * org.folio.marccat.util.isbn.Group: 9986. Lithuania.
    */
   _9986(9986, new String[][]{
     {"00", "39"},
@@ -1330,7 +1330,7 @@ public enum Group {
     {"97", "99"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9987. Tanzania.
+   * org.folio.marccat.util.isbn.Group: 9987. Tanzania.
    */
   _9987(9987, new String[][]{
     {"00", "39"},
@@ -1338,7 +1338,7 @@ public enum Group {
     {"8800", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9988. Ghana.
+   * org.folio.marccat.util.isbn.Group: 9988. Ghana.
    */
   _9988(9988, new String[][]{
     {"0", "2"},
@@ -1347,7 +1347,7 @@ public enum Group {
     {"7500", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 9989. Macedonia.
+   * org.folio.marccat.util.isbn.Group: 9989. Macedonia.
    */
   _9989(9989, new String[][]{
     {"0", "0"},
@@ -1358,7 +1358,7 @@ public enum Group {
     {"9500", "9999"}
   }, 4),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99901. Bahrain.
+   * org.folio.marccat.util.isbn.Group: 99901. Bahrain.
    */
   _99901(99901, new String[][]{
     {"00", "49"},
@@ -1366,11 +1366,11 @@ public enum Group {
     {"80", "99"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99902. Gabon - no ranges fixed yet.
+   * org.folio.marccat.util.isbn.Group: 99902. Gabon - no ranges fixed yet.
    */
   _99902(99902, null, 0),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99903. Mauritius.
+   * org.folio.marccat.util.isbn.Group: 99903. Mauritius.
    */
   _99903(99903, new String[][]{
     {"0", "1"},
@@ -1378,7 +1378,7 @@ public enum Group {
     {"900", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99904. Netherlands Antilles  Aruba, Neth. Ant.
+   * org.folio.marccat.util.isbn.Group: 99904. Netherlands Antilles  Aruba, Neth. Ant.
    */
   _99904(99904, new String[][]{
     {"0", "5"},
@@ -1386,7 +1386,7 @@ public enum Group {
     {"900", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99905. Bolivia.
+   * org.folio.marccat.util.isbn.Group: 99905. Bolivia.
    */
   _99905(99905, new String[][]{
     {"0", "3"},
@@ -1394,7 +1394,7 @@ public enum Group {
     {"800", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99906. Kuwait.
+   * org.folio.marccat.util.isbn.Group: 99906. Kuwait.
    */
   _99906(99906, new String[][]{
     {"0", "2"},
@@ -1404,7 +1404,7 @@ public enum Group {
     {"9", "9"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99908. Malawi.
+   * org.folio.marccat.util.isbn.Group: 99908. Malawi.
    */
   _99908(99908, new String[][]{
     {"0", "0"},
@@ -1412,7 +1412,7 @@ public enum Group {
     {"900", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99909. Malta.
+   * org.folio.marccat.util.isbn.Group: 99909. Malta.
    */
   _99909(99909, new String[][]{
     {"0", "3"},
@@ -1420,7 +1420,7 @@ public enum Group {
     {"950", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99910. Sierra Leone.
+   * org.folio.marccat.util.isbn.Group: 99910. Sierra Leone.
    */
   _99910(99910, new String[][]{
     {"0", "2"},
@@ -1428,14 +1428,14 @@ public enum Group {
     {"900", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99911. Lesotho.
+   * org.folio.marccat.util.isbn.Group: 99911. Lesotho.
    */
   _99911(99911, new String[][]{
     {"00", "59"},
     {"600", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99912. Botswana.
+   * org.folio.marccat.util.isbn.Group: 99912. Botswana.
    */
   _99912(99912, new String[][]{
     {"0", "3"},
@@ -1444,7 +1444,7 @@ public enum Group {
     {"900", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99913. Andorra.
+   * org.folio.marccat.util.isbn.Group: 99913. Andorra.
    */
   _99913(99913, new String[][]{
     {"0", "2"},
@@ -1452,7 +1452,7 @@ public enum Group {
     {"600", "604"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99914. Suriname.
+   * org.folio.marccat.util.isbn.Group: 99914. Suriname.
    */
   _99914(99914, new String[][]{
     {"0", "4"},
@@ -1460,7 +1460,7 @@ public enum Group {
     {"900", "949"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99915. Maldives.
+   * org.folio.marccat.util.isbn.Group: 99915. Maldives.
    */
   _99915(99915, new String[][]{
     {"0", "4"},
@@ -1468,7 +1468,7 @@ public enum Group {
     {"800", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99916. Namibia.
+   * org.folio.marccat.util.isbn.Group: 99916. Namibia.
    */
   _99916(99916, new String[][]{
     {"0", "2"},
@@ -1476,7 +1476,7 @@ public enum Group {
     {"700", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99917. Brunei Darussalam.
+   * org.folio.marccat.util.isbn.Group: 99917. Brunei Darussalam.
    */
   _99917(99917, new String[][]{
     {"0", "2"},
@@ -1484,7 +1484,7 @@ public enum Group {
     {"900", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99918. Faroe Islands.
+   * org.folio.marccat.util.isbn.Group: 99918. Faroe Islands.
    */
   _99918(99918, new String[][]{
     {"0", "3"},
@@ -1492,7 +1492,7 @@ public enum Group {
     {"800", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99919. Benin.
+   * org.folio.marccat.util.isbn.Group: 99919. Benin.
    */
   _99919(99919, new String[][]{
     {"0", "2"},
@@ -1501,7 +1501,7 @@ public enum Group {
     {"900", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99920. Andorra.
+   * org.folio.marccat.util.isbn.Group: 99920. Andorra.
    */
   _99920(99920, new String[][]{
     {"0", "4"},
@@ -1509,7 +1509,7 @@ public enum Group {
     {"900", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99921. Qatar.
+   * org.folio.marccat.util.isbn.Group: 99921. Qatar.
    */
   _99921(99921, new String[][]{
     {"0", "1"},
@@ -1519,7 +1519,7 @@ public enum Group {
     {"90", "99"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99922. Guatemala.
+   * org.folio.marccat.util.isbn.Group: 99922. Guatemala.
    */
   _99922(99922, new String[][]{
     {"0", "3"},
@@ -1527,7 +1527,7 @@ public enum Group {
     {"700", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99923. El Salvador.
+   * org.folio.marccat.util.isbn.Group: 99923. El Salvador.
    */
   _99923(99923, new String[][]{
     {"0", "1"},
@@ -1535,7 +1535,7 @@ public enum Group {
     {"800", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99924. Nicaragua.
+   * org.folio.marccat.util.isbn.Group: 99924. Nicaragua.
    */
   _99924(99924, new String[][]{
     {"0", "1"},
@@ -1543,7 +1543,7 @@ public enum Group {
     {"800", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99925. Paraguay.
+   * org.folio.marccat.util.isbn.Group: 99925. Paraguay.
    */
   _99925(99925, new String[][]{
     {"0", "3"},
@@ -1551,7 +1551,7 @@ public enum Group {
     {"800", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99926. Honduras.
+   * org.folio.marccat.util.isbn.Group: 99926. Honduras.
    */
   _99926(99926, new String[][]{
     {"0", "0"},
@@ -1559,7 +1559,7 @@ public enum Group {
     {"600", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99927. Albania.
+   * org.folio.marccat.util.isbn.Group: 99927. Albania.
    */
   _99927(99927, new String[][]{
     {"0", "2"},
@@ -1567,7 +1567,7 @@ public enum Group {
     {"600", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99928. Georgia.
+   * org.folio.marccat.util.isbn.Group: 99928. Georgia.
    */
   _99928(99928, new String[][]{
     {"0", "0"},
@@ -1575,7 +1575,7 @@ public enum Group {
     {"800", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99929. Mongolia.
+   * org.folio.marccat.util.isbn.Group: 99929. Mongolia.
    */
   _99929(99929, new String[][]{
     {"0", "4"},
@@ -1583,7 +1583,7 @@ public enum Group {
     {"800", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99930. Armenia.
+   * org.folio.marccat.util.isbn.Group: 99930. Armenia.
    */
   _99930(99930, new String[][]{
     {"0", "4"},
@@ -1591,7 +1591,7 @@ public enum Group {
     {"800", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99931. Seychelles.
+   * org.folio.marccat.util.isbn.Group: 99931. Seychelles.
    */
   _99931(99931, new String[][]{
     {"0", "4"},
@@ -1599,7 +1599,7 @@ public enum Group {
     {"800", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99932. Malta.
+   * org.folio.marccat.util.isbn.Group: 99932. Malta.
    */
   _99932(99932, new String[][]{
     {"0", "0"},
@@ -1609,7 +1609,7 @@ public enum Group {
     {"80", "99"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99933. Nepal.
+   * org.folio.marccat.util.isbn.Group: 99933. Nepal.
    */
   _99933(99933, new String[][]{
     {"0", "2"},
@@ -1617,7 +1617,7 @@ public enum Group {
     {"600", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99934. Dominican Republic.
+   * org.folio.marccat.util.isbn.Group: 99934. Dominican Republic.
    */
   _99934(99934, new String[][]{
     {"0", "1"},
@@ -1625,7 +1625,7 @@ public enum Group {
     {"800", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99935. Haiti.
+   * org.folio.marccat.util.isbn.Group: 99935. Haiti.
    */
   _99935(99935, new String[][]{
     {"0", "2"},
@@ -1635,7 +1635,7 @@ public enum Group {
     {"90", "99"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99936. Bhutan.
+   * org.folio.marccat.util.isbn.Group: 99936. Bhutan.
    */
   _99936(99936, new String[][]{
     {"0", "0"},
@@ -1643,7 +1643,7 @@ public enum Group {
     {"600", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99937. Macau.
+   * org.folio.marccat.util.isbn.Group: 99937. Macau.
    */
   _99937(99937, new String[][]{
     {"0", "1"},
@@ -1651,7 +1651,7 @@ public enum Group {
     {"600", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99938. Srpska.
+   * org.folio.marccat.util.isbn.Group: 99938. Srpska.
    */
   _99938(99938, new String[][]{
     {"0", "1"},
@@ -1660,7 +1660,7 @@ public enum Group {
     {"90", "99"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99939. Guatemala.
+   * org.folio.marccat.util.isbn.Group: 99939. Guatemala.
    */
   _99939(99939, new String[][]{
     {"0", "5"},
@@ -1668,7 +1668,7 @@ public enum Group {
     {"900", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99940. Georgia.
+   * org.folio.marccat.util.isbn.Group: 99940. Georgia.
    */
   _99940(99940, new String[][]{
     {"0", "0"},
@@ -1676,7 +1676,7 @@ public enum Group {
     {"700", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99941. Armenia.
+   * org.folio.marccat.util.isbn.Group: 99941. Armenia.
    */
   _99941(99941, new String[][]{
     {"0", "2"},
@@ -1684,7 +1684,7 @@ public enum Group {
     {"800", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99942. Sudan.
+   * org.folio.marccat.util.isbn.Group: 99942. Sudan.
    */
   _99942(99942, new String[][]{
     {"0", "4"},
@@ -1692,7 +1692,7 @@ public enum Group {
     {"800", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99943. Alsbania.
+   * org.folio.marccat.util.isbn.Group: 99943. Alsbania.
    */
   _99943(99943, new String[][]{
     {"0", "2"},
@@ -1700,7 +1700,7 @@ public enum Group {
     {"600", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99944. Ethiopia.
+   * org.folio.marccat.util.isbn.Group: 99944. Ethiopia.
    */
   _99944(99944, new String[][]{
     {"0", "4"},
@@ -1708,7 +1708,7 @@ public enum Group {
     {"800", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99945. Namibia.
+   * org.folio.marccat.util.isbn.Group: 99945. Namibia.
    */
   _99945(99945, new String[][]{
     {"0", "5"},
@@ -1716,7 +1716,7 @@ public enum Group {
     {"900", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99946. Nepal.
+   * org.folio.marccat.util.isbn.Group: 99946. Nepal.
    */
   _99946(99946, new String[][]{
     {"0", "2"},
@@ -1724,7 +1724,7 @@ public enum Group {
     {"600", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99947. Tajikistan.
+   * org.folio.marccat.util.isbn.Group: 99947. Tajikistan.
    */
   _99947(99947, new String[][]{
     {"0", "2"},
@@ -1732,7 +1732,7 @@ public enum Group {
     {"700", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99948. Eritrea.
+   * org.folio.marccat.util.isbn.Group: 99948. Eritrea.
    */
   _99948(99948, new String[][]{
     {"0", "4"},
@@ -1740,7 +1740,7 @@ public enum Group {
     {"800", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99949. Mauritius.
+   * org.folio.marccat.util.isbn.Group: 99949. Mauritius.
    */
   _99949(99949, new String[][]{
     {"0", "1"},
@@ -1748,7 +1748,7 @@ public enum Group {
     {"900", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99950. Cambodia.
+   * org.folio.marccat.util.isbn.Group: 99950. Cambodia.
    */
   _99950(99950, new String[][]{
     {"0", "4"},
@@ -1756,11 +1756,11 @@ public enum Group {
     {"800", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99951. Congo - no ranges fixed yet.
+   * org.folio.marccat.util.isbn.Group: 99951. Congo - no ranges fixed yet.
    */
   _99951(99951, null, 0),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99952. Mali.
+   * org.folio.marccat.util.isbn.Group: 99952. Mali.
    */
   _99952(99952, new String[][]{
     {"0", "4"},
@@ -1768,7 +1768,7 @@ public enum Group {
     {"800", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99953. Paraguay.
+   * org.folio.marccat.util.isbn.Group: 99953. Paraguay.
    */
   _99953(99953, new String[][]{
     {"0", "2"},
@@ -1776,7 +1776,7 @@ public enum Group {
     {"800", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99954. Bolivia.
+   * org.folio.marccat.util.isbn.Group: 99954. Bolivia.
    */
   _99954(99954, new String[][]{
     {"0", "2"},
@@ -1784,7 +1784,7 @@ public enum Group {
     {"700", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99955. Srpska.
+   * org.folio.marccat.util.isbn.Group: 99955. Srpska.
    */
   _99955(99955, new String[][]{
     {"0", "1"},
@@ -1793,14 +1793,14 @@ public enum Group {
     {"90", "99"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99956. Albania.
+   * org.folio.marccat.util.isbn.Group: 99956. Albania.
    */
   _99956(99956, new String[][]{
     {"00", "59"},
     {"600", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99957. Malta.
+   * org.folio.marccat.util.isbn.Group: 99957. Malta.
    */
   _99957(99957, new String[][]{
     {"0", "1"},
@@ -1808,7 +1808,7 @@ public enum Group {
     {"800", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99958. Bahrain.
+   * org.folio.marccat.util.isbn.Group: 99958. Bahrain.
    */
   _99958(99958, new String[][]{
     {"0", "4"},
@@ -1816,7 +1816,7 @@ public enum Group {
     {"950", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99959. Luxembourg.
+   * org.folio.marccat.util.isbn.Group: 99959. Luxembourg.
    */
   _99959(99959, new String[][]{
     {"0", "2"},
@@ -1824,7 +1824,7 @@ public enum Group {
     {"600", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99960. Malawi.
+   * org.folio.marccat.util.isbn.Group: 99960. Malawi.
    */
   _99960(99960, new String[][]{
     {"0", "0"},
@@ -1832,7 +1832,7 @@ public enum Group {
     {"950", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99961. El Salvador.
+   * org.folio.marccat.util.isbn.Group: 99961. El Salvador.
    */
   _99961(99961, new String[][]{
     {"0", "3"},
@@ -1840,7 +1840,7 @@ public enum Group {
     {"900", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99962. Mongolia.
+   * org.folio.marccat.util.isbn.Group: 99962. Mongolia.
    */
   _99962(99962, new String[][]{
     {"0", "4"},
@@ -1848,7 +1848,7 @@ public enum Group {
     {"800", "999"}
   }, 3),
   /**
-   * org.folio.cataloging.util.isbn.Group: 99963. Cambodia.
+   * org.folio.marccat.util.isbn.Group: 99963. Cambodia.
    */
   _99963(99963, new String[][]{
     {"00", "49"},
@@ -1887,8 +1887,8 @@ public enum Group {
   /**
    * Returns the group of the specified ISBNAlgorithm.
    *
-   * @param ISBN org.folio.cataloging.util.isbn.ISBNAlgorithm for the group wants to get.
-   * @return the group of the specified org.folio.cataloging.util.isbn.ISBNAlgorithm or {@code null} if the org.folio.cataloging.util.isbn.ISBNAlgorithm
+   * @param ISBN org.folio.marccat.util.isbn.ISBNAlgorithm for the group wants to get.
+   * @return the group of the specified org.folio.marccat.util.isbn.ISBNAlgorithm or {@code null} if the org.folio.marccat.util.isbn.ISBNAlgorithm
    * is not from any group.
    */
   public static Group getGroup(String ISBN) {

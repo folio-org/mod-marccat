@@ -1,7 +1,7 @@
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
-import org.folio.cataloging.dao.AbstractDAO;
-import org.folio.cataloging.dao.AuthorityModelDAO;
+import org.folio.marccat.dao.AbstractDAO;
+import org.folio.marccat.dao.AuthorityModelDAO;
 
 /**
  * Represents a Model/Template for of authority type

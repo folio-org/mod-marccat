@@ -6,7 +6,7 @@
 <hibernate-mapping>
 
 <class 
-    name="org.folio.cataloging.dao.persistence.CasDataNTI"
+    name="org.folio.marccat.dao.persistence.CasDataNTI"
      schema="custom" 
     table="CAS_DATA_NTI"
     lazy="false"

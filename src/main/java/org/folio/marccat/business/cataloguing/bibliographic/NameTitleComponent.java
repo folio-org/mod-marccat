@@ -1,4 +1,4 @@
-package org.folio.cataloging.business.cataloguing.bibliographic;
+package org.folio.marccat.business.cataloguing.bibliographic;
 
 /**
  * @author paulm

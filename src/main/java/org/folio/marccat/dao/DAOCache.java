@@ -5,7 +5,7 @@
  *
  * DAOCache.java
  */
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
@@ -13,12 +13,12 @@ import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.common.CacheUpdateException;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.RecordNotFoundException;
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
-import org.folio.cataloging.dao.persistence.Cache;
+import org.folio.marccat.business.common.CacheUpdateException;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.common.RecordNotFoundException;
+import org.folio.marccat.dao.common.HibernateUtil;
+import org.folio.marccat.dao.common.TransactionalHibernateOperation;
+import org.folio.marccat.dao.persistence.Cache;
 
 import java.sql.*;
 import java.util.ArrayList;

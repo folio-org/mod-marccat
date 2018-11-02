@@ -271,7 +271,7 @@
               <outputDirectory>${basedir}/target/classes/apidocs/raml</outputDirectory>
               <resources>
                 <resource>
-                  <directory>${ramlfiles_path}</directory>
+                  <directory>${ramlfiles_util_path}</directory>
                   <filtering>true</filtering>
                 </resource>
               </resources>

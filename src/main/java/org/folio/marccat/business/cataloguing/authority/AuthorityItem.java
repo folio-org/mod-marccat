@@ -5,14 +5,14 @@
  *
  * AuthorityItem.java
  */
-package org.folio.cataloging.business.cataloguing.authority;
+package org.folio.marccat.business.cataloguing.authority;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.cataloguing.common.Tag;
-import org.folio.cataloging.business.cataloguing.common.TagImpl;
-import org.folio.cataloging.dao.persistence.*;
-import org.folio.cataloging.exception.MandatoryTagException;
+import org.folio.marccat.business.cataloguing.common.Tag;
+import org.folio.marccat.business.cataloguing.common.TagImpl;
+import org.folio.marccat.dao.persistence.*;
+import org.folio.marccat.exception.MandatoryTagException;
 
 import java.util.Collections;
 import java.util.Comparator;

@@ -1,7 +1,7 @@
-package org.folio.cataloging.business;
+package org.folio.marccat.business;
 
 
-import org.folio.cataloging.dao.persistence.CollectionMaster;
+import org.folio.marccat.dao.persistence.CollectionMaster;
 
 import java.sql.Date;
 

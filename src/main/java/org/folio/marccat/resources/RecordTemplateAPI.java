@@ -1,17 +1,17 @@
-package org.folio.cataloging.resources;
+package org.folio.marccat.resources;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.folio.cataloging.Global;
-import org.folio.cataloging.ModCataloging;
-import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.log.MessageCatalog;
-import org.folio.cataloging.resources.domain.CatalogingEntityType;
-import org.folio.cataloging.resources.domain.RecordTemplate;
-import org.folio.cataloging.resources.domain.RecordTemplateCollection;
+import org.folio.marccat.Global;
+import org.folio.marccat.ModMarccat;
+import org.folio.marccat.business.codetable.Avp;
+import org.folio.marccat.log.MessageCatalog;
+import org.folio.marccat.resources.domain.CatalogingEntityType;
+import org.folio.marccat.resources.domain.RecordTemplate;
+import org.folio.marccat.resources.domain.RecordTemplateCollection;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,21 +20,21 @@ import java.util.List;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
-import static org.folio.cataloging.F.isNotNullOrEmpty;
-import static org.folio.cataloging.integration.CatalogingHelper.*;
-import static org.folio.cataloging.resources.domain.CatalogingEntityType.A;
+import static org.folio.marccat.F.isNotNullOrEmpty;
+import static org.folio.marccat.integration.CatalogingHelper.*;
+import static org.folio.marccat.resources.domain.CatalogingEntityType.A;
 
 /**
  * BIB / AUT Record templates API.
  *
- * @author agazzarini
+ * @author cchiama
  * @author carment
  * @since 1.0
  */
 @RestController
 @CrossOrigin("http://localhost:3000")
 @Api(value = "modcat-api", description = "Record template resource API")
-@RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
+@RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class RecordTemplateAPI extends BaseResource {
 
   private Function <Avp <Integer>, RecordTemplate> toRecordTemplate = avp -> {

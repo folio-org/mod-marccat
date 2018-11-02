@@ -5,10 +5,10 @@
  *
  * BibliographicHeaderFieldHelper.java
  */
-package org.folio.cataloging.business.cataloguing.bibliographic;
+package org.folio.marccat.business.cataloguing.bibliographic;
 
-import org.folio.cataloging.business.cataloguing.common.HeaderFieldHelper;
-import org.folio.cataloging.dao.persistence.T_BIB_HDR;
+import org.folio.marccat.business.cataloguing.common.HeaderFieldHelper;
+import org.folio.marccat.dao.persistence.T_BIB_HDR;
 
 /**
  * @author paulm

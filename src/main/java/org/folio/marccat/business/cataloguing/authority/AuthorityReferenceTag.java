@@ -5,26 +5,26 @@
  *
  * AuthorityReferenceTag.java
  */
-package org.folio.cataloging.business.cataloguing.authority;
+package org.folio.marccat.business.cataloguing.authority;
 
 import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.cataloguing.bibliographic.PersistsViaItem;
-import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
-import org.folio.cataloging.business.cataloguing.common.Browsable;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.PersistentObjectWithView;
-import org.folio.cataloging.business.descriptor.DescriptorFactory;
-import org.folio.cataloging.business.descriptor.SkipInFiling;
-import org.folio.cataloging.dao.AbstractDAO;
-import org.folio.cataloging.dao.DAOAuthorityCorrelation;
-import org.folio.cataloging.dao.DAOAuthorityReferenceTag;
-import org.folio.cataloging.dao.persistence.*;
-import org.folio.cataloging.exception.NoHeadingSetException;
-import org.folio.cataloging.shared.CorrelationValues;
-import org.folio.cataloging.util.StringText;
+import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
+import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
+import org.folio.marccat.business.cataloguing.common.Browsable;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.common.PersistentObjectWithView;
+import org.folio.marccat.business.descriptor.DescriptorFactory;
+import org.folio.marccat.business.descriptor.SkipInFiling;
+import org.folio.marccat.dao.AbstractDAO;
+import org.folio.marccat.dao.DAOAuthorityCorrelation;
+import org.folio.marccat.dao.DAOAuthorityReferenceTag;
+import org.folio.marccat.dao.persistence.*;
+import org.folio.marccat.exception.NoHeadingSetException;
+import org.folio.marccat.shared.CorrelationValues;
+import org.folio.marccat.util.StringText;
 import org.w3c.dom.Element;
 
 import java.io.Serializable;
@@ -456,7 +456,7 @@ public abstract class AuthorityReferenceTag
   }
 
   /* (non-Javadoc)
-   * @see VariableField#setStringText(org.folio.cataloging.util.StringText)
+   * @see VariableField#setStringText(org.folio.marccat.util.StringText)
    */
   public void setStringText(StringText stringText) {
     //paulm aut
@@ -652,7 +652,7 @@ public abstract class AuthorityReferenceTag
   }
 
   /* (non-Javadoc)
-   * @see Browsable#setDescriptorStringText(org.folio.cataloging.util.StringText)
+   * @see Browsable#setDescriptorStringText(org.folio.marccat.util.StringText)
    */
   public void setDescriptorStringText(StringText tagStringText) {
     getTargetDescriptor().setStringText(

@@ -5,12 +5,12 @@
  *
  * FindResponse.java
  */
-package org.folio.cataloging.business.amicusSearchEngine;
+package org.folio.marccat.business.amicusSearchEngine;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.common.SocketMessage;
-import org.folio.cataloging.exception.*;
+import org.folio.marccat.business.common.SocketMessage;
+import org.folio.marccat.exception.*;
 
 import java.io.*;
 

@@ -1,20 +1,20 @@
-package org.folio.cataloging.integration.record;
+package org.folio.marccat.integration.record;
 
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicAccessPoint;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicCatalog;
-import org.folio.cataloging.business.cataloguing.bibliographic.MarcCommandLibrary;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.business.descriptor.PublisherTagDescriptor;
-import org.folio.cataloging.dao.RecordTypeMaterialDAO;
-import org.folio.cataloging.dao.persistence.*;
-import org.folio.cataloging.integration.GlobalStorage;
-import org.folio.cataloging.resources.domain.Field;
-import org.folio.cataloging.shared.CorrelationValues;
-import org.folio.cataloging.shared.GeneralInformation;
-import org.folio.cataloging.util.StringText;
+import org.folio.marccat.business.cataloguing.bibliographic.BibliographicAccessPoint;
+import org.folio.marccat.business.cataloguing.bibliographic.BibliographicCatalog;
+import org.folio.marccat.business.cataloguing.bibliographic.MarcCommandLibrary;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.common.View;
+import org.folio.marccat.business.descriptor.PublisherTagDescriptor;
+import org.folio.marccat.dao.RecordTypeMaterialDAO;
+import org.folio.marccat.dao.persistence.*;
+import org.folio.marccat.integration.GlobalStorage;
+import org.folio.marccat.resources.domain.Field;
+import org.folio.marccat.shared.CorrelationValues;
+import org.folio.marccat.shared.GeneralInformation;
+import org.folio.marccat.util.StringText;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -180,7 +180,7 @@ public class RecordParser {
    */
   public void addMaterialDescriptionToCatalog(final String tagNbr,
                                               final CatalogItem item,
-                                              final org.folio.cataloging.resources.domain.FixedField fixedField,
+                                              final org.folio.marccat.resources.domain.FixedField fixedField,
                                               final GeneralInformation giAPI,
                                               final String formOfMaterial) {
 
@@ -259,7 +259,7 @@ public class RecordParser {
    * @throws DataAccessException in case of data access exception.
    */
   public void addPhysicalDescriptionTag(final CatalogItem item,
-                                        final org.folio.cataloging.resources.domain.FixedField ff,
+                                        final org.folio.marccat.resources.domain.FixedField ff,
                                         final int bibItemNumber) throws DataAccessException {
 
     final char gmd = ff.getDisplayValue().charAt(0);
@@ -395,7 +395,7 @@ public class RecordParser {
    * @throws DataAccessException in case of data access exception.
    */
   public void insertNewVariableField(final CatalogItem item,
-                                     final org.folio.cataloging.resources.domain.VariableField variableField,
+                                     final org.folio.marccat.resources.domain.VariableField variableField,
                                      final int bibItemNumber,
                                      final CorrelationValues correlationValues,
                                      final Session session,
@@ -434,7 +434,7 @@ public class RecordParser {
    */
   private void addPublisherToCatalog(final CatalogItem item,
                                      final CorrelationValues correlationValues,
-                                     final org.folio.cataloging.resources.domain.VariableField variableField,
+                                     final org.folio.marccat.resources.domain.VariableField variableField,
                                      final int view,
                                      final Session session) throws DataAccessException, HibernateException, SQLException {
 
@@ -466,7 +466,7 @@ public class RecordParser {
    */
   private void addNoteToCatalog(final CatalogItem item,
                                 final CorrelationValues correlationValues,
-                                final org.folio.cataloging.resources.domain.VariableField variableField,
+                                final org.folio.marccat.resources.domain.VariableField variableField,
                                 final int bibItemNumber) throws DataAccessException {
     final BibliographicNoteTag nTag = catalog.createBibliographicNoteTag(item, correlationValues);
     nTag.getNote().setContent(variableField.getValue());
@@ -489,7 +489,7 @@ public class RecordParser {
    */
   private void addSubjectToCatalog(final CatalogItem item,
                                    final CorrelationValues correlationValues,
-                                   final org.folio.cataloging.resources.domain.VariableField variableField,
+                                   final org.folio.marccat.resources.domain.VariableField variableField,
                                    final int bibItemNumber) throws DataAccessException {
     final SubjectAccessPoint sap = catalog.createSubjectAccessPoint(item, correlationValues);
     sap.setAccessPointStringText(new StringText(variableField.getValue()));
@@ -510,7 +510,7 @@ public class RecordParser {
    */
   private void addClassificationToCatalog(final CatalogItem item,
                                           final CorrelationValues correlationValues,
-                                          final org.folio.cataloging.resources.domain.VariableField variableField,
+                                          final org.folio.marccat.resources.domain.VariableField variableField,
                                           final int bibItemNumber) throws DataAccessException {
     final ClassificationAccessPoint clap = catalog.createClassificationAccessPoint(item, correlationValues);
     clap.setAccessPointStringText(new StringText(variableField.getValue()));
@@ -531,7 +531,7 @@ public class RecordParser {
    */
   private void addControlFieldToCatalog(final CatalogItem item,
                                         final CorrelationValues correlationValues,
-                                        final org.folio.cataloging.resources.domain.VariableField variableField,
+                                        final org.folio.marccat.resources.domain.VariableField variableField,
                                         final int bibItemNumber) throws DataAccessException {
     final ControlNumberAccessPoint cnap = catalog.createControlNumberAccessPoint(item, correlationValues);
     cnap.setAccessPointStringText(new StringText(variableField.getValue()));
@@ -552,7 +552,7 @@ public class RecordParser {
    */
   private void addNameToCatalog(final CatalogItem item,
                                 final CorrelationValues correlationValues,
-                                final org.folio.cataloging.resources.domain.VariableField variableField,
+                                final org.folio.marccat.resources.domain.VariableField variableField,
                                 final int bibItemNumber) throws DataAccessException {
     final NameAccessPoint nap = catalog.createNameAccessPointTag(item, correlationValues);
     nap.setAccessPointStringText(new StringText(variableField.getValue()));
@@ -573,7 +573,7 @@ public class RecordParser {
    */
   private void addTitleToCatalog(final CatalogItem item,
                                  final CorrelationValues correlationValues,
-                                 final org.folio.cataloging.resources.domain.VariableField variableField,
+                                 final org.folio.marccat.resources.domain.VariableField variableField,
                                  final int bibItemNumber) throws DataAccessException {
 
     final TitleAccessPoint tap = catalog.createTitleAccessPointTag(item, correlationValues);

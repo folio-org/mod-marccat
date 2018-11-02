@@ -1,14 +1,14 @@
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Query;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.dao.persistence.StandardNoteAccessPoint;
-import org.folio.cataloging.dao.persistence.T_STD_NTE_TYP;
-import org.folio.cataloging.log.Log;
+import org.folio.marccat.business.codetable.Avp;
+import org.folio.marccat.dao.persistence.StandardNoteAccessPoint;
+import org.folio.marccat.dao.persistence.T_STD_NTE_TYP;
+import org.folio.marccat.log.Log;
 
 import java.util.List;
 import java.util.Objects;

@@ -5,10 +5,10 @@
  *
  * S_BIB_MARC_TAG_VLDTN.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
-import org.folio.cataloging.shared.Validation;
-import org.folio.cataloging.shared.ValidationKey;
+import org.folio.marccat.shared.Validation;
+import org.folio.marccat.shared.ValidationKey;
 
 import java.io.Serializable;
 

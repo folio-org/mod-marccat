@@ -5,7 +5,7 @@
  *
  * T_SRL_SCSV_LTST.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 /**
  * @author paulm

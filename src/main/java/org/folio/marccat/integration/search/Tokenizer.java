@@ -1,6 +1,6 @@
-package org.folio.cataloging.integration.search;
+package org.folio.marccat.integration.search;
 
-import org.folio.cataloging.log.Log;
+import org.folio.marccat.log.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,10 +9,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * ModCataloging search engine.
+ * ModMarccat search engine.
  *
  * @author paulm
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 public final class Tokenizer {
@@ -96,7 +96,7 @@ public final class Tokenizer {
   /**
    * Token types.
    *
-   * @author agazzarini
+   * @author cchiama
    * @author paulm
    * @since 1.0
    */
@@ -107,7 +107,7 @@ public final class Tokenizer {
   /**
    * Token metadata.
    *
-   * @author agazzarini
+   * @author cchiama
    * @author paulm
    * @since 1.0
    */

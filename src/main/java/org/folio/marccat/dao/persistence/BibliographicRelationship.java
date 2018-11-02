@@ -1,17 +1,17 @@
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
-import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.PersistentObjectWithView;
-import org.folio.cataloging.business.common.UserViewHelper;
-import org.folio.cataloging.dao.AbstractDAO;
-import org.folio.cataloging.dao.DAOBibliographicRelationship;
-import org.folio.cataloging.dao.SystemNextNumberDAO;
-import org.folio.cataloging.model.Subfield;
-import org.folio.cataloging.shared.CorrelationValues;
-import org.folio.cataloging.util.StringText;
+import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.common.PersistentObjectWithView;
+import org.folio.marccat.business.common.UserViewHelper;
+import org.folio.marccat.dao.AbstractDAO;
+import org.folio.marccat.dao.DAOBibliographicRelationship;
+import org.folio.marccat.dao.SystemNextNumberDAO;
+import org.folio.marccat.model.Subfield;
+import org.folio.marccat.shared.CorrelationValues;
+import org.folio.marccat.util.StringText;
 
 import java.util.List;
 

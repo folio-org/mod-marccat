@@ -6,7 +6,7 @@
 <hibernate-mapping>
 
 <class 
-    name="org.folio.cataloging.dao.persistence.CasDataDelete"
+    name="org.folio.marccat.dao.persistence.CasDataDelete"
      schema="custom" 
     table="CAS_DATA_DELETE"
     lazy="false"

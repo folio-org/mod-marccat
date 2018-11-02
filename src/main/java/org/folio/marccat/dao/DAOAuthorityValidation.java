@@ -5,15 +5,15 @@
  *
  * DAOAuthorityValidation.java
  */
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.type.Type;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.shared.Validation;
+import org.folio.marccat.business.cataloguing.bibliographic.MarcCorrelationException;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.shared.Validation;
 
 import java.util.List;
 

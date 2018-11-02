@@ -1,14 +1,14 @@
-package org.folio.cataloging.search.engine;
+package org.folio.marccat.search.engine;
 
-import org.folio.cataloging.Global;
-import org.folio.cataloging.business.common.RecordNotFoundException;
-import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.dao.persistence.CatalogItem;
-import org.folio.cataloging.exception.ModCatalogingException;
-import org.folio.cataloging.integration.StorageService;
-import org.folio.cataloging.log.Log;
-import org.folio.cataloging.search.SearchResponse;
-import org.folio.cataloging.search.domain.Record;
+import org.folio.marccat.Global;
+import org.folio.marccat.business.common.RecordNotFoundException;
+import org.folio.marccat.business.common.View;
+import org.folio.marccat.dao.persistence.CatalogItem;
+import org.folio.marccat.exception.ModCatalogingException;
+import org.folio.marccat.integration.StorageService;
+import org.folio.marccat.log.Log;
+import org.folio.marccat.search.SearchResponse;
+import org.folio.marccat.search.domain.Record;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -16,10 +16,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static java.util.stream.IntStream.rangeClosed;
 
 /**
- * Supertype layer for all ModCataloging Search Engine implementations.
+ * Supertype layer for all ModMarccat Search Engine implementations.
  *
  * @author paulm
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 public abstract class ModCatalogingSearchEngine implements SearchEngine {

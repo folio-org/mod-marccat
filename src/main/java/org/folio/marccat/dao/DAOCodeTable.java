@@ -1,16 +1,16 @@
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
 import net.sf.hibernate.*;
 import net.sf.hibernate.expression.Expression;
 import net.sf.hibernate.type.Type;
-import org.folio.cataloging.Global;
-import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.dao.common.TransactionalHibernateOperation;
-import org.folio.cataloging.dao.persistence.*;
-import org.folio.cataloging.log.Log;
-import org.folio.cataloging.log.MessageCatalog;
+import org.folio.marccat.Global;
+import org.folio.marccat.business.codetable.Avp;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.common.Defaults;
+import org.folio.marccat.dao.common.TransactionalHibernateOperation;
+import org.folio.marccat.dao.persistence.*;
+import org.folio.marccat.log.Log;
+import org.folio.marccat.log.MessageCatalog;
 
 import java.io.Serializable;
 import java.lang.InstantiationException;
@@ -19,13 +19,13 @@ import java.util.*;
 
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
-import static org.folio.cataloging.F.isNotNullOrEmpty;
+import static org.folio.marccat.F.isNotNullOrEmpty;
 
 /**
  * TODO: JAvadoc
  *
  * @author carment
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 

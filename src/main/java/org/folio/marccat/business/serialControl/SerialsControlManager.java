@@ -1,14 +1,14 @@
-package org.folio.cataloging.business.serialControl;
+package org.folio.marccat.business.serialControl;
 
 import net.sf.hibernate.HibernateException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.DAOCopy;
-import org.folio.cataloging.dao.DAOPredictionPattern;
-import org.folio.cataloging.dao.SystemNextNumberDAO;
-import org.folio.cataloging.dao.persistence.*;
-import org.folio.cataloging.model.Subfield;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.dao.DAOCopy;
+import org.folio.marccat.dao.DAOPredictionPattern;
+import org.folio.marccat.dao.SystemNextNumberDAO;
+import org.folio.marccat.dao.persistence.*;
+import org.folio.marccat.model.Subfield;
 
 import java.util.ArrayList;
 import java.util.Date;

@@ -1,6 +1,6 @@
-package org.folio.cataloging.business.descriptor;
+package org.folio.marccat.business.descriptor;
 
-import org.folio.cataloging.exception.ModCatalogingException;
+import org.folio.marccat.exception.ModCatalogingException;
 
 public class UnsupportedHeadingException extends ModCatalogingException {
 

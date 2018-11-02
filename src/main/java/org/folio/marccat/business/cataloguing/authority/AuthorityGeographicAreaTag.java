@@ -5,9 +5,9 @@
  *
  * AuthorityGeographicAreaTag.java
  */
-package org.folio.cataloging.business.cataloguing.authority;
+package org.folio.marccat.business.cataloguing.authority;
 
-import org.folio.cataloging.business.cataloguing.common.GeographicAreaTag;
+import org.folio.marccat.business.cataloguing.common.GeographicAreaTag;
 
 /**
  * @author paulm

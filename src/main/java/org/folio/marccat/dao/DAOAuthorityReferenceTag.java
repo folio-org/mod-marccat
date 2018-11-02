@@ -5,14 +5,14 @@
  *
  * DAOAuthorityReferenceTag.java
  */
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
-import org.folio.cataloging.business.cataloguing.authority.AuthorityReferenceTag;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Persistence;
-import org.folio.cataloging.dao.persistence.REF;
-import org.folio.cataloging.dao.persistence.ReferenceType;
-import org.folio.cataloging.dao.persistence.T_DUAL_REF;
+import org.folio.marccat.business.cataloguing.authority.AuthorityReferenceTag;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.common.Persistence;
+import org.folio.marccat.dao.persistence.REF;
+import org.folio.marccat.dao.persistence.ReferenceType;
+import org.folio.marccat.dao.persistence.T_DUAL_REF;
 
 /**
  * @author paulm

@@ -5,7 +5,7 @@
  *
  * SortformParameters.java
  */
-package org.folio.cataloging.business.descriptor;
+package org.folio.marccat.business.descriptor;
 
 /**
  * @author paulm

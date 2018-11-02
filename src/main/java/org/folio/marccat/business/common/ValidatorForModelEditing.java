@@ -5,10 +5,10 @@
  *
  * BibliographicValidatorForModelEditing.java
  */
-package org.folio.cataloging.business.common;
+package org.folio.marccat.business.common;
 
-import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
-import org.folio.cataloging.util.StringText;
+import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
+import org.folio.marccat.util.StringText;
 
 /**
  * @author paulm

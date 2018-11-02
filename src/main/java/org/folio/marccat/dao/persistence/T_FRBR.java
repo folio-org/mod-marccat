@@ -5,7 +5,7 @@
  *
  * T_LOAN_PRD.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 
 public class T_FRBR extends T_SINGLE {

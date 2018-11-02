@@ -1,25 +1,25 @@
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
-import org.folio.cataloging.business.common.*;
-import org.folio.cataloging.dao.AbstractDAO;
-import org.folio.cataloging.dao.DAOBibliographicRelationship;
-import org.folio.cataloging.dao.DAOBibliographicRelationshipTag;
-import org.folio.cataloging.dao.SystemNextNumberDAO;
-import org.folio.cataloging.model.Subfield;
-import org.folio.cataloging.shared.CorrelationValues;
-import org.folio.cataloging.util.StringText;
+import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
+import org.folio.marccat.business.common.*;
+import org.folio.marccat.dao.AbstractDAO;
+import org.folio.marccat.dao.DAOBibliographicRelationship;
+import org.folio.marccat.dao.DAOBibliographicRelationshipTag;
+import org.folio.marccat.dao.SystemNextNumberDAO;
+import org.folio.marccat.model.Subfield;
+import org.folio.marccat.shared.CorrelationValues;
+import org.folio.marccat.util.StringText;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import static org.folio.cataloging.F.deepCopy;
+import static org.folio.marccat.F.deepCopy;
 
 public class BibliographicRelationshipTag extends VariableField implements PersistentObjectWithView {
   private static final Log logger = LogFactory.getLog(BibliographicRelationshipTag.class);

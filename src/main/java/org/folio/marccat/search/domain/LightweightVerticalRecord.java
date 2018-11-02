@@ -1,7 +1,7 @@
-package org.folio.cataloging.search.domain;
+package org.folio.marccat.search.domain;
 
-import org.folio.cataloging.log.Log;
-import org.folio.cataloging.log.MessageCatalog;
+import org.folio.marccat.log.Log;
+import org.folio.marccat.log.MessageCatalog;
 import org.marc4j.MarcReader;
 import org.marc4j.MarcXmlReader;
 import org.w3c.dom.Document;
@@ -18,7 +18,7 @@ import static java.util.Optional.ofNullable;
 /**
  * A simple XML record which retains the data in a lightweight string format.
  *
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 public class LightweightVerticalRecord extends AbstractRecord {

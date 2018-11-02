@@ -5,13 +5,13 @@
  *
  * VariableHeader.java
  */
-package org.folio.cataloging.business.cataloguing.bibliographic;
+package org.folio.marccat.business.cataloguing.bibliographic;
 
-import org.folio.cataloging.business.cataloguing.common.HeaderField;
-import org.folio.cataloging.business.cataloguing.common.HeaderFieldHelper;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.shared.CorrelationValues;
-import org.folio.cataloging.util.StringText;
+import org.folio.marccat.business.cataloguing.common.HeaderField;
+import org.folio.marccat.business.cataloguing.common.HeaderFieldHelper;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.shared.CorrelationValues;
+import org.folio.marccat.util.StringText;
 
 import java.util.List;
 
@@ -41,7 +41,7 @@ public abstract class VariableHeader extends VariableField implements HeaderFiel
   }
 
   /* (non-Javadoc)
-   * @see VariableField#setStringText(org.folio.cataloging.util.StringText)
+   * @see VariableField#setStringText(org.folio.marccat.util.StringText)
    */
   public void setStringText(StringText stringText) {
     // TODO Auto-generated method stub

@@ -1,4 +1,4 @@
-package org.folio.cataloging.dao.common;
+package org.folio.marccat.dao.common;
 
 import java.util.Hashtable;
 

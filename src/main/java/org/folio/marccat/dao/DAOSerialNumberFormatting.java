@@ -5,9 +5,9 @@
  *
  * DAOSerialNumberFormatting.java
  */
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
-import org.folio.cataloging.business.patterns.ConnectionFactory;
+import org.folio.marccat.business.patterns.ConnectionFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

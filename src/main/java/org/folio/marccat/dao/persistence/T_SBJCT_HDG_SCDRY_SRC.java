@@ -2,7 +2,7 @@
  * Created on Nov 16, 2004
  *
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 /**
  * @author janick

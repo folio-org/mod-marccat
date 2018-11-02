@@ -5,27 +5,27 @@
  *
  * Table_CPY_ID.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Persistence;
-import org.folio.cataloging.business.common.PersistenceState;
-import org.folio.cataloging.business.descriptor.SortFormParameters;
-import org.folio.cataloging.dao.AbstractDAO;
-import org.folio.cataloging.dao.DAOCopy;
-import org.folio.cataloging.dao.DAOGlobalVariable;
-import org.folio.cataloging.dao.SystemNextNumberDAO;
-import org.folio.cataloging.exception.EmptySubfieldException;
-import org.folio.cataloging.exception.InvalidShelfListTypeException;
-import org.folio.cataloging.exception.NoSubfieldCodeException;
-import org.folio.cataloging.exception.ValidationException;
-import org.folio.cataloging.model.Subfield;
-import org.folio.cataloging.util.StringText;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.common.Persistence;
+import org.folio.marccat.business.common.PersistenceState;
+import org.folio.marccat.business.descriptor.SortFormParameters;
+import org.folio.marccat.dao.AbstractDAO;
+import org.folio.marccat.dao.DAOCopy;
+import org.folio.marccat.dao.DAOGlobalVariable;
+import org.folio.marccat.dao.SystemNextNumberDAO;
+import org.folio.marccat.exception.EmptySubfieldException;
+import org.folio.marccat.exception.InvalidShelfListTypeException;
+import org.folio.marccat.exception.NoSubfieldCodeException;
+import org.folio.marccat.exception.ValidationException;
+import org.folio.marccat.model.Subfield;
+import org.folio.marccat.util.StringText;
 
 import java.io.Serializable;
 import java.util.Date;

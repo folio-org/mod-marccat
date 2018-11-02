@@ -2,7 +2,7 @@
  * Created on Dec 3, 2005
  *
  */
-package org.folio.cataloging.business.patterns;
+package org.folio.marccat.business.patterns;
 
 import java.util.Calendar;
 

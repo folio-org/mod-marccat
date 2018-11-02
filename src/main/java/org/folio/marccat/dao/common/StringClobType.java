@@ -1,4 +1,4 @@
-package org.folio.cataloging.dao.common;
+package org.folio.marccat.dao.common;
 
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.UserType;

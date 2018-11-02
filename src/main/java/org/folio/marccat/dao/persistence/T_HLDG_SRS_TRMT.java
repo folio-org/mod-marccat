@@ -5,7 +5,7 @@
  *
  * T_HLDG_SRS_TRMT.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 /**
  * @author MAITE

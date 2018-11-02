@@ -1,11 +1,11 @@
-package org.folio.cataloging.business.common.group;
+package org.folio.marccat.business.common.group;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.regexp.RESyntaxException;
-import org.folio.cataloging.business.cataloguing.common.Tag;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.filter.*;
+import org.folio.marccat.business.cataloguing.common.Tag;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.common.filter.*;
 
 
 /**

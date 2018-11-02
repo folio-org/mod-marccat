@@ -1,6 +1,6 @@
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
-import org.folio.cataloging.dao.AbstractDAO;
+import org.folio.marccat.dao.AbstractDAO;
 
 /**
  * Represents a Model/Template for of bibliographic type

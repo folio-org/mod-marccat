@@ -5,7 +5,7 @@
  *
  * T_MSC_LTRY_TXT.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 /**
  * @author Maite

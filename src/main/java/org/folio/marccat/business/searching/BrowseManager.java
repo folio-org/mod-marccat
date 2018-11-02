@@ -1,14 +1,14 @@
-package org.folio.cataloging.business.searching;
+package org.folio.marccat.business.searching;
 
 import net.sf.hibernate.HibernateException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.common.BrowseFailedException;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.dao.*;
-import org.folio.cataloging.dao.persistence.Descriptor;
+import org.folio.marccat.business.common.BrowseFailedException;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.common.Defaults;
+import org.folio.marccat.business.common.View;
+import org.folio.marccat.dao.*;
+import org.folio.marccat.dao.persistence.Descriptor;
 
 import java.sql.SQLException;
 import java.util.*;

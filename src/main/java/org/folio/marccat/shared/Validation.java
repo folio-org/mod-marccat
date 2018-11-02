@@ -1,4 +1,4 @@
-package org.folio.cataloging.shared;
+package org.folio.marccat.shared;
 
 import java.util.List;
 

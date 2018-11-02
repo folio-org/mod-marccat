@@ -5,13 +5,13 @@
  *
  * AuthorityControlNumberAccessPoint.java
  */
-package org.folio.cataloging.business.cataloguing.authority;
+package org.folio.marccat.business.cataloguing.authority;
 
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.persistence.CNTL_NBR;
-import org.folio.cataloging.dao.persistence.Descriptor;
-import org.folio.cataloging.shared.CorrelationValues;
-import org.folio.cataloging.util.StringText;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.dao.persistence.CNTL_NBR;
+import org.folio.marccat.dao.persistence.Descriptor;
+import org.folio.marccat.shared.CorrelationValues;
+import org.folio.marccat.util.StringText;
 
 import java.util.List;
 
@@ -51,7 +51,7 @@ public class AuthorityControlNumberAccessPoint extends AuthorityAccessPoint {
   }
 
   /* (non-Javadoc)
-   * @see AccessPoint#setAccessPointStringText(org.folio.cataloging.util.StringText)
+   * @see AccessPoint#setAccessPointStringText(org.folio.marccat.util.StringText)
    */
   public void setAccessPointStringText(StringText stringText) {
     // do nothing
@@ -127,7 +127,7 @@ public class AuthorityControlNumberAccessPoint extends AuthorityAccessPoint {
   }
 
   /* (non-Javadoc)
-   * @see AccessPoint#setDescriptorStringText(org.folio.cataloging.util.StringText)
+   * @see AccessPoint#setDescriptorStringText(org.folio.marccat.util.StringText)
    */
   public void setDescriptorStringText(StringText tagStringText) {
     getDescriptor().setStringText(tagStringText.toString());

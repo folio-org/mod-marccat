@@ -1,21 +1,21 @@
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
 import net.sf.hibernate.type.Type;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicItem;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicTagImpl;
-import org.folio.cataloging.business.cataloguing.bibliographic.PersistsViaItem;
-import org.folio.cataloging.business.cataloguing.common.Tag;
-import org.folio.cataloging.business.common.*;
-import org.folio.cataloging.business.controller.UserProfile;
-import org.folio.cataloging.dao.persistence.*;
-import org.folio.cataloging.integration.GlobalStorage;
-import org.folio.cataloging.integration.log.MessageCatalogStorage;
-import org.folio.cataloging.log.Log;
-import org.folio.cataloging.util.XmlUtils;
+import org.folio.marccat.business.cataloguing.bibliographic.BibliographicItem;
+import org.folio.marccat.business.cataloguing.bibliographic.BibliographicTagImpl;
+import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
+import org.folio.marccat.business.cataloguing.common.Tag;
+import org.folio.marccat.business.common.*;
+import org.folio.marccat.business.controller.UserProfile;
+import org.folio.marccat.dao.persistence.*;
+import org.folio.marccat.integration.GlobalStorage;
+import org.folio.marccat.integration.log.MessageCatalogStorage;
+import org.folio.marccat.log.Log;
+import org.folio.marccat.util.XmlUtils;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -27,8 +27,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.folio.cataloging.F.deepCopy;
-import static org.folio.cataloging.F.isNotNullOrEmpty;
+import static org.folio.marccat.F.deepCopy;
+import static org.folio.marccat.F.isNotNullOrEmpty;
 
 /**
  * Class for data access bibliographic item.
@@ -275,7 +275,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
   private List <PhysicalDescription> getPhysicalDescriptions(final int amicusNumber, final int userView, final Session session) throws HibernateException {
 
     List <PhysicalDescription> multiView = session.find(
-      "from org.folio.cataloging.dao.persistence.PhysicalDescription t "
+      "from org.folio.marccat.dao.persistence.PhysicalDescription t "
         + "where t.bibItemNumber = ? and substr(t.userViewString, ?, 1) = '1' ",
       new Object[]{amicusNumber, userView},
       new Type[]{Hibernate.INTEGER, Hibernate.INTEGER});
@@ -508,7 +508,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
    * Updates s_cas_cache_bib_itm_dsply table.
    *
    * @param bibItemNumber   -- the bibliographic item number.
-   * @param cataloguingView -- cataloging view associated.
+   * @param cataloguingView -- marccat view associated.
    * @param session         -- the current session hibernate.
    * @throws HibernateException in case of hibernate exception.
    */

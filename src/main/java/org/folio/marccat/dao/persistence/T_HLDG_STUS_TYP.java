@@ -5,7 +5,7 @@
  *
  * T_HLDG_STUS_TYPE.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 /**
  * @author MAITE

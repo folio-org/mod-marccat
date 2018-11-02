@@ -5,12 +5,12 @@
  *
  * Authority008Tag.java
  */
-package org.folio.cataloging.business.cataloguing.authority;
+package org.folio.marccat.business.cataloguing.authority;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.cataloguing.bibliographic.FixedFieldUsingItemEntity;
-import org.folio.cataloging.dao.persistence.AUT;
+import org.folio.marccat.business.cataloguing.bibliographic.FixedFieldUsingItemEntity;
+import org.folio.marccat.dao.persistence.AUT;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

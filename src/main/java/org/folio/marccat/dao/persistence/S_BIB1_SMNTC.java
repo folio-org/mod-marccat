@@ -1,4 +1,4 @@
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 /**
  * 2018 Paul Search Engine Java

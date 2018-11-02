@@ -5,15 +5,15 @@
  *
  * TagInterface.java
  */
-package org.folio.cataloging.business.cataloguing.common;
+package org.folio.marccat.business.cataloguing.common;
 
 import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.Session;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.PersistenceState;
-import org.folio.cataloging.dao.persistence.CorrelationKey;
-import org.folio.cataloging.exception.ValidationException;
-import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.common.PersistenceState;
+import org.folio.marccat.dao.persistence.CorrelationKey;
+import org.folio.marccat.exception.ValidationException;
+import org.folio.marccat.shared.CorrelationValues;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

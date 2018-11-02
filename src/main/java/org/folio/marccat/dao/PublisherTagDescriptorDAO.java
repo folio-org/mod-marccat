@@ -1,15 +1,15 @@
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.View;
-import org.folio.cataloging.business.descriptor.PublisherTagDescriptor;
-import org.folio.cataloging.dao.persistence.Descriptor;
-import org.folio.cataloging.dao.persistence.PUBL_HDG;
-import org.folio.cataloging.dao.persistence.PUBL_TAG;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.common.View;
+import org.folio.marccat.business.descriptor.PublisherTagDescriptor;
+import org.folio.marccat.dao.persistence.Descriptor;
+import org.folio.marccat.dao.persistence.PUBL_HDG;
+import org.folio.marccat.dao.persistence.PUBL_TAG;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package org.folio.cataloging.dao.common;
+package org.folio.marccat.dao.common;
 
 import net.sf.hibernate.MappingException;
 import net.sf.hibernate.Session;
@@ -6,7 +6,7 @@ import net.sf.hibernate.mapping.Column;
 import net.sf.hibernate.mapping.Component;
 import net.sf.hibernate.mapping.PersistentClass;
 import net.sf.hibernate.mapping.Property;
-import org.folio.cataloging.Global;
+import org.folio.marccat.Global;
 
 import java.util.Optional;
 import java.util.Spliterator;

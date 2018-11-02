@@ -1,4 +1,4 @@
-package org.folio.cataloging.business.descriptor;
+package org.folio.marccat.business.descriptor;
 
 /**
  * Interface for descriptors that have a skip-in-filing indicator (Titles, Subjects)

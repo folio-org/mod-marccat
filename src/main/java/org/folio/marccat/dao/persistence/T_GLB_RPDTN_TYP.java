@@ -5,7 +5,7 @@
  *
  * T_GLB_RPDTN_TYP.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 /**
  * @author paulm

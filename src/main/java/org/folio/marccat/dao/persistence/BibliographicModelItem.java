@@ -1,7 +1,7 @@
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
-import org.folio.cataloging.business.common.Persistence;
-import org.folio.cataloging.dao.BibliographicModelItemDAO;
+import org.folio.marccat.business.common.Persistence;
+import org.folio.marccat.dao.BibliographicModelItemDAO;
 
 import java.io.Serializable;
 

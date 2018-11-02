@@ -4,7 +4,7 @@
  * Created on 01-Dec-2004
  *
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 public class OrderNames {
 

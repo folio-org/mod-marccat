@@ -5,7 +5,7 @@
  *
  * HasHeadingType.java
  */
-package org.folio.cataloging.business.cataloguing.authority;
+package org.folio.marccat.business.cataloguing.authority;
 
 /**
  * Implemented by Tags that support associated headingType's and

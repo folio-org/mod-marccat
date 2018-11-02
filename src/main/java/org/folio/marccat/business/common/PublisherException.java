@@ -1,4 +1,4 @@
-package org.folio.cataloging.business.common;
+package org.folio.marccat.business.common;
 
 public class PublisherException extends Exception {
   private static final long serialVersionUID = -8207968816842862351L;

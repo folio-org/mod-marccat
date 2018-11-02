@@ -1,18 +1,18 @@
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
-import org.folio.cataloging.Global;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.common.HibernateUtil;
-import org.folio.cataloging.model.ConfigurationBrowseColumn;
+import org.folio.marccat.Global;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.dao.common.HibernateUtil;
+import org.folio.marccat.model.ConfigurationBrowseColumn;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static org.folio.cataloging.F.fixedCharPadding;
+import static org.folio.marccat.F.fixedCharPadding;
 
 public class DAOUserResultsTableFormat extends HibernateUtil {
   public String getResultsTableFormatByUser(String userName) throws DataAccessException {

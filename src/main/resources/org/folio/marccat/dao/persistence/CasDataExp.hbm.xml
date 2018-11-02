@@ -6,7 +6,7 @@
 <hibernate-mapping>
 
 <class 
-    name="org.folio.cataloging.dao.persistence.CasDataExp"
+    name="org.folio.marccat.dao.persistence.CasDataExp"
      schema="custom" 
     table="CAS_DATA_EXP"
     lazy="false"

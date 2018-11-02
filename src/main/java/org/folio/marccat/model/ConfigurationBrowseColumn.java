@@ -1,4 +1,4 @@
-package org.folio.cataloging.model;
+package org.folio.marccat.model;
 
 public class ConfigurationBrowseColumn {
   private String user;

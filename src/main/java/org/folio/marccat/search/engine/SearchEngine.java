@@ -1,8 +1,8 @@
-package org.folio.cataloging.search.engine;
+package org.folio.marccat.search.engine;
 
-import org.folio.cataloging.exception.ModCatalogingException;
-import org.folio.cataloging.integration.StorageService;
-import org.folio.cataloging.search.SearchResponse;
+import org.folio.marccat.exception.ModCatalogingException;
+import org.folio.marccat.integration.StorageService;
+import org.folio.marccat.search.SearchResponse;
 
 import java.util.List;
 import java.util.Locale;
@@ -11,7 +11,7 @@ import java.util.Locale;
  * Search Engine interface.
  *
  * @author paulm
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 public interface SearchEngine {

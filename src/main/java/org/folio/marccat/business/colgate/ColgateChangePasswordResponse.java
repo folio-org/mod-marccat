@@ -5,13 +5,13 @@
  *
  * ColgateChangePasswordResponse.java
  */
-package org.folio.cataloging.business.colgate;
+package org.folio.marccat.business.colgate;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.authentication.AuthenticationException;
-import org.folio.cataloging.business.authentication.PasswordDuplicatesPreviousException;
-import org.folio.cataloging.business.common.SocketMessage;
+import org.folio.marccat.business.authentication.AuthenticationException;
+import org.folio.marccat.business.authentication.PasswordDuplicatesPreviousException;
+import org.folio.marccat.business.common.SocketMessage;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;

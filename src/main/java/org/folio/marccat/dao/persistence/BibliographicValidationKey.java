@@ -1,10 +1,10 @@
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
-import org.folio.cataloging.shared.ValidationKey;
+import org.folio.marccat.shared.ValidationKey;
 
 /**
  * @author paulm
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 public class BibliographicValidationKey extends ValidationKey {

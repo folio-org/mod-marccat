@@ -1,19 +1,19 @@
-package org.folio.cataloging.business.cataloguing.common;
+package org.folio.marccat.business.cataloguing.common;
 
 import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.PersistenceState;
-import org.folio.cataloging.dao.AbstractDAO;
-import org.folio.cataloging.dao.persistence.CorrelationKey;
-import org.folio.cataloging.dao.persistence.T_SINGLE;
-import org.folio.cataloging.exception.ValidationException;
-import org.folio.cataloging.shared.CorrelationValues;
-import org.folio.cataloging.shared.Validation;
-import org.folio.cataloging.util.StringText;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.common.PersistenceState;
+import org.folio.marccat.dao.AbstractDAO;
+import org.folio.marccat.dao.persistence.CorrelationKey;
+import org.folio.marccat.dao.persistence.T_SINGLE;
+import org.folio.marccat.exception.ValidationException;
+import org.folio.marccat.shared.CorrelationValues;
+import org.folio.marccat.shared.Validation;
+import org.folio.marccat.util.StringText;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -24,10 +24,10 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
 
-import static org.folio.cataloging.F.deepCopy;
+import static org.folio.marccat.F.deepCopy;
 
-//import org.folio.cataloging.dao.DAOCodeTable;
-//import org.folio.cataloging.dao.common.HibernateUtil;
+//import org.folio.marccat.dao.DAOCodeTable;
+//import org.folio.marccat.dao.common.HibernateUtil;
 
 /**
  * @author paulm

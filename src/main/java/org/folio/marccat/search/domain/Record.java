@@ -1,9 +1,9 @@
-package org.folio.cataloging.search.domain;
+package org.folio.marccat.search.domain;
 
-import org.folio.cataloging.search.XmlDocumentException;
-import org.folio.cataloging.search.XmlParserConfigurationException;
-import org.folio.cataloging.search.XslTransformerConfigurationException;
-import org.folio.cataloging.search.XslTransformerException;
+import org.folio.marccat.search.XmlDocumentException;
+import org.folio.marccat.search.XmlParserConfigurationException;
+import org.folio.marccat.search.XslTransformerConfigurationException;
+import org.folio.marccat.search.XslTransformerException;
 import org.w3c.dom.Document;
 
 import java.net.URL;
@@ -13,7 +13,7 @@ import java.util.Map;
  * This is an interface for database records.
  *
  * @author Wim Crols
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 public interface Record {

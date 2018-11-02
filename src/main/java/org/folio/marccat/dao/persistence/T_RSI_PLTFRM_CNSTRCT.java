@@ -5,7 +5,7 @@
  *
  * T_RSI_PLTFRM_CNSTRCT.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 /**
  * @author paulm

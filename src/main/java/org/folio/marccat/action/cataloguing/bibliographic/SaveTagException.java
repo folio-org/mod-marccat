@@ -1,6 +1,6 @@
-package org.folio.cataloging.action.cataloguing.bibliographic;
+package org.folio.marccat.action.cataloguing.bibliographic;
 
-import org.folio.cataloging.exception.ModCatalogingException;
+import org.folio.marccat.exception.ModCatalogingException;
 
 public class SaveTagException extends ModCatalogingException {
   protected int tagIndex = 0;

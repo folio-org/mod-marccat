@@ -5,12 +5,12 @@
  *
  * AuthorityAccessPoint.java
  */
-package org.folio.cataloging.business.cataloguing.authority;
+package org.folio.marccat.business.cataloguing.authority;
 
-import org.folio.cataloging.business.cataloguing.bibliographic.PersistsViaItem;
-import org.folio.cataloging.dao.persistence.AUT;
-import org.folio.cataloging.dao.persistence.AccessPoint;
-import org.folio.cataloging.dao.persistence.ItemEntity;
+import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
+import org.folio.marccat.dao.persistence.AUT;
+import org.folio.marccat.dao.persistence.AccessPoint;
+import org.folio.marccat.dao.persistence.ItemEntity;
 
 /**
  * @author paulm

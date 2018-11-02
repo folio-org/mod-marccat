@@ -1,11 +1,11 @@
-package org.folio.cataloging.business.cataloguing.bibliographic;
+package org.folio.marccat.business.cataloguing.bibliographic;
 
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
-import org.folio.cataloging.business.common.PersistentObjectWithView;
-import org.folio.cataloging.business.common.UserViewHelper;
-import org.folio.cataloging.dao.persistence.AccessPoint;
-import org.folio.cataloging.util.StringText;
+import org.folio.marccat.business.common.PersistentObjectWithView;
+import org.folio.marccat.business.common.UserViewHelper;
+import org.folio.marccat.dao.persistence.AccessPoint;
+import org.folio.marccat.util.StringText;
 
 import java.sql.SQLException;
 

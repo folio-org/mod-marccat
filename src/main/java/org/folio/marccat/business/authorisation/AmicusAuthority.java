@@ -5,11 +5,11 @@
  *
  * AmicusAuthority.java
  */
-package org.folio.cataloging.business.authorisation;
+package org.folio.marccat.business.authorisation;
 
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.DAOUserAccount;
-import org.folio.cataloging.dao.persistence.USR_ACNT;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.dao.DAOUserAccount;
+import org.folio.marccat.dao.persistence.USR_ACNT;
 
 import java.util.*;
 

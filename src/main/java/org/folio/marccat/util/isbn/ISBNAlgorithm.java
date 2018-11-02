@@ -1,7 +1,7 @@
-package org.folio.cataloging.util.isbn;
+package org.folio.marccat.util.isbn;
 
-import org.folio.cataloging.F;
-import org.folio.cataloging.log.Log;
+import org.folio.marccat.F;
+import org.folio.marccat.log.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ public class ISBNAlgorithm {
   private ISBNValidator isbnValidator = new ISBNValidator();
 
   /**
-   * Il metodo converte il codice org.folio.cataloging.util.isbn.ISBNAlgorithm da 10 a 13 caratteri e viceversa e ritorna una lista di valori convertiti
+   * Il metodo converte il codice org.folio.marccat.util.isbn.ISBNAlgorithm da 10 a 13 caratteri e viceversa e ritorna una lista di valori convertiti
    * Questa lista conterra' un solo valore se si converte da 13 a 10, due valori se si converte da 10 a 13 (978-,979-)
    *
    * @param isbnCode

@@ -1,10 +1,10 @@
-package org.folio.cataloging.shared;
+package org.folio.marccat.shared;
 
 import java.io.Serializable;
 
 /**
  * @author elena
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 public class ValidationKey implements Serializable {

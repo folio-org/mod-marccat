@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC 
 	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
-<hibernate-mapping package="org.folio.cataloging.dao.persistence">
+<hibernate-mapping package="org.folio.marccat.dao.persistence">
 	<class name="T_AUT_SHLF_LIST_FNCTN"  schema="olisuite"  table="T_AUT_SHLF_LIST_FNCTN">
 	<composite-id>
 		<key-property name="code" column="TBL_VLU_CDE" />

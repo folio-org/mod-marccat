@@ -5,10 +5,10 @@
  *
  * TagImplFactory.java
  */
-package org.folio.cataloging.business.cataloguing.common;
+package org.folio.marccat.business.cataloguing.common;
 
-import org.folio.cataloging.business.cataloguing.authority.AuthorityTagImpl;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicTagImpl;
+import org.folio.marccat.business.cataloguing.authority.AuthorityTagImpl;
+import org.folio.marccat.business.cataloguing.bibliographic.BibliographicTagImpl;
 
 /**
  * @author paulm

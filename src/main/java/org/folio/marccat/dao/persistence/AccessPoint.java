@@ -1,16 +1,16 @@
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
-import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
-import org.folio.cataloging.business.cataloguing.common.Browsable;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Persistence;
-import org.folio.cataloging.business.common.PersistenceState;
-import org.folio.cataloging.business.descriptor.SkipInFiling;
-import org.folio.cataloging.dao.AbstractDAO;
-import org.folio.cataloging.dao.DAODescriptor;
-import org.folio.cataloging.util.StringText;
+import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
+import org.folio.marccat.business.cataloguing.common.Browsable;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.common.Persistence;
+import org.folio.marccat.business.common.PersistenceState;
+import org.folio.marccat.business.descriptor.SkipInFiling;
+import org.folio.marccat.dao.AbstractDAO;
+import org.folio.marccat.dao.DAODescriptor;
+import org.folio.marccat.util.StringText;
 import org.w3c.dom.Element;
 
 import java.sql.SQLException;

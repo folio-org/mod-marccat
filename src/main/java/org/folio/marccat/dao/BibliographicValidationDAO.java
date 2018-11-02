@@ -1,4 +1,4 @@
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
@@ -6,13 +6,13 @@ import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.cataloguing.bibliographic.MarcCorrelationException;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.persistence.BibliographicValidation;
-import org.folio.cataloging.dao.persistence.BibliographicValidationKey;
-import org.folio.cataloging.integration.log.MessageCatalogStorage;
-import org.folio.cataloging.shared.CorrelationValues;
-import org.folio.cataloging.shared.Validation;
+import org.folio.marccat.business.cataloguing.bibliographic.MarcCorrelationException;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.dao.persistence.BibliographicValidation;
+import org.folio.marccat.dao.persistence.BibliographicValidationKey;
+import org.folio.marccat.integration.log.MessageCatalogStorage;
+import org.folio.marccat.shared.CorrelationValues;
+import org.folio.marccat.shared.Validation;
 
 import java.util.List;
 import java.util.Objects;
@@ -21,7 +21,7 @@ import java.util.Optional;
 /**
  * @author elena
  * @author natasciab
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 public class BibliographicValidationDAO extends DAOValidation {

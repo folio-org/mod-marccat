@@ -1,20 +1,20 @@
-package org.folio.cataloging.resources;
+package org.folio.marccat.resources;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.folio.cataloging.Global;
-import org.folio.cataloging.ModCataloging;
-import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.resources.domain.DescriptiveCatalogForm;
-import org.folio.cataloging.resources.domain.DescriptiveCatalogFormCollection;
+import org.folio.marccat.Global;
+import org.folio.marccat.ModMarccat;
+import org.folio.marccat.business.codetable.Avp;
+import org.folio.marccat.resources.domain.DescriptiveCatalogForm;
+import org.folio.marccat.resources.domain.DescriptiveCatalogFormCollection;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
-import static org.folio.cataloging.integration.CatalogingHelper.doGet;
+import static org.folio.marccat.integration.CatalogingHelper.doGet;
 
 /**
  * Descriptive Catalog Forms RESTful APIs.
@@ -24,7 +24,7 @@ import static org.folio.cataloging.integration.CatalogingHelper.doGet;
  */
 @RestController
 @Api(value = "modcat-api", description = "Descriptive catalog forms resource API")
-@RequestMapping(value = ModCataloging.BASE_URI, produces = "application/json")
+@RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class DescriptiveCatalogFormAPI extends BaseResource {
 
   private Function <Avp <String>, DescriptiveCatalogForm> toDescriptiveCatalogForm = source -> {

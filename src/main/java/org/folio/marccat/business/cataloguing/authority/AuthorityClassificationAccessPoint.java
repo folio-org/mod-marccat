@@ -5,18 +5,18 @@
  *
  * AuthorityClassificationAccessPoint.java
  */
-package org.folio.cataloging.business.cataloguing.authority;
+package org.folio.marccat.business.cataloguing.authority;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Defaults;
-import org.folio.cataloging.dao.DAOAuthorityCorrelation;
-import org.folio.cataloging.dao.persistence.CLSTN;
-import org.folio.cataloging.dao.persistence.Descriptor;
-import org.folio.cataloging.dao.persistence.T_AUT_CLSTN_FNCTN;
-import org.folio.cataloging.shared.CorrelationValues;
-import org.folio.cataloging.util.StringText;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.common.Defaults;
+import org.folio.marccat.dao.DAOAuthorityCorrelation;
+import org.folio.marccat.dao.persistence.CLSTN;
+import org.folio.marccat.dao.persistence.Descriptor;
+import org.folio.marccat.dao.persistence.T_AUT_CLSTN_FNCTN;
+import org.folio.marccat.shared.CorrelationValues;
+import org.folio.marccat.util.StringText;
 
 import java.util.Iterator;
 import java.util.List;
@@ -66,7 +66,7 @@ public class AuthorityClassificationAccessPoint extends AuthorityAccessPoint {
   }
 
   /* (non-Javadoc)
-   * @see AccessPoint#setAccessPointStringText(org.folio.cataloging.util.StringText)
+   * @see AccessPoint#setAccessPointStringText(org.folio.marccat.util.StringText)
    */
   public void setAccessPointStringText(StringText stringText) {
     setVolumeDate(stringText.getSubfieldsWithCodes("d").toString());
@@ -162,7 +162,7 @@ public class AuthorityClassificationAccessPoint extends AuthorityAccessPoint {
   }
 
   /* (non-Javadoc)
-   * @see AccessPoint#setDescriptorStringText(org.folio.cataloging.util.StringText)
+   * @see AccessPoint#setDescriptorStringText(org.folio.marccat.util.StringText)
    */
   public void setDescriptorStringText(StringText tagStringText) {
     getDescriptor().setStringText(

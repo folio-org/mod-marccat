@@ -5,9 +5,9 @@
  *
  * BibliographicGeographicAreaTag.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
-import org.folio.cataloging.business.cataloguing.common.GeographicAreaTag;
+import org.folio.marccat.business.cataloguing.common.GeographicAreaTag;
 
 /**
  * @author paulm

@@ -1,12 +1,12 @@
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
 import net.sf.hibernate.type.Type;
-import org.folio.cataloging.business.codetable.Avp;
-import org.folio.cataloging.dao.persistence.Model;
+import org.folio.marccat.business.codetable.Avp;
+import org.folio.marccat.dao.persistence.Model;
 
 import java.util.List;
 import java.util.Objects;
@@ -16,7 +16,7 @@ import static java.util.stream.Collectors.toList;
 /**
  * Abstract class for common implementations of ModelsDAO (Bib and Auth).
  *
- * @author agazzarini
+ * @author cchiama
  * @author carment
  * @author paulm
  * @since 1.0
@@ -158,8 +158,8 @@ public abstract class ModelDAO extends AbstractDAO {
   @SuppressWarnings("unchecked")
   public List <Avp <Integer>> getBibliographicModelList(final Session session) throws HibernateException {
     return session.find(
-      " select new org.folio.cataloging.business.codetable.Avp(m.id, m.label) from "
-        + " org.folio.cataloging.dao.persistence.BibliographicModel "
+      " select new org.folio.marccat.business.codetable.Avp(m.id, m.label) from "
+        + " org.folio.marccat.dao.persistence.BibliographicModel "
         + " as m order by m.label");
   }
 
@@ -173,8 +173,8 @@ public abstract class ModelDAO extends AbstractDAO {
   @SuppressWarnings("unchecked")
   public List <Avp <Integer>> getAuthorityModelList(final Session session) throws HibernateException {
     return session.find(
-      " select new org.folio.cataloging.business.codetable.Avp(m.id, m.label) from "
-        + " org.folio.cataloging.dao.persistence.AuthorityModel "
+      " select new org.folio.marccat.business.codetable.Avp(m.id, m.label) from "
+        + " org.folio.marccat.dao.persistence.AuthorityModel "
         + " as m order by m.label");
   }
 }

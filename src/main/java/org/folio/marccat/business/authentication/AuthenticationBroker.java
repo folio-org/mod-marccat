@@ -2,9 +2,9 @@
  * Standard interface to authentication brokers
  * Created on May 5, 2004
  */
-package org.folio.cataloging.business.authentication;
+package org.folio.marccat.business.authentication;
 
-import org.folio.cataloging.exception.ConnectException;
+import org.folio.marccat.exception.ConnectException;
 
 
 /**

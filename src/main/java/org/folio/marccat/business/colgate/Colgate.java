@@ -2,16 +2,16 @@
  * Created on May 5, 2004
  *
  */
-package org.folio.cataloging.business.colgate;
+package org.folio.marccat.business.colgate;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.authentication.AuthenticationBroker;
-import org.folio.cataloging.business.authentication.AuthenticationException;
-import org.folio.cataloging.business.authentication.InvalidPasswordFormatException;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.DAOGlobalVariable;
-import org.folio.cataloging.exception.ConnectException;
+import org.folio.marccat.business.authentication.AuthenticationBroker;
+import org.folio.marccat.business.authentication.AuthenticationException;
+import org.folio.marccat.business.authentication.InvalidPasswordFormatException;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.dao.DAOGlobalVariable;
+import org.folio.marccat.exception.ConnectException;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

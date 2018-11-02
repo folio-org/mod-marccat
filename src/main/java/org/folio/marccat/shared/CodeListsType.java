@@ -1,4 +1,4 @@
-package org.folio.cataloging.shared;
+package org.folio.marccat.shared;
 
 //TODO: this enum needs to shared between modules (storage and API)
 public enum CodeListsType {

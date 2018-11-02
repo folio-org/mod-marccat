@@ -1,11 +1,11 @@
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
-import org.folio.cataloging.business.cataloguing.bibliographic.FixedField;
-import org.folio.cataloging.business.common.PersistenceState;
-import org.folio.cataloging.business.common.PersistentObjectWithView;
-import org.folio.cataloging.business.common.UserViewHelper;
-import org.folio.cataloging.dao.AbstractDAO;
-import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.marccat.business.cataloguing.bibliographic.FixedField;
+import org.folio.marccat.business.common.PersistenceState;
+import org.folio.marccat.business.common.PersistentObjectWithView;
+import org.folio.marccat.business.common.UserViewHelper;
+import org.folio.marccat.dao.AbstractDAO;
+import org.folio.marccat.shared.CorrelationValues;
 
 /**
  * @author paulm

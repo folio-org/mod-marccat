@@ -1,12 +1,12 @@
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Query;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.persistence.CasCache;
-import org.folio.cataloging.dao.persistence.CasTransfRec;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.dao.persistence.CasCache;
+import org.folio.marccat.dao.persistence.CasTransfRec;
 
 import java.sql.SQLException;
 import java.util.List;

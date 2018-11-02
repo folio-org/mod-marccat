@@ -6,7 +6,7 @@
 <hibernate-mapping>
 
 <class 
-    name="org.folio.cataloging.dao.persistence.Diacritics"
+    name="org.folio.marccat.dao.persistence.Diacritics"
     schema="amicus"
     table="Diacritici"
     lazy="false"

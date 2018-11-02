@@ -1,4 +1,4 @@
-package org.folio.cataloging.log;
+package org.folio.marccat.log;
 
 //TODO: delete messages related to storage and dao
 public interface MessageCatalog {

@@ -5,7 +5,7 @@
  *
  * T_PRSN_CIRTN_TYP.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 /**
  * @author Maite

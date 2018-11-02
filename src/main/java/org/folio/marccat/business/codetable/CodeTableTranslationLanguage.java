@@ -5,11 +5,11 @@
  *
  * CodeTableTranslationLanguage.java
  */
-package org.folio.cataloging.business.codetable;
+package org.folio.marccat.business.codetable;
 
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.DAOTranslationLanguage;
-import org.folio.cataloging.dao.persistence.T_TRLTN_LANG_CDE;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.dao.DAOTranslationLanguage;
+import org.folio.marccat.dao.persistence.T_TRLTN_LANG_CDE;
 
 import java.util.List;
 import java.util.Locale;

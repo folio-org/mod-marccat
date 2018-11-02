@@ -5,7 +5,7 @@
  *
  * CodeTableCharListElement.java
  */
-package org.folio.cataloging.business.codetable;
+package org.folio.marccat.business.codetable;
 
 /**
  * Holds a single entry for IDX_LIST lists

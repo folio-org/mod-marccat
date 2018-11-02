@@ -2,18 +2,18 @@
  * Created on 20-jul-2004
  *
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
-import org.folio.cataloging.business.cataloguing.bibliographic.VariableField;
-import org.folio.cataloging.business.cataloguing.common.OrderedTag;
-import org.folio.cataloging.business.common.PersistenceState;
-import org.folio.cataloging.business.common.PersistentObjectWithView;
-import org.folio.cataloging.business.common.UserViewHelper;
-import org.folio.cataloging.dao.AbstractDAO;
-import org.folio.cataloging.dao.DAOBibliographicNote;
-import org.folio.cataloging.integration.GlobalStorage;
-import org.folio.cataloging.shared.CorrelationValues;
-import org.folio.cataloging.util.StringText;
+import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
+import org.folio.marccat.business.cataloguing.common.OrderedTag;
+import org.folio.marccat.business.common.PersistenceState;
+import org.folio.marccat.business.common.PersistentObjectWithView;
+import org.folio.marccat.business.common.UserViewHelper;
+import org.folio.marccat.dao.AbstractDAO;
+import org.folio.marccat.dao.DAOBibliographicNote;
+import org.folio.marccat.integration.GlobalStorage;
+import org.folio.marccat.shared.CorrelationValues;
+import org.folio.marccat.util.StringText;
 
 import java.util.ArrayList;
 import java.util.List;

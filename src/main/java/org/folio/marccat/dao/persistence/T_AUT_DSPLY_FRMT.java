@@ -5,7 +5,7 @@
  *
  * T_AUT_DSPLY_FRMT.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 /**
  * Links the users choice of display format (labelled, marc, etc.) to the

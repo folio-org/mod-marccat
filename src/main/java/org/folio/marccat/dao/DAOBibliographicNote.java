@@ -1,7 +1,7 @@
-package org.folio.cataloging.dao;
+package org.folio.marccat.dao;
 
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.Persistence;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.common.Persistence;
 
 /**
  * @author paulm

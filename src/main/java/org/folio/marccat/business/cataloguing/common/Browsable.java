@@ -5,10 +5,10 @@
  *
  * Browsable.java
  */
-package org.folio.cataloging.business.cataloguing.common;
+package org.folio.marccat.business.cataloguing.common;
 
-import org.folio.cataloging.dao.persistence.Descriptor;
-import org.folio.cataloging.util.StringText;
+import org.folio.marccat.dao.persistence.Descriptor;
+import org.folio.marccat.util.StringText;
 
 import java.util.Set;
 

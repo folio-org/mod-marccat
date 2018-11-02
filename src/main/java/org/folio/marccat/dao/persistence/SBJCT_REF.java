@@ -5,10 +5,10 @@
  *
  * SBJCT_REF.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
-import org.folio.cataloging.dao.DAODescriptor;
-import org.folio.cataloging.dao.SubjectDescriptorDAO;
+import org.folio.marccat.dao.DAODescriptor;
+import org.folio.marccat.dao.SubjectDescriptorDAO;
 
 /**
  * @author paulm

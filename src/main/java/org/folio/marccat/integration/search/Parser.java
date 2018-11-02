@@ -1,11 +1,11 @@
-package org.folio.cataloging.integration.search;
+package org.folio.marccat.integration.search;
 
 import net.sf.hibernate.Session;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.DAOIndexList;
-import org.folio.cataloging.dao.persistence.IndexList;
-import org.folio.cataloging.log.Log;
-import org.folio.cataloging.log.MessageCatalog;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.dao.DAOIndexList;
+import org.folio.marccat.dao.persistence.IndexList;
+import org.folio.marccat.log.Log;
+import org.folio.marccat.log.MessageCatalog;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.Locale;
  * Query Parser.
  *
  * @author paulm
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 public class Parser {

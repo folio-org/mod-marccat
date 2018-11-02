@@ -1,22 +1,22 @@
-package org.folio.cataloging.business.cataloguing.common;
+package org.folio.marccat.business.cataloguing.common;
 
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.cataloguing.bibliographic.BibliographicCatalog;
-import org.folio.cataloging.business.cataloguing.bibliographic.NewTagException;
-import org.folio.cataloging.business.cataloguing.bibliographic.PersistsViaItem;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.dao.CatalogDAO;
-import org.folio.cataloging.dao.DAOCodeTable;
-import org.folio.cataloging.dao.ModelDAO;
-import org.folio.cataloging.dao.persistence.CatalogItem;
-import org.folio.cataloging.dao.persistence.ItemEntity;
-import org.folio.cataloging.dao.persistence.Model;
-import org.folio.cataloging.exception.RecordInUseException;
-import org.folio.cataloging.exception.ValidationException;
-import org.folio.cataloging.shared.CorrelationValues;
+import org.folio.marccat.business.cataloguing.bibliographic.BibliographicCatalog;
+import org.folio.marccat.business.cataloguing.bibliographic.NewTagException;
+import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.dao.CatalogDAO;
+import org.folio.marccat.dao.DAOCodeTable;
+import org.folio.marccat.dao.ModelDAO;
+import org.folio.marccat.dao.persistence.CatalogItem;
+import org.folio.marccat.dao.persistence.ItemEntity;
+import org.folio.marccat.dao.persistence.Model;
+import org.folio.marccat.exception.RecordInUseException;
+import org.folio.marccat.exception.ValidationException;
+import org.folio.marccat.shared.CorrelationValues;
 import org.w3c.dom.Element;
 
 import java.util.HashMap;
@@ -28,7 +28,7 @@ import java.util.Map;
  * Supertype layer of all Catalogs impl.
  *
  * @author paulm
- * @author agazzarini
+ * @author cchiama
  * @since 1.0
  */
 
@@ -49,7 +49,7 @@ public abstract class Catalog {
     return VIEW_TO_INSTANCE_MAP.computeIfAbsent(
       viewId, id -> {
         try {
-          return (Catalog) Class.forName("org.folio.cataloging.business.cataloguing.bibliographic." + id).newInstance();
+          return (Catalog) Class.forName("org.folio.marccat.business.cataloguing.bibliographic." + id).newInstance();
         } catch (final Throwable exception) {
           return new BibliographicCatalog();
         }

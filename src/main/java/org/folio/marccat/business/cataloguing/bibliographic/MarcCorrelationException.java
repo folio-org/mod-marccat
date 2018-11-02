@@ -2,9 +2,9 @@
  * Created on Sep 3, 2004
  *
  */
-package org.folio.cataloging.business.cataloguing.bibliographic;
+package org.folio.marccat.business.cataloguing.bibliographic;
 
-import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.marccat.business.common.DataAccessException;
 
 /**
  * @author paulm

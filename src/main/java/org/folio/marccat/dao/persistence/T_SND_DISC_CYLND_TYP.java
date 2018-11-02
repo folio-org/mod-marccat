@@ -5,7 +5,7 @@
  *
  * T_SND_DISC_CYLND_TYP.java
  */
-package org.folio.cataloging.dao.persistence;
+package org.folio.marccat.dao.persistence;
 
 /**
  * @author paulm

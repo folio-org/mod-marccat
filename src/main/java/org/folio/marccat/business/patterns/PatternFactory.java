@@ -2,7 +2,7 @@
  * Created on Dec 17, 2005
  *
  */
-package org.folio.cataloging.business.patterns;
+package org.folio.marccat.business.patterns;
 
 /**
  * Constructs calendar Pattern objects based on the specified parameters

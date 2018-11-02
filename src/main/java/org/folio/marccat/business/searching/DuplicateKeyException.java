@@ -1,6 +1,6 @@
-package org.folio.cataloging.business.searching;
+package org.folio.marccat.business.searching;
 
-import org.folio.cataloging.business.common.DataAccessException;
+import org.folio.marccat.business.common.DataAccessException;
 
 /**
  * @author paulm

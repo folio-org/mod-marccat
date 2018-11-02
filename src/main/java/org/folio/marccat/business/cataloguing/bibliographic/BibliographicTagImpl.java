@@ -2,22 +2,22 @@
  * Created on 20-jul-2004
  *
  */
-package org.folio.cataloging.business.cataloguing.bibliographic;
+package org.folio.marccat.business.cataloguing.bibliographic;
 
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.cataloging.business.cataloguing.common.Catalog;
-import org.folio.cataloging.business.cataloguing.common.Tag;
-import org.folio.cataloging.business.cataloguing.common.TagImpl;
-import org.folio.cataloging.business.common.DataAccessException;
-import org.folio.cataloging.business.common.SubfieldCodeComparator;
-import org.folio.cataloging.dao.BibliographicCorrelationDAO;
-import org.folio.cataloging.dao.BibliographicValidationDAO;
-import org.folio.cataloging.dao.persistence.Correlation;
-import org.folio.cataloging.dao.persistence.CorrelationKey;
-import org.folio.cataloging.shared.Validation;
+import org.folio.marccat.business.cataloguing.common.Catalog;
+import org.folio.marccat.business.cataloguing.common.Tag;
+import org.folio.marccat.business.cataloguing.common.TagImpl;
+import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.business.common.SubfieldCodeComparator;
+import org.folio.marccat.dao.BibliographicCorrelationDAO;
+import org.folio.marccat.dao.BibliographicValidationDAO;
+import org.folio.marccat.dao.persistence.Correlation;
+import org.folio.marccat.dao.persistence.CorrelationKey;
+import org.folio.marccat.shared.Validation;
 
 import java.util.Arrays;
 import java.util.Set;

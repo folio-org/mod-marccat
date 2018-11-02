@@ -1,6 +1,6 @@
-package org.folio.cataloging.action;
+package org.folio.marccat.action;
 
-import org.folio.cataloging.dao.DAOCodeTable;
+import org.folio.marccat.dao.DAOCodeTable;
 
 // TODO: REMOVE
 public abstract class LibrisuiteAction {
