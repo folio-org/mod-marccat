@@ -1,12 +1,6 @@
 {
-  "id": "${artifactId}-${version}",
-  "name": "MARCcat Import Module",
-  "requires": [
-    {
-      "id": "marc-record-manager",
-      "version": "1.0"
-    }
-  ],
+  "id": "${artifactId}:${version}",
+  "name": "MARCcat Module",
   "provides": [
     {
       "id": "marccat",
@@ -15,48 +9,27 @@
         {
           "methods": ["GET"],
           "pathPattern": "/search",
-          "permissionsRequired": [
-            "marccat.records.collection.get"
+          "permissionsRequired": [],
+          "modulePermissions": [
           ]
-        },
-        {
+        }, {
           "methods": ["GET"],
           "pathPattern": "/searchVertical",
-          "permissionsRequired": []
-        }
-      ]
-    },
-    {
-      "id": "_tenant",
-      "version": "1.0",
-      "interfaceType": "system",
-      "handlers": [
-        {
-          "methods": [
-            "POST"
-          ],
-          "pathPattern": "/_/tenant"
-        },
-        {
-          "methods": [
-            "DELETE"
-          ],
-          "pathPattern": "/_/tenant"
+          "permissionsRequired": [],
+          "modulePermissions": [
+          ]
         }
       ]
     }
   ],
   "permissionSets": [
-    {
-      "permissionName": "marccat.records.collection.get",
-      "displayName": "MARCcat - get records collection",
-      "description": "Get record collection"
-    },
+
   ],
   "launchDescriptor": {
+    "exec": "java -Dport=%p -jar ./target/mod-cataloging-1.0.jar",
     "dockerImage": "${artifactId}:${version}",
     "dockerArgs": {
-      "HostConfig": { "PortBindings": { "8081/tcp":  [{ "HostPort": "%p" }] } }
+      "HostConfig": { "PortBindings": { "9403/tcp":  [{ "HostPort": "%p" }] } }
     },
     "dockerPull" : false
   }
