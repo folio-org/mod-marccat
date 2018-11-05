@@ -1,5 +1,5 @@
 configuration:
-  endpoint: http://marcat_st.atcult.it:8085/configurations/entries
+  endpoint: http://localhost:9130/configurations/entries
   baseUrl: marccat
 
 logging:
@@ -14,6 +14,3 @@ logging:
 server:
   port: 8080
 
-configuration:
-  cache:
-    expire: 120
