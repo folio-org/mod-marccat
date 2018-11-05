@@ -27,6 +27,7 @@ import static ru.yandex.qatools.embed.postgresql.distribution.Version.Main.V9_6;
  * @since 1.0
  */
 public abstract class BaseIntegrationTestCase {
+
     @LocalServerPort
     protected int port;
 

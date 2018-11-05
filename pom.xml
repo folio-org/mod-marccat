@@ -15,7 +15,7 @@
   <packaging>jar</packaging>
 
   <name>mod-marccat</name>
-  <description>Module to handle MARC record</description>
+  <description>Module to handle BIB record</description>
   <url>https://github.com/folio-org/mod-marccat</url>
   <inceptionYear>2018</inceptionYear>
 
@@ -55,23 +55,8 @@
     <postgres-embedded-version>2.9</postgres-embedded-version>
     <postgres-version>42.1.4</postgres-version>
     <vertx-version>3.4.2</vertx-version>
-    <lombok-version>1.16.16</lombok-version>
   </properties>
 
-  <developers>
-    <developer>
-      <id>cchiama</id>
-      <name>Christian Chiama</name>
-      <url>http://www.linkedin.com/in/christianchiama</url>
-      <email>christian.chiama@atcult.it</email>
-      <organization>@Cult</organization>
-      <organizationUrl>http://www.atcult.it</organizationUrl>
-      <roles>
-        <role>CTO</role>
-        <role>UI Lead Development</role>
-      </roles>
-    </developer>
-  </developers>
 
   <licenses>
     <license>
