@@ -51,7 +51,7 @@ public class BibliographicRecordAPI extends BaseResource {
     @ApiResponse(code = 500, message = "System internal failure occurred.")
   })
   @GetMapping("/bibliographic-record/{id}")
-  public ResponseEntity <Object> getRecord(
+  public ResponseEntity<Object> getRecord(
     @RequestParam final Integer id,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
@@ -61,10 +61,10 @@ public class BibliographicRecordAPI extends BaseResource {
       if (record != null)
         resetStatus(record);
       else {
-        return new ResponseEntity <>(record, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(record, HttpStatus.NOT_FOUND);
       }
 
-      return new ResponseEntity <>(record, HttpStatus.OK);
+      return new ResponseEntity<>(record, HttpStatus.OK);
     }, tenant, configurator);
   }
 
@@ -109,13 +109,13 @@ public class BibliographicRecordAPI extends BaseResource {
 
       FixedField fixed005 = new FixedField();
       fixed005.setHeaderTypeCode(Global.DATETIME_TRANSACION_HEADER_TYPE);
-      fixed005.setCode(Global.DATETIME_TRANSACION_TAG_CODE);
+      fixed005.setCode(Global.DATETIME_TRANSACTION_TAG_CODE);
       fixed005.setDisplayValue(F.getFormattedToday("yyyyMMddHHmmss."));
       fixed005.setCategoryCode(Global.INT_CATEGORY);
       fixed005.setDescription(storageService.getHeadingTypeDescription(Global.DATETIME_TRANSACION_HEADER_TYPE, lang, Global.INT_CATEGORY));
 
       final Field field = new Field();
-      field.setCode(Global.DATETIME_TRANSACION_TAG_CODE);
+      field.setCode(Global.DATETIME_TRANSACTION_TAG_CODE);
       field.setMandatory(true);
       field.setFixedField(fixed005);
       field.setFieldStatus(Field.FieldStatus.NEW);
@@ -139,7 +139,7 @@ public class BibliographicRecordAPI extends BaseResource {
     @ApiResponse(code = 500, message = "System internal failure occurred.")
   })
   @PostMapping("/bibliographic-record")
-  public ResponseEntity <Object> save(
+  public ResponseEntity<Object> save(
     @RequestBody final BibliographicRecord record,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
     @RequestParam final String lang,
@@ -162,8 +162,14 @@ public class BibliographicRecordAPI extends BaseResource {
             field.getCode().equalsIgnoreCase(Global.PHYSICAL_DESCRIPTION_TAG_CODE)).forEach(field -> {
 
           FixedField ff = field.getFixedField();
+          final int headerTypeCode = ff.getHeaderTypeCode();
+
           if (field.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE) || field.getCode().equalsIgnoreCase(Global.OTHER_MATERIAL_TAG_CODE)) {
-            final Map <String, Object> mapRecordTypeMaterial = storageService.getMaterialTypeInfosByLeaderValues(leader.getValue().charAt(6), leader.getValue().charAt(7), field.getCode());
+
+            final Map<String, Object> mapRecordTypeMaterial = (field.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE))
+              ? storageService.getMaterialTypeInfosByLeaderValues(leader.getValue().charAt(6), leader.getValue().charAt(7), field.getCode())
+              : storageService.getMaterialTypeInfosByHeaderCode(headerTypeCode, field.getCode());
+
             ConversionFieldUtils.setMaterialValuesInFixedField(ff, (String) mapRecordTypeMaterial.get(Global.FORM_OF_MATERIAL_LABEL));
           } else
             ConversionFieldUtils.setPhysicalInformationValuesInFixedField(ff);
@@ -173,7 +179,7 @@ public class BibliographicRecordAPI extends BaseResource {
         final BibliographicRecord recordSaved = storageService.getBibliographicRecordById(itemNumber, view);
         resetStatus(recordSaved);
 
-        return new ResponseEntity <>(recordSaved, HttpStatus.OK);
+        return new ResponseEntity<>(recordSaved, HttpStatus.OK);
       } catch (final Exception exception) {
         logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
         return record;
@@ -269,8 +275,8 @@ public class BibliographicRecordAPI extends BaseResource {
    * @throws DuplicateTagException in case of duplicate tag exception.
    */
   private String checkRepeatability(final BibliographicRecord record, final StorageService storage) {
-    Map <String, List <Field>> fieldsGroupedByCode = record.getFields().stream().collect(Collectors.groupingBy(Field::getCode));
-    List <String> duplicates =
+    Map<String, List<Field>> fieldsGroupedByCode = record.getFields().stream().collect(Collectors.groupingBy(Field::getCode));
+    List<String> duplicates =
       fieldsGroupedByCode.entrySet().stream()
         .filter(entry -> entry.getValue().size() > 1)
         .map(Map.Entry::getKey).collect(Collectors.toList());
@@ -296,7 +302,7 @@ public class BibliographicRecordAPI extends BaseResource {
    * @return check mandatory.
    */
   private boolean checkMandatory(final BibliographicRecord record) {
-    List <String> found = new ArrayList <>();
+    List<String> found = new ArrayList<>();
     if (record.getLeader() != null)
       found.add(record.getLeader().getCode());
 
@@ -305,7 +311,7 @@ public class BibliographicRecordAPI extends BaseResource {
         found.add(field.getCode());
       }
     });
-    ArrayList <String> result = new ArrayList <>(Global.MANDATORY_FIELDS);
+    ArrayList<String> result = new ArrayList<>(Global.MANDATORY_FIELDS);
     result.retainAll(found);
     return result.size() == Global.MANDATORY_FIELDS.size() && found.size() > 0;
   }
@@ -332,37 +338,6 @@ public class BibliographicRecordAPI extends BaseResource {
       field.getFixedField().getCategoryCode() :
       field.getVariableField().getCategoryCode();
   }
-
-
-   /* @GetMapping("/search")
-    public SearchResponse search(
-            @RequestParam final String lang,
-            @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
-            @RequestParam("q") final String q,
-            @RequestParam(name = "from", defaultValue = "1") final int from,
-            @RequestParam(name = "to", defaultValue = "10") final int to,
-            @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
-            @RequestParam("ml") final int mainLibraryId,
-            @RequestParam(name = "dpo", defaultValue = "1") final int databasePreferenceOrder,
-            @RequestParam(name = "sortBy", required = false) final String[] sortAttributes,
-            @RequestParam(name = "sortOrder", required = false) final String[] sortOrders) {
-        return doGet((storageService, configuration) -> {
-            final SearchEngine searchEngine =
-                    SearchEngineFactory.create(
-                            SearchEngineType.LIGHTWEIGHT,
-                            mainLibraryId,
-                            databasePreferenceOrder,
-                            storageService);
-
-            return searchEngine.fetchRecords(
-                    (sortAttributes != null && sortOrders != null && sortAttributes.length == sortOrders.length)
-                            ? searchEngine.sort(searchEngine.expertSearch(q, locale(lang), view), sortAttributes, sortOrders)
-                            : searchEngine.expertSearch(q, locale(lang), view),
-                    "F",
-                    from,
-                    to);
-        }, tenant, configurator);
-    }*/
 
   /**
    * Sets the default leader value.
