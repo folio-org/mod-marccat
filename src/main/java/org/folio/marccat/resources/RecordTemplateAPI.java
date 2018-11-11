@@ -5,13 +5,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.apache.commons.lang.StringUtils;
 import org.folio.marccat.Global;
 import org.folio.marccat.ModMarccat;
 import org.folio.marccat.business.codetable.Avp;
 import org.folio.marccat.log.MessageCatalog;
-import org.folio.marccat.resources.domain.CatalogingEntityType;
-import org.folio.marccat.resources.domain.RecordTemplate;
-import org.folio.marccat.resources.domain.RecordTemplateCollection;
+import org.folio.marccat.resources.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +26,7 @@ import static org.folio.marccat.resources.domain.CatalogingEntityType.A;
 /**
  * BIB / AUT Record templates API.
  *
- * @author cchiama
+ * @author agazzarini
  * @author carment
  * @since 1.0
  */
@@ -166,5 +165,87 @@ public class RecordTemplateAPI extends BaseResource {
       }
       return id;
     }, tenant, configurator);
+  }
+
+  @ApiOperation(value = "Creates a new template from a bibliographic record.")
+  @ApiResponses(value = {
+    @ApiResponse(code = 201, message = "Method successfully created the new template."),
+    @ApiResponse(code = 400, message = "Bad Request"),
+    @ApiResponse(code = 414, message = "Request-URI Too Long"),
+    @ApiResponse(code = 500, message = "System internal failure occurred.")
+  })
+  @PostMapping("/record-template/from-record")
+  public ResponseEntity <Object> createFromRecord(
+    @RequestBody final BibliographicRecord record,
+    @RequestParam final String templateName,
+    @RequestParam final String lang,
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    return doPost((storageService, configuration) -> {
+      try {
+        final RecordTemplate template = new RecordTemplate();
+        template.setName(templateName);
+        template.setLeader(record.getLeader());
+        template.setType("B");
+
+        record.getFields().stream().filter(this::isFixedField)
+          .filter(field -> !field.getCode().equals(Global.DATETIME_TRANSACTION_TAG_CODE)).forEach(field -> {
+
+          Field newField = new Field();
+          newField.setCode(field.getCode());
+          newField.setMandatory(field.isMandatory());
+          FixedField ff = new FixedField();
+          ff.setHeaderTypeCode(field.getFixedField().getHeaderTypeCode());
+          ff.setCategoryCode(field.getFixedField().getCategoryCode());
+          ff.setDescription(field.getFixedField().getDescription());
+          ff.setSequenceNumber(0);
+
+          final String valueField = (field.getCode().equals(Global.MATERIAL_TAG_CODE) && isNotNullOrEmpty(field.getFixedField().getDisplayValue()))
+            ? field.getFixedField().getDisplayValue().substring(0, 7) + StringUtils.repeat(" ", 8) + field.getFixedField().getDisplayValue().substring(15)
+            : "";
+
+          ff.setDisplayValue(valueField);
+
+          ff.setCode(field.getCode());
+          newField.setFixedField(ff);
+
+          template.getFields().add(newField);
+        });
+
+        record.getFields().stream().filter(f -> !isFixedField(f)).forEach(field -> {
+          Field newField = new Field();
+          newField.setCode(field.getCode());
+          newField.setMandatory(field.isMandatory());
+          VariableField vf = new VariableField();
+          vf.setCode(field.getCode());
+          vf.setInd1(field.getVariableField().getInd1());
+          vf.setInd2(field.getVariableField().getInd2());
+          vf.setCategoryCode(field.getVariableField().getCategoryCode());
+          vf.setDescription(field.getVariableField().getDescription());
+          vf.setSequenceNumber(0);
+          vf.setValue("");
+          newField.setVariableField(vf);
+
+          template.getFields().add(newField);
+        });
+
+        storageService.saveBibliographicRecordTemplate(template);
+        return new ResponseEntity <>(template, HttpStatus.OK);
+
+      } catch (final Exception exception) {
+        logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+        return record;
+      }
+
+    }, tenant, configurator, () -> isNotNullOrEmpty(record.getId().toString()));
+  }
+
+  /**
+   * Check if is a fixed field or not.
+   *
+   * @param field the tag entity.
+   * @return true if is fixedfield, false otherwise.
+   */
+  private boolean isFixedField(final Field field) {
+    return Global.FIXED_FIELDS.contains(field.getCode());
   }
 }
