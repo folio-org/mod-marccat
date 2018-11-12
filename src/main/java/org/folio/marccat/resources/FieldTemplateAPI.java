@@ -33,7 +33,6 @@ import static org.folio.marccat.integration.CatalogingHelper.doGet;
  * @since 1.0
  */
 @RestController
-@CrossOrigin("http://localhost:3000")
 @Api(value = "modcat-api", description = "Field template resource API")
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class FieldTemplateAPI extends BaseResource {
@@ -142,7 +141,7 @@ public class FieldTemplateAPI extends BaseResource {
       } else if (code.equals(Global.MATERIAL_TAG_CODE)) {
         generalInformation = new GeneralInformation();
         generalInformation.setDefaultValues(serviceConfiguration);
-        final Map <String, Object> mapRecordTypeMaterial = storageService.getMaterialTypeInfosByLeaderValues(leader.charAt(6), leader.charAt(7), code);
+        final Map<String, Object> mapRecordTypeMaterial = storageService.getMaterialTypeInfosByLeaderValues(leader.charAt(6), leader.charAt(7), code);
         final int headerTypeCalculated = (int) mapRecordTypeMaterial.get(Global.HEADER_TYPE_LABEL);
 
         generalInformation.setFormOfMaterial((String) mapRecordTypeMaterial.get(Global.FORM_OF_MATERIAL_LABEL));
@@ -172,7 +171,7 @@ public class FieldTemplateAPI extends BaseResource {
         fixedField.setCategoryOfMaterial(categoryOfMaterial);
         setPhysicalInformationValues(fixedField, valueField);
 
-      } else if (code.equals(Global.DATETIME_TRANSACION_TAG_CODE)) {
+      } else if (code.equals(Global.DATETIME_TRANSACTION_TAG_CODE)) {
         fixedField.setDescription(storageService.getHeadingTypeDescription(
           headerTypeCode, lang, Global.INT_CATEGORY));
         fixedField.setDisplayValue(F.getFormattedToday("yyyyMMddHHmmss."));

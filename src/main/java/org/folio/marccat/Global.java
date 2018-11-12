@@ -1,7 +1,7 @@
 package org.folio.marccat;
 
-import net.sf.hibernate.cfg.Configuration;
 import org.folio.marccat.business.codetable.Avp;
+import net.sf.hibernate.cfg.Configuration;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -18,7 +18,7 @@ import java.util.*;
  * </ul>
  *
  * @author paulm
- * @author cchiama
+ * @author agazzarini
  * @author natasciab
  * @since 1.0
  */
@@ -104,7 +104,7 @@ public abstract class Global {
   public final static String LEADER_TAG_NUMBER = "000";
   public final static String CONTROL_NUMBER_TAG_CODE = "001";
   public final static String CATALOGING_SOURCE_TAG_CODE = "040";
-  public final static String DATETIME_TRANSACION_TAG_CODE = "005";
+  public final static String DATETIME_TRANSACTION_TAG_CODE = "005";
   public final static String MATERIAL_TAG_CODE = "008";
   public final static String OTHER_MATERIAL_TAG_CODE = "006";
   public final static String PHYSICAL_DESCRIPTION_TAG_CODE = "007";
@@ -121,7 +121,7 @@ public abstract class Global {
       put("11", 8);
     }
   };
-  public final static Avp <String> URI_SOURCE_LOCAL = new Avp <>("0", "Local");
+  public final static Avp<String> URI_SOURCE_LOCAL = new Avp<>("0", "Local");
   public final static String URI_LOCAL_HTTP = "http://";
   public final static Map <String, String> HEADING_DESCRIPTION_TEXT_MAP = new HashMap <String, String>() {
     {
