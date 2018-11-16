@@ -1,10 +1,7 @@
-package org.folio.marccat;
+package org.folio.marccat.config;
 
-import org.folio.marccat.business.codetable.Avp;
 import net.sf.hibernate.cfg.Configuration;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -51,7 +48,7 @@ public abstract class Global {
   public final static String TEXT_CODE = "t";
   public final static String VIDEO_RECORDING = "v";
   public final static String UNSPECIFIED = "z";
-  public final static Map <Integer, String> PHYSICAL_TYPES_MAP = new HashMap <Integer, String>() {
+  public final static Map<Integer, String> PHYSICAL_TYPES_MAP = new HashMap<Integer, String>() {
     {
       put(23, GLOBE);
       put(24, MAP_CODE);
@@ -70,12 +67,12 @@ public abstract class Global {
       put(48, NOTATED_MUSIC);
     }
   };
-  public final static List <Integer> SOURCES_ENABLED_TO_ALTERNATIVE_LABELS_SEARCH = new ArrayList <>(Arrays.asList(1, 2, 4, 5, 6));
+  public final static List<Integer> SOURCES_ENABLED_TO_ALTERNATIVE_LABELS_SEARCH = new ArrayList<>(Arrays.asList(1, 2, 4, 5, 6));
   public final static String ERROR_MANDATORY_TAG = "-1";
   public final static String ERROR_DUPLICATE_TAG = "-2";
   public final static String ERROR_EMPTY_TAG = "-3";
   public final static String NO_RECORD_FOUND = "-4";
-  public final static Map <String, String> ERRORS_MAP = new HashMap <String, String>() {
+  public final static Map<String, String> ERRORS_MAP = new HashMap<String, String>() {
     {
       put(ERROR_MANDATORY_TAG, "Check mandatory tags failure.");
       put(ERROR_DUPLICATE_TAG, "Duplicate tags for : %s");
@@ -93,7 +90,7 @@ public abstract class Global {
   public static String SCHEMA_CUSTOMER_KEY = "CUSTOM_KEY";
   public static String SCHEMA_SUITE_KEY = "SUITE_KEY";
   public static Configuration HCONFIGURATION = new Configuration();
-  public static ThreadLocal <SimpleDateFormat> FORMATTERS = new ThreadLocal() {
+  public static ThreadLocal<SimpleDateFormat> FORMATTERS = new ThreadLocal() {
     @Override
     protected SimpleDateFormat initialValue() {
       final SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm");

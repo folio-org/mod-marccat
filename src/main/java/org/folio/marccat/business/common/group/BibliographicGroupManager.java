@@ -4,8 +4,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.regexp.RESyntaxException;
 import org.folio.marccat.business.cataloguing.common.Tag;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.business.common.filter.*;
+import org.folio.marccat.exception.DataAccessException;
 
 
 /**

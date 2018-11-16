@@ -9,12 +9,12 @@ package org.folio.marccat.business.cataloguing.authority;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.business.common.Defaults;
 import org.folio.marccat.dao.DAOAuthorityCorrelation;
 import org.folio.marccat.dao.persistence.CLSTN;
 import org.folio.marccat.dao.persistence.Descriptor;
 import org.folio.marccat.dao.persistence.T_AUT_CLSTN_FNCTN;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 

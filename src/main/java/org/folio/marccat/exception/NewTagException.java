@@ -5,9 +5,7 @@
  *
  * NewTagException.java
  */
-package org.folio.marccat.business.cataloguing.bibliographic;
-
-import org.folio.marccat.exception.ModCatalogingException;
+package org.folio.marccat.exception;
 
 /**
  * @author paulm

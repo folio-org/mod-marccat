@@ -1,18 +1,21 @@
 package org.folio.marccat.dao.persistence;
 
-import org.folio.marccat.F;
-import org.folio.marccat.Global;
-import org.folio.marccat.business.cataloguing.bibliographic.Equivalent;
 import org.folio.marccat.business.cataloguing.bibliographic.PublisherTagComparator;
 import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
-import org.folio.marccat.business.common.*;
+import org.folio.marccat.business.common.PersistenceState;
+import org.folio.marccat.business.common.PersistentObjectWithView;
+import org.folio.marccat.business.common.UserViewHelper;
+import org.folio.marccat.business.common.View;
 import org.folio.marccat.business.descriptor.PublisherTagDescriptor;
+import org.folio.marccat.config.Global;
+import org.folio.marccat.config.log.Log;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.PublisherManagerDAO;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.integration.GlobalStorage;
-import org.folio.marccat.log.Log;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
+import org.folio.marccat.util.F;
 import org.folio.marccat.util.StringText;
 
 import java.util.ArrayList;
@@ -31,7 +34,7 @@ import static java.util.Optional.ofNullable;
  * @since 1.0
  */
 @SuppressWarnings("unchecked")
-public class PublisherManager extends VariableField implements PersistentObjectWithView, Equivalent {
+public class PublisherManager extends VariableField implements PersistentObjectWithView {
   private static final long serialVersionUID = 1L;
   private static final Log logger = new Log(PublisherManager.class);
   private static final PublisherManagerDAO daoPublisherTag = new PublisherManagerDAO();

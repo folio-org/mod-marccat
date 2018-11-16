@@ -6,21 +6,24 @@ import net.sf.hibernate.Query;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
 import org.folio.marccat.business.cataloguing.authority.AuthorityCatalog;
-import org.folio.marccat.business.common.*;
+import org.folio.marccat.business.common.Persistence;
+import org.folio.marccat.business.common.SortFormException;
+import org.folio.marccat.business.common.View;
 import org.folio.marccat.business.descriptor.SortFormParameters;
 import org.folio.marccat.business.searching.BrowseManager;
 import org.folio.marccat.dao.persistence.*;
+import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.ReferentialIntegrityException;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Types;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import static org.folio.marccat.F.deepCopy;
+import static org.folio.marccat.util.F.deepCopy;
 
 
 /**

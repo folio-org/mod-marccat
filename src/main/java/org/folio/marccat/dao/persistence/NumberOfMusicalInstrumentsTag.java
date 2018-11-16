@@ -3,12 +3,12 @@ package org.folio.marccat.dao.persistence;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.marccat.business.cataloguing.bibliographic.VariableHeaderUsingItemEntity;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.business.common.UserViewHelper;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.SystemNextNumberDAO;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.util.StringText;
 

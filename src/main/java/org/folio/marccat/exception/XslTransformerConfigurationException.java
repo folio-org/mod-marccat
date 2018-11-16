@@ -5,9 +5,7 @@
  *
  * XslTransformerConfigurationException.java
  */
-package org.folio.marccat.search;
-
-import org.folio.marccat.exception.ModCatalogingException;
+package org.folio.marccat.exception;
 
 /**
  * This exception is thrown when there is a XSLT configuration exception.

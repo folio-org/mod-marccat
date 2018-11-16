@@ -1,7 +1,6 @@
 package org.folio.marccat.business.codetable;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Holds a single attribute-stringValue pair (AVP).
@@ -10,7 +9,7 @@ import java.util.List;
  * @author cchiama
  * @since 1.0
  */
-public class Avp<V> implements Comparable <Avp>, Serializable {
+public class Avp<V> implements Comparable<Avp>, Serializable {
   private V value;
   private String label;
 
@@ -27,7 +26,6 @@ public class Avp<V> implements Comparable <Avp>, Serializable {
     this.value = value;
     this.label = label;
   }
-
 
 
   /**

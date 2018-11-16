@@ -41,7 +41,7 @@ public abstract class AbstractRecord implements Record {
   private static final Log logger = new Log(AbstractRecord.class);
   @JsonIgnore
   private String cclQuery = "";
-  private Map <String, Object> content = new HashMap <>();
+  private Map<String, Object> content = new HashMap<>();
 
   private int recordView;
   private int countDoc;

@@ -6,13 +6,12 @@ import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.marccat.business.cataloguing.authority.AuthorityNote;
-import org.folio.marccat.business.common.DataAccessException;
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.business.common.View;
+import org.folio.marccat.config.log.MessageCatalog;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.RecordInUseException;
-import org.folio.marccat.log.MessageCatalog;
 
 import java.io.Serializable;
 import java.sql.Connection;
@@ -68,7 +67,6 @@ public class HibernateUtil {
     }
   }
 
-  @Deprecated
   public Session currentSession() throws DataAccessException {
     throw new IllegalArgumentException("Don't call me!");
 
@@ -79,7 +77,6 @@ public class HibernateUtil {
     throw new IllegalArgumentException("Don't call me!");
   }
 
-  @Deprecated
   public void logAndWrap(Throwable e) {
     throw new IllegalArgumentException("Don't call me!");
   }
@@ -94,23 +91,6 @@ public class HibernateUtil {
   public void persistByStatus(Persistence po) throws DataAccessException {
     throw new IllegalArgumentException("DON'T CALL ME!!!");
   }
-
-  private AuthorityNote getNewInstanceOfAuthorityNote(AuthorityNote note) {
-    AuthorityNote newNote = new AuthorityNote();
-
-    newNote.setCorrelationValues(note.getCorrelationValues());
-    // newNote.setItemEntity(note.getItemEntity());
-    newNote.setItemNumber(note.getItemNumber());
-    newNote.setNewSubfieldContent(note.getNewSubfieldContent());
-    newNote.setNoteNumber(note.getNoteNumber());
-    newNote.setNoteStringText(note.getNoteStringText());
-    newNote.setNoteType(note.getNoteType());
-    newNote.setTagImpl(note.getTagImpl());
-    newNote.setUpdateStatus(note.getUpdateStatus());
-
-    return newNote;
-  }
-
 
   /**
    * performs isolateView on a List

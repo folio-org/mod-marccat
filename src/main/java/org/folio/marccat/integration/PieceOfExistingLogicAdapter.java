@@ -1,14 +1,14 @@
 package org.folio.marccat.integration;
 
-import org.folio.marccat.log.Log;
-import org.folio.marccat.log.MessageCatalog;
+import org.folio.marccat.config.log.Log;
+import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.exception.SystemInternalFailureException;
 
 import java.util.Map;
 import java.util.Optional;
 
 import static java.util.Optional.ofNullable;
-import static org.folio.marccat.log.Log.error;
+import static org.folio.marccat.config.log.Log.error;
 
 /**
  * Existing logic adapter.
@@ -31,9 +31,9 @@ public interface PieceOfExistingLogicAdapter<T> {
    * @param configuration  the configuration that has been properly loaded for this context.
    */
   @SuppressWarnings("unchecked")
-  default T execute(final StorageService storageService, final Map <String, String> configuration) {
+  default T execute(final StorageService storageService, final Map<String, String> configuration) {
     try {
-      final Optional <T> result = ofNullable(executeAndGet(storageService, configuration));
+      final Optional<T> result = ofNullable(executeAndGet(storageService, configuration));
       if (result.isPresent()) {
         return result.get();
       } else {
@@ -53,5 +53,5 @@ public interface PieceOfExistingLogicAdapter<T> {
    * @param configuration  the service configuration.
    * @return the value object(s) produced by this service.
    */
-  T executeAndGet(StorageService storageService, final Map <String, String> configuration);
+  T executeAndGet(StorageService storageService, final Map<String, String> configuration);
 }

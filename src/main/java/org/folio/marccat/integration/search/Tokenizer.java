@@ -17,15 +17,15 @@ import java.util.regex.Pattern;
  */
 public final class Tokenizer {
   private static final Log logger = new Log(Tokenizer.class);
-  private final List <TokenInfo> tokenInfos;
-  private final List <Token> tokens;
+  private final List<TokenInfo> tokenInfos;
+  private final List<Token> tokens;
 
   /**
    * Builds a new Tokenizer.
    */
   Tokenizer() {
-    tokenInfos = new ArrayList <>();
-    tokens = new ArrayList <>();
+    tokenInfos = new ArrayList<>();
+    tokens = new ArrayList<>();
 
     register("\\[[^\\]]*\\]", TokenType.COMMENT);
     register("\"[^\"]*\"", TokenType.QUOTEDSTRING);
@@ -79,7 +79,7 @@ public final class Tokenizer {
    *
    * @return the product of this tokenizer.
    */
-  List <Token> getTokens() {
+  List<Token> getTokens() {
     return tokens;
   }
 

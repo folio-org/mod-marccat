@@ -12,10 +12,10 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.LockMode;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.dao.common.TransactionalHibernateOperation;
 import org.folio.marccat.dao.persistence.Inventory;
 import org.folio.marccat.dao.persistence.S_INVTRY;
+import org.folio.marccat.exception.DataAccessException;
 
 import java.util.List;
 
@@ -25,7 +25,6 @@ import java.util.List;
  * @since 1.0
  */
 public class DAOInventory extends AbstractDAO {
-
 
 
   private boolean isSerial(Inventory item) throws DataAccessException {

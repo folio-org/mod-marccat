@@ -3,16 +3,16 @@ package org.folio.marccat.business.cataloguing.authority;
 import net.sf.hibernate.HibernateException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.marccat.exception.NewTagException;
 import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
 import org.folio.marccat.business.cataloguing.common.*;
 import org.folio.marccat.business.common.AbstractMapBackedFactory;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.business.common.MapBackedFactory;
 import org.folio.marccat.business.common.PropertyBasedFactoryBuilder;
 import org.folio.marccat.business.descriptor.DescriptorFactory;
 import org.folio.marccat.dao.*;
 import org.folio.marccat.dao.persistence.*;
+import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.NewTagException;
 import org.folio.marccat.shared.CorrelationValues;
 
 import java.util.*;
@@ -33,7 +33,7 @@ public class AuthorityCatalog extends Catalog {
   protected static AbstractMapBackedFactory tagFactory;
   private static Log logger = LogFactory.getLog(AuthorityCatalog.class);
   private static Map daoByAutType = new HashMap();
-  private static Map <Integer, String> autTypeByDescriptorType = new HashMap <>();
+  private static Map<Integer, String> autTypeByDescriptorType = new HashMap<>();
   private static Map headingTagByAutType = new HashMap();
 
   static {

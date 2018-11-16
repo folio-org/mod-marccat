@@ -5,19 +5,19 @@ import net.sf.hibernate.LockMode;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
 import net.sf.hibernate.type.Type;
-import org.folio.marccat.business.common.DataAccessException;
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.dao.common.HibernateUtil;
 import org.folio.marccat.dao.persistence.S_LCK_TBL;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.RecordInUseException;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.folio.marccat.F.deepCopy;
+import static org.folio.marccat.util.F.deepCopy;
 
 //TODO remove extends from HibernateUtil
 public class AbstractDAO extends HibernateUtil {

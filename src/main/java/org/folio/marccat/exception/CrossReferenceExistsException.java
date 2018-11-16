@@ -5,7 +5,7 @@
  *
  * CrossReferenceExistsException.java
  */
-package org.folio.marccat.business.common;
+package org.folio.marccat.exception;
 
 /**
  * @author paulm

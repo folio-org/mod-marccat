@@ -2,9 +2,9 @@ package org.folio.marccat.dao;
 
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.dao.common.HibernateUtil;
 import org.folio.marccat.dao.common.TransactionalHibernateOperation;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.search.SearchResponse;
 
 import java.sql.Connection;

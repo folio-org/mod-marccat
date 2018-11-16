@@ -10,11 +10,11 @@ package org.folio.marccat.dao.persistence;
 import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.SystemNextNumberDAO;
+import org.folio.marccat.exception.DataAccessException;
 
 import java.io.Serializable;
 

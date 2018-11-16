@@ -1,7 +1,5 @@
 package org.folio.marccat.business.cataloguing.bibliographic;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.dao.persistence.ItemEntity;
 import org.folio.marccat.shared.CorrelationValues;
 

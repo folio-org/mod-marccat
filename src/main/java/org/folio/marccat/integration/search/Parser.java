@@ -1,11 +1,11 @@
 package org.folio.marccat.integration.search;
 
 import net.sf.hibernate.Session;
-import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.dao.DAOIndexList;
-import org.folio.marccat.dao.persistence.IndexList;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.MessageCatalog;
+import org.folio.marccat.dao.DAOIndexList;
+import org.folio.marccat.dao.persistence.IndexList;
+import org.folio.marccat.exception.DataAccessException;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -26,7 +26,7 @@ public class Parser {
   private final int searchingView;
   private final Session session;
   private final DAOIndexList dao = new DAOIndexList();
-  private LinkedList <Token> tokens;
+  private LinkedList<Token> tokens;
   private Token lookahead;
 
   /**
@@ -70,8 +70,8 @@ public class Parser {
    * @return the expression node..
    * @throws CclParserException in case of parsing failure.
    */
-  public ExpressionNode parse(final List <Token> tokens) throws CclParserException {
-    this.tokens = new LinkedList <>(tokens);
+  public ExpressionNode parse(final List<Token> tokens) throws CclParserException {
+    this.tokens = new LinkedList<>(tokens);
     this.lookahead = this.tokens.getFirst();
     return searchGroup();
   }

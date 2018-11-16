@@ -3,8 +3,8 @@ package org.folio.marccat.dao;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-import org.folio.marccat.business.common.RecordNotFoundException;
 import org.folio.marccat.dao.persistence.FULL_CACHE;
+import org.folio.marccat.exception.RecordNotFoundException;
 
 import java.util.List;
 

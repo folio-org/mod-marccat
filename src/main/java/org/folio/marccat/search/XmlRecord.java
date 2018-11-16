@@ -1,9 +1,9 @@
 package org.folio.marccat.search;
 
-import org.folio.marccat.exception.XmlParserConfigurationException;
-import org.folio.marccat.exception.XmlUnsupportedEncodingException;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.MessageCatalog;
+import org.folio.marccat.exception.XmlParserConfigurationException;
+import org.folio.marccat.exception.XmlUnsupportedEncodingException;
 import org.folio.marccat.search.domain.AbstractRecord;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -28,7 +28,7 @@ public class XmlRecord extends AbstractRecord {
 
   private static final Log logger = new Log(XmlRecord.class);
 
-  private final static ThreadLocal <DocumentBuilder> DOCUMENT_BUILDERS =
+  private final static ThreadLocal<DocumentBuilder> DOCUMENT_BUILDERS =
     ThreadLocal.withInitial(() -> {
       try {
         return DocumentBuilderFactory.newInstance().newDocumentBuilder();

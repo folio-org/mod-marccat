@@ -2,20 +2,20 @@ package org.folio.marccat.dao.persistence;
 
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
-import org.folio.marccat.F;
 import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
 import org.folio.marccat.business.cataloguing.common.OrderedTag;
 import org.folio.marccat.business.codetable.Avp;
-import org.folio.marccat.business.common.DataAccessException;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.business.common.PersistentObjectWithView;
+import org.folio.marccat.config.log.Log;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.DAOBibliographicNoteTag;
 import org.folio.marccat.dao.SystemNextNumberDAO;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.integration.GlobalStorage;
-import org.folio.marccat.log.Log;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
+import org.folio.marccat.util.F;
 import org.folio.marccat.util.StringText;
 
 import java.util.ArrayList;

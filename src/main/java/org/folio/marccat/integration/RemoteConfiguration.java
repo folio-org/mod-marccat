@@ -54,7 +54,7 @@ public class RemoteConfiguration implements Configuration {
         .build()
         .toUri(),
       HttpMethod.GET,
-      new HttpEntity <>("parameters", headers),
+      new HttpEntity<>("parameters", headers),
       ObjectNode.class)
       .getBody();
   }

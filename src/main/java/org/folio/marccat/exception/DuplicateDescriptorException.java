@@ -5,7 +5,7 @@
  *
  * SortFormException.java
  */
-package org.folio.marccat.business.common;
+package org.folio.marccat.exception;
 
 import org.folio.marccat.dao.persistence.Descriptor;
 

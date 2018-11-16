@@ -3,13 +3,13 @@ package org.folio.marccat.search;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import net.sf.hibernate.Session;
-import org.folio.marccat.config.Global;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.business.common.View;
+import org.folio.marccat.config.Global;
 import org.folio.marccat.dao.DAOCodeTable;
 import org.folio.marccat.dao.persistence.T_AUT_DSPLY_FRMT;
 import org.folio.marccat.dao.persistence.T_BIB_DSPLY_FRMT;
 import org.folio.marccat.dao.persistence.T_ITM_DSPLY_FRMT;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.ModCatalogingException;
 import org.folio.marccat.search.domain.MarcRecord;
 import org.folio.marccat.search.domain.Record;
@@ -69,7 +69,7 @@ public class SearchResponse {
    * @param recordId     the record identifier.
    * @param variantViews the list of variant views.
    */
-  public SearchResponse(final int recordId, final List <Integer> variantViews) {
+  public SearchResponse(final int recordId, final List<Integer> variantViews) {
     this.searchingView = Integer.MIN_VALUE;
     this.displayQuery = Global.EMPTY_STRING;
     this.record =

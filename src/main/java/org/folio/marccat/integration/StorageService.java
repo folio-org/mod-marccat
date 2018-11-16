@@ -3,16 +3,19 @@ package org.folio.marccat.integration;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.marccat.business.codetable.Avp;
-import org.folio.marccat.business.common.DataAccessException;
-import org.folio.marccat.business.common.RecordNotFoundException;
 import org.folio.marccat.business.common.View;
+import org.folio.marccat.config.log.Log;
+import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.dao.*;
-import org.folio.marccat.dao.persistence.*;
+import org.folio.marccat.dao.persistence.AUT;
+import org.folio.marccat.dao.persistence.CatalogItem;
+import org.folio.marccat.dao.persistence.FULL_CACHE;
+import org.folio.marccat.dao.persistence.T_SKP_IN_FLNG_CNT;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.ModCatalogingException;
+import org.folio.marccat.exception.RecordNotFoundException;
 import org.folio.marccat.integration.search.Parser;
-import org.folio.marccat.log.Log;
-import org.folio.marccat.log.MessageCatalog;
-import org.folio.marccat.resources.domain.*;
+import org.folio.marccat.resources.domain.CountDocument;
 import org.folio.marccat.search.SearchResponse;
 
 import java.io.Closeable;
@@ -21,10 +24,12 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import static java.util.Collections.emptyList;
-import static org.folio.marccat.F.locale;
+import static org.folio.marccat.util.F.locale;
 
 /**
  * Storage layer service.
@@ -59,7 +64,7 @@ public class StorageService implements Closeable {
    * @return a list of code / description tuples representing the skip in filing associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
-  public List <Avp <String>> getSkipInFiling(final String lang) throws DataAccessException {
+  public List<Avp<String>> getSkipInFiling(final String lang) throws DataAccessException {
     final DAOCodeTable dao = new DAOCodeTable();
     return dao.getList(session, T_SKP_IN_FLNG_CNT.class, locale(lang));
   }
@@ -178,11 +183,11 @@ public class StorageService implements Closeable {
    * @param searchingView the target search view.
    * @return a list of docid matching the input query.
    */
-  public List <Integer> executeQuery(final String cclQuery, final int mainLibraryId, final Locale locale, final int searchingView) {
+  public List<Integer> executeQuery(final String cclQuery, final int mainLibraryId, final Locale locale, final int searchingView) {
     final Parser parser = new Parser(locale, mainLibraryId, searchingView, session);
     try (final Statement sql = stmt(connection());
          final ResultSet rs = executeQuery(sql, parser.parse(cclQuery))) {
-      final ArrayList <Integer> results = new ArrayList <>();
+      final ArrayList<Integer> results = new ArrayList<>();
       while (rs.next()) {
         results.add(rs.getInt(1));
       }

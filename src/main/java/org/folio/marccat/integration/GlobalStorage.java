@@ -1,7 +1,9 @@
 package org.folio.marccat.integration;
 
-import org.folio.marccat.dao.*;
-import org.folio.marccat.dao.persistence.*;
+import org.folio.marccat.dao.persistence.NameAccessPoint;
+import org.folio.marccat.dao.persistence.NameTitleAccessPoint;
+import org.folio.marccat.dao.persistence.SubjectAccessPoint;
+import org.folio.marccat.dao.persistence.TitleAccessPoint;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -73,8 +75,7 @@ public class GlobalStorage {
   public final static String NAME_TITLE_VARIANT_CODES = "3v5";
 
 
-
-  public final static Map <String, Class> BIBLIOGRAPHIC_ACCESS_POINT_CLASS_MAP = new HashMap <String, Class>() {
+  public final static Map<String, Class> BIBLIOGRAPHIC_ACCESS_POINT_CLASS_MAP = new HashMap<String, Class>() {
     {
       put("NH", NameAccessPoint.class);
       put("TH", TitleAccessPoint.class);
@@ -83,7 +84,7 @@ public class GlobalStorage {
     }
   };
 
-  public final static Map <String, String> INDEX_AUTHORITY_TYPE_MAP = new HashMap <String, String>() {
+  public final static Map<String, String> INDEX_AUTHORITY_TYPE_MAP = new HashMap<String, String>() {
     {
       put("NH", "NK");
       put("TH", "TK");

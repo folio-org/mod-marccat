@@ -9,8 +9,8 @@ package org.folio.marccat.dao.persistence;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.dao.DAOCodeTable;
+import org.folio.marccat.exception.DataAccessException;
 
 import java.util.Locale;
 

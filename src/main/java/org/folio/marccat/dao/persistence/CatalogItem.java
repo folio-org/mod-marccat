@@ -1,21 +1,17 @@
 package org.folio.marccat.dao.persistence;
 
 import org.folio.marccat.business.cataloguing.bibliographic.FixedField;
-import org.folio.marccat.business.cataloguing.bibliographic.MarcCorrelationException;
 import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
 import org.folio.marccat.business.cataloguing.common.Browsable;
 import org.folio.marccat.business.cataloguing.common.Tag;
 import org.folio.marccat.business.cataloguing.common.TagImpl;
-import org.folio.marccat.business.common.DataAccessException;
 import org.folio.marccat.business.common.filter.SameDescriptorTagFilter;
 import org.folio.marccat.business.common.filter.TagFilter;
 import org.folio.marccat.business.common.group.*;
-import org.folio.marccat.exception.DuplicateTagException;
-import org.folio.marccat.exception.MandatoryTagException;
-import org.folio.marccat.exception.ValidationException;
+import org.folio.marccat.config.log.Log;
+import org.folio.marccat.config.log.MessageCatalog;
+import org.folio.marccat.exception.*;
 import org.folio.marccat.integration.GlobalStorage;
-import org.folio.marccat.log.Log;
-import org.folio.marccat.log.MessageCatalog;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.Validation;
 import org.w3c.dom.Document;

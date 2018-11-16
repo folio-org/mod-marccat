@@ -9,12 +9,16 @@ import org.folio.marccat.business.cataloguing.bibliographic.BibliographicItem;
 import org.folio.marccat.business.cataloguing.bibliographic.BibliographicTagImpl;
 import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
 import org.folio.marccat.business.cataloguing.common.Tag;
-import org.folio.marccat.business.common.*;
+import org.folio.marccat.business.common.PersistentObjectWithView;
+import org.folio.marccat.business.common.View;
 import org.folio.marccat.business.controller.UserProfile;
+import org.folio.marccat.config.log.Log;
+import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.dao.persistence.*;
+import org.folio.marccat.exception.CacheUpdateException;
+import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.RecordNotFoundException;
 import org.folio.marccat.integration.GlobalStorage;
-import org.folio.marccat.log.Log;
-import org.folio.marccat.log.MessageCatalog;
 import org.folio.marccat.util.XmlUtils;
 
 import java.sql.CallableStatement;
@@ -26,7 +30,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.folio.marccat.F.isNotNullOrEmpty;
+import static org.folio.marccat.util.F.isNotNullOrEmpty;
 
 /**
  * Class for data access bibliographic item.

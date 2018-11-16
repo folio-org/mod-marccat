@@ -2,11 +2,14 @@ package org.folio.marccat.business.cataloguing.bibliographic;
 
 import org.folio.marccat.business.cataloguing.common.Tag;
 import org.folio.marccat.business.cataloguing.common.TagImpl;
-import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.config.log.Log;
 import org.folio.marccat.dao.DAOOrderNames;
-import org.folio.marccat.dao.persistence.*;
+import org.folio.marccat.dao.persistence.BIB_ITM;
+import org.folio.marccat.dao.persistence.CatalogItem;
+import org.folio.marccat.dao.persistence.ItemEntity;
+import org.folio.marccat.dao.persistence.ModelItem;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.MandatoryTagException;
-import org.folio.marccat.log.Log;
 import org.folio.marccat.search.XmlRecord;
 import org.folio.marccat.search.domain.Record;
 import org.w3c.dom.Document;
@@ -16,7 +19,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 

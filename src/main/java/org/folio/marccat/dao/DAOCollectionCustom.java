@@ -1,13 +1,17 @@
 package org.folio.marccat.dao;
 
-import net.sf.hibernate.*;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.Transaction;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.dao.persistence.CollectionCustomer;
 import org.folio.marccat.dao.persistence.CollectionCustomerArch;
+import org.folio.marccat.exception.DataAccessException;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class DAOCollectionCustom extends AbstractDAO {
   private static final String SORT_NAME_ITA_CODE = "nameIta";
@@ -19,8 +23,6 @@ public class DAOCollectionCustom extends AbstractDAO {
   public DAOCollectionCustom() {
     super();
   }
-
-
 
 
   /**

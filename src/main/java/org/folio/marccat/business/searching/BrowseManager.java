@@ -1,17 +1,11 @@
 package org.folio.marccat.business.searching;
 
-import net.sf.hibernate.HibernateException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.folio.marccat.business.common.BrowseFailedException;
-import org.folio.marccat.business.common.DataAccessException;
 import org.folio.marccat.business.common.Defaults;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.dao.*;
-import org.folio.marccat.dao.persistence.Descriptor;
 
-import java.sql.SQLException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Responsible for the management of a browse session

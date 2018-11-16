@@ -3,11 +3,11 @@ package org.folio.marccat.dao;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
-import org.folio.marccat.business.common.DataAccessException;
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.dao.persistence.PUBL_TAG;
 import org.folio.marccat.dao.persistence.PublisherAccessPoint;
 import org.folio.marccat.dao.persistence.PublisherManager;
+import org.folio.marccat.exception.DataAccessException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

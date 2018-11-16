@@ -1,7 +1,7 @@
 package org.folio.marccat.integration;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.SystemInternalFailureException;
 import org.folio.marccat.exception.UnableToCreateOrUpdateEntityException;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -18,7 +18,7 @@ import java.util.function.Function;
 import java.util.stream.StreamSupport;
 
 import static java.util.stream.Collectors.toMap;
-import static org.folio.marccat.Global.HCONFIGURATION;
+import static org.folio.marccat.config.Global.HCONFIGURATION;
 
 /**
  * Helper functions used within the marccat module.
@@ -30,7 +30,7 @@ import static org.folio.marccat.Global.HCONFIGURATION;
  */
 public abstract class CatalogingHelper {
   private final static Properties DEFAULT_VALUES = new Properties();
-  private final static Map <String, DataSource> DATASOURCES = new HashMap <>();
+  private final static Map<String, DataSource> DATASOURCES = new HashMap<>();
 
   static {
     try {
@@ -49,7 +49,7 @@ public abstract class CatalogingHelper {
    * @param configurationSets the requested configuration attributes sets.
    */
   public static <T> T doGet(
-    final PieceOfExistingLogicAdapter <T> adapter,
+    final PieceOfExistingLogicAdapter<T> adapter,
     final String tenant,
     final Configuration configurator,
     final String... configurationSets) {
@@ -65,8 +65,8 @@ public abstract class CatalogingHelper {
    * @param validator         a validator function for the entity associated with this resource.
    * @param configurationSets the requested configuration attributes sets.
    */
-  public static <T> ResponseEntity <T> doPost(
-    final PieceOfExistingLogicAdapter <T> adapter,
+  public static <T> ResponseEntity<T> doPost(
+    final PieceOfExistingLogicAdapter<T> adapter,
     final String tenant,
     final Configuration configurator,
     final BooleanSupplier validator,
@@ -75,7 +75,7 @@ public abstract class CatalogingHelper {
       final T result = exec(adapter, tenant, configurator, configurationSets);
       final HttpHeaders headers = new HttpHeaders();
       headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
-      return new ResponseEntity <>(result, headers, HttpStatus.CREATED);
+      return new ResponseEntity<>(result, headers, HttpStatus.CREATED);
     } else {
       throw new UnableToCreateOrUpdateEntityException();
     }
@@ -91,7 +91,7 @@ public abstract class CatalogingHelper {
    * @param configurationSets the requested configuration attributes sets.
    */
   public static <T> void doPut(
-    final PieceOfExistingLogicAdapter <T> adapter,
+    final PieceOfExistingLogicAdapter<T> adapter,
     final String tenant,
     final Configuration configurator,
     final BooleanSupplier validator,
@@ -112,7 +112,7 @@ public abstract class CatalogingHelper {
    * @param configurationSets the requested configuration attributes sets.
    */
   public static <T> void doDelete(
-    final PieceOfExistingLogicAdapter <T> adapter,
+    final PieceOfExistingLogicAdapter<T> adapter,
     final String tenant,
     final Configuration configurator,
     final String... configurationSets) {
@@ -126,7 +126,7 @@ public abstract class CatalogingHelper {
    * @param configurationSets the configurationSets required by the current service.
    */
   private static <T> T exec(
-    final PieceOfExistingLogicAdapter <T> adapter,
+    final PieceOfExistingLogicAdapter<T> adapter,
     final String tenant,
     final Configuration configurator,
     final String... configurationSets) {
@@ -154,7 +154,7 @@ public abstract class CatalogingHelper {
    * @param value the mod-configuration response.
    * @return a dedicated configuration for the current service.
    */
-  private static Map <String, String> configuration(final ObjectNode value) {
+  private static Map<String, String> configuration(final ObjectNode value) {
     return StreamSupport
       .stream(value.withArray("configs").spliterator(), false)
       .filter(node -> !"datasource".equals(node.get("configName").asText()))
@@ -179,9 +179,9 @@ public abstract class CatalogingHelper {
    * @return a new datasource reference.
    */
   private static DataSource newDataSourceInstance(final ObjectNode value) {
-    final Map <String, String> config = StreamSupport.stream(value.withArray("configs").spliterator(), false)
+    final Map<String, String> config = StreamSupport.stream(value.withArray("configs").spliterator(), false)
       .filter(node -> "datasource".equals(node.get("configName").asText()))
-      .map(node -> new AbstractMap.SimpleEntry <>(node.get("code").asText(), node.get("value").asText()))
+      .map(node -> new AbstractMap.SimpleEntry<>(node.get("code").asText(), node.get("value").asText()))
       .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
     return DataSourceBuilder
       .create()
@@ -197,6 +197,6 @@ public abstract class CatalogingHelper {
    * @param <T> the kind of object that needs to be validated.
    */
   interface Valid<T> {
-    Optional <T> validate(Function <T, Optional <T>> validator);
+    Optional<T> validate(Function<T, Optional<T>> validator);
   }
 }

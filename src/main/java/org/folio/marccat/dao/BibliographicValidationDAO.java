@@ -6,11 +6,11 @@ import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.marccat.business.cataloguing.bibliographic.MarcCorrelationException;
-import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.dao.persistence.BibliographicValidation;
 import org.folio.marccat.dao.persistence.BibliographicValidationKey;
-import org.folio.marccat.log.MessageCatalog;
+import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.MarcCorrelationException;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.shared.Validation;
 

@@ -1,4 +1,4 @@
-package org.folio.marccat;
+package org.folio.marccat.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

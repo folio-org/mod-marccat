@@ -3,11 +3,17 @@ package org.folio.marccat.business.cataloguing.bibliographic;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.marccat.business.cataloguing.common.*;
-import org.folio.marccat.business.common.*;
+import org.folio.marccat.business.common.AbstractMapBackedFactory;
+import org.folio.marccat.business.common.MapBackedFactory;
+import org.folio.marccat.business.common.PropertyBasedFactoryBuilder;
+import org.folio.marccat.business.common.View;
 import org.folio.marccat.business.descriptor.PublisherTagDescriptor;
 import org.folio.marccat.dao.*;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.dao.persistence.Map;
+import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.NewTagException;
+import org.folio.marccat.exception.RecordNotFoundException;
 import org.folio.marccat.exception.ValidationException;
 import org.folio.marccat.integration.GlobalStorage;
 import org.folio.marccat.shared.CorrelationValues;
@@ -16,8 +22,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static org.folio.marccat.F.deepCopy;
-import static org.folio.marccat.F.isNotNull;
+import static org.folio.marccat.util.F.deepCopy;
+import static org.folio.marccat.util.F.isNotNull;
 
 /**
  * Bibliographic implementation of {@link Catalog} interface.
@@ -106,7 +112,6 @@ public class BibliographicCatalog extends Catalog {
           CorrelationValues.UNDEFINED));
     return dateTag;
   }
-
 
 
   public BibliographicNoteTag createBibliographicNoteTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
@@ -366,7 +371,7 @@ public class BibliographicCatalog extends Catalog {
         PublisherManager pm = (PublisherManager) aTag;
         PublisherAccessPoint apf = pm.getApf();
         Descriptor orig = apf.getDescriptor();
-        List <PUBL_TAG> publTags = ((PublisherTagDescriptor) orig).getPublisherTagUnits();
+        List<PUBL_TAG> publTags = ((PublisherTagDescriptor) orig).getPublisherTagUnits();
         Iterator/*<PUBL_TAG>*/ ite = publTags.iterator();
         while (ite.hasNext()) {
           PUBL_TAG t = (PUBL_TAG) ite.next();

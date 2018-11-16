@@ -8,11 +8,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.cataloguing.bibliographic.BibliographicItem;
 import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
-import org.folio.marccat.business.common.DataAccessException;
 import org.folio.marccat.dao.persistence.BibliographicRelationship;
 import org.folio.marccat.dao.persistence.NameAccessPoint;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.util.StringText;
+
 import java.util.List;
 
 /**

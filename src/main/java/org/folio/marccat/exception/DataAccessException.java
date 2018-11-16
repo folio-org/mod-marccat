@@ -5,9 +5,7 @@
  *
  * DataAccessException.java
  */
-package org.folio.marccat.business.common;
-
-import org.folio.marccat.exception.ModCatalogingException;
+package org.folio.marccat.exception;
 
 import java.sql.SQLException;
 

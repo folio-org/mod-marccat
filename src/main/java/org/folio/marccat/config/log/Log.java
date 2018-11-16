@@ -1,4 +1,4 @@
-package org.folio.marccat.log;
+package org.folio.marccat.config.log;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

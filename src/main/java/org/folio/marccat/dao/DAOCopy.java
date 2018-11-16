@@ -2,40 +2,25 @@ package org.folio.marccat.dao;
 
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Query;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-import org.folio.marccat.business.codetable.Avp;
-import org.folio.marccat.business.common.DataAccessException;
-import org.folio.marccat.business.common.RecordNotFoundException;
 import org.folio.marccat.business.common.SortFormException;
-import org.folio.marccat.business.common.UpdateStatus;
 import org.folio.marccat.business.descriptor.SortFormParameters;
-import org.folio.marccat.copycataloguing.CopyListElement;
+import org.folio.marccat.config.log.Log;
 import org.folio.marccat.dao.common.TransactionalHibernateOperation;
-import org.folio.marccat.dao.persistence.*;
-import org.folio.marccat.log.Log;
-import org.folio.marccat.util.StringText;
+import org.folio.marccat.dao.persistence.CPY_ID;
+import org.folio.marccat.dao.persistence.SHLF_LIST;
+import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.RecordNotFoundException;
 
 import java.sql.*;
-import java.text.Format;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
-import static org.folio.marccat.F.deepCopy;
-import static org.folio.marccat.F.fixedCharPadding;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
 
 @SuppressWarnings("unchecked")
 public class DAOCopy extends AbstractDAO {
 
-  public static final Comparator<CPY_ID> CPY_ID_COMPARATOR =
-    (CPY_ID o1, CPY_ID o2) -> {
-      int i1 = o1.getCopyIdNumber();
-      int i2 = o2.getCopyIdNumber();
-      if (i1 == i2) return 0;
-      else if (i1 < i2) return -1;
-      return 1;
-    };
 
   private static Log logger = new Log(DAOCopy.class);
 
@@ -85,7 +70,6 @@ public class DAOCopy extends AbstractDAO {
     }
     return c;
   }
-
 
 
   /**
@@ -268,56 +252,6 @@ public class DAOCopy extends AbstractDAO {
     }
   }
 
-  /**
-   * @param copy
-   * @return
-   * @throws DataAccessException
-   */
-  //TODO: The session is missing from the method
-  public SHLF_LIST getMatchHeading(CPY_ID copy) throws DataAccessException, HibernateException {
-    ShelfListDAO ds = (ShelfListDAO) copy.getShelfList().getDAO();
-    SHLF_LIST match = (SHLF_LIST) ds
-      .getMatchingHeading(copy.getShelfList(), null);
-    return match;
-  }
-
-  private void createSummaryHolding(final Session session, final CPY_ID copy) throws DataAccessException {
-    new DAOSummaryHolding().createSummaryHoldingIfRequired(session, copy);
-  }
-
-  public void attachShelfList(CPY_ID copy, SHLF_LIST shelf)
-    throws DataAccessException {
-    if (countShelfListAccessPointUses(copy, shelf) == 0) {
-      // logger.warn("Attacca SHLF_LIST_ACS_PNT");
-      try {
-        SHLF_LIST_ACS_PNT ap = new SHLF_LIST_ACS_PNT(copy
-          .getBibItemNumber(), copy.getOrganisationNumber(),
-          shelf.getShelfListKeyNumber());
-        currentSession().save(ap);
-      } catch (HibernateException e) {
-        logAndWrap(e);
-      }
-    }
-  }
-
-  public void attachShelfListForModifyCopy(CPY_ID copy, SHLF_LIST shelf)
-    throws DataAccessException {
-    if (countShelfFromCopyUses(copy, shelf) != 0) {
-      if (countShelfListAccessPointUses(copy, shelf) == 1) {
-        // logger.warn("Attacca SHLF_LIST_ACS_PNT");
-        try {
-          SHLF_LIST_ACS_PNT ap = new SHLF_LIST_ACS_PNT(copy
-            .getBibItemNumber(), copy.getOrganisationNumber(),
-            shelf.getShelfListKeyNumber());
-          currentSession().save(ap);
-        } catch (HibernateException e) {
-          logAndWrap(e);
-        }
-      }
-    }
-  }
-
-
 
   public String calculateSortForm(String text, SortFormParameters parms)
     throws DataAccessException {
@@ -389,368 +323,6 @@ public class DAOCopy extends AbstractDAO {
   }
 
 
-
-  public void insertHardbackTable(List<CopyListElement> elements,
-                                  String posseduto, Integer value) {
-
-    Connection connection = null;
-    PreparedStatement stmt2 = null;
-    try {
-      connection = currentSession().connection();
-
-      for (CopyListElement element : elements) {
-        stmt2 = connection
-          .prepareStatement("INSERT INTO HLDG_CPY_ACS_PNT(HLDG_NBR, CPY_ID_NBR) VALUES (?, ?)");
-        stmt2.setInt(1, value);
-        stmt2.setInt(2, element.getCopy().getCopyIdNumber());
-        stmt2.executeUpdate();
-      }
-
-    } catch (Exception e) {
-      try {
-        logAndWrap(e);
-      } catch (DataAccessException e1) {
-        e1.printStackTrace();
-      }
-    } finally {
-      try {
-        stmt2.close();
-
-      } catch (SQLException e) {
-      }
-    }
-  }
-
-
-
-  public void removeHardbackHLDG_CPY_ACS_PNT(Integer value) {
-
-    Connection connection = null;
-    PreparedStatement stmt2 = null;
-    try {
-      connection = currentSession().connection();
-
-      stmt2 = connection
-        .prepareStatement("DELETE HLDG_CPY_ACS_PNT  WHERE HLDG_NBR=?");
-      stmt2.setInt(1, value);
-      stmt2.executeUpdate();
-
-    } catch (Exception e) {
-      try {
-        logAndWrap(e);
-      } catch (DataAccessException e1) {
-        e1.printStackTrace();
-      }
-    } finally {
-      try {
-        stmt2.close();
-      } catch (SQLException e) {
-      }
-    }
-  }
-
-
-  public void deleteTemporaryCopiesFromCPY_IDTable(Integer hldg_nbr) {
-    Connection connection = null;
-    PreparedStatement stmt = null;
-    try {
-      connection = currentSession().connection();
-
-      stmt = connection
-        .prepareStatement("DELETE CPY_ID WHERE CPY_ID_NBR IN (SELECT CPY_ID_NBR FROM HLDG_CPY_ACS_PNT WHERE HLDG_NBR=? )");
-      stmt.setInt(1, hldg_nbr);
-      stmt.executeUpdate();
-
-    } catch (Exception e) {
-      try {
-        logAndWrap(e);
-      } catch (DataAccessException e1) {
-        e1.printStackTrace();
-      }
-    } finally {
-      try {
-        stmt.close();
-      } catch (SQLException e) {
-      }
-    }
-  }
-
-  public void updatedefiniteCopyHLDG(Integer cpy_id, Integer hldg_nbr) {
-
-    Connection connection = null;
-    PreparedStatement stmt = null;
-    try {
-      connection = currentSession().connection();
-
-      stmt = connection
-        .prepareStatement("UPDATE HLDG SET BND_VOL_CPY_ID=? WHERE HLDG_NBR=?");
-      stmt.setInt(1, cpy_id);
-      stmt.setInt(2, hldg_nbr);
-      stmt.executeUpdate();
-
-    } catch (Exception e) {
-      try {
-        logAndWrap(e);
-      } catch (DataAccessException e1) {
-        e1.printStackTrace();
-      }
-    } finally {
-      try {
-        stmt.close();
-      } catch (SQLException e) {
-      }
-    }
-
-  }
-
-  public void deleteHardbackShelflistKey(Integer hldg_nbr) {
-
-    Connection connection = null;
-    PreparedStatement stmt = null;
-    PreparedStatement stmt2 = null;
-    PreparedStatement stmt3 = null;
-    PreparedStatement stmt4 = null;
-    ResultSet rs = null;
-    ResultSet rs2 = null;
-    try {
-      connection = currentSession().connection();
-
-      stmt = connection
-        .prepareStatement("SELECT A.SHLF_LIST_KEY_NBR FROM CPY_ID A WHERE A.CPY_ID_NBR IN (SELECT CPY_ID_NBR FROM HLDG_CPY_ACS_PNT WHERE HLDG_NBR=?)");
-      stmt.setInt(1, hldg_nbr);
-      rs = stmt.executeQuery();
-
-      while (rs.next()) {
-        int key = rs.getInt("SHLF_LIST_KEY_NBR");
-
-        stmt2 = connection
-          .prepareStatement("SELECT count(*) FROM CPY_ID A WHERE A.SHLF_LIST_KEY_NBR=?");
-        stmt2.setInt(1, key);
-        rs2 = stmt2.executeQuery();
-        int count = 0;
-        if (rs2.next())
-          count = rs2.getInt(1);
-
-        if (count == 1) {
-          stmt3 = connection
-            .prepareStatement("DELETE FROM SHLF_LIST WHERE SHLF_LIST_KEY_NBR=?");
-          stmt3.setInt(1, key);
-          stmt3.executeUpdate();
-
-          stmt4 = connection
-            .prepareStatement("DELETE FROM SHLF_LIST_ACS_PNT WHERE SHLF_LIST_KEY_NBR=?");
-          stmt4.setInt(1, key);
-          stmt4.executeUpdate();
-        } else if (count > 1) {
-          stmt4 = connection
-            .prepareStatement("DELETE FROM SHLF_LIST_ACS_PNT WHERE SHLF_LIST_KEY_NBR=?");
-          stmt4.setInt(1, key);
-          stmt4.executeUpdate();
-        }
-
-      }
-
-    } catch (Exception e) {
-      try {
-        logAndWrap(e);
-      } catch (DataAccessException e1) {
-        e1.printStackTrace();
-      }
-    } finally {
-      try {
-        rs.close();
-      } catch (SQLException e) {
-      }
-      try {
-        if (rs2 != null)
-          rs2.close();
-      } catch (SQLException e) {
-      }
-      try {
-        stmt.close();
-      } catch (SQLException e) {
-      }
-      try {
-        if (stmt2 != null)
-          stmt2.close();
-      } catch (SQLException e) {
-      }
-      try {
-        if (stmt3 != null)
-          stmt3.close();
-      } catch (SQLException e) {
-      }
-      try {
-        if (stmt4 != null)
-          stmt4.close();
-      } catch (SQLException e) {
-      }
-
-    }
-
-  }
-
-  public void insertBND_CPY(Integer hldg_nbr) {
-
-    Connection connection = null;
-    PreparedStatement stmt = null;
-    PreparedStatement stmt1 = null;
-    ResultSet rs = null;
-    try {
-      connection = currentSession().connection();
-
-      connection = currentSession().connection();
-      stmt = connection
-        .prepareStatement("SELECT CPY_ID_NBR FROM HLDG_CPY_ACS_PNT WHERE HLDG_NBR=?");
-      stmt.setInt(1, hldg_nbr);
-
-      rs = stmt.executeQuery();
-
-      while (rs.next()) {
-        int cpy_id_nbr = rs.getInt("CPY_ID_NBR");
-        stmt1 = connection.prepareStatement(INSERT_BND_CPY);
-        stmt1.setInt(1, cpy_id_nbr);
-        stmt1.executeUpdate();
-      }
-
-    } catch (Exception e) {
-      try {
-        logAndWrap(e);
-      } catch (DataAccessException e1) {
-        e1.printStackTrace();
-      }
-    } finally {
-
-      try {
-        rs.close();
-      } catch (SQLException e) {
-      }
-      try {
-        stmt.close();
-      } catch (SQLException e) {
-      }
-      try {
-        if (stmt1 != null)
-          stmt1.close();
-      } catch (SQLException e) {
-      }
-    }
-  }
-
-  public void insertBND_SHLF_LIST(Integer hldg_nbr) {
-
-    Connection connection = null;
-    PreparedStatement stmt = null;
-    PreparedStatement stmt1 = null;
-    ResultSet rs = null;
-    try {
-      connection = currentSession().connection();
-
-      connection = currentSession().connection();
-      stmt = connection
-        .prepareStatement("SELECT A.SHLF_LIST_KEY_NBR FROM CPY_ID A WHERE A.CPY_ID_NBR IN (SELECT CPY_ID_NBR FROM HLDG_CPY_ACS_PNT WHERE HLDG_NBR=?)");
-      stmt.setInt(1, hldg_nbr);
-      rs = stmt.executeQuery();
-      while (rs.next()) {
-        int shlfListKey = rs.getInt("SHLF_LIST_KEY_NBR");
-        if (!isBNDShelfList(shlfListKey)) {
-          stmt1 = connection.prepareStatement(INSERT_BND_SHLF_LIST);
-          stmt1.setInt(1, shlfListKey);
-          stmt1.executeUpdate();
-        }
-      }
-
-    } catch (Exception e) {
-      try {
-        logAndWrap(e);
-      } catch (DataAccessException e1) {
-        e1.printStackTrace();
-      }
-    } finally {
-
-      try {
-        rs.close();
-      } catch (SQLException e) {
-      }
-      try {
-        stmt.close();
-      } catch (SQLException e) {
-      }
-      try {
-        if (stmt1 != null)
-          stmt1.close();
-      } catch (SQLException e) {
-      }
-    }
-
-  }
-
-  private boolean isBNDShelfList(int shelfListKey) {
-
-    Connection connection = null;
-    PreparedStatement stmt = null;
-    ResultSet rs = null;
-    try {
-      connection = currentSession().connection();
-
-      connection = currentSession().connection();
-      stmt = connection
-        .prepareStatement("SELECT A.SHLF_LIST_KEY_NBR FROM BND_SHLF_LIST A WHERE A.SHLF_LIST_KEY_NBR=?");
-      stmt.setInt(1, shelfListKey);
-      rs = stmt.executeQuery();
-
-      return rs.next();
-
-    } catch (Exception e) {
-      try {
-        logAndWrap(e);
-      } catch (DataAccessException e1) {
-        e1.printStackTrace();
-      }
-    } finally {
-
-      try {
-        rs.close();
-      } catch (SQLException e) {
-      }
-      try {
-        stmt.close();
-      } catch (SQLException e) {
-      }
-    }
-    return false;
-  }
-
-
-  /**
-   * Il metodo controllo se ci sono copie (non da trasferire) associate al
-   * record origine per l'org
-   *
-   * @param amicusNumber
-   * @param orgNumber
-   * @param condition
-   * @return
-   * @throws DataAccessException
-   */
-  public int countCopies(int amicusNumber, int orgNumber, String condition)
-    throws DataAccessException {
-    List l = find("select count(*) from CPY_ID as c"
-      + " where c.organisationNumber = ?"
-      + " and c.bibItemNumber = ?" + " and c.copyIdNumber "
-      + condition, new Object[]{new Integer(orgNumber),
-      new Integer(amicusNumber)}, new Type[]{Hibernate.INTEGER,
-      Hibernate.INTEGER});
-
-    if (l.size() > 0) {
-      return ((Integer) l.get(0)).intValue();
-    } else {
-      return 0;
-    }
-  }
-
-
-
-
   public void saveCpyIdAgent(String userName, int cpyIdNbr) throws DataAccessException {
     Connection connection = null;
     PreparedStatement stmt0 = null;
@@ -811,44 +383,6 @@ public class DAOCopy extends AbstractDAO {
       } catch (SQLException e) {
         e.printStackTrace();
         logAndWrap(e);
-      }
-    }
-  }
-
-
-  public void removeDefinitiveHldgAndBndCopy(Integer hldgNbr) {
-
-    Connection connection = null;
-
-    PreparedStatement stmt1 = null;
-    PreparedStatement stmt2 = null;
-
-    try {
-      connection = currentSession().connection();
-      stmt2 = connection
-        .prepareStatement("DELETE HLDG  WHERE HLDG_NBR=?");
-      stmt2.setInt(1, hldgNbr);
-      stmt2.executeUpdate();
-
-      stmt1 = connection
-        .prepareStatement("DELETE HLDG_BND_CPY_ACS_PNT WHERE HLDG_NBR=?");
-      stmt1.setInt(1, hldgNbr);
-      stmt1.executeUpdate();
-
-    } catch (Exception e) {
-      try {
-        logAndWrap(e);
-      } catch (DataAccessException e1) {
-        e1.printStackTrace();
-      }
-    } finally {
-      try {
-        stmt2.close();
-      } catch (SQLException e) {
-      }
-      try {
-        stmt1.close();
-      } catch (SQLException e) {
       }
     }
   }

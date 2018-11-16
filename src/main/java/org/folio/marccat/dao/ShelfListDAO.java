@@ -5,12 +5,12 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Query;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-import org.folio.marccat.business.common.DataAccessException;
 import org.folio.marccat.business.common.Persistence;
-import org.folio.marccat.business.common.ReferentialIntegrityException;
 import org.folio.marccat.dao.persistence.Descriptor;
 import org.folio.marccat.dao.persistence.SHLF_LIST;
 import org.folio.marccat.dao.persistence.SHLF_LIST_ACS_PNT;
+import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.ReferentialIntegrityException;
 
 import java.sql.SQLException;
 import java.util.List;

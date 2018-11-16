@@ -1,12 +1,12 @@
 package org.folio.marccat.resources;
 
-import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.config.log.Log;
+import org.folio.marccat.config.log.MessageCatalog;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.SubsystemCommunicationException;
 import org.folio.marccat.exception.SystemInternalFailureException;
 import org.folio.marccat.exception.UnableToCreateOrUpdateEntityException;
 import org.folio.marccat.integration.Configuration;
-import org.folio.marccat.log.Log;
-import org.folio.marccat.log.MessageCatalog;
 import org.folio.marccat.resources.domain.ErrorCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,9 +45,9 @@ public abstract class BaseResource {
 
   @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR, reason = "System internal failure has occurred.")
   @ExceptionHandler(SystemInternalFailureException.class)
-  public ResponseEntity <Object> systemInternalFailure(final Exception exception, final ErrorCollection errors) {
+  public ResponseEntity<Object> systemInternalFailure(final Exception exception, final ErrorCollection errors) {
     logger.error(MessageCatalog._00011_NWS_FAILURE, exception);
-    return new ResponseEntity <Object>(errors, HttpStatus.INTERNAL_SERVER_ERROR);
+    return new ResponseEntity<Object>(errors, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
   @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY, reason = "Cannot create the requested entity.")
