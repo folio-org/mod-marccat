@@ -1,9 +1,13 @@
 # mod-marccat
-FOLIO metadata management / cataloging module (MARCcat)
 
-# Goal
+Copyright (C) 2017-2018 The Open Library Foundation
 
-FOLIO compatible cataloging module.
+This software is distributed under the terms of the Apache License,
+Version 2.0. See the file "[LICENSE](LICENSE)" for more information.
+
+## Introduction
+
+Metadata management / cataloging module (MARCcat).
 
 # Prerequisites
 
@@ -25,8 +29,11 @@ If these are not initialised, the module will fail to build correctly, and other
 
 More information is available on the [developer site](https://dev.folio.org/guides/developer-setup/#update-git-submodules).
 
-## Issues
+## Additional information
 
-Issues are managed here https://issues.folio.org/projects/MODCAT/issues
+### Issue tracker
+
+See project [MODCAT](https://issues.folio.org/browse/MODCAT)
+at the [FOLIO issue tracker](https://dev.folio.org/guidelines/issue-tracker).
 
 Other FOLIO Developer documentation is at [dev.folio.org](https://dev.folio.org/)
