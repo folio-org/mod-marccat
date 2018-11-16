@@ -1,7 +1,5 @@
 package org.folio.marccat.business.cataloguing.bibliographic;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.dao.persistence.ItemEntity;
 import org.folio.marccat.shared.CorrelationValues;
 
@@ -13,7 +11,6 @@ import org.folio.marccat.shared.CorrelationValues;
  * @since 1.0
  */
 public abstract class FixedFieldUsingItemEntity extends FixedField implements PersistsViaItem {
-  private static final Log logger = LogFactory.getLog(FixedFieldUsingItemEntity.class);
 
   private ItemEntity itemEntity = null;
 

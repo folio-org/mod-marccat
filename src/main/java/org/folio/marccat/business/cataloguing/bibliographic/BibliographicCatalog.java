@@ -3,11 +3,17 @@ package org.folio.marccat.business.cataloguing.bibliographic;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.marccat.business.cataloguing.common.*;
-import org.folio.marccat.business.common.*;
+import org.folio.marccat.business.common.AbstractMapBackedFactory;
+import org.folio.marccat.business.common.MapBackedFactory;
+import org.folio.marccat.business.common.PropertyBasedFactoryBuilder;
+import org.folio.marccat.business.common.View;
 import org.folio.marccat.business.descriptor.PublisherTagDescriptor;
 import org.folio.marccat.dao.*;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.dao.persistence.Map;
+import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.NewTagException;
+import org.folio.marccat.exception.RecordNotFoundException;
 import org.folio.marccat.exception.ValidationException;
 import org.folio.marccat.integration.GlobalStorage;
 import org.folio.marccat.shared.CorrelationValues;
@@ -16,8 +22,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static org.folio.marccat.F.deepCopy;
-import static org.folio.marccat.F.isNotNull;
+import static org.folio.marccat.util.F.deepCopy;
+import static org.folio.marccat.util.F.isNotNull;
 
 /**
  * Bibliographic implementation of {@link Catalog} interface.
@@ -107,61 +113,6 @@ public class BibliographicCatalog extends Catalog {
     return dateTag;
   }
 
-  public PhysicalDescription createPhysicalDescriptionTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException {
-    final PhysicalDescription physicalDescription =
-      (PhysicalDescription) getNewTag(item,
-        GlobalStorage.HEADER_CATEGORY,
-        correlationValues);
-    return physicalDescription;
-  }
-
-  public PublisherManager createPublisherTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-    final PublisherManager pap =
-      (PublisherManager) getNewTag(item,
-        GlobalStorage.PUBLISHER_CATEGORY,
-        correlationValues);
-    return pap;
-  }
-
-  public TitleAccessPoint createTitleAccessPointTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-    final TitleAccessPoint tap =
-      (TitleAccessPoint) getNewTag(item,
-        GlobalStorage.TITLE_CATEGORY,
-        correlationValues);
-    return tap;
-  }
-
-  public NameAccessPoint createNameAccessPointTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-    final NameAccessPoint nap =
-      (NameAccessPoint) getNewTag(item,
-        GlobalStorage.NAME_CATEGORY,
-        correlationValues);
-    return nap;
-  }
-
-  public ClassificationAccessPoint createClassificationAccessPoint(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-    final ClassificationAccessPoint clap =
-      (ClassificationAccessPoint) getNewTag(item,
-        GlobalStorage.CLASSIFICATION_CATEGORY,
-        correlationValues);
-    return clap;
-  }
-
-  public SubjectAccessPoint createSubjectAccessPoint(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-    final SubjectAccessPoint sap =
-      (SubjectAccessPoint) getNewTag(item,
-        GlobalStorage.SUBJECT_CATEGORY,
-        correlationValues);
-    return sap;
-  }
-
-  public ControlNumberAccessPoint createControlNumberAccessPoint(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-    final ControlNumberAccessPoint cnap =
-      (ControlNumberAccessPoint) getNewTag(item,
-        GlobalStorage.CONTROL_NUMBER_CATEGORY,
-        correlationValues);
-    return cnap;
-  }
 
   public BibliographicNoteTag createBibliographicNoteTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
     final BibliographicNoteTag nTag =
@@ -420,7 +371,7 @@ public class BibliographicCatalog extends Catalog {
         PublisherManager pm = (PublisherManager) aTag;
         PublisherAccessPoint apf = pm.getApf();
         Descriptor orig = apf.getDescriptor();
-        List <PUBL_TAG> publTags = ((PublisherTagDescriptor) orig).getPublisherTagUnits();
+        List<PUBL_TAG> publTags = ((PublisherTagDescriptor) orig).getPublisherTagUnits();
         Iterator/*<PUBL_TAG>*/ ite = publTags.iterator();
         while (ite.hasNext()) {
           PUBL_TAG t = (PUBL_TAG) ite.next();

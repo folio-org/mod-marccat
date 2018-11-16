@@ -1,7 +1,7 @@
 package org.folio.marccat.search.domain;
 
-import org.folio.marccat.log.Log;
-import org.folio.marccat.log.MessageCatalog;
+import org.folio.marccat.config.log.Log;
+import org.folio.marccat.config.log.MessageCatalog;
 import org.marc4j.MarcReader;
 import org.marc4j.MarcXmlReader;
 import org.w3c.dom.Document;
@@ -24,7 +24,7 @@ import static java.util.Optional.ofNullable;
 public class LightweightVerticalRecord extends AbstractRecord {
   private final static Log LOGGER = new Log(LightweightVerticalRecord.class);
   private final static String DUMMY_RECORD = "";
-  private final static ThreadLocal <SAXParser> SAX_PARSERS =
+  private final static ThreadLocal<SAXParser> SAX_PARSERS =
     ThreadLocal.withInitial(() -> {
       try {
         return SAXParserFactory.newInstance().newSAXParser();
@@ -34,7 +34,7 @@ public class LightweightVerticalRecord extends AbstractRecord {
     });
   private int countDoc;
   private String queryForAssociatedDoc;
-  private Predicate <String> isValidXml = data -> {
+  private Predicate<String> isValidXml = data -> {
     try (final InputStream stream = new ByteArrayInputStream(data.getBytes("UTF-8"))) {
       SAX_PARSERS.get().parse(stream, new DefaultHandler());
       return true;

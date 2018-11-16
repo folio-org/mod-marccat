@@ -1,9 +1,8 @@
 package org.folio.marccat.dao.persistence;
 
 import org.folio.marccat.business.cataloguing.bibliographic.BibliographicAccessPoint;
-import org.folio.marccat.business.cataloguing.bibliographic.Equivalent;
 import org.folio.marccat.business.cataloguing.common.OrderedTag;
-import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.integration.GlobalStorage;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
@@ -15,7 +14,7 @@ import java.util.List;
  *
  * @author nbianchini
  */
-public class SubjectAccessPoint extends BibliographicAccessPoint implements OrderedTag, Equivalent {
+public class SubjectAccessPoint extends BibliographicAccessPoint implements OrderedTag {
   private static final long serialVersionUID = -5339141299630141762L;
 
   private int functionCode = -1;

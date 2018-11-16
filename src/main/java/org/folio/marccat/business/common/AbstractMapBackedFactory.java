@@ -29,7 +29,7 @@ public abstract class AbstractMapBackedFactory {
    *
    * @param entries the factory entries.
    */
-  public abstract void put(Map <Integer, Class> entries);
+  public abstract void put(Map<Integer, Class> entries);
 
   /**
    * Returns an instance of the product associated with the given factory identifier.

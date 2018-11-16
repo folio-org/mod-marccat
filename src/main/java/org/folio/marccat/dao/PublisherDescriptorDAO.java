@@ -4,10 +4,10 @@ import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-import org.folio.marccat.business.common.DataAccessException;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.dao.persistence.Descriptor;
 import org.folio.marccat.dao.persistence.PUBL_HDG;
+import org.folio.marccat.exception.DataAccessException;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -41,7 +41,7 @@ public class PublisherDescriptorDAO extends DAODescriptor {
   public PUBL_HDG getMatchingHeading(final Descriptor descriptor, final Session session)
     throws HibernateException {
     final PUBL_HDG publisher = (PUBL_HDG) descriptor;
-    final List <PUBL_HDG> l = session.find("from "
+    final List<PUBL_HDG> l = session.find("from "
         + getPersistentClass().getName()
         + " as c "
         + " where c.nameStringText = ?"
@@ -81,7 +81,7 @@ public class PublisherDescriptorDAO extends DAODescriptor {
   public boolean isMatchingAnotherHeading(final Descriptor descriptor, final Session session)
     throws HibernateException {
     final PUBL_HDG publisher = (PUBL_HDG) descriptor;
-    final List <Integer> publisherList = session.find(
+    final List<Integer> publisherList = session.find(
       "select count(*) from "
         + getPersistentClass().getName()
         + " as c "
@@ -145,7 +145,7 @@ public class PublisherDescriptorDAO extends DAODescriptor {
   public int getDocCount(final Descriptor descriptor, int searchingView, final Session session)
     throws HibernateException {
     if (searchingView == View.ANY) {
-      List <Integer> countList =
+      List<Integer> countList =
         session.find(
           "select count(*) from PublisherAccessPoint as a, PUBL_TAG as b "
             + " where a.headingNumber = b.publisherTagNumber "
@@ -156,7 +156,7 @@ public class PublisherDescriptorDAO extends DAODescriptor {
             Hibernate.INTEGER});
       return countList.get(0);
     } else {
-      List <Integer> countList =
+      List<Integer> countList =
         session.find(
           "select count(*) from PublisherAccessPoint as a, PUBL_TAG as b "
             + " where a.headingNumber = b.publisherTagNumber "

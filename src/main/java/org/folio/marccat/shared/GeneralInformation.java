@@ -1,7 +1,7 @@
 package org.folio.marccat.shared;
 
 import org.apache.commons.lang.StringUtils;
-import org.folio.marccat.Global;
+import org.folio.marccat.config.Global;
 
 import java.util.Map;
 
@@ -102,7 +102,7 @@ public class GeneralInformation {
    *
    * @param configuration the map that contains configuration values to set.
    */
-  public void setDefaultValues(final Map <String, String> configuration) {
+  public void setDefaultValues(final Map<String, String> configuration) {
     setRecordModifiedCode(" ");
     setRecordCataloguingSourceCode(configuration.get("bibliographicItem.recordCataloguingSourceCode"));
     setItemDateTypeCode(configuration.get("bibliographicItem.itemDateTypeCode"));

@@ -4,8 +4,8 @@ import net.sf.hibernate.Session;
 import org.folio.marccat.business.cataloguing.common.HeaderField;
 import org.folio.marccat.business.cataloguing.common.HeaderFieldHelper;
 import org.folio.marccat.business.cataloguing.common.Tag;
-import org.folio.marccat.business.common.DataAccessException;
 import org.folio.marccat.dao.persistence.CorrelationKey;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.shared.CorrelationValues;
 
 import java.util.List;

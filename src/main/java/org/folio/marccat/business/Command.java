@@ -7,7 +7,7 @@
  */
 package org.folio.marccat.business;
 
-import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.exception.DataAccessException;
 
 /**
  * Interface for implementing undo/redo

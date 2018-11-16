@@ -9,9 +9,9 @@ package org.folio.marccat.business.cataloguing.common;
 
 import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.Session;
-import org.folio.marccat.business.common.DataAccessException;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.dao.persistence.CorrelationKey;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.ValidationException;
 import org.folio.marccat.shared.CorrelationValues;
 import org.w3c.dom.Document;

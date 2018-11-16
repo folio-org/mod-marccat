@@ -14,8 +14,8 @@ import java.util.Map;
  */
 public class MapBackedSingletonFactory extends AbstractMapBackedFactory {
 
-  private Map <Integer, Object> map = new HashMap <>();
-  private Map <Class, Object> singletons = new HashMap <>();
+  private Map<Integer, Object> map = new HashMap<>();
+  private Map<Class, Object> singletons = new HashMap<>();
 
   @Override
   public void put(final Integer key, final Class clazz) {
@@ -23,7 +23,7 @@ public class MapBackedSingletonFactory extends AbstractMapBackedFactory {
   }
 
   @Override
-  public void put(final Map <Integer, Class> entries) {
+  public void put(final Map<Integer, Class> entries) {
     entries.forEach((key, clazz) -> put(key, clazz));
   }
 

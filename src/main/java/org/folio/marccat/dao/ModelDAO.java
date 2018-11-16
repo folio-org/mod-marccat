@@ -33,7 +33,7 @@ public abstract class ModelDAO extends AbstractDAO {
    * @return a list of booleans representing whether a model in the list of all models is currently in use by a bib item.
    * @throws HibernateException in case of data access failure.
    */
-  public List <Boolean> getModelUsageList(final Session session) throws HibernateException {
+  public List<Boolean> getModelUsageList(final Session session) throws HibernateException {
     return getModelList(session).stream()
       .map(avp -> {
         try {
@@ -74,7 +74,7 @@ public abstract class ModelDAO extends AbstractDAO {
    */
   @SuppressWarnings("unchecked")
   public Model load(final int id, final Session session) throws HibernateException {
-    final List <Model> list = session.find(
+    final List<Model> list = session.find(
       "from "
         + getPersistentClass().getName()
         + " as itm where itm.id = ? ",
@@ -144,7 +144,7 @@ public abstract class ModelDAO extends AbstractDAO {
    * @throws HibernateException in case of data access failure
    */
   @SuppressWarnings("unchecked")
-  private List <Avp <Integer>> getModelList(final Session session) throws HibernateException {
+  private List<Avp<Integer>> getModelList(final Session session) throws HibernateException {
     return session.find("select new Avp(m.id, m.label) from " + getPersistentClass().getName() + " as m order by m.label");
   }
 
@@ -156,7 +156,7 @@ public abstract class ModelDAO extends AbstractDAO {
    * @throws HibernateException in case of data access failure
    */
   @SuppressWarnings("unchecked")
-  public List <Avp <Integer>> getBibliographicModelList(final Session session) throws HibernateException {
+  public List<Avp<Integer>> getBibliographicModelList(final Session session) throws HibernateException {
     return session.find(
       " select new org.folio.marccat.business.codetable.Avp(m.id, m.label) from "
         + " org.folio.marccat.dao.persistence.BibliographicModel "
@@ -171,7 +171,7 @@ public abstract class ModelDAO extends AbstractDAO {
    * @throws HibernateException in case of data access failure
    */
   @SuppressWarnings("unchecked")
-  public List <Avp <Integer>> getAuthorityModelList(final Session session) throws HibernateException {
+  public List<Avp<Integer>> getAuthorityModelList(final Session session) throws HibernateException {
     return session.find(
       " select new org.folio.marccat.business.codetable.Avp(m.id, m.label) from "
         + " org.folio.marccat.dao.persistence.AuthorityModel "

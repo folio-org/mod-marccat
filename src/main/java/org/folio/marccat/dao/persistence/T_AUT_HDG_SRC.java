@@ -10,7 +10,7 @@ public class T_AUT_HDG_SRC extends T_SINGLE {
    *
    */
   private static final long serialVersionUID = 1L;
-  private static final HashMap <Integer, Character> marcSourceIndicator = new HashMap <Integer, Character>();
+  private static final HashMap<Integer, Character> marcSourceIndicator = new HashMap<Integer, Character>();
 
   static {
     marcSourceIndicator.put(new Integer(2), new Character('0'));

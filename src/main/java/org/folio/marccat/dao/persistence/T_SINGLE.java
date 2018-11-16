@@ -1,7 +1,7 @@
 package org.folio.marccat.dao.persistence;
 
-import org.folio.marccat.business.common.DataAccessException;
 import org.folio.marccat.dao.DAOCodeTable;
+import org.folio.marccat.exception.DataAccessException;
 
 /**
  * Superclass for single table Codetables (short code)

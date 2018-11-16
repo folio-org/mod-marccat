@@ -1,6 +1,6 @@
 package org.folio.marccat.business.common;
 
-import org.folio.marccat.log.Log;
+import org.folio.marccat.config.log.Log;
 
 import java.util.MissingResourceException;
 

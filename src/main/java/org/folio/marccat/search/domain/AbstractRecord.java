@@ -1,11 +1,11 @@
 package org.folio.marccat.search.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.folio.marccat.log.Log;
-import org.folio.marccat.search.XmlDocumentException;
-import org.folio.marccat.search.XmlParserConfigurationException;
-import org.folio.marccat.search.XslTransformerConfigurationException;
-import org.folio.marccat.search.XslTransformerException;
+import org.folio.marccat.config.log.Log;
+import org.folio.marccat.exception.XmlDocumentException;
+import org.folio.marccat.exception.XmlParserConfigurationException;
+import org.folio.marccat.exception.XslTransformerConfigurationException;
+import org.folio.marccat.exception.XslTransformerException;
 import org.folio.marccat.util.XmlUtils;
 import org.w3c.dom.Document;
 
@@ -41,7 +41,7 @@ public abstract class AbstractRecord implements Record {
   private static final Log logger = new Log(AbstractRecord.class);
   @JsonIgnore
   private String cclQuery = "";
-  private Map <String, Object> content = new HashMap <>();
+  private Map<String, Object> content = new HashMap<>();
 
   private int recordView;
   private int countDoc;

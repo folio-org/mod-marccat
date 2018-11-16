@@ -1,11 +1,10 @@
 package org.folio.marccat.dao.persistence;
 
-import org.folio.marccat.business.cataloguing.bibliographic.Equivalent;
 import org.folio.marccat.business.cataloguing.bibliographic.NameTitleComponent;
 import org.folio.marccat.business.cataloguing.common.OrderedTag;
-import org.folio.marccat.business.common.DataAccessException;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.DAONameTitleAccessPoint;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.integration.GlobalStorage;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
@@ -19,7 +18,7 @@ import java.util.List;
  * @author nbianchini
  * @since 1.0
  */
-public class NameTitleAccessPoint extends NameTitleComponent implements OrderedTag, Equivalent {
+public class NameTitleAccessPoint extends NameTitleComponent implements OrderedTag {
 
   private static final DAONameTitleAccessPoint daoNameTitleAccessPoint = new DAONameTitleAccessPoint();
   private NME_TTL_HDG descriptor = new NME_TTL_HDG();

@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class MapBackedFactory extends AbstractMapBackedFactory {
 
-  private Map <Integer, Class> map = new HashMap <>();
+  private Map<Integer, Class> map = new HashMap<>();
 
   @Override
   public void put(final Integer key, final Class clazz) {
@@ -19,7 +19,7 @@ public class MapBackedFactory extends AbstractMapBackedFactory {
   }
 
   @Override
-  public void put(Map <Integer, Class> entries) {
+  public void put(Map<Integer, Class> entries) {
     map.putAll(entries);
   }
 

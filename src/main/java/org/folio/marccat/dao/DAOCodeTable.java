@@ -1,25 +1,24 @@
 package org.folio.marccat.dao;
 
-import net.sf.hibernate.*;
-import net.sf.hibernate.expression.Expression;
+import net.sf.hibernate.Hibernate;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Query;
+import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-import org.folio.marccat.Global;
 import org.folio.marccat.business.codetable.Avp;
-import org.folio.marccat.business.common.DataAccessException;
 import org.folio.marccat.business.common.Defaults;
+import org.folio.marccat.config.Global;
+import org.folio.marccat.config.log.Log;
+import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.dao.common.TransactionalHibernateOperation;
 import org.folio.marccat.dao.persistence.*;
-import org.folio.marccat.log.Log;
-import org.folio.marccat.log.MessageCatalog;
+import org.folio.marccat.exception.DataAccessException;
 
 import java.io.Serializable;
-import java.lang.InstantiationException;
-import java.sql.*;
 import java.util.*;
 
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
-import static org.folio.marccat.F.isNotNullOrEmpty;
 
 /**
  * TODO: JAvadoc
@@ -33,8 +32,6 @@ public class DAOCodeTable extends AbstractDAO {
   public static final int STEP = 10;
   private static final String ALPHABETICAL_ORDER = " order by ct.longText ";
   private static final String SEQUENCE_ORDER = " order by ct.sequence ";
-  private final String SELECT_RDA_CARRIER_LIST = /*"SELECT * FROM OLISUITE.T_RDA_CARRIER WHERE LANGID = ? ORDER BY STRING_TEXT";*/
-    "SELECT * FROM " + System.getProperty(Global.SCHEMA_SUITE_KEY) + ".T_RDA_CARRIER WHERE LANGID = ? ORDER BY STRING_TEXT";
   private Log logger = new Log(DAOCodeTable.class);
 
   public static List asOptionList(List raw, Locale locale) {
@@ -54,42 +51,6 @@ public class DAOCodeTable extends AbstractDAO {
     return result;
   }
 
-  /**
-   * Method returns (T_NME_WRK_RLTR) with Label-Label instead of Code-Label
-   *
-   * @param raw
-   * @return
-   */
-  public static List getReversedOptionList(List raw) {
-    if (raw == null) {
-      return null;
-    }
-    List result = new ArrayList();
-    Iterator iterator = raw.iterator();
-    Avp element = null;
-
-    while (iterator.hasNext()) {
-      element = (Avp) iterator.next();
-      result.add(new Avp(element.getLabel(), element.getLabel()));
-    }
-    return result;
-  }
-
-  public static T_SINGLE getSelectedCodeTable(List raw, Locale locale, int code) {
-    if (raw == null) {
-      return null;
-    }
-
-    Iterator iterator = raw.iterator();
-
-    while (iterator.hasNext()) {
-      T_SINGLE element = (T_SINGLE) iterator.next();
-      if (element.getLanguage().equals(locale.getISO3Language()) && element.getCode() == code) {
-        return element;
-      }
-    }
-    return null;
-  }
 
   /**
    * Returns a code table contains elements set key/stringValue
@@ -99,11 +60,11 @@ public class DAOCodeTable extends AbstractDAO {
    * @param locale  the Locale, used here as a filter criterion.
    * @return
    */
-  public List <Avp <String>> getList(final Session session, final Class c, final Locale locale) {
+  public List<Avp<String>> getList(final Session session, final Class c, final Locale locale) {
     try {
       // NOTE: two steps are required because Hibernate doesn't use generics and the inference type
       // mechanism doesn't work.
-      final List <CodeTable> codeTables = session.find(
+      final List<CodeTable> codeTables = session.find(
         "from "
           + c.getName()
           + " as ct "
@@ -115,7 +76,7 @@ public class DAOCodeTable extends AbstractDAO {
 
       return codeTables
         .stream()
-        .map(codeTable -> (Avp <String>) new Avp(codeTable.getCodeString().trim(), codeTable.getLongText()))
+        .map(codeTable -> (Avp<String>) new Avp(codeTable.getCodeString().trim(), codeTable.getLongText()))
         .collect(toList());
     } catch (final HibernateException exception) {
       logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
@@ -179,86 +140,6 @@ public class DAOCodeTable extends AbstractDAO {
       logAndWrap(e);
     }
     logger.debug("Got codetable for " + c.getName());
-    return listCodeTable;
-  }
-
-  public List getListCntrl(Class c, boolean alphabeticOrder) throws DataAccessException {
-    List listCodeTable = null;
-    String order = SEQUENCE_ORDER;
-    if (alphabeticOrder)
-      order = ALPHABETICAL_ORDER;
-
-    try {
-      Session s = currentSession();
-      listCodeTable =
-        s.find(
-          "from "
-            + c.getName()
-            + " as ct "
-            + " where ct.obsoleteIndicator = 0"
-            + " and (ct.code<>94 and ct.code<>102 and ct.code<>103)"
-            + order);
-    } catch (HibernateException e) {
-      logAndWrap(e);
-    }
-    logger.debug("Got codetable for " + c.getName());
-    return listCodeTable;
-  }
-
-  public List getListFromTag008(Class c, String tag, boolean alphabeticOrder) throws DataAccessException {
-    List listCodeTable = null;
-    String order = SEQUENCE_ORDER;
-    if (alphabeticOrder)
-      order = ALPHABETICAL_ORDER;
-
-    try {
-      Session s = currentSession();
-      listCodeTable =
-        s.find(
-          "from "
-            + c.getName()
-            + " as ct "
-            + " where ct.obsoleteIndicator = 0"
-            + " and ct.longText like '%008%'"
-            + order);
-
-    } catch (HibernateException e) {
-      logAndWrap(e);
-    }
-    return listCodeTable;
-  }
-
-  /*T_BIB_HDR*/
-  public List getListFromWithoutTag008(Class c, String tag, boolean alphabeticOrder) throws DataAccessException {
-    List listCodeTable = null;
-    String order = SEQUENCE_ORDER;
-    if (alphabeticOrder)
-      order = ALPHABETICAL_ORDER;
-
-    try {
-      Session s = currentSession();
-      listCodeTable =
-        s.find(
-          "from "
-            + c.getName()
-            + " as ct "
-            + " where ct.obsoleteIndicator = 0"
-            + " and ct.code <> '31' "
-            + " and ct.code <> '32' "
-            + " and ct.code <> '33'"
-            + " and ct.code <> '34' "
-            + " and ct.code <> '35' "
-            + " and ct.code <> '36' "
-            + " and ct.code <> '37' "
-            + " and ct.code <> '15' "
-            + " and ct.code <> '39' "
-            + " and ct.code <> '41' "
-            + order);
-
-    } catch (HibernateException e) {
-      logAndWrap(e);
-    }
-
     return listCodeTable;
   }
 
@@ -413,111 +294,6 @@ public class DAOCodeTable extends AbstractDAO {
     }
   }
 
-  /*
-   * This doesn't seem to be doing anything very useful
-   * and it is not currently referenced.  At one time
-   * it was so leave it for now
-   */
-  public String getLanguageOfIndexing(final int code, final Session session) throws HibernateException {
-    String result = "und";
-    List scriptingLanguage = null;
-    int valueCode = 0;
-    scriptingLanguage = session.find("from T_LANG_OF_IDXG as t where t.code = '" + code + "'");
-    Iterator iter = scriptingLanguage.iterator();
-    while (iter.hasNext()) {
-      T_LANG_OF_IDXG rawElmt = (T_LANG_OF_IDXG) iter.next();
-      valueCode = rawElmt.getSequence();
-    }
-    scriptingLanguage = session.find("from T_LANG_OF_IDXG_LANG as t where t.languageIndexing = " + valueCode);
-    iter = scriptingLanguage.iterator();
-    while (iter.hasNext()) {
-      T_LANG_OF_IDXG_LANG rawElmt = (T_LANG_OF_IDXG_LANG) iter.next();
-      valueCode = rawElmt.getLanguage();
-    }
-    scriptingLanguage = session.find("from T_LANG as t where t.sequence = " + valueCode);
-    iter = scriptingLanguage.iterator();
-    while (iter.hasNext()) {
-      T_LANG rawElmt = (T_LANG) iter.next();
-      result = rawElmt.getCode();
-    }
-    return result;
-  }
-
-  /**
-   * Get the string of the access point language
-   *
-   * @param session the hibernate session
-   * @param code    the input int code used here as filter criterion
-   * @param session the session of hibernate
-   * @return a string representing the access point language
-   * @throws HibernateException
-   */
-  public String getAccessPointLanguage(final int code, final Descriptor aDescriptor, final Session session) throws HibernateException {
-    String result = "und";
-    List scriptingLanguage;
-    int valueCode = 0;
-    Iterator iter;
-    if (aDescriptor instanceof SBJCT_HDG) {
-      scriptingLanguage = session.find("from T_LANG_OF_ACS_PNT_SBJCT as t where t.code = '" + code + "'");
-      iter = scriptingLanguage.iterator();
-      while (iter.hasNext()) {
-        T_LANG_OF_ACS_PNT_SBJCT rawElmt = (T_LANG_OF_ACS_PNT_SBJCT) iter.next();
-        valueCode = rawElmt.getSequence();
-      }
-
-    } else {
-      scriptingLanguage = session.find("from T_LANG_OF_ACS_PNT as t where t.code = '" + code + "'");
-      iter = scriptingLanguage.iterator();
-      while (iter.hasNext()) {
-        T_LANG_OF_ACS_PNT rawElmt = (T_LANG_OF_ACS_PNT) iter.next();
-        valueCode = rawElmt.getSequence();
-      }
-    }
-
-    scriptingLanguage = session.find("from T_LANG_OF_IDXG_LANG as t where t.languageIndexing = " + valueCode);
-    iter = scriptingLanguage.iterator();
-    while (iter.hasNext()) {
-      T_LANG_OF_IDXG_LANG rawElmt = (T_LANG_OF_IDXG_LANG) iter.next();
-      valueCode = rawElmt.getLanguage();
-    }
-    scriptingLanguage = session.find("from T_LANG as t where t.sequence = " + valueCode);
-    iter = scriptingLanguage.iterator();
-    while (iter.hasNext()) {
-      T_LANG rawElmt = (T_LANG) iter.next();
-      result = rawElmt.getCode();
-    }
-    return result;
-  }
-
-  public List getEntries(Class c, Object code, boolean alphabeticOrder) throws DataAccessException, InstantiationException, IllegalAccessException {
-    List listCodeTable = null;
-    String order = SEQUENCE_ORDER;
-    if (alphabeticOrder)
-      order = ALPHABETICAL_ORDER;
-    try {
-      Session s = currentSession();
-      listCodeTable =
-        s.find(
-          "from "
-            + c.getName()
-            + " as ct "
-            + " where ct.obsoleteIndicator = 0"
-            + " and ct.code = " + getCorrectValue(c, code) + " "
-            + order);
-    } catch (HibernateException e) {
-      logAndWrap(e);
-    }
-    logger.debug("Got codetable for " + c.getName());
-    return listCodeTable;
-  }
-
-  private String getCorrectValue(Class type, Object code) throws InstantiationException, IllegalAccessException {
-    Object obj = type.newInstance();
-    if (obj instanceof T_SINGLE_CHAR || obj instanceof T_SINGLE_LONGCHAR) {
-      return "'" + code + "'";
-    } else return "" + code;
-  }
-
   /**
    * Save a group of rows in the same code table. If it is an insertion then the
    * sequence is calculated the same for all items present in the list
@@ -546,32 +322,6 @@ public class DAOCodeTable extends AbstractDAO {
     }.execute();
   }
 
-  /**
-   * Symply returns the calculated new sequence (MAX sequence + 1)
-   *
-   * @param codeTable
-   * @return
-   * @throws DataAccessException
-   */
-  public synchronized int suggestSequence(CodeTable codeTable) throws DataAccessException {
-    try {
-      Session s = currentSession();
-      Query q = s.createQuery("select ct.sequence from "
-        + codeTable.getClass().getName()
-        + " as ct order by ct.sequence desc");
-      q.setMaxResults(1);
-      List results = q.list();
-      int newSequence = STEP; // default for empty table
-      if (results.size() > 0) {
-        newSequence = ((Integer) results.get(0)).intValue() + STEP;
-      }
-      return newSequence;
-    } catch (HibernateException e) {
-      logAndWrap(e);
-    }
-    /* pratically unreachable because logAndWrap throws an exception everytime */
-    return STEP;
-  }
 
   public synchronized int suggestNewSequence(CodeTable codeTable) throws DataAccessException {
     try {
@@ -640,96 +390,6 @@ public class DAOCodeTable extends AbstractDAO {
     return listCodeTable;
   }
 
-  public boolean findHeading(String code) throws DataAccessException {
-    try {
-      Session s = currentSession();
-      List l = s.createCriteria(CLSTN.class)
-        .add(Expression.like("stringText", "%" + code + "%"))
-        .add(Expression.eq("typeCode", new Short((short) 29)))
-        .list();
-
-      return l.size() >= 1;
-    } catch (HibernateException e) {
-      logAndWrap(e);
-      return false;
-    }
-  }
-
-  public void deleteCode(Class c, String code) throws DataAccessException {
-    Session s = currentSession();
-    Transaction tx = null;
-    try {
-      tx = s.beginTransaction();
-      s.delete("from " + c.getName() + " as ct " + " where ct.code = ?",
-        new Object[]{code}, new Type[]{Hibernate.STRING});
-      tx.commit();
-
-    } catch (HibernateException e) {
-      if (tx != null) {
-        try {
-          tx.rollback();
-        } catch (HibernateException e1) {
-          logAndWrap(e);
-        }
-      }
-    }
-  }
-
-  public void deleteNoteSubCode(String code) throws DataAccessException {
-    Session s = currentSession();
-    Transaction tx = null;
-    try {
-      tx = s.beginTransaction();
-      s.delete(
-        "from T_CAS_STND_NTE_SUB_TYP as ct where ct.sequence = ?",
-        new Object[]{code}, new Type[]{Hibernate.STRING});
-      tx.commit();
-
-    } catch (HibernateException e) {
-      if (tx != null) {
-        try {
-          tx.rollback();
-        } catch (HibernateException e1) {
-          logAndWrap(e);
-        }
-      }
-    }
-  }
-
-  public int getCodeNote(int code) throws DataAccessException {
-    int newCode = 0;
-    try {
-      Session s = currentSession();
-      Query q = s.createQuery("select distinct ct.code from T_CAS_STND_NTE_SUB_TYP as ct where ct.sequence =" + code);
-      q.setMaxResults(1);
-      List results = q.list();
-      if (results.size() > 0) {
-        newCode = ((Integer) results.get(0)).intValue();
-      }
-
-    } catch (HibernateException e) {
-      logAndWrap(e);
-    }
-    return newCode;
-  }
-
-  public String getCodeCache(String code) throws DataAccessException {
-    String newCode = "";
-    try {
-      Session s = currentSession();
-      Query q = s.createQuery("select distinct ct.levelCard from CasCache as ct where ct.levelCard = :code");
-      q.setString("code", code);
-      q.setMaxResults(1);
-      List results = q.list();
-      if (results.size() > 0) {
-        newCode = (String) results.get(0);
-      }
-
-    } catch (HibernateException e) {
-      logAndWrap(e);
-    }
-    return newCode;
-  }
 
   public List getCodeNoteList(int code) throws DataAccessException {
     List result = null;
@@ -745,130 +405,12 @@ public class DAOCodeTable extends AbstractDAO {
     return result;
   }
 
-  public List getMasterClient(int code) throws DataAccessException {
-    List result = null;
-    try {
-      Session s = currentSession();
-      Query q = s.createQuery("select distinct ct from CLCTN_MST_CSTMR as ct where ct.collectionCode =" + code);
-      q.setMaxResults(1);
-      result = q.list();
-
-    } catch (HibernateException e) {
-      logAndWrap(e);
-    }
-    return result;
-  }
-
-  /**
-   * @param session
-   * @return
-   * @throws HibernateException
-   */
-
-  public List <Diacritics> getDiacritics(final Session session) throws HibernateException {
-    return session.find("select distinct from Diacritics as a order by 1");
-  }
 
   @Deprecated
-  public List <Diacritics> getDiacritics() throws DataAccessException {
+  public List<Diacritics> getDiacritics() throws DataAccessException {
     return null;
   }
 
-  /**
-   * Il metodo ritorna la lista dei caratteri presenti in tabella senza doppioni
-   *
-   * @return
-   * @throws DataAccessException
-   */
-  public List getDiacriticsDistinctCharacter() throws DataAccessException {
-    Session s = currentSession();
-    Statement st = null;
-    ResultSet rs = null;
-    List <String> characterList = new ArrayList <String>();
-    try {
-      Connection con = s.connection();
-      String sql = "Select distinct carattere from Diacritici as a order by carattere";
-      st = con.createStatement();
-      rs = st.executeQuery(sql);
-      while (rs.next()) {
-        characterList.add((rs.getString("CARATTERE")));
-      }
-    } catch (HibernateException e) {
-      logAndWrap(e);
-    } catch (SQLException e) {
-      logAndWrap(e);
-    } finally {
-      try {
-        rs.close();
-      } catch (Exception e) {
-      }
-      try {
-        st.close();
-      } catch (Exception e) {
-      }
-    }
-    return characterList;
-  }
-
-  public List getNoteTranslation(String code2, String language) throws DataAccessException {
-    List result = null;
-    int code = new Integer(code2).intValue();
-    try {
-      Session s = currentSession();
-      Query q = s.createQuery("select distinct ct from T_TRSLTN_NTE_TYP as ct where ct.code = " + code + " and ct.language=" + "'" + language + "'");
-      q.setMaxResults(1);
-      result = q.list();
-
-    } catch (HibernateException e) {
-      logAndWrap(e);
-    }
-    return result;
-  }
-
-  public List getNoteTranslationLanguage(String language) throws DataAccessException {
-    List result = null;
-
-    try {
-      Session s = currentSession();
-      Query q = s.createQuery("select distinct ct from T_TRSLTN_NTE_TYP as ct where ct.language=" + "'" + language + "'");
-      q.setMaxResults(1);
-      result = q.list();
-
-    } catch (HibernateException e) {
-      logAndWrap(e);
-    }
-    return result;
-  }
-
-  public List getDefaultNoteTranslation(String code2, String language) throws DataAccessException {
-    List result = null;
-    int code = new Integer(code2).intValue();
-    try {
-      Session s = currentSession();
-      Query q = s.createQuery("select distinct ct from T_DFLT_TRSLTN_NTE as ct where ct.code = " + code + " and ct.language=" + "'" + language + "'");
-      q.setMaxResults(1);
-      result = q.list();
-
-    } catch (HibernateException e) {
-      logAndWrap(e);
-    }
-    return result;
-  }
-
-  public List getDefaultNoteTranslationLanguage(String language) throws DataAccessException {
-    List result = null;
-
-    try {
-      Session s = currentSession();
-      Query q = s.createQuery("select distinct ct from T_DFLT_TRSLTN_NTE as ct where  ct.language=" + "'" + language + "'");
-      q.setMaxResults(1);
-      result = q.list();
-
-    } catch (HibernateException e) {
-      logAndWrap(e);
-    }
-    return result;
-  }
 
   public T_SINGLE_LONGCHAR load(final Session session, final Class c, final String code, final Locale locale) throws DataAccessException {
     T_SINGLE_LONGCHAR key;
@@ -882,189 +424,4 @@ public class DAOCodeTable extends AbstractDAO {
     return (T_SINGLE_LONGCHAR) loadCodeTableEntry(session, c, key);
   }
 
-  /**
-   * Reads short text from T_CAS_DIG_TYP table
-   * with digital repository
-   */
-  public String getShortText(final Session session, final String code, final Class c, final Locale locale) throws DataAccessException {
-    String result = new String("");
-    CodeTable ct = load(session, c, code, locale);
-    result = ct.getShortText();
-    return result;
-  }
-
-  public String getShortText(final Session session, final short code, final Class c, final Locale locale) throws DataAccessException {
-    String result = new String("");
-    CodeTable ct = load(session, c, code, locale);
-    result = ct.getShortText();
-    return result;
-  }
-
-  public String getRecordInformation(
-    final Integer headingNumber,
-    final Integer amicusNumber,
-    final Integer mainLibrary) throws DataAccessException {
-    final Session s = currentSession();
-    try {
-      final Connection con = s.connection();
-      final String sql = "select * from s_cache_bib_itm_dsply where bib_itm_nbr=" +
-        "(select bib_itm_nbr from shlf_list_acs_pnt where bib_itm_nbr=" +
-        amicusNumber + " and shlf_list_key_nbr=" +
-        headingNumber + " and org_nbr=" + mainLibrary + ")";
-      try (final Statement st = con.createStatement();
-           final ResultSet rs = st.executeQuery(sql)) {
-        final StringBuffer sb = new StringBuffer();
-        while (rs.next()) {
-          sb.append(rs.getString("TTL_HDG_MAIN_STRNG_TXT")).append(" ")
-            //append(rs.getString("NME_MAIN_ENTRY_STRNG_TXT")).append("\n")
-            .append(rs.getString("BIB_NTE_EDTN_STRNG_TXT")).append(" ")
-            .append(rs.getString("BIB_NTE_IPRNT_STRNG_TXT")).append(" ")
-            .append(rs.getString("BIB_NTE_EXTNT_STRNG_TXT")).append("\n");
-          final String serie = rs.getString("TTL_HDG_SRS_STRNG_TXT");
-          if (isNotNullOrEmpty(serie)) {
-            sb.append("(").append(serie).append(")").append(" ");
-          }
-        }
-        return sb.toString();
-      }
-    } catch (final Exception exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-      return "CHANGEME!";
-    }
-  }
-
-  public int countStandardNote(String code) throws DataAccessException {
-    Session s = currentSession();
-    Statement st = null;
-    ResultSet rs = null;
-    try {
-      Connection con = s.connection();
-      String sql = "select count(*) from STD_NTE_ACS_PNT where STD_NTE_TYP_CDE=" + code;
-      st = con.createStatement();
-      rs = st.executeQuery(sql);
-
-      while (rs.next())
-        return rs.getInt(1);
-
-    } catch (HibernateException e) {
-      logAndWrap(e);
-    } catch (SQLException e) {
-      logAndWrap(e);
-    } finally {
-      try {
-        rs.close();
-      } catch (Exception e) {
-      }
-      try {
-        st.close();
-      } catch (Exception e) {
-      }
-    }
-    return 0;
-  }
-
-  public List getOptionList(Class c, Locale locale, boolean alphabetic) throws DataAccessException {
-    return asOptionList(getList(c, locale, alphabetic), locale);
-  }
-
-  /**
-   * Mathod to manage (CUSTOM.T_RDA_CARRIER)
-   *
-   * @param locale
-   * @return
-   * @throws DataAccessException
-   */
-  public List <Avp> getRdaCarrierList(Locale locale) throws DataAccessException {
-    PreparedStatement statement = null;
-    ResultSet rs = null;
-    List <Avp> list = new ArrayList <Avp>();
-    Avp element = null;
-
-    try {
-      statement = currentSession().connection().prepareStatement(SELECT_RDA_CARRIER_LIST);
-      statement.setString(1, locale.getISO3Language());
-      rs = statement.executeQuery();
-      while (rs.next()) {
-        element = new Avp(rs.getString("TBL_VLU_CDE"), rs.getString("STRING_TEXT"));
-        list.add(element);
-      }
-
-    } catch (HibernateException e) {
-      logAndWrap(e);
-    } catch (SQLException e) {
-      logAndWrap(e);
-
-    } finally {
-      try {
-        rs.close();
-      } catch (Exception ex) {
-      }
-      try {
-        statement.close();
-      } catch (Exception ex) {
-      }
-    }
-    return list;
-  }
-
-  /**
-   * Perform update on database
-   *
-   * @param c       table name class
-   * @param session hibernate session
-   * @throws DataAccessException
-   */
-
-  public void updateCodeTable(final Object c, final Session session) {
-    Transaction tx = null;
-    try {
-      tx = session.beginTransaction();
-      session.update(c);
-      tx.commit();
-
-    } catch (HibernateException e) {
-      if (tx != null) {
-        try {
-          tx.rollback();
-        } catch (final HibernateException exception) {
-          logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-          logger.error(exception.getMessage(), exception);
-          return;
-        }
-      }
-    }
-
-  }
-
-  /**
-   * Gets statistics number for loading from file.
-   *
-   * @param session                 -- the hibernate session associated to request.
-   * @param loadingStatisticsNumber -- the loading statistic number key.
-   * @return LDG_STATS.
-   * @throws DataAccessException in case of data access exception.
-   */
-  public LDG_STATS getStats(final Session session, final int loadingStatisticsNumber) throws DataAccessException {
-    try {
-      return (LDG_STATS) session.load(LDG_STATS.class, loadingStatisticsNumber);
-    } catch (HibernateException e) {
-      throw new DataAccessException(e);
-    }
-  }
-
-  @SuppressWarnings("unchecked")
-  public List <LOADING_MARC_RECORDS> getResults(final Session session, final int loadingStatisticsNumber) throws DataAccessException {
-
-    try {
-      return session.find(
-        "from LOADING_MARC_RECORDS as r "
-          + " where r.loadingStatisticsNumber = ? "
-          + " order by r.sequence ",
-        new Object[]{loadingStatisticsNumber},
-        new Type[]{Hibernate.INTEGER});
-    } catch (HibernateException e) {
-      throw new DataAccessException(e);
-    }
-
-  }
 }

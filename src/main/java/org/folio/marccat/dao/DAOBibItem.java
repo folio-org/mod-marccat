@@ -11,10 +11,14 @@ import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-import org.folio.marccat.business.common.*;
+import org.folio.marccat.business.common.Persistence;
+import org.folio.marccat.business.common.View;
 import org.folio.marccat.dao.common.TransactionalHibernateOperation;
 import org.folio.marccat.dao.persistence.BIB_ITM;
 import org.folio.marccat.dao.persistence.Cache;
+import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.RecordNotFoundException;
+import org.folio.marccat.exception.ReferentialIntegrityException;
 
 import java.util.List;
 import java.util.Objects;
@@ -83,7 +87,7 @@ public class DAOBibItem extends AbstractDAO {
    */
   @SuppressWarnings("unchecked")
   public BIB_ITM load(final int id, final int userView, final Session session) throws HibernateException {
-    List <BIB_ITM> l =
+    List<BIB_ITM> l =
       session.find("from BIB_ITM as itm where itm.amicusNumber = ? "
           + " and SUBSTR(itm.userViewString, ?, 1) = '1'",
         new Object[]{id, userView},

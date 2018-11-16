@@ -2,24 +2,18 @@ package org.folio.marccat.dao;
 
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Query;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.cataloguing.bibliographic.BibliographicItem;
 import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
-import org.folio.marccat.business.common.DataAccessException;
-import org.folio.marccat.business.searching.NoResultsFoundException;
 import org.folio.marccat.dao.persistence.BibliographicRelationship;
-import org.folio.marccat.dao.persistence.BibliographicRelationshipTag;
 import org.folio.marccat.dao.persistence.NameAccessPoint;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.util.StringText;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -183,204 +177,5 @@ public class DAOBibliographicRelationship extends AbstractDAO {
     //TODO add missing subfields s and k
 
     return stringText;
-  }
-
-  public void updateRelation(BibliographicRelationshipTag tag, int amicusNumberTo, int cataloguingView) throws DataAccessException, NoResultsFoundException {
-    if (isReciprocalRelation(tag.getItemNumber(), tag.getTargetBibItemNumber())) {
-      updateReciprocalRelation(tag, amicusNumberTo, cataloguingView, "SOURCE_TARGET");
-
-    } else if (isUnivocalRelation(tag.getItemNumber(), tag.getTargetBibItemNumber())) {
-      updateReciprocalRelation(tag, amicusNumberTo, cataloguingView, "TARGET");
-
-    } else if (isBlindRelation(tag.getItemNumber())) {
-      updateReciprocalRelation(tag, amicusNumberTo, cataloguingView, "SOURCE");
-    } else {
-      throw new NoResultsFoundException();
-    }
-  }
-
-  public int updateReciprocalRelation(BibliographicRelationshipTag tag, int amicusNumberTo, int cataloguingView, String typeQuery)
-    throws DataAccessException, NoResultsFoundException {
-    Connection connection = null;
-    PreparedStatement stmt = null;
-    Session session = currentSession();
-    int count = 0;
-    try {
-      connection = session.connection();
-
-      if ("SOURCE".equalsIgnoreCase(typeQuery)) {
-        stmt = null;
-        stmt = connection.prepareStatement(
-          "UPDATE RLTSP SET SRC_BIB_ITM_NBR = ? WHERE SRC_BIB_ITM_NBR = ? AND TRGT_BIB_ITM_NBR = ? AND RLTSP_TYP_CDE = ? " +
-            "AND SUBSTR(USR_VW_IND,?,1) = '1'");
-        stmt.setInt(1, amicusNumberTo);
-        stmt.setInt(2, tag.getItemNumber());
-        stmt.setInt(3, tag.getTargetBibItemNumber());
-        stmt.setInt(4, tag.getRelationTypeCode());
-        stmt.setInt(5, cataloguingView);
-        count = count + stmt.executeUpdate();
-
-      } else if ("TARGET".equalsIgnoreCase(typeQuery)) {
-        stmt = null;
-
-        stmt = connection.prepareStatement(
-          "UPDATE RLTSP SET SRC_BIB_ITM_NBR = ? WHERE SRC_BIB_ITM_NBR = ? AND TRGT_BIB_ITM_NBR = ? AND RLTSP_TYP_CDE = ? " +
-            "AND SUBSTR(USR_VW_IND,?,1) = '1'");
-        stmt.setInt(1, amicusNumberTo);
-        stmt.setInt(2, tag.getItemNumber());
-        stmt.setInt(3, tag.getTargetBibItemNumber());
-        stmt.setInt(4, tag.getRelationTypeCode());
-        stmt.setInt(5, cataloguingView);
-        count = count + stmt.executeUpdate();
-
-      } else if ("SOURCE_TARGET".equalsIgnoreCase(typeQuery)) {
-//------------> Se relazione reciproca devo modificare due righe nel db le ho messe insieme per poter fare un solo committ solo se vanno bene tutte e due
-        stmt = null;
-
-        stmt = connection.prepareStatement(
-          "UPDATE RLTSP SET TRGT_BIB_ITM_NBR = ? WHERE SRC_BIB_ITM_NBR = ? AND TRGT_BIB_ITM_NBR = ? AND RLTSP_TYP_CDE = ? " +
-            "AND SUBSTR(USR_VW_IND,?,1) = '1'");
-        stmt.setInt(1, amicusNumberTo);
-        stmt.setInt(2, tag.getTargetBibItemNumber());
-        stmt.setInt(3, tag.getItemNumber());
-
-        stmt.setInt(4, tag.getTargetRelationship().getRelationTypeCode());
-        stmt.setInt(5, cataloguingView);
-        count = count + stmt.executeUpdate();
-
-        stmt = null;
-
-        stmt = connection.prepareStatement(
-          "UPDATE RLTSP SET SRC_BIB_ITM_NBR = ? WHERE SRC_BIB_ITM_NBR = ? AND TRGT_BIB_ITM_NBR = ? AND RLTSP_TYP_CDE = ? " +
-            "AND SUBSTR(USR_VW_IND,?,1) = '1'");
-        stmt.setInt(1, amicusNumberTo);
-        stmt.setInt(2, tag.getItemNumber());
-        stmt.setInt(3, tag.getTargetBibItemNumber());
-
-        stmt.setInt(4, tag.getRelationTypeCode());
-        stmt.setInt(5, cataloguingView);
-        count = count + stmt.executeUpdate();
-      }
-      if (count == 0) {
-        throw new NoResultsFoundException();
-      }
-      logger.debug("Count: " + count);
-    } catch (HibernateException e) {
-      logAndWrap(e);
-    } catch (SQLException e) {
-      logAndWrap(e);
-    } finally {
-      try {
-        stmt.close();
-      } catch (SQLException e) {
-      }
-    }
-    return count;
-  }
-
-  /**
-   * Il metodo conta le relazioni non cieche del record (se ce ne sono la cancellazione del record non e' possibile)
-   *
-   * @param amicusNumber
-   * @return count
-   * @throws DataAccessException
-   */
-  public int countRLTSP(int amicusNumber) throws DataAccessException {
-    int result = 0;
-    try {
-      Session s = currentSession();
-      Query q = s.createQuery("select count(*) from BibliographicRelationship as br where br.bibItemNumber = "
-        + amicusNumber + "and br.targetBibItemNumber > 0");
-      q.setMaxResults(1);
-      result = ((Integer) q.list().get(0)).intValue();
-
-    } catch (HibernateException e) {
-      logAndWrap(e);
-    }
-    return result;
-  }
-
-  /**
-   * Il metodo vede sul db se esiste una relazione reciproca fra il source ed il target passati
-   *
-   * @param source
-   * @param target
-   * @return true/false
-   * @throws DataAccessException
-   */
-  public boolean isReciprocalRelation(int source, int target) throws DataAccessException {
-    int count = 0;
-    boolean result = false;
-    try {
-      Session s = currentSession();
-      Query q = s.createQuery("select count(*) from BibliographicRelationship as br "
-        + "where (br.bibItemNumber = " + source + " and br.targetBibItemNumber = " + target + ")"
-//					+ " and br.bibItemNumber = " + target + " and br.targetBibItemNumber = " + source);
-        + " or (br.bibItemNumber = " + target + " and br.targetBibItemNumber = " + source + ")");
-
-      q.setMaxResults(1);
-      count = ((Integer) q.list().get(0)).intValue();
-      if (count == 2) {
-        result = true;
-      }
-    } catch (HibernateException e) {
-      logAndWrap(e);
-    }
-    return result;
-  }
-
-  /**
-   * Il metodo vede sul db se esiste una relazione univoca tra source e target
-   *
-   * @param source
-   * @param target
-   * @return true/false
-   * @throws DataAccessException
-   */
-  public boolean isUnivocalRelation(int source, int target) throws DataAccessException {
-    int count = 0;
-    boolean result = false;
-    try {
-      Session s = currentSession();
-      Query q = s.createQuery("select count(*) from BibliographicRelationship as br "
-        + "where br.bibItemNumber = " + source + " and br.targetBibItemNumber = " + target
-        + " and br.targetBibItemNumber >0");
-
-      q.setMaxResults(1);
-      count = ((Integer) q.list().get(0)).intValue();
-      if (count == 1) {
-        result = true;
-      }
-    } catch (HibernateException e) {
-      logAndWrap(e);
-    }
-    return result;
-  }
-
-  /**
-   * Il metodo vede sul db se esiste una relazione cieca
-   *
-   * @param source
-   * @param target
-   * @return true/false
-   * @throws DataAccessException
-   */
-  public boolean isBlindRelation(int source) throws DataAccessException {
-    int count = 0;
-    boolean result = false;
-    try {
-      Session s = currentSession();
-      Query q = s.createQuery("select count(*) from BibliographicRelationship as br "
-        + "where br.bibItemNumber = " + source + " and br.targetBibItemNumber < 0");
-
-      q.setMaxResults(1);
-      count = ((Integer) q.list().get(0)).intValue();
-      if (count == 1) {
-        result = true;
-      }
-    } catch (HibernateException e) {
-      logAndWrap(e);
-    }
-    return result;
   }
 }

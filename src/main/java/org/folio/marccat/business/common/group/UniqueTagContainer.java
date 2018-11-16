@@ -23,7 +23,6 @@ public class UniqueTagContainer implements TagContainer {
     return tag;
   }
 
-  // si può migliorare, teoricamente non si dovrebbe ricreare una lista
   public Iterator iterator() {
     List l = new ArrayList();
     l.add(tag);

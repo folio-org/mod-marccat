@@ -8,18 +8,18 @@
 package org.folio.marccat.business.cataloguing.authority;
 
 import net.sf.hibernate.Session;
-import org.folio.marccat.business.cataloguing.bibliographic.MarcCorrelationException;
 import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
 import org.folio.marccat.business.cataloguing.common.Catalog;
 import org.folio.marccat.business.cataloguing.common.Tag;
 import org.folio.marccat.business.cataloguing.common.TagImpl;
-import org.folio.marccat.business.common.DataAccessException;
 import org.folio.marccat.business.common.SubfieldCodeComparator;
 import org.folio.marccat.dao.DAOAuthorityCorrelation;
 import org.folio.marccat.dao.DAOAuthorityValidation;
 import org.folio.marccat.dao.persistence.AUT;
 import org.folio.marccat.dao.persistence.Correlation;
 import org.folio.marccat.dao.persistence.CorrelationKey;
+import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.MarcCorrelationException;
 import org.folio.marccat.shared.Validation;
 
 import java.util.Arrays;

@@ -4,14 +4,14 @@ import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-import org.folio.marccat.business.common.DataAccessException;
 import org.folio.marccat.business.common.Persistence;
-import org.folio.marccat.business.common.ReferentialIntegrityException;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.dao.persistence.Descriptor;
 import org.folio.marccat.dao.persistence.REF;
 import org.folio.marccat.dao.persistence.TTL_HDG;
 import org.folio.marccat.dao.persistence.T_AUT_HDG_SRC;
+import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.ReferentialIntegrityException;
 
 import java.util.List;
 
@@ -54,7 +54,7 @@ public class TitleDescriptorDAO extends DAODescriptor {
     throws HibernateException {
 
     int count = super.getXrefCount(source, cataloguingView, session);
-    List <Integer> countList =
+    List<Integer> countList =
       session.find(
         "select count(*) from TTL_NME_TTL_REF as ref "
           + " where ref.titleHeadingNumber = ? "
@@ -94,10 +94,10 @@ public class TitleDescriptorDAO extends DAODescriptor {
    * @throws HibernateException  the hibernate exception
    */
   @SuppressWarnings("unchecked")
-  public List <REF> getCrossReferences(final Descriptor source, final int cataloguingView, final Session session)
+  public List<REF> getCrossReferences(final Descriptor source, final int cataloguingView, final Session session)
     throws DataAccessException, HibernateException {
 
-    List <REF> refList = super.getCrossReferences(source, cataloguingView, session);
+    List<REF> refList = super.getCrossReferences(source, cataloguingView, session);
 
     refList.addAll(
       session.find(
@@ -167,7 +167,7 @@ public class TitleDescriptorDAO extends DAODescriptor {
     throws ReferentialIntegrityException, HibernateException {
 
     final TTL_HDG title = (TTL_HDG) p;
-    final List <Integer> countList =
+    final List<Integer> countList =
       session.find(
         "select count(*) from NME_TTL_HDG as d where "
           + " d.nameHeadingNumber = ? and "
@@ -195,7 +195,7 @@ public class TitleDescriptorDAO extends DAODescriptor {
     throws HibernateException {
 
     final TTL_HDG titleHeading = (TTL_HDG) desc;
-    final List <TTL_HDG> titleHeadingList = session.find(" from "
+    final List<TTL_HDG> titleHeadingList = session.find(" from "
         + getPersistentClass().getName()
         + " as c "
         + " where c.stringText= ? "

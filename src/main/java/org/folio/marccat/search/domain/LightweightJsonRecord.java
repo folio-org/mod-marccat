@@ -2,7 +2,7 @@ package org.folio.marccat.search.domain;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.folio.marccat.log.Log;
+import org.folio.marccat.config.log.Log;
 import org.marc4j.MarcJsonWriter;
 import org.marc4j.MarcReader;
 import org.marc4j.MarcWriter;
@@ -26,7 +26,7 @@ import static java.util.Optional.ofNullable;
 public class LightweightJsonRecord extends AbstractRecord {
   private final static Log LOGGER = new Log(LightweightJsonRecord.class);
   private final static JsonNode DUMMY_RECORD = null;
-  private final static ThreadLocal <SAXParser> SAX_PARSERS =
+  private final static ThreadLocal<SAXParser> SAX_PARSERS =
     ThreadLocal.withInitial(() -> {
       try {
         return SAXParserFactory.newInstance().newSAXParser();

@@ -7,10 +7,10 @@
  */
 package org.folio.marccat.business.cataloguing.authority;
 
-import org.folio.marccat.business.common.DataAccessException;
 import org.folio.marccat.dao.DAOAuthorityCorrelation;
 import org.folio.marccat.dao.persistence.NME_TTL_HDG;
 import org.folio.marccat.dao.persistence.NameSubType;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.shared.CorrelationValues;
 
 import java.util.List;

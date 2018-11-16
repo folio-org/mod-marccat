@@ -1,7 +1,7 @@
 package org.folio.marccat.business.common.group;
 
 import org.folio.marccat.business.cataloguing.common.Tag;
-import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.exception.DataAccessException;
 
 public interface GroupManager {
   TagGroup getGroup(Tag tag) throws DataAccessException;

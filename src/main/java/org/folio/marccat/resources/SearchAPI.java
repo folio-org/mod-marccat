@@ -1,16 +1,16 @@
 package org.folio.marccat.resources;
 
 import io.swagger.annotations.Api;
-import org.folio.marccat.Global;
 import org.folio.marccat.ModMarccat;
 import org.folio.marccat.business.common.View;
+import org.folio.marccat.config.Global;
 import org.folio.marccat.search.SearchEngineFactory;
 import org.folio.marccat.search.SearchResponse;
 import org.folio.marccat.search.engine.SearchEngine;
 import org.springframework.web.bind.annotation.*;
 
-import static org.folio.marccat.F.locale;
 import static org.folio.marccat.integration.CatalogingHelper.doGet;
+import static org.folio.marccat.util.F.locale;
 
 /**
  * Search Engine TEST RESTful APIs.

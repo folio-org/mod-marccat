@@ -6,11 +6,11 @@ import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.marccat.business.cataloguing.bibliographic.MarcCorrelationException;
-import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.dao.persistence.BibliographicValidation;
 import org.folio.marccat.dao.persistence.BibliographicValidationKey;
-import org.folio.marccat.integration.log.MessageCatalogStorage;
+import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.MarcCorrelationException;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.shared.Validation;
 
@@ -43,7 +43,7 @@ public class BibliographicValidationDAO extends DAOValidation {
   @SuppressWarnings("unchecked")
   public BibliographicValidation load(final Session session, final int category, final CorrelationValues values) throws HibernateException {
 
-    List <BibliographicValidation> bibliographicValidations = session.find("select distinct v from BibliographicValidation as v, " +
+    List<BibliographicValidation> bibliographicValidations = session.find("select distinct v from BibliographicValidation as v, " +
         "BibliographicCorrelation as c" +
         " where c.key.marcTagCategoryCode = ?" +
         " and (c.databaseFirstValue = ? or c.databaseFirstValue = -1 or -1 = ?)" +
@@ -63,7 +63,7 @@ public class BibliographicValidationDAO extends DAOValidation {
         Hibernate.INTEGER, Hibernate.INTEGER}
     );
 
-    Optional <BibliographicValidation> firstElement = bibliographicValidations.stream().filter(Objects::nonNull).findFirst();
+    Optional<BibliographicValidation> firstElement = bibliographicValidations.stream().filter(Objects::nonNull).findFirst();
     if (firstElement.isPresent()) {
       return firstElement.get();
     }
@@ -80,7 +80,7 @@ public class BibliographicValidationDAO extends DAOValidation {
     if (firstElement.isPresent()) {
       return firstElement.get();
     } else {
-      logger.error(String.format(MessageCatalogStorage._00014_NO_VALIDATION_FOUND, category, values.toString()));
+      logger.error(String.format(MessageCatalog._00014_NO_VALIDATION_FOUND, category, values.toString()));
       return null;
     }
   }
@@ -92,7 +92,7 @@ public class BibliographicValidationDAO extends DAOValidation {
 
   @Deprecated
   public Validation load(final int s, final CorrelationValues values) throws DataAccessException {
-    List <BibliographicValidation> validations = find("select distinct v from BibliographicValidation as v, " +
+    List<BibliographicValidation> validations = find("select distinct v from BibliographicValidation as v, " +
         "BibliographicCorrelation as c" +
         " where c.key.marcTagCategoryCode = ?" +
         " and (c.databaseFirstValue = ? or c.databaseFirstValue = -1 or -1 = ?)" +

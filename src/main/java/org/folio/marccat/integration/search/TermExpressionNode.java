@@ -1,14 +1,14 @@
 package org.folio.marccat.integration.search;
 
 import net.sf.hibernate.Session;
-import org.folio.marccat.business.common.DataAccessException;
 import org.folio.marccat.business.descriptor.SortFormParameters;
+import org.folio.marccat.config.log.Log;
+import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.dao.NameDescriptorDAO;
 import org.folio.marccat.dao.SemanticDAO;
 import org.folio.marccat.dao.persistence.IndexList;
 import org.folio.marccat.dao.persistence.S_BIB1_SMNTC;
-import org.folio.marccat.log.Log;
-import org.folio.marccat.log.MessageCatalog;
+import org.folio.marccat.exception.DataAccessException;
 
 import java.util.Locale;
 

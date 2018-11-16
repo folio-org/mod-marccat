@@ -9,7 +9,7 @@ package org.folio.marccat.business.cataloguing.bibliographic;
 
 import org.folio.marccat.business.cataloguing.common.HeaderField;
 import org.folio.marccat.business.cataloguing.common.HeaderFieldHelper;
-import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 

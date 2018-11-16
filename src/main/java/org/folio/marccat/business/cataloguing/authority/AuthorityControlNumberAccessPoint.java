@@ -7,9 +7,9 @@
  */
 package org.folio.marccat.business.cataloguing.authority;
 
-import org.folio.marccat.business.common.DataAccessException;
 import org.folio.marccat.dao.persistence.CNTL_NBR;
 import org.folio.marccat.dao.persistence.Descriptor;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 

@@ -8,6 +8,8 @@
 package org.folio.marccat.business.common;
 
 
+import org.folio.marccat.exception.DataAccessException;
+
 /**
  * @author paulm
  * @version $Revision: 1.1 $, $Date: 2004/12/02 17:20:52 $

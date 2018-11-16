@@ -1,21 +1,17 @@
 package org.folio.marccat.dao.persistence;
 
 import org.folio.marccat.business.cataloguing.bibliographic.FixedField;
-import org.folio.marccat.business.cataloguing.bibliographic.MarcCorrelationException;
 import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
 import org.folio.marccat.business.cataloguing.common.Browsable;
 import org.folio.marccat.business.cataloguing.common.Tag;
 import org.folio.marccat.business.cataloguing.common.TagImpl;
-import org.folio.marccat.business.common.DataAccessException;
 import org.folio.marccat.business.common.filter.SameDescriptorTagFilter;
 import org.folio.marccat.business.common.filter.TagFilter;
 import org.folio.marccat.business.common.group.*;
-import org.folio.marccat.exception.DuplicateTagException;
-import org.folio.marccat.exception.MandatoryTagException;
-import org.folio.marccat.exception.ValidationException;
+import org.folio.marccat.config.log.Log;
+import org.folio.marccat.config.log.MessageCatalog;
+import org.folio.marccat.exception.*;
 import org.folio.marccat.integration.GlobalStorage;
-import org.folio.marccat.integration.log.MessageCatalogStorage;
-import org.folio.marccat.log.Log;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.Validation;
 import org.w3c.dom.Document;
@@ -40,11 +36,11 @@ import java.util.stream.Collectors;
  */
 public abstract class CatalogItem implements Serializable {
 
-  private static final Comparator <Tag> tagComparator =
+  private static final Comparator<Tag> tagComparator =
     (Tag tag1, Tag tag2) -> (tag1.getMarcEncoding().getMarcTag().compareTo(tag2.getMarcEncoding().getMarcTag()));
-  protected List <Tag> deletedTags = new ArrayList();
+  protected List<Tag> deletedTags = new ArrayList();
   protected ModelItem modelItem = null;
-  protected List <Tag> tags = new ArrayList();
+  protected List<Tag> tags = new ArrayList();
   private Log logger = new Log(CatalogItem.class);
 
   public CatalogItem() {
@@ -152,7 +148,7 @@ public abstract class CatalogItem implements Serializable {
   /**
    * @return tags to delete.
    */
-  public List <Tag> getDeletedTags() {
+  public List<Tag> getDeletedTags() {
     return deletedTags;
   }
 
@@ -186,11 +182,11 @@ public abstract class CatalogItem implements Serializable {
 
   public abstract TagImpl getTagImpl();
 
-  public List <Tag> getTags() {
+  public List<Tag> getTags() {
     return tags;
   }
 
-  public void setTags(List <Tag> set) {
+  public void setTags(List<Tag> set) {
     tags = set;
   }
 
@@ -245,15 +241,15 @@ public abstract class CatalogItem implements Serializable {
   public void sortTags() {
     try {
 
-      final LinkedHashMap <Object, TagContainer> groupsHashMap = populateGroups();
-      List <TagContainer> tagContainers = new ArrayList <>(groupsHashMap.values());
+      final LinkedHashMap<Object, TagContainer> groupsHashMap = populateGroups();
+      List<TagContainer> tagContainers = new ArrayList<>(groupsHashMap.values());
       tagContainers.sort(new GroupComparator());
-      final List <Tag> tagSet = unlist(tagContainers);
+      final List<Tag> tagSet = unlist(tagContainers);
       setTags(tagSet);
     } catch (MarcCorrelationException e) {
-      logger.info(MessageCatalogStorage._00017_MARC_CORRELATION_SORTING);
+      logger.info(MessageCatalog._00017_MARC_CORRELATION_SORTING);
     } catch (DataAccessException e) {
-      logger.info(MessageCatalogStorage._00010_DATA_ACCESS_FAILURE);
+      logger.info(MessageCatalog._00010_DATA_ACCESS_FAILURE);
     }
   }
 
@@ -263,8 +259,8 @@ public abstract class CatalogItem implements Serializable {
    * @param tagContainers -- list of tag containers.
    * @return list of ordered tags.
    */
-  private List <Tag> unlist(final List <TagContainer> tagContainers) {
-    final List <Tag> tagSet = new ArrayList <>();
+  private List<Tag> unlist(final List<TagContainer> tagContainers) {
+    final List<Tag> tagSet = new ArrayList<>();
     tagContainers.stream().forEach(item -> {
       if (item instanceof Tag)
         tagSet.add((Tag) item);
@@ -282,8 +278,8 @@ public abstract class CatalogItem implements Serializable {
    * @return
    * @throws DataAccessException in case of data access failure.
    */
-  private LinkedHashMap <Object, TagContainer> populateGroups() throws DataAccessException {
-    final LinkedHashMap <Object, TagContainer> ht = new LinkedHashMap();
+  private LinkedHashMap<Object, TagContainer> populateGroups() throws DataAccessException {
+    final LinkedHashMap<Object, TagContainer> ht = new LinkedHashMap();
     final GroupManager groupManager = new BibliographicGroupManager();
 
     tags.stream().forEach(tag -> {
@@ -382,8 +378,8 @@ public abstract class CatalogItem implements Serializable {
    * @param optionalFilterParameter -- the optional filter parameter.
    * @return filtered tag list.
    */
-  public List <Tag> findTags(final TagFilter filter, final Object optionalFilterParameter) {
-    List <Tag> tags = getTags();
+  public List<Tag> findTags(final TagFilter filter, final Object optionalFilterParameter) {
+    List<Tag> tags = getTags();
     return tags.stream().filter(current -> filter.accept(current, optionalFilterParameter)).collect(Collectors.toList());
   }
 
@@ -413,8 +409,8 @@ public abstract class CatalogItem implements Serializable {
    * @return list of tags.
    * @throws DataAccessException in case of data access failure.
    */
-  public List <Tag> findTagsEqual(final int functionCode) throws DataAccessException {
-    final List <Tag> tags = getTags();
+  public List<Tag> findTagsEqual(final int functionCode) throws DataAccessException {
+    final List<Tag> tags = getTags();
     return tags.stream().filter(current -> current instanceof AccessPoint)
       .filter(current -> ((AccessPoint) current).getFunctionCode() == functionCode)
       .collect(Collectors.toList());
@@ -427,8 +423,8 @@ public abstract class CatalogItem implements Serializable {
    * @return list of tags.
    * @throws DataAccessException in case of data access failure.
    */
-  public List <Tag> findTagsFixedEqual(final String marcTag) throws DataAccessException {
-    List <Tag> tags = getTags();
+  public List<Tag> findTagsFixedEqual(final String marcTag) throws DataAccessException {
+    List<Tag> tags = getTags();
     return tags.stream().filter(current -> current instanceof FixedField)
       .filter(tag -> tag.getMarcEncoding().getMarcTag().equals(marcTag))
       .collect(Collectors.toList());
@@ -441,8 +437,8 @@ public abstract class CatalogItem implements Serializable {
    * @return list of tags.
    * @throws DataAccessException in case of data access failure.
    */
-  public List <Tag> findTagsVariableEqual(final String marcTag) throws DataAccessException {
-    List <Tag> tags = getTags();
+  public List<Tag> findTagsVariableEqual(final String marcTag) throws DataAccessException {
+    List<Tag> tags = getTags();
     return tags.stream().filter(current -> current instanceof VariableField)
       .filter(tag -> tag.getMarcEncoding().getMarcTag().equals(marcTag))
       .collect(Collectors.toList());
@@ -456,7 +452,7 @@ public abstract class CatalogItem implements Serializable {
    */
   public List findTagByCategory(final int marcCategory) {
     try {
-      List <Tag> tags = getTags();
+      List<Tag> tags = getTags();
       return tags.stream().filter(tag -> tag.getMarcEncoding().getMarcTagCategoryCode() == (marcCategory))
         .collect(Collectors.toList());
     } catch (Exception e) {

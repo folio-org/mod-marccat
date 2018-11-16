@@ -1,7 +1,7 @@
 package org.folio.marccat.util;
 
-import org.folio.marccat.log.Log;
-import org.folio.marccat.log.MessageCatalog;
+import org.folio.marccat.config.log.Log;
+import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.model.Subfield;
 import org.w3c.dom.Document;
 
@@ -22,7 +22,7 @@ import java.util.Vector;
  */
 public final class XmlUtils {
 
-  private final static ThreadLocal <TransformerFactory> FACTORIES = ThreadLocal.withInitial(TransformerFactory::newInstance);
+  private final static ThreadLocal<TransformerFactory> FACTORIES = ThreadLocal.withInitial(TransformerFactory::newInstance);
 
   private static final Log LOGGER = new Log(XmlUtils.class);
 

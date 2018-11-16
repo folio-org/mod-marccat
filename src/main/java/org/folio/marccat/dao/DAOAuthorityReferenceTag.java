@@ -8,11 +8,11 @@
 package org.folio.marccat.dao;
 
 import org.folio.marccat.business.cataloguing.authority.AuthorityReferenceTag;
-import org.folio.marccat.business.common.DataAccessException;
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.dao.persistence.REF;
 import org.folio.marccat.dao.persistence.ReferenceType;
 import org.folio.marccat.dao.persistence.T_DUAL_REF;
+import org.folio.marccat.exception.DataAccessException;
 
 /**
  * @author paulm

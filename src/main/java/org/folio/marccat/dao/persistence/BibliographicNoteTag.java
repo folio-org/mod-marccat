@@ -2,20 +2,20 @@ package org.folio.marccat.dao.persistence;
 
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
-import org.folio.marccat.F;
 import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
 import org.folio.marccat.business.cataloguing.common.OrderedTag;
 import org.folio.marccat.business.codetable.Avp;
-import org.folio.marccat.business.common.DataAccessException;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.business.common.PersistentObjectWithView;
+import org.folio.marccat.config.log.Log;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.DAOBibliographicNoteTag;
 import org.folio.marccat.dao.SystemNextNumberDAO;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.integration.GlobalStorage;
-import org.folio.marccat.log.Log;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
+import org.folio.marccat.util.F;
 import org.folio.marccat.util.StringText;
 
 import java.util.ArrayList;
@@ -37,12 +37,12 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
   private static final long serialVersionUID = 5008624075912779670L;
   private static final Log logger = new Log(BibliographicNoteTag.class);
   public BibliographicNote note = new BibliographicNote();
-  public List <BibliographicNoteOverflow> deletedOverflowList = new ArrayList <>();
+  public List<BibliographicNoteOverflow> deletedOverflowList = new ArrayList<>();
   private StringText stringText;
   private int noteType;
   private int noteNbr;
   private Integer sequenceNumber;
-  private Avp <String> valueElement;
+  private Avp<String> valueElement;
   private StandardNoteAccessPoint noteStandard;
 
   public BibliographicNoteTag() {
@@ -72,8 +72,8 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    * @param charWrap     -- number of chars to split.
    * @param overflowList -- overflow list to set result.
    */
-  public static void wrapNoteOverflow(final String inputString, final int charWrap, final List <BibliographicNoteOverflow> overflowList) {
-    final List <String> overflows = F.splitString(inputString, charWrap);
+  public static void wrapNoteOverflow(final String inputString, final int charWrap, final List<BibliographicNoteOverflow> overflowList) {
+    final List<String> overflows = F.splitString(inputString, charWrap);
     overflowList.addAll(
       overflows.stream().map(overString -> {
         final BibliographicNoteOverflow overflowNote = new BibliographicNoteOverflow();
@@ -113,7 +113,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
   /**
    * @return Avp valueElement.
    */
-  public Avp <String> getValueElement() {
+  public Avp<String> getValueElement() {
     return valueElement;
   }
 
@@ -122,7 +122,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    *
    * @param valueElement -- the
    */
-  public void setValueElement(final Avp <String> valueElement) {
+  public void setValueElement(final Avp<String> valueElement) {
     this.valueElement = valueElement;
   }
 
@@ -177,7 +177,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    * @param overflowNoteList -- list of overflow notes.
    * @return note string.
    */
-  private String getOverFlowString(final List <BibliographicNoteOverflow> overflowNoteList) {
+  private String getOverFlowString(final List<BibliographicNoteOverflow> overflowNoteList) {
     try {
       final String overflowString = overflowNoteList.stream().map(oNote -> oNote.getStringText().toString()).collect(Collectors.joining());
       return overflowString;
@@ -329,7 +329,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    *
    * @param list -- the list to set.
    */
-  public void setOverflowList(final List <BibliographicNoteOverflow> list) {
+  public void setOverflowList(final List<BibliographicNoteOverflow> list) {
     note.setOverflowList(list);
   }
 
@@ -375,7 +375,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
   /**
    * @return deleted overflow note list.
    */
-  public List <BibliographicNoteOverflow> getDeletedOverflowList() {
+  public List<BibliographicNoteOverflow> getDeletedOverflowList() {
     return deletedOverflowList;
   }
 
@@ -384,7 +384,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    *
    * @param list -- the list to set.
    */
-  public void setDeletedOverflowList(final List <BibliographicNoteOverflow> list) {
+  public void setDeletedOverflowList(final List<BibliographicNoteOverflow> list) {
     deletedOverflowList = list;
   }
 

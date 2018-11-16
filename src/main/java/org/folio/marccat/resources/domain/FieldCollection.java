@@ -21,10 +21,10 @@ public class FieldCollection {
   @JsonProperty("fields")
   @Valid
   @NotNull
-  private List <Field> fields = new ArrayList <Field>();
+  private List<Field> fields = new ArrayList<Field>();
 
   @JsonIgnore
-  private Map <String, Object> additionalProperties = new HashMap <String, Object>();
+  private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
   /**
    * (Required)
@@ -32,7 +32,7 @@ public class FieldCollection {
    * @return The fields
    */
   @JsonProperty("fields")
-  public List <Field> getFields() {
+  public List<Field> getFields() {
     return fields;
   }
 
@@ -42,17 +42,17 @@ public class FieldCollection {
    * @param fields The fields
    */
   @JsonProperty("fields")
-  public void setFields(List <Field> fields) {
+  public void setFields(List<Field> fields) {
     this.fields = fields;
   }
 
-  public FieldCollection withFields(List <Field> fields) {
+  public FieldCollection withFields(List<Field> fields) {
     this.fields = fields;
     return this;
   }
 
   @JsonAnyGetter
-  public Map <String, Object> getAdditionalProperties() {
+  public Map<String, Object> getAdditionalProperties() {
     return this.additionalProperties;
   }
 

@@ -8,11 +8,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.codetable.Avp;
 import org.folio.marccat.business.codetable.IndexListElement;
-import org.folio.marccat.business.common.DataAccessException;
 import org.folio.marccat.business.descriptor.SortFormParameters;
 import org.folio.marccat.dao.common.HibernateUtil;
 import org.folio.marccat.dao.persistence.IndexList;
 import org.folio.marccat.dao.persistence.IndexListKey;
+import org.folio.marccat.exception.DataAccessException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,108 +27,6 @@ import static java.util.stream.Collectors.toList;
  */
 public class DAOIndexList extends HibernateUtil {
   private static final Log logger = LogFactory.getLog(DAOIndexList.class);
-
-  /**
-   * Returns the browse indexes types associated to the given language.
-   *
-   * @param session the session of hibernate
-   * @param locale  the Locale, used here as a filter criterion.
-   * @return the browse indexes
-   * @throws HibernateException
-   */
-  public List getBrowseIndex(final Locale locale, final Session session) throws HibernateException {
-    final String query =
-      "from IndexList as a "
-        + "where SUBSTR(a.browseCode, 1, 1) = 'B' "
-        + "and a.key.language = '"
-        + locale.getISO3Language()
-        + "' and a.codeLibriCatMades = 'LC'"
-        + " order by a.languageDescription";
-
-    return getIndexBrowseByQuery(query, session);
-  }
-
-  public List getEditorBrowseIndex(Locale locale) throws DataAccessException {
-    final String query =
-      "from IndexList as a "
-        + "where SUBSTR(a.browseCode, 0, 1) = 'B' "
-        + "and a.key.language = '"
-        + locale.getISO3Language()
-        /*modifica Barbara 26/04/2007 - nella lista degli indici solo indici LC*/
-        + "' and a.codeLibriCatMades = 'LC'"
-        + "  and a.key.keyNumber in (230, 243)"
-        + " order by a.languageDescription";
-
-    return getIndexByQuery(query);
-  }
-
-  public List getBrowseIndexPublisher(Locale locale) throws DataAccessException {
-    final String query =
-      "from IndexList as a "
-        + "where SUBSTR(a.browseCode, 0, 1) = 'B' "
-        + " and (a.languageCode = 'PP'"
-        + " or a.languageCode = 'PU')"
-        + "and a.key.language = '"
-        + locale.getISO3Language()
-        + "' and a.codeLibriCatMades = 'LC'"
-        + " order by a.languageDescription";
-
-    return getIndexByQuery(query);
-  }
-
-  public List getPrimaryIndex(Locale locale) throws DataAccessException {
-    final String query =
-      "from IndexList as a "
-        + "where SUBSTR(a.key.typeCode, 0, 1) = 'P' "
-        + "and a.key.language = '"
-        + locale.getISO3Language()
-        + "' and a.codeLibriCatMades = 'LC'";
-    return getIndexByQuery(query);
-  }
-
-  public List getSecondaryIndex(Locale locale) throws DataAccessException {
-    final List result = new ArrayList();
-
-    final String query =
-      "from IndexList as a "
-        + "where SUBSTR(a.key.typeCode, 0, 1) = 'S' "
-        + " and a.key.language = '"
-        + locale.getISO3Language()
-        + "' and a.codeLibriCatMades = 'LC'";
-
-    return getIndexByQuery(query);
-  }
-
-  /**
-   * Return the language independent (key) index value to be used when
-   * browsing for entries of this type of Descriptor (e.g. Names ==
-   * "2P0"). The value returned should correspond to the value of
-   * IDX_LIST.IDX_LIST_KEY_NBR + IDX_LIST_TYPE_CDE
-   *
-   * @param mainType the main type, used here as a filter criterion.
-   * @param subType  the sub type, used here as a filter criterion.
-   * @param session  the session of hibernate
-   * @return the index
-   * @throws HibernateException
-   */
-  public String getIndexBySortFormType(final int mainType, final int subType, final Session session) throws HibernateException {
-    final String query =
-      "from IndexList as a "
-        + "where a.sortFormMainTypeCode = "
-        + mainType
-        + " and a.sortFormSubTypeCode = "
-        + subType
-        + " and a.key.language = '"
-        + Locale.ENGLISH.getISO3Language()
-        + "' and a.codeLibriCatMades = 'LC'";
-
-    final List <IndexListElement> l = getIndexByQuery(query, session);
-    if (l.size() > 0) {
-      return (l.get(0)).getKey();
-    } else {
-      return null;
-    }
-  }
 
   public String getIndexByEnglishAbreviation(String s)
     throws DataAccessException {
@@ -147,79 +45,6 @@ public class DAOIndexList extends HibernateUtil {
     } else {
       return null;
     }
-  }
-
-  public String getLocalizedIndexByKey(String key, Locale locale)
-    throws DataAccessException {
-    IndexListKey ilk = new IndexListKey(key);
-    String query =
-      "from IndexList as a "
-        + "where a.key.keyNumber = "
-        + ilk.getKeyNumber()
-        + " and a.key.typeCode = "
-        + "'" + ilk.getTypeCode() + "'"
-        + " and a.key.language = "
-        + "'" + locale.getISO3Language() + "'"
-        + " and a.codeLibriCatMades = 'LC'";
-
-    List l = getIndexByQuery(query);
-    if (l.size() > 0) {
-      return ((IndexListElement) l.get(0)).getValue();
-    } else {
-      return null;
-    }
-  }
-
-
-  /**
-   * Returns the name of the code table used by the index
-   *
-   * @param session the session of hibernate
-   * @param code    the index name, used here as a filter criterion.
-   * @param locale  the Locale, used here as a filter criterion.
-   * @return the name of the code table for index code associated with the requested language.
-   * @throws DataAccessException in case of data access failure.
-   */
-  public String getCodeTableName(final Session session, final String code, final Locale locale)
-    throws HibernateException {
-    String query =
-      "select a.codeTableName from IndexList as a "
-        + "where a.languageCode = '" + code + "'"
-        + " and a.key.language = '" + locale.getISO3Language()
-        + "' and a.codeLibriCatMades = 'LC'";
-    final List <String> tableNameList = session.find(query);
-    final Optional <String> firstElement = tableNameList.stream().filter(Objects::nonNull).findFirst();
-    return firstElement.isPresent() ? firstElement.get() : "";
-
-  }
-
-  public String getCodeTable(String key) throws DataAccessException {
-    List codeTableList = new ArrayList();
-    String codeTable = "";
-    String query = "";
-
-    query =
-      "select a.codeTableName from IndexList as a "
-        + "where a.languageCode = '"
-        + key
-        + "' and a.codeLibriCatMades = 'LC'";
-
-    try {
-      codeTableList = currentSession().find(query);
-
-      if (codeTableList.size() > 0) {
-        if (codeTableList.get(0) != null) {
-          codeTable = codeTableList.get(0).toString();
-        }
-      }
-
-    } catch (HibernateException e) {
-      logAndWrap(e);
-    } catch (DataAccessException ae) {
-      logAndWrap(ae);
-    }
-
-    return codeTable;
   }
 
 
@@ -275,8 +100,8 @@ public class DAOIndexList extends HibernateUtil {
    * @throws HibernateException
    */
   @SuppressWarnings("unchecked")
-  public List <IndexListElement> getIndexByQuery(final String query, final Session session) throws HibernateException {
-    final List <IndexList> indexesList = session.find(query);
+  public List<IndexListElement> getIndexByQuery(final String query, final Session session) throws HibernateException {
+    final List<IndexList> indexesList = session.find(query);
     return indexesList.stream().map(index -> {
       return new IndexListElement(
         index.getLanguageCode(),
@@ -295,11 +120,11 @@ public class DAOIndexList extends HibernateUtil {
    * @throws HibernateException
    */
   @SuppressWarnings("unchecked")
-  public List <Avp <String>> getIndexBrowseByQuery(final String query, final Session session) throws HibernateException {
-    final List <IndexList> indexesList = session.find(query);
+  public List<Avp<String>> getIndexBrowseByQuery(final String query, final Session session) throws HibernateException {
+    final List<IndexList> indexesList = session.find(query);
     return indexesList
       .stream()
-      .map(index -> (Avp <String>) new Avp(index.getLanguageCode(), index.getLanguageDescription()))
+      .map(index -> (Avp<String>) new Avp(index.getLanguageCode(), index.getLanguageDescription()))
       .collect(toList());
   }
 
@@ -361,8 +186,8 @@ public class DAOIndexList extends HibernateUtil {
         + locale.getISO3Language()
         + "' and a.codeLibriCatMades = 'LC'";
 
-    List <IndexListElement> indexListElement = getIndexByQuery(query, session);
-    final Optional <IndexListElement> firstElement = indexListElement.stream().filter(Objects::nonNull).findFirst();
+    List<IndexListElement> indexListElement = getIndexByQuery(query, session);
+    final Optional<IndexListElement> firstElement = indexListElement.stream().filter(Objects::nonNull).findFirst();
     return firstElement.isPresent() ? (firstElement.get()).getKey() : null;
 
   }

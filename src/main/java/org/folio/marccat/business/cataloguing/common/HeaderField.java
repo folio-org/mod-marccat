@@ -7,7 +7,7 @@
  */
 package org.folio.marccat.business.cataloguing.common;
 
-import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.shared.CorrelationValues;
 
 import java.util.List;

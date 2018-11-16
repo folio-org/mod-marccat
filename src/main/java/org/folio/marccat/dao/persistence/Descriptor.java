@@ -4,17 +4,13 @@ import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.folio.marccat.business.common.DataAccessException;
-import org.folio.marccat.business.common.DuplicateDescriptorException;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.business.descriptor.MatchedHeadingInAnotherViewException;
 import org.folio.marccat.business.descriptor.SortFormParameters;
 import org.folio.marccat.dao.DAODescriptor;
 import org.folio.marccat.dao.SystemNextNumberDAO;
-import org.folio.marccat.exception.DescriptorHasEmptySubfieldsException;
-import org.folio.marccat.exception.DescriptorHasNoSubfieldsException;
-import org.folio.marccat.exception.InvalidDescriptorException;
+import org.folio.marccat.exception.*;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
@@ -773,7 +769,7 @@ public abstract class Descriptor implements PersistentObjectWithView {
     copyToSubjectIndicator = c;
   }
 
-  public void setConfigValues(final Map <String, String> configuration) {
+  public void setConfigValues(final Map<String, String> configuration) {
     setVerificationLevel(configuration.get("title.verificationLevel").charAt(0));
     setAccessPointLanguage(Integer.parseInt(configuration.get("title.accessPointLanguage")));
     setIndexingLanguage(Integer.parseInt(configuration.get("title.indexingLanguage")));

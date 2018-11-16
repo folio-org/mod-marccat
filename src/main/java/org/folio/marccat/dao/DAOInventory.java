@@ -12,10 +12,10 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.LockMode;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-import org.folio.marccat.business.common.DataAccessException;
 import org.folio.marccat.dao.common.TransactionalHibernateOperation;
 import org.folio.marccat.dao.persistence.Inventory;
 import org.folio.marccat.dao.persistence.S_INVTRY;
+import org.folio.marccat.exception.DataAccessException;
 
 import java.util.List;
 
@@ -26,39 +26,6 @@ import java.util.List;
  */
 public class DAOInventory extends AbstractDAO {
 
-  public int getInventoryCount(int copyNumber) throws DataAccessException {
-    Session s = currentSession();
-    try {
-      List l =
-        s.find(
-          "select count(*) from Inventory as i"
-            + " where i.copyNumber = ?",
-          new Object[]{new Integer(copyNumber)},
-          new Type[]{Hibernate.INTEGER});
-      if (l.size() > 0) {
-        return ((Integer) l.get(0)).intValue();
-      }
-    } catch (HibernateException e) {
-      logAndWrap(e);
-    }
-    return 0;
-  }
-
-  public List loadItems(int copyNumber) throws DataAccessException {
-    Session s = currentSession();
-    try {
-      List l =
-        s.find(
-          "from Inventory as i"
-            + " where i.copyNumber = ?",
-          new Object[]{new Integer(copyNumber)},
-          new Type[]{Hibernate.INTEGER});
-      return l;
-    } catch (HibernateException e) {
-      logAndWrap(e);
-    }
-    return null;
-  }
 
   private boolean isSerial(Inventory item) throws DataAccessException {
     List l =

@@ -40,7 +40,7 @@ public class PublisherNameDescriptorDAO extends PublisherDescriptorDAO {
    * @return the headings by sortform
    * @throws HibernateException the hibernate exception
    */
-  public List <Descriptor> getHeadingsBySortform(final String operator, final String direction, final String term, final String filter, final int searchingView, final int count, final Session session)
+  public List<Descriptor> getHeadingsBySortform(final String operator, final String direction, final String term, final String filter, final int searchingView, final int count, final Session session)
     throws HibernateException {
     final String[] parsedTerm = term.split(" : ");
     if (parsedTerm.length < 2) {
@@ -63,14 +63,14 @@ public class PublisherNameDescriptorDAO extends PublisherDescriptorDAO {
    * @return the sortform by two search terms
    * @throws HibernateException the hibernate exception
    */
-  private List <Descriptor> getSortformByTwoSearchTerms(final String operator, final String direction, final String filter, final int searchingView, final int count, final String[] parsedTerm, final Session session)
+  private List<Descriptor> getSortformByTwoSearchTerms(final String operator, final String direction, final String filter, final int searchingView, final int count, final String[] parsedTerm, final Session session)
     throws HibernateException {
     final String name;
     final String place;
     String viewClause = "";
     place = parsedTerm[0].trim();
     name = parsedTerm[1].trim();
-    List <Descriptor> publisherList = null;
+    List<Descriptor> publisherList = null;
 
     if (searchingView != View.ANY) {
       viewClause = " and SUBSTR(hdg.key.userViewString, " + searchingView + ", 1) = '1' ";
@@ -148,7 +148,7 @@ public class PublisherNameDescriptorDAO extends PublisherDescriptorDAO {
    * @return the sortform by one search term
    * @throws HibernateException the hibernate exception
    */
-  private List <Descriptor> getSortformByOneSearchTerm(final String operator, final String direction, final String term, final String filter, final int searchingView, final int count, final Session session)
+  private List<Descriptor> getSortformByOneSearchTerm(final String operator, final String direction, final String term, final String filter, final int searchingView, final int count, final Session session)
     throws HibernateException {
     String viewClause = "";
     if (searchingView != View.ANY) {

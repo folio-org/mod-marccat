@@ -1,7 +1,6 @@
 package org.folio.marccat.business.codetable;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Holds a single attribute-stringValue pair (AVP).
@@ -10,7 +9,7 @@ import java.util.List;
  * @author cchiama
  * @since 1.0
  */
-public class Avp<V> implements Comparable <Avp>, Serializable {
+public class Avp<V> implements Comparable<Avp>, Serializable {
   private V value;
   private String label;
 
@@ -28,20 +27,6 @@ public class Avp<V> implements Comparable <Avp>, Serializable {
     this.label = label;
   }
 
-  /**
-   * Decodes the incoming stringValue among a given set of key/stringValue pairs.
-   *
-   * @param value    the search criterion.
-   * @param elements the search set.
-   * @return the label associated with the matching element, null otherwise.
-   */
-  public static String decode(final String value, final List <Avp> elements) {
-    return elements.stream()
-      .filter(element -> element.getValue().equals(value))
-      .findFirst()
-      .map(Avp::getLabel)
-      .orElse(null);
-  }
 
   /**
    * Returns the label associated with this pair.

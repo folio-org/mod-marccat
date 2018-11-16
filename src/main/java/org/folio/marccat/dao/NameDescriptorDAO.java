@@ -4,11 +4,11 @@ import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-import org.folio.marccat.business.common.DataAccessException;
 import org.folio.marccat.business.common.Persistence;
-import org.folio.marccat.business.common.ReferentialIntegrityException;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.dao.persistence.*;
+import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.ReferentialIntegrityException;
 
 import java.util.List;
 
@@ -52,7 +52,7 @@ public class NameDescriptorDAO extends DAODescriptor {
     throws HibernateException {
 
     int count = super.getXrefCount(source, cataloguingView, session);
-    List <Integer> countList = session.find(
+    List<Integer> countList = session.find(
       "select count(*) from NME_NME_TTL_REF as ref "
         + " where ref.nameHeadingNumber = ? "
         + " and ref.sourceHeadingType = 'NH' "
@@ -90,10 +90,10 @@ public class NameDescriptorDAO extends DAODescriptor {
    * @throws HibernateException the hibernate exception
    */
   @SuppressWarnings("unchecked")
-  public List <REF> getCrossReferences(final Descriptor source, final int cataloguingView, final Session session)
+  public List<REF> getCrossReferences(final Descriptor source, final int cataloguingView, final Session session)
     throws HibernateException {
 
-    List <REF> refList = super.getCrossReferences(source, cataloguingView, session);
+    List<REF> refList = super.getCrossReferences(source, cataloguingView, session);
 
     refList.addAll(
       find(
@@ -180,7 +180,7 @@ public class NameDescriptorDAO extends DAODescriptor {
     throws ReferentialIntegrityException, HibernateException {
 
     final NME_HDG nameHeading = (NME_HDG) p;
-    final List <Integer> countList =
+    final List<Integer> countList =
       session.find(
         "select count(*) from NME_TTL_HDG as t where "
           + " t.nameHeadingNumber = ? and "
@@ -210,7 +210,7 @@ public class NameDescriptorDAO extends DAODescriptor {
   public boolean isMatchingAnotherHeading(final Descriptor desc, final Session session)
     throws HibernateException {
     final NME_HDG nameHeading = (NME_HDG) desc;
-    final List <NME_HDG> nameHeadingList = session.find(" from "
+    final List<NME_HDG> nameHeadingList = session.find(" from "
         + getPersistentClass().getName()
         + " as c "
         + " where c.stringText= ? "

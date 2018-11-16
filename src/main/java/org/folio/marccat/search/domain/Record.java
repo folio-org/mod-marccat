@@ -1,9 +1,9 @@
 package org.folio.marccat.search.domain;
 
-import org.folio.marccat.search.XmlDocumentException;
-import org.folio.marccat.search.XmlParserConfigurationException;
-import org.folio.marccat.search.XslTransformerConfigurationException;
-import org.folio.marccat.search.XslTransformerException;
+import org.folio.marccat.exception.XmlDocumentException;
+import org.folio.marccat.exception.XmlParserConfigurationException;
+import org.folio.marccat.exception.XslTransformerConfigurationException;
+import org.folio.marccat.exception.XslTransformerException;
 import org.w3c.dom.Document;
 
 import java.net.URL;

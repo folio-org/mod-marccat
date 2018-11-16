@@ -12,7 +12,7 @@ public class ErrorCollection {
   @JsonProperty("errors")
   @Valid
   @NotNull
-  private List <Error> errors = new ArrayList <>();
+  private List<Error> errors = new ArrayList<>();
 
   /**
    * (Required)
@@ -20,7 +20,7 @@ public class ErrorCollection {
    * @return The errors
    */
   @JsonProperty("errors")
-  public List <Error> getErrors() {
+  public List<Error> getErrors() {
     return errors;
   }
 
@@ -30,7 +30,7 @@ public class ErrorCollection {
    * @param errors The errors
    */
   @JsonProperty("errors")
-  public void setErrors(List <Error> errors) {
+  public void setErrors(List<Error> errors) {
     this.errors = errors;
   }
 
