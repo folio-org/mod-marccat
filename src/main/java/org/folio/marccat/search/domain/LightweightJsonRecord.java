@@ -2,7 +2,7 @@ package org.folio.marccat.search.domain;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.folio.marccat.log.Log;
+import org.folio.marccat.config.log.Log;
 import org.marc4j.MarcJsonWriter;
 import org.marc4j.MarcReader;
 import org.marc4j.MarcWriter;

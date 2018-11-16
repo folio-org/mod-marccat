@@ -5,7 +5,7 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.persistence.CorrelationKey;
@@ -24,19 +24,11 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
 
-import static org.folio.marccat.F.deepCopy;
+import static org.folio.marccat.util.F.deepCopy;
 
-//import org.folio.marccat.dao.DAOCodeTable;
-//import org.folio.marccat.dao.common.HibernateUtil;
-
-/**
- * @author paulm
- * @since 1.0
- */
 public abstract class Tag implements Serializable, Cloneable, TagInterface {
 
   public static final int PHYSICAL_MATERIAL = 1;
-  public static final int NOT_PHYSICAL_MATERIAL = 0;
   private static Log logger = LogFactory.getLog(Tag.class);
   protected PersistenceState persistenceState;
   private TagImpl tagImpl;

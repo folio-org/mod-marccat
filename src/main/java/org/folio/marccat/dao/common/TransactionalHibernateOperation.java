@@ -3,10 +3,10 @@ package org.folio.marccat.dao.common;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
-import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.business.common.PersistenceState;
-import org.folio.marccat.business.common.ReferentialIntegrityException;
-import org.folio.marccat.log.Log;
+import org.folio.marccat.exception.ReferentialIntegrityException;
+import org.folio.marccat.config.log.Log;
 
 import java.io.IOException;
 import java.sql.SQLException;

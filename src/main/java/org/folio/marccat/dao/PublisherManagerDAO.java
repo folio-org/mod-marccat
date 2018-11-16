@@ -56,7 +56,7 @@ public class PublisherManagerDAO extends AbstractDAO {
       PublisherManager aPub = (PublisherManager) po;
       PublisherAccessPoint apf = aPub.getApf();
 
-      List <PUBL_TAG> publTags = aPub.getPublisherTagUnits();
+      List<PUBL_TAG> publTags = aPub.getPublisherTagUnits();
       publTags.forEach(ptag -> {
         try {
           session.evict(ptag);

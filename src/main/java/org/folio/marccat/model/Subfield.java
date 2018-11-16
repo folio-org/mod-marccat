@@ -68,19 +68,6 @@ public class Subfield implements Serializable {
       : delimitedSubfield;
   }
 
-  /**
-   * This method creates a XML Element as follows
-   * <subfield code="a">content</subfield>
-   *
-   * @return an Element
-   */
-  public Element toXmlElement(Document xmlDocument) {
-    Element subfield = xmlDocument.createElement("subfield");
-    subfield.setAttribute("code", code);
-    Node contentNode = xmlDocument.createTextNode(content);
-    subfield.appendChild(contentNode);
-    return subfield;
-  }
 
   @Override
   public boolean equals(Object anObject) {

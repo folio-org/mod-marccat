@@ -41,19 +41,6 @@ public class BibliographicCorrelationDAO extends DAOCorrelation {
       + " ORDER BY AA.TBL_SEQ_NBR";
   final private Log logger = new Log(BibliographicCorrelationDAO.class);
 
-  /**
-   * Returns the BibliographicCorrelation from BibliographicCorrelationKey.
-   *
-   * @param bibliographicCorrelationKey -- the database bibliographicCorrelationKey
-   * @return a BibliographicCorrelation object containing or null when none found
-   */
-  public Correlation getBibliographicCorrelation(final Session session, final CorrelationKey bibliographicCorrelationKey) throws HibernateException {
-    return getBibliographicCorrelation(session,
-      bibliographicCorrelationKey.getMarcTag(),
-      bibliographicCorrelationKey.getMarcFirstIndicator(),
-      bibliographicCorrelationKey.getMarcSecondIndicator(),
-      bibliographicCorrelationKey.getMarcTagCategoryCode());
-  }
 
   /**
    * Returns the BibliographicCorrelation based on MARC encoding and category code.
@@ -72,7 +59,7 @@ public class BibliographicCorrelationDAO extends DAOCorrelation {
     final char secondIndicator,
     final int categoryCode) throws HibernateException {
 
-    final List <BibliographicCorrelation> correlations =
+    final List<BibliographicCorrelation> correlations =
       categoryCode != 0
         ? session.find(
         "from BibliographicCorrelation as bc "
@@ -110,14 +97,14 @@ public class BibliographicCorrelationDAO extends DAOCorrelation {
    * @throws DataAccessException in case of data access failure.
    */
   @SuppressWarnings("unchecked")
-  public List <Avp <String>> getThirdCorrelationList(final Session session,
-                                                     final int category,
-                                                     final int value1,
-                                                     final int value2,
-                                                     final Class classTable,
-                                                     final Locale locale) throws DataAccessException {
+  public List<Avp<String>> getThirdCorrelationList(final Session session,
+                                                   final int category,
+                                                   final int value1,
+                                                   final int value2,
+                                                   final Class classTable,
+                                                   final Locale locale) throws DataAccessException {
     try {
-      final List <CodeTable> codeTables = session.find(" select distinct ct from "
+      final List<CodeTable> codeTables = session.find(" select distinct ct from "
           + classTable.getName()
           + " as ct, BibliographicCorrelation as bc "
           + " where bc.key.marcTagCategoryCode = ? and "
@@ -134,7 +121,7 @@ public class BibliographicCorrelationDAO extends DAOCorrelation {
 
       return codeTables
         .stream()
-        .map(codeTable -> (Avp <String>) new Avp(codeTable.getCodeString().trim(), codeTable.getLongText()))
+        .map(codeTable -> (Avp<String>) new Avp(codeTable.getCodeString().trim(), codeTable.getLongText()))
         .collect(toList());
 
     } catch (final HibernateException exception) {
@@ -157,7 +144,7 @@ public class BibliographicCorrelationDAO extends DAOCorrelation {
   public CorrelationKey getMarcEncoding(
     final int category, final int firstCorrelation,
     final int secondCorrelation, final int thirdCorrelation, final Session session) throws HibernateException {
-    final List <Correlation> result = session.find(
+    final List<Correlation> result = session.find(
       "from BibliographicCorrelation as bc "
         + "where bc.key.marcTagCategoryCode = ? and "
         + "bc.databaseFirstValue = ? and "
@@ -181,13 +168,13 @@ public class BibliographicCorrelationDAO extends DAOCorrelation {
    * @throws DataAccessException
    */
   @SuppressWarnings("unchecked")
-  public List <Avp <String>> getSecondCorrelationList(final Session session,
-                                                      final int category,
-                                                      final int value1,
-                                                      final Class classTable,
-                                                      final Locale locale) throws DataAccessException {
+  public List<Avp<String>> getSecondCorrelationList(final Session session,
+                                                    final int category,
+                                                    final int value1,
+                                                    final Class classTable,
+                                                    final Locale locale) throws DataAccessException {
     try {
-      final List <CodeTable> codeTables = session.find("Select distinct ct from  "
+      final List<CodeTable> codeTables = session.find("Select distinct ct from  "
           + classTable.getName()
           + " as ct, BibliographicCorrelation as bc "
           + " where bc.key.marcTagCategoryCode = ? and "
@@ -203,7 +190,7 @@ public class BibliographicCorrelationDAO extends DAOCorrelation {
 
       return codeTables
         .stream()
-        .map(codeTable -> (Avp <String>) new Avp(codeTable.getCodeString().trim(), codeTable.getLongText()))
+        .map(codeTable -> (Avp<String>) new Avp(codeTable.getCodeString().trim(), codeTable.getLongText()))
         .collect(toList());
     } catch (final HibernateException exception) {
       logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
@@ -211,228 +198,6 @@ public class BibliographicCorrelationDAO extends DAOCorrelation {
     }
   }
 
-  /**
-   * Gets the first allowed value for second correlation by first and third values.
-   *
-   * @param category         -- the marc category code.
-   * @param firstCorrelation -- the first correlation value.
-   * @param thirdCorrelation -- the third correlation value.
-   * @param session          -- the current hibernate session.
-   * @return allowed second correlation value.
-   * @throws HibernateException in case of hibernate exception.
-   */
-  @SuppressWarnings("unchecked")
-  public int getFirstValueFromSecondCorrelations(final int category, final int firstCorrelation, final int thirdCorrelation, final Session session) throws HibernateException {
-    List <BibliographicCorrelation> result = session.find(
-      " from BibliographicCorrelation as bc "
-        + " where bc.key.marcTagCategoryCode = ? and "
-        + " bc.key.marcFirstIndicator <> '@' and "
-        + " bc.key.marcSecondIndicator <> '@' and "
-        + " bc.databaseFirstValue = ? and "
-        + " bc.databaseThirdValue = ? ",
-      new Object[]{category, firstCorrelation, thirdCorrelation},
-      new Type[]{Hibernate.INTEGER, Hibernate.INTEGER, Hibernate.INTEGER});
-
-    return result.stream().findFirst().map(Correlation::getDatabaseSecondValue).orElse(-1);
-  }
-
-  @SuppressWarnings("unchecked")
-  public String getClassificationIndexByShelfType(final int shelfType, final Session session) throws HibernateException {
-    List <BibliographicCorrelation> l = session.find("from BibliographicCorrelation as bc "
-        + " where bc.key.marcTagCategoryCode = 13 and "
-        + " bc.databaseFirstValue = ? ",
-      new Object[]{shelfType},
-      new Type[]{Hibernate.INTEGER});
-
-    if (l.size() == 1) {
-      String s = l.stream().findFirst().map(Correlation::getSearchIndexTypeCode).toString();
-      return new DAOIndexList().getIndexByEnglishAbreviation(s);
-    } else {
-      return null;
-    }
-  }
-
-  /**
-   * Gets correlations from selected index.
-   *
-   * @param selectedIndex -- the selected index.
-   * @param session       -- the current hibernate session.
-   * @return {@link#CorrelationKey}
-   * @throws HibernateException in case of hibernate exception.
-   */
-  @SuppressWarnings("unchecked")
-  public CorrelationKey getMarcTagCodeBySelectedIndex(final String selectedIndex, final Session session) throws HibernateException {
-    if (selectedIndex == null) {
-      return null;
-    }
-
-    final List <Correlation> list =
-      session.find("from BibliographicCorrelation as bc "
-          + " where bc.searchIndexTypeCode = ?"
-          + " or bc.searchIndexTypeCode = ?",
-        new Object[]{selectedIndex.substring(0, 2), selectedIndex.substring(0, 2).toLowerCase()},
-        new Type[]{Hibernate.STRING, Hibernate.STRING});
-    return list.stream().findFirst().map(Correlation::getKey).orElse(null);
-  }
-
-  /**
-   * Gets correlations from selected index and tag.
-   *
-   * @param idx     -- the selected index.
-   * @param tag     -- the tag number.
-   * @param session -- the current hibernate session.
-   * @return {@link#CorrelationKey}
-   * @throws HibernateException in case of hibernate exception.
-   */
-  @SuppressWarnings("unchecked")
-  public CorrelationKey getMarcTagCodeBySelectedIndex(final String idx, final String tag, final Session session) throws HibernateException {
-    final List <Correlation> list =
-      session.find(
-        "from BibliographicCorrelation as bc "
-          + " where (bc.searchIndexTypeCode = ?"
-          + " or bc.searchIndexTypeCode = ?)"
-          + " and bc.key.marcTag = ?",
-        new Object[]{idx.substring(0, 2), idx.substring(0, 2).toLowerCase(), tag},
-        new Type[]{Hibernate.STRING, Hibernate.STRING, Hibernate.STRING});
-    return list.stream().findFirst().map(Correlation::getKey).orElse(null);
-  }
-
-  /**
-   * Returns the label for the tag to display.
-   *
-   * @return the label for the tag to display.
-   * @throws DataAccessException in case of data access failure.
-   */
-  @SuppressWarnings("unchecked")
-  public List <LabelTagDisplay> getMarcTagDisplay(final String language) {
-    try {
-      return find(
-        "from MarcTagDisplay as bc where bc.language = ? ",
-        new Object[]{language},
-        new Type[]{Hibernate.STRING});
-    } catch (final DataAccessException exception) {
-      logger.debug(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-      return Collections.emptyList();
-    }
-  }
-
-  @SuppressWarnings("unchecked")
-  public List <RdaMarcTagDisplay> getRdaMarcTagDisplay(final String language) {
-    try {
-      return find(
-        "from RdaMarcTagDisplay as bc where bc.language = ? ",
-        new Object[]{language},
-        new Type[]{Hibernate.STRING});
-    } catch (final DataAccessException exception) {
-      logger.debug(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-      return Collections.emptyList();
-    }
-  }
-
-  /**
-   * Label per authority.
-   *
-   * @param language
-   * @return
-   */
-  @SuppressWarnings("unchecked")
-  //TODO session
-  public List <LabelTagDisplay> getAutorityMarcTagDisplay(final String language) {
-    try {
-      return find("from AutMarcTagDisplay as bc where bc.language = ? ",
-        new Object[]{language},
-        new Type[]{Hibernate.STRING});
-    } catch (final DataAccessException exception) {
-      logger.debug(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-      return Collections.emptyList();
-    }
-  }
-
-  /**
-   * Gets the second correlation list by first and third values.
-   *
-   * @param category         -- the marc category code.
-   * @param firstCorrelation -- the first correlation value.
-   * @param thirdCorrelation -- the third correlation value.
-   * @param session          -- the current hibernate session.
-   * @return list of second correlation values.
-   * @throws HibernateException in case of hibernate exception.
-   */
-  @SuppressWarnings("unchecked")
-  public List <BibliographicCorrelation> getSecondCorrelationListByOtherCorrelations(final int category, final int firstCorrelation, final int thirdCorrelation, final Session session) throws HibernateException {
-    return session.find(" from BibliographicCorrelation as bc "
-        + " where bc.key.marcTagCategoryCode = ? and "
-        + " bc.key.marcFirstIndicator <> '@' and "
-        + " bc.key.marcSecondIndicator <> '@' and "
-        + " bc.databaseFirstValue = ? and "
-        + " bc.databaseThirdValue = ? ",
-      new Object[]{category, firstCorrelation, thirdCorrelation},
-      new Type[]{Hibernate.INTEGER, Hibernate.INTEGER, Hibernate.INTEGER});
-  }
-
-  /**
-   * Loads first correlation list using note group code for tag range values.
-   *
-   * @param session           the session of hibernate
-   * @param noteGroupTypeCode the note group code used as filter criterion.
-   * @param locale            the Locale, used here as a filter criterion.
-   * @return
-   * @throws DataAccessException
-   */
-  public List <Avp <String>> getFirstCorrelationByNoteGroupCode(final Session session, final String noteGroupTypeCode, final Locale locale) throws DataAccessException {
-
-    final String fromTag = (noteGroupTypeCode.length() == 2 ? "0" + noteGroupTypeCode : noteGroupTypeCode);
-    final String toTag = String.valueOf(Integer.parseInt(noteGroupTypeCode) + 99);
-
-    final StringBuilder sqlFilter = new StringBuilder(" and bc.key.marcSecondIndicator <> '@' ")
-      .append(" and bc.databaseFirstValue = ct.code ")
-      .append(" and bc.key.marcTagCategoryCode = 7 ")
-      .append(" and bc.key.marcTag between '").append(fromTag)
-      .append("' and '").append(toTag).append("' ");
-
-    return getCorrelatedList(session, BibliographicNoteType.class, true, sqlFilter.toString(), locale);
-  }
-
-
-  /**
-   * Generic method that gets first correlation using filter sql as criterion.
-   *
-   * @param session         the session of hibernate
-   * @param clazz           the mapped class in the hibernate configuration.
-   * @param alphabeticOrder true if alphabetical order
-   * @param sqlFilter       the sql filter added to query
-   * @param locale          the Locale, used here as a filter criterion.
-   * @return
-   * @throws DataAccessException in case of SQL exception.
-   */
-  @SuppressWarnings("unchecked")
-  public List <Avp <String>> getCorrelatedList(final Session session,
-                                               final Class clazz,
-                                               final boolean alphabeticOrder,
-                                               final String sqlFilter,
-                                               final Locale locale) throws DataAccessException {
-    final String sqlOrder = (alphabeticOrder ? " order by ct.longText " : " order by ct.sequence ");
-    try {
-      final List <CodeTable> codeTables = session.find("select distinct ct from "
-          + clazz.getName()
-          + " as ct, BibliographicCorrelation as bc "
-          + " where ct.obsoleteIndicator = '0' "
-          + " and ct.language = ? "
-          + sqlFilter
-          + sqlOrder,
-        new Object[]{locale.getISO3Language()},
-        new Type[]{Hibernate.STRING});
-
-      return codeTables
-        .stream()
-        .map(codeTable -> (Avp <String>) new Avp(codeTable.getCodeString().trim(), codeTable.getLongText()))
-        .collect(toList());
-
-    } catch (final HibernateException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-      return Collections.emptyList();
-    }
-  }
 
   @Deprecated
   public Correlation getBibliographicCorrelation(CorrelationKey bibliographicCorrelationKey) throws DataAccessException {
@@ -512,12 +277,12 @@ public class BibliographicCorrelationDAO extends DAOCorrelation {
   }
 
   @Deprecated
-  public List <ClassificationFunction> getClassificationTagLabels(int category, int value1) throws DataAccessException {
+  public List<ClassificationFunction> getClassificationTagLabels(int category, int value1) throws DataAccessException {
     Connection connection = null;
     PreparedStatement stmt = null;
     ResultSet rs = null;
     Session session = currentSession();
-    List <ClassificationFunction> list = new ArrayList <ClassificationFunction>();
+    List<ClassificationFunction> list = new ArrayList<ClassificationFunction>();
     ClassificationFunction item = null;
 
     try {
@@ -583,7 +348,7 @@ public class BibliographicCorrelationDAO extends DAOCorrelation {
 
   @SuppressWarnings("unchecked")
   @Deprecated
-  public List <BibliographicCorrelation> getFirstAllowedValue2List(final int category, final int value1, final int value3) throws DataAccessException {
+  public List<BibliographicCorrelation> getFirstAllowedValue2List(final int category, final int value1, final int value3) throws DataAccessException {
     return find(" from BibliographicCorrelation as bc "
         + " where bc.key.marcTagCategoryCode = ? and "
         + " bc.key.marcFirstIndicator <> '@' and "

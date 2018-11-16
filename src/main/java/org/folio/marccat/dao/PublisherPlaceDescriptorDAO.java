@@ -42,7 +42,7 @@ public class PublisherPlaceDescriptorDAO extends PublisherDescriptorDAO {
    * @return the headings by sortform
    * @throws HibernateException the hibernate exception
    */
-  public List <Descriptor> getHeadingsBySortform(final String operator, final String direction, final String term, String filter, final int cataloguingView, final int count, final Session session)
+  public List<Descriptor> getHeadingsBySortform(final String operator, final String direction, final String term, String filter, final int cataloguingView, final int count, final Session session)
     throws HibernateException {
 
     final String[] parsedTerm = term.split(" : ");
@@ -66,7 +66,7 @@ public class PublisherPlaceDescriptorDAO extends PublisherDescriptorDAO {
    * @return the sortform by one search term
    * @throws HibernateException the hibernate exception
    */
-  private List <Descriptor> getSortformByOneSearchTerm(final String operator, final String direction, final String term, final String filter, final int cataloguingView, final int count, final Session session)
+  private List<Descriptor> getSortformByOneSearchTerm(final String operator, final String direction, final String term, final String filter, final int cataloguingView, final int count, final Session session)
     throws HibernateException {
     Query q =
       session.createQuery(
@@ -84,8 +84,8 @@ public class PublisherPlaceDescriptorDAO extends PublisherDescriptorDAO {
     q.setString("term", term);
     q.setInteger("view", cataloguingView);
     q.setMaxResults(count);
-    List <Descriptor> publisherList = q.list();
-    publisherList = (List <Descriptor>) isolateViewForList(publisherList, cataloguingView, session);
+    List<Descriptor> publisherList = q.list();
+    publisherList = (List<Descriptor>) isolateViewForList(publisherList, cataloguingView, session);
     return publisherList;
   }
 
@@ -103,13 +103,13 @@ public class PublisherPlaceDescriptorDAO extends PublisherDescriptorDAO {
    * @return the sortform by two search terms
    * @throws HibernateException the hibernate exception
    */
-  private List <Descriptor> getSortformByTwoSearchTerms(final String operator, final String direction, final String filter, final int cataloguingView, final int count, final String[] parsedTerm, final Session session)
+  private List<Descriptor> getSortformByTwoSearchTerms(final String operator, final String direction, final String filter, final int cataloguingView, final int count, final String[] parsedTerm, final Session session)
     throws HibernateException {
     final String name;
     final String place;
     place = parsedTerm[0].trim();
     name = parsedTerm[1].trim();
-    List <Descriptor> publisherList = null;
+    List<Descriptor> publisherList = null;
     String viewClause = "";
 
     if (cataloguingView != View.ANY) {
@@ -136,7 +136,7 @@ public class PublisherPlaceDescriptorDAO extends PublisherDescriptorDAO {
       q.setString("name", name);
       q.setMaxResults(count);
       publisherList = q.list();
-      publisherList = (List <Descriptor>) isolateViewForList(publisherList, cataloguingView, session);
+      publisherList = (List<Descriptor>) isolateViewForList(publisherList, cataloguingView, session);
       return publisherList;
 
     } else if (operator.contains(">=") || operator.contains("<=")) {

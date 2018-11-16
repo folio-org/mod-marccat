@@ -1,12 +1,11 @@
 package org.folio.marccat.search.engine;
 
-import org.folio.marccat.Global;
-import org.folio.marccat.business.common.RecordNotFoundException;
+import org.folio.marccat.config.Global;
+import org.folio.marccat.exception.RecordNotFoundException;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.dao.persistence.CatalogItem;
 import org.folio.marccat.exception.ModCatalogingException;
 import org.folio.marccat.integration.StorageService;
-import org.folio.marccat.log.Log;
 import org.folio.marccat.search.SearchResponse;
 import org.folio.marccat.search.domain.Record;
 
@@ -23,13 +22,6 @@ import static java.util.stream.IntStream.rangeClosed;
  * @since 1.0
  */
 public abstract class ModCatalogingSearchEngine implements SearchEngine {
-  private final static Log LOGGER = new Log(ModCatalogingSearchEngine.class);
-  private final static SearchResponse EMPTY_RESULTSET = new SearchResponse(Integer.MIN_VALUE, Collections.emptyList()) {
-    @Override
-    public OptionalInt getRecordIdentifier(final int index) {
-      return OptionalInt.empty();
-    }
-  };
   private static final String[] RELATIONSHIP_TABLE = new String[]{"dummy", "<", "<=", "=", ">", ">="};
   private static final Map <Locale, String[]> OPERATORS = new HashMap <>();
   private static Map <Locale, String> DEFAULT_SEARCH_INDEX = new Hashtable <>();

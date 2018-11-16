@@ -1,7 +1,9 @@
 package org.folio.marccat.search;
 
-import org.folio.marccat.log.Log;
-import org.folio.marccat.log.MessageCatalog;
+import org.folio.marccat.exception.XmlParserConfigurationException;
+import org.folio.marccat.exception.XmlUnsupportedEncodingException;
+import org.folio.marccat.config.log.Log;
+import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.search.domain.AbstractRecord;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

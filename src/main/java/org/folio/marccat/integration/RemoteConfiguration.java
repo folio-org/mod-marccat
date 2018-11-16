@@ -1,7 +1,7 @@
 package org.folio.marccat.integration;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.folio.marccat.Global;
+import org.folio.marccat.config.Global;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpEntity;
@@ -14,7 +14,7 @@ import java.util.Objects;
 
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.joining;
-import static org.folio.marccat.F.safe;
+import static org.folio.marccat.util.F.safe;
 import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
 
 /**

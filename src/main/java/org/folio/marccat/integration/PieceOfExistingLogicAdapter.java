@@ -2,7 +2,7 @@ package org.folio.marccat.integration;
 
 import org.folio.marccat.log.Log;
 import org.folio.marccat.log.MessageCatalog;
-import org.folio.marccat.resources.SystemInternalFailureException;
+import org.folio.marccat.exception.SystemInternalFailureException;
 
 import java.util.Map;
 import java.util.Optional;

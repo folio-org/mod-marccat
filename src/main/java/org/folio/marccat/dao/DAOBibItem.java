@@ -83,7 +83,7 @@ public class DAOBibItem extends AbstractDAO {
    */
   @SuppressWarnings("unchecked")
   public BIB_ITM load(final int id, final int userView, final Session session) throws HibernateException {
-    List <BIB_ITM> l =
+    List<BIB_ITM> l =
       session.find("from BIB_ITM as itm where itm.amicusNumber = ? "
           + " and SUBSTR(itm.userViewString, ?, 1) = '1'",
         new Object[]{id, userView},

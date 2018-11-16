@@ -19,7 +19,7 @@ public class DAOFullCache extends AbstractDAO {
 
   @SuppressWarnings("unchecked")
   public FULL_CACHE load(final Session session, final int itemNumber, final int cataloguingView) throws RecordNotFoundException {
-    final List <FULL_CACHE> list =
+    final List<FULL_CACHE> list =
       find(session,
         "from FULL_CACHE as c "
           + " where c.itemNumber = ? and c.userView = ?",

@@ -3093,7 +3093,7 @@ public class FixedField {
 
     MUSIC("music"), MAP("map"), COMPUTER_FILE("computerFile"), BOOK("book"), MIXED_MATERIAL("mixedMaterial"), CONTINUING_RESOURCE("continuingResource"), VISUAL_MATERIAL("visualMaterial"), UNDEFINED("undefined");
 
-    private static final Map <String, MaterialType> CONSTANTS = new HashMap <String, MaterialType>();
+    private static final Map<String, MaterialType> CONSTANTS = new HashMap<String, MaterialType>();
 
     static {
       for (MaterialType c : values()) {
@@ -3129,7 +3129,7 @@ public class FixedField {
 
     MAP("map"), ELECTRONICAL_RESOURCE("electronicalResource"), GLOBE("globe"), TACTILE_MATERIAL("tactileMaterial"), PROJECTED_GRAPHIC("projectedGraphic"), MICROFORM("microform"), NON_PROJECTED_GRAPHIC("nonProjectedGraphic"), MOTION_PICTURE("motionPicture"), KIT("kit"), NOTATED_MUSIC("notatedMusic"), REMOTE_SENSING_IMAGE("remoteSensingImage"), SOUND_RECORDING("soundRecording"), TEXT("text"), VIDEO_RECORDING("videoRecording"), UNSPECIFIED("unspecified");
 
-    private static final Map <String, PhysicalType> CONSTANTS = new HashMap <String, PhysicalType>();
+    private static final Map<String, PhysicalType> CONSTANTS = new HashMap<String, PhysicalType>();
 
     static {
       for (PhysicalType c : values()) {

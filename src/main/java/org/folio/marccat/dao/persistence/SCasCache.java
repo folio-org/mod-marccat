@@ -5,9 +5,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import java.io.Serializable;
 
 
-/**
- * Local Cache Casalini
- */
 public class SCasCache implements Serializable {
 
   /**

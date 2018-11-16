@@ -3,8 +3,8 @@ package org.folio.marccat.search;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import net.sf.hibernate.Session;
-import org.folio.marccat.Global;
-import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.config.Global;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.dao.DAOCodeTable;
 import org.folio.marccat.dao.persistence.T_AUT_DSPLY_FRMT;
@@ -22,7 +22,7 @@ import java.util.OptionalInt;
 
 import static java.util.Arrays.stream;
 import static java.util.Optional.ofNullable;
-import static org.folio.marccat.F.safe;
+import static org.folio.marccat.util.F.safe;
 
 /**
  * Mod-Cataloging search SearchResponse implementation.

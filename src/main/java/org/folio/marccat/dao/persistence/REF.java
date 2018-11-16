@@ -7,6 +7,8 @@ import org.folio.marccat.business.common.*;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.DAOCrossReferences;
 import org.folio.marccat.dao.DAODescriptor;
+import org.folio.marccat.exception.CrossReferenceExistsException;
+import org.folio.marccat.exception.DataAccessException;
 
 import java.io.Serializable;
 

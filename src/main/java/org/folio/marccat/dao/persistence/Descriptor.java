@@ -773,7 +773,7 @@ public abstract class Descriptor implements PersistentObjectWithView {
     copyToSubjectIndicator = c;
   }
 
-  public void setConfigValues(final Map <String, String> configuration) {
+  public void setConfigValues(final Map<String, String> configuration) {
     setVerificationLevel(configuration.get("title.verificationLevel").charAt(0));
     setAccessPointLanguage(Integer.parseInt(configuration.get("title.accessPointLanguage")));
     setIndexingLanguage(Integer.parseInt(configuration.get("title.indexingLanguage")));

@@ -128,7 +128,7 @@ public class AbstractDAO extends HibernateUtil {
     }
   }
 
-  public List <? extends PersistentObjectWithView> isolateViewForList(List <? extends PersistentObjectWithView> multiView, final int userView, final Session session) throws DataAccessException {
+  public List<? extends PersistentObjectWithView> isolateViewForList(List<? extends PersistentObjectWithView> multiView, final int userView, final Session session) throws DataAccessException {
     if (userView == View.ANY) {
       return multiView;
     }

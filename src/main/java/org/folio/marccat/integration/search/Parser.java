@@ -1,11 +1,11 @@
 package org.folio.marccat.integration.search;
 
 import net.sf.hibernate.Session;
-import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.dao.DAOIndexList;
 import org.folio.marccat.dao.persistence.IndexList;
-import org.folio.marccat.log.Log;
-import org.folio.marccat.log.MessageCatalog;
+import org.folio.marccat.config.log.Log;
+import org.folio.marccat.config.log.MessageCatalog;
 
 import java.util.LinkedList;
 import java.util.List;

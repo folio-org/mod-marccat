@@ -24,15 +24,10 @@ public class BrowseManager {
   public static final int MAX_BROWSE_TERM_LENGTH = Defaults.getInteger("browse.max.term.lenght");
   public static final int MAX_SORTFORM_LENGTH = MAX_BROWSE_TERM_LENGTH;
   public static final int SORTFORM_LENGTH = 1080;
-  private static final Log logger = LogFactory.getLog(BrowseManager.class);
   private static Map daoMap = new HashMap();
   private static Map filterMap = new HashMap();
-  private int pageSize = 10;
-  private String browseIndex;
   private DAODescriptor dao;
   private String filter;
-  private boolean supportsCrossReferences;
-  private boolean supportsAuthorities;
 
   public BrowseManager() {
 
@@ -205,73 +200,6 @@ public class BrowseManager {
     filterMap.put("373P0", " and hdg.sourceCode = 4 ");
   }
 
-  public List getXrefCounts(List descriptors, int searchingView) throws DataAccessException, HibernateException {
-    int cataloguingView = getBrowsingViewBasedOnSearchingView(searchingView);
-    List result = new ArrayList();
-
-    Iterator iter = descriptors.iterator();
-    Descriptor aDescriptor = null;
-    while (iter.hasNext()) {
-      aDescriptor = (Descriptor) iter.next();
-      result.add(new Integer(((DAODescriptor) aDescriptor.getDAO()).getXrefCount(aDescriptor, cataloguingView, null)));
-    }
-    return result;
-  }
-
-
-  public List getDocCounts(List descriptors, int searchingView)
-    throws DataAccessException, HibernateException {
-    int cataloguingView = getBrowsingViewBasedOnSearchingView(searchingView);
-    List result = new ArrayList();
-
-    Iterator iter = descriptors.iterator();
-    Descriptor aDescriptor = null;
-
-    while (iter.hasNext()) {
-      aDescriptor = (Descriptor) iter.next();
-
-      result.add(
-        new Integer(
-          ((DAODescriptor) aDescriptor.getDAO()).getDocCount(
-            aDescriptor,
-            cataloguingView, null)));
-    }
-
-    return result;
-  }
-
-  public List getDocCountNT(List descriptors, int searchingView) throws DataAccessException,
-    HibernateException {
-    int cataloguingView = getBrowsingViewBasedOnSearchingView(searchingView);
-    List result = new ArrayList();
-    Iterator iter = descriptors.iterator();
-    Descriptor aDescriptor = null;
-
-    while (iter.hasNext()) {
-      aDescriptor = (Descriptor) iter.next();
-      result.add(new Integer(((DAODescriptor) aDescriptor.getDAO()).getDocCountNT(aDescriptor, cataloguingView, null)));
-    }
-    return result;
-  }
-
-
-  public List getAuthCounts(List descriptors) throws DataAccessException, HibernateException {
-    List result = new ArrayList();
-
-    Iterator iter = descriptors.iterator();
-    Descriptor aDescriptor = null;
-
-    while (iter.hasNext()) {
-      aDescriptor = (Descriptor) iter.next();
-      //TODO passare la session
-      result.add(
-        new Integer(
-          ((DAODescriptor) aDescriptor.getDAO()).getAuthCount(
-            aDescriptor, null)));
-    }
-
-    return result;
-  }
 
   /**
    * Convert the users searching view into the appropriate view for browsing
@@ -288,173 +216,6 @@ public class BrowseManager {
     }
   }
 
-  /**
-   * Get the first page of a browse
-   */
-
-  //TODO get authority counts, etc.
-  public List getFirstPage(String term, int searchingView, int termsToDisplay) throws DataAccessException, HibernateException, SQLException {
-    int cataloguingView = getBrowsingViewBasedOnSearchingView(searchingView);
-    DAODescriptor dao = getDao();
-    setPageSize(termsToDisplay);
-
-    // calculate the sortform of the search term
-    //TODO passare la session
-    String searchTerm = dao.calculateSearchTerm(term, getBrowseIndex(), null);
-
-    // MIKE: moved Publisher block into PublisherDescriptorDAO to calculate first temp searchTerm stringValue
-    List l = null;
-
-    try {
-      if (logger.isDebugEnabled()) {
-        logger.debug("looking for a heading < " + searchTerm);
-      }
-      logger.debug("BrowseManager 1");
-      l = dao.getHeadingsBySortform(
-        "<",
-        "desc",
-        searchTerm,
-        getFilter(),
-        cataloguingView,
-        1, null);
-      logger.debug("BrowseManager 2");
-      /* Natasha:  si verificava problema con con DaoPublisherName/Place
-       * Azzerava la List e ripeteva ricerca sul termine precedente prendendone x e non 1 */
-      if (!((dao instanceof PublisherNameDescriptorDAO) && !(dao instanceof PublisherPlaceDescriptorDAO))) {
-        // MIKE: siccome e' specifica del publisher, eliminare il controllo quando
-        // si ha la possibilita'� di eseguire i test di non regressione sugli stessi publisher.
-        // Non ha senso eliminare questo blocco nelle altre headings e
-        // soprattutto nei Nomi/Titolo nei quali il termine di ricerca
-        // equivale alla sortform recuperata dalla query appena eseguita
-        logger.debug("BrowseManager 3");
-        if (l.size() > 0) {
-          searchTerm = dao.getBrowsingSortForm((Descriptor) l.get(0));
-          l.clear();
-        }
-        logger.debug("BrowseManager 4");
-      }
-
-      if (logger.isDebugEnabled()) {
-        logger.debug("looking for headings >= " + searchTerm);
-      }
-      logger.debug("BrowseManager 5");
-      //TODo passare la Session
-      l.addAll(
-        dao.getHeadingsBySortform(
-          ">=",
-          "",
-          searchTerm,
-          getFilter(),
-          cataloguingView,
-          getPageSize(),
-          null));
-      logger.debug("BrowseManager 6");
-    } catch (DataAccessException e) {
-      throw new BrowseFailedException();
-    }
-    return l;
-  }
-
-  public void setBrowseIndex(String key, int mainLibrary)
-    throws InvalidBrowseIndexException {
-    browseIndex = key;
-
-    try {
-      Class c = (Class) daoMap.get(key);
-      if (c == null) {
-        throw new InvalidBrowseIndexException(key);
-      }
-      setDao((DAODescriptor) c.newInstance());
-    } catch (InstantiationException e) {
-      throw new InvalidBrowseIndexException(key);
-    } catch (IllegalAccessException e) {
-      throw new InvalidBrowseIndexException(key);
-    }
-    setSupportsCrossReferences(getDao().supportsCrossReferences());
-    setSupportsAuthorities(getDao().supportsAuthorities());
-    setFilter((String) filterMap.get(key));
-    if (getDao() instanceof ShelfListDAO) {
-      setFilter(getFilter() + " and hdg.mainLibraryNumber = " + mainLibrary);
-    }
-  }
-
-  /**
-   * get the following page of browse terms
-   *
-   * @param d             the descriptor displayed at the bottom of the current page
-   * @param searchingView the view being displayed
-   * @since 1.0
-   */
-  public List getNextPage(Descriptor d, int searchingView) throws DataAccessException, HibernateException {
-    int cataloguingView = getBrowsingViewBasedOnSearchingView(searchingView);
-    DAODescriptor dao = getDao();
-    List l = null;
-    String operator = ">";
-
-    /* Natascia 06/06/2007
-     * se esegue una ricerca per PublisherPlace/Name ed e' una ricerca composta l'operatore diventa
-     * >= e non >
-     */
-    if ((dao instanceof PublisherNameDescriptorDAO || dao instanceof PublisherPlaceDescriptorDAO) && dao.getBrowsingSortForm(d).indexOf(":") > 0) {
-      operator = ">=";
-    }
-    if (dao instanceof NameTitleNameDescriptorDAO) {
-      operator = ">=";
-    }
-    //TODo passare la session
-    try {
-      l = dao.getHeadingsBySortform(
-        operator,
-        "",
-        dao.getBrowsingSortForm(d),
-        getFilter(),
-        cataloguingView,
-        getPageSize(),
-        null);
-    } catch (DataAccessException e) {
-      throw new BrowseFailedException();
-    }
-    return l;
-  }
-
-  public List getPreviousPage(Descriptor d, int searchingView) throws DataAccessException, HibernateException {
-    int cataloguingView = getBrowsingViewBasedOnSearchingView(searchingView);
-    DAODescriptor dao = getDao();
-    List l = null;
-    List result = new ArrayList();
-    String operator = "<";
-
-    /* Natascia 06/06/2007
-     * se esegue una ricerca per PublisherPlace/Name ed e' una ricerca composta l'operatore diventa
-     * <= e non <
-     */
-    if ((dao instanceof PublisherNameDescriptorDAO || dao instanceof PublisherPlaceDescriptorDAO) && dao.getBrowsingSortForm(d).indexOf(":") > 0) {
-      operator = "<=";
-    }
-    if (dao instanceof NameTitleNameDescriptorDAO) {
-      operator = "<=";
-    }
-
-    try {
-      l = dao.getHeadingsBySortform(
-        operator,
-        "desc",
-        dao.getBrowsingSortForm(d),
-        getFilter(),
-        cataloguingView,
-        getPageSize(),
-        null);
-
-      // reverse the order of the list
-      for (int i = l.size() - 1; i >= 0; i--) {
-        result.add(l.get(i));
-      }
-
-    } catch (DataAccessException e) {
-      throw new BrowseFailedException();
-    }
-    return result;
-  }
 
   public DAODescriptor getDao() {
     return dao;
@@ -464,13 +225,6 @@ public class BrowseManager {
     dao = descriptor;
   }
 
-  private int getPageSize() {
-    return pageSize;
-  }
-
-  public void setPageSize(int i) {
-    pageSize = i;
-  }
 
   public String getFilter() {
     return filter;
@@ -480,75 +234,4 @@ public class BrowseManager {
     filter = string;
   }
 
-  public boolean isSupportsCrossReferences() {
-    return supportsCrossReferences;
-  }
-
-  public void setSupportsCrossReferences(boolean b) {
-    supportsCrossReferences = b;
-  }
-
-  public boolean isSupportsAuthorities() {
-    return supportsAuthorities;
-  }
-
-  public void setSupportsAuthorities(boolean b) {
-    supportsAuthorities = b;
-  }
-
-  public String getBrowseIndex() {
-    return browseIndex;
-  }
-
-  /**
-   * pm 2011
-   * Get a list of viewText's for the given Descriptors
-   *
-   * @param list
-   * @param locale
-   * @return
-   */
-  public List getViewTexts(List list, Locale locale) {
-    List result = new ArrayList();
-    Descriptor aDescriptor = null;
-    Iterator iter = list.iterator();
-    while (iter.hasNext()) {
-      aDescriptor = (Descriptor) iter.next();
-      result.add(View.getViewText(aDescriptor.getUserViewString(), locale));
-    }
-    return result;
-  }
-
-
-  public List getFirstElement(String term, int searchingView, int termsToDisplay) throws DataAccessException, HibernateException, SQLException {
-    int cataloguingView = getBrowsingViewBasedOnSearchingView(searchingView);
-    DAODescriptor dao = getDao();
-    setPageSize(termsToDisplay);
-    //TODO passare la Session
-
-    String searchTerm = dao.calculateSearchTerm(term, getBrowseIndex(), null);
-//		System.out.println("SEARCH TERM: "+searchTerm);
-
-    // MIKE: moved Publisher block into PublisherDescriptorDAO to calculate first temp searchTerm stringValue
-    List l = null;
-
-    try {
-      if (logger.isDebugEnabled()) {
-        logger.debug("looking for a heading = " + searchTerm);
-      }
-
-      l = dao.getHeadingsBySortform(
-        "=",
-        "",
-        searchTerm,
-        getFilter(),
-        cataloguingView,
-        getPageSize(),
-        null);
-
-    } catch (DataAccessException e) {
-      throw new BrowseFailedException();
-    }
-    return l;
-  }
 }

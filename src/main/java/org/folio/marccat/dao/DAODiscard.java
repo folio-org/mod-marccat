@@ -14,8 +14,8 @@ import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.marccat.bean.cataloguing.copy.CopyListElement;
 import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.copycataloguing.CopyListElement;
 import org.folio.marccat.dao.common.TransactionalHibernateOperation;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.util.StringText;
@@ -356,7 +356,7 @@ public class DAODiscard extends DAOCopy {
     List nonUniqueCollection = result;
     //Collection equivalent to Union (as non-unique elements are removed)
     HashSet uniqueCollection = new HashSet(nonUniqueCollection);
-    List <CPY_ID> list = new ArrayList <CPY_ID>(uniqueCollection);
+    List<CPY_ID> list = new ArrayList<CPY_ID>(uniqueCollection);
     Collections.sort(list, CPY_ID_COMPARATOR);
 
     return list;

@@ -11,7 +11,7 @@ import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.cataloguing.common.Catalog;
 import org.folio.marccat.business.cataloguing.common.Tag;
 import org.folio.marccat.business.cataloguing.common.TagImpl;
-import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.business.common.SubfieldCodeComparator;
 import org.folio.marccat.dao.BibliographicCorrelationDAO;
 import org.folio.marccat.dao.BibliographicValidationDAO;

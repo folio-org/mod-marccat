@@ -37,10 +37,10 @@ public class PublisherManager extends VariableField implements PersistentObjectW
   private static final PublisherManagerDAO daoPublisherTag = new PublisherManagerDAO();
 
   private PersistenceState persistenceState = new PersistenceState();
-  private List <PUBL_TAG> publisherTagUnits = new ArrayList <>();
-  private List <PUBL_TAG> deletedUnits = new ArrayList <>();
+  private List<PUBL_TAG> publisherTagUnits = new ArrayList<>();
+  private List<PUBL_TAG> deletedUnits = new ArrayList<>();
   private PublisherAccessPoint apf = new PublisherAccessPoint();
-  private List <String> dates = new ArrayList <>();
+  private List<String> dates = new ArrayList<>();
   private int tagUnitIndex;
   private UserViewHelper userViewHelper = new UserViewHelper();
   private String stringTextForFastDigitPublisher;
@@ -185,10 +185,10 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    * @param stringText -- the string text to set.
    */
   public void setStringText(final StringText stringText) {
-    setPublisherTagUnits(new ArrayList <>());
+    setPublisherTagUnits(new ArrayList<>());
     String lastSubfield = "a";
     StringText newText = new StringText();
-    List <Subfield> theList = stringText.getSubfieldList();
+    List<Subfield> theList = stringText.getSubfieldList();
 
     for (Subfield aSubfield : theList) {
       if (aSubfield.getCode().compareTo(lastSubfield) < 0 || theList.lastIndexOf(aSubfield) == theList.size() - 1) {
@@ -247,7 +247,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    *
    * @return publisherTagUnits.
    */
-  public List <PUBL_TAG> getPublisherTagUnits() {
+  public List<PUBL_TAG> getPublisherTagUnits() {
     return publisherTagUnits;
   }
 
@@ -256,7 +256,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    *
    * @param list -- the list to set.
    */
-  public void setPublisherTagUnits(List <PUBL_TAG> list) {
+  public void setPublisherTagUnits(List<PUBL_TAG> list) {
     publisherTagUnits = list;
   }
 
@@ -310,7 +310,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    *
    * @return deletedUnits.
    */
-  public List <PUBL_TAG> getDeletedUnits() {
+  public List<PUBL_TAG> getDeletedUnits() {
     return deletedUnits;
   }
 
@@ -319,7 +319,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    *
    * @param list -- the list to set.
    */
-  public void setDeletedUnits(final List <PUBL_TAG> list) {
+  public void setDeletedUnits(final List<PUBL_TAG> list) {
     deletedUnits = list;
   }
 
@@ -336,7 +336,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    *
    * @return dates.
    */
-  public List <String> getDates() {
+  public List<String> getDates() {
     return dates;
   }
 
@@ -345,7 +345,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    *
    * @param list -- the list to set.
    */
-  public void setDates(final List <String> list) {
+  public void setDates(final List<String> list) {
     dates = list;
   }
 
@@ -387,7 +387,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
 
         publTag.setOtherSubfields(date);
       });
-    setDates(new ArrayList <>());
+    setDates(new ArrayList<>());
 
     final StringText s = new StringText();
     s.add(new StringText(getStringTextForFastDigitPublisher()));

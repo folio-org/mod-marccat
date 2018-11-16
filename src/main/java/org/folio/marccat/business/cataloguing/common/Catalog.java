@@ -4,7 +4,6 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.marccat.business.cataloguing.bibliographic.BibliographicCatalog;
 import org.folio.marccat.business.cataloguing.bibliographic.NewTagException;
 import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
 import org.folio.marccat.business.common.DataAccessException;
@@ -36,25 +35,7 @@ import java.util.Map;
 public abstract class Catalog {
 
   protected final static DAOCodeTable DAO_CODE_TABLE = new DAOCodeTable();
-  private final static Map <Integer, Catalog> VIEW_TO_INSTANCE_MAP = new HashMap <>();
   private final Log logger = LogFactory.getLog(getClass());
-
-  /**
-   * Returns the {@link Catalog} instance associated with the given view identifier.
-   *
-   * @param viewId the view identifier.
-   * @return the {@link Catalog} instance associated with the given view identifier.
-   */
-  public static Catalog getInstanceByView(final int viewId) {
-    return VIEW_TO_INSTANCE_MAP.computeIfAbsent(
-      viewId, id -> {
-        try {
-          return (Catalog) Class.forName("org.folio.marccat.business.cataloguing.bibliographic." + id).newInstance();
-        } catch (final Throwable exception) {
-          return new BibliographicCatalog();
-        }
-      });
-  }
 
   protected static Object setItemIfNecessary(final CatalogItem item, final Object o) {
     if (o instanceof PersistsViaItem) {

@@ -19,7 +19,7 @@ import java.util.List;
 public class PublisherTagDescriptor extends Descriptor {
   private static final long serialVersionUID = 1L;
   private final PublisherTagDescriptorDAO theDAO = new PublisherTagDescriptorDAO();
-  private List <PUBL_TAG> publisherTagUnits = new ArrayList <>();
+  private List<PUBL_TAG> publisherTagUnits = new ArrayList<>();
 
   @Override
   public Class getAccessPointClass() {
@@ -74,11 +74,11 @@ public class PublisherTagDescriptor extends Descriptor {
     return theDAO;
   }
 
-  public List <PUBL_TAG> getPublisherTagUnits() {
+  public List<PUBL_TAG> getPublisherTagUnits() {
     return publisherTagUnits;
   }
 
-  public void setPublisherTagUnits(final List <PUBL_TAG> publisherTags) {
+  public void setPublisherTagUnits(final List<PUBL_TAG> publisherTags) {
     publisherTagUnits = publisherTags;
   }
 }

@@ -1,5 +1,5 @@
 configuration:
-  endpoint: http://localhost:9130/configurations/entries
+  endpoint: http://151.1.165.20:8085/configurations/entries
   baseUrl: marccat
 
 logging:

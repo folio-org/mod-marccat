@@ -13,7 +13,6 @@ import org.folio.marccat.shared.CorrelationValues;
  * @since 1.0
  */
 public abstract class FixedFieldUsingItemEntity extends FixedField implements PersistsViaItem {
-  private static final Log logger = LogFactory.getLog(FixedFieldUsingItemEntity.class);
 
   private ItemEntity itemEntity = null;
 

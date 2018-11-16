@@ -66,14 +66,14 @@ public class PropertyBasedFactoryBuilder {
       .forEach(name -> mapNumbers(integerKeys(properties.getProperty(name)), findClass(packageString, name), factory));
   }
 
-  private void mapNumbers(final List <Integer> keys, final Class clazz, final AbstractMapBackedFactory factory) {
+  private void mapNumbers(final List<Integer> keys, final Class clazz, final AbstractMapBackedFactory factory) {
     factory.put(
       keys.stream()
-        .map(key -> new AbstractMap.SimpleEntry <>(key, clazz))
+        .map(key -> new AbstractMap.SimpleEntry<>(key, clazz))
         .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue)));
   }
 
-  private List <Integer> integerKeys(final String value) {
+  private List<Integer> integerKeys(final String value) {
     return stream(value.split(NUMBER_DELIMITER))
       .map(this::integersFromToken)
       .flatMap(Collection::stream)
@@ -85,7 +85,7 @@ public class PropertyBasedFactoryBuilder {
    *
    * @param token the input type.
    */
-  private List <Integer> integersFromToken(final String token) {
+  private List<Integer> integersFromToken(final String token) {
     final int dashIndex = token.indexOf(RANGE_INDICATOR);
     return (dashIndex == -1)
       ? asList(Integer.valueOf(token))

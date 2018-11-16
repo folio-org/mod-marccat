@@ -2,7 +2,7 @@ package org.folio.marccat.business.common.filter;
 
 import org.folio.marccat.business.cataloguing.common.Browsable;
 import org.folio.marccat.business.cataloguing.common.Tag;
-import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.dao.persistence.Descriptor;
 
 public class SameDescriptorTagFilter implements TagFilter {

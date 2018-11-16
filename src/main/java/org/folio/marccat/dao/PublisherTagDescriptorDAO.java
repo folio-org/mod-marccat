@@ -48,13 +48,13 @@ public class PublisherTagDescriptorDAO extends DAODescriptor {
     final PublisherTagDescriptor descriptor = new PublisherTagDescriptor();
     descriptor.setHeadingNumber(headingNumber);
     descriptor.setUserViewString(View.makeSingleViewString(cataloguingView));
-    final List <PUBL_TAG> multiView = session.find("from PUBL_TAG as t "
+    final List<PUBL_TAG> multiView = session.find("from PUBL_TAG as t "
         + " where t.publisherTagNumber = ? "
         + " and substr(t.userViewString, ?, 1) = '1' "
         + " order by t.sequenceNumber ", new Object[]{
         new Integer(headingNumber), new Integer(cataloguingView)},
       new Type[]{Hibernate.INTEGER, Hibernate.INTEGER});
-    final List <PUBL_TAG> singleView = (List <PUBL_TAG>) isolateViewForList(multiView, cataloguingView, session);
+    final List<PUBL_TAG> singleView = (List<PUBL_TAG>) isolateViewForList(multiView, cataloguingView, session);
 
     singleView.forEach(publTag -> {
       if (publTag.getPublisherHeadingNumber() != null) {

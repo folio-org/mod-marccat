@@ -28,7 +28,7 @@ public class BibliographicStandardNoteDAO extends AbstractDAO {
     final int userView,
     final int noteNumber, final Session session) throws HibernateException {
 
-    List <StandardNoteAccessPoint> notesStandard = session.find("from StandardNoteAccessPoint t "
+    List<StandardNoteAccessPoint> notesStandard = session.find("from StandardNoteAccessPoint t "
         + " where t.bibItemNumber = ? and "
         + " substr(t.userViewString, ?, 1) = '1' and "
         + " t.noteNbr = ?",
@@ -43,14 +43,14 @@ public class BibliographicStandardNoteDAO extends AbstractDAO {
     return notesStandard.stream().filter(Objects::nonNull).findFirst().orElse(null);
   }
 
-  public Avp <String> getSTDDisplayString(final int code, final String language, final Session session) throws HibernateException {
+  public Avp<String> getSTDDisplayString(final int code, final String language, final Session session) throws HibernateException {
 
-    List <T_STD_NTE_TYP> l = null;
+    List<T_STD_NTE_TYP> l = null;
     Query q = session.createQuery("select distinct ct from T_STD_NTE_TYP  as ct where ct.code =" + code + " and ct.language ='" + language + "'");
     q.setMaxResults(1);
     l = q.list();
     if (l.stream().anyMatch(Objects::nonNull)) {
-      return l.stream().findFirst().map(standardNoteType -> ((Avp <String>) new Avp(Integer.toString(standardNoteType.getCode()), standardNoteType.getLongText()))).get();
+      return l.stream().findFirst().map(standardNoteType -> ((Avp<String>) new Avp(Integer.toString(standardNoteType.getCode()), standardNoteType.getLongText()))).get();
     } else
       return null;
   }

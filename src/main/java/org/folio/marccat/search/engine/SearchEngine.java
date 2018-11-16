@@ -49,10 +49,10 @@ public interface SearchEngine {
    * @return a search response (containing only the docids)
    * @throws ModCatalogingException in case of a search subsystem failure.
    */
-  SearchResponse advancedSearch(List <String> termList,
-                                List <String> relationList,
-                                List <String> useList,
-                                List <Integer> operatorList,
+  SearchResponse advancedSearch(List<String> termList,
+                                List<String> relationList,
+                                List<String> useList,
+                                List<Integer> operatorList,
                                 Locale locale, int searchingView) throws ModCatalogingException;
 
   /**

@@ -61,7 +61,7 @@ public class VariableField {
 
   @JsonProperty("subfields")
   @Valid
-  private List <String> subfields = new ArrayList <String>();
+  private List<String> subfields = new ArrayList<String>();
 
   @JsonProperty("defaultSubfieldCode")
   @Pattern(regexp = "[a-z|0-9]")
@@ -72,7 +72,7 @@ public class VariableField {
 
 
   @JsonIgnore
-  private Map <String, Object> additionalProperties = new HashMap <String, Object>();
+  private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
   /**
    * @return The keyNumber
@@ -252,18 +252,18 @@ public class VariableField {
   /**
    * @return The subfields
    */
-  public List <String> getSubfields() {
+  public List<String> getSubfields() {
     return subfields;
   }
 
   /**
    * @param subfields The subfields
    */
-  public void setSubfields(List <String> subfields) {
+  public void setSubfields(List<String> subfields) {
     this.subfields = subfields;
   }
 
-  public VariableField withSubfields(List <String> subfields) {
+  public VariableField withSubfields(List<String> subfields) {
     this.subfields = subfields;
     return this;
   }
@@ -288,7 +288,7 @@ public class VariableField {
   }
 
   @JsonAnyGetter
-  public Map <String, Object> getAdditionalProperties() {
+  public Map<String, Object> getAdditionalProperties() {
     return this.additionalProperties;
   }
 

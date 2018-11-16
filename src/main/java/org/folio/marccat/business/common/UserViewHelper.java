@@ -10,6 +10,7 @@ package org.folio.marccat.business.common;
 import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.Session;
 import org.folio.marccat.dao.AbstractDAO;
+import org.folio.marccat.exception.DataAccessException;
 
 import java.io.Serializable;
 

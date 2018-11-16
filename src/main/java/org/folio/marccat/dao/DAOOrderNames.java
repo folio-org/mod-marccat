@@ -3,7 +3,7 @@ package org.folio.marccat.dao;
 import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.dao.common.HibernateUtil;
 
 import java.util.List;

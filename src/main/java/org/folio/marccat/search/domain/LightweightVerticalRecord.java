@@ -1,7 +1,7 @@
 package org.folio.marccat.search.domain;
 
-import org.folio.marccat.log.Log;
-import org.folio.marccat.log.MessageCatalog;
+import org.folio.marccat.config.log.Log;
+import org.folio.marccat.config.log.MessageCatalog;
 import org.marc4j.MarcReader;
 import org.marc4j.MarcXmlReader;
 import org.w3c.dom.Document;

@@ -28,20 +28,7 @@ public class Avp<V> implements Comparable <Avp>, Serializable {
     this.label = label;
   }
 
-  /**
-   * Decodes the incoming stringValue among a given set of key/stringValue pairs.
-   *
-   * @param value    the search criterion.
-   * @param elements the search set.
-   * @return the label associated with the matching element, null otherwise.
-   */
-  public static String decode(final String value, final List <Avp> elements) {
-    return elements.stream()
-      .filter(element -> element.getValue().equals(value))
-      .findFirst()
-      .map(Avp::getLabel)
-      .orElse(null);
-  }
+
 
   /**
    * Returns the label associated with this pair.

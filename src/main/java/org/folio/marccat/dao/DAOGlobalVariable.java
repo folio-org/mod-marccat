@@ -55,15 +55,15 @@ public class DAOGlobalVariable extends HibernateUtil implements Serializable {
     edit(sysGlobal);
   }
 
-  public Hashtable <String, String> getAllGlobalVariable(final Session session) {
-    List <S_SYS_GLBL_VRBL> listAllKeys = null;
-    Hashtable <String, String> hash = new Hashtable <String, String>();
+  public Hashtable<String, String> getAllGlobalVariable(final Session session) {
+    List<S_SYS_GLBL_VRBL> listAllKeys = null;
+    Hashtable<String, String> hash = new Hashtable<String, String>();
     try {
       listAllKeys = find(session, "from S_SYS_GLBL_VRBL");
     } catch (DataAccessException e) {
       e.printStackTrace();
     }
-    Iterator <S_SYS_GLBL_VRBL> iter = listAllKeys.iterator();
+    Iterator<S_SYS_GLBL_VRBL> iter = listAllKeys.iterator();
     while (iter.hasNext()) {
       S_SYS_GLBL_VRBL rawGlobalVar = iter.next();
       hash.put(rawGlobalVar.getName(), rawGlobalVar.getValue());

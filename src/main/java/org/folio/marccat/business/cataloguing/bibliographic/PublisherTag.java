@@ -17,6 +17,7 @@ import org.folio.marccat.dao.persistence.Descriptor;
 import org.folio.marccat.dao.persistence.PUBL_HDG;
 import org.folio.marccat.dao.persistence.PublisherAccessPoint;
 import org.folio.marccat.dao.persistence.REF;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
@@ -28,7 +29,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.folio.marccat.F.deepCopy;
+import static org.folio.marccat.util.F.deepCopy;
 
 /**
  * Publisher Tag differs from other access points in that multiple publisher access
@@ -39,7 +40,7 @@ import static org.folio.marccat.F.deepCopy;
  * @version $Revision: 1.10 $, $Date: 2006/07/11 08:01:05 $
  * @since 1.0
  */
-public class PublisherTag extends VariableField implements PersistentObjectWithView, Equivalent {
+public class PublisherTag extends VariableField implements PersistentObjectWithView {
   private static Log logger = LogFactory.getLog(PublisherTag.class);
   private PersistenceState persistenceState = new PersistenceState();
   private List accessPoints = new ArrayList();

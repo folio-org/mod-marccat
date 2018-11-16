@@ -292,15 +292,6 @@ public class HibernateUtil {
   public void unlock(int key, String entityType) throws DataAccessException {
   }
 
-  @Deprecated
-  private boolean isSessionAlive(String sessionId) {
-    throw new IllegalArgumentException("Don't call me!");
-  }
-
-  @Deprecated
-  private boolean isUserPresent(String user) {
-    throw new IllegalArgumentException("Don't call me!");
-  }
 
   @Deprecated
   private Connection createNewDBSession() throws SQLException {
@@ -319,11 +310,4 @@ public class HibernateUtil {
     }
   }
 
-  protected String getHibernateTableName(Class c) {
-    return HibernateSessionProvider.getHibernateTableName(c);
-  }
-
-  protected String getHibernateColumnName(Class c, String property) {
-    return HibernateSessionProvider.getHibernateColumnName(c, property);
-  }
 }

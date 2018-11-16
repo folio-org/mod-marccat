@@ -104,9 +104,9 @@ public class AuthorityCatalogDAO extends CatalogDAO {
     return getAuthorityItemByAmicusNumber(key[0]);
   }
 
-  public List <Tag> getHeaderFields(final AuthorityItem item) throws DataAccessException {
+  public List<Tag> getHeaderFields(final AuthorityItem item) throws DataAccessException {
 
-    final List <Tag> result = new ArrayList <>();
+    final List<Tag> result = new ArrayList<>();
 
     result.add(new AuthorityLeader());
     result.add(new AuthorityControlNumberTag());
@@ -146,11 +146,11 @@ public class AuthorityCatalogDAO extends CatalogDAO {
     return result;
   }
 
-  public List <Tag> getReferenceFields(
+  public List<Tag> getReferenceFields(
     AuthorityItem item,
     AuthorityHeadingTag heading)
     throws DataAccessException {
-    List <Tag> result = new ArrayList <>();
+    List<Tag> result = new ArrayList<>();
     Descriptor d = heading.getDescriptor();
     DAODescriptor dao = (DAODescriptor) d.getDAO();
     List refs =

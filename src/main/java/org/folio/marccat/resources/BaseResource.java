@@ -1,6 +1,9 @@
 package org.folio.marccat.resources;
 
 import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.exception.SubsystemCommunicationException;
+import org.folio.marccat.exception.SystemInternalFailureException;
+import org.folio.marccat.exception.UnableToCreateOrUpdateEntityException;
 import org.folio.marccat.integration.Configuration;
 import org.folio.marccat.log.Log;
 import org.folio.marccat.log.MessageCatalog;

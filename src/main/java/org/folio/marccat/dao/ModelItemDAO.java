@@ -41,7 +41,7 @@ public abstract class ModelItemDAO extends AbstractDAO {
    */
   @SuppressWarnings("unchecked")
   public ModelItem load(final int id, final Session session) throws HibernateException {
-    final List <ModelItem> list = session.find(
+    final List<ModelItem> list = session.find(
       "from "
         + getPersistentClass().getName()
         + " as itm where itm.item = ? ",
@@ -61,7 +61,7 @@ public abstract class ModelItemDAO extends AbstractDAO {
    */
   @SuppressWarnings("unchecked")
   public boolean getModelUsage(final int id, final Session session) throws HibernateException {
-    final List <Integer> list =
+    final List<Integer> list =
       session.find(
         "select count(*) from "
           + getPersistentClass().getName()

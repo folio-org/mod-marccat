@@ -28,7 +28,7 @@ public class StringText implements Serializable {
     parse(stringTextString);
   }
 
-  public StringText(final List <String> codes, final List <String> values) {
+  public StringText(final List<String> codes, final List<String> values) {
     for (int i = 0; i < Math.min(codes.size(), values.size()); i++) {
       this.subfieldList.add(
         new Subfield(codes.get(i), values.get(i)));

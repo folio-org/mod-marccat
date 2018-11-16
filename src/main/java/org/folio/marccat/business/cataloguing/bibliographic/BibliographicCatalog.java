@@ -107,61 +107,7 @@ public class BibliographicCatalog extends Catalog {
     return dateTag;
   }
 
-  public PhysicalDescription createPhysicalDescriptionTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException {
-    final PhysicalDescription physicalDescription =
-      (PhysicalDescription) getNewTag(item,
-        GlobalStorage.HEADER_CATEGORY,
-        correlationValues);
-    return physicalDescription;
-  }
 
-  public PublisherManager createPublisherTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-    final PublisherManager pap =
-      (PublisherManager) getNewTag(item,
-        GlobalStorage.PUBLISHER_CATEGORY,
-        correlationValues);
-    return pap;
-  }
-
-  public TitleAccessPoint createTitleAccessPointTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-    final TitleAccessPoint tap =
-      (TitleAccessPoint) getNewTag(item,
-        GlobalStorage.TITLE_CATEGORY,
-        correlationValues);
-    return tap;
-  }
-
-  public NameAccessPoint createNameAccessPointTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-    final NameAccessPoint nap =
-      (NameAccessPoint) getNewTag(item,
-        GlobalStorage.NAME_CATEGORY,
-        correlationValues);
-    return nap;
-  }
-
-  public ClassificationAccessPoint createClassificationAccessPoint(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-    final ClassificationAccessPoint clap =
-      (ClassificationAccessPoint) getNewTag(item,
-        GlobalStorage.CLASSIFICATION_CATEGORY,
-        correlationValues);
-    return clap;
-  }
-
-  public SubjectAccessPoint createSubjectAccessPoint(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-    final SubjectAccessPoint sap =
-      (SubjectAccessPoint) getNewTag(item,
-        GlobalStorage.SUBJECT_CATEGORY,
-        correlationValues);
-    return sap;
-  }
-
-  public ControlNumberAccessPoint createControlNumberAccessPoint(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-    final ControlNumberAccessPoint cnap =
-      (ControlNumberAccessPoint) getNewTag(item,
-        GlobalStorage.CONTROL_NUMBER_CATEGORY,
-        correlationValues);
-    return cnap;
-  }
 
   public BibliographicNoteTag createBibliographicNoteTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
     final BibliographicNoteTag nTag =

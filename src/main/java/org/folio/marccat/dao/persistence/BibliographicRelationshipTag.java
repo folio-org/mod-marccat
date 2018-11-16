@@ -10,6 +10,7 @@ import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.DAOBibliographicRelationship;
 import org.folio.marccat.dao.DAOBibliographicRelationshipTag;
 import org.folio.marccat.dao.SystemNextNumberDAO;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import static org.folio.marccat.F.deepCopy;
+import static org.folio.marccat.util.F.deepCopy;
 
 public class BibliographicRelationshipTag extends VariableField implements PersistentObjectWithView {
   private static final Log logger = LogFactory.getLog(BibliographicRelationshipTag.class);

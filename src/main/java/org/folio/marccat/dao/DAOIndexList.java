@@ -122,7 +122,7 @@ public class DAOIndexList extends HibernateUtil {
         + Locale.ENGLISH.getISO3Language()
         + "' and a.codeLibriCatMades = 'LC'";
 
-    final List <IndexListElement> l = getIndexByQuery(query, session);
+    final List<IndexListElement> l = getIndexByQuery(query, session);
     if (l.size() > 0) {
       return (l.get(0)).getKey();
     } else {
@@ -187,8 +187,8 @@ public class DAOIndexList extends HibernateUtil {
         + "where a.languageCode = '" + code + "'"
         + " and a.key.language = '" + locale.getISO3Language()
         + "' and a.codeLibriCatMades = 'LC'";
-    final List <String> tableNameList = session.find(query);
-    final Optional <String> firstElement = tableNameList.stream().filter(Objects::nonNull).findFirst();
+    final List<String> tableNameList = session.find(query);
+    final Optional<String> firstElement = tableNameList.stream().filter(Objects::nonNull).findFirst();
     return firstElement.isPresent() ? firstElement.get() : "";
 
   }
@@ -275,8 +275,8 @@ public class DAOIndexList extends HibernateUtil {
    * @throws HibernateException
    */
   @SuppressWarnings("unchecked")
-  public List <IndexListElement> getIndexByQuery(final String query, final Session session) throws HibernateException {
-    final List <IndexList> indexesList = session.find(query);
+  public List<IndexListElement> getIndexByQuery(final String query, final Session session) throws HibernateException {
+    final List<IndexList> indexesList = session.find(query);
     return indexesList.stream().map(index -> {
       return new IndexListElement(
         index.getLanguageCode(),
@@ -295,11 +295,11 @@ public class DAOIndexList extends HibernateUtil {
    * @throws HibernateException
    */
   @SuppressWarnings("unchecked")
-  public List <Avp <String>> getIndexBrowseByQuery(final String query, final Session session) throws HibernateException {
-    final List <IndexList> indexesList = session.find(query);
+  public List<Avp<String>> getIndexBrowseByQuery(final String query, final Session session) throws HibernateException {
+    final List<IndexList> indexesList = session.find(query);
     return indexesList
       .stream()
-      .map(index -> (Avp <String>) new Avp(index.getLanguageCode(), index.getLanguageDescription()))
+      .map(index -> (Avp<String>) new Avp(index.getLanguageCode(), index.getLanguageDescription()))
       .collect(toList());
   }
 
@@ -361,8 +361,8 @@ public class DAOIndexList extends HibernateUtil {
         + locale.getISO3Language()
         + "' and a.codeLibriCatMades = 'LC'";
 
-    List <IndexListElement> indexListElement = getIndexByQuery(query, session);
-    final Optional <IndexListElement> firstElement = indexListElement.stream().filter(Objects::nonNull).findFirst();
+    List<IndexListElement> indexListElement = getIndexByQuery(query, session);
+    final Optional<IndexListElement> firstElement = indexListElement.stream().filter(Objects::nonNull).findFirst();
     return firstElement.isPresent() ? (firstElement.get()).getKey() : null;
 
   }

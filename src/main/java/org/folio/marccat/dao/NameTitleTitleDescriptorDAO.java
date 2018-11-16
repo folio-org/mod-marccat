@@ -30,7 +30,7 @@ public class NameTitleTitleDescriptorDAO extends NameTitleDescriptorDAO {
    * @return the headings by sort form
    * @throws HibernateException the hibernate exception
    */
-  public List <Descriptor> getHeadingsBySortform(final String operator, final String direction, final String term, final String filter, final int cataloguingView, final int count, final Session session)
+  public List<Descriptor> getHeadingsBySortform(final String operator, final String direction, final String term, final String filter, final int cataloguingView, final int count, final Session session)
     throws HibernateException {
     final Query q = session.createQuery(
       "select distinct hdg, nme.sortForm, ttl.sortForm from "
@@ -51,8 +51,8 @@ public class NameTitleTitleDescriptorDAO extends NameTitleDescriptorDAO {
     q.setString("term", term);
     q.setInteger("view", cataloguingView);
     q.setMaxResults(count);
-    final List <?> nameTitleHedingList = q.list();
-    final List <NME_TTL_HDG> nameTitleHedings = new ArrayList();
+    final List<?> nameTitleHedingList = q.list();
+    final List<NME_TTL_HDG> nameTitleHedings = new ArrayList();
     nameTitleHedingList.forEach(nameTitleHeading -> nameTitleHedings.add((NME_TTL_HDG) ((Object[]) nameTitleHeading)[0]));
     final List isolateHeadingList = isolateViewForList(nameTitleHedings, cataloguingView, session);
     loadHeadings(isolateHeadingList, cataloguingView, session);

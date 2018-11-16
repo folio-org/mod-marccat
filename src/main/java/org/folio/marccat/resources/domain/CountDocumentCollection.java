@@ -21,10 +21,10 @@ public class CountDocumentCollection {
   @JsonProperty("countDocuments")
   @Valid
   @NotNull
-  private List <CountDocument> countDocuments = new ArrayList <CountDocument>();
+  private List<CountDocument> countDocuments = new ArrayList<CountDocument>();
 
   @JsonIgnore
-  private Map <String, Object> additionalProperties = new HashMap <String, Object>();
+  private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
 
   /**
@@ -33,7 +33,7 @@ public class CountDocumentCollection {
    * @return The headings
    */
   @JsonProperty("countDocuments")
-  public List <CountDocument> getCountDocuments() {
+  public List<CountDocument> getCountDocuments() {
     return countDocuments;
   }
 
@@ -43,17 +43,17 @@ public class CountDocumentCollection {
    * @param indexes The indexes
    */
   @JsonProperty("countDocuments")
-  public void setCountDocuments(List <CountDocument> countDocuments) {
+  public void setCountDocuments(List<CountDocument> countDocuments) {
     this.countDocuments = countDocuments;
   }
 
-  public CountDocumentCollection withCountDocuments(List <CountDocument> countDocuments) {
+  public CountDocumentCollection withCountDocuments(List<CountDocument> countDocuments) {
     this.countDocuments = countDocuments;
     return this;
   }
 
   @JsonAnyGetter
-  public Map <String, Object> getAdditionalProperties() {
+  public Map<String, Object> getAdditionalProperties() {
     return this.additionalProperties;
   }
 

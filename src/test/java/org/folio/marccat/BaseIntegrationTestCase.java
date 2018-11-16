@@ -1,5 +1,6 @@
 package org.folio.marccat;
 
+import org.folio.marccat.config.Global;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;

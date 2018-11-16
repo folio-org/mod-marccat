@@ -51,7 +51,7 @@ public class SubjectDescriptorDAO extends DAODescriptor {
     throws HibernateException {
 
     final SBJCT_HDG subjectHeading = (SBJCT_HDG) desc;
-    final List <Integer> countList = session.find(
+    final List<Integer> countList = session.find(
       "select count(*) from "
         + getPersistentClass().getName()
         + " as c "

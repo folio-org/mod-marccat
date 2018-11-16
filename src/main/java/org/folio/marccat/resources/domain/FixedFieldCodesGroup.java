@@ -42,417 +42,417 @@ public class FixedFieldCodesGroup {
 
   @JsonProperty("itemRecordStatusCode")
   @Valid
-  private List <Pair> recordStatusTypes = new ArrayList <Pair>();
+  private List<Pair> recordStatusTypes = new ArrayList<Pair>();
 
   @JsonProperty("itemRecordTypeCode")
   @Valid
-  private List <Pair> recordTypes = new ArrayList <Pair>();
+  private List<Pair> recordTypes = new ArrayList<Pair>();
 
   @JsonProperty("itemBibliographicLevelCode")
   @Valid
-  private List <Pair> bibliographicLevels = new ArrayList <Pair>();
+  private List<Pair> bibliographicLevels = new ArrayList<Pair>();
 
   @JsonProperty("itemControlTypeCode")
   @Valid
-  private List <Pair> controlTypes = new ArrayList <Pair>();
+  private List<Pair> controlTypes = new ArrayList<Pair>();
 
   @JsonProperty("characterEncodingSchemas")
   @Valid
-  private List <Pair> characterEncodingSchemas = new ArrayList <Pair>();
+  private List<Pair> characterEncodingSchemas = new ArrayList<Pair>();
 
   @JsonProperty("encodingLevel")
   @Valid
-  private List <Pair> encodingLevels = new ArrayList <Pair>();
+  private List<Pair> encodingLevels = new ArrayList<Pair>();
 
   @JsonProperty("descriptiveCatalogForms")
   @Valid
-  private List <Pair> descriptiveCatalogForms = new ArrayList <Pair>();
+  private List<Pair> descriptiveCatalogForms = new ArrayList<Pair>();
 
   @JsonProperty("linkedRecordCode")
   @Valid
-  private List <Pair> linkedRecordCodes = new ArrayList <Pair>();
+  private List<Pair> linkedRecordCodes = new ArrayList<Pair>();
 
   @JsonProperty("dateTypes")
   @Valid
-  private List <Pair> dateTypes = new ArrayList <Pair>();
+  private List<Pair> dateTypes = new ArrayList<Pair>();
 
   @JsonProperty("bookIllustrationCode1")
   @Valid
-  private List <Pair> bookIllustrationCodes1 = new ArrayList <Pair>();
+  private List<Pair> bookIllustrationCodes1 = new ArrayList<Pair>();
 
   @JsonProperty("bookIllustrationCode2")
   @Valid
-  private List <Pair> bookIllustrationCodes2 = new ArrayList <Pair>();
+  private List<Pair> bookIllustrationCodes2 = new ArrayList<Pair>();
 
   @JsonProperty("bookIllustrationCode3")
   @Valid
-  private List <Pair> bookIllustrationCodes3 = new ArrayList <Pair>();
+  private List<Pair> bookIllustrationCodes3 = new ArrayList<Pair>();
 
   @JsonProperty("bookIllustrationCode4")
   @Valid
-  private List <Pair> bookIllustrationCodes4 = new ArrayList <Pair>();
+  private List<Pair> bookIllustrationCodes4 = new ArrayList<Pair>();
 
   @JsonProperty("targetAudienceCode")
   @Valid
-  private List <Pair> targetAudienceCodes = new ArrayList <Pair>();
+  private List<Pair> targetAudienceCodes = new ArrayList<Pair>();
 
   @JsonProperty("formOfItemCode")
   @Valid
-  private List <Pair> formOfItemCodes = new ArrayList <Pair>();
+  private List<Pair> formOfItemCodes = new ArrayList<Pair>();
 
   @JsonProperty("natureOfContent1")
   @Valid
-  private List <Pair> natureOfContents1 = new ArrayList <Pair>();
+  private List<Pair> natureOfContents1 = new ArrayList<Pair>();
 
   @JsonProperty("natureOfContent2")
   @Valid
-  private List <Pair> natureOfContents2 = new ArrayList <Pair>();
+  private List<Pair> natureOfContents2 = new ArrayList<Pair>();
 
   @JsonProperty("natureOfContent3")
   @Valid
-  private List <Pair> natureOfContents3 = new ArrayList <Pair>();
+  private List<Pair> natureOfContents3 = new ArrayList<Pair>();
 
   @JsonProperty("natureOfContent4")
   @Valid
-  private List <Pair> natureOfContents4 = new ArrayList <Pair>();
+  private List<Pair> natureOfContents4 = new ArrayList<Pair>();
 
   @JsonProperty("governmentPublicationCode")
   @Valid
-  private List <Pair> governmentPublicationCodes = new ArrayList <Pair>();
+  private List<Pair> governmentPublicationCodes = new ArrayList<Pair>();
 
   @JsonProperty("conferencePublicationCode")
   @Valid
-  private List <Pair> conferencePublicationCodes = new ArrayList <Pair>();
+  private List<Pair> conferencePublicationCodes = new ArrayList<Pair>();
 
   @JsonProperty("bookFestschrift")
   @Valid
-  private List <Pair> bookFestschrifts = new ArrayList <Pair>();
+  private List<Pair> bookFestschrifts = new ArrayList<Pair>();
 
   @JsonProperty("bookIndexAvailabilityCode")
   @Valid
-  private List <Pair> bookIndexAvailabilityCodes = new ArrayList <Pair>();
+  private List<Pair> bookIndexAvailabilityCodes = new ArrayList<Pair>();
 
   @JsonProperty("bookLiteraryFormTypeCode")
   @Valid
-  private List <Pair> bookLiteraryFormTypeCodes = new ArrayList <Pair>();
+  private List<Pair> bookLiteraryFormTypeCodes = new ArrayList<Pair>();
 
   @JsonProperty("bookBiographyCode")
   @Valid
-  private List <Pair> bookBiographyCodes = new ArrayList <Pair>();
+  private List<Pair> bookBiographyCodes = new ArrayList<Pair>();
 
   @JsonProperty("musicFormOfCompositions")
   @Valid
-  private List <Pair> musicFormOfCompositionCodes = new ArrayList <Pair>();
+  private List<Pair> musicFormOfCompositionCodes = new ArrayList<Pair>();
 
   @JsonProperty("musicParts")
   @Valid
-  private List <Pair> musicPartCodes = new ArrayList <Pair>();
+  private List<Pair> musicPartCodes = new ArrayList<Pair>();
 
   @JsonProperty("musicFormats")
   @Valid
-  private List <Pair> musicFormatCodes = new ArrayList <Pair>();
+  private List<Pair> musicFormatCodes = new ArrayList<Pair>();
 
   @JsonProperty("musicTextualMaterialCodes")
   @Valid
-  private List <Pair> musicTextualMaterialCodes = new ArrayList <Pair>();
+  private List<Pair> musicTextualMaterialCodes = new ArrayList<Pair>();
 
   @JsonProperty("musicLiteraryTextCodes")
   @Valid
-  private List <Pair> musicLiteraryTextCodes = new ArrayList <Pair>();
+  private List<Pair> musicLiteraryTextCodes = new ArrayList<Pair>();
 
   @JsonProperty("musicTranspositionArrangementCode")
   @Valid
-  private List <Pair> musicTranspositionArrangementCodes = new ArrayList <Pair>();
+  private List<Pair> musicTranspositionArrangementCodes = new ArrayList<Pair>();
 
   @JsonProperty("serialFrequencyCode")
   @Valid
-  private List <Pair> serialFrequencyCodes = new ArrayList <Pair>();
+  private List<Pair> serialFrequencyCodes = new ArrayList<Pair>();
 
   @JsonProperty("serialRegularityCode")
   @Valid
-  private List <Pair> serialRegularityCodes = new ArrayList <Pair>();
+  private List<Pair> serialRegularityCodes = new ArrayList<Pair>();
 
   @JsonProperty("serialTypeOfContinuingResourceCodes")
   @Valid
-  private List <Pair> serialTypeOfContinuingResourceCodes = new ArrayList <Pair>();
+  private List<Pair> serialTypeOfContinuingResourceCodes = new ArrayList<Pair>();
 
   @JsonProperty("serialFormOriginalCodes")
   @Valid
-  private List <Pair> serialFormOriginalCodes = new ArrayList <Pair>();
+  private List<Pair> serialFormOriginalCodes = new ArrayList<Pair>();
 
   @JsonProperty("serialNatureOfWorkCodes")
   @Valid
-  private List <Pair> serialNatureOfWorkCodes = new ArrayList <Pair>();
+  private List<Pair> serialNatureOfWorkCodes = new ArrayList<Pair>();
 
   @JsonProperty("serialOriginAlphabetCodes")
   @Valid
-  private List <Pair> serialOriginAlphabetCodes = new ArrayList <Pair>();
+  private List<Pair> serialOriginAlphabetCodes = new ArrayList<Pair>();
 
   @JsonProperty("serialEntryConvCodes")
   @Valid
-  private List <Pair> serialEntryConvCodes = new ArrayList <Pair>();
+  private List<Pair> serialEntryConvCodes = new ArrayList<Pair>();
 
   @JsonProperty("mapReliefCodes")
   @Valid
-  private List <Pair> mapReliefCodes = new ArrayList <Pair>();
+  private List<Pair> mapReliefCodes = new ArrayList<Pair>();
 
   @JsonProperty("mapProjectionCodes")
   @Valid
-  private List <Pair> mapProjectionCodes = new ArrayList <Pair>();
+  private List<Pair> mapProjectionCodes = new ArrayList<Pair>();
 
   @JsonProperty("mapTypeCartographicMaterialCodes")
   @Valid
-  private List <Pair> mapTypeCartographicMaterialCodes = new ArrayList <Pair>();
+  private List<Pair> mapTypeCartographicMaterialCodes = new ArrayList<Pair>();
 
   @JsonProperty("mapIndexCodes")
   @Valid
-  private List <Pair> mapIndexCodes = new ArrayList <Pair>();
+  private List<Pair> mapIndexCodes = new ArrayList<Pair>();
 
   @JsonProperty("mapSpecialFormatCharacteristicCodes")
   @Valid
-  private List <Pair> mapSpecialFormatCharacteristicCodes = new ArrayList <Pair>();
+  private List<Pair> mapSpecialFormatCharacteristicCodes = new ArrayList<Pair>();
 
   @JsonProperty("visualTargetAudienceCodes")
   @Valid
-  private List <Pair> visualTargetAudienceCodes = new ArrayList <Pair>();
+  private List<Pair> visualTargetAudienceCodes = new ArrayList<Pair>();
 
   @JsonProperty("visualTypeMaterialCodes")
   @Valid
-  private List <Pair> visualTypeMaterialCodes = new ArrayList <Pair>();
+  private List<Pair> visualTypeMaterialCodes = new ArrayList<Pair>();
 
   @JsonProperty("visualTechnique")
   @Valid
-  private List <Pair> visualTechnique = new ArrayList <Pair>();
+  private List<Pair> visualTechnique = new ArrayList<Pair>();
 
   @JsonProperty("computerTargetAudienceCodes")
   @Valid
-  private List <Pair> computerTargetAudienceCodes = new ArrayList <Pair>();
+  private List<Pair> computerTargetAudienceCodes = new ArrayList<Pair>();
 
   @JsonProperty("computerFormOfItemCodes")
   @Valid
-  private List <Pair> computerFormOfItemCodes = new ArrayList <Pair>();
+  private List<Pair> computerFormOfItemCodes = new ArrayList<Pair>();
 
   @JsonProperty("computerTypeMaterialCodes")
   @Valid
-  private List <Pair> computerTypeMaterialCodes = new ArrayList <Pair>();
+  private List<Pair> computerTypeMaterialCodes = new ArrayList<Pair>();
 
   @JsonProperty("modifiedRecordTypes")
   @Valid
-  private List <Pair> modifiedRecordTypes = new ArrayList <Pair>();
+  private List<Pair> modifiedRecordTypes = new ArrayList<Pair>();
 
   @JsonProperty("catalogSources")
   @Valid
-  private List <Pair> catalogSources = new ArrayList <Pair>();
+  private List<Pair> catalogSources = new ArrayList<Pair>();
 
   @JsonProperty("categoryOfMaterial")
   @Valid
-  private List <Pair> categoryOfMaterialCodes = new ArrayList <Pair>();
+  private List<Pair> categoryOfMaterialCodes = new ArrayList<Pair>();
 
   @JsonProperty("specificMaterialDesignationCode")
   @Valid
-  private List <Pair> specificMaterialDesignationCodes = new ArrayList <Pair>();
+  private List<Pair> specificMaterialDesignationCodes = new ArrayList<Pair>();
 
   @JsonProperty("colourCode")
   @Valid
-  private List <Pair> colorCodes = new ArrayList <Pair>();
+  private List<Pair> colorCodes = new ArrayList<Pair>();
 
   @JsonProperty("physicalMediumCode")
   @Valid
-  private List <Pair> physicalMediumCodes = new ArrayList <Pair>();
+  private List<Pair> physicalMediumCodes = new ArrayList<Pair>();
 
   @JsonProperty("mediumForSoundCode")
   @Valid
-  private List <Pair> mediumForSoundCodes = new ArrayList <Pair>();
+  private List<Pair> mediumForSoundCodes = new ArrayList<Pair>();
 
   @JsonProperty("secondarySupportMaterialCode")
   @Valid
-  private List <Pair> secondarySupportMaterialCodes = new ArrayList <Pair>();
+  private List<Pair> secondarySupportMaterialCodes = new ArrayList<Pair>();
 
   @JsonProperty("typeOfReproductionCode")
   @Valid
-  private List <Pair> typeOfReproductionCodes = new ArrayList <Pair>();
+  private List<Pair> typeOfReproductionCodes = new ArrayList<Pair>();
 
   @JsonProperty("polarityCode")
   @Valid
-  private List <Pair> polarityCodes = new ArrayList <Pair>();
+  private List<Pair> polarityCodes = new ArrayList<Pair>();
 
   @JsonProperty("dimensionCodes")
   @Valid
-  private List <Pair> dimensionCodes = new ArrayList <Pair>();
+  private List<Pair> dimensionCodes = new ArrayList<Pair>();
 
   @JsonProperty("primarySupportMaterialCode")
   @Valid
-  private List <Pair> primarySupportMaterialCodes = new ArrayList <Pair>();
+  private List<Pair> primarySupportMaterialCodes = new ArrayList<Pair>();
 
   @JsonProperty("configurationCode")
   @Valid
-  private List <Pair> configurationCodes = new ArrayList <Pair>();
+  private List<Pair> configurationCodes = new ArrayList<Pair>();
 
   @JsonProperty("generationCode")
   @Valid
-  private List <Pair> generationCodes = new ArrayList <Pair>();
+  private List<Pair> generationCodes = new ArrayList<Pair>();
 
   @JsonProperty("baseOfFilmCode")
   @Valid
-  private List <Pair> baseOfFilmCodes = new ArrayList <Pair>();
+  private List<Pair> baseOfFilmCodes = new ArrayList<Pair>();
 
   @JsonProperty("productionDetailsCode")
   @Valid
-  private List <Pair> productionDetailsCodes = new ArrayList <Pair>();
+  private List<Pair> productionDetailsCodes = new ArrayList<Pair>();
 
   @JsonProperty("includesSoundCodes")
   @Valid
-  private List <Pair> includesSoundCodes = new ArrayList <Pair>();
+  private List<Pair> includesSoundCodes = new ArrayList<Pair>();
 
   @JsonProperty("fileFormatsCode")
   @Valid
-  private List <Pair> fileFormatsCodes = new ArrayList <Pair>();
+  private List<Pair> fileFormatsCodes = new ArrayList<Pair>();
 
   @JsonProperty("qualityAssuranceTargetCode")
   @Valid
-  private List <Pair> qualityAssuranceTargetCodes = new ArrayList <Pair>();
+  private List<Pair> qualityAssuranceTargetCodes = new ArrayList<Pair>();
 
   @JsonProperty("antecedentSourceCode")
   @Valid
-  private List <Pair> antecedentSourceCodes = new ArrayList <Pair>();
+  private List<Pair> antecedentSourceCodes = new ArrayList<Pair>();
 
   @JsonProperty("levelOfCompressionCode")
   @Valid
-  private List <Pair> levelOfCompressionCodes = new ArrayList <Pair>();
+  private List<Pair> levelOfCompressionCodes = new ArrayList<Pair>();
 
   @JsonProperty("reformattingQualityCode")
   @Valid
-  private List <Pair> reformattingQualityCodes = new ArrayList <Pair>();
+  private List<Pair> reformattingQualityCodes = new ArrayList<Pair>();
 
   @JsonProperty("classOfBrailleWritingCodes")
   @Valid
-  private List <Pair> classOfBrailleWritingCodes = new ArrayList <Pair>();
+  private List<Pair> classOfBrailleWritingCodes = new ArrayList<Pair>();
 
   @JsonProperty("levelOfContractionCode")
   @Valid
-  private List <Pair> levelOfContractionCodes = new ArrayList <Pair>();
+  private List<Pair> levelOfContractionCodes = new ArrayList<Pair>();
 
   @JsonProperty("brailleMusicFormatCodes")
   @Valid
-  private List <Pair> brailleMusicFormatCodes = new ArrayList <Pair>();
+  private List<Pair> brailleMusicFormatCodes = new ArrayList<Pair>();
 
   @JsonProperty("specificPhysicalCharacteristicsCode")
   @Valid
-  private List <Pair> specificPhysicalCharacteristicsCodes = new ArrayList <Pair>();
+  private List<Pair> specificPhysicalCharacteristicsCodes = new ArrayList<Pair>();
 
   @JsonProperty("baseOfEmulsionCode")
   @Valid
-  private List <Pair> baseOfEmulsionCodes = new ArrayList <Pair>();
+  private List<Pair> baseOfEmulsionCodes = new ArrayList<Pair>();
 
   @JsonProperty("soundOnMediumOrSeparateCode")
   @Valid
-  private List <Pair> soundOnMediumOrSeparateCodes = new ArrayList <Pair>();
+  private List<Pair> soundOnMediumOrSeparateCodes = new ArrayList<Pair>();
 
   @JsonProperty("presentationFormatCode")
   @Valid
-  private List <Pair> presentationFormatCodes = new ArrayList <Pair>();
+  private List<Pair> presentationFormatCodes = new ArrayList<Pair>();
 
   @JsonProperty("productionElementsCode")
   @Valid
-  private List <Pair> productionElementsCodes = new ArrayList <Pair>();
+  private List<Pair> productionElementsCodes = new ArrayList<Pair>();
 
   @JsonProperty("refinedCategoriesOfColourCode")
   @Valid
-  private List <Pair> refinedCategoriesOfColourCodes = new ArrayList <Pair>();
+  private List<Pair> refinedCategoriesOfColourCodes = new ArrayList<Pair>();
 
   @JsonProperty("kindOfColourStockCode")
   @Valid
-  private List <Pair> kindOfColourStockCodes = new ArrayList <Pair>();
+  private List<Pair> kindOfColourStockCodes = new ArrayList<Pair>();
 
   @JsonProperty("deteriorationStageCode")
   @Valid
-  private List <Pair> deteriorationStageCodes = new ArrayList <Pair>();
+  private List<Pair> deteriorationStageCodes = new ArrayList<Pair>();
 
   @JsonProperty("completenessCode")
   @Valid
-  private List <Pair> completenessCodes = new ArrayList <Pair>();
+  private List<Pair> completenessCodes = new ArrayList<Pair>();
 
   @JsonProperty("altitudeOfSensorCode")
   @Valid
-  private List <Pair> altitudeOfSensorCodes = new ArrayList <Pair>();
+  private List<Pair> altitudeOfSensorCodes = new ArrayList<Pair>();
 
   @JsonProperty("attitudeOfSensorCode")
   @Valid
-  private List <Pair> attitudeOfSensorCodes = new ArrayList <Pair>();
+  private List<Pair> attitudeOfSensorCodes = new ArrayList<Pair>();
 
   @JsonProperty("cloudCoverCode")
   @Valid
-  private List <Pair> cloudCoverCodes = new ArrayList <Pair>();
+  private List<Pair> cloudCoverCodes = new ArrayList<Pair>();
 
   @JsonProperty("platformConstructionTypeCode")
   @Valid
-  private List <Pair> platformConstructionTypeCodes = new ArrayList <Pair>();
+  private List<Pair> platformConstructionTypeCodes = new ArrayList<Pair>();
 
   @JsonProperty("platformUseCode")
   @Valid
-  private List <Pair> platformUseCodes = new ArrayList <Pair>();
+  private List<Pair> platformUseCodes = new ArrayList<Pair>();
 
   @JsonProperty("sensorTypeCode")
   @Valid
-  private List <Pair> sensorTypeCodes = new ArrayList <Pair>();
+  private List<Pair> sensorTypeCodes = new ArrayList<Pair>();
 
   @JsonProperty("remoteSensingDataTypeCodes")
   @Valid
-  private List <Pair> remoteSensingDataTypeCodes = new ArrayList <Pair>();
+  private List<Pair> remoteSensingDataTypeCodes = new ArrayList<Pair>();
 
   @JsonProperty("speedCode")
   @Valid
-  private List <Pair> speedCodes = new ArrayList <Pair>();
+  private List<Pair> speedCodes = new ArrayList<Pair>();
 
   @JsonProperty("grooveWidthCode")
   @Valid
-  private List <Pair> grooveWidthCodes = new ArrayList <Pair>();
+  private List<Pair> grooveWidthCodes = new ArrayList<Pair>();
 
   @JsonProperty("tapeWidthCode")
   @Valid
-  private List <Pair> tapeWidthCodes = new ArrayList <Pair>();
+  private List<Pair> tapeWidthCodes = new ArrayList<Pair>();
 
   @JsonProperty("tapeConfigurationCode")
   @Valid
-  private List <Pair> tapeConfigurationCodes = new ArrayList <Pair>();
+  private List<Pair> tapeConfigurationCodes = new ArrayList<Pair>();
 
   @JsonProperty("discTypeCode")
   @Valid
-  private List <Pair> discTypeCodes = new ArrayList <Pair>();
+  private List<Pair> discTypeCodes = new ArrayList<Pair>();
 
   @JsonProperty("sndMaterialTypeCode")
   @Valid
-  private List <Pair> sndMaterialTypeCodes = new ArrayList <Pair>();
+  private List<Pair> sndMaterialTypeCodes = new ArrayList<Pair>();
 
   @JsonProperty("cuttingTypeCode")
   @Valid
-  private List <Pair> cuttingTypeCodes = new ArrayList <Pair>();
+  private List<Pair> cuttingTypeCodes = new ArrayList<Pair>();
 
   @JsonProperty("specialPlaybackCharacteristicsCode")
   @Valid
-  private List <Pair> specialPlaybackCharacteristicsCodes = new ArrayList <Pair>();
+  private List<Pair> specialPlaybackCharacteristicsCodes = new ArrayList<Pair>();
 
   @JsonProperty("storageTechniqueCode")
   @Valid
-  private List <Pair> storageTechniqueCodes = new ArrayList <Pair>();
+  private List<Pair> storageTechniqueCodes = new ArrayList<Pair>();
 
   @JsonProperty("videoRecordingFormatCodes")
   @Valid
-  private List <Pair> videoRecordingFormatCodes = new ArrayList <Pair>();
+  private List<Pair> videoRecordingFormatCodes = new ArrayList<Pair>();
 
   @JsonProperty("emulsionOnFilmCode")
   @Valid
-  private List <Pair> emulsionOnFilmCodes = new ArrayList <Pair>();
+  private List<Pair> emulsionOnFilmCodes = new ArrayList<Pair>();
 
   @JsonProperty("reductionRatioRangeCode")
   @Valid
-  private List <Pair> reductionRatioRangeCodes = new ArrayList <Pair>();
+  private List<Pair> reductionRatioRangeCodes = new ArrayList<Pair>();
 
   /**
    * @return videoRecordingFormatCodes
    */
   @JsonProperty("videoRecordingFormatCodes")
-  public List <Pair> getVideoRecordingFormatCodes() {
+  public List<Pair> getVideoRecordingFormatCodes() {
     return videoRecordingFormatCodes;
   }
 
@@ -460,7 +460,7 @@ public class FixedFieldCodesGroup {
    * @param videoRecordingFormatCodes
    */
   @JsonProperty("videoRecordingFormatCodes")
-  public void setVideoRecordingFormatCodes(List <Pair> videoRecordingFormatCodes) {
+  public void setVideoRecordingFormatCodes(List<Pair> videoRecordingFormatCodes) {
     this.videoRecordingFormatCodes = videoRecordingFormatCodes;
   }
 
@@ -468,7 +468,7 @@ public class FixedFieldCodesGroup {
    * @return emulsionOnFilmCodes
    */
   @JsonProperty("emulsionOnFilmCode")
-  public List <Pair> getEmulsionOnFilmCodes() {
+  public List<Pair> getEmulsionOnFilmCodes() {
     return emulsionOnFilmCodes;
   }
 
@@ -476,7 +476,7 @@ public class FixedFieldCodesGroup {
    * @param emulsionOnFilmCodes
    */
   @JsonProperty("emulsionOnFilmCode")
-  public void setEmulsionOnFilmCodes(List <Pair> emulsionOnFilmCodes) {
+  public void setEmulsionOnFilmCodes(List<Pair> emulsionOnFilmCodes) {
     this.emulsionOnFilmCodes = emulsionOnFilmCodes;
   }
 
@@ -484,7 +484,7 @@ public class FixedFieldCodesGroup {
    * @return reductionRatioRangeCodes
    */
   @JsonProperty("reductionRatioRangeCode")
-  public List <Pair> getReductionRatioRangeCodes() {
+  public List<Pair> getReductionRatioRangeCodes() {
     return reductionRatioRangeCodes;
   }
 
@@ -492,7 +492,7 @@ public class FixedFieldCodesGroup {
    * @param reductionRatioRangeCodes
    */
   @JsonProperty("reductionRatioRangeCode")
-  public void setReductionRatioRangeCodes(List <Pair> reductionRatioRangeCodes) {
+  public void setReductionRatioRangeCodes(List<Pair> reductionRatioRangeCodes) {
     this.reductionRatioRangeCodes = reductionRatioRangeCodes;
   }
 
@@ -500,7 +500,7 @@ public class FixedFieldCodesGroup {
    * @return storageTechniqueCodes
    */
   @JsonProperty("storageTechniqueCode")
-  public List <Pair> getStorageTechniqueCodes() {
+  public List<Pair> getStorageTechniqueCodes() {
     return storageTechniqueCodes;
   }
 
@@ -508,7 +508,7 @@ public class FixedFieldCodesGroup {
    * @param storageTechniqueCodes
    */
   @JsonProperty("storageTechniqueCode")
-  public void setStorageTechniqueCodes(List <Pair> storageTechniqueCodes) {
+  public void setStorageTechniqueCodes(List<Pair> storageTechniqueCodes) {
     this.storageTechniqueCodes = storageTechniqueCodes;
   }
 
@@ -516,7 +516,7 @@ public class FixedFieldCodesGroup {
    * @return specialPlaybackCharacteristicsCodes
    */
   @JsonProperty("specialPlaybackCharacteristicsCode")
-  public List <Pair> getSpecialPlaybackCharacteristicsCodes() {
+  public List<Pair> getSpecialPlaybackCharacteristicsCodes() {
     return specialPlaybackCharacteristicsCodes;
   }
 
@@ -524,7 +524,7 @@ public class FixedFieldCodesGroup {
    * @param specialPlaybackCharacteristicsCodes
    */
   @JsonProperty("specialPlaybackCharacteristicsCode")
-  public void setSpecialPlaybackCharacteristicsCodes(List <Pair> specialPlaybackCharacteristicsCodes) {
+  public void setSpecialPlaybackCharacteristicsCodes(List<Pair> specialPlaybackCharacteristicsCodes) {
     this.specialPlaybackCharacteristicsCodes = specialPlaybackCharacteristicsCodes;
   }
 
@@ -532,7 +532,7 @@ public class FixedFieldCodesGroup {
    * @return cuttingTypeCodes
    */
   @JsonProperty("cuttingTypeCode")
-  public List <Pair> getCuttingTypeCodes() {
+  public List<Pair> getCuttingTypeCodes() {
     return cuttingTypeCodes;
   }
 
@@ -540,7 +540,7 @@ public class FixedFieldCodesGroup {
    * @param cuttingTypeCodes
    */
   @JsonProperty("cuttingTypeCode")
-  public void setCuttingTypeCodes(List <Pair> cuttingTypeCodes) {
+  public void setCuttingTypeCodes(List<Pair> cuttingTypeCodes) {
     this.cuttingTypeCodes = cuttingTypeCodes;
   }
 
@@ -548,7 +548,7 @@ public class FixedFieldCodesGroup {
    * @return sndMaterialTypeCodes
    */
   @JsonProperty("sndMaterialTypeCode")
-  public List <Pair> getSndMaterialTypeCodes() {
+  public List<Pair> getSndMaterialTypeCodes() {
     return sndMaterialTypeCodes;
   }
 
@@ -556,7 +556,7 @@ public class FixedFieldCodesGroup {
    * @param sndMaterialTypeCodes
    */
   @JsonProperty("sndMaterialTypeCode")
-  public void setSndMaterialTypeCodes(List <Pair> sndMaterialTypeCodes) {
+  public void setSndMaterialTypeCodes(List<Pair> sndMaterialTypeCodes) {
     this.sndMaterialTypeCodes = sndMaterialTypeCodes;
   }
 
@@ -564,7 +564,7 @@ public class FixedFieldCodesGroup {
    * @return tapeConfigurationCodes
    */
   @JsonProperty("tapeConfigurationCode")
-  public List <Pair> getTapeConfigurationCodes() {
+  public List<Pair> getTapeConfigurationCodes() {
     return tapeConfigurationCodes;
   }
 
@@ -572,7 +572,7 @@ public class FixedFieldCodesGroup {
    * @param tapeConfigurationCodes
    */
   @JsonProperty("tapeConfigurationCode")
-  public void setTapeConfigurationCodes(List <Pair> tapeConfigurationCodes) {
+  public void setTapeConfigurationCodes(List<Pair> tapeConfigurationCodes) {
     this.tapeConfigurationCodes = tapeConfigurationCodes;
   }
 
@@ -580,7 +580,7 @@ public class FixedFieldCodesGroup {
    * @return discTypeCodes
    */
   @JsonProperty("discTypeCode")
-  public List <Pair> getDiscTypeCodes() {
+  public List<Pair> getDiscTypeCodes() {
     return discTypeCodes;
   }
 
@@ -588,7 +588,7 @@ public class FixedFieldCodesGroup {
    * @param discTypeCodes
    */
   @JsonProperty("discTypeCode")
-  public void setDiscTypeCodes(List <Pair> discTypeCodes) {
+  public void setDiscTypeCodes(List<Pair> discTypeCodes) {
     this.discTypeCodes = discTypeCodes;
   }
 
@@ -596,7 +596,7 @@ public class FixedFieldCodesGroup {
    * @return tapeWidthCodes
    */
   @JsonProperty("tapeWidthCode")
-  public List <Pair> getTapeWidthCodes() {
+  public List<Pair> getTapeWidthCodes() {
     return tapeWidthCodes;
   }
 
@@ -604,7 +604,7 @@ public class FixedFieldCodesGroup {
    * @param tapeWidthCodes
    */
   @JsonProperty("tapeWidthCode")
-  public void setTapeWidthCodes(List <Pair> tapeWidthCodes) {
+  public void setTapeWidthCodes(List<Pair> tapeWidthCodes) {
     this.tapeWidthCodes = tapeWidthCodes;
   }
 
@@ -612,7 +612,7 @@ public class FixedFieldCodesGroup {
    * @return grooveWidthCodes
    */
   @JsonProperty("grooveWidthCode")
-  public List <Pair> getGrooveWidthCodes() {
+  public List<Pair> getGrooveWidthCodes() {
     return grooveWidthCodes;
   }
 
@@ -620,7 +620,7 @@ public class FixedFieldCodesGroup {
    * @param grooveWidthCodes
    */
   @JsonProperty("grooveWidthCode")
-  public void setGrooveWidthCodes(List <Pair> grooveWidthCodes) {
+  public void setGrooveWidthCodes(List<Pair> grooveWidthCodes) {
     this.grooveWidthCodes = grooveWidthCodes;
   }
 
@@ -628,7 +628,7 @@ public class FixedFieldCodesGroup {
    * @return speedCodes
    */
   @JsonProperty("speedCode")
-  public List <Pair> getSpeedCodes() {
+  public List<Pair> getSpeedCodes() {
     return speedCodes;
   }
 
@@ -636,7 +636,7 @@ public class FixedFieldCodesGroup {
    * @param speedCodes
    */
   @JsonProperty("speedCode")
-  public void setSpeedCodes(List <Pair> speedCodes) {
+  public void setSpeedCodes(List<Pair> speedCodes) {
     this.speedCodes = speedCodes;
   }
 
@@ -644,7 +644,7 @@ public class FixedFieldCodesGroup {
    * @return remoteSensingDataTypeCodes
    */
   @JsonProperty("remoteSensingDataTypeCodes")
-  public List <Pair> getRemoteSensingDataTypeCodes() {
+  public List<Pair> getRemoteSensingDataTypeCodes() {
     return remoteSensingDataTypeCodes;
   }
 
@@ -652,7 +652,7 @@ public class FixedFieldCodesGroup {
    * @param remoteSensingDataTypeCodes
    */
   @JsonProperty("remoteSensingDataTypeCodes")
-  public void setRemoteSensingDataTypeCodes(List <Pair> remoteSensingDataTypeCodes) {
+  public void setRemoteSensingDataTypeCodes(List<Pair> remoteSensingDataTypeCodes) {
     this.remoteSensingDataTypeCodes = remoteSensingDataTypeCodes;
   }
 
@@ -660,7 +660,7 @@ public class FixedFieldCodesGroup {
    * @return sensorTypeCodes
    */
   @JsonProperty("sensorTypeCode")
-  public List <Pair> getSensorTypeCodes() {
+  public List<Pair> getSensorTypeCodes() {
     return sensorTypeCodes;
   }
 
@@ -668,7 +668,7 @@ public class FixedFieldCodesGroup {
    * @param sensorTypeCodes
    */
   @JsonProperty("sensorTypeCode")
-  public void setSensorTypeCodes(List <Pair> sensorTypeCodes) {
+  public void setSensorTypeCodes(List<Pair> sensorTypeCodes) {
     this.sensorTypeCodes = sensorTypeCodes;
   }
 
@@ -676,7 +676,7 @@ public class FixedFieldCodesGroup {
    * @return platformConstructionTypeCodes
    */
   @JsonProperty("platformConstructionTypeCode")
-  public List <Pair> getPlatformConstructionTypeCodes() {
+  public List<Pair> getPlatformConstructionTypeCodes() {
     return platformConstructionTypeCodes;
   }
 
@@ -684,7 +684,7 @@ public class FixedFieldCodesGroup {
    * @param platformConstructionTypeCodes
    */
   @JsonProperty("platformConstructionTypeCode")
-  public void setPlatformConstructionTypeCodes(List <Pair> platformConstructionTypeCodes) {
+  public void setPlatformConstructionTypeCodes(List<Pair> platformConstructionTypeCodes) {
     this.platformConstructionTypeCodes = platformConstructionTypeCodes;
   }
 
@@ -692,7 +692,7 @@ public class FixedFieldCodesGroup {
    * @return platformUseCodes
    */
   @JsonProperty("platformUseCode")
-  public List <Pair> getPlatformUseCodes() {
+  public List<Pair> getPlatformUseCodes() {
     return platformUseCodes;
   }
 
@@ -700,7 +700,7 @@ public class FixedFieldCodesGroup {
    * @param platformUseCodes
    */
   @JsonProperty("platformUseCode")
-  public void setPlatformUseCodes(List <Pair> platformUseCodes) {
+  public void setPlatformUseCodes(List<Pair> platformUseCodes) {
     this.platformUseCodes = platformUseCodes;
   }
 
@@ -708,7 +708,7 @@ public class FixedFieldCodesGroup {
    * @return cloudCoverCodes
    */
   @JsonProperty("cloudCoverCode")
-  public List <Pair> getCloudCoverCodes() {
+  public List<Pair> getCloudCoverCodes() {
     return cloudCoverCodes;
   }
 
@@ -716,7 +716,7 @@ public class FixedFieldCodesGroup {
    * @param cloudCoverCodes
    */
   @JsonProperty("cloudCoverCode")
-  public void setCloudCoverCodes(List <Pair> cloudCoverCodes) {
+  public void setCloudCoverCodes(List<Pair> cloudCoverCodes) {
     this.cloudCoverCodes = cloudCoverCodes;
   }
 
@@ -724,7 +724,7 @@ public class FixedFieldCodesGroup {
    * @return attitudeOfSensorCodes
    */
   @JsonProperty("attitudeOfSensorCode")
-  public List <Pair> getAttitudeOfSensorCodes() {
+  public List<Pair> getAttitudeOfSensorCodes() {
     return attitudeOfSensorCodes;
   }
 
@@ -732,7 +732,7 @@ public class FixedFieldCodesGroup {
    * @param attitudeOfSensorCodes
    */
   @JsonProperty("attitudeOfSensorCode")
-  public void setAttitudeOfSensorCodes(List <Pair> attitudeOfSensorCodes) {
+  public void setAttitudeOfSensorCodes(List<Pair> attitudeOfSensorCodes) {
     this.attitudeOfSensorCodes = attitudeOfSensorCodes;
   }
 
@@ -740,7 +740,7 @@ public class FixedFieldCodesGroup {
    * @return altitudeOfSensorCodes
    */
   @JsonProperty("altitudeOfSensorCode")
-  public List <Pair> getAltitudeOfSensorCodes() {
+  public List<Pair> getAltitudeOfSensorCodes() {
     return altitudeOfSensorCodes;
   }
 
@@ -748,7 +748,7 @@ public class FixedFieldCodesGroup {
    * @param altitudeOfSensorCodes
    */
   @JsonProperty("altitudeOfSensorCode")
-  public void setAltitudeOfSensorCodes(List <Pair> altitudeOfSensorCodes) {
+  public void setAltitudeOfSensorCodes(List<Pair> altitudeOfSensorCodes) {
     this.altitudeOfSensorCodes = altitudeOfSensorCodes;
   }
 
@@ -756,7 +756,7 @@ public class FixedFieldCodesGroup {
    * @return completenessCodes
    */
   @JsonProperty("completenessCode")
-  public List <Pair> getCompletenessCodes() {
+  public List<Pair> getCompletenessCodes() {
     return completenessCodes;
   }
 
@@ -764,7 +764,7 @@ public class FixedFieldCodesGroup {
    * @param completenessCodes
    */
   @JsonProperty("completenessCode")
-  public void setCompletenessCodes(List <Pair> completenessCodes) {
+  public void setCompletenessCodes(List<Pair> completenessCodes) {
     this.completenessCodes = completenessCodes;
   }
 
@@ -772,7 +772,7 @@ public class FixedFieldCodesGroup {
    * @return deteriorationStageCodes
    */
   @JsonProperty("deteriorationStageCode")
-  public List <Pair> getDeteriorationStageCodes() {
+  public List<Pair> getDeteriorationStageCodes() {
     return deteriorationStageCodes;
   }
 
@@ -780,7 +780,7 @@ public class FixedFieldCodesGroup {
    * @param deteriorationStageCodes
    */
   @JsonProperty("deteriorationStageCode")
-  public void setDeteriorationStageCodes(List <Pair> deteriorationStageCodes) {
+  public void setDeteriorationStageCodes(List<Pair> deteriorationStageCodes) {
     this.deteriorationStageCodes = deteriorationStageCodes;
   }
 
@@ -788,7 +788,7 @@ public class FixedFieldCodesGroup {
    * @return refinedCategoriesOfColourCodes
    */
   @JsonProperty("refinedCategoriesOfColourCode")
-  public List <Pair> getRefinedCategoriesOfColourCodes() {
+  public List<Pair> getRefinedCategoriesOfColourCodes() {
     return refinedCategoriesOfColourCodes;
   }
 
@@ -796,7 +796,7 @@ public class FixedFieldCodesGroup {
    * @param refinedCategoriesOfColourCodes
    */
   @JsonProperty("refinedCategoriesOfColourCode")
-  public void setRefinedCategoriesOfColourCodes(List <Pair> refinedCategoriesOfColourCodes) {
+  public void setRefinedCategoriesOfColourCodes(List<Pair> refinedCategoriesOfColourCodes) {
     this.refinedCategoriesOfColourCodes = refinedCategoriesOfColourCodes;
   }
 
@@ -804,7 +804,7 @@ public class FixedFieldCodesGroup {
    * @return kindOfColourStockCodes
    */
   @JsonProperty("kindOfColourStockCode")
-  public List <Pair> getKindOfColourStockCodes() {
+  public List<Pair> getKindOfColourStockCodes() {
     return kindOfColourStockCodes;
   }
 
@@ -812,7 +812,7 @@ public class FixedFieldCodesGroup {
    * @param kindOfColourStockCodes
    */
   @JsonProperty("kindOfColourStockCode")
-  public void setKindOfColourStockCodes(List <Pair> kindOfColourStockCodes) {
+  public void setKindOfColourStockCodes(List<Pair> kindOfColourStockCodes) {
     this.kindOfColourStockCodes = kindOfColourStockCodes;
   }
 
@@ -820,7 +820,7 @@ public class FixedFieldCodesGroup {
    * @return productionElementsCodes
    */
   @JsonProperty("productionElementsCode")
-  public List <Pair> getProductionElementsCodes() {
+  public List<Pair> getProductionElementsCodes() {
     return productionElementsCodes;
   }
 
@@ -828,7 +828,7 @@ public class FixedFieldCodesGroup {
    * @param productionElementsCodes
    */
   @JsonProperty("productionElementsCode")
-  public void setProductionElementsCodes(List <Pair> productionElementsCodes) {
+  public void setProductionElementsCodes(List<Pair> productionElementsCodes) {
     this.productionElementsCodes = productionElementsCodes;
   }
 
@@ -836,7 +836,7 @@ public class FixedFieldCodesGroup {
    * @return presentationFormatCodes
    */
   @JsonProperty("presentationFormatCode")
-  public List <Pair> getPresentationFormatCodes() {
+  public List<Pair> getPresentationFormatCodes() {
     return presentationFormatCodes;
   }
 
@@ -844,7 +844,7 @@ public class FixedFieldCodesGroup {
    * @param presentationFormatCodes
    */
   @JsonProperty("presentationFormatCode")
-  public void setPresentationFormatCodes(List <Pair> presentationFormatCodes) {
+  public void setPresentationFormatCodes(List<Pair> presentationFormatCodes) {
     this.presentationFormatCodes = presentationFormatCodes;
   }
 
@@ -852,7 +852,7 @@ public class FixedFieldCodesGroup {
    * @return soundOnMediumOrSeparateCodes
    */
   @JsonProperty("soundOnMediumOrSeparateCode")
-  public List <Pair> getSoundOnMediumOrSeparateCodes() {
+  public List<Pair> getSoundOnMediumOrSeparateCodes() {
     return soundOnMediumOrSeparateCodes;
   }
 
@@ -860,7 +860,7 @@ public class FixedFieldCodesGroup {
    * @param soundOnMediumOrSeparateCodes
    */
   @JsonProperty("soundOnMediumOrSeparateCode")
-  public void setSoundOnMediumOrSeparateCodes(List <Pair> soundOnMediumOrSeparateCodes) {
+  public void setSoundOnMediumOrSeparateCodes(List<Pair> soundOnMediumOrSeparateCodes) {
     this.soundOnMediumOrSeparateCodes = soundOnMediumOrSeparateCodes;
   }
 
@@ -868,7 +868,7 @@ public class FixedFieldCodesGroup {
    * @return baseOfEmulsionCodes
    */
   @JsonProperty("baseOfEmulsionCode")
-  public List <Pair> getBaseOfEmulsionCodes() {
+  public List<Pair> getBaseOfEmulsionCodes() {
     return baseOfEmulsionCodes;
   }
 
@@ -876,7 +876,7 @@ public class FixedFieldCodesGroup {
    * @param baseOfEmulsionCodes
    */
   @JsonProperty("baseOfEmulsionCode")
-  public void setBaseOfEmulsionCodes(List <Pair> baseOfEmulsionCodes) {
+  public void setBaseOfEmulsionCodes(List<Pair> baseOfEmulsionCodes) {
     this.baseOfEmulsionCodes = baseOfEmulsionCodes;
   }
 
@@ -884,7 +884,7 @@ public class FixedFieldCodesGroup {
    * @return specificPhysicalCharacteristicsCodes
    */
   @JsonProperty("specificPhysicalCharacteristicsCode")
-  public List <Pair> getSpecificPhysicalCharacteristicsCodes() {
+  public List<Pair> getSpecificPhysicalCharacteristicsCodes() {
     return specificPhysicalCharacteristicsCodes;
   }
 
@@ -892,7 +892,7 @@ public class FixedFieldCodesGroup {
    * @param specificPhysicalCharacteristicsCodes
    */
   @JsonProperty("specificPhysicalCharacteristicsCode")
-  public void setSpecificPhysicalCharacteristicsCodes(List <Pair> specificPhysicalCharacteristicsCodes) {
+  public void setSpecificPhysicalCharacteristicsCodes(List<Pair> specificPhysicalCharacteristicsCodes) {
     this.specificPhysicalCharacteristicsCodes = specificPhysicalCharacteristicsCodes;
   }
 
@@ -900,7 +900,7 @@ public class FixedFieldCodesGroup {
    * @return levelOfContractionCodes
    */
   @JsonProperty("levelOfContractionCode")
-  public List <Pair> getLevelOfContractionCodes() {
+  public List<Pair> getLevelOfContractionCodes() {
     return levelOfContractionCodes;
   }
 
@@ -908,7 +908,7 @@ public class FixedFieldCodesGroup {
    * @param levelOfContractionCodes
    */
   @JsonProperty("levelOfContractionCode")
-  public void setLevelOfContractionCodes(List <Pair> levelOfContractionCodes) {
+  public void setLevelOfContractionCodes(List<Pair> levelOfContractionCodes) {
     this.levelOfContractionCodes = levelOfContractionCodes;
   }
 
@@ -916,7 +916,7 @@ public class FixedFieldCodesGroup {
    * @return brailleMusicFormatCodes
    */
   @JsonProperty("brailleMusicFormatCodes")
-  public List <Pair> getBrailleMusicFormatCodes() {
+  public List<Pair> getBrailleMusicFormatCodes() {
     return brailleMusicFormatCodes;
   }
 
@@ -924,7 +924,7 @@ public class FixedFieldCodesGroup {
    * @param brailleMusicFormatCodes
    */
   @JsonProperty("brailleMusicFormatCodes")
-  public void setBrailleMusicFormatCodes(List <Pair> brailleMusicFormatCodes) {
+  public void setBrailleMusicFormatCodes(List<Pair> brailleMusicFormatCodes) {
     this.brailleMusicFormatCodes = brailleMusicFormatCodes;
   }
 
@@ -932,7 +932,7 @@ public class FixedFieldCodesGroup {
    * @return classOfBrailleWritingCodes
    */
   @JsonProperty("classOfBrailleWritingCodes")
-  public List <Pair> getClassOfBrailleWritingCodes() {
+  public List<Pair> getClassOfBrailleWritingCodes() {
     return classOfBrailleWritingCodes;
   }
 
@@ -940,7 +940,7 @@ public class FixedFieldCodesGroup {
    * @param classOfBrailleWritingCodes
    */
   @JsonProperty("classOfBrailleWritingCodes")
-  public void setClassOfBrailleWritingCodes(List <Pair> classOfBrailleWritingCodes) {
+  public void setClassOfBrailleWritingCodes(List<Pair> classOfBrailleWritingCodes) {
     this.classOfBrailleWritingCodes = classOfBrailleWritingCodes;
   }
 
@@ -948,7 +948,7 @@ public class FixedFieldCodesGroup {
    * @return reformattingQualityCodes
    */
   @JsonProperty("reformattingQualityCode")
-  public List <Pair> getReformattingQualityCodes() {
+  public List<Pair> getReformattingQualityCodes() {
     return reformattingQualityCodes;
   }
 
@@ -956,7 +956,7 @@ public class FixedFieldCodesGroup {
    * @param reformattingQualityCodes
    */
   @JsonProperty("reformattingQualityCode")
-  public void setReformattingQualityCodes(List <Pair> reformattingQualityCodes) {
+  public void setReformattingQualityCodes(List<Pair> reformattingQualityCodes) {
     this.reformattingQualityCodes = reformattingQualityCodes;
   }
 
@@ -964,7 +964,7 @@ public class FixedFieldCodesGroup {
    * @return levelOfCompressionCodes
    */
   @JsonProperty("levelOfCompressionCode")
-  public List <Pair> getLevelOfCompressionCodes() {
+  public List<Pair> getLevelOfCompressionCodes() {
     return levelOfCompressionCodes;
   }
 
@@ -972,7 +972,7 @@ public class FixedFieldCodesGroup {
    * @param levelOfCompressionCodes
    */
   @JsonProperty("levelOfCompressionCode")
-  public void setLevelOfCompressionCodes(List <Pair> levelOfCompressionCodes) {
+  public void setLevelOfCompressionCodes(List<Pair> levelOfCompressionCodes) {
     this.levelOfCompressionCodes = levelOfCompressionCodes;
   }
 
@@ -980,7 +980,7 @@ public class FixedFieldCodesGroup {
    * @return antecedentSourceCodes
    */
   @JsonProperty("antecedentSourceCode")
-  public List <Pair> getAntecedentSourceCodes() {
+  public List<Pair> getAntecedentSourceCodes() {
     return antecedentSourceCodes;
   }
 
@@ -988,7 +988,7 @@ public class FixedFieldCodesGroup {
    * @param antecedentSourceCodes
    */
   @JsonProperty("antecedentSourceCode")
-  public void setAntecedentSourceCodes(List <Pair> antecedentSourceCodes) {
+  public void setAntecedentSourceCodes(List<Pair> antecedentSourceCodes) {
     this.antecedentSourceCodes = antecedentSourceCodes;
   }
 
@@ -996,7 +996,7 @@ public class FixedFieldCodesGroup {
    * @return qualityAssuranceTargetCodes
    */
   @JsonProperty("qualityAssuranceTargetCode")
-  public List <Pair> getQualityAssuranceTargetCodes() {
+  public List<Pair> getQualityAssuranceTargetCodes() {
     return qualityAssuranceTargetCodes;
   }
 
@@ -1004,7 +1004,7 @@ public class FixedFieldCodesGroup {
    * @param qualityAssuranceTargetCodes
    */
   @JsonProperty("qualityAssuranceTargetCode")
-  public void setQualityAssuranceTargetCodes(List <Pair> qualityAssuranceTargetCodes) {
+  public void setQualityAssuranceTargetCodes(List<Pair> qualityAssuranceTargetCodes) {
     this.qualityAssuranceTargetCodes = qualityAssuranceTargetCodes;
   }
 
@@ -1012,7 +1012,7 @@ public class FixedFieldCodesGroup {
    * @return includesSoundCodes
    */
   @JsonProperty("includesSoundCodes")
-  public List <Pair> getIncludesSoundCodes() {
+  public List<Pair> getIncludesSoundCodes() {
     return includesSoundCodes;
   }
 
@@ -1020,7 +1020,7 @@ public class FixedFieldCodesGroup {
    * @param includesSoundCodes
    */
   @JsonProperty("includesSoundCodes")
-  public void setIncludesSoundCodes(List <Pair> includesSoundCodes) {
+  public void setIncludesSoundCodes(List<Pair> includesSoundCodes) {
     this.includesSoundCodes = includesSoundCodes;
   }
 
@@ -1029,7 +1029,7 @@ public class FixedFieldCodesGroup {
    * @return fileFormatsCodes
    */
   @JsonProperty("fileFormatsCode")
-  public List <Pair> getFileFormatsCodes() {
+  public List<Pair> getFileFormatsCodes() {
     return fileFormatsCodes;
   }
 
@@ -1037,7 +1037,7 @@ public class FixedFieldCodesGroup {
    * @param fileFormatsCodes
    */
   @JsonProperty("fileFormatsCode")
-  public void setFileFormatsCodes(List <Pair> fileFormatsCodes) {
+  public void setFileFormatsCodes(List<Pair> fileFormatsCodes) {
     this.fileFormatsCodes = fileFormatsCodes;
   }
 
@@ -1045,7 +1045,7 @@ public class FixedFieldCodesGroup {
    * @return productionDetailsCodes
    */
   @JsonProperty("productionDetailsCode")
-  public List <Pair> getProductionDetailsCodes() {
+  public List<Pair> getProductionDetailsCodes() {
     return productionDetailsCodes;
   }
 
@@ -1053,7 +1053,7 @@ public class FixedFieldCodesGroup {
    * @param productionDetailsCodes
    */
   @JsonProperty("productionDetailsCode")
-  public void setProductionDetailsCodes(List <Pair> productionDetailsCodes) {
+  public void setProductionDetailsCodes(List<Pair> productionDetailsCodes) {
     this.productionDetailsCodes = productionDetailsCodes;
   }
 
@@ -1061,7 +1061,7 @@ public class FixedFieldCodesGroup {
    * @return baseOfFilmCodes
    */
   @JsonProperty("baseOfFilmCode")
-  public List <Pair> getBaseOfFilmCodes() {
+  public List<Pair> getBaseOfFilmCodes() {
     return baseOfFilmCodes;
   }
 
@@ -1069,7 +1069,7 @@ public class FixedFieldCodesGroup {
    * @param baseOfFilmCodes
    */
   @JsonProperty("baseOfFilmCode")
-  public void setBaseOfFilmCodes(List <Pair> baseOfFilmCodes) {
+  public void setBaseOfFilmCodes(List<Pair> baseOfFilmCodes) {
     this.baseOfFilmCodes = baseOfFilmCodes;
   }
 
@@ -1077,7 +1077,7 @@ public class FixedFieldCodesGroup {
    * @return generationCodes
    */
   @JsonProperty("generationCode")
-  public List <Pair> getGenerationCodes() {
+  public List<Pair> getGenerationCodes() {
     return generationCodes;
   }
 
@@ -1085,7 +1085,7 @@ public class FixedFieldCodesGroup {
    * @param generationCodes
    */
   @JsonProperty("generationCode")
-  public void setGenerationCodes(List <Pair> generationCodes) {
+  public void setGenerationCodes(List<Pair> generationCodes) {
     this.generationCodes = generationCodes;
   }
 
@@ -1093,7 +1093,7 @@ public class FixedFieldCodesGroup {
    * @return configurationCodes
    */
   @JsonProperty("configurationCode")
-  public List <Pair> getConfigurationCodes() {
+  public List<Pair> getConfigurationCodes() {
     return configurationCodes;
   }
 
@@ -1101,7 +1101,7 @@ public class FixedFieldCodesGroup {
    * @param configurationCodes
    */
   @JsonProperty("configurationCode")
-  public void setConfigurationCodes(List <Pair> configurationCodes) {
+  public void setConfigurationCodes(List<Pair> configurationCodes) {
     this.configurationCodes = configurationCodes;
   }
 
@@ -1109,7 +1109,7 @@ public class FixedFieldCodesGroup {
    * @return primarySupportMaterialCodes
    */
   @JsonProperty("primarySupportMaterialCode")
-  public List <Pair> getPrimarySupportMaterialCodes() {
+  public List<Pair> getPrimarySupportMaterialCodes() {
     return primarySupportMaterialCodes;
   }
 
@@ -1117,7 +1117,7 @@ public class FixedFieldCodesGroup {
    * @param primarySupportMaterialCodes
    */
   @JsonProperty("primarySupportMaterialCode")
-  public void setPrimarySupportMaterialCodes(List <Pair> primarySupportMaterialCodes) {
+  public void setPrimarySupportMaterialCodes(List<Pair> primarySupportMaterialCodes) {
     this.primarySupportMaterialCodes = primarySupportMaterialCodes;
   }
 
@@ -1125,7 +1125,7 @@ public class FixedFieldCodesGroup {
    * @return polarityCodes
    */
   @JsonProperty("polarityCode")
-  public List <Pair> getPolarityCodes() {
+  public List<Pair> getPolarityCodes() {
     return polarityCodes;
   }
 
@@ -1133,7 +1133,7 @@ public class FixedFieldCodesGroup {
    * @param polarityCodes
    */
   @JsonProperty("polarityCode")
-  public void setPolarityCodes(List <Pair> polarityCodes) {
+  public void setPolarityCodes(List<Pair> polarityCodes) {
     this.polarityCodes = polarityCodes;
   }
 
@@ -1142,7 +1142,7 @@ public class FixedFieldCodesGroup {
    * @return dimensionCodes
    */
   @JsonProperty("dimensionCodes")
-  public List <Pair> getDimensionCodes() {
+  public List<Pair> getDimensionCodes() {
     return dimensionCodes;
   }
 
@@ -1150,7 +1150,7 @@ public class FixedFieldCodesGroup {
    * @param dimensionCodes
    */
   @JsonProperty("dimensionCodes")
-  public void setDimensionCodes(List <Pair> dimensionCodes) {
+  public void setDimensionCodes(List<Pair> dimensionCodes) {
     this.dimensionCodes = dimensionCodes;
   }
 
@@ -1158,7 +1158,7 @@ public class FixedFieldCodesGroup {
    * @return typeOfReproductionCodes
    */
   @JsonProperty("typeOfReproductionCode")
-  public List <Pair> getTypeOfReproductionCodes() {
+  public List<Pair> getTypeOfReproductionCodes() {
     return typeOfReproductionCodes;
   }
 
@@ -1166,7 +1166,7 @@ public class FixedFieldCodesGroup {
    * @param typeOfReproductionCodes
    */
   @JsonProperty("typeOfReproductionCode")
-  public void setTypeOfReproductionCodes(List <Pair> typeOfReproductionCodes) {
+  public void setTypeOfReproductionCodes(List<Pair> typeOfReproductionCodes) {
     this.typeOfReproductionCodes = typeOfReproductionCodes;
   }
 
@@ -1174,7 +1174,7 @@ public class FixedFieldCodesGroup {
    * @return secondarySupportMaterialCodes
    */
   @JsonProperty("secondarySupportMaterialCode")
-  public List <Pair> getSecondarySupportMaterialCodes() {
+  public List<Pair> getSecondarySupportMaterialCodes() {
     return secondarySupportMaterialCodes;
   }
 
@@ -1182,7 +1182,7 @@ public class FixedFieldCodesGroup {
    * @param secondarySupportMaterialCodes
    */
   @JsonProperty("secondarySupportMaterialCode")
-  public void setSecondarySupportMaterialCodes(List <Pair> secondarySupportMaterialCodes) {
+  public void setSecondarySupportMaterialCodes(List<Pair> secondarySupportMaterialCodes) {
     this.secondarySupportMaterialCodes = secondarySupportMaterialCodes;
   }
 
@@ -1190,7 +1190,7 @@ public class FixedFieldCodesGroup {
    * @return mediumForSoundCodes
    */
   @JsonProperty("mediumForSoundCode")
-  public List <Pair> getMediumForSoundCodes() {
+  public List<Pair> getMediumForSoundCodes() {
     return mediumForSoundCodes;
   }
 
@@ -1198,7 +1198,7 @@ public class FixedFieldCodesGroup {
    * @param mediumForSoundCodes
    */
   @JsonProperty("mediumForSoundCode")
-  public void setMediumForSoundCodes(List <Pair> mediumForSoundCodes) {
+  public void setMediumForSoundCodes(List<Pair> mediumForSoundCodes) {
     this.mediumForSoundCodes = mediumForSoundCodes;
   }
 
@@ -1206,7 +1206,7 @@ public class FixedFieldCodesGroup {
    * @return physicalMediumCodes
    */
   @JsonProperty("physicalMediumCode")
-  public List <Pair> getPhysicalMediumCodes() {
+  public List<Pair> getPhysicalMediumCodes() {
     return physicalMediumCodes;
   }
 
@@ -1214,7 +1214,7 @@ public class FixedFieldCodesGroup {
    * @param physicalMediumCodes
    */
   @JsonProperty("physicalMediumCode")
-  public void setPhysicalMediumCodes(List <Pair> physicalMediumCodes) {
+  public void setPhysicalMediumCodes(List<Pair> physicalMediumCodes) {
     this.physicalMediumCodes = physicalMediumCodes;
   }
 
@@ -1222,7 +1222,7 @@ public class FixedFieldCodesGroup {
    * @return colorCodes
    */
   @JsonProperty("colourCode")
-  public List <Pair> getColorCodes() {
+  public List<Pair> getColorCodes() {
     return colorCodes;
   }
 
@@ -1230,7 +1230,7 @@ public class FixedFieldCodesGroup {
    * @param colorCodes
    */
   @JsonProperty("colourCode")
-  public void setColorCodes(List <Pair> colorCodes) {
+  public void setColorCodes(List<Pair> colorCodes) {
     this.colorCodes = colorCodes;
   }
 
@@ -1238,7 +1238,7 @@ public class FixedFieldCodesGroup {
    * @return categoryOfMaterialCodes
    */
   @JsonProperty("categoryOfMaterial")
-  public List <Pair> getCategoryOfMaterialCodes() {
+  public List<Pair> getCategoryOfMaterialCodes() {
     return categoryOfMaterialCodes;
   }
 
@@ -1246,7 +1246,7 @@ public class FixedFieldCodesGroup {
    * @param categoryOfMaterialCodes
    */
   @JsonProperty("categoryOfMaterial")
-  public void setCategoryOfMaterialCodes(List <Pair> categoryOfMaterialCodes) {
+  public void setCategoryOfMaterialCodes(List<Pair> categoryOfMaterialCodes) {
     this.categoryOfMaterialCodes = categoryOfMaterialCodes;
   }
 
@@ -1255,7 +1255,7 @@ public class FixedFieldCodesGroup {
    * @return specificMaterialDesignationCodes
    */
   @JsonProperty("specificMaterialDesignationCode")
-  public List <Pair> getSpecificMaterialDesignationCodes() {
+  public List<Pair> getSpecificMaterialDesignationCodes() {
     return specificMaterialDesignationCodes;
   }
 
@@ -1263,7 +1263,7 @@ public class FixedFieldCodesGroup {
    * @param specificMaterialDesignationCodes
    */
   @JsonProperty("specificMaterialDesignationCode")
-  public void setSpecificMaterialDesignationCodes(List <Pair> specificMaterialDesignationCodes) {
+  public void setSpecificMaterialDesignationCodes(List<Pair> specificMaterialDesignationCodes) {
     this.specificMaterialDesignationCodes = specificMaterialDesignationCodes;
   }
 
@@ -1271,7 +1271,7 @@ public class FixedFieldCodesGroup {
    * @return The recordStatusTypes
    */
   @JsonProperty("itemRecordStatusCode")
-  public List <Pair> getRecordStatusTypes() {
+  public List<Pair> getRecordStatusTypes() {
     return recordStatusTypes;
   }
 
@@ -1279,7 +1279,7 @@ public class FixedFieldCodesGroup {
    * @param recordStatusTypes The recordStatusTypes
    */
   @JsonProperty("itemRecordStatusCode")
-  public void setRecordStatusTypes(List <Pair> recordStatusTypes) {
+  public void setRecordStatusTypes(List<Pair> recordStatusTypes) {
     this.recordStatusTypes = recordStatusTypes;
   }
 
@@ -1288,7 +1288,7 @@ public class FixedFieldCodesGroup {
    * @return The recordTypes
    */
   @JsonProperty("itemRecordTypeCode")
-  public List <Pair> getRecordTypes() {
+  public List<Pair> getRecordTypes() {
     return recordTypes;
   }
 
@@ -1296,7 +1296,7 @@ public class FixedFieldCodesGroup {
    * @param recordTypes The recordTypes
    */
   @JsonProperty("itemRecordTypeCode")
-  public void setRecordTypes(List <Pair> recordTypes) {
+  public void setRecordTypes(List<Pair> recordTypes) {
     this.recordTypes = recordTypes;
   }
 
@@ -1305,7 +1305,7 @@ public class FixedFieldCodesGroup {
    * @return The bibliographicLevels
    */
   @JsonProperty("itemBibliographicLevelCode")
-  public List <Pair> getBibliographicLevels() {
+  public List<Pair> getBibliographicLevels() {
     return bibliographicLevels;
   }
 
@@ -1313,7 +1313,7 @@ public class FixedFieldCodesGroup {
    * @param bibliographicLevels The bibliographicLevels
    */
   @JsonProperty("itemBibliographicLevelCode")
-  public void setBibliographicLevels(List <Pair> bibliographicLevels) {
+  public void setBibliographicLevels(List<Pair> bibliographicLevels) {
     this.bibliographicLevels = bibliographicLevels;
   }
 
@@ -1321,7 +1321,7 @@ public class FixedFieldCodesGroup {
    * @return The controlTypes
    */
   @JsonProperty("itemControlTypeCode")
-  public List <Pair> getControlTypes() {
+  public List<Pair> getControlTypes() {
     return controlTypes;
   }
 
@@ -1329,7 +1329,7 @@ public class FixedFieldCodesGroup {
    * @param controlTypes The controlTypes
    */
   @JsonProperty("itemControlTypeCode")
-  public void setControlTypes(List <Pair> controlTypes) {
+  public void setControlTypes(List<Pair> controlTypes) {
     this.controlTypes = controlTypes;
   }
 
@@ -1338,7 +1338,7 @@ public class FixedFieldCodesGroup {
    * @return The characterEncodingSchemas
    */
   @JsonProperty("characterEncodingSchemas")
-  public List <Pair> getCharacterEncodingSchemas() {
+  public List<Pair> getCharacterEncodingSchemas() {
     return characterEncodingSchemas;
   }
 
@@ -1346,7 +1346,7 @@ public class FixedFieldCodesGroup {
    * @param characterEncodingSchemas The characterEncodingSchemas
    */
   @JsonProperty("characterEncodingSchemas")
-  public void setCharacterEncodingSchemas(List <Pair> characterEncodingSchemas) {
+  public void setCharacterEncodingSchemas(List<Pair> characterEncodingSchemas) {
     this.characterEncodingSchemas = characterEncodingSchemas;
   }
 
@@ -1355,7 +1355,7 @@ public class FixedFieldCodesGroup {
    * @return The encodingLevels
    */
   @JsonProperty("encodingLevel")
-  public List <Pair> getEncodingLevels() {
+  public List<Pair> getEncodingLevels() {
     return encodingLevels;
   }
 
@@ -1363,7 +1363,7 @@ public class FixedFieldCodesGroup {
    * @param encodingLevels The encodingLevels
    */
   @JsonProperty("encodingLevel")
-  public void setEncodingLevels(List <Pair> encodingLevels) {
+  public void setEncodingLevels(List<Pair> encodingLevels) {
     this.encodingLevels = encodingLevels;
   }
 
@@ -1372,7 +1372,7 @@ public class FixedFieldCodesGroup {
    * @return The descriptiveCatalogForms
    */
   @JsonProperty("descriptiveCatalogForms")
-  public List <Pair> getDescriptiveCatalogForms() {
+  public List<Pair> getDescriptiveCatalogForms() {
     return descriptiveCatalogForms;
   }
 
@@ -1380,7 +1380,7 @@ public class FixedFieldCodesGroup {
    * @param descriptiveCatalogForms The descriptiveCatalogForms
    */
   @JsonProperty("descriptiveCatalogForms")
-  public void setDescriptiveCatalogForms(List <Pair> descriptiveCatalogForms) {
+  public void setDescriptiveCatalogForms(List<Pair> descriptiveCatalogForms) {
     this.descriptiveCatalogForms = descriptiveCatalogForms;
   }
 
@@ -1388,7 +1388,7 @@ public class FixedFieldCodesGroup {
    * @return The linkedRecordCodes
    */
   @JsonProperty("linkedRecordCode")
-  public List <Pair> getLinkedRecordCodes() {
+  public List<Pair> getLinkedRecordCodes() {
     return linkedRecordCodes;
   }
 
@@ -1396,7 +1396,7 @@ public class FixedFieldCodesGroup {
    * @param linkedRecordCodes The linkedRecordCodes
    */
   @JsonProperty("linkedRecordCode")
-  public void setLinkedRecordCodes(List <Pair> linkedRecordCodes) {
+  public void setLinkedRecordCodes(List<Pair> linkedRecordCodes) {
     this.linkedRecordCodes = linkedRecordCodes;
   }
 
@@ -1405,7 +1405,7 @@ public class FixedFieldCodesGroup {
    * @return The dateTypes
    */
   @JsonProperty("dateTypes")
-  public List <Pair> getDateTypes() {
+  public List<Pair> getDateTypes() {
     return dateTypes;
   }
 
@@ -1413,7 +1413,7 @@ public class FixedFieldCodesGroup {
    * @param dateTypes The dateTypes
    */
   @JsonProperty("dateTypes")
-  public void setDateTypes(List <Pair> dateTypes) {
+  public void setDateTypes(List<Pair> dateTypes) {
     this.dateTypes = dateTypes;
   }
 
@@ -1421,7 +1421,7 @@ public class FixedFieldCodesGroup {
    * @return The bookIllustrationCodes1
    */
   @JsonProperty("bookIllustrationCode1")
-  public List <Pair> getBookIllustrationCodes1() {
+  public List<Pair> getBookIllustrationCodes1() {
     return bookIllustrationCodes1;
   }
 
@@ -1429,7 +1429,7 @@ public class FixedFieldCodesGroup {
    * @param bookIllustrationCodes1 The bookIllustrationCodes1
    */
   @JsonProperty("bookIllustrationCode1")
-  public void setBookIllustrationCodes1(List <Pair> bookIllustrationCodes1) {
+  public void setBookIllustrationCodes1(List<Pair> bookIllustrationCodes1) {
     this.bookIllustrationCodes1 = bookIllustrationCodes1;
   }
 
@@ -1437,7 +1437,7 @@ public class FixedFieldCodesGroup {
    * @return The bookIllustrationCodes2
    */
   @JsonProperty("bookIllustrationCode2")
-  public List <Pair> getBookIllustrationCodes2() {
+  public List<Pair> getBookIllustrationCodes2() {
     return bookIllustrationCodes2;
   }
 
@@ -1445,7 +1445,7 @@ public class FixedFieldCodesGroup {
    * @param bookIllustrationCodes2 The bookIllustrationCodes2
    */
   @JsonProperty("bookIllustrationCode2")
-  public void setBookIllustrationCodes2(List <Pair> bookIllustrationCodes2) {
+  public void setBookIllustrationCodes2(List<Pair> bookIllustrationCodes2) {
     this.bookIllustrationCodes2 = bookIllustrationCodes2;
   }
 
@@ -1454,7 +1454,7 @@ public class FixedFieldCodesGroup {
    * @return The bookIllustrationCodes3
    */
   @JsonProperty("bookIllustrationCode3")
-  public List <Pair> getBookIllustrationCodes3() {
+  public List<Pair> getBookIllustrationCodes3() {
     return bookIllustrationCodes3;
   }
 
@@ -1462,7 +1462,7 @@ public class FixedFieldCodesGroup {
    * @param bookIllustrationCodes3 The bookIllustrationCodes3
    */
   @JsonProperty("bookIllustrationCode3")
-  public void setBookIllustrationCodes3(List <Pair> bookIllustrationCodes3) {
+  public void setBookIllustrationCodes3(List<Pair> bookIllustrationCodes3) {
     this.bookIllustrationCodes3 = bookIllustrationCodes3;
   }
 
@@ -1471,7 +1471,7 @@ public class FixedFieldCodesGroup {
    * @return The bookIllustrationCodes4
    */
   @JsonProperty("bookIllustrationCode4")
-  public List <Pair> getBookIllustrationCodes4() {
+  public List<Pair> getBookIllustrationCodes4() {
     return bookIllustrationCodes4;
   }
 
@@ -1479,7 +1479,7 @@ public class FixedFieldCodesGroup {
    * @param bookIllustrationCodes4 The bookIllustrationCodes4
    */
   @JsonProperty("bookIllustrationCode4")
-  public void setBookIllustrationCodes4(List <Pair> bookIllustrationCodes4) {
+  public void setBookIllustrationCodes4(List<Pair> bookIllustrationCodes4) {
     this.bookIllustrationCodes4 = bookIllustrationCodes4;
   }
 
@@ -1488,7 +1488,7 @@ public class FixedFieldCodesGroup {
    * @return The targetAudienceCodes
    */
   @JsonProperty("targetAudienceCode")
-  public List <Pair> getTargetAudienceCodes() {
+  public List<Pair> getTargetAudienceCodes() {
     return targetAudienceCodes;
   }
 
@@ -1496,7 +1496,7 @@ public class FixedFieldCodesGroup {
    * @param targetAudienceCodes The targetAudienceCodes
    */
   @JsonProperty("targetAudienceCode")
-  public void setTargetAudienceCodes(List <Pair> targetAudienceCodes) {
+  public void setTargetAudienceCodes(List<Pair> targetAudienceCodes) {
     this.targetAudienceCodes = targetAudienceCodes;
   }
 
@@ -1505,7 +1505,7 @@ public class FixedFieldCodesGroup {
    * @return The formOfItemCodes
    */
   @JsonProperty("formOfItemCode")
-  public List <Pair> getFormOfItemCodes() {
+  public List<Pair> getFormOfItemCodes() {
     return formOfItemCodes;
   }
 
@@ -1513,7 +1513,7 @@ public class FixedFieldCodesGroup {
    * @param formOfItemCodes The formOfItemCodes
    */
   @JsonProperty("formOfItemCode")
-  public void setFormOfItemCodes(List <Pair> formOfItemCodes) {
+  public void setFormOfItemCodes(List<Pair> formOfItemCodes) {
     this.formOfItemCodes = formOfItemCodes;
   }
 
@@ -1522,7 +1522,7 @@ public class FixedFieldCodesGroup {
    * @return The natureOfContents1
    */
   @JsonProperty("natureOfContent1")
-  public List <Pair> getNatureOfContents1() {
+  public List<Pair> getNatureOfContents1() {
     return natureOfContents1;
   }
 
@@ -1530,7 +1530,7 @@ public class FixedFieldCodesGroup {
    * @param natureOfContents1 The natureOfContents1
    */
   @JsonProperty("natureOfContent1")
-  public void setNatureOfContents1(List <Pair> natureOfContents1) {
+  public void setNatureOfContents1(List<Pair> natureOfContents1) {
     this.natureOfContents1 = natureOfContents1;
   }
 
@@ -1539,7 +1539,7 @@ public class FixedFieldCodesGroup {
    * @return The natureOfContents2
    */
   @JsonProperty("natureOfContent2")
-  public List <Pair> getNatureOfContents2() {
+  public List<Pair> getNatureOfContents2() {
     return natureOfContents2;
   }
 
@@ -1547,7 +1547,7 @@ public class FixedFieldCodesGroup {
    * @param natureOfContents2 The natureOfContents2
    */
   @JsonProperty("natureOfContent2")
-  public void setNatureOfContents2(List <Pair> natureOfContents2) {
+  public void setNatureOfContents2(List<Pair> natureOfContents2) {
     this.natureOfContents2 = natureOfContents2;
   }
 
@@ -1556,7 +1556,7 @@ public class FixedFieldCodesGroup {
    * @return The natureOfContents3
    */
   @JsonProperty("natureOfContent3")
-  public List <Pair> getNatureOfContents3() {
+  public List<Pair> getNatureOfContents3() {
     return natureOfContents3;
   }
 
@@ -1564,7 +1564,7 @@ public class FixedFieldCodesGroup {
    * @param natureOfContents3 The natureOfContents3
    */
   @JsonProperty("natureOfContent3")
-  public void setNatureOfContents3(List <Pair> natureOfContents3) {
+  public void setNatureOfContents3(List<Pair> natureOfContents3) {
     this.natureOfContents3 = natureOfContents3;
   }
 
@@ -1572,7 +1572,7 @@ public class FixedFieldCodesGroup {
    * @return The natureOfContents4
    */
   @JsonProperty("natureOfContent4")
-  public List <Pair> getNatureOfContents4() {
+  public List<Pair> getNatureOfContents4() {
     return natureOfContents4;
   }
 
@@ -1580,7 +1580,7 @@ public class FixedFieldCodesGroup {
    * @param natureOfContents4 The natureOfContents4
    */
   @JsonProperty("natureOfContent4")
-  public void setNatureOfContents4(List <Pair> natureOfContents4) {
+  public void setNatureOfContents4(List<Pair> natureOfContents4) {
     this.natureOfContents4 = natureOfContents4;
   }
 
@@ -1589,7 +1589,7 @@ public class FixedFieldCodesGroup {
    * @return The governmentPublicationCodes
    */
   @JsonProperty("governmentPublicationCode")
-  public List <Pair> getGovernmentPublicationCodes() {
+  public List<Pair> getGovernmentPublicationCodes() {
     return governmentPublicationCodes;
   }
 
@@ -1597,7 +1597,7 @@ public class FixedFieldCodesGroup {
    * @param governmentPublicationCodes The governmentPublicationCodes
    */
   @JsonProperty("governmentPublicationCode")
-  public void setGovernmentPublicationCodes(List <Pair> governmentPublicationCodes) {
+  public void setGovernmentPublicationCodes(List<Pair> governmentPublicationCodes) {
     this.governmentPublicationCodes = governmentPublicationCodes;
   }
 
@@ -1606,7 +1606,7 @@ public class FixedFieldCodesGroup {
    * @return The conferencePublicationCodes
    */
   @JsonProperty("conferencePublicationCode")
-  public List <Pair> getConferencePublicationCodes() {
+  public List<Pair> getConferencePublicationCodes() {
     return conferencePublicationCodes;
   }
 
@@ -1614,7 +1614,7 @@ public class FixedFieldCodesGroup {
    * @param conferencePublicationCodes The conferencePublicationCodes
    */
   @JsonProperty("conferencePublicationCode")
-  public void setConferencePublicationCodes(List <Pair> conferencePublicationCodes) {
+  public void setConferencePublicationCodes(List<Pair> conferencePublicationCodes) {
     this.conferencePublicationCodes = conferencePublicationCodes;
   }
 
@@ -1623,7 +1623,7 @@ public class FixedFieldCodesGroup {
    * @return The bookFestschrifts
    */
   @JsonProperty("bookFestschrift")
-  public List <Pair> getBookFestschrifts() {
+  public List<Pair> getBookFestschrifts() {
     return bookFestschrifts;
   }
 
@@ -1631,7 +1631,7 @@ public class FixedFieldCodesGroup {
    * @param bookFestschrifts The bookFestschrifts
    */
   @JsonProperty("bookFestschrift")
-  public void setBookFestschrifts(List <Pair> bookFestschrifts) {
+  public void setBookFestschrifts(List<Pair> bookFestschrifts) {
     this.bookFestschrifts = bookFestschrifts;
   }
 
@@ -1640,7 +1640,7 @@ public class FixedFieldCodesGroup {
    * @return The bookIndexAvailabilityCodes
    */
   @JsonProperty("bookIndexAvailabilityCode")
-  public List <Pair> getBookIndexAvailabilityCodes() {
+  public List<Pair> getBookIndexAvailabilityCodes() {
     return bookIndexAvailabilityCodes;
   }
 
@@ -1648,7 +1648,7 @@ public class FixedFieldCodesGroup {
    * @param bookIndexAvailabilityCodes The bookIndexAvailabilityCodes
    */
   @JsonProperty("bookIndexAvailabilityCode")
-  public void setBookIndexAvailabilityCodes(List <Pair> bookIndexAvailabilityCodes) {
+  public void setBookIndexAvailabilityCodes(List<Pair> bookIndexAvailabilityCodes) {
     this.bookIndexAvailabilityCodes = bookIndexAvailabilityCodes;
   }
 
@@ -1656,7 +1656,7 @@ public class FixedFieldCodesGroup {
    * @return The bookLiteraryFormTypeCodes
    */
   @JsonProperty("bookLiteraryFormTypeCode")
-  public List <Pair> getBookLiteraryFormTypeCodes() {
+  public List<Pair> getBookLiteraryFormTypeCodes() {
     return bookLiteraryFormTypeCodes;
   }
 
@@ -1664,7 +1664,7 @@ public class FixedFieldCodesGroup {
    * @param bookLiteraryFormTypeCodes The bookLiteraryFormTypeCodes
    */
   @JsonProperty("bookLiteraryFormTypeCode")
-  public void setBookLiteraryFormTypeCodes(List <Pair> bookLiteraryFormTypeCodes) {
+  public void setBookLiteraryFormTypeCodes(List<Pair> bookLiteraryFormTypeCodes) {
     this.bookLiteraryFormTypeCodes = bookLiteraryFormTypeCodes;
   }
 
@@ -1672,7 +1672,7 @@ public class FixedFieldCodesGroup {
    * @return The bookBiographyCodes
    */
   @JsonProperty("bookBiographyCode")
-  public List <Pair> getBookBiographyCodes() {
+  public List<Pair> getBookBiographyCodes() {
     return bookBiographyCodes;
   }
 
@@ -1680,7 +1680,7 @@ public class FixedFieldCodesGroup {
    * @param bookBiographyCodes The bookBiographyCodes
    */
   @JsonProperty("bookBiographyCode")
-  public void setBookBiographyCodes(List <Pair> bookBiographyCodes) {
+  public void setBookBiographyCodes(List<Pair> bookBiographyCodes) {
     this.bookBiographyCodes = bookBiographyCodes;
   }
 
@@ -1688,7 +1688,7 @@ public class FixedFieldCodesGroup {
    * @return The modifiedRecordTypes
    */
   @JsonProperty("modifiedRecordTypes")
-  public List <Pair> getModifiedRecordTypes() {
+  public List<Pair> getModifiedRecordTypes() {
     return modifiedRecordTypes;
   }
 
@@ -1696,7 +1696,7 @@ public class FixedFieldCodesGroup {
    * @param modifiedRecordTypes The modifiedRecordTypes
    */
   @JsonProperty("modifiedRecordTypes")
-  public void setModifiedRecordTypes(List <Pair> modifiedRecordTypes) {
+  public void setModifiedRecordTypes(List<Pair> modifiedRecordTypes) {
     this.modifiedRecordTypes = modifiedRecordTypes;
   }
 
@@ -1705,7 +1705,7 @@ public class FixedFieldCodesGroup {
    * @return The catalogSources
    */
   @JsonProperty("catalogSources")
-  public List <Pair> getCatalogSources() {
+  public List<Pair> getCatalogSources() {
     return catalogSources;
   }
 
@@ -1713,7 +1713,7 @@ public class FixedFieldCodesGroup {
    * @param catalogSources The catalogSources
    */
   @JsonProperty("catalogSources")
-  public void setCatalogSources(List <Pair> catalogSources) {
+  public void setCatalogSources(List<Pair> catalogSources) {
     this.catalogSources = catalogSources;
   }
 
@@ -1722,7 +1722,7 @@ public class FixedFieldCodesGroup {
    * @return The musicFormOfCompositions
    */
   @JsonProperty("musicFormOfCompositions")
-  public List <Pair> getMusicFormOfCompositionCodes() {
+  public List<Pair> getMusicFormOfCompositionCodes() {
     return musicFormOfCompositionCodes;
   }
 
@@ -1730,7 +1730,7 @@ public class FixedFieldCodesGroup {
    * @param musicFormOfCompositions The musicFormOfCompositions
    */
   @JsonProperty("musicFormOfCompositions")
-  public void setMusicFormOfCompositionCodes(List <Pair> musicFormOfCompositionCodes) {
+  public void setMusicFormOfCompositionCodes(List<Pair> musicFormOfCompositionCodes) {
     this.musicFormOfCompositionCodes = musicFormOfCompositionCodes;
   }
 
@@ -1738,7 +1738,7 @@ public class FixedFieldCodesGroup {
    * @return The musicParts
    */
   @JsonProperty("musicParts")
-  public List <Pair> geMusicPartCodes() {
+  public List<Pair> geMusicPartCodes() {
     return musicPartCodes;
   }
 
@@ -1746,7 +1746,7 @@ public class FixedFieldCodesGroup {
    * @param musicPartCodes The musicParts
    */
   @JsonProperty("musicParts")
-  public void setMusicPartCodes(List <Pair> musicPartCodes) {
+  public void setMusicPartCodes(List<Pair> musicPartCodes) {
     this.musicPartCodes = musicPartCodes;
   }
 
@@ -1755,7 +1755,7 @@ public class FixedFieldCodesGroup {
    * @return The musicFormats
    */
   @JsonProperty("musicFormats")
-  public List <Pair> getMusicFormatCodes() {
+  public List<Pair> getMusicFormatCodes() {
     return musicFormatCodes;
   }
 
@@ -1763,7 +1763,7 @@ public class FixedFieldCodesGroup {
    * @param musicFormatCodes The musicFormats
    */
   @JsonProperty("musicFormats")
-  public void setMusicFormatCodes(List <Pair> musicFormatCodes) {
+  public void setMusicFormatCodes(List<Pair> musicFormatCodes) {
     this.musicFormatCodes = musicFormatCodes;
   }
 
@@ -1771,7 +1771,7 @@ public class FixedFieldCodesGroup {
    * @return The musicTextualMaterialCodes
    */
   @JsonProperty("musicTextualMaterialCodes")
-  public List <Pair> getMusicTextualMaterialCodes() {
+  public List<Pair> getMusicTextualMaterialCodes() {
     return musicTextualMaterialCodes;
   }
 
@@ -1779,7 +1779,7 @@ public class FixedFieldCodesGroup {
    * @param musicTextualMaterialCodes The musicTextualMaterialCodes
    */
   @JsonProperty("musicTextualMaterialCodes")
-  public void setMusicTextualMaterialCodes(List <Pair> musicTextualMaterialCodes) {
+  public void setMusicTextualMaterialCodes(List<Pair> musicTextualMaterialCodes) {
     this.musicTextualMaterialCodes = musicTextualMaterialCodes;
   }
 
@@ -1787,7 +1787,7 @@ public class FixedFieldCodesGroup {
    * @return The musicTranspositionArrangementCodes
    */
   @JsonProperty("musicTranspositionArrangementCode")
-  public List <Pair> getMusicTranspositionArrangementCodes() {
+  public List<Pair> getMusicTranspositionArrangementCodes() {
     return musicTranspositionArrangementCodes;
   }
 
@@ -1795,7 +1795,7 @@ public class FixedFieldCodesGroup {
    * @param musicTranspositionArrangementCodes The musicTranspositionArrangementCodes
    */
   @JsonProperty("musicTranspositionArrangementCode")
-  public void setMusicTranspositionArrangementCodes(List <Pair> musicTranspositionArrangementCodes) {
+  public void setMusicTranspositionArrangementCodes(List<Pair> musicTranspositionArrangementCodes) {
     this.musicTranspositionArrangementCodes = musicTranspositionArrangementCodes;
   }
 
@@ -1803,7 +1803,7 @@ public class FixedFieldCodesGroup {
    * @return The musicLiteraryTextCodes
    */
   @JsonProperty("musicLiteraryTextCodes")
-  public List <Pair> getMusicLiteraryTextCodes() {
+  public List<Pair> getMusicLiteraryTextCodes() {
     return musicLiteraryTextCodes;
   }
 
@@ -1811,7 +1811,7 @@ public class FixedFieldCodesGroup {
    * @param musicLiteraryTextCodes The musicLiteraryTextCodes
    */
   @JsonProperty("musicLiteraryTextCodes")
-  public void setMusicLiteraryTextCodes(List <Pair> musicLiteraryTextCodes) {
+  public void setMusicLiteraryTextCodes(List<Pair> musicLiteraryTextCodes) {
     this.musicLiteraryTextCodes = musicLiteraryTextCodes;
   }
 
@@ -1819,7 +1819,7 @@ public class FixedFieldCodesGroup {
    * @return serialFrequencyCodes
    */
   @JsonProperty("serialFrequencyCode")
-  public List <Pair> getSerialFrequencyCodes() {
+  public List<Pair> getSerialFrequencyCodes() {
     return serialFrequencyCodes;
   }
 
@@ -1827,7 +1827,7 @@ public class FixedFieldCodesGroup {
    * @param serialFrequencyCodes
    */
   @JsonProperty("serialFrequencyCode")
-  public void setSerialFrequencyCodes(List <Pair> serialFrequencyCodes) {
+  public void setSerialFrequencyCodes(List<Pair> serialFrequencyCodes) {
     this.serialFrequencyCodes = serialFrequencyCodes;
   }
 
@@ -1835,7 +1835,7 @@ public class FixedFieldCodesGroup {
    * @return serialRegularityCodes
    */
   @JsonProperty("serialRegularityCode")
-  public List <Pair> getSerialRegularityCodes() {
+  public List<Pair> getSerialRegularityCodes() {
     return serialRegularityCodes;
   }
 
@@ -1843,7 +1843,7 @@ public class FixedFieldCodesGroup {
    * @param serialRegularityCodes
    */
   @JsonProperty("serialRegularityCode")
-  public void setSerialRegularityCodes(List <Pair> serialRegularityCodes) {
+  public void setSerialRegularityCodes(List<Pair> serialRegularityCodes) {
     this.serialRegularityCodes = serialRegularityCodes;
   }
 
@@ -1851,7 +1851,7 @@ public class FixedFieldCodesGroup {
    * @return serialTypeOfContinuingResourceCodes
    */
   @JsonProperty("serialTypeOfContinuingResourceCodes")
-  public List <Pair> getSerialTypeOfContinuingResourceCodes() {
+  public List<Pair> getSerialTypeOfContinuingResourceCodes() {
     return serialTypeOfContinuingResourceCodes;
   }
 
@@ -1859,7 +1859,7 @@ public class FixedFieldCodesGroup {
    * @param serialTypeOfContinuingResourceCodes
    */
   @JsonProperty("serialTypeOfContinuingResourceCodes")
-  public void setSerialTypeOfContinuingResourceCodes(List <Pair> serialTypeOfContinuingResourceCodes) {
+  public void setSerialTypeOfContinuingResourceCodes(List<Pair> serialTypeOfContinuingResourceCodes) {
     this.serialTypeOfContinuingResourceCodes = serialTypeOfContinuingResourceCodes;
   }
 
@@ -1867,7 +1867,7 @@ public class FixedFieldCodesGroup {
    * @return serialFormOriginalCodes
    */
   @JsonProperty("serialFormOriginalCodes")
-  public List <Pair> getSerialFormOriginalCodes() {
+  public List<Pair> getSerialFormOriginalCodes() {
     return serialFormOriginalCodes;
   }
 
@@ -1875,7 +1875,7 @@ public class FixedFieldCodesGroup {
    * @param serialFormOriginalCodes
    */
   @JsonProperty("serialFormOriginalCodes")
-  public void setSerialFormOriginalCodes(List <Pair> serialFormOriginalCodes) {
+  public void setSerialFormOriginalCodes(List<Pair> serialFormOriginalCodes) {
     this.serialFormOriginalCodes = serialFormOriginalCodes;
   }
 
@@ -1883,7 +1883,7 @@ public class FixedFieldCodesGroup {
    * @return serialNatureOfWorkCodes
    */
   @JsonProperty("serialNatureOfWorkCodes")
-  public List <Pair> getSerialNatureOfWorkCodes() {
+  public List<Pair> getSerialNatureOfWorkCodes() {
     return serialNatureOfWorkCodes;
   }
 
@@ -1891,7 +1891,7 @@ public class FixedFieldCodesGroup {
    * @param serialNatureOfWorkCodes
    */
   @JsonProperty("serialNatureOfWorkCodes")
-  public void setSerialNatureOfWorkCodes(List <Pair> serialNatureOfWorkCodes) {
+  public void setSerialNatureOfWorkCodes(List<Pair> serialNatureOfWorkCodes) {
     this.serialNatureOfWorkCodes = serialNatureOfWorkCodes;
   }
 
@@ -1899,7 +1899,7 @@ public class FixedFieldCodesGroup {
    * @return serialOriginAlphabetCodes
    */
   @JsonProperty("serialOriginAlphabetCodes")
-  public List <Pair> getSerialOriginAlphabetCodes() {
+  public List<Pair> getSerialOriginAlphabetCodes() {
     return serialOriginAlphabetCodes;
   }
 
@@ -1907,7 +1907,7 @@ public class FixedFieldCodesGroup {
    * @param serialOriginAlphabetCodes
    */
   @JsonProperty("serialOriginAlphabetCodes")
-  public void setSerialOriginAlphabetCodes(List <Pair> serialOriginAlphabetCodes) {
+  public void setSerialOriginAlphabetCodes(List<Pair> serialOriginAlphabetCodes) {
     this.serialOriginAlphabetCodes = serialOriginAlphabetCodes;
   }
 
@@ -1915,7 +1915,7 @@ public class FixedFieldCodesGroup {
    * @return serialEntryConvCodes
    */
   @JsonProperty("serialEntryConvCodes")
-  public List <Pair> getSerialEntryConvCodes() {
+  public List<Pair> getSerialEntryConvCodes() {
     return serialEntryConvCodes;
   }
 
@@ -1923,7 +1923,7 @@ public class FixedFieldCodesGroup {
    * @param serialEntryConvCodes
    */
   @JsonProperty("serialEntryConvCodes")
-  public void setSerialEntryConvCodes(List <Pair> serialEntryConvCodes) {
+  public void setSerialEntryConvCodes(List<Pair> serialEntryConvCodes) {
     this.serialEntryConvCodes = serialEntryConvCodes;
   }
 
@@ -1931,7 +1931,7 @@ public class FixedFieldCodesGroup {
    * @return mapReliefCodes
    */
   @JsonProperty("mapReliefCodes")
-  public List <Pair> getMapReliefCodes() {
+  public List<Pair> getMapReliefCodes() {
     return mapReliefCodes;
   }
 
@@ -1939,7 +1939,7 @@ public class FixedFieldCodesGroup {
    * @param mapReliefCodes
    */
   @JsonProperty("mapReliefCodes")
-  public void setMapReliefCodes(List <Pair> mapReliefCodes) {
+  public void setMapReliefCodes(List<Pair> mapReliefCodes) {
     this.mapReliefCodes = mapReliefCodes;
   }
 
@@ -1947,7 +1947,7 @@ public class FixedFieldCodesGroup {
    * @return mapProjectionCodes
    */
   @JsonProperty("mapProjectionCodes")
-  public List <Pair> getMapProjectionCodes() {
+  public List<Pair> getMapProjectionCodes() {
     return mapProjectionCodes;
   }
 
@@ -1955,7 +1955,7 @@ public class FixedFieldCodesGroup {
    * @param mapProjectionCodes
    */
   @JsonProperty("mapProjectionCodes")
-  public void setMapProjectionCodes(List <Pair> mapProjectionCodes) {
+  public void setMapProjectionCodes(List<Pair> mapProjectionCodes) {
     this.mapProjectionCodes = mapProjectionCodes;
   }
 
@@ -1963,7 +1963,7 @@ public class FixedFieldCodesGroup {
    * @return mapTypeCartographicMaterialCodes
    */
   @JsonProperty("mapTypeCartographicMaterialCodes")
-  public List <Pair> getMapTypeCartographicMaterialCodes() {
+  public List<Pair> getMapTypeCartographicMaterialCodes() {
     return mapTypeCartographicMaterialCodes;
   }
 
@@ -1971,7 +1971,7 @@ public class FixedFieldCodesGroup {
    * @param mapTypeCartographicMaterialCodes
    */
   @JsonProperty("mapTypeCartographicMaterialCodes")
-  public void setMapTypeCartographicMaterialCodes(List <Pair> mapTypeCartographicMaterialCodes) {
+  public void setMapTypeCartographicMaterialCodes(List<Pair> mapTypeCartographicMaterialCodes) {
     this.mapTypeCartographicMaterialCodes = mapTypeCartographicMaterialCodes;
   }
 
@@ -1979,7 +1979,7 @@ public class FixedFieldCodesGroup {
    * @return mapIndexCodes
    */
   @JsonProperty("mapIndexCodes")
-  public List <Pair> getMapIndexCodes() {
+  public List<Pair> getMapIndexCodes() {
     return mapIndexCodes;
   }
 
@@ -1987,7 +1987,7 @@ public class FixedFieldCodesGroup {
    * @param mapIndexCodes
    */
   @JsonProperty("mapIndexCodes")
-  public void setMapIndexCodes(List <Pair> mapIndexCodes) {
+  public void setMapIndexCodes(List<Pair> mapIndexCodes) {
     this.mapIndexCodes = mapIndexCodes;
   }
 
@@ -1995,7 +1995,7 @@ public class FixedFieldCodesGroup {
    * @return mapSpecialFormatCharacteristicCodes
    */
   @JsonProperty("mapSpecialFormatCharacteristicCodes")
-  public List <Pair> getMapSpecialFormatCharacteristicCodes() {
+  public List<Pair> getMapSpecialFormatCharacteristicCodes() {
     return mapSpecialFormatCharacteristicCodes;
   }
 
@@ -2003,7 +2003,7 @@ public class FixedFieldCodesGroup {
    * @param mapSpecialFormatCharacteristicCodes
    */
   @JsonProperty("mapSpecialFormatCharacteristicCodes")
-  public void setMapSpecialFormatCharacteristicCodes(List <Pair> mapSpecialFormatCharacteristicCodes) {
+  public void setMapSpecialFormatCharacteristicCodes(List<Pair> mapSpecialFormatCharacteristicCodes) {
     this.mapSpecialFormatCharacteristicCodes = mapSpecialFormatCharacteristicCodes;
   }
 
@@ -2011,7 +2011,7 @@ public class FixedFieldCodesGroup {
    * @return visualTargetAudienceCodes
    */
   @JsonProperty("visualTargetAudienceCodes")
-  public List <Pair> getVisualTargetAudienceCodes() {
+  public List<Pair> getVisualTargetAudienceCodes() {
     return visualTargetAudienceCodes;
   }
 
@@ -2019,7 +2019,7 @@ public class FixedFieldCodesGroup {
    * @param visualTargetAudienceCodes
    */
   @JsonProperty("visualTargetAudienceCodes")
-  public void setVisualTargetAudienceCodes(List <Pair> visualTargetAudienceCodes) {
+  public void setVisualTargetAudienceCodes(List<Pair> visualTargetAudienceCodes) {
     this.visualTargetAudienceCodes = visualTargetAudienceCodes;
   }
 
@@ -2027,7 +2027,7 @@ public class FixedFieldCodesGroup {
    * @return visualTypeMaterialCodes
    */
   @JsonProperty("visualTypeMaterialCodes")
-  public List <Pair> getVisualTypeMaterialCodes() {
+  public List<Pair> getVisualTypeMaterialCodes() {
     return visualTypeMaterialCodes;
   }
 
@@ -2035,7 +2035,7 @@ public class FixedFieldCodesGroup {
    * @param visualTypeMaterialCodes
    */
   @JsonProperty("visualTypeMaterialCodes")
-  public void setVisualTypeMaterialCodes(List <Pair> visualTypeMaterialCodes) {
+  public void setVisualTypeMaterialCodes(List<Pair> visualTypeMaterialCodes) {
     this.visualTypeMaterialCodes = visualTypeMaterialCodes;
   }
 
@@ -2043,7 +2043,7 @@ public class FixedFieldCodesGroup {
    * @return visualTechnique
    */
   @JsonProperty("visualTechnique")
-  public List <Pair> getVisualTechnique() {
+  public List<Pair> getVisualTechnique() {
     return visualTechnique;
   }
 
@@ -2051,7 +2051,7 @@ public class FixedFieldCodesGroup {
    * @param visualTechnique
    */
   @JsonProperty("visualTechnique")
-  public void setVisualTechnique(List <Pair> visualTechnique) {
+  public void setVisualTechnique(List<Pair> visualTechnique) {
     this.visualTechnique = visualTechnique;
   }
 
@@ -2059,7 +2059,7 @@ public class FixedFieldCodesGroup {
    * @return computerTargetAudienceCodes
    */
   @JsonProperty("computerTargetAudienceCodes")
-  public List <Pair> getComputerTargetAudienceCodes() {
+  public List<Pair> getComputerTargetAudienceCodes() {
     return computerTargetAudienceCodes;
   }
 
@@ -2067,7 +2067,7 @@ public class FixedFieldCodesGroup {
    * @param computerTargetAudienceCodes
    */
   @JsonProperty("computerTargetAudienceCodes")
-  public void setComputerTargetAudienceCodes(List <Pair> computerTargetAudienceCodes) {
+  public void setComputerTargetAudienceCodes(List<Pair> computerTargetAudienceCodes) {
     this.computerTargetAudienceCodes = computerTargetAudienceCodes;
   }
 
@@ -2075,7 +2075,7 @@ public class FixedFieldCodesGroup {
    * @return computerFormOfItemCodes
    */
   @JsonProperty("computerFormOfItemCodes")
-  public List <Pair> getComputerFormOfItemCodes() {
+  public List<Pair> getComputerFormOfItemCodes() {
     return computerFormOfItemCodes;
   }
 
@@ -2083,7 +2083,7 @@ public class FixedFieldCodesGroup {
    * @param computerFormOfItemCodes
    */
   @JsonProperty("computerFormOfItemCodes")
-  public void setComputerFormOfItemCodes(List <Pair> computerFormOfItemCodes) {
+  public void setComputerFormOfItemCodes(List<Pair> computerFormOfItemCodes) {
     this.computerFormOfItemCodes = computerFormOfItemCodes;
   }
 
@@ -2091,7 +2091,7 @@ public class FixedFieldCodesGroup {
    * @return computerTypeMaterialCodes
    */
   @JsonProperty("computerTypeMaterialCodes")
-  public List <Pair> getComputerTypeMaterialCodes() {
+  public List<Pair> getComputerTypeMaterialCodes() {
     return computerTypeMaterialCodes;
   }
 
@@ -2099,7 +2099,7 @@ public class FixedFieldCodesGroup {
    * @param computerTypeMaterialCodes
    */
   @JsonProperty("computerTypeMaterialCodes")
-  public void setComputerTypeMaterialCodes(List <Pair> computerTypeMaterialCodes) {
+  public void setComputerTypeMaterialCodes(List<Pair> computerTypeMaterialCodes) {
     this.computerTypeMaterialCodes = computerTypeMaterialCodes;
   }
 }

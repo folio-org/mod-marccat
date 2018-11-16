@@ -2,7 +2,7 @@ package org.folio.marccat.dao;
 
 import net.sf.hibernate.Session;
 import org.folio.marccat.dao.persistence.S_BIB1_SMNTC;
-import org.folio.marccat.log.Log;
+import org.folio.marccat.config.log.Log;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

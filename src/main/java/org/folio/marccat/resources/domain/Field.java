@@ -145,7 +145,7 @@ public class Field {
   public static enum FieldStatus {
     NEW("new"), CHANGED("changed"), DELETED("deleted"), UNCHANGED("unchanged");
 
-    private static final Map <String, Field.FieldStatus> CONSTANTS = new HashMap <String, Field.FieldStatus>();
+    private static final Map<String, Field.FieldStatus> CONSTANTS = new HashMap<String, Field.FieldStatus>();
 
     static {
       for (Field.FieldStatus c : values()) {

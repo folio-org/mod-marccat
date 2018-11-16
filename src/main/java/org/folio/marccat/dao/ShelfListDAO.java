@@ -73,7 +73,7 @@ public class ShelfListDAO extends DAODescriptor {
   public SHLF_LIST getShelfList(final SHLF_LIST shelfToSearch, final Session session)
     throws HibernateException, SQLException {
     final String shelfListSortForm = calculateSortForm(shelfToSearch, session);
-    final List <SHLF_LIST> shelfList = session.find("from SHLF_LIST as sl " +
+    final List<SHLF_LIST> shelfList = session.find("from SHLF_LIST as sl " +
         "where sl.sortForm = ? "
         + "AND sl.typeCode = ? "
         + "AND sl.mainLibraryNumber = ? ",
@@ -86,7 +86,7 @@ public class ShelfListDAO extends DAODescriptor {
         Hibernate.CHARACTER,
         Hibernate.INTEGER});
 
-    final Optional <SHLF_LIST> firstElement = shelfList.stream().filter(Objects::nonNull).findFirst();
+    final Optional<SHLF_LIST> firstElement = shelfList.stream().filter(Objects::nonNull).findFirst();
     return firstElement.isPresent() ? firstElement.get() : null;
   }
 
@@ -102,7 +102,7 @@ public class ShelfListDAO extends DAODescriptor {
    */
   @SuppressWarnings("unchecked")
   public int getDocCount(final Descriptor d, final int cataloguingView, final Session session) throws HibernateException {
-    List <Integer> countList = session.find(
+    List<Integer> countList = session.find(
       " select count(*) from "
         + d.getAccessPointClass().getName()
         + " as apf "
@@ -112,7 +112,7 @@ public class ShelfListDAO extends DAODescriptor {
         ((SHLF_LIST) d).getMainLibraryNumber()},
       new Type[]{Hibernate.INTEGER, Hibernate.INTEGER});
 
-    final Optional <Integer> firstElement = countList.stream().filter(Objects::nonNull).findFirst();
+    final Optional<Integer> firstElement = countList.stream().filter(Objects::nonNull).findFirst();
     return firstElement.isPresent() ? firstElement.get() : 0;
   }
 
@@ -130,9 +130,9 @@ public class ShelfListDAO extends DAODescriptor {
    * @throws DataAccessException the data access exception
    * @throws HibernateException  the hibernate exception
    */
-  public List <Descriptor> getHeadingsBySortform(final String operator, final String direction,
-                                                 final String term, final String filter, final int searchingView,
-                                                 final int count, final Session session)
+  public List<Descriptor> getHeadingsBySortform(final String operator, final String direction,
+                                                final String term, final String filter, final int searchingView,
+                                                final int count, final Session session)
     throws DataAccessException, HibernateException {
     final Query q = session.createQuery("from " + getPersistentClass().getName()
       + " as hdg where hdg.sortForm " + operator + " :term "
@@ -140,7 +140,7 @@ public class ShelfListDAO extends DAODescriptor {
       + direction);
     q.setString("term", term);
     q.setMaxResults(count);
-    return (List <Descriptor>) q.list();
+    return (List<Descriptor>) q.list();
   }
 
 
@@ -156,7 +156,7 @@ public class ShelfListDAO extends DAODescriptor {
   public Descriptor getMatchingHeading(final Descriptor descriptor, final Session session)
     throws HibernateException {
     final SHLF_LIST shelf = (SHLF_LIST) descriptor;
-    final List <SHLF_LIST> shelfList = session.find("from "
+    final List<SHLF_LIST> shelfList = session.find("from "
         + getPersistentClass().getName()
         + " as c "
         + " where upper(c.stringText) = ? and c.mainLibraryNumber = ? "
@@ -169,7 +169,7 @@ public class ShelfListDAO extends DAODescriptor {
         Hibernate.STRING,
         Hibernate.INTEGER,
         Hibernate.CHARACTER});
-    final Optional <SHLF_LIST> firstElement = shelfList.stream().filter(Objects::nonNull).findFirst();
+    final Optional<SHLF_LIST> firstElement = shelfList.stream().filter(Objects::nonNull).findFirst();
     return firstElement.isPresent() ? firstElement.get() : null;
   }
 
@@ -185,7 +185,7 @@ public class ShelfListDAO extends DAODescriptor {
   public boolean isMatchingAnotherHeading(final Descriptor descriptor, final Session session)
     throws HibernateException {
     SHLF_LIST shelf = (SHLF_LIST) descriptor;
-    final List <Integer> countList = session.find(
+    final List<Integer> countList = session.find(
       "select count(*) from "
         + getPersistentClass().getName()
         + " as c"
@@ -254,11 +254,11 @@ public class ShelfListDAO extends DAODescriptor {
    */
   public void delete(final Persistence p, final Session session) throws ReferentialIntegrityException, HibernateException {
     final SHLF_LIST descriptor = ((SHLF_LIST) p);
-    final List <Integer> countList = session.find("select count(*) from " + descriptor.getAccessPointClass().getName() + " as a where a.shelfListKeyNumber = ?",
+    final List<Integer> countList = session.find("select count(*) from " + descriptor.getAccessPointClass().getName() + " as a where a.shelfListKeyNumber = ?",
       new Object[]{
         descriptor.getShelfListKeyNumber()},
       new Type[]{Hibernate.INTEGER});
-    final Optional <Integer> firstElement = countList.stream().filter(Objects::nonNull).findFirst();
+    final Optional<Integer> firstElement = countList.stream().filter(Objects::nonNull).findFirst();
     if (firstElement.isPresent() && firstElement.get() > 0)
       throw new ReferentialIntegrityException(
         descriptor.getAccessPointClass().getName(),

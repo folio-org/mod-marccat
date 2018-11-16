@@ -159,18 +159,6 @@ public class BibliographicItem extends CatalogItem implements Serializable {
     }
   }
 
-  private boolean isOrderableNameTag(String string) throws DataAccessException {
-    Iterator iter = getOrderableNameTags().iterator();
-    while (iter.hasNext()) {
-      OrderNames anOrderNameTag = (OrderNames) iter.next();
-      if (anOrderNameTag
-        .getTagNumber()
-        .equals(string)) {
-        return true;
-      }
-    }
-    return false;
-  }
 
   private List getOrderableNameTags() throws DataAccessException {
     if (nameOrderTags == null) {
@@ -180,92 +168,4 @@ public class BibliographicItem extends CatalogItem implements Serializable {
     return nameOrderTags;
   }
 
-  public List getOrderableNames() throws DataAccessException {
-    List tags = new ArrayList();
-    Iterator iter = getTags().iterator();
-    while (iter.hasNext()) {
-      Tag aTag = (Tag) iter.next();
-      if (aTag instanceof NameAccessPoint) {
-        if (isOrderableNameTag((aTag)
-          .getMarcEncoding()
-          .getMarcTag())) {
-          tags.add(aTag);
-        }
-      }
-    }
-    return tags;
-  }
-
-  public List getOrderableSubjects() {
-    List tags = new ArrayList();
-    Iterator iter = getTags().iterator();
-    while (iter.hasNext()) {
-      Tag aTag = (Tag) iter.next();
-      if (aTag instanceof SubjectAccessPoint) {
-        tags.add(aTag);
-      }
-    }
-    return tags;
-  }
-
-  public List getOrderableNotes() {
-    List tags = new ArrayList();
-    Iterator iter = getTags().iterator();
-    while (iter.hasNext()) {
-      Tag aTag = (Tag) iter.next();
-      if (aTag instanceof BibliographicNoteTag) {
-        tags.add(((BibliographicNoteTag) aTag).getNote());
-      }
-    }
-    return tags;
-  }
-
-  public List getOrderableTitles() {
-    List tags = new ArrayList();
-    Iterator iter = getTags().iterator();
-    while (iter.hasNext()) {
-      Tag aTag = (Tag) iter.next();
-      if (aTag instanceof TitleAccessPoint) {
-        tags.add(aTag);
-      }
-    }
-    return tags;
-  }
-
-  public List getOrderableClassifications() {
-    List tags = new ArrayList();
-    Iterator iter = getTags().iterator();
-    while (iter.hasNext()) {
-      Tag aTag = (Tag) iter.next();
-      if (aTag instanceof ClassificationAccessPoint) {
-        tags.add(aTag);
-      }
-    }
-    return tags;
-  }
-
-  public List getOrderableControlNumbers() {
-    List tags = new ArrayList();
-    Iterator iter = getTags().iterator();
-    while (iter.hasNext()) {
-      Tag aTag = (Tag) iter.next();
-      if (aTag instanceof ControlNumberAccessPoint) {
-        tags.add(aTag);
-      }
-    }
-    return tags;
-  }
-
-  public List getOrderableRelations() {
-    List tags = new ArrayList();
-    Iterator iter = getTags().iterator();
-    while (iter.hasNext()) {
-      Tag aTag = (Tag) iter.next();
-      //Dubbio getSourceRelationship() c'è anche il target
-      if (aTag instanceof BibliographicRelationshipTag) {
-        tags.add(((BibliographicRelationshipTag) aTag).getSourceRelationship());
-      }
-    }
-    return tags;
-  }
 }

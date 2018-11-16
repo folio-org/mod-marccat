@@ -53,7 +53,7 @@ public class ClassificationDescriptorDAO extends DAODescriptor {
   @SuppressWarnings("unchecked")
   public Descriptor getMatchingHeading(final Descriptor descriptor, final Session session) throws HibernateException {
     final CLSTN d = (CLSTN) descriptor;
-    final List <CLSTN> list = session.find(
+    final List<CLSTN> list = session.find(
       "from "
         + getPersistentClass().getName()
         + " as c "
@@ -85,7 +85,7 @@ public class ClassificationDescriptorDAO extends DAODescriptor {
   @SuppressWarnings("unchecked")
   public boolean isMatchingAnotherHeading(final Descriptor descriptor, final Session session) throws HibernateException {
     final CLSTN d = (CLSTN) descriptor;
-    final List <Integer> countList =
+    final List<Integer> countList =
       session.find(
         "select count(*) from "
           + getPersistentClass().getName()
@@ -121,9 +121,9 @@ public class ClassificationDescriptorDAO extends DAODescriptor {
    * @throws DataAccessException the data access exception
    * @throws HibernateException  the hibernate exception
    */
-  public List <Descriptor> getHeadingsBySortform(final String operator, final String direction,
-                                                 final String term, final String filter,
-                                                 final int searchingView, final int count, final Session session)
+  public List<Descriptor> getHeadingsBySortform(final String operator, final String direction,
+                                                final String term, final String filter,
+                                                final int searchingView, final int count, final Session session)
     throws HibernateException {
     String viewClause = "";
     if (searchingView != View.ANY)
@@ -136,7 +136,7 @@ public class ClassificationDescriptorDAO extends DAODescriptor {
       + filter + " order by hdg.sortForm " + direction);
     q.setString("term", term);
     q.setMaxResults(count);
-    return (List <Descriptor>) q.list();
+    return (List<Descriptor>) q.list();
   }
 
 

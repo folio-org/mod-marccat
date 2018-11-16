@@ -66,7 +66,7 @@ public class ControlNumberDescriptorDAO extends DAODescriptor {
         Hibernate.STRING,
         Hibernate.INTEGER,
         Hibernate.STRING});
-    final Optional <CNTL_NBR> firstElement = controlNumberList.stream().filter(Objects::nonNull).findFirst();
+    final Optional<CNTL_NBR> firstElement = controlNumberList.stream().filter(Objects::nonNull).findFirst();
     return firstElement.isPresent() ? firstElement.get() : null;
   }
 
@@ -88,7 +88,7 @@ public class ControlNumberDescriptorDAO extends DAODescriptor {
   public boolean isMatchingAnotherHeading(final Descriptor descriptor, final Session session)
     throws HibernateException {
     CNTL_NBR controlNumber = (CNTL_NBR) descriptor;
-    List <Integer> countList = session.find(
+    List<Integer> countList = session.find(
       "select count(*) from "
         + getPersistentClass().getName()
         + " as c "
@@ -130,7 +130,7 @@ public class ControlNumberDescriptorDAO extends DAODescriptor {
         " where title.seriesIssnHeadingNumber = :headingNumber " +
         viewClause);
       q.setInteger("headingNumber", descriptor.getHeadingNumber());
-      final List <Integer> countList = q.list();
+      final List<Integer> countList = q.list();
       count = countList.get(0);
     }
     count += super.getDocCount(controlNumber, searchingView, session);

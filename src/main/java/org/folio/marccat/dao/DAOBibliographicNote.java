@@ -1,6 +1,6 @@
 package org.folio.marccat.dao;
 
-import org.folio.marccat.business.common.DataAccessException;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.business.common.Persistence;
 
 /**

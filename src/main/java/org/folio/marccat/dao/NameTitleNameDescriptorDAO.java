@@ -56,7 +56,7 @@ public class NameTitleNameDescriptorDAO extends NameTitleDescriptorDAO {
    * @return the sort form by one search term
    * @throws HibernateException the hibernate exception
    */
-  private List <NME_TTL_HDG> getSortformByOneSearchTerm(final String operator, final String direction, final String name, final String filter, final int searchingView, final int count, final Session session)
+  private List<NME_TTL_HDG> getSortformByOneSearchTerm(final String operator, final String direction, final String name, final String filter, final int searchingView, final int count, final Session session)
     throws HibernateException {
     final Query q = session.createQuery(
       "select distinct hdg, nme.sortForm, ttl.sortForm from "
@@ -71,7 +71,7 @@ public class NameTitleNameDescriptorDAO extends NameTitleDescriptorDAO {
     q.setString("name", name);
     q.setInteger("view", searchingView);
     q.setMaxResults(count);
-    final List <NME_TTL_HDG> nameTitleHedingsList = getNameTitleHeadingsList(q.list());
+    final List<NME_TTL_HDG> nameTitleHedingsList = getNameTitleHeadingsList(q.list());
     final List isolateHeadingList = isolateViewForList(nameTitleHedingsList, searchingView, session);
     loadHeadings(isolateHeadingList, searchingView, session);
     return isolateHeadingList;
@@ -90,7 +90,7 @@ public class NameTitleNameDescriptorDAO extends NameTitleDescriptorDAO {
    * @return the sort form by two search terms
    * @throws HibernateException the hibernate exception
    */
-  private List <NME_TTL_HDG> getSortformByTwoSearchTerms(final String operator, final String direction, final String filter, final int searchingView, final int count, final Session session, final String[] parsedTerm)
+  private List<NME_TTL_HDG> getSortformByTwoSearchTerms(final String operator, final String direction, final String filter, final int searchingView, final int count, final Session session, final String[] parsedTerm)
     throws HibernateException {
     String name;
     String title;
@@ -98,7 +98,7 @@ public class NameTitleNameDescriptorDAO extends NameTitleDescriptorDAO {
     String viewClause = "";
     name = parsedTerm[0].trim();
     title = parsedTerm[1].trim();
-    List <NME_TTL_HDG> isolateHeadingList = null;
+    List<NME_TTL_HDG> isolateHeadingList = null;
     if (searchingView != View.ANY) {
       viewClause = " and SUBSTR(hdg.key.userViewString, " + searchingView + ", 1) = '1' ";
     }
@@ -119,9 +119,9 @@ public class NameTitleNameDescriptorDAO extends NameTitleDescriptorDAO {
       q.setString("name", name);
       q.setString("title", title);
       q.setMaxResults(count);
-      final List <?> nameTitleList = q.list();
-      final List <NME_TTL_HDG> nameTitleHedingList = getNameTitleHeadingsList(nameTitleList);
-      isolateHeadingList = (List <NME_TTL_HDG>) isolateViewForList(nameTitleHedingList, searchingView, session);
+      final List<?> nameTitleList = q.list();
+      final List<NME_TTL_HDG> nameTitleHedingList = getNameTitleHeadingsList(nameTitleList);
+      isolateHeadingList = (List<NME_TTL_HDG>) isolateViewForList(nameTitleHedingList, searchingView, session);
       loadHeadings(isolateHeadingList, searchingView, session);
       return isolateHeadingList;
 
@@ -143,8 +143,8 @@ public class NameTitleNameDescriptorDAO extends NameTitleDescriptorDAO {
       firstQuery.setString("name", name);
       firstQuery.setString("title", title);
       firstQuery.setMaxResults(count);
-      final List <NME_TTL_HDG> nameTitleHedingList = getNameTitleHeadingsList(firstQuery.list());
-      isolateHeadingList = (List <NME_TTL_HDG>) isolateViewForList(nameTitleHedingList, searchingView, session);
+      final List<NME_TTL_HDG> nameTitleHedingList = getNameTitleHeadingsList(firstQuery.list());
+      isolateHeadingList = (List<NME_TTL_HDG>) isolateViewForList(nameTitleHedingList, searchingView, session);
       loadHeadings(isolateHeadingList, searchingView, session);
 
       final Query secondQuery = session.createQuery(
@@ -160,8 +160,8 @@ public class NameTitleNameDescriptorDAO extends NameTitleDescriptorDAO {
           + " order by nme.sortForm " + direction + ", ttl.sortForm " + direction);
       secondQuery.setString("name", name);
       secondQuery.setMaxResults(count);
-      final List <NME_TTL_HDG> secondNameTitleHeadingList = getNameTitleHeadingsList(secondQuery.list());
-      final List <NME_TTL_HDG> secondIsolateHeadingList = (List <NME_TTL_HDG>) isolateViewForList(secondNameTitleHeadingList, searchingView, session);
+      final List<NME_TTL_HDG> secondNameTitleHeadingList = getNameTitleHeadingsList(secondQuery.list());
+      final List<NME_TTL_HDG> secondIsolateHeadingList = (List<NME_TTL_HDG>) isolateViewForList(secondNameTitleHeadingList, searchingView, session);
       loadHeadings(secondIsolateHeadingList, searchingView, session);
       isolateHeadingList.addAll(secondIsolateHeadingList);
       return isolateHeadingList;
@@ -177,8 +177,8 @@ public class NameTitleNameDescriptorDAO extends NameTitleDescriptorDAO {
    * @param nameTitleList
    * @return
    */
-  private List <NME_TTL_HDG> getNameTitleHeadingsList(final List <?> nameTitleList) {
-    final List <NME_TTL_HDG> nameTitleHedingList = new ArrayList();
+  private List<NME_TTL_HDG> getNameTitleHeadingsList(final List<?> nameTitleList) {
+    final List<NME_TTL_HDG> nameTitleHedingList = new ArrayList();
     nameTitleList.forEach(nameTitleHeading -> nameTitleHedingList.add((NME_TTL_HDG) ((Object[]) nameTitleHeading)[0]));
     return nameTitleHedingList;
   }

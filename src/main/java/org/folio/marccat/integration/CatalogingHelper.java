@@ -2,8 +2,8 @@ package org.folio.marccat.integration;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.folio.marccat.business.common.DataAccessException;
-import org.folio.marccat.resources.SystemInternalFailureException;
-import org.folio.marccat.resources.UnableToCreateOrUpdateEntityException;
+import org.folio.marccat.exception.SystemInternalFailureException;
+import org.folio.marccat.exception.UnableToCreateOrUpdateEntityException;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

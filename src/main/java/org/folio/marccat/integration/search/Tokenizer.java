@@ -1,6 +1,6 @@
 package org.folio.marccat.integration.search;
 
-import org.folio.marccat.log.Log;
+import org.folio.marccat.config.log.Log;
 
 import java.util.ArrayList;
 import java.util.List;
