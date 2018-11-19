@@ -10,7 +10,7 @@
           "methods": ["GET"],
           "pathPattern": "/search",
           "permissionsRequired": ["marccat.collection.get"]
-        }{
+        },{
           "methods": ["GET"],
           "pathPattern": "/mergedSearch",
           "permissionsRequired": ["marccat.collection.get"]
