@@ -11,7 +11,7 @@ import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.business.common.UserViewHelper;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.DAOBibliographicNote;
-import org.folio.marccat.integration.GlobalStorage;
+import org.folio.marccat.config.GlobalStorage;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
@@ -183,10 +183,7 @@ public class BibliographicNote extends VariableField implements PersistentObject
       return true;
     } else if (v.getValue(1) == 381) {
       return true;
-    } else if (v.getValue(1) == 382) {
-      return true;
-    }
-    return false;
+    } else return v.getValue(1) == 382;
   }
 
   /**

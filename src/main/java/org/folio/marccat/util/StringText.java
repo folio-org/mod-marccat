@@ -102,33 +102,22 @@ public class StringText implements Serializable {
     this.subfieldList.add(subfield);
   }
 
-  public void moveSubfieldUp(int i) {
-    if (i > 0) {
-      subfieldList.add(i - 1, subfieldList.remove(i));
-    }
-  }
-
-  public void moveSubfieldDown(int i) {
-    if (i < subfieldList.size() - 1) {
-      subfieldList.add(i + 1, subfieldList.remove(i));
-    }
-  }
-
+  /**
+   *
+   * @param klm
+   * @param subfield
+   * @return
+   */
   public StringText addSubfield(int klm, Subfield subfield) {
     this.subfieldList.add(klm, subfield);
     return this;
   }
 
-  public StringText removeSubfield(int klm) {
-    this.subfieldList.remove(klm);
-    return this;
-  }
-
-  public StringText setSubfield(int klm, Subfield subfield) {
-    this.subfieldList.set(klm, subfield);
-    return this;
-  }
-
+  /**
+   *
+   * @param anObject
+   * @return
+   */
   public boolean equals(Object anObject) {
     if (anObject instanceof StringText) {
       return this.subfieldList.equals(
@@ -161,10 +150,6 @@ public class StringText implements Serializable {
     return returnString;
   }
 
-  public String getDisplayText() {
-    return toDisplayString();
-  }
-
   public String getMarcDisplayString() {
     return getMarcDisplayString("$");
   }
@@ -190,14 +175,6 @@ public class StringText implements Serializable {
     return Collections.unmodifiableList(subfieldList);
   }
 
-  public Set getUsedSubfieldCodes() {
-    Set set = new TreeSet();
-    Iterator iterator = subfieldList.iterator();
-    while (iterator.hasNext()) {
-      set.add(((Subfield) iterator.next()).getCode());
-    }
-    return set;
-  }
 
   public StringText add(StringText text) {
     if (text != null) {
@@ -208,12 +185,24 @@ public class StringText implements Serializable {
     return this;
   }
 
+  /**
+   *
+   * @param include
+   * @param exclude
+   * @return
+   */
   public StringText getSubfields(String include, String exclude) {
     return getSubfields(
       stringToSetOfSubfieldCodes(include),
       stringToSetOfSubfieldCodes(exclude));
   }
 
+  /**
+   *
+   * @param include
+   * @param exclude
+   * @return
+   */
   private StringText getSubfields(Set include, Set exclude) {
     StringText text = new StringText();
     for (int i = 0; i < getNumberOfSubfields(); i++) {
@@ -226,7 +215,11 @@ public class StringText implements Serializable {
     return text;
   }
 
-  /* Order the stringText subfields given a string of subfields	 */
+  /**
+   *
+   * @param order
+   * @return
+   */
   public StringText orderSubfields(String order) {
     StringText text = new StringText();
     for (int i = 0; i < order.length(); i++) {

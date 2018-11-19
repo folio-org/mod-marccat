@@ -974,11 +974,8 @@ public class SCasSapCache implements Serializable {
     } else if (!idFile.equals(other.idFile))
       return false;
     if (idSpedizione == null) {
-      if (other.idSpedizione != null)
-        return false;
-    } else if (!idSpedizione.equals(other.idSpedizione))
-      return false;
-    return true;
+      return other.idSpedizione == null;
+    } else return idSpedizione.equals(other.idSpedizione);
   }
 
 }

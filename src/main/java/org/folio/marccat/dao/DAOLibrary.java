@@ -127,8 +127,7 @@ public class DAOLibrary extends HibernateUtil {
     return result;
   }
 
-  public String getLibScheduleOpening(int orgNbr) throws DataAccessException,
-    HibernateException {
+  public String getLibScheduleOpening(int orgNbr) throws DataAccessException {
     String result = new String("");
     Session s = currentSession();
     Date theDate = new Date();
@@ -168,8 +167,7 @@ public class DAOLibrary extends HibernateUtil {
     return result;
   }
 
-  public String getLibScheduleClosing(int orgNbr) throws DataAccessException,
-    HibernateException {
+  public String getLibScheduleClosing(int orgNbr) throws DataAccessException {
     String result = new String("");
     Session s = currentSession();
     Date theDate = new Date();
@@ -216,7 +214,7 @@ public class DAOLibrary extends HibernateUtil {
   }
 
 
-  public String getLibOpeningDate(int orgNumber, int day) throws DataAccessException, HibernateException {
+  public String getLibOpeningDate(int orgNumber, int day) throws DataAccessException {
 
     String result = new String("");
     Session s = currentSession();
@@ -266,7 +264,7 @@ public class DAOLibrary extends HibernateUtil {
 
   }
 
-  public String getLibClosingDate(int orgNumber, int day) throws DataAccessException, HibernateException {
+  public String getLibClosingDate(int orgNumber, int day) throws DataAccessException {
 
     String result = new String("");
     Session s = currentSession();
@@ -316,7 +314,7 @@ public class DAOLibrary extends HibernateUtil {
 
   }
 
-  public List getTimeTable(int orgNumber) throws DataAccessException, HibernateException {
+  public List getTimeTable(int orgNumber) throws DataAccessException {
 
     DAOLibrary dl = new DAOLibrary();
     List result = new Vector();

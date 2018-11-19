@@ -5,5 +5,5 @@ import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.MarcCorrelationException;
 
 public interface FilterManager {
-  TagFilter getFilter(Tag tag) throws MarcCorrelationException, DataAccessException;
+  TagFilter getFilter(Tag tag) throws DataAccessException;
 }

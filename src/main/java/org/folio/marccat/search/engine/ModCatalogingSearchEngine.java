@@ -3,7 +3,7 @@ package org.folio.marccat.search.engine;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.config.Global;
 import org.folio.marccat.dao.persistence.CatalogItem;
-import org.folio.marccat.exception.ModCatalogingException;
+import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.exception.RecordNotFoundException;
 import org.folio.marccat.integration.StorageService;
 import org.folio.marccat.search.SearchResponse;
@@ -48,7 +48,7 @@ public abstract class ModCatalogingSearchEngine implements SearchEngine {
   }
 
   @Override
-  public SearchResponse expertSearch(final String cclQuery, final Locale locale, final int searchingView) throws ModCatalogingException {
+  public SearchResponse expertSearch(final String cclQuery, final Locale locale, final int searchingView) throws ModMarccatException {
     return new SearchResponse(
       searchingView,
       cclQuery,
@@ -86,7 +86,7 @@ public abstract class ModCatalogingSearchEngine implements SearchEngine {
   }
 
   @Override
-  public SearchResponse simpleSearch(final String query, final String use, final Locale locale, final int searchingView) throws ModCatalogingException {
+  public SearchResponse simpleSearch(final String query, final String use, final Locale locale, final int searchingView) throws ModMarccatException {
     return expertSearch(buildCclQuery(query, use, locale), locale, searchingView);
   }
 
@@ -96,7 +96,7 @@ public abstract class ModCatalogingSearchEngine implements SearchEngine {
                                        final List<String> useList,
                                        final List<Integer> operatorList,
                                        final Locale locale,
-                                       final int searchingView) throws ModCatalogingException {
+                                       final int searchingView) throws ModMarccatException {
     return expertSearch(
       buildCclQuery(termList, relationList, useList, operatorList, locale),
       locale,
@@ -104,7 +104,7 @@ public abstract class ModCatalogingSearchEngine implements SearchEngine {
   }
 
   @Override
-  public SearchResponse sort(final SearchResponse rs, final String[] attributes, final String[] directions) throws ModCatalogingException {
+  public SearchResponse sort(final SearchResponse rs, final String[] attributes, final String[] directions) throws ModMarccatException {
     return storageService.sortResults(rs, attributes, directions);
   }
 

@@ -10,7 +10,7 @@ import org.folio.marccat.dao.persistence.T_AUT_DSPLY_FRMT;
 import org.folio.marccat.dao.persistence.T_BIB_DSPLY_FRMT;
 import org.folio.marccat.dao.persistence.T_ITM_DSPLY_FRMT;
 import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.exception.ModCatalogingException;
+import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.search.domain.MarcRecord;
 import org.folio.marccat.search.domain.Record;
 import org.folio.marccat.search.engine.SearchEngine;
@@ -230,7 +230,7 @@ public class SearchResponse {
     sortCriteria = i;
   }
 
-  public void sort(final String[] attributes, final String[] directions, final SearchEngine searchEngine) throws ModCatalogingException {
+  public void sort(final String[] attributes, final String[] directions, final SearchEngine searchEngine) throws ModMarccatException {
     searchEngine.sort(this, attributes, directions);
   }
 

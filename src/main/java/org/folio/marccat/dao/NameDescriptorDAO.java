@@ -251,9 +251,7 @@ public class NameDescriptorDAO extends DAODescriptor {
   private boolean compareHeading(Descriptor descriptorFrom, Descriptor descriptorTo) {
     if (descriptorFrom.getAuthoritySourceCode() == descriptorTo.getAuthoritySourceCode()) {
       if (descriptorFrom.getAuthoritySourceCode() == T_AUT_HDG_SRC.SOURCE_IN_SUBFIELD_2) {
-        if (descriptorFrom.getAuthoritySourceText().equals(descriptorTo.getAuthoritySourceText())) {
-          return true;
-        }
+        return descriptorFrom.getAuthoritySourceText().equals(descriptorTo.getAuthoritySourceText());
       } else {
         return true;
       }

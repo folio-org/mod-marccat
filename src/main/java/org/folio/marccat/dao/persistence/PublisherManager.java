@@ -12,7 +12,7 @@ import org.folio.marccat.config.log.Log;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.PublisherManagerDAO;
 import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.integration.GlobalStorage;
+import org.folio.marccat.config.GlobalStorage;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.F;

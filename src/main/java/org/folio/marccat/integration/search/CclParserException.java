@@ -1,6 +1,6 @@
 package org.folio.marccat.integration.search;
 
-import org.folio.marccat.exception.ModCatalogingException;
+import org.folio.marccat.exception.ModMarccatException;
 
 /**
  * Thrown in case a given expression cannot be parsed as a valid CCL.
@@ -9,7 +9,7 @@ import org.folio.marccat.exception.ModCatalogingException;
  * @author cchiama
  * @since 1.0
  */
-public class CclParserException extends ModCatalogingException {
+public class CclParserException extends ModMarccatException {
   private static final long serialVersionUID = 1L;
 
   /**

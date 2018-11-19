@@ -18,7 +18,7 @@ import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.CacheUpdateException;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.RecordNotFoundException;
-import org.folio.marccat.integration.GlobalStorage;
+import org.folio.marccat.config.GlobalStorage;
 import org.folio.marccat.util.XmlUtils;
 
 import java.sql.CallableStatement;

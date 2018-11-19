@@ -68,9 +68,7 @@ public class ModelTagKey implements Serializable {
         return false;
     } else if (!language.equals(other.language))
       return false;
-    if (sequence != other.sequence)
-      return false;
-    return true;
+    return sequence == other.sequence;
   }
 
 

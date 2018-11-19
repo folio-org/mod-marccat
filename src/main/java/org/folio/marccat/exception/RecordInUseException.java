@@ -1,5 +1,5 @@
 package org.folio.marccat.exception;
 
-public class RecordInUseException extends ModCatalogingException {
+public class RecordInUseException extends ModMarccatException {
 
 }

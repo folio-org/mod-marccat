@@ -45,9 +45,6 @@ public class SubfieldCodeComparator implements Comparator {
     }
   }
 
-  /* (non-Javadoc)
-   * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-   */
   public int compare(Object o1, Object o2) {
     String code1 = (String) o1;
     String code2 = (String) o2;

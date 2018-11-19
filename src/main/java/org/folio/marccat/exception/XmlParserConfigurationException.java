@@ -14,14 +14,7 @@ package org.folio.marccat.exception;
  * @version $Revision: 1.1 $, $Date: 2004/12/02 08:44:16 $
  * @since 1.0
  */
-public class XmlParserConfigurationException extends ModCatalogingException {
-
-  /**
-   * @see Exception#Exception()
-   */
-  public XmlParserConfigurationException() {
-    super();
-  }
+public class XmlParserConfigurationException extends ModMarccatException {
 
   /**
    * @see Exception#Exception(String)
@@ -30,12 +23,6 @@ public class XmlParserConfigurationException extends ModCatalogingException {
     super(message);
   }
 
-  /**
-   * @see Exception#Exception(String, Throwable)
-   */
-  public XmlParserConfigurationException(String message, Throwable cause) {
-    super(message, cause);
-  }
 
   /**
    * @see Exception#Exception(Throwable)

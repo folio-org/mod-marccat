@@ -3,7 +3,7 @@ package org.folio.marccat.dao.persistence;
 import org.folio.marccat.business.cataloguing.bibliographic.NameTitleComponent;
 import org.folio.marccat.business.cataloguing.common.OrderedTag;
 import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.integration.GlobalStorage;
+import org.folio.marccat.config.GlobalStorage;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;

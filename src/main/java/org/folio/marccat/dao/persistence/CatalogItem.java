@@ -11,7 +11,7 @@ import org.folio.marccat.business.common.group.*;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.exception.*;
-import org.folio.marccat.integration.GlobalStorage;
+import org.folio.marccat.config.GlobalStorage;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.Validation;
 import org.w3c.dom.Document;
@@ -24,6 +24,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -324,11 +325,11 @@ public abstract class CatalogItem implements Serializable {
             ((VariableField) aTag).getStringText().getMarcDisplayString(Subfield.SUBFIELD_DELIMITER) + Subfield.FIELD_DELIMITER);
 
           int offset = body.size();
-          body.write(entry.getBytes(GlobalStorage.CHARSET_UTF8));
-          directory.write(correlation.getMarcTag().getBytes(GlobalStorage.CHARSET_UTF8));
+          body.write(entry.getBytes(StandardCharsets.UTF_8));
+          directory.write(correlation.getMarcTag().getBytes(StandardCharsets.UTF_8));
           directory.write(
-            n4.format(body.size() - offset).getBytes(GlobalStorage.CHARSET_UTF8));
-          directory.write(n5.format(offset).getBytes(GlobalStorage.CHARSET_UTF8));
+            n4.format(body.size() - offset).getBytes(StandardCharsets.UTF_8));
+          directory.write(n5.format(offset).getBytes(StandardCharsets.UTF_8));
         } catch (UnsupportedEncodingException e) {
           throw new RuntimeException(e);
         } catch (IOException e) {
@@ -336,14 +337,14 @@ public abstract class CatalogItem implements Serializable {
         }
       });
 
-      directory.write(Subfield.FIELD_DELIMITER.getBytes(GlobalStorage.CHARSET_UTF8));
-      body.write(Subfield.RECORD_DELIMITER.getBytes(GlobalStorage.CHARSET_UTF8));
-      record.write(n5.format(body.size() + directory.size() + leader.length()).getBytes(GlobalStorage.CHARSET_UTF8));
-      record.write(leader.substring(5, 12).getBytes(GlobalStorage.CHARSET_UTF8));
+      directory.write(Subfield.FIELD_DELIMITER.getBytes(StandardCharsets.UTF_8));
+      body.write(Subfield.RECORD_DELIMITER.getBytes(StandardCharsets.UTF_8));
+      record.write(n5.format(body.size() + directory.size() + leader.length()).getBytes(StandardCharsets.UTF_8));
+      record.write(leader.substring(5, 12).getBytes(StandardCharsets.UTF_8));
       record.write(
         n5.format(directory.size() + leader.length()).getBytes(
-          GlobalStorage.CHARSET_UTF8));
-      record.write(leader.substring(17).getBytes(GlobalStorage.CHARSET_UTF8));
+          StandardCharsets.UTF_8));
+      record.write(leader.substring(17).getBytes(StandardCharsets.UTF_8));
       record.write(directory.toByteArray());
       record.write(body.toByteArray());
 

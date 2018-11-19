@@ -18,63 +18,12 @@ public class MandatoryTagException extends ValidationException {
   /**
    * Class constructor
    *
-   * @since 1.0
-   */
-  public MandatoryTagException() {
-    super();
-    // TODO Auto-generated constructor stub
-  }
-
-  /**
-   * Class constructor
-   *
    * @param message
    * @since 1.0
    */
   public MandatoryTagException(String message) {
     super(message);
     setTagNumber(message);
-  }
-
-  /**
-   * Class constructor
-   *
-   * @param message
-   * @param cause
-   * @since 1.0
-   */
-  public MandatoryTagException(String message, Throwable cause) {
-    super(message, cause);
-    // TODO Auto-generated constructor stub
-  }
-
-  /**
-   * Class constructor
-   *
-   * @param cause
-   * @since 1.0
-   */
-  public MandatoryTagException(Throwable cause) {
-    super(cause);
-    // TODO Auto-generated constructor stub
-  }
-
-  /**
-   * Class constructor
-   *
-   * @param index
-   * @since 1.0
-   */
-  public MandatoryTagException(int index) {
-    super(index);
-    // TODO Auto-generated constructor stub
-  }
-
-  /**
-   * @since 1.0
-   */
-  public String getTagNumber() {
-    return tagNumber;
   }
 
   /**

@@ -177,6 +177,11 @@ public class TermExpressionNode implements ExpressionNode {
     }
   }
 
+  /**
+   *
+   * @return
+   * @throws DataAccessException
+   */
   S_BIB1_SMNTC semantic() throws DataAccessException {
     try {
       if (semantic == null) {
@@ -198,6 +203,10 @@ public class TermExpressionNode implements ExpressionNode {
     }
   }
 
+  /**
+   *
+   * @return
+   */
   private short getRecordType() {
     if (getSearchingView() >= 0) {
       return 1;
@@ -208,6 +217,10 @@ public class TermExpressionNode implements ExpressionNode {
     }
   }
 
+  /**
+   *
+   * @return
+   */
   private int structureAsAttr() {
     int result = index.getStructureAttribute();
     if (result == 0) {
@@ -216,6 +229,10 @@ public class TermExpressionNode implements ExpressionNode {
     return result;
   }
 
+  /**
+   *
+   * @return
+   */
   private int positionAsAttr() {
     int result = index.getPositionAttribute();
     if (result == 0) {
@@ -228,6 +245,10 @@ public class TermExpressionNode implements ExpressionNode {
     return result;
   }
 
+  /**
+   *
+   * @return
+   */
   private int relationAsAttr() {
     switch (relation) {
       case "=":

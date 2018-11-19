@@ -14,7 +14,7 @@ package org.folio.marccat.exception;
  * @version $Revision: 1.1 $, $Date: 2006/01/11 13:36:23 $
  * @since 1.0
  */
-public class ValidationException extends ModCatalogingException {
+public class ValidationException extends ModMarccatException {
 
   protected int tagIndex = 0;
 
@@ -74,12 +74,6 @@ public class ValidationException extends ModCatalogingException {
     setTagIndex(index);
   }
 
-  /**
-   * @since 1.0
-   */
-  public int getTagIndex() {
-    return tagIndex;
-  }
 
   /**
    * @since 1.0

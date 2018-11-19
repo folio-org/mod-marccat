@@ -1,7 +1,7 @@
 package org.folio.marccat.search.engine.impl;
 
 import net.sf.hibernate.HibernateException;
-import org.folio.marccat.exception.ModCatalogingException;
+import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.integration.StorageService;
 import org.folio.marccat.resources.domain.CountDocument;
 import org.folio.marccat.search.SearchResponse;
@@ -35,7 +35,7 @@ public class LightweightModCatalogingSearchEngine extends ModCatalogingSearchEng
   }
 
   @Override
-  public void injectDocCount(SearchResponse searchResponse, final StorageService storageService) throws ModCatalogingException {
+  public void injectDocCount(SearchResponse searchResponse, final StorageService storageService) throws ModMarccatException {
     final int view = 1;
     //retrieve records id
     if (searchResponse != null) {

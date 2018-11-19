@@ -1,6 +1,6 @@
 package org.folio.marccat.search.engine.impl;
 
-import org.folio.marccat.exception.ModCatalogingException;
+import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.integration.StorageService;
 import org.folio.marccat.search.SearchResponse;
 import org.folio.marccat.search.XmlRecord;
@@ -31,7 +31,7 @@ public class DefaultModCatalogingSearchEngine extends ModCatalogingSearchEngine 
   }
 
   @Override
-  public void injectDocCount(SearchResponse searchResponse, final StorageService storageService) throws ModCatalogingException {
+  public void injectDocCount(SearchResponse searchResponse, final StorageService storageService) throws ModMarccatException {
     // TODO Auto-generated method stub
 
   }

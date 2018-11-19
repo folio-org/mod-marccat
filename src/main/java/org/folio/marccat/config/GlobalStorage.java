@@ -1,4 +1,4 @@
-package org.folio.marccat.integration;
+package org.folio.marccat.config;
 
 import org.folio.marccat.dao.persistence.NameAccessPoint;
 import org.folio.marccat.dao.persistence.NameTitleAccessPoint;

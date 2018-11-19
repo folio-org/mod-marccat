@@ -17,14 +17,6 @@ import org.folio.marccat.exception.DataAccessException;
  */
 public class SortFormException extends DataAccessException {
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
-  public SortFormException() {
-    super();
-  }
 
   /**
    * Class constructor
@@ -36,25 +28,5 @@ public class SortFormException extends DataAccessException {
     super(message);
   }
 
-  /**
-   * Class constructor
-   *
-   * @param message
-   * @param cause
-   * @since 1.0
-   */
-  public SortFormException(String message, Throwable cause) {
-    super(message, cause);
-  }
-
-  /**
-   * Class constructor
-   *
-   * @param cause
-   * @since 1.0
-   */
-  public SortFormException(Throwable cause) {
-    super(cause);
-  }
 
 }

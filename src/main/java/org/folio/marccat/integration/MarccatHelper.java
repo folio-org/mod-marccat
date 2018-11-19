@@ -3,18 +3,12 @@ package org.folio.marccat.integration;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.SystemInternalFailureException;
-import org.folio.marccat.exception.UnableToCreateOrUpdateEntityException;
 import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.*;
-import java.util.function.BooleanSupplier;
-import java.util.function.Function;
 import java.util.stream.StreamSupport;
 
 import static java.util.stream.Collectors.toMap;
@@ -28,13 +22,13 @@ import static org.folio.marccat.config.Global.HCONFIGURATION;
  * @author cchiama
  * @since 1.0
  */
-public abstract class CatalogingHelper {
+public abstract class MarccatHelper {
   private final static Properties DEFAULT_VALUES = new Properties();
   private final static Map<String, DataSource> DATASOURCES = new HashMap<>();
 
   static {
     try {
-      DEFAULT_VALUES.load(CatalogingHelper.class.getResourceAsStream("/defaults.properties"));
+      DEFAULT_VALUES.load(MarccatHelper.class.getResourceAsStream("/defaults.properties"));
     } catch (final Throwable exception) {
       throw new ExceptionInInitializerError(exception);
     }
@@ -54,69 +48,6 @@ public abstract class CatalogingHelper {
     final Configuration configurator,
     final String... configurationSets) {
     return exec(adapter, tenant, configurator, configurationSets);
-  }
-
-  /**
-   * Executes a POST request.
-   *
-   * @param adapter           the bridge that carries on the existing logic.
-   * @param tenant            the tenant associated with the current request.
-   * @param configurator      the configuration client.
-   * @param validator         a validator function for the entity associated with this resource.
-   * @param configurationSets the requested configuration attributes sets.
-   */
-  public static <T> ResponseEntity<T> doPost(
-    final PieceOfExistingLogicAdapter<T> adapter,
-    final String tenant,
-    final Configuration configurator,
-    final BooleanSupplier validator,
-    final String... configurationSets) {
-    if (validator.getAsBoolean()) {
-      final T result = exec(adapter, tenant, configurator, configurationSets);
-      final HttpHeaders headers = new HttpHeaders();
-      headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
-      return new ResponseEntity<>(result, headers, HttpStatus.CREATED);
-    } else {
-      throw new UnableToCreateOrUpdateEntityException();
-    }
-  }
-
-  /**
-   * Executes a PUT request.
-   *
-   * @param adapter           the bridge that carries on the existing logic.
-   * @param tenant            the tenant associated with the current request.
-   * @param configurator      the configuration client.
-   * @param validator         a validator function for the entity associated with this resource.
-   * @param configurationSets the requested configuration attributes sets.
-   */
-  public static <T> void doPut(
-    final PieceOfExistingLogicAdapter<T> adapter,
-    final String tenant,
-    final Configuration configurator,
-    final BooleanSupplier validator,
-    final String... configurationSets) {
-    if (validator.getAsBoolean()) {
-      exec(adapter, tenant, configurator, configurationSets);
-    } else {
-      throw new UnableToCreateOrUpdateEntityException();
-    }
-  }
-
-  /**
-   * Executes a DELETE request.
-   *
-   * @param adapter           the bridge that carries on the existing logic.
-   * @param tenant            the tenant associated with the current request.
-   * @param configurator      the configuration client.
-   * @param configurationSets the requested configuration attributes sets.
-   */
-  public static <T> void doDelete(
-    final PieceOfExistingLogicAdapter<T> adapter,
-    final String tenant,
-    final Configuration configurator,
-    final String... configurationSets) {
-    exec(adapter, tenant, configurator, configurationSets);
   }
 
   /**
@@ -191,12 +122,4 @@ public abstract class CatalogingHelper {
       .build();
   }
 
-  /**
-   * A simple definition of a validation interface.
-   *
-   * @param <T> the kind of object that needs to be validated.
-   */
-  interface Valid<T> {
-    Optional<T> validate(Function<T, Optional<T>> validator);
-  }
 }

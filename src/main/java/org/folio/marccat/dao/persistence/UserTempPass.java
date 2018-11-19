@@ -78,11 +78,8 @@ public class UserTempPass {
       return false;
     final UserTempPass other = (UserTempPass) obj;
     if (pass == null) {
-      if (other.pass != null)
-        return false;
-    } else if (!pass.equals(other.pass))
-      return false;
-    return true;
+      return other.pass == null;
+    } else return pass.equals(other.pass);
   }
 
 }

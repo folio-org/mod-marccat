@@ -2,7 +2,7 @@ package org.folio.marccat.util;
 
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.MessageCatalog;
-import org.folio.marccat.integration.GlobalStorage;
+import org.folio.marccat.config.GlobalStorage;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

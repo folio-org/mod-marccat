@@ -17,7 +17,7 @@ public class Subfield implements Serializable {
   public static final String SUBFIELD_DELIMITER = "\u001f";
   public static final String FIELD_DELIMITER = "\u001e";
   public static final String RECORD_DELIMITER = "\u001d";
-  private static final Log logger = LogFactory.getLog(Subfield.class);
+
   private String code;
   private String content;
 

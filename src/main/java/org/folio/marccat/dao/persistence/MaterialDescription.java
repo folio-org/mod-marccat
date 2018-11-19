@@ -331,7 +331,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
    */
   public String serialDisplayString() {
     StringBuilder builder = new StringBuilder();
-    builder.append("")
+    builder
       .append(getSerialFrequencyCode())        /* 18 - Frequency */
       .append(getSerialRegularityCode())        /* 19 - Regularity */
       .append(" ")                    /* 20 - Undefined */

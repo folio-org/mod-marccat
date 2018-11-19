@@ -9,21 +9,35 @@
         {
           "methods": ["GET"],
           "pathPattern": "/search",
-          "permissionsRequired": [],
-          "modulePermissions": [
-          ]
+          "permissionsRequired": ["marccat.collection.get"]
+        }{
+          "methods": ["GET"],
+          "pathPattern": "/mergedSearch",
+          "permissionsRequired": ["marccat.collection.get"]
         }, {
           "methods": ["GET"],
           "pathPattern": "/searchVertical",
-          "permissionsRequired": [],
-          "modulePermissions": [
-          ]
+          "permissionsRequired": ["marccat.collection.get"]
+        },
+        {
+          "methods": ["GET"],
+          "pathPattern": "/document-count-by-id",
+          "permissionsRequired": ["marccat.collection.count.get"]
         }
       ]
     }
   ],
   "permissionSets": [
-
+    {
+      "permissionName": "marccat.collection.get",
+      "displayName": "MARCcat - get marc records collection",
+      "description": "Get marc records collection"
+    },
+    {
+      "permissionName": "marccat.collection.count.get",
+      "displayName": "MARCcat - get count of document by id",
+      "description": "Get count of MARC document by id"
+    }
   ],
   "launchDescriptor": {
     "dockerImage": "${artifactId}:${version}",

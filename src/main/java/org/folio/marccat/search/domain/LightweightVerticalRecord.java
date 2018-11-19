@@ -11,6 +11,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.function.Predicate;
 
 import static java.util.Optional.ofNullable;
@@ -35,7 +36,7 @@ public class LightweightVerticalRecord extends AbstractRecord {
   private int countDoc;
   private String queryForAssociatedDoc;
   private Predicate<String> isValidXml = data -> {
-    try (final InputStream stream = new ByteArrayInputStream(data.getBytes("UTF-8"))) {
+    try (final InputStream stream = new ByteArrayInputStream(data.getBytes(StandardCharsets.UTF_8))) {
       SAX_PARSERS.get().parse(stream, new DefaultHandler());
       return true;
     } catch (final Exception exception) {

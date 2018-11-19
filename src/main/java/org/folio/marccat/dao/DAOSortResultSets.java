@@ -32,7 +32,7 @@ public class DAOSortResultSets extends HibernateUtil {
      */
     new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
-        throws DataAccessException, HibernateException {
+        throws DataAccessException {
         SearchResponse sortedResults;
         insertResults(rs);
         doSort(orderBy, rs);

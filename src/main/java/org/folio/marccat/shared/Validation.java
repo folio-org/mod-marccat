@@ -79,12 +79,17 @@ public abstract class Validation {
     skipInFlngCode = c;
   }
 
+
   public List<String> getValidSubfieldCodes() {
-    return stream(marcValidSubfieldStringCode.split("")).collect(toList());
+    return stream(marcValidSubfieldStringCode
+      .split(""))
+      .collect(toList());
   }
 
   public List<String> getRepeatableSubfieldCodes() {
-    return stream(repeatableSubfieldStringCode.split("")).collect(toList());
+    return stream(repeatableSubfieldStringCode
+      .split(""))
+      .collect(toList());
   }
 
   abstract public ValidationKey getKey();

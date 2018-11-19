@@ -14,14 +14,7 @@ package org.folio.marccat.exception;
  * @version $Revision: 1.1 $, $Date: 2004/08/09 11:43:44 $
  * @since 1.0
  */
-public class XmlDocumentException extends ModCatalogingException {
-
-  /**
-   * @see Exception#Exception()
-   */
-  public XmlDocumentException() {
-    super();
-  }
+public class XmlDocumentException extends ModMarccatException {
 
   /**
    * @see Exception#Exception(String)
@@ -30,18 +23,5 @@ public class XmlDocumentException extends ModCatalogingException {
     super(message);
   }
 
-  /**
-   * @see Exception#Exception(String, Throwable)
-   */
-  public XmlDocumentException(String message, Throwable cause) {
-    super(message, cause);
-  }
-
-  /**
-   * @see Exception#Exception(Throwable)
-   */
-  public XmlDocumentException(Throwable cause) {
-    super(cause);
-  }
 
 }

@@ -195,22 +195,6 @@ public class BrowseManager {
   }
 
 
-  /**
-   * Convert the users searching view into the appropriate view for browsing
-   * (for now this basically means that Authority == 1)
-   *
-   * @param searchingView
-   * @return
-   */
-  public int getBrowsingViewBasedOnSearchingView(int searchingView) {
-    if (searchingView == View.AUTHORITY) {
-      return 1;
-    } else {
-      return searchingView;
-    }
-  }
-
-
   public DAODescriptor getDao() {
     return dao;
   }

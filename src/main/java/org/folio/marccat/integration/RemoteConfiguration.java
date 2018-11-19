@@ -18,7 +18,7 @@ import static org.folio.marccat.util.F.safe;
 import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
 
 /**
- * Mod Cataloging configuration subsystem facade.
+ * Mod MARCcat configuration subsystem facade.
  *
  * @author cchiama
  * @since 1.0

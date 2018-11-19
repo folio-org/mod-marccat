@@ -4,6 +4,7 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.marccat.business.codetable.Avp;
 import org.folio.marccat.business.common.View;
+import org.folio.marccat.config.GlobalStorage;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.dao.*;
@@ -12,7 +13,7 @@ import org.folio.marccat.dao.persistence.CatalogItem;
 import org.folio.marccat.dao.persistence.FULL_CACHE;
 import org.folio.marccat.dao.persistence.T_SKP_IN_FLNG_CNT;
 import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.exception.ModCatalogingException;
+import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.exception.RecordNotFoundException;
 import org.folio.marccat.integration.search.Parser;
 import org.folio.marccat.resources.domain.CountDocument;
@@ -221,7 +222,7 @@ public class StorageService implements Closeable {
     try {
       return connection.createStatement();
     } catch (final Exception exception) {
-      throw new ModCatalogingException(exception);
+      throw new ModMarccatException(exception);
     }
   }
 
@@ -236,7 +237,7 @@ public class StorageService implements Closeable {
     try {
       return stmt.executeQuery(query);
     } catch (final Exception exception) {
-      throw new ModCatalogingException(exception);
+      throw new ModMarccatException(exception);
     }
   }
 
