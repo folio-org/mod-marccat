@@ -17,8 +17,6 @@ import org.folio.marccat.util.StringText;
  * @since 1.0
  */
 public abstract class AuthenticationCodeTag extends VariableHeaderUsingItemEntity {
-  //TODO saveUndoSave doesn't work
-  //TODO subfield a should be validated against code table
 
   /**
    * Class constructor
@@ -30,11 +28,11 @@ public abstract class AuthenticationCodeTag extends VariableHeaderUsingItemEntit
   }
 
   public StringText getStringText() {
-    StringText result = null;
+    StringText result;
     String source = getItemEntity().getAuthenticationCenterStringText();
 
     if (source == null) {
-      result = new StringText(Subfield.SUBFIELD_DELIMITER + "a");
+      result = new StringText(Subfield.SUBFIELD_DELIMITER.concat("a"));
     } else {
       result = new StringText(source);
     }
@@ -42,7 +40,7 @@ public abstract class AuthenticationCodeTag extends VariableHeaderUsingItemEntit
   }
 
   public void setStringText(StringText st) {
-    if (st.toString().equals(Subfield.SUBFIELD_DELIMITER + "a")) {
+    if (st.toString().equals(Subfield.SUBFIELD_DELIMITER.concat("a"))) {
       getItemEntity().setAuthenticationCenterStringText(null);
     } else {
       getItemEntity().setAuthenticationCenterStringText(st.toString());

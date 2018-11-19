@@ -5,7 +5,7 @@ import org.folio.marccat.business.cataloguing.common.OrderedTag;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.DAONameTitleAccessPoint;
 import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.integration.GlobalStorage;
+import org.folio.marccat.config.GlobalStorage;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 

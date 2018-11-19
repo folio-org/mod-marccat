@@ -12,7 +12,7 @@ public class SingleTagFilter implements TagFilter {
     this.sourceTag = sourceTag;
   }
 
-  public boolean accept(Tag tag, Object optionalCondition) throws MarcCorrelationException, DataAccessException {
+  public boolean accept(Tag tag, Object optionalCondition) throws DataAccessException {
     return
       sourceTag.getMarcEncoding().getMarcTag()
         .equals(tag.getMarcEncoding().getMarcTag());

@@ -1,6 +1,6 @@
 package org.folio.marccat.business.descriptor;
 
-import org.folio.marccat.exception.ModCatalogingException;
+import org.folio.marccat.exception.ModMarccatException;
 
 /**
  * Raised when a new heading is created whose sortform is identical
@@ -10,7 +10,7 @@ import org.folio.marccat.exception.ModCatalogingException;
  *
  * @author paul
  */
-public class MatchedHeadingInAnotherViewException extends ModCatalogingException {
+public class MatchedHeadingInAnotherViewException extends ModMarccatException {
 
   /**
    *

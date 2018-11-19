@@ -20,7 +20,7 @@ public abstract class CataloguingSourceTag extends VariableHeaderUsingItemEntity
       new StringText(getItemEntity().getCataloguingSourceStringText());
     bPosition = 0;
     if (stringText.getNumberOfSubfields() > 0) {
-      if (((Subfield) stringText.getSubfield(0)).getCode().equals("a")) {
+      if (stringText.getSubfield(0).getCode().equals("a")) {
         bPosition = 1;
       }
     }

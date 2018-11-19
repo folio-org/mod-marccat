@@ -34,7 +34,6 @@ public class SequenceNumberComparator implements Comparator {
     if (tag0 instanceof OrderedTag && tag1 instanceof OrderedTag) {
       Integer seq0 = ((OrderedTag) tag0).getSequenceNumber();
       Integer seq1 = ((OrderedTag) tag1).getSequenceNumber();
-      /*test soggetti*/
 			/*if(seq0.intValue()==0) seq0 = UNSORTED;
 			if(seq1.intValue()==0) seq1 = UNSORTED;*/
       if (seq0 == null) seq0 = UNSORTED;
@@ -44,8 +43,6 @@ public class SequenceNumberComparator implements Comparator {
         return snResult; // sequenceNumber assegnati e differenti
       }
     }
-    // hanno lo stesso sequenceNumber o non Ã¨ assegnato o uno dei due non ha sequenceNumber:
-    // ordina per numero di tag
     return compareTagNumber(tag0, tag1);
   }
 

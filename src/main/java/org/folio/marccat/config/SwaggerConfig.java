@@ -10,7 +10,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import static springfox.documentation.builders.PathSelectors.any;
 
 /**
- * Mod Cataloging Swagger configuration.
+ * Mod MARCcat Swagger configuration.
  *
  * @author cchiama
  * @since 1.0

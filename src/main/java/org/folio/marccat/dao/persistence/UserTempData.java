@@ -73,9 +73,7 @@ public class UserTempData {
     if (getClass() != obj.getClass())
       return false;
     final UserTempData other = (UserTempData) obj;
-    if (tmp_id != other.tmp_id)
-      return false;
-    return true;
+    return tmp_id == other.tmp_id;
   }
 
 }

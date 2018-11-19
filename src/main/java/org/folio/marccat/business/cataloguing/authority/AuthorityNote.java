@@ -203,11 +203,7 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
     final AuthorityNote other = (AuthorityNote) obj;
 		/*if (itemNumber != other.itemNumber)
 			return false;*/
-    if (noteNumber != other.noteNumber)
-      return false;
-		/*if(noteType != other.noteType)
-			return false;*/
-    return true;
+    return noteNumber == other.noteNumber;
   }
 
 

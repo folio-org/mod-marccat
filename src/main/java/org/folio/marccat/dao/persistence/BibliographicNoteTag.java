@@ -12,7 +12,7 @@ import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.DAOBibliographicNoteTag;
 import org.folio.marccat.dao.SystemNextNumberDAO;
 import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.integration.GlobalStorage;
+import org.folio.marccat.config.GlobalStorage;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.F;
@@ -179,7 +179,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    */
   private String getOverFlowString(final List<BibliographicNoteOverflow> overflowNoteList) {
     try {
-      final String overflowString = overflowNoteList.stream().map(oNote -> oNote.getStringText().toString()).collect(Collectors.joining());
+      final String overflowString = overflowNoteList.stream().map(oNote -> oNote.getStringText()).collect(Collectors.joining());
       return overflowString;
     } catch (Exception exception) {
       return (stringText == null ? "" : stringText.toString());

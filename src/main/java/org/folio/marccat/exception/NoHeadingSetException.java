@@ -17,50 +17,6 @@ public class NoHeadingSetException extends ValidationException {
   /**
    * Class constructor
    *
-   * @since 1.0
-   */
-  public NoHeadingSetException() {
-    super();
-    // TODO Auto-generated constructor stub
-  }
-
-  /**
-   * Class constructor
-   *
-   * @param message
-   * @since 1.0
-   */
-  public NoHeadingSetException(String message) {
-    super(message);
-    // TODO Auto-generated constructor stub
-  }
-
-  /**
-   * Class constructor
-   *
-   * @param message
-   * @param cause
-   * @since 1.0
-   */
-  public NoHeadingSetException(String message, Throwable cause) {
-    super(message, cause);
-    // TODO Auto-generated constructor stub
-  }
-
-  /**
-   * Class constructor
-   *
-   * @param cause
-   * @since 1.0
-   */
-  public NoHeadingSetException(Throwable cause) {
-    super(cause);
-    // TODO Auto-generated constructor stub
-  }
-
-  /**
-   * Class constructor
-   *
    * @param index
    * @since 1.0
    */

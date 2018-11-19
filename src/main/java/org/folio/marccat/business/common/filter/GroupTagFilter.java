@@ -13,7 +13,7 @@ public class GroupTagFilter implements TagFilter {
     this.group = group;
   }
 
-  public boolean accept(Tag tag, Object optionalCondition) throws MarcCorrelationException, DataAccessException {
+  public boolean accept(Tag tag, Object optionalCondition) throws DataAccessException {
     return group.contains(tag);
   }
 

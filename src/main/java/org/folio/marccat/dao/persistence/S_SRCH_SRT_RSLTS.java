@@ -48,9 +48,7 @@ public class S_SRCH_SRT_RSLTS implements Serializable {
     if (getClass() != obj.getClass())
       return false;
     final S_SRCH_SRT_RSLTS other = (S_SRCH_SRT_RSLTS) obj;
-    if (itemNbr != other.itemNbr)
-      return false;
-    return true;
+    return itemNbr == other.itemNbr;
   }
 
 

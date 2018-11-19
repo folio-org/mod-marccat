@@ -43,8 +43,6 @@ public class OPEN_SUITE_RELEASE implements Serializable {
     OPEN_SUITE_RELEASE other = (OPEN_SUITE_RELEASE) obj;
     if (releaseNumber != other.releaseNumber)
       return false;
-    if (servicePackNumber != other.servicePackNumber)
-      return false;
-    return true;
+    return servicePackNumber == other.servicePackNumber;
   }
 }

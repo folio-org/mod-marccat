@@ -12,7 +12,7 @@ package org.folio.marccat.exception;
  * @version $Revision: 1.1 $, $Date: 2005/10/21 13:33:25 $
  * @since 1.0
  */
-public class InvalidDescriptorException extends ModCatalogingException {
+public class InvalidDescriptorException extends ModMarccatException {
 
   /**
    * Class constructor

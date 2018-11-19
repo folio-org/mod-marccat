@@ -71,9 +71,7 @@ public class IndexListKey implements Serializable {
   public boolean equals(Object anObject) {
     IndexListKey aKey = (IndexListKey) anObject;
     if (this.getKeyNumber() == aKey.getKeyNumber()) {
-      if (this.getTypeCode().compareTo(aKey.getTypeCode()) == 0) {
-        return true;
-      }
+      return this.getTypeCode().compareTo(aKey.getTypeCode()) == 0;
     }
     return false;
   }

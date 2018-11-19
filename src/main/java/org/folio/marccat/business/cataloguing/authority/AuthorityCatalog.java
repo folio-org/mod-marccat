@@ -276,9 +276,7 @@ public class AuthorityCatalog extends Catalog {
         ((AuthorityReferenceTag) tag).setReference(r);
         ((AuthorityReferenceTag) tag).setTargetDescriptor(
           targetDescriptor);
-      } catch (InstantiationException e) {
-        throw new RuntimeException("Could not create object");
-      } catch (IllegalAccessException e) {
+      } catch (InstantiationException | IllegalAccessException e) {
         throw new RuntimeException("Could not create object");
       }
     } else if (tag instanceof AuthorityHeadingTag) {

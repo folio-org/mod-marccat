@@ -14,28 +14,7 @@ package org.folio.marccat.exception;
  * @version $Revision: 1.1 $, $Date: 2004/08/09 11:43:44 $
  * @since 1.0
  */
-public class XslTransformerException extends ModCatalogingException {
-
-  /**
-   * @see Exception#Exception()
-   */
-  public XslTransformerException() {
-    super();
-  }
-
-  /**
-   * @see Exception#Exception(String)
-   */
-  public XslTransformerException(String message) {
-    super(message);
-  }
-
-  /**
-   * @see Exception#Exception(String, Throwable)
-   */
-  public XslTransformerException(String message, Throwable cause) {
-    super(message, cause);
-  }
+public class XslTransformerException extends ModMarccatException {
 
   /**
    * @see Exception#Exception(Throwable)

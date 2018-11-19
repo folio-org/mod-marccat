@@ -14,6 +14,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import static java.util.Optional.ofNullable;
 
@@ -50,7 +51,7 @@ public class XmlRecord extends AbstractRecord {
   public void setContent(final String elementSetName, String stringContent) throws XmlUnsupportedEncodingException, XmlParserConfigurationException {
     ofNullable(stringContent).ifPresent(xmlString -> {
       try (ByteArrayInputStream byteArrayInputStream =
-             new ByteArrayInputStream(xmlString.getBytes("UTF-8"))) {
+             new ByteArrayInputStream(xmlString.getBytes(StandardCharsets.UTF_8))) {
         DOCUMENT_BUILDERS.get().reset();
         this.data = DOCUMENT_BUILDERS.get().parse(byteArrayInputStream);
       } catch (SAXException | IOException exception) {

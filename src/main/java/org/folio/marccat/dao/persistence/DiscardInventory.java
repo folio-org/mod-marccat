@@ -300,11 +300,8 @@ public class DiscardInventory implements Persistence {
       return false;
     final Inventory other = (Inventory) obj;
     if (key == null) {
-      if (other.key != null)
-        return false;
-    } else if (!key.equals(other.key))
-      return false;
-    return true;
+      return other.key == null;
+    } else return key.equals(other.key);
   }
 
   /**

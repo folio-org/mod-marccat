@@ -99,8 +99,6 @@ public class SHLF_LIST_ACS_PNT implements Serializable {
     final SHLF_LIST_ACS_PNT other = (SHLF_LIST_ACS_PNT) obj;
     if (bibItemNumber != other.bibItemNumber)
       return false;
-    if (shelfListKeyNumber != other.shelfListKeyNumber)
-      return false;
-    return true;
+    return shelfListKeyNumber == other.shelfListKeyNumber;
   }
 }

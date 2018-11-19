@@ -305,7 +305,7 @@ public class DAOCodeTable extends AbstractDAO {
   public void save(final List/*<CodeTable>*/ items) throws DataAccessException {
     new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
-        throws HibernateException, DataAccessException {
+        throws DataAccessException {
         if (items == null || items.isEmpty()) {
           return;
         }

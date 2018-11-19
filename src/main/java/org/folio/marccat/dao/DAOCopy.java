@@ -106,8 +106,7 @@ public class DAOCopy extends AbstractDAO {
    * @since 1.0
    */
 
-  public int getBibItemNumber(int copyIdNumber) throws DataAccessException,
-    HibernateException {
+  public int getBibItemNumber(int copyIdNumber) throws DataAccessException {
     int result = 0;
 
     List listAllCopies = null;

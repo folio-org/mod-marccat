@@ -76,11 +76,8 @@ public class USR_ACNT implements Serializable, Persistence {
       return false;
     final USR_ACNT other = (USR_ACNT) obj;
     if (name == null) {
-      if (other.name != null)
-        return false;
-    } else if (!name.equals(other.name))
-      return false;
-    return true;
+      return other.name == null;
+    } else return name.equals(other.name);
   }
 
   @Override

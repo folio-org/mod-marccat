@@ -15,28 +15,28 @@ import java.sql.SQLException;
  * @version %I%, %G%
  * @since 1.0
  */
-public class DataAccessException extends ModCatalogingException {
+public class DataAccessException extends ModMarccatException {
 
 
   public int errorCode;
   public String state;
 
   /**
-   * @see ModCatalogingException#ModCatalogingException()
+   * @see ModMarccatException#ModMarccatException()
    */
   public DataAccessException() {
     super();
   }
 
   /**
-   * @see ModCatalogingException#ModCatalogingException(String)
+   * @see ModMarccatException#ModMarccatException(String)
    */
   public DataAccessException(String message) {
     super(message);
   }
 
   /**
-   * @see ModCatalogingException#ModCatalogingException(String, Throwable)
+   * @see ModMarccatException#ModMarccatException(String, Throwable)
    */
   public DataAccessException(String message, Throwable cause) {
     super(message, cause);
@@ -44,7 +44,7 @@ public class DataAccessException extends ModCatalogingException {
   }
 
   /**
-   * @see ModCatalogingException#ModCatalogingException(Throwable)
+   * @see ModMarccatException#ModMarccatException(Throwable)
    */
   public DataAccessException(Throwable cause) {
     super(cause);

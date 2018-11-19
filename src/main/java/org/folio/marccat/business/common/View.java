@@ -70,7 +70,6 @@ public class View {
    */
 
   static public String makeSingleViewString(int cataloguingView) {
-
     return maskOnViewString("0000000000000000", cataloguingView);
   }
 
@@ -79,68 +78,8 @@ public class View {
    *
    * @param userViewString -- the position to be set to '1' (1 indexing)
    */
-
   static public short toIntView(String userViewString) {
     return (short) (1 + userViewString.indexOf("1"));
-  }
-
-  /**
-   * Builds a human readable string of view names based on the
-   * settings of the argument (e.g. 1010000000000000 --> "B1, B3"
-   *
-   * @param userViewString
-   * @param locale
-   * @return
-   */
-  public static String getViewText(String userViewString, Locale locale) {
-    char[] charArray = userViewString.toCharArray();
-    StringBuffer s = new StringBuffer();
-    for (int i = 0; i < charArray.length; i++) {
-      if (charArray[i] == '1') {
-        s.append(getViewText(i + 1, locale));
-        s.append(", ");
-      }
-    }
-    if (s.length() > 2) {
-      s.delete(s.length() - 2, s.length() - 1);
-    }
-    return s.toString();
-  }
-
-  /**
-   * Returns the shortText associated with the given view and locale
-   *
-   * @param view
-   * @param locale
-   * @return
-   */
-  public static String getViewText(int view, Locale locale) {
-    try {
-      //TODO: session
-      DAOCodeTable dao = new DAOCodeTable();
-      return dao.load(dao.currentSession(), DB_LIST.class, (short) (view), locale).getShortText();
-    } catch (Exception e) {
-      return null;
-    }
-  }
-
-
-  /**
-   * Returns the shortText associated with the given view and locale
-   *
-   * @param view
-   * @param locale
-   * @return
-   */
-  public static String getCompleteViewText(int view, Locale locale) {
-    try {
-      //TODO session
-      DAOCodeTable daoCodeTable = new DAOCodeTable();
-      return daoCodeTable.load(daoCodeTable.currentSession(), DB_LIST.class, (short) (view),
-        locale).getLongText();
-    } catch (Exception e) {
-      return null;
-    }
   }
 
 

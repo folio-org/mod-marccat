@@ -1,6 +1,6 @@
 package org.folio.marccat.search.engine;
 
-import org.folio.marccat.exception.ModCatalogingException;
+import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.integration.StorageService;
 import org.folio.marccat.search.SearchResponse;
 
@@ -22,9 +22,9 @@ public interface SearchEngine {
    * @param locale        the current locale.
    * @param searchingView the searching view associated with the current query execution.
    * @return a search response (containing only the docids)
-   * @throws ModCatalogingException in case of a search subsystem failure.
+   * @throws ModMarccatException in case of a search subsystem failure.
    */
-  SearchResponse expertSearch(String cclQuery, Locale locale, int searchingView) throws ModCatalogingException;
+  SearchResponse expertSearch(String cclQuery, Locale locale, int searchingView) throws ModMarccatException;
 
   /**
    * Simple search interface contract.
@@ -33,9 +33,9 @@ public interface SearchEngine {
    * @param locale        the current locale.
    * @param searchingView the searching view associated with the current query execution.
    * @return a search response (containing only the docids)
-   * @throws ModCatalogingException in case of a search subsystem failure.
+   * @throws ModMarccatException in case of a search subsystem failure.
    */
-  SearchResponse simpleSearch(String query, String use, Locale locale, int searchingView) throws ModCatalogingException;
+  SearchResponse simpleSearch(String query, String use, Locale locale, int searchingView) throws ModMarccatException;
 
   /**
    * Advanced search interface contract.
@@ -47,13 +47,13 @@ public interface SearchEngine {
    * @param locale        the current locale.
    * @param searchingView the searching view associated with the current query execution.
    * @return a search response (containing only the docids)
-   * @throws ModCatalogingException in case of a search subsystem failure.
+   * @throws ModMarccatException in case of a search subsystem failure.
    */
   SearchResponse advancedSearch(List<String> termList,
                                 List<String> relationList,
                                 List<String> useList,
                                 List<Integer> operatorList,
-                                Locale locale, int searchingView) throws ModCatalogingException;
+                                Locale locale, int searchingView) throws ModMarccatException;
 
   /**
    * Fetches the records on a preexistent search response.
@@ -65,9 +65,9 @@ public interface SearchEngine {
    * @param firstRecord    the start offset (1-based), inclusive.
    * @param lastRecord     the end offset, inclusive.
    * @return a search response where records have been collected with the whole record data.
-   * @throws ModCatalogingException in case of a search subsystem failure.
+   * @throws ModMarccatException in case of a search subsystem failure.
    */
-  SearchResponse fetchRecords(SearchResponse searchResponse, String elementSetName, int firstRecord, int lastRecord) throws ModCatalogingException;
+  SearchResponse fetchRecords(SearchResponse searchResponse, String elementSetName, int firstRecord, int lastRecord) throws ModMarccatException;
 
   /**
    * Sorts a given resultset using the input criteria.
@@ -79,18 +79,18 @@ public interface SearchEngine {
    * @param attributes     the sort attributes.
    * @param directions     the sort order.
    * @return a search response without any collected records and with docids sorted according with the requested criteria.
-   * @throws ModCatalogingException in case of a search subsystem failure.
+   * @throws ModMarccatException in case of a search subsystem failure.
    */
   SearchResponse sort(
     SearchResponse searchResponse,
     String[] attributes,
-    String[] directions) throws ModCatalogingException;
+    String[] directions) throws ModMarccatException;
 
   /**
    * Inject in searchResponse of authority records counter of associated bibliographic records and query to retrieve them
    *
    * @param searchResponse
-   * @throws ModCatalogingException
+   * @throws ModMarccatException
    */
-  void injectDocCount(SearchResponse searchResponse, StorageService service) throws ModCatalogingException;
+  void injectDocCount(SearchResponse searchResponse, StorageService service) throws ModMarccatException;
 }

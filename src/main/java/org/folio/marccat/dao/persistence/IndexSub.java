@@ -98,10 +98,7 @@ public class IndexSub implements Serializable {
 
   public boolean equals(Object anObject) {
     IndexSub aKey = (IndexSub) anObject;
-    if (this.getListKey() == aKey.getListKey()) {
-      return true;
-    }
-    return false;
+    return this.getListKey() == aKey.getListKey();
   }
 
   /* (non-Javadoc)

@@ -44,11 +44,8 @@ public class T_FILES_HRCY implements Serializable {
       return false;
     T_FILES_HRCY other = (T_FILES_HRCY) obj;
     if (natureLevel == null) {
-      if (other.natureLevel != null)
-        return false;
-    } else if (!natureLevel.equals(other.natureLevel))
-      return false;
-    return true;
+      return other.natureLevel == null;
+    } else return natureLevel.equals(other.natureLevel);
   }
 
 

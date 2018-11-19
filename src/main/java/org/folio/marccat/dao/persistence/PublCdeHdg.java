@@ -44,11 +44,8 @@ public class PublCdeHdg implements Persistence {
       return false;
     final PublCdeHdg other = (PublCdeHdg) obj;
     if (hdrNumber == null) {
-      if (other.hdrNumber != null)
-        return false;
-    } else if (!hdrNumber.equals(other.hdrNumber))
-      return false;
-    return true;
+      return other.hdrNumber == null;
+    } else return hdrNumber.equals(other.hdrNumber);
   }
 
   /**

@@ -121,11 +121,8 @@ public abstract class LabelTagDisplay {
     } else if (!marcTag.equals(other.marcTag))
       return false;
     if (marcTagSubfieldCode == null) {
-      if (other.marcTagSubfieldCode != null)
-        return false;
-    } else if (!marcTagSubfieldCode.equals(other.marcTagSubfieldCode))
-      return false;
-    return true;
+      return other.marcTagSubfieldCode == null;
+    } else return marcTagSubfieldCode.equals(other.marcTagSubfieldCode);
   }
 
   public String getMarcTagSubfieldCode() {

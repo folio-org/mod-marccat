@@ -6,7 +6,7 @@ import org.folio.marccat.exception.MarcCorrelationException;
 
 public class NoTagFilter implements TagFilter {
 
-  public boolean accept(Tag tag, Object optionalCondition) throws MarcCorrelationException, DataAccessException {
+  public boolean accept(Tag tag, Object optionalCondition) throws DataAccessException {
     return false;
   }
 
