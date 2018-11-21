@@ -11,9 +11,11 @@ public interface MessageCatalog {
   String _00016_NO_HEADING_FOUND = "<" + MODULE_NAME + "-00016> : No heading found for heading number: %s";
   String _00017_MARC_CORRELATION_SORTING = "<" + MODULE_NAME + "-00017> : Marc correlation exception. ErrorCollection during sort tags.";
   String _00018_CANNOT_CREATE = "<" + MODULE_NAME + "-00018> : Unable to create the requested entity.";
+  String _00019_HEADER_TYPE_ID_WRONG = "<" + MODULE_NAME + "-00019> : The <<headerTypeCode>> is wrong or null. Unable to retrieve codes groups for tag/field %s.";
   String _00020_SE_QUERY = "<" + MODULE_NAME + "-00020> : CCL => \"%s\" became \"%s\"";
   String _00021_UNABLE_TO_PARSE_RECORD_DATA = "<" + MODULE_NAME + "-00021> : Invalid XML record data %s";
   String _00023_SE_REQRES = "<" + MODULE_NAME + "-00023> : CCL => \"%s\", %s matches.";
   String _00024_XSLT_FAILURE = "<" + MODULE_NAME + "-00024> : XSLT failure. Please check the stacktrace below for further details.";
+  String _00119_DAO_CLASS_MAP_NOT_FOUND = "<" + MODULE_NAME + "-00119> : Unable to retrieve the class by key. Key %s.";
 
 }

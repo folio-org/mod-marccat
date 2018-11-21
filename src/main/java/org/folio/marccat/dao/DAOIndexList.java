@@ -27,7 +27,58 @@ import static java.util.stream.Collectors.toList;
  */
 public class DAOIndexList extends HibernateUtil {
   private static final Log logger = LogFactory.getLog(DAOIndexList.class);
+  
+  /**
+   * Returns the browse indexes types associated to the given language.
+   *
+   * @param session the session of hibernate
+   * @param locale  the Locale, used here as a filter criterion.
+   * @return the browse indexes
+   * @throws HibernateException
+   */
+  public List getBrowseIndex(final Locale locale, final Session session) throws HibernateException {
+    final String query =
+      "from IndexList as a "
+        + "where SUBSTR(a.browseCode, 1, 1) = 'B' "
+        + "and a.key.language = '"
+        + locale.getISO3Language ( )
+        + "' and a.codeLibriCatMades = 'LC'"
+        + " order by a.languageDescription";
 
+    return getIndexBrowseByQuery (query, session);
+  }
+  
+  /**
+   * Return the language independent (key) index value to be used when
+   * browsing for entries of this type of Descriptor (e.g. Names ==
+   * "2P0"). The value returned should correspond to the value of
+   * IDX_LIST.IDX_LIST_KEY_NBR + IDX_LIST_TYPE_CDE
+   *
+   * @param mainType the main type, used here as a filter criterion.
+   * @param subType the sub type, used here as a filter criterion.
+   * @param session the session of hibernate
+   * @return the index
+   * @throws HibernateException
+   */
+  public String getIndexBySortFormType(final int mainType, final int subType, final Session session) throws HibernateException {
+   final String query =
+      "from IndexList as a "
+        + "where a.sortFormMainTypeCode = "
+        + mainType
+        + " and a.sortFormSubTypeCode = "
+        + subType
+        + " and a.key.language = '"
+        + Locale.ENGLISH.getISO3Language ( )
+        + "' and a.codeLibriCatMades = 'LC'";
+
+    final List <IndexListElement> l = getIndexByQuery (query, session);
+    if (l.size ( ) > 0) {
+      return (l.get (0)).getKey ( );
+    } else {
+      return null;
+    }
+  }
+  
   public String getIndexByEnglishAbreviation(String s)
     throws DataAccessException {
 
