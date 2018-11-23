@@ -23,6 +23,26 @@
           "methods": ["GET"],
           "pathPattern": "/document-count-by-id",
           "permissionsRequired": ["marccat.collection.count.get"]
+        },
+        {
+          "methods": ["GET"],
+          "pathPattern": "/browse",
+          "permissionsRequired": ["marccat.collection.get"]
+        },
+        {
+          "methods": ["GET"],
+          "pathPattern": "/next-page",
+          "permissionsRequired": ["marccat.collection.get"]
+        },
+        {
+          "methods": ["GET"],
+          "pathPattern": "/previous-page",
+          "permissionsRequired": ["marccat.collection.get"]
+        },
+        {
+          "methods": ["GET"],
+          "pathPattern": "/headings-by-tag",
+          "permissionsRequired": ["marccat.collection.get"]
         }
       ]
     }

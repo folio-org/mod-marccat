@@ -4,8 +4,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.folio.marccat.config.Global;
 import org.folio.marccat.ModMarccat;
+import org.folio.marccat.config.Global;
 import org.folio.marccat.resources.domain.HeadingDecorator;
 import org.folio.marccat.resources.domain.HeadingDecoratorCollection;
 import org.folio.marccat.shared.MapHeading;
@@ -25,18 +25,18 @@ import static org.folio.marccat.integration.CatalogingHelper.doGet;
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class BrowseAPI extends BaseResource {
 
-  private Function <MapHeading, HeadingDecorator> toHeading = source -> {
-    final HeadingDecorator heading = new HeadingDecorator ( );
-    heading.setHeadingNumber (source.getHeadingNumber ( ));
-    heading.setStringText (source.getStringText ( ));
-    heading.setCountAuthorities (source.getCountAuthorities ( ));
-    heading.setCountDocuments (source.getCountDocuments ( ));
-    heading.setCountCrossReferences (source.getCountCrossReferences ( ));
-    heading.setCountTitleNameDocuments (source.getCountTitleNameDocuments ( ));
-    heading.setIndexingLanguage (source.getIndexingLanguage ( ));
-    heading.setAccessPointlanguage (source.getAccessPointlanguage ( ));
-    heading.setVerificationlevel (source.getVerificationlevel ( ));
-    heading.setDatabase (source.getDatabase ( ));
+  private Function<MapHeading, HeadingDecorator> toHeading = source -> {
+    final HeadingDecorator heading = new HeadingDecorator();
+    heading.setHeadingNumber(source.getHeadingNumber());
+    heading.setStringText(source.getStringText());
+    heading.setCountAuthorities(source.getCountAuthorities());
+    heading.setCountDocuments(source.getCountDocuments());
+    heading.setCountCrossReferences(source.getCountCrossReferences());
+    heading.setCountTitleNameDocuments(source.getCountTitleNameDocuments());
+    heading.setIndexingLanguage(source.getIndexingLanguage());
+    heading.setAccessPointlanguage(source.getAccessPointlanguage());
+    heading.setVerificationlevel(source.getVerificationlevel());
+    heading.setDatabase(source.getDatabase());
     return heading;
   };
 
@@ -47,7 +47,7 @@ public class BrowseAPI extends BaseResource {
     @ApiResponse(code = 414, message = "Request-URI Too Long"),
     @ApiResponse(code = 500, message = "System internal failure occurred.")
   })
-  @GetMapping("/first-page")
+  @GetMapping("/browse")
   public HeadingDecoratorCollection getFirstPage(
     @RequestParam final String query,
     @RequestParam final int view,
@@ -55,13 +55,13 @@ public class BrowseAPI extends BaseResource {
     @RequestParam final int pageSize,
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final HeadingDecoratorCollection container = new HeadingDecoratorCollection ( );
-      container.setHeadings (
-        storageService.getFirstPage (query, view, mainLibrary, pageSize, lang)
-          .stream ( )
-          .map (toHeading)
-          .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      final HeadingDecoratorCollection container = new HeadingDecoratorCollection();
+      container.setHeadings(
+        storageService.getFirstPage(query, view, mainLibrary, pageSize, lang)
+          .stream()
+          .map(toHeading)
+          .collect(toList()));
       return container;
     }, tenant, configurator);
   }
@@ -81,13 +81,13 @@ public class BrowseAPI extends BaseResource {
     @RequestParam final int pageSize,
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      List <MapHeading> headings = storageService.getNextPage (query, view, mainLibrary, pageSize, lang);
-      final HeadingDecoratorCollection headingCollection = new HeadingDecoratorCollection ( );
-      headingCollection.setHeadings (headings
-        .stream ( )
-        .map (toHeading)
-        .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      List<MapHeading> headings = storageService.getNextPage(query, view, mainLibrary, pageSize, lang);
+      final HeadingDecoratorCollection headingCollection = new HeadingDecoratorCollection();
+      headingCollection.setHeadings(headings
+        .stream()
+        .map(toHeading)
+        .collect(toList()));
       return headingCollection;
     }, tenant, configurator);
   }
@@ -107,13 +107,14 @@ public class BrowseAPI extends BaseResource {
     @RequestParam final int pageSize,
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      final HeadingDecoratorCollection container = new HeadingDecoratorCollection ( );
-      container.setHeadings (
-        storageService.getPreviousPage (query, view, mainLibrary, pageSize, lang)
-          .stream ( )
-          .map (toHeading)
-          .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      final HeadingDecoratorCollection container = new HeadingDecoratorCollection();
+      container.setHeadings(
+        storageService
+          .getPreviousPage(query, view, mainLibrary, pageSize, lang)
+          .stream()
+          .map(toHeading)
+          .collect(toList()));
       return container;
     }, tenant, configurator);
   }
@@ -137,13 +138,13 @@ public class BrowseAPI extends BaseResource {
     @RequestParam final int pageSize,
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doGet ((storageService, configuration) -> {
-      List <MapHeading> headings = storageService.getHeadingsByTag (tag, indicator1, indicator2, stringText, view, mainLibrary, pageSize, lang);
-      final HeadingDecoratorCollection headingCollection = new HeadingDecoratorCollection ( );
-      headingCollection.setHeadings (headings
-        .stream ( )
-        .map (toHeading)
-        .collect (toList ( )));
+    return doGet((storageService, configuration) -> {
+      List<MapHeading> headings = storageService.getHeadingsByTag(tag, indicator1, indicator2, stringText, view, mainLibrary, pageSize, lang);
+      final HeadingDecoratorCollection headingCollection = new HeadingDecoratorCollection();
+      headingCollection.setHeadings(headings
+        .stream()
+        .map(toHeading)
+        .collect(toList()));
       return headingCollection;
     }, tenant, configurator);
   }

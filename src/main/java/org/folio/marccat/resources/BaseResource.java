@@ -20,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
   "http://folio.atcult.it:3000",
   "http://folio.atcult.it",
   "http://localhost:3000",
+  "http://localhost:8080",
   "*"
 })
 public abstract class BaseResource {

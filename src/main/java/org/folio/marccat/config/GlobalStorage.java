@@ -84,6 +84,14 @@ public class GlobalStorage {
 
   public final static String NAME_TITLE_VARIANT_CODES = "3v5";
 
+  public final static Map<String, String> OPERAND_QUERY = new HashMap<String, String>() {
+    {
+      put("MAJOR", ">");
+      put("MINOR", "<");
+      put("GRATER_THAN", ">=");
+      put("LESS_THEN", "<=");
+    }
+  };
 
   public final static Map<String, Class> BIBLIOGRAPHIC_ACCESS_POINT_CLASS_MAP = new HashMap<String, Class>() {
     {

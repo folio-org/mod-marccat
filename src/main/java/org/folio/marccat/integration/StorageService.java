@@ -1,7 +1,31 @@
 package org.folio.marccat.integration;
 
-import static java.util.Collections.emptyList;
-import static org.folio.marccat.util.F.locale;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import org.folio.marccat.business.cataloguing.bibliographic.BibliographicCatalog;
+import org.folio.marccat.business.cataloguing.bibliographic.BibliographicItem;
+import org.folio.marccat.business.cataloguing.bibliographic.BibliographicTagImpl;
+import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
+import org.folio.marccat.business.cataloguing.common.Browsable;
+import org.folio.marccat.business.cataloguing.common.Tag;
+import org.folio.marccat.business.cataloguing.common.TagImpl;
+import org.folio.marccat.business.codetable.Avp;
+import org.folio.marccat.business.common.View;
+import org.folio.marccat.config.GlobalStorage;
+import org.folio.marccat.config.log.Log;
+import org.folio.marccat.config.log.MessageCatalog;
+import org.folio.marccat.dao.*;
+import org.folio.marccat.dao.persistence.*;
+import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.InvalidBrowseIndexException;
+import org.folio.marccat.exception.ModMarccatException;
+import org.folio.marccat.exception.RecordNotFoundException;
+import org.folio.marccat.integration.search.Parser;
+import org.folio.marccat.resources.domain.CountDocument;
+import org.folio.marccat.search.SearchResponse;
+import org.folio.marccat.shared.MapHeading;
+import org.folio.marccat.util.F;
+import org.folio.marccat.util.StringText;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -15,52 +39,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
-import org.folio.marccat.business.cataloguing.bibliographic.BibliographicCatalog;
-import org.folio.marccat.business.cataloguing.bibliographic.BibliographicItem;
-import org.folio.marccat.business.cataloguing.bibliographic.BibliographicTagImpl;
-import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
-import org.folio.marccat.business.cataloguing.common.Browsable;
-import org.folio.marccat.business.cataloguing.common.Tag;
-import org.folio.marccat.business.cataloguing.common.TagImpl;
-import org.folio.marccat.business.codetable.Avp;
-import org.folio.marccat.business.common.View;
-import org.folio.marccat.config.GlobalStorage;
-import org.folio.marccat.config.log.Log;
-import org.folio.marccat.config.log.MessageCatalog;
-import org.folio.marccat.dao.AutDAO;
-import org.folio.marccat.dao.AuthorityCatalogDAO;
-import org.folio.marccat.dao.BibliographicCatalogDAO;
-import org.folio.marccat.dao.DAOCache;
-import org.folio.marccat.dao.DAOCodeTable;
-import org.folio.marccat.dao.DAODescriptor;
-import org.folio.marccat.dao.DAOFullCache;
-import org.folio.marccat.dao.DAOIndexList;
-import org.folio.marccat.dao.DAOSortResultSets;
-import org.folio.marccat.dao.NameTitleNameDescriptorDAO;
-import org.folio.marccat.dao.PublisherDescriptorDAO;
-import org.folio.marccat.dao.ShelfListDAO;
-import org.folio.marccat.dao.SystemNextNumberDAO;
-import org.folio.marccat.dao.persistence.AUT;
-import org.folio.marccat.dao.persistence.CatalogItem;
-import org.folio.marccat.dao.persistence.Correlation;
-import org.folio.marccat.dao.persistence.DB_LIST;
-import org.folio.marccat.dao.persistence.Descriptor;
-import org.folio.marccat.dao.persistence.FULL_CACHE;
-import org.folio.marccat.dao.persistence.T_SKP_IN_FLNG_CNT;
-import org.folio.marccat.dao.persistence.T_VRFTN_LVL;
-import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.exception.InvalidBrowseIndexException;
-import org.folio.marccat.exception.ModMarccatException;
-import org.folio.marccat.exception.RecordNotFoundException;
-import org.folio.marccat.integration.search.Parser;
-import org.folio.marccat.resources.domain.CountDocument;
-import org.folio.marccat.search.SearchResponse;
-import org.folio.marccat.shared.MapHeading;
-import org.folio.marccat.util.F;
-import org.folio.marccat.util.StringText;
-
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
+import static java.util.Collections.emptyList;
+import static org.folio.marccat.util.F.locale;
 
 
 /**
@@ -303,18 +283,18 @@ public class StorageService implements Closeable {
    * @throws DataAccessException
    * @throws InvalidBrowseIndexException
    */
-  public List <MapHeading> getFirstPage(final String query, final int view, final int mainLibrary, final int pageSize, final String lang) throws DataAccessException, InvalidBrowseIndexException {
+  public List<MapHeading> getFirstPage(final String query, final int view, final int mainLibrary, final int pageSize, final String lang) throws DataAccessException, InvalidBrowseIndexException {
     String key = null;
     try {
       String index = null;
       String browseTerm = null;
-      final List <Descriptor> descriptorsList;
+      final List<Descriptor> descriptorsList;
       final DAOIndexList daoIndex = new DAOIndexList();
       final DAOCodeTable daoCodeTable = new DAOCodeTable();
       if (query != null) {
         index = query.substring(0, query.indexOf((" ")));
         index = F.fixedCharPadding(index, 9).toUpperCase();
-        browseTerm = query.substring(query.indexOf((" ")), query.length()).trim();
+        browseTerm = query.substring(query.indexOf((" "))).trim();
       }
       key = daoIndex.getIndexByAbreviation(index, session, locale(lang));
       final Class c = GlobalStorage.DAO_CLASS_MAP.get(key);
@@ -325,7 +305,7 @@ public class StorageService implements Closeable {
       final DAODescriptor dao = (DAODescriptor) c.newInstance();
       String filter = GlobalStorage.FILTER_MAP.get(key);
       if (dao instanceof ShelfListDAO) {
-        filter = filter + " and hdg.mainLibraryNumber = " + mainLibrary;
+        filter += " and hdg.mainLibraryNumber = " + mainLibrary;
       }
       browseTerm = dao.calculateSearchTerm(browseTerm, key, session);
 
@@ -360,19 +340,19 @@ public class StorageService implements Closeable {
    * @throws DataAccessException
    * @throws InvalidBrowseIndexException
    */
-  public List <MapHeading> getNextPage(final String query, final int view, final int mainLibrary, final int pageSize, final String lang) {
+  public List<MapHeading> getNextPage(final String query, final int view, final int mainLibrary, final int pageSize, final String lang) {
     String key = null;
     try {
       String index = null;
       String browseTerm = null;
-      final List <Descriptor> descriptorsList;
+      final List<Descriptor> descriptorsList;
       final DAOIndexList daoIndex = new DAOIndexList();
       final DAOCodeTable daoCodeTable = new DAOCodeTable();
       String operator = ">";
       if (query != null) {
         index = query.substring(0, query.indexOf((" ")));
         index = F.fixedCharPadding(index, 9).toUpperCase();
-        browseTerm = query.substring(query.indexOf((" ")), query.length()).trim();
+        browseTerm = query.substring(query.indexOf((" "))).trim();
       }
 
       key = daoIndex.getIndexByAbreviation(index, session, locale(lang));
@@ -414,12 +394,12 @@ public class StorageService implements Closeable {
    * @throws DataAccessException
    * @throws InvalidBrowseIndexException
    */
-  public List <MapHeading> getPreviousPage(final String query, final int view, final int mainLibrary, final int pageSize, final String lang) {
+  public List<MapHeading> getPreviousPage(final String query, final int view, final int mainLibrary, final int pageSize, final String lang) {
     String key = null;
     try {
       String index = null;
       String browseTerm = null;
-      final List <Descriptor> descriptorsList;
+      final List<Descriptor> descriptorsList;
       final DAOIndexList daoIndex = new DAOIndexList();
       final DAOCodeTable daoCodeTable = new DAOCodeTable();
       String operator = "<";
@@ -444,7 +424,7 @@ public class StorageService implements Closeable {
       if (dao instanceof PublisherDescriptorDAO || dao instanceof NameTitleNameDescriptorDAO)
         operator = "<=";
       descriptorsList = dao.getHeadingsBySortform(operator, "desc", browseTerm, filter, view, pageSize, session);
-      List <MapHeading> mapHeading = getMapHeadings(view, lang, descriptorsList, daoCodeTable, dao);
+      List<MapHeading> mapHeading = getMapHeadings(view, lang, descriptorsList, daoCodeTable, dao);
       Collections.reverse(mapHeading);
       return mapHeading;
 
@@ -469,7 +449,7 @@ public class StorageService implements Closeable {
    * @return a map headings
    */
 
-  private List <MapHeading> getMapHeadings(int view, String lang, List <Descriptor> descriptorsList, DAOCodeTable daoCodeTable, DAODescriptor dao) throws DataAccessException {
+  private List<MapHeading> getMapHeadings(int view, String lang, List<Descriptor> descriptorsList, DAOCodeTable daoCodeTable, DAODescriptor dao) throws DataAccessException {
     return descriptorsList.stream().map(heading -> {
       final MapHeading headingObject = new MapHeading();
       try {
@@ -493,24 +473,6 @@ public class StorageService implements Closeable {
   }
 
   /**
-   * Returns the browse indexes types associated to the given language.
-   *
-   * @param lang the language code, used here as a filter criterion.
-   * @return a list of code / description tuples representing the language type associated with the requested language.
-   * @throws DataAccessException in case of data access failure.
-   */
-  public List <Avp <String>> getBrowseIndexes(final String lang) throws DataAccessException {
-    final DAOIndexList daoIndex = new DAOIndexList();
-    try {
-      return daoIndex.getBrowseIndex(new Locale(lang), session);
-
-    } catch (final HibernateException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-      throw new DataAccessException(exception);
-    }
-  }
-  
-  /**
    * Return the language independent (key) index value to be used when
    * browsing for entries of this type of Descriptor
    *
@@ -520,9 +482,8 @@ public class StorageService implements Closeable {
    * @throws HibernateException
    */
   public String getBrowseKey(final Descriptor descriptor, final Session session) throws HibernateException {
-    final String result;
     final DAOIndexList dao = new DAOIndexList();
-    result = dao.getIndexBySortFormType(descriptor.getSortFormParameters().getSortFormMainType(), descriptor.getCorrelationValues().getValue(1), session);
+    final String result = dao.getIndexBySortFormType(descriptor.getSortFormParameters().getSortFormMainType(), descriptor.getCorrelationValues().getValue(1), session);
     return (result != null) ? result : descriptor.getBrowseKey();
   }
 
@@ -538,12 +499,12 @@ public class StorageService implements Closeable {
    * @throws DataAccessException
    * @throws InvalidBrowseIndexException
    */
-  public List <MapHeading> getHeadingsByTag(final String tag, final String indicator1, final String indicator2, final String stringText, final int view, final int mainLibrary, final int pageSize, final String lang) {
+  public List<MapHeading> getHeadingsByTag(final String tag, final String indicator1, final String indicator2, final String stringText, final int view, final int mainLibrary, final int pageSize, final String lang) {
     try {
-      String key = null;
-      String browseTerm = null;
+      String key;
+      String browseTerm;
       String operator = ">";
-      final List <Descriptor> descriptorsList;
+      final List<Descriptor> descriptorsList;
       final DAOCodeTable daoCodeTable = new DAOCodeTable();
       final BibliographicCatalog catalog = new BibliographicCatalog();
       final CatalogItem item = new BibliographicItem();
@@ -576,5 +537,5 @@ public class StorageService implements Closeable {
     }
     return null;
   }
-  
+
 }
