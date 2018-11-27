@@ -7,7 +7,7 @@ Version 2.0. See the file "[LICENSE](LICENSE)" for more information.
 
 ## Introduction
 
-Metadata management / cataloging module (MARCcat).
+Metadata management / foolio marccat module.
 
 # Prerequisites
 
