@@ -11,6 +11,9 @@ import org.folio.marccat.search.domain.Record;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static java.util.stream.IntStream.rangeClosed;
 
@@ -231,4 +234,38 @@ public abstract class ModCatalogingSearchEngine implements SearchEngine {
    * @return a record representation according with the rules of this search engine implementation.
    */
   public abstract Record newRecord();
+
+  /**
+   * Check if term in input is an index/operator
+   * @param term
+   * @param indexesAndOperator
+   * @return true if the term is equal to one string in the list indexesAndOperators
+   */
+  public boolean isOperator (final String term, final List<String> indexesAndOperator) {
+    return indexesAndOperator.stream().anyMatch(indexes -> indexes.equalsIgnoreCase(term));
+  }
+
+  /**
+   * retrieves searched term in query, filtering operators and indexes
+   * @param query
+   * @return a list of searched term in query, filtering operators and indexes
+   */
+  public List<String> getTermsFromCCLQuery (final String query) {
+    List<String> result = new ArrayList<>();
+    Pattern p = Pattern.compile("\"([^\"]*)\"");
+    Matcher m = p.matcher(query);
+    while (m.find()) {
+      result.add(cleanPunctuation(m.group(1)));
+    }
+    return  result;
+  }
+
+  /**
+   * strips all punctuation from the text to help in compare
+   * @param text
+   * @return text cleaned
+   */
+  public String cleanPunctuation (final String text) {
+    return (text != null) ? text.replaceAll(",|;|\\.|!", "") : null;
+  }
 }

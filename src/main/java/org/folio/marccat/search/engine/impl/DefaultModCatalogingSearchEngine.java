@@ -7,6 +7,8 @@ import org.folio.marccat.search.XmlRecord;
 import org.folio.marccat.search.domain.Record;
 import org.folio.marccat.search.engine.ModCatalogingSearchEngine;
 
+import java.util.Locale;
+
 /**
  * ModMarccat Search Engine.
  *
@@ -32,6 +34,12 @@ public class DefaultModCatalogingSearchEngine extends ModCatalogingSearchEngine 
 
   @Override
   public void injectDocCount(SearchResponse searchResponse, final StorageService storageService) throws ModMarccatException {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void injectTagHighlight(SearchResponse searchResponse, final StorageService storageService, Locale lang) throws ModMarccatException {
     // TODO Auto-generated method stub
 
   }

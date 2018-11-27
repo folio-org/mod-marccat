@@ -135,5 +135,9 @@ public interface Record {
   String getQueryForAssociatedDoc();
 
   void setQueryForAssociatedDoc(String queryForAssociatedDoc);
+
+  String getTagHighlighted();
+
+  void setTagHighlighted(String tags);
 }
 

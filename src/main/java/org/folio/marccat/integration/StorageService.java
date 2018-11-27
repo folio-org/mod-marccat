@@ -538,4 +538,23 @@ public class StorageService implements Closeable {
     return null;
   }
 
+  /**
+   * Get all olisuite indexes
+   * @param lang language
+   * @throws DataAccessException in case of data access failure.
+   */
+
+  public List<String> getAllIndexes (Locale lang) throws DataAccessException {
+    try {
+      final DAOIndexList dao = new DAOIndexList();
+      return dao.getAllIndexes(session, lang).stream().map(el -> {
+        return el.getValue().trim();
+      })
+        .collect(Collectors.toList());
+    } catch (final HibernateException exception) {
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
+    }
+  }
+
 }

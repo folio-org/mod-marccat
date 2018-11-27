@@ -93,4 +93,10 @@ public interface SearchEngine {
    * @throws ModMarccatException
    */
   void injectDocCount(SearchResponse searchResponse, StorageService service) throws ModMarccatException;
+  /**
+   * Inject list of tags in which searchEngine found query parameter
+   * @param searchResponse
+   * @throws ModMarccatException
+   */
+  void injectTagHighlight(SearchResponse searchResponse, final StorageService storageService, Locale lang) throws ModMarccatException;
 }

@@ -1,5 +1,6 @@
 package org.folio.marccat.search.engine.impl;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import net.sf.hibernate.HibernateException;
 import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.integration.StorageService;
@@ -9,7 +10,7 @@ import org.folio.marccat.search.domain.LightweightJsonRecord;
 import org.folio.marccat.search.domain.Record;
 import org.folio.marccat.search.engine.ModCatalogingSearchEngine;
 
-import java.util.Arrays;
+import java.util.*;
 
 /**
  * ModMarccat Search Engine.
@@ -51,8 +52,28 @@ public class LightweightModCatalogingSearchEngine extends ModCatalogingSearchEng
 
       });
     }
-
   }
 
-
+  @Override
+  public void injectTagHighlight(SearchResponse searchResponse, final StorageService storageService, Locale lang) throws ModMarccatException {
+    List<String> queryTerms = getTermsFromCCLQuery(searchResponse.getDisplayQuery());
+    if (searchResponse != null) {
+      Arrays.stream(searchResponse.getRecord()).forEach(singleRecord -> {
+        List<String> tagHighlighted = new ArrayList<>();
+        JsonNode fields = ((LightweightJsonRecord) singleRecord).getData().get("fields");
+        if (fields.isArray()) {
+          fields.forEach(tag -> {
+            Iterator<String> iterator = ((JsonNode) tag).fieldNames();
+            while (iterator.hasNext()) {
+              String tagName = iterator.next();
+              JsonNode tagValueNode = tag.get(tagName);
+              if (queryTerms.stream().anyMatch(term -> cleanPunctuation(tagValueNode.toString()).toLowerCase().contains(term.toLowerCase())))
+                tagHighlighted.add(tagName);
+            }
+          });
+        }
+        singleRecord.setTagHighlighted(String.join(", ", tagHighlighted));
+      });
+    }
+  }
 }

@@ -31,6 +31,7 @@ public class MarcRecord extends AbstractRecord {
   private Map xmlContent = new HashMap();
   private int countDoc;
   private String queryForAssociatedDoc;
+  private String tagHighlighted;
 
   public Document toXmlDocument(String elementSetName) {
     Document xmlDocument = (Document) xmlContent.get(elementSetName);
@@ -117,6 +118,14 @@ public class MarcRecord extends AbstractRecord {
 
   public void setQueryForAssociatedDoc(String queryForAssociatedDoc) {
     this.queryForAssociatedDoc = queryForAssociatedDoc;
+  }
+
+  public String getTagHighlighted() {
+    return tagHighlighted;
+  }
+
+  public void setTagHighlighted(String tag) {
+    this.tagHighlighted = tag;
   }
 
 }

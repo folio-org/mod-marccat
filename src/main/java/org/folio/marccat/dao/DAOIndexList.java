@@ -27,7 +27,7 @@ import static java.util.stream.Collectors.toList;
  */
 public class DAOIndexList extends HibernateUtil {
   private static final Log logger = LogFactory.getLog(DAOIndexList.class);
-  
+
   /**
    * Returns the browse indexes types associated to the given language.
    *
@@ -47,7 +47,7 @@ public class DAOIndexList extends HibernateUtil {
 
     return getIndexBrowseByQuery (query, session);
   }
-  
+
   /**
    * Return the language independent (key) index value to be used when
    * browsing for entries of this type of Descriptor (e.g. Names ==
@@ -78,7 +78,7 @@ public class DAOIndexList extends HibernateUtil {
       return null;
     }
   }
-  
+
   public String getIndexByEnglishAbreviation(String s)
     throws DataAccessException {
 
@@ -242,4 +242,24 @@ public class DAOIndexList extends HibernateUtil {
     return firstElement.isPresent() ? (firstElement.get()).getKey() : null;
 
   }
+
+  /**
+   * Get a list of all indexes used by the system
+   *
+   * @param session
+   * @param locale
+   * @return
+   * @throws HibernateException
+   */
+  public List <IndexListElement> getAllIndexes(final Session session, Locale locale) throws HibernateException {
+    String query =
+      "from IndexList as a "
+        + "where a.key.language = '"
+        + locale.getISO3Language()
+        + "'";
+
+    List l = getIndexByQuery(query, session);
+    return l;
+  }
+
 }

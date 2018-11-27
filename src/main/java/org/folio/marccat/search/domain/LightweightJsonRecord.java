@@ -37,7 +37,7 @@ public class LightweightJsonRecord extends AbstractRecord {
   private int countDoc;
   private String queryForAssociatedDoc;
   private JsonNode data;
-
+  private String tagHighlighted;
 
   /**
    * setContent, converting marcxml to jsonxml
@@ -101,5 +101,13 @@ public class LightweightJsonRecord extends AbstractRecord {
 
   public void setQueryForAssociatedDoc(String queryForAssociatedDoc) {
     this.queryForAssociatedDoc = queryForAssociatedDoc;
+  }
+
+  public String getTagHighlighted() {
+    return tagHighlighted;
+  }
+
+  public void setTagHighlighted(String tag) {
+    this.tagHighlighted = tag;
   }
 }
