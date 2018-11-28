@@ -252,8 +252,10 @@ public abstract class ModCatalogingSearchEngine implements SearchEngine {
    */
   public List<String> getTermsFromCCLQuery (final String query) {
     List<String> result = new ArrayList<>();
+    //remove filters term from query
+    String cleanedQuery = query.replaceAll("LAN\\s\"([^\"]*)\"", "").replaceAll("MAT\\s\"([^\"]*)\"", "").replaceAll("BIB\\s\"([^\"]*)\"", "");
     Pattern p = Pattern.compile("\"([^\"]*)\"");
-    Matcher m = p.matcher(query);
+    Matcher m = p.matcher(cleanedQuery);
     while (m.find()) {
       result.add(cleanPunctuation(m.group(1)));
     }
