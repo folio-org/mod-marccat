@@ -128,15 +128,9 @@ public interface Record {
     URL stylesheet,
     Map xsltParameters) throws XmlDocumentException, XslTransformerConfigurationException, XslTransformerException;
 
-  int getCountDoc();
-
   void setCountDoc(int countDoc);
 
-  String getQueryForAssociatedDoc();
-
   void setQueryForAssociatedDoc(String queryForAssociatedDoc);
-
-  String getTagHighlighted();
 
   void setTagHighlighted(String tags);
 }

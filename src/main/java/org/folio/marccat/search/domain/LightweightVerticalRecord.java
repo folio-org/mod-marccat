@@ -46,7 +46,6 @@ public class LightweightVerticalRecord extends AbstractRecord {
   };
 
   private String data;
-  private String tagHighlighted;
 
   @Override
   public void setContent(final String elementSetName, final Object data) {

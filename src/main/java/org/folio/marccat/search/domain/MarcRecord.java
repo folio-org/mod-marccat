@@ -31,7 +31,6 @@ public class MarcRecord extends AbstractRecord {
   private Map xmlContent = new HashMap();
   private int countDoc;
   private String queryForAssociatedDoc;
-  private String tagHighlighted;
 
   public Document toXmlDocument(String elementSetName) {
     Document xmlDocument = (Document) xmlContent.get(elementSetName);

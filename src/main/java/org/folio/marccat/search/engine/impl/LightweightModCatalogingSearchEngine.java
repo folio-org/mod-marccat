@@ -35,7 +35,12 @@ public class LightweightModCatalogingSearchEngine extends ModCatalogingSearchEng
     return new LightweightJsonRecord();
   }
 
-  @Override
+  /**
+   * Inject in searchResponse of authority records counter of associated bibliographic records and query to retrieve them
+   *
+   * @param searchResponse
+   * @throws ModMarccatException
+   */
   public void injectDocCount(SearchResponse searchResponse, final StorageService storageService) throws ModMarccatException {
     final int view = 1;
     //retrieve records id
@@ -54,26 +59,32 @@ public class LightweightModCatalogingSearchEngine extends ModCatalogingSearchEng
     }
   }
 
-  @Override
+  /**
+   * Inject list of tags in which searchEngine found query parameter
+   *
+   * @param searchResponse
+   * @throws ModMarccatException
+   */
+
   public void injectTagHighlight(SearchResponse searchResponse, final StorageService storageService, Locale lang) throws ModMarccatException {
     List<String> queryTerms = getTermsFromCCLQuery(searchResponse.getDisplayQuery());
-    if (searchResponse != null) {
-      Arrays.stream(searchResponse.getRecord()).forEach(singleRecord -> {
-        List<String> tagHighlighted = new ArrayList<>();
-        JsonNode fields = ((LightweightJsonRecord) singleRecord).getData().get("fields");
-        if (fields.isArray()) {
-          fields.forEach(tag -> {
-            Iterator<String> iterator = ((JsonNode) tag).fieldNames();
-            while (iterator.hasNext()) {
-              String tagName = iterator.next();
-              JsonNode tagValueNode = tag.get(tagName);
-              if (queryTerms.stream().anyMatch(term -> cleanPunctuation(tagValueNode.toString()).toLowerCase().contains(term.toLowerCase())))
-                tagHighlighted.add(tagName);
-            }
-          });
-        }
-        singleRecord.setTagHighlighted(String.join(", ", tagHighlighted));
-      });
-    }
+
+    Arrays.stream(searchResponse.getRecord()).forEach(singleRecord -> {
+      List<String> tagHighlighted = new ArrayList<>();
+      JsonNode fields = ((LightweightJsonRecord) singleRecord).getData().get("fields");
+      if (fields.isArray()) {
+        fields.forEach(tag -> {
+          Iterator<String> iterator = ((JsonNode) tag).fieldNames();
+          while (iterator.hasNext()) {
+            String tagName = iterator.next();
+            JsonNode tagValueNode = tag.get(tagName);
+            if (queryTerms.stream().anyMatch(term -> cleanPunctuation(tagValueNode.toString()).toLowerCase().contains(term.toLowerCase())))
+              tagHighlighted.add(tagName);
+          }
+        });
+      }
+      singleRecord.setTagHighlighted(String.join(", ", tagHighlighted));
+    });
+
   }
 }

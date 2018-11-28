@@ -33,14 +33,12 @@ public class DefaultModCatalogingSearchEngine extends ModCatalogingSearchEngine 
   }
 
   @Override
-  public void injectDocCount(SearchResponse searchResponse, final StorageService storageService) throws ModMarccatException {
-    // TODO Auto-generated method stub
+  public void injectDocCount(SearchResponse response, StorageService storageService) {
 
   }
 
   @Override
-  public void injectTagHighlight(SearchResponse searchResponse, final StorageService storageService, Locale lang) throws ModMarccatException {
-    // TODO Auto-generated method stub
+  public void injectTagHighlight(SearchResponse response, StorageService storageService, Locale locale) {
 
   }
 }
