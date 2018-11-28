@@ -99,11 +99,4 @@ public class LightweightVerticalRecord extends AbstractRecord {
     this.queryForAssociatedDoc = queryForAssociatedDoc;
   }
 
-  public String getTagHighlighted() {
-    return tagHighlighted;
-  }
-
-  public void setTagHighlighted(String tag) {
-    this.tagHighlighted = tag;
-  }
 }
