@@ -1,10 +1,10 @@
 pipeline {
     agent any
-     environment {
-         doError = '1'
-     }
     stages {
       stage('SCM Checkout') {
+                     when {
+                        expression { BRANCH_NAME ==~ /(FOLIO-TEST)/ }
+                    }
             steps {
               script {
                     echo 'Pulling...' + env.BRANCH_NAME
@@ -13,6 +13,9 @@ pipeline {
              }
         }
         stage('Build') {
+                       when {
+                        expression { BRANCH_NAME ==~ /(FOLIO-TEST)/ }
+                      }
             steps {
                 script {
                    def mvnHome = tool 'mvn'
@@ -22,11 +25,17 @@ pipeline {
             }
         }
         stage('Test') {
+           when {
+                                expression { BRANCH_NAME ==~ /(FOLIO-TEST)/ }
+                              }
             steps {
                 echo 'Executing test.....'
           }
         }
         stage('Deploy'){
+           when {
+                                expression { BRANCH_NAME ==~ /(FOLIO-TEST)/ }
+                              }
              steps{
                   script{
                        withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
@@ -36,6 +45,9 @@ pipeline {
                 }
         }
         stage('Deploy ITNET'){
+           when {
+                                expression { BRANCH_NAME ==~ /(FOLIO-TEST)/ }
+                              }
                steps{
                     script{
                          withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
@@ -45,11 +57,17 @@ pipeline {
                         }
          }
          stage('Publish API Docs') {
+            when {
+                                 expression { BRANCH_NAME ==~ /(FOLIO-TEST)/ }
+                               }
              steps {
                 echo 'Publishing API Docs....'
              }
          }
           stage('Publish Npm') {
+             when {
+                                  expression { BRANCH_NAME ==~ /(FOLIO-TEST)/ }
+                                }
                    steps {
                      echo 'Publishing on Npm....'
               }
