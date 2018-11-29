@@ -118,5 +118,4 @@ public class MarcRecord extends AbstractRecord {
   public void setQueryForAssociatedDoc(String queryForAssociatedDoc) {
     this.queryForAssociatedDoc = queryForAssociatedDoc;
   }
-
 }

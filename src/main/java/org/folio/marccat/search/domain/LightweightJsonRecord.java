@@ -24,7 +24,6 @@ import static java.util.Optional.ofNullable;
  * @since 1.0
  */
 public class LightweightJsonRecord extends AbstractRecord {
-  private final static Log LOGGER = new Log(LightweightJsonRecord.class);
   private final static JsonNode DUMMY_RECORD = null;
   private final static ThreadLocal<SAXParser> SAX_PARSERS =
     ThreadLocal.withInitial(() -> {
@@ -37,8 +36,6 @@ public class LightweightJsonRecord extends AbstractRecord {
   private int countDoc;
   private String queryForAssociatedDoc;
   private JsonNode data;
-
-
   /**
    * setContent, converting marcxml to jsonxml
    *

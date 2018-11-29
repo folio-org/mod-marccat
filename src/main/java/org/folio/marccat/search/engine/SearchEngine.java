@@ -27,35 +27,6 @@ public interface SearchEngine {
   SearchResponse expertSearch(String cclQuery, Locale locale, int searchingView) throws ModMarccatException;
 
   /**
-   * Simple search interface contract.
-   *
-   * @param query         the input query.
-   * @param locale        the current locale.
-   * @param searchingView the searching view associated with the current query execution.
-   * @return a search response (containing only the docids)
-   * @throws ModMarccatException in case of a search subsystem failure.
-   */
-  SearchResponse simpleSearch(String query, String use, Locale locale, int searchingView) throws ModMarccatException;
-
-  /**
-   * Advanced search interface contract.
-   *
-   * @param termList
-   * @param relationList
-   * @param useList
-   * @param operatorList
-   * @param locale        the current locale.
-   * @param searchingView the searching view associated with the current query execution.
-   * @return a search response (containing only the docids)
-   * @throws ModMarccatException in case of a search subsystem failure.
-   */
-  SearchResponse advancedSearch(List<String> termList,
-                                List<String> relationList,
-                                List<String> useList,
-                                List<Integer> operatorList,
-                                Locale locale, int searchingView) throws ModMarccatException;
-
-  /**
    * Fetches the records on a preexistent search response.
    * This is the second phase of a search, where collected docids are fetched in order to retrieve the
    * actual record data.
@@ -86,11 +57,7 @@ public interface SearchEngine {
     String[] attributes,
     String[] directions) throws ModMarccatException;
 
-  /**
-   * Inject in searchResponse of authority records counter of associated bibliographic records and query to retrieve them
-   *
-   * @param searchResponse
-   * @throws ModMarccatException
-   */
-  void injectDocCount(SearchResponse searchResponse, StorageService service) throws ModMarccatException;
+  void injectDocCount(SearchResponse response, StorageService storageService);
+
+  void injectTagHighlight(SearchResponse response, StorageService storageService, Locale locale);
 }

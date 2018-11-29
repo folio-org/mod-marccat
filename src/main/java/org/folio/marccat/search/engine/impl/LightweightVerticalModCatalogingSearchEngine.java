@@ -7,6 +7,8 @@ import org.folio.marccat.search.domain.LightweightVerticalRecord;
 import org.folio.marccat.search.domain.Record;
 import org.folio.marccat.search.engine.ModCatalogingSearchEngine;
 
+import java.util.Locale;
+
 /**
  * ModMarccat Search Engine.
  *
@@ -31,8 +33,12 @@ public class LightweightVerticalModCatalogingSearchEngine extends ModCatalogingS
   }
 
   @Override
-  public void injectDocCount(SearchResponse searchResponse, final StorageService storageService) throws ModMarccatException {
-    // TODO Auto-generated method stub
+  public void injectDocCount(SearchResponse response, StorageService storageService) {
+
+  }
+
+  @Override
+  public void injectTagHighlight(SearchResponse response, StorageService storageService, Locale locale) {
 
   }
 }

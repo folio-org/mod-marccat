@@ -46,6 +46,7 @@ public abstract class AbstractRecord implements Record {
   private int recordView;
   private int countDoc;
   private String queryForAssociatedDoc;
+  private String tagHighlighted;
 
   @Override
   public boolean hasContent(final String elementSetName) {
@@ -230,6 +231,14 @@ public abstract class AbstractRecord implements Record {
 
   public void setQueryForAssociatedDoc(String queryForAssociatedDoc) {
     this.queryForAssociatedDoc = queryForAssociatedDoc;
+  }
+
+  public String getTagHighlighted() {
+    return tagHighlighted;
+  }
+
+  public void setTagHighlighted(String tag) {
+    this.tagHighlighted = tag;
   }
 
 

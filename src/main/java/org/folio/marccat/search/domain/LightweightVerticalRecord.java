@@ -47,7 +47,6 @@ public class LightweightVerticalRecord extends AbstractRecord {
 
   private String data;
 
-
   @Override
   public void setContent(final String elementSetName, final Object data) {
     this.data = ofNullable(data)
@@ -98,4 +97,5 @@ public class LightweightVerticalRecord extends AbstractRecord {
   public void setQueryForAssociatedDoc(String queryForAssociatedDoc) {
     this.queryForAssociatedDoc = queryForAssociatedDoc;
   }
+
 }
