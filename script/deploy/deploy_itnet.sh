@@ -24,5 +24,4 @@ ssh_itnet_deploy(){
   echo "uploaded artifact succesfully. Deploy last release of modcat"
   nohup echo "cd /usr/local/folio/bin ; sh deploy_mod-cat.sh" | ssh -p ${SSH_PORT} folio@${SSH_HOST} &
 }
-
 ssh_itnet_deploy

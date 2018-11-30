@@ -79,7 +79,7 @@ pipeline {
               echo 'pipeline finished!'
           }
           success {
-              echo 'mod-catalogin deployed succesfully on Zeta and ITNET and up and running on port 8080'
+              echo 'mod-marccat deployed succesfully on Zeta and ITNET and up and running on port 8080'
           }
           failure {
               echo 'Pipeline failed!!!!'
