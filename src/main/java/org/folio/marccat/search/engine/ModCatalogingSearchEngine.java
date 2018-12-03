@@ -3,7 +3,6 @@ package org.folio.marccat.search.engine;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.config.Global;
 import org.folio.marccat.dao.persistence.CatalogItem;
-import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.exception.RecordNotFoundException;
 import org.folio.marccat.integration.StorageService;
 import org.folio.marccat.search.SearchResponse;
@@ -13,7 +12,6 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import static java.util.stream.IntStream.rangeClosed;
 
@@ -25,13 +23,6 @@ import static java.util.stream.IntStream.rangeClosed;
  * @since 1.0
  */
 public abstract class ModCatalogingSearchEngine implements SearchEngine {
-  private static final String[] RELATIONSHIP_TABLE = new String[]{"dummy", "<", "<=", "=", ">", ">="};
-  private static final Map<Locale, String[]> OPERATORS = new HashMap<>();
-  private static Map<Locale, String> DEFAULT_SEARCH_INDEX = new Hashtable<>();
-
-  static {
-    DEFAULT_SEARCH_INDEX.put(Locale.ENGLISH, "AW");
-  }
 
   private final int mainLibraryId;
   private final int databasePreferenceOrder;
@@ -51,7 +42,7 @@ public abstract class ModCatalogingSearchEngine implements SearchEngine {
   }
 
   @Override
-  public SearchResponse expertSearch(final String cclQuery, final Locale locale, final int searchingView) throws ModMarccatException {
+  public SearchResponse expertSearch(final String cclQuery, final Locale locale, final int searchingView) {
     return new SearchResponse(
       searchingView,
       cclQuery,
@@ -89,7 +80,7 @@ public abstract class ModCatalogingSearchEngine implements SearchEngine {
   }
 
   @Override
-  public SearchResponse sort(final SearchResponse rs, final String[] attributes, final String[] directions) throws ModMarccatException {
+  public SearchResponse sort(final SearchResponse rs, final String[] attributes, final String[] directions) {
     return storageService.sortResults(rs, attributes, directions);
   }
 
