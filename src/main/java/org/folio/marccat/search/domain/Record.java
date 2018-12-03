@@ -1,6 +1,5 @@
 package org.folio.marccat.search.domain;
 
-import org.folio.marccat.exception.XmlDocumentException;
 import org.folio.marccat.exception.XmlParserConfigurationException;
 import org.folio.marccat.exception.XslTransformerConfigurationException;
 import org.folio.marccat.exception.XslTransformerException;
@@ -89,7 +88,7 @@ public interface Record {
   Document toXmlStyledDocument(
     String elementSetName,
     String stylesheet,
-    Map xsltParameters) throws XmlParserConfigurationException, XslTransformerConfigurationException, XslTransformerException;
+    Map xsltParameters) ;
 
   /**
    * Applies an XSLT transformation to this record.
@@ -105,12 +104,9 @@ public interface Record {
   Document toXmlStyledDocument(
     String elementSetName,
     URL stylesheet,
-    Map xsltParameters) throws XmlParserConfigurationException, XslTransformerConfigurationException, XslTransformerException;
+    Map xsltParameters) ;
 
-  String toStyledDocument(
-    String elementSetName,
-    String stylesheet,
-    Map xsltParameters) throws XmlDocumentException, XslTransformerConfigurationException, XslTransformerException;
+
 
   /**
    * Applies an XSLT transformation to this record.
@@ -126,14 +122,12 @@ public interface Record {
   String toStyledDocument(
     String elementSetName,
     URL stylesheet,
-    Map xsltParameters) throws XmlDocumentException, XslTransformerConfigurationException, XslTransformerException;
-
-  int getCountDoc();
+    Map xsltParameters) ;
 
   void setCountDoc(int countDoc);
 
-  String getQueryForAssociatedDoc();
-
   void setQueryForAssociatedDoc(String queryForAssociatedDoc);
+
+  void setTagHighlighted(String tags);
 }
 

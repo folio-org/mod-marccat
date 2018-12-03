@@ -57,7 +57,7 @@ public class SearchAPI extends BaseResource {
       if (view == AUTHORITY_VIEW) {
         searchEngine.injectDocCount(response, storageService);
       }
-
+      searchEngine.injectTagHighlight(response, storageService, locale (lang));
       return response;
     }, tenant, configurator);
   }
@@ -93,7 +93,7 @@ public class SearchAPI extends BaseResource {
         to);
 
       searchEngine.injectDocCount(response, storageService);
-
+      searchEngine.injectTagHighlight(response, storageService, locale (lang));
       return response;
     }, tenant, configurator);
 
@@ -112,7 +112,7 @@ public class SearchAPI extends BaseResource {
         "F",
         from,
         to);
-
+      searchEngine.injectTagHighlight(response, storageService, locale (lang));
       return response;
     }, tenant, configurator);
     List<SearchResponse> mergedResult = new ArrayList<>();

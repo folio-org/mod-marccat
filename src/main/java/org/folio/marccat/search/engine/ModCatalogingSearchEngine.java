@@ -3,7 +3,6 @@ package org.folio.marccat.search.engine;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.config.Global;
 import org.folio.marccat.dao.persistence.CatalogItem;
-import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.exception.RecordNotFoundException;
 import org.folio.marccat.integration.StorageService;
 import org.folio.marccat.search.SearchResponse;
@@ -11,6 +10,8 @@ import org.folio.marccat.search.domain.Record;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.util.stream.IntStream.rangeClosed;
 
@@ -22,13 +23,6 @@ import static java.util.stream.IntStream.rangeClosed;
  * @since 1.0
  */
 public abstract class ModCatalogingSearchEngine implements SearchEngine {
-  private static final String[] RELATIONSHIP_TABLE = new String[]{"dummy", "<", "<=", "=", ">", ">="};
-  private static final Map<Locale, String[]> OPERATORS = new HashMap<>();
-  private static Map<Locale, String> DEFAULT_SEARCH_INDEX = new Hashtable<>();
-
-  static {
-    DEFAULT_SEARCH_INDEX.put(Locale.ENGLISH, "AW");
-  }
 
   private final int mainLibraryId;
   private final int databasePreferenceOrder;
@@ -48,7 +42,7 @@ public abstract class ModCatalogingSearchEngine implements SearchEngine {
   }
 
   @Override
-  public SearchResponse expertSearch(final String cclQuery, final Locale locale, final int searchingView) throws ModMarccatException {
+  public SearchResponse expertSearch(final String cclQuery, final Locale locale, final int searchingView) {
     return new SearchResponse(
       searchingView,
       cclQuery,
@@ -86,121 +80,8 @@ public abstract class ModCatalogingSearchEngine implements SearchEngine {
   }
 
   @Override
-  public SearchResponse simpleSearch(final String query, final String use, final Locale locale, final int searchingView) throws ModMarccatException {
-    return expertSearch(buildCclQuery(query, use, locale), locale, searchingView);
-  }
-
-  @Override
-  public SearchResponse advancedSearch(final List<String> termList,
-                                       final List<String> relationList,
-                                       final List<String> useList,
-                                       final List<Integer> operatorList,
-                                       final Locale locale,
-                                       final int searchingView) throws ModMarccatException {
-    return expertSearch(
-      buildCclQuery(termList, relationList, useList, operatorList, locale),
-      locale,
-      searchingView);
-  }
-
-  @Override
-  public SearchResponse sort(final SearchResponse rs, final String[] attributes, final String[] directions) throws ModMarccatException {
+  public SearchResponse sort(final SearchResponse rs, final String[] attributes, final String[] directions) {
     return storageService.sortResults(rs, attributes, directions);
-  }
-
-  private String buildCclQuery(
-    final List<String> termList,
-    final List<String> relationList,
-    final List<String> useList,
-    final List<Integer> operatorList,
-    final Locale locale) {
-    final StringBuilder buffer = new StringBuilder();
-    for (int i = 0; i < useList.size(); i++) {
-      if (i > 0) {
-        buffer
-          .append(" ")
-          .append(getLocalisedOperator(operatorList.get(i), locale))
-          .append(" ");
-      }
-      buffer
-        .append(useList.get(i)).append(" ")
-        .append(RELATIONSHIP_TABLE[Integer.parseInt(relationList.get(i))])
-        .append(" ").append(termList.get(i)).append(" ");
-    }
-
-    return buffer.toString();
-  }
-
-  /**
-   * Builds a CCL query from the given data.
-   *
-   * @param query  the input query.
-   * @param useIn  the index.
-   * @param locale the current locale.
-   * @return the CCL query.
-   */
-  private String buildCclQuery(final String query, final String useIn, final Locale locale) {
-    final StringBuilder buffer = new StringBuilder();
-    final String use = (useIn == null || useIn.trim().isEmpty()) ? getDefaultSearchIndex(locale) : useIn;
-
-    buffer.append(use).append(" = ");
-    if (query.trim().matches("\".*\"")) {
-      buffer.append(query);
-    } else {
-      final String[] words = query.trim().split(" ");
-      for (int i = 0; i < words.length - 1; i++) {
-        buffer.append(
-          words[i]
-            + " "
-            + getLocalisedOperator(1, locale)
-            + " "
-            + use
-            + " = ");
-      }
-      buffer.append(words[words.length - 1]);
-    }
-    return buffer.toString();
-  }
-
-  /**
-   * Returns the localized version of the boolean operator associated with the given index.
-   * The index is the operator offset within the localized array. The array contains, at time of writing:
-   *
-   * <li>
-   * <ul>0: empty string</ul>
-   * <ul>1: AND</ul>
-   * <ul>2: OR</ul>
-   * <ul>3: NOT</ul>
-   * <ul>4: NEAR</ul>
-   * <ul>5: WITH</ul>
-   * </li>
-   *
-   * @param index  the operator index within the i18n bundle.
-   * @param locale the current locale.
-   * @return the localized version of the boolean operator associated with the given index.
-   */
-  private String getLocalisedOperator(final int index, final Locale locale) {
-    final String[] results = OPERATORS.computeIfAbsent(locale, k -> {
-      final ResourceBundle bundle = ResourceBundle.getBundle("/advancedSearch", locale);
-      return new String[]{
-        "",
-        bundle.getString("and"),
-        bundle.getString("or"),
-        bundle.getString("not"),
-        bundle.getString("near"),
-        bundle.getString("with")};
-    });
-    return results[index];
-  }
-
-  /**
-   * Returns the default index associated with the given locale.
-   *
-   * @param locale the current locale.
-   * @return the default index associated with the input locale.
-   */
-  private String getDefaultSearchIndex(final Locale locale) {
-    return DEFAULT_SEARCH_INDEX.getOrDefault(locale, "AW");
   }
 
   /**
@@ -231,4 +112,31 @@ public abstract class ModCatalogingSearchEngine implements SearchEngine {
    * @return a record representation according with the rules of this search engine implementation.
    */
   public abstract Record newRecord();
+
+
+  /**
+   * retrieves searched term in query, filtering operators and indexes
+   * @param query
+   * @return a list of searched term in query, filtering operators and indexes
+   */
+  public List<String> getTermsFromCCLQuery (final String query) {
+    List<String> result = new ArrayList<>();
+    //remove filters term from query
+    String cleanedQuery = query.replaceAll("LAN\\s\"([^\"]*)\"", "").replaceAll("MAT\\s\"([^\"]*)\"", "").replaceAll("BIB\\s\"([^\"]*)\"", "");
+    Pattern p = Pattern.compile("\"([^\"]*)\"");
+    Matcher m = p.matcher(cleanedQuery);
+    while (m.find()) {
+      result.add(cleanPunctuation(m.group(1)));
+    }
+    return  result;
+  }
+
+  /**
+   * strips all punctuation from the text to help in compare
+   * @param text
+   * @return text cleaned
+   */
+  public String cleanPunctuation (final String text) {
+    return (text != null) ? text.replaceAll(",|;|\\.|!", "") : null;
+  }
 }

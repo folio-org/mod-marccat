@@ -10,6 +10,7 @@ package org.folio.marccat.search.domain;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.util.StringText;
+import org.marc4j.MarcException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -53,7 +54,7 @@ public class MarcRecord extends AbstractRecord {
           .newDocumentBuilder()
           .newDocument();
     } catch (Exception e) {
-      throw new RuntimeException("Unable to create new xml document");
+      throw new MarcException("Unable to create new xml document");
     }
     Element record = xmlDocument.createElement("record");
     xmlDocument.appendChild(record);
@@ -103,20 +104,23 @@ public class MarcRecord extends AbstractRecord {
     return xmlDocument;
   }
 
+  @Override
   public int getCountDoc() {
     return countDoc;
   }
 
+  @Override
   public void setCountDoc(int countDoc) {
     this.countDoc = countDoc;
   }
 
+  @Override
   public String getQueryForAssociatedDoc() {
     return queryForAssociatedDoc;
   }
 
+  @Override
   public void setQueryForAssociatedDoc(String queryForAssociatedDoc) {
     this.queryForAssociatedDoc = queryForAssociatedDoc;
   }
-
 }

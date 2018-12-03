@@ -2,15 +2,12 @@ package org.folio.marccat.search.domain;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.folio.marccat.config.log.Log;
 import org.marc4j.MarcJsonWriter;
 import org.marc4j.MarcReader;
 import org.marc4j.MarcWriter;
 import org.marc4j.MarcXmlReader;
 import org.w3c.dom.Document;
 
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
@@ -24,21 +21,10 @@ import static java.util.Optional.ofNullable;
  * @since 1.0
  */
 public class LightweightJsonRecord extends AbstractRecord {
-  private final static Log LOGGER = new Log(LightweightJsonRecord.class);
-  private final static JsonNode DUMMY_RECORD = null;
-  private final static ThreadLocal<SAXParser> SAX_PARSERS =
-    ThreadLocal.withInitial(() -> {
-      try {
-        return SAXParserFactory.newInstance().newSAXParser();
-      } catch (final Exception exception) {
-        throw new RuntimeException(exception);
-      }
-    });
   private int countDoc;
   private String queryForAssociatedDoc;
   private JsonNode data;
-
-
+  private static final JsonNode dummyRecord = null;
   /**
    * setContent, converting marcxml to jsonxml
    *
@@ -60,15 +46,16 @@ public class LightweightJsonRecord extends AbstractRecord {
           }
           writer.close();
           return output.toString();
-        } else
+        } else {
           return "";
+        }
 
       })
       .orElse("");
     try {
       this.data = new ObjectMapper().readTree(jsonString);
     } catch (Exception e) {
-      this.data = DUMMY_RECORD;
+      this.data = dummyRecord;
     }
   }
 
@@ -84,21 +71,25 @@ public class LightweightJsonRecord extends AbstractRecord {
    * @return the content of this record.
    */
   public JsonNode getData() {
-    return ofNullable(data).orElse(DUMMY_RECORD);
+    return ofNullable(data).orElse(dummyRecord);
   }
 
+  @Override
   public int getCountDoc() {
     return countDoc;
   }
 
+  @Override
   public void setCountDoc(int countDoc) {
     this.countDoc = countDoc;
   }
 
+  @Override
   public String getQueryForAssociatedDoc() {
     return queryForAssociatedDoc;
   }
 
+  @Override
   public void setQueryForAssociatedDoc(String queryForAssociatedDoc) {
     this.queryForAssociatedDoc = queryForAssociatedDoc;
   }

@@ -4,7 +4,6 @@ import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.integration.StorageService;
 import org.folio.marccat.search.SearchResponse;
 
-import java.util.List;
 import java.util.Locale;
 
 /**
@@ -24,36 +23,7 @@ public interface SearchEngine {
    * @return a search response (containing only the docids)
    * @throws ModMarccatException in case of a search subsystem failure.
    */
-  SearchResponse expertSearch(String cclQuery, Locale locale, int searchingView) throws ModMarccatException;
-
-  /**
-   * Simple search interface contract.
-   *
-   * @param query         the input query.
-   * @param locale        the current locale.
-   * @param searchingView the searching view associated with the current query execution.
-   * @return a search response (containing only the docids)
-   * @throws ModMarccatException in case of a search subsystem failure.
-   */
-  SearchResponse simpleSearch(String query, String use, Locale locale, int searchingView) throws ModMarccatException;
-
-  /**
-   * Advanced search interface contract.
-   *
-   * @param termList
-   * @param relationList
-   * @param useList
-   * @param operatorList
-   * @param locale        the current locale.
-   * @param searchingView the searching view associated with the current query execution.
-   * @return a search response (containing only the docids)
-   * @throws ModMarccatException in case of a search subsystem failure.
-   */
-  SearchResponse advancedSearch(List<String> termList,
-                                List<String> relationList,
-                                List<String> useList,
-                                List<Integer> operatorList,
-                                Locale locale, int searchingView) throws ModMarccatException;
+  SearchResponse expertSearch(String cclQuery, Locale locale, int searchingView);
 
   /**
    * Fetches the records on a preexistent search response.
@@ -67,7 +37,7 @@ public interface SearchEngine {
    * @return a search response where records have been collected with the whole record data.
    * @throws ModMarccatException in case of a search subsystem failure.
    */
-  SearchResponse fetchRecords(SearchResponse searchResponse, String elementSetName, int firstRecord, int lastRecord) throws ModMarccatException;
+  SearchResponse fetchRecords(SearchResponse searchResponse, String elementSetName, int firstRecord, int lastRecord);
 
   /**
    * Sorts a given resultset using the input criteria.
@@ -84,13 +54,9 @@ public interface SearchEngine {
   SearchResponse sort(
     SearchResponse searchResponse,
     String[] attributes,
-    String[] directions) throws ModMarccatException;
+    String[] directions);
 
-  /**
-   * Inject in searchResponse of authority records counter of associated bibliographic records and query to retrieve them
-   *
-   * @param searchResponse
-   * @throws ModMarccatException
-   */
-  void injectDocCount(SearchResponse searchResponse, StorageService service) throws ModMarccatException;
+  void injectDocCount(SearchResponse response, StorageService storageService);
+
+  void injectTagHighlight(SearchResponse response, StorageService storageService, Locale locale);
 }

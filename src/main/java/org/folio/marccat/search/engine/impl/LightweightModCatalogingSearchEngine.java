@@ -1,6 +1,8 @@
 package org.folio.marccat.search.engine.impl;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import net.sf.hibernate.HibernateException;
+import org.folio.marccat.config.log.Log;
 import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.integration.StorageService;
 import org.folio.marccat.resources.domain.CountDocument;
@@ -9,7 +11,7 @@ import org.folio.marccat.search.domain.LightweightJsonRecord;
 import org.folio.marccat.search.domain.Record;
 import org.folio.marccat.search.engine.ModCatalogingSearchEngine;
 
-import java.util.Arrays;
+import java.util.*;
 
 /**
  * ModMarccat Search Engine.
@@ -18,6 +20,8 @@ import java.util.Arrays;
  * @since 1.0
  */
 public class LightweightModCatalogingSearchEngine extends ModCatalogingSearchEngine {
+  private final Log logger = new Log(LightweightModCatalogingSearchEngine.class);
+
   /**
    * Builds a new Search engine instance with the given data.
    *
@@ -34,8 +38,13 @@ public class LightweightModCatalogingSearchEngine extends ModCatalogingSearchEng
     return new LightweightJsonRecord();
   }
 
-  @Override
-  public void injectDocCount(SearchResponse searchResponse, final StorageService storageService) throws ModMarccatException {
+  /**
+   * Inject in searchResponse of authority records counter of associated bibliographic records and query to retrieve them
+   *
+   * @param searchResponse
+   * @throws ModMarccatException
+   */
+  public void injectDocCount(SearchResponse searchResponse, final StorageService storageService) {
     final int view = 1;
     //retrieve records id
     if (searchResponse != null) {
@@ -46,13 +55,39 @@ public class LightweightModCatalogingSearchEngine extends ModCatalogingSearchEng
           singleRecord.setCountDoc(countDocument.getCountDocuments());
           singleRecord.setQueryForAssociatedDoc(countDocument.getQuery());
         } catch (HibernateException e) {
-          e.printStackTrace();
+          logger.error("", e);
         }
 
       });
     }
-
   }
 
+  /**
+   * Inject list of tags in which searchEngine found query parameter
+   *
+   * @param searchResponse
+   * @throws ModMarccatException
+   */
 
+  public void injectTagHighlight(SearchResponse searchResponse, final StorageService storageService, Locale lang) {
+    List<String> queryTerms = getTermsFromCCLQuery(searchResponse.getDisplayQuery());
+
+    Arrays.stream(searchResponse.getRecord()).forEach(singleRecord -> {
+      List<String> tagHighlighted = new ArrayList<>();
+      JsonNode fields = ((LightweightJsonRecord) singleRecord).getData().get("fields");
+      if (fields.isArray()) {
+        fields.forEach(tag -> {
+          Iterator<String> iterator = tag.fieldNames();
+          while (iterator.hasNext()) {
+            String tagName = iterator.next();
+            JsonNode tagValueNode = tag.get(tagName);
+            if (queryTerms.stream().anyMatch(term -> cleanPunctuation(tagValueNode.toString()).toLowerCase().contains(term.toLowerCase())))
+              tagHighlighted.add(tagName);
+          }
+        });
+      }
+      singleRecord.setTagHighlighted(String.join(", ", tagHighlighted));
+    });
+
+  }
 }
