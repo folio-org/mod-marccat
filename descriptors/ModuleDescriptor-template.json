@@ -65,7 +65,7 @@
       "permissionName": "marccat.record.count.get",
       "displayName": "MARCcat - get count of document by id",
       "description": "Get count of MARC document by id"
-    },
+    }
   ],
   "launchDescriptor": {
     "dockerImage": "${artifactId}:${version}",

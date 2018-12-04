@@ -1,6 +1,5 @@
 package org.folio.marccat.search.engine.impl;
 
-import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.integration.StorageService;
 import org.folio.marccat.search.SearchResponse;
 import org.folio.marccat.search.domain.LightweightVerticalRecord;
@@ -34,11 +33,15 @@ public class LightweightVerticalModCatalogingSearchEngine extends ModCatalogingS
 
   @Override
   public void injectDocCount(SearchResponse response, StorageService storageService) {
-
+    /**
+     * do nothing
+     */
   }
 
   @Override
   public void injectTagHighlight(SearchResponse response, StorageService storageService, Locale locale) {
-
+    /**
+     * do nothing
+     */
   }
 }

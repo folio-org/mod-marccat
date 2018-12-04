@@ -4,7 +4,6 @@ import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.integration.StorageService;
 import org.folio.marccat.search.SearchResponse;
 
-import java.util.List;
 import java.util.Locale;
 
 /**
@@ -24,7 +23,7 @@ public interface SearchEngine {
    * @return a search response (containing only the docids)
    * @throws ModMarccatException in case of a search subsystem failure.
    */
-  SearchResponse expertSearch(String cclQuery, Locale locale, int searchingView) throws ModMarccatException;
+  SearchResponse expertSearch(String cclQuery, Locale locale, int searchingView);
 
   /**
    * Fetches the records on a preexistent search response.
@@ -38,7 +37,7 @@ public interface SearchEngine {
    * @return a search response where records have been collected with the whole record data.
    * @throws ModMarccatException in case of a search subsystem failure.
    */
-  SearchResponse fetchRecords(SearchResponse searchResponse, String elementSetName, int firstRecord, int lastRecord) throws ModMarccatException;
+  SearchResponse fetchRecords(SearchResponse searchResponse, String elementSetName, int firstRecord, int lastRecord);
 
   /**
    * Sorts a given resultset using the input criteria.
@@ -55,7 +54,7 @@ public interface SearchEngine {
   SearchResponse sort(
     SearchResponse searchResponse,
     String[] attributes,
-    String[] directions) throws ModMarccatException;
+    String[] directions);
 
   void injectDocCount(SearchResponse response, StorageService storageService);
 
