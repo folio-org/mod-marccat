@@ -14,8 +14,6 @@ Metadata management / foolio marccat module.
 * Java 8 JDK
 * Maven 3.3.9
 * Postgres 9.6.1 (running and listening on localhost:5432, logged in user must have admin rights)
-* Node 6.4.0 (for API linting and documentation generation)
-* NPM 3.10.3 (for API linting and documentation generation)
 
 # Preparation
 
