@@ -1,4 +1,3 @@
-
 buildMvn {
   publishModDescriptor = 'yes'
   publishAPI = 'no'
