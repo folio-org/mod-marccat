@@ -1,6 +1,7 @@
 package org.folio.marccat.integration.search;
 
 import net.sf.hibernate.Session;
+import org.folio.marccat.business.common.View;
 import org.folio.marccat.business.descriptor.SortFormParameters;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.MessageCatalog;
@@ -319,7 +320,7 @@ public class TermExpressionNode implements ExpressionNode {
       } else if (semantic().getPositionNumber() == 3 && semantic().isFullText()) {
         viewClause = String.format(" AND (%s.usr_vw_cde = %d)", semantic().getViewClause(), getSearchingView());
       } else {
-        viewClause = String.format(" AND (SUBSTR(%s.usr_vw_ind, %d, 1) = '1')", semantic().getViewClause(), getSearchingView());
+        viewClause = String.format(" AND (%s.usr_vw_ind = '%s')", semantic().getViewClause(), View.makeSingleViewString(getSearchingView()));
       }
     }
     return viewClause;

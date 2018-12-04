@@ -35,6 +35,7 @@ public class NameDescriptorDAO extends DAODescriptor {
    *
    * @return true, if successful
    */
+  @Override
   public boolean supportsAuthorities() {
     return true;
   }
@@ -48,6 +49,7 @@ public class NameDescriptorDAO extends DAODescriptor {
    * @throws DataAccessException the data access exception
    */
   @SuppressWarnings("unchecked")
+  @Override
   public int getXrefCount(final Descriptor source, final int cataloguingView, final Session session)
     throws HibernateException {
 
@@ -56,12 +58,10 @@ public class NameDescriptorDAO extends DAODescriptor {
       "select count(*) from NME_NME_TTL_REF as ref "
         + " where ref.nameHeadingNumber = ? "
         + " and ref.sourceHeadingType = 'NH' "
-        + " and substr(ref.userViewString, ?, 1) = '1'",
+        + " and ref.userViewString = '"+ View.makeSingleViewString(cataloguingView) +"'",
       new Object[]{
-        source.getKey().getHeadingNumber(),
-        cataloguingView},
+        source.getKey().getHeadingNumber()},
       new Type[]{
-        Hibernate.INTEGER,
         Hibernate.INTEGER});
     count = count + countList.get(0);
     countList =
@@ -69,12 +69,10 @@ public class NameDescriptorDAO extends DAODescriptor {
         "select count(*) from NME_TO_TTL_REF as ref "
           + " where ref.nameHeadingNumber = ? "
           + " and ref.sourceHeadingType = 'NH' "
-          + " and substr(ref.userViewString, ?, 1) = '1'",
+          + " and ref.userViewString = '"+ View.makeSingleViewString(cataloguingView) +"'",
         new Object[]{
-          source.getKey().getHeadingNumber(),
-          cataloguingView},
+          source.getKey().getHeadingNumber()},
         new Type[]{
-          Hibernate.INTEGER,
           Hibernate.INTEGER});
     count = count + countList.get(0);
     return count;
@@ -90,35 +88,31 @@ public class NameDescriptorDAO extends DAODescriptor {
    * @throws HibernateException the hibernate exception
    */
   @SuppressWarnings("unchecked")
+  @Override
   public List<REF> getCrossReferences(final Descriptor source, final int cataloguingView, final Session session)
     throws HibernateException {
 
     List<REF> refList = super.getCrossReferences(source, cataloguingView, session);
 
     refList.addAll(
-      find(
+      session.find(
         "from NME_NME_TTL_REF as ref "
           + " where ref.nameHeadingNumber = ? "
           + " and ref.sourceHeadingType = 'NH' "
-          + " and substr(ref.userViewString, ?, 1) = '1'",
+          + " and ref.userViewString = '"+ View.makeSingleViewString(cataloguingView) +"'",
         new Object[]{
-          source.getKey().getHeadingNumber(),
-          cataloguingView},
-        new Type[]
-          {Hibernate.INTEGER,
-            Hibernate.INTEGER}));
-
+          source.getKey().getHeadingNumber()},
+        new Type[]{
+          Hibernate.INTEGER}));
     refList.addAll(
-      find(
+      session.find(
         "from NME_TO_TTL_REF as ref "
           + " where ref.nameHeadingNumber = ? "
           + " and ref.sourceHeadingType = 'NH' "
-          + " and substr(ref.userViewString, ?, 1) = '1'",
+          + " and ref.userViewString = '"+ View.makeSingleViewString(cataloguingView) +"'",
         new Object[]{
-          source.getKey().getHeadingNumber(),
-          cataloguingView},
+          source.getKey().getHeadingNumber()},
         new Type[]{
-          Hibernate.INTEGER,
           Hibernate.INTEGER}));
     return refList;
   }
@@ -133,6 +127,7 @@ public class NameDescriptorDAO extends DAODescriptor {
    * @return the ref
    * @throws DataAccessException the data access exception
    */
+  @Override
   public REF loadReference(
     final Descriptor source,
     final Descriptor target,
@@ -146,7 +141,7 @@ public class NameDescriptorDAO extends DAODescriptor {
       .append(" where ref.nameHeadingNumber = ? AND ")
       .append(" ref.titleHeadingNumber = ? AND ")
       .append(" ref.sourceHeadingType = 'NH' AND ")
-      .append(" substr(ref.userViewString, ?, 1) = '1' AND ")
+      .append(" ref.userViewString = '"+ View.makeSingleViewString(cataloguingView) +"' AND ")
       .append(" ref.type = ?").toString();
 
     final String nameNameTitle = new StringBuilder()
@@ -154,7 +149,7 @@ public class NameDescriptorDAO extends DAODescriptor {
       .append(" where ref.nameHeadingNumber = ? AND ")
       .append(" ref.nameTitleHeadingNumber = ? AND ")
       .append(" ref.sourceHeadingType = 'NH' AND ")
-      .append(" substr(ref.userViewString, ?, 1) = '1' AND ")
+      .append(" ref.userViewString = '"+ View.makeSingleViewString(cataloguingView) +"' AND ")
       .append(" ref.type = ").toString();
 
     if (source.getClass() == target.getClass()) {
@@ -176,20 +171,19 @@ public class NameDescriptorDAO extends DAODescriptor {
    * @throws HibernateException            the hibernate exception
    */
   @SuppressWarnings("unchecked")
+  @Override
   public void delete(final Persistence p, final Session session)
-    throws ReferentialIntegrityException, HibernateException {
+    throws HibernateException {
 
     final NME_HDG nameHeading = (NME_HDG) p;
     final List<Integer> countList =
       session.find(
         "select count(*) from NME_TTL_HDG as t where "
           + " t.nameHeadingNumber = ? and "
-          + " substr(t.key.userViewString, ?, 1) = '1'",
+          + " t.key.userViewString = '"+ View.makeSingleViewString(View.toIntView(nameHeading.getUserViewString())) +"'",
         new Object[]{
-          nameHeading.getKey().getHeadingNumber(),
-          View.toIntView(nameHeading.getUserViewString())},
+          nameHeading.getKey().getHeadingNumber()},
         new Type[]{
-          Hibernate.INTEGER,
           Hibernate.INTEGER});
     if (countList.get(0) > 0) {
       throw new ReferentialIntegrityException("NME_TTL_HDG", "NME_HDG");
@@ -207,6 +201,7 @@ public class NameDescriptorDAO extends DAODescriptor {
    * @throws HibernateException the hibernate exception
    */
   @SuppressWarnings("unchecked")
+  @Override
   public boolean isMatchingAnotherHeading(final Descriptor desc, final Session session)
     throws HibernateException {
     final NME_HDG nameHeading = (NME_HDG) desc;
@@ -247,8 +242,7 @@ public class NameDescriptorDAO extends DAODescriptor {
    * @param descriptorTo   descriptor already present
    * @return true, if successful
    */
-  //TODO: to check
-  private boolean compareHeading(Descriptor descriptorFrom, Descriptor descriptorTo) {
+   private boolean compareHeading(Descriptor descriptorFrom, Descriptor descriptorTo) {
     if (descriptorFrom.getAuthoritySourceCode() == descriptorTo.getAuthoritySourceCode()) {
       if (descriptorFrom.getAuthoritySourceCode() == T_AUT_HDG_SRC.SOURCE_IN_SUBFIELD_2) {
         return descriptorFrom.getAuthoritySourceText().equals(descriptorTo.getAuthoritySourceText());

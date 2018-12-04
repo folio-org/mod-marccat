@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-// TODO: Auto-generated Javadoc
-
 /**
  * Manages headings in the CNTL_NBR table for NTN index.
  *
@@ -38,6 +36,7 @@ public class ControlNumberDescriptorDAO extends DAODescriptor {
    *
    * @return true, if successful
    */
+  @Override
   public boolean supportsCrossReferences() {
     return false;
   }
@@ -50,6 +49,7 @@ public class ControlNumberDescriptorDAO extends DAODescriptor {
    * @return the matching heading
    * @throws HibernateException the hibernate exception
    */
+  @Override
   public Descriptor getMatchingHeading(final Descriptor descriptor, final Session session)
     throws HibernateException {
     CNTL_NBR controlNumber = (CNTL_NBR) descriptor;
@@ -85,6 +85,7 @@ public class ControlNumberDescriptorDAO extends DAODescriptor {
    * @throws HibernateException the hibernate exception
    */
   @SuppressWarnings("unchecked")
+  @Override
   public boolean isMatchingAnotherHeading(final Descriptor descriptor, final Session session)
     throws HibernateException {
     CNTL_NBR controlNumber = (CNTL_NBR) descriptor;
@@ -117,6 +118,7 @@ public class ControlNumberDescriptorDAO extends DAODescriptor {
    * @return the count of the records
    * @throws HibernateException the hibernate exception
    */
+  @Override
   public int getDocCount(final Descriptor descriptor, final int searchingView, final Session session)
     throws HibernateException {
     int count = 0;
@@ -124,7 +126,7 @@ public class ControlNumberDescriptorDAO extends DAODescriptor {
     final CNTL_NBR controlNumber = (CNTL_NBR) descriptor;
     if (controlNumber.getTypeCode() == 10) {
       if (searchingView != View.ANY) {
-        viewClause = " and SUBSTR(title.userViewString, " + searchingView + ", 1) = '1' ";
+          viewClause = " and title.userViewString, = '"+View.makeSingleViewString(searchingView)+"' ";
       }
       final Query q = session.createQuery("select count(*) from TitleAccessPoint as title " +
         " where title.seriesIssnHeadingNumber = :headingNumber " +

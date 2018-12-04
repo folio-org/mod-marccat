@@ -25,6 +25,7 @@ public class PublisherPlaceDescriptorDAO extends PublisherDescriptorDAO {
    *
    * @return the persistent class
    */
+  @Override
   public Class getPersistentClass() {
     return PUBL_HDG.class;
   }
@@ -42,6 +43,7 @@ public class PublisherPlaceDescriptorDAO extends PublisherDescriptorDAO {
    * @return the headings by sortform
    * @throws HibernateException the hibernate exception
    */
+  @Override
   public List<Descriptor> getHeadingsBySortform(final String operator, final String direction, final String term, String filter, final int cataloguingView, final int count, final Session session)
     throws HibernateException {
 
@@ -75,14 +77,13 @@ public class PublisherPlaceDescriptorDAO extends PublisherDescriptorDAO {
           + " as hdg where hdg.placeSortForm "
           + operator
           + " :term  and "
-          + " SUBSTR(hdg.key.userViewString, :view, 1) = '1' "
+          +" hdg.key.userViewString = '"+View.makeSingleViewString(cataloguingView)+"' "
           + filter
           + " order by hdg.placeSortForm "
           + direction
           + ", hdg.nameSortForm "
           + direction);
     q.setString("term", term);
-    q.setInteger("view", cataloguingView);
     q.setMaxResults(count);
     List<Descriptor> publisherList = q.list();
     publisherList = (List<Descriptor>) isolateViewForList(publisherList, cataloguingView, session);
@@ -180,6 +181,7 @@ public class PublisherPlaceDescriptorDAO extends PublisherDescriptorDAO {
    * @param descriptor the descriptor
    * @return the browsing sort form
    */
+  @Override
   public String getBrowsingSortForm(final Descriptor descriptor) {
     if (!(descriptor instanceof PUBL_HDG)) {
       throw new IllegalArgumentException();

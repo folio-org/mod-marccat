@@ -31,12 +31,8 @@ public class BrowseAPI extends BaseResource {
     heading.setStringText(source.getStringText());
     heading.setCountAuthorities(source.getCountAuthorities());
     heading.setCountDocuments(source.getCountDocuments());
-    heading.setCountCrossReferences(source.getCountCrossReferences());
     heading.setCountTitleNameDocuments(source.getCountTitleNameDocuments());
-    heading.setIndexingLanguage(source.getIndexingLanguage());
     heading.setAccessPointlanguage(source.getAccessPointlanguage());
-    heading.setVerificationlevel(source.getVerificationlevel());
-    heading.setDatabase(source.getDatabase());
     return heading;
   };
 
@@ -118,7 +114,6 @@ public class BrowseAPI extends BaseResource {
       return container;
     }, tenant, configurator);
   }
-
 
   @ApiOperation(value = "Returns all headings associated with a tag")
   @ApiResponses(value = {

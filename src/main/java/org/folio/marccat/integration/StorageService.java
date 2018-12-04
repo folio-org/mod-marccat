@@ -290,7 +290,6 @@ public class StorageService implements Closeable {
       String browseTerm = null;
       final List<Descriptor> descriptorsList;
       final DAOIndexList daoIndex = new DAOIndexList();
-      final DAOCodeTable daoCodeTable = new DAOCodeTable();
       if (query != null) {
         index = query.substring(0, query.indexOf((" ")));
         index = F.fixedCharPadding(index, 9).toUpperCase();
@@ -317,7 +316,7 @@ public class StorageService implements Closeable {
         }
       }
       descriptorsList.addAll(dao.getHeadingsBySortform(">=", "", browseTerm, filter, view, pageSize, session));
-      return getMapHeadings(view, lang, descriptorsList, daoCodeTable, dao);
+      return getMapHeadings(view, descriptorsList, dao);
 
     } catch (final SQLException | HibernateException exception) {
       logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
@@ -347,7 +346,6 @@ public class StorageService implements Closeable {
       String browseTerm = null;
       final List<Descriptor> descriptorsList;
       final DAOIndexList daoIndex = new DAOIndexList();
-      final DAOCodeTable daoCodeTable = new DAOCodeTable();
       String operator = ">";
       if (query != null) {
         index = query.substring(0, query.indexOf((" ")));
@@ -370,7 +368,7 @@ public class StorageService implements Closeable {
       if (dao instanceof PublisherDescriptorDAO || dao instanceof NameTitleNameDescriptorDAO)
         operator = ">=";
       descriptorsList = dao.getHeadingsBySortform(operator, "", browseTerm, filter, view, pageSize, session);
-      return getMapHeadings(view, lang, descriptorsList, daoCodeTable, dao);
+      return getMapHeadings(view, descriptorsList, dao);
 
 
     } catch (final HibernateException | SQLException exception) {
@@ -401,7 +399,6 @@ public class StorageService implements Closeable {
       String browseTerm = null;
       final List<Descriptor> descriptorsList;
       final DAOIndexList daoIndex = new DAOIndexList();
-      final DAOCodeTable daoCodeTable = new DAOCodeTable();
       String operator = "<";
       if (query != null) {
         index = query.substring(0, query.indexOf((" ")));
@@ -424,7 +421,7 @@ public class StorageService implements Closeable {
       if (dao instanceof PublisherDescriptorDAO || dao instanceof NameTitleNameDescriptorDAO)
         operator = "<=";
       descriptorsList = dao.getHeadingsBySortform(operator, "desc", browseTerm, filter, view, pageSize, session);
-      List<MapHeading> mapHeading = getMapHeadings(view, lang, descriptorsList, daoCodeTable, dao);
+      List<MapHeading> mapHeading = getMapHeadings(view, descriptorsList, dao);
       Collections.reverse(mapHeading);
       return mapHeading;
 
@@ -439,17 +436,15 @@ public class StorageService implements Closeable {
 
   /**
    * Return a complete heading map with the data of the heding number, the text to display, the authority count,
-   * the count of documents, the count of cross references, the count of name titles, the indexing language, the access point language
+   * the count of documents, the count of name titles
    *
    * @param view
-   * @param lang
    * @param descriptorsList
-   * @param daoCodeTable
    * @param dao
    * @return a map headings
    */
 
-  private List<MapHeading> getMapHeadings(int view, String lang, List<Descriptor> descriptorsList, DAOCodeTable daoCodeTable, DAODescriptor dao) throws DataAccessException {
+  private List<MapHeading> getMapHeadings(int view, List<Descriptor> descriptorsList, DAODescriptor dao) throws DataAccessException {
     return descriptorsList.stream().map(heading -> {
       final MapHeading headingObject = new MapHeading();
       try {
@@ -457,17 +452,11 @@ public class StorageService implements Closeable {
         headingObject.setStringText(heading.getDisplayText());
         headingObject.setCountAuthorities(heading.getAuthorityCount());
         headingObject.setCountDocuments(dao.getDocCount(heading, view, session));
-        headingObject.setCountCrossReferences(dao.getXrefCount(heading, view, session));
         headingObject.setCountTitleNameDocuments(dao.getDocCountNT(heading, view, session));
-        headingObject.setIndexingLanguage(daoCodeTable.getLanguageOfIndexing(heading.getIndexingLanguage(), session));
-        headingObject.setAccessPointlanguage(daoCodeTable.getAccessPointLanguage(heading.getAccessPointLanguage(), heading, session));
       } catch (HibernateException exception) {
         logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
         throw new DataAccessException(exception);
       }
-      if (heading.getVerificationLevel() != '\0')
-        headingObject.setVerificationlevel(daoCodeTable.getLongText(session, heading.getVerificationLevel(), T_VRFTN_LVL.class, locale(lang)));
-      headingObject.setDatabase(daoCodeTable.getLongText(session, view, DB_LIST.class, locale(lang)));
       return headingObject;
     }).collect(Collectors.toList());
   }
@@ -505,7 +494,6 @@ public class StorageService implements Closeable {
       String browseTerm;
       String operator = ">";
       final List<Descriptor> descriptorsList;
-      final DAOCodeTable daoCodeTable = new DAOCodeTable();
       final BibliographicCatalog catalog = new BibliographicCatalog();
       final CatalogItem item = new BibliographicItem();
       final TagImpl impl = new BibliographicTagImpl();
@@ -528,7 +516,7 @@ public class StorageService implements Closeable {
           if (dao instanceof PublisherDescriptorDAO || dao instanceof NameTitleNameDescriptorDAO)
             operator = ">=";
           descriptorsList = dao.getHeadingsBySortform(operator, "", browseTerm, filter, view, pageSize, session);
-          return getMapHeadings(view, lang, descriptorsList, daoCodeTable, dao);
+          return getMapHeadings(view, descriptorsList, dao);
         }
       }
     } catch (final HibernateException | SQLException exception) {

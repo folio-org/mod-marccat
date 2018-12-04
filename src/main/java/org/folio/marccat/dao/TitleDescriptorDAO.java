@@ -37,6 +37,7 @@ public class TitleDescriptorDAO extends DAODescriptor {
    *
    * @return true, if successful
    */
+  @Override
   public boolean supportsAuthorities() {
     return true;
   }
@@ -50,6 +51,7 @@ public class TitleDescriptorDAO extends DAODescriptor {
    * @throws DataAccessException the data access exception
    */
   @SuppressWarnings("unchecked")
+  @Override
   public int getXrefCount(final Descriptor source, final int cataloguingView, final Session session)
     throws HibernateException {
 
@@ -59,12 +61,10 @@ public class TitleDescriptorDAO extends DAODescriptor {
         "select count(*) from TTL_NME_TTL_REF as ref "
           + " where ref.titleHeadingNumber = ? "
           + " and ref.sourceHeadingType = 'TH' "
-          + " and substr(ref.userViewString, ?, 1) = '1'",
+          + " and ref.userViewString = '"+View.makeSingleViewString(cataloguingView)+"'",
         new Object[]{
-          source.getKey().getHeadingNumber(),
-          cataloguingView},
+          source.getKey().getHeadingNumber()},
         new Type[]{
-          Hibernate.INTEGER,
           Hibernate.INTEGER});
     count = count + countList.get(0);
     countList =
@@ -72,12 +72,10 @@ public class TitleDescriptorDAO extends DAODescriptor {
         "select count(*) from NME_TO_TTL_REF as ref "
           + " where ref.titleHeadingNumber = ? "
           + " and ref.sourceHeadingType = 'TH' "
-          + " and substr(ref.userViewString, ?, 1) = '1'",
+          + " and ref.userViewString = '"+View.makeSingleViewString(cataloguingView)+"'",
         new Object[]{
-          source.getKey().getHeadingNumber(),
-          cataloguingView},
+          source.getKey().getHeadingNumber()},
         new Type[]{
-          Hibernate.INTEGER,
           Hibernate.INTEGER});
     count = count + countList.get(0);
     return count;
@@ -94,8 +92,9 @@ public class TitleDescriptorDAO extends DAODescriptor {
    * @throws HibernateException  the hibernate exception
    */
   @SuppressWarnings("unchecked")
+  @Override
   public List<REF> getCrossReferences(final Descriptor source, final int cataloguingView, final Session session)
-    throws DataAccessException, HibernateException {
+    throws HibernateException {
 
     List<REF> refList = super.getCrossReferences(source, cataloguingView, session);
 
@@ -104,24 +103,20 @@ public class TitleDescriptorDAO extends DAODescriptor {
         "from TTL_NME_TTL_REF as ref "
           + " where ref.titleHeadingNumber = ? "
           + " and ref.sourceHeadingType = 'TH' "
-          + " and substr(ref.userViewString, ?, 1) = '1'",
+          + " and ref.userViewString = '"+View.makeSingleViewString(cataloguingView)+"'",
         new Object[]{
-          source.getKey().getHeadingNumber(),
-          cataloguingView},
+          source.getKey().getHeadingNumber()},
         new Type[]{
-          Hibernate.INTEGER,
           Hibernate.INTEGER}));
     refList.addAll(
       session.find(
         "from NME_TO_TTL_REF as ref "
           + " where ref.titleHeadingNumber = ? "
           + " and ref.sourceHeadingType = 'TH' "
-          + " and substr(ref.userViewString, ?, 1) = '1'",
+          + " and ref.userViewString = '"+View.makeSingleViewString(cataloguingView)+"'",
         new Object[]{
-          source.getKey().getHeadingNumber(),
-          cataloguingView},
+          source.getKey().getHeadingNumber()},
         new Type[]{
-          Hibernate.INTEGER,
           Hibernate.INTEGER}));
     return refList;
   }
@@ -139,6 +134,7 @@ public class TitleDescriptorDAO extends DAODescriptor {
    */
 
   @SuppressWarnings("unchecked")
+  @Override
   public REF loadReference(final Descriptor source, final Descriptor target, final short referenceType, final int cataloguingView, final Session session) throws HibernateException {
 
     if (source.getClass() == target.getClass()) {
@@ -148,7 +144,7 @@ public class TitleDescriptorDAO extends DAODescriptor {
         + " where ref.titleHeadingNumber = ? AND "
         + " ref.nameTitleHeadingNumber = ? AND "
         + " ref.sourceHeadingType = 'TH' AND "
-        + " substr(ref.key.userViewString, ?, 1) = '1' AND "
+        + " ref.key.userViewString = '"+View.makeSingleViewString(cataloguingView)+"' AND "
         + " ref.key.type = ?";
       return loadReferenceByQuery(source, target, referenceType, cataloguingView, query, session);
     }
@@ -163,6 +159,7 @@ public class TitleDescriptorDAO extends DAODescriptor {
    * @throws HibernateException            the hibernate exception
    */
   @SuppressWarnings("unchecked")
+  @Override
   public void delete(final Persistence p, final Session session)
     throws ReferentialIntegrityException, HibernateException {
 
@@ -171,11 +168,10 @@ public class TitleDescriptorDAO extends DAODescriptor {
       session.find(
         "select count(*) from NME_TTL_HDG as d where "
           + " d.nameHeadingNumber = ? and "
-          + " substr(d.key.userViewString, ?, 1) = '1'",
+          + " d.key.userViewString = '"+View.makeSingleViewString(View.toIntView(title.getUserViewString()))+"'",
         new Object[]{
-          title.getKey().getHeadingNumber(),
-          new Integer(View.toIntView(title.getUserViewString()))},
-        new Type[]{Hibernate.INTEGER, Hibernate.INTEGER});
+          title.getKey().getHeadingNumber()},
+        new Type[]{Hibernate.INTEGER});
     if (countList.get(0) > 0) {
       throw new ReferentialIntegrityException("NME_TTL_HDG", "TTL_HDG");
     }
@@ -191,6 +187,7 @@ public class TitleDescriptorDAO extends DAODescriptor {
    * @throws HibernateException the hibernate exception
    */
   @SuppressWarnings("unchecked")
+  @Override
   public boolean isMatchingAnotherHeading(final Descriptor desc, final Session session)
     throws HibernateException {
 
@@ -226,7 +223,6 @@ public class TitleDescriptorDAO extends DAODescriptor {
    * @param descriptorTo   descriptor already present
    * @return true, if successful
    */
-  //TODO: to check
   private boolean compareHeading(Descriptor descriptorFrom, Descriptor descriptorTo) {
     if (descriptorFrom.getAuthoritySourceCode() == descriptorTo.getAuthoritySourceCode()) {
       if (descriptorFrom.getAuthoritySourceCode() == T_AUT_HDG_SRC.SOURCE_IN_SUBFIELD_2) {
