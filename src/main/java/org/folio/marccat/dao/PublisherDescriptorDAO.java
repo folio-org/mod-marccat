@@ -38,6 +38,7 @@ public class PublisherDescriptorDAO extends DAODescriptor {
    * @throws HibernateException the hibernate exception
    */
   @SuppressWarnings("unchecked")
+  @Override
   public PUBL_HDG getMatchingHeading(final Descriptor descriptor, final Session session)
     throws HibernateException {
     final PUBL_HDG publisher = (PUBL_HDG) descriptor;
@@ -78,6 +79,7 @@ public class PublisherDescriptorDAO extends DAODescriptor {
    * @throws HibernateException the hibernate exception
    */
   @SuppressWarnings("unchecked")
+  @Override
   public boolean isMatchingAnotherHeading(final Descriptor descriptor, final Session session)
     throws HibernateException {
     final PUBL_HDG publisher = (PUBL_HDG) descriptor;
@@ -118,6 +120,7 @@ public class PublisherDescriptorDAO extends DAODescriptor {
    * @return the string
    * @throws DataAccessException the data access exception
    */
+  @Override
   public String calculateSearchTerm(final String term, final String browseIndex, final Session session)
     throws HibernateException, SQLException {
     String searchTerm = super.calculateSearchTerm(term, browseIndex, session);
@@ -142,6 +145,7 @@ public class PublisherDescriptorDAO extends DAODescriptor {
    * @throws HibernateException the hibernate exception
    */
   @SuppressWarnings("unchecked")
+  @Override
   public int getDocCount(final Descriptor descriptor, int searchingView, final Session session)
     throws HibernateException {
     if (searchingView == View.ANY) {
@@ -161,12 +165,10 @@ public class PublisherDescriptorDAO extends DAODescriptor {
           "select count(*) from PublisherAccessPoint as a, PUBL_TAG as b "
             + " where a.headingNumber = b.publisherTagNumber "
             + " and b.publisherHeadingNumber = ? "
-            + " and substr(b.userViewString, ?, 1) = '1'",
+            +" and b.userViewString = '"+View.makeSingleViewString(searchingView)+"'",
           new Object[]{
-            descriptor.getHeadingNumber(),
-            searchingView},
+            descriptor.getHeadingNumber()},
           new Type[]{
-            Hibernate.INTEGER,
             Hibernate.INTEGER});
       return countList.get(0);
     }

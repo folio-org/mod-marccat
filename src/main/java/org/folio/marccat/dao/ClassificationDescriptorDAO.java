@@ -38,6 +38,7 @@ public class ClassificationDescriptorDAO extends DAODescriptor {
    *
    * @return true, if successful
    */
+  @Override
   public boolean supportsCrossReferences() {
     return false;
   }
@@ -51,6 +52,7 @@ public class ClassificationDescriptorDAO extends DAODescriptor {
    * @throws HibernateException the hibernate exception
    */
   @SuppressWarnings("unchecked")
+  @Override
   public Descriptor getMatchingHeading(final Descriptor descriptor, final Session session) throws HibernateException {
     final CLSTN d = (CLSTN) descriptor;
     final List<CLSTN> list = session.find(
@@ -83,6 +85,7 @@ public class ClassificationDescriptorDAO extends DAODescriptor {
    * @throws HibernateException the hibernate exception
    */
   @SuppressWarnings("unchecked")
+  @Override
   public boolean isMatchingAnotherHeading(final Descriptor descriptor, final Session session) throws HibernateException {
     final CLSTN d = (CLSTN) descriptor;
     final List<Integer> countList =
@@ -121,13 +124,14 @@ public class ClassificationDescriptorDAO extends DAODescriptor {
    * @throws DataAccessException the data access exception
    * @throws HibernateException  the hibernate exception
    */
+  @Override
   public List<Descriptor> getHeadingsBySortform(final String operator, final String direction,
                                                 final String term, final String filter,
                                                 final int searchingView, final int count, final Session session)
     throws HibernateException {
     String viewClause = "";
     if (searchingView != View.ANY)
-      viewClause = " and SUBSTR(hdg.key.userViewString, " + searchingView + ", 1) = '1' ";
+      viewClause = " and hdg.key.userViewString, = '"+View.makeSingleViewString(searchingView)+"' ";
 
     final Query q = session.createQuery("from " + getPersistentClass().getName()
       + " as hdg where hdg.sortForm " + operator

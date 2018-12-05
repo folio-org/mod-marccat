@@ -12,7 +12,7 @@ import javax.annotation.Generated;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({"headingNumber", "stringText", "database", "countNameTitle", "countCrossReferences", "countAuthorities", "countDocuments", "verificationlevel", "indexingLanguage", "accessPointlanguage"})
+@JsonPropertyOrder({"headingNumber", "stringText", "countNameTitle", "countAuthorities", "countDocuments"})
 public class HeadingDecorator {
 
   @JsonProperty("headingNumber")
@@ -21,26 +21,14 @@ public class HeadingDecorator {
   @JsonProperty("stringText")
   private String stringText;
 
-  @JsonProperty("database")
-  private String database;
-
   @JsonProperty("countTitleNameDocuments")
   private Integer countTitleNameDocuments;
-
-  @JsonProperty("countCrossReferences")
-  private Integer countCrossReferences;
 
   @JsonProperty("countAuthorities")
   private Integer countAuthorities;
 
   @JsonProperty("countDocuments")
   private Integer countDocuments;
-
-  @JsonProperty("verificationlevel")
-  private String verificationlevel;
-
-  @JsonProperty("indexingLanguage")
-  private String indexingLanguage;
 
   @JsonProperty("accessPointlanguage")
   private String accessPointlanguage;
@@ -89,27 +77,6 @@ public class HeadingDecorator {
   }
 
   /**
-   * @return The database
-   */
-  @JsonProperty("database")
-  public String getDatabase() {
-    return database;
-  }
-
-  /**
-   * @param database The database
-   */
-  @JsonProperty("database")
-  public void setDatabase(String database) {
-    this.database = database;
-  }
-
-  public HeadingDecorator withDatabase(String database) {
-    this.database = database;
-    return this;
-  }
-
-  /**
    * @return The countTitleNameDocuments
    */
   @JsonProperty("countTitleNameDocuments")
@@ -127,27 +94,6 @@ public class HeadingDecorator {
 
   public HeadingDecorator withCountTitleNameDocuments(Integer countTitleNameDocuments) {
     this.countTitleNameDocuments = countTitleNameDocuments;
-    return this;
-  }
-
-  /**
-   * @return The countCrossReferences
-   */
-  @JsonProperty("countCrossReferences")
-  public Integer getCountCrossReferences() {
-    return countCrossReferences;
-  }
-
-  /**
-   * @param countCrossReferences The countCrossReferences
-   */
-  @JsonProperty("countCrossReferences")
-  public void setCountCrossReferences(Integer countCrossReferences) {
-    this.countCrossReferences = countCrossReferences;
-  }
-
-  public HeadingDecorator withCountCrossReferences(Integer countCrossReferences) {
-    this.countCrossReferences = countCrossReferences;
     return this;
   }
 
@@ -190,48 +136,6 @@ public class HeadingDecorator {
 
   public HeadingDecorator withCountDocuments(Integer countDocuments) {
     this.countDocuments = countDocuments;
-    return this;
-  }
-
-  /**
-   * @return The verificationlevel
-   */
-  @JsonProperty("verificationlevel")
-  public String getVerificationlevel() {
-    return verificationlevel;
-  }
-
-  /**
-   * @param verificationlevel The verificationlevel
-   */
-  @JsonProperty("verificationlevel")
-  public void setVerificationlevel(String verificationlevel) {
-    this.verificationlevel = verificationlevel;
-  }
-
-  public HeadingDecorator withVerificationlevel(String verificationlevel) {
-    this.verificationlevel = verificationlevel;
-    return this;
-  }
-
-  /**
-   * @return The indexingLanguage
-   */
-  @JsonProperty("indexingLanguage")
-  public String getIndexingLanguage() {
-    return indexingLanguage;
-  }
-
-  /**
-   * @param indexingLanguage The indexingLanguage
-   */
-  @JsonProperty("indexingLanguage")
-  public void setIndexingLanguage(String indexingLanguage) {
-    this.indexingLanguage = indexingLanguage;
-  }
-
-  public HeadingDecorator withIndexingLanguage(String indexingLanguage) {
-    this.indexingLanguage = indexingLanguage;
     return this;
   }
 
