@@ -3,6 +3,7 @@ package org.folio.marccat.dao;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Query;
 import net.sf.hibernate.Session;
+import org.folio.marccat.business.common.View;
 import org.folio.marccat.dao.persistence.Descriptor;
 import org.folio.marccat.dao.persistence.NME_TTL_HDG;
 
@@ -30,6 +31,7 @@ public class NameTitleTitleDescriptorDAO extends NameTitleDescriptorDAO {
    * @return the headings by sort form
    * @throws HibernateException the hibernate exception
    */
+  @Override
   public List<Descriptor> getHeadingsBySortform(final String operator, final String direction, final String term, final String filter, final int cataloguingView, final int count, final Session session)
     throws HibernateException {
     final Query q = session.createQuery(
@@ -42,14 +44,13 @@ public class NameTitleTitleDescriptorDAO extends NameTitleDescriptorDAO {
         + " and ttl.sortForm "
         + operator
         + " :term  and "
-        + " SUBSTR(hdg.key.userViewString, :view, 1) = '1' "
+        + " hdg.key.userViewString = '"+ View.makeSingleViewString(cataloguingView)+"' "
         + filter
         + " order by ttl.sortForm "
         + direction
         + ", nme.sortForm "
         + direction);
     q.setString("term", term);
-    q.setInteger("view", cataloguingView);
     q.setMaxResults(count);
     final List<?> nameTitleHedingList = q.list();
     final List<NME_TTL_HDG> nameTitleHedings = new ArrayList();
@@ -66,6 +67,7 @@ public class NameTitleTitleDescriptorDAO extends NameTitleDescriptorDAO {
    * @param descriptor the heading(NME_TTL_HDG)
    * @return the browsing sort form
    */
+  @Override
   public String getBrowsingSortForm(final Descriptor descriptor) {
     if (!(descriptor instanceof NME_TTL_HDG)) {
       throw new IllegalArgumentException();

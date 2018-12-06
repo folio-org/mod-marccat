@@ -23,6 +23,7 @@ public class PublisherNameDescriptorDAO extends PublisherDescriptorDAO {
    *
    * @return the persistent class
    */
+  @Override
   public Class getPersistentClass() {
     return PUBL_HDG.class;
   }
@@ -40,6 +41,7 @@ public class PublisherNameDescriptorDAO extends PublisherDescriptorDAO {
    * @return the headings by sortform
    * @throws HibernateException the hibernate exception
    */
+  @Override
   public List<Descriptor> getHeadingsBySortform(final String operator, final String direction, final String term, final String filter, final int searchingView, final int count, final Session session)
     throws HibernateException {
     final String[] parsedTerm = term.split(" : ");
@@ -73,7 +75,7 @@ public class PublisherNameDescriptorDAO extends PublisherDescriptorDAO {
     List<Descriptor> publisherList = null;
 
     if (searchingView != View.ANY) {
-      viewClause = " and SUBSTR(hdg.key.userViewString, " + searchingView + ", 1) = '1' ";
+        viewClause = " and hdg.key.userViewString = '"+View.makeSingleViewString(searchingView)+"' ";
     }
 
     if (operator.equals("<")) {
@@ -152,7 +154,7 @@ public class PublisherNameDescriptorDAO extends PublisherDescriptorDAO {
     throws HibernateException {
     String viewClause = "";
     if (searchingView != View.ANY) {
-      viewClause = " and SUBSTR(hdg.key.userViewString, " + searchingView + ", 1) = '1' ";
+        viewClause = " and hdg.key.userViewString = '"+View.makeSingleViewString(searchingView)+"' ";
     }
     final Query q =
       session.createQuery(
@@ -179,6 +181,7 @@ public class PublisherNameDescriptorDAO extends PublisherDescriptorDAO {
    * @param descriptor the descriptor
    * @return the browsing sort form
    */
+  @Override
   public String getBrowsingSortForm(final Descriptor descriptor) {
     if (!(descriptor instanceof PUBL_HDG)) {
       throw new IllegalArgumentException();

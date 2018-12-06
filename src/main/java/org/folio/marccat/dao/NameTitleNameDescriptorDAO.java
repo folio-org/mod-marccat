@@ -33,6 +33,7 @@ public class NameTitleNameDescriptorDAO extends NameTitleDescriptorDAO {
    * @throws HibernateException the hibernate exception
    */
   @SuppressWarnings("unchecked")
+  @Override
   public List getHeadingsBySortform(final String operator, final String direction, final String term, final String filter, final int cataloguingView, final int count, final Session session)
     throws HibernateException {
     String[] parsedTerm = term.split(" : ");
@@ -66,10 +67,10 @@ public class NameTitleNameDescriptorDAO extends NameTitleDescriptorDAO {
         + " where hdg.nameHeadingNumber = nme.key.headingNumber "
         + " and hdg.titleHeadingNumber = ttl.key.headingNumber "
         + " and nme.sortForm " + operator + " :name "
-        + " and SUBSTR(hdg.key.userViewString, :view, 1) = '1' " + filter
+        + " and hdg.key.userViewString = '"+View.makeSingleViewString(searchingView)+"' "
+        + filter
         + " order by nme.sortForm " + direction + ", ttl.sortForm " + direction);
     q.setString("name", name);
-    q.setInteger("view", searchingView);
     q.setMaxResults(count);
     final List<NME_TTL_HDG> nameTitleHedingsList = getNameTitleHeadingsList(q.list());
     final List isolateHeadingList = isolateViewForList(nameTitleHedingsList, searchingView, session);
@@ -100,7 +101,7 @@ public class NameTitleNameDescriptorDAO extends NameTitleDescriptorDAO {
     title = parsedTerm[1].trim();
     List<NME_TTL_HDG> isolateHeadingList = null;
     if (searchingView != View.ANY) {
-      viewClause = " and SUBSTR(hdg.key.userViewString, " + searchingView + ", 1) = '1' ";
+      viewClause = " and hdg.key.userViewString = '"+View.makeSingleViewString(searchingView)+"' ";
     }
     if (operator.equals("<")) {
       Query q = session.createQuery(
@@ -189,6 +190,7 @@ public class NameTitleNameDescriptorDAO extends NameTitleDescriptorDAO {
    * @param descriptor the heading(NME_TTL_HDG)
    * @return the browsing sort form
    */
+  @Override
   public String getBrowsingSortForm(final Descriptor descriptor) {
     if (!(descriptor instanceof NME_TTL_HDG)) {
       throw new IllegalArgumentException();

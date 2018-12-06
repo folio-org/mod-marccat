@@ -20,11 +20,6 @@ public class MapHeading {
   private String stringText;
 
   /**
-   * The database.
-   */
-  private String database;
-
-  /**
    * The count title name documents.
    */
   private Integer countTitleNameDocuments;
@@ -43,16 +38,6 @@ public class MapHeading {
    * The count documents.
    */
   private Integer countDocuments;
-
-  /**
-   * The verificationlevel.
-   */
-  private String verificationlevel;
-
-  /**
-   * The indexing language.
-   */
-  private String indexingLanguage;
 
   /**
    * The access pointlanguage.
@@ -93,24 +78,6 @@ public class MapHeading {
    */
   public void setStringText(String stringText) {
     this.stringText = stringText;
-  }
-
-  /**
-   * Gets the database.
-   *
-   * @return the database
-   */
-  public String getDatabase() {
-    return database;
-  }
-
-  /**
-   * Sets the database.
-   *
-   * @param database the new database
-   */
-  public void setDatabase(String database) {
-    this.database = database;
   }
 
   /**
@@ -183,42 +150,6 @@ public class MapHeading {
    */
   public void setCountDocuments(Integer countDocuments) {
     this.countDocuments = countDocuments;
-  }
-
-  /**
-   * Gets the verificationlevel.
-   *
-   * @return the verificationlevel
-   */
-  public String getVerificationlevel() {
-    return verificationlevel;
-  }
-
-  /**
-   * Sets the verificationlevel.
-   *
-   * @param verificationlevel the new verificationlevel
-   */
-  public void setVerificationlevel(String verificationlevel) {
-    this.verificationlevel = verificationlevel;
-  }
-
-  /**
-   * Gets the indexing language.
-   *
-   * @return the indexing language
-   */
-  public String getIndexingLanguage() {
-    return indexingLanguage;
-  }
-
-  /**
-   * Sets the indexing language.
-   *
-   * @param indexingLanguage the new indexing language
-   */
-  public void setIndexingLanguage(String indexingLanguage) {
-    this.indexingLanguage = indexingLanguage;
   }
 
   /**

@@ -44,19 +44,19 @@ public class PublisherTagDescriptorDAO extends DAODescriptor {
    * @throws HibernateException  in case of hibernate exception.
    */
   @Override
-  public Descriptor load(final int headingNumber, final int cataloguingView, final Class clazz, final Session session) throws DataAccessException, HibernateException {
+  public Descriptor load(final int headingNumber, final int cataloguingView, final Class clazz, final Session session) throws HibernateException {
     final PublisherTagDescriptor descriptor = new PublisherTagDescriptor();
     descriptor.setHeadingNumber(headingNumber);
     descriptor.setUserViewString(View.makeSingleViewString(cataloguingView));
     final List<PUBL_TAG> multiView = session.find("from PUBL_TAG as t "
         + " where t.publisherTagNumber = ? "
-        + " and substr(t.userViewString, ?, 1) = '1' "
+        +" and t.userViewString = '"+View.makeSingleViewString(cataloguingView)+"' "
         + " order by t.sequenceNumber ", new Object[]{
-        new Integer(headingNumber), new Integer(cataloguingView)},
-      new Type[]{Hibernate.INTEGER, Hibernate.INTEGER});
+        headingNumber},
+      new Type[]{Hibernate.INTEGER});
     final List<PUBL_TAG> singleView = (List<PUBL_TAG>) isolateViewForList(multiView, cataloguingView, session);
 
-    singleView.forEach(publTag -> {
+    singleView.forEach((PUBL_TAG publTag) -> {
       if (publTag.getPublisherHeadingNumber() != null) {
         try {
           PUBL_HDG publHdg = (PUBL_HDG) publTag.getDescriptorDAO().load((publTag.getPublisherHeadingNumber()).intValue(), cataloguingView, session);
