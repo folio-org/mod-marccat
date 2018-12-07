@@ -459,6 +459,40 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
     return field;
 
   }
+  /**
+   * This method is used to generated the model xml.
+   *
+   * @since 1.0
+   */
+  public Element generateModelXmlElement(Document xmlDocument) {
+    Element field = null;
+		/*if (xmlDocument != null) {
+			field = xmlDocument.createElement("field");
+			try {
+				field.setAttribute("tag", this.getMarcEncoding().getMarcTag());
+				field.setAttribute(
+					"firstIndicator",
+					"" + this.getMarcEncoding().getMarcFirstIndicator());
+				field.setAttribute(
+					"secondIndicator",
+					"" + this.getMarcEncoding().getMarcSecondIndicator());
+				field.setAttribute("categoryCode", "" + this.getCategory());
+				field.setAttribute(
+					"firstCorrelationValue",
+					"" + this.getCorrelation(1));
+				field.setAttribute(
+					"secondCorrelationValue",
+					"" + this.getCorrelation(2));
+				field.setAttribute(
+					"thirdCorrelationValue",
+					"" + this.getCorrelation(3));
+			} catch (MarcCorrelationException marcCorrelationException) {
+			} catch (DataAccessException dataAccessException) {
+			}
+			field.appendChild(generateModelXmlElementContent(xmlDocument));
+		}*/
+    return field;
+  }
 
   public Object clone() {
     return deepCopy(this);

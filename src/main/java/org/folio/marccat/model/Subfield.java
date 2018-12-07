@@ -133,6 +133,13 @@ public class Subfield implements Serializable {
     this.content = content;
   }
 
+  /* (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 */
+  public Object clone() {
+    return new Subfield(this);
+  }
+
   @Override
   public int hashCode() {
     return (3 * code.hashCode()) + (5 * content.hashCode());
