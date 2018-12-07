@@ -22,10 +22,17 @@ import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.exception.RecordNotFoundException;
 import org.folio.marccat.integration.search.Parser;
 import org.folio.marccat.resources.domain.CountDocument;
+import org.folio.marccat.resources.domain.RecordTemplate;
 import org.folio.marccat.search.SearchResponse;
+import org.folio.marccat.shared.CodeListsType;
+import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.shared.MapHeading;
+import org.folio.marccat.shared.Validation;
 import org.folio.marccat.util.F;
 import org.folio.marccat.util.StringText;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -35,11 +42,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyList;
+import static java.util.Optional.ofNullable;
 import static org.folio.marccat.util.F.locale;
 
 
@@ -59,6 +69,24 @@ public class StorageService implements Closeable {
 
 
   private final Session session;
+  private final static Map <Integer, Class> FIRST_CORRELATION_HEADING_CLASS_MAP = new HashMap <Integer, Class>() {
+	    {
+	      put(1, T_BIB_HDR.class);
+	      put(2, NameType.class);
+	      put(17, NameType.class); //from heading
+	      put(3, TitleFunction.class);
+	      put(22, TitleFunction.class); //from heading
+	      put(4, SubjectType.class);
+	      put(18, SubjectType.class); //from heading
+	      put(5, ControlNumberType.class);
+	      put(19, ControlNumberType.class); //from heading
+	      put(6, ClassificationType.class);
+	      put(20, ClassificationType.class); //from heading
+	      put(7, BibliographicNoteType.class); //note
+	      put(8, BibliographicRelationType.class);//relationship
+	      put(11, T_NME_TTL_FNCTN.class); //nt
+	    }
+	  };
 
   /**
    * Builds a new {@link StorageService} with the given session.
@@ -149,6 +177,199 @@ public class StorageService implements Closeable {
         return new BibliographicCatalogDAO().getCatalogItemByKey(session, itemNumber, searchingView);
     }
   }
+  
+  /**
+   * Returns a list of {@link Avp} which represents a short version of the available bibliographic templates.
+   *
+   * @return a list of {@link Avp} which represents a short version of the available bibliographic templates.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public List <Avp <Integer>> getBibliographicRecordTemplates() throws DataAccessException {
+    final BibliographicModelDAO dao = new BibliographicModelDAO();
+    try {
+      return dao.getBibliographicModelList(session);
+    } catch (final HibernateException exception) {
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
+    }
+  }
+  
+  /**
+   * Return a Authority Record Template by id
+   *
+   * @param id the record template id.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public RecordTemplate getAuthorityRecordRecordTemplatesById(final Integer id) throws DataAccessException {
+    try {
+      final ObjectMapper objectMapper = new ObjectMapper();
+      return objectMapper.readValue(
+        new AuthorityModelDAO().load(id, session).getRecordFields(),
+        RecordTemplate.class);
+    } catch (final HibernateException exception) {
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
+    } catch (final IOException exception) {
+      logger.error(MessageCatalog._00013_IO_FAILURE, exception);
+      throw new DataAccessException(exception);
+    }
+  }
+  
+  /**
+   * Save the new Authority record template.
+   *
+   * @param template the record template.
+   * @throws DataAccessException in case of data access failure.
+   */
+  //todo: add second and third value wemi flag: consider if use record template also for authority
+  public void saveAuthorityRecordTemplate(final RecordTemplate template) throws DataAccessException {
+    try {
+      final ObjectMapper mapper = new ObjectMapper();
+      final AuthorityModelDAO dao = new AuthorityModelDAO();
+      final AuthorityModel model = new AuthorityModel();
+      model.setLabel(template.getName());
+      model.setFrbrFirstGroup(template.getGroup());
+      model.setRecordFields(mapper.writeValueAsString(template));
+      dao.save(model, session);
+    } catch (final HibernateException exception) {
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
+    } catch (final JsonProcessingException exception) {
+      logger.error(MessageCatalog._00013_IO_FAILURE, exception);
+      throw new DataAccessException(exception);
+    }
+  }
+  
+  /**
+   * Deletes a Bibliographic record template.
+   *
+   * @param id the record template id.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public void deleteBibliographicRecordTemplate(final String id) throws DataAccessException {
+    try {
+      final BibliographicModelDAO dao = new BibliographicModelDAO();
+      final Model model = dao.load(Integer.valueOf(id), session);
+      dao.delete(model, session);
+    } catch (final HibernateException exception) {
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
+    }
+  }
+
+  /**
+   * Delete an Authority record template.
+   *
+   * @param id the record template id.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public void deleteAuthorityRecordTemplate(final String id) throws DataAccessException {
+    try {
+      final AuthorityModelDAO dao = new AuthorityModelDAO();
+      final Model model = dao.load(Integer.valueOf(id), session);
+      dao.delete(model, session);
+    } catch (final HibernateException exception) {
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
+    }
+  }
+
+  
+  /**
+   * Update the Bibliographic Record Template.
+   *
+   * @param template the record template.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public void updateBibliographicRecordTemplate(final RecordTemplate template) throws DataAccessException {
+    try {
+      final ObjectMapper mapper = new ObjectMapper();
+      final BibliographicModelDAO dao = new BibliographicModelDAO();
+      final BibliographicModel model = new BibliographicModel();
+      model.setId(template.getId());
+      model.setLabel(template.getName());
+      model.setFrbrFirstGroup(template.getGroup());
+      model.setRecordFields(mapper.writeValueAsString(template));
+      dao.update(model, session);
+    } catch (final HibernateException exception) {
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
+    } catch (final JsonProcessingException exception) {
+      logger.error(MessageCatalog._00013_IO_FAILURE, exception);
+      throw new DataAccessException(exception);
+    }
+  }
+  
+  /**
+   * Update the Authority Record Template.
+   *
+   * @param template the record template.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public void updateAuthorityRecordTemplate(final RecordTemplate template) throws DataAccessException {
+    try {
+      final ObjectMapper mapper = new ObjectMapper();
+      final AuthorityModelDAO dao = new AuthorityModelDAO();
+      final AuthorityModel model = new AuthorityModel();
+      model.setId(template.getId());
+      model.setLabel(template.getName());
+      model.setFrbrFirstGroup(template.getGroup());
+      model.setRecordFields(mapper.writeValueAsString(template));
+      dao.update(model, session);
+    } catch (final HibernateException exception) {
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
+    } catch (final JsonProcessingException exception) {
+      logger.error(MessageCatalog._00013_IO_FAILURE, exception);
+      throw new DataAccessException(exception);
+    }
+  }
+  
+  /**
+   * Save the new Bibliographic Record Template.
+   *
+   * @param template the record template.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public void saveBibliographicRecordTemplate(final RecordTemplate template) throws DataAccessException {
+    try {
+      final ObjectMapper mapper = new ObjectMapper();
+      final BibliographicModelDAO dao = new BibliographicModelDAO();
+      final BibliographicModel model = new BibliographicModel();
+      model.setLabel(template.getName());
+      model.setFrbrFirstGroup(template.getGroup());
+      model.setRecordFields(mapper.writeValueAsString(template));
+      dao.save(model, session);
+    } catch (final HibernateException exception) {
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
+    } catch (final JsonProcessingException exception) {
+      logger.error(MessageCatalog._00013_IO_FAILURE, exception);
+      throw new DataAccessException(exception);
+    }
+  }
+  
+  /**
+   * Return a Bibliographic Record Template by id.
+   *
+   * @param id the record template id.
+   * @return the bibliographic record template associated with the given id.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public RecordTemplate getBibliographicRecordRecordTemplatesById(final Integer id) throws DataAccessException {
+    try {
+      final ObjectMapper objectMapper = new ObjectMapper();
+      return objectMapper.readValue(
+        new BibliographicModelDAO().load(id, session).getRecordFields(),
+        RecordTemplate.class);
+    } catch (final HibernateException exception) {
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
+    } catch (final IOException exception) {
+      logger.error(MessageCatalog._00013_IO_FAILURE, exception);
+      throw new DataAccessException(exception);
+    }
+  }
 
   /**
    * Generate a new keyNumber for keyFieldCodeValue specified.
@@ -223,6 +444,22 @@ public class StorageService implements Closeable {
     return session.connection();
   }
 
+  /**
+   * Returns a list of {@link Avp} which represents a short version of the available bibliographic templates.
+   *
+   * @return a list of {@link Avp} which represents a short version of the available bibliographic templates.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public List <Avp <Integer>> getAuthorityRecordTemplates() throws DataAccessException {
+    final AuthorityModelDAO dao = new AuthorityModelDAO();
+    try {
+      return dao.getAuthorityModelList(session);
+    } catch (final HibernateException exception) {
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
+    }
+  }
+  
   /**
    * Creates a valid statement from the given connection.
    *
@@ -433,6 +670,19 @@ public class StorageService implements Closeable {
       throw new InvalidBrowseIndexException(key);
     }
   }
+  
+  /**
+   * Returns the codes list associated with the given language and key.
+   *
+   * @param lang         the language code, used here as a filter criterion.
+   * @param codeListType the code list type key.
+   * @return a list of code / description tuples representing the date type associated with the requested language.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public List <Avp <String>> getCodesList(final String lang, final CodeListsType codeListType) throws DataAccessException {
+    final DAOCodeTable dao = new DAOCodeTable();
+    return dao.getList(session, GlobalStorage.MAP_CODE_LISTS.get(codeListType.toString()), locale(lang));
+  }
 
   /**
    * Return a complete heading map with the data of the heding number, the text to display, the authority count,
@@ -461,6 +711,221 @@ public class StorageService implements Closeable {
     }).collect(Collectors.toList());
   }
 
+
+  /**
+   * Gets the material type information.
+   * Used for 006 field.
+   *
+   * @param headerCode the header code used here as filter criterion.
+   * @param code       the tag number code used here as filter criterion.
+   * @return a string representing form of material.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public Map <String, Object> getMaterialTypeInfosByHeaderCode(final int headerCode, final String code) throws DataAccessException {
+
+    final Map <String, Object> mapRecordTypeMaterial = new HashMap <>();
+    final RecordTypeMaterialDAO dao = new RecordTypeMaterialDAO();
+    try {
+      return ofNullable(dao.getDefaultTypeByHeaderCode(session, headerCode, code))
+        .map(rtm -> {
+          mapRecordTypeMaterial.put(GlobalStorage.FORM_OF_MATERIAL_LABEL, rtm.getAmicusMaterialTypeCode());
+          mapRecordTypeMaterial.put(GlobalStorage.MATERIAL_TYPE_CODE_LABEL, rtm.getRecordTypeCode());
+
+          return mapRecordTypeMaterial;
+        }).orElse(null);
+    } catch (final HibernateException exception) {
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
+    }
+  }
+  
+  /**
+   * Return a correlation values for a specific tag number.
+   *
+   * @param category   the category code used here as filter criterion.
+   * @param indicator1 the first indicator used here as filter criterion.
+   * @param indicator2 the second indicator used here as filter criterion.
+   * @param code       the tag number code used here as filter criterion.
+   * @return correlation values
+   * @throws DataAccessException in case of data access failure.
+   */
+  public CorrelationValues getCorrelationVariableField(final Integer category,
+                                                       final String indicator1,
+                                                       final String indicator2,
+                                                       final String code) throws DataAccessException {
+    final BibliographicCorrelationDAO bibliographicCorrelationDAO = new BibliographicCorrelationDAO();
+    try {
+      return ofNullable(
+        bibliographicCorrelationDAO.getBibliographicCorrelation(
+          session, code, indicator1.charAt(0), indicator2.charAt(0), category))
+        .map(BibliographicCorrelation::getValues).orElse(null);
+    } catch (final HibernateException exception) {
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
+    }
+  }
+  
+  /**
+   * Gets Validation for variable field.
+   * Validation is related to sub-fields: valid, mandatory and default subfield
+   *
+   * @param marcCategory the marc category used here as filter criterion.
+   * @param code1        the first correlation used here as filter criterion.
+   * @param code2        the second correlation used here as filter criterion.
+   * @param code3        the third correlation used here as filter criterion.
+   * @return Validation object containing subfield list.
+   */
+  public Validation getSubfieldsByCorrelations(final int marcCategory,
+                                               final int code1,
+                                               final int code2,
+                                               final int code3) throws DataAccessException {
+    final BibliographicValidationDAO daoBibliographicValidation = new BibliographicValidationDAO();
+    try {
+      final CorrelationValues correlationValues = new CorrelationValues(code1, code2, code3);
+      return daoBibliographicValidation.load(session, marcCategory, correlationValues);
+    } catch (final HibernateException exception) {
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
+    }
+  }
+
+  /**
+   * Returns the record types associated with the given language.
+   *
+   * @param lang the language code, used here as a filter criterion.
+   * @return a list of code / description tuples representing the record type associated with the requested language.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public List <Avp <String>> getRecordTypes(final String lang) throws DataAccessException {
+    final DAOCodeTable dao = new DAOCodeTable();
+    return dao.getList(session, T_ITM_REC_TYP.class, locale(lang));
+  }
+
+  /**
+   * Returns the encoding levels associated with the given language.
+   *
+   * @param lang the language code, used here as a filter criterion.
+   * @return a list of code / description tuples representing the encoding level associated with the requested language.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public List <Avp <String>> getEncodingLevels(final String lang) throws DataAccessException {
+    final DAOCodeTable dao = new DAOCodeTable();
+    return dao.getList(session, T_ITM_ENCDG_LVL.class, locale(lang));
+  }
+  
+  /**
+   * Gets the Material description information.
+   * The values depend on mtrl_dsc and bib_itm data (leader).
+   *
+   * @param recordTypeCode     the record type code (leader 05) used here as filter criterion.
+   * @param bibliographicLevel the bibliographic level (leader 06) used here as filter criterion.
+   * @param code               the tag number code used here as filter criterion.
+   * @return a map with RecordTypeMaterial info.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public Map <String, Object> getMaterialTypeInfosByLeaderValues(final char recordTypeCode, final char bibliographicLevel, final String code) throws DataAccessException {
+
+    final RecordTypeMaterialDAO dao = new RecordTypeMaterialDAO();
+
+    try {
+      final Map <String, Object> mapRecordTypeMaterial = new HashMap <>();
+      final RecordTypeMaterial rtm = dao.getMaterialHeaderCode(session, recordTypeCode, bibliographicLevel);
+
+      mapRecordTypeMaterial.put(GlobalStorage.HEADER_TYPE_LABEL, (code.equals(GlobalStorage.MATERIAL_TAG_CODE) ? rtm.getBibHeader008() : rtm.getBibHeader006()));
+      mapRecordTypeMaterial.put(GlobalStorage.FORM_OF_MATERIAL_LABEL, rtm.getAmicusMaterialTypeCode());
+      return mapRecordTypeMaterial;
+    } catch (final HibernateException exception) {
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
+    }
+  }
+  
+  /**
+   * Returns the multipart resource level associated with the given language.
+   *
+   * @param lang the language code, used here as a filter criterion.
+   * @return a list of code / description tuples representing the multipart resource level associated with the requested language.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public List <Avp <String>> getMultipartResourceLevels(final String lang) throws DataAccessException {
+    final DAOCodeTable dao = new DAOCodeTable();
+    return dao.getList(session, T_ITM_LNK_REC.class, locale(lang));
+  }
+  
+  /**
+   * Returns the descriptive catalog forms associated with the given language.
+   *
+   * @param lang the language code, used here as a filter criterion.
+   * @return a list of code / description tuples representing the descriptive catalog forms associated with the requested language.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public List <Avp <String>> getDescriptiveCatalogForms(final String lang) throws DataAccessException {
+    final DAOCodeTable dao = new DAOCodeTable();
+    return dao.getList(session, T_ITM_DSCTV_CTLG.class, locale(lang));
+  }
+  
+  /**
+   * Returns the bibliographic levels associated with the given language.
+   *
+   * @param lang the language code, used here as a filter criterion.
+   * @return a list of code / description tuples representing the bibliographic level associated with the requested language.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public List <Avp <String>> getBibliographicLevels(final String lang) throws DataAccessException {
+    final DAOCodeTable dao = new DAOCodeTable();
+    return dao.getList(session, T_ITM_BIB_LVL.class, locale(lang));
+  }
+  
+  /**
+   * Returns the character encoding schemas associated with the given language.
+   *
+   * @param lang the language code, used here as a filter criterion.
+   * @return a list of code / description tuples representing the character encoding schema associated with the requested language.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public List <Avp <String>> getCharacterEncodingSchemas(final String lang) throws DataAccessException {
+    final DAOCodeTable dao = new DAOCodeTable();
+    return dao.getList(session, T_ITM_CCS.class, locale(lang));
+  }
+  
+  /**
+   * Returns the control types associated with the given language.
+   *
+   * @param lang the language code, used here as a filter criterion.
+   * @return a list of code / description tuples representing the control type associated with the requested language.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public List <Avp <String>> getControlTypes(final String lang) throws DataAccessException {
+    final DAOCodeTable dao = new DAOCodeTable();
+    return dao.getList(session, T_ITM_CNTL_TYP.class, locale(lang));
+  }
+
+  
+  /**
+   * Returns the record status types associated with the given language.
+   *
+   * @param lang the language code, used here as a filter criterion.
+   * @return a list of code / description tuples representing the record status type associated with the requested language.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public List <Avp <String>> getRecordStatusTypes(final String lang) throws DataAccessException {
+    final DAOCodeTable dao = new DAOCodeTable();
+    return dao.getList(session, T_ITM_REC_STUS.class, locale(lang));
+  }
+  
+  /**
+   * Returns the description for heading type entity.
+   *
+   * @param code     the heading marc category code, used here as a filter criterion.
+   * @param lang     the language code, used here as a filter criterion.
+   * @param category the category field.
+   * @return the description for index code associated with the requested language.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public String getHeadingTypeDescription(final int code, final String lang, final int category) throws DataAccessException {
+    final DAOCodeTable dao = new DAOCodeTable();
+    return dao.getLongText(session, code, FIRST_CORRELATION_HEADING_CLASS_MAP.get(category), locale(lang));
+  }
   /**
    * Return the language independent (key) index value to be used when
    * browsing for entries of this type of Descriptor
