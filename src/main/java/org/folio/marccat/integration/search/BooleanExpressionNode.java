@@ -5,13 +5,25 @@ package org.folio.marccat.integration.search;
  *
  * @author cchiama
  * @author paulm
+ * @author carment
  * @since 1.0
  */
 public class BooleanExpressionNode implements ExpressionNode {
+
+  /** The left. */
   private ExpressionNode left;
+
+  /** The right. */
   private ExpressionNode right;
+
+  /** The op. */
   private String op;
 
+  /**
+   * Gets the type.
+   *
+   * @return the type
+   */
   @Override
   public NodeType getType() {
     return NodeType.BOOL;
@@ -23,27 +35,24 @@ public class BooleanExpressionNode implements ExpressionNode {
    * @return the expression (as a string) of this boolean node.
    * @throws CclParserException in case the node cannot be parsed as a valid expression.
    */
-  public String getValue() throws CclParserException {
+  public String getValue() throws CclParserException{
     try {
       if (left instanceof TermExpressionNode && right instanceof TermExpressionNode) {
         TermExpressionNode leftTerm = (TermExpressionNode) left;
         TermExpressionNode rightTerm = (TermExpressionNode) right;
         if (leftTerm.isType2Index() || rightTerm.isType2Index()) {
-          if ("AND".equals(op.toUpperCase())) { // we only handle and operator
+          if ("AND".equalsIgnoreCase(op)) {
             if (!rightTerm.isType2Index()) {
-              //swap terms so that right is type 2
               TermExpressionNode temp = rightTerm;
               rightTerm = leftTerm;
               leftTerm = temp;
             }
-            //check that from clauses are compatible
             if (leftTerm.semantic().getFromClause().contains(rightTerm.semantic().getFromClause())) {
               return "(( " + leftTerm.getValue() + " and " + rightTerm.getInnerJoinValue() + " ))";
             }
           }
         }
       }
-
       return "(( " + left.getValue() + " ) " + operator(op) + " ( " + right.getValue() + " ))";
     } catch (final Exception e) {
       throw new CclParserException("Query parsing error: " + e.getMessage());
@@ -78,16 +87,22 @@ public class BooleanExpressionNode implements ExpressionNode {
     this.op = operator;
   }
 
+  /**
+   * Operator.
+   *
+   * @param input the input
+   * @return the string
+   */
   private String operator(final String input) {
     switch (input.toUpperCase()) {
       case "AND":
-        return "intersect";
+        return "intersect all";
       case "OR":
-        return "union";
+        return "union all";
       case "NOT":
-        return "except";
+        return "except all";
       default:
-        return "intersect";
+        return "intersect all";
     }
   }
 }

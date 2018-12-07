@@ -5,23 +5,28 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.folio.marccat.business.cataloguing.bibliographic.FixedField;
+import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.persistence.CorrelationKey;
 import org.folio.marccat.dao.persistence.T_SINGLE;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.ValidationException;
+import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.shared.Validation;
 import org.folio.marccat.util.StringText;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.Serializable;
 import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.List;
 
 import static org.folio.marccat.util.F.deepCopy;
@@ -170,15 +175,14 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
     return toXmlElement(xmlDocument, true);
   }
 
-  // 2018 Paul Search Engine Java
   public StringText addPunctuation() {
     // overridden in subclasses -- default implementation does nothing
     return null;
   }
 
-  // 2018 Paul Search Engine Java
+
   private Element toXmlElement(Document xmlDocument, boolean withPunctuation) {
-		/*CorrelationKey marcEncoding = null;
+		CorrelationKey marcEncoding = null;
 		try {
 			marcEncoding = getMarcEncoding();
 		} catch (Exception exception) {
@@ -187,10 +191,8 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
 		}
 
 		String marcTag = marcEncoding.getMarcTag();
-		String marcFirstIndicator = new String(""
-				+ marcEncoding.getMarcFirstIndicator());
-		String marcSecondIndicator = new String(""
-				+ marcEncoding.getMarcSecondIndicator());
+		String marcFirstIndicator =""+ marcEncoding.getMarcFirstIndicator();
+		String marcSecondIndicator = ""+ marcEncoding.getMarcSecondIndicator();
 
 		Element field = null;
 		if (isFixedField()) {
@@ -211,9 +213,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
 				try {
 					st = addPunctuation();
 				} catch (Exception e) {
-					// if addPunctuation fails, we want to proceed using the raw
-					// string text
-					logger.warn(
+          logger.warn(
 							"ErrorCollection adding punctuation, using original text", e);
 					st = ((VariableField) this).getStringText();
 				}
@@ -226,8 +226,8 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
 				field.appendChild(subfield.toXmlElement(xmlDocument));
 			}
 		}
-		return field;*/
-    return null;
+		return field;
+
   }
 
   public int hashCode() {
@@ -405,7 +405,6 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
       xmlDocument.appendChild(toXmlElement(xmlDocument));
     } catch (ParserConfigurationException parserConfigurationException) {
       logger.error("", parserConfigurationException);
-      //throw new XmlParserConfigurationException(parserConfigurationException);
     }
     return xmlDocument;
   }
@@ -422,77 +421,43 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
    * @return an Element
    */
   public Element toXmlElement(Document xmlDocument) {
-		/*CorrelationKey marcEncoding = null;
-		try {
-			marcEncoding = getMarcEncoding();
-		} catch (Exception exception) {
-			throw new RuntimeException("Invalid tag found in Tag.toXmlElement");
-		}
+    CorrelationKey marcEncoding = null;
+    try {
+      marcEncoding = getMarcEncoding();
+    } catch (Exception exception) {
+      throw new RuntimeException("Invalid tag found in Tag.toXmlElement");
+    }
 
-		String marcTag = marcEncoding.getMarcTag();
-		String marcFirstIndicator =
-			new String("" + marcEncoding.getMarcFirstIndicator());
-		String marcSecondIndicator =
-			new String("" + marcEncoding.getMarcSecondIndicator());
+    String marcTag = marcEncoding.getMarcTag();
+    String marcFirstIndicator = "" + marcEncoding.getMarcFirstIndicator();
+    String marcSecondIndicator = "" + marcEncoding.getMarcSecondIndicator();
 
-		Element field = null;
-		if (isFixedField()) {
-			field = xmlDocument.createElement("controlfield");
-		} else {
-			field = xmlDocument.createElement("datafield");
-		}
-		field.setAttribute("tag", marcTag);
-		if (!isFixedField()) {
-			field.setAttribute("ind1", marcFirstIndicator);
-			field.setAttribute("ind2", marcSecondIndicator);
-			for (Iterator subfieldIterator =
-				((VariableField) this)
-					.getStringText()
-					.getSubfieldList()
-					.iterator();
-				subfieldIterator.hasNext();
-				) {
-				Subfield subfield = (Subfield) subfieldIterator.next();
-				field.appendChild(subfield.toXmlElement(xmlDocument));
-			}
-		}
-		return field;*/
-    return null;
-  }
-
-  /**
-   * This method is used to generated the model xml.
-   *
-   * @since 1.0
-   */
-  public Element generateModelXmlElement(Document xmlDocument) {
     Element field = null;
-		/*if (xmlDocument != null) {
-			field = xmlDocument.createElement("field");
-			try {
-				field.setAttribute("tag", this.getMarcEncoding().getMarcTag());
-				field.setAttribute(
-					"firstIndicator",
-					"" + this.getMarcEncoding().getMarcFirstIndicator());
-				field.setAttribute(
-					"secondIndicator",
-					"" + this.getMarcEncoding().getMarcSecondIndicator());
-				field.setAttribute("categoryCode", "" + this.getCategory());
-				field.setAttribute(
-					"firstCorrelationValue",
-					"" + this.getCorrelation(1));
-				field.setAttribute(
-					"secondCorrelationValue",
-					"" + this.getCorrelation(2));
-				field.setAttribute(
-					"thirdCorrelationValue",
-					"" + this.getCorrelation(3));
-			} catch (MarcCorrelationException marcCorrelationException) {
-			} catch (DataAccessException dataAccessException) {
-			}
-			field.appendChild(generateModelXmlElementContent(xmlDocument));
-		}*/
+    if (isFixedField()) {
+      if (marcTag.equals("000"))
+        field = xmlDocument.createElement("leader");
+      else
+        field = xmlDocument.createElement("controlfield");
+    } else {
+      field = xmlDocument.createElement("datafield");
+    }
+    field.setAttribute("tag", marcTag);
+    if (!isFixedField()) {
+      field.setAttribute("ind1", marcFirstIndicator);
+      field.setAttribute("ind2", marcSecondIndicator);
+      for (Iterator subfieldIterator =
+           ((VariableField) this)
+             .getStringText()
+             .getSubfieldList()
+             .iterator();
+           subfieldIterator.hasNext();
+        ) {
+        Subfield subfield = (Subfield) subfieldIterator.next();
+        field.appendChild(subfield.toXmlElement(xmlDocument));
+      }
+    }
     return field;
+
   }
 
   public Object clone() {
@@ -516,7 +481,6 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
   }
 
   public Validation getValidation() throws DataAccessException {
-    //return tagImpl.getValidation(this);
     return validation;
   }
 
@@ -541,9 +505,6 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
     return false; //default implementation
   }
 
-	/* nat: public HibernateUtil getDAO() {
-		return persistenceState.getDAO();
-	}*/
 
   @Override
   public boolean isEquivalenceReference() {
