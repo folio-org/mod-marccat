@@ -9,7 +9,6 @@ import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.codetable.Avp;
 import org.folio.marccat.business.codetable.IndexListElement;
 import org.folio.marccat.business.descriptor.SortFormParameters;
-import org.folio.marccat.dao.common.HibernateUtil;
 import org.folio.marccat.dao.persistence.IndexList;
 import org.folio.marccat.dao.persistence.IndexListKey;
 import org.folio.marccat.exception.DataAccessException;
@@ -25,7 +24,7 @@ import static java.util.stream.Collectors.toList;
  * @author carment
  * @since 1.0
  */
-public class DAOIndexList extends HibernateUtil {
+public class DAOIndexList extends AbstractDAO {
   private static final Log logger = LogFactory.getLog(DAOIndexList.class);
   private static final String FROM_INDEX_LIST_AS_A = "from IndexList as a ";
   private static final String CODE_LIBRICAT = "' and a.codeLibriCatMades = 'LC'";
@@ -82,6 +81,12 @@ public class DAOIndexList extends HibernateUtil {
     }
   }
 
+  /**
+   * Gets the index by english abreviation.
+   *
+   * @param s the s
+   * @return the index by english abreviation
+   */
   public String getIndexByEnglishAbreviation(String s) {
 
     String query =
@@ -100,7 +105,14 @@ public class DAOIndexList extends HibernateUtil {
     }
   }
 
-
+  /**
+   * Gets the sort form parameters by key.
+   *
+   * @param indexKey the index key
+   * @param session the session
+   * @return the sort form parameters by key
+   * @throws HibernateException the hibernate exception
+   */
   public SortFormParameters getSortFormParametersByKey(final String indexKey, final Session session)
     throws HibernateException {
     SortFormParameters result = null;
@@ -132,6 +144,14 @@ public class DAOIndexList extends HibernateUtil {
     return result;
   }
 
+  /**
+   * Gets the index by local abbreviation.
+   *
+   * @param session the session
+   * @param s the s
+   * @param locale the locale
+   * @return the index by local abbreviation
+   */
   public IndexList getIndexByLocalAbbreviation(final Session session, String s, Locale locale) {
 
     List l = find(session, FROM_INDEX_LIST_AS_A

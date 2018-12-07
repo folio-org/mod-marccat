@@ -16,17 +16,35 @@ import java.util.Locale;
  *
  * @author paulm
  * @author cchiama
+ * @author carment
  * @since 1.0
  */
 public class Parser {
+  /** The Constant logger. */
   private static final Log logger = new Log(Parser.class);
+
+  /** The default index. */
   private static IndexList defaultIndex;
+
+  /** The locale. */
   private final Locale locale;
+
+  /** The main library id. */
   private final int mainLibraryId;
+
+  /** The searching view. */
   private final int searchingView;
+
+  /** The session. */
   private final Session session;
+
+  /** The dao. */
   private final DAOIndexList dao = new DAOIndexList();
+
+  /** The tokens. */
   private LinkedList<Token> tokens;
+
+  /** The lookahead. */
   private Token lookahead;
 
   /**
@@ -35,6 +53,7 @@ public class Parser {
    * @param locale        the current locale.
    * @param mainLibraryId the main library identifier.
    * @param searchingView the current search view.
+   * @param session the session
    */
   public Parser(final Locale locale, final int mainLibraryId, final int searchingView, final Session session) {
     this.locale = locale;
@@ -73,8 +92,13 @@ public class Parser {
   public ExpressionNode parse(final List<Token> tokens) throws CclParserException {
     this.tokens = new LinkedList<>(tokens);
     this.lookahead = this.tokens.getFirst();
-    return searchGroup();
+    ExpressionNode expr = null;
+    while (lookahead.token != Tokenizer.TokenType.EOL) {
+      expr = searchGroup(expr);
+    }
+    return expr;
   }
+
 
   /**
    * Advance to the next token.
@@ -87,36 +111,44 @@ public class Parser {
         : tokens.getFirst();
   }
 
-  private ExpressionNode searchGroup() throws CclParserException {
-    // ( <searchGroup> )
+
+  /**
+   * Search group.
+   *
+   * @param expr the expr
+   * @return the expression node
+   * @throws CclParserException the ccl parser exception
+   */
+  private ExpressionNode searchGroup(ExpressionNode expr) throws CclParserException {
     if (lookahead.token == Tokenizer.TokenType.LP) {
       nextToken();
-
-      final ExpressionNode expr = searchGroup();
-      if (lookahead.token != Tokenizer.TokenType.RP) {
-        throw new CclParserException("Mismatched parentheses");
+      while (lookahead.token != Tokenizer.TokenType.RP && lookahead.token != Tokenizer.TokenType.EOL) {
+        expr = searchGroup(expr);
       }
-
+      nextToken();
       return expr;
+    } else if (lookahead.token == Tokenizer.TokenType.WORD){
+      expr = searchExpression();
+      return expr;
+    }
+    else if (lookahead.token == Tokenizer.TokenType.BOOL) {
+      final BooleanExpressionNode op = new BooleanExpressionNode();
+      op.setLeft(expr);
+      op.setOp(lookahead.sequence);
+      nextToken();
+      op.setRight(searchGroup(expr));
+      return op;
     } else {
-      // <searchExpression> <BOOL> <searchGroup>
-      final ExpressionNode expr = searchExpression();
-      if (lookahead.token == Tokenizer.TokenType.BOOL) {
-        final BooleanExpressionNode op = new BooleanExpressionNode();
-        op.setLeft(expr);
-        op.setOp(lookahead.sequence);
-
-        nextToken();
-
-        op.setRight(searchGroup());
-
-        return op;
-      } else {
-        return expr;
-      }
+      return expr;
     }
   }
 
+  /**
+   * Search expression.
+   *
+   * @return the expression node
+   * @throws CclParserException the ccl parser exception
+   */
   private ExpressionNode searchExpression() throws CclParserException {
     final TermExpressionNode expr = new TermExpressionNode(session, locale, mainLibraryId, searchingView);
     if (lookahead.token == Tokenizer.TokenType.WORD) {
@@ -140,7 +172,6 @@ public class Parser {
       }
     }
     if (lookahead.token == Tokenizer.TokenType.INDEX) {
-      // <INDEX> [<REL>] <term>
       nextToken();
       if (lookahead.token == Tokenizer.TokenType.REL) {
         expr.setRelation(lookahead.sequence);
@@ -148,11 +179,15 @@ public class Parser {
       }
       return term(expr);
     } else {
-      // <term>
       return term(expr);
     }
   }
 
+  /**
+   * Gets the default index.
+   *
+   * @return the default index
+   */
   private IndexList getDefaultIndex() {
     if (defaultIndex == null) {
       try {
@@ -164,9 +199,15 @@ public class Parser {
     return defaultIndex;
   }
 
+  /**
+   * Term.
+   *
+   * @param expr the expr
+   * @return the expression node
+   * @throws CclParserException the ccl parser exception
+   */
   private ExpressionNode term(TermExpressionNode expr) throws CclParserException {
     if (lookahead.token == Tokenizer.TokenType.WORD) {
-      // <WORD> <wordlist>
       expr.appendToTerm(lookahead.sequence + " ");
       nextToken();
       return wordlist(expr);
@@ -175,6 +216,13 @@ public class Parser {
     }
   }
 
+  /**
+   * Wordlist.
+   *
+   * @param expr the expr
+   * @return the expression node
+   * @throws CclParserException the ccl parser exception
+   */
   private ExpressionNode wordlist(TermExpressionNode expr) throws CclParserException {
     if (lookahead.token == Tokenizer.TokenType.PROX) {
       expr.setProximityOperator(lookahead.sequence);
@@ -192,11 +240,16 @@ public class Parser {
       nextToken();
       return wordlist(expr);
     } else {
-      // EOL
       return expr;
     }
   }
 
+  /**
+   * Quoted string.
+   *
+   * @param expr the expr
+   * @return the expression node
+   */
   private ExpressionNode quotedString(TermExpressionNode expr) {
     if (lookahead.token == Tokenizer.TokenType.QUOTEDSTRING) {
       String noQuotes = lookahead.sequence.replace("\"", "");
@@ -204,8 +257,8 @@ public class Parser {
       nextToken();
       return quotedString(expr);
     } else {
-      // EOL
       return expr;
     }
   }
+
 }
