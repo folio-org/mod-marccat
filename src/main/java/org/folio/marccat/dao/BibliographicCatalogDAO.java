@@ -27,6 +27,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -89,6 +90,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
       cache.setItemNumber(item.getAmicusNumber());
       cache.setUserView(item.getUserView());
     }
+    item.sortTags();
     cache.setRecordData(XmlUtils.documentToString(item.toExternalMarcSlim()));
     cache.markChanged();
     persistByStatus(cache, session);
@@ -471,7 +473,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
 
   @Deprecated
   public List loadAccessPointTags(Class apfClass, int id, int userView) throws DataAccessException {
-    return null;
+    return Collections.emptyList();
   }
 
   /**
@@ -615,7 +617,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
 
   @Deprecated
   public Collection<SubjectAccessPoint> getEquivalentSubjects(final CatalogItem item) throws DataAccessException {
-    return null;
+    return Collections.emptyList();
   }
 
   @SuppressWarnings("unchecked")

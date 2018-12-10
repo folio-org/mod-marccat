@@ -18,26 +18,48 @@ import java.util.Locale;
  *
  * @author paulm
  * @author cchiama
+ * @author carment
  * @since 1.0
  */
 public class TermExpressionNode implements ExpressionNode {
+
+  /** The Constant logger. */
   private static final Log logger = new Log(TermExpressionNode.class);
 
+  /** The term. */
   private final StringBuilder term = new StringBuilder();
 
+  /** The locale. */
   private final Locale locale;
+
+  /** The main library id. */
   private final int mainLibraryId;
+
+  /** The searching view. */
   private final int searchingView;
+
+  /** The session. */
   private final Session session;
+
+  /** The index. */
   private IndexList index;
+
+  /** The relation. */
   private String relation = "=";
+
+  /** The proximity operator. */
   private String proximityOperator;
+
+  /** The right. */
   private String right;
+
+  /** The semantic. */
   private S_BIB1_SMNTC semantic;
 
   /**
    * Builds a new expression node.
    *
+   * @param session the session
    * @param locale        the current locale.
    * @param mainLibraryId the main library identifier.
    * @param searchingView the current searching view.
@@ -49,12 +71,16 @@ public class TermExpressionNode implements ExpressionNode {
     this.searchingView = searchingView;
   }
 
+  /**
+   * Gets the value of the semantic entry based on index and term syntax
+   *
+   * @return the value
+   */
   @Override
-  public String getValue() throws CclParserException {
-    // get semantic entry based on index and term syntax
-    try {
+  public String getValue() {
+     try {
       String s = prepareTerm();
-      if (proximityOperator != null) {
+      if (proximityOperator != null && s != null) {
         int startOfTerm = s.indexOf('\'') + 1;
         if (startOfTerm > 0) {
           int endOfTerm = s.indexOf('\'', startOfTerm) - 1;
@@ -67,12 +93,7 @@ public class TermExpressionNode implements ExpressionNode {
           final String ordered = String.valueOf(proximityOperator.startsWith("N")).toUpperCase();
 
           int distance = 5;
-          try {
-            distance = Integer.parseInt(proximityOperator.substring(1));
-          } catch (Exception e) {
-            // do nothing take default distance value
-          }
-
+          distance = getDistance(distance);
           String newText = String.format("NEAR ((%s,{%s}), %d, %s) ", oldTerm, getRight(), distance, ordered);
           s = s.substring(0, startOfTerm) + newText + s.substring(endOfTerm + 1);
         }
@@ -90,10 +111,29 @@ public class TermExpressionNode implements ExpressionNode {
     }
   }
 
-  private String prepareTerm() throws CclParserException {
+  /**
+   * Gets the distance.
+   *
+   * @param distance the distance
+   * @return the distance
+   */
+  private int getDistance(int distance) {
+    try {
+      distance = Integer.parseInt(proximityOperator.substring(1));
+    } catch (Exception e) {
+      // do nothing take default distance value
+    }
+    return distance;
+  }
+
+  /**
+   * Prepare term build sql from semantic entry
+   *
+   * @return the string
+   */
+  private String prepareTerm() {
     removeTrailingBlankInTerm();
 
-    // build sql from semantic entry
     final String preProcessWildCards =
       term.toString()
         .replace('?', '\u0002')
@@ -148,27 +188,57 @@ public class TermExpressionNode implements ExpressionNode {
     return searchingView;
   }
 
+  /**
+   * Sets the proximity operator.
+   *
+   * @param proximityOperator the new proximity operator
+   */
   void setProximityOperator(String proximityOperator) {
     this.proximityOperator = proximityOperator;
   }
 
+  /**
+   * Gets the right.
+   *
+   * @return the right
+   */
   public String getRight() {
     return right;
   }
 
+  /**
+   * Sets the right.
+   *
+   * @param right the new right
+   */
   public void setRight(String right) {
     this.right = right;
   }
 
+  /**
+   * Gets the locale.
+   *
+   * @return the locale
+   */
   public Locale getLocale() {
     return locale;
   }
 
+  /**
+   * Gets the type.
+   *
+   * @return the type
+   */
   @Override
   public NodeType getType() {
     return NodeType.TERM;
   }
 
+  /**
+   * Gets the inner join value.
+   *
+   * @return the inner join value
+   */
   String getInnerJoinValue() {
     try {
       return prepareTerm();
@@ -179,11 +249,11 @@ public class TermExpressionNode implements ExpressionNode {
   }
 
   /**
+   * Get the Semantic for build the query.
    *
-   * @return
-   * @throws DataAccessException
+   * @return the s bib1 smntc
    */
-  S_BIB1_SMNTC semantic() throws DataAccessException {
+  S_BIB1_SMNTC semantic() {
     try {
       if (semantic == null) {
         semantic = new SemanticDAO()
@@ -205,22 +275,24 @@ public class TermExpressionNode implements ExpressionNode {
   }
 
   /**
+   * Gets the record type.
    *
-   * @return
+   * @return the record type
    */
   private short getRecordType() {
     if (getSearchingView() >= 0) {
       return 1;
     } else if (getSearchingView() == -1) {
       return 0;
-    } else { // MADES
+    } else {
       return 3;
     }
   }
 
   /**
+   * Structure as attr.
    *
-   * @return
+   * @return the int
    */
   private int structureAsAttr() {
     int result = index.getStructureAttribute();
@@ -231,8 +303,9 @@ public class TermExpressionNode implements ExpressionNode {
   }
 
   /**
+   * Position as attr.
    *
-   * @return
+   * @return the int
    */
   private int positionAsAttr() {
     int result = index.getPositionAttribute();
@@ -247,8 +320,9 @@ public class TermExpressionNode implements ExpressionNode {
   }
 
   /**
+   * Relation as attr.
    *
-   * @return
+   * @return the int
    */
   private int relationAsAttr() {
     switch (relation) {
@@ -267,17 +341,25 @@ public class TermExpressionNode implements ExpressionNode {
     }
   }
 
+  /**
+   * Truncation as attribule, the term has an appended blank
+   *
+   * @return the int
+   */
   private int truncationAsAttr() {
-    // note that term has an appended blank
     int result = 100;
     if (term.lastIndexOf("?") == term.length() - 1) {
       term.deleteCharAt(term.length() - 1);
-      return 1; // right truncation
+      return 1;
     }
-
     return result;
   }
 
+  /**
+   * Completeness as addr.
+   *
+   * @return the int
+   */
   private int completenessAsAddr() {
     int result = index.getCompletenessAttribute();
     if (term.lastIndexOf("!") == term.length() - 1) {
@@ -290,28 +372,53 @@ public class TermExpressionNode implements ExpressionNode {
     return result;
   }
 
+  /**
+   * Append to term.
+   *
+   * @param sequence the sequence
+   */
   void appendToTerm(final String sequence) {
     term.append(sequence);
   }
 
+  /**
+   * Sets the relation.
+   *
+   * @param sequence the new relation
+   */
   void setRelation(final String sequence) {
     relation = sequence;
   }
 
+  /**
+   * Sets the index.
+   *
+   * @param index the new index
+   */
   public void setIndex(final IndexList index) {
     this.index = index;
   }
 
+  /**
+   * Checks if is type 2 index.
+   *
+   * @return true, if is type 2 index
+   */
   boolean isType2Index() {
-    S_BIB1_SMNTC semantic;
+    S_BIB1_SMNTC semanticRow;
     try {
-      semantic = semantic();
-      return semantic != null && semantic().getSecondaryIndexCode() == (byte) 2;
+      semanticRow = semantic();
+      return semanticRow != null && semantic().getSecondaryIndexCode() == (byte) 2;
     } catch (Exception e) {
       return false;
     }
   }
 
+  /**
+   * View clause.
+   *
+   * @return the string
+   */
   private String viewClause() {
     String viewClause = "";
     if (getSearchingView() != 0 && semantic().getViewClause() != null && !"".equals(semantic().getViewClause())) {
@@ -326,6 +433,9 @@ public class TermExpressionNode implements ExpressionNode {
     return viewClause;
   }
 
+  /**
+   * Removes the trailing blank in term.
+   */
   private void removeTrailingBlankInTerm() {
     if (term.length() > 0 && term.charAt(term.length() - 1) == ' ') {
       term.deleteCharAt(term.length() - 1);

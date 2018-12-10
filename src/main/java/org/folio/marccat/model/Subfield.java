@@ -1,9 +1,12 @@
 package org.folio.marccat.model;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
 
 import java.io.Serializable;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+
 
 /**
  * MARC Subfield definition.
@@ -65,6 +68,19 @@ public class Subfield implements Serializable {
       : delimitedSubfield;
   }
 
+  /**
+   * This method creates a XML Element as follows
+   * <subfield code="a">content</subfield>
+   *
+   * @return an Element
+   */
+  public Element toXmlElement(Document xmlDocument) {
+    Element subfield = xmlDocument.createElement("subfield");
+    subfield.setAttribute("code", code);
+    Node contentNode = xmlDocument.createTextNode(content);
+    subfield.appendChild(contentNode);
+    return subfield;
+  }
 
   @Override
   public boolean equals(Object anObject) {
@@ -117,7 +133,9 @@ public class Subfield implements Serializable {
     this.content = content;
   }
 
-  @Override
+  /* (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 */
   public Object clone() {
     return new Subfield(this);
   }

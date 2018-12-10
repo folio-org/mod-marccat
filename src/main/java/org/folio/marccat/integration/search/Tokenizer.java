@@ -13,29 +13,34 @@ import java.util.regex.Pattern;
  *
  * @author paulm
  * @author cchiama
+ * @author carment
  * @since 1.0
  */
 public final class Tokenizer {
+  /** The Constant logger. */
   private static final Log logger = new Log(Tokenizer.class);
+
+  /** The token infos. */
   private final List<TokenInfo> tokenInfos;
+
+  /** The tokens. */
   private final List<Token> tokens;
 
   /**
-   * Builds a new Tokenizer.
+   * Tokenizer add regexp patterns for each token (most significant first)
    */
-  Tokenizer() {
+  public Tokenizer() {
     tokenInfos = new ArrayList<>();
     tokens = new ArrayList<>();
-
     register("\\[[^\\]]*\\]", TokenType.COMMENT);
     register("\"[^\"]*\"", TokenType.QUOTEDSTRING);
     register("\\(", TokenType.LP);
     register("\\)", TokenType.RP);
-    register("(and|AND|or|OR|not|NOT)", TokenType.BOOL);
+    register("(and|AND|or|OR|not|NOT)(?:[\\s\\(])", TokenType.BOOL);
     register("((>=)|(<=)|>|<|=)", TokenType.REL);
     register("(n|N|w|W)([0-9]+)(?:(\\b))", TokenType.PROX);
     register("\\s", TokenType.WHITE);
-    register("[^\\s=<>\\[\\(]*", TokenType.WORD);
+    register("[^\\s=<>\\[\\(\\)]*", TokenType.WORD);
   }
 
   /**
