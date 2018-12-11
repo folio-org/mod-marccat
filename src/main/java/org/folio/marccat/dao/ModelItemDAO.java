@@ -46,7 +46,7 @@ public abstract class ModelItemDAO extends AbstractDAO {
         + getPersistentClass().getName()
         + " as itm where itm.item = ? ",
       new Object[]{id},
-      new Type[]{Hibernate.LONG});
+      new Type[]{Hibernate.INTEGER});
     return list.stream().filter(Objects::nonNull).findFirst().orElse(null);
   }
 

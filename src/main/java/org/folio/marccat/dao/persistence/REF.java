@@ -3,7 +3,6 @@ package org.folio.marccat.dao.persistence;
 import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
-import org.folio.marccat.business.common.Defaults;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.business.common.View;
@@ -88,7 +87,6 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
     } else {
       this.setNoteGeneration('@');
     }
-    this.setPrintConstant(Defaults.getChar("authority.reference.specialRelationship"));
     this.setLinkDisplay('n');
     this.setReplacementComplexity('n');
     this.setVerificationLevel('1');

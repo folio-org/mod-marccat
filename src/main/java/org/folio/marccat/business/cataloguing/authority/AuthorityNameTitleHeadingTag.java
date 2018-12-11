@@ -52,12 +52,13 @@ public class AuthorityNameTitleHeadingTag extends AuthorityHeadingTag {
   @Deprecated
   public List getSecondCorrelationList(short value1)
     throws DataAccessException {
-    DAOAuthorityCorrelation dao = new DAOAuthorityCorrelation();
-    return dao.getSecondCorrelationList(
-      getCategory(),
-      getHeadingType(),
-      value1,
-      NameSubType.class);
+//    DAOAuthorityCorrelation dao = new DAOAuthorityCorrelation();
+//    return dao.getSecondCorrelationList(
+//      getCategory(),
+//      getHeadingType(),
+//      value1,
+//      NameSubType.class);
+  return null;
   }
 
   /* (non-Javadoc)

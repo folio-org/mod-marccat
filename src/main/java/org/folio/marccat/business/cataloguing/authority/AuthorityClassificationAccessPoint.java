@@ -9,7 +9,6 @@ package org.folio.marccat.business.cataloguing.authority;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.marccat.business.common.Defaults;
 import org.folio.marccat.dao.DAOAuthorityCorrelation;
 import org.folio.marccat.dao.persistence.CLSTN;
 import org.folio.marccat.dao.persistence.Descriptor;
@@ -42,8 +41,8 @@ public class AuthorityClassificationAccessPoint extends AuthorityAccessPoint {
    */
   public AuthorityClassificationAccessPoint() {
     super();
-    descriptor.setTypeCode(Defaults.getShort("authority.classification.type"));
-    setFunctionCode(Defaults.getShort("authority.classification.function"));
+//    descriptor.setTypeCode(Defaults.getShort("authority.classification.type"));
+//    setFunctionCode(Defaults.getShort("authority.classification.function"));
   }
 
   /**
@@ -54,8 +53,8 @@ public class AuthorityClassificationAccessPoint extends AuthorityAccessPoint {
    */
   public AuthorityClassificationAccessPoint(int itemNumber) {
     super(itemNumber);
-    descriptor.setTypeCode(Defaults.getShort("authority.classification.type"));
-    setFunctionCode(Defaults.getShort("authority.classification.function"));
+//    descriptor.setTypeCode(Defaults.getShort("authority.classification.type"));
+//    setFunctionCode(Defaults.getShort("authority.classification.function"));
   }
 
   /* (non-Javadoc)
@@ -107,15 +106,6 @@ public class AuthorityClassificationAccessPoint extends AuthorityAccessPoint {
    */
   public void setDescriptor(Descriptor descriptor) {
     this.descriptor = (CLSTN) descriptor;
-  }
-
-  /* (non-Javadoc)
-   * @see librisuite.business.cataloguing.bibliographic.Tag#getFirstCorrelationList()
-   */
-  @Deprecated
-  public List getFirstCorrelationList() throws DataAccessException {
-    //return getDaoCodeTable().getList(T_AUT_CLSTN_TYP.class,false);
-    return null;
   }
 
   /* (non-Javadoc)
