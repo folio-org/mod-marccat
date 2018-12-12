@@ -7,20 +7,20 @@
  */
 package org.folio.marccat.dao;
 
-import net.sf.hibernate.Hibernate;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.type.Type;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.cataloguing.common.Tag;
-import org.folio.marccat.business.common.Defaults;
 import org.folio.marccat.dao.persistence.Correlation;
 import org.folio.marccat.dao.persistence.CorrelationKey;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.shared.CorrelationValues;
 
-import java.util.List;
+import net.sf.hibernate.Hibernate;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.type.Type;
 
 /**
  * Manages access to table S_AUT_MARC_IND_DB_CRLTN -- the correlation between
@@ -35,7 +35,7 @@ public class DAOAuthorityCorrelation extends DAOCorrelation {
 
   private static final String ALPHABETICAL_ORDER = " order by ct.longText ";
   private static final String SEQUENCE_ORDER = " order by ct.sequence ";
-  private String defaultListOrder = Defaults.getBoolean("labels.alphabetical.order", true) ? ALPHABETICAL_ORDER : SEQUENCE_ORDER;
+//  private String defaultListOrder = Defaults.getBoolean("labels.alphabetical.order", true) ? ALPHABETICAL_ORDER : SEQUENCE_ORDER;
 
   /**
    * Returns the AuthorityCorrelation from CorrelationKey

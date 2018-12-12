@@ -1,11 +1,15 @@
 package org.folio.marccat.dao.persistence;
 
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
+import static org.folio.marccat.util.F.deepCopy;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
-import org.folio.marccat.business.common.Defaults;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.business.common.SubfieldCodeComparator;
@@ -18,12 +22,8 @@ import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
-import static org.folio.marccat.util.F.deepCopy;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 
 public class BibliographicRelationshipTag extends VariableField implements PersistentObjectWithView {
   private static final Log logger = LogFactory.getLog(BibliographicRelationshipTag.class);
@@ -38,8 +38,6 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
     setSourceRelationship(new BibliographicRelationship());
     setTargetRelationship(new BibliographicRelationship());
     setReciprocalOption((short) 3);
-    setRelationTypeCode(Defaults.getShort("bibliographicRelationship.relationTypeCode"));
-    setRelationPrintNoteCode(Defaults.getShort("bibliographicRelationship.relationPrintNoteCode"));
     setPersistenceState(new PersistenceState());
     setOriginalTag();
   }

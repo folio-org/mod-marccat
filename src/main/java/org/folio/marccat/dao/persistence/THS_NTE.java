@@ -7,7 +7,6 @@
  */
 package org.folio.marccat.dao.persistence;
 
-import org.folio.marccat.business.common.Defaults;
 
 import java.io.Serializable;
 
@@ -19,7 +18,7 @@ import java.io.Serializable;
 public class THS_NTE implements Serializable {
 
   private ThesaurusNoteKey key;
-  private short noteType = Defaults.getShort("thesaurusNote.noteType");
+//  private short noteType = Defaults.getShort("thesaurusNote.noteType");
   private String noteText;
   private String language;
 
@@ -50,14 +49,14 @@ public class THS_NTE implements Serializable {
   }
 
 
-  public short getNoteType() {
-    return noteType;
-  }
-
-
-  public void setNoteType(short s) {
-    noteType = s;
-  }
+//  public short getNoteType() {
+//    return noteType;
+//  }
+//
+//
+//  public void setNoteType(short s) {
+//    noteType = s;
+//  }
 
 
 }
