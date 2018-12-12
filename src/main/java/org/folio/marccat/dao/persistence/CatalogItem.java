@@ -168,7 +168,6 @@ public abstract class CatalogItem implements Serializable {
    * @throws DataAccessException in
    */
   public void setModelItem(final Model model) {
-	this.modelItem = new BibliographicModelItem();
     this.modelItem.setItem(this.getAmicusNumber().longValue());
     this.modelItem.setModel(model);
     this.modelItem.setRecordFields(model.getRecordFields());

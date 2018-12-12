@@ -45,6 +45,7 @@ import org.folio.marccat.dao.AuthorityModelDAO;
 import org.folio.marccat.dao.BibliographicCatalogDAO;
 import org.folio.marccat.dao.BibliographicCorrelationDAO;
 import org.folio.marccat.dao.BibliographicModelDAO;
+import org.folio.marccat.dao.BibliographicModelItemDAO;
 import org.folio.marccat.dao.BibliographicValidationDAO;
 import org.folio.marccat.dao.DAOCache;
 import org.folio.marccat.dao.DAOCodeTable;
@@ -1331,23 +1332,26 @@ public class StorageService implements Closeable {
         updateBibliographicRecord(record, item, view, generalInformation);
       }
 
+      final int an = item.getAmicusNumber();
       item.setModelItem(
         ofNullable(template).map(t ->{
-        final ObjectMapper mapper = new ObjectMapper();
-        final Model model = new BibliographicModel();
+          final BibliographicModelItemDAO dao = new BibliographicModelItemDAO();
+          final ObjectMapper mapper = new ObjectMapper();
 
-        model.setId(t.getId());
-        model.setLabel(t.getName());
-        model.setFrbrFirstGroup(t.getGroup());
         try {
-          String s = mapper.writeValueAsString(t);
-          logger.info(s);
-          model.setRecordFields(s);
-        } catch (JsonProcessingException e) {
+          BibliographicModel model = (BibliographicModel) ofNullable(dao.load(an, session).getModel()).get();
+          if (model == null)
+            model = new BibliographicModel();
+
+          model.setId(t.getId());
+          model.setLabel(t.getName());
+          model.setFrbrFirstGroup(t.getGroup());
+          model.setRecordFields(mapper.writeValueAsString(t));
+          return model;
+        } catch (Exception e) {
           logger.error(MessageCatalog._00023_SAVE_TEMPLATE_ASSOCIATED_FAILURE, t.getId(), record.getId(), e);
           throw new RuntimeException(e);
         }
-        return model;
       }).orElse(null));
 
       if (isNotNullOrEmpty(record.getVerificationLevel()))
@@ -1453,7 +1457,7 @@ public class StorageService implements Closeable {
       if (aTag instanceof AccessPoint) {
         try {
           AccessPoint apf = ((AccessPoint) aTag);
-          Descriptor d = apf.getDAODescriptor().findOrCreateMyView(((AccessPoint) aTag).getDescriptor().getHeadingNumber(), View.makeSingleViewString(recordView), cataloguingView, session);
+          Descriptor d = apf.getDAODescriptor().findOrCreateMyView(apf.getHeadingNumber(), View.makeSingleViewString(recordView), cataloguingView, session);
           apf.setDescriptor(d);
         } catch (HibernateException e) {
           throw new DataAccessException(e);
