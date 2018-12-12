@@ -53,6 +53,7 @@ public class FixedFieldCodesGroupAPI extends BaseResource {
   })
   @GetMapping("/fixed-fields-code-groups")
   public FixedFieldCodesGroup getFixedFieldCodesGroups(
+	@RequestParam (required = false) final String leader ,
     @RequestParam final String code,
     @RequestParam final int headerTypeCode,
     @RequestParam final String lang,

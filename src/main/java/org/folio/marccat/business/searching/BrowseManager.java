@@ -1,11 +1,20 @@
 package org.folio.marccat.business.searching;
 
-import org.folio.marccat.business.common.Defaults;
-import org.folio.marccat.business.common.View;
-import org.folio.marccat.dao.*;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import org.folio.marccat.dao.ClassificationDescriptorDAO;
+import org.folio.marccat.dao.ControlNumberDescriptorDAO;
+import org.folio.marccat.dao.DAODescriptor;
+import org.folio.marccat.dao.DAOThesaurusDescriptor;
+import org.folio.marccat.dao.NameDescriptorDAO;
+import org.folio.marccat.dao.NameTitleNameDescriptorDAO;
+import org.folio.marccat.dao.NameTitleTitleDescriptorDAO;
+import org.folio.marccat.dao.PublisherNameDescriptorDAO;
+import org.folio.marccat.dao.PublisherPlaceDescriptorDAO;
+import org.folio.marccat.dao.ShelfListDAO;
+import org.folio.marccat.dao.SubjectDescriptorDAO;
+import org.folio.marccat.dao.TitleDescriptorDAO;
 
 /**
  * Responsible for the management of a browse session
@@ -15,8 +24,6 @@ import java.util.Map;
  * @since 1.0
  */
 public class BrowseManager {
-  public static final int MAX_BROWSE_TERM_LENGTH = Defaults.getInteger("browse.max.term.lenght");
-  public static final int MAX_SORTFORM_LENGTH = MAX_BROWSE_TERM_LENGTH;
   public static final int SORTFORM_LENGTH = 1080;
   private static Map daoMap = new HashMap();
   private static Map filterMap = new HashMap();

@@ -740,7 +740,8 @@ public abstract class DAODescriptor extends AbstractDAO {
     } catch (SortFormException e) {
       int lterm = term.getBytes().length;
       String newTerm = lterm > BrowseManager.SORTFORM_LENGTH ? term
-        .substring(0, BrowseManager.MAX_SORTFORM_LENGTH) : term;
+//        .substring(0, BrowseManager.MAX_SORTFORM_LENGTH) 
+        : term;
       try {
         searchTerm = calculateSortForm(newTerm, browseIndex, session);
       } catch (SortFormException e1) {

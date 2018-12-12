@@ -220,7 +220,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
       result.add(new LanguageCodeTag());
     }
 
-    if (isNotNullOrEmpty(bibItemData.getProjectedPublicationDateCode())) { //todo
+    if (isNotNullOrEmpty(bibItemData.getProjectedPublicationDateCode())) {
       result.add(new ProjectedPublicationDateTag());
     }
 
@@ -234,7 +234,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
 
     final int amicusNumber = item.getAmicusNumber();
     result.addAll(getMaterialDescriptions(amicusNumber, userView, session));
-    result.addAll(getPhysicalDescriptions(amicusNumber, userView, session)); //Fixme
+    result.addAll(getPhysicalDescriptions(amicusNumber, userView, session));
     result.addAll(getMusicalInstruments(amicusNumber, userView, session));
 
     return result.stream().map(tag -> {
@@ -497,7 +497,6 @@ public class BibliographicCatalogDAO extends CatalogDAO {
     return item;
   }
 
-  //TODO: can be removed?
   protected void insertDeleteTable(final CatalogItem item, final UserProfile user) throws DataAccessException {
     insertDeleteTable(item.getAmicusNumber(), item.getUserView(), user);
   }

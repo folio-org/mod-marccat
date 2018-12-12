@@ -1,28 +1,32 @@
 package org.folio.marccat.dao;
 
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.Transaction;
-import org.folio.marccat.business.cataloguing.authority.AuthorityReferenceTag;
-import org.folio.marccat.business.cataloguing.common.Tag;
-import org.folio.marccat.business.common.Persistence;
-import org.folio.marccat.business.common.PersistentObjectWithView;
-import org.folio.marccat.business.controller.UserProfile;
-import org.folio.marccat.config.log.Log;
-import org.folio.marccat.config.log.MessageCatalog;
-import org.folio.marccat.dao.common.TransactionalHibernateOperation;
-import org.folio.marccat.dao.persistence.AccessPoint;
-import org.folio.marccat.dao.persistence.BibliographicNoteTag;
-import org.folio.marccat.dao.persistence.CatalogItem;
-import org.folio.marccat.dao.persistence.Descriptor;
-import org.folio.marccat.exception.CacheUpdateException;
-import org.folio.marccat.exception.DataAccessException;
-
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import org.folio.marccat.business.cataloguing.authority.AuthorityReferenceTag;
+import org.folio.marccat.business.cataloguing.bibliographic.VariableHeaderUsingItemEntity;
+import org.folio.marccat.business.cataloguing.common.Tag;
+import org.folio.marccat.business.common.Persistence;
+import org.folio.marccat.business.common.PersistentObjectWithView;
+import org.folio.marccat.business.common.UpdateStatus;
+import org.folio.marccat.business.controller.UserProfile;
+import org.folio.marccat.config.log.Log;
+import org.folio.marccat.config.log.MessageCatalog;
+import org.folio.marccat.dao.persistence.AccessPoint;
+import org.folio.marccat.dao.persistence.BibliographicNoteTag;
+import org.folio.marccat.dao.persistence.CasCache;
+import org.folio.marccat.dao.persistence.CatalogItem;
+import org.folio.marccat.dao.persistence.Descriptor;
+import org.folio.marccat.dao.persistence.ItemEntity;
+import org.folio.marccat.exception.DataAccessException;
+
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.Transaction;
 
 /**
  * Abstract class for common implementations of CatalogDAO (Bib and Auth).
@@ -98,68 +102,154 @@ public abstract class CatalogDAO extends AbstractDAO {
     }
   }
 
+  
+  /**
+   * Updates or creates a CasCache associated to an amicus number.
+   *
+   * @param amicusNumber -- the amicus number id.
+   * @param casCache     -- the casCache associated.
+   * @param session      -- the current hibernate session.
+   * @throws HibernateException in case of hibernate exception.
+   */
+  protected void saveCasCache(final int amicusNumber, CasCache casCache, final Session session) throws HibernateException {
+    final CasCacheDAO casCacheDAO = new CasCacheDAO();
+    casCacheDAO.persistCasCache(amicusNumber, casCache, session);
+  }
 
-  // ----------- deprecated methods
-  @Deprecated
-  public void updateBibNoteTable(final int bibItemNumber, final int numNote) throws DataAccessException {
-    new TransactionalHibernateOperation() {
-      public void doInHibernateTransaction(Session s) throws SQLException, HibernateException, CacheUpdateException {
-        int result;
-        CallableStatement proc = null;
+  /**
+   * Updates bibliographic note table for amicus number.
+   *
+   * @param amicusNumber -- the amicus number id.
+   * @param noteNumber   -- the note number id.
+   * @param session      -- the current hibernate session.
+   * @throws HibernateException in case of hibernate exception.
+   * @throws SQLException       in case of sql exception.
+   */
+  public void updateBibNote(final int amicusNumber, final int noteNumber, final Session session) throws HibernateException, SQLException {
+    final Transaction transaction = getTransaction(session);
+    CallableStatement proc = null;
+    try {
+      Connection connection = session.connection();
+      proc = connection.prepareCall("{call AMICUS.updateNotaStandard(?, ?) }");
+      proc.setInt(1, amicusNumber);
+      proc.setInt(2, noteNumber);
+      proc.execute();
+
+    } finally {
+      try {
+        if (proc != null) proc.close();
+      } catch (SQLException ex) {
+      }
+    }
+    transaction.commit();
+  }
+  
+  /**
+   * Updates note standard tags.
+   *
+   * @param item    -- the item representing record.
+   * @param session -- the current hibernate session.
+   * @throws HibernateException in case of hibernate exception.
+   */
+  public void modifyNoteStandard(final CatalogItem item, final Session session) throws HibernateException {
+    final int amicusNumber = item.getItemEntity().getAmicusNumber().intValue();
+    item.getTags().stream()
+      .filter(aTag -> aTag instanceof BibliographicNoteTag && ((BibliographicNoteTag) aTag).isStandardNoteType())
+      .forEach(tag -> {
         try {
-          Connection connection = s.connection();
-          proc = connection.prepareCall("{call AMICUS.updateNotaStandard(?, ?) }");
-          proc.setInt(1, bibItemNumber);
-          proc.setInt(2, numNote);
-          proc.execute();
-
-        } finally {
-          try {
-            if (proc != null) proc.close();
-          } catch (SQLException ex) {
-            // TODO _MIKE Auto-generated catch block
-            ex.printStackTrace();
-          }
+          updateBibNote(amicusNumber, ((BibliographicNoteTag) tag).getNoteNbr(), session);
+        } catch (HibernateException he) {
+          throw new RuntimeException(he);
+        } catch (SQLException sqle) {
+          throw new RuntimeException(sqle);
         }
-      }
-    }
-      .execute();
+      });
   }
+  
+  /**
+   * Saves the record, all associated tags and associated casCache.
+   *
+   * @param item     -- the item representing record to save.
+   * @param casCache -- the management data associated to record.
+   * @param session  -- the current hibernate session.
+   * @throws HibernateException in case of hibernate exception.
+   */
+  public void saveCatalogItem(final CatalogItem item, final CasCache casCache, final Session session) throws HibernateException {
 
-  @Deprecated
-  public void modifyNoteStandard(final CatalogItem item) throws DataAccessException {
-    Tag aTag = null;
-    Iterator iter = item.getTags().iterator();
-    while (iter.hasNext()) {
-      // TODO if apf data is changed check for match in db
-      aTag = (Tag) iter.next();
-      if (aTag instanceof BibliographicNoteTag) {
-        BibliographicNoteTag note = (BibliographicNoteTag) aTag;
-        if (note.isStandardNoteType()) {
-          updateBibNoteTable(item.getItemEntity().getAmicusNumber().intValue(), note.getNoteNbr());
-        }
-      }
-    }
-  }
+	    final Transaction transaction = getTransaction(session);
+	    final String myView = makeSingleViewString(item.getUserView());
+	    final ItemEntity itemEntity = item.getItemEntity();
 
-  @Deprecated
-  protected void loadHeadings(final List allTags, final int userView) throws DataAccessException {
-    final Iterator iterator = allTags.iterator();
-    while (iterator.hasNext()) {
-      AccessPoint tag = (AccessPoint) iterator.next();
-      loadHeading(tag, userView);
-    }
-  }
+	    final List <Tag> tagList = item.getTags().stream().map(aTag -> {
 
-  @Deprecated
-  private void loadHeading(AccessPoint tag, int userView) throws DataAccessException {
-    if (tag.getHeadingNumber() != null) {
-      Descriptor heading = tag.getDAODescriptor().load(tag.getHeadingNumber().intValue(), userView);
-      if (heading == null) {
-        throw new DataAccessException("No heading found for heading nbr:" + tag.getHeadingNumber());
-      }
-      logger.debug("heading loaded: " + heading);
-      tag.setDescriptor(heading);
-    }
-  }
+	      if (aTag.isNew()) {
+	        aTag.setItemNumber(item.getAmicusNumber().intValue());
+	        if (aTag instanceof PersistentObjectWithView)
+	          ((PersistentObjectWithView) aTag).setUserViewString(myView);
+
+	        try {
+	          aTag.generateNewKey(session);
+	        } catch (HibernateException e) {
+	          throw new RuntimeException(e);
+	        } catch (SQLException e) {
+	          throw new RuntimeException(e);
+	        }
+
+	        if (item.getDeletedTags().contains(aTag)) {
+	          aTag.reinstateDeletedTag();
+	        }
+	      }
+
+	      if (aTag instanceof Persistence) {
+	        try {
+	          persistByStatus((Persistence) aTag, session);
+	        } catch (HibernateException e) {
+	          throw new RuntimeException(e);
+	        }
+	      }
+	      return aTag;
+	    }).collect(Collectors.toList());
+
+	    final List <Tag> toRemove = new ArrayList <>(item.getDeletedTags());
+	    toRemove.forEach(aTag -> {
+	      if (!tagList.contains(aTag)) {
+	        if (aTag instanceof Persistence) {
+	          try {
+	            persistByStatus((Persistence) aTag, session);
+	          } catch (HibernateException e) {
+	            throw new RuntimeException(e);
+	          }
+	        }
+
+	        if (aTag instanceof VariableHeaderUsingItemEntity) {
+	          ((VariableHeaderUsingItemEntity) aTag)
+	            .deleteFromItem();
+	        }
+	      }
+	      item.getDeletedTags().remove(aTag);
+	    });
+
+	    if (!itemEntity.isNew()) {
+	      itemEntity.setUpdateStatus(UpdateStatus.CHANGED);
+	    }
+	    persistByStatus(itemEntity, session);
+
+	    if (item.getModelItem() != null) {
+	        BibliographicModelItemDAO dao = new BibliographicModelItemDAO();
+	        if(dao.getModelUsageByItem(item.getAmicusNumber(), session)) {
+	          item.getModelItem().setUpdateStatus(UpdateStatus.CHANGED);
+	        }else
+	          item.getModelItem().markNew();
+
+	        persistByStatus(item.getModelItem(), session);
+	      }
+
+	    if (casCache != null)
+	      saveCasCache(itemEntity.getAmicusNumber(), casCache, session);
+
+	    updateItemDisplayCacheTable(item, session);
+	    modifyNoteStandard(item, session);
+	    transaction.commit();
+
+	  }
 }

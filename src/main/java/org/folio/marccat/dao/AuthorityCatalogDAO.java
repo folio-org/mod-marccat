@@ -209,7 +209,8 @@ public class AuthorityCatalogDAO extends CatalogDAO {
         new Object[]{item.getAmicusNumber()},
         new Type[]{Hibernate.INTEGER});
 
-    loadHeadings(apfs, AuthorityCatalog.CATALOGUING_VIEW);
+  //TODO session missing
+    //loadHeadings(apfs, AuthorityCatalog.CATALOGUING_VIEW);
 
     return apfs;
   }
@@ -273,7 +274,6 @@ public class AuthorityCatalogDAO extends CatalogDAO {
 
         note.setItemNumber(rs.getInt("AUT_NBR"));
         note.setNoteNumber(rs.getInt("AUT_NTE_NBR"));
-        note.setNoteType(rs.getShort("AUT_NTE_TYP_CDE"));
         note.setNoteStringText(rs.getString("AUT_NTE_STRNG_TXT"));
 
         notes.add(note);

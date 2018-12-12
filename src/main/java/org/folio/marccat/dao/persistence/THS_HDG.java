@@ -3,7 +3,6 @@
  * */
 package org.folio.marccat.dao.persistence;
 
-import org.folio.marccat.business.common.Defaults;
 import org.folio.marccat.business.descriptor.SkipInFiling;
 import org.folio.marccat.business.descriptor.SortFormParameters;
 import org.folio.marccat.dao.AbstractDAO;
@@ -27,13 +26,6 @@ public class THS_HDG extends Descriptor implements Serializable, SkipInFiling {
 
   public THS_HDG() {
     super();
-    //setAccessPointLanguage(Defaults.getShort("thesaurus.accessPointLanguage"));
-    setScriptingLanguage(Defaults.getString("thesaurus.scriptingLanguage"));
-    //setIndexingLanguage(Defaults.getShort("thesaurus.indexingLanguage"));
-    //setSkipInFiling(Defaults.getShort("title.skipInFiling"));
-    setTypeCode(Defaults.getShort("thesaurus.typeCode"));
-    setVerificationLevel(Defaults.getChar("thesaurus.verificationLevel"));
-
   }
 
   /**

@@ -3,6 +3,7 @@ package org.folio.marccat.dao.persistence;
 import org.folio.marccat.business.cataloguing.bibliographic.NameTitleComponent;
 import org.folio.marccat.business.cataloguing.common.OrderedTag;
 import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.model.Subfield;
 import org.folio.marccat.config.GlobalStorage;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
@@ -216,24 +217,34 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag {
    * @return stringText.
    */
   public StringText getAccessPointStringText() {
-    final StringText text = new StringText(workRelatorStringtext);
-    text.parse(otherSubfields);
-    text.parse(workRelatorCode);
-    text.parse(institution);
-    return text;
-  }
+	  StringText text = new StringText(workRelatorStringtext);
+	  text.parse(otherSubfields);
+	  if (workRelatorCode != null) {
+	   text.add(new StringText(new Subfield("4",workRelatorCode)));
+	  }
+	  text.parse(institution);
+	  return text;
+	 }
 
   /**
    * Sets stringText to name access point.
    *
    * @param stringText -- the stringText to set.
    */
-  public void setAccessPointStringText(final StringText stringText) {
-    workRelatorStringtext = stringText.getSubfieldsWithCodes(GlobalStorage.NAME_WORK_REL_STRING_TEXT_SUBFIELD_CODES).toString();
-    otherSubfields = stringText.getSubfieldsWithCodes(GlobalStorage.NAME_OTHER_SUBFIELD_CODES).toString();
-    workRelatorCode = stringText.getSubfieldsWithCodes(GlobalStorage.WORK_REL_SUBFIELD_CODE).toString();
-    institution = stringText.getSubfieldsWithCodes(GlobalStorage.NAME_TITLE_INSTITUTION_SUBFIELD_CODE).toString();
-  }
+
+public void setAccessPointStringText(StringText stringText) {
+     workRelatorStringtext = stringText.getSubfieldsWithCodes("eju").toString();
+     otherSubfields = stringText.getSubfieldsWithCodes("iox").toString();
+     workRelatorCode = null;
+     try {
+      workRelatorCode = stringText.getSubfieldsWithCodes("4").getSubfield(0).getContent();
+     }
+     catch (Exception e) {
+      //do nothing -- work relator remains null
+     }
+  institution = stringText.getSubfieldsWithCodes("5").toString();
+  
+ }
 
   /**
    * Sets descriptor string text.

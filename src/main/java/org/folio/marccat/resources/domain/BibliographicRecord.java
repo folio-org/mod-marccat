@@ -1,13 +1,13 @@
 package org.folio.marccat.resources.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Generated;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
-import javax.annotation.Generated;
-import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * BibliograpgicRecord
@@ -26,7 +26,6 @@ public class BibliographicRecord {
   private Integer group;
 
   @JsonProperty("leader")
-  @Valid
   private Leader leader;
 
   @JsonProperty("canadianContentIndicator")
@@ -36,7 +35,6 @@ public class BibliographicRecord {
   private String verificationLevel;
 
   @JsonProperty("fields")
-  @Valid
   private List<Field> fields = new ArrayList<Field>();
 
   @JsonProperty("recordView")

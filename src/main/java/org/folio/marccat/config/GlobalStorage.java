@@ -38,10 +38,14 @@ public class GlobalStorage {
   public final static int CLASSIFICATION_CATEGORY = 6;
   public final static int PUBLISHER_CATEGORY = 7;
   public final static int BIB_NOTE_CATEGORY = 7;
+  public final static int NAME_TITLE_CATEGORY = 11;
 
   public final static int LEADER_HEADER_TYPE = 15;
 
   public final static int MATERIAL_DESCRIPTION_HEADER_TYPE = 31;
+  
+  public final static String ITEM_DATE_FIRST_PUBLICATION = "    ";
+  public final static String ITEM_DATE_LAST_PUBLICATION = "    ";
 
   public final static int DEFAULT_AVAILABILITY_STATUS = 99;
   public final static String DEFAULT_LEVEL_CARD = "L01";
@@ -50,6 +54,13 @@ public class GlobalStorage {
   public final static String YES_FLAG = "S";
   public final static String NO_FLAG = "N";
   public final static String CHARSET_UTF8 = "UTF-8";
+  
+  public final static String LEADER_TAG_NUMBER = "000";
+  public final static String CONTROL_NUMBER_TAG_CODE = "001";
+  public final static String CATALOGING_SOURCE_TAG_CODE = "040";
+  public final static String DATETIME_TRANSACION_TAG_CODE = "005";
+  public final static String OTHER_MATERIAL_TAG_CODE = "006";
+  public final static String PHYSICAL_DESCRIPTION_TAG_CODE = "007";
 
   public final static String TITLE_REQUIRED_PERMISSION = "editTitle";
   public final static String NAME_REQUIRED_PERMISSION = "editName";
