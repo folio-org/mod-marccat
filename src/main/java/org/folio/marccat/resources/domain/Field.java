@@ -13,7 +13,7 @@ import java.util.Map;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({"code", "mandatory", "fieldStatus", "fixedField", "variableField"})
+@JsonPropertyOrder({"code", "mandatory", "fieldStatus", "fixedField", "variableField", "added"})
 public class Field {
 
   @JsonProperty("code")
@@ -21,6 +21,9 @@ public class Field {
 
   @JsonProperty("mandatory")
   private boolean mandatory;
+  
+  @JsonProperty("added")
+  private boolean added;
 
   @JsonProperty("fieldStatus")
   private Field.FieldStatus fieldStatus;
@@ -71,6 +74,22 @@ public class Field {
     this.mandatory = mandatory;
   }
 
+  /**
+   * @return true if added field.
+   */
+  @JsonProperty("added")
+  public boolean isAdded() {
+    return added;
+  }
+
+  /**
+   * @param added the added flag to set.
+   */
+  @JsonProperty("added")
+  public void setAdded(boolean added) {
+    this.added = added;
+  }
+  
   /**
    * @return the field status.
    */

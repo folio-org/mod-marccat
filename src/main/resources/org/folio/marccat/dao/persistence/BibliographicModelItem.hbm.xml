@@ -5,12 +5,13 @@
 <hibernate-mapping>
 	<class
 		name="org.folio.marccat.dao.persistence.BibliographicModelItem"
+    schema="olisuite"
 		table="BIBLIOGRAPHIC_MODEL_ITEM">
 		<id name="item">
 			<column name="ITEM" sql-type="NUMBER (11)" not-null="true"/>
 			<generator class="assigned"/>
 		</id>
 		<many-to-one name="model" column="MODEL" class="org.folio.marccat.dao.persistence.BibliographicModel" not-null="true"/>
-		<property name="xmlFields" column="XML_FIELDS" type="librisuite.business.common.hibernate.StringClobType"/>
+		<property name="recordFields" column="XML_FIELDS" />
 	</class>
 </hibernate-mapping>

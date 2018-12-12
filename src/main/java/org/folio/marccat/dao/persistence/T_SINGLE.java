@@ -1,6 +1,5 @@
 package org.folio.marccat.dao.persistence;
 
-import org.folio.marccat.dao.DAOCodeTable;
 import org.folio.marccat.exception.DataAccessException;
 
 /**
@@ -50,6 +49,6 @@ public abstract class T_SINGLE extends CodeTable {
   }
 
   public int getNextNumber() throws DataAccessException {
-    return new DAOCodeTable().suggestNewCode(this);
+    return 0;
   }
 }

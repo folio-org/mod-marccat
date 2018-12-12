@@ -65,10 +65,10 @@ public class AuthorityCatalog extends Catalog {
     fixedFieldFactory = new MapBackedFactory();
     PropertyBasedFactoryBuilder builder = new PropertyBasedFactoryBuilder();
     builder.load(
-      "/org/folio/cataloging/business/cataloguing/authority/TAG_FACTORY.properties",
+      "/org/folio/marccat/business/cataloguing/authority/TAG_FACTORY.properties",
       tagFactory);
     builder.load(
-      "/org/folio/cataloging/business/cataloguing/authority/FIXED_FIELDS_FACTORY.properties",
+      "/org/folio/marccat/business/cataloguing/authority/FIXED_FIELDS_FACTORY.properties",
       fixedFieldFactory);
   }
 

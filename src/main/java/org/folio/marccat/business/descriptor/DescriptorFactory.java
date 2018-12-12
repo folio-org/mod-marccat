@@ -22,8 +22,8 @@ public class DescriptorFactory {
     descriptorFactory = new MapBackedFactory();
     daoFactory = new MapBackedSingletonFactory();
     final PropertyBasedFactoryBuilder builder = new PropertyBasedFactoryBuilder();
-    builder.load("/org/folio/cataloging/business/cataloguing/bibliographic/descriptorFactory.properties", descriptorFactory);
-    builder.load("/org/folio/cataloging/business/cataloguing/bibliographic/daoFactory.properties", daoFactory);
+    builder.load("/org/folio/marccat/business/cataloguing/bibliographic/descriptorFactory.properties", descriptorFactory);
+    builder.load("/org/folio/marccat/business/cataloguing/bibliographic/daoFactory.properties", daoFactory);
   }
 
   public static Descriptor createDescriptor(int category) {

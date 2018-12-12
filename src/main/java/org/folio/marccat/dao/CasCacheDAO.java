@@ -8,6 +8,7 @@ import org.folio.marccat.dao.persistence.CasCache;
 import org.folio.marccat.config.GlobalStorage;
 import org.folio.marccat.util.F;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @SuppressWarnings("unchecked")
@@ -16,7 +17,31 @@ public class CasCacheDAO extends AbstractDAO {
   public CasCacheDAO() {
     super();
   }
+  
+  /**
+   * Saves or updates a CasCache persistent object.
+   *
+   * @param bibNumber -- the amicus number id.
+   * @param cache     -- the casCache persistent object.
+   * @param session   -- current hibernate session.
+   * @throws HibernateException in case of hibernate exception.
+   */
+  public void persistCasCache(final int bibNumber, final CasCache cache, final Session session) throws HibernateException {
+    setDefaultValues(cache);
 
+    final Timestamp today = new Timestamp(new java.util.Date().getTime());
+    if (cache.getLstDtCrtSql() == null) {
+      cache.setLstDtCrtSql(today);
+    }
+    cache.setPriceListDateSql(today);
+
+    if (loadCasCache(bibNumber, session).size() == 0) {
+      cache.markNew();
+    } else {
+      cache.markChanged();
+    }
+    persistByStatus(cache, session);
+  }
 
   /**
    * Loads {@link#CasCache} by amicus number.

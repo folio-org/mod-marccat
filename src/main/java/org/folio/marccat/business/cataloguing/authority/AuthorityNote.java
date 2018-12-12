@@ -11,7 +11,6 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
 import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
-import org.folio.marccat.business.common.Defaults;
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.dao.SystemNextNumberDAO;
@@ -33,7 +32,7 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
   private AUT autItm;
   private int noteNumber;
   private int itemNumber;
-  private int noteType = Defaults.getShort("authorityNote.noteType");
+//  private int noteType = Defaults.getShort("authorityNote.noteType");
   private String noteStringText;
   private PersistenceState persistenceState = new PersistenceState();
 
@@ -81,15 +80,14 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
    * @see TagInterface#getCorrelationValues()
    */
   public CorrelationValues getCorrelationValues() {
-    return new CorrelationValues().change(1, getNoteType());
+//    return new CorrelationValues().change(1, getNoteType());
+	  return null;
   }
 
   /* (non-Javadoc)
    * @see TagInterface#setCorrelationValues(librisuite.business.common.CorrelationValues)
    */
-  public void setCorrelationValues(CorrelationValues v) {
-    setNoteType(v.getValue(1));
-  }
+  public void setCorrelationValues(CorrelationValues v) {  }
 
   @Deprecated
   public List getFirstCorrelationList() throws DataAccessException {
@@ -132,19 +130,19 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
     noteNumber = i;
   }
 
-  /**
-   * @since 1.0
-   */
-  public int getNoteType() {
-    return noteType;
-  }
-
-  /**
-   * @since 1.0
-   */
-  public void setNoteType(int s) {
-    noteType = s;
-  }
+//  /**
+//   * @since 1.0
+//   */
+//  public int getNoteType() {
+//    return noteType;
+//  }
+//
+//  /**
+//   * @since 1.0
+//   */
+//  public void setNoteType(int s) {
+//    noteType = s;
+//  }
 
   /**
    * @since 1.0
