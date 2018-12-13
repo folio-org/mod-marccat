@@ -2,8 +2,8 @@ package org.folio.marccat.dao.persistence;
 
 import org.folio.marccat.business.cataloguing.bibliographic.BibliographicAccessPoint;
 import org.folio.marccat.business.cataloguing.common.OrderedTag;
+import org.folio.marccat.config.Global;
 import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.config.GlobalStorage;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
@@ -156,7 +156,7 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
    * @return "editSubject".
    */
   public String getRequiredEditPermission() {
-    return GlobalStorage.SUBJECT_REQUIRED_PERMISSION;
+    return Global.SUBJECT_REQUIRED_PERMISSION;
   }
 
   /**
@@ -184,7 +184,7 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
    * @return category.
    */
   public int getCategory() {
-    return GlobalStorage.SUBJECT_CATEGORY;
+    return Global.SUBJECT_CATEGORY;
   }
 
   /**
@@ -204,8 +204,8 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
    * @param stringText -- the stringText to set.
    */
   public void setAccessPointStringText(final StringText stringText) {
-    workRelatorCode = stringText.getSubfieldsWithCodes(GlobalStorage.WORK_REL_SUBFIELD_CODE).toString();
-    workRelatorStringtext = stringText.getSubfieldsWithCodes(GlobalStorage.SUBJECT_WORK_REL_STRING_TEXT_SUBFIELD_CODES).toString();
+    workRelatorCode = stringText.getSubfieldsWithCodes(Global.WORK_REL_SUBFIELD_CODE).toString();
+    workRelatorStringtext = stringText.getSubfieldsWithCodes(Global.SUBJECT_WORK_REL_STRING_TEXT_SUBFIELD_CODES).toString();
   }
 
   /**
@@ -214,14 +214,14 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
    * @param stringText -- the string text to set.
    */
   public void setDescriptorStringText(final StringText stringText) {
-    getDescriptor().setStringText(stringText.getSubfieldsWithoutCodes(GlobalStorage.SUBJECT_VARIANT_CODES).toString());
+    getDescriptor().setStringText(stringText.getSubfieldsWithoutCodes(Global.SUBJECT_VARIANT_CODES).toString());
   }
 
   /**
    * @return variant subfield codes.
    */
   public String getVariantCodes() {
-    return GlobalStorage.SUBJECT_VARIANT_CODES;
+    return Global.SUBJECT_VARIANT_CODES;
   }
 
   //TODO: move in storageService and add session

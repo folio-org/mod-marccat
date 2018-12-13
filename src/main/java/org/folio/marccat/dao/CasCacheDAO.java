@@ -4,8 +4,8 @@ import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
+import org.folio.marccat.config.Global;
 import org.folio.marccat.dao.persistence.CasCache;
-import org.folio.marccat.config.GlobalStorage;
 import org.folio.marccat.util.F;
 
 import java.sql.Timestamp;
@@ -74,10 +74,10 @@ public class CasCacheDAO extends AbstractDAO {
     casCache.setContinuazCheck(F.fixEmptyFlag(casCache.getContinuazCheck()));
     casCache.setOnlineCheck(F.fixEmptyFlag(casCache.getOnlineCheck()));
     casCache.setPrintFourCover(F.fixEmptyFlag(casCache.getPrintFourCover()));
-    casCache.setMdrFgl(F.isNotNullOrEmpty(casCache.getMdrFgl()) ? GlobalStorage.DEFAULT_MOTHER_LEVEL : casCache.getMdrFgl());
-    casCache.setLevelCard(F.isNotNullOrEmpty(casCache.getLevelCard()) ? GlobalStorage.DEFAULT_LEVEL_CARD : casCache.getLevelCard());
-    casCache.setNtrLevel(F.isNotNullOrEmpty(casCache.getNtrLevel()) ? GlobalStorage.DEFAULT_LEVEL_NATURE : casCache.getNtrLevel());
-    casCache.setStatusDisponibilit(casCache.getStatusDisponibilit() == null ? GlobalStorage.DEFAULT_AVAILABILITY_STATUS : casCache.getStatusDisponibilit());
+    casCache.setMdrFgl(F.isNotNullOrEmpty(casCache.getMdrFgl()) ? Global.DEFAULT_MOTHER_LEVEL : casCache.getMdrFgl());
+    casCache.setLevelCard(F.isNotNullOrEmpty(casCache.getLevelCard()) ? Global.DEFAULT_LEVEL_CARD : casCache.getLevelCard());
+    casCache.setNtrLevel(F.isNotNullOrEmpty(casCache.getNtrLevel()) ? Global.DEFAULT_LEVEL_NATURE : casCache.getNtrLevel());
+    casCache.setStatusDisponibilit(casCache.getStatusDisponibilit() == null ? Global.DEFAULT_AVAILABILITY_STATUS : casCache.getStatusDisponibilit());
     casCache.setExistAdminData(isDataAdmin(casCache));
   }
 

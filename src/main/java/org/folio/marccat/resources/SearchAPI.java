@@ -23,7 +23,6 @@ import static org.folio.marccat.util.F.locale;
  * @since 1.0
  */
 @RestController
-@Api(value = "marccat-api", description = "MARCCat Search API")
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class SearchAPI extends BaseResource {
 

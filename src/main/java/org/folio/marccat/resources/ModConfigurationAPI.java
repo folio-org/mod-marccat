@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
  */
 
 @RestController
-@Api(value = "modcat-api", description = "Load from file API")
 @RequestMapping(value = ModMarccat.BASE_URI)
 public class ModConfigurationAPI  extends BaseResource{
 

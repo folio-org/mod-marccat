@@ -1,15 +1,12 @@
 package org.folio.marccat.resources;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import org.apache.commons.lang.StringUtils;
 import org.folio.marccat.config.Global;
 import org.folio.marccat.ModMarccat;
 import org.folio.marccat.business.codetable.Avp;
 import org.folio.marccat.config.log.MessageCatalog;
+import org.folio.marccat.enumaration.CatalogingEntityType;
 import org.folio.marccat.resources.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +18,7 @@ import java.util.function.Function;
 import static java.util.stream.Collectors.toList;
 import static org.folio.marccat.util.F.isNotNullOrEmpty;
 import static org.folio.marccat.integration.CatalogingHelper.*;
-import static org.folio.marccat.resources.domain.CatalogingEntityType.A;
+import static org.folio.marccat.enumaration.CatalogingEntityType.A;
 
 /**
  * BIB / AUT Record templates API.
@@ -31,8 +28,6 @@ import static org.folio.marccat.resources.domain.CatalogingEntityType.A;
  * @since 1.0
  */
 @RestController
-@CrossOrigin("http://localhost:3000")
-@Api(value = "modcat-api", description = "Record template resource API")
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class RecordTemplateAPI extends BaseResource {
 
@@ -44,13 +39,7 @@ public class RecordTemplateAPI extends BaseResource {
 
   };
 
-  @ApiOperation(value = "Returns all templates associated with a given type")
-  @ApiResponses(value = {
-    @ApiResponse(code = 200, message = "Method successfully returned the requested templates."),
-    @ApiResponse(code = 400, message = "Bad Request"),
-    @ApiResponse(code = 414, message = "Request-URI Too Long"),
-    @ApiResponse(code = 500, message = "System internal failure occurred.")
-  })
+
   @GetMapping("/record-templates")
   public RecordTemplateCollection getRecordTemplates(
     @RequestParam final CatalogingEntityType type,
@@ -68,13 +57,7 @@ public class RecordTemplateAPI extends BaseResource {
     }, tenant, configurator);
   }
 
-  @ApiOperation(value = "Returns the template associated with a given type and identifier")
-  @ApiResponses(value = {
-    @ApiResponse(code = 200, message = "Method successfully returned the requested template."),
-    @ApiResponse(code = 400, message = "Bad Request"),
-    @ApiResponse(code = 414, message = "Request-URI Too Long"),
-    @ApiResponse(code = 500, message = "System internal failure occurred.")
-  })
+
   @GetMapping("/record-template/{id}")
   public RecordTemplate getCatalogingRecordTemplatesById(
     @PathVariable final Integer id,
@@ -88,13 +71,7 @@ public class RecordTemplateAPI extends BaseResource {
       , tenant, configurator);
   }
 
-  @ApiOperation(value = "Creates a new template.")
-  @ApiResponses(value = {
-    @ApiResponse(code = 201, message = "Method successfully created the new template."),
-    @ApiResponse(code = 400, message = "Bad Request"),
-    @ApiResponse(code = 414, message = "Request-URI Too Long"),
-    @ApiResponse(code = 500, message = "System internal failure occurred.")
-  })
+
   @PostMapping("/record-template")
   public ResponseEntity <RecordTemplate> createNew(
     @RequestBody final RecordTemplate template,
@@ -110,13 +87,7 @@ public class RecordTemplateAPI extends BaseResource {
     }, tenant, configurator, () -> isNotNullOrEmpty(template.getName()));
   }
 
-  @ApiOperation(value = "Updates an existing template.")
-  @ApiResponses(value = {
-    @ApiResponse(code = 204, message = "Method successfully updated the template."),
-    @ApiResponse(code = 400, message = "Bad Request"),
-    @ApiResponse(code = 414, message = "Request-URI Too Long"),
-    @ApiResponse(code = 500, message = "System internal failure occurred.")
-  })
+
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @PutMapping("/record-template/{id}")
   public void update(
@@ -141,13 +112,7 @@ public class RecordTemplateAPI extends BaseResource {
     }, tenant, configurator, () -> isNotNullOrEmpty(id) && isNotNullOrEmpty(template.getName()));
   }
 
-  @ApiOperation(value = "Deletes a template.")
-  @ApiResponses(value = {
-    @ApiResponse(code = 204, message = "Method successfully deleted the target template."),
-    @ApiResponse(code = 400, message = "Bad Request"),
-    @ApiResponse(code = 414, message = "Request-URI Too Long"),
-    @ApiResponse(code = 500, message = "System internal failure occurred.")
-  })
+
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @DeleteMapping("/record-template/{id}")
   public void deleteCatalogingRecordTemplatesById(
@@ -167,13 +132,7 @@ public class RecordTemplateAPI extends BaseResource {
     }, tenant, configurator);
   }
 
-  @ApiOperation(value = "Creates a new template from a bibliographic record.")
-  @ApiResponses(value = {
-    @ApiResponse(code = 201, message = "Method successfully created the new template."),
-    @ApiResponse(code = 400, message = "Bad Request"),
-    @ApiResponse(code = 414, message = "Request-URI Too Long"),
-    @ApiResponse(code = 500, message = "System internal failure occurred.")
-  })
+
   @PostMapping("/record-template/from-record")
   public ResponseEntity <Object> createFromRecord(
     @RequestBody final BibliographicRecord record,

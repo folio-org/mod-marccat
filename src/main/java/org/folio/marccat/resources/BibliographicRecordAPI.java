@@ -1,12 +1,7 @@
 package org.folio.marccat.resources;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import org.folio.marccat.util.F;
 import org.folio.marccat.config.Global;
-import org.folio.marccat.config.GlobalStorage;
 import org.folio.marccat.ModMarccat;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.business.common.View;
@@ -40,20 +35,13 @@ import static org.folio.marccat.integration.CatalogingHelper.*;
  */
 
 @RestController
-@Api(value = "modcat-api", description = "Get bibliographic record API")
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class BibliographicRecordAPI extends BaseResource {
 
-  @ApiOperation(value = "Returns the bibliographic record associated with a given id")
-  @ApiResponses(value = {
-    @ApiResponse(code = 200, message = "Method successfully returned the requested bibliographic record"),
-    @ApiResponse(code = 400, message = "Bad Request"),
-    @ApiResponse(code = 414, message = "Request-URI Too Long"),
-    @ApiResponse(code = 500, message = "System internal failure occurred.")
-  })
+
   @GetMapping("/bibliographic-record/{id}")
   public ResponseEntity <Object> getRecord(
-		  @RequestParam final Integer id,
+		    @RequestParam final Integer id,
 		    @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
 		    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
 		    return doGet((storageService, configuration) -> {
@@ -69,13 +57,7 @@ public class BibliographicRecordAPI extends BaseResource {
 		    }, tenant, configurator);
   }
 
-  @ApiOperation(value = "Returns a new empty bibliographic record with id.")
-  @ApiResponses(value = {
-    @ApiResponse(code = 200, message = "Method successfully returned the empty bibliographic record"),
-    @ApiResponse(code = 400, message = "Bad Request"),
-    @ApiResponse(code = 414, message = "Request-URI Too Long"),
-    @ApiResponse(code = 500, message = "System internal failure occurred.")
-  })
+
   @GetMapping("/bibliographic-record/from-template/{idTemplate}")
   public BibliographicRecord getEmptyRecord(
     @PathVariable final Integer idTemplate,
@@ -132,13 +114,6 @@ public class BibliographicRecordAPI extends BaseResource {
   }
 
 
-  @ApiOperation(value = "Saves bibliographic record.")
-  @ApiResponses(value = {
-    @ApiResponse(code = 204, message = "Method successfully saves the record."),
-    @ApiResponse(code = 400, message = "Bad Request"),
-    @ApiResponse(code = 414, message = "Request-URI Too Long"),
-    @ApiResponse(code = 500, message = "System internal failure occurred.")
-  })
   @PostMapping("/bibliographic-record")
   public ResponseEntity <Object> save(
 		  @RequestBody final ContainerRecordTemplate container,
@@ -342,7 +317,7 @@ public class BibliographicRecordAPI extends BaseResource {
   private int getCategory(final Field field) {
 
 	    if (isFixedField(field))
-	      return GlobalStorage.HEADER_CATEGORY;
+	      return Global.HEADER_CATEGORY;
 
 	    if (!isFixedField(field) && ofNullable(field.getVariableField().getCategoryCode()).isPresent())
 	      return field.getVariableField().getCategoryCode();
@@ -369,13 +344,6 @@ public class BibliographicRecordAPI extends BaseResource {
       .toString();
   }
 
-  @ApiOperation(value = "Deletes an existing bibliographic record.")
-  @ApiResponses(value = {
-    @ApiResponse(code = 204, message = "Method successfully deleted the bibliographic record."),
-    @ApiResponse(code = 400, message = "Bad Request"),
-    @ApiResponse(code = 414, message = "Request-URI Too Long"),
-    @ApiResponse(code = 500, message = "System internal failure occurred.")
-  })
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @DeleteMapping("/bibliographic-record/{id}")
   public void delete(@PathVariable final String id,
@@ -389,13 +357,6 @@ public class BibliographicRecordAPI extends BaseResource {
     }, tenant, configurator);
   }
 
-  @ApiOperation(value = "Unlocks a bibliographic record.")
-  @ApiResponses(value = {
-    @ApiResponse(code = 204, message = "Method successfully unlocked bibliographic record."),
-    @ApiResponse(code = 400, message = "Bad Request"),
-    @ApiResponse(code = 414, message = "Request-URI Too Long"),
-    @ApiResponse(code = 500, message = "System internal failure occurred.")
-  })
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @DeleteMapping("/bibliographic-record/unlock/{id}")
   public void unlock(@PathVariable final String id,
@@ -412,13 +373,7 @@ public class BibliographicRecordAPI extends BaseResource {
     }, tenant, configurator);
   }
 
-  @ApiOperation(value = "Locks a bibliographic record.")
-  @ApiResponses(value = {
-    @ApiResponse(code = 204, message = "Method successfully locked the record."),
-    @ApiResponse(code = 400, message = "Bad Request"),
-    @ApiResponse(code = 414, message = "Request-URI Too Long"),
-    @ApiResponse(code = 500, message = "System internal failure occurred.")
-  })
+
   @PutMapping("/bibliographic-record/lock/{id}")
   public void lock(@PathVariable final String id,
                    @RequestParam final String uuid,
@@ -443,11 +398,11 @@ public class BibliographicRecordAPI extends BaseResource {
  */
 private void setCategory(final Field field, final StorageService storageService) {
   if (isFixedField(field))
-    field.getFixedField().setCategoryCode(GlobalStorage.HEADER_CATEGORY);
+    field.getFixedField().setCategoryCode(Global.HEADER_CATEGORY);
   else
     if (getCategory(field) == 0){
       boolean hasTitle = ((field.getCode().endsWith("00") || field.getCode().endsWith("10") || field.getCode().endsWith("11"))
-        && field.getVariableField().getValue().contains(GlobalStorage.DOLLAR+"t"));
+        && field.getVariableField().getValue().contains(Global.DOLLAR+"t"));
 
       final int category = storageService.getTagCategory(field.getCode(),
         field.getVariableField().getInd1().charAt(0), field.getVariableField().getInd2().charAt(0), hasTitle);

@@ -33,19 +33,12 @@ import static org.folio.marccat.integration.CatalogingHelper.doGet;
  * @since 1.0
  */
 @RestController
-@Api(value = "modcat-api", description = "Field resource API")
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class FieldAPI extends BaseResource {
+
   /**
    * Gets the mandatory fields to create a new template / record.
    */
-  @ApiOperation(value = "Returns all mandatory fields for bibliographic entity.")
-  @ApiResponses(value = {
-    @ApiResponse(code = 200, message = "Method successfully returned the requested mandatory fields"),
-    @ApiResponse(code = 400, message = "Bad Request"),
-    @ApiResponse(code = 414, message = "Request-URI Too Long"),
-    @ApiResponse(code = 500, message = "System internal failure occurred.")
-  })
   @GetMapping("/bibliographic/fields/mandatory")
   public FieldCollection getMandatoryFields(
     @RequestParam final String lang,

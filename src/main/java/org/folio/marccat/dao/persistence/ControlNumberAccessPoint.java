@@ -2,7 +2,7 @@ package org.folio.marccat.dao.persistence;
 
 import org.folio.marccat.business.cataloguing.bibliographic.BibliographicAccessPoint;
 import org.folio.marccat.business.cataloguing.common.OrderedTag;
-import org.folio.marccat.config.GlobalStorage;
+import org.folio.marccat.config.Global;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 import org.w3c.dom.Document;
@@ -94,7 +94,7 @@ public class ControlNumberAccessPoint extends BibliographicAccessPoint implement
    * @return category.
    */
   public int getCategory() {
-    return GlobalStorage.CONTROL_NUMBER_CATEGORY;
+    return Global.CONTROL_NUMBER_CATEGORY;
   }
 
   /**
@@ -132,7 +132,7 @@ public class ControlNumberAccessPoint extends BibliographicAccessPoint implement
    * @return "editControlNumber".
    */
   public String getRequiredEditPermission() {
-    return GlobalStorage.CNTL_NBR_REQUIRED_PERMISSION;
+    return Global.CNTL_NBR_REQUIRED_PERMISSION;
   }
 
   /**

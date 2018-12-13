@@ -29,17 +29,10 @@ import static org.folio.marccat.integration.CatalogingHelper.doPost;
  */
 
 @RestController
-@Api(value = "modcat-api", description = "Load from file API")
-@RequestMapping(value = ModMarccat.BASE_URI) 
+@RequestMapping(value = ModMarccat.BASE_URI)
 public class LoadFromFileAPI extends BaseResource {
 
-  @ApiOperation(value = "Load bibliographic records from file.")
-  @ApiResponses(value = {
-    @ApiResponse(code = 204, message = "Method successfully loads the records."),
-    @ApiResponse(code = 400, message = "Bad Request"),
-    @ApiResponse(code = 414, message = "Request-URI Too Long"),
-    @ApiResponse(code = 500, message = "System internal failure occurred.")
-  })
+
   @PostMapping("/load-from-file")
   public ResponseEntity <?> loadRecords(
     @RequestParam("files") MultipartFile uploadfiles,
