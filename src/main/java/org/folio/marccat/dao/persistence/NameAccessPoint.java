@@ -2,9 +2,9 @@ package org.folio.marccat.dao.persistence;
 
 import org.folio.marccat.business.cataloguing.bibliographic.NameTitleComponent;
 import org.folio.marccat.business.cataloguing.common.OrderedTag;
+import org.folio.marccat.config.Global;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.model.Subfield;
-import org.folio.marccat.config.GlobalStorage;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
@@ -180,7 +180,7 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag {
    * @return "editName".
    */
   public String getRequiredEditPermission() {
-    return GlobalStorage.NAME_REQUIRED_PERMISSION;
+    return Global.NAME_REQUIRED_PERMISSION;
   }
 
   /**
@@ -208,7 +208,7 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag {
    * @return category.
    */
   public int getCategory() {
-    return GlobalStorage.NAME_CATEGORY;
+    return Global.NAME_CATEGORY;
   }
 
   /**
@@ -252,7 +252,7 @@ public void setAccessPointStringText(StringText stringText) {
    * @param stringText -- the string text to set.
    */
   public void setDescriptorStringText(final StringText stringText) {
-    getDescriptor().setStringText(stringText.getSubfieldsWithoutCodes(GlobalStorage.NAME_VARIANT_SUBFIELD_CODES).toString());
+    getDescriptor().setStringText(stringText.getSubfieldsWithoutCodes(Global.NAME_VARIANT_SUBFIELD_CODES).toString());
   }
 
   /**

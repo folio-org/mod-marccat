@@ -1,8 +1,8 @@
 package org.folio.marccat.util;
 
+import org.folio.marccat.config.Global;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.MessageCatalog;
-import org.folio.marccat.config.GlobalStorage;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -183,7 +183,7 @@ public abstract class F {
    * @return fixed string.
    */
   public static String fixEmptyFlag(final String flag) {
-    return GlobalStorage.YES_FLAG.equalsIgnoreCase(flag) ? flag.toUpperCase() : GlobalStorage.NO_FLAG;
+    return Global.YES_FLAG.equalsIgnoreCase(flag) ? flag.toUpperCase() : Global.NO_FLAG;
   }
 
   /**

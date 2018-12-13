@@ -30,7 +30,6 @@ import static org.folio.marccat.integration.CatalogingHelper.doGet;
  * @since 1.0
  */
 @RestController
-@Api(value = "modcat-api", description = "Fixed field code group resource API")
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class FixedFieldCodesGroupAPI extends BaseResource {
 
@@ -44,13 +43,7 @@ public class FixedFieldCodesGroupAPI extends BaseResource {
     return pairItem;
   };
 
-  @ApiOperation(value = "Returns all mandatory groups.")
-  @ApiResponses(value = {
-    @ApiResponse(code = 200, message = "Method successfully returned the requested mandatory groups"),
-    @ApiResponse(code = 400, message = "Bad Request"),
-    @ApiResponse(code = 414, message = "Request-URI Too Long"),
-    @ApiResponse(code = 500, message = "System internal failure occurred.")
-  })
+
   @GetMapping("/fixed-fields-code-groups")
   public FixedFieldCodesGroup getFixedFieldCodesGroups(
 	@RequestParam (required = false) final String leader ,

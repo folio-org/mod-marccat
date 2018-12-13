@@ -5,12 +5,12 @@ import org.folio.marccat.business.common.AbstractMapBackedFactory;
 import org.folio.marccat.business.common.MapBackedFactory;
 import org.folio.marccat.business.common.PropertyBasedFactoryBuilder;
 import org.folio.marccat.business.common.View;
+import org.folio.marccat.config.Global;
 import org.folio.marccat.dao.*;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.dao.persistence.Map;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.NewTagException;
-import org.folio.marccat.config.GlobalStorage;
 import org.folio.marccat.shared.CorrelationValues;
 
 import java.text.ParseException;
@@ -99,7 +99,7 @@ public class BibliographicCatalog extends Catalog {
   public DateOfLastTransactionTag createRequiredDateOfLastTransactionTag(CatalogItem item) throws NewTagException {
     final DateOfLastTransactionTag dateTag =
       (DateOfLastTransactionTag) getNewTag(item,
-        GlobalStorage.HEADER_CATEGORY,
+        Global.HEADER_CATEGORY,
         new CorrelationValues(
           new BibliographicDateOfLastTransactionTag().getHeaderType(),
           CorrelationValues.UNDEFINED,
@@ -134,7 +134,7 @@ public class BibliographicCatalog extends Catalog {
   public CataloguingSourceTag createRequiredCataloguingSourceTag(final CatalogItem item) throws NewTagException {
     CataloguingSourceTag source =
       (CataloguingSourceTag) getNewTag(item,
-        GlobalStorage.HEADER_CATEGORY,
+        Global.HEADER_CATEGORY,
         new CorrelationValues(
           new BibliographicCataloguingSourceTag().getHeaderType(),
           CorrelationValues.UNDEFINED,
@@ -145,9 +145,9 @@ public class BibliographicCatalog extends Catalog {
   public MaterialDescription createRequiredMaterialDescriptionTag(CatalogItem item) throws NewTagException {
     MaterialDescription mdTag =
       (MaterialDescription) getNewTag(item,
-        GlobalStorage.HEADER_CATEGORY,
+        Global.HEADER_CATEGORY,
         new CorrelationValues(
-          GlobalStorage.MATERIAL_DESCRIPTION_HEADER_TYPE,
+          Global.MATERIAL_DESCRIPTION_HEADER_TYPE,
           CorrelationValues.UNDEFINED,
           CorrelationValues.UNDEFINED));
     return mdTag;
@@ -156,7 +156,7 @@ public class BibliographicCatalog extends Catalog {
   public ControlNumberTag createRequiredControlNumberTag(CatalogItem item) throws NewTagException {
     ControlNumberTag controlnumber =
       (ControlNumberTag) getNewTag(item,
-        GlobalStorage.HEADER_CATEGORY,
+        Global.HEADER_CATEGORY,
         new CorrelationValues(
           new BibliographicControlNumberTag().getHeaderType(),
           CorrelationValues.UNDEFINED,
@@ -167,7 +167,7 @@ public class BibliographicCatalog extends Catalog {
   public BibliographicLeader createRequiredLeaderTag(CatalogItem item) throws NewTagException {
     BibliographicLeader leader =
       (BibliographicLeader) getNewTag(item,
-        GlobalStorage.HEADER_CATEGORY,
+        Global.HEADER_CATEGORY,
         new CorrelationValues(
           new BibliographicLeader().getHeaderType(),
           CorrelationValues.UNDEFINED,
@@ -178,7 +178,7 @@ public class BibliographicCatalog extends Catalog {
   public BibliographicNoteTag createBibliographicNoteTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
 	    final BibliographicNoteTag nTag =
 	      (BibliographicNoteTag) getNewTag(item,
-	        GlobalStorage.BIB_NOTE_CATEGORY,
+	        Global.BIB_NOTE_CATEGORY,
 	        correlationValues);
 	    return nTag;
 	  }
@@ -186,7 +186,7 @@ public class BibliographicCatalog extends Catalog {
   public SubjectAccessPoint createSubjectAccessPoint(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
 	    final SubjectAccessPoint sap =
 	      (SubjectAccessPoint) getNewTag(item,
-	        GlobalStorage.SUBJECT_CATEGORY,
+	        Global.SUBJECT_CATEGORY,
 	        correlationValues);
 	    return sap;
 	  }
@@ -194,7 +194,7 @@ public class BibliographicCatalog extends Catalog {
   public ClassificationAccessPoint createClassificationAccessPoint(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
 	    final ClassificationAccessPoint clap =
 	      (ClassificationAccessPoint) getNewTag(item,
-	        GlobalStorage.CLASSIFICATION_CATEGORY,
+	        Global.CLASSIFICATION_CATEGORY,
 	        correlationValues);
 	    return clap;
 	  }
@@ -202,7 +202,7 @@ public class BibliographicCatalog extends Catalog {
   public ControlNumberAccessPoint createControlNumberAccessPoint(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
 	    final ControlNumberAccessPoint cnap =
 	      (ControlNumberAccessPoint) getNewTag(item,
-	        GlobalStorage.CONTROL_NUMBER_CATEGORY,
+	        Global.CONTROL_NUMBER_CATEGORY,
 	        correlationValues);
 	    return cnap;
 	  }
@@ -210,7 +210,7 @@ public class BibliographicCatalog extends Catalog {
   public NameAccessPoint createNameAccessPointTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
 	    final NameAccessPoint nap =
 	      (NameAccessPoint) getNewTag(item,
-	        GlobalStorage.NAME_CATEGORY,
+	        Global.NAME_CATEGORY,
 	        correlationValues);
 	    return nap;
 	  }
@@ -218,7 +218,7 @@ public class BibliographicCatalog extends Catalog {
   public TitleAccessPoint createTitleAccessPointTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
 	    final TitleAccessPoint tap =
 	      (TitleAccessPoint) getNewTag(item,
-	        GlobalStorage.TITLE_CATEGORY,
+	        Global.TITLE_CATEGORY,
 	        correlationValues);
 	    return tap;
 	  }
@@ -226,7 +226,7 @@ public class BibliographicCatalog extends Catalog {
   public PublisherManager createPublisherTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
 	    final PublisherManager pap =
 	      (PublisherManager) getNewTag(item,
-	        GlobalStorage.PUBLISHER_CATEGORY,
+	        Global.PUBLISHER_CATEGORY,
 	        correlationValues);
 	    return pap;
 	  }
@@ -520,7 +520,7 @@ public class BibliographicCatalog extends Catalog {
   public PhysicalDescription createPhysicalDescriptionTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException {
 	    final PhysicalDescription physicalDescription =
 	      (PhysicalDescription) getNewTag(item,
-	        GlobalStorage.HEADER_CATEGORY,
+	        Global.HEADER_CATEGORY,
 	        correlationValues);
 	    return physicalDescription;
 	  }

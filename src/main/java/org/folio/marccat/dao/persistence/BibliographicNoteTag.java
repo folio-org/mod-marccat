@@ -7,12 +7,12 @@ import org.folio.marccat.business.cataloguing.common.OrderedTag;
 import org.folio.marccat.business.codetable.Avp;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.business.common.PersistentObjectWithView;
+import org.folio.marccat.config.Global;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.DAOBibliographicNoteTag;
 import org.folio.marccat.dao.SystemNextNumberDAO;
 import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.config.GlobalStorage;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.F;
@@ -212,7 +212,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
   public StringText getStandardNoteStringText() {
     String value = (ofNullable(valueElement.getLabel()).isPresent()) ? valueElement.getLabel() : "";
     if (value.contains("@1")) {
-      if (note.getContent().indexOf(GlobalStorage.DOLLAR) != -1)
+      if (note.getContent().indexOf(Global.DOLLAR) != -1)
         value = value.replaceAll("@1", note.getContent().substring(2));
       else
         value = value.replaceAll("@1", note.getContent());
@@ -235,7 +235,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    * @return category.
    */
   public int getCategory() {
-    return GlobalStorage.BIB_NOTE_CATEGORY;
+    return Global.BIB_NOTE_CATEGORY;
   }
 
   /**
@@ -266,7 +266,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    * @return "editNote".
    */
   public String getRequiredEditPermission() {
-    return GlobalStorage.NOTE_REQUIRED_PERMISSION;
+    return Global.NOTE_REQUIRED_PERMISSION;
   }
 
   /**
@@ -308,12 +308,12 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
     setOverflowList(new ArrayList());
     final String content = stringText.toString();
 
-    final String standardNote = F.splitString(content, GlobalStorage.STANDARD_NOTE_MAX_LENGHT).stream().findFirst().get();
+    final String standardNote = F.splitString(content, Global.STANDARD_NOTE_MAX_LENGHT).stream().findFirst().get();
     note.setContent(standardNote);
     note.markChanged();
 
     if (standardNote.length() + 1 < content.length()) {
-      wrapNoteOverflow(content.substring(standardNote.length() + 1), GlobalStorage.OVERFLOW_NOTE_MAX_LENGHT, getOverflowList());
+      wrapNoteOverflow(content.substring(standardNote.length() + 1), Global.OVERFLOW_NOTE_MAX_LENGHT, getOverflowList());
     }
   }
 
@@ -346,7 +346,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    */
   public boolean correlationChangeAffectsKey(final CorrelationValues v) {
     final int firstCorrelation = v.getValue(1);
-    if (firstCorrelation == GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE
+    if (firstCorrelation == Global.PUBLISHER_DEFAULT_NOTE_TYPE
       || firstCorrelation == 381 || firstCorrelation == 382 ||
       (firstCorrelation >= 410 && firstCorrelation <= 424)) {
       setNoteType(firstCorrelation);

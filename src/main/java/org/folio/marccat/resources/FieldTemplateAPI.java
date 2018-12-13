@@ -33,18 +33,10 @@ import static org.folio.marccat.integration.CatalogingHelper.doGet;
  * @since 1.0
  */
 @RestController
-@CrossOrigin("http://localhost:3000")
-@Api(value = "modcat-api", description = "Field template resource API")
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class FieldTemplateAPI extends BaseResource {
 
-  @ApiOperation(value = "Returns all field template associated with the given data.")
-  @ApiResponses(value = {
-    @ApiResponse(code = 200, message = "Method successfully returned the requested field template."),
-    @ApiResponse(code = 400, message = "Bad Request"),
-    @ApiResponse(code = 414, message = "Request-URI Too Long"),
-    @ApiResponse(code = 500, message = "System internal failure occurred.")
-  })
+
   @GetMapping("/field-template")
   public FieldTemplate getFieldTemplate(
     @RequestParam final int categoryCode,

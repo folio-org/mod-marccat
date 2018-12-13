@@ -21,10 +21,10 @@ public class FieldCollection {
   @JsonProperty("fields")
   @Valid
   @NotNull
-  private List<Field> fields = new ArrayList<Field>();
+  private List<Field> fields = new ArrayList<>();
 
   @JsonIgnore
-  private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  private Map<String, Object> additionalProperties = new HashMap<>();
 
   /**
    * (Required)

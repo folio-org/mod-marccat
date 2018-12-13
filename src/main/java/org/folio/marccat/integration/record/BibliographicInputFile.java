@@ -9,6 +9,7 @@ import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
 import org.folio.marccat.business.cataloguing.common.Browsable;
 import org.folio.marccat.business.cataloguing.common.Tag;
 import org.folio.marccat.business.cataloguing.common.TagImpl;
+import org.folio.marccat.config.Global;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.dao.BibliographicCatalogDAO;
@@ -16,7 +17,6 @@ import org.folio.marccat.dao.DAODescriptor;
 import org.folio.marccat.dao.RecordTypeMaterialDAO;
 import org.folio.marccat.dao.SystemNextNumberDAO;
 import org.folio.marccat.dao.persistence.*;
-import org.folio.marccat.config.GlobalStorage;
 import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.util.StringText;
@@ -254,7 +254,7 @@ public class BibliographicInputFile {
           md.setFormOfMaterial(formOfMaterial);
           md.setMaterialDescription008Indicator(("006".equals(field.getTag()) ? "0" : "1"));
           md.setItemEntity(item.getItemEntity());
-          md.setCorrelation(1, (field.getTag().equals(GlobalStorage.MATERIAL_TAG_CODE) ? rtm.getBibHeader008() : rtm.getBibHeader006()));
+          md.setCorrelation(1, (field.getTag().equals(Global.MATERIAL_TAG_CODE) ? rtm.getBibHeader008() : rtm.getBibHeader006()));
 
           newTag = md;
         } else if ("007".equals(field.getTag())) {

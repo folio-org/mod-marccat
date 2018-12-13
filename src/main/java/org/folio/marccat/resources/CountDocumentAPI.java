@@ -19,20 +19,12 @@ import static org.folio.marccat.integration.MarccatHelper.doGet;
  * @since 1.0
  */
 @RestController
-@Api(value = "marccat-api", description = "Heading resource API")
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class CountDocumentAPI extends BaseResource {
 
   /**
    * Gets the count of the record.
    */
-  @ApiOperation(value = "Return count of the record.")
-  @ApiResponses(value = {
-    @ApiResponse(code = 200, message = "Method successfully returned the count record"),
-    @ApiResponse(code = 400, message = "Bad Request"),
-    @ApiResponse(code = 414, message = "Request-URI Too Long"),
-    @ApiResponse(code = 500, message = "System internal failure occurred.")
-  })
   @GetMapping("/document-count-by-id")
   public CountDocument getDocumentCountById(
     @RequestParam final int id,

@@ -36,7 +36,6 @@ import org.folio.marccat.business.cataloguing.common.TagImpl;
 import org.folio.marccat.business.codetable.Avp;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.config.Global;
-import org.folio.marccat.config.GlobalStorage;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.dao.AutDAO;
@@ -642,9 +641,9 @@ public class StorageService implements Closeable {
     final CountDocument countDocument = new CountDocument();
     final AutDAO dao = new AutDAO();
     final AUT aut = dao.load(session, id);
-    final Class accessPoint = GlobalStorage.BIBLIOGRAPHIC_ACCESS_POINT_CLASS_MAP.get(aut.getHeadingType());
+    final Class accessPoint = Global.BIBLIOGRAPHIC_ACCESS_POINT_CLASS_MAP.get(aut.getHeadingType());
     countDocument.setCountDocuments(dao.getDocCountByAutNumber(aut.getHeadingNumber(), accessPoint, view, session));
-    countDocument.setQuery(GlobalStorage.INDEX_AUTHORITY_TYPE_MAP.get(aut.getHeadingType()) + " " + aut.getHeadingNumber());
+    countDocument.setQuery(Global.INDEX_AUTHORITY_TYPE_MAP.get(aut.getHeadingType()) + " " + aut.getHeadingNumber());
     return countDocument;
   }
 
@@ -673,13 +672,13 @@ public class StorageService implements Closeable {
         browseTerm = query.substring(query.indexOf((" "))).trim();
       }
       key = daoIndex.getIndexByAbreviation(index, session, locale(lang));
-      final Class c = GlobalStorage.DAO_CLASS_MAP.get(key);
+      final Class c = Global.DAO_CLASS_MAP.get(key);
       if (c == null) {
         logger.error(MessageCatalog._00119_DAO_CLASS_MAP_NOT_FOUND, key);
         return Collections.emptyList();
       }
       final DAODescriptor dao = (DAODescriptor) c.newInstance();
-      String filter = GlobalStorage.FILTER_MAP.get(key);
+      String filter = Global.FILTER_MAP.get(key);
       if (dao instanceof ShelfListDAO) {
         filter += " and hdg.mainLibraryNumber = " + mainLibrary;
       }
@@ -731,13 +730,13 @@ public class StorageService implements Closeable {
       }
 
       key = daoIndex.getIndexByAbreviation(index, session, locale(lang));
-      final Class c = GlobalStorage.DAO_CLASS_MAP.get(key);
+      final Class c = Global.DAO_CLASS_MAP.get(key);
       if (c == null) {
         logger.error(MessageCatalog._00119_DAO_CLASS_MAP_NOT_FOUND, key);
         return Collections.emptyList();
       }
       final DAODescriptor dao = (DAODescriptor) c.newInstance();
-      String filter = GlobalStorage.FILTER_MAP.get(key);
+      String filter = Global.FILTER_MAP.get(key);
       if (dao instanceof ShelfListDAO) {
         filter = filter + " and hdg.mainLibraryNumber = " + mainLibrary;
       }
@@ -784,13 +783,13 @@ public class StorageService implements Closeable {
       }
 
       key = daoIndex.getIndexByAbreviation(index, session, locale(lang));
-      final Class c = GlobalStorage.DAO_CLASS_MAP.get(key);
+      final Class c = Global.DAO_CLASS_MAP.get(key);
       if (c == null) {
         logger.error(MessageCatalog._00119_DAO_CLASS_MAP_NOT_FOUND, key);
         return Collections.emptyList();
       }
       final DAODescriptor dao = (DAODescriptor) c.newInstance();
-      String filter = GlobalStorage.FILTER_MAP.get(key);
+      String filter = Global.FILTER_MAP.get(key);
       if (dao instanceof ShelfListDAO) {
         filter = filter + " and hdg.mainLibraryNumber = " + mainLibrary;
       }
@@ -821,7 +820,7 @@ public class StorageService implements Closeable {
    */
   public List <Avp <String>> getCodesList(final String lang, final CodeListsType codeListType) throws DataAccessException {
     final DAOCodeTable dao = new DAOCodeTable();
-    return dao.getList(session, GlobalStorage.MAP_CODE_LISTS.get(codeListType.toString()), locale(lang));
+    return dao.getList(session, Global.MAP_CODE_LISTS.get(codeListType.toString()), locale(lang));
   }
 
   /**
@@ -868,8 +867,8 @@ public class StorageService implements Closeable {
     try {
       return ofNullable(dao.getDefaultTypeByHeaderCode(session, headerCode, code))
         .map(rtm -> {
-          mapRecordTypeMaterial.put(GlobalStorage.FORM_OF_MATERIAL_LABEL, rtm.getAmicusMaterialTypeCode());
-          mapRecordTypeMaterial.put(GlobalStorage.MATERIAL_TYPE_CODE_LABEL, rtm.getRecordTypeCode());
+          mapRecordTypeMaterial.put(Global.FORM_OF_MATERIAL_LABEL, rtm.getAmicusMaterialTypeCode());
+          mapRecordTypeMaterial.put(Global.MATERIAL_TYPE_CODE_LABEL, rtm.getRecordTypeCode());
 
           return mapRecordTypeMaterial;
         }).orElse(null);
@@ -971,8 +970,8 @@ public class StorageService implements Closeable {
       final Map <String, Object> mapRecordTypeMaterial = new HashMap <>();
       final RecordTypeMaterial rtm = dao.getMaterialHeaderCode(session, recordTypeCode, bibliographicLevel);
 
-      mapRecordTypeMaterial.put(GlobalStorage.HEADER_TYPE_LABEL, (code.equals(GlobalStorage.MATERIAL_TAG_CODE) ? rtm.getBibHeader008() : rtm.getBibHeader006()));
-      mapRecordTypeMaterial.put(GlobalStorage.FORM_OF_MATERIAL_LABEL, rtm.getAmicusMaterialTypeCode());
+      mapRecordTypeMaterial.put(Global.HEADER_TYPE_LABEL, (code.equals(Global.MATERIAL_TAG_CODE) ? rtm.getBibHeader008() : rtm.getBibHeader006()));
+      mapRecordTypeMaterial.put(Global.FORM_OF_MATERIAL_LABEL, rtm.getAmicusMaterialTypeCode());
       return mapRecordTypeMaterial;
     } catch (final HibernateException exception) {
       logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
@@ -1112,7 +1111,7 @@ public class StorageService implements Closeable {
           final Descriptor descriptor = ((Browsable) newTag).getDescriptor();
           key = getBrowseKey(descriptor, session);
           final DAODescriptor dao = (DAODescriptor) descriptor.getDAO();
-          String filter = GlobalStorage.FILTER_MAP.get(key);
+          String filter = Global.FILTER_MAP.get(key);
           if (dao instanceof ShelfListDAO) {
             filter = filter + " and hdg.mainLibraryNumber = " + mainLibrary;
           }
@@ -1171,9 +1170,9 @@ public class StorageService implements Closeable {
 	        keyNumber = materialTag.getMaterialDescriptionKeyNumber();
 	        final String tagNbr = materialTag.getMaterialDescription008Indicator().equals("1") ? "008" : "006";
 	        final Map <String, Object> map = getMaterialTypeInfosByLeaderValues(materialTag.getItemRecordTypeCode(), materialTag.getItemBibliographicLevelCode(), tagNbr);
-	        materialTag.setHeaderType((int) map.get(GlobalStorage.HEADER_TYPE_LABEL));
-	        materialTag.setMaterialTypeCode(tagNbr.equalsIgnoreCase("006") ? (String) map.get(GlobalStorage.MATERIAL_TYPE_CODE_LABEL) : null);
-	        materialTag.setFormOfMaterial((String) map.get(GlobalStorage.FORM_OF_MATERIAL_LABEL));
+	        materialTag.setHeaderType((int) map.get(Global.HEADER_TYPE_LABEL));
+	        materialTag.setMaterialTypeCode(tagNbr.equalsIgnoreCase("006") ? (String) map.get(Global.MATERIAL_TYPE_CODE_LABEL) : null);
+	        materialTag.setFormOfMaterial((String) map.get(Global.FORM_OF_MATERIAL_LABEL));
 	      }
 
 	      if (aTag.isFixedField() && aTag instanceof PhysicalDescription) {
@@ -1288,7 +1287,7 @@ public class StorageService implements Closeable {
       } else {
         if (correlations.size() > 1) {
           if ((tag.endsWith("00") || tag.endsWith("10") || tag.endsWith("11")) && hasTitle){
-            return GlobalStorage.NAME_TITLE_CATEGORY;
+            return Global.NAME_TITLE_CATEGORY;
           } else
             if (correlations.stream().filter(Objects::nonNull).findFirst().isPresent())
               return correlations.stream().filter(Objects::nonNull).findFirst().get().getKey().getMarcTagCategoryCode();
@@ -1394,21 +1393,21 @@ public class StorageService implements Closeable {
         || status == Field.FieldStatus.DELETED
         || status == Field.FieldStatus.CHANGED) {
 
-        if (tagNbr.equals(GlobalStorage.MATERIAL_TAG_CODE) && status == Field.FieldStatus.CHANGED) {
+        if (tagNbr.equals(Global.MATERIAL_TAG_CODE) && status == Field.FieldStatus.CHANGED) {
           recordParser.changeMaterialDescriptionTag(item, field, session);
         }
 
-        if (tagNbr.equals(GlobalStorage.OTHER_MATERIAL_TAG_CODE)) {
+        if (tagNbr.equals(Global.OTHER_MATERIAL_TAG_CODE)) {
           final Map <String, Object> mapRecordTypeMaterial = getMaterialTypeInfosByLeaderValues(newLeader.charAt(6), newLeader.charAt(7), tagNbr);
-          final String formOfMaterial = (String) mapRecordTypeMaterial.get(GlobalStorage.FORM_OF_MATERIAL_LABEL);
+          final String formOfMaterial = (String) mapRecordTypeMaterial.get(Global.FORM_OF_MATERIAL_LABEL);
           recordParser.changeMaterialDescriptionOtherTag(item, field, session, formOfMaterial, generalInformation);
         }
 
-        if (tagNbr.equals(GlobalStorage.PHYSICAL_DESCRIPTION_TAG_CODE)) {
+        if (tagNbr.equals(Global.PHYSICAL_DESCRIPTION_TAG_CODE)) {
           recordParser.changePhysicalDescriptionTag(item, field, bibItemNumber);
         }
 
-        if (tagNbr.equals(GlobalStorage.CATALOGING_SOURCE_TAG_CODE) && status == Field.FieldStatus.CHANGED) {
+        if (tagNbr.equals(Global.CATALOGING_SOURCE_TAG_CODE) && status == Field.FieldStatus.CHANGED) {
           item.getTags().stream().filter(aTag -> !aTag.isFixedField() && aTag instanceof CataloguingSourceTag).forEach(aTag -> {
             final CataloguingSourceTag cst = (CataloguingSourceTag) aTag;
             cst.setStringText(new StringText(field.getVariableField().getValue()));
@@ -1416,7 +1415,7 @@ public class StorageService implements Closeable {
           });
         }
 
-        if (field.getVariableField() != null && !tagNbr.equals(GlobalStorage.CATALOGING_SOURCE_TAG_CODE)) {
+        if (field.getVariableField() != null && !tagNbr.equals(Global.CATALOGING_SOURCE_TAG_CODE)) {
           final org.folio.marccat.resources.domain.VariableField variableField = field.getVariableField();
           final CorrelationValues correlationValues = getCorrelationVariableField(variableField.getCategoryCode(),
             variableField.getInd1(), variableField.getInd2(), tagNbr);
@@ -1426,9 +1425,9 @@ public class StorageService implements Closeable {
           }
 
           try {
-            if (field.getVariableField().getCategoryCode() == GlobalStorage.BIB_NOTE_CATEGORY && correlationValues.getValue(1) != GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE) {
+            if (field.getVariableField().getCategoryCode() == Global.BIB_NOTE_CATEGORY && correlationValues.getValue(1) != Global.PUBLISHER_DEFAULT_NOTE_TYPE) {
               recordParser.changeNoteTag(item, field, correlationValues, bibItemNumber, view);
-            } else if (field.getVariableField().getCategoryCode() == GlobalStorage.BIB_NOTE_CATEGORY && correlationValues.getValue(1) == GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE) {
+            } else if (field.getVariableField().getCategoryCode() == Global.BIB_NOTE_CATEGORY && correlationValues.getValue(1) == Global.PUBLISHER_DEFAULT_NOTE_TYPE) {
               recordParser.changePublisherTag(item, field, correlationValues, bibItemNumber, view, session);
             } else {
               recordParser.changeAccessPointTag(item, field, correlationValues, bibItemNumber, view, session);
@@ -1500,35 +1499,35 @@ public class StorageService implements Closeable {
 
     record.getFields().stream().skip(1).forEach(field -> {
       final String tagNbr = field.getCode();
-      if (tagNbr.equals(GlobalStorage.MATERIAL_TAG_CODE) || tagNbr.equals(GlobalStorage.OTHER_MATERIAL_TAG_CODE)) {
+      if (tagNbr.equals(Global.MATERIAL_TAG_CODE) || tagNbr.equals(Global.OTHER_MATERIAL_TAG_CODE)) {
         final org.folio.marccat.resources.domain.FixedField fixedField = field.getFixedField();
         final Map <String, Object> mapRecordTypeMaterial;
         final String formOfMaterial;
-        if (tagNbr.equals(GlobalStorage.MATERIAL_TAG_CODE)) {
+        if (tagNbr.equals(Global.MATERIAL_TAG_CODE)) {
           mapRecordTypeMaterial = getMaterialTypeInfosByLeaderValues(leader.getValue().charAt(6), leader.getValue().charAt(7), tagNbr);
-          formOfMaterial = (String) mapRecordTypeMaterial.get(GlobalStorage.FORM_OF_MATERIAL_LABEL);
-          fixedField.setHeaderTypeCode((int) mapRecordTypeMaterial.get(GlobalStorage.HEADER_TYPE_LABEL));
+          formOfMaterial = (String) mapRecordTypeMaterial.get(Global.FORM_OF_MATERIAL_LABEL);
+          fixedField.setHeaderTypeCode((int) mapRecordTypeMaterial.get(Global.HEADER_TYPE_LABEL));
         } else {
           mapRecordTypeMaterial = getMaterialTypeInfosByHeaderCode(fixedField.getHeaderTypeCode(), tagNbr);
-          formOfMaterial = (String) mapRecordTypeMaterial.get(GlobalStorage.FORM_OF_MATERIAL_LABEL);
+          formOfMaterial = (String) mapRecordTypeMaterial.get(Global.FORM_OF_MATERIAL_LABEL);
         }
 
         recordParser.addMaterialDescriptionToCatalog(tagNbr, item, fixedField, giAPI, formOfMaterial);
       }
 
-      if (tagNbr.equals(GlobalStorage.PHYSICAL_DESCRIPTION_TAG_CODE)) {
+      if (tagNbr.equals(Global.PHYSICAL_DESCRIPTION_TAG_CODE)) {
         final org.folio.marccat.resources.domain.FixedField fixedField = field.getFixedField();
         recordParser.addPhysicalDescriptionTag(item, fixedField, bibItemNumber);
       }
 
-      if (tagNbr.equals(GlobalStorage.CATALOGING_SOURCE_TAG_CODE)) {
+      if (tagNbr.equals(Global.CATALOGING_SOURCE_TAG_CODE)) {
         final org.folio.marccat.resources.domain.VariableField variableField = field.getVariableField();
         CataloguingSourceTag cst = catalog.createRequiredCataloguingSourceTag(item);
         cst.setStringText(new StringText(variableField.getValue()));
         item.addTag(cst);
       }
 
-      if (field.getVariableField() != null && !tagNbr.equals(GlobalStorage.CATALOGING_SOURCE_TAG_CODE)) {
+      if (field.getVariableField() != null && !tagNbr.equals(Global.CATALOGING_SOURCE_TAG_CODE)) {
         final org.folio.marccat.resources.domain.VariableField variableField = field.getVariableField();
         final CorrelationValues correlationValues = getCorrelationVariableField(variableField.getCategoryCode(),
           variableField.getInd1(), variableField.getInd2(), tagNbr);

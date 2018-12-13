@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 /**
  * Main application entry point.
  *
- * @author Andrea Gazzarini
+ * @author Christian Chiama
  * @author Carmen Trazza
  * @since 1.0
  */

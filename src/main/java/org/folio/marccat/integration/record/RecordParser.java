@@ -5,12 +5,12 @@ import net.sf.hibernate.Session;
 import org.folio.marccat.business.cataloguing.bibliographic.BibliographicAccessPoint;
 import org.folio.marccat.business.cataloguing.bibliographic.BibliographicCatalog;
 import org.folio.marccat.business.cataloguing.bibliographic.MarcCommandLibrary;
+import org.folio.marccat.config.Global;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.business.descriptor.PublisherTagDescriptor;
 import org.folio.marccat.dao.RecordTypeMaterialDAO;
 import org.folio.marccat.dao.persistence.*;
-import org.folio.marccat.config.GlobalStorage;
 import org.folio.marccat.resources.domain.Field;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.shared.GeneralInformation;
@@ -58,7 +58,7 @@ public class RecordParser {
     item.getTags().stream().filter(aTag -> aTag.isFixedField() && aTag instanceof MaterialDescription).forEach(aTag -> {
       final MaterialDescription materialTag = (MaterialDescription) aTag;
       final CorrelationKey correlation = aTag.getTagImpl().getMarcEncoding(aTag, session);
-      if (correlation.getMarcTag().equalsIgnoreCase(GlobalStorage.MATERIAL_TAG_CODE)) {
+      if (correlation.getMarcTag().equalsIgnoreCase(Global.MATERIAL_TAG_CODE)) {
         final BibliographicLeader bibliographicLeader = ((BibliographicLeader) item.getTag(0));
         final RecordTypeMaterial rtm;
         try {
@@ -152,7 +152,7 @@ public class RecordParser {
       item.getTags().stream().skip(1).filter(aTag -> aTag.isFixedField() && aTag instanceof MaterialDescription).forEach(aTag -> {
         final MaterialDescription materialTag = (MaterialDescription) aTag;
         final CorrelationKey correlation = aTag.getTagImpl().getMarcEncoding(aTag, session);
-        if (correlation.getMarcTag().equalsIgnoreCase(GlobalStorage.OTHER_MATERIAL_TAG_CODE)) {
+        if (correlation.getMarcTag().equalsIgnoreCase(Global.OTHER_MATERIAL_TAG_CODE)) {
           if (materialTag.getMaterialDescriptionKeyNumber() == field.getFixedField().getKeyNumber()) {
             if (field.getFieldStatus() == Field.FieldStatus.CHANGED) {
               materialTag.setCorrelationValues(new CorrelationValues(field.getFixedField().getHeaderTypeCode(), CorrelationValues.UNDEFINED, CorrelationValues.UNDEFINED));
@@ -166,7 +166,7 @@ public class RecordParser {
         }
       });
     } else if (field.getFixedField().getKeyNumber() == null && field.getFieldStatus() == Field.FieldStatus.NEW) {
-      addMaterialDescriptionToCatalog(GlobalStorage.OTHER_MATERIAL_TAG_CODE, item, field.getFixedField(), generalInformation, formOfMaterial);
+      addMaterialDescriptionToCatalog(Global.OTHER_MATERIAL_TAG_CODE, item, field.getFixedField(), generalInformation, formOfMaterial);
     }
   }
 
@@ -189,7 +189,7 @@ public class RecordParser {
     final MaterialDescription bibMaterial = catalog.createRequiredMaterialDescriptionTag(item);
     bibMaterial.setCartographicMaterial(giAPI.getCartographicMaterial());
 
-    final String materialDescription008Indicator = tagNbr.equals(GlobalStorage.MATERIAL_TAG_CODE) ? "1" : "0";
+    final String materialDescription008Indicator = tagNbr.equals(Global.MATERIAL_TAG_CODE) ? "1" : "0";
     bibMaterial.setMaterialDescription008Indicator(materialDescription008Indicator);
     final int headerTypeCode = fixedField.getHeaderTypeCode();
     final CorrelationValues correlationValues = new CorrelationValues(headerTypeCode, CorrelationValues.UNDEFINED, CorrelationValues.UNDEFINED);
@@ -211,8 +211,8 @@ public class RecordParser {
     md.setRecordCataloguingSourceCode(giAPI.getRecordCataloguingSourceCode().charAt(0));
     md.setItemDateTypeCode(giAPI.getItemDateTypeCode().charAt(0));
     md.setLanguageCode(giAPI.getLanguageCode());
-    md.setItemDateFirstPublication(GlobalStorage.ITEM_DATE_FIRST_PUBLICATION);
-    md.setItemDateLastPublication(GlobalStorage.ITEM_DATE_LAST_PUBLICATION);
+    md.setItemDateFirstPublication(Global.ITEM_DATE_FIRST_PUBLICATION);
+    md.setItemDateLastPublication(Global.ITEM_DATE_LAST_PUBLICATION);
     md.setMarcCountryCode(giAPI.getMarcCountryCode());
 
     md.setBookIllustrationCode(giAPI.getBookIllustrationCode());
@@ -403,19 +403,19 @@ public class RecordParser {
                                      final Session session,
                                      final int view) throws DataAccessException {
 
-    if (variableField.getCategoryCode() == GlobalStorage.TITLE_CATEGORY) {
+    if (variableField.getCategoryCode() == Global.TITLE_CATEGORY) {
       addTitleToCatalog(item, correlationValues, variableField, bibItemNumber);
-    } else if (variableField.getCategoryCode() == GlobalStorage.NAME_CATEGORY) {
+    } else if (variableField.getCategoryCode() == Global.NAME_CATEGORY) {
       addNameToCatalog(item, correlationValues, variableField, bibItemNumber);
-    } else if (variableField.getCategoryCode() == GlobalStorage.CONTROL_NUMBER_CATEGORY) {
+    } else if (variableField.getCategoryCode() == Global.CONTROL_NUMBER_CATEGORY) {
       addControlFieldToCatalog(item, correlationValues, variableField, bibItemNumber);
-    } else if (variableField.getCategoryCode() == GlobalStorage.CLASSIFICATION_CATEGORY) {
+    } else if (variableField.getCategoryCode() == Global.CLASSIFICATION_CATEGORY) {
       addClassificationToCatalog(item, correlationValues, variableField, bibItemNumber);
-    } else if (variableField.getCategoryCode() == GlobalStorage.SUBJECT_CATEGORY) {
+    } else if (variableField.getCategoryCode() == Global.SUBJECT_CATEGORY) {
       addSubjectToCatalog(item, correlationValues, variableField, bibItemNumber);
-    } else if (variableField.getCategoryCode() == GlobalStorage.BIB_NOTE_CATEGORY && correlationValues.getValue(1) != GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE) {
+    } else if (variableField.getCategoryCode() == Global.BIB_NOTE_CATEGORY && correlationValues.getValue(1) != Global.PUBLISHER_DEFAULT_NOTE_TYPE) {
       addNoteToCatalog(item, correlationValues, variableField, bibItemNumber);
-    } else if (variableField.getCategoryCode() == GlobalStorage.BIB_NOTE_CATEGORY && correlationValues.getValue(1) == GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE) {
+    } else if (variableField.getCategoryCode() == Global.BIB_NOTE_CATEGORY && correlationValues.getValue(1) == Global.PUBLISHER_DEFAULT_NOTE_TYPE) {
 
       try {
         addPublisherToCatalog(item, correlationValues, variableField, view, session);
