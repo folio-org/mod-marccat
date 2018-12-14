@@ -361,12 +361,12 @@ public class BibliographicCatalogDAO extends CatalogDAO {
       return;
     }
     String content = bibliographicNoteTag.getNote().getContent();
-    if (isNotNullOrEmpty(content) && !content.contains(Global.DOLLAR)) {
-      content = Global.DOLLAR + "a" + content;
+    if (isNotNullOrEmpty(content) && !content.contains(Global.SUBFIELD_DELIMITER)) {
+      content = Global.SUBFIELD_DELIMITER + "a" + content;
       bibliographicNoteTag.getNote().markUnchanged();
     }
     if (!isNotNullOrEmpty(content)) {
-      content = Global.DOLLAR + "a" + "";
+      content = Global.SUBFIELD_DELIMITER + "a" + "";
       bibliographicNoteTag.getNote().markUnchanged();
     }
     bibliographicNoteTag.getNote().setContent(content);

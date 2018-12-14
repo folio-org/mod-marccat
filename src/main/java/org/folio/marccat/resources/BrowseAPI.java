@@ -1,9 +1,5 @@
 package org.folio.marccat.resources;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import org.folio.marccat.ModMarccat;
 import org.folio.marccat.config.Global;
 import org.folio.marccat.resources.domain.HeadingDecorator;

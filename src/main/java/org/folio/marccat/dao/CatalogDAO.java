@@ -1,12 +1,8 @@
 package org.folio.marccat.dao;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.Transaction;
 import org.folio.marccat.business.cataloguing.authority.AuthorityReferenceTag;
 import org.folio.marccat.business.cataloguing.bibliographic.VariableHeaderUsingItemEntity;
 import org.folio.marccat.business.cataloguing.common.Tag;
@@ -16,17 +12,15 @@ import org.folio.marccat.business.common.UpdateStatus;
 import org.folio.marccat.business.controller.UserProfile;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.MessageCatalog;
-import org.folio.marccat.dao.persistence.AccessPoint;
-import org.folio.marccat.dao.persistence.BibliographicNoteTag;
-import org.folio.marccat.dao.persistence.CasCache;
-import org.folio.marccat.dao.persistence.CatalogItem;
-import org.folio.marccat.dao.persistence.Descriptor;
-import org.folio.marccat.dao.persistence.ItemEntity;
+import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.DataAccessException;
 
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.Transaction;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Abstract class for common implementations of CatalogDAO (Bib and Auth).
@@ -102,7 +96,7 @@ public abstract class CatalogDAO extends AbstractDAO {
     }
   }
 
-  
+
   /**
    * Updates or creates a CasCache associated to an amicus number.
    *
@@ -143,7 +137,7 @@ public abstract class CatalogDAO extends AbstractDAO {
     }
     transaction.commit();
   }
-  
+
   /**
    * Updates note standard tags.
    *
@@ -165,7 +159,7 @@ public abstract class CatalogDAO extends AbstractDAO {
         }
       });
   }
-  
+
   /**
    * Saves the record, all associated tags and associated casCache.
    *
@@ -176,80 +170,80 @@ public abstract class CatalogDAO extends AbstractDAO {
    */
   public void saveCatalogItem(final CatalogItem item, final CasCache casCache, final Session session) throws HibernateException {
 
-	    final Transaction transaction = getTransaction(session);
-	    final String myView = makeSingleViewString(item.getUserView());
-	    final ItemEntity itemEntity = item.getItemEntity();
+    final Transaction transaction = getTransaction(session);
+    final String myView = makeSingleViewString(item.getUserView());
+    final ItemEntity itemEntity = item.getItemEntity();
 
-	    final List <Tag> tagList = item.getTags().stream().map(aTag -> {
+    final List<Tag> tagList = item.getTags().stream().map(aTag -> {
 
-	      if (aTag.isNew()) {
-	        aTag.setItemNumber(item.getAmicusNumber().intValue());
-	        if (aTag instanceof PersistentObjectWithView)
-	          ((PersistentObjectWithView) aTag).setUserViewString(myView);
+      if (aTag.isNew()) {
+        aTag.setItemNumber(item.getAmicusNumber().intValue());
+        if (aTag instanceof PersistentObjectWithView)
+          ((PersistentObjectWithView) aTag).setUserViewString(myView);
 
-	        try {
-	          aTag.generateNewKey(session);
-	        } catch (HibernateException e) {
-	          throw new RuntimeException(e);
-	        } catch (SQLException e) {
-	          throw new RuntimeException(e);
-	        }
+        try {
+          aTag.generateNewKey(session);
+        } catch (HibernateException e) {
+          throw new RuntimeException(e);
+        } catch (SQLException e) {
+          throw new RuntimeException(e);
+        }
 
-	        if (item.getDeletedTags().contains(aTag)) {
-	          aTag.reinstateDeletedTag();
-	        }
-	      }
+        if (item.getDeletedTags().contains(aTag)) {
+          aTag.reinstateDeletedTag();
+        }
+      }
 
-	      if (aTag instanceof Persistence) {
-	        try {
-	          persistByStatus((Persistence) aTag, session);
-	        } catch (HibernateException e) {
-	          throw new RuntimeException(e);
-	        }
-	      }
-	      return aTag;
-	    }).collect(Collectors.toList());
+      if (aTag instanceof Persistence) {
+        try {
+          persistByStatus((Persistence) aTag, session);
+        } catch (HibernateException e) {
+          throw new RuntimeException(e);
+        }
+      }
+      return aTag;
+    }).collect(Collectors.toList());
 
-	    final List <Tag> toRemove = new ArrayList <>(item.getDeletedTags());
-	    toRemove.forEach(aTag -> {
-	      if (!tagList.contains(aTag)) {
-	        if (aTag instanceof Persistence) {
-	          try {
-	            persistByStatus((Persistence) aTag, session);
-	          } catch (HibernateException e) {
-	            throw new RuntimeException(e);
-	          }
-	        }
+    final List<Tag> toRemove = new ArrayList<>(item.getDeletedTags());
+    toRemove.forEach(aTag -> {
+      if (!tagList.contains(aTag)) {
+        if (aTag instanceof Persistence) {
+          try {
+            persistByStatus((Persistence) aTag, session);
+          } catch (HibernateException e) {
+            throw new RuntimeException(e);
+          }
+        }
 
-	        if (aTag instanceof VariableHeaderUsingItemEntity) {
-	          ((VariableHeaderUsingItemEntity) aTag)
-	            .deleteFromItem();
-	        }
-	      }
-	      item.getDeletedTags().remove(aTag);
-	    });
+        if (aTag instanceof VariableHeaderUsingItemEntity) {
+          ((VariableHeaderUsingItemEntity) aTag)
+            .deleteFromItem();
+        }
+      }
+      item.getDeletedTags().remove(aTag);
+    });
 
-	    if (!itemEntity.isNew()) {
-	      itemEntity.setUpdateStatus(UpdateStatus.CHANGED);
-	    }
-	    persistByStatus(itemEntity, session);
+    if (!itemEntity.isNew()) {
+      itemEntity.setUpdateStatus(UpdateStatus.CHANGED);
+    }
+    persistByStatus(itemEntity, session);
 
-	    if (item.getModelItem() != null) {
-	        BibliographicModelItemDAO dao = new BibliographicModelItemDAO();
-	        if(dao.getModelUsageByItem(item.getAmicusNumber(), session)) {
-	          item.getModelItem().setUpdateStatus(UpdateStatus.CHANGED);
-	        }else
-	          item.getModelItem().markNew();
+    if (item.getModelItem() != null) {
+      BibliographicModelItemDAO dao = new BibliographicModelItemDAO();
+      if (dao.getModelUsageByItem(item.getAmicusNumber(), session)) {
+        item.getModelItem().setUpdateStatus(UpdateStatus.CHANGED);
+      } else
+        item.getModelItem().markNew();
 
-	        persistByStatus(item.getModelItem(), session);
-	      }
+      persistByStatus(item.getModelItem(), session);
+    }
 
-	    if (casCache != null)
-	      saveCasCache(itemEntity.getAmicusNumber(), casCache, session);
+    if (casCache != null)
+      saveCasCache(itemEntity.getAmicusNumber(), casCache, session);
 
-	    updateItemDisplayCacheTable(item, session);
-	    modifyNoteStandard(item, session);
-	    transaction.commit();
+    updateItemDisplayCacheTable(item, session);
+    modifyNoteStandard(item, session);
+    transaction.commit();
 
-	  }
+  }
 }

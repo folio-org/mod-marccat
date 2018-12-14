@@ -58,7 +58,7 @@ public class NameDescriptorDAO extends DAODescriptor {
       "select count(*) from NME_NME_TTL_REF as ref "
         + " where ref.nameHeadingNumber = ? "
         + " and ref.sourceHeadingType = 'NH' "
-        + " and ref.userViewString = '"+ View.makeSingleViewString(cataloguingView) +"'",
+        + " and ref.userViewString = '" + View.makeSingleViewString(cataloguingView) + "'",
       new Object[]{
         source.getKey().getHeadingNumber()},
       new Type[]{
@@ -69,7 +69,7 @@ public class NameDescriptorDAO extends DAODescriptor {
         "select count(*) from NME_TO_TTL_REF as ref "
           + " where ref.nameHeadingNumber = ? "
           + " and ref.sourceHeadingType = 'NH' "
-          + " and ref.userViewString = '"+ View.makeSingleViewString(cataloguingView) +"'",
+          + " and ref.userViewString = '" + View.makeSingleViewString(cataloguingView) + "'",
         new Object[]{
           source.getKey().getHeadingNumber()},
         new Type[]{
@@ -99,7 +99,7 @@ public class NameDescriptorDAO extends DAODescriptor {
         "from NME_NME_TTL_REF as ref "
           + " where ref.nameHeadingNumber = ? "
           + " and ref.sourceHeadingType = 'NH' "
-          + " and ref.userViewString = '"+ View.makeSingleViewString(cataloguingView) +"'",
+          + " and ref.userViewString = '" + View.makeSingleViewString(cataloguingView) + "'",
         new Object[]{
           source.getKey().getHeadingNumber()},
         new Type[]{
@@ -109,7 +109,7 @@ public class NameDescriptorDAO extends DAODescriptor {
         "from NME_TO_TTL_REF as ref "
           + " where ref.nameHeadingNumber = ? "
           + " and ref.sourceHeadingType = 'NH' "
-          + " and ref.userViewString = '"+ View.makeSingleViewString(cataloguingView) +"'",
+          + " and ref.userViewString = '" + View.makeSingleViewString(cataloguingView) + "'",
         new Object[]{
           source.getKey().getHeadingNumber()},
         new Type[]{
@@ -141,7 +141,7 @@ public class NameDescriptorDAO extends DAODescriptor {
       .append(" where ref.nameHeadingNumber = ? AND ")
       .append(" ref.titleHeadingNumber = ? AND ")
       .append(" ref.sourceHeadingType = 'NH' AND ")
-      .append(" ref.userViewString = '"+ View.makeSingleViewString(cataloguingView) +"' AND ")
+      .append(" ref.userViewString = '" + View.makeSingleViewString(cataloguingView) + "' AND ")
       .append(" ref.type = ?").toString();
 
     final String nameNameTitle = new StringBuilder()
@@ -149,7 +149,7 @@ public class NameDescriptorDAO extends DAODescriptor {
       .append(" where ref.nameHeadingNumber = ? AND ")
       .append(" ref.nameTitleHeadingNumber = ? AND ")
       .append(" ref.sourceHeadingType = 'NH' AND ")
-      .append(" ref.userViewString = '"+ View.makeSingleViewString(cataloguingView) +"' AND ")
+      .append(" ref.userViewString = '" + View.makeSingleViewString(cataloguingView) + "' AND ")
       .append(" ref.type = ").toString();
 
     if (source.getClass() == target.getClass()) {
@@ -180,7 +180,7 @@ public class NameDescriptorDAO extends DAODescriptor {
       session.find(
         "select count(*) from NME_TTL_HDG as t where "
           + " t.nameHeadingNumber = ? and "
-          + " t.key.userViewString = '"+ View.makeSingleViewString(View.toIntView(nameHeading.getUserViewString())) +"'",
+          + " t.key.userViewString = '" + View.makeSingleViewString(View.toIntView(nameHeading.getUserViewString())) + "'",
         new Object[]{
           nameHeading.getKey().getHeadingNumber()},
         new Type[]{
@@ -242,7 +242,7 @@ public class NameDescriptorDAO extends DAODescriptor {
    * @param descriptorTo   descriptor already present
    * @return true, if successful
    */
-   private boolean compareHeading(Descriptor descriptorFrom, Descriptor descriptorTo) {
+  private boolean compareHeading(Descriptor descriptorFrom, Descriptor descriptorTo) {
     if (descriptorFrom.getAuthoritySourceCode() == descriptorTo.getAuthoritySourceCode()) {
       if (descriptorFrom.getAuthoritySourceCode() == T_AUT_HDG_SRC.SOURCE_IN_SUBFIELD_2) {
         return descriptorFrom.getAuthoritySourceText().equals(descriptorTo.getAuthoritySourceText());

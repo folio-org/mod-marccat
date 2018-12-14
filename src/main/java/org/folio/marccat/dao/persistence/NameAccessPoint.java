@@ -217,14 +217,14 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag {
    * @return stringText.
    */
   public StringText getAccessPointStringText() {
-	  StringText text = new StringText(workRelatorStringtext);
-	  text.parse(otherSubfields);
-	  if (workRelatorCode != null) {
-	   text.add(new StringText(new Subfield("4",workRelatorCode)));
-	  }
-	  text.parse(institution);
-	  return text;
-	 }
+    StringText text = new StringText(workRelatorStringtext);
+    text.parse(otherSubfields);
+    if (workRelatorCode != null) {
+      text.add(new StringText(new Subfield("4", workRelatorCode)));
+    }
+    text.parse(institution);
+    return text;
+  }
 
   /**
    * Sets stringText to name access point.
@@ -232,19 +232,18 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag {
    * @param stringText -- the stringText to set.
    */
 
-public void setAccessPointStringText(StringText stringText) {
-     workRelatorStringtext = stringText.getSubfieldsWithCodes("eju").toString();
-     otherSubfields = stringText.getSubfieldsWithCodes("iox").toString();
-     workRelatorCode = null;
-     try {
+  public void setAccessPointStringText(StringText stringText) {
+    workRelatorStringtext = stringText.getSubfieldsWithCodes("eju").toString();
+    otherSubfields = stringText.getSubfieldsWithCodes("iox").toString();
+    workRelatorCode = null;
+    try {
       workRelatorCode = stringText.getSubfieldsWithCodes("4").getSubfield(0).getContent();
-     }
-     catch (Exception e) {
+    } catch (Exception e) {
       //do nothing -- work relator remains null
-     }
-  institution = stringText.getSubfieldsWithCodes("5").toString();
-  
- }
+    }
+    institution = stringText.getSubfieldsWithCodes("5").toString();
+
+  }
 
   /**
    * Sets descriptor string text.

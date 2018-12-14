@@ -23,43 +23,65 @@ import java.util.Locale;
  */
 public class TermExpressionNode implements ExpressionNode {
 
-  /** The Constant logger. */
+  /**
+   * The Constant logger.
+   */
   private static final Log logger = new Log(TermExpressionNode.class);
 
-  /** The term. */
+  /**
+   * The term.
+   */
   private final StringBuilder term = new StringBuilder();
 
-  /** The locale. */
+  /**
+   * The locale.
+   */
   private final Locale locale;
 
-  /** The main library id. */
+  /**
+   * The main library id.
+   */
   private final int mainLibraryId;
 
-  /** The searching view. */
+  /**
+   * The searching view.
+   */
   private final int searchingView;
 
-  /** The session. */
+  /**
+   * The session.
+   */
   private final Session session;
 
-  /** The index. */
+  /**
+   * The index.
+   */
   private IndexList index;
 
-  /** The relation. */
+  /**
+   * The relation.
+   */
   private String relation = "=";
 
-  /** The proximity operator. */
+  /**
+   * The proximity operator.
+   */
   private String proximityOperator;
 
-  /** The right. */
+  /**
+   * The right.
+   */
   private String right;
 
-  /** The semantic. */
+  /**
+   * The semantic.
+   */
   private S_BIB1_SMNTC semantic;
 
   /**
    * Builds a new expression node.
    *
-   * @param session the session
+   * @param session       the session
    * @param locale        the current locale.
    * @param mainLibraryId the main library identifier.
    * @param searchingView the current searching view.
@@ -78,7 +100,7 @@ public class TermExpressionNode implements ExpressionNode {
    */
   @Override
   public String getValue() {
-     try {
+    try {
       String s = prepareTerm();
       if (proximityOperator != null && s != null) {
         int startOfTerm = s.indexOf('\'') + 1;

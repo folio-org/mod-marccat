@@ -131,7 +131,7 @@ public class ClassificationDescriptorDAO extends DAODescriptor {
     throws HibernateException {
     String viewClause = "";
     if (searchingView != View.ANY)
-      viewClause = " and hdg.key.userViewString, = '"+View.makeSingleViewString(searchingView)+"' ";
+      viewClause = " and hdg.key.userViewString, = '" + View.makeSingleViewString(searchingView) + "' ";
 
     final Query q = session.createQuery("from " + getPersistentClass().getName()
       + " as hdg where hdg.sortForm " + operator

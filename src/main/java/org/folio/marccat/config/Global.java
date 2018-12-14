@@ -26,8 +26,6 @@ public abstract class Global {
   public static final String OKAPI_TENANT_HEADER_NAME = "x-okapi-tenant";
   public static final String EMPTY_STRING = "";
   public final static String SUBFIELD_DELIMITER_FOR_VIEW = "\\$";
-  public static String SUBFIELD_DELIMITER = "\u001f";
-  public static Configuration HCONFIGURATION = new Configuration();
   public final static String MAP_CODE = "a";
   public final static String ELECTRONIC_RESOURCE = "c";
   public final static String GLOBE = "d";
@@ -56,7 +54,6 @@ public abstract class Global {
   public final static String PHYSICAL_DESCRIPTION_TAG_CODE = "007";
   public final static int MATERIAL_FIELD_LENGTH = 40;
   public final static int OTHER_MATERIAL_FIELD_LENGTH = 18;
-
   public final static String ITEM_DATE_FIRST_PUBLICATION = "    ";
   public final static String ITEM_DATE_LAST_PUBLICATION = "    ";
   public final static String MATERIAL_TAG_CODE = "008";
@@ -70,13 +67,11 @@ public abstract class Global {
   public final static String LOADING_FILE_REJECTED = "rejected";
   public final static String LOADING_FILE_ADDED = "added";
   public final static String LOADING_FILE_ERRORS = "errors";
-  public static String SCHEMA_SUITE_KEY = "SUITE_KEY";
   public final static String AN_KEY_CODE_FIELD = "BI";
   public final static String ERROR_MANDATORY_TAG = "-1";
   public final static String ERROR_DUPLICATE_TAG = "-2";
   public final static String ERROR_EMPTY_TAG = "-3";
   public final static String NO_RECORD_FOUND = "-4";
-
   public final static Map<String, String> ERRORS_MAP = new HashMap<String, String>() {
     {
       put(ERROR_MANDATORY_TAG, "Check mandatory tags failure.");
@@ -85,7 +80,6 @@ public abstract class Global {
       put(NO_RECORD_FOUND, "Record not found: %d.");
     }
   };
-
   public final static short CORRELATION_UNDEFINED = -1;
   public final static int CATALOGING_SOURCE_HEADER_TYPE = 1;
   public final static int LEADER_HEADER_TYPE = 15;
@@ -103,7 +97,6 @@ public abstract class Global {
   public final static char DESCRIPTIVE_CATALOGUING_CODE = ' ';
   public final static char LINKED_RECORD_CODE = ' ';
   public final static String FIXED_LEADER_PORTION = "4500";
-
   public final static Map<Integer, String> PHYSICAL_TYPES_MAP = new HashMap<Integer, String>() {
     {
       put(23, GLOBE);
@@ -123,19 +116,6 @@ public abstract class Global {
       put(48, NOTATED_MUSIC);
     }
   };
-
-  static {
-    HCONFIGURATION.setProperty("hibernate.dialect", "net.sf.hibernate.dialect.PostgreSQLDialect");
-    HCONFIGURATION.setProperty("dialect", "net.sf.hibernate.dialect.PostgreSQLDialect");
-    HCONFIGURATION.setProperty("show_sql", System.getProperty("show.sql", "false"));
-    try {
-      HCONFIGURATION.configure("/hibernate.cfg.xml");
-    } catch (final Throwable failure) {
-      throw new ExceptionInInitializerError(failure);
-    }
-  }
-
-  public final static String DOLLAR = "\u001f";
   public final static int HEADER_CATEGORY = 1;
   public final static int NAME_CATEGORY = 2;
   public final static int TITLE_CATEGORY = 3;
@@ -174,7 +154,6 @@ public abstract class Global {
   public final static int STANDARD_NOTE_MAX_LENGHT = 1024;
   public final static int OVERFLOW_NOTE_MAX_LENGHT = 1000;
   public final static String NAME_TITLE_VARIANT_CODES = "3v5";
-
   public final static Map<String, Class> MAP_CODE_LISTS = new HashMap<String, Class>() {
     {
       put("DATE_TYPE", T_ITM_DTE_TYP.class);
@@ -302,7 +281,6 @@ public abstract class Global {
       put("MIC_SPEC_DESIGN", T_MIC_SMD.class);
     }
   };
-
   public final static Map<String, Class> BIBLIOGRAPHIC_ACCESS_POINT_CLASS_MAP = new HashMap<String, Class>() {
     {
       put("NH", NameAccessPoint.class);
@@ -311,7 +289,6 @@ public abstract class Global {
       put("MH", NameTitleAccessPoint.class);
     }
   };
-
   public final static Map<String, String> INDEX_AUTHORITY_TYPE_MAP = new HashMap<String, String>() {
     {
       put("NH", "NK");
@@ -320,7 +297,6 @@ public abstract class Global {
       put("MH", "NTK");
     }
   };
-
   public final static Map<String, Class> DAO_CLASS_MAP = new HashMap<String, Class>() {
     {
       put("2P0", NameDescriptorDAO.class);
@@ -379,7 +355,6 @@ public abstract class Global {
       put("373P0", SubjectDescriptorDAO.class);
     }
   };
-
   public final static Map<String, String> FILTER_MAP = new HashMap<String, String>() {
     {
       put("2P0", "");
@@ -439,4 +414,18 @@ public abstract class Global {
       put("373P0", " and hdg.sourceCode = 4 ");
     }
   };
+  public static String SUBFIELD_DELIMITER = "\u001f";
+  public static Configuration HCONFIGURATION = new Configuration();
+  public static String SCHEMA_SUITE_KEY = "SUITE_KEY";
+
+  static {
+    HCONFIGURATION.setProperty("hibernate.dialect", "net.sf.hibernate.dialect.PostgreSQLDialect");
+    HCONFIGURATION.setProperty("dialect", "net.sf.hibernate.dialect.PostgreSQLDialect");
+    HCONFIGURATION.setProperty("show_sql", System.getProperty("show.sql", "false"));
+    try {
+      HCONFIGURATION.configure("/hibernate.cfg.xml");
+    } catch (final Throwable failure) {
+      throw new ExceptionInInitializerError(failure);
+    }
+  }
 }

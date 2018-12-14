@@ -5,19 +5,16 @@ import net.sf.hibernate.Session;
 import org.folio.marccat.business.cataloguing.bibliographic.BibliographicAccessPoint;
 import org.folio.marccat.business.cataloguing.bibliographic.BibliographicCatalog;
 import org.folio.marccat.business.cataloguing.bibliographic.MarcCommandLibrary;
-import org.folio.marccat.config.Global;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.business.descriptor.PublisherTagDescriptor;
+import org.folio.marccat.config.Global;
 import org.folio.marccat.dao.RecordTypeMaterialDAO;
 import org.folio.marccat.dao.persistence.*;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.resources.domain.Field;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.shared.GeneralInformation;
 import org.folio.marccat.util.StringText;
-import org.folio.marccat.dao.persistence.BibliographicLeader;
-import org.folio.marccat.dao.persistence.CatalogItem;
-import org.folio.marccat.dao.persistence.MaterialDescription;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -342,7 +339,7 @@ public class RecordParser {
         PublisherManager pm = (PublisherManager) aTag;
         PublisherAccessPoint apf = pm.getApf();
         int pTagNumber = apf.getDescriptor().getKey().getHeadingNumber();
-        List <PUBL_TAG> publTags = ((PublisherTagDescriptor) apf.getDescriptor()).getPublisherTagUnits();
+        List<PUBL_TAG> publTags = ((PublisherTagDescriptor) apf.getDescriptor()).getPublisherTagUnits();
         for (PUBL_TAG pTag : publTags) {
           if (pTag.getPublisherTagNumber() == pTagNumber) {
             int keyNumber = pTag.getPublisherHeadingNumber();

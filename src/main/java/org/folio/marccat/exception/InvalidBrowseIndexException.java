@@ -7,8 +7,6 @@
  */
 package org.folio.marccat.exception;
 
-import org.folio.marccat.exception.ModMarccatException;
-
 /**
  * @author paulm
  * @version $Revision: 1.2 $, $Date: 2006/03/02 14:54:07 $
@@ -22,7 +20,7 @@ public class InvalidBrowseIndexException extends ModMarccatException {
    * @since 1.0
    */
   public InvalidBrowseIndexException() {
-    super ( );
+    super();
     // TODO Auto-generated constructor stub
   }
 
@@ -33,7 +31,7 @@ public class InvalidBrowseIndexException extends ModMarccatException {
    * @since 1.0
    */
   public InvalidBrowseIndexException(String message) {
-    super (message);
+    super(message);
     // TODO Auto-generated constructor stub
   }
 
@@ -45,7 +43,7 @@ public class InvalidBrowseIndexException extends ModMarccatException {
    * @since 1.0
    */
   public InvalidBrowseIndexException(String message, Throwable cause) {
-    super (message, cause);
+    super(message, cause);
     // TODO Auto-generated constructor stub
   }
 
@@ -56,11 +54,11 @@ public class InvalidBrowseIndexException extends ModMarccatException {
    * @since 1.0
    */
   public InvalidBrowseIndexException(Throwable cause) {
-    super (cause);
+    super(cause);
     // TODO Auto-generated constructor stub
   }
 
   public InvalidBrowseIndexException(Integer o) {
-    super (o.toString ( ));
+    super(o.toString());
   }
 }

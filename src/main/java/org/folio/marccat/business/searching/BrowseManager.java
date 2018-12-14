@@ -1,20 +1,9 @@
 package org.folio.marccat.business.searching;
 
+import org.folio.marccat.dao.*;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.folio.marccat.dao.ClassificationDescriptorDAO;
-import org.folio.marccat.dao.ControlNumberDescriptorDAO;
-import org.folio.marccat.dao.DAODescriptor;
-import org.folio.marccat.dao.DAOThesaurusDescriptor;
-import org.folio.marccat.dao.NameDescriptorDAO;
-import org.folio.marccat.dao.NameTitleNameDescriptorDAO;
-import org.folio.marccat.dao.NameTitleTitleDescriptorDAO;
-import org.folio.marccat.dao.PublisherNameDescriptorDAO;
-import org.folio.marccat.dao.PublisherPlaceDescriptorDAO;
-import org.folio.marccat.dao.ShelfListDAO;
-import org.folio.marccat.dao.SubjectDescriptorDAO;
-import org.folio.marccat.dao.TitleDescriptorDAO;
 
 /**
  * Responsible for the management of a browse session

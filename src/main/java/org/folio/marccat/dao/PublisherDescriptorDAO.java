@@ -165,7 +165,7 @@ public class PublisherDescriptorDAO extends DAODescriptor {
           "select count(*) from PublisherAccessPoint as a, PUBL_TAG as b "
             + " where a.headingNumber = b.publisherTagNumber "
             + " and b.publisherHeadingNumber = ? "
-            +" and b.userViewString = '"+View.makeSingleViewString(searchingView)+"'",
+            + " and b.userViewString = '" + View.makeSingleViewString(searchingView) + "'",
           new Object[]{
             descriptor.getHeadingNumber()},
           new Type[]{

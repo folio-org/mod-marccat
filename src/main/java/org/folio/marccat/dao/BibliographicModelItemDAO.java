@@ -1,15 +1,14 @@
 package org.folio.marccat.dao;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-
-import org.folio.marccat.dao.persistence.BibliographicModelItem;
-
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
+import org.folio.marccat.dao.persistence.BibliographicModelItem;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * The Class BibliographicModelItemDAO.
@@ -40,7 +39,7 @@ public class BibliographicModelItemDAO extends ModelItemDAO {
    */
   public boolean getModelUsageByItem(int bibItem, final Session session)
     throws HibernateException {
-    List <Integer> list =
+    List<Integer> list =
       session.find(
         "select count(*) from "
           + getPersistentClass().getName()
@@ -48,7 +47,7 @@ public class BibliographicModelItemDAO extends ModelItemDAO {
           + " where b.item = ?",
         new Object[]{new Integer(bibItem)},
         new Type[]{Hibernate.INTEGER});
-    final Optional <Integer> firstElement = list.stream().filter(Objects::nonNull).findFirst().filter(count -> count > 0);
+    final Optional<Integer> firstElement = list.stream().filter(Objects::nonNull).findFirst().filter(count -> count > 0);
     return firstElement.isPresent();
   }
 

@@ -2,9 +2,9 @@ package org.folio.marccat.resources;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang.StringUtils;
-import org.folio.marccat.config.Global;
 import org.folio.marccat.ModMarccat;
 import org.folio.marccat.business.codetable.Avp;
+import org.folio.marccat.config.Global;
 import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.enumaration.CatalogingEntityType;
 import org.folio.marccat.resources.domain.*;
@@ -16,9 +16,9 @@ import java.util.List;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
-import static org.folio.marccat.util.F.isNotNullOrEmpty;
-import static org.folio.marccat.integration.CatalogingHelper.*;
 import static org.folio.marccat.enumaration.CatalogingEntityType.A;
+import static org.folio.marccat.integration.CatalogingHelper.*;
+import static org.folio.marccat.util.F.isNotNullOrEmpty;
 
 /**
  * BIB / AUT Record templates API.
@@ -31,7 +31,7 @@ import static org.folio.marccat.enumaration.CatalogingEntityType.A;
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class RecordTemplateAPI extends BaseResource {
 
-  private Function <Avp <Integer>, RecordTemplate> toRecordTemplate = avp -> {
+  private Function<Avp<Integer>, RecordTemplate> toRecordTemplate = avp -> {
     final RecordTemplate template = new RecordTemplate();
     template.setId(avp.getValue());
     template.setName(avp.getLabel());
@@ -46,7 +46,7 @@ public class RecordTemplateAPI extends BaseResource {
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
     return doGet((storageService, configuration) -> {
-      final List <Avp <Integer>> templates =
+      final List<Avp<Integer>> templates =
         type == A
           ? storageService.getAuthorityRecordTemplates()
           : storageService.getBibliographicRecordTemplates();
@@ -73,7 +73,7 @@ public class RecordTemplateAPI extends BaseResource {
 
 
   @PostMapping("/record-template")
-  public ResponseEntity <RecordTemplate> createNew(
+  public ResponseEntity<RecordTemplate> createNew(
     @RequestBody final RecordTemplate template,
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
@@ -134,7 +134,7 @@ public class RecordTemplateAPI extends BaseResource {
 
 
   @PostMapping("/record-template/from-record")
-  public ResponseEntity <Object> createFromRecord(
+  public ResponseEntity<Object> createFromRecord(
     @RequestBody final BibliographicRecord record,
     @RequestParam final String templateName,
     @RequestParam final String lang,
@@ -188,7 +188,7 @@ public class RecordTemplateAPI extends BaseResource {
         });
 
         storageService.saveBibliographicRecordTemplate(template);
-        return new ResponseEntity <>(template, HttpStatus.OK);
+        return new ResponseEntity<>(template, HttpStatus.OK);
 
       } catch (final Exception exception) {
         logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);

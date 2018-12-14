@@ -17,13 +17,19 @@ import java.util.regex.Pattern;
  * @since 1.0
  */
 public final class Tokenizer {
-  /** The Constant logger. */
+  /**
+   * The Constant logger.
+   */
   private static final Log logger = new Log(Tokenizer.class);
 
-  /** The token infos. */
+  /**
+   * The token infos.
+   */
   private final List<TokenInfo> tokenInfos;
 
-  /** The tokens. */
+  /**
+   * The tokens.
+   */
   private final List<Token> tokens;
 
   /**

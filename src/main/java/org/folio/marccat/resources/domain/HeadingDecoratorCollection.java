@@ -22,10 +22,10 @@ public class HeadingDecoratorCollection {
   @JsonProperty("headings")
   @Valid
   @NotNull
-  private List <HeadingDecorator> headings = new ArrayList <HeadingDecorator> ( );
+  private List<HeadingDecorator> headings = new ArrayList<HeadingDecorator>();
 
   @JsonIgnore
-  private Map <String, Object> additionalProperties = new HashMap <String, Object> ( );
+  private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
 
   /**
@@ -34,7 +34,7 @@ public class HeadingDecoratorCollection {
    * @return The headings
    */
   @JsonProperty("headings")
-  public List <HeadingDecorator> getHeadings() {
+  public List<HeadingDecorator> getHeadings() {
     return headings;
   }
 
@@ -44,27 +44,27 @@ public class HeadingDecoratorCollection {
    * @param indexes The indexes
    */
   @JsonProperty("headings")
-  public void setHeadings(List <HeadingDecorator> headings) {
+  public void setHeadings(List<HeadingDecorator> headings) {
     this.headings = headings;
   }
 
-  public HeadingDecoratorCollection withHeadings(List <HeadingDecorator> headings) {
+  public HeadingDecoratorCollection withHeadings(List<HeadingDecorator> headings) {
     this.headings = headings;
     return this;
   }
 
   @JsonAnyGetter
-  public Map <String, Object> getAdditionalProperties() {
+  public Map<String, Object> getAdditionalProperties() {
     return this.additionalProperties;
   }
 
   @JsonAnySetter
   public void setAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
   }
 
   public HeadingDecoratorCollection withAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put (name, value);
+    this.additionalProperties.put(name, value);
     return this;
   }
 

@@ -75,7 +75,7 @@ public class PublisherNameDescriptorDAO extends PublisherDescriptorDAO {
     List<Descriptor> publisherList = null;
 
     if (searchingView != View.ANY) {
-        viewClause = " and hdg.key.userViewString = '"+View.makeSingleViewString(searchingView)+"' ";
+      viewClause = " and hdg.key.userViewString = '" + View.makeSingleViewString(searchingView) + "' ";
     }
 
     if (operator.equals("<")) {
@@ -154,7 +154,7 @@ public class PublisherNameDescriptorDAO extends PublisherDescriptorDAO {
     throws HibernateException {
     String viewClause = "";
     if (searchingView != View.ANY) {
-        viewClause = " and hdg.key.userViewString = '"+View.makeSingleViewString(searchingView)+"' ";
+      viewClause = " and hdg.key.userViewString = '" + View.makeSingleViewString(searchingView) + "' ";
     }
     final Query q =
       session.createQuery(

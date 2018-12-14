@@ -17,7 +17,7 @@ public class CasCacheDAO extends AbstractDAO {
   public CasCacheDAO() {
     super();
   }
-  
+
   /**
    * Saves or updates a CasCache persistent object.
    *
