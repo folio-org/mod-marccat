@@ -153,8 +153,9 @@ public class BibliographicRecordAPI extends BaseResource {
               : storageService.getMaterialTypeInfosByHeaderCode(headerTypeCode, field.getCode());
 
             ConversionFieldUtils.setMaterialValuesInFixedField(ff, (String) mapRecordTypeMaterial.get(Global.FORM_OF_MATERIAL_LABEL));
-          } else
+          } else {
             ConversionFieldUtils.setPhysicalInformationValuesInFixedField(ff);
+          }
         });
 
         storageService.saveBibliographicRecord(record, template, view, gi, lang);

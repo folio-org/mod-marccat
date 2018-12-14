@@ -1198,8 +1198,9 @@ public class StorageService implements Closeable {
         if (correlations.size() > 1) {
           if ((tag.endsWith("00") || tag.endsWith("10") || tag.endsWith("11")) && hasTitle) {
             return Global.NAME_TITLE_CATEGORY;
-          } else if (correlations.stream().filter(Objects::nonNull).findFirst().isPresent())
+          } else if (correlations.stream().anyMatch(Objects::nonNull)){
             return correlations.stream().filter(Objects::nonNull).findFirst().get().getKey().getMarcTagCategoryCode();
+          }
         }
       }
 
