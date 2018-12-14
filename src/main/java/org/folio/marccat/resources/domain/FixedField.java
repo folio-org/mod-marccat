@@ -12,8 +12,31 @@ import java.util.Map;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({"keyNumber", "categoryCode", "description", "headerTypeCode", "code", "displayValue", "materialType", "physicalType", "dateEnteredOnFile", "dateTypeCode", "dateFirstPublication", "dateLastPublication", "placeOfPublication", "bookIllustrationCode1", "bookIllustrationCode2", "bookIllustrationCode3", "bookIllustrationCode4", "targetAudienceCode", "formOfItemCode", "natureOfContent1", "natureOfContent2", "natureOfContent3", "natureOfContent4", "governmentPublicationCode", "conferencePublicationCode", "bookFestschrift", "bookIndexAvailabilityCode", "bookLiteraryFormTypeCode", "bookBiographyCode", "cartographicReliefCode1", "cartographicReliefCode2", "cartographicReliefCode3", "cartographicReliefCode4", "cartographicProjectionCode", "cartographicMaterial", "cartographicIndexAvailabilityCode", "cartographicFormatCode1", "cartographicFormatCode2", "musicFormOfCompositionCode", "musicFormatCode", "musicPartsCode", "musicTextualMaterialCode1", "musicTextualMaterialCode2", "musicTextualMaterialCode3", "musicTextualMaterialCode4", "musicTextualMaterialCode5", "musicTextualMaterialCode6", "musicLiteraryTextCode1", "musicLiteraryTextCode2", "musicTranspositionArrangementCode", "computerFileTypeCode", "visualRunningTime", "visualMaterialTypeCode", "visualTechniqueCode", "serialFrequencyCode", "serialRegularityCode", "serialTypeCode", "serialFormOriginalItemCode", "serialOriginalAlphabetOfTitleCode", "serialEntryConventionCode", "languageCode", "recordModifiedCode", "recordCataloguingSourceCode", "itemRecordStatusCode", "itemRecordTypeCode", "itemBibliographicLevelCode", "itemControlTypeCode", "characterCodingSchemeCode", "encodingLevel", "descriptiveCataloguingCode", "linkedRecordCode", "materialTypeCode", "categoryOfMaterial", "specificMaterialDesignationCode", "colourCode", "physicalMediumCode", "typeOfReproductionCode", "polarityCode", "dimensionsCode", "generationCode", "baseOfFilmCode", "includesSoundCode", "mediumForSoundCode", "secondarySupportMaterialCode", "configurationCode", "obsolete1", "obsolete2", "imageBitDepth", "fileFormatsCode", "qualityAssuranceTargetCode", "antecedentSourceCode", "levelOfCompressionCode", "reformattingQualityCode", "productionDetailsCode", "reductionRatioRangeCode", "reductionRatioCode", "emulsionOnFilmCode", "presentationFormatCode", "productionElementsCode", "refinedCategoriesOfColourCode", "kindOfColourStockCode", "deteriorationStageCode", "completenessCode", "inspectionDate", "primarySupportMaterialCode", "baseOfEmulsionCode", "soundOnMediumOrSeparateCode", "altitudeOfSensorCode", "attitudeOfSensorCode", "cloudCoverCode", "platformConstructionTypeCode", "platformUseCode", "sensorTypeCode", "remoteDataTypeCode", "speedCode", "grooveWidthCode", "tapeWidthCode", "tapeConfigurationCode", "discTypeCode", "sndMaterialTypeCode", "cuttingTypeCode", "specialPlaybackCharacteristicsCode", "storageTechniqueCode", "classOfBrailleWritingCodes", "levelOfContractionCode", "brailleMusicFormatCodes", "specificPhysicalCharacteristicsCode", "formatCode", "sequenceNumber"})
+@JsonPropertyOrder({"keyNumber", "categoryCode", "description", "headerTypeCode", "code", "displayValue", "materialType", "physicalType", "dateEnteredOnFile",
+  "dateTypeCode", "dateFirstPublication", "dateLastPublication", "placeOfPublication", "bookIllustrationCode1", "bookIllustrationCode2", "bookIllustrationCode3",
+  "bookIllustrationCode4", "targetAudienceCode", "formOfItemCode", "natureOfContent1", "natureOfContent2", "natureOfContent3", "natureOfContent4",
+  "governmentPublicationCode", "conferencePublicationCode", "bookFestschrift", "bookIndexAvailabilityCode", "bookLiteraryFormTypeCode", "bookBiographyCode",
+  "cartographicReliefCode1", "cartographicReliefCode2", "cartographicReliefCode3", "cartographicReliefCode4", "cartographicProjectionCode", "cartographicMaterial",
+  "cartographicIndexAvailabilityCode", "cartographicFormatCode1", "cartographicFormatCode2", "musicFormOfCompositionCode", "musicFormatCode", "musicPartsCode",
+  "musicTextualMaterialCode1", "musicTextualMaterialCode2", "musicTextualMaterialCode3", "musicTextualMaterialCode4", "musicTextualMaterialCode5",
+  "musicTextualMaterialCode6", "musicLiteraryTextCode1", "musicLiteraryTextCode2", "musicTranspositionArrangementCode", "computerFileTypeCode", "visualRunningTime",
+  "visualMaterialTypeCode", "visualTechniqueCode", "serialFrequencyCode", "serialRegularityCode", "serialTypeCode", "serialFormOriginalItemCode",
+  "serialOriginalAlphabetOfTitleCode", "serialEntryConventionCode", "languageCode", "recordModifiedCode", "recordCataloguingSourceCode", "itemRecordStatusCode",
+  "itemRecordTypeCode", "itemBibliographicLevelCode", "itemControlTypeCode", "characterCodingSchemeCode", "encodingLevel", "descriptiveCataloguingCode",
+  "linkedRecordCode", "materialTypeCode", "categoryOfMaterial", "specificMaterialDesignationCode", "colorCode", "physicalMediumCode", "typeOfReproductionCode",
+  "polarityCode", "dimensionsCode", "generationCode", "baseOfFilmCode", "includesSoundCode", "mediumForSoundCode", "secondarySupportMaterialCode",
+  "configurationCode", "obsolete1", "obsolete2", "imageBitDepth", "fileFormatsCode", "qualityAssuranceTargetCode", "antecedentSourceCode",
+  "levelOfCompressionCode", "reformattingQualityCode", "productionDetailsCode", "reductionRatioRangeCode", "reductionRatioCode", "emulsionOnFilmCode",
+  "presentationFormatCode", "productionElementsCode", "refinedCategoriesOfColorCode", "kindOfColorStockCode", "deteriorationStageCode", "completenessCode",
+  "inspectionDate", "primarySupportMaterialCode", "baseOfEmulsionCode", "soundOnMediumOrSeparateCode", "altitudeOfSensorCode", "attitudeOfSensorCode",
+  "cloudCoverCode", "platformConstructionTypeCode", "platformUseCode", "sensorTypeCode", "remoteDataTypeCode", "speedCode", "grooveWidthCode",
+  "tapeWidthCode", "tapeConfigurationCode", "discTypeCode", "sndMaterialTypeCode", "cuttingTypeCode", "specialPlaybackCharacteristicsCode",
+  "storageTechniqueCode", "classOfBrailleWritingCodes", "levelOfContractionCode", "brailleMusicFormatCodes", "specificPhysicalCharacteristicsCode",
+  "formatCode", "sequenceNumber", "attributes"})
 public class FixedField {
+
+  @JsonProperty("attributes")
+  private Map<String, Object> attributes;
 
   @JsonProperty("keyNumber")
   private Integer keyNumber;
@@ -237,8 +260,8 @@ public class FixedField {
   @JsonProperty("specificMaterialDesignationCode")
   private String specificMaterialDesignationCode;
 
-  @JsonProperty("colourCode")
-  private String colourCode;
+  @JsonProperty("colorCode")
+  private String colorCode;
 
   @JsonProperty("physicalMediumCode")
   private String physicalMediumCode;
@@ -312,11 +335,11 @@ public class FixedField {
   @JsonProperty("productionElementsCode")
   private String productionElementsCode;
 
-  @JsonProperty("refinedCategoriesOfColourCode")
-  private String refinedCategoriesOfColourCode;
+  @JsonProperty("refinedCategoriesOfColorCode")
+  private String refinedCategoriesOfColorCode;
 
-  @JsonProperty("kindOfColourStockCode")
-  private String kindOfColourStockCode;
+  @JsonProperty("kindOfColorStockCode")
+  private String kindOfColorStockCode;
 
   @JsonProperty("deteriorationStageCode")
   private String deteriorationStageCode;
@@ -1895,23 +1918,23 @@ public class FixedField {
   }
 
   /**
-   * @return The colourCode
+   * @return The colorCode
    */
-  @JsonProperty("colourCode")
-  public String getColourCode() {
-    return colourCode;
+  @JsonProperty("colorCode")
+  public String getColorCode() {
+    return colorCode;
   }
 
   /**
-   * @param colourCode The colourCode
+   * @param colorCode The colorCode
    */
-  @JsonProperty("colourCode")
-  public void setColourCode(String colourCode) {
-    this.colourCode = colourCode;
+  @JsonProperty("colorCode")
+  public void setColorCode(String colorCode) {
+    this.colorCode = colorCode;
   }
 
-  public FixedField withColourCode(String colourCode) {
-    this.colourCode = colourCode;
+  public FixedField withColorCode(String colorCode) {
+    this.colorCode = colorCode;
     return this;
   }
 
@@ -2420,44 +2443,44 @@ public class FixedField {
   }
 
   /**
-   * @return The refinedCategoriesOfColourCode
+   * @return The refinedCategoriesOfColorCode
    */
-  @JsonProperty("refinedCategoriesOfColourCode")
-  public String getRefinedCategoriesOfColourCode() {
-    return refinedCategoriesOfColourCode;
+  @JsonProperty("refinedCategoriesOfColorCode")
+  public String getRefinedCategoriesOfColorCode() {
+    return refinedCategoriesOfColorCode;
   }
 
   /**
-   * @param refinedCategoriesOfColourCode The refinedCategoriesOfColourCode
+   * @param refinedCategoriesOfColorCode The refinedCategoriesOfColorCode
    */
-  @JsonProperty("refinedCategoriesOfColourCode")
-  public void setRefinedCategoriesOfColourCode(String refinedCategoriesOfColourCode) {
-    this.refinedCategoriesOfColourCode = refinedCategoriesOfColourCode;
+  @JsonProperty("refinedCategoriesOfColorCode")
+  public void setRefinedCategoriesOfColorCode(String refinedCategoriesOfColorCode) {
+    this.refinedCategoriesOfColorCode = refinedCategoriesOfColorCode;
   }
 
-  public FixedField withRefinedCategoriesOfColourCode(String refinedCategoriesOfColourCode) {
-    this.refinedCategoriesOfColourCode = refinedCategoriesOfColourCode;
+  public FixedField withRefinedCategoriesOfColorCode(String refinedCategoriesOfColorCode) {
+    this.refinedCategoriesOfColorCode = refinedCategoriesOfColorCode;
     return this;
   }
 
   /**
-   * @return The kindOfColourStockCode
+   * @return The kindOfColorStockCode
    */
-  @JsonProperty("kindOfColourStockCode")
-  public String getKindOfColourStockCode() {
-    return kindOfColourStockCode;
+  @JsonProperty("kindOfColorStockCode")
+  public String getKindOfColorStockCode() {
+    return kindOfColorStockCode;
   }
 
   /**
-   * @param kindOfColourStockCode The kindOfColourStockCode
+   * @param kindOfColorStockCode The kindOfColorStockCode
    */
-  @JsonProperty("kindOfColourStockCode")
-  public void setKindOfColourStockCode(String kindOfColourStockCode) {
-    this.kindOfColourStockCode = kindOfColourStockCode;
+  @JsonProperty("kindOfColorStockCode")
+  public void setKindOfColorStockCode(String kindOfColorStockCode) {
+    this.kindOfColorStockCode = kindOfColorStockCode;
   }
 
-  public FixedField withKindOfColourStockCode(String kindOfColourStockCode) {
-    this.kindOfColourStockCode = kindOfColourStockCode;
+  public FixedField withKindOfColorStockCode(String kindOfColorStockCode) {
+    this.kindOfColorStockCode = kindOfColorStockCode;
     return this;
   }
 

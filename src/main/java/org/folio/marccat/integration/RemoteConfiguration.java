@@ -27,8 +27,8 @@ import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
 @Profile({"!test"})
 public class RemoteConfiguration implements Configuration {
 
-  private final static String BASE_CQUERY = "module==MARCCAT and configName == ";
-  private final static int LIMIT = 100;
+  private static final String BASE_CQUERY = "module==MARCCAT and configName == ";
+  private static final int LIMIT = 100;
   private final RestTemplate client;
 
   @Value("${configuration.endpoint}")
