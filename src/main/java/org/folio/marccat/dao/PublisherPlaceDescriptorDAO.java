@@ -77,7 +77,7 @@ public class PublisherPlaceDescriptorDAO extends PublisherDescriptorDAO {
           + " as hdg where hdg.placeSortForm "
           + operator
           + " :term  and "
-          +" hdg.key.userViewString = '"+View.makeSingleViewString(cataloguingView)+"' "
+          + " hdg.key.userViewString = '" + View.makeSingleViewString(cataloguingView) + "' "
           + filter
           + " order by hdg.placeSortForm "
           + direction

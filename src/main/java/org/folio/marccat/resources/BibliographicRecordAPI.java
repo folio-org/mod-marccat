@@ -1,18 +1,18 @@
 package org.folio.marccat.resources;
 
-import org.folio.marccat.util.F;
-import org.folio.marccat.config.Global;
 import org.folio.marccat.ModMarccat;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.business.common.View;
+import org.folio.marccat.config.Global;
+import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.domain.ConversionFieldUtils;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.DuplicateTagException;
 import org.folio.marccat.integration.StorageService;
-import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.resources.domain.*;
 import org.folio.marccat.resources.domain.Error;
 import org.folio.marccat.shared.GeneralInformation;
 import org.folio.marccat.shared.Validation;
+import org.folio.marccat.util.F;
 import org.folio.marccat.util.StringText;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +24,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static java.util.Optional.ofNullable;
-import static org.folio.marccat.util.F.isNotNullOrEmpty;
 import static org.folio.marccat.integration.CatalogingHelper.*;
+import static org.folio.marccat.util.F.isNotNullOrEmpty;
 
 /**
  * Bibliographic records API.
@@ -40,21 +40,21 @@ public class BibliographicRecordAPI extends BaseResource {
 
 
   @GetMapping("/bibliographic-record/{id}")
-  public ResponseEntity <Object> getRecord(
-		    @RequestParam final Integer id,
-		    @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
-		    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-		    return doGet((storageService, configuration) -> {
-		      final ContainerRecordTemplate container = storageService.getBibliographicRecordById(id, view);
-		      final BibliographicRecord record = container.getBibliographicRecord();
-		      if (record != null)
-		        resetStatus(record);
-		      else {
-		        return new ResponseEntity <>(container, HttpStatus.NOT_FOUND);
-		      }
+  public ResponseEntity<Object> getRecord(
+    @RequestParam final Integer id,
+    @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    return doGet((storageService, configuration) -> {
+      final ContainerRecordTemplate container = storageService.getBibliographicRecordById(id, view);
+      final BibliographicRecord record = container.getBibliographicRecord();
+      if (record != null)
+        resetStatus(record);
+      else {
+        return new ResponseEntity<>(container, HttpStatus.NOT_FOUND);
+      }
 
-		      return new ResponseEntity <>(container, HttpStatus.OK);
-		    }, tenant, configurator);
+      return new ResponseEntity<>(container, HttpStatus.OK);
+    }, tenant, configurator);
   }
 
 
@@ -115,59 +115,59 @@ public class BibliographicRecordAPI extends BaseResource {
 
 
   @PostMapping("/bibliographic-record")
-  public ResponseEntity <Object> save(
-		  @RequestBody final ContainerRecordTemplate container,
-		    @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
-		    @RequestParam final String lang,
-		    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+  public ResponseEntity<Object> save(
+    @RequestBody final ContainerRecordTemplate container,
+    @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
+    @RequestParam final String lang,
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
 
-		    return doPost((storageService, configuration) -> {
-		      try {
+    return doPost((storageService, configuration) -> {
+      try {
 
-		        final BibliographicRecord record = container.getBibliographicRecord();
-		        final RecordTemplate template = ofNullable(container.getRecordTemplate()).get();
+        final BibliographicRecord record = container.getBibliographicRecord();
+        final RecordTemplate template = ofNullable(container.getRecordTemplate()).get();
 
-		        record.getFields().forEach(field -> setCategory(field, storageService));
+        record.getFields().forEach(field -> setCategory(field, storageService));
 
-		        final Integer itemNumber = record.getId();
-		        final ErrorCollection errors = validate(record, storageService);
-		        if (!errors.getErrors().isEmpty())
-		          return systemInternalFailure(new DataAccessException(), errors);
+        final Integer itemNumber = record.getId();
+        final ErrorCollection errors = validate(record, storageService);
+        if (!errors.getErrors().isEmpty())
+          return systemInternalFailure(new DataAccessException(), errors);
 
-		        final GeneralInformation gi = new GeneralInformation();
-		        gi.setDefaultValues(configuration);
+        final GeneralInformation gi = new GeneralInformation();
+        gi.setDefaultValues(configuration);
 
-		        final Leader leader = record.getLeader();
-		        record.getFields().stream().filter(this::isFixedField)
-		          .filter(field -> field.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE) ||
-		            field.getCode().equalsIgnoreCase(Global.OTHER_MATERIAL_TAG_CODE) ||
-		            field.getCode().equalsIgnoreCase(Global.PHYSICAL_DESCRIPTION_TAG_CODE)).forEach(field -> {
+        final Leader leader = record.getLeader();
+        record.getFields().stream().filter(this::isFixedField)
+          .filter(field -> field.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE) ||
+            field.getCode().equalsIgnoreCase(Global.OTHER_MATERIAL_TAG_CODE) ||
+            field.getCode().equalsIgnoreCase(Global.PHYSICAL_DESCRIPTION_TAG_CODE)).forEach(field -> {
 
-		          FixedField ff = field.getFixedField();
-		          final int headerTypeCode = ff.getHeaderTypeCode();
+          FixedField ff = field.getFixedField();
+          final int headerTypeCode = ff.getHeaderTypeCode();
 
-		          if (field.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE) || field.getCode().equalsIgnoreCase(Global.OTHER_MATERIAL_TAG_CODE)) {
+          if (field.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE) || field.getCode().equalsIgnoreCase(Global.OTHER_MATERIAL_TAG_CODE)) {
 
-		            final Map <String, Object> mapRecordTypeMaterial = (field.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE))
-		              ?storageService.getMaterialTypeInfosByLeaderValues(leader.getValue().charAt(6), leader.getValue().charAt(7), field.getCode())
-		              :storageService.getMaterialTypeInfosByHeaderCode(headerTypeCode, field.getCode());
+            final Map<String, Object> mapRecordTypeMaterial = (field.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE))
+              ? storageService.getMaterialTypeInfosByLeaderValues(leader.getValue().charAt(6), leader.getValue().charAt(7), field.getCode())
+              : storageService.getMaterialTypeInfosByHeaderCode(headerTypeCode, field.getCode());
 
-		            ConversionFieldUtils.setMaterialValuesInFixedField(ff, (String) mapRecordTypeMaterial.get(Global.FORM_OF_MATERIAL_LABEL));
-		          } else
-		              ConversionFieldUtils.setPhysicalInformationValuesInFixedField(ff);
-		        });
+            ConversionFieldUtils.setMaterialValuesInFixedField(ff, (String) mapRecordTypeMaterial.get(Global.FORM_OF_MATERIAL_LABEL));
+          } else
+            ConversionFieldUtils.setPhysicalInformationValuesInFixedField(ff);
+        });
 
-		        storageService.saveBibliographicRecord(record, template, view, gi, lang);
-		        final ContainerRecordTemplate containerSaved = storageService.getBibliographicRecordById(itemNumber, view);
-		        resetStatus(containerSaved.getBibliographicRecord());
-		        return new ResponseEntity <>(containerSaved, HttpStatus.OK);
+        storageService.saveBibliographicRecord(record, template, view, gi, lang);
+        final ContainerRecordTemplate containerSaved = storageService.getBibliographicRecordById(itemNumber, view);
+        resetStatus(containerSaved.getBibliographicRecord());
+        return new ResponseEntity<>(containerSaved, HttpStatus.OK);
 
-		      } catch (final Exception exception) {
-		        logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
-		        return new ResponseEntity <>(container, HttpStatus.INTERNAL_SERVER_ERROR);
-		      }
-		    }, tenant, configurator, () -> isNotNullOrEmpty(container.getBibliographicRecord().getId().toString()), "bibliographic", "material");
-		  }
+      } catch (final Exception exception) {
+        logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+        return new ResponseEntity<>(container, HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+    }, tenant, configurator, () -> isNotNullOrEmpty(container.getBibliographicRecord().getId().toString()), "bibliographic", "material");
+  }
 
 
   /**
@@ -257,8 +257,8 @@ public class BibliographicRecordAPI extends BaseResource {
    * @throws DuplicateTagException in case of duplicate tag exception.
    */
   private String checkRepeatability(final BibliographicRecord record, final StorageService storage) {
-    Map <String, List <Field>> fieldsGroupedByCode = record.getFields().stream().collect(Collectors.groupingBy(Field::getCode));
-    List <String> duplicates =
+    Map<String, List<Field>> fieldsGroupedByCode = record.getFields().stream().collect(Collectors.groupingBy(Field::getCode));
+    List<String> duplicates =
       fieldsGroupedByCode.entrySet().stream()
         .filter(entry -> entry.getValue().size() > 1)
         .map(Map.Entry::getKey).collect(Collectors.toList());
@@ -284,7 +284,7 @@ public class BibliographicRecordAPI extends BaseResource {
    * @return check mandatory.
    */
   private boolean checkMandatory(final BibliographicRecord record) {
-    List <String> found = new ArrayList <>();
+    List<String> found = new ArrayList<>();
     if (record.getLeader() != null)
       found.add(record.getLeader().getCode());
 
@@ -293,7 +293,7 @@ public class BibliographicRecordAPI extends BaseResource {
         found.add(field.getCode());
       }
     });
-    ArrayList <String> result = new ArrayList <>(Global.MANDATORY_FIELDS);
+    ArrayList<String> result = new ArrayList<>(Global.MANDATORY_FIELDS);
     result.retainAll(found);
     return result.size() == Global.MANDATORY_FIELDS.size() && !found.isEmpty();
   }
@@ -316,14 +316,15 @@ public class BibliographicRecordAPI extends BaseResource {
    */
   private int getCategory(final Field field) {
 
-	    if (isFixedField(field))
-	      return Global.HEADER_CATEGORY;
+    if (isFixedField(field))
+      return Global.HEADER_CATEGORY;
 
-	    if (!isFixedField(field) && ofNullable(field.getVariableField().getCategoryCode()).isPresent())
-	      return field.getVariableField().getCategoryCode();
+    if (!isFixedField(field) && ofNullable(field.getVariableField().getCategoryCode()).isPresent())
+      return field.getVariableField().getCategoryCode();
 
-	    return 0;
+    return 0;
   }
+
   /**
    * Sets the default leader value.
    *
@@ -390,24 +391,23 @@ public class BibliographicRecordAPI extends BaseResource {
   }
 
 
-/**
- * Sets category code on field.
- *
- * @param field -- the field to set category.
- * @param storageService -- the storageService module.
- */
-private void setCategory(final Field field, final StorageService storageService) {
-  if (isFixedField(field))
-    field.getFixedField().setCategoryCode(Global.HEADER_CATEGORY);
-  else
-    if (getCategory(field) == 0){
+  /**
+   * Sets category code on field.
+   *
+   * @param field          -- the field to set category.
+   * @param storageService -- the storageService module.
+   */
+  private void setCategory(final Field field, final StorageService storageService) {
+    if (isFixedField(field))
+      field.getFixedField().setCategoryCode(Global.HEADER_CATEGORY);
+    else if (getCategory(field) == 0) {
       boolean hasTitle = ((field.getCode().endsWith("00") || field.getCode().endsWith("10") || field.getCode().endsWith("11"))
-        && field.getVariableField().getValue().contains(Global.DOLLAR+"t"));
+        && field.getVariableField().getValue().contains(Global.SUBFIELD_DELIMITER + "t"));
 
       final int category = storageService.getTagCategory(field.getCode(),
         field.getVariableField().getInd1().charAt(0), field.getVariableField().getInd2().charAt(0), hasTitle);
       field.getVariableField().setCategoryCode(category);
     }
 
-}
+  }
 }

@@ -8,7 +8,10 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.AbstractMap;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 import java.util.stream.StreamSupport;
 
 import static java.util.stream.Collectors.toMap;

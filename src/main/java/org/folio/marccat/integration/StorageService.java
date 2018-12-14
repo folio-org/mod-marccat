@@ -1,9 +1,33 @@
 package org.folio.marccat.integration;
 
-import static java.util.Collections.emptyList;
-import static java.util.Optional.ofNullable;
-import static org.folio.marccat.util.F.isNotNullOrEmpty;
-import static org.folio.marccat.util.F.locale;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import org.folio.marccat.business.cataloguing.bibliographic.*;
+import org.folio.marccat.business.cataloguing.bibliographic.FixedField;
+import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
+import org.folio.marccat.business.cataloguing.common.*;
+import org.folio.marccat.business.codetable.Avp;
+import org.folio.marccat.business.common.View;
+import org.folio.marccat.config.Global;
+import org.folio.marccat.config.log.Log;
+import org.folio.marccat.config.log.MessageCatalog;
+import org.folio.marccat.dao.*;
+import org.folio.marccat.dao.persistence.*;
+import org.folio.marccat.enumaration.CodeListsType;
+import org.folio.marccat.exception.*;
+import org.folio.marccat.integration.record.BibliographicInputFile;
+import org.folio.marccat.integration.record.RecordParser;
+import org.folio.marccat.integration.search.Parser;
+import org.folio.marccat.model.Subfield;
+import org.folio.marccat.resources.domain.*;
+import org.folio.marccat.resources.domain.Leader;
+import org.folio.marccat.search.SearchResponse;
+import org.folio.marccat.shared.*;
+import org.folio.marccat.util.F;
+import org.folio.marccat.util.StringText;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -12,128 +36,14 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
-import org.folio.marccat.business.cataloguing.bibliographic.BibliographicAccessPoint;
-import org.folio.marccat.business.cataloguing.bibliographic.BibliographicCatalog;
-import org.folio.marccat.business.cataloguing.bibliographic.BibliographicItem;
-import org.folio.marccat.business.cataloguing.bibliographic.BibliographicTagImpl;
-import org.folio.marccat.business.cataloguing.bibliographic.FixedField;
-import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
-import org.folio.marccat.business.cataloguing.common.Browsable;
-import org.folio.marccat.business.cataloguing.common.CataloguingSourceTag;
-import org.folio.marccat.business.cataloguing.common.ControlNumberTag;
-import org.folio.marccat.business.cataloguing.common.DateOfLastTransactionTag;
-import org.folio.marccat.business.cataloguing.common.Tag;
-import org.folio.marccat.business.cataloguing.common.TagImpl;
-import org.folio.marccat.business.codetable.Avp;
-import org.folio.marccat.business.common.View;
-import org.folio.marccat.config.Global;
-import org.folio.marccat.config.log.Log;
-import org.folio.marccat.config.log.MessageCatalog;
-import org.folio.marccat.dao.AutDAO;
-import org.folio.marccat.dao.AuthorityCatalogDAO;
-import org.folio.marccat.dao.AuthorityModelDAO;
-import org.folio.marccat.dao.BibliographicCatalogDAO;
-import org.folio.marccat.dao.BibliographicCorrelationDAO;
-import org.folio.marccat.dao.BibliographicModelDAO;
-import org.folio.marccat.dao.BibliographicModelItemDAO;
-import org.folio.marccat.dao.BibliographicValidationDAO;
-import org.folio.marccat.dao.DAOCache;
-import org.folio.marccat.dao.DAOCodeTable;
-import org.folio.marccat.dao.DAODescriptor;
-import org.folio.marccat.dao.DAOFullCache;
-import org.folio.marccat.dao.DAOIndexList;
-import org.folio.marccat.dao.DAOSortResultSets;
-import org.folio.marccat.dao.NameTitleNameDescriptorDAO;
-import org.folio.marccat.dao.PublisherDescriptorDAO;
-import org.folio.marccat.dao.RecordTypeMaterialDAO;
-import org.folio.marccat.dao.ShelfListDAO;
-import org.folio.marccat.dao.SystemNextNumberDAO;
-import org.folio.marccat.dao.persistence.AUT;
-import org.folio.marccat.dao.persistence.AccessPoint;
-import org.folio.marccat.dao.persistence.AuthorityModel;
-import org.folio.marccat.dao.persistence.BibliographicCorrelation;
-import org.folio.marccat.dao.persistence.BibliographicLeader;
-import org.folio.marccat.dao.persistence.BibliographicModel;
-import org.folio.marccat.dao.persistence.BibliographicNoteTag;
-import org.folio.marccat.dao.persistence.BibliographicNoteType;
-import org.folio.marccat.dao.persistence.BibliographicRelationType;
-import org.folio.marccat.dao.persistence.BibliographicRelationshipTag;
-import org.folio.marccat.dao.persistence.CasCache;
-import org.folio.marccat.dao.persistence.CatalogItem;
-import org.folio.marccat.dao.persistence.ClassificationFunction;
-import org.folio.marccat.dao.persistence.ClassificationType;
-import org.folio.marccat.dao.persistence.ControlNumberFunction;
-import org.folio.marccat.dao.persistence.ControlNumberType;
-import org.folio.marccat.dao.persistence.Correlation;
-import org.folio.marccat.dao.persistence.CorrelationKey;
-import org.folio.marccat.dao.persistence.Descriptor;
-import org.folio.marccat.dao.persistence.FULL_CACHE;
-import org.folio.marccat.dao.persistence.LDG_STATS;
-import org.folio.marccat.dao.persistence.LOADING_MARC_RECORDS;
-import org.folio.marccat.dao.persistence.MaterialDescription;
-import org.folio.marccat.dao.persistence.Model;
-import org.folio.marccat.dao.persistence.NameFunction;
-import org.folio.marccat.dao.persistence.NameSubType;
-import org.folio.marccat.dao.persistence.NameType;
-import org.folio.marccat.dao.persistence.PhysicalDescription;
-import org.folio.marccat.dao.persistence.PublisherManager;
-import org.folio.marccat.dao.persistence.RecordTypeMaterial;
-import org.folio.marccat.dao.persistence.SubjectFunction;
-import org.folio.marccat.dao.persistence.SubjectSource;
-import org.folio.marccat.dao.persistence.SubjectType;
-import org.folio.marccat.dao.persistence.T_BIB_HDR;
-import org.folio.marccat.dao.persistence.T_ITM_BIB_LVL;
-import org.folio.marccat.dao.persistence.T_ITM_CCS;
-import org.folio.marccat.dao.persistence.T_ITM_CNTL_TYP;
-import org.folio.marccat.dao.persistence.T_ITM_DSCTV_CTLG;
-import org.folio.marccat.dao.persistence.T_ITM_ENCDG_LVL;
-import org.folio.marccat.dao.persistence.T_ITM_LNK_REC;
-import org.folio.marccat.dao.persistence.T_ITM_REC_STUS;
-import org.folio.marccat.dao.persistence.T_ITM_REC_TYP;
-import org.folio.marccat.dao.persistence.T_NME_TTL_FNCTN;
-import org.folio.marccat.dao.persistence.T_SKP_IN_FLNG_CNT;
-import org.folio.marccat.dao.persistence.TitleAccessPoint;
-import org.folio.marccat.dao.persistence.TitleFunction;
-import org.folio.marccat.dao.persistence.TitleSecondaryFunction;
-import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.exception.InvalidBrowseIndexException;
-import org.folio.marccat.exception.ModMarccatException;
-import org.folio.marccat.exception.RecordInUseException;
-import org.folio.marccat.exception.RecordNotFoundException;
-import org.folio.marccat.integration.record.BibliographicInputFile;
-import org.folio.marccat.integration.record.RecordParser;
-import org.folio.marccat.integration.search.Parser;
-import org.folio.marccat.model.Subfield;
-import org.folio.marccat.resources.domain.BibliographicRecord;
-import org.folio.marccat.resources.domain.ContainerRecordTemplate;
-import org.folio.marccat.resources.domain.CountDocument;
-import org.folio.marccat.resources.domain.Field;
-import org.folio.marccat.resources.domain.Leader;
-import org.folio.marccat.resources.domain.RecordTemplate;
-import org.folio.marccat.search.SearchResponse;
-import org.folio.marccat.shared.CodeListsType;
-import org.folio.marccat.shared.CorrelationValues;
-import org.folio.marccat.shared.GeneralInformation;
-import org.folio.marccat.shared.MapHeading;
-import org.folio.marccat.shared.Validation;
-import org.folio.marccat.util.F;
-import org.folio.marccat.util.StringText;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
+import static java.util.Collections.emptyList;
+import static java.util.Optional.ofNullable;
+import static org.folio.marccat.util.F.isNotNullOrEmpty;
+import static org.folio.marccat.util.F.locale;
 
 
 /**
@@ -149,10 +59,9 @@ import net.sf.hibernate.Session;
 public class StorageService implements Closeable {
 
   private static final Log logger = new Log(StorageService.class);
-
-
-  private final Session session;
-  private final static Map <Integer, Class> FIRST_CORRELATION_HEADING_CLASS_MAP = new HashMap <>();
+  private final static Map<Integer, Class> FIRST_CORRELATION_HEADING_CLASS_MAP = new HashMap<>();
+  private final static Map<Integer, Class> SECOND_CORRELATION_CLASS_MAP = new HashMap<>();
+  private final static Map<Integer, Class> THIRD_CORRELATION_HEADING_CLASS_MAP = new HashMap<>();
 
   static {
     FIRST_CORRELATION_HEADING_CLASS_MAP.put(1, T_BIB_HDR.class);
@@ -171,7 +80,6 @@ public class StorageService implements Closeable {
     FIRST_CORRELATION_HEADING_CLASS_MAP.put(11, T_NME_TTL_FNCTN.class);
   }
 
-  private final static Map <Integer, Class> SECOND_CORRELATION_CLASS_MAP = new HashMap <>();
   static {
     SECOND_CORRELATION_CLASS_MAP.put(2, NameSubType.class);
     SECOND_CORRELATION_CLASS_MAP.put(3, TitleSecondaryFunction.class);
@@ -181,12 +89,13 @@ public class StorageService implements Closeable {
     SECOND_CORRELATION_CLASS_MAP.put(11, NameType.class);
   }
 
-  private final static Map <Integer, Class> THIRD_CORRELATION_HEADING_CLASS_MAP = new HashMap <>();
   static {
     THIRD_CORRELATION_HEADING_CLASS_MAP.put(2, NameFunction.class);
     THIRD_CORRELATION_HEADING_CLASS_MAP.put(4, SubjectSource.class);
     THIRD_CORRELATION_HEADING_CLASS_MAP.put(11, NameSubType.class);
   }
+
+  private final Session session;
 
   /**
    * Builds a new {@link StorageService} with the given session.
@@ -277,14 +186,14 @@ public class StorageService implements Closeable {
         return new BibliographicCatalogDAO().getCatalogItemByKey(session, itemNumber, searchingView);
     }
   }
-  
+
   /**
    * Returns a list of {@link Avp} which represents a short version of the available bibliographic templates.
    *
    * @return a list of {@link Avp} which represents a short version of the available bibliographic templates.
    * @throws DataAccessException in case of data access failure.
    */
-  public List <Avp <Integer>> getBibliographicRecordTemplates() throws DataAccessException {
+  public List<Avp<Integer>> getBibliographicRecordTemplates() throws DataAccessException {
     final BibliographicModelDAO dao = new BibliographicModelDAO();
     try {
       return dao.getBibliographicModelList(session);
@@ -293,7 +202,7 @@ public class StorageService implements Closeable {
       throw new DataAccessException(exception);
     }
   }
-  
+
   /**
    * Return a Authority Record Template by id
    *
@@ -314,7 +223,7 @@ public class StorageService implements Closeable {
       throw new DataAccessException(exception);
     }
   }
-  
+
   /**
    * Save the new Authority record template.
    *
@@ -339,7 +248,7 @@ public class StorageService implements Closeable {
       throw new DataAccessException(exception);
     }
   }
-  
+
   /**
    * Deletes a Bibliographic record template.
    *
@@ -398,7 +307,7 @@ public class StorageService implements Closeable {
       throw new DataAccessException(exception);
     }
   }
-  
+
   /**
    * Update the Authority Record Template.
    *
@@ -423,7 +332,7 @@ public class StorageService implements Closeable {
       throw new DataAccessException(exception);
     }
   }
-  
+
   /**
    * Save the new Bibliographic Record Template.
    *
@@ -447,7 +356,7 @@ public class StorageService implements Closeable {
       throw new DataAccessException(exception);
     }
   }
-  
+
   /**
    * Return a Bibliographic Record Template by id.
    *
@@ -469,7 +378,7 @@ public class StorageService implements Closeable {
       throw new DataAccessException(exception);
     }
   }
-  
+
   /**
    * Load records from files uploaded.
    *
@@ -479,10 +388,10 @@ public class StorageService implements Closeable {
    * @param view            -- the cataloguing view associated.
    * @return map with loading result.
    */
-  public Map <String, Object> loadRecords(final MultipartFile file, final int startRecord, final int numberOfRecords,
-                                          final int view, final Map <String, String> configuration) {
-    final Map <String, Object> result = new HashMap <>();
-    List <Integer> ids = new ArrayList <>();
+  public Map<String, Object> loadRecords(final MultipartFile file, final int startRecord, final int numberOfRecords,
+                                         final int view, final Map<String, String> configuration) {
+    final Map<String, Object> result = new HashMap<>();
+    List<Integer> ids = new ArrayList<>();
     try {
       if (!file.isEmpty()) {
         final InputStream input = file.getInputStream();
@@ -492,7 +401,7 @@ public class StorageService implements Closeable {
         final DAOCodeTable dao = new DAOCodeTable();
         final LDG_STATS stats = dao.getStats(session, bf.getLoadingStatisticsNumber());
         if (stats.getRecordsAdded() > 0) {
-          final List <LOADING_MARC_RECORDS> lmr = (dao.getResults(session, bf.getLoadingStatisticsNumber()));
+          final List<LOADING_MARC_RECORDS> lmr = (dao.getResults(session, bf.getLoadingStatisticsNumber()));
           ids = lmr.stream().map(l -> l.getBibItemNumber()).collect(Collectors.toList());
         }
         result.put(Global.LOADING_FILE_FILENAME, file.getName());
@@ -589,7 +498,7 @@ public class StorageService implements Closeable {
    * @return a list of {@link Avp} which represents a short version of the available bibliographic templates.
    * @throws DataAccessException in case of data access failure.
    */
-  public List <Avp <Integer>> getAuthorityRecordTemplates() throws DataAccessException {
+  public List<Avp<Integer>> getAuthorityRecordTemplates() throws DataAccessException {
     final AuthorityModelDAO dao = new AuthorityModelDAO();
     try {
       return dao.getAuthorityModelList(session);
@@ -598,7 +507,7 @@ public class StorageService implements Closeable {
       throw new DataAccessException(exception);
     }
   }
-  
+
   /**
    * Creates a valid statement from the given connection.
    *
@@ -809,7 +718,7 @@ public class StorageService implements Closeable {
       throw new InvalidBrowseIndexException(key);
     }
   }
-  
+
   /**
    * Returns the codes list associated with the given language and key.
    *
@@ -818,7 +727,7 @@ public class StorageService implements Closeable {
    * @return a list of code / description tuples representing the date type associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
-  public List <Avp <String>> getCodesList(final String lang, final CodeListsType codeListType) throws DataAccessException {
+  public List<Avp<String>> getCodesList(final String lang, final CodeListsType codeListType) throws DataAccessException {
     final DAOCodeTable dao = new DAOCodeTable();
     return dao.getList(session, Global.MAP_CODE_LISTS.get(codeListType.toString()), locale(lang));
   }
@@ -860,9 +769,9 @@ public class StorageService implements Closeable {
    * @return a string representing form of material.
    * @throws DataAccessException in case of data access failure.
    */
-  public Map <String, Object> getMaterialTypeInfosByHeaderCode(final int headerCode, final String code) throws DataAccessException {
+  public Map<String, Object> getMaterialTypeInfosByHeaderCode(final int headerCode, final String code) throws DataAccessException {
 
-    final Map <String, Object> mapRecordTypeMaterial = new HashMap <>();
+    final Map<String, Object> mapRecordTypeMaterial = new HashMap<>();
     final RecordTypeMaterialDAO dao = new RecordTypeMaterialDAO();
     try {
       return ofNullable(dao.getDefaultTypeByHeaderCode(session, headerCode, code))
@@ -877,7 +786,7 @@ public class StorageService implements Closeable {
       throw new DataAccessException(exception);
     }
   }
-  
+
   /**
    * Return a correlation values for a specific tag number.
    *
@@ -903,7 +812,7 @@ public class StorageService implements Closeable {
       throw new DataAccessException(exception);
     }
   }
-  
+
   /**
    * Gets Validation for variable field.
    * Validation is related to sub-fields: valid, mandatory and default subfield
@@ -935,7 +844,7 @@ public class StorageService implements Closeable {
    * @return a list of code / description tuples representing the record type associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
-  public List <Avp <String>> getRecordTypes(final String lang) throws DataAccessException {
+  public List<Avp<String>> getRecordTypes(final String lang) throws DataAccessException {
     final DAOCodeTable dao = new DAOCodeTable();
     return dao.getList(session, T_ITM_REC_TYP.class, locale(lang));
   }
@@ -947,11 +856,11 @@ public class StorageService implements Closeable {
    * @return a list of code / description tuples representing the encoding level associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
-  public List <Avp <String>> getEncodingLevels(final String lang) throws DataAccessException {
+  public List<Avp<String>> getEncodingLevels(final String lang) throws DataAccessException {
     final DAOCodeTable dao = new DAOCodeTable();
     return dao.getList(session, T_ITM_ENCDG_LVL.class, locale(lang));
   }
-  
+
   /**
    * Gets the Material description information.
    * The values depend on mtrl_dsc and bib_itm data (leader).
@@ -962,12 +871,12 @@ public class StorageService implements Closeable {
    * @return a map with RecordTypeMaterial info.
    * @throws DataAccessException in case of data access failure.
    */
-  public Map <String, Object> getMaterialTypeInfosByLeaderValues(final char recordTypeCode, final char bibliographicLevel, final String code) throws DataAccessException {
+  public Map<String, Object> getMaterialTypeInfosByLeaderValues(final char recordTypeCode, final char bibliographicLevel, final String code) throws DataAccessException {
 
     final RecordTypeMaterialDAO dao = new RecordTypeMaterialDAO();
 
     try {
-      final Map <String, Object> mapRecordTypeMaterial = new HashMap <>();
+      final Map<String, Object> mapRecordTypeMaterial = new HashMap<>();
       final RecordTypeMaterial rtm = dao.getMaterialHeaderCode(session, recordTypeCode, bibliographicLevel);
 
       mapRecordTypeMaterial.put(Global.HEADER_TYPE_LABEL, (code.equals(Global.MATERIAL_TAG_CODE) ? rtm.getBibHeader008() : rtm.getBibHeader006()));
@@ -978,7 +887,7 @@ public class StorageService implements Closeable {
       throw new DataAccessException(exception);
     }
   }
-  
+
   /**
    * Returns the multipart resource level associated with the given language.
    *
@@ -986,11 +895,11 @@ public class StorageService implements Closeable {
    * @return a list of code / description tuples representing the multipart resource level associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
-  public List <Avp <String>> getMultipartResourceLevels(final String lang) throws DataAccessException {
+  public List<Avp<String>> getMultipartResourceLevels(final String lang) throws DataAccessException {
     final DAOCodeTable dao = new DAOCodeTable();
     return dao.getList(session, T_ITM_LNK_REC.class, locale(lang));
   }
-  
+
   /**
    * Returns the descriptive catalog forms associated with the given language.
    *
@@ -998,11 +907,11 @@ public class StorageService implements Closeable {
    * @return a list of code / description tuples representing the descriptive catalog forms associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
-  public List <Avp <String>> getDescriptiveCatalogForms(final String lang) throws DataAccessException {
+  public List<Avp<String>> getDescriptiveCatalogForms(final String lang) throws DataAccessException {
     final DAOCodeTable dao = new DAOCodeTable();
     return dao.getList(session, T_ITM_DSCTV_CTLG.class, locale(lang));
   }
-  
+
   /**
    * Returns the bibliographic levels associated with the given language.
    *
@@ -1010,11 +919,11 @@ public class StorageService implements Closeable {
    * @return a list of code / description tuples representing the bibliographic level associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
-  public List <Avp <String>> getBibliographicLevels(final String lang) throws DataAccessException {
+  public List<Avp<String>> getBibliographicLevels(final String lang) throws DataAccessException {
     final DAOCodeTable dao = new DAOCodeTable();
     return dao.getList(session, T_ITM_BIB_LVL.class, locale(lang));
   }
-  
+
   /**
    * Returns the character encoding schemas associated with the given language.
    *
@@ -1022,11 +931,11 @@ public class StorageService implements Closeable {
    * @return a list of code / description tuples representing the character encoding schema associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
-  public List <Avp <String>> getCharacterEncodingSchemas(final String lang) throws DataAccessException {
+  public List<Avp<String>> getCharacterEncodingSchemas(final String lang) throws DataAccessException {
     final DAOCodeTable dao = new DAOCodeTable();
     return dao.getList(session, T_ITM_CCS.class, locale(lang));
   }
-  
+
   /**
    * Returns the control types associated with the given language.
    *
@@ -1034,12 +943,12 @@ public class StorageService implements Closeable {
    * @return a list of code / description tuples representing the control type associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
-  public List <Avp <String>> getControlTypes(final String lang) throws DataAccessException {
+  public List<Avp<String>> getControlTypes(final String lang) throws DataAccessException {
     final DAOCodeTable dao = new DAOCodeTable();
     return dao.getList(session, T_ITM_CNTL_TYP.class, locale(lang));
   }
 
-  
+
   /**
    * Returns the record status types associated with the given language.
    *
@@ -1047,11 +956,11 @@ public class StorageService implements Closeable {
    * @return a list of code / description tuples representing the record status type associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
-  public List <Avp <String>> getRecordStatusTypes(final String lang) throws DataAccessException {
+  public List<Avp<String>> getRecordStatusTypes(final String lang) throws DataAccessException {
     final DAOCodeTable dao = new DAOCodeTable();
     return dao.getList(session, T_ITM_REC_STUS.class, locale(lang));
   }
-  
+
   /**
    * Returns the description for heading type entity.
    *
@@ -1065,6 +974,7 @@ public class StorageService implements Closeable {
     final DAOCodeTable dao = new DAOCodeTable();
     return dao.getLongText(session, code, FIRST_CORRELATION_HEADING_CLASS_MAP.get(category), locale(lang));
   }
+
   /**
    * Return the language independent (key) index value to be used when
    * browsing for entries of this type of Descriptor
@@ -1140,137 +1050,137 @@ public class StorageService implements Closeable {
    */
   public ContainerRecordTemplate getBibliographicRecordById(final int itemNumber, final int view) {
 
-	    final ContainerRecordTemplate container = new ContainerRecordTemplate();
-	    CatalogItem item = null;
-	    try {
-	      item = getCatalogItemByKey(itemNumber, view);
-	    } catch (RecordNotFoundException re) {
-	      return null;
-	    }
+    final ContainerRecordTemplate container = new ContainerRecordTemplate();
+    CatalogItem item = null;
+    try {
+      item = getCatalogItemByKey(itemNumber, view);
+    } catch (RecordNotFoundException re) {
+      return null;
+    }
 
-	    final BibliographicRecord bibliographicRecord = new BibliographicRecord();
-	    bibliographicRecord.setId(item.getAmicusNumber());
-	    bibliographicRecord.setRecordView(item.getUserView());
+    final BibliographicRecord bibliographicRecord = new BibliographicRecord();
+    bibliographicRecord.setId(item.getAmicusNumber());
+    bibliographicRecord.setRecordView(item.getUserView());
 
-	    org.folio.marccat.resources.domain.Leader leader = new org.folio.marccat.resources.domain.Leader();
-	    leader.setCode("000");
-	    leader.setValue(((org.folio.marccat.dao.persistence.Leader) item.getTag(0)).getDisplayString());
-	    bibliographicRecord.setLeader(leader);
-	    final char canadianIndicator = ((BibliographicItem) item).getBibItmData().getCanadianContentIndicator();
-	    bibliographicRecord.setCanadianContentIndicator(String.valueOf(canadianIndicator));
-	    bibliographicRecord.setVerificationLevel(String.valueOf(item.getItemEntity().getVerificationLevel()));
+    org.folio.marccat.resources.domain.Leader leader = new org.folio.marccat.resources.domain.Leader();
+    leader.setCode("000");
+    leader.setValue(((org.folio.marccat.dao.persistence.Leader) item.getTag(0)).getDisplayString());
+    bibliographicRecord.setLeader(leader);
+    final char canadianIndicator = ((BibliographicItem) item).getBibItmData().getCanadianContentIndicator();
+    bibliographicRecord.setCanadianContentIndicator(String.valueOf(canadianIndicator));
+    bibliographicRecord.setVerificationLevel(String.valueOf(item.getItemEntity().getVerificationLevel()));
 
-	    item.getTags().stream().skip(1).forEach(aTag -> {
-	      int keyNumber = 0;
-	      int sequenceNbr = 0;
-	      int skipInFiling = 0;
+    item.getTags().stream().skip(1).forEach(aTag -> {
+      int keyNumber = 0;
+      int sequenceNbr = 0;
+      int skipInFiling = 0;
 
-	      if (aTag.isFixedField() && aTag instanceof MaterialDescription) {
-	        final MaterialDescription materialTag = (MaterialDescription) aTag;
-	        keyNumber = materialTag.getMaterialDescriptionKeyNumber();
-	        final String tagNbr = materialTag.getMaterialDescription008Indicator().equals("1") ? "008" : "006";
-	        final Map <String, Object> map = getMaterialTypeInfosByLeaderValues(materialTag.getItemRecordTypeCode(), materialTag.getItemBibliographicLevelCode(), tagNbr);
-	        materialTag.setHeaderType((int) map.get(Global.HEADER_TYPE_LABEL));
-	        materialTag.setMaterialTypeCode(tagNbr.equalsIgnoreCase("006") ? (String) map.get(Global.MATERIAL_TYPE_CODE_LABEL) : null);
-	        materialTag.setFormOfMaterial((String) map.get(Global.FORM_OF_MATERIAL_LABEL));
-	      }
+      if (aTag.isFixedField() && aTag instanceof MaterialDescription) {
+        final MaterialDescription materialTag = (MaterialDescription) aTag;
+        keyNumber = materialTag.getMaterialDescriptionKeyNumber();
+        final String tagNbr = materialTag.getMaterialDescription008Indicator().equals("1") ? "008" : "006";
+        final Map<String, Object> map = getMaterialTypeInfosByLeaderValues(materialTag.getItemRecordTypeCode(), materialTag.getItemBibliographicLevelCode(), tagNbr);
+        materialTag.setHeaderType((int) map.get(Global.HEADER_TYPE_LABEL));
+        materialTag.setMaterialTypeCode(tagNbr.equalsIgnoreCase("006") ? (String) map.get(Global.MATERIAL_TYPE_CODE_LABEL) : null);
+        materialTag.setFormOfMaterial((String) map.get(Global.FORM_OF_MATERIAL_LABEL));
+      }
 
-	      if (aTag.isFixedField() && aTag instanceof PhysicalDescription) {
-	        final PhysicalDescription physicalTag = (PhysicalDescription) aTag;
-	        keyNumber = physicalTag.getKeyNumber();
-	      }
+      if (aTag.isFixedField() && aTag instanceof PhysicalDescription) {
+        final PhysicalDescription physicalTag = (PhysicalDescription) aTag;
+        keyNumber = physicalTag.getKeyNumber();
+      }
 
-	      if (!aTag.isFixedField() && aTag instanceof BibliographicAccessPoint) {
-	        keyNumber = ((BibliographicAccessPoint) aTag).getDescriptor().getKey().getHeadingNumber();
-	        try {
-	          sequenceNbr = ((BibliographicAccessPoint) aTag).getSequenceNumber();
-	        } catch (Exception e) {
-	          sequenceNbr = 0;
-	        }
+      if (!aTag.isFixedField() && aTag instanceof BibliographicAccessPoint) {
+        keyNumber = ((BibliographicAccessPoint) aTag).getDescriptor().getKey().getHeadingNumber();
+        try {
+          sequenceNbr = ((BibliographicAccessPoint) aTag).getSequenceNumber();
+        } catch (Exception e) {
+          sequenceNbr = 0;
+        }
 
-	        if (aTag instanceof TitleAccessPoint) {
-	          skipInFiling = ((TitleAccessPoint) aTag).getDescriptor().getSkipInFiling();
-	        }
-	      }
+        if (aTag instanceof TitleAccessPoint) {
+          skipInFiling = ((TitleAccessPoint) aTag).getDescriptor().getSkipInFiling();
+        }
+      }
 
-	      if (!aTag.isFixedField() && aTag instanceof BibliographicNoteTag) {
-	        keyNumber = ((BibliographicNoteTag) aTag).getNoteNbr();
-	        try {
-	          sequenceNbr = ((BibliographicNoteTag) aTag).getSequenceNumber();
-	        } catch (Exception e) {
-	          sequenceNbr = 0;
-	        }
-	      }
+      if (!aTag.isFixedField() && aTag instanceof BibliographicNoteTag) {
+        keyNumber = ((BibliographicNoteTag) aTag).getNoteNbr();
+        try {
+          sequenceNbr = ((BibliographicNoteTag) aTag).getSequenceNumber();
+        } catch (Exception e) {
+          sequenceNbr = 0;
+        }
+      }
 
-	      if (!aTag.isFixedField() && aTag instanceof PublisherManager) {
-	        keyNumber = ((PublisherManager) aTag).getPublisherTagUnits().get(0).getPublisherHeadingNumber(); //add gestione multi publisher
-	      }
+      if (!aTag.isFixedField() && aTag instanceof PublisherManager) {
+        keyNumber = ((PublisherManager) aTag).getPublisherTagUnits().get(0).getPublisherHeadingNumber(); //add gestione multi publisher
+      }
 
-	      final CorrelationKey correlation = aTag.getTagImpl().getMarcEncoding(aTag, session);
+      final CorrelationKey correlation = aTag.getTagImpl().getMarcEncoding(aTag, session);
 
-	      final String entry = aTag.isFixedField()
-	        ? (((FixedField) aTag).getDisplayString())
-	        : ((VariableField) aTag).getStringText().getMarcDisplayString(Subfield.SUBFIELD_DELIMITER);
+      final String entry = aTag.isFixedField()
+        ? (((FixedField) aTag).getDisplayString())
+        : ((VariableField) aTag).getStringText().getMarcDisplayString(Subfield.SUBFIELD_DELIMITER);
 
-	      final org.folio.marccat.resources.domain.Field field = new org.folio.marccat.resources.domain.Field();
-	      org.folio.marccat.resources.domain.VariableField variableField;
-	      org.folio.marccat.resources.domain.FixedField fixedField;
-	      String tagNumber = correlation.getMarcTag();
-	      if (aTag.isFixedField()) {
-	        fixedField = new org.folio.marccat.resources.domain.FixedField();
-	        fixedField.setSequenceNumber(ofNullable(sequenceNbr).isPresent() ? sequenceNbr : 0);
-	        fixedField.setCode(tagNumber);
-	        fixedField.setDisplayValue(entry);
-	        fixedField.setHeaderTypeCode(aTag.getCorrelation(1));
-	        fixedField.setCategoryCode(aTag.getCategory());
-	        fixedField.setKeyNumber(keyNumber);
-	        field.setFixedField(fixedField);
-	      } else {
-	        variableField = new org.folio.marccat.resources.domain.VariableField();
-	        variableField.setSequenceNumber(ofNullable(sequenceNbr).isPresent() ? sequenceNbr : 0);
-	        variableField.setCode(correlation.getMarcTag());
-	        variableField.setInd1("" + correlation.getMarcFirstIndicator());
-	        variableField.setInd2("" + correlation.getMarcSecondIndicator());
-	        variableField.setHeadingTypeCode(Integer.toString(aTag.getCorrelation(1)));
-	        variableField.setItemTypeCode(Integer.toString(aTag.getCorrelation(2)));
-	        variableField.setFunctionCode(Integer.toString(aTag.getCorrelation(3)));
-	        variableField.setValue(entry);
-	        variableField.setCategoryCode(correlation.getMarcTagCategoryCode());
-	        variableField.setKeyNumber(keyNumber);
-	        variableField.setSkipInFiling(skipInFiling);
-	        if (variableField.getInd2().equals("S"))
-	          variableField.setInd2("" + skipInFiling);
-	        field.setVariableField(variableField);
-	      }
+      final org.folio.marccat.resources.domain.Field field = new org.folio.marccat.resources.domain.Field();
+      org.folio.marccat.resources.domain.VariableField variableField;
+      org.folio.marccat.resources.domain.FixedField fixedField;
+      String tagNumber = correlation.getMarcTag();
+      if (aTag.isFixedField()) {
+        fixedField = new org.folio.marccat.resources.domain.FixedField();
+        fixedField.setSequenceNumber(ofNullable(sequenceNbr).isPresent() ? sequenceNbr : 0);
+        fixedField.setCode(tagNumber);
+        fixedField.setDisplayValue(entry);
+        fixedField.setHeaderTypeCode(aTag.getCorrelation(1));
+        fixedField.setCategoryCode(aTag.getCategory());
+        fixedField.setKeyNumber(keyNumber);
+        field.setFixedField(fixedField);
+      } else {
+        variableField = new org.folio.marccat.resources.domain.VariableField();
+        variableField.setSequenceNumber(ofNullable(sequenceNbr).isPresent() ? sequenceNbr : 0);
+        variableField.setCode(correlation.getMarcTag());
+        variableField.setInd1("" + correlation.getMarcFirstIndicator());
+        variableField.setInd2("" + correlation.getMarcSecondIndicator());
+        variableField.setHeadingTypeCode(Integer.toString(aTag.getCorrelation(1)));
+        variableField.setItemTypeCode(Integer.toString(aTag.getCorrelation(2)));
+        variableField.setFunctionCode(Integer.toString(aTag.getCorrelation(3)));
+        variableField.setValue(entry);
+        variableField.setCategoryCode(correlation.getMarcTagCategoryCode());
+        variableField.setKeyNumber(keyNumber);
+        variableField.setSkipInFiling(skipInFiling);
+        if (variableField.getInd2().equals("S"))
+          variableField.setInd2("" + skipInFiling);
+        field.setVariableField(variableField);
+      }
 
-	      field.setCode(tagNumber);
+      field.setCode(tagNumber);
 
-	      bibliographicRecord.getFields().add(field);
-	    });
+      bibliographicRecord.getFields().add(field);
+    });
 
-	    container.setBibliographicRecord(bibliographicRecord);
-	    container.setRecordTemplate(ofNullable(item.getModelItem()).map(model -> {
-	      try {
-	        final ObjectMapper objectMapper = new ObjectMapper();
-	        final RecordTemplate template = objectMapper.readValue(model.getRecordFields(), RecordTemplate.class);
-	        template.setId(model.getModel().getId());
-	        return template;
-	      } catch (IOException exception) {
-	        logger.error(MessageCatalog._00013_IO_FAILURE, exception);
-	        return null;
-	      }
-	    }).orElse(null));
+    container.setBibliographicRecord(bibliographicRecord);
+    container.setRecordTemplate(ofNullable(item.getModelItem()).map(model -> {
+      try {
+        final ObjectMapper objectMapper = new ObjectMapper();
+        final RecordTemplate template = objectMapper.readValue(model.getRecordFields(), RecordTemplate.class);
+        template.setId(model.getModel().getId());
+        return template;
+      } catch (IOException exception) {
+        logger.error(MessageCatalog._00013_IO_FAILURE, exception);
+        return null;
+      }
+    }).orElse(null));
 
-	    return container;
-	  }
+    return container;
+  }
 
   /**
    * Gets category code using tag and indicators.
    *
-   * @param tag -- the tag number.
-   * @param firstIndicator -- the 1.st indicator.
+   * @param tag             -- the tag number.
+   * @param firstIndicator  -- the 1.st indicator.
    * @param secondIndicator -- the 2nd. indicator.
-   * @param hasTitle -- indicates if there is a title portion in tag value.
+   * @param hasTitle        -- indicates if there is a title portion in tag value.
    * @return category code.
    * @throws DataAccessException -- in case of DataAccessException.
    */
@@ -1286,11 +1196,10 @@ public class StorageService implements Closeable {
         return correlations.stream().filter(Objects::nonNull).findFirst().get().getKey().getMarcTagCategoryCode();
       } else {
         if (correlations.size() > 1) {
-          if ((tag.endsWith("00") || tag.endsWith("10") || tag.endsWith("11")) && hasTitle){
+          if ((tag.endsWith("00") || tag.endsWith("10") || tag.endsWith("11")) && hasTitle) {
             return Global.NAME_TITLE_CATEGORY;
-          } else
-            if (correlations.stream().filter(Objects::nonNull).findFirst().isPresent())
-              return correlations.stream().filter(Objects::nonNull).findFirst().get().getKey().getMarcTagCategoryCode();
+          } else if (correlations.stream().filter(Objects::nonNull).findFirst().isPresent())
+            return correlations.stream().filter(Objects::nonNull).findFirst().get().getKey().getMarcTagCategoryCode();
         }
       }
 
@@ -1333,25 +1242,25 @@ public class StorageService implements Closeable {
 
       final int an = item.getAmicusNumber();
       item.setModelItem(
-        ofNullable(template).map(t ->{
+        ofNullable(template).map(t -> {
           final BibliographicModelItemDAO dao = new BibliographicModelItemDAO();
           final ObjectMapper mapper = new ObjectMapper();
 
-        try {
-          BibliographicModel model = (BibliographicModel) ofNullable(dao.load(an, session).getModel()).get();
-          if (model == null)
-            model = new BibliographicModel();
+          try {
+            BibliographicModel model = (BibliographicModel) ofNullable(dao.load(an, session).getModel()).get();
+            if (model == null)
+              model = new BibliographicModel();
 
-          model.setId(t.getId());
-          model.setLabel(t.getName());
-          model.setFrbrFirstGroup(t.getGroup());
-          model.setRecordFields(mapper.writeValueAsString(t));
-          return model;
-        } catch (Exception e) {
-          logger.error(MessageCatalog._00023_SAVE_TEMPLATE_ASSOCIATED_FAILURE, t.getId(), record.getId(), e);
-          throw new RuntimeException(e);
-        }
-      }).orElse(null));
+            model.setId(t.getId());
+            model.setLabel(t.getName());
+            model.setFrbrFirstGroup(t.getGroup());
+            model.setRecordFields(mapper.writeValueAsString(t));
+            return model;
+          } catch (Exception e) {
+            logger.error(MessageCatalog._00023_SAVE_TEMPLATE_ASSOCIATED_FAILURE, t.getId(), record.getId(), e);
+            throw new RuntimeException(e);
+          }
+        }).orElse(null));
 
       if (isNotNullOrEmpty(record.getVerificationLevel()))
         item.getItemEntity().setVerificationLevel(record.getVerificationLevel().charAt(0));
@@ -1398,7 +1307,7 @@ public class StorageService implements Closeable {
         }
 
         if (tagNbr.equals(Global.OTHER_MATERIAL_TAG_CODE)) {
-          final Map <String, Object> mapRecordTypeMaterial = getMaterialTypeInfosByLeaderValues(newLeader.charAt(6), newLeader.charAt(7), tagNbr);
+          final Map<String, Object> mapRecordTypeMaterial = getMaterialTypeInfosByLeaderValues(newLeader.charAt(6), newLeader.charAt(7), tagNbr);
           final String formOfMaterial = (String) mapRecordTypeMaterial.get(Global.FORM_OF_MATERIAL_LABEL);
           recordParser.changeMaterialDescriptionOtherTag(item, field, session, formOfMaterial, generalInformation);
         }
@@ -1467,7 +1376,7 @@ public class StorageService implements Closeable {
       }
     });
   }
-  
+
   /**
    * Insert a new bibliographic record.
    *
@@ -1501,7 +1410,7 @@ public class StorageService implements Closeable {
       final String tagNbr = field.getCode();
       if (tagNbr.equals(Global.MATERIAL_TAG_CODE) || tagNbr.equals(Global.OTHER_MATERIAL_TAG_CODE)) {
         final org.folio.marccat.resources.domain.FixedField fixedField = field.getFixedField();
-        final Map <String, Object> mapRecordTypeMaterial;
+        final Map<String, Object> mapRecordTypeMaterial;
         final String formOfMaterial;
         if (tagNbr.equals(Global.MATERIAL_TAG_CODE)) {
           mapRecordTypeMaterial = getMaterialTypeInfosByLeaderValues(leader.getValue().charAt(6), leader.getValue().charAt(7), tagNbr);
@@ -1603,7 +1512,7 @@ public class StorageService implements Closeable {
     }
   }
 
-  
+
   /**
    * Delete a bibliographic record.
    *
@@ -1658,5 +1567,5 @@ public class StorageService implements Closeable {
     }
   }
 
-  
+
 }

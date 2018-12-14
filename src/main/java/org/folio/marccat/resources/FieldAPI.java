@@ -1,14 +1,9 @@
 package org.folio.marccat.resources;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import org.folio.marccat.util.F;
-import org.folio.marccat.config.Global;
 import org.folio.marccat.ModMarccat;
-import org.folio.marccat.integration.StorageService;
+import org.folio.marccat.config.Global;
 import org.folio.marccat.config.log.MessageCatalog;
+import org.folio.marccat.integration.StorageService;
 import org.folio.marccat.resources.domain.Field;
 import org.folio.marccat.resources.domain.FieldCollection;
 import org.folio.marccat.resources.domain.FixedField;
@@ -16,6 +11,7 @@ import org.folio.marccat.resources.domain.VariableField;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.shared.GeneralInformation;
 import org.folio.marccat.shared.Validation;
+import org.folio.marccat.util.F;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -68,7 +64,7 @@ public class FieldAPI extends BaseResource {
    * @return a new 040 {@link Field} entity populated with default values.
    */
   private Field createCatalogingSourceField(
-    final Map <String, String> configuration,
+    final Map<String, String> configuration,
     final StorageService storageService,
     final String lang) {
     final CorrelationValues correlationValues =
@@ -159,7 +155,7 @@ public class FieldAPI extends BaseResource {
    * @param lang           the lang associated with the current request.
    * @return the 008 default tag definition.
    */
-  private Field createRequiredMaterialDescriptionField(final Map <String, String> configuration, final StorageService storageService, final String lang) {
+  private Field createRequiredMaterialDescriptionField(final Map<String, String> configuration, final StorageService storageService, final String lang) {
 
     final String description = storageService.getHeadingTypeDescription(Global.MATERIAL_DESCRIPTION_HEADER_TYPE, lang, Global.INT_CATEGORY);
     final GeneralInformation generalInformation = new GeneralInformation();

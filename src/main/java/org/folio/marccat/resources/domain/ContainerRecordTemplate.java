@@ -23,7 +23,6 @@ public class ContainerRecordTemplate {
   private RecordTemplate recordTemplate;
 
   /**
-   *
    * @return the bibliographic record.
    */
   public BibliographicRecord getBibliographicRecord() {
@@ -31,7 +30,6 @@ public class ContainerRecordTemplate {
   }
 
   /**
-   *
    * @param bibliographicRecord the bibliographic record.
    */
   public void setBibliographicRecord(BibliographicRecord bibliographicRecord) {
@@ -39,7 +37,6 @@ public class ContainerRecordTemplate {
   }
 
   /**
-   *
    * @return the record template.
    */
   public RecordTemplate getRecordTemplate() {
@@ -47,7 +44,6 @@ public class ContainerRecordTemplate {
   }
 
   /**
-   *
    * @param recordTemplate the record template.
    */
   public void setRecordTemplate(RecordTemplate recordTemplate) {

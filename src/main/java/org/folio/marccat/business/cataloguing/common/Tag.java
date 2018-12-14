@@ -182,53 +182,53 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
 
 
   private Element toXmlElement(Document xmlDocument, boolean withPunctuation) {
-		CorrelationKey marcEncoding = null;
-		try {
-			marcEncoding = getMarcEncoding();
-		} catch (Exception exception) {
-			logger.warn("Invalid tag found in Tag.toXmlElement");
-			return xmlDocument.createElement("error");
-		}
+    CorrelationKey marcEncoding = null;
+    try {
+      marcEncoding = getMarcEncoding();
+    } catch (Exception exception) {
+      logger.warn("Invalid tag found in Tag.toXmlElement");
+      return xmlDocument.createElement("error");
+    }
 
-		String marcTag = marcEncoding.getMarcTag();
-		String marcFirstIndicator =""+ marcEncoding.getMarcFirstIndicator();
-		String marcSecondIndicator = ""+ marcEncoding.getMarcSecondIndicator();
+    String marcTag = marcEncoding.getMarcTag();
+    String marcFirstIndicator = "" + marcEncoding.getMarcFirstIndicator();
+    String marcSecondIndicator = "" + marcEncoding.getMarcSecondIndicator();
 
-		Element field = null;
-		if (isFixedField()) {
-			field = xmlDocument.createElement("controlfield");
-		} else {
-			field = xmlDocument.createElement("datafield");
-		}
-		field.setAttribute("tag", marcTag);
-		if (isFixedField()) {
-			Node text = xmlDocument.createTextNode(((FixedField) this)
-					.getDisplayString());
-			field.appendChild(text);
-		} else {
-			field.setAttribute("ind1", marcFirstIndicator);
-			field.setAttribute("ind2", marcSecondIndicator);
-			StringText st;
-			if (withPunctuation) {
-				try {
-					st = addPunctuation();
-				} catch (Exception e) {
-        logger.warn(
-							"ErrorCollection adding punctuation, using original text", e);
-					st = ((VariableField) this).getStringText();
-				}
-			} else {
-				st = ((VariableField) this).getStringText();
-			}
-			for (Iterator subfieldIterator = st.getSubfieldList().iterator(); subfieldIterator
-					.hasNext();) {
-				Subfield subfield = (Subfield) subfieldIterator.next();
-				field.appendChild(subfield.toXmlElement(xmlDocument));
-			}
-		}
-		return field;
+    Element field = null;
+    if (isFixedField()) {
+      field = xmlDocument.createElement("controlfield");
+    } else {
+      field = xmlDocument.createElement("datafield");
+    }
+    field.setAttribute("tag", marcTag);
+    if (isFixedField()) {
+      Node text = xmlDocument.createTextNode(((FixedField) this)
+        .getDisplayString());
+      field.appendChild(text);
+    } else {
+      field.setAttribute("ind1", marcFirstIndicator);
+      field.setAttribute("ind2", marcSecondIndicator);
+      StringText st;
+      if (withPunctuation) {
+        try {
+          st = addPunctuation();
+        } catch (Exception e) {
+          logger.warn(
+            "ErrorCollection adding punctuation, using original text", e);
+          st = ((VariableField) this).getStringText();
+        }
+      } else {
+        st = ((VariableField) this).getStringText();
+      }
+      for (Iterator subfieldIterator = st.getSubfieldList().iterator(); subfieldIterator
+        .hasNext(); ) {
+        Subfield subfield = (Subfield) subfieldIterator.next();
+        field.appendChild(subfield.toXmlElement(xmlDocument));
+      }
+    }
+    return field;
 
-}
+  }
 
   public int hashCode() {
     return getItemNumber();
@@ -420,46 +420,47 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
    *
    * @return an Element
    */
-	  public Element toXmlElement(Document xmlDocument) {
-		    CorrelationKey marcEncoding = null;
-		    try {
-		      marcEncoding = getMarcEncoding();
-		    } catch (Exception exception) {
-		      throw new RuntimeException("Invalid tag found in Tag.toXmlElement");
-		    }
+  public Element toXmlElement(Document xmlDocument) {
+    CorrelationKey marcEncoding = null;
+    try {
+      marcEncoding = getMarcEncoding();
+    } catch (Exception exception) {
+      throw new RuntimeException("Invalid tag found in Tag.toXmlElement");
+    }
 
-		    String marcTag = marcEncoding.getMarcTag();
-		    String marcFirstIndicator = "" + marcEncoding.getMarcFirstIndicator();
-		    String marcSecondIndicator = "" + marcEncoding.getMarcSecondIndicator();
+    String marcTag = marcEncoding.getMarcTag();
+    String marcFirstIndicator = "" + marcEncoding.getMarcFirstIndicator();
+    String marcSecondIndicator = "" + marcEncoding.getMarcSecondIndicator();
 
-		    Element field = null;
-		    if (isFixedField()) {
-		      if (marcTag.equals("000"))
-		        field = xmlDocument.createElement("leader");
-		      else
-		        field = xmlDocument.createElement("controlfield");
-		    } else {
-		      field = xmlDocument.createElement("datafield");
-		    }
-		    field.setAttribute("tag", marcTag);
-		    if (!isFixedField()) {
-		      field.setAttribute("ind1", marcFirstIndicator);
-		      field.setAttribute("ind2", marcSecondIndicator);
-		      for (Iterator subfieldIterator =
-		           ((VariableField) this)
-		             .getStringText()
-		             .getSubfieldList()
-		             .iterator();
-		           subfieldIterator.hasNext();
-		        ) {
-		        Subfield subfield = (Subfield) subfieldIterator.next();
-		        field.appendChild(subfield.toXmlElement(xmlDocument));
-		      }
-		    }
-		    return field;
+    Element field = null;
+    if (isFixedField()) {
+      if (marcTag.equals("000"))
+        field = xmlDocument.createElement("leader");
+      else
+        field = xmlDocument.createElement("controlfield");
+    } else {
+      field = xmlDocument.createElement("datafield");
+    }
+    field.setAttribute("tag", marcTag);
+    if (!isFixedField()) {
+      field.setAttribute("ind1", marcFirstIndicator);
+      field.setAttribute("ind2", marcSecondIndicator);
+      for (Iterator subfieldIterator =
+           ((VariableField) this)
+             .getStringText()
+             .getSubfieldList()
+             .iterator();
+           subfieldIterator.hasNext();
+      ) {
+        Subfield subfield = (Subfield) subfieldIterator.next();
+        field.appendChild(subfield.toXmlElement(xmlDocument));
+      }
+    }
+    return field;
 
 
   }
+
   /**
    * This method is used to generated the model xml.
    *

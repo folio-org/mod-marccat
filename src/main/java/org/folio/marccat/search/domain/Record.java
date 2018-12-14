@@ -88,7 +88,7 @@ public interface Record {
   Document toXmlStyledDocument(
     String elementSetName,
     String stylesheet,
-    Map xsltParameters) ;
+    Map xsltParameters);
 
   /**
    * Applies an XSLT transformation to this record.
@@ -104,8 +104,7 @@ public interface Record {
   Document toXmlStyledDocument(
     String elementSetName,
     URL stylesheet,
-    Map xsltParameters) ;
-
+    Map xsltParameters);
 
 
   /**
@@ -122,7 +121,7 @@ public interface Record {
   String toStyledDocument(
     String elementSetName,
     URL stylesheet,
-    Map xsltParameters) ;
+    Map xsltParameters);
 
   void setCountDoc(int countDoc);
 

@@ -8,7 +8,9 @@ import org.folio.marccat.integration.StorageService;
 import org.folio.marccat.search.SearchResponse;
 import org.folio.marccat.search.domain.Record;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -116,10 +118,11 @@ public abstract class ModCatalogingSearchEngine implements SearchEngine {
 
   /**
    * retrieves searched term in query, filtering operators and indexes
+   *
    * @param query
    * @return a list of searched term in query, filtering operators and indexes
    */
-  public List<String> getTermsFromCCLQuery (final String query) {
+  public List<String> getTermsFromCCLQuery(final String query) {
     List<String> result = new ArrayList<>();
     //remove filters term from query
     String cleanedQuery = query.replaceAll("LAN\\s\"([^\"]*)\"", "").replaceAll("MAT\\s\"([^\"]*)\"", "").replaceAll("BIB\\s\"([^\"]*)\"", "");
@@ -128,15 +131,16 @@ public abstract class ModCatalogingSearchEngine implements SearchEngine {
     while (m.find()) {
       result.add(cleanPunctuation(m.group(1)));
     }
-    return  result;
+    return result;
   }
 
   /**
    * strips all punctuation from the text to help in compare
+   *
    * @param text
    * @return text cleaned
    */
-  public String cleanPunctuation (final String text) {
+  public String cleanPunctuation(final String text) {
     return (text != null) ? text.replaceAll(",|;|\\.|!", "") : null;
   }
 }

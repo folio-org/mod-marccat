@@ -61,7 +61,7 @@ public class TitleDescriptorDAO extends DAODescriptor {
         "select count(*) from TTL_NME_TTL_REF as ref "
           + " where ref.titleHeadingNumber = ? "
           + " and ref.sourceHeadingType = 'TH' "
-          + " and ref.userViewString = '"+View.makeSingleViewString(cataloguingView)+"'",
+          + " and ref.userViewString = '" + View.makeSingleViewString(cataloguingView) + "'",
         new Object[]{
           source.getKey().getHeadingNumber()},
         new Type[]{
@@ -72,7 +72,7 @@ public class TitleDescriptorDAO extends DAODescriptor {
         "select count(*) from NME_TO_TTL_REF as ref "
           + " where ref.titleHeadingNumber = ? "
           + " and ref.sourceHeadingType = 'TH' "
-          + " and ref.userViewString = '"+View.makeSingleViewString(cataloguingView)+"'",
+          + " and ref.userViewString = '" + View.makeSingleViewString(cataloguingView) + "'",
         new Object[]{
           source.getKey().getHeadingNumber()},
         new Type[]{
@@ -103,7 +103,7 @@ public class TitleDescriptorDAO extends DAODescriptor {
         "from TTL_NME_TTL_REF as ref "
           + " where ref.titleHeadingNumber = ? "
           + " and ref.sourceHeadingType = 'TH' "
-          + " and ref.userViewString = '"+View.makeSingleViewString(cataloguingView)+"'",
+          + " and ref.userViewString = '" + View.makeSingleViewString(cataloguingView) + "'",
         new Object[]{
           source.getKey().getHeadingNumber()},
         new Type[]{
@@ -113,7 +113,7 @@ public class TitleDescriptorDAO extends DAODescriptor {
         "from NME_TO_TTL_REF as ref "
           + " where ref.titleHeadingNumber = ? "
           + " and ref.sourceHeadingType = 'TH' "
-          + " and ref.userViewString = '"+View.makeSingleViewString(cataloguingView)+"'",
+          + " and ref.userViewString = '" + View.makeSingleViewString(cataloguingView) + "'",
         new Object[]{
           source.getKey().getHeadingNumber()},
         new Type[]{
@@ -144,7 +144,7 @@ public class TitleDescriptorDAO extends DAODescriptor {
         + " where ref.titleHeadingNumber = ? AND "
         + " ref.nameTitleHeadingNumber = ? AND "
         + " ref.sourceHeadingType = 'TH' AND "
-        + " ref.key.userViewString = '"+View.makeSingleViewString(cataloguingView)+"' AND "
+        + " ref.key.userViewString = '" + View.makeSingleViewString(cataloguingView) + "' AND "
         + " ref.key.type = ?";
       return loadReferenceByQuery(source, target, referenceType, cataloguingView, query, session);
     }
@@ -168,7 +168,7 @@ public class TitleDescriptorDAO extends DAODescriptor {
       session.find(
         "select count(*) from NME_TTL_HDG as d where "
           + " d.nameHeadingNumber = ? and "
-          + " d.key.userViewString = '"+View.makeSingleViewString(View.toIntView(title.getUserViewString()))+"'",
+          + " d.key.userViewString = '" + View.makeSingleViewString(View.toIntView(title.getUserViewString())) + "'",
         new Object[]{
           title.getKey().getHeadingNumber()},
         new Type[]{Hibernate.INTEGER});

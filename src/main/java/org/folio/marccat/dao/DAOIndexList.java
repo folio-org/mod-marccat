@@ -47,7 +47,7 @@ public class DAOIndexList extends AbstractDAO {
         + CODE_LIBRICAT
         + " order by a.languageDescription";
 
-    return getIndexBrowseByQuery (query, session);
+    return getIndexBrowseByQuery(query, session);
   }
 
   /**
@@ -57,8 +57,8 @@ public class DAOIndexList extends AbstractDAO {
    * IDX_LIST.IDX_LIST_KEY_NBR + IDX_LIST_TYPE_CDE
    *
    * @param mainType the main type, used here as a filter criterion.
-   * @param subType the sub type, used here as a filter criterion.
-   * @param session the session of hibernate
+   * @param subType  the sub type, used here as a filter criterion.
+   * @param session  the session of hibernate
    * @return the index
    * @throws HibernateException
    */
@@ -70,12 +70,12 @@ public class DAOIndexList extends AbstractDAO {
         + " and a.sortFormSubTypeCode = "
         + subType
         + LANGUAGE
-        + Locale.ENGLISH.getISO3Language ( )
+        + Locale.ENGLISH.getISO3Language()
         + CODE_LIBRICAT;
 
-    final List <IndexListElement> l = getIndexByQuery (query, session);
+    final List<IndexListElement> l = getIndexByQuery(query, session);
     if (!l.isEmpty()) {
-      return (l.get (0)).getKey ( );
+      return (l.get(0)).getKey();
     } else {
       return null;
     }
@@ -109,7 +109,7 @@ public class DAOIndexList extends AbstractDAO {
    * Gets the sort form parameters by key.
    *
    * @param indexKey the index key
-   * @param session the session
+   * @param session  the session
    * @return the sort form parameters by key
    * @throws HibernateException the hibernate exception
    */
@@ -148,8 +148,8 @@ public class DAOIndexList extends AbstractDAO {
    * Gets the index by local abbreviation.
    *
    * @param session the session
-   * @param s the s
-   * @param locale the locale
+   * @param s       the s
+   * @param locale  the locale
    * @return the index by local abbreviation
    */
   public IndexList getIndexByLocalAbbreviation(final Session session, String s, Locale locale) {
@@ -175,10 +175,10 @@ public class DAOIndexList extends AbstractDAO {
   @SuppressWarnings("unchecked")
   public List<IndexListElement> getIndexByQuery(final String query, final Session session) throws HibernateException {
     final List<IndexList> indexesList = session.find(query);
-    return indexesList.stream().map(index ->  new IndexListElement(
-        index.getLanguageCode(),
-        index.getLanguageDescription(),
-        "" + index.getKey().getKeyNumber() + index.getKey().getTypeCode().trim())
+    return indexesList.stream().map(index -> new IndexListElement(
+      index.getLanguageCode(),
+      index.getLanguageDescription(),
+      "" + index.getKey().getKeyNumber() + index.getKey().getTypeCode().trim())
     ).collect(Collectors.toList());
   }
 
@@ -222,7 +222,7 @@ public class DAOIndexList extends AbstractDAO {
       logAndWrap(e);
     }
 
-    if(l != null) {
+    if (l != null) {
       Iterator iter = l.iterator();
       while (iter.hasNext()) {
         IndexList aRow = (IndexList) iter.next();

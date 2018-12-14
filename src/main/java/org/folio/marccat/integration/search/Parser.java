@@ -20,31 +20,49 @@ import java.util.Locale;
  * @since 1.0
  */
 public class Parser {
-  /** The Constant logger. */
+  /**
+   * The Constant logger.
+   */
   private static final Log logger = new Log(Parser.class);
 
-  /** The default index. */
+  /**
+   * The default index.
+   */
   private static IndexList defaultIndex;
 
-  /** The locale. */
+  /**
+   * The locale.
+   */
   private final Locale locale;
 
-  /** The main library id. */
+  /**
+   * The main library id.
+   */
   private final int mainLibraryId;
 
-  /** The searching view. */
+  /**
+   * The searching view.
+   */
   private final int searchingView;
 
-  /** The session. */
+  /**
+   * The session.
+   */
   private final Session session;
 
-  /** The dao. */
+  /**
+   * The dao.
+   */
   private final DAOIndexList dao = new DAOIndexList();
 
-  /** The tokens. */
+  /**
+   * The tokens.
+   */
   private LinkedList<Token> tokens;
 
-  /** The lookahead. */
+  /**
+   * The lookahead.
+   */
   private Token lookahead;
 
   /**
@@ -53,7 +71,7 @@ public class Parser {
    * @param locale        the current locale.
    * @param mainLibraryId the main library identifier.
    * @param searchingView the current search view.
-   * @param session the session
+   * @param session       the session
    */
   public Parser(final Locale locale, final int mainLibraryId, final int searchingView, final Session session) {
     this.locale = locale;
@@ -127,11 +145,10 @@ public class Parser {
       }
       nextToken();
       return expr;
-    } else if (lookahead.token == Tokenizer.TokenType.WORD){
+    } else if (lookahead.token == Tokenizer.TokenType.WORD) {
       expr = searchExpression();
       return expr;
-    }
-    else if (lookahead.token == Tokenizer.TokenType.BOOL) {
+    } else if (lookahead.token == Tokenizer.TokenType.BOOL) {
       final BooleanExpressionNode op = new BooleanExpressionNode();
       op.setLeft(expr);
       op.setOp(lookahead.sequence);

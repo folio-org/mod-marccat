@@ -18,7 +18,7 @@ public class ResultLoaderCollection {
   @JsonProperty("resultLoaders")
   @Valid
   @NotNull
-  private List <ResultLoader> resultLoaders = new ArrayList <ResultLoader>();
+  private List<ResultLoader> resultLoaders = new ArrayList<ResultLoader>();
 
   /**
    * (Required)
@@ -26,7 +26,7 @@ public class ResultLoaderCollection {
    * @return The resultLoaders
    */
   @JsonProperty("resultLoaders")
-  public List <ResultLoader> getResultLoaders() {
+  public List<ResultLoader> getResultLoaders() {
     return resultLoaders;
   }
 
@@ -36,7 +36,7 @@ public class ResultLoaderCollection {
    * @param resultLoaders The resultLoaders
    */
   @JsonProperty("resultLoaders")
-  public void setResultLoaders(List <ResultLoader> resultLoaders) {
+  public void setResultLoaders(List<ResultLoader> resultLoaders) {
     this.resultLoaders = resultLoaders;
   }
 

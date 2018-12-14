@@ -103,7 +103,6 @@ public class StringText implements Serializable {
   }
 
   /**
-   *
    * @param klm
    * @param subfield
    * @return
@@ -114,7 +113,6 @@ public class StringText implements Serializable {
   }
 
   /**
-   *
    * @param anObject
    * @return
    */
@@ -186,7 +184,6 @@ public class StringText implements Serializable {
   }
 
   /**
-   *
    * @param include
    * @param exclude
    * @return
@@ -198,7 +195,6 @@ public class StringText implements Serializable {
   }
 
   /**
-   *
    * @param include
    * @param exclude
    * @return
@@ -216,7 +212,6 @@ public class StringText implements Serializable {
   }
 
   /**
-   *
    * @param order
    * @return
    */

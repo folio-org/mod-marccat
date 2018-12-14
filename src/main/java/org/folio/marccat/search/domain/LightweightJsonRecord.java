@@ -21,10 +21,11 @@ import static java.util.Optional.ofNullable;
  * @since 1.0
  */
 public class LightweightJsonRecord extends AbstractRecord {
+  private static final JsonNode dummyRecord = null;
   private int countDoc;
   private String queryForAssociatedDoc;
   private JsonNode data;
-  private static final JsonNode dummyRecord = null;
+
   /**
    * setContent, converting marcxml to jsonxml
    *

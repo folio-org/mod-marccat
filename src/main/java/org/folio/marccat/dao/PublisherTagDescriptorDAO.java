@@ -50,7 +50,7 @@ public class PublisherTagDescriptorDAO extends DAODescriptor {
     descriptor.setUserViewString(View.makeSingleViewString(cataloguingView));
     final List<PUBL_TAG> multiView = session.find("from PUBL_TAG as t "
         + " where t.publisherTagNumber = ? "
-        +" and t.userViewString = '"+View.makeSingleViewString(cataloguingView)+"' "
+        + " and t.userViewString = '" + View.makeSingleViewString(cataloguingView) + "' "
         + " order by t.sequenceNumber ", new Object[]{
         headingNumber},
       new Type[]{Hibernate.INTEGER});
