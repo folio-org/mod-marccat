@@ -12,4 +12,5 @@ package org.folio.marccat.exception;
  * @version $Revision: 1.2 $, $Date: 2004/09/16 10:12:53 $
  * @since 1.0
  */
-public class NewTagException extends ModMarccatException {}
+public class NewTagException extends ModMarccatException {
+}

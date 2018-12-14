@@ -10,7 +10,6 @@ import org.springframework.web.client.RestTemplate;
  * Main application entry point.
  *
  * @author Christian Chiama
- * @author Carmen Trazza
  * @since 1.0
  */
 @SpringBootApplication

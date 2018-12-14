@@ -16,7 +16,7 @@ public class ResultLoader {
   private String filename;
 
   @JsonProperty("ids")
-  private List <Integer> ids;
+  private List<Integer> ids;
 
   @JsonProperty("added")
   private int added;
@@ -47,7 +47,7 @@ public class ResultLoader {
    * @return The an list
    */
   @JsonProperty("ids")
-  public List <Integer> getIds() {
+  public List<Integer> getIds() {
     return ids;
   }
 
@@ -55,7 +55,7 @@ public class ResultLoader {
    * @param ids the an list
    */
   @JsonProperty("ids")
-  public void setIds(List <Integer> ids) {
+  public void setIds(List<Integer> ids) {
     this.ids = ids;
   }
 

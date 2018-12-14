@@ -67,7 +67,7 @@ public class NameTitleNameDescriptorDAO extends NameTitleDescriptorDAO {
         + " where hdg.nameHeadingNumber = nme.key.headingNumber "
         + " and hdg.titleHeadingNumber = ttl.key.headingNumber "
         + " and nme.sortForm " + operator + " :name "
-        + " and hdg.key.userViewString = '"+View.makeSingleViewString(searchingView)+"' "
+        + " and hdg.key.userViewString = '" + View.makeSingleViewString(searchingView) + "' "
         + filter
         + " order by nme.sortForm " + direction + ", ttl.sortForm " + direction);
     q.setString("name", name);
@@ -101,7 +101,7 @@ public class NameTitleNameDescriptorDAO extends NameTitleDescriptorDAO {
     title = parsedTerm[1].trim();
     List<NME_TTL_HDG> isolateHeadingList = null;
     if (searchingView != View.ANY) {
-      viewClause = " and hdg.key.userViewString = '"+View.makeSingleViewString(searchingView)+"' ";
+      viewClause = " and hdg.key.userViewString = '" + View.makeSingleViewString(searchingView) + "' ";
     }
     if (operator.equals("<")) {
       Query q = session.createQuery(

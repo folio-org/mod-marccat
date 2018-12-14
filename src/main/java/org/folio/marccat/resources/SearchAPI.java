@@ -1,7 +1,5 @@
 package org.folio.marccat.resources;
 
-import io.reactivex.Flowable;
-import io.swagger.annotations.Api;
 import org.folio.marccat.ModMarccat;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.config.Global;
@@ -23,7 +21,6 @@ import static org.folio.marccat.util.F.locale;
  * @since 1.0
  */
 @RestController
-@Api(value = "marccat-api", description = "MARCCat Search API")
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class SearchAPI extends BaseResource {
 
@@ -57,7 +54,7 @@ public class SearchAPI extends BaseResource {
       if (view == AUTHORITY_VIEW) {
         searchEngine.injectDocCount(response, storageService);
       }
-      searchEngine.injectTagHighlight(response, storageService, locale (lang));
+      searchEngine.injectTagHighlight(response, storageService, locale(lang));
       return response;
     }, tenant, configurator);
   }
@@ -67,16 +64,38 @@ public class SearchAPI extends BaseResource {
   public List<SearchResponse> mergedSearch(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
-    @RequestParam("q") final String q,
+    @RequestParam("qbib") final String qbib,
+    @RequestParam(name = "qauth", required = false) final String qauth,
     @RequestParam(name = "from", defaultValue = "1") final int from,
     @RequestParam(name = "to", defaultValue = "10") final int to,
     @RequestParam(name = "ml", defaultValue = "170") final int mainLibraryId,
     @RequestParam(name = "dpo", defaultValue = "1") final int databasePreferenceOrder,
     @RequestParam(name = "sortBy", required = false) final String[] sortAttributes,
     @RequestParam(name = "sortOrder", required = false) final String[] sortOrders) {
+    SearchResponse authRecords = new SearchResponse(View.AUTHORITY, "", new int[0]);
+    if (!("".equals(qauth) || qauth == null)) {
+      authRecords = doGet((storageService, configuration) -> {
+        final SearchEngine searchEngine =
+          SearchEngineFactory.create(
+            SearchEngineFactory.EngineType.LIGHTWEIGHT,
+            mainLibraryId,
+            databasePreferenceOrder,
+            storageService);
 
+        SearchResponse response = searchEngine.fetchRecords(
+          (sortAttributes != null && sortOrders != null && sortAttributes.length == sortOrders.length)
+            ? searchEngine.sort(searchEngine.expertSearch(qauth, locale(lang), View.AUTHORITY), sortAttributes, sortOrders)
+            : searchEngine.expertSearch(qauth, locale(lang), View.AUTHORITY),
+          "F",
+          from,
+          to);
 
-    SearchResponse authRecords =  doGet((storageService, configuration) -> {
+        searchEngine.injectDocCount(response, storageService);
+        searchEngine.injectTagHighlight(response, storageService, locale(lang));
+        return response;
+      }, tenant, configurator);
+    }
+    SearchResponse bibRecords = doGet((storageService, configuration) -> {
       final SearchEngine searchEngine =
         SearchEngineFactory.create(
           SearchEngineFactory.EngineType.LIGHTWEIGHT,
@@ -86,42 +105,19 @@ public class SearchAPI extends BaseResource {
 
       SearchResponse response = searchEngine.fetchRecords(
         (sortAttributes != null && sortOrders != null && sortAttributes.length == sortOrders.length)
-          ? searchEngine.sort(searchEngine.expertSearch(q, locale(lang), View.AUTHORITY), sortAttributes, sortOrders)
-          : searchEngine.expertSearch(q, locale(lang), View.AUTHORITY),
+          ? searchEngine.sort(searchEngine.expertSearch(qbib, locale(lang), View.DEFAULT_BIBLIOGRAPHIC_VIEW), sortAttributes, sortOrders)
+          : searchEngine.expertSearch(qbib, locale(lang), View.DEFAULT_BIBLIOGRAPHIC_VIEW),
         "F",
         from,
         to);
-
-      searchEngine.injectDocCount(response, storageService);
-      searchEngine.injectTagHighlight(response, storageService, locale (lang));
-      return response;
-    }, tenant, configurator);
-
-    SearchResponse bibRecords =  doGet((storageService, configuration) -> {
-      final SearchEngine searchEngine =
-        SearchEngineFactory.create(
-          SearchEngineFactory.EngineType.LIGHTWEIGHT,
-          mainLibraryId,
-          databasePreferenceOrder,
-          storageService);
-
-      SearchResponse response = searchEngine.fetchRecords(
-        (sortAttributes != null && sortOrders != null && sortAttributes.length == sortOrders.length)
-          ? searchEngine.sort(searchEngine.expertSearch(q, locale(lang), View.DEFAULT_BIBLIOGRAPHIC_VIEW), sortAttributes, sortOrders)
-          : searchEngine.expertSearch(q, locale(lang), View.DEFAULT_BIBLIOGRAPHIC_VIEW),
-        "F",
-        from,
-        to);
-      searchEngine.injectTagHighlight(response, storageService, locale (lang));
+      searchEngine.injectTagHighlight(response, storageService, locale(lang));
       return response;
     }, tenant, configurator);
     List<SearchResponse> mergedResult = new ArrayList<>();
     mergedResult.add(authRecords);
     mergedResult.add(bibRecords);
-
     return mergedResult;
   }
-
 
   @GetMapping("/searchVertical")
   public SearchResponse searchVertical(

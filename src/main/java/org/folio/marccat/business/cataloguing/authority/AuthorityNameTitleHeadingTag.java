@@ -7,9 +7,7 @@
  */
 package org.folio.marccat.business.cataloguing.authority;
 
-import org.folio.marccat.dao.DAOAuthorityCorrelation;
 import org.folio.marccat.dao.persistence.NME_TTL_HDG;
-import org.folio.marccat.dao.persistence.NameSubType;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.shared.CorrelationValues;
 
@@ -58,7 +56,7 @@ public class AuthorityNameTitleHeadingTag extends AuthorityHeadingTag {
 //      getHeadingType(),
 //      value1,
 //      NameSubType.class);
-  return null;
+    return null;
   }
 
   /* (non-Javadoc)

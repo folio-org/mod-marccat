@@ -2,7 +2,7 @@ package org.folio.marccat.dao.persistence;
 
 import org.folio.marccat.business.cataloguing.bibliographic.BibliographicAccessPoint;
 import org.folio.marccat.business.cataloguing.common.OrderedTag;
-import org.folio.marccat.config.GlobalStorage;
+import org.folio.marccat.config.Global;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
@@ -83,7 +83,7 @@ public class ClassificationAccessPoint extends BibliographicAccessPoint implemen
    * @param stringText -- the string text to add text.
    */
   private void addEditionNumberIfNeeds(final StringText stringText) {
-    if (descriptor.getTypeCode() == GlobalStorage.DEWEY_TYPE_CODE && descriptor.getDeweyEditionNumber() != null)
+    if (descriptor.getTypeCode() == Global.DEWEY_TYPE_CODE && descriptor.getDeweyEditionNumber() != null)
       stringText.addSubfield(new Subfield("2", "" + descriptor.getDeweyEditionNumber()));
   }
 
@@ -93,7 +93,7 @@ public class ClassificationAccessPoint extends BibliographicAccessPoint implemen
    * @return category.
    */
   public int getCategory() {
-    return GlobalStorage.CLASSIFICATION_CATEGORY;
+    return Global.CLASSIFICATION_CATEGORY;
   }
 
   /**
@@ -131,7 +131,7 @@ public class ClassificationAccessPoint extends BibliographicAccessPoint implemen
    * @return "editClassNumber".
    */
   public String getRequiredEditPermission() {
-    return GlobalStorage.CLASSIFICATION_REQUIRED_PERMISSION;
+    return Global.CLASSIFICATION_REQUIRED_PERMISSION;
   }
 
   /**

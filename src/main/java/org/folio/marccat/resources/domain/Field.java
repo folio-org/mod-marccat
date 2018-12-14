@@ -21,7 +21,7 @@ public class Field {
 
   @JsonProperty("mandatory")
   private boolean mandatory;
-  
+
   @JsonProperty("added")
   private boolean added;
 
@@ -89,7 +89,7 @@ public class Field {
   public void setAdded(boolean added) {
     this.added = added;
   }
-  
+
   /**
    * @return the field status.
    */

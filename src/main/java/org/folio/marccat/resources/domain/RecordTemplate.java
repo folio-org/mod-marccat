@@ -36,7 +36,7 @@ public class RecordTemplate {
 
   @JsonProperty("fields")
   @Valid
-  private List <Field> fields = new ArrayList <Field>();
+  private List<Field> fields = new ArrayList<Field>();
 
   /**
    * @return The id
@@ -147,7 +147,7 @@ public class RecordTemplate {
    * @return The fields
    */
   @JsonProperty("fields")
-  public List <Field> getFields() {
+  public List<Field> getFields() {
     return fields;
   }
 
@@ -155,7 +155,7 @@ public class RecordTemplate {
    * @param fields The fields
    */
   @JsonProperty("fields")
-  public void setFields(List <Field> fields) {
+  public void setFields(List<Field> fields) {
     this.fields = fields;
   }
 }

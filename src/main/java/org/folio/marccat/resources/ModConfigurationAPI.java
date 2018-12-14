@@ -1,21 +1,17 @@
 package org.folio.marccat.resources;
 
-import io.swagger.annotations.Api;
 import org.folio.marccat.ModMarccat;
 import org.folio.marccat.config.Global;
 import org.springframework.web.bind.annotation.*;
 
 /**
- *
- *
  * @author cchiama
  * @since 1.0
  */
 
 @RestController
-@Api(value = "modcat-api", description = "Load from file API")
 @RequestMapping(value = ModMarccat.BASE_URI)
-public class ModConfigurationAPI  extends BaseResource{
+public class ModConfigurationAPI extends BaseResource {
 
   @GetMapping("/entries")
   public void getConfigurationEntries(
@@ -23,7 +19,7 @@ public class ModConfigurationAPI  extends BaseResource{
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
   }
 
-  @PostMapping ("/entries")
+  @PostMapping("/entries")
   public void saveConfigurationEntries(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {

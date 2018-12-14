@@ -2,8 +2,8 @@ package org.folio.marccat.dao.persistence;
 
 import org.folio.marccat.business.cataloguing.bibliographic.BibliographicAccessPoint;
 import org.folio.marccat.business.descriptor.PublisherTagDescriptor;
+import org.folio.marccat.config.Global;
 import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.config.GlobalStorage;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
@@ -128,7 +128,7 @@ public class PublisherAccessPoint extends BibliographicAccessPoint {
    * @return "editNotes".
    */
   public String getRequiredEditPermission() {
-    return GlobalStorage.PUBLISHER_REQUIRED_PERMISSION;
+    return Global.PUBLISHER_REQUIRED_PERMISSION;
   }
 
   /**
@@ -156,7 +156,7 @@ public class PublisherAccessPoint extends BibliographicAccessPoint {
    * @return category.
    */
   public int getCategory() {
-    return GlobalStorage.PUBLISHER_CATEGORY;
+    return Global.PUBLISHER_CATEGORY;
   }
 
   /**
@@ -174,7 +174,7 @@ public class PublisherAccessPoint extends BibliographicAccessPoint {
    * @param stringText -- the stringText to set.
    */
   public void setAccessPointStringText(final StringText stringText) {
-    otherSubfields = stringText.getSubfieldsWithCodes(GlobalStorage.PUBLISHER_OTHER_SUBFIELD_CODES).toString();
+    otherSubfields = stringText.getSubfieldsWithCodes(Global.PUBLISHER_OTHER_SUBFIELD_CODES).toString();
   }
 
   /**
@@ -183,7 +183,7 @@ public class PublisherAccessPoint extends BibliographicAccessPoint {
    * @param stringText -- the string text to set.
    */
   public void setDescriptorStringText(final StringText stringText) {
-    getDescriptor().setStringText(stringText.getSubfieldsWithoutCodes(GlobalStorage.PUBLISHER_VARIANT_CODES).toString());
+    getDescriptor().setStringText(stringText.getSubfieldsWithoutCodes(Global.PUBLISHER_VARIANT_CODES).toString());
   }
 
   /**
@@ -199,7 +199,7 @@ public class PublisherAccessPoint extends BibliographicAccessPoint {
    * @return variant codes associated.
    */
   public String getVariantCodes() {
-    return GlobalStorage.PUBLISHER_VARIANT_CODES;
+    return Global.PUBLISHER_VARIANT_CODES;
   }
 
   /**
