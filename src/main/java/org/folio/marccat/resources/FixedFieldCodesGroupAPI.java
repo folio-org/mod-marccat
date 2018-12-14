@@ -1,17 +1,13 @@
 package org.folio.marccat.resources;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import org.folio.marccat.config.Global;
 import org.folio.marccat.ModMarccat;
 import org.folio.marccat.business.codetable.Avp;
-import org.folio.marccat.integration.StorageService;
+import org.folio.marccat.config.Global;
 import org.folio.marccat.config.log.MessageCatalog;
+import org.folio.marccat.integration.StorageService;
 import org.folio.marccat.resources.domain.FixedFieldCodesGroup;
 import org.folio.marccat.resources.domain.Pair;
-import org.folio.marccat.shared.CodeListsType;
+import org.folio.marccat.enumaration.CodeListsType;
 import org.folio.marccat.shared.GeneralInformation;
 import org.folio.marccat.shared.PhysicalInformation;
 import org.springframework.web.bind.annotation.*;
@@ -30,30 +26,23 @@ import static org.folio.marccat.integration.CatalogingHelper.doGet;
  * @since 1.0
  */
 @RestController
-@Api(value = "modcat-api", description = "Fixed field code group resource API")
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class FixedFieldCodesGroupAPI extends BaseResource {
 
   /**
    * Adapter that converts existing stringValue object in nature of content code Okapi resource.
    */
-  private Function <Avp <String>, Pair> toPairItem = source -> {
+  private Function<Avp<String>, Pair> toPairItem = source -> {
     final Pair pairItem = new Pair();
     pairItem.setCode(source.getValue());
     pairItem.setDescription(source.getLabel());
     return pairItem;
   };
 
-  @ApiOperation(value = "Returns all mandatory groups.")
-  @ApiResponses(value = {
-    @ApiResponse(code = 200, message = "Method successfully returned the requested mandatory groups"),
-    @ApiResponse(code = 400, message = "Bad Request"),
-    @ApiResponse(code = 414, message = "Request-URI Too Long"),
-    @ApiResponse(code = 500, message = "System internal failure occurred.")
-  })
+
   @GetMapping("/fixed-fields-code-groups")
   public FixedFieldCodesGroup getFixedFieldCodesGroups(
-	@RequestParam (required = false) final String leader ,
+    @RequestParam(required = false) final String leader,
     @RequestParam final String code,
     @RequestParam final int headerTypeCode,
     @RequestParam final String lang,
@@ -489,7 +478,7 @@ public class FixedFieldCodesGroupAPI extends BaseResource {
     fixedFieldCodesGroup.setSerialFormOriginalCodes(storageService.getCodesList(lang, CodeListsType.SRL_FORM_ORGNL_ITEM).stream().map(toPairItem).collect(toList()));
     fixedFieldCodesGroup.setFormOfItemCodes(storageService.getCodesList(lang, CodeListsType.FORM_OF_ITEM).stream().map(toPairItem).collect(toList()));
 
-    final List <Pair> natureOfContents = storageService.getCodesList(lang, CodeListsType.NATURE_OF_CONTENT).stream().map(toPairItem).collect(toList());
+    final List<Pair> natureOfContents = storageService.getCodesList(lang, CodeListsType.NATURE_OF_CONTENT).stream().map(toPairItem).collect(toList());
     fixedFieldCodesGroup.setNatureOfContents1(natureOfContents);
     fixedFieldCodesGroup.setNatureOfContents2(natureOfContents);
     fixedFieldCodesGroup.setNatureOfContents3(natureOfContents);
@@ -509,7 +498,7 @@ public class FixedFieldCodesGroupAPI extends BaseResource {
    * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
    */
   private void setBookMaterialCodes(final String lang, final StorageService storageService, final FixedFieldCodesGroup fixedFieldCodesGroup) {
-    final List <Pair> bookIllustrations = storageService.getCodesList(lang, CodeListsType.BOOK_ILLUSTRATION).stream().map(toPairItem).collect(toList());
+    final List<Pair> bookIllustrations = storageService.getCodesList(lang, CodeListsType.BOOK_ILLUSTRATION).stream().map(toPairItem).collect(toList());
     fixedFieldCodesGroup.setBookIllustrationCodes1(bookIllustrations);
     fixedFieldCodesGroup.setBookIllustrationCodes2(bookIllustrations);
     fixedFieldCodesGroup.setBookIllustrationCodes3(bookIllustrations);
@@ -518,7 +507,7 @@ public class FixedFieldCodesGroupAPI extends BaseResource {
     fixedFieldCodesGroup.setTargetAudienceCodes(storageService.getCodesList(lang, CodeListsType.TARGET_AUDIENCE).stream().map(toPairItem).collect(toList()));
     fixedFieldCodesGroup.setFormOfItemCodes(storageService.getCodesList(lang, CodeListsType.FORM_OF_ITEM).stream().map(toPairItem).collect(toList()));
 
-    final List <Pair> natureOfContents = storageService.getCodesList(lang, CodeListsType.NATURE_OF_CONTENT).stream().map(toPairItem).collect(toList());
+    final List<Pair> natureOfContents = storageService.getCodesList(lang, CodeListsType.NATURE_OF_CONTENT).stream().map(toPairItem).collect(toList());
     fixedFieldCodesGroup.setNatureOfContents1(natureOfContents);
     fixedFieldCodesGroup.setNatureOfContents2(natureOfContents);
     fixedFieldCodesGroup.setNatureOfContents3(natureOfContents);

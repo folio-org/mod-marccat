@@ -10,13 +10,19 @@ package org.folio.marccat.integration.search;
  */
 public class BooleanExpressionNode implements ExpressionNode {
 
-  /** The left. */
+  /**
+   * The left.
+   */
   private ExpressionNode left;
 
-  /** The right. */
+  /**
+   * The right.
+   */
   private ExpressionNode right;
 
-  /** The op. */
+  /**
+   * The op.
+   */
   private String op;
 
   /**
@@ -35,7 +41,7 @@ public class BooleanExpressionNode implements ExpressionNode {
    * @return the expression (as a string) of this boolean node.
    * @throws CclParserException in case the node cannot be parsed as a valid expression.
    */
-  public String getValue() throws CclParserException{
+  public String getValue() throws CclParserException {
     try {
       if (left instanceof TermExpressionNode && right instanceof TermExpressionNode) {
         TermExpressionNode leftTerm = (TermExpressionNode) left;

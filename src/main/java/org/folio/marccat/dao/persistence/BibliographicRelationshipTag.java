@@ -1,12 +1,7 @@
 package org.folio.marccat.dao.persistence;
 
-import static org.folio.marccat.util.F.deepCopy;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
@@ -22,8 +17,12 @@ import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+
+import static org.folio.marccat.util.F.deepCopy;
 
 public class BibliographicRelationshipTag extends VariableField implements PersistentObjectWithView {
   private static final Log logger = LogFactory.getLog(BibliographicRelationshipTag.class);

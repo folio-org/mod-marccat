@@ -4,11 +4,11 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.marccat.business.cataloguing.common.Browsable;
 import org.folio.marccat.business.cataloguing.common.Tag;
-import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.exception.MarcCorrelationException;
 import org.folio.marccat.business.descriptor.PublisherTagDescriptor;
 import org.folio.marccat.dao.DAODescriptor;
 import org.folio.marccat.dao.persistence.*;
+import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.MarcCorrelationException;
 import org.folio.marccat.util.StringText;
 
 import java.sql.SQLException;
@@ -54,10 +54,9 @@ public class MarcCommandLibrary {
    *
    * @param tag
    * @param newDescriptor
-   * @throws DataAccessException
-   * getMarcEncoding verify the new correlation:
-   * if it is a wrong correlation a MarcCorrelationException occurs.
-   * See the Subject with correlation 19, ?, 14
+   * @throws DataAccessException getMarcEncoding verify the new correlation:
+   *                             if it is a wrong correlation a MarcCorrelationException occurs.
+   *                             See the Subject with correlation 19, ?, 14
    */
   private static void replaceDescriptor(Browsable tag, Descriptor newDescriptor) throws DataAccessException {
     Descriptor oldDescriptor = tag.getDescriptor();

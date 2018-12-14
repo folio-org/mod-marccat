@@ -12,13 +12,13 @@ import org.folio.marccat.business.cataloguing.common.Tag;
 import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.business.controller.UserProfile;
+import org.folio.marccat.config.Global;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.CacheUpdateException;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.RecordNotFoundException;
-import org.folio.marccat.config.GlobalStorage;
 import org.folio.marccat.util.XmlUtils;
 
 import java.sql.CallableStatement;
@@ -62,7 +62,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
     item.getTags().forEach(tag -> {
       tag.setTagImpl(new BibliographicTagImpl());
       if (tag instanceof MaterialDescription) {
-        tag.setCorrelation(1, GlobalStorage.MATERIAL_DESCRIPTION_HEADER_TYPE);
+        tag.setCorrelation(1, Global.MATERIAL_DESCRIPTION_HEADER_TYPE);
       }
       tag.setCorrelationKey(tag.getTagImpl().getMarcEncoding(tag, session));
     });
@@ -361,12 +361,12 @@ public class BibliographicCatalogDAO extends CatalogDAO {
       return;
     }
     String content = bibliographicNoteTag.getNote().getContent();
-    if (isNotNullOrEmpty(content) && !content.contains(GlobalStorage.DOLLAR)) {
-      content = GlobalStorage.DOLLAR + "a" + content;
+    if (isNotNullOrEmpty(content) && !content.contains(Global.SUBFIELD_DELIMITER)) {
+      content = Global.SUBFIELD_DELIMITER + "a" + content;
       bibliographicNoteTag.getNote().markUnchanged();
     }
     if (!isNotNullOrEmpty(content)) {
-      content = GlobalStorage.DOLLAR + "a" + "";
+      content = Global.SUBFIELD_DELIMITER + "a" + "";
       bibliographicNoteTag.getNote().markUnchanged();
     }
     bibliographicNoteTag.getNote().setContent(content);

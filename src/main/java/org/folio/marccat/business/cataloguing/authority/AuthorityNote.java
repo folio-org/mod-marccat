@@ -32,7 +32,7 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
   private AUT autItm;
   private int noteNumber;
   private int itemNumber;
-//  private int noteType = Defaults.getShort("authorityNote.noteType");
+  //  private int noteType = Defaults.getShort("authorityNote.noteType");
   private String noteStringText;
   private PersistenceState persistenceState = new PersistenceState();
 
@@ -81,13 +81,14 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
    */
   public CorrelationValues getCorrelationValues() {
 //    return new CorrelationValues().change(1, getNoteType());
-	  return null;
+    return null;
   }
 
   /* (non-Javadoc)
    * @see TagInterface#setCorrelationValues(librisuite.business.common.CorrelationValues)
    */
-  public void setCorrelationValues(CorrelationValues v) {  }
+  public void setCorrelationValues(CorrelationValues v) {
+  }
 
   @Deprecated
   public List getFirstCorrelationList() throws DataAccessException {

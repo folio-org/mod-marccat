@@ -1,11 +1,11 @@
 package org.folio.marccat.model;
 
 
-
-import java.io.Serializable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+
+import java.io.Serializable;
 
 
 /**
@@ -134,8 +134,8 @@ public class Subfield implements Serializable {
   }
 
   /* (non-Javadoc)
-	 * @see java.lang.Object#clone()
-	 */
+   * @see java.lang.Object#clone()
+   */
   public Object clone() {
     return new Subfield(this);
   }

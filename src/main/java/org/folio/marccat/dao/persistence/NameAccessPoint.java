@@ -2,9 +2,9 @@ package org.folio.marccat.dao.persistence;
 
 import org.folio.marccat.business.cataloguing.bibliographic.NameTitleComponent;
 import org.folio.marccat.business.cataloguing.common.OrderedTag;
+import org.folio.marccat.config.Global;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.model.Subfield;
-import org.folio.marccat.config.GlobalStorage;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
@@ -180,7 +180,7 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag {
    * @return "editName".
    */
   public String getRequiredEditPermission() {
-    return GlobalStorage.NAME_REQUIRED_PERMISSION;
+    return Global.NAME_REQUIRED_PERMISSION;
   }
 
   /**
@@ -208,7 +208,7 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag {
    * @return category.
    */
   public int getCategory() {
-    return GlobalStorage.NAME_CATEGORY;
+    return Global.NAME_CATEGORY;
   }
 
   /**
@@ -217,14 +217,14 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag {
    * @return stringText.
    */
   public StringText getAccessPointStringText() {
-	  StringText text = new StringText(workRelatorStringtext);
-	  text.parse(otherSubfields);
-	  if (workRelatorCode != null) {
-	   text.add(new StringText(new Subfield("4",workRelatorCode)));
-	  }
-	  text.parse(institution);
-	  return text;
-	 }
+    StringText text = new StringText(workRelatorStringtext);
+    text.parse(otherSubfields);
+    if (workRelatorCode != null) {
+      text.add(new StringText(new Subfield("4", workRelatorCode)));
+    }
+    text.parse(institution);
+    return text;
+  }
 
   /**
    * Sets stringText to name access point.
@@ -232,19 +232,18 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag {
    * @param stringText -- the stringText to set.
    */
 
-public void setAccessPointStringText(StringText stringText) {
-     workRelatorStringtext = stringText.getSubfieldsWithCodes("eju").toString();
-     otherSubfields = stringText.getSubfieldsWithCodes("iox").toString();
-     workRelatorCode = null;
-     try {
+  public void setAccessPointStringText(StringText stringText) {
+    workRelatorStringtext = stringText.getSubfieldsWithCodes("eju").toString();
+    otherSubfields = stringText.getSubfieldsWithCodes("iox").toString();
+    workRelatorCode = null;
+    try {
       workRelatorCode = stringText.getSubfieldsWithCodes("4").getSubfield(0).getContent();
-     }
-     catch (Exception e) {
+    } catch (Exception e) {
       //do nothing -- work relator remains null
-     }
-  institution = stringText.getSubfieldsWithCodes("5").toString();
-  
- }
+    }
+    institution = stringText.getSubfieldsWithCodes("5").toString();
+
+  }
 
   /**
    * Sets descriptor string text.
@@ -252,7 +251,7 @@ public void setAccessPointStringText(StringText stringText) {
    * @param stringText -- the string text to set.
    */
   public void setDescriptorStringText(final StringText stringText) {
-    getDescriptor().setStringText(stringText.getSubfieldsWithoutCodes(GlobalStorage.NAME_VARIANT_SUBFIELD_CODES).toString());
+    getDescriptor().setStringText(stringText.getSubfieldsWithoutCodes(Global.NAME_VARIANT_SUBFIELD_CODES).toString());
   }
 
   /**

@@ -1,15 +1,10 @@
 package org.folio.marccat.resources;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import org.folio.marccat.util.F;
-import org.folio.marccat.config.Global;
 import org.folio.marccat.ModMarccat;
+import org.folio.marccat.config.Global;
+import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.domain.ConversionFieldUtils;
 import org.folio.marccat.integration.StorageService;
-import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.resources.domain.FieldTemplate;
 import org.folio.marccat.resources.domain.FixedField;
 import org.folio.marccat.resources.domain.VariableField;
@@ -17,6 +12,7 @@ import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.shared.GeneralInformation;
 import org.folio.marccat.shared.PhysicalInformation;
 import org.folio.marccat.shared.Validation;
+import org.folio.marccat.util.F;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -33,18 +29,10 @@ import static org.folio.marccat.integration.CatalogingHelper.doGet;
  * @since 1.0
  */
 @RestController
-@CrossOrigin("http://localhost:3000")
-@Api(value = "modcat-api", description = "Field template resource API")
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class FieldTemplateAPI extends BaseResource {
 
-  @ApiOperation(value = "Returns all field template associated with the given data.")
-  @ApiResponses(value = {
-    @ApiResponse(code = 200, message = "Method successfully returned the requested field template."),
-    @ApiResponse(code = 400, message = "Bad Request"),
-    @ApiResponse(code = 414, message = "Request-URI Too Long"),
-    @ApiResponse(code = 500, message = "System internal failure occurred.")
-  })
+
   @GetMapping("/field-template")
   public FieldTemplate getFieldTemplate(
     @RequestParam final int categoryCode,
@@ -119,7 +107,7 @@ public class FieldTemplateAPI extends BaseResource {
                                    final String leader,
                                    String valueField,
                                    final String lang,
-                                   final Map <String, String> serviceConfiguration) {
+                                   final Map<String, String> serviceConfiguration) {
 
 
     FixedField fixedField = null;
@@ -142,7 +130,7 @@ public class FieldTemplateAPI extends BaseResource {
       } else if (code.equals(Global.MATERIAL_TAG_CODE)) {
         generalInformation = new GeneralInformation();
         generalInformation.setDefaultValues(serviceConfiguration);
-        final Map <String, Object> mapRecordTypeMaterial = storageService.getMaterialTypeInfosByLeaderValues(leader.charAt(6), leader.charAt(7), code);
+        final Map<String, Object> mapRecordTypeMaterial = storageService.getMaterialTypeInfosByLeaderValues(leader.charAt(6), leader.charAt(7), code);
         final int headerTypeCalculated = (int) mapRecordTypeMaterial.get(Global.HEADER_TYPE_LABEL);
 
         generalInformation.setFormOfMaterial((String) mapRecordTypeMaterial.get(Global.FORM_OF_MATERIAL_LABEL));
@@ -159,7 +147,7 @@ public class FieldTemplateAPI extends BaseResource {
         generalInformation.setDefaultValues(serviceConfiguration);
 
         generalInformation.setHeaderType(headerTypeCode);
-        final Map <String, Object> mapRecordTypeMaterial = storageService.getMaterialTypeInfosByHeaderCode(headerTypeCode, code);
+        final Map<String, Object> mapRecordTypeMaterial = storageService.getMaterialTypeInfosByHeaderCode(headerTypeCode, code);
         generalInformation.setMaterialTypeCode((String) mapRecordTypeMaterial.get(Global.MATERIAL_TYPE_CODE_LABEL));
         generalInformation.setFormOfMaterial((String) mapRecordTypeMaterial.get(Global.FORM_OF_MATERIAL_LABEL));
         generalInformation.setMaterialDescription008Indicator("0");

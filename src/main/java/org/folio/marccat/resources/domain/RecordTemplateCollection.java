@@ -21,10 +21,10 @@ public class RecordTemplateCollection {
   @JsonProperty("recordTemplates")
   @Valid
   @NotNull
-  private List <RecordTemplate> recordTemplates = new ArrayList <RecordTemplate>();
+  private List<RecordTemplate> recordTemplates = new ArrayList<RecordTemplate>();
 
   @JsonIgnore
-  private Map <String, Object> additionalProperties = new HashMap <String, Object>();
+  private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
   /**
    * (Required)
@@ -32,7 +32,7 @@ public class RecordTemplateCollection {
    * @return The recordTemplates
    */
   @JsonProperty("recordTemplates")
-  public List <RecordTemplate> getRecordTemplates() {
+  public List<RecordTemplate> getRecordTemplates() {
     return recordTemplates;
   }
 
@@ -42,17 +42,17 @@ public class RecordTemplateCollection {
    * @param recordTemplates The recordTemplates
    */
   @JsonProperty("recordTemplates")
-  public void setRecordTemplates(List <RecordTemplate> recordTemplates) {
+  public void setRecordTemplates(List<RecordTemplate> recordTemplates) {
     this.recordTemplates = recordTemplates;
   }
 
-  public RecordTemplateCollection withRecordTemplates(List <RecordTemplate> recordTemplates) {
+  public RecordTemplateCollection withRecordTemplates(List<RecordTemplate> recordTemplates) {
     this.recordTemplates = recordTemplates;
     return this;
   }
 
   @JsonAnyGetter
-  public Map <String, Object> getAdditionalProperties() {
+  public Map<String, Object> getAdditionalProperties() {
     return this.additionalProperties;
   }
 

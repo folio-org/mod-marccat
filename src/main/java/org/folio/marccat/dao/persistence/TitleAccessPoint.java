@@ -2,8 +2,8 @@ package org.folio.marccat.dao.persistence;
 
 import org.folio.marccat.business.cataloguing.bibliographic.NameTitleComponent;
 import org.folio.marccat.business.cataloguing.common.OrderedTag;
+import org.folio.marccat.config.Global;
 import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.config.GlobalStorage;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
@@ -174,7 +174,7 @@ public class TitleAccessPoint extends NameTitleComponent implements OrderedTag {
    * @return "editTitle".
    */
   public String getRequiredEditPermission() {
-    return GlobalStorage.TITLE_REQUIRED_PERMISSION;
+    return Global.TITLE_REQUIRED_PERMISSION;
   }
 
   /**
@@ -231,7 +231,7 @@ public class TitleAccessPoint extends NameTitleComponent implements OrderedTag {
     StringText text = new StringText(variantTitle);
     text.parse(institution);
     if (this.getSeriesIssnHeadingNumber() != null)
-      text.addSubfield(new Subfield(GlobalStorage.TITLE_ISSN_SERIES_SUBFIELD_CODE, "" + getISSNText()));
+      text.addSubfield(new Subfield(Global.TITLE_ISSN_SERIES_SUBFIELD_CODE, "" + getISSNText()));
     text.parse(volumeNumberDescription);
     return text;
   }
@@ -243,13 +243,13 @@ public class TitleAccessPoint extends NameTitleComponent implements OrderedTag {
    */
   public void setAccessPointStringText(final StringText stringText) {
     variantTitle = stringText.getSubfieldsWithCodes("ci").toString();
-    institution = stringText.getSubfieldsWithCodes(GlobalStorage.NAME_TITLE_INSTITUTION_SUBFIELD_CODE).toString();
-    if (!stringText.getSubfieldsWithCodes(GlobalStorage.TITLE_ISSN_SERIES_SUBFIELD_CODE).isEmpty() && this.getSeriesIssnHeadingNumber() != null) {
+    institution = stringText.getSubfieldsWithCodes(Global.NAME_TITLE_INSTITUTION_SUBFIELD_CODE).toString();
+    if (!stringText.getSubfieldsWithCodes(Global.TITLE_ISSN_SERIES_SUBFIELD_CODE).isEmpty() && this.getSeriesIssnHeadingNumber() != null) {
       seriesIssnHeadingNumber = this.getSeriesIssnHeadingNumber();
     } else {
       seriesIssnHeadingNumber = null;
     }
-    volumeNumberDescription = stringText.getSubfieldsWithCodes(GlobalStorage.TITLE_VOLUME_SUBFIELD_CODE).toString();
+    volumeNumberDescription = stringText.getSubfieldsWithCodes(Global.TITLE_VOLUME_SUBFIELD_CODE).toString();
   }
 
   /**
@@ -268,7 +268,7 @@ public class TitleAccessPoint extends NameTitleComponent implements OrderedTag {
    * @return category.
    */
   public int getCategory() {
-    return GlobalStorage.TITLE_CATEGORY;
+    return Global.TITLE_CATEGORY;
   }
 
 
@@ -278,7 +278,7 @@ public class TitleAccessPoint extends NameTitleComponent implements OrderedTag {
    * @return variant codes.
    */
   public String getVariantCodes() {
-    return GlobalStorage.TITLE_VARIANT_CODES;
+    return Global.TITLE_VARIANT_CODES;
   }
 
   /**

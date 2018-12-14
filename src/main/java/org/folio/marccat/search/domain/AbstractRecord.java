@@ -35,10 +35,9 @@ import java.util.Map;
  * @since 1.0
  */
 public abstract class AbstractRecord implements Record {
-  private final Log log = new Log(AbstractRecord.class);
-
   private static final String XSLT_PATH = "/xslt/";
   private static final Log logger = new Log(AbstractRecord.class);
+  private final Log log = new Log(AbstractRecord.class);
   @JsonIgnore
   private String cclQuery = "";
   private Map<String, Object> content = new HashMap<>();
@@ -115,10 +114,10 @@ public abstract class AbstractRecord implements Record {
         DocumentBuilderFactory.newInstance();
       DocumentBuilder documentBuilder = null;
 
-        documentBuilder = documentBuilderFactory.newDocumentBuilder();
-        xmlStyledDocument = documentBuilder.newDocument();
-        DOMResult result = new DOMResult(xmlStyledDocument);
-        transformer.transform(source, result);
+      documentBuilder = documentBuilderFactory.newDocumentBuilder();
+      xmlStyledDocument = documentBuilder.newDocument();
+      DOMResult result = new DOMResult(xmlStyledDocument);
+      transformer.transform(source, result);
     } catch (TransformerConfigurationException transformerConfigurationException) {
       logger.error(transformerConfigurationException.getMessage());
       throw new XslTransformerConfigurationException(
@@ -126,8 +125,7 @@ public abstract class AbstractRecord implements Record {
     } catch (TransformerException transformerException) {
       logger.error(transformerException.getMessage());
       throw new XslTransformerException(transformerException);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       logger.error(e.getMessage());
       throw new XslTransformerException(e);
     }

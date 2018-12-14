@@ -21,10 +21,10 @@ public class CountDocumentCollection {
   @JsonProperty("countDocuments")
   @Valid
   @NotNull
-  private List<CountDocument> countDocuments = new ArrayList<CountDocument>();
+  private List<CountDocument> countDocuments = new ArrayList<>();
 
   @JsonIgnore
-  private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  private Map<String, Object> additionalProperties = new HashMap<>();
 
 
   /**

@@ -15,10 +15,10 @@ import static java.util.Optional.ofNullable;
  * @since 1.0
  */
 public class LightweightVerticalRecord extends AbstractRecord {
+  private static final String DUMMY_RECORD = "";
   private int countDoc;
   private String queryForAssociatedDoc;
   private String data;
-  private static final String DUMMY_RECORD = "";
 
   @Override
   public void setContent(final String elementSetName, final Object data) {

@@ -9,9 +9,9 @@ import org.folio.marccat.business.cataloguing.common.OrderedTag;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.business.common.UserViewHelper;
+import org.folio.marccat.config.Global;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.DAOBibliographicNote;
-import org.folio.marccat.config.GlobalStorage;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
@@ -179,7 +179,7 @@ public class BibliographicNote extends VariableField implements PersistentObject
 
   @Deprecated
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
-    if (v.getValue(1) == GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE) {
+    if (v.getValue(1) == Global.PUBLISHER_DEFAULT_NOTE_TYPE) {
       return true;
     } else if (v.getValue(1) == 381) {
       return true;

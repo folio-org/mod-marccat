@@ -1,8 +1,6 @@
-package org.folio.marccat.shared;
+package org.folio.marccat.enumaration;
 
-//TODO: this enum needs to shared between modules (storage and API)
 public enum CodeListsType {
-  //008
   DATE_TYPE {
     @Override
     public String toString() {

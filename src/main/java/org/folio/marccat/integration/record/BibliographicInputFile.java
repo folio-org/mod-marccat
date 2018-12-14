@@ -9,16 +9,16 @@ import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
 import org.folio.marccat.business.cataloguing.common.Browsable;
 import org.folio.marccat.business.cataloguing.common.Tag;
 import org.folio.marccat.business.cataloguing.common.TagImpl;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.business.common.View;
+import org.folio.marccat.config.Global;
+import org.folio.marccat.config.log.Log;
+import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.dao.BibliographicCatalogDAO;
 import org.folio.marccat.dao.DAODescriptor;
 import org.folio.marccat.dao.RecordTypeMaterialDAO;
 import org.folio.marccat.dao.SystemNextNumberDAO;
 import org.folio.marccat.dao.persistence.*;
-import org.folio.marccat.config.GlobalStorage;
-import org.folio.marccat.config.log.MessageCatalog;
-import org.folio.marccat.config.log.Log;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.util.StringText;
 import org.marc4j.MarcReader;
 import org.marc4j.MarcStreamReader;
@@ -62,7 +62,7 @@ public class BibliographicInputFile {
    * @throws DataAccessException in case of exception.
    */
   public void loadFile(final InputStream inputStream, final String fileName, final int cataloguingView, final int startAt,
-                       final int recCount, final Session session, final Map <String, String> configuration) throws DataAccessException {
+                       final int recCount, final Session session, final Map<String, String> configuration) throws DataAccessException {
     try {
       loadFileFromStream(fileName, inputStream, cataloguingView, startAt, recCount, session, configuration);
     } catch (Exception e) {
@@ -83,7 +83,7 @@ public class BibliographicInputFile {
    * @throws DataAccessException in case of exception.
    */
   public void loadFile(final String fileName, final int cataloguingView, final int startAt,
-                       final int recCount, final Record record, final Session session, final Map <String, String> configuration) throws DataAccessException {
+                       final int recCount, final Record record, final Session session, final Map<String, String> configuration) throws DataAccessException {
     try {
       ByteArrayOutputStream bos = new ByteArrayOutputStream();
       MarcWriter writer = new MarcStreamWriter(bos);
@@ -111,7 +111,7 @@ public class BibliographicInputFile {
    * @throws DataAccessException in case of data access exception.
    */
   private void loadFileFromStream(final String fileName, final InputStream input, final int cataloguingView, final int startAt,
-                                  final int recCount, final Session session, final Map <String, String> configuration) throws DataAccessException {
+                                  final int recCount, final Session session, final Map<String, String> configuration) throws DataAccessException {
 
     try {
       final LOADING_MARC_FILE run = new LOADING_MARC_FILE();
@@ -141,10 +141,10 @@ public class BibliographicInputFile {
             leaderTag.setValidation(impl.getValidation(leaderTag, session));
             item.addTag(leaderTag);
 
-            List <ControlField> controlFields = record.getControlFields();
+            List<ControlField> controlFields = record.getControlFields();
             addControlFieldToItem(item, controlFields, impl, session, catalog, leaderTag);
 
-            List <DataField> dataFields = record.getDataFields();
+            List<DataField> dataFields = record.getDataFields();
             addDataFieldToItem(item, dataFields, impl, session, catalog, cataloguingView, configuration);
 
             item.getItemEntity().setAmicusNumber(new SystemNextNumberDAO().getNextNumber("BI", session));
@@ -187,9 +187,9 @@ public class BibliographicInputFile {
    * @param session    -- the hibernate session associated.
    * @param catalog    -- the bibliographic catalog.
    */
-  private void addDataFieldToItem(final CatalogItem item, final List <DataField> dataFields,
+  private void addDataFieldToItem(final CatalogItem item, final List<DataField> dataFields,
                                   final TagImpl impl, final Session session, final BibliographicCatalog catalog, final int view,
-                                  final Map <String, String> configuration) {
+                                  final Map<String, String> configuration) {
 
     dataFields.forEach(df -> {
       Correlation corr = impl.getCorrelation(df.getTag(), df.getIndicator1(), df.getIndicator2(), 0, session);
@@ -239,7 +239,7 @@ public class BibliographicInputFile {
    * @param session       -- the hibernate session associated.
    * @param catalog       -- the bibliographic catalog.
    */
-  private void addControlFieldToItem(final CatalogItem item, final List <ControlField> controlFields,
+  private void addControlFieldToItem(final CatalogItem item, final List<ControlField> controlFields,
                                      final TagImpl impl, final Session session, final BibliographicCatalog catalog, final BibliographicLeader leaderTag) {
     controlFields.forEach(field -> {
       Tag newTag = null;
@@ -254,7 +254,7 @@ public class BibliographicInputFile {
           md.setFormOfMaterial(formOfMaterial);
           md.setMaterialDescription008Indicator(("006".equals(field.getTag()) ? "0" : "1"));
           md.setItemEntity(item.getItemEntity());
-          md.setCorrelation(1, (field.getTag().equals(GlobalStorage.MATERIAL_TAG_CODE) ? rtm.getBibHeader008() : rtm.getBibHeader006()));
+          md.setCorrelation(1, (field.getTag().equals(Global.MATERIAL_TAG_CODE) ? rtm.getBibHeader008() : rtm.getBibHeader006()));
 
           newTag = md;
         } else if ("007".equals(field.getTag())) {
@@ -308,7 +308,7 @@ public class BibliographicInputFile {
    * @param subfields -- the field subfields marc4j.
    * @return the string text.
    */
-  private StringText stringTextFromSubfield(List <Subfield> subfields) {
+  private StringText stringTextFromSubfield(List<Subfield> subfields) {
     return new StringText(subfields.stream().map(s -> (s.getCode() + s.getData())).collect(Collectors.joining()));
   }
 

@@ -2,10 +2,10 @@ package org.folio.marccat.dao.persistence;
 
 import org.folio.marccat.business.cataloguing.bibliographic.NameTitleComponent;
 import org.folio.marccat.business.cataloguing.common.OrderedTag;
+import org.folio.marccat.config.Global;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.DAONameTitleAccessPoint;
 import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.config.GlobalStorage;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
@@ -62,8 +62,8 @@ public class NameTitleAccessPoint extends NameTitleComponent implements OrderedT
    * @param stringText -- the stringText to set.
    */
   public void setAccessPointStringText(final StringText stringText) {
-    volumeNumberDescription = stringText.getSubfieldsWithCodes(GlobalStorage.TITLE_VOLUME_SUBFIELD_CODE).toString();
-    institution = stringText.getSubfieldsWithCodes(GlobalStorage.NAME_TITLE_INSTITUTION_SUBFIELD_CODE).toString();
+    volumeNumberDescription = stringText.getSubfieldsWithCodes(Global.TITLE_VOLUME_SUBFIELD_CODE).toString();
+    institution = stringText.getSubfieldsWithCodes(Global.NAME_TITLE_INSTITUTION_SUBFIELD_CODE).toString();
   }
 
   /**
@@ -189,7 +189,7 @@ public class NameTitleAccessPoint extends NameTitleComponent implements OrderedT
    * @param stringText -- the stringText to set.
    */
   public void setDescriptorStringText(StringText stringText) {
-    getDescriptor().setStringText(stringText.getSubfieldsWithoutCodes(GlobalStorage.NAME_TITLE_VARIANT_CODES).toString());
+    getDescriptor().setStringText(stringText.getSubfieldsWithoutCodes(Global.NAME_TITLE_VARIANT_CODES).toString());
   }
 
   /**
@@ -200,7 +200,7 @@ public class NameTitleAccessPoint extends NameTitleComponent implements OrderedT
   }
 
   public String getVariantCodes() {
-    return GlobalStorage.NAME_TITLE_VARIANT_CODES;
+    return Global.NAME_TITLE_VARIANT_CODES;
   }
 
   /**

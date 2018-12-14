@@ -1,6 +1,6 @@
 package org.folio.marccat.dao.persistence;
 
-import org.folio.marccat.config.GlobalStorage;
+import org.folio.marccat.config.Global;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -10,7 +10,7 @@ public class BibliographicLeader extends Leader {
 
   public BibliographicLeader() {
     super();
-    setHeaderType(GlobalStorage.LEADER_HEADER_TYPE);
+    setHeaderType(Global.LEADER_HEADER_TYPE);
   }
 
   @Override

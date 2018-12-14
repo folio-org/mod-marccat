@@ -44,7 +44,7 @@ public class NameTitleTitleDescriptorDAO extends NameTitleDescriptorDAO {
         + " and ttl.sortForm "
         + operator
         + " :term  and "
-        + " hdg.key.userViewString = '"+ View.makeSingleViewString(cataloguingView)+"' "
+        + " hdg.key.userViewString = '" + View.makeSingleViewString(cataloguingView) + "' "
         + filter
         + " order by ttl.sortForm "
         + direction

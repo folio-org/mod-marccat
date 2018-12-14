@@ -11,7 +11,6 @@ import org.folio.marccat.business.common.group.*;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.exception.*;
-import org.folio.marccat.config.GlobalStorage;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.Validation;
 import org.w3c.dom.Document;

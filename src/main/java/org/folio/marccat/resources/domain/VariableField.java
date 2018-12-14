@@ -29,7 +29,6 @@ public class VariableField {
   @JsonProperty("description")
   private String description;
 
-  //@JsonProperty("headerTypeCode")
   @JsonAlias({"headerTypeCode", "headingTypeCode"})
   private String headingTypeCode;
 

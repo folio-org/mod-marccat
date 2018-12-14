@@ -12,7 +12,6 @@ import org.folio.marccat.config.log.Log;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.PublisherManagerDAO;
 import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.config.GlobalStorage;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.F;
@@ -55,7 +54,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
   public PublisherManager() {
     super();
     setPersistenceState(persistenceState);
-    setNoteType(GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE);
+    setNoteType(Global.PUBLISHER_DEFAULT_NOTE_TYPE);
     setApf(new PublisherAccessPoint());
   }
 
@@ -71,7 +70,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
     setPersistenceState(persistenceState);
     setBibItemNumber(bibItemNumber);
     setUserViewString(singleViewString);
-    setNoteType(GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE);
+    setNoteType(Global.PUBLISHER_DEFAULT_NOTE_TYPE);
   }
 
   /**
@@ -87,7 +86,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
     getDates().add("");
     setPublisherTagUnits(((PublisherTagDescriptor) getApf().getDescriptor()).getPublisherTagUnits());
     getPublisherTagUnits().sort(new PublisherTagComparator());
-    setNoteType(GlobalStorage.PUBLISHER_DEFAULT_NOTE_TYPE);
+    setNoteType(Global.PUBLISHER_DEFAULT_NOTE_TYPE);
   }
 
   /**
@@ -142,8 +141,8 @@ public class PublisherManager extends VariableField implements PersistentObjectW
     final PUBL_TAG last = getPublisherTagUnits().stream().reduce((a, b) -> b).orElse(null);
     if (ofNullable(last).isPresent()) {
       final StringText stringText = new StringText(last.getOtherSubfields());
-      last.setOtherSubfields(stringText.getSubfieldsWithoutCodes(GlobalStorage.PUBLISHER_FAST_PRINTER_SUBFIELD_CODES).toString());
-      final String remainingFieldsText = stringText.getSubfieldsWithCodes(GlobalStorage.PUBLISHER_FAST_PRINTER_SUBFIELD_CODES).toString();
+      last.setOtherSubfields(stringText.getSubfieldsWithoutCodes(Global.PUBLISHER_FAST_PRINTER_SUBFIELD_CODES).toString());
+      final String remainingFieldsText = stringText.getSubfieldsWithCodes(Global.PUBLISHER_FAST_PRINTER_SUBFIELD_CODES).toString();
       if (F.isNotNullOrEmpty(remainingFieldsText) && remainingFieldsText.contains(Subfield.SUBFIELD_DELIMITER)) {
         setStringTextForFastDigitPublisher(remainingFieldsText.replaceAll(Subfield.SUBFIELD_DELIMITER, Global.SUBFIELD_DELIMITER_FOR_VIEW));
       } else
@@ -224,7 +223,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    * @return category.
    */
   public int getCategory() {
-    return GlobalStorage.PUBLISHER_CATEGORY;
+    return Global.PUBLISHER_CATEGORY;
   }
 
   /**
