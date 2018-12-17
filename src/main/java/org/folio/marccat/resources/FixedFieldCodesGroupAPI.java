@@ -11,9 +11,9 @@ import org.folio.marccat.resources.domain.FixedFieldElement;
 import org.folio.marccat.resources.domain.Pair;
 import org.folio.marccat.enumaration.CodeListsType;
 import org.folio.marccat.shared.CatalogingInformation;
-import org.folio.marccat.shared.GeneralInformation;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -30,7 +30,7 @@ import static org.folio.marccat.integration.CatalogingHelper.doGet;
  */
 @RestController
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
-public class FixedFieldCodesGroupAPI extends BaseResource {
+public class FixedFieldCodesGroupAPI extends BaseResource implements  CatalogingInformation{
 
   /**
    * Adapter that converts existing stringValue object in nature of content code Okapi resource.
@@ -72,26 +72,37 @@ public class FixedFieldCodesGroupAPI extends BaseResource {
           /**
            * inject default values
            */
-          injectDefaultValues(fixedFieldCodesGroup, storageService, leader, code, headerTypeCode, valueField, lang, configuration);
+          HashMap<String, String> parameter = new HashMap<>();
+          parameter.put("leader", leader);
+          parameter.put("code", code);
+          parameter.put("valueField", valueField);
+          injectDefaultValues(fixedFieldCodesGroup, storageService, parameter, headerTypeCode, lang, configuration);
           return fixedFieldCodesGroup;
         }).orElse(null);
     }, tenant, configurator);
   }
 
-  private void injectDefaultValues(FixedFieldCodesGroup fixedFieldCodesGroup, StorageService storageService, String leader, String code, int headerType, String valueField, String lang, Map<String, String> configuration) {
-    FieldTemplate fieldTemplate = ofNullable(CatalogingInformation.getFixedField(storageService, headerType, code, leader, valueField, lang, configuration))
+  private void injectDefaultValues(FixedFieldCodesGroup fixedFieldCodesGroup, StorageService storageService, Map<String, String> parameter, int headerType, String lang, Map<String, String> configuration) {
+    FieldTemplate fieldTemplate = ofNullable(CatalogingInformation.getFixedField(storageService, headerType, parameter.get("code"), parameter.get("leader"), parameter.get("valueField"), lang, configuration))
       .map(fixedField -> {
         final FieldTemplate fieldT = new FieldTemplate();
         fieldT.setFixedField(fixedField);
         return fieldT;
       }).orElseGet(() -> {
-      logger.error(MessageCatalog._00016_FIELD_PARAMETER_INVALID, Global.controlFieldCategoryCode, code);
+      logger.error(MessageCatalog._00016_FIELD_PARAMETER_INVALID, Global.CONTROL_FIELD_CATEGORY_CODE, parameter.get("code"));
       return new FieldTemplate();
     });
     fixedFieldCodesGroup.getResults().keySet()
       .forEach(key -> {
-        fixedFieldCodesGroup.getResults().get(key).setDafaultValue(fieldTemplate.getFixedField().getAttributes().get(key).toString().trim());
-    });
+        String currentValue = (String) fieldTemplate.getFixedField().getAttributes().get(key);
+        if (currentValue != null) {
+          fixedFieldCodesGroup.getResults().get(key).setDafaultValue(currentValue.trim());
+        }
+        else {
+          fixedFieldCodesGroup.getResults().get(key).setDafaultValue("");
+          System.out.println( fixedFieldCodesGroup.getResults().get(key));
+        }
+      });
 
   }
 
@@ -410,7 +421,6 @@ public class FixedFieldCodesGroupAPI extends BaseResource {
                                    final String tag) {
     Map<String, Object> mapRecordTypeMaterial = storageService.getMaterialTypeInfosByHeaderCode(headerTypeCode, tag);
     if (mapRecordTypeMaterial != null) {
-        final GeneralInformation gi = new GeneralInformation();
         String material = (String) mapRecordTypeMaterial.get(Global.FORM_OF_MATERIAL_LABEL);
         switch (material){
           case Global.bookType :
@@ -428,10 +438,10 @@ public class FixedFieldCodesGroupAPI extends BaseResource {
           case Global.mapType :
             setMapMaterialCodes(lang, storageService, fixedFieldCodesGroup);
             break;
-          case Global.visualType :
+          case Global.VISUAL_TYPE:
             setVisualMaterialCodes(lang, storageService, fixedFieldCodesGroup);
             break;
-          case Global.computerType :
+          case Global.COMPUTER_TYPE:
             setComputerMaterialCodes(lang, storageService, fixedFieldCodesGroup);
             break;
            default:

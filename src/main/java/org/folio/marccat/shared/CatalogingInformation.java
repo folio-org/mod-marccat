@@ -1,10 +1,8 @@
 package org.folio.marccat.shared;
 
 import org.folio.marccat.config.Global;
-import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.domain.ConversionFieldUtils;
 import org.folio.marccat.integration.StorageService;
-import org.folio.marccat.resources.domain.FieldTemplate;
 import org.folio.marccat.resources.domain.FixedField;
 import org.folio.marccat.util.F;
 
@@ -12,7 +10,7 @@ import java.util.Map;
 
 import static java.util.Optional.ofNullable;
 
-public class CatalogingInformation {
+public interface CatalogingInformation {
 
   /**
    * Gets the fixed-field associated to header type code.
@@ -51,53 +49,58 @@ public class CatalogingInformation {
 
       GeneralInformation generalInformation = null;
 
-      if (code.equals(Global.LEADER_TAG_NUMBER)) {
-        final String description = storageService.getHeadingTypeDescription(headerTypeCode, lang, Global.INT_CATEGORY);
-        fixedField.setDescription(description);
-        fixedField.setDisplayValue(ofNullable(valueField).orElse(getLeaderValue()));
-        setLeaderValues(fixedField);
+      switch(code) {
+        case Global.LEADER_TAG_NUMBER :
+          final String description = storageService.getHeadingTypeDescription(headerTypeCode, lang, Global.INT_CATEGORY);
+          fixedField.setDescription(description);
+          fixedField.setDisplayValue(ofNullable(valueField).orElse(getLeaderValue()));
+          setLeaderValues(fixedField);
+          break;
+        case Global.MATERIAL_TAG_CODE :
+          generalInformation = new GeneralInformation();
+          generalInformation.setDefaultValues(serviceConfiguration);
+          final Map<String, Object> mapRecordTypeMaterialLeader = storageService.getMaterialTypeInfosByLeaderValues(leader.charAt(6), leader.charAt(7), code);
+          final int headerTypeCalculated = (int) mapRecordTypeMaterialLeader.get(Global.HEADER_TYPE_LABEL);
 
-      } else if (code.equals(Global.MATERIAL_TAG_CODE)) {
-        generalInformation = new GeneralInformation();
-        generalInformation.setDefaultValues(serviceConfiguration);
-        final Map<String, Object> mapRecordTypeMaterial = storageService.getMaterialTypeInfosByLeaderValues(leader.charAt(6), leader.charAt(7), code);
-        final int headerTypeCalculated = (int) mapRecordTypeMaterial.get(Global.HEADER_TYPE_LABEL);
+          generalInformation.setFormOfMaterial((String) mapRecordTypeMaterialLeader.get(Global.FORM_OF_MATERIAL_LABEL));
+          generalInformation.setHeaderType(headerTypeCalculated);
+          generalInformation.setMaterialDescription008Indicator("1");
 
-        generalInformation.setFormOfMaterial((String) mapRecordTypeMaterial.get(Global.FORM_OF_MATERIAL_LABEL));
-        generalInformation.setHeaderType(headerTypeCalculated);
-        generalInformation.setMaterialDescription008Indicator("1");
+          //header type code doesn't match with leader value
+          if (headerTypeCode != headerTypeCalculated) {
+            valueField = null;
+          }
+          break;
 
-        //header type code doesn't match with leader value
-        if (headerTypeCode != headerTypeCalculated) {
-          valueField = null;
-        }
+        case Global.OTHER_MATERIAL_TAG_CODE :
+          generalInformation = new GeneralInformation();
+          generalInformation.setDefaultValues(serviceConfiguration);
 
-      } else if (code.equals(Global.OTHER_MATERIAL_TAG_CODE)) {
-        generalInformation = new GeneralInformation();
-        generalInformation.setDefaultValues(serviceConfiguration);
+          generalInformation.setHeaderType(headerTypeCode);
+          final Map<String, Object> mapRecordTypeMaterialHeader = storageService.getMaterialTypeInfosByHeaderCode(headerTypeCode, code);
+          generalInformation.setMaterialTypeCode((String) mapRecordTypeMaterialHeader.get(Global.MATERIAL_TYPE_CODE_LABEL));
+          generalInformation.setFormOfMaterial((String) mapRecordTypeMaterialHeader.get(Global.FORM_OF_MATERIAL_LABEL));
+          generalInformation.setMaterialDescription008Indicator("0");
+          break;
+        case Global.PHYSICAL_DESCRIPTION_TAG_CODE :
+          final String categoryOfMaterial = ofNullable(Global.PHYSICAL_TYPES_MAP.get(headerTypeCode)).orElse(Global.UNSPECIFIED);
+          fixedField.setHeaderTypeCode((categoryOfMaterial.equals(Global.UNSPECIFIED)) ? Global.PHYSICAL_UNSPECIFIED_HEADER_TYPE : headerTypeCode);
+          fixedField.setDescription(storageService.getHeadingTypeDescription(fixedField.getHeaderTypeCode(), lang, Global.INT_CATEGORY));
+          fixedField.setDisplayValue(valueField);
+          fixedField.setCategoryOfMaterial(categoryOfMaterial);
+          setPhysicalInformationValues(fixedField, valueField);
+          break;
 
-        generalInformation.setHeaderType(headerTypeCode);
-        final Map<String, Object> mapRecordTypeMaterial = storageService.getMaterialTypeInfosByHeaderCode(headerTypeCode, code);
-        generalInformation.setMaterialTypeCode((String) mapRecordTypeMaterial.get(Global.MATERIAL_TYPE_CODE_LABEL));
-        generalInformation.setFormOfMaterial((String) mapRecordTypeMaterial.get(Global.FORM_OF_MATERIAL_LABEL));
-        generalInformation.setMaterialDescription008Indicator("0");
+        case Global.DATETIME_TRANSACTION_TAG_CODE :
+          fixedField.setDescription(storageService.getHeadingTypeDescription(
+            headerTypeCode, lang, Global.INT_CATEGORY));
+          fixedField.setDisplayValue(F.getFormattedToday("yyyyMMddHHmmss."));
+          break;
 
-      } else if (code.equals(Global.PHYSICAL_DESCRIPTION_TAG_CODE)) {
-        final String categoryOfMaterial = ofNullable(Global.PHYSICAL_TYPES_MAP.get(headerTypeCode)).orElse(Global.UNSPECIFIED);
-        fixedField.setHeaderTypeCode((categoryOfMaterial.equals(Global.UNSPECIFIED)) ? Global.PHYSICAL_UNSPECIFIED_HEADER_TYPE : headerTypeCode);
-        fixedField.setDescription(storageService.getHeadingTypeDescription(fixedField.getHeaderTypeCode(), lang, Global.INT_CATEGORY));
-        fixedField.setDisplayValue(valueField);
-        fixedField.setCategoryOfMaterial(categoryOfMaterial);
-        setPhysicalInformationValues(fixedField, valueField);
-
-      } else if (code.equals(Global.DATETIME_TRANSACTION_TAG_CODE)) {
-        fixedField.setDescription(storageService.getHeadingTypeDescription(
-          headerTypeCode, lang, Global.INT_CATEGORY));
-        fixedField.setDisplayValue(F.getFormattedToday("yyyyMMddHHmmss."));
+        default :
       }
 
-      if (code.equals(Global.MATERIAL_TAG_CODE) || code.equals(Global.OTHER_MATERIAL_TAG_CODE)) {
-        if (generalInformation != null) {
+      if ((code.equals(Global.MATERIAL_TAG_CODE) || code.equals(Global.OTHER_MATERIAL_TAG_CODE)) && generalInformation != null) {
           if (valueField == null) {
             if ("1".equals(generalInformation.getMaterialDescription008Indicator())) {
               generalInformation.setEnteredOnFileDateYYMMDD(F.getFormattedToday("yyMMdd"));
@@ -109,7 +112,6 @@ public class CatalogingInformation {
           fixedField.setDescription(storageService.getHeadingTypeDescription(generalInformation.getHeaderType(), lang, Global.INT_CATEGORY));
           fixedField.setDisplayValue(valueField);
           setMaterialValues(fixedField, generalInformation);
-        }
       }
     }
 

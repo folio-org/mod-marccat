@@ -443,8 +443,8 @@ public abstract class Global {
   public static final String serialType = "se";
   public static final String mixedType = "mm";
   public static final String mapType = "cm";
-  public static final String visualType = "vm";
-  public static final String computerType = "cf";
+  public static final String VISUAL_TYPE = "vm";
+  public static final String COMPUTER_TYPE = "cf";
 
-  public static final int controlFieldCategoryCode = 1;
+  public static final int CONTROL_FIELD_CATEGORY_CODE = 1;
 }
