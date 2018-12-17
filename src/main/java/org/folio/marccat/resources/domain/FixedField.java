@@ -36,7 +36,7 @@ import java.util.Map;
 public class FixedField {
 
   @JsonProperty("attributes")
-  private Map<String, Object> attributes;
+  private Map<String, Object> attributes = new HashMap<>();
 
   @JsonProperty("keyNumber")
   private Integer keyNumber;
@@ -503,6 +503,7 @@ public class FixedField {
   @JsonProperty("materialType")
   public void setMaterialType(MaterialType materialType) {
     this.materialType = materialType;
+    this.attributes.put("materialType", materialType);
   }
 
   public FixedField withMaterialType(MaterialType materialType) {
@@ -528,6 +529,7 @@ public class FixedField {
 
   public FixedField withPhysicalType(PhysicalType physicalType) {
     this.physicalType = physicalType;
+    this.attributes.put("physicalType", physicalType);
     return this;
   }
 
@@ -544,10 +546,12 @@ public class FixedField {
    */
   @JsonProperty("dateEnteredOnFile")
   public void setDateEnteredOnFile(String dateEnteredOnFile) {
+    this.attributes.put("dateEnteredOnFile", dateEnteredOnFile);
     this.dateEnteredOnFile = dateEnteredOnFile;
   }
 
   public FixedField withDateEnteredOnFile(String dateEnteredOnFile) {
+    this.attributes.put("dateEnteredOnFile", dateEnteredOnFile);
     this.dateEnteredOnFile = dateEnteredOnFile;
     return this;
   }
@@ -565,10 +569,12 @@ public class FixedField {
    */
   @JsonProperty("dateTypeCode")
   public void setDateTypeCode(String dateTypeCode) {
+    this.attributes.put("dateTypeCode", dateTypeCode);
     this.dateTypeCode = dateTypeCode;
   }
 
   public FixedField withDateTypeCode(String dateTypeCode) {
+    this.attributes.put("dateTypeCode", dateTypeCode);
     this.dateTypeCode = dateTypeCode;
     return this;
   }
@@ -586,10 +592,12 @@ public class FixedField {
    */
   @JsonProperty("dateFirstPublication")
   public void setDateFirstPublication(String dateFirstPublication) {
+    this.attributes.put("dateFirstPublication", dateFirstPublication);
     this.dateFirstPublication = dateFirstPublication;
   }
 
   public FixedField withDateFirstPublication(String dateFirstPublication) {
+    this.attributes.put("dateFirstPublication", dateFirstPublication);
     this.dateFirstPublication = dateFirstPublication;
     return this;
   }
@@ -607,10 +615,12 @@ public class FixedField {
    */
   @JsonProperty("dateLastPublication")
   public void setDateLastPublication(String dateLastPublication) {
+    this.attributes.put("dateLastPublication", dateLastPublication);
     this.dateLastPublication = dateLastPublication;
   }
 
   public FixedField withDateLastPublication(String dateLastPublication) {
+    this.attributes.put("dateLastPublication", dateLastPublication);
     this.dateLastPublication = dateLastPublication;
     return this;
   }
@@ -628,10 +638,12 @@ public class FixedField {
    */
   @JsonProperty("placeOfPublication")
   public void setPlaceOfPublication(String placeOfPublication) {
+    this.attributes.put("placeOfPublication", placeOfPublication);
     this.placeOfPublication = placeOfPublication;
   }
 
   public FixedField withPlaceOfPublication(String placeOfPublication) {
+    this.attributes.put("placeOfPublication", placeOfPublication);
     this.placeOfPublication = placeOfPublication;
     return this;
   }
@@ -649,10 +661,12 @@ public class FixedField {
    */
   @JsonProperty("bookIllustrationCode1")
   public void setBookIllustrationCode1(String bookIllustrationCode1) {
+    this.attributes.put("bookIllustrationCode1", bookIllustrationCode1);
     this.bookIllustrationCode1 = bookIllustrationCode1;
   }
 
   public FixedField withBookIllustrationCode1(String bookIllustrationCode1) {
+    this.attributes.put("bookIllustrationCode1", bookIllustrationCode1);
     this.bookIllustrationCode1 = bookIllustrationCode1;
     return this;
   }
@@ -670,10 +684,12 @@ public class FixedField {
    */
   @JsonProperty("bookIllustrationCode2")
   public void setBookIllustrationCode2(String bookIllustrationCode2) {
+    this.attributes.put("bookIllustrationCode2", bookIllustrationCode2);
     this.bookIllustrationCode2 = bookIllustrationCode2;
   }
 
   public FixedField withBookIllustrationCode2(String bookIllustrationCode2) {
+    this.attributes.put("bookIllustrationCode2", bookIllustrationCode2);
     this.bookIllustrationCode2 = bookIllustrationCode2;
     return this;
   }
@@ -691,10 +707,12 @@ public class FixedField {
    */
   @JsonProperty("bookIllustrationCode3")
   public void setBookIllustrationCode3(String bookIllustrationCode3) {
+    this.attributes.put("bookIllustrationCode3", bookIllustrationCode3);
     this.bookIllustrationCode3 = bookIllustrationCode3;
   }
 
   public FixedField withBookIllustrationCode3(String bookIllustrationCode3) {
+    this.attributes.put("bookIllustrationCode3", bookIllustrationCode3);
     this.bookIllustrationCode3 = bookIllustrationCode3;
     return this;
   }
@@ -712,10 +730,12 @@ public class FixedField {
    */
   @JsonProperty("bookIllustrationCode4")
   public void setBookIllustrationCode4(String bookIllustrationCode4) {
+    this.attributes.put("bookIllustrationCode4", bookIllustrationCode4);
     this.bookIllustrationCode4 = bookIllustrationCode4;
   }
 
   public FixedField withBookIllustrationCode4(String bookIllustrationCode4) {
+    this.attributes.put("bookIllustrationCode4", bookIllustrationCode4);
     this.bookIllustrationCode4 = bookIllustrationCode4;
     return this;
   }
@@ -733,10 +753,12 @@ public class FixedField {
    */
   @JsonProperty("targetAudienceCode")
   public void setTargetAudienceCode(String targetAudienceCode) {
+    this.attributes.put("targetAudienceCode", targetAudienceCode);
     this.targetAudienceCode = targetAudienceCode;
   }
 
   public FixedField withTargetAudienceCode(String targetAudienceCode) {
+    this.attributes.put("targetAudienceCode", targetAudienceCode);
     this.targetAudienceCode = targetAudienceCode;
     return this;
   }
@@ -754,10 +776,12 @@ public class FixedField {
    */
   @JsonProperty("formOfItemCode")
   public void setFormOfItemCode(String formOfItemCode) {
+    this.attributes.put("formOfItemCode", formOfItemCode);
     this.formOfItemCode = formOfItemCode;
   }
 
   public FixedField withFormOfItemCode(String formOfItemCode) {
+    this.attributes.put("formOfItemCode", formOfItemCode);
     this.formOfItemCode = formOfItemCode;
     return this;
   }
@@ -775,10 +799,12 @@ public class FixedField {
    */
   @JsonProperty("natureOfContent1")
   public void setNatureOfContent1(String natureOfContent1) {
+    this.attributes.put("natureOfContent1", natureOfContent1);
     this.natureOfContent1 = natureOfContent1;
   }
 
   public FixedField withNatureOfContent1(String natureOfContent1) {
+    this.attributes.put("natureOfContent1", natureOfContent1);
     this.natureOfContent1 = natureOfContent1;
     return this;
   }
@@ -796,10 +822,12 @@ public class FixedField {
    */
   @JsonProperty("natureOfContent2")
   public void setNatureOfContent2(String natureOfContent2) {
+    this.attributes.put("natureOfContent2", natureOfContent2);
     this.natureOfContent2 = natureOfContent2;
   }
 
   public FixedField withNatureOfContent2(String natureOfContent2) {
+    this.attributes.put("natureOfContent2", natureOfContent2);
     this.natureOfContent2 = natureOfContent2;
     return this;
   }
@@ -817,10 +845,12 @@ public class FixedField {
    */
   @JsonProperty("natureOfContent3")
   public void setNatureOfContent3(String natureOfContent3) {
+    this.attributes.put("natureOfContent3", natureOfContent3);
     this.natureOfContent3 = natureOfContent3;
   }
 
   public FixedField withNatureOfContent3(String natureOfContent3) {
+    this.attributes.put("natureOfContent3", natureOfContent3);
     this.natureOfContent3 = natureOfContent3;
     return this;
   }
@@ -838,10 +868,12 @@ public class FixedField {
    */
   @JsonProperty("natureOfContent4")
   public void setNatureOfContent4(String natureOfContent4) {
+    this.attributes.put("natureOfContent4", natureOfContent4);
     this.natureOfContent4 = natureOfContent4;
   }
 
   public FixedField withNatureOfContent4(String natureOfContent4) {
+    this.attributes.put("natureOfContent4", natureOfContent4);
     this.natureOfContent4 = natureOfContent4;
     return this;
   }
@@ -859,10 +891,12 @@ public class FixedField {
    */
   @JsonProperty("governmentPublicationCode")
   public void setGovernmentPublicationCode(String governmentPublicationCode) {
+    this.attributes.put("governmentPublicationCode", governmentPublicationCode);
     this.governmentPublicationCode = governmentPublicationCode;
   }
 
   public FixedField withGovernmentPublicationCode(String governmentPublicationCode) {
+    this.attributes.put("governmentPublicationCode", governmentPublicationCode);
     this.governmentPublicationCode = governmentPublicationCode;
     return this;
   }
@@ -880,10 +914,12 @@ public class FixedField {
    */
   @JsonProperty("conferencePublicationCode")
   public void setConferencePublicationCode(String conferencePublicationCode) {
+    this.attributes.put("conferencePublicationCode", conferencePublicationCode);
     this.conferencePublicationCode = conferencePublicationCode;
   }
 
   public FixedField withConferencePublicationCode(String conferencePublicationCode) {
+    this.attributes.put("conferencePublicationCode", conferencePublicationCode);
     this.conferencePublicationCode = conferencePublicationCode;
     return this;
   }
@@ -901,10 +937,12 @@ public class FixedField {
    */
   @JsonProperty("bookFestschrift")
   public void setBookFestschrift(String bookFestschrift) {
+    this.attributes.put("bookFestschrift", bookFestschrift);
     this.bookFestschrift = bookFestschrift;
   }
 
   public FixedField withBookFestschrift(String bookFestschrift) {
+    this.attributes.put("bookFestschrift", bookFestschrift);
     this.bookFestschrift = bookFestschrift;
     return this;
   }
@@ -922,10 +960,12 @@ public class FixedField {
    */
   @JsonProperty("bookIndexAvailabilityCode")
   public void setBookIndexAvailabilityCode(String bookIndexAvailabilityCode) {
+    this.attributes.put("bookIndexAvailabilityCode", bookIndexAvailabilityCode);
     this.bookIndexAvailabilityCode = bookIndexAvailabilityCode;
   }
 
   public FixedField withBookIndexAvailabilityCode(String bookIndexAvailabilityCode) {
+    this.attributes.put("bookIndexAvailabilityCode", bookIndexAvailabilityCode);
     this.bookIndexAvailabilityCode = bookIndexAvailabilityCode;
     return this;
   }
@@ -943,10 +983,12 @@ public class FixedField {
    */
   @JsonProperty("bookLiteraryFormTypeCode")
   public void setBookLiteraryFormTypeCode(String bookLiteraryFormTypeCode) {
+    this.attributes.put("bookLiteraryFormTypeCode", bookLiteraryFormTypeCode);
     this.bookLiteraryFormTypeCode = bookLiteraryFormTypeCode;
   }
 
   public FixedField withBookLiteraryFormTypeCode(String bookLiteraryFormTypeCode) {
+    this.attributes.put("bookLiteraryFormTypeCode", bookLiteraryFormTypeCode);
     this.bookLiteraryFormTypeCode = bookLiteraryFormTypeCode;
     return this;
   }
@@ -964,10 +1006,12 @@ public class FixedField {
    */
   @JsonProperty("bookBiographyCode")
   public void setBookBiographyCode(String bookBiographyCode) {
+    this.attributes.put("bookBiographyCode", bookBiographyCode);
     this.bookBiographyCode = bookBiographyCode;
   }
 
   public FixedField withBookBiographyCode(String bookBiographyCode) {
+    this.attributes.put("bookBiographyCode", bookBiographyCode);
     this.bookBiographyCode = bookBiographyCode;
     return this;
   }
@@ -985,10 +1029,12 @@ public class FixedField {
    */
   @JsonProperty("cartographicReliefCode1")
   public void setCartographicReliefCode1(String cartographicReliefCode1) {
+    this.attributes.put("cartographicReliefCode1", cartographicReliefCode1);
     this.cartographicReliefCode1 = cartographicReliefCode1;
   }
 
   public FixedField withCartographicReliefCode1(String cartographicReliefCode1) {
+    this.attributes.put("cartographicReliefCode1", cartographicReliefCode1);
     this.cartographicReliefCode1 = cartographicReliefCode1;
     return this;
   }
@@ -1006,10 +1052,12 @@ public class FixedField {
    */
   @JsonProperty("cartographicReliefCode2")
   public void setCartographicReliefCode2(String cartographicReliefCode2) {
+    this.attributes.put("cartographicReliefCode2", cartographicReliefCode2);
     this.cartographicReliefCode2 = cartographicReliefCode2;
   }
 
   public FixedField withCartographicReliefCode2(String cartographicReliefCode2) {
+    this.attributes.put("cartographicReliefCode2", cartographicReliefCode2);
     this.cartographicReliefCode2 = cartographicReliefCode2;
     return this;
   }
@@ -1027,10 +1075,12 @@ public class FixedField {
    */
   @JsonProperty("cartographicReliefCode3")
   public void setCartographicReliefCode3(String cartographicReliefCode3) {
+    this.attributes.put("cartographicReliefCode3", cartographicReliefCode3);
     this.cartographicReliefCode3 = cartographicReliefCode3;
   }
 
   public FixedField withCartographicReliefCode3(String cartographicReliefCode3) {
+    this.attributes.put("cartographicReliefCode3", cartographicReliefCode3);
     this.cartographicReliefCode3 = cartographicReliefCode3;
     return this;
   }
@@ -1048,10 +1098,12 @@ public class FixedField {
    */
   @JsonProperty("cartographicReliefCode4")
   public void setCartographicReliefCode4(String cartographicReliefCode4) {
+    this.attributes.put("cartographicReliefCode4", cartographicReliefCode4);
     this.cartographicReliefCode4 = cartographicReliefCode4;
   }
 
   public FixedField withCartographicReliefCode4(String cartographicReliefCode4) {
+    this.attributes.put("cartographicReliefCode4", cartographicReliefCode4);
     this.cartographicReliefCode4 = cartographicReliefCode4;
     return this;
   }
@@ -1069,10 +1121,12 @@ public class FixedField {
    */
   @JsonProperty("cartographicProjectionCode")
   public void setCartographicProjectionCode(String cartographicProjectionCode) {
+    this.attributes.put("cartographicProjectionCode", cartographicProjectionCode);
     this.cartographicProjectionCode = cartographicProjectionCode;
   }
 
   public FixedField withCartographicProjectionCode(String cartographicProjectionCode) {
+    this.attributes.put("cartographicProjectionCode", cartographicProjectionCode);
     this.cartographicProjectionCode = cartographicProjectionCode;
     return this;
   }
@@ -1090,10 +1144,12 @@ public class FixedField {
    */
   @JsonProperty("cartographicMaterial")
   public void setCartographicMaterial(String cartographicMaterial) {
+    this.attributes.put("cartographicMaterial", cartographicMaterial);
     this.cartographicMaterial = cartographicMaterial;
   }
 
   public FixedField withCartographicMaterial(String cartographicMaterial) {
+    this.attributes.put("cartographicMaterial", cartographicMaterial);
     this.cartographicMaterial = cartographicMaterial;
     return this;
   }
@@ -1111,10 +1167,12 @@ public class FixedField {
    */
   @JsonProperty("cartographicIndexAvailabilityCode")
   public void setCartographicIndexAvailabilityCode(String cartographicIndexAvailabilityCode) {
+    this.attributes.put("cartographicIndexAvailabilityCode", cartographicIndexAvailabilityCode);
     this.cartographicIndexAvailabilityCode = cartographicIndexAvailabilityCode;
   }
 
   public FixedField withCartographicIndexAvailabilityCode(String cartographicIndexAvailabilityCode) {
+    this.attributes.put("cartographicIndexAvailabilityCode", cartographicIndexAvailabilityCode);
     this.cartographicIndexAvailabilityCode = cartographicIndexAvailabilityCode;
     return this;
   }
@@ -1132,10 +1190,12 @@ public class FixedField {
    */
   @JsonProperty("cartographicFormatCode1")
   public void setCartographicFormatCode1(String cartographicFormatCode1) {
+    this.attributes.put("cartographicFormatCode1", cartographicFormatCode1);
     this.cartographicFormatCode1 = cartographicFormatCode1;
   }
 
   public FixedField withCartographicFormatCode1(String cartographicFormatCode1) {
+    this.attributes.put("cartographicFormatCode1", cartographicFormatCode1);
     this.cartographicFormatCode1 = cartographicFormatCode1;
     return this;
   }
@@ -1153,10 +1213,12 @@ public class FixedField {
    */
   @JsonProperty("cartographicFormatCode2")
   public void setCartographicFormatCode2(String cartographicFormatCode2) {
+    this.attributes.put("cartographicFormatCode2", cartographicFormatCode2);
     this.cartographicFormatCode2 = cartographicFormatCode2;
   }
 
   public FixedField withCartographicFormatCode2(String cartographicFormatCode2) {
+    this.attributes.put("cartographicFormatCode2", cartographicFormatCode2);
     this.cartographicFormatCode2 = cartographicFormatCode2;
     return this;
   }
@@ -1174,10 +1236,12 @@ public class FixedField {
    */
   @JsonProperty("musicFormOfCompositionCode")
   public void setMusicFormOfCompositionCode(String musicFormOfCompositionCode) {
+    this.attributes.put("musicFormOfCompositionCode", musicFormOfCompositionCode);
     this.musicFormOfCompositionCode = musicFormOfCompositionCode;
   }
 
   public FixedField withMusicFormOfCompositionCode(String musicFormOfCompositionCode) {
+    this.attributes.put("musicFormOfCompositionCode", musicFormOfCompositionCode);
     this.musicFormOfCompositionCode = musicFormOfCompositionCode;
     return this;
   }
@@ -1195,10 +1259,12 @@ public class FixedField {
    */
   @JsonProperty("musicFormatCode")
   public void setMusicFormatCode(String musicFormatCode) {
+    this.attributes.put("musicFormatCode", musicFormatCode);
     this.musicFormatCode = musicFormatCode;
   }
 
   public FixedField withMusicFormatCode(String musicFormatCode) {
+    this.attributes.put("musicFormatCode", musicFormatCode);
     this.musicFormatCode = musicFormatCode;
     return this;
   }
@@ -1216,10 +1282,12 @@ public class FixedField {
    */
   @JsonProperty("musicPartsCode")
   public void setMusicPartsCode(String musicPartsCode) {
+    this.attributes.put("musicPartsCode", musicPartsCode);
     this.musicPartsCode = musicPartsCode;
   }
 
   public FixedField withMusicPartsCode(String musicPartsCode) {
+    this.attributes.put("musicPartsCode", musicPartsCode);
     this.musicPartsCode = musicPartsCode;
     return this;
   }
@@ -1237,10 +1305,12 @@ public class FixedField {
    */
   @JsonProperty("musicTextualMaterialCode1")
   public void setMusicTextualMaterialCode1(String musicTextualMaterialCode1) {
+    this.attributes.put("musicTextualMaterialCode1", musicTextualMaterialCode1);
     this.musicTextualMaterialCode1 = musicTextualMaterialCode1;
   }
 
   public FixedField withMusicTextualMaterialCode1(String musicTextualMaterialCode1) {
+    this.attributes.put("musicTextualMaterialCode1", musicTextualMaterialCode1);
     this.musicTextualMaterialCode1 = musicTextualMaterialCode1;
     return this;
   }
@@ -1258,10 +1328,12 @@ public class FixedField {
    */
   @JsonProperty("musicTextualMaterialCode2")
   public void setMusicTextualMaterialCode2(String musicTextualMaterialCode2) {
+    this.attributes.put("musicTextualMaterialCode2", musicTextualMaterialCode2);
     this.musicTextualMaterialCode2 = musicTextualMaterialCode2;
   }
 
   public FixedField withMusicTextualMaterialCode2(String musicTextualMaterialCode2) {
+    this.attributes.put("musicTextualMaterialCode2", musicTextualMaterialCode2);
     this.musicTextualMaterialCode2 = musicTextualMaterialCode2;
     return this;
   }
@@ -1279,10 +1351,12 @@ public class FixedField {
    */
   @JsonProperty("musicTextualMaterialCode3")
   public void setMusicTextualMaterialCode3(String musicTextualMaterialCode3) {
+    this.attributes.put("musicTextualMaterialCode3", musicTextualMaterialCode3);
     this.musicTextualMaterialCode3 = musicTextualMaterialCode3;
   }
 
   public FixedField withMusicTextualMaterialCode3(String musicTextualMaterialCode3) {
+    this.attributes.put("musicTextualMaterialCode3", musicTextualMaterialCode3);
     this.musicTextualMaterialCode3 = musicTextualMaterialCode3;
     return this;
   }
@@ -1300,10 +1374,12 @@ public class FixedField {
    */
   @JsonProperty("musicTextualMaterialCode4")
   public void setMusicTextualMaterialCode4(String musicTextualMaterialCode4) {
+    this.attributes.put("musicTextualMaterialCode4", musicTextualMaterialCode4);
     this.musicTextualMaterialCode4 = musicTextualMaterialCode4;
   }
 
   public FixedField withMusicTextualMaterialCode4(String musicTextualMaterialCode4) {
+    this.attributes.put("musicTextualMaterialCode4", musicTextualMaterialCode4);
     this.musicTextualMaterialCode4 = musicTextualMaterialCode4;
     return this;
   }
@@ -1321,10 +1397,12 @@ public class FixedField {
    */
   @JsonProperty("musicTextualMaterialCode5")
   public void setMusicTextualMaterialCode5(String musicTextualMaterialCode5) {
+    this.attributes.put("musicTextualMaterialCode5", musicTextualMaterialCode5);
     this.musicTextualMaterialCode5 = musicTextualMaterialCode5;
   }
 
   public FixedField withMusicTextualMaterialCode5(String musicTextualMaterialCode5) {
+    this.attributes.put("musicTextualMaterialCode5", musicTextualMaterialCode5);
     this.musicTextualMaterialCode5 = musicTextualMaterialCode5;
     return this;
   }
@@ -1342,10 +1420,12 @@ public class FixedField {
    */
   @JsonProperty("musicTextualMaterialCode6")
   public void setMusicTextualMaterialCode6(String musicTextualMaterialCode6) {
+    this.attributes.put("musicTextualMaterialCode6", musicTextualMaterialCode6);
     this.musicTextualMaterialCode6 = musicTextualMaterialCode6;
   }
 
   public FixedField withMusicTextualMaterialCode6(String musicTextualMaterialCode6) {
+    this.attributes.put("musicTextualMaterialCode6", musicTextualMaterialCode6);
     this.musicTextualMaterialCode6 = musicTextualMaterialCode6;
     return this;
   }
@@ -1363,10 +1443,12 @@ public class FixedField {
    */
   @JsonProperty("musicLiteraryTextCode1")
   public void setMusicLiteraryTextCode1(String musicLiteraryTextCode1) {
+    this.attributes.put("musicLiteraryTextCode1", musicLiteraryTextCode1);
     this.musicLiteraryTextCode1 = musicLiteraryTextCode1;
   }
 
   public FixedField withMusicLiteraryTextCode1(String musicLiteraryTextCode1) {
+    this.attributes.put("musicLiteraryTextCode1", musicLiteraryTextCode1);
     this.musicLiteraryTextCode1 = musicLiteraryTextCode1;
     return this;
   }
@@ -1384,10 +1466,12 @@ public class FixedField {
    */
   @JsonProperty("musicLiteraryTextCode2")
   public void setMusicLiteraryTextCode2(String musicLiteraryTextCode2) {
+    this.attributes.put("musicLiteraryTextCode2", musicLiteraryTextCode2);
     this.musicLiteraryTextCode2 = musicLiteraryTextCode2;
   }
 
   public FixedField withMusicLiteraryTextCode2(String musicLiteraryTextCode2) {
+    this.attributes.put("musicLiteraryTextCode2", musicLiteraryTextCode2);
     this.musicLiteraryTextCode2 = musicLiteraryTextCode2;
     return this;
   }
@@ -1405,10 +1489,12 @@ public class FixedField {
    */
   @JsonProperty("musicTranspositionArrangementCode")
   public void setMusicTranspositionArrangementCode(String musicTranspositionArrangementCode) {
+    this.attributes.put("musicTranspositionArrangementCode", musicTranspositionArrangementCode);
     this.musicTranspositionArrangementCode = musicTranspositionArrangementCode;
   }
 
   public FixedField withMusicTranspositionArrangementCode(String musicTranspositionArrangementCode) {
+    this.attributes.put("musicTranspositionArrangementCode", musicTranspositionArrangementCode);
     this.musicTranspositionArrangementCode = musicTranspositionArrangementCode;
     return this;
   }
@@ -1426,10 +1512,12 @@ public class FixedField {
    */
   @JsonProperty("computerFileTypeCode")
   public void setComputerFileTypeCode(String computerFileTypeCode) {
+    this.attributes.put("computerFileTypeCode", computerFileTypeCode);
     this.computerFileTypeCode = computerFileTypeCode;
   }
 
   public FixedField withComputerFileTypeCode(String computerFileTypeCode) {
+    this.attributes.put("computerFileTypeCode", computerFileTypeCode);
     this.computerFileTypeCode = computerFileTypeCode;
     return this;
   }
@@ -1447,10 +1535,12 @@ public class FixedField {
    */
   @JsonProperty("visualRunningTime")
   public void setVisualRunningTime(String visualRunningTime) {
+    this.attributes.put("visualRunningTime", visualRunningTime);
     this.visualRunningTime = visualRunningTime;
   }
 
   public FixedField withVisualRunningTime(String visualRunningTime) {
+    this.attributes.put("visualRunningTime", visualRunningTime);
     this.visualRunningTime = visualRunningTime;
     return this;
   }
@@ -1468,10 +1558,12 @@ public class FixedField {
    */
   @JsonProperty("visualMaterialTypeCode")
   public void setVisualMaterialTypeCode(String visualMaterialTypeCode) {
+    this.attributes.put("visualMaterialTypeCode", visualMaterialTypeCode);
     this.visualMaterialTypeCode = visualMaterialTypeCode;
   }
 
   public FixedField withVisualMaterialTypeCode(String visualMaterialTypeCode) {
+    this.attributes.put("visualMaterialTypeCode", visualMaterialTypeCode);
     this.visualMaterialTypeCode = visualMaterialTypeCode;
     return this;
   }
@@ -1489,10 +1581,12 @@ public class FixedField {
    */
   @JsonProperty("visualTechniqueCode")
   public void setVisualTechniqueCode(String visualTechniqueCode) {
+    this.attributes.put("visualTechniqueCode", visualTechniqueCode);
     this.visualTechniqueCode = visualTechniqueCode;
   }
 
   public FixedField withVisualTechniqueCode(String visualTechniqueCode) {
+    this.attributes.put("visualTechniqueCode", visualTechniqueCode);
     this.visualTechniqueCode = visualTechniqueCode;
     return this;
   }
@@ -1510,10 +1604,12 @@ public class FixedField {
    */
   @JsonProperty("serialFrequencyCode")
   public void setSerialFrequencyCode(String serialFrequencyCode) {
+    this.attributes.put("serialFrequencyCode", serialFrequencyCode);
     this.serialFrequencyCode = serialFrequencyCode;
   }
 
   public FixedField withSerialFrequencyCode(String serialFrequencyCode) {
+    this.attributes.put("serialFrequencyCode", serialFrequencyCode);
     this.serialFrequencyCode = serialFrequencyCode;
     return this;
   }
@@ -1531,10 +1627,12 @@ public class FixedField {
    */
   @JsonProperty("serialRegularityCode")
   public void setSerialRegularityCode(String serialRegularityCode) {
+    this.attributes.put("serialRegularityCode", serialRegularityCode);
     this.serialRegularityCode = serialRegularityCode;
   }
 
   public FixedField withSerialRegularityCode(String serialRegularityCode) {
+    this.attributes.put("serialRegularityCode", serialRegularityCode);
     this.serialRegularityCode = serialRegularityCode;
     return this;
   }
@@ -1552,10 +1650,12 @@ public class FixedField {
    */
   @JsonProperty("serialTypeCode")
   public void setSerialTypeCode(String serialTypeCode) {
+    this.attributes.put("serialTypeCode", serialTypeCode);
     this.serialTypeCode = serialTypeCode;
   }
 
   public FixedField withSerialTypeCode(String serialTypeCode) {
+    this.attributes.put("serialTypeCode", serialTypeCode);
     this.serialTypeCode = serialTypeCode;
     return this;
   }
@@ -1573,10 +1673,12 @@ public class FixedField {
    */
   @JsonProperty("serialFormOriginalItemCode")
   public void setSerialFormOriginalItemCode(String serialFormOriginalItemCode) {
+    this.attributes.put("serialFormOriginalItemCode", serialFormOriginalItemCode);
     this.serialFormOriginalItemCode = serialFormOriginalItemCode;
   }
 
   public FixedField withSerialFormOriginalItemCode(String serialFormOriginalItemCode) {
+    this.attributes.put("serialFormOriginalItemCode", serialFormOriginalItemCode);
     this.serialFormOriginalItemCode = serialFormOriginalItemCode;
     return this;
   }
@@ -1594,10 +1696,12 @@ public class FixedField {
    */
   @JsonProperty("serialOriginalAlphabetOfTitleCode")
   public void setSerialOriginalAlphabetOfTitleCode(String serialOriginalAlphabetOfTitleCode) {
+    this.attributes.put("serialOriginalAlphabetOfTitleCode", serialOriginalAlphabetOfTitleCode);
     this.serialOriginalAlphabetOfTitleCode = serialOriginalAlphabetOfTitleCode;
   }
 
   public FixedField withSerialOriginalAlphabetOfTitleCode(String serialOriginalAlphabetOfTitleCode) {
+    this.attributes.put("serialOriginalAlphabetOfTitleCode", serialOriginalAlphabetOfTitleCode);
     this.serialOriginalAlphabetOfTitleCode = serialOriginalAlphabetOfTitleCode;
     return this;
   }
@@ -1615,10 +1719,12 @@ public class FixedField {
    */
   @JsonProperty("serialEntryConventionCode")
   public void setSerialEntryConventionCode(String serialEntryConventionCode) {
+    this.attributes.put("serialEntryConventionCode", serialEntryConventionCode);
     this.serialEntryConventionCode = serialEntryConventionCode;
   }
 
   public FixedField withSerialEntryConventionCode(String serialEntryConventionCode) {
+    this.attributes.put("serialEntryConventionCode", serialEntryConventionCode);
     this.serialEntryConventionCode = serialEntryConventionCode;
     return this;
   }
@@ -1636,10 +1742,12 @@ public class FixedField {
    */
   @JsonProperty("languageCode")
   public void setLanguageCode(String languageCode) {
+    this.attributes.put("languageCode", languageCode);
     this.languageCode = languageCode;
   }
 
   public FixedField withLanguageCode(String languageCode) {
+    this.attributes.put("languageCode", languageCode);
     this.languageCode = languageCode;
     return this;
   }
@@ -1657,10 +1765,12 @@ public class FixedField {
    */
   @JsonProperty("recordModifiedCode")
   public void setRecordModifiedCode(String recordModifiedCode) {
+    this.attributes.put("recordModifiedCode", recordModifiedCode);
     this.recordModifiedCode = recordModifiedCode;
   }
 
   public FixedField withRecordModifiedCode(String recordModifiedCode) {
+    this.attributes.put("recordModifiedCode", recordModifiedCode);
     this.recordModifiedCode = recordModifiedCode;
     return this;
   }
@@ -1678,10 +1788,12 @@ public class FixedField {
    */
   @JsonProperty("recordCataloguingSourceCode")
   public void setRecordCataloguingSourceCode(String recordCataloguingSourceCode) {
+    this.attributes.put("recordCataloguingSourceCode", recordCataloguingSourceCode);
     this.recordCataloguingSourceCode = recordCataloguingSourceCode;
   }
 
   public FixedField withRecordCataloguingSourceCode(String recordCataloguingSourceCode) {
+    this.attributes.put("recordCataloguingSourceCode", recordCataloguingSourceCode);
     this.recordCataloguingSourceCode = recordCataloguingSourceCode;
     return this;
   }
@@ -1699,10 +1811,12 @@ public class FixedField {
    */
   @JsonProperty("itemRecordStatusCode")
   public void setItemRecordStatusCode(String itemRecordStatusCode) {
+    this.attributes.put("itemRecordStatusCode", itemRecordStatusCode);
     this.itemRecordStatusCode = itemRecordStatusCode;
   }
 
   public FixedField withItemRecordStatusCode(String itemRecordStatusCode) {
+    this.attributes.put("itemRecordStatusCode", itemRecordStatusCode);
     this.itemRecordStatusCode = itemRecordStatusCode;
     return this;
   }
@@ -1720,10 +1834,12 @@ public class FixedField {
    */
   @JsonProperty("itemRecordTypeCode")
   public void setItemRecordTypeCode(String itemRecordTypeCode) {
+    this.attributes.put("itemRecordTypeCode", itemRecordTypeCode);
     this.itemRecordTypeCode = itemRecordTypeCode;
   }
 
   public FixedField withItemRecordTypeCode(String itemRecordTypeCode) {
+    this.attributes.put("itemRecordTypeCode", itemRecordTypeCode);
     this.itemRecordTypeCode = itemRecordTypeCode;
     return this;
   }
@@ -1741,10 +1857,12 @@ public class FixedField {
    */
   @JsonProperty("itemBibliographicLevelCode")
   public void setItemBibliographicLevelCode(String itemBibliographicLevelCode) {
+    this.attributes.put("itemBibliographicLevelCode", itemBibliographicLevelCode);
     this.itemBibliographicLevelCode = itemBibliographicLevelCode;
   }
 
   public FixedField withItemBibliographicLevelCode(String itemBibliographicLevelCode) {
+    this.attributes.put("itemBibliographicLevelCode", itemBibliographicLevelCode);
     this.itemBibliographicLevelCode = itemBibliographicLevelCode;
     return this;
   }
@@ -1762,10 +1880,12 @@ public class FixedField {
    */
   @JsonProperty("itemControlTypeCode")
   public void setItemControlTypeCode(String itemControlTypeCode) {
+    this.attributes.put("itemControlTypeCode", itemControlTypeCode);
     this.itemControlTypeCode = itemControlTypeCode;
   }
 
   public FixedField withItemControlTypeCode(String itemControlTypeCode) {
+    this.attributes.put("itemControlTypeCode", itemControlTypeCode);
     this.itemControlTypeCode = itemControlTypeCode;
     return this;
   }
@@ -1783,10 +1903,12 @@ public class FixedField {
    */
   @JsonProperty("characterCodingSchemeCode")
   public void setCharacterCodingSchemeCode(String characterCodingSchemeCode) {
+    this.attributes.put("characterCodingSchemeCode", characterCodingSchemeCode);
     this.characterCodingSchemeCode = characterCodingSchemeCode;
   }
 
   public FixedField withCharacterCodingSchemeCode(String characterCodingSchemeCode) {
+    this.attributes.put("characterCodingSchemeCode", characterCodingSchemeCode);
     this.characterCodingSchemeCode = characterCodingSchemeCode;
     return this;
   }
@@ -1804,10 +1926,12 @@ public class FixedField {
    */
   @JsonProperty("encodingLevel")
   public void setEncodingLevel(String encodingLevel) {
+    this.attributes.put("encodingLevel", encodingLevel);
     this.encodingLevel = encodingLevel;
   }
 
   public FixedField withEncodingLevel(String encodingLevel) {
+    this.attributes.put("encodingLevel", encodingLevel);
     this.encodingLevel = encodingLevel;
     return this;
   }
@@ -1825,10 +1949,12 @@ public class FixedField {
    */
   @JsonProperty("descriptiveCataloguingCode")
   public void setDescriptiveCataloguingCode(String descriptiveCataloguingCode) {
+    this.attributes.put("descriptiveCataloguingCode", descriptiveCataloguingCode);
     this.descriptiveCataloguingCode = descriptiveCataloguingCode;
   }
 
   public FixedField withDescriptiveCataloguingCode(String descriptiveCataloguingCode) {
+    this.attributes.put("descriptiveCataloguingCode", descriptiveCataloguingCode);
     this.descriptiveCataloguingCode = descriptiveCataloguingCode;
     return this;
   }
@@ -1846,10 +1972,12 @@ public class FixedField {
    */
   @JsonProperty("linkedRecordCode")
   public void setLinkedRecordCode(String linkedRecordCode) {
+    this.attributes.put("linkedRecordCode", linkedRecordCode);
     this.linkedRecordCode = linkedRecordCode;
   }
 
   public FixedField withLinkedRecordCode(String linkedRecordCode) {
+    this.attributes.put("linkedRecordCode", linkedRecordCode);
     this.linkedRecordCode = linkedRecordCode;
     return this;
   }
@@ -1867,10 +1995,12 @@ public class FixedField {
    */
   @JsonProperty("materialTypeCode")
   public void setMaterialTypeCode(String materialTypeCode) {
+    this.attributes.put("materialTypeCode", materialTypeCode);
     this.materialTypeCode = materialTypeCode;
   }
 
   public FixedField withMaterialTypeCode(String materialTypeCode) {
+    this.attributes.put("materialTypeCode", materialTypeCode);
     this.materialTypeCode = materialTypeCode;
     return this;
   }
@@ -1888,10 +2018,12 @@ public class FixedField {
    */
   @JsonProperty("categoryOfMaterial")
   public void setCategoryOfMaterial(String categoryOfMaterial) {
+    this.attributes.put("categoryOfMaterial", categoryOfMaterial);
     this.categoryOfMaterial = categoryOfMaterial;
   }
 
   public FixedField withCategoryOfMaterial(String categoryOfMaterial) {
+    this.attributes.put("categoryOfMaterial", categoryOfMaterial);
     this.categoryOfMaterial = categoryOfMaterial;
     return this;
   }
@@ -1909,10 +2041,12 @@ public class FixedField {
    */
   @JsonProperty("specificMaterialDesignationCode")
   public void setSpecificMaterialDesignationCode(String specificMaterialDesignationCode) {
+    this.attributes.put("specificMaterialDesignationCode", specificMaterialDesignationCode);
     this.specificMaterialDesignationCode = specificMaterialDesignationCode;
   }
 
   public FixedField withSpecificMaterialDesignationCode(String specificMaterialDesignationCode) {
+    this.attributes.put("specificMaterialDesignationCode", specificMaterialDesignationCode);
     this.specificMaterialDesignationCode = specificMaterialDesignationCode;
     return this;
   }
@@ -1921,7 +2055,7 @@ public class FixedField {
    * @return The colorCode
    */
   @JsonProperty("colorCode")
-  public String getColorCode() {
+  public String getColourCode() {
     return colorCode;
   }
 
@@ -1929,11 +2063,13 @@ public class FixedField {
    * @param colorCode The colorCode
    */
   @JsonProperty("colorCode")
-  public void setColorCode(String colorCode) {
+  public void setColourCode(String colorCode) {
+    this.attributes.put("colorCode", colorCode);
     this.colorCode = colorCode;
   }
 
-  public FixedField withColorCode(String colorCode) {
+  public FixedField withColourCode(String colorCode) {
+    this.attributes.put("colorCode", colorCode);
     this.colorCode = colorCode;
     return this;
   }
@@ -1951,10 +2087,12 @@ public class FixedField {
    */
   @JsonProperty("physicalMediumCode")
   public void setPhysicalMediumCode(String physicalMediumCode) {
+    this.attributes.put("physicalMediumCode", physicalMediumCode);
     this.physicalMediumCode = physicalMediumCode;
   }
 
   public FixedField withPhysicalMediumCode(String physicalMediumCode) {
+    this.attributes.put("physicalMediumCode", physicalMediumCode);
     this.physicalMediumCode = physicalMediumCode;
     return this;
   }
@@ -1972,10 +2110,12 @@ public class FixedField {
    */
   @JsonProperty("typeOfReproductionCode")
   public void setTypeOfReproductionCode(String typeOfReproductionCode) {
+    this.attributes.put("typeOfReproductionCode", typeOfReproductionCode);
     this.typeOfReproductionCode = typeOfReproductionCode;
   }
 
   public FixedField withTypeOfReproductionCode(String typeOfReproductionCode) {
+    this.attributes.put("typeOfReproductionCode", typeOfReproductionCode);
     this.typeOfReproductionCode = typeOfReproductionCode;
     return this;
   }
@@ -1993,10 +2133,12 @@ public class FixedField {
    */
   @JsonProperty("polarityCode")
   public void setPolarityCode(String polarityCode) {
+    this.attributes.put("polarityCode", polarityCode);
     this.polarityCode = polarityCode;
   }
 
   public FixedField withPolarityCode(String polarityCode) {
+    this.attributes.put("polarityCode", polarityCode);
     this.polarityCode = polarityCode;
     return this;
   }
@@ -2014,10 +2156,12 @@ public class FixedField {
    */
   @JsonProperty("dimensionsCode")
   public void setDimensionsCode(String dimensionsCode) {
+    this.attributes.put("dimensionsCode", dimensionsCode);
     this.dimensionsCode = dimensionsCode;
   }
 
   public FixedField withDimensionsCode(String dimensionsCode) {
+    this.attributes.put("dimensionsCode", dimensionsCode);
     this.dimensionsCode = dimensionsCode;
     return this;
   }
@@ -2035,10 +2179,12 @@ public class FixedField {
    */
   @JsonProperty("generationCode")
   public void setGenerationCode(String generationCode) {
+    this.attributes.put("generationCode", generationCode);
     this.generationCode = generationCode;
   }
 
   public FixedField withGenerationCode(String generationCode) {
+    this.attributes.put("generationCode", generationCode);
     this.generationCode = generationCode;
     return this;
   }
@@ -2056,10 +2202,12 @@ public class FixedField {
    */
   @JsonProperty("baseOfFilmCode")
   public void setBaseOfFilmCode(String baseOfFilmCode) {
+    this.attributes.put("baseOfFilmCode", baseOfFilmCode);
     this.baseOfFilmCode = baseOfFilmCode;
   }
 
   public FixedField withBaseOfFilmCode(String baseOfFilmCode) {
+    this.attributes.put("baseOfFilmCode", baseOfFilmCode);
     this.baseOfFilmCode = baseOfFilmCode;
     return this;
   }
@@ -2077,10 +2225,12 @@ public class FixedField {
    */
   @JsonProperty("includesSoundCode")
   public void setIncludesSoundCode(String includesSoundCode) {
+    this.attributes.put("includesSoundCode", includesSoundCode);
     this.includesSoundCode = includesSoundCode;
   }
 
   public FixedField withIncludesSoundCode(String includesSoundCode) {
+    this.attributes.put("includesSoundCode", includesSoundCode);
     this.includesSoundCode = includesSoundCode;
     return this;
   }
@@ -2098,10 +2248,12 @@ public class FixedField {
    */
   @JsonProperty("mediumForSoundCode")
   public void setMediumForSoundCode(String mediumForSoundCode) {
+    this.attributes.put("mediumForSoundCode", mediumForSoundCode);
     this.mediumForSoundCode = mediumForSoundCode;
   }
 
   public FixedField withMediumForSoundCode(String mediumForSoundCode) {
+    this.attributes.put("mediumForSoundCode", mediumForSoundCode);
     this.mediumForSoundCode = mediumForSoundCode;
     return this;
   }
@@ -2119,10 +2271,12 @@ public class FixedField {
    */
   @JsonProperty("secondarySupportMaterialCode")
   public void setSecondarySupportMaterialCode(String secondarySupportMaterialCode) {
+    this.attributes.put("secondarySupportMaterialCode", secondarySupportMaterialCode);
     this.secondarySupportMaterialCode = secondarySupportMaterialCode;
   }
 
   public FixedField withSecondarySupportMaterialCode(String secondarySupportMaterialCode) {
+    this.attributes.put("secondarySupportMaterialCode", secondarySupportMaterialCode);
     this.secondarySupportMaterialCode = secondarySupportMaterialCode;
     return this;
   }
@@ -2140,10 +2294,12 @@ public class FixedField {
    */
   @JsonProperty("configurationCode")
   public void setConfigurationCode(String configurationCode) {
+    this.attributes.put("configurationCode", configurationCode);
     this.configurationCode = configurationCode;
   }
 
   public FixedField withConfigurationCode(String configurationCode) {
+    this.attributes.put("configurationCode", configurationCode);
     this.configurationCode = configurationCode;
     return this;
   }
@@ -2161,10 +2317,12 @@ public class FixedField {
    */
   @JsonProperty("obsolete1")
   public void setObsolete1(String obsolete1) {
+    this.attributes.put("obsolete1", obsolete1);
     this.obsolete1 = obsolete1;
   }
 
   public FixedField withObsolete1(String obsolete1) {
+    this.attributes.put("obsolete1", obsolete1);
     this.obsolete1 = obsolete1;
     return this;
   }
@@ -2182,10 +2340,12 @@ public class FixedField {
    */
   @JsonProperty("obsolete2")
   public void setObsolete2(String obsolete2) {
+    this.attributes.put("obsolete2", obsolete2);
     this.obsolete2 = obsolete2;
   }
 
   public FixedField withObsolete2(String obsolete2) {
+    this.attributes.put("obsolete2", obsolete2);
     this.obsolete2 = obsolete2;
     return this;
   }
@@ -2203,10 +2363,12 @@ public class FixedField {
    */
   @JsonProperty("imageBitDepth")
   public void setImageBitDepth(String imageBitDepth) {
+    this.attributes.put("imageBitDepth", imageBitDepth);
     this.imageBitDepth = imageBitDepth;
   }
 
   public FixedField withImageBitDepth(String imageBitDepth) {
+    this.attributes.put("imageBitDepth", imageBitDepth);
     this.imageBitDepth = imageBitDepth;
     return this;
   }
@@ -2224,10 +2386,12 @@ public class FixedField {
    */
   @JsonProperty("fileFormatsCode")
   public void setFileFormatsCode(String fileFormatsCode) {
+    this.attributes.put("fileFormatsCode", fileFormatsCode);
     this.fileFormatsCode = fileFormatsCode;
   }
 
   public FixedField withFileFormatsCode(String fileFormatsCode) {
+    this.attributes.put("fileFormatsCode", fileFormatsCode);
     this.fileFormatsCode = fileFormatsCode;
     return this;
   }
@@ -2245,10 +2409,12 @@ public class FixedField {
    */
   @JsonProperty("qualityAssuranceTargetCode")
   public void setQualityAssuranceTargetCode(String qualityAssuranceTargetCode) {
+    this.attributes.put("qualityAssuranceTargetCode", qualityAssuranceTargetCode);
     this.qualityAssuranceTargetCode = qualityAssuranceTargetCode;
   }
 
   public FixedField withQualityAssuranceTargetCode(String qualityAssuranceTargetCode) {
+    this.attributes.put("qualityAssuranceTargetCode", qualityAssuranceTargetCode);
     this.qualityAssuranceTargetCode = qualityAssuranceTargetCode;
     return this;
   }
@@ -2266,10 +2432,12 @@ public class FixedField {
    */
   @JsonProperty("antecedentSourceCode")
   public void setAntecedentSourceCode(String antecedentSourceCode) {
+    this.attributes.put("antecedentSourceCode", antecedentSourceCode);
     this.antecedentSourceCode = antecedentSourceCode;
   }
 
   public FixedField withAntecedentSourceCode(String antecedentSourceCode) {
+    this.attributes.put("antecedentSourceCode", antecedentSourceCode);
     this.antecedentSourceCode = antecedentSourceCode;
     return this;
   }
@@ -2287,10 +2455,12 @@ public class FixedField {
    */
   @JsonProperty("levelOfCompressionCode")
   public void setLevelOfCompressionCode(String levelOfCompressionCode) {
+    this.attributes.put("levelOfCompressionCode", levelOfCompressionCode);
     this.levelOfCompressionCode = levelOfCompressionCode;
   }
 
   public FixedField withLevelOfCompressionCode(String levelOfCompressionCode) {
+    this.attributes.put("levelOfCompressionCode", levelOfCompressionCode);
     this.levelOfCompressionCode = levelOfCompressionCode;
     return this;
   }
@@ -2308,10 +2478,12 @@ public class FixedField {
    */
   @JsonProperty("reformattingQualityCode")
   public void setReformattingQualityCode(String reformattingQualityCode) {
+    this.attributes.put("reformattingQualityCode", reformattingQualityCode);
     this.reformattingQualityCode = reformattingQualityCode;
   }
 
   public FixedField withReformattingQualityCode(String reformattingQualityCode) {
+    this.attributes.put("reformattingQualityCode", reformattingQualityCode);
     this.reformattingQualityCode = reformattingQualityCode;
     return this;
   }
@@ -2329,10 +2501,12 @@ public class FixedField {
    */
   @JsonProperty("productionDetailsCode")
   public void setProductionDetailsCode(String productionDetailsCode) {
+    this.attributes.put("productionDetailsCode", productionDetailsCode);
     this.productionDetailsCode = productionDetailsCode;
   }
 
   public FixedField withProductionDetailsCode(String productionDetailsCode) {
+    this.attributes.put("productionDetailsCode", productionDetailsCode);
     this.productionDetailsCode = productionDetailsCode;
     return this;
   }
@@ -2350,10 +2524,12 @@ public class FixedField {
    */
   @JsonProperty("reductionRatioRangeCode")
   public void setReductionRatioRangeCode(String reductionRatioRangeCode) {
+    this.attributes.put("reductionRatioRangeCode", reductionRatioRangeCode);
     this.reductionRatioRangeCode = reductionRatioRangeCode;
   }
 
   public FixedField withReductionRatioRangeCode(String reductionRatioRangeCode) {
+    this.attributes.put("reductionRatioRangeCode", reductionRatioRangeCode);
     this.reductionRatioRangeCode = reductionRatioRangeCode;
     return this;
   }
@@ -2371,10 +2547,12 @@ public class FixedField {
    */
   @JsonProperty("reductionRatioCode")
   public void setReductionRatioCode(String reductionRatioCode) {
+    this.attributes.put("reductionRatioCode", reductionRatioCode);
     this.reductionRatioCode = reductionRatioCode;
   }
 
   public FixedField withReductionRatioCode(String reductionRatioCode) {
+    this.attributes.put("reductionRatioCode", reductionRatioCode);
     this.reductionRatioCode = reductionRatioCode;
     return this;
   }
@@ -2392,10 +2570,12 @@ public class FixedField {
    */
   @JsonProperty("emulsionOnFilmCode")
   public void setEmulsionOnFilmCode(String emulsionOnFilmCode) {
+    this.attributes.put("emulsionOnFilmCode", emulsionOnFilmCode);
     this.emulsionOnFilmCode = emulsionOnFilmCode;
   }
 
   public FixedField withEmulsionOnFilmCode(String emulsionOnFilmCode) {
+    this.attributes.put("emulsionOnFilmCode", emulsionOnFilmCode);
     this.emulsionOnFilmCode = emulsionOnFilmCode;
     return this;
   }
@@ -2413,10 +2593,12 @@ public class FixedField {
    */
   @JsonProperty("presentationFormatCode")
   public void setPresentationFormatCode(String presentationFormatCode) {
+    this.attributes.put("presentationFormatCode", presentationFormatCode);
     this.presentationFormatCode = presentationFormatCode;
   }
 
   public FixedField withPresentationFormatCode(String presentationFormatCode) {
+    this.attributes.put("presentationFormatCode", presentationFormatCode);
     this.presentationFormatCode = presentationFormatCode;
     return this;
   }
@@ -2434,10 +2616,12 @@ public class FixedField {
    */
   @JsonProperty("productionElementsCode")
   public void setProductionElementsCode(String productionElementsCode) {
+    this.attributes.put("productionElementsCode", productionElementsCode);
     this.productionElementsCode = productionElementsCode;
   }
 
   public FixedField withProductionElementsCode(String productionElementsCode) {
+    this.attributes.put("productionElementsCode", productionElementsCode);
     this.productionElementsCode = productionElementsCode;
     return this;
   }
@@ -2446,7 +2630,7 @@ public class FixedField {
    * @return The refinedCategoriesOfColorCode
    */
   @JsonProperty("refinedCategoriesOfColorCode")
-  public String getRefinedCategoriesOfColorCode() {
+  public String getRefinedCategoriesOfColourCode() {
     return refinedCategoriesOfColorCode;
   }
 
@@ -2454,11 +2638,13 @@ public class FixedField {
    * @param refinedCategoriesOfColorCode The refinedCategoriesOfColorCode
    */
   @JsonProperty("refinedCategoriesOfColorCode")
-  public void setRefinedCategoriesOfColorCode(String refinedCategoriesOfColorCode) {
+  public void setRefinedCategoriesOfColourCode(String refinedCategoriesOfColorCode) {
+    this.attributes.put("refinedCategoriesOfColorCode", refinedCategoriesOfColorCode);
     this.refinedCategoriesOfColorCode = refinedCategoriesOfColorCode;
   }
 
-  public FixedField withRefinedCategoriesOfColorCode(String refinedCategoriesOfColorCode) {
+  public FixedField withRefinedCategoriesOfColourCode(String refinedCategoriesOfColorCode) {
+    this.attributes.put("refinedCategoriesOfColorCode", refinedCategoriesOfColorCode);
     this.refinedCategoriesOfColorCode = refinedCategoriesOfColorCode;
     return this;
   }
@@ -2467,7 +2653,7 @@ public class FixedField {
    * @return The kindOfColorStockCode
    */
   @JsonProperty("kindOfColorStockCode")
-  public String getKindOfColorStockCode() {
+  public String getKindOfColourStockCode() {
     return kindOfColorStockCode;
   }
 
@@ -2475,11 +2661,13 @@ public class FixedField {
    * @param kindOfColorStockCode The kindOfColorStockCode
    */
   @JsonProperty("kindOfColorStockCode")
-  public void setKindOfColorStockCode(String kindOfColorStockCode) {
+  public void setKindOfColourStockCode(String kindOfColorStockCode) {
+    this.attributes.put("kindOfColorStockCode", kindOfColorStockCode);
     this.kindOfColorStockCode = kindOfColorStockCode;
   }
 
   public FixedField withKindOfColorStockCode(String kindOfColorStockCode) {
+    this.attributes.put("kindOfColorStockCode", kindOfColorStockCode);
     this.kindOfColorStockCode = kindOfColorStockCode;
     return this;
   }
@@ -2497,10 +2685,12 @@ public class FixedField {
    */
   @JsonProperty("deteriorationStageCode")
   public void setDeteriorationStageCode(String deteriorationStageCode) {
+    this.attributes.put("deteriorationStageCode", deteriorationStageCode);
     this.deteriorationStageCode = deteriorationStageCode;
   }
 
   public FixedField withDeteriorationStageCode(String deteriorationStageCode) {
+    this.attributes.put("deteriorationStageCode", deteriorationStageCode);
     this.deteriorationStageCode = deteriorationStageCode;
     return this;
   }
@@ -2518,10 +2708,12 @@ public class FixedField {
    */
   @JsonProperty("completenessCode")
   public void setCompletenessCode(String completenessCode) {
+    this.attributes.put("completenessCode", completenessCode);
     this.completenessCode = completenessCode;
   }
 
   public FixedField withCompletenessCode(String completenessCode) {
+    this.attributes.put("completenessCode", completenessCode);
     this.completenessCode = completenessCode;
     return this;
   }
@@ -2539,10 +2731,12 @@ public class FixedField {
    */
   @JsonProperty("inspectionDate")
   public void setInspectionDate(String inspectionDate) {
+    this.attributes.put("inspectionDate", inspectionDate);
     this.inspectionDate = inspectionDate;
   }
 
   public FixedField withInspectionDate(String inspectionDate) {
+    this.attributes.put("inspectionDate", inspectionDate);
     this.inspectionDate = inspectionDate;
     return this;
   }
@@ -2560,10 +2754,12 @@ public class FixedField {
    */
   @JsonProperty("primarySupportMaterialCode")
   public void setPrimarySupportMaterialCode(String primarySupportMaterialCode) {
+    this.attributes.put("primarySupportMaterialCode", primarySupportMaterialCode);
     this.primarySupportMaterialCode = primarySupportMaterialCode;
   }
 
   public FixedField withPrimarySupportMaterialCode(String primarySupportMaterialCode) {
+    this.attributes.put("primarySupportMaterialCode", primarySupportMaterialCode);
     this.primarySupportMaterialCode = primarySupportMaterialCode;
     return this;
   }
@@ -2581,10 +2777,12 @@ public class FixedField {
    */
   @JsonProperty("baseOfEmulsionCode")
   public void setBaseOfEmulsionCode(String baseOfEmulsionCode) {
+    this.attributes.put("baseOfEmulsionCode", baseOfEmulsionCode);
     this.baseOfEmulsionCode = baseOfEmulsionCode;
   }
 
   public FixedField withBaseOfEmulsionCode(String baseOfEmulsionCode) {
+    this.attributes.put("baseOfEmulsionCode", baseOfEmulsionCode);
     this.baseOfEmulsionCode = baseOfEmulsionCode;
     return this;
   }
@@ -2602,10 +2800,12 @@ public class FixedField {
    */
   @JsonProperty("soundOnMediumOrSeparateCode")
   public void setSoundOnMediumOrSeparateCode(String soundOnMediumOrSeparateCode) {
+    this.attributes.put("soundOnMediumOrSeparateCode", soundOnMediumOrSeparateCode);
     this.soundOnMediumOrSeparateCode = soundOnMediumOrSeparateCode;
   }
 
   public FixedField withSoundOnMediumOrSeparateCode(String soundOnMediumOrSeparateCode) {
+    this.attributes.put("soundOnMediumOrSeparateCode", soundOnMediumOrSeparateCode);
     this.soundOnMediumOrSeparateCode = soundOnMediumOrSeparateCode;
     return this;
   }
@@ -2623,10 +2823,12 @@ public class FixedField {
    */
   @JsonProperty("altitudeOfSensorCode")
   public void setAltitudeOfSensorCode(String altitudeOfSensorCode) {
+    this.attributes.put("altitudeOfSensorCode", altitudeOfSensorCode);
     this.altitudeOfSensorCode = altitudeOfSensorCode;
   }
 
   public FixedField withAltitudeOfSensorCode(String altitudeOfSensorCode) {
+    this.attributes.put("altitudeOfSensorCode", altitudeOfSensorCode);
     this.altitudeOfSensorCode = altitudeOfSensorCode;
     return this;
   }
@@ -2644,10 +2846,12 @@ public class FixedField {
    */
   @JsonProperty("attitudeOfSensorCode")
   public void setAttitudeOfSensorCode(String attitudeOfSensorCode) {
+    this.attributes.put("attitudeOfSensorCode", attitudeOfSensorCode);
     this.attitudeOfSensorCode = attitudeOfSensorCode;
   }
 
   public FixedField withAttitudeOfSensorCode(String attitudeOfSensorCode) {
+    this.attributes.put("attitudeOfSensorCode", attitudeOfSensorCode);
     this.attitudeOfSensorCode = attitudeOfSensorCode;
     return this;
   }
@@ -2665,10 +2869,12 @@ public class FixedField {
    */
   @JsonProperty("cloudCoverCode")
   public void setCloudCoverCode(String cloudCoverCode) {
+    this.attributes.put("cloudCoverCode", cloudCoverCode);
     this.cloudCoverCode = cloudCoverCode;
   }
 
   public FixedField withCloudCoverCode(String cloudCoverCode) {
+    this.attributes.put("cloudCoverCode", cloudCoverCode);
     this.cloudCoverCode = cloudCoverCode;
     return this;
   }
@@ -2686,10 +2892,12 @@ public class FixedField {
    */
   @JsonProperty("platformConstructionTypeCode")
   public void setPlatformConstructionTypeCode(String platformConstructionTypeCode) {
+    this.attributes.put("platformConstructionTypeCode", platformConstructionTypeCode);
     this.platformConstructionTypeCode = platformConstructionTypeCode;
   }
 
   public FixedField withPlatformConstructionTypeCode(String platformConstructionTypeCode) {
+    this.attributes.put("platformConstructionTypeCode", platformConstructionTypeCode);
     this.platformConstructionTypeCode = platformConstructionTypeCode;
     return this;
   }
@@ -2707,10 +2915,12 @@ public class FixedField {
    */
   @JsonProperty("platformUseCode")
   public void setPlatformUseCode(String platformUseCode) {
+    this.attributes.put("platformUseCode", platformUseCode);
     this.platformUseCode = platformUseCode;
   }
 
   public FixedField withPlatformUseCode(String platformUseCode) {
+    this.attributes.put("platformUseCode", platformUseCode);
     this.platformUseCode = platformUseCode;
     return this;
   }
@@ -2728,10 +2938,12 @@ public class FixedField {
    */
   @JsonProperty("sensorTypeCode")
   public void setSensorTypeCode(String sensorTypeCode) {
+    this.attributes.put("sensorTypeCode", sensorTypeCode);
     this.sensorTypeCode = sensorTypeCode;
   }
 
   public FixedField withSensorTypeCode(String sensorTypeCode) {
+    this.attributes.put("sensorTypeCode", sensorTypeCode);
     this.sensorTypeCode = sensorTypeCode;
     return this;
   }
@@ -2749,6 +2961,7 @@ public class FixedField {
    */
   @JsonProperty("remoteDataTypeCode")
   public void setRemoteDataTypeCode(String remoteDataTypeCode) {
+    this.attributes.put("remoteDataTypeCode", remoteDataTypeCode);
     this.remoteDataTypeCode = remoteDataTypeCode;
   }
 
@@ -2765,10 +2978,12 @@ public class FixedField {
    */
   @JsonProperty("speedCode")
   public void setSpeedCode(String speedCode) {
+    this.attributes.put("speedCode", speedCode);
     this.speedCode = speedCode;
   }
 
   public FixedField withSpeedCode(String speedCode) {
+    this.attributes.put("speedCode", speedCode);
     this.speedCode = speedCode;
     return this;
   }
@@ -2786,10 +3001,12 @@ public class FixedField {
    */
   @JsonProperty("grooveWidthCode")
   public void setGrooveWidthCode(String grooveWidthCode) {
+    this.attributes.put("grooveWidthCode", grooveWidthCode);
     this.grooveWidthCode = grooveWidthCode;
   }
 
   public FixedField withGrooveWidthCode(String grooveWidthCode) {
+    this.attributes.put("grooveWidthCode", grooveWidthCode);
     this.grooveWidthCode = grooveWidthCode;
     return this;
   }
@@ -2807,10 +3024,12 @@ public class FixedField {
    */
   @JsonProperty("tapeWidthCode")
   public void setTapeWidthCode(String tapeWidthCode) {
+    this.attributes.put("tapeWidthCode", tapeWidthCode);
     this.tapeWidthCode = tapeWidthCode;
   }
 
   public FixedField withTapeWidthCode(String tapeWidthCode) {
+    this.attributes.put("tapeWidthCode", tapeWidthCode);
     this.tapeWidthCode = tapeWidthCode;
     return this;
   }
@@ -2828,10 +3047,12 @@ public class FixedField {
    */
   @JsonProperty("tapeConfigurationCode")
   public void setTapeConfigurationCode(String tapeConfigurationCode) {
+    this.attributes.put("tapeConfigurationCode", tapeConfigurationCode);
     this.tapeConfigurationCode = tapeConfigurationCode;
   }
 
   public FixedField withTapeConfigurationCode(String tapeConfigurationCode) {
+    this.attributes.put("tapeConfigurationCode", tapeConfigurationCode);
     this.tapeConfigurationCode = tapeConfigurationCode;
     return this;
   }
@@ -2849,10 +3070,12 @@ public class FixedField {
    */
   @JsonProperty("discTypeCode")
   public void setDiscTypeCode(String discTypeCode) {
+    this.attributes.put("discTypeCode", discTypeCode);
     this.discTypeCode = discTypeCode;
   }
 
   public FixedField withDiscTypeCode(String discTypeCode) {
+    this.attributes.put("discTypeCode", discTypeCode);
     this.discTypeCode = discTypeCode;
     return this;
   }
@@ -2870,10 +3093,12 @@ public class FixedField {
    */
   @JsonProperty("sndMaterialTypeCode")
   public void setSndMaterialTypeCode(String sndMaterialTypeCode) {
+    this.attributes.put("sndMaterialTypeCode", sndMaterialTypeCode);
     this.sndMaterialTypeCode = sndMaterialTypeCode;
   }
 
   public FixedField withSndMaterialTypeCode(String sndMaterialTypeCode) {
+    this.attributes.put("sndMaterialTypeCode", sndMaterialTypeCode);
     this.sndMaterialTypeCode = sndMaterialTypeCode;
     return this;
   }
@@ -2891,10 +3116,12 @@ public class FixedField {
    */
   @JsonProperty("cuttingTypeCode")
   public void setCuttingTypeCode(String cuttingTypeCode) {
+    this.attributes.put("cuttingTypeCode", cuttingTypeCode);
     this.cuttingTypeCode = cuttingTypeCode;
   }
 
   public FixedField withCuttingTypeCode(String cuttingTypeCode) {
+    this.attributes.put("cuttingTypeCode", cuttingTypeCode);
     this.cuttingTypeCode = cuttingTypeCode;
     return this;
   }
@@ -2912,10 +3139,12 @@ public class FixedField {
    */
   @JsonProperty("specialPlaybackCharacteristicsCode")
   public void setSpecialPlaybackCharacteristicsCode(String specialPlaybackCharacteristicsCode) {
+    this.attributes.put("specialPlaybackCharacteristicsCode", specialPlaybackCharacteristicsCode);
     this.specialPlaybackCharacteristicsCode = specialPlaybackCharacteristicsCode;
   }
 
   public FixedField withSpecialPlaybackCharacteristicsCode(String specialPlaybackCharacteristicsCode) {
+    this.attributes.put("specialPlaybackCharacteristicsCode", specialPlaybackCharacteristicsCode);
     this.specialPlaybackCharacteristicsCode = specialPlaybackCharacteristicsCode;
     return this;
   }
@@ -2933,10 +3162,12 @@ public class FixedField {
    */
   @JsonProperty("storageTechniqueCode")
   public void setStorageTechniqueCode(String storageTechniqueCode) {
+    this.attributes.put("storageTechniqueCode", storageTechniqueCode);
     this.storageTechniqueCode = storageTechniqueCode;
   }
 
   public FixedField withStorageTechniqueCode(String storageTechniqueCode) {
+    this.attributes.put("storageTechniqueCode", storageTechniqueCode);
     this.storageTechniqueCode = storageTechniqueCode;
     return this;
   }
@@ -2954,10 +3185,12 @@ public class FixedField {
    */
   @JsonProperty("classOfBrailleWritingCodes")
   public void setClassOfBrailleWritingCodes(String classOfBrailleWritingCodes) {
+    this.attributes.put("classOfBrailleWritingCodes", classOfBrailleWritingCodes);
     this.classOfBrailleWritingCodes = classOfBrailleWritingCodes;
   }
 
   public FixedField withClassOfBrailleWritingCodes(String classOfBrailleWritingCodes) {
+    this.attributes.put("classOfBrailleWritingCodes", classOfBrailleWritingCodes);
     this.classOfBrailleWritingCodes = classOfBrailleWritingCodes;
     return this;
   }
@@ -2975,10 +3208,12 @@ public class FixedField {
    */
   @JsonProperty("levelOfContractionCode")
   public void setLevelOfContractionCode(String levelOfContractionCode) {
+    this.attributes.put("levelOfContractionCode", levelOfContractionCode);
     this.levelOfContractionCode = levelOfContractionCode;
   }
 
   public FixedField withLevelOfContractionCode(String levelOfContractionCode) {
+    this.attributes.put("levelOfContractionCode", levelOfContractionCode);
     this.levelOfContractionCode = levelOfContractionCode;
     return this;
   }
@@ -2996,10 +3231,12 @@ public class FixedField {
    */
   @JsonProperty("brailleMusicFormatCodes")
   public void setBrailleMusicFormatCodes(String brailleMusicFormatCodes) {
+    this.attributes.put("brailleMusicFormatCodes", brailleMusicFormatCodes);
     this.brailleMusicFormatCodes = brailleMusicFormatCodes;
   }
 
   public FixedField withBrailleMusicFormatCodes(String brailleMusicFormatCodes) {
+    this.attributes.put("brailleMusicFormatCodes", brailleMusicFormatCodes);
     this.brailleMusicFormatCodes = brailleMusicFormatCodes;
     return this;
   }
@@ -3017,10 +3254,12 @@ public class FixedField {
    */
   @JsonProperty("specificPhysicalCharacteristicsCode")
   public void setSpecificPhysicalCharacteristicsCode(String specificPhysicalCharacteristicsCode) {
+    this.attributes.put("specificPhysicalCharacteristicsCode", specificPhysicalCharacteristicsCode);
     this.specificPhysicalCharacteristicsCode = specificPhysicalCharacteristicsCode;
   }
 
   public FixedField withSpecificPhysicalCharacteristicsCode(String specificPhysicalCharacteristicsCode) {
+    this.attributes.put("specificPhysicalCharacteristicsCode", specificPhysicalCharacteristicsCode);
     this.specificPhysicalCharacteristicsCode = specificPhysicalCharacteristicsCode;
     return this;
   }
@@ -3038,10 +3277,12 @@ public class FixedField {
    */
   @JsonProperty("formatCode")
   public void setFormatCode(String formatCode) {
+    this.attributes.put("formatCode", formatCode);
     this.formatCode = formatCode;
   }
 
   public FixedField withFormatCode(String formatCode) {
+    this.attributes.put("formatCode", formatCode);
     this.formatCode = formatCode;
     return this;
   }
@@ -3182,4 +3423,13 @@ public class FixedField {
       return this.value;
     }
   }
+
+  /**
+   * @return The attributes
+   */
+  @JsonProperty("attributes")
+  public Map<String, Object> getAttributes() {
+    return attributes;
+  }
+
 }

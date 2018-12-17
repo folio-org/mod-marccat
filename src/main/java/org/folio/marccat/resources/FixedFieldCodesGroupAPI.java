@@ -90,7 +90,7 @@ public class FixedFieldCodesGroupAPI extends BaseResource {
     });
     fixedFieldCodesGroup.getResults().keySet()
       .forEach(key -> {
-
+        fixedFieldCodesGroup.getResults().get(key).setDafaultValue(fieldTemplate.getFixedField().getAttributes().get(key).toString().trim());
     });
 
   }
@@ -586,9 +586,9 @@ public class FixedFieldCodesGroupAPI extends BaseResource {
     fixedFieldCodesGroup.addResults(new FixedFieldElement("itemRecordTypeCode",storageService.getRecordTypes(lang).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("itemBibliographicLevelCode", storageService.getBibliographicLevels(lang).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("itemControlTypeCode", storageService.getControlTypes(lang).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("characterEncodingSchemas", storageService.getCharacterEncodingSchemas(lang).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("characterCodingSchemeCode", storageService.getCharacterEncodingSchemas(lang).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("encodingLevel", storageService.getEncodingLevels(lang).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("descriptiveCatalogForms", storageService.getDescriptiveCatalogForms(lang).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("descriptiveCataloguingCode", storageService.getDescriptiveCatalogForms(lang).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("linkedRecordCode", storageService.getMultipartResourceLevels(lang).stream().map(toPairItem).collect(toList())));
   }
 }
