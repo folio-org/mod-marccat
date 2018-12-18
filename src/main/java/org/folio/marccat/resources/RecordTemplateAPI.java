@@ -6,7 +6,7 @@ import org.folio.marccat.ModMarccat;
 import org.folio.marccat.business.codetable.Avp;
 import org.folio.marccat.config.Global;
 import org.folio.marccat.config.log.MessageCatalog;
-import org.folio.marccat.enumeration.CatalogingEntityType;
+import org.folio.marccat.enumaration.CatalogingEntityType;
 import org.folio.marccat.resources.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
-import static org.folio.marccat.enumeration.CatalogingEntityType.A;
+import static org.folio.marccat.enumaration.CatalogingEntityType.A;
 import static org.folio.marccat.integration.CatalogingHelper.*;
 import static org.folio.marccat.util.F.isNotNullOrEmpty;
 

@@ -1,4 +1,4 @@
-package org.folio.marccat.enumeration;
+package org.folio.marccat.enumaration;
 
 public enum CodeListsType {
   DATE_TYPE {

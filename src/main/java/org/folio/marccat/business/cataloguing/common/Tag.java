@@ -3,10 +3,11 @@ package org.folio.marccat.business.cataloguing.common;
 import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.cataloguing.bibliographic.FixedField;
 import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
 import org.folio.marccat.business.common.PersistenceState;
-import org.folio.marccat.config.log.Log;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.persistence.CorrelationKey;
 import org.folio.marccat.dao.persistence.T_SINGLE;
@@ -33,8 +34,8 @@ import static org.folio.marccat.util.F.deepCopy;
 public abstract class Tag implements Serializable, Cloneable, TagInterface {
 
   public static final int PHYSICAL_MATERIAL = 1;
+  private static Log logger = LogFactory.getLog(Tag.class);
   protected PersistenceState persistenceState;
-  private Log logger = new Log(Tag.class);
   private TagImpl tagImpl;
   private int itemNumber = -1;
   private CorrelationKey correlationKey;
@@ -185,7 +186,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
     try {
       marcEncoding = getMarcEncoding();
     } catch (Exception exception) {
-      logger.error("Invalid tag found in Tag.toXmlElement");
+      logger.warn("Invalid tag found in Tag.toXmlElement");
       return xmlDocument.createElement("error");
     }
 
@@ -212,7 +213,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
         try {
           st = addPunctuation();
         } catch (Exception e) {
-          logger.error(
+          logger.warn(
             "ErrorCollection adding punctuation, using original text", e);
           st = ((VariableField) this).getStringText();
         }

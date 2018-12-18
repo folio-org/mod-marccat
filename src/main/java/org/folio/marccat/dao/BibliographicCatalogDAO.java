@@ -458,7 +458,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
    * @throws HibernateException in case of hibernate exception.
    */
   @SuppressWarnings("unchecked")
-  public List<? extends PersistentObjectWithView> getAccessPointTags(final Class clazz, final int amicusNumber, final int userView, final Session session) throws HibernateException {
+  private List<? extends PersistentObjectWithView> getAccessPointTags(final Class clazz, final int amicusNumber, final int userView, final Session session) throws HibernateException {
 
     List<? extends PersistentObjectWithView> multiView = session.find("from " + clazz.getName() + " as t "
         + " where t.bibItemNumber = ? and substr(t.userViewString, ?, 1) = '1'",
@@ -548,7 +548,8 @@ public class BibliographicCatalogDAO extends CatalogDAO {
    * @param session -- the hibernate session associated to request.
    * @throws DataAccessException
    */
-  protected void updateItemDisplayCacheTable(final CatalogItem item, final Session session) throws DataAccessException {
+  protected void updateItemDisplayCacheTable(final CatalogItem item, final Session session)
+    throws DataAccessException {
     try {
       updateItemDisplayCacheTable(item.getAmicusNumber().intValue(), item.getUserView(), session);
       updateFullRecordCacheTable(session, item);
