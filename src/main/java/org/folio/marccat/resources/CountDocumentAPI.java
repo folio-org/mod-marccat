@@ -28,8 +28,7 @@ public class CountDocumentAPI extends BaseResource {
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
     return doGet((storageService, configuration) -> {
       try {
-        final CountDocument countDocument = storageService.getCountDocumentByAutNumber(id, view);
-        return countDocument;
+        return storageService.getCountDocumentByAutNumber(id, view);
       } catch (final Exception exception) {
         logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
         return null;

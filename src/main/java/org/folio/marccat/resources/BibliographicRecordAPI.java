@@ -38,7 +38,6 @@ import static org.folio.marccat.util.F.isNotNullOrEmpty;
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class BibliographicRecordAPI extends BaseResource {
 
-
   @GetMapping("/bibliographic-record/{id}")
   public ResponseEntity<Object> getRecord(
     @RequestParam final Integer id,
@@ -52,7 +51,6 @@ public class BibliographicRecordAPI extends BaseResource {
       else {
         return new ResponseEntity<>(container, HttpStatus.NOT_FOUND);
       }
-
       return new ResponseEntity<>(container, HttpStatus.OK);
     }, tenant, configurator);
   }
