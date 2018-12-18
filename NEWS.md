@@ -1,3 +1,33 @@
+## 1.2.0 2018-12-31
+ * Improve Search Functionality.
+
+
+  >API:
+ 
+  | METHOD |  URL                                               | DESCRIPTION                                                     |
+  |--------|----------------------------------------------------|-----------------------------------------------------------------|
+  | GET    | /marccat/bibliographic-record/:id                  | Return bib and auth records results                             |
+  | GET    | /marccat/bibliographic-record/from-template/:id    | Return bib and auth records results                             |
+  | POST   | /marccat/bibliographic-record                      | Return bib and auth records results                             |
+  | DELETE | /marccat/bibliographic-record/unlock/:id           | Return bib and auth records results                             |
+  | PUT    | /marccat/bibliographic-record/lock/:id             | Return bib and auth records results                             |
+  | *browse*     |                                                    |                                                                 |
+  | GET    | /marccat/browse                                    | Return bib and auth records results                             |
+  | GET    | /marccat/next-page                                 | Return bib and auth records results                             |
+  | GET    | /marccat/previous-page                             | Return bib and auth records results                             |
+  | GET    | /marccat/headings-by-tag                           | Return bib and auth records results                             |
+  |        |                                                    |                                                                 |
+  | GET    | /marccat/document-count-by-id                      | Return bib and auth records results                             |
+  |        |                                                    |                                                                 |
+  | GET    | /marccat/bibliographic/fields/mandatory            | Return bib and auth records results                             |
+  |        |                                                    |                                                                 |
+  | GET    | /marccat/previous-page                             | Return bib and auth records results                             |
+  | GET    | /marccat/previous-page                             | Return bib and auth records results                             |
+  | GET    | /marccat/previous-page                             | Return bib and auth records results                             |
+  | GET    | /marccat/previous-page                             | Return bib and auth records results                             |
+
+
+
 ## 1.1.0 2018-12-14
  * Improve Search Functionality.
  * Add Browse functionality.
