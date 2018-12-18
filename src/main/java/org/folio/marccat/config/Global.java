@@ -25,54 +25,54 @@ public abstract class Global {
 
   public static final String OKAPI_TENANT_HEADER_NAME = "x-okapi-tenant";
   public static final String EMPTY_STRING = "";
-  public final static String SUBFIELD_DELIMITER_FOR_VIEW = "\\$";
-  public final static String MAP_CODE = "a";
-  public final static String ELECTRONIC_RESOURCE = "c";
-  public final static String GLOBE = "d";
-  public final static String TACTILE_MATERIAL = "f";
-  public final static String PROJECTED_GRAPHIC = "g";
-  public final static String MICROFORM = "h";
-  public final static String NON_PROJECTED_GRAPHIC = "k";
-  public final static String MOTION_PICTURE = "m";
-  public final static String KIT_CODE = "o";
-  public final static String NOTATED_MUSIC = "q";
-  public final static String REMOTE_SENSING_IMAGE = "r";
-  public final static String SOUND_RECORDING = "s";
-  public final static String TEXT_CODE = "t";
-  public final static String VIDEO_RECORDING = "v";
-  public final static String UNSPECIFIED = "z";
-  public final static List<String> FIXED_FIELDS = new ArrayList<>(Arrays.asList("000", "001", "005", "006", "007", "008"));
-  public final static List<String> MANDATORY_FIELDS = new ArrayList<>(Arrays.asList("000", "001", "008", "040"));
-  public final static String HEADER_TYPE_LABEL = "HEADER_TYPE";
-  public final static String FORM_OF_MATERIAL_LABEL = "FORM_OF_MATERIAL";
-  public final static String MATERIAL_TYPE_CODE_LABEL = "MATERIAL_TYPE_CODE";
-  public final static String LEADER_TAG_NUMBER = "000";
-  public final static String CONTROL_NUMBER_TAG_CODE = "001";
-  public final static String CATALOGING_SOURCE_TAG_CODE = "040";
-  public final static String DATETIME_TRANSACTION_TAG_CODE = "005";
-  public final static String OTHER_MATERIAL_TAG_CODE = "006";
-  public final static String PHYSICAL_DESCRIPTION_TAG_CODE = "007";
-  public final static int MATERIAL_FIELD_LENGTH = 40;
-  public final static int OTHER_MATERIAL_FIELD_LENGTH = 18;
-  public final static String ITEM_DATE_FIRST_PUBLICATION = "    ";
-  public final static String ITEM_DATE_LAST_PUBLICATION = "    ";
-  public final static String MATERIAL_TAG_CODE = "008";
-  public final static int INT_CATEGORY = 1;
-  public final static int PHYSICAL_UNSPECIFIED_HEADER_TYPE = 45;
-  public final static int LEADER_LENGTH = 24;
-  public final static DecimalFormat DECIMAL_FORMAT_AN = new DecimalFormat("000000000000");
-  public final static String BOOKFORM_OF_MATERIAL = "bk";
-  public final static String LOADING_FILE_FILENAME = "filename";
-  public final static String LOADING_FILE_IDS = "ids";
-  public final static String LOADING_FILE_REJECTED = "rejected";
-  public final static String LOADING_FILE_ADDED = "added";
-  public final static String LOADING_FILE_ERRORS = "errors";
-  public final static String AN_KEY_CODE_FIELD = "BI";
-  public final static String ERROR_MANDATORY_TAG = "-1";
-  public final static String ERROR_DUPLICATE_TAG = "-2";
-  public final static String ERROR_EMPTY_TAG = "-3";
-  public final static String NO_RECORD_FOUND = "-4";
-  public final static Map<String, String> ERRORS_MAP = new HashMap<String, String>() {
+  public static final String SUBFIELD_DELIMITER_FOR_VIEW = "\\$";
+  public static final String MAP_CODE = "a";
+  public static final String ELECTRONIC_RESOURCE = "c";
+  public static final String GLOBE = "d";
+  public static final String TACTILE_MATERIAL = "f";
+  public static final String PROJECTED_GRAPHIC = "g";
+  public static final String MICROFORM = "h";
+  public static final String NON_PROJECTED_GRAPHIC = "k";
+  public static final String MOTION_PICTURE = "m";
+  public static final String KIT_CODE = "o";
+  public static final String NOTATED_MUSIC = "q";
+  public static final String REMOTE_SENSING_IMAGE = "r";
+  public static final String SOUND_RECORDING = "s";
+  public static final String TEXT_CODE = "t";
+  public static final String VIDEO_RECORDING = "v";
+  public static final String UNSPECIFIED = "z";
+  public static final List<String> FIXED_FIELDS = new ArrayList<>(Arrays.asList("000", "001", "005", "006", "007", "008"));
+  public static final List<String> MANDATORY_FIELDS = new ArrayList<>(Arrays.asList("000", "001", "008", "040"));
+  public static final String HEADER_TYPE_LABEL = "HEADER_TYPE";
+  public static final String FORM_OF_MATERIAL_LABEL = "FORM_OF_MATERIAL";
+  public static final String MATERIAL_TYPE_CODE_LABEL = "MATERIAL_TYPE_CODE";
+  public static final String LEADER_TAG_NUMBER = "000";
+  public static final String CONTROL_NUMBER_TAG_CODE = "001";
+  public static final String CATALOGING_SOURCE_TAG_CODE = "040";
+  public static final String DATETIME_TRANSACTION_TAG_CODE = "005";
+  public static final String OTHER_MATERIAL_TAG_CODE = "006";
+  public static final String PHYSICAL_DESCRIPTION_TAG_CODE = "007";
+  public static final int MATERIAL_FIELD_LENGTH = 40;
+  public static final int OTHER_MATERIAL_FIELD_LENGTH = 18;
+  public static final String ITEM_DATE_FIRST_PUBLICATION = "    ";
+  public static final String ITEM_DATE_LAST_PUBLICATION = "    ";
+  public static final String MATERIAL_TAG_CODE = "008";
+  public static final int INT_CATEGORY = 1;
+  public static final int PHYSICAL_UNSPECIFIED_HEADER_TYPE = 45;
+  public static final int LEADER_LENGTH = 24;
+  public static final DecimalFormat DECIMAL_FORMAT_AN = new DecimalFormat("000000000000");
+  public static final String BOOKFORM_OF_MATERIAL = "bk";
+  public static final String LOADING_FILE_FILENAME = "filename";
+  public static final String LOADING_FILE_IDS = "ids";
+  public static final String LOADING_FILE_REJECTED = "rejected";
+  public static final String LOADING_FILE_ADDED = "added";
+  public static final String LOADING_FILE_ERRORS = "errors";
+  public static final String AN_KEY_CODE_FIELD = "BI";
+  public static final String ERROR_MANDATORY_TAG = "-1";
+  public static final String ERROR_DUPLICATE_TAG = "-2";
+  public static final String ERROR_EMPTY_TAG = "-3";
+  public static final String NO_RECORD_FOUND = "-4";
+  public static final Map<String, String> ERRORS_MAP = new HashMap<String, String>() {
     {
       put(ERROR_MANDATORY_TAG, "Check mandatory tags failure.");
       put(ERROR_DUPLICATE_TAG, "Duplicate tags for : %s");
@@ -80,24 +80,24 @@ public abstract class Global {
       put(NO_RECORD_FOUND, "Record not found: %d.");
     }
   };
-  public final static short CORRELATION_UNDEFINED = -1;
-  public final static int CATALOGING_SOURCE_HEADER_TYPE = 1;
-  public final static int LEADER_HEADER_TYPE = 15;
-  public final static int CONTROL_NUMBER_HEADER_TYPE = 39;
-  public final static int DATETIME_TRANSACION_HEADER_TYPE = 41;
-  public final static int MATERIAL_DESCRIPTION_HEADER_TYPE = 31;
-  public final static String FIXED_LEADER_LENGTH = "00000";
-  public final static char RECORD_STATUS_CODE = 'n';
-  public final static char RECORD_TYPE_CODE = 'a';
-  public final static char BIBLIOGRAPHIC_LEVEL_CODE = 'm';
-  public final static char CONTROL_TYPE_CODE = ' ';
-  public final static char CHARACTER_CODING_SCHEME_CODE = ' ';
-  public final static String FIXED_LEADER_BASE_ADDRESS = "2200000";
-  public final static char ENCODING_LEVEL = ' ';
-  public final static char DESCRIPTIVE_CATALOGUING_CODE = ' ';
-  public final static char LINKED_RECORD_CODE = ' ';
-  public final static String FIXED_LEADER_PORTION = "4500";
-  public final static Map<Integer, String> PHYSICAL_TYPES_MAP = new HashMap<Integer, String>() {
+  public static final short CORRELATION_UNDEFINED = -1;
+  public static final int CATALOGING_SOURCE_HEADER_TYPE = 1;
+  public static final int LEADER_HEADER_TYPE = 15;
+  public static final int CONTROL_NUMBER_HEADER_TYPE = 39;
+  public static final int DATETIME_TRANSACION_HEADER_TYPE = 41;
+  public static final int MATERIAL_DESCRIPTION_HEADER_TYPE = 31;
+  public static final String FIXED_LEADER_LENGTH = "00000";
+  public static final char RECORD_STATUS_CODE = 'n';
+  public static final char RECORD_TYPE_CODE = 'a';
+  public static final char BIBLIOGRAPHIC_LEVEL_CODE = 'm';
+  public static final char CONTROL_TYPE_CODE = ' ';
+  public static final char CHARACTER_CODING_SCHEME_CODE = ' ';
+  public static final String FIXED_LEADER_BASE_ADDRESS = "2200000";
+  public static final char ENCODING_LEVEL = ' ';
+  public static final char DESCRIPTIVE_CATALOGUING_CODE = ' ';
+  public static final char LINKED_RECORD_CODE = ' ';
+  public static final String FIXED_LEADER_PORTION = "4500";
+  public static final Map<Integer, String> PHYSICAL_TYPES_MAP = new HashMap<Integer, String>() {
     {
       put(23, GLOBE);
       put(24, MAP_CODE);
@@ -116,45 +116,45 @@ public abstract class Global {
       put(48, NOTATED_MUSIC);
     }
   };
-  public final static int HEADER_CATEGORY = 1;
-  public final static int NAME_CATEGORY = 2;
-  public final static int TITLE_CATEGORY = 3;
-  public final static int SUBJECT_CATEGORY = 4;
-  public final static int CONTROL_NUMBER_CATEGORY = 5;
-  public final static int CLASSIFICATION_CATEGORY = 6;
-  public final static int PUBLISHER_CATEGORY = 7;
-  public final static int BIB_NOTE_CATEGORY = 7;
-  public final static int NAME_TITLE_CATEGORY = 11;
-  public final static int DEFAULT_AVAILABILITY_STATUS = 99;
-  public final static String DEFAULT_LEVEL_CARD = "L01";
-  public final static String DEFAULT_MOTHER_LEVEL = "001";
-  public final static String DEFAULT_LEVEL_NATURE = "001";
-  public final static String YES_FLAG = "S";
-  public final static String NO_FLAG = "N";
-  public final static String TITLE_REQUIRED_PERMISSION = "editTitle";
-  public final static String NAME_REQUIRED_PERMISSION = "editName";
-  public final static String CNTL_NBR_REQUIRED_PERMISSION = "editControlNumber";
-  public final static String PUBLISHER_REQUIRED_PERMISSION = "editNotes";
-  public final static String CLASSIFICATION_REQUIRED_PERMISSION = "editClassNumber";
-  public final static String SUBJECT_REQUIRED_PERMISSION = "editSubject";
-  public final static String NOTE_REQUIRED_PERMISSION = "editNote";
-  public final static String TITLE_VARIANT_CODES = "3civ5";
-  public final static String TITLE_ISSN_SERIES_SUBFIELD_CODE = "x";
-  public final static String TITLE_VOLUME_SUBFIELD_CODE = "v";
-  public final static String NAME_VARIANT_SUBFIELD_CODES = "3eiuox45";
-  public final static String NAME_TITLE_INSTITUTION_SUBFIELD_CODE = "5";
-  public final static String WORK_REL_SUBFIELD_CODE = "4";
-  public final static int PUBLISHER_DEFAULT_NOTE_TYPE = 24;
-  public final static String PUBLISHER_FAST_PRINTER_SUBFIELD_CODES = "368efg";
-  public final static String PUBLISHER_VARIANT_CODES = "368cefg";
-  public final static String PUBLISHER_OTHER_SUBFIELD_CODES = "cefg";
-  public final static int DEWEY_TYPE_CODE = 12;
-  public final static String SUBJECT_VARIANT_CODES = "34eu";
-  public final static String SUBJECT_WORK_REL_STRING_TEXT_SUBFIELD_CODES = "eu";
-  public final static int STANDARD_NOTE_MAX_LENGHT = 1024;
-  public final static int OVERFLOW_NOTE_MAX_LENGHT = 1000;
-  public final static String NAME_TITLE_VARIANT_CODES = "3v5";
-  public final static Map<String, Class> MAP_CODE_LISTS = new HashMap<String, Class>() {
+  public static final int HEADER_CATEGORY = 1;
+  public static final int NAME_CATEGORY = 2;
+  public static final int TITLE_CATEGORY = 3;
+  public static final int SUBJECT_CATEGORY = 4;
+  public static final int CONTROL_NUMBER_CATEGORY = 5;
+  public static final int CLASSIFICATION_CATEGORY = 6;
+  public static final int PUBLISHER_CATEGORY = 7;
+  public static final int BIB_NOTE_CATEGORY = 7;
+  public static final int NAME_TITLE_CATEGORY = 11;
+  public static final int DEFAULT_AVAILABILITY_STATUS = 99;
+  public static final String DEFAULT_LEVEL_CARD = "L01";
+  public static final String DEFAULT_MOTHER_LEVEL = "001";
+  public static final String DEFAULT_LEVEL_NATURE = "001";
+  public static final String YES_FLAG = "S";
+  public static final String NO_FLAG = "N";
+  public static final String TITLE_REQUIRED_PERMISSION = "editTitle";
+  public static final String NAME_REQUIRED_PERMISSION = "editName";
+  public static final String CNTL_NBR_REQUIRED_PERMISSION = "editControlNumber";
+  public static final String PUBLISHER_REQUIRED_PERMISSION = "editNotes";
+  public static final String CLASSIFICATION_REQUIRED_PERMISSION = "editClassNumber";
+  public static final String SUBJECT_REQUIRED_PERMISSION = "editSubject";
+  public static final String NOTE_REQUIRED_PERMISSION = "editNote";
+  public static final String TITLE_VARIANT_CODES = "3civ5";
+  public static final String TITLE_ISSN_SERIES_SUBFIELD_CODE = "x";
+  public static final String TITLE_VOLUME_SUBFIELD_CODE = "v";
+  public static final String NAME_VARIANT_SUBFIELD_CODES = "3eiuox45";
+  public static final String NAME_TITLE_INSTITUTION_SUBFIELD_CODE = "5";
+  public static final String WORK_REL_SUBFIELD_CODE = "4";
+  public static final int PUBLISHER_DEFAULT_NOTE_TYPE = 24;
+  public static final String PUBLISHER_FAST_PRINTER_SUBFIELD_CODES = "368efg";
+  public static final String PUBLISHER_VARIANT_CODES = "368cefg";
+  public static final String PUBLISHER_OTHER_SUBFIELD_CODES = "cefg";
+  public static final int DEWEY_TYPE_CODE = 12;
+  public static final String SUBJECT_VARIANT_CODES = "34eu";
+  public static final String SUBJECT_WORK_REL_STRING_TEXT_SUBFIELD_CODES = "eu";
+  public static final int STANDARD_NOTE_MAX_LENGHT = 1024;
+  public static final int OVERFLOW_NOTE_MAX_LENGHT = 1000;
+  public static final String NAME_TITLE_VARIANT_CODES = "3v5";
+  public static final Map<String, Class> MAP_CODE_LISTS = new HashMap<String, Class>() {
     {
       put("DATE_TYPE", T_ITM_DTE_TYP.class);
       put("MODIFIED_RECORD_TYPE", T_REC_MDFTN.class);
@@ -281,7 +281,7 @@ public abstract class Global {
       put("MIC_SPEC_DESIGN", T_MIC_SMD.class);
     }
   };
-  public final static Map<String, Class> BIBLIOGRAPHIC_ACCESS_POINT_CLASS_MAP = new HashMap<String, Class>() {
+  public static final Map<String, Class> BIBLIOGRAPHIC_ACCESS_POINT_CLASS_MAP = new HashMap<String, Class>() {
     {
       put("NH", NameAccessPoint.class);
       put("TH", TitleAccessPoint.class);
@@ -289,7 +289,7 @@ public abstract class Global {
       put("MH", NameTitleAccessPoint.class);
     }
   };
-  public final static Map<String, String> INDEX_AUTHORITY_TYPE_MAP = new HashMap<String, String>() {
+  public static final Map<String, String> INDEX_AUTHORITY_TYPE_MAP = new HashMap<String, String>() {
     {
       put("NH", "NK");
       put("TH", "TK");
@@ -297,7 +297,7 @@ public abstract class Global {
       put("MH", "NTK");
     }
   };
-  public final static Map<String, Class> DAO_CLASS_MAP = new HashMap<String, Class>() {
+  public static final Map<String, Class> DAO_CLASS_MAP = new HashMap<String, Class>() {
     {
       put("2P0", NameDescriptorDAO.class);
       put("3P10", NameDescriptorDAO.class);
@@ -355,7 +355,7 @@ public abstract class Global {
       put("373P0", SubjectDescriptorDAO.class);
     }
   };
-  public final static Map<String, String> FILTER_MAP = new HashMap<String, String>() {
+  public static final Map<String, String> FILTER_MAP = new HashMap<String, String>() {
     {
       put("2P0", "");
       put("3P10", " and hdg.typeCode = 2 ");
@@ -428,4 +428,23 @@ public abstract class Global {
       throw new ExceptionInInitializerError(failure);
     }
   }
+
+  public static final String SPECIFIC_MATERIAL_DESIGNAION_ON_CODE = "specificMaterialDesignationCode";
+  public static final String COLOR_CODE  = "colorCode";
+  public static final String SOUND_ON_MEDIUM_OR_SEPARATE_CODE = "soundOnMediumOrSeparateCode";
+  public static final String MEDIUM_FOR_SOUND_CODE = "mediumForSoundCode";
+  public static final String DIMENSION_CODE = "dimensionCodes";
+  public static final String CONFIGURATION_CODE = "configurationCode";
+  public static final String POLARITY_CODE = "polarityCode";
+  public static final String GOVERNMENT_PUBLICATION_CODE = "governmentPublicationCode";
+  public static final String FORM_OF_ITEM_CODE = "formOfItemCode";
+  public static final String BOOK_TYPE = "bk";
+  public static final String MUSIC_TYPE = "msr";
+  public static final String SERIAL_TYPE = "se";
+  public static final String MIXED_TYPE = "mm";
+  public static final String MAP_TYPE = "cm";
+  public static final String VISUAL_TYPE = "vm";
+  public static final String COMPUTER_TYPE = "cf";
+
+  public static final int CONTROL_FIELD_CATEGORY_CODE = 1;
 }
