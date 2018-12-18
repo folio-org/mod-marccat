@@ -429,20 +429,20 @@ public abstract class Global {
     }
   }
 
-  public static final String specificMaterialDesignationCode = "specificMaterialDesignationCode";
-  public static final String colorCode  = "colorCode";
-  public static final String soundOnMediumOrSeparateCode = "soundOnMediumOrSeparateCode";
-  public static final String mediumForSoundCode = "mediumForSoundCode";
-  public static final String dimensionCodes = "dimensionCodes";
-  public static final String configurationCode = "configurationCode";
-  public static final String polarityCode = "polarityCode";
-  public static final String governmentPublicationCode = "governmentPublicationCode";
-  public static final String formOfItemCode =  "formOfItemCode";
-  public static final String bookType = "bk";
-  public static final String musicType = "msr";
-  public static final String serialType = "se";
-  public static final String mixedType = "mm";
-  public static final String mapType = "cm";
+  public static final String SPECIFIC_MATERIAL_DESIGNAION_ON_CODE = "specificMaterialDesignationCode";
+  public static final String COLOR_CODE  = "colorCode";
+  public static final String SOUND_ON_MEDIUM_OR_SEPARATE_CODE = "soundOnMediumOrSeparateCode";
+  public static final String MEDIUM_FOR_SOUND_CODE = "mediumForSoundCode";
+  public static final String DIMENSION_CODE = "dimensionCodes";
+  public static final String CONFIGURATION_CODE = "configurationCode";
+  public static final String POLARITY_CODE = "polarityCode";
+  public static final String GOVERNMENT_PUBLICATION_CODE = "governmentPublicationCode";
+  public static final String FORM_OF_ITEM_CODE = "formOfItemCode";
+  public static final String BOOK_TYPE = "bk";
+  public static final String MUSIC_TYPE = "msr";
+  public static final String SERIAL_TYPE = "se";
+  public static final String MIXED_TYPE = "mm";
+  public static final String MAP_TYPE = "cm";
   public static final String VISUAL_TYPE = "vm";
   public static final String COMPUTER_TYPE = "cf";
 

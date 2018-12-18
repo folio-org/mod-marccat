@@ -774,14 +774,14 @@ public class FixedField {
   /**
    * @param formOfItemCode The formOfItemCode
    */
-  @JsonProperty("formOfItemCode")
+  @JsonProperty("FORM_OF_ITEM_CODE")
   public void setFormOfItemCode(String formOfItemCode) {
-    this.attributes.put("formOfItemCode", formOfItemCode);
+    this.attributes.put("FORM_OF_ITEM_CODE", formOfItemCode);
     this.formOfItemCode = formOfItemCode;
   }
 
   public FixedField withFormOfItemCode(String formOfItemCode) {
-    this.attributes.put("formOfItemCode", formOfItemCode);
+    this.attributes.put("FORM_OF_ITEM_CODE", formOfItemCode);
     this.formOfItemCode = formOfItemCode;
     return this;
   }
@@ -891,12 +891,12 @@ public class FixedField {
    */
   @JsonProperty("governmentPublicationCode")
   public void setGovernmentPublicationCode(String governmentPublicationCode) {
-    this.attributes.put("governmentPublicationCode", governmentPublicationCode);
+    this.attributes.put("GOVERNMENT_PUBLICATION_CODE", governmentPublicationCode);
     this.governmentPublicationCode = governmentPublicationCode;
   }
 
   public FixedField withGovernmentPublicationCode(String governmentPublicationCode) {
-    this.attributes.put("governmentPublicationCode", governmentPublicationCode);
+    this.attributes.put("GOVERNMENT_PUBLICATION_CODE", governmentPublicationCode);
     this.governmentPublicationCode = governmentPublicationCode;
     return this;
   }
