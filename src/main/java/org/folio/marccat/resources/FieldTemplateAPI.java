@@ -3,19 +3,10 @@ package org.folio.marccat.resources;
 import org.folio.marccat.ModMarccat;
 import org.folio.marccat.config.Global;
 import org.folio.marccat.config.log.MessageCatalog;
-import org.folio.marccat.domain.ConversionFieldUtils;
-import org.folio.marccat.integration.StorageService;
 import org.folio.marccat.resources.domain.FieldTemplate;
-import org.folio.marccat.resources.domain.FixedField;
 import org.folio.marccat.resources.domain.VariableField;
-import org.folio.marccat.shared.CorrelationValues;
-import org.folio.marccat.shared.GeneralInformation;
-import org.folio.marccat.shared.PhysicalInformation;
-import org.folio.marccat.shared.Validation;
-import org.folio.marccat.util.F;
+import org.folio.marccat.shared.*;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 import static java.util.Arrays.stream;
 import static java.util.Optional.ofNullable;
@@ -30,7 +21,7 @@ import static org.folio.marccat.integration.CatalogingHelper.doGet;
  */
 @RestController
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
-public class FieldTemplateAPI extends BaseResource {
+public class FieldTemplateAPI extends BaseResource implements CatalogingInformation{
 
 
   @GetMapping("/field-template")
@@ -45,7 +36,7 @@ public class FieldTemplateAPI extends BaseResource {
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
     return doGet((storageService, configuration) ->
-        !isFixedField(code)
+        !CatalogingInformation.isFixedField(code)
           ? ofNullable(storageService.getCorrelationVariableField(categoryCode, ind1, ind2, code))
           .map(correlationValues -> {
             final Validation validation = storageService.getSubfieldsByCorrelations(
@@ -71,7 +62,7 @@ public class FieldTemplateAPI extends BaseResource {
             logger.error(MessageCatalog._00016_FIELD_PARAMETER_INVALID, categoryCode, code);
             return new FieldTemplate();
           })
-          : ofNullable(getFixedField(storageService, headerType, code, leader, valueField, lang, configuration))
+          : ofNullable(CatalogingInformation.getFixedField(storageService, headerType, code, leader, valueField, lang, configuration))
           .map(fixedField -> {
             final FieldTemplate fieldT = new FieldTemplate();
             fieldT.setFixedField(fixedField);
@@ -84,154 +75,6 @@ public class FieldTemplateAPI extends BaseResource {
 
   }
 
-  /**
-   * Gets the fixed-field associated to header type code.
-   * <p>
-   * In case of 008 field, leader will be used to get related values:
-   * if header type code selected doesn't match with leader value,
-   * a default value string will'be returned, based on leader value.
-   * Example: recordType (leader/05) = 'a' bibliographicLevel (leader/06) = 'm'
-   * 008 --> 008 - Book
-   *
-   * @param storageService the storage service.
-   * @param headerTypeCode the header type code selected from drop-down tag list.
-   * @param code           the tag number code.
-   * @param leader         the leader of record.
-   * @param valueField     the display value field (null or blank a default value will'be set).
-   * @param lang           the lang associated with the current request.
-   * @return a fixed-field containing all selected values.
-   */
-  private FixedField getFixedField(final StorageService storageService,
-                                   final int headerTypeCode,
-                                   final String code,
-                                   final String leader,
-                                   String valueField,
-                                   final String lang,
-                                   final Map<String, String> serviceConfiguration) {
-
-
-    FixedField fixedField = null;
-    if (isFixedField(code) && checkParameters(code, headerTypeCode, leader)) {
-      fixedField = new FixedField();
-      fixedField.setCode(code);
-      fixedField.setCategoryCode(Global.INT_CATEGORY);
-      fixedField.setHeaderTypeCode(headerTypeCode);
-
-      valueField = F.isNotNullOrEmpty(valueField) ? valueField : null;
-
-      GeneralInformation generalInformation = null;
-
-      if (code.equals(Global.LEADER_TAG_NUMBER)) {
-        final String description = storageService.getHeadingTypeDescription(headerTypeCode, lang, Global.INT_CATEGORY);
-        fixedField.setDescription(description);
-        fixedField.setDisplayValue(ofNullable(valueField).orElse(getLeaderValue()));
-        setLeaderValues(fixedField);
-
-      } else if (code.equals(Global.MATERIAL_TAG_CODE)) {
-        generalInformation = new GeneralInformation();
-        generalInformation.setDefaultValues(serviceConfiguration);
-        final Map<String, Object> mapRecordTypeMaterial = storageService.getMaterialTypeInfosByLeaderValues(leader.charAt(6), leader.charAt(7), code);
-        final int headerTypeCalculated = (int) mapRecordTypeMaterial.get(Global.HEADER_TYPE_LABEL);
-
-        generalInformation.setFormOfMaterial((String) mapRecordTypeMaterial.get(Global.FORM_OF_MATERIAL_LABEL));
-        generalInformation.setHeaderType(headerTypeCalculated);
-        generalInformation.setMaterialDescription008Indicator("1");
-
-        //header type code doesn't match with leader value
-        if (headerTypeCode != headerTypeCalculated) {
-          valueField = null;
-        }
-
-      } else if (code.equals(Global.OTHER_MATERIAL_TAG_CODE)) {
-        generalInformation = new GeneralInformation();
-        generalInformation.setDefaultValues(serviceConfiguration);
-
-        generalInformation.setHeaderType(headerTypeCode);
-        final Map<String, Object> mapRecordTypeMaterial = storageService.getMaterialTypeInfosByHeaderCode(headerTypeCode, code);
-        generalInformation.setMaterialTypeCode((String) mapRecordTypeMaterial.get(Global.MATERIAL_TYPE_CODE_LABEL));
-        generalInformation.setFormOfMaterial((String) mapRecordTypeMaterial.get(Global.FORM_OF_MATERIAL_LABEL));
-        generalInformation.setMaterialDescription008Indicator("0");
-
-      } else if (code.equals(Global.PHYSICAL_DESCRIPTION_TAG_CODE)) {
-        final String categoryOfMaterial = ofNullable(Global.PHYSICAL_TYPES_MAP.get(headerTypeCode)).orElse(Global.UNSPECIFIED);
-        fixedField.setHeaderTypeCode((categoryOfMaterial.equals(Global.UNSPECIFIED)) ? Global.PHYSICAL_UNSPECIFIED_HEADER_TYPE : headerTypeCode);
-        fixedField.setDescription(storageService.getHeadingTypeDescription(fixedField.getHeaderTypeCode(), lang, Global.INT_CATEGORY));
-        fixedField.setDisplayValue(valueField);
-        fixedField.setCategoryOfMaterial(categoryOfMaterial);
-        setPhysicalInformationValues(fixedField, valueField);
-
-      } else if (code.equals(Global.DATETIME_TRANSACTION_TAG_CODE)) {
-        fixedField.setDescription(storageService.getHeadingTypeDescription(
-          headerTypeCode, lang, Global.INT_CATEGORY));
-        fixedField.setDisplayValue(F.getFormattedToday("yyyyMMddHHmmss."));
-      }
-
-      if (code.equals(Global.MATERIAL_TAG_CODE) || code.equals(Global.OTHER_MATERIAL_TAG_CODE)) {
-        if (generalInformation != null) {
-          if (valueField == null) {
-            if ("1".equals(generalInformation.getMaterialDescription008Indicator())) {
-              generalInformation.setEnteredOnFileDateYYMMDD(F.getFormattedToday("yyMMdd"));
-            }
-            valueField = generalInformation.getValueString();
-          }
-
-          fixedField.setHeaderTypeCode(generalInformation.getHeaderType());
-          fixedField.setDescription(storageService.getHeadingTypeDescription(generalInformation.getHeaderType(), lang, Global.INT_CATEGORY));
-          fixedField.setDisplayValue(valueField);
-          setMaterialValues(fixedField, generalInformation);
-        }
-      }
-    }
-
-    return fixedField;
-  }
-
-  /**
-   * Inject physical values for drop-down list selected related to 007 field.
-   *
-   * @param fixedField the fixedField to populate.
-   * @param valueField the string value of field.
-   */
-  private void setPhysicalInformationValues(final FixedField fixedField, String valueField) {
-
-    final PhysicalInformation pi = new PhysicalInformation();
-
-    if (!F.isNotNullOrEmpty(valueField)) {
-      valueField = pi.getValueString(fixedField.getCategoryOfMaterial());
-    }
-
-    fixedField.setDisplayValue(valueField);
-    ConversionFieldUtils.setPhysicalInformationValuesInFixedField(fixedField);
-
-  }
-
-  /**
-   * Checks the input parameters depending on field code.
-   *
-   * @param code           the current field/tag code
-   * @param headerTypeCode the header type code
-   * @param leader         the leader specified for template
-   * @return true if parameters are valid, false otherwise
-   */
-  private boolean checkParameters(final String code, final int headerTypeCode, final String leader) {
-    return (code.equals(Global.MATERIAL_TAG_CODE) && (leader != null && !leader.isEmpty())) ||
-      (!code.equals(Global.MATERIAL_TAG_CODE) && headerTypeCode != 0);
-  }
-
-  /**
-   * Inject leader values for drop-down list selected.
-   *
-   * @param fixedField the fixedField to populate.
-   */
-  private void setLeaderValues(final FixedField fixedField) {
-
-    final String leaderValue = fixedField.getDisplayValue().length() != Global.LEADER_LENGTH
-      ? getLeaderValue()
-      : fixedField.getDisplayValue();
-
-    fixedField.setDisplayValue(leaderValue);
-    ConversionFieldUtils.setLeaderValuesInFixedField(fixedField);
-  }
 
   /**
    * Sets variable field with selected drop-down list (correlation entity)
@@ -254,7 +97,7 @@ public class FieldTemplateAPI extends BaseResource {
                                          final String description, final Validation validation) {
 
     final VariableField variableField = new VariableField();
-    if (!isFixedField(code)) {
+    if (!CatalogingInformation.isFixedField(code)) {
       variableField.setHeadingTypeCode(Integer.toString(correlations.getValue(1)));
       variableField.setItemTypeCode(Integer.toString(correlations.getValue(2)));
       variableField.setFunctionCode(Integer.toString(correlations.getValue(3)));
@@ -273,56 +116,4 @@ public class FieldTemplateAPI extends BaseResource {
     return variableField;
   }
 
-  /**
-   * Check if is a fixedField or not.
-   *
-   * @param code the tag number code.
-   * @return true if is fixedfield, false otherwise.
-   */
-  private boolean isFixedField(final String code) {
-    return Global.FIXED_FIELDS.contains(code);
-  }
-
-  /**
-   * Inject material or other material values for drop-down list selected.
-   *
-   * @param fixedField the fixedField to populate.
-   * @param gi         the general information used to create fixed field.
-   */
-  private void setMaterialValues(final FixedField fixedField, final GeneralInformation gi) {
-    String displayValue = null;
-
-    if ("1".equals(gi.getMaterialDescription008Indicator())) {
-      displayValue = (fixedField.getDisplayValue().length() != Global.MATERIAL_FIELD_LENGTH
-        ? gi.getValueString()
-        : fixedField.getDisplayValue());
-    } else { //006
-      displayValue = fixedField.getDisplayValue().length() != Global.OTHER_MATERIAL_FIELD_LENGTH
-        ? gi.getValueString()
-        : fixedField.getDisplayValue();
-    }
-
-    fixedField.setDisplayValue(displayValue);
-    ConversionFieldUtils.setMaterialValuesInFixedField(fixedField, gi.getFormOfMaterial());
-  }
-
-  /**
-   * Sets default leader value.
-   *
-   * @return a leader value.
-   */
-  private String getLeaderValue() {
-    return new StringBuilder(Global.FIXED_LEADER_LENGTH)
-      .append(Global.RECORD_STATUS_CODE)
-      .append(Global.RECORD_TYPE_CODE)
-      .append(Global.BIBLIOGRAPHIC_LEVEL_CODE)
-      .append(Global.CONTROL_TYPE_CODE)
-      .append(Global.CHARACTER_CODING_SCHEME_CODE)
-      .append(Global.FIXED_LEADER_BASE_ADDRESS)
-      .append(Global.ENCODING_LEVEL)
-      .append(Global.DESCRIPTIVE_CATALOGUING_CODE)
-      .append(Global.LINKED_RECORD_CODE)
-      .append(Global.FIXED_LEADER_PORTION)
-      .toString();
-  }
 }

@@ -1,0 +1,55 @@
+#%RAML 1.0
+
+title: Data import
+version: v1.1
+protocols: [ HTTP, HTTPS ]
+baseUri: http://localhost
+
+documentation:
+  - title: MARCcat API
+    content: API for cataloging
+
+types:
+  error: !include raml-storage/raml-util/schemas/error.schema
+  errors: !include raml-storage/raml-util/schemas/errors.schema
+  fileDefinition: !include raml-storage/schemas/mod-data-import/fileDefinition.json
+  uploadDefinition: !include raml-storage/schemas/mod-data-import/uploadDefinition.json
+  definitionCollection: !include raml-storage/schemas/mod-data-import/uploadDefinitionCollection.json
+
+traits:
+  validate: !include raml-storage/raml-util/traits/validation.raml
+  language: !include raml-storage/raml-util/traits/language.raml
+  pageable:  !include raml-storage/raml-util/traits/pageable.raml
+  searchable: !include raml-storage/raml-util/traits/searchable.raml
+
+resourceTypes:
+  collection: !include raml-storage/raml-util/rtypes/collection.raml
+  collection-item: !include raml-storage/raml-util/rtypes/item-collection.raml
+
+/marccat:
+  /search:
+    /definition:
+      displayName: Search Definition
+      description: Search API Definition
+      type:
+        collection:
+          recordCollection: records
+          record: record
+          schemaCollection: !include raml-storage/examples/mod-marccat/recordCollection.sample
+          schemaItem: !include raml-storage/examples/mod-marccat/record.sample
+      get:
+        description: Get a list of marc records
+          200:
+            body:
+              application/json:
+                type: recordCollection
+          400:
+            description: "Bad request"
+            body:
+              text/plain:
+                example: "Bad request"
+          500:
+            description: "Internal server error"
+            body:
+              text/plain:
+                example: "Internal server error"
