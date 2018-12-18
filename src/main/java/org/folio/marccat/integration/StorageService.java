@@ -15,7 +15,7 @@ import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.dao.*;
 import org.folio.marccat.dao.persistence.*;
-import org.folio.marccat.enumeration.CodeListsType;
+import org.folio.marccat.enumaration.CodeListsType;
 import org.folio.marccat.exception.*;
 import org.folio.marccat.integration.record.BibliographicInputFile;
 import org.folio.marccat.integration.record.RecordParser;
@@ -24,10 +24,7 @@ import org.folio.marccat.model.Subfield;
 import org.folio.marccat.resources.domain.*;
 import org.folio.marccat.resources.domain.Leader;
 import org.folio.marccat.search.SearchResponse;
-import org.folio.marccat.shared.CorrelationValues;
-import org.folio.marccat.shared.GeneralInformation;
-import org.folio.marccat.shared.MapHeading;
-import org.folio.marccat.shared.Validation;
+import org.folio.marccat.shared.*;
 import org.folio.marccat.util.F;
 import org.folio.marccat.util.StringText;
 import org.springframework.web.multipart.MultipartFile;
@@ -1201,7 +1198,7 @@ public class StorageService implements Closeable {
         if (correlations.size() > 1) {
           if ((tag.endsWith("00") || tag.endsWith("10") || tag.endsWith("11")) && hasTitle) {
             return Global.NAME_TITLE_CATEGORY;
-          } else if (correlations.stream().anyMatch(Objects::nonNull)) {
+          } else if (correlations.stream().anyMatch(Objects::nonNull)){
             return correlations.stream().filter(Objects::nonNull).findFirst().get().getKey().getMarcTagCategoryCode();
           }
         }
@@ -1245,10 +1242,26 @@ public class StorageService implements Closeable {
       }
 
       final int an = item.getAmicusNumber();
-      BibliographicModel model = getItemModel(template, an);
-      if (ofNullable(model).isPresent())
-        item.setModelItem(model);
+      item.setModelItem(
+        ofNullable(template).map(t -> {
+          final BibliographicModelItemDAO dao = new BibliographicModelItemDAO();
+          final ObjectMapper mapper = new ObjectMapper();
 
+          try {
+            BibliographicModel model = (BibliographicModel) ofNullable(dao.load(an, session).getModel()).get();
+            if (model == null)
+              model = new BibliographicModel();
+
+            model.setId(t.getId());
+            model.setLabel(t.getName());
+            model.setFrbrFirstGroup(t.getGroup());
+            model.setRecordFields(mapper.writeValueAsString(t));
+            return model;
+          } catch (Exception e) {
+            logger.error(MessageCatalog._00023_SAVE_TEMPLATE_ASSOCIATED_FAILURE, t.getId(), record.getId(), e);
+            throw new RuntimeException(e);
+          }
+        }).orElse(null));
 
       if (isNotNullOrEmpty(record.getVerificationLevel()))
         item.getItemEntity().setVerificationLevel(record.getVerificationLevel().charAt(0));
@@ -1262,35 +1275,6 @@ public class StorageService implements Closeable {
       logger.error(MessageCatalog._00019_SAVE_RECORD_FAILURE, record.getId(), e);
       throw new DataAccessException(e);
     }
-  }
-
-  /**
-   * Get BibliographicModel associated to record.
-   *
-   * @param template -- the current template.
-   * @param an       -- the record id.
-   */
-  private BibliographicModel getItemModel(final RecordTemplate template, final int an) {
-    if (ofNullable(template).isPresent()) {
-
-      final BibliographicModelItemDAO dao = new BibliographicModelItemDAO();
-      final ObjectMapper mapper = new ObjectMapper();
-      try {
-        BibliographicModel model = (BibliographicModel) dao.load(an, session).getModel();
-        if (model == null)
-          model = new BibliographicModel();
-
-        model.setId(template.getId());
-        model.setLabel(template.getName());
-        model.setFrbrFirstGroup(template.getGroup());
-        model.setRecordFields(mapper.writeValueAsString(template));
-        return model;
-      } catch (Exception e) {
-        logger.error(MessageCatalog._00023_SAVE_TEMPLATE_ASSOCIATED_FAILURE, template.getId(), an, e);
-        throw new RuntimeException(e);
-      }
-    }
-    return null;
   }
 
   /**
@@ -1365,7 +1349,6 @@ public class StorageService implements Closeable {
         }
       }
     });
-
 
   }
 
@@ -1585,15 +1568,5 @@ public class StorageService implements Closeable {
     }
   }
 
-  /**
-   * @param lang     the language code, used here as a filter criterion.
-   * @param category the category, used here as a filter criterion.
-   * @return a list of heading item types by marc category code associated with the requested language.
-   * @throws DataAccessException in case of data access failure.
-   */
-  public List<Avp<String>> getFirstCorrelation(final String lang, final int category) throws DataAccessException {
-    final DAOCodeTable daoCT = new DAOCodeTable();
-    return daoCT.getList(session, FIRST_CORRELATION_HEADING_CLASS_MAP.get(category), locale(lang));
-  }
 
 }

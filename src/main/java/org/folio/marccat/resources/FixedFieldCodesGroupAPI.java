@@ -4,12 +4,12 @@ import org.folio.marccat.ModMarccat;
 import org.folio.marccat.business.codetable.Avp;
 import org.folio.marccat.config.Global;
 import org.folio.marccat.config.log.MessageCatalog;
-import org.folio.marccat.enumeration.CodeListsType;
 import org.folio.marccat.integration.StorageService;
 import org.folio.marccat.resources.domain.FieldTemplate;
 import org.folio.marccat.resources.domain.FixedFieldCodesGroup;
 import org.folio.marccat.resources.domain.FixedFieldElement;
 import org.folio.marccat.resources.domain.Pair;
+import org.folio.marccat.enumaration.CodeListsType;
 import org.folio.marccat.shared.CatalogingInformation;
 import org.springframework.web.bind.annotation.*;
 
@@ -89,9 +89,9 @@ public class FixedFieldCodesGroupAPI extends BaseResource implements  Cataloging
         fieldT.setFixedField(fixedField);
         return fieldT;
       }).orElseGet(() -> {
-        logger.error(MessageCatalog._00016_FIELD_PARAMETER_INVALID, Global.CONTROL_FIELD_CATEGORY_CODE, parameter.get("code"));
-        return new FieldTemplate();
-      });
+      logger.error(MessageCatalog._00016_FIELD_PARAMETER_INVALID, Global.CONTROL_FIELD_CATEGORY_CODE, parameter.get("code"));
+      return new FieldTemplate();
+    });
     fixedFieldCodesGroup.getResults().keySet()
       .forEach(key -> {
         String currentValue = (String) fieldTemplate.getFixedField().getAttributes().get(key);
@@ -108,59 +108,59 @@ public class FixedFieldCodesGroupAPI extends BaseResource implements  Cataloging
   private void injectPhysicalDescriptionCodes(final FixedFieldCodesGroup fixedFieldCodesGroup, final StorageService storageService, final String lang, final int headerTypeCode) {
     String categoryOfMaterial = Global.PHYSICAL_TYPES_MAP.get(headerTypeCode);
     if (categoryOfMaterial != null) {
-      fixedFieldCodesGroup.addResults(new FixedFieldElement("categoryOfMaterial", storageService.getCodesList(lang, CodeListsType.CATEGORY_MATERIAL).stream().map(toPairItem).collect(toList())));
-      switch (categoryOfMaterial) {
-        case Global.ELECTRONIC_RESOURCE :
-          setPhysicalInfoCFcodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        case Global.GLOBE :
-          setPhysicalInfoGLBcodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        case Global.MAP_CODE :
-          setPhysicalInfoMAPcodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        case Global.TACTILE_MATERIAL :
-          setPhysicalInfoTCTcodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        case Global.PROJECTED_GRAPHIC :
-          setPhysicalInfoPGcodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        case Global.MICROFORM :
-          setPhysicalInfoMICcodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        case Global.NON_PROJECTED_GRAPHIC :
-          setPhysicalInfoNPGcodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        case Global.MOTION_PICTURE :
-          setPhysicalInfoMPcodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        case Global.KIT_CODE :
-          setPhysicalInfoKITcodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        case Global.NOTATED_MUSIC :
-          setPhysicalInfoNMcodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        case Global.REMOTE_SENSING_IMAGE :
-          setPhysicalInfoRSIcodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        case Global.SOUND_RECORDING :
-          setPhysicalInfoSNDcodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        case Global.TEXT_CODE :
-          setPhysicalInfoTXTcodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        case Global.UNSPECIFIED :
-          setPhysicalInfoUNScodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        case Global.VIDEO_RECORDING :
-          setPhysicalInfoVRcodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        default :
-      }
+        fixedFieldCodesGroup.addResults(new FixedFieldElement("categoryOfMaterial", storageService.getCodesList(lang, CodeListsType.CATEGORY_MATERIAL).stream().map(toPairItem).collect(toList())));
+        switch (categoryOfMaterial) {
+          case Global.ELECTRONIC_RESOURCE :
+            setPhysicalInfoCFcodes(lang, storageService, fixedFieldCodesGroup);
+            break;
+          case Global.GLOBE :
+            setPhysicalInfoGLBcodes(lang, storageService, fixedFieldCodesGroup);
+            break;
+          case Global.MAP_CODE :
+            setPhysicalInfoMAPcodes(lang, storageService, fixedFieldCodesGroup);
+            break;
+          case Global.TACTILE_MATERIAL :
+            setPhysicalInfoTCTcodes(lang, storageService, fixedFieldCodesGroup);
+            break;
+          case Global.PROJECTED_GRAPHIC :
+            setPhysicalInfoPGcodes(lang, storageService, fixedFieldCodesGroup);
+            break;
+          case Global.MICROFORM :
+            setPhysicalInfoMICcodes(lang, storageService, fixedFieldCodesGroup);
+            break;
+          case Global.NON_PROJECTED_GRAPHIC :
+            setPhysicalInfoNPGcodes(lang, storageService, fixedFieldCodesGroup);
+            break;
+          case Global.MOTION_PICTURE :
+            setPhysicalInfoMPcodes(lang, storageService, fixedFieldCodesGroup);
+            break;
+          case Global.KIT_CODE :
+            setPhysicalInfoKITcodes(lang, storageService, fixedFieldCodesGroup);
+            break;
+          case Global.NOTATED_MUSIC :
+            setPhysicalInfoNMcodes(lang, storageService, fixedFieldCodesGroup);
+            break;
+          case Global.REMOTE_SENSING_IMAGE :
+            setPhysicalInfoRSIcodes(lang, storageService, fixedFieldCodesGroup);
+            break;
+          case Global.SOUND_RECORDING :
+            setPhysicalInfoSNDcodes(lang, storageService, fixedFieldCodesGroup);
+            break;
+          case Global.TEXT_CODE :
+            setPhysicalInfoTXTcodes(lang, storageService, fixedFieldCodesGroup);
+            break;
+          case Global.UNSPECIFIED :
+            setPhysicalInfoUNScodes(lang, storageService, fixedFieldCodesGroup);
+            break;
+          case Global.VIDEO_RECORDING :
+            setPhysicalInfoVRcodes(lang, storageService, fixedFieldCodesGroup);
+            break;
+          default :
+        }
 
-    }
-    else {
-      logger.error(MessageCatalog._00019_HEADER_TYPE_ID_WRONG, Global.PHYSICAL_DESCRIPTION_TAG_CODE);
+      }
+      else {
+        logger.error(MessageCatalog._00019_HEADER_TYPE_ID_WRONG, Global.PHYSICAL_DESCRIPTION_TAG_CODE);
     }
   }
 
@@ -420,44 +420,44 @@ public class FixedFieldCodesGroupAPI extends BaseResource implements  Cataloging
                                    final String tag) {
     Map<String, Object> mapRecordTypeMaterial = storageService.getMaterialTypeInfosByHeaderCode(headerTypeCode, tag);
     if (mapRecordTypeMaterial != null) {
-      String material = (String) mapRecordTypeMaterial.get(Global.FORM_OF_MATERIAL_LABEL);
-      switch (material){
-        case Global.BOOK_TYPE:
-          setBookMaterialCodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        case Global.MUSIC_TYPE:
-          setMusicMaterialCodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        case Global.SERIAL_TYPE:
-          setSerialMaterialCodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        case Global.MIXED_TYPE:
-          fixedFieldCodesGroup.addResults(new FixedFieldElement(Global.FORM_OF_ITEM_CODE, storageService.getCodesList(lang, CodeListsType.FORM_OF_ITEM).stream().map(toPairItem).collect(toList())));
-          break;
-        case Global.MAP_TYPE:
-          setMapMaterialCodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        case Global.VISUAL_TYPE:
-          setVisualMaterialCodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        case Global.COMPUTER_TYPE:
-          setComputerMaterialCodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        default:
+        String material = (String) mapRecordTypeMaterial.get(Global.FORM_OF_MATERIAL_LABEL);
+        switch (material){
+          case Global.BOOK_TYPE:
+            setBookMaterialCodes(lang, storageService, fixedFieldCodesGroup);
+            break;
+          case Global.MUSIC_TYPE:
+            setMusicMaterialCodes(lang, storageService, fixedFieldCodesGroup);
+            break;
+          case Global.SERIAL_TYPE:
+            setSerialMaterialCodes(lang, storageService, fixedFieldCodesGroup);
+            break;
+          case Global.MIXED_TYPE:
+            fixedFieldCodesGroup.addResults(new FixedFieldElement(Global.FORM_OF_ITEM_CODE, storageService.getCodesList(lang, CodeListsType.FORM_OF_ITEM).stream().map(toPairItem).collect(toList())));
+            break;
+          case Global.MAP_TYPE:
+            setMapMaterialCodes(lang, storageService, fixedFieldCodesGroup);
+            break;
+          case Global.VISUAL_TYPE:
+            setVisualMaterialCodes(lang, storageService, fixedFieldCodesGroup);
+            break;
+          case Global.COMPUTER_TYPE:
+            setComputerMaterialCodes(lang, storageService, fixedFieldCodesGroup);
+            break;
+           default:
 
       }
 
-      if (tag.equals(Global.MATERIAL_TAG_CODE)) {
-        fixedFieldCodesGroup.addResults(new FixedFieldElement("dateTypes", storageService.getCodesList(lang, CodeListsType.DATE_TYPE).stream().map(toPairItem).collect(toList())));
-        fixedFieldCodesGroup.addResults(new FixedFieldElement("modifiedRecordTypes", storageService.getCodesList(lang, CodeListsType.MODIFIED_RECORD_TYPE).stream().map(toPairItem).collect(toList())));
-        fixedFieldCodesGroup.addResults(new FixedFieldElement("catalogSources", storageService.getCodesList(lang, CodeListsType.CATALOGUING_SOURCE).stream().map(toPairItem).collect(toList())));
+        if (tag.equals(Global.MATERIAL_TAG_CODE)) {
+          fixedFieldCodesGroup.addResults(new FixedFieldElement("dateTypes", storageService.getCodesList(lang, CodeListsType.DATE_TYPE).stream().map(toPairItem).collect(toList())));
+          fixedFieldCodesGroup.addResults(new FixedFieldElement("modifiedRecordTypes", storageService.getCodesList(lang, CodeListsType.MODIFIED_RECORD_TYPE).stream().map(toPairItem).collect(toList())));
+          fixedFieldCodesGroup.addResults(new FixedFieldElement("catalogSources", storageService.getCodesList(lang, CodeListsType.CATALOGUING_SOURCE).stream().map(toPairItem).collect(toList())));
+
+        }
+    }
+      else {
+        logger.error(MessageCatalog._00019_HEADER_TYPE_ID_WRONG, tag);
 
       }
-    }
-    else {
-      logger.error(MessageCatalog._00019_HEADER_TYPE_ID_WRONG, tag);
-
-    }
 
   }
 
