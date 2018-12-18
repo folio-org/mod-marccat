@@ -15,7 +15,7 @@ import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.dao.*;
 import org.folio.marccat.dao.persistence.*;
-import org.folio.marccat.enumaration.CodeListsType;
+import org.folio.marccat.enumeration.CodeListsType;
 import org.folio.marccat.exception.*;
 import org.folio.marccat.integration.record.BibliographicInputFile;
 import org.folio.marccat.integration.record.RecordParser;
@@ -24,7 +24,10 @@ import org.folio.marccat.model.Subfield;
 import org.folio.marccat.resources.domain.*;
 import org.folio.marccat.resources.domain.Leader;
 import org.folio.marccat.search.SearchResponse;
-import org.folio.marccat.shared.*;
+import org.folio.marccat.shared.CorrelationValues;
+import org.folio.marccat.shared.GeneralInformation;
+import org.folio.marccat.shared.MapHeading;
+import org.folio.marccat.shared.Validation;
 import org.folio.marccat.util.F;
 import org.folio.marccat.util.StringText;
 import org.springframework.web.multipart.MultipartFile;
@@ -1198,7 +1201,7 @@ public class StorageService implements Closeable {
         if (correlations.size() > 1) {
           if ((tag.endsWith("00") || tag.endsWith("10") || tag.endsWith("11")) && hasTitle) {
             return Global.NAME_TITLE_CATEGORY;
-          } else if (correlations.stream().anyMatch(Objects::nonNull)){
+          } else if (correlations.stream().anyMatch(Objects::nonNull)) {
             return correlations.stream().filter(Objects::nonNull).findFirst().get().getKey().getMarcTagCategoryCode();
           }
         }
@@ -1244,7 +1247,7 @@ public class StorageService implements Closeable {
       final int an = item.getAmicusNumber();
       BibliographicModel model = getItemModel(template, an);
       if (ofNullable(model).isPresent())
-          item.setModelItem(model);
+        item.setModelItem(model);
 
 
       if (isNotNullOrEmpty(record.getVerificationLevel()))
@@ -1265,7 +1268,7 @@ public class StorageService implements Closeable {
    * Get BibliographicModel associated to record.
    *
    * @param template -- the current template.
-   * @param an -- the record id.
+   * @param an       -- the record id.
    */
   private BibliographicModel getItemModel(final RecordTemplate template, final int an) {
     if (ofNullable(template).isPresent()) {
@@ -1588,7 +1591,7 @@ public class StorageService implements Closeable {
    * @return a list of heading item types by marc category code associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
-  public List <Avp <String>> getFirstCorrelation(final String lang, final int category) throws DataAccessException {
+  public List<Avp<String>> getFirstCorrelation(final String lang, final int category) throws DataAccessException {
     final DAOCodeTable daoCT = new DAOCodeTable();
     return daoCT.getList(session, FIRST_CORRELATION_HEADING_CLASS_MAP.get(category), locale(lang));
   }

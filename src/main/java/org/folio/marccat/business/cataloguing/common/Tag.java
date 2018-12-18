@@ -3,10 +3,10 @@ package org.folio.marccat.business.cataloguing.common;
 import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
-import org.folio.marccat.config.log.Log;
 import org.folio.marccat.business.cataloguing.bibliographic.FixedField;
 import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
 import org.folio.marccat.business.common.PersistenceState;
+import org.folio.marccat.config.log.Log;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.persistence.CorrelationKey;
 import org.folio.marccat.dao.persistence.T_SINGLE;
@@ -33,8 +33,8 @@ import static org.folio.marccat.util.F.deepCopy;
 public abstract class Tag implements Serializable, Cloneable, TagInterface {
 
   public static final int PHYSICAL_MATERIAL = 1;
-  private Log logger = new Log(Tag.class);
   protected PersistenceState persistenceState;
+  private Log logger = new Log(Tag.class);
   private TagImpl tagImpl;
   private int itemNumber = -1;
   private CorrelationKey correlationKey;

@@ -8,8 +8,6 @@ import org.folio.marccat.business.cataloguing.bibliographic.MarcCommandLibrary;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.business.descriptor.PublisherTagDescriptor;
 import org.folio.marccat.config.Global;
-import org.folio.marccat.dao.BibliographicCatalogDAO;
-import org.folio.marccat.dao.DAODescriptor;
 import org.folio.marccat.dao.RecordTypeMaterialDAO;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.DataAccessException;
@@ -435,7 +433,7 @@ public class RecordParser {
   private boolean checkIfAlreadyExistNote(final int headingNbr, CatalogItem item, final Class clazz) {
     return item.getTags().stream().filter(aTag -> clazz.isAssignableFrom(aTag.getClass()))
       .anyMatch(t -> {
-        BibliographicNoteTag noteTag = (BibliographicNoteTag)t;
+        BibliographicNoteTag noteTag = (BibliographicNoteTag) t;
         return noteTag.getNote().getNoteNbr() == headingNbr;
       });
   }
@@ -443,9 +441,10 @@ public class RecordParser {
   @SuppressWarnings("unchecked")
   private boolean checkIfAlreadyExist(final int headingNbr, CatalogItem item, final Class clazz) {
     return item.getTags().stream().filter(aTag -> clazz.isAssignableFrom(aTag.getClass()))
-      .anyMatch( t -> {
-        AccessPoint apf = (AccessPoint)t;
-        return apf.getHeadingNumber() == headingNbr; });
+      .anyMatch(t -> {
+        AccessPoint apf = (AccessPoint) t;
+        return apf.getHeadingNumber() == headingNbr;
+      });
   }
 
   /**
@@ -465,11 +464,12 @@ public class RecordParser {
 
     boolean exist = item.getTags().stream()
       .filter(aTag -> PublisherManager.class.isAssignableFrom(aTag.getClass()))
-      .anyMatch( t -> {
-        PublisherManager pm = (PublisherManager)t;
+      .anyMatch(t -> {
+        PublisherManager pm = (PublisherManager) t;
         PublisherAccessPoint apf = pm.getApf();
         int pTagNumber = apf.getDescriptor().getKey().getHeadingNumber();
-        return pTagNumber == variableField.getKeyNumber(); });
+        return pTagNumber == variableField.getKeyNumber();
+      });
 
     if (exist)
       return;

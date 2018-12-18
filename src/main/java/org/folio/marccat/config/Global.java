@@ -74,13 +74,6 @@ public abstract class Global {
   public static final String NO_RECORD_FOUND = "-4";
 
   public static final Map<String, String> ERRORS_MAP = new HashMap<>();
-  static  {
-    ERRORS_MAP.put(ERROR_MANDATORY_TAG, "Check mandatory tags failure.");
-    ERRORS_MAP.put(ERROR_DUPLICATE_TAG, "Duplicate tags for : %s");
-    ERRORS_MAP.put(ERROR_EMPTY_TAG, "Some tags appears empties: %s.");
-    ERRORS_MAP.put(NO_RECORD_FOUND, "Record not found: %d.");
-  }
-
   public static final short CORRELATION_UNDEFINED = -1;
   public static final int CATALOGING_SOURCE_HEADER_TYPE = 1;
   public static final int LEADER_HEADER_TYPE = 15;
@@ -98,29 +91,9 @@ public abstract class Global {
   public static final char DESCRIPTIVE_CATALOGUING_CODE = ' ';
   public static final char LINKED_RECORD_CODE = ' ';
   public static final String FIXED_LEADER_PORTION = "4500";
-
   public static final Map<Integer, String> PHYSICAL_TYPES_MAP = new HashMap<>();
-  static {
-    PHYSICAL_TYPES_MAP.put(23, GLOBE);
-    PHYSICAL_TYPES_MAP.put(24, MAP_CODE);
-    PHYSICAL_TYPES_MAP.put(25, MICROFORM);
-    PHYSICAL_TYPES_MAP.put(26, MOTION_PICTURE);
-    PHYSICAL_TYPES_MAP.put(27, NON_PROJECTED_GRAPHIC);
-    PHYSICAL_TYPES_MAP.put(28, PROJECTED_GRAPHIC);
-    PHYSICAL_TYPES_MAP.put(29, SOUND_RECORDING);
-    PHYSICAL_TYPES_MAP.put(30, VIDEO_RECORDING);
-    PHYSICAL_TYPES_MAP.put(42, ELECTRONIC_RESOURCE);
-    PHYSICAL_TYPES_MAP.put(43, REMOTE_SENSING_IMAGE);
-    PHYSICAL_TYPES_MAP.put(44, TEXT_CODE);
-    PHYSICAL_TYPES_MAP.put(45, UNSPECIFIED);
-    PHYSICAL_TYPES_MAP.put(46, TACTILE_MATERIAL);
-    PHYSICAL_TYPES_MAP.put(47, KIT_CODE);
-    PHYSICAL_TYPES_MAP.put(48, NOTATED_MUSIC);
-  }
-
   public static final int TAG_RELATION_MIN = 760;
   public static final int TAG_RELATION_MAX = 787;
-
   public static final int HEADER_CATEGORY = 1;
   public static final int NAME_CATEGORY = 2;
   public static final int TITLE_CATEGORY = 3;
@@ -160,6 +133,39 @@ public abstract class Global {
   public static final int OVERFLOW_NOTE_MAX_LENGHT = 1000;
   public static final String NAME_TITLE_VARIANT_CODES = "3v5";
   public static final Map<String, Class> MAP_CODE_LISTS = new HashMap<>();
+  public static final Map<String, Class> BIBLIOGRAPHIC_ACCESS_POINT_CLASS_MAP = new HashMap<>();
+  public static final Map<String, String> INDEX_AUTHORITY_TYPE_MAP = new HashMap<>();
+  public static final Map<String, Class> DAO_CLASS_MAP = new HashMap<>();
+  public static final Map<String, String> FILTER_MAP = new HashMap<>();
+  public static String SUBFIELD_DELIMITER = "\u001f";
+  public static Configuration HCONFIGURATION = new Configuration();
+  public static String SCHEMA_SUITE_KEY = "SUITE_KEY";
+
+  static {
+    ERRORS_MAP.put(ERROR_MANDATORY_TAG, "Check mandatory tags failure.");
+    ERRORS_MAP.put(ERROR_DUPLICATE_TAG, "Duplicate tags for : %s");
+    ERRORS_MAP.put(ERROR_EMPTY_TAG, "Some tags appears empties: %s.");
+    ERRORS_MAP.put(NO_RECORD_FOUND, "Record not found: %d.");
+  }
+
+  static {
+    PHYSICAL_TYPES_MAP.put(23, GLOBE);
+    PHYSICAL_TYPES_MAP.put(24, MAP_CODE);
+    PHYSICAL_TYPES_MAP.put(25, MICROFORM);
+    PHYSICAL_TYPES_MAP.put(26, MOTION_PICTURE);
+    PHYSICAL_TYPES_MAP.put(27, NON_PROJECTED_GRAPHIC);
+    PHYSICAL_TYPES_MAP.put(28, PROJECTED_GRAPHIC);
+    PHYSICAL_TYPES_MAP.put(29, SOUND_RECORDING);
+    PHYSICAL_TYPES_MAP.put(30, VIDEO_RECORDING);
+    PHYSICAL_TYPES_MAP.put(42, ELECTRONIC_RESOURCE);
+    PHYSICAL_TYPES_MAP.put(43, REMOTE_SENSING_IMAGE);
+    PHYSICAL_TYPES_MAP.put(44, TEXT_CODE);
+    PHYSICAL_TYPES_MAP.put(45, UNSPECIFIED);
+    PHYSICAL_TYPES_MAP.put(46, TACTILE_MATERIAL);
+    PHYSICAL_TYPES_MAP.put(47, KIT_CODE);
+    PHYSICAL_TYPES_MAP.put(48, NOTATED_MUSIC);
+  }
+
   static {
     MAP_CODE_LISTS.put("DATE_TYPE", T_ITM_DTE_TYP.class);
     MAP_CODE_LISTS.put("MODIFIED_RECORD_TYPE", T_REC_MDFTN.class);
@@ -286,27 +292,21 @@ public abstract class Global {
     MAP_CODE_LISTS.put("MIC_SPEC_DESIGN", T_MIC_SMD.class);
   }
 
-  public static final Map<String, Class> BIBLIOGRAPHIC_ACCESS_POINT_CLASS_MAP = new HashMap<>();
-  static
-  {
+  static {
     BIBLIOGRAPHIC_ACCESS_POINT_CLASS_MAP.put("NH", NameAccessPoint.class);
     BIBLIOGRAPHIC_ACCESS_POINT_CLASS_MAP.put("TH", TitleAccessPoint.class);
     BIBLIOGRAPHIC_ACCESS_POINT_CLASS_MAP.put("SH", SubjectAccessPoint.class);
     BIBLIOGRAPHIC_ACCESS_POINT_CLASS_MAP.put("MH", NameTitleAccessPoint.class);
   }
 
-  public static final Map<String, String> INDEX_AUTHORITY_TYPE_MAP = new HashMap<>();
-  static
-  {
+  static {
     INDEX_AUTHORITY_TYPE_MAP.put("NH", "NK");
     INDEX_AUTHORITY_TYPE_MAP.put("TH", "TK");
     INDEX_AUTHORITY_TYPE_MAP.put("SH", "SK");
     INDEX_AUTHORITY_TYPE_MAP.put("MH", "NTK");
   }
 
-  public static final Map<String, Class> DAO_CLASS_MAP = new HashMap<>();
-  static
-  {
+  static {
     DAO_CLASS_MAP.put("2P0", NameDescriptorDAO.class);
     DAO_CLASS_MAP.put("3P10", NameDescriptorDAO.class);
     DAO_CLASS_MAP.put("4P10", NameDescriptorDAO.class);
@@ -363,9 +363,7 @@ public abstract class Global {
     DAO_CLASS_MAP.put("373P0", SubjectDescriptorDAO.class);
   }
 
-  public static final Map<String, String> FILTER_MAP = new HashMap<>();
-  static
-  {
+  static {
     FILTER_MAP.put("2P0", "");
     FILTER_MAP.put("3P10", " and hdg.typeCode = 2 ");
     FILTER_MAP.put("4P10", " and hdg.typeCode = 3 ");
@@ -422,10 +420,6 @@ public abstract class Global {
     FILTER_MAP.put("353P1", " and hdg.typeCode = 80");
     FILTER_MAP.put("373P0", " and hdg.sourceCode = 4 ");
   }
-
-  public static String SUBFIELD_DELIMITER = "\u001f";
-  public static Configuration HCONFIGURATION = new Configuration();
-  public static String SCHEMA_SUITE_KEY = "SUITE_KEY";
 
   static {
     HCONFIGURATION.setProperty("hibernate.dialect", "net.sf.hibernate.dialect.PostgreSQLDialect");

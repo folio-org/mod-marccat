@@ -79,26 +79,26 @@ public class BibliographicRecordAPI extends BaseResource {
       newRecord.setLeader(fromRecord.getLeader());
 
       for (Field field : fromRecord.getFields()) {
-          if (field.getCode().equals(Global.CONTROL_NUMBER_TAG_CODE)) {
-            FixedField controlNumber = field.getFixedField();
-            controlNumber.setDisplayValue(F.padNumber("0", 11, newRecord.getId()));
-            field.setFixedField(controlNumber);
-          }
+        if (field.getCode().equals(Global.CONTROL_NUMBER_TAG_CODE)) {
+          FixedField controlNumber = field.getFixedField();
+          controlNumber.setDisplayValue(F.padNumber("0", 11, newRecord.getId()));
+          field.setFixedField(controlNumber);
+        }
 
-          if (field.getCode().equals(Global.DATETIME_TRANSACTION_TAG_CODE)) {
-            final Field fieldDate = addTagTransactionDate(lang, storageService);
-            newRecord.getFields().add(1, fieldDate);
-          }
+        if (field.getCode().equals(Global.DATETIME_TRANSACTION_TAG_CODE)) {
+          final Field fieldDate = addTagTransactionDate(lang, storageService);
+          newRecord.getFields().add(1, fieldDate);
+        }
 
-          if ( (Integer.parseInt(field.getCode()) < Global.TAG_RELATION_MIN || Integer.parseInt(field.getCode()) > Global.TAG_RELATION_MAX)
-             && !field.getCode().equals(Global.DATETIME_TRANSACTION_TAG_CODE)
-             && !field.getCode().startsWith("9")) {
+        if ((Integer.parseInt(field.getCode()) < Global.TAG_RELATION_MIN || Integer.parseInt(field.getCode()) > Global.TAG_RELATION_MAX)
+          && !field.getCode().equals(Global.DATETIME_TRANSACTION_TAG_CODE)
+          && !field.getCode().startsWith("9")) {
 
-            field.setFieldStatus(Field.FieldStatus.NEW);
-            field.setMandatory(isMandatory(field, template));
-            newRecord.getFields().add(field);
-          }
-       }
+          field.setFieldStatus(Field.FieldStatus.NEW);
+          field.setMandatory(isMandatory(field, template));
+          newRecord.getFields().add(field);
+        }
+      }
 
       newRecord.setRecordView(fromRecord.getRecordView());
       newRecord.setGroup(fromRecord.getGroup());
@@ -113,7 +113,7 @@ public class BibliographicRecordAPI extends BaseResource {
   /**
    * Create a new field for transaction data.
    *
-   * @param lang -- the lang associated to request.
+   * @param lang           -- the lang associated to request.
    * @param storageService -- the storageService.
    * @return new transaction data field.
    */
@@ -136,12 +136,12 @@ public class BibliographicRecordAPI extends BaseResource {
   /**
    * Check if field exists in template and is mandatory.
    *
-   * @param field -- current field in record.
+   * @param field    -- current field in record.
    * @param template -- the associated template.
    * @return true if mandatory, false otherwise.
    */
-  private boolean isMandatory(final Field field, final RecordTemplate template){
-    if (ofNullable(template).isPresent()){
+  private boolean isMandatory(final Field field, final RecordTemplate template) {
+    if (ofNullable(template).isPresent()) {
       return template.getFields().stream().filter(f -> f.getCode().equals(field.getCode())).anyMatch(f -> f.isMandatory());
     }
 
@@ -215,7 +215,7 @@ public class BibliographicRecordAPI extends BaseResource {
       try {
 
         final BibliographicRecord record = container.getBibliographicRecord();
-        RecordTemplate template = ofNullable(container.getRecordTemplate()).isPresent() ?container.getRecordTemplate() :null;
+        RecordTemplate template = ofNullable(container.getRecordTemplate()).isPresent() ? container.getRecordTemplate() : null;
 
         record.getFields().forEach(field -> setCategory(field, storageService));
 

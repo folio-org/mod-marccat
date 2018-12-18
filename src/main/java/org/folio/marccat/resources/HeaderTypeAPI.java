@@ -24,19 +24,21 @@ import static org.folio.marccat.integration.CatalogingHelper.doGet;
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class HeaderTypeAPI extends BaseResource {
 
-  private Function <Avp<String>, HeadingType> toHeadingType = source -> {
+  private Function<Avp<String>, HeadingType> toHeadingType = source -> {
     final HeadingType headingType = new HeadingType();
     headingType.setCode(Integer.parseInt(source.getValue()));
     headingType.setDescription(source.getLabel());
     return headingType;
   };
 
-  private HeadingTypeCollection mapToHeading(List<Avp <String>> list, final String code){
+  private HeadingTypeCollection mapToHeading(List<Avp<String>> list, final String code) {
 
     HeadingTypeCollection headingTypeCollection = new HeadingTypeCollection();
-    headingTypeCollection.setHeadingTypes(list.stream()
-      .filter(element -> element.getLabel().startsWith(code))
-      .map(toHeadingType).collect(toList()));
+    headingTypeCollection.setHeadingTypes(
+      list
+        .stream()
+        .filter(element -> element.getLabel().startsWith(code))
+        .map(toHeadingType).collect(toList()));
     return headingTypeCollection;
   }
 
@@ -46,11 +48,9 @@ public class HeaderTypeAPI extends BaseResource {
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
     return doGet((storageService, configuration) -> {
-
-      final int category = Global.HEADER_CATEGORY;
-      if (ofNullable(storageService.getFirstCorrelation(lang, category)).isPresent())
-        return mapToHeading(storageService.getFirstCorrelation(lang, category), code);
-
+      if (ofNullable(storageService.getFirstCorrelation(lang, Global.HEADER_CATEGORY)).isPresent()) {
+        return mapToHeading(storageService.getFirstCorrelation(lang, Global.HEADER_CATEGORY), code);
+      }
       return null;
     }, tenant, configurator);
   }
