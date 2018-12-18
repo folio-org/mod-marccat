@@ -100,7 +100,6 @@ public class FixedFieldCodesGroupAPI extends BaseResource implements  Cataloging
         }
         else {
           fixedFieldCodesGroup.getResults().get(key).setDafaultValue("");
-          System.out.println( fixedFieldCodesGroup.getResults().get(key));
         }
       });
 
