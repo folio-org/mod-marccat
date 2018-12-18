@@ -40,7 +40,7 @@ public class BibliographicRecordAPI extends BaseResource {
 
   @GetMapping("/bibliographic-record/{id}")
   public ResponseEntity<Object> getRecord(
-    @RequestParam final Integer id,
+    @PathVariable final Integer id,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
     return doGet((storageService, configuration) -> {
@@ -55,6 +55,96 @@ public class BibliographicRecordAPI extends BaseResource {
     }, tenant, configurator);
   }
 
+  @GetMapping("/bibliographic-record/duplicate")
+  public ResponseEntity<Object> duplicate(
+    @RequestParam final Integer id,
+    @RequestParam final String lang,
+    @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+
+    return doGet((storageService, configuration) -> {
+
+      BibliographicRecord newRecord = new BibliographicRecord();
+      newRecord.setId(storageService.generateNewKey(Global.AN_KEY_CODE_FIELD));
+
+      final ContainerRecordTemplate container = storageService.getBibliographicRecordById(id, view);
+      if (container == null)
+        return new ResponseEntity<>(container, HttpStatus.NOT_FOUND);
+
+      final BibliographicRecord fromRecord = container.getBibliographicRecord();
+      final RecordTemplate template = container.getRecordTemplate();
+
+      newRecord.setLeader(fromRecord.getLeader());
+
+      for (Field field : fromRecord.getFields()) {
+        if (field.getCode().equals(Global.CONTROL_NUMBER_TAG_CODE)) {
+          FixedField controlNumber = field.getFixedField();
+          controlNumber.setDisplayValue(F.padNumber("0", 11, newRecord.getId()));
+          field.setFixedField(controlNumber);
+        }
+
+        if (field.getCode().equals(Global.DATETIME_TRANSACTION_TAG_CODE)) {
+          final Field fieldDate = addTagTransactionDate(lang, storageService);
+          newRecord.getFields().add(1, fieldDate);
+        }
+
+        if ((Integer.parseInt(field.getCode()) < Global.TAG_RELATION_MIN || Integer.parseInt(field.getCode()) > Global.TAG_RELATION_MAX)
+          && !field.getCode().equals(Global.DATETIME_TRANSACTION_TAG_CODE)
+          && !field.getCode().startsWith("9")) {
+
+          field.setFieldStatus(Field.FieldStatus.NEW);
+          field.setMandatory(isMandatory(field, template));
+          newRecord.getFields().add(field);
+        }
+      }
+
+      newRecord.setRecordView(fromRecord.getRecordView());
+      newRecord.setGroup(fromRecord.getGroup());
+      newRecord.setVerificationLevel(fromRecord.getVerificationLevel());
+      newRecord.setCanadianContentIndicator(fromRecord.getCanadianContentIndicator());
+
+      container.setBibliographicRecord(newRecord);
+      return new ResponseEntity<>(container, HttpStatus.OK);
+    }, tenant, configurator);
+  }
+
+  /**
+   * Create a new field for transaction data.
+   *
+   * @param lang           -- the lang associated to request.
+   * @param storageService -- the storageService.
+   * @return new transaction data field.
+   */
+  private Field addTagTransactionDate(final String lang, final StorageService storageService) {
+    FixedField fixed005 = new FixedField();
+    fixed005.setHeaderTypeCode(Global.DATETIME_TRANSACTION_HEADER_TYPE);
+    fixed005.setCode(Global.DATETIME_TRANSACTION_TAG_CODE);
+    fixed005.setDisplayValue(F.getFormattedToday("yyyyMMddHHmmss."));
+    fixed005.setCategoryCode(Global.INT_CATEGORY);
+    fixed005.setDescription(storageService.getHeadingTypeDescription(Global.DATETIME_TRANSACTION_HEADER_TYPE, lang, Global.INT_CATEGORY));
+
+    final Field field = new Field();
+    field.setCode(Global.DATETIME_TRANSACTION_TAG_CODE);
+    field.setMandatory(true);
+    field.setFixedField(fixed005);
+    field.setFieldStatus(Field.FieldStatus.NEW);
+    return field;
+  }
+
+  /**
+   * Check if field exists in template and is mandatory.
+   *
+   * @param field    -- current field in record.
+   * @param template -- the associated template.
+   * @return true if mandatory, false otherwise.
+   */
+  private boolean isMandatory(final Field field, final RecordTemplate template) {
+    if (ofNullable(template).isPresent()) {
+      return template.getFields().stream().filter(f -> f.getCode().equals(field.getCode())).anyMatch(f -> f.isMandatory());
+    }
+
+    return Global.MANDATORY_FIELDS.contains(field.getCode());
+  }
 
   @GetMapping("/bibliographic-record/from-template/{idTemplate}")
   public BibliographicRecord getEmptyRecord(
@@ -89,11 +179,11 @@ public class BibliographicRecordAPI extends BaseResource {
       }
 
       FixedField fixed005 = new FixedField();
-      fixed005.setHeaderTypeCode(Global.DATETIME_TRANSACION_HEADER_TYPE);
+      fixed005.setHeaderTypeCode(Global.DATETIME_TRANSACTION_HEADER_TYPE);
       fixed005.setCode(Global.DATETIME_TRANSACTION_TAG_CODE);
       fixed005.setDisplayValue(F.getFormattedToday("yyyyMMddHHmmss."));
       fixed005.setCategoryCode(Global.INT_CATEGORY);
-      fixed005.setDescription(storageService.getHeadingTypeDescription(Global.DATETIME_TRANSACION_HEADER_TYPE, lang, Global.INT_CATEGORY));
+      fixed005.setDescription(storageService.getHeadingTypeDescription(Global.DATETIME_TRANSACTION_HEADER_TYPE, lang, Global.INT_CATEGORY));
 
       final Field field = new Field();
       field.setCode(Global.DATETIME_TRANSACTION_TAG_CODE);
@@ -123,7 +213,7 @@ public class BibliographicRecordAPI extends BaseResource {
       try {
 
         final BibliographicRecord record = container.getBibliographicRecord();
-        final RecordTemplate template = ofNullable(container.getRecordTemplate()).get();
+        RecordTemplate template = ofNullable(container.getRecordTemplate()).isPresent() ? container.getRecordTemplate() : null;
 
         record.getFields().forEach(field -> setCategory(field, storageService));
 
@@ -288,9 +378,7 @@ public class BibliographicRecordAPI extends BaseResource {
       found.add(record.getLeader().getCode());
 
     record.getFields().forEach(field -> {
-      if (field.isMandatory()) {
-        found.add(field.getCode());
-      }
+      found.add(field.getCode());
     });
     ArrayList<String> result = new ArrayList<>(Global.MANDATORY_FIELDS);
     result.retainAll(found);

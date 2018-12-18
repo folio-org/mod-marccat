@@ -204,19 +204,17 @@ public class BibliographicCatalog extends Catalog {
   }
 
   public ControlNumberAccessPoint createControlNumberAccessPoint(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-    final ControlNumberAccessPoint cnap =
+    return
       (ControlNumberAccessPoint) getNewTag(item,
         Global.CONTROL_NUMBER_CATEGORY,
         correlationValues);
-    return cnap;
   }
 
   public NameAccessPoint createNameAccessPointTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-    final NameAccessPoint nap =
+    return
       (NameAccessPoint) getNewTag(item,
         Global.NAME_CATEGORY,
         correlationValues);
-    return nap;
   }
 
   public TitleAccessPoint createTitleAccessPointTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
