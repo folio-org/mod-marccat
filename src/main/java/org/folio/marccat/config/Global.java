@@ -448,5 +448,5 @@ public abstract class Global {
 
   public static final int CONTROL_FIELD_CATEGORY_CODE = 1;
 
-  public final static char BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC = 'S';
+  public static final char BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC = 'S';
 }
