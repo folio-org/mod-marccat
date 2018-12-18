@@ -30,12 +30,6 @@ import static org.folio.marccat.util.F.isNotNullOrEmpty;
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class HeadingAPI extends BaseResource {
 
-  private Function <MapHeading, Heading> toHeading = source -> {
-    final Heading heading = new Heading();
-    heading.setStringText(source.getStringText());
-    return heading;
-  };
-
   @ApiOperation(value = "Creates a new heading.")
   @ApiResponses(value = {
     @ApiResponse(code = 201, message = "Method successfully created the new heading."),
