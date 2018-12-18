@@ -80,9 +80,6 @@ public abstract class Global {
       put(NO_RECORD_FOUND, "Record not found: %d.");
     }
   };
-  public static final int TAG_RELATION_MIN = 760;
-  public static final int TAG_RELATION_MAX = 787;
-  public static final int DATETIME_TRANSACTION_HEADER_TYPE = 41;
   public static final short CORRELATION_UNDEFINED = -1;
   public static final int CATALOGING_SOURCE_HEADER_TYPE = 1;
   public static final int LEADER_HEADER_TYPE = 15;
@@ -100,6 +97,10 @@ public abstract class Global {
   public static final char DESCRIPTIVE_CATALOGUING_CODE = ' ';
   public static final char LINKED_RECORD_CODE = ' ';
   public static final String FIXED_LEADER_PORTION = "4500";
+  public static final int TAG_RELATION_MIN = 760;
+  public static final int TAG_RELATION_MAX = 787;
+  public static final int DATETIME_TRANSACTION_HEADER_TYPE = 41;
+
   public static final Map<Integer, String> PHYSICAL_TYPES_MAP = new HashMap<Integer, String>() {
     {
       put(23, GLOBE);
