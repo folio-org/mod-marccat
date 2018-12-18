@@ -59,9 +59,7 @@
           "modulePermissions": []
         }
       ],
-      "modulePermissions": [
-        "configuration.entries.collection.get"
-      ]
+      "modulePermissions": []
     }
   ],
   "permissionSets": [
