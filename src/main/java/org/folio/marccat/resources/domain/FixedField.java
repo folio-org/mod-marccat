@@ -774,14 +774,14 @@ public class FixedField {
   /**
    * @param formOfItemCode The formOfItemCode
    */
-  @JsonProperty("FORM_OF_ITEM_CODE")
+  @JsonProperty("formOfItemCode")
   public void setFormOfItemCode(String formOfItemCode) {
-    this.attributes.put("FORM_OF_ITEM_CODE", formOfItemCode);
+    this.attributes.put("formOfItemCode", formOfItemCode);
     this.formOfItemCode = formOfItemCode;
   }
 
   public FixedField withFormOfItemCode(String formOfItemCode) {
-    this.attributes.put("FORM_OF_ITEM_CODE", formOfItemCode);
+    this.attributes.put("formOfItemCode", formOfItemCode);
     this.formOfItemCode = formOfItemCode;
     return this;
   }
