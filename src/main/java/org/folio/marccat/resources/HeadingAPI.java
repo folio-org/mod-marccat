@@ -26,7 +26,7 @@ import static org.folio.marccat.util.F.isNotNullOrEmpty;
  * @since 1.0
  */
 @RestController
-@Api(value = "modcat-api", description = "Heading resource API")
+@Api(value = "modcat-api")
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class HeadingAPI extends BaseResource {
 
