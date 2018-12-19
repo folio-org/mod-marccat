@@ -14,8 +14,6 @@ import java.io.Serializable;
  * @author carment
  */
 public class NME_HDG extends Descriptor implements Serializable {
-  /** The copy subject indicator. */
-  //private char copyToSubjectIndicator;
 
   /**
    * The indexing language.

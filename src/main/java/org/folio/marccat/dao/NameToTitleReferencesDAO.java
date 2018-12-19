@@ -1,38 +1,38 @@
-/*
- * (c) LibriCore
- *
- * Created on Jan 2, 2014
- *
- * DAONameToTitleReferences.java
- */
 package org.folio.marccat.dao;
 
 import net.sf.hibernate.Hibernate;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
 import org.folio.marccat.dao.persistence.NME_TO_TTL_REF;
 import org.folio.marccat.dao.persistence.REF;
 import org.folio.marccat.dao.persistence.ReferenceType;
-import org.folio.marccat.exception.DataAccessException;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
+ * Class representing the Cross References for a heading of the name/titles
+ *
  * @author paulm
- * @version $Revision: 1.1 $, $Date: 2006/01/05 13:25:59 $
- * @since 1.0
+ * @author carment
  */
-public class DAONameToTitleReferences extends DAOCrossReferences {
+public class NameToTitleReferencesDAO extends CrossReferencesDAO {
 
-  /* (non-Javadoc)
-   * @see DAOCrossReferences#loadReciprocal(REF, int)
+  /**
+   * Load reciprocal reference by ref.
+   *
+   * @param ref             the source
+   * @param cataloguingView the cataloguing view
+   * @param session         the session
+   * @return the ref
+   * @throws HibernateException the hibernate exception
    */
-  public REF loadReciprocal(REF ref, int cataloguingView)
-    throws DataAccessException {
+  @SuppressWarnings("unchecked")
+  public REF loadReciprocal(final REF ref, final int cataloguingView, final Session session) throws HibernateException {
 
-    int reciprocalType = ReferenceType.getReciprocal(ref.getType());
-
-    REF result = null;
-    String queryString;
+    final int reciprocalType = ReferenceType.getReciprocal(ref.getType());
+    final String queryString;
     if (((NME_TO_TTL_REF) ref).isSourceName()) {
       queryString =
         "from NME_TO_TTL_REF as ref "
@@ -49,8 +49,8 @@ public class DAONameToTitleReferences extends DAOCrossReferences {
           + " substr(ref.userViewString, ?, 1) = '1' AND "
           + " ref.type = ?";
     }
-    List l =
-      find(
+    List <REF> listRefs =
+      session.find(
         queryString,
         new Object[]{
           ref.getSource(),
@@ -62,11 +62,8 @@ public class DAONameToTitleReferences extends DAOCrossReferences {
           Hibernate.INTEGER,
           Hibernate.INTEGER,
           Hibernate.INTEGER});
-    if (l.size() == 1) {
-      result = (REF) l.get(0);
-    }
 
-    return result;
+    return listRefs.stream().filter(Objects::nonNull).findFirst().orElse(null);
   }
 
 }

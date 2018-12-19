@@ -1,30 +1,40 @@
-/*
- * (c) LibriCore
- *
- * Created on Dec 30, 2005
- *
- * TTL_NME_TTL_REF.java
- */
 package org.folio.marccat.dao.persistence;
 
 import org.folio.marccat.dao.*;
 
 /**
+ * The different cross references for the titles/name.
+ *
  * @author paulm
- * @version $Revision: 1.1 $, $Date: 2006/01/05 13:25:59 $
- * @since 1.0
+ * @author carment
  */
 public class TTL_NME_TTL_REF extends REF {
-  private static final DAOTitleNameTitleReferences theDAO = new DAOTitleNameTitleReferences();
+
+  /** The DAO. */
+  private static final TitleNameTitleReferencesDAO theDAO = new TitleNameTitleReferencesDAO();
+
+  /** The name title heading number. */
   private int nameTitleHeadingNumber;
+
+  /** The title heading number. */
   private int titleHeadingNumber;
+
+  /** The source heading type. */
   private String sourceHeadingType;
 
+  /**
+   * Checks if is source title.
+   *
+   * @return true, if is source title
+   */
   public boolean isSourceTitle() {
     return getSourceHeadingType().equals("TH");
   }
 
   /**
+   * Gets the name title heading number.
+   *
+   * @return the name title heading number
    * @since 1.0
    */
   public int getNameTitleHeadingNumber() {
@@ -32,6 +42,9 @@ public class TTL_NME_TTL_REF extends REF {
   }
 
   /**
+   * Sets the name title heading number.
+   *
+   * @param i the new name title heading number
    * @since 1.0
    */
   public void setNameTitleHeadingNumber(int i) {
@@ -39,6 +52,9 @@ public class TTL_NME_TTL_REF extends REF {
   }
 
   /**
+   * Gets the source heading type.
+   *
+   * @return the source heading type
    * @since 1.0
    */
   public String getSourceHeadingType() {
@@ -46,6 +62,9 @@ public class TTL_NME_TTL_REF extends REF {
   }
 
   /**
+   * Sets the source heading type.
+   *
+   * @param string the new source heading type
    * @since 1.0
    */
   public void setSourceHeadingType(String string) {
@@ -64,6 +83,14 @@ public class TTL_NME_TTL_REF extends REF {
 
   }
 
+  /**
+   * Inits the.
+   *
+   * @param source the source
+   * @param target the target
+   * @param referenceType the reference type
+   * @param cataloguingView the cataloguing view
+   */
   /* (non-Javadoc)
    * @see REF#init(Descriptor, Descriptor, short, int)
    */
@@ -87,6 +114,9 @@ public class TTL_NME_TTL_REF extends REF {
 
 
   /**
+   * Gets the title heading number.
+   *
+   * @return the title heading number
    * @since 1.0
    */
   public int getTitleHeadingNumber() {
@@ -94,6 +124,9 @@ public class TTL_NME_TTL_REF extends REF {
   }
 
   /**
+   * Sets the title heading number.
+   *
+   * @param i the new title heading number
    * @since 1.0
    */
   public void setTitleHeadingNumber(int i) {
@@ -103,6 +136,7 @@ public class TTL_NME_TTL_REF extends REF {
   /* (non-Javadoc)
    * @see REF#getSource()
    */
+  @Override
   public int getSource() {
     if (isSourceTitle()) {
       return getTitleHeadingNumber();
@@ -114,6 +148,7 @@ public class TTL_NME_TTL_REF extends REF {
   /* (non-Javadoc)
    * @see REF#setSource(int)
    */
+  @Override
   public void setSource(int i) {
     if (isSourceTitle()) {
       setTitleHeadingNumber(i);
@@ -125,6 +160,7 @@ public class TTL_NME_TTL_REF extends REF {
   /* (non-Javadoc)
    * @see REF#getTarget()
    */
+  @Override
   public int getTarget() {
     if (isSourceTitle()) {
       return getNameTitleHeadingNumber();
@@ -136,6 +172,7 @@ public class TTL_NME_TTL_REF extends REF {
   /* (non-Javadoc)
    * @see REF#setTarget(int)
    */
+  @Override
   public void setTarget(int i) {
     if (isSourceTitle()) {
       setNameTitleHeadingNumber(i);
@@ -147,6 +184,7 @@ public class TTL_NME_TTL_REF extends REF {
   /* (non-Javadoc)
    * @see REF#createReciprocal()
    */
+  @Override
   public REF createReciprocal() {
     TTL_NME_TTL_REF result = (TTL_NME_TTL_REF) this.clone();
     if (isSourceTitle()) {
@@ -161,6 +199,7 @@ public class TTL_NME_TTL_REF extends REF {
   /* (non-Javadoc)
    * @see librisuite.business.common.PersistenceState#getDAO()
    */
+  @Override
   public AbstractDAO getDAO() {
     return theDAO;
   }
@@ -168,6 +207,7 @@ public class TTL_NME_TTL_REF extends REF {
   /* (non-Javadoc)
    * @see java.lang.Object#equals(java.lang.Object)
    */
+  @Override
   public boolean equals(Object obj) {
     if (obj instanceof TTL_NME_TTL_REF) {
       TTL_NME_TTL_REF ref = (TTL_NME_TTL_REF) obj;
@@ -185,6 +225,7 @@ public class TTL_NME_TTL_REF extends REF {
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
+  @Override
   public int hashCode() {
     return getTitleHeadingNumber() + 3 * getNameTitleHeadingNumber();
   }

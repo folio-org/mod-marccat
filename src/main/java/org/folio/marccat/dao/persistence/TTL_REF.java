@@ -1,24 +1,16 @@
-/*
- * (c) LibriCore
- *
- * Created on Jul 27, 2004
- *
- * TTL_REF.java
- */
 package org.folio.marccat.dao.persistence;
 
 import org.folio.marccat.dao.DAODescriptor;
 import org.folio.marccat.dao.TitleDescriptorDAO;
 
 /**
+ * The different cross references for the title
+ *
  * @author paulm
- * @version %I%, %G%
- * @since 1.0
+ * @author carment
  */
 public class TTL_REF extends REF {
-  /* (non-Javadoc)
-   * @see REF#getTargetDAO()
-   */
+  /** The DAO. */
   public DAODescriptor getTargetDAO() {
     return new TitleDescriptorDAO();
   }
