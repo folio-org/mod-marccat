@@ -1,9 +1,8 @@
 #%RAML 1.0
-
-title: Data import
+title:  MARCcat
 version: v1.1
 protocols: [ HTTP, HTTPS ]
-baseUri: http://localhost
+baseUri: http://localhost:8080
 
 documentation:
   - title: MARCcat API
@@ -12,9 +11,7 @@ documentation:
 types:
   error: !include raml-storage/raml-util/schemas/error.schema
   errors: !include raml-storage/raml-util/schemas/errors.schema
-  fileDefinition: !include raml-storage/schemas/mod-data-import/fileDefinition.json
-  uploadDefinition: !include raml-storage/schemas/mod-data-import/uploadDefinition.json
-  definitionCollection: !include raml-storage/schemas/mod-data-import/uploadDefinitionCollection.json
+
 
 traits:
   validate: !include raml-storage/raml-util/traits/validation.raml
@@ -28,28 +25,61 @@ resourceTypes:
 
 /marccat:
   /search:
-    /definition:
-      displayName: Search Definition
-      description: Search API Definition
+    displayName: Search marc records
+    type:
+      collection:
+        exampleCollection: !include examples/searchResultCollection.json
+        exampleItem: !include examples/searchResult.json
+        schemaCollection: searchResultCollection
+        schemaItem: searchResult
+    get:
+      is: [pageable,
+          searchable: {description: "using CCL query in q parameter and choosing authority or bibliographic in view parameter",
+          example: "q=na \"manzoni, alessandro\"&view=1"}
+          ]
+      description: Return a list of marc records and search metadata
+      responses:
+        200:
+          description: "Return a list of marc records and search metadata"
+        500:
+          description: "Internal server error"
+
+  /mergedSearch:
+      displayName: Search marc records (authority and bibliographic both)
       type:
         collection:
-          recordCollection: records
-          record: record
-          schemaCollection: !include raml-storage/examples/mod-marccat/recordCollection.sample
-          schemaItem: !include raml-storage/examples/mod-marccat/record.sample
+          exampleCollection: !include examples/searchResultCollection.json
+          exampleItem: !include examples/searchResult.json
+          schemaCollection: searchResultCollection
+          schemaItem: searchResult
       get:
-        description: Get a list of marc records
+        is: [pageable,
+            searchable: {description: "using CCL query in q parameter",
+            example: "q=na \"manzoni, alessandro\""}
+            ]
+        description: Return a list of marc records and search metadata
+        responses:
           200:
-            body:
-              application/json:
-                type: recordCollection
-          400:
-            description: "Bad request"
-            body:
-              text/plain:
-                example: "Bad request"
+            description: "Return a list of marc records and search metadata"
           500:
             description: "Internal server error"
-            body:
-              text/plain:
-                example: "Internal server error"
+
+  /verticalSearch:
+        displayName: Search marc records in text format
+        type:
+          collection:
+            exampleCollection: !include examples/searchResult.json
+            exampleItem: !include examples/searchResult.json
+            schemaCollection: searchResultCollection
+            schemaItem: searchResult
+        get:
+          is: [pageable,
+              searchable: {description: "using CCL query in q parameter and choosing authority or bibliographic in view parameter",
+              example: "q=na \"manzoni, alessandro\"&view=1"}
+              ]
+          description: Return a list of marc records in text formats
+          responses:
+            200:
+              description: "Return a list of marc records in text format"
+            500:
+              description: "Internal server error"
