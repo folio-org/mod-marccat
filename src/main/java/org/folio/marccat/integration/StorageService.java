@@ -1568,5 +1568,15 @@ public class StorageService implements Closeable {
     }
   }
 
+  /**
+   * @param lang     the language code, used here as a filter criterion.
+   * @param category the category, used here as a filter criterion.
+   * @return a list of heading item types by marc category code associated with the requested language.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public List <Avp <String>> getFirstCorrelation(final String lang, final int category) throws DataAccessException {
+    final DAOCodeTable daoCT = new DAOCodeTable();
+    return daoCT.getList(session, FIRST_CORRELATION_HEADING_CLASS_MAP.get(category), locale(lang));
+  }
 
 }
