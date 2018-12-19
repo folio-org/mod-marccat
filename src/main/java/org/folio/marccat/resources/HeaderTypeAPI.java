@@ -17,7 +17,7 @@ import static org.folio.marccat.integration.CatalogingHelper.doGet;
 /**
  * Header type code RESTful APIs.
  *
- * @author natasciab
+ * @author cchiama
  * @since 1.0
  */
 @RestController
