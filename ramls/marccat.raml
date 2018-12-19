@@ -27,10 +27,8 @@ resourceTypes:
   /search:
     displayName: Search marc records
     type:
-      collection:
-        exampleCollection: !include examples/searchResultCollection.json
+      collection-item:
         exampleItem: !include examples/searchResult.json
-        schemaCollection: searchResultCollection
         schemaItem: searchResult
     get:
       is: [pageable,
@@ -64,14 +62,12 @@ resourceTypes:
           500:
             description: "Internal server error"
 
-  /verticalSearch:
+  /searchVertical:
         displayName: Search marc records in text format
         type:
-          collection:
-            exampleCollection: !include examples/searchResult.json
-            exampleItem: !include examples/searchResult.json
-            schemaCollection: searchResultCollection
-            schemaItem: searchResult
+          collection-item:
+            exampleItem: !include examples/searchResultVertical.json
+            schemaItem: searchResultVertical
         get:
           is: [pageable,
               searchable: {description: "using CCL query in q parameter and choosing authority or bibliographic in view parameter",
