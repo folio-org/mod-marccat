@@ -79,7 +79,7 @@ public class HeadingAPI extends BaseResource {
     @ApiResponse(code = 500, message = "System internal failure occurred.")
   })
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  @DeleteMapping("/delete-heading}")
+  @DeleteMapping("/delete-heading")
   public void deleteHeading(
     @RequestBody final Heading heading,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
