@@ -33,7 +33,8 @@
         "properties": {
           "recordView": {
             "description": "record type. 1 for Bibliographic records, -1 for authority",
-            "type": "integer"
+            "type": "integer",
+            "pattern": "/[1,-1]{1}/"
           },
           "countDoc": {
             "description": "count of bibliographic records associated to the current record",
@@ -58,12 +59,18 @@
               "description": "fields of record",
               "type": "array",
               "items": {
-                "type": "object"
+                "type": "object",
+                "$ref": "field.json"
               }
             }
           }
         }
       }
     }
+  },
+  "metadata": {
+    "description": "Metadata about creation and changes to marc record, provided by the server (client should not provide)",
+    "type": "object",
+    "$ref": "../raml-storage/raml-util/schemas/metadata.schema"
   }
 }

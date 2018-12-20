@@ -5,8 +5,8 @@ protocols: [ HTTP, HTTPS ]
 baseUri: http://localhost:8080
 
 documentation:
-  - title: MARCcat API
-    content: API for cataloging
+  - title: "MARCcat API" (Search API)
+    content: <b>API for interacting with an marc record</b>
 
 types:
   error: !include raml-storage/raml-util/schemas/error.schema
@@ -42,8 +42,16 @@ resourceTypes:
       responses:
         200:
           description: "Return a list of marc records and search metadata"
-        500:
-          description: "Internal server error"
+          400:
+            description: "Bad request"
+              body:
+                text/plain:
+                  example: "Required String parameter 'lang' is not present"
+          500:
+            description: "Internal server error"
+              body:
+                text/plain:
+                  example: "Query not supported"
 
   /mergedSearch:
       displayName: Search marc records (authority and bibliographic both)
@@ -62,8 +70,16 @@ resourceTypes:
         responses:
           200:
             description: "Return a list of marc records and search metadata"
+          400:
+            description: "Bad request"
+              body:
+                text/plain:
+                  example: "Required String parameter 'qbib' is not present"
           500:
             description: "Internal server error"
+              body:
+                text/plain:
+                  example: "Query not supported"
 
   /searchVertical:
         displayName: Search marc records in text format
