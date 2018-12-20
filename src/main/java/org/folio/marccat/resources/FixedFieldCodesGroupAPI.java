@@ -24,7 +24,8 @@ import static org.folio.marccat.integration.CatalogingHelper.doGet;
 
 /**
  * Fixed-Field Codes Groups RESTful APIs.
- *
+ * 
+ * @author cchiama
  * @author nbianchini
  * @since 1.0
  */

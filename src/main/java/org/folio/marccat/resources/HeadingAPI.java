@@ -19,21 +19,14 @@ import static org.folio.marccat.util.F.isNotNullOrEmpty;
 /**
  * Headings RESTful APIs.
  *
+ * @author cchiama
  * @author carment
  * @since 1.0
  */
 @RestController
-@Api(value = "modcat-api")
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class HeadingAPI extends BaseResource {
 
-  @ApiOperation(value = "Creates a new heading.")
-  @ApiResponses(value = {
-    @ApiResponse(code = 201, message = "Method successfully created the new heading."),
-    @ApiResponse(code = 400, message = "Bad Request"),
-    @ApiResponse(code = 414, message = "Request-URI Too Long"),
-    @ApiResponse(code = 500, message = "System internal failure occurred.")
-  })
 
   @PostMapping("/create-heading")
   public ResponseEntity <Heading> createHeading(
@@ -46,13 +39,7 @@ public class HeadingAPI extends BaseResource {
     }, tenant, configurator, () -> (isNotNullOrEmpty(heading.getStringText())), "title", "subject", "name");
   }
 
-  @ApiOperation(value = "Updates an existing heading.")
-  @ApiResponses(value = {
-    @ApiResponse(code = 204, message = "Method successfully updated the heading."),
-    @ApiResponse(code = 400, message = "Bad Request"),
-    @ApiResponse(code = 414, message = "Request-URI Too Long"),
-    @ApiResponse(code = 500, message = "System internal failure occurred.")
-  })
+
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @PutMapping("/update-heading")
   public void updateHeading(
@@ -71,13 +58,6 @@ public class HeadingAPI extends BaseResource {
   }
 
 
-  @ApiOperation(value = "Deletes an existing heading.")
-  @ApiResponses(value = {
-    @ApiResponse(code = 204, message = "Method successfully deleted the heading."),
-    @ApiResponse(code = 400, message = "Bad Request"),
-    @ApiResponse(code = 414, message = "Request-URI Too Long"),
-    @ApiResponse(code = 500, message = "System internal failure occurred.")
-  })
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @DeleteMapping("/delete-heading")
   public void deleteHeading(
