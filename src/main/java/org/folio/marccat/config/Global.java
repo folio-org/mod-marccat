@@ -450,4 +450,6 @@ public abstract class Global {
   public static final String COMPUTER_TYPE = "cf";
 
   public static final int CONTROL_FIELD_CATEGORY_CODE = 1;
+
+  public static final char BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC = 'S';
 }

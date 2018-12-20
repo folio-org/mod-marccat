@@ -10,6 +10,7 @@ import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
 import org.folio.marccat.business.cataloguing.common.*;
 import org.folio.marccat.business.codetable.Avp;
 import org.folio.marccat.business.common.View;
+import org.folio.marccat.business.descriptor.DescriptorFactory;
 import org.folio.marccat.config.Global;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.MessageCatalog;
@@ -1569,6 +1570,47 @@ public class StorageService implements Closeable {
   }
 
   /**
+   * Save the heading, if the capture already exists
+   *
+   * @param heading       the heading.
+   * @param view          the view.
+   * @param configuration the configuration.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public void saveHeading(final Heading heading, final int view,
+                          final Map <String, String> configuration) throws DataAccessException {
+    try {
+      final BibliographicCatalog catalog = new BibliographicCatalog();
+      final CatalogItem item = new BibliographicItem();
+      final TagImpl impl = new BibliographicTagImpl();
+      final Correlation corr = impl.getCorrelation(heading.getTag(), heading.getIndicator1().charAt(0), heading.getIndicator2().charAt(0), 0, session);
+      final Tag newTag = catalog.getNewTag(item, corr.getKey().getMarcTagCategoryCode(), corr.getValues());
+      if (newTag != null) {
+        final StringText st = new StringText(heading.getStringText());
+        ((VariableField) newTag).setStringText(st);
+        if (newTag instanceof Browsable) {
+          final int skipInFiling = updateIndicatorNotNumeric(corr.getKey(), heading.getIndicator1(), heading.getIndicator2());
+          ((Browsable) newTag).setDescriptorStringText(st);
+          final Descriptor descriptor = ((Browsable) newTag).getDescriptor();
+          descriptor.setUserViewString(View.makeSingleViewString(view));
+          descriptor.setSkipInFiling(skipInFiling);
+          final Descriptor dup = ((DAODescriptor) (descriptor.getDAO())).getMatchingHeading(descriptor, session);
+          if (dup == null) {
+            descriptor.setConfigValues(configuration);
+            descriptor.generateNewKey(session);
+            descriptor.getDAO().save(descriptor, session);
+            heading.setHeadingNumber(descriptor.getHeadingNumber());
+          }
+          if (dup != null)
+            heading.setHeadingNumber(dup.getHeadingNumber());
+        }
+      }
+    } catch (HibernateException | SQLException exception) {
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
+    }
+  }
+  /**
    * @param lang     the language code, used here as a filter criterion.
    * @param category the category, used here as a filter criterion.
    * @return a list of heading item types by marc category code associated with the requested language.
@@ -1578,5 +1620,83 @@ public class StorageService implements Closeable {
     final DAOCodeTable daoCT = new DAOCodeTable();
     return daoCT.getList(session, FIRST_CORRELATION_HEADING_CLASS_MAP.get(category), locale(lang));
   }
+
+
+  /**
+   * Changes any non-numeric indicators from the correlation table
+   * S for skipinfiling for bibliographic tags
+   *
+   * @param coKey
+   * @param indicator1
+   * @param indicator2
+   */
+  private int updateIndicatorNotNumeric(final CorrelationKey coKey, final String indicator1, final String indicator2) {
+    final int skipInFiling = 0;
+    if (coKey.getMarcFirstIndicator() == Global.BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC)
+      return (!indicator1.isEmpty()) ? Integer.parseInt(indicator1) : skipInFiling;
+    else if (coKey.getMarcSecondIndicator() == Global.BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC)
+      return (!indicator1.isEmpty()) ? Integer.parseInt(indicator2) : skipInFiling;
+    return skipInFiling;
+  }
+
+
+  /**
+   * Update of an existing heading
+   *
+   * @param heading the heading.
+   * @param view    the view.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public void updateHeading(final Heading heading, final int view) throws DataAccessException {
+    try {
+      final TagImpl impl = new BibliographicTagImpl();
+      final BibliographicCatalog catalog = new BibliographicCatalog();
+      final CatalogItem item = new BibliographicItem();
+      final Correlation corr = impl.getCorrelation(heading.getTag(), heading.getIndicator1().charAt(0), heading.getIndicator2().charAt(0), 0, session);
+      final Tag newTag = catalog.getNewTag(item, corr.getKey().getMarcTagCategoryCode(), corr.getValues());
+      if (newTag != null) {
+        final StringText st = new StringText(heading.getStringText());
+        ((VariableField) newTag).setStringText(st);
+        if (newTag instanceof Browsable) {
+          final int skipInFiling = updateIndicatorNotNumeric(corr.getKey(), heading.getIndicator1(), heading.getIndicator2());
+          ((Browsable) newTag).setDescriptorStringText(st);
+          final Descriptor descriptor = ((Browsable) newTag).getDescriptor();
+          final DAODescriptor descriptorDao = DescriptorFactory.getDao(heading.getCategory());
+          final Descriptor d = descriptorDao.load(heading.getHeadingNumber(), view, session);
+          if (d != null) {
+            d.setSkipInFiling(skipInFiling);
+            d.setStringText(descriptor.getStringText());
+            d.getDAO().update(d, session);
+          }
+        }
+      }
+    } catch (HibernateException exception) {
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
+    }
+
+  }
+
+  /**
+   * delete the heading
+   *
+   * @param heading the heading.
+   * @param view    the view.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public void deleteHeadingById(final Heading heading, final int view) throws DataAccessException {
+    try {
+      final DAODescriptor descriptorDao = DescriptorFactory.getDao(heading.getCategory());
+      final Descriptor d = descriptorDao.load(heading.getHeadingNumber(), view, session);
+      d.getDAO().delete(d, session);
+    } catch (HibernateException exception) {
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
+    }
+
+  }
+
+
+
 
 }
