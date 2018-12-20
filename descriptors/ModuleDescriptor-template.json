@@ -58,9 +58,6 @@
           "permissionsRequired": ["marccat.records.collection.get"],
           "modulePermissions": []
         }
-      ],
-      "modulePermissions": [
-        "configuration.entries.collection.get"
       ]
     }
   ],
