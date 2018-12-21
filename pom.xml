@@ -47,7 +47,7 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <raml-module-builder.version>19.0.0</raml-module-builder.version>
-    <ramlfiles_util_path>${basedir}/raml-util</ramlfiles_util_path>
+    <ramlfiles_util_path>${basedir}/raml-storage</ramlfiles_util_path>
     <descriptors_path>${basedir}/descriptors</descriptors_path>
     <swagger-version>2.8.0</swagger-version>
     <postgresrunner.port>5434</postgresrunner.port>
@@ -265,7 +265,7 @@
               <goal>copy-resources</goal>
             </goals>
             <configuration>
-              <outputDirectory>${basedir}/target/classes/apidocs/raml-util</outputDirectory>
+              <outputDirectory>${basedir}/target/classes/apidocs/raml-storage</outputDirectory>
               <resources>
                 <resource>
                   <directory>${ramlfiles_util_path}</directory>
