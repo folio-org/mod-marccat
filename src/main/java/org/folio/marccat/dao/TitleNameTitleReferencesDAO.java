@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- *
- * Created on Jan 2, 2006
- *
- * DAOTitleNameTitleReferences.java
- */
 package org.folio.marccat.dao;
 
 import net.sf.hibernate.Hibernate;
@@ -26,10 +19,17 @@ import java.util.Objects;
  */
 public class TitleNameTitleReferencesDAO extends CrossReferencesDAO {
 
-  /* (non-Javadoc)
-   * @see DAOCrossReferences#loadReciprocal(REF, int)
+  /**
+   * Load reciprocal reference by ref.
+   *
+   * @param ref             the source
+   * @param cataloguingView the cataloguing view
+   * @param session         the session
+   * @return the ref
+   * @throws HibernateException the hibernate exception
    */
-  public REF loadReciprocal(REF ref, int cataloguingView, final Session session) throws HibernateException {
+  @SuppressWarnings("unchecked")
+  private REF loadReciprocal(REF ref, int cataloguingView, final Session session) throws HibernateException {
 
     final int reciprocalType = ReferenceType.getReciprocal(ref.getType());
 

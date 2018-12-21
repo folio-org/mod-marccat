@@ -159,10 +159,10 @@ public class PersistenceState implements Lifecycle, Serializable {
 
   /**
    * Evict
+   * @deprecated it is necessary to recall the method of the session
    *
    * @param obj the obj
    * @throws DataAccessException the data access exception
-   * @deprecated
    */
   @Deprecated
   public void evict(Object obj) throws DataAccessException {
