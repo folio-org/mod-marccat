@@ -10,8 +10,6 @@ import org.folio.marccat.business.common.View;
 import org.folio.marccat.dao.persistence.Descriptor;
 import org.folio.marccat.dao.persistence.REF;
 import org.folio.marccat.dao.persistence.ReferenceType;
-
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 

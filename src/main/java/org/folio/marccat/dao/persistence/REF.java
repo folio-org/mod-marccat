@@ -1,7 +1,6 @@
 package org.folio.marccat.dao.persistence;
 
 import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.business.common.PersistentObjectWithView;
@@ -9,7 +8,6 @@ import org.folio.marccat.business.common.View;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.CrossReferencesDAO;
 import org.folio.marccat.dao.DAODescriptor;
-import org.folio.marccat.exception.CrossReferenceExistsException;
 import org.folio.marccat.exception.DataAccessException;
 
 import java.io.Serializable;
@@ -67,27 +65,6 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
     setDefault();
   }
 
-  /**
-   * Adds the cross reference, instantiate the appropriate REF type and populate key from argument,
-   * verify that this xref doesn't already exist in the database
-   *
-   * @param source the source
-   * @param target the target
-   * @param referenceType the reference type
-   * @param cataloguingView the cataloguing view
-   * @param session the session
-   * @return the ref
-   * @throws HibernateException the hibernate exception
-   */
-   public REF add(Descriptor source, Descriptor target, short referenceType, int cataloguingView, Session session) throws HibernateException {
-    REF ref = REF.newInstance(source, target, referenceType, cataloguingView);
-    CrossReferencesDAO dao = (CrossReferencesDAO) ref.getDAO();
-    if (dao.load(source, target, referenceType, cataloguingView, session) != null) {
-      throw new CrossReferenceExistsException();
-    }
-    dao.save(ref);
-    return ref;
-  }
 
   /**
    * New instance of a cross reference.
@@ -99,7 +76,7 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
    * @return the ref
    */
    public static REF newInstance(Descriptor source, Descriptor target, int referenceType, int cataloguingView) {
-    REF ref = null;
+    REF ref;
     try {
       ref = (REF) source.getReferenceClass(target.getClass()).newInstance();
     } catch (Exception e) {
@@ -279,10 +256,10 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
   /**
    * Sets the key.
    *
-   * @param nme_ref_key the new key
+   * @param refKey the new key
    */
-  private void setKey(RefKey nme_ref_key) {
-    key = nme_ref_key;
+  private void setKey(RefKey refKey) {
+    key = refKey;
   }
 
   /**

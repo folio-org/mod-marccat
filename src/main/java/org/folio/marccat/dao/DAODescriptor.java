@@ -37,16 +37,20 @@ import static org.folio.marccat.util.F.deepCopy;
  */
 public abstract class DAODescriptor extends AbstractDAO {
 
-
   /**
    * The blank sortform.
    */
-  private final static String BLANK_SORTFORM = " ";
+  private static final String BLANK_SORTFORM = " ";
 
   /**
    * The sort sortform length.
    */
-  public static final int SORTFORM_LENGTH = 1080;
+  private static final int SORTFORM_LENGTH = 1080;
+
+  /**
+   * The max sort sortform length.
+   */
+  private static final int MAX_SORTFORM_LENGTH = 250;
 
   /**
    * Gets the name of the associated Persistent class.
@@ -426,6 +430,7 @@ public abstract class DAODescriptor extends AbstractDAO {
   /**
    * Updates the cache table for each of the documents attached to the
    * descriptor.
+   * @deprecated
    *
    * @param descriptor the descriptor
    * @since 1.0
@@ -673,6 +678,7 @@ public abstract class DAODescriptor extends AbstractDAO {
 
   /**
    * Gets the cross references for the given source and view.
+   * @deprecated
    *
    * @param source          the source
    * @param cataloguingView the cataloguing view
@@ -742,8 +748,7 @@ public abstract class DAODescriptor extends AbstractDAO {
       searchTerm = calculateSortForm(term, browseIndex, session);
     } catch (SortFormException e) {
       int lterm = term.getBytes().length;
-      String newTerm = lterm > SORTFORM_LENGTH ? term
-//        .substring(0, BrowseManager.MAX_SORTFORM_LENGTH)
+      String newTerm = lterm > SORTFORM_LENGTH ? term .substring(0, MAX_SORTFORM_LENGTH)
         : term;
       try {
         searchTerm = calculateSortForm(newTerm, browseIndex, session);
