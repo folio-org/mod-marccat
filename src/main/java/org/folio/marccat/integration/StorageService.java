@@ -230,8 +230,7 @@ public class StorageService implements Closeable {
    * @param template the record template.
    * @throws DataAccessException in case of data access failure.
    */
-  //todo: add second and third value wemi flag: consider if use record template also for authority
-  public void saveAuthorityRecordTemplate(final RecordTemplate template) throws DataAccessException {
+   public void saveAuthorityRecordTemplate(final RecordTemplate template) throws DataAccessException {
     try {
       final ObjectMapper mapper = new ObjectMapper();
       final AuthorityModelDAO dao = new AuthorityModelDAO();
@@ -751,6 +750,19 @@ public class StorageService implements Closeable {
         headingObject.setCountAuthorities(heading.getAuthorityCount());
         headingObject.setCountDocuments(dao.getDocCount(heading, view, session));
         headingObject.setCountTitleNameDocuments(dao.getDocCountNT(heading, view, session));
+        final List<REF> crossReferences = dao.getCrossReferences(heading,view, session);
+        headingObject.setCrossReferences(crossReferences.stream().map(crossReference -> {
+          try {
+            final Ref ref = new Ref();
+            final Descriptor hdg = crossReference.getTargetDAO().load(crossReference.getTarget(), view, session);
+            ref.setStringText(new StringText(hdg.getStringText()).toDisplayString());
+            ref.setRefType(crossReference.getType());
+            return ref;
+          } catch (HibernateException e) {
+            throw new DataAccessException(e);
+          }
+        }).collect(Collectors.toList()));
+
       } catch (HibernateException exception) {
         logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
         throw new DataAccessException(exception);

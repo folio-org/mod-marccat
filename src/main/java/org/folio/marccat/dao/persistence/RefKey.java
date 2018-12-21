@@ -1,52 +1,53 @@
-/*
- * (c) LibriCore
- *
- * Created on Jun 15, 2004
- *
- * NME_REF_KEY.java
- */
 package org.folio.marccat.dao.persistence;
 
 import java.io.Serializable;
 
+
 /**
- * Represents composite key for NME_REF class
+ * Represents composite key for REF class.
  *
  * @author paulm
- * @version $Revision: 1.6 $, $Date: 2006/01/11 13:36:22 $
- * @since 1.0
+ * @author carment
  */
-public class REF_KEY implements Serializable, Cloneable {
+public class RefKey implements Serializable, Cloneable {
+
+  /** The source. */
   private Integer source = -1;
+
+  /** The target. */
   private Integer target = -1;
-  /* The default setting for reference type should be coordinated with the default
-   * Authority tag created for category 16 in the AuthorityCatalog.TAG_FACTORY
-   */
+
+  /** The type. */
   private Integer type = 2;
+
+  /** The user view string. */
   private String userViewString = "1000000000000000";
 
-  /**
-   * override equals and hashcode for hibernate key comparison
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
    */
   public boolean equals(Object anObject) {
-    if (anObject instanceof REF_KEY) {
-      REF_KEY aKey = (REF_KEY) anObject;
+    if (anObject instanceof RefKey) {
+      RefKey aKey = (RefKey) anObject;
       return (
         source.equals(aKey.getSource())
           && target.equals(aKey.getTarget())
-          && type.equals(aKey.getType())
-        /*&& view.toString().matches(aKey.getView().toString())*/);
+          && type.equals(aKey.getType()));
     } else {
       return false;
     }
   }
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
   public int hashCode() {
     return source + target + type;
   }
 
   /**
-   * Getter for source
+   * Getter for source.
    *
    * @return source
    */
@@ -55,7 +56,7 @@ public class REF_KEY implements Serializable, Cloneable {
   }
 
   /**
-   * Setter for source
+   * Setter for source.
    *
    * @param i source
    */
@@ -64,7 +65,7 @@ public class REF_KEY implements Serializable, Cloneable {
   }
 
   /**
-   * Getter for target
+   * Getter for target.
    *
    * @return target
    */
@@ -73,7 +74,7 @@ public class REF_KEY implements Serializable, Cloneable {
   }
 
   /**
-   * Setter for target
+   * Setter for target.
    *
    * @param i target
    */
@@ -82,7 +83,7 @@ public class REF_KEY implements Serializable, Cloneable {
   }
 
   /**
-   * Getter for type
+   * Getter for type.
    *
    * @return type
    */
@@ -91,7 +92,7 @@ public class REF_KEY implements Serializable, Cloneable {
   }
 
   /**
-   * Setter for type
+   * Setter for type.
    *
    * @param s type
    */
@@ -100,7 +101,7 @@ public class REF_KEY implements Serializable, Cloneable {
   }
 
   /**
-   * Getter for view
+   * Getter for view.
    *
    * @return view
    */
@@ -109,13 +110,15 @@ public class REF_KEY implements Serializable, Cloneable {
   }
 
   /**
-   * Setter for view
+   * Setter for view.
    *
    * @param s view
    */
   public void setUserViewString(String s) {
     userViewString = s;
   }
+
+
 
   /* (non-Javadoc)
    * @see java.lang.Object#clone()
@@ -124,7 +127,7 @@ public class REF_KEY implements Serializable, Cloneable {
     try {
       return super.clone();
     } catch (CloneNotSupportedException e) {
-      return null;
+      return new Object();
     }
   }
 

@@ -56,6 +56,10 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
   /** The string text. */
   private String stringText;
 
+  /** The target string text. */
+  private String targetStringText;
+
+
   /**
    * Instantiates a new ref.
    */
@@ -353,6 +357,24 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
    */
   public void setStringText(String stringText) {
     this.stringText = stringText;
+  }
+
+  /**
+   * Gets the target String Text.
+   *
+   * @return the target string text
+   */
+  public String getTargetStringText() {
+    return targetStringText;
+  }
+
+  /**
+   * Sets the target string text.
+   *
+   * @param targetStringText String Text the new target string text
+   */
+  public void setTargetStringText(String targetStringText) {
+    this.targetStringText = targetStringText;
   }
 
   /**
