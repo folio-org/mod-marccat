@@ -79,8 +79,7 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
    * @return the ref
    * @throws HibernateException the hibernate exception
    */
-  //TODO Aggiunge una nuova cross reference (spostare nel microservizio)
-  public REF add(Descriptor source, Descriptor target, short referenceType, int cataloguingView, Session session) throws HibernateException {
+   public REF add(Descriptor source, Descriptor target, short referenceType, int cataloguingView, Session session) throws HibernateException {
     REF ref = REF.newInstance(source, target, referenceType, cataloguingView);
     CrossReferencesDAO dao = (CrossReferencesDAO) ref.getDAO();
     if (dao.load(source, target, referenceType, cataloguingView, session) != null) {
@@ -99,8 +98,7 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
    * @param cataloguingView the cataloguing view
    * @return the ref
    */
-  //TODO spostare nel microservizio
-  public static REF newInstance(Descriptor source, Descriptor target, int referenceType, int cataloguingView) {
+   public static REF newInstance(Descriptor source, Descriptor target, int referenceType, int cataloguingView) {
     REF ref = null;
     try {
       ref = (REF) source.getReferenceClass(target.getClass()).newInstance();
