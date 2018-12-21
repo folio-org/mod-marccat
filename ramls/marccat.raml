@@ -42,16 +42,16 @@ resourceTypes:
       responses:
         200:
           description: "Return a list of marc records and search metadata"
-          400:
-            description: "Bad request"
-              body:
-                text/plain:
-                  example: "Required String parameter 'lang' is not present"
-          500:
-            description: "Internal server error"
-              body:
-                text/plain:
-                  example: "Query not supported"
+        400:
+          description: "Bad request"
+            body:
+              text/plain:
+                example: "Required String parameter 'lang' is not present"
+        500:
+          description: "Internal server error"
+            body:
+              text/plain:
+                example: "Query not supported"
 
   /mergedSearch:
       displayName: Search marc records (authority and bibliographic both)
