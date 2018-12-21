@@ -44,14 +44,14 @@ resourceTypes:
           description: "Return a list of marc records and search metadata"
         400:
           description: "Bad request"
-            body:
-              text/plain:
-                example: "Required String parameter 'lang' is not present"
+          body:
+            text/plain:
+              example: "Required String parameter 'lang' is not present"
         500:
           description: "Internal server error"
-            body:
-              text/plain:
-                example: "Query not supported"
+          body:
+            text/plain:
+              example: "Query not supported"
 
   /mergedSearch:
       displayName: Search marc records (authority and bibliographic both)
@@ -72,14 +72,14 @@ resourceTypes:
             description: "Return a list of marc records and search metadata"
           400:
             description: "Bad request"
-              body:
-                text/plain:
-                  example: "Required String parameter 'qbib' is not present"
+            body:
+              text/plain:
+                example: "Required String parameter 'qbib' is not present"
           500:
             description: "Internal server error"
-              body:
-                text/plain:
-                  example: "Query not supported"
+            body:
+              text/plain:
+                example: "Query not supported"
 
   /searchVertical:
         displayName: Search marc records in text format
