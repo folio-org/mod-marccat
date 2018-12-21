@@ -10,11 +10,9 @@ import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.SortFormException;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.business.descriptor.SortFormParameters;
-import org.folio.marccat.business.searching.BrowseManager;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.ReferentialIntegrityException;
-
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -44,6 +42,11 @@ public abstract class DAODescriptor extends AbstractDAO {
    * The blank sortform.
    */
   private final static String BLANK_SORTFORM = " ";
+
+  /**
+   * The sort sortform length.
+   */
+  public static final int SORTFORM_LENGTH = 1080;
 
   /**
    * Gets the name of the associated Persistent class.
@@ -739,8 +742,8 @@ public abstract class DAODescriptor extends AbstractDAO {
       searchTerm = calculateSortForm(term, browseIndex, session);
     } catch (SortFormException e) {
       int lterm = term.getBytes().length;
-      String newTerm = lterm > BrowseManager.SORTFORM_LENGTH ? term
-//        .substring(0, BrowseManager.MAX_SORTFORM_LENGTH) 
+      String newTerm = lterm > SORTFORM_LENGTH ? term
+//        .substring(0, BrowseManager.MAX_SORTFORM_LENGTH)
         : term;
       try {
         searchTerm = calculateSortForm(newTerm, browseIndex, session);

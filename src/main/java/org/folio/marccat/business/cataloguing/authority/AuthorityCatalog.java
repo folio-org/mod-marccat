@@ -272,7 +272,7 @@ public class AuthorityCatalog extends Catalog {
             sourceDescriptor,
             targetDescriptor,
             ReferenceType.SEEN_FROM,
-            CATALOGUING_VIEW, false);
+            CATALOGUING_VIEW);
         ((AuthorityReferenceTag) tag).setReference(r);
         ((AuthorityReferenceTag) tag).setTargetDescriptor(
           targetDescriptor);
@@ -390,7 +390,7 @@ public class AuthorityCatalog extends Catalog {
           headingInst,
           d,
           tag.getReference().getType(),
-          AuthorityCatalog.CATALOGUING_VIEW, false);
+          AuthorityCatalog.CATALOGUING_VIEW);
     } catch (Exception e) {
       throw new RuntimeException("unable to create reference object");
     }

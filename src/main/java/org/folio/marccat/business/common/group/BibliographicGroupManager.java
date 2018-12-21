@@ -9,17 +9,17 @@ import org.folio.marccat.exception.DataAccessException;
 
 
 /**
- * Implementa, per i bibliografici, sia il GroupManager che il FilterManager
+ * Implements, for bibliographic, both the GroupManager and the FilterManager
  *
- * @author michele
+ * @author carment
  */
 public class BibliographicGroupManager extends MarcGroupManager implements FilterManager {
   private static final Log logger =
     LogFactory.getLog(BibliographicGroupManager.class);
 
   /**
-   * Filtro per tag che non possono essere ordinati. Il comportamento è sempre uguale
-   * per tutti i tag non ordinabili
+   * Filter by tags that can not be ordered. The behavior is always the same
+   * for all non-orderable tags
    */
   private static final TagFilter NO_TAG_FILTER = new NoTagFilter();
 

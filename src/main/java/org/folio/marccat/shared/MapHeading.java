@@ -1,6 +1,11 @@
 package org.folio.marccat.shared;
 
 
+
+import org.folio.marccat.resources.domain.Ref;
+
+import java.util.List;
+
 /**
  * Wrapper class for Haeding
  * <p>
@@ -40,7 +45,12 @@ public class MapHeading {
   private Integer countDocuments;
 
   /**
-   * The access pointlanguage.
+   * The cross reference.
+   */
+  private List<Ref> crossReferences;
+
+  /**
+   * The access point language.
    */
   private String accessPointlanguage;
 
@@ -153,21 +163,39 @@ public class MapHeading {
   }
 
   /**
-   * Gets the access pointlanguage.
+   * Gets the access point language.
    *
-   * @return the access pointlanguage
+   * @return the access point language
    */
   public String getAccessPointlanguage() {
     return accessPointlanguage;
   }
 
   /**
-   * Sets the access pointlanguage.
+   * Sets the access point language.
    *
-   * @param accessPointlanguage the new access pointlanguage
+   * @param accessPointlanguage the new access point language
    */
   public void setAccessPointlanguage(String accessPointlanguage) {
     this.accessPointlanguage = accessPointlanguage;
+  }
+
+  /**
+   * Gets the cross references.
+   *
+   * @return the list of cross references
+   */
+  public List<Ref> getCrossReferences() {
+    return crossReferences;
+  }
+
+  /**
+   * Sets the cross references.
+   *
+   * @param crossReferences the list of cross References
+   */
+  public void setCrossReferences(List<Ref> crossReferences) {
+    this.crossReferences = crossReferences;
   }
 
 }
