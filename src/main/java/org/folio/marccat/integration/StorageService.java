@@ -1243,26 +1243,10 @@ public class StorageService implements Closeable {
       }
 
       final int an = item.getAmicusNumber();
-      item.setModelItem(
-        ofNullable(template).map(t -> {
-          final BibliographicModelItemDAO dao = new BibliographicModelItemDAO();
-          final ObjectMapper mapper = new ObjectMapper();
 
-          try {
-            BibliographicModel model = (BibliographicModel) ofNullable(dao.load(an, session).getModel()).get();
-            if (model == null)
-              model = new BibliographicModel();
-
-            model.setId(t.getId());
-            model.setLabel(t.getName());
-            model.setFrbrFirstGroup(t.getGroup());
-            model.setRecordFields(mapper.writeValueAsString(t));
-            return model;
-          } catch (Exception e) {
-            logger.error(MessageCatalog._00023_SAVE_TEMPLATE_ASSOCIATED_FAILURE, t.getId(), record.getId(), e);
-            throw new RuntimeException(e);
-          }
-        }).orElse(null));
+      BibliographicModel model = getItemModel(template, an);
+      if (ofNullable(model).isPresent())
+        item.setModelItem(model);
 
       if (isNotNullOrEmpty(record.getVerificationLevel()))
         item.getItemEntity().setVerificationLevel(record.getVerificationLevel().charAt(0));
@@ -1277,6 +1261,36 @@ public class StorageService implements Closeable {
       throw new DataAccessException(e);
     }
   }
+
+  /**
+   * Get BibliographicModel associated to record.
+   *
+   * @param template -- the current template.
+   * @param an -- the record id.
+   */
+  private BibliographicModel getItemModel(final RecordTemplate template, final int an) {
+    if (ofNullable(template).isPresent()) {
+
+      final BibliographicModelItemDAO dao = new BibliographicModelItemDAO();
+      final ObjectMapper mapper = new ObjectMapper();
+      try {
+        BibliographicModel model = (BibliographicModel) dao.load(an, session).getModel();
+        if (model == null)
+          model = new BibliographicModel();
+
+        model.setId(template.getId());
+        model.setLabel(template.getName());
+        model.setFrbrFirstGroup(template.getGroup());
+        model.setRecordFields(mapper.writeValueAsString(template));
+        return model;
+      } catch (Exception e) {
+        logger.error(MessageCatalog._00023_SAVE_TEMPLATE_ASSOCIATED_FAILURE, template.getId(), an, e);
+        throw new RuntimeException(e);
+      }
+    }
+    return null;
+  }
+
 
   /**
    * Updates a bibliographic record.
