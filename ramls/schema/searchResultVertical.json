@@ -40,8 +40,10 @@
             "description": "count of bibliographic records associated to the current record",
             "type": "integer"
           },
-          "queryForAssociatedDoc": "query to retrieve records associated to the current one",
-          "type": "string"
+          "queryForAssociatedDoc": {
+            "description": "query to retrieve records associated to the current one",
+            "type": "string"
+          }
         },
         "tagHighlighted": {
           "description": "list of tag in which query terms are present",
