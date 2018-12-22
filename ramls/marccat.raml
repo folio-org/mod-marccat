@@ -32,7 +32,7 @@ resourceTypes:
     type:
       collection-item:
         exampleItem: !include examples/searchResult.json
-        schemaItem: searchResult
+        schema: searchResult
     get:
       is: [pageable,
           searchable: {description: "using CCL query in q parameter and choosing authority or bibliographic in view parameter",
@@ -86,7 +86,7 @@ resourceTypes:
         type:
           collection-item:
             exampleItem: !include examples/searchResultVertical.json
-            schemaItem: searchResultVertical
+            schema: searchResultVertical
         get:
           is: [pageable,
               searchable: {description: "using CCL query in q parameter and choosing authority or bibliographic in view parameter",
