@@ -64,8 +64,7 @@
       <url>http://spdx.org/licenses/Apache-2.0</url>
     </license>
   </licenses>
-
-
+  
   <repositories>
     <repository>
       <id>JBoss releases</id>
