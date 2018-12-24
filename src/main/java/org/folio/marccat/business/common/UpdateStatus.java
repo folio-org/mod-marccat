@@ -8,18 +8,28 @@ package org.folio.marccat.business.common;
  */
 public class UpdateStatus {
 
-  /** The Constant NEW. */
+  /**
+   * The Constant NEW.
+   */
   public static final int NEW = 0;
 
-  /** The Constant CHANGED. */
+  /**
+   * The Constant CHANGED.
+   */
   public static final int CHANGED = 1;
 
-  /** The Constant DELETED. */
+  /**
+   * The Constant DELETED.
+   */
   public static final int DELETED = 2;
 
-  /** The Constant REMOVED. */
+  /**
+   * The Constant REMOVED.
+   */
   public static final int REMOVED = 3;
 
-  /** The Constant UNCHANGED. */
+  /**
+   * The Constant UNCHANGED.
+   */
   public static final int UNCHANGED = 4;
 }

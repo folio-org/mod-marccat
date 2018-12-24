@@ -15,10 +15,14 @@ import java.io.Serializable;
  */
 public class UserViewHelper implements PersistentObjectWithView, Serializable {
 
-  /** The persistence state. */
+  /**
+   * The persistence state.
+   */
   private final PersistenceState persistenceState = new PersistenceState();
 
-  /** The user view string. */
+  /**
+   * The user view string.
+   */
   String userViewString = "0000000000000000";
 
   /**
@@ -96,7 +100,6 @@ public class UserViewHelper implements PersistentObjectWithView, Serializable {
 
   /**
    * Mark changed.
-   *
    */
   public void markChanged() {
     persistenceState.markChanged();
@@ -104,7 +107,6 @@ public class UserViewHelper implements PersistentObjectWithView, Serializable {
 
   /**
    * Mark deleted.
-   *
    */
   public void markDeleted() {
     persistenceState.markDeleted();
@@ -112,7 +114,6 @@ public class UserViewHelper implements PersistentObjectWithView, Serializable {
 
   /**
    * Mark new.
-   *
    */
   public void markNew() {
     persistenceState.markNew();
@@ -120,7 +121,6 @@ public class UserViewHelper implements PersistentObjectWithView, Serializable {
 
   /**
    * Mark unchanged.
-   *
    */
   public void markUnchanged() {
     persistenceState.markUnchanged();
@@ -140,7 +140,7 @@ public class UserViewHelper implements PersistentObjectWithView, Serializable {
   /**
    * On load.
    *
-   * @param s the s
+   * @param s  the s
    * @param id the id
    */
   public void onLoad(Session s, Serializable id) {

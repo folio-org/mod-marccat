@@ -25,7 +25,10 @@ import org.folio.marccat.model.Subfield;
 import org.folio.marccat.resources.domain.*;
 import org.folio.marccat.resources.domain.Leader;
 import org.folio.marccat.search.SearchResponse;
-import org.folio.marccat.shared.*;
+import org.folio.marccat.shared.CorrelationValues;
+import org.folio.marccat.shared.GeneralInformation;
+import org.folio.marccat.shared.MapHeading;
+import org.folio.marccat.shared.Validation;
 import org.folio.marccat.util.F;
 import org.folio.marccat.util.StringText;
 import org.springframework.web.multipart.MultipartFile;
@@ -231,7 +234,7 @@ public class StorageService implements Closeable {
    * @param template the record template.
    * @throws DataAccessException in case of data access failure.
    */
-   public void saveAuthorityRecordTemplate(final RecordTemplate template) throws DataAccessException {
+  public void saveAuthorityRecordTemplate(final RecordTemplate template) throws DataAccessException {
     try {
       final ObjectMapper mapper = new ObjectMapper();
       final AuthorityModelDAO dao = new AuthorityModelDAO();
@@ -751,7 +754,7 @@ public class StorageService implements Closeable {
         headingObject.setCountAuthorities(heading.getAuthorityCount());
         headingObject.setCountDocuments(dao.getDocCount(heading, view, session));
         headingObject.setCountTitleNameDocuments(dao.getDocCountNT(heading, view, session));
-        final List<REF> crossReferences = dao.getCrossReferences(heading,view, session);
+        final List<REF> crossReferences = dao.getCrossReferences(heading, view, session);
         headingObject.setCrossReferences(crossReferences.stream().map(crossReference -> {
           try {
             final Ref ref = new Ref();
@@ -1211,7 +1214,7 @@ public class StorageService implements Closeable {
         if (correlations.size() > 1) {
           if ((tag.endsWith("00") || tag.endsWith("10") || tag.endsWith("11")) && hasTitle) {
             return Global.NAME_TITLE_CATEGORY;
-          } else if (correlations.stream().anyMatch(Objects::nonNull)){
+          } else if (correlations.stream().anyMatch(Objects::nonNull)) {
             return correlations.stream().filter(Objects::nonNull).findFirst().get().getKey().getMarcTagCategoryCode();
           }
         }
@@ -1278,7 +1281,7 @@ public class StorageService implements Closeable {
    * Get BibliographicModel associated to record.
    *
    * @param template -- the current template.
-   * @param an -- the record id.
+   * @param an       -- the record id.
    */
   private BibliographicModel getItemModel(final RecordTemplate template, final int an) {
     if (ofNullable(template).isPresent()) {
@@ -1604,7 +1607,7 @@ public class StorageService implements Closeable {
    * @throws DataAccessException in case of data access failure.
    */
   public void saveHeading(final Heading heading, final int view,
-                          final Map <String, String> configuration) throws DataAccessException {
+                          final Map<String, String> configuration) throws DataAccessException {
     try {
       final BibliographicCatalog catalog = new BibliographicCatalog();
       final CatalogItem item = new BibliographicItem();
@@ -1636,13 +1639,14 @@ public class StorageService implements Closeable {
       throw new DataAccessException(exception);
     }
   }
+
   /**
    * @param lang     the language code, used here as a filter criterion.
    * @param category the category, used here as a filter criterion.
    * @return a list of heading item types by marc category code associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
-  public List <Avp <String>> getFirstCorrelation(final String lang, final int category) throws DataAccessException {
+  public List<Avp<String>> getFirstCorrelation(final String lang, final int category) throws DataAccessException {
     final DAOCodeTable daoCT = new DAOCodeTable();
     return daoCT.getList(session, FIRST_CORRELATION_HEADING_CLASS_MAP.get(category), locale(lang));
   }
@@ -1721,8 +1725,6 @@ public class StorageService implements Closeable {
     }
 
   }
-
-
 
 
 }

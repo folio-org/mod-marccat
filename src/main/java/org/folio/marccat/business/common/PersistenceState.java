@@ -1,4 +1,3 @@
-
 package org.folio.marccat.business.common;
 
 import net.sf.hibernate.CallbackException;
@@ -18,10 +17,14 @@ import java.io.Serializable;
  */
 public class PersistenceState implements Lifecycle, Serializable {
 
-  /** The update status. */
+  /**
+   * The update status.
+   */
   private int updateStatus = UpdateStatus.NEW;
 
-  /** The committed status. */
+  /**
+   * The committed status.
+   */
   private Integer committedStatus = null;
 
   /**
@@ -159,10 +162,10 @@ public class PersistenceState implements Lifecycle, Serializable {
 
   /**
    * Evict
-   * @deprecated it is necessary to recall the method of the session
    *
    * @param obj the obj
    * @throws DataAccessException the data access exception
+   * @deprecated it is necessary to recall the method of the session
    */
   @Deprecated
   public void evict(Object obj) throws DataAccessException {
