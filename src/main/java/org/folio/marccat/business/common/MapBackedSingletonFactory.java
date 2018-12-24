@@ -11,16 +11,20 @@ import java.util.Map;
  */
 public class MapBackedSingletonFactory extends AbstractMapBackedFactory {
 
-  /** The map. */
+  /**
+   * The map.
+   */
   private Map<Integer, Object> map = new HashMap<>();
 
-  /** The singletons. */
+  /**
+   * The singletons.
+   */
   private Map<Class, Object> singletons = new HashMap<>();
 
   /**
    * Put.
    *
-   * @param key the key
+   * @param key   the key
    * @param clazz the clazz
    */
   @Override
