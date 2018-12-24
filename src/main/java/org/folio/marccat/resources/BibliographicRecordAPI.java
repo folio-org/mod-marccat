@@ -123,8 +123,7 @@ public class BibliographicRecordAPI extends BaseResource {
       try {
 
         final BibliographicRecord record = container.getBibliographicRecord();
-        final RecordTemplate template = ofNullable(container.getRecordTemplate()).get();
-
+        RecordTemplate template = ofNullable(container.getRecordTemplate()).isPresent() ? container.getRecordTemplate() : null;
         record.getFields().forEach(field -> setCategory(field, storageService));
 
         final Integer itemNumber = record.getId();
