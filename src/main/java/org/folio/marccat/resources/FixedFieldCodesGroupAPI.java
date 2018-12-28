@@ -13,6 +13,7 @@ import org.folio.marccat.enumaration.CodeListsType;
 import org.folio.marccat.shared.CatalogingInformation;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,7 @@ import static org.folio.marccat.integration.CatalogingHelper.doGet;
 
 /**
  * Fixed-Field Codes Groups RESTful APIs.
- * 
+ *
  * @author cchiama
  * @author nbianchini
  * @since 1.0
@@ -80,7 +81,7 @@ public class FixedFieldCodesGroupAPI extends BaseResource implements  Cataloging
           injectDefaultValues(fixedFieldCodesGroup, storageService, parameter, headerTypeCode, lang, configuration);
           return fixedFieldCodesGroup;
         }).orElse(null);
-    }, tenant, configurator);
+    }, tenant, configurator, "bibliographic", "material");
   }
 
   private void injectDefaultValues(FixedFieldCodesGroup fixedFieldCodesGroup, StorageService storageService, Map<String, String> parameter, int headerType, String lang, Map<String, String> configuration) {
@@ -425,24 +426,58 @@ public class FixedFieldCodesGroupAPI extends BaseResource implements  Cataloging
         switch (material){
           case Global.BOOK_TYPE:
             setBookMaterialCodes(lang, storageService, fixedFieldCodesGroup);
+            if (tag.equals(Global.OTHER_MATERIAL_TAG_CODE)) {fixedFieldCodesGroup.addResults(new FixedFieldElement("materialTypeCode",
+              storageService.getCodesList(lang, CodeListsType.BOOK_MATERIAL_CODE).stream().map(toPairItem).collect(toList())));}
             break;
           case Global.MUSIC_TYPE:
             setMusicMaterialCodes(lang, storageService, fixedFieldCodesGroup);
+            if (tag.equals(Global.OTHER_MATERIAL_TAG_CODE)) {fixedFieldCodesGroup.addResults(new FixedFieldElement("materialTypeCode",
+              storageService.getCodesList(lang, CodeListsType.MUSIC_MATERIAL_CODE).stream().map(toPairItem).collect(toList())));}
+
             break;
           case Global.SERIAL_TYPE:
             setSerialMaterialCodes(lang, storageService, fixedFieldCodesGroup);
+            if (tag.equals(Global.OTHER_MATERIAL_TAG_CODE)) {
+              Pair p = new Pair();
+              p.setCode("s");
+              p.setDescription("Serial");
+              List<Pair> list = new ArrayList<>();
+              list.add(p);
+              fixedFieldCodesGroup.addResults(new FixedFieldElement("materialTypeCode", list));
+            }
             break;
           case Global.MIXED_TYPE:
             fixedFieldCodesGroup.addResults(new FixedFieldElement(Global.FORM_OF_ITEM_CODE, storageService.getCodesList(lang, CodeListsType.FORM_OF_ITEM).stream().map(toPairItem).collect(toList())));
+            if (tag.equals(Global.OTHER_MATERIAL_TAG_CODE)) {
+              Pair p = new Pair();
+              p.setCode("p");
+              p.setDescription("Mixed material");
+              List<Pair> list = new ArrayList<>();
+              list.add(p);
+              fixedFieldCodesGroup.addResults(new FixedFieldElement("materialTypeCode", list));
+            }
             break;
           case Global.MAP_TYPE:
             setMapMaterialCodes(lang, storageService, fixedFieldCodesGroup);
+            if (tag.equals(Global.OTHER_MATERIAL_TAG_CODE)) {fixedFieldCodesGroup.addResults(new FixedFieldElement("materialTypeCode",
+              storageService.getCodesList(lang, CodeListsType.MAP_TYPE_MATERIAL).stream().map(toPairItem).collect(toList())));}
             break;
           case Global.VISUAL_TYPE:
             setVisualMaterialCodes(lang, storageService, fixedFieldCodesGroup);
+            if (tag.equals(Global.OTHER_MATERIAL_TAG_CODE)) {fixedFieldCodesGroup.addResults(new FixedFieldElement("materialTypeCode",
+              storageService.getCodesList(lang, CodeListsType.VM_MATERIAL_CODE).stream().map(toPairItem).collect(toList())));}
             break;
           case Global.COMPUTER_TYPE:
             setComputerMaterialCodes(lang, storageService, fixedFieldCodesGroup);
+            if (tag.equals(Global.OTHER_MATERIAL_TAG_CODE)) {
+              Pair p = new Pair();
+              p.setCode("m");
+              p.setDescription("Computer file");
+              List<Pair> list = new ArrayList<>();
+              list.add(p);
+              fixedFieldCodesGroup.addResults(new FixedFieldElement("materialTypeCode", list));
+            }
+
             break;
            default:
 

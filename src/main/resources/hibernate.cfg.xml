@@ -275,5 +275,9 @@
     <mapping resource="org/folio/marccat/dao/persistence/LOADING_MARC_RECORDS.hbm.xml"/>
     <mapping resource="org/folio/marccat/dao/persistence/LOADING_MARC_FILE.hbm.xml"/>
     <mapping resource="org/folio/marccat/dao/persistence/AUT.hbm.xml"/>
+    <mapping resource="org/folio/marccat/dao/persistence/T_BOOK_TYP_CDE.hbm.xml"/>
+    <mapping resource="org/folio/marccat/dao/persistence/T_MSC_TYP_CDE.hbm.xml"/>
+    <mapping resource="org/folio/marccat/dao/persistence/T_CRTGC_TYP_CDE.hbm.xml"/>
+    <mapping resource="org/folio/marccat/dao/persistence/T_VSL_TYP_CDE.hbm.xml"/>
 	</session-factory>
 </hibernate-configuration>
