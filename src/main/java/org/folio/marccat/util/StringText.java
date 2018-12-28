@@ -6,28 +6,52 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
-
 import java.io.Serializable;
 import java.util.*;
 
+
+/**
+ * The Class StringText.
+ */
 public class StringText implements Serializable {
 
+  /** The Constant serialVersionUID. */
   private static final long serialVersionUID = -486513419723833977L;
 
+  /** The subfield list. */
   private List subfieldList = new ArrayList();
 
+  /**
+   * Instantiates a new string text.
+   */
   public StringText() {
   }
 
+  /**
+   * Instantiates a new string text.
+   *
+   * @param a the a
+   */
   public StringText(final Subfield a) {
     this();
     addSubfield(a);
   }
 
+  /**
+   * Instantiates a new string text.
+   *
+   * @param stringTextString the string text string
+   */
   public StringText(final String stringTextString) {
     parse(stringTextString);
   }
 
+  /**
+   * Instantiates a new string text.
+   *
+   * @param codes the codes
+   * @param values the values
+   */
   public StringText(final List<String> codes, final List<String> values) {
     for (int i = 0; i < Math.min(codes.size(), values.size()); i++) {
       this.subfieldList.add(
@@ -35,6 +59,12 @@ public class StringText implements Serializable {
     }
   }
 
+  /**
+   * String to set of subfield codes.
+   *
+   * @param str the str
+   * @return the sets the
+   */
   public static Set stringToSetOfSubfieldCodes(String str) {
     if (str == null) {
       return null;
@@ -53,6 +83,12 @@ public class StringText implements Serializable {
     return set;
   }
 
+  /**
+   * Parses the model xml element content.
+   *
+   * @param xmlElement the xml element
+   * @return the string text
+   */
   public static StringText parseModelXmlElementContent(Element xmlElement) {
     String subfieldContent;
     Element content = (Element) xmlElement.getChildNodes().item(0);
@@ -78,6 +114,11 @@ public class StringText implements Serializable {
     return stringText;
   }
 
+  /**
+   * Parses the.
+   *
+   * @param stringTextString the string text string
+   */
   public void parse(final String stringTextString) {
     if (stringTextString != null) {
       StringTokenizer tokenizer =
@@ -90,22 +131,40 @@ public class StringText implements Serializable {
     }
   }
 
+  /**
+   * Gets the subfield.
+   *
+   * @param klm the klm
+   * @return the subfield
+   */
   public Subfield getSubfield(int klm) {
     return (Subfield) this.subfieldList.get(klm);
   }
 
+  /**
+   * Gets the number of subfields.
+   *
+   * @return the number of subfields
+   */
   public int getNumberOfSubfields() {
     return this.subfieldList.size();
   }
 
+  /**
+   * Adds the subfield.
+   *
+   * @param subfield the subfield
+   */
   public void addSubfield(Subfield subfield) {
     this.subfieldList.add(subfield);
   }
 
   /**
-   * @param klm
-   * @param subfield
-   * @return
+   * Adds the subfield.
+   *
+   * @param klm the klm
+   * @param subfield the subfield
+   * @return the string text
    */
   public StringText addSubfield(int klm, Subfield subfield) {
     this.subfieldList.add(klm, subfield);
@@ -113,8 +172,10 @@ public class StringText implements Serializable {
   }
 
   /**
-   * @param anObject
-   * @return
+   * Equals.
+   *
+   * @param anObject the an object
+   * @return true, if successful
    */
   public boolean equals(Object anObject) {
     if (anObject instanceof StringText) {
@@ -124,16 +185,23 @@ public class StringText implements Serializable {
     return false;
   }
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
   public String toString() {
     Iterator subfields = this.subfieldList.iterator();
-    StringBuffer buffer = new StringBuffer();
-
+    StringBuilder builder = new StringBuilder();
     while (subfields.hasNext()) {
-      buffer.append(subfields.next());
+      builder.append(subfields.next());
     }
-    return buffer.toString();
+    return builder.toString();
   }
 
+  /**
+   * To display string.
+   *
+   * @return the string
+   */
   public String toDisplayString() {
     String returnString = "";
 
@@ -148,10 +216,21 @@ public class StringText implements Serializable {
     return returnString;
   }
 
+  /**
+   * Gets the marc display string.
+   *
+   * @return the marc display string
+   */
   public String getMarcDisplayString() {
     return getMarcDisplayString("$");
   }
 
+  /**
+   * Gets the marc display string.
+   *
+   * @param subfieldCodeSubstitution the subfield code substitution
+   * @return the marc display string
+   */
   public String getMarcDisplayString(final String subfieldCodeSubstitution) {
     StringBuffer result = new StringBuffer();
 
@@ -165,15 +244,32 @@ public class StringText implements Serializable {
     return result.toString();
   }
 
+  /**
+   * Contains subfield.
+   *
+   * @param subfield the subfield
+   * @return true, if successful
+   */
   public boolean containsSubfield(Subfield subfield) {
     return this.subfieldList.contains(subfield);
   }
 
+  /**
+   * Gets the subfield list.
+   *
+   * @return the subfield list
+   */
   public List getSubfieldList() {
     return Collections.unmodifiableList(subfieldList);
   }
 
 
+  /**
+   * Adds the.
+   *
+   * @param text the text
+   * @return the string text
+   */
   public StringText add(StringText text) {
     if (text != null) {
       for (int i = 0; i < text.getNumberOfSubfields(); i++) {
@@ -184,9 +280,11 @@ public class StringText implements Serializable {
   }
 
   /**
-   * @param include
-   * @param exclude
-   * @return
+   * Gets the subfields.
+   *
+   * @param include the include
+   * @param exclude the exclude
+   * @return the subfields
    */
   public StringText getSubfields(String include, String exclude) {
     return getSubfields(
@@ -195,9 +293,11 @@ public class StringText implements Serializable {
   }
 
   /**
-   * @param include
-   * @param exclude
-   * @return
+   * Gets the subfields.
+   *
+   * @param include the include
+   * @param exclude the exclude
+   * @return the subfields
    */
   private StringText getSubfields(Set include, Set exclude) {
     StringText text = new StringText();
@@ -212,8 +312,10 @@ public class StringText implements Serializable {
   }
 
   /**
-   * @param order
-   * @return
+   * Order subfields.
+   *
+   * @param order the order
+   * @return the string text
    */
   public StringText orderSubfields(String order) {
     StringText text = new StringText();
@@ -223,14 +325,32 @@ public class StringText implements Serializable {
     return text;
   }
 
+  /**
+   * Gets the subfields with codes.
+   *
+   * @param codes the codes
+   * @return the subfields with codes
+   */
   public StringText getSubfieldsWithCodes(String codes) {
     return getSubfields(codes, null);
   }
 
+  /**
+   * Gets the subfields without codes.
+   *
+   * @param codes the codes
+   * @return the subfields without codes
+   */
   public StringText getSubfieldsWithoutCodes(String codes) {
     return getSubfields(null, codes);
   }
 
+  /**
+   * Generate model xml element content.
+   *
+   * @param xmlDocument the xml document
+   * @return the element
+   */
   public Element generateModelXmlElementContent(Document xmlDocument) {
     Element content = null;
     if (xmlDocument != null) {
@@ -239,7 +359,6 @@ public class StringText implements Serializable {
       Iterator subfieldIterator = subfieldList.iterator();
       while (subfieldIterator.hasNext()) {
         Subfield subfield = (Subfield) subfieldIterator.next();
-        //content_sub = lv_www_html_escape (subfield.content);
         Element subfieldElement =
           xmlDocument.createElement("subfield");
         content.appendChild(subfieldElement);
@@ -254,13 +373,19 @@ public class StringText implements Serializable {
     return content;
   }
 
+  /**
+   * Generate marc xml element content.
+   *
+   * @param datafield the datafield
+   * @param xmlDocument the xml document
+   * @param cclQuery the ccl query
+   */
   public void generateMarcXmlElementContent(Element datafield, Document xmlDocument, String cclQuery) {
     if (xmlDocument != null) {
       List subfieldList = getSubfieldList();
       Iterator subfieldIterator = subfieldList.iterator();
       while (subfieldIterator.hasNext()) {
         Subfield subfield = (Subfield) subfieldIterator.next();
-        //content_sub = lv_www_html_escape (subfield.content);
         Element subfieldElement =
           xmlDocument.createElement("subfield");
         datafield.appendChild(subfieldElement);
@@ -268,60 +393,17 @@ public class StringText implements Serializable {
           "code",
           subfield.getCode());
 
-        if (cclQuery != null && cclQuery.length() > 2) {
-          // NIC gestione testo evidenziato
-          highlightElements(cclQuery, xmlDocument, subfield, subfieldElement);
-        } else {
-          Text text =
-            xmlDocument.createTextNode(subfield.getContent());
-          subfieldElement.appendChild(text);
-        }
+        Text text =
+          xmlDocument.createTextNode(subfield.getContent());
+        subfieldElement.appendChild(text);
+
       }
     }
   }
 
-  private void highlightElements(String cclQuery, Document xmlDocument, Subfield subfield, Element subfieldElement) {
-    String text = XmlUtils.parseString(cclQuery, subfield); // inserisce delimitatori \u00FE e \u00FF nel testo originale
-
-    boolean evidenziato = false; // questo flag indica se il testo in esame deve essere evidenziato o meno
-    while (text.length() > 0) { // scorre l'intero testo con i delimitatori
-      if (!evidenziato) { // se il testo non deve essere evidenziato
-        int indice = text.indexOf("\u00FE"); // cerca il delimitatore di apertura
-        Text testoNonEvidenziato;
-        if (indice == -1) { // se il pattern cercato non viene trovato (non ci sono delimitatori)...
-          testoNonEvidenziato = xmlDocument.createTextNode(text); // ... viene scritto l'intero testo non evidenziato nel tag xml
-          text = "";
-        } else { // se il pattern viene trovato nel testo...
-          testoNonEvidenziato = xmlDocument.createTextNode(text.substring(0, indice)); // ... viene scritto il testo non evidenziato...
-          evidenziato = true; // ... viene settato a true il flag (indica che il testo seguente deve essere evidenziato) ...
-          text = text.substring(indice); // ... e infine viene tagliato il testo appena scritto
-        }
-        subfieldElement.appendChild(testoNonEvidenziato);
-      } else { // se il testo deve essere evidenziato
-        int indice = text.indexOf("\u00FF"); // cerca il delimitatore di chiusura
-        Element highlight = xmlDocument.createElement("highlight"); // crea un tag highlight
-
-        Text testoEvidenziato;
-        if (indice == -1) {  // se non c'è il delimitatore di chiusura ...
-          testoEvidenziato = xmlDocument.createTextNode(text.substring(1));
-          highlight.appendChild(testoEvidenziato);
-//							highlight.setNodeValue(text.substring(1)); //... viene scritto l'intero testo  evidenziato nel tag highlight
-          text = "";
-        } else { // se il delimitatore viene trovato nel testo...
-          testoEvidenziato = xmlDocument.createTextNode(text.substring(1, indice));
-          highlight.appendChild(testoEvidenziato);
-
-//							highlight.setNodeValue(text.substring(1,indice)); // ... viene scritto il testo non evidenziato...
-          evidenziato = false; // ... viene settato a false il flag (indica che il testo seguente non deve essere evidenziato) ...
-          text = text.substring(indice + 1); // ... e infine viene tagliato il testo appena scritto
-        }
-        subfieldElement.appendChild(highlight); // viene aggiunto il tag highlight col suo contenuto
-      }
-    }
-  }
 
   /**
-   * MIKE
+   * Checks if is empty.
    *
    * @return true if no subfields are present or all the subfields are empty
    */
@@ -333,5 +415,75 @@ public class StringText implements Serializable {
       if (!s.isEmpty()) return false;
     }
     return true;
+  }
+
+  /**
+   * Add punctuation before the given code unless the given excluded punc is already present.
+   *
+   * @param code the code
+   * @param punc the punc
+   * @param excludedPunc the excluded punc
+   */
+  public void addPrecedingPunctuation(String code, String punc, String excludedPunc) {
+    int subfieldIndex = 0;
+    for (Object o : getSubfieldList()) {
+      Subfield s = (Subfield) o;
+      if (s.getCode().equals(code)) {
+        if (subfieldIndex > 0) {
+          Subfield before = getSubfield(subfieldIndex - 1);
+          if (!before.getContent().endsWith(excludedPunc)) {
+            before.setContent(before.getContent() + punc);
+          }
+        }
+      }
+      subfieldIndex++;
+    }
+  }
+
+  /**
+   * Remove the given punctuation if preceding the given subfield code.
+   *
+   * @param code the code
+   * @param punc the punc
+   */
+  public void removePrecedingPunctuation(String code, String punc) {
+    int subfieldIndex = 0;
+    for (Object o : getSubfieldList()) {
+      Subfield s = (Subfield) o;
+      if (s.getCode().equals(code)) {
+        if (subfieldIndex > 0) {
+          Subfield before = getSubfield(subfieldIndex - 1);
+          String bc = before.getContent();
+          if (bc.endsWith(punc)) {
+            before.setContent(bc.substring(0, bc.length() - punc.length() + 1));
+          }
+        }
+      }
+      subfieldIndex++;
+    }
+  }
+
+  /**
+   * Ensures that the given subfield codes end in the given punctuation.
+   *
+   * @param codes the codes
+   * @param otherTerminals the other terminals
+   * @param terminalChar the terminal char
+   * @return true if given subfield is found
+   */
+  public boolean addTerminalPunctuation(String codes, String otherTerminals, String terminalChar) {
+    int subfieldIndex = 0;
+    boolean result = false;
+    for (Object o : getSubfieldList()) {
+      Subfield s = (Subfield) o;
+      if (codes.contains(s.getCode())) {
+        result = true;
+        if (!otherTerminals.contains(""+s.getContent().charAt(s.getContentLength() - 1))){
+          s.setContent(s.getContent() + terminalChar);
+        }
+      }
+      subfieldIndex++;
+    }
+    return result;
   }
 }

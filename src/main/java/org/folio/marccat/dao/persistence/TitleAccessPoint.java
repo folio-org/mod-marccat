@@ -3,12 +3,10 @@ package org.folio.marccat.dao.persistence;
 import org.folio.marccat.business.cataloguing.bibliographic.NameTitleComponent;
 import org.folio.marccat.business.cataloguing.common.OrderedTag;
 import org.folio.marccat.config.Global;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
-import java.util.List;
 
 /**
  * Persistent class for  TTL_ACS_PNT.
@@ -18,24 +16,48 @@ import java.util.List;
  * @since 1.0
  */
 
-//TODO: many doubts about presence here of correlation and stringText
 
 @SuppressWarnings("unchecked")
 public class TitleAccessPoint extends NameTitleComponent implements OrderedTag {
+
+  /** The Constant serialVersionUID. */
   private static final long serialVersionUID = 1636144329543139231L;
 
+  /** The institution. */
   private String institution;
+
+  /** The series issn heading number. */
   private Integer seriesIssnHeadingNumber;
+
+  /** The secondary function code. */
   private int secondaryFunctionCode;
+
+  /** The volume number description. */
   private String volumeNumberDescription;
+
+  /** The variant title. */
   private String variantTitle;
+
+  /** The descriptor. */
   private TTL_HDG descriptor = new TTL_HDG();
+
+  /** The sequence number. */
   private Integer sequenceNumber;
+
+  /** The issn text. */
   private String issnText;
 
+  /**
+   * Instantiates a new title access point.
+   */
   public TitleAccessPoint() {
   }
 
+  /**
+   * Instantiates a new title access point.
+   *
+   * @param itemNbr the item nbr
+   */
   public TitleAccessPoint(final int itemNbr) {
     super(itemNbr);
   }
@@ -64,6 +86,7 @@ public class TitleAccessPoint extends NameTitleComponent implements OrderedTag {
    * @param obj -- the object to compare.
    * @return true if equals.
    */
+  @Override
   public boolean equals(final Object obj) {
     if (!(obj instanceof TitleAccessPoint))
       return false;
@@ -73,6 +96,11 @@ public class TitleAccessPoint extends NameTitleComponent implements OrderedTag {
       && (other.nameTitleHeadingNumber == this.nameTitleHeadingNumber);
   }
 
+  /**
+   * Hash code.
+   *
+   * @return the int
+   */
   @Override
   public int hashCode() {
     return super.hashCode();
@@ -90,10 +118,10 @@ public class TitleAccessPoint extends NameTitleComponent implements OrderedTag {
   /**
    * Sets descriptor.
    *
-   * @param ttl_hdg -- the descriptor associated to title access point.
+   * @param titleHeading -- the descriptor associated to title access point.
    */
-  public void setDescriptor(final Descriptor ttl_hdg) {
-    descriptor = (TTL_HDG) ttl_hdg;
+  public void setDescriptor(final Descriptor titleHeading) {
+    descriptor = (TTL_HDG) titleHeading;
   }
 
   /**
@@ -173,6 +201,7 @@ public class TitleAccessPoint extends NameTitleComponent implements OrderedTag {
    *
    * @return "editTitle".
    */
+  @Override
   public String getRequiredEditPermission() {
     return Global.TITLE_REQUIRED_PERMISSION;
   }
@@ -183,6 +212,7 @@ public class TitleAccessPoint extends NameTitleComponent implements OrderedTag {
    * @param v -- the correlation values.
    * @return boolean.
    */
+  @Override
   public boolean correlationChangeAffectsKey(final CorrelationValues v) {
     return (v.isValueDefined(1) && (v.getValue(1) != getFunctionCode()));
   }
@@ -212,6 +242,7 @@ public class TitleAccessPoint extends NameTitleComponent implements OrderedTag {
    *
    * @return stringText.
    */
+  @Override
   public StringText getStringText() {
     final StringText result = new StringText();
     result.add(getAccessPointStringText().getSubfieldsWithCodes("i"));
@@ -267,6 +298,7 @@ public class TitleAccessPoint extends NameTitleComponent implements OrderedTag {
    *
    * @return category.
    */
+  @Override
   public int getCategory() {
     return Global.TITLE_CATEGORY;
   }
@@ -277,6 +309,7 @@ public class TitleAccessPoint extends NameTitleComponent implements OrderedTag {
    *
    * @return variant codes.
    */
+  @Override
   public String getVariantCodes() {
     return Global.TITLE_VARIANT_CODES;
   }
@@ -318,31 +351,32 @@ public class TitleAccessPoint extends NameTitleComponent implements OrderedTag {
     super.setSequenceNumber(sequenceNumber);
   }
 
-  //TODO: move in storageService and add session
-  public List replaceEquivalentDescriptor(final short indexingLanguage, int cataloguingView) throws DataAccessException {
-		/* DAODescriptor dao = new DAOTitleDescriptor();
-		List newTags = new ArrayList();
-		Descriptor d = getDescriptor();
-		REF ref = dao.getCrossReferencesWithLanguage(d, cataloguingView, indexingLanguage);
-	    if (ref!=null) {
-			AccessPoint aTag =	(AccessPoint) deepCopy(this);
-			aTag.markNew();
-			aTag.setDescriptor(dao.load(ref.getTarget(),cataloguingView));
-			aTag.setHeadingNumber(new Integer(aTag.getDescriptor().getKey().getHeadingNumber()));
-			newTags.add(aTag);
-		}
-		return newTags; */
-    return null;
+
+  /**
+   * Adds the punctuation.
+   *
+   * @return the string text
+   * @throws Exception the exception
+   */
+  @Override
+  public StringText addPunctuation() {
+    final StringText result = new StringText(getStringText().toString());
+    try {
+      final CorrelationKey marc = getMarcEncoding();
+      if (Global.TITLES_X.contains(marc.getMarcTag())) {
+        result.addPrecedingPunctuation("x", ",", ",");
+      }
+      if (Global.TITLES_V.contains(marc.getMarcTag())) {
+        result.addPrecedingPunctuation("v", " :", null);
+      }
+      if (Global.TITLES.contains(marc.getMarcTag())) {
+        result.addTerminalPunctuation("245", ".?!)-", ".");
+      }
+      return result;
+    } catch (Exception e) {
+      return result;
+    }
   }
 
-  //TODO move in storageService and set after creation (as was: called in constructor)
-  public void setDefaultTypeAndFunction() {
-		/*int typCode= new Integer(configHandler.findValue("t_ttl_fnctn_2nd_fnctn","titleAccessPoint.functionCode"));
-		int type = configHandler.isParamOfGlobalVariable("t_ttl_fnctn_2nd_fnctn") ? this.getType(typCode) : typCode;
 
-		setFunctionCode((short)type);
-		int funCode= new Integer(configHandler.findValue("t_ttl_fnctn_2nd_fnctn","titleAccessPoint.secondaryFunctionCode"));
-		int function= this.getFunction(funCode);
-		setSecondaryFunctionCode((short)function);*/
-  }
 }

@@ -8,7 +8,6 @@ import org.folio.marccat.business.common.UserViewHelper;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.business.descriptor.PublisherTagDescriptor;
 import org.folio.marccat.config.Global;
-import org.folio.marccat.config.log.Log;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.PublisherManagerDAO;
 import org.folio.marccat.exception.DataAccessException;
@@ -16,12 +15,12 @@ import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.F;
 import org.folio.marccat.util.StringText;
-
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
-
 import static java.util.Optional.ofNullable;
+
 
 /**
  * Management class for publishers.
@@ -34,18 +33,38 @@ import static java.util.Optional.ofNullable;
  */
 @SuppressWarnings("unchecked")
 public class PublisherManager extends VariableField implements PersistentObjectWithView {
+
+  /** The Constant serialVersionUID. */
   private static final long serialVersionUID = 1L;
-  private static final Log logger = new Log(PublisherManager.class);
+
+  /** The Constant daoPublisherTag. */
   private static final PublisherManagerDAO daoPublisherTag = new PublisherManagerDAO();
 
+  /** The persistence state. */
   private PersistenceState persistenceState = new PersistenceState();
+
+  /** The publisher tag units. */
   private List<PUBL_TAG> publisherTagUnits = new ArrayList<>();
+
+  /** The deleted units. */
   private List<PUBL_TAG> deletedUnits = new ArrayList<>();
+
+  /** The apf. */
   private PublisherAccessPoint apf = new PublisherAccessPoint();
+
+  /** The dates. */
   private List<String> dates = new ArrayList<>();
+
+  /** The tag unit index. */
   private int tagUnitIndex;
+
+  /** The user view helper. */
   private UserViewHelper userViewHelper = new UserViewHelper();
+
+  /** The string text for fast digit publisher. */
   private String stringTextForFastDigitPublisher;
+
+  /** The note type. */
   private int noteType;
 
   /**
@@ -59,6 +78,8 @@ public class PublisherManager extends VariableField implements PersistentObjectW
   }
 
   /**
+   * Instantiates a new publisher manager.
+   *
    * @param bibItemNumber -- record number.
    * @param view          -- user view.
    */
@@ -74,6 +95,8 @@ public class PublisherManager extends VariableField implements PersistentObjectW
   }
 
   /**
+   * Instantiates a new publisher manager.
+   *
    * @param apf -- publisher access point.
    */
   public PublisherManager(final PublisherAccessPoint apf) {
@@ -126,7 +149,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
   }
 
   /**
-   * Copy dates from access points into Publisher Tag while editing
+   * Copy dates from access points into Publisher Tag while editing.
    */
   private void copyDates() {
     getPublisherTagUnits().stream().forEach(publisherTag -> {
@@ -148,24 +171,6 @@ public class PublisherManager extends VariableField implements PersistentObjectW
       } else
         setStringTextForFastDigitPublisher(remainingFieldsText);
     }
-  }
-
-
-  /**
-   * Updates the publisher tag with the recently browsed publisher heading.
-   *
-   * @param p -- the publisher heading to update.
-   * @throws DataAccessException in case of data access exception.
-   */
-  //TODO move it in storageService
-  @Deprecated
-  public void updatePublisherFromBrowse(final PUBL_HDG p) throws DataAccessException {
-		/*
-	    PUBL_HDG myP = (PUBL_HDG) ((DAODescriptor) p.getDAO())
-                .findOrCreateMyView(p.getHeadingNumber(), p.getUserViewString(), View.toIntView(getUserViewString()));
-		PUBL_TAG tagUnit = getPublisherTagUnits().get(getTagUnitIndex());
-		tagUnit.setDescriptor(myP);
-		*/
   }
 
   /**
@@ -211,6 +216,8 @@ public class PublisherManager extends VariableField implements PersistentObjectW
   }
 
   /**
+   * Gets the display string.
+   *
    * @return the MARC display string for the publisher tag
    */
   public String getDisplayString() {
@@ -262,10 +269,15 @@ public class PublisherManager extends VariableField implements PersistentObjectW
     publisherTagUnits = list;
   }
 
+  /**
+   * Gets the first correlation list.
+   *
+   * @return the first correlation list
+   * @throws DataAccessException the data access exception
+   */
   @Deprecated
   public List getFirstCorrelationList() throws DataAccessException {
-    /* return getDaoCodeTable().getList(BibliographicNoteType.class); */
-    return null;
+    return Collections.emptyList();
   }
 
   /**
@@ -274,6 +286,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    * @param obj -- the object to compare.
    * @return true if equals.
    */
+  @Override
   public boolean equals(final Object obj) {
     if (obj instanceof PublisherManager) {
       PublisherManager p = (PublisherManager) obj;
@@ -283,6 +296,8 @@ public class PublisherManager extends VariableField implements PersistentObjectW
   }
 
   /**
+   * Gets the dao.
+   *
    * @return daoPublisherTag.
    */
   public AbstractDAO getDAO() {
@@ -294,6 +309,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    *
    * @return false.
    */
+  @Override
   public boolean isWorksheetEditable() {
     return false;
   }
@@ -303,6 +319,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    *
    * @return true.
    */
+  @Override
   public boolean isPublisher() {
     return true;
   }
@@ -325,10 +342,20 @@ public class PublisherManager extends VariableField implements PersistentObjectW
     deletedUnits = list;
   }
 
+  /**
+   * Gets the tag unit index.
+   *
+   * @return the tag unit index
+   */
   public int getTagUnitIndex() {
     return tagUnitIndex;
   }
 
+  /**
+   * Sets the apf index.
+   *
+   * @param i the new apf index
+   */
   public void setApfIndex(final int i) {
     tagUnitIndex = i;
   }
@@ -394,7 +421,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
     final StringText s = new StringText();
     s.add(new StringText(getStringTextForFastDigitPublisher()));
     if (s.getNumberOfSubfields() > 0) {
-      if (getPublisherTagUnits().size() == 0) {
+      if (getPublisherTagUnits().isEmpty()) {
         getPublisherTagUnits().add(new PUBL_TAG());
       }
 
@@ -444,7 +471,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
   }
 
   /**
-   * Evict
+   * Evict.
    *
    * @throws DataAccessException in case of data access exception.
    */
@@ -490,6 +517,8 @@ public class PublisherManager extends VariableField implements PersistentObjectW
 
   /**
    * Sets update status.
+   *
+   * @param i the new update status
    */
   public void setUpdateStatus(final int i) {
     getPublisherTagUnits().forEach(tagUnit -> tagUnit.setUpdateStatus(i));
@@ -502,6 +531,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    * @param v -- the correlation values.
    * @return boolean.
    */
+  @Override
   public boolean correlationChangeAffectsKey(final CorrelationValues v) {
     return !BibliographicNoteType.isPublisherType(v.getValue(1));
   }
@@ -524,6 +554,12 @@ public class PublisherManager extends VariableField implements PersistentObjectW
     this.apf = apf;
   }
 
+  /**
+   * Hash code.
+   *
+   * @return the int
+   */
+  @Override
   public int hashCode() {
     return getApf().hashCode();
   }
@@ -538,11 +574,16 @@ public class PublisherManager extends VariableField implements PersistentObjectW
     detachDescriptor(tagUnit);
   }
 
+  /**
+   * Detach descriptor.
+   *
+   * @param tagUnit the tag unit
+   */
   private void detachDescriptor(final PUBL_TAG tagUnit) {
-    final PUBL_HDG publ_hdg = tagUnit.getDescriptor();
+    final PUBL_HDG publisherHeading = tagUnit.getDescriptor();
     if (tagUnit.getPublisherHeadingNumber() == null) {
-      publ_hdg.setNameStringText("");
-      publ_hdg.setPlaceStringText("");
+      publisherHeading.setNameStringText("");
+      publisherHeading.setPlaceStringText("");
 
     } else {
       tagUnit.setDescriptor(null);
@@ -550,9 +591,57 @@ public class PublisherManager extends VariableField implements PersistentObjectW
     }
   }
 
-  @Deprecated
-  //TODO moved in storageService
-  public List replaceEquivalentDescriptor(short indexingLanguage, int cataloguingView) throws DataAccessException {
-    return null;
+  /**
+   * Adds the punctuation.
+   *
+   * @return the string text
+   * @throws Exception the exception
+   */
+  @Override
+  public StringText addPunctuation() throws Exception{
+    final StringText result = new StringText(getStringText().toString());
+    try{
+    int subfieldIndex = 0;
+    for (Object o : result.getSubfieldList()) {
+      Subfield s = (Subfield)o;
+      if (s.getCode().equals("a") || s.getCode().equals("b")) {
+        if (subfieldIndex < result.getNumberOfSubfields() - 1) {
+          if (result.getSubfield(subfieldIndex + 1).getCode().equals("a")) {
+            s.setContent(s.getContent() + " ;");
+          }
+          else if (result.getSubfield(subfieldIndex + 1).getCode().equals("b")) {
+            s.setContent(s.getContent() + " :");
+          }
+          else if (result.getSubfield(subfieldIndex + 1).getCode().equals("c")) {
+            s.setContent(s.getContent() + ",");
+          }
+        }
+      }
+      else if (s.getCode().equals("c")) {
+        if (subfieldIndex == result.getNumberOfSubfields() - 1) {
+          if (!"-])".contains(""+s.getContent().charAt(s.getContentLength() - 1))) {
+            s.setContent(s.getContent() + ".");
+          }
+        }
+      }
+      else if (s.getCode().equals("e") || s.getCode().equals("f")) {
+        if (subfieldIndex < result.getNumberOfSubfields() - 1) {
+          if (result.getSubfield(subfieldIndex+1).getCode().equals("e")) {
+            s.setContent(s.getContent() + ";");
+          }
+          else if (result.getSubfield(subfieldIndex + 1).getCode().equals("f")) {
+            s.setContent(s.getContent() + " :");
+          }
+          else if (result.getSubfield(subfieldIndex + 1).getCode().equals("g")) {
+            s.setContent(s.getContent() + ",");
+          }
+        }
+      }
+      subfieldIndex++;
+    }
+    return result;
+    } catch (Exception e) {
+      return result;
+    }
   }
 }
