@@ -159,6 +159,10 @@ public abstract class Global {
   public static final String NAME_TITLE_VARIANT_CODES = "3v5";
   public static final Map<String, Class> MAP_CODE_LISTS = new HashMap<String, Class>() {
     {
+      put("BOOK_MATERIAL_CODE", T_BOOK_TYP_CDE.class);
+      put("MUSIC_MATERIAL_CODE", T_MSC_TYP_CDE.class);
+      put("MAP_MATERIAL_CODE", T_CRTGC_TYP_CDE.class);
+      put("VM_MATERIAL_CODE", T_VSL_TYP_CDE.class);
       put("DATE_TYPE", T_ITM_DTE_TYP.class);
       put("MODIFIED_RECORD_TYPE", T_REC_MDFTN.class);
       put("CATALOGUING_SOURCE", T_REC_CTLGG_SRC.class);
