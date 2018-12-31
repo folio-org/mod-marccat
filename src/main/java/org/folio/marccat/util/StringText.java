@@ -428,14 +428,12 @@ public class StringText implements Serializable {
     int subfieldIndex = 0;
     for (Object o : getSubfieldList()) {
       Subfield s = (Subfield) o;
-      if (s.getCode().equals(code)) {
-        if (subfieldIndex > 0) {
-          Subfield before = getSubfield(subfieldIndex - 1);
+      if (s.getCode().equals(code) && subfieldIndex > 0) {
+        Subfield before = getSubfield(subfieldIndex - 1);
           if (!before.getContent().endsWith(excludedPunc)) {
             before.setContent(before.getContent() + punc);
           }
-        }
-      }
+       }
       subfieldIndex++;
     }
   }

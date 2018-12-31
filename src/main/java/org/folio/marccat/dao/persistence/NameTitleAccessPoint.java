@@ -266,20 +266,17 @@ public class NameTitleAccessPoint extends NameTitleComponent implements OrderedT
         result.addPrecedingPunctuation("v", " :", null);
       }
       if (Global.NAMES_245.contains(marc.getMarcTag())) {
-        result.addTerminalPunctuation("245", ".?!)-", ".");
+        result.addTerminalPunctuation("245", Global.TERMINAL_PUNCTUATION, ".");
       }
-      boolean found = result.addTerminalPunctuation("4", ".?!)]-", ".");
+      boolean found = result.addTerminalPunctuation("4", Global.OTHER_TERMINAL_PUNCTUATION, ".");
       if (!found) {
         if (Global.NAMES.contains(marc.getMarcTag())) {
           Subfield last = result.getSubfield(result.getNumberOfSubfields() - 1);
-          if (!".?!)-".contains("" + last.getContent().charAt(last.getContentLength() - 1))) {
+          if (!Global.TERMINAL_PUNCTUATION.contains("" + last.getContent().charAt(last.getContentLength() - 1))) {
             last.setContent(last.getContent() + ".");
-            found = true;
           }
         } else {
-          if (!found) {
-            result.addPrecedingPunctuation("t", ".?!)-", ".");
-          }
+          result.addPrecedingPunctuation("t",Global.TERMINAL_PUNCTUATION, ".");
         }
       }
       return result;

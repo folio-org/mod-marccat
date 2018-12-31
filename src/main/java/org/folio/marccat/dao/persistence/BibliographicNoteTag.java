@@ -214,7 +214,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    */
   private String getOverFlowString(final List<BibliographicNoteOverflow> overflowNoteList) {
     try {
-      return overflowNoteList.stream().map(oNote -> oNote.getStringText()).collect(Collectors.joining());
+      return overflowNoteList.stream().map(BibliographicNoteOverflow::getStringText).collect(Collectors.joining());
     } catch (Exception exception) {
       return (stringText == null ? "" : stringText.toString());
     }

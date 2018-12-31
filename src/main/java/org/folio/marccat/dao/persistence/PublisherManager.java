@@ -618,11 +618,10 @@ public class PublisherManager extends VariableField implements PersistentObjectW
         }
       }
       else if (s.getCode().equals("c")) {
-        if (subfieldIndex == result.getNumberOfSubfields() - 1) {
-          if (!"-])".contains(""+s.getContent().charAt(s.getContentLength() - 1))) {
+        if (subfieldIndex == result.getNumberOfSubfields() - 1 &&
+          !"-])".contains(""+s.getContent().charAt(s.getContentLength() - 1))) {
             s.setContent(s.getContent() + ".");
-          }
-        }
+         }
       }
       else if (s.getCode().equals("e") || s.getCode().equals("f")) {
         if (subfieldIndex < result.getNumberOfSubfields() - 1) {

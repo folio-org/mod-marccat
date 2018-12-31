@@ -230,7 +230,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
     if (obj != null && !(obj.getClass().equals(this.getClass())))
       return false;
     Tag other = (Tag) obj;
-    return (other.getItemNumber() == this.getItemNumber());
+    return (other != null && other.getItemNumber() == this.getItemNumber());
   }
 
   /**
