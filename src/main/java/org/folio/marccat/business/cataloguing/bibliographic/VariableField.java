@@ -5,10 +5,10 @@ import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.util.StringText;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
+import java.util.Collections;
 import java.util.List;
-
 import static java.util.Optional.ofNullable;
+
 
 /**
  * Manages the variable tag field.
@@ -20,7 +20,7 @@ import static java.util.Optional.ofNullable;
 public abstract class VariableField extends Tag {
 
   /**
-   * Class constructor
+   * Class constructor.
    *
    * @since 1.0
    */
@@ -29,8 +29,9 @@ public abstract class VariableField extends Tag {
   }
 
   /**
-   * Class constructor
+   * Class constructor.
    *
+   * @param itemNumber the item number
    * @since 1.0
    */
   public VariableField(final int itemNumber) {
@@ -55,7 +56,7 @@ public abstract class VariableField extends Tag {
    * @throws DataAccessException in case of data access exception.
    */
   public List getSecondCorrelationList(final int value1) throws DataAccessException {
-    return null;
+    return Collections.emptyList();
   }
 
   /**
@@ -67,11 +68,21 @@ public abstract class VariableField extends Tag {
    * @throws DataAccessException in case of data access exception.
    */
   public List getThirdCorrelationList(final int value1, final int value2) throws DataAccessException {
-    return null;
+    return Collections.emptyList();
   }
 
+  /**
+   * Gets the string text.
+   *
+   * @return the string text
+   */
   public abstract StringText getStringText();
 
+  /**
+   * Sets the string text.
+   *
+   * @param stringText the new string text
+   */
   public abstract void setStringText(final StringText stringText);
 
   /**
@@ -97,7 +108,7 @@ public abstract class VariableField extends Tag {
    *
    * @return false.
    */
-  final public boolean isFixedField() {
+  public final boolean isFixedField() {
     return false;
   }
 
@@ -127,8 +138,7 @@ public abstract class VariableField extends Tag {
    */
   public Element generateModelXmlElementContent(final Document xmlDocument) {
     return ofNullable(xmlDocument).map(content -> {
-      Element element = getStringText().generateModelXmlElementContent(xmlDocument);
-      return element;
+      return getStringText().generateModelXmlElementContent(xmlDocument);
     }).orElse(null);
   }
 
@@ -150,4 +160,16 @@ public abstract class VariableField extends Tag {
     return getStringText() == null || getStringText().isEmpty();
   }
 
+  /**
+   * Adds the punctuation.
+   *
+   * @return the string text
+   * @throws Exception the exception
+   */
+  @Override
+  public StringText addPunctuation()throws Exception{
+    return getStringText();
+  }
+
 }
+

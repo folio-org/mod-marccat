@@ -1,45 +1,83 @@
-/*
- * (c) LibriCore
- *
- * Created on Jun 18, 2004
- *
- * T_REF_TYPE.java
- */
 package org.folio.marccat.dao.persistence;
 
 /**
+ * The reference types for the cross references.
+ *
  * @author paulm
- * @version $Revision: 1.4 $, $Date: 2006/01/11 13:36:22 $
- * @since 1.0
+ * @author carment
  */
 public class ReferenceType extends T_SINGLE {
+
+  /** The Constant SEEN_FROM. */
   public static final short SEEN_FROM = 2;
 
-  static public boolean isSeeAlso(int type) {
+  /**
+   * Checks if is see also.
+   *
+   * @param type the type
+   * @return true, if is see also
+   */
+  public static boolean isSeeAlso(int type) {
     return type == 3;
   }
 
-  static public boolean isSeeAlsoFrom(int type) {
+  /**
+   * Checks if is see also from.
+   *
+   * @param type the type
+   * @return true, if is see also from
+   */
+  public static boolean isSeeAlsoFrom(int type) {
     return type == 4;
   }
 
-  static public boolean isEquivalence(int type) {
+  /**
+   * Checks if is equivalence.
+   *
+   * @param type the type
+   * @return true, if is equivalence
+   */
+  public static boolean isEquivalence(int type) {
     return type == 5;
   }
 
-  static public boolean isSee(int type) {
+  /**
+   * Checks if is see.
+   *
+   * @param type the type
+   * @return true, if is see
+   */
+  public static boolean isSee(int type) {
     return type == 1;
   }
 
-  static public boolean isSeenFrom(int type) {
+  /**
+   * Checks if is seen from.
+   *
+   * @param type the type
+   * @return true, if is seen from
+   */
+  public static boolean isSeenFrom(int type) {
     return type == 2;
   }
 
-  static public boolean isAuthorityTag(int type) {
+  /**
+   * Checks if is authority tag.
+   *
+   * @param type the type
+   * @return true, if is authority tag
+   */
+  public static boolean isAuthorityTag(int type) {
     return type == 2 || type == 4 || type == 5;
   }
 
-  static public int getReciprocal(int type) {
+  /**
+   * Gets the reciprocal reference types
+   *
+   * @param type the type
+   * @return the reciprocal
+   */
+  public static int getReciprocal(int type) {
     switch (type) {
       case 1:
         return 2;
@@ -49,7 +87,6 @@ public class ReferenceType extends T_SINGLE {
         return 4;
       case 4:
         return 3;
-      //Aggiunto per le REF: BT e NT
       case 6:
         return 7;
       case 7:

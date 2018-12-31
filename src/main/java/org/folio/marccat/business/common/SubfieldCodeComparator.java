@@ -1,7 +1,3 @@
-/*
- * Created on Sep 3, 2004
- *
- */
 package org.folio.marccat.business.common;
 
 import java.util.Comparator;
@@ -9,14 +5,10 @@ import java.util.Comparator;
 /**
  * Class comment
  *
- * @author janick
+ * @author paulm
  */
 public class SubfieldCodeComparator implements Comparator {
 
-
-  /**
-   *
-   */
   public SubfieldCodeComparator() {
     super();
   }

@@ -62,8 +62,10 @@ public class RecordParser {
           rtm = new RecordTypeMaterialDAO().getMaterialHeaderCode(session, bibliographicLeader.getItemRecordTypeCode(), bibliographicLeader.getItemBibliographicLevelCode());
           materialTag.setFormOfMaterial(ofNullable(rtm).map(material -> rtm.getAmicusMaterialTypeCode()).orElse(" "));
           materialTag.setCorrelationValues(new CorrelationValues(rtm.getBibHeader008(), CorrelationValues.UNDEFINED, CorrelationValues.UNDEFINED));
-          catalog.toMaterialDescription(field.getFixedField(), materialTag);
-          materialTag.markChanged();
+          if (field.getFieldStatus() == Field.FieldStatus.CHANGED){
+            catalog.toMaterialDescription(field.getFixedField(), materialTag);
+            materialTag.markChanged();
+          }
 
         } catch (HibernateException e) {
           //ignore
@@ -165,6 +167,24 @@ public class RecordParser {
     } else if (field.getFixedField().getKeyNumber() == null && field.getFieldStatus() == Field.FieldStatus.NEW) {
       addMaterialDescriptionToCatalog(Global.OTHER_MATERIAL_TAG_CODE, item, field.getFixedField(), generalInformation, formOfMaterial);
     }
+  }
+
+  @SuppressWarnings("unchecked")
+  private boolean checkIfAlreadyExistNote(final int headingNbr, CatalogItem item, final Class clazz) {
+    return item.getTags().stream().filter(aTag -> clazz.isAssignableFrom(aTag.getClass()))
+      .anyMatch(t -> {
+        BibliographicNoteTag noteTag = (BibliographicNoteTag) t;
+        return noteTag.getNote().getNoteNbr() == headingNbr;
+      });
+  }
+
+  @SuppressWarnings("unchecked")
+  private boolean checkIfAlreadyExist(final int headingNbr, CatalogItem item, final Class clazz) {
+    return item.getTags().stream().filter(aTag -> clazz.isAssignableFrom(aTag.getClass()))
+      .anyMatch(t -> {
+        AccessPoint apf = (AccessPoint) t;
+        return apf.getHeadingNumber() == headingNbr;
+      });
   }
 
   /**
@@ -401,17 +421,23 @@ public class RecordParser {
                                      final int view) throws DataAccessException {
 
     if (variableField.getCategoryCode() == Global.TITLE_CATEGORY) {
-      addTitleToCatalog(item, correlationValues, variableField, bibItemNumber);
+      if (!checkIfAlreadyExist(variableField.getKeyNumber(), item, TitleAccessPoint.class))
+        addTitleToCatalog(item, correlationValues, variableField, bibItemNumber);
     } else if (variableField.getCategoryCode() == Global.NAME_CATEGORY) {
-      addNameToCatalog(item, correlationValues, variableField, bibItemNumber);
+      if (!checkIfAlreadyExist(variableField.getKeyNumber(), item, NameAccessPoint.class))
+        addNameToCatalog(item, correlationValues, variableField, bibItemNumber);
     } else if (variableField.getCategoryCode() == Global.CONTROL_NUMBER_CATEGORY) {
-      addControlFieldToCatalog(item, correlationValues, variableField, bibItemNumber);
+      if (!checkIfAlreadyExist(variableField.getKeyNumber(), item, ControlNumberAccessPoint.class))
+        addControlFieldToCatalog(item, correlationValues, variableField, bibItemNumber);
     } else if (variableField.getCategoryCode() == Global.CLASSIFICATION_CATEGORY) {
-      addClassificationToCatalog(item, correlationValues, variableField, bibItemNumber);
+      if (!checkIfAlreadyExist(variableField.getKeyNumber(), item, ClassificationAccessPoint.class))
+        addClassificationToCatalog(item, correlationValues, variableField, bibItemNumber);
     } else if (variableField.getCategoryCode() == Global.SUBJECT_CATEGORY) {
-      addSubjectToCatalog(item, correlationValues, variableField, bibItemNumber);
+      if (!checkIfAlreadyExist(variableField.getKeyNumber(), item, SubjectAccessPoint.class))
+        addSubjectToCatalog(item, correlationValues, variableField, bibItemNumber);
     } else if (variableField.getCategoryCode() == Global.BIB_NOTE_CATEGORY && correlationValues.getValue(1) != Global.PUBLISHER_DEFAULT_NOTE_TYPE) {
-      addNoteToCatalog(item, correlationValues, variableField, bibItemNumber);
+      if (!checkIfAlreadyExistNote(variableField.getKeyNumber(), item, BibliographicNoteTag.class))
+        addNoteToCatalog(item, correlationValues, variableField, bibItemNumber);
     } else if (variableField.getCategoryCode() == Global.BIB_NOTE_CATEGORY && correlationValues.getValue(1) == Global.PUBLISHER_DEFAULT_NOTE_TYPE) {
 
       try {
@@ -437,13 +463,25 @@ public class RecordParser {
                                      final int view,
                                      final Session session) throws DataAccessException, HibernateException, SQLException {
 
+    boolean exist = item.getTags().stream()
+      .filter(aTag -> PublisherManager.class.isAssignableFrom(aTag.getClass()))
+      .anyMatch(t -> {
+        PublisherManager pm = (PublisherManager) t;
+        PublisherAccessPoint apf = pm.getApf();
+        int pTagNumber = apf.getDescriptor().getKey().getHeadingNumber();
+        return pTagNumber == variableField.getKeyNumber();
+      });
+
+    if (exist)
+      return;
+
     final PublisherManager publisherManager = catalog.createPublisherTag(item, correlationValues);
     publisherManager.setUserViewString(View.makeSingleViewString(view));
 
     PUBL_TAG ptag = new PUBL_TAG();
     Descriptor descriptorNew = ptag.getDescriptorDAO().findOrCreateMyView(variableField.getKeyNumber(), View.makeSingleViewString(item.getUserView()), view, session);
     ptag.setDescriptor((PUBL_HDG) descriptorNew);
-    ptag.setPublisherHeadingNumber(new Integer(ptag.getDescriptor().getKey().getHeadingNumber()));
+    ptag.setPublisherHeadingNumber(ptag.getDescriptor().getKey().getHeadingNumber());
     ptag.setUserViewString(View.makeSingleViewString(view));
     ptag.markNew();
     StringText st = new StringText(variableField.getValue());

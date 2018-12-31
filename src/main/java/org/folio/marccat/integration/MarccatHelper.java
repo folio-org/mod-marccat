@@ -26,7 +26,7 @@ import static org.folio.marccat.config.Global.HCONFIGURATION;
  * @since 1.0
  */
 public abstract class MarccatHelper {
-  private final static Properties DEFAULT_VALUES = new Properties();
+  private static final Properties DEFAULT_VALUES = new Properties();
   private final static Map<String, DataSource> DATASOURCES = new HashMap<>();
 
   static {

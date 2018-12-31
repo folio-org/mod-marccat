@@ -3,8 +3,10 @@ package org.folio.marccat.resources.domain;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
 import javax.annotation.Generated;
+import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Heading Decorator
@@ -12,7 +14,7 @@ import javax.annotation.Generated;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({"headingNumber", "stringText", "countNameTitle", "countAuthorities", "countDocuments"})
+@JsonPropertyOrder({"headingNumber", "stringText", "countNameTitle", "countAuthorities", "countDocuments", "crossReferences"})
 public class HeadingDecorator {
 
   @JsonProperty("headingNumber")
@@ -32,6 +34,10 @@ public class HeadingDecorator {
 
   @JsonProperty("accessPointlanguage")
   private String accessPointlanguage;
+
+  @JsonProperty("crossReferences")
+  @Valid
+   private List<Ref> crossReferences = new ArrayList<Ref>();
 
 
   /**
@@ -160,5 +166,20 @@ public class HeadingDecorator {
     return this;
   }
 
+  /**
+   * @return The cross references
+   */
+  @JsonProperty("crossReferences")
+  public List<Ref> getCrossReferences() {
+    return crossReferences;
+  }
+
+  /**
+   * @param crossReferences The cross references
+   */
+  @JsonProperty("crossReferences")
+  public void setCrossReferences(List<Ref> crossReferences) {
+    this.crossReferences = crossReferences;
+  }
 
 }

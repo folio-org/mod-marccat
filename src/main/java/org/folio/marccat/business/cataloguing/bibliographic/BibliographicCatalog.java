@@ -196,19 +196,15 @@ public class BibliographicCatalog extends Catalog {
   }
 
   public ClassificationAccessPoint createClassificationAccessPoint(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-    final ClassificationAccessPoint clap =
-      (ClassificationAccessPoint) getNewTag(item,
-        Global.CLASSIFICATION_CATEGORY,
-        correlationValues);
-    return clap;
+    return (ClassificationAccessPoint) getNewTag(item,
+      Global.CLASSIFICATION_CATEGORY,
+      correlationValues);
   }
 
   public ControlNumberAccessPoint createControlNumberAccessPoint(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-    final ControlNumberAccessPoint cnap =
-      (ControlNumberAccessPoint) getNewTag(item,
-        Global.CONTROL_NUMBER_CATEGORY,
-        correlationValues);
-    return cnap;
+    return (ControlNumberAccessPoint) getNewTag(item,
+      Global.CONTROL_NUMBER_CATEGORY,
+      correlationValues);
   }
 
   public NameAccessPoint createNameAccessPointTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
@@ -220,19 +216,15 @@ public class BibliographicCatalog extends Catalog {
   }
 
   public TitleAccessPoint createTitleAccessPointTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-    final TitleAccessPoint tap =
-      (TitleAccessPoint) getNewTag(item,
-        Global.TITLE_CATEGORY,
-        correlationValues);
-    return tap;
+    return (TitleAccessPoint) getNewTag(item,
+      Global.TITLE_CATEGORY,
+      correlationValues);
   }
 
   public PublisherManager createPublisherTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-    final PublisherManager pap =
-      (PublisherManager) getNewTag(item,
-        Global.PUBLISHER_CATEGORY,
-        correlationValues);
-    return pap;
+    return (PublisherManager) getNewTag(item,
+      Global.PUBLISHER_CATEGORY,
+      correlationValues);
   }
 
   /**

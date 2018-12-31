@@ -1,16 +1,20 @@
-/*
- * (c) LibriCore
- *
- * Created on Aug 5, 2004
- *
- * NameFunction.java
- */
 package org.folio.marccat.dao.persistence;
 
 /**
+ * The Class NameFunction.
+ *
  * @author paulm
- * @version %I%, %G%
  */
 public class NameFunction extends T_SINGLE {
+
+  /**
+   * Checks if is main entry.
+   *
+   * @param code the code
+   * @return true, if is main entry
+   */
+  public static boolean isMainEntry(int code) {
+    return code == 2 || code == 16;
+  }
 
 }

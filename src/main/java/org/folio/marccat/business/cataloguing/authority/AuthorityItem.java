@@ -75,6 +75,13 @@ public class AuthorityItem extends CatalogItem {
   /**
    * @since 1.0
    */
+  public void setModelItem(ModelItem modelItem) {
+    this.modelItem = modelItem;
+  }
+
+  /**
+   * @since 1.0
+   */
   public void setModelItem(Model model) {
     this.modelItem = new AuthorityModelItem();
     this.modelItem.markNew();
@@ -82,13 +89,6 @@ public class AuthorityItem extends CatalogItem {
     this.modelItem.setModel(model);
     this.modelItem.setRecordFields(
       model.getRecordFields());
-  }
-
-  /**
-   * @since 1.0
-   */
-  public void setModelItem(ModelItem modelItem) {
-    this.modelItem = modelItem;
   }
 
   /* (non-Javadoc)

@@ -28,6 +28,7 @@ public class BrowseAPI extends BaseResource {
     heading.setCountDocuments(source.getCountDocuments());
     heading.setCountTitleNameDocuments(source.getCountTitleNameDocuments());
     heading.setAccessPointlanguage(source.getAccessPointlanguage());
+    heading.setCrossReferences(source.getCrossReferences());
     return heading;
   };
 
