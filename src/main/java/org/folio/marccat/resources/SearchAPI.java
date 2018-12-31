@@ -86,7 +86,7 @@ public class SearchAPI extends BaseResource {
        SearchResponse response = searchEngine.fetchRecords(
           (sortAttributes != null && sortOrders != null && sortAttributes.length == sortOrders.length)
             ? searchEngine.sort(searchEngine.expertSearch(qauth, locale(lang), View.AUTHORITY), sortAttributes, sortOrders)
-            : searchEngine.expertSearch(qauth, locale(lang), View.AUTHORITY),
+            : searchEngine.expertSearch(qauth, locale(lang), View.AUTHORITY, from, to, sortAttributes, sortOrders),
           "F",
           from,
           to);
@@ -108,7 +108,7 @@ public class SearchAPI extends BaseResource {
       SearchResponse response = searchEngine.fetchRecords(
         (sortAttributes != null && sortOrders != null && sortAttributes.length == sortOrders.length)
           ? searchEngine.sort(searchEngine.expertSearch(qbib, locale(lang), View.DEFAULT_BIBLIOGRAPHIC_VIEW), sortAttributes, sortOrders)
-          : searchEngine.expertSearch(qbib, locale(lang), View.DEFAULT_BIBLIOGRAPHIC_VIEW),
+          : searchEngine.expertSearch(qbib, locale(lang), View.DEFAULT_BIBLIOGRAPHIC_VIEW, from, to, sortAttributes, sortOrders),
         "F",
         from,
         to);
