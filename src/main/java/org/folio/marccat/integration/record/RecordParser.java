@@ -62,8 +62,10 @@ public class RecordParser {
           rtm = new RecordTypeMaterialDAO().getMaterialHeaderCode(session, bibliographicLeader.getItemRecordTypeCode(), bibliographicLeader.getItemBibliographicLevelCode());
           materialTag.setFormOfMaterial(ofNullable(rtm).map(material -> rtm.getAmicusMaterialTypeCode()).orElse(" "));
           materialTag.setCorrelationValues(new CorrelationValues(rtm.getBibHeader008(), CorrelationValues.UNDEFINED, CorrelationValues.UNDEFINED));
-          catalog.toMaterialDescription(field.getFixedField(), materialTag);
-          materialTag.markChanged();
+          if (field.getFieldStatus() == Field.FieldStatus.CHANGED){
+            catalog.toMaterialDescription(field.getFixedField(), materialTag);
+            materialTag.markChanged();
+          }
 
         } catch (HibernateException e) {
           //ignore

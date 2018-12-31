@@ -1329,13 +1329,13 @@ public class StorageService implements Closeable {
       final String tagNbr = field.getCode();
       final Field.FieldStatus status = field.getFieldStatus();
 
+      if (tagNbr.equals(Global.MATERIAL_TAG_CODE) && status == Field.FieldStatus.CHANGED || status == Field.FieldStatus.UNCHANGED) {
+        recordParser.changeMaterialDescriptionTag(item, field, session);
+      }
+
       if (status == Field.FieldStatus.NEW
         || status == Field.FieldStatus.DELETED
         || status == Field.FieldStatus.CHANGED) {
-
-        if (tagNbr.equals(Global.MATERIAL_TAG_CODE) && status == Field.FieldStatus.CHANGED) {
-          recordParser.changeMaterialDescriptionTag(item, field, session);
-        }
 
         if (tagNbr.equals(Global.OTHER_MATERIAL_TAG_CODE)) {
           final Map<String, Object> mapRecordTypeMaterial = getMaterialTypeInfosByLeaderValues(newLeader.charAt(6), newLeader.charAt(7), tagNbr);

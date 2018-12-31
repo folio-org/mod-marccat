@@ -8,8 +8,6 @@ import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
-import java.util.List;
-
 /**
  * Persistent class for NME_ACS_PNT.
  *
@@ -20,18 +18,40 @@ import java.util.List;
 
 @SuppressWarnings("unchecked")
 public class NameAccessPoint extends NameTitleComponent implements OrderedTag {
+
+  /** The Constant serialVersionUID. */
   private static final long serialVersionUID = 4936157294497482982L;
+
+  /** The work relator code. */
   private String workRelatorCode;
+
+  /** The institution. */
   private String institution;
+
+  /** The work relator stringtext. */
   private String workRelatorStringtext;
+
+  /** The other subfields. */
   private String otherSubfields;
+
+  /** The sequence number. */
   private Integer sequenceNumber;
+
+  /** The descriptor. */
   private NME_HDG descriptor = new NME_HDG();
 
+  /**
+   * Instantiates a new name access point.
+   */
   public NameAccessPoint() {
     super();
   }
 
+  /**
+   * Instantiates a new name access point.
+   *
+   * @param itemNbr the item nbr
+   */
   public NameAccessPoint(final int itemNbr) {
     super(itemNbr);
   }
@@ -133,6 +153,7 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag {
    * @param obj -- the object to compare.
    * @return true if equals.
    */
+  @Override
   public boolean equals(final Object obj) {
     if (!(obj instanceof NameAccessPoint))
       return false;
@@ -142,6 +163,12 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag {
       && (other.nameTitleHeadingNumber == this.nameTitleHeadingNumber);
   }
 
+  /**
+   * Hash code.
+   *
+   * @return the int
+   */
+  @Override
   public int hashCode() {
     return this.getItemNumber() + this.getNameTitleHeadingNumber();
   }
@@ -170,6 +197,7 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag {
    * @param v -- the correlation values.
    * @return boolean.
    */
+  @Override
   public boolean correlationChangeAffectsKey(final CorrelationValues v) {
     return (v.isValueDefined(3) && (v.getValue(3) != getFunctionCode()));
   }
@@ -179,6 +207,7 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag {
    *
    * @return "editName".
    */
+  @Override
   public String getRequiredEditPermission() {
     return Global.NAME_REQUIRED_PERMISSION;
   }
@@ -207,6 +236,7 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag {
    *
    * @return category.
    */
+  @Override
   public int getCategory() {
     return Global.NAME_CATEGORY;
   }
@@ -271,39 +301,12 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag {
       return getMarcEncoding().getMarcTag() + "." + getCorrelation(2);
   }
 
-  //TODO: move in storageService and add session
-  @Deprecated
-  public List replaceEquivalentDescriptor(short indexingLanguage, int cataloguingView) throws DataAccessException {
-		/* DAODescriptor dao = new DAONameDescriptor();
-		List newTags = new ArrayList();
-		Descriptor d = getDescriptor();
-		REF ref = dao.getCrossReferencesWithLanguage(d, cataloguingView, indexingLanguage);
-	    if (ref!=null) {
-			AccessPoint aTag =	(AccessPoint) deepCopy(this);
-			aTag.markNew();
-			aTag.setDescriptor(dao.load(ref.getTarget(),cataloguingView));
-			aTag.setHeadingNumber(new Integer(aTag.getDescriptor().getKey().getHeadingNumber()));
-			newTags.add(aTag);
-		}
-	    return newTags; */
-
-    return null;
-  }
-
-  //TODO move in storageService (as was: called in constructor) use configuration module to set function code
-  public void setDefaultSourceCode() {
-		/*
-		short functionCode=0;
-		functionCode= new Short(configHandler.findValue("t_nme_fnctn","nameAccessPoint.functionCode"));
-		setFunctionCode(functionCode);
-		*/
-  }
-
   /**
    * Gets stringText for visualization mode with sub-field codes.
    *
    * @return stringText.
    */
+  @Override
   public StringText getStringText() {
     final StringText result = new StringText();
     result.add(getAccessPointStringText().getSubfieldsWithCodes("i"));
@@ -313,4 +316,35 @@ public class NameAccessPoint extends NameTitleComponent implements OrderedTag {
     result.add(getAccessPointStringText().getSubfieldsWithoutCodes("i"));
     return result;
   }
+
+  /**
+   * Adds the punctuation.
+   *
+   * @return the string text
+   * @throws Exception the exception
+   */
+  @Override
+  public StringText addPunctuation() {
+    final StringText result = new StringText(getStringText().toString());
+    try {
+      final NME_HDG nme = (NME_HDG) getDescriptor();
+      final NameType type = new NameType();
+      type.setCode(nme.getTypeCode());
+      if (!type.isCorporate() && !type.isConference()) {
+        result.addPrecedingPunctuation("d", ",", ",");
+      }
+      if (!type.isConference()) {
+        result.addPrecedingPunctuation("e", ",", ",");
+      }
+      result.removePrecedingPunctuation("4", ",");
+      if (!NameFunction.isMainEntry(getCorrelation(3))) {
+        result.addPrecedingPunctuation("x", ",", ",");
+      }
+      result.addTerminalPunctuation("245", ".?!)-", ".");
+      return result;
+    } catch (Exception e) {
+      return result;
+    }
+  }
+
 }
