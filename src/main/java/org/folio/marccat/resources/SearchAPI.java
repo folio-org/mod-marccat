@@ -7,7 +7,8 @@ import org.folio.marccat.search.SearchEngineFactory;
 import org.folio.marccat.search.SearchResponse;
 import org.folio.marccat.search.engine.SearchEngine;
 import org.springframework.web.bind.annotation.*;
-
+import org.folio.marccat.integration.StorageService;
+import java.util.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,29 +33,29 @@ public class SearchAPI extends BaseResource {
     @RequestParam(name = "from", defaultValue = "1") final int from,
     @RequestParam(name = "to", defaultValue = "10") final int to,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
-    @RequestParam(name = "ml", defaultValue = "170") final int mainLibraryId,
+    @RequestParam("ml") final int mainLibraryId,
     @RequestParam(name = "dpo", defaultValue = "1") final int databasePreferenceOrder,
     @RequestParam(name = "sortBy", required = false) final String[] sortAttributes,
     @RequestParam(name = "sortOrder", required = false) final String[] sortOrders) {
-    return doGet((storageService, configuration) -> {
+    return doGet((StorageService storageService, Map <String, String> configuration) -> {
       final SearchEngine searchEngine =
         SearchEngineFactory.create(
           SearchEngineFactory.EngineType.LIGHTWEIGHT,
           mainLibraryId,
           databasePreferenceOrder,
           storageService);
-      SearchResponse response = searchEngine.fetchRecords(
-        (sortAttributes != null && sortOrders != null && sortAttributes.length == sortOrders.length)
-          ? searchEngine.sort(searchEngine.expertSearch(q, locale(lang), view), sortAttributes, sortOrders)
-          : searchEngine.expertSearch(q, locale(lang), view),
+      SearchResponse response;
+
+      response = searchEngine.fetchRecords(
+        searchEngine.expertSearch(q, locale(lang), view, from, to, sortAttributes, sortOrders),
         "F",
-        from,
-        to);
+        1,
+        ((to - from) + 1));
+
       final int AUTHORITY_VIEW = -1;
       if (view == AUTHORITY_VIEW) {
         searchEngine.injectDocCount(response, storageService);
       }
-      searchEngine.injectTagHighlight(response, storageService, locale(lang));
       return response;
     }, tenant, configurator);
   }
@@ -82,13 +83,14 @@ public class SearchAPI extends BaseResource {
             databasePreferenceOrder,
             storageService);
 
-        SearchResponse response = searchEngine.fetchRecords(
+       SearchResponse response = searchEngine.fetchRecords(
           (sortAttributes != null && sortOrders != null && sortAttributes.length == sortOrders.length)
             ? searchEngine.sort(searchEngine.expertSearch(qauth, locale(lang), View.AUTHORITY), sortAttributes, sortOrders)
             : searchEngine.expertSearch(qauth, locale(lang), View.AUTHORITY),
           "F",
           from,
           to);
+
 
         searchEngine.injectDocCount(response, storageService);
         searchEngine.injectTagHighlight(response, storageService, locale(lang));
@@ -127,7 +129,7 @@ public class SearchAPI extends BaseResource {
     @RequestParam(name = "from", defaultValue = "1") final int from,
     @RequestParam(name = "to", defaultValue = "10") final int to,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
-    @RequestParam(name = "ml", defaultValue = "170") final int mainLibraryId,
+    @RequestParam("ml") final int mainLibraryId,
     @RequestParam(name = "dpo", defaultValue = "1") final int databasePreferenceOrder,
     @RequestParam(name = "sortBy", required = false) final String[] sortAttributes,
     @RequestParam(name = "sortOrder", required = false) final String[] sortOrders) {
@@ -144,8 +146,8 @@ public class SearchAPI extends BaseResource {
           ? searchEngine.sort(searchEngine.expertSearch(q, locale(lang), view), sortAttributes, sortOrders)
           : searchEngine.expertSearch(q, locale(lang), view),
         "F",
-        from,
-        to);
+        1,
+        ((to - from) + 1));
     }, tenant, configurator);
   }
 
