@@ -83,13 +83,19 @@ public class SearchAPI extends BaseResource {
             databasePreferenceOrder,
             storageService);
 
-       SearchResponse response = searchEngine.fetchRecords(
+      /* SearchResponse response = searchEngine.fetchRecords(
           (sortAttributes != null && sortOrders != null && sortAttributes.length == sortOrders.length)
             ? searchEngine.sort(searchEngine.expertSearch(qauth, locale(lang), View.AUTHORITY), sortAttributes, sortOrders)
             : searchEngine.expertSearch(qauth, locale(lang), View.AUTHORITY, from, to, sortAttributes, sortOrders),
           "F",
           from,
-          to);
+          to);*/
+        SearchResponse  response = searchEngine.fetchRecords(
+          searchEngine.expertSearch(qauth, locale(lang), View.AUTHORITY, from, to, sortAttributes, sortOrders),
+          "F",
+          1,
+          ((to - from) + 1));
+
 
 
         searchEngine.injectDocCount(response, storageService);
@@ -105,13 +111,20 @@ public class SearchAPI extends BaseResource {
           databasePreferenceOrder,
           storageService);
 
-      SearchResponse response = searchEngine.fetchRecords(
+     /* SearchResponse response = searchEngine.fetchRecords(
         (sortAttributes != null && sortOrders != null && sortAttributes.length == sortOrders.length)
           ? searchEngine.sort(searchEngine.expertSearch(qbib, locale(lang), View.DEFAULT_BIBLIOGRAPHIC_VIEW), sortAttributes, sortOrders)
           : searchEngine.expertSearch(qbib, locale(lang), View.DEFAULT_BIBLIOGRAPHIC_VIEW, from, to, sortAttributes, sortOrders),
         "F",
         from,
-        to);
+        to);*/
+
+      SearchResponse  response = searchEngine.fetchRecords(
+        searchEngine.expertSearch(qbib, locale(lang), View.DEFAULT_BIBLIOGRAPHIC_VIEW, from, to, sortAttributes, sortOrders),
+        "F",
+        1,
+        ((to - from) + 1));
+
       searchEngine.injectTagHighlight(response, storageService, locale(lang));
       return response;
     }, tenant, configurator);
@@ -141,10 +154,15 @@ public class SearchAPI extends BaseResource {
           databasePreferenceOrder,
           storageService);
 
-      return searchEngine.fetchRecords(
+     /* return searchEngine.fetchRecords(
         (sortAttributes != null && sortOrders != null && sortAttributes.length == sortOrders.length)
           ? searchEngine.sort(searchEngine.expertSearch(q, locale(lang), view), sortAttributes, sortOrders)
           : searchEngine.expertSearch(q, locale(lang), view),
+        "F",
+        1,
+        ((to - from) + 1));*/
+      return searchEngine.fetchRecords(
+        searchEngine.expertSearch(q, locale(lang), view, from, to, sortAttributes, sortOrders),
         "F",
         1,
         ((to - from) + 1));
