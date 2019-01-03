@@ -1,6 +1,6 @@
 FROM folioci/openjdk8-jre:latest
 
-ENV VERTICLE_FILE mod-marccat-fat.jar
+ENV VERTICLE_FILE mod-marccat-1.1.0.jar
 
 # Set the location of the verticles
 ENV VERTICLE_HOME /usr/verticles
