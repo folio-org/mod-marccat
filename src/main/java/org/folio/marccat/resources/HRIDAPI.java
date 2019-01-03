@@ -23,14 +23,14 @@ public class HRIDAPI extends BaseResource {
   public ResponseEntity<Object> getHRID(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return new ResponseEntity<>(null, HttpStatus.OK);
+    return new ResponseEntity<>(Global.EMPTY_STRING, HttpStatus.OK);
   }
 
   @PostMapping("/hrid")
   public ResponseEntity<Object> createHRID(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return new ResponseEntity<>(null, HttpStatus.OK);
+    return new ResponseEntity<>(Global.EMPTY_STRING, HttpStatus.OK);
   }
 
   @PutMapping("/hrid/{id}")
@@ -38,7 +38,7 @@ public class HRIDAPI extends BaseResource {
     @PathVariable final Integer id,
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return new ResponseEntity<>(null, HttpStatus.OK);
+    return new ResponseEntity<>(Global.EMPTY_STRING, HttpStatus.OK);
   }
 
   @DeleteMapping("/hrid/{id}")
@@ -46,6 +46,6 @@ public class HRIDAPI extends BaseResource {
     @PathVariable final Integer id,
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return new ResponseEntity<>(null, HttpStatus.OK);
+    return new ResponseEntity<>(Global.EMPTY_STRING, HttpStatus.OK);
   }
 }
