@@ -9,4 +9,5 @@ buildMvn {
       publishMaster = 'yes'
       healthChk = 'no'
   }
+ }
 }
