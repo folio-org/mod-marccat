@@ -125,7 +125,9 @@ public class ConversionFieldUtils {
       fixedField.setMusicTextualMaterialCode6(String.valueOf(displayValue.charAt(startPosition + 11)));
       fixedField.setMusicLiteraryTextCode1(String.valueOf(displayValue.charAt(startPosition + 12)));
       fixedField.setMusicLiteraryTextCode2(String.valueOf(displayValue.charAt(startPosition + 13)));
-      fixedField.setMusicTranspositionArrangementCode(String.valueOf(displayValue.charAt(startPosition + 15)));
+      if(displayValue.length() > startPosition + 15) {
+        fixedField.setMusicTranspositionArrangementCode(String.valueOf(displayValue.charAt(startPosition + 15)));
+      }
       fixedField.setMaterialType(FixedField.MaterialType.MUSIC);
     } else if (gi.isVisualMaterial()) {
       fixedField.setVisualRunningTime(displayValue.substring(startPosition, startPosition + 3));

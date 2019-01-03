@@ -1,18 +1,9 @@
-/*
- * (c) LibriCore
- *
- * Created on Jul 20, 2004
- *
- * CodeTableCharListElement.java
- */
 package org.folio.marccat.business.codetable;
 
 /**
  * Holds a single entry for IDX_LIST lists
  *
  * @author paulm
- * @version %I%, %G%
- * @since 1.0
  */
 public class IndexListElement {
   private String value;

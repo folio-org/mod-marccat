@@ -5,11 +5,9 @@ import org.folio.marccat.business.cataloguing.common.OrderedTag;
 import org.folio.marccat.config.Global;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.DAONameTitleAccessPoint;
-import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
-
-import java.util.List;
 
 /**
  * Persistent class to manage name-title heading.
@@ -20,27 +18,39 @@ import java.util.List;
  */
 public class NameTitleAccessPoint extends NameTitleComponent implements OrderedTag {
 
+  /** The Constant daoNameTitleAccessPoint. */
   private static final DAONameTitleAccessPoint daoNameTitleAccessPoint = new DAONameTitleAccessPoint();
+
+  /** The descriptor. */
   private NME_TTL_HDG descriptor = new NME_TTL_HDG();
+
+  /** The institution. */
   private String institution;
+
+  /** The secondary function code. */
   private int secondaryFunctionCode;
+
+  /** The series issn heading number. */
   private String seriesIssnHeadingNumber;
+
+  /** The volume number description. */
   private String volumeNumberDescription;
+
+  /** The sequence number. */
   private Integer sequenceNumber;
 
+  /**
+   * Instantiates a new name title access point.
+   */
   public NameTitleAccessPoint() {
     super();
-    //setDefaultFunctionCode();
-    //setSecondaryFunctionCode(new Short(Defaults.getShort("nameTitleAccessPoint.secondaryFunctionCode")));
   }
 
-  //TODO: set functionCode/secondaryFunctionCode using configuration module
-  public NameTitleAccessPoint(final int functionCode, final int secondaryFunctionCode) {
-    super();
-    setFunctionCode(functionCode);
-    this.secondaryFunctionCode = secondaryFunctionCode;
-  }
-
+  /**
+   * Instantiates a new name title access point.
+   *
+   * @param itemNbr the item nbr
+   */
   public NameTitleAccessPoint(final int itemNbr) {
     super(itemNbr);
   }
@@ -87,9 +97,6 @@ public class NameTitleAccessPoint extends NameTitleComponent implements OrderedT
   public void setCorrelationValues(final CorrelationValues v) {
     setFunctionCode(v.getValue(1));
     CorrelationValues v2 = new CorrelationValues(v.getValue(2), v.getValue(3), CorrelationValues.UNDEFINED);
-		/*v = v.change(1, v.getValue(2));
-		v = v.change(2, v.getValue(3));
-		v = v.change(3, CorrelationValues.UNDEFINED);*/
     getDescriptor().setCorrelationValues(v2);
   }
 
@@ -177,6 +184,7 @@ public class NameTitleAccessPoint extends NameTitleComponent implements OrderedT
   /**
    * Gets volume number description associated to title access point.
    *
+   * @param volume the new volume number description
    * @return volumeNumberDescription.
    */
   public void setVolumeNumberDescription(final String volume) {
@@ -193,12 +201,20 @@ public class NameTitleAccessPoint extends NameTitleComponent implements OrderedT
   }
 
   /**
+   * Gets the dao.
+   *
    * @return the associated dao.
    */
   public AbstractDAO getDAO() {
     return daoNameTitleAccessPoint;
   }
 
+  /**
+   * Gets the variant codes.
+   *
+   * @return the variant codes
+   */
+  @Override
   public String getVariantCodes() {
     return Global.NAME_TITLE_VARIANT_CODES;
   }
@@ -222,34 +238,53 @@ public class NameTitleAccessPoint extends NameTitleComponent implements OrderedT
     super.setSequenceNumber(sequenceNumber);
   }
 
-  //TODO: move in storageService and add session
-  @Deprecated
-  public List replaceEquivalentDescriptor(short indexingLanguage,
-                                          int cataloguingView) throws DataAccessException {
-		/*DAODescriptor dao = new DAONameTitleDescriptor();
-		List newTags = new ArrayList();
-		Descriptor d = getDescriptor();
-		REF ref = dao.getCrossReferencesWithLanguage(d, cataloguingView,
-				indexingLanguage);
-		if (ref!=null) {
-			AccessPoint aTag = (AccessPoint) deepCopy(this);
-			aTag.markNew();
-			aTag.setDescriptor(dao.load(ref.getTarget(), cataloguingView));
-			aTag.setHeadingNumber(new Integer(aTag.getDescriptor().getKey()
-					.getHeadingNumber()));
-			newTags.add(aTag);
-		}
-		return newTags;*/
-    return null;
+
+
+  /**
+   * Adds the punctuation.
+   *
+   * @return the string text
+   * @throws Exception the exception
+   */
+  @Override
+   public StringText addPunctuation() throws Exception {
+    final StringText result = new StringText(getStringText().toString());
+    try {
+      final CorrelationKey marc = getMarcEncoding();
+
+      if (Global.NAMES_D.contains(marc.getMarcTag())) {
+        result.addPrecedingPunctuation("d", ",", ",");
+      }
+      if (Global.NAMES_E.contains(marc.getMarcTag())) {
+        result.addPrecedingPunctuation("e", ",", ",");
+      }
+      result.removePrecedingPunctuation("4", ",");
+      if (Global.NAMES_X.contains(marc.getMarcTag())) {
+        result.addPrecedingPunctuation("x", ",", ",");
+      }
+      if (Global.NAMES_V.contains(marc.getMarcTag())) {
+        result.addPrecedingPunctuation("v", " :", null);
+      }
+      if (Global.NAMES_245.contains(marc.getMarcTag())) {
+        result.addTerminalPunctuation("245", Global.TERMINAL_PUNCTUATION, ".");
+      }
+      boolean found = result.addTerminalPunctuation("4", Global.OTHER_TERMINAL_PUNCTUATION, ".");
+      if (!found) {
+        if (Global.NAMES.contains(marc.getMarcTag())) {
+          Subfield last = result.getSubfield(result.getNumberOfSubfields() - 1);
+          if (!Global.TERMINAL_PUNCTUATION.contains("" + last.getContent().charAt(last.getContentLength() - 1))) {
+            last.setContent(last.getContent() + ".");
+          }
+        } else {
+          result.addPrecedingPunctuation("t",Global.TERMINAL_PUNCTUATION, ".");
+        }
+      }
+      return result;
+    } catch (Exception e) {
+      return result;
+    }
   }
 
-  //TODO move in storageService (as was: called in constructor) use configuration module to set function code
-  public void setDefaultFunctionCode() {
-		/*short functionCode=0;
-		functionCode= new Short(configHandler.findValue("t_nme_ttl_fnctn","nameTitleAccessPoint.functionCode"));
-		setFunctionCode(functionCode);*/
-
-  }
 
 
 }

@@ -29,7 +29,7 @@ public interface CatalogingInformation {
    * @param lang           the lang associated with the current request.
    * @return a fixed-field containing all selected values.
    */
-  public static FixedField getFixedField(final StorageService storageService,
+   static FixedField getFixedField(final StorageService storageService,
                                    final int headerTypeCode,
                                    final String code,
                                    final String leader,

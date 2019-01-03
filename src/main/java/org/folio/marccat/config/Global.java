@@ -159,6 +159,10 @@ public abstract class Global {
   public static final String NAME_TITLE_VARIANT_CODES = "3v5";
   public static final Map<String, Class> MAP_CODE_LISTS = new HashMap<String, Class>() {
     {
+      put("BOOK_MATERIAL_CODE", T_BOOK_TYP_CDE.class);
+      put("MUSIC_MATERIAL_CODE", T_MSC_TYP_CDE.class);
+      put("MAP_MATERIAL_CODE", T_CRTGC_TYP_CDE.class);
+      put("VM_MATERIAL_CODE", T_VSL_TYP_CDE.class);
       put("DATE_TYPE", T_ITM_DTE_TYP.class);
       put("MODIFIED_RECORD_TYPE", T_REC_MDFTN.class);
       put("CATALOGUING_SOURCE", T_REC_CTLGG_SRC.class);
@@ -450,4 +454,32 @@ public abstract class Global {
   public static final String COMPUTER_TYPE = "cf";
 
   public static final int CONTROL_FIELD_CATEGORY_CODE = 1;
+
+  public static final char BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC = 'S';
+
+  public static final List<String> NAMES =  new ArrayList<>(Arrays.asList("100", "110", "111"	));
+
+  public static final List<String> NAMES_D = new ArrayList<>(Arrays.asList("110", "111", "710", "711"));
+
+  public static final List<String> NAMES_E = new ArrayList<>(Arrays.asList("100", "110", "120", "121", "240", "243", "400", "410", "600", "610", "700", "710", "720", "721", "800", "810", "900", "910", "980", "981"));
+
+  public static final List<String> NAMES_X = new ArrayList<>(Arrays.asList("400", "410", "411", "700", "710", "711", "720", "721", "722", "900", "910", "911", "980", "981", "982"));
+
+  public static final List<String> NAMES_V = new ArrayList<>(Arrays.asList("400", "410", "411", "800", "810", "811", "980", "981", "982"));
+
+  public static final List<String> NAMES_245 = new ArrayList<>(Arrays.asList("600", "610", "611", "700", "710", "711", "720", "721", "722", "800", "810", "811", "900", "910", "911", "980", "981", "982"));
+
+  public static final List<String> SUBJECTS_4 =  new ArrayList<>(Arrays.asList("600", "610", "611"));
+
+  public static final List<String> SUBJECTS_E =  new ArrayList<>(Arrays.asList("600", "610"));
+
+  public static final List<String> TITLES_X = new ArrayList<>(Arrays.asList("440", "730", "740", "930", "983"));
+
+  public static final List<String> TITLES_V = new ArrayList<>(Arrays.asList("440", "830", "983"));
+
+  public static final List<String> TITLES = new ArrayList<>(Arrays.asList("130", "241", "245", "730", "740", "830", "930", "941", "945", "983"));
+
+  public static final String TERMINAL_PUNCTUATION = ".?!)-";
+
+  public static final String OTHER_TERMINAL_PUNCTUATION = ".?!)]-";
 }

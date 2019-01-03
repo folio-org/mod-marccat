@@ -13,6 +13,7 @@ import org.folio.marccat.enumaration.CodeListsType;
 import org.folio.marccat.shared.CatalogingInformation;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,7 @@ import static org.folio.marccat.integration.CatalogingHelper.doGet;
 /**
  * Fixed-Field Codes Groups RESTful APIs.
  *
+ * @author cchiama
  * @author nbianchini
  * @since 1.0
  */
@@ -79,7 +81,7 @@ public class FixedFieldCodesGroupAPI extends BaseResource implements  Cataloging
           injectDefaultValues(fixedFieldCodesGroup, storageService, parameter, headerTypeCode, lang, configuration);
           return fixedFieldCodesGroup;
         }).orElse(null);
-    }, tenant, configurator);
+    }, tenant, configurator, "bibliographic", "material");
   }
 
   private void injectDefaultValues(FixedFieldCodesGroup fixedFieldCodesGroup, StorageService storageService, Map<String, String> parameter, int headerType, String lang, Map<String, String> configuration) {
@@ -424,24 +426,58 @@ public class FixedFieldCodesGroupAPI extends BaseResource implements  Cataloging
         switch (material){
           case Global.BOOK_TYPE:
             setBookMaterialCodes(lang, storageService, fixedFieldCodesGroup);
+            if (tag.equals(Global.OTHER_MATERIAL_TAG_CODE)) {fixedFieldCodesGroup.addResults(new FixedFieldElement("materialTypeCode",
+              storageService.getCodesList(lang, CodeListsType.BOOK_MATERIAL_CODE).stream().map(toPairItem).collect(toList())));}
             break;
           case Global.MUSIC_TYPE:
             setMusicMaterialCodes(lang, storageService, fixedFieldCodesGroup);
+            if (tag.equals(Global.OTHER_MATERIAL_TAG_CODE)) {fixedFieldCodesGroup.addResults(new FixedFieldElement("materialTypeCode",
+              storageService.getCodesList(lang, CodeListsType.MUSIC_MATERIAL_CODE).stream().map(toPairItem).collect(toList())));}
+
             break;
           case Global.SERIAL_TYPE:
             setSerialMaterialCodes(lang, storageService, fixedFieldCodesGroup);
+            if (tag.equals(Global.OTHER_MATERIAL_TAG_CODE)) {
+              Pair p = new Pair();
+              p.setCode("s");
+              p.setDescription("Serial");
+              List<Pair> list = new ArrayList<>();
+              list.add(p);
+              fixedFieldCodesGroup.addResults(new FixedFieldElement("materialTypeCode", list));
+            }
             break;
           case Global.MIXED_TYPE:
             fixedFieldCodesGroup.addResults(new FixedFieldElement(Global.FORM_OF_ITEM_CODE, storageService.getCodesList(lang, CodeListsType.FORM_OF_ITEM).stream().map(toPairItem).collect(toList())));
+            if (tag.equals(Global.OTHER_MATERIAL_TAG_CODE)) {
+              Pair p = new Pair();
+              p.setCode("p");
+              p.setDescription("Mixed material");
+              List<Pair> list = new ArrayList<>();
+              list.add(p);
+              fixedFieldCodesGroup.addResults(new FixedFieldElement("materialTypeCode", list));
+            }
             break;
           case Global.MAP_TYPE:
             setMapMaterialCodes(lang, storageService, fixedFieldCodesGroup);
+            if (tag.equals(Global.OTHER_MATERIAL_TAG_CODE)) {fixedFieldCodesGroup.addResults(new FixedFieldElement("materialTypeCode",
+              storageService.getCodesList(lang, CodeListsType.MAP_TYPE_MATERIAL).stream().map(toPairItem).collect(toList())));}
             break;
           case Global.VISUAL_TYPE:
             setVisualMaterialCodes(lang, storageService, fixedFieldCodesGroup);
+            if (tag.equals(Global.OTHER_MATERIAL_TAG_CODE)) {fixedFieldCodesGroup.addResults(new FixedFieldElement("materialTypeCode",
+              storageService.getCodesList(lang, CodeListsType.VM_MATERIAL_CODE).stream().map(toPairItem).collect(toList())));}
             break;
           case Global.COMPUTER_TYPE:
             setComputerMaterialCodes(lang, storageService, fixedFieldCodesGroup);
+            if (tag.equals(Global.OTHER_MATERIAL_TAG_CODE)) {
+              Pair p = new Pair();
+              p.setCode("m");
+              p.setDescription("Computer file");
+              List<Pair> list = new ArrayList<>();
+              list.add(p);
+              fixedFieldCodesGroup.addResults(new FixedFieldElement("materialTypeCode", list));
+            }
+
             break;
            default:
 
@@ -542,12 +578,12 @@ public class FixedFieldCodesGroupAPI extends BaseResource implements  Cataloging
     fixedFieldCodesGroup.addResults(new FixedFieldElement("serialRegularityCode", storageService.getCodesList(lang, CodeListsType.SRL_REGULARITY).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("serialTypeOfContinuingResourceCodes", storageService.getCodesList(lang, CodeListsType.SRL_REGULARITY).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("serialFormOriginalCodes", storageService.getCodesList(lang, CodeListsType.SRL_FORM_ORGNL_ITEM).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("FORM_OF_ITEM_CODE", storageService.getCodesList(lang, CodeListsType.FORM_OF_ITEM).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement(Global.FORM_OF_ITEM_CODE, storageService.getCodesList(lang, CodeListsType.FORM_OF_ITEM).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("natureOfContent1", natureOfContents));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("natureOfContent2", natureOfContents));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("natureOfContent3", natureOfContents));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("serialNatureOfWorkCodes", natureOfContents));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("GOVERNMENT_PUBLICATION_CODE", storageService.getCodesList(lang, CodeListsType.GOV_PUBLICATION).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement(Global.GOVERNMENT_PUBLICATION_CODE, storageService.getCodesList(lang, CodeListsType.GOV_PUBLICATION).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("conferencePublicationCode", storageService.getCodesList(lang, CodeListsType.CONF_PUBLICATION).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("serialOriginAlphabetCodes", storageService.getCodesList(lang, CodeListsType.SRL_ORIGIN_ALPHABET).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("serialEntryConvCodes", storageService.getCodesList(lang, CodeListsType.SRL_ENTRY_CONVENTION).stream().map(toPairItem).collect(toList())));
@@ -570,12 +606,12 @@ public class FixedFieldCodesGroupAPI extends BaseResource implements  Cataloging
     fixedFieldCodesGroup.addResults(new FixedFieldElement("bookIllustrationCode3", bookIllustrations));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("bookIllustrationCode4", bookIllustrations));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("targetAudienceCode", storageService.getCodesList(lang, CodeListsType.TARGET_AUDIENCE).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("FORM_OF_ITEM_CODE", storageService.getCodesList(lang, CodeListsType.FORM_OF_ITEM).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement(Global.FORM_OF_ITEM_CODE, storageService.getCodesList(lang, CodeListsType.FORM_OF_ITEM).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("natureOfContent1", natureOfContents));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("natureOfContent2", natureOfContents));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("natureOfContent3", natureOfContents));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("natureOfContent4", natureOfContents));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("GOVERNMENT_PUBLICATION_CODE", storageService.getCodesList(lang, CodeListsType.GOV_PUBLICATION).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement(Global.GOVERNMENT_PUBLICATION_CODE, storageService.getCodesList(lang, CodeListsType.GOV_PUBLICATION).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("conferencePublicationCode", storageService.getCodesList(lang, CodeListsType.CONF_PUBLICATION).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("bookFestschrift", storageService.getCodesList(lang, CodeListsType.BOOK_FESTSCHRIFT).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("bookIndexAvailabilityCode", storageService.getCodesList(lang, CodeListsType.BOOK_INDEX).stream().map(toPairItem).collect(toList())));
