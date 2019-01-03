@@ -6,7 +6,7 @@ buildMvn {
 
   doDocker = {
     buildJavaDocker {
-      publishMaster = 'yes'
+      publishMaster = 'no'
       healthChk = 'no'
   }
  }
