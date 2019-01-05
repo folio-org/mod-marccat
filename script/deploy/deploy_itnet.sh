@@ -19,7 +19,6 @@ RESTART_WAIT_SEC=3
 
 ssh_itnet_deploy(){
   echo "uploading artifact via ssh on ITNET"
-  echo "cd /usr/local/folio/data ; rm mod-marccat-1.1.0.jar "
   scp -P ${SSH_PORT} ${SSH_SRC_FILE} folio@${SSH_HOST}:${SSH_DEST_FILE}
   sleep ${RESTART_WAIT_SEC}
   echo "uploaded artifact succesfully. Deploy last release of modcat"
