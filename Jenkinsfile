@@ -1,70 +1,13 @@
-pipeline {
-    agent any
-    stages {
-        stage('Build') {
-                       when {
-                        expression { BRANCH_NAME ==~ /(FOLIO-TEST)/ }
-                      }
-            steps {
-                script {
-                   def mvnHome = tool 'mvn'
-                   sh "'${mvnHome}/bin/mvn' clean compile package -DskipTests=true"
-                   archiveArtifacts 'target*//*.jar'
-               }
-            }
-        }
-        stage('Test') {
-           when {
-                                expression { BRANCH_NAME ==~ /(FOLIO-TEST)/ }
-                              }
-            steps {
-                echo 'Executing test.....'
-          }
-        }
-        stage('Deploy ITNET'){
-           when {
-                                expression { BRANCH_NAME ==~ /(FOLIO-TEST)/ }
-                              }
-               steps{
-                    script{
-                         withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
-                                  sh('./script/deploy/deploy_itnet.sh')
-                                }
-                            }
-                        }
-         }
-         stage('Publish API Docs') {
-            when {
-                                 expression { BRANCH_NAME ==~ /(FOLIO-TEST)/ }
-                               }
-             steps {
-                echo 'Publishing API Docs....'
-             }
-         }
-          stage('Publish Npm') {
-             when {
-                                  expression { BRANCH_NAME ==~ /(FOLIO-TEST)/ }
-                                }
-                   steps {
-                     echo 'Publishing on Npm....'
-              }
-         }
-    }
+buildMvn {
+  publishModDescriptor = 'yes'
+  publishAPI = 'yes'
+  mvnDeploy = 'yes'
+  runLintRamlCop = 'yes'
 
-     post {
-          always {
-              echo 'pipeline finished!'
-          }
-          success {
-              echo 'mod-marccat deployed succesfully on Zeta and ITNET and up and running on port 8080'
-          }
-          failure {
-              echo 'Pipeline failed!!!!'
-              emailext body: "${currentBuild.currentResult}: Job [${env.JOB_NAME}] build #${env.BUILD_NUMBER}\n \nMore info at: ${env.BUILD_URL}\n",
-              recipientProviders: [upstreamDevelopers(), developers(), brokenBuildSuspects()],
-              subject: 'FAILURE Jenkins Pipeline mod-catamarccat', to: 'christian.chiama@atcult.it,mirko.fonzo@atcult.it',
-              attachLog: true,
-              compressLog: true
-          }
-      }
+  doDocker = {
+    buildJavaDocker {
+      publishMaster = 'no'
+      healthChk = 'no'
+  }
+ }
 }
