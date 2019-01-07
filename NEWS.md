@@ -1,30 +1,16 @@
-## 1.2.0 2018-12-31
- * Improve Search Functionality.
-
-
-  >Search API Layer:
- 
-  | METHOD |  URL                                               | DESCRIPTION                                                     |
-  |--------|----------------------------------------------------|-----------------------------------------------------------------|
-  | GET    | /marccat/bibliographic-record/:id                  | Return bib and auth records results                             |
-  | GET    | /marccat/bibliographic-record/from-template/:id    | Return bib and auth records results                             |
-  | POST   | /marccat/bibliographic-record                      | Return bib and auth records results                             |
-  | DELETE | /marccat/bibliographic-record/unlock/:id           | Return bib and auth records results                             |
-  | PUT    | /marccat/bibliographic-record/lock/:id             | Return bib and auth records results                             |
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | GET    | /marccat/browse                                    | Return bib and auth records results                             |
-  | GET    | /marccat/next-page                                 | Return bib and auth records results                             |
-  | GET    | /marccat/previous-page                             | Return bib and auth records results                             |
-  | GET    | /marccat/headings-by-tag                           | Return bib and auth records results                             |
-  |        |                                                    |                                                                 |
-  | GET    | /marccat/document-count-by-id                      | Return bib and auth records results                             |
-  |        |                                                    |                                                                 |
-  | GET    | /marccat/bibliographic/fields/mandatory            | Return bib and auth records results                             |
-  |        |                                                    |                                                                 |
-  | GET    | /marccat/previous-page                             | Return bib and auth records results                             |
-  | GET    | /marccat/previous-page                             | Return bib and auth records results                             |
-  | GET    | /marccat/previous-page                             | Return bib and auth records results                             |
-  | GET    | /marccat/previous-page                             | Return bib and auth records results                             |
-
+## 1.2.0 2019-01-08
+ * Fix Search Functionality.
+ * Fix Browse functionality.
+ * Merge template (association of a new template to a record)
+ * Duplicate record (duplication of a record from an existing one)
+ * Recovery categories in the save phase by tag number and indicators
+ * Dropdown material type
+ * Dropdown type code for positional tags, starting from the tag number
+ * Fix articfact v1.1.0.[MODCAT-97](https://issues.folio.org/browse/MODCAT-97) and [MODCAT-99](https://issues.folio.org/browse/MODCAT-99)
+ * Dropdown type code for positional tags, starting from the tag number
+ * Create stub microservices for HRDI
+ * Create microservices for db customization
+ * Cleaning project and remove unused class.
 
 
 ## 1.1.0 2018-12-14
