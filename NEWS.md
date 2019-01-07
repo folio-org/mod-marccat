@@ -12,7 +12,6 @@
  * Create microservices for db customization
  * Cleaning project and remove unused class.
 
-
 ## 1.1.0 2018-12-14
  * Improve Search Functionality.
  * Add Browse functionality.
