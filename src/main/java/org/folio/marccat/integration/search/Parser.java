@@ -104,7 +104,6 @@ public class Parser {
       " from (select distinct "+ columnSortForm +" smtc."+ columnItemNumber +" from ((" + n.getValue() + ")) smtc " +
       orderByClause +  ") res"+
       " limit "+ limitSize +" offset "+ offsetSize;
-    System.out.println(query);
       logger.debug(
       MessageCatalog._00020_SE_QUERY,
       ccl, query);
@@ -123,7 +122,6 @@ public class Parser {
     final Tokenizer tokenizer = new Tokenizer();
     tokenizer.tokenize(ccl);
     final ExpressionNode n = parse(tokenizer.getTokens());
-    System.out.println("select count(*) from ((" + n.getValue() + ")) smtc");
     return "select count(*) from ((" + n.getValue() + ")) smtc";
   }
 
