@@ -11,7 +11,6 @@ import org.folio.marccat.integration.StorageService;
 import java.util.*;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.folio.marccat.integration.MarccatHelper.doGet;
 import static org.folio.marccat.util.F.locale;
 
@@ -19,6 +18,7 @@ import static org.folio.marccat.util.F.locale;
  * Search Engine RESTful APIs.
  *
  * @author cchiama
+ * @author carment
  * @since 1.0
  */
 @RestController
@@ -62,7 +62,7 @@ public class SearchAPI extends BaseResource {
 
 
   @GetMapping("/mergedSearch")
-  public List<SearchResponse> mergedSearch(
+  public List <SearchResponse> mergedSearch(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
     @RequestParam("qbib") final String qbib,
@@ -83,20 +83,11 @@ public class SearchAPI extends BaseResource {
             databasePreferenceOrder,
             storageService);
 
-      /* SearchResponse response = searchEngine.fetchRecords(
-          (sortAttributes != null && sortOrders != null && sortAttributes.length == sortOrders.length)
-            ? searchEngine.sort(searchEngine.expertSearch(qauth, locale(lang), View.AUTHORITY), sortAttributes, sortOrders)
-            : searchEngine.expertSearch(qauth, locale(lang), View.AUTHORITY, from, to, sortAttributes, sortOrders),
-          "F",
-          from,
-          to);*/
-        SearchResponse  response = searchEngine.fetchRecords(
+        SearchResponse response = searchEngine.fetchRecords(
           searchEngine.expertSearch(qauth, locale(lang), View.AUTHORITY, from, to, sortAttributes, sortOrders),
           "F",
           1,
           ((to - from) + 1));
-
-
 
         searchEngine.injectDocCount(response, storageService);
         searchEngine.injectTagHighlight(response, storageService, locale(lang));
@@ -111,15 +102,7 @@ public class SearchAPI extends BaseResource {
           databasePreferenceOrder,
           storageService);
 
-     /* SearchResponse response = searchEngine.fetchRecords(
-        (sortAttributes != null && sortOrders != null && sortAttributes.length == sortOrders.length)
-          ? searchEngine.sort(searchEngine.expertSearch(qbib, locale(lang), View.DEFAULT_BIBLIOGRAPHIC_VIEW), sortAttributes, sortOrders)
-          : searchEngine.expertSearch(qbib, locale(lang), View.DEFAULT_BIBLIOGRAPHIC_VIEW, from, to, sortAttributes, sortOrders),
-        "F",
-        from,
-        to);*/
-
-      SearchResponse  response = searchEngine.fetchRecords(
+      SearchResponse response = searchEngine.fetchRecords(
         searchEngine.expertSearch(qbib, locale(lang), View.DEFAULT_BIBLIOGRAPHIC_VIEW, from, to, sortAttributes, sortOrders),
         "F",
         1,
@@ -128,7 +111,7 @@ public class SearchAPI extends BaseResource {
       searchEngine.injectTagHighlight(response, storageService, locale(lang));
       return response;
     }, tenant, configurator);
-    List<SearchResponse> mergedResult = new ArrayList<>();
+    List <SearchResponse> mergedResult = new ArrayList <>();
     mergedResult.add(authRecords);
     mergedResult.add(bibRecords);
     return mergedResult;
@@ -154,13 +137,6 @@ public class SearchAPI extends BaseResource {
           databasePreferenceOrder,
           storageService);
 
-     /* return searchEngine.fetchRecords(
-        (sortAttributes != null && sortOrders != null && sortAttributes.length == sortOrders.length)
-          ? searchEngine.sort(searchEngine.expertSearch(q, locale(lang), view), sortAttributes, sortOrders)
-          : searchEngine.expertSearch(q, locale(lang), view),
-        "F",
-        1,
-        ((to - from) + 1));*/
       return searchEngine.fetchRecords(
         searchEngine.expertSearch(q, locale(lang), view, from, to, sortAttributes, sortOrders),
         "F",
@@ -168,5 +144,18 @@ public class SearchAPI extends BaseResource {
         ((to - from) + 1));
     }, tenant, configurator);
   }
+
+  @GetMapping("/countSearch")
+  public int countSearch(
+    @RequestParam final String lang,
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestParam("q") final String q,
+    @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
+    @RequestParam("ml") final int mainLibraryId) {
+    return doGet((storageService, configuration) -> {
+      return storageService.getCountDocumentByQuery(q, mainLibraryId, locale(lang), view);
+    }, tenant, configurator);
+  }
+
 
 }

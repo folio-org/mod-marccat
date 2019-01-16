@@ -98,19 +98,35 @@ public class Parser {
     final int limitSize = (lastRecord - firstRecord) + 1;
     final int offsetSize = firstRecord - 1;
     final String orderByClause = buildOrderByClause(attributes, directions);
-    final String columnSortForm = attributes != null ? getSortFormByAtributes(attributes) : "";
+    final String columnSortForm = attributes != null ? getSortFormOrDateByAtributes(attributes) : "";
     final String columnItemNumber = searchingView == -1 ? "aut_nbr" : "bib_itm_nbr";
     final String query = "select res."+ columnItemNumber +
       " from (select distinct "+ columnSortForm +" smtc."+ columnItemNumber +" from ((" + n.getValue() + ")) smtc " +
       orderByClause +  ") res"+
       " limit "+ limitSize +" offset "+ offsetSize;
-    //System.out.println(query);
-    logger.debug(
+    System.out.println(query);
+      logger.debug(
       MessageCatalog._00020_SE_QUERY,
       ccl, query);
 
     return query;
   }
+
+  /**
+   * Parses the incoming CCL query and count the document
+   *
+   * @param ccl the CCL query.
+   * @return the parsed string.
+   * @throws CclParserException in case of parsing failure.
+   */
+  public String parseAndCount(String ccl) throws CclParserException {
+    final Tokenizer tokenizer = new Tokenizer();
+    tokenizer.tokenize(ccl);
+    final ExpressionNode n = parse(tokenizer.getTokens());
+    System.out.println("select count(*) from ((" + n.getValue() + ")) smtc");
+    return "select count(*) from ((" + n.getValue() + ")) smtc";
+  }
+
 
 
   /**
@@ -302,30 +318,37 @@ public class Parser {
     final String[] attributes,
     final String[] directions) {
     final String columnItemNumber = (searchingView == -1) ? "aut_nbr " : "bib_itm_nbr ";
-    final String sort = (directions != null && directions[0].equals("0")) ? "asc" : "desc";
-    final String columnSortForm = attributes != null ? getSortFormByAtributes(attributes) : "";
-    String orderByItemNumber = String.format(" order by smtc." + columnItemNumber + " %s ", sort);
-    String orderBySortForm = String.format(" order by " + columnSortForm.replace(",", "") + " %s, smtc." + columnItemNumber, sort);
+    final String direction = (directions != null && directions[0].equals("0")) ? "asc" : "desc";
+    final String columnForOrderBy = attributes != null ? getSortFormOrDateByAtributes(attributes) : "";
+    String orderByItemNumber = String.format(" order by smtc.%s %s ",columnItemNumber, direction);
+    String order = String.format(" order by %s %s, smtc.%s ",columnForOrderBy.replace(",", ""), direction, columnItemNumber );
     String orderByClause = orderByItemNumber;
     if (attributes != null) {
       for (String attribute : attributes) {
         switch (Integer.parseInt(attribute)) {
           case 4:
             orderByClause = (searchingView == -1) ? SQLCommand.TITLE_AUT_JOIN : SQLCommand.TITLE_JOIN;
-            orderByClause += viewClause() + orderBySortForm;
+            orderByClause += viewClause() + order;
             break;
-          case 1003:
-            orderByClause = (searchingView == -1) ? SQLCommand.NME_AUT_JOIN : SQLCommand.NAME_JOIN;
-            orderByClause += viewClause() + orderBySortForm;
+          case 21:
+            orderByClause = (searchingView == -1) ? SQLCommand.SUBJECT_AUT_JOIN: SQLCommand.SUBJECT_JOIN;
+            orderByClause += viewClause() + order;
             break;
-          case 2096:
-            orderByClause = SQLCommand.UNIFORM_TITLE_JOIN + viewClause() + orderBySortForm;
+          case 31:
+            orderByClause = SQLCommand.DATE_JOIN + viewClause() + order;
             break;
           case 54:
             orderByClause = orderByItemNumber;
             break;
-          case 21:
-            orderByClause = SQLCommand.SUBJECT_AUT_JOIN + viewClause() + orderBySortForm;
+          case 1003:
+            orderByClause = (searchingView == -1) ? SQLCommand.NME_AUT_JOIN : SQLCommand.NAME_JOIN;
+            orderByClause += viewClause() + order;
+            break;
+          case 2074:
+            orderByClause = SQLCommand.DATE_JOIN + viewClause() + order;
+            break;
+          case 2096:
+            orderByClause = SQLCommand.UNIFORM_TITLE_JOIN + viewClause() + order;
             break;
         }
       }
@@ -334,29 +357,39 @@ public class Parser {
   }
 
   /**
-   * Return the column of the sort form for the ordering clause.
+   * Return the column of the sort form or date for the ordering clause.
    *
    * @param attributes the attributes of the search index.
-   * @return the column of the sort form
+   * @return the column of the sort form or date
    */
-  private String getSortFormByAtributes( final String[] attributes) {
-    String sortForm = "";
+  private String getSortFormOrDateByAtributes( final String[] attributes) {
+    String column = "";
     for (final String attribute : attributes) {
       switch (Integer.parseInt(attribute)) {
         case 4:
         case 2096:
-          sortForm = "t2.ttl_hdg_srt_form,";
+          column = "t2.ttl_hdg_srt_form,";
           break;
         case 1003:
-          sortForm = "t2.nme_hdg_srt_form,";
+          column = "t2.nme_hdg_srt_form,";
           break;
         case 21:
-          sortForm = "t2.sbjct_hdg_srt_form,";
+          column = "t2.sbjct_hdg_srt_form,";
+          break;
+        case 31:
+          column = "t1.itm_dte_1_dsc,";
+          break;
+        case 2074:
+          column = "t1.itm_dte_2_dsc,";
+          break;
+        default:
+          column = "";
           break;
       }
     }
-    return sortForm;
+    return column;
   }
+
 
   /**
    * Return the view clause.

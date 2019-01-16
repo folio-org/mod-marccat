@@ -1729,5 +1729,28 @@ public class StorageService implements Closeable {
 
   }
 
+  /**
+   * Executes a CCL query using the given data to get the total count of the documents
+   *
+   * @param cclQuery      the CCL query.
+   * @param mainLibraryId the main library identifier.
+   * @param locale        the current locale.
+   * @param searchingView the target search view.
+   * @return a list of docid matching the input query.
+   */
+  public int getCountDocumentByQuery(final String cclQuery, final int mainLibraryId, final Locale locale, final int searchingView) {
+    final Parser parser = new Parser(locale, mainLibraryId, searchingView, session);
+    try (final Statement sql = stmt(connection());
+         final ResultSet rs = executeQuery(sql, parser.parseAndCount(cclQuery))) {
+      int count = 0;
+      while (rs.next()) {
+        count = rs.getInt(1);
+      }
+      return count;
+    } catch (final HibernateException | SQLException exception) {
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      return 0;
+    }
+  }
 
 }
