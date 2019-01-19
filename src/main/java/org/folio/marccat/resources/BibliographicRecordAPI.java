@@ -39,7 +39,7 @@ import static org.folio.marccat.util.F.isNotNullOrEmpty;
 public class BibliographicRecordAPI extends BaseResource {
 
   @GetMapping("/test/cd")
-  public ResponseEntity<String> getLeader() {
+  public ResponseEntity<String> helloCD() {
     return new ResponseEntity<>("Hi CD",HttpStatus.OK);
   }
 
