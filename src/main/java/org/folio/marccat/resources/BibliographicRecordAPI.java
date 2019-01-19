@@ -37,10 +37,19 @@ import static org.folio.marccat.util.F.isNotNullOrEmpty;
 @RestController
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class BibliographicRecordAPI extends BaseResource {
+  
+  @PostMapping("/bibliographic-record/leaders")
+  public ResponseEntity<FixedField> getLeader(
+    @RequestParam final String leader,
+    @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    FixedField fixedField = ConversionFieldUtils.getLeaderValuesInFixedField(leader);
+    return new ResponseEntity<>(fixedField,HttpStatus.OK);
+  }
 
   @GetMapping("/bibliographic-record/{id}")
   public ResponseEntity<Object> getRecord(
-    @RequestParam final Integer id,
+    @PathVariable final Integer id,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
     return doGet((storageService, configuration) -> {
