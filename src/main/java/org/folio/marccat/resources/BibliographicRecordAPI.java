@@ -38,6 +38,10 @@ import static org.folio.marccat.util.F.isNotNullOrEmpty;
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class BibliographicRecordAPI extends BaseResource {
 
+  @GetMapping("/test/cd")
+  public ResponseEntity<String> getLeader() {
+    return new ResponseEntity<>("Hi CD",HttpStatus.OK);
+  }
 
   @PostMapping("/bibliographic-record/leader")
   public ResponseEntity<FixedField> getLeader(
