@@ -20,7 +20,7 @@ ssh_itnet_deploy(){
   scp -P ${SSH_PORT} ${SSH_SRC_FILE} folio@${SSH_HOST}:${SSH_DEST_FILE}
   sleep ${RESTART_WAIT_SEC}
   echo "uploaded artifact succesfully. Deploy last release of modcat"
-  nohup echo "cd /usr/local/folio/bin ; sh stop_modcat.sh; cd ../data/; java -jar mod-marccat-1.2.0.jar &" | ssh -p ${SSH_PORT} folio@${SSH_HOST} &
+  nohup echo "cd /usr/local/folio/bin ; sh stop_modcat.sh; sh start_modcat.sh" | ssh -p ${SSH_PORT} folio@${SSH_HOST} &
 }
 ssh_itnet_deploy
 

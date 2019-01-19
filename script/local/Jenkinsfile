@@ -10,7 +10,7 @@ pipeline {
                }
             }
         }
-        stage('Deploy on ITNET'){
+        stage('Deploy'){
            steps{
               script{
                    withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
