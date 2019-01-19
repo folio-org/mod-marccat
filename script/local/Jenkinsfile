@@ -14,7 +14,7 @@ pipeline {
                steps{
                     script{
                          withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
-                                  sh('./deploy/deploy_itnet.sh')
+                                  sh('./script/local/deploy/deploy_itnet.sh')
                                 }
                             }
                         }

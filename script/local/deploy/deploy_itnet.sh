@@ -3,7 +3,7 @@
 # Synchronise remote test Folio mod-cataloging
 #
 # Author : Christian Chiama - christian.chiama@atcult.it
-# Version: 1.0
+# Version: 1.2
 # Date   : 01/10/2018
 #########################################################
 
