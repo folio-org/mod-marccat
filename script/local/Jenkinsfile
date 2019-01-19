@@ -2,9 +2,6 @@ pipeline {
     agent any
     stages {
         stage('Build') {
-                       when {
-                        expression { BRANCH_NAME ==~ /(FOLIO-TEST)/ }
-                      }
             steps {
                 script {
                    def mvnHome = tool 'mvn'
@@ -13,18 +10,7 @@ pipeline {
                }
             }
         }
-        stage('Test') {
-           when {
-                                expression { BRANCH_NAME ==~ /(FOLIO-TEST)/ }
-                              }
-            steps {
-                echo 'Executing test.....'
-          }
-        }
         stage('Deploy ITNET'){
-           when {
-                                expression { BRANCH_NAME ==~ /(FOLIO-TEST)/ }
-                              }
                steps{
                     script{
                          withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
@@ -34,20 +20,9 @@ pipeline {
                         }
          }
          stage('Publish API Docs') {
-            when {
-                                 expression { BRANCH_NAME ==~ /(FOLIO-TEST)/ }
-                               }
              steps {
                 echo 'Publishing API Docs....'
              }
-         }
-          stage('Publish Npm') {
-             when {
-                                  expression { BRANCH_NAME ==~ /(FOLIO-TEST)/ }
-                                }
-                   steps {
-                     echo 'Publishing on Npm....'
-              }
          }
     }
 
