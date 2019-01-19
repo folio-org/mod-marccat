@@ -7,7 +7,7 @@
 # Date   : 01/10/2018
 #########################################################
 
-SSH_SRC_FILE=../../../target/mod-marccat-1.2.0.jar
+SSH_SRC_FILE=./target/mod-marccat-1.2.0.jar
 SSH_HOST=151.1.165.20
 SSH_PORT=22022
 SSH_USR=folio
