@@ -10,19 +10,14 @@ pipeline {
                }
             }
         }
-        stage('Deploy ITNET'){
-               steps{
-                    script{
-                         withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
-                                  sh('./script/local/deploy/deploy_itnet.sh')
-                                }
-                            }
-                        }
-         }
-         stage('Publish API Docs') {
-             steps {
-                echo 'Publishing API Docs....'
-             }
+        stage('Deploy on ITNET'){
+           steps{
+              script{
+                   withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
+                     sh('./script/local/deploy/deploy_itnet.sh')
+                }
+              }
+           }
          }
     }
 
@@ -31,7 +26,7 @@ pipeline {
               echo 'pipeline finished!'
           }
           success {
-              echo 'mod-marccat deployed succesfully on Zeta and ITNET and up and running on port 8080'
+              echo 'mod-marccat deployed succesfully on ITNET and up and running on port 8080'
           }
           failure {
               echo 'Pipeline failed!!!!'

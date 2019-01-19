@@ -37,13 +37,8 @@ import static org.folio.marccat.util.F.isNotNullOrEmpty;
 @RestController
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class BibliographicRecordAPI extends BaseResource {
-
-  @GetMapping("/test/cd")
-  public ResponseEntity<String> helloCD() {
-    return new ResponseEntity<>("Hi CD",HttpStatus.OK);
-  }
-
-  @PostMapping("/bibliographic-record/leader")
+  
+  @PostMapping("/bibliographic-record/leaders")
   public ResponseEntity<FixedField> getLeader(
     @RequestParam final String leader,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
