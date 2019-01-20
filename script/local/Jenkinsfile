@@ -10,7 +10,7 @@ pipeline {
                }
             }
         }
-        stage('Deploy on ITNET'){
+        stage('Deploy'){
            steps{
               script{
                    withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
@@ -32,7 +32,7 @@ pipeline {
               echo 'Pipeline failed!!!!'
               emailext body: "${currentBuild.currentResult}: Job [${env.JOB_NAME}] build #${env.BUILD_NUMBER}\n \nMore info at: ${env.BUILD_URL}\n",
               recipientProviders: [upstreamDevelopers(), developers(), brokenBuildSuspects()],
-              subject: 'FAILURE Jenkins Pipeline mod-catamarccat', to: 'christian.chiama@atcult.it,mirko.fonzo@atcult.it',
+              subject: 'FAILURE Jenkins Pipeline mod-marccat', to: 'christian.chiama@atcult.it',
               attachLog: true,
               compressLog: true
           }
