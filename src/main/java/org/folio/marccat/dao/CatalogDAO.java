@@ -55,7 +55,6 @@ public abstract class CatalogDAO extends AbstractDAO {
           throw new RuntimeException(e);
         }
       });
-
     session.delete(item.getItemEntity());
     if (item.getModelItem() != null)
       session.delete(item.getModelItem());
