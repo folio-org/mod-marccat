@@ -1,6 +1,7 @@
 package org.folio.marccat.integration.search;
 
 import net.sf.hibernate.Session;
+import org.folio.marccat.business.common.View;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.dao.DAOIndexList;
@@ -81,24 +82,50 @@ public class Parser {
   }
 
   /**
-   * Parses the incoming CCL query.
+   * Parses the incoming CCL query, sort and page the results
    *
    * @param ccl the CCL query.
+   * @param firstRecord the first record.
+   * @param lastRecord the last record.
+   * @param attributes the attributes of the search index.
+   * @param directions the directions asc or desc.
    * @return the parsed string.
    * @throws CclParserException in case of parsing failure.
    */
-  public String parse(final String ccl) throws CclParserException {
+  public String parse(final String ccl, final int firstRecord, final int lastRecord, final String[] attributes,  String[] directions) throws CclParserException {
     final Tokenizer tokenizer = new Tokenizer().tokenize(ccl);
-
     final ExpressionNode n = parse(tokenizer.getTokens());
-
-    final String query = "select * from ((" + n.getValue() + ")) foo order by 1 desc";
-    logger.debug(
+    final int limitSize = (lastRecord - firstRecord) + 1;
+    final int offsetSize = firstRecord - 1;
+    final String orderByClause = buildOrderByClause(attributes, directions);
+    final String columnSortForm = attributes != null ? getSortFormOrDateByAtributes(attributes) : "";
+    final String columnItemNumber = searchingView == -1 ? "aut_nbr" : "bib_itm_nbr";
+    final String query = "select res."+ columnItemNumber +
+      " from (select distinct "+ columnSortForm +" smtc."+ columnItemNumber +" from ((" + n.getValue() + ")) smtc " +
+      orderByClause +  ") res"+
+      " limit "+ limitSize +" offset "+ offsetSize;
+      logger.debug(
       MessageCatalog._00020_SE_QUERY,
       ccl, query);
 
     return query;
   }
+
+  /**
+   * Parses the incoming CCL query and count the document
+   *
+   * @param ccl the CCL query.
+   * @return the parsed string.
+   * @throws CclParserException in case of parsing failure.
+   */
+  public String parseAndCount(String ccl) throws CclParserException {
+    final Tokenizer tokenizer = new Tokenizer();
+    tokenizer.tokenize(ccl);
+    final ExpressionNode n = parse(tokenizer.getTokens());
+    return "select count(*) from ((" + n.getValue() + ")) smtc";
+  }
+
+
 
   /**
    * Parses the a list of tokens.
@@ -277,5 +304,99 @@ public class Parser {
       return expr;
     }
   }
+
+  /**
+   * Builds the ordering clause through the attributes and the directions.
+   *
+   * @param attributes the attributes of the search index.
+   * @param directions the directions asc or desc.
+   * @return the ordering clause
+   */
+  private String buildOrderByClause(
+    final String[] attributes,
+    final String[] directions) {
+    final String columnItemNumber = (searchingView == -1) ? "aut_nbr " : "bib_itm_nbr ";
+    final String direction = (directions != null && directions[0].equals("0")) ? "asc" : "desc";
+    final String columnForOrderBy = attributes != null ? getSortFormOrDateByAtributes(attributes) : "";
+    String orderByItemNumber = String.format(" order by smtc.%s %s ",columnItemNumber, direction);
+    String order = String.format(" order by %s %s, smtc.%s ",columnForOrderBy.replace(",", ""), direction, columnItemNumber );
+    String orderByClause = orderByItemNumber;
+    if (attributes != null) {
+      for (String attribute : attributes) {
+        switch (Integer.parseInt(attribute)) {
+          case 4:
+            orderByClause = (searchingView == -1) ? SQLCommand.TITLE_AUT_JOIN : SQLCommand.TITLE_JOIN;
+            orderByClause += viewClause() + order;
+            break;
+          case 21:
+            orderByClause = (searchingView == -1) ? SQLCommand.SUBJECT_AUT_JOIN: SQLCommand.SUBJECT_JOIN;
+            orderByClause += viewClause() + order;
+            break;
+          case 31:
+            orderByClause = SQLCommand.DATE_JOIN + viewClause() + order;
+            break;
+          case 54:
+            orderByClause = orderByItemNumber;
+            break;
+          case 1003:
+            orderByClause = (searchingView == -1) ? SQLCommand.NME_AUT_JOIN : SQLCommand.NAME_JOIN;
+            orderByClause += viewClause() + order;
+            break;
+          case 2074:
+            orderByClause = SQLCommand.DATE_JOIN + viewClause() + order;
+            break;
+          case 2096:
+            orderByClause = SQLCommand.UNIFORM_TITLE_JOIN + viewClause() + order;
+            break;
+        }
+      }
+    }
+    return orderByClause;
+  }
+
+  /**
+   * Return the column of the sort form or date for the ordering clause.
+   *
+   * @param attributes the attributes of the search index.
+   * @return the column of the sort form or date
+   */
+  private String getSortFormOrDateByAtributes( final String[] attributes) {
+    String column = "";
+    for (final String attribute : attributes) {
+      switch (Integer.parseInt(attribute)) {
+        case 4:
+        case 2096:
+          column = "t2.ttl_hdg_srt_form,";
+          break;
+        case 1003:
+          column = "t2.nme_hdg_srt_form,";
+          break;
+        case 21:
+          column = "t2.sbjct_hdg_srt_form,";
+          break;
+        case 31:
+          column = "t1.itm_dte_1_dsc,";
+          break;
+        case 2074:
+          column = "t1.itm_dte_2_dsc,";
+          break;
+        default:
+          column = "";
+          break;
+      }
+    }
+    return column;
+  }
+
+
+  /**
+   * Return the view clause.
+   *
+   * @return the view clause
+   */
+  private String viewClause() {
+    return (searchingView != 0 && searchingView !=-1) ? String.format(" AND (t1.usr_vw_ind = '%s')", View.makeSingleViewString(this.searchingView)) : "";
+  }
+
 
 }
