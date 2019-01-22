@@ -18,7 +18,7 @@ import java.util.Iterator;
  * @author hansv
  * @since 1.0
  */
-//TODO refactor!
+//TODO refactor: refactored only delete
 public class DAOBibliographicNoteTag extends AbstractDAO {
   private static final Log logger = LogFactory.getLog(BibliographicNoteTag.class);
 
@@ -45,14 +45,6 @@ public class DAOBibliographicNoteTag extends AbstractDAO {
         throw new DataAccessException(e);
       }
     }
-    /*Iterator iter = aNote.getOverflowList().iterator();
-    BibliographicNoteOverflow overflow;
-    while (iter.hasNext()) {
-      overflow = (BibliographicNoteOverflow) iter.next();
-      overflow.markDeleted();
-      persistByStatus(overflow);
-      super.delete(overflow);
-    }*/
 
     aNote.getOverflowList().forEach(overflow -> {
       try {

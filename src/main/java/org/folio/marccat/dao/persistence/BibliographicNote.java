@@ -163,7 +163,7 @@ public class BibliographicNote extends VariableField implements PersistentObject
   }
 
   /**
-   * @return
+   * @return list
    */
   public List<BibliographicNoteOverflow> getOverflowList() {
     return overflowList;

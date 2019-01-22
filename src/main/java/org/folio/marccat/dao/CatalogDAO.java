@@ -49,10 +49,8 @@ public abstract class CatalogDAO extends AbstractDAO {
       .filter(aTag -> aTag instanceof Persistence && !(aTag instanceof AuthorityReferenceTag))
       .forEach(tag -> {
         try {
-            // session.delete(tag);
             tag.markDeleted();
-          persistByStatus((Persistence) tag, session);
-
+            persistByStatus((Persistence) tag, session);
         } catch (HibernateException e) {
           cleanUp(transaction);
           throw new RuntimeException(e);
