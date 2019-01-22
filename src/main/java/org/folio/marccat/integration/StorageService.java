@@ -463,15 +463,17 @@ public class StorageService implements Closeable {
    *
    * @param cclQuery      the CCL query.
    * @param mainLibraryId the main library identifier.
+   * @param firstRecord   the first record.
+   * @param lastRecord    the last record.
    * @param locale        the current locale.
    * @param searchingView the target search view.
    * @return a list of docid matching the input query.
    */
-  public List<Integer> executeQuery(final String cclQuery, final int mainLibraryId, final Locale locale, final int searchingView) {
+  public List <Integer> executeQuery(final String cclQuery, final int mainLibraryId, final Locale locale, final int searchingView, final int firstRecord, final int lastRecord,final String[] attributes,  String[] directions ) {
     final Parser parser = new Parser(locale, mainLibraryId, searchingView, session);
     try (final Statement sql = stmt(connection());
-         final ResultSet rs = executeQuery(sql, parser.parse(cclQuery))) {
-      final ArrayList<Integer> results = new ArrayList<>();
+         final ResultSet rs = executeQuery(sql, parser.parse(cclQuery, firstRecord, lastRecord, attributes, directions))) {
+      final ArrayList <Integer> results = new ArrayList <>();
       while (rs.next()) {
         results.add(rs.getInt(1));
       }
@@ -484,6 +486,7 @@ public class StorageService implements Closeable {
       return emptyList();
     }
   }
+
 
   /**
    * Returns a valid database connection associated with this service.
@@ -1726,5 +1729,28 @@ public class StorageService implements Closeable {
 
   }
 
+  /**
+   * Executes a CCL query using the given data to get the total count of the documents
+   *
+   * @param cclQuery      the CCL query.
+   * @param mainLibraryId the main library identifier.
+   * @param locale        the current locale.
+   * @param searchingView the target search view.
+   * @return a list of docid matching the input query.
+   */
+  public int getCountDocumentByQuery(final String cclQuery, final int mainLibraryId, final Locale locale, final int searchingView) {
+    final Parser parser = new Parser(locale, mainLibraryId, searchingView, session);
+    try (final Statement sql = stmt(connection());
+         final ResultSet rs = executeQuery(sql, parser.parseAndCount(cclQuery))) {
+      int count = 0;
+      while (rs.next()) {
+        count = rs.getInt(1);
+      }
+      return count;
+    } catch (final HibernateException | SQLException exception) {
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      return 0;
+    }
+  }
 
 }

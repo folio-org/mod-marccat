@@ -44,7 +44,7 @@ public abstract class ModCatalogingSearchEngine implements SearchEngine {
   }
 
   @Override
-  public SearchResponse expertSearch(final String cclQuery, final Locale locale, final int searchingView) {
+  public SearchResponse expertSearch(final String cclQuery, final Locale locale, final int searchingView, final int firstRecord, final int lastRecord, final String[] attributes, final String[] directions) {
     return new SearchResponse(
       searchingView,
       cclQuery,
@@ -52,9 +52,19 @@ public abstract class ModCatalogingSearchEngine implements SearchEngine {
         cclQuery,
         mainLibraryId,
         locale,
-        searchingView)
+        searchingView,
+        firstRecord,
+        lastRecord,
+        attributes,
+        directions
+      )
         .stream()
         .mapToInt(Integer::intValue).toArray());
+  }
+
+  @Deprecated
+  public SearchResponse expertSearch(final String cclQuery, final Locale locale, final int searchingView) {
+    return null;
   }
 
   @Override
@@ -77,6 +87,7 @@ public abstract class ModCatalogingSearchEngine implements SearchEngine {
         }).toArray(Record[]::new));
     response.setFrom(firstRecord);
     response.setTo(Math.min(lastRecord, (firstRecord + response.getPageSize())));
+    //response.setTo(lastRecord);
 
     return response;
   }
