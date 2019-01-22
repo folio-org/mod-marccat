@@ -320,7 +320,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
   /**
    * @return list of overflow.
    */
-  public List getOverflowList() {
+  public List<BibliographicNoteOverflow> getOverflowList() {
     return note.overflowList;
   }
 

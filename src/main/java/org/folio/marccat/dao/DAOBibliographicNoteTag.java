@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- *
- * Created on Dec 22, 2004
- *
- * DAOPublisherTag.java
- */
 package org.folio.marccat.dao;
 
 import net.sf.hibernate.HibernateException;
@@ -23,7 +16,6 @@ import java.util.Iterator;
 
 /**
  * @author hansv
- * @version $Revision: 1.4 $ $Date: 2005/12/21 08:30:32 $
  * @since 1.0
  */
 //TODO refactor!
@@ -33,25 +25,45 @@ public class DAOBibliographicNoteTag extends AbstractDAO {
   /* (non-Javadoc)
    * @see HibernateUtil#delete(librisuite.business.common.Persistence)
    */
-  public void delete(Persistence po) throws DataAccessException {
+  public void delete(Persistence po, final Session session) throws DataAccessException {
     if (!(po instanceof BibliographicNoteTag)) {
       throw new IllegalArgumentException("I can only persist BibliographicNoteTag objects");
     }
     BibliographicNoteTag aNote = (BibliographicNoteTag) po;
     aNote.getNote().markDeleted();
-    persistByStatus(aNote.getNote());
+    try {
+      persistByStatus(aNote.getNote(), session);
+    } catch (HibernateException e) {
+      throw new DataAccessException(e);
+    }
+
     if (aNote.getNoteStandard() != null) {
       aNote.getNoteStandard().markDeleted();
-      persistByStatus(aNote.getNoteStandard());
+      try {
+        persistByStatus(aNote.getNoteStandard(), session);
+      } catch (HibernateException e) {
+        throw new DataAccessException(e);
+      }
     }
-    Iterator iter = aNote.getOverflowList().iterator();
+    /*Iterator iter = aNote.getOverflowList().iterator();
     BibliographicNoteOverflow overflow;
     while (iter.hasNext()) {
       overflow = (BibliographicNoteOverflow) iter.next();
       overflow.markDeleted();
       persistByStatus(overflow);
       super.delete(overflow);
-    }
+    }*/
+
+    aNote.getOverflowList().forEach(overflow -> {
+      try {
+        overflow.markDeleted();
+        persistByStatus(overflow, session);
+        super.delete(overflow, session);
+      } catch (HibernateException e) {
+        throw new DataAccessException(e);
+      }
+    });
+
     aNote.setUpdateStatus(UpdateStatus.REMOVED);
   }
 
