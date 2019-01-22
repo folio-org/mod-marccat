@@ -292,7 +292,7 @@ public class NameTitleDescriptorDAO extends DAODescriptor {
     throws HibernateException, SQLException {
 
     String searchTerm = super.calculateSearchTerm(term, browseIndex, session);
-    if (term.indexOf(":") > 0) {
+    if (term.indexOf(':') > -1) {
       String[] parsedTerm = term.split(":");
       String name = parsedTerm[0].trim();
       String title = parsedTerm[1].trim();

@@ -1,31 +1,40 @@
-/*
- * (c) LibriCore
- *
- * Created on Dec 29, 2005
- *
- * NME_NME_TTL_REF.java
- */
 package org.folio.marccat.dao.persistence;
 
 import org.folio.marccat.dao.*;
 
 /**
+ * The different cross references for the titles/name names.
+ *
  * @author paulm
- * @version $Revision: 1.1 $, $Date: 2006/01/05 13:25:59 $
- * @since 1.0
+ * @author carment
  */
 public class NME_NME_TTL_REF extends REF {
-  private static final DAONameNameTitleReferences theDAO =
-    new DAONameNameTitleReferences();
+
+  /** The DAO. */
+  private static final NameNameTitleReferencesDAO theDAO = new NameNameTitleReferencesDAO();
+
+  /** The name title heading number. */
   private int nameTitleHeadingNumber;
+
+  /** The name heading number. */
   private int nameHeadingNumber;
+
+  /** The source heading type. */
   private String sourceHeadingType;
 
+  /**
+   * Checks if is source name.
+   *
+   * @return true, if is source name
+   */
   public boolean isSourceName() {
     return getSourceHeadingType().equals("NH");
   }
 
   /**
+   * Gets the name heading number.
+   *
+   * @return the name heading number
    * @since 1.0
    */
   public int getNameHeadingNumber() {
@@ -33,6 +42,9 @@ public class NME_NME_TTL_REF extends REF {
   }
 
   /**
+   * Sets the name heading number.
+   *
+   * @param i the new name heading number
    * @since 1.0
    */
   public void setNameHeadingNumber(int i) {
@@ -40,6 +52,9 @@ public class NME_NME_TTL_REF extends REF {
   }
 
   /**
+   * Gets the name title heading number.
+   *
+   * @return the name title heading number
    * @since 1.0
    */
   public int getNameTitleHeadingNumber() {
@@ -47,6 +62,9 @@ public class NME_NME_TTL_REF extends REF {
   }
 
   /**
+   * Sets the name title heading number.
+   *
+   * @param i the new name title heading number
    * @since 1.0
    */
   public void setNameTitleHeadingNumber(int i) {
@@ -54,6 +72,9 @@ public class NME_NME_TTL_REF extends REF {
   }
 
   /**
+   * Gets the source heading type.
+   *
+   * @return the source heading type
    * @since 1.0
    */
   public String getSourceHeadingType() {
@@ -61,14 +82,19 @@ public class NME_NME_TTL_REF extends REF {
   }
 
   /**
+   * Sets the source heading type.
+   *
+   * @param string the new source heading type
    * @since 1.0
    */
   public void setSourceHeadingType(String string) {
     sourceHeadingType = string;
   }
 
-  /* (non-Javadoc)
-   * @see REF#getTargetDAO()
+  /**
+   * Gets the target DAO.
+   *
+   * @return the target DAO
    */
   public DAODescriptor getTargetDAO() {
     if (isSourceName()) {
@@ -79,8 +105,13 @@ public class NME_NME_TTL_REF extends REF {
 
   }
 
-  /* (non-Javadoc)
-   * @see REF#init(Descriptor, Descriptor, short, int)
+  /**
+   * Inits the.
+   *
+   * @param source the source
+   * @param target the target
+   * @param referenceType the reference type
+   * @param cataloguingView the cataloguing view
    */
   public void init(
     Descriptor source,
@@ -100,9 +131,12 @@ public class NME_NME_TTL_REF extends REF {
     }
   }
 
-  /* (non-Javadoc)
-   * @see REF#getSource()
+  /**
+   * Gets the source.
+   *
+   * @return the source
    */
+  @Override
   public int getSource() {
     if (isSourceName()) {
       return getNameHeadingNumber();
@@ -111,9 +145,12 @@ public class NME_NME_TTL_REF extends REF {
     }
   }
 
-  /* (non-Javadoc)
-   * @see REF#setSource(int)
+  /**
+   * Sets the source.
+   *
+   * @param i the new source
    */
+  @Override
   public void setSource(int i) {
     if (isSourceName()) {
       setNameHeadingNumber(i);
@@ -122,9 +159,12 @@ public class NME_NME_TTL_REF extends REF {
     }
   }
 
-  /* (non-Javadoc)
-   * @see REF#getTarget()
+  /**
+   * Gets the target.
+   *
+   * @return the target
    */
+  @Override
   public int getTarget() {
     if (isSourceName()) {
       return getNameTitleHeadingNumber();
@@ -133,9 +173,12 @@ public class NME_NME_TTL_REF extends REF {
     }
   }
 
-  /* (non-Javadoc)
-   * @see REF#setTarget(int)
+  /**
+   * Sets the target.
+   *
+   * @param i the new target
    */
+  @Override
   public void setTarget(int i) {
     if (isSourceName()) {
       setNameTitleHeadingNumber(i);
@@ -144,9 +187,12 @@ public class NME_NME_TTL_REF extends REF {
     }
   }
 
-  /* (non-Javadoc)
-   * @see REF#createReciprocal()
+  /**
+   * Creates the reciprocal.
+   *
+   * @return the ref
    */
+  @Override
   public REF createReciprocal() {
     NME_NME_TTL_REF result = (NME_NME_TTL_REF) this.clone();
     if (isSourceName()) {
@@ -158,16 +204,23 @@ public class NME_NME_TTL_REF extends REF {
     return result;
   }
 
-  /* (non-Javadoc)
-   * @see librisuite.business.common.PersistenceState#getDAO()
+  /**
+   * Gets the dao.
+   *
+   * @return the dao
    */
+  @Override
   public AbstractDAO getDAO() {
     return theDAO;
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#equals(java.lang.Object)
+  /**
+   * Equals.
+   *
+   * @param obj the obj
+   * @return true, if successful
    */
+  @Override
   public boolean equals(Object obj) {
     if (obj instanceof NME_NME_TTL_REF) {
       NME_NME_TTL_REF ref = (NME_NME_TTL_REF) obj;
@@ -182,9 +235,12 @@ public class NME_NME_TTL_REF extends REF {
     }
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#hashCode()
+  /**
+   * Hash code.
+   *
+   * @return the int
    */
+  @Override
   public int hashCode() {
     return getNameHeadingNumber() + 3 * getNameTitleHeadingNumber();
   }

@@ -739,5 +739,29 @@ public enum CodeListsType {
     public String toString() {
       return "MIC_SPEC_DESIGN";
     }
+  },
+  BOOK_MATERIAL_CODE {
+    @Override
+    public String toString() {
+      return "BOOK_MATERIAL_CODE";
+    }
+  },
+  MUSIC_MATERIAL_CODE {
+    @Override
+    public String toString() {
+      return "MUSIC_MATERIAL_CODE";
+    }
+  },
+  MAP_MATERIAL_CODE {
+    @Override
+    public String toString() {
+      return "MAP_MATERIAL_CODE";
+    }
+  },
+  VM_MATERIAL_CODE {
+    @Override
+    public String toString() {
+      return "VM_MATERIAL_CODE";
+    }
   }
 }

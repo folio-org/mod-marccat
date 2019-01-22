@@ -10,6 +10,7 @@ import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
 import org.folio.marccat.business.cataloguing.common.*;
 import org.folio.marccat.business.codetable.Avp;
 import org.folio.marccat.business.common.View;
+import org.folio.marccat.business.descriptor.DescriptorFactory;
 import org.folio.marccat.config.Global;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.MessageCatalog;
@@ -24,7 +25,10 @@ import org.folio.marccat.model.Subfield;
 import org.folio.marccat.resources.domain.*;
 import org.folio.marccat.resources.domain.Leader;
 import org.folio.marccat.search.SearchResponse;
-import org.folio.marccat.shared.*;
+import org.folio.marccat.shared.CorrelationValues;
+import org.folio.marccat.shared.GeneralInformation;
+import org.folio.marccat.shared.MapHeading;
+import org.folio.marccat.shared.Validation;
 import org.folio.marccat.util.F;
 import org.folio.marccat.util.StringText;
 import org.springframework.web.multipart.MultipartFile;
@@ -230,7 +234,6 @@ public class StorageService implements Closeable {
    * @param template the record template.
    * @throws DataAccessException in case of data access failure.
    */
-  //todo: add second and third value wemi flag: consider if use record template also for authority
   public void saveAuthorityRecordTemplate(final RecordTemplate template) throws DataAccessException {
     try {
       final ObjectMapper mapper = new ObjectMapper();
@@ -460,15 +463,17 @@ public class StorageService implements Closeable {
    *
    * @param cclQuery      the CCL query.
    * @param mainLibraryId the main library identifier.
+   * @param firstRecord   the first record.
+   * @param lastRecord    the last record.
    * @param locale        the current locale.
    * @param searchingView the target search view.
    * @return a list of docid matching the input query.
    */
-  public List<Integer> executeQuery(final String cclQuery, final int mainLibraryId, final Locale locale, final int searchingView) {
+  public List <Integer> executeQuery(final String cclQuery, final int mainLibraryId, final Locale locale, final int searchingView, final int firstRecord, final int lastRecord,final String[] attributes,  String[] directions ) {
     final Parser parser = new Parser(locale, mainLibraryId, searchingView, session);
     try (final Statement sql = stmt(connection());
-         final ResultSet rs = executeQuery(sql, parser.parse(cclQuery))) {
-      final ArrayList<Integer> results = new ArrayList<>();
+         final ResultSet rs = executeQuery(sql, parser.parse(cclQuery, firstRecord, lastRecord, attributes, directions))) {
+      final ArrayList <Integer> results = new ArrayList <>();
       while (rs.next()) {
         results.add(rs.getInt(1));
       }
@@ -481,6 +486,7 @@ public class StorageService implements Closeable {
       return emptyList();
     }
   }
+
 
   /**
    * Returns a valid database connection associated with this service.
@@ -751,6 +757,19 @@ public class StorageService implements Closeable {
         headingObject.setCountAuthorities(heading.getAuthorityCount());
         headingObject.setCountDocuments(dao.getDocCount(heading, view, session));
         headingObject.setCountTitleNameDocuments(dao.getDocCountNT(heading, view, session));
+        final List<REF> crossReferences = dao.getCrossReferences(heading, view, session);
+        headingObject.setCrossReferences(crossReferences.stream().map(crossReference -> {
+          try {
+            final Ref ref = new Ref();
+            final Descriptor hdg = crossReference.getTargetDAO().load(crossReference.getTarget(), view, session);
+            ref.setStringText(new StringText(hdg.getStringText()).toDisplayString());
+            ref.setRefType(crossReference.getType());
+            return ref;
+          } catch (HibernateException e) {
+            throw new DataAccessException(e);
+          }
+        }).collect(Collectors.toList()));
+
       } catch (HibernateException exception) {
         logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
         throw new DataAccessException(exception);
@@ -1198,7 +1217,7 @@ public class StorageService implements Closeable {
         if (correlations.size() > 1) {
           if ((tag.endsWith("00") || tag.endsWith("10") || tag.endsWith("11")) && hasTitle) {
             return Global.NAME_TITLE_CATEGORY;
-          } else if (correlations.stream().anyMatch(Objects::nonNull)){
+          } else if (correlations.stream().anyMatch(Objects::nonNull)) {
             return correlations.stream().filter(Objects::nonNull).findFirst().get().getKey().getMarcTagCategoryCode();
           }
         }
@@ -1242,26 +1261,10 @@ public class StorageService implements Closeable {
       }
 
       final int an = item.getAmicusNumber();
-      item.setModelItem(
-        ofNullable(template).map(t -> {
-          final BibliographicModelItemDAO dao = new BibliographicModelItemDAO();
-          final ObjectMapper mapper = new ObjectMapper();
 
-          try {
-            BibliographicModel model = (BibliographicModel) ofNullable(dao.load(an, session).getModel()).get();
-            if (model == null)
-              model = new BibliographicModel();
-
-            model.setId(t.getId());
-            model.setLabel(t.getName());
-            model.setFrbrFirstGroup(t.getGroup());
-            model.setRecordFields(mapper.writeValueAsString(t));
-            return model;
-          } catch (Exception e) {
-            logger.error(MessageCatalog._00023_SAVE_TEMPLATE_ASSOCIATED_FAILURE, t.getId(), record.getId(), e);
-            throw new RuntimeException(e);
-          }
-        }).orElse(null));
+      BibliographicModel model = getItemModel(template, an);
+      if (ofNullable(model).isPresent())
+        item.setModelItem(model);
 
       if (isNotNullOrEmpty(record.getVerificationLevel()))
         item.getItemEntity().setVerificationLevel(record.getVerificationLevel().charAt(0));
@@ -1276,6 +1279,36 @@ public class StorageService implements Closeable {
       throw new DataAccessException(e);
     }
   }
+
+  /**
+   * Get BibliographicModel associated to record.
+   *
+   * @param template -- the current template.
+   * @param an       -- the record id.
+   */
+  private BibliographicModel getItemModel(final RecordTemplate template, final int an) {
+    if (ofNullable(template).isPresent()) {
+
+      final BibliographicModelItemDAO dao = new BibliographicModelItemDAO();
+      final ObjectMapper mapper = new ObjectMapper();
+      try {
+        BibliographicModel model = (BibliographicModel) dao.load(an, session).getModel();
+        if (model == null)
+          model = new BibliographicModel();
+
+        model.setId(template.getId());
+        model.setLabel(template.getName());
+        model.setFrbrFirstGroup(template.getGroup());
+        model.setRecordFields(mapper.writeValueAsString(template));
+        return model;
+      } catch (Exception e) {
+        logger.error(MessageCatalog._00023_SAVE_TEMPLATE_ASSOCIATED_FAILURE, template.getId(), an, e);
+        throw new RuntimeException(e);
+      }
+    }
+    return null;
+  }
+
 
   /**
    * Updates a bibliographic record.
@@ -1299,13 +1332,13 @@ public class StorageService implements Closeable {
       final String tagNbr = field.getCode();
       final Field.FieldStatus status = field.getFieldStatus();
 
+      if (tagNbr.equals(Global.MATERIAL_TAG_CODE) && status == Field.FieldStatus.CHANGED || status == Field.FieldStatus.UNCHANGED) {
+        recordParser.changeMaterialDescriptionTag(item, field, session);
+      }
+
       if (status == Field.FieldStatus.NEW
         || status == Field.FieldStatus.DELETED
         || status == Field.FieldStatus.CHANGED) {
-
-        if (tagNbr.equals(Global.MATERIAL_TAG_CODE) && status == Field.FieldStatus.CHANGED) {
-          recordParser.changeMaterialDescriptionTag(item, field, session);
-        }
 
         if (tagNbr.equals(Global.OTHER_MATERIAL_TAG_CODE)) {
           final Map<String, Object> mapRecordTypeMaterial = getMaterialTypeInfosByLeaderValues(newLeader.charAt(6), newLeader.charAt(7), tagNbr);
@@ -1568,5 +1601,156 @@ public class StorageService implements Closeable {
     }
   }
 
+  /**
+   * Save the heading, if the capture already exists
+   *
+   * @param heading       the heading.
+   * @param view          the view.
+   * @param configuration the configuration.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public void saveHeading(final Heading heading, final int view,
+                          final Map<String, String> configuration) throws DataAccessException {
+    try {
+      final BibliographicCatalog catalog = new BibliographicCatalog();
+      final CatalogItem item = new BibliographicItem();
+      final TagImpl impl = new BibliographicTagImpl();
+      final Correlation corr = impl.getCorrelation(heading.getTag(), heading.getIndicator1().charAt(0), heading.getIndicator2().charAt(0), 0, session);
+      final Tag newTag = catalog.getNewTag(item, corr.getKey().getMarcTagCategoryCode(), corr.getValues());
+      if (newTag != null) {
+        final StringText st = new StringText(heading.getStringText());
+        ((VariableField) newTag).setStringText(st);
+        if (newTag instanceof Browsable) {
+          final int skipInFiling = updateIndicatorNotNumeric(corr.getKey(), heading.getIndicator1(), heading.getIndicator2());
+          ((Browsable) newTag).setDescriptorStringText(st);
+          final Descriptor descriptor = ((Browsable) newTag).getDescriptor();
+          descriptor.setUserViewString(View.makeSingleViewString(view));
+          descriptor.setSkipInFiling(skipInFiling);
+          final Descriptor dup = ((DAODescriptor) (descriptor.getDAO())).getMatchingHeading(descriptor, session);
+          if (dup == null) {
+            descriptor.setConfigValues(configuration);
+            descriptor.generateNewKey(session);
+            descriptor.getDAO().save(descriptor, session);
+            heading.setHeadingNumber(descriptor.getHeadingNumber());
+          }
+          if (dup != null)
+            heading.setHeadingNumber(dup.getHeadingNumber());
+        }
+      }
+    } catch (HibernateException | SQLException exception) {
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
+    }
+  }
+
+  /**
+   * @param lang     the language code, used here as a filter criterion.
+   * @param category the category, used here as a filter criterion.
+   * @return a list of heading item types by marc category code associated with the requested language.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public List<Avp<String>> getFirstCorrelation(final String lang, final int category) throws DataAccessException {
+    final DAOCodeTable daoCT = new DAOCodeTable();
+    return daoCT.getList(session, FIRST_CORRELATION_HEADING_CLASS_MAP.get(category), locale(lang));
+  }
+
+
+  /**
+   * Changes any non-numeric indicators from the correlation table
+   * S for skipinfiling for bibliographic tags
+   *
+   * @param coKey
+   * @param indicator1
+   * @param indicator2
+   */
+  private int updateIndicatorNotNumeric(final CorrelationKey coKey, final String indicator1, final String indicator2) {
+    final int skipInFiling = 0;
+    if (coKey.getMarcFirstIndicator() == Global.BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC)
+      return (!indicator1.isEmpty()) ? Integer.parseInt(indicator1) : skipInFiling;
+    else if (coKey.getMarcSecondIndicator() == Global.BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC)
+      return (!indicator1.isEmpty()) ? Integer.parseInt(indicator2) : skipInFiling;
+    return skipInFiling;
+  }
+
+
+  /**
+   * Update of an existing heading
+   *
+   * @param heading the heading.
+   * @param view    the view.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public void updateHeading(final Heading heading, final int view) throws DataAccessException {
+    try {
+      final TagImpl impl = new BibliographicTagImpl();
+      final BibliographicCatalog catalog = new BibliographicCatalog();
+      final CatalogItem item = new BibliographicItem();
+      final Correlation corr = impl.getCorrelation(heading.getTag(), heading.getIndicator1().charAt(0), heading.getIndicator2().charAt(0), 0, session);
+      final Tag newTag = catalog.getNewTag(item, corr.getKey().getMarcTagCategoryCode(), corr.getValues());
+      if (newTag != null) {
+        final StringText st = new StringText(heading.getStringText());
+        ((VariableField) newTag).setStringText(st);
+        if (newTag instanceof Browsable) {
+          final int skipInFiling = updateIndicatorNotNumeric(corr.getKey(), heading.getIndicator1(), heading.getIndicator2());
+          ((Browsable) newTag).setDescriptorStringText(st);
+          final Descriptor descriptor = ((Browsable) newTag).getDescriptor();
+          final DAODescriptor descriptorDao = DescriptorFactory.getDao(heading.getCategory());
+          final Descriptor d = descriptorDao.load(heading.getHeadingNumber(), view, session);
+          if (d != null) {
+            d.setSkipInFiling(skipInFiling);
+            d.setStringText(descriptor.getStringText());
+            d.getDAO().update(d, session);
+          }
+        }
+      }
+    } catch (HibernateException exception) {
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
+    }
+
+  }
+
+  /**
+   * delete the heading
+   *
+   * @param heading the heading.
+   * @param view    the view.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public void deleteHeadingById(final Heading heading, final int view) throws DataAccessException {
+    try {
+      final DAODescriptor descriptorDao = DescriptorFactory.getDao(heading.getCategory());
+      final Descriptor d = descriptorDao.load(heading.getHeadingNumber(), view, session);
+      d.getDAO().delete(d, session);
+    } catch (HibernateException exception) {
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
+    }
+
+  }
+
+  /**
+   * Executes a CCL query using the given data to get the total count of the documents
+   *
+   * @param cclQuery      the CCL query.
+   * @param mainLibraryId the main library identifier.
+   * @param locale        the current locale.
+   * @param searchingView the target search view.
+   * @return a list of docid matching the input query.
+   */
+  public int getCountDocumentByQuery(final String cclQuery, final int mainLibraryId, final Locale locale, final int searchingView) {
+    final Parser parser = new Parser(locale, mainLibraryId, searchingView, session);
+    try (final Statement sql = stmt(connection());
+         final ResultSet rs = executeQuery(sql, parser.parseAndCount(cclQuery))) {
+      int count = 0;
+      while (rs.next()) {
+        count = rs.getInt(1);
+      }
+      return count;
+    } catch (final HibernateException | SQLException exception) {
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      return 0;
+    }
+  }
 
 }

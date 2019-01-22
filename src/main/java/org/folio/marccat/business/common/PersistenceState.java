@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- *
- * Created on Aug 20, 2004
- *
- * PersistentObject.java
- */
 package org.folio.marccat.business.common;
 
 import net.sf.hibernate.CallbackException;
@@ -17,81 +10,127 @@ import org.folio.marccat.exception.DataAccessException;
 import java.io.Serializable;
 
 /**
+ * Class for the persistence state in hibernate.
+ *
  * @author paulm
- * @version $Revision: 1.4 $, $Date: 2005/12/01 13:50:05 $
- * @since 1.0
+ * @author carment
  */
 public class PersistenceState implements Lifecycle, Serializable {
 
+  /**
+   * The update status.
+   */
   private int updateStatus = UpdateStatus.NEW;
+
+  /**
+   * The committed status.
+   */
   private Integer committedStatus = null;
 
   /**
+   * Gets the update status.
    *
+   * @return the update status
    */
   public int getUpdateStatus() {
     return updateStatus;
   }
 
   /**
+   * Sets the update status.
    *
+   * @param i the new update status
    */
   public void setUpdateStatus(int i) {
     updateStatus = i;
   }
 
+  /**
+   * On load.
+   *
+   * @param arg0 the arg 0
+   * @param arg1 the arg 1
+   */
   public void onLoad(Session arg0, Serializable arg1) {
-    // MIKE: do not register for onLoad. All read objects must be marked as unchanged
-    // as internal as external of a transaction
     setUpdateStatus(UpdateStatus.UNCHANGED);
   }
 
-  /* (non-Javadoc)
-   * @see net.sf.hibernate.Lifecycle#onDelete(net.sf.hibernate.Session)
+  /**
+   * On delete.
+   *
+   * @param arg0 the arg 0
+   * @return true, if successful
+   * @throws CallbackException the callback exception
    */
   public boolean onDelete(Session arg0) throws CallbackException {
     registerNextStatus(updateStatus, UpdateStatus.REMOVED);
-    //setUpdateStatus(UpdateStatus.REMOVED);
     return false;
   }
 
-  /* (non-Javadoc)
-   * @see net.sf.hibernate.Lifecycle#onSave(net.sf.hibernate.Session)
+  /**
+   * On save.
+   *
+   * @param arg0 the arg 0
+   * @return true, if successful
+   * @throws CallbackException the callback exception
    */
+
   public boolean onSave(Session arg0) throws CallbackException {
     registerNextStatus(updateStatus, UpdateStatus.UNCHANGED);
-    //setUpdateStatus(UpdateStatus.UNCHANGED);
     return false;
   }
 
-  /* (non-Javadoc)
-   * @see net.sf.hibernate.Lifecycle#onUpdate(net.sf.hibernate.Session)
+  /**
+   * On update.
+   *
+   * @param arg0 the arg 0
+   * @return true, if successful
+   * @throws CallbackException the callback exception
    */
   public boolean onUpdate(Session arg0) throws CallbackException {
     registerNextStatus(updateStatus, UpdateStatus.UNCHANGED);
-    //setUpdateStatus(UpdateStatus.UNCHANGED);
     return false;
   }
 
+  /**
+   * Checks if is changed.
+   *
+   * @return true, if is changed
+   */
   public boolean isChanged() {
     return updateStatus == UpdateStatus.CHANGED;
   }
 
+  /**
+   * Checks if is deleted.
+   *
+   * @return true, if is deleted
+   */
   public boolean isDeleted() {
     return updateStatus == UpdateStatus.DELETED;
   }
 
+  /**
+   * Checks if is new.
+   *
+   * @return true, if is new
+   */
   public boolean isNew() {
     return updateStatus == UpdateStatus.NEW;
   }
 
+  /**
+   * Checks if is removed.
+   *
+   * @return true, if is removed
+   */
   public boolean isRemoved() {
     return updateStatus == UpdateStatus.REMOVED;
   }
 
   /**
    * If object is now UNCHANGED or REMOVED (set via Hibernate)
-   * make it CHANGED (otherwise leave it alone)
+   * make it CHANGED (otherwise leave it alone).
    */
   public void markChanged() {
     if (updateStatus == UpdateStatus.UNCHANGED
@@ -100,25 +139,42 @@ public class PersistenceState implements Lifecycle, Serializable {
     }
   }
 
+  /**
+   * Mark new.
+   */
   public void markNew() {
     setUpdateStatus(UpdateStatus.NEW);
   }
 
+  /**
+   * Mark unchanged.
+   */
   public void markUnchanged() {
     setUpdateStatus(UpdateStatus.UNCHANGED);
   }
 
+  /**
+   * Mark deleted.
+   */
   public void markDeleted() {
     setUpdateStatus(UpdateStatus.DELETED);
   }
 
+  /**
+   * Evict
+   *
+   * @param obj the obj
+   * @throws DataAccessException the data access exception
+   * @deprecated it is necessary to recall the method of the session
+   */
   @Deprecated
   public void evict(Object obj) throws DataAccessException {
   }
 
   /**
-   * Default implementation for Persistence objects
+   * Default implementation for Persistence objects.
    *
+   * @return the dao
    * @since 1.0
    */
   public AbstractDAO getDAO() {
@@ -126,19 +182,19 @@ public class PersistenceState implements Lifecycle, Serializable {
   }
 
   /**
-   * save next status instead to change it immediately
+   * Save next status instead to change it immediately.
    *
    * @param fromStatus previous state (unused in this release)
    * @param toStatus   definitive state (assumed after the commit)
    */
   private void registerNextStatus(int fromStatus, int toStatus) {
     if (fromStatus == toStatus) return;
-    committedStatus = new Integer(toStatus);
+    committedStatus = toStatus;
     TransactionalHibernateOperation.register(this);
   }
 
   /**
-   * Commit the changes
+   * Commit the changes.
    */
   public void confirmChanges() {
     if (committedStatus == null) return;
@@ -146,12 +202,15 @@ public class PersistenceState implements Lifecycle, Serializable {
   }
 
   /**
-   * rollback the changes
+   * rollback the changes.
    */
   public void cancelChanges() {
     // do nothing
   }
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
   public String toString() {
     return super.toString() + " " + updateStatus + "->" + committedStatus;
   }

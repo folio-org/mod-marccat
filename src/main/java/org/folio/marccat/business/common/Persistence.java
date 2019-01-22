@@ -6,6 +6,7 @@ import org.folio.marccat.exception.DataAccessException;
 
 import java.io.Serializable;
 
+
 /**
  * Implementing this interface indicates that the implementing object is known to the persistency layer (Hibernate).
  *
@@ -17,44 +18,74 @@ public interface Persistence extends Lifecycle, Serializable {
 
 
   /**
-   * Removes the object from the persistence session
+   * Removes the object from the persistence session.
    *
+   * @throws DataAccessException the data access exception
    * @since 1.0
    */
   @Deprecated
   void evict() throws DataAccessException;
 
   /**
+   * Gets the update status.
    *
+   * @return the update status
    */
   int getUpdateStatus();
 
+  /**
+   * Sets the update status.
+   *
+   * @param i the new update status
+   */
   void setUpdateStatus(int i);
 
+  /**
+   * Checks if is changed.
+   *
+   * @return true, if is changed
+   */
   boolean isChanged();
 
+  /**
+   * Checks if is deleted.
+   *
+   * @return true, if is deleted
+   */
   boolean isDeleted();
 
+  /**
+   * Checks if is new.
+   *
+   * @return true, if is new
+   */
   boolean isNew();
 
   /**
-   * If object is now UNCHANGED make it CHANGED (otherwise leave it alone)
+   * Mark changed.
    */
   void markChanged();
 
+  /**
+   * Mark new.
+   */
   void markNew();
 
+  /**
+   * Mark unchanged.
+   */
   void markUnchanged();
 
+  /**
+   * Mark deleted.
+   */
   void markDeleted();
 
   /**
-   * causes the object to generate new key values
+   * Gets the dao.
+   *
+   * @return the dao
    */
-  //commented by nbianchini
-  //void generateNewKey() throws DataAccessException;
-
-
   AbstractDAO getDAO();
 
 }

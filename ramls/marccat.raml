@@ -1,0 +1,100 @@
+#%RAML 1.0
+title:  MARCcat
+version: v1.1
+protocols: [ HTTP, HTTPS ]
+baseUri: http://localhost:8080
+
+documentation:
+  - title: MARCcat API (Search API)
+    content: <b>API for interacting with an marc record</b>
+
+types:
+  error: !include raml-storage/raml-util/schemas/error.schema
+  errors: !include raml-storage/raml-util/schemas/errors.schema
+  searchResult: !include schema/searchResult.json
+  searchResultVertical: !include schema/searchResultVertical.json
+  searchResultCollection: !include schema/searchResultCollection.json
+
+
+traits:
+  validate: !include raml-storage/raml-util/traits/validation.raml
+  language: !include raml-storage/raml-util/traits/language.raml
+  pageable:  !include raml-storage/raml-util/traits/pageable.raml
+  searchable: !include raml-storage/raml-util/traits/searchable.raml
+
+resourceTypes:
+  collection: !include raml-storage/raml-util/rtypes/collection.raml
+  collection-item: !include raml-storage/raml-util/rtypes/item-collection.raml
+
+/marccat:
+  /search:
+    displayName: Search marc records
+    type:
+      collection-item:
+        exampleItem: !include examples/searchResult.json
+        schema: searchResult
+    get:
+      is: [pageable,
+          searchable: {description: "using CCL query in q parameter and choosing authority or bibliographic in view parameter",
+          example: "q=na \"manzoni, alessandro\"&view=1"}
+          ]
+      description: Return a list of marc records and search metadata
+      responses:
+        200:
+          description: "Return a list of marc records and search metadata"
+        400:
+          description: "Bad request"
+          body:
+            text/plain:
+              example: "Required String parameter 'lang' is not present"
+        500:
+          description: "Internal server error"
+          body:
+            text/plain:
+              example: "Query not supported"
+
+  /mergedSearch:
+      displayName: Search marc records (authority and bibliographic both)
+      type:
+        collection:
+          exampleCollection: !include examples/searchResultCollection.json
+          exampleItem: !include examples/searchResult.json
+          schemaCollection: searchResultCollection
+          schemaItem: searchResult
+      get:
+        is: [pageable,
+            searchable: {description: "using CCL query in q parameter",
+            example: "q=na \"manzoni, alessandro\""}
+            ]
+        description: Return a list of marc records and search metadata
+        responses:
+          200:
+            description: "Return a list of marc records and search metadata"
+          400:
+            description: "Bad request"
+            body:
+              text/plain:
+                example: "Required String parameter 'qbib' is not present"
+          500:
+            description: "Internal server error"
+            body:
+              text/plain:
+                example: "Query not supported"
+
+  /searchVertical:
+        displayName: Search marc records in text format
+        type:
+          collection-item:
+            exampleItem: !include examples/searchResultVertical.json
+            schema: searchResultVertical
+        get:
+          is: [pageable,
+              searchable: {description: "using CCL query in q parameter and choosing authority or bibliographic in view parameter",
+              example: "q=na \"manzoni, alessandro\"&view=1"}
+              ]
+          description: Return a list of marc records in text formats
+          responses:
+            200:
+              description: "Return a list of marc records in text format"
+            500:
+              description: "Internal server error"

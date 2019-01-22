@@ -30,6 +30,26 @@ public class ConversionFieldUtils {
   }
 
   /**
+   *
+   * @param leaderValue
+   * @return
+   */
+  public static FixedField getLeaderValuesInFixedField(final String leaderValue) {
+
+    FixedField fixedField = new FixedField();
+    fixedField.setItemRecordStatusCode(String.valueOf(leaderValue.charAt(5)));
+    fixedField.setItemRecordTypeCode(String.valueOf(leaderValue.charAt(6)));
+    fixedField.setItemBibliographicLevelCode(String.valueOf(leaderValue.charAt(7)));
+    fixedField.setItemControlTypeCode(String.valueOf(leaderValue.charAt(8)));
+    fixedField.setCharacterCodingSchemeCode(String.valueOf(leaderValue.charAt(9)));
+    fixedField.setEncodingLevel(String.valueOf(leaderValue.charAt(17)));
+    fixedField.setDescriptiveCataloguingCode(String.valueOf(leaderValue.charAt(18)));
+    fixedField.setLinkedRecordCode(String.valueOf(leaderValue.charAt(19)));
+
+    return fixedField;
+}
+
+  /**
    * Inject material or other material values for drop-down list selected.
    *
    * @param fixedField the fixedField to populate.
@@ -125,7 +145,9 @@ public class ConversionFieldUtils {
       fixedField.setMusicTextualMaterialCode6(String.valueOf(displayValue.charAt(startPosition + 11)));
       fixedField.setMusicLiteraryTextCode1(String.valueOf(displayValue.charAt(startPosition + 12)));
       fixedField.setMusicLiteraryTextCode2(String.valueOf(displayValue.charAt(startPosition + 13)));
-      fixedField.setMusicTranspositionArrangementCode(String.valueOf(displayValue.charAt(startPosition + 15)));
+      if(displayValue.length() > startPosition + 15) {
+        fixedField.setMusicTranspositionArrangementCode(String.valueOf(displayValue.charAt(startPosition + 15)));
+      }
       fixedField.setMaterialType(FixedField.MaterialType.MUSIC);
     } else if (gi.isVisualMaterial()) {
       fixedField.setVisualRunningTime(displayValue.substring(startPosition, startPosition + 3));

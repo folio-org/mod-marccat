@@ -3,11 +3,9 @@ package org.folio.marccat.dao.persistence;
 import org.folio.marccat.business.cataloguing.bibliographic.BibliographicAccessPoint;
 import org.folio.marccat.business.cataloguing.common.OrderedTag;
 import org.folio.marccat.config.Global;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
-import java.util.List;
 
 /**
  * Persistent class for SBJCT_ACS_PNT.
@@ -15,25 +13,47 @@ import java.util.List;
  * @author nbianchini
  */
 public class SubjectAccessPoint extends BibliographicAccessPoint implements OrderedTag {
+
+  /** The Constant serialVersionUID. */
   private static final long serialVersionUID = -5339141299630141762L;
 
+  /** The function code. */
   private int functionCode = -1;
+
+  /** The work relator code. */
   private String workRelatorCode;
+
+  /** The work relator stringtext. */
   private String workRelatorStringtext;
+
+  /** The sequence number. */
   private int sequenceNumber;
+
+  /** The descriptor. */
   private SBJCT_HDG descriptor = new SBJCT_HDG();
 
+  /**
+   * Instantiates a new subject access point.
+   */
   public SubjectAccessPoint() {
     super();
   }
 
+  /**
+   * Instantiates a new subject access point.
+   *
+   * @param itemNbr the item nbr
+   */
   public SubjectAccessPoint(final int itemNbr) {
     super(itemNbr);
   }
 
   /**
+   * Gets the function code.
+   *
    * @return the subject access point function code.
    */
+  @Override
   public int getFunctionCode() {
     return functionCode;
   }
@@ -43,6 +63,7 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
    *
    * @param code -- the function code to set.
    */
+  @Override
   public void setFunctionCode(final int code) {
     functionCode = code;
   }
@@ -53,7 +74,7 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
    * @return sequenceNumber.
    */
   public Integer getSequenceNumber() {
-    return new Integer(sequenceNumber);
+    return sequenceNumber;
   }
 
   /**
@@ -108,6 +129,7 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
    * @param obj -- the object to compare.
    * @return true if equals.
    */
+  @Override
   public boolean equals(final Object obj) {
     if (!(obj instanceof SubjectAccessPoint))
       return false;
@@ -116,10 +138,13 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
   }
 
   /**
+   * Hash code.
+   *
    * @return hashCode.
    */
+  @Override
   public int hashCode() {
-    return super.hashCode(); // TODO this is bad, should be changed
+    return super.hashCode();
   }
 
   /**
@@ -146,6 +171,7 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
    * @param v -- the correlation values.
    * @return boolean.
    */
+  @Override
   public boolean correlationChangeAffectsKey(final CorrelationValues v) {
     return (v.isValueDefined(2)) && (v.getValue(2) != getFunctionCode());
   }
@@ -155,6 +181,7 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
    *
    * @return "editSubject".
    */
+  @Override
   public String getRequiredEditPermission() {
     return Global.SUBJECT_REQUIRED_PERMISSION;
   }
@@ -183,6 +210,7 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
    *
    * @return category.
    */
+  @Override
   public int getCategory() {
     return Global.SUBJECT_CATEGORY;
   }
@@ -218,32 +246,45 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
   }
 
   /**
+   * Gets the variant codes.
+   *
    * @return variant subfield codes.
    */
+  @Override
   public String getVariantCodes() {
     return Global.SUBJECT_VARIANT_CODES;
   }
 
-  //TODO: move in storageService and add session
-  @Deprecated
-  public List replaceEquivalentDescriptor(short indexingLanguage, int cataloguingView) throws DataAccessException {
-		/*DAODescriptor dao = new DAOSubjectDescriptor();
-		List newTags = new ArrayList();
-		Descriptor d = getDescriptor();
-		REF ref = dao.getCrossReferencesWithLanguage(d, cataloguingView, indexingLanguage);
-	    if (ref!=null) {
-			//REF aRef = (REF)refs.get(0);
-			//Deve fare il replace del descrittore, non un nuovo tag altrimenti rimuovere il tag corrente
-			AccessPoint aTag =	(AccessPoint) deepCopy(this);
-			aTag.markNew();
-			aTag.setDescriptor(dao.load(ref.getTarget(),cataloguingView));
-			aTag.setHeadingNumber(new Integer(aTag.getDescriptor()
-								 .getKey()
-								 .getHeadingNumber()));
-			 newTags.add(aTag);
-		}
-		return newTags;
-		*/
-    return null;
+  /**
+   * Adds the punctuation.
+   *
+   * @return the string text
+   * @throws Exception the exception
+   */
+  @Override
+  public StringText addPunctuation() throws Exception {
+    final StringText result = new StringText(getStringText().toString());
+    try {
+      final CorrelationKey marc = getMarcEncoding();
+      if (marc.getMarcTag().equals("600")) {
+        result.addPrecedingPunctuation("d", ",", ",");
+      }
+      if (Global.SUBJECTS_4.contains(marc.getMarcTag())) {
+        result.removePrecedingPunctuation("4", ",");
+      }
+      if (Global.SUBJECTS_E.contains(marc.getMarcTag())) {
+        result.addPrecedingPunctuation("e", ",", ",");
+      }
+      if (Global.SUBJECTS_4.contains(marc.getMarcTag())) {
+        if (!result.getSubfieldsWithCodes("t").isEmpty()) {
+          result.addTerminalPunctuation("4", ".?!)]-", ".");
+        }
+      }
+      return result;
+    } catch (Exception e) {
+      return result;
+    }
   }
+
+
 }

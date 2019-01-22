@@ -1,0 +1,158 @@
+{
+  "searchingView": 1,
+  "displayQuery": "na \"manzoni\"",
+  "from": 1,
+  "to": 1,
+  "numFound": 1271,
+  "docs": [
+    {
+      "recordView": 1,
+      "countDoc": 0,
+      "queryForAssociatedDoc": null,
+      "tagHighlighted": "100, 245",
+      "data": {
+        "leader": "00000nam  2200000 i 4500",
+        "fields": [
+          {
+            "001": "000006570036"
+          },
+          {
+            "005": "20170216093555.0"
+          },
+          {
+            "008": "170216s19uu    gw     e      000 0 ger c"
+          },
+          {
+            "040": {
+              "subfields": [
+                {
+                  "a": "IT-TrCB"
+                },
+                {
+                  "b": "ita"
+                }
+              ],
+              "ind1": " ",
+              "ind2": " "
+            }
+          },
+          {
+            "300": {
+              "subfields": [
+                {
+                  "a": "440 p."
+                },
+                {
+                  "c": "20 cm"
+                }
+              ],
+              "ind1": " ",
+              "ind2": " "
+            }
+          },
+          {
+            "082": {
+              "subfields": [
+                {
+                  "a": "853.7"
+                },
+                {
+                  "2": "22"
+                }
+              ],
+              "ind1": "0",
+              "ind2": " "
+            }
+          },
+          {
+            "997": {
+              "subfields": [
+                {
+                  "a": "CBT-1-dv-ath-ma"
+                }
+              ],
+              "ind1": " ",
+              "ind2": " "
+            }
+          },
+          {
+            "700": {
+              "subfields": [
+                {
+                  "a": "Langen, Adolf"
+                },
+                {
+                  "t": "rl. "
+                }
+              ],
+              "ind1": "1",
+              "ind2": " "
+            }
+          },
+          {
+            "700": {
+              "subfields": [
+                {
+                  "a": "Bülow, Eduard von"
+                },
+                {
+                  "t": "rl. "
+                }
+              ],
+              "ind1": "1",
+              "ind2": " "
+            }
+          },
+          {
+            "100": {
+              "subfields": [
+                {
+                  "a": "Manzoni, Alessandro"
+                },
+                {
+                  "a": "ut. "
+                }
+              ],
+              "ind1": "1",
+              "ind2": " "
+            }
+          },
+          {
+            "245": {
+              "subfields": [
+                {
+                  "a": "Die Verlobten :"
+                },
+                {
+                  "b": "eine mailänder Geschichte /"
+                },
+                {
+                  "c": "von Alessandro Manzoni ; nach Eduard von Bülows uebersetzung neu bearbeitet von Adolf Langen"
+                }
+              ],
+              "ind1": "0",
+              "ind2": "4"
+            }
+          },
+          {
+            "260": {
+              "subfields": [
+                {
+                  "a": "Berlin :"
+                },
+                {
+                  "b": "Schreitersche Verlagshandlung,"
+                },
+                {
+                  "c": "[19--?]"
+                }
+              ],
+              "ind1": " ",
+              "ind2": " "
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,6 +1,13 @@
-
 buildMvn {
   publishModDescriptor = 'yes'
-  publishAPI = 'no'
+  publishAPI = 'yes'
   mvnDeploy = 'yes'
+  runLintRamlCop = 'yes'
+
+  doDocker = {
+    buildJavaDocker {
+      publishMaster = 'yes'
+      healthChk = 'no'
+  }
+ }
 }

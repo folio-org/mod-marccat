@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- *
- * Created on Nov 10, 2005
- *
- * UserViewHelper.java
- */
 package org.folio.marccat.business.common;
 
 import net.sf.hibernate.CallbackException;
@@ -15,16 +8,27 @@ import org.folio.marccat.exception.DataAccessException;
 import java.io.Serializable;
 
 /**
+ * The helper for the view.
+ *
  * @author paulm
- * @version $Revision: 1.3 $, $Date: 2005/12/12 12:54:37 $
- * @since 1.0
+ * @author carment
  */
 public class UserViewHelper implements PersistentObjectWithView, Serializable {
+
+  /**
+   * The persistence state.
+   */
   private final PersistenceState persistenceState = new PersistenceState();
 
+  /**
+   * The user view string.
+   */
   String userViewString = "0000000000000000";
 
   /**
+   * Gets the user view string.
+   *
+   * @return the user view string
    * @since 1.0
    */
   public String getUserViewString() {
@@ -32,128 +36,162 @@ public class UserViewHelper implements PersistentObjectWithView, Serializable {
   }
 
   /**
-   * @since 1.0
+   * Sets the user view string.
+   *
+   * @param string the new user view string
    */
   public void setUserViewString(String string) {
     userViewString = string;
   }
 
   /**
-   * @since 1.0
+   * Gets the update status.
+   *
+   * @return the update status
    */
   public int getUpdateStatus() {
     return persistenceState.getUpdateStatus();
   }
 
   /**
-   * @since 1.0
+   * Sets the update status.
+   *
+   * @param i the new update status
    */
   public void setUpdateStatus(int i) {
     persistenceState.setUpdateStatus(i);
   }
 
   /**
-   * @since 1.0
+   * Checks if is changed.
+   *
+   * @return true, if is changed
    */
   public boolean isChanged() {
     return persistenceState.isChanged();
   }
 
   /**
-   * @since 1.0
+   * Checks if is deleted.
+   *
+   * @return true, if is deleted
    */
   public boolean isDeleted() {
     return persistenceState.isDeleted();
   }
 
   /**
-   * @since 1.0
+   * Checks if is new.
+   *
+   * @return true, if is new
    */
   public boolean isNew() {
     return persistenceState.isNew();
   }
 
   /**
-   * @since 1.0
+   * Checks if is removed.
+   *
+   * @return true, if is removed
    */
   public boolean isRemoved() {
     return persistenceState.isRemoved();
   }
 
   /**
-   * @since 1.0
+   * Mark changed.
    */
   public void markChanged() {
     persistenceState.markChanged();
   }
 
   /**
-   * @since 1.0
+   * Mark deleted.
    */
   public void markDeleted() {
     persistenceState.markDeleted();
   }
 
   /**
-   * @since 1.0
+   * Mark new.
    */
   public void markNew() {
     persistenceState.markNew();
   }
 
   /**
-   * @since 1.0
+   * Mark unchanged.
    */
   public void markUnchanged() {
     persistenceState.markUnchanged();
   }
 
   /**
-   * @since 1.0
+   * On delete.
+   *
+   * @param s the s
+   * @return true, if successful
+   * @throws CallbackException the callback exception
    */
   public boolean onDelete(Session s) throws CallbackException {
     return persistenceState.onDelete(s);
   }
 
   /**
-   * @since 1.0
+   * On load.
+   *
+   * @param s  the s
+   * @param id the id
    */
   public void onLoad(Session s, Serializable id) {
     persistenceState.onLoad(s, id);
   }
 
   /**
-   * @since 1.0
+   * On save.
+   *
+   * @param s the s
+   * @return true, if successful
+   * @throws CallbackException the callback exception
    */
   public boolean onSave(Session s) throws CallbackException {
     return persistenceState.onSave(s);
   }
 
   /**
-   * @since 1.0
+   * On update.
+   *
+   * @param s the s
+   * @return true, if successful
+   * @throws CallbackException the callback exception
    */
   public boolean onUpdate(Session s) throws CallbackException {
     return persistenceState.onUpdate(s);
   }
 
-  /* (non-Javadoc)
-   * @see librisuite.business.common.Persistence#evict()
+  /**
+   * Evict.
+   *
+   * @throws DataAccessException the data access exception
    */
   public void evict() throws DataAccessException {
-    // TODO Auto-generated method stub
 
   }
 
-  /* (non-Javadoc)
-   * @see librisuite.business.common.Persistence#generateNewKey()
+  /**
+   * Generate new key.
+   *
+   * @throws DataAccessException the data access exception
    */
+
   public void generateNewKey() throws DataAccessException {
-    // TODO Auto-generated method stub
 
   }
 
-  /* (non-Javadoc)
-   * @see librisuite.business.common.Persistence#getDAO()
+  /**
+   * Gets the dao.
+   *
+   * @return the dao
    */
   public AbstractDAO getDAO() {
     return null;

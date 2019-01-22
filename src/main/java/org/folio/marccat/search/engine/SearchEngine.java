@@ -26,6 +26,20 @@ public interface SearchEngine {
   SearchResponse expertSearch(String cclQuery, Locale locale, int searchingView);
 
   /**
+   * Expert search interface contract.
+   *
+   * @param cclQuery      the input CCL query.
+   * @param locale        the current locale.
+   * @param searchingView the searching view associated with the current query execution.
+   * @param firstRecord the first record.
+   * @param lastRecord the last record.
+   * @param attributes the attributes of the search index.
+   * @param directions the directions asc or desc.
+   * @return a search response (containing only the docids)
+   */
+  SearchResponse expertSearch(String cclQuery, Locale locale, int searchingView, int firstRecord, int lastRecord, String[] attributes, String[] directions);
+
+  /**
    * Fetches the records on a preexistent search response.
    * This is the second phase of a search, where collected docids are fetched in order to retrieve the
    * actual record data.

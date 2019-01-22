@@ -1,3 +1,17 @@
+## 1.2.0 2019-01-08
+ * Fix Search Functionality.
+ * Fix Browse functionality.
+ * Merge template (association of a new template to a record)
+ * Duplicate record (duplication of a record from an existing one)
+ * Recovery categories in the save phase by tag number and indicators
+ * Dropdown material type
+ * Dropdown type code for positional tags, starting from the tag number
+ * Fix articfact v1.1.0.[MODCAT-97](https://issues.folio.org/browse/MODCAT-97) and [MODCAT-99](https://issues.folio.org/browse/MODCAT-99)
+ * Dropdown type code for positional tags, starting from the tag number
+ * Create stub microservices for HRDI
+ * Create microservices for db customization
+ * Cleaning project and remove unused class.
+
 ## 1.1.0 2018-12-14
  * Improve Search Functionality.
  * Add Browse functionality.

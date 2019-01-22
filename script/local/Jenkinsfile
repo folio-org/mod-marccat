@@ -1,0 +1,40 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                   def mvnHome = tool 'mvn'
+                   sh "'${mvnHome}/bin/mvn' clean compile package -DskipTests=true"
+                   archiveArtifacts 'target*//*.jar'
+               }
+            }
+        }
+        stage('Deploy'){
+           steps{
+              script{
+                   withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
+                     sh('./script/local/deploy/deploy_itnet.sh')
+                }
+              }
+           }
+         }
+    }
+
+     post {
+          always {
+              echo 'pipeline finished!'
+          }
+          success {
+              echo 'mod-marccat deployed succesfully on ITNET and up and running on port 8080'
+          }
+          failure {
+              echo 'Pipeline failed!!!!'
+              emailext body: "${currentBuild.currentResult}: Job [${env.JOB_NAME}] build #${env.BUILD_NUMBER}\n \nMore info at: ${env.BUILD_URL}\n",
+              recipientProviders: [upstreamDevelopers(), developers(), brokenBuildSuspects()],
+              subject: 'FAILURE Jenkins Pipeline mod-marccat', to: 'christian.chiama@atcult.it',
+              attachLog: true,
+              compressLog: true
+          }
+      }
+}

@@ -74,17 +74,21 @@ public class LightweightModCatalogingSearchEngine extends ModCatalogingSearchEng
 
     Arrays.stream(searchResponse.getRecord()).forEach(singleRecord -> {
       List<String> tagHighlighted = new ArrayList<>();
-      JsonNode fields = ((LightweightJsonRecord) singleRecord).getData().get("fields");
-      if (fields.isArray()) {
-        fields.forEach(tag -> {
-          Iterator<String> iterator = tag.fieldNames();
-          while (iterator.hasNext()) {
-            String tagName = iterator.next();
-            JsonNode tagValueNode = tag.get(tagName);
-            if (queryTerms.stream().anyMatch(term -> cleanPunctuation(tagValueNode.toString()).toLowerCase().contains(term.toLowerCase())))
-              tagHighlighted.add(tagName);
-          }
-        });
+      try {
+        JsonNode fields = ((LightweightJsonRecord) singleRecord).getData().get("fields");
+        if (fields.isArray()) {
+          fields.forEach(tag -> {
+            Iterator<String> iterator = tag.fieldNames();
+            while (iterator.hasNext()) {
+              String tagName = iterator.next();
+              JsonNode tagValueNode = tag.get(tagName);
+              if (queryTerms.stream().anyMatch(term -> cleanPunctuation(tagValueNode.toString()).toLowerCase().contains(term.toLowerCase())))
+                tagHighlighted.add(tagName);
+            }
+          });
+        }
+      } catch (Exception e) {
+        logger.error(e.getMessage(), e);
       }
       singleRecord.setTagHighlighted(String.join(", ", tagHighlighted));
     });
