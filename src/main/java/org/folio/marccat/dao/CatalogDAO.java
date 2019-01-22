@@ -46,7 +46,7 @@ public abstract class CatalogDAO extends AbstractDAO {
   public void deleteCatalogItem(final CatalogItem item, final Session session) throws HibernateException, DataAccessException {
     final Transaction transaction = getTransaction(session);
     item.getTags().stream()
-      .filter(aTag -> aTag instanceof Persistence && !(aTag instanceof AuthorityReferenceTag))
+      .filter(aTag -> aTag instanceof Persistence && !(aTag instanceof AuthorityReferenceTag || aTag instanceof PublisherManager || aTag instanceof BibliographicNoteTag))
       .forEach(tag -> {
         try {
           session.delete(tag);
