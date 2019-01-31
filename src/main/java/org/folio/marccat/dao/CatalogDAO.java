@@ -46,7 +46,7 @@ public abstract class CatalogDAO extends AbstractDAO {
   public void deleteCatalogItem(final CatalogItem item, final Session session) throws HibernateException, DataAccessException {
     final Transaction transaction = getTransaction(session);
     item.getTags().stream()
-      .filter(aTag -> aTag instanceof Persistence && !(aTag instanceof AuthorityReferenceTag || aTag instanceof PublisherManager || aTag instanceof BibliographicNoteTag))
+      .filter(aTag -> aTag instanceof Persistence && !(aTag instanceof AuthorityReferenceTag))
       .forEach(tag -> {
         try {
           session.delete(tag);
@@ -55,6 +55,7 @@ public abstract class CatalogDAO extends AbstractDAO {
           throw new RuntimeException(e);
         }
       });
+
     session.delete(item.getItemEntity());
     if (item.getModelItem() != null)
       session.delete(item.getModelItem());
@@ -105,8 +106,8 @@ public abstract class CatalogDAO extends AbstractDAO {
    * @throws HibernateException in case of hibernate exception.
    */
   protected void saveCasCache(final int amicusNumber, CasCache casCache, final Session session) throws HibernateException {
-    final CasCacheDAO casCacheDAO = new CasCacheDAO();
-    casCacheDAO.persistCasCache(amicusNumber, casCache, session);
+    final MarcatCacheDAO marcatCacheDAO = new MarcatCacheDAO();
+    marcatCacheDAO.persistCasCache(amicusNumber, casCache, session);
   }
 
   /**
@@ -172,6 +173,10 @@ public abstract class CatalogDAO extends AbstractDAO {
     final Transaction transaction = getTransaction(session);
     final String myView = makeSingleViewString(item.getUserView());
     final ItemEntity itemEntity = item.getItemEntity();
+    if (!itemEntity.isNew()) {
+      itemEntity.setUpdateStatus(UpdateStatus.CHANGED);
+    }
+    persistByStatus(itemEntity, session);
 
     final List<Tag> tagList = item.getTags().stream().map(aTag -> {
 
@@ -221,11 +226,6 @@ public abstract class CatalogDAO extends AbstractDAO {
       }
       item.getDeletedTags().remove(aTag);
     });
-
-    if (!itemEntity.isNew()) {
-      itemEntity.setUpdateStatus(UpdateStatus.CHANGED);
-    }
-    persistByStatus(itemEntity, session);
 
     if (item.getModelItem() != null) {
       BibliographicModelItemDAO dao = new BibliographicModelItemDAO();

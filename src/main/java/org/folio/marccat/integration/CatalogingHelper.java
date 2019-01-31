@@ -186,7 +186,7 @@ public abstract class CatalogingHelper {
       .create()
       .username(config.get("user"))
       .password(config.get("password"))
-      .url(config.get("url"))
+      .url("jdbc:postgresql://192.168.0.158:5433/folio_marccat_sv2")
       .build();
   }
 
