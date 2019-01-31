@@ -9,7 +9,7 @@ import org.folio.marccat.resources.domain.CountDocument;
 import org.folio.marccat.search.SearchResponse;
 import org.folio.marccat.search.domain.LightweightJsonRecord;
 import org.folio.marccat.search.domain.Record;
-import org.folio.marccat.search.engine.ModCatalogingSearchEngine;
+import org.folio.marccat.search.engine.ModMarcatSearchEngine;
 
 import java.util.*;
 
@@ -19,8 +19,8 @@ import java.util.*;
  * @author cchiama
  * @since 1.0
  */
-public class LightweightModCatalogingSearchEngine extends ModCatalogingSearchEngine {
-  private final Log logger = new Log(LightweightModCatalogingSearchEngine.class);
+public class LightweightModMarcatSearchEngine extends ModMarcatSearchEngine {
+  private final Log logger = new Log(LightweightModMarcatSearchEngine.class);
 
   /**
    * Builds a new Search engine instance with the given data.
@@ -29,7 +29,7 @@ public class LightweightModCatalogingSearchEngine extends ModCatalogingSearchEng
    * @param databasePreferenceOrder the database preference order.
    * @param service                 the {@link StorageService} instance.
    */
-  public LightweightModCatalogingSearchEngine(final int mainLibraryId, final int databasePreferenceOrder, final StorageService service) {
+  public LightweightModMarcatSearchEngine(final int mainLibraryId, final int databasePreferenceOrder, final StorageService service) {
     super(mainLibraryId, databasePreferenceOrder, service);
   }
 

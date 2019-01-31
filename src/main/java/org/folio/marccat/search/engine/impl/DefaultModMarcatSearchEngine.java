@@ -4,7 +4,7 @@ import org.folio.marccat.integration.StorageService;
 import org.folio.marccat.search.SearchResponse;
 import org.folio.marccat.search.XmlRecord;
 import org.folio.marccat.search.domain.Record;
-import org.folio.marccat.search.engine.ModCatalogingSearchEngine;
+import org.folio.marccat.search.engine.ModMarcatSearchEngine;
 
 import java.util.Locale;
 
@@ -14,7 +14,7 @@ import java.util.Locale;
  * @author cchiama
  * @since 1.0
  */
-public class DefaultModCatalogingSearchEngine extends ModCatalogingSearchEngine {
+public class DefaultModMarcatSearchEngine extends ModMarcatSearchEngine {
   /**
    * Builds a new Search engine instance with the given data.
    *
@@ -22,7 +22,7 @@ public class DefaultModCatalogingSearchEngine extends ModCatalogingSearchEngine 
    * @param databasePreferenceOrder the database preference order.
    * @param service                 the {@link StorageService} instance.
    */
-  public DefaultModCatalogingSearchEngine(final int mainLibraryId, final int databasePreferenceOrder, final StorageService service) {
+  public DefaultModMarcatSearchEngine(final int mainLibraryId, final int databasePreferenceOrder, final StorageService service) {
     super(mainLibraryId, databasePreferenceOrder, service);
   }
 
