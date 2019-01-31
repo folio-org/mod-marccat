@@ -159,7 +159,7 @@ public abstract class CatalogingHelper {
       .filter(node -> !"datasource".equals(node.get("configName").asText()))
       .map(node -> new AbstractMap.SimpleEntry<>(node.get("code").asText(), node.get("value").asText()))
       .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
-  }
+}
 
   /**
    * Retrieves the datasource configuration from the given buffer.
@@ -186,7 +186,7 @@ public abstract class CatalogingHelper {
       .create()
       .username(config.get("user"))
       .password(config.get("password"))
-      .url(config.get("url"))
+      .url("jdbc:postgresql://192.168.0.158:5433/folio_marccat_sv2")
       .build();
   }
 

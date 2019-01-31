@@ -66,7 +66,7 @@ public abstract class MarccatHelper {
     final String... configurationSets) {
     try {
       final ObjectNode settings = configurator.attributes(tenant, true, configurationSets);
-      final DataSource datasource = datasource(tenant, settings);
+      final DataSource datasource = MarccatHelper.datasource(tenant, settings);
       try (final Connection connection = datasource.getConnection();
            final StorageService service =
              new StorageService(
@@ -113,7 +113,9 @@ public abstract class MarccatHelper {
    * @return a new datasource reference.
    */
   private static DataSource newDataSourceInstance(final ObjectNode value) {
-    final Map<String, String> config = StreamSupport.stream(value.withArray("configs").spliterator(), false)
+    final Map<String, String> config = StreamSupport
+      .stream(value.withArray("configs")
+      .spliterator(), false)
       .filter(node -> "datasource".equals(node.get("configName").asText()))
       .map(node -> new AbstractMap.SimpleEntry<>(node.get("code").asText(), node.get("value").asText()))
       .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
@@ -121,7 +123,7 @@ public abstract class MarccatHelper {
       .create()
       .username(config.get("user"))
       .password(config.get("password"))
-      .url(config.get("url"))
+      .url("jdbc:postgresql://192.168.0.158:5433/folio_marccat_sv2")
       .build();
   }
 
