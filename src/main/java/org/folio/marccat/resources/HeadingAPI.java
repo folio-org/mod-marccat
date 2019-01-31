@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static org.folio.marccat.integration.CatalogingHelper.*;
+import static org.folio.marccat.integration.MarccatHelper.*;
 import static org.folio.marccat.util.F.isNotNullOrEmpty;
 
 /**

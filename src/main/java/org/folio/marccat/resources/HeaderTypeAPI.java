@@ -12,7 +12,7 @@ import java.util.function.Function;
 
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
-import static org.folio.marccat.integration.CatalogingHelper.doGet;
+import static org.folio.marccat.integration.MarccatHelper.doGet;
 
 /**
  * Header type code RESTful APIs.

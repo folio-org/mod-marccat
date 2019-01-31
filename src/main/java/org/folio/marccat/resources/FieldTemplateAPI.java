@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import static java.util.Arrays.stream;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
-import static org.folio.marccat.integration.CatalogingHelper.doGet;
+import static org.folio.marccat.integration.MarccatHelper.doGet;
 
 /**
  * FieldTemplate Restful API.

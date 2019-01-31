@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static java.util.Optional.ofNullable;
-import static org.folio.marccat.integration.CatalogingHelper.*;
+import static org.folio.marccat.integration.MarccatHelper.*;
 import static org.folio.marccat.util.F.isNotNullOrEmpty;
 
 /**
