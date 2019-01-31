@@ -17,7 +17,7 @@ import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
 import static org.folio.marccat.enumaration.CatalogingEntityType.A;
-import static org.folio.marccat.integration.CatalogingHelper.*;
+import static org.folio.marccat.integration.MarccatHelper.*;
 import static org.folio.marccat.util.F.isNotNullOrEmpty;
 
 /**

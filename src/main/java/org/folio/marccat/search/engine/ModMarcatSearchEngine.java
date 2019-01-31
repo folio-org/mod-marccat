@@ -24,7 +24,7 @@ import static java.util.stream.IntStream.rangeClosed;
  * @author cchiama
  * @since 1.0
  */
-public abstract class ModCatalogingSearchEngine implements SearchEngine {
+public abstract class ModMarcatSearchEngine implements SearchEngine {
 
   private final int mainLibraryId;
   private final int databasePreferenceOrder;
@@ -37,7 +37,7 @@ public abstract class ModCatalogingSearchEngine implements SearchEngine {
    * @param databasePreferenceOrder the database preference order.
    * @param service                 the {@link StorageService} instance.
    */
-  protected ModCatalogingSearchEngine(final int mainLibraryId, final int databasePreferenceOrder, final StorageService service) {
+  protected ModMarcatSearchEngine(final int mainLibraryId, final int databasePreferenceOrder, final StorageService service) {
     this.storageService = service;
     this.mainLibraryId = mainLibraryId;
     this.databasePreferenceOrder = databasePreferenceOrder;
