@@ -39,7 +39,7 @@ public abstract class CatalogItem implements Serializable {
   private static final Comparator<Tag> tagComparator =
     (Tag tag1, Tag tag2) -> (tag1.getMarcEncoding().getMarcTag().compareTo(tag2.getMarcEncoding().getMarcTag()));
   protected List<Tag> deletedTags = new ArrayList();
-  protected ModelItem modelItem = null;
+  protected ModelItem modelItem;
   protected List<Tag> tags = new ArrayList();
   private Log logger = new Log(CatalogItem.class);
 
@@ -167,7 +167,11 @@ public abstract class CatalogItem implements Serializable {
    * @throws DataAccessException in
    */
   public void setModelItem(final Model model) {
-    this.modelItem.setItem(this.getAmicusNumber().longValue());
+    if(this.modelItem == null){
+      this.modelItem = new BibliographicModelItem();
+      this.modelItem.markNew();
+    }
+    this.modelItem.setItem(this.getAmicusNumber());
     this.modelItem.setModel(model);
     this.modelItem.setRecordFields(model.getRecordFields());
   }
@@ -229,7 +233,7 @@ public abstract class CatalogItem implements Serializable {
    */
   public void setTag(Tag oldTag, Tag newTag) {
     if (getAmicusNumber() != null) {
-      newTag.setItemNumber(getAmicusNumber().intValue());
+      newTag.setItemNumber(getAmicusNumber());
     }
     tags.set(tags.indexOf(oldTag), newTag);
   }
@@ -261,7 +265,7 @@ public abstract class CatalogItem implements Serializable {
    */
   private List<Tag> unlist(final List<TagContainer> tagContainers) {
     final List<Tag> tagSet = new ArrayList<>();
-    tagContainers.stream().forEach(item -> {
+    tagContainers.forEach(item -> {
       if (item instanceof Tag)
         tagSet.add((Tag) item);
       else {
@@ -282,7 +286,7 @@ public abstract class CatalogItem implements Serializable {
     final LinkedHashMap<Object, TagContainer> ht = new LinkedHashMap();
     final GroupManager groupManager = new BibliographicGroupManager();
 
-    tags.stream().forEach(tag -> {
+    tags.forEach(tag -> {
       final TagGroup group = groupManager.getGroup(tag);
       if (group == null) {
         ht.put(tag, new UniqueTagContainer(tag));

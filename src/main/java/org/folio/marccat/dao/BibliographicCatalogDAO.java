@@ -551,7 +551,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
   protected void updateItemDisplayCacheTable(final CatalogItem item, final Session session)
     throws DataAccessException {
     try {
-      updateItemDisplayCacheTable(item.getAmicusNumber().intValue(), item.getUserView(), session);
+      updateItemDisplayCacheTable(item.getAmicusNumber(), item.getUserView(), session);
       updateFullRecordCacheTable(session, item);
     } catch (Exception e) {
     }

@@ -150,11 +150,9 @@ public class BibliographicInputFile {
             item.getItemEntity().setAmicusNumber(new SystemNextNumberDAO().getNextNumber("BI", session));
 
             final BibliographicCatalogDAO dao = new BibliographicCatalogDAO();
-            final CasCache casCache = new CasCache(item.getAmicusNumber());
-            casCache.setLevelCard("L1");
-            casCache.setStatusDisponibilit(99);
+
             item.validate();
-            dao.saveCatalogItem(item, casCache, session);
+            dao.saveCatalogItem(item, session);
 
             stats.setRecordsAdded(stats.getRecordsAdded() + 1);
             LOADING_MARC_RECORDS result = new LOADING_MARC_RECORDS();

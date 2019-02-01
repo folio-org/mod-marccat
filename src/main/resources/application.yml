@@ -6,9 +6,9 @@ configuration:
 logging:
   level:
     root: ERROR
-    net.sf: ERROR
+    net.sf: INFO
     org.springframework: ERROR
-    org.hibernate: ERROR
+    org.hibernate: INFO
     ru.yandex: ERROR
     org.folio.marccat: INFO
 

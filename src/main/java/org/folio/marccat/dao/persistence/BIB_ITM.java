@@ -16,7 +16,7 @@ public class BIB_ITM extends ItemEntity implements PersistentObjectWithView, Ser
   private String countryStringText;
   private char descriptiveCataloguingCode = ' ';
   private String formOfMusicStringText;
-  private int inputSourceCode = 0;
+  private int inputSourceCode = 96;
   private char itemBibliographicLevelCode = 'm';
   private String itemDateFirstPublication;
   private String itemDateLastPublication = "    ";
@@ -29,7 +29,7 @@ public class BIB_ITM extends ItemEntity implements PersistentObjectWithView, Ser
   private String projectedPublicationDateCode;
   private char recordCataloguingSourceCode;
   private char recordModifiedCode = ' ';
-  private char replacementStatusCode = ' ';
+  private char replacementStatusCode = '1';
   private String specialCodedDatesStringText;
   private String translationCode = "";
   private String userViewString = "0000000000000000";
