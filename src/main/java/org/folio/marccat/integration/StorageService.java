@@ -1268,7 +1268,7 @@ public class StorageService implements Closeable {
 
 
       final BibliographicCatalogDAO dao = new BibliographicCatalogDAO();
-      item.getModelItem().getModel().setLabel("PIPO");
+      item.getModelItem().getModel().setLabel(template.getName() != null ? template.getName(): "Monografia");
       dao.saveCatalogItem(item, session);
 
     } catch (Exception e) {
