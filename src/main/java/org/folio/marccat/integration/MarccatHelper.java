@@ -184,8 +184,8 @@ public abstract class MarccatHelper {
       .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
     return DataSourceBuilder
       .create()
-      .username(config.get("user"))
-      .password(config.get("password"))
+      .username("marccat")
+      .password("admin")
       .url("jdbc:postgresql://192.168.0.158:5433/folio_marccat_sv2")
       .build();
   }

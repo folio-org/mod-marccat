@@ -1241,7 +1241,6 @@ public class StorageService implements Closeable {
    * @throws DataAccessException in case of data access exception.
    */
   public void saveBibliographicRecord(final BibliographicRecord record, final RecordTemplate template, final int view, final GeneralInformation generalInformation, final String lang) throws DataAccessException {
-
     CatalogItem item = null;
     try {
       item = getCatalogItemByKey(record.getId(), view);
@@ -1269,6 +1268,7 @@ public class StorageService implements Closeable {
 
 
       final BibliographicCatalogDAO dao = new BibliographicCatalogDAO();
+      item.getModelItem().getModel().setLabel("PIPO");
       dao.saveCatalogItem(item, session);
 
     } catch (Exception e) {
