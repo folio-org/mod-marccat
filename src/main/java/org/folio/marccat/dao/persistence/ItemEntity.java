@@ -32,7 +32,7 @@ public abstract class ItemEntity implements Persistence, Serializable {
   protected char recordStatusCode = 'n';
   protected String timePeriodStringText;
   protected String typeOfDateTimeCode = "";
-  protected char verificationLevel = ' ';
+  protected char verificationLevel = '1';
   private Integer amicusNumber = null;
 
   /**
