@@ -4,10 +4,13 @@ import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.folio.marccat.business.cataloguing.common.SortFormObject;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.business.common.PersistentObjectWithView;
+import org.folio.marccat.business.common.SortFormException;
 import org.folio.marccat.business.descriptor.MatchedHeadingInAnotherViewException;
 import org.folio.marccat.business.descriptor.SortFormParameters;
+import org.folio.marccat.business.descriptor.SortformUtils;
 import org.folio.marccat.dao.DAODescriptor;
 import org.folio.marccat.dao.SystemNextNumberDAO;
 import org.folio.marccat.exception.*;
@@ -24,7 +27,7 @@ import java.util.Map;
 /**
  * The base class for each descriptor.
  */
-public abstract class Descriptor implements PersistentObjectWithView {
+public abstract class Descriptor implements PersistentObjectWithView, SortFormObject {
 
   /**
    * The copy subject indicator.
@@ -90,6 +93,15 @@ public abstract class Descriptor implements PersistentObjectWithView {
    * The indexing language.
    */
   private int indexingLanguage = 0;
+
+  /**
+   *
+   * @throws SortFormException
+   */
+  @Override
+  public void calculateAndSetSortForm() throws SortFormException {
+    setSortForm(SortformUtils.defaultSortform(getStringText()));
+  }
 
   /**
    * Instantiates a new descriptor.

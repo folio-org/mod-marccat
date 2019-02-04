@@ -1,7 +1,9 @@
 package org.folio.marccat.dao.persistence;
 
+import org.folio.marccat.business.common.SortFormException;
 import org.folio.marccat.business.descriptor.SkipInFiling;
 import org.folio.marccat.business.descriptor.SortFormParameters;
+import org.folio.marccat.business.descriptor.SortformUtils;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.SubjectDescriptorDAO;
 import org.folio.marccat.model.Subfield;
@@ -299,5 +301,23 @@ public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling 
     }
 
     return returnString.trim();
+  }
+
+  @Override
+  public void calculateAndSetSortForm() throws SortFormException {
+    StringText st = SortformUtils.stripSkipInFiling(getStringText(), (short)getSkipInFiling());
+    StringBuilder result = new StringBuilder();
+    for (int i = 0; i < st.getNumberOfSubfields(); i++) {
+      Subfield sf = st.getSubfield(i);
+      if (i > 0) {
+        result.append(" ");
+        if ("vxyz".indexOf(sf.getCode()) > 0) {
+          result.append(" ");
+        }
+      }
+      result.append(SortformUtils.defaultSortform(sf.toString()));
+    }
+    setSortForm( result.toString());
+
   }
 }

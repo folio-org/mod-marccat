@@ -1,6 +1,8 @@
 package org.folio.marccat.dao.persistence;
 
+import org.folio.marccat.business.common.SortFormException;
 import org.folio.marccat.business.descriptor.SortFormParameters;
+import org.folio.marccat.business.descriptor.SortformUtils;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.PublisherDescriptorDAO;
 import org.folio.marccat.exception.InvalidDescriptorException;
@@ -284,5 +286,20 @@ public class PUBL_HDG extends Descriptor implements Serializable {
   public String getLockingEntityType() {
     return "PU";
   }
+
+  @Override
+  public void calculateAndSetSortForm() throws SortFormException {
+    setNameSortForm(calculateNameSortForm());
+    setPlaceSortForm(calculatePlaceSortForm());
+  }
+
+  private String calculateNameSortForm() {
+    return SortformUtils.defaultSortform(getNameStringText());
+  }
+  private String calculatePlaceSortForm() {
+    return SortformUtils.defaultSortform(getPlaceStringText());
+
+  }
+
 
 }
