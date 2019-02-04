@@ -124,7 +124,7 @@ public interface CatalogingInformation {
    * @param code the tag number code.
    * @return true if is fixedfield, false otherwise.
    */
-  public static boolean isFixedField(final String code) {
+  static boolean isFixedField(final String code) {
     return Global.FIXED_FIELDS.contains(code);
   }
 
@@ -137,7 +137,7 @@ public interface CatalogingInformation {
    * @param leader         the leader specified for template
    * @return true if parameters are valid, false otherwise
    */
-  public static boolean checkParameters(final String code, final int headerTypeCode, final String leader) {
+  static boolean checkParameters(final String code, final int headerTypeCode, final String leader) {
     return (code.equals(Global.MATERIAL_TAG_CODE) && (leader != null && !leader.isEmpty())) ||
       (!code.equals(Global.MATERIAL_TAG_CODE) && headerTypeCode != 0);
   }
@@ -147,7 +147,7 @@ public interface CatalogingInformation {
    *
    * @return a leader value.
    */
-  public static String getLeaderValue() {
+  static String getLeaderValue() {
     return new StringBuilder(Global.FIXED_LEADER_LENGTH)
       .append(Global.RECORD_STATUS_CODE)
       .append(Global.RECORD_TYPE_CODE)
@@ -168,7 +168,7 @@ public interface CatalogingInformation {
    *
    * @param fixedField the fixedField to populate.
    */
-  public static void setLeaderValues(final FixedField fixedField) {
+  static void setLeaderValues(final FixedField fixedField) {
 
     final String leaderValue = fixedField.getDisplayValue().length() != Global.LEADER_LENGTH
       ? CatalogingInformation.getLeaderValue()
@@ -184,7 +184,7 @@ public interface CatalogingInformation {
    * @param fixedField the fixedField to populate.
    * @param valueField the string value of field.
    */
-  public static void setPhysicalInformationValues(final FixedField fixedField, String valueField) {
+  static void setPhysicalInformationValues(final FixedField fixedField, String valueField) {
 
     final PhysicalInformation pi = new PhysicalInformation();
 
@@ -204,8 +204,8 @@ public interface CatalogingInformation {
    * @param fixedField the fixedField to populate.
    * @param gi         the general information used to create fixed field.
    */
-  public static void setMaterialValues(final FixedField fixedField, final GeneralInformation gi) {
-    String displayValue = null;
+  static void setMaterialValues(final FixedField fixedField, final GeneralInformation gi) {
+    String displayValue;
 
     if ("1".equals(gi.getMaterialDescription008Indicator())) {
       displayValue = (fixedField.getDisplayValue().length() != Global.MATERIAL_FIELD_LENGTH

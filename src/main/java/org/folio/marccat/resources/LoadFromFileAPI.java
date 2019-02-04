@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static org.folio.marccat.integration.CatalogingHelper.doPost;
+import static org.folio.marccat.integration.MarccatHelper.doPost;
 
 /**
  * Loads bibliographic records contents in a binary marc21 file.

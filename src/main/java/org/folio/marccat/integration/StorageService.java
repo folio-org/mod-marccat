@@ -463,15 +463,17 @@ public class StorageService implements Closeable {
    *
    * @param cclQuery      the CCL query.
    * @param mainLibraryId the main library identifier.
+   * @param firstRecord   the first record.
+   * @param lastRecord    the last record.
    * @param locale        the current locale.
    * @param searchingView the target search view.
    * @return a list of docid matching the input query.
    */
-  public List<Integer> executeQuery(final String cclQuery, final int mainLibraryId, final Locale locale, final int searchingView) {
+  public List <Integer> executeQuery(final String cclQuery, final int mainLibraryId, final Locale locale, final int searchingView, final int firstRecord, final int lastRecord,final String[] attributes,  String[] directions ) {
     final Parser parser = new Parser(locale, mainLibraryId, searchingView, session);
     try (final Statement sql = stmt(connection());
-         final ResultSet rs = executeQuery(sql, parser.parse(cclQuery))) {
-      final ArrayList<Integer> results = new ArrayList<>();
+         final ResultSet rs = executeQuery(sql, parser.parse(cclQuery, firstRecord, lastRecord, attributes, directions))) {
+      final ArrayList <Integer> results = new ArrayList <>();
       while (rs.next()) {
         results.add(rs.getInt(1));
       }
@@ -484,6 +486,7 @@ public class StorageService implements Closeable {
       return emptyList();
     }
   }
+
 
   /**
    * Returns a valid database connection associated with this service.
@@ -1067,7 +1070,7 @@ public class StorageService implements Closeable {
   public ContainerRecordTemplate getBibliographicRecordById(final int itemNumber, final int view) {
 
     final ContainerRecordTemplate container = new ContainerRecordTemplate();
-    CatalogItem item = null;
+    CatalogItem item;
     try {
       item = getCatalogItemByKey(itemNumber, view);
     } catch (RecordNotFoundException re) {
@@ -1238,7 +1241,6 @@ public class StorageService implements Closeable {
    * @throws DataAccessException in case of data access exception.
    */
   public void saveBibliographicRecord(final BibliographicRecord record, final RecordTemplate template, final int view, final GeneralInformation generalInformation, final String lang) throws DataAccessException {
-
     CatalogItem item = null;
     try {
       item = getCatalogItemByKey(record.getId(), view);
@@ -1247,12 +1249,8 @@ public class StorageService implements Closeable {
 
     try {
 
-      CasCache casCache = null;
       if (item == null || item.getTags().isEmpty()) {
         item = insertBibliographicRecord(record, view, generalInformation, lang);
-        casCache = new CasCache(item.getAmicusNumber());
-        casCache.setLevelCard("L1");
-        casCache.setStatusDisponibilit(99);
       } else {
         updateBibliographicRecord(record, item, view, generalInformation);
       }
@@ -1268,8 +1266,10 @@ public class StorageService implements Closeable {
       if (isNotNullOrEmpty(record.getCanadianContentIndicator()))
         ((BibliographicItem) item).getBibItmData().setCanadianContentIndicator(record.getCanadianContentIndicator().charAt(0));
 
+
       final BibliographicCatalogDAO dao = new BibliographicCatalogDAO();
-      dao.saveCatalogItem(item, casCache, session);
+      item.getModelItem().getModel().setLabel("PIPO");
+      dao.saveCatalogItem(item, session);
 
     } catch (Exception e) {
       logger.error(MessageCatalog._00019_SAVE_RECORD_FAILURE, record.getId(), e);
@@ -1289,10 +1289,13 @@ public class StorageService implements Closeable {
       final BibliographicModelItemDAO dao = new BibliographicModelItemDAO();
       final ObjectMapper mapper = new ObjectMapper();
       try {
-        BibliographicModel model = (BibliographicModel) dao.load(an, session).getModel();
-        if (model == null)
+        ModelItem modelItem = dao.load(an, session);
+        BibliographicModel model;
+        if(modelItem != null) {
+          model = (BibliographicModel) dao.load(an, session).getModel();
+        } else {
           model = new BibliographicModel();
-
+        }
         model.setId(template.getId());
         model.setLabel(template.getName());
         model.setFrbrFirstGroup(template.getGroup());
@@ -1500,12 +1503,9 @@ public class StorageService implements Closeable {
     }
 
     try {
-      CasCache casCache = null;
+
       if (item == null || item.getTags().size() == 0) {
         item = insertBibliographicRecord(record, view, generalInformation, lang);
-        casCache = new CasCache(item.getAmicusNumber());
-        casCache.setLevelCard("L1");
-        casCache.setStatusDisponibilit(99);
 
       } else {
         updateBibliographicRecord(record, item, view, generalInformation);
@@ -1516,8 +1516,9 @@ public class StorageService implements Closeable {
       if (isNotNullOrEmpty(record.getCanadianContentIndicator()))
         ((BibliographicItem) item).getBibItmData().setCanadianContentIndicator(record.getCanadianContentIndicator().charAt(0));
 
+      ((BibliographicItem) item).getBibItmData().setInputSourceCode(96);
       final BibliographicCatalogDAO dao = new BibliographicCatalogDAO();
-      dao.saveCatalogItem(item, casCache, session);
+      dao.saveCatalogItem(item, session);
 
     } catch (Exception e) {
       logger.error(MessageCatalog._00019_SAVE_RECORD_FAILURE, record.getId(), e);
@@ -1726,5 +1727,28 @@ public class StorageService implements Closeable {
 
   }
 
+  /**
+   * Executes a CCL query using the given data to get the total count of the documents
+   *
+   * @param cclQuery      the CCL query.
+   * @param mainLibraryId the main library identifier.
+   * @param locale        the current locale.
+   * @param searchingView the target search view.
+   * @return a list of docid matching the input query.
+   */
+  public int getCountDocumentByQuery(final String cclQuery, final int mainLibraryId, final Locale locale, final int searchingView) {
+    final Parser parser = new Parser(locale, mainLibraryId, searchingView, session);
+    try (final Statement sql = stmt(connection());
+         final ResultSet rs = executeQuery(sql, parser.parseAndCount(cclQuery))) {
+      int count = 0;
+      while (rs.next()) {
+        count = rs.getInt(1);
+      }
+      return count;
+    } catch (final HibernateException | SQLException exception) {
+      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      return 0;
+    }
+  }
 
 }

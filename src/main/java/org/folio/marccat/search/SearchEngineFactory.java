@@ -2,9 +2,9 @@ package org.folio.marccat.search;
 
 import org.folio.marccat.integration.StorageService;
 import org.folio.marccat.search.engine.SearchEngine;
-import org.folio.marccat.search.engine.impl.DefaultModCatalogingSearchEngine;
-import org.folio.marccat.search.engine.impl.LightweightModCatalogingSearchEngine;
-import org.folio.marccat.search.engine.impl.LightweightVerticalModCatalogingSearchEngine;
+import org.folio.marccat.search.engine.impl.DefaultModMarcatSearchEngine;
+import org.folio.marccat.search.engine.impl.LightweightModMarcatSearchEngine;
+import org.folio.marccat.search.engine.impl.LightweightVerticalModMarcatSearchEngine;
 
 /**
  * A search engine factory.
@@ -25,11 +25,11 @@ public abstract class SearchEngineFactory {
   public static SearchEngine create(final EngineType type, final int mainLibraryId, final int databasePreferenceOrder, final StorageService service) {
     switch (type) {
       case LIGHTWEIGHT:
-        return new LightweightModCatalogingSearchEngine(mainLibraryId, databasePreferenceOrder, service);
+        return new LightweightModMarcatSearchEngine(mainLibraryId, databasePreferenceOrder, service);
       case LIGHTWEIGHT_VERTICAL:
-        return new LightweightVerticalModCatalogingSearchEngine(mainLibraryId, databasePreferenceOrder, service);
+        return new LightweightVerticalModMarcatSearchEngine(mainLibraryId, databasePreferenceOrder, service);
       default:
-        return new DefaultModCatalogingSearchEngine(mainLibraryId, databasePreferenceOrder, service);
+        return new DefaultModMarcatSearchEngine(mainLibraryId, databasePreferenceOrder, service);
     }
   }
 

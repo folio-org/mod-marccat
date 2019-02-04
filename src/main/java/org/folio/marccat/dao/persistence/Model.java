@@ -18,7 +18,7 @@ import java.io.Serializable;
 public abstract class Model implements Persistence, Serializable {
 
   private int id;
-  private String label;
+  private String label = String.valueOf(' ');
   private String recordFields;
   private Integer frbrFirstGroup;
   private PersistenceState persistenceState = new PersistenceState();
