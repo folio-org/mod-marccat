@@ -5,7 +5,7 @@
 <hibernate-configuration>
 	<session-factory>
 
-	<property name="show_sql">false</property>
+	<property name="show_sql">true</property>
 		<mapping resource="org/folio/marccat/dao/persistence/BibliographicModel.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/BibliographicModelItem.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/DB_LIST.hbm.xml"/>
@@ -170,9 +170,6 @@
 		<mapping resource="org/folio/marccat/dao/persistence/T_SBJCT_HDG_TYP.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_SBJCT_HDG_SCDRY_SRC.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_FRBR.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_CAS_MNGRL_LVL_TYP.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_CAS_LEVEL_TYP.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_CAS_DIG_LEVEL_TYP.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_CLCTN_TYP.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_STS_CLCTN_TYP.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_STS_AVBLE.hbm.xml"/>
@@ -270,7 +267,6 @@
     <mapping resource="org/folio/marccat/dao/persistence/PUBL_REF.hbm.xml"/>
     <mapping resource="org/folio/marccat/dao/persistence/PUBL_TAG.hbm.xml"/>
     <mapping resource="org/folio/marccat/dao/persistence/S_LCK_TBL.hbm.xml"/>
-    <mapping resource="org/folio/marccat/dao/persistence/S_CAS_CACHE.hbm.xml"/>
     <mapping resource="org/folio/marccat/dao/persistence/LDG_STATS.hbm.xml"/>
     <mapping resource="org/folio/marccat/dao/persistence/LOADING_MARC_RECORDS.hbm.xml"/>
     <mapping resource="org/folio/marccat/dao/persistence/LOADING_MARC_FILE.hbm.xml"/>

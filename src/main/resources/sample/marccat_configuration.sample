@@ -1,0 +1,10 @@
+{
+  "module": "MARCCAT",
+  "configName": "validation_rules",
+  "code": "MARC21_RULE",
+  "description": "for marc record",
+  "default": true,
+  "enabled": true,
+  "value": "",
+  "userId": ""
+}

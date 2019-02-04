@@ -1,10 +1,15 @@
 package org.folio.marccat.dao.persistence;
 
 import org.folio.marccat.business.cataloguing.authority.AuthorityControlNumberAccessPoint;
+import org.folio.marccat.business.common.SortFormException;
 import org.folio.marccat.business.descriptor.SortFormParameters;
+import org.folio.marccat.business.descriptor.SortformUtils;
+import org.folio.marccat.config.log.Log;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.ControlNumberDescriptorDAO;
+import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
+import org.folio.marccat.util.StringText;
 
 /**
  * Hibernate class for table CNTL_NBR.
@@ -13,6 +18,8 @@ import org.folio.marccat.shared.CorrelationValues;
  * @author carment
  */
 public class CNTL_NBR extends Descriptor {
+
+  private static final Log logger = new Log(CNTL_NBR.class);
 
   /**
    * The type code.
@@ -133,6 +140,116 @@ public class CNTL_NBR extends Descriptor {
    */
   public String getLockingEntityType() {
     return "RN";
+  }
+
+  @Override
+  public void calculateAndSetSortForm() throws SortFormException {
+    if (ControlNumberType.isISBN((short) getTypeCode())) {
+      setSortForm(calculateIsbnSortForm());
+    } else if (ControlNumberType.isISSN((short) getTypeCode())) {
+      setSortForm(calculateIssnSortForm());
+    } else if (ControlNumberType.isISMN((short) getTypeCode())) {
+      setSortForm(calculateIsmnSortForm());
+    } else if (ControlNumberType.isPublisherNumber((short) getTypeCode())) {
+      setSortForm(calculatePublisherNumberSortForm());
+    } else {
+      super.calculateAndSetSortForm();
+    }
+
+  }
+
+  private String calculateIsmnSortForm() {
+    String result = SortformUtils.defaultSortform(getStringText());
+    result = SortformUtils.replacePunctuationMark2(result, "");
+    return result;
+  }
+
+  private String calculatePublisherNumberSortForm() {
+    StringText st = new StringText(getStringText());
+    if (st.getNumberOfSubfields() > 0) {
+      Subfield first = st.getSubfield(0);
+      if (first.getCode().equals("a")) {
+        first.setContent(first.getContent().replace(" ", ""));
+      }
+    }
+    String result = SortformUtils.defaultSortform(st.toString());
+    result = SortformUtils.replacePunctuationMark2(result, "");
+    return result;
+  }
+
+  private String calculateIssnSortForm() {
+    String result = getDisplayText().toUpperCase();
+    result = SortformUtils.stripAccents(result);
+    result = SortformUtils.deleteAlfalam(result);
+    if (result.charAt(result.length() - 1) == '*') {
+      logger.debug("removing trailing *");
+      return result.substring(0, result.length() - 1);
+    }
+    /*
+     * The below is a port of the C program that performed this function.
+     */
+    StringBuilder s = new StringBuilder();
+    for (int i = 0; i < result.length(); i++) {
+      if (!Character.isLetter(result.charAt(i))) {
+        s.append(result.charAt(i));
+      }
+    }
+    result = s.toString();
+    result = result.replace(" ", "");
+    if (result.length() > 4 && result.charAt(4) != '-') {
+      result = result.substring(0, 4) + '-' + result.substring(4);
+    }
+    return result;
+  }
+
+  private String calculateIsbnSortForm() {
+    String result = getDisplayText().toUpperCase();
+    result = SortformUtils.stripAccents(result);
+    result = SortformUtils.deleteAlfalam(result);
+    if (result.charAt(result.length() - 1) == '*') {
+      logger.debug("removing trailing *");
+      return result.substring(0, result.length() - 1);
+    }
+    if (!new StringText(getStringText()).getSubfield(0).getCode().equals("a")) {
+      logger.debug("adding blank because first sub is not a");
+      return " " + result;
+    }
+
+    // attempt to find an ISBN number at the beginning of $a
+    /*
+     * The below is a port of the C program that performed this function.
+     * As I understand it, the approach is:
+     * 		If there is no $a, just return the normalized string as is.
+     * 		Otherwise, strip anything up to the first digit
+     *      then remove any spaces or hyphens up to the 13th digit
+     *      then copy everything else
+     */
+    int i = 0;
+    while (i < result.length() && !Character.isDigit(result.charAt(i))) {
+      i++;
+    }
+    if (i < result.length()) {
+      StringBuilder s = new StringBuilder();
+      int digitCount = 0;
+      for (char c : result.toCharArray()) {
+        if (digitCount < 13) {
+          if (Character.isDigit(c) || (digitCount == 9 && c == 'X')) {
+            digitCount++;
+            s.append(c);
+          } else if (c == ' ' || c == '-') {
+            // do nothing
+          } else {
+            digitCount = 13;
+            s.append(c);
+          }
+        } else {
+          s.append(c);
+        }
+      }
+      logger.debug("done scan: '" + s.toString() + "'");
+      result = s.toString();
+    }
+    return result;
   }
 
 }

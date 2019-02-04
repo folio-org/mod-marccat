@@ -1070,7 +1070,7 @@ public class StorageService implements Closeable {
   public ContainerRecordTemplate getBibliographicRecordById(final int itemNumber, final int view) {
 
     final ContainerRecordTemplate container = new ContainerRecordTemplate();
-    CatalogItem item = null;
+    CatalogItem item;
     try {
       item = getCatalogItemByKey(itemNumber, view);
     } catch (RecordNotFoundException re) {
@@ -1241,7 +1241,6 @@ public class StorageService implements Closeable {
    * @throws DataAccessException in case of data access exception.
    */
   public void saveBibliographicRecord(final BibliographicRecord record, final RecordTemplate template, final int view, final GeneralInformation generalInformation, final String lang) throws DataAccessException {
-
     CatalogItem item = null;
     try {
       item = getCatalogItemByKey(record.getId(), view);
@@ -1250,12 +1249,8 @@ public class StorageService implements Closeable {
 
     try {
 
-      CasCache casCache = null;
       if (item == null || item.getTags().isEmpty()) {
         item = insertBibliographicRecord(record, view, generalInformation, lang);
-        casCache = new CasCache(item.getAmicusNumber());
-        casCache.setLevelCard("L1");
-        casCache.setStatusDisponibilit(99);
       } else {
         updateBibliographicRecord(record, item, view, generalInformation);
       }
@@ -1271,8 +1266,10 @@ public class StorageService implements Closeable {
       if (isNotNullOrEmpty(record.getCanadianContentIndicator()))
         ((BibliographicItem) item).getBibItmData().setCanadianContentIndicator(record.getCanadianContentIndicator().charAt(0));
 
+
       final BibliographicCatalogDAO dao = new BibliographicCatalogDAO();
-      dao.saveCatalogItem(item, casCache, session);
+      item.getModelItem().getModel().setLabel(template.getName() != null ? template.getName(): "Monografia");
+      dao.saveCatalogItem(item, session);
 
     } catch (Exception e) {
       logger.error(MessageCatalog._00019_SAVE_RECORD_FAILURE, record.getId(), e);
@@ -1292,10 +1289,13 @@ public class StorageService implements Closeable {
       final BibliographicModelItemDAO dao = new BibliographicModelItemDAO();
       final ObjectMapper mapper = new ObjectMapper();
       try {
-        BibliographicModel model = (BibliographicModel) dao.load(an, session).getModel();
-        if (model == null)
+        ModelItem modelItem = dao.load(an, session);
+        BibliographicModel model;
+        if(modelItem != null) {
+          model = (BibliographicModel) dao.load(an, session).getModel();
+        } else {
           model = new BibliographicModel();
-
+        }
         model.setId(template.getId());
         model.setLabel(template.getName());
         model.setFrbrFirstGroup(template.getGroup());
@@ -1503,12 +1503,9 @@ public class StorageService implements Closeable {
     }
 
     try {
-      CasCache casCache = null;
+
       if (item == null || item.getTags().size() == 0) {
         item = insertBibliographicRecord(record, view, generalInformation, lang);
-        casCache = new CasCache(item.getAmicusNumber());
-        casCache.setLevelCard("L1");
-        casCache.setStatusDisponibilit(99);
 
       } else {
         updateBibliographicRecord(record, item, view, generalInformation);
@@ -1519,8 +1516,9 @@ public class StorageService implements Closeable {
       if (isNotNullOrEmpty(record.getCanadianContentIndicator()))
         ((BibliographicItem) item).getBibItmData().setCanadianContentIndicator(record.getCanadianContentIndicator().charAt(0));
 
+      ((BibliographicItem) item).getBibItmData().setInputSourceCode(96);
       final BibliographicCatalogDAO dao = new BibliographicCatalogDAO();
-      dao.saveCatalogItem(item, casCache, session);
+      dao.saveCatalogItem(item, session);
 
     } catch (Exception e) {
       logger.error(MessageCatalog._00019_SAVE_RECORD_FAILURE, record.getId(), e);

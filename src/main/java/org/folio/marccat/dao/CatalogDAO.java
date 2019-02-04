@@ -98,19 +98,6 @@ public abstract class CatalogDAO extends AbstractDAO {
 
 
   /**
-   * Updates or creates a CasCache associated to an amicus number.
-   *
-   * @param amicusNumber -- the amicus number id.
-   * @param casCache     -- the casCache associated.
-   * @param session      -- the current hibernate session.
-   * @throws HibernateException in case of hibernate exception.
-   */
-  protected void saveCasCache(final int amicusNumber, CasCache casCache, final Session session) throws HibernateException {
-    final MarcatCacheDAO marcatCacheDAO = new MarcatCacheDAO();
-    marcatCacheDAO.persistCasCache(amicusNumber, casCache, session);
-  }
-
-  /**
    * Updates bibliographic note table for amicus number.
    *
    * @param amicusNumber -- the amicus number id.
@@ -164,11 +151,10 @@ public abstract class CatalogDAO extends AbstractDAO {
    * Saves the record, all associated tags and associated casCache.
    *
    * @param item     -- the item representing record to save.
-   * @param casCache -- the management data associated to record.
    * @param session  -- the current hibernate session.
    * @throws HibernateException in case of hibernate exception.
    */
-  public void saveCatalogItem(final CatalogItem item, final CasCache casCache, final Session session) throws HibernateException {
+  public void saveCatalogItem(final CatalogItem item, final Session session) throws HibernateException {
 
     final Transaction transaction = getTransaction(session);
     final String myView = makeSingleViewString(item.getUserView());
@@ -181,15 +167,13 @@ public abstract class CatalogDAO extends AbstractDAO {
     final List<Tag> tagList = item.getTags().stream().map(aTag -> {
 
       if (aTag.isNew()) {
-        aTag.setItemNumber(item.getAmicusNumber().intValue());
+        aTag.setItemNumber(item.getAmicusNumber());
         if (aTag instanceof PersistentObjectWithView)
           ((PersistentObjectWithView) aTag).setUserViewString(myView);
 
         try {
           aTag.generateNewKey(session);
-        } catch (HibernateException e) {
-          throw new RuntimeException(e);
-        } catch (SQLException e) {
+        } catch (HibernateException | SQLException e) {
           throw new RuntimeException(e);
         }
 
@@ -237,9 +221,6 @@ public abstract class CatalogDAO extends AbstractDAO {
 
       persistByStatus(item.getModelItem(), session);
     }
-
-    if (casCache != null)
-      saveCasCache(itemEntity.getAmicusNumber(), casCache, session);
 
     updateItemDisplayCacheTable(item, session);
     modifyNoteStandard(item, session);

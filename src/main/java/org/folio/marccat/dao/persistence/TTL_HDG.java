@@ -1,10 +1,13 @@
 package org.folio.marccat.dao.persistence;
 
+import org.folio.marccat.business.common.SortFormException;
 import org.folio.marccat.business.descriptor.SkipInFiling;
 import org.folio.marccat.business.descriptor.SortFormParameters;
+import org.folio.marccat.business.descriptor.SortformUtils;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.TitleDescriptorDAO;
 import org.folio.marccat.shared.CorrelationValues;
+import org.folio.marccat.util.StringText;
 
 import java.io.Serializable;
 
@@ -187,5 +190,12 @@ public class TTL_HDG extends Descriptor implements SkipInFiling, Serializable {
    */
   public String getLockingEntityType() {
     return "TH";
+  }
+
+  @Override
+  public void calculateAndSetSortForm() throws SortFormException {
+    StringText st = SortformUtils.stripSkipInFiling(getStringText(), (short)getSkipInFiling());
+    setSortForm( SortformUtils.defaultSortform(st.toString()));
+
   }
 }
