@@ -415,7 +415,7 @@ public class BibliographicCatalog extends Catalog {
             tag = new PublisherManager();
             tag.setCorrelationValues(correlationValues);
           } else {
-            tag = new PublisherManager(item.getAmicusNumber().intValue(), item.getUserView());
+            tag = new PublisherManager(item.getAmicusNumber(), item.getUserView());
             tag.setCorrelationValues(correlationValues);
           }
           tag = (Tag) setItemIfNecessary(item, tag);

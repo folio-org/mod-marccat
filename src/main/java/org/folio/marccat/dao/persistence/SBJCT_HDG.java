@@ -317,7 +317,6 @@ public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling 
       }
       result.append(SortformUtils.defaultSortform(sf.toString()));
     }
-    setSortForm( result.toString());
-
+    setSortForm(result.toString());
   }
 }

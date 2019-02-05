@@ -466,8 +466,7 @@ public abstract class SortformUtils {
 
 
   public static String defaultSortform(String stringText) {
-    String result = new StringText(stringText).toDisplayString()
-      .toUpperCase();
+    String result = new StringText(stringText).toDisplayString().toUpperCase();
     result = stripAccents(result);
     result = deleteAlfalam(result);
     result = transformALA(result);

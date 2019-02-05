@@ -1423,7 +1423,7 @@ public class StorageService implements Closeable {
     final RecordParser recordParser = new RecordParser();
     final BibliographicCatalog catalog = new BibliographicCatalog();
     final int bibItemNumber = record.getId();
-    final CatalogItem item = catalog.newCatalogItem(new Object[]{new Integer(view), new Integer(bibItemNumber)});
+    final CatalogItem item = catalog.newCatalogItem(new Object[]{view, bibItemNumber});
 
     Leader leader = record.getLeader();
     item.getItemEntity().setLanguageOfCataloguing(lang);
@@ -1484,46 +1484,6 @@ public class StorageService implements Closeable {
     });
     setDescriptors(item, item.getUserView(), view);
     return item;
-  }
-
-  /**
-   * Checks if record is new then execute insert or update.
-   *
-   * @param record             -- the bibliographic record to save.
-   * @param view               -- the view associated to user.
-   * @param generalInformation -- @linked GeneralInformation for default values.
-   * @throws DataAccessException in case of data access exception.
-   */
-  public void saveBibliographicRecord(final BibliographicRecord record, final int view, final GeneralInformation generalInformation, final String lang) throws DataAccessException {
-
-    CatalogItem item = null;
-    try {
-      item = getCatalogItemByKey(record.getId(), view);
-    } catch (DataAccessException exception) {
-    }
-
-    try {
-
-      if (item == null || item.getTags().size() == 0) {
-        item = insertBibliographicRecord(record, view, generalInformation, lang);
-
-      } else {
-        updateBibliographicRecord(record, item, view, generalInformation);
-      }
-
-      if (isNotNullOrEmpty(record.getVerificationLevel()))
-        item.getItemEntity().setVerificationLevel(record.getVerificationLevel().charAt(0));
-      if (isNotNullOrEmpty(record.getCanadianContentIndicator()))
-        ((BibliographicItem) item).getBibItmData().setCanadianContentIndicator(record.getCanadianContentIndicator().charAt(0));
-
-      ((BibliographicItem) item).getBibItmData().setInputSourceCode(96);
-      final BibliographicCatalogDAO dao = new BibliographicCatalogDAO();
-      dao.saveCatalogItem(item, session);
-
-    } catch (Exception e) {
-      logger.error(MessageCatalog._00019_SAVE_RECORD_FAILURE, record.getId(), e);
-      throw new DataAccessException(e);
-    }
   }
 
   /**

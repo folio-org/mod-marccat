@@ -216,7 +216,7 @@ public class BibliographicInputFile {
             } else {
               ((Browsable) newTag).setDescriptor(dup);
             }
-          } catch (HibernateException | SQLException e) {
+          } catch (HibernateException e) {
             logger.error("");
             throw new DataAccessException(e);
           }

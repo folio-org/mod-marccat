@@ -256,28 +256,6 @@ public interface TagInterface {
    */
   boolean isFixedField();
 
-  /**
-   * true if the tag contains a coded subfield w (Authority reference tags).
-   *
-   * @return true, if is checks for subfield W
-   * @since 1.0
-   */
-  boolean isHasSubfieldW();
-
-  /**
-   * true if the tag is an AuthorityEquivalenceReference
-   * (used to manage presence of $w for 7xx tags in authorities).
-   *
-   * @return true, if is equivalence reference
-   */
-  boolean isEquivalenceReference();
-
-  /**
-   * Checks if is header field.
-   *
-   * @return true if tag is a header (category 1) field
-   */
-  boolean isHeaderField();
 
   /**
    * Checks if is new.
@@ -301,12 +279,6 @@ public interface TagInterface {
    */
   boolean isPublisher();
 
-  /**
-   * return true if tag is a relationship.
-   *
-   * @return true, if is relationship
-   */
-  boolean isRelationship();
 
   /**
    * Checks if is removed.
@@ -315,13 +287,6 @@ public interface TagInterface {
    * @since 1.0
    */
   boolean isRemoved();
-
-  /**
-   * Checks if is worksheet editable.
-   *
-   * @return true if tag can be directly edited on the worksheet
-   */
-  boolean isWorksheetEditable();
 
   /**
    * Mark changed.

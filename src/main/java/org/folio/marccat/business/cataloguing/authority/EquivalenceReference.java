@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- *
- * Created on Dec 5, 2005
- *
- * EquivalenceReference.java
- */
 package org.folio.marccat.business.cataloguing.authority;
 
 import org.apache.commons.logging.Log;
@@ -17,33 +10,17 @@ import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 import org.w3c.dom.Element;
 
-/**
- * @author paulm
- * @version $Revision: 1.3 $, $Date: 2006/01/05 13:25:58 $
- * @since 1.0
- */
+
 public class EquivalenceReference extends AuthorityReferenceTag {
 
-  /**
-   *
-   */
   private static final long serialVersionUID = 1L;
 
   private static final Log logger = LogFactory.getLog(EquivalenceReference.class);
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
   public EquivalenceReference() {
     super();
   }
 
-  @Override
-  public boolean isEquivalenceReference() {
-    return true;
-  }
 
   @Override
   public CorrelationKey getMarcEncoding() throws DataAccessException {
@@ -54,9 +31,6 @@ public class EquivalenceReference extends AuthorityReferenceTag {
     return key;
   }
 
-  /* (non-Javadoc)
-   * @see VariableField#getStringText()
-   */
   @Override
   public StringText getStringText() {
     String subw =
@@ -68,8 +42,10 @@ public class EquivalenceReference extends AuthorityReferenceTag {
     return result;
   }
 
-  /* (non-Javadoc)
-   * @see TagInterface#correlationChangeAffectsKey(librisuite.business.common.CorrelationValues)
+  /**
+   *
+   * @param v
+   * @return
    */
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
     if (!super.correlationChangeAffectsKey(v)) {

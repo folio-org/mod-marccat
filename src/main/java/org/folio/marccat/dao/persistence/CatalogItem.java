@@ -1,5 +1,6 @@
 package org.folio.marccat.dao.persistence;
 
+import net.sf.hibernate.Session;
 import org.folio.marccat.business.cataloguing.bibliographic.FixedField;
 import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
 import org.folio.marccat.business.cataloguing.common.Browsable;
@@ -38,9 +39,9 @@ public abstract class CatalogItem implements Serializable {
 
   private static final Comparator<Tag> tagComparator =
     (Tag tag1, Tag tag2) -> (tag1.getMarcEncoding().getMarcTag().compareTo(tag2.getMarcEncoding().getMarcTag()));
-  protected List<Tag> deletedTags = new ArrayList();
+  protected List<Tag> deletedTags = new ArrayList<>();
   protected ModelItem modelItem;
-  protected List<Tag> tags = new ArrayList();
+  protected List<Tag> tags = new ArrayList<>();
   private Log logger = new Log(CatalogItem.class);
 
   public CatalogItem() {
@@ -52,22 +53,21 @@ public abstract class CatalogItem implements Serializable {
    *
    * @return an Element
    */
-  public Document toExternalMarcSlim() {
+  public Document toExternalMarcSlim(Session session) {
     DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-    DocumentBuilder documentBuilder = null;
+    DocumentBuilder documentBuilder;
     Document xmlDocument = null;
     try {
       documentBuilder = documentBuilderFactory.newDocumentBuilder();
       xmlDocument = documentBuilder.newDocument();
     } catch (ParserConfigurationException parserConfigurationException) {
-      logger.error("", parserConfigurationException);
-      //throw new XmlParserConfigurationException(parserConfigurationException);
+      logger.error("Xml Parser Configuration Exception", parserConfigurationException);
     }
     Element record = xmlDocument.createElement("record");
     for (Object t : tags) {
       Tag tag = (Tag) t;
       logger.debug("appending " + tag);
-      record.appendChild(tag.toExternalMarcSlim(xmlDocument));
+      record.appendChild(tag.toExternalMarcSlim(xmlDocument, session));
     }
     xmlDocument.appendChild(record);
     return xmlDocument;
@@ -87,19 +87,6 @@ public abstract class CatalogItem implements Serializable {
     }
   }
 
-  /**
-   * Adds the newTag to the list _AFTER_ the point i.
-   *
-   * @param i      -- the tag index.
-   * @param newTag -- the new tag to add.
-   */
-  public void addTag(final int i, final Tag newTag) {
-    if (tags.size() > i) {
-      tags.add(i + 1, newTag);
-    } else {
-      tags.add(newTag);
-    }
-  }
 
   public void addTag(Tag newTag) {
     tags.add(newTag);
@@ -221,12 +208,6 @@ public abstract class CatalogItem implements Serializable {
     tags.remove(tag);
   }
 
-  public void setModelItemNoAN(Model model) {
-    this.modelItem = new BibliographicModelItem();
-    this.modelItem.markNew();
-    this.modelItem.setModel(model);
-    this.modelItem.setRecordFields(model.getRecordFields());
-  }
 
   /**
    * Replacing old tag with a new one in the bibItem.
@@ -283,7 +264,7 @@ public abstract class CatalogItem implements Serializable {
    * @throws DataAccessException in case of data access failure.
    */
   private LinkedHashMap<Object, TagContainer> populateGroups() throws DataAccessException {
-    final LinkedHashMap<Object, TagContainer> ht = new LinkedHashMap();
+    final LinkedHashMap<Object, TagContainer> ht = new LinkedHashMap<>();
     final GroupManager groupManager = new BibliographicGroupManager();
 
     tags.forEach(tag -> {
@@ -302,64 +283,6 @@ public abstract class CatalogItem implements Serializable {
     return ht;
   }
 
-  /**
-   * Conversion of catalog item into marc21 format.
-   *
-   * @return a byte[] representing marc21 record.
-   * @throws DataAccessException in case of data access exception.
-   */
-  public byte[] toMarc() throws DataAccessException {
-    final DecimalFormat n4 = new DecimalFormat("0000");
-    final DecimalFormat n5 = new DecimalFormat("00000");
-    final ByteArrayOutputStream directory = new ByteArrayOutputStream();
-    final ByteArrayOutputStream body = new ByteArrayOutputStream();
-    final ByteArrayOutputStream record = new ByteArrayOutputStream();
-    final Leader leaderTag = (Leader) getTag(0);
-    leaderTag.getItemEntity().setCharacterCodingSchemeCode('a');
-    final String leader = leaderTag.getDisplayString();
-
-    try {
-      this.getTags().stream().skip(1).forEach(aTag -> {
-        try {
-          final CorrelationKey correlation = aTag.getMarcEncoding();
-          final String entry = aTag.isFixedField()
-            ? (((FixedField) aTag).getDisplayString() + Subfield.FIELD_DELIMITER)
-            : ("" + correlation.getMarcFirstIndicator() + correlation.getMarcSecondIndicator() +
-            ((VariableField) aTag).getStringText().getMarcDisplayString(Subfield.SUBFIELD_DELIMITER) + Subfield.FIELD_DELIMITER);
-
-          int offset = body.size();
-          body.write(entry.getBytes(StandardCharsets.UTF_8));
-          directory.write(correlation.getMarcTag().getBytes(StandardCharsets.UTF_8));
-          directory.write(
-            n4.format(body.size() - offset).getBytes(StandardCharsets.UTF_8));
-          directory.write(n5.format(offset).getBytes(StandardCharsets.UTF_8));
-        } catch (UnsupportedEncodingException e) {
-          throw new RuntimeException(e);
-        } catch (IOException e) {
-          throw new RuntimeException(e);
-        }
-      });
-
-      directory.write(Subfield.FIELD_DELIMITER.getBytes(StandardCharsets.UTF_8));
-      body.write(Subfield.RECORD_DELIMITER.getBytes(StandardCharsets.UTF_8));
-      record.write(n5.format(body.size() + directory.size() + leader.length()).getBytes(StandardCharsets.UTF_8));
-      record.write(leader.substring(5, 12).getBytes(StandardCharsets.UTF_8));
-      record.write(
-        n5.format(directory.size() + leader.length()).getBytes(
-          StandardCharsets.UTF_8));
-      record.write(leader.substring(17).getBytes(StandardCharsets.UTF_8));
-      record.write(directory.toByteArray());
-      record.write(body.toByteArray());
-
-    } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException(e);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-
-    return record.toByteArray();
-  }
-
 
   /**
    * Validates, check mandatory and repeatability tags.
@@ -375,92 +298,4 @@ public abstract class CatalogItem implements Serializable {
     }
   }
 
-  /**
-   * Gets a filtered list og tags.
-   *
-   * @param filter                  -- the filter to apply.
-   * @param optionalFilterParameter -- the optional filter parameter.
-   * @return filtered tag list.
-   */
-  public List<Tag> findTags(final TagFilter filter, final Object optionalFilterParameter) {
-    List<Tag> tags = getTags();
-    return tags.stream().filter(current -> filter.accept(current, optionalFilterParameter)).collect(Collectors.toList());
-  }
-
-  /**
-   * Checks if descriptor is already present in tag as browsable descriptor.
-   *
-   * @param descriptor -- the descriptor to find.
-   * @param current    -- the current tag to check.
-   * @return true if already present, false otherwise.
-   * @throws DataAccessException in case of data access exception.
-   */
-  public boolean isDescriptorAlreadyPresent(final Descriptor descriptor, final Tag current) throws DataAccessException {
-    if (!(current instanceof AccessPoint))
-      return false;
-
-    if (findTagsEqual(((AccessPoint) current).getFunctionCode()).size() >= 2) {
-      if (!descriptor.equals(((Browsable) current).getDescriptor()))
-        return !findTags(new SameDescriptorTagFilter(), descriptor).isEmpty();
-    }
-    return false;
-  }
-
-  /**
-   * Finds tags having same function code and same access point.
-   *
-   * @param functionCode -- the function code used as filter criteria.
-   * @return list of tags.
-   * @throws DataAccessException in case of data access failure.
-   */
-  public List<Tag> findTagsEqual(final int functionCode) throws DataAccessException {
-    final List<Tag> tags = getTags();
-    return tags.stream().filter(current -> current instanceof AccessPoint)
-      .filter(current -> ((AccessPoint) current).getFunctionCode() == functionCode)
-      .collect(Collectors.toList());
-  }
-
-  /**
-   * Finds fixed tags having same code number.
-   *
-   * @param marcTag -- the tag number used as filter criteria.
-   * @return list of tags.
-   * @throws DataAccessException in case of data access failure.
-   */
-  public List<Tag> findTagsFixedEqual(final String marcTag) throws DataAccessException {
-    List<Tag> tags = getTags();
-    return tags.stream().filter(current -> current instanceof FixedField)
-      .filter(tag -> tag.getMarcEncoding().getMarcTag().equals(marcTag))
-      .collect(Collectors.toList());
-  }
-
-  /**
-   * Finds variable tags having same code number.
-   *
-   * @param marcTag -- the tag number used as filter criteria.
-   * @return list of tags.
-   * @throws DataAccessException in case of data access failure.
-   */
-  public List<Tag> findTagsVariableEqual(final String marcTag) throws DataAccessException {
-    List<Tag> tags = getTags();
-    return tags.stream().filter(current -> current instanceof VariableField)
-      .filter(tag -> tag.getMarcEncoding().getMarcTag().equals(marcTag))
-      .collect(Collectors.toList());
-  }
-
-  /**
-   * Finds tags with same marc category code.
-   *
-   * @param marcCategory -- the marc category code used as filter criteria.
-   * @return list of tags.
-   */
-  public List findTagByCategory(final int marcCategory) {
-    try {
-      List<Tag> tags = getTags();
-      return tags.stream().filter(tag -> tag.getMarcEncoding().getMarcTagCategoryCode() == (marcCategory))
-        .collect(Collectors.toList());
-    } catch (Exception e) {
-      return Collections.emptyList();
-    }
-  }
 }

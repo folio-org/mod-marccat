@@ -97,8 +97,8 @@ public abstract class DAODescriptor extends AbstractDAO {
     if ("".equals(descriptor.getStringText())) {
       return BLANK_SORTFORM;
     }
-    final SortFormParameters parms = descriptor.getSortFormParameters();
-    return calculateSortForm(descriptor.getStringText(), parms, session);
+    descriptor.calculateAndSetSortForm();
+    return descriptor.getSortForm();
   }
 
   /**

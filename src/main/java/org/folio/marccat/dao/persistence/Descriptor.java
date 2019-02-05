@@ -330,7 +330,7 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
    * @param string sortForm
    */
   public void setSortForm(String string) {
-    sortForm = string;
+    this.sortForm = string;
   }
 
   /**

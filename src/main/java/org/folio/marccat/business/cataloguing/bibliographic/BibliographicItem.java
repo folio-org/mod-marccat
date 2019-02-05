@@ -84,12 +84,6 @@ public class BibliographicItem extends CatalogItem implements Serializable {
     this.modelItem = modelItem;
   }
 
-  public Record toRecord(String elementSetName) {
-    Document xmlDocument = toXmlDocument();
-    XmlRecord xmlRecord = new XmlRecord();
-    xmlRecord.setContent(elementSetName, xmlDocument);
-    return xmlRecord;
-  }
 
   /**
    * This method creates a XML Document as follows
