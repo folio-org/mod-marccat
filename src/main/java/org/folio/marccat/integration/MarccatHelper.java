@@ -1,5 +1,6 @@
 package org.folio.marccat.integration;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.SystemInternalFailureException;
@@ -15,6 +16,8 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.function.BooleanSupplier;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import static java.util.stream.Collectors.toMap;
@@ -178,6 +181,8 @@ public abstract class MarccatHelper {
    * @return a new datasource reference.
    */
   private static DataSource newDataSourceInstance(final ObjectNode value) {
+    final Stream<JsonNode> configs = StreamSupport.stream(value.withArray("configs").spliterator(), false);
+    configs.collect(Collectors.toList());
     final Map<String, String> config = StreamSupport.stream(value.withArray("configs").spliterator(), false)
       .filter(node -> "datasource".equals(node.get("configName").asText()))
       .map(node -> new AbstractMap.SimpleEntry<>(node.get("code").asText(), node.get("value").asText()))
