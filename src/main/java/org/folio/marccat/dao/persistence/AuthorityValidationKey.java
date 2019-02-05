@@ -20,11 +20,7 @@ public class AuthorityValidationKey extends ValidationKey implements Serializabl
 
   private String headingType;
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public AuthorityValidationKey() {
     super();
     // TODO Auto-generated constructor stub

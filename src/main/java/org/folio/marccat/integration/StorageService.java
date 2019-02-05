@@ -469,11 +469,11 @@ public class StorageService implements Closeable {
    * @param searchingView the target search view.
    * @return a list of docid matching the input query.
    */
-  public List <Integer> executeQuery(final String cclQuery, final int mainLibraryId, final Locale locale, final int searchingView, final int firstRecord, final int lastRecord,final String[] attributes,  String[] directions ) {
+  public List<Integer> executeQuery(final String cclQuery, final int mainLibraryId, final Locale locale, final int searchingView, final int firstRecord, final int lastRecord, final String[] attributes, String[] directions) {
     final Parser parser = new Parser(locale, mainLibraryId, searchingView, session);
     try (final Statement sql = stmt(connection());
          final ResultSet rs = executeQuery(sql, parser.parse(cclQuery, firstRecord, lastRecord, attributes, directions))) {
-      final ArrayList <Integer> results = new ArrayList <>();
+      final ArrayList<Integer> results = new ArrayList<>();
       while (rs.next()) {
         results.add(rs.getInt(1));
       }
@@ -1268,7 +1268,7 @@ public class StorageService implements Closeable {
 
 
       final BibliographicCatalogDAO dao = new BibliographicCatalogDAO();
-      item.getModelItem().getModel().setLabel(template.getName() != null ? template.getName(): "Monografia");
+      item.getModelItem().getModel().setLabel(template.getName() != null ? template.getName() : "Monografia");
       dao.saveCatalogItem(item, session);
 
     } catch (Exception e) {
@@ -1291,7 +1291,7 @@ public class StorageService implements Closeable {
       try {
         ModelItem modelItem = dao.load(an, session);
         BibliographicModel model;
-        if(modelItem != null) {
+        if (modelItem != null) {
           model = (BibliographicModel) dao.load(an, session).getModel();
         } else {
           model = new BibliographicModel();

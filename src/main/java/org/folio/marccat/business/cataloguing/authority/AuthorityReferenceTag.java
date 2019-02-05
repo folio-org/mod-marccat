@@ -31,15 +31,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Represents Authority tags 4XX and 5XX.
- * <p>
- * Note that Persistence is implemented via the associated REF attribute
- *
- * @author paulm
- * @version $Revision: 1.6 $, $Date: 2006/01/11 13:36:22 $
- * @since 1.0
- */
 public abstract class AuthorityReferenceTag
   extends VariableField
   implements PersistsViaItem, PersistentObjectWithView, Browsable, SkipInFiling {
@@ -55,11 +46,7 @@ public abstract class AuthorityReferenceTag
   private Integer refTypeCorrelationPosition;
   private Descriptor targetDescriptor;
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public AuthorityReferenceTag() {
     super();
     reference = new NME_REF();

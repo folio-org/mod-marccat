@@ -14,11 +14,7 @@ package org.folio.marccat.dao.persistence;
  */
 public class T_MARC_CHARSET extends T_SINGLE_INT {
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public T_MARC_CHARSET() {
     super();
     // TODO Auto-generated constructor stub

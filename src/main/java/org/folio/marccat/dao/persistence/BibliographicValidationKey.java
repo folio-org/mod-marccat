@@ -10,11 +10,6 @@ import org.folio.marccat.shared.ValidationKey;
 public class BibliographicValidationKey extends ValidationKey {
 
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
   public BibliographicValidationKey() {
     super();
   }

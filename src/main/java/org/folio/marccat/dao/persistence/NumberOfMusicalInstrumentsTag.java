@@ -24,11 +24,7 @@ public class NumberOfMusicalInstrumentsTag extends VariableHeaderUsingItemEntity
   private StringText stringText;
   private UserViewHelper userViewHelper = new UserViewHelper();
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public NumberOfMusicalInstrumentsTag() {
     super();
     setHeaderType((short) 14);

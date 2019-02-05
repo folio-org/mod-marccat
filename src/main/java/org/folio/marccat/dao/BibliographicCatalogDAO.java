@@ -9,9 +9,7 @@ import org.folio.marccat.business.cataloguing.bibliographic.BibliographicItem;
 import org.folio.marccat.business.cataloguing.bibliographic.BibliographicTagImpl;
 import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
 import org.folio.marccat.business.cataloguing.common.Tag;
-import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.PersistentObjectWithView;
-import org.folio.marccat.business.common.View;
 import org.folio.marccat.business.controller.UserProfile;
 import org.folio.marccat.config.Global;
 import org.folio.marccat.config.log.Log;
@@ -81,7 +79,6 @@ public class BibliographicCatalogDAO extends CatalogDAO {
   }
 
   /**
-   *
    * @param session
    * @param item
    * @param updateRelatedRecs

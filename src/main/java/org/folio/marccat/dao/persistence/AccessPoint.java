@@ -30,11 +30,7 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
   protected Integer headingNumber = null;
   protected int functionCode = -1;
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public AccessPoint() {
     super();
     setPersistenceState(new PersistenceState());

@@ -14,7 +14,6 @@ public interface TagContainer extends Comparable {
   Collection getList();
 
   /**
-   *
    * @param tag
    */
   void add(Tag tag);

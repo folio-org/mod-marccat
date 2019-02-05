@@ -36,11 +36,7 @@ public class LDG_STATS implements Serializable, Persistence {
   private int recordsRejected;
   private PersistenceState persistenceState = new PersistenceState();
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public LDG_STATS() {
     super();
     // TODO Auto-generated constructor stub

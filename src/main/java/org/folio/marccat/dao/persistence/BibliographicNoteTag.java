@@ -16,11 +16,13 @@ import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.F;
 import org.folio.marccat.util.StringText;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
 import static java.util.Optional.ofNullable;
 
 /**
@@ -33,31 +35,42 @@ import static java.util.Optional.ofNullable;
 @SuppressWarnings("unchecked")
 public class BibliographicNoteTag extends VariableField implements PersistentObjectWithView, OrderedTag {
 
-  /** The Constant serialVersionUID. */
+  /**
+   * The Constant serialVersionUID.
+   */
   private static final long serialVersionUID = 5008624075912779670L;
-
-  /** The note. */
-  private BibliographicNote note = new BibliographicNote();
-
-  /** The deleted overflow list. */
-  private List<BibliographicNoteOverflow> deletedOverflowList = new ArrayList<>();
-
-  /** The string text. */
-  private StringText stringText;
-
-  /** The note type. */
-  private int noteType;
-
-  /** The note nbr. */
-  private int noteNbr;
-
-  /** The sequence number. */
+  /**
+   * The sequence number.
+   */
   Integer sequenceNumber;
-
-  /** The value element. */
+  /**
+   * The note.
+   */
+  private BibliographicNote note = new BibliographicNote();
+  /**
+   * The deleted overflow list.
+   */
+  private List<BibliographicNoteOverflow> deletedOverflowList = new ArrayList<>();
+  /**
+   * The string text.
+   */
+  private StringText stringText;
+  /**
+   * The note type.
+   */
+  private int noteType;
+  /**
+   * The note nbr.
+   */
+  private int noteNbr;
+  /**
+   * The value element.
+   */
   private Avp<String> valueElement;
 
-  /** The note standard. */
+  /**
+   * The note standard.
+   */
   private StandardNoteAccessPoint noteStandard;
 
   /**
@@ -110,7 +123,6 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
         return overflowNote;
       }).collect(Collectors.toList()));
   }
-
 
 
   /**
@@ -298,7 +310,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    *
    * @param session the session
    * @throws DataAccessException the data access exception
-   * @throws HibernateException the hibernate exception
+   * @throws HibernateException  the hibernate exception
    */
   @Override
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {

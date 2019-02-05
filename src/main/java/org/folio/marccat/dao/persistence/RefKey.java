@@ -11,16 +11,24 @@ import java.io.Serializable;
  */
 public class RefKey implements Serializable, Cloneable {
 
-  /** The source. */
+  /**
+   * The source.
+   */
   private Integer source = -1;
 
-  /** The target. */
+  /**
+   * The target.
+   */
   private Integer target = -1;
 
-  /** The type. */
+  /**
+   * The type.
+   */
   private Integer type = 2;
 
-  /** The user view string. */
+  /**
+   * The user view string.
+   */
   private String userViewString = "1000000000000000";
 
 
@@ -117,7 +125,6 @@ public class RefKey implements Serializable, Cloneable {
   public void setUserViewString(String s) {
     userViewString = s;
   }
-
 
 
   /* (non-Javadoc)

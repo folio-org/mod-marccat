@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 
 import static org.folio.marccat.util.F.deepCopy;
 
-//TODO remove extends from HibernateUtil
 public class AbstractDAO extends HibernateUtil {
 
   /**

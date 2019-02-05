@@ -49,11 +49,7 @@ public class DiscardInventory implements Persistence {
   private short currencyCode = 0;
   private PersistenceState persistenceState = new PersistenceState();
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public DiscardInventory() {
     super();
     setPrice(new Float(0));
@@ -61,11 +57,7 @@ public class DiscardInventory implements Persistence {
     setKey(new InventoryKey());
   }
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public DiscardInventory(int copyNumber, int cataloguingView, int mainLibrary) throws DataAccessException {
     this();
     setCopyNumber(copyNumber);

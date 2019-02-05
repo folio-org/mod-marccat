@@ -3352,6 +3352,14 @@ public class FixedField {
     this.sequenceNumber = sequenceNumber;
   }
 
+  /**
+   * @return The attributes
+   */
+  @JsonProperty("attributes")
+  public Map<String, Object> getAttributes() {
+    return attributes;
+  }
+
   @Generated("org.jsonschema2pojo")
   public static enum MaterialType {
 
@@ -3441,14 +3449,6 @@ public class FixedField {
     public String toString() {
       return this.value;
     }
-  }
-
-  /**
-   * @return The attributes
-   */
-  @JsonProperty("attributes")
-  public Map<String, Object> getAttributes() {
-    return attributes;
   }
 
 }

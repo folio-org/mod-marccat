@@ -1,7 +1,6 @@
 package org.folio.marccat.shared;
 
 
-
 import org.folio.marccat.resources.domain.Ref;
 
 import java.util.List;

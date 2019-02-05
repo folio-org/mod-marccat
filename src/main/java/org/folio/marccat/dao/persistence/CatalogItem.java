@@ -1,18 +1,12 @@
 package org.folio.marccat.dao.persistence;
 
 import net.sf.hibernate.Session;
-import org.folio.marccat.business.cataloguing.bibliographic.FixedField;
-import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
-import org.folio.marccat.business.cataloguing.common.Browsable;
 import org.folio.marccat.business.cataloguing.common.Tag;
 import org.folio.marccat.business.cataloguing.common.TagImpl;
-import org.folio.marccat.business.common.filter.SameDescriptorTagFilter;
-import org.folio.marccat.business.common.filter.TagFilter;
 import org.folio.marccat.business.common.group.*;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.exception.*;
-import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.Validation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -20,14 +14,8 @@ import org.w3c.dom.Element;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
-import java.text.DecimalFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 /**
@@ -154,7 +142,7 @@ public abstract class CatalogItem implements Serializable {
    * @throws DataAccessException in
    */
   public void setModelItem(final Model model) {
-    if(this.modelItem == null){
+    if (this.modelItem == null) {
       this.modelItem = new BibliographicModelItem();
       this.modelItem.markNew();
     }

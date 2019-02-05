@@ -10,8 +10,6 @@ import org.folio.marccat.dao.persistence.ItemEntity;
 import org.folio.marccat.dao.persistence.ModelItem;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.MandatoryTagException;
-import org.folio.marccat.search.XmlRecord;
-import org.folio.marccat.search.domain.Record;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

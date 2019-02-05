@@ -18,25 +18,39 @@ import org.folio.marccat.util.StringText;
  */
 public class NameTitleAccessPoint extends NameTitleComponent implements OrderedTag {
 
-  /** The Constant daoNameTitleAccessPoint. */
+  /**
+   * The Constant daoNameTitleAccessPoint.
+   */
   private static final DAONameTitleAccessPoint daoNameTitleAccessPoint = new DAONameTitleAccessPoint();
 
-  /** The descriptor. */
+  /**
+   * The descriptor.
+   */
   private NME_TTL_HDG descriptor = new NME_TTL_HDG();
 
-  /** The institution. */
+  /**
+   * The institution.
+   */
   private String institution;
 
-  /** The secondary function code. */
+  /**
+   * The secondary function code.
+   */
   private int secondaryFunctionCode;
 
-  /** The series issn heading number. */
+  /**
+   * The series issn heading number.
+   */
   private String seriesIssnHeadingNumber;
 
-  /** The volume number description. */
+  /**
+   * The volume number description.
+   */
   private String volumeNumberDescription;
 
-  /** The sequence number. */
+  /**
+   * The sequence number.
+   */
   private Integer sequenceNumber;
 
   /**
@@ -239,7 +253,6 @@ public class NameTitleAccessPoint extends NameTitleComponent implements OrderedT
   }
 
 
-
   /**
    * Adds the punctuation.
    *
@@ -247,7 +260,7 @@ public class NameTitleAccessPoint extends NameTitleComponent implements OrderedT
    * @throws Exception the exception
    */
   @Override
-   public StringText addPunctuation() throws Exception {
+  public StringText addPunctuation() throws Exception {
     final StringText result = new StringText(getStringText().toString());
     try {
       final CorrelationKey marc = getMarcEncoding();
@@ -276,7 +289,7 @@ public class NameTitleAccessPoint extends NameTitleComponent implements OrderedT
             last.setContent(last.getContent() + ".");
           }
         } else {
-          result.addPrecedingPunctuation("t",Global.TERMINAL_PUNCTUATION, ".");
+          result.addPrecedingPunctuation("t", Global.TERMINAL_PUNCTUATION, ".");
         }
       }
       return result;
@@ -284,7 +297,6 @@ public class NameTitleAccessPoint extends NameTitleComponent implements OrderedT
       return result;
     }
   }
-
 
 
 }

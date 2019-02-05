@@ -13,6 +13,7 @@ import org.folio.marccat.business.descriptor.SortFormParameters;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.ReferentialIntegrityException;
+
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -430,10 +431,10 @@ public abstract class DAODescriptor extends AbstractDAO {
   /**
    * Updates the cache table for each of the documents attached to the
    * descriptor.
-   * @deprecated
    *
    * @param descriptor the descriptor
    * @since 1.0
+   * @deprecated
    */
   @Deprecated
   public void updateCacheTable(Descriptor descriptor) {
@@ -678,12 +679,12 @@ public abstract class DAODescriptor extends AbstractDAO {
 
   /**
    * Gets the cross references for the given source and view.
-   * @deprecated
    *
    * @param source          the source
    * @param cataloguingView the cataloguing view
    * @return the cross references
    * @throws DataAccessException the data access exception
+   * @deprecated
    */
   @Deprecated
   public List getCrossReferences(final Descriptor source, final int cataloguingView) {
@@ -748,7 +749,7 @@ public abstract class DAODescriptor extends AbstractDAO {
       searchTerm = calculateSortForm(term, browseIndex, session);
     } catch (SortFormException e) {
       int lterm = term.getBytes().length;
-      String newTerm = lterm > SORTFORM_LENGTH ? term .substring(0, MAX_SORTFORM_LENGTH)
+      String newTerm = lterm > SORTFORM_LENGTH ? term.substring(0, MAX_SORTFORM_LENGTH)
         : term;
       try {
         searchTerm = calculateSortForm(newTerm, browseIndex, session);

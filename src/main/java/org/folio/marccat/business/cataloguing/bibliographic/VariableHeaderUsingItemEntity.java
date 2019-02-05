@@ -5,31 +5,16 @@ import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
-
-/**
- * @author paulm
- * @version $Revision: 1.3 $, $Date: 2005/12/12 12:54:36 $
- * @since 1.0
- */
 public abstract class VariableHeaderUsingItemEntity extends VariableHeader implements PersistsViaItem {
 
   private ItemEntity itemEntity;
 
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
   public VariableHeaderUsingItemEntity(int itemNumber) {
     super(itemNumber);
   }
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public VariableHeaderUsingItemEntity() {
     super();
   }

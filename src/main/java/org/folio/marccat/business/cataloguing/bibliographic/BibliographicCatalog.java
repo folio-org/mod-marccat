@@ -25,10 +25,6 @@ import static org.folio.marccat.util.F.isNotNull;
 
 /**
  * Bibliographic implementation of {@link Catalog} interface.
- *
- * @author paulm
- * @author janick
- * @author cchiama
  */
 public class BibliographicCatalog extends Catalog {
 

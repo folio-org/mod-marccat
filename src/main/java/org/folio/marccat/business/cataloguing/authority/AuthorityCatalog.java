@@ -18,11 +18,6 @@ import org.folio.marccat.shared.CorrelationValues;
 import java.util.*;
 import java.util.Map;
 
-/**
- * @author paulm
- * @version $Revision: 1.6 $, $Date: 2006/01/11 13:36:22 $
- * @since 1.0
- */
 public class AuthorityCatalog extends Catalog {
 
   public static final int CATALOGUING_VIEW = 1;

@@ -36,29 +36,45 @@ import static org.folio.marccat.util.F.deepCopy;
  */
 public abstract class Tag implements Serializable, Cloneable, TagInterface {
 
-  /** The Constant PHYSICAL_MATERIAL. */
+  /**
+   * The Constant PHYSICAL_MATERIAL.
+   */
   public static final int PHYSICAL_MATERIAL = 1;
 
-  /** The logger. */
+  /**
+   * The logger.
+   */
   private static Log logger = LogFactory.getLog(Tag.class);
 
-  /** The persistence state. */
+  /**
+   * The persistence state.
+   */
   protected PersistenceState persistenceState;
 
-  /** The tag impl. */
+  /**
+   * The tag impl.
+   */
   private TagImpl tagImpl;
 
-  /** The item number. */
+  /**
+   * The item number.
+   */
   private int itemNumber = -1;
 
-  /** The correlation key. */
+  /**
+   * The correlation key.
+   */
   private CorrelationKey correlationKey;
 
 
-  /** The validation. */
+  /**
+   * The validation.
+   */
   private Validation validation;
 
-  /** The new subfield content. */
+  /**
+   * The new subfield content.
+   */
   private String newSubfieldContent;
 
   /**
@@ -251,7 +267,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
    * @return the string text
    * @throws Exception the exception
    */
-  public StringText addPunctuation() throws Exception{
+  public StringText addPunctuation() throws Exception {
     // overridden in subclasses -- default implementation does nothing
     return null;
   }
@@ -260,7 +276,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
   /**
    * To xml element.
    *
-   * @param xmlDocument the xml document
+   * @param xmlDocument     the xml document
    * @param withPunctuation the with punctuation
    * @return the element
    */
@@ -354,8 +370,8 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
    *
    * @param session the session
    * @throws DataAccessException the data access exception
-   * @throws HibernateException the hibernate exception
-   * @throws SQLException the SQL exception
+   * @throws HibernateException  the hibernate exception
+   * @throws SQLException        the SQL exception
    */
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException, SQLException {
   }
@@ -627,7 +643,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
              .getSubfieldList()
              .iterator();
            subfieldIterator.hasNext();
-        ) {
+      ) {
         Subfield subfield = (Subfield) subfieldIterator.next();
         field.appendChild(subfield.toXmlElement(xmlDocument));
       }

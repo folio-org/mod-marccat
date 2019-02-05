@@ -21,11 +21,7 @@ public class LOADING_MARC_RECORDS implements Serializable, Persistence {
   private int BibItemNumber;
   private PersistenceState persistenceState = new PersistenceState();
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public LOADING_MARC_RECORDS() {
     super();
     // TODO Auto-generated constructor stub

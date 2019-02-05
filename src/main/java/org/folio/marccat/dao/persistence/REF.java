@@ -21,40 +21,64 @@ import java.io.Serializable;
  */
 public abstract class REF extends PersistenceState implements Serializable, Cloneable, PersistentObjectWithView {
 
-  /** The persistence state. */
+  /**
+   * The persistence state.
+   */
   private final PersistenceState persistenceState = new PersistenceState();
 
-  /** The key. */
+  /**
+   * The key.
+   */
   private RefKey key = new RefKey();
 
-  /** The print constant. */
+  /**
+   * The print constant.
+   */
   private Character printConstant;
 
-  /** The note generation. */
+  /**
+   * The note generation.
+   */
   private Character noteGeneration;
 
-  /** The former heading. */
+  /**
+   * The former heading.
+   */
   private Character formerHeading;
 
-  /** The authority structure. */
+  /**
+   * The authority structure.
+   */
   private Character authorityStructure;
 
-  /** The earlier rules. */
+  /**
+   * The earlier rules.
+   */
   private Character earlierRules;
 
-  /** The link display. */
+  /**
+   * The link display.
+   */
   private Character linkDisplay;
 
-  /** The replacement complexity. */
+  /**
+   * The replacement complexity.
+   */
   private Character replacementComplexity;
 
-  /** The verification level. */
+  /**
+   * The verification level.
+   */
   private Character verificationLevel;
 
-  /** The string text. */
+  /**
+   * The string text.
+   */
   private String stringText;
 
-  /** The target string text. */
+  /**
+   * The target string text.
+   */
   private String targetStringText;
 
 
@@ -69,13 +93,13 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
   /**
    * New instance of a cross reference.
    *
-   * @param source the source
-   * @param target the target
-   * @param referenceType the reference type
+   * @param source          the source
+   * @param target          the target
+   * @param referenceType   the reference type
    * @param cataloguingView the cataloguing view
    * @return the ref
    */
-   public static REF newInstance(Descriptor source, Descriptor target, int referenceType, int cataloguingView) {
+  public static REF newInstance(Descriptor source, Descriptor target, int referenceType, int cataloguingView) {
     REF ref;
     try {
       ref = (REF) source.getReferenceClass(target.getClass()).newInstance();
@@ -96,9 +120,9 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
   /**
    * Inits the cross reference and add the default values.
    *
-   * @param source the source
-   * @param target the target
-   * @param referenceType the reference type
+   * @param source          the source
+   * @param target          the target
+   * @param referenceType   the reference type
    * @param cataloguingView the cataloguing view
    */
   public void init(Descriptor source, Descriptor target, int referenceType, int cataloguingView) {
@@ -174,7 +198,7 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
    * @return true, if successful
    */
   public boolean equals(Object obj) {
-    if (obj != null  && obj.getClass().equals(this.getClass())) {
+    if (obj != null && obj.getClass().equals(this.getClass())) {
       return this.getKey().equals(((REF) obj).getKey());
     }
     return false;
@@ -530,7 +554,7 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
   /**
    * On load.
    *
-   * @param s the s
+   * @param s  the s
    * @param id the id
    */
   public void onLoad(Session s, Serializable id) {

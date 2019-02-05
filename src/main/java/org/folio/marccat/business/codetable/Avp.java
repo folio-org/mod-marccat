@@ -4,10 +4,6 @@ import java.io.Serializable;
 
 /**
  * Holds a single attribute-stringValue pair (AVP).
- *
- * @author paulm
- * @author cchiama
- * @since 1.0
  */
 public class Avp<V> implements Comparable<Avp>, Serializable {
   private V value;

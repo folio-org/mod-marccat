@@ -35,7 +35,7 @@ public class FixedFieldCodesGroup {
   }
 
   /**
-   * @param  results
+   * @param results
    */
   @JsonProperty("results")
   public void setResults(Map<String, FixedFieldElement> results) {
@@ -43,7 +43,7 @@ public class FixedFieldCodesGroup {
   }
 
   /**
-   * @param  results
+   * @param results
    */
   @JsonProperty("results")
   public void addResults(FixedFieldElement fixedFieldElement) {

@@ -14,22 +14,34 @@ import org.folio.marccat.util.StringText;
  */
 public class SubjectAccessPoint extends BibliographicAccessPoint implements OrderedTag {
 
-  /** The Constant serialVersionUID. */
+  /**
+   * The Constant serialVersionUID.
+   */
   private static final long serialVersionUID = -5339141299630141762L;
 
-  /** The function code. */
+  /**
+   * The function code.
+   */
   private int functionCode = -1;
 
-  /** The work relator code. */
+  /**
+   * The work relator code.
+   */
   private String workRelatorCode;
 
-  /** The work relator stringtext. */
+  /**
+   * The work relator stringtext.
+   */
   private String workRelatorStringtext;
 
-  /** The sequence number. */
+  /**
+   * The sequence number.
+   */
   private int sequenceNumber;
 
-  /** The descriptor. */
+  /**
+   * The descriptor.
+   */
   private SBJCT_HDG descriptor = new SBJCT_HDG();
 
   /**

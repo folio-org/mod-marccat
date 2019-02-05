@@ -148,8 +148,8 @@ public abstract class CatalogDAO extends AbstractDAO {
   /**
    * Saves the record, all associated tags and associated casCache.
    *
-   * @param item     -- the item representing record to save.
-   * @param session  -- the current hibernate session.
+   * @param item    -- the item representing record to save.
+   * @param session -- the current hibernate session.
    * @throws HibernateException in case of hibernate exception.
    */
   public void saveCatalogItem(final CatalogItem item, final Session session) throws HibernateException {

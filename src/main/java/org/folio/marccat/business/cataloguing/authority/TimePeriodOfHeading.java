@@ -4,10 +4,6 @@ import org.folio.marccat.business.cataloguing.common.TimePeriodTag;
 import org.folio.marccat.dao.persistence.ItemEntity;
 import org.folio.marccat.shared.CorrelationValues;
 
-/**
- * @author paulm
- * @since 1.0
- */
 public class TimePeriodOfHeading extends TimePeriodTag {
 
   public TimePeriodOfHeading() {

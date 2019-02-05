@@ -7,11 +7,7 @@
  */
 package org.folio.marccat.business.descriptor;
 
-/**
- * @author paulm
- * @version $Revision: 1.1 $, $Date: 2004/12/02 17:20:52 $
- * @since 1.0
- */
+
 public class SortFormParameters {
 
   private int sortFormMainType;
@@ -20,20 +16,12 @@ public class SortFormParameters {
   private int nameSubtype;
   private int skipInFiling;
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public SortFormParameters() {
     super();
   }
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public SortFormParameters(
     int sortFormMainType,
     int sortFormSubType,

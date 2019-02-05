@@ -1,7 +1,3 @@
-/*
- * Created on 20-jul-2004
- *
- */
 package org.folio.marccat.business.cataloguing.bibliographic;
 
 import net.sf.hibernate.HibernateException;
@@ -23,11 +19,6 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.TreeSet;
 
-/**
- * Class comment
- *
- * @author janick
- */
 public class BibliographicTagImpl extends TagImpl {
   private static final Log logger = LogFactory.getLog(BibliographicTagImpl.class);
 

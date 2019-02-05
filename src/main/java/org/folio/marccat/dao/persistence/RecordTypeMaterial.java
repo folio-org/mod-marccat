@@ -2,10 +2,7 @@ package org.folio.marccat.dao.persistence;
 
 import java.io.Serializable;
 
-/**
- * @author paulm
- * @since 1.0
- */
+
 public class RecordTypeMaterial implements Serializable {
   private String recordTypeCode;
   private String bibliographicLevel;

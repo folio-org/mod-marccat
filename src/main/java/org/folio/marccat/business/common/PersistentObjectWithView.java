@@ -3,8 +3,6 @@ package org.folio.marccat.business.common;
 
 /**
  * The Interface PersistentObjectWithView.
- *
- * @author paulm
  */
 public interface PersistentObjectWithView extends Persistence {
 

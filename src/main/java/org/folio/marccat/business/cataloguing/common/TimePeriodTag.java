@@ -15,11 +15,7 @@ import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
-/**
- * @author paulm
- * @version $Revision: 1.1 $, $Date: 2005/12/12 12:54:36 $
- * @since 1.0
- */
+
 public abstract class TimePeriodTag extends VariableHeaderUsingItemEntity {
 
   protected static final Log logger = LogFactory.getLog(TimePeriodOfContentTag.class);

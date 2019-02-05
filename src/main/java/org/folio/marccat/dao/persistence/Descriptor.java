@@ -95,15 +95,6 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
   private int indexingLanguage = 0;
 
   /**
-   *
-   * @throws SortFormException
-   */
-  @Override
-  public void calculateAndSetSortForm() throws SortFormException {
-    setSortForm(SortformUtils.defaultSortform(getStringText()));
-  }
-
-  /**
    * Instantiates a new descriptor.
    */
   public Descriptor() {
@@ -111,6 +102,14 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
     StringText s = new StringText();
     s.addSubfield(new Subfield("a", ""));
     setStringText(s.toString());
+  }
+
+  /**
+   * @throws SortFormException
+   */
+  @Override
+  public void calculateAndSetSortForm() throws SortFormException {
+    setSortForm(SortformUtils.defaultSortform(getStringText()));
   }
 
   /**

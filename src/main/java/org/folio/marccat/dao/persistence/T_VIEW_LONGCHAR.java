@@ -25,11 +25,7 @@ public class T_VIEW_LONGCHAR extends CodeTable {
   private String code;
   private long translationKey;
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public T_VIEW_LONGCHAR() {
     super();
     // TODO Auto-generated constructor stub

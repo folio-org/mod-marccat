@@ -21,11 +21,7 @@ public class T_AMICUS_FIXED implements Serializable {
   private int sequence;
   private int translationKey;
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public T_AMICUS_FIXED() {
     super();
     // TODO Auto-generated constructor stub

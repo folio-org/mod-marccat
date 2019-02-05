@@ -35,11 +35,7 @@ public class CollectionMaster implements Persistence {
   private Date dateFinVal;
   private PersistenceState persistenceState = new PersistenceState();
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public CollectionMaster() {
     super();
     //setIdCollection(idCollection);

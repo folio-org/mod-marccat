@@ -2,9 +2,6 @@ package org.folio.marccat.business.common;
 
 /**
  * The class that manages the states of hibernate objects.
- *
- * @author paulm
- * @author carment
  */
 public class UpdateStatus {
 

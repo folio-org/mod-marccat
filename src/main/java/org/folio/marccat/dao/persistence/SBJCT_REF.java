@@ -10,7 +10,9 @@ import org.folio.marccat.dao.SubjectDescriptorDAO;
  * @author carment
  */
 public class SBJCT_REF extends REF {
-  /** The DAO. */
+  /**
+   * The DAO.
+   */
   public DAODescriptor getTargetDAO() {
     return new SubjectDescriptorDAO();
   }

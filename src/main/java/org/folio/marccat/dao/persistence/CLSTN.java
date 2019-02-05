@@ -190,22 +190,19 @@ public class CLSTN extends Descriptor {
       super.setStringText(string);
     }
   }
+
   @Override
   public void calculateAndSetSortForm() throws SortFormException {
-    if (ClassificationType.isLC((short)getTypeCode())) {
-      setSortForm( calculateLcSortForm());
-    }
-    else if (ClassificationType.isDewey((short)getTypeCode())) {
-      setSortForm( calculateDeweySortForm());
-    }
-    else if (ClassificationType.isNLM((short)getTypeCode())) {
-      setSortForm( calculateLcSortForm());
-    }
-    else if (ClassificationType.isNAL((short)getTypeCode())) {
-      setSortForm( calculateNalSortForm());
-    }
-    else {
-      setSortForm( calculateDefaultClassSortForm());
+    if (ClassificationType.isLC((short) getTypeCode())) {
+      setSortForm(calculateLcSortForm());
+    } else if (ClassificationType.isDewey((short) getTypeCode())) {
+      setSortForm(calculateDeweySortForm());
+    } else if (ClassificationType.isNLM((short) getTypeCode())) {
+      setSortForm(calculateLcSortForm());
+    } else if (ClassificationType.isNAL((short) getTypeCode())) {
+      setSortForm(calculateNalSortForm());
+    } else {
+      setSortForm(calculateDefaultClassSortForm());
     }
   }
 
@@ -248,7 +245,7 @@ public class CLSTN extends Descriptor {
     StringText st = new StringText(getStringText());
     //stick a HEX(03) at the beginning of first subfield b
     for (Object obj : st.getSubfieldList()) {
-      Subfield sub = (Subfield)obj;
+      Subfield sub = (Subfield) obj;
       if (sub.getCode().equals("b")) {
         sub.setContent("\u0003" + sub.getContent());
         break;
@@ -276,8 +273,7 @@ public class CLSTN extends Descriptor {
         sb.append(".");
       }
       sb.append(parts[0].substring(m.end()));
-    }
-    else {
+    } else {
       sb.append(parts[0]);
     }
     if (parts.length > 1) {
@@ -290,7 +286,7 @@ public class CLSTN extends Descriptor {
     result = replacePeriodsForClassNumbers(result);
     result = result.replace('^', ' ');
     if (result.length() > 3) {
-      result = result.substring(0,2) + result.substring(2).replaceAll("\\s{2,}", " ");
+      result = result.substring(0, 2) + result.substring(2).replaceAll("\\s{2,}", " ");
     }
     result = result.replaceAll("\\s*$", "");
     return result;
@@ -300,7 +296,7 @@ public class CLSTN extends Descriptor {
     StringText st = new StringText(getStringText());
     //stick a HEX(03) at the beginning of first subfield b
     for (Object obj : st.getSubfieldList()) {
-      Subfield sub = (Subfield)obj;
+      Subfield sub = (Subfield) obj;
       if (sub.getCode().equals("b")) {
         sub.setContent("\u0003" + sub.getContent());
         break;
@@ -328,8 +324,7 @@ public class CLSTN extends Descriptor {
         sb.append(".");
       }
       sb.append(parts[0].substring(m.end()));
-    }
-    else {
+    } else {
       sb.append(parts[0]);
     }
     if (parts.length > 1) {
@@ -342,7 +337,7 @@ public class CLSTN extends Descriptor {
     result = replacePeriodsForClassNumbers(result);
     result = result.replace('^', ' ');
     if (result.length() > 3) {
-      result = result.substring(0,4) + result.substring(4).replaceAll("\\s{2,}", " ");
+      result = result.substring(0, 4) + result.substring(4).replaceAll("\\s{2,}", " ");
     }
     result = result.replaceAll("\\s*$", "");
     return result;

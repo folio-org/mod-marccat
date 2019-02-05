@@ -18,11 +18,7 @@ public class ValidationException extends ModMarccatException {
 
   protected int tagIndex = 0;
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public ValidationException() {
     super();
     // TODO Auto-generated constructor stub

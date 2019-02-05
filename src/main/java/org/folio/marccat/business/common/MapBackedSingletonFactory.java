@@ -5,9 +5,6 @@ import java.util.Map;
 
 /**
  * Singleton map backed factory.
- *
- * @author paulm
- * @since 1.0
  */
 public class MapBackedSingletonFactory extends AbstractMapBackedFactory {
 

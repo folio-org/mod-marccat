@@ -5,7 +5,9 @@ import org.folio.marccat.config.Global;
 import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.resources.domain.FieldTemplate;
 import org.folio.marccat.resources.domain.VariableField;
-import org.folio.marccat.shared.*;
+import org.folio.marccat.shared.CatalogingInformation;
+import org.folio.marccat.shared.CorrelationValues;
+import org.folio.marccat.shared.Validation;
 import org.springframework.web.bind.annotation.*;
 
 import static java.util.Arrays.stream;
@@ -21,7 +23,7 @@ import static org.folio.marccat.integration.MarccatHelper.doGet;
  */
 @RestController
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
-public class FieldTemplateAPI extends BaseResource implements CatalogingInformation{
+public class FieldTemplateAPI extends BaseResource implements CatalogingInformation {
 
 
   @GetMapping("/field-template")

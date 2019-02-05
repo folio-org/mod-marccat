@@ -3,6 +3,7 @@ package org.folio.marccat.resources.domain;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import javax.annotation.Generated;
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class HeadingDecorator {
 
   @JsonProperty("crossReferences")
   @Valid
-   private List<Ref> crossReferences = new ArrayList<Ref>();
+  private List<Ref> crossReferences = new ArrayList<Ref>();
 
 
   /**

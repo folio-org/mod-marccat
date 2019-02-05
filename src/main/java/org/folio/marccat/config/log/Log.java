@@ -5,9 +5,6 @@ import org.apache.logging.log4j.Logger;
 
 /**
  * OKAPI Cataloging module Logging utility.
- *
- * @author cchiama
- * @since 1.0
  */
 public class Log {
   private final Logger logger;

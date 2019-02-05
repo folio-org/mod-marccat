@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- *
- * Created on Nov 4, 2004
- *
- * VariableHeader.java
- */
 package org.folio.marccat.business.cataloguing.bibliographic;
 
 import org.folio.marccat.business.cataloguing.common.HeaderField;
@@ -15,11 +8,6 @@ import org.folio.marccat.util.StringText;
 
 import java.util.List;
 
-/**
- * @author paulm
- * @version $Revision: 1.6 $, $Date: 2005/12/21 13:33:34 $
- * @since 1.0
- */
 public abstract class VariableHeader extends VariableField implements HeaderField {
   private HeaderFieldHelper headerField = new BibliographicHeaderFieldHelper();
 

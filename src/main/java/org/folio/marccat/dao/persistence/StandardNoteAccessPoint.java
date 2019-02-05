@@ -10,10 +10,7 @@ import org.folio.marccat.exception.DataAccessException;
 
 import java.io.Serializable;
 
-/**
- * @author paulm
- * @since 1.0
- */
+
 public class StandardNoteAccessPoint implements Persistence {
   protected short typeCode = -1;
   private PersistenceState persistenceState = new PersistenceState();

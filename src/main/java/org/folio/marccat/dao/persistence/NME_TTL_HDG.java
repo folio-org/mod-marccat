@@ -21,11 +21,7 @@ public class NME_TTL_HDG extends Descriptor {
   private TTL_HDG titleHeading = new TTL_HDG();
   private int titleHeadingNumber;
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public NME_TTL_HDG() {
     super();
   }

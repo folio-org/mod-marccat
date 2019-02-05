@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- *
- * Created on Dec 1, 2005
- *
- * Authority008Tag.java
- */
 package org.folio.marccat.business.cataloguing.authority;
 
 import org.apache.commons.logging.Log;
@@ -26,11 +19,7 @@ import java.util.Date;
 public class Authority008Tag extends FixedFieldUsingItemEntity {
   private static Log logger = LogFactory.getLog(Authority008Tag.class);
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public Authority008Tag() {
     super();
     setHeaderField(new AuthorityHeaderFieldHelper());

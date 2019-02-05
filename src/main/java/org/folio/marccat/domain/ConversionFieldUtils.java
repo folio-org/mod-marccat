@@ -30,7 +30,6 @@ public class ConversionFieldUtils {
   }
 
   /**
-   *
    * @param leaderValue
    * @return
    */
@@ -47,7 +46,7 @@ public class ConversionFieldUtils {
     fixedField.setLinkedRecordCode(String.valueOf(leaderValue.charAt(19)));
 
     return fixedField;
-}
+  }
 
   /**
    * Inject material or other material values for drop-down list selected.
@@ -145,7 +144,7 @@ public class ConversionFieldUtils {
       fixedField.setMusicTextualMaterialCode6(String.valueOf(displayValue.charAt(startPosition + 11)));
       fixedField.setMusicLiteraryTextCode1(String.valueOf(displayValue.charAt(startPosition + 12)));
       fixedField.setMusicLiteraryTextCode2(String.valueOf(displayValue.charAt(startPosition + 13)));
-      if(displayValue.length() > startPosition + 15) {
+      if (displayValue.length() > startPosition + 15) {
         fixedField.setMusicTranspositionArrangementCode(String.valueOf(displayValue.charAt(startPosition + 15)));
       }
       fixedField.setMaterialType(FixedField.MaterialType.MUSIC);

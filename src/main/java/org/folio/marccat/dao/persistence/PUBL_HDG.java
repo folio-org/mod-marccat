@@ -296,6 +296,7 @@ public class PUBL_HDG extends Descriptor implements Serializable {
   private String calculateNameSortForm() {
     return SortformUtils.defaultSortform(getNameStringText());
   }
+
   private String calculatePlaceSortForm() {
     return SortformUtils.defaultSortform(getPlaceStringText());
 

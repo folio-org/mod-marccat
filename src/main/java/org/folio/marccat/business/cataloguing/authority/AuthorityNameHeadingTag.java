@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- *
- * Created on Nov 18, 2005
- *
- * AuthorityNameHeadingTag.java
- */
 package org.folio.marccat.business.cataloguing.authority;
 
 import org.folio.marccat.dao.DAOAuthorityCorrelation;
@@ -15,18 +8,10 @@ import org.folio.marccat.shared.CorrelationValues;
 
 import java.util.List;
 
-/**
- * @author paulm
- * @version $Revision: 1.4 $, $Date: 2006/01/05 13:25:58 $
- * @since 1.0
- */
+
 public class AuthorityNameHeadingTag extends AuthorityHeadingTag {
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public AuthorityNameHeadingTag() {
     super(new NME_HDG());
   }

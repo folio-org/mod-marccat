@@ -15,10 +15,12 @@ import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.F;
 import org.folio.marccat.util.StringText;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
+
 import static java.util.Optional.ofNullable;
 
 
@@ -34,37 +36,59 @@ import static java.util.Optional.ofNullable;
 @SuppressWarnings("unchecked")
 public class PublisherManager extends VariableField implements PersistentObjectWithView {
 
-  /** The Constant serialVersionUID. */
+  /**
+   * The Constant serialVersionUID.
+   */
   private static final long serialVersionUID = 1L;
 
-  /** The Constant daoPublisherTag. */
+  /**
+   * The Constant daoPublisherTag.
+   */
   private static final PublisherManagerDAO daoPublisherTag = new PublisherManagerDAO();
 
-  /** The persistence state. */
+  /**
+   * The persistence state.
+   */
   private PersistenceState persistenceState = new PersistenceState();
 
-  /** The publisher tag units. */
+  /**
+   * The publisher tag units.
+   */
   private List<PUBL_TAG> publisherTagUnits = new ArrayList<>();
 
-  /** The deleted units. */
+  /**
+   * The deleted units.
+   */
   private List<PUBL_TAG> deletedUnits = new ArrayList<>();
 
-  /** The apf. */
+  /**
+   * The apf.
+   */
   private PublisherAccessPoint apf = new PublisherAccessPoint();
 
-  /** The dates. */
+  /**
+   * The dates.
+   */
   private List<String> dates = new ArrayList<>();
 
-  /** The tag unit index. */
+  /**
+   * The tag unit index.
+   */
   private int tagUnitIndex;
 
-  /** The user view helper. */
+  /**
+   * The user view helper.
+   */
   private UserViewHelper userViewHelper = new UserViewHelper();
 
-  /** The string text for fast digit publisher. */
+  /**
+   * The string text for fast digit publisher.
+   */
   private String stringTextForFastDigitPublisher;
 
-  /** The note type. */
+  /**
+   * The note type.
+   */
   private int noteType;
 
   /**
@@ -598,47 +622,41 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    * @throws Exception the exception
    */
   @Override
-  public StringText addPunctuation() throws Exception{
+  public StringText addPunctuation() throws Exception {
     final StringText result = new StringText(getStringText().toString());
-    try{
-    int subfieldIndex = 0;
-    for (Object o : result.getSubfieldList()) {
-      Subfield s = (Subfield)o;
-      if (s.getCode().equals("a") || s.getCode().equals("b")) {
-        if (subfieldIndex < result.getNumberOfSubfields() - 1) {
-          if (result.getSubfield(subfieldIndex + 1).getCode().equals("a")) {
-            s.setContent(s.getContent() + " ;");
+    try {
+      int subfieldIndex = 0;
+      for (Object o : result.getSubfieldList()) {
+        Subfield s = (Subfield) o;
+        if (s.getCode().equals("a") || s.getCode().equals("b")) {
+          if (subfieldIndex < result.getNumberOfSubfields() - 1) {
+            if (result.getSubfield(subfieldIndex + 1).getCode().equals("a")) {
+              s.setContent(s.getContent() + " ;");
+            } else if (result.getSubfield(subfieldIndex + 1).getCode().equals("b")) {
+              s.setContent(s.getContent() + " :");
+            } else if (result.getSubfield(subfieldIndex + 1).getCode().equals("c")) {
+              s.setContent(s.getContent() + ",");
+            }
           }
-          else if (result.getSubfield(subfieldIndex + 1).getCode().equals("b")) {
-            s.setContent(s.getContent() + " :");
-          }
-          else if (result.getSubfield(subfieldIndex + 1).getCode().equals("c")) {
-            s.setContent(s.getContent() + ",");
-          }
-        }
-      }
-      else if (s.getCode().equals("c")) {
-        if (subfieldIndex == result.getNumberOfSubfields() - 1 &&
-          !"-])".contains(""+s.getContent().charAt(s.getContentLength() - 1))) {
+        } else if (s.getCode().equals("c")) {
+          if (subfieldIndex == result.getNumberOfSubfields() - 1 &&
+            !"-])".contains("" + s.getContent().charAt(s.getContentLength() - 1))) {
             s.setContent(s.getContent() + ".");
-         }
-      }
-      else if (s.getCode().equals("e") || s.getCode().equals("f")) {
-        if (subfieldIndex < result.getNumberOfSubfields() - 1) {
-          if (result.getSubfield(subfieldIndex+1).getCode().equals("e")) {
-            s.setContent(s.getContent() + ";");
           }
-          else if (result.getSubfield(subfieldIndex + 1).getCode().equals("f")) {
-            s.setContent(s.getContent() + " :");
-          }
-          else if (result.getSubfield(subfieldIndex + 1).getCode().equals("g")) {
-            s.setContent(s.getContent() + ",");
+        } else if (s.getCode().equals("e") || s.getCode().equals("f")) {
+          if (subfieldIndex < result.getNumberOfSubfields() - 1) {
+            if (result.getSubfield(subfieldIndex + 1).getCode().equals("e")) {
+              s.setContent(s.getContent() + ";");
+            } else if (result.getSubfield(subfieldIndex + 1).getCode().equals("f")) {
+              s.setContent(s.getContent() + " :");
+            } else if (result.getSubfield(subfieldIndex + 1).getCode().equals("g")) {
+              s.setContent(s.getContent() + ",");
+            }
           }
         }
+        subfieldIndex++;
       }
-      subfieldIndex++;
-    }
-    return result;
+      return result;
     } catch (Exception e) {
       return result;
     }

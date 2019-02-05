@@ -14,11 +14,7 @@ package org.folio.marccat.exception;
  */
 public class InvalidBrowseIndexException extends ModMarccatException {
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public InvalidBrowseIndexException() {
     super();
     // TODO Auto-generated constructor stub

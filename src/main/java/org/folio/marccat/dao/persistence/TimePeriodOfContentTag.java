@@ -16,11 +16,7 @@ import org.folio.marccat.shared.CorrelationValues;
  * @since 1.0
  */
 public class TimePeriodOfContentTag extends TimePeriodTag {
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public TimePeriodOfContentTag() {
     super();
     setHeaderType((short) 8);

@@ -4,11 +4,7 @@ import org.folio.marccat.business.cataloguing.bibliographic.VariableHeaderUsingI
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.util.StringText;
 
-/**
- * @author paulm
- * @version $Revision: 1.2 $, $Date: 2005/12/01 13:50:04 $
- * @since 1.0
- */
+
 public abstract class CataloguingSourceTag extends VariableHeaderUsingItemEntity {
   public CataloguingSourceTag() {
     super();

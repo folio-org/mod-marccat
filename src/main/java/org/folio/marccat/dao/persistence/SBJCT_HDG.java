@@ -305,7 +305,7 @@ public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling 
 
   @Override
   public void calculateAndSetSortForm() throws SortFormException {
-    StringText st = SortformUtils.stripSkipInFiling(getStringText(), (short)getSkipInFiling());
+    StringText st = SortformUtils.stripSkipInFiling(getStringText(), (short) getSkipInFiling());
     StringBuilder result = new StringBuilder();
     for (int i = 0; i < st.getNumberOfSubfields(); i++) {
       Subfield sf = st.getSubfield(i);

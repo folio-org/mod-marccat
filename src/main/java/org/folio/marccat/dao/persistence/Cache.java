@@ -44,11 +44,7 @@ public class Cache implements Persistence {
   private String titleHeadingSeriesStringText;
   private PersistenceState persistenceState = new PersistenceState();
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public Cache() {
     super();
     // TODO Auto-generated constructor stub

@@ -9,9 +9,6 @@ import java.io.Serializable;
 
 /**
  * The helper for the view.
- *
- * @author paulm
- * @author carment
  */
 public class UserViewHelper implements PersistentObjectWithView, Serializable {
 

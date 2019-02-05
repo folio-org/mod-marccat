@@ -9,13 +9,10 @@ import org.folio.marccat.exception.ValidationException;
 import org.folio.marccat.shared.CorrelationValues;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 import java.io.Serializable;
 import java.util.List;
-/**
- * The Interface TagInterface.
- *
- * @author paulm
- */
+
 public interface TagInterface {
 
   /**
@@ -39,9 +36,6 @@ public interface TagInterface {
    *
    * @param obj the obj
    * @return true, if successful
-   */
-  /* (non-Javadoc)
-   * @see java.lang.Object#equals(java.lang.Object)
    */
   boolean equals(Object obj);
 
@@ -206,9 +200,6 @@ public interface TagInterface {
    * Hash code.
    *
    * @return the int
-   */
-  /* (non-Javadoc)
-   * @see java.lang.Object#hashCode()
    */
   int hashCode();
 

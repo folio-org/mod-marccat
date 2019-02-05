@@ -29,11 +29,7 @@ public class LOADING_MARC_FILE implements Persistence {
   private int loadingStatisticsNumber;
   private PersistenceState persistenceState = new PersistenceState();
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public LOADING_MARC_FILE() {
     super();
     // TODO Auto-generated constructor stub

@@ -23,8 +23,6 @@ import java.util.List;
 
 /**
  * Provides a base class of support utilities for DAO objects
- *
- * @author wimc
  */
 @Deprecated
 public class HibernateUtil {
@@ -49,10 +47,11 @@ public class HibernateUtil {
     lockingSessionId.set(s);
   }
 
-  /*
-   * * Ensures that a client DB session exists and returns the Session ID.
+  /**
+   * Ensures that a client DB session exists and returns the Session ID.
    * Used for unique identifications of search clients in the search engine.
-   * @return
+   *
+   * @return unique session id
    */
   @Deprecated
   public String getUniqueSessionId() {

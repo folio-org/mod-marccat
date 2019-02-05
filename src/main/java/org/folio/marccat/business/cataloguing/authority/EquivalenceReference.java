@@ -43,7 +43,6 @@ public class EquivalenceReference extends AuthorityReferenceTag {
   }
 
   /**
-   *
    * @param v
    * @return
    */
