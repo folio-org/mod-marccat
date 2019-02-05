@@ -2,11 +2,6 @@ package org.folio.marccat.business.common;
 
 import java.util.Comparator;
 
-/**
- * Class comment
- *
- * @author paulm
- */
 public class SubfieldCodeComparator implements Comparator {
 
   public SubfieldCodeComparator() {

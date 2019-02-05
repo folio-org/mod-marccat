@@ -19,25 +19,39 @@ import org.folio.marccat.util.StringText;
 @SuppressWarnings("unchecked")
 public class NameAccessPoint extends NameTitleComponent implements OrderedTag {
 
-  /** The Constant serialVersionUID. */
+  /**
+   * The Constant serialVersionUID.
+   */
   private static final long serialVersionUID = 4936157294497482982L;
 
-  /** The work relator code. */
+  /**
+   * The work relator code.
+   */
   private String workRelatorCode;
 
-  /** The institution. */
+  /**
+   * The institution.
+   */
   private String institution;
 
-  /** The work relator stringtext. */
+  /**
+   * The work relator stringtext.
+   */
   private String workRelatorStringtext;
 
-  /** The other subfields. */
+  /**
+   * The other subfields.
+   */
   private String otherSubfields;
 
-  /** The sequence number. */
+  /**
+   * The sequence number.
+   */
   private Integer sequenceNumber;
 
-  /** The descriptor. */
+  /**
+   * The descriptor.
+   */
   private NME_HDG descriptor = new NME_HDG();
 
   /**

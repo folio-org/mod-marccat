@@ -21,11 +21,7 @@ public class SHLF_LIST_ACS_PNT implements Serializable {
 
   private int mainLibraryNumber;
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public SHLF_LIST_ACS_PNT() {
     super();
   }

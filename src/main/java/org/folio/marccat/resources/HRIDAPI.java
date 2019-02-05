@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.*;
 /**
  * HRID RESTful APIs.
  *
- * @description: API to handler human readble identifier in all app folio
- *
  * @author cchiama
+ * @description: API to handler human readble identifier in all app folio
  * @since 1.0
  */
 @RestController

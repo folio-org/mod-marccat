@@ -19,11 +19,6 @@ public class S_SRCH_SRT_RSLTS implements Serializable {
   private short itemNbr;
 
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
   public S_SRCH_SRT_RSLTS() {
     super();
     // TODO Auto-generated constructor stub

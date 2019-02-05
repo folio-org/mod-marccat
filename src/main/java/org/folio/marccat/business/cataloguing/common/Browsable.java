@@ -14,10 +14,6 @@ import java.util.Set;
 
 /**
  * implemented by tags that support browsing for descriptor contents
- *
- * @author paulm
- * @version $Revision: 1.5 $, $Date: 2006/01/05 13:25:59 $
- * @since 1.0
  */
 public interface Browsable {
   Descriptor getDescriptor();

@@ -10,7 +10,9 @@ import org.folio.marccat.dao.TitleDescriptorDAO;
  * @author carment
  */
 public class TTL_REF extends REF {
-  /** The DAO. */
+  /**
+   * The DAO.
+   */
   public DAODescriptor getTargetDAO() {
     return new TitleDescriptorDAO();
   }

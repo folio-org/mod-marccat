@@ -21,9 +21,11 @@ public class ClassificationType extends T_SINGLE {
   public static boolean isLC(short s) {
     return s == 1;
   }
+
   public static boolean isNLM(short s) {
     return s == 6;
   }
+
   public static boolean isNAL(short s) {
     return s == 8;
   }

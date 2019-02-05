@@ -5,10 +5,6 @@ import org.folio.marccat.shared.CorrelationValues;
 
 /**
  * Supertype layer for all fixed (control) fields.
- *
- * @author paulm
- * @author cchiama
- * @since 1.0
  */
 public abstract class FixedFieldUsingItemEntity extends FixedField implements PersistsViaItem {
 

@@ -35,11 +35,7 @@ public class ReceiveItem implements Persistence {
   private short receivedCopyQuantity;
   private String conditionNote;
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public ReceiveItem() {
     super();
     // TODO Auto-generated constructor stub

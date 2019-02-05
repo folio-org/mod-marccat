@@ -10,19 +10,11 @@ package org.folio.marccat.dao.persistence;
 import org.folio.marccat.business.cataloguing.common.DateOfLastTransactionTag;
 import org.folio.marccat.business.common.PersistenceState;
 
-/**
- * @author paulm
- * @version $Revision: 1.2 $, $Date: 2005/12/01 13:50:04 $
- * @since 1.0
- */
+
 public class BibliographicDateOfLastTransactionTag
   extends DateOfLastTransactionTag {
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public BibliographicDateOfLastTransactionTag() {
     super();
     setHeaderType((short) 41);

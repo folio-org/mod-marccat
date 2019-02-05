@@ -5,10 +5,7 @@ import java.util.List;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toList;
 
-/**
- * @author paulm
- * @since 1.0
- */
+
 public abstract class Validation {
 
   private char marcTagObsoleteIndicator;

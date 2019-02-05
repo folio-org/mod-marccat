@@ -10,8 +10,6 @@ import org.folio.marccat.dao.persistence.ItemEntity;
 import org.folio.marccat.dao.persistence.ModelItem;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.MandatoryTagException;
-import org.folio.marccat.search.XmlRecord;
-import org.folio.marccat.search.domain.Record;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -84,12 +82,6 @@ public class BibliographicItem extends CatalogItem implements Serializable {
     this.modelItem = modelItem;
   }
 
-  public Record toRecord(String elementSetName) {
-    Document xmlDocument = toXmlDocument();
-    XmlRecord xmlRecord = new XmlRecord();
-    xmlRecord.setContent(elementSetName, xmlDocument);
-    return xmlRecord;
-  }
 
   /**
    * This method creates a XML Document as follows

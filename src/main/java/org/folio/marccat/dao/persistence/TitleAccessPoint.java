@@ -20,31 +20,49 @@ import org.folio.marccat.util.StringText;
 @SuppressWarnings("unchecked")
 public class TitleAccessPoint extends NameTitleComponent implements OrderedTag {
 
-  /** The Constant serialVersionUID. */
+  /**
+   * The Constant serialVersionUID.
+   */
   private static final long serialVersionUID = 1636144329543139231L;
 
-  /** The institution. */
+  /**
+   * The institution.
+   */
   private String institution;
 
-  /** The series issn heading number. */
+  /**
+   * The series issn heading number.
+   */
   private Integer seriesIssnHeadingNumber;
 
-  /** The secondary function code. */
+  /**
+   * The secondary function code.
+   */
   private int secondaryFunctionCode;
 
-  /** The volume number description. */
+  /**
+   * The volume number description.
+   */
   private String volumeNumberDescription;
 
-  /** The variant title. */
+  /**
+   * The variant title.
+   */
   private String variantTitle;
 
-  /** The descriptor. */
+  /**
+   * The descriptor.
+   */
   private TTL_HDG descriptor = new TTL_HDG();
 
-  /** The sequence number. */
+  /**
+   * The sequence number.
+   */
   private Integer sequenceNumber;
 
-  /** The issn text. */
+  /**
+   * The issn text.
+   */
   private String issnText;
 
   /**

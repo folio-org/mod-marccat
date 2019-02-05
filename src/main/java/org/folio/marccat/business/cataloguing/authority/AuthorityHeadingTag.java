@@ -18,10 +18,6 @@ import org.w3c.dom.Element;
 import java.util.List;
 import java.util.Set;
 
-/**
- * @author paulm
- * @since 1.0
- */
 public abstract class AuthorityHeadingTag extends VariableField implements
   PersistsViaItem, Browsable, HasHeadingType {
 

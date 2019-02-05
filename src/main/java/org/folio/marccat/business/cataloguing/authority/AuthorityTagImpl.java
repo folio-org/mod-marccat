@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- *
- * Created on Oct 31, 2005
- *
- * AuthorityTag.java
- */
 package org.folio.marccat.business.cataloguing.authority;
 
 import net.sf.hibernate.Session;
@@ -26,11 +19,6 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.TreeSet;
 
-/**
- * @author paulm
- * @version $Revision: 1.4 $, $Date: 2005/12/21 08:30:32 $
- * @since 1.0
- */
 public class AuthorityTagImpl extends TagImpl {
 
   private static final DAOAuthorityCorrelation daoCorrelation = new DAOAuthorityCorrelation();
@@ -59,20 +47,10 @@ public class AuthorityTagImpl extends TagImpl {
     authorityNumber = i;
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see java.lang.Object#hashCode()
-   */
   public int hashCode() {
     return getAuthorityNumber();
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see TagImpl#getMarcEncoding(Tag)
-   */
   @Deprecated
   public CorrelationKey getMarcEncoding(Tag t) throws DataAccessException {
 
@@ -86,17 +64,12 @@ public class AuthorityTagImpl extends TagImpl {
     return key;
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see TagImpl#getHeadingType(Tag)
-   */
+
   public String getHeadingType(Tag t) {
     return ((AUT) ((PersistsViaItem) t).getItemEntity()).getHeadingType();
   }
 
   public Validation getValidation(Tag t) throws DataAccessException {
-    //FIXME
     CorrelationKey key = getMarcEncoding(t);
     return daoValidation.load(key.getMarcTag(), t.getHeadingType(), t.getCategory());
   }
@@ -106,11 +79,6 @@ public class AuthorityTagImpl extends TagImpl {
     return null;
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see TagImpl#getCatalog()
-   */
   public Catalog getCatalog() {
     return new AuthorityCatalog();
   }
@@ -120,11 +88,6 @@ public class AuthorityTagImpl extends TagImpl {
     return null;
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see TagImpl#getValidEditableSubfields(short)
-   */
   public Set getValidEditableSubfields(int category) {
     Set set = new TreeSet(new SubfieldCodeComparator());
     switch (category) {

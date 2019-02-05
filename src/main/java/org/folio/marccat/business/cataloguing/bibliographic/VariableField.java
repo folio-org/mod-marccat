@@ -5,17 +5,15 @@ import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.util.StringText;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 import java.util.Collections;
 import java.util.List;
+
 import static java.util.Optional.ofNullable;
 
 
 /**
  * Manages the variable tag field.
- *
- * @author paulm
- * @author nbianchini
- * @since 1.0
  */
 public abstract class VariableField extends Tag {
 
@@ -167,7 +165,7 @@ public abstract class VariableField extends Tag {
    * @throws Exception the exception
    */
   @Override
-  public StringText addPunctuation()throws Exception{
+  public StringText addPunctuation() throws Exception {
     return getStringText();
   }
 

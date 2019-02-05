@@ -85,7 +85,7 @@ public abstract class CatalogDAO extends AbstractDAO {
   private void loadHeading(final AccessPoint tag, final int userView, final Session session) throws DataAccessException {
     if (tag.getHeadingNumber() != null) {
       try {
-        Descriptor descriptor = tag.getDAODescriptor().load(tag.getHeadingNumber().intValue(), userView, session);
+        Descriptor descriptor = tag.getDAODescriptor().load(tag.getHeadingNumber(), userView, session);
         if (descriptor == null)
           throw new DataAccessException(String.format(MessageCatalog._00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
         tag.setDescriptor(descriptor);
@@ -133,16 +133,14 @@ public abstract class CatalogDAO extends AbstractDAO {
    * @throws HibernateException in case of hibernate exception.
    */
   public void modifyNoteStandard(final CatalogItem item, final Session session) throws HibernateException {
-    final int amicusNumber = item.getItemEntity().getAmicusNumber().intValue();
+    final int amicusNumber = item.getItemEntity().getAmicusNumber();
     item.getTags().stream()
       .filter(aTag -> aTag instanceof BibliographicNoteTag && ((BibliographicNoteTag) aTag).isStandardNoteType())
       .forEach(tag -> {
         try {
           updateBibNote(amicusNumber, ((BibliographicNoteTag) tag).getNoteNbr(), session);
-        } catch (HibernateException he) {
+        } catch (HibernateException | SQLException he) {
           throw new RuntimeException(he);
-        } catch (SQLException sqle) {
-          throw new RuntimeException(sqle);
         }
       });
   }
@@ -150,8 +148,8 @@ public abstract class CatalogDAO extends AbstractDAO {
   /**
    * Saves the record, all associated tags and associated casCache.
    *
-   * @param item     -- the item representing record to save.
-   * @param session  -- the current hibernate session.
+   * @param item    -- the item representing record to save.
+   * @param session -- the current hibernate session.
    * @throws HibernateException in case of hibernate exception.
    */
   public void saveCatalogItem(final CatalogItem item, final Session session) throws HibernateException {

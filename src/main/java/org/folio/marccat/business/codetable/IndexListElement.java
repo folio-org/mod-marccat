@@ -2,8 +2,6 @@ package org.folio.marccat.business.codetable;
 
 /**
  * Holds a single entry for IDX_LIST lists
- *
- * @author paulm
  */
 public class IndexListElement {
   private String value;

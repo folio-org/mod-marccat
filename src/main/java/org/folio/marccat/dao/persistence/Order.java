@@ -54,11 +54,7 @@ public class Order implements Persistence {
   private int lastUpdateNumber;
   private short cancelledReasonCode;
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public Order() {
     super();
     // TODO Auto-generated constructor stub

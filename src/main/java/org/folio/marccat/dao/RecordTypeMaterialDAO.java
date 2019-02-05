@@ -10,10 +10,7 @@ import org.folio.marccat.dao.persistence.RecordTypeMaterial;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * @author paulm
- * @since 1.0
- */
+
 public class RecordTypeMaterialDAO extends AbstractDAO {
 
   /**

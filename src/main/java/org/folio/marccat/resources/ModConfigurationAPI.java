@@ -30,18 +30,21 @@ public class ModConfigurationAPI extends BaseResource {
   @Value("${configuration.zeta}")
   private String zeta;
 
+  private static String getFile(String filename) throws IOException {
+    return IOUtils.toString(ModConfigurationAPI.class.getClassLoader().getResourceAsStream(filename), "UTF-8");
+  }
+
   @GetMapping("/entries")
   public void getConfigurationEntries(
     @RequestParam(name = "lang", defaultValue = "en") final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
     @RequestHeader(name = Global.OKAPI_TOKEN_HEADER_NAME, defaultValue = "folio_demo") final String token) throws UnsupportedEncodingException {
-    cc = new ConfigurationsClient(zeta, 8085, tenant,token);
-    cc.getConfigurationsEntries("module==MARCCAT", 0, 10, new String[1],lang, response -> {
+    cc = new ConfigurationsClient(zeta, 8085, tenant, token);
+    cc.getConfigurationsEntries("module==MARCCAT", 0, 10, new String[1], lang, response -> {
       response.bodyHandler(System.out::println);
     });
 
   }
-
 
   @GetMapping("/entries/{code}")
   public void getConfigurationEntriesByCode(
@@ -49,8 +52,8 @@ public class ModConfigurationAPI extends BaseResource {
     @RequestParam(name = "lang", defaultValue = "en") final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
     @RequestHeader(name = Global.OKAPI_TOKEN_HEADER_NAME, defaultValue = "folio_demo") final String token) throws UnsupportedEncodingException {
-    cc = new ConfigurationsClient(zeta, 8085, tenant,token);
-    cc.getConfigurationsEntries("module==MARCCAT and configName == " + code, 0, 10, new String[1],lang, response -> {
+    cc = new ConfigurationsClient(zeta, 8085, tenant, token);
+    cc.getConfigurationsEntries("module==MARCCAT and configName == " + code, 0, 10, new String[1], lang, response -> {
       response.bodyHandler(System.out::println);
     });
 
@@ -62,10 +65,10 @@ public class ModConfigurationAPI extends BaseResource {
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
     @RequestHeader(name = Global.OKAPI_TOKEN_HEADER_NAME, defaultValue = "folio_demo") final String token) throws Exception {
     String content = getFile("sample/marccat_configuration.sample");
-    cc = new ConfigurationsClient(zeta, 8085, tenant,token);
-    Config conf =  new ObjectMapper().readValue(content, Config.class);
+    cc = new ConfigurationsClient(zeta, 8085, tenant, token);
+    Config conf = new ObjectMapper().readValue(content, Config.class);
     cc.postConfigurationsEntries(lang, conf, response -> {
-      response.bodyHandler( handler -> {
+      response.bodyHandler(handler -> {
         try {
           System.out.println(new String(handler.getBytes(), "UTF8"));
         } catch (Exception e) {
@@ -77,15 +80,14 @@ public class ModConfigurationAPI extends BaseResource {
     return new ResponseEntity<>("ok", HttpStatus.OK);
   }
 
-
   @DeleteMapping("/entries/{entryId}")
   public void deleteConfigurationEntriesByEntryId(
     @PathVariable final String entryId,
     @RequestParam(name = "lang", defaultValue = "en") final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
     @RequestHeader(name = Global.OKAPI_TOKEN_HEADER_NAME, defaultValue = "folio_demo") final String token) throws UnsupportedEncodingException {
-    cc = new ConfigurationsClient(zeta, 8085, tenant,token);
-    cc.deleteConfigurationsEntriesByEntryId(entryId, lang,  response -> {
+    cc = new ConfigurationsClient(zeta, 8085, tenant, token);
+    cc.deleteConfigurationsEntriesByEntryId(entryId, lang, response -> {
       response.bodyHandler(System.out::println);
     });
   }
@@ -96,9 +98,9 @@ public class ModConfigurationAPI extends BaseResource {
     TenantClient tenantClient = new TenantClient(zeta, 8085, "tnx", "tnx");
     TenantAttributes ta = new TenantAttributes();
     ta.setModuleTo(Global.MODULE_NAME);
-    tenantClient.postTenant(ta,response -> {
+    tenantClient.postTenant(ta, response -> {
       System.out.println(ta);
-      response.bodyHandler( handler -> {
+      response.bodyHandler(handler -> {
         try {
           System.out.println(new String(handler.getBytes(), "UTF8"));
 
@@ -112,9 +114,5 @@ public class ModConfigurationAPI extends BaseResource {
         e.printStackTrace();
       }
     });
-  }
-
-  private static String getFile(String filename) throws IOException {
-    return IOUtils.toString(ModConfigurationAPI.class.getClassLoader().getResourceAsStream(filename), "UTF-8");
   }
 }

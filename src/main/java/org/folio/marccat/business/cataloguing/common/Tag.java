@@ -36,29 +36,45 @@ import static org.folio.marccat.util.F.deepCopy;
  */
 public abstract class Tag implements Serializable, Cloneable, TagInterface {
 
-  /** The Constant PHYSICAL_MATERIAL. */
+  /**
+   * The Constant PHYSICAL_MATERIAL.
+   */
   public static final int PHYSICAL_MATERIAL = 1;
 
-  /** The logger. */
+  /**
+   * The logger.
+   */
   private static Log logger = LogFactory.getLog(Tag.class);
 
-  /** The persistence state. */
+  /**
+   * The persistence state.
+   */
   protected PersistenceState persistenceState;
 
-  /** The tag impl. */
+  /**
+   * The tag impl.
+   */
   private TagImpl tagImpl;
 
-  /** The item number. */
+  /**
+   * The item number.
+   */
   private int itemNumber = -1;
 
-  /** The correlation key. */
+  /**
+   * The correlation key.
+   */
   private CorrelationKey correlationKey;
 
 
-  /** The validation. */
+  /**
+   * The validation.
+   */
   private Validation validation;
 
-  /** The new subfield content. */
+  /**
+   * The new subfield content.
+   */
   private String newSubfieldContent;
 
   /**
@@ -238,10 +254,11 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
    * punctuation for MARC export.
    *
    * @param xmlDocument the xml document
+   * @param session
    * @return the element
    */
-  public Element toExternalMarcSlim(Document xmlDocument) {
-    return toXmlElement(xmlDocument, true);
+  public Element toExternalMarcSlim(Document xmlDocument, Session session) {
+    return toXmlElement(xmlDocument, true, session);
   }
 
   /**
@@ -250,7 +267,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
    * @return the string text
    * @throws Exception the exception
    */
-  public StringText addPunctuation() throws Exception{
+  public StringText addPunctuation() throws Exception {
     // overridden in subclasses -- default implementation does nothing
     return null;
   }
@@ -259,14 +276,14 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
   /**
    * To xml element.
    *
-   * @param xmlDocument the xml document
+   * @param xmlDocument     the xml document
    * @param withPunctuation the with punctuation
    * @return the element
    */
-  private Element toXmlElement(Document xmlDocument, boolean withPunctuation) {
-    CorrelationKey marcEncoding = null;
+  private Element toXmlElement(Document xmlDocument, boolean withPunctuation, Session session) {
+    CorrelationKey marcEncoding;
     try {
-      marcEncoding = getMarcEncoding();
+      marcEncoding = getMarcEncoding(session);
     } catch (Exception exception) {
       logger.warn("Invalid tag found in Tag.toXmlElement");
       return xmlDocument.createElement("error");
@@ -276,7 +293,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
     String marcFirstIndicator = "" + marcEncoding.getMarcFirstIndicator();
     String marcSecondIndicator = "" + marcEncoding.getMarcSecondIndicator();
 
-    Element field = null;
+    Element field;
     if (isFixedField()) {
       field = xmlDocument.createElement("controlfield");
     } else {
@@ -302,9 +319,8 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
       } else {
         st = ((VariableField) this).getStringText();
       }
-      for (Iterator subfieldIterator = st.getSubfieldList().iterator(); subfieldIterator
-        .hasNext(); ) {
-        Subfield subfield = (Subfield) subfieldIterator.next();
+      for (Object o : st.getSubfieldList()) {
+        Subfield subfield = (Subfield) o;
         field.appendChild(subfield.toXmlElement(xmlDocument));
       }
     }
@@ -354,8 +370,8 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
    *
    * @param session the session
    * @throws DataAccessException the data access exception
-   * @throws HibernateException the hibernate exception
-   * @throws SQLException the SQL exception
+   * @throws HibernateException  the hibernate exception
+   * @throws SQLException        the SQL exception
    */
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException, SQLException {
   }
@@ -608,7 +624,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
     String marcFirstIndicator = "" + marcEncoding.getMarcFirstIndicator();
     String marcSecondIndicator = "" + marcEncoding.getMarcSecondIndicator();
 
-    Element field = null;
+    Element field;
     if (isFixedField()) {
       if (marcTag.equals("000"))
         field = xmlDocument.createElement("leader");
@@ -627,7 +643,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
              .getSubfieldList()
              .iterator();
            subfieldIterator.hasNext();
-        ) {
+      ) {
         Subfield subfield = (Subfield) subfieldIterator.next();
         field.appendChild(subfield.toXmlElement(xmlDocument));
       }
@@ -701,18 +717,6 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
   }
 
   /**
-   * Gets the validation.
-   *
-   * @param session the session
-   * @return the validation
-   * @throws DataAccessException the data access exception
-   */
-  public Validation getValidation(final Session session) throws DataAccessException {
-    validation = tagImpl.getValidation(this, session);
-    return validation;
-  }
-
-  /**
    * Gets the category.
    *
    * @return the category
@@ -721,29 +725,6 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
    * @see TagInterface#getCategory()
    */
   abstract public int getCategory();
-
-  /**
-   * Checks if is checks for subfield W.
-   *
-   * @return true, if is checks for subfield W
-   */
-  /* (non-Javadoc)
-   * @see TagInterface#isHasSubfieldW()
-   */
-  public boolean isHasSubfieldW() {
-    return false; //default implementation
-  }
-
-
-  /**
-   * Checks if is equivalence reference.
-   *
-   * @return true, if is equivalence reference
-   */
-  @Override
-  public boolean isEquivalenceReference() {
-    return false;
-  }
 
   /**
    * Gets the display category.

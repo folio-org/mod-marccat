@@ -51,7 +51,7 @@ public class NameNameTitleReferencesDAO extends CrossReferencesDAO {
           + " substr(ref.userViewString, ?, 1) = '1' AND "
           + " ref.type = ?";
     }
-    List <REF> listRefs =
+    List<REF> listRefs =
       session.find(queryString,
         new Object[]{
           ref.getSource(),

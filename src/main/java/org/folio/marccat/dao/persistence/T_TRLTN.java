@@ -19,11 +19,7 @@ public class T_TRLTN implements Serializable {
   private int languageNumber;
   private String text;
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public T_TRLTN() {
     super();
     // TODO Auto-generated constructor stub

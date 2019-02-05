@@ -17,8 +17,6 @@ import static org.folio.marccat.util.F.deepCopy;
 
 /**
  * Command library for operation about tags
- *
- * @author michelem
  */
 public class MarcCommandLibrary {
 

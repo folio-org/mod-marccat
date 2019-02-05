@@ -21,10 +21,10 @@ public class HeadingTypeCollection {
   @JsonProperty("headingTypes")
   @Valid
   @NotNull
-  private List <HeadingType> headingTypes = new ArrayList <HeadingType>();
+  private List<HeadingType> headingTypes = new ArrayList<HeadingType>();
 
   @JsonIgnore
-  private Map <String, Object> additionalProperties = new HashMap <String, Object>();
+  private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
   /**
    * (Required)
@@ -32,7 +32,7 @@ public class HeadingTypeCollection {
    * @return The headingTypes
    */
   @JsonProperty("headingTypes")
-  public List <HeadingType> getHeadingTypes() {
+  public List<HeadingType> getHeadingTypes() {
     return headingTypes;
   }
 
@@ -42,17 +42,17 @@ public class HeadingTypeCollection {
    * @param headingTypes The headingTypes
    */
   @JsonProperty("headingTypes")
-  public void setHeadingTypes(List <HeadingType> headingTypes) {
+  public void setHeadingTypes(List<HeadingType> headingTypes) {
     this.headingTypes = headingTypes;
   }
 
-  public HeadingTypeCollection withHeadingTypes(List <HeadingType> headingTypes) {
+  public HeadingTypeCollection withHeadingTypes(List<HeadingType> headingTypes) {
     this.headingTypes = headingTypes;
     return this;
   }
 
   @JsonAnyGetter
-  public Map <String, Object> getAdditionalProperties() {
+  public Map<String, Object> getAdditionalProperties() {
     return this.additionalProperties;
   }
 

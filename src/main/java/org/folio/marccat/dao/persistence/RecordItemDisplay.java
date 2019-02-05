@@ -13,11 +13,7 @@ package org.folio.marccat.dao.persistence;
  */
 public class RecordItemDisplay extends T_SINGLE_INT {
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public RecordItemDisplay() {
     super();
     // TODO Auto-generated constructor stub

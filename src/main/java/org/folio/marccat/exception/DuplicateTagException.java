@@ -14,11 +14,7 @@ package org.folio.marccat.exception;
  */
 public class DuplicateTagException extends ValidationException {
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public DuplicateTagException() {
     super();
     // TODO Auto-generated constructor stub

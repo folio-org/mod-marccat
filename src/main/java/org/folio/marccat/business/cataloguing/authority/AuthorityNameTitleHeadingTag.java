@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- *
- * Created on Dec 20, 2005
- *
- * AuthorityNameTitleHeadingTag.java
- */
 package org.folio.marccat.business.cataloguing.authority;
 
 import org.folio.marccat.dao.persistence.NME_TTL_HDG;
@@ -13,17 +6,8 @@ import org.folio.marccat.shared.CorrelationValues;
 
 import java.util.List;
 
-/**
- * @author paulm
- * @version $Revision: 1.2 $, $Date: 2006/01/05 13:25:58 $
- * @since 1.0
- */
 public class AuthorityNameTitleHeadingTag extends AuthorityHeadingTag {
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public AuthorityNameTitleHeadingTag() {
     super(new NME_TTL_HDG());
   }

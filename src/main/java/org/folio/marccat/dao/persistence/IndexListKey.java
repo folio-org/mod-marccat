@@ -25,11 +25,7 @@ public class IndexListKey implements Serializable {
   private String typeCode;
   private String language;
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public IndexListKey() {
   }
 

@@ -38,10 +38,6 @@ import static org.folio.marccat.util.F.deepCopy;
  * Publisher Tag differs from other access points in that multiple publisher access
  * points produce a single tag.  This class then implements the Tag/VariableField behaviour
  * and manages the persistence of the constituent PublisherAccessPoint objects
- *
- * @author paulm
- * @version $Revision: 1.10 $, $Date: 2006/07/11 08:01:05 $
- * @since 1.0
  */
 public class PublisherTag extends VariableField implements PersistentObjectWithView {
   private static Log logger = LogFactory.getLog(PublisherTag.class);
@@ -61,22 +57,14 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
    */
   private int noteType = 24;
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public PublisherTag() {
     super();
     setPersistenceState(persistenceState);
     addNewAccessPoint();
   }
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public PublisherTag(int bib_itm, int view) {
     super();
     setPersistenceState(persistenceState);

@@ -49,11 +49,7 @@ public class OrderItem implements Persistence {
   private String status;
   private int deletedQuantity;
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public OrderItem() {
     super();
     // TODO Auto-generated constructor stub

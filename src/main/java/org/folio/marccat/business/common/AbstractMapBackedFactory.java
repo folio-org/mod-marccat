@@ -6,9 +6,6 @@ import static java.util.Optional.ofNullable;
 
 /**
  * Supertype layer for all map-backed object factories.
- *
- * @author paulm
- * @since 1.0
  */
 public abstract class AbstractMapBackedFactory {
   /**

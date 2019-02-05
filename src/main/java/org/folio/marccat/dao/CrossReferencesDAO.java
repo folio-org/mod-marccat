@@ -10,6 +10,7 @@ import org.folio.marccat.business.common.View;
 import org.folio.marccat.dao.persistence.Descriptor;
 import org.folio.marccat.dao.persistence.REF;
 import org.folio.marccat.dao.persistence.ReferenceType;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -68,7 +69,7 @@ public class CrossReferencesDAO extends AbstractDAO {
   @SuppressWarnings("unchecked")
   private REF loadReciprocal(REF ref, int cataloguingView, final Session session) throws HibernateException {
     final int reciprocalType = ReferenceType.getReciprocal(ref.getType());
-    final List <REF> list =
+    final List<REF> list =
       session.find(
         "from "
           + ref.getClass().getName()

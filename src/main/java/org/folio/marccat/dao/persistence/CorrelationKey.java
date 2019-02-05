@@ -18,11 +18,7 @@ public class CorrelationKey implements Serializable {
   private char marcSecondIndicator;
   private int marcTagCategoryCode;
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public CorrelationKey() {
     super();
   }

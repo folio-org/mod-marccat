@@ -9,9 +9,6 @@ import org.folio.marccat.dao.persistence.Descriptor;
 
 /**
  * Descriptor factory.
- *
- * @author paulm
- * @since 1.0
  */
 public class DescriptorFactory {
 

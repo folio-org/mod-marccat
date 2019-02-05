@@ -23,13 +23,8 @@ import java.util.Locale;
 
 /**
  * Supertype layer of all Catalogs impl.
- *
- * @author paulm
- * @author cchiama
- * @since 1.0
  */
 
-//TODO: evaluate if need to use this class
 public abstract class Catalog {
 
   protected final static DAOCodeTable DAO_CODE_TABLE = new DAOCodeTable();

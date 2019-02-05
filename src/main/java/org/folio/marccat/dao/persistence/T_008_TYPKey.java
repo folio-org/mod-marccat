@@ -19,21 +19,11 @@ public class T_008_TYPKey implements Serializable {
   private char levelCode;
   private char recordTypeCode;
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
 
   public T_008_TYPKey() {
     super();
   }
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
 
   public T_008_TYPKey(char l, char r) {
     this.setLevelCode(l);

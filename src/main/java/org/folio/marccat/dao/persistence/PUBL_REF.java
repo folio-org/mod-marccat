@@ -10,7 +10,9 @@ import org.folio.marccat.dao.PublisherDescriptorDAO;
  * @author carment
  */
 public class PUBL_REF extends REF {
-  /** The DAO. */
+  /**
+   * The DAO.
+   */
   public DAODescriptor getTargetDAO() {
     return new PublisherDescriptorDAO();
   }

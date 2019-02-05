@@ -9,10 +9,6 @@ import java.io.Serializable;
 
 /**
  * Implementing this interface indicates that the implementing object is known to the persistency layer (Hibernate).
- *
- * @author paulm
- * @author nbianchini
- * @since 1.0
  */
 public interface Persistence extends Lifecycle, Serializable {
 
