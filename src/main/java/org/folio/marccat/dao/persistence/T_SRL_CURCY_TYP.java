@@ -20,11 +20,7 @@ public class T_SRL_CURCY_TYP extends T_SINGLE_LONGCHAR {
    */
   private static final long serialVersionUID = 1L;
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public T_SRL_CURCY_TYP() {
     super();
     // TODO Auto-generated constructor stub

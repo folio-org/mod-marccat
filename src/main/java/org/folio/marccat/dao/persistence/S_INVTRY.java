@@ -16,11 +16,7 @@ public class S_INVTRY {
   private int mainLibrary;
   private int nextNumber;
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public S_INVTRY() {
     super();
     // TODO Auto-generated constructor stub

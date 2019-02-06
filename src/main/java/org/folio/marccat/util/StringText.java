@@ -6,6 +6,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
+
 import java.io.Serializable;
 import java.util.*;
 
@@ -15,10 +16,14 @@ import java.util.*;
  */
 public class StringText implements Serializable {
 
-  /** The Constant serialVersionUID. */
+  /**
+   * The Constant serialVersionUID.
+   */
   private static final long serialVersionUID = -486513419723833977L;
 
-  /** The subfield list. */
+  /**
+   * The subfield list.
+   */
   private List subfieldList = new ArrayList();
 
   /**
@@ -49,7 +54,7 @@ public class StringText implements Serializable {
   /**
    * Instantiates a new string text.
    *
-   * @param codes the codes
+   * @param codes  the codes
    * @param values the values
    */
   public StringText(final List<String> codes, final List<String> values) {
@@ -162,7 +167,7 @@ public class StringText implements Serializable {
   /**
    * Adds the subfield.
    *
-   * @param klm the klm
+   * @param klm      the klm
    * @param subfield the subfield
    * @return the string text
    */
@@ -376,9 +381,9 @@ public class StringText implements Serializable {
   /**
    * Generate marc xml element content.
    *
-   * @param datafield the datafield
+   * @param datafield   the datafield
    * @param xmlDocument the xml document
-   * @param cclQuery the ccl query
+   * @param cclQuery    the ccl query
    */
   public void generateMarcXmlElementContent(Element datafield, Document xmlDocument, String cclQuery) {
     if (xmlDocument != null) {
@@ -420,8 +425,8 @@ public class StringText implements Serializable {
   /**
    * Add punctuation before the given code unless the given excluded punc is already present.
    *
-   * @param code the code
-   * @param punc the punc
+   * @param code         the code
+   * @param punc         the punc
    * @param excludedPunc the excluded punc
    */
   public void addPrecedingPunctuation(String code, String punc, String excludedPunc) {
@@ -430,10 +435,10 @@ public class StringText implements Serializable {
       Subfield s = (Subfield) o;
       if (s.getCode().equals(code) && subfieldIndex > 0) {
         Subfield before = getSubfield(subfieldIndex - 1);
-          if (!before.getContent().endsWith(excludedPunc)) {
-            before.setContent(before.getContent() + punc);
-          }
-       }
+        if (!before.getContent().endsWith(excludedPunc)) {
+          before.setContent(before.getContent() + punc);
+        }
+      }
       subfieldIndex++;
     }
   }
@@ -464,9 +469,9 @@ public class StringText implements Serializable {
   /**
    * Ensures that the given subfield codes end in the given punctuation.
    *
-   * @param codes the codes
+   * @param codes          the codes
    * @param otherTerminals the other terminals
-   * @param terminalChar the terminal char
+   * @param terminalChar   the terminal char
    * @return true if given subfield is found
    */
   public boolean addTerminalPunctuation(String codes, String otherTerminals, String terminalChar) {
@@ -476,7 +481,7 @@ public class StringText implements Serializable {
       Subfield s = (Subfield) o;
       if (codes.contains(s.getCode())) {
         result = true;
-        if (!otherTerminals.contains(""+s.getContent().charAt(s.getContentLength() - 1))){
+        if (!otherTerminals.contains("" + s.getContent().charAt(s.getContentLength() - 1))) {
           s.setContent(s.getContent() + terminalChar);
         }
       }
@@ -486,8 +491,7 @@ public class StringText implements Serializable {
   }
 
   /**
-   *
-   * @param klm index to be set
+   * @param klm      index to be set
    * @param subfield value to be set
    * @return this StringText
    */

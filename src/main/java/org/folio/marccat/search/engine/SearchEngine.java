@@ -31,10 +31,10 @@ public interface SearchEngine {
    * @param cclQuery      the input CCL query.
    * @param locale        the current locale.
    * @param searchingView the searching view associated with the current query execution.
-   * @param firstRecord the first record.
-   * @param lastRecord the last record.
-   * @param attributes the attributes of the search index.
-   * @param directions the directions asc or desc.
+   * @param firstRecord   the first record.
+   * @param lastRecord    the last record.
+   * @param attributes    the attributes of the search index.
+   * @param directions    the directions asc or desc.
    * @return a search response (containing only the docids)
    */
   SearchResponse expertSearch(String cclQuery, Locale locale, int searchingView, int firstRecord, int lastRecord, String[] attributes, String[] directions);

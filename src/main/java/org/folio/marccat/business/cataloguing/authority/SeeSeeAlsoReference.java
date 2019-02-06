@@ -4,19 +4,11 @@ import org.folio.marccat.model.Subfield;
 import org.folio.marccat.util.StringText;
 import org.w3c.dom.Element;
 
-/**
- * @author paulm
- * @since 1.0
- */
 public abstract class SeeSeeAlsoReference extends AuthorityReferenceTag {
 
   private static final String VARIANT_CODES = "weij4";
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public SeeSeeAlsoReference() {
     super();
   }

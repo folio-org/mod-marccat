@@ -5,18 +5,10 @@ import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.dao.persistence.ReferenceType;
 import org.folio.marccat.shared.CorrelationValues;
 
-/**
- * @author paulm
- * @since 1.0
- */
 public class SeeReferenceTag extends SeeSeeAlsoReference {
   private static final Log logger = LogFactory.getLog(SeeReferenceTag.class);
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public SeeReferenceTag() {
     super();
   }

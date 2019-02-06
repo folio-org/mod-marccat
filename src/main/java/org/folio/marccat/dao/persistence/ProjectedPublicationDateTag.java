@@ -11,19 +11,11 @@ import org.folio.marccat.business.cataloguing.bibliographic.VariableHeaderUsingI
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.util.StringText;
 
-/**
- * @author paulm
- * @version $Revision: 1.3 $, $Date: 2005/12/12 12:54:36 $
- * @since 1.0
- */
+
 public class ProjectedPublicationDateTag extends VariableHeaderUsingItemEntity {
   //TODO subfield a should be validated for yyyymm or - for unknown
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public ProjectedPublicationDateTag() {
     super();
     setHeaderType((short) 38);

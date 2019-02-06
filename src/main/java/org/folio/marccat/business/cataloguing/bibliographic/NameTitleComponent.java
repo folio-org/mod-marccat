@@ -1,9 +1,6 @@
 package org.folio.marccat.business.cataloguing.bibliographic;
 
-/**
- * @author paulm
- * @since 1.0
- */
+
 public abstract class NameTitleComponent extends BibliographicAccessPoint {
 
   protected int nameTitleHeadingNumber = 0;

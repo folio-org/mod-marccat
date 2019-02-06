@@ -76,7 +76,7 @@ public class AuthorityCatalogDAO extends CatalogDAO {
       cache.setItemNumber(item.getAmicusNumber());
       cache.setUserView(View.AUTHORITY);
     }
-    cache.setRecordData(XmlUtils.documentToString(item.toExternalMarcSlim()));
+    cache.setRecordData(XmlUtils.documentToString(item.toExternalMarcSlim(session)));
     persistByStatus(cache);
     cache.evict();
   }

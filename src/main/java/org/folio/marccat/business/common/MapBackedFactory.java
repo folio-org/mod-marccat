@@ -5,9 +5,6 @@ import java.util.Map;
 
 /**
  * Default implementation of {@link AbstractMapBackedFactory}.
- *
- * @author paulm
- * @since 1.0
  */
 public class MapBackedFactory extends AbstractMapBackedFactory {
 

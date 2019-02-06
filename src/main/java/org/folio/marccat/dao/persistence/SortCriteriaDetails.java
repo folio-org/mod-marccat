@@ -21,11 +21,7 @@ public class SortCriteriaDetails implements Serializable {
   private short attribute;
   private short direction;
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public SortCriteriaDetails() {
     super();
     // TODO Auto-generated constructor stub

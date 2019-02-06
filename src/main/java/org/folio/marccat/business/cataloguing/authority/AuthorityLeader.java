@@ -5,17 +5,9 @@ import org.folio.marccat.dao.persistence.Leader;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-/**
- * @author paulm
- * @since 1.0
- */
 public class AuthorityLeader extends Leader {
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public AuthorityLeader() {
     setHeaderField(new AuthorityHeaderFieldHelper());
     setHeaderType(9);

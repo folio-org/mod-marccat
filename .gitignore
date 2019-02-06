@@ -5,3 +5,5 @@ target
 .vertx
 .project
 .eclipse
+.doc/node_modules
+*.lock

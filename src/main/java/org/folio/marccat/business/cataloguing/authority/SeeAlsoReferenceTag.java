@@ -1,31 +1,15 @@
-/*
- * (c) LibriCore
- *
- * Created on Jan 6, 2006
- *
- * SeeAlsoReferenceTag.java
- */
 package org.folio.marccat.business.cataloguing.authority;
 
 import org.folio.marccat.dao.persistence.REF;
 import org.folio.marccat.dao.persistence.ReferenceType;
 import org.folio.marccat.shared.CorrelationValues;
 
-/**
- * @author paulm
- * @version $Revision: 1.1 $, $Date: 2006/01/11 13:36:22 $
- * @since 1.0
- */
 public class SeeAlsoReferenceTag extends SeeSeeAlsoReference {
   private REF dualReference = null;
 
   private short dualReferenceIndicator = 0;
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public SeeAlsoReferenceTag() {
     super();
   }

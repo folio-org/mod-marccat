@@ -1,7 +1,6 @@
 package org.folio.marccat.integration.search;
 
 
-
 /**
  * Enumeration of all SQL Commands
  *
@@ -45,7 +44,7 @@ public class SQLCommand {
    * build the query for the join of the date1 or date2 for the bibliographic
    */
   public final static String DATE_JOIN = new StringBuilder()
-      .append(" join bib_itm t1 on t1.bib_itm_nbr = smtc.bib_itm_nbr ").toString();
+    .append(" join bib_itm t1 on t1.bib_itm_nbr = smtc.bib_itm_nbr ").toString();
 
   /**
    * build the query for the join of the title for the authority
@@ -67,7 +66,6 @@ public class SQLCommand {
   public final static String SUBJECT_AUT_JOIN = new StringBuilder()
     .append(" join aut t1 on t1.aut_nbr = smtc.aut_nbr ")
     .append(" join sbjct_hdg t2 on t2.sbjct_hdg_nbr = t1.hdg_nbr ").toString();
-
 
 
 }

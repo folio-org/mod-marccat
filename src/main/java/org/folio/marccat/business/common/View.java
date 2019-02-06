@@ -2,9 +2,6 @@ package org.folio.marccat.business.common;
 
 /**
  * A collection of static methods to manage user views.
- *
- * @author paulm
- * @since 1.0
  */
 public class View {
 

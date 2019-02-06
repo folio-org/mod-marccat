@@ -11,20 +11,12 @@ import org.folio.marccat.business.cataloguing.bibliographic.VariableHeaderUsingI
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.util.StringText;
 
-/**
- * @author paulm
- * @version $Revision: 1.3 $, $Date: 2005/12/12 12:54:36 $
- * @since 1.0
- */
+
 public class SpecialCodedDatesTag extends VariableHeaderUsingItemEntity {
   //TODO saveUndoSave doesn't work
   //TODO subfield a should be validated against code table
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public SpecialCodedDatesTag() {
     super();
     setHeaderType((short) 12);

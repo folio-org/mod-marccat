@@ -10,11 +10,6 @@ package org.folio.marccat.exception;
 import org.folio.marccat.dao.persistence.Descriptor;
 
 
-/**
- * @author paulm
- * @version $Revision: 1.1 $, $Date: 2004/12/02 17:20:52 $
- * @since 1.0
- */
 public class DuplicateDescriptorException extends DataAccessException {
 
   private Descriptor descriptorFound = null;
@@ -24,11 +19,7 @@ public class DuplicateDescriptorException extends DataAccessException {
     this.descriptorFound = descriptorFound;
   }
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public DuplicateDescriptorException() {
     super();
   }

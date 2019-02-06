@@ -11,9 +11,6 @@ import java.io.Serializable;
 
 /**
  * Class for the persistence state in hibernate.
- *
- * @author paulm
- * @author carment
  */
 public class PersistenceState implements Lifecycle, Serializable {
 

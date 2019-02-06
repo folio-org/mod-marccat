@@ -14,11 +14,7 @@ package org.folio.marccat.exception;
  */
 public class InvalidDescriptorException extends ModMarccatException {
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public InvalidDescriptorException() {
     super();
     // TODO Auto-generated constructor stub

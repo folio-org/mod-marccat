@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- *
- * Created on Oct 12, 2004
- *
- * DateOfLastTransactionTag.java
- */
 package org.folio.marccat.business.cataloguing.common;
 
 import org.folio.marccat.business.cataloguing.bibliographic.FixedFieldUsingItemEntity;
@@ -15,18 +8,10 @@ import org.w3c.dom.Text;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-/**
- * @author paulm
- * @version $Revision: 1.2 $, $Date: 2005/12/01 13:50:04 $
- * @since 1.0
- */
+
 public abstract class DateOfLastTransactionTag extends FixedFieldUsingItemEntity {
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public DateOfLastTransactionTag() {
     super();
   }

@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- *
- * Created on Dec 2, 2005
- *
- * AuthorityControlNumberAccessPoint.java
- */
 package org.folio.marccat.business.cataloguing.authority;
 
 import org.folio.marccat.dao.persistence.CNTL_NBR;
@@ -15,20 +8,12 @@ import org.folio.marccat.util.StringText;
 
 import java.util.List;
 
-/**
- * @author paulm
- * @version $Revision: 1.2 $, $Date: 2005/12/21 08:30:32 $
- * @since 1.0
- */
+
 public class AuthorityControlNumberAccessPoint extends AuthorityAccessPoint {
   private CNTL_NBR descriptor = new CNTL_NBR();
   private char validationCode = 'a';
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public AuthorityControlNumberAccessPoint() {
     super();
   }

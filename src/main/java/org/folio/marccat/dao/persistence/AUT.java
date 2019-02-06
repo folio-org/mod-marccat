@@ -50,11 +50,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
   private char subjectSystem = 'n';
   private String variableHeadingStringText;
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public AUT() {
     //setLanguageOfCataloguing (Defaults.getString ("authority.languageOfCataloguing"));
     //setCataloguingSourceStringText (Defaults.getString ("authority.cataloguingSourceStringText"));

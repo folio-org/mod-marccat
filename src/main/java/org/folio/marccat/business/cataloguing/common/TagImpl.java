@@ -23,10 +23,6 @@ import java.util.Set;
  * <p>
  * An instance of this class is composed within the Tag class so that
  * format specific differences can be bridged through the common Tag interface
- *
- * @author paulm
- * @version $Revision: 1.3 $, $Date: 2005/12/12 12:54:36 $
- * @since 1.0
  */
 public abstract class TagImpl implements Serializable {
 

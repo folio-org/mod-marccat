@@ -28,11 +28,7 @@ public class ORDR_ITM_BIB_ITM implements Persistence {
   private int bibItemNumber;
   private PersistenceState persistenceState = new PersistenceState();
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public ORDR_ITM_BIB_ITM() {
     super();
     // TODO Auto-generated constructor stub

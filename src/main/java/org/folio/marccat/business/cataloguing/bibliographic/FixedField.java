@@ -10,10 +10,7 @@ import org.folio.marccat.shared.CorrelationValues;
 
 import java.util.List;
 
-/**
- * @author paulm
- * @since 1.0
- */
+
 public abstract class FixedField extends Tag implements HeaderField {
   private HeaderFieldHelper headerField = new BibliographicHeaderFieldHelper();
 

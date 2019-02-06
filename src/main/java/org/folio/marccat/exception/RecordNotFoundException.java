@@ -14,11 +14,7 @@ package org.folio.marccat.exception;
  */
 public class RecordNotFoundException extends DataAccessException {
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public RecordNotFoundException() {
     super();
     // TODO Auto-generated constructor stub

@@ -195,7 +195,6 @@ public class BibliographicInputFile {
       try {
         newTag = catalog.getNewTag(item, corr.getKey().getMarcTagCategoryCode(), corr.getValues());
       } catch (RuntimeException e) {
-        // not a bibliographic tag so skip it
       }
 
       if (newTag != null) {
@@ -206,7 +205,7 @@ public class BibliographicInputFile {
           ((Browsable) newTag).setDescriptorStringText(st);
           Descriptor d = ((Browsable) newTag).getDescriptor();
           d.setUserViewString(View.makeSingleViewString(view));
-          Descriptor dup = null;
+          Descriptor dup;
           try {
             dup = ((DAODescriptor) (d.getDAO())).getMatchingHeading(d, session);
             if (dup == null) {
@@ -217,7 +216,6 @@ public class BibliographicInputFile {
               ((Browsable) newTag).setDescriptor(dup);
             }
           } catch (HibernateException | SQLException e) {
-            logger.error("");
             throw new DataAccessException(e);
           }
         }

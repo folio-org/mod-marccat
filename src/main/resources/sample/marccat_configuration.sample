@@ -1,10 +1,782 @@
-{
-  "module": "MARCCAT",
-  "configName": "validation_rules",
-  "code": "MARC21_RULE",
-  "description": "for marc record",
-  "default": true,
-  "enabled": true,
-  "value": "",
-  "userId": ""
-}
+[
+  {
+    "module" : "MARCCAT",
+    "configName" : "datasource",
+    "code" : "url",
+    "description" : "Target JDBC URL",
+    "default" : true,
+    "enabled" : true,
+    "value" : "jdbc:postgresql://192.168.0.158:5433/folio_marccat_sv2"
+  }, {
+    "module" : "MARCCAT",
+    "configName" : "datasource",
+    "code" : "port",
+    "description" : "Database listening port",
+    "default" : true,
+    "enabled" : true,
+    "value" : "5433"
+  }, {
+    "module" : "MARCCAT",
+    "configName" : "datasource",
+    "code" : "user",
+    "description" : "Database username",
+    "default" : true,
+    "enabled" : true,
+    "value" : "marccat"
+  }, {
+    "module" : "MARCCAT",
+    "configName" : "datasource",
+    "code" : "password",
+    "description" : "Database password",
+    "default" : true,
+    "enabled" : true,
+    "value" : "admin"
+  }, {
+    "id" : "5c6aec68-f784-4abe-a7f9-7c3f7f385d9f",
+    "module" : "MARCCAT",
+    "configName" : "authority",
+    "code" : "authority.cataloguingSourceStringText",
+    "description" : "Authority MARCCAT source",
+    "default" : true,
+    "enabled" : true,
+    "value" : "\u001FaPS"
+  }, {
+    "id" : "f4afa3f5-2c05-4523-8040-95d8c491537b",
+    "module" : "MARCCAT",
+    "configName" : "authority",
+    "code" : "authority.classification.type",
+    "description" : "Classification type",
+    "default" : true,
+    "enabled" : true,
+    "value" : "12"
+  }, {
+    "id" : "518d4f80-212a-46d9-a020-2f73a203f0bd",
+    "module" : "MARCCAT",
+    "configName" : "authority",
+    "code" : "authority.classification.function",
+    "description" : "Classification function",
+    "default" : true,
+    "enabled" : true,
+    "value" : "34"
+  }, {
+    "id" : "b7bf8453-9477-4bfc-a148-2bc0c375c2c1",
+    "module" : "MARCCAT",
+    "configName" : "authority",
+    "code" : "authority.reference.specialRelationship",
+    "description" : " Print constant cross-reference",
+    "default" : true,
+    "enabled" : true,
+    "value" : "n"
+  }, {
+    "id" : "2b4a9de1-3d81-4212-b4ec-f53456663b4d",
+    "module" : "MARCCAT",
+    "configName" : "authority",
+    "code" : "authorityNote.noteType",
+    "description" : "Authority note type",
+    "default" : true,
+    "enabled" : true,
+    "value" : "26"
+  }, {
+    "id" : "7910ccb7-24c2-49b5-a834-e4c4058ef829",
+    "module" : "MARCCAT",
+    "configName" : "authority",
+    "code" : "authority.verificationLevel",
+    "description" : "Authority verification level",
+    "default" : true,
+    "enabled" : true,
+    "value" : "1"
+  }, {
+    "id" : "152416e1-3031-4aa3-b3c5-9e43e1234cc1",
+    "module" : "MARCCAT",
+    "configName" : "bibliographic",
+    "code" : "bibliographicItem.cataloguingSourceStringText",
+    "description" : "Bibliographic MARCCAT source",
+    "default" : true,
+    "enabled" : true,
+    "value" : "\u001FaItFiC"
+  }, {
+    "id" : "248bd84f-f43f-48d7-93e4-a0f1d1067563",
+    "module" : "MARCCAT",
+    "configName" : "bibliographic",
+    "code" : "bibliographicItem.LANGUAGE_CODE",
+    "description" : "Bibliographic language code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "eng"
+  }, {
+    "id" : "e701daa8-132f-4c94-83f4-0ffa2f065bcc",
+    "module" : "MARCCAT",
+    "configName" : "bibliographic",
+    "code" : "bibliographicItem.languageOfCataloguing",
+    "description" : "Bibliographic language of cataloguing",
+    "default" : true,
+    "enabled" : true,
+    "value" : "it"
+  }, {
+    "id" : "2f09c28a-c06b-4841-91d3-d98be817292a",
+    "module" : "MARCCAT",
+    "configName" : "bibliographic",
+    "code" : "bibliographicItem.recordCataloguingSourceCode",
+    "description" : "Bibliographic record cataloguing source code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "u"
+  }, {
+    "id" : "8d8f73f9-403d-4c20-bfa1-2000073101ac",
+    "module" : "MARCCAT",
+    "configName" : "bibliographic",
+    "code" : "bibliographicItem.marcCountryCode",
+    "description" : "Bibliographic marc country code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "enk"
+  }, {
+    "id" : "90f86dea-6521-485e-90d6-ccf21d8d892c",
+    "module" : "MARCCAT",
+    "configName" : "bibliographic",
+    "code" : "bibliographicItem.itemDateTypeCode",
+    "description" : "Bibliographic date type code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "s"
+  }, {
+    "id" : "6ba505b7-a551-418f-8ee9-9a3dd582aad1",
+    "module" : "MARCCAT",
+    "configName" : "bibliographic",
+    "code" : "bibliographicItem.verificationLevel",
+    "description" : "Bibliographic verification level",
+    "default" : true,
+    "enabled" : true,
+    "value" : "2"
+  }, {
+    "id" : "4388e2eb-b109-4e58-86a7-74a9485c2061",
+    "module" : "MARCCAT",
+    "configName" : "bibliographic",
+    "code" : "bibliographicNote.noteType",
+    "description" : "Bibliographic note type",
+    "default" : true,
+    "enabled" : true,
+    "value" : "50"
+  }, {
+    "id" : "1c3797ef-2349-4113-8730-1a7b442d37e4",
+    "module" : "MARCCAT",
+    "configName" : "bibliographic",
+    "code" : "bibliographicRelationship.relationTypeCode",
+    "description" : "Bibliographic relation type",
+    "default" : true,
+    "enabled" : true,
+    "value" : "35"
+  }, {
+    "id" : "5029ec74-dfc7-49a8-abbe-2d68d3d43ff4",
+    "module" : "MARCCAT",
+    "configName" : "bibliographic",
+    "code" : "bibliographicRelationship.relationPrintNoteCode",
+    "description" : "Bibliographic relation print note code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "2"
+  }, {
+    "id" : "a5b5c736-d346-4979-957a-5dd21f8eb425",
+    "module" : "MARCCAT",
+    "configName" : "bibliographic",
+    "code" : "bibliographic.shelflist.type",
+    "description" : "Bibliographic shelflist type",
+    "default" : true,
+    "enabled" : true,
+    "value" : "@"
+  }, {
+    "id" : "e2d17809-1495-4bb7-af12-89f7564ea640",
+    "module" : "MARCCAT",
+    "configName" : "browse",
+    "code" : "browse.termsPerPage",
+    "description" : "Terms to page",
+    "default" : true,
+    "enabled" : true,
+    "value" : "10"
+  }, {
+    "id" : "23ad85c4-dee8-4248-bc9b-2c60d3a78766",
+    "module" : "MARCCAT",
+    "configName" : "browse",
+    "code" : "tooltip.max.length",
+    "description" : "Text heading length",
+    "default" : true,
+    "enabled" : true,
+    "value" : "200"
+  }, {
+    "id" : "5f4df380-7771-4302-8f46-08489bf4db36",
+    "module" : "MARCCAT",
+    "configName" : "material",
+    "code" : "material.bookBiographyCode",
+    "description" : "Book biography code",
+    "default" : true,
+    "enabled" : true,
+    "value" : " "
+  }, {
+    "id" : "76ff9298-1d47-44bb-857f-557a691c282b",
+    "module" : "MARCCAT",
+    "configName" : "material",
+    "code" : "material.bookFestschrift",
+    "description" : "Book festschrift",
+    "default" : true,
+    "enabled" : true,
+    "value" : "0"
+  }, {
+    "id" : "ee3cea6c-701c-46c5-b2e8-d623fe1f16c1",
+    "module" : "MARCCAT",
+    "configName" : "material",
+    "code" : "material.bookIllustrationCode",
+    "description" : "Book illustration code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "    "
+  }, {
+    "id" : "b32b18d1-f3eb-451f-b129-d3f47e2ca565",
+    "module" : "MARCCAT",
+    "configName" : "material",
+    "code" : "material.bookIndexAvailabilityCode",
+    "description" : "Book index availability code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "0"
+  }, {
+    "id" : "c9103a65-74aa-49be-815d-8bfba05c3384",
+    "module" : "MARCCAT",
+    "configName" : "material",
+    "code" : "material.bookLiteraryFormTypeCode",
+    "description" : "Book literary form type code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "u"
+  }, {
+    "id" : "eb6129ce-76d0-499d-8343-525c83e13f8e",
+    "module" : "MARCCAT",
+    "configName" : "material",
+    "code" : "material.cartographicFormatCode",
+    "description" : "Book format code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "  "
+  }, {
+    "id" : "7d9a8aa1-8bb1-4d80-bf13-97e934760df7",
+    "module" : "MARCCAT",
+    "configName" : "material",
+    "code" : "material.cartographicMaterial",
+    "description" : "Cartographic material",
+    "default" : true,
+    "enabled" : true,
+    "value" : "u"
+  }, {
+    "id" : "c141bed7-5a3b-4376-92c2-2aecbe45f074",
+    "module" : "MARCCAT",
+    "configName" : "material",
+    "code" : "material.cartographicProjectionCode",
+    "description" : "Cartographic projection code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "  "
+  }, {
+    "id" : "c6544580-f327-4ac7-ada6-68db4acc2f38",
+    "module" : "MARCCAT",
+    "configName" : "material",
+    "code" : "material.cartographicReliefCode",
+    "description" : "Cartographic relief code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "    "
+  }, {
+    "id" : "957479e4-e05d-4244-9f16-75fedd27c929",
+    "module" : "MARCCAT",
+    "configName" : "material",
+    "code" : "material.computerFileTypeCode",
+    "description" : "Computer File Type Code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "u"
+  }, {
+    "id" : "d0b297fd-e24e-4006-a711-9ebd3a592675",
+    "module" : "MARCCAT",
+    "configName" : "material",
+    "code" : "material.computerFileFormCode",
+    "description" : "Computer File Form code",
+    "default" : true,
+    "enabled" : true,
+    "value" : " "
+  }, {
+    "id" : "c2c9cab4-f527-4152-a6b5-7d6e782645cf",
+    "module" : "MARCCAT",
+    "configName" : "material",
+    "code" : "material.conferencePublicationCode",
+    "description" : "Conference publication code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "0"
+  }, {
+    "id" : "7674c036-d138-4b66-aeab-1004917fca0e",
+    "module" : "MARCCAT",
+    "configName" : "material",
+    "code" : "material.musicLiteraryTextCode",
+    "description" : "Music literary text code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "  "
+  }, {
+    "id" : "0a96911b-8081-482c-9360-11627f759108",
+    "module" : "MARCCAT",
+    "configName" : "material",
+    "code" : "material.serialFrequencyCode",
+    "description" : "Serial frequency code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "u"
+  }, {
+    "id" : "612a7dd4-eead-4594-b128-cf2ab65e8805",
+    "module" : "MARCCAT",
+    "configName" : "material",
+    "code" : "material.targetAudienceCode",
+    "description" : "Target audience code",
+    "default" : true,
+    "enabled" : true,
+    "value" : " "
+  }, {
+    "id" : "e6f1626d-36e1-4b54-95f4-0bb2b3d6c243",
+    "module" : "MARCCAT",
+    "configName" : "name",
+    "code" : "name.copyToSubjectIndicator",
+    "description" : "Name copy to subject indicator",
+    "default" : true,
+    "enabled" : true,
+    "value" : "0"
+  }, {
+    "id" : "1f014c45-a701-4f30-bb2f-638034a1c325",
+    "module" : "MARCCAT",
+    "configName" : "title",
+    "code" : "title.copyToSubjectIndicator",
+    "description" : "Title copy to subject indicator",
+    "default" : true,
+    "enabled" : true,
+    "value" : "0"
+  }, {
+    "id" : "8625ad32-6067-4806-b1ac-81a6a8420d9e",
+    "module" : "MARCCAT",
+    "configName" : "title",
+    "code" : "title.secondaryFunctionCode",
+    "description" : "Title secondary function code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "2"
+  }, {
+    "id" : "cd03150f-69d4-4d80-82b6-6efff6c85c30",
+    "module" : "MARCCAT",
+    "configName" : "publisher",
+    "code" : "publisher.verificationLevel",
+    "description" : "Publisher verification level",
+    "default" : true,
+    "enabled" : true,
+    "value" : "2"
+  }, {
+    "id" : "e632a8f0-b7df-4d36-aa1f-d5d2ae19f9e1",
+    "module" : "MARCCAT",
+    "configName" : "subject",
+    "code" : "subject.typeCode",
+    "description" : "Subject type code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "19"
+  }, {
+    "id" : "4f13b68e-9613-429e-97f2-1cb7a455f415",
+    "module" : "MARCCAT",
+    "configName" : "classification",
+    "code" : "classification.verificationLevel",
+    "description" : "Classification verification level",
+    "default" : true,
+    "enabled" : true,
+    "value" : "2"
+  }, {
+    "id" : "1617cdff-4183-460a-aa9c-b45e013fbbb8",
+    "module" : "MARCCAT",
+    "configName" : "nameTitle",
+    "code" : "nameTitleAccessPoint.functionCode",
+    "description" : "Name title function code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "6"
+  }, {
+    "id" : "5d8c34ab-c278-4bea-b079-ab26e772e095",
+    "module" : "MARCCAT",
+    "configName" : "material",
+    "code" : "material.FORM_OF_ITEM_CODE",
+    "description" : "Computer File Form Code",
+    "default" : true,
+    "enabled" : true,
+    "value" : " "
+  }, {
+    "id" : "d340408c-1270-4cb6-911e-958d9ae3675b",
+    "module" : "MARCCAT",
+    "configName" : "material",
+    "code" : "material.musicTextualMaterialCode",
+    "description" : "Music textual material code",
+    "default" : true,
+    "enabled" : true,
+    "value" : " "
+  }, {
+    "id" : "26a00abb-3814-4dc3-91df-a6855fbf5103",
+    "module" : "MARCCAT",
+    "configName" : "material",
+    "code" : "material.serialOriginalAlphabetOfTitleCode",
+    "description" : "Serial original alphabet of title Code",
+    "default" : true,
+    "enabled" : true,
+    "value" : " "
+  }, {
+    "id" : "dd5e3398-e8fb-444d-a5ff-9aa10db47ac8",
+    "module" : "MARCCAT",
+    "configName" : "material",
+    "code" : "material.visualMaterialTypeCode=",
+    "description" : "Visual material type code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "z"
+  }, {
+    "id" : "f174691b-76b3-48e6-971d-f6ce73201ee8",
+    "module" : "MARCCAT",
+    "configName" : "name",
+    "code" : "name.subTypeCode",
+    "description" : "Name sub type code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "3"
+  }, {
+    "id" : "871a4dba-cd8a-4e63-b90b-223facf9e864",
+    "module" : "MARCCAT",
+    "configName" : "title",
+    "code" : "title.accessPointLanguage",
+    "description" : "Title copy access point language",
+    "default" : true,
+    "enabled" : true,
+    "value" : "124"
+  }, {
+    "id" : "b2cc7b3f-4657-495e-9dd7-90cc5a87218d",
+    "module" : "MARCCAT",
+    "configName" : "title",
+    "code" : "title.verificationLevel",
+    "description" : "Title verification level",
+    "default" : true,
+    "enabled" : true,
+    "value" : "2"
+  }, {
+    "id" : "ebc03ccf-ce56-4e14-abed-c1b437b7abed",
+    "module" : "MARCCAT",
+    "configName" : "publisher",
+    "code" : "publisherAccessPoint.functionCode",
+    "description" : "Publisher function code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "24"
+  }, {
+    "id" : "63418b5f-d353-4d02-a069-25f421443dd8",
+    "module" : "MARCCAT",
+    "configName" : "subject",
+    "code" : "subjectAccessPoint.functionCode",
+    "description" : "Subject function code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "3"
+  }, {
+    "id" : "572e7b37-b183-4bb6-904c-8dea85851f3b",
+    "module" : "MARCCAT",
+    "configName" : "controlNumber",
+    "code" : "controlNumber.typeCode",
+    "description" : "Control number type code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "9"
+  }, {
+    "id" : "8b30c0f4-6124-4363-b8ae-c6c081b13630",
+    "module" : "MARCCAT",
+    "configName" : "nameTitle",
+    "code" : "nameTitleAccessPoint.secondaryFunctionCode",
+    "description" : "Name title secondary function code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "2"
+  }, {
+    "id" : "f2371b70-cda0-4279-8943-30dc903412c8",
+    "module" : "MARCCAT",
+    "configName" : "material",
+    "code" : "material.governmentPublicationCode",
+    "description" : "Government publication code",
+    "default" : true,
+    "enabled" : true,
+    "value" : " "
+  }, {
+    "id" : "7bea4115-aa56-416a-baa1-a74fd8b6f609",
+    "module" : "MARCCAT",
+    "configName" : "material",
+    "code" : "material.musicPartsCode",
+    "description" : "Music parts code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "u"
+  }, {
+    "id" : "f8c768b9-275f-4c2e-a02e-2d70443e42e4",
+    "module" : "MARCCAT",
+    "configName" : "material",
+    "code" : "material.serialRegularityCode",
+    "description" : "Serial regularity code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "u"
+  }, {
+    "id" : "2598d5df-567b-427d-8eda-b1c97eeb434b",
+    "module" : "MARCCAT",
+    "configName" : "material",
+    "code" : "material.visualRunningTime",
+    "description" : "Target audience code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "---"
+  }, {
+    "id" : "09f31e9e-87c7-486c-a20e-26bb16cd9622",
+    "module" : "MARCCAT",
+    "configName" : "name",
+    "code" : "name.typeCode",
+    "description" : "Name type code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "2"
+  }, {
+    "id" : "5ba292e5-2929-42f4-92a1-820f0d227a44",
+    "module" : "MARCCAT",
+    "configName" : "title",
+    "code" : "title.skipInFiling",
+    "description" : "Title skip in filing",
+    "default" : true,
+    "enabled" : true,
+    "value" : "0"
+  }, {
+    "id" : "4d6cb75c-b009-41b6-b102-607f483d5fdc",
+    "module" : "MARCCAT",
+    "configName" : "publisher",
+    "code" : "publisher.accessPointLanguage",
+    "description" : "Publisher access point",
+    "default" : true,
+    "enabled" : true,
+    "value" : "124"
+  }, {
+    "id" : "1f694f01-6fb2-41eb-bc04-6ad7ba016632",
+    "module" : "MARCCAT",
+    "configName" : "subject",
+    "code" : "subject.accessPointLanguage",
+    "description" : "Subject access point",
+    "default" : true,
+    "enabled" : true,
+    "value" : "255"
+  }, {
+    "id" : "696aeec4-8cb9-4bf4-aca8-269de50a5d75",
+    "module" : "MARCCAT",
+    "configName" : "subject",
+    "code" : "subjectAccessPoint.verificationLevel",
+    "description" : "Subject verification level",
+    "default" : true,
+    "enabled" : true,
+    "value" : "2"
+  }, {
+    "id" : "fac27855-db08-48cc-9075-f711498ef830",
+    "module" : "MARCCAT",
+    "configName" : "controlNumber",
+    "code" : "controlNumberAccessPoint.functionCode",
+    "description" : "Control function code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "8"
+  }, {
+    "id" : "f5072c49-a06c-42e6-a87a-b7a6566aa0f0",
+    "module" : "MARCCAT",
+    "configName" : "inventory",
+    "code" : "inventory.defaultCurrency",
+    "description" : "Inventory default currency",
+    "default" : true,
+    "enabled" : true,
+    "value" : "122"
+  }, {
+    "id" : "79a0951a-bbaf-4ab8-b33b-1e01a1971084",
+    "module" : "MARCCAT",
+    "configName" : "material",
+    "code" : "material.musicFormOfCompositionCode",
+    "description" : "Music form of composition code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "uu"
+  }, {
+    "id" : "e908103b-a78e-4416-9f61-123e9313fd18",
+    "module" : "MARCCAT",
+    "configName" : "material",
+    "code" : "material.musicTranspositionArrangementCode",
+    "description" : "Music transposition arrangement code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "u   "
+  }, {
+    "id" : "50715189-7bc8-4106-b971-8d1f66c85946",
+    "module" : "MARCCAT",
+    "configName" : "material",
+    "code" : "material.serialSuccessiveLatestCode",
+    "description" : "Serial successive latest code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "0"
+  }, {
+    "id" : "c0ff28e6-9e08-4d7e-8020-af2e7bdfc18d",
+    "module" : "MARCCAT",
+    "configName" : "material",
+    "code" : "material.visualTechniqueCode=",
+    "description" : "Visual material type code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "u"
+  }, {
+    "id" : "d8e580a8-70a0-449a-856f-3c3234767483",
+    "module" : "MARCCAT",
+    "configName" : "name",
+    "code" : "name.verificationLevel",
+    "description" : "Name verification level",
+    "default" : true,
+    "enabled" : true,
+    "value" : "2"
+  }, {
+    "id" : "e6b124e4-dd86-49ef-849f-3885421247bf",
+    "module" : "MARCCAT",
+    "configName" : "title",
+    "code" : "title.indexingLanguage",
+    "description" : "Title indexing language",
+    "default" : true,
+    "enabled" : true,
+    "value" : "255"
+  }, {
+    "id" : "fa0e4707-1aa1-4d9d-946c-e1d05ebd9897",
+    "module" : "MARCCAT",
+    "configName" : "publisher",
+    "code" : "publisher.name",
+    "description" : "Publisher name",
+    "default" : true,
+    "enabled" : true,
+    "value" : "[s.n.]"
+  }, {
+    "id" : "101aeeaf-8b6d-4166-9d07-0962df3727bf",
+    "module" : "MARCCAT",
+    "configName" : "subject",
+    "code" : "subject.scriptingLanguage",
+    "description" : "Subject scripting language",
+    "default" : true,
+    "enabled" : true,
+    "value" : "und"
+  }, {
+    "id" : "1ac7bcc8-5d3b-4f7f-94cf-7cde19755d81",
+    "module" : "MARCCAT",
+    "configName" : "classification",
+    "code" : "classification.typeCode",
+    "description" : "Classification type code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "13"
+  }, {
+    "id" : "f8b74300-4a4f-4545-a2d6-cc56f2351c92",
+    "module" : "MARCCAT",
+    "configName" : "controlNumber",
+    "code" : "controlNumber.verificationLevel",
+    "description" : "Control number verification level",
+    "default" : true,
+    "enabled" : true,
+    "value" : "2"
+  }, {
+    "id" : "f74f440f-d5bb-4ecf-a546-4429f8478c32",
+    "module" : "MARCCAT",
+    "configName" : "library",
+    "code" : "tag.850.enabled",
+    "description" : "Holding institution",
+    "default" : true,
+    "enabled" : true,
+    "value" : "1"
+  }, {
+    "module" : "MARCCAT",
+    "configName" : "material",
+    "code" : "material.musicFormatCode",
+    "description" : "Music format code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "u"
+  }, {
+    "module" : "MARCCAT",
+    "configName" : "material",
+    "code" : "material.natureOfContentsCode",
+    "description" : "Nature of contents code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "    "
+  }, {
+    "module" : "MARCCAT",
+    "configName" : "material",
+    "code" : "material.serialTypeCode",
+    "description" : "Serial type code",
+    "default" : true,
+    "enabled" : true,
+    "value" : " "
+  }, {
+    "module" : "MARCCAT",
+    "configName" : "name",
+    "code" : "name.accessPointLanguage",
+    "description" : "Name access point language",
+    "default" : true,
+    "enabled" : true,
+    "value" : "124"
+  }, {
+    "module" : "MARCCAT",
+    "configName" : "name",
+    "code" : "name.functionCode",
+    "description" : "Name function code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "7"
+  }, {
+    "module" : "MARCCAT",
+    "configName" : "title",
+    "code" : "title.functionCode",
+    "description" : "Title function code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "1"
+  }, {
+    "module" : "MARCCAT",
+    "configName" : "publisher",
+    "code" : "publisher.place",
+    "description" : "Publisher place",
+    "default" : true,
+    "enabled" : true,
+    "value" : "[S.l.]"
+  }, {
+    "module" : "MARCCAT",
+    "configName" : "subject",
+    "code" : "subject.sourceCode",
+    "description" : "Subject source code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "6"
+  }, {
+    "module" : "MARCCAT",
+    "configName" : "classification",
+    "code" : "classificationAccessPoint.functionCode",
+    "description" : "Classification function code",
+    "default" : true,
+    "enabled" : true,
+    "value" : "61"
+  }, {
+    "module" : "MARCCAT",
+    "configName" : "controlNumber",
+    "code" : "control.number.browse.index",
+    "description" : "Control number browse index",
+    "default" : true,
+    "enabled" : true,
+    "value" : "16P30"
+  }
+]
+

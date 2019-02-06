@@ -24,14 +24,14 @@ import static org.folio.marccat.integration.MarccatHelper.doGet;
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class HeaderTypeAPI extends BaseResource {
 
-  private Function <Avp<String>, HeadingType> toHeadingType = source -> {
+  private Function<Avp<String>, HeadingType> toHeadingType = source -> {
     final HeadingType headingType = new HeadingType();
     headingType.setCode(Integer.parseInt(source.getValue()));
     headingType.setDescription(source.getLabel());
     return headingType;
   };
 
-  private HeadingTypeCollection mapToHeading(List<Avp <String>> list, final String code){
+  private HeadingTypeCollection mapToHeading(List<Avp<String>> list, final String code) {
 
     HeadingTypeCollection headingTypeCollection = new HeadingTypeCollection();
     headingTypeCollection.setHeadingTypes(list.stream()

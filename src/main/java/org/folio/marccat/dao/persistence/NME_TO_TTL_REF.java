@@ -10,19 +10,29 @@ import org.folio.marccat.dao.*;
  */
 public class NME_TO_TTL_REF extends REF {
 
-  /** The Constant serialVersionUID. */
+  /**
+   * The Constant serialVersionUID.
+   */
   private static final long serialVersionUID = 1L;
 
-  /** The DAO. */
+  /**
+   * The DAO.
+   */
   private static final NameToTitleReferencesDAO theDAO = new NameToTitleReferencesDAO();
 
-  /** The title heading number. */
+  /**
+   * The title heading number.
+   */
   private int titleHeadingNumber;
 
-  /** The name heading number. */
+  /**
+   * The name heading number.
+   */
   private int nameHeadingNumber;
 
-  /** The source heading type. */
+  /**
+   * The source heading type.
+   */
   private String sourceHeadingType;
 
   /**
@@ -113,9 +123,9 @@ public class NME_TO_TTL_REF extends REF {
   /**
    * Inits the.
    *
-   * @param source the source
-   * @param target the target
-   * @param referenceType the reference type
+   * @param source          the source
+   * @param target          the target
+   * @param referenceType   the reference type
    * @param cataloguingView the cataloguing view
    */
   public void init(

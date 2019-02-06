@@ -22,11 +22,7 @@ public class MandatorySubfieldException extends RuntimeException {
     this.subfieldCode = subfieldCode;
   }
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public MandatorySubfieldException() {
     super();
     // TODO Auto-generated constructor stub

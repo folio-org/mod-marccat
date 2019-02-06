@@ -1,8 +1,8 @@
 package org.folio.marccat.exception;
 
 /**
- * @author paulm
- * @since 1.0
+
+
  */
 public class ReferentialIntegrityException extends DataAccessException {
 

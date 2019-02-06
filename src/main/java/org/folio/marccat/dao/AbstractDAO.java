@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 
 import static org.folio.marccat.util.F.deepCopy;
 
-//TODO remove extends from HibernateUtil
 public class AbstractDAO extends HibernateUtil {
 
   /**
@@ -288,22 +287,6 @@ public class AbstractDAO extends HibernateUtil {
     } catch (HibernateException e) {
       throw new DataAccessException(e);
     }
-  }
-
-  /**
-   * Creates a new usr_vw_ind string from the input string by setting the
-   * position specified in arg2 to '1'. The resultant view string is useful in
-   * saving a persistent object after the current cataloguing view of the
-   * record is added (based on a copy from existing views);
-   *
-   * @param viewString      --
-   *                        the original view String
-   * @param cataloguingView --
-   *                        the position to be set to '1' (1 indexing)
-   */
-
-  public String maskOnViewString(String viewString, int cataloguingView) {
-    return View.maskOnViewString(viewString, cataloguingView);
   }
 
   /**

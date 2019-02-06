@@ -8,7 +8,9 @@ package org.folio.marccat.dao.persistence;
  */
 public class ReferenceType extends T_SINGLE {
 
-  /** The Constant SEEN_FROM. */
+  /**
+   * The Constant SEEN_FROM.
+   */
   public static final short SEEN_FROM = 2;
 
   /**

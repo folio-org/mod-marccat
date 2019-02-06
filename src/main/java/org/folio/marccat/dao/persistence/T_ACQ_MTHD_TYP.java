@@ -14,11 +14,7 @@ package org.folio.marccat.dao.persistence;
  */
 public class T_ACQ_MTHD_TYP extends T_SINGLE_LONGCHAR {
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public T_ACQ_MTHD_TYP() {
     super();
     // TODO Auto-generated constructor stub

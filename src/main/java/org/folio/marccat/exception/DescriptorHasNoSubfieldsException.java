@@ -15,11 +15,7 @@ package org.folio.marccat.exception;
 public class DescriptorHasNoSubfieldsException
   extends InvalidDescriptorException {
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public DescriptorHasNoSubfieldsException() {
     super();
     // TODO Auto-generated constructor stub

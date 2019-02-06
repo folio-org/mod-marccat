@@ -16,14 +16,6 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.IntStream.range;
 
-/**
- * TODO:
- *
- * @author janick
- * @author paulm
- * @author cchiama
- * @since 1.0
- */
 public class PropertyBasedFactoryBuilder {
 
   private static final char RANGE_INDICATOR = '-';

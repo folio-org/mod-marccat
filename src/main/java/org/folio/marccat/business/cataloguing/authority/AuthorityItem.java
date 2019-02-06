@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- *
- * Created on Oct 27, 2005
- *
- * AuthorityItem.java
- */
 package org.folio.marccat.business.cataloguing.authority;
 
 import org.apache.commons.logging.Log;
@@ -17,21 +10,13 @@ import org.folio.marccat.exception.MandatoryTagException;
 import java.util.Collections;
 import java.util.Comparator;
 
-/**
- * @author paulm
- * @version $Revision: 1.5 $, $Date: 2006/05/11 10:51:29 $
- * @since 1.0
- */
+
 public class AuthorityItem extends CatalogItem {
 
   private static final Log logger = LogFactory.getLog(AuthorityItem.class);
   private AUT autItmData;
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public AuthorityItem() {
     super();
     // TODO Auto-generated constructor stub
@@ -75,13 +60,6 @@ public class AuthorityItem extends CatalogItem {
   /**
    * @since 1.0
    */
-  public void setModelItem(ModelItem modelItem) {
-    this.modelItem = modelItem;
-  }
-
-  /**
-   * @since 1.0
-   */
   public void setModelItem(Model model) {
     this.modelItem = new AuthorityModelItem();
     this.modelItem.markNew();
@@ -89,6 +67,13 @@ public class AuthorityItem extends CatalogItem {
     this.modelItem.setModel(model);
     this.modelItem.setRecordFields(
       model.getRecordFields());
+  }
+
+  /**
+   * @since 1.0
+   */
+  public void setModelItem(ModelItem modelItem) {
+    this.modelItem = modelItem;
   }
 
   /* (non-Javadoc)

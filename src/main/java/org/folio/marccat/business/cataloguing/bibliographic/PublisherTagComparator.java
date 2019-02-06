@@ -4,10 +4,6 @@ import org.folio.marccat.dao.persistence.PUBL_TAG;
 
 import java.util.Comparator;
 
-/**
- * @author paulm
- * @since 1.0
- */
 public class PublisherTagComparator implements Comparator {
 
   public int compare(final Object arg0, final Object arg1) {

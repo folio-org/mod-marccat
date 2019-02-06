@@ -1,21 +1,9 @@
-/*
- * (c) LibriCore
- *
- * Created on Dec 24, 2004
- *
- * PublisherAccessPointComparator.java
- */
 package org.folio.marccat.business.cataloguing.bibliographic;
 
 import org.folio.marccat.dao.persistence.PublisherAccessPoint;
 
 import java.util.Comparator;
 
-/**
- * @author paulm
- * @version $Revision: 1.1 $, $Date: 2005/01/13 12:02:02 $
- * @since 1.0
- */
 public class PublisherAccessPointComparator implements Comparator {
 
   /* (non-Javadoc)

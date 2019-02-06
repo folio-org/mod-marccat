@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- *
- * Created on Dec 5, 2005
- *
- * AuthorityClassificationAccessPoint.java
- */
 package org.folio.marccat.business.cataloguing.authority;
 
 import org.apache.commons.logging.Log;
@@ -20,11 +13,6 @@ import org.folio.marccat.util.StringText;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * @author paulm
- * @version $Revision: 1.3 $, $Date: 2006/04/27 12:56:53 $
- * @since 1.0
- */
 public class AuthorityClassificationAccessPoint extends AuthorityAccessPoint {
 
   private static final Log logger = LogFactory.getLog(AuthorityClassificationAccessPoint.class);
@@ -34,11 +22,7 @@ public class AuthorityClassificationAccessPoint extends AuthorityAccessPoint {
 
   private String volumeDate;
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public AuthorityClassificationAccessPoint() {
     super();
 //    descriptor.setTypeCode(Defaults.getShort("authority.classification.type"));

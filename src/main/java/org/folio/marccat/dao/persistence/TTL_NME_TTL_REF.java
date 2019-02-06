@@ -10,16 +10,24 @@ import org.folio.marccat.dao.*;
  */
 public class TTL_NME_TTL_REF extends REF {
 
-  /** The DAO. */
+  /**
+   * The DAO.
+   */
   private static final TitleNameTitleReferencesDAO theDAO = new TitleNameTitleReferencesDAO();
 
-  /** The name title heading number. */
+  /**
+   * The name title heading number.
+   */
   private int nameTitleHeadingNumber;
 
-  /** The title heading number. */
+  /**
+   * The title heading number.
+   */
   private int titleHeadingNumber;
 
-  /** The source heading type. */
+  /**
+   * The source heading type.
+   */
   private String sourceHeadingType;
 
   /**
@@ -86,9 +94,9 @@ public class TTL_NME_TTL_REF extends REF {
   /**
    * Inits the.
    *
-   * @param source the source
-   * @param target the target
-   * @param referenceType the reference type
+   * @param source          the source
+   * @param target          the target
+   * @param referenceType   the reference type
    * @param cataloguingView the cataloguing view
    */
   /* (non-Javadoc)

@@ -26,11 +26,7 @@ public class ReceiveItemCopy implements Persistence {
   private int receiveItemNumber;
   private int copyNumber;
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public ReceiveItemCopy() {
     super();
     // TODO Auto-generated constructor stub

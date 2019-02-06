@@ -9,18 +9,10 @@ package org.folio.marccat.dao.persistence;
 
 import org.folio.marccat.business.cataloguing.common.ControlNumberTag;
 
-/**
- * @author paulm
- * @version $Revision: 1.2 $, $Date: 2005/12/01 13:50:04 $
- * @since 1.0
- */
+
 public class BibliographicControlNumberTag extends ControlNumberTag {
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public BibliographicControlNumberTag() {
     super();
     setHeaderType((short) 39);

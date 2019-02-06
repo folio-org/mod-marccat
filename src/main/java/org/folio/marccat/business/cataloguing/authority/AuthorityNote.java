@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- *
- * Created on Dec 5, 2005
- *
- * AuthorityNote.java
- */
 package org.folio.marccat.business.cataloguing.authority;
 
 import net.sf.hibernate.HibernateException;
@@ -23,24 +16,15 @@ import org.folio.marccat.util.StringText;
 
 import java.util.List;
 
-/**
- * @author paulm
- * @version $Revision: 1.2 $, $Date: 2006/04/27 12:56:53 $
- * @since 1.0
- */
+
 public class AuthorityNote extends VariableField implements Persistence, PersistsViaItem {
   private AUT autItm;
   private int noteNumber;
   private int itemNumber;
-  //  private int noteType = Defaults.getShort("authorityNote.noteType");
   private String noteStringText;
   private PersistenceState persistenceState = new PersistenceState();
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public AuthorityNote() {
     super();
     StringText s = new StringText();

@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- *
- * Created on Dec 5, 2005
- *
- * AuthorityTitleHeadingTag.java
- */
 package org.folio.marccat.business.cataloguing.authority;
 
 import org.folio.marccat.business.descriptor.SkipInFiling;
@@ -15,20 +8,12 @@ import org.folio.marccat.shared.CorrelationValues;
 
 import java.util.List;
 
-/**
- * @author paulm
- * @version $Revision: 1.3 $, $Date: 2006/01/05 13:25:58 $
- * @since 1.0
- */
+
 public class AuthorityTitleHeadingTag
   extends AuthorityHeadingTag
   implements SkipInFiling {
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public AuthorityTitleHeadingTag() {
     super(new TTL_HDG());
   }

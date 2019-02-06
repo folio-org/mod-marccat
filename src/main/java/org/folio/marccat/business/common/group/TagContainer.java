@@ -6,13 +6,17 @@ import java.util.Collection;
 import java.util.Iterator;
 
 public interface TagContainer extends Comparable {
-  Tag getLeaderTag();
 
-  void add(Tag tag);
+  Tag getLeaderTag();
 
   Iterator iterator();
 
   Collection getList();
+
+  /**
+   * @param tag
+   */
+  void add(Tag tag);
 
   void sort();
 }

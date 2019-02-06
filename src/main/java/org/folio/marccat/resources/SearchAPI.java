@@ -3,14 +3,16 @@ package org.folio.marccat.resources;
 import org.folio.marccat.ModMarccat;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.config.Global;
+import org.folio.marccat.integration.StorageService;
 import org.folio.marccat.search.SearchEngineFactory;
 import org.folio.marccat.search.SearchResponse;
 import org.folio.marccat.search.engine.SearchEngine;
 import org.springframework.web.bind.annotation.*;
-import org.folio.marccat.integration.StorageService;
-import java.util.*;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 import static org.folio.marccat.integration.MarccatHelper.doGet;
 import static org.folio.marccat.util.F.locale;
 
@@ -37,7 +39,7 @@ public class SearchAPI extends BaseResource {
     @RequestParam(name = "dpo", defaultValue = "1") final int databasePreferenceOrder,
     @RequestParam(name = "sortBy", required = false) final String[] sortAttributes,
     @RequestParam(name = "sortOrder", required = false) final String[] sortOrders) {
-    return doGet((StorageService storageService, Map <String, String> configuration) -> {
+    return doGet((StorageService storageService, Map<String, String> configuration) -> {
       final SearchEngine searchEngine =
         SearchEngineFactory.create(
           SearchEngineFactory.EngineType.LIGHTWEIGHT,
@@ -62,7 +64,7 @@ public class SearchAPI extends BaseResource {
 
 
   @GetMapping("/mergedSearch")
-  public List <SearchResponse> mergedSearch(
+  public List<SearchResponse> mergedSearch(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
     @RequestParam("qbib") final String qbib,
@@ -111,7 +113,7 @@ public class SearchAPI extends BaseResource {
       searchEngine.injectTagHighlight(response, storageService, locale(lang));
       return response;
     }, tenant, configurator);
-    List <SearchResponse> mergedResult = new ArrayList <>();
+    List<SearchResponse> mergedResult = new ArrayList<>();
     mergedResult.add(authRecords);
     mergedResult.add(bibRecords);
     return mergedResult;

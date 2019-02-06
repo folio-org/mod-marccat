@@ -10,7 +10,9 @@ import org.folio.marccat.dao.NameTitleDescriptorDAO;
  * @author carment
  */
 public class NME_TTL_REF extends REF {
-  /** The DAO. */
+  /**
+   * The DAO.
+   */
   public DAODescriptor getTargetDAO() {
     return new NameTitleDescriptorDAO();
   }

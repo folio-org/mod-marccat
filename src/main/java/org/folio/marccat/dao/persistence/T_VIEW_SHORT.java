@@ -25,11 +25,7 @@ public class T_VIEW_SHORT extends CodeTable {
   private short code;
   private long translationKey;
 
-  /**
-   * Class constructor
-   *
-   * @since 1.0
-   */
+
   public T_VIEW_SHORT() {
     super();
     // TODO Auto-generated constructor stub

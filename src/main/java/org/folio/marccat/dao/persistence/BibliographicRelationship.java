@@ -12,6 +12,7 @@ import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -21,40 +22,64 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class BibliographicRelationship extends VariableField implements PersistentObjectWithView {
 
-  /** The Constant serialVersionUID. */
+  /**
+   * The Constant serialVersionUID.
+   */
   private static final long serialVersionUID = -5945143318867728785L;
 
-  /** The Constant bibliographicRelationshipCategory. */
+  /**
+   * The Constant bibliographicRelationshipCategory.
+   */
   private static final short bibliographicRelationshipCategory = 8;
 
-  /** The target bib item number. */
+  /**
+   * The target bib item number.
+   */
   private int targetBibItemNumber;
 
-  /** The relation type code. */
+  /**
+   * The relation type code.
+   */
   private int relationTypeCode;
 
-  /** The relation print note code. */
+  /**
+   * The relation print note code.
+   */
   private int relationPrintNoteCode;
 
-  /** The description. */
+  /**
+   * The description.
+   */
   private String description = null;
 
-  /** The qualifying description. */
+  /**
+   * The qualifying description.
+   */
   private String qualifyingDescription = null;
 
-  /** The string text. */
+  /**
+   * The string text.
+   */
   private StringText stringText = null;
 
-  /** The string text string. */
+  /**
+   * The string text string.
+   */
   private String stringTextString = null;
 
-  /** The material specific text. */
+  /**
+   * The material specific text.
+   */
   private String materialSpecificText = null;
 
-  /** The reciprocal type. */
+  /**
+   * The reciprocal type.
+   */
   private int reciprocalType;
 
-  /** The user view helper. */
+  /**
+   * The user view helper.
+   */
   private UserViewHelper userViewHelper = new UserViewHelper();
 
   /**
@@ -116,7 +141,7 @@ public class BibliographicRelationship extends VariableField implements Persiste
    *
    * @param session the session
    * @throws DataAccessException the data access exception
-   * @throws HibernateException the hibernate exception
+   * @throws HibernateException  the hibernate exception
    */
   public void generateNewBlindRelationshipKey(final Session session) throws DataAccessException, HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();

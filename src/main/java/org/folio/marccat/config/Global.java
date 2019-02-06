@@ -5,7 +5,9 @@ import org.folio.marccat.dao.*;
 import org.folio.marccat.dao.persistence.*;
 
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,10 +18,6 @@ import java.util.Map;
  * <li>is supposed to be shared at least between 2 modules.</li>
  * <li>needs to be used within this "shared" module</li>
  * </ul>
- *
- * @author cchiama
- * @author natasciab
- * @since 1.0
  */
 public abstract class Global {
 
@@ -306,7 +304,7 @@ public abstract class Global {
     }
   };
 
-    public static final Map<String, String> INDEX_AUTHORITY_TYPE_MAP = new HashMap<String, String>() {
+  public static final Map<String, String> INDEX_AUTHORITY_TYPE_MAP = new HashMap<String, String>() {
     {
       put("NH", "NK");
       put("TH", "TK");
@@ -431,23 +429,8 @@ public abstract class Global {
       put("373P0", " and hdg.sourceCode = 4 ");
     }
   };
-  public static String SUBFIELD_DELIMITER = "\u001f";
-  public static Configuration HCONFIGURATION = new Configuration();
-  public static String SCHEMA_SUITE_KEY = "SUITE_KEY";
-
-  static {
-    HCONFIGURATION.setProperty("hibernate.dialect", "net.sf.hibernate.dialect.PostgreSQLDialect");
-    HCONFIGURATION.setProperty("dialect", "net.sf.hibernate.dialect.PostgreSQLDialect");
-    HCONFIGURATION.setProperty("show_sql", System.getProperty("show.sql", "false"));
-    try {
-      HCONFIGURATION.configure("/hibernate.cfg.xml");
-    } catch (final Throwable failure) {
-      throw new ExceptionInInitializerError(failure);
-    }
-  }
-
   public static final String SPECIFIC_MATERIAL_DESIGNAION_ON_CODE = "specificMaterialDesignationCode";
-  public static final String COLOR_CODE  = "colorCode";
+  public static final String COLOR_CODE = "colorCode";
   public static final String SOUND_ON_MEDIUM_OR_SEPARATE_CODE = "soundOnMediumOrSeparateCode";
   public static final String MEDIUM_FOR_SOUND_CODE = "mediumForSoundCode";
   public static final String DIMENSION_CODE = "dimensionCodes";
@@ -462,34 +445,33 @@ public abstract class Global {
   public static final String MAP_TYPE = "cm";
   public static final String VISUAL_TYPE = "vm";
   public static final String COMPUTER_TYPE = "cf";
-
   public static final int CONTROL_FIELD_CATEGORY_CODE = 1;
-
   public static final char BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC = 'S';
-
-  public static final List<String> NAMES = Arrays.asList("100", "110", "111"	);
-
+  public static final List<String> NAMES = Arrays.asList("100", "110", "111");
   public static final List<String> NAMES_D = Arrays.asList("110", "111", "710", "711");
-
   public static final List<String> NAMES_E = Arrays.asList("100", "110", "120", "121", "240", "243", "400", "410", "600", "610", "700", "710", "720", "721", "800", "810", "900", "910", "980", "981");
-
   public static final List<String> NAMES_X = Arrays.asList("400", "410", "411", "700", "710", "711", "720", "721", "722", "900", "910", "911", "980", "981", "982");
-
   public static final List<String> NAMES_V = Arrays.asList("400", "410", "411", "800", "810", "811", "980", "981", "982");
-
   public static final List<String> NAMES_245 = Arrays.asList("600", "610", "611", "700", "710", "711", "720", "721", "722", "800", "810", "811", "900", "910", "911", "980", "981", "982");
-
-  public static final List<String> SUBJECTS_4 =  Arrays.asList("600", "610", "611");
-
-  public static final List<String> SUBJECTS_E =  Arrays.asList("600", "610");
-
+  public static final List<String> SUBJECTS_4 = Arrays.asList("600", "610", "611");
+  public static final List<String> SUBJECTS_E = Arrays.asList("600", "610");
   public static final List<String> TITLES_X = Arrays.asList("440", "730", "740", "930", "983");
-
   public static final List<String> TITLES_V = Arrays.asList("440", "830", "983");
-
   public static final List<String> TITLES = Arrays.asList("130", "241", "245", "730", "740", "830", "930", "941", "945", "983");
-
   public static final String TERMINAL_PUNCTUATION = ".?!)-";
-
   public static final String OTHER_TERMINAL_PUNCTUATION = ".?!)]-";
+  public static String SUBFIELD_DELIMITER = "\u001f";
+  public static Configuration HCONFIGURATION = new Configuration();
+  public static String SCHEMA_SUITE_KEY = "SUITE_KEY";
+
+  static {
+    HCONFIGURATION.setProperty("hibernate.dialect", "net.sf.hibernate.dialect.PostgreSQLDialect");
+    HCONFIGURATION.setProperty("dialect", "net.sf.hibernate.dialect.PostgreSQLDialect");
+    HCONFIGURATION.setProperty("show_sql", System.getProperty("show.sql", "false"));
+    try {
+      HCONFIGURATION.configure("/hibernate.cfg.xml");
+    } catch (final Throwable failure) {
+      throw new ExceptionInInitializerError(failure);
+    }
+  }
 }
