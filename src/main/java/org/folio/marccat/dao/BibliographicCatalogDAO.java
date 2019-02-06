@@ -258,7 +258,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
   @SuppressWarnings("unchecked")
   private List<MaterialDescription> getMaterialDescriptions(final int amicusNumber, final int userView, final Session session) throws HibernateException {
 
-    List<MaterialDescription> multiView = session.find("from MaterialDescription t "
+    final List<MaterialDescription> multiView = session.find("from MaterialDescription t "
         + "where t.bibItemNumber = ? and substr(t.userViewString, ?, 1) = '1' ",
       new Object[]{amicusNumber, userView},
       new Type[]{Hibernate.INTEGER, Hibernate.INTEGER});
@@ -406,13 +406,16 @@ public class BibliographicCatalogDAO extends CatalogDAO {
    * @throws HibernateException in case of hibernate exception.
    */
   @SuppressWarnings("unchecked")
-  private List<NameTitleAccessPoint> getNameTitleAccessPointTags(final int amicusNumber, final int userView, final Session session) throws HibernateException {
+  private List<NameTitleAccessPoint> getNameTitleAccessPointTags(final int amicusNumber, final int userView, final Session session) throws HibernateException, DataAccessException {
     List<NameTitleAccessPoint> result = (List<NameTitleAccessPoint>) getAccessPointTags(NameTitleAccessPoint.class, amicusNumber, userView, session);
     return result.stream().map(tag -> {
       final NME_TTL_HDG hdg = (NME_TTL_HDG) tag.getDescriptor();
-      //Done by Carmen in branch 73 //TODO after merge remove comments
-      //TODO hdg.setNameHeading((NME_HDG) new DAONameDescriptor().load(hdg.getNameHeadingNumber(), userView, session)); //TODO: session missing
-      //TODO hdg.setTitleHeading((TTL_HDG) new DAOTitleDescriptor().load(hdg.getTitleHeadingNumber(), userView, session)); //TODO: session missing
+      try {
+        hdg.setNameHeading((NME_HDG) new NameDescriptorDAO().load(hdg.getNameHeadingNumber(), userView, session));
+        hdg.setTitleHeading((TTL_HDG) new TitleDescriptorDAO().load(hdg.getTitleHeadingNumber(), userView, session));
+      }  catch (HibernateException e) {
+        throw new DataAccessException(String.format(MessageCatalog._00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
+      }
       return tag;
     }).collect(Collectors.toList());
   }
@@ -506,26 +509,30 @@ public class BibliographicCatalogDAO extends CatalogDAO {
    *
    * @param bibItemNumber   -- the bibliographic item number.
    * @param cataloguingView -- marccat view associated.
+   * @param uniformTitleSortForm -- the uniforme title sort form.
+   * @param titleSortForm -- the title sort form.
    * @param session         -- the current session hibernate.
    * @throws HibernateException in case of hibernate exception.
    */
-  public void updateItemDisplayCacheTable(final int bibItemNumber, final int cataloguingView, final Session session) throws HibernateException {
+  public void updateItemDisplayCacheTable(final int bibItemNumber, final int cataloguingView, final String uniformTitleSortForm ,
+                                          final String titleSortForm , final Session session) throws HibernateException {
     final Transaction transaction = getTransaction(session);
 
     CallableStatement proc = null;
     try {
       String result = null;
       Connection connection = session.connection();
-      proc = connection.prepareCall("{call AMICUS.CFN_PR_CACHE_UPDATE(?, cast(? as smallint), ?, ?) }");
+      proc = connection.prepareCall("{call AMICUS.CFN_PR_CACHE_UPDATE(?, cast(? as smallint), ?, ?, ?, ?) }");
       proc.setInt(1, bibItemNumber);
       proc.setInt(2, cataloguingView);
       proc.setInt(3, -1);
+      proc.setString(4, uniformTitleSortForm);
+      proc.setString(5, titleSortForm);
       proc.registerOutParameter(4, Types.VARCHAR);
       proc.execute();
       result = proc.getString(4);
       if (!result.equals("0")) {
         cleanUp(transaction);
-        //logger.error(MessageCatalog._00011_CACHE_UPDATE_FAILURE, result);
         throw new CacheUpdateException();
       }
       transaction.commit();
@@ -549,12 +556,36 @@ public class BibliographicCatalogDAO extends CatalogDAO {
    * @throws DataAccessException
    */
   protected void updateItemDisplayCacheTable(final CatalogItem item, final Session session)
-    throws DataAccessException {
-    try {
-      updateItemDisplayCacheTable(item.getAmicusNumber(), item.getUserView(), session);
+    throws DataAccessException, HibernateException {
+      final Tag tag130 = item.findFirstTagByNumber("130");
+      final Tag tag245 = item.findFirstTagByNumber("245");
+      String uniformTitleSortForm = "";
+      String titleSortForm = "";
+      if(tag130 != null) {
+        uniformTitleSortForm = getTitleSortForm((TitleAccessPoint) tag130);
+      }
+      else if(tag245 != null) {
+        titleSortForm = getTitleSortForm((TitleAccessPoint) tag245);
+      }
+      updateItemDisplayCacheTable(item.getAmicusNumber(), item.getUserView(), uniformTitleSortForm, titleSortForm, session);
       updateFullRecordCacheTable(session, item);
-    } catch (Exception e) {
-    }
+
+  }
+
+  /**
+   * Return the sort form for the title access point
+   *
+   * @param tag
+   * @return the sort form for the title access point
+   */
+   private String getTitleSortForm(TitleAccessPoint tag) {
+    String uniformTitleSortForm;
+    String accessPoint = tag.getAccessPointStringText().toDisplayString();
+    TTL_HDG title = new TTL_HDG();
+    title.setStringText(accessPoint);
+    title.calculateAndSetSortForm();
+    uniformTitleSortForm = title.getSortForm();
+    return uniformTitleSortForm;
   }
 
   //TODO: maybe can be removed
@@ -623,24 +654,6 @@ public class BibliographicCatalogDAO extends CatalogDAO {
   private List<PublisherManager> getPublisherTags(final int amicusNumber, final int userView, final Session session) throws HibernateException {
     List<PublisherAccessPoint> publisherAccessPoints = (List<PublisherAccessPoint>) getAccessPointTags(PublisherAccessPoint.class, amicusNumber, userView, session);
     return publisherAccessPoints.stream().map(accessPoint -> new PublisherManager(accessPoint)).collect(Collectors.toList());
-  }
-
-  /**
-   * Check function for transferring from descriptor to another.
-   *
-   * @param source -- the source descriptor.
-   * @param target -- the target descriptor.
-   */
-  private void transferChecks(final Descriptor source, final Descriptor target) {
-    if (target == null) {
-      //logger.error(MessageCatalog._00012_TARGET_DESCRIPTOR_NULL);
-      throw new IllegalArgumentException();
-    }
-
-    if (source.getClass() != target.getClass()) {
-      //logger.error(MessageCatalog._00013_DIFFERENT_TARGET_SOURCE);
-      throw new IllegalArgumentException();
-    }
   }
 
 
