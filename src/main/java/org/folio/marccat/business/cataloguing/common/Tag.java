@@ -208,6 +208,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
    * @return the MARC tag and indicators for this tag
    * @throws DataAccessException the data access exception
    */
+  @Deprecated
   public CorrelationKey getMarcEncoding() throws DataAccessException {
     return correlationKey;
   }
