@@ -8,6 +8,7 @@ import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.dao.NameDescriptorDAO;
 import org.folio.marccat.dao.SemanticDAO;
 import org.folio.marccat.dao.persistence.IndexList;
+import org.folio.marccat.dao.persistence.NME_HDG;
 import org.folio.marccat.dao.persistence.S_BIB1_SMNTC;
 import org.folio.marccat.exception.DataAccessException;
 
@@ -162,20 +163,13 @@ public class TermExpressionNode implements ExpressionNode {
         .replace('#', '\u0003');
 
     try {
-      final SortFormParameters sortFormP =
-        new SortFormParameters(
-          semantic().getSortFormMainTypeCode(),
-          semantic().getSortFormSubTypeCode(),
-          semantic().getSortFormTypeCode(),
-          semantic().getSortFormFunctionCode(),
-          semantic().getSortFormSkipInFilingCode());
 
-      final String sf =
-        new NameDescriptorDAO()
-          .calculateSortForm(preProcessWildCards, sortFormP, session)
-          .replace('\u0002', '%')
-          .replace('\u0003', '_');
+      final NME_HDG nme_hdg = new NME_HDG();
+      nme_hdg.setStringText("\u001fa" + preProcessWildCards);
+      nme_hdg.calculateAndSetSortForm();
 
+
+      final String sf = nme_hdg.getSortForm();
       switch (semantic().getQueryActionCode()) {
         case "T":
         case "W":
@@ -370,7 +364,7 @@ public class TermExpressionNode implements ExpressionNode {
    */
   private int truncationAsAttr() {
     int result = 100;
-    if (term.lastIndexOf("?") == term.length() - 1) {
+    if (!term.toString().equals("") && term.lastIndexOf("?") == term.length() - 1) {
       term.deleteCharAt(term.length() - 1);
       return 1;
     }
@@ -384,7 +378,7 @@ public class TermExpressionNode implements ExpressionNode {
    */
   private int completenessAsAddr() {
     int result = index.getCompletenessAttribute();
-    if (term.lastIndexOf("!") == term.length() - 1) {
+    if (!term.toString().equals("") && term.lastIndexOf("!") == term.length() - 1) {
       term.deleteCharAt(term.length() - 1);
       result = 3;
     }

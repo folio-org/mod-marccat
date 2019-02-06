@@ -32,12 +32,6 @@ import java.util.stream.Collectors;
 
 import static org.folio.marccat.util.F.isNotNullOrEmpty;
 
-/**
- * Class for data access bibliographic item.
- *
- * @author natasciab
- * @since 1.0
- */
 
 public class BibliographicCatalogDAO extends CatalogDAO {
   private Log logger = new Log(BibliographicCatalogDAO.class);
@@ -94,7 +88,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
       cache.setItemNumber(item.getAmicusNumber());
       cache.setUserView(item.getUserView());
     }
-    item.sortTags();
+    //item.sortTags();
     cache.setRecordData(XmlUtils.documentToString(item.toExternalMarcSlim(session)));
     cache.markChanged();
     persistByStatus(cache, session);
@@ -532,9 +526,9 @@ public class BibliographicCatalogDAO extends CatalogDAO {
       proc.setInt(3, -1);
       proc.setString(4, uniformTitleSortForm);
       proc.setString(5, titleSortForm);
-      proc.registerOutParameter(4, Types.VARCHAR);
+      proc.registerOutParameter(6, Types.VARCHAR);
       proc.execute();
-      result = proc.getString(4);
+      result = proc.getString(6);
       if (!result.equals("0")) {
         cleanUp(transaction);
         throw new CacheUpdateException();
@@ -561,18 +555,18 @@ public class BibliographicCatalogDAO extends CatalogDAO {
    */
   protected void updateItemDisplayCacheTable(final CatalogItem item, final Session session)
     throws DataAccessException, HibernateException {
-      final Tag tag130 = item.findFirstTagByNumber("130");
-      final Tag tag245 = item.findFirstTagByNumber("245");
-      String uniformTitleSortForm = "";
-      String titleSortForm = "";
-      if(tag130 != null) {
-        uniformTitleSortForm = getTitleSortForm((TitleAccessPoint) tag130);
-      }
-      else if(tag245 != null) {
-        titleSortForm = getTitleSortForm((TitleAccessPoint) tag245);
-      }
-      updateItemDisplayCacheTable(item.getAmicusNumber(), item.getUserView(), uniformTitleSortForm, titleSortForm, session);
-      updateFullRecordCacheTable(session, item);
+    final Tag tag130 = item.findFirstTagByNumber("130");
+    final Tag tag245 = item.findFirstTagByNumber("245");
+    String uniformTitleSortForm = "";
+    String titleSortForm = "";
+    if(tag130 != null) {
+      uniformTitleSortForm = getTitleSortForm((TitleAccessPoint) tag130);
+    }
+    else if(tag245 != null) {
+      titleSortForm = getTitleSortForm((TitleAccessPoint) tag245);
+    }
+    updateItemDisplayCacheTable(item.getAmicusNumber(), item.getUserView(), uniformTitleSortForm, titleSortForm, session);
+    updateFullRecordCacheTable(session, item);
 
   }
 
@@ -582,7 +576,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
    * @param tag
    * @return the sort form for the title access point
    */
-   private String getTitleSortForm(TitleAccessPoint tag) {
+  private String getTitleSortForm(TitleAccessPoint tag) {
     String uniformTitleSortForm;
     String accessPoint = tag.getAccessPointStringText().toDisplayString();
     TTL_HDG title = new TTL_HDG();
@@ -625,9 +619,6 @@ public class BibliographicCatalogDAO extends CatalogDAO {
   }
 
 
-  /* (non-Javadoc)
-   * @see CatalogDAO#getCatalogItemByKey(java.lang.Object[])
-   */
   @Deprecated
   public CatalogItem getCatalogItemByKey(Object[] key)
     throws DataAccessException {
