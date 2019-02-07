@@ -169,12 +169,6 @@ public abstract class CatalogDAO extends AbstractDAO {
         if (aTag instanceof PersistentObjectWithView)
           ((PersistentObjectWithView) aTag).setUserViewString(myView);
 
-        try {
-          aTag.generateNewKey(session);
-        } catch (HibernateException | SQLException e) {
-          throw new RuntimeException(e);
-        }
-
         if (item.getDeletedTags().contains(aTag)) {
           aTag.reinstateDeletedTag();
         }
