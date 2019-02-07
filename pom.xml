@@ -62,7 +62,7 @@
       <url>http://spdx.org/licenses/Apache-2.0</url>
     </license>
   </licenses>
-  
+
   <repositories>
     <repository>
       <id>JBoss releases</id>
@@ -188,6 +188,11 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-test-autoconfigure</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.1</version>
     </dependency>
   </dependencies>
   <build>
