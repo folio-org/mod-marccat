@@ -169,7 +169,10 @@ public class TermExpressionNode implements ExpressionNode {
       nme_hdg.calculateAndSetSortForm();
 
 
-      final String sf = nme_hdg.getSortForm();
+      final String sf = nme_hdg
+        .getSortForm()
+        .replace('\u0002', '%')
+        .replace('\u0003', '_');
       switch (semantic().getQueryActionCode()) {
         case "T":
         case "W":
