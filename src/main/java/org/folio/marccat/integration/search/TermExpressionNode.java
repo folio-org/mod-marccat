@@ -168,8 +168,11 @@ public class TermExpressionNode implements ExpressionNode {
       nme_hdg.setStringText("\u001fa" + preProcessWildCards);
       nme_hdg.calculateAndSetSortForm();
 
-      final String sf = nme_hdg.getSortForm();
 
+      final String sf = nme_hdg
+        .getSortForm()
+        .replace('\u0002', '%')
+        .replace('\u0003', '_');
       switch (semantic().getQueryActionCode()) {
         case "T":
         case "W":
@@ -364,7 +367,7 @@ public class TermExpressionNode implements ExpressionNode {
    */
   private int truncationAsAttr() {
     int result = 100;
-    if (term.lastIndexOf("?") == term.length() - 1) {
+    if (!term.toString().equals("") && term.lastIndexOf("?") == term.length() - 1) {
       term.deleteCharAt(term.length() - 1);
       return 1;
     }
@@ -378,7 +381,7 @@ public class TermExpressionNode implements ExpressionNode {
    */
   private int completenessAsAddr() {
     int result = index.getCompletenessAttribute();
-    if (term.lastIndexOf("!") == term.length() - 1) {
+    if (!term.toString().equals("") && term.lastIndexOf("!") == term.length() - 1) {
       term.deleteCharAt(term.length() - 1);
       result = 3;
     }

@@ -32,12 +32,6 @@ import java.util.stream.Collectors;
 
 import static org.folio.marccat.util.F.isNotNullOrEmpty;
 
-/**
- * Class for data access bibliographic item.
- *
- * @author natasciab
- * @since 1.0
- */
 
 public class BibliographicCatalogDAO extends CatalogDAO {
   private Log logger = new Log(BibliographicCatalogDAO.class);
@@ -94,7 +88,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
       cache.setItemNumber(item.getAmicusNumber());
       cache.setUserView(item.getUserView());
     }
-    item.sortTags();
+    //item.sortTags();
     cache.setRecordData(XmlUtils.documentToString(item.toExternalMarcSlim(session)));
     cache.markChanged();
     persistByStatus(cache, session);
@@ -573,7 +567,6 @@ public class BibliographicCatalogDAO extends CatalogDAO {
       }
       updateItemDisplayCacheTable(item.getAmicusNumber(), item.getUserView(), uniformTitleSortForm, titleSortForm, session);
       updateFullRecordCacheTable(session, item);
-
   }
 
   /**
@@ -625,9 +618,6 @@ public class BibliographicCatalogDAO extends CatalogDAO {
   }
 
 
-  /* (non-Javadoc)
-   * @see CatalogDAO#getCatalogItemByKey(java.lang.Object[])
-   */
   @Deprecated
   public CatalogItem getCatalogItemByKey(Object[] key)
     throws DataAccessException {
