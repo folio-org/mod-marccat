@@ -13,9 +13,13 @@ Metadata management / foolio marccat module.
 
 * Java 8 JDK
 * Maven 3.3.9
-* Postgres 9.6.1 (running and listening on localhost:5432, logged in user must have admin rights)
+* Postgres 9.6.1 or obove (running and listening on port 5433)
 
 # Preparation
+
+## Storage: create posgres db
+
+
 
 ## Git Submodules
 
