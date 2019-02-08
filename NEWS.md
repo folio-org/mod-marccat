@@ -1,8 +1,25 @@
+## 1.3.0 in progress
+ * Fix issue in CRUD Cataloging.
+ * Add SortForm function.
+ * Handling tag 245 in cataloging, after insert sortform.
+ * Handling tag 100 in cataloging, after insert sortform.
+ * Integrate SortForm in existing DAO.
+ * Improve Search API.
+ * Configuration of new postgres database.
+ * Duplicate record (duplication of a record from an existing one).
+ * Fix insert record in new postgres db.
+ * Fix update full_cache in new postgres database.
+ * Many fix in search, browse anch cataloging API.
+ * Update microservices for db customization.
+ * Add permission to descriptor.
+ * Update interface for okapi.
+ * Cleaning project and remove unused class.
+
+ 
 ## 1.2.0 2019-01-08
  * Fix Search Functionality.
  * Fix Browse functionality.
  * Merge template (association of a new template to a record)
- * Duplicate record (duplication of a record from an existing one)
  * Recovery categories in the save phase by tag number and indicators
  * Dropdown material type
  * Dropdown type code for positional tags, starting from the tag number
