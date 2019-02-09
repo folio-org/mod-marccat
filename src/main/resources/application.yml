@@ -1,7 +1,10 @@
 configuration:
-  endpoint: http://192.168.0.158:8086/configurations/entries
-  zeta: 192.168.0.158
+  endpoint: http://151.1.165.20:8086/configurations/entries
+  port: 8086
+  local: 151.1.165.20
   baseUrl: marccat
+  tenant: tnx
+  token: folio_marccat
 
 logging:
   level:
@@ -14,4 +17,4 @@ logging:
     org.folio.marccat: INFO
 
 server:
-  port: 8081
+  port: 8082
