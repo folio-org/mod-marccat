@@ -1,10 +1,8 @@
 configuration:
-  endpoint: http://151.1.165.20:8086/configurations/entries
-  port: 8086
+  endpoint: http://151.1.165.20:8085/configurations/entries
+  port: 8085
   local: 151.1.165.20
   baseUrl: marccat
-  tenant: tnx
-  token: folio_marccat
 
 logging:
   level:
@@ -17,4 +15,4 @@ logging:
     org.folio.marccat: INFO
 
 server:
-  port: 8082
+  port: 8080

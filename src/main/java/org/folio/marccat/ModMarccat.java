@@ -13,8 +13,6 @@ import org.springframework.web.client.RestTemplate;
  * Main application entry point.
  *
  */
-@Profile("!test")
-@PropertySource("file:/Users/christian/application.yml")//or specify yaml file
 @SpringBootApplication
 public class ModMarccat {
 

@@ -37,7 +37,6 @@ public class LoadFromFileAPI extends BaseResource {
     @RequestParam(name = "numberOfRecords", defaultValue = "50") final int numberOfRecords,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
 
-
     return doPost((storageService, configuration) -> {
 
       try {

@@ -24,6 +24,7 @@ import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
  * @since 1.0
  */
 @Component
+@Profile({"!test"})
 public class RemoteConfiguration implements Configuration {
 
   private static final String BASE_CQUERY = "module==MARCCAT and configName == ";

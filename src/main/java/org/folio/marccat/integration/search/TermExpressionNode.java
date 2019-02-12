@@ -173,6 +173,7 @@ public class TermExpressionNode implements ExpressionNode {
         .getSortForm()
         .replace('\u0002', '%')
         .replace('\u0003', '_');
+
       switch (semantic().getQueryActionCode()) {
         case "T":
         case "W":
