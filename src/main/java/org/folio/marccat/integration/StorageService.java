@@ -1527,9 +1527,9 @@ public class StorageService implements Closeable {
 
     try {
       CatalogItem item = getCatalogItemByKey(itemNumber, view);
-      lockRecord(itemNumber, userName, uuid);
+      //lockRecord(itemNumber, userName, uuid);
       catalog.deleteCatalogItem(item, session);
-      unlockRecord(itemNumber, userName);
+      //unlockRecord(itemNumber, userName);
     } catch (RecordNotFoundException exception) {
       //ignore
     } catch (Exception exception) {
