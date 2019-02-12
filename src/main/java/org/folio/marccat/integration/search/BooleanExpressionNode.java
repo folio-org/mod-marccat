@@ -59,7 +59,7 @@ public class BooleanExpressionNode implements ExpressionNode {
           }
         }
       }
-      return "(( " + left.getValue() + " ) " + operator(op) + " ( " + right.getValue() + " ))";
+      return "(( " + left.getValue() + " ) " + operator(op) + " ( " + right.getValue().toLowerCase() + " ))";
     } catch (final Exception e) {
       throw new CclParserException("Query parsing error: " + e.getMessage());
     }
