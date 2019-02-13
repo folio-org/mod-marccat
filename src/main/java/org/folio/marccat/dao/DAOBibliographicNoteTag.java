@@ -30,27 +30,24 @@ import java.util.Iterator;
 public class DAOBibliographicNoteTag extends AbstractDAO {
   private static final Log logger = LogFactory.getLog(BibliographicNoteTag.class);
 
-  /* (non-Javadoc)
-   * @see HibernateUtil#delete(librisuite.business.common.Persistence)
-   */
-  public void delete(Persistence po) throws DataAccessException {
+
+  public void delete(Persistence po, final Session session) throws DataAccessException, HibernateException {
     if (!(po instanceof BibliographicNoteTag)) {
       throw new IllegalArgumentException("I can only persist BibliographicNoteTag objects");
     }
     BibliographicNoteTag aNote = (BibliographicNoteTag) po;
     aNote.getNote().markDeleted();
-    persistByStatus(aNote.getNote());
+    persistByStatus(aNote.getNote(),session);
     if (aNote.getNoteStandard() != null) {
       aNote.getNoteStandard().markDeleted();
-      persistByStatus(aNote.getNoteStandard());
+      persistByStatus(aNote.getNoteStandard(),session);
     }
     Iterator iter = aNote.getOverflowList().iterator();
     BibliographicNoteOverflow overflow;
     while (iter.hasNext()) {
       overflow = (BibliographicNoteOverflow) iter.next();
       overflow.markDeleted();
-      persistByStatus(overflow);
-      super.delete(overflow);
+      persistByStatus(overflow,session);
     }
     aNote.setUpdateStatus(UpdateStatus.REMOVED);
   }

@@ -565,7 +565,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
        if(tag245 != null) {
         titleSortForm = getTitleSortForm((TitleAccessPoint) tag245);
       }
-      // updateItemDisplayCacheTable(item.getAmicusNumber(), item.getUserView(), uniformTitleSortForm, titleSortForm, session);
+      updateItemDisplayCacheTable(item.getAmicusNumber(), item.getUserView(), uniformTitleSortForm, titleSortForm, session);
       updateFullRecordCacheTable(session, item);
   }
 
