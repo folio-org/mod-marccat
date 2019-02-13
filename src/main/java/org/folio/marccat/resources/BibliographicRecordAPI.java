@@ -18,9 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.Optional.ofNullable;
@@ -134,7 +132,6 @@ public class BibliographicRecordAPI extends BaseResource {
         final BibliographicRecord record = container.getBibliographicRecord();
         RecordTemplate template = ofNullable(container.getRecordTemplate()).isPresent() ? container.getRecordTemplate() : null;
         record.getFields().forEach(field -> setCategory(field, storageService));
-
         final Integer itemNumber = record.getId();
         final ErrorCollection errors = validate(record, storageService);
         if (!errors.getErrors().isEmpty())

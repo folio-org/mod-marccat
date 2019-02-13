@@ -80,7 +80,7 @@ public abstract class ModelDAO extends AbstractDAO {
         + " as itm where itm.id = ? ",
       new Object[]{id},
       new Type[]{Hibernate.INTEGER});
-    return list.stream().filter(Objects::nonNull).findFirst().orElse(null);
+    return list.size() > 0 ? list.get(0) : null;
   }
 
 

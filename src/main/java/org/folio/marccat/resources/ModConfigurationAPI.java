@@ -37,8 +37,9 @@ public class ModConfigurationAPI extends BaseResource {
   private String entries;
   private JSONObject jsonobj;
 
-  @Value("${configuration.zeta}")
-  private String zeta;
+  @Value("${configuration.local}")
+  private String local;
+
 
   private static String getFile(String filename) throws IOException {
     return IOUtils.toString(ModConfigurationAPI.class.getClassLoader().getResourceAsStream(filename), "UTF-8");
@@ -50,7 +51,7 @@ public class ModConfigurationAPI extends BaseResource {
     @RequestParam(name = "lang", defaultValue = "en") final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
     @RequestHeader(name = Global.OKAPI_TOKEN_HEADER_NAME, defaultValue = "tnx") final String token) throws UnsupportedEncodingException {
-    cc = new ConfigurationsClient(zeta, 8085, tenant, token);
+    cc = new ConfigurationsClient(local, 8086, tenant, token);
     cc.getConfigurationsEntries(null, 0, 100, null, lang, response -> {
       response.bodyHandler(handler -> {
         try {
@@ -69,9 +70,9 @@ public class ModConfigurationAPI extends BaseResource {
   public ResponseEntity<Object> saveConfigurationEntries(
     @RequestParam(name = "lang", defaultValue = "en") final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
-    @RequestHeader(name = Global.OKAPI_TOKEN_HEADER_NAME, defaultValue = "folio_demo") final String token) throws Exception {
+    @RequestHeader(name = Global.OKAPI_TOKEN_HEADER_NAME, defaultValue = "folio_dmarccat") final String token) throws Exception {
     String content = getFile("sample/marccat_configuration.sample");
-    cc = new ConfigurationsClient(zeta, 8086, tenant, token);
+    cc = new ConfigurationsClient(local, 8086, tenant, token);
     Config conf = new ObjectMapper().readValue(content, Config.class);
     cc.postConfigurationsEntries(lang, conf, response -> {
       response.bodyHandler(handler -> {
@@ -92,7 +93,7 @@ public class ModConfigurationAPI extends BaseResource {
     @RequestParam(name = "lang", defaultValue = "en") final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
     @RequestHeader(name = Global.OKAPI_TOKEN_HEADER_NAME, defaultValue = "folio_demo") final String token) throws UnsupportedEncodingException {
-    cc = new ConfigurationsClient(zeta, 8086, tenant, token);
+    cc = new ConfigurationsClient(local, 8086, tenant, token);
     cc.deleteConfigurationsEntriesByEntryId(entryId, lang, response -> {
       response.bodyHandler(out::println);
     });
@@ -104,7 +105,7 @@ public class ModConfigurationAPI extends BaseResource {
     @RequestParam(name = "lang", defaultValue = "en") final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
     @RequestHeader(name = Global.OKAPI_TOKEN_HEADER_NAME, defaultValue = "folio_demo") final String token) throws UnsupportedEncodingException {
-    cc = new ConfigurationsClient(zeta, 8085, tenant, token);
+    cc = new ConfigurationsClient(local, 8086, "tnx", "folio_demo");
     cc.getConfigurationsEntries(null, 0, 100, null, lang, response -> {
       response.bodyHandler(handler -> {
         try {
@@ -129,7 +130,7 @@ public class ModConfigurationAPI extends BaseResource {
   @PostMapping("/tenant")
   public void createTenant(
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) throws Exception {
-    TenantClient tenantClient = new TenantClient(zeta, 8086, "tnx", "tnx");
+    TenantClient tenantClient = new TenantClient(local, 8086, "tnx", "tnx");
     TenantAttributes ta = new TenantAttributes();
     ta.setModuleTo(Global.MODULE_NAME);
     tenantClient.postTenant(ta, response -> {

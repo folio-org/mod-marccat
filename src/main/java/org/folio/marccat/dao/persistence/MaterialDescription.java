@@ -194,18 +194,21 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
        * a) whether both tags are 008's and if not then
        * b) on correlation settings
        */
-      if (other.materialDescriptionKeyNumber > 0) {
-        return true;
-      } else {
-        if (this.getMaterialDescription008Indicator().equals("1") &&
-          other.getMaterialDescription008Indicator().equals("1")) {
-          return true;
-        }
-        return this.getHeaderType() == other.getHeaderType();
-      }
-    } else {
-      return false;
+//      if (other.materialDescriptionKeyNumber > 0) {
+//        return true;
+//      } else {
+//        if (this.getMaterialDescription008Indicator().equals("1") &&
+//          other.getMaterialDescription008Indicator().equals("1")) {
+//          return true;
+//        }
+//        return this.getHeaderType() == other.getHeaderType();
+//      }
+//    } else {
+//      return true;
+//    }
+//
     }
+    return true;
   }
 
   /* (non-Javadoc)

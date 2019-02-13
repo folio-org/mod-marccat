@@ -149,6 +149,7 @@ public abstract class CatalogItem implements Serializable {
     return modelItem;
   }
 
+
   /**
    * Sets model item associated to item.
    *

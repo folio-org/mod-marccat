@@ -1147,7 +1147,7 @@ public class StorageService implements Closeable {
       String tagNumber = correlation.getMarcTag();
       if (aTag.isFixedField()) {
         fixedField = new org.folio.marccat.resources.domain.FixedField();
-        fixedField.setSequenceNumber(ofNullable(sequenceNbr).isPresent() ? sequenceNbr : 0);
+        fixedField.setSequenceNumber(sequenceNbr);
         fixedField.setCode(tagNumber);
         fixedField.setDisplayValue(entry);
         fixedField.setHeaderTypeCode(aTag.getCorrelation(1));
@@ -1156,7 +1156,7 @@ public class StorageService implements Closeable {
         field.setFixedField(fixedField);
       } else {
         variableField = new org.folio.marccat.resources.domain.VariableField();
-        variableField.setSequenceNumber(ofNullable(sequenceNbr).isPresent() ? sequenceNbr : 0);
+        variableField.setSequenceNumber(sequenceNbr);
         variableField.setCode(correlation.getMarcTag());
         variableField.setInd1("" + correlation.getMarcFirstIndicator());
         variableField.setInd2("" + correlation.getMarcSecondIndicator());
@@ -1212,13 +1212,25 @@ public class StorageService implements Closeable {
     try {
       List<BibliographicCorrelation> correlations = dao.getCategoryCorrelation(session, tag, firstIndicator, secondIndicator);
       if (correlations.size() == 1) {
-        return correlations.stream().filter(Objects::nonNull).findFirst().get().getKey().getMarcTagCategoryCode();
+        return correlations
+          .stream()
+          .filter(Objects::nonNull)
+          .findFirst()
+          .get()
+          .getKey()
+          .getMarcTagCategoryCode();
       } else {
         if (correlations.size() > 1) {
           if ((tag.endsWith("00") || tag.endsWith("10") || tag.endsWith("11")) && hasTitle) {
             return Global.NAME_TITLE_CATEGORY;
           } else if (correlations.stream().anyMatch(Objects::nonNull)) {
-            return correlations.stream().filter(Objects::nonNull).findFirst().get().getKey().getMarcTagCategoryCode();
+            return correlations
+              .stream()
+              .filter(Objects::nonNull)
+              .findFirst()
+              .get()
+              .getKey()
+              .getMarcTagCategoryCode();
           }
         }
       }
@@ -1515,9 +1527,9 @@ public class StorageService implements Closeable {
 
     try {
       CatalogItem item = getCatalogItemByKey(itemNumber, view);
-      lockRecord(itemNumber, userName, uuid);
+      //lockRecord(itemNumber, userName, uuid);
       catalog.deleteCatalogItem(item, session);
-      unlockRecord(itemNumber, userName);
+      //unlockRecord(itemNumber, userName);
     } catch (RecordNotFoundException exception) {
       //ignore
     } catch (Exception exception) {
