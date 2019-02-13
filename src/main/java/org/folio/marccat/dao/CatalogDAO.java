@@ -187,7 +187,7 @@ public abstract class CatalogDAO extends AbstractDAO {
     final List<Tag> toRemove = new ArrayList<>(item.getDeletedTags());
     toRemove.forEach(aTag -> {
       if (!tagList.contains(aTag)) {
-        if (aTag instanceof Persistence) {
+        if (aTag instanceof Persistence && (!(aTag instanceof BibliographicNoteTag))) {
           try {
             persistByStatus((Persistence) aTag, session);
           } catch (HibernateException e) {
