@@ -1522,7 +1522,7 @@ public class StorageService implements Closeable {
    *
    * @param itemNumber -- the amicus number associated to record.
    */
-  public void deleteBibliographicRecordById(final Integer itemNumber, final int view, final String uuid, final String userName) throws DataAccessException {
+  public void deleteBibliographicRecordById(final Integer itemNumber, final int view) throws DataAccessException {
     final BibliographicCatalog catalog = new BibliographicCatalog();
 
     try {

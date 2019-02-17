@@ -84,6 +84,7 @@ public abstract class MarccatHelper {
     }
   }
 
+
   /**
    * Executes a PUT request.
    *
@@ -93,14 +94,17 @@ public abstract class MarccatHelper {
    * @param validator         a validator function for the entity associated with this resource.
    * @param configurationSets the requested configuration attributes sets.
    */
-  public static <T> void doPut(
+  public static <T> ResponseEntity<T> doPut(
     final PieceOfExistingLogicAdapter<T> adapter,
     final String tenant,
     final Configuration configurator,
     final BooleanSupplier validator,
     final String... configurationSets) {
     if (validator.getAsBoolean()) {
-      exec(adapter, tenant, configurator, configurationSets);
+      final T result = exec(adapter, tenant, configurator, configurationSets);
+      final HttpHeaders headers = new HttpHeaders();
+      headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
+      return new ResponseEntity<>(result, headers, HttpStatus.CREATED);
     } else {
       throw new UnableToCreateOrUpdateEntityException();
     }

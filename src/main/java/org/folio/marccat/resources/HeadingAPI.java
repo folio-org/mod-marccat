@@ -36,13 +36,12 @@ public class HeadingAPI extends BaseResource {
   }
 
 
-  @ResponseStatus(HttpStatus.NO_CONTENT)
   @PutMapping("/update-heading")
-  public void updateHeading(
+  public ResponseEntity<Heading> updateHeading(
     @RequestBody final Heading heading,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    doPut((storageService, configuration) -> {
+    return doPut((storageService, configuration) -> {
       try {
         storageService.updateHeading(heading, view);
         return heading;
