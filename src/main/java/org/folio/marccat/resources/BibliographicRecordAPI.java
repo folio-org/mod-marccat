@@ -348,12 +348,10 @@ public class BibliographicRecordAPI extends BaseResource {
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @DeleteMapping("/bibliographic-record/{id}")
   public void delete(@PathVariable final String id,
-                     @RequestParam final String uuid,
-                     @RequestParam final String userName,
                      @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
                      @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
     doDelete((storageService, configuration) -> {
-      storageService.deleteBibliographicRecordById(Integer.parseInt(id), view, uuid, userName);
+      storageService.deleteBibliographicRecordById(Integer.parseInt(id), view);
       return id;
     }, tenant, configurator);
   }
