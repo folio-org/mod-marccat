@@ -101,12 +101,6 @@
       <version>${mod-configuration-version}</version>
     </dependency>
     <dependency>
-      <groupId>org.folio</groupId>
-      <artifactId>postgres-runner</artifactId>
-      <version>23.6.0-SNAPSHOT</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>commons-httpclient</groupId>
       <artifactId>commons-httpclient</artifactId>
       <version>3.1</version>
@@ -270,7 +264,7 @@
             </configuration>
           </execution>
           <execution>
-            <id>filter-descriptor-inputs</id>
+            <id>filter-descriptor-inputpostgres-runners</id>
             <phase>generate-resources</phase>
             <goals>
               <goal>copy-resources</goal>
@@ -289,77 +283,7 @@
         </executions>
       </plugin>
 
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>1.6.0</version>
-        <executions>
-          <execution>
-            <id>generate_client</id>
-            <phase>process-classes</phase>
-            <goals>
-              <goal>java</goal>
-            </goals>
-            <configuration>
-              <mainClass>org.folio.rest.tools.ClientGenerator</mainClass>
-              <cleanupDaemonThreads>false</cleanupDaemonThreads>
-              <systemProperties>
-                <systemProperty>
-                  <key>client.generate</key>
-                  <value>true</value>
-                </systemProperty>
-                <systemProperty>
-                  <key>project.basedir</key>
-                  <value>${basedir}</value>
-                </systemProperty>
-                <systemProperty>
-                  <key>json.type</key>
-                  <value>postgres</value>
-                </systemProperty>
-              </systemProperties>
-            </configuration>
-          </execution>
-          <execution>
-            <id>start-postgres</id>
-            <phase>pre-integration-test</phase>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            <configuration>
-              <executable>java</executable>
-              <async>true</async>
-              <classpathScope>test</classpathScope>
-              <arguments>
-                <argument>-classpath</argument>
-                <classpath />
-                <argument>org.folio.rest.persist.PostgresRunner</argument>
-              </arguments>
-            </configuration>
-          </execution>
-          <execution>
-            <id>wait-for-postgres</id>
-            <phase>pre-integration-test</phase>
-            <goals>
-              <goal>java</goal>
-            </goals>
-            <configuration>
-              <classpathScope>test</classpathScope>
-              <mainClass>org.folio.rest.persist.PostgresWaiter</mainClass>
-            </configuration>
-          </execution>
-          <execution>
-            <id>stop-postgres</id>
-            <phase>post-integration-test</phase>
-            <goals>
-              <goal>java</goal>
-            </goals>
-            <configuration>
-              <classpathScope>test</classpathScope>
-              <mainClass>org.folio.rest.persist.PostgresStopper</mainClass>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
+
 
       <plugin>
         <groupId>com.coderplus.maven.plugins</groupId>
