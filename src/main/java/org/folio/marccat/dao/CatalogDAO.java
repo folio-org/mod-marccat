@@ -10,7 +10,6 @@ import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.business.common.UpdateStatus;
 import org.folio.marccat.business.controller.UserProfile;
-import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.DataAccessException;
@@ -31,9 +30,8 @@ import java.util.stream.Collectors;
  */
 
 public abstract class CatalogDAO extends AbstractDAO {
-  private static Log logger = new Log(CatalogDAO.class);
 
-  public abstract CatalogItem getCatalogItemByKey(Session session, int... key) throws DataAccessException;
+  public abstract CatalogItem getCatalogItemByKey(Session session, int... key) ;
 
   /**
    * Delete each tag, bibliographic item and model item from db.
@@ -64,9 +62,9 @@ public abstract class CatalogDAO extends AbstractDAO {
 
   abstract void updateFullRecordCacheTable(Session session, CatalogItem item) throws HibernateException;
 
-  abstract protected void updateItemDisplayCacheTable(final CatalogItem item, final Session session) throws HibernateException;
+  protected abstract  void updateItemDisplayCacheTable(final CatalogItem item, final Session session) throws HibernateException;
 
-  abstract protected void insertDeleteTable(final CatalogItem item, final UserProfile user) throws DataAccessException;
+  protected abstract void insertDeleteTable(final CatalogItem item, final UserProfile user) throws DataAccessException;
 
   /**
    * For each heading in tag, load and set owner descriptor.
@@ -115,14 +113,12 @@ public abstract class CatalogDAO extends AbstractDAO {
       proc.setInt(1, amicusNumber);
       proc.setInt(2, noteNumber);
       proc.execute();
-
+    } catch (SQLException ex) {
+      throw new SQLException(ex);
     } finally {
-      try {
-        if (proc != null) proc.close();
-      } catch (SQLException ex) {
-      }
+      if (proc != null) proc.close();
     }
-    transaction.commit();
+      transaction.commit();
   }
 
   /**
@@ -161,30 +157,28 @@ public abstract class CatalogDAO extends AbstractDAO {
       itemEntity.setUpdateStatus(UpdateStatus.CHANGED);
     }
     persistByStatus(itemEntity, session);
-
-    final List<Tag> tagList = item.getTags().stream().map(aTag -> {
-
-      if (aTag.isNew()) {
-        aTag.setItemNumber(item.getAmicusNumber());
-        if (aTag instanceof PersistentObjectWithView)
-          ((PersistentObjectWithView) aTag).setUserViewString(myView);
-
-        if (item.getDeletedTags().contains(aTag)) {
-          aTag.reinstateDeletedTag();
+    final List <Tag> tagList = item.getTags().stream().map(aTag -> {
+      try {
+        if (aTag.isNew()) {
+          aTag.setItemNumber(item.getAmicusNumber());
+          if (aTag instanceof PersistentObjectWithView)
+            ((PersistentObjectWithView) aTag).setUserViewString(myView);
+          if (!aTag.isBrowsable())
+            aTag.generateNewKey(session);
+          if (item.getDeletedTags().contains(aTag)) {
+            aTag.reinstateDeletedTag();
+          }
         }
-      }
-
-      if (aTag instanceof Persistence) {
-        try {
+        if (aTag instanceof Persistence) {
           persistByStatus((Persistence) aTag, session);
-        } catch (HibernateException e) {
-          throw new RuntimeException(e);
         }
+      } catch (HibernateException | SQLException e) {
+        throw new RuntimeException(e);
       }
       return aTag;
     }).collect(Collectors.toList());
 
-    final List<Tag> toRemove = new ArrayList<>(item.getDeletedTags());
+    final List <Tag> toRemove = new ArrayList <>(item.getDeletedTags());
     toRemove.forEach(aTag -> {
       if (!tagList.contains(aTag)) {
         if (aTag instanceof Persistence && (!(aTag instanceof BibliographicNoteTag))) {
@@ -217,6 +211,5 @@ public abstract class CatalogDAO extends AbstractDAO {
     updateItemDisplayCacheTable(item, session);
     modifyNoteStandard(item, session);
     transaction.commit();
-
   }
 }
