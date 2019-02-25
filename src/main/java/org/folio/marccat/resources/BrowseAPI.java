@@ -2,13 +2,11 @@ package org.folio.marccat.resources;
 
 import org.folio.marccat.ModMarccat;
 import org.folio.marccat.config.Global;
-import org.folio.marccat.resources.domain.HeadingDecorator;
 import org.folio.marccat.resources.domain.HeadingDecoratorCollection;
 import org.folio.marccat.shared.MapHeading;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
 import static org.folio.marccat.integration.MarccatHelper.doGet;

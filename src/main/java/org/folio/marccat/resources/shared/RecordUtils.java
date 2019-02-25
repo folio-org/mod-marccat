@@ -3,7 +3,6 @@ package org.folio.marccat.resources.shared;
 import org.folio.marccat.config.Global;
 import org.folio.marccat.integration.StorageService;
 import org.folio.marccat.resources.domain.*;
-import org.folio.marccat.shared.CatalogingInformation;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.shared.GeneralInformation;
 import org.folio.marccat.shared.Validation;
@@ -37,6 +36,7 @@ public class RecordUtils {
       Global.LINKED_RECORD_CODE +
       Global.FIXED_LEADER_PORTION;
   }
+
   /**
    * Reset status fields to UNCHANGED.
    *
@@ -261,11 +261,11 @@ public class RecordUtils {
    * @return a VariableField entity.
    */
   public static VariableField getVariableField(final int categoryCode,
-                                         final String ind1,
-                                         final String ind2,
-                                         final String code,
-                                         final CorrelationValues correlations,
-                                         final String description, final Validation validation) {
+                                               final String ind1,
+                                               final String ind2,
+                                               final String code,
+                                               final CorrelationValues correlations,
+                                               final String description, final Validation validation) {
 
     final VariableField variableField = new VariableField();
     if (!isFixedField(code)) {

@@ -3,22 +3,10 @@ package org.folio.marccat.resources;
 import org.folio.marccat.ModMarccat;
 import org.folio.marccat.config.Global;
 import org.folio.marccat.config.log.MessageCatalog;
-import org.folio.marccat.integration.StorageService;
-import org.folio.marccat.resources.domain.Field;
 import org.folio.marccat.resources.domain.FieldCollection;
-import org.folio.marccat.resources.domain.FixedField;
-import org.folio.marccat.resources.domain.VariableField;
-import org.folio.marccat.shared.CorrelationValues;
-import org.folio.marccat.shared.GeneralInformation;
-import org.folio.marccat.shared.Validation;
-import org.folio.marccat.util.F;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 import static java.util.Arrays.asList;
-import static java.util.Arrays.stream;
-import static java.util.stream.Collectors.toList;
 import static org.folio.marccat.integration.MarccatHelper.doGet;
 import static org.folio.marccat.resources.shared.RecordUtils.*;
 

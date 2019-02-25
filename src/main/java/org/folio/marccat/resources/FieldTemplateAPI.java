@@ -4,16 +4,11 @@ import org.folio.marccat.ModMarccat;
 import org.folio.marccat.config.Global;
 import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.resources.domain.FieldTemplate;
-import org.folio.marccat.resources.domain.VariableField;
-import org.folio.marccat.resources.shared.FixeFieldUtils;
 import org.folio.marccat.shared.CatalogingInformation;
-import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.shared.Validation;
 import org.springframework.web.bind.annotation.*;
 
-import static java.util.Arrays.stream;
 import static java.util.Optional.ofNullable;
-import static java.util.stream.Collectors.toList;
 import static org.folio.marccat.integration.MarccatHelper.doGet;
 import static org.folio.marccat.resources.shared.FixeFieldUtils.isFixedField;
 import static org.folio.marccat.resources.shared.RecordUtils.getVariableField;

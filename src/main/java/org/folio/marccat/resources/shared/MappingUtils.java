@@ -11,7 +11,7 @@ import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
 
-public class MappingUtils{
+public class MappingUtils {
 
   public static Function<MapHeading, HeadingDecorator> toHeading = source -> {
     final HeadingDecorator heading = new HeadingDecorator();
@@ -41,7 +41,12 @@ public class MappingUtils{
     headingType.setDescription(source.getLabel());
     return headingType;
   };
-
+  public static Function<Avp<Integer>, RecordTemplate> toRecordTemplate = avp -> {
+    final RecordTemplate template = new RecordTemplate();
+    template.setId(avp.getValue());
+    template.setName(avp.getLabel());
+    return template;
+  };
 
   public static HeadingTypeCollection mapToHeading(List<Avp<String>> list, final String code) {
     HeadingTypeCollection headingTypeCollection = new HeadingTypeCollection();
@@ -61,11 +66,4 @@ public class MappingUtils{
     resultLoader.setIds((List<Integer>) source.get(Global.LOADING_FILE_IDS));
     return resultLoader;
   }
-
-  public static Function<Avp<Integer>, RecordTemplate> toRecordTemplate = avp -> {
-    final RecordTemplate template = new RecordTemplate();
-    template.setId(avp.getValue());
-    template.setName(avp.getLabel());
-    return template;
-  };
 }

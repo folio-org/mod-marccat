@@ -291,10 +291,10 @@ public class FixeFieldUtils {
    * @param tag                  the tag code.
    */
   public static void injectMaterialCodes(final FixedFieldCodesGroup fixedFieldCodesGroup,
-                                   final StorageService storageService,
-                                   final String lang,
-                                   final int headerTypeCode,
-                                   final String tag) {
+                                         final StorageService storageService,
+                                         final String lang,
+                                         final int headerTypeCode,
+                                         final String tag) {
     Map<String, Object> mapRecordTypeMaterial = storageService.getMaterialTypeInfosByHeaderCode(headerTypeCode, tag);
     if (mapRecordTypeMaterial != null) {
       String material = (String) mapRecordTypeMaterial.get(Global.FORM_OF_MATERIAL_LABEL);

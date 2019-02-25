@@ -121,7 +121,6 @@ public interface CatalogingInformation {
   }
 
 
-
   /**
    * Checks the input parameters depending on field code.
    *

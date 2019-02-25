@@ -1,7 +1,6 @@
 package org.folio.marccat.resources;
 
 import org.folio.marccat.ModMarccat;
-import org.folio.marccat.business.codetable.Avp;
 import org.folio.marccat.config.Global;
 import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.enumaration.CodeListsType;
@@ -9,15 +8,11 @@ import org.folio.marccat.integration.StorageService;
 import org.folio.marccat.resources.domain.FieldTemplate;
 import org.folio.marccat.resources.domain.FixedFieldCodesGroup;
 import org.folio.marccat.resources.domain.FixedFieldElement;
-import org.folio.marccat.resources.domain.Pair;
 import org.folio.marccat.shared.CatalogingInformation;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
