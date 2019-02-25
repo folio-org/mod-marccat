@@ -103,7 +103,7 @@
     <dependency>
       <groupId>org.folio</groupId>
       <artifactId>postgres-runner</artifactId>
-      <version>23.6.0-SNAPSHOT</version>
+      <version>23.6.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -233,6 +233,29 @@
         </configuration>
       </plugin>
 
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.5.0</version>
+        <executions>
+          <execution>
+            <id>git submodule update</id>
+            <phase>initialize</phase>
+            <configuration>
+              <executable>git</executable>
+              <arguments>
+                <argument>submodule</argument>
+                <argument>update</argument>
+                <argument>--init</argument>
+                <argument>--recursive</argument>
+              </arguments>
+            </configuration>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>
         <version>3.0.1</version>
