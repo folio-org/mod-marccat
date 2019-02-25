@@ -1585,7 +1585,9 @@ public class StorageService implements Closeable {
       final BibliographicCatalog catalog = new BibliographicCatalog();
       final CatalogItem item = new BibliographicItem();
       final TagImpl impl = new BibliographicTagImpl();
-      final Correlation corr = impl.getCorrelation(heading.getTag(), heading.getIndicator1().charAt(0), heading.getIndicator2().charAt(0), 0, session);
+      boolean isInd1IsEmpty =  heading.getIndicator1().equals("");
+      boolean isInd2IsEmpty =  heading.getIndicator2().equals("");
+      final Correlation corr = impl.getCorrelation(heading.getTag(), (isInd1IsEmpty) ? " ".charAt(0) : heading.getIndicator1().charAt(0), (isInd2IsEmpty) ? " ".charAt(0) : heading.getIndicator2().charAt(0), 0, session);
       final Tag newTag = catalog.getNewTag(item, corr.getKey().getMarcTagCategoryCode(), corr.getValues());
       if (newTag != null) {
         final StringText st = new StringText(heading.getStringText());
