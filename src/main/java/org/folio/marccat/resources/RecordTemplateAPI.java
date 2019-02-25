@@ -8,16 +8,18 @@ import org.folio.marccat.config.Global;
 import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.enumaration.CatalogingEntityType;
 import org.folio.marccat.resources.domain.*;
+import org.folio.marccat.resources.shared.FixeFieldUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
 import static org.folio.marccat.enumaration.CatalogingEntityType.A;
 import static org.folio.marccat.integration.MarccatHelper.*;
+import static org.folio.marccat.resources.shared.FixeFieldUtils.isFixedField;
+import static org.folio.marccat.resources.shared.MappingUtils.toRecordTemplate;
 import static org.folio.marccat.util.F.isNotNullOrEmpty;
 
 /**
@@ -30,15 +32,6 @@ import static org.folio.marccat.util.F.isNotNullOrEmpty;
 @RestController
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class RecordTemplateAPI extends BaseResource {
-
-  private Function<Avp<Integer>, RecordTemplate> toRecordTemplate = avp -> {
-    final RecordTemplate template = new RecordTemplate();
-    template.setId(avp.getValue());
-    template.setName(avp.getLabel());
-    return template;
-
-  };
-
 
   @GetMapping("/record-templates")
   public RecordTemplateCollection getRecordTemplates(
@@ -146,7 +139,7 @@ public class RecordTemplateAPI extends BaseResource {
         template.setLeader(record.getLeader());
         template.setType("B");
 
-        record.getFields().stream().filter(this::isFixedField)
+        record.getFields().stream().filter(FixeFieldUtils::isFixedField)
           .filter(field -> !field.getCode().equals(Global.DATETIME_TRANSACTION_TAG_CODE)).forEach(field -> {
 
           Field newField = new Field();
@@ -196,15 +189,5 @@ public class RecordTemplateAPI extends BaseResource {
       }
 
     }, tenant, configurator, () -> isNotNullOrEmpty(record.getId().toString()));
-  }
-
-  /**
-   * Check if is a fixed field or not.
-   *
-   * @param field the tag entity.
-   * @return true if is fixedfield, false otherwise.
-   */
-  private boolean isFixedField(final Field field) {
-    return Global.FIXED_FIELDS.contains(field.getCode());
   }
 }

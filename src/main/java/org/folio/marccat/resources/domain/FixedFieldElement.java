@@ -20,7 +20,7 @@ public class FixedFieldElement {
   private String dafaultValue;
 
   @JsonProperty("dropdownSelect")
-  private List dropdownSelect = new ArrayList<Pair>();
+  private List<?> dropdownSelect = new ArrayList<Pair>();
 
   public FixedFieldElement(String name, List dropdownSelect) {
     this.name = name;

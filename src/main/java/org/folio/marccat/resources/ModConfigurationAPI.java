@@ -1,7 +1,6 @@
 package org.folio.marccat.resources;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.vertx.core.http.HttpClientResponse;
 import org.apache.commons.io.IOUtils;
 import org.folio.marccat.ModMarccat;
 import org.folio.marccat.config.Global;
@@ -18,8 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
 
 import static java.lang.System.out;
 
@@ -62,7 +59,7 @@ public class ModConfigurationAPI extends BaseResource {
         }
       });
     });
-    return new ResponseEntity<>((jsonobj != null) ? jsonobj.toMap(): "{}", HttpStatus.OK);
+    return new ResponseEntity<>((jsonobj != null) ? jsonobj.toMap() : "{}", HttpStatus.OK);
   }
 
   @ResponseBody
@@ -84,7 +81,7 @@ public class ModConfigurationAPI extends BaseResource {
       });
       out.println(response.statusCode());
     });
-    return new ResponseEntity<>((conf != null) ? conf: "", HttpStatus.OK);
+    return new ResponseEntity<>((conf != null) ? conf : "", HttpStatus.OK);
   }
 
   @DeleteMapping("/entries/{entryId}")
@@ -124,7 +121,7 @@ public class ModConfigurationAPI extends BaseResource {
         }
       });
     });
-    return new ResponseEntity<>((jsonobj.length() > 0) ? jsonobj.toMap(): "", HttpStatus.OK);
+    return new ResponseEntity<>((jsonobj.length() > 0) ? jsonobj.toMap() : "", HttpStatus.OK);
   }
 
   @PostMapping("/tenant")

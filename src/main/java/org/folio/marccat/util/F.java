@@ -158,32 +158,14 @@ public abstract class F {
     }
   }
 
-  public static String stringFromXML(String s) {
-    if (s.length() == 0) {
-      return null;
-    } else {
-      return s;
-    }
+  public static String safeString(final String formatString) {
+    return (formatString != null) ? formatString : " ";
   }
+
 
   public static String getFormattedToday(final String formatString) {
     final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formatString);
     return LocalDateTime.now().format(formatter);
-  }
-
-  public static LocalDateTime getFormattedDate(final String formatString, String dateToFormat) {
-    final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formatString);
-    return LocalDateTime.parse(dateToFormat, formatter);
-  }
-
-  /**
-   * Fix empty flag string.
-   *
-   * @param flag -- the string flag to fix.
-   * @return fixed string.
-   */
-  public static String fixEmptyFlag(final String flag) {
-    return Global.YES_FLAG.equalsIgnoreCase(flag) ? flag.toUpperCase() : Global.NO_FLAG;
   }
 
   /**

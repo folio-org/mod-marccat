@@ -3,7 +3,6 @@ package org.folio.marccat.resources;
 import org.folio.marccat.ModMarccat;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.config.Global;
-import org.folio.marccat.resources.domain.ResultLoader;
 import org.folio.marccat.resources.domain.ResultLoaderCollection;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +15,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.folio.marccat.integration.MarccatHelper.doPost;
+import static org.folio.marccat.resources.shared.MappingUtils.setMapToResult;
 
 /**
  * Loads bibliographic records contents in a binary marc21 file.
@@ -55,13 +55,4 @@ public class LoadFromFileAPI extends BaseResource {
     }, tenant, configurator, () -> !uploadfiles.isEmpty(), "title", "name", "subject");
   }
 
-  private ResultLoader setMapToResult(final Map<String, Object> source) {
-    final ResultLoader resultLoader = new ResultLoader();
-    resultLoader.setFilename((String) source.get(Global.LOADING_FILE_FILENAME));
-    resultLoader.setAdded((int) source.get(Global.LOADING_FILE_ADDED));
-    resultLoader.setRejected((int) source.get(Global.LOADING_FILE_REJECTED));
-    resultLoader.setErrorCount((int) source.get(Global.LOADING_FILE_ERRORS));
-    resultLoader.setIds((List<Integer>) source.get(Global.LOADING_FILE_IDS));
-    return resultLoader;
-  }
 }

@@ -9,6 +9,8 @@ import org.folio.marccat.util.F;
 import java.util.Map;
 
 import static java.util.Optional.ofNullable;
+import static org.folio.marccat.resources.shared.FixeFieldUtils.isFixedField;
+import static org.folio.marccat.resources.shared.RecordUtils.getLeaderValue;
 
 public interface CatalogingInformation {
 
@@ -118,16 +120,6 @@ public interface CatalogingInformation {
     return fixedField;
   }
 
-  /**
-   * Check if is a fixedField or not.
-   *
-   * @param code the tag number code.
-   * @return true if is fixedfield, false otherwise.
-   */
-  static boolean isFixedField(final String code) {
-    return Global.FIXED_FIELDS.contains(code);
-  }
-
 
   /**
    * Checks the input parameters depending on field code.
@@ -143,27 +135,6 @@ public interface CatalogingInformation {
   }
 
   /**
-   * Sets default leader value.
-   *
-   * @return a leader value.
-   */
-  static String getLeaderValue() {
-    return new StringBuilder(Global.FIXED_LEADER_LENGTH)
-      .append(Global.RECORD_STATUS_CODE)
-      .append(Global.RECORD_TYPE_CODE)
-      .append(Global.BIBLIOGRAPHIC_LEVEL_CODE)
-      .append(Global.CONTROL_TYPE_CODE)
-      .append(Global.CHARACTER_CODING_SCHEME_CODE)
-      .append(Global.FIXED_LEADER_BASE_ADDRESS)
-      .append(Global.ENCODING_LEVEL)
-      .append(Global.DESCRIPTIVE_CATALOGUING_CODE)
-      .append(Global.LINKED_RECORD_CODE)
-      .append(Global.FIXED_LEADER_PORTION)
-      .toString();
-  }
-
-
-  /**
    * Inject leader values for drop-down list selected.
    *
    * @param fixedField the fixedField to populate.
@@ -171,7 +142,7 @@ public interface CatalogingInformation {
   static void setLeaderValues(final FixedField fixedField) {
 
     final String leaderValue = fixedField.getDisplayValue().length() != Global.LEADER_LENGTH
-      ? CatalogingInformation.getLeaderValue()
+      ? getLeaderValue()
       : fixedField.getDisplayValue();
 
     fixedField.setDisplayValue(leaderValue);

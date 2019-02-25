@@ -16,14 +16,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.client.RestTemplate;
 
-// TODO FIXME
-@CrossOrigin(origins = {
-  "http://folio.atcult.it:3000",
-  "http://folio.atcult.it",
-  "http://localhost:3000",
-  "http://localhost:8080",
-  "*"
-})
+@CrossOrigin(origins = {"*"})
 public abstract class BaseResource {
   protected Log logger = new Log(getClass());
 
@@ -49,7 +42,7 @@ public abstract class BaseResource {
   @ExceptionHandler(SystemInternalFailureException.class)
   public ResponseEntity<Object> systemInternalFailure(final Exception exception, final ErrorCollection errors) {
     logger.error(MessageCatalog._00011_NWS_FAILURE, exception);
-    return new ResponseEntity<Object>(errors, HttpStatus.INTERNAL_SERVER_ERROR);
+    return new ResponseEntity<>(errors, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
   @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY, reason = "Cannot create the requested entity.")

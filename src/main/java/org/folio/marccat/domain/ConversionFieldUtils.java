@@ -3,9 +3,15 @@ package org.folio.marccat.domain;
 import org.folio.marccat.config.Global;
 import org.folio.marccat.resources.domain.FixedField;
 import org.folio.marccat.shared.GeneralInformation;
-
 import static java.util.Optional.ofNullable;
 
+/**
+ * ConversionFieldUtils the utility class for Field
+ *
+ * @author nbianchini
+ * @author carment
+ * @since 1.0
+ */
 public class ConversionFieldUtils {
 
 
@@ -30,6 +36,8 @@ public class ConversionFieldUtils {
   }
 
   /**
+   * Copy the leader in the FixedField.
+   *
    * @param leaderValue
    * @return
    */
@@ -78,8 +86,8 @@ public class ConversionFieldUtils {
     if (gi.isBook()) {
       fixedField.setBookIllustrationCode1(String.valueOf(displayValue.charAt(startPosition)));
       fixedField.setBookIllustrationCode2(String.valueOf(displayValue.charAt(startPosition + 1)));
-      fixedField.setBookIllustrationCode2(String.valueOf(displayValue.charAt(startPosition + 2)));
-      fixedField.setBookIllustrationCode2(String.valueOf(displayValue.charAt(startPosition + 3)));
+      fixedField.setBookIllustrationCode3(String.valueOf(displayValue.charAt(startPosition + 2)));
+      fixedField.setBookIllustrationCode4(String.valueOf(displayValue.charAt(startPosition + 3)));
       fixedField.setTargetAudienceCode(String.valueOf(displayValue.charAt(startPosition + 4)));
       fixedField.setFormOfItemCode(String.valueOf(displayValue.charAt(startPosition + 5)));
       fixedField.setNatureOfContent1(String.valueOf(displayValue.charAt(startPosition + 6)));
@@ -159,6 +167,11 @@ public class ConversionFieldUtils {
     }
   }
 
+  /**
+   * Inject physical information values for drop-down list selected.
+   *
+   * @param fixedField the fixedField to populate.
+   */
   public static void setPhysicalInformationValuesInFixedField(final FixedField fixedField) {
 
     final String categoryOfMaterial = ofNullable(fixedField.getCategoryOfMaterial())
@@ -282,4 +295,257 @@ public class ConversionFieldUtils {
       fixedField.setPhysicalType(FixedField.PhysicalType.VIDEO_RECORDING);
     }
   }
+
+  /**
+   * Return a display value for the material description.
+   *
+   * @param fixedField the fixedField to populate.
+   * @param formOfMaterial the form of material.
+   */
+  public static FixedField getDisplayValueOfMaterial(final FixedField fixedField, final String formOfMaterial) {
+    final GeneralInformation gi = new GeneralInformation();
+    gi.setFormOfMaterial(formOfMaterial);
+    gi.setMaterialDescription008Indicator(fixedField.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE) ? "1" : "0");
+    StringBuilder sb = new StringBuilder();
+    if ("1".equals(gi.getMaterialDescription008Indicator())) {
+      sb.append(fixedField.getDateEnteredOnFile());
+      sb.append(fixedField.getDateTypeCode());
+      sb.append(fixedField.getDateFirstPublication());
+      sb.append(fixedField.getDateLastPublication());
+      sb.append(fixedField.getPlaceOfPublication());
+
+    } else { //006
+      sb.append(fixedField.getMaterialTypeCode());
+    }
+    if (gi.isBook()) {
+      sb.append(fixedField.getBookIllustrationCode1());
+      sb.append(fixedField.getBookIllustrationCode2());
+      sb.append(fixedField.getBookIllustrationCode3());
+      sb.append(fixedField.getBookIllustrationCode4());
+      sb.append(fixedField.getTargetAudienceCode());
+      sb.append(fixedField.getFormOfItemCode());
+      sb.append(fixedField.getNatureOfContent1());
+      sb.append(fixedField.getNatureOfContent2());
+      sb.append(fixedField.getNatureOfContent3());
+      sb.append(fixedField.getNatureOfContent4());
+      sb.append(fixedField.getGovernmentPublicationCode());
+      sb.append(fixedField.getConferencePublicationCode());
+      sb.append(fixedField.getBookFestschrift());
+      sb.append(fixedField.getBookIndexAvailabilityCode());
+      sb.append(" ");
+      sb.append(fixedField.getBookLiteraryFormTypeCode());
+      sb.append(fixedField.getBookBiographyCode());
+    } else if (gi.isSerial()) {
+      sb.append(fixedField.getSerialFrequencyCode());
+      sb.append(fixedField.getSerialRegularityCode());
+      sb.append(" ");
+      sb.append(fixedField.getSerialTypeCode());
+      sb.append(fixedField.getSerialFormOriginalItemCode());
+      sb.append(fixedField.getFormOfItemCode());
+      sb.append(fixedField.getNatureOfContent1());
+      sb.append(fixedField.getNatureOfContent2());
+      sb.append(fixedField.getNatureOfContent3());
+      sb.append(fixedField.getGovernmentPublicationCode());
+      sb.append(fixedField.getConferencePublicationCode());
+      sb.append("   ");
+      sb.append(fixedField.getSerialOriginalAlphabetOfTitleCode());
+      sb.append(fixedField.getSerialEntryConventionCode());
+    } else if (gi.isComputerFile()) {
+      sb.append("    ");
+      sb.append(fixedField.getTargetAudienceCode());
+      sb.append(fixedField.getFormOfItemCode());
+      sb.append("  ");
+      sb.append(fixedField.getComputerFileTypeCode());
+      sb.append(" ");
+      sb.append(fixedField.getGovernmentPublicationCode());
+      sb.append("       ");
+    } else if (gi.isMap()) {
+      sb.append(fixedField.getCartographicReliefCode1());
+      sb.append(fixedField.getCartographicReliefCode2());
+      sb.append(fixedField.getCartographicReliefCode3());
+      sb.append(fixedField.getCartographicReliefCode4());
+      sb.append(fixedField.getCartographicProjectionCode());
+      sb.append(" ");
+      sb.append(fixedField.getCartographicMaterial());
+      sb.append("  ");
+      sb.append(fixedField.getGovernmentPublicationCode());
+      sb.append(fixedField.getFormOfItemCode());
+      sb.append(" ");
+      sb.append(fixedField.getCartographicIndexAvailabilityCode());
+      sb.append(" ");
+      sb.append(fixedField.getCartographicFormatCode1());
+      sb.append(fixedField.getCartographicFormatCode2());
+    } else if (gi.isMixedMaterial()) {
+      sb.append("     ");
+      sb.append(fixedField.getFormOfItemCode());
+      sb.append("           ");
+    } else if (gi.isMusic()) {
+      sb.append(fixedField.getMusicFormOfCompositionCode());
+      sb.append(fixedField.getMusicFormatCode());
+      sb.append(fixedField.getMusicPartsCode());
+      sb.append(fixedField.getTargetAudienceCode());
+      sb.append(fixedField.getFormOfItemCode());
+      sb.append(fixedField.getMusicTextualMaterialCode1());
+      sb.append(fixedField.getMusicTextualMaterialCode2());
+      sb.append(fixedField.getMusicTextualMaterialCode3());
+      sb.append(fixedField.getMusicTextualMaterialCode4());
+      sb.append(fixedField.getMusicTextualMaterialCode5());
+      sb.append(fixedField.getMusicTextualMaterialCode6());
+      sb.append(fixedField.getMusicLiteraryTextCode1());
+      sb.append(fixedField.getMusicLiteraryTextCode2());
+      sb.append(" ");
+      sb.append(fixedField.getMusicTranspositionArrangementCode());
+      sb.append(" ");
+    } else if (gi.isVisualMaterial()) {
+      sb.append(fixedField.getVisualRunningTime());
+      sb.append(" ");
+      sb.append(fixedField.getTargetAudienceCode());
+      sb.append("     ");
+      sb.append(fixedField.getGovernmentPublicationCode());
+      sb.append(fixedField.getFormOfItemCode());
+      sb.append("   ");
+      sb.append(fixedField.getVisualMaterialTypeCode());
+      sb.append(fixedField.getVisualTechniqueCode());
+    }
+    if ("1".equals(gi.getMaterialDescription008Indicator())) {
+      sb.append(fixedField.getLanguageCode());
+      sb.append(fixedField.getRecordModifiedCode());
+      sb.append(fixedField.getRecordCataloguingSourceCode());
+    }
+
+    fixedField.setDisplayValue(sb.toString());
+    return fixedField;
+  }
+
+  /**
+   * Return a display value for the physical information.
+   *
+   * @param fixedField the fixedField to populate.
+   */
+  public static FixedField getDisplayValueOfPhysicalInformation(final FixedField fixedField) {
+
+    final String categoryOfMaterial = ofNullable(fixedField.getCategoryOfMaterial())
+      .map(category -> fixedField.getCategoryOfMaterial())
+      .orElseGet(() -> {
+        return ofNullable(Global.PHYSICAL_TYPES_MAP.get(fixedField.getHeaderTypeCode())).orElse(Global.UNSPECIFIED);
+      });
+    StringBuilder sb = new StringBuilder();
+    sb.append(categoryOfMaterial);
+    sb.append(fixedField.getSpecificMaterialDesignationCode());
+    if (categoryOfMaterial.equals(Global.ELECTRONIC_RESOURCE)) {
+      sb.append(" ");
+      sb.append(fixedField.getColourCode());
+      sb.append(fixedField.getDimensionsCode());
+      sb.append(fixedField.getIncludesSoundCode());
+      sb.append(fixedField.getImageBitDepth());
+      sb.append(fixedField.getFileFormatsCode());
+      sb.append(fixedField.getQualityAssuranceTargetCode());
+      sb.append(fixedField.getAntecedentSourceCode());
+      sb.append(fixedField.getLevelOfCompressionCode());
+      sb.append(fixedField.getReformattingQualityCode());
+      sb.append(fixedField.getPhysicalType());
+    } else if (categoryOfMaterial.equals(Global.GLOBE)) {
+      sb.append(" ");
+      sb.append(fixedField.getColourCode());
+      sb.append(fixedField.getPhysicalMediumCode());
+      sb.append(fixedField.getTypeOfReproductionCode());
+      sb.append(fixedField.getPhysicalType());
+    } else if (categoryOfMaterial.equals(Global.MAP_CODE)) {
+      sb.append(" ");
+      sb.append(fixedField.getColourCode());
+      sb.append(fixedField.getPhysicalMediumCode());
+      sb.append(fixedField.getTypeOfReproductionCode());
+      sb.append(fixedField.getProductionDetailsCode());
+      sb.append(fixedField.getPolarityCode());
+      sb.append(fixedField.getPhysicalType());
+    } else if (categoryOfMaterial.equals(Global.TACTILE_MATERIAL)) {
+      sb.append(" ");
+      sb.append(fixedField.getClassOfBrailleWritingCodes());
+      sb.append(fixedField.getLevelOfContractionCode());
+      sb.append(fixedField.getBrailleMusicFormatCodes());
+      sb.append(fixedField.getSpecificPhysicalCharacteristicsCode());
+      sb.append(fixedField.getPhysicalType());
+    } else if (categoryOfMaterial.equals(Global.PROJECTED_GRAPHIC)) {
+      sb.append(" ");
+      sb.append(fixedField.getColourCode());
+      sb.append(fixedField.getBaseOfEmulsionCode());
+      sb.append(fixedField.getSoundOnMediumOrSeparateCode());
+      sb.append(fixedField.getMediumForSoundCode());
+      sb.append(fixedField.getDimensionsCode());
+      sb.append(fixedField.getSecondarySupportMaterialCode());
+      sb.append(fixedField.getPhysicalType());
+    } else if (categoryOfMaterial.equals(Global.MICROFORM)) {
+      sb.append(" ");
+      sb.append(fixedField.getPolarityCode());
+      sb.append(fixedField.getDimensionsCode());
+      sb.append(fixedField.getReductionRatioRangeCode());
+      sb.append(fixedField.getReductionRatioCode());
+      sb.append(fixedField.getColourCode());
+      sb.append(fixedField.getEmulsionOnFilmCode());
+      sb.append(fixedField.getGenerationCode());
+      sb.append(fixedField.getBaseOfFilmCode());
+      sb.append(fixedField.getPhysicalType());
+    } else if (categoryOfMaterial.equals(Global.NON_PROJECTED_GRAPHIC)) {
+      sb.append(" ");
+      sb.append(fixedField.getColourCode());
+      sb.append(fixedField.getPrimarySupportMaterialCode());
+      sb.append(fixedField.getSecondarySupportMaterialCode());
+      sb.append(fixedField.getPhysicalType());
+    } else if (categoryOfMaterial.equals(Global.MOTION_PICTURE)) {
+      sb.append(" ");
+      sb.append(fixedField.getColourCode());
+      sb.append(fixedField.getPresentationFormatCode());
+      sb.append(fixedField.getSoundOnMediumOrSeparateCode());
+      sb.append(fixedField.getMediumForSoundCode());
+      sb.append(fixedField.getDimensionsCode());
+      sb.append(fixedField.getConfigurationCode());
+      sb.append(fixedField.getProductionElementsCode());
+      sb.append(fixedField.getPolarityCode());
+      sb.append(fixedField.getGenerationCode());
+      sb.append(fixedField.getBaseOfFilmCode());
+      sb.append(fixedField.getRefinedCategoriesOfColourCode());
+      sb.append(fixedField.getKindOfColourStockCode());
+      sb.append(fixedField.getDeteriorationStageCode());
+      sb.append(fixedField.getCompletenessCode());
+      sb.append(fixedField.getInspectionDate());
+      sb.append(fixedField.getPhysicalType());
+    } else if (categoryOfMaterial.equals(Global.REMOTE_SENSING_IMAGE)) {
+      sb.append(" ");
+      sb.append(fixedField.getAltitudeOfSensorCode());
+      sb.append(fixedField.getAttitudeOfSensorCode());
+      sb.append(fixedField.getCloudCoverCode());
+      sb.append(fixedField.getPlatformConstructionTypeCode());
+      sb.append(fixedField.getPlatformUseCode());
+      sb.append(fixedField.getSensorTypeCode());
+      sb.append(fixedField.getRemoteDataTypeCode());
+      sb.append(fixedField.getPhysicalType());
+    } else if (categoryOfMaterial.equals(Global.SOUND_RECORDING)) {
+      sb.append(" ");
+      sb.append(fixedField.getSpeedCode());
+      sb.append(fixedField.getConfigurationCode());
+      sb.append(fixedField.getGrooveWidthCode());
+      sb.append(fixedField.getDimensionsCode());
+      sb.append(fixedField.getTapeWidthCode());
+      sb.append(fixedField.getTapeConfigurationCode());
+      sb.append(fixedField.getDiscTypeCode());
+      sb.append(fixedField.getSndMaterialTypeCode());
+      sb.append(fixedField.getCuttingTypeCode());
+      sb.append(fixedField.getSpecialPlaybackCharacteristicsCode());
+      sb.append(fixedField.getStorageTechniqueCode());
+      sb.append(fixedField.getPhysicalType());
+    } else if (categoryOfMaterial.equals(Global.VIDEO_RECORDING)) {
+      sb.append(" ");
+      sb.append(fixedField.getColourCode());
+      sb.append(fixedField.getFormatCode());
+      sb.append(fixedField.getIncludesSoundCode());
+      sb.append(fixedField.getMediumForSoundCode());
+      sb.append(fixedField.getDimensionsCode());
+      sb.append(fixedField.getConfigurationCode());
+      sb.append(fixedField.getPhysicalType());
+    }
+    fixedField.setDisplayValue(sb.toString());
+    return fixedField;
+  }
+
+
 }
