@@ -12,6 +12,7 @@ import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
 import static org.folio.marccat.integration.MarccatHelper.doGet;
+import static org.folio.marccat.resources.shared.MappingUtils.toHeading;
 
 /**
  * Headings RESTful APIs.
@@ -19,19 +20,6 @@ import static org.folio.marccat.integration.MarccatHelper.doGet;
 @RestController
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class BrowseAPI extends BaseResource {
-
-  private Function<MapHeading, HeadingDecorator> toHeading = source -> {
-    final HeadingDecorator heading = new HeadingDecorator();
-    heading.setHeadingNumber(source.getHeadingNumber());
-    heading.setStringText(source.getStringText());
-    heading.setCountAuthorities(source.getCountAuthorities());
-    heading.setCountDocuments(source.getCountDocuments());
-    heading.setCountTitleNameDocuments(source.getCountTitleNameDocuments());
-    heading.setAccessPointlanguage(source.getAccessPointlanguage());
-    heading.setCrossReferences(source.getCrossReferences());
-    return heading;
-  };
-
 
   @GetMapping("/browse")
   public HeadingDecoratorCollection getFirstPage(

@@ -13,6 +13,7 @@ import java.util.function.Function;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static org.folio.marccat.integration.MarccatHelper.doGet;
+import static org.folio.marccat.resources.shared.MappingUtils.mapToHeading;
 
 /**
  * Header type code RESTful APIs.
@@ -24,21 +25,6 @@ import static org.folio.marccat.integration.MarccatHelper.doGet;
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class HeaderTypeAPI extends BaseResource {
 
-  private Function<Avp<String>, HeadingType> toHeadingType = source -> {
-    final HeadingType headingType = new HeadingType();
-    headingType.setCode(Integer.parseInt(source.getValue()));
-    headingType.setDescription(source.getLabel());
-    return headingType;
-  };
-
-  private HeadingTypeCollection mapToHeading(List<Avp<String>> list, final String code) {
-
-    HeadingTypeCollection headingTypeCollection = new HeadingTypeCollection();
-    headingTypeCollection.setHeadingTypes(list.stream()
-      .filter(element -> element.getLabel().startsWith(code))
-      .map(toHeadingType).collect(toList()));
-    return headingTypeCollection;
-  }
 
   @GetMapping("/header-types")
   public HeadingTypeCollection getHeadingTypes(

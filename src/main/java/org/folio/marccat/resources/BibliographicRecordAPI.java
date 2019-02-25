@@ -6,25 +6,23 @@ import org.folio.marccat.config.Global;
 import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.domain.ConversionFieldUtils;
 import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.exception.DuplicateTagException;
-import org.folio.marccat.integration.StorageService;
 import org.folio.marccat.resources.domain.*;
-import org.folio.marccat.resources.domain.Error;
+import org.folio.marccat.resources.shared.FixeFieldUtils;
+import org.folio.marccat.resources.shared.RecordUtils;
 import org.folio.marccat.shared.GeneralInformation;
-import org.folio.marccat.shared.Validation;
 import org.folio.marccat.util.F;
-import org.folio.marccat.util.StringText;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static java.util.Optional.ofNullable;
 import static org.folio.marccat.domain.ConversionFieldUtils.getDisplayValueOfMaterial;
 import static org.folio.marccat.domain.ConversionFieldUtils.getDisplayValueOfPhysicalInformation;
 import static org.folio.marccat.integration.MarccatHelper.*;
+import static org.folio.marccat.resources.shared.RecordUtils.*;
+import static org.folio.marccat.resources.shared.ValidationUtils.validate;
 import static org.folio.marccat.util.F.isNotNullOrEmpty;
 
 /**
@@ -37,16 +35,6 @@ import static org.folio.marccat.util.F.isNotNullOrEmpty;
 @RestController
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class BibliographicRecordAPI extends BaseResource {
-
-  @PostMapping("/bibliographic-record/leader")
-  public ResponseEntity<FixedField> getLeader(
-    @RequestParam final String leader,
-    @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    FixedField fixedField = ConversionFieldUtils.getLeaderValuesInFixedField(leader);
-    return new ResponseEntity<>(fixedField, HttpStatus.OK);
-  }
-
 
   @PostMapping("/bibliographic-record/fixed-field-display-value")
   public ResponseEntity <FixedField> getFixedFieldWithDisplayValue(
@@ -159,7 +147,7 @@ public class BibliographicRecordAPI extends BaseResource {
         gi.setDefaultValues(configuration);
 
         final Leader leader = record.getLeader();
-        record.getFields().stream().filter(this::isFixedField)
+        record.getFields().stream().filter(FixeFieldUtils::isFixedField)
           .filter(field -> field.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE) ||
             field.getCode().equalsIgnoreCase(Global.OTHER_MATERIAL_TAG_CODE) ||
             field.getCode().equalsIgnoreCase(Global.PHYSICAL_DESCRIPTION_TAG_CODE)).forEach(field -> {
@@ -191,177 +179,6 @@ public class BibliographicRecordAPI extends BaseResource {
     }, tenant, configurator, () -> isNotNullOrEmpty(container.getBibliographicRecord().getId().toString()), "bibliographic", "material");
   }
 
-
-  /**
-   * Reset status fields to UNCHANGED.
-   *
-   * @param newRecord -- the new record created.
-   */
-  private void resetStatus(BibliographicRecord newRecord) {
-    newRecord.getFields().forEach(field -> {
-      if (Global.MANDATORY_FIELDS.contains(field.getCode()))
-        field.setMandatory(true);
-      field.setFieldStatus(Field.FieldStatus.UNCHANGED);
-    });
-  }
-
-  /**
-   * Validates tags record.
-   *
-   * @param record         -- the record to validate.
-   * @param storageService -- the storage service.
-   * @return error collection.
-   */
-  private ErrorCollection validate(BibliographicRecord record, StorageService storageService) {
-    final ErrorCollection errors = new ErrorCollection();
-
-    if (!checkMandatory(record)) {
-      logger.error(MessageCatalog._00026_MANDATORY_FAILURE, record.getId());
-      errors.getErrors().add(getError(Global.ERROR_MANDATORY_TAG));
-    }
-
-    String wrongTags = checkRepeatability(record, storageService);
-    if (F.isNotNullOrEmpty(wrongTags)) {
-      logger.error(MessageCatalog._00025_DUPLICATE_TAG, wrongTags);
-      errors.getErrors().add(getError(Global.ERROR_DUPLICATE_TAG, wrongTags));
-    }
-
-    String emptyTags = checkEmptyTag(record);
-    if (F.isNotNullOrEmpty(emptyTags)) {
-      logger.error(MessageCatalog._00027_EMPTY_TAG, emptyTags);
-      errors.getErrors().add(getError(Global.ERROR_EMPTY_TAG, emptyTags));
-    }
-
-    return errors;
-  }
-
-  /**
-   * Create a new Error object.
-   *
-   * @param code   -- code of error.
-   * @param values -- placeholders for description object.
-   * @return a new error.
-   */
-  private Error getError(final String code, final Object... values) {
-    Error e = new Error();
-    e.setCode(code);
-    e.setDescription(values == null ? Global.ERRORS_MAP.get(code) : String.format(Global.ERRORS_MAP.get(code), values));
-    return e;
-  }
-
-  /**
-   * Checks if there is one or more empty tag.
-   *
-   * @param record -- the record with tags to check.
-   * @throws DataAccessException in case of data access exception.
-   */
-  private String checkEmptyTag(final BibliographicRecord record) {
-    StringBuilder tags = new StringBuilder();
-    record.getFields().forEach(field -> {
-      if (!isFixedField(field)) {
-        final StringText st = new StringText(field.getVariableField().getValue());
-        if (st.isEmpty()) {
-          tags.append(field.getCode()).append(",");
-        }
-      }
-    });
-
-    if (tags.length() > 0)
-      tags.deleteCharAt(tags.length() - 1);
-    return tags.toString();
-  }
-
-  /**
-   * Checks tags repeatability.
-   *
-   * @param record  -- the record with tags to check.
-   * @param storage -- the storage service.
-   * @throws DuplicateTagException in case of duplicate tag exception.
-   */
-  private String checkRepeatability(final BibliographicRecord record, final StorageService storage) {
-    Map<String, List<Field>> fieldsGroupedByCode = record.getFields().stream().collect(Collectors.groupingBy(Field::getCode));
-    List<String> duplicates =
-      fieldsGroupedByCode.entrySet().stream()
-        .filter(entry -> entry.getValue().size() > 1)
-        .map(Map.Entry::getKey).collect(Collectors.toList());
-
-    StringBuilder tags = new StringBuilder();
-    duplicates.forEach(tagNbr -> {
-      Validation bv = storage.getTagValidation(getCategory(fieldsGroupedByCode.get(tagNbr).get(0)), tagNbr);
-      if (!bv.isMarcTagRepeatable()) {
-        tags.append(tagNbr).append(",");
-      }
-    });
-
-    if (tags.length() > 0)
-      tags.deleteCharAt(tags.length() - 1);
-
-    return tags.toString();
-  }
-
-  /**
-   * Checks mandatory tags.
-   *
-   * @param record -- the record with tags to check.
-   * @return check mandatory.
-   */
-  private boolean checkMandatory(final BibliographicRecord record) {
-    List<String> found = new ArrayList<>();
-    if (record.getLeader() != null)
-      found.add(record.getLeader().getCode());
-
-    record.getFields().forEach(field -> found.add(field.getCode()));
-    ArrayList<String> result = new ArrayList<>(Global.MANDATORY_FIELDS);
-    result.retainAll(found);
-    return result.size() == Global.MANDATORY_FIELDS.size() && !found.isEmpty();
-  }
-
-  /**
-   * Check if is a fixed field or not.
-   *
-   * @param field the tag entity.
-   * @return true if is fixedfield, false otherwise.
-   */
-  private boolean isFixedField(final Field field) {
-    return Global.FIXED_FIELDS.contains(field.getCode());
-  }
-
-  /**
-   * Utility to get category code.
-   *
-   * @param field -- the field containing category.
-   * @return category.
-   */
-  private int getCategory(final Field field) {
-
-    if (isFixedField(field))
-      return Global.HEADER_CATEGORY;
-
-    if (!isFixedField(field) && ofNullable(field.getVariableField().getCategoryCode()).isPresent())
-      return field.getVariableField().getCategoryCode();
-
-    return 0;
-  }
-
-  /**
-   * Sets the default leader value.
-   *
-   * @return the default leader value.
-   */
-  private String getLeaderValue() {
-    return new StringBuilder(Global.FIXED_LEADER_LENGTH)
-      .append(Global.RECORD_STATUS_CODE)
-      .append(Global.RECORD_TYPE_CODE)
-      .append(Global.BIBLIOGRAPHIC_LEVEL_CODE)
-      .append(Global.CONTROL_TYPE_CODE)
-      .append(Global.CHARACTER_CODING_SCHEME_CODE)
-      .append(Global.FIXED_LEADER_BASE_ADDRESS)
-      .append(Global.ENCODING_LEVEL)
-      .append(Global.DESCRIPTIVE_CATALOGUING_CODE)
-      .append(Global.LINKED_RECORD_CODE)
-      .append(Global.FIXED_LEADER_PORTION)
-      .toString();
-  }
 
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @DeleteMapping("/bibliographic-record/{id}")
@@ -458,63 +275,5 @@ public class BibliographicRecordAPI extends BaseResource {
       container.setBibliographicRecord(newRecord);
       return new ResponseEntity<>(container, HttpStatus.OK);
     }, tenant, configurator);
-  }
-
-  /**
-   * Create a new field for transaction data.
-   *
-   * @param lang           -- the lang associated to request.
-   * @param storageService -- the storageService.
-   * @return new transaction data field.
-   */
-  private Field addTagTransactionDate(final String lang, final StorageService storageService) {
-    FixedField fixed005 = new FixedField();
-    fixed005.setHeaderTypeCode(Global.DATETIME_TRANSACTION_HEADER_TYPE);
-    fixed005.setCode(Global.DATETIME_TRANSACTION_TAG_CODE);
-    fixed005.setDisplayValue(F.getFormattedToday("yyyyMMddHHmmss."));
-    fixed005.setCategoryCode(Global.INT_CATEGORY);
-    fixed005.setDescription(storageService.getHeadingTypeDescription(Global.DATETIME_TRANSACTION_HEADER_TYPE, lang, Global.INT_CATEGORY));
-
-    final Field field = new Field();
-    field.setCode(Global.DATETIME_TRANSACTION_TAG_CODE);
-    field.setMandatory(true);
-    field.setFixedField(fixed005);
-    field.setFieldStatus(Field.FieldStatus.NEW);
-    return field;
-  }
-
-  /**
-   * Check if field exists in template and is mandatory.
-   *
-   * @param field    -- current field in record.
-   * @param template -- the associated template.
-   * @return true if mandatory, false otherwise.
-   */
-  private boolean isMandatory(final Field field, final RecordTemplate template) {
-    if (ofNullable(template).isPresent()) {
-      return template.getFields().stream().filter(f -> f.getCode().equals(field.getCode())).anyMatch(f -> f.isMandatory());
-    }
-
-    return Global.MANDATORY_FIELDS.contains(field.getCode());
-  }
-
-  /**
-   * Sets category code on field.
-   *
-   * @param field          -- the field to set category.
-   * @param storageService -- the storageService module.
-   */
-  private void setCategory(final Field field, final StorageService storageService) {
-    if (isFixedField(field))
-      field.getFixedField().setCategoryCode(Global.HEADER_CATEGORY);
-    else if (getCategory(field) == 0) {
-      boolean hasTitle = ((field.getCode().endsWith("00") || field.getCode().endsWith("10") || field.getCode().endsWith("11"))
-        && field.getVariableField().getValue().contains(Global.SUBFIELD_DELIMITER + "t"));
-
-      final int category = storageService.getTagCategory(field.getCode(),
-        field.getVariableField().getInd1().charAt(0), field.getVariableField().getInd2().charAt(0), hasTitle);
-      field.getVariableField().setCategoryCode(category);
-    }
-
   }
 }

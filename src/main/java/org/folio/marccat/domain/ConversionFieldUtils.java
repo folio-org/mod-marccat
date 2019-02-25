@@ -412,6 +412,7 @@ public class ConversionFieldUtils {
       sb.append(fixedField.getRecordModifiedCode());
       sb.append(fixedField.getRecordCataloguingSourceCode());
     }
+
     fixedField.setDisplayValue(sb.toString());
     return fixedField;
   }

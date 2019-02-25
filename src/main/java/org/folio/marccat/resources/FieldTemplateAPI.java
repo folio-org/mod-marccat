@@ -5,6 +5,7 @@ import org.folio.marccat.config.Global;
 import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.resources.domain.FieldTemplate;
 import org.folio.marccat.resources.domain.VariableField;
+import org.folio.marccat.resources.shared.FixeFieldUtils;
 import org.folio.marccat.shared.CatalogingInformation;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.shared.Validation;
@@ -14,6 +15,8 @@ import static java.util.Arrays.stream;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static org.folio.marccat.integration.MarccatHelper.doGet;
+import static org.folio.marccat.resources.shared.FixeFieldUtils.isFixedField;
+import static org.folio.marccat.resources.shared.RecordUtils.getVariableField;
 
 /**
  * FieldTemplate Restful API.
@@ -38,7 +41,7 @@ public class FieldTemplateAPI extends BaseResource implements CatalogingInformat
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
     return doGet((storageService, configuration) ->
-        !CatalogingInformation.isFixedField(code)
+        !isFixedField(code)
           ? ofNullable(storageService.getCorrelationVariableField(categoryCode, ind1, ind2, code))
           .map(correlationValues -> {
             final Validation validation = storageService.getSubfieldsByCorrelations(
@@ -76,46 +79,4 @@ public class FieldTemplateAPI extends BaseResource implements CatalogingInformat
       , tenant, configurator, "bibliographic", "material");
 
   }
-
-
-  /**
-   * Sets variable field with selected drop-down list (correlation entity)
-   * and sub-fields (validation entity).
-   *
-   * @param categoryCode the field category code.
-   * @param ind1         the first indicator of tag field.
-   * @param ind2         the second indicator of tag field.
-   * @param code         the tag number code.
-   * @param correlations the selected drop-down list.
-   * @param description  the field description
-   * @param validation   the sub-fields valid for this tag/field
-   * @return a VariableField entity.
-   */
-  private VariableField getVariableField(final int categoryCode,
-                                         final String ind1,
-                                         final String ind2,
-                                         final String code,
-                                         final CorrelationValues correlations,
-                                         final String description, final Validation validation) {
-
-    final VariableField variableField = new VariableField();
-    if (!CatalogingInformation.isFixedField(code)) {
-      variableField.setHeadingTypeCode(Integer.toString(correlations.getValue(1)));
-      variableField.setItemTypeCode(Integer.toString(correlations.getValue(2)));
-      variableField.setFunctionCode(Integer.toString(correlations.getValue(3)));
-      variableField.setCategoryCode(categoryCode);
-      variableField.setCode(code);
-      variableField.setInd1(ind1);
-      variableField.setInd2(ind2);
-      variableField.setDescription(description);
-
-      variableField.setSubfields(
-        stream(validation.getMarcValidSubfieldStringCode().split(""))
-          .collect(toList()));
-      variableField.setDefaultSubfieldCode(String.valueOf(validation.getMarcTagDefaultSubfieldCode()));
-
-    }
-    return variableField;
-  }
-
 }
