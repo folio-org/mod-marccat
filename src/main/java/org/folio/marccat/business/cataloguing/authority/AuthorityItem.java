@@ -22,16 +22,12 @@ public class AuthorityItem extends CatalogItem {
     // TODO Auto-generated constructor stub
   }
 
-  /**
-   * @since 1.0
-   */
+
   public AUT getAutItmData() {
     return autItmData;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setAutItmData(AUT aut) {
     autItmData = aut;
   }
@@ -50,16 +46,12 @@ public class AuthorityItem extends CatalogItem {
     setAutItmData((AUT) item);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public ModelItem getModelItem() {
     return modelItem;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setModelItem(Model model) {
     this.modelItem = new AuthorityModelItem();
     this.modelItem.markNew();
@@ -69,9 +61,7 @@ public class AuthorityItem extends CatalogItem {
       model.getRecordFields());
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setModelItem(ModelItem modelItem) {
     this.modelItem = modelItem;
   }

@@ -33,16 +33,12 @@ public class AuthorityTagImpl extends TagImpl {
     setAuthorityNumber(itemNumber);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getAuthorityNumber() {
     return authorityNumber;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setAuthorityNumber(int i) {
     authorityNumber = i;
   }

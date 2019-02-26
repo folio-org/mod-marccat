@@ -2,14 +2,15 @@ package org.folio.marccat.resources.shared;
 
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.MessageCatalog;
-import org.folio.marccat.enumaration.CodeListsType;
 import org.folio.marccat.integration.StorageService;
 import org.folio.marccat.resources.domain.Field;
 import org.folio.marccat.resources.domain.FixedFieldCodesGroup;
 import org.folio.marccat.resources.domain.FixedFieldElement;
 import org.folio.marccat.resources.domain.Pair;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 import static java.util.stream.Collectors.toList;
 import static org.folio.marccat.config.Global.*;

@@ -28,12 +28,9 @@ public class ProjectedGraphic extends PhysicalDescription {
     setHeaderType(28);
   }
 
-  /* (non-Javadoc)
-   * @see FixedField#getDisplayString()
-   */
+
   public String getDisplayString() {
-    String result =
-      EMPTY_STRING
+    return EMPTY_STRING
         + getGeneralMaterialDesignationCode()
         + getSpecificMaterialDesignationCode()
         + " "
@@ -43,12 +40,8 @@ public class ProjectedGraphic extends PhysicalDescription {
         + getMediumForSoundCode()
         + getDimensionsCode()
         + getSecondarySupportMaterialCode();
-    return result;
   }
 
-  /* (non-Javadoc)
-   * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
-   */
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
     setKeyNumber(dao.getNextNumber("X7", session));
@@ -61,100 +54,72 @@ public class ProjectedGraphic extends PhysicalDescription {
     return true;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getBaseOfEmulsionCode() {
     return baseOfEmulsionCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setBaseOfEmulsionCode(char c) {
     baseOfEmulsionCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getColourCode() {
     return colourCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setColourCode(char c) {
     colourCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getDimensionsCode() {
     return dimensionsCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setDimensionsCode(char c) {
     dimensionsCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getMediumForSoundCode() {
     return mediumForSoundCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setMediumForSoundCode(char c) {
     mediumForSoundCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getObsolete1() {
     return obsolete1;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setObsolete1(char c) {
     obsolete1 = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getSecondarySupportMaterialCode() {
     return secondarySupportMaterialCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setSecondarySupportMaterialCode(char c) {
     secondarySupportMaterialCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getSoundOnMediumOrSeparateCode() {
     return soundOnMediumOrSeparateCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setSoundOnMediumOrSeparateCode(char c) {
     soundOnMediumOrSeparateCode = c;
   }
@@ -187,7 +152,6 @@ public class ProjectedGraphic extends PhysicalDescription {
     setSecondarySupportMaterialCode(content.getAttribute("secondarySupportMaterialCode").charAt(0));
   }
 
-  //@paulm, us_bbl_loading
   @Override
   public void setContentFromMarcString(final String s) {
     setGeneralMaterialDesignationCode(s.charAt(0));

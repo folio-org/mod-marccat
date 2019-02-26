@@ -17,16 +17,12 @@ public abstract class T_ITM_DSPLY_FRMT extends T_SINGLE {
   public static final short MARC = 2;
   protected String stylesheetPropertyKey;
 
-  /**
-   * @since 1.0
-   */
+
   public String getStylesheetPropertyKey() {
     return stylesheetPropertyKey;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setStylesheetPropertyKey(String string) {
     stylesheetPropertyKey = string;
   }

@@ -37,17 +37,17 @@ public class DAOBibliographicNoteTag extends AbstractDAO {
     }
     BibliographicNoteTag aNote = (BibliographicNoteTag) po;
     aNote.getNote().markDeleted();
-    persistByStatus(aNote.getNote(),session);
+    persistByStatus(aNote.getNote(), session);
     if (aNote.getNoteStandard() != null) {
       aNote.getNoteStandard().markDeleted();
-      persistByStatus(aNote.getNoteStandard(),session);
+      persistByStatus(aNote.getNoteStandard(), session);
     }
     Iterator iter = aNote.getOverflowList().iterator();
     BibliographicNoteOverflow overflow;
     while (iter.hasNext()) {
       overflow = (BibliographicNoteOverflow) iter.next();
       overflow.markDeleted();
-      persistByStatus(overflow,session);
+      persistByStatus(overflow, session);
     }
     aNote.setUpdateStatus(UpdateStatus.REMOVED);
   }

@@ -35,72 +35,52 @@ public class SortFormParameters {
     setSkipInFiling(skipInFiling);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getNameSubtype() {
     return nameSubtype;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setNameSubtype(int i) {
     nameSubtype = i;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getNameTitleOrSubjectType() {
     return nameTitleOrSubjectType;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setNameTitleOrSubjectType(int i) {
     nameTitleOrSubjectType = i;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getSkipInFiling() {
     return skipInFiling;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setSkipInFiling(int i) {
     skipInFiling = i;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getSortFormMainType() {
     return sortFormMainType;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setSortFormMainType(int i) {
     sortFormMainType = i;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getSortFormSubType() {
     return sortFormSubType;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setSortFormSubType(int i) {
     sortFormSubType = i;
   }

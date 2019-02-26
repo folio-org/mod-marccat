@@ -51,16 +51,12 @@ public class NME_TTL_HDG extends Descriptor {
     return 11;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getCopyToSubjectIndicator() {
     return copyToSubjectIndicator;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setCopyToSubjectIndicator(char c) {
     copyToSubjectIndicator = c;
   }
@@ -102,31 +98,23 @@ public class NME_TTL_HDG extends Descriptor {
     return "250S";
   }
 
-  /**
-   * @since 1.0
-   */
+
   public NME_HDG getNameHeading() {
     return nameHeading;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setNameHeading(NME_HDG nme_hdg) {
     nameHeading = nme_hdg;
     setNameHeadingNumber(nme_hdg.getKey().getHeadingNumber());
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getNameHeadingNumber() {
     return nameHeadingNumber;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setNameHeadingNumber(int i) {
     nameHeadingNumber = i;
   }
@@ -165,31 +153,23 @@ public class NME_TTL_HDG extends Descriptor {
     return getTitleHeading().getSortFormParameters();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public TTL_HDG getTitleHeading() {
     return titleHeading;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setTitleHeading(TTL_HDG ttl_hdg) {
     titleHeading = ttl_hdg;
     setTitleHeadingNumber(ttl_hdg.getKey().getHeadingNumber());
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getTitleHeadingNumber() {
     return titleHeadingNumber;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setTitleHeadingNumber(int i) {
     titleHeadingNumber = i;
   }

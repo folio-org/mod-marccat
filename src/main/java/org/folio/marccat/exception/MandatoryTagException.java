@@ -26,9 +26,7 @@ public class MandatoryTagException extends ValidationException {
     setTagNumber(message);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setTagNumber(String string) {
     tagNumber = string;
   }
