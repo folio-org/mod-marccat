@@ -7,6 +7,8 @@ import org.folio.marccat.exception.DataAccessException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import static org.folio.marccat.config.Global.EMPTY_STRING;
+
 /**
  * @author paulm
  * @author nbianchini
@@ -31,7 +33,7 @@ public class RemoteSensingImage extends PhysicalDescription {
    */
   public String getDisplayString() {
     String result =
-      ""
+      EMPTY_STRING
         + getGeneralMaterialDesignationCode()
         + getSpecificMaterialDesignationCode()
         + " "
@@ -162,9 +164,9 @@ public class RemoteSensingImage extends PhysicalDescription {
     Element content = null;
     if (xmlDocument != null) {
       content = xmlDocument.createElement("content");
-      content.setAttribute("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode());
-      content.setAttribute("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode());
-      content.setAttribute("altitudeOfSensorCode", "" + getAltitudeOfSensorCode());
+      content.setAttribute("generalMaterialDesignationCode", EMPTY_STRING + getGeneralMaterialDesignationCode());
+      content.setAttribute("specificMaterialDesignationCode", EMPTY_STRING + getSpecificMaterialDesignationCode());
+      content.setAttribute("altitudeOfSensorCode", EMPTY_STRING + getAltitudeOfSensorCode());
       content.setAttribute("attitudeOfSensorCode", "" + getAttitudeOfSensorCode());
       content.setAttribute("cloudCoverCode", "" + getCloudCoverCode());
       content.setAttribute("platformConstructionTypeCode", "" + getPlatformConstructionTypeCode());

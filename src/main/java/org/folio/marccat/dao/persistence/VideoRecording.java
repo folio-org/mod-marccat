@@ -7,6 +7,8 @@ import org.folio.marccat.exception.DataAccessException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import static org.folio.marccat.config.Global.EMPTY_STRING;
+
 /**
  * @author paulm
  * @author nbianchini
@@ -31,7 +33,7 @@ public class VideoRecording extends PhysicalDescription {
    */
   public String getDisplayString() {
     String result =
-      ""
+      EMPTY_STRING
         + getGeneralMaterialDesignationCode()
         + getSpecificMaterialDesignationCode()
         + " "
@@ -161,14 +163,14 @@ public class VideoRecording extends PhysicalDescription {
     Element content = null;
     if (xmlDocument != null) {
       content = xmlDocument.createElement("content");
-      content.setAttribute("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode());
-      content.setAttribute("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode());
-      content.setAttribute("colourCode", "" + getColourCode());
-      content.setAttribute("formatCode", "" + getFormatCode());
-      content.setAttribute("includesSoundCode", "" + getIncludesSoundCode());
-      content.setAttribute("mediumForSoundCode", "" + getMediumForSoundCode());
-      content.setAttribute("dimensionsCode", "" + getDimensionsCode());
-      content.setAttribute("configurationCode", "" + getConfigurationCode());
+      content.setAttribute("generalMaterialDesignationCode", EMPTY_STRING + getGeneralMaterialDesignationCode());
+      content.setAttribute("specificMaterialDesignationCode", EMPTY_STRING + getSpecificMaterialDesignationCode());
+      content.setAttribute("colourCode", EMPTY_STRING + getColourCode());
+      content.setAttribute("formatCode", EMPTY_STRING + getFormatCode());
+      content.setAttribute("includesSoundCode", EMPTY_STRING + getIncludesSoundCode());
+      content.setAttribute("mediumForSoundCode", EMPTY_STRING + getMediumForSoundCode());
+      content.setAttribute("dimensionsCode", EMPTY_STRING + getDimensionsCode());
+      content.setAttribute("configurationCode", EMPTY_STRING + getConfigurationCode());
     }
     return content;
   }

@@ -13,6 +13,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.TreeSet;
 
+import static org.folio.marccat.config.Global.EMPTY_STRING;
+
 /**
  * Utilities to help in the creation of sortforms. This class was introduced to
  * support "in assembly" production of sortforms (as opposed to invoking the db
@@ -583,7 +585,7 @@ public abstract class SortformUtils {
       s,
       java.text.Normalizer.Form.NFKD, // Normalizer.Form.NFKD in 1.6
       0);
-    return normalized.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+    return normalized.replaceAll("\\p{InCombiningDiacriticalMarks}+", EMPTY_STRING);
   }
 
   public static String deleteAlfalam(String s) {

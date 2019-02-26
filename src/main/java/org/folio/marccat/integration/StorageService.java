@@ -46,6 +46,7 @@ import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
+import static org.folio.marccat.config.Global.EMPTY_STRING;
 import static org.folio.marccat.util.F.isNotNullOrEmpty;
 import static org.folio.marccat.util.F.locale;
 
@@ -606,7 +607,7 @@ public class StorageService implements Closeable {
           descriptorsList.clear();
         }
       }
-      descriptorsList.addAll(dao.getHeadingsBySortform(">=", "", browseTerm, filter, view, pageSize, session));
+      descriptorsList.addAll(dao.getHeadingsBySortform(">=", EMPTY_STRING, browseTerm, filter, view, pageSize, session));
       return getMapHeadings(view, descriptorsList, dao);
 
     } catch (final SQLException | HibernateException exception) {
@@ -658,7 +659,7 @@ public class StorageService implements Closeable {
       browseTerm = dao.calculateSearchTerm(browseTerm, key, session);
       if (dao instanceof PublisherDescriptorDAO || dao instanceof NameTitleNameDescriptorDAO)
         operator = ">=";
-      descriptorsList = dao.getHeadingsBySortform(operator, "", browseTerm, filter, view, pageSize, session);
+      descriptorsList = dao.getHeadingsBySortform(operator, EMPTY_STRING, browseTerm, filter, view, pageSize, session);
       return getMapHeadings(view, descriptorsList, dao);
 
 
@@ -1048,7 +1049,7 @@ public class StorageService implements Closeable {
           browseTerm = dao.calculateSearchTerm(browseTerm, key, session);
           if (dao instanceof PublisherDescriptorDAO || dao instanceof NameTitleNameDescriptorDAO)
             operator = ">=";
-          descriptorsList = dao.getHeadingsBySortform(operator, "", browseTerm, filter, view, pageSize, session);
+          descriptorsList = dao.getHeadingsBySortform(operator, EMPTY_STRING, browseTerm, filter, view, pageSize, session);
           return getMapHeadings(view, descriptorsList, dao);
         }
       }
@@ -1158,8 +1159,8 @@ public class StorageService implements Closeable {
         variableField = new org.folio.marccat.resources.domain.VariableField();
         variableField.setSequenceNumber(sequenceNbr);
         variableField.setCode(correlation.getMarcTag());
-        variableField.setInd1("" + correlation.getMarcFirstIndicator());
-        variableField.setInd2("" + correlation.getMarcSecondIndicator());
+        variableField.setInd1(EMPTY_STRING + correlation.getMarcFirstIndicator());
+        variableField.setInd2(EMPTY_STRING + correlation.getMarcSecondIndicator());
         variableField.setHeadingTypeCode(Integer.toString(aTag.getCorrelation(1)));
         variableField.setItemTypeCode(Integer.toString(aTag.getCorrelation(2)));
         variableField.setFunctionCode(Integer.toString(aTag.getCorrelation(3)));
@@ -1168,7 +1169,7 @@ public class StorageService implements Closeable {
         variableField.setKeyNumber(keyNumber);
         variableField.setSkipInFiling(skipInFiling);
         if (variableField.getInd2().equals("S"))
-          variableField.setInd2("" + skipInFiling);
+          variableField.setInd2(EMPTY_STRING + skipInFiling);
         field.setVariableField(variableField);
       }
 
@@ -1585,8 +1586,8 @@ public class StorageService implements Closeable {
       final BibliographicCatalog catalog = new BibliographicCatalog();
       final CatalogItem item = new BibliographicItem();
       final TagImpl impl = new BibliographicTagImpl();
-      boolean isInd1IsEmpty =  heading.getIndicator1().equals("");
-      boolean isInd2IsEmpty =  heading.getIndicator2().equals("");
+      boolean isInd1IsEmpty =  heading.getIndicator1().equals(EMPTY_STRING);
+      boolean isInd2IsEmpty =  heading.getIndicator2().equals(EMPTY_STRING);
       final Correlation corr = impl.getCorrelation(heading.getTag(), (isInd1IsEmpty) ? " ".charAt(0) : heading.getIndicator1().charAt(0), (isInd2IsEmpty) ? " ".charAt(0) : heading.getIndicator2().charAt(0), 0, session);
       final Tag newTag = catalog.getNewTag(item, corr.getKey().getMarcTagCategoryCode(), corr.getValues());
       if (newTag != null) {

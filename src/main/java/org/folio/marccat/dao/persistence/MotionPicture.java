@@ -7,6 +7,8 @@ import org.folio.marccat.exception.DataAccessException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import static org.folio.marccat.config.Global.EMPTY_STRING;
+
 /**
  * @author paulm
  * @author nbianchini
@@ -40,7 +42,7 @@ public class MotionPicture extends PhysicalDescription {
    */
   public String getDisplayString() {
     String result =
-      ""
+      EMPTY_STRING
         + getGeneralMaterialDesignationCode()
         + getSpecificMaterialDesignationCode()
         + " "
@@ -305,23 +307,23 @@ public class MotionPicture extends PhysicalDescription {
     Element content = null;
     if (xmlDocument != null) {
       content = xmlDocument.createElement("content");
-      content.setAttribute("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode());
-      content.setAttribute("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode());
-      content.setAttribute("colourCode", "" + getColourCode());
-      content.setAttribute("presentationFormatCode", "" + getPresentationFormatCode());
-      content.setAttribute("includesSoundCode", "" + getIncludesSoundCode());
-      content.setAttribute("mediumForSoundCode", "" + getMediumForSoundCode());
-      content.setAttribute("dimensionsCode", "" + getDimensionsCode());
-      content.setAttribute("configurationCode", "" + getConfigurationCode());
-      content.setAttribute("productionElementsCode", "" + getProductionElementsCode());
-      content.setAttribute("polarityCode", "" + getPolarityCode());
-      content.setAttribute("generationCode", "" + getGenerationCode());
-      content.setAttribute("baseOfFilmCode", "" + getBaseOfFilmCode());
-      content.setAttribute("refinedCategoriesOfColourCode", "" + getRefinedCategoriesOfColourCode());
-      content.setAttribute("kindOfColourStockCode", "" + getKindOfColourStockCode());
-      content.setAttribute("deteriorationStageCode", "" + getDeteriorationStageCode());
-      content.setAttribute("completenessCode", "" + getCompletenessCode());
-      content.setAttribute("inspectionDate", "" + getInspectionDate());
+      content.setAttribute("generalMaterialDesignationCode", EMPTY_STRING + getGeneralMaterialDesignationCode());
+      content.setAttribute("specificMaterialDesignationCode", EMPTY_STRING + getSpecificMaterialDesignationCode());
+      content.setAttribute("colourCode", EMPTY_STRING + getColourCode());
+      content.setAttribute("presentationFormatCode", EMPTY_STRING + getPresentationFormatCode());
+      content.setAttribute("includesSoundCode", EMPTY_STRING + getIncludesSoundCode());
+      content.setAttribute("mediumForSoundCode", EMPTY_STRING + getMediumForSoundCode());
+      content.setAttribute("dimensionsCode", EMPTY_STRING + getDimensionsCode());
+      content.setAttribute("configurationCode", EMPTY_STRING + getConfigurationCode());
+      content.setAttribute("productionElementsCode", EMPTY_STRING + getProductionElementsCode());
+      content.setAttribute("polarityCode", EMPTY_STRING + getPolarityCode());
+      content.setAttribute("generationCode", EMPTY_STRING + getGenerationCode());
+      content.setAttribute("baseOfFilmCode", EMPTY_STRING + getBaseOfFilmCode());
+      content.setAttribute("refinedCategoriesOfColourCode", EMPTY_STRING + getRefinedCategoriesOfColourCode());
+      content.setAttribute("kindOfColourStockCode", EMPTY_STRING + getKindOfColourStockCode());
+      content.setAttribute("deteriorationStageCode", EMPTY_STRING + getDeteriorationStageCode());
+      content.setAttribute("completenessCode", EMPTY_STRING + getCompletenessCode());
+      content.setAttribute("inspectionDate", EMPTY_STRING + getInspectionDate());
     }
     return content;
   }

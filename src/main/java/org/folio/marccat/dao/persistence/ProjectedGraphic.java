@@ -7,6 +7,8 @@ import org.folio.marccat.exception.DataAccessException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import static org.folio.marccat.config.Global.EMPTY_STRING;
+
 /**
  * @author paulm
  * @author nbianchini
@@ -31,7 +33,7 @@ public class ProjectedGraphic extends PhysicalDescription {
    */
   public String getDisplayString() {
     String result =
-      ""
+      EMPTY_STRING
         + getGeneralMaterialDesignationCode()
         + getSpecificMaterialDesignationCode()
         + " "
@@ -161,14 +163,14 @@ public class ProjectedGraphic extends PhysicalDescription {
     Element content = null;
     if (xmlDocument != null) {
       content = xmlDocument.createElement("content");
-      content.setAttribute("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode());
-      content.setAttribute("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode());
-      content.setAttribute("colourCode", "" + getColourCode());
-      content.setAttribute("baseOfEmulsionCode", "" + getBaseOfEmulsionCode());
-      content.setAttribute("soundOnMediumOrSeparateCode", "" + getSoundOnMediumOrSeparateCode());
-      content.setAttribute("mediumForSoundCode", "" + getMediumForSoundCode());
-      content.setAttribute("dimensionsCode", "" + getDimensionsCode());
-      content.setAttribute("secondarySupportMaterialCode", "" + getSecondarySupportMaterialCode());
+      content.setAttribute("generalMaterialDesignationCode", EMPTY_STRING + getGeneralMaterialDesignationCode());
+      content.setAttribute("specificMaterialDesignationCode", EMPTY_STRING + getSpecificMaterialDesignationCode());
+      content.setAttribute("colourCode", EMPTY_STRING + getColourCode());
+      content.setAttribute("baseOfEmulsionCode", EMPTY_STRING + getBaseOfEmulsionCode());
+      content.setAttribute("soundOnMediumOrSeparateCode", EMPTY_STRING + getSoundOnMediumOrSeparateCode());
+      content.setAttribute("mediumForSoundCode", EMPTY_STRING + getMediumForSoundCode());
+      content.setAttribute("dimensionsCode", EMPTY_STRING + getDimensionsCode());
+      content.setAttribute("secondarySupportMaterialCode", EMPTY_STRING + getSecondarySupportMaterialCode());
     }
     return content;
   }

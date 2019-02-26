@@ -11,6 +11,8 @@ import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
+import static org.folio.marccat.config.Global.EMPTY_STRING;
+
 /**
  * Hibernate class for table CNTL_NBR.
  *
@@ -160,7 +162,7 @@ public class CNTL_NBR extends Descriptor {
 
   private String calculateIsmnSortForm() {
     String result = SortformUtils.defaultSortform(getStringText());
-    result = SortformUtils.replacePunctuationMark2(result, "");
+    result = SortformUtils.replacePunctuationMark2(result, EMPTY_STRING);
     return result;
   }
 
@@ -169,11 +171,11 @@ public class CNTL_NBR extends Descriptor {
     if (st.getNumberOfSubfields() > 0) {
       Subfield first = st.getSubfield(0);
       if (first.getCode().equals("a")) {
-        first.setContent(first.getContent().replace(" ", ""));
+        first.setContent(first.getContent().replace(" ", EMPTY_STRING));
       }
     }
     String result = SortformUtils.defaultSortform(st.toString());
-    result = SortformUtils.replacePunctuationMark2(result, "");
+    result = SortformUtils.replacePunctuationMark2(result, EMPTY_STRING);
     return result;
   }
 
@@ -195,7 +197,7 @@ public class CNTL_NBR extends Descriptor {
       }
     }
     result = s.toString();
-    result = result.replace(" ", "");
+    result = result.replace(" ", EMPTY_STRING);
     if (result.length() > 4 && result.charAt(4) != '-') {
       result = result.substring(0, 4) + '-' + result.substring(4);
     }

@@ -7,6 +7,8 @@ import org.folio.marccat.exception.DataAccessException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import static org.folio.marccat.config.Global.EMPTY_STRING;
+
 /**
  * @author paulm
  * @author nbianchini
@@ -37,7 +39,7 @@ public class SoundRecording extends PhysicalDescription {
    */
   public String getDisplayString() {
     String result =
-      ""
+      EMPTY_STRING
         + getGeneralMaterialDesignationCode()
         + getSpecificMaterialDesignationCode()
         + " "
@@ -242,19 +244,19 @@ public class SoundRecording extends PhysicalDescription {
     Element content = null;
     if (xmlDocument != null) {
       content = xmlDocument.createElement("content");
-      content.setAttribute("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode());
-      content.setAttribute("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode());
-      content.setAttribute("speedCode", "" + getSpeedCode());
-      content.setAttribute("configurationCode", "" + getConfigurationCode());
-      content.setAttribute("grooveWidthCode", "" + getGrooveWidthCode());
-      content.setAttribute("dimensionsCode", "" + getDimensionsCode());
-      content.setAttribute("tapeWidthCode", "" + getTapeWidthCode());
-      content.setAttribute("tapeConfigurationCode", "" + getTapeConfigurationCode());
-      content.setAttribute("discTypeCode", "" + getDiscTypeCode());
-      content.setAttribute("sndMaterialTypeCode", "" + getSndMaterialTypeCode());
-      content.setAttribute("cuttingTypeCode", "" + getCuttingTypeCode());
-      content.setAttribute("specialPlaybackCharacteristicsCode", "" + getSpecialPlaybackCharacteristicsCode());
-      content.setAttribute("storageTechniqueCode", "" + getStorageTechniqueCode());
+      content.setAttribute("generalMaterialDesignationCode", EMPTY_STRING + getGeneralMaterialDesignationCode());
+      content.setAttribute("specificMaterialDesignationCode", EMPTY_STRING + getSpecificMaterialDesignationCode());
+      content.setAttribute("speedCode", EMPTY_STRING + getSpeedCode());
+      content.setAttribute("configurationCode", EMPTY_STRING + getConfigurationCode());
+      content.setAttribute("grooveWidthCode", EMPTY_STRING + getGrooveWidthCode());
+      content.setAttribute("dimensionsCode", EMPTY_STRING + getDimensionsCode());
+      content.setAttribute("tapeWidthCode", EMPTY_STRING + getTapeWidthCode());
+      content.setAttribute("tapeConfigurationCode", EMPTY_STRING + getTapeConfigurationCode());
+      content.setAttribute("discTypeCode", EMPTY_STRING + getDiscTypeCode());
+      content.setAttribute("sndMaterialTypeCode", EMPTY_STRING + getSndMaterialTypeCode());
+      content.setAttribute("cuttingTypeCode", EMPTY_STRING + getCuttingTypeCode());
+      content.setAttribute("specialPlaybackCharacteristicsCode", EMPTY_STRING + getSpecialPlaybackCharacteristicsCode());
+      content.setAttribute("storageTechniqueCode", EMPTY_STRING + getStorageTechniqueCode());
     }
     return content;
   }

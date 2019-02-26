@@ -7,6 +7,8 @@ import org.folio.marccat.exception.DataAccessException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import static org.folio.marccat.config.Global.EMPTY_STRING;
+
 /**
  * @author paulm
  * @author nbianchini
@@ -30,7 +32,7 @@ public class Map extends PhysicalDescription {
    */
   public String getDisplayString() {
     String result =
-      ""
+      EMPTY_STRING
         + getGeneralMaterialDesignationCode()
         + getSpecificMaterialDesignationCode()
         + " "
@@ -145,13 +147,13 @@ public class Map extends PhysicalDescription {
     Element content = null;
     if (xmlDocument != null) {
       content = xmlDocument.createElement("content");
-      content.setAttribute("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode());
-      content.setAttribute("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode());
-      content.setAttribute("mapColourCode", "" + getMapColourCode());
-      content.setAttribute("mapPhysicalMediumCode", "" + getMapPhysicalMediumCode());
-      content.setAttribute("mapTypeOfReproductionCode", "" + getMapTypeOfReproductionCode());
-      content.setAttribute("mapProductionDetailsCode", "" + getMapProductionDetailsCode());
-      content.setAttribute("mapPolarityCode", "" + getMapPolarityCode());
+      content.setAttribute("generalMaterialDesignationCode", EMPTY_STRING + getGeneralMaterialDesignationCode());
+      content.setAttribute("specificMaterialDesignationCode", EMPTY_STRING + getSpecificMaterialDesignationCode());
+      content.setAttribute("mapColourCode", EMPTY_STRING + getMapColourCode());
+      content.setAttribute("mapPhysicalMediumCode", EMPTY_STRING + getMapPhysicalMediumCode());
+      content.setAttribute("mapTypeOfReproductionCode", EMPTY_STRING + getMapTypeOfReproductionCode());
+      content.setAttribute("mapProductionDetailsCode", EMPTY_STRING + getMapProductionDetailsCode());
+      content.setAttribute("mapPolarityCode", EMPTY_STRING + getMapPolarityCode());
     }
     return content;
   }

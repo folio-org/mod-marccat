@@ -7,6 +7,8 @@ import org.folio.marccat.exception.DataAccessException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import static org.folio.marccat.config.Global.EMPTY_STRING;
+
 /**
  * @author paulm
  * @author nbianchini
@@ -35,7 +37,7 @@ public class ElectronicResource extends PhysicalDescription {
    */
   public String getDisplayString() {
     String result =
-      ""
+      EMPTY_STRING
         + getGeneralMaterialDesignationCode()
         + getSpecificMaterialDesignationCode()
         + " "
@@ -210,17 +212,17 @@ public class ElectronicResource extends PhysicalDescription {
     Element content = null;
     if (xmlDocument != null) {
       content = xmlDocument.createElement("content");
-      content.setAttribute("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode());
-      content.setAttribute("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode());
-      content.setAttribute("colourCode", "" + getColourCode());
-      content.setAttribute("dimensionsCode", "" + getDimensionsCode());
-      content.setAttribute("includesSoundCode", "" + getIncludesSoundCode());
+      content.setAttribute("generalMaterialDesignationCode", EMPTY_STRING + getGeneralMaterialDesignationCode());
+      content.setAttribute("specificMaterialDesignationCode", EMPTY_STRING + getSpecificMaterialDesignationCode());
+      content.setAttribute("colourCode", EMPTY_STRING + getColourCode());
+      content.setAttribute("dimensionsCode", EMPTY_STRING + getDimensionsCode());
+      content.setAttribute("includesSoundCode", EMPTY_STRING + getIncludesSoundCode());
       content.setAttribute("imageBitDepth", getImageBitDepth());
-      content.setAttribute("fileFormatsCode", "" + getFileFormatsCode());
-      content.setAttribute("qualityAssuranceTargetCode", "" + getQualityAssuranceTargetCode());
-      content.setAttribute("antecedentSourceCode", "" + getAntecedentSourceCode());
-      content.setAttribute("levelOfCompressionCode", "" + getLevelOfCompressionCode());
-      content.setAttribute("reformattingQualityCode", "" + getReformattingQualityCode());
+      content.setAttribute("fileFormatsCode", EMPTY_STRING + getFileFormatsCode());
+      content.setAttribute("qualityAssuranceTargetCode", EMPTY_STRING + getQualityAssuranceTargetCode());
+      content.setAttribute("antecedentSourceCode", EMPTY_STRING + getAntecedentSourceCode());
+      content.setAttribute("levelOfCompressionCode", EMPTY_STRING + getLevelOfCompressionCode());
+      content.setAttribute("reformattingQualityCode", EMPTY_STRING + getReformattingQualityCode());
     }
     return content;
   }

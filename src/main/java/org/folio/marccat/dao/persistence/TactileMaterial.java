@@ -7,6 +7,8 @@ import org.folio.marccat.exception.DataAccessException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import static org.folio.marccat.config.Global.EMPTY_STRING;
+
 /**
  * @author paulm
  * @author nbianchini
@@ -28,7 +30,7 @@ public class TactileMaterial extends PhysicalDescription {
    */
   public String getDisplayString() {
     String result =
-      ""
+      EMPTY_STRING
         + getGeneralMaterialDesignationCode()
         + getSpecificMaterialDesignationCode()
         + " "
@@ -130,12 +132,12 @@ public class TactileMaterial extends PhysicalDescription {
     Element content = null;
     if (xmlDocument != null) {
       content = xmlDocument.createElement("content");
-      content.setAttribute("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode());
-      content.setAttribute("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode());
-      content.setAttribute("classOfBrailleWritingCodes", "" + getClassOfBrailleWritingCodes());
-      content.setAttribute("levelOfContractionCode", "" + getLevelOfContractionCode());
-      content.setAttribute("brailleMusicFormatCodes", "" + getBrailleMusicFormatCodes());
-      content.setAttribute("specificPhysicalCharacteristicsCode", "" + getSpecificPhysicalCharacteristicsCode());
+      content.setAttribute("generalMaterialDesignationCode", EMPTY_STRING + getGeneralMaterialDesignationCode());
+      content.setAttribute("specificMaterialDesignationCode", EMPTY_STRING + getSpecificMaterialDesignationCode());
+      content.setAttribute("classOfBrailleWritingCodes", EMPTY_STRING + getClassOfBrailleWritingCodes());
+      content.setAttribute("levelOfContractionCode", EMPTY_STRING + getLevelOfContractionCode());
+      content.setAttribute("brailleMusicFormatCodes", EMPTY_STRING + getBrailleMusicFormatCodes());
+      content.setAttribute("specificPhysicalCharacteristicsCode", EMPTY_STRING + getSpecificPhysicalCharacteristicsCode());
     }
     return content;
   }

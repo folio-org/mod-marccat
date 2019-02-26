@@ -12,6 +12,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
+import static org.folio.marccat.config.Global.EMPTY_STRING;
+
 /**
  * Query Parser.
  *
@@ -98,7 +100,7 @@ public class Parser {
     final int limitSize = (lastRecord - firstRecord) + 1;
     final int offsetSize = firstRecord - 1;
     final String orderByClause = buildOrderByClause(attributes, directions);
-    final String columnSortForm = attributes != null ? getSortFormOrDateByAtributes(attributes) : "";
+    final String columnSortForm = attributes != null ? getSortFormOrDateByAtributes(attributes) : EMPTY_STRING;
     final String columnItemNumber = searchingView == -1 ? "aut_nbr" : "bib_itm_nbr";
     final String query = "select res." + columnItemNumber +
       " from (select distinct " + columnSortForm + " smtc." + columnItemNumber + " from ((" + n.getValue() + ")) smtc " +
@@ -151,7 +153,7 @@ public class Parser {
     tokens.poll();
     lookahead =
       tokens.isEmpty()
-        ? new Token(Tokenizer.TokenType.EOL, "")
+        ? new Token(Tokenizer.TokenType.EOL, EMPTY_STRING)
         : tokens.getFirst();
   }
 
@@ -295,7 +297,7 @@ public class Parser {
    */
   private ExpressionNode quotedString(TermExpressionNode expr) {
     if (lookahead.token == Tokenizer.TokenType.QUOTEDSTRING) {
-      String noQuotes = lookahead.sequence.replace("\"", "");
+      String noQuotes = lookahead.sequence.replace("\"", EMPTY_STRING);
       expr.appendToTerm(noQuotes);
       nextToken();
       return quotedString(expr);
@@ -316,9 +318,9 @@ public class Parser {
     final String[] directions) {
     final String columnItemNumber = (searchingView == -1) ? "aut_nbr " : "bib_itm_nbr ";
     final String direction = (directions != null && directions[0].equals("0")) ? "asc" : "desc";
-    final String columnForOrderBy = attributes != null ? getSortFormOrDateByAtributes(attributes) : "";
+    final String columnForOrderBy = attributes != null ? getSortFormOrDateByAtributes(attributes) : EMPTY_STRING;
     String orderByItemNumber = String.format(" order by smtc.%s %s ", columnItemNumber, direction);
-    String order = String.format(" order by %s %s, smtc.%s ", columnForOrderBy.replace(",", ""), direction, columnItemNumber);
+    String order = String.format(" order by %s %s, smtc.%s ", columnForOrderBy.replace(",", EMPTY_STRING), direction, columnItemNumber);
     String orderByClause = orderByItemNumber;
     if (attributes != null) {
       for (String attribute : attributes) {
@@ -360,7 +362,7 @@ public class Parser {
    * @return the column of the sort form or date
    */
   private String getSortFormOrDateByAtributes(final String[] attributes) {
-    String column = "";
+    String column = EMPTY_STRING;
     for (final String attribute : attributes) {
       switch (Integer.parseInt(attribute)) {
         case 4:
@@ -380,7 +382,7 @@ public class Parser {
           column = "t1.itm_dte_2_dsc,";
           break;
         default:
-          column = "";
+          column = EMPTY_STRING;
           break;
       }
     }
@@ -394,7 +396,7 @@ public class Parser {
    * @return the view clause
    */
   private String viewClause() {
-    return (searchingView != 0 && searchingView != -1) ? String.format(" AND (t1.usr_vw_ind = '%s')", View.makeSingleViewString(this.searchingView)) : "";
+    return (searchingView != 0 && searchingView != -1) ? String.format(" AND (t1.usr_vw_ind = '%s')", View.makeSingleViewString(this.searchingView)) : EMPTY_STRING;
   }
 
 
