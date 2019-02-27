@@ -1,6 +1,5 @@
 package org.folio.marccat.util;
 
-import org.folio.marccat.config.Global;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.MessageCatalog;
 
@@ -25,6 +24,7 @@ import java.util.regex.Pattern;
  * @since 1.0
  */
 public abstract class F {
+
   private final static Log LOGGER = new Log(F.class);
   private final static String[] EMPTY_ARRAY = {};
   private final static int[] EMPTY_INT_ARRAY = {};
@@ -140,29 +140,6 @@ public abstract class F {
     }
   }
 
-  /**
-   * Returns the string version of the incoming object, or null (if the object is null).
-   *
-   * @param obj the input.
-   * @return the string version of the incoming object, or null.
-   */
-  public static String asNullableString(final Object obj) {
-    return (obj != null) ? String.valueOf(obj) : null;
-  }
-
-  public static Character characterFromXML(String s) {
-    if (s.length() == 0) {
-      return null;
-    } else {
-      return s.charAt(0);
-    }
-  }
-
-  public static String safeString(final String formatString) {
-    return (formatString != null) ? formatString : " ";
-  }
-
-
   public static String getFormattedToday(final String formatString) {
     final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formatString);
     return LocalDateTime.now().format(formatter);
@@ -186,5 +163,7 @@ public abstract class F {
     }
     return result;
   }
+
+
 
 }

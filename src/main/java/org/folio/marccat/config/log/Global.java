@@ -1,4 +1,4 @@
-package org.folio.marccat.config;
+package org.folio.marccat.config.log;
 
 import net.sf.hibernate.cfg.Configuration;
 import org.folio.marccat.dao.*;
@@ -41,8 +41,6 @@ public abstract class Global {
   public static final String TEXT_CODE = "t";
   public static final String VIDEO_RECORDING = "v";
   public static final String UNSPECIFIED = "z";
-  public static final List<String> FIXED_FIELDS = Arrays.asList("000", "001", "005", "006", "007", "008");
-  public static final List<String> MANDATORY_FIELDS = Arrays.asList("000", "001", "008", "040");
   public static final String HEADER_TYPE_LABEL = "HEADER_TYPE";
   public static final String FORM_OF_MATERIAL_LABEL = "FORM_OF_MATERIAL";
   public static final String MATERIAL_TYPE_CODE_LABEL = "MATERIAL_TYPE_CODE";
@@ -297,12 +295,6 @@ public abstract class Global {
     }
   };
 
-  public static final Map<String, String> LANGUAGES = new HashMap<String, String>() {
-    {
-      put("ITA", "ita");
-      put("EN", "en");
-    }
-  };
 
   public static final Map<String, String> INDEX_AUTHORITY_TYPE_MAP = new HashMap<String, String>() {
     {
@@ -422,7 +414,7 @@ public abstract class Global {
       put("43P30", " and hdg.typeCode = 'C'");
       put("44P30", " and hdg.typeCode = 'E'");
       put("45P30", " and hdg.typeCode = 'F'");
-      put("46P30", " and hdg.typeCode = 'G'");
+      put("46P30", " and hdg.typeCode = 'Global'");
       put("303P3", " and hdg.typeCode = 13");
       put("354P0", "");
       put("353P1", " and hdg.typeCode = 80");
@@ -447,6 +439,8 @@ public abstract class Global {
   public static final String COMPUTER_TYPE = "cf";
   public static final int CONTROL_FIELD_CATEGORY_CODE = 1;
   public static final char BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC = 'S';
+  public static final List<String> FIXED_FIELDS = Arrays.asList("000", "001", "005", "006", "007", "008");
+  public static final List<String> MANDATORY_FIELDS = Arrays.asList("000", "001", "008", "040");
   public static final List<String> NAMES = Arrays.asList("100", "110", "111");
   public static final List<String> NAMES_D = Arrays.asList("110", "111", "710", "711");
   public static final List<String> NAMES_E = Arrays.asList("100", "110", "120", "121", "240", "243", "400", "410", "600", "610", "700", "710", "720", "721", "800", "810", "900", "910", "980", "981");
@@ -460,9 +454,8 @@ public abstract class Global {
   public static final List<String> TITLES = Arrays.asList("130", "241", "245", "730", "740", "830", "930", "941", "945", "983");
   public static final String TERMINAL_PUNCTUATION = ".?!)-";
   public static final String OTHER_TERMINAL_PUNCTUATION = ".?!)]-";
-  public static String SUBFIELD_DELIMITER = "\u001f";
-  public static Configuration HCONFIGURATION = new Configuration();
-  public static String SCHEMA_SUITE_KEY = "SUITE_KEY";
+  public static final String SUBFIELD_DELIMITER = "\u001f";
+  public static final Configuration HCONFIGURATION = new Configuration();
 
   static {
     HCONFIGURATION.setProperty("hibernate.dialect", "net.sf.hibernate.dialect.PostgreSQLDialect");
@@ -470,7 +463,7 @@ public abstract class Global {
     HCONFIGURATION.setProperty("show_sql", System.getProperty("show.sql", "false"));
     try {
       HCONFIGURATION.configure("/hibernate.cfg.xml");
-    } catch (final Throwable failure) {
+    } catch (final Exception failure) {
       throw new ExceptionInInitializerError(failure);
     }
   }

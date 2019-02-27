@@ -18,7 +18,7 @@ import java.util.List;
  * Provides access to S_SYS_GLBL_VRBL
  *
  * @author paulm
- * @version %I%, %G%
+ * @version %I%, %Global%
  * @since 1.0
  */
 public class DAOGlobalVariable extends HibernateUtil implements Serializable {

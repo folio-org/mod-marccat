@@ -2,7 +2,6 @@ package org.folio.marccat.resources.shared;
 
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.MessageCatalog;
-import org.folio.marccat.enumaration.CodeListsType;
 import org.folio.marccat.integration.StorageService;
 import org.folio.marccat.resources.domain.Field;
 import org.folio.marccat.resources.domain.FixedFieldCodesGroup;
@@ -12,7 +11,7 @@ import org.folio.marccat.resources.domain.Pair;
 import java.util.*;
 
 import static java.util.stream.Collectors.toList;
-import static org.folio.marccat.config.Global.*;
+import static org.folio.marccat.config.log.Global.*;
 import static org.folio.marccat.enumaration.CodeListsType.*;
 import static org.folio.marccat.resources.shared.MappingUtils.toPairItem;
 

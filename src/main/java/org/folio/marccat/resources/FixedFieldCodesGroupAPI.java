@@ -1,8 +1,6 @@
 package org.folio.marccat.resources;
 
 import org.folio.marccat.ModMarccat;
-import org.folio.marccat.config.Global;
-import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.enumaration.CodeListsType;
 import org.folio.marccat.integration.StorageService;
 import org.folio.marccat.resources.domain.FieldTemplate;
@@ -16,9 +14,9 @@ import java.util.Map;
 
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
-import static org.folio.marccat.config.Global.*;
-import static org.folio.marccat.config.Global.OTHER_MATERIAL_TAG_CODE;
-import static org.folio.marccat.config.Global.PHYSICAL_DESCRIPTION_TAG_CODE;
+import static org.folio.marccat.config.log.Global.*;
+import static org.folio.marccat.config.log.Global.OTHER_MATERIAL_TAG_CODE;
+import static org.folio.marccat.config.log.Global.PHYSICAL_DESCRIPTION_TAG_CODE;
 import static org.folio.marccat.config.log.MessageCatalog.*;
 import static org.folio.marccat.integration.MarccatHelper.doGet;
 import static org.folio.marccat.resources.shared.FixeFieldUtils.*;

@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 /**
  * @author paulm
- * @version %I%, %G%
+ * @version %I%, %Global%
  * @since 1.0
  */
 public class DataAccessException extends ModMarccatException {

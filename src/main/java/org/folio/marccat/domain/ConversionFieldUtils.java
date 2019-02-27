@@ -1,6 +1,6 @@
 package org.folio.marccat.domain;
 
-import org.folio.marccat.config.Global;
+import org.folio.marccat.config.log.Global;
 import org.folio.marccat.resources.domain.FixedField;
 import org.folio.marccat.shared.GeneralInformation;
 import static java.util.Optional.ofNullable;

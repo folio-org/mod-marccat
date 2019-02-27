@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.TreeSet;
 
-import static org.folio.marccat.config.Global.EMPTY_STRING;
+import static org.folio.marccat.config.log.Global.EMPTY_STRING;
 
 /**
  * Utilities to help in the creation of sortforms. This class was introduced to
