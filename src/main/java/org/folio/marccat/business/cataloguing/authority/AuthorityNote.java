@@ -101,16 +101,12 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
     return true;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getNoteNumber() {
     return noteNumber;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setNoteNumber(int i) {
     noteNumber = i;
   }
@@ -129,16 +125,12 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
 //    noteType = s;
 //  }
 
-  /**
-   * @since 1.0
-   */
+
   public String getNoteStringText() {
     return noteStringText;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setNoteStringText(String string) {
     noteStringText = string;
   }

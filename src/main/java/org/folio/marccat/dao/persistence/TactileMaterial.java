@@ -7,6 +7,8 @@ import org.folio.marccat.exception.DataAccessException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import static org.folio.marccat.config.Global.EMPTY_STRING;
+
 /**
  * @author paulm
  * @author nbianchini
@@ -23,12 +25,8 @@ public class TactileMaterial extends PhysicalDescription {
     setHeaderType(46);
   }
 
-  /* (non-Javadoc)
-   * @see FixedField#getDisplayString()
-   */
   public String getDisplayString() {
-    String result =
-      ""
+    return EMPTY_STRING
         + getGeneralMaterialDesignationCode()
         + getSpecificMaterialDesignationCode()
         + " "
@@ -36,34 +34,23 @@ public class TactileMaterial extends PhysicalDescription {
         + getLevelOfContractionCode()
         + getBrailleMusicFormatCodes()
         + getSpecificPhysicalCharacteristicsCode();
-    return result;
   }
 
-  /* (non-Javadoc)
-   * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
-   */
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
     setKeyNumber(dao.getNextNumber("XE", session));
   }
 
-  /* (non-Javadoc)
-   * @see librisuite.business.cataloguing.bibliographic.PhysicalDescription#isTactileMaterial()
-   */
   public boolean isTactileMaterial() {
     return true;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public String getBrailleMusicFormatCodes() {
     return brailleMusicFormatCodes;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setBrailleMusicFormatCodes(String string) {
     brailleMusicFormatCodes = string;
   }
@@ -76,16 +63,12 @@ public class TactileMaterial extends PhysicalDescription {
     }
   }
 
-  /**
-   * @since 1.0
-   */
+
   public String getClassOfBrailleWritingCodes() {
     return classOfBrailleWritingCodes;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setClassOfBrailleWritingCodes(String string) {
     classOfBrailleWritingCodes = string;
   }
@@ -98,30 +81,22 @@ public class TactileMaterial extends PhysicalDescription {
     }
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getLevelOfContractionCode() {
     return levelOfContractionCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setLevelOfContractionCode(char c) {
     levelOfContractionCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getSpecificPhysicalCharacteristicsCode() {
     return specificPhysicalCharacteristicsCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setSpecificPhysicalCharacteristicsCode(char c) {
     specificPhysicalCharacteristicsCode = c;
   }
@@ -130,12 +105,12 @@ public class TactileMaterial extends PhysicalDescription {
     Element content = null;
     if (xmlDocument != null) {
       content = xmlDocument.createElement("content");
-      content.setAttribute("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode());
-      content.setAttribute("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode());
-      content.setAttribute("classOfBrailleWritingCodes", "" + getClassOfBrailleWritingCodes());
-      content.setAttribute("levelOfContractionCode", "" + getLevelOfContractionCode());
-      content.setAttribute("brailleMusicFormatCodes", "" + getBrailleMusicFormatCodes());
-      content.setAttribute("specificPhysicalCharacteristicsCode", "" + getSpecificPhysicalCharacteristicsCode());
+      content.setAttribute("generalMaterialDesignationCode", EMPTY_STRING + getGeneralMaterialDesignationCode());
+      content.setAttribute("specificMaterialDesignationCode", EMPTY_STRING + getSpecificMaterialDesignationCode());
+      content.setAttribute("classOfBrailleWritingCodes", EMPTY_STRING + getClassOfBrailleWritingCodes());
+      content.setAttribute("levelOfContractionCode", EMPTY_STRING + getLevelOfContractionCode());
+      content.setAttribute("brailleMusicFormatCodes", EMPTY_STRING + getBrailleMusicFormatCodes());
+      content.setAttribute("specificPhysicalCharacteristicsCode", EMPTY_STRING + getSpecificPhysicalCharacteristicsCode());
     }
     return content;
   }

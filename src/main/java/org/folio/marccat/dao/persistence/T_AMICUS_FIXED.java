@@ -27,58 +27,42 @@ public class T_AMICUS_FIXED implements Serializable {
     // TODO Auto-generated constructor stub
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getCodeTableNumber() {
     return codeTableNumber;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setCodeTableNumber(int i) {
     codeTableNumber = i;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getNumberCode() {
     return numberCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setNumberCode(int i) {
     numberCode = i;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getSequence() {
     return sequence;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setSequence(int i) {
     sequence = i;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public String getStringCode() {
     return stringCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setStringCode(String string) {
     stringCode = string;
   }
@@ -103,16 +87,12 @@ public class T_AMICUS_FIXED implements Serializable {
     return getCodeTableNumber() + getSequence();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getTranslationKey() {
     return translationKey;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setTranslationKey(int i) {
     translationKey = i;
   }

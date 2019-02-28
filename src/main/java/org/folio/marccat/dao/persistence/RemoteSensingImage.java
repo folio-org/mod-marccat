@@ -7,6 +7,8 @@ import org.folio.marccat.exception.DataAccessException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import static org.folio.marccat.config.Global.EMPTY_STRING;
+
 /**
  * @author paulm
  * @author nbianchini
@@ -30,8 +32,7 @@ public class RemoteSensingImage extends PhysicalDescription {
    * @see FixedField#getDisplayString()
    */
   public String getDisplayString() {
-    String result =
-      ""
+    return EMPTY_STRING
         + getGeneralMaterialDesignationCode()
         + getSpecificMaterialDesignationCode()
         + " "
@@ -42,7 +43,6 @@ public class RemoteSensingImage extends PhysicalDescription {
         + getPlatformUseCode()
         + getSensorTypeCode()
         + getDataTypeCode();
-    return result;
   }
 
   /* (non-Javadoc)
@@ -60,100 +60,72 @@ public class RemoteSensingImage extends PhysicalDescription {
     return true;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getAltitudeOfSensorCode() {
     return altitudeOfSensorCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setAltitudeOfSensorCode(char c) {
     altitudeOfSensorCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getAttitudeOfSensorCode() {
     return attitudeOfSensorCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setAttitudeOfSensorCode(char c) {
     attitudeOfSensorCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getCloudCoverCode() {
     return cloudCoverCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setCloudCoverCode(char c) {
     cloudCoverCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public String getDataTypeCode() {
     return dataTypeCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setDataTypeCode(String string) {
     dataTypeCode = string;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getPlatformConstructionTypeCode() {
     return platformConstructionTypeCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setPlatformConstructionTypeCode(char c) {
     platformConstructionTypeCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getPlatformUseCode() {
     return platformUseCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setPlatformUseCode(char c) {
     platformUseCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getSensorTypeCode() {
     return sensorTypeCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setSensorTypeCode(char c) {
     sensorTypeCode = c;
   }
@@ -162,9 +134,9 @@ public class RemoteSensingImage extends PhysicalDescription {
     Element content = null;
     if (xmlDocument != null) {
       content = xmlDocument.createElement("content");
-      content.setAttribute("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode());
-      content.setAttribute("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode());
-      content.setAttribute("altitudeOfSensorCode", "" + getAltitudeOfSensorCode());
+      content.setAttribute("generalMaterialDesignationCode", EMPTY_STRING + getGeneralMaterialDesignationCode());
+      content.setAttribute("specificMaterialDesignationCode", EMPTY_STRING + getSpecificMaterialDesignationCode());
+      content.setAttribute("altitudeOfSensorCode", EMPTY_STRING + getAltitudeOfSensorCode());
       content.setAttribute("attitudeOfSensorCode", "" + getAttitudeOfSensorCode());
       content.setAttribute("cloudCoverCode", "" + getCloudCoverCode());
       content.setAttribute("platformConstructionTypeCode", "" + getPlatformConstructionTypeCode());
@@ -188,7 +160,6 @@ public class RemoteSensingImage extends PhysicalDescription {
     setDataTypeCode(content.getAttribute("dataTypeCode"));
   }
 
-  //@paulm, us_bbl_loading
   @Override
   public void setContentFromMarcString(final String s) {
     setGeneralMaterialDesignationCode(s.charAt(0));

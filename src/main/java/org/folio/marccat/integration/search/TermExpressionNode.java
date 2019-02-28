@@ -14,6 +14,8 @@ import org.folio.marccat.exception.DataAccessException;
 
 import java.util.Locale;
 
+import static org.folio.marccat.config.Global.EMPTY_STRING;
+
 /**
  * Term expression node.
  *
@@ -127,7 +129,7 @@ public class TermExpressionNode implements ExpressionNode {
         + " from "
         + semantic().getFromClause()
         + " where "
-        + (semantic().getJoinClause() == null ? "" : semantic.getJoinClause()) + s + viewClause();
+        + (semantic().getJoinClause() == null ? EMPTY_STRING : semantic.getJoinClause()) + s + viewClause();
     } catch (final Exception exception) {
       logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
       throw new CclParserException("Query not supported");
@@ -368,7 +370,7 @@ public class TermExpressionNode implements ExpressionNode {
    */
   private int truncationAsAttr() {
     int result = 100;
-    if (!term.toString().equals("") && term.lastIndexOf("?") == term.length() - 1) {
+    if (!term.toString().equals(EMPTY_STRING) && term.lastIndexOf("?") == term.length() - 1) {
       term.deleteCharAt(term.length() - 1);
       return 1;
     }
@@ -382,7 +384,7 @@ public class TermExpressionNode implements ExpressionNode {
    */
   private int completenessAsAddr() {
     int result = index.getCompletenessAttribute();
-    if (!term.toString().equals("") && term.lastIndexOf("!") == term.length() - 1) {
+    if (!term.toString().equals(EMPTY_STRING) && term.lastIndexOf("!") == term.length() - 1) {
       term.deleteCharAt(term.length() - 1);
       result = 3;
     }
@@ -440,8 +442,8 @@ public class TermExpressionNode implements ExpressionNode {
    * @return the string
    */
   private String viewClause() {
-    String viewClause = "";
-    if (getSearchingView() != 0 && semantic().getViewClause() != null && !"".equals(semantic().getViewClause())) {
+    String viewClause = EMPTY_STRING;
+    if (getSearchingView() != 0 && semantic().getViewClause() != null && !EMPTY_STRING.equals(semantic().getViewClause())) {
       if (getSearchingView() < -1) {
         viewClause = String.format(" AND (%s.mad_usr_vw_cde = %d)", semantic().getViewClause(), getSearchingView());
       } else if (semantic().getPositionNumber() == 3 && semantic().isFullText()) {

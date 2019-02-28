@@ -23,6 +23,8 @@ import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.Map;
 
+import static org.folio.marccat.config.Global.EMPTY_STRING;
+
 
 /**
  * The base class for each descriptor.
@@ -100,7 +102,7 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
   public Descriptor() {
     setKey(new DescriptorKey());
     StringText s = new StringText();
-    s.addSubfield(new Subfield("a", ""));
+    s.addSubfield(new Subfield("a", EMPTY_STRING));
     setStringText(s.toString());
   }
 
@@ -728,7 +730,7 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
     Iterator iter = st.getSubfieldList().iterator();
     while (iter.hasNext()) {
       Subfield s = (Subfield) iter.next();
-      if (s.getContent() == null || "".equals(s.getContent())) {
+      if (s.getContent() == null || EMPTY_STRING.equals(s.getContent())) {
         throw new DescriptorHasEmptySubfieldsException();
       }
     }

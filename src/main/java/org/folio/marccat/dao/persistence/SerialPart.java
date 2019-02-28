@@ -50,100 +50,72 @@ public class SerialPart implements Persistence, Serializable {
   private Integer localStatusCode;
   private Integer supplementaryMaterialCode;
 
-  /**
-   * @since 1.0
-   */
+
   public Date getConvertedGregorianYear() {
     return convertedGregorianYear;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setConvertedGregorianYear(Date date) {
     convertedGregorianYear = date;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public Integer getCopyNumber() {
     return copyNumber;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setCopyNumber(Integer integer) {
     copyNumber = integer;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public String getEnumDescription() {
     return enumDescription;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setEnumDescription(String string) {
     enumDescription = string;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public Date getExpiryDate() {
     return expiryDate;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setExpiryDate(Date date) {
     expiryDate = date;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public String getNameUnit() {
     return nameUnit;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setNameUnit(String string) {
     nameUnit = string;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public String getNote() {
     return note;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setNote(String string) {
     note = string;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public Date getPublicationDate() {
     return publicationDate;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setPublicationDate(Date date) {
     publicationDate = date;
   }
@@ -152,16 +124,12 @@ public class SerialPart implements Persistence, Serializable {
     return new SimpleDateFormat("dd/MM/yyyy").format(getPublicationDate());
   }
 
-  /**
-   * @since 1.0
-   */
+
   public Date getReceivedDate() {
     return receivedDate;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setReceivedDate(Date date) {
     receivedDate = date;
   }
@@ -174,72 +142,52 @@ public class SerialPart implements Persistence, Serializable {
     }
   }
 
-  /**
-   * @since 1.0
-   */
+
   public Integer getSerialCopyNumber() {
     return serialCopyNumber;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setSerialCopyNumber(Integer integer) {
     serialCopyNumber = integer;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getSerialCopyStatusCode() {
     return serialCopyStatusCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setSerialCopyStatusCode(char c) {
     serialCopyStatusCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getSerialPartNumber() {
     return serialPartNumber;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setSerialPartNumber(int i) {
     serialPartNumber = i;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public String getTitleOfSupplementMaterial() {
     return titleOfSupplementMaterial;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setTitleOfSupplementMaterial(String string) {
     titleOfSupplementMaterial = string;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public short getType() {
     return type;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setType(short s) {
     type = s;
   }
@@ -253,128 +201,92 @@ public class SerialPart implements Persistence, Serializable {
     //}
   }
 
-  /**
-   * @since 1.0
-   */
+
   public String getTypeOfSupplementMaterial() {
     return typeOfSupplementMaterial;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setTypeOfSupplementMaterial(String string) {
     typeOfSupplementMaterial = string;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void evict(Object obj) throws DataAccessException {
     persistenceState.evict(obj);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public AbstractDAO getDAO() {
     return persistenceState.getDAO();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getUpdateStatus() {
     return persistenceState.getUpdateStatus();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setUpdateStatus(int i) {
     persistenceState.setUpdateStatus(i);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public boolean isChanged() {
     return persistenceState.isChanged();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public boolean isDeleted() {
     return persistenceState.isDeleted();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public boolean isNew() {
     return persistenceState.isNew();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public boolean isRemoved() {
     return persistenceState.isRemoved();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void markChanged() {
     persistenceState.markChanged();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void markDeleted() {
     persistenceState.markDeleted();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void markNew() {
     persistenceState.markNew();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void markUnchanged() {
     persistenceState.markUnchanged();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public boolean onDelete(Session arg0) throws CallbackException {
     return persistenceState.onDelete(arg0);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void onLoad(Session arg0, Serializable arg1) {
     persistenceState.onLoad(arg0, arg1);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public boolean onSave(Session arg0) throws CallbackException {
     return persistenceState.onSave(arg0);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public boolean onUpdate(Session arg0) throws CallbackException {
     return persistenceState.onUpdate(arg0);
   }

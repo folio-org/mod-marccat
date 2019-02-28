@@ -183,27 +183,21 @@ public class BibliographicNoteOverflow implements PersistentObjectWithView, Seri
     }
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void markDeleted() {
     if (persistenceState != null) {
       persistenceState.markDeleted();
     }
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void markNew() {
     if (persistenceState != null) {
       persistenceState.markNew();
     }
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void markUnchanged() {
     if (persistenceState != null) {
       persistenceState.markUnchanged();
@@ -238,9 +232,7 @@ public class BibliographicNoteOverflow implements PersistentObjectWithView, Seri
     }
   }
 
-  /**
-   * @since 1.0
-   */
+
   public boolean isDeleted() {
     if (persistenceState == null) {
       return false;
@@ -249,9 +241,7 @@ public class BibliographicNoteOverflow implements PersistentObjectWithView, Seri
     }
   }
 
-  /**
-   * @since 1.0
-   */
+
   public boolean isNew() {
     if (persistenceState == null) {
       return false;
@@ -260,9 +250,7 @@ public class BibliographicNoteOverflow implements PersistentObjectWithView, Seri
     }
   }
 
-  /**
-   * @since 1.0
-   */
+
   public boolean isRemoved() {
     if (persistenceState == null) {
       return false;

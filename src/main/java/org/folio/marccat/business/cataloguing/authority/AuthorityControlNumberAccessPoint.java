@@ -63,9 +63,7 @@ public class AuthorityControlNumberAccessPoint extends AuthorityAccessPoint {
     getDescriptor().setCorrelationValues(v);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public Descriptor getDescriptor() {
     return descriptor;
   }
@@ -97,16 +95,12 @@ public class AuthorityControlNumberAccessPoint extends AuthorityAccessPoint {
     return null;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getValidationCode() {
     return validationCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setValidationCode(char c) {
     validationCode = c;
   }

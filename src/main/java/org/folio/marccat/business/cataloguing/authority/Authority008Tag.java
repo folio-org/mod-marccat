@@ -147,310 +147,222 @@ public class Authority008Tag extends FixedFieldUsingItemEntity {
     return content;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getCataloguingRules() {
     return getAutItm().getCataloguingRules();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setCataloguingRules(char c) {
     getAutItm().setCataloguingRules(c);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getCataloguingSourceCode() {
     return getAutItm().getCataloguingSourceCode();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setCataloguingSourceCode(char c) {
     getAutItm().setCataloguingSourceCode(c);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public Date getEnteredOnFileDate() {
     return getAutItm().getEnteredOnFileDate();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setEnteredOnFileDate(Date date) {
     getAutItm().setEnteredOnFileDate(date);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public String getEnteredOnFileDateYYMMDD() {
     return getAutItm().getEnteredOnFileDateYYMMDD();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public String getEnteredOnFileDateYYYYMMDD() {
     return getAutItm().getEnteredOnFileDateYYYYMMDD();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getGovernmentAgency() {
     return getAutItm().getGovernmentAgency();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setGovernmentAgency(char c) {
     getAutItm().setGovernmentAgency(c);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getHeadingStatus() {
     return getAutItm().getHeadingStatus();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setHeadingStatus(char c) {
     getAutItm().setHeadingStatus(c);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public String getLanguageOfCataloguing() {
     return getAutItm().getLanguageOfCataloguing();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getMainAddedEntryIndicator() {
     return getAutItm().getMainAddedEntryIndicator();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setMainAddedEntryIndicator(char c) {
     getAutItm().setMainAddedEntryIndicator(c);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getNonUniqueName() {
     return getAutItm().getNonUniqueName();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setNonUniqueName(char c) {
     getAutItm().setNonUniqueName(c);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getRecordModification() {
     return getAutItm().getRecordModification();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setRecordModification(char c) {
     getAutItm().setRecordModification(c);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getRecordRevision() {
     return getAutItm().getRecordRevision();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setRecordRevision(char c) {
     getAutItm().setRecordRevision(c);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getRecordStatusCode() {
     return getAutItm().getRecordStatusCode();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setRecordStatusCode(char c) {
     getAutItm().setRecordStatusCode(c);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getRecordType() {
     return getAutItm().getRecordType();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setRecordType(char c) {
     getAutItm().setRecordType(c);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getReferenceStatus() {
     return getAutItm().getReferenceStatus();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setReferenceStatus(char c) {
     getAutItm().setReferenceStatus(c);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getRomanizationScheme() {
     return getAutItm().getRomanizationScheme();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setRomanizationScheme(char c) {
     getAutItm().setRomanizationScheme(c);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getSeriesEntryIndicator() {
     return getAutItm().getSeriesEntryIndicator();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setSeriesEntryIndicator(char c) {
     getAutItm().setSeriesEntryIndicator(c);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getSeriesNumbering() {
     return getAutItm().getSeriesNumbering();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setSeriesNumbering(char c) {
     getAutItm().setSeriesNumbering(c);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getSeriesType() {
     return getAutItm().getSeriesType();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setSeriesType(char c) {
     getAutItm().setSeriesType(c);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getSubDivisionType() {
     return getAutItm().getSubDivisionType();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setSubDivisionType(char c) {
     getAutItm().setSubDivisionType(c);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getSubjectEntryIndicator() {
     return getAutItm().getSubjectEntryIndicator();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setSubjectEntryIndicator(char c) {
     getAutItm().setSubjectEntryIndicator(c);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getSubjectSystem() {
     return getAutItm().getSubjectSystem();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setSubjectSystem(char c) {
     getAutItm().setSubjectSystem(c);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setEncodingLevel(char c) {
     getAutItm().setEncodingLevel(c);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getSubjectDescriptor() {
     return getAutItm().getSubjectDescriptor();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setSubjectDescriptor(char c) {
     getAutItm().setSubjectDescriptor(c);
   }
@@ -459,16 +371,12 @@ public class Authority008Tag extends FixedFieldUsingItemEntity {
     return (AUT) getItemEntity();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getBilingualUsage() {
     return getAutItm().getBilingualUsage();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setBilingualUsage(char c) {
     getAutItm().setBilingualUsage(c);
   }

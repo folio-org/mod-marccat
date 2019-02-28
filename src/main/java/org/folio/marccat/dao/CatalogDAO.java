@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 
 public abstract class CatalogDAO extends AbstractDAO {
 
-  public abstract CatalogItem getCatalogItemByKey(Session session, int... key) ;
+  public abstract CatalogItem getCatalogItemByKey(Session session, int... key);
 
   /**
    * Delete each tag, bibliographic item and model item from db.
@@ -62,7 +62,7 @@ public abstract class CatalogDAO extends AbstractDAO {
 
   abstract void updateFullRecordCacheTable(Session session, CatalogItem item) throws HibernateException;
 
-  protected abstract  void updateItemDisplayCacheTable(final CatalogItem item, final Session session) throws HibernateException;
+  protected abstract void updateItemDisplayCacheTable(final CatalogItem item, final Session session) throws HibernateException;
 
   protected abstract void insertDeleteTable(final CatalogItem item, final UserProfile user) throws DataAccessException;
 
@@ -118,7 +118,7 @@ public abstract class CatalogDAO extends AbstractDAO {
     } finally {
       if (proc != null) proc.close();
     }
-      transaction.commit();
+    transaction.commit();
   }
 
   /**
@@ -157,7 +157,7 @@ public abstract class CatalogDAO extends AbstractDAO {
       itemEntity.setUpdateStatus(UpdateStatus.CHANGED);
     }
     persistByStatus(itemEntity, session);
-    final List <Tag> tagList = item.getTags().stream().map(aTag -> {
+    final List<Tag> tagList = item.getTags().stream().map(aTag -> {
       try {
         if (aTag.isNew()) {
           aTag.setItemNumber(item.getAmicusNumber());
@@ -178,7 +178,7 @@ public abstract class CatalogDAO extends AbstractDAO {
       return aTag;
     }).collect(Collectors.toList());
 
-    final List <Tag> toRemove = new ArrayList <>(item.getDeletedTags());
+    final List<Tag> toRemove = new ArrayList<>(item.getDeletedTags());
     toRemove.forEach(aTag -> {
       if (!tagList.contains(aTag)) {
         if (aTag instanceof Persistence && (!(aTag instanceof BibliographicNoteTag))) {

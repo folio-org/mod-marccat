@@ -13,9 +13,6 @@ import org.folio.marccat.util.StringText;
 
 
 public class SpecialCodedDatesTag extends VariableHeaderUsingItemEntity {
-  //TODO saveUndoSave doesn't work
-  //TODO subfield a should be validated against code table
-
 
   public SpecialCodedDatesTag() {
     super();
@@ -23,7 +20,7 @@ public class SpecialCodedDatesTag extends VariableHeaderUsingItemEntity {
   }
 
   public StringText getStringText() {
-    StringText result = null;
+    StringText result;
     String source = ((BIB_ITM) getItemEntity()).getSpecialCodedDatesStringText();
 
     if (source == null) {
@@ -35,7 +32,6 @@ public class SpecialCodedDatesTag extends VariableHeaderUsingItemEntity {
   }
 
   public void setStringText(StringText st) {
-//TODO need a more definitive way to set to null		
     if (st.toString().equals(Subfield.SUBFIELD_DELIMITER + "a")) {
       ((BIB_ITM) getItemEntity()).setSpecialCodedDatesStringText(null);
     } else {

@@ -223,44 +223,32 @@ public class LDG_STATS implements Serializable, Persistence {
     return persistenceState.toString();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getLoadingStatisticsNumber() {
     return loadingStatisticsNumber;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setLoadingStatisticsNumber(int i) {
     loadingStatisticsNumber = i;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getRecordsAdded() {
     return recordsAdded;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setRecordsAdded(int i) {
     recordsAdded = i;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getRecordsRejected() {
     return recordsRejected;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setRecordsRejected(int i) {
     recordsRejected = i;
   }

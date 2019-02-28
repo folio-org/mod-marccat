@@ -7,6 +7,8 @@ import org.folio.marccat.exception.DataAccessException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import static org.folio.marccat.config.Global.EMPTY_STRING;
+
 /**
  * @author paulm
  * @author nbianchini
@@ -19,28 +21,18 @@ public class Kit extends PhysicalDescription {
     setHeaderType(47);
   }
 
-  /* (non-Javadoc)
-   * @see FixedField#getDisplayString()
-   */
   public String getDisplayString() {
-    String result =
-      ""
+    return EMPTY_STRING
         + getGeneralMaterialDesignationCode()
         + getSpecificMaterialDesignationCode();
-    return result;
   }
 
-  /* (non-Javadoc)
-   * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
-   */
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
     setKeyNumber(dao.getNextNumber("XF", session));
   }
 
-  /* (non-Javadoc)
-   * @see librisuite.business.cataloguing.bibliographic.PhysicalDescription#isKit()
-   */
+
   public boolean isKit() {
     return true;
   }
@@ -49,8 +41,8 @@ public class Kit extends PhysicalDescription {
     Element content = null;
     if (xmlDocument != null) {
       content = xmlDocument.createElement("content");
-      content.setAttribute("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode());
-      content.setAttribute("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode());
+      content.setAttribute("generalMaterialDesignationCode", EMPTY_STRING + getGeneralMaterialDesignationCode());
+      content.setAttribute("specificMaterialDesignationCode", EMPTY_STRING + getSpecificMaterialDesignationCode());
     }
     return content;
   }
@@ -61,7 +53,6 @@ public class Kit extends PhysicalDescription {
     setSpecificMaterialDesignationCode(content.getAttribute("specificMaterialDesignationCode").charAt(0));
   }
 
-  //@paulm, us_bbl_loading
   @Override
   public void setContentFromMarcString(final String s) {
     setGeneralMaterialDesignationCode(s.charAt(0));

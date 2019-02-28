@@ -43,23 +43,17 @@ public class LOADING_MARC_FILE implements Persistence {
 		return blob;
 	}*/
 
-  /**
-   * @since 1.0
-   */
+
   public String getFileName() {
     return fileName;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setFileName(String string) {
     fileName = string;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public Integer getFileNumber() {
     return fileNumber;
   }
@@ -72,37 +66,27 @@ public class LOADING_MARC_FILE implements Persistence {
 		this.blob = blob;
 	}*/
 
-  /**
-   * @since 1.0
-   */
+
   public void setFileNumber(Integer i) {
     fileNumber = i;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getLoadingStatisticsNumber() {
     return loadingStatisticsNumber;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setLoadingStatisticsNumber(int i) {
     loadingStatisticsNumber = i;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public PersistenceState getPersistenceState() {
     return persistenceState;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setPersistenceState(PersistenceState state) {
     persistenceState = state;
   }
@@ -119,30 +103,22 @@ public class LOADING_MARC_FILE implements Persistence {
     }
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void evict(Object obj) throws DataAccessException {
     persistenceState.evict(obj);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public AbstractDAO getDAO() {
     return persistenceState.getDAO();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getUpdateStatus() {
     return persistenceState.getUpdateStatus();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setUpdateStatus(int i) {
     persistenceState.setUpdateStatus(i);
   }
@@ -158,86 +134,62 @@ public class LOADING_MARC_FILE implements Persistence {
     }
   }
 
-  /**
-   * @since 1.0
-   */
+
   public boolean isChanged() {
     return persistenceState.isChanged();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public boolean isDeleted() {
     return persistenceState.isDeleted();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public boolean isNew() {
     return persistenceState.isNew();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public boolean isRemoved() {
     return persistenceState.isRemoved();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void markChanged() {
     persistenceState.markChanged();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void markDeleted() {
     persistenceState.markDeleted();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void markNew() {
     persistenceState.markNew();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void markUnchanged() {
     persistenceState.markUnchanged();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public boolean onDelete(Session arg0) throws CallbackException {
     return persistenceState.onDelete(arg0);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void onLoad(Session arg0, Serializable arg1) {
     persistenceState.onLoad(arg0, arg1);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public boolean onSave(Session arg0) throws CallbackException {
     return persistenceState.onSave(arg0);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public boolean onUpdate(Session arg0) throws CallbackException {
     return persistenceState.onUpdate(arg0);
   }

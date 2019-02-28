@@ -16,6 +16,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.util.stream.IntStream.rangeClosed;
+import static org.folio.marccat.config.Global.EMPTY_STRING;
 
 /**
  * Supertype layer for all ModMarccat Search Engine implementations.
@@ -113,7 +114,7 @@ public abstract class ModMarcatSearchEngine implements SearchEngine {
         storageService.updateFullRecordCacheTable(item, searchingView);
         return storageService.getRecordData(itemNumber, searchingView);
       } catch (final Exception fallback) {
-        return Global.EMPTY_STRING;
+        return EMPTY_STRING;
       }
     }
   }
@@ -152,6 +153,6 @@ public abstract class ModMarcatSearchEngine implements SearchEngine {
    * @return text cleaned
    */
   public String cleanPunctuation(final String text) {
-    return (text != null) ? text.replaceAll(",|;|\\.|!", "") : null;
+    return (text != null) ? text.replaceAll(",|;|\\.|!", EMPTY_STRING) : null;
   }
 }

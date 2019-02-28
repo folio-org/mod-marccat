@@ -758,6 +758,12 @@ public enum CodeListsType {
       return "MAP_MATERIAL_CODE";
     }
   },
+  RECORD_MODIFIED_CODE {
+    @Override
+    public String toString() {
+      return "RECORD_MODIFIED_CODE";
+    }
+  },
   VM_MATERIAL_CODE {
     @Override
     public String toString() {

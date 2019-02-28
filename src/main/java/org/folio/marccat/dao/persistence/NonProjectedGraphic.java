@@ -53,58 +53,42 @@ public class NonProjectedGraphic extends PhysicalDescription {
     return true;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getColourCode() {
     return colourCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setColourCode(char c) {
     colourCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getPrimarySupportMaterialCode() {
     return primarySupportMaterialCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setPrimarySupportMaterialCode(char c) {
     primarySupportMaterialCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getSecondarySupportMaterialCode() {
     return secondarySupportMaterialCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setSecondarySupportMaterialCode(char c) {
     secondarySupportMaterialCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getObsolete1() {
     return obsolete1;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setObsolete1(char c) {
     obsolete1 = c;
   }

@@ -7,6 +7,8 @@ import org.folio.marccat.exception.DataAccessException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import static org.folio.marccat.config.Global.EMPTY_STRING;
+
 /**
  * @author paulm
  * @author nbianchini
@@ -30,12 +32,8 @@ public class ElectronicResource extends PhysicalDescription {
     setHeaderType(42);
   }
 
-  /* (non-Javadoc)
-   * @see FixedField#getDisplayString()
-   */
   public String getDisplayString() {
-    String result =
-      ""
+    return EMPTY_STRING
         + getGeneralMaterialDesignationCode()
         + getSpecificMaterialDesignationCode()
         + " "
@@ -48,160 +46,114 @@ public class ElectronicResource extends PhysicalDescription {
         + getAntecedentSourceCode()
         + getLevelOfCompressionCode()
         + getReformattingQualityCode();
-    return result;
+
   }
 
-  /* (non-Javadoc)
-   * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
-   */
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
     setKeyNumber(dao.getNextNumber("XA", session));
   }
 
-  /* (non-Javadoc)
-   * @see librisuite.business.cataloguing.bibliographic.PhysicalDescription#isElectronicResource()
-   */
   public boolean isElectronicResource() {
     return true;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getAntecedentSourceCode() {
     return antecedentSourceCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setAntecedentSourceCode(char c) {
     antecedentSourceCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getColourCode() {
     return colourCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setColourCode(char c) {
     colourCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getDimensionsCode() {
     return dimensionsCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setDimensionsCode(char c) {
     dimensionsCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getFileFormatsCode() {
     return fileFormatsCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setFileFormatsCode(char c) {
     fileFormatsCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public String getImageBitDepth() {
     return imageBitDepth;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setImageBitDepth(String string) {
     imageBitDepth = string;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getIncludesSoundCode() {
     return includesSoundCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setIncludesSoundCode(char c) {
     includesSoundCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getLevelOfCompressionCode() {
     return levelOfCompressionCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setLevelOfCompressionCode(char c) {
     levelOfCompressionCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getObsolete1() {
     return obsolete1;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setObsolete1(char c) {
     obsolete1 = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getQualityAssuranceTargetCode() {
     return qualityAssuranceTargetCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setQualityAssuranceTargetCode(char c) {
     qualityAssuranceTargetCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getReformattingQualityCode() {
     return reformattingQualityCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setReformattingQualityCode(char c) {
     reformattingQualityCode = c;
   }
@@ -210,17 +162,17 @@ public class ElectronicResource extends PhysicalDescription {
     Element content = null;
     if (xmlDocument != null) {
       content = xmlDocument.createElement("content");
-      content.setAttribute("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode());
-      content.setAttribute("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode());
-      content.setAttribute("colourCode", "" + getColourCode());
-      content.setAttribute("dimensionsCode", "" + getDimensionsCode());
-      content.setAttribute("includesSoundCode", "" + getIncludesSoundCode());
+      content.setAttribute("generalMaterialDesignationCode", EMPTY_STRING + getGeneralMaterialDesignationCode());
+      content.setAttribute("specificMaterialDesignationCode", EMPTY_STRING + getSpecificMaterialDesignationCode());
+      content.setAttribute("colourCode", EMPTY_STRING + getColourCode());
+      content.setAttribute("dimensionsCode", EMPTY_STRING + getDimensionsCode());
+      content.setAttribute("includesSoundCode", EMPTY_STRING + getIncludesSoundCode());
       content.setAttribute("imageBitDepth", getImageBitDepth());
-      content.setAttribute("fileFormatsCode", "" + getFileFormatsCode());
-      content.setAttribute("qualityAssuranceTargetCode", "" + getQualityAssuranceTargetCode());
-      content.setAttribute("antecedentSourceCode", "" + getAntecedentSourceCode());
-      content.setAttribute("levelOfCompressionCode", "" + getLevelOfCompressionCode());
-      content.setAttribute("reformattingQualityCode", "" + getReformattingQualityCode());
+      content.setAttribute("fileFormatsCode", EMPTY_STRING + getFileFormatsCode());
+      content.setAttribute("qualityAssuranceTargetCode", EMPTY_STRING + getQualityAssuranceTargetCode());
+      content.setAttribute("antecedentSourceCode", EMPTY_STRING + getAntecedentSourceCode());
+      content.setAttribute("levelOfCompressionCode", EMPTY_STRING + getLevelOfCompressionCode());
+      content.setAttribute("reformattingQualityCode", EMPTY_STRING + getReformattingQualityCode());
     }
     return content;
   }
@@ -240,7 +192,6 @@ public class ElectronicResource extends PhysicalDescription {
     setReformattingQualityCode(content.getAttribute("reformattingQualityCode").charAt(0));
   }
 
-  //@paulm, us_bbl_loading
   @Override
   public void setContentFromMarcString(final String content) {
     setGeneralMaterialDesignationCode(content.charAt(0));

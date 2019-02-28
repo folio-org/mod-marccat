@@ -8,6 +8,8 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.folio.marccat.config.Global.EMPTY_STRING;
+
 /**
  * ModMarccat search engine.
  *
@@ -60,7 +62,7 @@ public final class Tokenizer {
     String value = Objects.requireNonNull(query).trim();
     tokens.clear();
 
-    while (!value.equals("")) {
+    while (!value.equals(EMPTY_STRING)) {
       boolean match = false;
       for (TokenInfo info : tokenInfos) {
         Matcher m = info.regex.matcher(value);

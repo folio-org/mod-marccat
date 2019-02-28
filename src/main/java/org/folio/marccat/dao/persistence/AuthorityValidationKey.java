@@ -27,16 +27,12 @@ public class AuthorityValidationKey extends ValidationKey implements Serializabl
   }
 
 
-  /**
-   * @since 1.0
-   */
+
   public String getHeadingType() {
     return headingType;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setHeadingType(String string) {
     headingType = string;
   }

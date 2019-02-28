@@ -54,72 +54,52 @@ public class Globe extends PhysicalDescription {
     return true;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getColourCode() {
     return colourCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setColourCode(char c) {
     colourCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public Character getObsolete1() {
     return obsolete1;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setObsolete1(Character character) {
     obsolete1 = character;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public Character getObsolete2() {
     return obsolete2;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setObsolete2(Character character) {
     obsolete2 = character;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getPhysicalMediumCode() {
     return physicalMediumCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setPhysicalMediumCode(char c) {
     physicalMediumCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getTypeOfReproductionCode() {
     return typeOfReproductionCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setTypeOfReproductionCode(char c) {
     typeOfReproductionCode = c;
   }

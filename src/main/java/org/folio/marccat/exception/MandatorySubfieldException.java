@@ -62,16 +62,12 @@ public class MandatorySubfieldException extends RuntimeException {
     // TODO Auto-generated constructor stub
   }
 
-  /**
-   * @since 1.0
-   */
+
   public String getTagNumber() {
     return tagNumber;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setTagNumber(String string) {
     tagNumber = string;
   }

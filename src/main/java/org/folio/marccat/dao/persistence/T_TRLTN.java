@@ -25,44 +25,32 @@ public class T_TRLTN implements Serializable {
     // TODO Auto-generated constructor stub
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getLanguageNumber() {
     return languageNumber;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setLanguageNumber(int i) {
     languageNumber = i;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public long getStringNumber() {
     return stringNumber;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setStringNumber(int i) {
     stringNumber = i;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public String getText() {
     return text;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setText(String string) {
     text = string;
   }

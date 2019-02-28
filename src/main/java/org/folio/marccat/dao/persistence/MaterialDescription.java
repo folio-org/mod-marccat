@@ -748,16 +748,12 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
   }
 
 
-  /**
-   * @since 1.0
-   */
+
   public String getFormOfMaterial() {
     return formOfMaterial;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setFormOfMaterial(final String string) {
     formOfMaterial = string;
   }

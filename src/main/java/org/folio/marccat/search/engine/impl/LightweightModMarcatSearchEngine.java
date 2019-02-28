@@ -13,6 +13,8 @@ import org.folio.marccat.search.engine.ModMarcatSearchEngine;
 
 import java.util.*;
 
+import static org.folio.marccat.config.Global.EMPTY_STRING;
+
 /**
  * ModMarccat Search Engine.
  *
@@ -55,7 +57,7 @@ public class LightweightModMarcatSearchEngine extends ModMarcatSearchEngine {
           singleRecord.setCountDoc(countDocument.getCountDocuments());
           singleRecord.setQueryForAssociatedDoc(countDocument.getQuery());
         } catch (HibernateException e) {
-          logger.error("", e);
+          logger.error(EMPTY_STRING, e);
         }
 
       });

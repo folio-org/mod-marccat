@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 import static java.util.Optional.ofNullable;
+import static org.folio.marccat.config.Global.EMPTY_STRING;
 
 
 /**
@@ -130,7 +131,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
     setUserViewString(apf.getUserViewString());
     setUpdateStatus(apf.getUpdateStatus());
     setApf(apf);
-    getDates().add("");
+    getDates().add(EMPTY_STRING);
     setPublisherTagUnits(((PublisherTagDescriptor) getApf().getDescriptor()).getPublisherTagUnits());
     getPublisherTagUnits().sort(new PublisherTagComparator());
     setNoteType(Global.PUBLISHER_DEFAULT_NOTE_TYPE);
@@ -409,7 +410,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
     final PUBL_TAG tagUnit = new PUBL_TAG();
     tagUnit.setUserViewString(getUserViewString());
     getPublisherTagUnits().add(tagUnit);
-    getDates().add("");
+    getDates().add(EMPTY_STRING);
   }
 
   /**
@@ -430,12 +431,12 @@ public class PublisherManager extends VariableField implements PersistentObjectW
         final PUBL_TAG publTag = getPublisherTagUnits().get(idx);
         final PUBL_HDG publUnit = publTag.getDescriptor();
         if (publUnit != null && publUnit.getKey().getHeadingNumber() == -1) {
-          publUnit.setNameStringText("");
-          publUnit.setPlaceStringText("");
+          publUnit.setNameStringText(EMPTY_STRING);
+          publUnit.setPlaceStringText(EMPTY_STRING);
         }
         publTag.setSequenceNumber(idx + 1);
-        String date = "";
-        if (!"".equals(getDates().get(idx)))
+        String date = EMPTY_STRING;
+        if (!EMPTY_STRING.equals(getDates().get(idx)))
           date = Subfield.SUBFIELD_DELIMITER + "c" + getDates().get(idx);
 
         publTag.setOtherSubfields(date);
@@ -606,8 +607,8 @@ public class PublisherManager extends VariableField implements PersistentObjectW
   private void detachDescriptor(final PUBL_TAG tagUnit) {
     final PUBL_HDG publisherHeading = tagUnit.getDescriptor();
     if (tagUnit.getPublisherHeadingNumber() == null) {
-      publisherHeading.setNameStringText("");
-      publisherHeading.setPlaceStringText("");
+      publisherHeading.setNameStringText(EMPTY_STRING);
+      publisherHeading.setPlaceStringText(EMPTY_STRING);
 
     } else {
       tagUnit.setDescriptor(null);
@@ -640,7 +641,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
           }
         } else if (s.getCode().equals("c")) {
           if (subfieldIndex == result.getNumberOfSubfields() - 1 &&
-            !"-])".contains("" + s.getContent().charAt(s.getContentLength() - 1))) {
+            !"-])".contains(EMPTY_STRING + s.getContent().charAt(s.getContentLength() - 1))) {
             s.setContent(s.getContent() + ".");
           }
         } else if (s.getCode().equals("e") || s.getCode().equals("f")) {

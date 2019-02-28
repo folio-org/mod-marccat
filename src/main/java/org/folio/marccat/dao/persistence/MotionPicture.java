@@ -7,6 +7,8 @@ import org.folio.marccat.exception.DataAccessException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import static org.folio.marccat.config.Global.EMPTY_STRING;
+
 /**
  * @author paulm
  * @author nbianchini
@@ -39,8 +41,7 @@ public class MotionPicture extends PhysicalDescription {
    * @see FixedField#getDisplayString()
    */
   public String getDisplayString() {
-    String result =
-      ""
+   return EMPTY_STRING
         + getGeneralMaterialDesignationCode()
         + getSpecificMaterialDesignationCode()
         + " "
@@ -59,244 +60,173 @@ public class MotionPicture extends PhysicalDescription {
         + getDeteriorationStageCode()
         + getCompletenessCode()
         + getInspectionDate();
-    return result;
   }
 
-  /* (non-Javadoc)
-   * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
-   */
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
     setKeyNumber(dao.getNextNumber("X4", session));
   }
 
-  /* (non-Javadoc)
-   * @see librisuite.business.cataloguing.bibliographic.PhysicalDescription#isMotionPicture()
-   */
   public boolean isMotionPicture() {
     return true;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getBaseOfFilmCode() {
     return baseOfFilmCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setBaseOfFilmCode(char c) {
     baseOfFilmCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getColourCode() {
     return colourCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setColourCode(char c) {
     colourCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getCompletenessCode() {
     return completenessCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setCompletenessCode(char c) {
     completenessCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getConfigurationCode() {
     return configurationCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setConfigurationCode(char c) {
     configurationCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getDeteriorationStageCode() {
     return deteriorationStageCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setDeteriorationStageCode(char c) {
     deteriorationStageCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getDimensionsCode() {
     return dimensionsCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setDimensionsCode(char c) {
     dimensionsCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getGenerationCode() {
     return generationCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setGenerationCode(char c) {
     generationCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getIncludesSoundCode() {
     return includesSoundCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setIncludesSoundCode(char c) {
     includesSoundCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public String getInspectionDate() {
     return inspectionDate;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setInspectionDate(String string) {
     inspectionDate = string;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getKindOfColourStockCode() {
     return kindOfColourStockCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setKindOfColourStockCode(char c) {
     kindOfColourStockCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getMediumForSoundCode() {
     return mediumForSoundCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setMediumForSoundCode(char c) {
     mediumForSoundCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getPolarityCode() {
     return polarityCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setPolarityCode(char c) {
     polarityCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getPresentationFormatCode() {
     return presentationFormatCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setPresentationFormatCode(char c) {
     presentationFormatCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getProductionElementsCode() {
     return productionElementsCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setProductionElementsCode(char c) {
     productionElementsCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getRefinedCategoriesOfColourCode() {
     return refinedCategoriesOfColourCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setRefinedCategoriesOfColourCode(char c) {
     refinedCategoriesOfColourCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getObsolete1() {
     return obsolete1;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setObsolete1(char c) {
     obsolete1 = c;
   }
@@ -305,23 +235,23 @@ public class MotionPicture extends PhysicalDescription {
     Element content = null;
     if (xmlDocument != null) {
       content = xmlDocument.createElement("content");
-      content.setAttribute("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode());
-      content.setAttribute("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode());
-      content.setAttribute("colourCode", "" + getColourCode());
-      content.setAttribute("presentationFormatCode", "" + getPresentationFormatCode());
-      content.setAttribute("includesSoundCode", "" + getIncludesSoundCode());
-      content.setAttribute("mediumForSoundCode", "" + getMediumForSoundCode());
-      content.setAttribute("dimensionsCode", "" + getDimensionsCode());
-      content.setAttribute("configurationCode", "" + getConfigurationCode());
-      content.setAttribute("productionElementsCode", "" + getProductionElementsCode());
-      content.setAttribute("polarityCode", "" + getPolarityCode());
-      content.setAttribute("generationCode", "" + getGenerationCode());
-      content.setAttribute("baseOfFilmCode", "" + getBaseOfFilmCode());
-      content.setAttribute("refinedCategoriesOfColourCode", "" + getRefinedCategoriesOfColourCode());
-      content.setAttribute("kindOfColourStockCode", "" + getKindOfColourStockCode());
-      content.setAttribute("deteriorationStageCode", "" + getDeteriorationStageCode());
-      content.setAttribute("completenessCode", "" + getCompletenessCode());
-      content.setAttribute("inspectionDate", "" + getInspectionDate());
+      content.setAttribute("generalMaterialDesignationCode", EMPTY_STRING + getGeneralMaterialDesignationCode());
+      content.setAttribute("specificMaterialDesignationCode", EMPTY_STRING + getSpecificMaterialDesignationCode());
+      content.setAttribute("colourCode", EMPTY_STRING + getColourCode());
+      content.setAttribute("presentationFormatCode", EMPTY_STRING + getPresentationFormatCode());
+      content.setAttribute("includesSoundCode", EMPTY_STRING + getIncludesSoundCode());
+      content.setAttribute("mediumForSoundCode", EMPTY_STRING + getMediumForSoundCode());
+      content.setAttribute("dimensionsCode", EMPTY_STRING + getDimensionsCode());
+      content.setAttribute("configurationCode", EMPTY_STRING + getConfigurationCode());
+      content.setAttribute("productionElementsCode", EMPTY_STRING + getProductionElementsCode());
+      content.setAttribute("polarityCode", EMPTY_STRING + getPolarityCode());
+      content.setAttribute("generationCode", EMPTY_STRING + getGenerationCode());
+      content.setAttribute("baseOfFilmCode", EMPTY_STRING + getBaseOfFilmCode());
+      content.setAttribute("refinedCategoriesOfColourCode", EMPTY_STRING + getRefinedCategoriesOfColourCode());
+      content.setAttribute("kindOfColourStockCode", EMPTY_STRING + getKindOfColourStockCode());
+      content.setAttribute("deteriorationStageCode", EMPTY_STRING + getDeteriorationStageCode());
+      content.setAttribute("completenessCode", EMPTY_STRING + getCompletenessCode());
+      content.setAttribute("inspectionDate", EMPTY_STRING + getInspectionDate());
     }
     return content;
   }
@@ -347,7 +277,6 @@ public class MotionPicture extends PhysicalDescription {
     setInspectionDate(content.getAttribute("inspectionDate"));
   }
 
-  //@paulm, us_bbl_loading
   @Override
   public void setContentFromMarcString(final String s) {
     setGeneralMaterialDesignationCode(s.charAt(0));

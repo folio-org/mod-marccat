@@ -411,7 +411,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
       try {
         hdg.setNameHeading((NME_HDG) new NameDescriptorDAO().load(hdg.getNameHeadingNumber(), userView, session));
         hdg.setTitleHeading((TTL_HDG) new TitleDescriptorDAO().load(hdg.getTitleHeadingNumber(), userView, session));
-      }  catch (HibernateException e) {
+      } catch (HibernateException e) {
         throw new DataAccessException(String.format(MessageCatalog._00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
       }
       return tag;
@@ -505,15 +505,15 @@ public class BibliographicCatalogDAO extends CatalogDAO {
   /**
    * Updates s_cas_cache_bib_itm_dsply table.
    *
-   * @param bibItemNumber   -- the bibliographic item number.
-   * @param cataloguingView -- marccat view associated.
+   * @param bibItemNumber        -- the bibliographic item number.
+   * @param cataloguingView      -- marccat view associated.
    * @param uniformTitleSortForm -- the uniforme title sort form.
-   * @param titleSortForm -- the title sort form.
-   * @param session         -- the current session hibernate.
+   * @param titleSortForm        -- the title sort form.
+   * @param session              -- the current session hibernate.
    * @throws HibernateException in case of hibernate exception.
    */
-  public void updateItemDisplayCacheTable(final int bibItemNumber, final int cataloguingView, final String uniformTitleSortForm ,
-                                          final String titleSortForm , final Session session) throws HibernateException {
+  public void updateItemDisplayCacheTable(final int bibItemNumber, final int cataloguingView, final String uniformTitleSortForm,
+                                          final String titleSortForm, final Session session) throws HibernateException {
     final Transaction transaction = getTransaction(session);
 
     CallableStatement proc = null;
@@ -555,18 +555,18 @@ public class BibliographicCatalogDAO extends CatalogDAO {
    */
   protected void updateItemDisplayCacheTable(final CatalogItem item, final Session session)
     throws DataAccessException, HibernateException {
-      final Tag tag130 = item.findFirstTagByNumber("130", session);
-      final Tag tag245 = item.findFirstTagByNumber("245", session);
-      String uniformTitleSortForm = "";
-      String titleSortForm = "";
-      if(tag130 != null) {
-        uniformTitleSortForm = getTitleSortForm((TitleAccessPoint) tag130);
-      }
-       if(tag245 != null) {
-        titleSortForm = getTitleSortForm((TitleAccessPoint) tag245);
-      }
-      updateItemDisplayCacheTable(item.getAmicusNumber(), item.getUserView(), uniformTitleSortForm, titleSortForm, session);
-      updateFullRecordCacheTable(session, item);
+    final Tag tag130 = item.findFirstTagByNumber("130", session);
+    final Tag tag245 = item.findFirstTagByNumber("245", session);
+    String uniformTitleSortForm = "";
+    String titleSortForm = "";
+    if (tag130 != null) {
+      uniformTitleSortForm = getTitleSortForm((TitleAccessPoint) tag130);
+    }
+    if (tag245 != null) {
+      titleSortForm = getTitleSortForm((TitleAccessPoint) tag245);
+    }
+    updateItemDisplayCacheTable(item.getAmicusNumber(), item.getUserView(), uniformTitleSortForm, titleSortForm, session);
+    updateFullRecordCacheTable(session, item);
   }
 
   /**
@@ -575,11 +575,11 @@ public class BibliographicCatalogDAO extends CatalogDAO {
    * @param tag
    * @return the sort form for the title access point
    */
-   private String getTitleSortForm(AccessPoint tag) {
+  private String getTitleSortForm(AccessPoint tag) {
     String uniformTitleSortForm;
     String accessPoint = tag.getAccessPointStringText().toDisplayString();
     TTL_HDG title = new TTL_HDG();
-    title.setStringText("\u001fc" +accessPoint);
+    title.setStringText("\u001fc" + accessPoint);
     title.calculateAndSetSortForm();
     uniformTitleSortForm = title.getSortForm();
     return uniformTitleSortForm;

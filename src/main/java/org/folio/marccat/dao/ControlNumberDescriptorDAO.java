@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import static org.folio.marccat.config.Global.EMPTY_STRING;
+
 /**
  * Manages headings in the CNTL_NBR table for NTN index.
  *
@@ -122,7 +124,7 @@ public class ControlNumberDescriptorDAO extends DAODescriptor {
   public int getDocCount(final Descriptor descriptor, final int searchingView, final Session session)
     throws HibernateException {
     int count = 0;
-    String viewClause = "";
+    String viewClause = EMPTY_STRING;
     final CNTL_NBR controlNumber = (CNTL_NBR) descriptor;
     if (controlNumber.getTypeCode() == 10) {
       if (searchingView != View.ANY) {

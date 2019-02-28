@@ -22,16 +22,12 @@ public class ReferentialIntegrityException extends DataAccessException {
     setToTable(toTable);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setFromTable(String string) {
     fromTable = string;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setToTable(String string) {
     toTable = string;
   }

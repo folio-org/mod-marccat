@@ -7,6 +7,8 @@ import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
+import static org.folio.marccat.config.Global.EMPTY_STRING;
+
 /**
  * Persistent class for CLSTN_ITM_ACS_PNT.
  *
@@ -84,7 +86,7 @@ public class ClassificationAccessPoint extends BibliographicAccessPoint implemen
    */
   private void addEditionNumberIfNeeds(final StringText stringText) {
     if (descriptor.getTypeCode() == Global.DEWEY_TYPE_CODE && descriptor.getDeweyEditionNumber() != null)
-      stringText.addSubfield(new Subfield("2", "" + descriptor.getDeweyEditionNumber()));
+      stringText.addSubfield(new Subfield("2", EMPTY_STRING + descriptor.getDeweyEditionNumber()));
   }
 
   /**

@@ -31,58 +31,42 @@ public class LOADING_MARC_RECORDS implements Serializable, Persistence {
     // key is stats number + sequence -- managed by app
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getBibItemNumber() {
     return BibItemNumber;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setBibItemNumber(int i) {
     BibItemNumber = i;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getLoadingStatisticsNumber() {
     return loadingStatisticsNumber;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setLoadingStatisticsNumber(int i) {
     loadingStatisticsNumber = i;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getOldBibItemNumber() {
     return oldBibItemNumber;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setOldBibItemNumber(int i) {
     oldBibItemNumber = i;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getSequence() {
     return sequence;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setSequence(int i) {
     sequence = i;
   }
