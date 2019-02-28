@@ -1,6 +1,5 @@
 package org.folio.marccat.dao.persistence;
 
-import org.folio.marccat.business.cataloguing.authority.AuthorityClassificationAccessPoint;
 import org.folio.marccat.business.common.SortFormException;
 import org.folio.marccat.business.descriptor.SortFormParameters;
 import org.folio.marccat.business.descriptor.SortformUtils;
@@ -65,32 +64,16 @@ public class CLSTN extends Descriptor {
   }
 
 
-  /* (non-Javadoc)
-   * @see Descriptor#getAuthorityAccessPointClass()
-   */
-  public Class getAuthorityAccessPointClass() {
-    return AuthorityClassificationAccessPoint.class;
-  }
-
-
-  /* (non-Javadoc)
-   * @see Descriptor#getDefaultBrowseKey()
-   */
   public String getDefaultBrowseKey() {
     return "23P5";
   }
 
-  /* (non-Javadoc)
-   * @see Descriptor#getNextNumberKeyFieldCode()
-   */
+
   public String getNextNumberKeyFieldCode() {
     return "LN";
   }
 
 
-  /* (non-Javadoc)
-   * @see Descriptor#getCorrelationValues()
-   */
   public CorrelationValues getCorrelationValues() {
     return new CorrelationValues(
       getTypeCode(),
@@ -98,25 +81,15 @@ public class CLSTN extends Descriptor {
       CorrelationValues.UNDEFINED);
   }
 
-  /* (non-Javadoc)
-   * @see Descriptor#setCorrelationValues(CorrelationValues)
-   */
   public void setCorrelationValues(CorrelationValues v) {
     setTypeCode(v.getValue(1));
   }
 
 
-  /* (non-Javadoc)
-   * @see Descriptor#getSortFormParameters()
-   */
   public SortFormParameters getSortFormParameters() {
     return new SortFormParameters(400, getTypeCode(), 0, 0, 0);
   }
 
-
-  /* (non-Javadoc)
-   * @see Descriptor#getCategory()
-   */
   public int getCategory() {
     return 20;
   }
@@ -209,19 +182,19 @@ public class CLSTN extends Descriptor {
   private String calculateDefaultClassSortForm() {
     String result = new StringText(getStringText()).toDisplayString()
       .toUpperCase();
-    result = SortformUtils.stripAccents(result);
+    result = SortformUtils.get().stripAccents(result);
     result = result.replace("\"", " ");
     result = result.replace("'", " ");
     result = replacePeriodsForClassNumbers(result);
-    result = SortformUtils.stripMultipleBlanks(result);
+    result = SortformUtils.get().stripMultipleBlanks(result);
     return result;
   }
 
   private String calculateDeweySortForm() {
     String result = new StringText(getStringText()).toDisplayString()
       .toUpperCase();
-    result = SortformUtils.stripAccents(result);
-    result = SortformUtils.replaceDeweyPunctuation(result, "");
+    result = SortformUtils.get().stripAccents(result);
+    result = SortformUtils.get().replaceDeweyPunctuation(result, "");
     String prefix = null;
     Pattern prefixPattern = Pattern.compile("^(JC|J|C)\\s*(.*)");
     Matcher m = prefixPattern.matcher(result);
@@ -252,8 +225,8 @@ public class CLSTN extends Descriptor {
       }
     }
     String result = st.toDisplayString().toUpperCase();
-    result = SortformUtils.replacePunctuationMark1(result, " ");
-    result = SortformUtils.stripMultipleBlanks(result);
+    result = SortformUtils.get().replacePunctuationMark1(result, " ");
+    result = SortformUtils.get().stripMultipleBlanks(result);
     String[] parts = result.split("\u0003");
     if (parts[0].endsWith("*")) {
       parts[0] = parts[0].substring(0, parts[0].length() - 2) + ".";
@@ -303,8 +276,8 @@ public class CLSTN extends Descriptor {
       }
     }
     String result = st.toDisplayString().toUpperCase();
-    result = SortformUtils.replacePunctuationMark1(result, " ");
-    result = SortformUtils.stripMultipleBlanks(result);
+    result = SortformUtils.get().replacePunctuationMark1(result, " ");
+    result = SortformUtils.get().stripMultipleBlanks(result);
     String[] parts = result.split("\u0003");
     if (parts[0].endsWith("*")) {
       parts[0] = parts[0].substring(0, parts[0].length() - 2) + ".";

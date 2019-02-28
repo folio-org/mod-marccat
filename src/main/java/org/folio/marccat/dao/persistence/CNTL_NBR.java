@@ -1,6 +1,5 @@
 package org.folio.marccat.dao.persistence;
 
-import org.folio.marccat.business.cataloguing.authority.AuthorityControlNumberAccessPoint;
 import org.folio.marccat.business.common.SortFormException;
 import org.folio.marccat.business.descriptor.SortFormParameters;
 import org.folio.marccat.business.descriptor.SortformUtils;
@@ -131,8 +130,8 @@ public class CNTL_NBR extends Descriptor {
   }
 
   private String calculateIsmnSortForm() {
-    String result = SortformUtils.defaultSortform(getStringText());
-    result = SortformUtils.replacePunctuationMark2(result, EMPTY_STRING);
+    String result = SortformUtils.get().defaultSortform(getStringText());
+    result = SortformUtils.get().replacePunctuationMark2(result, EMPTY_STRING);
     return result;
   }
 
@@ -144,15 +143,15 @@ public class CNTL_NBR extends Descriptor {
         first.setContent(first.getContent().replace(" ", EMPTY_STRING));
       }
     }
-    String result = SortformUtils.defaultSortform(st.toString());
-    result = SortformUtils.replacePunctuationMark2(result, EMPTY_STRING);
+    String result = SortformUtils.get().defaultSortform(st.toString());
+    result = SortformUtils.get().replacePunctuationMark2(result, EMPTY_STRING);
     return result;
   }
 
   private String calculateIssnSortForm() {
     String result = getDisplayText().toUpperCase();
-    result = SortformUtils.stripAccents(result);
-    result = SortformUtils.deleteAlfalam(result);
+    result = SortformUtils.get().stripAccents(result);
+    result = SortformUtils.get().deleteAlfalam(result);
     if (result.charAt(result.length() - 1) == '*') {
       logger.debug("removing trailing *");
       return result.substring(0, result.length() - 1);
@@ -173,8 +172,8 @@ public class CNTL_NBR extends Descriptor {
 
   private String calculateIsbnSortForm() {
     String result = getDisplayText().toUpperCase();
-    result = SortformUtils.stripAccents(result);
-    result = SortformUtils.deleteAlfalam(result);
+    result = SortformUtils.get().stripAccents(result);
+    result = SortformUtils.get().deleteAlfalam(result);
     if (result.charAt(result.length() - 1) == '*') {
       logger.debug("removing trailing *");
       return result.substring(0, result.length() - 1);

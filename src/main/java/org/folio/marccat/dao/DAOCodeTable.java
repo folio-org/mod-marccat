@@ -12,7 +12,9 @@ import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.DataAccessException;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
 
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
