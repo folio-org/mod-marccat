@@ -1,6 +1,5 @@
 package org.folio.marccat.dao.persistence;
 
-import org.folio.marccat.business.cataloguing.authority.AuthorityClassificationAccessPoint;
 import org.folio.marccat.business.common.SortFormException;
 import org.folio.marccat.business.descriptor.SortFormParameters;
 import org.folio.marccat.business.descriptor.SortformUtils;
@@ -65,32 +64,16 @@ public class CLSTN extends Descriptor {
   }
 
 
-  /* (non-Javadoc)
-   * @see Descriptor#getAuthorityAccessPointClass()
-   */
-  public Class getAuthorityAccessPointClass() {
-    return AuthorityClassificationAccessPoint.class;
-  }
-
-
-  /* (non-Javadoc)
-   * @see Descriptor#getDefaultBrowseKey()
-   */
   public String getDefaultBrowseKey() {
     return "23P5";
   }
 
-  /* (non-Javadoc)
-   * @see Descriptor#getNextNumberKeyFieldCode()
-   */
+
   public String getNextNumberKeyFieldCode() {
     return "LN";
   }
 
 
-  /* (non-Javadoc)
-   * @see Descriptor#getCorrelationValues()
-   */
   public CorrelationValues getCorrelationValues() {
     return new CorrelationValues(
       getTypeCode(),
@@ -98,25 +81,15 @@ public class CLSTN extends Descriptor {
       CorrelationValues.UNDEFINED);
   }
 
-  /* (non-Javadoc)
-   * @see Descriptor#setCorrelationValues(CorrelationValues)
-   */
   public void setCorrelationValues(CorrelationValues v) {
     setTypeCode(v.getValue(1));
   }
 
 
-  /* (non-Javadoc)
-   * @see Descriptor#getSortFormParameters()
-   */
   public SortFormParameters getSortFormParameters() {
     return new SortFormParameters(400, getTypeCode(), 0, 0, 0);
   }
 
-
-  /* (non-Javadoc)
-   * @see Descriptor#getCategory()
-   */
   public int getCategory() {
     return 20;
   }

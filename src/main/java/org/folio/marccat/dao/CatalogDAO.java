@@ -3,7 +3,6 @@ package org.folio.marccat.dao;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
-import org.folio.marccat.business.cataloguing.authority.AuthorityReferenceTag;
 import org.folio.marccat.business.cataloguing.bibliographic.VariableHeaderUsingItemEntity;
 import org.folio.marccat.business.cataloguing.common.Tag;
 import org.folio.marccat.business.common.Persistence;
@@ -44,7 +43,7 @@ public abstract class CatalogDAO extends AbstractDAO {
   public void deleteCatalogItem(final CatalogItem item, final Session session) throws HibernateException, DataAccessException {
     final Transaction transaction = getTransaction(session);
     item.getTags().stream()
-      .filter(aTag -> !(aTag instanceof PublisherManager || aTag instanceof BibliographicNoteTag) && aTag instanceof Persistence && !(aTag instanceof AuthorityReferenceTag))
+      .filter(aTag -> !(aTag instanceof PublisherManager || aTag instanceof BibliographicNoteTag) && aTag instanceof Persistence)
       .forEach(tag -> {
         try {
           session.delete(tag);
