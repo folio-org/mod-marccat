@@ -1,3 +1,4 @@
+/*
 package org.folio.marccat;
 
 
@@ -16,9 +17,11 @@ import static org.junit.Assert.assertEquals;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 public class TemplateManagementTest extends BaseIntegrationTestCase {
-  /**
+  */
+/**
    * Setup fixture for this integration test case.
-   */
+   *//*
+
   @Before
   public void setUp() {
     super.setUp();
@@ -51,3 +54,4 @@ public class TemplateManagementTest extends BaseIntegrationTestCase {
   }
 
 }
+*/

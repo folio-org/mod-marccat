@@ -8,7 +8,7 @@ pipeline {
             steps {
                 script {
                    def mvnHome = tool 'mvn'
-                   sh "'${mvnHome}/bin/mvn' clean compile package -DskipTests=true"
+                   sh "'${mvnHome}/bin/mvn' clean org.jacoco:jacoco-maven-plugin:prepare-agent install -DskipTests=true"
                    archiveArtifacts 'target*//*.jar'
                }
             }
@@ -23,7 +23,7 @@ pipeline {
            steps{
               script{
                    withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
-                     sh('./script/local/deploy/deploy_itnet.sh')
+                     sh('./script/local/deploy/deploy_atcult.sh')
                 }
               }
            }
@@ -35,7 +35,7 @@ pipeline {
               echo 'pipeline finished!'
           }
           success {
-              echo 'mod-marccat deployed succesfully on ITNET and up and running on port 8080'
+              echo 'mod-marccat deployed succesfully on Atcult Farm and up and running on port 8080'
           }
           failure {
               echo 'Pipeline failed!!!!'

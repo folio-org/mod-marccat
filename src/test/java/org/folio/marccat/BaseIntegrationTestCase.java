@@ -1,3 +1,4 @@
+/*
 package org.folio.marccat;
 
 import org.apache.commons.io.FileUtils;
@@ -27,12 +28,14 @@ import static org.folio.marccat.ModMarccat.BASE_URI;
 import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
 import static ru.yandex.qatools.embed.postgresql.distribution.Version.Main.V9_6;
 
+*/
 /**
  * Supertype layer for all bibliographic test cases.
  *
  * @author cchiama
  * @since 1.0
- */
+ *//*
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
@@ -55,11 +58,13 @@ public abstract class BaseIntegrationTestCase {
   private static String getFile(String filename) throws IOException {
     return IOUtils.toString(BaseIntegrationTestCase.class.getClassLoader().getResourceAsStream(filename), "UTF-8");
   }
-  /**
+  */
+/**
    * Starts the embedded database instance.
    *
    * @throws Exception hopefully never, otherwise the test fails.
-   */
+   *//*
+
   @BeforeClass
   public static void prepareDatabase() throws Exception {
     File f = FileUtils.getFile("src/resources/marccat.sql");
@@ -72,9 +77,11 @@ public abstract class BaseIntegrationTestCase {
     POSTGRES.getProcess().ifPresent(pg -> pg.importFromFile(dbdump));
   }
 
-  /**
+  */
+/**
    * Stops the embedded database instance.
-   */
+   *//*
+
   @AfterClass
   public static void stopDatabase() {
     POSTGRES.stop();
@@ -86,14 +93,16 @@ public abstract class BaseIntegrationTestCase {
     configuration.injectData(POSTGRES_JDBC_URL, DB_USERNAME, DB_PASSWORD);
   }
 
-  /**
+  */
+/**
    * Retrieves the object associated with that URI.
    *
    * @param uri the target URI.
    * @param responseType the response type.
    * @param <T> the response instance type.
    * @return the object associated with that URI.
-   */
+   *//*
+
   protected  <T> T get(final String uri, Class<T> responseType) {
     final HttpHeaders headers = new HttpHeaders();
     headers.add(Global.OKAPI_TENANT_HEADER_NAME, String.valueOf(System.currentTimeMillis()));
@@ -111,12 +120,14 @@ public abstract class BaseIntegrationTestCase {
     return response.getBody();
   }
 
-  /**
+  */
+/**
    * Retrieves the object associated with that URI.
    *
    * @param uri the target URI.
    * @return the object associated with that URI.
-   */
+   *//*
+
   protected void delete(final String uri) {
     final HttpHeaders headers = new HttpHeaders();
     headers.add(Global.OKAPI_TENANT_HEADER_NAME, String.valueOf(System.currentTimeMillis()));
@@ -132,13 +143,16 @@ public abstract class BaseIntegrationTestCase {
     }
   }
 
-  /**
+  */
+/**
    * Returns the Pipeline API address endpoint.
    *
    * @param path the specific path service identifier.
    * @return the Pipeline API address endpoint.
-   */
+   *//*
+
   protected String address(final String path) {
     return "http://localhost:" + this.port + "/" + BASE_URI + path + (path.contains("?") ? "&" : "?") + "lang=eng";
   }
 }
+*/

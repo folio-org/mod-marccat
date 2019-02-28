@@ -1,3 +1,4 @@
+/*
 package org.folio.marccat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -7,12 +8,14 @@ import org.folio.marccat.integration.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+*/
 /**
  * This is a dummy configuration object used only for testing purposes.
  *
  * @author agazzarini
  * @since 1.0
- */
+ *//*
+
 @Component
 @Profile("test")
 public class TestConfiguration implements Configuration {
@@ -33,16 +36,19 @@ public class TestConfiguration implements Configuration {
     return cfg;
   }
 
-  /**
+  */
+/**
    * Injects the runtime configuration data into this object.
    *
    * @param jdbcUrl the JDBC URL.
    * @param username the database username.
    * @param password the database password.
-   */
+   *//*
+
   void injectData(final String jdbcUrl, final String username, final String password) {
     this.jdbcUrl = jdbcUrl;
     this.username = username;
     this.password = password;
   }
 }
+*/
