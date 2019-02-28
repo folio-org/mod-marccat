@@ -3,7 +3,6 @@ package org.folio.marccat.dao;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
-import net.sf.hibernate.Transaction;
 import net.sf.hibernate.type.Type;
 import org.folio.marccat.business.codetable.Avp;
 import org.folio.marccat.config.Global;
@@ -13,7 +12,9 @@ import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.DataAccessException;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
 
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;

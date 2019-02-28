@@ -3,13 +3,11 @@ package org.folio.marccat;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.folio.marccat.config.Global;
-import org.folio.marccat.resources.ModConfigurationAPI;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -38,7 +36,7 @@ import static ru.yandex.qatools.embed.postgresql.distribution.Version.Main.V9_6;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-public abstract class BaseIntegrationTest {
+public abstract class BaseIntegrationTestCase {
   @LocalServerPort
   protected int port;
 
@@ -55,7 +53,7 @@ public abstract class BaseIntegrationTest {
   private static String POSTGRES_JDBC_URL;
 
   private static String getFile(String filename) throws IOException {
-    return IOUtils.toString(BaseIntegrationTest.class.getClassLoader().getResourceAsStream(filename), "UTF-8");
+    return IOUtils.toString(BaseIntegrationTestCase.class.getClassLoader().getResourceAsStream(filename), "UTF-8");
   }
   /**
    * Starts the embedded database instance.

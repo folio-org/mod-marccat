@@ -1,6 +1,7 @@
 package org.folio.marccat;
 
 
+import org.folio.marccat.resources.domain.FieldCollection;
 import org.folio.marccat.resources.domain.RecordTemplateCollection;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-public class TemplateManagementTestCase extends BaseIntegrationTest {
+public class TemplateManagementTest extends BaseIntegrationTestCase {
   /**
    * Setup fixture for this integration test case.
    */

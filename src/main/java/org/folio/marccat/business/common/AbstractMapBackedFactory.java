@@ -47,7 +47,7 @@ public abstract class AbstractMapBackedFactory {
       try {
         return clazz.newInstance();
       } catch (final Exception exception) {
-        throw new RuntimeException(exception);
+        throw new IllegalArgumentException(exception);
       }
     }).orElseThrow(() -> new RuntimeException("Unable to create a valid instance of " + type));
   }

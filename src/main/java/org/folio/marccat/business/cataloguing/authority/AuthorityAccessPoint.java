@@ -10,8 +10,18 @@ public abstract class AuthorityAccessPoint extends AccessPoint implements Persis
   private AUT autItm;
 
 
+  @Override
+  public boolean equals(Object obj) {
+    return super.equals(obj);
+  }
+
   public AuthorityAccessPoint() {
     super();
+  }
+
+  @Override
+  public int hashCode() {
+    return super.hashCode();
   }
 
   /**
@@ -22,7 +32,6 @@ public abstract class AuthorityAccessPoint extends AccessPoint implements Persis
    */
   public AuthorityAccessPoint(int itemNumber) {
     super(itemNumber);
-    // TODO Auto-generated constructor stub
   }
 
   /**
@@ -39,16 +48,12 @@ public abstract class AuthorityAccessPoint extends AccessPoint implements Persis
     autItm = aut;
   }
 
-  /* (non-Javadoc)
-   * @see PersistsViaItem#getItemEntity()
-   */
+
   public ItemEntity getItemEntity() {
     return getAutItm();
   }
 
-  /* (non-Javadoc)
-   * @see PersistsViaItem#setItemEntity(ItemEntity)
-   */
+
   public void setItemEntity(ItemEntity item) {
     setAutItm((AUT) item);
   }

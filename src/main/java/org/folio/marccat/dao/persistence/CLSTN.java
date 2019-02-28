@@ -209,19 +209,19 @@ public class CLSTN extends Descriptor {
   private String calculateDefaultClassSortForm() {
     String result = new StringText(getStringText()).toDisplayString()
       .toUpperCase();
-    result = SortformUtils.stripAccents(result);
+    result = SortformUtils.get().stripAccents(result);
     result = result.replace("\"", " ");
     result = result.replace("'", " ");
     result = replacePeriodsForClassNumbers(result);
-    result = SortformUtils.stripMultipleBlanks(result);
+    result = SortformUtils.get().stripMultipleBlanks(result);
     return result;
   }
 
   private String calculateDeweySortForm() {
     String result = new StringText(getStringText()).toDisplayString()
       .toUpperCase();
-    result = SortformUtils.stripAccents(result);
-    result = SortformUtils.replaceDeweyPunctuation(result, "");
+    result = SortformUtils.get().stripAccents(result);
+    result = SortformUtils.get().replaceDeweyPunctuation(result, "");
     String prefix = null;
     Pattern prefixPattern = Pattern.compile("^(JC|J|C)\\s*(.*)");
     Matcher m = prefixPattern.matcher(result);
@@ -252,8 +252,8 @@ public class CLSTN extends Descriptor {
       }
     }
     String result = st.toDisplayString().toUpperCase();
-    result = SortformUtils.replacePunctuationMark1(result, " ");
-    result = SortformUtils.stripMultipleBlanks(result);
+    result = SortformUtils.get().replacePunctuationMark1(result, " ");
+    result = SortformUtils.get().stripMultipleBlanks(result);
     String[] parts = result.split("\u0003");
     if (parts[0].endsWith("*")) {
       parts[0] = parts[0].substring(0, parts[0].length() - 2) + ".";
@@ -303,8 +303,8 @@ public class CLSTN extends Descriptor {
       }
     }
     String result = st.toDisplayString().toUpperCase();
-    result = SortformUtils.replacePunctuationMark1(result, " ");
-    result = SortformUtils.stripMultipleBlanks(result);
+    result = SortformUtils.get().replacePunctuationMark1(result, " ");
+    result = SortformUtils.get().stripMultipleBlanks(result);
     String[] parts = result.split("\u0003");
     if (parts[0].endsWith("*")) {
       parts[0] = parts[0].substring(0, parts[0].length() - 2) + ".";

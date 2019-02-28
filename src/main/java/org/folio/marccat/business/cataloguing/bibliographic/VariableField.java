@@ -53,7 +53,7 @@ public abstract class VariableField extends Tag {
    * @return null.
    * @throws DataAccessException in case of data access exception.
    */
-  public List getSecondCorrelationList(final int value1) throws DataAccessException {
+  public List getSecondCorrelationList(final int value1) {
     return Collections.emptyList();
   }
 
@@ -65,7 +65,7 @@ public abstract class VariableField extends Tag {
    * @return null.
    * @throws DataAccessException in case of data access exception.
    */
-  public List getThirdCorrelationList(final int value1, final int value2) throws DataAccessException {
+  public List getThirdCorrelationList(final int value1, final int value2) {
     return Collections.emptyList();
   }
 
@@ -135,9 +135,7 @@ public abstract class VariableField extends Tag {
    * @return an element content.
    */
   public Element generateModelXmlElementContent(final Document xmlDocument) {
-    return ofNullable(xmlDocument).map(content -> {
-      return getStringText().generateModelXmlElementContent(xmlDocument);
-    }).orElse(null);
+    return ofNullable(xmlDocument).map(content -> getStringText().generateModelXmlElementContent(xmlDocument)).orElse(null);
   }
 
   /**
