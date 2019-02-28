@@ -1,7 +1,10 @@
 pipeline {
     agent any
     stages {
-        stage('Build') {
+      stage('SCM') {
+        git 'https://github.com/folio-org/mod-marccat.git'
+      }
+        stage('Maven Build') {
             steps {
                 script {
                    def mvnHome = tool 'mvn'
@@ -10,6 +13,12 @@ pipeline {
                }
             }
         }
+      stage('SonarQube analysis') {
+        def scannerHome = tool 'SonarQube Scanner 2.8';
+        withSonarQubeEnv('My SonarQube Server') {
+          sh "${scannerHome}/bin/sonar-scanner"
+        }
+      }
         stage('Deploy'){
            steps{
               script{

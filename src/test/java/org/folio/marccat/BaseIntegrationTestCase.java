@@ -2,7 +2,7 @@ package org.folio.marccat;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.folio.marccat.config.Global;
+import org.folio.marccat.config.log.Global;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
