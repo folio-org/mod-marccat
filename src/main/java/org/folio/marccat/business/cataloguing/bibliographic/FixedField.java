@@ -39,53 +39,39 @@ public abstract class FixedField extends Tag implements HeaderField {
     return false; //default implementation
   }
 
-  /**
-   * @since 1.0
-   */
+
   public HeaderFieldHelper getHeaderField() {
     return headerField;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getCategory() {
     return headerField.getCategory();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public List getFirstCorrelationList() throws DataAccessException {
     return headerField.getFirstCorrelationList();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public List getSecondCorrelationList(int value1)
     throws DataAccessException {
     return headerField.getSecondCorrelationList(value1);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public List getThirdCorrelationList(int value1, int value2)
     throws DataAccessException {
     return headerField.getThirdCorrelationList(value1, value2);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public boolean isHeaderField() {
     return headerField.isHeaderField();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setHeaderField(HeaderFieldHelper helper) {
     headerField = helper;
   }
@@ -129,16 +115,12 @@ public abstract class FixedField extends Tag implements HeaderField {
   }
 
 
-  /**
-   * @since 1.0
-   */
+
   public int getHeaderType() {
     return headerField.getHeaderType();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setHeaderType(int s) {
     headerField.setHeaderType(s);
   }

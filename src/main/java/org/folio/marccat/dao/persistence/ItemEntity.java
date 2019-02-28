@@ -35,23 +35,17 @@ public abstract class ItemEntity implements Persistence, Serializable {
   protected char verificationLevel = '1';
   private Integer amicusNumber = null;
 
-  /**
-   * @since 1.0
-   */
+
   public void evict() throws DataAccessException {
     persistenceState.evict(this);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public Integer getAmicusNumber() {
     return amicusNumber;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setAmicusNumber(Integer integer) {
     amicusNumber = integer;
   }
@@ -148,16 +142,12 @@ public abstract class ItemEntity implements Persistence, Serializable {
     return result;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public String getGeographicAreaStringText() {
     return geographicAreaStringText;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setGeographicAreaStringText(String string) {
     geographicAreaStringText = string;
   }
@@ -218,16 +208,12 @@ public abstract class ItemEntity implements Persistence, Serializable {
     typeOfDateTimeCode = s;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getUpdateStatus() {
     return persistenceState.getUpdateStatus();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setUpdateStatus(int i) {
     persistenceState.setUpdateStatus(i);
   }
@@ -246,79 +232,57 @@ public abstract class ItemEntity implements Persistence, Serializable {
     this.verificationLevel = verificationLevel;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public boolean isChanged() {
     return persistenceState.isChanged();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public boolean isDeleted() {
     return persistenceState.isDeleted();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public boolean isNew() {
     return persistenceState.isNew();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void markChanged() {
     persistenceState.markChanged();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void markDeleted() {
     persistenceState.markDeleted();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void markNew() {
     persistenceState.markNew();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void markUnchanged() {
     persistenceState.markUnchanged();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public boolean onDelete(Session arg0) throws CallbackException {
     return persistenceState.onDelete(arg0);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void onLoad(Session arg0, Serializable arg1) {
     persistenceState.onLoad(arg0, arg1);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public boolean onSave(Session arg0) throws CallbackException {
     return persistenceState.onSave(arg0);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public boolean onUpdate(Session arg0) throws CallbackException {
     return persistenceState.onUpdate(arg0);
   }

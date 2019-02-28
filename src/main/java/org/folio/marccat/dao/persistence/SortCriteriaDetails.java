@@ -27,58 +27,42 @@ public class SortCriteriaDetails implements Serializable {
     // TODO Auto-generated constructor stub
   }
 
-  /**
-   * @since 1.0
-   */
+
   public short getAttribute() {
     return attribute;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setAttribute(short s) {
     attribute = s;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public short getCode() {
     return code;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setCode(short s) {
     code = s;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public short getDirection() {
     return direction;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setDirection(short s) {
     direction = s;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public short getSequence() {
     return sequence;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setSequence(short s) {
     sequence = s;
   }

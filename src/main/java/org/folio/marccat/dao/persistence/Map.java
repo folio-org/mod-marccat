@@ -27,12 +27,9 @@ public class Map extends PhysicalDescription {
     setHeaderType(24);
   }
 
-  /* (non-Javadoc)
-   * @see FixedField#getDisplayString()
-   */
+
   public String getDisplayString() {
-    String result =
-      EMPTY_STRING
+    return EMPTY_STRING
         + getGeneralMaterialDesignationCode()
         + getSpecificMaterialDesignationCode()
         + " "
@@ -41,89 +38,64 @@ public class Map extends PhysicalDescription {
         + getMapTypeOfReproductionCode()
         + getMapProductionDetailsCode()
         + getMapPolarityCode();
-    return result;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getMapColourCode() {
     return mapColourCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setMapColourCode(char c) {
     mapColourCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getMapPhysicalMediumCode() {
     return mapPhysicalMediumCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setMapPhysicalMediumCode(char c) {
     mapPhysicalMediumCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getMapPolarityCode() {
     return mapPolarityCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setMapPolarityCode(char c) {
     mapPolarityCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getMapProductionDetailsCode() {
     return mapProductionDetailsCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setMapProductionDetailsCode(char c) {
     mapProductionDetailsCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getMapTypeOfReproductionCode() {
     return mapTypeOfReproductionCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setMapTypeOfReproductionCode(char c) {
     mapTypeOfReproductionCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getObsolete1() {
     return obsolete1;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setObsolete1(char c) {
     obsolete1 = c;
   }

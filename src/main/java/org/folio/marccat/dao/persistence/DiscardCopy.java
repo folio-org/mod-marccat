@@ -67,16 +67,12 @@ public class DiscardCopy implements Persistence, Serializable {
     return persistenceState;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setPersistenceState(PersistenceState state) {
     persistenceState = state;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void evict(Object obj) throws DataAccessException {
     persistenceState.evict(obj);
   }
@@ -85,100 +81,72 @@ public class DiscardCopy implements Persistence, Serializable {
     persistenceState.evict(this);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getUpdateStatus() {
     return persistenceState.getUpdateStatus();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setUpdateStatus(int i) {
     persistenceState.setUpdateStatus(i);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public boolean isChanged() {
     return persistenceState.isChanged();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public boolean isDeleted() {
     return persistenceState.isDeleted();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public boolean isNew() {
     return persistenceState.isNew();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public boolean isRemoved() {
     return persistenceState.isRemoved();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void markChanged() {
     persistenceState.markChanged();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void markDeleted() {
     persistenceState.markDeleted();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void markNew() {
     persistenceState.markNew();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void markUnchanged() {
     persistenceState.markUnchanged();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public boolean onDelete(Session arg0) throws CallbackException {
     return persistenceState.onDelete(arg0);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void onLoad(Session arg0, Serializable arg1) {
     persistenceState.onLoad(arg0, arg1);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public boolean onSave(Session arg0) throws CallbackException {
     return persistenceState.onSave(arg0);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public boolean onUpdate(Session arg0) throws CallbackException {
     return persistenceState.onUpdate(arg0);
   }

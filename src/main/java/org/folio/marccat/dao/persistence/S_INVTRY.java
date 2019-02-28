@@ -22,30 +22,22 @@ public class S_INVTRY {
     // TODO Auto-generated constructor stub
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getMainLibrary() {
     return mainLibrary;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setMainLibrary(int i) {
     mainLibrary = i;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getNextNumber() {
     return nextNumber;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setNextNumber(int i) {
     nextNumber = i;
   }

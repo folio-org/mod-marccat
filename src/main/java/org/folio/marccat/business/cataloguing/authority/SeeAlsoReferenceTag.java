@@ -23,30 +23,22 @@ public class SeeAlsoReferenceTag extends SeeSeeAlsoReference {
     }
   }
 
-  /**
-   * @since 1.0
-   */
+
   public REF getDualReference() {
     return dualReference;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setDualReference(REF ref) {
     dualReference = ref;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public short getDualReferenceIndicator() {
     return dualReferenceIndicator;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setDualReferenceIndicator(short s) {
     dualReferenceIndicator = s;
   }

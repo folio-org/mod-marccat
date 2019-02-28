@@ -34,16 +34,12 @@ public abstract class AuthorityAccessPoint extends AccessPoint implements Persis
     super(itemNumber);
   }
 
-  /**
-   * @since 1.0
-   */
+
   private AUT getAutItm() {
     return autItm;
   }
 
-  /**
-   * @since 1.0
-   */
+
   private void setAutItm(AUT aut) {
     autItm = aut;
   }

@@ -29,6 +29,7 @@ import static java.util.stream.Collectors.toList;
 
 public class DAOCodeTable extends AbstractDAO {
   private Log logger = new Log(DAOCodeTable.class);
+
   /**
    * Returns a code table contains elements set key/stringValue
    *
@@ -126,7 +127,6 @@ public class DAOCodeTable extends AbstractDAO {
   }
 
   /**
-   *
    * @param translationKey
    * @param locale
    * @return
@@ -137,7 +137,6 @@ public class DAOCodeTable extends AbstractDAO {
   }
 
   /**
-   *
    * @param session
    * @param c
    * @param code

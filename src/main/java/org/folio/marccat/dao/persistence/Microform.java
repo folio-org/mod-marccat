@@ -63,128 +63,92 @@ public class Microform extends PhysicalDescription {
     return true;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getBaseOfFilmCode() {
     return baseOfFilmCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setBaseOfFilmCode(char c) {
     baseOfFilmCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getColourCode() {
     return colourCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setColourCode(char c) {
     colourCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getDimensionsCode() {
     return dimensionsCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setDimensionsCode(char c) {
     dimensionsCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getEmulsionOnFilmCode() {
     return emulsionOnFilmCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setEmulsionOnFilmCode(char c) {
     emulsionOnFilmCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getGenerationCode() {
     return generationCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setGenerationCode(char c) {
     generationCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getObsolete1() {
     return obsolete1;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setObsolete1(char c) {
     obsolete1 = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getPolarityCode() {
     return polarityCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setPolarityCode(char c) {
     polarityCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public String getReductionRatioCode() {
     return reductionRatioCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setReductionRatioCode(String string) {
     reductionRatioCode = string;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getReductionRatioRangeCode() {
     return reductionRatioRangeCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setReductionRatioRangeCode(char c) {
     reductionRatioRangeCode = c;
   }

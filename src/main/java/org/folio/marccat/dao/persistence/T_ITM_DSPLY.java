@@ -25,30 +25,22 @@ public class T_ITM_DSPLY extends T_SINGLE_INT implements Serializable {
     // TODO Auto-generated constructor stub
   }
 
-  /**
-   * @since 1.0
-   */
+
   public short getCode() {
     return code;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setCode(short s) {
     code = s;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public String getFrmt() {
     return frmt;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setFrmt(String string) {
     frmt = string;
   }
@@ -61,16 +53,12 @@ public class T_ITM_DSPLY extends T_SINGLE_INT implements Serializable {
     return !isFull();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public boolean isLabelled() {
     return labelled;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setLabelled(boolean b) {
     labelled = b;
   }

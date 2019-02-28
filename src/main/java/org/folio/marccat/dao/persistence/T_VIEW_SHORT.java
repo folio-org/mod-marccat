@@ -31,16 +31,12 @@ public class T_VIEW_SHORT extends CodeTable {
     // TODO Auto-generated constructor stub
   }
 
-  /**
-   * @since 1.0
-   */
+
   public short getCode() {
     return code;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setCode(short s) {
     code = s;
   }
@@ -85,16 +81,12 @@ public class T_VIEW_SHORT extends CodeTable {
     }
   }
 
-  /**
-   * @since 1.0
-   */
+
   public long getTranslationKey() {
     return translationKey;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setTranslationKey(long i) {
     translationKey = i;
   }

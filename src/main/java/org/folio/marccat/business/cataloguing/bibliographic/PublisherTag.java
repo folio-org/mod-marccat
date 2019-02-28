@@ -217,16 +217,12 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
     noteType = v.getValue(1);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public List getAccessPoints() {
     return accessPoints;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setAccessPoints(List list) {
     accessPoints = list;
   }
@@ -280,86 +276,62 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
     return true;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public String getManufacturer() {
     return manufacturer;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setManufacturer(String string) {
     manufacturer = string;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public String getManufacturerDate() {
     return manufacturerDate;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setManufacturerDate(String string) {
     manufacturerDate = string;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public String getManufacturerPlace() {
     return manufacturerPlace;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setManufacturerPlace(String string) {
     manufacturerPlace = string;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public List getDeletedApfs() {
     return deletedApfs;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setDeletedApfs(List list) {
     deletedApfs = list;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getApfIndex() {
     return apfIndex;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setApfIndex(int i) {
     apfIndex = i;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public List getDates() {
     return dates;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setDates(List list) {
     logger.debug("setting all dates");
     dates = list;
@@ -368,9 +340,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
     }
   }
 
-  /**
-   * @since 1.0
-   */
+
   public List getDates(int i) {
     logger.debug("getting date[" + i + "] = " + dates.get(i));
     return dates;
@@ -492,30 +462,22 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
     setStringText(StringText.parseModelXmlElementContent(xmlElement));
   }
 
-  /**
-   * @since 1.0
-   */
+
   public String getUserViewString() {
     return userViewHelper.getUserViewString();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setUserViewString(String string) {
     userViewHelper.setUserViewString(string);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getBibItemNumber() {
     return getItemNumber();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setBibItemNumber(int i) {
     setItemNumber(i);
   }

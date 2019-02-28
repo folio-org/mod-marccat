@@ -186,30 +186,22 @@ public class BibliographicNote extends VariableField implements PersistentObject
     } else return v.getValue(1) == 382;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public String getUserViewString() {
     return userViewHelper.getUserViewString();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setUserViewString(String string) {
     userViewHelper.setUserViewString(string);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getBibItemNumber() {
     return getItemNumber();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setBibItemNumber(int i) {
     setItemNumber(i);
   }
