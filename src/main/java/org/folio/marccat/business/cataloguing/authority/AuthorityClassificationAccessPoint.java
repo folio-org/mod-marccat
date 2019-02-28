@@ -78,9 +78,7 @@ public class AuthorityClassificationAccessPoint extends AuthorityAccessPoint {
     getDescriptor().setCorrelationValues(v);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public Descriptor getDescriptor() {
     return descriptor;
   }
@@ -121,16 +119,12 @@ public class AuthorityClassificationAccessPoint extends AuthorityAccessPoint {
     return s;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public String getVolumeDate() {
     return volumeDate;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setVolumeDate(String string) {
     volumeDate = string;
   }

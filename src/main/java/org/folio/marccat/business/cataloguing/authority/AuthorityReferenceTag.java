@@ -94,9 +94,7 @@ public abstract class AuthorityReferenceTag
     reference.evict();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void evict(Object obj) throws DataAccessException {
     reference.evict(((AuthorityReferenceTag) obj).getReference());
   }
@@ -109,30 +107,22 @@ public abstract class AuthorityReferenceTag
     getReference().setSource(getAutItm().getHeadingNumber());
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getAuthorityStructure() {
     return reference.getAuthorityStructure();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setAuthorityStructure(char b) {
     reference.setAuthorityStructure(b);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public AUT getAutItm() {
     return autItm;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setAutItm(AUT aut) {
     autItm = aut;
   }
@@ -214,23 +204,17 @@ public abstract class AuthorityReferenceTag
     return true;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public short getDualReferenceIndicator() {
     return T_DUAL_REF.NO;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getEarlierRules() {
     return reference.getEarlierRules();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setEarlierRules(char b) {
     reference.setEarlierRules(b);
   }
@@ -318,44 +302,32 @@ public abstract class AuthorityReferenceTag
       getSkipInFiling());
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getNoteGeneration() {
     return reference.getNoteGeneration();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setNoteGeneration(char b) {
     reference.setNoteGeneration(b);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getPrintConstant() {
     return reference.getPrintConstant();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setPrintConstant(char b) {
     reference.setPrintConstant(b);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public REF getReference() {
     return reference;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setReference(REF ref) {
     reference = ref;
   }
@@ -374,9 +346,7 @@ public abstract class AuthorityReferenceTag
     return refTypeCorrelationPosition.intValue();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setRefTypeCorrelationPosition(Integer i) {
     refTypeCorrelationPosition = i;
   }
@@ -453,16 +423,12 @@ public abstract class AuthorityReferenceTag
     // setDescriptorStringText(stringText);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public Descriptor getTargetDescriptor() {
     return targetDescriptor;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setTargetDescriptor(Descriptor descriptor) {
     targetDescriptor = descriptor;
     /*
@@ -499,16 +465,12 @@ public abstract class AuthorityReferenceTag
     reference.setUpdateStatus(i);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public String getUserViewString() {
     return getReference().getUserViewString();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setUserViewString(String s) {
     getReference().setUserViewString(s);
   }

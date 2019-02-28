@@ -8,7 +8,9 @@ import org.folio.marccat.resources.domain.FixedFieldCodesGroup;
 import org.folio.marccat.resources.domain.FixedFieldElement;
 import org.folio.marccat.resources.domain.Pair;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 import static java.util.stream.Collectors.toList;
 import static org.folio.marccat.config.log.Global.*;

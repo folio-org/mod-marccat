@@ -54,23 +54,17 @@ public abstract class AuthorityHeadingTag extends VariableField implements
     autItm = (AUT) item;
   }
 
-  /**
-   * @since 1.0
-   */
+
   private AUT getAutItm() {
     return autItm;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public Descriptor getDescriptor() {
     return descriptor;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setDescriptor(Descriptor descriptor) {
     logger.debug("setDescriptor(" + descriptor + ")");
     this.descriptor = descriptor;

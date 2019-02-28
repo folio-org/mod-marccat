@@ -33,22 +33,15 @@ public class LibraryDateClosedKey implements Serializable {
     this.organisationNumber = organisationNumber;
     this.libraryDateCloseDate = libraryDateCloseDate;
   }
-  /* (non-Javadoc)
-   * @see java.lang.Object#equals(java.lang.Object)
-   */
-
   public boolean equals(Object obj) {
     if (!(obj instanceof LibraryDateClosedKey))
       return false;
     return super.equals(obj)
       && (((LibraryDateClosedKey) obj).getOrganisationNumber() == getOrganisationNumber()) &&
       (0 == ((LibraryDateClosedKey) obj).getLibraryDateCloseDate().compareTo(getLibraryDateCloseDate()));
-    //TODO don't know if this is right
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#hashCode()
-   */
+
   public int hashCode() {
     return getOrganisationNumber(); //TODO don't know if this is right
   }

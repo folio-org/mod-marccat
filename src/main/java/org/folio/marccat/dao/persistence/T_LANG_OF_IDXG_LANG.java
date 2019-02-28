@@ -17,9 +17,7 @@ public class T_LANG_OF_IDXG_LANG {
   private int languageIndexing;
   private int language;
 
-  /**
-   * @since 1.0
-   */
+
   public int getLanguage() {
     return language;
   }
@@ -32,9 +30,7 @@ public class T_LANG_OF_IDXG_LANG {
     language = i;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getLanguageIndexing() {
     return languageIndexing;
   }

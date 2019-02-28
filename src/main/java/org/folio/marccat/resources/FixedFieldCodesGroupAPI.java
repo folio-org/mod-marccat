@@ -25,9 +25,6 @@ import static org.folio.marccat.resources.shared.MappingUtils.toPairItem;
 /**
  * Fixed-Field Codes Groups RESTful APIs.
  *
- * @author cchiama
- * @author nbianchini
- * @since 1.0
  */
 @RestController
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")

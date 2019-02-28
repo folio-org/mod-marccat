@@ -28,12 +28,8 @@ public class VideoRecording extends PhysicalDescription {
     setHeaderType(30);
   }
 
-  /* (non-Javadoc)
-   * @see FixedField#getDisplayString()
-   */
   public String getDisplayString() {
-    String result =
-      EMPTY_STRING
+    return EMPTY_STRING
         + getGeneralMaterialDesignationCode()
         + getSpecificMaterialDesignationCode()
         + " "
@@ -43,118 +39,83 @@ public class VideoRecording extends PhysicalDescription {
         + getMediumForSoundCode()
         + getDimensionsCode()
         + getConfigurationCode();
-    return result;
   }
 
-  /* (non-Javadoc)
-   * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
-   */
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
     setKeyNumber(dao.getNextNumber("X9", session));
   }
 
-  /* (non-Javadoc)
-   * @see librisuite.business.cataloguing.bibliographic.PhysicalDescription#isVideoRecording()
-   */
   public boolean isVideoRecording() {
     return true;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getColourCode() {
     return colourCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setColourCode(char c) {
     colourCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getConfigurationCode() {
     return configurationCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setConfigurationCode(char c) {
     configurationCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getDimensionsCode() {
     return dimensionsCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setDimensionsCode(char c) {
     dimensionsCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getFormatCode() {
     return formatCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setFormatCode(char c) {
     formatCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getIncludesSoundCode() {
     return includesSoundCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setIncludesSoundCode(char c) {
     includesSoundCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getMediumForSoundCode() {
     return mediumForSoundCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setMediumForSoundCode(char c) {
     mediumForSoundCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getObsolete1() {
     return obsolete1;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setObsolete1(char c) {
     obsolete1 = c;
   }
@@ -187,7 +148,6 @@ public class VideoRecording extends PhysicalDescription {
     setConfigurationCode(content.getAttribute("configurationCode").charAt(0));
   }
 
-  //@paulm, us_bbl_loading
   @Override
   public void setContentFromMarcString(final String s) {
     setGeneralMaterialDesignationCode(s.charAt(0));

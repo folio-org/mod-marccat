@@ -41,8 +41,7 @@ public class MotionPicture extends PhysicalDescription {
    * @see FixedField#getDisplayString()
    */
   public String getDisplayString() {
-    String result =
-      EMPTY_STRING
+   return EMPTY_STRING
         + getGeneralMaterialDesignationCode()
         + getSpecificMaterialDesignationCode()
         + " "
@@ -61,244 +60,173 @@ public class MotionPicture extends PhysicalDescription {
         + getDeteriorationStageCode()
         + getCompletenessCode()
         + getInspectionDate();
-    return result;
   }
 
-  /* (non-Javadoc)
-   * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
-   */
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
     setKeyNumber(dao.getNextNumber("X4", session));
   }
 
-  /* (non-Javadoc)
-   * @see librisuite.business.cataloguing.bibliographic.PhysicalDescription#isMotionPicture()
-   */
   public boolean isMotionPicture() {
     return true;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getBaseOfFilmCode() {
     return baseOfFilmCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setBaseOfFilmCode(char c) {
     baseOfFilmCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getColourCode() {
     return colourCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setColourCode(char c) {
     colourCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getCompletenessCode() {
     return completenessCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setCompletenessCode(char c) {
     completenessCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getConfigurationCode() {
     return configurationCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setConfigurationCode(char c) {
     configurationCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getDeteriorationStageCode() {
     return deteriorationStageCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setDeteriorationStageCode(char c) {
     deteriorationStageCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getDimensionsCode() {
     return dimensionsCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setDimensionsCode(char c) {
     dimensionsCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getGenerationCode() {
     return generationCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setGenerationCode(char c) {
     generationCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getIncludesSoundCode() {
     return includesSoundCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setIncludesSoundCode(char c) {
     includesSoundCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public String getInspectionDate() {
     return inspectionDate;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setInspectionDate(String string) {
     inspectionDate = string;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getKindOfColourStockCode() {
     return kindOfColourStockCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setKindOfColourStockCode(char c) {
     kindOfColourStockCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getMediumForSoundCode() {
     return mediumForSoundCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setMediumForSoundCode(char c) {
     mediumForSoundCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getPolarityCode() {
     return polarityCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setPolarityCode(char c) {
     polarityCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getPresentationFormatCode() {
     return presentationFormatCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setPresentationFormatCode(char c) {
     presentationFormatCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getProductionElementsCode() {
     return productionElementsCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setProductionElementsCode(char c) {
     productionElementsCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getRefinedCategoriesOfColourCode() {
     return refinedCategoriesOfColourCode;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setRefinedCategoriesOfColourCode(char c) {
     refinedCategoriesOfColourCode = c;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public char getObsolete1() {
     return obsolete1;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setObsolete1(char c) {
     obsolete1 = c;
   }
@@ -349,7 +277,6 @@ public class MotionPicture extends PhysicalDescription {
     setInspectionDate(content.getAttribute("inspectionDate"));
   }
 
-  //@paulm, us_bbl_loading
   @Override
   public void setContentFromMarcString(final String s) {
     setGeneralMaterialDesignationCode(s.charAt(0));

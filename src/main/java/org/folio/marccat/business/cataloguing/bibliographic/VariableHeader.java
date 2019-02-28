@@ -40,23 +40,17 @@ public abstract class VariableHeader extends VariableField implements HeaderFiel
     return getStringText().getMarcDisplayString("$");
   }
 
-  /**
-   * @since 1.0
-   */
+
   public HeaderFieldHelper getHeaderField() {
     return headerField;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getHeaderType() {
     return headerField.getHeaderType();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setHeaderType(int s) {
     headerField.setHeaderType(s);
   }
@@ -98,9 +92,7 @@ public abstract class VariableHeader extends VariableField implements HeaderFiel
     return headerField.isHeaderField();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setHeaderField(HeaderFieldHelper helper) {
     headerField = helper;
   }

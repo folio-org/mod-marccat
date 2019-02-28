@@ -32,44 +32,32 @@ public class NumberOfMusicalInstrumentsTag extends VariableHeaderUsingItemEntity
     setStringText(new StringText(Subfield.SUBFIELD_DELIMITER + "a"));
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getMusicalInstrumentKeyNumber() {
     return musicalInstrumentKeyNumber;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setMusicalInstrumentKeyNumber(int i) {
     musicalInstrumentKeyNumber = i;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public StringText getStringText() {
     return stringText;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setStringText(StringText text) {
     stringText = text;
   }
 
-  /**
-   * @since 1.0
-   */
+
   public String getStringTextString() {
     return getStringText().toString();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setStringTextString(String string) {
     setStringText(new StringText(string));
   }
@@ -134,30 +122,22 @@ public class NumberOfMusicalInstrumentsTag extends VariableHeaderUsingItemEntity
     return getPersistenceState().getDAO();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public String getUserViewString() {
     return userViewHelper.getUserViewString();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setUserViewString(String string) {
     userViewHelper.setUserViewString(string);
   }
 
-  /**
-   * @since 1.0
-   */
+
   public int getBibItemNumber() {
     return getItemNumber();
   }
 
-  /**
-   * @since 1.0
-   */
+
   public void setBibItemNumber(int i) {
     setItemNumber(i);
   }
