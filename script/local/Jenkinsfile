@@ -1,49 +1,54 @@
 pipeline {
-    agent any
-    stages {
-      stage('SCM') {
-        git 'https://github.com/folio-org/mod-marccat.git'
-      }
-        stage('Maven Build') {
-            steps {
-                script {
-                   def mvnHome = tool 'mvn'
-                   sh "'${mvnHome}/bin/mvn' clean org.jacoco:jacoco-maven-plugin:prepare-agent install -DskipTests=true"
-                   archiveArtifacts 'target*//*.jar'
-               }
-            }
-        }
-      stage('SonarQube analysis') {
-        def scannerHome = tool 'SonarQube Scanner 2.8';
-        withSonarQubeEnv('My SonarQube Server') {
-          sh "${scannerHome}/bin/sonar-scanner"
+  agent any
+  stages {
+    stage('Maven Build') {
+      steps {
+        script {
+          def mvnHome = tool 'mvn'
+          sh "'${mvnHome}/bin/mvn' clean  install -DskipTests=true"
+          archiveArtifacts 'target*//*.jar'
         }
       }
-        stage('Deploy'){
-           steps{
-              script{
-                   withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
-                     sh('./script/local/deploy/deploy_atcult.sh')
-                }
-              }
-           }
-         }
     }
-
-     post {
-          always {
-              echo 'pipeline finished!'
-          }
-          success {
-              echo 'mod-marccat deployed succesfully on Atcult Farm and up and running on port 8080'
-          }
-          failure {
-              echo 'Pipeline failed!!!!'
-              emailext body: "${currentBuild.currentResult}: Job [${env.JOB_NAME}] build #${env.BUILD_NUMBER}\n \nMore info at: ${env.BUILD_URL}\n",
-              recipientProviders: [upstreamDevelopers(), developers(), brokenBuildSuspects()],
-              subject: 'FAILURE Jenkins Pipeline mod-marccat', to: 'christian.chiama@atcult.it',
-              attachLog: true,
-              compressLog: true
-          }
+    stage('SonarQube analysis') {
+      steps {
+        script {
+          echo 'start sonarlint scanner....'
+          def mvnHome = tool 'mvn'
+          sh "'${mvnHome}/bin/mvn' sonar:sonar \\\n" +
+            "  -Dsonar.projectKey=atcult_mod-marccat \\\n" +
+            "  -Dsonar.organization=atcult \\\n" +
+            "  -Dsonar.host.url=https://sonarcloud.io \\\n" +
+            "  -Dsonar.login=16ecd4e9f0be9249627521ea7013d246f023bf5d"
+        }
       }
+    }
+    stage('Deploy') {
+      steps {
+        script {
+          withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
+            echo 'start deploy....'
+            sh('./script/local/stage/deploy_atcult.sh')
+          }
+        }
+      }
+    }
+  }
+
+  post {
+    always {
+      echo 'pipeline finished!'
+    }
+    success {
+      echo 'mod-marccat deployed succesfully on Atcult Farm and up and running on port 8080'
+    }
+    failure {
+      echo 'Pipeline failed!!!!'
+      emailext body: "${currentBuild.currentResult}: Job [${env.JOB_NAME}] build #${env.BUILD_NUMBER}\n \nMore info at: ${env.BUILD_URL}\n",
+        recipientProviders: [upstreamDevelopers(), developers(), brokenBuildSuspects()],
+        subject: 'FAILURE Jenkins Pipeline mod-marccat', to: 'christian.chiama@atcult.it',
+        attachLog: true,
+        compressLog: true
+    }
+  }
 }
