@@ -233,29 +233,7 @@
         </configuration>
       </plugin>
 
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>1.5.0</version>
-        <executions>
-          <execution>
-            <id>git submodule update</id>
-            <phase>initialize</phase>
-            <configuration>
-              <executable>git</executable>
-              <arguments>
-                <argument>submodule</argument>
-                <argument>update</argument>
-                <argument>--init</argument>
-                <argument>--recursive</argument>
-              </arguments>
-            </configuration>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>
         <version>3.0.1</version>
@@ -311,79 +289,7 @@
           </execution>
         </executions>
       </plugin>
-
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>1.6.0</version>
-        <executions>
-          <execution>
-            <id>generate_client</id>
-            <phase>process-classes</phase>
-            <goals>
-              <goal>java</goal>
-            </goals>
-            <configuration>
-              <mainClass>org.folio.rest.tools.ClientGenerator</mainClass>
-              <cleanupDaemonThreads>false</cleanupDaemonThreads>
-              <systemProperties>
-                <systemProperty>
-                  <key>client.generate</key>
-                  <value>true</value>
-                </systemProperty>
-                <systemProperty>
-                  <key>project.basedir</key>
-                  <value>${basedir}</value>
-                </systemProperty>
-                <systemProperty>
-                  <key>json.type</key>
-                  <value>postgres</value>
-                </systemProperty>
-              </systemProperties>
-            </configuration>
-          </execution>
-          <execution>
-            <id>start-postgres</id>
-            <phase>pre-integration-test</phase>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            <configuration>
-              <executable>java</executable>
-              <async>true</async>
-              <classpathScope>test</classpathScope>
-              <arguments>
-                <argument>-classpath</argument>
-                <classpath />
-                <argument>org.folio.rest.persist.PostgresRunner</argument>
-              </arguments>
-            </configuration>
-          </execution>
-          <execution>
-            <id>wait-for-postgres</id>
-            <phase>pre-integration-test</phase>
-            <goals>
-              <goal>java</goal>
-            </goals>
-            <configuration>
-              <classpathScope>test</classpathScope>
-              <mainClass>org.folio.rest.persist.PostgresWaiter</mainClass>
-            </configuration>
-          </execution>
-          <execution>
-            <id>stop-postgres</id>
-            <phase>post-integration-test</phase>
-            <goals>
-              <goal>java</goal>
-            </goals>
-            <configuration>
-              <classpathScope>test</classpathScope>
-              <mainClass>org.folio.rest.persist.PostgresStopper</mainClass>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
+      
       <plugin>
         <groupId>com.coderplus.maven.plugins</groupId>
         <artifactId>copy-rename-maven-plugin</artifactId>
