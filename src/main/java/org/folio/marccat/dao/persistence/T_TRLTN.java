@@ -22,7 +22,7 @@ public class T_TRLTN implements Serializable {
 
   public T_TRLTN() {
     super();
-    // TODO Auto-generated constructor stub
+
   }
 
 

@@ -1,7 +1,7 @@
 package org.folio.marccat.resources.shared;
 
 import org.folio.marccat.config.log.Log;
-import org.folio.marccat.config.log.MessageCatalog;
+import org.folio.marccat.config.log.Message;
 import org.folio.marccat.integration.StorageService;
 import org.folio.marccat.resources.domain.Field;
 import org.folio.marccat.resources.domain.FixedFieldCodesGroup;
@@ -369,7 +369,7 @@ public class FixeFieldUtils {
         fixedFieldCodesGroup.addResults(new FixedFieldElement("catalogSources", storageService.getCodesList(lang, CATALOGUING_SOURCE).stream().map(toPairItem).collect(toList())));
       }
     } else {
-      logger.error(MessageCatalog._00019_HEADER_TYPE_ID_WRONG, tag);
+      logger.error(Message.MOD_MARCCAT_00019_HEADER_TYPE_ID_WRONG, tag);
     }
 
   }

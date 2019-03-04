@@ -3,7 +3,7 @@ package org.folio.marccat.integration.search;
 import net.sf.hibernate.Session;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.config.log.Log;
-import org.folio.marccat.config.log.MessageCatalog;
+import org.folio.marccat.config.log.Message;
 import org.folio.marccat.dao.DAOIndexList;
 import org.folio.marccat.dao.persistence.IndexList;
 import org.folio.marccat.exception.DataAccessException;
@@ -107,7 +107,7 @@ public class Parser {
       orderByClause + ") res" +
       " limit " + limitSize + " offset " + offsetSize;
     logger.debug(
-      MessageCatalog._00020_SE_QUERY,
+      Message.MOD_MARCCAT_00020_SE_QUERY,
       ccl, query);
 
     return query;

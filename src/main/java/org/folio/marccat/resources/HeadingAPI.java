@@ -3,7 +3,7 @@ package org.folio.marccat.resources;
 import org.folio.marccat.ModMarccat;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.config.log.Global;
-import org.folio.marccat.config.log.MessageCatalog;
+import org.folio.marccat.config.log.Message;
 import org.folio.marccat.resources.domain.Heading;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +46,7 @@ public class HeadingAPI extends BaseResource {
         storageService.updateHeading(heading, view);
         return heading;
       } catch (final Exception exception) {
-        logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+        logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
         return null;
       }
     }, tenant, configurator, () -> (isNotNullOrEmpty(heading.getStringText()) && heading.getHeadingNumber() != 0));
@@ -64,7 +64,7 @@ public class HeadingAPI extends BaseResource {
         storageService.deleteHeadingById(heading, view);
         return heading;
       } catch (final Exception exception) {
-        logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+        logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
         return null;
       }
     }, tenant, configurator);

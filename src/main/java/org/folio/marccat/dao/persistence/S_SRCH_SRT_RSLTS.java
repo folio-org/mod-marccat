@@ -21,7 +21,7 @@ public class S_SRCH_SRT_RSLTS implements Serializable {
 
   public S_SRCH_SRT_RSLTS() {
     super();
-    // TODO Auto-generated constructor stub
+
   }
 
 

@@ -18,7 +18,7 @@ public class DescriptorHasEmptySubfieldsException
 
   public DescriptorHasEmptySubfieldsException() {
     super();
-    // TODO Auto-generated constructor stub
+
   }
 
   /**
@@ -29,7 +29,7 @@ public class DescriptorHasEmptySubfieldsException
    */
   public DescriptorHasEmptySubfieldsException(String message) {
     super(message);
-    // TODO Auto-generated constructor stub
+
   }
 
   /**
@@ -43,7 +43,7 @@ public class DescriptorHasEmptySubfieldsException
     String message,
     Throwable cause) {
     super(message, cause);
-    // TODO Auto-generated constructor stub
+
   }
 
   /**
@@ -54,7 +54,7 @@ public class DescriptorHasEmptySubfieldsException
    */
   public DescriptorHasEmptySubfieldsException(Throwable cause) {
     super(cause);
-    // TODO Auto-generated constructor stub
+
   }
 
 }

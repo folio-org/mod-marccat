@@ -39,7 +39,7 @@ public class LDG_STATS implements Serializable, Persistence {
 
   public LDG_STATS() {
     super();
-    // TODO Auto-generated constructor stub
+
   }
 
   public void generateNewKey(final Session session) throws DataAccessException {

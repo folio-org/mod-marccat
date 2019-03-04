@@ -1,7 +1,7 @@
 package org.folio.marccat.util;
 
 import org.folio.marccat.config.log.Log;
-import org.folio.marccat.config.log.MessageCatalog;
+import org.folio.marccat.config.log.Message;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -135,7 +135,7 @@ public abstract class F {
       final ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(bos.toByteArray()));
       return in.readObject();
     } catch (final Exception exception) {
-      LOGGER.error(MessageCatalog._00013_IO_FAILURE, exception);
+      LOGGER.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
       return null;
     }
   }

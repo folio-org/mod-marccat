@@ -2,7 +2,7 @@ package org.folio.marccat.resources;
 
 import org.folio.marccat.ModMarccat;
 import org.folio.marccat.config.log.Global;
-import org.folio.marccat.config.log.MessageCatalog;
+import org.folio.marccat.config.log.Message;
 import org.folio.marccat.resources.domain.FieldTemplate;
 import org.folio.marccat.shared.CatalogingInformation;
 import org.folio.marccat.shared.Validation;
@@ -59,7 +59,7 @@ public class FieldTemplateAPI extends BaseResource implements CatalogingInformat
                 validation));
             return fieldTemplate;
           }).orElseGet(() -> {
-            logger.error(MessageCatalog._00016_FIELD_PARAMETER_INVALID, categoryCode, code);
+            logger.error(Message.MOD_MARCCAT_00016_FIELD_PARAMETER_INVALID, categoryCode, code);
             return new FieldTemplate();
           })
           : ofNullable(CatalogingInformation.getFixedField(storageService, headerType, code, leader, valueField, lang, configuration))
@@ -68,7 +68,7 @@ public class FieldTemplateAPI extends BaseResource implements CatalogingInformat
             fieldT.setFixedField(fixedField);
             return fieldT;
           }).orElseGet(() -> {
-            logger.error(MessageCatalog._00016_FIELD_PARAMETER_INVALID, categoryCode, code);
+            logger.error(Message.MOD_MARCCAT_00016_FIELD_PARAMETER_INVALID, categoryCode, code);
             return new FieldTemplate();
           })
       , tenant, configurator, "bibliographic", "material");

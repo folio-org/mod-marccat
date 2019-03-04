@@ -13,7 +13,7 @@ import org.folio.marccat.business.common.View;
 import org.folio.marccat.business.descriptor.DescriptorFactory;
 import org.folio.marccat.config.log.Global;
 import org.folio.marccat.config.log.Log;
-import org.folio.marccat.config.log.MessageCatalog;
+import org.folio.marccat.config.log.Message;
 import org.folio.marccat.dao.*;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.enumaration.CodeListsType;
@@ -203,7 +203,7 @@ public class StorageService implements Closeable {
     try {
       return dao.getBibliographicModelList(session);
     } catch (final HibernateException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
     }
   }
@@ -221,10 +221,10 @@ public class StorageService implements Closeable {
         new AuthorityModelDAO().load(id, session).getRecordFields(),
         RecordTemplate.class);
     } catch (final HibernateException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
     } catch (final IOException exception) {
-      logger.error(MessageCatalog._00013_IO_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
       throw new DataAccessException(exception);
     }
   }
@@ -245,10 +245,10 @@ public class StorageService implements Closeable {
       model.setRecordFields(mapper.writeValueAsString(template));
       dao.save(model, session);
     } catch (final HibernateException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
     } catch (final JsonProcessingException exception) {
-      logger.error(MessageCatalog._00013_IO_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
       throw new DataAccessException(exception);
     }
   }
@@ -265,7 +265,7 @@ public class StorageService implements Closeable {
       final Model model = dao.load(Integer.valueOf(id), session);
       dao.delete(model, session);
     } catch (final HibernateException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
     }
   }
@@ -282,7 +282,7 @@ public class StorageService implements Closeable {
       final Model model = dao.load(Integer.valueOf(id), session);
       dao.delete(model, session);
     } catch (final HibernateException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
     }
   }
@@ -304,10 +304,10 @@ public class StorageService implements Closeable {
       model.setRecordFields(mapper.writeValueAsString(template));
       dao.update(model, session);
     } catch (final HibernateException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
     } catch (final JsonProcessingException exception) {
-      logger.error(MessageCatalog._00013_IO_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
       throw new DataAccessException(exception);
     }
   }
@@ -329,10 +329,10 @@ public class StorageService implements Closeable {
       model.setRecordFields(mapper.writeValueAsString(template));
       dao.update(model, session);
     } catch (final HibernateException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
     } catch (final JsonProcessingException exception) {
-      logger.error(MessageCatalog._00013_IO_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
       throw new DataAccessException(exception);
     }
   }
@@ -353,10 +353,10 @@ public class StorageService implements Closeable {
       model.setRecordFields(mapper.writeValueAsString(template));
       dao.save(model, session);
     } catch (final HibernateException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
     } catch (final JsonProcessingException exception) {
-      logger.error(MessageCatalog._00013_IO_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
       throw new DataAccessException(exception);
     }
   }
@@ -375,10 +375,10 @@ public class StorageService implements Closeable {
         new BibliographicModelDAO().load(id, session).getRecordFields(),
         RecordTemplate.class);
     } catch (final HibernateException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
     } catch (final IOException exception) {
-      logger.error(MessageCatalog._00013_IO_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
       throw new DataAccessException(exception);
     }
   }
@@ -479,11 +479,11 @@ public class StorageService implements Closeable {
         results.add(rs.getInt(1));
       }
 
-      logger.info(MessageCatalog._00023_SE_REQRES, cclQuery, results.size());
+      logger.info(Message.MOD_MARCCAT_00023_SE_REQRES, cclQuery, results.size());
 
       return results;
     } catch (final HibernateException | SQLException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       return emptyList();
     }
   }
@@ -510,7 +510,7 @@ public class StorageService implements Closeable {
     try {
       return dao.getAuthorityModelList(session);
     } catch (final HibernateException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
     }
   }
@@ -590,7 +590,7 @@ public class StorageService implements Closeable {
       key = daoIndex.getIndexByAbreviation(index, session, locale(lang));
       final Class c = Global.DAO_CLASS_MAP.get(key);
       if (c == null) {
-        logger.error(MessageCatalog._00119_DAO_CLASS_MAP_NOT_FOUND, key);
+        logger.error(Message.MOD_MARCCAT_00119_DAO_CLASS_MAP_NOT_FOUND, key);
         return Collections.emptyList();
       }
       final DAODescriptor dao = (DAODescriptor) c.newInstance();
@@ -611,10 +611,10 @@ public class StorageService implements Closeable {
       return getMapHeadings(view, descriptorsList, dao);
 
     } catch (final SQLException | HibernateException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
     } catch (final IllegalAccessException | InstantiationException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new InvalidBrowseIndexException(key);
     }
   }
@@ -648,7 +648,7 @@ public class StorageService implements Closeable {
       key = daoIndex.getIndexByAbreviation(index, session, locale(lang));
       final Class c = Global.DAO_CLASS_MAP.get(key);
       if (c == null) {
-        logger.error(MessageCatalog._00119_DAO_CLASS_MAP_NOT_FOUND, key);
+        logger.error(Message.MOD_MARCCAT_00119_DAO_CLASS_MAP_NOT_FOUND, key);
         return Collections.emptyList();
       }
       final DAODescriptor dao = (DAODescriptor) c.newInstance();
@@ -664,10 +664,10 @@ public class StorageService implements Closeable {
 
 
     } catch (final HibernateException | SQLException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
     } catch (final IllegalAccessException | InstantiationException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new InvalidBrowseIndexException(key);
     }
   }
@@ -701,7 +701,7 @@ public class StorageService implements Closeable {
       key = daoIndex.getIndexByAbreviation(index, session, locale(lang));
       final Class c = Global.DAO_CLASS_MAP.get(key);
       if (c == null) {
-        logger.error(MessageCatalog._00119_DAO_CLASS_MAP_NOT_FOUND, key);
+        logger.error(Message.MOD_MARCCAT_00119_DAO_CLASS_MAP_NOT_FOUND, key);
         return Collections.emptyList();
       }
       final DAODescriptor dao = (DAODescriptor) c.newInstance();
@@ -718,10 +718,10 @@ public class StorageService implements Closeable {
       return mapHeading;
 
     } catch (final SQLException | HibernateException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
     } catch (final IllegalAccessException | InstantiationException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new InvalidBrowseIndexException(key);
     }
   }
@@ -772,7 +772,7 @@ public class StorageService implements Closeable {
         }).collect(Collectors.toList()));
 
       } catch (HibernateException exception) {
-        logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+        logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
         throw new DataAccessException(exception);
       }
       return headingObject;
@@ -802,7 +802,7 @@ public class StorageService implements Closeable {
           return mapRecordTypeMaterial;
         }).orElse(null);
     } catch (final HibernateException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
     }
   }
@@ -828,7 +828,7 @@ public class StorageService implements Closeable {
           session, code, indicator1.charAt(0), indicator2.charAt(0), category))
         .map(BibliographicCorrelation::getValues).orElse(null);
     } catch (final HibernateException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
     }
   }
@@ -852,7 +852,7 @@ public class StorageService implements Closeable {
       final CorrelationValues correlationValues = new CorrelationValues(code1, code2, code3);
       return daoBibliographicValidation.load(session, marcCategory, correlationValues);
     } catch (final HibernateException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
     }
   }
@@ -903,7 +903,7 @@ public class StorageService implements Closeable {
       mapRecordTypeMaterial.put(Global.FORM_OF_MATERIAL_LABEL, rtm.getAmicusMaterialTypeCode());
       return mapRecordTypeMaterial;
     } catch (final HibernateException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
     }
   }
@@ -1054,7 +1054,7 @@ public class StorageService implements Closeable {
         }
       }
     } catch (final HibernateException | SQLException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
     }
     return null;
@@ -1186,7 +1186,7 @@ public class StorageService implements Closeable {
         template.setId(model.getModel().getId());
         return template;
       } catch (IOException exception) {
-        logger.error(MessageCatalog._00013_IO_FAILURE, exception);
+        logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
         return null;
       }
     }).orElse(null));
@@ -1237,7 +1237,7 @@ public class StorageService implements Closeable {
       return 0;
 
     } catch (final HibernateException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
     }
   }
@@ -1283,7 +1283,7 @@ public class StorageService implements Closeable {
       dao.saveCatalogItem(item, session);
 
     } catch (Exception e) {
-      logger.error(MessageCatalog._00019_SAVE_RECORD_FAILURE, record.getId(), e);
+      logger.error(Message.MOD_MARCCAT_00019_SAVE_RECORD_FAILURE, record.getId(), e);
       throw new DataAccessException(e);
     }
   }
@@ -1313,7 +1313,7 @@ public class StorageService implements Closeable {
         model.setRecordFields(mapper.writeValueAsString(template));
         return model;
       } catch (Exception e) {
-        logger.error(MessageCatalog._00023_SAVE_TEMPLATE_ASSOCIATED_FAILURE, template.getId(), an, e);
+        logger.error(Message.MOD_MARCCAT_00023_SAVE_TEMPLATE_ASSOCIATED_FAILURE, template.getId(), an, e);
         throw new RuntimeException(e);
       }
     }
@@ -1374,7 +1374,7 @@ public class StorageService implements Closeable {
           final CorrelationValues correlationValues = getCorrelationVariableField(variableField.getCategoryCode(),
             variableField.getInd1(), variableField.getInd2(), tagNbr);
           if (correlationValues == null) {
-            logger.error(MessageCatalog._00018_NO_HEADING_TYPE_CODE, variableField.getCode());
+            logger.error(Message.MOD_MARCCAT_00018_NO_HEADING_TYPE_CODE, variableField.getCode());
             throw new DataAccessException();
           }
 
@@ -1486,7 +1486,7 @@ public class StorageService implements Closeable {
         final CorrelationValues correlationValues = getCorrelationVariableField(variableField.getCategoryCode(),
           variableField.getInd1(), variableField.getInd2(), tagNbr);
         if (correlationValues == null) {
-          logger.error(MessageCatalog._00018_NO_HEADING_TYPE_CODE, variableField.getCode());
+          logger.error(Message.MOD_MARCCAT_00018_NO_HEADING_TYPE_CODE, variableField.getCode());
           throw new DataAccessException();
         }
         recordParser.insertNewVariableField(item, variableField, bibItemNumber, correlationValues, session, view);
@@ -1510,7 +1510,7 @@ public class StorageService implements Closeable {
     try {
       return daoBibliographicValidation.load(session, tagNumber, marcCategory);
     } catch (final HibernateException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
     }
   }
@@ -1532,7 +1532,7 @@ public class StorageService implements Closeable {
     } catch (RecordNotFoundException exception) {
       //ignore
     } catch (Exception exception) {
-      logger.error(MessageCatalog._00022_DELETE_RECORD_FAILURE, itemNumber, exception);
+      logger.error(Message.MOD_MARCCAT_00022_DELETE_RECORD_FAILURE, itemNumber, exception);
       throw new DataAccessException(exception);
     }
   }
@@ -1548,7 +1548,7 @@ public class StorageService implements Closeable {
       final BibliographicCatalog catalog = new BibliographicCatalog();
       catalog.unlock(id, userName, session);
     } catch (RecordInUseException exception) {
-      logger.error(MessageCatalog._00021_UNLOCK_FAILURE, id, userName, exception);
+      logger.error(Message.MOD_MARCCAT_00021_UNLOCK_FAILURE, id, userName, exception);
       throw new DataAccessException(exception);
     }
   }
@@ -1565,7 +1565,7 @@ public class StorageService implements Closeable {
       final BibliographicCatalog catalog = new BibliographicCatalog();
       catalog.lock(id, userName, uuid, session);
     } catch (RecordInUseException exception) {
-      logger.error(MessageCatalog._00020_LOCK_FAILURE, id, userName, exception);
+      logger.error(Message.MOD_MARCCAT_00020_LOCK_FAILURE, id, userName, exception);
       throw new DataAccessException(exception);
     }
   }
@@ -1610,7 +1610,7 @@ public class StorageService implements Closeable {
         }
       }
     } catch (HibernateException | SQLException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
     }
   }
@@ -1676,7 +1676,7 @@ public class StorageService implements Closeable {
         }
       }
     } catch (HibernateException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
     }
 
@@ -1695,7 +1695,7 @@ public class StorageService implements Closeable {
       final Descriptor d = descriptorDao.load(heading.getHeadingNumber(), view, session);
       d.getDAO().delete(d, session);
     } catch (HibernateException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
     }
 
@@ -1720,7 +1720,7 @@ public class StorageService implements Closeable {
       }
       return count;
     } catch (final HibernateException | SQLException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       return 0;
     }
   }

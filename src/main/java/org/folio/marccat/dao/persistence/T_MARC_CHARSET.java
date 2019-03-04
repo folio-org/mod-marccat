@@ -17,7 +17,7 @@ public class T_MARC_CHARSET extends T_SINGLE_INT {
 
   public T_MARC_CHARSET() {
     super();
-    // TODO Auto-generated constructor stub
+
   }
 
 }

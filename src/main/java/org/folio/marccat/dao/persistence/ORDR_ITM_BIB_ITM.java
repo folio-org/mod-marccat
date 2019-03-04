@@ -31,7 +31,7 @@ public class ORDR_ITM_BIB_ITM implements Persistence {
 
   public ORDR_ITM_BIB_ITM() {
     super();
-    // TODO Auto-generated constructor stub
+
   }
 
   /* (non-Javadoc)

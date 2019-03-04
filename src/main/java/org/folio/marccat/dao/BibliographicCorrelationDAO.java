@@ -6,7 +6,7 @@ import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
 import org.folio.marccat.business.codetable.Avp;
 import org.folio.marccat.config.log.Log;
-import org.folio.marccat.config.log.MessageCatalog;
+import org.folio.marccat.config.log.Message;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.DataAccessException;
 
@@ -126,7 +126,7 @@ public class BibliographicCorrelationDAO extends DAOCorrelation {
         new Type[]{Hibernate.STRING, Hibernate.CHARACTER, Hibernate.CHARACTER});
 
     } catch (final HibernateException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       return Collections.emptyList();
     }
   }
@@ -172,7 +172,7 @@ public class BibliographicCorrelationDAO extends DAOCorrelation {
         .collect(toList());
 
     } catch (final HibernateException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       return Collections.emptyList();
     }
   }
@@ -240,7 +240,7 @@ public class BibliographicCorrelationDAO extends DAOCorrelation {
         .map(codeTable -> (Avp<String>) new Avp(codeTable.getCodeString().trim(), codeTable.getLongText()))
         .collect(toList());
     } catch (final HibernateException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       return Collections.emptyList();
     }
   }
@@ -345,7 +345,7 @@ public class BibliographicCorrelationDAO extends DAOCorrelation {
         new Object[]{language},
         new Type[]{Hibernate.STRING});
     } catch (final DataAccessException exception) {
-      logger.debug(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.debug(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       return Collections.emptyList();
     }
   }
@@ -431,7 +431,7 @@ public class BibliographicCorrelationDAO extends DAOCorrelation {
         .collect(toList());
 
     } catch (final HibernateException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       return Collections.emptyList();
     }
   }

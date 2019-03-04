@@ -2,7 +2,7 @@ package org.folio.marccat.resources;
 
 import org.folio.marccat.ModMarccat;
 import org.folio.marccat.config.log.Global;
-import org.folio.marccat.config.log.MessageCatalog;
+import org.folio.marccat.config.log.Message;
 import org.folio.marccat.resources.domain.FieldCollection;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +38,7 @@ public class FieldAPI extends BaseResource {
             createCatalogingSourceField(configuration, storageService, lang)));
         return container;
       } catch (final Exception exception) {
-        logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+        logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
         return null;
       }
     }, tenant, configurator, "bibliographic", "material");

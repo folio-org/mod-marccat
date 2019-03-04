@@ -22,7 +22,7 @@ public class T_ITM_DSPLY extends T_SINGLE_INT implements Serializable {
 
   public T_ITM_DSPLY() {
     super();
-    // TODO Auto-generated constructor stub
+
   }
 
 

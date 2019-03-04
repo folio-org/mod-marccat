@@ -28,7 +28,7 @@ public class T_VIEW_LONGCHAR extends CodeTable {
 
   public T_VIEW_LONGCHAR() {
     super();
-    // TODO Auto-generated constructor stub
+
   }
 
 

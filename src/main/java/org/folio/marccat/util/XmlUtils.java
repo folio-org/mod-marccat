@@ -1,7 +1,7 @@
 package org.folio.marccat.util;
 
 import org.folio.marccat.config.log.Log;
-import org.folio.marccat.config.log.MessageCatalog;
+import org.folio.marccat.config.log.Message;
 import org.folio.marccat.model.Subfield;
 import org.w3c.dom.Document;
 
@@ -45,7 +45,7 @@ public final class XmlUtils {
 
         builder.append(writer.getBuffer());
       } catch (final TransformerException transformerException) {
-        LOGGER.error(MessageCatalog._00024_XSLT_FAILURE, transformerException);
+        LOGGER.error(Message.MOD_MARCCAT_00024_XSLT_FAILURE, transformerException);
       }
     }
     return builder.toString();

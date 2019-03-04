@@ -1,11 +1,11 @@
 package org.folio.marccat.business.codetable;
 
-import java.io.Serializable;
+import javax.validation.constraints.NotNull;
 
 /**
  * Holds a single attribute-stringValue pair (AVP).
  */
-public class Avp<V> implements Comparable<Avp>, Serializable {
+public class Avp<V> implements Comparable<Avp> {
   private V value;
   private String label;
 
@@ -78,8 +78,7 @@ public class Avp<V> implements Comparable<Avp>, Serializable {
   }
 
   @Override
-  public int compareTo(final Avp pair) {
-    if (pair == null) return -1;
+  public int compareTo(@NotNull final Avp pair) {
     return label.compareTo(pair.getLabel());
   }
 }

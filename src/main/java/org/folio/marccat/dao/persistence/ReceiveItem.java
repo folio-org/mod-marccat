@@ -38,7 +38,7 @@ public class ReceiveItem implements Persistence {
 
   public ReceiveItem() {
     super();
-    // TODO Auto-generated constructor stub
+
   }
 
 

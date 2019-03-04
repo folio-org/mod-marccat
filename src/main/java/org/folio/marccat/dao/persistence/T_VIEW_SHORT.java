@@ -28,7 +28,7 @@ public class T_VIEW_SHORT extends CodeTable {
 
   public T_VIEW_SHORT() {
     super();
-    // TODO Auto-generated constructor stub
+
   }
 
 

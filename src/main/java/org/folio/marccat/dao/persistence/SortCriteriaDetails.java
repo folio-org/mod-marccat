@@ -24,7 +24,7 @@ public class SortCriteriaDetails implements Serializable {
 
   public SortCriteriaDetails() {
     super();
-    // TODO Auto-generated constructor stub
+
   }
 
 

@@ -52,7 +52,7 @@ public class OrderItem implements Persistence {
 
   public OrderItem() {
     super();
-    // TODO Auto-generated constructor stub
+
   }
 
   /* (non-Javadoc)

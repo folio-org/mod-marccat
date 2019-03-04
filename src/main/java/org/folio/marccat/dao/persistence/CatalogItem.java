@@ -5,7 +5,7 @@ import org.folio.marccat.business.cataloguing.common.Tag;
 import org.folio.marccat.business.cataloguing.common.TagImpl;
 import org.folio.marccat.business.common.group.*;
 import org.folio.marccat.config.log.Log;
-import org.folio.marccat.config.log.MessageCatalog;
+import org.folio.marccat.config.log.Message;
 import org.folio.marccat.exception.*;
 import org.folio.marccat.shared.Validation;
 import org.w3c.dom.Document;
@@ -235,9 +235,9 @@ public abstract class CatalogItem implements Serializable {
       final List<Tag> tagSet = unlist(tagContainers);
       setTags(tagSet);
     } catch (MarcCorrelationException e) {
-      logger.info(MessageCatalog._00017_MARC_CORRELATION_SORTING);
+      logger.info(Message.MOD_MARCCAT_00017_MARC_CORRELATION_SORTING);
     } catch (DataAccessException e) {
-      logger.info(MessageCatalog._00010_DATA_ACCESS_FAILURE);
+      logger.info(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE);
     }
   }
 

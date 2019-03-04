@@ -17,7 +17,7 @@ import static java.util.stream.Collectors.toList;
 import static org.folio.marccat.config.log.Global.*;
 import static org.folio.marccat.config.log.Global.OTHER_MATERIAL_TAG_CODE;
 import static org.folio.marccat.config.log.Global.PHYSICAL_DESCRIPTION_TAG_CODE;
-import static org.folio.marccat.config.log.MessageCatalog.*;
+import static org.folio.marccat.config.log.Message.*;
 import static org.folio.marccat.integration.MarccatHelper.doGet;
 import static org.folio.marccat.resources.shared.FixeFieldUtils.*;
 import static org.folio.marccat.resources.shared.MappingUtils.toPairItem;
@@ -53,7 +53,7 @@ public class FixedFieldCodesGroupAPI extends BaseResource implements CatalogingI
           } else if (tag.equals(PHYSICAL_DESCRIPTION_TAG_CODE)) {
             injectPhysicalDescriptionCodes(fixedFieldCodesGroup, storageService, lang, headerTypeCode);
           } else {
-            logger.error(String.format(_00017_CODES_GROUPS_NOT_AVAILABLE, code));
+            logger.error(String.format(MOD_MARCCAT_00017_CODES_GROUPS_NOT_AVAILABLE, code));
             return null;
           }
           /**
@@ -76,7 +76,7 @@ public class FixedFieldCodesGroupAPI extends BaseResource implements CatalogingI
         fieldT.setFixedField(f);
         return fieldT;
       }).orElseGet(() -> {
-        logger.error(_00016_FIELD_PARAMETER_INVALID, CONTROL_FIELD_CATEGORY_CODE, parameter.get("code"));
+        logger.error(MOD_MARCCAT_00016_FIELD_PARAMETER_INVALID, CONTROL_FIELD_CATEGORY_CODE, parameter.get("code"));
         return new FieldTemplate();
       });
     fixedFieldCodesGroup.getResults()
@@ -152,7 +152,7 @@ public class FixedFieldCodesGroupAPI extends BaseResource implements CatalogingI
       }
 
     } else {
-      logger.error(_00019_HEADER_TYPE_ID_WRONG, PHYSICAL_DESCRIPTION_TAG_CODE);
+      logger.error(MOD_MARCCAT_00019_HEADER_TYPE_ID_WRONG, PHYSICAL_DESCRIPTION_TAG_CODE);
     }
   }
 }

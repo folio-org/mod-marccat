@@ -17,7 +17,7 @@ public class T_ACQ_MTHD_TYP extends T_SINGLE_LONGCHAR {
 
   public T_ACQ_MTHD_TYP() {
     super();
-    // TODO Auto-generated constructor stub
+
   }
 
 }

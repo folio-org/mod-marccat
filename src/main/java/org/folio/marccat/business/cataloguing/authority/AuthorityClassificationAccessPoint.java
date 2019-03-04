@@ -6,7 +6,6 @@ import org.folio.marccat.dao.DAOAuthorityCorrelation;
 import org.folio.marccat.dao.persistence.CLSTN;
 import org.folio.marccat.dao.persistence.Descriptor;
 import org.folio.marccat.dao.persistence.T_AUT_CLSTN_FNCTN;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
@@ -23,11 +22,7 @@ public class AuthorityClassificationAccessPoint extends AuthorityAccessPoint {
   private String volumeDate;
 
 
-  public AuthorityClassificationAccessPoint() {
-    super();
-//    descriptor.setTypeCode(Defaults.getShort("authority.classification.type"));
-//    setFunctionCode(Defaults.getShort("authority.classification.function"));
-  }
+
 
   /**
    * Class constructor
@@ -37,42 +32,26 @@ public class AuthorityClassificationAccessPoint extends AuthorityAccessPoint {
    */
   public AuthorityClassificationAccessPoint(int itemNumber) {
     super(itemNumber);
-//    descriptor.setTypeCode(Defaults.getShort("authority.classification.type"));
-//    setFunctionCode(Defaults.getShort("authority.classification.function"));
   }
 
-  /* (non-Javadoc)
-   * @see AccessPoint#getAccessPointStringText()
-   */
   public StringText getAccessPointStringText() {
     return new StringText(getVolumeDate());
   }
 
-  /* (non-Javadoc)
-   * @see AccessPoint#setAccessPointStringText(org.folio.marccat.util.StringText)
-   */
   public void setAccessPointStringText(StringText stringText) {
     setVolumeDate(stringText.getSubfieldsWithCodes("d").toString());
   }
 
-  /* (non-Javadoc)
-   * @see TagInterface#getCategory()
-   */
+  @Override
   public int getCategory() {
     return (short) 6;
   }
 
-  /* (non-Javadoc)
-   * @see TagInterface#getCorrelationValues()
-   */
   public CorrelationValues getCorrelationValues() {
     CorrelationValues v = getDescriptor().getCorrelationValues();
     return v.change(2, getFunctionCode());
   }
 
-  /* (non-Javadoc)
-   * @see TagInterface#setCorrelationValues(librisuite.business.common.CorrelationValues)
-   */
   public void setCorrelationValues(CorrelationValues v) {
     setFunctionCode(v.getValue(2));
     getDescriptor().setCorrelationValues(v);
@@ -83,18 +62,13 @@ public class AuthorityClassificationAccessPoint extends AuthorityAccessPoint {
     return descriptor;
   }
 
-  /* (non-Javadoc)
-   * @see Browsable#setDescriptor(librisuite.hibernate.Descriptor)
-   */
+
   public void setDescriptor(Descriptor descriptor) {
     this.descriptor = (CLSTN) descriptor;
   }
 
-  /* (non-Javadoc)
-   * @see librisuite.business.cataloguing.bibliographic.Tag#getSecondCorrelationList(short)
-   */
   public List getSecondCorrelationList(short value1)
-    throws DataAccessException {
+    throws RuntimeException {
     DAOAuthorityCorrelation dao = new DAOAuthorityCorrelation();
     List l = dao.getSecondCorrelationList(
       getCategory(),
@@ -110,9 +84,8 @@ public class AuthorityClassificationAccessPoint extends AuthorityAccessPoint {
     return l;
   }
 
-  /* (non-Javadoc)
-   * @see VariableField#getStringText()
-   */
+
+  @Override
   public StringText getStringText() {
     StringText s = super.getStringText();
     s.parse(getVolumeDate());
@@ -120,25 +93,27 @@ public class AuthorityClassificationAccessPoint extends AuthorityAccessPoint {
   }
 
 
-  public String getVolumeDate() {
+  private String getVolumeDate() {
     return volumeDate;
   }
 
 
-  public void setVolumeDate(String string) {
+  private void setVolumeDate(String string) {
     volumeDate = string;
   }
 
-  /* (non-Javadoc)
-   * @see AccessPoint#setDescriptorStringText(org.folio.marccat.util.StringText)
-   */
   public void setDescriptorStringText(StringText tagStringText) {
     getDescriptor().setStringText(
       tagStringText.getSubfieldsWithoutCodes(VARIANT_CODES).toString());
   }
 
+  @Override
   public String getVariantCodes() {
     return VARIANT_CODES;
   }
 
+  @Override
+  public boolean equals(Object obj) {
+    return super.equals(obj);
+  }
 }
