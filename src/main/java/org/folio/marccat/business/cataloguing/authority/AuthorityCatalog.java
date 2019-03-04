@@ -197,7 +197,7 @@ public class AuthorityCatalog extends Catalog {
     CatalogItem item,
     int category,
     CorrelationValues correlationValues)
-    throws NewTagException {
+    throws RuntimeException {
     Tag tag = (Tag) getTagFactory().create(category);
 
     if (correlationValues != null) {

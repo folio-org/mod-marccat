@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-mvn compile package install -DskipTests sonar:sonar \
+mvn sonar:sonar \
 -Dsonar.projectKey=atcult_mod-marccat \
 -Dsonar.organization=atcult \
 -Dsonar.host.url=https://sonarcloud.io \
