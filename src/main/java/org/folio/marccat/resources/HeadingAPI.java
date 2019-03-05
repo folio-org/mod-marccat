@@ -32,7 +32,7 @@ public class HeadingAPI extends BaseResource {
     return doPost((storageService, configuration) -> {
       storageService.saveHeading(heading, view, configuration);
       return heading;
-    }, tenant, configurator, () -> (isNotNullOrEmpty(heading.getStringText())), "title", "subject", "name");
+    }, tenant, configurator, () -> (isNotNullOrEmpty(heading.getStringText())), "title", "subject", "name", "controlNumber", "classification", "publisher","nameTitle");
   }
 
 
