@@ -24,7 +24,7 @@ public class T_AMICUS_FIXED implements Serializable {
 
   public T_AMICUS_FIXED() {
     super();
-    // TODO Auto-generated constructor stub
+
   }
 
 

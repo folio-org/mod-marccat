@@ -1,7 +1,7 @@
 package org.folio.marccat.integration;
 
 import org.folio.marccat.config.log.Log;
-import org.folio.marccat.config.log.MessageCatalog;
+import org.folio.marccat.config.log.Message;
 import org.folio.marccat.exception.SystemInternalFailureException;
 
 import java.util.Map;
@@ -37,7 +37,7 @@ public interface PieceOfExistingLogicAdapter<T> {
       if (result.isPresent()) {
         return result.get();
       } else {
-        error(PieceOfExistingLogicAdapter.class, MessageCatalog._00012_NULL_RESULT);
+        error(PieceOfExistingLogicAdapter.class, Message.MOD_MARCCAT_00012_NULL_RESULT);
         throw new SystemInternalFailureException(new IllegalArgumentException());
       }
     } catch (final Exception exception) {

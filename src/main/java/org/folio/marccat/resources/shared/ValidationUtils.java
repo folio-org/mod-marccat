@@ -2,7 +2,7 @@ package org.folio.marccat.resources.shared;
 
 import org.folio.marccat.config.log.Global;
 import org.folio.marccat.config.log.Log;
-import org.folio.marccat.config.log.MessageCatalog;
+import org.folio.marccat.config.log.Message;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.DuplicateTagException;
 import org.folio.marccat.integration.StorageService;
@@ -37,19 +37,19 @@ public class ValidationUtils {
     final ErrorCollection errors = new ErrorCollection();
 
     if (!checkMandatory(record)) {
-      logger.error(MessageCatalog._00026_MANDATORY_FAILURE, record.getId());
+      logger.error(Message.MOD_MARCCAT_00026_MANDATORY_FAILURE, record.getId());
       errors.getErrors().add(getError(Global.ERROR_MANDATORY_TAG));
     }
 
     String wrongTags = checkRepeatability(record, storageService);
     if (F.isNotNullOrEmpty(wrongTags)) {
-      logger.error(MessageCatalog._00025_DUPLICATE_TAG, wrongTags);
+      logger.error(Message.MOD_MARCCAT_00025_DUPLICATE_TAG, wrongTags);
       errors.getErrors().add(getError(Global.ERROR_DUPLICATE_TAG, wrongTags));
     }
 
     String emptyTags = checkEmptyTag(record);
     if (F.isNotNullOrEmpty(emptyTags)) {
-      logger.error(MessageCatalog._00027_EMPTY_TAG, emptyTags);
+      logger.error(Message.MOD_MARCCAT_00027_EMPTY_TAG, emptyTags);
       errors.getErrors().add(getError(Global.ERROR_EMPTY_TAG, emptyTags));
     }
 

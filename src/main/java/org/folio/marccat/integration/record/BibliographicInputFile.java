@@ -12,7 +12,7 @@ import org.folio.marccat.business.cataloguing.common.TagImpl;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.config.log.Global;
 import org.folio.marccat.config.log.Log;
-import org.folio.marccat.config.log.MessageCatalog;
+import org.folio.marccat.config.log.Message;
 import org.folio.marccat.dao.BibliographicCatalogDAO;
 import org.folio.marccat.dao.DAODescriptor;
 import org.folio.marccat.dao.RecordTypeMaterialDAO;
@@ -66,7 +66,7 @@ public class BibliographicInputFile {
     try {
       loadFileFromStream(fileName, inputStream, cataloguingView, startAt, recCount, session, configuration);
     } catch (Exception e) {
-      logger.error(MessageCatalog._00031_LOAD_FROM_FILE_FAILURE, fileName, e);
+      logger.error(Message.MOD_MARCCAT_00031_LOAD_FROM_FILE_FAILURE, fileName, e);
       throw new DataAccessException(e);
     }
   }
@@ -94,7 +94,7 @@ public class BibliographicInputFile {
 
       loadFileFromStream(fileName, input, cataloguingView, startAt, recCount, session, configuration);
     } catch (IOException e) {
-      logger.error(MessageCatalog._00032_LOAD_REC_BY_REC_FAILURE, record.getControlFields().get(0) + " - " + record.getLeader().toString(), e);
+      logger.error(Message.MOD_MARCCAT_00032_LOAD_REC_BY_REC_FAILURE, record.getControlFields().get(0) + " - " + record.getLeader().toString(), e);
       throw new DataAccessException(e);
     }
   }
@@ -171,7 +171,7 @@ public class BibliographicInputFile {
         }
       }
     } catch (DataAccessException | HibernateException exception) {
-      logger.error(MessageCatalog._00030_LOAD_RECORDS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00030_LOAD_RECORDS_FAILURE, exception);
       throw new DataAccessException(exception);
     }
   }

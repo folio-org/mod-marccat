@@ -9,7 +9,7 @@ import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.business.common.UpdateStatus;
 import org.folio.marccat.business.controller.UserProfile;
-import org.folio.marccat.config.log.MessageCatalog;
+import org.folio.marccat.config.log.Message;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.DataAccessException;
 
@@ -84,11 +84,11 @@ public abstract class CatalogDAO extends AbstractDAO {
       try {
         Descriptor descriptor = tag.getDAODescriptor().load(tag.getHeadingNumber(), userView, session);
         if (descriptor == null)
-          throw new DataAccessException(String.format(MessageCatalog._00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
+          throw new DataAccessException(String.format(Message.MOD_MARCCAT_00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
         tag.setDescriptor(descriptor);
 
       } catch (HibernateException e) {
-        throw new DataAccessException(String.format(MessageCatalog._00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
+        throw new DataAccessException(String.format(Message.MOD_MARCCAT_00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
       }
     }
   }

@@ -17,7 +17,7 @@ public class T_ORDR_AQSTN_TYP extends T_SINGLE_INT {
 
   public T_ORDR_AQSTN_TYP() {
     super();
-    // TODO Auto-generated constructor stub
+
   }
 
 }

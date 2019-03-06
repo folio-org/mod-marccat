@@ -9,7 +9,7 @@ import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.business.common.View;
-import org.folio.marccat.config.log.MessageCatalog;
+import org.folio.marccat.config.log.Message;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.RecordInUseException;
 
@@ -149,7 +149,7 @@ public class HibernateUtil {
     try {
       return session.get(clazz, id);
     } catch (Exception exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       return null;
     }
   }

@@ -6,6 +6,7 @@ import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
+import java.util.Collections;
 import java.util.List;
 
 
@@ -68,16 +69,10 @@ public class AuthorityControlNumberAccessPoint extends AuthorityAccessPoint {
     return descriptor;
   }
 
-  /* (non-Javadoc)
-   * @see Browsable#setDescriptor(librisuite.hibernate.Descriptor)
-   */
   public void setDescriptor(Descriptor descriptor) {
     this.descriptor = (CNTL_NBR) descriptor;
   }
 
-  /* (non-Javadoc)
-   * @see VariableField#getStringText()
-   */
   public StringText getStringText() {
     StringText s = super.getStringText();
     if (getValidationCode() != 'a') {
@@ -86,17 +81,13 @@ public class AuthorityControlNumberAccessPoint extends AuthorityAccessPoint {
     return s;
   }
 
-  /* (non-Javadoc)
-   * @see librisuite.business.cataloguing.bibliographic.Tag#getFirstCorrelationList()
-   */
-  @Deprecated
+
   public List getFirstCorrelationList() throws DataAccessException {
-    //return getDaoCodeTable().getList(T_AUT_CNTL_NBR_TYP.class,false);
-    return null;
+    return Collections.emptyList();
   }
 
 
-  public char getValidationCode() {
+  private char getValidationCode() {
     return validationCode;
   }
 
@@ -105,9 +96,7 @@ public class AuthorityControlNumberAccessPoint extends AuthorityAccessPoint {
     validationCode = c;
   }
 
-  /* (non-Javadoc)
-   * @see AccessPoint#setDescriptorStringText(org.folio.marccat.util.StringText)
-   */
+
   public void setDescriptorStringText(StringText tagStringText) {
     getDescriptor().setStringText(tagStringText.toString());
   }

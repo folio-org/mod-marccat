@@ -13,7 +13,7 @@ import static java.util.Optional.ofNullable;
 import static org.folio.marccat.config.log.Global.*;
 import static org.folio.marccat.config.log.Global.OTHER_MATERIAL_TAG_CODE;
 import static org.folio.marccat.config.log.Global.PHYSICAL_DESCRIPTION_TAG_CODE;
-import static org.folio.marccat.config.log.MessageCatalog.*;
+import static org.folio.marccat.config.log.Message.*;
 import static org.folio.marccat.integration.MarccatHelper.doGet;
 import static org.folio.marccat.resources.shared.FixedFieldUtils.*;
 
@@ -62,7 +62,7 @@ public class FixedFieldCodesGroupAPI extends BaseResource implements CatalogingI
           } else if (tag.equals(PHYSICAL_DESCRIPTION_TAG_CODE)) {
             injectPhysicalDescriptionCodes(fixedFieldCodesGroup, storageService, lang, headerTypeCode);
           } else {
-            logger.error(String.format(_00017_CODES_GROUPS_NOT_AVAILABLE, code));
+            logger.error(String.format(MOD_MARCCAT_00017_CODES_GROUPS_NOT_AVAILABLE, code));
             return null;
           }
           /**

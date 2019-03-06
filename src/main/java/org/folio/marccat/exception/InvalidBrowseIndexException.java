@@ -17,7 +17,7 @@ public class InvalidBrowseIndexException extends ModMarccatException {
 
   public InvalidBrowseIndexException() {
     super();
-    // TODO Auto-generated constructor stub
+
   }
 
   /**
@@ -28,7 +28,7 @@ public class InvalidBrowseIndexException extends ModMarccatException {
    */
   public InvalidBrowseIndexException(String message) {
     super(message);
-    // TODO Auto-generated constructor stub
+
   }
 
   /**
@@ -40,7 +40,7 @@ public class InvalidBrowseIndexException extends ModMarccatException {
    */
   public InvalidBrowseIndexException(String message, Throwable cause) {
     super(message, cause);
-    // TODO Auto-generated constructor stub
+
   }
 
   /**
@@ -51,7 +51,7 @@ public class InvalidBrowseIndexException extends ModMarccatException {
    */
   public InvalidBrowseIndexException(Throwable cause) {
     super(cause);
-    // TODO Auto-generated constructor stub
+
   }
 
   public InvalidBrowseIndexException(Integer o) {

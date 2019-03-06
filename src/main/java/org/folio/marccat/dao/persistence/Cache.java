@@ -47,7 +47,7 @@ public class Cache implements Persistence {
 
   public Cache() {
     super();
-    // TODO Auto-generated constructor stub
+
   }
 
   public Cache(int amicusNumber, short cataloguingView) {

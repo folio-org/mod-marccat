@@ -32,7 +32,7 @@ public class LOADING_MARC_FILE implements Persistence {
 
   public LOADING_MARC_FILE() {
     super();
-    // TODO Auto-generated constructor stub
+
   }
 
   /**

@@ -6,7 +6,7 @@ import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.marccat.config.log.MessageCatalog;
+import org.folio.marccat.config.log.Message;
 import org.folio.marccat.dao.persistence.BibliographicValidation;
 import org.folio.marccat.dao.persistence.BibliographicValidationKey;
 import org.folio.marccat.exception.DataAccessException;
@@ -80,7 +80,7 @@ public class BibliographicValidationDAO extends DAOValidation {
     if (firstElement.isPresent()) {
       return firstElement.get();
     } else {
-      logger.error(String.format(MessageCatalog._00014_NO_VALIDATION_FOUND, category, values.toString()));
+      logger.error(String.format(Message.MOD_MARCCAT_00014_NO_VALIDATION_FOUND, category, values.toString()));
       return null;
     }
   }
