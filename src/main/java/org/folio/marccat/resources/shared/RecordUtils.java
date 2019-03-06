@@ -13,7 +13,7 @@ import java.util.Map;
 import static java.util.Arrays.stream;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
-import static org.folio.marccat.resources.shared.FixeFieldUtils.isFixedField;
+import static org.folio.marccat.resources.shared.FixedFieldUtils.isFixedField;
 
 public class RecordUtils {
 
