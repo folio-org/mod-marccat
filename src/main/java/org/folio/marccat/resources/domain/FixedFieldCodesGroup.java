@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.annotation.Generated;
 import javax.validation.Valid;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -24,7 +25,7 @@ public class FixedFieldCodesGroup {
 
   @JsonProperty("results")
   @Valid
-  private Map<String, FixedFieldElement> results = new HashMap<String, FixedFieldElement>();
+  private Map<String, FixedFieldElement> results = new LinkedHashMap<String, FixedFieldElement>();
 
   /**
    * @return Results

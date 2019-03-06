@@ -1,6 +1,7 @@
 package org.folio.marccat.resources;
 
 import org.folio.marccat.ModMarccat;
+import org.folio.marccat.config.log.Global;
 import org.folio.marccat.enumaration.CodeListsType;
 import org.folio.marccat.integration.StorageService;
 import org.folio.marccat.resources.domain.FieldTemplate;
@@ -29,6 +30,20 @@ import static org.folio.marccat.resources.shared.MappingUtils.toPairItem;
 @RestController
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class FixedFieldCodesGroupAPI extends BaseResource implements CatalogingInformation {
+
+  @GetMapping("/fixed-fields-code-groups-by-leader")
+  public FixedFieldCodesGroup getFixedFieldCodesGroupsByLeader(
+    @RequestParam(required = true) final String leader,
+    @RequestParam(name = "code", defaultValue = Global.MATERIAL_TAG_CODE ) final String code,
+    @RequestParam final String lang,
+    @RequestHeader(OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    return doGet((storageService, configuration) -> {
+      final FixedFieldCodesGroup fixedFieldCodesGroup = new FixedFieldCodesGroup();
+      final Map<String, Object> map = storageService.getMaterialTypeInfosByLeaderValues(leader.charAt(6),leader.charAt(7), code);
+      injectMaterialCodes(fixedFieldCodesGroup, storageService, lang, (int) map.get(Global.HEADER_TYPE_LABEL), code);
+      return fixedFieldCodesGroup;
+    }, tenant, configurator, "bibliographic", "material");
+  }
 
   @GetMapping("/fixed-fields-code-groups")
   public FixedFieldCodesGroup getFixedFieldCodesGroups(
