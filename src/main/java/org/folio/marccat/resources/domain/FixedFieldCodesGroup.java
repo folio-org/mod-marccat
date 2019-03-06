@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import javax.annotation.Generated;
 import javax.validation.Valid;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 

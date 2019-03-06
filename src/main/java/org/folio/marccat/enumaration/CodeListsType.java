@@ -7,6 +7,18 @@ public enum CodeListsType {
       return "DATE_TYPE";
     }
   },
+   MARC_COUNTRY {
+    @Override
+    public String toString() {
+      return "MARC_COUNTRY";
+    }
+  },
+  LANGUAGE{
+    @Override
+    public String toString() {
+      return "LANGUAGE";
+    }
+  },
   MODIFIED_RECORD_TYPE {
     @Override
     public String toString() {

@@ -20,6 +20,7 @@ import static org.folio.marccat.resources.shared.MappingUtils.toPairItem;
 public class FixedFieldUtils {
 
   protected static Log logger = new Log(FixedFieldUtils.class);
+  private static final String MATERIAL_TYPE = "materialTypeCode";
 
   /**
    * Check if is a fixed field or not.
@@ -297,19 +298,23 @@ public class FixedFieldUtils {
                                          final String tag) {
     Map<String, Object> mapRecordTypeMaterial = storageService.getMaterialTypeInfosByHeaderCode(headerTypeCode, tag);
     if (mapRecordTypeMaterial != null) {
+      if (tag.equals(MATERIAL_TAG_CODE)) {
+        fixedFieldCodesGroup.addResults(new FixedFieldElement("dateTypes", storageService.getCodesList(lang, DATE_TYPE).stream().map(toPairItem).collect(toList())));
+        fixedFieldCodesGroup.addResults(new FixedFieldElement("country", storageService.getCodesList(lang, MARC_COUNTRY).stream().map(toPairItem).collect(toList())));
+      }
       String material = (String) mapRecordTypeMaterial.get(FORM_OF_MATERIAL_LABEL);
       switch (material) {
         case BOOK_TYPE:
           setBookMaterialCodes(lang, storageService, fixedFieldCodesGroup);
           if (tag.equals(OTHER_MATERIAL_TAG_CODE)) {
-            fixedFieldCodesGroup.addResults(new FixedFieldElement("materialTypeCode",
+            fixedFieldCodesGroup.addResults(new FixedFieldElement(MATERIAL_TYPE,
               storageService.getCodesList(lang, BOOK_MATERIAL_CODE).stream().map(toPairItem).collect(toList())));
           }
           break;
         case MUSIC_TYPE:
           setMusicMaterialCodes(lang, storageService, fixedFieldCodesGroup);
           if (tag.equals(OTHER_MATERIAL_TAG_CODE)) {
-            fixedFieldCodesGroup.addResults(new FixedFieldElement("materialTypeCode",
+            fixedFieldCodesGroup.addResults(new FixedFieldElement(MATERIAL_TYPE,
               storageService.getCodesList(lang, MUSIC_MATERIAL_CODE).stream().map(toPairItem).collect(toList())));
           }
 
@@ -321,7 +326,7 @@ public class FixedFieldUtils {
             p.setCode("s");
             p.setDescription("Serial");
             List<Pair> list = Collections.singletonList(p);
-            fixedFieldCodesGroup.addResults(new FixedFieldElement("materialTypeCode", list));
+            fixedFieldCodesGroup.addResults(new FixedFieldElement(MATERIAL_TYPE, list));
           }
           break;
         case MIXED_TYPE:
@@ -331,20 +336,20 @@ public class FixedFieldUtils {
             p.setCode("p");
             p.setDescription("Mixed material");
             List<Pair> list = Collections.singletonList(p);
-            fixedFieldCodesGroup.addResults(new FixedFieldElement("materialTypeCode", list));
+            fixedFieldCodesGroup.addResults(new FixedFieldElement(MATERIAL_TYPE, list));
           }
           break;
         case MAP_TYPE:
           setMapMaterialCodes(lang, storageService, fixedFieldCodesGroup);
           if (tag.equals(OTHER_MATERIAL_TAG_CODE)) {
-            fixedFieldCodesGroup.addResults(new FixedFieldElement("materialTypeCode",
+            fixedFieldCodesGroup.addResults(new FixedFieldElement(MATERIAL_TYPE,
               storageService.getCodesList(lang, MAP_TYPE_MATERIAL).stream().map(toPairItem).collect(toList())));
           }
           break;
         case VISUAL_TYPE:
           setVisualMaterialCodes(lang, storageService, fixedFieldCodesGroup);
           if (tag.equals(OTHER_MATERIAL_TAG_CODE)) {
-            fixedFieldCodesGroup.addResults(new FixedFieldElement("materialTypeCode",
+            fixedFieldCodesGroup.addResults(new FixedFieldElement(MATERIAL_TYPE,
               storageService.getCodesList(lang, VM_MATERIAL_CODE).stream().map(toPairItem).collect(toList())));
           }
           break;
@@ -355,7 +360,7 @@ public class FixedFieldUtils {
             p.setCode("m");
             p.setDescription("Computer file");
             List<Pair> list = Collections.singletonList(p);
-            fixedFieldCodesGroup.addResults(new FixedFieldElement("materialTypeCode", list));
+            fixedFieldCodesGroup.addResults(new FixedFieldElement(MATERIAL_TYPE, list));
           }
 
           break;
@@ -364,7 +369,7 @@ public class FixedFieldUtils {
       }
 
       if (tag.equals(MATERIAL_TAG_CODE)) {
-        fixedFieldCodesGroup.addResults(new FixedFieldElement("dateTypes", storageService.getCodesList(lang, DATE_TYPE).stream().map(toPairItem).collect(toList())));
+        fixedFieldCodesGroup.addResults(new FixedFieldElement("language", storageService.getCodesList(lang, LANGUAGE).stream().map(toPairItem).collect(toList())));
         fixedFieldCodesGroup.addResults(new FixedFieldElement("modifiedRecordTypes", storageService.getCodesList(lang, MODIFIED_RECORD_TYPE).stream().map(toPairItem).collect(toList())));
         fixedFieldCodesGroup.addResults(new FixedFieldElement("catalogSources", storageService.getCodesList(lang, CATALOGUING_SOURCE).stream().map(toPairItem).collect(toList())));
       }
@@ -373,6 +378,7 @@ public class FixedFieldUtils {
     }
 
   }
+
 
   /**
    * Sets values Computer File type for 008/006 fixed field
