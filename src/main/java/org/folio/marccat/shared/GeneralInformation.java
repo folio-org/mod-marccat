@@ -1,7 +1,7 @@
 package org.folio.marccat.shared;
 
 import org.apache.commons.lang.StringUtils;
-import org.folio.marccat.config.Global;
+import org.folio.marccat.config.log.Global;
 
 import java.util.Map;
 

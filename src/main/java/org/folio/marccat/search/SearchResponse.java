@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import net.sf.hibernate.Session;
 import org.folio.marccat.business.common.View;
-import org.folio.marccat.config.Global;
+import org.folio.marccat.config.log.Global;
 import org.folio.marccat.dao.DAOCodeTable;
 import org.folio.marccat.dao.persistence.T_AUT_DSPLY_FRMT;
 import org.folio.marccat.dao.persistence.T_BIB_DSPLY_FRMT;

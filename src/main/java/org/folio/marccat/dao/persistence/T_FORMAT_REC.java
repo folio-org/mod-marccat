@@ -9,7 +9,7 @@ package org.folio.marccat.dao.persistence;
 
 /**
  * @author carmen
- * @version %I%, %G%
+ * @version %I%, %Global%
  */
 public class T_FORMAT_REC extends T_SINGLE_LONGCHAR {
 

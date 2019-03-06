@@ -1,34 +1,33 @@
 package org.folio.marccat.business.descriptor;
 
-import org.folio.marccat.business.common.AbstractMapBackedFactory;
-import org.folio.marccat.business.common.MapBackedFactory;
-import org.folio.marccat.business.common.MapBackedSingletonFactory;
-import org.folio.marccat.business.common.PropertyBasedFactoryBuilder;
-import org.folio.marccat.dao.DAODescriptor;
-import org.folio.marccat.dao.persistence.Descriptor;
+  import org.folio.marccat.business.common.AbstractMapBackedFactory;
+  import org.folio.marccat.business.common.MapBackedSingletonFactory;
+  import org.folio.marccat.business.common.PropertyBasedFactoryBuilder;
+  import org.folio.marccat.dao.DAODescriptor;
+  import org.folio.marccat.dao.persistence.Descriptor;
 
 /**
  * Descriptor factory.
  */
 public class DescriptorFactory {
 
-  private static AbstractMapBackedFactory descriptorFactory;
-  private static AbstractMapBackedFactory daoFactory;
+  private DescriptorFactory(){}
+
+  private static AbstractMapBackedFactory abstractMapBackedFactory;
 
   static {
-    descriptorFactory = new MapBackedFactory();
-    daoFactory = new MapBackedSingletonFactory();
+    abstractMapBackedFactory = new MapBackedSingletonFactory();
     final PropertyBasedFactoryBuilder builder = new PropertyBasedFactoryBuilder();
-    builder.load("/org/folio/marccat/business/cataloguing/bibliographic/descriptorFactory.properties", descriptorFactory);
-    builder.load("/org/folio/marccat/business/cataloguing/bibliographic/daoFactory.properties", daoFactory);
+    builder.load("/org/folio/marccat/business/cataloguing/bibliographic/descriptorFactory.properties", abstractMapBackedFactory);
+    builder.load("/org/folio/marccat/business/cataloguing/bibliographic/daoFactory.properties", abstractMapBackedFactory);
   }
 
   public static Descriptor createDescriptor(int category) {
-    return (Descriptor) descriptorFactory.create(category);
+    return (Descriptor) abstractMapBackedFactory.create(category);
   }
 
   public static DAODescriptor getDao(int category) {
-    return (DAODescriptor) daoFactory.create(category);
+    return (DAODescriptor) abstractMapBackedFactory.create(category);
   }
 
 }

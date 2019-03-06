@@ -67,6 +67,16 @@ public class PublisherTagDescriptor extends Descriptor {
     return null;
   }
 
+  @Override
+  public int hashCode() {
+    return super.hashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    return super.equals(obj);
+  }
+
   public AbstractDAO getDAO() {
     return theDAO;
   }
