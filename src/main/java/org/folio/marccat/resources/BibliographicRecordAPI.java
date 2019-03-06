@@ -7,7 +7,7 @@ import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.domain.ConversionFieldUtils;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.resources.domain.*;
-import org.folio.marccat.resources.shared.FixeFieldUtils;
+import org.folio.marccat.resources.shared.FixedFieldUtils;
 import org.folio.marccat.shared.GeneralInformation;
 import org.folio.marccat.util.F;
 import org.springframework.http.HttpStatus;
@@ -149,7 +149,7 @@ public class BibliographicRecordAPI extends BaseResource {
         gi.setDefaultValues(configuration);
 
         final Leader leader = record.getLeader();
-        record.getFields().stream().filter(FixeFieldUtils::isFixedField)
+        record.getFields().stream().filter(FixedFieldUtils::isFixedField)
           .filter(field -> field.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE) ||
             field.getCode().equalsIgnoreCase(Global.OTHER_MATERIAL_TAG_CODE) ||
             field.getCode().equalsIgnoreCase(Global.PHYSICAL_DESCRIPTION_TAG_CODE)).forEach(field -> {
