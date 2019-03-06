@@ -1,10 +1,10 @@
 package org.folio.marccat.business.descriptor;
 
-  import org.folio.marccat.business.common.AbstractMapBackedFactory;
-  import org.folio.marccat.business.common.MapBackedSingletonFactory;
-  import org.folio.marccat.business.common.PropertyBasedFactoryBuilder;
-  import org.folio.marccat.dao.DAODescriptor;
-  import org.folio.marccat.dao.persistence.Descriptor;
+import org.folio.marccat.business.common.AbstractMapBackedFactory;
+import org.folio.marccat.business.common.MapBackedSingletonFactory;
+import org.folio.marccat.business.common.PropertyBasedFactoryBuilder;
+import org.folio.marccat.dao.DAODescriptor;
+import org.folio.marccat.dao.persistence.Descriptor;
 
 /**
  * Descriptor factory.

@@ -7,7 +7,7 @@ import net.sf.hibernate.type.Type;
 import org.folio.marccat.business.codetable.Avp;
 import org.folio.marccat.config.log.Global;
 import org.folio.marccat.config.log.Log;
-import org.folio.marccat.config.log.MessageCatalog;
+import org.folio.marccat.config.log.Message;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.DataAccessException;
 
@@ -56,7 +56,7 @@ public class DAOCodeTable extends AbstractDAO {
         .map(codeTable -> (Avp<String>) new Avp(codeTable.getCodeString().trim(), codeTable.getLongText()))
         .collect(toList());
     } catch (final HibernateException exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       return Collections.emptyList();
     }
   }

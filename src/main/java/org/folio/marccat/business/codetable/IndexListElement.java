@@ -8,17 +8,7 @@ public class IndexListElement {
   private String label;
   private String key;
 
-  public IndexListElement() {
-  }
 
-  /**
-   * Class constructor
-   *
-   * @param value
-   * @param label
-   * @param key
-   * @since 1.0
-   */
   public IndexListElement(String value, String label, String key) {
     setValue(value);
     setLabel(label);

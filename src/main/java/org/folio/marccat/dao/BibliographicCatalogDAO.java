@@ -13,7 +13,7 @@ import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.business.controller.UserProfile;
 import org.folio.marccat.config.log.Global;
 import org.folio.marccat.config.log.Log;
-import org.folio.marccat.config.log.MessageCatalog;
+import org.folio.marccat.config.log.Message;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.CacheUpdateException;
 import org.folio.marccat.exception.DataAccessException;
@@ -175,7 +175,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
       return item;
 
     } catch (HibernateException he) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, he);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, he);
       throw new HibernateException(he);
     }
   }
@@ -412,7 +412,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
         hdg.setNameHeading((NME_HDG) new NameDescriptorDAO().load(hdg.getNameHeadingNumber(), userView, session));
         hdg.setTitleHeading((TTL_HDG) new TitleDescriptorDAO().load(hdg.getTitleHeadingNumber(), userView, session));
       } catch (HibernateException e) {
-        throw new DataAccessException(String.format(MessageCatalog._00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
+        throw new DataAccessException(String.format(Message.MOD_MARCCAT_00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
       }
       return tag;
     }).collect(Collectors.toList());
@@ -536,7 +536,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
       transaction.commit();
     } catch (Exception e) {
       cleanUp(transaction);
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, e);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, e);
       throw new HibernateException(e);
     } finally {
       try {

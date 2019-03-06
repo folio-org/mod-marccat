@@ -17,7 +17,7 @@ public class DuplicateTagException extends ValidationException {
 
   public DuplicateTagException() {
     super();
-    // TODO Auto-generated constructor stub
+
   }
 
   /**
@@ -38,7 +38,7 @@ public class DuplicateTagException extends ValidationException {
    */
   public DuplicateTagException(String message) {
     super(message);
-    // TODO Auto-generated constructor stub
+
   }
 
   /**
@@ -50,7 +50,7 @@ public class DuplicateTagException extends ValidationException {
    */
   public DuplicateTagException(String message, Throwable cause) {
     super(message, cause);
-    // TODO Auto-generated constructor stub
+
   }
 
   /**
@@ -61,7 +61,7 @@ public class DuplicateTagException extends ValidationException {
    */
   public DuplicateTagException(Throwable cause) {
     super(cause);
-    // TODO Auto-generated constructor stub
+
   }
 
 }

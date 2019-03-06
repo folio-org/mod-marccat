@@ -19,7 +19,7 @@ public class S_INVTRY {
 
   public S_INVTRY() {
     super();
-    // TODO Auto-generated constructor stub
+
   }
 
 

@@ -24,7 +24,7 @@ public class LOADING_MARC_RECORDS implements Serializable, Persistence {
 
   public LOADING_MARC_RECORDS() {
     super();
-    // TODO Auto-generated constructor stub
+
   }
 
   public void generateNewKey() throws DataAccessException {

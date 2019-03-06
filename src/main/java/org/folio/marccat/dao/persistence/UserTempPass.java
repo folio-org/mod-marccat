@@ -12,7 +12,7 @@ public class UserTempPass {
 
   public UserTempPass() {
     super();
-    // TODO Auto-generated constructor stub
+
   }
 
   public UserTempPass(String pass, String userName, String appCode, Date lastAccess) {

@@ -29,7 +29,7 @@ public class ReceiveItemCopy implements Persistence {
 
   public ReceiveItemCopy() {
     super();
-    // TODO Auto-generated constructor stub
+
   }
 
 

@@ -1,8 +1,7 @@
 package org.folio.marccat.business.cataloguing.authority;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.cataloguing.bibliographic.FixedFieldUsingItemEntity;
+import org.folio.marccat.config.log.Log;
 import org.folio.marccat.dao.persistence.AUT;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -17,7 +16,6 @@ import java.util.Date;
  * @since 1.0
  */
 public class Authority008Tag extends FixedFieldUsingItemEntity {
-  private static Log logger = LogFactory.getLog(Authority008Tag.class);
 
 
   public Authority008Tag() {
@@ -26,9 +24,7 @@ public class Authority008Tag extends FixedFieldUsingItemEntity {
     setHeaderType(10);
   }
 
-  /* (non-Javadoc)
-   * @see FixedField#getDisplayString()
-   */
+
   public String getDisplayString() {
     String str = "";
     str =
@@ -57,13 +53,11 @@ public class Authority008Tag extends FixedFieldUsingItemEntity {
         + getRecordModification()
         + getCataloguingSourceCode();
 
-    logger.debug("displayString: " + str);
+    Log.debug(this.getClass(), "displayString: " + str);
     return str;
   }
 
-  /* (non-Javadoc)
-   * @see TagInterface#parseModelXmlElementContent(org.w3c.dom.Element)
-   */
+
   public void parseModelXmlElementContent(Element xmlElement) {
     Element content = (Element) xmlElement.getChildNodes().item(0);
     SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");

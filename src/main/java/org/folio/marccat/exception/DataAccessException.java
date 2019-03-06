@@ -18,7 +18,7 @@ import java.sql.SQLException;
 public class DataAccessException extends ModMarccatException {
 
 
-  public int errorCode;
+  private int errorCode;
   public String state;
 
   /**
@@ -79,14 +79,12 @@ public class DataAccessException extends ModMarccatException {
 
   @Override
   public String toString() {
-    return new StringBuilder(
-      getClass().getName())
-      .append('[')
-      .append(errorCode)
-      .append(',')
-      .append(state).append("]: ")
-      .append(getLocalizedMessage())
-      .toString();
+    return getClass().getName() +
+      '[' +
+      errorCode +
+      ',' +
+      state + "]: " +
+      getLocalizedMessage();
   }
 
 }

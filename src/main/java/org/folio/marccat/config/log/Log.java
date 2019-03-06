@@ -29,6 +29,16 @@ public class Log {
   }
 
   /**
+   * Logs out an debug message.
+   *
+   * @param owner   the class owner.
+   * @param message the message (with no placeholders).
+   */
+  public static void debug(final Class owner, final String message) {
+    new Log(owner).debug(message);
+  }
+
+  /**
    * Logs out an INFO message.
    *
    * @param message the message (with optional placeholders).

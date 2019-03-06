@@ -17,7 +17,7 @@ public class T_CURCY_TYP extends T_SINGLE_INT {
 
   public T_CURCY_TYP() {
     super();
-    // TODO Auto-generated constructor stub
+
   }
 
 }

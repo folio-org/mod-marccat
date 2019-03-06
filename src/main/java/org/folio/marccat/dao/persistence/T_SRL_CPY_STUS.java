@@ -9,7 +9,7 @@ public class T_SRL_CPY_STUS extends T_SINGLE {
 
   public T_SRL_CPY_STUS() {
     super();
-    // TODO Auto-generated constructor stub
+
   }
 
 }

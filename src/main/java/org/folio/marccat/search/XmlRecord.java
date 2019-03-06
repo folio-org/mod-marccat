@@ -1,7 +1,7 @@
 package org.folio.marccat.search;
 
 import org.folio.marccat.config.log.Log;
-import org.folio.marccat.config.log.MessageCatalog;
+import org.folio.marccat.config.log.Message;
 import org.folio.marccat.exception.XmlParserConfigurationException;
 import org.folio.marccat.exception.XmlUnsupportedEncodingException;
 import org.folio.marccat.search.domain.AbstractRecord;
@@ -55,7 +55,7 @@ public class XmlRecord extends AbstractRecord {
         DOCUMENT_BUILDERS.get().reset();
         this.data = DOCUMENT_BUILDERS.get().parse(byteArrayInputStream);
       } catch (SAXException | IOException exception) {
-        logger.error(MessageCatalog._00021_UNABLE_TO_PARSE_RECORD_DATA, exception);
+        logger.error(Message.MOD_MARCCAT_00021_UNABLE_TO_PARSE_RECORD_DATA, exception);
         final Document xmlDocument = DOCUMENT_BUILDERS.get().newDocument();
 
         DOCUMENT_BUILDERS.get().reset();

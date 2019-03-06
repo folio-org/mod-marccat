@@ -3,7 +3,7 @@ package org.folio.marccat.integration.search;
 import net.sf.hibernate.Session;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.config.log.Log;
-import org.folio.marccat.config.log.MessageCatalog;
+import org.folio.marccat.config.log.Message;
 import org.folio.marccat.dao.SemanticDAO;
 import org.folio.marccat.dao.persistence.IndexList;
 import org.folio.marccat.dao.persistence.NME_HDG;
@@ -129,7 +129,7 @@ public class TermExpressionNode implements ExpressionNode {
         + " where "
         + (semantic().getJoinClause() == null ? EMPTY_STRING : semantic.getJoinClause()) + s + viewClause();
     } catch (final Exception exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new CclParserException("Query not supported");
     }
   }
@@ -263,7 +263,7 @@ public class TermExpressionNode implements ExpressionNode {
     try {
       return prepareTerm();
     } catch (final Exception exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       return null;
     }
   }
@@ -289,7 +289,7 @@ public class TermExpressionNode implements ExpressionNode {
       }
       return semantic;
     } catch (final Exception exception) {
-      logger.error(MessageCatalog._00010_DATA_ACCESS_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
     }
   }

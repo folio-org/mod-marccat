@@ -1,7 +1,7 @@
 package org.folio.marccat.resources.shared;
 
 import org.folio.marccat.config.log.Log;
-import org.folio.marccat.config.log.MessageCatalog;
+import org.folio.marccat.config.log.Message;
 import org.folio.marccat.enumaration.CodeListsType;
 import org.folio.marccat.integration.StorageService;
 import org.folio.marccat.resources.domain.*;
@@ -14,8 +14,6 @@ import java.util.Map;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static org.folio.marccat.config.log.Global.*;
-import static org.folio.marccat.config.log.MessageCatalog._00016_FIELD_PARAMETER_INVALID;
-import static org.folio.marccat.config.log.MessageCatalog._00019_HEADER_TYPE_ID_WRONG;
 import static org.folio.marccat.enumaration.CodeListsType.*;
 import static org.folio.marccat.resources.shared.MappingUtils.toPairItem;
 
@@ -371,7 +369,7 @@ public class FixedFieldUtils {
         fixedFieldCodesGroup.addResults(new FixedFieldElement("catalogSources", storageService.getCodesList(lang, CATALOGUING_SOURCE).stream().map(toPairItem).collect(toList())));
       }
     } else {
-      logger.error(MessageCatalog._00019_HEADER_TYPE_ID_WRONG, tag);
+      logger.error(Message.MOD_MARCCAT_00019_HEADER_TYPE_ID_WRONG, tag);
     }
 
   }
@@ -524,7 +522,7 @@ public class FixedFieldUtils {
         fieldT.setFixedField(f);
         return fieldT;
       }).orElseGet(() -> {
-        logger.error(_00016_FIELD_PARAMETER_INVALID, CONTROL_FIELD_CATEGORY_CODE, parameter.get("code"));
+        logger.error(Message.MOD_MARCCAT_00016_FIELD_PARAMETER_INVALID, CONTROL_FIELD_CATEGORY_CODE, parameter.get("code"));
         return new FieldTemplate();
       });
     fixedFieldCodesGroup.getResults()
@@ -600,7 +598,7 @@ public class FixedFieldUtils {
       }
 
     } else {
-      logger.error(_00019_HEADER_TYPE_ID_WRONG, PHYSICAL_DESCRIPTION_TAG_CODE);
+      logger.error(Message.MOD_MARCCAT_00019_HEADER_TYPE_ID_WRONG, PHYSICAL_DESCRIPTION_TAG_CODE);
     }
   }
 }

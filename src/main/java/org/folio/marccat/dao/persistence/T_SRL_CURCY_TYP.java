@@ -23,7 +23,7 @@ public class T_SRL_CURCY_TYP extends T_SINGLE_LONGCHAR {
 
   public T_SRL_CURCY_TYP() {
     super();
-    // TODO Auto-generated constructor stub
+
   }
 
 }

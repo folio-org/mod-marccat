@@ -19,7 +19,7 @@ public class AuthorityItem extends CatalogItem {
 
   public AuthorityItem() {
     super();
-    // TODO Auto-generated constructor stub
+
   }
 
 

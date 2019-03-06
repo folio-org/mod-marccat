@@ -39,7 +39,7 @@ public class CollectionMaster implements Persistence {
   public CollectionMaster() {
     super();
     //setIdCollection(idCollection);
-    // TODO Auto-generated constructor stub
+
   }
 
   public Date getDateIniVal() {

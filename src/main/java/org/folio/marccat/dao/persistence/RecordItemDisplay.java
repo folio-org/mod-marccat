@@ -16,7 +16,7 @@ public class RecordItemDisplay extends T_SINGLE_INT {
 
   public RecordItemDisplay() {
     super();
-    // TODO Auto-generated constructor stub
+
   }
 
 }

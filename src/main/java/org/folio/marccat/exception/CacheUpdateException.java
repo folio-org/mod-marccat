@@ -1,10 +1,4 @@
-/*
- * (c) LibriCore
- *
- * Created on Aug 25, 2004
- *
- * CacheUpdateException.java
- */
+
 package org.folio.marccat.exception;
 
 /**
