@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import static java.util.Optional.ofNullable;
 import static org.folio.marccat.integration.MarccatHelper.doGet;
-import static org.folio.marccat.resources.shared.FixeFieldUtils.isFixedField;
+import static org.folio.marccat.resources.shared.FixedFieldUtils.isFixedField;
 import static org.folio.marccat.resources.shared.RecordUtils.getVariableField;
 
 /**

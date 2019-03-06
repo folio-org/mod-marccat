@@ -25,7 +25,7 @@ public class FixedFieldCodesGroup {
 
   @JsonProperty("results")
   @Valid
-  private Map<String, FixedFieldElement> results = new LinkedHashMap <String, FixedFieldElement>();
+  private Map<String, FixedFieldElement> results = new LinkedHashMap<String, FixedFieldElement>();
 
   /**
    * @return Results

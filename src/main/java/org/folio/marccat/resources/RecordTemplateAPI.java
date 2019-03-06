@@ -8,7 +8,7 @@ import org.folio.marccat.config.log.Global;
 import org.folio.marccat.config.log.Message;
 import org.folio.marccat.enumaration.CatalogingEntityType;
 import org.folio.marccat.resources.domain.*;
-import org.folio.marccat.resources.shared.FixeFieldUtils;
+import org.folio.marccat.resources.shared.FixedFieldUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +18,7 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 import static org.folio.marccat.enumaration.CatalogingEntityType.A;
 import static org.folio.marccat.integration.MarccatHelper.*;
-import static org.folio.marccat.resources.shared.FixeFieldUtils.isFixedField;
+import static org.folio.marccat.resources.shared.FixedFieldUtils.isFixedField;
 import static org.folio.marccat.resources.shared.MappingUtils.toRecordTemplate;
 import static org.folio.marccat.util.F.isNotNullOrEmpty;
 
@@ -139,7 +139,7 @@ public class RecordTemplateAPI extends BaseResource {
         template.setLeader(record.getLeader());
         template.setType("B");
 
-        record.getFields().stream().filter(FixeFieldUtils::isFixedField)
+        record.getFields().stream().filter(FixedFieldUtils::isFixedField)
           .filter(field -> !field.getCode().equals(Global.DATETIME_TRANSACTION_TAG_CODE)).forEach(field -> {
 
           Field newField = new Field();

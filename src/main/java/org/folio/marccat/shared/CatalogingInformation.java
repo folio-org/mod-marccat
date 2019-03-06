@@ -9,7 +9,7 @@ import org.folio.marccat.util.F;
 import java.util.Map;
 
 import static java.util.Optional.ofNullable;
-import static org.folio.marccat.resources.shared.FixeFieldUtils.isFixedField;
+import static org.folio.marccat.resources.shared.FixedFieldUtils.isFixedField;
 import static org.folio.marccat.resources.shared.RecordUtils.getLeaderValue;
 
 public interface CatalogingInformation {
