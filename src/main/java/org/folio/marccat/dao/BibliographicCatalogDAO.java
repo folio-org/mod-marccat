@@ -11,7 +11,7 @@ import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
 import org.folio.marccat.business.cataloguing.common.Tag;
 import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.business.controller.UserProfile;
-import org.folio.marccat.config.Global;
+import org.folio.marccat.config.log.Global;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.dao.persistence.*;

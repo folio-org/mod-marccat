@@ -11,7 +11,7 @@ import org.folio.marccat.business.cataloguing.common.*;
 import org.folio.marccat.business.codetable.Avp;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.business.descriptor.DescriptorFactory;
-import org.folio.marccat.config.Global;
+import org.folio.marccat.config.log.Global;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.dao.*;
@@ -46,7 +46,7 @@ import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
-import static org.folio.marccat.config.Global.EMPTY_STRING;
+import static org.folio.marccat.config.log.Global.EMPTY_STRING;
 import static org.folio.marccat.util.F.isNotNullOrEmpty;
 import static org.folio.marccat.util.F.locale;
 
@@ -1212,10 +1212,9 @@ public class StorageService implements Closeable {
 
     try {
       List<BibliographicCorrelation> correlations = dao.getCategoryCorrelation(session, tag, firstIndicator, secondIndicator);
-      if (correlations.size() == 1) {
+      if (correlations.stream().anyMatch(Objects::nonNull) && correlations.size() == 1) {
         return correlations
           .stream()
-          .filter(Objects::nonNull)
           .findFirst()
           .get()
           .getKey()
@@ -1227,7 +1226,6 @@ public class StorageService implements Closeable {
           } else if (correlations.stream().anyMatch(Objects::nonNull)) {
             return correlations
               .stream()
-              .filter(Objects::nonNull)
               .findFirst()
               .get()
               .getKey()
@@ -1602,6 +1600,7 @@ public class StorageService implements Closeable {
           final Descriptor dup = ((DAODescriptor) (descriptor.getDAO())).getMatchingHeading(descriptor, session);
           if (dup == null) {
             descriptor.setConfigValues(configuration);
+            descriptor.setSortForm(st.toString());
             descriptor.generateNewKey(session);
             descriptor.getDAO().save(descriptor, session);
             heading.setHeadingNumber(descriptor.getHeadingNumber());

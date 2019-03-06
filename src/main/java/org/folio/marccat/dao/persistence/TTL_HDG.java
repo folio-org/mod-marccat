@@ -194,8 +194,8 @@ public class TTL_HDG extends Descriptor implements SkipInFiling, Serializable {
 
   @Override
   public void calculateAndSetSortForm() throws SortFormException {
-    StringText st = SortformUtils.stripSkipInFiling(getStringText(), (short) getSkipInFiling());
-    setSortForm(SortformUtils.defaultSortform(st.toString()));
+    StringText st = SortformUtils.get().stripSkipInFiling(getStringText(), (short) getSkipInFiling());
+    setSortForm(SortformUtils.get().defaultSortform(st.toString()));
 
   }
 }

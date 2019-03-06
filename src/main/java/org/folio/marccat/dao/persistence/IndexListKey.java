@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
  * Hibernate key class for IDX_LIST table
  *
  * @author paulm
- * @version %I%, %G%
+ * @version %I%, %Global%
  * @since 1.0
  */
 public class IndexListKey implements Serializable {

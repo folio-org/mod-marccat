@@ -23,7 +23,7 @@ import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.Map;
 
-import static org.folio.marccat.config.Global.EMPTY_STRING;
+import static org.folio.marccat.config.log.Global.EMPTY_STRING;
 
 
 /**
@@ -111,7 +111,7 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
    */
   @Override
   public void calculateAndSetSortForm() throws SortFormException {
-    setSortForm(SortformUtils.defaultSortform(getStringText()));
+    setSortForm(SortformUtils.get().defaultSortform(getStringText()));
   }
 
   /**
@@ -137,6 +137,7 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
    *
    * @throws DataAccessException the data access exception
    */
+  @Deprecated
   public void evict() throws DataAccessException {
     po.evict(this);
   }
@@ -149,13 +150,6 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
   public String buildBrowseTerm() {
     return getDisplayText();
   }
-
-  /**
-   * Gets the access point class.
-   *
-   * @return the access point class
-   */
-  abstract public Class getAccessPointClass();
 
   /**
    * Gets the authority access point class.
@@ -215,55 +209,6 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
   }
 
   /**
-   * Gets the category.
-   *
-   * @return the category
-   */
-  public abstract int getCategory();
-
-  /**
-   * Gets the correlation values.
-   *
-   * @return the correlation values
-   */
-  abstract public CorrelationValues getCorrelationValues();
-
-  /**
-   * Sets the correlation values.
-   *
-   * @param v the new correlation values
-   */
-  abstract public void setCorrelationValues(CorrelationValues v);
-
-  /**
-   * Gets the default browse key.
-   *
-   * @return the language independent (key) index value to be used when
-   * browsing for entries of this type of Descriptor (e.g. Names ==
-   * "2P0"). The value returned should correspond to the value of
-   * IDX_LIST.IDX_LIST_KEY_NBR + IDX_LIST_TYPE_CDE
-   */
-  abstract public String getDefaultBrowseKey();
-
-  /**
-   * Helper method to format stringText for display.
-   *
-   * @return the display text
-   */
-  public String getDisplayText() {
-    return new StringText(getStringText()).toDisplayString();
-  }
-
-  /**
-   * Gets the heading number search index key.
-   *
-   * @return the language independent index key value to be used when
-   * searching by headingNumber for this type of Descriptor (e.g.
-   * Names == "227P" (NK index)).
-   */
-  abstract public String getHeadingNumberSearchIndexKey();
-
-  /**
    * Getter for key.
    *
    * @return key
@@ -282,21 +227,13 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
   }
 
   /**
-   * Gets the next number key field code.
+   * Helper method to format stringText for display.
    *
-   * @return the next number key field code
+   * @return the display text
    */
-  abstract public String getNextNumberKeyFieldCode();
-
-  /**
-   * Gets the reference class.
-   *
-   * @param targetClazz the target clazz
-   * @return the persistent class of the cross-reference table associated with
-   * this descriptor type (e.g. Names == NME_REF) to the referenced
-   * target class
-   */
-  abstract public Class getReferenceClass(Class targetClazz);
+  public String getDisplayText() {
+    return new StringText(getStringText()).toDisplayString();
+  }
 
   /**
    * Getter for scriptingLanguage.
@@ -333,13 +270,6 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
   public void setSortForm(String string) {
     this.sortForm = string;
   }
-
-  /**
-   * Gets the sort form parameters.
-   *
-   * @return the sort form parameters
-   */
-  abstract public SortFormParameters getSortFormParameters();
 
   /**
    * Getter for stringText.
@@ -786,4 +716,77 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
     setScriptingLanguage(configuration.get("subject.scriptingLanguage"));
     setCopyToSubjectIndicator(configuration.get("name.copyToSubjectIndicator").charAt(0));
   }
+
+  /**
+   * Gets the category.
+   *
+   * @return the category
+   */
+  public abstract int getCategory();
+
+  /**
+   * Gets the access point class.
+   *
+   * @return the access point class
+   */
+  abstract public Class getAccessPointClass();
+
+  /**
+   * Gets the correlation values.
+   *
+   * @return the correlation values
+   */
+  abstract public CorrelationValues getCorrelationValues();
+
+  /**
+   * Sets the correlation values.
+   *
+   * @param v the new correlation values
+   */
+  abstract public void setCorrelationValues(CorrelationValues v);
+
+  /**
+   * Gets the default browse key.
+   *
+   * @return the language independent (key) index value to be used when
+   * browsing for entries of this type of Descriptor (e.g. Names ==
+   * "2P0"). The value returned should correspond to the value of
+   * IDX_LIST.IDX_LIST_KEY_NBR + IDX_LIST_TYPE_CDE
+   */
+  abstract public String getDefaultBrowseKey();
+
+
+  /**
+   * Gets the heading number search index key.
+   *
+   * @return the language independent index key value to be used when
+   * searching by headingNumber for this type of Descriptor (e.g.
+   * Names == "227P" (NK index)).
+   */
+  abstract public String getHeadingNumberSearchIndexKey();
+
+
+  /**
+   * Gets the next number key field code.
+   *
+   * @return the next number key field code
+   */
+  abstract public String getNextNumberKeyFieldCode();
+
+  /**
+   * Gets the reference class.
+   *
+   * @param targetClazz the target clazz
+   * @return the persistent class of the cross-reference table associated with
+   * this descriptor type (e.g. Names == NME_REF) to the referenced
+   * target class
+   */
+  abstract public Class getReferenceClass(Class targetClazz);
+
+  /**
+   * Gets the sort form parameters.
+   *
+   * @return the sort form parameters
+   */
+  abstract public SortFormParameters getSortFormParameters();
 }

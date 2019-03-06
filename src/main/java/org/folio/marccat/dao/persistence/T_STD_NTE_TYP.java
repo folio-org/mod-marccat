@@ -9,7 +9,7 @@ package org.folio.marccat.dao.persistence;
 
 /**
  * @author paulm
- * @version %I%, %G%
+ * @version %I%, %Global%
  */
 public class T_STD_NTE_TYP extends T_SINGLE {
 

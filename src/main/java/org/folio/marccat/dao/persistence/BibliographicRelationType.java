@@ -9,7 +9,7 @@ package org.folio.marccat.dao.persistence;
 
 /**
  * @author hansv
- * @version %I%, %G%
+ * @version %I%, %Global%
  */
 public class BibliographicRelationType extends T_SINGLE {
 

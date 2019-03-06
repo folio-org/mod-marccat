@@ -5,7 +5,7 @@ import org.folio.marccat.business.common.AbstractMapBackedFactory;
 import org.folio.marccat.business.common.MapBackedFactory;
 import org.folio.marccat.business.common.PropertyBasedFactoryBuilder;
 import org.folio.marccat.business.common.View;
-import org.folio.marccat.config.Global;
+import org.folio.marccat.config.log.Global;
 import org.folio.marccat.dao.BibliographicCatalogDAO;
 import org.folio.marccat.dao.BibliographicModelDAO;
 import org.folio.marccat.dao.CatalogDAO;

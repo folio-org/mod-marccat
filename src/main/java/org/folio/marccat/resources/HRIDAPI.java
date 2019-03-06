@@ -1,7 +1,7 @@
 package org.folio.marccat.resources;
 
 import org.folio.marccat.ModMarccat;
-import org.folio.marccat.config.Global;
+import org.folio.marccat.config.log.Global;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

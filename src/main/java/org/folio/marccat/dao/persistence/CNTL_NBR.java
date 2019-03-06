@@ -11,7 +11,7 @@ import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
-import static org.folio.marccat.config.Global.EMPTY_STRING;
+import static org.folio.marccat.config.log.Global.EMPTY_STRING;
 
 /**
  * Hibernate class for table CNTL_NBR.
@@ -51,38 +51,24 @@ public class CNTL_NBR extends Descriptor {
     return new ControlNumberDescriptorDAO();
   }
 
-  /* (non-Javadoc)
-   * @see Descriptor#getAccessPointClass()
-   */
   public Class getAccessPointClass() {
     return ControlNumberAccessPoint.class;
   }
 
-  /* (non-Javadoc)
-   * @see Descriptor#getAuthorityAccessPointClass()
-   */
+
   @Override
   public Class getAuthorityAccessPointClass() {
     return AuthorityControlNumberAccessPoint.class;
   }
 
-  /* (non-Javadoc)
-   * @see Descriptor#getDefaultBrowseKey()
-   */
   public String getDefaultBrowseKey() {
     return "16P30";
   }
 
-  /* (non-Javadoc)
-   * @see Descriptor#getNextNumberKeyFieldCode()
-   */
   public String getNextNumberKeyFieldCode() {
     return "RN";
   }
 
-  /* (non-Javadoc)
-   * @see Descriptor#getCorrelationValues()
-   */
   public CorrelationValues getCorrelationValues() {
     return new CorrelationValues(
       getTypeCode(),
@@ -90,24 +76,14 @@ public class CNTL_NBR extends Descriptor {
       CorrelationValues.UNDEFINED);
   }
 
-
-  /* (non-Javadoc)
-   * @see Descriptor#setCorrelationValues(CorrelationValues)
-   */
   public void setCorrelationValues(CorrelationValues v) {
     setTypeCode(v.getValue(1));
   }
 
-  /* (non-Javadoc)
-   * @see Descriptor#getSortFormParameters()
-   */
   public SortFormParameters getSortFormParameters() {
     return new SortFormParameters(300, getTypeCode(), 0, 0, 0);
   }
 
-  /* (non-Javadoc)
-   * @see Descriptor#getCategory()
-   */
   public int getCategory() {
     return 19;
   }
@@ -130,16 +106,10 @@ public class CNTL_NBR extends Descriptor {
     typeCode = s;
   }
 
-  /* (non-Javadoc)
-   * @see Descriptor#getHeadingNumberSearchIndexKey()
-   */
   public String getHeadingNumberSearchIndexKey() {
     return "231P";
   }
 
-  /* (non-Javadoc)
-   * @see Descriptor#getLockingEntityType()
-   */
   public String getLockingEntityType() {
     return "RN";
   }
@@ -161,8 +131,8 @@ public class CNTL_NBR extends Descriptor {
   }
 
   private String calculateIsmnSortForm() {
-    String result = SortformUtils.defaultSortform(getStringText());
-    result = SortformUtils.replacePunctuationMark2(result, EMPTY_STRING);
+    String result = SortformUtils.get().defaultSortform(getStringText());
+    result = SortformUtils.get().replacePunctuationMark2(result, EMPTY_STRING);
     return result;
   }
 
@@ -174,22 +144,19 @@ public class CNTL_NBR extends Descriptor {
         first.setContent(first.getContent().replace(" ", EMPTY_STRING));
       }
     }
-    String result = SortformUtils.defaultSortform(st.toString());
-    result = SortformUtils.replacePunctuationMark2(result, EMPTY_STRING);
+    String result = SortformUtils.get().defaultSortform(st.toString());
+    result = SortformUtils.get().replacePunctuationMark2(result, EMPTY_STRING);
     return result;
   }
 
   private String calculateIssnSortForm() {
     String result = getDisplayText().toUpperCase();
-    result = SortformUtils.stripAccents(result);
-    result = SortformUtils.deleteAlfalam(result);
+    result = SortformUtils.get().stripAccents(result);
+    result = SortformUtils.get().deleteAlfalam(result);
     if (result.charAt(result.length() - 1) == '*') {
       logger.debug("removing trailing *");
       return result.substring(0, result.length() - 1);
     }
-    /*
-     * The below is a port of the C program that performed this function.
-     */
     StringBuilder s = new StringBuilder();
     for (int i = 0; i < result.length(); i++) {
       if (!Character.isLetter(result.charAt(i))) {
@@ -206,8 +173,8 @@ public class CNTL_NBR extends Descriptor {
 
   private String calculateIsbnSortForm() {
     String result = getDisplayText().toUpperCase();
-    result = SortformUtils.stripAccents(result);
-    result = SortformUtils.deleteAlfalam(result);
+    result = SortformUtils.get().stripAccents(result);
+    result = SortformUtils.get().deleteAlfalam(result);
     if (result.charAt(result.length() - 1) == '*') {
       logger.debug("removing trailing *");
       return result.substring(0, result.length() - 1);
@@ -217,15 +184,6 @@ public class CNTL_NBR extends Descriptor {
       return " " + result;
     }
 
-    // attempt to find an ISBN number at the beginning of $a
-    /*
-     * The below is a port of the C program that performed this function.
-     * As I understand it, the approach is:
-     * 		If there is no $a, just return the normalized string as is.
-     * 		Otherwise, strip anything up to the first digit
-     *      then remove any spaces or hyphens up to the 13th digit
-     *      then copy everything else
-     */
     int i = 0;
     while (i < result.length() && !Character.isDigit(result.charAt(i))) {
       i++;

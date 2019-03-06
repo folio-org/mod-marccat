@@ -9,7 +9,7 @@ package org.folio.marccat.dao.persistence;
 
 /**
  * @author paulm
- * @version %I%, %G%
+ * @version %I%, %Global%
  */
 public class BibliographicNoteGroupType extends T_SINGLE {
 

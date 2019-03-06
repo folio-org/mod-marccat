@@ -1,7 +1,6 @@
 package org.folio.marccat.search.engine;
 
 import org.folio.marccat.business.common.View;
-import org.folio.marccat.config.Global;
 import org.folio.marccat.dao.persistence.CatalogItem;
 import org.folio.marccat.exception.RecordNotFoundException;
 import org.folio.marccat.integration.StorageService;
@@ -16,7 +15,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.util.stream.IntStream.rangeClosed;
-import static org.folio.marccat.config.Global.EMPTY_STRING;
+import static org.folio.marccat.config.log.Global.EMPTY_STRING;
 
 /**
  * Supertype layer for all ModMarccat Search Engine implementations.

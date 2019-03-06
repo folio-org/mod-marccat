@@ -5,7 +5,6 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Query;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-import org.folio.marccat.business.cataloguing.authority.AuthorityCatalog;
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.SortFormException;
 import org.folio.marccat.business.common.View;
@@ -377,31 +376,6 @@ public abstract class DAODescriptor extends AbstractDAO {
           Hibernate.INTEGER});
     }
     return documentList;
-  }
-
-  /**
-   * Gets the authority count.
-   *
-   * @param descriptor the descriptor
-   * @param session    the session
-   * @return the auth count
-   * @throws HibernateException the hibernate exception
-   */
-  @SuppressWarnings("unchecked")
-  public int getAuthCount(final Descriptor descriptor, final Session session) throws HibernateException {
-    int count = 0;
-    if (supportsAuthorities()) {
-      List<Integer> l = session.find("select count(*) from AUT as aut "
-          + " where aut.headingNumber = ? and "
-          + " aut.headingType = ?", new Object[]{
-          descriptor.getHeadingNumber(),
-          AuthorityCatalog.getAutTypeByDescriptorType(descriptor.getCategory())},
-        new Type[]{
-          Hibernate.INTEGER,
-          Hibernate.STRING});
-      count = l.get(0);
-    }
-    return count;
   }
 
 

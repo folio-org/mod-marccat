@@ -2,7 +2,7 @@ package org.folio.marccat.resources;
 
 import org.folio.marccat.ModMarccat;
 import org.folio.marccat.business.common.View;
-import org.folio.marccat.config.Global;
+import org.folio.marccat.config.log.Global;
 import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.domain.ConversionFieldUtils;
 import org.folio.marccat.exception.DataAccessException;
@@ -95,6 +95,10 @@ public class BibliographicRecordAPI extends BaseResource {
             controlNumber.setDisplayValue(F.padNumber("0", 11, bibliographicRecord.getId()));
             field.setFixedField(controlNumber);
           }
+          if (field.getCode().equals(Global.CATALOGING_SOURCE_TAG_CODE)) {
+            VariableField test = field.getVariableField();
+           test.setValue("\u001FaItFiC");
+          }
           field.setFieldStatus(Field.FieldStatus.NEW);
           bibliographicRecord.getFields().add(field);
         }
@@ -116,7 +120,6 @@ public class BibliographicRecordAPI extends BaseResource {
 
       bibliographicRecord.setVerificationLevel(configuration.get("bibliographicItem.recordCataloguingSourceCode"));
       bibliographicRecord.setCanadianContentIndicator("0");
-
       resetStatus(bibliographicRecord);
       return bibliographicRecord;
 
