@@ -9,7 +9,7 @@ package org.folio.marccat.dao.persistence;
 
 /**
  * @author hansv
- * @version %I%, %G%
+ * @version %I%, %Global%
  */
 public class BibliographicRelationReciprocal extends T_SINGLE {
   public static final short RECIPROCAL = 1;

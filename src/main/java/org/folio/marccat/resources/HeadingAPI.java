@@ -2,7 +2,7 @@ package org.folio.marccat.resources;
 
 import org.folio.marccat.ModMarccat;
 import org.folio.marccat.business.common.View;
-import org.folio.marccat.config.Global;
+import org.folio.marccat.config.log.Global;
 import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.resources.domain.Heading;
 import org.springframework.http.HttpStatus;

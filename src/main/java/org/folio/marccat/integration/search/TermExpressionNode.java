@@ -2,10 +2,8 @@ package org.folio.marccat.integration.search;
 
 import net.sf.hibernate.Session;
 import org.folio.marccat.business.common.View;
-import org.folio.marccat.business.descriptor.SortFormParameters;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.MessageCatalog;
-import org.folio.marccat.dao.NameDescriptorDAO;
 import org.folio.marccat.dao.SemanticDAO;
 import org.folio.marccat.dao.persistence.IndexList;
 import org.folio.marccat.dao.persistence.NME_HDG;
@@ -14,7 +12,7 @@ import org.folio.marccat.exception.DataAccessException;
 
 import java.util.Locale;
 
-import static org.folio.marccat.config.Global.EMPTY_STRING;
+import static org.folio.marccat.config.log.Global.EMPTY_STRING;
 
 /**
  * Term expression node.

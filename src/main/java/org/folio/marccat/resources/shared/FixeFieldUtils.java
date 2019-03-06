@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import static java.util.stream.Collectors.toList;
-import static org.folio.marccat.config.Global.*;
+import static org.folio.marccat.config.log.Global.*;
 import static org.folio.marccat.enumaration.CodeListsType.*;
 import static org.folio.marccat.resources.shared.MappingUtils.toPairItem;
 

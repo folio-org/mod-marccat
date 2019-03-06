@@ -9,7 +9,7 @@ package org.folio.marccat.exception;
 
 /**
  * @author paulm
- * @version %I%, %G%
+ * @version %I%, %Global%
  * @since 1.0
  */
 public class CrossReferenceExistsException extends DataAccessException {

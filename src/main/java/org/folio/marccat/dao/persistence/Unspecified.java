@@ -7,7 +7,7 @@ import org.folio.marccat.exception.DataAccessException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import static org.folio.marccat.config.Global.EMPTY_STRING;
+import static org.folio.marccat.config.log.Global.EMPTY_STRING;
 
 /**
  * @author paulm
@@ -21,28 +21,18 @@ public class Unspecified extends PhysicalDescription {
     setHeaderType(45);
   }
 
-  /* (non-Javadoc)
-   * @see FixedField#getDisplayString()
-   */
+
   public String getDisplayString() {
-    String result =
-      EMPTY_STRING
+    return EMPTY_STRING
         + getGeneralMaterialDesignationCode()
         + getSpecificMaterialDesignationCode();
-    return result;
   }
 
-  /* (non-Javadoc)
-   * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
-   */
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
     setKeyNumber(dao.getNextNumber("XD", session));
   }
 
-  /* (non-Javadoc)
-   * @see librisuite.business.cataloguing.bibliographic.PhysicalDescription#isUnspecified()
-   */
   public boolean isUnspecified() {
     return true;
   }
@@ -63,7 +53,6 @@ public class Unspecified extends PhysicalDescription {
     setSpecificMaterialDesignationCode(content.getAttribute("specificMaterialDesignationCode").charAt(0));
   }
 
-  //@paulm, us_bbl_loading
   @Override
   public void setContentFromMarcString(final String s) {
     setGeneralMaterialDesignationCode(s.charAt(0));

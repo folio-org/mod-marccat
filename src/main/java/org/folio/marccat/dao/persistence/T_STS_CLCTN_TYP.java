@@ -9,7 +9,7 @@ package org.folio.marccat.dao.persistence;
 
 /**
  * @author carmen
- * @version %I%, %G%
+ * @version %I%, %Global%
  */
 public class T_STS_CLCTN_TYP extends T_SINGLE {
 

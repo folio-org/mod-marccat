@@ -12,6 +12,7 @@ public abstract class AuthenticationCodeTag extends VariableHeaderUsingItemEntit
     super();
   }
 
+  @Override
   public StringText getStringText() {
     StringText result;
     String source = getItemEntity().getAuthenticationCenterStringText();
@@ -24,6 +25,7 @@ public abstract class AuthenticationCodeTag extends VariableHeaderUsingItemEntit
     return result;
   }
 
+  @Override
   public void setStringText(StringText st) {
     if (st.toString().equals(Subfield.SUBFIELD_DELIMITER.concat("a"))) {
       getItemEntity().setAuthenticationCenterStringText(null);

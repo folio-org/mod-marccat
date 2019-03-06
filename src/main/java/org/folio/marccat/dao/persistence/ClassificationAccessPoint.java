@@ -2,12 +2,12 @@ package org.folio.marccat.dao.persistence;
 
 import org.folio.marccat.business.cataloguing.bibliographic.BibliographicAccessPoint;
 import org.folio.marccat.business.cataloguing.common.OrderedTag;
-import org.folio.marccat.config.Global;
+import org.folio.marccat.config.log.Global;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
-import static org.folio.marccat.config.Global.EMPTY_STRING;
+import static org.folio.marccat.config.log.Global.EMPTY_STRING;
 
 /**
  * Persistent class for CLSTN_ITM_ACS_PNT.

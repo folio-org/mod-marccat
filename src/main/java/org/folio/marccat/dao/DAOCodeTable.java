@@ -5,7 +5,7 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
 import org.folio.marccat.business.codetable.Avp;
-import org.folio.marccat.config.Global;
+import org.folio.marccat.config.log.Global;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.MessageCatalog;
 import org.folio.marccat.dao.persistence.*;

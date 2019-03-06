@@ -7,7 +7,7 @@ import org.folio.marccat.business.cataloguing.bibliographic.BibliographicCatalog
 import org.folio.marccat.business.cataloguing.bibliographic.MarcCommandLibrary;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.business.descriptor.PublisherTagDescriptor;
-import org.folio.marccat.config.Global;
+import org.folio.marccat.config.log.Global;
 import org.folio.marccat.dao.RecordTypeMaterialDAO;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.DataAccessException;

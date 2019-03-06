@@ -14,7 +14,9 @@ import java.util.Map;
 
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
-import static org.folio.marccat.config.Global.*;
+import static org.folio.marccat.config.log.Global.*;
+import static org.folio.marccat.config.log.Global.OTHER_MATERIAL_TAG_CODE;
+import static org.folio.marccat.config.log.Global.PHYSICAL_DESCRIPTION_TAG_CODE;
 import static org.folio.marccat.config.log.MessageCatalog.*;
 import static org.folio.marccat.integration.MarccatHelper.doGet;
 import static org.folio.marccat.resources.shared.FixeFieldUtils.*;
@@ -23,9 +25,6 @@ import static org.folio.marccat.resources.shared.MappingUtils.toPairItem;
 /**
  * Fixed-Field Codes Groups RESTful APIs.
  *
- * @author cchiama
- * @author nbianchini
- * @since 1.0
  */
 @RestController
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
