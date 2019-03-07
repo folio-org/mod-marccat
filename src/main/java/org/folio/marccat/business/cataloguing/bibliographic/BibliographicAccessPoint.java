@@ -23,17 +23,20 @@ public abstract class BibliographicAccessPoint extends AccessPoint implements Pe
     super(itemNumber);
   }
 
+  @Override
   public StringText getStringText() {
     StringText result = super.getStringText();
     result.parse(materialSpecified);
     return result;
   }
 
+  @Override
   public void setStringText(StringText stringText) {
     materialSpecified = stringText.getSubfieldsWithCodes("3").toString();
     super.setStringText(stringText);
   }
 
+  @Override
   public void generateNewKey(final Session session) throws HibernateException, SQLException {
     super.generateNewKey(session);
     if (getDescriptor().isNew()) {
@@ -66,6 +69,7 @@ public abstract class BibliographicAccessPoint extends AccessPoint implements Pe
     setItemNumber(itemNumber);
   }
 
+  @Override
   public boolean equals(Object obj) {
     if (super.equals(obj)) {
       BibliographicAccessPoint anApf = (BibliographicAccessPoint) obj;
@@ -75,6 +79,7 @@ public abstract class BibliographicAccessPoint extends AccessPoint implements Pe
     }
   }
 
+  @Override
   public int hashCode() {
     return super.hashCode() + getUserViewString().hashCode();
   }
@@ -86,4 +91,5 @@ public abstract class BibliographicAccessPoint extends AccessPoint implements Pe
   public void setSequenceNumber(Integer sequenceNumber) {
     this.sequenceNumber = sequenceNumber;
   }
-}
+} 
+

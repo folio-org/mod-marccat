@@ -12,11 +12,13 @@ import org.folio.marccat.dao.CatalogDAO;
 import org.folio.marccat.dao.ModelDAO;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.exception.NewTagException;
 import org.folio.marccat.shared.CorrelationValues;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -46,10 +48,6 @@ public class BibliographicCatalog extends Catalog {
       FIXED_FIELDS_FACTORY);
   }
 
-  public static void main(final String args[]) {
-    BibliographicCatalog catalog = new BibliographicCatalog();
-    Tag tag = (Tag) catalog.getTagFactory().create(1);
-  }
 
   @Override
   public CatalogDAO getCatalogDao() {
@@ -459,7 +457,6 @@ public class BibliographicCatalog extends Catalog {
 
   @Override
   public Model newModel(final CatalogItem item) {
-    //return new BibliographicModel(item);
     return null;
   }
 
@@ -469,7 +466,7 @@ public class BibliographicCatalog extends Catalog {
       item.addTag(getNewTag(item, (short) 1, new ControlNumberAccessPoint().getCorrelationValues()));
       item.addTag(getNewTag(item, (short) 1, new ClassificationAccessPoint().getCorrelationValues()));
     } catch (NewTagException e) {
-      throw new RuntimeException("error creating bibliographic leader");
+      throw new ModMarccatException("error creating bibliographic leader");
     }
   }
 
@@ -483,7 +480,7 @@ public class BibliographicCatalog extends Catalog {
           new BibliographicLeader().getCorrelationValues()));
       item.addTag(getNewTag(item, (short) 1, new BibliographicLeader().getCorrelationValues()));
     } catch (NewTagException e) {
-      throw new RuntimeException("error creating bibliographic leader");
+      throw new ModMarccatException("error creating bibliographic leader");
     }
 
   }
@@ -498,10 +495,8 @@ public class BibliographicCatalog extends Catalog {
     // do nothing (not applicable to bib)
   }
 
-  @Override
   public List getValidHeadingTypeList(final Tag tag, final Locale locale) {
-    // not applicable to bibliographic tags
-    return null;
+    return Collections.emptyList();
   }
 
   @Override
@@ -509,12 +504,10 @@ public class BibliographicCatalog extends Catalog {
     return "BI";
   }
 
-  public PhysicalDescription createPhysicalDescriptionTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException {
-    final PhysicalDescription physicalDescription =
-      (PhysicalDescription) getNewTag(item,
+  public PhysicalDescription createPhysicalDescriptionTag(final CatalogItem item, final CorrelationValues correlationValues)  {
+   return (PhysicalDescription) getNewTag(item,
         Global.HEADER_CATEGORY,
         correlationValues);
-    return physicalDescription;
   }
 
   /**
@@ -644,9 +637,7 @@ public class BibliographicCatalog extends Catalog {
         ((MotionPicture) physicalDescription).setCompletenessCode(ff.getCompletenessCode().charAt(0));
       if (isNotNull(ff.getInspectionDate()))
         ((MotionPicture) physicalDescription).setInspectionDate(ff.getInspectionDate());
-    } else if (physicalDescription instanceof Kit) {
-    } else if (physicalDescription instanceof NotatedMusic) {
-    } else if (physicalDescription instanceof RemoteSensingImage) {
+    } else if ((physicalDescription instanceof Kit) || (physicalDescription instanceof NotatedMusic) || (physicalDescription instanceof RemoteSensingImage)) {
       if (isNotNull(ff.getAltitudeOfSensorCode()))
         ((RemoteSensingImage) physicalDescription).setAltitudeOfSensorCode(ff.getAltitudeOfSensorCode().charAt(0));
       if (isNotNull(ff.getAttitudeOfSensorCode()))
@@ -684,9 +675,7 @@ public class BibliographicCatalog extends Catalog {
         ((SoundRecording) physicalDescription).setSpecialPlaybackCharacteristicsCode(ff.getSpecialPlaybackCharacteristicsCode().charAt(0));
       if (isNotNull(ff.getStorageTechniqueCode()))
         ((SoundRecording) physicalDescription).setStorageTechniqueCode(ff.getStorageTechniqueCode().charAt(0));
-    } else if (physicalDescription instanceof Text) {
-    } else if (physicalDescription instanceof Unspecified) {
-    } else if (physicalDescription instanceof VideoRecording) {
+    } else if ((physicalDescription instanceof Text) || (physicalDescription instanceof Unspecified) || (physicalDescription instanceof VideoRecording)) {
       if (isNotNull(ff.getColourCode()))
         ((VideoRecording) physicalDescription).setColourCode(ff.getColourCode().charAt(0));
       if (isNotNull(ff.getFormatCode()))

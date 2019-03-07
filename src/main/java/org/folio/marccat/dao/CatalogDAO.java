@@ -12,6 +12,7 @@ import org.folio.marccat.business.controller.UserProfile;
 import org.folio.marccat.config.log.Message;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.ModMarccatException;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -49,7 +50,7 @@ public abstract class CatalogDAO extends AbstractDAO {
           session.delete(tag);
         } catch (HibernateException e) {
           cleanUp(transaction);
-          throw new RuntimeException(e);
+          throw new ModMarccatException(e);
         }
       });
 
@@ -79,7 +80,7 @@ public abstract class CatalogDAO extends AbstractDAO {
     });
   }
 
-  private void loadHeading(final AccessPoint tag, final int userView, final Session session) throws DataAccessException {
+  private void loadHeading(final AccessPoint tag, final int userView, final Session session) {
     if (tag.getHeadingNumber() != null) {
       try {
         Descriptor descriptor = tag.getDAODescriptor().load(tag.getHeadingNumber(), userView, session);
@@ -135,7 +136,7 @@ public abstract class CatalogDAO extends AbstractDAO {
         try {
           updateBibNote(amicusNumber, ((BibliographicNoteTag) tag).getNoteNbr(), session);
         } catch (HibernateException | SQLException he) {
-          throw new RuntimeException(he);
+          throw new ModMarccatException(he);
         }
       });
   }
@@ -172,7 +173,7 @@ public abstract class CatalogDAO extends AbstractDAO {
           persistByStatus((Persistence) aTag, session);
         }
       } catch (HibernateException | SQLException e) {
-        throw new RuntimeException(e);
+        throw new ModMarccatException(e);
       }
       return aTag;
     }).collect(Collectors.toList());
@@ -184,7 +185,7 @@ public abstract class CatalogDAO extends AbstractDAO {
           try {
             persistByStatus((Persistence) aTag, session);
           } catch (HibernateException e) {
-            throw new RuntimeException(e);
+            throw new ModMarccatException(e);
           }
         }
 

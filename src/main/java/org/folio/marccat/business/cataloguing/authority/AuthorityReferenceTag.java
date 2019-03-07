@@ -7,8 +7,12 @@
  */
 package org.folio.marccat.business.cataloguing.authority;
 
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
@@ -20,16 +24,25 @@ import org.folio.marccat.business.descriptor.SkipInFiling;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.DAOAuthorityCorrelation;
 import org.folio.marccat.dao.DAOAuthorityReferenceTag;
-import org.folio.marccat.dao.persistence.*;
-import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.dao.persistence.AUT;
+import org.folio.marccat.dao.persistence.AccessPoint;
+import org.folio.marccat.dao.persistence.CorrelationKey;
+import org.folio.marccat.dao.persistence.Descriptor;
+import org.folio.marccat.dao.persistence.ItemEntity;
+import org.folio.marccat.dao.persistence.NME_HDG;
+import org.folio.marccat.dao.persistence.NME_REF;
+import org.folio.marccat.dao.persistence.NME_TTL_HDG;
+import org.folio.marccat.dao.persistence.NameAccessPoint;
+import org.folio.marccat.dao.persistence.REF;
+import org.folio.marccat.dao.persistence.T_DUAL_REF;
+import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.exception.NoHeadingSetException;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 import org.w3c.dom.Element;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Set;
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
 
 public abstract class AuthorityReferenceTag
   extends VariableField
@@ -72,6 +85,7 @@ public abstract class AuthorityReferenceTag
   /* (non-Javadoc)
    * @see TagInterface#correlationChangeAffectsKey(librisuite.business.common.CorrelationValues)
    */
+@Override
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
     return !v.isValueDefined(getRefTypeCorrelationPosition());
   }
@@ -79,6 +93,7 @@ public abstract class AuthorityReferenceTag
   /* (non-Javadoc)
    * @see java.lang.Object#equals(java.lang.Object)
    */
+@Override
   public boolean equals(Object obj) {
     if (obj.getClass().equals(this.getClass())) {
       AuthorityReferenceTag aRef = (AuthorityReferenceTag) obj;
@@ -90,39 +105,49 @@ public abstract class AuthorityReferenceTag
   /* (non-Javadoc)
    * @see Tag#evict()
    */
-  public void evict() throws DataAccessException {
+  public void evict() {
     reference.evict();
   }
 
-
-  public void evict(Object obj) throws DataAccessException {
+  /**
+   * @since 1.0
+   */
+  public void evict(Object obj) {
     reference.evict(((AuthorityReferenceTag) obj).getReference());
   }
 
   /* (non-Javadoc)
    * @see TagInterface#generateNewKey()
    */
-  public void generateNewKey() throws DataAccessException {
+  public void generateNewKey() {
     // called on save for new tags -- make sure source heading is in reference
     getReference().setSource(getAutItm().getHeadingNumber());
   }
 
-
+  /**
+   * @since 1.0
+   */
   public char getAuthorityStructure() {
     return reference.getAuthorityStructure();
   }
 
-
+  /**
+   * @since 1.0
+   */
   public void setAuthorityStructure(char b) {
     reference.setAuthorityStructure(b);
   }
 
-
+  /**
+   * @since 1.0
+   */
   public AUT getAutItm() {
     return autItm;
   }
 
-
+  /**
+   * @since 1.0
+   */
   public void setAutItm(AUT aut) {
     autItm = aut;
   }
@@ -137,10 +162,8 @@ public abstract class AuthorityReferenceTag
           .getAccessPointClass()
           .newInstance())
         .getCategory();
-    } catch (InstantiationException e) {
-      throw new RuntimeException("Could not create an AccessPoint");
-    } catch (IllegalAccessException e) {
-      throw new RuntimeException("Could not create an AccessPoint");
+    } catch (InstantiationException | IllegalAccessException e) {
+      throw new ModMarccatException("Could not create an AccessPoint");
     }
   }
 
@@ -193,6 +216,7 @@ public abstract class AuthorityReferenceTag
   /* (non-Javadoc)
    * @see TagInterface#getDisplayCategory()
    */
+  @Override
   public int getDisplayCategory() {
     return 16;
   }
@@ -200,21 +224,28 @@ public abstract class AuthorityReferenceTag
   /* (non-Javadoc)
    * @see TagInterface#getDisplaysHeadingType()
    */
+  @Override
   public boolean getDisplaysHeadingType() {
     return true;
   }
 
-
+  /**
+   * @since 1.0
+   */
   public short getDualReferenceIndicator() {
     return T_DUAL_REF.NO;
   }
 
-
+  /**
+   * @since 1.0
+   */
   public char getEarlierRules() {
     return reference.getEarlierRules();
   }
 
-
+  /**
+   * @since 1.0
+   */
   public void setEarlierRules(char b) {
     reference.setEarlierRules(b);
   }
@@ -226,33 +257,6 @@ public abstract class AuthorityReferenceTag
     return new StringText(getReference().getStringText());
   }
 
-  /* (non-Javadoc)
-   * @see TagInterface#getFirstCorrelationList()
-   */
-  @Deprecated
-  public List getFirstCorrelationList() throws DataAccessException {
-		/* if (getRefTypeCorrelationPosition() > 1) {
-			if (getTargetDescriptor() instanceof NME_TTL_HDG) {
-				return getDaoCodeTable().getList(NameType.class,false);
-			} else {
-				try {
-					return (
-						(AccessPoint) getTargetDescriptor()
-							.getAccessPointClass()
-							.newInstance())
-						.getFirstCorrelationList();
-				} catch (InstantiationException e) {
-					throw new RuntimeException("ErrorCollection creating AccessPoint");
-				} catch (IllegalAccessException e) {
-					throw new RuntimeException("ErrorCollection creating AccessPoint");
-				}
-			}
-		} else {
-			return new DAOAuthorityCorrelation().getValidReferenceTypeList(this);
-		} */
-
-    return null;
-  }
 
   /* (non-Javadoc)
    * @see Browsable#getHeadingNumber()
@@ -260,7 +264,7 @@ public abstract class AuthorityReferenceTag
   public Integer getHeadingNumber() {
     int result = getAutItm().getHeadingNumber();
     if (result > 0) {
-      return new Integer(result);
+      return result;
     } else {
       return null;
     }
@@ -283,7 +287,7 @@ public abstract class AuthorityReferenceTag
    * @see PersistsViaItem#getItemEntity()
    */
   public ItemEntity getItemEntity() {
-    return autItm;
+    return getAutItm();
   }
 
   /* (non-Javadoc)
@@ -296,38 +300,51 @@ public abstract class AuthorityReferenceTag
   /* (non-Javadoc)
    * @see TagInterface#getMarcEncoding()
    */
+  @Override
   public CorrelationKey getMarcEncoding()
-    throws DataAccessException {
+    {
     return super.getMarcEncoding().changeSkipInFilingIndicator(
       getSkipInFiling());
   }
 
-
+  /**
+   * @since 1.0
+   */
   public char getNoteGeneration() {
     return reference.getNoteGeneration();
   }
 
-
+  /**
+   * @since 1.0
+   */
   public void setNoteGeneration(char b) {
     reference.setNoteGeneration(b);
   }
 
-
+  /**
+   * @since 1.0
+   */
   public char getPrintConstant() {
     return reference.getPrintConstant();
   }
 
-
+  /**
+   * @since 1.0
+   */
   public void setPrintConstant(char b) {
     reference.setPrintConstant(b);
   }
 
-
+  /**
+   * @since 1.0
+   */
   public REF getReference() {
     return reference;
   }
 
-
+  /**
+   * @since 1.0
+   */
   public void setReference(REF ref) {
     reference = ref;
   }
@@ -346,7 +363,9 @@ public abstract class AuthorityReferenceTag
     return refTypeCorrelationPosition.intValue();
   }
 
-
+  /**
+   * @since 1.0
+   */
   public void setRefTypeCorrelationPosition(Integer i) {
     refTypeCorrelationPosition = i;
   }
@@ -354,8 +373,9 @@ public abstract class AuthorityReferenceTag
   /* (non-Javadoc)
    * @see TagInterface#getSecondCorrelationList(short)
    */
+  @Override
   public List getSecondCorrelationList(int value1)
-    throws DataAccessException {
+    {
     if (getRefTypeCorrelationPosition() > 2) {
       if (getTargetDescriptor() instanceof NME_TTL_HDG) {
         return new NameAccessPoint().getSecondCorrelationList(value1);
@@ -367,16 +387,14 @@ public abstract class AuthorityReferenceTag
               .newInstance())
             .getSecondCorrelationList(
               value1);
-        } catch (InstantiationException e) {
-          throw new RuntimeException("ErrorCollection creating AccessPoint");
-        } catch (IllegalAccessException e) {
-          throw new RuntimeException("ErrorCollection creating AccessPoint");
+        } catch (InstantiationException | IllegalAccessException e) {
+          throw new ModMarccatException("ErrorCollection creating AccessPoint");
         }
       }
     } else if (getRefTypeCorrelationPosition() == 2) {
       return new DAOAuthorityCorrelation().getValidReferenceTypeList(this);
     } else {
-      return null;
+      return new ArrayList<>();
     }
   }
 
@@ -420,15 +438,18 @@ public abstract class AuthorityReferenceTag
     getReference().setStringText(stringText.getSubfieldsWithCodes(getVariantCodes()).toString());
     logger.debug("REF.StringText = " + getReference().getStringText());
     // no setting of descriptor from worksheet
-    // setDescriptorStringText(stringText);
   }
 
-
+  /**
+   * @since 1.0
+   */
   public Descriptor getTargetDescriptor() {
     return targetDescriptor;
   }
 
-
+  /**
+   * @since 1.0
+   */
   public void setTargetDescriptor(Descriptor descriptor) {
     targetDescriptor = descriptor;
     /*
@@ -440,14 +461,15 @@ public abstract class AuthorityReferenceTag
   /* (non-Javadoc)
    * @see TagInterface#getThirdCorrelationList(short, short)
    */
+  @Override
   public List getThirdCorrelationList(int value1, int value2)
-    throws DataAccessException {
+    {
     logger.debug("getThirdCorrelationList(" + value1 + ", " + value2 + ")");
     if (getRefTypeCorrelationPosition() == 3) {
       logger.debug("refType is in pos 3");
       return new DAOAuthorityCorrelation().getValidReferenceTypeList(this);
     } else {
-      return null;
+      return Collections.emptyList();
     }
   }
 
@@ -465,12 +487,16 @@ public abstract class AuthorityReferenceTag
     reference.setUpdateStatus(i);
   }
 
-
+  /**
+   * @since 1.0
+   */
   public String getUserViewString() {
     return getReference().getUserViewString();
   }
 
-
+  /**
+   * @since 1.0
+   */
   public void setUserViewString(String s) {
     getReference().setUserViewString(s);
   }
@@ -489,6 +515,7 @@ public abstract class AuthorityReferenceTag
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
+@Override
   public int hashCode() {
     return getReference().hashCode();
   }
@@ -496,6 +523,7 @@ public abstract class AuthorityReferenceTag
   /* (non-Javadoc)
    * @see TagInterface#isBrowsable()
    */
+@Override
   public boolean isBrowsable() {
     return true;
   }
@@ -528,6 +556,7 @@ public abstract class AuthorityReferenceTag
   /* (non-Javadoc)
    * @see Tag#isRemoved()
    */
+  @Override
   public boolean isRemoved() {
     return reference.isRemoved();
   }
@@ -596,6 +625,7 @@ public abstract class AuthorityReferenceTag
   /* (non-Javadoc)
    * @see VariableField#parseModelXmlElementContent(org.w3c.dom.Element)
    */
+  @Override
   public void parseModelXmlElementContent(Element xmlElement) {
     setDescriptorStringText(StringText.parseModelXmlElementContent(xmlElement));
   }
@@ -627,6 +657,7 @@ public abstract class AuthorityReferenceTag
   /* (non-Javadoc)
    * @see TagInterface#validate()
    */
+  @Override
   public void validate(int index) throws NoHeadingSetException {
     if (getTargetDescriptor().isNew()) {
       throw new NoHeadingSetException(index);

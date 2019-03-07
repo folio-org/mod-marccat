@@ -45,7 +45,7 @@ public class BibliographicModelItemDAO extends ModelItemDAO {
           + getPersistentClass().getName()
           + " as b"
           + " where b.item = ?",
-        new Object[]{new Integer(bibItem)},
+        new Object[]{bibItem},
         new Type[]{Hibernate.INTEGER});
     final Optional<Integer> firstElement = list.stream().filter(Objects::nonNull).findFirst().filter(count -> count > 0);
     return firstElement.isPresent();

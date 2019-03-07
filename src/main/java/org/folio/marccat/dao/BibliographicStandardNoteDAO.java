@@ -20,8 +20,6 @@ import java.util.Objects;
  */
 public class BibliographicStandardNoteDAO extends AbstractDAO {
 
-  private static final Log logger = new Log(BibliographicStandardNoteDAO.class);
-
   @SuppressWarnings("unchecked")
   public StandardNoteAccessPoint getBibNoteStardard(
     final int bibItemNumber,

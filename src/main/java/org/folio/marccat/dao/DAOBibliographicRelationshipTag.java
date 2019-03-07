@@ -61,7 +61,7 @@ public class DAOBibliographicRelationshipTag extends AbstractDAO {
   /* (non-Javadoc)
    * @see HibernateUtil#save(librisuite.business.common.Persistence)
    */
-  //todo
+  @Override
   public void save(final Persistence po, final Session session) throws DataAccessException {
     if (!(po instanceof BibliographicRelationshipTag)) {
       throw new IllegalArgumentException("I can only persist BibliographicRelationshipTag objects");
@@ -77,18 +77,7 @@ public class DAOBibliographicRelationshipTag extends AbstractDAO {
         logger.debug("reciprocalOption is " + aRelation.getReciprocalOption());
         logger.debug("target is " + aRelation.getTargetRelationship() == null ? "" : "not " + "null");
 
-        /* first evict all objects from Hibernate cache */
-				/*evictAny(aRelation.getSourceRelationship());
-				evictAny(aRelation.getOriginalTag().getSourceRelationship());
-				if (aRelation.getTargetRelationship() != null) {
-					evictAny(aRelation.getTargetRelationship());
-				}
-				if (aRelation.getOriginalTag().getTargetRelationship()
-					!= null) {
-					evictAny(aRelation.getOriginalTag().getTargetRelationship());
-				}*/
-
-        /*
+        /* first evict all objects from Hibernate cache
          * Then delete any pre-existing RLTSP rows
          */
         BibliographicRelationship aTarget =
@@ -165,6 +154,7 @@ public class DAOBibliographicRelationshipTag extends AbstractDAO {
   /* (non-Javadoc)
    * @see HibernateUtil#update(librisuite.business.common.Persistence)
    */
+  @Override
   public void update(Persistence p) throws DataAccessException {
     /*
      * Since we are deleting and re-adding, save and update are the same
@@ -181,7 +171,7 @@ public class DAOBibliographicRelationshipTag extends AbstractDAO {
       List result =
         currentSession().find(
           "select rcpcl.relationshipReciprocalTypeCode from RelationReciprocal rcpcl where rcpcl.relationshipTypeCode = ?",
-          new Object[]{new Integer(relationTypeCode)},
+          new Object[]{relationTypeCode},
           new Type[]{Hibernate.INTEGER});
       return ((Integer) result.get(0)).shortValue();
     } catch (HibernateException he) {

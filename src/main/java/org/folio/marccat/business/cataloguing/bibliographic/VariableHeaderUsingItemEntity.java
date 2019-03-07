@@ -22,6 +22,7 @@ public abstract class VariableHeaderUsingItemEntity extends VariableHeader imple
   /* (non-Javadoc)
    * @see java.lang.Object#equals(java.lang.Object)
    */
+  @Override
   public boolean equals(Object obj) {
     if (obj.getClass() == this.getClass()) {
       return super.equals(obj);
@@ -33,6 +34,7 @@ public abstract class VariableHeaderUsingItemEntity extends VariableHeader imple
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
+  @Override
   public int hashCode() {
     return super.hashCode();
   }
@@ -40,6 +42,7 @@ public abstract class VariableHeaderUsingItemEntity extends VariableHeader imple
   /* (non-Javadoc)
    * @see librisuite.business.cataloguing.bibliographic.Tag#correlationChangeAffectsKey(librisuite.business.common.CorrelationValues)
    */
+  @Override
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
     return (v.isValueDefined(1) && (v.getValue(1) != getHeaderType()));
   }
@@ -64,6 +67,7 @@ public abstract class VariableHeaderUsingItemEntity extends VariableHeader imple
     }
   }
 
+  @Override
   public boolean isAbleToBeDeleted() {
     return true;
   }

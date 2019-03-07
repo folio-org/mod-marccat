@@ -1,28 +1,25 @@
 package org.folio.marccat.business.cataloguing.bibliographic;
 
-import org.folio.marccat.business.cataloguing.common.Tag;
-import org.folio.marccat.business.cataloguing.common.TagImpl;
-import org.folio.marccat.config.log.Log;
-import org.folio.marccat.dao.DAOOrderNames;
-import org.folio.marccat.dao.persistence.BIB_ITM;
-import org.folio.marccat.dao.persistence.CatalogItem;
-import org.folio.marccat.dao.persistence.ItemEntity;
-import org.folio.marccat.dao.persistence.ModelItem;
-import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.exception.MandatoryTagException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import java.io.Serializable;
+import java.util.Iterator;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.Serializable;
-import java.util.Iterator;
-import java.util.List;
+
+import org.folio.marccat.business.cataloguing.common.Tag;
+import org.folio.marccat.business.cataloguing.common.TagImpl;
+import org.folio.marccat.config.log.Log;
+import org.folio.marccat.dao.persistence.BIB_ITM;
+import org.folio.marccat.dao.persistence.CatalogItem;
+import org.folio.marccat.dao.persistence.ItemEntity;
+import org.folio.marccat.dao.persistence.ModelItem;
+import org.folio.marccat.exception.MandatoryTagException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 public class BibliographicItem extends CatalogItem implements Serializable {
   private static final long serialVersionUID = 8676099561229020012L;
-  private static List nameOrderTags = null;
   private Log logger = new Log(BibliographicItem.class);
   private BIB_ITM bibItmData;
   private int userView;
@@ -52,10 +49,6 @@ public class BibliographicItem extends CatalogItem implements Serializable {
         ((PersistsViaItem) aTag).setItemEntity(bib_itm);
       }
     }
-  }
-
-  public ItemEntity getItemEntity() {
-    return bibItmData;
   }
 
   /* (non-Javadoc)
@@ -106,7 +99,6 @@ public class BibliographicItem extends CatalogItem implements Serializable {
       xmlDocument.appendChild(toXmlElement(xmlDocument));
     } catch (ParserConfigurationException parserConfigurationException) {
       logger.error("", parserConfigurationException);
-      //throw new XmlParserConfigurationException(parserConfigurationException);
     }
     return xmlDocument;
   }
@@ -126,8 +118,6 @@ public class BibliographicItem extends CatalogItem implements Serializable {
    */
   public Element toXmlElement(Document xmlDocument) {
     Element record = xmlDocument.createElement("record");
-    //bElement author1 = record.addElement("leader").addText("00451nam a2200109 a 4500");
-    // TODO set the leader correctly
     Iterator tagIterator = this.tags.iterator();
     while (tagIterator.hasNext()) {
       Tag tag = (Tag) tagIterator.next();
@@ -144,7 +134,7 @@ public class BibliographicItem extends CatalogItem implements Serializable {
    * like 000, 001, 005 cannot be added by the user and will be generated
    * if not present
    */
-  public void checkForMandatoryTags() throws MandatoryTagException {
+  public void checkForMandatoryTags() {
     final String[] tags = new String[]{"000", "008", "040"};
     for (int i = 0; i < tags.length; i++) {
       if (findFirstTagByNumber(tags[i]) == null) {
@@ -153,13 +143,11 @@ public class BibliographicItem extends CatalogItem implements Serializable {
     }
   }
 
+@Override
+public ItemEntity getItemEntity() {
+	return null;
+}
 
-  private List getOrderableNameTags() throws DataAccessException {
-    if (nameOrderTags == null) {
-      // FIXME: this takes a session so that means it should be moved on the persistence layer.
-      nameOrderTags = new DAOOrderNames().getOrderNames(null);
-    }
-    return nameOrderTags;
-  }
+
 
 }

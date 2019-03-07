@@ -54,6 +54,7 @@ public class ControlNumberAccessPoint extends BibliographicAccessPoint implement
    *
    * @return stringText.
    */
+  @Override
   public StringText getStringText() {
     final StringText s = super.getStringText();
     if (getValidationCode() != 'a') {
@@ -86,6 +87,7 @@ public class ControlNumberAccessPoint extends BibliographicAccessPoint implement
    * @param stringText -- the stringText to set.
    */
   public void setAccessPointStringText(final StringText stringText) {
+	  throw new UnsupportedOperationException();
   }
 
   /**
@@ -93,6 +95,7 @@ public class ControlNumberAccessPoint extends BibliographicAccessPoint implement
    *
    * @return category.
    */
+  @Override
   public int getCategory() {
     return Global.CONTROL_NUMBER_CATEGORY;
   }
@@ -122,6 +125,7 @@ public class ControlNumberAccessPoint extends BibliographicAccessPoint implement
    * @param v -- the correlation values.
    * @return boolean.
    */
+  @Override
   public boolean correlationChangeAffectsKey(final CorrelationValues v) {
     return (v.isValueDefined(2)) && (v.getValue(2) != getFunctionCode());
   }
@@ -131,6 +135,7 @@ public class ControlNumberAccessPoint extends BibliographicAccessPoint implement
    *
    * @return "editControlNumber".
    */
+  @Override
   public String getRequiredEditPermission() {
     return Global.CNTL_NBR_REQUIRED_PERMISSION;
   }
@@ -159,6 +164,7 @@ public class ControlNumberAccessPoint extends BibliographicAccessPoint implement
    * @param xmlDocument -- the xml document.
    * @return an element content.
    */
+  @Override
   public Element generateModelXmlElementContent(final Document xmlDocument) {
     return ofNullable(xmlDocument).map(content -> {
       Element element = getStringText().generateModelXmlElementContent(xmlDocument);
@@ -172,6 +178,7 @@ public class ControlNumberAccessPoint extends BibliographicAccessPoint implement
    * @param obj -- the object to compare.
    * @return true if equals.
    */
+  @Override
   public boolean equals(final Object obj) {
     if (!(obj instanceof ControlNumberAccessPoint))
       return false;
@@ -180,6 +187,7 @@ public class ControlNumberAccessPoint extends BibliographicAccessPoint implement
     return super.equals(obj) && (other.functionCode == this.functionCode) && (other.descriptor.getKey().getHeadingNumber() == this.descriptor.getKey().getHeadingNumber());
   }
 
+  @Override
   public int hashCode() {
     return super.hashCode();
   }
@@ -203,13 +211,8 @@ public class ControlNumberAccessPoint extends BibliographicAccessPoint implement
     super.setSequenceNumber(sequenceNumber);
   }
 
-  //TODO move in storageService and set after creation (as was: called two constructor)
+  // move in storageService and set after creation (as was: called two constructor)
   public void setDefaultFunctionCode() {
-		/*
-		int funCode=0;
-		funCode= new Integer(configHandler.findValue("t_cntl_nbr_typ_fnctn","controlNumberAccessPoint.functionCode"));
-		int function= this.getFunction(funCode);
-		setFunctionCode((short)function);
-		*/
+	  throw new UnsupportedOperationException();
   }
 }

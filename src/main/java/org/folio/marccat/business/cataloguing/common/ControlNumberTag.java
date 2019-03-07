@@ -35,6 +35,7 @@ public abstract class ControlNumberTag extends FixedFieldUsingItemEntity {
   /* (non-Javadoc)
    * @see librisuite.business.cataloguing.bibliographic.Tag#isAbleToBeDeleted()
    */
+  @Override
   public boolean isAbleToBeDeleted() {
     return false;
   }
@@ -42,6 +43,7 @@ public abstract class ControlNumberTag extends FixedFieldUsingItemEntity {
   /* (non-Javadoc)
    * @see librisuite.business.cataloguing.bibliographic.Tag#isEditableHeader()
    */
+  @Override
   public boolean isEditableHeader() {
     return false;
   }
@@ -49,6 +51,7 @@ public abstract class ControlNumberTag extends FixedFieldUsingItemEntity {
   /* (non-Javadoc)
    * @see java.lang.Object#equals(java.lang.Object)
    */
+  @Override
   public boolean equals(Object obj) {
     if (obj instanceof ControlNumberTag) {
       return super.equals(obj);
@@ -60,6 +63,7 @@ public abstract class ControlNumberTag extends FixedFieldUsingItemEntity {
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
+  @Override
   public int hashCode() {
     return super.hashCode();
   }
@@ -67,6 +71,7 @@ public abstract class ControlNumberTag extends FixedFieldUsingItemEntity {
   /* (non-Javadoc)
    * @see librisuite.business.cataloguing.bibliographic.Tag#correlationChangeAffectsKey(librisuite.business.common.CorrelationValues)
    */
+  @Override
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
     return v.isValueDefined(1) && (v.getValue(1) != getHeaderType());
   }
@@ -81,14 +86,14 @@ public abstract class ControlNumberTag extends FixedFieldUsingItemEntity {
   }
 
   public void parseModelXmlElementContent(Element xmlElement) {
-    Element content = (Element) xmlElement.getChildNodes().item(0);
+	  xmlElement.getChildNodes().item(0);
   }
 
   @Override
   public void setContentFromMarcString(final String s) {
     try {
       int controlNumber = Integer.parseInt(s);
-      getItemEntity().setAmicusNumber(new Integer(controlNumber));
+      getItemEntity().setAmicusNumber(controlNumber);
     } catch (NumberFormatException e) {
       // not a number so don't set AMICUS number
     }

@@ -78,7 +78,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
       targetRelationship.markNew();
     }
   }
-
+  @Override
   public boolean equals(Object obj) {
     if (!(obj instanceof BibliographicRelationshipTag))
       return false;
@@ -109,6 +109,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
    *
    * @see librisuite.business.cataloguing.bibliographic.Tag#getCorrelation(int)
    */
+  @Override
   public int getCorrelation(int i) {
     switch (i) {
       case 1:
@@ -144,10 +145,12 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
     return null;
   }
 
+  @Override
   public int getItemNumber() {
     return sourceRelationship.getItemNumber();
   }
 
+  @Override
   public void setItemNumber(int i) {
     sourceRelationship.setItemNumber(i);
   }
@@ -221,7 +224,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
     sourceRelationship.getStringText().parse(sourceRelationship.getQualifyingDescription());
 
     if ((getTargetBibItemNumber() > 0)) {
-      sourceRelationship.getStringText().addSubfield(new Subfield("w", new String("" + getTargetBibItemNumber())));
+      sourceRelationship.getStringText().addSubfield(new Subfield("w", ("" + getTargetBibItemNumber())));
     }
     return sourceRelationship.getStringText();
   }
@@ -307,6 +310,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
     targetRelationship = relationship;
   }
 
+  @Override
   public List getThirdCorrelationList(int value1, int value2) throws DataAccessException {
     return null;
   }
@@ -341,14 +345,17 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
    *
    * @see java.lang.Object#hashCode()
    */
+  @Override
   public int hashCode() {
     return super.hashCode() + getTargetBibItemNumber() + getRelationTypeCode();
   }
 
+  @Override
   public boolean isBrowsable() {
     return false;
   }
 
+  @Override
   public boolean isRelationship() {
     return true;
   }
@@ -442,6 +449,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
    *
    * @see TagInterface#reinstateDeletedTag()
    */
+  @Override
   public void reinstateDeletedTag() {
     super.reinstateDeletedTag();
     setOriginalTag();

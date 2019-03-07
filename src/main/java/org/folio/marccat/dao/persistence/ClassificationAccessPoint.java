@@ -94,6 +94,7 @@ public class ClassificationAccessPoint extends BibliographicAccessPoint implemen
    *
    * @return category.
    */
+  @Override
   public int getCategory() {
     return Global.CLASSIFICATION_CATEGORY;
   }
@@ -123,6 +124,7 @@ public class ClassificationAccessPoint extends BibliographicAccessPoint implemen
    * @param v -- the correlation values.
    * @return boolean.
    */
+  @Override
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
     return (v.isValueDefined(2)) && (v.getValue(2) != getFunctionCode());
   }
@@ -132,6 +134,7 @@ public class ClassificationAccessPoint extends BibliographicAccessPoint implemen
    *
    * @return "editClassNumber".
    */
+  @Override
   public String getRequiredEditPermission() {
     return Global.CLASSIFICATION_REQUIRED_PERMISSION;
   }
@@ -142,6 +145,7 @@ public class ClassificationAccessPoint extends BibliographicAccessPoint implemen
    * @param obj -- the object to compare.
    * @return true if equals.
    */
+  @Override
   public boolean equals(final Object obj) {
     if (!(obj instanceof ClassificationAccessPoint))
       return false;
@@ -154,8 +158,9 @@ public class ClassificationAccessPoint extends BibliographicAccessPoint implemen
   /**
    * @return hashCode.
    */
+  @Override
   public int hashCode() {
-    return super.hashCode(); // TODO this is bad, should be changed
+    return super.hashCode();
   }
 
   /**

@@ -47,8 +47,11 @@ public class AuthorityTagImpl extends TagImpl {
     return getAuthorityNumber();
   }
 
-  @Deprecated
-  public CorrelationKey getMarcEncoding(Tag t) throws DataAccessException {
+  /**
+   * @deprecated
+   */
+ @Deprecated
+ public CorrelationKey getMarcEncoding(Tag t) throws DataAccessException {
 
     CorrelationKey key = daoCorrelation.getMarcEncoding(t.getCategory(), getHeadingType(t),
       t.getCorrelation(1), t.getCorrelation(2), t.getCorrelation(3));

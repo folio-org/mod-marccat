@@ -7,10 +7,8 @@
  */
 package org.folio.marccat.dao;
 
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.Iterator;
+
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.UpdateStatus;
 import org.folio.marccat.dao.persistence.BibliographicNote;
@@ -19,17 +17,16 @@ import org.folio.marccat.dao.persistence.BibliographicNoteTag;
 import org.folio.marccat.dao.persistence.StandardNoteAccessPoint;
 import org.folio.marccat.exception.DataAccessException;
 
-import java.util.Iterator;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 
 /**
  * @author hansv
  * @version $Revision: 1.4 $ $Date: 2005/12/21 08:30:32 $
  * @since 1.0
  */
-//TODO refactor!
-public class DAOBibliographicNoteTag extends AbstractDAO {
-  private static final Log logger = LogFactory.getLog(BibliographicNoteTag.class);
 
+public class DAOBibliographicNoteTag extends AbstractDAO {
 
   public void delete(Persistence po, final Session session) throws DataAccessException, HibernateException {
     if (!(po instanceof BibliographicNoteTag)) {
@@ -55,6 +52,7 @@ public class DAOBibliographicNoteTag extends AbstractDAO {
   /* (non-Javadoc)
    * @see HibernateUtil#save(librisuite.business.common.Persistence)
    */
+  @Override
   public void save(final Persistence po, final Session session) throws DataAccessException, HibernateException {
     if (!(po instanceof BibliographicNoteTag)) {
       throw new IllegalArgumentException("I can only persist BibliographicNoteTag objects");
@@ -93,13 +91,6 @@ public class DAOBibliographicNoteTag extends AbstractDAO {
       noteStandard.setNoteNbr(note.getNoteNbr());
       /* Testo variabile RIMOZIONE CODICE SOTTOCAMPO 03/04/2009*/
       persistByStatus(noteStandard, session);
-			/*if (aNote.isStandardNoteType()){
-				if(note.getContent().substring(2).trim().length()>0)
-				note.setContent(note.getContent().substring(2));
-				else
-				  note.setContent(" "); */
-      //}
-
     }
 
     if (aNote.isNew()) {
@@ -119,6 +110,7 @@ public class DAOBibliographicNoteTag extends AbstractDAO {
   /* (non-Javadoc)
    * @see HibernateUtil#update(librisuite.business.common.Persistence)
    */
+  @Override
   public void update(final Persistence p, final Session session) throws DataAccessException {
     try {
       save(p, session);

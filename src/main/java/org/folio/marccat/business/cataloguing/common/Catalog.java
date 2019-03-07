@@ -137,10 +137,8 @@ public abstract class Catalog {
   }
 
   @Deprecated
-  public void saveCatalogItem(CatalogItem item) throws DataAccessException, ValidationException {
-		/*item.validate();
-		getCatalogDao().saveCatalogItem(item);*/
-  }
+  public void saveCatalogItem(CatalogItem item) {
+	}
 
   /**
    * This method is used to generate tags from a model

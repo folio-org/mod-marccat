@@ -13,15 +13,13 @@ import org.folio.marccat.util.StringText;
 
 
 public class CountryOfPublicationTag extends VariableHeaderUsingItemEntity {
-  //TODO saveUndoSave doesn't work
-  //TODO subfield a should be validated against code table
-
 
   public CountryOfPublicationTag() {
     super();
     setHeaderType((short) 6);
   }
 
+  @Override
   public StringText getStringText() {
     StringText result = null;
     String source = ((BIB_ITM) getItemEntity()).getCountryStringText();
@@ -34,8 +32,9 @@ public class CountryOfPublicationTag extends VariableHeaderUsingItemEntity {
     return result;
   }
 
+  @Override 
   public void setStringText(StringText st) {
-//TODO need a more definitive way to set to null		
+//need a more definitive way to set to null		
     if (st.toString().equals(Subfield.SUBFIELD_DELIMITER + "a")) {
       ((BIB_ITM) getItemEntity()).setCountryStringText(null);
     } else {

@@ -36,9 +36,9 @@ public class DAOBibliographicRelationship extends AbstractDAO {
             + " t.targetBibItemNumber = ? and "
             + " substr(t.userViewString, ?, 1) = '1'",
           new Object[]{
-            new Integer(bibItemNumber),
-            new Integer(targetBibItemNumber),
-            new Integer(userView)},
+            bibItemNumber,
+            targetBibItemNumber,
+            userView},
           new Type[]{
             Hibernate.INTEGER,
             Hibernate.INTEGER,

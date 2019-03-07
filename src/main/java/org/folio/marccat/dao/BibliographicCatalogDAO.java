@@ -17,6 +17,7 @@ import org.folio.marccat.config.log.Message;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.CacheUpdateException;
 import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.exception.RecordNotFoundException;
 import org.folio.marccat.util.XmlUtils;
 
@@ -343,7 +344,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
         }
         return bibliographicNoteTag;
       } catch (HibernateException e) {
-        throw new RuntimeException(e);
+        throw new ModMarccatException(e);
       }
     }).collect(Collectors.toList());
 
@@ -358,7 +359,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
     if (!bibliographicNoteTag.isStandardNoteType()) {
       return;
     }
-    String content = bibliographicNoteTag.getNote().getContent();
+    String content = bibliographicNoteTag.getNote().getStringTextString();
     if (isNotNullOrEmpty(content) && !content.contains(Global.SUBFIELD_DELIMITER)) {
       content = Global.SUBFIELD_DELIMITER + "a" + content;
       bibliographicNoteTag.getNote().markUnchanged();
@@ -498,10 +499,6 @@ public class BibliographicCatalogDAO extends CatalogDAO {
     return item;
   }
 
-  protected void insertDeleteTable(final CatalogItem item, final UserProfile user) throws DataAccessException {
-    insertDeleteTable(item.getAmicusNumber(), item.getUserView(), user);
-  }
-
   /**
    * Updates s_cas_cache_bib_itm_dsply table.
    *
@@ -536,13 +533,16 @@ public class BibliographicCatalogDAO extends CatalogDAO {
       transaction.commit();
     } catch (Exception e) {
       cleanUp(transaction);
-      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, e);
+     
       throw new HibernateException(e);
     } finally {
       try {
-        if (proc != null) proc.close();
+        if (proc != null) {
+        	proc.close();
+        	}
       } catch (SQLException ex) {
-      }
+    	  logger.error(ex.getMessage(), ex);
+      } 
     }
   }
 
@@ -585,15 +585,6 @@ public class BibliographicCatalogDAO extends CatalogDAO {
     return uniformTitleSortForm;
   }
 
-  //TODO: maybe can be removed
-  private void insertDeleteTable(
-    final int bibItemNumber,
-    final int cataloguingView,
-    final UserProfile user)
-    throws DataAccessException {
-  }
-
-
   @Override
   public CatalogItem getCatalogItemByKey(final Session session, final int... key) throws DataAccessException {
     int id = key[0];
@@ -633,8 +624,15 @@ public class BibliographicCatalogDAO extends CatalogDAO {
   public void updateCacheTable(
     final int bibItemNumber,
     final int cataloguingView)
-    throws DataAccessException {
+     {
+	  throw new UnsupportedOperationException();
   }
+
+@Override
+protected void insertDeleteTable(CatalogItem item, UserProfile user) {
+	// Empty
+	
+}
 
 
 }

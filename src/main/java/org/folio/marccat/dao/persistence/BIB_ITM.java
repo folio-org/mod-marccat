@@ -1,13 +1,13 @@
 package org.folio.marccat.dao.persistence;
 
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
+import java.io.Serializable;
+
 import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.DAOBibItem;
-import org.folio.marccat.exception.DataAccessException;
 
-import java.io.Serializable;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 
 public class BIB_ITM extends ItemEntity implements PersistentObjectWithView, Serializable {
 
@@ -60,9 +60,8 @@ public class BIB_ITM extends ItemEntity implements PersistentObjectWithView, Ser
   /* (non-Javadoc)
    * @see librisuite.business.common.PersistentObject#generateNewKey()
    */
-  public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
-		/*SystemNextNumberDAO dao = new SystemNextNumberDAO();
-		setAmicusNumber(new Integer(dao.getNextNumber("BI")));*/
+  public void generateNewKey(final Session session) throws  HibernateException {
+	  throw new UnsupportedOperationException();
   }
 
   public char getCanadianContentIndicator() {

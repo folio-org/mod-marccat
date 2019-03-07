@@ -28,7 +28,7 @@ public class AutDAO extends AbstractDAO {
    * @throws DataAccessException
    */
   public AUT load(final Session session, final int id) throws HibernateException {
-    AUT itm = (AUT) session.get(AUT.class, new Integer(id));
+    AUT itm = (AUT) session.get(AUT.class, id);
     if (itm == null) {
       throw new RecordNotFoundException();
     } else {
@@ -55,7 +55,7 @@ public class AutDAO extends AbstractDAO {
       headingNumber,
       searchingView}, new Type[]{
       Hibernate.INTEGER, Hibernate.INTEGER});
-    return (countDoc.size() > 0) ? (Integer) countDoc.get(0) : 0;
+    return (!countDoc.isEmpty()) ? (Integer) countDoc.get(0) : 0;
   }
 
 
