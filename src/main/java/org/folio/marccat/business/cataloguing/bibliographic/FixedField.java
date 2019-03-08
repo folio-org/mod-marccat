@@ -115,7 +115,6 @@ public abstract class FixedField extends Tag implements HeaderField {
   }
 
 
-
   public int getHeaderType() {
     return headerField.getHeaderType();
   }

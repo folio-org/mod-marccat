@@ -30,15 +30,15 @@ public class VideoRecording extends PhysicalDescription {
 
   public String getDisplayString() {
     return EMPTY_STRING
-        + getGeneralMaterialDesignationCode()
-        + getSpecificMaterialDesignationCode()
-        + " "
-        + getColourCode()
-        + getFormatCode()
-        + getIncludesSoundCode()
-        + getMediumForSoundCode()
-        + getDimensionsCode()
-        + getConfigurationCode();
+      + getGeneralMaterialDesignationCode()
+      + getSpecificMaterialDesignationCode()
+      + " "
+      + getColourCode()
+      + getFormatCode()
+      + getIncludesSoundCode()
+      + getMediumForSoundCode()
+      + getDimensionsCode()
+      + getConfigurationCode();
   }
 
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {

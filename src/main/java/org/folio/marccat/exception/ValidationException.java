@@ -71,7 +71,6 @@ public class ValidationException extends ModMarccatException {
   }
 
 
-
   public void setTagIndex(int i) {
     tagIndex = i;
   }

@@ -15,9 +15,9 @@ import static java.util.Optional.ofNullable;
  */
 public class ConversionFieldUtils {
 
-	 private ConversionFieldUtils() {
-		    throw new IllegalStateException("Utility class");
-		  }
+  private ConversionFieldUtils() {
+    throw new IllegalStateException("Utility class");
+  }
 
   /**
    * Inject leader values for drop-down list selected.
@@ -283,7 +283,7 @@ public class ConversionFieldUtils {
   /**
    * Return a display value for the material description.
    *
-   * @param fixedField the fixedField to populate.
+   * @param fixedField     the fixedField to populate.
    * @param formOfMaterial the form of material.
    */
   public static FixedField getDisplayValueOfMaterial(final FixedField fixedField, final String formOfMaterial) {

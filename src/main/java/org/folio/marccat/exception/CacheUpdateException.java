@@ -1,4 +1,3 @@
-
 package org.folio.marccat.exception;
 
 /**

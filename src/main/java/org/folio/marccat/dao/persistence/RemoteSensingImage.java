@@ -33,16 +33,16 @@ public class RemoteSensingImage extends PhysicalDescription {
    */
   public String getDisplayString() {
     return EMPTY_STRING
-        + getGeneralMaterialDesignationCode()
-        + getSpecificMaterialDesignationCode()
-        + " "
-        + getAltitudeOfSensorCode()
-        + getAttitudeOfSensorCode()
-        + getCloudCoverCode()
-        + getPlatformConstructionTypeCode()
-        + getPlatformUseCode()
-        + getSensorTypeCode()
-        + getDataTypeCode();
+      + getGeneralMaterialDesignationCode()
+      + getSpecificMaterialDesignationCode()
+      + " "
+      + getAltitudeOfSensorCode()
+      + getAttitudeOfSensorCode()
+      + getCloudCoverCode()
+      + getPlatformConstructionTypeCode()
+      + getPlatformUseCode()
+      + getSensorTypeCode()
+      + getDataTypeCode();
   }
 
   /* (non-Javadoc)

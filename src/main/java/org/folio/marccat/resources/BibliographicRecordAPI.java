@@ -97,7 +97,7 @@ public class BibliographicRecordAPI extends BaseResource {
           }
           if (field.getCode().equals(Global.CATALOGING_SOURCE_TAG_CODE)) {
             VariableField test = field.getVariableField();
-           test.setValue("\u001FaItFiC");
+            test.setValue("\u001FaItFiC");
           }
           field.setFieldStatus(Field.FieldStatus.NEW);
           bibliographicRecord.getFields().add(field);

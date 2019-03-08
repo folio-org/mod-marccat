@@ -31,15 +31,15 @@ public class ProjectedGraphic extends PhysicalDescription {
 
   public String getDisplayString() {
     return EMPTY_STRING
-        + getGeneralMaterialDesignationCode()
-        + getSpecificMaterialDesignationCode()
-        + " "
-        + getColourCode()
-        + getBaseOfEmulsionCode()
-        + getSoundOnMediumOrSeparateCode()
-        + getMediumForSoundCode()
-        + getDimensionsCode()
-        + getSecondarySupportMaterialCode();
+      + getGeneralMaterialDesignationCode()
+      + getSpecificMaterialDesignationCode()
+      + " "
+      + getColourCode()
+      + getBaseOfEmulsionCode()
+      + getSoundOnMediumOrSeparateCode()
+      + getMediumForSoundCode()
+      + getDimensionsCode()
+      + getSecondarySupportMaterialCode();
   }
 
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {

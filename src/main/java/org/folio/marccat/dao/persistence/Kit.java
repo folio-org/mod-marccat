@@ -23,8 +23,8 @@ public class Kit extends PhysicalDescription {
 
   public String getDisplayString() {
     return EMPTY_STRING
-        + getGeneralMaterialDesignationCode()
-        + getSpecificMaterialDesignationCode();
+      + getGeneralMaterialDesignationCode()
+      + getSpecificMaterialDesignationCode();
   }
 
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {

@@ -7,12 +7,8 @@
  */
 package org.folio.marccat.business.cataloguing.authority;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
@@ -24,25 +20,18 @@ import org.folio.marccat.business.descriptor.SkipInFiling;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.DAOAuthorityCorrelation;
 import org.folio.marccat.dao.DAOAuthorityReferenceTag;
-import org.folio.marccat.dao.persistence.AUT;
-import org.folio.marccat.dao.persistence.AccessPoint;
-import org.folio.marccat.dao.persistence.CorrelationKey;
-import org.folio.marccat.dao.persistence.Descriptor;
-import org.folio.marccat.dao.persistence.ItemEntity;
-import org.folio.marccat.dao.persistence.NME_HDG;
-import org.folio.marccat.dao.persistence.NME_REF;
-import org.folio.marccat.dao.persistence.NME_TTL_HDG;
-import org.folio.marccat.dao.persistence.NameAccessPoint;
-import org.folio.marccat.dao.persistence.REF;
-import org.folio.marccat.dao.persistence.T_DUAL_REF;
+import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.exception.NoHeadingSetException;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 import org.w3c.dom.Element;
 
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 public abstract class AuthorityReferenceTag
   extends VariableField
@@ -85,7 +74,7 @@ public abstract class AuthorityReferenceTag
   /* (non-Javadoc)
    * @see TagInterface#correlationChangeAffectsKey(librisuite.business.common.CorrelationValues)
    */
-@Override
+  @Override
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
     return !v.isValueDefined(getRefTypeCorrelationPosition());
   }
@@ -93,7 +82,7 @@ public abstract class AuthorityReferenceTag
   /* (non-Javadoc)
    * @see java.lang.Object#equals(java.lang.Object)
    */
-@Override
+  @Override
   public boolean equals(Object obj) {
     if (obj.getClass().equals(this.getClass())) {
       AuthorityReferenceTag aRef = (AuthorityReferenceTag) obj;
@@ -301,8 +290,7 @@ public abstract class AuthorityReferenceTag
    * @see TagInterface#getMarcEncoding()
    */
   @Override
-  public CorrelationKey getMarcEncoding()
-    {
+  public CorrelationKey getMarcEncoding() {
     return super.getMarcEncoding().changeSkipInFilingIndicator(
       getSkipInFiling());
   }
@@ -374,8 +362,7 @@ public abstract class AuthorityReferenceTag
    * @see TagInterface#getSecondCorrelationList(short)
    */
   @Override
-  public List getSecondCorrelationList(int value1)
-    {
+  public List getSecondCorrelationList(int value1) {
     if (getRefTypeCorrelationPosition() > 2) {
       if (getTargetDescriptor() instanceof NME_TTL_HDG) {
         return new NameAccessPoint().getSecondCorrelationList(value1);
@@ -462,8 +449,7 @@ public abstract class AuthorityReferenceTag
    * @see TagInterface#getThirdCorrelationList(short, short)
    */
   @Override
-  public List getThirdCorrelationList(int value1, int value2)
-    {
+  public List getThirdCorrelationList(int value1, int value2) {
     logger.debug("getThirdCorrelationList(" + value1 + ", " + value2 + ")");
     if (getRefTypeCorrelationPosition() == 3) {
       logger.debug("refType is in pos 3");
@@ -515,7 +501,7 @@ public abstract class AuthorityReferenceTag
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
-@Override
+  @Override
   public int hashCode() {
     return getReference().hashCode();
   }
@@ -523,7 +509,7 @@ public abstract class AuthorityReferenceTag
   /* (non-Javadoc)
    * @see TagInterface#isBrowsable()
    */
-@Override
+  @Override
   public boolean isBrowsable() {
     return true;
   }

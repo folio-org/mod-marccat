@@ -269,8 +269,8 @@ public class DAOAuthorityCorrelation extends DAOCorrelation {
         + " and ac.key.headingType = ? "
         + " order by ac.key.marcTagCategoryCode asc",
       new Object[]{
-    		  tag, indicator1,
-        indicator2,headingType},
+        tag, indicator1,
+        indicator2, headingType},
       new Type[]{Hibernate.STRING, Hibernate.CHARACTER,
         Hibernate.CHARACTER, Hibernate.STRING});
 

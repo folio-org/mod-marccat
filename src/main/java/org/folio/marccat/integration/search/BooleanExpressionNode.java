@@ -47,15 +47,15 @@ public class BooleanExpressionNode implements ExpressionNode {
         TermExpressionNode leftTerm = (TermExpressionNode) left;
         TermExpressionNode rightTerm = (TermExpressionNode) right;
         if (leftTerm.isType2Index() || rightTerm.isType2Index()) {
-            if ("AND".equalsIgnoreCase(op) || !rightTerm.isType2Index()) {
-              TermExpressionNode temp = rightTerm;
-              rightTerm = leftTerm;
-              leftTerm = temp;
-            }
-            if ("AND".equalsIgnoreCase(op) || leftTerm.semantic().getFromClause().contains(rightTerm.semantic().getFromClause())) {
-              return "(( " + leftTerm.getValue() + " and " + rightTerm.getInnerJoinValue() + " ))";
-            }
+          if ("AND".equalsIgnoreCase(op) || !rightTerm.isType2Index()) {
+            TermExpressionNode temp = rightTerm;
+            rightTerm = leftTerm;
+            leftTerm = temp;
           }
+          if ("AND".equalsIgnoreCase(op) || leftTerm.semantic().getFromClause().contains(rightTerm.semantic().getFromClause())) {
+            return "(( " + leftTerm.getValue() + " and " + rightTerm.getInnerJoinValue() + " ))";
+          }
+        }
       }
       return "(( " + left.getValue() + " ) " + operator(op) + " ( " + right.getValue().toLowerCase() + " ))";
     } catch (final Exception e) {

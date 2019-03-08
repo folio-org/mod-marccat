@@ -8,14 +8,11 @@ import org.folio.marccat.business.cataloguing.common.Browsable;
 import org.folio.marccat.dao.persistence.AUT;
 import org.folio.marccat.dao.persistence.Descriptor;
 import org.folio.marccat.dao.persistence.ItemEntity;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.NoHeadingSetException;
-import org.folio.marccat.exception.ValidationException;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 import org.w3c.dom.Element;
 
-import java.util.List;
 import java.util.Set;
 
 public abstract class AuthorityHeadingTag extends VariableField implements

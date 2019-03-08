@@ -41,25 +41,25 @@ public class MotionPicture extends PhysicalDescription {
    * @see FixedField#getDisplayString()
    */
   public String getDisplayString() {
-   return EMPTY_STRING
-        + getGeneralMaterialDesignationCode()
-        + getSpecificMaterialDesignationCode()
-        + " "
-        + getColourCode()
-        + getPresentationFormatCode()
-        + getIncludesSoundCode()
-        + getMediumForSoundCode()
-        + getDimensionsCode()
-        + getConfigurationCode()
-        + getProductionElementsCode()
-        + getPolarityCode()
-        + getGenerationCode()
-        + getBaseOfFilmCode()
-        + getRefinedCategoriesOfColourCode()
-        + getKindOfColourStockCode()
-        + getDeteriorationStageCode()
-        + getCompletenessCode()
-        + getInspectionDate();
+    return EMPTY_STRING
+      + getGeneralMaterialDesignationCode()
+      + getSpecificMaterialDesignationCode()
+      + " "
+      + getColourCode()
+      + getPresentationFormatCode()
+      + getIncludesSoundCode()
+      + getMediumForSoundCode()
+      + getDimensionsCode()
+      + getConfigurationCode()
+      + getProductionElementsCode()
+      + getPolarityCode()
+      + getGenerationCode()
+      + getBaseOfFilmCode()
+      + getRefinedCategoriesOfColourCode()
+      + getKindOfColourStockCode()
+      + getDeteriorationStageCode()
+      + getCompletenessCode()
+      + getInspectionDate();
   }
 
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {

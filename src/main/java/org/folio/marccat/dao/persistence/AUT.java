@@ -7,16 +7,15 @@
  */
 package org.folio.marccat.dao.persistence;
 
-import java.io.Serializable;
-
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.SystemNextNumberDAO;
 
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
+import java.io.Serializable;
 
 /**
  * @author paulm
@@ -72,7 +71,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
   /* (non-Javadoc)
    * @see librisuite.business.common.PersistentObject#generateNewKey()
    */
-  public void generateNewKey(final Session session)throws HibernateException {
+  public void generateNewKey(final Session session) throws HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
     setAmicusNumber(dao.getNextNumber("AA", session));
   }

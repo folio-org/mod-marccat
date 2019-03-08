@@ -1,12 +1,12 @@
 package org.folio.marccat.business.cataloguing.authority;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.folio.marccat.business.descriptor.SkipInFiling;
 import org.folio.marccat.dao.persistence.CorrelationKey;
 import org.folio.marccat.dao.persistence.TTL_HDG;
 import org.folio.marccat.shared.CorrelationValues;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class AuthorityTitleHeadingTag
@@ -37,8 +37,7 @@ public class AuthorityTitleHeadingTag
   }
 
   @Override
-  public CorrelationKey getMarcEncoding()
-   {
+  public CorrelationKey getMarcEncoding() {
     return super.getMarcEncoding().changeSkipInFilingIndicator(
       getSkipInFiling());
   }

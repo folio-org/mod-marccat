@@ -68,11 +68,9 @@ public class StandardNoteAccessPoint implements Persistence {
   }
 
 
-
   public void setPersistenceState(PersistenceState state) {
     persistenceState = state;
   }
-
 
 
   public void evict(Object obj) throws DataAccessException {

@@ -37,20 +37,20 @@ public class SoundRecording extends PhysicalDescription {
 
   public String getDisplayString() {
     return EMPTY_STRING
-        + getGeneralMaterialDesignationCode()
-        + getSpecificMaterialDesignationCode()
-        + " "
-        + getSpeedCode()
-        + getConfigurationCode()
-        + getGrooveWidthCode()
-        + getDimensionsCode()
-        + getTapeWidthCode()
-        + getTapeConfigurationCode()
-        + getDiscTypeCode()
-        + getSndMaterialTypeCode()
-        + getCuttingTypeCode()
-        + getSpecialPlaybackCharacteristicsCode()
-        + getStorageTechniqueCode();
+      + getGeneralMaterialDesignationCode()
+      + getSpecificMaterialDesignationCode()
+      + " "
+      + getSpeedCode()
+      + getConfigurationCode()
+      + getGrooveWidthCode()
+      + getDimensionsCode()
+      + getTapeWidthCode()
+      + getTapeConfigurationCode()
+      + getDiscTypeCode()
+      + getSndMaterialTypeCode()
+      + getCuttingTypeCode()
+      + getSpecialPlaybackCharacteristicsCode()
+      + getStorageTechniqueCode();
   }
 
 

@@ -1,5 +1,21 @@
 package org.folio.marccat.dao;
 
+import net.sf.hibernate.Hibernate;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.type.Type;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.folio.marccat.business.cataloguing.authority.*;
+import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
+import org.folio.marccat.business.cataloguing.common.Tag;
+import org.folio.marccat.business.common.View;
+import org.folio.marccat.business.controller.UserProfile;
+import org.folio.marccat.dao.persistence.*;
+import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.RecordNotFoundException;
+import org.folio.marccat.util.XmlUtils;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,45 +23,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.folio.marccat.business.cataloguing.authority.Authority008Tag;
-import org.folio.marccat.business.cataloguing.authority.AuthorityAuthenticationCodeTag;
-import org.folio.marccat.business.cataloguing.authority.AuthorityCatalog;
-import org.folio.marccat.business.cataloguing.authority.AuthorityCataloguingSourceTag;
-import org.folio.marccat.business.cataloguing.authority.AuthorityControlNumberTag;
-import org.folio.marccat.business.cataloguing.authority.AuthorityDateOfLastTransactionTag;
-import org.folio.marccat.business.cataloguing.authority.AuthorityGeographicAreaTag;
-import org.folio.marccat.business.cataloguing.authority.AuthorityHeadingTag;
-import org.folio.marccat.business.cataloguing.authority.AuthorityItem;
-import org.folio.marccat.business.cataloguing.authority.AuthorityLeader;
-import org.folio.marccat.business.cataloguing.authority.AuthorityNote;
-import org.folio.marccat.business.cataloguing.authority.AuthorityReferenceTag;
-import org.folio.marccat.business.cataloguing.authority.AuthorityTagImpl;
-import org.folio.marccat.business.cataloguing.authority.EquivalenceReference;
-import org.folio.marccat.business.cataloguing.authority.SeeAlsoReferenceTag;
-import org.folio.marccat.business.cataloguing.authority.SeeReferenceTag;
-import org.folio.marccat.business.cataloguing.authority.TimePeriodOfHeading;
-import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
-import org.folio.marccat.business.cataloguing.common.Tag;
-import org.folio.marccat.business.common.View;
-import org.folio.marccat.business.controller.UserProfile;
-import org.folio.marccat.dao.persistence.AUT;
-import org.folio.marccat.dao.persistence.CatalogItem;
-import org.folio.marccat.dao.persistence.Descriptor;
-import org.folio.marccat.dao.persistence.FULL_CACHE;
-import org.folio.marccat.dao.persistence.REF;
-import org.folio.marccat.dao.persistence.ReferenceType;
-import org.folio.marccat.dao.persistence.T_DUAL_REF;
-import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.exception.RecordNotFoundException;
-import org.folio.marccat.util.XmlUtils;
-
-import net.sf.hibernate.Hibernate;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.type.Type;
 
 /**
  * @author paulm
@@ -106,7 +83,7 @@ public class AuthorityCatalogDAO extends CatalogDAO {
     try {
       autItm = new AutDAO().load(session, id);
     } catch (HibernateException e) {
-    	logger.error(e.getMessage());
+      logger.error(e.getMessage());
     }
     item.setAutItmData(autItm);
     return item;
@@ -231,7 +208,7 @@ public class AuthorityCatalogDAO extends CatalogDAO {
   public List findNotes(Integer amicusNumber) {
     List notes = new ArrayList();
     ResultSet rs = null;
-    String query = "SELECT * from AUT_NTE where AUT_NBR="+ amicusNumber;
+    String query = "SELECT * from AUT_NTE where AUT_NBR=" + amicusNumber;
     try {
       Connection con = currentSession().connection();
       rs = con.createStatement().executeQuery(query);

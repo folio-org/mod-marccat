@@ -78,6 +78,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
       targetRelationship.markNew();
     }
   }
+
   @Override
   public boolean equals(Object obj) {
     if (!(obj instanceof BibliographicRelationshipTag))

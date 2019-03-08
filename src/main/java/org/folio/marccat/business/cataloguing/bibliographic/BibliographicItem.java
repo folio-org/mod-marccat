@@ -1,12 +1,5 @@
 package org.folio.marccat.business.cataloguing.bibliographic;
 
-import java.io.Serializable;
-import java.util.Iterator;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.folio.marccat.business.cataloguing.common.Tag;
 import org.folio.marccat.business.cataloguing.common.TagImpl;
 import org.folio.marccat.config.log.Log;
@@ -17,6 +10,12 @@ import org.folio.marccat.dao.persistence.ModelItem;
 import org.folio.marccat.exception.MandatoryTagException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.Serializable;
+import java.util.Iterator;
 
 public class BibliographicItem extends CatalogItem implements Serializable {
   private static final long serialVersionUID = 8676099561229020012L;
@@ -51,13 +50,6 @@ public class BibliographicItem extends CatalogItem implements Serializable {
     }
   }
 
-  /* (non-Javadoc)
-   * @see CatalogItem#setItemEntity(ItemEntity)
-   */
-  public void setItemEntity(ItemEntity item) {
-    setBibItmData((BIB_ITM) item);
-  }
-
   @Override
   public TagImpl getTagImpl() {
     return new BibliographicTagImpl();
@@ -74,7 +66,6 @@ public class BibliographicItem extends CatalogItem implements Serializable {
   public void setModelItem(ModelItem modelItem) {
     this.modelItem = modelItem;
   }
-
 
   /**
    * This method creates a XML Document as follows
@@ -143,11 +134,17 @@ public class BibliographicItem extends CatalogItem implements Serializable {
     }
   }
 
-@Override
-public ItemEntity getItemEntity() {
-	return null;
-}
+  @Override
+  public ItemEntity getItemEntity() {
+    return null;
+  }
 
+  /* (non-Javadoc)
+   * @see CatalogItem#setItemEntity(ItemEntity)
+   */
+  public void setItemEntity(ItemEntity item) {
+    setBibItmData((BIB_ITM) item);
+  }
 
 
 }

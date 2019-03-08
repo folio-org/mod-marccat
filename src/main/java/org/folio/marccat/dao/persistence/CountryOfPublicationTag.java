@@ -32,7 +32,7 @@ public class CountryOfPublicationTag extends VariableHeaderUsingItemEntity {
     return result;
   }
 
-  @Override 
+  @Override
   public void setStringText(StringText st) {
 //need a more definitive way to set to null		
     if (st.toString().equals(Subfield.SUBFIELD_DELIMITER + "a")) {

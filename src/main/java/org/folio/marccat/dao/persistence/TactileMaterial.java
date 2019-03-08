@@ -27,13 +27,13 @@ public class TactileMaterial extends PhysicalDescription {
 
   public String getDisplayString() {
     return EMPTY_STRING
-        + getGeneralMaterialDesignationCode()
-        + getSpecificMaterialDesignationCode()
-        + " "
-        + getClassOfBrailleWritingCodes()
-        + getLevelOfContractionCode()
-        + getBrailleMusicFormatCodes()
-        + getSpecificPhysicalCharacteristicsCode();
+      + getGeneralMaterialDesignationCode()
+      + getSpecificMaterialDesignationCode()
+      + " "
+      + getClassOfBrailleWritingCodes()
+      + getLevelOfContractionCode()
+      + getBrailleMusicFormatCodes()
+      + getSpecificPhysicalCharacteristicsCode();
   }
 
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {

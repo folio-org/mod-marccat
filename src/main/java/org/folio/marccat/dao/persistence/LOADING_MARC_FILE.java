@@ -36,14 +36,11 @@ public class LOADING_MARC_FILE implements Persistence {
   }
 
   /**
-   *
    * @since 1.0
    */
 	/*public Blob getBlob() {
 		return blob;
 	}*/
-
-
   public String getFileName() {
     return fileName;
   }
@@ -59,14 +56,11 @@ public class LOADING_MARC_FILE implements Persistence {
   }
 
   /**
-   *
    * @since 1.0
    */
 	/*public void setBlob(Blob blob) {
 		this.blob = blob;
 	}*/
-
-
   public void setFileNumber(Integer i) {
     fileNumber = i;
   }

@@ -14,7 +14,6 @@ import org.folio.marccat.dao.persistence.Model;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.NewTagException;
 import org.folio.marccat.exception.RecordInUseException;
-import org.folio.marccat.exception.ValidationException;
 import org.folio.marccat.shared.CorrelationValues;
 import org.w3c.dom.Element;
 
@@ -138,7 +137,7 @@ public abstract class Catalog {
 
   @Deprecated
   public void saveCatalogItem(CatalogItem item) {
-	}
+  }
 
   /**
    * This method is used to generate tags from a model

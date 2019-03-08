@@ -78,7 +78,7 @@ public class AuthorityControlNumberAccessPoint extends AuthorityAccessPoint {
   /* (non-Javadoc)
    * @see VariableField#getStringText()
    */
-@Override
+  @Override
   public StringText getStringText() {
     StringText s = super.getStringText();
     if (getValidationCode() != 'a') {

@@ -1,11 +1,11 @@
 package org.folio.marccat.business.cataloguing.authority;
 
-import java.util.List;
-
 import org.folio.marccat.dao.DAOAuthorityCorrelation;
 import org.folio.marccat.dao.persistence.NME_HDG;
 import org.folio.marccat.dao.persistence.NameSubType;
 import org.folio.marccat.shared.CorrelationValues;
+
+import java.util.List;
 
 
 public class AuthorityNameHeadingTag extends AuthorityHeadingTag {

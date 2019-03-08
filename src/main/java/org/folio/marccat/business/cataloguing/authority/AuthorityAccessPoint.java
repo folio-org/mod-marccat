@@ -10,18 +10,8 @@ public abstract class AuthorityAccessPoint extends AccessPoint implements Persis
   private AUT autItm;
 
 
-  @Override
-  public boolean equals(Object obj) {
-    return super.equals(obj);
-  }
-
   public AuthorityAccessPoint() {
     super();
-  }
-
-  @Override
-  public int hashCode() {
-    return super.hashCode();
   }
 
   /**
@@ -34,6 +24,15 @@ public abstract class AuthorityAccessPoint extends AccessPoint implements Persis
     super(itemNumber);
   }
 
+  @Override
+  public boolean equals(Object obj) {
+    return super.equals(obj);
+  }
+
+  @Override
+  public int hashCode() {
+    return super.hashCode();
+  }
 
   private AUT getAutItm() {
     return autItm;
