@@ -158,11 +158,6 @@ public class DiscardCopy implements Persistence, Serializable {
     return new DAODiscard();
   }
 
-	/*
-	@Override
-	public void generateNewKey() throws DataAccessException {
-	}*/
-
   public Date getDiscardDate() {
     return discardDate;
   }

@@ -34,16 +34,16 @@ public class DAOLibrary extends HibernateUtil {
   private Log logger = LogFactory.getLog(DAOLibrary.class);
 
   public LIB load(int organisationNumber) throws DataAccessException {
-    return (LIB) load(LIB.class, new Integer(organisationNumber));
+    return (LIB) load(LIB.class, (organisationNumber));
   }
 
-  public LIB_HRS_OPRTN loadLibHours(int organisationNumber) throws DataAccessException, NullPointerException {
+  public LIB_HRS_OPRTN loadLibHours(int organisationNumber) {
     Session s = currentSession();
 
     LIB_HRS_OPRTN result = null;
 
     try {
-      result = (LIB_HRS_OPRTN) s.get(LIB_HRS_OPRTN.class, new Integer(organisationNumber));
+      result = (LIB_HRS_OPRTN) s.get(LIB_HRS_OPRTN.class, (organisationNumber));
 
     } catch (HibernateException e) {
       logAndWrap(e);
@@ -51,7 +51,7 @@ public class DAOLibrary extends HibernateUtil {
     return result;
   }
 
-  public String getLibrarySymbol(int organisationNumber) throws DataAccessException {
+  public String getLibrarySymbol(int organisationNumber) {
     LIB lib = load(organisationNumber);
     if (lib != null) {
       return lib.getLibrarySymbolCode();
@@ -60,7 +60,7 @@ public class DAOLibrary extends HibernateUtil {
     }
   }
 
-  public String getLibrarySymbol(int organisationNumber, int bibItmNbr) throws DataAccessException {
+  public String getLibrarySymbol(int organisationNumber, int bibItmNbr) {
     Connection connection = null;
     PreparedStatement stmt = null;
     ResultSet rs = null;
@@ -80,39 +80,27 @@ public class DAOLibrary extends HibernateUtil {
       try {
         logAndWrap(e);
       } catch (DataAccessException e1) {
-        e1.printStackTrace();
-      }
+    	  logger.error(e1.getMessage());      }
     } finally {
       try {
         rs.close();
       } catch (SQLException e) {
+    	  logger.error(e.getMessage());
       }
       try {
         stmt.close();
       } catch (SQLException e) {
+    	  logger.error(e.getMessage());
       }
     }
     return result;
   }
 
-  public LIB_HRS_OPRTN loadSchedule(int organisationNumber)
-    throws DataAccessException, NullPointerException {
-    Session s = currentSession();
-
-    LIB_HRS_OPRTN result = null;
-
-    try {
-      result = (LIB_HRS_OPRTN) s.get(LIB_HRS_OPRTN.class, new Integer(
-        organisationNumber));
-
-    } catch (HibernateException e) {
-      logAndWrap(e);
-    }
-    return result;
+  public LIB_HRS_OPRTN loadSchedule(int organisationNumber){
+   return loadLibHours(organisationNumber);
   }
 
-  public LIB_DTE_CLSE loadDateClose(int organisationNumber, Date theDateClosed)
-    throws DataAccessException, NullPointerException {
+  public LIB_DTE_CLSE loadDateClose(int organisationNumber, Date theDateClosed) {
     Session s = currentSession();
 
     LIB_DTE_CLSE result = null;
@@ -127,9 +115,8 @@ public class DAOLibrary extends HibernateUtil {
     return result;
   }
 
-  public String getLibScheduleOpening(int orgNbr) throws DataAccessException {
-    String result = new String("");
-    Session s = currentSession();
+  public String getLibScheduleOpening(int orgNbr) {
+    String result = "";
     Date theDate = new Date();
     int theHour = 0;
     int theMinutes = 0;
@@ -157,18 +144,18 @@ public class DAOLibrary extends HibernateUtil {
     theHour = theDay.get(Calendar.HOUR_OF_DAY);
     theMinutes = theDay.get(Calendar.MINUTE);
     if (theHour < 10)
-      result = "0" + String.valueOf(theHour) + ":";
+      result = "0" + theHour + ":";
     else
       result = String.valueOf(theHour) + ":";
     if (theMinutes < 10)
-      result = result + "0" + String.valueOf(theMinutes);
+      result = result + "0" + theMinutes;
     else
       result = result + String.valueOf(theMinutes);
     return result;
   }
 
-  public String getLibScheduleClosing(int orgNbr) throws DataAccessException {
-    String result = new String("");
+  public String getLibScheduleClosing(int orgNbr)  {
+    String result = "";
     Session s = currentSession();
     Date theDate = new Date();
     int theHour = 0;
@@ -197,37 +184,34 @@ public class DAOLibrary extends HibernateUtil {
       theHour = theDay.get(Calendar.HOUR_OF_DAY);
       theMinutes = theDay.get(Calendar.MINUTE);
       if (theHour < 10)
-        result = "0" + String.valueOf(theHour) + ":";
+        result = "0" + (theHour) + ":";
       else
         result = String.valueOf(theHour) + ":";
       if (theMinutes < 10)
-        result = result + "0" + String.valueOf(theMinutes);
+        result = result + "0" + (theMinutes);
       else
         result = result + String.valueOf(theMinutes);
 
     } catch (HibernateException e) {
-      // TODO e.printStackTrace() is evil. If you catch, handle the
-      e.printStackTrace();
+     logger.error(e.getMessage());
     }
 
     return result;
   }
 
 
-  public String getLibOpeningDate(int orgNumber, int day) throws DataAccessException {
+  public String getLibOpeningDate(int orgNumber, int day) {
 
-    String result = new String("");
+    String result = "";
     Session s = currentSession();
     Date theDate = new Date();
     int theHour = 0;
     int theMinutes = 0;
-//        logger.info("eguna " + orgNumber + " "+ day);
     try {
       LIB_HRS_OPRTN libSchedule = (LIB_HRS_OPRTN) s.get(
-        LIB_HRS_OPRTN.class, new Integer(orgNumber));
-      if (!(libSchedule == null)) {
+        LIB_HRS_OPRTN.class, (orgNumber));
+      if (libSchedule != null) {
         if (day == 1) {
-//	                logger.info("astelehena " + libSchedule.getMondayHoursOpeningTime());
           theDate = libSchedule.getMondayHoursOpeningTime();
         } else if (day == 2) {
           theDate = libSchedule.getTuesdayHoursOpeningTime();
@@ -247,26 +231,25 @@ public class DAOLibrary extends HibernateUtil {
         theHour = theDay.get(Calendar.HOUR_OF_DAY);
         theMinutes = theDay.get(Calendar.MINUTE);
         if (theHour < 10)
-          result = "0" + String.valueOf(theHour) + ":";
+          result = "0" + (theHour) + ":";
         else
           result = String.valueOf(theHour) + ":";
         if (theMinutes < 10)
-          result = result + "0" + String.valueOf(theMinutes);
+          result = result + "0" + (theMinutes);
         else
           result = result + String.valueOf(theMinutes);
 
       } else result = "00:00";
     } catch (HibernateException e) {
-      // TODO e.printStackTrace() is evil. If you catch, handle the
-      e.printStackTrace();
+    	logger.error(e.getMessage());
     }
     return result;
 
   }
 
-  public String getLibClosingDate(int orgNumber, int day) throws DataAccessException {
+  public String getLibClosingDate(int orgNumber, int day) {
 
-    String result = new String("");
+    String result = "";
     Session s = currentSession();
     Date theDate = new Date();
     int theHour = 0;
@@ -274,9 +257,9 @@ public class DAOLibrary extends HibernateUtil {
 
     try {
       LIB_HRS_OPRTN libSchedule = (LIB_HRS_OPRTN) s.get(
-        LIB_HRS_OPRTN.class, new Integer(orgNumber));
+        LIB_HRS_OPRTN.class, (orgNumber));
 
-      if (!(libSchedule == null)) {
+      if (libSchedule != null) {
         if (day == 1) {
           theDate = libSchedule.getMondayHoursClosingTime();
         } else if (day == 2) {
@@ -297,42 +280,23 @@ public class DAOLibrary extends HibernateUtil {
         theHour = theDay.get(Calendar.HOUR_OF_DAY);
         theMinutes = theDay.get(Calendar.MINUTE);
         if (theHour < 10)
-          result = "0" + String.valueOf(theHour) + ":";
+          result = "0" + (theHour) + ":";
         else
           result = String.valueOf(theHour) + ":";
         if (theMinutes < 10)
-          result = result + "0" + String.valueOf(theMinutes);
+          result = result + "0" + (theMinutes);
         else
           result = result + String.valueOf(theMinutes);
       } else result = "00:00";
 
     } catch (HibernateException e) {
-      // TODO e.printStackTrace() is evil. If you catch, handle the
-      e.printStackTrace();
-    }
+logger.error(e.getMessage());    }
     return result;
 
   }
 
-  public List getTimeTable(int orgNumber) throws DataAccessException {
-
-    DAOLibrary dl = new DAOLibrary();
-    List result = new Vector();
-    int i = 1;
-/*      logger.info("Liburutegi timetlabe 1");
-       for (i = 1;i<8;i++){
-//           logger.info("Liburutegi timetlabe hasiera" + i);
-           LibraryDayElementBean dayElement = new LibraryDayElementBean();
-           
-           dayElement.setDay(String.valueOf(i));
-           dayElement.setOpeningTime(dl.getLibOpeningDate(orgNumber,i));
-           dayElement.setClosingTime(dl.getLibClosingDate(orgNumber,i));
-          
-           result.add(dayElement);
-       }
- */
-    return result;
-
+  public List getTimeTable() throws DataAccessException {
+	  return Collections.emptyList(); 
   }
 
 

@@ -7,9 +7,8 @@
  */
 package org.folio.marccat.dao;
 
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Query;
-import net.sf.hibernate.Session;
+import java.util.List;
+
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.dao.common.TransactionalHibernateOperation;
 import org.folio.marccat.dao.persistence.Descriptor;
@@ -17,7 +16,9 @@ import org.folio.marccat.dao.persistence.THS_HDG;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.ReferentialIntegrityException;
 
-import java.util.List;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Query;
+import net.sf.hibernate.Session;
 
 /**
  * @author paulm
@@ -35,6 +36,7 @@ public class DAOThesaurusDescriptor extends DAODescriptor {
     return DAOThesaurusDescriptor.persistentClass;
   }
 
+  @Override
   public boolean supportsAuthorities() {
     return true;
   }
@@ -52,8 +54,6 @@ public class DAOThesaurusDescriptor extends DAODescriptor {
         + filter
         + " order by ths_hdg.sortForm "
         + direction;
-//                logger.info(quetyString);
-
 
       Query q =
         s.createQuery(
@@ -71,42 +71,20 @@ public class DAOThesaurusDescriptor extends DAODescriptor {
   }
 
   /*Questa heading ha solo cross reference*/
-  public void delete(Persistence p)
-    throws DataAccessException {
+  @Override
+  public void delete(Persistence p) {
     if (!(p instanceof Descriptor)) {
       throw new IllegalArgumentException("I can only delete Descriptor objects");
     }
     Descriptor d = ((Descriptor) p);
-
-    // check for cross references
-	/*if (supportsCrossReferences()) {
-		if (getXrefCount(d, View.toIntView(d.getUserViewString())) > 0) {
-			throw new ReferentialIntegrityException(
-				d.getReferenceClass(d.getClass()).getName(),
-				d.getClass().getName());
-		}
-	}
-
-		/*if (supportsCrossReferences()) {
-			if (d instanceof THS_HDG) {
-				if (getXAtrCount(d, View.toIntView(d.getUserViewString())) > 0) {
-					throw new ReferentialIntegrityException("Librisuite.hibernate.THS_ATRIB", d
-							.getClass().getName());
-				}
-			}
-		}*/
     // check for authorities
-    if (supportsAuthorities()) {
-      if (d.getAuthorityCount() > 0) {
+      if (supportsAuthorities() && d.getAuthorityCount() > 0) {
         throw new ReferentialIntegrityException(
           d.getReferenceClass(d.getClass()).getName(),
           d.getClass().getName());
       }
-    }
-
     // OK, go ahead and delete
     deleteDescriptor(p);
-
   }
 
   /**

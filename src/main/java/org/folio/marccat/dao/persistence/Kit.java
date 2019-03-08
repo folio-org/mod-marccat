@@ -21,18 +21,20 @@ public class Kit extends PhysicalDescription {
     setHeaderType(47);
   }
 
+  @Override
   public String getDisplayString() {
     return EMPTY_STRING
       + getGeneralMaterialDesignationCode()
       + getSpecificMaterialDesignationCode();
   }
 
-  public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
+  @Override
+  public void generateNewKey(final Session session) throws HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
     setKeyNumber(dao.getNextNumber("XF", session));
   }
 
-
+  @Override
   public boolean isKit() {
     return true;
   }

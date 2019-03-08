@@ -1,15 +1,18 @@
 package org.folio.marccat.dao;
 
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.dao.common.HibernateUtil;
 import org.folio.marccat.dao.common.TransactionalHibernateOperation;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.search.SearchResponse;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 
 /**
  * @author paulm
@@ -17,7 +20,8 @@ import java.sql.SQLException;
  * @since 1.0
  */
 public class DAOSortResultSets extends HibernateUtil {
-
+	private Log logger = LogFactory.getLog(DAOSortResultSets.class);
+	
   public void sort(
     final Session session,
     final SearchResponse rs,
@@ -83,12 +87,14 @@ public class DAOSortResultSets extends HibernateUtil {
             try {
               js.close();
             } catch (SQLException e) {
+            	logger.error(e.getMessage());
             }
           }
           if (stmt != null) {
             try {
               stmt.close();
             } catch (SQLException e) {
+            logger.error(e.getMessage());
             }
           }
         }
@@ -122,6 +128,7 @@ public class DAOSortResultSets extends HibernateUtil {
             try {
               stmt.close();
             } catch (SQLException e) {
+            	logger.error(e.getMessage());
             }
           }
         }
@@ -138,7 +145,7 @@ public class DAOSortResultSets extends HibernateUtil {
   private String buildOrderByClause(
     String[] attributes,
     String[] directions) {
-    StringBuffer buf = new StringBuffer();
+    StringBuilder buf = new StringBuilder();
     int column;
     buf.append(" ORDER BY ");
     for (int i = 0; i < attributes.length; i++) {

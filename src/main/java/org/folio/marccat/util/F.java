@@ -24,6 +24,9 @@ import java.util.regex.Pattern;
  * @since 1.0
  */
 public abstract class F {
+	private F() {
+	    throw new IllegalStateException("Exception Utility class");
+	  }
 
   private final static Log LOGGER = new Log(F.class);
   private final static String[] EMPTY_ARRAY = {};

@@ -46,6 +46,7 @@ public class EquivalenceReference extends AuthorityReferenceTag {
    * @param v
    * @return
    */
+  @Override
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
     if (!super.correlationChangeAffectsKey(v)) {
       return !ReferenceType.isEquivalence(v.getValue(getRefTypeCorrelationPosition()));
