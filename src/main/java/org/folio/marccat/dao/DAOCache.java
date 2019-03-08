@@ -43,7 +43,7 @@ public class DAOCache extends HibernateUtil {
           + " where c.bibItemNumber = ? and c.cataloguingView = ?",
         new Object[]{
           (bibItemNumber),
-         (cataloguingView)},
+          (cataloguingView)},
         new Type[]{Hibernate.INTEGER, Hibernate.INTEGER});
     if (l.size() == 0) {
       throw new RecordNotFoundException("Cache entry not found");

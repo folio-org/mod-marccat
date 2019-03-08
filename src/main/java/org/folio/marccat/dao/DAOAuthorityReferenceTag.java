@@ -12,7 +12,6 @@ import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.dao.persistence.REF;
 import org.folio.marccat.dao.persistence.ReferenceType;
 import org.folio.marccat.dao.persistence.T_DUAL_REF;
-import org.folio.marccat.exception.DataAccessException;
 
 /**
  * @author paulm
@@ -25,7 +24,7 @@ public class DAOAuthorityReferenceTag extends AbstractDAO {
    * @see HibernateUtil#delete(librisuite.business.common.Persistence)
    */
   @Override
-  public void delete(Persistence p)  {
+  public void delete(Persistence p) {
     AuthorityReferenceTag t = (AuthorityReferenceTag) p;
     REF ref = t.getReference();
     ref.getDAO().delete(ref);
@@ -38,22 +37,22 @@ public class DAOAuthorityReferenceTag extends AbstractDAO {
    * @see HibernateUtil#save(librisuite.business.common.Persistence)
    */
   @Override
-  public void save(Persistence p)  {
+  public void save(Persistence p) {
     AuthorityReferenceTag t = (AuthorityReferenceTag) p;
     REF ref = t.getReference();
     ref.getDAO().save(ref);
     if (t.isHasDualIndicator() && T_DUAL_REF.isDual(t.getDualReferenceIndicator())) {
-        REF dualRef = (REF) ref.clone();
-        dualRef.setType(ReferenceType.getReciprocal(ref.getType()));
-        dualRef.getDAO().save(dualRef);
-      }
+      REF dualRef = (REF) ref.clone();
+      dualRef.setType(ReferenceType.getReciprocal(ref.getType()));
+      dualRef.getDAO().save(dualRef);
     }
+  }
 
   /* (non-Javadoc)
    * @see HibernateUtil#update(librisuite.business.common.Persistence)
    */
   @Override
-  public void update(Persistence p)  {
+  public void update(Persistence p) {
     delete(p);
     save(p);
   }

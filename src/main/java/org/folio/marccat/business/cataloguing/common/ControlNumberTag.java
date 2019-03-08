@@ -86,7 +86,7 @@ public abstract class ControlNumberTag extends FixedFieldUsingItemEntity {
   }
 
   public void parseModelXmlElementContent(Element xmlElement) {
-	  xmlElement.getChildNodes().item(0);
+    xmlElement.getChildNodes().item(0);
   }
 
   @Override

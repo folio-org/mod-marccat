@@ -16,7 +16,6 @@ import org.folio.marccat.business.common.View;
 import org.folio.marccat.dao.common.TransactionalHibernateOperation;
 import org.folio.marccat.dao.persistence.BIB_ITM;
 import org.folio.marccat.dao.persistence.Cache;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.RecordNotFoundException;
 import org.folio.marccat.exception.ReferentialIntegrityException;
 

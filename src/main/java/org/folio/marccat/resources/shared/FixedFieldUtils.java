@@ -19,8 +19,8 @@ import static org.folio.marccat.resources.shared.MappingUtils.toPairItem;
 
 public class FixedFieldUtils {
 
-  protected static Log logger = new Log(FixedFieldUtils.class);
   private static final String MATERIAL_TYPE = "materialTypeCode";
+  protected static Log logger = new Log(FixedFieldUtils.class);
 
   /**
    * Check if is a fixed field or not.

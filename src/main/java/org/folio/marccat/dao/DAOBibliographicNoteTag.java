@@ -7,8 +7,8 @@
  */
 package org.folio.marccat.dao;
 
-import java.util.Iterator;
-
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.UpdateStatus;
 import org.folio.marccat.dao.persistence.BibliographicNote;
@@ -17,8 +17,7 @@ import org.folio.marccat.dao.persistence.BibliographicNoteTag;
 import org.folio.marccat.dao.persistence.StandardNoteAccessPoint;
 import org.folio.marccat.exception.DataAccessException;
 
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
+import java.util.Iterator;
 
 /**
  * @author hansv

@@ -1,19 +1,14 @@
 package org.folio.marccat.business.cataloguing.authority;
 
-import java.util.Collections;
-import java.util.Comparator;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.cataloguing.common.Tag;
 import org.folio.marccat.business.cataloguing.common.TagImpl;
-import org.folio.marccat.dao.persistence.AUT;
-import org.folio.marccat.dao.persistence.AuthorityModelItem;
-import org.folio.marccat.dao.persistence.CatalogItem;
-import org.folio.marccat.dao.persistence.ItemEntity;
-import org.folio.marccat.dao.persistence.Model;
-import org.folio.marccat.dao.persistence.ModelItem;
+import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.MandatoryTagException;
+
+import java.util.Collections;
+import java.util.Comparator;
 
 
 public class AuthorityItem extends CatalogItem {
@@ -65,6 +60,13 @@ public class AuthorityItem extends CatalogItem {
   /**
    * @since 1.0
    */
+  public void setModelItem(ModelItem modelItem) {
+    this.modelItem = modelItem;
+  }
+
+  /**
+   * @since 1.0
+   */
   @Override
   public void setModelItem(Model model) {
     this.modelItem = new AuthorityModelItem();
@@ -73,13 +75,6 @@ public class AuthorityItem extends CatalogItem {
     this.modelItem.setModel(model);
     this.modelItem.setRecordFields(
       model.getRecordFields());
-  }
-
-  /**
-   * @since 1.0
-   */
-  public void setModelItem(ModelItem modelItem) {
-    this.modelItem = modelItem;
   }
 
   /* (non-Javadoc)

@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
  */
 public class CLSTN extends Descriptor {
 
-	private String textEnd = "\u0003";
+  private String textEnd = "\u0003";
   /**
    * The dewey edition number.
    */

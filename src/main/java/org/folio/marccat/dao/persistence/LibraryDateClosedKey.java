@@ -33,6 +33,7 @@ public class LibraryDateClosedKey implements Serializable {
     this.organisationNumber = organisationNumber;
     this.libraryDateCloseDate = libraryDateCloseDate;
   }
+
   public boolean equals(Object obj) {
     if (!(obj instanceof LibraryDateClosedKey))
       return false;

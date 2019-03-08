@@ -34,18 +34,18 @@ public class ElectronicResource extends PhysicalDescription {
 
   public String getDisplayString() {
     return EMPTY_STRING
-        + getGeneralMaterialDesignationCode()
-        + getSpecificMaterialDesignationCode()
-        + " "
-        + getColourCode()
-        + getDimensionsCode()
-        + getIncludesSoundCode()
-        + getImageBitDepth()
-        + getFileFormatsCode()
-        + getQualityAssuranceTargetCode()
-        + getAntecedentSourceCode()
-        + getLevelOfCompressionCode()
-        + getReformattingQualityCode();
+      + getGeneralMaterialDesignationCode()
+      + getSpecificMaterialDesignationCode()
+      + " "
+      + getColourCode()
+      + getDimensionsCode()
+      + getIncludesSoundCode()
+      + getImageBitDepth()
+      + getFileFormatsCode()
+      + getQualityAssuranceTargetCode()
+      + getAntecedentSourceCode()
+      + getLevelOfCompressionCode()
+      + getReformattingQualityCode();
 
   }
 

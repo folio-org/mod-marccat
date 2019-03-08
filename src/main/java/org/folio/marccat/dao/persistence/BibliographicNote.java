@@ -24,7 +24,7 @@ import java.util.List;
  * @author janick
  */
 public class BibliographicNote extends VariableField implements PersistentObjectWithView, OrderedTag {
-private static final short bibliographicNoteCategory = 7;
+  private static final short bibliographicNoteCategory = 7;
   public List<BibliographicNoteOverflow> overflowList = new ArrayList<>();
   /**
    * The content is all or a part of the stringText.toString() result.

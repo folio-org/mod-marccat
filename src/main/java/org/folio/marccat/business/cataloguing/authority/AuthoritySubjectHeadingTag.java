@@ -26,8 +26,7 @@ public class AuthoritySubjectHeadingTag extends AuthorityHeadingTag implements S
   }
 
   @Override
-  public CorrelationKey getMarcEncoding()
-     {
+  public CorrelationKey getMarcEncoding() {
     return super.getMarcEncoding().changeSkipInFilingIndicator(
       getSkipInFiling());
   }

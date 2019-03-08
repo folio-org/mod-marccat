@@ -1,46 +1,22 @@
 package org.folio.marccat.business.cataloguing.authority;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
-import org.folio.marccat.business.cataloguing.common.Catalog;
-import org.folio.marccat.business.cataloguing.common.CataloguingSourceTag;
-import org.folio.marccat.business.cataloguing.common.ControlNumberTag;
-import org.folio.marccat.business.cataloguing.common.DateOfLastTransactionTag;
-import org.folio.marccat.business.cataloguing.common.HeaderField;
-import org.folio.marccat.business.cataloguing.common.Tag;
+import org.folio.marccat.business.cataloguing.common.*;
 import org.folio.marccat.business.common.AbstractMapBackedFactory;
 import org.folio.marccat.business.common.MapBackedFactory;
 import org.folio.marccat.business.common.PropertyBasedFactoryBuilder;
 import org.folio.marccat.business.descriptor.DescriptorFactory;
-import org.folio.marccat.dao.AuthorityCatalogDAO;
-import org.folio.marccat.dao.AuthorityModelDAO;
-import org.folio.marccat.dao.CatalogDAO;
-import org.folio.marccat.dao.DAODescriptor;
-import org.folio.marccat.dao.ModelDAO;
-import org.folio.marccat.dao.NameDescriptorDAO;
-import org.folio.marccat.dao.NameTitleDescriptorDAO;
-import org.folio.marccat.dao.SubjectDescriptorDAO;
-import org.folio.marccat.dao.TitleDescriptorDAO;
-import org.folio.marccat.dao.persistence.AUT;
-import org.folio.marccat.dao.persistence.AccessPoint;
-import org.folio.marccat.dao.persistence.CatalogItem;
-import org.folio.marccat.dao.persistence.Descriptor;
-import org.folio.marccat.dao.persistence.ItemEntity;
-import org.folio.marccat.dao.persistence.Model;
-import org.folio.marccat.dao.persistence.REF;
-import org.folio.marccat.dao.persistence.ReferenceType;
-import org.folio.marccat.dao.persistence.T_AUT_TAG_CAT;
+import org.folio.marccat.dao.*;
+import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.exception.NewTagException;
 import org.folio.marccat.shared.CorrelationValues;
+
+import java.util.*;
+import java.util.Map;
 
 public class AuthorityCatalog extends Catalog {
 
@@ -54,6 +30,7 @@ public class AuthorityCatalog extends Catalog {
   private static Map daoByAutType = new HashMap();
   private static Map<Integer, String> autTypeByDescriptorType = new HashMap<>();
   private static Map headingTagByAutType = new HashMap();
+  private static String modMarccatExMessage = "Could not create object";
 
   static {
     daoByAutType.put("NH", NameDescriptorDAO.class);
@@ -90,7 +67,6 @@ public class AuthorityCatalog extends Catalog {
       "/org/folio/marccat/business/cataloguing/authority/FIXED_FIELDS_FACTORY.properties",
       fixedFieldFactory);
   }
-  private static String modMarccatExMessage = "Could not create object";
 
   public static AuthorityHeadingTag createHeadingTagByType(String type) {
     AuthorityHeadingTag result = null;
@@ -99,8 +75,8 @@ public class AuthorityCatalog extends Catalog {
         (AuthorityHeadingTag) ((Class) headingTagByAutType.get(type))
           .newInstance();
     } catch (InstantiationException | IllegalAccessException ex) {
-        throw new ModMarccatException(modMarccatExMessage);
-      } 
+      throw new ModMarccatException(modMarccatExMessage);
+    }
     return result;
   }
 
@@ -111,7 +87,7 @@ public class AuthorityCatalog extends Catalog {
         (DAODescriptor) ((Class) daoByAutType.get(type)).newInstance();
     } catch (InstantiationException | IllegalAccessException ex) {
       throw new ModMarccatException(modMarccatExMessage);
-    } 
+    }
     return result;
   }
 
@@ -217,37 +193,36 @@ public class AuthorityCatalog extends Catalog {
   public Tag getNewTag(
     CatalogItem item,
     int category,
-    CorrelationValues correlationValues)
-  {
+    CorrelationValues correlationValues) {
     Tag tag = (Tag) getTagFactory().create(category);
 
     if (correlationValues != null && tag.correlationChangeAffectsKey(correlationValues)) {
-        if (tag instanceof HeaderField) {
-          tag = (Tag) getFixedFieldFactory().create(correlationValues.getValue(1));
-        } else if (tag instanceof AuthorityHeadingTag ||
-          tag instanceof AuthorityReferenceTag) {
-          Integer refTypePosition =
-            correlationValues.getLastUsedPosition();
-          int refType;
+      if (tag instanceof HeaderField) {
+        tag = (Tag) getFixedFieldFactory().create(correlationValues.getValue(1));
+      } else if (tag instanceof AuthorityHeadingTag ||
+        tag instanceof AuthorityReferenceTag) {
+        Integer refTypePosition =
+          correlationValues.getLastUsedPosition();
+        int refType;
 
-          if (refTypePosition != null) {
-            refType =
-              correlationValues.getValue(
-                refTypePosition.intValue());
-          } else {
-            throw new ModMarccatException("attempt to create reference tag with no reference type specified");
-          }
-          if (ReferenceType.isSeenFrom(refType)) {
-            tag = new SeeReferenceTag();
-          } else if (ReferenceType.isSeeAlsoFrom(refType)) {
-            tag = new SeeAlsoReferenceTag();
-          } else if (ReferenceType.isEquivalence(refType)) {
-            tag = new EquivalenceReference();
-          } else {
-            throw new ModMarccatException(
-              "invalid reference type for authority reference tag"
-            );
-          }
+        if (refTypePosition != null) {
+          refType =
+            correlationValues.getValue(
+              refTypePosition.intValue());
+        } else {
+          throw new ModMarccatException("attempt to create reference tag with no reference type specified");
+        }
+        if (ReferenceType.isSeenFrom(refType)) {
+          tag = new SeeReferenceTag();
+        } else if (ReferenceType.isSeeAlsoFrom(refType)) {
+          tag = new SeeAlsoReferenceTag();
+        } else if (ReferenceType.isEquivalence(refType)) {
+          tag = new EquivalenceReference();
+        } else {
+          throw new ModMarccatException(
+            "invalid reference type for authority reference tag"
+          );
+        }
       }
     }
     if (tag instanceof AuthorityReferenceTag) {

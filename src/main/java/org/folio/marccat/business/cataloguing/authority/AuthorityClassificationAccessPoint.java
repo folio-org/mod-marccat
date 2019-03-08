@@ -140,6 +140,7 @@ public class AuthorityClassificationAccessPoint extends AuthorityAccessPoint {
     getDescriptor().setStringText(
       tagStringText.getSubfieldsWithoutCodes(VARIANT_CODES).toString());
   }
+
   @Override
   public String getVariantCodes() {
     return VARIANT_CODES;

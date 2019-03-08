@@ -11,15 +11,12 @@ import java.util.Map;
 
 import static java.util.Optional.ofNullable;
 import static org.folio.marccat.config.log.Global.*;
-import static org.folio.marccat.config.log.Global.OTHER_MATERIAL_TAG_CODE;
-import static org.folio.marccat.config.log.Global.PHYSICAL_DESCRIPTION_TAG_CODE;
-import static org.folio.marccat.config.log.Message.*;
+import static org.folio.marccat.config.log.Message.MOD_MARCCAT_00017_CODES_GROUPS_NOT_AVAILABLE;
 import static org.folio.marccat.integration.MarccatHelper.doGet;
 import static org.folio.marccat.resources.shared.FixedFieldUtils.*;
 
 /**
  * Fixed-Field Codes Groups RESTful APIs.
- *
  */
 @RestController
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
@@ -28,12 +25,12 @@ public class FixedFieldCodesGroupAPI extends BaseResource implements CatalogingI
   @GetMapping("/fixed-fields-code-groups-by-leader")
   public FixedFieldCodesGroup getFixedFieldCodesGroupsByLeader(
     @RequestParam final String leader,
-    @RequestParam(name = "code", defaultValue = Global.MATERIAL_TAG_CODE ) final String code,
+    @RequestParam(name = "code", defaultValue = Global.MATERIAL_TAG_CODE) final String code,
     @RequestParam final String lang,
     @RequestHeader(OKAPI_TENANT_HEADER_NAME) final String tenant) {
     return doGet((storageService, configuration) -> {
       final FixedFieldCodesGroup fixedFieldCodesGroup = new FixedFieldCodesGroup();
-      final Map<String, Object> map = storageService.getMaterialTypeInfosByLeaderValues(leader.charAt(6),leader.charAt(7), code);
+      final Map<String, Object> map = storageService.getMaterialTypeInfosByLeaderValues(leader.charAt(6), leader.charAt(7), code);
       injectMaterialCodes(fixedFieldCodesGroup, storageService, lang, (int) map.get(Global.HEADER_TYPE_LABEL), code);
       fixedFieldCodesGroup.setHeaderTypeCode((int) map.get(Global.HEADER_TYPE_LABEL));
       return fixedFieldCodesGroup;

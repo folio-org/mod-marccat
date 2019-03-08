@@ -504,10 +504,10 @@ public class BibliographicCatalog extends Catalog {
     return "BI";
   }
 
-  public PhysicalDescription createPhysicalDescriptionTag(final CatalogItem item, final CorrelationValues correlationValues)  {
-   return (PhysicalDescription) getNewTag(item,
-        Global.HEADER_CATEGORY,
-        correlationValues);
+  public PhysicalDescription createPhysicalDescriptionTag(final CatalogItem item, final CorrelationValues correlationValues) {
+    return (PhysicalDescription) getNewTag(item,
+      Global.HEADER_CATEGORY,
+      correlationValues);
   }
 
   /**

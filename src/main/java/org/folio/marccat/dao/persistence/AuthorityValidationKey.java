@@ -27,7 +27,6 @@ public class AuthorityValidationKey extends ValidationKey implements Serializabl
   }
 
 
-
   public String getHeadingType() {
     return headingType;
   }

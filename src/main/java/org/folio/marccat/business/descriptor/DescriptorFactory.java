@@ -11,8 +11,6 @@ import org.folio.marccat.dao.persistence.Descriptor;
  */
 public class DescriptorFactory {
 
-  private DescriptorFactory(){}
-
   private static AbstractMapBackedFactory abstractMapBackedFactory;
 
   static {
@@ -20,6 +18,9 @@ public class DescriptorFactory {
     final PropertyBasedFactoryBuilder builder = new PropertyBasedFactoryBuilder();
     builder.load("/org/folio/marccat/business/cataloguing/bibliographic/descriptorFactory.properties", abstractMapBackedFactory);
     builder.load("/org/folio/marccat/business/cataloguing/bibliographic/daoFactory.properties", abstractMapBackedFactory);
+  }
+
+  private DescriptorFactory() {
   }
 
   public static Descriptor createDescriptor(int category) {

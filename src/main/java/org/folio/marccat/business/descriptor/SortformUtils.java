@@ -29,19 +29,61 @@ import static org.folio.marccat.config.log.Global.EMPTY_STRING;
  */
 public class SortformUtils {
 
+  private static final List<Character> punctuationMark1List = new ArrayList<>(
+    Arrays.asList(
+      '\u0021',
+      '\u002c',
+      '\u002d',
+      '\u002f',
+      '\u003a',
+      '\u003b',
+      '\u003d',
+      '\u003f',
+      '\u0040',
+      '\u005f'
+    ));
   private static SortformUtils instance;
-
-  private SortformUtils(){}
-
-  public static SortformUtils get(){
-    if(instance == null) {
-      synchronized (SortformUtils.class){
-        instance = new SortformUtils();
-      }
-    }
-    return instance;
-  }
-
+  private static List<Character> punctuationMark2List = new ArrayList<>(
+    Arrays.asList(
+      '\u0021',
+      '\u0022',
+      '\u0026',
+      '\u002a',
+      '\u002b',
+      '\u002c',
+      '\u002d',
+      '\u002e',
+      '\u002f',
+      '\u003a',
+      '\u003b',
+      '\u003d',
+      '\u003f',
+      '\u005f'
+    ));
+  private static List<Character> deweyPunctuationMarkList = new ArrayList<>(
+    Arrays.asList(
+      '\u0021',
+      '\u0022',
+      '\u0023',
+      '\u0024',
+      '\u0025',
+      '\u0026',
+      '\'',
+      '\u0028',
+      '\u0029',
+      '\u002a',
+      '\u002b',
+      '\u002c',
+      '\u002d',
+      '\u002e',
+      '\u002f',
+      '\u003a',
+      '\u003b',
+      '\u003d',
+      '\u003f',
+      '\u0040',
+      '\u005f'
+    ));
   private final TreeSet arabicWordExceptions = new TreeSet(
     Arrays
       .asList(
@@ -409,61 +451,17 @@ public class SortformUtils {
         "\u0627\u0644\u064A\u0641",
         "\u0627\u0644\u064A\u0646\u0648\u0649",
         "\u0627\u0644\u064A\u0646\u0648\u064A"));
+  private SortformUtils() {
+  }
 
-  private static final List<Character> punctuationMark1List = new ArrayList<>(
-    Arrays.asList(
-      '\u0021',
-      '\u002c',
-      '\u002d',
-      '\u002f',
-      '\u003a',
-      '\u003b',
-      '\u003d',
-      '\u003f',
-      '\u0040',
-      '\u005f'
-    ));
-  private static List<Character> punctuationMark2List = new ArrayList<>(
-    Arrays.asList(
-      '\u0021',
-      '\u0022',
-      '\u0026',
-      '\u002a',
-      '\u002b',
-      '\u002c',
-      '\u002d',
-      '\u002e',
-      '\u002f',
-      '\u003a',
-      '\u003b',
-      '\u003d',
-      '\u003f',
-      '\u005f'
-    ));
-  private static List<Character> deweyPunctuationMarkList = new ArrayList<>(
-    Arrays.asList(
-      '\u0021',
-      '\u0022',
-      '\u0023',
-      '\u0024',
-      '\u0025',
-      '\u0026',
-      '\'',
-      '\u0028',
-      '\u0029',
-      '\u002a',
-      '\u002b',
-      '\u002c',
-      '\u002d',
-      '\u002e',
-      '\u002f',
-      '\u003a',
-      '\u003b',
-      '\u003d',
-      '\u003f',
-      '\u0040',
-      '\u005f'
-    ));
+  public static SortformUtils get() {
+    if (instance == null) {
+      synchronized (SortformUtils.class) {
+        instance = new SortformUtils();
+      }
+    }
+    return instance;
+  }
 
   public String defaultSortform(String stringText) {
     String result = new StringText(stringText).toDisplayString().toUpperCase();
@@ -592,7 +590,7 @@ public class SortformUtils {
   public String stripAccents(String s) {
 
     String normalized = Normalizer.normalize(
-      s,java.text.Normalizer.Form.NFKD);
+      s, java.text.Normalizer.Form.NFKD);
     return normalized.replaceAll("\\p{InCombiningDiacriticalMarks}+", EMPTY_STRING);
   }
 

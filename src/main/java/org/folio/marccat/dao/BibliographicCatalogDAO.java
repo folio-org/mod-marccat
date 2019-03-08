@@ -533,16 +533,16 @@ public class BibliographicCatalogDAO extends CatalogDAO {
       transaction.commit();
     } catch (Exception e) {
       cleanUp(transaction);
-     
+
       throw new HibernateException(e);
     } finally {
       try {
         if (proc != null) {
-        	proc.close();
-        	}
+          proc.close();
+        }
       } catch (SQLException ex) {
-    	  logger.error(ex.getMessage(), ex);
-      } 
+        logger.error(ex.getMessage(), ex);
+      }
     }
   }
 
@@ -623,16 +623,15 @@ public class BibliographicCatalogDAO extends CatalogDAO {
   @Deprecated
   public void updateCacheTable(
     final int bibItemNumber,
-    final int cataloguingView)
-     {
-	  throw new UnsupportedOperationException();
+    final int cataloguingView) {
+    throw new UnsupportedOperationException();
   }
 
-@Override
-protected void insertDeleteTable(CatalogItem item, UserProfile user) {
-	// Empty
-	
-}
+  @Override
+  protected void insertDeleteTable(CatalogItem item, UserProfile user) {
+    // Empty
+
+  }
 
 
 }

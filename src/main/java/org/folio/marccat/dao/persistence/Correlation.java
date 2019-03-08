@@ -1,8 +1,8 @@
 package org.folio.marccat.dao.persistence;
 
-import java.io.Serializable;
-
 import org.folio.marccat.shared.CorrelationValues;
+
+import java.io.Serializable;
 
 /**
  * @author elena

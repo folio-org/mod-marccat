@@ -30,14 +30,14 @@ public class Map extends PhysicalDescription {
 
   public String getDisplayString() {
     return EMPTY_STRING
-        + getGeneralMaterialDesignationCode()
-        + getSpecificMaterialDesignationCode()
-        + " "
-        + getMapColourCode()
-        + getMapPhysicalMediumCode()
-        + getMapTypeOfReproductionCode()
-        + getMapProductionDetailsCode()
-        + getMapPolarityCode();
+      + getGeneralMaterialDesignationCode()
+      + getSpecificMaterialDesignationCode()
+      + " "
+      + getMapColourCode()
+      + getMapPhysicalMediumCode()
+      + getMapTypeOfReproductionCode()
+      + getMapProductionDetailsCode()
+      + getMapPolarityCode();
   }
 
 

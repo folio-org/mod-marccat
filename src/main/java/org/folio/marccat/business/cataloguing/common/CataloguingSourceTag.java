@@ -17,7 +17,7 @@ public abstract class CataloguingSourceTag extends VariableHeaderUsingItemEntity
       new StringText(getItemEntity().getCataloguingSourceStringText());
     bPosition = 0;
     if (stringText.getNumberOfSubfields() > 0 && stringText.getSubfield(0).getCode().equals("a")) {
-        bPosition = 1;
+      bPosition = 1;
     }
     String languageOfCataloguing = getItemEntity().getLanguageOfCataloguing().trim();
     if (languageOfCataloguing != null && !languageOfCataloguing.equals("") && !stringText.containsSubfield(new Subfield("b", languageOfCataloguing)))

@@ -13,6 +13,7 @@ public class SeeReferenceTag extends SeeSeeAlsoReference {
     super();
   }
 
+  @Override
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
     logger.debug("does " + v + " affect my key? ");
     if (!super.correlationChangeAffectsKey(v)) {

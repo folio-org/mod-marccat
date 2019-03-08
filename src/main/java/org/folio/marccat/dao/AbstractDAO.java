@@ -1,11 +1,10 @@
 package org.folio.marccat.dao;
 
-import static org.folio.marccat.util.F.deepCopy;
-
-import java.io.Serializable;
-import java.util.List;
-import java.util.stream.Collectors;
-
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.LockMode;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.Transaction;
+import net.sf.hibernate.type.Type;
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.business.common.View;
@@ -15,11 +14,11 @@ import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.exception.RecordInUseException;
 
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.LockMode;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.Transaction;
-import net.sf.hibernate.type.Type;
+import java.io.Serializable;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.folio.marccat.util.F.deepCopy;
 
 public class AbstractDAO extends HibernateUtil {
 
@@ -126,7 +125,7 @@ public class AbstractDAO extends HibernateUtil {
     try {
       transaction.rollback();
     } catch (HibernateException ignore) {
-    	throw new ModMarccatException(ignore);
+      throw new ModMarccatException(ignore);
     }
   }
 
@@ -196,7 +195,7 @@ public class AbstractDAO extends HibernateUtil {
     try {
       return session.find(query, values, types);
     } catch (HibernateException e) {
-        throw new ModMarccatException(e);
+      throw new ModMarccatException(e);
     }
   }
 
@@ -211,7 +210,7 @@ public class AbstractDAO extends HibernateUtil {
     try {
       return session.get(clazz, id, l);
     } catch (HibernateException e) {
-        throw new ModMarccatException(e);
+      throw new ModMarccatException(e);
     }
   }
 
@@ -228,7 +227,7 @@ public class AbstractDAO extends HibernateUtil {
     try {
       return session.get(clazz, id);
     } catch (Exception exception) {
-        throw new ModMarccatException(exception);
+      throw new ModMarccatException(exception);
     }
   }
 

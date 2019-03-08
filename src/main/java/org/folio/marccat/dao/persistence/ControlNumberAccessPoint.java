@@ -87,7 +87,7 @@ public class ControlNumberAccessPoint extends BibliographicAccessPoint implement
    * @param stringText -- the stringText to set.
    */
   public void setAccessPointStringText(final StringText stringText) {
-	  throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException();
   }
 
   /**
@@ -213,6 +213,6 @@ public class ControlNumberAccessPoint extends BibliographicAccessPoint implement
 
   // move in storageService and set after creation (as was: called two constructor)
   public void setDefaultFunctionCode() {
-	  throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException();
   }
 }

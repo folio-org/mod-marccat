@@ -1,5 +1,7 @@
 package org.folio.marccat.business.cataloguing.authority;
 
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
 import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
 import org.folio.marccat.business.common.Persistence;
@@ -10,9 +12,6 @@ import org.folio.marccat.dao.persistence.ItemEntity;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
-
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
 
 
 public class AuthorityNote extends VariableField implements Persistence, PersistsViaItem {
@@ -59,15 +58,6 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
     return 7;
   }
 
-
-  /* (non-Javadoc)
-   * @see TagInterface#setCorrelationValues(librisuite.business.common.CorrelationValues)
-   */
-  public void setCorrelationValues(CorrelationValues v) {
-	  setCorrelationValues(v);
-  }
-
-
   /* (non-Javadoc)
    * @see VariableField#getStringText()
    */
@@ -104,7 +94,6 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
     noteNumber = i;
   }
 
-
   /**
    * @since 1.0
    */
@@ -132,10 +121,12 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
   public void setItemEntity(ItemEntity item) {
     this.autItm = (AUT) item;
   }
+
   @Override
   public int getItemNumber() {
     return itemNumber;
   }
+
   @Override
   public void setItemNumber(int itemNumber) {
     this.itemNumber = itemNumber;
@@ -161,10 +152,17 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
     return noteNumber == other.noteNumber;
   }
 
-@Override
-public CorrelationValues getCorrelationValues() {
-	return null;
-}
+  @Override
+  public CorrelationValues getCorrelationValues() {
+    return null;
+  }
+
+  /* (non-Javadoc)
+   * @see TagInterface#setCorrelationValues(librisuite.business.common.CorrelationValues)
+   */
+  public void setCorrelationValues(CorrelationValues v) {
+    setCorrelationValues(v);
+  }
 
 
 }
