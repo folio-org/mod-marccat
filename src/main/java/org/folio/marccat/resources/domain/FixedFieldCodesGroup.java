@@ -15,12 +15,15 @@ import java.util.Map;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({"results"})
+@JsonPropertyOrder({"headerTypeCode", "results"})
 /*
 
 
  */
 public class FixedFieldCodesGroup {
+
+  @JsonProperty("headerTypeCode")
+  private Integer headerTypeCode;
 
   @JsonProperty("results")
   @Valid
@@ -49,5 +52,27 @@ public class FixedFieldCodesGroup {
   public void addResults(FixedFieldElement fixedFieldElement) {
     this.results.put(fixedFieldElement.getName(), fixedFieldElement);
   }
+
+  /**
+   * @return The headerTypeCode
+   */
+  @JsonProperty("headerTypeCode")
+  public Integer getHeaderTypeCode() {
+    return headerTypeCode;
+  }
+
+  /**
+   * @param category The headerTypeCode
+   */
+  @JsonProperty("headerTypeCode")
+  public void setHeaderTypeCode(Integer headerTypeCode) {
+    this.headerTypeCode = headerTypeCode;
+  }
+
+  public FixedFieldCodesGroup withHeaderTypeCode(Integer headerTypeCode) {
+    this.headerTypeCode = headerTypeCode;
+    return this;
+  }
+
 
 }

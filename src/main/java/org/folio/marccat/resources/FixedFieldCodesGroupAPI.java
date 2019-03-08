@@ -32,6 +32,7 @@ public class FixedFieldCodesGroupAPI extends BaseResource implements CatalogingI
       final FixedFieldCodesGroup fixedFieldCodesGroup = new FixedFieldCodesGroup();
       final Map<String, Object> map = storageService.getMaterialTypeInfosByLeaderValues(leader.charAt(6), leader.charAt(7), code);
       injectMaterialCodes(fixedFieldCodesGroup, storageService, lang, (int) map.get(Global.HEADER_TYPE_LABEL), code);
+      fixedFieldCodesGroup.setHeaderTypeCode((int) map.get(Global.HEADER_TYPE_LABEL));
       return fixedFieldCodesGroup;
     }, tenant, configurator, "bibliographic", "material");
   }
