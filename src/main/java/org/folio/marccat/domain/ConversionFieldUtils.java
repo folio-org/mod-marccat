@@ -15,6 +15,9 @@ import static java.util.Optional.ofNullable;
  */
 public class ConversionFieldUtils {
 
+	 private ConversionFieldUtils() {
+		    throw new IllegalStateException("Utility class");
+		  }
 
   /**
    * Inject leader values for drop-down list selected.

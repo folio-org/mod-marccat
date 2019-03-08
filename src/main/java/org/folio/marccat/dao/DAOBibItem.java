@@ -30,8 +30,7 @@ import java.util.Objects;
  */
 public class DAOBibItem extends AbstractDAO {
   @Deprecated
-  //TODO
-  public void delete(Persistence p) throws DataAccessException {
+  public void delete(Persistence p) {
     if (!(p instanceof BIB_ITM)) {
       throw new IllegalArgumentException("Argument must be a BIB_ITM");
     }
@@ -69,7 +68,7 @@ public class DAOBibItem extends AbstractDAO {
         s.delete("from " + Cache.class.getName() + " as c "
             + " where c.bibItemNumber = ? "
             + " and c.cataloguingView = ? ",
-          new Object[]{b.getAmicusNumber(), new Short(View.toIntView(b.getUserViewString()))},
+          new Object[]{b.getAmicusNumber(), View.toIntView(b.getUserViewString())},
           new Type[]{Hibernate.INTEGER, Hibernate.SHORT});
       }
     }

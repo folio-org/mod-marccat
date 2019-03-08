@@ -2,12 +2,8 @@ package org.folio.marccat.business.cataloguing.authority;
 
 import org.folio.marccat.dao.persistence.CNTL_NBR;
 import org.folio.marccat.dao.persistence.Descriptor;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
-
-import java.util.Collections;
-import java.util.List;
 
 
 public class AuthorityControlNumberAccessPoint extends AuthorityAccessPoint {
@@ -46,6 +42,7 @@ public class AuthorityControlNumberAccessPoint extends AuthorityAccessPoint {
   /* (non-Javadoc)
    * @see TagInterface#getCategory()
    */
+  @Override
   public int getCategory() {
     return 5;
   }
@@ -64,15 +61,24 @@ public class AuthorityControlNumberAccessPoint extends AuthorityAccessPoint {
     getDescriptor().setCorrelationValues(v);
   }
 
-
+  /**
+   * @since 1.0
+   */
   public Descriptor getDescriptor() {
     return descriptor;
   }
 
+  /* (non-Javadoc)
+   * @see Browsable#setDescriptor(librisuite.hibernate.Descriptor)
+   */
   public void setDescriptor(Descriptor descriptor) {
     this.descriptor = (CNTL_NBR) descriptor;
   }
 
+  /* (non-Javadoc)
+   * @see VariableField#getStringText()
+   */
+@Override
   public StringText getStringText() {
     StringText s = super.getStringText();
     if (getValidationCode() != 'a') {
@@ -81,22 +87,27 @@ public class AuthorityControlNumberAccessPoint extends AuthorityAccessPoint {
     return s;
   }
 
+  /* (non-Javadoc)
+   * @see librisuite.business.cataloguing.bibliographic.Tag#getFirstCorrelationList()
+   */
 
-  public List getFirstCorrelationList() throws DataAccessException {
-    return Collections.emptyList();
-  }
-
-
-  private char getValidationCode() {
+  /**
+   * @since 1.0
+   */
+  public char getValidationCode() {
     return validationCode;
   }
 
-
+  /**
+   * @since 1.0
+   */
   public void setValidationCode(char c) {
     validationCode = c;
   }
 
-
+  /* (non-Javadoc)
+   * @see AccessPoint#setDescriptorStringText(org.folio.marccat.util.StringText)
+   */
   public void setDescriptorStringText(StringText tagStringText) {
     getDescriptor().setStringText(tagStringText.toString());
   }

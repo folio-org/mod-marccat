@@ -1,23 +1,25 @@
 package org.folio.marccat.dao;
 
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.LockMode;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.Transaction;
-import net.sf.hibernate.type.Type;
+import static org.folio.marccat.util.F.deepCopy;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.dao.common.HibernateUtil;
 import org.folio.marccat.dao.persistence.S_LCK_TBL;
 import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.exception.RecordInUseException;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static org.folio.marccat.util.F.deepCopy;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.LockMode;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.Transaction;
+import net.sf.hibernate.type.Type;
 
 public class AbstractDAO extends HibernateUtil {
 
@@ -124,10 +126,11 @@ public class AbstractDAO extends HibernateUtil {
     try {
       transaction.rollback();
     } catch (HibernateException ignore) {
+    	throw new ModMarccatException(ignore);
     }
   }
 
-  public List<? extends PersistentObjectWithView> isolateViewForList(List<? extends PersistentObjectWithView> multiView, final int userView, final Session session) throws DataAccessException {
+  public List<? extends PersistentObjectWithView> isolateViewForList(List<? extends PersistentObjectWithView> multiView, final int userView, final Session session) {
     if (userView == View.ANY) {
       return multiView;
     }
@@ -135,7 +138,7 @@ public class AbstractDAO extends HibernateUtil {
       try {
         return isolateView(po, userView, session);
       } catch (HibernateException he) {
-        throw new RuntimeException(he);
+        throw new ModMarccatException(he);
       }
     }).collect(Collectors.toList());
   }
@@ -193,7 +196,7 @@ public class AbstractDAO extends HibernateUtil {
     try {
       return session.find(query, values, types);
     } catch (HibernateException e) {
-      return null;
+        throw new ModMarccatException(e);
     }
   }
 
@@ -208,7 +211,7 @@ public class AbstractDAO extends HibernateUtil {
     try {
       return session.get(clazz, id, l);
     } catch (HibernateException e) {
-      return null;
+        throw new ModMarccatException(e);
     }
   }
 
@@ -220,11 +223,12 @@ public class AbstractDAO extends HibernateUtil {
    * @param id      a valid identifier of an existing persistent instance of the class
    * @return the persistent instance or null
    */
+  @Override
   public Object get(Session session, Class clazz, Serializable id) {
     try {
       return session.get(clazz, id);
     } catch (Exception exception) {
-      return null;
+        throw new ModMarccatException(exception);
     }
   }
 
@@ -239,7 +243,7 @@ public class AbstractDAO extends HibernateUtil {
    * @throws DataAccessException  in case of hibernate exception.
    * @throws RecordInUseException in case of record in use exception.
    */
-  public void lock(final int key, final String entityType, final String userName, final String uuid, final Session session) throws DataAccessException, RecordInUseException {
+  public void lock(final int key, final String entityType, final String userName, final String uuid, final Session session) {
     try {
 
       S_LCK_TBL myLock = new S_LCK_TBL(key, entityType);
@@ -275,7 +279,7 @@ public class AbstractDAO extends HibernateUtil {
    * @param session    -- the current hibernate session id.
    * @throws DataAccessException in case of hibernate exception.
    */
-  public void unlock(final int key, final String entityType, final String userName, final Session session) throws DataAccessException {
+  public void unlock(final int key, final String entityType, final String userName, final Session session) {
     try {
       S_LCK_TBL myLock = new S_LCK_TBL(key, entityType);
       S_LCK_TBL existingLock = (S_LCK_TBL) get(session, S_LCK_TBL.class, myLock);

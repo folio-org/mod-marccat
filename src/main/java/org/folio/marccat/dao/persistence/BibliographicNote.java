@@ -24,8 +24,7 @@ import java.util.List;
  * @author janick
  */
 public class BibliographicNote extends VariableField implements PersistentObjectWithView, OrderedTag {
-
-  private static final short bibliographicNoteCategory = 7;
+private static final short bibliographicNoteCategory = 7;
   public List<BibliographicNoteOverflow> overflowList = new ArrayList<>();
   /**
    * The content is all or a part of the stringText.toString() result.
@@ -49,6 +48,7 @@ public class BibliographicNote extends VariableField implements PersistentObject
     super(itemNbr);
   }
 
+  @Override
   public boolean isBrowsable() {
     return false;
   }
@@ -85,6 +85,7 @@ public class BibliographicNote extends VariableField implements PersistentObject
   /* (non-Javadoc)
    * @see java.lang.Object#equals(java.lang.Object)
    */
+  @Override
   public boolean equals(final Object obj) {
     if (!(obj instanceof BibliographicNote)) {
       return false;
@@ -99,6 +100,7 @@ public class BibliographicNote extends VariableField implements PersistentObject
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
+  @Override
   public int hashCode() {
     return getNoteNbr();
   }
@@ -204,10 +206,6 @@ public class BibliographicNote extends VariableField implements PersistentObject
 
   public void setBibItemNumber(int i) {
     setItemNumber(i);
-  }
-
-  public String getContent() {
-    return content;
   }
 
   public void setContent(String text) {

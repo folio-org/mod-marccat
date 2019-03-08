@@ -157,7 +157,7 @@ public abstract class CodeTable implements Persistence {
       if (other.language != null)
         return false;
     } else if (!language.equals(other.language))
-      return false;
+      {return false;}
     return sequence == other.sequence;
   }
 }

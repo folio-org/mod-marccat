@@ -54,21 +54,27 @@ public abstract class AuthorityHeadingTag extends VariableField implements
     autItm = (AUT) item;
   }
 
-
+  /**
+   * @since 1.0
+   */
   private AUT getAutItm() {
     return autItm;
   }
 
-
+  /**
+   * @since 1.0
+   */
   public Descriptor getDescriptor() {
     return descriptor;
   }
 
-
+  /**
+   * @since 1.0
+   */
   public void setDescriptor(Descriptor descriptor) {
     logger.debug("setDescriptor(" + descriptor + ")");
     this.descriptor = descriptor;
-    setHeadingNumber(new Integer(descriptor.getKey().getHeadingNumber()));
+    setHeadingNumber(descriptor.getKey().getHeadingNumber());
     logger.debug("headingNumber set to " + getHeadingNumber());
   }
 
@@ -92,9 +98,6 @@ public abstract class AuthorityHeadingTag extends VariableField implements
     // paulm aut
     getAutItm().setVariableHeadingStringText(
       stringText.getSubfieldsWithCodes(getVariantCodes()).toString());
-    // no setting of descriptor from worksheet
-    // setDescriptorStringText(stringText);
-    // setDescriptorStringText(stringText);
   }
 
   /*
@@ -102,6 +105,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
    *
    * @see VariableField#parseModelXmlElementContent(org.w3c.dom.Element)
    */
+  @Override
   public void parseModelXmlElementContent(Element xmlElement) {
     setDescriptorStringText(StringText
       .parseModelXmlElementContent(xmlElement));
@@ -113,18 +117,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
    * @see Tag#getCategory()
    */
   public int getCategory() {
-    // TODO Auto-generated method stub
     return 0;
-  }
-
-  /*
-   * (non-Javadoc)
-   *
-   * @see TagInterface#getFirstCorrelationList()
-   */
-  public List getFirstCorrelationList() throws DataAccessException {
-    // TODO Auto-generated method stub
-    return null;
   }
 
   /*
@@ -155,6 +148,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
    *
    * @see TagInterface#isBrowsable()
    */
+  @Override
   public boolean isBrowsable() {
     /*
      * once a heading has been selected, it cannot be changed. The user must
@@ -182,7 +176,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
     if (getAutItm() != null) {
       result = getAutItm().getHeadingNumber();
       if (result > 0) {
-        return new Integer(result);
+        return result;
       }
     }
     return null;
@@ -219,6 +213,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
    *
    * @see TagInterface#isAbleToBeDeleted()
    */
+  @Override
   public boolean isAbleToBeDeleted() {
     return false;
   }
@@ -246,7 +241,8 @@ public abstract class AuthorityHeadingTag extends VariableField implements
    *
    * @see TagInterface#validate(int)
    */
-  public void validate(int index) throws ValidationException {
+  @Override
+  public void validate(int index) {
     if (getDescriptor().isNew()) {
       throw new NoHeadingSetException(index);
     }

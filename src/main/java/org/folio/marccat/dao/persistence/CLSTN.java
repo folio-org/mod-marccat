@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
  */
 public class CLSTN extends Descriptor {
 
+	private String textEnd = "\u0003";
   /**
    * The dewey edition number.
    */
@@ -220,14 +221,14 @@ public class CLSTN extends Descriptor {
     for (Object obj : st.getSubfieldList()) {
       Subfield sub = (Subfield) obj;
       if (sub.getCode().equals("b")) {
-        sub.setContent("\u0003" + sub.getContent());
+        sub.setContent(textEnd + sub.getContent());
         break;
       }
     }
     String result = st.toDisplayString().toUpperCase();
     result = SortformUtils.get().replacePunctuationMark1(result, " ");
     result = SortformUtils.get().stripMultipleBlanks(result);
-    String[] parts = result.split("\u0003");
+    String[] parts = result.split(textEnd);
     if (parts[0].endsWith("*")) {
       parts[0] = parts[0].substring(0, parts[0].length() - 2) + ".";
     }
@@ -271,14 +272,14 @@ public class CLSTN extends Descriptor {
     for (Object obj : st.getSubfieldList()) {
       Subfield sub = (Subfield) obj;
       if (sub.getCode().equals("b")) {
-        sub.setContent("\u0003" + sub.getContent());
+        sub.setContent(textEnd + sub.getContent());
         break;
       }
     }
     String result = st.toDisplayString().toUpperCase();
     result = SortformUtils.get().replacePunctuationMark1(result, " ");
     result = SortformUtils.get().stripMultipleBlanks(result);
-    String[] parts = result.split("\u0003");
+    String[] parts = result.split(textEnd);
     if (parts[0].endsWith("*")) {
       parts[0] = parts[0].substring(0, parts[0].length() - 2) + ".";
     }

@@ -1,21 +1,5 @@
 package org.folio.marccat.dao;
 
-import net.sf.hibernate.Hibernate;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.type.Type;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.folio.marccat.business.cataloguing.authority.*;
-import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
-import org.folio.marccat.business.cataloguing.common.Tag;
-import org.folio.marccat.business.common.View;
-import org.folio.marccat.business.controller.UserProfile;
-import org.folio.marccat.dao.persistence.*;
-import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.exception.RecordNotFoundException;
-import org.folio.marccat.util.XmlUtils;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,6 +7,45 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.folio.marccat.business.cataloguing.authority.Authority008Tag;
+import org.folio.marccat.business.cataloguing.authority.AuthorityAuthenticationCodeTag;
+import org.folio.marccat.business.cataloguing.authority.AuthorityCatalog;
+import org.folio.marccat.business.cataloguing.authority.AuthorityCataloguingSourceTag;
+import org.folio.marccat.business.cataloguing.authority.AuthorityControlNumberTag;
+import org.folio.marccat.business.cataloguing.authority.AuthorityDateOfLastTransactionTag;
+import org.folio.marccat.business.cataloguing.authority.AuthorityGeographicAreaTag;
+import org.folio.marccat.business.cataloguing.authority.AuthorityHeadingTag;
+import org.folio.marccat.business.cataloguing.authority.AuthorityItem;
+import org.folio.marccat.business.cataloguing.authority.AuthorityLeader;
+import org.folio.marccat.business.cataloguing.authority.AuthorityNote;
+import org.folio.marccat.business.cataloguing.authority.AuthorityReferenceTag;
+import org.folio.marccat.business.cataloguing.authority.AuthorityTagImpl;
+import org.folio.marccat.business.cataloguing.authority.EquivalenceReference;
+import org.folio.marccat.business.cataloguing.authority.SeeAlsoReferenceTag;
+import org.folio.marccat.business.cataloguing.authority.SeeReferenceTag;
+import org.folio.marccat.business.cataloguing.authority.TimePeriodOfHeading;
+import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
+import org.folio.marccat.business.cataloguing.common.Tag;
+import org.folio.marccat.business.common.View;
+import org.folio.marccat.business.controller.UserProfile;
+import org.folio.marccat.dao.persistence.AUT;
+import org.folio.marccat.dao.persistence.CatalogItem;
+import org.folio.marccat.dao.persistence.Descriptor;
+import org.folio.marccat.dao.persistence.FULL_CACHE;
+import org.folio.marccat.dao.persistence.REF;
+import org.folio.marccat.dao.persistence.ReferenceType;
+import org.folio.marccat.dao.persistence.T_DUAL_REF;
+import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.RecordNotFoundException;
+import org.folio.marccat.util.XmlUtils;
+
+import net.sf.hibernate.Hibernate;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.type.Type;
 
 /**
  * @author paulm
@@ -33,18 +56,10 @@ public class AuthorityCatalogDAO extends CatalogDAO {
   public static final Log logger =
     LogFactory.getLog(AuthorityCatalogDAO.class);
 
-  public AuthorityItem getAuthorityItemByAmicusNumber(int id)
-    throws DataAccessException {
+  public AuthorityItem getAuthorityItemByAmicusNumber(int id) {
     AuthorityItem item = getAuthorityItem(id);
-    item.addAllTags(getHeaderFields(item).toArray(new Tag[0]));
     AuthorityHeadingTag heading = getHeadingField(item);
     item.addTag(heading);
-    item.addAllTags(
-      getReferenceFields(item, heading).toArray(new Tag[0]));
-    item.addAllTags((Tag[]) getAccessPointTags(item).toArray(new Tag[0]));
-    item.addAllTags((Tag[]) getNotes(id).toArray(new Tag[0]));
-    //TODO passare la sessione al metodo load(id)
-    //item.setModelItem(new DAOAuthorityModelItem().load(id));
 
     Iterator iter = item.getTags().iterator();
     while (iter.hasNext()) {
@@ -65,8 +80,7 @@ public class AuthorityCatalogDAO extends CatalogDAO {
 
   // 2018 Paul Search Engine Java
   @Override
-  public void updateFullRecordCacheTable(Session session, CatalogItem item)
-    throws DataAccessException {
+  public void updateFullRecordCacheTable(Session session, CatalogItem item) {
     FULL_CACHE cache;
     DAOFullCache dao = new DAOFullCache();
     try {
@@ -81,30 +95,29 @@ public class AuthorityCatalogDAO extends CatalogDAO {
     cache.evict();
   }
 
-  private AuthorityItem getAuthorityItem(int id) throws DataAccessException {
+  private AuthorityItem getAuthorityItem(int id) {
     if (logger.isDebugEnabled())
       logger.debug("loading authority item: " + Integer.toString(id));
 
     AuthorityItem item = new AuthorityItem();
 
-    //TODO fix session!
     final Session session = currentSession();
     AUT autItm = null;
     try {
       autItm = new AutDAO().load(session, id);
     } catch (HibernateException e) {
-      e.printStackTrace();
+    	logger.error(e.getMessage());
     }
     item.setAutItmData(autItm);
     return item;
   }
 
   @Override
-  public CatalogItem getCatalogItemByKey(final Session session, final int... key) throws DataAccessException {
+  public CatalogItem getCatalogItemByKey(final Session session, final int... key) {
     return getAuthorityItemByAmicusNumber(key[0]);
   }
 
-  public List<Tag> getHeaderFields(final AuthorityItem item) throws DataAccessException {
+  public List<Tag> getHeaderFields(final AuthorityItem item) {
 
     final List<Tag> result = new ArrayList<>();
 
@@ -125,8 +138,7 @@ public class AuthorityCatalogDAO extends CatalogDAO {
     return result;
   }
 
-  private AuthorityHeadingTag getHeadingField(AuthorityItem item)
-    throws DataAccessException {
+  private AuthorityHeadingTag getHeadingField(AuthorityItem item) {
     AUT autData = item.getAutItmData();
     AuthorityHeadingTag result =
       AuthorityCatalog.createHeadingTagByType(autData.getHeadingType());
@@ -147,9 +159,7 @@ public class AuthorityCatalogDAO extends CatalogDAO {
   }
 
   public List<Tag> getReferenceFields(
-    AuthorityItem item,
-    AuthorityHeadingTag heading)
-    throws DataAccessException {
+    AuthorityHeadingTag heading) {
     List<Tag> result = new ArrayList<>();
     Descriptor d = heading.getDescriptor();
     DAODescriptor dao = (DAODescriptor) d.getDAO();
@@ -193,59 +203,14 @@ public class AuthorityCatalogDAO extends CatalogDAO {
     return result;
   }
 
-  private List getAccessPointTags(AuthorityItem item)
-    throws DataAccessException {
-    if (logger.isDebugEnabled())
-      logger.debug(
-        "loading all access points"
-          + " for authority item: "
-          + item.getAmicusNumber());
-    List apfs =
-      find(
-        "from "
-          + "AuthorityAccessPoint"
-          + " as t "
-          + " where t.itemNumber = ?",
-        new Object[]{item.getAmicusNumber()},
-        new Type[]{Hibernate.INTEGER});
-
-    //TODO session missing
-    //loadHeadings(apfs, AuthorityCatalog.CATALOGUING_VIEW);
-
-    return apfs;
-  }
-
-  private List getNotes(int id) throws DataAccessException {
-    if (logger.isDebugEnabled())
-      logger.debug(
-        "loading all Notes for authority item: "
-          + Integer.toString(id));
-
-    return find(
-      "from AuthorityNote as t "
-        + "where t.itemNumber = ? ",
-      new Object[]{new Integer(id)},
-      new Type[]{Hibernate.INTEGER});
-  }
-
-  private List getNoteListWithoutDuplication(int id) throws DataAccessException {
-    if (logger.isDebugEnabled())
-      logger.debug(
-        "loading all Notes for authority item: "
-          + Integer.toString(id));
-
-    return findNotes(id);
-  }
 
   @Override
-  protected void updateItemDisplayCacheTable(CatalogItem item, Session session)
-    throws DataAccessException {
+  protected void updateItemDisplayCacheTable(CatalogItem item, Session session) {
     // do nothing -- Authorities don't have a cache table (yet)
   }
 
 
-  public List getValidHeadingTypeList(String headingType, Locale locale)
-    throws DataAccessException {
+  public List getValidHeadingTypeList(String headingType, Locale locale) {
     return find(
       "select distinct new "
         + "Avp(ct.code, ct.longText) "
@@ -258,7 +223,7 @@ public class AuthorityCatalogDAO extends CatalogDAO {
   }
 
   @Override
-  protected void insertDeleteTable(CatalogItem item, UserProfile user) throws DataAccessException {
+  protected void insertDeleteTable(CatalogItem item, UserProfile user) {
     // do nothing -- Authorities don't have a cache table (yet)
 
   }
@@ -266,9 +231,10 @@ public class AuthorityCatalogDAO extends CatalogDAO {
   public List findNotes(Integer amicusNumber) {
     List notes = new ArrayList();
     ResultSet rs = null;
+    String query = "SELECT * from AUT_NTE where AUT_NBR="+ amicusNumber;
     try {
       Connection con = currentSession().connection();
-      rs = con.createStatement().executeQuery("SELECT * from AUT_NTE where AUT_NBR=" + amicusNumber);
+      rs = con.createStatement().executeQuery(query);
       while (rs.next()) {
         AuthorityNote note = new AuthorityNote();
 

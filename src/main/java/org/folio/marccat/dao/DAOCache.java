@@ -42,8 +42,8 @@ public class DAOCache extends HibernateUtil {
         "from Cache as c "
           + " where c.bibItemNumber = ? and c.cataloguingView = ?",
         new Object[]{
-          new Integer(bibItemNumber),
-          new Integer(cataloguingView)},
+          (bibItemNumber),
+         (cataloguingView)},
         new Type[]{Hibernate.INTEGER, Hibernate.INTEGER});
     if (l.size() == 0) {
       throw new RecordNotFoundException("Cache entry not found");
@@ -111,7 +111,7 @@ public class DAOCache extends HibernateUtil {
           stmt.setInt(1, amicusNumber);
           java.sql.ResultSet js = stmt.executeQuery();
           while (js.next()) {
-            result.add(new Integer(js.getInt("trstn_vw_nbr")));
+            result.add(js.getInt("trstn_vw_nbr"));
           }
         } catch (SQLException e) {
           throw new DataAccessException(e);

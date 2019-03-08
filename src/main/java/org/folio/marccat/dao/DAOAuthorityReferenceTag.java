@@ -24,43 +24,36 @@ public class DAOAuthorityReferenceTag extends AbstractDAO {
   /* (non-Javadoc)
    * @see HibernateUtil#delete(librisuite.business.common.Persistence)
    */
-  public void delete(Persistence p) throws DataAccessException {
+  @Override
+  public void delete(Persistence p)  {
     AuthorityReferenceTag t = (AuthorityReferenceTag) p;
     REF ref = t.getReference();
     ref.getDAO().delete(ref);
 
     /* we do not delete both sides of a dual
      * so comment out the following block */
-//		if (t.isHasDualIndicator()) {
-//			if (T_DUAL_REF.isDual(t.getDualReferenceIndicator())) {
-//				REF dualRef = (REF)ref.clone();
-//				dualRef.setType(ReferenceType.getReciprocal(ref.getType()));
-//				dualRef.getDAO().delete(dualRef);
-//			}
-//		}
   }
 
   /* (non-Javadoc)
    * @see HibernateUtil#save(librisuite.business.common.Persistence)
    */
-  public void save(Persistence p) throws DataAccessException {
+  @Override
+  public void save(Persistence p)  {
     AuthorityReferenceTag t = (AuthorityReferenceTag) p;
     REF ref = t.getReference();
     ref.getDAO().save(ref);
-    if (t.isHasDualIndicator()) {
-      if (T_DUAL_REF.isDual(t.getDualReferenceIndicator())) {
+    if (t.isHasDualIndicator() && T_DUAL_REF.isDual(t.getDualReferenceIndicator())) {
         REF dualRef = (REF) ref.clone();
         dualRef.setType(ReferenceType.getReciprocal(ref.getType()));
         dualRef.getDAO().save(dualRef);
       }
     }
 
-  }
-
   /* (non-Javadoc)
    * @see HibernateUtil#update(librisuite.business.common.Persistence)
    */
-  public void update(Persistence p) throws DataAccessException {
+  @Override
+  public void update(Persistence p)  {
     delete(p);
     save(p);
   }

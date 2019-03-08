@@ -62,13 +62,8 @@ public class AuthorityModel extends Model {
     this.frbrThirdGroup = frbrThirdGroup;
   }
 
-  /**
-   * Gets the dao.
-   *
-   * @return the dao
-   */
-  @Deprecated
-  public AbstractDAO getDAO() {
-    return null;
-  }
+public AbstractDAO getDAO() {
+	return null;
+}
+
 }

@@ -10,15 +10,14 @@ public abstract class CataloguingSourceTag extends VariableHeaderUsingItemEntity
     super();
   }
 
+  @Override
   public StringText getStringText() {
     int bPosition;
     StringText stringText =
       new StringText(getItemEntity().getCataloguingSourceStringText());
     bPosition = 0;
-    if (stringText.getNumberOfSubfields() > 0) {
-      if (stringText.getSubfield(0).getCode().equals("a")) {
+    if (stringText.getNumberOfSubfields() > 0 && stringText.getSubfield(0).getCode().equals("a")) {
         bPosition = 1;
-      }
     }
     String languageOfCataloguing = getItemEntity().getLanguageOfCataloguing().trim();
     if (languageOfCataloguing != null && !languageOfCataloguing.equals("") && !stringText.containsSubfield(new Subfield("b", languageOfCataloguing)))
@@ -26,6 +25,7 @@ public abstract class CataloguingSourceTag extends VariableHeaderUsingItemEntity
     return stringText;
   }
 
+  @Override
   public void setStringText(StringText st) {
     for (int i = 0; i < st.getSubfieldList().size(); i++) {
       Subfield sf = (Subfield) st.getSubfieldList().get(i);
@@ -33,7 +33,6 @@ public abstract class CataloguingSourceTag extends VariableHeaderUsingItemEntity
       if (sf != null && !sf.getContent().trim().equals(""))
         if (sf.getCode().equals("b")) {
           getItemEntity().setLanguageOfCataloguing(sf.getContent());
-          //st.removeSubfield(i);
           break;
         } else getItemEntity().setLanguageOfCataloguing("   ");
     }
@@ -43,6 +42,7 @@ public abstract class CataloguingSourceTag extends VariableHeaderUsingItemEntity
   /* (non-Javadoc)
    * @see librisuite.business.cataloguing.bibliographic.Tag#isAbleToBeDeleted()
    */
+  @Override
   public boolean isAbleToBeDeleted() {
     return false;
   }

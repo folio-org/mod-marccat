@@ -1,12 +1,12 @@
 package org.folio.marccat.business.cataloguing.authority;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.folio.marccat.business.descriptor.SkipInFiling;
 import org.folio.marccat.dao.persistence.CorrelationKey;
 import org.folio.marccat.dao.persistence.TTL_HDG;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.shared.CorrelationValues;
-
-import java.util.List;
 
 
 public class AuthorityTitleHeadingTag
@@ -21,6 +21,7 @@ public class AuthorityTitleHeadingTag
   /* (non-Javadoc)
    * @see TagInterface#getCategory()
    */
+  @Override
   public int getCategory() {
     return 3;
   }
@@ -35,17 +36,18 @@ public class AuthorityTitleHeadingTag
     getDescriptor().setSkipInFiling(i);
   }
 
-
+  @Override
   public CorrelationKey getMarcEncoding()
-    throws DataAccessException {
+   {
     return super.getMarcEncoding().changeSkipInFilingIndicator(
       getSkipInFiling());
   }
 
-  public List getFirstCorrelationList() throws DataAccessException {
-    return null;
+  public List getFirstCorrelationList() {
+    return new ArrayList();
   }
 
+  @Override
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
     return v.isValueDefined(1);
   }

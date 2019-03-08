@@ -17,6 +17,7 @@ import org.folio.marccat.business.cataloguing.common.Tag;
 import org.folio.marccat.dao.persistence.Correlation;
 import org.folio.marccat.dao.persistence.CorrelationKey;
 import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.shared.CorrelationValues;
 
 import java.util.List;
@@ -34,7 +35,6 @@ public class DAOAuthorityCorrelation extends DAOCorrelation {
 
   private static final String ALPHABETICAL_ORDER = " order by ct.longText ";
   private static final String SEQUENCE_ORDER = " order by ct.sequence ";
-//  private String defaultListOrder = Defaults.getBoolean("labels.alphabetical.order", true) ? ALPHABETICAL_ORDER : SEQUENCE_ORDER;
 
   /**
    * Returns the AuthorityCorrelation from CorrelationKey
@@ -74,8 +74,8 @@ public class DAOAuthorityCorrelation extends DAOCorrelation {
         + "ac.key.marcFirstIndicator = ? and "
         + "ac.key.marcSecondIndicator = ? and "
         + "ac.key.marcTagCategoryCode = ?", new Object[]{
-        new String(tag), new Character(firstIndicator),
-        new Character(secondIndicator), new Short(categoryCode)},
+        tag, firstIndicator,
+        secondIndicator, categoryCode},
       new Type[]{Hibernate.STRING, Hibernate.CHARACTER,
         Hibernate.CHARACTER, Hibernate.SHORT});
 
@@ -133,7 +133,7 @@ public class DAOAuthorityCorrelation extends DAOCorrelation {
           + "where ac.key.marcTag = ? and "
           + "(ac.key.marcFirstIndicator = ? or ac.key.marcFirstIndicator in ('S', 'O') )and "
           + "(ac.key.marcSecondIndicator = ? or ac.key.marcSecondIndicator in ('S', 'O') ) order by ac.key.marcTagCategoryCode asc",
-        new Object[]{new String(tag),
+        new Object[]{tag,
           firstIndicator,
           secondIndicator}, new Type[]{
           Hibernate.STRING, Hibernate.CHARACTER,
@@ -224,7 +224,7 @@ public class DAOAuthorityCorrelation extends DAOCorrelation {
           Hibernate.INTEGER, Hibernate.STRING, Hibernate.INTEGER,
           Hibernate.INTEGER});
     } else {
-      throw new RuntimeException("Invalid correlation data");
+      throw new ModMarccatException("Invalid correlation data");
     }
   }
 
@@ -268,8 +268,9 @@ public class DAOAuthorityCorrelation extends DAOCorrelation {
         + "(ac.key.marcSecondIndicator = ? or ac.key.marcSecondIndicator in ('S', 'O') ) "
         + " and ac.key.headingType = ? "
         + " order by ac.key.marcTagCategoryCode asc",
-      new Object[]{new String(tag), new Character(indicator1),
-        new Character(indicator2), new String(headingType)},
+      new Object[]{
+    		  tag, indicator1,
+        indicator2,headingType},
       new Type[]{Hibernate.STRING, Hibernate.CHARACTER,
         Hibernate.CHARACTER, Hibernate.STRING});
 

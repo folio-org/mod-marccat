@@ -1,12 +1,11 @@
 package org.folio.marccat.business.cataloguing.authority;
 
+import java.util.List;
+
 import org.folio.marccat.dao.DAOAuthorityCorrelation;
 import org.folio.marccat.dao.persistence.NME_HDG;
 import org.folio.marccat.dao.persistence.NameSubType;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.shared.CorrelationValues;
-
-import java.util.List;
 
 
 public class AuthorityNameHeadingTag extends AuthorityHeadingTag {
@@ -19,24 +18,16 @@ public class AuthorityNameHeadingTag extends AuthorityHeadingTag {
   /* (non-Javadoc)
    * @see TagInterface#getCategory()
    */
+  @Override
   public int getCategory() {
     return 2;
   }
 
-  /* (non-Javadoc)
-   * @see librisuite.business.cataloguing.bibliographic.Tag#getFirstCorrelationList(java.util.Locale)
-   */
-  @Deprecated
-  public List getFirstCorrelationList() throws DataAccessException {
-    //return getDaoCodeTable().getList(NameType.class,false);
-    return null;
-  }
 
   /* (non-Javadoc)
    * @see librisuite.business.cataloguing.bibliographic.Tag#getSecondCorrelationList(short, java.util.Locale)
    */
-  public List getSecondCorrelationList(short value1)
-    throws DataAccessException {
+  public List getSecondCorrelationList(short value1) {
     DAOAuthorityCorrelation dao = new DAOAuthorityCorrelation();
     return dao.getSecondCorrelationList(
       getCategory(),
@@ -48,6 +39,7 @@ public class AuthorityNameHeadingTag extends AuthorityHeadingTag {
   /* (non-Javadoc)
    * @see TagInterface#correlationChangeAffectsKey(librisuite.business.common.CorrelationValues)
    */
+  @Override
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
     /*
      * if v3 is defined then we are a Reference tag and not a heading

@@ -9,6 +9,7 @@ import org.folio.marccat.exception.XslTransformerException;
 import org.folio.marccat.util.XmlUtils;
 import org.w3c.dom.Document;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
@@ -94,6 +95,7 @@ public abstract class AbstractRecord implements Record {
     try {
       // load the transformer using JAXP
       TransformerFactory factory = TransformerFactory.newInstance();
+      factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
       Transformer transformer = factory.newTransformer(new StreamSource(
         stylesheet.getFile()));
 
@@ -147,6 +149,7 @@ public abstract class AbstractRecord implements Record {
     try {
       // load the transformer using JAXP
       TransformerFactory factory = TransformerFactory.newInstance();
+      factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
       Transformer transformer = factory.newTransformer(new StreamSource(
         stylesheet.openStream()));
 

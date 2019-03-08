@@ -19,7 +19,6 @@ public class CollectionMaster implements Persistence {
   public ArrayList clientList = new ArrayList();
   private int idCollection;
   private int nameIta;
-  //private String nameEng;
   private int statusCode;
   private Date dateCreation;
   private Date dateCancel;
@@ -38,7 +37,6 @@ public class CollectionMaster implements Persistence {
 
   public CollectionMaster() {
     super();
-    //setIdCollection(idCollection);
 
   }
 

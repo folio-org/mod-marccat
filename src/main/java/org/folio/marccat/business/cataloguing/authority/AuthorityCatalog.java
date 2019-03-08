@@ -1,23 +1,46 @@
 package org.folio.marccat.business.cataloguing.authority;
 
-import net.sf.hibernate.HibernateException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
-import org.folio.marccat.business.cataloguing.common.*;
+import org.folio.marccat.business.cataloguing.common.Catalog;
+import org.folio.marccat.business.cataloguing.common.CataloguingSourceTag;
+import org.folio.marccat.business.cataloguing.common.ControlNumberTag;
+import org.folio.marccat.business.cataloguing.common.DateOfLastTransactionTag;
+import org.folio.marccat.business.cataloguing.common.HeaderField;
+import org.folio.marccat.business.cataloguing.common.Tag;
 import org.folio.marccat.business.common.AbstractMapBackedFactory;
 import org.folio.marccat.business.common.MapBackedFactory;
 import org.folio.marccat.business.common.PropertyBasedFactoryBuilder;
 import org.folio.marccat.business.descriptor.DescriptorFactory;
-import org.folio.marccat.config.log.ExceptionLog;
-import org.folio.marccat.dao.*;
-import org.folio.marccat.dao.persistence.*;
+import org.folio.marccat.dao.AuthorityCatalogDAO;
+import org.folio.marccat.dao.AuthorityModelDAO;
+import org.folio.marccat.dao.CatalogDAO;
+import org.folio.marccat.dao.DAODescriptor;
+import org.folio.marccat.dao.ModelDAO;
+import org.folio.marccat.dao.NameDescriptorDAO;
+import org.folio.marccat.dao.NameTitleDescriptorDAO;
+import org.folio.marccat.dao.SubjectDescriptorDAO;
+import org.folio.marccat.dao.TitleDescriptorDAO;
+import org.folio.marccat.dao.persistence.AUT;
+import org.folio.marccat.dao.persistence.AccessPoint;
+import org.folio.marccat.dao.persistence.CatalogItem;
+import org.folio.marccat.dao.persistence.Descriptor;
+import org.folio.marccat.dao.persistence.ItemEntity;
+import org.folio.marccat.dao.persistence.Model;
+import org.folio.marccat.dao.persistence.REF;
+import org.folio.marccat.dao.persistence.ReferenceType;
+import org.folio.marccat.dao.persistence.T_AUT_TAG_CAT;
 import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.exception.NewTagException;
 import org.folio.marccat.shared.CorrelationValues;
-
-import java.util.*;
-import java.util.Map;
 
 public class AuthorityCatalog extends Catalog {
 
@@ -67,6 +90,7 @@ public class AuthorityCatalog extends Catalog {
       "/org/folio/marccat/business/cataloguing/authority/FIXED_FIELDS_FACTORY.properties",
       fixedFieldFactory);
   }
+  private static String modMarccatExMessage = "Could not create object";
 
   public static AuthorityHeadingTag createHeadingTagByType(String type) {
     AuthorityHeadingTag result = null;
@@ -74,11 +98,9 @@ public class AuthorityCatalog extends Catalog {
       result =
         (AuthorityHeadingTag) ((Class) headingTagByAutType.get(type))
           .newInstance();
-    } catch (InstantiationException e) {
-      throw new RuntimeException(ExceptionLog.MOD_MARCCAT_NOT_CREATE_OBJECT);
-    } catch (IllegalAccessException e) {
-      throw new RuntimeException(ExceptionLog.MOD_MARCCAT_NOT_CREATE_OBJECT);
-    }
+    } catch (InstantiationException | IllegalAccessException ex) {
+        throw new ModMarccatException(modMarccatExMessage);
+      } 
     return result;
   }
 
@@ -87,11 +109,9 @@ public class AuthorityCatalog extends Catalog {
     try {
       result =
         (DAODescriptor) ((Class) daoByAutType.get(type)).newInstance();
-    } catch (InstantiationException e) {
-      throw new RuntimeException(ExceptionLog.MOD_MARCCAT_NOT_CREATE_OBJECT);
-    } catch (IllegalAccessException e) {
-      throw new RuntimeException(ExceptionLog.MOD_MARCCAT_NOT_CREATE_OBJECT);
-    }
+    } catch (InstantiationException | IllegalAccessException ex) {
+      throw new ModMarccatException(modMarccatExMessage);
+    } 
     return result;
   }
 
@@ -99,8 +119,10 @@ public class AuthorityCatalog extends Catalog {
     return autTypeByDescriptorType.get(descriptorType);
   }
 
-
-  public void addRequiredTags(CatalogItem item) throws NewTagException {
+  /* (non-Javadoc)
+   * @see Catalog#addRequiredTags(CatalogItem)
+   */
+  public void addRequiredTags(CatalogItem item) {
     AuthorityLeader leader =
       (AuthorityLeader) getNewTag(item,
         1,
@@ -175,7 +197,7 @@ public class AuthorityCatalog extends Catalog {
   /* (non-Javadoc)
    * @see Catalog#getTagCategories(java.util.Locale)
    */
-  public List getTagCategories(Locale l) throws DataAccessException {
+  public List getTagCategories(Locale l) {
     return DAO_CODE_TABLE.getOptionList(T_AUT_TAG_CAT.class, l);
   }
 
@@ -186,8 +208,7 @@ public class AuthorityCatalog extends Catalog {
     return tagFactory;
   }
 
-  public Tag getNewHeaderTag(CatalogItem item, int header)
-    throws NewTagException {
+  public Tag getNewHeaderTag(CatalogItem item, int header) {
     return (Tag) setItemIfNecessary(
       item,
       getFixedFieldFactory().create(header));
@@ -197,15 +218,12 @@ public class AuthorityCatalog extends Catalog {
     CatalogItem item,
     int category,
     CorrelationValues correlationValues)
-    throws RuntimeException {
+  {
     Tag tag = (Tag) getTagFactory().create(category);
 
-    if (correlationValues != null) {
-      if (tag.correlationChangeAffectsKey(correlationValues)) {
+    if (correlationValues != null && tag.correlationChangeAffectsKey(correlationValues)) {
         if (tag instanceof HeaderField) {
-          tag =
-            (Tag) getFixedFieldFactory().create(
-              correlationValues.getValue(1));
+          tag = (Tag) getFixedFieldFactory().create(correlationValues.getValue(1));
         } else if (tag instanceof AuthorityHeadingTag ||
           tag instanceof AuthorityReferenceTag) {
           Integer refTypePosition =
@@ -217,7 +235,7 @@ public class AuthorityCatalog extends Catalog {
               correlationValues.getValue(
                 refTypePosition.intValue());
           } else {
-            throw new RuntimeException("attempt to create reference tag with no reference type specified");
+            throw new ModMarccatException("attempt to create reference tag with no reference type specified");
           }
           if (ReferenceType.isSeenFrom(refType)) {
             tag = new SeeReferenceTag();
@@ -226,12 +244,10 @@ public class AuthorityCatalog extends Catalog {
           } else if (ReferenceType.isEquivalence(refType)) {
             tag = new EquivalenceReference();
           } else {
-            throw new RuntimeException(
+            throw new ModMarccatException(
               "invalid reference type for authority reference tag"
             );
           }
-
-        }
       }
     }
     if (tag instanceof AuthorityReferenceTag) {
@@ -271,7 +287,7 @@ public class AuthorityCatalog extends Catalog {
         ((AuthorityReferenceTag) tag).setTargetDescriptor(
           targetDescriptor);
       } catch (InstantiationException | IllegalAccessException e) {
-        throw new RuntimeException(ExceptionLog.MOD_MARCCAT_NOT_CREATE_OBJECT);
+        throw new ModMarccatException(modMarccatExMessage);
       }
     } else if (tag instanceof AuthorityHeadingTag) {
       // change the heading type to correspond with the heading
@@ -320,7 +336,6 @@ public class AuthorityCatalog extends Catalog {
    * @see Catalog#newModel(CatalogItem)
    */
   public Model newModel(CatalogItem item) {
-    //return new AuthorityModel(item);
     return null;
   }
 
@@ -331,7 +346,7 @@ public class AuthorityCatalog extends Catalog {
     try {
       item.addTag(getNewTag(item, 2));
     } catch (NewTagException e) {
-      throw new RuntimeException("error creating new Authority heading tag");
+      throw new ModMarccatException("error creating new Authority heading tag");
     }
   }
 
@@ -356,7 +371,7 @@ public class AuthorityCatalog extends Catalog {
       try {
         newTag = getNewTag(item, descriptorType);
       } catch (NewTagException e) {
-        throw new RuntimeException("error creating new Authority heading tag");
+        throw new ModMarccatException("error creating new Authority heading tag");
       }
       ((AUT) item.getItemEntity()).setHeadingType(authorityType);
       item.getTags().set(index, newTag);
@@ -386,9 +401,9 @@ public class AuthorityCatalog extends Catalog {
           tag.getReference().getType(),
           AuthorityCatalog.CATALOGUING_VIEW);
     } catch (Exception e) {
-      throw new RuntimeException("unable to create reference object");
+      throw new ModMarccatException("unable to create reference object");
     }
-    if (!(r.getClass() == tag.getReference().getClass())) {
+    if (r.getClass() != tag.getReference().getClass()) {
 
       r.setSource(tag.getReference().getSource());
       r.setUserViewString(tag.getUserViewString());
@@ -400,8 +415,7 @@ public class AuthorityCatalog extends Catalog {
   /* (non-Javadoc)
    * @see Catalog#getValidHeadingTypeList(Tag)
    */
-  public List getValidHeadingTypeList(Tag t, Locale locale)
-    throws DataAccessException {
+  public List getValidHeadingTypeList(Tag t, Locale locale) {
     ItemEntity e = ((PersistsViaItem) t).getItemEntity();
     String headingType = ((AUT) e).getHeadingType();
     return daoCatalog.getValidHeadingTypeList(headingType, locale);
@@ -411,7 +425,7 @@ public class AuthorityCatalog extends Catalog {
     // PR0046: 4 manadatory bibliographic tags
   }
 
-  public void addRequiredTagsForModel(CatalogItem item) throws NewTagException {
+  public void addRequiredTagsForModel(CatalogItem item) {
     // PR0046: 4 manadatory bibliographic tags
   }
 
@@ -419,10 +433,9 @@ public class AuthorityCatalog extends Catalog {
     return "AA";
   }
 
-  public CatalogItem createAuthorityFromHeading(Descriptor d,
-                                                Integer modelId) throws DataAccessException, NewTagException, HibernateException {
+  public CatalogItem createAuthorityFromHeading(Descriptor d) {
     AuthorityItem item = new AuthorityItem();
-    AuthorityHeadingTag t;
+    AuthorityHeadingTag t = null;
     try {
       t = (AuthorityHeadingTag) getNewTag(item,
         ((AccessPoint) d.getAccessPointClass().newInstance()).getCategory(), d.getCorrelationValues());
@@ -442,7 +455,7 @@ public class AuthorityCatalog extends Catalog {
    * @param item
    * @throws DataAccessException
    */
-  public void changeHeadingTag(AuthorityHeadingTag t, AuthorityItem item) throws DataAccessException {
+  public void changeHeadingTag(AuthorityHeadingTag t, AuthorityItem item) {
     Iterator iter = item.getTags().iterator();
     while (iter.hasNext()) {
       Tag t1 = (Tag) iter.next();
@@ -453,8 +466,6 @@ public class AuthorityCatalog extends Catalog {
     }
 
     item.addTag(t);
-
-    item.addAllTags(daoCatalog.getReferenceFields(item, t).toArray(new Tag[0]));
     for (int i = 0; i < item.getTags().size(); i++) {
       Tag t1 = item.getTags().get(i);
       t1.setTagImpl(item.getTagImpl());

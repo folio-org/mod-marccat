@@ -68,7 +68,7 @@ public class CPY_ID implements Persistence, Serializable {
   private Float currencyExchangeRte;
   private Integer transferCstdyNumber;
   private Integer physicalCopyType;
-  private Character methodAdquisition = new Character(' ');
+  private Character methodAdquisition = (' ');
   private PersistenceState persistenceState = new PersistenceState();
 
   private boolean barcodeAssigned = false;

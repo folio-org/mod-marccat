@@ -10,6 +10,7 @@ import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.ModMarccatException;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -72,7 +73,6 @@ public class DAOCodeTable extends AbstractDAO {
   }
 
   public List getOptionListOrderAlphab(Class c, Locale locale) throws DataAccessException {
-    //return asOptionList(getListOrderAlphab(c, locale), locale);
     throw new IllegalArgumentException("don't use it: session missing");
   }
 
@@ -83,7 +83,7 @@ public class DAOCodeTable extends AbstractDAO {
       key.setCode(code);
       key.setLanguage(locale.getISO3Language());
     } catch (Exception e) {
-      throw new RuntimeException("unable to create code table object");
+      throw new ModMarccatException("unable to create code table object");
     }
     return (T_SINGLE_CHAR) loadCodeTableEntry(session, c, key);
   }
@@ -95,7 +95,7 @@ public class DAOCodeTable extends AbstractDAO {
       key.setCode(code);
       key.setLanguage(locale.getISO3Language());
     } catch (Exception e) {
-      throw new RuntimeException("unable to create code table object");
+      throw new ModMarccatException("unable to create code table object");
     }
     return (T_SINGLE) loadCodeTableEntry(session, c, key);
   }
@@ -151,7 +151,7 @@ public class DAOCodeTable extends AbstractDAO {
       key.setCode(code);
       key.setLanguage(locale.getISO3Language());
     } catch (Exception e) {
-      throw new RuntimeException("unable to create code table object");
+      throw new ModMarccatException("unable to create code table object");
     }
     return (T_SINGLE_LONGCHAR) loadCodeTableEntry(session, c, key);
   }

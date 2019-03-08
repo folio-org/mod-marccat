@@ -238,7 +238,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    * @return note string text.
    */
   public StringText getStringText() {
-    return new StringText(note.getContent() + getOverFlowString(getOverflowList()));
+    return new StringText(note.getStringTextString() + getOverFlowString(getOverflowList()));
   }
 
   /**
@@ -260,10 +260,10 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
   public StringText getStandardNoteStringText() {
     String value = (ofNullable(valueElement.getLabel()).isPresent()) ? valueElement.getLabel() : "";
     if (value.contains("@1")) {
-      if (note.getContent().indexOf(Global.SUBFIELD_DELIMITER) != -1)
-        value = value.replaceAll("@1", note.getContent().substring(2));
+      if (note.getStringTextString().indexOf(Global.SUBFIELD_DELIMITER) != -1)
+        value = value.replaceAll("@1", note.getStringTextString().substring(2));
       else
-        value = value.replaceAll("@1", note.getContent());
+        value = value.replaceAll("@1", note.getStringTextString());
     }
     return new StringText(value);
   }

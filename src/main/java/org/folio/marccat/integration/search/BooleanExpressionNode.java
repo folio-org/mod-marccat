@@ -41,23 +41,21 @@ public class BooleanExpressionNode implements ExpressionNode {
    * @return the expression (as a string) of this boolean node.
    * @throws CclParserException in case the node cannot be parsed as a valid expression.
    */
-  public String getValue() throws CclParserException {
+  public String getValue() {
     try {
       if (left instanceof TermExpressionNode && right instanceof TermExpressionNode) {
         TermExpressionNode leftTerm = (TermExpressionNode) left;
         TermExpressionNode rightTerm = (TermExpressionNode) right;
         if (leftTerm.isType2Index() || rightTerm.isType2Index()) {
-          if ("AND".equalsIgnoreCase(op)) {
-            if (!rightTerm.isType2Index()) {
+            if ("AND".equalsIgnoreCase(op) || !rightTerm.isType2Index()) {
               TermExpressionNode temp = rightTerm;
               rightTerm = leftTerm;
               leftTerm = temp;
             }
-            if (leftTerm.semantic().getFromClause().contains(rightTerm.semantic().getFromClause())) {
+            if ("AND".equalsIgnoreCase(op) || leftTerm.semantic().getFromClause().contains(rightTerm.semantic().getFromClause())) {
               return "(( " + leftTerm.getValue() + " and " + rightTerm.getInnerJoinValue() + " ))";
             }
           }
-        }
       }
       return "(( " + left.getValue() + " ) " + operator(op) + " ( " + right.getValue().toLowerCase() + " ))";
     } catch (final Exception e) {

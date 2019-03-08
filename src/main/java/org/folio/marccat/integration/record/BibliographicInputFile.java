@@ -99,6 +99,44 @@ public class BibliographicInputFile {
     }
   }
 
+  private void tryLoadingFile(BibliographicCatalog catalog,Session session, Record record, int cataloguingView, TagImpl impl, Map<String, String> configuration, int processed ) throws HibernateException {
+	  try {
+          CatalogItem item = catalog.newCatalogItemWithoutAmicusNumber();
+          catalog.applyKeyToItem(item, new Object[]{cataloguingView});
+          Leader leader = record.getLeader();
+          final BibliographicLeader leaderTag = catalog.createRequiredLeaderTag(item);
+          setLeaderValues(leaderTag, leader);
+          leaderTag.setCorrelationKey(impl.getMarcEncoding(leaderTag, session));
+          leaderTag.setValidation(impl.getValidation(leaderTag, session));
+          item.addTag(leaderTag);
+
+          List<ControlField> controlFields = record.getControlFields();
+          addControlFieldToItem(item, controlFields, impl, session, catalog, leaderTag);
+
+          List<DataField> dataFields = record.getDataFields();
+          addDataFieldToItem(item, dataFields, impl, session, catalog, cataloguingView, configuration);
+
+          item.getItemEntity().setAmicusNumber(new SystemNextNumberDAO().getNextNumber("BI", session));
+
+          final BibliographicCatalogDAO dao = new BibliographicCatalogDAO();
+
+          item.validate();
+          dao.saveCatalogItem(item, session);
+
+          stats.setRecordsAdded(stats.getRecordsAdded() + 1);
+          LOADING_MARC_RECORDS result = new LOADING_MARC_RECORDS();
+          result.setSequence(processed);
+          result.setLoadingStatisticsNumber(stats.getLoadingStatisticsNumber());
+          result.setBibItemNumber(item.getAmicusNumber());
+          result.getDAO().save(result, session);
+
+        } catch (Exception e) {
+          stats.setRecordsRejected(stats.getRecordsRejected() + 1);
+        } finally {
+          stats.markChanged();
+          stats.getDAO().persistByStatus(stats, session);
+        }
+  }
   /**
    * Loads records reading from input stream.
    *
@@ -111,7 +149,7 @@ public class BibliographicInputFile {
    * @throws DataAccessException in case of data access exception.
    */
   private void loadFileFromStream(final String fileName, final InputStream input, final int cataloguingView, final int startAt,
-                                  final int recCount, final Session session, final Map<String, String> configuration) throws DataAccessException {
+                                  final int recCount, final Session session, final Map<String, String> configuration) {
 
     try {
       final LOADING_MARC_FILE run = new LOADING_MARC_FILE();
@@ -131,43 +169,7 @@ public class BibliographicInputFile {
         count++;
         if (count >= startAt && processed <= recCount) {
           processed++;
-          try {
-            CatalogItem item = catalog.newCatalogItemWithoutAmicusNumber();
-            catalog.applyKeyToItem(item, new Object[]{cataloguingView});
-            Leader leader = record.getLeader();
-            final BibliographicLeader leaderTag = catalog.createRequiredLeaderTag(item);
-            setLeaderValues(leaderTag, leader);
-            leaderTag.setCorrelationKey(impl.getMarcEncoding(leaderTag, session));
-            leaderTag.setValidation(impl.getValidation(leaderTag, session));
-            item.addTag(leaderTag);
-
-            List<ControlField> controlFields = record.getControlFields();
-            addControlFieldToItem(item, controlFields, impl, session, catalog, leaderTag);
-
-            List<DataField> dataFields = record.getDataFields();
-            addDataFieldToItem(item, dataFields, impl, session, catalog, cataloguingView, configuration);
-
-            item.getItemEntity().setAmicusNumber(new SystemNextNumberDAO().getNextNumber("BI", session));
-
-            final BibliographicCatalogDAO dao = new BibliographicCatalogDAO();
-
-            item.validate();
-            dao.saveCatalogItem(item, session);
-
-            stats.setRecordsAdded(stats.getRecordsAdded() + 1);
-            LOADING_MARC_RECORDS result = new LOADING_MARC_RECORDS();
-            result.setSequence(processed);
-            result.setLoadingStatisticsNumber(stats.getLoadingStatisticsNumber());
-            result.setBibItemNumber(item.getAmicusNumber());
-            result.getDAO().save(result, session);
-
-          } catch (Exception e) {
-            stats.setRecordsRejected(stats.getRecordsRejected() + 1);
-            //throw new DataAccessException(e);
-          } finally {
-            stats.markChanged();
-            stats.getDAO().persistByStatus(stats, session);
-          }
+          tryLoadingFile(catalog, session, record, cataloguingView, impl, configuration, processed);
         }
       }
     } catch (DataAccessException | HibernateException exception) {
@@ -195,6 +197,8 @@ public class BibliographicInputFile {
       try {
         newTag = catalog.getNewTag(item, corr.getKey().getMarcTagCategoryCode(), corr.getValues());
       } catch (RuntimeException e) {
+          logger.error(e.getMessage(), e);
+
       }
 
       if (newTag != null) {

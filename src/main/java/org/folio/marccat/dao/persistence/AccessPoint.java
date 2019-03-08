@@ -74,13 +74,10 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
    *
    * @return true.
    */
+  @Override
   public boolean isBrowsable() {
     return true;
   }
-
-  public abstract Descriptor getDescriptor();
-
-  public abstract void setDescriptor(Descriptor descriptor);
 
   public Integer getHeadingNumber() {
     return headingNumber;
@@ -90,6 +87,7 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
     headingNumber = i;
   }
 
+  @Override
   public void generateNewKey(final Session session) throws HibernateException, SQLException {
 
     if (getDescriptor().isNew()) {
@@ -103,13 +101,14 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
     setHeadingNumber(getDescriptor().getKey().getHeadingNumber());
   }
 
-
+  @Override
   public Object clone() {
     final AccessPoint ap = (AccessPoint) super.clone();
     ap.setDescriptor(this.getDescriptor());
     return ap;
   }
 
+  @Override
   public boolean equals(Object obj) {
     if (!(obj instanceof AccessPoint)) {
       return false;
@@ -166,6 +165,7 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
    */
   public abstract void setAccessPointStringText(StringText stringText);
 
+  @Override
   public CorrelationKey getMarcEncoding() throws DataAccessException {
     return (getDescriptor() instanceof SkipInFiling)
       ? (super.getMarcEncoding()).changeSkipInFilingIndicator(getDescriptor().getSkipInFiling())
@@ -182,6 +182,7 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
    *
    * @param xmlElement -- the xml element content.
    */
+  @Override
   public void parseModelXmlElementContent(final Element xmlElement) {
     final StringText s = StringText.parseModelXmlElementContent(xmlElement);
     setStringText(s);
@@ -193,6 +194,7 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
    *
    * @return int that represent the hashCode of access point.
    */
+  @Override
   public int hashCode() {
     return ofNullable(getHeadingNumber()).map(hashCode -> getItemNumber() + getHeadingNumber().intValue())
       .orElse(getItemNumber());
