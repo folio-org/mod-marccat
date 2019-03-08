@@ -135,6 +135,10 @@ public abstract class Catalog {
     getCatalogDao().deleteCatalogItem(item, session);
   }
 
+  /**
+   * @deprecated
+   * @param item
+   */
   @Deprecated
   public void saveCatalogItem(CatalogItem item) {
   }
