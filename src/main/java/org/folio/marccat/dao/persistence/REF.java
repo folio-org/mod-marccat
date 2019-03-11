@@ -9,6 +9,7 @@ import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.CrossReferencesDAO;
 import org.folio.marccat.dao.DAODescriptor;
 import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.ModMarccatException;
 
 import java.io.Serializable;
 
@@ -104,7 +105,7 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
     try {
       ref = (REF) source.getReferenceClass(target.getClass()).newInstance();
     } catch (Exception e) {
-      throw new RuntimeException("error creating cross-reference object");
+      throw new ModMarccatException("error creating cross-reference object");
     }
     ref.init(source, target, referenceType, cataloguingView);
     return ref;

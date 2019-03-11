@@ -88,6 +88,7 @@ public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling 
   /* (non-Javadoc)
    * @see Descriptor#setAuthoritySourceCode(int)
    */
+  @Override
   public void setAuthoritySourceCode(int authoritySourceCode) {
     setSourceCode(authoritySourceCode);
   }
@@ -281,8 +282,9 @@ public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling 
    * @see Descriptor#buildBrowseTerm()
    */
   @Deprecated
+  @Override
   public String buildBrowseTerm() {
-    String returnString = new String();
+    String returnString = "";
     StringText text = new StringText(getStringText());
     Iterator iter = text.getSubfieldList().iterator();
     while (iter.hasNext()) {

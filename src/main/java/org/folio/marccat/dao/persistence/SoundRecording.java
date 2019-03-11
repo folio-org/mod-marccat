@@ -35,6 +35,7 @@ public class SoundRecording extends PhysicalDescription {
   }
 
 
+	@Override
   public String getDisplayString() {
     return EMPTY_STRING
       + getGeneralMaterialDesignationCode()
@@ -54,11 +55,13 @@ public class SoundRecording extends PhysicalDescription {
   }
 
 
+	@Override
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
     setKeyNumber(dao.getNextNumber("X8", session));
   }
 
+	@Override
   public boolean isSoundRecording() {
     return true;
   }

@@ -98,31 +98,42 @@ public abstract class LabelTagDisplay {
     if (language == null) {
       if (other.language != null)
         return false;
-    } else if (!language.equals(other.language))
+    } else if (!language.equals(other.language)) {
       return false;
+    }
     if (marcFbrType == null) {
-      if (other.marcFbrType != null)
+      if (other.marcFbrType != null) {
         return false;
-    } else if (!marcFbrType.equals(other.marcFbrType))
+      }
+    } else if (!marcFbrType.equals(other.marcFbrType)) {
       return false;
+    }
     if (marcFirstIndicator == null) {
-      if (other.marcFirstIndicator != null)
+      if (other.marcFirstIndicator != null) {
         return false;
-    } else if (!marcFirstIndicator.equals(other.marcFirstIndicator))
+      }
+    } else if (!marcFirstIndicator.equals(other.marcFirstIndicator)) {
       return false;
+    }
     if (marcSecondIndicator == null) {
-      if (other.marcSecondIndicator != null)
+      if (other.marcSecondIndicator != null) {
         return false;
-    } else if (!marcSecondIndicator.equals(other.marcSecondIndicator))
+      }
+    } else if (!marcSecondIndicator.equals(other.marcSecondIndicator)) {
       return false;
+    }
     if (marcTag == null) {
-      if (other.marcTag != null)
+      if (other.marcTag != null) {
         return false;
-    } else if (!marcTag.equals(other.marcTag))
+      }
+    } else if (!marcTag.equals(other.marcTag)) {
       return false;
+    }
     if (marcTagSubfieldCode == null) {
       return other.marcTagSubfieldCode == null;
-    } else return marcTagSubfieldCode.equals(other.marcTagSubfieldCode);
+    } else {
+    	return marcTagSubfieldCode.equals(other.marcTagSubfieldCode);
+    }
   }
 
   public String getMarcTagSubfieldCode() {
@@ -150,15 +161,6 @@ public abstract class LabelTagDisplay {
   }
 
   @Override
-	/*
-	 * 			key = rdaBuildKey(
-						marc.getMarcTag(),
-					   (marc.getMarcFirstIndicator()==null?null:marc.getMarcFirstIndicator().toString()),
-					   (marc.getMarcSecondIndicator()==null?null:marc.getMarcSecondIndicator().toString()), 
-						marc.getMarcFbrType(),
-					   (marc.getMarcTagSubfieldCode()==null?null:marc.getMarcTagSubfieldCode().toString()));
-
-	 */
   public String toString() {
     return "K(" + marcTag + "," + marcFirstIndicator + "," + marcSecondIndicator + "," + marcFbrType + "," + marcTagSubfieldCode + ")";
   }

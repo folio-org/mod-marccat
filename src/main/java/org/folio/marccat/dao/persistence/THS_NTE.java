@@ -18,7 +18,6 @@ import java.io.Serializable;
 public class THS_NTE implements Serializable {
 
   private ThesaurusNoteKey key;
-  //  private short noteType = Defaults.getShort("thesaurusNote.noteType");
   private String noteText;
   private String language;
 
@@ -47,16 +46,5 @@ public class THS_NTE implements Serializable {
   public void setNoteText(String noteText) {
     this.noteText = noteText;
   }
-
-
-//  public short getNoteType() {
-//    return noteType;
-//  }
-//
-//
-//  public void setNoteType(short s) {
-//    noteType = s;
-//  }
-
 
 }

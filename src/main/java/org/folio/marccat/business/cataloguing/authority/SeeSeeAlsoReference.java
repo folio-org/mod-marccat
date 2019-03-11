@@ -40,6 +40,7 @@ public abstract class SeeSeeAlsoReference extends AuthorityReferenceTag {
   /* (non-Javadoc)
    * @see TagInterface#parseModelXmlElementContent(org.w3c.dom.Element)
    */
+  @Override
   public void parseModelXmlElementContent(Element xmlElement) {
     StringText s = StringText.parseModelXmlElementContent(xmlElement);
     String subw = s.getSubfieldsWithCodes("w").getSubfield(0).getContent();
@@ -49,6 +50,7 @@ public abstract class SeeSeeAlsoReference extends AuthorityReferenceTag {
     getReference().setNoteGeneration(subw.charAt(3));
   }
 
+  @Override
   public String getVariantCodes() {
     return VARIANT_CODES;
   }

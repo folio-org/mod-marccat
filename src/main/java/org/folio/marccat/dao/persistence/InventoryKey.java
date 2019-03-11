@@ -21,27 +21,6 @@ public class InventoryKey implements Serializable {
   private int mainLibraryNumber;
 
   /**
-   * Class constructor
-   *
-   *
-   */
-	/*public DescriptorKey() {
-		super();
-		headingNumber = -1;
-		userViewString = "0000000000000000";
-	}*/
-
-  /**
-   * Class constructor
-   *
-   *
-   */
-	/*public DescriptorKey(int headingNumber, String view) {
-		this.setHeadingNumber(headingNumber);
-		this.setUserViewString(view);
-	}*/
-
-  /**
    * override equals and hashcode for hibernate key comparison
    */
   public boolean equals(Object anObject) {

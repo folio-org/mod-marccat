@@ -23,6 +23,7 @@ public class T_AUT_SHLF_LIST_TYP extends T_SINGLE_CHAR {
    * code.  This codetable is used in the context of a correlationList which
    * expects short values.
    */
+	@Override
   public String getCodeString() {
     return String.valueOf((short) getCode());
   }

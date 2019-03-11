@@ -418,7 +418,7 @@ public class LIB_LOAN_PLCY implements Serializable {
    * @since 1.0
    */
   public int getLoanMaxCount() {
-    return loanMaxCount;
+    return getLibraryLoanMaxLoanCount();
   }
 
   /**

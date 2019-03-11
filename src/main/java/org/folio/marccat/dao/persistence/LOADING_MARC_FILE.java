@@ -7,14 +7,15 @@
  */
 package org.folio.marccat.dao.persistence;
 
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
+import java.io.Serializable;
+
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.exception.DataAccessException;
 
-import java.io.Serializable;
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
 
 
 /**
@@ -25,7 +26,6 @@ import java.io.Serializable;
 public class LOADING_MARC_FILE implements Persistence {
   private Integer fileNumber;
   private String fileName;
-  //private byte[] blob;
   private int loadingStatisticsNumber;
   private PersistenceState persistenceState = new PersistenceState();
 
@@ -35,12 +35,6 @@ public class LOADING_MARC_FILE implements Persistence {
 
   }
 
-  /**
-   * @since 1.0
-   */
-	/*public Blob getBlob() {
-		return blob;
-	}*/
   public String getFileName() {
     return fileName;
   }
@@ -55,12 +49,6 @@ public class LOADING_MARC_FILE implements Persistence {
     return fileNumber;
   }
 
-  /**
-   * @since 1.0
-   */
-	/*public void setBlob(Blob blob) {
-		this.blob = blob;
-	}*/
   public void setFileNumber(Integer i) {
     fileNumber = i;
   }
@@ -98,7 +86,7 @@ public class LOADING_MARC_FILE implements Persistence {
   }
 
 
-  public void evict(Object obj) throws DataAccessException {
+  public void evict(Object obj) {
     persistenceState.evict(obj);
   }
 

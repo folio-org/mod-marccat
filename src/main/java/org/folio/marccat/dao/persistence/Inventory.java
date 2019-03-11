@@ -50,7 +50,7 @@ public class Inventory implements Persistence {
 
   public Inventory() {
     super();
-    setPrice(new Float(0));
+    setPrice(0F);
     setDateReceived(Calendar.getInstance().getTime());
     setKey(new InventoryKey());
   }

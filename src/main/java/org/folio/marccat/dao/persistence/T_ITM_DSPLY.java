@@ -25,7 +25,7 @@ public class T_ITM_DSPLY extends T_SINGLE_INT implements Serializable {
 
   }
 
-
+  @Override
   public short getCode() {
     return code;
   }

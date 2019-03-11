@@ -143,13 +143,11 @@ public abstract class PhysicalDescription extends FixedField implements Persiste
 
   @Override
   public boolean equals(Object obj) {
-    if (obj instanceof PhysicalDescription) {
-      if (super.equals(obj)) {
+      if (obj instanceof PhysicalDescription && super.equals(obj)) {
         return ((PhysicalDescription) obj).getKeyNumber()
           == this.getKeyNumber()
           && ((PhysicalDescription) obj).getHeaderType()
           == this.getHeaderType();
-      }
     }
     return false;
   }

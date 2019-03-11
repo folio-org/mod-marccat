@@ -29,6 +29,7 @@ public class NME_TTL_HDG extends Descriptor {
   /* (non-Javadoc)
    * @see java.lang.Object#equals(java.lang.Object)
    */
+  @Override
   public boolean equals(Object obj) {
     if (obj instanceof NME_TTL_HDG) {
       return getKey().equals(obj);
@@ -52,11 +53,13 @@ public class NME_TTL_HDG extends Descriptor {
   }
 
 
+  @Override
   public char getCopyToSubjectIndicator() {
     return copyToSubjectIndicator;
   }
 
 
+  @Override
   public void setCopyToSubjectIndicator(char c) {
     copyToSubjectIndicator = c;
   }
@@ -177,6 +180,7 @@ public class NME_TTL_HDG extends Descriptor {
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
+  @Override
   public int hashCode() {
     return getKey().hashCode();
   }
@@ -184,6 +188,7 @@ public class NME_TTL_HDG extends Descriptor {
   /* (non-Javadoc)
    * @see Descriptor#getStringText()
    */
+  @Override
   public String getStringText() {
     StringText result = new StringText(getNameHeading().getStringText());
     StringText title = new StringText(getTitleHeading().getStringText());
@@ -199,6 +204,7 @@ public class NME_TTL_HDG extends Descriptor {
   /* (non-Javadoc)
    * @see Descriptor#setStringText(java.lang.String)
    */
+  @Override
   public void setStringText(String string) {
     /* TODO
      * Puts all subfields before $t into name and all after into title  --
@@ -233,6 +239,7 @@ public class NME_TTL_HDG extends Descriptor {
   /* (non-Javadoc)
    * @see Descriptor#getDisplayText()
    */
+  @Override
   public String getDisplayText() {
     String name = getNameHeading().getDisplayText();
     String title = getTitleHeading().getDisplayText();

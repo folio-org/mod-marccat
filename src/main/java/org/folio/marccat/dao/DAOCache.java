@@ -99,7 +99,7 @@ public class DAOCache extends HibernateUtil {
     final List result = new ArrayList();
     new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
-        throws HibernateException, DataAccessException {
+        throws HibernateException {
         Connection connection = s.connection();
         PreparedStatement stmt = null;
         try {
@@ -120,7 +120,7 @@ public class DAOCache extends HibernateUtil {
             try {
               stmt.close();
             } catch (SQLException e) {
-              // do nothing;
+            	logger.error(e.getMessage());
             }
           }
         }
@@ -145,7 +145,7 @@ public class DAOCache extends HibernateUtil {
     final Integerwrapper count = new Integerwrapper();
     new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
-        throws HibernateException, DataAccessException {
+        throws HibernateException {
         Connection connection = s.connection();
         PreparedStatement stmt = null;
         java.sql.ResultSet js = null;
@@ -166,14 +166,14 @@ public class DAOCache extends HibernateUtil {
             try {
               js.close();
             } catch (SQLException e) {
-              // do nothing;
+            	logger.error(e.getMessage());
             }
           }
           if (stmt != null) {
             try {
               stmt.close();
             } catch (SQLException e) {
-              // do nothing;
+            	logger.error(e.getMessage());
             }
           }
         }

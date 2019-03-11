@@ -56,6 +56,7 @@ public class PUBL_HDG extends Descriptor implements Serializable {
   /* (non-Javadoc)
    * @see Descriptor#getIndexingLanguage()
    */
+@Override
   public int getIndexingLanguage() {
     return indexingLanguage;
   }
@@ -136,7 +137,7 @@ public class PUBL_HDG extends Descriptor implements Serializable {
    */
   @Override
   public void setCorrelationValues(CorrelationValues v) {
-
+	  throw new UnsupportedOperationException();
   }
 
   /* (non-Javadoc)
@@ -229,6 +230,7 @@ public class PUBL_HDG extends Descriptor implements Serializable {
   /* (non-Javadoc)
    * @see Descriptor#setStringText(java.lang.String)
    */
+  @Override
   public void setStringText(String string) {
     StringText s = new StringText(string);
     setPlaceStringText(s.getSubfieldsWithCodes("a").toString());
@@ -238,6 +240,7 @@ public class PUBL_HDG extends Descriptor implements Serializable {
   /* (non-Javadoc)
    * @see Descriptor#getSortForm()
    */
+  @Override
   public String getSortForm() {
     return getPlaceSortForm() + getNameSortForm();
   }
@@ -245,13 +248,15 @@ public class PUBL_HDG extends Descriptor implements Serializable {
   /* (non-Javadoc)
    * @see Descriptor#setSortForm(java.lang.String)
    */
+  @Override
   public void setSortForm(String string) {
-
+	  throw new UnsupportedOperationException();
   }
 
   /* (non-Javadoc)
    * @see Descriptor#getDisplayText()
    */
+  @Override
   public String getDisplayText() {
     return new StringText(getPlaceStringText()).toDisplayString()
       + " : "

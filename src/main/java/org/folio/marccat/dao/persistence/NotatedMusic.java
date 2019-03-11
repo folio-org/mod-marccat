@@ -1,11 +1,12 @@
 package org.folio.marccat.dao.persistence;
 
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
 import org.folio.marccat.dao.SystemNextNumberDAO;
 import org.folio.marccat.exception.DataAccessException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 
 /**
  * @author paulm
@@ -22,18 +23,19 @@ public class NotatedMusic extends PhysicalDescription {
   /* (non-Javadoc)
    * @see FixedField#getDisplayString()
    */
+  @Override
   public String getDisplayString() {
-    String result =
+    return
       ""
         + getGeneralMaterialDesignationCode()
         + getSpecificMaterialDesignationCode();
-    return result;
   }
 
   /* (non-Javadoc)
    * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
    */
-  public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
+  @Override
+  public void generateNewKey(final Session session) throws HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
     setKeyNumber(dao.getNextNumber("XG", session));
   }
@@ -41,6 +43,7 @@ public class NotatedMusic extends PhysicalDescription {
   /* (non-Javadoc)
    * @see librisuite.business.cataloguing.bibliographic.PhysicalDescription#isNotatedMusic()
    */
+  @Override
   public boolean isNotatedMusic() {
     return true;
   }

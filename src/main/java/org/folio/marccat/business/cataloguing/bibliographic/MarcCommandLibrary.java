@@ -19,6 +19,10 @@ import static org.folio.marccat.util.F.deepCopy;
  * Command library for operation about tags
  */
 public class MarcCommandLibrary {
+	
+	private MarcCommandLibrary() {
+		throw new UnsupportedOperationException("Library utility class");
+	}
 
   /**
    * Moved here from {@link }
@@ -75,7 +79,7 @@ public class MarcCommandLibrary {
     /* -- End block -- */
 
     tag.setHeadingNumber(
-      new Integer(newDescriptor.getKey().getHeadingNumber()));
+      (newDescriptor.getKey().getHeadingNumber()));
   }
 
   public static Tag replaceTagWithClone(CatalogItem catalogItem, Tag srcTag) {
@@ -110,7 +114,7 @@ public class MarcCommandLibrary {
   }
 
   public static void setNewStringText(AccessPoint tag, StringText text, String headingView,
-                                      final Session session) throws DataAccessException, HibernateException, SQLException {
+                                      final Session session) throws HibernateException, SQLException {
     tag.getDescriptor().setUserViewString(headingView);
     tag.setDescriptorStringText(text);
     Descriptor newDescriptor = null;
@@ -121,11 +125,11 @@ public class MarcCommandLibrary {
     } else {
       newDescriptor = createNewDescriptor(tag.getDescriptor(), headingView, session);
       tag.setDescriptor(newDescriptor);
-      tag.setHeadingNumber(new Integer(newDescriptor.getKey().getHeadingNumber()));
+      tag.setHeadingNumber((newDescriptor.getKey().getHeadingNumber()));
     }
   }
 
-  public static void setNewStringText(final PublisherManager tag, final StringText text, final String headingView, final Session session) throws DataAccessException, HibernateException, SQLException {
+  public static void setNewStringText(final PublisherManager tag, final StringText text, final String headingView, final Session session) throws HibernateException, SQLException {
     PublisherAccessPoint pap = tag.getApf();
     setNewStringText(pap, text, headingView, session);
   }

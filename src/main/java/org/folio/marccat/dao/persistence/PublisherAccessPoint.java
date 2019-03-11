@@ -7,6 +7,7 @@ import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -75,6 +76,7 @@ public class PublisherAccessPoint extends BibliographicAccessPoint {
   /**
    * @return sequence number of tag.
    */
+  @Override
   public Integer getSequenceNumber() {
     return sequenceNumber;
   }
@@ -95,6 +97,7 @@ public class PublisherAccessPoint extends BibliographicAccessPoint {
    * @param obj -- the object to compare.
    * @return true if equals.
    */
+  @Override
   public boolean equals(final Object obj) {
     if (!(obj instanceof PublisherAccessPoint))
       return false;
@@ -113,13 +116,14 @@ public class PublisherAccessPoint extends BibliographicAccessPoint {
   /**
    * @return hashCode.
    */
+  @Override
   public int hashCode() {
     return this.getItemNumber() + 3 * this.getFunctionCode();
   }
 
   @Deprecated
-  public List getFirstCorrelationList() throws DataAccessException {
-    return null;
+  public List getFirstCorrelationList() {
+    return Collections.emptyList();
   }
 
   /**
@@ -127,6 +131,7 @@ public class PublisherAccessPoint extends BibliographicAccessPoint {
    *
    * @return "editNotes".
    */
+  @Override
   public String getRequiredEditPermission() {
     return Global.PUBLISHER_REQUIRED_PERMISSION;
   }
@@ -155,6 +160,7 @@ public class PublisherAccessPoint extends BibliographicAccessPoint {
    *
    * @return category.
    */
+  @Override
   public int getCategory() {
     return Global.PUBLISHER_CATEGORY;
   }
@@ -191,6 +197,7 @@ public class PublisherAccessPoint extends BibliographicAccessPoint {
    *
    * @param i -- the heading number to set.
    */
+  @Override
   public void setHeadingNumber(final Integer i) {
     headingNumber = (i != null && i == 0) ? null : i;
   }
@@ -198,6 +205,7 @@ public class PublisherAccessPoint extends BibliographicAccessPoint {
   /**
    * @return variant codes associated.
    */
+  @Override
   public String getVariantCodes() {
     return Global.PUBLISHER_VARIANT_CODES;
   }
