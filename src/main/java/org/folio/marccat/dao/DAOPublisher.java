@@ -72,7 +72,6 @@ public class DAOPublisher extends AbstractDAO {
   }
 
   public List loadHeadingFromPublisher(String publisherCode) throws DataAccessException {
-//		System.out.println("editore per select hdg : " + publisherCode);
     List result = null;
     try {
       Session s = currentSession();
@@ -83,13 +82,7 @@ public class DAOPublisher extends AbstractDAO {
         + " and pu.hdrNumber = ta.key.headingNumber"
         + " order by ta.nameSortForm");
       q.setString(0, publisherCode);
-//			q.setMaxResults(100);		
       result = q.list();
-
-//			if (result.size() == 0) {
-//				throw new RecordNotFoundException();
-//			}
-
 
     } catch (HibernateException e) {
       logAndWrap(e);
@@ -107,7 +100,6 @@ public class DAOPublisher extends AbstractDAO {
         + " PublCdeHdg as pu "
         + " where pu.hdrNumber = ta.key.headingNumber"
         + " order by ta.nameSortForm");
-//			q.setMaxResults(100);		
       result = q.list();
 
     } catch (HibernateException e) {

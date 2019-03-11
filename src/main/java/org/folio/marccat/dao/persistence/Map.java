@@ -27,7 +27,7 @@ public class Map extends PhysicalDescription {
     setHeaderType(24);
   }
 
-
+@Override
   public String getDisplayString() {
     return EMPTY_STRING
       + getGeneralMaterialDesignationCode()
@@ -103,6 +103,7 @@ public class Map extends PhysicalDescription {
   /* (non-Javadoc)
    * @see librisuite.business.cataloguing.bibliographic.PhysicalDescription#isMap()
    */
+  @Override
   public boolean isMap() {
     return true;
   }
@@ -110,6 +111,7 @@ public class Map extends PhysicalDescription {
   /* (non-Javadoc)
    * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
    */
+  @Override
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
     setKeyNumber(dao.getNextNumber("X2", session));

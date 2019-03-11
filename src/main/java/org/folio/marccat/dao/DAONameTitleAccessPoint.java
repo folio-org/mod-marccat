@@ -20,7 +20,7 @@ import org.folio.marccat.exception.DataAccessException;
  * @since 1.0
  */
 public class DAONameTitleAccessPoint extends AbstractDAO {
-
+	@Override
   public void delete(final Persistence p) throws DataAccessException {
 
     super.delete(p);
@@ -53,15 +53,15 @@ public class DAONameTitleAccessPoint extends AbstractDAO {
   /* (non-Javadoc)
    * @see HibernateUtil#save(librisuite.business.common.Persistence)
    */
-  public void save(Persistence p)
-    throws DataAccessException {
+  @Override
+  public void save(Persistence p) {
 
     super.save(p);
     NameTitleAccessPoint nt = (NameTitleAccessPoint) p;
     NameAccessPoint a = new NameAccessPoint(nt.getItemNumber());
     a.setNameTitleHeadingNumber(nt.getHeadingNumber().intValue());
     a.setHeadingNumber(
-      new Integer(
+      (
         ((NME_TTL_HDG) nt.getDescriptor()).getNameHeadingNumber()));
     a.setUserViewString(nt.getUserViewString());
     a.setFunctionCode((short) 0);
@@ -69,7 +69,7 @@ public class DAONameTitleAccessPoint extends AbstractDAO {
     TitleAccessPoint b = new TitleAccessPoint(nt.getItemNumber());
     b.setNameTitleHeadingNumber(nt.getHeadingNumber().intValue());
     b.setHeadingNumber(
-      new Integer(
+      (
         ((NME_TTL_HDG) nt.getDescriptor()).getTitleHeadingNumber()));
     b.setUserViewString(nt.getUserViewString());
     b.setFunctionCode((short) 0);

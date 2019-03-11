@@ -23,10 +23,10 @@ public class DAOSummaryHolding extends HibernateUtil {
   public int countCopies(int amicusNumber, int orgNumber) throws DataAccessException {
     List l = find("select count(*) from CPY_ID as c where c.organisationNumber = ?"
       + " and c.bibItemNumber = ?", new Object[]{
-      new Integer(orgNumber), new Integer(amicusNumber)}, new Type[]{
+      (orgNumber), (amicusNumber)}, new Type[]{
       Hibernate.INTEGER, Hibernate.INTEGER});
 
-    if (l.size() > 0) {
+    if (!l.isEmpty()) {
       return ((Integer) l.get(0)).intValue();
     } else {
       return 0;
@@ -41,7 +41,7 @@ public class DAOSummaryHolding extends HibernateUtil {
         s.delete(
           "from SMRY_HLDG as c where c.mainLibraryNumber = ?"
             + " and c.bibItemNumber = ?", new Object[]{
-            new Integer(orgNumber), new Integer(amicusNumber)},
+            (orgNumber), (amicusNumber)},
           new Type[]{Hibernate.INTEGER, Hibernate.INTEGER});
       }
     } catch (HibernateException e) {
@@ -53,7 +53,7 @@ public class DAOSummaryHolding extends HibernateUtil {
     List l = find("from SMRY_HLDG as c"
         + " where c.mainLibraryNumber = ?"
         + " and c.bibItemNumber = ?",
-      new Object[]{new Integer(orgNumber), new Integer(amicusNumber)},
+      new Object[]{(orgNumber), (amicusNumber)},
       new Type[]{Hibernate.INTEGER, Hibernate.INTEGER});
 
     if (l.size() == 1) {
@@ -68,7 +68,7 @@ public class DAOSummaryHolding extends HibernateUtil {
     try {
       s.delete("from SMRY_HLDG as c where c.mainLibraryNumber = ?"
           + " and c.bibItemNumber = ?", new Object[]{
-          new Integer(orgNumber), new Integer(amicusNumber)},
+          (orgNumber), (amicusNumber)},
         new Type[]{Hibernate.INTEGER, Hibernate.INTEGER});
     } catch (HibernateException e) {
       logAndWrap(e);

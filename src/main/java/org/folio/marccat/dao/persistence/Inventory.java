@@ -29,8 +29,6 @@ import java.util.Date;
 public class Inventory implements Persistence {
   private static DAOInventory daoInventory = new DAOInventory();
   InventoryKey key;
-  //private int inventoryNumber;
-  //private int mainLibraryNumber;
   private int bibItemNumber;
   private int copyNumber;
   private char materialTypeCode;
@@ -55,15 +53,6 @@ public class Inventory implements Persistence {
     setPrice(new Float(0));
     setDateReceived(Calendar.getInstance().getTime());
     setKey(new InventoryKey());
-  }
-
-
-  public Inventory(int copyNumber, int cataloguingView, int mainLibrary) throws DataAccessException {
-    this();
-    setCopyNumber(copyNumber);
-    key.setMainLibraryNumber(mainLibrary);
-    DAOInventory dao = new DAOInventory();
-    dao.populateNewItem(this, cataloguingView);
   }
 
 

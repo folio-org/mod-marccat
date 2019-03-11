@@ -10,6 +10,7 @@ import org.folio.marccat.dao.persistence.S_SYS_GLBL_VRBL;
 import org.folio.marccat.exception.DataAccessException;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
@@ -23,7 +24,6 @@ import java.util.List;
  */
 public class DAOGlobalVariable extends HibernateUtil implements Serializable {
 
-  private Log logger = LogFactory.getLog(DAOGlobalVariable.class);
 
   @Deprecated
   public String getValueByName(final String name) throws DataAccessException {
@@ -55,9 +55,9 @@ public class DAOGlobalVariable extends HibernateUtil implements Serializable {
     edit(sysGlobal);
   }
 
-  public Hashtable<String, String> getAllGlobalVariable(final Session session) {
+  public HashMap<String, String> getAllGlobalVariable(final Session session) {
     List<S_SYS_GLBL_VRBL> listAllKeys = null;
-    Hashtable<String, String> hash = new Hashtable<String, String>();
+    HashMap<String, String> hash = new HashMap<String, String>();
     try {
       listAllKeys = find(session, "from S_SYS_GLBL_VRBL");
     } catch (DataAccessException e) {

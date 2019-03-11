@@ -556,18 +556,14 @@ public abstract class DAODescriptor extends AbstractDAO {
       throw new ReferentialIntegrityException(descriptor.getAccessPointClass()
         .getName(), descriptor.getClass().getName());
     }
-    if (supportsCrossReferences()) {
-      if (getXrefCount(descriptor, View.toIntView(descriptor.getUserViewString()), session) > 0) {
+      if (supportsCrossReferences() && getXrefCount(descriptor, View.toIntView(descriptor.getUserViewString()), session) > 0) {
         throw new ReferentialIntegrityException(descriptor.getReferenceClass(
           descriptor.getClass()).getName(), descriptor.getClass().getName());
       }
-    }
-    if (supportsAuthorities()) {
-      if (descriptor.getAuthorityCount() > 0) {
+      if (supportsAuthorities() && descriptor.getAuthorityCount() > 0) {
         throw new ReferentialIntegrityException(descriptor.getReferenceClass(
           descriptor.getClass()).getName(), descriptor.getClass().getName());
       }
-    }
 
     if (getAuthorityApfReferenceCount(descriptor, session) > 0) {
       throw new ReferentialIntegrityException("AUT_X_ACS_PNT", descriptor

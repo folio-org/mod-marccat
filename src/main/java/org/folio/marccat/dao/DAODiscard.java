@@ -7,16 +7,17 @@
  */
 package org.folio.marccat.dao;
 
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 import org.folio.marccat.dao.common.TransactionalHibernateOperation;
 import org.folio.marccat.dao.persistence.CPY_ID;
 import org.folio.marccat.dao.persistence.SHLF_LIST;
 import org.folio.marccat.exception.DataAccessException;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 
 /**
  * @author paulm
@@ -34,10 +35,9 @@ public class DAODiscard extends DAOCopy {
 
     new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
-        throws HibernateException,
-        DataAccessException {
-        CPY_ID copy = (CPY_ID) s.get(CPY_ID.class, new Integer(
-          copyNumber));
+        throws HibernateException
+      {
+        CPY_ID copy = (CPY_ID) s.get(CPY_ID.class,(copyNumber));
         copy.setShelfList(shelf);
         if (copy.getShelfListKeyNumber() != null) {
           copy.setShelfListKeyNumber(0);
@@ -46,7 +46,6 @@ public class DAODiscard extends DAOCopy {
         detachShelfList(copy, copy.getShelfList());
         // tabella DISCARD_CPY
         saveDiscard(copy, discardTyp);
-        //if(copy.getShelfListKeyNumber()==0)
         s.update(copy);
 
       }

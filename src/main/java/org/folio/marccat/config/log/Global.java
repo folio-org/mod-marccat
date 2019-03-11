@@ -20,6 +20,11 @@ import java.util.Map;
  * </ul>
  */
 public abstract class Global {
+	
+	private Global() {
+	    throw new IllegalStateException("Global class");
+	  }
+
 
   public static final String MODULE_NAME = "MARCCAT";
   public static final String OKAPI_TENANT_HEADER_NAME = "X-Okapi-Tenant";

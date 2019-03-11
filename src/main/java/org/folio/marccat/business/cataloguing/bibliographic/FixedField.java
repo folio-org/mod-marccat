@@ -76,6 +76,7 @@ public abstract class FixedField extends Tag implements HeaderField {
     headerField = helper;
   }
 
+  @Override
   public CorrelationKey getMarcEncoding(final Session session)
     throws DataAccessException {
     CorrelationKey key = super.getMarcEncoding(session);
@@ -89,6 +90,7 @@ public abstract class FixedField extends Tag implements HeaderField {
   /* (non-Javadoc)
    * @see librisuite.business.cataloguing.bibliographic.Tag#getRequiredEditPermission()
    */
+  @Override
   public String getRequiredEditPermission() {
     return "editHeader";
   }
