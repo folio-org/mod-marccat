@@ -66,7 +66,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
   /**
    * The value element.
    */
-  private Avp<String> valueElement;
+  private transient Avp<String> valueElement;
 
   /**
    * The note standard.
@@ -313,7 +313,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    * @throws HibernateException  the hibernate exception
    */
   @Override
-  public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
+  public void generateNewKey(final Session session) throws HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
     setNoteNbr(dao.getNextNumber("BN", session));
   }
@@ -575,7 +575,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    * @return key associated to note tag.
    * @throws DataAccessException in case of data access exception.
    */
-  public String getKey() throws DataAccessException {
+  public String getKey() {
     return getMarcEncoding().getMarcTag();
   }
 

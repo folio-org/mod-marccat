@@ -227,6 +227,7 @@ public class AuthorityCatalogDAO extends CatalogDAO {
       if (rs != null) try {
         rs.close();
       } catch (SQLException e) {
+    	  logger.error(e.getMessage());
       }
     }
     return notes;

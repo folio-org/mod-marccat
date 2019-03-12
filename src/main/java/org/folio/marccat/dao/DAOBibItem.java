@@ -29,6 +29,7 @@ import java.util.Objects;
  */
 public class DAOBibItem extends AbstractDAO {
   @Deprecated
+  @Override
   public void delete(Persistence p) {
     if (!(p instanceof BIB_ITM)) {
       throw new IllegalArgumentException("Argument must be a BIB_ITM");

@@ -1,9 +1,9 @@
 package org.folio.marccat.dao;
 
-import net.sf.hibernate.Hibernate;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.type.Type;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.config.log.Message;
@@ -14,9 +14,10 @@ import org.folio.marccat.exception.MarcCorrelationException;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.shared.Validation;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import net.sf.hibernate.Hibernate;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.type.Type;
 
 /**
  * @author elena
@@ -27,6 +28,11 @@ import java.util.Optional;
 public class BibliographicValidationDAO extends DAOValidation {
 
   private static final Log logger = LogFactory.getLog(BibliographicValidationDAO.class);
+  private String querySelect = "select distinct v from BibliographicValidation as v, ";
+  private String queryFrom = "BibliographicCorrelation as c" ;
+  private String queryWhere = " where c.key.marcTagCategoryCode = ?";
+  private String queryAndTag = " and c.key.marcTag = v.key.marcTag";
+  private String queryCategory = " and c.key.marcTagCategoryCode =  v.key.marcTagCategoryCode";
 
   public BibliographicValidation load(final Session session, final String marcNumber, final int category) throws HibernateException {
     return (BibliographicValidation) session.load(BibliographicValidation.class, new BibliographicValidationKey(marcNumber, category));
@@ -43,14 +49,14 @@ public class BibliographicValidationDAO extends DAOValidation {
   @SuppressWarnings("unchecked")
   public BibliographicValidation load(final Session session, final int category, final CorrelationValues values) throws HibernateException {
 
-    List<BibliographicValidation> bibliographicValidations = session.find("select distinct v from BibliographicValidation as v, " +
-        "BibliographicCorrelation as c" +
-        " where c.key.marcTagCategoryCode = ?" +
+    List<BibliographicValidation> bibliographicValidations = session.find(querySelect +
+    		queryFrom +
+        queryWhere +
         " and (c.databaseFirstValue = ? or c.databaseFirstValue = -1 or -1 = ?)" +
         " and (c.databaseSecondValue = ? or c.databaseSecondValue = -1 or -1 = ?)" +
         " and (c.databaseThirdValue = ? or c.databaseThirdValue = -1 or -1 = ?)" +
-        " and c.key.marcTag = v.key.marcTag" +
-        " and c.key.marcTagCategoryCode =  v.key.marcTagCategoryCode",
+        queryAndTag +
+        queryCategory,
       new Object[]{
         category,
         values.getValue(1), values.getValue(1),
@@ -68,11 +74,11 @@ public class BibliographicValidationDAO extends DAOValidation {
       return firstElement.get();
     }
 
-    bibliographicValidations = session.find("select distinct v from BibliographicValidation as v, " +
-        "BibliographicCorrelation as c" +
-        " where c.key.marcTagCategoryCode = ?" +
-        " and c.key.marcTag = v.key.marcTag" +
-        " and c.key.marcTagCategoryCode =  v.key.marcTagCategoryCode",
+    bibliographicValidations = session.find(querySelect +
+    		queryFrom +
+        queryWhere +
+        queryAndTag +
+        queryCategory,
       new Object[]{category},
       new Type[]{Hibernate.INTEGER});
 
@@ -86,20 +92,20 @@ public class BibliographicValidationDAO extends DAOValidation {
   }
 
   @Deprecated
-  public BibliographicValidation load(final String marcNumber, final int marcCategory) throws DataAccessException {
+  public BibliographicValidation load(final String marcNumber, final int marcCategory) {
     return (BibliographicValidation) load(BibliographicValidation.class, new BibliographicValidationKey(marcNumber, marcCategory));
   }
 
   @Deprecated
-  public Validation load(final int s, final CorrelationValues values) throws DataAccessException {
-    List<BibliographicValidation> validations = find("select distinct v from BibliographicValidation as v, " +
-        "BibliographicCorrelation as c" +
-        " where c.key.marcTagCategoryCode = ?" +
+  public Validation load(final int s, final CorrelationValues values) {
+    List<BibliographicValidation> validations = find(querySelect +
+    		queryFrom +
+        queryWhere +
         " and (c.databaseFirstValue = ? or c.databaseFirstValue = -1 or -1 = ?)" +
         " and (c.databaseSecondValue = ? or c.databaseSecondValue = -1 or -1 = ?)" +
         " and (c.databaseThirdValue = ? or c.databaseThirdValue = -1 or -1 = ?)" +
-        " and c.key.marcTag = v.key.marcTag" +
-        " and c.key.marcTagCategoryCode =  v.key.marcTagCategoryCode",
+        queryAndTag +
+        queryCategory,
       new Object[]{
         s,
         values.getValue(1), values.getValue(1),
@@ -112,7 +118,7 @@ public class BibliographicValidationDAO extends DAOValidation {
         Hibernate.INTEGER, Hibernate.INTEGER}
     );
 
-    if (validations.size() > 0) {
+    if (!validations.isEmpty()) {
       if (logger.isDebugEnabled()) {
         logger.debug("BibliographicValidation(s) found:");
         for (int i = 0; i < validations.size(); i++) {
@@ -121,16 +127,16 @@ public class BibliographicValidationDAO extends DAOValidation {
       }
       return validations.get(0);
     } else {
-      validations = find("select distinct v from BibliographicValidation as v, " +
-          "BibliographicCorrelation as c" +
-          " where c.key.marcTagCategoryCode = ?" +
-          " and c.key.marcTag = v.key.marcTag" +
-          " and c.key.marcTagCategoryCode =  v.key.marcTagCategoryCode",
+      validations = find(querySelect +
+    		  queryFrom +
+          queryWhere +
+          queryAndTag +
+          queryCategory,
         new Object[]{s},
         new Type[]{Hibernate.INTEGER}
       );
 
-      if (validations.size() > 0) {
+      if (!validations.isEmpty()) {
         if (logger.isDebugEnabled()) {
           logger.debug("BibliographicValidation(s) found:");
           for (int i = 0; i < validations.size(); i++) {

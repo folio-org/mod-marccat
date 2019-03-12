@@ -160,11 +160,11 @@ public class CollectionMaster implements Persistence {
     persistenceState = state;
   }
 
-  public void evict(Object obj) throws DataAccessException {
+  public void evict(Object obj) {
     persistenceState.evict(obj);
   }
 
-  public void evict() throws DataAccessException {
+  public void evict() {
     evict(this);
   }
 
@@ -246,7 +246,7 @@ public class CollectionMaster implements Persistence {
     return persistenceState.onUpdate(arg0);
   }
 
-  public void generateNewKey() throws DataAccessException {
+  public void generateNewKey() {
     // not applicable for this class
 
   }

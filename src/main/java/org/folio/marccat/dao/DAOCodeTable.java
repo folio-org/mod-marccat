@@ -1,28 +1,32 @@
 package org.folio.marccat.dao;
 
-import net.sf.hibernate.Hibernate;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.type.Type;
-import org.folio.marccat.business.codetable.Avp;
-import org.folio.marccat.config.log.Global;
-import org.folio.marccat.config.log.Log;
-import org.folio.marccat.config.log.Message;
-import org.folio.marccat.dao.persistence.*;
-import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.exception.ModMarccatException;
+import static java.util.Optional.ofNullable;
+import static java.util.stream.Collectors.toList;
 
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import static java.util.Optional.ofNullable;
-import static java.util.stream.Collectors.toList;
+import org.folio.marccat.business.codetable.Avp;
+import org.folio.marccat.config.log.Global;
+import org.folio.marccat.config.log.Log;
+import org.folio.marccat.config.log.Message;
+import org.folio.marccat.dao.persistence.CodeTable;
+import org.folio.marccat.dao.persistence.LDG_STATS;
+import org.folio.marccat.dao.persistence.LOADING_MARC_RECORDS;
+import org.folio.marccat.dao.persistence.T_SINGLE;
+import org.folio.marccat.dao.persistence.T_SINGLE_CHAR;
+import org.folio.marccat.dao.persistence.T_SINGLE_LONGCHAR;
+import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.ModMarccatException;
+
+import net.sf.hibernate.Hibernate;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.type.Type;
 
 /**
- * TODO: JAvadoc
- *
  * @author carment
  * @author cchiama
  * @since 1.0
@@ -30,6 +34,8 @@ import static java.util.stream.Collectors.toList;
 
 public class DAOCodeTable extends AbstractDAO {
   private Log logger = new Log(DAOCodeTable.class);
+  private String noSessionMessege = "don't use it: session missing";
+  private String unableCreateMessage = "unable to create code table object"; 
 
   /**
    * Returns a code table contains elements set key/stringValue
@@ -68,34 +74,34 @@ public class DAOCodeTable extends AbstractDAO {
    *
    * @since 1.0
    */
-  public List getOptionList(Class c, Locale locale) throws DataAccessException {
-    throw new IllegalArgumentException("don't use it: session missing");
+  public List getOptionList(Class c, Locale locale) {
+    throw new IllegalArgumentException(noSessionMessege);
   }
 
-  public List getOptionListOrderAlphab(Class c, Locale locale) throws DataAccessException {
-    throw new IllegalArgumentException("don't use it: session missing");
+  public List getOptionListOrderAlphab(Class c, Locale locale) {
+    throw new IllegalArgumentException(noSessionMessege);
   }
 
-  public T_SINGLE_CHAR load(Session session, Class c, char code, Locale locale) throws DataAccessException {
+  public T_SINGLE_CHAR load(Session session, Class c, char code, Locale locale) {
     T_SINGLE_CHAR key;
     try {
       key = (T_SINGLE_CHAR) c.newInstance();
       key.setCode(code);
       key.setLanguage(locale.getISO3Language());
     } catch (Exception e) {
-      throw new ModMarccatException("unable to create code table object");
+      throw new ModMarccatException(unableCreateMessage);
     }
     return (T_SINGLE_CHAR) loadCodeTableEntry(session, c, key);
   }
 
-  public T_SINGLE load(Session session, Class c, int code, Locale locale) throws DataAccessException {
+  public T_SINGLE load(Session session, Class c, int code, Locale locale) {
     T_SINGLE key;
     try {
       key = (T_SINGLE) c.newInstance();
       key.setCode(code);
       key.setLanguage(locale.getISO3Language());
     } catch (Exception e) {
-      throw new ModMarccatException("unable to create code table object");
+      throw new ModMarccatException(unableCreateMessage);
     }
     return (T_SINGLE) loadCodeTableEntry(session, c, key);
   }
@@ -108,7 +114,7 @@ public class DAOCodeTable extends AbstractDAO {
    * @throws DataAccessException
    */
 
-  public CodeTable loadCodeTableEntry(Session session, Class c, Serializable ser) throws DataAccessException {
+  public CodeTable loadCodeTableEntry(Session session, Class c, Serializable ser) {
     return (CodeTable) get(session, c, ser);
   }
 
@@ -120,7 +126,7 @@ public class DAOCodeTable extends AbstractDAO {
    * @return a string representing description of codeTable by code.
    * @throws DataAccessException
    */
-  public String getLongText(final Session session, final int code, final Class c, final Locale locale) throws DataAccessException {
+  public String getLongText(final Session session, final int code, final Class c, final Locale locale) {
     return ofNullable(load(session, c, code, locale))
       .map(CodeTable::getLongText)
       .orElse(Global.EMPTY_STRING);
@@ -132,8 +138,8 @@ public class DAOCodeTable extends AbstractDAO {
    * @return
    * @throws DataAccessException
    */
-  public String getTranslationString(long translationKey, Locale locale) throws DataAccessException {
-    throw new IllegalArgumentException("don't use it: session missing");
+  public String getTranslationString(long translationKey, Locale locale) {
+    throw new IllegalArgumentException(noSessionMessege);
   }
 
   /**
@@ -144,14 +150,14 @@ public class DAOCodeTable extends AbstractDAO {
    * @return
    * @throws DataAccessException
    */
-  public T_SINGLE_LONGCHAR load(final Session session, final Class c, final String code, final Locale locale) throws DataAccessException {
+  public T_SINGLE_LONGCHAR load(final Session session, final Class c, final String code, final Locale locale) {
     T_SINGLE_LONGCHAR key;
     try {
       key = (T_SINGLE_LONGCHAR) c.newInstance();
       key.setCode(code);
       key.setLanguage(locale.getISO3Language());
     } catch (Exception e) {
-      throw new ModMarccatException("unable to create code table object");
+      throw new ModMarccatException(unableCreateMessage);
     }
     return (T_SINGLE_LONGCHAR) loadCodeTableEntry(session, c, key);
   }
@@ -164,7 +170,7 @@ public class DAOCodeTable extends AbstractDAO {
    * @return LDG_STATS.
    * @throws DataAccessException in case of data access exception.
    */
-  public LDG_STATS getStats(final Session session, final int loadingStatisticsNumber) throws DataAccessException {
+  public LDG_STATS getStats(final Session session, final int loadingStatisticsNumber) {
     try {
       return (LDG_STATS) session.load(LDG_STATS.class, loadingStatisticsNumber);
     } catch (HibernateException e) {
@@ -173,7 +179,7 @@ public class DAOCodeTable extends AbstractDAO {
   }
 
   @SuppressWarnings("unchecked")
-  public List<LOADING_MARC_RECORDS> getResults(final Session session, final int loadingStatisticsNumber) throws DataAccessException {
+  public List<LOADING_MARC_RECORDS> getResults(final Session session, final int loadingStatisticsNumber) {
 
     try {
       return session.find(

@@ -80,14 +80,14 @@ public abstract class CatalogItem implements Serializable {
     tags.add(newTag);
   }
 
-  abstract public void checkForMandatoryTags() throws MandatoryTagException;
+  abstract public void checkForMandatoryTags();
 
   /**
    * Checks if the specified tag is illegally repeated in the item and throws an exception if so.
    *
    * @param index -- the tag index.
    */
-  public void checkRepeatability(final int index) throws DataAccessException, DuplicateTagException {
+  public void checkRepeatability(final int index) {
     final Tag t = getTag(index);
     Validation bv = t.getValidation();
     if (!bv.isMarcTagRepeatable()) {
@@ -266,7 +266,7 @@ public abstract class CatalogItem implements Serializable {
    * @return
    * @throws DataAccessException in case of data access failure.
    */
-  private LinkedHashMap<Object, TagContainer> populateGroups() throws DataAccessException {
+  private LinkedHashMap<Object, TagContainer> populateGroups() {
     final LinkedHashMap<Object, TagContainer> ht = new LinkedHashMap<>();
     final GroupManager groupManager = new BibliographicGroupManager();
 
@@ -293,7 +293,7 @@ public abstract class CatalogItem implements Serializable {
    * @throws ValidationException in case of validation exception.
    * @throws DataAccessException in case of data access exception.
    */
-  public void validate() throws ValidationException, DataAccessException {
+  public void validate() {
     checkForMandatoryTags();
     for (int i = 0; i < getTags().size(); i++) {
       checkRepeatability(i);

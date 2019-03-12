@@ -142,7 +142,7 @@ public class BibliographicNoteOverflow implements PersistentObjectWithView, Seri
     userViewString = string;
   }
 
-  public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
+  public void generateNewKey(final Session session) throws HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
     setNoteOverflowNumber(dao.getNextNumber("BO", session));
   }
@@ -204,7 +204,7 @@ public class BibliographicNoteOverflow implements PersistentObjectWithView, Seri
     }
   }
 
-  public void evict() throws DataAccessException {
+  public void evict() {
     if (persistenceState != null) {
       persistenceState.evict(this);
     }

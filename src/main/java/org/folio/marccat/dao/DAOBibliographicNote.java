@@ -6,7 +6,8 @@ import org.folio.marccat.exception.DataAccessException;
 
 public class DAOBibliographicNote extends AbstractDAO {
 
-  public void delete(Persistence p) throws DataAccessException {
+	@Override
+  public void delete(Persistence p) {
     super.delete(p);
   }
 

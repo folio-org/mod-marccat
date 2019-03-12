@@ -35,8 +35,7 @@ public class DAOCache extends HibernateUtil {
 
   private static final Log logger = LogFactory.getLog(DAOCache.class);
 
-  public Cache load(int bibItemNumber, int cataloguingView)
-    throws DataAccessException {
+  public Cache load(int bibItemNumber, int cataloguingView) {
     List l =
       find(
         "from Cache as c "
@@ -45,15 +44,15 @@ public class DAOCache extends HibernateUtil {
           (bibItemNumber),
           (cataloguingView)},
         new Type[]{Hibernate.INTEGER, Hibernate.INTEGER});
-    if (l.size() == 0) {
+    if (l.isEmpty()) {
       throw new RecordNotFoundException("Cache entry not found");
     }
     return (Cache) l.get(0);
   }
 
-  public void updateMadesCacheTable(final int madItemNumber, final int cataloguingView) throws DataAccessException {
+  public void updateMadesCacheTable(final int madItemNumber, final int cataloguingView) {
     new TransactionalHibernateOperation() {
-      public void doInHibernateTransaction(Session s) throws HibernateException, SQLException, CacheUpdateException {
+      public void doInHibernateTransaction(Session s) throws HibernateException, SQLException {
         int result;
         CallableStatement proc = null;
         try {
@@ -79,7 +78,7 @@ public class DAOCache extends HibernateUtil {
             if (proc != null) proc.close();
           } catch (SQLException ex) {
             // do nothing
-            ex.printStackTrace();
+            logger.error(ex.getMessage());
           }
         }
       }
@@ -95,7 +94,7 @@ public class DAOCache extends HibernateUtil {
    * @return
    * @throws DataAccessException
    */
-  public List getVariantViews(final int amicusNumber) throws DataAccessException {
+  public List getVariantViews(final int amicusNumber) {
     final List result = new ArrayList();
     new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
@@ -138,7 +137,7 @@ public class DAOCache extends HibernateUtil {
    * @return
    * @throws DataAccessException
    */
-  public int getVariantCount(final int amicusNumber) throws DataAccessException {
+  public int getVariantCount(final int amicusNumber) {
     class Integerwrapper {
       int value;
     }
@@ -194,10 +193,10 @@ public class DAOCache extends HibernateUtil {
    * @return
    * @throws DataAccessException
    */
-  public int getPreferredView(final Session session, final int amicusNumber, final int preferenceOrder) throws DataAccessException {
+  public int getPreferredView(final Session session, final int amicusNumber, final int preferenceOrder) {
     final AtomicInteger preferredView = new AtomicInteger();
     new TransactionalHibernateOperation() {
-      public void doInHibernateTransaction(final Session s) throws HibernateException, DataAccessException {
+      public void doInHibernateTransaction(final Session s) throws HibernateException {
         final Connection connection = s.connection();
         try (final PreparedStatement stmt = stmt(connection, amicusNumber, preferenceOrder);
              final ResultSet resultSet = stmt.executeQuery()) {

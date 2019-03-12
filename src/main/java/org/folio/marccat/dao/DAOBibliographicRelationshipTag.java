@@ -35,7 +35,7 @@ public class DAOBibliographicRelationshipTag extends AbstractDAO {
   /* (non-Javadoc)
    * @see HibernateUtil#delete(librisuite.business.common.Persistence)
    */
-  public void delete(final Session session, final Persistence po) throws DataAccessException {
+  public void delete(final Session session, final Persistence po) {
     if (!(po instanceof BibliographicRelationshipTag)) {
       throw new IllegalArgumentException("I can only persist BibliographicRelationshipTag objects");
     }
@@ -62,13 +62,13 @@ public class DAOBibliographicRelationshipTag extends AbstractDAO {
    * @see HibernateUtil#save(librisuite.business.common.Persistence)
    */
   @Override
-  public void save(final Persistence po, final Session session) throws DataAccessException {
+  public void save(final Persistence po, final Session session) {
     if (!(po instanceof BibliographicRelationshipTag)) {
       throw new IllegalArgumentException("I can only persist BibliographicRelationshipTag objects");
     }
     new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
-        throws HibernateException, DataAccessException {
+        throws HibernateException {
         BibliographicRelationshipTag aRelation =
           (BibliographicRelationshipTag) po;
 
@@ -155,7 +155,7 @@ public class DAOBibliographicRelationshipTag extends AbstractDAO {
    * @see HibernateUtil#update(librisuite.business.common.Persistence)
    */
   @Override
-  public void update(Persistence p) throws DataAccessException {
+  public void update(Persistence p) {
     /*
      * Since we are deleting and re-adding, save and update are the same
      */
@@ -164,8 +164,7 @@ public class DAOBibliographicRelationshipTag extends AbstractDAO {
     save(p);
   }
 
-  public short getReciprocalType(int relationTypeCode)
-    throws DataAccessException {
+  public short getReciprocalType(int relationTypeCode) {
 
     try {
       List result =
@@ -181,7 +180,7 @@ public class DAOBibliographicRelationshipTag extends AbstractDAO {
     return -1;
   }
 
-  private void evictAny(final Session session, final BibliographicRelationship aRelation) throws DataAccessException {
+  private void evictAny(final Session session, final BibliographicRelationship aRelation) {
     BibliographicRelationship inCache = (BibliographicRelationship)
       get(session, BibliographicRelationship.class, aRelation);
     if (inCache != null) {

@@ -115,7 +115,7 @@ public class CNTL_NBR extends Descriptor {
   }
 
   @Override
-  public void calculateAndSetSortForm() throws SortFormException {
+  public void calculateAndSetSortForm() {
     if (ControlNumberType.isISBN((short) getTypeCode())) {
       setSortForm(calculateIsbnSortForm());
     } else if (ControlNumberType.isISSN((short) getTypeCode())) {

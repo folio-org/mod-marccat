@@ -26,8 +26,7 @@ public class DAOAuthorityValidation extends DAOValidation {
 
   private static final Log logger = LogFactory.getLog(DAOAuthorityValidation.class);
 
-  public Validation load(String tag, String headingType, int category)
-    throws DataAccessException {
+  public Validation load(String tag, String headingType, int category) {
     List l = find("from AuthorityValidation as v, " +
         " where v.key.marcTagCategoryCode = ? " +
         " and v.key.marcTag = ? " +

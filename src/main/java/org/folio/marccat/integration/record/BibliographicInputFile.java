@@ -62,7 +62,7 @@ public class BibliographicInputFile {
    * @throws DataAccessException in case of exception.
    */
   public void loadFile(final InputStream inputStream, final String fileName, final int cataloguingView, final int startAt,
-                       final int recCount, final Session session, final Map<String, String> configuration) throws DataAccessException {
+                       final int recCount, final Session session, final Map<String, String> configuration) {
     try {
       loadFileFromStream(fileName, inputStream, cataloguingView, startAt, recCount, session, configuration);
     } catch (Exception e) {
@@ -83,7 +83,7 @@ public class BibliographicInputFile {
    * @throws DataAccessException in case of exception.
    */
   public void loadFile(final String fileName, final int cataloguingView, final int startAt,
-                       final int recCount, final Record record, final Session session, final Map<String, String> configuration) throws DataAccessException {
+                       final int recCount, final Record record, final Session session, final Map<String, String> configuration) {
     try {
       ByteArrayOutputStream bos = new ByteArrayOutputStream();
       MarcWriter writer = new MarcStreamWriter(bos);
@@ -280,8 +280,7 @@ public class BibliographicInputFile {
   private RecordTypeMaterial detectMaterial(final Session session, final char recordTypeCode, final char bibliographicLevel) {
     try {
       final RecordTypeMaterialDAO dao = new RecordTypeMaterialDAO();
-      final RecordTypeMaterial rtm = dao.getMaterialHeaderCode(session, recordTypeCode, bibliographicLevel);
-      return rtm;
+      return dao.getMaterialHeaderCode(session, recordTypeCode, bibliographicLevel);
     } catch (HibernateException e) {
       //ignore
       return null;

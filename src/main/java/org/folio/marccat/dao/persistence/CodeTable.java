@@ -25,7 +25,7 @@ public abstract class CodeTable implements Persistence {
     super();
   }
 
-  public abstract int getNextNumber() throws DataAccessException;
+  public abstract int getNextNumber();
 
   public String getLongText() {
     return longText;
@@ -69,11 +69,11 @@ public abstract class CodeTable implements Persistence {
     language = string;
   }
 
-  public void evict() throws DataAccessException {
+  public void evict() {
     persistenceState.evict(this);
   }
 
-  public void generateNewKey() throws DataAccessException {
+  public void generateNewKey() {
   }
 
   public AbstractDAO getDAO() {
