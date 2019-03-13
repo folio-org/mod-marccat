@@ -1,28 +1,25 @@
 package org.folio.marccat.dao;
 
+import java.util.List;
+
+import org.folio.marccat.dao.common.HibernateUtil;
+import org.folio.marccat.dao.persistence.CPY_ID;
+import org.folio.marccat.dao.persistence.SMRY_HLDG;
+
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-import org.folio.marccat.dao.common.HibernateUtil;
-import org.folio.marccat.dao.persistence.CPY_ID;
-import org.folio.marccat.dao.persistence.SMRY_HLDG;
-import org.folio.marccat.exception.DataAccessException;
-
-import java.util.List;
 
 public class DAOSummaryHolding extends HibernateUtil {
-  public void createSummaryHoldingIfRequired(final Session session, final CPY_ID copy) throws DataAccessException {
+	private String queryAndBibNumber = " and c.bibItemNumber = ?";
+  public void createSummaryHoldingIfRequired(final Session session, final CPY_ID copy)  {
     SMRY_HLDG aHldg = new SMRY_HLDG(copy);
-    if (get(session, SMRY_HLDG.class, aHldg) == null) {
-      // SMRY_HLDG does not yet exist so save the default values
-      persistByStatus(aHldg);
-    }
   }
 
-  public int countCopies(int amicusNumber, int orgNumber) throws DataAccessException {
+  public int countCopies(int amicusNumber, int orgNumber)  {
     List l = find("select count(*) from CPY_ID as c where c.organisationNumber = ?"
-      + " and c.bibItemNumber = ?", new Object[]{
+      + queryAndBibNumber, new Object[]{
       (orgNumber), (amicusNumber)}, new Type[]{
       Hibernate.INTEGER, Hibernate.INTEGER});
 
@@ -33,14 +30,14 @@ public class DAOSummaryHolding extends HibernateUtil {
     }
   }
 
-  public void deleteRecord(final int amicusNumber, final int orgNumber) throws DataAccessException {
+  public void deleteRecord(final int amicusNumber, final int orgNumber)  {
     Session s = currentSession();
     try {
 
       if (countCopies(amicusNumber, orgNumber) == 1) {
         s.delete(
           "from SMRY_HLDG as c where c.mainLibraryNumber = ?"
-            + " and c.bibItemNumber = ?", new Object[]{
+            + queryAndBibNumber, new Object[]{
             (orgNumber), (amicusNumber)},
           new Type[]{Hibernate.INTEGER, Hibernate.INTEGER});
       }
@@ -49,10 +46,10 @@ public class DAOSummaryHolding extends HibernateUtil {
     }
   }
 
-  public SMRY_HLDG getSmryHoldingByAmicusNumberOrgNbr(int amicusNumber, int orgNumber) throws DataAccessException {
+  public SMRY_HLDG getSmryHoldingByAmicusNumberOrgNbr(int amicusNumber, int orgNumber)  {
     List l = find("from SMRY_HLDG as c"
         + " where c.mainLibraryNumber = ?"
-        + " and c.bibItemNumber = ?",
+        + queryAndBibNumber,
       new Object[]{(orgNumber), (amicusNumber)},
       new Type[]{Hibernate.INTEGER, Hibernate.INTEGER});
 
@@ -63,11 +60,11 @@ public class DAOSummaryHolding extends HibernateUtil {
     }
   }
 
-  public void deleteSummaryHolding(final int amicusNumber, final int orgNumber) throws DataAccessException {
+  public void deleteSummaryHolding(final int amicusNumber, final int orgNumber)  {
     Session s = currentSession();
     try {
       s.delete("from SMRY_HLDG as c where c.mainLibraryNumber = ?"
-          + " and c.bibItemNumber = ?", new Object[]{
+          + queryAndBibNumber, new Object[]{
           (orgNumber), (amicusNumber)},
         new Type[]{Hibernate.INTEGER, Hibernate.INTEGER});
     } catch (HibernateException e) {

@@ -7,15 +7,15 @@
  */
 package org.folio.marccat.dao;
 
-import net.sf.hibernate.Hibernate;
-import net.sf.hibernate.type.Type;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.MarcCorrelationException;
 import org.folio.marccat.shared.Validation;
 
-import java.util.List;
+import net.sf.hibernate.Hibernate;
+import net.sf.hibernate.type.Type;
 
 /**
  * @author paulm

@@ -27,7 +27,7 @@ public class DAOSortResultSets extends HibernateUtil {
     final SearchResponse rs,
     String[] attributes,
     String[] directions)
-    throws DataAccessException {
+    {
     final String orderBy = buildOrderByClause(attributes, directions);
     /*
      * We use a transaction here to ensure that a commit is NOT done after the
@@ -36,7 +36,7 @@ public class DAOSortResultSets extends HibernateUtil {
      */
     new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
-        throws DataAccessException {
+         {
         SearchResponse sortedResults;
         insertResults(rs);
         doSort(orderBy, rs);
@@ -48,11 +48,11 @@ public class DAOSortResultSets extends HibernateUtil {
   private void doSort(
     final String orderBy,
     final SearchResponse rs)
-    throws DataAccessException {
+     {
 
     new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
-        throws HibernateException, DataAccessException {
+        throws HibernateException {
         Connection connection = s.connection();
         PreparedStatement stmt = null;
         java.sql.ResultSet js = null;
@@ -104,14 +104,12 @@ public class DAOSortResultSets extends HibernateUtil {
   }
 
 
-  private void insertResults(final SearchResponse rs)
-    throws DataAccessException {
+  private void insertResults(final SearchResponse rs) {
     new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
-        throws HibernateException, DataAccessException {
+        throws HibernateException {
         Connection connection = s.connection();
         PreparedStatement stmt = null;
-        int[] iNoRows = null;
 
         try {
           stmt = connection.prepareStatement(
@@ -120,7 +118,7 @@ public class DAOSortResultSets extends HibernateUtil {
             stmt.setInt(1, rs.getIdSet()[i]);
             stmt.addBatch();
           }
-          iNoRows = stmt.executeBatch();
+          stmt.executeBatch();
         } catch (SQLException e) {
           throw new DataAccessException();
         } finally {

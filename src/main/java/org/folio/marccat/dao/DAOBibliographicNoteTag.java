@@ -27,7 +27,8 @@ import java.util.Iterator;
 
 public class DAOBibliographicNoteTag extends AbstractDAO {
 
-  public void delete(Persistence po, final Session session) throws DataAccessException, HibernateException {
+	@Override
+  public void delete(Persistence po, final Session session) throws HibernateException {
     if (!(po instanceof BibliographicNoteTag)) {
       throw new IllegalArgumentException("I can only persist BibliographicNoteTag objects");
     }
@@ -52,7 +53,7 @@ public class DAOBibliographicNoteTag extends AbstractDAO {
    * @see HibernateUtil#save(librisuite.business.common.Persistence)
    */
   @Override
-  public void save(final Persistence po, final Session session) throws DataAccessException, HibernateException {
+  public void save(final Persistence po, final Session session) throws HibernateException {
     if (!(po instanceof BibliographicNoteTag)) {
       throw new IllegalArgumentException("I can only persist BibliographicNoteTag objects");
     }
@@ -110,7 +111,7 @@ public class DAOBibliographicNoteTag extends AbstractDAO {
    * @see HibernateUtil#update(librisuite.business.common.Persistence)
    */
   @Override
-  public void update(final Persistence p, final Session session) throws DataAccessException {
+  public void update(final Persistence p, final Session session) {
     try {
       save(p, session);
     } catch (HibernateException e) {

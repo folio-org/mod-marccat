@@ -7,17 +7,12 @@
  */
 package org.folio.marccat.dao;
 
-import net.sf.hibernate.Hibernate;
+import org.folio.marccat.dao.common.TransactionalHibernateOperation;
+import org.folio.marccat.dao.persistence.S_INVTRY;
+
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.LockMode;
 import net.sf.hibernate.Session;
-import net.sf.hibernate.type.Type;
-import org.folio.marccat.dao.common.TransactionalHibernateOperation;
-import org.folio.marccat.dao.persistence.Inventory;
-import org.folio.marccat.dao.persistence.S_INVTRY;
-import org.folio.marccat.exception.DataAccessException;
-
-import java.util.List;
 
 /**
  * @author paulm
@@ -26,8 +21,7 @@ import java.util.List;
  */
 public class DAOInventory extends AbstractDAO {
 
-  public int getNextNumber(final int mainLibrary)
-    throws DataAccessException {
+  public int getNextNumber(final int mainLibrary) {
     final S_INVTRY nextNumber =
       (S_INVTRY) get(S_INVTRY.class,
         (mainLibrary),

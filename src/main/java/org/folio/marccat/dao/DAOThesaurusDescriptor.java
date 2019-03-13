@@ -13,7 +13,6 @@ import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.dao.common.TransactionalHibernateOperation;
 import org.folio.marccat.dao.persistence.Descriptor;
 import org.folio.marccat.dao.persistence.THS_HDG;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.ReferentialIntegrityException;
 
 import net.sf.hibernate.HibernateException;
@@ -27,7 +26,7 @@ import net.sf.hibernate.Session;
  */
 public class DAOThesaurusDescriptor extends DAODescriptor {
 
-  static protected Class persistentClass = THS_HDG.class;
+  protected static Class persistentClass = THS_HDG.class;
 
   /* (non-Javadoc)
    * @see com.libricore.librisuite.business.Descriptor#getPersistentClass()
@@ -41,7 +40,7 @@ public class DAOThesaurusDescriptor extends DAODescriptor {
     return true;
   }
 
-  public List getHeadingsBySortform(String operator, String direction, String term, String filter, int cataloguingView, int count) throws DataAccessException {
+  public List getHeadingsBySortform(String operator, String direction, String term, String filter, int cataloguingView, int count) {
     Session s = currentSession();
     List l = null;
     try {
@@ -92,7 +91,7 @@ public class DAOThesaurusDescriptor extends DAODescriptor {
    *
    * @since 1.0
    */
-  public void deleteDescriptor(final Persistence p) throws DataAccessException {
+  public void deleteDescriptor(final Persistence p) {
     new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
         throws HibernateException {

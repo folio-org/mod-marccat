@@ -51,7 +51,7 @@ public class ElectronicResource extends PhysicalDescription {
   }
 
   @Override
-  public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
+  public void generateNewKey(final Session session) throws HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
     setKeyNumber(dao.getNextNumber("XA", session));
   }

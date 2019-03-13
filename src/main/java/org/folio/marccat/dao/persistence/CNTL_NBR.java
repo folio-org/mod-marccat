@@ -1,7 +1,8 @@
 package org.folio.marccat.dao.persistence;
 
+import static org.folio.marccat.config.log.Global.EMPTY_STRING;
+
 import org.folio.marccat.business.cataloguing.authority.AuthorityControlNumberAccessPoint;
-import org.folio.marccat.business.common.SortFormException;
 import org.folio.marccat.business.descriptor.SortFormParameters;
 import org.folio.marccat.business.descriptor.SortformUtils;
 import org.folio.marccat.config.log.Log;
@@ -10,8 +11,6 @@ import org.folio.marccat.dao.ControlNumberDescriptorDAO;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
-
-import static org.folio.marccat.config.log.Global.EMPTY_STRING;
 
 /**
  * Hibernate class for table CNTL_NBR.

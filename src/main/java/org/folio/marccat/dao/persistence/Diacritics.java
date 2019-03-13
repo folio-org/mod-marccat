@@ -86,7 +86,7 @@ public class Diacritics implements Persistence, Serializable {
   }
 
   @Override
-  public void evict() throws DataAccessException {
+  public void evict() {
 	  throw new UnsupportedOperationException();
 
   }

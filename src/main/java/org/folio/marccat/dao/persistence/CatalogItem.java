@@ -30,7 +30,7 @@ public abstract class CatalogItem implements Serializable {
   protected List<Tag> deletedTags = new ArrayList<>();
   protected ModelItem modelItem;
   protected List<Tag> tags = new ArrayList<>();
-  private Log logger = new Log(CatalogItem.class);
+  private transient Log logger = new Log(CatalogItem.class);
 
   public CatalogItem() {
     super();

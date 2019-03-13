@@ -1,16 +1,16 @@
 package org.folio.marccat.dao;
 
-import net.sf.hibernate.Hibernate;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.type.Type;
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.dao.common.TransactionalHibernateOperation;
 import org.folio.marccat.dao.persistence.NME_TTL_HDG;
 import org.folio.marccat.dao.persistence.NameAccessPoint;
 import org.folio.marccat.dao.persistence.NameTitleAccessPoint;
 import org.folio.marccat.dao.persistence.TitleAccessPoint;
-import org.folio.marccat.exception.DataAccessException;
+
+import net.sf.hibernate.Hibernate;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.type.Type;
 
 /**
  * Data access object to Name-Title access point.
@@ -21,7 +21,7 @@ import org.folio.marccat.exception.DataAccessException;
  */
 public class DAONameTitleAccessPoint extends AbstractDAO {
 	@Override
-  public void delete(final Persistence p) throws DataAccessException {
+  public void delete(final Persistence p) {
 
     super.delete(p);
     new TransactionalHibernateOperation() {
@@ -65,7 +65,6 @@ public class DAONameTitleAccessPoint extends AbstractDAO {
         ((NME_TTL_HDG) nt.getDescriptor()).getNameHeadingNumber()));
     a.setUserViewString(nt.getUserViewString());
     a.setFunctionCode((short) 0);
-    persistByStatus(a);
     TitleAccessPoint b = new TitleAccessPoint(nt.getItemNumber());
     b.setNameTitleHeadingNumber(nt.getHeadingNumber().intValue());
     b.setHeadingNumber(
@@ -73,7 +72,6 @@ public class DAONameTitleAccessPoint extends AbstractDAO {
         ((NME_TTL_HDG) nt.getDescriptor()).getTitleHeadingNumber()));
     b.setUserViewString(nt.getUserViewString());
     b.setFunctionCode((short) 0);
-    persistByStatus(b);
   }
 
 }

@@ -1,16 +1,16 @@
 package org.folio.marccat.dao.persistence;
 
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.DAOCollectionMaster;
-import org.folio.marccat.exception.DataAccessException;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
 
 public class CollectionMaster implements Persistence {
   private static final long serialVersionUID = 2522128570785338271L;

@@ -23,6 +23,8 @@ public class DAOCopy extends AbstractDAO {
 
 
 	private static Log logger = new Log(DAOCopy.class);
+	private String queryBibItemNumber = " and c.bibItemNumber = ?";
+	private String querySelect = "select count(*) from CPY_ID as c where c.shelfListKeyNumber = ?";
 
 	/**
 	 * Loads copy by copy number.
@@ -60,8 +62,7 @@ public class DAOCopy extends AbstractDAO {
 	 * @return the amicus number.
 	 * @throws DataAccessException in case of hibernate exception.
 	 */
-	public int getBibItemNumber(final Session session, final String barCode) throws DataAccessException {
-		int result = 0;
+	public int getBibItemNumber(final Session session, final String barCode) {
 
 		try {
 			List<CPY_ID> listAllCopies = session.find("from CPY_ID ci where ci.barCodeNumber = '" + barCode + "'");
@@ -80,7 +81,7 @@ public class DAOCopy extends AbstractDAO {
 	 * @since 1.0
 	 */
 
-	public int getBibItemNumber(int copyIdNumber) throws DataAccessException {
+	public int getBibItemNumber(int copyIdNumber) {
 		int result = 0;
 
 		List listAllCopies = null;
@@ -102,11 +103,10 @@ public class DAOCopy extends AbstractDAO {
 	}
 
 
-	public void delete(final int copyNumber, final String userName) throws DataAccessException {
+	public void delete(final int copyNumber, final String userName) {
 		new TransactionalHibernateOperation() {
 			public void doInHibernateTransaction(Session s)
-					throws HibernateException,
-					DataAccessException {
+					throws HibernateException {
 				// TODO make sure no circulation records (AMICUS doesn't)
 				CPY_ID copy = (CPY_ID) s.get(CPY_ID.class, (
 						copyNumber));
@@ -136,8 +136,7 @@ public class DAOCopy extends AbstractDAO {
 		}.execute();
 	}
 
-	public void detachShelfList(CPY_ID copy, SHLF_LIST shelf)
-			throws DataAccessException {
+	public void detachShelfList(CPY_ID copy, SHLF_LIST shelf) {
 		Session s = currentSession();
 
 		if (shelf == null) {
@@ -155,7 +154,7 @@ public class DAOCopy extends AbstractDAO {
 				s
 				.delete(
 						"from SHLF_LIST_ACS_PNT as c where c.shelfListKeyNumber = ?"
-								+ " and c.bibItemNumber = ?",
+								+ queryBibItemNumber,
 								new Object[]{
 										(shelf
 												.getShelfListKeyNumber()),
@@ -167,7 +166,7 @@ public class DAOCopy extends AbstractDAO {
 				 * delete the shelf list number
 				 */
 				List l = find(
-						"select count(*) from CPY_ID as c where c.shelfListKeyNumber = ?",
+						querySelect,
 						new Object[]{(shelf
 								.getShelfListKeyNumber())},
 						new Type[]{Hibernate.INTEGER});
@@ -188,8 +187,8 @@ public class DAOCopy extends AbstractDAO {
 	public int countShelfListAccessPointUses(CPY_ID copy, SHLF_LIST shelf)
 	{
 		List l = find(
-				"select count(*) from CPY_ID as c where c.shelfListKeyNumber = ?"
-						+ " and c.bibItemNumber = ?", new Object[]{
+				querySelect
+						+ queryBibItemNumber, new Object[]{
 								(shelf.getShelfListKeyNumber()),
 								(copy.getBibItemNumber())}, new Type[]{
 										Hibernate.INTEGER, Hibernate.INTEGER});
@@ -208,8 +207,8 @@ public class DAOCopy extends AbstractDAO {
 	public int countShelfFromCopyUses(CPY_ID copy, SHLF_LIST shelf)
 	{
 		List l = find(
-				"select count(*) from CPY_ID as c where c.shelfListKeyNumber = ?"
-						+ " and c.bibItemNumber = ?"
+				querySelect
+						+ queryBibItemNumber
 						+ " and c.copyIdNumber = ?", new Object[]{
 								(shelf.getShelfListKeyNumber()),
 								(copy.getBibItemNumber()),
@@ -277,9 +276,8 @@ public class DAOCopy extends AbstractDAO {
 				throw new SortFormException(String.valueOf(rc));
 			}
 			result = proc.getString(3);
-		} catch (HibernateException e) {
-			logAndWrap(e);
-		} catch (SQLException e) {
+		} catch (SQLException | HibernateException e) {
+			logger.error(e.getMessage(), e);
 			logAndWrap(e);
 		} finally {
 			try {
@@ -287,14 +285,14 @@ public class DAOCopy extends AbstractDAO {
 					proc.close();
 				}
 			} catch (SQLException e) {
-				e.printStackTrace();
+				logger.error(e.getMessage(), e);
 			}
 		}
 		return result;
 	}
 
 
-	public void saveCpyIdAgent(String userName, int cpyIdNbr) throws DataAccessException {
+	public void saveCpyIdAgent(String userName, int cpyIdNbr) {
 		Connection connection = null;
 		PreparedStatement stmt0 = null;
 		PreparedStatement stmt1 = null;
@@ -320,11 +318,8 @@ public class DAOCopy extends AbstractDAO {
 				stmt2.execute();
 			}
 			/* Il commit o rollback lo fa hibernate in automatico se le operazioni successive vanno bene: quindi se sulla CPY_ID va tutto ok committa altrimenti no */
-		} catch (HibernateException e) {
-			e.printStackTrace();
-			logAndWrap(e);
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (HibernateException | SQLException e) {
+			logger.error(e.getMessage(), e);
 			logAndWrap(e);
 		} finally {
 			try {
@@ -338,7 +333,7 @@ public class DAOCopy extends AbstractDAO {
 					stmt2.close();
 				}
 			} catch (SQLException e) {
-				e.printStackTrace();
+				logger.error(e.getMessage(), e);
 				logAndWrap(e);
 			}
 		}

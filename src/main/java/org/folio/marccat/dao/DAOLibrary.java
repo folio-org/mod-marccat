@@ -33,7 +33,7 @@ import java.util.*;
 public class DAOLibrary extends HibernateUtil {
   private Log logger = LogFactory.getLog(DAOLibrary.class);
 
-  public LIB load(int organisationNumber) throws DataAccessException {
+  public LIB load(int organisationNumber) {
     return (LIB) load(LIB.class, (organisationNumber));
   }
 
@@ -162,7 +162,7 @@ public class DAOLibrary extends HibernateUtil {
     int theMinutes = 0;
     try {
       LIB_HRS_OPRTN libSchedule = (LIB_HRS_OPRTN) s.get(
-        LIB_HRS_OPRTN.class, new Integer(orgNbr));
+        LIB_HRS_OPRTN.class, (orgNbr));
       Calendar theDay = new GregorianCalendar();
       int dayOfWeek = theDay.get(Calendar.DAY_OF_WEEK);
       if (dayOfWeek == Calendar.MONDAY) {
@@ -295,12 +295,12 @@ logger.error(e.getMessage());    }
 
   }
 
-  public List getTimeTable() throws DataAccessException {
+  public List getTimeTable() {
 	  return Collections.emptyList(); 
   }
 
 
-  public void save(final LIB_HRS_OPRTN libHours) throws DataAccessException {
+  public void save(final LIB_HRS_OPRTN libHours) {
     new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s) throws HibernateException {
         s.save(libHours);
@@ -309,7 +309,7 @@ logger.error(e.getMessage());    }
   }
 
 
-  public void edit(final LIB_HRS_OPRTN libHours) throws DataAccessException {
+  public void edit(final LIB_HRS_OPRTN libHours) {
     new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s) throws HibernateException {
         s.update(libHours);
@@ -318,7 +318,7 @@ logger.error(e.getMessage());    }
   }
 
 
-  public void delete(final LIB_HRS_OPRTN libHours) throws DataAccessException {
+  public void delete(final LIB_HRS_OPRTN libHours) {
     new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s) throws HibernateException {
         s.delete(libHours);
@@ -326,7 +326,7 @@ logger.error(e.getMessage());    }
     }.execute();
   }
 
-  public void saveClosedDates(final LIB_DTE_CLSE closedDates) throws DataAccessException {
+  public void saveClosedDates(final LIB_DTE_CLSE closedDates) {
     new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
         throws HibernateException {
@@ -336,7 +336,7 @@ logger.error(e.getMessage());    }
   }
 
 
-  public void deleteClosedDates(final LIB_DTE_CLSE closedDates) throws DataAccessException {
+  public void deleteClosedDates(final LIB_DTE_CLSE closedDates) {
     new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
         throws HibernateException {

@@ -13,7 +13,7 @@ import org.w3c.dom.Text;
 
 public abstract class DateOfLastTransactionTag extends FixedFieldUsingItemEntity {
 
-  private Log logger = LogFactory.getLog(DateOfLastTransactionTag.class);
+  private transient Log logger = LogFactory.getLog(DateOfLastTransactionTag.class);
   private String formatDat = "yyyyMMddHHmmss.S";
 
 public DateOfLastTransactionTag() {
