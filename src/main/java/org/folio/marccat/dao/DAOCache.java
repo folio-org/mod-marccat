@@ -30,7 +30,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @version $Revision: 1.1 $, $Date: 2005/02/02 14:09:42 $
  * @since 1.0
  */
-//TODO: use session from storageService and class must extends from AbstractDAO
 public class DAOCache extends HibernateUtil {
 
   private static final Log logger = LogFactory.getLog(DAOCache.class);

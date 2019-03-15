@@ -58,7 +58,6 @@ public class LDG_STATS implements Serializable, Persistence {
     persistenceState.confirmChanges();
   }
 
-  //todo
   public void evict(Object obj) throws DataAccessException {
     persistenceState.evict(obj);
   }

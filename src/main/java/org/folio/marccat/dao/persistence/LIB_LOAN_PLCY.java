@@ -17,7 +17,6 @@ import java.util.Date;
  */
 public class LIB_LOAN_PLCY implements Serializable {
 
-  //TODO cambiar quality por quantity
   private int libraryLoanPolicyNumber;
   private int organisationNumber;
   private char loanPeriodCode;

@@ -27,7 +27,6 @@ public abstract class GeographicAreaTag extends VariableHeaderUsingItemEntity {
 
   @Override
   public void setStringText(StringText st) {
-//TODO need a more definitive way to set to null		
     if (st.toString().equals(Subfield.SUBFIELD_DELIMITER + "a")) {
       getItemEntity().setGeographicAreaStringText(null);
     } else {
