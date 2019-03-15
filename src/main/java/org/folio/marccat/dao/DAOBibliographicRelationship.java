@@ -108,7 +108,6 @@ public class DAOBibliographicRelationship extends AbstractDAO {
         stringText.addSubfield(
           new Subfield("t", t.getStringText().toDisplayString()));
       }
-      // TODO _MIKE: This code is evil! Cavolo, non va per niente bene...
       else logger.error("245 is a required tag");
     }
 
@@ -173,9 +172,6 @@ public class DAOBibliographicRelationship extends AbstractDAO {
       new Subfield("e", item.getBibItmData().getLanguageCode()));
     stringText.addSubfield(
       new Subfield("f", item.getBibItmData().getMarcCountryCode()));
-
-    //TODO add missing subfields s and k
-
     return stringText;
   }
 }

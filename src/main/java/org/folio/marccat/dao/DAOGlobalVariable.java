@@ -33,7 +33,6 @@ public class DAOGlobalVariable extends HibernateUtil implements Serializable {
     throw new IllegalArgumentException("don't call me!");
   }
 
-  //TODO null exception if variable doesn't exist
   public String getValueByName(final String name, final Session session) {
     String valueByName = null;
     S_SYS_GLBL_VRBL ss = ((S_SYS_GLBL_VRBL) get(session, S_SYS_GLBL_VRBL.class, name));

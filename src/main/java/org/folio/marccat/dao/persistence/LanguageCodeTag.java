@@ -8,9 +8,6 @@ import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
 public class LanguageCodeTag extends VariableHeaderUsingItemEntity {
-  //TODO saveUndoSave doesn't work
-  //TODO subfield a should be validated against code table
-
   private static final long serialVersionUID = -8659240725828529186L;
 
   private static final Log logger = LogFactory.getLog(LanguageCodeTag.class);
@@ -37,7 +34,6 @@ public class LanguageCodeTag extends VariableHeaderUsingItemEntity {
 
 @Override  
   public void setStringText(StringText st) {
-    //TODO need a more definitive way to set to null
     if (st.toString().equals(Subfield.SUBFIELD_DELIMITER + "a")) {
       ((BIB_ITM) getItemEntity()).setLanguageStringText(null);
       ((BIB_ITM) getItemEntity()).setTranslationCode(null);
@@ -63,8 +59,6 @@ public class LanguageCodeTag extends VariableHeaderUsingItemEntity {
 
   private void setBibItm(BIB_ITM bib_itm) {
     super.setItemEntity(bib_itm);
-    /* Bug 4115 inizio modifiche Carmen */
-    //TODO Carmen , fare reactoring mettendo un metodo che dice se è presente il $2 (Source of code)
     if ("0".equals(bib_itm.getTranslationCode()) && ((BIB_ITM) getItemEntity()).getLanguageStringText().indexOf(Subfield.SUBFIELD_DELIMITER + "2") == -1) {
       setHeaderType((short) 2);
     } else if ("1".equals(bib_itm.getTranslationCode()) && ((BIB_ITM) getItemEntity()).getLanguageStringText().indexOf(Subfield.SUBFIELD_DELIMITER + "2") == -1) {

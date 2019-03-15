@@ -60,7 +60,7 @@ public class T_SINGLE_INT extends CodeTable {
   }
 
   public int getNextNumber() throws DataAccessException {
-    // TODO Auto-generated method stub
+
     return 0;
   }
 }

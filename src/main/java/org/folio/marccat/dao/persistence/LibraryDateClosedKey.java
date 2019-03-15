@@ -44,7 +44,7 @@ public class LibraryDateClosedKey implements Serializable {
 
 
   public int hashCode() {
-    return getOrganisationNumber(); //TODO don't know if this is right
+    return getOrganisationNumber();
   }
 
   /**

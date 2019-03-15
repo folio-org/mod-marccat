@@ -107,7 +107,6 @@ public class DAOCopy extends AbstractDAO {
 		new TransactionalHibernateOperation() {
 			public void doInHibernateTransaction(Session s)
 					throws HibernateException {
-				// TODO make sure no circulation records (AMICUS doesn't)
 				CPY_ID copy = (CPY_ID) s.get(CPY_ID.class, (
 						copyNumber));
 				if (copy.getShelfListKeyNumber() != null) {
