@@ -160,14 +160,11 @@ public class TTL_HDG extends Descriptor implements SkipInFiling, Serializable {
     return new CorrelationValues();
   }
 
-  /* (non-Javadoc)
-   * @see Descriptor#setCorrelationValues(CorrelationValues)
-   */
   @Override
   public void setCorrelationValues(CorrelationValues v) {
-	  throw new UnsupportedOperationException();
 
   }
+
 
   /* (non-Javadoc)
    * @see Descriptor#getSortFormParameters()
