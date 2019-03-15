@@ -73,11 +73,11 @@ public class DiscardCopy implements Persistence, Serializable {
   }
 
 
-  public void evict(Object obj) throws DataAccessException {
+  public void evict(Object obj) {
     persistenceState.evict(obj);
   }
 
-  public void evict() throws DataAccessException {
+  public void evict() {
     persistenceState.evict(this);
   }
 
@@ -157,11 +157,6 @@ public class DiscardCopy implements Persistence, Serializable {
   public AbstractDAO getDAO() {
     return new DAODiscard();
   }
-
-	/*
-	@Override
-	public void generateNewKey() throws DataAccessException {
-	}*/
 
   public Date getDiscardDate() {
     return discardDate;

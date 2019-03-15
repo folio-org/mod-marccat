@@ -10,6 +10,7 @@ import org.folio.marccat.dao.persistence.Descriptor;
 import org.folio.marccat.dao.persistence.PUBL_HDG;
 import org.folio.marccat.dao.persistence.PUBL_TAG;
 import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.ModMarccatException;
 
 import java.util.List;
 
@@ -63,7 +64,7 @@ public class PublisherTagDescriptorDAO extends DAODescriptor {
           publTag.setDescriptor(publHdg);
           descriptor.getPublisherTagUnits().add(publTag);
         } catch (HibernateException e) {
-          throw new RuntimeException(e);
+          throw new ModMarccatException(e);
         }
       }
     });

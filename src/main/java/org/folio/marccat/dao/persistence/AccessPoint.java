@@ -1,7 +1,10 @@
 package org.folio.marccat.dao.persistence;
 
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
+import static java.util.Optional.ofNullable;
+
+import java.sql.SQLException;
+import java.util.Set;
+
 import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
 import org.folio.marccat.business.cataloguing.common.Browsable;
 import org.folio.marccat.business.common.Persistence;
@@ -9,14 +12,11 @@ import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.business.descriptor.SkipInFiling;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.DAODescriptor;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.util.StringText;
 import org.w3c.dom.Element;
 
-import java.sql.SQLException;
-import java.util.Set;
-
-import static java.util.Optional.ofNullable;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 
 /**
  * Abstract class to manage access point class.
@@ -166,7 +166,7 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
   public abstract void setAccessPointStringText(StringText stringText);
 
   @Override
-  public CorrelationKey getMarcEncoding() throws DataAccessException {
+  public CorrelationKey getMarcEncoding() {
     return (getDescriptor() instanceof SkipInFiling)
       ? (super.getMarcEncoding()).changeSkipInFilingIndicator(getDescriptor().getSkipInFiling())
       : super.getMarcEncoding();

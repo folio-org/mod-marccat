@@ -21,7 +21,7 @@ public interface ExpressionNode {
    * @return the value of this expression node.
    * @throws CclParserException in case of parsing failure.
    */
-  String getValue() throws CclParserException;
+  String getValue();
 
   /**
    * Node type list.

@@ -287,11 +287,9 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
       if (Global.SUBJECTS_E.contains(marc.getMarcTag())) {
         result.addPrecedingPunctuation("e", ",", ",");
       }
-      if (Global.SUBJECTS_4.contains(marc.getMarcTag())) {
-        if (!result.getSubfieldsWithCodes("t").isEmpty()) {
+      if (Global.SUBJECTS_4.contains(marc.getMarcTag()) && !result.getSubfieldsWithCodes("t").isEmpty()) {
           result.addTerminalPunctuation("4", ".?!)]-", ".");
         }
-      }
       return result;
     } catch (Exception e) {
       return result;

@@ -17,7 +17,10 @@ import static org.folio.marccat.resources.shared.FixedFieldUtils.isFixedField;
 
 public class RecordUtils {
 
-
+	private RecordUtils() {
+		throw new UnsupportedOperationException("This is an utility class");
+	}
+	
   /**
    * Sets the default leader value.
    *

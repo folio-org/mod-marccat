@@ -44,6 +44,7 @@ public class T_VIEW_LONGCHAR extends CodeTable {
   /* (non-Javadoc)
    * @see java.lang.Object#equals(java.lang.Object)
    */
+  @Override
   public boolean equals(Object arg0) {
     if (arg0.getClass().equals(this.getClass())) {
       T_VIEW_LONGCHAR t = (T_VIEW_LONGCHAR) arg0;
@@ -56,6 +57,7 @@ public class T_VIEW_LONGCHAR extends CodeTable {
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
+  @Override
   public int hashCode() {
     return getCode().hashCode();
   }

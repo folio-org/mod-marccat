@@ -1,12 +1,11 @@
 package org.folio.marccat.business.common.group;
 
 import org.folio.marccat.business.cataloguing.common.Tag;
-import org.folio.marccat.exception.DataAccessException;
 
 public interface GroupManager {
-  TagGroup getGroup(Tag tag) throws DataAccessException;
+  TagGroup getGroup(Tag tag);
 
-  boolean isSameGroup(Tag tag1, Tag tag2) throws DataAccessException;
+  boolean isSameGroup(Tag tag1, Tag tag2);
 
   void add(TagGroup group);
 }

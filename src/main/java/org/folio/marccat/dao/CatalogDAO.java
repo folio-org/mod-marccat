@@ -41,7 +41,7 @@ public abstract class CatalogDAO extends AbstractDAO {
    * @throws HibernateException  in case of hibernate exception.
    * @throws DataAccessException in case of data access failure.
    */
-  public void deleteCatalogItem(final CatalogItem item, final Session session) throws HibernateException, DataAccessException {
+  public void deleteCatalogItem(final CatalogItem item, final Session session) throws HibernateException {
     final Transaction transaction = getTransaction(session);
     item.getTags().stream()
       .filter(aTag -> !(aTag instanceof PublisherManager || aTag instanceof BibliographicNoteTag) && aTag instanceof Persistence)
@@ -64,7 +64,7 @@ public abstract class CatalogDAO extends AbstractDAO {
 
   protected abstract void updateItemDisplayCacheTable(final CatalogItem item, final Session session) throws HibernateException;
 
-  protected abstract void insertDeleteTable(final CatalogItem item, final UserProfile user) throws DataAccessException;
+  protected abstract void insertDeleteTable(final CatalogItem item, final UserProfile user);
 
   /**
    * For each heading in tag, load and set owner descriptor.
@@ -74,10 +74,8 @@ public abstract class CatalogDAO extends AbstractDAO {
    * @param session  -- the current hibernate session.
    * @throws DataAccessException in case of data access failure.
    */
-  protected void loadHeadings(final List<? extends PersistentObjectWithView> allTags, final int userView, final Session session) throws DataAccessException {
-    allTags.forEach(tag -> {
-      loadHeading((AccessPoint) tag, userView, session);
-    });
+  protected void loadHeadings(final List<? extends PersistentObjectWithView> allTags, final int userView, final Session session) {
+    allTags.forEach(tag -> loadHeading((AccessPoint) tag, userView, session));
   }
 
   private void loadHeading(final AccessPoint tag, final int userView, final Session session) {

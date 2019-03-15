@@ -1,20 +1,20 @@
 package org.folio.marccat.dao;
 
-import net.sf.hibernate.Hibernate;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.type.Type;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.cataloguing.bibliographic.BibliographicItem;
 import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
 import org.folio.marccat.dao.persistence.BibliographicRelationship;
 import org.folio.marccat.dao.persistence.NameAccessPoint;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.util.StringText;
 
-import java.util.List;
+import net.sf.hibernate.Hibernate;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.type.Type;
 
 /**
  * @author hansv
@@ -24,7 +24,7 @@ import java.util.List;
 public class DAOBibliographicRelationship extends AbstractDAO {
   private static final Log logger = LogFactory.getLog(DAOBibliographicRelationship.class);
 
-  public short getReciprocalBibItem(int bibItemNumber, int targetBibItemNumber, int userView) throws DataAccessException {
+  public short getReciprocalBibItem(int bibItemNumber, int targetBibItemNumber, int userView) {
     Session s = currentSession();
     List l = null;
     try {
@@ -53,7 +53,7 @@ public class DAOBibliographicRelationship extends AbstractDAO {
     return 2;
   }
 
-  public BibliographicRelationship loadReciprocalBibItem(int bibItemNumber, int targetBibItemNumber, int userView) throws DataAccessException {
+  public BibliographicRelationship loadReciprocalBibItem(int bibItemNumber, int targetBibItemNumber, int userView) {
     BibliographicRelationship relationship = null;
     try {
       List multiView =
@@ -71,7 +71,7 @@ public class DAOBibliographicRelationship extends AbstractDAO {
 
       List singleView = isolateViewForList(multiView, userView);
 
-      if (singleView.size() > 0) {
+      if (!singleView.isEmpty()) {
         return (BibliographicRelationship) singleView.get(0);
       }
     } catch (HibernateException e) {
@@ -81,7 +81,7 @@ public class DAOBibliographicRelationship extends AbstractDAO {
     return relationship;
   }
 
-  public StringText buildRelationStringText(int bibItemNumber, int userView) throws DataAccessException {
+  public StringText buildRelationStringText(int bibItemNumber, int userView) {
     StringText stringText = new StringText();
     BibliographicCatalogDAO catalog = new BibliographicCatalogDAO();
 
@@ -90,7 +90,7 @@ public class DAOBibliographicRelationship extends AbstractDAO {
     /* Name Tags */
 
     VariableField t = (VariableField) item.findFirstTagByNumber("1");
-    if (t != null && t instanceof NameAccessPoint) {
+    if (t instanceof NameAccessPoint) {
       stringText.addSubfield(
         new Subfield("a", t.getStringText().toDisplayString()));
     }

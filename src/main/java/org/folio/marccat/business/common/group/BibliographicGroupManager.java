@@ -4,8 +4,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.regexp.RESyntaxException;
 import org.folio.marccat.business.cataloguing.common.Tag;
-import org.folio.marccat.business.common.filter.*;
-import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.business.common.filter.FilterManager;
+import org.folio.marccat.business.common.filter.GroupTagFilter;
+import org.folio.marccat.business.common.filter.NoTagFilter;
+import org.folio.marccat.business.common.filter.SingleTagFilter;
+import org.folio.marccat.business.common.filter.TagFilter;
 
 
 /**
@@ -60,7 +63,7 @@ public class BibliographicGroupManager extends MarcGroupManager implements Filte
   /* (non-Javadoc)
    * @see FilterManager#getFilter(Tag)
    */
-  public TagFilter getFilter(Tag tag) throws DataAccessException {
+  public TagFilter getFilter(Tag tag) {
     TagGroup group = getGroup(tag);
     if (group == null) return NO_TAG_FILTER;
     else if (group.isCanSort() && group.isSingleSort()) {

@@ -101,6 +101,7 @@ public class ShelfListDAO extends DAODescriptor {
    * @throws HibernateException the hibernate exception
    */
   @SuppressWarnings("unchecked")
+  @Override
   public int getDocCount(final Descriptor d, final int cataloguingView, final Session session) throws HibernateException {
     List<Integer> countList = session.find(
       " select count(*) from "
@@ -130,10 +131,11 @@ public class ShelfListDAO extends DAODescriptor {
    * @throws DataAccessException the data access exception
    * @throws HibernateException  the hibernate exception
    */
+  @Override
   public List<Descriptor> getHeadingsBySortform(final String operator, final String direction,
                                                 final String term, final String filter, final int searchingView,
                                                 final int count, final Session session)
-    throws DataAccessException, HibernateException {
+    throws HibernateException {
     final Query q = session.createQuery("from " + getPersistentClass().getName()
       + " as hdg where hdg.sortForm " + operator + " :term "
       + filter + " order by hdg.sortForm "
@@ -153,6 +155,7 @@ public class ShelfListDAO extends DAODescriptor {
    * @throws HibernateException the hibernate exception
    */
   @SuppressWarnings("unchecked")
+  @Override
   public Descriptor getMatchingHeading(final Descriptor descriptor, final Session session)
     throws HibernateException {
     final SHLF_LIST shelf = (SHLF_LIST) descriptor;
@@ -182,6 +185,7 @@ public class ShelfListDAO extends DAODescriptor {
    * @throws HibernateException the hibernate exception
    */
   @SuppressWarnings("unchecked")
+  @Override
   public boolean isMatchingAnotherHeading(final Descriptor descriptor, final Session session)
     throws HibernateException {
     SHLF_LIST shelf = (SHLF_LIST) descriptor;
@@ -212,6 +216,7 @@ public class ShelfListDAO extends DAODescriptor {
    *
    * @return true, if successful
    */
+  @Override
   public boolean supportsCrossReferences() {
     return false;
   }
@@ -224,6 +229,7 @@ public class ShelfListDAO extends DAODescriptor {
    * @return the descriptor
    * @throws DataAccessException the data access exception
    */
+  @Override
   public Descriptor load(int headingNumber, int cataloguingView, final Session session) throws DataAccessException, HibernateException {
     return load(headingNumber, session);
   }
@@ -236,6 +242,7 @@ public class ShelfListDAO extends DAODescriptor {
    * @param session    the session
    * @throws HibernateException the hibernate exception
    */
+  @Override
   public void persist(final Descriptor descriptor, final Session session) throws HibernateException {
     if (descriptor.isNew()) {
       ((SHLF_LIST) descriptor).setShelfListKeyNumber(
@@ -252,6 +259,7 @@ public class ShelfListDAO extends DAODescriptor {
    * @throws ReferentialIntegrityException the referential integrity exception
    * @throws HibernateException            the hibernate exception
    */
+  @Override
   public void delete(final Persistence p, final Session session) throws ReferentialIntegrityException, HibernateException {
     final SHLF_LIST descriptor = ((SHLF_LIST) p);
     final List<Integer> countList = session.find("select count(*) from " + descriptor.getAccessPointClass().getName() + " as a where a.shelfListKeyNumber = ?",

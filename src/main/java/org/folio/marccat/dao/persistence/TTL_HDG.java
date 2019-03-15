@@ -47,6 +47,7 @@ public class TTL_HDG extends Descriptor implements SkipInFiling, Serializable {
    *
    * @return the copy to subject indicator
    */
+  @Override
   public char getCopyToSubjectIndicator() {
     return copyToSubjectIndicator;
   }
@@ -56,6 +57,7 @@ public class TTL_HDG extends Descriptor implements SkipInFiling, Serializable {
    *
    * @param c the new copy to subject indicator
    */
+  @Override
   public void setCopyToSubjectIndicator(char c) {
     copyToSubjectIndicator = c;
   }
@@ -63,6 +65,7 @@ public class TTL_HDG extends Descriptor implements SkipInFiling, Serializable {
   /* (non-Javadoc)
    * @see Descriptor#getIndexingLanguage()
    */
+  @Override
   public int getIndexingLanguage() {
     return indexingLanguage;
   }
@@ -70,6 +73,7 @@ public class TTL_HDG extends Descriptor implements SkipInFiling, Serializable {
   /* (non-Javadoc)
    * @see Descriptor#setIndexingLanguage(int)
    */
+  @Override
   public void setIndexingLanguage(int s) {
     indexingLanguage = s;
   }
@@ -161,6 +165,7 @@ public class TTL_HDG extends Descriptor implements SkipInFiling, Serializable {
    */
   @Override
   public void setCorrelationValues(CorrelationValues v) {
+	  throw new UnsupportedOperationException();
 
   }
 
@@ -181,6 +186,7 @@ public class TTL_HDG extends Descriptor implements SkipInFiling, Serializable {
   /* (non-Javadoc)
    * @see Descriptor#changeAffectsCacheTable()
    */
+  @Override
   public boolean changeAffectsCacheTable() {
     return true;
   }

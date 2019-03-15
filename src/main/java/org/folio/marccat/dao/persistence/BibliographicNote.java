@@ -179,6 +179,9 @@ public class BibliographicNote extends VariableField implements PersistentObject
     overflowList = list;
   }
 
+  /**
+   * @deprecated
+   */
   @Deprecated
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
     if (v.getValue(1) == Global.PUBLISHER_DEFAULT_NOTE_TYPE) {

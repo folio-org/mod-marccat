@@ -95,7 +95,7 @@ public class DescriptorKey implements Serializable {
    * @see java.lang.Object#toString()
    */
   public String toString() {
-    return "Heading nbr: " + String.valueOf(headingNumber) + "  User view: " + userViewString;
+    return "Heading nbr: " + (headingNumber) + "  User view: " + userViewString;
   }
 
 }

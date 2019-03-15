@@ -103,7 +103,7 @@ public class PUBL_TAG implements PersistentObjectWithView {
   public void setDescriptor(final PUBL_HDG heading) {
     this.descriptor = heading;
     if (heading != null) {
-      setPublisherHeadingNumber(new Integer(heading.getHeadingNumber()));
+      setPublisherHeadingNumber((heading.getHeadingNumber()));
     }
   }
 

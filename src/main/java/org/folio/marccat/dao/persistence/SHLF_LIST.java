@@ -206,6 +206,7 @@ public class SHLF_LIST extends Descriptor implements Serializable {
   /* (non-Javadoc)
    * @see Descriptor#isCanTransfer()
    */
+  @Override
   public boolean isCanTransfer() {
     return false;
   }

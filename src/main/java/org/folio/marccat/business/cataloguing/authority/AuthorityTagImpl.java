@@ -1,6 +1,9 @@
 package org.folio.marccat.business.cataloguing.authority;
 
-import net.sf.hibernate.Session;
+import java.util.Arrays;
+import java.util.Set;
+import java.util.TreeSet;
+
 import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
 import org.folio.marccat.business.cataloguing.common.Catalog;
 import org.folio.marccat.business.cataloguing.common.Tag;
@@ -11,13 +14,10 @@ import org.folio.marccat.dao.DAOAuthorityValidation;
 import org.folio.marccat.dao.persistence.AUT;
 import org.folio.marccat.dao.persistence.Correlation;
 import org.folio.marccat.dao.persistence.CorrelationKey;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.MarcCorrelationException;
 import org.folio.marccat.shared.Validation;
 
-import java.util.Arrays;
-import java.util.Set;
-import java.util.TreeSet;
+import net.sf.hibernate.Session;
 
 public class AuthorityTagImpl extends TagImpl {
 
@@ -51,7 +51,7 @@ public class AuthorityTagImpl extends TagImpl {
    * @deprecated
    */
   @Deprecated
-  public CorrelationKey getMarcEncoding(Tag t) throws DataAccessException {
+  public CorrelationKey getMarcEncoding(Tag t) {
 
     CorrelationKey key = daoCorrelation.getMarcEncoding(t.getCategory(), getHeadingType(t),
       t.getCorrelation(1), t.getCorrelation(2), t.getCorrelation(3));
@@ -68,13 +68,13 @@ public class AuthorityTagImpl extends TagImpl {
     return ((AUT) ((PersistsViaItem) t).getItemEntity()).getHeadingType();
   }
 
-  public Validation getValidation(Tag t) throws DataAccessException {
+  public Validation getValidation(Tag t) {
     CorrelationKey key = getMarcEncoding(t);
     return daoValidation.load(key.getMarcTag(), t.getHeadingType(), t.getCategory());
   }
 
   @Override
-  public Validation getValidation(Tag t, Session session) throws DataAccessException {
+  public Validation getValidation(Tag t, Session session) {
     return null;
   }
 
@@ -83,7 +83,7 @@ public class AuthorityTagImpl extends TagImpl {
   }
 
   @Override
-  public CorrelationKey getMarcEncoding(Tag t, Session session) throws DataAccessException {
+  public CorrelationKey getMarcEncoding(Tag t, Session session) {
     return null;
   }
 
@@ -105,7 +105,7 @@ public class AuthorityTagImpl extends TagImpl {
 
   @Override
   public Correlation getCorrelation(String tagNumber, char indicator1,
-                                    char indicator2, int category, Session session) throws DataAccessException {
+                                    char indicator2, int category, Session session) {
     return daoCorrelation.getFirstAuthorityCorrelation(tagNumber, indicator1,
       indicator2, category);
   }

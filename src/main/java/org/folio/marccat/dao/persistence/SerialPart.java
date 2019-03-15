@@ -192,13 +192,8 @@ public class SerialPart implements Persistence, Serializable {
     type = s;
   }
 
-  //TODO refactoring
   public String getPartTypeText(Locale locale) {
-		/*try {
-			return new DAOCodeTable().load(T_SRL_PRT_TYP.class, getType(), locale).getLongText();
-		} catch (DataAccessException e) {*/
     return "";
-    //}
   }
 
 
@@ -212,7 +207,7 @@ public class SerialPart implements Persistence, Serializable {
   }
 
 
-  public void evict(Object obj) throws DataAccessException {
+  public void evict(Object obj) {
     persistenceState.evict(obj);
   }
 

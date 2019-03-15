@@ -7,15 +7,15 @@
  */
 package org.folio.marccat.dao;
 
-import net.sf.hibernate.Hibernate;
-import net.sf.hibernate.type.Type;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.MarcCorrelationException;
 import org.folio.marccat.shared.Validation;
 
-import java.util.List;
+import net.sf.hibernate.Hibernate;
+import net.sf.hibernate.type.Type;
 
 /**
  * @author paulm
@@ -26,8 +26,7 @@ public class DAOAuthorityValidation extends DAOValidation {
 
   private static final Log logger = LogFactory.getLog(DAOAuthorityValidation.class);
 
-  public Validation load(String tag, String headingType, int category)
-    throws DataAccessException {
+  public Validation load(String tag, String headingType, int category) {
     List l = find("from AuthorityValidation as v, " +
         " where v.key.marcTagCategoryCode = ? " +
         " and v.key.marcTag = ? " +

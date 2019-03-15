@@ -40,6 +40,7 @@ public class MotionPicture extends PhysicalDescription {
   /* (non-Javadoc)
    * @see FixedField#getDisplayString()
    */
+  @Override
   public String getDisplayString() {
     return EMPTY_STRING
       + getGeneralMaterialDesignationCode()
@@ -62,11 +63,13 @@ public class MotionPicture extends PhysicalDescription {
       + getInspectionDate();
   }
 
+  @Override
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
     setKeyNumber(dao.getNextNumber("X4", session));
   }
 
+  @Override
   public boolean isMotionPicture() {
     return true;
   }

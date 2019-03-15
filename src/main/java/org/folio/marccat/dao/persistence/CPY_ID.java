@@ -43,7 +43,6 @@ public class CPY_ID implements Persistence, Serializable {
   private int branchOrganisationNumber;
   private Integer originalOrganisationNumber;
   private String barCodeNumber;
-  // TODO is not used any more
   private Integer dynixSerialIdNumber;
   private Date transactionDate;
   private Date creationDate;
@@ -368,11 +367,11 @@ public class CPY_ID implements Persistence, Serializable {
   }
 
 
-  public void evict(Object obj) throws DataAccessException {
+  public void evict(Object obj)  {
     persistenceState.evict(obj);
   }
 
-  public void evict() throws DataAccessException {
+  public void evict() {
     persistenceState.evict(this);
   }
 
@@ -450,14 +449,7 @@ public class CPY_ID implements Persistence, Serializable {
    * Performs validation of this object to ensure that it is ready to be saved
    * to the database. Throws exceptions for failed validations
    */
-  public void validate() throws
-    ValidationException {
-
-		/*if (getTransactionDate() != null
-				&& getTransactionDate().before(getCreationDate())) {
-			throw new InvalidTransactionDateException();
-		}*/
-
+  public void validate() {
     StringText remark = new StringText(getCopyRemarkNote());
     Iterator iter = remark.getSubfieldList().iterator();
     while (iter.hasNext()) {
@@ -492,8 +484,7 @@ public class CPY_ID implements Persistence, Serializable {
     }
   }
 
-  public String calculateSortForm(String s) throws
-    DataAccessException {
+  public String calculateSortForm(String s) {
     String sortForm = "";
     if (s != null && s.length() > 0) {
       SortFormParameters parms = new SortFormParameters(100, 105, 0, 0, 0);
@@ -529,7 +520,7 @@ public class CPY_ID implements Persistence, Serializable {
    *
    * @see librisuite.business.common.Persistence#generateNewKey()
    */
-  public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
+  public void generateNewKey(final Session session) throws HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
     setCopyIdNumber(dao.getNextNumber("HC", session));
     Date createTime = new Date();
@@ -545,7 +536,7 @@ public class CPY_ID implements Persistence, Serializable {
   }
 
 
-  public void deleteNewKey(final Session session) throws DataAccessException {
+  public void deleteNewKey(final Session session) {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
     setCopyIdNumber(dao.getPreviouwsNumber("HC"));
     setCreationDate(new Date());

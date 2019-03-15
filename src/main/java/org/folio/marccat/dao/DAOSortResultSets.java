@@ -1,15 +1,18 @@
 package org.folio.marccat.dao;
 
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.dao.common.HibernateUtil;
 import org.folio.marccat.dao.common.TransactionalHibernateOperation;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.search.SearchResponse;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 
 /**
  * @author paulm
@@ -17,13 +20,14 @@ import java.sql.SQLException;
  * @since 1.0
  */
 public class DAOSortResultSets extends HibernateUtil {
-
+	private Log logger = LogFactory.getLog(DAOSortResultSets.class);
+	
   public void sort(
     final Session session,
     final SearchResponse rs,
     String[] attributes,
     String[] directions)
-    throws DataAccessException {
+    {
     final String orderBy = buildOrderByClause(attributes, directions);
     /*
      * We use a transaction here to ensure that a commit is NOT done after the
@@ -32,7 +36,7 @@ public class DAOSortResultSets extends HibernateUtil {
      */
     new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
-        throws DataAccessException {
+         {
         SearchResponse sortedResults;
         insertResults(rs);
         doSort(orderBy, rs);
@@ -44,11 +48,11 @@ public class DAOSortResultSets extends HibernateUtil {
   private void doSort(
     final String orderBy,
     final SearchResponse rs)
-    throws DataAccessException {
+     {
 
     new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
-        throws HibernateException, DataAccessException {
+        throws HibernateException {
         Connection connection = s.connection();
         PreparedStatement stmt = null;
         java.sql.ResultSet js = null;
@@ -83,12 +87,14 @@ public class DAOSortResultSets extends HibernateUtil {
             try {
               js.close();
             } catch (SQLException e) {
+            	logger.error(e.getMessage());
             }
           }
           if (stmt != null) {
             try {
               stmt.close();
             } catch (SQLException e) {
+            logger.error(e.getMessage());
             }
           }
         }
@@ -98,14 +104,12 @@ public class DAOSortResultSets extends HibernateUtil {
   }
 
 
-  private void insertResults(final SearchResponse rs)
-    throws DataAccessException {
+  private void insertResults(final SearchResponse rs) {
     new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
-        throws HibernateException, DataAccessException {
+        throws HibernateException {
         Connection connection = s.connection();
         PreparedStatement stmt = null;
-        int[] iNoRows = null;
 
         try {
           stmt = connection.prepareStatement(
@@ -114,7 +118,7 @@ public class DAOSortResultSets extends HibernateUtil {
             stmt.setInt(1, rs.getIdSet()[i]);
             stmt.addBatch();
           }
-          iNoRows = stmt.executeBatch();
+          stmt.executeBatch();
         } catch (SQLException e) {
           throw new DataAccessException();
         } finally {
@@ -122,6 +126,7 @@ public class DAOSortResultSets extends HibernateUtil {
             try {
               stmt.close();
             } catch (SQLException e) {
+            	logger.error(e.getMessage());
             }
           }
         }
@@ -138,7 +143,7 @@ public class DAOSortResultSets extends HibernateUtil {
   private String buildOrderByClause(
     String[] attributes,
     String[] directions) {
-    StringBuffer buf = new StringBuffer();
+    StringBuilder buf = new StringBuilder();
     int column;
     buf.append(" ORDER BY ");
     for (int i = 0; i < attributes.length; i++) {

@@ -68,8 +68,6 @@ public class AuthorityCatalogDAO extends CatalogDAO {
       cache.setUserView(View.AUTHORITY);
     }
     cache.setRecordData(XmlUtils.documentToString(item.toExternalMarcSlim(session)));
-    persistByStatus(cache);
-    cache.evict();
   }
 
   private AuthorityItem getAuthorityItem(int id) {
@@ -227,6 +225,7 @@ public class AuthorityCatalogDAO extends CatalogDAO {
       if (rs != null) try {
         rs.close();
       } catch (SQLException e) {
+    	  logger.error(e.getMessage());
       }
     }
     return notes;

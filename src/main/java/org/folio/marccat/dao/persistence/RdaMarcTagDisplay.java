@@ -8,10 +8,12 @@ public class RdaMarcTagDisplay extends LabelTagDisplay implements Serializable {
   private String marcTagNumberText;
 
 
+  @Override
   public String getMarcTagNumberText() {
     return marcTagNumberText;
   }
 
+  @Override
   public void setMarcTagNumberText(String marcTagNumberText) {
     this.marcTagNumberText = marcTagNumberText;
   }

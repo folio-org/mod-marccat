@@ -35,6 +35,7 @@ public class T_SINGLE_INT extends CodeTable {
     return String.valueOf(code);
   }
 
+  @Override
   public boolean equals(Object obj) {
     if (!(obj instanceof T_SINGLE_INT))
       return false;
@@ -45,6 +46,7 @@ public class T_SINGLE_INT extends CodeTable {
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
+  @Override
   public int hashCode() {
     return getCode() + getLanguage().hashCode();
   }

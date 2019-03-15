@@ -18,7 +18,7 @@ import java.util.Comparator;
 
 
 public class SequenceNumberComparator implements Comparator {
-  private static final Integer UNSORTED = new Integer(Integer.MAX_VALUE);
+  private static final Integer UNSORTED = (Integer.MAX_VALUE);
 
   private static final Log logger = LogFactory.getLog(SequenceNumberComparator.class);
 
@@ -34,8 +34,6 @@ public class SequenceNumberComparator implements Comparator {
     if (tag0 instanceof OrderedTag && tag1 instanceof OrderedTag) {
       Integer seq0 = ((OrderedTag) tag0).getSequenceNumber();
       Integer seq1 = ((OrderedTag) tag1).getSequenceNumber();
-			/*if(seq0.intValue()==0) seq0 = UNSORTED;
-			if(seq1.intValue()==0) seq1 = UNSORTED;*/
       if (seq0 == null) seq0 = UNSORTED;
       if (seq1 == null) seq1 = UNSORTED;
       int snResult = seq0.compareTo(seq1);

@@ -166,7 +166,7 @@ public class CLSTN extends Descriptor {
   }
 
   @Override
-  public void calculateAndSetSortForm() throws SortFormException {
+  public void calculateAndSetSortForm() {
     if (ClassificationType.isLC((short) getTypeCode())) {
       setSortForm(calculateLcSortForm());
     } else if (ClassificationType.isDewey((short) getTypeCode())) {

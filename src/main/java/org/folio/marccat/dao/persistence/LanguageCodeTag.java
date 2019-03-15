@@ -20,13 +20,13 @@ public class LanguageCodeTag extends VariableHeaderUsingItemEntity {
     setHeaderType((short) 2);
   }
 
+  @Override
   public StringText getStringText() {
     StringText result = null;
     String source = ((BIB_ITM) getItemEntity()).getLanguageStringText();
 
     if (source == null) {
       /* Bug 4115 inizio modifiche Carmen */
-      /* result = new StringText(Subfield.SUBFIELD_DELIMITER + "a");*/
       result = new StringText(Subfield.SUBFIELD_DELIMITER + "a" + ((BIB_ITM) getItemEntity()).getLanguageCode());
       /* Bug 4115 fine modifiche Carmen */
     } else {
@@ -35,6 +35,7 @@ public class LanguageCodeTag extends VariableHeaderUsingItemEntity {
     return result;
   }
 
+@Override  
   public void setStringText(StringText st) {
     //TODO need a more definitive way to set to null
     if (st.toString().equals(Subfield.SUBFIELD_DELIMITER + "a")) {
@@ -64,13 +65,6 @@ public class LanguageCodeTag extends VariableHeaderUsingItemEntity {
     super.setItemEntity(bib_itm);
     /* Bug 4115 inizio modifiche Carmen */
     //TODO Carmen , fare reactoring mettendo un metodo che dice se è presente il $2 (Source of code)
-		/*		
-			if ("0".equals(bib_itm.getTranslationCode())) {
-				setHeaderType((short)2);
-			} else if ("1".equals(bib_itm.getTranslationCode())) {
-				setHeaderType((short)3);
-			}
-		*/
     if ("0".equals(bib_itm.getTranslationCode()) && ((BIB_ITM) getItemEntity()).getLanguageStringText().indexOf(Subfield.SUBFIELD_DELIMITER + "2") == -1) {
       setHeaderType((short) 2);
     } else if ("1".equals(bib_itm.getTranslationCode()) && ((BIB_ITM) getItemEntity()).getLanguageStringText().indexOf(Subfield.SUBFIELD_DELIMITER + "2") == -1) {
@@ -90,9 +84,9 @@ public class LanguageCodeTag extends VariableHeaderUsingItemEntity {
   /* (non-Javadoc)
    * @see librisuite.business.cataloguing.bibliographic.Tag#correlationChangeAffectsKey(librisuite.business.common.CorrelationValues)
    */
+  @Override
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
     /* Bug 4115 inizio modifiche Carmen */
-//		return v.isValueDefined(1) && (v.getValue(1) != 2) && (v.getValue(1) != 3);
     return v.isValueDefined(1) && (v.getValue(1) != 2) && (v.getValue(1) != 3) && (v.getValue(1) != 49) && (v.getValue(1) != 50) && (v.getValue(1) != 51) && (v.getValue(1) != 52);
     /* Bug 4115 fine modifiche Carmen */
   }
@@ -101,6 +95,7 @@ public class LanguageCodeTag extends VariableHeaderUsingItemEntity {
   /* (non-Javadoc)
    * @see librisuite.business.cataloguing.bibliographic.Tag#setCorrelationValues(librisuite.business.common.CorrelationValues)
    */
+  @Override
   public void setCorrelationValues(CorrelationValues v) {
     super.setCorrelationValues(v);
     setHeaderType(v.getValue(1));
@@ -109,6 +104,7 @@ public class LanguageCodeTag extends VariableHeaderUsingItemEntity {
   /* (non-Javadoc)
    * @see PersistsViaItem#setItemEntity(ItemEntity)
    */
+  @Override
   public void setItemEntity(ItemEntity item) {
     setBibItm((BIB_ITM) item);
   }

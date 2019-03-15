@@ -25,6 +25,7 @@ public class TactileMaterial extends PhysicalDescription {
     setHeaderType(46);
   }
 
+  @Override
   public String getDisplayString() {
     return EMPTY_STRING
       + getGeneralMaterialDesignationCode()
@@ -36,11 +37,13 @@ public class TactileMaterial extends PhysicalDescription {
       + getSpecificPhysicalCharacteristicsCode();
   }
 
-  public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
+  @Override
+  public void generateNewKey(final Session session) throws HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
     setKeyNumber(dao.getNextNumber("XE", session));
   }
 
+  @Override
   public boolean isTactileMaterial() {
     return true;
   }
@@ -57,7 +60,7 @@ public class TactileMaterial extends PhysicalDescription {
 
   public char[] getBrailleMusicFormatChar() {
     if (brailleMusicFormatCodes == null) {
-      return null;
+    	return new char[0];
     } else {
       return brailleMusicFormatCodes.toCharArray();
     }
@@ -75,7 +78,7 @@ public class TactileMaterial extends PhysicalDescription {
 
   public char[] getClassOfBrailleWritingChar() {
     if (classOfBrailleWritingCodes == null) {
-      return null;
+    	return new char[0];
     } else {
       return classOfBrailleWritingCodes.toCharArray();
     }

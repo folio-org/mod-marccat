@@ -29,8 +29,6 @@ import java.util.Date;
 public class DiscardInventory implements Persistence {
   private static DAOInventory daoInventory = new DAOInventory();
   InventoryKey key;
-  //private int inventoryNumber;
-  //private int mainLibraryNumber;
   private int bibItemNumber;
   private int copyNumber;
   private char materialTypeCode;
@@ -52,18 +50,16 @@ public class DiscardInventory implements Persistence {
 
   public DiscardInventory() {
     super();
-    setPrice(new Float(0));
+    setPrice((0f));
     setDateReceived(Calendar.getInstance().getTime());
     setKey(new InventoryKey());
   }
 
 
-  public DiscardInventory(int copyNumber, int cataloguingView, int mainLibrary) throws DataAccessException {
+  public DiscardInventory(int copyNumber, int mainLibrary) {
     this();
     setCopyNumber(copyNumber);
     key.setMainLibraryNumber(mainLibrary);
-    DAOInventory dao = new DAOInventory();
-    //dao.populateNewItem(this, cataloguingView);
   }
 
 
@@ -241,7 +237,7 @@ public class DiscardInventory implements Persistence {
   }
 
 
-  public void evict(Object obj) throws DataAccessException {
+  public void evict(Object obj) {
     persistenceState.evict(obj);
   }
 
@@ -318,14 +314,14 @@ public class DiscardInventory implements Persistence {
   /* (non-Javadoc)
    * @see librisuite.business.common.Persistence#evict()
    */
-  public void evict() throws DataAccessException {
+  public void evict() {
     evict(this);
   }
 
   /* (non-Javadoc)
    * @see librisuite.business.common.Persistence#generateNewKey()
    */
-  public void generateNewKey() throws DataAccessException {
+  public void generateNewKey() {
     throw new IllegalArgumentException("New inventory key requires main library");
   }
 
@@ -334,7 +330,7 @@ public class DiscardInventory implements Persistence {
    *
    * @since 1.0
    */
-  public void generateNewKey(int mainLibrary) throws DataAccessException {
+  public void generateNewKey(int mainLibrary) {
     key.setInventoryNumber(daoInventory.getNextNumber(mainLibrary));
   }
 

@@ -31,6 +31,7 @@ public class RemoteSensingImage extends PhysicalDescription {
   /* (non-Javadoc)
    * @see FixedField#getDisplayString()
    */
+  @Override
   public String getDisplayString() {
     return EMPTY_STRING
       + getGeneralMaterialDesignationCode()
@@ -48,6 +49,7 @@ public class RemoteSensingImage extends PhysicalDescription {
   /* (non-Javadoc)
    * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
    */
+  @Override
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
     setKeyNumber(dao.getNextNumber("XB", session));
@@ -56,6 +58,7 @@ public class RemoteSensingImage extends PhysicalDescription {
   /* (non-Javadoc)
    * @see librisuite.business.cataloguing.bibliographic.PhysicalDescription#isRemoteSensingImage()
    */
+  @Override
   public boolean isRemoteSensingImage() {
     return true;
   }

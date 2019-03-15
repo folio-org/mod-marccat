@@ -416,7 +416,7 @@ public class StorageService implements Closeable {
 
       }
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw new ModMarccatException(e);
     }
 
     return result;
@@ -601,12 +601,10 @@ public class StorageService implements Closeable {
       browseTerm = dao.calculateSearchTerm(browseTerm, key, session);
 
       descriptorsList = dao.getHeadingsBySortform("<", "desc", browseTerm, filter, view, 1, session);
-      if (!(dao instanceof PublisherDescriptorDAO)) {
-        if (descriptorsList.size() > 0) {
+      if (!(dao instanceof PublisherDescriptorDAO && descriptorsList.isEmpty())) {
           browseTerm = dao.getBrowsingSortForm(descriptorsList.get(0));
           descriptorsList.clear();
         }
-      }
       descriptorsList.addAll(dao.getHeadingsBySortform(">=", EMPTY_STRING, browseTerm, filter, view, pageSize, session));
       return getMapHeadings(view, descriptorsList, dao);
 
@@ -1057,7 +1055,7 @@ public class StorageService implements Closeable {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
     }
-    return null;
+    return Collections.emptyList();
   }
 
 
@@ -1256,6 +1254,7 @@ public class StorageService implements Closeable {
     try {
       item = getCatalogItemByKey(record.getId(), view);
     } catch (DataAccessException exception) {
+    	logger.error(exception.getMessage(), exception);
     }
 
     try {
@@ -1314,7 +1313,7 @@ public class StorageService implements Closeable {
         return model;
       } catch (Exception e) {
         logger.error(Message.MOD_MARCCAT_00023_SAVE_TEMPLATE_ASSOCIATED_FAILURE, template.getId(), an, e);
-        throw new RuntimeException(e);
+        throw new ModMarccatException(e);
       }
     }
     return null;

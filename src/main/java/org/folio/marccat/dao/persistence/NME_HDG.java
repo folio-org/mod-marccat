@@ -96,6 +96,7 @@ public class NME_HDG extends Descriptor implements Serializable {
   /* (non-Javadoc)
    * @see Descriptor#getIndexingLanguage()
    */
+  @Override
   public int getIndexingLanguage() {
     return indexingLanguage;
   }
@@ -103,6 +104,7 @@ public class NME_HDG extends Descriptor implements Serializable {
   /* (non-Javadoc)
    * @see Descriptor#setIndexingLanguage(short)
    */
+  @Override
   public void setIndexingLanguage(int s) {
     indexingLanguage = s;
   }
@@ -180,6 +182,7 @@ public class NME_HDG extends Descriptor implements Serializable {
   /* (non-Javadoc)
    * @see Descriptor#changeAffectsCacheTable()
    */
+  @Override
   public boolean changeAffectsCacheTable() {
     return true;
   }

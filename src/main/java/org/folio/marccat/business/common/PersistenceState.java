@@ -85,8 +85,7 @@ public class PersistenceState implements Lifecycle, Serializable {
    * @throws CallbackException the callback exception
    */
   public boolean onUpdate(Session arg0) throws CallbackException {
-    registerNextStatus(updateStatus, UpdateStatus.UNCHANGED);
-    return false;
+    return onSave(arg0);
   }
 
   /**
@@ -165,7 +164,8 @@ public class PersistenceState implements Lifecycle, Serializable {
    * @deprecated it is necessary to recall the method of the session
    */
   @Deprecated
-  public void evict(Object obj) throws DataAccessException {
+  public void evict(Object obj) {
+	  throw new UnsupportedOperationException();
   }
 
   /**

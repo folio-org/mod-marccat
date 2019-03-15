@@ -19,6 +19,9 @@ import static org.folio.marccat.resources.shared.MappingUtils.toPairItem;
 
 public class FixedFieldUtils {
 
+	private FixedFieldUtils() {
+	    throw new IllegalStateException("Utility class");
+	  }
   private static final String MATERIAL_TYPE = "materialTypeCode";
   protected static Log logger = new Log(FixedFieldUtils.class);
 

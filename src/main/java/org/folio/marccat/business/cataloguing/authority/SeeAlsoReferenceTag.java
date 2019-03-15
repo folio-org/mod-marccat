@@ -14,6 +14,7 @@ public class SeeAlsoReferenceTag extends SeeSeeAlsoReference {
     super();
   }
 
+  @Override
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
     if (!super.correlationChangeAffectsKey(v)) {
       return !ReferenceType.isSeeAlsoFrom(
@@ -34,6 +35,7 @@ public class SeeAlsoReferenceTag extends SeeSeeAlsoReference {
   }
 
 
+  @Override
   public short getDualReferenceIndicator() {
     return dualReferenceIndicator;
   }
@@ -46,6 +48,7 @@ public class SeeAlsoReferenceTag extends SeeSeeAlsoReference {
   /* (non-Javadoc)
    * @see SeeSeeAlsoReference#getHasDualIndicator()
    */
+  @Override
   public boolean isHasDualIndicator() {
     return true;
   }

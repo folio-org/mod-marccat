@@ -1,21 +1,23 @@
 package org.folio.marccat.dao;
 
+import java.util.List;
+
+import org.folio.marccat.dao.persistence.PublCdeHdg;
+
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Query;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-import org.folio.marccat.dao.persistence.PublCdeHdg;
-import org.folio.marccat.exception.DataAccessException;
-
-import java.util.List;
 
 public class DAOPublisher extends AbstractDAO {
 
+	private String queryAsPu = " PublCdeHdg as pu ";
+	
   public DAOPublisher() {
     super();
   }
 
-  public List getPublisherList() throws DataAccessException {
+  public List getPublisherList() {
     List result = null;
     try {
       Session s = currentSession();
@@ -27,7 +29,7 @@ public class DAOPublisher extends AbstractDAO {
   }
 
 
-  public List loadHdg(String hdg) throws DataAccessException {
+  public List loadHdg(String hdg) {
     List result = null;
     try {
 
@@ -40,7 +42,7 @@ public class DAOPublisher extends AbstractDAO {
     return result;
   }
 
-  public void deleteHdgPubl(PublCdeHdg item) throws DataAccessException {
+  public void deleteHdgPubl(PublCdeHdg item) {
     try {
 
       Session s = currentSession();
@@ -52,13 +54,13 @@ public class DAOPublisher extends AbstractDAO {
   }
 
   //dato un codice editore recupera le schede associate
-  public List getResultFromPublisher(String publisherCode) throws DataAccessException {
+  public List getResultFromPublisher(String publisherCode) {
     List result = null;
     try {
       Session s = currentSession();
       Query q = s.createQuery("select distinct ta"
         + " from TitleAccessPoint as ta, "
-        + " PublCdeHdg as pu "
+        + queryAsPu
         + " where pu.publisherCode = ?"
         + " and pu.hdrNumber = ta.headingNumber");
       q.setString(0, publisherCode);
@@ -71,25 +73,18 @@ public class DAOPublisher extends AbstractDAO {
     return result;
   }
 
-  public List loadHeadingFromPublisher(String publisherCode) throws DataAccessException {
-//		System.out.println("editore per select hdg : " + publisherCode);
+  public List loadHeadingFromPublisher(String publisherCode) {
     List result = null;
     try {
       Session s = currentSession();
       Query q = s.createQuery("select distinct ta"
         + " from PUBL_HDG as ta, "
-        + " PublCdeHdg as pu "
+        + queryAsPu
         + " where pu.publisherCode = ?"
         + " and pu.hdrNumber = ta.key.headingNumber"
         + " order by ta.nameSortForm");
       q.setString(0, publisherCode);
-//			q.setMaxResults(100);		
       result = q.list();
-
-//			if (result.size() == 0) {
-//				throw new RecordNotFoundException();
-//			}
-
 
     } catch (HibernateException e) {
       logAndWrap(e);
@@ -97,17 +92,16 @@ public class DAOPublisher extends AbstractDAO {
     return result;
   }
 
-  public List loadTotalHeading() throws DataAccessException {
+  public List loadTotalHeading() {
     List result = null;
     Query q = null;
     try {
       Session s = currentSession();
       q = s.createQuery("select pu, ta"
         + " from PUBL_HDG as ta, "
-        + " PublCdeHdg as pu "
+        + queryAsPu
         + " where pu.hdrNumber = ta.key.headingNumber"
         + " order by ta.nameSortForm");
-//			q.setMaxResults(100);		
       result = q.list();
 
     } catch (HibernateException e) {

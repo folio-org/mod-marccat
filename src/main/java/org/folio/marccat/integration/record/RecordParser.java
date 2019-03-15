@@ -11,6 +11,7 @@ import org.folio.marccat.config.log.Global;
 import org.folio.marccat.dao.RecordTypeMaterialDAO;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.resources.domain.Field;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.shared.GeneralInformation;
@@ -320,11 +321,11 @@ public class RecordParser {
                 Descriptor descriptorNew = acs.getDAODescriptor().findOrCreateMyView(field.getVariableField().getNewKeyNumber(), View.makeSingleViewString(item.getUserView()), view, session);
                 MarcCommandLibrary.replaceDescriptor(item, acs, descriptorNew);
               } catch (HibernateException e) {
-                throw new RuntimeException(e);
+                throw new ModMarccatException(e);
               }
-            } else
+            } else {
               acs.markChanged();
-
+            }
           } else {
             acs.markDeleted();
             item.getDeletedTags().add(acs);
@@ -382,7 +383,7 @@ public class RecordParser {
                     MarcCommandLibrary.setNewStringText(pm, st, View.makeSingleViewString(view), session);
 
                   } catch (HibernateException | SQLException e) {
-                    throw new RuntimeException(e);
+                    throw new ModMarccatException(e);
                   }
                   apf.setUserViewString(View.makeSingleViewString(view));
                   pm.setApf(apf);

@@ -27,8 +27,9 @@ public class Globe extends PhysicalDescription {
   /* (non-Javadoc)
    * @see FixedField#getDisplayString()
    */
+  @Override
   public String getDisplayString() {
-    String result =
+    return
       ""
         + getGeneralMaterialDesignationCode()
         + getSpecificMaterialDesignationCode()
@@ -36,12 +37,12 @@ public class Globe extends PhysicalDescription {
         + getColourCode()
         + getPhysicalMediumCode()
         + getTypeOfReproductionCode();
-    return result;
   }
 
   /* (non-Javadoc)
    * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
    */
+  @Override
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
     setKeyNumber(dao.getNextNumber("X1", session));
@@ -50,6 +51,7 @@ public class Globe extends PhysicalDescription {
   /* (non-Javadoc)
    * @see librisuite.business.cataloguing.bibliographic.PhysicalDescription#isGlobe()
    */
+  @Override
   public boolean isGlobe() {
     return true;
   }

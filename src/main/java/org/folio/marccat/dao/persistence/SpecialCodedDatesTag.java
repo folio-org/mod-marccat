@@ -19,6 +19,7 @@ public class SpecialCodedDatesTag extends VariableHeaderUsingItemEntity {
     setHeaderType((short) 12);
   }
 
+	@Override
   public StringText getStringText() {
     StringText result;
     String source = ((BIB_ITM) getItemEntity()).getSpecialCodedDatesStringText();
@@ -31,6 +32,7 @@ public class SpecialCodedDatesTag extends VariableHeaderUsingItemEntity {
     return result;
   }
 
+	@Override
   public void setStringText(StringText st) {
     if (st.toString().equals(Subfield.SUBFIELD_DELIMITER + "a")) {
       ((BIB_ITM) getItemEntity()).setSpecialCodedDatesStringText(null);

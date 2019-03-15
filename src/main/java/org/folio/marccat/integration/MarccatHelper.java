@@ -35,7 +35,7 @@ public abstract class MarccatHelper {
   static {
     try {
       DEFAULT_VALUES.load(MarccatHelper.class.getResourceAsStream("/defaults.properties"));
-    } catch (final Throwable exception) {
+    } catch (Exception exception) {
       throw new ExceptionInInitializerError(exception);
     }
   }
@@ -144,10 +144,10 @@ public abstract class MarccatHelper {
         return adapter.execute(service, configuration(settings));
       } catch (final SQLException exception) {
         throw new DataAccessException(exception);
-      } catch (final Throwable exception) {
+      } catch (Exception exception) {
         throw new SystemInternalFailureException(exception);
       }
-    } catch (final Throwable throwable) {
+    } catch (Exception throwable) {
       throw new SystemInternalFailureException(throwable);
     }
   }

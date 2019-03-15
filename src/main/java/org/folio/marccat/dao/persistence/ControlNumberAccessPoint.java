@@ -167,8 +167,7 @@ public class ControlNumberAccessPoint extends BibliographicAccessPoint implement
   @Override
   public Element generateModelXmlElementContent(final Document xmlDocument) {
     return ofNullable(xmlDocument).map(content -> {
-      Element element = getStringText().generateModelXmlElementContent(xmlDocument);
-      return element;
+      return getStringText().generateModelXmlElementContent(xmlDocument);
     }).orElse(null);
   }
 

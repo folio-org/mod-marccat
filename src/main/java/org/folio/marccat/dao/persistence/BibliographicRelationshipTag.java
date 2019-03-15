@@ -18,6 +18,7 @@ import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -41,7 +42,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
     setOriginalTag();
   }
 
-  public BibliographicRelationshipTag(BibliographicRelationship relationship, int userView) throws DataAccessException {
+  public BibliographicRelationshipTag(BibliographicRelationship relationship, int userView) {
     super();
     setSourceRelationship(relationship);
     setTargetRelationship(handleReciprocalRelationship(userView));
@@ -51,7 +52,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
     setOriginalTag();
   }
 
-  public void buildReciprocalStringText(int userView) throws DataAccessException {
+  public void buildReciprocalStringText(int userView) {
     /* stringtext can be in table RLTSP or should be build from the heading tables */
     StringText s = new StringText();
     if (getSourceRelationship().getTargetBibItemNumber() > 0) {
@@ -61,7 +62,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
     setReciprocalStringText(s);
   }
 
-  public void createTargetBibItem(int userView) throws DataAccessException {
+  public void createTargetBibItem(int userView) {
     if (getReciprocalOption(userView) == 1) {
       /* create the reciprocal relationship */
       logger.debug("create reciprocal relationship");
@@ -91,7 +92,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
       && (other.getRelationTypeCode() == getRelationTypeCode());
   }
 
-  public void generateNewBlindRelationshipKey(final Session session) throws DataAccessException, HibernateException {
+  public void generateNewBlindRelationshipKey(final Session session) throws HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
     setTargetBibItemNumber(-dao.getNextNumber("BR", session));
   }
@@ -141,9 +142,8 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
   }
 
   @Deprecated
-  public List getFirstCorrelationList() throws DataAccessException {
-    /* return getDaoCodeTable().getList(BibliographicRelationType.class,true); */
-    return null;
+  public List getFirstCorrelationList() {
+    return Collections.emptyList();
   }
 
   @Override
@@ -157,12 +157,11 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
   }
 
   @Deprecated
-  public List getReciprocalList() throws DataAccessException {
-    /* return getDaoCodeTable().getList(BibliographicRelationReciprocal.class,true); */
-    return null;
+  public List getReciprocalList() {
+    return Collections.emptyList();
   }
 
-  public int getReciprocalOption(int userView) throws DataAccessException {
+  public int getReciprocalOption(int userView) {
     logger.debug("running getReciprocalOption(with a view)");
     logger.debug("starting option is " + getReciprocalOption());
     if (getReciprocalOption() <= 0) {
@@ -204,10 +203,8 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
     if (!BibliographicRelationReciprocal.isReciprocal(s)) {
       setTargetRelationship(null);
     }
-    if (BibliographicRelationReciprocal.isBlind(s)) {
-      if (getTargetBibItemNumber() > 0) { //pm 2011
+    if (BibliographicRelationReciprocal.isBlind(s) && getTargetBibItemNumber() > 0) {
         setTargetBibItemNumber(0);
-      }
     }
   }
 
@@ -249,9 +246,8 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
    *      java.util.Locale)
    */
   @Deprecated
-  public List getSecondCorrelationList(short value1) throws DataAccessException {
-    /* return getDaoCodeTable().getList(BibliographicRelationPrintNote.class,true); */
-    return null;
+  public List getSecondCorrelationList(short value1) {
+    return Collections.emptyList();
   }
 
   public BibliographicRelationship getSourceRelationship() {
@@ -312,8 +308,8 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
   }
 
   @Override
-  public List getThirdCorrelationList(int value1, int value2) throws DataAccessException {
-    return null;
+  public List getThirdCorrelationList(int value1, int value2) {
+    return Collections.emptyList();
   }
 
   public String getUserViewString() {
@@ -366,7 +362,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
     markChanged();
   }
 
-  public void replaceTargetRelationship(int amicusNumber, int cataloguingView) throws DataAccessException {
+  public void replaceTargetRelationship(int amicusNumber, int cataloguingView) {
     getSourceRelationship().evict();
     setSourceRelationship((BibliographicRelationship) deepCopy(getSourceRelationship()));
     getSourceRelationship().markNew();
@@ -464,7 +460,6 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
         "g", "w", "i", "3", "4"));
     } else {
       /* Bug 4122 */
-//			set.addAll(Arrays.asList(new String[] { "c", "g", "n","q","3","4" }));
       set.addAll(Arrays.asList("c", "g", "i", "n", "q", "3", "4"));
     }
     return set;

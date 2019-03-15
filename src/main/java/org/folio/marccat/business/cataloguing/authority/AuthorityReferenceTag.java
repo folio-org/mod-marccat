@@ -617,7 +617,7 @@ public abstract class AuthorityReferenceTag
    * @see TagInterface#validate()
    */
   @Override
-  public void validate(int index) throws NoHeadingSetException {
+  public void validate(int index) {
     if (getTargetDescriptor().isNew()) {
       throw new NoHeadingSetException(index);
     }

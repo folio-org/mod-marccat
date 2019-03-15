@@ -17,24 +17,23 @@ public class Text extends PhysicalDescription {
   public Text() {
     super();
     setHeaderType(44);
-    //setGeneralMaterialDesignationCode('t');
-    //setSpecificMaterialDesignationCode('u');
   }
 
   /* (non-Javadoc)
    * @see FixedField#getDisplayString()
    */
+  @Override
   public String getDisplayString() {
-    String result =
+    return
       ""
         + getGeneralMaterialDesignationCode()
         + getSpecificMaterialDesignationCode();
-    return result;
   }
 
   /* (non-Javadoc)
    * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
    */
+  @Override
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
     setKeyNumber(dao.getNextNumber("XC", session));
@@ -44,6 +43,7 @@ public class Text extends PhysicalDescription {
   /* (non-Javadoc)
    * @see librisuite.business.cataloguing.bibliographic.PhysicalDescription#isText()
    */
+  @Override
   public boolean isText() {
     return true;
   }
@@ -69,8 +69,9 @@ public class Text extends PhysicalDescription {
     setGeneralMaterialDesignationCode(s.charAt(0));
     if (s.length() > 1) {
       setSpecificMaterialDesignationCode(s.charAt(1));
-    } else
+    } else {
       setSpecificMaterialDesignationCode('u');
+    }
 
   }
 
