@@ -10,7 +10,7 @@ package org.folio.marccat.integration.search;
 public class SQLCommand {
 	
 	private SQLCommand() {
-		throw new UnsupportedOperationException("This is an Utility StringBuilder class");
+    // empty constructor because throw error
 	}
 
   /**

@@ -165,7 +165,7 @@ public class PersistenceState implements Lifecycle, Serializable {
    */
   @Deprecated
   public void evict(Object obj) {
-	  throw new UnsupportedOperationException();
+    // empty constructor because throw error
   }
 
   /**

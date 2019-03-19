@@ -11,4 +11,7 @@ db:
   username: amicus
   password: oracle
   name: folio_marccat_test1
-  port: 5433
+  port:
+
+server:
+  port: 8080

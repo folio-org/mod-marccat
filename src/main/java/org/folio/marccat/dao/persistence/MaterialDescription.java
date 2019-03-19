@@ -800,7 +800,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
   }
 
   public void parseModelXmlElementContent(Element xmlElement) {
-	  throw new UnsupportedOperationException();
+    // empty constructor because throw error
   }
 
   public String getUserViewString() {

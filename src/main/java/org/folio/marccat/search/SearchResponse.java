@@ -34,8 +34,8 @@ import static org.folio.marccat.util.F.safe;
 public class SearchResponse {
   private static final int RETRIEVE_MAX_NUMBER_OF_RECORDS = 10;
 
-  private final int searchingView;
-  private final String displayQuery;
+  private int searchingView = 1;
+  private String displayQuery = "";
   protected Record[] record;
 
   private int from;
@@ -50,6 +50,8 @@ public class SearchResponse {
   @JsonIgnore
   private int sortCriteria = 0;
 
+
+  public SearchResponse(){}
   /**
    * Builds a new {@link SearchResponse} with the given data.
    *

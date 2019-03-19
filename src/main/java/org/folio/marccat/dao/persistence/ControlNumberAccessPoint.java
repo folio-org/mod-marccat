@@ -87,7 +87,7 @@ public class ControlNumberAccessPoint extends BibliographicAccessPoint implement
    * @param stringText -- the stringText to set.
    */
   public void setAccessPointStringText(final StringText stringText) {
-    throw new UnsupportedOperationException();
+    // empty constructor because throw error
   }
 
   /**

@@ -1599,13 +1599,15 @@ public class StorageService implements Closeable {
           final Descriptor dup = ((DAODescriptor) (descriptor.getDAO())).getMatchingHeading(descriptor, session);
           if (dup == null) {
             descriptor.setConfigValues(configuration);
-            descriptor.setSortForm(st.toString());
             descriptor.generateNewKey(session);
             descriptor.getDAO().save(descriptor, session);
+            heading.setCategory(newTag.getCategory());
             heading.setHeadingNumber(descriptor.getHeadingNumber());
           }
-          if (dup != null)
+          if (dup != null){
+            heading.setCategory(newTag.getCategory());
             heading.setHeadingNumber(dup.getHeadingNumber());
+          }
         }
       }
     } catch (HibernateException | SQLException exception) {

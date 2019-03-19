@@ -8,7 +8,7 @@ public class ChronologyConfigurationException extends ValidationException {
   private static final long serialVersionUID = 1L;
 
   public ChronologyConfigurationException() {
-	  throw new UnsupportedOperationException("Exception class");
+    // empty constructor because throw error
   }
 
 

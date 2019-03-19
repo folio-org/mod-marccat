@@ -658,7 +658,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
   public void updateCacheTable(
     final int bibItemNumber,
     final int cataloguingView) {
-    throw new UnsupportedOperationException();
+    // empty constructor because throw error
   }
 
   @Override

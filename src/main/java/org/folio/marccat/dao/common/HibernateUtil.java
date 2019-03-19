@@ -262,9 +262,15 @@ public class HibernateUtil {
     }.execute();
   }
 
+  /**
+   * @deprecated
+   * @param key
+   * @param entityType
+   * @param userName
+   */
   @Deprecated
   public void lock(int key, String entityType, String userName) {
-	  throw new UnsupportedOperationException("This method is deprecated!");
+    // empty constructor because throw error
   }
 
   /*

@@ -21,7 +21,7 @@ import static org.folio.marccat.util.F.deepCopy;
 public class MarcCommandLibrary {
 	
 	private MarcCommandLibrary() {
-		throw new UnsupportedOperationException("Library utility class");
+    // empty constructor because throw error
 	}
 
   /**

@@ -101,10 +101,9 @@
       <version>${mod-configuration-version}</version>
     </dependency>
     <dependency>
-      <groupId>org.folio</groupId>
-      <artifactId>postgres-runner</artifactId>
-      <version>23.6.0</version>
-      <scope>test</scope>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>${postgres-version}</version>
     </dependency>
     <dependency>
       <groupId>commons-httpclient</groupId>

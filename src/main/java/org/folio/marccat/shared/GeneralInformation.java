@@ -84,7 +84,7 @@ public class GeneralInformation {
   private String languageCode;
 
   public GeneralInformation() {
-	  throw new UnsupportedOperationException();
+    // empty constructor because throw error
   }
 
   /**

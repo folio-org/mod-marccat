@@ -18,7 +18,7 @@ import static org.folio.marccat.resources.shared.FixedFieldUtils.isFixedField;
 public class RecordUtils {
 
 	private RecordUtils() {
-		throw new UnsupportedOperationException("This is an utility class");
+    // empty constructor because throw error
 	}
 	
   /**

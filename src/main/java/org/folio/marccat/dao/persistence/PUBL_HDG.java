@@ -132,17 +132,11 @@ public class PUBL_HDG extends Descriptor implements Serializable {
       CorrelationValues.UNDEFINED);
   }
 
-  /* (non-Javadoc)
-   * @see Descriptor#setCorrelationValues(CorrelationValues)
-   */
   @Override
   public void setCorrelationValues(CorrelationValues v) {
-	  throw new UnsupportedOperationException();
+    // empty constructor because throw error
   }
 
-  /* (non-Javadoc)
-   * @see Descriptor#getSortFormParameters()
-   */
   public SortFormParameters getSortFormParameters() {
     return new SortFormParameters(100, 104, 0, 0, 0);
   }
