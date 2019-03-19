@@ -15,15 +15,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 @ActiveProfiles("test")
 public class FieldCollectionAPIUnitTest extends AbstractUnitTest {
 
-  /**
-   * Setup fixture for this integration test case.
-   */
-  @Before
-  public void setUp() {
-    super.setUp();
-  }
-
-
   @Test
   public void getFieldCollection() {
     final FieldCollection fieldCollection = get(address("/bibliographic/fields/mandatory?view=1"), FieldCollection.class);

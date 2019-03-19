@@ -17,14 +17,6 @@ import static org.junit.Assert.assertEquals;
 @ActiveProfiles("test")
 public class HeaderTypeAPIUnitTest extends AbstractUnitTest {
 
-  /**
-   * Setup fixture for this integration test case.
-   */
-  @Before
-  public void setUp() {
-    super.setUp();
-  }
-
   @Test
   public void getHeaderTypes() {
     final HeadingTypeCollection headingTypeCollection = get(address("/header-types?type=B&code=32"), HeadingTypeCollection.class);

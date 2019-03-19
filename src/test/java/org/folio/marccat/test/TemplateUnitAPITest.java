@@ -17,14 +17,6 @@ import static org.junit.Assert.assertEquals;
 @ActiveProfiles("test")
 public class TemplateUnitAPITest extends AbstractUnitTest {
 
-  /**
-   * Setup fixture for this integration test case.
-   */
-  @Before
-  public void setUp() {
-    super.setUp();
-  }
-
 
   @Test
   public void getTemplates() {

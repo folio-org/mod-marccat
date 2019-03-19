@@ -1,8 +1,6 @@
 package org.folio.marccat.test;
 
 import org.folio.marccat.config.AbstractUnitTest;
-import org.folio.marccat.resources.domain.RecordTemplateCollection;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,13 +12,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 @ActiveProfiles("test")
 public class BrowseAPIUnitTest extends AbstractUnitTest {
 
-  /**
-   * Setup fixture for this integration test case.
-   */
-  @Before
-  public void setUp() {
-    super.setUp();
-  }
 
   @Test
   public void getRecord() {

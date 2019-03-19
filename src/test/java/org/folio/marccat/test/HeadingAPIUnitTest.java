@@ -15,13 +15,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 @ActiveProfiles("test")
 public class HeadingAPIUnitTest extends AbstractUnitTest {
 
-  /**
-   * Setup fixture for this integration test case.
-   */
-  @Before
-  public void setUp() {
-    super.setUp();
-  }
 
   @Test
   public void createHeading() {
