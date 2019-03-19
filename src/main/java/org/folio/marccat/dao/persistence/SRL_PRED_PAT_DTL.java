@@ -352,7 +352,7 @@ public class SRL_PRED_PAT_DTL implements Persistence, Serializable {
   }
 
   public void generateNewKey() {
-    // TODO Auto-generated method stub
+
 
   }
 

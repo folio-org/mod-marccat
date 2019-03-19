@@ -13,7 +13,6 @@ import org.folio.marccat.util.StringText;
 
 
 public class ProjectedPublicationDateTag extends VariableHeaderUsingItemEntity {
-  //TODO subfield a should be validated for yyyymm or - for unknown
 
 
   public ProjectedPublicationDateTag() {

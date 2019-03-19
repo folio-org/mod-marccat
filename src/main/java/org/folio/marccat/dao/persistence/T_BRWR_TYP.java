@@ -14,7 +14,7 @@ package org.folio.marccat.dao.persistence;
  */
 public class T_BRWR_TYP extends T_SINGLE {
 
-  /* TODO  what is the contents of the associated code table?
+  /*
    * can't this be the replaced by T_PRSN_CIRTN_TYP table?
    * There already exists a table called T_BRW_TYP (shared/local)
    * we don't want to get confused on these tables */

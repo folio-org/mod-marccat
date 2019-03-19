@@ -148,7 +148,6 @@ public class NME_TTL_HDG extends Descriptor {
    * @see Descriptor#getSortFormParameters()
    */
   public SortFormParameters getSortFormParameters() {
-    //TODO does an NT heading have browse capabilities?
     /*
      * Could be implemented similar to Publishers (name and place) but then you
      * would need to look in two places if you were looking for name usage (for ex.)
@@ -206,7 +205,7 @@ public class NME_TTL_HDG extends Descriptor {
    */
   @Override
   public void setStringText(String string) {
-    /* TODO
+    /*
      * Puts all subfields before $t into name and all after into title  --
      * this may result in invalid subfields if input does not follow this
      * convention

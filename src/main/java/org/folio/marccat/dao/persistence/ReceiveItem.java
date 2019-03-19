@@ -132,7 +132,7 @@ public class ReceiveItem implements Persistence {
    * @see librisuite.business.common.Persistence#generateNewKey()
    */
   public void generateNewKey() throws DataAccessException {
-    // TODO Auto-generated method stub
+
 
   }
 

@@ -301,7 +301,7 @@ public class SerialPart implements Persistence, Serializable {
    * @see librisuite.business.common.Persistence#generateNewKey()
    */
   public void generateNewKey(final Session session) throws DataAccessException {
-    // TODO Auto-generated method stub
+
 
   }
 

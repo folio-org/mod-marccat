@@ -69,7 +69,7 @@ public class InventoryLogicalSearchKey implements Serializable {
    * @see java.lang.Object#equals(java.lang.Object)
    */
   public boolean equals(Object arg0) {
-    // TODO Auto-generated method stub
+
     return super.equals(arg0);
   }
 
@@ -77,7 +77,7 @@ public class InventoryLogicalSearchKey implements Serializable {
    * @see java.lang.Object#hashCode()
    */
   public int hashCode() {
-    // TODO Auto-generated method stub
+
     return super.hashCode();
   }
 }
