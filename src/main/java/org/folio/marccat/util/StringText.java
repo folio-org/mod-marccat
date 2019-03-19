@@ -458,7 +458,7 @@ public class StringText implements Serializable {
           Subfield before = getSubfield(subfieldIndex - 1);
           String bc = before.getContent();
           if (bc.endsWith(punc)) {
-            before.setContent(bc.substring(0, bc.length() - punc.length() + 1));
+            before.setContent(bc.substring(0, bc.length() - 1).trim());
           }
         }
       }

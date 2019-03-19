@@ -1251,7 +1251,7 @@ public class StorageService implements Closeable {
    * @param generalInformation -- @linked GeneralInformation for default values.
    * @throws DataAccessException in case of data access exception.
    */
-  public void saveBibliographicRecord(final BibliographicRecord record, final RecordTemplate template, final int view, final GeneralInformation generalInformation, final String lang) throws DataAccessException {
+  public void saveBibliographicRecord(final BibliographicRecord record, final RecordTemplate template, final int view, final GeneralInformation generalInformation, final String lang,  final Map<String, String> configuration) throws DataAccessException {
     CatalogItem item = null;
     try {
       item = getCatalogItemByKey(record.getId(), view);
@@ -1261,9 +1261,9 @@ public class StorageService implements Closeable {
     try {
 
       if (item == null || item.getTags().isEmpty()) {
-        item = insertBibliographicRecord(record, view, generalInformation, lang);
+        item = insertBibliographicRecord(record, view, generalInformation, lang, configuration);
       } else {
-        updateBibliographicRecord(record, item, view, generalInformation);
+        updateBibliographicRecord(record, item, view, generalInformation,configuration);
       }
 
       final int an = item.getAmicusNumber();
@@ -1331,7 +1331,7 @@ public class StorageService implements Closeable {
    * @throws DataAccessException in case of data access exception.
    */
   private void updateBibliographicRecord(final BibliographicRecord record, final CatalogItem item, final int view,
-                                         final GeneralInformation generalInformation) throws DataAccessException {
+                                         final GeneralInformation generalInformation, final Map<String, String> configuration) throws DataAccessException {
 
     final RecordParser recordParser = new RecordParser();
     final int bibItemNumber = item.getAmicusNumber();
@@ -1380,11 +1380,11 @@ public class StorageService implements Closeable {
 
           try {
             if (field.getVariableField().getCategoryCode() == Global.BIB_NOTE_CATEGORY && correlationValues.getValue(1) != Global.PUBLISHER_DEFAULT_NOTE_TYPE) {
-              recordParser.changeNoteTag(item, field, correlationValues, bibItemNumber, view);
+              recordParser.changeNoteTag(item, field, correlationValues, bibItemNumber, view, configuration);
             } else if (field.getVariableField().getCategoryCode() == Global.BIB_NOTE_CATEGORY && correlationValues.getValue(1) == Global.PUBLISHER_DEFAULT_NOTE_TYPE) {
-              recordParser.changePublisherTag(item, field, correlationValues, bibItemNumber, view, session);
+              recordParser.changePublisherTag(item, field, correlationValues, bibItemNumber, view, session, configuration);
             } else {
-              recordParser.changeAccessPointTag(item, field, correlationValues, bibItemNumber, view, session);
+              recordParser.changeAccessPointTag(item, field, correlationValues, bibItemNumber, view, session, configuration);
             }
 
           } catch (HibernateException | SQLException e) {
@@ -1430,7 +1430,7 @@ public class StorageService implements Closeable {
    * @param giAPI  -- {@linked GeneralInformation} for default values.
    * @throws DataAccessException in case of data access exception.
    */
-  private CatalogItem insertBibliographicRecord(final BibliographicRecord record, final int view, final GeneralInformation giAPI, final String lang) throws DataAccessException {
+  private CatalogItem insertBibliographicRecord(final BibliographicRecord record, final int view, final GeneralInformation giAPI, final String lang, final Map<String, String> configuration) throws DataAccessException {
     final RecordParser recordParser = new RecordParser();
     final BibliographicCatalog catalog = new BibliographicCatalog();
     final int bibItemNumber = record.getId();
@@ -1489,7 +1489,7 @@ public class StorageService implements Closeable {
           logger.error(Message.MOD_MARCCAT_00018_NO_HEADING_TYPE_CODE, variableField.getCode());
           throw new DataAccessException();
         }
-        recordParser.insertNewVariableField(item, variableField, bibItemNumber, correlationValues, session, view);
+        recordParser.insertNewVariableField(item, variableField, bibItemNumber, correlationValues, configuration, session, view);
       }
 
     });
@@ -1582,12 +1582,13 @@ public class StorageService implements Closeable {
                           final Map<String, String> configuration) throws DataAccessException {
     try {
       final BibliographicCatalog catalog = new BibliographicCatalog();
-      final CatalogItem item = new BibliographicItem();
+      CatalogItem item = catalog.newCatalogItem(new Object[]{view});
       final TagImpl impl = new BibliographicTagImpl();
       boolean isInd1IsEmpty = heading.getIndicator1().equals(EMPTY_STRING);
       boolean isInd2IsEmpty = heading.getIndicator2().equals(EMPTY_STRING);
       final Correlation corr = impl.getCorrelation(heading.getTag(), (isInd1IsEmpty) ? " ".charAt(0) : heading.getIndicator1().charAt(0), (isInd2IsEmpty) ? " ".charAt(0) : heading.getIndicator2().charAt(0), 0, session);
       final Tag newTag = catalog.getNewTag(item, corr.getKey().getMarcTagCategoryCode(), corr.getValues());
+      final List<Integer> headingNumberList = new ArrayList<>();
       if (newTag != null) {
         final StringText st = new StringText(heading.getStringText());
         ((VariableField) newTag).setStringText(st);
@@ -1595,24 +1596,39 @@ public class StorageService implements Closeable {
           final int skipInFiling = updateIndicatorNotNumeric(corr.getKey(), heading.getIndicator1(), heading.getIndicator2());
           ((Browsable) newTag).setDescriptorStringText(st);
           final Descriptor descriptor = ((Browsable) newTag).getDescriptor();
-          descriptor.setUserViewString(View.makeSingleViewString(view));
           descriptor.setSkipInFiling(skipInFiling);
-          final Descriptor dup = ((DAODescriptor) (descriptor.getDAO())).getMatchingHeading(descriptor, session);
-          if (dup == null) {
-            descriptor.setConfigValues(configuration);
-            descriptor.setSortForm(st.toString());
-            descriptor.generateNewKey(session);
-            descriptor.getDAO().save(descriptor, session);
-            heading.setHeadingNumber(descriptor.getHeadingNumber());
+          int headingNumber = createOrReplaceDescriptor(configuration, descriptor, view);
+          headingNumberList.add(headingNumber);
+          heading.setHeadingNumber(headingNumber);
+        }
+        else if(newTag.isPublisher()){
+          List<PUBL_TAG> publisherTagUnits = ((PublisherManager) newTag).getPublisherTagUnits();
+          for (PUBL_TAG publisherTag : publisherTagUnits) {
+            Descriptor descriptor = publisherTag.getDescriptor();
+            int headingNumber = createOrReplaceDescriptor(configuration, descriptor, view);
+            headingNumberList.add(headingNumber);
           }
-          if (dup != null)
-            heading.setHeadingNumber(dup.getHeadingNumber());
+            heading.setHeadingNumber(0);
         }
       }
     } catch (HibernateException | SQLException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
     }
+  }
+
+  private int createOrReplaceDescriptor(final Map <String, String> configuration, final Descriptor descriptor, final int view) throws HibernateException, SQLException {
+    descriptor.setUserViewString(View.makeSingleViewString(view));
+    descriptor.setConfigValues(configuration);
+    final Descriptor dup = ((DAODescriptor) (descriptor.getDAO())).getMatchingHeading(descriptor, session);
+    if (dup == null) {
+      descriptor.generateNewKey(session);
+      descriptor.getDAO().save(descriptor, session);
+      return descriptor.getHeadingNumber();
+    }
+    else
+      return dup.getHeadingNumber();
+
   }
 
   /**
@@ -1667,6 +1683,7 @@ public class StorageService implements Closeable {
           ((Browsable) newTag).setDescriptorStringText(st);
           final Descriptor descriptor = ((Browsable) newTag).getDescriptor();
           final DAODescriptor descriptorDao = DescriptorFactory.getDao(heading.getCategory());
+          //final Descriptor d = descriptorDao.load(heading.getHeadingNumber().get(0), view, session);
           final Descriptor d = descriptorDao.load(heading.getHeadingNumber(), view, session);
           if (d != null) {
             d.setSkipInFiling(skipInFiling);
@@ -1692,6 +1709,7 @@ public class StorageService implements Closeable {
   public void deleteHeadingById(final Heading heading, final int view) throws DataAccessException {
     try {
       final DAODescriptor descriptorDao = DescriptorFactory.getDao(heading.getCategory());
+      //final Descriptor d = descriptorDao.load(heading.getHeadingNumber().get(0), view, session);
       final Descriptor d = descriptorDao.load(heading.getHeadingNumber(), view, session);
       d.getDAO().delete(d, session);
     } catch (HibernateException exception) {
