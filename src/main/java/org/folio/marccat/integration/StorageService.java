@@ -1603,6 +1603,7 @@ public class StorageService implements Closeable {
             descriptor.getDAO().save(descriptor, session);
             heading.setCategory(newTag.getCategory());
             heading.setHeadingNumber(descriptor.getHeadingNumber());
+            heading.setCategory(newTag.getCategory());
           }
           if (dup != null){
             heading.setCategory(newTag.getCategory());

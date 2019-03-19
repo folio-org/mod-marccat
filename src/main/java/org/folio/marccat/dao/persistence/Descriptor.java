@@ -587,7 +587,6 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
    * @throws SQLException                         the SQL exception
    */
   @Deprecated
-  //TODO: move this method in API
   public void checkDescriptor(boolean allowPotentialDup, final Session session)
     throws HibernateException, SQLException {
 
@@ -611,7 +610,6 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
    * @throws SQLException       the SQL exception
    */
   @Deprecated
-  //TODO: move this method in API
   public boolean isMatchingAnotherHeading(final Session session) throws HibernateException, SQLException {
     return ((DAODescriptor) getDAO()).isMatchingAnotherHeading(this, session);
   }
@@ -625,7 +623,6 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
    * @throws SQLException       the SQL exception
    */
   @Deprecated
-  //TODO: move this method in API
   public boolean hasMatchingSortformInAnotherView(final Session session) throws HibernateException, SQLException {
     return ((DAODescriptor) getDAO())
       .hasMatchingSortformInAnotherView(this, session);
@@ -648,7 +645,6 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
    * @since 1.0
    */
   @Deprecated
-  //TODO: move this method in API
   public void validate() {
     StringText st = new StringText(getStringText());
     if (st.getSubfieldList().isEmpty()) {

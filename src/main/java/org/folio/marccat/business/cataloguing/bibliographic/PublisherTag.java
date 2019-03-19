@@ -599,7 +599,6 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
     }
   }
 
-  //todo: add session
   public List replaceEquivalentDescriptor(short indexingLanguage, int cataloguingView) throws DataAccessException {
     final DAODescriptor dao = new PublisherDescriptorDAO();
     List newTags = new ArrayList();

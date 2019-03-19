@@ -20,7 +20,6 @@ import static java.util.stream.Collectors.toList;
  * @author paulm
  * @since 1.0
  */
-//TODO: transaction management and rollback in case of hibernate exception
 public abstract class ModelDAO extends AbstractDAO {
 
   /**

@@ -59,7 +59,7 @@ public class T_SINGLE_CHAR extends CodeTable {
   }
 
   public int getNextNumber() throws DataAccessException {
-    // TODO Auto-generated method stub
+
     return 0;
   }
 

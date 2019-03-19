@@ -76,8 +76,6 @@ public class T_VIEW_SHORT extends CodeTable {
     try {
       return daoCodeTable.getTranslationString(getTranslationKey(), locale);
     } catch (DataAccessException e) {
-//TODO we catch a Data exception here for convenience
-// since only this class does db activity to get text values		
       logger.warn("Data Exception reading translations");
       return null;
     }
@@ -102,7 +100,7 @@ public class T_VIEW_SHORT extends CodeTable {
   }
 
   public int getNextNumber() throws DataAccessException {
-    // TODO Auto-generated method stub
+
     return 0;
   }
 }

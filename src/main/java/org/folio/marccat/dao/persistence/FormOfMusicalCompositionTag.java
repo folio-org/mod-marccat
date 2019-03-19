@@ -13,9 +13,6 @@ import org.folio.marccat.util.StringText;
 
 
 public class FormOfMusicalCompositionTag extends VariableHeaderUsingItemEntity {
-  //TODO saveUndoSave doesn't work
-  //TODO subfield a should be validated against code table
-
 
   public FormOfMusicalCompositionTag() {
     super();
@@ -37,7 +34,6 @@ public class FormOfMusicalCompositionTag extends VariableHeaderUsingItemEntity {
 
   @Override
   public void setStringText(StringText st) {
-//TODO need a more definitive way to set to null		
     if (st.toString().equals(Subfield.SUBFIELD_DELIMITER + "a")) {
       ((BIB_ITM) getItemEntity()).setFormOfMusicStringText(null);
     } else {

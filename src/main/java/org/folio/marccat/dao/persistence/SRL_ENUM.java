@@ -286,7 +286,7 @@ public class SRL_ENUM implements Persistence, Serializable {
   }
 
   public void generateNewKey() throws DataAccessException {
-    // TODO Auto-generated method stub
+
 
   }
 
