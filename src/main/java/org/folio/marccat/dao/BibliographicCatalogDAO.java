@@ -88,7 +88,13 @@ public class BibliographicCatalogDAO extends CatalogDAO {
    */
   public BibliographicItem getBibliographicItemByAmicusNumber(final int amicusNumber, final int userView, final Session session) throws HibernateException {
     BibliographicItem item = getBibliographicItemWithoutRelationships(amicusNumber, userView, session);
-    item.getTags().addAll(getBibliographicRelationships(amicusNumber, userView, session));
+    // pass session, beacause the relashionsip needed it
+    item.getTags()
+      .stream()
+      //.filter(t -> !(t instanceof BibliographicNoteTag))
+      .filter(t -> !(t instanceof PublisherManager))
+      .collect(Collectors.toList());
+      //.addAll(getBibliographicRelationships(amicusNumber, userView, session));
     item.getTags().forEach(tag -> {
       tag.setTagImpl(new BibliographicTagImpl());
       if (tag instanceof MaterialDescription) {
