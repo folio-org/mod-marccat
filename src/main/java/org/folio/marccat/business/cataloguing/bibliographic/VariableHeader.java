@@ -24,7 +24,7 @@ public abstract class VariableHeader extends VariableField implements HeaderFiel
    * @see VariableField#getStringText()
    */
   public StringText getStringText() {
-    // TODO Auto-generated method stub
+
     return null;
   }
 
@@ -32,7 +32,7 @@ public abstract class VariableHeader extends VariableField implements HeaderFiel
    * @see VariableField#setStringText(org.folio.marccat.util.StringText)
    */
   public void setStringText(StringText stringText) {
-    // TODO Auto-generated method stub
+
 
   }
 

@@ -193,8 +193,9 @@ public class PublisherManager extends VariableField implements PersistentObjectW
       final String remainingFieldsText = stringText.getSubfieldsWithCodes(Global.PUBLISHER_FAST_PRINTER_SUBFIELD_CODES).toString();
       if (F.isNotNullOrEmpty(remainingFieldsText) && remainingFieldsText.contains(Subfield.SUBFIELD_DELIMITER)) {
         setStringTextForFastDigitPublisher(remainingFieldsText.replaceAll(Subfield.SUBFIELD_DELIMITER, Global.SUBFIELD_DELIMITER_FOR_VIEW));
-      } else
+      } else {
         setStringTextForFastDigitPublisher(remainingFieldsText);
+      }
     }
   }
 

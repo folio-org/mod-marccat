@@ -7,16 +7,20 @@
  */
 package org.folio.marccat.dao;
 
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.folio.marccat.dao.common.HibernateUtil;
 import org.folio.marccat.dao.common.TransactionalHibernateOperation;
 import org.folio.marccat.dao.persistence.CPY_ID;
 import org.folio.marccat.dao.persistence.SHLF_LIST;
 import org.folio.marccat.exception.DataAccessException;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 
 /**
  * @author paulm
@@ -24,20 +28,21 @@ import java.sql.SQLException;
  * @since 1.0
  */
 public class DAODiscard extends DAOCopy {
+	  private static Log logger = LogFactory.getLog(DAODiscard.class);
+
 
   /**
    * @param copyNumber
    * @param discardTyp
    * @throws DataAccessException
    */
-  public void save(final SHLF_LIST shelf, final int copyNumber, final int discardTyp) throws DataAccessException {
+  public void save(final SHLF_LIST shelf, final int copyNumber, final int discardTyp) {
 
     new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
-        throws HibernateException,
-        DataAccessException {
-        CPY_ID copy = (CPY_ID) s.get(CPY_ID.class, new Integer(
-          copyNumber));
+        throws HibernateException
+      {
+        CPY_ID copy = (CPY_ID) s.get(CPY_ID.class,(copyNumber));
         copy.setShelfList(shelf);
         if (copy.getShelfListKeyNumber() != null) {
           copy.setShelfListKeyNumber(0);
@@ -46,7 +51,6 @@ public class DAODiscard extends DAOCopy {
         detachShelfList(copy, copy.getShelfList());
         // tabella DISCARD_CPY
         saveDiscard(copy, discardTyp);
-        //if(copy.getShelfListKeyNumber()==0)
         s.update(copy);
 
       }
@@ -59,7 +63,7 @@ public class DAODiscard extends DAOCopy {
    * @param discardTyp
    * @throws DataAccessException
    */
-  public void saveDiscard(CPY_ID cpy, int discardTyp) throws DataAccessException {
+  public void saveDiscard(CPY_ID cpy, int discardTyp) {
     Connection connection = null;
     PreparedStatement stmt = null;
     Session session = currentSession();
@@ -75,21 +79,15 @@ public class DAODiscard extends DAOCopy {
       stmt.setInt(6, cpy.getLocationNameCode());
       stmt.execute();
       //Update se esiste gia il record solo delle due info DSCRD_CDE, DSCRD_DTE
-    } catch (HibernateException e) {
-      e.printStackTrace();
-      logAndWrap(e);
-
-    } catch (SQLException e) {
-      e.printStackTrace();
-      logAndWrap(e);
+    } catch (HibernateException | SQLException e) {
+    	logger.error(e);
     } finally {
       try {
         if (stmt != null) {
           stmt.close();
         }
       } catch (SQLException e) {
-        e.printStackTrace();
-        logAndWrap(e);
+    	  logger.error(e);
       }
     }
   }

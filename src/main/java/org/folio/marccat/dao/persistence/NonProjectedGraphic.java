@@ -26,8 +26,9 @@ public class NonProjectedGraphic extends PhysicalDescription {
   /* (non-Javadoc)
    * @see FixedField#getDisplayString()
    */
+  @Override
   public String getDisplayString() {
-    String result =
+    return
       ""
         + getGeneralMaterialDesignationCode()
         + getSpecificMaterialDesignationCode()
@@ -35,12 +36,12 @@ public class NonProjectedGraphic extends PhysicalDescription {
         + getColourCode()
         + getPrimarySupportMaterialCode()
         + getSecondarySupportMaterialCode();
-    return result;
   }
 
   /* (non-Javadoc)
    * @see librisuite.business.cataloguing.bibliographic.Tag#generateNewKey()
    */
+  @Override
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
     setKeyNumber(dao.getNextNumber("X6", session));
@@ -49,6 +50,7 @@ public class NonProjectedGraphic extends PhysicalDescription {
   /* (non-Javadoc)
    * @see librisuite.business.cataloguing.bibliographic.PhysicalDescription#isNonProjectedGraphic()
    */
+  @Override
   public boolean isNonProjectedGraphic() {
     return true;
   }

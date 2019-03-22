@@ -23,7 +23,7 @@ public class EquivalenceReference extends AuthorityReferenceTag {
 
 
   @Override
-  public CorrelationKey getMarcEncoding() throws DataAccessException {
+  public CorrelationKey getMarcEncoding() {
     CorrelationKey key = super.getMarcEncoding();
     logger.debug("getMarcEncoding before source: " + key);
     key = key.changeAuthoritySourceIndicator(getDescriptor().getAuthoritySourceCode());
@@ -46,6 +46,7 @@ public class EquivalenceReference extends AuthorityReferenceTag {
    * @param v
    * @return
    */
+  @Override
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
     if (!super.correlationChangeAffectsKey(v)) {
       return !ReferenceType.isEquivalence(v.getValue(getRefTypeCorrelationPosition()));

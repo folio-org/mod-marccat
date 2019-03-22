@@ -72,7 +72,7 @@ public class StringText implements Serializable {
    */
   public static Set stringToSetOfSubfieldCodes(String str) {
     if (str == null) {
-      return null;
+      return Collections.emptySet();
     }
     Set set = new TreeSet(new SubfieldCodeComparator());
     if (str.startsWith(" ")) {

@@ -11,6 +11,7 @@ public abstract class FixedFieldUsingItemEntity extends FixedField implements Pe
   private ItemEntity itemEntity = null;
 
 
+  @Override
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
     return (v.isValueDefined(1) && (v.getValue(1) != getHeaderType()));
   }

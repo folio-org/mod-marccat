@@ -80,10 +80,12 @@ public class SemanticDAO {
       try {
         rs.close();
       } catch (Exception e) {
+    	  logger.error(e.getMessage(), e);
       }
       try {
         selectStatement.close();
       } catch (Exception e) {
+    	  logger.error(e.getMessage(), e);
       }
     }
   }

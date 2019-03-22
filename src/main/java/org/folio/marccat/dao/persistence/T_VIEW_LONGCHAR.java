@@ -44,6 +44,7 @@ public class T_VIEW_LONGCHAR extends CodeTable {
   /* (non-Javadoc)
    * @see java.lang.Object#equals(java.lang.Object)
    */
+  @Override
   public boolean equals(Object arg0) {
     if (arg0.getClass().equals(this.getClass())) {
       T_VIEW_LONGCHAR t = (T_VIEW_LONGCHAR) arg0;
@@ -56,6 +57,7 @@ public class T_VIEW_LONGCHAR extends CodeTable {
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
+  @Override
   public int hashCode() {
     return getCode().hashCode();
   }
@@ -74,8 +76,6 @@ public class T_VIEW_LONGCHAR extends CodeTable {
     try {
       return daoCodeTable.getTranslationString(getTranslationKey(), locale);
     } catch (DataAccessException e) {
-//TODO we catch a Data exception here for convenience
-// since only this class does db activity to get text values		
       logger.warn("Data Exception reading translations");
       return null;
     }
@@ -98,7 +98,7 @@ public class T_VIEW_LONGCHAR extends CodeTable {
   }
 
   public int getNextNumber() throws DataAccessException {
-    // TODO Auto-generated method stub
+
     return 0;
   }
 

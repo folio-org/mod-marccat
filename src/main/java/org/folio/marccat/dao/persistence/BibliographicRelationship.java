@@ -143,7 +143,7 @@ public class BibliographicRelationship extends VariableField implements Persiste
    * @throws DataAccessException the data access exception
    * @throws HibernateException  the hibernate exception
    */
-  public void generateNewBlindRelationshipKey(final Session session) throws DataAccessException, HibernateException {
+  public void generateNewBlindRelationshipKey(final Session session) throws HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
     setTargetBibItemNumber(-dao.getNextNumber("BR", session));
   }
@@ -254,7 +254,7 @@ public class BibliographicRelationship extends VariableField implements Persiste
    * @return the first correlation list
    * @throws DataAccessException the data access exception
    */
-  public List getFirstCorrelationList() throws DataAccessException {
+  public List getFirstCorrelationList() {
     return Collections.emptyList();
   }
 
@@ -300,7 +300,7 @@ public class BibliographicRelationship extends VariableField implements Persiste
    * @return the reciprocal list
    * @throws DataAccessException the data access exception
    */
-  public List getReciprocalList() throws DataAccessException {
+  public List getReciprocalList() {
     return Collections.emptyList();
   }
 
@@ -310,7 +310,7 @@ public class BibliographicRelationship extends VariableField implements Persiste
    * @return the reciprocal option
    * @throws DataAccessException the data access exception
    */
-  public int getReciprocalOption() throws DataAccessException {
+  public int getReciprocalOption() {
     if (getReciprocalType() == -1) {
       DAOBibliographicRelationship b = new DAOBibliographicRelationship();
       if (this.getTargetBibItemNumber() < 0) {
@@ -427,7 +427,7 @@ public class BibliographicRelationship extends VariableField implements Persiste
   /* (non-Javadoc)
    * @see librisuite.business.cataloguing.bibliographic.Tag#getSecondCorrelationList(short, java.util.Locale)
    */
-  public List getSecondCorrelationList(short value1) throws DataAccessException {
+  public List getSecondCorrelationList(short value1) {
     return Collections.emptyList();
   }
 
@@ -497,8 +497,7 @@ public class BibliographicRelationship extends VariableField implements Persiste
    * @throws DataAccessException the data access exception
    */
   @Override
-  public List getThirdCorrelationList(int value1, int value2)
-    throws DataAccessException {
+  public List getThirdCorrelationList(int value1, int value2) {
     return Collections.emptyList();
   }
 

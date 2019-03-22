@@ -92,8 +92,7 @@ public class AuthorityClassificationAccessPoint extends AuthorityAccessPoint {
   /* (non-Javadoc)
    * @see librisuite.business.cataloguing.bibliographic.Tag#getSecondCorrelationList(short)
    */
-  public List getSecondCorrelationList(short value1)
-    throws DataAccessException {
+  public List getSecondCorrelationList(short value1) {
     DAOAuthorityCorrelation dao = new DAOAuthorityCorrelation();
     List l = dao.getSecondCorrelationList(
       getCategory(),

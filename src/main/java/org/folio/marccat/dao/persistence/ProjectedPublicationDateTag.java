@@ -13,7 +13,6 @@ import org.folio.marccat.util.StringText;
 
 
 public class ProjectedPublicationDateTag extends VariableHeaderUsingItemEntity {
-  //TODO subfield a should be validated for yyyymm or - for unknown
 
 
   public ProjectedPublicationDateTag() {
@@ -21,6 +20,7 @@ public class ProjectedPublicationDateTag extends VariableHeaderUsingItemEntity {
     setHeaderType((short) 38);
   }
 
+  @Override
   public StringText getStringText() {
     StringText result = null;
     String source = "" + ((BIB_ITM) getItemEntity()).getProjectedPublicationDateCode();
@@ -33,6 +33,7 @@ public class ProjectedPublicationDateTag extends VariableHeaderUsingItemEntity {
     return result;
   }
 
+  @Override
   public void setStringText(StringText st) {
 //TODO need a more definitive way to set to null
     if (st.toString().equals(Subfield.SUBFIELD_DELIMITER + "a")) {

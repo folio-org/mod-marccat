@@ -1,7 +1,8 @@
 package org.folio.marccat.dao.persistence;
 
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
+import java.io.Serializable;
+import java.util.Locale;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.common.Persistence;
@@ -11,8 +12,8 @@ import org.folio.marccat.dao.DAOCodeTable;
 import org.folio.marccat.exception.ChronologyConfigurationException;
 import org.folio.marccat.exception.DataAccessException;
 
-import java.io.Serializable;
-import java.util.Locale;
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
 
 public class SRL_PRED_PAT_DTL implements Persistence, Serializable {
   /**
@@ -26,11 +27,11 @@ public class SRL_PRED_PAT_DTL implements Persistence, Serializable {
   private int sequenceNumber;
   private short partType;
   private int patternClass;
-  private Integer ordinal = new Integer(1);
-  private Integer timeField = new Integer(1);
-  private Integer stepCount = new Integer(1);
-  private Integer month = new Integer(0);
-  private Integer day = new Integer(1);
+  private Integer ordinal = (1);
+  private Integer timeField = (1);
+  private Integer stepCount = (1);
+  private Integer month = (0);
+  private Integer day = (1);
   private boolean monday;
   private boolean tuesday;
   private boolean wednesday;
@@ -346,12 +347,12 @@ public class SRL_PRED_PAT_DTL implements Persistence, Serializable {
     return persistenceState.toString();
   }
 
-  public void evict() throws DataAccessException {
+  public void evict() {
     persistenceState.evict(this);
   }
 
-  public void generateNewKey() throws DataAccessException {
-    // TODO Auto-generated method stub
+  public void generateNewKey() {
+
 
   }
 

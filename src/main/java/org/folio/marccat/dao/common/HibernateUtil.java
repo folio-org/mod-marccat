@@ -1,9 +1,14 @@
 package org.folio.marccat.dao.common;
 
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.LockMode;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.type.Type;
+import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.common.Persistence;
@@ -11,15 +16,11 @@ import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.config.log.Message;
 import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.exception.RecordInUseException;
 
-import java.io.Serializable;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.LockMode;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.type.Type;
 
 /**
  * Provides a base class of support utilities for DAO objects
@@ -27,6 +28,7 @@ import java.util.List;
 @Deprecated
 public class HibernateUtil {
 
+  private static String dontCall = "Don't call me!";
   private static Log logger = LogFactory.getLog(HibernateUtil.class);
   private static ThreadLocal/* <Connection> */lockingSession = new ThreadLocal/* <Connection> */();
   private static ThreadLocal/* <String> */lockingSessionId = new ThreadLocal/* <String> */();
@@ -66,18 +68,18 @@ public class HibernateUtil {
     }
   }
 
-  public Session currentSession() throws DataAccessException {
-    throw new IllegalArgumentException("Don't call me!");
+  public Session currentSession() {
+    throw new IllegalArgumentException(dontCall);
 
   }
 
   @Deprecated
   public void closeSession() {
-    throw new IllegalArgumentException("Don't call me!");
+    throw new IllegalArgumentException(dontCall);
   }
 
   public void logAndWrap(Throwable e) {
-    throw new IllegalArgumentException("Don't call me!");
+    throw new IllegalArgumentException(dontCall);
   }
 
 
@@ -87,15 +89,15 @@ public class HibernateUtil {
    * DAO.delete() method is invoked.
    */
   @Deprecated
-  public void persistByStatus(Persistence po) throws DataAccessException {
-    throw new IllegalArgumentException("DON'T CALL ME!!!");
+  public void persistByStatus(Persistence po) {
+    throw new IllegalArgumentException(dontCall);
   }
 
   /**
    * performs isolateView on a List
    */
   @Deprecated
-  public List isolateViewForList(List multiView, int userView) throws DataAccessException {
+  public List isolateViewForList(List multiView, int userView) {
     if (userView == View.ANY) {
       return multiView;
     }
@@ -113,7 +115,7 @@ public class HibernateUtil {
    * of the passed argument
    */
   @Deprecated
-  public PersistentObjectWithView isolateView(final PersistentObjectWithView p, final int userView) throws DataAccessException {
+  public PersistentObjectWithView isolateView(final PersistentObjectWithView p, final int userView) {
     return null;
   }
 
@@ -128,7 +130,7 @@ public class HibernateUtil {
    * @return the persistent instance
    * @throws DataAccessException
    */
-  public Object load(Class clazz, Serializable id) throws DataAccessException {
+  public Object load(Class clazz, Serializable id) {
     try {
       return currentSession().load(clazz, id);
     } catch (HibernateException e) {
@@ -195,7 +197,7 @@ public class HibernateUtil {
       return currentSession().find(query, values, types);
     } catch (HibernateException e) {
       logAndWrap(e);
-      return null;
+      return Collections.emptyList();
     }
   }
 
@@ -214,8 +216,8 @@ public class HibernateUtil {
       return session.find(query);
     } catch (HibernateException e) {
       logAndWrap(e);
-      return null;
-    }
+      return Collections.emptyList();  
+      }
   }
 
   /**
@@ -261,14 +263,16 @@ public class HibernateUtil {
   }
 
   @Deprecated
-  public void lock(int key, String entityType, String userName) throws DataAccessException, RecordInUseException {
+  public void lock(int key, String entityType, String userName) {
+	  throw new UnsupportedOperationException("This method is deprecated!");
   }
 
   /*
    *
    */
   @Deprecated
-  public void unlock(int key, String entityType) throws DataAccessException {
+  public void unlock(int key, String entityType) {
+	  throw new UnsupportedOperationException("This method is deprecated!");
   }
 
 

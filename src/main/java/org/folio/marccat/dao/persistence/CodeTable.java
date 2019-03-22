@@ -1,14 +1,14 @@
 package org.folio.marccat.dao.persistence;
 
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
+import java.io.Serializable;
+
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.DAOCodeTable;
-import org.folio.marccat.exception.DataAccessException;
 
-import java.io.Serializable;
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
 
 public abstract class CodeTable implements Persistence {
   private char obsoleteIndicator;
@@ -25,7 +25,7 @@ public abstract class CodeTable implements Persistence {
     super();
   }
 
-  public abstract int getNextNumber() throws DataAccessException;
+  public abstract int getNextNumber();
 
   public String getLongText() {
     return longText;
@@ -59,7 +59,7 @@ public abstract class CodeTable implements Persistence {
     sequence = s;
   }
 
-  abstract public String getCodeString();
+  public abstract String getCodeString();
 
   public String getLanguage() {
     return language;
@@ -69,11 +69,11 @@ public abstract class CodeTable implements Persistence {
     language = string;
   }
 
-  public void evict() throws DataAccessException {
+  public void evict() {
     persistenceState.evict(this);
   }
 
-  public void generateNewKey() throws DataAccessException {
+  public void generateNewKey() {
   }
 
   public AbstractDAO getDAO() {

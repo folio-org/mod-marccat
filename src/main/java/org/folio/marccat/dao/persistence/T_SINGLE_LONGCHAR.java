@@ -31,9 +31,10 @@ public class T_SINGLE_LONGCHAR extends CodeTable {
    * @see CodeTable#getCodeString()
    */
   public String getCodeString() {
-    return code;
+    return getCode();
   }
 
+  @Override
   public boolean equals(Object obj) {
     if (!(obj.getClass().equals(this.getClass())))
       return false;
@@ -44,6 +45,7 @@ public class T_SINGLE_LONGCHAR extends CodeTable {
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
+  @Override
   public int hashCode() {
     return getCode().hashCode() + getLanguage().hashCode();
   }
@@ -54,8 +56,7 @@ public class T_SINGLE_LONGCHAR extends CodeTable {
     }
   }
 
-  public int getNextNumber() throws DataAccessException {
-    // TODO Auto-generated method stub
+  public int getNextNumber() {
     return 0;
   }
 }

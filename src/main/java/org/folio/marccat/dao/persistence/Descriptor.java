@@ -110,7 +110,7 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
    * @throws SortFormException
    */
   @Override
-  public void calculateAndSetSortForm() throws SortFormException {
+  public void calculateAndSetSortForm() {
     setSortForm(SortformUtils.get().defaultSortform(getStringText()));
   }
 
@@ -138,7 +138,7 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
    * @throws DataAccessException the data access exception
    */
   @Deprecated
-  public void evict() throws DataAccessException {
+  public void evict() {
     po.evict(this);
   }
 
@@ -509,7 +509,7 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
    *
    * @return entity type code
    */
-  abstract public String getLockingEntityType();
+  public abstract String getLockingEntityType();
 
   /**
    * Gets the heading number.
@@ -540,8 +540,7 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
    * @return the type
    */
   public int getType(int n) {
-    int type = n >> 16;
-    return type;
+    return n >> 16;
   }
 
   /**
@@ -552,8 +551,7 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
    * @return the function
    */
   public int getFunction(int n) {
-    int function = n & 65535;
-    return function;
+    return n & 65535;
   }
 
   /**
@@ -589,10 +587,8 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
    * @throws SQLException                         the SQL exception
    */
   @Deprecated
-  //TODO: move this method in API
   public void checkDescriptor(boolean allowPotentialDup, final Session session)
-    throws DuplicateDescriptorException,
-    MatchedHeadingInAnotherViewException, HibernateException, SQLException {
+    throws HibernateException, SQLException {
 
     if (isDeleted()) { // no check needed
       return;
@@ -614,7 +610,6 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
    * @throws SQLException       the SQL exception
    */
   @Deprecated
-  //TODO: move this method in API
   public boolean isMatchingAnotherHeading(final Session session) throws HibernateException, SQLException {
     return ((DAODescriptor) getDAO()).isMatchingAnotherHeading(this, session);
   }
@@ -628,7 +623,6 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
    * @throws SQLException       the SQL exception
    */
   @Deprecated
-  //TODO: move this method in API
   public boolean hasMatchingSortformInAnotherView(final Session session) throws HibernateException, SQLException {
     return ((DAODescriptor) getDAO())
       .hasMatchingSortformInAnotherView(this, session);
@@ -639,7 +633,7 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
    *
    * @throws DataAccessException the data access exception
    */
-  public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
+  public void generateNewKey(final Session session) throws HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
     getKey().setHeadingNumber(dao.getNextNumber(getNextNumberKeyFieldCode(), session));
   }
@@ -651,10 +645,9 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
    * @since 1.0
    */
   @Deprecated
-  //TODO: move this method in API
-  public void validate() throws InvalidDescriptorException {
+  public void validate() {
     StringText st = new StringText(getStringText());
-    if (st.getSubfieldList().size() == 0) {
+    if (st.getSubfieldList().isEmpty()) {
       throw new DescriptorHasNoSubfieldsException();
     }
     Iterator iter = st.getSubfieldList().iterator();
@@ -729,21 +722,21 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
    *
    * @return the access point class
    */
-  abstract public Class getAccessPointClass();
+  public abstract Class getAccessPointClass();
 
   /**
    * Gets the correlation values.
    *
    * @return the correlation values
    */
-  abstract public CorrelationValues getCorrelationValues();
+  public abstract CorrelationValues getCorrelationValues();
 
   /**
    * Sets the correlation values.
    *
    * @param v the new correlation values
    */
-  abstract public void setCorrelationValues(CorrelationValues v);
+  public abstract void setCorrelationValues(CorrelationValues v);
 
   /**
    * Gets the default browse key.
@@ -753,7 +746,7 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
    * "2P0"). The value returned should correspond to the value of
    * IDX_LIST.IDX_LIST_KEY_NBR + IDX_LIST_TYPE_CDE
    */
-  abstract public String getDefaultBrowseKey();
+  public abstract String getDefaultBrowseKey();
 
 
   /**
@@ -763,7 +756,7 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
    * searching by headingNumber for this type of Descriptor (e.g.
    * Names == "227P" (NK index)).
    */
-  abstract public String getHeadingNumberSearchIndexKey();
+  public abstract String getHeadingNumberSearchIndexKey();
 
 
   /**
@@ -771,7 +764,7 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
    *
    * @return the next number key field code
    */
-  abstract public String getNextNumberKeyFieldCode();
+  public abstract String getNextNumberKeyFieldCode();
 
   /**
    * Gets the reference class.
@@ -781,12 +774,12 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
    * this descriptor type (e.g. Names == NME_REF) to the referenced
    * target class
    */
-  abstract public Class getReferenceClass(Class targetClazz);
+  public abstract Class getReferenceClass(Class targetClazz);
 
   /**
    * Gets the sort form parameters.
    *
    * @return the sort form parameters
    */
-  abstract public SortFormParameters getSortFormParameters();
+  public abstract SortFormParameters getSortFormParameters();
 }

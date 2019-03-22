@@ -1,14 +1,14 @@
 package org.folio.marccat.dao.persistence;
 
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
+import java.io.Serializable;
+
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.DAOFullCache;
-import org.folio.marccat.exception.DataAccessException;
 
-import java.io.Serializable;
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
 
 /**
  * 2018 Paul Search Engine Java
@@ -84,7 +84,7 @@ public class FULL_CACHE implements Persistence {
 
 
   @Deprecated
-  public void evict(Object obj) throws DataAccessException {
+  public void evict(Object obj) {
     persistentState.evict(obj);
   }
 
@@ -167,14 +167,14 @@ public class FULL_CACHE implements Persistence {
    * @see librisuite.business.common.Persistence#evict()
    */
   @Deprecated
-  public void evict() throws DataAccessException {
+  public void evict() {
     evict(this);
   }
 
   /* (non-Javadoc)
    * @see librisuite.business.common.Persistence#generateNewKey()
    */
-  public void generateNewKey() throws DataAccessException {
+  public void generateNewKey() {
     // not applicable for this class
   }
 

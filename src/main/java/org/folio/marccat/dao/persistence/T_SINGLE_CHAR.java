@@ -34,6 +34,7 @@ public class T_SINGLE_CHAR extends CodeTable {
     return String.valueOf(code);
   }
 
+  @Override
   public boolean equals(Object obj) {
     if (!(obj.getClass().equals(this.getClass())))
       return false;
@@ -44,6 +45,7 @@ public class T_SINGLE_CHAR extends CodeTable {
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
+  @Override
   public int hashCode() {
     return getCode() + getLanguage().hashCode();
   }
@@ -57,7 +59,7 @@ public class T_SINGLE_CHAR extends CodeTable {
   }
 
   public int getNextNumber() throws DataAccessException {
-    // TODO Auto-generated method stub
+
     return 0;
   }
 

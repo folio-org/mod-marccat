@@ -7,18 +7,18 @@
  */
 package org.folio.marccat.dao;
 
-import net.sf.hibernate.Hibernate;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.type.Type;
+import java.util.Iterator;
+
 import org.folio.marccat.business.cataloguing.bibliographic.PublisherTag;
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.dao.common.HibernateUtil;
 import org.folio.marccat.dao.common.TransactionalHibernateOperation;
 import org.folio.marccat.dao.persistence.PublisherAccessPoint;
-import org.folio.marccat.exception.DataAccessException;
 
-import java.util.Iterator;
+import net.sf.hibernate.Hibernate;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.type.Type;
 
 /**
  * Although PublisherTag implements Persistence, it is in fact not mapped to a table
@@ -33,7 +33,8 @@ public class DAOPublisherTag extends HibernateUtil {
   /* (non-Javadoc)
    * @see HibernateUtil#delete(librisuite.business.common.Persistence)
    */
-  public void delete(Persistence po) throws DataAccessException {
+@Override
+  public void delete(Persistence po) {
     if (!(po instanceof PublisherTag)) {
       throw new IllegalArgumentException("I can only persist PublisherTag objects");
     }
@@ -50,13 +51,14 @@ public class DAOPublisherTag extends HibernateUtil {
   /* (non-Javadoc)
    * @see HibernateUtil#save(librisuite.business.common.Persistence)
    */
-  public void save(final Persistence po) throws DataAccessException {
+@Override
+  public void save(final Persistence po) {
     if (!(po instanceof PublisherTag)) {
       throw new IllegalArgumentException("I can only persist PublisherTag objects");
     }
     new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
-        throws HibernateException, DataAccessException {
+        throws HibernateException {
         PublisherTag aPub = (PublisherTag) po;
         /*
          * The approach taken to saving publisher tags is to first delete all existing
@@ -67,7 +69,7 @@ public class DAOPublisherTag extends HibernateUtil {
             + " where apf.bibItemNumber = ? and "
             + " apf.userViewString = ? ",
           new Object[]{
-            new Integer(aPub.getItemNumber()),
+            (aPub.getItemNumber()),
             aPub.getUserViewString()},
           new Type[]{Hibernate.INTEGER, Hibernate.STRING});
 
@@ -78,7 +80,6 @@ public class DAOPublisherTag extends HibernateUtil {
           apf.setBibItemNumber(aPub.getItemNumber());
           apf.setUserViewString(aPub.getUserViewString());
           apf.markNew();
-          persistByStatus(apf);
         }
       }
     }
@@ -88,7 +89,8 @@ public class DAOPublisherTag extends HibernateUtil {
   /* (non-Javadoc)
    * @see HibernateUtil#update(librisuite.business.common.Persistence)
    */
-  public void update(Persistence p) throws DataAccessException {
+@Override
+  public void update(Persistence p) {
     /*
      * Since we are deleting and re-adding, save and update are the same
      */

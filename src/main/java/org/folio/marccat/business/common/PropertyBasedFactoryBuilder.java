@@ -7,6 +7,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 
+import org.folio.marccat.exception.ModMarccatException;
+
 import static java.lang.Class.forName;
 import static java.lang.Integer.parseInt;
 import static java.util.Arrays.asList;
@@ -33,9 +35,9 @@ public class PropertyBasedFactoryBuilder {
       factory.clear();
       readProperties(getClass().getResourceAsStream(fileName), factory);
     } catch (final IOException exception) {
-      throw new RuntimeException("ErrorCollection reading properties from stream for file " + fileName, exception);
-    } catch (final ClassNotFoundException exception) {
-      throw new RuntimeException("ErrorCollection finding a class for a key in " + fileName, exception);
+      throw new ModMarccatException("ErrorCollection reading properties from stream for file " + fileName, exception);
+    } catch (final Exception exception) {
+      throw new ModMarccatException("ErrorCollection finding a class for a key in " + fileName, exception);
     }
   }
 
@@ -47,7 +49,7 @@ public class PropertyBasedFactoryBuilder {
    * @throws IOException            in case of I/O failure.
    * @throws ClassNotFoundException in case a property refers to a class which is not found.
    */
-  private void readProperties(final InputStream stream, final AbstractMapBackedFactory factory) throws IOException, ClassNotFoundException {
+  private void readProperties(final InputStream stream, final AbstractMapBackedFactory factory) throws IOException {
     final Properties properties = new Properties();
     properties.load(stream);
 
@@ -92,7 +94,7 @@ public class PropertyBasedFactoryBuilder {
         .map(pack -> pack + "." + name)
         .orElse(name));
     } catch (final Exception exception) {
-      throw new RuntimeException(exception);
+      throw new ModMarccatException(exception);
     }
   }
 }

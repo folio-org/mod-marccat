@@ -1,6 +1,20 @@
 package org.folio.marccat.business.cataloguing.bibliographic;
 
-import org.folio.marccat.business.cataloguing.common.*;
+import static org.folio.marccat.util.F.isNotNull;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+import org.folio.marccat.business.cataloguing.common.Catalog;
+import org.folio.marccat.business.cataloguing.common.CataloguingSourceTag;
+import org.folio.marccat.business.cataloguing.common.ControlNumberTag;
+import org.folio.marccat.business.cataloguing.common.DateOfLastTransactionTag;
+import org.folio.marccat.business.cataloguing.common.HeaderField;
+import org.folio.marccat.business.cataloguing.common.Tag;
 import org.folio.marccat.business.common.AbstractMapBackedFactory;
 import org.folio.marccat.business.common.MapBackedFactory;
 import org.folio.marccat.business.common.PropertyBasedFactoryBuilder;
@@ -10,20 +24,42 @@ import org.folio.marccat.dao.BibliographicCatalogDAO;
 import org.folio.marccat.dao.BibliographicModelDAO;
 import org.folio.marccat.dao.CatalogDAO;
 import org.folio.marccat.dao.ModelDAO;
-import org.folio.marccat.dao.persistence.*;
-import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.dao.persistence.BIB_ITM;
+import org.folio.marccat.dao.persistence.BibliographicCataloguingSourceTag;
+import org.folio.marccat.dao.persistence.BibliographicControlNumberTag;
+import org.folio.marccat.dao.persistence.BibliographicDateOfLastTransactionTag;
+import org.folio.marccat.dao.persistence.BibliographicLeader;
+import org.folio.marccat.dao.persistence.BibliographicNoteTag;
+import org.folio.marccat.dao.persistence.CatalogItem;
+import org.folio.marccat.dao.persistence.ClassificationAccessPoint;
+import org.folio.marccat.dao.persistence.ControlNumberAccessPoint;
+import org.folio.marccat.dao.persistence.ElectronicResource;
+import org.folio.marccat.dao.persistence.Globe;
+import org.folio.marccat.dao.persistence.ItemEntity;
+import org.folio.marccat.dao.persistence.Kit;
+import org.folio.marccat.dao.persistence.Map;
+import org.folio.marccat.dao.persistence.MaterialDescription;
+import org.folio.marccat.dao.persistence.Microform;
+import org.folio.marccat.dao.persistence.Model;
+import org.folio.marccat.dao.persistence.MotionPicture;
+import org.folio.marccat.dao.persistence.NameAccessPoint;
+import org.folio.marccat.dao.persistence.NonProjectedGraphic;
+import org.folio.marccat.dao.persistence.NotatedMusic;
+import org.folio.marccat.dao.persistence.PhysicalDescription;
+import org.folio.marccat.dao.persistence.ProjectedGraphic;
+import org.folio.marccat.dao.persistence.PublisherManager;
+import org.folio.marccat.dao.persistence.RemoteSensingImage;
+import org.folio.marccat.dao.persistence.SoundRecording;
+import org.folio.marccat.dao.persistence.SubjectAccessPoint;
+import org.folio.marccat.dao.persistence.T_BIB_TAG_CAT;
+import org.folio.marccat.dao.persistence.TactileMaterial;
+import org.folio.marccat.dao.persistence.Text;
+import org.folio.marccat.dao.persistence.TitleAccessPoint;
+import org.folio.marccat.dao.persistence.Unspecified;
+import org.folio.marccat.dao.persistence.VideoRecording;
 import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.exception.NewTagException;
 import org.folio.marccat.shared.CorrelationValues;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
-import static org.folio.marccat.util.F.isNotNull;
 
 /**
  * Bibliographic implementation of {@link Catalog} interface.
@@ -55,7 +91,7 @@ public class BibliographicCatalog extends Catalog {
   }
 
   @Override
-  public List getTagCategories(final Locale locale) throws DataAccessException {
+  public List getTagCategories(final Locale locale) {
     return DAO_CODE_TABLE.getOptionListOrderAlphab(T_BIB_TAG_CAT.class, locale);
   }
 
@@ -65,7 +101,7 @@ public class BibliographicCatalog extends Catalog {
    *
    * @since 1.0
    */
-  public void addRequiredTags(final CatalogItem item) throws NewTagException {
+  public void addRequiredTags(final CatalogItem item) {
     final BibliographicLeader leader = createRequiredLeaderTag(item);
     if (!item.getTags().contains(leader)) {
       item.addTag(leader);
@@ -94,19 +130,18 @@ public class BibliographicCatalog extends Catalog {
     item.sortTags();
   }
 
-  public DateOfLastTransactionTag createRequiredDateOfLastTransactionTag(CatalogItem item) throws NewTagException {
-    final DateOfLastTransactionTag dateTag =
+  public DateOfLastTransactionTag createRequiredDateOfLastTransactionTag(CatalogItem item) {
+    return
       (DateOfLastTransactionTag) getNewTag(item,
         Global.HEADER_CATEGORY,
         new CorrelationValues(
           new BibliographicDateOfLastTransactionTag().getHeaderType(),
           CorrelationValues.UNDEFINED,
           CorrelationValues.UNDEFINED));
-    return dateTag;
   }
 
 
-  public void addRequiredTagsForModel(final CatalogItem item) throws NewTagException {
+  public void addRequiredTagsForModel(final CatalogItem item) {
     BibliographicLeader leader = createRequiredLeaderTag(item);
     if (!item.getTags().contains(leader)) {
       item.addTag(leader);
@@ -129,93 +164,85 @@ public class BibliographicCatalog extends Catalog {
     }
   }
 
-  public CataloguingSourceTag createRequiredCataloguingSourceTag(final CatalogItem item) throws NewTagException {
-    CataloguingSourceTag source =
+  public CataloguingSourceTag createRequiredCataloguingSourceTag(final CatalogItem item) {
+    return
       (CataloguingSourceTag) getNewTag(item,
         Global.HEADER_CATEGORY,
         new CorrelationValues(
           new BibliographicCataloguingSourceTag().getHeaderType(),
           CorrelationValues.UNDEFINED,
           CorrelationValues.UNDEFINED));
-    return source;
   }
 
-  public MaterialDescription createRequiredMaterialDescriptionTag(CatalogItem item) throws NewTagException {
-    MaterialDescription mdTag =
+  public MaterialDescription createRequiredMaterialDescriptionTag(CatalogItem item) {
+    return
       (MaterialDescription) getNewTag(item,
         Global.HEADER_CATEGORY,
         new CorrelationValues(
           Global.MATERIAL_DESCRIPTION_HEADER_TYPE,
           CorrelationValues.UNDEFINED,
           CorrelationValues.UNDEFINED));
-    return mdTag;
   }
 
-  public ControlNumberTag createRequiredControlNumberTag(CatalogItem item) throws NewTagException {
-    ControlNumberTag controlnumber =
-      (ControlNumberTag) getNewTag(item,
+  public ControlNumberTag createRequiredControlNumberTag(CatalogItem item) {
+    return (ControlNumberTag) getNewTag(item,
         Global.HEADER_CATEGORY,
         new CorrelationValues(
           new BibliographicControlNumberTag().getHeaderType(),
           CorrelationValues.UNDEFINED,
           CorrelationValues.UNDEFINED));
-    return controlnumber;
   }
 
-  public BibliographicLeader createRequiredLeaderTag(CatalogItem item) throws NewTagException {
-    BibliographicLeader leader =
+  public BibliographicLeader createRequiredLeaderTag(CatalogItem item) {
+    return
       (BibliographicLeader) getNewTag(item,
         Global.HEADER_CATEGORY,
         new CorrelationValues(
           new BibliographicLeader().getHeaderType(),
           CorrelationValues.UNDEFINED,
           CorrelationValues.UNDEFINED));
-    return leader;
   }
 
-  public BibliographicNoteTag createBibliographicNoteTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-    final BibliographicNoteTag nTag =
+  public BibliographicNoteTag createBibliographicNoteTag(final CatalogItem item, final CorrelationValues correlationValues) {
+    return
       (BibliographicNoteTag) getNewTag(item,
         Global.BIB_NOTE_CATEGORY,
         correlationValues);
-    return nTag;
   }
 
-  public SubjectAccessPoint createSubjectAccessPoint(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-    final SubjectAccessPoint sap =
+  public SubjectAccessPoint createSubjectAccessPoint(final CatalogItem item, final CorrelationValues correlationValues) {
+    return
       (SubjectAccessPoint) getNewTag(item,
         Global.SUBJECT_CATEGORY,
         correlationValues);
-    return sap;
   }
 
-  public ClassificationAccessPoint createClassificationAccessPoint(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
+  public ClassificationAccessPoint createClassificationAccessPoint(final CatalogItem item, final CorrelationValues correlationValues) {
     return (ClassificationAccessPoint) getNewTag(item,
       Global.CLASSIFICATION_CATEGORY,
       correlationValues);
   }
 
-  public ControlNumberAccessPoint createControlNumberAccessPoint(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
+  public ControlNumberAccessPoint createControlNumberAccessPoint(final CatalogItem item, final CorrelationValues correlationValues) {
     return (ControlNumberAccessPoint) getNewTag(item,
       Global.CONTROL_NUMBER_CATEGORY,
       correlationValues);
   }
 
-  public NameAccessPoint createNameAccessPointTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
-    final NameAccessPoint nap =
+  public NameAccessPoint createNameAccessPointTag(final CatalogItem item, final CorrelationValues correlationValues) {
+    return
       (NameAccessPoint) getNewTag(item,
         Global.NAME_CATEGORY,
         correlationValues);
-    return nap;
   }
 
-  public TitleAccessPoint createTitleAccessPointTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
+  public TitleAccessPoint createTitleAccessPointTag(final CatalogItem item, final CorrelationValues correlationValues) {
     return (TitleAccessPoint) getNewTag(item,
       Global.TITLE_CATEGORY,
       correlationValues);
   }
 
-  public PublisherManager createPublisherTag(final CatalogItem item, final CorrelationValues correlationValues) throws NewTagException, DataAccessException {
+  public PublisherManager createPublisherTag(final CatalogItem item, final CorrelationValues correlationValues) {
     return (PublisherManager) getNewTag(item,
       Global.PUBLISHER_CATEGORY,
       correlationValues);
@@ -389,12 +416,12 @@ public class BibliographicCatalog extends Catalog {
   }
 
   @Override
-  public Tag getNewHeaderTag(final CatalogItem item, final int header) throws NewTagException {
+  public Tag getNewHeaderTag(final CatalogItem item, final int header) {
     return (Tag) setItemIfNecessary(item, getFixedFieldFactory().create(header));
   }
 
   @Override
-  public Tag getNewTag(final CatalogItem item, final int category, final CorrelationValues correlationValues) throws NewTagException {
+  public Tag getNewTag(final CatalogItem item, final int category, final CorrelationValues correlationValues) {
     Tag tag = (Tag) getTagFactory().create(category);
     tag = (Tag) setItemIfNecessary(item, tag);
 

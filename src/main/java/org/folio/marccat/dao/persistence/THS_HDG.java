@@ -33,6 +33,7 @@ public class THS_HDG extends Descriptor implements Serializable, SkipInFiling {
    *
    * @return indexingLanguage
    */
+  @Override
   public int getIndexingLanguage() {
     return indexingLanguage;
   }

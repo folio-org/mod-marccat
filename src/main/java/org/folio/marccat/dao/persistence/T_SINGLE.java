@@ -24,6 +24,7 @@ public abstract class T_SINGLE extends CodeTable {
     return String.valueOf(code);
   }
 
+  @Override
   public boolean equals(Object obj) {
     if (!(obj instanceof T_SINGLE)) {
       return false;
@@ -31,6 +32,7 @@ public abstract class T_SINGLE extends CodeTable {
     return (((T_SINGLE) obj).getCode() == getCode()) && (((T_SINGLE) obj).getLanguage().equals(getLanguage()));
   }
 
+  @Override
   public int hashCode() {
     return getCode() + getLanguage().hashCode();
   }

@@ -12,8 +12,12 @@ import java.util.function.Function;
 import static java.util.stream.Collectors.toList;
 
 public class MappingUtils {
+	
+	 private MappingUtils() {
+		    throw new IllegalStateException("Utility mapping class");
+		  }
 
-  public static Function<MapHeading, HeadingDecorator> toHeading = source -> {
+  public static final Function<MapHeading, HeadingDecorator> toHeading = source -> {
     final HeadingDecorator heading = new HeadingDecorator();
     heading.setHeadingNumber(source.getHeadingNumber());
     heading.setStringText(source.getStringText());
@@ -28,20 +32,20 @@ public class MappingUtils {
   /**
    * Adapter that converts existing stringValue object in nature of content code Okapi resource.
    */
-  public static Function<Avp<String>, Pair> toPairItem = source -> {
+  public static final Function<Avp<String>, Pair> toPairItem = source -> {
     final Pair pairItem = new Pair();
     pairItem.setCode(source.getValue());
     pairItem.setDescription(source.getLabel());
     return pairItem;
   };
 
-  public static Function<Avp<String>, HeadingType> toHeadingType = source -> {
+  public static final Function<Avp<String>, HeadingType> toHeadingType = source -> {
     final HeadingType headingType = new HeadingType();
     headingType.setCode(Integer.parseInt(source.getValue()));
     headingType.setDescription(source.getLabel());
     return headingType;
   };
-  public static Function<Avp<Integer>, RecordTemplate> toRecordTemplate = avp -> {
+  public static final Function<Avp<Integer>, RecordTemplate> toRecordTemplate = avp -> {
     final RecordTemplate template = new RecordTemplate();
     template.setId(avp.getValue());
     template.setName(avp.getLabel());

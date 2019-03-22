@@ -17,7 +17,6 @@ import java.util.Date;
  */
 public class LIB_LOAN_PLCY implements Serializable {
 
-  //TODO cambiar quality por quantity
   private int libraryLoanPolicyNumber;
   private int organisationNumber;
   private char loanPeriodCode;
@@ -418,7 +417,7 @@ public class LIB_LOAN_PLCY implements Serializable {
    * @since 1.0
    */
   public int getLoanMaxCount() {
-    return loanMaxCount;
+    return getLibraryLoanMaxLoanCount();
   }
 
   /**

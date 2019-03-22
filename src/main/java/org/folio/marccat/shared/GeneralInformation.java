@@ -84,6 +84,7 @@ public class GeneralInformation {
   private String languageCode;
 
   public GeneralInformation() {
+	  throw new UnsupportedOperationException();
   }
 
   /**
@@ -103,6 +104,7 @@ public class GeneralInformation {
    * @param configuration the map that contains configuration values to set.
    */
   public void setDefaultValues(final Map<String, String> configuration) {
+	final String audienceMaterial = "material.targetAudienceCode";
     setRecordModifiedCode(" ");
     setRecordCataloguingSourceCode(configuration.get("bibliographicItem.recordCataloguingSourceCode"));
     setItemDateTypeCode(configuration.get("bibliographicItem.itemDateTypeCode"));
@@ -112,7 +114,7 @@ public class GeneralInformation {
     setMarcCountryCode(configuration.get("bibliographicItem.marcCountryCode"));
 
     setBookIllustrationCode(configuration.get("material.bookIllustrationCode"));
-    setTargetAudienceCode(configuration.get("material.targetAudienceCode"));
+    setTargetAudienceCode(configuration.get(audienceMaterial));
     setFormOfItemCode(configuration.get("material.formOfItemCode"));
     setNatureOfContentsCode(configuration.get("material.natureOfContentsCode"));
     setConferencePublicationCode(configuration.get("material.conferencePublicationCode"));
@@ -121,7 +123,7 @@ public class GeneralInformation {
     setBookLiteraryFormTypeCode(configuration.get("material.bookLiteraryFormTypeCode"));
     setBookBiographyCode(configuration.get("material.bookBiographyCode"));
     setGovernmentPublicationCode(configuration.get("material.governmentPublicationCode"));
-    setComputerTargetAudienceCode(configuration.get("material.targetAudienceCode"));
+    setComputerTargetAudienceCode(configuration.get(audienceMaterial));
     setComputerFileTypeCode(configuration.get("material.computerFileTypeCode"));
     setComputerFileFormCode(configuration.get("material.computerFileFormCode"));
     setCartographicIndexAvailabilityCode("0");
@@ -142,7 +144,7 @@ public class GeneralInformation {
     setSerialOriginalAlphabetOfTitleCode(configuration.get("material.serialOriginalAlphabetOfTitleCode"));
     setSerialEntryConventionCode(configuration.get("material.serialSuccessiveLatestCode"));
     setVisualRunningTime(configuration.get("material.visualRunningTime"));
-    setVisualTargetAudienceCode(configuration.get("material.targetAudienceCode"));
+    setVisualTargetAudienceCode(configuration.get(audienceMaterial));
     setVisualMaterialTypeCode(configuration.get("material.visualMaterialTypeCode"));
     setVisualTechniqueCode(configuration.get("material.visualTechniqueCode"));
   }

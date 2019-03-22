@@ -32,6 +32,7 @@ public class ElectronicResource extends PhysicalDescription {
     setHeaderType(42);
   }
 
+  @Override
   public String getDisplayString() {
     return EMPTY_STRING
       + getGeneralMaterialDesignationCode()
@@ -49,11 +50,13 @@ public class ElectronicResource extends PhysicalDescription {
 
   }
 
-  public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
+  @Override
+  public void generateNewKey(final Session session) throws HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
     setKeyNumber(dao.getNextNumber("XA", session));
   }
-
+  
+  @Override
   public boolean isElectronicResource() {
     return true;
   }

@@ -48,8 +48,8 @@ public class BibliographicStandardNoteDAO extends AbstractDAO {
     l = q.list();
     if (l.stream().anyMatch(Objects::nonNull)) {
       return l.stream().findFirst().map(standardNoteType -> ((Avp<String>) new Avp(Integer.toString(standardNoteType.getCode()), standardNoteType.getLongText()))).get();
-    } else
+    } else {
       return null;
+    }
   }
-
 }

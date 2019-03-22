@@ -19,7 +19,7 @@ import java.util.Iterator;
 
 public class BibliographicItem extends CatalogItem implements Serializable {
   private static final long serialVersionUID = 8676099561229020012L;
-  private Log logger = new Log(BibliographicItem.class);
+  private transient Log logger = new Log(BibliographicItem.class);
   private BIB_ITM bibItmData;
   private int userView;
 
@@ -134,7 +134,6 @@ public class BibliographicItem extends CatalogItem implements Serializable {
     }
   }
 
-  @Override
   public ItemEntity getItemEntity() {
     return bibItmData;
   }

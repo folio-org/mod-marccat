@@ -17,6 +17,7 @@ import org.w3c.dom.Element;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -138,7 +139,8 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
       .orElse("    ");
   }
 
-  public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
+  @Override
+  public void generateNewKey(final Session session) throws HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
     setMaterialDescriptionKeyNumber(dao.getNextNumber("X0", session));
   }
@@ -181,6 +183,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
     return sb.toString();
   }
 
+  @Override
   public boolean equals(Object obj) {
     if (!(obj instanceof MaterialDescription))
       return false;
@@ -189,24 +192,6 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
       == this.materialDescriptionKeyNumber
       && other.getItemNumber() == this.getItemNumber()
       && other.getUserViewString().equals(this.getUserViewString())) {
-      /*
-       * For models, the key number is not set and so equality depends on
-       * a) whether both tags are 008's and if not then
-       * b) on correlation settings
-       */
-//      if (other.materialDescriptionKeyNumber > 0) {
-//        return true;
-//      } else {
-//        if (this.getMaterialDescription008Indicator().equals("1") &&
-//          other.getMaterialDescription008Indicator().equals("1")) {
-//          return true;
-//        }
-//        return this.getHeaderType() == other.getHeaderType();
-//      }
-//    } else {
-//      return true;
-//    }
-//
     }
     return true;
   }
@@ -214,6 +199,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
+  @Override
   public int hashCode() {
     return materialDescriptionKeyNumber;
   }
@@ -573,7 +559,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 
   public char[] getMusicLiteraryTextChar() {
     if (musicLiteraryTextCode == null) {
-      return null;
+      return new char[0];
     } else {
       return musicLiteraryTextCode.toCharArray();
     }
@@ -589,7 +575,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 
   public char[] getMusicTextualMaterialChar() {
     if (musicTextualMaterialCode == null) {
-      return null;
+    	return new char[0];
     } else {
       return musicTextualMaterialCode.toCharArray();
     }
@@ -605,7 +591,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 
   public char[] getNatureOfContentsChar() {
     if (natureOfContentsCode == null) {
-      return null;
+    	return new char[0];
     } else {
       return natureOfContentsCode.toCharArray();
     }
@@ -760,6 +746,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
   /* (non-Javadoc)
    * @see FixedField#setBibItm(BIB_ITM)
    */
+  @Override
   public void setItemEntity(final ItemEntity item) {
     super.setItemEntity(item);
   }
@@ -767,6 +754,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
   /* (non-Javadoc)
    * @see FixedField#setBibHeader(short)
    */
+  @Override
   public void setHeaderType(final int s) {
     super.setHeaderType(s);
   }
@@ -774,6 +762,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
   /* (non-Javadoc)
    * @see librisuite.business.cataloguing.bibliographic.Tag#isAbleToBeDeleted()
    */
+  @Override
   public boolean isAbleToBeDeleted() {
     return !getMaterialDescription008Indicator().equals("1");
   }
@@ -781,6 +770,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
   /* (non-Javadoc)
    * @see librisuite.business.cataloguing.bibliographic.Tag#correlationChangeAffectsKey(librisuite.business.common.CorrelationValues)
    */
+  @Override
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
     return v.isValueDefined(1)
       && ((v.getValue(1) < 16)
@@ -791,6 +781,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
   /* (non-Javadoc)
    * @see librisuite.business.cataloguing.bibliographic.Tag#setCorrelationValues(librisuite.business.common.CorrelationValues)
    */
+  @Override
   public void setCorrelationValues(CorrelationValues v) {
     setHeaderType(v.getValue(1));
     super.setCorrelationValues(v);
@@ -805,135 +796,11 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 
   public Element generateModelXmlElementContent(Document xmlDocument) {
     Element content = null;
-		/*if (xmlDocument != null) {
-			content = xmlDocument.createElement("content");
-			if (getMaterialDescription008Indicator() == '1') {
-				content.setAttribute("enteredOnFileDateYYYYMMDD", getEnteredOnFileDateYYYYMMDD());
-				content.setAttribute("itemDateTypeCode","" + getItemDateTypeCode());
-				content.setAttribute("ITEM_DATE_FIRST_PUBLICATION", getItemDateFirstPublication());
-				content.setAttribute("ITEM_DATE_LAST_PUBLICATION",	getItemDateLastPublication());
-				content.setAttribute("marcCountryCode", getMarcCountryCode());
-				content.setAttribute("LANGUAGE_CODE", getLanguageCode());
-				content.setAttribute("recordModifiedCode","" + getRecordModifiedCode());
-				content.setAttribute("recordCataloguingSourceCode","" + getRecordCataloguingSourceCode());
-			}
-			content.setAttribute("MATERIAL_TYPE_CODE", asNullableString(getMaterialTypeCode()));
-			content.setAttribute("materialDescription008Indicator","" + getMaterialDescription008Indicator());
-			content.setAttribute("bookIllustrationCode",getBookIllustrationCode());
-			content.setAttribute("targetAudienceCode", asNullableString(getTargetAudienceCode()));
-			content.setAttribute("FORM_OF_ITEM_CODE", asNullableString(getFormOfItemCode()));
-			content.setAttribute("natureOfContentsCode",getNatureOfContentsCode());
-			content.setAttribute("governmentPublicationCode", asNullableString(getGovernmentPublicationCode()));
-			content.setAttribute("conferencePublicationCode", asNullableString(getConferencePublicationCode()));
-			content.setAttribute("bookFestschrift", asNullableString(getBookFestschrift()));
-			content.setAttribute("bookIndexAvailabilityCode", asNullableString(getBookIndexAvailabilityCode()));
-			content.setAttribute("bookLiteraryFormTypeCode", asNullableString(getBookLiteraryFormTypeCode()));
-			content.setAttribute("bookBiographyCode", asNullableString(getBookBiographyCode()));
-			content.setAttribute("bookMainEntryCode", asNullableString(getBookMainEntryCode()));
-			content.setAttribute("cartographicReliefCode",getCartographicReliefCode());
-			content.setAttribute("cartographicProjectionCode",getCartographicProjectionCode());
-			content.setAttribute("cartographicMeridianCode",getCartographicMeridianCode());
-			content.setAttribute("cartographicNarrativeTextCode", asNullableString(getCartographicNarrativeTextCode()));
-			content.setAttribute("cartographicIndexAvailabilityCode", asNullableString(getCartographicIndexAvailabilityCode()));
-			content.setAttribute("cartographicFormatCode",getCartographicFormatCode());
-			content.setAttribute("computerTargetAudienceCode", asNullableString(getComputerTargetAudienceCode()));
-			content.setAttribute("computerFileTypeCode", asNullableString(getComputerFileTypeCode()));
-			content.setAttribute("computerFileFormCode", asNullableString(getComputerFileFormCode()));
-			content.setAttribute("visualRunningTime", getVisualRunningTime());
-			content.setAttribute("visualTargetAudienceCode", asNullableString(getVisualTargetAudienceCode()));
-			content.setAttribute("visualAccompanyingMaterialCode",getVisualAccompanyingMaterialCode());
-			content.setAttribute("visualMaterialTypeCode", asNullableString(getVisualMaterialTypeCode()));
-			content.setAttribute("visualTechniqueCode", asNullableString(getVisualTechniqueCode()));
-			content.setAttribute("visualTechniqueCode",	asNullableString(getVisualTechniqueCode()));
-			content.setAttribute("serialFrequencyCode", asNullableString(getSerialFrequencyCode()));
-			content.setAttribute("serialRegularityCode", asNullableString(getSerialRegularityCode()));
-			content.setAttribute("serialISDSCenterCode", asNullableString(getSerialISDSCenterCode()));
-			content.setAttribute("serialTypeCode", asNullableString(getSerialTypeCode()));
-			content.setAttribute("serialFormOriginalItemCode", asNullableString(getSerialFormOriginalItemCode()));
-			content.setAttribute("serialCumulativeIndexCode", asNullableString(getSerialCumulativeIndexCode()));
-			content.setAttribute("serialOriginalAlphabetOfTitleCode", asNullableString(getSerialOriginalAlphabetOfTitleCode()));
-			content.setAttribute("serialSuccessiveLatestCode", asNullableString(getSerialSuccessiveLatestCode()));
-			content.setAttribute("serialTitlePageExistenceCode", asNullableString(getSerialTitlePageExistenceCode()));
-			content.setAttribute("serialIndexAvailabilityCode", asNullableString(getSerialIndexAvailabilityCode()));
-			content.setAttribute("musicFormOfCompositionCode",getMusicFormOfCompositionCode());
-			content.setAttribute("musicFormatCode", asNullableString(getMusicFormatCode()));
-			content.setAttribute("musicTextualMaterialCode",getMusicTextualMaterialCode());
-			content.setAttribute("musicLiteraryTextCode",getMusicLiteraryTextCode());
-			content.setAttribute("musicPartsCode", asNullableString(getMusicPartsCode()));
-			content.setAttribute("musicTranspositionArrangementCode", asNullableString(getMusicTranspositionArrangementCode()));
-			content.setAttribute("cartographicMaterial", asNullableString(getCartographicMaterial()));
-			content.setAttribute("visualOriginalHolding", asNullableString(getVisualOriginalHolding()));
-			content.setAttribute("formOfMaterial", getFormOfMaterial());
-		}*/
     return content;
   }
 
   public void parseModelXmlElementContent(Element xmlElement) {
-		/*Element content = (Element) xmlElement.getChildNodes().item(0);
-		setMaterialTypeCode(characterFromXML(content.getAttribute("MATERIAL_TYPE_CODE")));
-		setMaterialDescription008Indicator(content.getAttribute("materialDescription008Indicator").charAt(0));
-		setBookIllustrationCode(stringFromXML(content.getAttribute("bookIllustrationCode")));
-		setTargetAudienceCode(characterFromXML(content.getAttribute("targetAudienceCode")));
-		setFormOfItemCode(characterFromXML(content.getAttribute("FORM_OF_ITEM_CODE")));
-		setNatureOfContentsCode(stringFromXML(content.getAttribute("natureOfContentsCode")));
-		setGovernmentPublicationCode(characterFromXML(content.getAttribute("governmentPublicationCode")));
-		setConferencePublicationCode(characterFromXML(content.getAttribute("conferencePublicationCode")));
-		setBookFestschrift(characterFromXML(content.getAttribute("bookFestschrift")));
-		setBookIndexAvailabilityCode(characterFromXML(content.getAttribute("bookIndexAvailabilityCode")));
-		setBookLiteraryFormTypeCode(characterFromXML(content.getAttribute("bookLiteraryFormTypeCode")));
-		setBookBiographyCode(characterFromXML(content.getAttribute("bookBiographyCode")));
-		setBookMainEntryCode(characterFromXML(content.getAttribute("bookMainEntryCode")));
-		setCartographicReliefCode(stringFromXML(content.getAttribute("cartographicReliefCode")));
-		setCartographicProjectionCode(stringFromXML(content.getAttribute("cartographicProjectionCode")));
-		setCartographicMeridianCode(stringFromXML(content.getAttribute("cartographicMeridianCode")));
-		setCartographicNarrativeTextCode(characterFromXML(content.getAttribute("cartographicNarrativeTextCode")));
-		setCartographicIndexAvailabilityCode(characterFromXML(content.getAttribute("cartographicIndexAvailabilityCode")));
-		setCartographicFormatCode(stringFromXML(content.getAttribute("cartographicFormatCode")));
-		setComputerTargetAudienceCode(characterFromXML(content.getAttribute("computerTargetAudienceCode")));
-		setComputerFileTypeCode(characterFromXML(content.getAttribute("computerFileTypeCode")));
-
-		setComputerFileFormCode(characterFromXML(content.getAttribute("computerFileFormCode")));
-
-		setVisualRunningTime(stringFromXML(content.getAttribute("visualRunningTime")));
-		setVisualTargetAudienceCode(characterFromXML(content.getAttribute("visualTargetAudienceCode")));
-		setVisualAccompanyingMaterialCode(stringFromXML(content.getAttribute("visualAccompanyingMaterialCode")));
-		setVisualMaterialTypeCode(characterFromXML(content.getAttribute("visualMaterialTypeCode")));
-		setVisualTechniqueCode(characterFromXML(content.getAttribute("visualTechniqueCode")));
-		setSerialFrequencyCode(characterFromXML(content.getAttribute("serialFrequencyCode")));
-		setSerialRegularityCode(characterFromXML(content.getAttribute("serialRegularityCode")));
-		setSerialISDSCenterCode(characterFromXML(content.getAttribute("serialISDSCenterCode")));
-		setSerialFormOriginalItemCode(characterFromXML(content.getAttribute("serialFormOriginalItemCode")));
-		setSerialFormOriginalItemCode(characterFromXML(content.getAttribute("serialFormOriginalItemCode")));
-		setSerialOriginalAlphabetOfTitleCode(characterFromXML(content.getAttribute("serialOriginalAlphabetOfTitleCode")));
-		setSerialOriginalAlphabetOfTitleCode(characterFromXML(content.getAttribute("serialOriginalAlphabetOfTitleCode")));
-		setSerialSuccessiveLatestCode(characterFromXML(content.getAttribute("serialSuccessiveLatestCode")));
-		setSerialTitlePageExistenceCode(characterFromXML(content.getAttribute("serialTitlePageExistenceCode")));
-		setSerialIndexAvailabilityCode(characterFromXML(content.getAttribute("serialIndexAvailabilityCode")));
-		setMusicFormOfCompositionCode(stringFromXML(content.getAttribute("musicFormOfCompositionCode")));
-		setMusicFormatCode(characterFromXML(content.getAttribute("musicFormatCode")));
-		setMusicTextualMaterialCode(stringFromXML(content.getAttribute("musicTextualMaterialCode")));
-		setMusicLiteraryTextCode(stringFromXML(content.getAttribute("musicLiteraryTextCode")));
-
-
-		setMusicPartsCode(characterFromXML(content.getAttribute("musicPartsCode")));
-		setMusicTranspositionArrangementCode(characterFromXML(content.getAttribute("musicTranspositionArrangementCode")));
-
-		setCartographicMaterial(characterFromXML(content.getAttribute("cartographicMaterial")));
-		setVisualOriginalHolding(characterFromXML(content.getAttribute("visualOriginalHolding")));
-		setFormOfMaterial(stringFromXML(content.getAttribute("formOfMaterial")));
-		if (getMaterialDescription008Indicator() == '1') {
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
-			Date date =
-				formatter.parse(content.getAttribute("enteredOnFileDateYYYYMMDD"),new ParsePosition(0));
-			setEnteredOnFileDate(date);
-			setItemDateTypeCode(content.getAttribute("itemDateTypeCode").charAt(0));
-			setItemDateFirstPublication(content.getAttribute("ITEM_DATE_FIRST_PUBLICATION"));
-			setItemDateLastPublication(content.getAttribute("ITEM_DATE_LAST_PUBLICATION"));
-			setMarcCountryCode(content.getAttribute("marcCountryCode"));
-			setLanguageCode(content.getAttribute("LANGUAGE_CODE"));
-			setRecordModifiedCode(content.getAttribute("recordModifiedCode").charAt(0));
-			setRecordCataloguingSourceCode(content.getAttribute("recordCataloguingSourceCode").charAt(0));
-		}*/
+	  throw new UnsupportedOperationException();
   }
 
   public String getUserViewString() {
@@ -1059,13 +926,8 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
   }
 
   @Deprecated
-  public List getFirstCorrelationList() throws DataAccessException {
-		/*if(getMaterialDescription008Indicator() == '1')
-		  return daoCodeTable.getListFromTag008(T_BIB_HDR.class,"008",false);
-		else
-		  return daoCodeTable.getListFromWithoutTag008(T_BIB_HDR.class,"008",false);*/
-
-    return null;
+  public List getFirstCorrelationList() {
+	  return Collections.emptyList();
   }
 
   //@paulm, us_bbl_loading

@@ -8,6 +8,10 @@ package org.folio.marccat.integration.search;
  * @since 1.0
  */
 public class SQLCommand {
+	
+	private SQLCommand() {
+		throw new UnsupportedOperationException("This is an Utility StringBuilder class");
+	}
 
   /**
    * build the query for the join of the title for the bibliographic

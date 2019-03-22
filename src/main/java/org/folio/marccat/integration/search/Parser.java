@@ -7,6 +7,7 @@ import org.folio.marccat.config.log.Message;
 import org.folio.marccat.dao.DAOIndexList;
 import org.folio.marccat.dao.persistence.IndexList;
 import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.ModMarccatException;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -202,7 +203,7 @@ public class Parser {
         try {
           i = dao.getIndexByLocalAbbreviation(session, lookahead.sequence, locale);
         } catch (DataAccessException e) {
-          throw new RuntimeException(e);
+          throw new ModMarccatException(e);
         }
         if (i != null) {
           expr.setIndex(i);
@@ -238,7 +239,7 @@ public class Parser {
       try {
         defaultIndex = dao.getIndexByLocalAbbreviation(session, "AW", Locale.ENGLISH);
       } catch (DataAccessException e) {
-        throw new RuntimeException(e);
+        throw new ModMarccatException(e);
       }
     }
     return defaultIndex;

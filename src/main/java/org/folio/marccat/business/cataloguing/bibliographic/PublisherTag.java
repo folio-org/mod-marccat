@@ -7,7 +7,13 @@
  */
 package org.folio.marccat.business.cataloguing.bibliographic;
 
-import net.sf.hibernate.HibernateException;
+import static org.folio.marccat.util.F.deepCopy;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.common.PersistenceState;
@@ -27,12 +33,7 @@ import org.folio.marccat.util.StringText;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-
-import static org.folio.marccat.util.F.deepCopy;
+import net.sf.hibernate.HibernateException;
 
 /**
  * Publisher Tag differs from other access points in that multiple publisher access
@@ -239,21 +240,14 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
    * @see librisuite.business.cataloguing.bibliographic.Tag#getFirstCorrelationList()
    */
   @Deprecated
-  public List getFirstCorrelationList() throws DataAccessException {
-    /* return getDaoCodeTable().getList(BibliographicNoteType.class,false); */
-    return null;
+  public List getFirstCorrelationList() {
+    return Collections.emptyList();
   }
-
-  /* (non-Javadoc)
-   * @see librisuite.business.common.Persistence#getDAO()
-   */
-	/*public HibernateUtil getDAO() {
-		return daoPublisherTag;
-	}*/
 
   /* (non-Javadoc)
    * @see java.lang.Object#equals(java.lang.Object)
    */
+  @Override
   public boolean equals(Object obj) {
     if (obj instanceof PublisherTag) {
       PublisherTag p = (PublisherTag) obj;
@@ -265,6 +259,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
   /* (non-Javadoc)
    * @see librisuite.business.cataloguing.bibliographic.Tag#isWorksheetEditable()
    */
+  @Override
   public boolean isWorksheetEditable() {
     return false;
   }
@@ -272,6 +267,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
   /* (non-Javadoc)
    * @see librisuite.business.cataloguing.bibliographic.Tag#isPublisher()
    */
+  @Override
   public boolean isPublisher() {
     return true;
   }
@@ -427,10 +423,11 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
           data = "(" + data;
         if (data.indexOf(")") == -1)
           data = data + ")";
-      } else if (data.indexOf(")") == -1)
+      } else if (data.indexOf(")") == -1) {
         data = data + ")";
       s.addSubfield(new Subfield("g", data));
       setManufacturerDate("");
+      }
     }
 
     if (s.getNumberOfSubfields() > 0) {
@@ -449,6 +446,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
     }
   }
 
+  @Override
   public Element generateModelXmlElementContent(Document xmlDocument) {
     Element content = null;
     if (xmlDocument != null) {
@@ -458,6 +456,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
     return content;
   }
 
+  @Override
   public void parseModelXmlElementContent(Element xmlElement) {
     setStringText(StringText.parseModelXmlElementContent(xmlElement));
   }
@@ -550,6 +549,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
   /* (non-Javadoc)
    * @see TagInterface#correlationChangeAffectsKey(librisuite.business.common.CorrelationValues)
    */
+  @Override
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
     return v.getValue(1) != 24;
   }
@@ -599,7 +599,6 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
     }
   }
 
-  //todo: add session
   public List replaceEquivalentDescriptor(short indexingLanguage, int cataloguingView) throws DataAccessException {
     final DAODescriptor dao = new PublisherDescriptorDAO();
     List newTags = new ArrayList();
@@ -613,17 +612,18 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
       try {
         ref = dao.getCrossReferencesWithLanguage(d, cataloguingView, indexingLanguage, null);
       } catch (HibernateException e) {
-        e.printStackTrace();
+    	  logger.error(e.getMessage(), e);
       }
       if (ref != null) {
         aTag.markNew();
         anApf.setDescriptor(dao.load(ref.getTarget(), cataloguingView));
-        anApf.setHeadingNumber(new Integer(anApf.getDescriptor()
+        anApf.setHeadingNumber((anApf.getDescriptor()
           .getKey().getHeadingNumber()));
         accessPointsApp.add(anApf);
 
-      } else
+      } else {
         accessPointsApp.add(anApf);
+      }
     }
     if (aTag != null) {
       aTag.setAccessPoints(accessPointsApp);

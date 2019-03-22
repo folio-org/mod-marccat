@@ -34,6 +34,7 @@ public class SubjectDescriptorDAO extends DAODescriptor {
    * @return true, if successful
    */
 
+  @Override
   public boolean supportsAuthorities() {
     return true;
   }
@@ -47,6 +48,7 @@ public class SubjectDescriptorDAO extends DAODescriptor {
    * @throws HibernateException the hibernate exception
    */
   @SuppressWarnings("unchecked")
+  @Override
   public boolean isMatchingAnotherHeading(final Descriptor desc, final Session session)
     throws HibernateException {
 

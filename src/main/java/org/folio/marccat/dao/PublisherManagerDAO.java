@@ -25,7 +25,7 @@ import java.util.List;
  */
 public class PublisherManagerDAO extends AbstractDAO {
 
-
+	@Override
   public void delete(Persistence po, final Session session) throws DataAccessException {
     if (!(po instanceof PublisherManager)) {
       throw new IllegalArgumentException(
@@ -42,7 +42,7 @@ public class PublisherManagerDAO extends AbstractDAO {
     }
   }
 
-
+  @Override
   public void save(final Persistence po, final Session session) throws DataAccessException {
     if (!(po instanceof PublisherManager)) {
       throw new IllegalArgumentException(
@@ -70,7 +70,7 @@ public class PublisherManagerDAO extends AbstractDAO {
 
       session.evict(apf);
       apf.markNew();
-      apf.setHeadingNumber(new Integer(tagNumber));
+      apf.setHeadingNumber((tagNumber));
       persistByStatus(apf, session);
 
       tx.commit();
@@ -86,6 +86,7 @@ public class PublisherManagerDAO extends AbstractDAO {
    *
    * @see HibernateUtil#update(librisuite.business.common.Persistence)
    */
+  @Override
   public void update(final Persistence p, final Session session) throws DataAccessException {
     if (!(p instanceof PublisherManager)) {
       throw new IllegalArgumentException(
@@ -109,7 +110,7 @@ public class PublisherManagerDAO extends AbstractDAO {
     }
   }
 
-  public int getNextPublisherTagNumber(final Session session) throws DataAccessException {
+  public int getNextPublisherTagNumber(final Session session) {
     int result = 0;
     PreparedStatement stmt = null;
     ResultSet rs = null;
