@@ -40,8 +40,9 @@ public class PublisherDescriptorDAO extends DAODescriptor {
   @SuppressWarnings("unchecked")
   @Override
   public PUBL_HDG getMatchingHeading(final Descriptor descriptor, final Session session)
-    throws HibernateException {
+    throws HibernateException, SQLException {
     final PUBL_HDG publisher = (PUBL_HDG) descriptor;
+    publisher.setSortForm(calculateSortForm(descriptor, session));
     final List<PUBL_HDG> l = session.find("from "
         + getPersistentClass().getName()
         + " as c "
@@ -62,7 +63,7 @@ public class PublisherDescriptorDAO extends DAODescriptor {
         Hibernate.INTEGER,
         Hibernate.INTEGER,
         Hibernate.STRING});
-    if (l.size() == 1) {
+    if (l.size() >= 1) {
       return l.get(0);
     } else {
       return null;

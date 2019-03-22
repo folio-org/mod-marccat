@@ -32,7 +32,7 @@ public class HeadingAPI extends BaseResource {
     return doPost((storageService, configuration) -> {
       storageService.saveHeading(heading, view, configuration);
       return heading;
-    }, tenant, configurator, () -> (isNotNullOrEmpty(heading.getStringText())), "title", "subject", "name", "controlNumber", "classification", "publisher", "nameTitle");
+    }, tenant, configurator, () -> (isNotNullOrEmpty(heading.getDisplayValue())), "title", "subject", "name", "controlNumber", "classification", "publisher", "nameTitle");
   }
 
 
@@ -49,7 +49,7 @@ public class HeadingAPI extends BaseResource {
         logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
         return null;
       }
-    }, tenant, configurator, () -> (isNotNullOrEmpty(heading.getStringText()) && heading.getHeadingNumber() != 0));
+    }, tenant, configurator, () -> (isNotNullOrEmpty(heading.getDisplayValue()) && heading.getKeyNumber() != 0));
   }
 
 

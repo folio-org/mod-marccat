@@ -6,8 +6,8 @@ import org.folio.marccat.business.cataloguing.bibliographic.BibliographicAccessP
 import org.folio.marccat.business.cataloguing.bibliographic.BibliographicCatalog;
 import org.folio.marccat.business.cataloguing.bibliographic.MarcCommandLibrary;
 import org.folio.marccat.business.common.View;
-import org.folio.marccat.business.descriptor.PublisherTagDescriptor;
 import org.folio.marccat.config.log.Global;
+import org.folio.marccat.dao.DAODescriptor;
 import org.folio.marccat.dao.RecordTypeMaterialDAO;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.DataAccessException;
@@ -16,10 +16,9 @@ import org.folio.marccat.resources.domain.Field;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.shared.GeneralInformation;
 import org.folio.marccat.util.StringText;
-
 import java.sql.SQLException;
 import java.util.List;
-
+import java.util.Map;
 import static java.util.Optional.ofNullable;
 
 
@@ -113,8 +112,10 @@ public class RecordParser {
    * @param field             -- bibliographic record field.
    * @param correlationValues -- the new correlation values to set.
    * @param bibItemNumber     -- the amicus number associated to record.
+   * @param view              -- the view.
+   * @param configuration     -- the configuration.
    */
-  public void changeNoteTag(final CatalogItem item, final Field field, final CorrelationValues correlationValues, final int bibItemNumber, final int view) throws HibernateException, SQLException {
+  public void changeNoteTag(final CatalogItem item, final Field field, final CorrelationValues correlationValues, final int bibItemNumber, final int view, final Map<String, String> configuration) {
     if (field.getFieldStatus() == Field.FieldStatus.CHANGED || field.getFieldStatus() == Field.FieldStatus.DELETED) {
       item.getTags().stream().skip(1).filter(aTag -> !aTag.isFixedField() && aTag instanceof BibliographicNoteTag).forEach(aTag -> {
         final BibliographicNoteTag noteTag = (BibliographicNoteTag) aTag;
@@ -130,7 +131,7 @@ public class RecordParser {
         }
       });
     } else if (field.getVariableField().getKeyNumber() == null && field.getFieldStatus() == Field.FieldStatus.NEW) {
-      insertNewVariableField(item, field.getVariableField(), bibItemNumber, correlationValues, null, view);
+      insertNewVariableField(item, field.getVariableField(), bibItemNumber, correlationValues, configuration, null, view);
     }
 
   }
@@ -152,9 +153,8 @@ public class RecordParser {
       item.getTags().stream().skip(1).filter(aTag -> aTag.isFixedField() && aTag instanceof MaterialDescription).forEach(aTag -> {
         final MaterialDescription materialTag = (MaterialDescription) aTag;
         final CorrelationKey correlation = aTag.getTagImpl().getMarcEncoding(aTag, session);
-        if (correlation.getMarcTag().equalsIgnoreCase(Global.OTHER_MATERIAL_TAG_CODE)) {
-          if (materialTag.getMaterialDescriptionKeyNumber() == field.getFixedField().getKeyNumber()) {
-            if (field.getFieldStatus() == Field.FieldStatus.CHANGED) {
+        if (correlation.getMarcTag().equalsIgnoreCase(Global.OTHER_MATERIAL_TAG_CODE) && materialTag.getMaterialDescriptionKeyNumber() == field.getFixedField().getKeyNumber())  {
+             if (field.getFieldStatus() == Field.FieldStatus.CHANGED) {
               materialTag.setCorrelationValues(new CorrelationValues(field.getFixedField().getHeaderTypeCode(), CorrelationValues.UNDEFINED, CorrelationValues.UNDEFINED));
               catalog.toMaterialDescription(field.getFixedField(), materialTag);
               materialTag.markChanged();
@@ -162,7 +162,6 @@ public class RecordParser {
               materialTag.markDeleted();
               item.getDeletedTags().add(materialTag);
             }
-          }
         }
       });
     } else if (field.getFixedField().getKeyNumber() == null && field.getFieldStatus() == Field.FieldStatus.NEW) {
@@ -196,7 +195,6 @@ public class RecordParser {
    * @param fixedField     -- the fixed field containing data.
    * @param giAPI          -- the {@link GeneralInformation}.
    * @param formOfMaterial -- the formOfMaterial string.
-   * @throws DataAccessException in case of data access exception.
    */
   public void addMaterialDescriptionToCatalog(final String tagNbr,
                                               final CatalogItem item,
@@ -222,8 +220,9 @@ public class RecordParser {
    * Sets default values to MaterialDescription class.
    *
    * @param giAPI -- the general information from API.
+   * @param md    -- the MaterialDescription string.
    */
-  private void setDefaultValues(final GeneralInformation giAPI, MaterialDescription md) {
+  public void setDefaultValues(final GeneralInformation giAPI, MaterialDescription md) {
 
     md.setRecordModifiedCode(giAPI.getRecordModifiedCode().charAt(0));
     md.setRecordCataloguingSourceCode(giAPI.getRecordCataloguingSourceCode().charAt(0));
@@ -276,11 +275,10 @@ public class RecordParser {
    * @param item          -- the item to add tags.
    * @param ff            -- the fixed field containing data.
    * @param bibItemNumber -- the bibliographic item number.
-   * @throws DataAccessException in case of data access exception.
    */
   public void addPhysicalDescriptionTag(final CatalogItem item,
                                         final org.folio.marccat.resources.domain.FixedField ff,
-                                        final int bibItemNumber) throws DataAccessException {
+                                        final int bibItemNumber) {
 
     final char gmd = ff.getDisplayValue().charAt(0);
     final int headerTypeCode = (ff.getHeaderTypeCode() != null) ? ff.getHeaderTypeCode() : PhysicalDescription.getInstanceByGMD(gmd).getHeaderType();
@@ -300,11 +298,14 @@ public class RecordParser {
    * @param field             -- bibliographic record field.
    * @param correlationValues -- the selection of correlation values.
    * @param bibItemNumber     -- the bibliographic item number.
+   * @param view              -- the view.
+   * @param session           -- the current hibernate session.
+   * @param configuration     -- the configuration.
    * @throws HibernateException -- in case of hibernate exception.
    * @throws SQLException       -- in case of sql exception.
    */
   public void changeAccessPointTag(final CatalogItem item, final Field field, final CorrelationValues correlationValues,
-                                   final int bibItemNumber, final int view, final Session session) throws HibernateException, SQLException {
+                                   final int bibItemNumber, final int view, final Session session, final Map <String, String> configuration) throws HibernateException, SQLException {
 
     if (field.getFieldStatus() == Field.FieldStatus.CHANGED || field.getFieldStatus() == Field.FieldStatus.DELETED) {
       item.getTags().stream().filter(aTag -> aTag instanceof BibliographicAccessPoint && aTag.getCategory() == field.getVariableField().getCategoryCode()).forEach(aTag -> {
@@ -326,6 +327,7 @@ public class RecordParser {
             } else {
               acs.markChanged();
             }
+
           } else {
             acs.markDeleted();
             item.getDeletedTags().add(acs);
@@ -333,7 +335,7 @@ public class RecordParser {
         }
       });
     } else if (field.getVariableField().getKeyNumber() != null && field.getFieldStatus() == Field.FieldStatus.NEW) {
-      insertNewVariableField(item, field.getVariableField(), bibItemNumber, correlationValues, session, view);
+      insertNewVariableField(item, field.getVariableField(), bibItemNumber, correlationValues, configuration, session, view);
     }
   }
 
@@ -346,80 +348,53 @@ public class RecordParser {
    * @param bibItemNumber     -- the bibliographic item number.
    * @param view              -- the cataloguing user view.
    * @param session           -- the hibernate session associated.
+   * @param configuration     -- the configuration.
    * @throws HibernateException -- in case of hibernate exception.
    * @throws SQLException       -- in case of sql exception.
    */
   public void changePublisherTag(final CatalogItem item, final Field field, final CorrelationValues correlationValues,
-                                 final int bibItemNumber, final int view, final Session session) throws HibernateException, SQLException {
+                                 final int bibItemNumber, final int view, final Session session, final Map<String, String> configuration) throws HibernateException, SQLException {
 
     if (field.getFieldStatus() == Field.FieldStatus.CHANGED || field.getFieldStatus() == Field.FieldStatus.DELETED) {
-      StringText st = new StringText(field.getVariableField().getValue());
-
       item.getTags().stream().filter(aTag -> aTag instanceof PublisherManager && aTag.getCategory() == field.getVariableField().getCategoryCode()).forEach(aTag -> {
-        Integer newKeyNumber = field.getVariableField().getNewKeyNumber();
-        PublisherManager pm = (PublisherManager) aTag;
-        PublisherAccessPoint apf = pm.getApf();
-        int pTagNumber = apf.getDescriptor().getKey().getHeadingNumber();
-        List<PUBL_TAG> publTags = ((PublisherTagDescriptor) apf.getDescriptor()).getPublisherTagUnits();
-        for (PUBL_TAG pTag : publTags) {
-          if (pTag.getPublisherTagNumber() == pTagNumber) {
-            int keyNumber = pTag.getPublisherHeadingNumber();
-            if (keyNumber == field.getVariableField().getKeyNumber()) {
-              if (field.getFieldStatus() == Field.FieldStatus.CHANGED) {
-                pm.setCorrelationValues(correlationValues);
-                apf.setAccessPointStringText(new StringText(field.getVariableField().getValue()));
-                apf.setSequenceNumber(field.getVariableField().getSequenceNumber());
-                if (newKeyNumber != null && keyNumber != newKeyNumber) {
-                  Descriptor descriptorNew = null;
-                  try {
-                    descriptorNew = pTag.getDescriptorDAO().findOrCreateMyView(newKeyNumber,
-                      View.makeSingleViewString(item.getUserView()), view, session);
-
-                    pTag.setDescriptor((PUBL_HDG) descriptorNew);
-                    pTag.setUserViewString(View.makeSingleViewString(view));
-                    pTag.setOtherSubfields(st.getSubfieldsWithCodes("c").toString());
-                    pTag.markNew();
-
-                    MarcCommandLibrary.setNewStringText(pm, st, View.makeSingleViewString(view), session);
-
-                  } catch (HibernateException | SQLException e) {
-                    throw new ModMarccatException(e);
-                  }
-                  apf.setUserViewString(View.makeSingleViewString(view));
-                  pm.setApf(apf);
-
-                } else {
-                  pTag.setOtherSubfields(st.getSubfieldsWithCodes("c").toString());
-                  apf.markChanged();
-                }
-              } else {
-                apf.markDeleted();
-                item.getDeletedTags().add(apf);
-              }
-              break;
-            }
+        try {
+          PublisherManager publisherManager = (PublisherManager) aTag;
+          if (field.getFieldStatus() == Field.FieldStatus.CHANGED) {
+            updatePublisherToCatalog(publisherManager, field.getVariableField(), view, configuration, session);
           }
+          else {
+            publisherManager.markDeleted();
+            item.getDeletedTags().add(publisherManager);
+          }
+        } catch (HibernateException | SQLException e) {
+          throw new ModMarccatException(e);
         }
       });
-    } else if (field.getVariableField().getKeyNumber() != null && field.getFieldStatus() == Field.FieldStatus.NEW) {
-      insertNewVariableField(item, field.getVariableField(), bibItemNumber, correlationValues, session, view);
+    }
+
+    else if (field.getVariableField().getKeyNumber() != null && field.getFieldStatus() == Field.FieldStatus.NEW) {
+      insertNewVariableField(item, field.getVariableField(), bibItemNumber, correlationValues, configuration, session, view);
     }
   }
 
   /**
    * Insert of a new variable field.
    *
-   * @param item          -- the item to add tags.
-   * @param variableField -- the variable field containing data.
-   * @param bibItemNumber -- the bibliographic item number.
-   * @throws DataAccessException in case of data access exception.
+   * @param item              -- the item to add tags.
+   * @param variableField     -- the variable field containing data.
+   * @param bibItemNumber     -- the bibliographic item number.
+   * @param correlationValues -- the selection of correlation values.
+   * @param configuration     -- the configuration.
+   * @param session           -- the current hibernate session.
+   * @param view              -- the view.
    */
   public void insertNewVariableField(final CatalogItem item,
                                      final org.folio.marccat.resources.domain.VariableField variableField,
                                      final int bibItemNumber,
                                      final CorrelationValues correlationValues,
+                                     Map <String, String> configuration,
                                      final Session session,
-                                     final int view) throws DataAccessException {
+                                     final int view) {
 
     if (variableField.getCategoryCode() == Global.TITLE_CATEGORY) {
       if (!checkIfAlreadyExist(variableField.getKeyNumber(), item, TitleAccessPoint.class))
@@ -442,7 +417,7 @@ public class RecordParser {
     } else if (variableField.getCategoryCode() == Global.BIB_NOTE_CATEGORY && correlationValues.getValue(1) == Global.PUBLISHER_DEFAULT_NOTE_TYPE) {
 
       try {
-        addPublisherToCatalog(item, correlationValues, variableField, view, session);
+        addPublisherToCatalog(item, correlationValues, variableField, view, configuration, session);
       } catch (HibernateException | SQLException e) {
         throw new DataAccessException(e);
       }
@@ -456,14 +431,17 @@ public class RecordParser {
    * @param correlationValues -- the selection of correlation values.
    * @param variableField     -- the variable field containing data.
    * @param view              -- the view.
-   * @throws DataAccessException in case of data access exception.
+   * @param configuration     -- the configuration.
+   * @param session           -- the current hibernate session.
+   * @throws HibernateException -- in case of hibernate exception.
+   * @throws DataAccessException -- in case of data access exception.
    */
   private void addPublisherToCatalog(final CatalogItem item,
                                      final CorrelationValues correlationValues,
                                      final org.folio.marccat.resources.domain.VariableField variableField,
                                      final int view,
-                                     final Session session) throws DataAccessException, HibernateException, SQLException {
-
+                                     final Map<String, String> configuration,
+                                     final Session session) throws HibernateException, SQLException {
     boolean exist = item.getTags().stream()
       .filter(aTag -> PublisherManager.class.isAssignableFrom(aTag.getClass()))
       .anyMatch(t -> {
@@ -477,20 +455,63 @@ public class RecordParser {
       return;
 
     final PublisherManager publisherManager = catalog.createPublisherTag(item, correlationValues);
+
     publisherManager.setUserViewString(View.makeSingleViewString(view));
+    final StringText st = new StringText(variableField.getValue());
 
-    PUBL_TAG ptag = new PUBL_TAG();
-    Descriptor descriptorNew = ptag.getDescriptorDAO().findOrCreateMyView(variableField.getKeyNumber(), View.makeSingleViewString(item.getUserView()), view, session);
-    ptag.setDescriptor((PUBL_HDG) descriptorNew);
-    ptag.setPublisherHeadingNumber(ptag.getDescriptor().getKey().getHeadingNumber());
-    ptag.setUserViewString(View.makeSingleViewString(view));
-    ptag.markNew();
-    StringText st = new StringText(variableField.getValue());
+    publisherManager.setStringText(st);
+    List<PUBL_TAG> publisherTagUnits =  publisherManager.getPublisherTagUnits();
+    int idx = 1;
+    for (PUBL_TAG ptag : publisherTagUnits) {
+      Descriptor descriptor = ptag.getDescriptor();
+      descriptor.setUserViewString(View.makeSingleViewString(view));
+      descriptor.setConfigValues(configuration);
+      final Descriptor descriptorNew = ((DAODescriptor) (descriptor.getDAO())).getMatchingHeading(descriptor, session);
+      if(descriptorNew != null) {
+        ptag.setDescriptor((PUBL_HDG) descriptorNew);
+        ptag.setPublisherHeadingNumber(ptag.getDescriptor().getKey().getHeadingNumber());
+        ptag.setSequenceNumber(idx ++);
+        ptag.markNew();
+      }
+    }
+     item.addTag(publisherManager);
+  }
 
-    ptag.setOtherSubfields(st.getSubfieldsWithCodes("c").toString());
-    publisherManager.getPublisherTagUnits().add(ptag);
+  /**
+    * Updates a new persistent {@link PublisherManager} object for saving record.
+    *
+    * @param publisherManager   -- the publisher manager to update.
+    * @param variableField      -- the variable field containing data.
+    * @param view               -- the view.
+    * @param configuration     -- the configuration.
+    * @param session           -- the current hibernate session.
+    * @throws HibernateException -- in case of hibernate exception.
+    * @throws DataAccessException in case of data access exception.
+    */
+  private void updatePublisherToCatalog(final PublisherManager publisherManager,
+                                        final org.folio.marccat.resources.domain.VariableField variableField,
+                                        final int view,
+                                        final Map<String, String> configuration,
+                                       final Session session) throws HibernateException, SQLException {
+    final StringText st = new StringText(variableField.getValue());
+    publisherManager.setStringText(st);
+    final List<PUBL_TAG> publisherTagUnits =  publisherManager.getPublisherTagUnits();
+    int idx = 1;
+    for (PUBL_TAG ptag : publisherTagUnits) {
+      final Descriptor descriptor = ptag.getDescriptor();
+      descriptor.setUserViewString(View.makeSingleViewString(view));
+      descriptor.setConfigValues(configuration);
+      final Descriptor descriptorNew = ((DAODescriptor) (descriptor.getDAO())).getMatchingHeading(descriptor, session);
+      if(descriptorNew != null) {
+        ptag.setDescriptor((PUBL_HDG) descriptorNew);
+        ptag.setUserViewString(View.makeSingleViewString(view));
+        ptag.setSequenceNumber(idx ++);
+        ptag.markChanged();
+      }
+    }
+    publisherManager.getApf().markChanged();
+    publisherManager.markChanged();
 
-    item.addTag(publisherManager);
   }
 
   /**
@@ -500,12 +521,11 @@ public class RecordParser {
    * @param correlationValues -- the selection of correlation values.
    * @param variableField     -- the variable field containing data.
    * @param bibItemNumber     -- the bibliographic item number.
-   * @throws DataAccessException in case of data access exception.
-   */
+    */
   private void addNoteToCatalog(final CatalogItem item,
                                 final CorrelationValues correlationValues,
                                 final org.folio.marccat.resources.domain.VariableField variableField,
-                                final int bibItemNumber) throws DataAccessException {
+                                final int bibItemNumber){
     final BibliographicNoteTag nTag = catalog.createBibliographicNoteTag(item, correlationValues);
     nTag.getNote().setContent(variableField.getValue());
     if (variableField.getKeyNumber() != null && variableField.getKeyNumber() != 0)
@@ -523,12 +543,11 @@ public class RecordParser {
    * @param correlationValues -- the selection of correlation values.
    * @param variableField     -- the variable field containing data.
    * @param bibItemNumber     -- the bibliographic item number.
-   * @throws DataAccessException in case of data access exception.
    */
   private void addSubjectToCatalog(final CatalogItem item,
                                    final CorrelationValues correlationValues,
                                    final org.folio.marccat.resources.domain.VariableField variableField,
-                                   final int bibItemNumber) throws DataAccessException {
+                                   final int bibItemNumber) {
     final SubjectAccessPoint sap = catalog.createSubjectAccessPoint(item, correlationValues);
     sap.setAccessPointStringText(new StringText(variableField.getValue()));
     sap.setHeadingNumber(variableField.getKeyNumber());
@@ -544,12 +563,11 @@ public class RecordParser {
    * @param correlationValues -- the selection of correlation values.
    * @param variableField     -- the variable field containing data.
    * @param bibItemNumber     -- the bibliographic item number.
-   * @throws DataAccessException in case of data access exception.
    */
   private void addClassificationToCatalog(final CatalogItem item,
                                           final CorrelationValues correlationValues,
                                           final org.folio.marccat.resources.domain.VariableField variableField,
-                                          final int bibItemNumber) throws DataAccessException {
+                                          final int bibItemNumber) {
     final ClassificationAccessPoint clap = catalog.createClassificationAccessPoint(item, correlationValues);
     clap.setAccessPointStringText(new StringText(variableField.getValue()));
     clap.setHeadingNumber(variableField.getKeyNumber());
@@ -565,12 +583,11 @@ public class RecordParser {
    * @param correlationValues -- the selection of correlation values.
    * @param variableField     -- the variable field containing data.
    * @param bibItemNumber     -- the bibliographic item number.
-   * @throws DataAccessException in case of data access exception.
    */
   private void addControlFieldToCatalog(final CatalogItem item,
                                         final CorrelationValues correlationValues,
                                         final org.folio.marccat.resources.domain.VariableField variableField,
-                                        final int bibItemNumber) throws DataAccessException {
+                                        final int bibItemNumber) {
     final ControlNumberAccessPoint cnap = catalog.createControlNumberAccessPoint(item, correlationValues);
     cnap.setAccessPointStringText(new StringText(variableField.getValue()));
     cnap.setHeadingNumber(variableField.getKeyNumber());
@@ -586,12 +603,11 @@ public class RecordParser {
    * @param correlationValues -- the selection of correlation values.
    * @param variableField     -- the variable field containing data.
    * @param bibItemNumber     -- the bibliographic item number.
-   * @throws DataAccessException in case of data access exception.
-   */
+    */
   private void addNameToCatalog(final CatalogItem item,
                                 final CorrelationValues correlationValues,
                                 final org.folio.marccat.resources.domain.VariableField variableField,
-                                final int bibItemNumber) throws DataAccessException {
+                                final int bibItemNumber) {
     final NameAccessPoint nap = catalog.createNameAccessPointTag(item, correlationValues);
     nap.setAccessPointStringText(new StringText(variableField.getValue()));
     nap.setHeadingNumber(variableField.getKeyNumber());
@@ -607,12 +623,11 @@ public class RecordParser {
    * @param correlationValues -- the selection of correlation values.
    * @param variableField     -- the variable field containing data.
    * @param bibItemNumber     -- the bibliographic item number.
-   * @throws DataAccessException in case of data access exception.
    */
   private void addTitleToCatalog(final CatalogItem item,
                                  final CorrelationValues correlationValues,
                                  final org.folio.marccat.resources.domain.VariableField variableField,
-                                 final int bibItemNumber) throws DataAccessException {
+                                 final int bibItemNumber) {
 
     final TitleAccessPoint tap = catalog.createTitleAccessPointTag(item, correlationValues);
     tap.setAccessPointStringText(new StringText(variableField.getValue()));

@@ -169,7 +169,7 @@ public class BibliographicRecordAPI extends BaseResource {
           }
         });
 
-        storageService.saveBibliographicRecord(record, template, view, gi, lang);
+        storageService.saveBibliographicRecord(record, template, view, gi, lang, configuration);
         final ContainerRecordTemplate containerSaved = storageService.getBibliographicRecordById(itemNumber, view);
         resetStatus(containerSaved.getBibliographicRecord());
         return new ResponseEntity<>(containerSaved, HttpStatus.OK);

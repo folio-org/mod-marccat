@@ -26,6 +26,7 @@ public class BibliographicValidation extends Validation implements Serializable 
   }
 
   private void setKey(BibliographicValidationKey validation) {
-	    key = validation;
-	  }
+    key = validation;
+  }
+
 }

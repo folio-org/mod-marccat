@@ -135,8 +135,8 @@ public class BibliographicItem extends CatalogItem implements Serializable {
   }
 
   public ItemEntity getItemEntity() {
-	    return bibItmData;
-	  }
+    return bibItmData;
+  }
 
   /* (non-Javadoc)
    * @see CatalogItem#setItemEntity(ItemEntity)
@@ -144,6 +144,12 @@ public class BibliographicItem extends CatalogItem implements Serializable {
   public void setItemEntity(ItemEntity item) {
     setBibItmData((BIB_ITM) item);
   }
+
+  /* (non-Javadoc)
+   * @see CatalogItem#setItemEntity(ItemEntity)
+   */
+
+
 
 
 }
