@@ -217,7 +217,15 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    *
    * @param stringText -- the string text to set.
    */
+  /**
+   * Sets stringText to publisher.
+   *
+   * @param stringText -- the string text to set.
+   */
   public void setStringText(final StringText stringText) {
+    stringText.removePrecedingPunctuation("a"," ;");
+    stringText.removePrecedingPunctuation("b"," :");
+    stringText.removePrecedingPunctuation("c",",");
     setPublisherTagUnits(new ArrayList<>());
     String lastSubfield = "a";
     StringText newText = new StringText();
@@ -226,6 +234,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
     for (Subfield aSubfield : theList) {
       if (aSubfield.getCode().compareTo(lastSubfield) < 0 || theList.lastIndexOf(aSubfield) == theList.size() - 1) {
         if (theList.lastIndexOf(aSubfield) == theList.size() - 1) {
+
           newText.addSubfield(aSubfield);
         }
         if (newText.getNumberOfSubfields() > 0) {
@@ -240,6 +249,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
     }
     parseForEditing();
   }
+
 
   /**
    * Gets the display string.
@@ -296,6 +306,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
   }
 
   /**
+   * @deprecated
    * Gets the first correlation list.
    *
    * @return the first correlation list
@@ -502,8 +513,8 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    * @throws DataAccessException in case of data access exception.
    */
   public void evict() throws DataAccessException {
-    final PublisherAccessPoint apf = getApf();
-    apf.evict();
+    final PublisherAccessPoint publisherAccessPoint = getApf();
+    publisherAccessPoint.evict();
     getPublisherTagUnits().stream().forEach(tagUnit -> {
       tagUnit.evict();
     });

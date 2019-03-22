@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import javax.annotation.Generated;
+import javax.validation.constraints.Size;
 
 /**
  * Heading
@@ -12,67 +13,69 @@ import javax.annotation.Generated;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({"tag", "indicator1", "indicator2", "category", "headingNumber", "stringText"})
+@JsonPropertyOrder({"tag", "ind1", "ind2", "categoryCode", "keyNumber", "displayValue"})
 public class Heading {
 
   @JsonProperty("tag")
   private String tag;
 
-  @JsonProperty("indicator1")
-  private String indicator1;
+  @JsonProperty("ind1")
+  @Size(min = 1, max = 1)
+  private String ind1;
 
-  @JsonProperty("indicator2")
-  private String indicator2;
+  @JsonProperty("ind2")
+  @Size(min = 1, max = 1)
+  private String ind2;
 
-  @JsonProperty("category")
-  private Integer category;
+  @JsonProperty("categoryCode")
+  private Integer categoryCode;
 
-  @JsonProperty("headingNumber")
-  private Integer headingNumber;
+  @JsonProperty("keyNumber")
+  private Integer keyNumber;
 
-  @JsonProperty("stringText")
-  private String stringText;
+  @JsonProperty("displayValue")
+  private String displayValue;
 
 
   /**
-   * @return The headingNumber
+   * @return The keyNumber
    */
-  @JsonProperty("headingNumber")
-  public Integer getHeadingNumber() {
-    return headingNumber;
+  @JsonProperty("keyNumber")
+  public Integer getKeyNumber() {
+    return keyNumber;
   }
 
   /**
-   * @param headingNumber The headingNumber
+   * @param keyNumber The keyNumber
    */
-  @JsonProperty("headingNumber")
-  public void setHeadingNumber(Integer headingNumber) {
-    this.headingNumber = headingNumber;
+  @JsonProperty("keyNumber")
+  public void setKeyNumber(Integer keyNumber) {
+    this.keyNumber = keyNumber;
   }
 
-  public Heading withHeadingNumber(Integer headingNumber) {
-    this.headingNumber = headingNumber;
+  public Heading withKeyNumber(Integer keyNumber) {
+    this.keyNumber = keyNumber;
     return this;
   }
 
   /**
-   * @return The stringText
+   * @return The displayValue
    */
-  @JsonProperty("stringText")
-  public String getStringText() {
-    return stringText;
+  @JsonProperty("displayValue")
+  public String getDisplayValue() {
+    return displayValue;
   }
 
   /**
-   * @param stringText The stringText
+   * @param displayValue The displayValue
    */
-  @JsonProperty("stringText")
-  public void setStringText(String stringText) {
-    this.stringText = stringText;
+  @JsonProperty("displayValue")
+  public void setDisplayValue(String displayValue) {
+    this.displayValue = displayValue;
   }
 
-  public Heading withStringText(String stringText) {
-    this.stringText = stringText;
+  public Heading withDisplayValue(String displayValue) {
+    this.displayValue = displayValue;
     return this;
   }
 
@@ -101,63 +104,63 @@ public class Heading {
   /**
    * @return The ind1
    */
-  @JsonProperty("indicator1")
-  public String getIndicator1() {
-    return indicator1;
+  @JsonProperty("ind1")
+  public String getInd1() {
+    return ind1;
   }
 
   /**
    * @param ind1 The ind1
    */
-  @JsonProperty("indicator1")
-  public void setIndicator1(String indicator1) {
-    this.indicator1 = indicator1;
+  @JsonProperty("ind1")
+  public void setInd1(String ind1) {
+    this.ind1 = ind1;
   }
 
-  public Heading withIndicator1(String indicator1) {
-    this.indicator1 = indicator1;
+  public Heading withInd1(String ind1) {
+    this.ind1 = ind1;
     return this;
   }
 
   /**
    * @return The ind2
    */
-  @JsonProperty("indicator2")
-  public String getIndicator2() {
-    return indicator2;
+  @JsonProperty("ind2")
+  public String getInd2() {
+    return ind2;
   }
 
   /**
-   * @param ind2 The ind1
+   * @param ind2 The ind2
    */
-  @JsonProperty("indicator2")
-  public void setInd2(String indicator2) {
-    this.indicator2 = indicator2;
+  @JsonProperty("ind2")
+  public void setInd2(String ind2) {
+    this.ind2 = ind2;
   }
 
-  public Heading withIndicator2(String indicator2) {
-    this.indicator2 = indicator2;
+  public Heading withInd2(String ind2) {
+    this.ind2 = ind2;
     return this;
   }
 
   /**
-   * @return The category
+   * @return The categoryCode
    */
-  @JsonProperty("category")
-  public Integer getCategory() {
-    return category;
+  @JsonProperty("categoryCode")
+  public Integer getCategoryCode() {
+    return categoryCode;
   }
 
   /**
-   * @param category The category
+   * @param category The categoryCode
    */
-  @JsonProperty("category")
-  public void setCategory(Integer category) {
-    this.category = category;
+  @JsonProperty("categoryCode")
+  public void setCategoryCode(Integer categoryCode) {
+    this.categoryCode = categoryCode;
   }
 
-  public Heading withCategory(Integer category) {
-    this.category = category;
+  public Heading withCategoryCode(Integer categoryCode) {
+    this.categoryCode = categoryCode;
     return this;
   }
 
