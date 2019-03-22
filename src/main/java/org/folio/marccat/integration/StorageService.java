@@ -1586,22 +1586,22 @@ public class StorageService implements Closeable {
       final BibliographicCatalog catalog = new BibliographicCatalog();
       CatalogItem item = catalog.newCatalogItem(new Object[]{view});
       final TagImpl impl = new BibliographicTagImpl();
-      boolean isInd1IsEmpty = heading.getIndicator1().equals(EMPTY_STRING);
-      boolean isInd2IsEmpty = heading.getIndicator2().equals(EMPTY_STRING);
-      final Correlation corr = impl.getCorrelation(heading.getTag(), (isInd1IsEmpty) ? " ".charAt(0) : heading.getIndicator1().charAt(0), (isInd2IsEmpty) ? " ".charAt(0) : heading.getIndicator2().charAt(0), 0, session);
+      boolean isInd1IsEmpty = heading.getInd1().equals(EMPTY_STRING);
+      boolean isInd2IsEmpty = heading.getInd2().equals(EMPTY_STRING);
+      final Correlation corr = impl.getCorrelation(heading.getTag(), (isInd1IsEmpty) ? " ".charAt(0) : heading.getInd1().charAt(0), (isInd2IsEmpty) ? " ".charAt(0) : heading.getInd2().charAt(0), 0, session);
       final Tag newTag = catalog.getNewTag(item, corr.getKey().getMarcTagCategoryCode(), corr.getValues());
       final List<Integer> headingNumberList = new ArrayList<>();
       if (newTag != null) {
-        final StringText st = new StringText(heading.getStringText());
+        final StringText st = new StringText(heading.getDisplayValue());
         ((VariableField) newTag).setStringText(st);
         if (newTag instanceof Browsable) {
-          final int skipInFiling = updateIndicatorNotNumeric(corr.getKey(), heading.getIndicator1(), heading.getIndicator2());
+          final int skipInFiling = updateIndicatorNotNumeric(corr.getKey(), heading.getInd1(), heading.getInd2());
           ((Browsable) newTag).setDescriptorStringText(st);
           final Descriptor descriptor = ((Browsable) newTag).getDescriptor();
           descriptor.setSkipInFiling(skipInFiling);
           int headingNumber = createOrReplaceDescriptor(configuration, descriptor, view);
           headingNumberList.add(headingNumber);
-          heading.setHeadingNumber(headingNumber);
+          heading.setKeyNumber(headingNumber);
         }
         else if(newTag.isPublisher()){
           List<PUBL_TAG> publisherTagUnits = ((PublisherManager) newTag).getPublisherTagUnits();
@@ -1609,8 +1609,8 @@ public class StorageService implements Closeable {
             Descriptor descriptor = publisherTag.getDescriptor();
             int headingNumber = createOrReplaceDescriptor(configuration, descriptor, view);
             headingNumberList.add(headingNumber);
-          }
-            heading.setHeadingNumber(0);
+            heading.setKeyNumber(headingNumber);
+         }
         }
       }
     } catch (HibernateException | SQLException exception) {
@@ -1675,17 +1675,17 @@ public class StorageService implements Closeable {
       final TagImpl impl = new BibliographicTagImpl();
       final BibliographicCatalog catalog = new BibliographicCatalog();
       final CatalogItem item = new BibliographicItem();
-      final Correlation corr = impl.getCorrelation(heading.getTag(), heading.getIndicator1().charAt(0), heading.getIndicator2().charAt(0), 0, session);
+      final Correlation corr = impl.getCorrelation(heading.getTag(), heading.getInd1().charAt(0), heading.getInd2().charAt(0), 0, session);
       final Tag newTag = catalog.getNewTag(item, corr.getKey().getMarcTagCategoryCode(), corr.getValues());
       if (newTag != null) {
-        final StringText st = new StringText(heading.getStringText());
+        final StringText st = new StringText(heading.getDisplayValue());
         ((VariableField) newTag).setStringText(st);
         if (newTag instanceof Browsable) {
-          final int skipInFiling = updateIndicatorNotNumeric(corr.getKey(), heading.getIndicator1(), heading.getIndicator2());
+          final int skipInFiling = updateIndicatorNotNumeric(corr.getKey(), heading.getInd1(), heading.getInd2());
           ((Browsable) newTag).setDescriptorStringText(st);
           final Descriptor descriptor = ((Browsable) newTag).getDescriptor();
-          final DAODescriptor descriptorDao = DescriptorFactory.getDao(heading.getCategory());
-          final Descriptor d = descriptorDao.load(heading.getHeadingNumber(), view, session);
+          final DAODescriptor descriptorDao = DescriptorFactory.getDao(heading.getCategoryCode());
+          final Descriptor d = descriptorDao.load(heading.getKeyNumber(), view, session);
           if (d != null) {
             d.setSkipInFiling(skipInFiling);
             d.setStringText(descriptor.getStringText());
@@ -1709,8 +1709,8 @@ public class StorageService implements Closeable {
    */
   public void deleteHeadingById(final Heading heading, final int view) throws DataAccessException {
     try {
-      final DAODescriptor descriptorDao = DescriptorFactory.getDao(heading.getCategory());
-      final Descriptor d = descriptorDao.load(heading.getHeadingNumber(), view, session);
+      final DAODescriptor descriptorDao = DescriptorFactory.getDao(heading.getCategoryCode());
+      final Descriptor d = descriptorDao.load(heading.getKeyNumber(), view, session);
       d.getDAO().delete(d, session);
     } catch (HibernateException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
