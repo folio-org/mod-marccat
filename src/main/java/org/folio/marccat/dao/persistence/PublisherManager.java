@@ -225,7 +225,6 @@ public class PublisherManager extends VariableField implements PersistentObjectW
     stringText.removePrecedingPunctuation("a"," ;");
     stringText.removePrecedingPunctuation("b"," :");
     stringText.removePrecedingPunctuation("c",",");
-    System.out.println(stringText.toString());
     setPublisherTagUnits(new ArrayList<>());
     String lastSubfield = "a";
     StringText newText = new StringText();
@@ -306,6 +305,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
   }
 
   /**
+   * @deprecated
    * Gets the first correlation list.
    *
    * @return the first correlation list
@@ -512,8 +512,8 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    * @throws DataAccessException in case of data access exception.
    */
   public void evict() throws DataAccessException {
-    final PublisherAccessPoint apf = getApf();
-    apf.evict();
+    final PublisherAccessPoint publisherAccessPoint = getApf();
+    publisherAccessPoint.evict();
     getPublisherTagUnits().stream().forEach(tagUnit -> {
       tagUnit.evict();
     });

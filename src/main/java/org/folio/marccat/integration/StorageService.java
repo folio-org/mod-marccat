@@ -602,7 +602,7 @@ public class StorageService implements Closeable {
 
       descriptorsList = dao.getHeadingsBySortform("<", "desc", browseTerm, filter, view, 1, session);
       if (!(dao instanceof PublisherDescriptorDAO)) {
-        if (descriptorsList.size() > 0) {
+        if (!descriptorsList.isEmpty() ) {
           browseTerm = dao.getBrowsingSortForm(descriptorsList.get(0));
           descriptorsList.clear();
         }
@@ -1256,6 +1256,8 @@ public class StorageService implements Closeable {
     try {
       item = getCatalogItemByKey(record.getId(), view);
     } catch (DataAccessException exception) {
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
     }
 
     try {
@@ -1683,7 +1685,6 @@ public class StorageService implements Closeable {
           ((Browsable) newTag).setDescriptorStringText(st);
           final Descriptor descriptor = ((Browsable) newTag).getDescriptor();
           final DAODescriptor descriptorDao = DescriptorFactory.getDao(heading.getCategory());
-          //final Descriptor d = descriptorDao.load(heading.getHeadingNumber().get(0), view, session);
           final Descriptor d = descriptorDao.load(heading.getHeadingNumber(), view, session);
           if (d != null) {
             d.setSkipInFiling(skipInFiling);
@@ -1709,7 +1710,6 @@ public class StorageService implements Closeable {
   public void deleteHeadingById(final Heading heading, final int view) throws DataAccessException {
     try {
       final DAODescriptor descriptorDao = DescriptorFactory.getDao(heading.getCategory());
-      //final Descriptor d = descriptorDao.load(heading.getHeadingNumber().get(0), view, session);
       final Descriptor d = descriptorDao.load(heading.getHeadingNumber(), view, session);
       d.getDAO().delete(d, session);
     } catch (HibernateException exception) {
