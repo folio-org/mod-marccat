@@ -10,6 +10,7 @@ import org.folio.marccat.config.log.Log;
 import org.folio.marccat.dao.common.TransactionalHibernateOperation;
 import org.folio.marccat.dao.persistence.BIB_ITM;
 import org.folio.marccat.dao.persistence.Cache;
+import org.folio.marccat.exception.RecordNotFoundException;
 import org.folio.marccat.exception.ReferentialIntegrityException;
 
 import java.util.List;
@@ -94,8 +95,8 @@ public class DAOBibItem extends AbstractDAO {
       return (BIB_ITM) isolateView(l.stream().findFirst().get(), userView, session);
     } else {
       logger.debug("BIB_ITM not found");
-      logger.info("DONT PUT RecordNotFoundException HERE! BUT RUTURN NULL");
-      return null;
+      logger.info("The Exception dosn't block the insert flow");
+      throw new RecordNotFoundException("BIB_ITM not found");
     }
   }
 }
