@@ -508,6 +508,13 @@ public class BibliographicCatalogDAO extends CatalogDAO {
     return singleView;
   }
 
+  /**
+   * @deprecated
+   * @param apfClass
+   * @param id
+   * @param userView
+   * @return
+   */
   @Deprecated
   public List loadAccessPointTags(Class apfClass, int id, int userView) {
     return Collections.emptyList();
@@ -632,6 +639,11 @@ public class BibliographicCatalogDAO extends CatalogDAO {
     }
   }
 
+  /**
+   * @deprecated
+   * @param item
+   * @return
+   */
   @Deprecated
   public Collection<SubjectAccessPoint> getEquivalentSubjects(final CatalogItem item) {
     return Collections.emptyList();
@@ -640,25 +652,40 @@ public class BibliographicCatalogDAO extends CatalogDAO {
   @SuppressWarnings("unchecked")
   private List<PublisherManager> getPublisherTags(final int amicusNumber, final int userView, final Session session) throws HibernateException {
     List<PublisherAccessPoint> publisherAccessPoints = (List<PublisherAccessPoint>) getAccessPointTags(PublisherAccessPoint.class, amicusNumber, userView, session);
-    return publisherAccessPoints.stream().map(accessPoint -> new PublisherManager(accessPoint)).collect(Collectors.toList());
+    return publisherAccessPoints.stream().map(PublisherManager::new).collect(Collectors.toList());
   }
 
 
+  /**
+   * @deprecated
+   * @param key
+   * @return
+   */
   @Deprecated
   public CatalogItem getCatalogItemByKey(Object[] key) {
     return null;
   }
 
+  /**
+   * @deprecated
+   * @param id
+   * @param userView
+   * @return
+   */
   @Deprecated
   public BibliographicItem getBibliographicItemWithoutRelationships(final int id, int userView) {
     return null;
   }
 
+  /**
+   * @deprecated
+   * @param bibItemNumber
+   * @param cataloguingView
+   */
   @Deprecated
   public void updateCacheTable(
     final int bibItemNumber,
     final int cataloguingView) {
-    throw new UnsupportedOperationException();
   }
 
   @Override

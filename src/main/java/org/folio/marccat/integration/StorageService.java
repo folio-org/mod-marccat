@@ -1255,7 +1255,7 @@ public class StorageService implements Closeable {
       item = getCatalogItemByKey(record.getId(), view);
     } catch (DataAccessException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
-      throw new DataAccessException(exception);
+      // do not put any exception here!!!!!!!!!!!!! , because the microservice doesn't insert the record
     }
 
     try {

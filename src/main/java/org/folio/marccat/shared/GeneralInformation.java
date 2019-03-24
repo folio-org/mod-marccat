@@ -340,22 +340,18 @@ public class GeneralInformation {
    * @return the displayString segment for serial (continuing resources) material
    */
   public String serialDisplayString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("")
-      .append(getSerialFrequencyCode())        /* 18 - Frequency */
-      .append(getSerialRegularityCode())        /* 19 - Regularity */
-      .append(" ")                    /* 20 - Undefined */
-      .append(getSerialTypeCode())            /* 21 - Type of continuing resource */
-      .append(getSerialFormOriginalItemCode())      /* 22 - Form of original item */
-      .append(getFormOfItemCode())            /* 23 - Form of item */
-      .append(getNatureOfContentsCode())        /* 24 - Nature of entire work 25-27 - Nature of contents */
-      .append(getGovernmentPublicationCode())      /* 28 - Government publication */
-      .append(getConferencePublicationCode())      /* 29 - Conference publication */
-      .append("   ")                  /* 30-32 - Undefined  */
-      .append(getSerialOriginalAlphabetOfTitleCode())  /* 33 - Original alphabet or script of title */
-      .append(getSerialEntryConventionCode());    /* 34 - Entry convention */
 
-    return builder.toString();
+    return String.format("%s%s %s%s%s%s%s%s   %s%s",
+      getSerialFrequencyCode(),
+      getSerialRegularityCode(),
+      getSerialTypeCode(),
+      getSerialFormOriginalItemCode(),
+      getFormOfItemCode(),
+      getNatureOfContentsCode(),
+      getGovernmentPublicationCode(),
+      getConferencePublicationCode(),
+      getSerialOriginalAlphabetOfTitleCode(),
+      getSerialEntryConventionCode());
   }
 
   public String getMusicPartsCode() {

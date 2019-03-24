@@ -57,7 +57,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
     StringText s = new StringText();
     if (getSourceRelationship().getTargetBibItemNumber() > 0) {
       DAOBibliographicRelationship b = new DAOBibliographicRelationship();
-      s = b.buildRelationStringText(sourceRelationship.getTargetBibItemNumber(), userView);
+      s = b.buildRelationStringText(sourceRelationship.getTargetBibItemNumber(), userView, b.currentSession());
     }
     setReciprocalStringText(s);
   }

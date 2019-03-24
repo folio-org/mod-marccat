@@ -122,7 +122,6 @@ public class BibliographicRecordAPI extends BaseResource {
       bibliographicRecord.setCanadianContentIndicator("0");
       resetStatus(bibliographicRecord);
       return bibliographicRecord;
-
     }, tenant, configurator, "bibliographic");
   }
 

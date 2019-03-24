@@ -29,6 +29,7 @@ public abstract class CatalogItem implements Serializable {
     (Tag tag1, Tag tag2) -> (tag1.getMarcEncoding().getMarcTag().compareTo(tag2.getMarcEncoding().getMarcTag()));
   protected List<Tag> deletedTags = new ArrayList<>();
   protected ModelItem modelItem;
+  protected Session session;
   protected List<Tag> tags = new ArrayList<>();
   private transient Log logger = new Log(CatalogItem.class);
 
@@ -61,6 +62,10 @@ public abstract class CatalogItem implements Serializable {
     return xmlDocument;
   }
 
+  /**
+   * @deprecated
+   * @param tags
+   */
   @Deprecated
   public void addAllTags(Tag[] tags) {
     for (int i = 0; i < tags.length; i++) {
@@ -68,6 +73,10 @@ public abstract class CatalogItem implements Serializable {
     }
   }
 
+  /**
+   * @deprecated
+   * @param aTag
+   */
   @Deprecated
   public void addDeletedTag(Tag aTag) {
     if (!deletedTags.contains(aTag)) {
@@ -76,11 +85,19 @@ public abstract class CatalogItem implements Serializable {
   }
 
 
+  /**
+   *
+   * @param newTag
+   */
   public void addTag(Tag newTag) {
     tags.add(newTag);
   }
 
-  abstract public void checkForMandatoryTags();
+  /**
+   *
+   * @param session
+   */
+  abstract public void checkForMandatoryTags(Session session);
 
   /**
    * Checks if the specified tag is illegally repeated in the item and throws an exception if so.
@@ -105,13 +122,7 @@ public abstract class CatalogItem implements Serializable {
    *
    * @param s -- the tag number to search.
    */
-  public Tag findFirstTagByNumber(final String s) {
-    try {
-      return getTags().stream().filter(tag -> tag.getMarcEncoding().getMarcTag().startsWith(s)).findFirst().orElse(null);
-    } catch (Exception e) {
-      return null;
-    }
-  }
+
 
   /**
    * Finds the first tag occurrence of the given tag number.
@@ -294,7 +305,7 @@ public abstract class CatalogItem implements Serializable {
    * @throws DataAccessException in case of data access exception.
    */
   public void validate() {
-    checkForMandatoryTags();
+    checkForMandatoryTags(this.session);
     for (int i = 0; i < getTags().size(); i++) {
       checkRepeatability(i);
       getTag(i).validate(i);
