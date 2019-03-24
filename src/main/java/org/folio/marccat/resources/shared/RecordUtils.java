@@ -40,6 +40,15 @@ public class RecordUtils {
       Global.FIXED_LEADER_PORTION;
   }
 
+  public static String buildString(String ...s) {
+    int i = s.length;
+    for(String c:s){
+
+    }
+    return String.format("%s%s %s%s%s%s%s%s   %s%s",s);
+  }
+
+
   /**
    * Reset status fields to UNCHANGED.
    *

@@ -1,5 +1,6 @@
 package org.folio.marccat.business.cataloguing.bibliographic;
 
+import net.sf.hibernate.Session;
 import org.folio.marccat.business.cataloguing.common.Tag;
 import org.folio.marccat.business.cataloguing.common.TagImpl;
 import org.folio.marccat.config.log.Log;
@@ -26,6 +27,8 @@ public class BibliographicItem extends CatalogItem implements Serializable {
   public BibliographicItem() {
     super();
   }
+
+
 
   public BibliographicItem(Integer id) {
     super();
@@ -117,6 +120,7 @@ public class BibliographicItem extends CatalogItem implements Serializable {
     return record;
   }
 
+
   /* (non-Javadoc)
    * @see CatalogItem#checkForMandatoryTags()
    */
@@ -125,10 +129,10 @@ public class BibliographicItem extends CatalogItem implements Serializable {
    * like 000, 001, 005 cannot be added by the user and will be generated
    * if not present
    */
-  public void checkForMandatoryTags() {
+  public void checkForMandatoryTags(Session session) {
     final String[] tags = new String[]{"000", "008", "040"};
     for (int i = 0; i < tags.length; i++) {
-      if (findFirstTagByNumber(tags[i]) == null) {
+      if (findFirstTagByNumber(tags[i], session) == null) {
         throw new MandatoryTagException(tags[i]);
       }
     }

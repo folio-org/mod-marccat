@@ -1,5 +1,6 @@
 package org.folio.marccat.business.cataloguing.authority;
 
+import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.cataloguing.common.Tag;
@@ -75,6 +76,8 @@ public class AuthorityItem extends CatalogItem {
     this.modelItem.setModel(model);
     this.modelItem.setRecordFields(
       model.getRecordFields());
+    this.session = this.modelItem.getDAO().currentSession();
+
   }
 
   /* (non-Javadoc)
@@ -94,10 +97,10 @@ public class AuthorityItem extends CatalogItem {
   /* (non-Javadoc)
    * @see CatalogItem#checkForMandatoryTags()
    */
-  public void checkForMandatoryTags() {
+  public void checkForMandatoryTags(Session session) {
     final String[] tags = new String[]{"000", "008", "040", "1"};
     for (int i = 0; i < tags.length; i++) {
-      if (findFirstTagByNumber(tags[i]) == null) {
+      if (findFirstTagByNumber(tags[i], this.session) == null) {
         if ("1".equals(tags[i])) {
           throw new MandatoryTagException("1XX");
         } else {
@@ -109,18 +112,17 @@ public class AuthorityItem extends CatalogItem {
 
   @Override
   public void sortTags() {
-    Collections.sort(getTags(), new Comparator() {
-      @Override
-      public int compare(Object o1, Object o2) {
-        Tag t1 = (Tag) o1;
-        Tag t2 = (Tag) o2;
-        try {
-          return t1.getMarcEncoding().getMarcTag().
-            compareTo(t2.getMarcEncoding().getMarcTag());
-        } catch (Exception e) {
-          logger.warn(e);
-          return 0;
-        }
+    final Session session = this.session;
+
+    Collections.sort(getTags(), (Comparator) (o1, o2) -> {
+      Tag t1 = (Tag) o1;
+      Tag t2 = (Tag) o2;
+      try {
+        return t1.getMarcEncoding(session).getMarcTag().
+          compareTo(t2.getMarcEncoding().getMarcTag());
+      } catch (Exception e) {
+        logger.warn(e);
+        return 0;
       }
     });
   }

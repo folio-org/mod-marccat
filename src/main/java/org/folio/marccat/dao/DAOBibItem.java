@@ -96,7 +96,7 @@ public class DAOBibItem extends AbstractDAO {
     if (l.stream().anyMatch(Objects::nonNull)) {
       return (BIB_ITM) isolateView(l.stream().findFirst().get(), userView, session);
     } else {
-      throw new RecordNotFoundException("BIB_ITM not found");
+      return null;
     }
   }
 }

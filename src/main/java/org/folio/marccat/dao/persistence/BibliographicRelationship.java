@@ -111,7 +111,7 @@ public class BibliographicRelationship extends VariableField implements Persiste
     StringText s = new StringText();
     DAOBibliographicRelationship b = new DAOBibliographicRelationship();
     try {
-      s = b.buildRelationStringText(this.getTargetBibItemNumber(), userView);
+      s = b.buildRelationStringText(this.getTargetBibItemNumber(), userView, b.currentSession());
       s.add(getRelationshipStringText());
       return s;
     } catch (DataAccessException ex) {

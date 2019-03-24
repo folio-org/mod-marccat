@@ -181,24 +181,4 @@ public final class XmlUtils {
 
     return cleanedText;
   }
-
-  /**
-   * Inizia la ricerca nella stringa per inserire i delimitatori di tutti i pattern.
-   *
-   * @param cclQuery
-   * @param subfield
-   * @return la stringa con tutti i delimitatori
-   */
-  public static String parseString(final String cclQuery, final Subfield subfield) {
-    final String[] termsToBeHighlighted = getHighlightedTerms(cclQuery);
-    String text = subfield.getContent();
-    for (int i = 0; i < termsToBeHighlighted.length; i++) {
-      String termineCorrente = termsToBeHighlighted[i];
-      int[] indiciDelimitatore = indexesToBeHighlighted(termineCorrente, text);
-
-      if (indiciDelimitatore[0] != -1)
-        text = addDelimiters(indiciDelimitatore[0], indiciDelimitatore[1], text);
-    }
-    return text;
-  }
 }
