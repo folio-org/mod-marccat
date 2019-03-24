@@ -1250,12 +1250,12 @@ public class StorageService implements Closeable {
    * @throws DataAccessException in case of data access exception.
    */
   public void saveBibliographicRecord(final BibliographicRecord record, final RecordTemplate template, final int view, final GeneralInformation generalInformation, final String lang,  final Map<String, String> configuration) throws DataAccessException {
-    CatalogItem item;
+    CatalogItem item = null;
     try {
       item = getCatalogItemByKey(record.getId(), view);
     } catch (DataAccessException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
-      throw new DataAccessException(exception);
+      // do not put any exception here!!!!!!!!!!!!! , because the microservice doesn't insert the record
     }
 
     try {
