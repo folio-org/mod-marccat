@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- *
- * Created on Dec 3, 2004
- *
- * DAOBibItem.java
- */
 package org.folio.marccat.dao;
 
 import net.sf.hibernate.Hibernate;
@@ -13,10 +6,10 @@ import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.View;
+import org.folio.marccat.config.log.Log;
 import org.folio.marccat.dao.common.TransactionalHibernateOperation;
 import org.folio.marccat.dao.persistence.BIB_ITM;
 import org.folio.marccat.dao.persistence.Cache;
-import org.folio.marccat.exception.RecordNotFoundException;
 import org.folio.marccat.exception.ReferentialIntegrityException;
 
 import java.util.List;
@@ -28,6 +21,10 @@ import java.util.Objects;
  * @since 1.0
  */
 public class DAOBibItem extends AbstractDAO {
+
+  private static final Log logger = new Log(DAOBibItem.class);
+
+
   @Deprecated
   @Override
   public void delete(Persistence p) {
@@ -96,7 +93,9 @@ public class DAOBibItem extends AbstractDAO {
     if (l.stream().anyMatch(Objects::nonNull)) {
       return (BIB_ITM) isolateView(l.stream().findFirst().get(), userView, session);
     } else {
-      throw new RecordNotFoundException("BIB_ITM not found");
+      logger.debug("BIB_ITM not found");
+      logger.info("DONT PUT RecordNotFoundException HERE! BUT RUTURN NULL");
+      return null;
     }
   }
 }
