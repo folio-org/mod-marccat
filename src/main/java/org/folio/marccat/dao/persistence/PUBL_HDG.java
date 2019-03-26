@@ -137,7 +137,6 @@ public class PUBL_HDG extends Descriptor implements Serializable {
    */
   @Override
   public void setCorrelationValues(CorrelationValues v) {
-	  throw new UnsupportedOperationException();
   }
 
   /* (non-Javadoc)

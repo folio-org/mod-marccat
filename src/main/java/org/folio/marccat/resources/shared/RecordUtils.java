@@ -18,7 +18,6 @@ import static org.folio.marccat.resources.shared.FixedFieldUtils.isFixedField;
 public class RecordUtils {
 
 	private RecordUtils() {
-		throw new UnsupportedOperationException("This is an utility class");
 	}
 	
   /**
@@ -38,14 +37,6 @@ public class RecordUtils {
       Global.DESCRIPTIVE_CATALOGUING_CODE +
       Global.LINKED_RECORD_CODE +
       Global.FIXED_LEADER_PORTION;
-  }
-
-  public static String buildString(String ...s) {
-    int i = s.length;
-    for(String c:s){
-
-    }
-    return String.format("%s%s %s%s%s%s%s%s   %s%s",s);
   }
 
 
