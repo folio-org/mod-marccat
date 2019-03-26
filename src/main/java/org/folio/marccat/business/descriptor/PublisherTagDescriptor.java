@@ -35,7 +35,6 @@ public class PublisherTagDescriptor extends Descriptor {
 
   @Override
   public void setCorrelationValues(CorrelationValues v) {
-	  throw new UnsupportedOperationException("This method is empty");
   }
 
   @Override

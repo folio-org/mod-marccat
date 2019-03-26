@@ -140,7 +140,6 @@ public abstract class Catalog {
    */
   @Deprecated
   public void saveCatalogItem(CatalogItem item) {
-	  throw new UnsupportedOperationException("This method is deprecated");
   }
 
   /**

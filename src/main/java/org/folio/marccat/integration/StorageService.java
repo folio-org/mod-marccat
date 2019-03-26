@@ -1254,7 +1254,6 @@ public class StorageService implements Closeable {
     try {
       item = getCatalogItemByKey(record.getId(), view);
     } catch (DataAccessException exception) {
-      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       // do not put any exception here!!!!!!!!!!!!! , because the microservice doesn't insert the record
     }
 
@@ -1597,6 +1596,8 @@ public class StorageService implements Closeable {
           ((Browsable) newTag).setDescriptorStringText(st);
           final Descriptor descriptor = ((Browsable) newTag).getDescriptor();
           descriptor.setSkipInFiling(skipInFiling);
+/*          if(descriptor.getSortForm()== null)
+            descriptor.setSortForm(heading.getDisplayValue());*/
           int headingNumber = createOrReplaceDescriptor(configuration, descriptor, view);
           headingNumberList.add(headingNumber);
           heading.setKeyNumber(headingNumber);
@@ -1625,6 +1626,9 @@ public class StorageService implements Closeable {
     final Descriptor dup = ((DAODescriptor) (descriptor.getDAO())).getMatchingHeading(descriptor, session);
     if (dup == null) {
       descriptor.generateNewKey(session);
+      if(descriptor.getSortForm() == null) {
+        descriptor.calculateAndSetSortForm();
+      }
       descriptor.getDAO().save(descriptor, session);
       return descriptor.getHeadingNumber();
     }
