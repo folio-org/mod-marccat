@@ -35,7 +35,7 @@ import net.sf.hibernate.type.Type;
 public class DAOCodeTable extends AbstractDAO {
   private Log logger = new Log(DAOCodeTable.class);
   private String noSessionMessege = "don't use it: session missing";
-  private String unableCreateMessage = "unable to create code table object"; 
+  private String unableCreateMessage = "unable to create code table object";
 
   /**
    * Returns a code table contains elements set key/stringValue
@@ -60,7 +60,7 @@ public class DAOCodeTable extends AbstractDAO {
 
       return codeTables
         .stream()
-        .map(codeTable -> (Avp<String>) new Avp(codeTable.getCodeString().trim(), codeTable.getLongText()))
+        .map(codeTable -> (Avp<String>) new Avp(codeTable.getCodeString(), codeTable.getLongText()))
         .collect(toList());
     } catch (final HibernateException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);

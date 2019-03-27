@@ -40,10 +40,12 @@ public class BibliographicRecordAPI extends BaseResource {
     @RequestBody final FixedField fixed,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
     return doPost((storageService, configuration) -> {
+      final GeneralInformation gi = new GeneralInformation();
+      gi.setDefaultValues(configuration);
       final int headerTypeCode = fixed.getHeaderTypeCode();
       final Map<String, Object> mapRecordTypeMaterial = storageService.getMaterialTypeInfosByHeaderCode(headerTypeCode, fixed.getCode());
       if (fixed.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE) || fixed.getCode().equalsIgnoreCase(Global.OTHER_MATERIAL_TAG_CODE)) {
-        return getDisplayValueOfMaterial(fixed, (String) mapRecordTypeMaterial.get(Global.FORM_OF_MATERIAL_LABEL));
+        return getDisplayValueOfMaterial(fixed, (String) mapRecordTypeMaterial.get(Global.FORM_OF_MATERIAL_LABEL), gi);
       } else {
         return getDisplayValueOfPhysicalInformation(fixed);
       }

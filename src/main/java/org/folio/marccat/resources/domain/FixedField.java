@@ -891,12 +891,12 @@ public class FixedField {
    */
   @JsonProperty("governmentPublicationCode")
   public void setGovernmentPublicationCode(String governmentPublicationCode) {
-    this.attributes.put("GOVERNMENT_PUBLICATION_CODE", governmentPublicationCode);
+    this.attributes.put("governmentPublicationCode", governmentPublicationCode);
     this.governmentPublicationCode = governmentPublicationCode;
   }
 
   public FixedField withGovernmentPublicationCode(String governmentPublicationCode) {
-    this.attributes.put("GOVERNMENT_PUBLICATION_CODE", governmentPublicationCode);
+    this.attributes.put("governmentPublicationCode", governmentPublicationCode);
     this.governmentPublicationCode = governmentPublicationCode;
     return this;
   }
