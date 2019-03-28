@@ -96,6 +96,7 @@ public class Diacritics implements Persistence, Serializable {
 
   @Override
   public void setUpdateStatus(int i) {
+
   }
 
   @Override
@@ -152,5 +153,6 @@ public class Diacritics implements Persistence, Serializable {
 
   @Override
   public void onLoad(Session session, Serializable serializable) {
+
   }
 }
