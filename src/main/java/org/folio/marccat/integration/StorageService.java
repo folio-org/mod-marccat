@@ -1596,8 +1596,6 @@ public class StorageService implements Closeable {
           ((Browsable) newTag).setDescriptorStringText(st);
           final Descriptor descriptor = ((Browsable) newTag).getDescriptor();
           descriptor.setSkipInFiling(skipInFiling);
-/*          if(descriptor.getSortForm()== null)
-            descriptor.setSortForm(heading.getDisplayValue());*/
           int headingNumber = createOrReplaceDescriptor(configuration, descriptor, view);
           headingNumberList.add(headingNumber);
           heading.setKeyNumber(headingNumber);

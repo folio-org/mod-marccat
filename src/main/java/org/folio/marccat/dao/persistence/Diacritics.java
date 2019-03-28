@@ -97,7 +97,6 @@ public class Diacritics implements Persistence, Serializable {
 
   @Override
   public void setUpdateStatus(int i) {
-	  throw new UnsupportedOperationException();
 
   }
 
@@ -155,7 +154,6 @@ public class Diacritics implements Persistence, Serializable {
 
   @Override
   public void onLoad(Session session, Serializable serializable) {
-	  throw new UnsupportedOperationException();
 
   }
 }

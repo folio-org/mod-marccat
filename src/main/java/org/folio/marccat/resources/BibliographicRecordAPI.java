@@ -35,20 +35,6 @@ import static org.folio.marccat.util.F.isNotNullOrEmpty;
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class BibliographicRecordAPI extends BaseResource {
 
-  @PostMapping("/bibliographic-record/fixed-field-display-value")
-  public ResponseEntity<FixedField> getFixedFieldWithDisplayValue(
-    @RequestBody final FixedField fixed,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-    return doPost((storageService, configuration) -> {
-      final int headerTypeCode = fixed.getHeaderTypeCode();
-      final Map<String, Object> mapRecordTypeMaterial = storageService.getMaterialTypeInfosByHeaderCode(headerTypeCode, fixed.getCode());
-      if (fixed.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE) || fixed.getCode().equalsIgnoreCase(Global.OTHER_MATERIAL_TAG_CODE)) {
-        return getDisplayValueOfMaterial(fixed, (String) mapRecordTypeMaterial.get(Global.FORM_OF_MATERIAL_LABEL));
-      } else {
-        return getDisplayValueOfPhysicalInformation(fixed);
-      }
-    }, tenant, configurator, () -> (isNotNullOrEmpty(fixed.getCode())));
-  }
 
   @GetMapping("/bibliographic-record/{id}")
   public ResponseEntity<Object> getRecord(
@@ -276,5 +262,20 @@ public class BibliographicRecordAPI extends BaseResource {
       container.setBibliographicRecord(newRecord);
       return new ResponseEntity<>(container, HttpStatus.OK);
     }, tenant, configurator);
+  }
+
+  @PostMapping("/bibliographic-record/fixed-field-display-value")
+  public ResponseEntity<FixedField> getFixedFieldWithDisplayValue(
+    @RequestBody final FixedField fixed,
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    return doPost((storageService, configuration) -> {
+      final int headerTypeCode = fixed.getHeaderTypeCode();
+      final Map<String, Object> mapRecordTypeMaterial = storageService.getMaterialTypeInfosByHeaderCode(headerTypeCode, fixed.getCode());
+      if (fixed.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE) || fixed.getCode().equalsIgnoreCase(Global.OTHER_MATERIAL_TAG_CODE)) {
+        return getDisplayValueOfMaterial(fixed, (String) mapRecordTypeMaterial.get(Global.FORM_OF_MATERIAL_LABEL));
+      } else {
+        return getDisplayValueOfPhysicalInformation(fixed);
+      }
+    }, tenant, configurator, () -> (isNotNullOrEmpty(fixed.getCode())));
   }
 }

@@ -12,10 +12,6 @@ import java.util.function.Function;
 import static java.util.stream.Collectors.toList;
 
 public class MappingUtils {
-	
-	 private MappingUtils() {
-		    throw new IllegalStateException("Utility mapping class");
-		  }
 
   public static final Function<MapHeading, HeadingDecorator> toHeading = source -> {
     final HeadingDecorator heading = new HeadingDecorator();
@@ -28,7 +24,6 @@ public class MappingUtils {
     heading.setCrossReferences(source.getCrossReferences());
     return heading;
   };
-
   /**
    * Adapter that converts existing stringValue object in nature of content code Okapi resource.
    */
@@ -38,7 +33,6 @@ public class MappingUtils {
     pairItem.setDescription(source.getLabel());
     return pairItem;
   };
-
   public static final Function<Avp<String>, HeadingType> toHeadingType = source -> {
     final HeadingType headingType = new HeadingType();
     headingType.setCode(Integer.parseInt(source.getValue()));
@@ -51,6 +45,9 @@ public class MappingUtils {
     template.setName(avp.getLabel());
     return template;
   };
+  private MappingUtils() {
+    throw new IllegalStateException("Utility mapping class");
+  }
 
   public static HeadingTypeCollection mapToHeading(List<Avp<String>> list, final String code) {
     HeadingTypeCollection headingTypeCollection = new HeadingTypeCollection();

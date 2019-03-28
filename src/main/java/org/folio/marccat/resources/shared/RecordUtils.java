@@ -17,9 +17,9 @@ import static org.folio.marccat.resources.shared.FixedFieldUtils.isFixedField;
 
 public class RecordUtils {
 
-	private RecordUtils() {
-	}
-	
+  private RecordUtils() {
+  }
+
   /**
    * Sets the default leader value.
    *
