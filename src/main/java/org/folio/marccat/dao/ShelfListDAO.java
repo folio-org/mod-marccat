@@ -157,8 +157,9 @@ public class ShelfListDAO extends DAODescriptor {
   @SuppressWarnings("unchecked")
   @Override
   public Descriptor getMatchingHeading(final Descriptor descriptor, final Session session)
-    throws HibernateException {
+    throws HibernateException, SQLException {
     final SHLF_LIST shelf = (SHLF_LIST) descriptor;
+    descriptor.setSortForm(calculateSortForm(descriptor, session));
     final List<SHLF_LIST> shelfList = session.find("from "
         + getPersistentClass().getName()
         + " as c "

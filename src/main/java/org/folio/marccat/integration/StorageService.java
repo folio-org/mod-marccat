@@ -1624,9 +1624,6 @@ public class StorageService implements Closeable {
     final Descriptor dup = ((DAODescriptor) (descriptor.getDAO())).getMatchingHeading(descriptor, session);
     if (dup == null) {
       descriptor.generateNewKey(session);
-      if(descriptor.getSortForm() == null) {
-        descriptor.calculateAndSetSortForm();
-      }
       descriptor.getDAO().save(descriptor, session);
       return descriptor.getHeadingNumber();
     }

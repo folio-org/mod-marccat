@@ -302,8 +302,8 @@ public class FixedFieldUtils {
     Map<String, Object> mapRecordTypeMaterial = storageService.getMaterialTypeInfosByHeaderCode(headerTypeCode, tag);
     if (mapRecordTypeMaterial != null) {
       if (tag.equals(MATERIAL_TAG_CODE)) {
-        fixedFieldCodesGroup.addResults(new FixedFieldElement("dateTypes", storageService.getCodesList(lang, DATE_TYPE).stream().map(toPairItem).collect(toList())));
-        fixedFieldCodesGroup.addResults(new FixedFieldElement("country", storageService.getCodesList(lang, MARC_COUNTRY).stream().map(toPairItem).collect(toList())));
+        fixedFieldCodesGroup.addResults(new FixedFieldElement("dateTypeCode", storageService.getCodesList(lang, DATE_TYPE).stream().map(toPairItem).collect(toList())));
+        fixedFieldCodesGroup.addResults(new FixedFieldElement("placeOfPublication)", storageService.getCodesList(lang, MARC_COUNTRY).stream().map(toPairItem).collect(toList())));
       }
       String material = (String) mapRecordTypeMaterial.get(FORM_OF_MATERIAL_LABEL);
       switch (material) {
@@ -372,9 +372,9 @@ public class FixedFieldUtils {
       }
 
       if (tag.equals(MATERIAL_TAG_CODE)) {
-        fixedFieldCodesGroup.addResults(new FixedFieldElement("language", storageService.getCodesList(lang, LANGUAGE).stream().map(toPairItem).collect(toList())));
-        fixedFieldCodesGroup.addResults(new FixedFieldElement("modifiedRecordTypes", storageService.getCodesList(lang, MODIFIED_RECORD_TYPE).stream().map(toPairItem).collect(toList())));
-        fixedFieldCodesGroup.addResults(new FixedFieldElement("catalogSources", storageService.getCodesList(lang, CATALOGUING_SOURCE).stream().map(toPairItem).collect(toList())));
+        fixedFieldCodesGroup.addResults(new FixedFieldElement("languageCode", storageService.getCodesList(lang, LANGUAGE).stream().map(toPairItem).collect(toList())));
+        fixedFieldCodesGroup.addResults(new FixedFieldElement("recordModifiedCode", storageService.getCodesList(lang, MODIFIED_RECORD_TYPE).stream().map(toPairItem).collect(toList())));
+        fixedFieldCodesGroup.addResults(new FixedFieldElement("recordCataloguingSourceCode", storageService.getCodesList(lang, CATALOGUING_SOURCE).stream().map(toPairItem).collect(toList())));
       }
     } else {
       logger.error(Message.MOD_MARCCAT_00019_HEADER_TYPE_ID_WRONG, tag);
@@ -542,9 +542,9 @@ public class FixedFieldUtils {
           .getAttributes()
           .get(key);
         if (currentValue != null) {
-          fixedFieldCodesGroup.getResults().get(key).setDafaultValue(currentValue.trim());
+          fixedFieldCodesGroup.getResults().get(key).setDafaultValue(currentValue);
         } else {
-          fixedFieldCodesGroup.getResults().get(key).setDafaultValue(EMPTY_STRING);
+          fixedFieldCodesGroup.getResults().get(key).setDafaultValue(EMPTY_VALUE);
         }
       });
 

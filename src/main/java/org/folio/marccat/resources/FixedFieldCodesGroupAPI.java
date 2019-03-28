@@ -27,12 +27,21 @@ public class FixedFieldCodesGroupAPI extends BaseResource implements CatalogingI
     @RequestParam final String leader,
     @RequestParam(name = "code", defaultValue = Global.MATERIAL_TAG_CODE) final String code,
     @RequestParam final String lang,
+    @RequestParam(required = false) final String valueField,
     @RequestHeader(OKAPI_TENANT_HEADER_NAME) final String tenant) {
     return doGet((storageService, configuration) -> {
       final FixedFieldCodesGroup fixedFieldCodesGroup = new FixedFieldCodesGroup();
       final Map<String, Object> map = storageService.getMaterialTypeInfosByLeaderValues(leader.charAt(6), leader.charAt(7), code);
       injectMaterialCodes(fixedFieldCodesGroup, storageService, lang, (int) map.get(Global.HEADER_TYPE_LABEL), code);
       fixedFieldCodesGroup.setHeaderTypeCode((int) map.get(Global.HEADER_TYPE_LABEL));
+      /**
+       * inject default values
+       */
+      HashMap<String, String> parameter = new HashMap<>();
+      parameter.put("leader", leader);
+      parameter.put("code", code);
+      parameter.put("valueField", valueField);
+      injectDefaultValues(fixedFieldCodesGroup, storageService, parameter, fixedFieldCodesGroup.getHeaderTypeCode(), lang, configuration);
       return fixedFieldCodesGroup;
     }, tenant, configurator, "bibliographic", "material");
   }

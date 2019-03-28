@@ -3,7 +3,6 @@ package org.folio.marccat.domain;
 import org.folio.marccat.config.log.Global;
 import org.folio.marccat.resources.domain.FixedField;
 import org.folio.marccat.shared.GeneralInformation;
-
 import static java.util.Optional.ofNullable;
 
 /**
@@ -286,6 +285,12 @@ public class ConversionFieldUtils {
    * @param fixedField     the fixedField to populate.
    * @param formOfMaterial the form of material.
    */
+  /**
+   * Return a display value for the material description.
+   *
+   * @param fixedField     the fixedField to populate.
+   * @param formOfMaterial the form of material.
+   */
   public static FixedField getDisplayValueOfMaterial(final FixedField fixedField, final String formOfMaterial) {
     final GeneralInformation gi = new GeneralInformation();
     gi.setFormOfMaterial(formOfMaterial);
@@ -400,6 +405,8 @@ public class ConversionFieldUtils {
     fixedField.setDisplayValue(sb.toString());
     return fixedField;
   }
+
+
 
   /**
    * Return a display value for the physical information.

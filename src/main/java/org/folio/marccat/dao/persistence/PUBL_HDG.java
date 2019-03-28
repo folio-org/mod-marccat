@@ -66,6 +66,7 @@ public class PUBL_HDG extends Descriptor implements Serializable {
    *
    * @param s the new indexing language
    */
+  @Override
   public void setIndexingLanguage(int s) {
     indexingLanguage = s;
   }
@@ -222,6 +223,7 @@ public class PUBL_HDG extends Descriptor implements Serializable {
   /* (non-Javadoc)
    * @see Descriptor#getStringText()
    */
+  @Override
   public String getStringText() {
     return getPlaceStringText() + getNameStringText();
   }
@@ -274,6 +276,7 @@ public class PUBL_HDG extends Descriptor implements Serializable {
    * @see Descriptor#validate()
    */
   @Deprecated
+  @Override
   public void validate() throws InvalidDescriptorException {
     StringText text = new StringText(getStringText());
     if (text.getSubfieldsWithCodes("b").getNumberOfSubfields() == 0
