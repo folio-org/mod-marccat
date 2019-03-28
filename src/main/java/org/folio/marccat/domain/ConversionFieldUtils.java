@@ -285,121 +285,128 @@ public class ConversionFieldUtils {
    * @param fixedField     the fixedField to populate.
    * @param formOfMaterial the form of material.
    */
-  public static FixedField getDisplayValueOfMaterial(final FixedField fixedField, final String formOfMaterial, final GeneralInformation gi) {
-    final GeneralInformation generalInfo = new GeneralInformation();
-    generalInfo.setFormOfMaterial(formOfMaterial);
-    generalInfo.setMaterialDescription008Indicator(fixedField.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE) ? "1" : "0");
+  /**
+   * Return a display value for the material description.
+   *
+   * @param fixedField     the fixedField to populate.
+   * @param formOfMaterial the form of material.
+   */
+  public static FixedField getDisplayValueOfMaterial(final FixedField fixedField, final String formOfMaterial) {
+    final GeneralInformation gi = new GeneralInformation();
+    gi.setFormOfMaterial(formOfMaterial);
+    gi.setMaterialDescription008Indicator(fixedField.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE) ? "1" : "0");
     StringBuilder sb = new StringBuilder();
-    if ("1".equals(generalInfo.getMaterialDescription008Indicator())) {
+    if ("1".equals(gi.getMaterialDescription008Indicator())) {
       sb.append(fixedField.getDateEnteredOnFile());
-      sb.append(fixedField.getDateTypeCode() != null ? fixedField.getDateTypeCode() : gi.getItemDateTypeCode());
-      sb.append(fixedField.getDateFirstPublication() != null ? fixedField.getDateFirstPublication() : gi.getItemDateFirstPublication());
-      sb.append(fixedField.getDateLastPublication() != null ? fixedField.getDateLastPublication() : gi.getItemDateLastPublication());
-      sb.append(fixedField.getPlaceOfPublication() != null ? fixedField.getPlaceOfPublication() : gi.getMarcCountryCode());
+      sb.append(fixedField.getDateTypeCode());
+      sb.append(fixedField.getDateFirstPublication());
+      sb.append(fixedField.getDateLastPublication());
+      sb.append(fixedField.getPlaceOfPublication());
 
     } else { //006
-      sb.append(fixedField.getMaterialTypeCode()!= null ? fixedField.getMaterialTypeCode() : gi.getVisualMaterialTypeCode());
+      sb.append(fixedField.getMaterialTypeCode());
     }
-    if (generalInfo.isBook()) {
-      sb.append(fixedField.getBookIllustrationCode1()!= null ? fixedField.getBookIllustrationCode1() : gi.getBookIllustrationCode().charAt(0));
-      sb.append(fixedField.getBookIllustrationCode2()!= null ? fixedField.getBookIllustrationCode2() : gi.getBookIllustrationCode().charAt(1));
-      sb.append(fixedField.getBookIllustrationCode3()!= null ? fixedField.getBookIllustrationCode3() : gi.getBookIllustrationCode().charAt(2));
-      sb.append(fixedField.getBookIllustrationCode4()!= null ? fixedField.getBookIllustrationCode4() : gi.getBookIllustrationCode().charAt(3));
-      sb.append(fixedField.getTargetAudienceCode() != null ? fixedField.getTargetAudienceCode() : gi.getTargetAudienceCode());
-      sb.append(fixedField.getFormOfItemCode() != null ? fixedField.getFormOfItemCode() : gi.getFormOfItemCode());
-      sb.append(fixedField.getNatureOfContent1() != null ? fixedField.getNatureOfContent1() : gi.getNatureOfContentsCode().charAt(0));
-      sb.append(fixedField.getNatureOfContent2() != null ? fixedField.getNatureOfContent2() : gi.getNatureOfContentsCode().charAt(1));
-      sb.append(fixedField.getNatureOfContent3() != null ? fixedField.getNatureOfContent3() : gi.getNatureOfContentsCode().charAt(2));
-      sb.append(fixedField.getNatureOfContent4() != null ? fixedField.getNatureOfContent4() : gi.getNatureOfContentsCode().charAt(3));
-      sb.append(fixedField.getGovernmentPublicationCode() != null ? fixedField.getGovernmentPublicationCode() : gi.getGovernmentPublicationCode());
-      sb.append(fixedField.getConferencePublicationCode()!= null ? fixedField.getConferencePublicationCode() : gi.getConferencePublicationCode());
-      sb.append(fixedField.getBookFestschrift() != null ? fixedField.getBookFestschrift() : gi.getBookFestschrift());
-      sb.append(fixedField.getBookIndexAvailabilityCode() != null ? fixedField.getBookIndexAvailabilityCode() : gi.getBookIndexAvailabilityCode());
+    if (gi.isBook()) {
+      sb.append(fixedField.getBookIllustrationCode1());
+      sb.append(fixedField.getBookIllustrationCode2());
+      sb.append(fixedField.getBookIllustrationCode3());
+      sb.append(fixedField.getBookIllustrationCode4());
+      sb.append(fixedField.getTargetAudienceCode());
+      sb.append(fixedField.getFormOfItemCode());
+      sb.append(fixedField.getNatureOfContent1());
+      sb.append(fixedField.getNatureOfContent2());
+      sb.append(fixedField.getNatureOfContent3());
+      sb.append(fixedField.getNatureOfContent4());
+      sb.append(fixedField.getGovernmentPublicationCode());
+      sb.append(fixedField.getConferencePublicationCode());
+      sb.append(fixedField.getBookFestschrift());
+      sb.append(fixedField.getBookIndexAvailabilityCode());
       sb.append(" ");
-      sb.append(fixedField.getBookLiteraryFormTypeCode() != null ? fixedField.getBookLiteraryFormTypeCode() : gi.getBookLiteraryFormTypeCode());
-      sb.append(fixedField.getBookBiographyCode() != null ? fixedField.getBookBiographyCode() : gi.getBookBiographyCode());
-    } else if (generalInfo.isSerial()) {
-      sb.append(fixedField.getSerialFrequencyCode() != null ? fixedField.getSerialFrequencyCode() : gi.getSerialFrequencyCode());
-      sb.append(fixedField.getSerialRegularityCode() != null ? fixedField.getSerialRegularityCode() : gi.getSerialRegularityCode());
+      sb.append(fixedField.getBookLiteraryFormTypeCode());
+      sb.append(fixedField.getBookBiographyCode());
+    } else if (gi.isSerial()) {
+      sb.append(fixedField.getSerialFrequencyCode());
+      sb.append(fixedField.getSerialRegularityCode());
       sb.append(" ");
-      sb.append(fixedField.getSerialTypeCode() != null ? fixedField.getSerialTypeCode() : gi.getSerialTypeCode());
-      sb.append(fixedField.getSerialFormOriginalItemCode() != null ? fixedField.getSerialFormOriginalItemCode() : gi.getSerialFormOriginalItemCode());
-      sb.append(fixedField.getFormOfItemCode() != null ? fixedField.getFormOfItemCode() : gi.getFormOfItemCode());
-      sb.append(fixedField.getNatureOfContent1() != null ? fixedField.getNatureOfContent1() : gi.getNatureOfContentsCode().charAt(0));
-      sb.append(fixedField.getNatureOfContent2() != null ? fixedField.getNatureOfContent2() : gi.getNatureOfContentsCode().charAt(1));
-      sb.append(fixedField.getNatureOfContent3() != null ? fixedField.getNatureOfContent3() : gi.getNatureOfContentsCode().charAt(3));
-      sb.append(fixedField.getGovernmentPublicationCode() != null ? fixedField.getGovernmentPublicationCode() : gi.getGovernmentPublicationCode());
-      sb.append(fixedField.getConferencePublicationCode() != null ? fixedField.getConferencePublicationCode() : gi.getConferencePublicationCode());
+      sb.append(fixedField.getSerialTypeCode());
+      sb.append(fixedField.getSerialFormOriginalItemCode());
+      sb.append(fixedField.getFormOfItemCode());
+      sb.append(fixedField.getNatureOfContent1());
+      sb.append(fixedField.getNatureOfContent2());
+      sb.append(fixedField.getNatureOfContent3());
+      sb.append(fixedField.getGovernmentPublicationCode());
+      sb.append(fixedField.getConferencePublicationCode());
       sb.append("   ");
-      sb.append(fixedField.getSerialOriginalAlphabetOfTitleCode() != null ? fixedField.getSerialOriginalAlphabetOfTitleCode() : gi.getSerialOriginalAlphabetOfTitleCode());
-      sb.append("   ");
-      sb.append(fixedField.getSerialEntryConventionCode() != null ? fixedField.getSerialEntryConventionCode() : gi.getSerialEntryConventionCode());
+      sb.append(fixedField.getSerialOriginalAlphabetOfTitleCode());
+      sb.append(fixedField.getSerialEntryConventionCode());
     } else if (gi.isComputerFile()) {
       sb.append("    ");
-      sb.append(fixedField.getTargetAudienceCode() != null ? fixedField.getTargetAudienceCode() : gi.getTargetAudienceCode());
-      sb.append(fixedField.getFormOfItemCode() != null ? fixedField.getFormOfItemCode() : gi.getFormOfItemCode());
+      sb.append(fixedField.getTargetAudienceCode());
+      sb.append(fixedField.getFormOfItemCode());
       sb.append("  ");
-      sb.append(fixedField.getComputerFileTypeCode() != null ? fixedField.getComputerFileTypeCode() : gi.getComputerFileTypeCode());
+      sb.append(fixedField.getComputerFileTypeCode());
       sb.append(" ");
-      sb.append(fixedField.getGovernmentPublicationCode() != null ? fixedField.getGovernmentPublicationCode() : gi.getGovernmentPublicationCode());
+      sb.append(fixedField.getGovernmentPublicationCode());
       sb.append("       ");
-    } else if (generalInfo.isMap()) {
-      sb.append(fixedField.getCartographicReliefCode1() != null ? fixedField.getCartographicReliefCode1() : gi.getCartographicReliefCode().charAt(0));
-      sb.append(fixedField.getCartographicReliefCode2() != null ? fixedField.getCartographicReliefCode2() : gi.getCartographicReliefCode().charAt(1));
-      sb.append(fixedField.getCartographicReliefCode3() != null ? fixedField.getCartographicReliefCode3() : gi.getCartographicReliefCode().charAt(2));
-      sb.append(fixedField.getCartographicReliefCode4() != null ? fixedField.getCartographicReliefCode4() : gi.getCartographicReliefCode().charAt(3));
-      sb.append(fixedField.getCartographicProjectionCode() != null ? fixedField.getCartographicProjectionCode() : gi.getCartographicProjectionCode());
+    } else if (gi.isMap()) {
+      sb.append(fixedField.getCartographicReliefCode1());
+      sb.append(fixedField.getCartographicReliefCode2());
+      sb.append(fixedField.getCartographicReliefCode3());
+      sb.append(fixedField.getCartographicReliefCode4());
+      sb.append(fixedField.getCartographicProjectionCode());
       sb.append(" ");
-      sb.append(fixedField.getCartographicMaterial() != null ? fixedField.getCartographicMaterial() : gi.getCartographicMaterial());
+      sb.append(fixedField.getCartographicMaterial());
       sb.append("  ");
-      sb.append(fixedField.getGovernmentPublicationCode() != null ? fixedField.getGovernmentPublicationCode() : gi.getGovernmentPublicationCode());
-      sb.append(fixedField.getFormOfItemCode() != null ? fixedField.getFormOfItemCode() : gi.getFormOfItemCode());
+      sb.append(fixedField.getGovernmentPublicationCode());
+      sb.append(fixedField.getFormOfItemCode());
       sb.append(" ");
-      sb.append(fixedField.getCartographicIndexAvailabilityCode() != null ? fixedField.getCartographicIndexAvailabilityCode() : gi.getCartographicIndexAvailabilityCode());
+      sb.append(fixedField.getCartographicIndexAvailabilityCode());
       sb.append(" ");
-      sb.append(fixedField.getCartographicFormatCode1() != null ? fixedField.getCartographicFormatCode1() : gi.getCartographicFormatCode().charAt(0));
-      sb.append(fixedField.getCartographicFormatCode2() != null ? fixedField.getCartographicFormatCode2() : gi.getCartographicFormatCode().charAt(1));
+      sb.append(fixedField.getCartographicFormatCode1());
+      sb.append(fixedField.getCartographicFormatCode2());
     } else if (gi.isMixedMaterial()) {
       sb.append("     ");
-      sb.append(fixedField.getFormOfItemCode() != null ? fixedField.getFormOfItemCode() : gi.getFormOfItemCode());
+      sb.append(fixedField.getFormOfItemCode());
       sb.append("           ");
-    } else if (generalInfo.isMusic()) {
-      sb.append(fixedField.getMusicFormOfCompositionCode() != null ? fixedField.getMusicFormOfCompositionCode() : gi.getMusicFormOfCompositionCode());
-      sb.append(fixedField.getMusicFormatCode() != null ? fixedField.getMusicFormatCode() : gi.getMusicFormatCode());
-      sb.append(fixedField.getMusicPartsCode() != null ? fixedField.getMusicPartsCode() : gi.getMusicPartsCode());
-      sb.append(fixedField.getTargetAudienceCode() != null ? fixedField.getTargetAudienceCode() : gi.getTargetAudienceCode());
-      sb.append(fixedField.getFormOfItemCode() != null ? fixedField.getFormOfItemCode() : gi.getFormOfItemCode());
-      sb.append(fixedField.getMusicTextualMaterialCode1() != null ? fixedField.getMusicTextualMaterialCode1() : gi.getMusicTextualMaterialCode().charAt(0));;
-      sb.append(fixedField.getMusicTextualMaterialCode2() != null ? fixedField.getMusicTextualMaterialCode2() : gi.getMusicTextualMaterialCode().charAt(1));
-      sb.append(fixedField.getMusicTextualMaterialCode3() != null ? fixedField.getMusicTextualMaterialCode3() : gi.getMusicTextualMaterialCode().charAt(2));
-      sb.append(fixedField.getMusicTextualMaterialCode4() != null ? fixedField.getMusicTextualMaterialCode4() : gi.getMusicTextualMaterialCode().charAt(3));
-      sb.append(fixedField.getMusicTextualMaterialCode5() != null ? fixedField.getMusicTextualMaterialCode5() : gi.getMusicTextualMaterialCode().charAt(4));
-      sb.append(fixedField.getMusicTextualMaterialCode6() != null ? fixedField.getMusicTextualMaterialCode6() : gi.getMusicTextualMaterialCode().charAt(5));;
-      sb.append(fixedField.getMusicLiteraryTextCode1() != null ? fixedField.getMusicLiteraryTextCode1() : gi.getMusicLiteraryTextCode().charAt(0));
-      sb.append(fixedField.getMusicLiteraryTextCode2() != null ? fixedField.getMusicLiteraryTextCode2() : gi.getMusicLiteraryTextCode().charAt(1));
+    } else if (gi.isMusic()) {
+      sb.append(fixedField.getMusicFormOfCompositionCode());
+      sb.append(fixedField.getMusicFormatCode());
+      sb.append(fixedField.getMusicPartsCode());
+      sb.append(fixedField.getTargetAudienceCode());
+      sb.append(fixedField.getFormOfItemCode());
+      sb.append(fixedField.getMusicTextualMaterialCode1());
+      sb.append(fixedField.getMusicTextualMaterialCode2());
+      sb.append(fixedField.getMusicTextualMaterialCode3());
+      sb.append(fixedField.getMusicTextualMaterialCode4());
+      sb.append(fixedField.getMusicTextualMaterialCode5());
+      sb.append(fixedField.getMusicTextualMaterialCode6());
+      sb.append(fixedField.getMusicLiteraryTextCode1());
+      sb.append(fixedField.getMusicLiteraryTextCode2());
       sb.append(" ");
       sb.append(fixedField.getMusicTranspositionArrangementCode());
       sb.append(" ");
-    } else if (generalInfo.isVisualMaterial()) {
-      sb.append(fixedField.getVisualRunningTime() != null ? fixedField.getVisualRunningTime() : gi.getVisualRunningTime());
+    } else if (gi.isVisualMaterial()) {
+      sb.append(fixedField.getVisualRunningTime());
       sb.append(" ");
-      sb.append(fixedField.getTargetAudienceCode() != null ? fixedField.getTargetAudienceCode() : gi.getTargetAudienceCode());
+      sb.append(fixedField.getTargetAudienceCode());
       sb.append("     ");
-      sb.append(fixedField.getGovernmentPublicationCode() != null ? fixedField.getGovernmentPublicationCode() : gi.getGovernmentPublicationCode());
+      sb.append(fixedField.getGovernmentPublicationCode());
       sb.append(fixedField.getFormOfItemCode());
       sb.append("   ");
-      sb.append(fixedField.getVisualMaterialTypeCode() != null ? fixedField.getVisualMaterialTypeCode() : gi.getVisualMaterialTypeCode());
-      sb.append(fixedField.getVisualTechniqueCode() != null ? fixedField.getVisualTechniqueCode() : gi.getVisualTechniqueCode());
+      sb.append(fixedField.getVisualMaterialTypeCode());
+      sb.append(fixedField.getVisualTechniqueCode());
     }
-    if ("1".equals(generalInfo.getMaterialDescription008Indicator())) {
-      sb.append(fixedField.getLanguageCode() != null ? fixedField.getLanguageCode() : gi.getLanguageCode());
-      sb.append(fixedField.getRecordModifiedCode() != null ? fixedField.getRecordModifiedCode() : gi.getRecordModifiedCode());
-      sb.append(fixedField.getRecordCataloguingSourceCode()!= null ? fixedField.getRecordCataloguingSourceCode() : gi.getRecordCataloguingSourceCode());
+    if ("1".equals(gi.getMaterialDescription008Indicator())) {
+      sb.append(fixedField.getLanguageCode());
+      sb.append(fixedField.getRecordModifiedCode());
+      sb.append(fixedField.getRecordCataloguingSourceCode());
     }
 
     fixedField.setDisplayValue(sb.toString());
     return fixedField;
   }
+
+
 
   /**
    * Return a display value for the physical information.

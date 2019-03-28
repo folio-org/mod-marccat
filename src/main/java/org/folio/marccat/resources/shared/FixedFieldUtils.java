@@ -542,7 +542,7 @@ public class FixedFieldUtils {
           .getAttributes()
           .get(key);
         if (currentValue != null) {
-          fixedFieldCodesGroup.getResults().get(key).setDafaultValue(currentValue.trim());
+          fixedFieldCodesGroup.getResults().get(key).setDafaultValue(currentValue);
         } else {
           fixedFieldCodesGroup.getResults().get(key).setDafaultValue(EMPTY_VALUE);
         }

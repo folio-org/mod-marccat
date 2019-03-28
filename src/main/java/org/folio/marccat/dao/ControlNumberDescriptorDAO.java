@@ -10,6 +10,7 @@ import org.folio.marccat.business.common.View;
 import org.folio.marccat.dao.persistence.CNTL_NBR;
 import org.folio.marccat.dao.persistence.Descriptor;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -53,8 +54,9 @@ public class ControlNumberDescriptorDAO extends DAODescriptor {
    */
   @Override
   public Descriptor getMatchingHeading(final Descriptor descriptor, final Session session)
-    throws HibernateException {
+    throws HibernateException, SQLException {
     CNTL_NBR controlNumber = (CNTL_NBR) descriptor;
+    descriptor.setSortForm(calculateSortForm(descriptor, session));
     List controlNumberList = session.find(
       "from " + getPersistentClass().getName() + " as c "
         + " where c.stringText = ?"

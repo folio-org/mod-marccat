@@ -10,6 +10,7 @@ import org.folio.marccat.dao.persistence.CLSTN;
 import org.folio.marccat.dao.persistence.Descriptor;
 import org.folio.marccat.exception.DataAccessException;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
@@ -53,8 +54,9 @@ public class ClassificationDescriptorDAO extends DAODescriptor {
    */
   @SuppressWarnings("unchecked")
   @Override
-  public Descriptor getMatchingHeading(final Descriptor descriptor, final Session session) throws HibernateException {
+  public Descriptor getMatchingHeading(final Descriptor descriptor, final Session session) throws HibernateException, SQLException {
     final CLSTN d = (CLSTN) descriptor;
+    descriptor.setSortForm(calculateSortForm(descriptor, session));
     final List<CLSTN> list = session.find(
       "from "
         + getPersistentClass().getName()

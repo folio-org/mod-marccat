@@ -4,7 +4,6 @@ import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.Session;
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.dao.AbstractDAO;
-import org.folio.marccat.exception.DataAccessException;
 
 import java.io.Serializable;
 
@@ -97,8 +96,6 @@ public class Diacritics implements Persistence, Serializable {
 
   @Override
   public void setUpdateStatus(int i) {
-	  throw new UnsupportedOperationException();
-
   }
 
   @Override
@@ -155,7 +152,5 @@ public class Diacritics implements Persistence, Serializable {
 
   @Override
   public void onLoad(Session session, Serializable serializable) {
-	  throw new UnsupportedOperationException();
-
   }
 }
