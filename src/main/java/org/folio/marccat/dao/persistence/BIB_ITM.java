@@ -60,7 +60,6 @@ public class BIB_ITM extends ItemEntity implements PersistentObjectWithView, Ser
    * @see librisuite.business.common.PersistentObject#generateNewKey()
    */
   public void generateNewKey(final Session session) throws HibernateException {
-    throw new UnsupportedOperationException();
   }
 
   public char getCanadianContentIndicator() {

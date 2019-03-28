@@ -264,7 +264,6 @@ public class HibernateUtil {
 
   @Deprecated
   public void lock(int key, String entityType, String userName) {
-	  throw new UnsupportedOperationException("This method is deprecated!");
   }
 
   /*
@@ -272,7 +271,6 @@ public class HibernateUtil {
    */
   @Deprecated
   public void unlock(int key, String entityType) {
-	  throw new UnsupportedOperationException("This method is deprecated!");
   }
 
 

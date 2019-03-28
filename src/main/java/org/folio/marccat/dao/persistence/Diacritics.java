@@ -87,7 +87,6 @@ public class Diacritics implements Persistence, Serializable {
 
   @Override
   public void evict() {
-	  throw new UnsupportedOperationException();
 
   }
 
@@ -119,25 +118,19 @@ public class Diacritics implements Persistence, Serializable {
 
   @Override
   public void markChanged() {
-	  throw new UnsupportedOperationException();
 
   }
 
   @Override
   public void markNew() {
-	  throw new UnsupportedOperationException();
-
   }
 
   @Override
   public void markUnchanged() {
-	  throw new UnsupportedOperationException();
   }
 
   @Override
   public void markDeleted() {
-	  throw new UnsupportedOperationException();
-
   }
 
   @Override
