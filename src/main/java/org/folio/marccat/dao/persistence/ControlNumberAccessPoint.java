@@ -211,6 +211,5 @@ public class ControlNumberAccessPoint extends BibliographicAccessPoint implement
 
   // move in storageService and set after creation (as was: called two constructor)
   public void setDefaultFunctionCode() {
-    throw new UnsupportedOperationException();
   }
 }

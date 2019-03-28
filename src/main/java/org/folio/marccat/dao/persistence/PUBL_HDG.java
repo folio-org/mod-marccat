@@ -249,7 +249,6 @@ public class PUBL_HDG extends Descriptor implements Serializable {
    */
   @Override
   public void setSortForm(String string) {
-	  throw new UnsupportedOperationException();
   }
 
   /* (non-Javadoc)

@@ -546,7 +546,6 @@ public class BibliographicCatalog extends Catalog {
   public void toPhysicalDescription(final org.folio.marccat.resources.domain.FixedField ff,
                                     final PhysicalDescription physicalDescription) {
 
-    physicalDescription.setGeneralMaterialDesignationCode(ff.getCategoryOfMaterial().charAt(0));
     physicalDescription.setSpecificMaterialDesignationCode(ff.getSpecificMaterialDesignationCode().charAt(0));
     if (physicalDescription instanceof ElectronicResource) {
       if (isNotNull(ff.getColourCode()))

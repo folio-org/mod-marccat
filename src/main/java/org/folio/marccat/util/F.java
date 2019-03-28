@@ -91,55 +91,10 @@ public abstract class F {
     return String.format(padNum, number);
   }
 
-
-
-  /**
-   * Returns a string with leading character at begin of specified number.
-   *
-   * @param number      -- the number to format.
-   * @return the string representing number.
-   * e.g: number = 23 prints: prints: |                  23|
-   */
-  public static String widthPadding(final int number) {
-    return String.format("|%20d|", number); //
+  public static String safe(final String value) {
+    return (value != null) ? value : "";
   }
 
-  /**
-   * Returns a string with leading character at begin of specified number.
-   *
-   * @param number      -- the number to format.
-   * @return the string representing number.
-   * e.g: number = 23 prints: |00000000000000000023|
-   */
-  public static String zeroPadding(final int number) {
-    return String.format("|%020d|", number);
-  }
-
-  /**
-   * Returns a string with leading character at begin of specified number.
-   *
-   * @param number      -- the number to format.
-   * @return the string representing number.
-   * e.g: number = 23 prints: prints: |23                  |
-   */
-  public static String leftJustifyPadding(final int number) {
-    return String.format("|%-20d|", number);
-  }
-  /**
-   * Returns true if the given string is not null or empty.
-   *
-   * @param value the input string.
-   * @return true if the given string is not null or empty.
-   */
-  public static <T> boolean isNotNullParametric(final T value) {
-    return value != null;
-  }
-  /**
-   * Returns true if the given string is not null or empty.
-   *
-   * @param value the input string.
-   * @return true if the given string is not null or empty.
-   */
   public static boolean isNotNullOrEmpty(final String value) {
     return value != null && value.trim().length() != 0;
   }
