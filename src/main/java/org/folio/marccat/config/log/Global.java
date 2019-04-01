@@ -12,7 +12,8 @@ import java.util.Map;
 
 /**
  * Global constants.
- * With "Global" we mean a constant that
+ *
+ * @description: With "Global" we mean a constant that
  *
  * <ul>
  * <li>is supposed to be shared at least between 2 modules.</li>
