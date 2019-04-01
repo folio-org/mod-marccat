@@ -81,6 +81,7 @@ public class StorageService implements Closeable {
     FIRST_CORRELATION_HEADING_CLASS_MAP.put(6, ClassificationType.class);
     FIRST_CORRELATION_HEADING_CLASS_MAP.put(20, ClassificationType.class);
     FIRST_CORRELATION_HEADING_CLASS_MAP.put(7, BibliographicNoteType.class);
+    FIRST_CORRELATION_HEADING_CLASS_MAP.put(7, PublisherManager.class);
     FIRST_CORRELATION_HEADING_CLASS_MAP.put(8, BibliographicRelationType.class);
     FIRST_CORRELATION_HEADING_CLASS_MAP.put(11, T_NME_TTL_FNCTN.class);
   }
@@ -1610,6 +1611,8 @@ public class StorageService implements Closeable {
             heading.setKeyNumber(headingNumber);
             heading.setCategoryCode(newTag.getCategory());
           }
+        }else{
+          heading.setCategoryCode(newTag.getCategory());
         }
       }
     } catch (HibernateException | SQLException exception) {

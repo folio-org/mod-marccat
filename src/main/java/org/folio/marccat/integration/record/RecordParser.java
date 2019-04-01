@@ -414,7 +414,7 @@ public class RecordParser {
     } else if (variableField.getCategoryCode() == Global.BIB_NOTE_CATEGORY && correlationValues.getValue(1) != Global.PUBLISHER_DEFAULT_NOTE_TYPE) {
       if (!checkIfAlreadyExistNote(variableField.getKeyNumber(), item, BibliographicNoteTag.class))
         addNoteToCatalog(item, correlationValues, variableField, bibItemNumber);
-    } else if (variableField.getCategoryCode() == Global.BIB_NOTE_CATEGORY && correlationValues.getValue(1) == Global.PUBLISHER_DEFAULT_NOTE_TYPE) {
+    } else if (variableField.getCategoryCode() == Global.PUBLISHER_CATEGORY && correlationValues.getValue(1) == Global.PUBLISHER_DEFAULT_NOTE_TYPE) {
 
       try {
         addPublisherToCatalog(item, correlationValues, variableField, view, configuration, session);
