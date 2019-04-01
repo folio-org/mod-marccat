@@ -1,6 +1,2 @@
 #!/usr/bin/env bash
-mvn clean package install -DskipTests=true sonar:sonar \
--Dsonar.projectKey=atcult_mod-marccat \
--Dsonar.organization=atcult \
--Dsonar.host.url=https://sonarcloud.io \
--Dsonar.login=16ecd4e9f0be9249627521ea7013d246f023bf5d
+mvn clean package install -DskipTests=true

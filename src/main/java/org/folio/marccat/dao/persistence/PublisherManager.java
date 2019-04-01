@@ -206,7 +206,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    */
   public StringText getStringText() {
     final StringText result = new StringText();
-    getPublisherTagUnits().stream().forEach(aTagUnit -> {
+    getPublisherTagUnits().forEach(aTagUnit -> {
       result.add(new StringText(aTagUnit.getStringText()));
     });
     return result;

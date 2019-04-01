@@ -415,7 +415,6 @@ public class RecordParser {
       if (!checkIfAlreadyExistNote(variableField.getKeyNumber(), item, BibliographicNoteTag.class))
         addNoteToCatalog(item, correlationValues, variableField, bibItemNumber);
     } else if (variableField.getCategoryCode() == Global.BIB_NOTE_CATEGORY && Global.PUBLISHER_CODES.contains(correlationValues.getValue(1))) {
-
       try {
         addPublisherToCatalog(item, correlationValues, variableField, view, configuration, session);
       } catch (HibernateException | SQLException e) {

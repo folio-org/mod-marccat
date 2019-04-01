@@ -7,6 +7,8 @@ import org.folio.marccat.integration.StorageService;
 import org.folio.marccat.search.SearchEngineFactory;
 import org.folio.marccat.search.SearchResponse;
 import org.folio.marccat.search.engine.SearchEngine;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -148,16 +150,13 @@ public class SearchAPI extends BaseResource {
   }
 
   @GetMapping("/countSearch")
-  public int countSearch(
+  public ResponseEntity<Integer> countSearch(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
     @RequestParam("q") final String q,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
     @RequestParam("ml") final int mainLibraryId) {
-    return doGet((storageService, configuration) -> {
-      return storageService.getCountDocumentByQuery(q, mainLibraryId, locale(lang), view);
-    }, tenant, configurator);
+    return doGet((storageService, configuration) ->
+      new ResponseEntity<>(storageService.getCountDocumentByQuery(q, mainLibraryId, locale(lang), view), HttpStatus.OK), tenant, configurator);
   }
-
-
 }
