@@ -124,6 +124,8 @@ public abstract class Global {
   public static final String PUBLISHER_FAST_PRINTER_SUBFIELD_CODES = "368efg";
   public static final String PUBLISHER_VARIANT_CODES = "368cefg";
   public static final String PUBLISHER_OTHER_SUBFIELD_CODES = "cefg";
+  public static final List <Integer> PUBLISHER_CODES = Arrays.asList(24, 381, 382, 410, 411, 412, 413, 414, 415,
+    416, 417, 418, 419, 420, 421, 422, 423, 424);
   public static final int DEWEY_TYPE_CODE = 12;
   public static final String SUBJECT_VARIANT_CODES = "34eu";
   public static final String SUBJECT_WORK_REL_STRING_TEXT_SUBFIELD_CODES = "eu";

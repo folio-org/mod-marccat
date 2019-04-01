@@ -411,10 +411,10 @@ public class RecordParser {
     } else if (variableField.getCategoryCode() == Global.SUBJECT_CATEGORY) {
       if (!checkIfAlreadyExist(variableField.getKeyNumber(), item, SubjectAccessPoint.class))
         addSubjectToCatalog(item, correlationValues, variableField, bibItemNumber);
-    } else if (variableField.getCategoryCode() == Global.BIB_NOTE_CATEGORY && correlationValues.getValue(1) != Global.PUBLISHER_DEFAULT_NOTE_TYPE) {
+    } else if (variableField.getCategoryCode() == Global.BIB_NOTE_CATEGORY && !Global.PUBLISHER_CODES.contains(correlationValues.getValue(1))) {
       if (!checkIfAlreadyExistNote(variableField.getKeyNumber(), item, BibliographicNoteTag.class))
         addNoteToCatalog(item, correlationValues, variableField, bibItemNumber);
-    } else if (variableField.getCategoryCode() == Global.BIB_NOTE_CATEGORY && correlationValues.getValue(1) == Global.PUBLISHER_DEFAULT_NOTE_TYPE) {
+    } else if (variableField.getCategoryCode() == Global.BIB_NOTE_CATEGORY && Global.PUBLISHER_CODES.contains(correlationValues.getValue(1))) {
 
       try {
         addPublisherToCatalog(item, correlationValues, variableField, view, configuration, session);
