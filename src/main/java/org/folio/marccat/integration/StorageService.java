@@ -1132,7 +1132,8 @@ public class StorageService implements Closeable {
       }
 
       if (!aTag.isFixedField() && aTag instanceof PublisherManager) {
-        keyNumber = ((PublisherManager) aTag).getPublisherTagUnits().get(0).getPublisherHeadingNumber(); //add gestione multi publisher
+        if(!((PublisherManager) aTag).getPublisherTagUnits().isEmpty())
+          keyNumber = ((PublisherManager) aTag).getPublisherTagUnits().get(0).getPublisherHeadingNumber(); //add gestione multi publisher
       }
 
       final CorrelationKey correlation = aTag.getTagImpl().getMarcEncoding(aTag, session);
@@ -1379,9 +1380,9 @@ public class StorageService implements Closeable {
           }
 
           try {
-            if (field.getVariableField().getCategoryCode() == Global.BIB_NOTE_CATEGORY && correlationValues.getValue(1) != Global.PUBLISHER_DEFAULT_NOTE_TYPE) {
+            if (field.getVariableField().getCategoryCode() == Global.BIB_NOTE_CATEGORY && !Global.PUBLISHER_CODES.contains(correlationValues.getValue(1))) {
               recordParser.changeNoteTag(item, field, correlationValues, bibItemNumber, view, configuration);
-            } else if (field.getVariableField().getCategoryCode() == Global.BIB_NOTE_CATEGORY && correlationValues.getValue(1) == Global.PUBLISHER_DEFAULT_NOTE_TYPE) {
+            } else if (field.getVariableField().getCategoryCode() == Global.BIB_NOTE_CATEGORY && Global.PUBLISHER_CODES.contains(correlationValues.getValue(1))) {
               recordParser.changePublisherTag(item, field, correlationValues, bibItemNumber, view, session, configuration);
             } else {
               recordParser.changeAccessPointTag(item, field, correlationValues, bibItemNumber, view, session, configuration);
