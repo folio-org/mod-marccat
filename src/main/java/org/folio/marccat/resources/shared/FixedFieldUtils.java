@@ -303,7 +303,7 @@ public class FixedFieldUtils {
     if (mapRecordTypeMaterial != null) {
       if (tag.equals(MATERIAL_TAG_CODE)) {
         fixedFieldCodesGroup.addResults(new FixedFieldElement("dateTypeCode", storageService.getCodesList(lang, DATE_TYPE).stream().map(toPairItem).collect(toList())));
-        fixedFieldCodesGroup.addResults(new FixedFieldElement("placeOfPublication)", storageService.getCodesList(lang, MARC_COUNTRY).stream().map(toPairItem).collect(toList())));
+        fixedFieldCodesGroup.addResults(new FixedFieldElement("placeOfPublication", storageService.getCodesList(lang, MARC_COUNTRY).stream().map(toPairItem).collect(toList())));
       }
       String material = (String) mapRecordTypeMaterial.get(FORM_OF_MATERIAL_LABEL);
       switch (material) {

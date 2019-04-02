@@ -75,7 +75,7 @@ public class BibliographicRecordAPI extends BaseResource {
         }));
 
       for (Field field : template.getFields()) {
-        if (field.isMandatory()) {
+        if (field.isMandatory() && !field.getCode().equals(Global.DATETIME_TRANSACTION_TAG_CODE)) {
           if (field.getCode().equals(Global.CONTROL_NUMBER_TAG_CODE)) {
             FixedField controlNumber = field.getFixedField();
             controlNumber.setDisplayValue(F.padNumber("0", 11, bibliographicRecord.getId()));
