@@ -183,7 +183,7 @@ public class CLSTN extends Descriptor {
   private String calculateDefaultClassSortForm() {
     String result = new StringText(getStringText()).toDisplayString()
       .toUpperCase();
-    result = SortformUtils.get().stripAccents(result);
+    // result = SortformUtils.get().stripAccents(result);
     result = result.replace("\"", " ");
     result = result.replace("'", " ");
     result = replacePeriodsForClassNumbers(result);
@@ -192,9 +192,8 @@ public class CLSTN extends Descriptor {
   }
 
   private String calculateDeweySortForm() {
-    String result = new StringText(getStringText()).toDisplayString()
-      .toUpperCase();
-    result = SortformUtils.get().stripAccents(result);
+    String result = new StringText(getStringText()).toDisplayString();
+    //result = SortformUtils.get().stripAccents(result);
     result = SortformUtils.get().replaceDeweyPunctuation(result, "");
     String prefix = null;
     Pattern prefixPattern = Pattern.compile("^(JC|J|C)\\s*(.*)");
@@ -217,7 +216,6 @@ public class CLSTN extends Descriptor {
 
   private String calculateLcSortForm() {
     StringText st = new StringText(getStringText());
-    //stick a HEX(03) at the beginning of first subfield b
     for (Object obj : st.getSubfieldList()) {
       Subfield sub = (Subfield) obj;
       if (sub.getCode().equals("b")) {
@@ -225,7 +223,7 @@ public class CLSTN extends Descriptor {
         break;
       }
     }
-    String result = st.toDisplayString().toUpperCase();
+    String result = st.toDisplayString();
     result = SortformUtils.get().replacePunctuationMark1(result, " ");
     result = SortformUtils.get().stripMultipleBlanks(result);
     String[] parts = result.split(textEnd);
@@ -268,7 +266,6 @@ public class CLSTN extends Descriptor {
 
   private String calculateNalSortForm() {
     StringText st = new StringText(getStringText());
-    //stick a HEX(03) at the beginning of first subfield b
     for (Object obj : st.getSubfieldList()) {
       Subfield sub = (Subfield) obj;
       if (sub.getCode().equals("b")) {
@@ -276,7 +273,7 @@ public class CLSTN extends Descriptor {
         break;
       }
     }
-    String result = st.toDisplayString().toUpperCase();
+    String result = st.toDisplayString();
     result = SortformUtils.get().replacePunctuationMark1(result, " ");
     result = SortformUtils.get().stripMultipleBlanks(result);
     String[] parts = result.split(textEnd);
