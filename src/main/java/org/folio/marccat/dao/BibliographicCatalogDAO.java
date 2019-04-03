@@ -152,7 +152,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
    * @throws HibernateException in case of hibernate exception.
    */
   @SuppressWarnings("unchecked")
-  private BibliographicItem getBibliographicItemWithoutRelationships(final int amicusNumber, final int userView, final Session session) throws HibernateException {
+  public BibliographicItem getBibliographicItemWithoutRelationships(final int amicusNumber, final int userView, final Session session) throws HibernateException {
     try {
       BibliographicItem item = getBibliographicItem(amicusNumber, userView, session);
       item.getTags().addAll(getHeaderFields(item, userView, session));
@@ -424,7 +424,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
 
     List<? extends PersistentObjectWithView> singleView = isolateViewForList(multiView, userView, session);
     return singleView.stream().map(current -> {
-      final BibliographicRelationshipTag bibliographicRelationshipTag = new BibliographicRelationshipTag((BibliographicRelationship) current, userView);
+      final BibliographicRelationshipTag bibliographicRelationshipTag = new BibliographicRelationshipTag((BibliographicRelationship) current, userView, session);
       bibliographicRelationshipTag.markUnchanged();
       return bibliographicRelationshipTag;
     }).collect(Collectors.toList());

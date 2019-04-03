@@ -42,28 +42,27 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
     setOriginalTag();
   }
 
-  public BibliographicRelationshipTag(BibliographicRelationship relationship, int userView) {
+  public BibliographicRelationshipTag(BibliographicRelationship relationship, int userView, Session session) {
     super();
     setSourceRelationship(relationship);
-    setTargetRelationship(handleReciprocalRelationship(userView));
-    setReciprocalOption(getReciprocalOption(userView));
-    buildReciprocalStringText(userView);
+    setTargetRelationship(handleReciprocalRelationship(userView, session));
+    setReciprocalOption(getReciprocalOption(userView, session));
+    buildReciprocalStringText(userView, session);
     setPersistenceState(new PersistenceState());
     setOriginalTag();
   }
 
-  public void buildReciprocalStringText(int userView) {
-    /* stringtext can be in table RLTSP or should be build from the heading tables */
+  public void buildReciprocalStringText(int userView, Session session) {
     StringText s = new StringText();
     if (getSourceRelationship().getTargetBibItemNumber() > 0) {
       DAOBibliographicRelationship b = new DAOBibliographicRelationship();
-      s = b.buildRelationStringText(sourceRelationship.getTargetBibItemNumber(), userView, b.currentSession());
+      s = b.buildRelationStringText(sourceRelationship.getTargetBibItemNumber(), userView, session);
     }
     setReciprocalStringText(s);
   }
 
-  public void createTargetBibItem(int userView) {
-    if (getReciprocalOption(userView) == 1) {
+  public void createTargetBibItem(int userView, Session session) {
+    if (getReciprocalOption(userView, session) == 1) {
       /* create the reciprocal relationship */
       logger.debug("create reciprocal relationship");
       DAOBibliographicRelationshipTag b = new DAOBibliographicRelationshipTag();
@@ -97,20 +96,10 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
     setTargetBibItemNumber(-dao.getNextNumber("BR", session));
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see librisuite.business.cataloguing.bibliographic.Tag#getCategory()
-   */
   public int getCategory() {
     return sourceRelationship.getCategory();
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see librisuite.business.cataloguing.bibliographic.Tag#getCorrelation(int)
-   */
   @Override
   public int getCorrelation(int i) {
     switch (i) {
@@ -127,11 +116,6 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
     return (new CorrelationValues()).change(1, getRelationTypeCode()).change(2, getRelationPrintNoteCode());
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see librisuite.business.cataloguing.bibliographic.Tag#setCorrelationValues(librisuite.business.common.CorrelationValues)
-   */
   public void setCorrelationValues(CorrelationValues v) {
     setRelationTypeCode(v.getValue(1));
     setRelationPrintNoteCode(v.getValue(2));
@@ -161,7 +145,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
     return Collections.emptyList();
   }
 
-  public int getReciprocalOption(int userView) {
+  public int getReciprocalOption(int userView, Session session) {
     logger.debug("running getReciprocalOption(with a view)");
     logger.debug("starting option is " + getReciprocalOption());
     if (getReciprocalOption() <= 0) {
@@ -174,7 +158,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
         try {
           return b.getReciprocalBibItem(
             this.getTargetBibItemNumber(),
-            this.getItemNumber(), userView);
+            this.getItemNumber(), userView, session);
         } catch (DataAccessException ex) {
           return -1;
         }
@@ -239,12 +223,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
     sourceRelationship.setRelationTypeCode(i);
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see librisuite.business.cataloguing.bibliographic.Tag#getSecondCorrelationList(short,
-   *      java.util.Locale)
-   */
+
   @Deprecated
   public List getSecondCorrelationList(short value1) {
     return Collections.emptyList();
@@ -323,13 +302,13 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
     }
   }
 
-  public BibliographicRelationship handleReciprocalRelationship(int userView) {
+  public BibliographicRelationship handleReciprocalRelationship(int userView, Session session) {
     DAOBibliographicRelationship b = new DAOBibliographicRelationship();
     BibliographicRelationship relationship = new BibliographicRelationship();
 
     try {
       if (getTargetBibItemNumber() > 0) {
-        relationship = b.loadReciprocalBibItem(getTargetBibItemNumber(), getItemNumber(), userView);
+        relationship = b.loadReciprocalBibItem(getTargetBibItemNumber(), getItemNumber(), userView, session);
       }
     } catch (DataAccessException de) {
       return null;
@@ -362,13 +341,13 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
     markChanged();
   }
 
-  public void replaceTargetRelationship(int amicusNumber, int cataloguingView) {
+  public void replaceTargetRelationship(int amicusNumber, int cataloguingView, Session session) {
     getSourceRelationship().evict();
     setSourceRelationship((BibliographicRelationship) deepCopy(getSourceRelationship()));
     getSourceRelationship().markNew();
     setTargetBibItemNumber(amicusNumber);
-    buildReciprocalStringText(cataloguingView);
-    createTargetBibItem(cataloguingView);
+    buildReciprocalStringText(cataloguingView, session);
+    createTargetBibItem(cataloguingView, session);
     markChanged();
   }
 

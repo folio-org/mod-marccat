@@ -24,12 +24,11 @@ import net.sf.hibernate.type.Type;
 public class DAOBibliographicRelationship extends AbstractDAO {
   private static final Log logger = LogFactory.getLog(DAOBibliographicRelationship.class);
 
-  public short getReciprocalBibItem(int bibItemNumber, int targetBibItemNumber, int userView) {
-    Session s = currentSession();
-    List l = null;
+  public short getReciprocalBibItem(int bibItemNumber, int targetBibItemNumber, int userView, Session session) {
+    List l;
     try {
       l =
-        s.find(
+        session.find(
           " select count(*) from "
             + "BibliographicRelationship t "
             + " where t.bibItemNumber = ? and "
@@ -53,11 +52,11 @@ public class DAOBibliographicRelationship extends AbstractDAO {
     return 2;
   }
 
-  public BibliographicRelationship loadReciprocalBibItem(int bibItemNumber, int targetBibItemNumber, int userView) {
+  public BibliographicRelationship loadReciprocalBibItem(int bibItemNumber, int targetBibItemNumber, int userView, Session session) {
     BibliographicRelationship relationship = null;
     try {
       List multiView =
-        currentSession().find(
+        session.find(
           "from BibliographicRelationship t "
             + "where t.bibItemNumber = ? and t.targetBibItemNumber = ? and substr(t.userViewString,?,1) = '1'",
           new Object[]{
@@ -85,7 +84,12 @@ public class DAOBibliographicRelationship extends AbstractDAO {
     StringText stringText = new StringText();
     BibliographicCatalogDAO catalog = new BibliographicCatalogDAO();
 
-    BibliographicItem item = catalog.getBibliographicItemWithoutRelationships(bibItemNumber, userView);
+    BibliographicItem item = null;
+    try {
+      item = catalog.getBibliographicItemWithoutRelationships(bibItemNumber, userView, session);
+    } catch (HibernateException e) {
+      logger.debug("buildRelationStringText method exception",e);
+    }
 
     /* Name Tags */
 

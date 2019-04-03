@@ -310,14 +310,14 @@ public class BibliographicRelationship extends VariableField implements Persiste
    * @return the reciprocal option
    * @throws DataAccessException the data access exception
    */
-  public int getReciprocalOption() {
+  public int getReciprocalOption(Session session) {
     if (getReciprocalType() == -1) {
       DAOBibliographicRelationship b = new DAOBibliographicRelationship();
       if (this.getTargetBibItemNumber() < 0) {
         return 3;
       } else {
         try {
-          return b.getReciprocalBibItem(this.getTargetBibItemNumber(), this.getItemNumber(), 1);
+          return b.getReciprocalBibItem(this.getTargetBibItemNumber(), this.getItemNumber(), 1, session);
         } catch (DataAccessException ex) {
           return -1;
         }
