@@ -149,7 +149,8 @@ public class CNTL_NBR extends Descriptor {
   }
 
   private String calculateIssnSortForm() {
-    String result = getDisplayText();
+    String result = getDisplayText().toUpperCase();
+    result = SortformUtils.get().stripAccents(result);
     result = SortformUtils.get().deleteAlfalam(result);
     if (result.charAt(result.length() - 1) == '*') {
       logger.debug("removing trailing *");
@@ -170,7 +171,8 @@ public class CNTL_NBR extends Descriptor {
   }
 
   private String calculateIsbnSortForm() {
-    String result = getDisplayText();
+    String result = getDisplayText().toUpperCase();
+    result = SortformUtils.get().stripAccents(result);
     result = SortformUtils.get().deleteAlfalam(result);
     if (result.charAt(result.length() - 1) == '*') {
       logger.debug("removing trailing *");
