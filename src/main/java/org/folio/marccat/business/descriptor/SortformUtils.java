@@ -537,6 +537,7 @@ public class SortformUtils {
     return result.toString();
   }
 
+  
   private String stripPunctuation(String s) {
     StringBuilder result = new StringBuilder();
     for (int i = 0; i < s.length(); i++) {
