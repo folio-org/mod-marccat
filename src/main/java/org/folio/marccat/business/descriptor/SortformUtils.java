@@ -4,6 +4,8 @@ package org.folio.marccat.business.descriptor;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.util.StringText;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,6 +30,9 @@ import static org.folio.marccat.config.log.Global.EMPTY_STRING;
  * the application, but are done in triggers in the DB.
  */
 public class SortformUtils {
+
+  private static final Charset UTF_8 = Charset.forName("UTF-8");
+  private static final Charset ISO = Charset.forName("ISO-8859-1");
 
   private static final List<Character> punctuationMark1List = new ArrayList<>(
     Arrays.asList(
@@ -464,8 +469,7 @@ public class SortformUtils {
   }
 
   public String defaultSortform(String stringText) {
-    String result = new StringText(stringText).toDisplayString().toUpperCase();
-    result = stripAccents(result);
+    String result = new StringText(stringText).toDisplayString();
     result = deleteAlfalam(result);
     result = transformALA(result);
     result = stripPunctuation(result);
@@ -546,7 +550,8 @@ public class SortformUtils {
         result.append(c);
       }
     }
-    return result.toString();
+    byte[] byteText = result.toString().getBytes(UTF_8);
+    return new String(byteText , UTF_8);
   }
 
   public String replacePunctuationMark1(String input, String replacementString) {
@@ -559,7 +564,8 @@ public class SortformUtils {
         result.append(c);
       }
     }
-    return result.toString();
+    byte[] byteText = result.toString().getBytes(UTF_8);
+    return new String(byteText , UTF_8);
   }
 
   public String replacePunctuationMark2(String input, String replacementString) {
@@ -572,7 +578,8 @@ public class SortformUtils {
         result.append(c);
       }
     }
-    return result.toString();
+    byte[] byteText = result.toString().getBytes(UTF_8);
+    return new String(byteText , UTF_8);
   }
 
   public String replaceDeweyPunctuation(String input, String replacementString) {
@@ -585,15 +592,10 @@ public class SortformUtils {
         result.append(c);
       }
     }
-    return result.toString();
+    byte[] byteText = result.toString().getBytes(UTF_8);
+    return new String(byteText , UTF_8);
   }
 
-  public String stripAccents(String s) {
-
-    String normalized = Normalizer.normalize(
-      s, java.text.Normalizer.Form.NFKD);
-    return normalized.replaceAll("\\p{InCombiningDiacriticalMarks}+", EMPTY_STRING);
-  }
 
   public String deleteAlfalam(String s) {
 
@@ -641,4 +643,5 @@ public class SortformUtils {
     }
     return st;
   }
+
 }
