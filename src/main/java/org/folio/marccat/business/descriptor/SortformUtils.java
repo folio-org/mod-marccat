@@ -477,6 +477,7 @@ public class SortformUtils {
     return result;
   }
 
+  
   public String stripMultipleBlanks(String s) {
     return s.replaceAll("\\s+", " ");
   }
