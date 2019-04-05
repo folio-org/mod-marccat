@@ -156,24 +156,24 @@ public class TermExpressionNode implements ExpressionNode {
    */
   private String prepareTerm() {
     removeTrailingBlankInTerm();
-
-    final String preProcessWildCards =
-      term.toString()
-        .replace('?', '\u0002')
-        .replace('#', '\u0003');
-
     try {
+      String sf = null;
+      if(!semantic().isFullText() &&  semantic().getSecondaryIndexCode()==0) {
+        final String preProcessWildCards =
+          term.toString()
+            .replace('?', '\u0002')
+            .replace('#', '\u0003');
+        final NME_HDG nme_hdg = new NME_HDG();
+        nme_hdg.setStringText("\u001fa" + preProcessWildCards);
+        nme_hdg.calculateAndSetSortForm();
 
-      final NME_HDG nme_hdg = new NME_HDG();
-      nme_hdg.setStringText("\u001fa" + preProcessWildCards);
-      nme_hdg.calculateAndSetSortForm();
-
-
-      final String sf = nme_hdg
-        .getSortForm()
-        .replace('\u0002', '%')
-        .replace('\u0003', '_');
-
+        sf = nme_hdg
+          .getSortForm()
+          .replace('\u0002', '%')
+          .replace('\u0003', '_');
+      }
+      else
+        sf = term.toString();
       switch (semantic().getQueryActionCode()) {
         case "T":
         case "W":
