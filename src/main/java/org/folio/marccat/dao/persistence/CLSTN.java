@@ -181,9 +181,8 @@ public class CLSTN extends Descriptor {
   }
 
   private String calculateDefaultClassSortForm() {
-    String result = new StringText(getStringText()).toDisplayString()
-      .toUpperCase();
-    // result = SortformUtils.get().stripAccents(result);
+    String result = new StringText(getStringText()).toDisplayString().toUpperCase();
+    result = SortformUtils.get().stripAccents(result);
     result = result.replace("\"", " ");
     result = result.replace("'", " ");
     result = replacePeriodsForClassNumbers(result);
@@ -193,7 +192,7 @@ public class CLSTN extends Descriptor {
 
   private String calculateDeweySortForm() {
     String result = new StringText(getStringText()).toDisplayString();
-    //result = SortformUtils.get().stripAccents(result);
+    result = SortformUtils.get().stripAccents(result);
     result = SortformUtils.get().replaceDeweyPunctuation(result, "");
     String prefix = null;
     Pattern prefixPattern = Pattern.compile("^(JC|J|C)\\s*(.*)");
