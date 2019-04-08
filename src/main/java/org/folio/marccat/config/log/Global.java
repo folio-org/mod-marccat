@@ -121,7 +121,7 @@ public abstract class Global {
   public static final String NAME_VARIANT_SUBFIELD_CODES = "3eiuox45";
   public static final String NAME_TITLE_INSTITUTION_SUBFIELD_CODE = "5";
   public static final String WORK_REL_SUBFIELD_CODE = "4";
-  public static final int PUBLISHER_DEFAULT_NOTE_TYPE = 411;
+  public static final int PUBLISHER_DEFAULT_NOTE_TYPE = 24;
   public static final String PUBLISHER_FAST_PRINTER_SUBFIELD_CODES = "368efg";
   public static final String PUBLISHER_VARIANT_CODES = "368cefg";
   public static final String PUBLISHER_OTHER_SUBFIELD_CODES = "cefg";
@@ -238,9 +238,9 @@ public abstract class Global {
     MAP_CODE_LISTS.put("VSL_TARGET_AUDIENCE", T_VSL_TRGT_AUDNC.class);
     MAP_CODE_LISTS.put("VSL_TYPE_MATERIAL", T_VSL_MTRL_TYP.class);
     MAP_CODE_LISTS.put("VSL_TECHNIQUE", T_VSL_TECH.class);
-    MAP_CODE_LISTS.put("COMMAP_CODE_LISTS.putER_TARGET_AUDIENCE", T_CMPTR_TRGT_AUDNC.class);
-    MAP_CODE_LISTS.put("COMMAP_CODE_LISTS.putER_FORM_OF_ITEM", T_CF_FORM_OF_ITM.class);
-    MAP_CODE_LISTS.put("COMMAP_CODE_LISTS.putER_TYPE_MATERIAL", T_CMPTR_FIL_TYP.class);
+    MAP_CODE_LISTS.put("COMPUTER_TARGET_AUDIENCE", T_CMPTR_TRGT_AUDNC.class);
+    MAP_CODE_LISTS.put("COMPUTER_FORM_OF_ITEM", T_CF_FORM_OF_ITM.class);
+    MAP_CODE_LISTS.put("COMPUTER_TYPE_MATERIAL", T_CMPTR_FIL_TYP.class);
     MAP_CODE_LISTS.put("MARC_COUNTRY", T_MARC_CNTRY.class);
     MAP_CODE_LISTS.put("LANGUAGE", T_LANG.class);
     //007

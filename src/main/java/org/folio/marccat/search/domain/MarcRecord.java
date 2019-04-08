@@ -32,6 +32,7 @@ public class MarcRecord extends AbstractRecord {
   private Map xmlContent = new HashMap();
   private int countDoc;
   private String queryForAssociatedDoc;
+  private int recordId;
 
   public Document toXmlDocument(String elementSetName) {
     Document xmlDocument = (Document) xmlContent.get(elementSetName);
@@ -123,4 +124,15 @@ public class MarcRecord extends AbstractRecord {
   public void setQueryForAssociatedDoc(String queryForAssociatedDoc) {
     this.queryForAssociatedDoc = queryForAssociatedDoc;
   }
+
+  @Override
+  public void setRecordId(int recordId) {
+    this.recordId = recordId;
+  }
+
+  @Override
+  public int getRecordId() {
+    return recordId;
+  }
+
 }
