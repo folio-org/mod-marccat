@@ -47,6 +47,7 @@ import java.util.stream.Collectors;
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
 import static org.folio.marccat.config.log.Global.EMPTY_STRING;
+import static org.folio.marccat.config.log.Global.EMPTY_VALUE;
 import static org.folio.marccat.util.F.isNotNullOrEmpty;
 import static org.folio.marccat.util.F.locale;
 
@@ -1585,8 +1586,8 @@ public class StorageService implements Closeable {
       final BibliographicCatalog catalog = new BibliographicCatalog();
       CatalogItem item = catalog.newCatalogItem(new Object[]{view});
       final TagImpl impl = new BibliographicTagImpl();
-      boolean isInd1IsEmpty = heading.getInd1().equals(EMPTY_STRING);
-      boolean isInd2IsEmpty = heading.getInd2().equals(EMPTY_STRING);
+      boolean isInd1IsEmpty = heading.getInd1().equals(EMPTY_VALUE);
+      boolean isInd2IsEmpty = heading.getInd2().equals(EMPTY_VALUE);
       final Correlation corr = impl.getCorrelation(heading.getTag(), (isInd1IsEmpty) ? " ".charAt(0) : heading.getInd1().charAt(0), (isInd2IsEmpty) ? " ".charAt(0) : heading.getInd2().charAt(0), 0, session);
       final Tag newTag = catalog.getNewTag(item, corr.getKey().getMarcTagCategoryCode(), corr.getValues());
       final List<Integer> headingNumberList = new ArrayList<>();
