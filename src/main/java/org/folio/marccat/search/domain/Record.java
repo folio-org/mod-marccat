@@ -128,5 +128,8 @@ public interface Record {
   void setQueryForAssociatedDoc(String queryForAssociatedDoc);
 
   void setTagHighlighted(String tags);
+
+  void setRecordId(int recordId);
+
 }
 

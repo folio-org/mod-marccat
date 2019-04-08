@@ -83,6 +83,7 @@ public abstract class ModMarcatSearchEngine implements SearchEngine {
           final Record record = newRecord();
           record.setContent(elementSetName, recordData(itemNumber, searchingView.get()));
           record.setRecordView(searchingView.get());
+          record.setRecordId(itemNumber);
           return record;
         }).toArray(Record[]::new));
     response.setFrom(firstRecord);
