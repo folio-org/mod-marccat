@@ -61,7 +61,7 @@ public class ConversionFieldUtils {
       fixedField.setPlaceOfPublication(displayValue.substring(15, 18));
       fixedField.setLanguageCode(displayValue.substring(35, 38));
       fixedField.setRecordModifiedCode(String.valueOf(displayValue.charAt(38)));
-      fixedField.setRecordCataloguingSourceCode(String.valueOf(displayValue.charAt(39)));
+       fixedField.setRecordCataloguingSourceCode(String.valueOf(displayValue.charAt(39)));
     } else { //006
       fixedField.setMaterialTypeCode(String.valueOf(displayValue.charAt(0)));
     }
