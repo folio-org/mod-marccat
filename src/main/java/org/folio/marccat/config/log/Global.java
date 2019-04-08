@@ -121,7 +121,7 @@ public abstract class Global {
   public static final String NAME_VARIANT_SUBFIELD_CODES = "3eiuox45";
   public static final String NAME_TITLE_INSTITUTION_SUBFIELD_CODE = "5";
   public static final String WORK_REL_SUBFIELD_CODE = "4";
-  public static final int PUBLISHER_DEFAULT_NOTE_TYPE = 411;
+  public static final int PUBLISHER_DEFAULT_NOTE_TYPE = 24;
   public static final String PUBLISHER_FAST_PRINTER_SUBFIELD_CODES = "368efg";
   public static final String PUBLISHER_VARIANT_CODES = "368cefg";
   public static final String PUBLISHER_OTHER_SUBFIELD_CODES = "cefg";
