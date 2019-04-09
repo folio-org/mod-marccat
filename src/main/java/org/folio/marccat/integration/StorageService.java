@@ -1733,10 +1733,11 @@ public class StorageService implements Closeable {
    * @param searchingView the target search view.
    * @return a list of docid matching the input query.
    */
-  public int getCountDocumentByQuery(final String cclQuery, final int mainLibraryId, final Locale locale, final int searchingView) {
+  public int getCountDocumentByQuery(final String cclQuery, String[] attributes, String[] directions, final int mainLibraryId, final Locale locale, final int searchingView ) {
     final Parser parser = new Parser(locale, mainLibraryId, searchingView, session);
-    try (final Statement sql = stmt(connection());
-         final ResultSet rs = executeQuery(sql, parser.parseAndCount(cclQuery))) {
+    try (
+      final Statement sql = stmt(connection());
+      final ResultSet rs = executeQuery(sql, parser.parseAndCount(cclQuery, attributes, directions ))) {
       int count = 0;
       while (rs.next()) {
         count = rs.getInt(1);
@@ -1748,4 +1749,5 @@ public class StorageService implements Closeable {
     }
   }
 
+ 
 }

@@ -155,8 +155,10 @@ public class SearchAPI extends BaseResource {
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
     @RequestParam("q") final String q,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
-    @RequestParam("ml") final int mainLibraryId) {
+    @RequestParam("ml") final int mainLibraryId,
+    @RequestParam(name = "sortBy", required = false) final String[] sortAttributes,
+    @RequestParam(name = "sortOrder", required = false) final String[] sortOrders) {
     return doGet((storageService, configuration) ->
-      new ResponseEntity<>(storageService.getCountDocumentByQuery(q, mainLibraryId, locale(lang), view), HttpStatus.OK), tenant, configurator);
+      new ResponseEntity<>(storageService.getCountDocumentByQuery(q, sortAttributes, sortOrders, mainLibraryId, locale(lang), view), HttpStatus.OK), tenant, configurator);
   }
 }
