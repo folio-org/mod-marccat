@@ -100,7 +100,7 @@ public class Parser {
     final ExpressionNode n = parse(tokenizer.getTokens());
     final int limitSize = (lastRecord - firstRecord) + 1;
     final int offsetSize = firstRecord - 1;
-    final String orderByClause = buildOrderByClause(attributes, directions);
+    final String orderByClause = buildOrderByClause(attributes, directions, true);
     final String columnSortForm = attributes != null ? getSortFormOrDateByAtributes(attributes) : EMPTY_STRING;
     final String columnItemNumber = searchingView == -1 ? "aut_nbr" : "bib_itm_nbr";
     final String query = "select res." + columnItemNumber +
@@ -118,15 +118,26 @@ public class Parser {
    * Parses the incoming CCL query and count the document
    *
    * @param ccl the CCL query.
+   * @param attributes  the attributes of the search index.
+   * @param directions  the directions asc or desc.
    * @return the parsed string.
    * @throws CclParserException in case of parsing failure.
    */
-  public String parseAndCount(String ccl) throws CclParserException {
+  public String parseAndCount(String ccl, final String[] attributes, String[] directions) throws CclParserException {
     final Tokenizer tokenizer = new Tokenizer();
     tokenizer.tokenize(ccl);
     final ExpressionNode n = parse(tokenizer.getTokens());
-    return "select count(*) from ((" + n.getValue() + ")) smtc";
+    final String orderByClause = buildOrderByClause(attributes, directions, false);
+    final String columnSortForm = attributes != null ? getSortFormOrDateByAtributes(attributes) : EMPTY_STRING;
+    final String columnItemNumber = searchingView == -1 ? "aut_nbr" : "bib_itm_nbr";
+    final String query = "select res." + columnItemNumber +
+      " from (select distinct " + columnSortForm + " smtc." + columnItemNumber + " from ((" + n.getValue() + ")) smtc " +
+      orderByClause + ") res";
+     return "select count(*) from ((" +query + ")) smtc";
   }
+
+
+
 
 
   /**
@@ -316,13 +327,15 @@ public class Parser {
    */
   private String buildOrderByClause(
     final String[] attributes,
-    final String[] directions) {
+    final String[] directions,
+    final boolean isOrderBy ) {
     final String columnItemNumber = (searchingView == -1) ? "aut_nbr " : "bib_itm_nbr ";
     final String direction = (directions != null && directions[0].equals("0")) ? "asc" : "desc";
+    final String defaultForOrderBy = String.format(" order by smtc.%s %s ", columnItemNumber, direction);
     final String columnForOrderBy = attributes != null ? getSortFormOrDateByAtributes(attributes) : EMPTY_STRING;
-    String orderByItemNumber = String.format(" order by smtc.%s %s ", columnItemNumber, direction);
-    String order = String.format(" order by %s %s, smtc.%s ", columnForOrderBy.replace(",", EMPTY_STRING), direction, columnItemNumber);
-    String orderByClause = orderByItemNumber;
+    final String queryOrderBy =  String.format(" order by %s %s, smtc.%s ", columnForOrderBy.replace(",", EMPTY_STRING), direction, columnItemNumber);
+    final String order = isOrderBy == true ? queryOrderBy : "";
+    String orderByClause = defaultForOrderBy;
     if (attributes != null) {
       for (String attribute : attributes) {
         switch (Integer.parseInt(attribute)) {
@@ -338,7 +351,7 @@ public class Parser {
             orderByClause = SQLCommand.DATE_JOIN + viewClause() + order;
             break;
           case 54:
-            orderByClause = orderByItemNumber;
+            orderByClause = defaultForOrderBy;
             break;
           case 1003:
             orderByClause = (searchingView == -1) ? SQLCommand.NME_AUT_JOIN : SQLCommand.NAME_JOIN;
