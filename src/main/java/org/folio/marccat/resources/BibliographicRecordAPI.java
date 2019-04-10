@@ -59,7 +59,7 @@ public class BibliographicRecordAPI extends BaseResource {
     @PathVariable final Integer idTemplate,
     @RequestParam final String lang,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    @RequestHeader(name = Global.OKAPI_TENANT_HEADER_NAME, defaultValue = "tnx")  final String tenant) {
 
     return doGet((storageService, configuration) -> {
 
@@ -267,7 +267,7 @@ public class BibliographicRecordAPI extends BaseResource {
   @PostMapping("/bibliographic-record/fixed-field-display-value")
   public ResponseEntity<FixedField> getFixedFieldWithDisplayValue(
     @RequestBody final FixedField fixed,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    @RequestHeader(name = Global.OKAPI_TENANT_HEADER_NAME, defaultValue = "tnx")  final String tenant) {
     return doPost((storageService, configuration) -> {
       final int headerTypeCode = fixed.getHeaderTypeCode();
       final Map<String, Object> mapRecordTypeMaterial = storageService.getMaterialTypeInfosByHeaderCode(headerTypeCode, fixed.getCode());

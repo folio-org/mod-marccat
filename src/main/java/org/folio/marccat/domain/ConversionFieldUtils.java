@@ -170,7 +170,7 @@ public class ConversionFieldUtils {
 
     fixedField.setSpecificMaterialDesignationCode(String.valueOf(valueField.charAt(1)));
     if (categoryOfMaterial.equals(Global.ELECTRONIC_RESOURCE)) {
-      fixedField.setColourCode(String.valueOf(valueField.charAt(3)));
+      fixedField.setColorCode(String.valueOf(valueField.charAt(3)));
       fixedField.setDimensionsCode(String.valueOf(valueField.charAt(4)));
       fixedField.setIncludesSoundCode(String.valueOf(valueField.charAt(5)));
       fixedField.setImageBitDepth(valueField.substring(6, 9));
@@ -181,12 +181,12 @@ public class ConversionFieldUtils {
       fixedField.setReformattingQualityCode(String.valueOf(valueField.charAt(13)));
       fixedField.setPhysicalType(FixedField.PhysicalType.ELECTRONICAL_RESOURCE);
     } else if (categoryOfMaterial.equals(Global.GLOBE)) {
-      fixedField.setColourCode(String.valueOf(valueField.charAt(3)));
+      fixedField.setColorCode(String.valueOf(valueField.charAt(3)));
       fixedField.setPhysicalMediumCode(String.valueOf(valueField.charAt(4)));
       fixedField.setTypeOfReproductionCode(String.valueOf(valueField.charAt(5)));
       fixedField.setPhysicalType(FixedField.PhysicalType.GLOBE);
     } else if (categoryOfMaterial.equals(Global.MAP_CODE)) {
-      fixedField.setColourCode(String.valueOf(valueField.charAt(3)));
+      fixedField.setColorCode(String.valueOf(valueField.charAt(3)));
       fixedField.setPhysicalMediumCode(String.valueOf(valueField.charAt(4)));
       fixedField.setTypeOfReproductionCode(String.valueOf(valueField.charAt(5)));
       fixedField.setProductionDetailsCode(String.valueOf(valueField.charAt(6)));
@@ -199,7 +199,7 @@ public class ConversionFieldUtils {
       fixedField.setSpecificPhysicalCharacteristicsCode(String.valueOf(valueField.charAt(9)));
       fixedField.setPhysicalType(FixedField.PhysicalType.TACTILE_MATERIAL);
     } else if (categoryOfMaterial.equals(Global.PROJECTED_GRAPHIC)) {
-      fixedField.setColourCode(String.valueOf(valueField.charAt(3)));
+      fixedField.setColorCode(String.valueOf(valueField.charAt(3)));
       fixedField.setBaseOfEmulsionCode(String.valueOf(valueField.charAt(4)));
       fixedField.setSoundOnMediumOrSeparateCode(String.valueOf(valueField.charAt(5)));
       fixedField.setMediumForSoundCode(String.valueOf(valueField.charAt(6)));
@@ -211,18 +211,18 @@ public class ConversionFieldUtils {
       fixedField.setDimensionsCode(String.valueOf(valueField.charAt(4)));
       fixedField.setReductionRatioRangeCode(String.valueOf(valueField.charAt(5)));
       fixedField.setReductionRatioCode(valueField.substring(6, 9));
-      fixedField.setColourCode(String.valueOf(valueField.charAt(9)));
+      fixedField.setColorCode(String.valueOf(valueField.charAt(9)));
       fixedField.setEmulsionOnFilmCode(String.valueOf(valueField.charAt(10)));
       fixedField.setGenerationCode(String.valueOf(valueField.charAt(11)));
       fixedField.setBaseOfFilmCode(String.valueOf(valueField.charAt(12)));
       fixedField.setPhysicalType(FixedField.PhysicalType.MICROFORM);
     } else if (categoryOfMaterial.equals(Global.NON_PROJECTED_GRAPHIC)) {
-      fixedField.setColourCode(String.valueOf(valueField.charAt(3)));
+      fixedField.setColorCode(String.valueOf(valueField.charAt(3)));
       fixedField.setPrimarySupportMaterialCode(String.valueOf(valueField.charAt(4)));
       fixedField.setSecondarySupportMaterialCode(String.valueOf(valueField.charAt(5)));
       fixedField.setPhysicalType(FixedField.PhysicalType.NON_PROJECTED_GRAPHIC);
     } else if (categoryOfMaterial.equals(Global.MOTION_PICTURE)) {
-      fixedField.setColourCode(String.valueOf(valueField.charAt(3)));
+      fixedField.setColorCode(String.valueOf(valueField.charAt(3)));
       fixedField.setPresentationFormatCode(String.valueOf(valueField.charAt(4)));
       fixedField.setSoundOnMediumOrSeparateCode(String.valueOf(valueField.charAt(5)));
       fixedField.setMediumForSoundCode(String.valueOf(valueField.charAt(6)));
@@ -269,7 +269,7 @@ public class ConversionFieldUtils {
     } else if (categoryOfMaterial.equals(Global.UNSPECIFIED)) {
       fixedField.setPhysicalType(FixedField.PhysicalType.UNSPECIFIED);
     } else if (categoryOfMaterial.equals(Global.VIDEO_RECORDING)) {
-      fixedField.setColourCode(String.valueOf(valueField.charAt(3)));
+      fixedField.setColorCode(String.valueOf(valueField.charAt(3)));
       fixedField.setFormatCode(String.valueOf(valueField.charAt(4)));
       fixedField.setIncludesSoundCode(String.valueOf(valueField.charAt(5)));
       fixedField.setMediumForSoundCode(String.valueOf(valueField.charAt(6)));
@@ -425,7 +425,7 @@ public class ConversionFieldUtils {
     sb.append(fixedField.getSpecificMaterialDesignationCode());
     if (categoryOfMaterial.equals(Global.ELECTRONIC_RESOURCE)) {
       sb.append(" ");
-      sb.append(fixedField.getColourCode());
+      sb.append(fixedField.getColorCode());
       sb.append(fixedField.getDimensionsCode());
       sb.append(fixedField.getIncludesSoundCode());
       sb.append(fixedField.getImageBitDepth());
@@ -434,57 +434,50 @@ public class ConversionFieldUtils {
       sb.append(fixedField.getAntecedentSourceCode());
       sb.append(fixedField.getLevelOfCompressionCode());
       sb.append(fixedField.getReformattingQualityCode());
-      sb.append(fixedField.getPhysicalType());
     } else if (categoryOfMaterial.equals(Global.GLOBE)) {
       sb.append(" ");
-      sb.append(fixedField.getColourCode());
+      sb.append(fixedField.getColorCode());
       sb.append(fixedField.getPhysicalMediumCode());
       sb.append(fixedField.getTypeOfReproductionCode());
-      sb.append(fixedField.getPhysicalType());
     } else if (categoryOfMaterial.equals(Global.MAP_CODE)) {
       sb.append(" ");
-      sb.append(fixedField.getColourCode());
+      sb.append(fixedField.getColorCode());
       sb.append(fixedField.getPhysicalMediumCode());
       sb.append(fixedField.getTypeOfReproductionCode());
       sb.append(fixedField.getProductionDetailsCode());
       sb.append(fixedField.getPolarityCode());
-      sb.append(fixedField.getPhysicalType());
-    } else if (categoryOfMaterial.equals(Global.TACTILE_MATERIAL)) {
+     } else if (categoryOfMaterial.equals(Global.TACTILE_MATERIAL)) {
       sb.append(" ");
       sb.append(fixedField.getClassOfBrailleWritingCodes());
       sb.append(fixedField.getLevelOfContractionCode());
       sb.append(fixedField.getBrailleMusicFormatCodes());
       sb.append(fixedField.getSpecificPhysicalCharacteristicsCode());
-      sb.append(fixedField.getPhysicalType());
     } else if (categoryOfMaterial.equals(Global.PROJECTED_GRAPHIC)) {
       sb.append(" ");
-      sb.append(fixedField.getColourCode());
+      sb.append(fixedField.getColorCode());
       sb.append(fixedField.getBaseOfEmulsionCode());
       sb.append(fixedField.getSoundOnMediumOrSeparateCode());
       sb.append(fixedField.getMediumForSoundCode());
       sb.append(fixedField.getDimensionsCode());
       sb.append(fixedField.getSecondarySupportMaterialCode());
-      sb.append(fixedField.getPhysicalType());
     } else if (categoryOfMaterial.equals(Global.MICROFORM)) {
       sb.append(" ");
       sb.append(fixedField.getPolarityCode());
       sb.append(fixedField.getDimensionsCode());
       sb.append(fixedField.getReductionRatioRangeCode());
       sb.append(fixedField.getReductionRatioCode());
-      sb.append(fixedField.getColourCode());
+      sb.append(fixedField.getColorCode());
       sb.append(fixedField.getEmulsionOnFilmCode());
       sb.append(fixedField.getGenerationCode());
       sb.append(fixedField.getBaseOfFilmCode());
-      sb.append(fixedField.getPhysicalType());
     } else if (categoryOfMaterial.equals(Global.NON_PROJECTED_GRAPHIC)) {
       sb.append(" ");
-      sb.append(fixedField.getColourCode());
+      sb.append(fixedField.getColorCode());
       sb.append(fixedField.getPrimarySupportMaterialCode());
       sb.append(fixedField.getSecondarySupportMaterialCode());
-      sb.append(fixedField.getPhysicalType());
     } else if (categoryOfMaterial.equals(Global.MOTION_PICTURE)) {
       sb.append(" ");
-      sb.append(fixedField.getColourCode());
+      sb.append(fixedField.getColorCode());
       sb.append(fixedField.getPresentationFormatCode());
       sb.append(fixedField.getSoundOnMediumOrSeparateCode());
       sb.append(fixedField.getMediumForSoundCode());
@@ -499,7 +492,6 @@ public class ConversionFieldUtils {
       sb.append(fixedField.getDeteriorationStageCode());
       sb.append(fixedField.getCompletenessCode());
       sb.append(fixedField.getInspectionDate());
-      sb.append(fixedField.getPhysicalType());
     } else if (categoryOfMaterial.equals(Global.REMOTE_SENSING_IMAGE)) {
       sb.append(" ");
       sb.append(fixedField.getAltitudeOfSensorCode());
@@ -509,7 +501,6 @@ public class ConversionFieldUtils {
       sb.append(fixedField.getPlatformUseCode());
       sb.append(fixedField.getSensorTypeCode());
       sb.append(fixedField.getRemoteDataTypeCode());
-      sb.append(fixedField.getPhysicalType());
     } else if (categoryOfMaterial.equals(Global.SOUND_RECORDING)) {
       sb.append(" ");
       sb.append(fixedField.getSpeedCode());
@@ -523,16 +514,14 @@ public class ConversionFieldUtils {
       sb.append(fixedField.getCuttingTypeCode());
       sb.append(fixedField.getSpecialPlaybackCharacteristicsCode());
       sb.append(fixedField.getStorageTechniqueCode());
-      sb.append(fixedField.getPhysicalType());
     } else if (categoryOfMaterial.equals(Global.VIDEO_RECORDING)) {
       sb.append(" ");
-      sb.append(fixedField.getColourCode());
+      sb.append(fixedField.getColorCode());
       sb.append(fixedField.getFormatCode());
       sb.append(fixedField.getIncludesSoundCode());
       sb.append(fixedField.getMediumForSoundCode());
       sb.append(fixedField.getDimensionsCode());
       sb.append(fixedField.getConfigurationCode());
-      sb.append(fixedField.getPhysicalType());
     }
     fixedField.setDisplayValue(sb.toString());
     return fixedField;

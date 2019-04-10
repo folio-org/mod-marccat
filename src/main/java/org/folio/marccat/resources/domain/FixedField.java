@@ -2055,7 +2055,7 @@ public class FixedField {
    * @return The colorCode
    */
   @JsonProperty("colorCode")
-  public String getColourCode() {
+  public String getColorCode() {
     return colorCode;
   }
 
@@ -2063,12 +2063,12 @@ public class FixedField {
    * @param colorCode The colorCode
    */
   @JsonProperty("colorCode")
-  public void setColourCode(String colorCode) {
+  public void setColorCode(String colorCode) {
     this.attributes.put("colorCode", colorCode);
     this.colorCode = colorCode;
   }
 
-  public FixedField withColourCode(String colorCode) {
+  public FixedField withColorCode(String colorCode) {
     this.attributes.put("colorCode", colorCode);
     this.colorCode = colorCode;
     return this;

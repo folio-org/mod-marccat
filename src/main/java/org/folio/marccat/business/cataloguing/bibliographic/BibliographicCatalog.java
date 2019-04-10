@@ -548,8 +548,8 @@ public class BibliographicCatalog extends Catalog {
 
     physicalDescription.setSpecificMaterialDesignationCode(ff.getSpecificMaterialDesignationCode().charAt(0));
     if (physicalDescription instanceof ElectronicResource) {
-      if (isNotNull(ff.getColourCode()))
-        ((ElectronicResource) physicalDescription).setColourCode(ff.getColourCode().charAt(0));
+      if (isNotNull(ff.getColorCode()))
+        ((ElectronicResource) physicalDescription).setColourCode(ff.getColorCode().charAt(0));
       if (isNotNull(ff.getDimensionsCode()))
         ((ElectronicResource) physicalDescription).setDimensionsCode(ff.getDimensionsCode().charAt(0));
       if (isNotNull(ff.getIncludesSoundCode()))
@@ -569,15 +569,15 @@ public class BibliographicCatalog extends Catalog {
       if (isNotNull(ff.getReformattingQualityCode()))
         ((ElectronicResource) physicalDescription).setReformattingQualityCode(ff.getReformattingQualityCode().charAt(0));
     } else if (physicalDescription instanceof Globe) {
-      if (isNotNull(ff.getColourCode()))
-        ((Globe) physicalDescription).setColourCode(ff.getColourCode().charAt(0));
+      if (isNotNull(ff.getColorCode()))
+        ((Globe) physicalDescription).setColourCode(ff.getColorCode().charAt(0));
       if (isNotNull(ff.getPhysicalMediumCode()))
         ((Globe) physicalDescription).setPhysicalMediumCode(ff.getPhysicalMediumCode().charAt(0));
       if (isNotNull(ff.getTypeOfReproductionCode()))
         ((Globe) physicalDescription).setTypeOfReproductionCode(ff.getTypeOfReproductionCode().charAt(0));
     } else if (physicalDescription instanceof Map) {
-      if (isNotNull(ff.getColourCode()))
-        ((Map) physicalDescription).setMapColourCode(ff.getColourCode().charAt(0));
+      if (isNotNull(ff.getColorCode()))
+        ((Map) physicalDescription).setMapColourCode(ff.getColorCode().charAt(0));
       if (isNotNull(ff.getPhysicalMediumCode()))
         ((Map) physicalDescription).setMapPhysicalMediumCode(ff.getPhysicalMediumCode().charAt(0));
       if (isNotNull(ff.getTypeOfReproductionCode()))
@@ -596,8 +596,8 @@ public class BibliographicCatalog extends Catalog {
       if (isNotNull(ff.getSpecificPhysicalCharacteristicsCode()))
         ((TactileMaterial) physicalDescription).setSpecificPhysicalCharacteristicsCode(ff.getSpecificPhysicalCharacteristicsCode().charAt(0));
     } else if (physicalDescription instanceof ProjectedGraphic) {
-      if (isNotNull(ff.getColourCode()))
-        ((ProjectedGraphic) physicalDescription).setColourCode(ff.getColourCode().charAt(0));
+      if (isNotNull(ff.getColorCode()))
+        ((ProjectedGraphic) physicalDescription).setColourCode(ff.getColorCode().charAt(0));
       if (isNotNull(ff.getBaseOfEmulsionCode()))
         ((ProjectedGraphic) physicalDescription).setBaseOfEmulsionCode(ff.getBaseOfEmulsionCode().charAt(0));
       if (isNotNull(ff.getSoundOnMediumOrSeparateCode()))
@@ -617,8 +617,8 @@ public class BibliographicCatalog extends Catalog {
         ((Microform) physicalDescription).setReductionRatioRangeCode(ff.getReductionRatioRangeCode().charAt(0));
       if (isNotNull(ff.getReductionRatioCode()))
         ((Microform) physicalDescription).setReductionRatioCode(ff.getReductionRatioCode());
-      if (isNotNull(ff.getColourCode()))
-        ((Microform) physicalDescription).setColourCode(ff.getColourCode().charAt(0));
+      if (isNotNull(ff.getColorCode()))
+        ((Microform) physicalDescription).setColourCode(ff.getColorCode().charAt(0));
       if (isNotNull(ff.getEmulsionOnFilmCode()))
         ((Microform) physicalDescription).setEmulsionOnFilmCode(ff.getEmulsionOnFilmCode().charAt(0));
       if (isNotNull(ff.getGenerationCode()))
@@ -626,15 +626,15 @@ public class BibliographicCatalog extends Catalog {
       if (isNotNull(ff.getBaseOfFilmCode()))
         ((Microform) physicalDescription).setBaseOfFilmCode(ff.getBaseOfFilmCode().charAt(0));
     } else if (physicalDescription instanceof NonProjectedGraphic) {
-      if (isNotNull(ff.getColourCode()))
-        ((NonProjectedGraphic) physicalDescription).setColourCode(ff.getColourCode().charAt(0));
+      if (isNotNull(ff.getColorCode()))
+        ((NonProjectedGraphic) physicalDescription).setColourCode(ff.getColorCode().charAt(0));
       if (isNotNull(ff.getPrimarySupportMaterialCode()))
         ((NonProjectedGraphic) physicalDescription).setPrimarySupportMaterialCode(ff.getPrimarySupportMaterialCode().charAt(0));
       if (isNotNull(ff.getSecondarySupportMaterialCode()))
         ((NonProjectedGraphic) physicalDescription).setSecondarySupportMaterialCode(ff.getSecondarySupportMaterialCode().charAt(0));
     } else if (physicalDescription instanceof MotionPicture) {
-      if (isNotNull(ff.getColourCode()))
-        ((MotionPicture) physicalDescription).setColourCode(ff.getColourCode().charAt(0));
+      if (isNotNull(ff.getColorCode()))
+        ((MotionPicture) physicalDescription).setColourCode(ff.getColorCode().charAt(0));
       if (isNotNull(ff.getPresentationFormatCode()))
         ((MotionPicture) physicalDescription).setPresentationFormatCode(ff.getPresentationFormatCode().charAt(0));
       if (isNotNull(ff.getSoundOnMediumOrSeparateCode()))
@@ -702,8 +702,8 @@ public class BibliographicCatalog extends Catalog {
       if (isNotNull(ff.getStorageTechniqueCode()))
         ((SoundRecording) physicalDescription).setStorageTechniqueCode(ff.getStorageTechniqueCode().charAt(0));
     } else if ((physicalDescription instanceof Text) || (physicalDescription instanceof Unspecified) || (physicalDescription instanceof VideoRecording)) {
-      if (isNotNull(ff.getColourCode()))
-        ((VideoRecording) physicalDescription).setColourCode(ff.getColourCode().charAt(0));
+      if (isNotNull(ff.getColorCode()))
+        ((VideoRecording) physicalDescription).setColourCode(ff.getColorCode().charAt(0));
       if (isNotNull(ff.getFormatCode()))
         ((VideoRecording) physicalDescription).setFormatCode(ff.getFormatCode().charAt(0));
       if (isNotNull(ff.getIncludesSoundCode()))
