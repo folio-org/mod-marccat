@@ -1661,8 +1661,9 @@ public class StorageService implements Closeable {
     final int skipInFiling = 0;
     if (coKey.getMarcFirstIndicator() == Global.BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC)
       return (!indicator1.isEmpty()) ? Integer.parseInt(indicator1) : skipInFiling;
-    else if (coKey.getMarcSecondIndicator() == Global.BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC)
-      return (!indicator1.isEmpty()) ? Integer.parseInt(indicator2) : skipInFiling;
+    else
+      if (coKey.getMarcSecondIndicator() == Global.BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC)
+        if(!indicator2.isEmpty()) return (!indicator2.equals(EMPTY_VALUE)) ? Integer.parseInt(indicator2) : skipInFiling;
     return skipInFiling;
   }
 
