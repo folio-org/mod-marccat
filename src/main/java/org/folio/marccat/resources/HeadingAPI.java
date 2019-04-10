@@ -28,7 +28,7 @@ public class HeadingAPI extends BaseResource {
   public ResponseEntity<Heading> createHeading(
     @RequestBody final Heading heading,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    @RequestHeader(name = Global.OKAPI_TENANT_HEADER_NAME, defaultValue = "tnx")  final String tenant) {
     return doPost((storageService, configuration) -> {
       storageService.saveHeading(heading, view, configuration);
       return heading;
