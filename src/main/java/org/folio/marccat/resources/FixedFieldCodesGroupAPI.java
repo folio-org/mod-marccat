@@ -28,7 +28,7 @@ public class FixedFieldCodesGroupAPI extends BaseResource implements CatalogingI
     @RequestParam(name = "code", defaultValue = Global.MATERIAL_TAG_CODE) final String code,
     @RequestParam final String lang,
     @RequestParam(required = false) final String valueField,
-    @RequestHeader(name = Global.OKAPI_TENANT_HEADER_NAME, defaultValue = "tnx")  final String tenant) {
+    @RequestHeader(OKAPI_TENANT_HEADER_NAME) final String tenant){
     return doGet((storageService, configuration) -> {
       final FixedFieldCodesGroup fixedFieldCodesGroup = new FixedFieldCodesGroup();
       final Map<String, Object> map = storageService.getMaterialTypeInfosByLeaderValues(leader.charAt(6), leader.charAt(7), code);

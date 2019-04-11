@@ -100,7 +100,7 @@ public class RecordParser {
           }
         }
       });
-    } else if (field.getVariableField().getKeyNumber() == null && field.getFieldStatus() == Field.FieldStatus.NEW) {
+    } else if (field.getFixedField().getKeyNumber() == null && field.getFieldStatus() == Field.FieldStatus.NEW) {
       addPhysicalDescriptionTag(item, field.getFixedField(), bibItemNumber);
     }
   }
@@ -284,6 +284,7 @@ public class RecordParser {
     final int headerTypeCode = (ff.getHeaderTypeCode() != null) ? ff.getHeaderTypeCode() : PhysicalDescription.getInstanceByGMD(gmd).getHeaderType();
     final CorrelationValues correlationValues = new CorrelationValues(headerTypeCode, CorrelationValues.UNDEFINED, CorrelationValues.UNDEFINED);
     final PhysicalDescription pd = catalog.createPhysicalDescriptionTag(item, correlationValues);
+    pd.setGeneralMaterialDesignationCode(gmd);
     catalog.toPhysicalDescription(ff, pd);
     pd.markNew();
     pd.setBibItemNumber(bibItemNumber);
