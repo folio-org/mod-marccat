@@ -267,7 +267,7 @@ public class BibliographicRecordAPI extends BaseResource {
   @PostMapping("/bibliographic-record/fixed-field-display-value")
   public ResponseEntity<FixedField> getFixedFieldWithDisplayValue(
     @RequestBody final FixedField fixed,
-    @RequestHeader(name = Global.OKAPI_TENANT_HEADER_NAME, defaultValue = "tnx")  final String tenant) {
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant)  {
     return doPost((storageService, configuration) -> {
       final int headerTypeCode = fixed.getHeaderTypeCode();
       final Map<String, Object> mapRecordTypeMaterial = storageService.getMaterialTypeInfosByHeaderCode(headerTypeCode, fixed.getCode());
