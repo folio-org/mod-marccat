@@ -63,7 +63,7 @@ public class TitleDescriptorDAO extends DAODescriptor {
           + " and ref.sourceHeadingType = 'TH' "
           + " and ref.userViewString = '" + View.makeSingleViewString(cataloguingView) + "'",
         new Object[]{
-          source.getKey().getHeadingNumber()},
+          source.getKey().getKeyNumber()},
         new Type[]{
           Hibernate.INTEGER});
     count = count + countList.get(0);
@@ -74,7 +74,7 @@ public class TitleDescriptorDAO extends DAODescriptor {
           + " and ref.sourceHeadingType = 'TH' "
           + " and ref.userViewString = '" + View.makeSingleViewString(cataloguingView) + "'",
         new Object[]{
-          source.getKey().getHeadingNumber()},
+          source.getKey().getKeyNumber()},
         new Type[]{
           Hibernate.INTEGER});
     count = count + countList.get(0);
@@ -105,7 +105,7 @@ public class TitleDescriptorDAO extends DAODescriptor {
           + " and ref.sourceHeadingType = 'TH' "
           + " and ref.userViewString = '" + View.makeSingleViewString(cataloguingView) + "'",
         new Object[]{
-          source.getKey().getHeadingNumber()},
+          source.getKey().getKeyNumber()},
         new Type[]{
           Hibernate.INTEGER}));
     refList.addAll(
@@ -115,7 +115,7 @@ public class TitleDescriptorDAO extends DAODescriptor {
           + " and ref.sourceHeadingType = 'TH' "
           + " and ref.userViewString = '" + View.makeSingleViewString(cataloguingView) + "'",
         new Object[]{
-          source.getKey().getHeadingNumber()},
+          source.getKey().getKeyNumber()},
         new Type[]{
           Hibernate.INTEGER}));
     return refList;
@@ -170,7 +170,7 @@ public class TitleDescriptorDAO extends DAODescriptor {
           + " d.nameHeadingNumber = ? and "
           + " d.key.userViewString = '" + View.makeSingleViewString(View.toIntView(title.getUserViewString())) + "'",
         new Object[]{
-          title.getKey().getHeadingNumber()},
+          title.getKey().getKeyNumber()},
         new Type[]{Hibernate.INTEGER});
     if (countList.get(0) > 0) {
       throw new ReferentialIntegrityException("NME_TTL_HDG", "TTL_HDG");
@@ -199,13 +199,13 @@ public class TitleDescriptorDAO extends DAODescriptor {
         + " and c.indexingLanguage = ? "
         + " and c.accessPointLanguage = ?"
         + " and c.key.userViewString = ?"
-        + " and c.key.headingNumber <> ?",
+        + " and c.key.keyNumber <> ?",
       new Object[]{
-        titleHeading.getStringText(),
+        titleHeading.getDisplayValue(),
         titleHeading.getIndexingLanguage(),
         titleHeading.getAccessPointLanguage(),
         titleHeading.getUserViewString(),
-        titleHeading.getKey().getHeadingNumber()},
+        titleHeading.getKey().getKeyNumber()},
       new Type[]{Hibernate.STRING,
         Hibernate.INTEGER,
         Hibernate.STRING,

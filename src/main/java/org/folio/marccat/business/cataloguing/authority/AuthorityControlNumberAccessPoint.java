@@ -76,7 +76,7 @@ public class AuthorityControlNumberAccessPoint extends AuthorityAccessPoint {
   }
 
   /* (non-Javadoc)
-   * @see VariableField#getStringText()
+   * @see VariableField#getDisplayValue()
    */
   @Override
   public StringText getStringText() {
@@ -109,7 +109,7 @@ public class AuthorityControlNumberAccessPoint extends AuthorityAccessPoint {
    * @see AccessPoint#setDescriptorStringText(org.folio.marccat.util.StringText)
    */
   public void setDescriptorStringText(StringText tagStringText) {
-    getDescriptor().setStringText(tagStringText.toString());
+    getDescriptor().setDisplayValue(tagStringText.toString());
   }
 
 }

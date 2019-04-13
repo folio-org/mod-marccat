@@ -36,14 +36,14 @@ public class DAONameTitleAccessPoint extends AbstractDAO {
           "from NameAccessPoint as n "
             + " where n.nameTitleHeadingNumber = ? and "
             + " n.userViewString = ? ",
-          new Object[]{a.getHeadingNumber(), a.getUserViewString()},
+          new Object[]{a.getKeyNumber(), a.getUserViewString()},
           new Type[]{Hibernate.INTEGER, Hibernate.STRING});
 
         s.delete(
           "from TitleAccessPoint as n "
             + " where n.nameTitleHeadingNumber = ? and "
             + " n.userViewString = ? ",
-          new Object[]{a.getHeadingNumber(), a.getUserViewString()},
+          new Object[]{a.getKeyNumber(), a.getUserViewString()},
           new Type[]{Hibernate.INTEGER, Hibernate.STRING});
       }
     }
@@ -59,15 +59,15 @@ public class DAONameTitleAccessPoint extends AbstractDAO {
     super.save(p);
     NameTitleAccessPoint nt = (NameTitleAccessPoint) p;
     NameAccessPoint a = new NameAccessPoint(nt.getItemNumber());
-    a.setNameTitleHeadingNumber(nt.getHeadingNumber().intValue());
-    a.setHeadingNumber(
+    a.setNameTitleHeadingNumber(nt.getKeyNumber().intValue());
+    a.setKeyNumber(
       (
         ((NME_TTL_HDG) nt.getDescriptor()).getNameHeadingNumber()));
     a.setUserViewString(nt.getUserViewString());
     a.setFunctionCode((short) 0);
     TitleAccessPoint b = new TitleAccessPoint(nt.getItemNumber());
-    b.setNameTitleHeadingNumber(nt.getHeadingNumber().intValue());
-    b.setHeadingNumber(
+    b.setNameTitleHeadingNumber(nt.getKeyNumber().intValue());
+    b.setKeyNumber(
       (
         ((NME_TTL_HDG) nt.getDescriptor()).getTitleHeadingNumber()));
     b.setUserViewString(nt.getUserViewString());

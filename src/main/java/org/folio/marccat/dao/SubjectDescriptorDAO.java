@@ -62,14 +62,14 @@ public class SubjectDescriptorDAO extends DAODescriptor {
         + " and c.typeCode =? "
         + " and c.sourceCode =? "
         + " and c.key.userViewString = ?"
-        + " and c.key.headingNumber <> ?",
+        + " and c.key.keyNumber <> ?",
       new Object[]{
-        subjectHeading.getStringText(),
+        subjectHeading.getDisplayValue(),
         subjectHeading.getAccessPointLanguage(),
         subjectHeading.getTypeCode(),
         subjectHeading.getSourceCode(),
         subjectHeading.getUserViewString(),
-        subjectHeading.getKey().getHeadingNumber()},
+        subjectHeading.getKey().getKeyNumber()},
       new Type[]{Hibernate.STRING,
         Hibernate.INTEGER,
         Hibernate.INTEGER,

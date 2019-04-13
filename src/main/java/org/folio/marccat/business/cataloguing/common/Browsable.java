@@ -27,9 +27,9 @@ public interface Browsable {
    */
   StringText getEditableSubfields();
 
-  Integer getHeadingNumber();
+  Integer getKeyNumber();
 
-  void setHeadingNumber(Integer i);
+  void setKeyNumber(Integer i);
 
   /**
    * Return the set of subfields that are valid for editing on the catalog worksheet

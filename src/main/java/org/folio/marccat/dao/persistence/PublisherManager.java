@@ -442,7 +442,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
       .forEach(idx -> {
         final PUBL_TAG publTag = getPublisherTagUnits().get(idx);
         final PUBL_HDG publUnit = publTag.getDescriptor();
-        if (publUnit != null && publUnit.getKey().getHeadingNumber() == -1) {
+        if (publUnit != null && publUnit.getKey().getKeyNumber() == -1) {
           publUnit.setNameStringText(EMPTY_STRING);
           publUnit.setPlaceStringText(EMPTY_STRING);
         }

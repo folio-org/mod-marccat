@@ -130,13 +130,13 @@ public class CNTL_NBR extends Descriptor {
   }
 
   private String calculateIsmnSortForm() {
-    String result = SortformUtils.get().defaultSortform(getStringText());
+    String result = SortformUtils.get().defaultSortform(getDisplayValue());
     result = SortformUtils.get().replacePunctuationMark2(result, EMPTY_STRING);
     return result;
   }
 
   private String calculatePublisherNumberSortForm() {
-    StringText st = new StringText(getStringText());
+    StringText st = new StringText(getDisplayValue());
     if (st.getNumberOfSubfields() > 0) {
       Subfield first = st.getSubfield(0);
       if (first.getCode().equals("a")) {
@@ -178,7 +178,7 @@ public class CNTL_NBR extends Descriptor {
       logger.debug("removing trailing *");
       return result.substring(0, result.length() - 1);
     }
-    if (!new StringText(getStringText()).getSubfield(0).getCode().equals("a")) {
+    if (!new StringText(getDisplayValue()).getSubfield(0).getCode().equals("a")) {
       logger.debug("adding blank because first sub is not a");
       return " " + result;
     }

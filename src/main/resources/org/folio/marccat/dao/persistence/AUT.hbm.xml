@@ -9,7 +9,7 @@
         	<column name="AUT_NBR"/>
         	<generator class="assigned"/>
     	</id>
-        <property name="headingNumber">
+        <property name="keyNumber">
             <column name="HDG_NBR"/>
         </property>
         <property name="headingType">

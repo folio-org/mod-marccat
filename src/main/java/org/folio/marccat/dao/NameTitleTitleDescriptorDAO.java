@@ -39,8 +39,8 @@ public class NameTitleTitleDescriptorDAO extends NameTitleDescriptorDAO {
         + "NME_TTL_HDG as hdg, "
         + "NME_HDG as nme, "
         + "TTL_HDG as ttl"
-        + " where hdg.nameHeadingNumber = nme.key.headingNumber "
-        + " and hdg.titleHeadingNumber = ttl.key.headingNumber "
+        + " where hdg.nameHeadingNumber = nme.key.keyNumber "
+        + " and hdg.titleHeadingNumber = ttl.key.keyNumber "
         + " and ttl.sortForm "
         + operator
         + " :term  and "

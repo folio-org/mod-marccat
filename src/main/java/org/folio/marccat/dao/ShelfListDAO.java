@@ -166,7 +166,7 @@ public class ShelfListDAO extends DAODescriptor {
         + " where upper(c.stringText) = ? and c.mainLibraryNumber = ? "
         + " and c.typeCode = ? ",
       new Object[]{
-        shelf.getStringText().toUpperCase(),
+        shelf.getDisplayValue().toUpperCase(),
         shelf.getMainLibraryNumber(),
         shelf.getTypeCode()},
       new Type[]{
@@ -198,7 +198,7 @@ public class ShelfListDAO extends DAODescriptor {
         + " and c.typeCode = ?"
         + " and c.shelfListKeyNumber <> ?",
       new Object[]{
-        shelf.getStringText(),
+        shelf.getDisplayValue(),
         shelf.getMainLibraryNumber(),
         shelf.getTypeCode(),
         shelf.getShelfListKeyNumber()},
@@ -225,14 +225,14 @@ public class ShelfListDAO extends DAODescriptor {
   /**
    * Load the heading(SHLF_LIST) by heading number
    *
-   * @param headingNumber   the heading number
+   * @param keyNumebr   the heading number
    * @param cataloguingView the cataloguing view
    * @return the descriptor
    * @throws DataAccessException the data access exception
    */
   @Override
-  public Descriptor load(int headingNumber, int cataloguingView, final Session session) throws DataAccessException, HibernateException {
-    return load(headingNumber, session);
+  public Descriptor load(int keyNumebr, int cataloguingView, final Session session) throws DataAccessException, HibernateException {
+    return load(keyNumebr, session);
   }
 
 

@@ -448,7 +448,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
         hdg.setNameHeading((NME_HDG) new NameDescriptorDAO().load(hdg.getNameHeadingNumber(), userView, session));
         hdg.setTitleHeading((TTL_HDG) new TitleDescriptorDAO().load(hdg.getTitleHeadingNumber(), userView, session));
       } catch (HibernateException e) {
-        throw new DataAccessException(String.format(Message.MOD_MARCCAT_00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
+        throw new DataAccessException(String.format(Message.MOD_MARCCAT_00016_NO_HEADING_FOUND, tag.getKeyNumber()));
       }
       return tag;
     }).collect(Collectors.toList());
@@ -621,7 +621,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
     String uniformTitleSortForm;
     String accessPoint = tag.getAccessPointStringText().toDisplayString();
     TTL_HDG title = new TTL_HDG();
-    title.setStringText("\u001fc" + accessPoint);
+    title.setDisplayValue("\u001fc" + accessPoint);
     title.calculateAndSetSortForm();
     uniformTitleSortForm = title.getSortForm();
     return uniformTitleSortForm;

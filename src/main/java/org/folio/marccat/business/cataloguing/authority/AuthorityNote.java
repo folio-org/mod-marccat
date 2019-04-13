@@ -59,14 +59,14 @@ public class AuthorityNote extends VariableField implements Persistence, Persist
   }
 
   /* (non-Javadoc)
-   * @see VariableField#getStringText()
+   * @see VariableField#getDisplayValue()
    */
   public StringText getStringText() {
     return new StringText(getNoteStringText());
   }
 
   /* (non-Javadoc)
-   * @see VariableField#setStringText(org.folio.marccat.util.StringText)
+   * @see VariableField#setDisplayValue(org.folio.marccat.util.StringText)
    */
   public void setStringText(StringText stringText) {
     setNoteStringText(stringText.toString());

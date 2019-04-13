@@ -14,7 +14,7 @@ public abstract class SeeSeeAlsoReference extends AuthorityReferenceTag {
   }
 
   /* (non-Javadoc)
-   * @see VariableField#getStringText()
+   * @see VariableField#getDisplayValue()
    */
   @Override
   public StringText getStringText() {

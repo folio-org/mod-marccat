@@ -221,18 +221,18 @@ public class PUBL_HDG extends Descriptor implements Serializable {
   }
 
   /* (non-Javadoc)
-   * @see Descriptor#getStringText()
+   * @see Descriptor#getDisplayValue()
    */
   @Override
-  public String getStringText() {
+  public String getDisplayValue() {
     return getPlaceStringText() + getNameStringText();
   }
 
   /* (non-Javadoc)
-   * @see Descriptor#setStringText(java.lang.String)
+   * @see Descriptor#setDisplayValue(java.lang.String)
    */
   @Override
-  public void setStringText(String string) {
+  public void setDisplayValue(String string) {
     StringText s = new StringText(string);
     setPlaceStringText(s.getSubfieldsWithCodes("a").toString());
     setNameStringText(s.getSubfieldsWithCodes("b").toString());
@@ -278,7 +278,7 @@ public class PUBL_HDG extends Descriptor implements Serializable {
   @Deprecated
   @Override
   public void validate() throws InvalidDescriptorException {
-    StringText text = new StringText(getStringText());
+    StringText text = new StringText(getDisplayValue());
     if (text.getSubfieldsWithCodes("b").getNumberOfSubfields() == 0
       && (text.getSubfieldsWithCodes("a").getNumberOfSubfields() != 0
       && !text.getSubfieldsWithCodes("a").isEmpty()))

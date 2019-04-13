@@ -69,7 +69,7 @@ public class ControlNumberAccessPoint extends BibliographicAccessPoint implement
    * @param stringText -- the string text to set.
    */
   public void setDescriptorStringText(final StringText stringText) {
-    descriptor.setStringText(stringText.toString());
+    descriptor.setDisplayValue(stringText.toString());
   }
 
   /**
@@ -182,7 +182,7 @@ public class ControlNumberAccessPoint extends BibliographicAccessPoint implement
       return false;
 
     ControlNumberAccessPoint other = (ControlNumberAccessPoint) obj;
-    return super.equals(obj) && (other.functionCode == this.functionCode) && (other.descriptor.getKey().getHeadingNumber() == this.descriptor.getKey().getHeadingNumber());
+    return super.equals(obj) && (other.functionCode == this.functionCode) && (other.descriptor.getKey().getKeyNumber() == this.descriptor.getKey().getKeyNumber());
   }
 
   @Override

@@ -5,7 +5,7 @@
 <hibernate-mapping package="org.folio.marccat.dao.persistence">
 	<class name="PUBL_HDG" table="PUBL_HDG">
 		<composite-id name="key" class="DescriptorKey">
-			<key-property name="headingNumber" column="PUBL_HDG_NBR"/>
+			<key-property name="keyNumber" column="PUBL_HDG_NBR"/>
 			<key-property name="userViewString" column="USR_VW_IND" length="16"/>
 		</composite-id>
 		<property name="verificationLevel">

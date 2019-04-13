@@ -1,5 +1,7 @@
 package org.folio.marccat.dao.persistence;
 
+import org.folio.marccat.config.log.Global;
+
 import java.io.Serializable;
 
 
@@ -29,7 +31,7 @@ public class RefKey implements Serializable, Cloneable {
   /**
    * The user view string.
    */
-  private String userViewString = "1000000000000000";
+  private String userViewString = Global.USER_VIEW_STRING;
 
 
   /* (non-Javadoc)

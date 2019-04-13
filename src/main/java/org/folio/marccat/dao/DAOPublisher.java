@@ -62,7 +62,7 @@ public class DAOPublisher extends AbstractDAO {
         + " from TitleAccessPoint as ta, "
         + queryAsPu
         + " where pu.publisherCode = ?"
-        + " and pu.hdrNumber = ta.headingNumber");
+        + " and pu.hdrNumber = ta.keyNumber");
       q.setString(0, publisherCode);
       q.setMaxResults(100);
       result = q.list();
@@ -81,7 +81,7 @@ public class DAOPublisher extends AbstractDAO {
         + " from PUBL_HDG as ta, "
         + queryAsPu
         + " where pu.publisherCode = ?"
-        + " and pu.hdrNumber = ta.key.headingNumber"
+        + " and pu.hdrNumber = ta.key.keyNumber"
         + " order by ta.nameSortForm");
       q.setString(0, publisherCode);
       result = q.list();
@@ -100,7 +100,7 @@ public class DAOPublisher extends AbstractDAO {
       q = s.createQuery("select pu, ta"
         + " from PUBL_HDG as ta, "
         + queryAsPu
-        + " where pu.hdrNumber = ta.key.headingNumber"
+        + " where pu.hdrNumber = ta.key.keyNumber"
         + " order by ta.nameSortForm");
       result = q.list();
 

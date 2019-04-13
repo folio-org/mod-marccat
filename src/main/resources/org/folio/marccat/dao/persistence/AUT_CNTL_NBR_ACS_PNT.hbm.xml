@@ -10,7 +10,7 @@
             name="itemNumber" 
             column="AUT_NBR"/>
         <key-property 
-            name="headingNumber" 
+            name="keyNumber"
             column="CNTL_KEY_NBR"/>
     </composite-id>    
     <property name="validationCode" 

@@ -6,7 +6,7 @@
 <hibernate-mapping package="org.folio.marccat.dao.persistence">
 <class name="CNTL_NBR" table="CNTL_NBR">
 	<composite-id name="key" class="DescriptorKey">
-        <key-property name="headingNumber" column="CNTL_KEY_NBR"/>
+        <key-property name="keyNumber" column="CNTL_KEY_NBR"/>
         <key-property name="userViewString" column="USR_VW_IND" length="16"/>
     </composite-id>    
     <property name="typeCode"> 
@@ -18,7 +18,7 @@
     <property name="sortForm"> 
             <column name="CNTL_NBR_SRT_FORM"/>
 	</property>       
-    <property name="stringText"> 
+    <property name="displayValue">
             <column name="CNTL_NBR_STRNG_TXT"/>
 	</property>       
 </class>

@@ -6,7 +6,7 @@
 
 	<class name="THS_NTE" table="THS_NTE">
 		<composite-id name="key" class="ThesaurusNoteKey">
-			<key-property name="headingNumber" column="THS_HDG_NBR"/>
+			<key-property name="keyNumber" column="THS_HDG_NBR"/>
 			<key-property name="noteNumber" column="THS_NTE_NBR"/>
 		</composite-id>
 		<property name="language">

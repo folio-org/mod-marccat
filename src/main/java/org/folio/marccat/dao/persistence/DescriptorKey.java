@@ -17,7 +17,7 @@ import java.io.Serializable;
  * @since 1.0
  */
 public class DescriptorKey implements Serializable {
-  private int headingNumber;
+  private int keyNumber;
   private String userViewString;
 
   /**
@@ -25,15 +25,15 @@ public class DescriptorKey implements Serializable {
    */
   public DescriptorKey() {
     super();
-    headingNumber = -1;
+    keyNumber = -1;
     userViewString = "0000000000000000";
   }
 
   /**
    * Class constructor
    */
-  public DescriptorKey(int headingNumber, String view) {
-    this.setHeadingNumber(headingNumber);
+  public DescriptorKey(int keyNumber, String view) {
+    this.setKeyNumber(keyNumber);
     this.setUserViewString(view);
   }
 
@@ -44,7 +44,7 @@ public class DescriptorKey implements Serializable {
     if (anObject instanceof DescriptorKey) {
       DescriptorKey aKey = (DescriptorKey) anObject;
       return (
-        headingNumber == aKey.getHeadingNumber()
+        keyNumber == aKey.getKeyNumber()
           && userViewString.equals(aKey.getUserViewString()));
     } else {
       return false;
@@ -52,25 +52,25 @@ public class DescriptorKey implements Serializable {
   }
 
   public int hashCode() {
-    return headingNumber + userViewString.hashCode();
+    return keyNumber + userViewString.hashCode();
   }
 
   /**
-   * Getter for headingNumber
+   * Getter for keyNumber
    *
-   * @return headingNumber
+   * @return keyNumber
    */
-  public int getHeadingNumber() {
-    return headingNumber;
+  public int getKeyNumber() {
+    return keyNumber;
   }
 
   /**
-   * Setter for headingNumber
+   * Setter for keyNumber
    *
-   * @param i headingNumber
+   * @param i keyNumber
    */
-  public void setHeadingNumber(int i) {
-    headingNumber = i;
+  public void setKeyNumber(int i) {
+    keyNumber = i;
   }
 
   /**
@@ -95,7 +95,7 @@ public class DescriptorKey implements Serializable {
    * @see java.lang.Object#toString()
    */
   public String toString() {
-    return "Heading nbr: " + (headingNumber) + "  User view: " + userViewString;
+    return "Heading nbr: " + (keyNumber) + "  User view: " + userViewString;
   }
 
 }

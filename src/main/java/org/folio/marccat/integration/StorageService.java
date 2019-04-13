@@ -560,8 +560,8 @@ public class StorageService implements Closeable {
     final AutDAO dao = new AutDAO();
     final AUT aut = dao.load(session, id);
     final Class accessPoint = Global.BIBLIOGRAPHIC_ACCESS_POINT_CLASS_MAP.get(aut.getHeadingType());
-    countDocument.setCountDocuments(dao.getDocCountByAutNumber(aut.getHeadingNumber(), accessPoint, view, session));
-    countDocument.setQuery(Global.INDEX_AUTHORITY_TYPE_MAP.get(aut.getHeadingType()) + " " + aut.getHeadingNumber());
+    countDocument.setCountDocuments(dao.getDocCountByAutNumber(aut.getKeyNumber(), accessPoint, view, session));
+    countDocument.setQuery(Global.INDEX_AUTHORITY_TYPE_MAP.get(aut.getHeadingType()) + " " + aut.getKeyNumber());
     return countDocument;
   }
 
@@ -753,8 +753,8 @@ public class StorageService implements Closeable {
     return descriptorsList.stream().map(heading -> {
       final MapHeading headingObject = new MapHeading();
       try {
-        headingObject.setHeadingNumber(heading.getHeadingNumber());
-        headingObject.setStringText(heading.getDisplayText());
+        headingObject.setKeyNumber(heading.getHeadingNumber());
+        headingObject.setDisplayValue(heading.getDisplayText());
         headingObject.setCountAuthorities(heading.getAuthorityCount());
         headingObject.setCountDocuments(dao.getDocCount(heading, view, session));
         headingObject.setCountTitleNameDocuments(dao.getDocCountNT(heading, view, session));
@@ -763,7 +763,7 @@ public class StorageService implements Closeable {
           try {
             final Ref ref = new Ref();
             final Descriptor hdg = crossReference.getTargetDAO().load(crossReference.getTarget(), view, session);
-            ref.setStringText(new StringText(hdg.getStringText()).toDisplayString());
+            ref.setDisplayValue(new StringText(hdg.getDisplayValue()).toDisplayString());
             ref.setRefType(crossReference.getType());
             return ref;
           } catch (HibernateException e) {
@@ -1013,7 +1013,7 @@ public class StorageService implements Closeable {
   /**
    * Return a list of headings for a specific a search through the stringText of the tag
    *
-   * @param stringText  the string text of the tag used here as filter criterion
+   * @param displayValue  the string text of the tag used here as filter criterion
    * @param view        the view used here as filter criterion
    * @param mainLibrary the main library used here as filter criterion
    * @param pageSize    the page size used here as filter criterion
@@ -1022,7 +1022,7 @@ public class StorageService implements Closeable {
    * @throws DataAccessException
    * @throws InvalidBrowseIndexException
    */
-  public List<MapHeading> getHeadingsByTag(final String tag, final String indicator1, final String indicator2, final String stringText, final int view, final int mainLibrary, final int pageSize, final String lang) {
+  public List<MapHeading> getHeadingsByTag(final String tag, final String ind1, final String ind2, final String displayValue, final int view, final int mainLibrary, final int pageSize, final String lang) {
     try {
       String key;
       String browseTerm;
@@ -1031,10 +1031,10 @@ public class StorageService implements Closeable {
       final BibliographicCatalog catalog = new BibliographicCatalog();
       final CatalogItem item = new BibliographicItem();
       final TagImpl impl = new BibliographicTagImpl();
-      final Correlation corr = impl.getCorrelation(tag, indicator1.charAt(0), indicator2.charAt(0), 0, session);
+      final Correlation corr = impl.getCorrelation(tag, ind1.charAt(0), ind2.charAt(0), 0, session);
       final Tag newTag = catalog.getNewTag(item, corr.getKey().getMarcTagCategoryCode(), corr.getValues());
       if (newTag != null) {
-        final StringText st = new StringText(stringText);
+        final StringText st = new StringText(displayValue);
         ((VariableField) newTag).setStringText(st);
         if (newTag instanceof Browsable) {
           ((Browsable) newTag).setDescriptorStringText(st);
@@ -1111,7 +1111,7 @@ public class StorageService implements Closeable {
       }
 
       if (!aTag.isFixedField() && aTag instanceof BibliographicAccessPoint) {
-        keyNumber = ((BibliographicAccessPoint) aTag).getDescriptor().getKey().getHeadingNumber();
+        keyNumber = ((BibliographicAccessPoint) aTag).getDescriptor().getKey().getKeyNumber();
         try {
           sequenceNbr = ((BibliographicAccessPoint) aTag).getSequenceNumber();
         } catch (Exception e) {
@@ -1412,7 +1412,7 @@ public class StorageService implements Closeable {
       if (aTag instanceof AccessPoint) {
         try {
           AccessPoint apf = ((AccessPoint) aTag);
-          Descriptor d = apf.getDAODescriptor().findOrCreateMyView(apf.getHeadingNumber(), View.makeSingleViewString(recordView), cataloguingView, session);
+          Descriptor d = apf.getDAODescriptor().findOrCreateMyView(apf.getKeyNumber(), View.makeSingleViewString(recordView), cataloguingView, session);
           apf.setDescriptor(d);
         } catch (HibernateException e) {
           throw new DataAccessException(e);
@@ -1599,18 +1599,18 @@ public class StorageService implements Closeable {
           ((Browsable) newTag).setDescriptorStringText(st);
           final Descriptor descriptor = ((Browsable) newTag).getDescriptor();
           descriptor.setSkipInFiling(skipInFiling);
-          int headingNumber = createOrReplaceDescriptor(configuration, descriptor, view);
-          headingNumberList.add(headingNumber);
-          heading.setKeyNumber(headingNumber);
+          int keyNumber = createOrReplaceDescriptor(configuration, descriptor, view);
+          headingNumberList.add(keyNumber);
+          heading.setKeyNumber(keyNumber);
           heading.setCategoryCode(newTag.getCategory());
         }
         else if(newTag.isPublisher()){
           List<PUBL_TAG> publisherTagUnits = ((PublisherManager) newTag).getPublisherTagUnits();
           for (PUBL_TAG publisherTag : publisherTagUnits) {
             Descriptor descriptor = publisherTag.getDescriptor();
-            int headingNumber = createOrReplaceDescriptor( configuration, descriptor, view);
-            headingNumberList.add(headingNumber);
-            heading.setKeyNumber(headingNumber);
+            int keyNumber = createOrReplaceDescriptor( configuration, descriptor, view);
+            headingNumberList.add(keyNumber);
+            heading.setKeyNumber(keyNumber);
             heading.setCategoryCode(newTag.getCategory());
           }
         }else{
@@ -1693,7 +1693,7 @@ public class StorageService implements Closeable {
           final Descriptor d = descriptorDao.load(heading.getKeyNumber(), view, session);
           if (d != null) {
             d.setSkipInFiling(skipInFiling);
-            d.setStringText(descriptor.getStringText());
+            d.setDisplayValue(descriptor.getDisplayValue());
             d.getDAO().update(d, session);
           }
         }

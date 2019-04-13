@@ -30,7 +30,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
   private char governmentAgency = ' ';
   private String headingLanguage = "und"; // no longer used in authorities
 
-  private int headingNumber = -1;
+  private int keyNumber = -1;
   private char headingStatus = 'n';
   private String headingType = "NH";
   private char mainAddedEntryIndicator = 'a';
@@ -187,15 +187,15 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
   /**
    * @since 1.0
    */
-  public int getHeadingNumber() {
-    return headingNumber;
+  public int getKeyNumber() {
+    return keyNumber;
   }
 
   /**
    * @since 1.0
    */
-  public void setHeadingNumber(int i) {
-    headingNumber = i;
+  public void setKeyNumber(int i) {
+    keyNumber = i;
   }
 
   /**

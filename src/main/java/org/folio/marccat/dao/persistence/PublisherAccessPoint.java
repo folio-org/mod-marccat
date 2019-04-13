@@ -3,7 +3,6 @@ package org.folio.marccat.dao.persistence;
 import org.folio.marccat.business.cataloguing.bibliographic.BibliographicAccessPoint;
 import org.folio.marccat.business.descriptor.PublisherTagDescriptor;
 import org.folio.marccat.config.log.Global;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
@@ -103,12 +102,12 @@ public class PublisherAccessPoint extends BibliographicAccessPoint {
       return false;
 
     final PublisherAccessPoint other = (PublisherAccessPoint) obj;
-    if (this.getHeadingNumber() == null) {
+    if (this.getKeyNumber() == null) {
       return (other.getItemNumber() == this.getItemNumber() && other.getUserViewString().equals(this.getUserViewString())
-        && other.getHeadingNumber() == null && other.getFunctionCode() == this.getFunctionCode());
+        && other.getKeyNumber() == null && other.getFunctionCode() == this.getFunctionCode());
     } else {
       return (other.getItemNumber() == this.getItemNumber() && other.getUserViewString().equals(this.getUserViewString())
-        && (!(other.getHeadingNumber() == null)) && other.getHeadingNumber().equals(this.getHeadingNumber())
+        && (!(other.getKeyNumber() == null)) && other.getKeyNumber().equals(this.getKeyNumber())
         && other.getFunctionCode() == this.getFunctionCode());
     }
   }
@@ -189,7 +188,7 @@ public class PublisherAccessPoint extends BibliographicAccessPoint {
    * @param stringText -- the string text to set.
    */
   public void setDescriptorStringText(final StringText stringText) {
-    getDescriptor().setStringText(stringText.getSubfieldsWithoutCodes(Global.PUBLISHER_VARIANT_CODES).toString());
+    getDescriptor().setDisplayValue(stringText.getSubfieldsWithoutCodes(Global.PUBLISHER_VARIANT_CODES).toString());
   }
 
   /**
@@ -198,8 +197,8 @@ public class PublisherAccessPoint extends BibliographicAccessPoint {
    * @param i -- the heading number to set.
    */
   @Override
-  public void setHeadingNumber(final Integer i) {
-    headingNumber = (i != null && i == 0) ? null : i;
+  public void setKeyNumber(final Integer i) {
+    keyNumber = (i != null && i == 0) ? null : i;
   }
 
   /**

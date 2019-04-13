@@ -99,7 +99,7 @@ public abstract class AuthorityReferenceTag
   }
 
   public void generateNewKey() {
-    getReference().setSource(getAutItm().getHeadingNumber());
+    getReference().setSource(getAutItm().getKeyNumber());
   }
 
   /**
@@ -214,15 +214,15 @@ public abstract class AuthorityReferenceTag
    * @see Browsable#getEditableSubfields()
    */
   public StringText getEditableSubfields() {
-    return new StringText(getReference().getStringText());
+    return new StringText(getReference().getDisplayValue());
   }
 
 
   /* (non-Javadoc)
-   * @see Browsable#getHeadingNumber()
+   * @see Browsable#getKeyNumber()
    */
-  public Integer getHeadingNumber() {
-    int result = getAutItm().getHeadingNumber();
+  public Integer getKeyNumber() {
+    int result = getAutItm().getKeyNumber();
     if (result > 0) {
       return result;
     } else {
@@ -231,9 +231,9 @@ public abstract class AuthorityReferenceTag
   }
 
   /* (non-Javadoc)
-   * @see Browsable#setHeadingNumber(java.lang.Integer)
+   * @see Browsable#setKeyNumber(java.lang.Integer)
    */
-  public void setHeadingNumber(Integer i) {
+  public void setKeyNumber(Integer i) {
     int setting;
     if (i == null) {
       setting = -1;
@@ -380,8 +380,8 @@ public abstract class AuthorityReferenceTag
 
   @Override
   public StringText getStringText() {
-    StringText result = new StringText(getTargetDescriptor().getStringText());
-    StringText variantCodes = new StringText(getReference().getStringText());
+    StringText result = new StringText(getTargetDescriptor().getDisplayValue());
+    StringText variantCodes = new StringText(getReference().getDisplayValue());
     StringText subi = variantCodes.getSubfieldsWithCodes("i");
     if (subi.getNumberOfSubfields() == 1) {
       result.addSubfield(0, subi.getSubfield(0));
@@ -391,12 +391,12 @@ public abstract class AuthorityReferenceTag
   }
 
   /* (non-Javadoc)
-   * @see VariableField#setStringText(org.folio.marccat.util.StringText)
+   * @see VariableField#setDisplayValue(org.folio.marccat.util.StringText)
    */
   public void setStringText(StringText stringText) {
     //paulm aut
-    getReference().setStringText(stringText.getSubfieldsWithCodes(getVariantCodes()).toString());
-    logger.debug("REF.StringText = " + getReference().getStringText());
+    getReference().setDisplayValue(stringText.getSubfieldsWithCodes(getVariantCodes()).toString());
+    logger.debug("REF.StringText = " + getReference().getDisplayValue());
     // no setting of descriptor from worksheet
   }
 
@@ -415,7 +415,7 @@ public abstract class AuthorityReferenceTag
     /*
      * make sure that the new descriptor is compatible with the reference class
      */
-    reference.setTarget(descriptor.getKey().getHeadingNumber());
+    reference.setTarget(descriptor.getKey().getKeyNumber());
   }
 
   /* (non-Javadoc)
@@ -593,7 +593,7 @@ public abstract class AuthorityReferenceTag
    * @see Browsable#setDescriptorStringText(org.folio.marccat.util.StringText)
    */
   public void setDescriptorStringText(StringText tagStringText) {
-    getTargetDescriptor().setStringText(
+    getTargetDescriptor().setDisplayValue(
       tagStringText.getSubfieldsWithoutCodes("w").toString());
   }
 

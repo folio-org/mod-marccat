@@ -254,7 +254,7 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
    * @param stringText -- the string text to set.
    */
   public void setDescriptorStringText(final StringText stringText) {
-    getDescriptor().setStringText(stringText.getSubfieldsWithoutCodes(Global.SUBJECT_VARIANT_CODES).toString());
+    getDescriptor().setDisplayValue(stringText.getSubfieldsWithoutCodes(Global.SUBJECT_VARIANT_CODES).toString());
   }
 
   /**

@@ -56,7 +56,7 @@ public class ClassificationAccessPoint extends BibliographicAccessPoint implemen
    * @param stringText -- the string text to set.
    */
   public void setDescriptorStringText(final StringText stringText) {
-    descriptor.setStringText(stringText.toString());
+    descriptor.setDisplayValue(stringText.toString());
   }
 
   /**
@@ -152,7 +152,7 @@ public class ClassificationAccessPoint extends BibliographicAccessPoint implemen
 
     final ClassificationAccessPoint other = (ClassificationAccessPoint) obj;
     return super.equals(obj) && (other.functionCode == this.functionCode)
-      && (other.descriptor.getKey().getHeadingNumber() == this.descriptor.getKey().getHeadingNumber());
+      && (other.descriptor.getKey().getKeyNumber() == this.descriptor.getKey().getKeyNumber());
   }
 
   /**

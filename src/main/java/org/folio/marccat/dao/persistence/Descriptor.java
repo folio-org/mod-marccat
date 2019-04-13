@@ -79,7 +79,7 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
   /**
    * The string text.
    */
-  private String stringText;
+  private String displayValue;
 
   /**
    * The skip in filing.
@@ -103,7 +103,7 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
     setKey(new DescriptorKey());
     StringText s = new StringText();
     s.addSubfield(new Subfield("a", EMPTY_STRING));
-    setStringText(s.toString());
+    setDisplayValue(s.toString());
   }
 
   /**
@@ -111,7 +111,7 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
    */
   @Override
   public void calculateAndSetSortForm() {
-    setSortForm(SortformUtils.get().defaultSortform(getStringText()));
+    setSortForm(SortformUtils.get().defaultSortform(getDisplayValue()));
   }
 
   /**
@@ -227,12 +227,12 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
   }
 
   /**
-   * Helper method to format stringText for display.
+   * Helper method to format displayValue for display.
    *
    * @return the display text
    */
   public String getDisplayText() {
-    return new StringText(getStringText()).toDisplayString();
+    return new StringText(getDisplayValue()).toDisplayString();
   }
 
   /**
@@ -272,21 +272,21 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
   }
 
   /**
-   * Getter for stringText.
+   * Getter for displayValue.
    *
-   * @return stringText
+   * @return displayValue
    */
-  public String getStringText() {
-    return stringText;
+  public String getDisplayValue() {
+    return displayValue;
   }
 
   /**
-   * Setter for stringText.
+   * Setter for displayValue.
    *
-   * @param string stringText
+   * @param string displayValue
    */
-  public void setStringText(String string) {
-    stringText = string;
+  public void setDisplayValue(String string) {
+    displayValue = string;
   }
 
   /**
@@ -517,7 +517,7 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
    * @return the heading number
    */
   public int getHeadingNumber() {
-    return key.getHeadingNumber();
+    return key.getKeyNumber();
   }
 
   /**
@@ -525,8 +525,8 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
    *
    * @param i the new heading number
    */
-  public void setHeadingNumber(int i) {
-    key.setHeadingNumber(i);
+  public void setKeyNumber(int i) {
+    key.setKeyNumber(i);
   }
 
 
@@ -635,7 +635,7 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
    */
   public void generateNewKey(final Session session) throws HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
-    getKey().setHeadingNumber(dao.getNextNumber(getNextNumberKeyFieldCode(), session));
+    getKey().setKeyNumber(dao.getNextNumber(getNextNumberKeyFieldCode(), session));
   }
 
   /**
@@ -646,7 +646,7 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
    */
   @Deprecated
   public void validate() {
-    StringText st = new StringText(getStringText());
+    StringText st = new StringText(getDisplayValue());
     if (st.getSubfieldList().isEmpty()) {
       throw new DescriptorHasNoSubfieldsException();
     }
@@ -753,7 +753,7 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
    * Gets the heading number search index key.
    *
    * @return the language independent index key value to be used when
-   * searching by headingNumber for this type of Descriptor (e.g.
+   * searching by keyNumber for this type of Descriptor (e.g.
    * Names == "227P" (NK index)).
    */
   public abstract String getHeadingNumberSearchIndexKey();

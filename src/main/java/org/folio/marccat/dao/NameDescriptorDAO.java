@@ -60,7 +60,7 @@ public class NameDescriptorDAO extends DAODescriptor {
         + " and ref.sourceHeadingType = 'NH' "
         + " and ref.userViewString = '" + View.makeSingleViewString(cataloguingView) + "'",
       new Object[]{
-        source.getKey().getHeadingNumber()},
+        source.getKey().getKeyNumber()},
       new Type[]{
         Hibernate.INTEGER});
     count = count + countList.get(0);
@@ -71,7 +71,7 @@ public class NameDescriptorDAO extends DAODescriptor {
           + " and ref.sourceHeadingType = 'NH' "
           + " and ref.userViewString = '" + View.makeSingleViewString(cataloguingView) + "'",
         new Object[]{
-          source.getKey().getHeadingNumber()},
+          source.getKey().getKeyNumber()},
         new Type[]{
           Hibernate.INTEGER});
     count = count + countList.get(0);
@@ -101,7 +101,7 @@ public class NameDescriptorDAO extends DAODescriptor {
           + " and ref.sourceHeadingType = 'NH' "
           + " and ref.userViewString = '" + View.makeSingleViewString(cataloguingView) + "'",
         new Object[]{
-          source.getKey().getHeadingNumber()},
+          source.getKey().getKeyNumber()},
         new Type[]{
           Hibernate.INTEGER}));
     refList.addAll(
@@ -111,7 +111,7 @@ public class NameDescriptorDAO extends DAODescriptor {
           + " and ref.sourceHeadingType = 'NH' "
           + " and ref.userViewString = '" + View.makeSingleViewString(cataloguingView) + "'",
         new Object[]{
-          source.getKey().getHeadingNumber()},
+          source.getKey().getKeyNumber()},
         new Type[]{
           Hibernate.INTEGER}));
     return refList;
@@ -182,7 +182,7 @@ public class NameDescriptorDAO extends DAODescriptor {
           + " t.nameHeadingNumber = ? and "
           + " t.key.userViewString = '" + View.makeSingleViewString(View.toIntView(nameHeading.getUserViewString())) + "'",
         new Object[]{
-          nameHeading.getKey().getHeadingNumber()},
+          nameHeading.getKey().getKeyNumber()},
         new Type[]{
           Hibernate.INTEGER});
     if (countList.get(0) > 0) {
@@ -214,15 +214,15 @@ public class NameDescriptorDAO extends DAODescriptor {
         + " and c.typeCode =? "
         + " and c.subTypeCode =? "
         + " and c.key.userViewString = ?"
-        + " and c.key.headingNumber <> ?",
+        + " and c.key.keyNumber <> ?",
       new Object[]{
-        nameHeading.getStringText(),
+        nameHeading.getDisplayValue(),
         nameHeading.getIndexingLanguage(),
         nameHeading.getAccessPointLanguage(),
         nameHeading.getTypeCode(),
         nameHeading.getSubTypeCode(),
         nameHeading.getUserViewString(),
-        nameHeading.getKey().getHeadingNumber()},
+        nameHeading.getKey().getKeyNumber()},
       new Type[]{Hibernate.STRING,
         Hibernate.INTEGER,
         Hibernate.INTEGER,

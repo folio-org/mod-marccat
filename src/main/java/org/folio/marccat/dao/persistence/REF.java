@@ -75,7 +75,7 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
   /**
    * The string text.
    */
-  private String stringText;
+  private String displayValue;
 
   /**
    * The target string text.
@@ -128,8 +128,8 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
    */
   public void init(Descriptor source, Descriptor target, int referenceType, int cataloguingView) {
     setKey(new RefKey());
-    getKey().setSource(source.getKey().getHeadingNumber());
-    getKey().setTarget(target.getKey().getHeadingNumber());
+    getKey().setSource(source.getKey().getKeyNumber());
+    getKey().setTarget(target.getKey().getKeyNumber());
     getKey().setType(referenceType);
     getKey().setUserViewString(View.makeSingleViewString(cataloguingView));
     setDefault();
@@ -346,17 +346,17 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
    *
    * @return the string text
    */
-  public String getStringText() {
-    return stringText;
+  public String getDisplayValue() {
+    return displayValue;
   }
 
   /**
    * Sets the string text.
    *
-   * @param stringText the new string text
+   * @param displayValue the new string text
    */
-  public void setStringText(String stringText) {
-    this.stringText = stringText;
+  public void setDisplayValue(String displayValue) {
+    this.displayValue = displayValue;
   }
 
   /**

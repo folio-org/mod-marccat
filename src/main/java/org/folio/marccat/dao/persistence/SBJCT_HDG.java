@@ -285,7 +285,7 @@ public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling 
   @Override
   public String buildBrowseTerm() {
     String returnString = "";
-    StringText text = new StringText(getStringText());
+    StringText text = new StringText(getDisplayValue());
     Iterator iter = text.getSubfieldList().iterator();
     while (iter.hasNext()) {
       Subfield aStringTextSubField = (Subfield) iter.next();
@@ -307,7 +307,7 @@ public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling 
 
   @Override
   public void calculateAndSetSortForm() throws SortFormException {
-    StringText st = SortformUtils.get().stripSkipInFiling(getStringText(), (short) getSkipInFiling());
+    StringText st = SortformUtils.get().stripSkipInFiling(getDisplayValue(), (short) getSkipInFiling());
     StringBuilder result = new StringBuilder();
     for (int i = 0; i < st.getNumberOfSubfields(); i++) {
       Subfield sf = st.getSubfield(i);

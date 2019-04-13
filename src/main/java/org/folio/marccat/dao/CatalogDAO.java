@@ -79,15 +79,15 @@ public abstract class CatalogDAO extends AbstractDAO {
   }
 
   private void loadHeading(final AccessPoint tag, final int userView, final Session session) {
-    if (tag.getHeadingNumber() != null) {
+    if (tag.getKeyNumber() != null) {
       try {
-        Descriptor descriptor = tag.getDAODescriptor().load(tag.getHeadingNumber(), userView, session);
+        Descriptor descriptor = tag.getDAODescriptor().load(tag.getKeyNumber(), userView, session);
         if (descriptor == null)
-          throw new DataAccessException(String.format(Message.MOD_MARCCAT_00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
+          throw new DataAccessException(String.format(Message.MOD_MARCCAT_00016_NO_HEADING_FOUND, tag.getKeyNumber()));
         tag.setDescriptor(descriptor);
 
       } catch (HibernateException e) {
-        throw new DataAccessException(String.format(Message.MOD_MARCCAT_00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
+        throw new DataAccessException(String.format(Message.MOD_MARCCAT_00016_NO_HEADING_FOUND, tag.getKeyNumber()));
       }
     }
   }

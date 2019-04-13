@@ -265,7 +265,7 @@ public class TitleAccessPoint extends NameTitleComponent implements OrderedTag {
     final StringText result = new StringText();
     result.add(getAccessPointStringText().getSubfieldsWithCodes("i"));
     if (getDescriptor() != null) {
-      result.parse(getDescriptor().getStringText());
+      result.parse(getDescriptor().getDisplayValue());
     }
     result.add(getAccessPointStringText().getSubfieldsWithoutCodes("i"));
     return result;
@@ -307,7 +307,7 @@ public class TitleAccessPoint extends NameTitleComponent implements OrderedTag {
    * @param stringText -- the string text to set.
    */
   public void setDescriptorStringText(final StringText stringText) {
-    getDescriptor().setStringText(
+    getDescriptor().setDisplayValue(
       stringText.getSubfieldsWithoutCodes(getVariantCodes()).toString());
   }
 

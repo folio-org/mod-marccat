@@ -27,7 +27,7 @@ import net.sf.hibernate.Session;
  */
 public abstract class AccessPoint extends VariableField implements Persistence, Browsable {
 
-  protected Integer headingNumber = null;
+  protected Integer keyNumber = null;
   protected int functionCode = -1;
 
 
@@ -59,7 +59,7 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
   public StringText getStringText() {
     final StringText result = new StringText();
     if (getDescriptor() != null) {
-      result.parse(getDescriptor().getStringText());
+      result.parse(getDescriptor().getDisplayValue());
     }
     result.add(getAccessPointStringText());
     return result;
@@ -79,12 +79,12 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
     return true;
   }
 
-  public Integer getHeadingNumber() {
-    return headingNumber;
+  public Integer getKeyNumber() {
+    return keyNumber;
   }
 
-  public void setHeadingNumber(Integer i) {
-    headingNumber = i;
+  public void setKeyNumber(Integer i) {
+    keyNumber = i;
   }
 
   @Override
@@ -98,7 +98,7 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
         setDescriptor(d);
       }
     }
-    setHeadingNumber(getDescriptor().getKey().getHeadingNumber());
+    setKeyNumber(getDescriptor().getKey().getKeyNumber());
   }
 
   @Override
@@ -115,10 +115,10 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
     }
     AccessPoint other = (AccessPoint) obj;
     if (super.equals(obj)) {
-      if (other.getHeadingNumber() != null) {
-        return other.getHeadingNumber().equals(this.getHeadingNumber());
+      if (other.getKeyNumber() != null) {
+        return other.getKeyNumber().equals(this.getKeyNumber());
       } else {
-        return this.getHeadingNumber() == null;
+        return this.getKeyNumber() == null;
       }
     } else {
       return false;
@@ -196,7 +196,7 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
    */
   @Override
   public int hashCode() {
-    return ofNullable(getHeadingNumber()).map(hashCode -> getItemNumber() + getHeadingNumber().intValue())
+    return ofNullable(getKeyNumber()).map(hashCode -> getItemNumber() + getKeyNumber().intValue())
       .orElse(getItemNumber());
   }
 

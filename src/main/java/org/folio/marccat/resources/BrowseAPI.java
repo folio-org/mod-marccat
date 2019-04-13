@@ -83,16 +83,16 @@ public class BrowseAPI extends BaseResource {
   @GetMapping("/headings-by-tag")
   public HeadingDecoratorCollection getHeadingsByTag(
     @RequestParam final String tag,
-    @RequestParam final String indicator1,
-    @RequestParam final String indicator2,
-    @RequestParam final String stringText,
+    @RequestParam final String ind1,
+    @RequestParam final String ind2,
+    @RequestParam final String displayValue,
     @RequestParam final int view,
     @RequestParam final int mainLibrary,
     @RequestParam final int pageSize,
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
     return doGet((storageService, configuration) -> {
-      List<MapHeading> headings = storageService.getHeadingsByTag(tag, indicator1, indicator2, stringText, view, mainLibrary, pageSize, lang);
+      List<MapHeading> headings = storageService.getHeadingsByTag(tag, ind1, ind2, displayValue, view, mainLibrary, pageSize, lang);
       final HeadingDecoratorCollection headingCollection = new HeadingDecoratorCollection();
       headingCollection.setHeadings(headings
         .stream()

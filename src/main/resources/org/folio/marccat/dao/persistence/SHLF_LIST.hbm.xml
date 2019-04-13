@@ -14,7 +14,7 @@
 		<property name="typeCode">
 			<column name="SHLF_LIST_TYP_CDE" sql-type="CHAR (1)" not-null="true"/>
 		</property>
-		<property name="stringText">
+		<property name="displayValue">
 			<column name="SHLF_LIST_STRNG_TEXT" sql-type="VARCHAR2 (384)" not-null="true"/>
 		</property>
 		<property name="sortForm">

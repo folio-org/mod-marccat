@@ -6,7 +6,7 @@
 <hibernate-mapping package="org.folio.marccat.dao.persistence">
 <class name="CLSTN" table="CLSTN">
 	<composite-id name="key" class="DescriptorKey">
-        <key-property name="headingNumber" column="CLSTN_KEY_NBR"/>
+        <key-property name="keyNumber" column="CLSTN_KEY_NBR"/>
         <key-property name="userViewString" column="USR_VW_IND" length="16"/>
     </composite-id>    
     <property name="deweyEditionNumber"> 
@@ -21,7 +21,7 @@
     <property name="sortForm"> 
             <column name="CLSTN_SRT_FORM"/>
 	</property>       
-    <property name="stringText"> 
+    <property name="displayValue">
             <column name="CLSTN_STRNG_TXT"/>
 	</property>       
 </class>

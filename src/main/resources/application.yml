@@ -8,11 +8,12 @@ logging:
   level:
     root: ERROR
     org.springframework: ERROR
-    net.sf.hibernate: ERROR
+    net.sf.hibernate: DEBUG
     net.sf.hibernate.SQL: DEBUG
-    #net.sf.hibernate.type: INFO
+    net.sf.hibernate.type: TRACE
+    net.sf.hibernate.hql: DEBUG
     org.folio.marccat.integration.search: DEBUG
-    ru.yandex: ERROR
+    ru.yandex: DEBUG
     org.folio.marccat: INFO
 
 server:

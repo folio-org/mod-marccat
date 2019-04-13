@@ -21,7 +21,7 @@ public abstract class VariableHeader extends VariableField implements HeaderFiel
   }
 
   /* (non-Javadoc)
-   * @see VariableField#getStringText()
+   * @see VariableField#getDisplayValue()
    */
   public StringText getStringText() {
 
@@ -29,7 +29,7 @@ public abstract class VariableHeader extends VariableField implements HeaderFiel
   }
 
   /* (non-Javadoc)
-   * @see VariableField#setStringText(org.folio.marccat.util.StringText)
+   * @see VariableField#setDisplayValue(org.folio.marccat.util.StringText)
    */
   public void setStringText(StringText stringText) {
 

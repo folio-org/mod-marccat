@@ -10,7 +10,7 @@
 >
     <composite-id name="key" class="org.folio.marccat.dao.persistence.DescriptorKey">
         <key-property 
-            name="headingNumber" 
+            name="keyNumber"
             column="NME_TTL_HDG_NBR"/>
         <key-property 
             name="userViewString" 

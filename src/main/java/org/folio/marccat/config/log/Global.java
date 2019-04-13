@@ -33,6 +33,7 @@ public abstract class Global {
   public static final String EMPTY_STRING = "";
   public static final String EMPTY_VALUE = " ";
   public static final String SUBFIELD_DELIMITER_FOR_VIEW = "\\$";
+  public static final String USER_VIEW_STRING = "1000000000000000";
   public static final String MAP_CODE = "a";
   public static final String ELECTRONIC_RESOURCE = "c";
   public static final String GLOBE = "d";

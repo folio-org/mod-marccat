@@ -35,7 +35,7 @@
 		<property name="verificationLevel" not-null="true">
 			<column name="VRFTN_LVL_CDE" sql-type="CHAR (1)"/>
 		</property>
-		<property name="stringText">
+		<property name="displayValue">
 			<column name="STRNG_TXT"/>
 		</property>
 	</class>

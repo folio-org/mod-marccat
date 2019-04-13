@@ -132,7 +132,7 @@
 
 	<class name="org.folio.marccat.dao.persistence.NameAccessPoint" schema="amicus" table="NME_ACS_PNT">
 		<composite-id>
-			<key-property name="headingNumber" column="NME_HDG_NBR"/>
+			<key-property name="keyNumber" column="NME_HDG_NBR"/>
 			<key-property name="bibItemNumber" column="BIB_ITM_NBR"/>
 			<key-property name="nameTitleHeadingNumber" column="NME_TTL_HDG_NBR"/>
 			<key-property name="userViewString" column="USR_VW_IND" length="16"/>
@@ -162,7 +162,7 @@
 		<composite-id>
 			<key-property name="bibItemNumber" column="BIB_ITM_NBR"/>
 			<key-property name="userViewString" column="USR_VW_IND" length="16"/>
-			<key-property name="headingNumber" column="PUBL_TAG_NBR"/>
+			<key-property name="keyNumber" column="PUBL_TAG_NBR"/>
 			<key-property name="functionCode" column="PUBL_FNCTN_CDE"/>
 		</composite-id>
 		<property name="sequenceNumber">
@@ -172,7 +172,7 @@
 
 	<class name="org.folio.marccat.dao.persistence.TitleAccessPoint" schema="amicus" table="TTL_ACS_PNT">
 		<composite-id>
-			<key-property name="headingNumber" column="TTL_HDG_NBR"/>
+			<key-property name="keyNumber" column="TTL_HDG_NBR"/>
 			<key-property name="bibItemNumber" column="BIB_ITM_NBR"/>
 			<key-property name="nameTitleHeadingNumber" column="NME_TTL_HDG_NBR"/>
 			<key-property name="userViewString" column="USR_VW_IND" length="16"/>
@@ -204,7 +204,7 @@
 	<class name="org.folio.marccat.dao.persistence.NameTitleAccessPoint" schema="amicus" table="NME_TTL_ACS_PNT">
 		<composite-id>
 			<key-property name="bibItemNumber" column="BIB_ITM_NBR"/>
-			<key-property name="headingNumber" column="NME_TTL_HDG_NBR"/>
+			<key-property name="keyNumber" column="NME_TTL_HDG_NBR"/>
 			<key-property name="userViewString" column="USR_VW_IND" length="16"/>
 		</composite-id>
 		<property name="functionCode" column="NME_TTL_FNCTN_CDE"/>
@@ -230,7 +230,7 @@
 
 	<class name="org.folio.marccat.dao.persistence.SubjectAccessPoint" schema="amicus" table="SBJCT_ACS_PNT">
 		<composite-id>
-			<key-property name="headingNumber" column="SBJCT_HDG_NBR"/>
+			<key-property name="keyNumber" column="SBJCT_HDG_NBR"/>
 			<key-property name="bibItemNumber" column="BIB_ITM_NBR"/>
 			<key-property name="userViewString" column="USR_VW_IND" length="16"/>
 			<key-property name="functionCode" column="SBJCT_FNCTN_CDE"/>
@@ -252,7 +252,7 @@
 
 	<class name="org.folio.marccat.dao.persistence.ClassificationAccessPoint" schema="amicus" table="CLSTN_ITM_ACS_PNT">
 		<composite-id>
-			<key-property name="headingNumber" column="CLSTN_KEY_NBR"/>
+			<key-property name="keyNumber" column="CLSTN_KEY_NBR"/>
 			<key-property name="bibItemNumber" column="BIB_ITM_NBR"/>
 			<key-property name="userViewString" column="USR_VW_IND" length="16"/>
 			<key-property name="functionCode" column="CLSTN_FNCTN_CDE"/>
@@ -264,7 +264,7 @@
 
 	<class name="org.folio.marccat.dao.persistence.ControlNumberAccessPoint" schema="amicus" table="CNTL_NBR_ACS_PNT">
 		<composite-id>
-			<key-property name="headingNumber" column="CNTL_KEY_NBR"/>
+			<key-property name="keyNumber" column="CNTL_KEY_NBR"/>
 			<key-property name="bibItemNumber" column="BIB_ITM_NBR"/>
 			<key-property name="userViewString" column="USR_VW_IND" length="16"/>
 			<key-property name="functionCode" column="CNTL_NBR_FNCTN_CDE"/>

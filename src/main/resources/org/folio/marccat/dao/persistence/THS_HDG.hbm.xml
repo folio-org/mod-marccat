@@ -5,7 +5,7 @@
 <hibernate-mapping package="org.folio.marccat.dao.persistence">
 	<class name="THS_HDG" table="THS_HDG">
 		<composite-id name="key" class="DescriptorKey">
-			<key-property name="headingNumber" column="THS_HDG_NBR"/>
+			<key-property name="keyNumber" column="THS_HDG_NBR"/>
 			<key-property name="userViewString" column="USR_VW_IND" length="16"/>
 		</composite-id>
 		<property name="authorityCount">
@@ -32,7 +32,7 @@
 		<property name="sortForm">
 			<column name="THS_HDG_SRT_FORM"/>
 		</property>
-		<property name="stringText">
+		<property name="displayValue">
 			<column name="THS_HDG_STRNG_TXT"/>
 		</property>
 	</class>

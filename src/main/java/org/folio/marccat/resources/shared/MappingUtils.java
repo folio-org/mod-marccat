@@ -15,8 +15,8 @@ public class MappingUtils {
 
   public static final Function<MapHeading, HeadingDecorator> toHeading = source -> {
     final HeadingDecorator heading = new HeadingDecorator();
-    heading.setHeadingNumber(source.getHeadingNumber());
-    heading.setStringText(source.getStringText());
+    heading.setKeyNumber(source.getKeyNumber());
+    heading.setDisplayValue(source.getDisplayValue());
     heading.setCountAuthorities(source.getCountAuthorities());
     heading.setCountDocuments(source.getCountDocuments());
     heading.setCountTitleNameDocuments(source.getCountTitleNameDocuments());

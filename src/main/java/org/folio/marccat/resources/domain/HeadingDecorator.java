@@ -15,14 +15,14 @@ import java.util.List;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({"headingNumber", "stringText", "countNameTitle", "countAuthorities", "countDocuments", "crossReferences"})
+@JsonPropertyOrder({"keyNumber", "displayValue", "countNameTitle", "countAuthorities", "countDocuments", "crossReferences"})
 public class HeadingDecorator {
 
-  @JsonProperty("headingNumber")
-  private Integer headingNumber;
+  @JsonProperty("keyNumber")
+  private Integer keyNumber;
 
-  @JsonProperty("stringText")
-  private String stringText;
+  @JsonProperty("displayValue")
+  private String displayValue;
 
   @JsonProperty("countTitleNameDocuments")
   private Integer countTitleNameDocuments;
@@ -42,44 +42,44 @@ public class HeadingDecorator {
 
 
   /**
-   * @return The headingNumber
+   * @return The keyNumber
    */
-  @JsonProperty("headingNumber")
-  public Integer getHeadingNumber() {
-    return headingNumber;
+  @JsonProperty("keyNumber")
+  public Integer getKeyNumber() {
+    return keyNumber;
   }
 
   /**
-   * @param headingNumber The headingNumber
+   * @param keyNumber The keyNumber
    */
-  @JsonProperty("headingNumber")
-  public void setHeadingNumber(Integer headingNumber) {
-    this.headingNumber = headingNumber;
+  @JsonProperty("keyNumber")
+  public void setKeyNumber(Integer keyNumber) {
+    this.keyNumber = keyNumber;
   }
 
-  public HeadingDecorator withHeadingNumber(Integer headingNumber) {
-    this.headingNumber = headingNumber;
+  public HeadingDecorator withKeyNumber(Integer keyNumber) {
+    this.keyNumber = keyNumber;
     return this;
   }
 
   /**
-   * @return The stringText
+   * @return The displayValue
    */
-  @JsonProperty("stringText")
-  public String getStringText() {
-    return stringText;
+  @JsonProperty("displayValue")
+  public String getDisplayValue() {
+    return displayValue;
   }
 
   /**
-   * @param stringText The stringText
+   * @param stringText The displayValue
    */
-  @JsonProperty("stringText")
-  public void setStringText(String stringText) {
-    this.stringText = stringText;
+  @JsonProperty("displayValue")
+  public void setDisplayValue(String stringText) {
+    this.displayValue = stringText;
   }
 
-  public HeadingDecorator withStringText(String stringText) {
-    this.stringText = stringText;
+  public HeadingDecorator withDisplayValue(String displayValue) {
+    this.displayValue = displayValue;
     return this;
   }
 

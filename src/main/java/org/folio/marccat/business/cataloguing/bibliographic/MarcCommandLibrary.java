@@ -77,8 +77,8 @@ public class MarcCommandLibrary {
 
     /* -- End block -- */
 
-    tag.setHeadingNumber(
-      (newDescriptor.getKey().getHeadingNumber()));
+    tag.setKeyNumber(
+      (newDescriptor.getKey().getKeyNumber()));
   }
 
   public static Tag replaceTagWithClone(CatalogItem catalogItem, Tag srcTag) {
@@ -101,7 +101,7 @@ public class MarcCommandLibrary {
     if (!currDescriptor.isNew()) return currDescriptor;
     Descriptor matchDescriptor = ((DAODescriptor) currDescriptor.getDAO()).getMatchingHeading(currDescriptor, session);
     if (matchDescriptor == null) {
-      if (currDescriptor.getKey().getHeadingNumber() == -1) {// key is not null by default
+      if (currDescriptor.getKey().getKeyNumber() == -1) {// key is not null by default
         currDescriptor.generateNewKey(session);
         currDescriptor.getKey().setUserViewString(headingView);
       }
@@ -124,7 +124,7 @@ public class MarcCommandLibrary {
     } else {
       newDescriptor = createNewDescriptor(tag.getDescriptor(), headingView, session);
       tag.setDescriptor(newDescriptor);
-      tag.setHeadingNumber((newDescriptor.getKey().getHeadingNumber()));
+      tag.setKeyNumber((newDescriptor.getKey().getKeyNumber()));
     }
   }
 

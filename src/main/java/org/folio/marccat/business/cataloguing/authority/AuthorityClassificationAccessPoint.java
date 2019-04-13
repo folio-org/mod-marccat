@@ -6,7 +6,6 @@ import org.folio.marccat.dao.DAOAuthorityCorrelation;
 import org.folio.marccat.dao.persistence.CLSTN;
 import org.folio.marccat.dao.persistence.Descriptor;
 import org.folio.marccat.dao.persistence.T_AUT_CLSTN_FNCTN;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
@@ -109,7 +108,7 @@ public class AuthorityClassificationAccessPoint extends AuthorityAccessPoint {
   }
 
   /* (non-Javadoc)
-   * @see VariableField#getStringText()
+   * @see VariableField#getDisplayValue()
    */
   @Override
   public StringText getStringText() {
@@ -136,7 +135,7 @@ public class AuthorityClassificationAccessPoint extends AuthorityAccessPoint {
    * @see AccessPoint#setDescriptorStringText(org.folio.marccat.util.StringText)
    */
   public void setDescriptorStringText(StringText tagStringText) {
-    getDescriptor().setStringText(
+    getDescriptor().setDisplayValue(
       tagStringText.getSubfieldsWithoutCodes(VARIANT_CODES).toString());
   }
 

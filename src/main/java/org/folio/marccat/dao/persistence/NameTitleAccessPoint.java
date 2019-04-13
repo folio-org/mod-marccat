@@ -211,7 +211,7 @@ public class NameTitleAccessPoint extends NameTitleComponent implements OrderedT
    * @param stringText -- the stringText to set.
    */
   public void setDescriptorStringText(StringText stringText) {
-    getDescriptor().setStringText(stringText.getSubfieldsWithoutCodes(Global.NAME_TITLE_VARIANT_CODES).toString());
+    getDescriptor().setDisplayValue(stringText.getSubfieldsWithoutCodes(Global.NAME_TITLE_VARIANT_CODES).toString());
   }
 
   /**

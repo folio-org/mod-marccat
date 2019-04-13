@@ -59,7 +59,7 @@ public class PUBL_TAG implements PersistentObjectWithView {
   public String getStringText() {
     final StringBuilder builder = new StringBuilder();
     builder.append(new StringText(getOtherSubfields()).getSubfieldsWithCodes("368").toString())
-      .append((getDescriptor() != null) ? getDescriptor().getStringText() : "")
+      .append((getDescriptor() != null) ? getDescriptor().getDisplayValue() : "")
       .append(new StringText(getOtherSubfields()).getSubfieldsWithoutCodes("368").toString());
 
     return builder.toString();
@@ -70,7 +70,7 @@ public class PUBL_TAG implements PersistentObjectWithView {
    */
   public void setStringText(String stringText) {
     StringText s = new StringText(stringText);
-    getDescriptor().setStringText(s.getSubfieldsWithoutCodes("cefg").toString());
+    getDescriptor().setDisplayValue(s.getSubfieldsWithoutCodes("cefg").toString());
     setOtherSubfields(s.getSubfieldsWithCodes("cefg").toString());
   }
 

@@ -70,7 +70,7 @@ public class PublisherManagerDAO extends AbstractDAO {
 
       session.evict(apf);
       apf.markNew();
-      apf.setHeadingNumber((tagNumber));
+      apf.setKeyNumber((tagNumber));
       persistByStatus(apf, session);
 
       tx.commit();

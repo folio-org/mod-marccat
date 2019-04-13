@@ -93,14 +93,14 @@ public class PublisherDescriptorDAO extends DAODescriptor {
         + " and c.indexingLanguage = ? "
         + " and c.accessPointLanguage = ?"
         + " and c.key.userViewString = ? "
-        + " and c.key.headingNumber <> ?",
+        + " and c.key.keyNumber <> ?",
       new Object[]{
         publisher.getNameStringText(),
         publisher.getPlaceStringText(),
         publisher.getIndexingLanguage(),
         publisher.getAccessPointLanguage(),
         publisher.getUserViewString(),
-        descriptor.getKey().getHeadingNumber()},
+        descriptor.getKey().getKeyNumber()},
       new Type[]{Hibernate.STRING,
         Hibernate.STRING,
         Hibernate.INTEGER,
@@ -153,7 +153,7 @@ public class PublisherDescriptorDAO extends DAODescriptor {
       List<Integer> countList =
         session.find(
           "select count(*) from PublisherAccessPoint as a, PUBL_TAG as b "
-            + " where a.headingNumber = b.publisherTagNumber "
+            + " where a.keyNumber = b.publisherTagNumber "
             + " and b.publisherHeadingNumber = ? ",
           new Object[]{
             descriptor.getHeadingNumber()},
@@ -164,7 +164,7 @@ public class PublisherDescriptorDAO extends DAODescriptor {
       List<Integer> countList =
         session.find(
           "select count(*) from PublisherAccessPoint as a, PUBL_TAG as b "
-            + " where a.headingNumber = b.publisherTagNumber "
+            + " where a.keyNumber = b.publisherTagNumber "
             + " and b.publisherHeadingNumber = ? "
             + " and b.userViewString = '" + View.makeSingleViewString(searchingView) + "'",
           new Object[]{

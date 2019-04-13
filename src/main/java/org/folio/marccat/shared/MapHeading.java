@@ -16,12 +16,12 @@ public class MapHeading {
   /**
    * The heading number.
    */
-  private Integer headingNumber;
+  private Integer keyNumber;
 
   /**
    * The string text.
    */
-  private String stringText;
+  private String displayValue;
 
   /**
    * The count title name documents.
@@ -58,17 +58,17 @@ public class MapHeading {
    *
    * @return the heading number
    */
-  public Integer getHeadingNumber() {
-    return headingNumber;
+  public Integer getKeyNumber() {
+    return keyNumber;
   }
 
   /**
    * Sets the heading number.
    *
-   * @param headingNumber the new heading number
+   * @param keyNumber the new heading number
    */
-  public void setHeadingNumber(Integer headingNumber) {
-    this.headingNumber = headingNumber;
+  public void setKeyNumber(Integer keyNumber) {
+    this.keyNumber = keyNumber;
   }
 
   /**
@@ -76,17 +76,17 @@ public class MapHeading {
    *
    * @return the string text
    */
-  public String getStringText() {
-    return stringText;
+  public String getDisplayValue() {
+    return displayValue;
   }
 
   /**
    * Sets the string text.
    *
-   * @param stringText the new string text
+   * @param displayValue the new string text
    */
-  public void setStringText(String stringText) {
-    this.stringText = stringText;
+  public void setDisplayValue(String displayValue) {
+    this.displayValue = displayValue;
   }
 
   /**

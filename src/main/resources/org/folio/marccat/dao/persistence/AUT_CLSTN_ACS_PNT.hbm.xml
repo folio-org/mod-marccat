@@ -15,7 +15,7 @@
             name="itemNumber" 
             column="AUT_NBR"/>
         <key-property 
-            name="headingNumber" 
+            name="keyNumber"
             column="CLSTN_KEY_NBR"/>
         <key-property 
             name="functionCode" 

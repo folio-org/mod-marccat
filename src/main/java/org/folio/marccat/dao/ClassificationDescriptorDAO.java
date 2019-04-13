@@ -66,7 +66,7 @@ public class ClassificationDescriptorDAO extends DAODescriptor {
         + " and c.deweyEditionNumber =?"
         + " and c.key.userViewString = ? ",
       new Object[]{
-        d.getStringText(),
+        d.getDisplayValue(),
         d.getTypeCode(),
         d.getDeweyEditionNumber(),
         d.getUserViewString()},
@@ -98,12 +98,12 @@ public class ClassificationDescriptorDAO extends DAODescriptor {
           + " where c.stringText = ?"
           + " and c.typeCode = ?"
           + " and c.key.userViewString = ? "
-          + " and c.key.headingNumber <> ?",
+          + " and c.key.keyNumber <> ?",
         new Object[]{
-          d.getStringText(),
+          d.getDisplayValue(),
           d.getTypeCode(),
           d.getUserViewString(),
-          d.getKey().getHeadingNumber()},
+          d.getKey().getKeyNumber()},
         new Type[]{
           Hibernate.STRING,
           Hibernate.INTEGER,

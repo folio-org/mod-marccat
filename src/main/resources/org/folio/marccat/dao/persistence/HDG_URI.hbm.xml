@@ -7,7 +7,7 @@
 <class name="HDG_URI"  schema="OLISUITE"  table="HDG_URI">
 
    <composite-id>
-        <key-property name="headingNumber"   column="HDG_NBR"/>
+        <key-property name="keyNumber"   column="HDG_NBR"/>
         <key-property name="userView"        column="USR_VW_IND"/>
         <key-property name="headingTypeCode" column="HDG_TYP_CDE"/>
         <key-property name="sourceId"        column="SRC_ID"/>

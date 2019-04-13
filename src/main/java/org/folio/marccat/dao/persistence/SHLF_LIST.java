@@ -97,7 +97,7 @@ public class SHLF_LIST extends Descriptor implements Serializable {
    */
   public void setShelfListKeyNumber(int i) {
     shelfListKeyNumber = i;
-    getKey().setHeadingNumber(i);
+    getKey().setKeyNumber(i);
   }
 
   /**
@@ -156,14 +156,14 @@ public class SHLF_LIST extends Descriptor implements Serializable {
    * @see Descriptor#generateNewKey()
    */
   /*
-   * The default implementation sets key.headingNumber to the new stringValue.
+   * The default implementation sets key.keyNumber to the new stringValue.
    * SHLF_LIST differs from most descriptors in that the key field is not
    * used (since there are no user views)
    */
   @Override
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
     super.generateNewKey(session);
-    setShelfListKeyNumber(getKey().getHeadingNumber());
+    setShelfListKeyNumber(getKey().getKeyNumber());
   }
 
   /**

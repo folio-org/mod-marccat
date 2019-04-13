@@ -64,8 +64,8 @@ public class NameTitleNameDescriptorDAO extends NameTitleDescriptorDAO {
         + "NME_TTL_HDG as hdg, "
         + "NME_HDG as nme, "
         + "TTL_HDG as ttl"
-        + " where hdg.nameHeadingNumber = nme.key.headingNumber "
-        + " and hdg.titleHeadingNumber = ttl.key.headingNumber "
+        + " where hdg.nameHeadingNumber = nme.key.keyNumber "
+        + " and hdg.titleHeadingNumber = ttl.key.keyNumber "
         + " and nme.sortForm " + operator + " :name "
         + " and hdg.key.userViewString = '" + View.makeSingleViewString(searchingView) + "' "
         + filter
@@ -109,8 +109,8 @@ public class NameTitleNameDescriptorDAO extends NameTitleDescriptorDAO {
           + "NME_TTL_HDG as hdg, "
           + "NME_HDG as nme, "
           + "TTL_HDG as ttl"
-          + " where hdg.nameHeadingNumber = nme.key.headingNumber "
-          + " and hdg.titleHeadingNumber = ttl.key.headingNumber "
+          + " where hdg.nameHeadingNumber = nme.key.keyNumber "
+          + " and hdg.titleHeadingNumber = ttl.key.keyNumber "
           + " and (nme.sortForm " + operator + " :name "
           + " or (nme.sortForm = :name "
           + " and ttl.sortForm " + operator + " :title)) "
@@ -134,8 +134,8 @@ public class NameTitleNameDescriptorDAO extends NameTitleDescriptorDAO {
           + "NME_TTL_HDG as hdg, "
           + "NME_HDG as nme, "
           + "TTL_HDG as ttl"
-          + " where hdg.nameHeadingNumber = nme.key.headingNumber "
-          + " and hdg.titleHeadingNumber = ttl.key.headingNumber "
+          + " where hdg.nameHeadingNumber = nme.key.keyNumber "
+          + " and hdg.titleHeadingNumber = ttl.key.keyNumber "
           + " and nme.sortForm = :name "
           + " and ttl.sortForm " + operator + " :title "
           + viewClause
@@ -153,8 +153,8 @@ public class NameTitleNameDescriptorDAO extends NameTitleDescriptorDAO {
           + "NME_TTL_HDG as hdg, "
           + "NME_HDG as nme, "
           + "TTL_HDG as ttl"
-          + " where hdg.nameHeadingNumber = nme.key.headingNumber "
-          + " and hdg.titleHeadingNumber = ttl.key.headingNumber "
+          + " where hdg.nameHeadingNumber = nme.key.keyNumber "
+          + " and hdg.titleHeadingNumber = ttl.key.keyNumber "
           + " and nme.sortForm " + nextOperator + " :name "
           + viewClause
           + filter

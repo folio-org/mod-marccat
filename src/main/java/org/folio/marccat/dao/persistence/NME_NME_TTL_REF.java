@@ -129,12 +129,12 @@ public class NME_NME_TTL_REF extends REF {
 
     super.init(source, target, referenceType, cataloguingView);
     if (source instanceof NME_HDG) {
-      setNameHeadingNumber(source.getKey().getHeadingNumber());
-      setNameTitleHeadingNumber(target.getKey().getHeadingNumber());
+      setNameHeadingNumber(source.getKey().getKeyNumber());
+      setNameTitleHeadingNumber(target.getKey().getKeyNumber());
       setSourceHeadingType("NH");
     } else {
-      setNameTitleHeadingNumber(source.getKey().getHeadingNumber());
-      setNameHeadingNumber(target.getKey().getHeadingNumber());
+      setNameTitleHeadingNumber(source.getKey().getKeyNumber());
+      setNameHeadingNumber(target.getKey().getKeyNumber());
       setSourceHeadingType("MH");
     }
   }

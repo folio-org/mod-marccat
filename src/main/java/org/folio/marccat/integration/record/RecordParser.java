@@ -183,7 +183,7 @@ public class RecordParser {
     return item.getTags().stream().filter(aTag -> clazz.isAssignableFrom(aTag.getClass()))
       .anyMatch(t -> {
         AccessPoint apf = (AccessPoint) t;
-        return apf.getHeadingNumber() == headingNbr;
+        return apf.getKeyNumber() == headingNbr;
       });
   }
 
@@ -311,7 +311,7 @@ public class RecordParser {
     if (field.getFieldStatus() == Field.FieldStatus.CHANGED || field.getFieldStatus() == Field.FieldStatus.DELETED) {
       item.getTags().stream().filter(aTag -> aTag instanceof BibliographicAccessPoint && aTag.getCategory() == field.getVariableField().getCategoryCode()).forEach(aTag -> {
         BibliographicAccessPoint acs = (BibliographicAccessPoint) aTag;
-        int keyNumber = ((BibliographicAccessPoint) aTag).getDescriptor().getKey().getHeadingNumber();
+        int keyNumber = ((BibliographicAccessPoint) aTag).getDescriptor().getKey().getKeyNumber();
         if (keyNumber == field.getVariableField().getKeyNumber()) {
           if (field.getFieldStatus() == Field.FieldStatus.CHANGED) {
             acs.setCorrelationValues(correlationValues);
@@ -447,7 +447,7 @@ public class RecordParser {
       .anyMatch(t -> {
         PublisherManager pm = (PublisherManager) t;
         PublisherAccessPoint apf = pm.getApf();
-        int pTagNumber = apf.getDescriptor().getKey().getHeadingNumber();
+        int pTagNumber = apf.getDescriptor().getKey().getKeyNumber();
         return pTagNumber == variableField.getKeyNumber();
       });
 
@@ -469,7 +469,7 @@ public class RecordParser {
       final Descriptor descriptorNew = ((DAODescriptor) (descriptor.getDAO())).getMatchingHeading(descriptor, session);
       if(descriptorNew != null) {
         ptag.setDescriptor((PUBL_HDG) descriptorNew);
-        ptag.setPublisherHeadingNumber(ptag.getDescriptor().getKey().getHeadingNumber());
+        ptag.setPublisherHeadingNumber(ptag.getDescriptor().getKey().getKeyNumber());
         ptag.setSequenceNumber(idx ++);
         ptag.markNew();
       }
@@ -550,7 +550,7 @@ public class RecordParser {
                                    final int bibItemNumber) {
     final SubjectAccessPoint sap = catalog.createSubjectAccessPoint(item, correlationValues);
     sap.setAccessPointStringText(new StringText(variableField.getValue()));
-    sap.setHeadingNumber(variableField.getKeyNumber());
+    sap.setKeyNumber(variableField.getKeyNumber());
     sap.setItemNumber(bibItemNumber);
     sap.markNew();
     item.addTag(sap);
@@ -570,7 +570,7 @@ public class RecordParser {
                                           final int bibItemNumber) {
     final ClassificationAccessPoint clap = catalog.createClassificationAccessPoint(item, correlationValues);
     clap.setAccessPointStringText(new StringText(variableField.getValue()));
-    clap.setHeadingNumber(variableField.getKeyNumber());
+    clap.setKeyNumber(variableField.getKeyNumber());
     clap.setItemNumber(bibItemNumber);
     clap.markNew();
     item.addTag(clap);
@@ -590,7 +590,7 @@ public class RecordParser {
                                         final int bibItemNumber) {
     final ControlNumberAccessPoint cnap = catalog.createControlNumberAccessPoint(item, correlationValues);
     cnap.setAccessPointStringText(new StringText(variableField.getValue()));
-    cnap.setHeadingNumber(variableField.getKeyNumber());
+    cnap.setKeyNumber(variableField.getKeyNumber());
     cnap.setItemNumber(bibItemNumber);
     cnap.markNew();
     item.addTag(cnap);
@@ -610,7 +610,7 @@ public class RecordParser {
                                 final int bibItemNumber) {
     final NameAccessPoint nap = catalog.createNameAccessPointTag(item, correlationValues);
     nap.setAccessPointStringText(new StringText(variableField.getValue()));
-    nap.setHeadingNumber(variableField.getKeyNumber());
+    nap.setKeyNumber(variableField.getKeyNumber());
     nap.setItemNumber(bibItemNumber);
     nap.markNew();
     item.addTag(nap);
@@ -631,7 +631,7 @@ public class RecordParser {
 
     final TitleAccessPoint tap = catalog.createTitleAccessPointTag(item, correlationValues);
     tap.setAccessPointStringText(new StringText(variableField.getValue()));
-    tap.setHeadingNumber(variableField.getKeyNumber());
+    tap.setKeyNumber(variableField.getKeyNumber());
     tap.setItemNumber(bibItemNumber);
     tap.markNew();
     item.addTag(tap);

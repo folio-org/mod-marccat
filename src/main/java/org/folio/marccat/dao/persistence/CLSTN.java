@@ -1,6 +1,5 @@
 package org.folio.marccat.dao.persistence;
 
-import org.folio.marccat.business.common.SortFormException;
 import org.folio.marccat.business.descriptor.SortFormParameters;
 import org.folio.marccat.business.descriptor.SortformUtils;
 import org.folio.marccat.dao.AbstractDAO;
@@ -147,7 +146,7 @@ public class CLSTN extends Descriptor {
   }
 
   @Override
-  public void setStringText(String string) {
+  public void setDisplayValue(String string) {
     if (ClassificationType.isDewey(getTypeCode())) {
       StringText st = new StringText(string);
       StringText sub2 = st.getSubfieldsWithCodes("2");
@@ -159,9 +158,9 @@ public class CLSTN extends Descriptor {
         }
         st = st.getSubfieldsWithoutCodes("2");
       }
-      super.setStringText(st.toString());
+      super.setDisplayValue(st.toString());
     } else {
-      super.setStringText(string);
+      super.setDisplayValue(string);
     }
   }
 
@@ -181,7 +180,7 @@ public class CLSTN extends Descriptor {
   }
 
   private String calculateDefaultClassSortForm() {
-    String result = new StringText(getStringText()).toDisplayString().toUpperCase();
+    String result = new StringText(getDisplayValue()).toDisplayString().toUpperCase();
     result = SortformUtils.get().stripAccents(result);
     result = result.replace("\"", " ");
     result = result.replace("'", " ");
@@ -191,7 +190,7 @@ public class CLSTN extends Descriptor {
   }
 
   private String calculateDeweySortForm() {
-    String result = new StringText(getStringText()).toDisplayString();
+    String result = new StringText(getDisplayValue()).toDisplayString();
     result = SortformUtils.get().stripAccents(result);
     result = SortformUtils.get().replaceDeweyPunctuation(result, "");
     String prefix = null;
@@ -214,7 +213,7 @@ public class CLSTN extends Descriptor {
   }
 
   private String calculateLcSortForm() {
-    StringText st = new StringText(getStringText());
+    StringText st = new StringText(getDisplayValue());
     for (Object obj : st.getSubfieldList()) {
       Subfield sub = (Subfield) obj;
       if (sub.getCode().equals("b")) {
@@ -264,7 +263,7 @@ public class CLSTN extends Descriptor {
   }
 
   private String calculateNalSortForm() {
-    StringText st = new StringText(getStringText());
+    StringText st = new StringText(getDisplayValue());
     for (Object obj : st.getSubfieldList()) {
       Subfield sub = (Subfield) obj;
       if (sub.getCode().equals("b")) {

@@ -109,7 +109,7 @@ public class NME_TTL_HDG extends Descriptor {
 
   public void setNameHeading(NME_HDG nme_hdg) {
     nameHeading = nme_hdg;
-    setNameHeadingNumber(nme_hdg.getKey().getHeadingNumber());
+    setNameHeadingNumber(nme_hdg.getKey().getKeyNumber());
   }
 
 
@@ -163,7 +163,7 @@ public class NME_TTL_HDG extends Descriptor {
 
   public void setTitleHeading(TTL_HDG ttl_hdg) {
     titleHeading = ttl_hdg;
-    setTitleHeadingNumber(ttl_hdg.getKey().getHeadingNumber());
+    setTitleHeadingNumber(ttl_hdg.getKey().getKeyNumber());
   }
 
 
@@ -185,12 +185,12 @@ public class NME_TTL_HDG extends Descriptor {
   }
 
   /* (non-Javadoc)
-   * @see Descriptor#getStringText()
+   * @see Descriptor#getDisplayValue()
    */
   @Override
-  public String getStringText() {
-    StringText result = new StringText(getNameHeading().getStringText());
-    StringText title = new StringText(getTitleHeading().getStringText());
+  public String getDisplayValue() {
+    StringText result = new StringText(getNameHeading().getDisplayValue());
+    StringText title = new StringText(getTitleHeading().getDisplayValue());
     StringText subA = title.getSubfieldsWithCodes("a");
     if (subA.getNumberOfSubfields() > 0) {
       subA.getSubfield(0).setCode("t");
@@ -201,10 +201,10 @@ public class NME_TTL_HDG extends Descriptor {
   }
 
   /* (non-Javadoc)
-   * @see Descriptor#setStringText(java.lang.String)
+   * @see Descriptor#setDisplayValue(java.lang.String)
    */
   @Override
-  public void setStringText(String string) {
+  public void setDisplayValue(String string) {
     /*
      * Puts all subfields before $t into name and all after into title  --
      * this may result in invalid subfields if input does not follow this
@@ -230,8 +230,8 @@ public class NME_TTL_HDG extends Descriptor {
       for (int j = i; j < s.getNumberOfSubfields(); j++) {
         title.addSubfield(s.getSubfield(j));
       }
-      getNameHeading().setStringText(name.toString());
-      getTitleHeading().setStringText(title.toString());
+      getNameHeading().setDisplayValue(name.toString());
+      getTitleHeading().setDisplayValue(title.toString());
     }
   }
 

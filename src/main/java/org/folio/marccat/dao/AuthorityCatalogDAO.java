@@ -120,7 +120,7 @@ public class AuthorityCatalogDAO extends CatalogDAO {
     result.setItemEntity(autData);
     Descriptor heading =
       AuthorityCatalog.getDaoByType(autData.getHeadingType()).load(
-        autData.getHeadingNumber(),
+        autData.getKeyNumber(),
         AuthorityCatalog.CATALOGUING_VIEW);
     if (heading == null) {
       logger.warn("No heading found for authority item");

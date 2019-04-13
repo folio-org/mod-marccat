@@ -63,7 +63,7 @@ public class ControlNumberDescriptorDAO extends DAODescriptor {
         + " and c.typeCode = ?"
         + " and c.key.userViewString = ? ",
       new Object[]{
-        controlNumber.getStringText(),
+        controlNumber.getDisplayValue(),
         controlNumber.getTypeCode(),
         controlNumber.getUserViewString()},
       new Type[]{
@@ -100,12 +100,12 @@ public class ControlNumberDescriptorDAO extends DAODescriptor {
         + " where  c.stringText = ? "
         + " and c.typeCode = ?"
         + " and c.key.userViewString = ?"
-        + " and c.key.headingNumber <> ?",
+        + " and c.key.keyNumber <> ?",
       new Object[]{
-        controlNumber.getStringText(),
+        controlNumber.getDisplayValue(),
         controlNumber.getTypeCode(),
         controlNumber.getUserViewString(),
-        controlNumber.getKey().getHeadingNumber()},
+        controlNumber.getKey().getKeyNumber()},
       new Type[]{Hibernate.STRING,
         Hibernate.INTEGER,
         Hibernate.STRING, Hibernate.INTEGER});
@@ -133,9 +133,9 @@ public class ControlNumberDescriptorDAO extends DAODescriptor {
         viewClause = " and title.userViewString, = '" + View.makeSingleViewString(searchingView) + "' ";
       }
       final Query q = session.createQuery("select count(*) from TitleAccessPoint as title " +
-        " where title.seriesIssnHeadingNumber = :headingNumber " +
+        " where title.seriesIssnHeadingNumber = :keyNumber " +
         viewClause);
-      q.setInteger("headingNumber", descriptor.getHeadingNumber());
+      q.setInteger("keyNumber", descriptor.getHeadingNumber());
       final List<Integer> countList = q.list();
       count = countList.get(0);
     }

@@ -18,7 +18,7 @@ import java.io.Serializable;
  */
 
 public class ThesaurusNoteKey implements Serializable {
-  private int headingNumber;
+  private int keyNumber;
   private int noteNumber;
 
 
@@ -29,17 +29,17 @@ public class ThesaurusNoteKey implements Serializable {
     super();
   }
 
-  public ThesaurusNoteKey(int headingNumber, int noteNumber) {
-    this.setHeadingNumber(headingNumber);
+  public ThesaurusNoteKey(int keyNumber, int noteNumber) {
+    this.setKeyNumber(keyNumber);
     this.setNoteNumber(noteNumber);
   }
 
-  public int getHeadingNumber() {
-    return headingNumber;
+  public int getKeyNumber() {
+    return keyNumber;
   }
 
-  public void setHeadingNumber(int headingNumber) {
-    this.headingNumber = headingNumber;
+  public void setKeyNumber(int keyNumber) {
+    this.keyNumber = keyNumber;
   }
 
   public int getNoteNumber() {
@@ -58,7 +58,7 @@ public class ThesaurusNoteKey implements Serializable {
     if (anObject instanceof ThesaurusNoteKey) {
       ThesaurusNoteKey aKey = (ThesaurusNoteKey) anObject;
       return (
-        headingNumber == aKey.getHeadingNumber()
+        keyNumber == aKey.getKeyNumber()
           && noteNumber == aKey.getNoteNumber());
     } else {
       return false;
@@ -66,7 +66,7 @@ public class ThesaurusNoteKey implements Serializable {
   }
 
   public int hashCode() {
-    return headingNumber + noteNumber;
+    return keyNumber + noteNumber;
   }
 
 

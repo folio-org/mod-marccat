@@ -128,7 +128,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
   }
 
   /* (non-Javadoc)
-   * @see VariableField#getStringText()
+   * @see VariableField#getDisplayValue()
    */
   public StringText getStringText() {
     StringText result = new StringText();
@@ -142,7 +142,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
   }
 
   /* (non-Javadoc)
-   * @see VariableField#setStringText(org.folio.marccat.util.StringText)
+   * @see VariableField#setDisplayValue(org.folio.marccat.util.StringText)
    */
   public void setStringText(StringText stringText) {
     // should only be called from model parsing
@@ -577,7 +577,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
    */
   private void removeDescriptorDefaults(PublisherAccessPoint pap) {
     PUBL_HDG publ_hdg = ((PUBL_HDG) pap.getDescriptor());
-    if (pap.getHeadingNumber() == null) {
+    if (pap.getKeyNumber() == null) {
       publ_hdg.setNameStringText("");
       publ_hdg.setPlaceStringText("");
     }
@@ -589,13 +589,13 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
 
   private void detachDescriptor(PublisherAccessPoint pap) {
     PUBL_HDG publ_hdg = ((PUBL_HDG) pap.getDescriptor());
-    if (pap.getHeadingNumber() == null) {
+    if (pap.getKeyNumber() == null) {
       publ_hdg.setNameStringText("");
       publ_hdg.setPlaceStringText("");
 
     } else {
       pap.setDescriptor(null);
-      pap.setHeadingNumber(null);
+      pap.setKeyNumber(null);
     }
   }
 
@@ -617,8 +617,8 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
       if (ref != null) {
         aTag.markNew();
         anApf.setDescriptor(dao.load(ref.getTarget(), cataloguingView));
-        anApf.setHeadingNumber((anApf.getDescriptor()
-          .getKey().getHeadingNumber()));
+        anApf.setKeyNumber((anApf.getDescriptor()
+          .getKey().getKeyNumber()));
         accessPointsApp.add(anApf);
 
       } else {

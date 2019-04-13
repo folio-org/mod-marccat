@@ -10,7 +10,7 @@
 		<key-property name="noteOverflowNumber" column="BIB_NTE_OVRFW_NBR"/>
 		<key-property name="userViewString" column="USR_VW_IND" length="16"/>
 	</composite-id>
-	<property name="stringText">
+	<property name="displayValue">
 		<column name="BIB_NTE_OVRFW_STRNG_TXT"/>
 	</property>
 </class>

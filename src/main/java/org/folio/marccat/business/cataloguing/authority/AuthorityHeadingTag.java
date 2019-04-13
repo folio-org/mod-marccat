@@ -71,17 +71,17 @@ public abstract class AuthorityHeadingTag extends VariableField implements
   public void setDescriptor(Descriptor descriptor) {
     logger.debug("setDescriptor(" + descriptor + ")");
     this.descriptor = descriptor;
-    setHeadingNumber(descriptor.getKey().getHeadingNumber());
-    logger.debug("headingNumber set to " + getHeadingNumber());
+    setKeyNumber(descriptor.getKey().getKeyNumber());
+    logger.debug("keyNumber set to " + getKeyNumber());
   }
 
   /*
    * (non-Javadoc)
    *
-   * @see VariableField#getStringText()
+   * @see VariableField#getDisplayValue()
    */
   public StringText getStringText() {
-    StringText result = new StringText(getDescriptor().getStringText());
+    StringText result = new StringText(getDescriptor().getDisplayValue());
     result.parse(getAutItm().getVariableHeadingStringText());
     return result;
   }
@@ -89,7 +89,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
   /*
    * (non-Javadoc)
    *
-   * @see VariableField#setStringText(org.folio.marccat.util.StringText)
+   * @see VariableField#setDisplayValue(org.folio.marccat.util.StringText)
    */
   public void setStringText(StringText stringText) {
     // paulm aut
@@ -166,12 +166,12 @@ public abstract class AuthorityHeadingTag extends VariableField implements
   /*
    * (non-Javadoc)
    *
-   * @see Browsable#getHeadingNumber()
+   * @see Browsable#getKeyNumber()
    */
-  public Integer getHeadingNumber() {
+  public Integer getKeyNumber() {
     int result = -1;
     if (getAutItm() != null) {
-      result = getAutItm().getHeadingNumber();
+      result = getAutItm().getKeyNumber();
       if (result > 0) {
         return result;
       }
@@ -182,9 +182,9 @@ public abstract class AuthorityHeadingTag extends VariableField implements
   /*
    * (non-Javadoc)
    *
-   * @see Browsable#setHeadingNumber(java.lang.Integer)
+   * @see Browsable#setKeyNumber(java.lang.Integer)
    */
-  public void setHeadingNumber(Integer i) {
+  public void setKeyNumber(Integer i) {
     int setting;
     if (i == null) {
       setting = -1;
@@ -192,7 +192,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
       setting = i.intValue();
     }
     if (getAutItm() != null) {
-      getAutItm().setHeadingNumber(setting);
+      getAutItm().setKeyNumber(setting);
     }
   }
 
@@ -230,7 +230,7 @@ public abstract class AuthorityHeadingTag extends VariableField implements
    * @see Browsable#setDescriptorStringText(org.folio.marccat.util.StringText)
    */
   public void setDescriptorStringText(StringText tagStringText) {
-    getDescriptor().setStringText(tagStringText.toString());
+    getDescriptor().setDisplayValue(tagStringText.toString());
   }
 
   /*

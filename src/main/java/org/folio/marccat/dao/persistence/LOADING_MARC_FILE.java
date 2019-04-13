@@ -176,16 +176,12 @@ public class LOADING_MARC_FILE implements Persistence {
     return persistenceState.onUpdate(arg0);
   }
 
-  /* (non-Javadoc)
-   * @see librisuite.business.common.Persistence#evict()
-   */
+
   public void evict() throws DataAccessException {
     evict(this);
   }
 
-  /* (non-Javadoc)
-   * @see librisuite.business.common.Persistence#generateNewKey()
-   */
+
   public void generateNewKey() throws DataAccessException {
     // keys are assigned from a sequence by Hibernate
   }

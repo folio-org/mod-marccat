@@ -164,7 +164,7 @@ public class TermExpressionNode implements ExpressionNode {
             .replace('?', '\u0002')
             .replace('#', '\u0003');
         final NME_HDG nme_hdg = new NME_HDG();
-        nme_hdg.setStringText("\u001fa" + preProcessWildCards);
+        nme_hdg.setDisplayValue("\u001fa" + preProcessWildCards);
         nme_hdg.calculateAndSetSortForm();
 
         sf = nme_hdg

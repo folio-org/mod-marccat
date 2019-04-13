@@ -12,14 +12,14 @@ import javax.annotation.Generated;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({"refType", "stringText"})
+@JsonPropertyOrder({"refType", "displayValue"})
 public class Ref {
 
   @JsonProperty("refType")
   private Integer refType;
 
-  @JsonProperty("stringText")
-  private String stringText;
+  @JsonProperty("displayValue")
+  private String displayValue;
 
   /**
    * @return The ref type
@@ -43,23 +43,23 @@ public class Ref {
   }
 
   /**
-   * @return The stringText
+   * @return The displayValue
    */
-  @JsonProperty("stringText")
-  public String getStringText() {
-    return stringText;
+  @JsonProperty("displayValue")
+  public String getDisplayValue() {
+    return displayValue;
   }
 
   /**
-   * @param stringText The stringText
+   * @param displayValue The displayValue
    */
-  @JsonProperty("stringText")
-  public void setStringText(String stringText) {
-    this.stringText = stringText;
+  @JsonProperty("displayValue")
+  public void setDisplayValue(String displayValue) {
+    this.displayValue = displayValue;
   }
 
   public Ref withStringText(String stringText) {
-    this.stringText = stringText;
+    this.displayValue = stringText;
     return this;
   }
 

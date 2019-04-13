@@ -8,7 +8,6 @@ import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.DAOBibliographicNotesOverflow;
 import org.folio.marccat.dao.SystemNextNumberDAO;
-import org.folio.marccat.exception.DataAccessException;
 
 import java.io.Serializable;
 
@@ -19,7 +18,7 @@ import java.io.Serializable;
  */
 public class BibliographicNoteOverflow implements PersistentObjectWithView, Serializable {
 
-  private String stringText = null;
+  private String displayValue = null;
   private int bibItemNumber = -1;
   private int noteNbr = -1;
   private int noteOverflowNumber = -1;
@@ -33,15 +32,15 @@ public class BibliographicNoteOverflow implements PersistentObjectWithView, Seri
   /**
    *
    */
-  public String getStringText() {
-    return stringText;
+  public String getDisplayValue() {
+    return displayValue;
   }
 
   /**
    * @param string
    */
-  public void setStringText(String string) {
-    stringText = string;
+  public void setDisplayValue(String string) {
+    displayValue = string;
   }
 
 
