@@ -11,7 +11,7 @@ import org.folio.marccat.business.cataloguing.common.*;
 import org.folio.marccat.business.codetable.Avp;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.business.descriptor.DescriptorFactory;
-import org.folio.marccat.config.log.Global;
+import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
 import org.folio.marccat.dao.*;
@@ -46,8 +46,8 @@ import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
-import static org.folio.marccat.config.log.Global.EMPTY_STRING;
-import static org.folio.marccat.config.log.Global.EMPTY_VALUE;
+import static org.folio.marccat.config.constants.Global.EMPTY_STRING;
+import static org.folio.marccat.config.constants.Global.EMPTY_VALUE;
 import static org.folio.marccat.util.F.isNotNullOrEmpty;
 import static org.folio.marccat.util.F.locale;
 
@@ -604,9 +604,9 @@ public class StorageService implements Closeable {
 
       descriptorsList = dao.getHeadingsBySortform("<", "desc", browseTerm, filter, view, 1, session);
       if (!(dao instanceof PublisherDescriptorDAO) && descriptorsList.isEmpty()) {
-          browseTerm = dao.getBrowsingSortForm(descriptorsList.get(0));
-          descriptorsList.clear();
-     }
+        browseTerm = dao.getBrowsingSortForm(descriptorsList.get(0));
+        descriptorsList.clear();
+      }
       descriptorsList.addAll(dao.getHeadingsBySortform(">=", EMPTY_STRING, browseTerm, filter, view, pageSize, session));
       return getMapHeadings(view, descriptorsList, dao);
 
@@ -1133,7 +1133,7 @@ public class StorageService implements Closeable {
       }
 
       if (!aTag.isFixedField() && aTag instanceof PublisherManager) {
-        if(!((PublisherManager) aTag).getPublisherTagUnits().isEmpty())
+        if (!((PublisherManager) aTag).getPublisherTagUnits().isEmpty())
           keyNumber = ((PublisherManager) aTag).getPublisherTagUnits().get(0).getPublisherHeadingNumber(); //add gestione multi publisher
       }
 
@@ -1252,7 +1252,7 @@ public class StorageService implements Closeable {
    * @param generalInformation -- @linked GeneralInformation for default values.
    * @throws DataAccessException in case of data access exception.
    */
-  public void saveBibliographicRecord(final BibliographicRecord record, final RecordTemplate template, final int view, final GeneralInformation generalInformation, final String lang,  final Map<String, String> configuration) throws DataAccessException {
+  public void saveBibliographicRecord(final BibliographicRecord record, final RecordTemplate template, final int view, final GeneralInformation generalInformation, final String lang, final Map<String, String> configuration) throws DataAccessException {
     CatalogItem item = null;
     try {
       item = getCatalogItemByKey(record.getId(), view);
@@ -1265,7 +1265,7 @@ public class StorageService implements Closeable {
       if (item == null || item.getTags().isEmpty()) {
         item = insertBibliographicRecord(record, view, generalInformation, lang, configuration);
       } else {
-        updateBibliographicRecord(record, item, view, generalInformation,configuration);
+        updateBibliographicRecord(record, item, view, generalInformation, configuration);
       }
 
       final int an = item.getAmicusNumber();
@@ -1603,17 +1603,16 @@ public class StorageService implements Closeable {
           headingNumberList.add(headingNumber);
           heading.setKeyNumber(headingNumber);
           heading.setCategoryCode(newTag.getCategory());
-        }
-        else if(newTag.isPublisher()){
+        } else if (newTag.isPublisher()) {
           List<PUBL_TAG> publisherTagUnits = ((PublisherManager) newTag).getPublisherTagUnits();
           for (PUBL_TAG publisherTag : publisherTagUnits) {
             Descriptor descriptor = publisherTag.getDescriptor();
-            int headingNumber = createOrReplaceDescriptor( configuration, descriptor, view);
+            int headingNumber = createOrReplaceDescriptor(configuration, descriptor, view);
             headingNumberList.add(headingNumber);
             heading.setKeyNumber(headingNumber);
             heading.setCategoryCode(newTag.getCategory());
           }
-        }else{
+        } else {
           heading.setCategoryCode(newTag.getCategory());
         }
       }
@@ -1623,7 +1622,7 @@ public class StorageService implements Closeable {
     }
   }
 
-  private int createOrReplaceDescriptor(final Map <String, String> configuration, final Descriptor descriptor, final int view) throws HibernateException, SQLException {
+  private int createOrReplaceDescriptor(final Map<String, String> configuration, final Descriptor descriptor, final int view) throws HibernateException, SQLException {
     descriptor.setUserViewString(View.makeSingleViewString(view));
     descriptor.setConfigValues(configuration);
     final Descriptor dup = ((DAODescriptor) (descriptor.getDAO())).getMatchingHeading(descriptor, session);
@@ -1631,8 +1630,7 @@ public class StorageService implements Closeable {
       descriptor.generateNewKey(session);
       descriptor.getDAO().save(descriptor, session);
       return descriptor.getHeadingNumber();
-    }
-    else
+    } else
       return dup.getHeadingNumber();
 
   }
@@ -1661,9 +1659,8 @@ public class StorageService implements Closeable {
     final int skipInFiling = 0;
     if (coKey.getMarcFirstIndicator() == Global.BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC)
       return (!indicator1.isEmpty()) ? Integer.parseInt(indicator1) : skipInFiling;
-    else
-      if (coKey.getMarcSecondIndicator() == Global.BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC)
-        if(!indicator2.isEmpty()) return (!indicator2.equals(EMPTY_VALUE)) ? Integer.parseInt(indicator2) : skipInFiling;
+    else if (coKey.getMarcSecondIndicator() == Global.BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC)
+      if (!indicator2.isEmpty()) return (!indicator2.equals(EMPTY_VALUE)) ? Integer.parseInt(indicator2) : skipInFiling;
     return skipInFiling;
   }
 
@@ -1733,11 +1730,11 @@ public class StorageService implements Closeable {
    * @param searchingView the target search view.
    * @return a list of docid matching the input query.
    */
-  public int getCountDocumentByQuery(final String cclQuery, String[] attributes, String[] directions, final int mainLibraryId, final Locale locale, final int searchingView ) {
+  public int getCountDocumentByQuery(final String cclQuery, String[] attributes, String[] directions, final int mainLibraryId, final Locale locale, final int searchingView) {
     final Parser parser = new Parser(locale, mainLibraryId, searchingView, session);
     try (
       final Statement sql = stmt(connection());
-      final ResultSet rs = executeQuery(sql, parser.parseAndCount(cclQuery, attributes, directions ))) {
+      final ResultSet rs = executeQuery(sql, parser.parseAndCount(cclQuery, attributes, directions))) {
       int count = 0;
       while (rs.next()) {
         count = rs.getInt(1);

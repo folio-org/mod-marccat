@@ -2,7 +2,7 @@ package org.folio.marccat.dao.persistence;
 
 import org.folio.marccat.business.cataloguing.bibliographic.NameTitleComponent;
 import org.folio.marccat.business.cataloguing.common.OrderedTag;
-import org.folio.marccat.config.log.Global;
+import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.DAONameTitleAccessPoint;
 import org.folio.marccat.model.Subfield;

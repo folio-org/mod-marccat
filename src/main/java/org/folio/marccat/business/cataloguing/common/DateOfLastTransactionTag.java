@@ -1,8 +1,5 @@
 package org.folio.marccat.business.cataloguing.common;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.cataloguing.bibliographic.FixedFieldUsingItemEntity;
@@ -10,13 +7,16 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 
 public abstract class DateOfLastTransactionTag extends FixedFieldUsingItemEntity {
 
   private transient Log logger = LogFactory.getLog(DateOfLastTransactionTag.class);
   private String formatDat = "yyyyMMddHHmmss.S";
 
-public DateOfLastTransactionTag() {
+  public DateOfLastTransactionTag() {
     super();
   }
 
@@ -82,7 +82,7 @@ public DateOfLastTransactionTag() {
     try {
       getItemEntity().setDateOfLastTransaction(df.parse(((Text) content.getFirstChild()).getData()));
     } catch (ParseException parseException) {
-    	logger.error(parseException.getMessage());
+      logger.error(parseException.getMessage());
     }
   }
 

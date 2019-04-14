@@ -1,14 +1,9 @@
 package org.folio.marccat.dao.common;
 
-import java.io.Serializable;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.LockMode;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.type.Type;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.common.Persistence;
@@ -17,10 +12,14 @@ import org.folio.marccat.business.common.View;
 import org.folio.marccat.config.log.Message;
 import org.folio.marccat.exception.DataAccessException;
 
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.LockMode;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.type.Type;
+import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Provides a base class of support utilities for DAO objects
@@ -215,8 +214,8 @@ public class HibernateUtil {
       return session.find(query);
     } catch (HibernateException e) {
       logAndWrap(e);
-      return Collections.emptyList();  
-      }
+      return Collections.emptyList();
+    }
   }
 
   /**

@@ -1,6 +1,6 @@
 package org.folio.marccat.shared;
 
-import org.folio.marccat.config.log.Global;
+import org.folio.marccat.config.constants.Global;
 
 /**
  * Class related to:

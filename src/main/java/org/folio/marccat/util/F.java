@@ -24,13 +24,12 @@ import java.util.regex.Pattern;
  * @since 1.0
  */
 public abstract class F {
-	private F() {
-	    throw new IllegalStateException("Exception Utility class");
-	  }
-
   private static final Log LOGGER = new Log(F.class);
   private static final String[] EMPTY_ARRAY = {};
   private static final int[] EMPTY_INT_ARRAY = {};
+  private F() {
+    throw new IllegalStateException("Exception Utility class");
+  }
 
   /**
    * Provides a convenient way to deal with null lists, but replacing null inputs with a null-object (an empty list).
@@ -87,7 +86,7 @@ public abstract class F {
    * @return the string representing number.
    */
   public static String padNumber(final String charToAdd, final int howManyChar, final int number) {
-	  String padNum = "%" + charToAdd + howManyChar + "d";
+    String padNum = "%" + charToAdd + howManyChar + "d";
     return String.format(padNum, number);
   }
 

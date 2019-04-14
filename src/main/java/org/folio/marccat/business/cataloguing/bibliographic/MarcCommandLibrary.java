@@ -19,9 +19,9 @@ import static org.folio.marccat.util.F.deepCopy;
  * Command library for operation about tags
  */
 public class MarcCommandLibrary {
-	
-	private MarcCommandLibrary() {
-	}
+
+  private MarcCommandLibrary() {
+  }
 
   /**
    * Moved here from {@link }

@@ -1,6 +1,6 @@
 package org.folio.marccat.dao.persistence;
 
-import org.folio.marccat.config.log.Global;
+import org.folio.marccat.config.constants.Global;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

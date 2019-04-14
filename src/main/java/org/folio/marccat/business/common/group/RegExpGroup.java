@@ -6,7 +6,7 @@ import org.folio.marccat.config.log.Log;
 
 
 public class RegExpGroup extends MarcTagGroup {
-	private static final Log logger = new Log(RegExpGroup.class);
+  private static final Log logger = new Log(RegExpGroup.class);
 
   private RE regexp;
 

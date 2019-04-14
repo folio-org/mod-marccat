@@ -1,7 +1,7 @@
 package org.folio.marccat.resources.shared;
 
 import org.folio.marccat.business.codetable.Avp;
-import org.folio.marccat.config.log.Global;
+import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.resources.domain.*;
 import org.folio.marccat.shared.MapHeading;
 
@@ -45,6 +45,7 @@ public class MappingUtils {
     template.setName(avp.getLabel());
     return template;
   };
+
   private MappingUtils() {
     throw new IllegalStateException("Utility mapping class");
   }

@@ -1,7 +1,7 @@
 package org.folio.marccat.shared;
 
 import org.apache.commons.lang.StringUtils;
-import org.folio.marccat.config.log.Global;
+import org.folio.marccat.config.constants.Global;
 
 import java.util.Map;
 
@@ -83,7 +83,8 @@ public class GeneralInformation {
   private String marcCountryCode;
   private String languageCode;
 
-  public GeneralInformation() {}
+  public GeneralInformation() {
+  }
 
   /**
    * Squeeze all non-blank Strings to the left side of the string and retain the original length by padding with blanks on the right.
@@ -102,7 +103,7 @@ public class GeneralInformation {
    * @param configuration the map that contains configuration values to set.
    */
   public void setDefaultValues(final Map<String, String> configuration) {
-	final String audienceMaterial = "material.targetAudienceCode";
+    final String audienceMaterial = "material.targetAudienceCode";
     setRecordModifiedCode(" ");
     setRecordCataloguingSourceCode(configuration.get("bibliographicItem.recordCataloguingSourceCode"));
     setItemDateTypeCode(configuration.get("bibliographicItem.itemDateTypeCode"));

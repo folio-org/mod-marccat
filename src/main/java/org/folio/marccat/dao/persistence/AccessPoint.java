@@ -1,10 +1,7 @@
 package org.folio.marccat.dao.persistence;
 
-import static java.util.Optional.ofNullable;
-
-import java.sql.SQLException;
-import java.util.Set;
-
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
 import org.folio.marccat.business.cataloguing.common.Browsable;
 import org.folio.marccat.business.common.Persistence;
@@ -15,8 +12,10 @@ import org.folio.marccat.dao.DAODescriptor;
 import org.folio.marccat.util.StringText;
 import org.w3c.dom.Element;
 
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
+import java.sql.SQLException;
+import java.util.Set;
+
+import static java.util.Optional.ofNullable;
 
 /**
  * Abstract class to manage access point class.

@@ -132,7 +132,7 @@ public abstract class LabelTagDisplay {
     if (marcTagSubfieldCode == null) {
       return other.marcTagSubfieldCode == null;
     } else {
-    	return marcTagSubfieldCode.equals(other.marcTagSubfieldCode);
+      return marcTagSubfieldCode.equals(other.marcTagSubfieldCode);
     }
   }
 

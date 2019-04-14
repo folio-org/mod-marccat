@@ -3,11 +3,10 @@ package org.folio.marccat.dao.persistence;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.marccat.dao.SystemNextNumberDAO;
-import org.folio.marccat.exception.DataAccessException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import static org.folio.marccat.config.log.Global.EMPTY_STRING;
+import static org.folio.marccat.config.constants.Global.EMPTY_STRING;
 
 /**
  * @author paulm
@@ -60,7 +59,7 @@ public class TactileMaterial extends PhysicalDescription {
 
   public char[] getBrailleMusicFormatChar() {
     if (brailleMusicFormatCodes == null) {
-    	return new char[0];
+      return new char[0];
     } else {
       return brailleMusicFormatCodes.toCharArray();
     }
@@ -78,7 +77,7 @@ public class TactileMaterial extends PhysicalDescription {
 
   public char[] getClassOfBrailleWritingChar() {
     if (classOfBrailleWritingCodes == null) {
-    	return new char[0];
+      return new char[0];
     } else {
       return classOfBrailleWritingCodes.toCharArray();
     }

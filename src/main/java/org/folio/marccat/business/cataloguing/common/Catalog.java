@@ -1,8 +1,7 @@
 package org.folio.marccat.business.cataloguing.common;
 
-import java.util.List;
-import java.util.Locale;
-
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
@@ -16,8 +15,8 @@ import org.folio.marccat.exception.NewTagException;
 import org.folio.marccat.shared.CorrelationValues;
 import org.w3c.dom.Element;
 
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Supertype layer of all Catalogs impl.
@@ -135,8 +134,8 @@ public abstract class Catalog {
   }
 
   /**
-   * @deprecated
    * @param item
+   * @deprecated
    */
   @Deprecated
   public void saveCatalogItem(CatalogItem item) {

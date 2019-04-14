@@ -80,24 +80,25 @@ public class DAOLibrary extends HibernateUtil {
       try {
         logAndWrap(e);
       } catch (DataAccessException e1) {
-    	  logger.error(e1.getMessage());      }
+        logger.error(e1.getMessage());
+      }
     } finally {
       try {
         rs.close();
       } catch (SQLException e) {
-    	  logger.error(e.getMessage());
+        logger.error(e.getMessage());
       }
       try {
         stmt.close();
       } catch (SQLException e) {
-    	  logger.error(e.getMessage());
+        logger.error(e.getMessage());
       }
     }
     return result;
   }
 
-  public LIB_HRS_OPRTN loadSchedule(int organisationNumber){
-   return loadLibHours(organisationNumber);
+  public LIB_HRS_OPRTN loadSchedule(int organisationNumber) {
+    return loadLibHours(organisationNumber);
   }
 
   public LIB_DTE_CLSE loadDateClose(int organisationNumber, Date theDateClosed) {
@@ -154,7 +155,7 @@ public class DAOLibrary extends HibernateUtil {
     return result;
   }
 
-  public String getLibScheduleClosing(int orgNbr)  {
+  public String getLibScheduleClosing(int orgNbr) {
     String result = "";
     Session s = currentSession();
     Date theDate = new Date();
@@ -193,7 +194,7 @@ public class DAOLibrary extends HibernateUtil {
         result = result + String.valueOf(theMinutes);
 
     } catch (HibernateException e) {
-     logger.error(e.getMessage());
+      logger.error(e.getMessage());
     }
 
     return result;
@@ -241,7 +242,7 @@ public class DAOLibrary extends HibernateUtil {
 
       } else result = "00:00";
     } catch (HibernateException e) {
-    	logger.error(e.getMessage());
+      logger.error(e.getMessage());
     }
     return result;
 
@@ -290,13 +291,14 @@ public class DAOLibrary extends HibernateUtil {
       } else result = "00:00";
 
     } catch (HibernateException e) {
-logger.error(e.getMessage());    }
+      logger.error(e.getMessage());
+    }
     return result;
 
   }
 
   public List getTimeTable() {
-	  return Collections.emptyList(); 
+    return Collections.emptyList();
   }
 
 

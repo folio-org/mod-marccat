@@ -90,8 +90,8 @@ public abstract class AuthorityReferenceTag
   }
 
   /**
-   * @deprecated
    * @since 1.0
+   * @deprecated
    */
   @Deprecated
   public void evict(Object obj) {
@@ -258,8 +258,8 @@ public abstract class AuthorityReferenceTag
   }
 
   /**
-   * @deprecated
    * @since 1.0
+   * @deprecated
    */
   @Deprecated
   @Override

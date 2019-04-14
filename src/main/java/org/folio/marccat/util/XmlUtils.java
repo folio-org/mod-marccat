@@ -2,7 +2,6 @@ package org.folio.marccat.util;
 
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
-import org.folio.marccat.model.Subfield;
 import org.w3c.dom.Document;
 
 import javax.xml.transform.Transformer;

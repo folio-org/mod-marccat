@@ -7,17 +7,16 @@
  */
 package org.folio.marccat.dao;
 
-import java.util.List;
-
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Query;
+import net.sf.hibernate.Session;
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.dao.common.TransactionalHibernateOperation;
 import org.folio.marccat.dao.persistence.Descriptor;
 import org.folio.marccat.dao.persistence.THS_HDG;
 import org.folio.marccat.exception.ReferentialIntegrityException;
 
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Query;
-import net.sf.hibernate.Session;
+import java.util.List;
 
 /**
  * @author paulm
@@ -77,11 +76,11 @@ public class DAOThesaurusDescriptor extends DAODescriptor {
     }
     Descriptor d = ((Descriptor) p);
     // check for authorities
-      if (supportsAuthorities() && d.getAuthorityCount() > 0) {
-        throw new ReferentialIntegrityException(
-          d.getReferenceClass(d.getClass()).getName(),
-          d.getClass().getName());
-      }
+    if (supportsAuthorities() && d.getAuthorityCount() > 0) {
+      throw new ReferentialIntegrityException(
+        d.getReferenceClass(d.getClass()).getName(),
+        d.getClass().getName());
+    }
     // OK, go ahead and delete
     deleteDescriptor(p);
   }

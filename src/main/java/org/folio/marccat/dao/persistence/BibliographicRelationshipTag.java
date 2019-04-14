@@ -17,11 +17,7 @@ import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 import static org.folio.marccat.util.F.deepCopy;
 
@@ -188,7 +184,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
       setTargetRelationship(null);
     }
     if (BibliographicRelationReciprocal.isBlind(s) && getTargetBibItemNumber() > 0) {
-        setTargetBibItemNumber(0);
+      setTargetBibItemNumber(0);
     }
   }
 

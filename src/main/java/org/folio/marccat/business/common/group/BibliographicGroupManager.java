@@ -4,11 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.regexp.RESyntaxException;
 import org.folio.marccat.business.cataloguing.common.Tag;
-import org.folio.marccat.business.common.filter.FilterManager;
-import org.folio.marccat.business.common.filter.GroupTagFilter;
-import org.folio.marccat.business.common.filter.NoTagFilter;
-import org.folio.marccat.business.common.filter.SingleTagFilter;
-import org.folio.marccat.business.common.filter.TagFilter;
+import org.folio.marccat.business.common.filter.*;
 
 
 /**

@@ -27,7 +27,7 @@ import java.util.Iterator;
 
 public class DAOBibliographicNoteTag extends AbstractDAO {
 
-	@Override
+  @Override
   public void delete(Persistence po, final Session session) throws HibernateException {
     if (!(po instanceof BibliographicNoteTag)) {
       throw new IllegalArgumentException("I can only persist BibliographicNoteTag objects");

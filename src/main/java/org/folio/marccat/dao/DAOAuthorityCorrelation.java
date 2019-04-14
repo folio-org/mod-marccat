@@ -42,7 +42,7 @@ public class DAOAuthorityCorrelation extends DAOCorrelation {
   private String queryWhereCatCode = " where ac.key.marcTagCategoryCode = ? and ";
   private String queryfromAuthCorr = "from AuthorityCorrelation as ac ";
   private String queryWhereMarcTag = "where ac.key.marcTag = ? and ";
-  
+
   /**
    * Returns the AuthorityCorrelation from CorrelationKey
    * <p>
@@ -118,7 +118,7 @@ public class DAOAuthorityCorrelation extends DAOCorrelation {
     List l = null;
     if (categoryCode != 0) {
       l = find(
-    		  queryfromAuthCorr
+        queryfromAuthCorr
           + queryWhereMarcTag
           + "(ac.key.marcFirstIndicator = ? or ac.key.marcFirstIndicator in ('S', 'O')) and "
           + "(ac.key.marcSecondIndicator = ? or ac.key.marcSecondIndicator in ('S', 'O') ) and "
@@ -131,7 +131,7 @@ public class DAOAuthorityCorrelation extends DAOCorrelation {
     } else {
 
       l = find(
-    		  queryfromAuthCorr
+        queryfromAuthCorr
           + queryWhereMarcTag
           + "(ac.key.marcFirstIndicator = ? or ac.key.marcFirstIndicator in ('S', 'O') )and "
           + "(ac.key.marcSecondIndicator = ? or ac.key.marcSecondIndicator in ('S', 'O') ) order by ac.key.marcTagCategoryCode asc",
@@ -200,7 +200,7 @@ public class DAOAuthorityCorrelation extends DAOCorrelation {
           Hibernate.STRING});
     } else if (position == 2) {
       return find(
-    		  querySelect
+        querySelect
           + queryAuthCorr
           + queryWhereCatCode
           + queryKeyHeading
@@ -258,7 +258,7 @@ public class DAOAuthorityCorrelation extends DAOCorrelation {
 
   public Correlation getFirstCorrelationByType(String tag, char indicator1, char indicator2, String headingType) {
     List l = find(
-    		queryfromAuthCorr
+      queryfromAuthCorr
         + queryWhereMarcTag
         + "(ac.key.marcFirstIndicator = ? or ac.key.marcFirstIndicator in ('S', 'O') ) and "
         + "(ac.key.marcSecondIndicator = ? or ac.key.marcSecondIndicator in ('S', 'O') ) "

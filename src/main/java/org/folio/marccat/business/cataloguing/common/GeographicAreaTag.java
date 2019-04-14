@@ -32,8 +32,8 @@ public abstract class GeographicAreaTag extends VariableHeaderUsingItemEntity {
     } else {
       for (int i = 0; i < st.getSubfieldList().size(); i++) {
         Subfield sf = (Subfield) st.getSubfieldList().get(i);
-            if (sf != null && !sf.getContent().trim().equals("") && sf.getCode().equals("a") && sf.getContent().length() < 7)
-              throw new IllegalArgumentException("Refactor => GeographicAreaTag::59");
+        if (sf != null && !sf.getContent().trim().equals("") && sf.getCode().equals("a") && sf.getContent().length() < 7)
+          throw new IllegalArgumentException("Refactor => GeographicAreaTag::59");
       }
 
       getItemEntity().setGeographicAreaStringText(st.toString());

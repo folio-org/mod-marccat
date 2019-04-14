@@ -1,7 +1,7 @@
 package org.folio.marccat.resources;
 
 import org.folio.marccat.ModMarccat;
-import org.folio.marccat.config.log.Global;
+import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.resources.domain.FixedFieldCodesGroup;
 import org.folio.marccat.shared.CatalogingInformation;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static java.util.Optional.ofNullable;
-import static org.folio.marccat.config.log.Global.*;
+import static org.folio.marccat.config.constants.Global.*;
 import static org.folio.marccat.config.log.Message.MOD_MARCCAT_00017_CODES_GROUPS_NOT_AVAILABLE;
 import static org.folio.marccat.integration.MarccatHelper.doGet;
 import static org.folio.marccat.resources.shared.FixedFieldUtils.*;
@@ -28,7 +28,7 @@ public class FixedFieldCodesGroupAPI extends BaseResource implements CatalogingI
     @RequestParam(name = "code", defaultValue = Global.MATERIAL_TAG_CODE) final String code,
     @RequestParam final String lang,
     @RequestParam(required = false) final String valueField,
-    @RequestHeader(OKAPI_TENANT_HEADER_NAME) final String tenant){
+    @RequestHeader(OKAPI_TENANT_HEADER_NAME) final String tenant) {
     return doGet((storageService, configuration) -> {
       final FixedFieldCodesGroup fixedFieldCodesGroup = new FixedFieldCodesGroup();
       final Map<String, Object> map = storageService.getMaterialTypeInfosByLeaderValues(leader.charAt(6), leader.charAt(7), code);

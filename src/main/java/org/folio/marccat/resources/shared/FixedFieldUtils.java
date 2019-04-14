@@ -13,7 +13,7 @@ import java.util.Map;
 
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
-import static org.folio.marccat.config.log.Global.*;
+import static org.folio.marccat.config.constants.Global.*;
 import static org.folio.marccat.enumaration.CodeListsType.*;
 import static org.folio.marccat.resources.shared.MappingUtils.toPairItem;
 
@@ -21,6 +21,7 @@ public class FixedFieldUtils {
 
   private static final String MATERIAL_TYPE = "materialTypeCode";
   protected static Log logger = new Log(FixedFieldUtils.class);
+
   private FixedFieldUtils() {
     throw new IllegalStateException("Utility class");
   }

@@ -15,7 +15,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.util.stream.IntStream.rangeClosed;
-import static org.folio.marccat.config.log.Global.EMPTY_STRING;
+import static org.folio.marccat.config.constants.Global.EMPTY_STRING;
 
 /**
  * Supertype layer for all ModMarccat Search Engine implementations.

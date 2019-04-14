@@ -13,7 +13,7 @@ import org.folio.marccat.search.engine.ModMarcatSearchEngine;
 
 import java.util.*;
 
-import static org.folio.marccat.config.log.Global.EMPTY_STRING;
+import static org.folio.marccat.config.constants.Global.EMPTY_STRING;
 
 /**
  * ModMarccat Search Engine.

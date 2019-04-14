@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import static org.folio.marccat.config.log.Global.EMPTY_STRING;
+import static org.folio.marccat.config.constants.Global.EMPTY_STRING;
 
 /**
  * Manages headings in the CNTL_NBR table for NTN index.

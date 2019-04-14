@@ -1,6 +1,25 @@
 package org.folio.marccat.dao;
 
-import static org.folio.marccat.util.F.isNotNullOrEmpty;
+import net.sf.hibernate.Hibernate;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.Transaction;
+import net.sf.hibernate.type.Type;
+import org.folio.marccat.business.cataloguing.bibliographic.BibliographicItem;
+import org.folio.marccat.business.cataloguing.bibliographic.BibliographicTagImpl;
+import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
+import org.folio.marccat.business.cataloguing.common.Tag;
+import org.folio.marccat.business.common.PersistentObjectWithView;
+import org.folio.marccat.business.controller.UserProfile;
+import org.folio.marccat.config.constants.Global;
+import org.folio.marccat.config.log.Log;
+import org.folio.marccat.config.log.Message;
+import org.folio.marccat.dao.persistence.*;
+import org.folio.marccat.exception.CacheUpdateException;
+import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.ModMarccatException;
+import org.folio.marccat.exception.RecordNotFoundException;
+import org.folio.marccat.util.XmlUtils;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -12,66 +31,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.folio.marccat.business.cataloguing.bibliographic.BibliographicItem;
-import org.folio.marccat.business.cataloguing.bibliographic.BibliographicTagImpl;
-import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
-import org.folio.marccat.business.cataloguing.common.Tag;
-import org.folio.marccat.business.common.PersistentObjectWithView;
-import org.folio.marccat.business.controller.UserProfile;
-import org.folio.marccat.config.log.Global;
-import org.folio.marccat.config.log.Log;
-import org.folio.marccat.config.log.Message;
-import org.folio.marccat.dao.persistence.AccessPoint;
-import org.folio.marccat.dao.persistence.BIB_ITM;
-import org.folio.marccat.dao.persistence.BibliographicAuthenticationCodeTag;
-import org.folio.marccat.dao.persistence.BibliographicCataloguingSourceTag;
-import org.folio.marccat.dao.persistence.BibliographicControlNumberTag;
-import org.folio.marccat.dao.persistence.BibliographicDateOfLastTransactionTag;
-import org.folio.marccat.dao.persistence.BibliographicGeographicAreaTag;
-import org.folio.marccat.dao.persistence.BibliographicLeader;
-import org.folio.marccat.dao.persistence.BibliographicNote;
-import org.folio.marccat.dao.persistence.BibliographicNoteTag;
-import org.folio.marccat.dao.persistence.BibliographicRelationship;
-import org.folio.marccat.dao.persistence.BibliographicRelationshipTag;
-import org.folio.marccat.dao.persistence.CatalogItem;
-import org.folio.marccat.dao.persistence.ClassificationAccessPoint;
-import org.folio.marccat.dao.persistence.ControlNumberAccessPoint;
-import org.folio.marccat.dao.persistence.CountryOfPublicationTag;
-import org.folio.marccat.dao.persistence.FULL_CACHE;
-import org.folio.marccat.dao.persistence.FormOfMusicalCompositionTag;
-import org.folio.marccat.dao.persistence.LanguageCodeTag;
-import org.folio.marccat.dao.persistence.MaterialDescription;
-import org.folio.marccat.dao.persistence.NME_HDG;
-import org.folio.marccat.dao.persistence.NME_TTL_HDG;
-import org.folio.marccat.dao.persistence.NameAccessPoint;
-import org.folio.marccat.dao.persistence.NameTitleAccessPoint;
-import org.folio.marccat.dao.persistence.NumberOfMusicalInstrumentsTag;
-import org.folio.marccat.dao.persistence.PhysicalDescription;
-import org.folio.marccat.dao.persistence.ProjectedPublicationDateTag;
-import org.folio.marccat.dao.persistence.PublisherAccessPoint;
-import org.folio.marccat.dao.persistence.PublisherManager;
-import org.folio.marccat.dao.persistence.SpecialCodedDatesTag;
-import org.folio.marccat.dao.persistence.StandardNoteAccessPoint;
-import org.folio.marccat.dao.persistence.SubjectAccessPoint;
-import org.folio.marccat.dao.persistence.TTL_HDG;
-import org.folio.marccat.dao.persistence.TimePeriodOfContentTag;
-import org.folio.marccat.dao.persistence.TitleAccessPoint;
-import org.folio.marccat.exception.CacheUpdateException;
-import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.exception.ModMarccatException;
-import org.folio.marccat.exception.RecordNotFoundException;
-import org.folio.marccat.util.XmlUtils;
-
-import net.sf.hibernate.Hibernate;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.Transaction;
-import net.sf.hibernate.type.Type;
+import static org.folio.marccat.util.F.isNotNullOrEmpty;
 
 
 public class BibliographicCatalogDAO extends CatalogDAO {
   private Log logger = new Log(BibliographicCatalogDAO.class);
-  private String queryPart = "where t.bibItemNumber = ? and substr(t.userViewString, ?, 1) = '1' "; 
+  private String queryPart = "where t.bibItemNumber = ? and substr(t.userViewString, ?, 1) = '1' ";
 
   public BibliographicCatalogDAO() {
     super();
@@ -509,11 +474,11 @@ public class BibliographicCatalogDAO extends CatalogDAO {
   }
 
   /**
-   * @deprecated
    * @param apfClass
    * @param id
    * @param userView
    * @return
+   * @deprecated
    */
   @Deprecated
   public List loadAccessPointTags(Class apfClass, int id, int userView) {
@@ -596,7 +561,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
    * @throws DataAccessException
    */
   protected void updateItemDisplayCacheTable(final CatalogItem item, final Session session)
-    throws  HibernateException {
+    throws HibernateException {
     final Tag tag130 = item.findFirstTagByNumber("130", session);
     final Tag tag245 = item.findFirstTagByNumber("245", session);
     String uniformTitleSortForm = "";
@@ -640,9 +605,9 @@ public class BibliographicCatalogDAO extends CatalogDAO {
   }
 
   /**
-   * @deprecated
    * @param item
    * @return
+   * @deprecated
    */
   @Deprecated
   public Collection<SubjectAccessPoint> getEquivalentSubjects(final CatalogItem item) {
@@ -657,9 +622,9 @@ public class BibliographicCatalogDAO extends CatalogDAO {
 
 
   /**
-   * @deprecated
    * @param key
    * @return
+   * @deprecated
    */
   @Deprecated
   public CatalogItem getCatalogItemByKey(Object[] key) {
@@ -667,10 +632,10 @@ public class BibliographicCatalogDAO extends CatalogDAO {
   }
 
   /**
-   * @deprecated
    * @param id
    * @param userView
    * @return
+   * @deprecated
    */
   @Deprecated
   public BibliographicItem getBibliographicItemWithoutRelationships(final int id, int userView) {
@@ -678,9 +643,9 @@ public class BibliographicCatalogDAO extends CatalogDAO {
   }
 
   /**
-   * @deprecated
    * @param bibItemNumber
    * @param cataloguingView
+   * @deprecated
    */
   @Deprecated
   public void updateCacheTable(

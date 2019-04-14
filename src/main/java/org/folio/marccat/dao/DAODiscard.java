@@ -7,20 +7,18 @@
  */
 package org.folio.marccat.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.marccat.dao.common.HibernateUtil;
 import org.folio.marccat.dao.common.TransactionalHibernateOperation;
 import org.folio.marccat.dao.persistence.CPY_ID;
 import org.folio.marccat.dao.persistence.SHLF_LIST;
 import org.folio.marccat.exception.DataAccessException;
 
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 /**
  * @author paulm
@@ -28,7 +26,7 @@ import net.sf.hibernate.Session;
  * @since 1.0
  */
 public class DAODiscard extends DAOCopy {
-	  private static Log logger = LogFactory.getLog(DAODiscard.class);
+  private static Log logger = LogFactory.getLog(DAODiscard.class);
 
 
   /**
@@ -40,9 +38,8 @@ public class DAODiscard extends DAOCopy {
 
     new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
-        throws HibernateException
-      {
-        CPY_ID copy = (CPY_ID) s.get(CPY_ID.class,(copyNumber));
+        throws HibernateException {
+        CPY_ID copy = (CPY_ID) s.get(CPY_ID.class, (copyNumber));
         copy.setShelfList(shelf);
         if (copy.getShelfListKeyNumber() != null) {
           copy.setShelfListKeyNumber(0);
@@ -80,14 +77,14 @@ public class DAODiscard extends DAOCopy {
       stmt.execute();
       //Update se esiste gia il record solo delle due info DSCRD_CDE, DSCRD_DTE
     } catch (HibernateException | SQLException e) {
-    	logger.error(e);
+      logger.error(e);
     } finally {
       try {
         if (stmt != null) {
           stmt.close();
         }
       } catch (SQLException e) {
-    	  logger.error(e);
+        logger.error(e);
       }
     }
   }

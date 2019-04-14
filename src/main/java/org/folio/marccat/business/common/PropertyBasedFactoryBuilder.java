@@ -1,13 +1,13 @@
 package org.folio.marccat.business.common;
 
+import org.folio.marccat.exception.ModMarccatException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
-
-import org.folio.marccat.exception.ModMarccatException;
 
 import static java.lang.Class.forName;
 import static java.lang.Integer.parseInt;

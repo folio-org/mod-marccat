@@ -22,12 +22,6 @@ import java.util.Map;
  */
 public abstract class Global {
 
-	private Global() {
-	    throw new IllegalStateException("Global class");
-	  }
-
-  private interface ConstantType {}
-
   public static final String MODULE_NAME = "MARCCAT";
   public static final String OKAPI_TENANT_HEADER_NAME = "X-Okapi-Tenant";
   public static final String OKAPI_TOKEN_HEADER_NAME = "X-Okapi-Token";
@@ -126,7 +120,7 @@ public abstract class Global {
   public static final String PUBLISHER_FAST_PRINTER_SUBFIELD_CODES = "368efg";
   public static final String PUBLISHER_VARIANT_CODES = "368cefg";
   public static final String PUBLISHER_OTHER_SUBFIELD_CODES = "cefg";
-  public static final List <Integer> PUBLISHER_CODES = Arrays.asList(24, 381, 382, 410, 411, 412, 413, 414, 415,
+  public static final List<Integer> PUBLISHER_CODES = Arrays.asList(24, 381, 382, 410, 411, 412, 413, 414, 415,
     416, 417, 418, 419, 420, 421, 422, 423, 424);
   public static final int DEWEY_TYPE_CODE = 12;
   public static final String SUBJECT_VARIANT_CODES = "34eu";
@@ -174,7 +168,7 @@ public abstract class Global {
   public static final String OTHER_TERMINAL_PUNCTUATION = ".?!)]-";
   public static final String SUBFIELD_DELIMITER = "\u001f";
   public static final Configuration HCONFIGURATION = new Configuration();
-  public static final  Map<String, String> TAGS = new HashMap<>();
+  public static final Map<String, String> TAGS = new HashMap<>();
   private static final String UNASSIGNED = "unassigned";
   private static final String TAG_9XX = "9XX";
 
@@ -783,5 +777,9 @@ public abstract class Global {
     } catch (final Exception failure) {
       throw new ExceptionInInitializerError(failure);
     }
+  }
+
+  private Global() {
+    throw new IllegalStateException("Global class");
   }
 }

@@ -1,9 +1,7 @@
 package org.folio.marccat.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.dao.common.HibernateUtil;
@@ -11,8 +9,9 @@ import org.folio.marccat.dao.common.TransactionalHibernateOperation;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.search.SearchResponse;
 
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 /**
  * @author paulm
@@ -20,14 +19,13 @@ import net.sf.hibernate.Session;
  * @since 1.0
  */
 public class DAOSortResultSets extends HibernateUtil {
-	private Log logger = LogFactory.getLog(DAOSortResultSets.class);
-	
+  private Log logger = LogFactory.getLog(DAOSortResultSets.class);
+
   public void sort(
     final Session session,
     final SearchResponse rs,
     String[] attributes,
-    String[] directions)
-    {
+    String[] directions) {
     final String orderBy = buildOrderByClause(attributes, directions);
     /*
      * We use a transaction here to ensure that a commit is NOT done after the
@@ -35,8 +33,7 @@ public class DAOSortResultSets extends HibernateUtil {
      * that the inserted rows are removed before the next sort
      */
     new TransactionalHibernateOperation() {
-      public void doInHibernateTransaction(Session s)
-         {
+      public void doInHibernateTransaction(Session s) {
         SearchResponse sortedResults;
         insertResults(rs);
         doSort(orderBy, rs);
@@ -47,8 +44,7 @@ public class DAOSortResultSets extends HibernateUtil {
 
   private void doSort(
     final String orderBy,
-    final SearchResponse rs)
-     {
+    final SearchResponse rs) {
 
     new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
@@ -87,14 +83,14 @@ public class DAOSortResultSets extends HibernateUtil {
             try {
               js.close();
             } catch (SQLException e) {
-            	logger.error(e.getMessage());
+              logger.error(e.getMessage());
             }
           }
           if (stmt != null) {
             try {
               stmt.close();
             } catch (SQLException e) {
-            logger.error(e.getMessage());
+              logger.error(e.getMessage());
             }
           }
         }
@@ -126,7 +122,7 @@ public class DAOSortResultSets extends HibernateUtil {
             try {
               stmt.close();
             } catch (SQLException e) {
-            	logger.error(e.getMessage());
+              logger.error(e.getMessage());
             }
           }
         }

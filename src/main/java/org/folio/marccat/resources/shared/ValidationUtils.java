@@ -1,6 +1,6 @@
 package org.folio.marccat.resources.shared;
 
-import org.folio.marccat.config.log.Global;
+import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
 import org.folio.marccat.exception.DataAccessException;

@@ -1,7 +1,7 @@
 package org.folio.marccat.resources;
 
 import org.folio.marccat.ModMarccat;
-import org.folio.marccat.config.log.Global;
+import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Message;
 import org.folio.marccat.resources.domain.FieldTemplate;
 import org.folio.marccat.shared.CatalogingInformation;

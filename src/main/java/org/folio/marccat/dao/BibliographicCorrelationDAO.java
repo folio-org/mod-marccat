@@ -50,6 +50,7 @@ public class BibliographicCorrelationDAO extends DAOCorrelation {
   private String queryWhereTag = "where bc.key.marcTag = ? and ";
   private String queryOrFistInd = "(bc.key.marcFirstIndicator = ? or bc.key.marcFirstIndicator = 'S' )and ";
   private String queryOrSecondInd = "(bc.key.marcSecondIndicator = ? or bc.key.marcSecondIndicator = 'S')and ";
+
   /**
    * Returns the BibliographicCorrelation from BibliographicCorrelationKey.
    *
@@ -84,7 +85,7 @@ public class BibliographicCorrelationDAO extends DAOCorrelation {
     final List<BibliographicCorrelation> correlations =
       (categoryCode != 0)
         ? session.find(
-        		queryFrom
+        queryFrom
           + queryWhereTag
           + queryOrFistInd
           + queryFirstInd
@@ -94,7 +95,7 @@ public class BibliographicCorrelationDAO extends DAOCorrelation {
         new Object[]{tag, firstIndicator, secondIndicator, categoryCode},
         new Type[]{Hibernate.STRING, Hibernate.CHARACTER, Hibernate.CHARACTER, Hibernate.INTEGER})
         : session.find(
-        		queryFrom
+        queryFrom
           + queryWhereTag
           + queryOrFistInd
           + queryFirstInd
@@ -125,7 +126,7 @@ public class BibliographicCorrelationDAO extends DAOCorrelation {
 
     try {
       return session.find(
-    		  queryFrom
+        queryFrom
           + queryWhereTag
           + queryOrFistInd
           + queryFirstInd
@@ -201,7 +202,7 @@ public class BibliographicCorrelationDAO extends DAOCorrelation {
     final int category, final int firstCorrelation,
     final int secondCorrelation, final int thirdCorrelation, final Session session) throws HibernateException {
     final List<Correlation> result = session.find(
-    		queryFrom
+      queryFrom
         + "where bc.key.marcTagCategoryCode = ? and "
         + "bc.databaseFirstValue = ? and "
         + "bc.databaseSecondValue = ? and "
@@ -331,7 +332,7 @@ public class BibliographicCorrelationDAO extends DAOCorrelation {
   public CorrelationKey getMarcTagCodeBySelectedIndex(final String idx, final String tag, final Session session) throws HibernateException {
     final List<Correlation> list =
       session.find(
-    		  queryFrom
+        queryFrom
           + " where (bc.searchIndexTypeCode = ?"
           + " or bc.searchIndexTypeCode = ?)"
           + " and bc.key.marcTag = ?",

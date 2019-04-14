@@ -7,7 +7,7 @@ import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.business.common.UserViewHelper;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.business.descriptor.PublisherTagDescriptor;
-import org.folio.marccat.config.log.Global;
+import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.PublisherManagerDAO;
 import org.folio.marccat.exception.DataAccessException;
@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 import static java.util.Optional.ofNullable;
-import static org.folio.marccat.config.log.Global.EMPTY_STRING;
+import static org.folio.marccat.config.constants.Global.EMPTY_STRING;
 
 
 /**
@@ -223,9 +223,9 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    * @param stringText -- the string text to set.
    */
   public void setStringText(final StringText stringText) {
-    stringText.removePrecedingPunctuation("a"," ;");
-    stringText.removePrecedingPunctuation("b"," :");
-    stringText.removePrecedingPunctuation("c",",");
+    stringText.removePrecedingPunctuation("a", " ;");
+    stringText.removePrecedingPunctuation("b", " :");
+    stringText.removePrecedingPunctuation("c", ",");
     setPublisherTagUnits(new ArrayList<>());
     String lastSubfield = "a";
     StringText newText = new StringText();
@@ -306,11 +306,9 @@ public class PublisherManager extends VariableField implements PersistentObjectW
   }
 
   /**
-   * @deprecated
-   * Gets the first correlation list.
-   *
    * @return the first correlation list
    * @throws DataAccessException the data access exception
+   * @deprecated Gets the first correlation list.
    */
   @Deprecated
   public List getFirstCorrelationList() throws DataAccessException {

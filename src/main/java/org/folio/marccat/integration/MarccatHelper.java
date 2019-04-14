@@ -18,7 +18,7 @@ import java.util.function.Function;
 import java.util.stream.StreamSupport;
 
 import static java.util.stream.Collectors.toMap;
-import static org.folio.marccat.config.log.Global.HCONFIGURATION;
+import static org.folio.marccat.config.constants.Global.HCONFIGURATION;
 
 /**
  * Helper functions used within the cataloging module.
@@ -106,7 +106,6 @@ public abstract class MarccatHelper {
       throw new UnableToCreateOrUpdateEntityException();
     }
   }
-
 
 
   /**

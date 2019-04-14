@@ -1,9 +1,9 @@
 package org.folio.marccat.dao;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-
+import net.sf.hibernate.Hibernate;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.type.Type;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.config.log.Message;
@@ -14,10 +14,9 @@ import org.folio.marccat.exception.MarcCorrelationException;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.shared.Validation;
 
-import net.sf.hibernate.Hibernate;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.type.Type;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * @author elena
@@ -29,7 +28,7 @@ public class BibliographicValidationDAO extends DAOValidation {
 
   private static final Log logger = LogFactory.getLog(BibliographicValidationDAO.class);
   private String querySelect = "select distinct v from BibliographicValidation as v, ";
-  private String queryFrom = "BibliographicCorrelation as c" ;
+  private String queryFrom = "BibliographicCorrelation as c";
   private String queryWhere = " where c.key.marcTagCategoryCode = ?";
   private String queryAndTag = " and c.key.marcTag = v.key.marcTag";
   private String queryCategory = " and c.key.marcTagCategoryCode =  v.key.marcTagCategoryCode";
@@ -50,7 +49,7 @@ public class BibliographicValidationDAO extends DAOValidation {
   public BibliographicValidation load(final Session session, final int category, final CorrelationValues values) throws HibernateException {
 
     List<BibliographicValidation> bibliographicValidations = session.find(querySelect +
-    		queryFrom +
+        queryFrom +
         queryWhere +
         " and (c.databaseFirstValue = ? or c.databaseFirstValue = -1 or -1 = ?)" +
         " and (c.databaseSecondValue = ? or c.databaseSecondValue = -1 or -1 = ?)" +
@@ -75,7 +74,7 @@ public class BibliographicValidationDAO extends DAOValidation {
     }
 
     bibliographicValidations = session.find(querySelect +
-    		queryFrom +
+        queryFrom +
         queryWhere +
         queryAndTag +
         queryCategory,
@@ -99,7 +98,7 @@ public class BibliographicValidationDAO extends DAOValidation {
   @Deprecated
   public Validation load(final int s, final CorrelationValues values) {
     List<BibliographicValidation> validations = find(querySelect +
-    		queryFrom +
+        queryFrom +
         queryWhere +
         " and (c.databaseFirstValue = ? or c.databaseFirstValue = -1 or -1 = ?)" +
         " and (c.databaseSecondValue = ? or c.databaseSecondValue = -1 or -1 = ?)" +
@@ -128,7 +127,7 @@ public class BibliographicValidationDAO extends DAOValidation {
       return validations.get(0);
     } else {
       validations = find(querySelect +
-    		  queryFrom +
+          queryFrom +
           queryWhere +
           queryAndTag +
           queryCategory,

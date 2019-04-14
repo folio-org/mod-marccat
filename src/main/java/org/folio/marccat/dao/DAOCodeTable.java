@@ -1,30 +1,24 @@
 package org.folio.marccat.dao;
 
-import static java.util.Optional.ofNullable;
-import static java.util.stream.Collectors.toList;
+import net.sf.hibernate.Hibernate;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.type.Type;
+import org.folio.marccat.business.codetable.Avp;
+import org.folio.marccat.config.constants.Global;
+import org.folio.marccat.config.log.Log;
+import org.folio.marccat.config.log.Message;
+import org.folio.marccat.dao.persistence.*;
+import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.ModMarccatException;
 
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import org.folio.marccat.business.codetable.Avp;
-import org.folio.marccat.config.log.Global;
-import org.folio.marccat.config.log.Log;
-import org.folio.marccat.config.log.Message;
-import org.folio.marccat.dao.persistence.CodeTable;
-import org.folio.marccat.dao.persistence.LDG_STATS;
-import org.folio.marccat.dao.persistence.LOADING_MARC_RECORDS;
-import org.folio.marccat.dao.persistence.T_SINGLE;
-import org.folio.marccat.dao.persistence.T_SINGLE_CHAR;
-import org.folio.marccat.dao.persistence.T_SINGLE_LONGCHAR;
-import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.exception.ModMarccatException;
-
-import net.sf.hibernate.Hibernate;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.type.Type;
+import static java.util.Optional.ofNullable;
+import static java.util.stream.Collectors.toList;
 
 /**
  * @author carment

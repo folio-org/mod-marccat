@@ -1,7 +1,7 @@
 package org.folio.marccat.integration;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.folio.marccat.config.log.Global;
+import org.folio.marccat.config.constants.Global;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpEntity;

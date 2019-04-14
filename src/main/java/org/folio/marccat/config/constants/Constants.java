@@ -9,12 +9,16 @@ public class Constants<K> {
     throw new AssertionError();
   }
 
-  private interface ConstantType<K> {}
+  private interface ConstantType<K> {
+  }
 
-  public interface Constant extends ConstantType<String> {}
+  public interface Constant extends ConstantType<String> {
+  }
 
-  public interface IntConstant extends ConstantType<Integer> {}
+  public interface IntConstant extends ConstantType<Integer> {
+  }
 
-  public interface MapConstant extends ConstantType<Map<?,?>> {}
+  public interface MapConstant extends ConstantType<Map<?, ?>> {
+  }
 
 }

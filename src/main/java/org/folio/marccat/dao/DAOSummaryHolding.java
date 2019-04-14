@@ -1,23 +1,23 @@
 package org.folio.marccat.dao;
 
-import java.util.List;
-
-import org.folio.marccat.dao.common.HibernateUtil;
-import org.folio.marccat.dao.persistence.CPY_ID;
-import org.folio.marccat.dao.persistence.SMRY_HLDG;
-
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
+import org.folio.marccat.dao.common.HibernateUtil;
+import org.folio.marccat.dao.persistence.CPY_ID;
+import org.folio.marccat.dao.persistence.SMRY_HLDG;
+
+import java.util.List;
 
 public class DAOSummaryHolding extends HibernateUtil {
-	private String queryAndBibNumber = " and c.bibItemNumber = ?";
-  public void createSummaryHoldingIfRequired(final Session session, final CPY_ID copy)  {
+  private String queryAndBibNumber = " and c.bibItemNumber = ?";
+
+  public void createSummaryHoldingIfRequired(final Session session, final CPY_ID copy) {
     SMRY_HLDG aHldg = new SMRY_HLDG(copy);
   }
 
-  public int countCopies(int amicusNumber, int orgNumber)  {
+  public int countCopies(int amicusNumber, int orgNumber) {
     List l = find("select count(*) from CPY_ID as c where c.organisationNumber = ?"
       + queryAndBibNumber, new Object[]{
       (orgNumber), (amicusNumber)}, new Type[]{
@@ -30,7 +30,7 @@ public class DAOSummaryHolding extends HibernateUtil {
     }
   }
 
-  public void deleteRecord(final int amicusNumber, final int orgNumber)  {
+  public void deleteRecord(final int amicusNumber, final int orgNumber) {
     Session s = currentSession();
     try {
 
@@ -46,7 +46,7 @@ public class DAOSummaryHolding extends HibernateUtil {
     }
   }
 
-  public SMRY_HLDG getSmryHoldingByAmicusNumberOrgNbr(int amicusNumber, int orgNumber)  {
+  public SMRY_HLDG getSmryHoldingByAmicusNumberOrgNbr(int amicusNumber, int orgNumber) {
     List l = find("from SMRY_HLDG as c"
         + " where c.mainLibraryNumber = ?"
         + queryAndBibNumber,
@@ -60,7 +60,7 @@ public class DAOSummaryHolding extends HibernateUtil {
     }
   }
 
-  public void deleteSummaryHolding(final int amicusNumber, final int orgNumber)  {
+  public void deleteSummaryHolding(final int amicusNumber, final int orgNumber) {
     Session s = currentSession();
     try {
       s.delete("from SMRY_HLDG as c where c.mainLibraryNumber = ?"

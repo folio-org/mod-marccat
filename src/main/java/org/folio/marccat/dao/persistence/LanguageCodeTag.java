@@ -32,7 +32,7 @@ public class LanguageCodeTag extends VariableHeaderUsingItemEntity {
     return result;
   }
 
-@Override  
+  @Override
   public void setStringText(StringText st) {
     if (st.toString().equals(Subfield.SUBFIELD_DELIMITER + "a")) {
       ((BIB_ITM) getItemEntity()).setLanguageStringText(null);
