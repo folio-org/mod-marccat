@@ -15,7 +15,7 @@ import static org.folio.marccat.config.constants.Global.TAGS;
  */
 @RestController
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
-public class UtilsAPI {
+public class UtilsAPI extends BaseResource{
 
 
   @ResponseStatus
