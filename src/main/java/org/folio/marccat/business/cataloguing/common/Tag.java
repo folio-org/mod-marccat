@@ -208,7 +208,6 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
    * @return the MARC tag and indicators for this tag
    * @throws DataAccessException the data access exception
    */
-  @Deprecated
   public CorrelationKey getMarcEncoding() throws DataAccessException {
     return correlationKey;
   }
@@ -274,26 +273,17 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
   }
 
 
-  /**
-   * To xml element.
-   *
-   * @param xmlDocument     the xml document
-   * @param withPunctuation the with punctuation
-   * @return the element
-   */
   private Element toXmlElement(Document xmlDocument, boolean withPunctuation, Session session) {
     CorrelationKey marcEncoding;
     try {
-      marcEncoding = getMarcEncoding(session);
+      marcEncoding = !this.isBrowsable() ? getMarcEncoding(session) : getMarcEncoding() ;
     } catch (Exception exception) {
       logger.warn("Invalid tag found in Tag.toXmlElement");
       return xmlDocument.createElement("error");
     }
-
     String marcTag = marcEncoding.getMarcTag();
     String marcFirstIndicator = "" + marcEncoding.getMarcFirstIndicator();
     String marcSecondIndicator = "" + marcEncoding.getMarcSecondIndicator();
-
     Element field;
     if (isFixedField()) {
       field = xmlDocument.createElement("controlfield");

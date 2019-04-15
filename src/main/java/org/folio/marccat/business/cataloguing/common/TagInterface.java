@@ -128,7 +128,6 @@ public interface TagInterface {
    * @throws DataAccessException the data access exception
    * @deprecated
    */
-  @Deprecated
   CorrelationKey getMarcEncoding() throws DataAccessException;
 
   /**
