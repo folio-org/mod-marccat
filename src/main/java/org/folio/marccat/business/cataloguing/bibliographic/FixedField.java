@@ -1,14 +1,13 @@
 package org.folio.marccat.business.cataloguing.bibliographic;
 
-import java.util.List;
-
+import net.sf.hibernate.Session;
 import org.folio.marccat.business.cataloguing.common.HeaderField;
 import org.folio.marccat.business.cataloguing.common.HeaderFieldHelper;
 import org.folio.marccat.business.cataloguing.common.Tag;
 import org.folio.marccat.dao.persistence.CorrelationKey;
 import org.folio.marccat.shared.CorrelationValues;
 
-import net.sf.hibernate.Session;
+import java.util.List;
 
 
 public abstract class FixedField extends Tag implements HeaderField {
@@ -55,14 +54,12 @@ public abstract class FixedField extends Tag implements HeaderField {
   }
 
 
-  public List getSecondCorrelationList(int value1)
-     {
+  public List getSecondCorrelationList(int value1) {
     return headerField.getSecondCorrelationList(value1);
   }
 
 
-  public List getThirdCorrelationList(int value1, int value2)
-     {
+  public List getThirdCorrelationList(int value1, int value2) {
     return headerField.getThirdCorrelationList(value1, value2);
   }
 
@@ -77,8 +74,7 @@ public abstract class FixedField extends Tag implements HeaderField {
   }
 
   @Override
-  public CorrelationKey getMarcEncoding(final Session session)
-     {
+  public CorrelationKey getMarcEncoding(final Session session) {
     CorrelationKey key = super.getMarcEncoding(session);
     return new CorrelationKey(
       key.getMarcTag(),

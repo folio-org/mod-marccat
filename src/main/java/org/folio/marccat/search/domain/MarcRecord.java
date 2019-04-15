@@ -126,13 +126,13 @@ public class MarcRecord extends AbstractRecord {
   }
 
   @Override
-  public void setRecordId(int recordId) {
-    this.recordId = recordId;
+  public int getRecordId() {
+    return recordId;
   }
 
   @Override
-  public int getRecordId() {
-    return recordId;
+  public void setRecordId(int recordId) {
+    this.recordId = recordId;
   }
 
 }

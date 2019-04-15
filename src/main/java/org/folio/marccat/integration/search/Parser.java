@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
-import static org.folio.marccat.config.log.Global.EMPTY_STRING;
+import static org.folio.marccat.config.constants.Global.EMPTY_STRING;
 
 /**
  * Query Parser.
@@ -117,9 +117,9 @@ public class Parser {
   /**
    * Parses the incoming CCL query and count the document
    *
-   * @param ccl the CCL query.
-   * @param attributes  the attributes of the search index.
-   * @param directions  the directions asc or desc.
+   * @param ccl        the CCL query.
+   * @param attributes the attributes of the search index.
+   * @param directions the directions asc or desc.
    * @return the parsed string.
    * @throws CclParserException in case of parsing failure.
    */
@@ -133,11 +133,8 @@ public class Parser {
     final String query = "select res." + columnItemNumber +
       " from (select distinct " + columnSortForm + " smtc." + columnItemNumber + " from ((" + n.getValue() + ")) smtc " +
       orderByClause + ") res";
-     return "select count(*) from ((" +query + ")) smtc";
+    return "select count(*) from ((" + query + ")) smtc";
   }
-
-
-
 
 
   /**
@@ -328,12 +325,12 @@ public class Parser {
   private String buildOrderByClause(
     final String[] attributes,
     final String[] directions,
-    final boolean isOrderBy ) {
+    final boolean isOrderBy) {
     final String columnItemNumber = (searchingView == -1) ? "aut_nbr " : "bib_itm_nbr ";
     final String direction = (directions != null && directions[0].equals("0")) ? "asc" : "desc";
     final String defaultForOrderBy = String.format(" order by smtc.%s %s ", columnItemNumber, direction);
     final String columnForOrderBy = attributes != null ? getSortFormOrDateByAtributes(attributes) : EMPTY_STRING;
-    final String queryOrderBy =  String.format(" order by %s %s, smtc.%s ", columnForOrderBy.replace(",", EMPTY_STRING), direction, columnItemNumber);
+    final String queryOrderBy = String.format(" order by %s %s, smtc.%s ", columnForOrderBy.replace(",", EMPTY_STRING), direction, columnItemNumber);
     final String order = isOrderBy == true ? queryOrderBy : "";
     String orderByClause = defaultForOrderBy;
     if (attributes != null) {

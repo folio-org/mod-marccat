@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang.StringUtils;
 import org.folio.marccat.ModMarccat;
 import org.folio.marccat.business.codetable.Avp;
-import org.folio.marccat.config.log.Global;
+import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Message;
 import org.folio.marccat.enumaration.CatalogingEntityType;
 import org.folio.marccat.resources.domain.*;

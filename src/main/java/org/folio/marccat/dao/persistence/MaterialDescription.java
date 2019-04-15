@@ -9,7 +9,6 @@ import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.business.common.UserViewHelper;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.SystemNextNumberDAO;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.shared.CorrelationValues;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -575,7 +574,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 
   public char[] getMusicTextualMaterialChar() {
     if (musicTextualMaterialCode == null) {
-    	return new char[0];
+      return new char[0];
     } else {
       return musicTextualMaterialCode.toCharArray();
     }
@@ -591,7 +590,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 
   public char[] getNatureOfContentsChar() {
     if (natureOfContentsCode == null) {
-    	return new char[0];
+      return new char[0];
     } else {
       return natureOfContentsCode.toCharArray();
     }
@@ -735,7 +734,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 
 
   public String getFormOfMaterial() {
-    return (formOfMaterial != null) ? formOfMaterial :"bk";
+    return (formOfMaterial != null) ? formOfMaterial : "bk";
   }
 
 
@@ -926,7 +925,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
 
   @Deprecated
   public List getFirstCorrelationList() {
-	  return Collections.emptyList();
+    return Collections.emptyList();
   }
 
   //@paulm, us_bbl_loading

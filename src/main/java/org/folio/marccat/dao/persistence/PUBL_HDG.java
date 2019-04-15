@@ -56,7 +56,7 @@ public class PUBL_HDG extends Descriptor implements Serializable {
   /* (non-Javadoc)
    * @see Descriptor#getIndexingLanguage()
    */
-@Override
+  @Override
   public int getIndexingLanguage() {
     return indexingLanguage;
   }

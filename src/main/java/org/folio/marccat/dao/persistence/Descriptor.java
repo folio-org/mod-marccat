@@ -23,7 +23,7 @@ import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.Map;
 
-import static org.folio.marccat.config.log.Global.EMPTY_STRING;
+import static org.folio.marccat.config.constants.Global.EMPTY_STRING;
 
 
 /**

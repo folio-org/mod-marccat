@@ -1,16 +1,15 @@
 package org.folio.marccat.dao;
 
+import net.sf.hibernate.Hibernate;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.type.Type;
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.dao.common.TransactionalHibernateOperation;
 import org.folio.marccat.dao.persistence.NME_TTL_HDG;
 import org.folio.marccat.dao.persistence.NameAccessPoint;
 import org.folio.marccat.dao.persistence.NameTitleAccessPoint;
 import org.folio.marccat.dao.persistence.TitleAccessPoint;
-
-import net.sf.hibernate.Hibernate;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.type.Type;
 
 /**
  * Data access object to Name-Title access point.
@@ -20,7 +19,7 @@ import net.sf.hibernate.type.Type;
  * @since 1.0
  */
 public class DAONameTitleAccessPoint extends AbstractDAO {
-	@Override
+  @Override
   public void delete(final Persistence p) {
 
     super.delete(p);

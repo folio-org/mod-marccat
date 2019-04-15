@@ -2,7 +2,7 @@ package org.folio.marccat.resources;
 
 import org.folio.marccat.ModMarccat;
 import org.folio.marccat.business.common.View;
-import org.folio.marccat.config.log.Global;
+import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.integration.StorageService;
 import org.folio.marccat.search.SearchEngineFactory;
 import org.folio.marccat.search.SearchResponse;

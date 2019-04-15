@@ -25,7 +25,7 @@ import java.util.List;
  */
 public class PublisherManagerDAO extends AbstractDAO {
 
-	@Override
+  @Override
   public void delete(Persistence po, final Session session) throws DataAccessException {
     if (!(po instanceof PublisherManager)) {
       throw new IllegalArgumentException(

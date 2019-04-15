@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.TreeSet;
 
-import static org.folio.marccat.config.log.Global.EMPTY_STRING;
+import static org.folio.marccat.config.constants.Global.EMPTY_STRING;
 
 /**
  * Utilities to help in the creation of sortforms. This class was introduced to
@@ -451,6 +451,7 @@ public class SortformUtils {
         "\u0627\u0644\u064A\u0641",
         "\u0627\u0644\u064A\u0646\u0648\u0649",
         "\u0627\u0644\u064A\u0646\u0648\u064A"));
+
   private SortformUtils() {
   }
 

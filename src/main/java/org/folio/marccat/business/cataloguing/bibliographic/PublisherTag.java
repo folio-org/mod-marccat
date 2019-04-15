@@ -7,13 +7,7 @@
  */
 package org.folio.marccat.business.cataloguing.bibliographic;
 
-import static org.folio.marccat.util.F.deepCopy;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-
+import net.sf.hibernate.HibernateException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.common.PersistenceState;
@@ -33,7 +27,12 @@ import org.folio.marccat.util.StringText;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import net.sf.hibernate.HibernateException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
+import static org.folio.marccat.util.F.deepCopy;
 
 /**
  * Publisher Tag differs from other access points in that multiple publisher access
@@ -425,8 +424,8 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
           data = data + ")";
       } else if (data.indexOf(")") == -1) {
         data = data + ")";
-      s.addSubfield(new Subfield("g", data));
-      setManufacturerDate("");
+        s.addSubfield(new Subfield("g", data));
+        setManufacturerDate("");
       }
     }
 
@@ -612,7 +611,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
       try {
         ref = dao.getCrossReferencesWithLanguage(d, cataloguingView, indexingLanguage, null);
       } catch (HibernateException e) {
-    	  logger.error(e.getMessage(), e);
+        logger.error(e.getMessage(), e);
       }
       if (ref != null) {
         aTag.markNew();

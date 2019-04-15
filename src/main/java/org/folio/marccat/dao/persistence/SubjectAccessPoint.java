@@ -2,7 +2,7 @@ package org.folio.marccat.dao.persistence;
 
 import org.folio.marccat.business.cataloguing.bibliographic.BibliographicAccessPoint;
 import org.folio.marccat.business.cataloguing.common.OrderedTag;
-import org.folio.marccat.config.log.Global;
+import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
@@ -288,8 +288,8 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
         result.addPrecedingPunctuation("e", ",", ",");
       }
       if (Global.SUBJECTS_4.contains(marc.getMarcTag()) && !result.getSubfieldsWithCodes("t").isEmpty()) {
-          result.addTerminalPunctuation("4", ".?!)]-", ".");
-        }
+        result.addTerminalPunctuation("4", ".?!)]-", ".");
+      }
       return result;
     } catch (Exception e) {
       return result;

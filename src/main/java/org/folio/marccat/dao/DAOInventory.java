@@ -7,12 +7,11 @@
  */
 package org.folio.marccat.dao;
 
-import org.folio.marccat.dao.common.TransactionalHibernateOperation;
-import org.folio.marccat.dao.persistence.S_INVTRY;
-
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.LockMode;
 import net.sf.hibernate.Session;
+import org.folio.marccat.dao.common.TransactionalHibernateOperation;
+import org.folio.marccat.dao.persistence.S_INVTRY;
 
 /**
  * @author paulm

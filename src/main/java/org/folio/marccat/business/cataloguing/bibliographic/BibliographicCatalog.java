@@ -1,6 +1,19 @@
 package org.folio.marccat.business.cataloguing.bibliographic;
 
-import static org.folio.marccat.util.F.isNotNull;
+import org.folio.marccat.business.cataloguing.common.*;
+import org.folio.marccat.business.common.AbstractMapBackedFactory;
+import org.folio.marccat.business.common.MapBackedFactory;
+import org.folio.marccat.business.common.PropertyBasedFactoryBuilder;
+import org.folio.marccat.business.common.View;
+import org.folio.marccat.config.constants.Global;
+import org.folio.marccat.dao.BibliographicCatalogDAO;
+import org.folio.marccat.dao.BibliographicModelDAO;
+import org.folio.marccat.dao.CatalogDAO;
+import org.folio.marccat.dao.ModelDAO;
+import org.folio.marccat.dao.persistence.*;
+import org.folio.marccat.exception.ModMarccatException;
+import org.folio.marccat.exception.NewTagException;
+import org.folio.marccat.shared.CorrelationValues;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,57 +22,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import org.folio.marccat.business.cataloguing.common.Catalog;
-import org.folio.marccat.business.cataloguing.common.CataloguingSourceTag;
-import org.folio.marccat.business.cataloguing.common.ControlNumberTag;
-import org.folio.marccat.business.cataloguing.common.DateOfLastTransactionTag;
-import org.folio.marccat.business.cataloguing.common.HeaderField;
-import org.folio.marccat.business.cataloguing.common.Tag;
-import org.folio.marccat.business.common.AbstractMapBackedFactory;
-import org.folio.marccat.business.common.MapBackedFactory;
-import org.folio.marccat.business.common.PropertyBasedFactoryBuilder;
-import org.folio.marccat.business.common.View;
-import org.folio.marccat.config.log.Global;
-import org.folio.marccat.dao.BibliographicCatalogDAO;
-import org.folio.marccat.dao.BibliographicModelDAO;
-import org.folio.marccat.dao.CatalogDAO;
-import org.folio.marccat.dao.ModelDAO;
-import org.folio.marccat.dao.persistence.BIB_ITM;
-import org.folio.marccat.dao.persistence.BibliographicCataloguingSourceTag;
-import org.folio.marccat.dao.persistence.BibliographicControlNumberTag;
-import org.folio.marccat.dao.persistence.BibliographicDateOfLastTransactionTag;
-import org.folio.marccat.dao.persistence.BibliographicLeader;
-import org.folio.marccat.dao.persistence.BibliographicNoteTag;
-import org.folio.marccat.dao.persistence.CatalogItem;
-import org.folio.marccat.dao.persistence.ClassificationAccessPoint;
-import org.folio.marccat.dao.persistence.ControlNumberAccessPoint;
-import org.folio.marccat.dao.persistence.ElectronicResource;
-import org.folio.marccat.dao.persistence.Globe;
-import org.folio.marccat.dao.persistence.ItemEntity;
-import org.folio.marccat.dao.persistence.Kit;
-import org.folio.marccat.dao.persistence.Map;
-import org.folio.marccat.dao.persistence.MaterialDescription;
-import org.folio.marccat.dao.persistence.Microform;
-import org.folio.marccat.dao.persistence.Model;
-import org.folio.marccat.dao.persistence.MotionPicture;
-import org.folio.marccat.dao.persistence.NameAccessPoint;
-import org.folio.marccat.dao.persistence.NonProjectedGraphic;
-import org.folio.marccat.dao.persistence.NotatedMusic;
-import org.folio.marccat.dao.persistence.PhysicalDescription;
-import org.folio.marccat.dao.persistence.ProjectedGraphic;
-import org.folio.marccat.dao.persistence.PublisherManager;
-import org.folio.marccat.dao.persistence.RemoteSensingImage;
-import org.folio.marccat.dao.persistence.SoundRecording;
-import org.folio.marccat.dao.persistence.SubjectAccessPoint;
-import org.folio.marccat.dao.persistence.T_BIB_TAG_CAT;
-import org.folio.marccat.dao.persistence.TactileMaterial;
-import org.folio.marccat.dao.persistence.Text;
-import org.folio.marccat.dao.persistence.TitleAccessPoint;
-import org.folio.marccat.dao.persistence.Unspecified;
-import org.folio.marccat.dao.persistence.VideoRecording;
-import org.folio.marccat.exception.ModMarccatException;
-import org.folio.marccat.exception.NewTagException;
-import org.folio.marccat.shared.CorrelationValues;
+import static org.folio.marccat.util.F.isNotNull;
 
 /**
  * Bibliographic implementation of {@link Catalog} interface.
@@ -186,11 +149,11 @@ public class BibliographicCatalog extends Catalog {
 
   public ControlNumberTag createRequiredControlNumberTag(CatalogItem item) {
     return (ControlNumberTag) getNewTag(item,
-        Global.HEADER_CATEGORY,
-        new CorrelationValues(
-          new BibliographicControlNumberTag().getHeaderType(),
-          CorrelationValues.UNDEFINED,
-          CorrelationValues.UNDEFINED));
+      Global.HEADER_CATEGORY,
+      new CorrelationValues(
+        new BibliographicControlNumberTag().getHeaderType(),
+        CorrelationValues.UNDEFINED,
+        CorrelationValues.UNDEFINED));
   }
 
   public BibliographicLeader createRequiredLeaderTag(CatalogItem item) {

@@ -1,9 +1,6 @@
 package org.folio.marccat.business.cataloguing.authority;
 
-import java.util.Arrays;
-import java.util.Set;
-import java.util.TreeSet;
-
+import net.sf.hibernate.Session;
 import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
 import org.folio.marccat.business.cataloguing.common.Catalog;
 import org.folio.marccat.business.cataloguing.common.Tag;
@@ -17,7 +14,9 @@ import org.folio.marccat.dao.persistence.CorrelationKey;
 import org.folio.marccat.exception.MarcCorrelationException;
 import org.folio.marccat.shared.Validation;
 
-import net.sf.hibernate.Session;
+import java.util.Arrays;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class AuthorityTagImpl extends TagImpl {
 

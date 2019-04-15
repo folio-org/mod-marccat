@@ -2,7 +2,7 @@ package org.folio.marccat.resources;
 
 import org.folio.marccat.ModMarccat;
 import org.folio.marccat.business.common.View;
-import org.folio.marccat.config.log.Global;
+import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Message;
 import org.folio.marccat.resources.domain.Heading;
 import org.springframework.http.HttpStatus;
@@ -28,7 +28,7 @@ public class HeadingAPI extends BaseResource {
   public ResponseEntity<Heading> createHeading(
     @RequestBody final Heading heading,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
-    @RequestHeader(name = Global.OKAPI_TENANT_HEADER_NAME, defaultValue = "tnx")  final String tenant) {
+    @RequestHeader(name = Global.OKAPI_TENANT_HEADER_NAME, defaultValue = "tnx") final String tenant) {
     return doPost((storageService, configuration) -> {
       storageService.saveHeading(heading, view, configuration);
       return heading;

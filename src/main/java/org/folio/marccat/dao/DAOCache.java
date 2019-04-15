@@ -118,7 +118,7 @@ public class DAOCache extends HibernateUtil {
             try {
               stmt.close();
             } catch (SQLException e) {
-            	logger.error(e.getMessage());
+              logger.error(e.getMessage());
             }
           }
         }
@@ -164,14 +164,14 @@ public class DAOCache extends HibernateUtil {
             try {
               js.close();
             } catch (SQLException e) {
-            	logger.error(e.getMessage());
+              logger.error(e.getMessage());
             }
           }
           if (stmt != null) {
             try {
               stmt.close();
             } catch (SQLException e) {
-            	logger.error(e.getMessage());
+              logger.error(e.getMessage());
             }
           }
         }

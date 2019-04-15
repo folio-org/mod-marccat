@@ -13,7 +13,6 @@ import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.DAOInventory;
-import org.folio.marccat.exception.DataAccessException;
 
 import java.io.Serializable;
 import java.text.DateFormat;

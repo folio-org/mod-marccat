@@ -7,7 +7,7 @@ import org.folio.marccat.exception.DataAccessException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import static org.folio.marccat.config.log.Global.EMPTY_STRING;
+import static org.folio.marccat.config.constants.Global.EMPTY_STRING;
 
 /**
  * @author paulm
@@ -35,7 +35,7 @@ public class SoundRecording extends PhysicalDescription {
   }
 
 
-	@Override
+  @Override
   public String getDisplayString() {
     return EMPTY_STRING
       + getGeneralMaterialDesignationCode()
@@ -55,13 +55,13 @@ public class SoundRecording extends PhysicalDescription {
   }
 
 
-	@Override
+  @Override
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
     setKeyNumber(dao.getNextNumber("X8", session));
   }
 
-	@Override
+  @Override
   public boolean isSoundRecording() {
     return true;
   }

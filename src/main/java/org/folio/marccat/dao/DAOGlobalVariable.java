@@ -1,10 +1,7 @@
 package org.folio.marccat.dao;
 
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.dao.common.HibernateUtil;
@@ -12,8 +9,10 @@ import org.folio.marccat.dao.common.TransactionalHibernateOperation;
 import org.folio.marccat.dao.persistence.S_SYS_GLBL_VRBL;
 import org.folio.marccat.exception.DataAccessException;
 
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Provides access to S_SYS_GLBL_VRBL
@@ -25,7 +24,7 @@ import net.sf.hibernate.Session;
 @SuppressWarnings("deprecation")
 public class DAOGlobalVariable extends HibernateUtil implements Serializable {
 
-	  private static Log logger = LogFactory.getLog(DAOGlobalVariable.class);
+  private static Log logger = LogFactory.getLog(DAOGlobalVariable.class);
 
 
   @Deprecated

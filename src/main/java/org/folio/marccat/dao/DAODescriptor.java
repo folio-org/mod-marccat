@@ -1,6 +1,17 @@
 package org.folio.marccat.dao;
 
-import static org.folio.marccat.util.F.deepCopy;
+import net.sf.hibernate.Hibernate;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Query;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.type.Type;
+import org.folio.marccat.business.common.Persistence;
+import org.folio.marccat.business.common.SortFormException;
+import org.folio.marccat.business.common.View;
+import org.folio.marccat.business.descriptor.SortFormParameters;
+import org.folio.marccat.dao.persistence.*;
+import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.ReferentialIntegrityException;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -11,25 +22,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.folio.marccat.business.common.Persistence;
-import org.folio.marccat.business.common.SortFormException;
-import org.folio.marccat.business.common.View;
-import org.folio.marccat.business.descriptor.SortFormParameters;
-import org.folio.marccat.dao.persistence.Descriptor;
-import org.folio.marccat.dao.persistence.DescriptorKey;
-import org.folio.marccat.dao.persistence.NME_HDG;
-import org.folio.marccat.dao.persistence.NME_TTL_HDG;
-import org.folio.marccat.dao.persistence.REF;
-import org.folio.marccat.dao.persistence.SBJCT_HDG;
-import org.folio.marccat.dao.persistence.TTL_HDG;
-import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.exception.ReferentialIntegrityException;
-
-import net.sf.hibernate.Hibernate;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Query;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.type.Type;
+import static org.folio.marccat.util.F.deepCopy;
 
 
 /**
@@ -43,34 +36,30 @@ import net.sf.hibernate.type.Type;
  * @author carment
  */
 public abstract class DAODescriptor extends AbstractDAO {
-	private String queryAccessPoint = " AND hdg.accessPointLanguage=? ";
-	private String queryTarget = " AND ref.key.target=hdg.key.headingNumber ";
-	private String queryType = " AND ref.key.type=5 ";
-	private String queryAndHdg = " and hdg.key.userViewString = '";
-	private String queryAndRef = " and ref.key.userViewString = '";
-	private String queryAsApf = " as apf ";
-	private String queryAsC = " as c ";
-	private String queryAsHdg = " as hdg ";
-	private String queryAsRef = " as ref, ";
-	private String queryWhereRefSource = " where ref.key.source = ? ";
-	private String querySelectCount = "select count(*) from ";
-	private String querySelectRefFrom = "select ref from ";
-	
-
   /**
    * The blank sortform.
    */
   private static final String BLANK_SORTFORM = " ";
-
   /**
    * The sort sortform length.
    */
   private static final int SORTFORM_LENGTH = 1080;
-
   /**
    * The max sort sortform length.
    */
   private static final int MAX_SORTFORM_LENGTH = 250;
+  private String queryAccessPoint = " AND hdg.accessPointLanguage=? ";
+  private String queryTarget = " AND ref.key.target=hdg.key.headingNumber ";
+  private String queryType = " AND ref.key.type=5 ";
+  private String queryAndHdg = " and hdg.key.userViewString = '";
+  private String queryAndRef = " and ref.key.userViewString = '";
+  private String queryAsApf = " as apf ";
+  private String queryAsC = " as c ";
+  private String queryAsHdg = " as hdg ";
+  private String queryAsRef = " as ref, ";
+  private String queryWhereRefSource = " where ref.key.source = ? ";
+  private String querySelectCount = "select count(*) from ";
+  private String querySelectRefFrom = "select ref from ";
 
   /**
    * Gets the name of the associated Persistent class.
@@ -510,7 +499,7 @@ public abstract class DAODescriptor extends AbstractDAO {
   public boolean isMatchingAnotherHeading(final Descriptor descriptor, final Session session) throws HibernateException, SQLException {
     final String sortForm = calculateSortForm(descriptor, session);
     final List<Integer> countList = session.find(
-    		querySelectCount + getPersistentClass().getName()
+      querySelectCount + getPersistentClass().getName()
         + queryAsC
         + " where c.sortForm = ? and c.stringText = ? "
         + " and c.key.userViewString = ?"
@@ -576,14 +565,14 @@ public abstract class DAODescriptor extends AbstractDAO {
       throw new ReferentialIntegrityException(descriptor.getAccessPointClass()
         .getName(), descriptor.getClass().getName());
     }
-      if (supportsCrossReferences() && getXrefCount(descriptor, View.toIntView(descriptor.getUserViewString()), session) > 0) {
-        throw new ReferentialIntegrityException(descriptor.getReferenceClass(
-          descriptor.getClass()).getName(), descriptor.getClass().getName());
-      }
-      if (supportsAuthorities() && descriptor.getAuthorityCount() > 0) {
-        throw new ReferentialIntegrityException(descriptor.getReferenceClass(
-          descriptor.getClass()).getName(), descriptor.getClass().getName());
-      }
+    if (supportsCrossReferences() && getXrefCount(descriptor, View.toIntView(descriptor.getUserViewString()), session) > 0) {
+      throw new ReferentialIntegrityException(descriptor.getReferenceClass(
+        descriptor.getClass()).getName(), descriptor.getClass().getName());
+    }
+    if (supportsAuthorities() && descriptor.getAuthorityCount() > 0) {
+      throw new ReferentialIntegrityException(descriptor.getReferenceClass(
+        descriptor.getClass()).getName(), descriptor.getClass().getName());
+    }
 
     if (getAuthorityApfReferenceCount(descriptor, session) > 0) {
       throw new ReferentialIntegrityException("AUT_X_ACS_PNT", descriptor
@@ -931,7 +920,7 @@ public abstract class DAODescriptor extends AbstractDAO {
   public boolean hasMatchingSortformInAnotherView(final Descriptor descriptor, final Session session) throws HibernateException, SQLException {
     final String sortForm = calculateSortForm(descriptor, session);
     final List<Integer> countList = session.find(
-    		querySelectCount + getPersistentClass().getName()
+      querySelectCount + getPersistentClass().getName()
         + queryAsC + " where c.sortForm = ? "
         + " and c.key.userViewString <> ?",
       new Object[]{

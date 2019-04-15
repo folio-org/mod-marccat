@@ -1,8 +1,9 @@
 package org.folio.marccat.domain;
 
-import org.folio.marccat.config.log.Global;
+import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.resources.domain.FixedField;
 import org.folio.marccat.shared.GeneralInformation;
+
 import static java.util.Optional.ofNullable;
 
 /**
@@ -61,7 +62,7 @@ public class ConversionFieldUtils {
       fixedField.setPlaceOfPublication(displayValue.substring(15, 18));
       fixedField.setLanguageCode(displayValue.substring(35, 38));
       fixedField.setRecordModifiedCode(String.valueOf(displayValue.charAt(38)));
-       fixedField.setRecordCataloguingSourceCode(String.valueOf(displayValue.charAt(39)));
+      fixedField.setRecordCataloguingSourceCode(String.valueOf(displayValue.charAt(39)));
     } else { //006
       fixedField.setMaterialTypeCode(String.valueOf(displayValue.charAt(0)));
     }
@@ -407,7 +408,6 @@ public class ConversionFieldUtils {
   }
 
 
-
   /**
    * Return a display value for the physical information.
    *
@@ -446,7 +446,7 @@ public class ConversionFieldUtils {
       sb.append(fixedField.getTypeOfReproductionCode());
       sb.append(fixedField.getProductionDetailsCode());
       sb.append(fixedField.getPolarityCode());
-     } else if (categoryOfMaterial.equals(Global.TACTILE_MATERIAL)) {
+    } else if (categoryOfMaterial.equals(Global.TACTILE_MATERIAL)) {
       sb.append(" ");
       sb.append(fixedField.getClassOfBrailleWritingCodes());
       sb.append(fixedField.getLevelOfContractionCode());

@@ -29,7 +29,6 @@ public class BibliographicItem extends CatalogItem implements Serializable {
   }
 
 
-
   public BibliographicItem(Integer id) {
     super();
     this.bibItmData.setAmicusNumber(id);
@@ -152,8 +151,6 @@ public class BibliographicItem extends CatalogItem implements Serializable {
   /* (non-Javadoc)
    * @see CatalogItem#setItemEntity(ItemEntity)
    */
-
-
 
 
 }

@@ -19,7 +19,10 @@ import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.DAOCopy;
 import org.folio.marccat.dao.DAOGlobalVariable;
 import org.folio.marccat.dao.SystemNextNumberDAO;
-import org.folio.marccat.exception.*;
+import org.folio.marccat.exception.EmptySubfieldException;
+import org.folio.marccat.exception.InvalidShelfListTypeException;
+import org.folio.marccat.exception.NoSubfieldCodeException;
+import org.folio.marccat.exception.ValidationException;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.util.StringText;
 
@@ -367,7 +370,7 @@ public class CPY_ID implements Persistence, Serializable {
   }
 
 
-  public void evict(Object obj)  {
+  public void evict(Object obj) {
     persistenceState.evict(obj);
   }
 

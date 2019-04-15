@@ -9,7 +9,7 @@ import org.folio.marccat.business.cataloguing.common.OrderedTag;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.business.common.UserViewHelper;
-import org.folio.marccat.config.log.Global;
+import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.DAOBibliographicNote;
 import org.folio.marccat.shared.CorrelationValues;

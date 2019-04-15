@@ -61,13 +61,6 @@ public class AuthorityItem extends CatalogItem {
   /**
    * @since 1.0
    */
-  public void setModelItem(ModelItem modelItem) {
-    this.modelItem = modelItem;
-  }
-
-  /**
-   * @since 1.0
-   */
   @Override
   public void setModelItem(Model model) {
     this.modelItem = new AuthorityModelItem();
@@ -78,6 +71,13 @@ public class AuthorityItem extends CatalogItem {
       model.getRecordFields());
     this.session = this.modelItem.getDAO().currentSession();
 
+  }
+
+  /**
+   * @since 1.0
+   */
+  public void setModelItem(ModelItem modelItem) {
+    this.modelItem = modelItem;
   }
 
   /* (non-Javadoc)

@@ -6,7 +6,10 @@ import org.folio.marccat.business.cataloguing.common.TagImpl;
 import org.folio.marccat.business.common.group.*;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
-import org.folio.marccat.exception.*;
+import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.DuplicateTagException;
+import org.folio.marccat.exception.MarcCorrelationException;
+import org.folio.marccat.exception.ValidationException;
 import org.folio.marccat.shared.Validation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -63,8 +66,8 @@ public abstract class CatalogItem implements Serializable {
   }
 
   /**
-   * @deprecated
    * @param tags
+   * @deprecated
    */
   @Deprecated
   public void addAllTags(Tag[] tags) {
@@ -74,8 +77,8 @@ public abstract class CatalogItem implements Serializable {
   }
 
   /**
-   * @deprecated
    * @param aTag
+   * @deprecated
    */
   @Deprecated
   public void addDeletedTag(Tag aTag) {
@@ -86,7 +89,6 @@ public abstract class CatalogItem implements Serializable {
 
 
   /**
-   *
    * @param newTag
    */
   public void addTag(Tag newTag) {
@@ -94,7 +96,6 @@ public abstract class CatalogItem implements Serializable {
   }
 
   /**
-   *
    * @param session
    */
   abstract public void checkForMandatoryTags(Session session);

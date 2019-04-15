@@ -12,7 +12,7 @@ import org.folio.marccat.exception.DataAccessException;
 
 import java.util.Locale;
 
-import static org.folio.marccat.config.log.Global.EMPTY_STRING;
+import static org.folio.marccat.config.constants.Global.EMPTY_STRING;
 
 /**
  * Term expression node.
@@ -158,7 +158,7 @@ public class TermExpressionNode implements ExpressionNode {
     removeTrailingBlankInTerm();
     try {
       String sf = null;
-      if(!semantic().isFullText() &&  semantic().getSecondaryIndexCode()==0) {
+      if (!semantic().isFullText() && semantic().getSecondaryIndexCode() == 0) {
         final String preProcessWildCards =
           term.toString()
             .replace('?', '\u0002')
@@ -171,8 +171,7 @@ public class TermExpressionNode implements ExpressionNode {
           .getSortForm()
           .replace('\u0002', '%')
           .replace('\u0003', '_');
-      }
-      else
+      } else
         sf = term.toString();
       switch (semantic().getQueryActionCode()) {
         case "T":

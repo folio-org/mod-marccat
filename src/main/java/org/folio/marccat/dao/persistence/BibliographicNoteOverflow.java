@@ -8,7 +8,6 @@ import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.DAOBibliographicNotesOverflow;
 import org.folio.marccat.dao.SystemNextNumberDAO;
-import org.folio.marccat.exception.DataAccessException;
 
 import java.io.Serializable;
 

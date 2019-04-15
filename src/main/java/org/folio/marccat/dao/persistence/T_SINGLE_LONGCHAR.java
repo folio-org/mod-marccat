@@ -7,9 +7,6 @@
  */
 package org.folio.marccat.dao.persistence;
 
-import org.folio.marccat.exception.DataAccessException;
-
-
 /**
  * @author Maite
  * @version $Revision: 1.6 $, $Date: 2007/05/04 08:14:58 $

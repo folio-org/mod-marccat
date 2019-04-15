@@ -1,8 +1,7 @@
 package org.folio.marccat.dao.persistence;
 
-import java.io.Serializable;
-import java.util.Locale;
-
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.common.Persistence;
@@ -12,8 +11,8 @@ import org.folio.marccat.dao.DAOCodeTable;
 import org.folio.marccat.exception.ChronologyConfigurationException;
 import org.folio.marccat.exception.DataAccessException;
 
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
+import java.io.Serializable;
+import java.util.Locale;
 
 public class SRL_PRED_PAT_DTL implements Persistence, Serializable {
   /**
