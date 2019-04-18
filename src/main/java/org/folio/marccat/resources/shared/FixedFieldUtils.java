@@ -406,10 +406,10 @@ public class FixedFieldUtils {
    * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
    */
   public static void setVisualMaterialCodes(final String lang, final StorageService storageService, final FixedFieldCodesGroup fixedFieldCodesGroup) {
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("visualTargetAudienceCode", storageService.getCodesList(lang, VSL_TARGET_AUDIENCE).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("targetAudienceCode", storageService.getCodesList(lang, VSL_TARGET_AUDIENCE).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement(GOVERNMENT_PUBLICATION_CODE, storageService.getCodesList(lang, GOV_PUBLICATION).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement(FORM_OF_ITEM_CODE, storageService.getCodesList(lang, FORM_OF_ITEM).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("visualTypeMaterialCode", storageService.getCodesList(lang, VSL_TYPE_MATERIAL).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("visualMaterialTypeCode", storageService.getCodesList(lang, VSL_TYPE_MATERIAL).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("visualTechniqueCode", storageService.getCodesList(lang, VSL_TECHNIQUE).stream().map(toPairItem).collect(toList())));
   }
 
