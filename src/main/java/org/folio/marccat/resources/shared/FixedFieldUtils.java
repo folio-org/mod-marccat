@@ -392,9 +392,9 @@ public class FixedFieldUtils {
    * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
    */
   public static void setComputerMaterialCodes(final String lang, final StorageService storageService, final FixedFieldCodesGroup fixedFieldCodesGroup) {
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("computerTargetAudienceCodes", storageService.getCodesList(lang, COMPUTER_TARGET_AUDIENCE).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("computerFormOfItemCodes", storageService.getCodesList(lang, COMPUTER_FORM_OF_ITEM).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("computerTypeMaterialCodes", storageService.getCodesList(lang, COMPUTER_TYPE_MATERIAL).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("targetAudienceCode", storageService.getCodesList(lang, COMPUTER_TARGET_AUDIENCE).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("formOfItemCode", storageService.getCodesList(lang, COMPUTER_FORM_OF_ITEM).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("computerFileTypeCode", storageService.getCodesList(lang, COMPUTER_TYPE_MATERIAL).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement(GOVERNMENT_PUBLICATION_CODE, storageService.getCodesList(lang, GOV_PUBLICATION).stream().map(toPairItem).collect(toList())));
   }
 
@@ -439,13 +439,13 @@ public class FixedFieldUtils {
    */
   public static void setMusicMaterialCodes(final String lang, final StorageService storageService, final FixedFieldCodesGroup fixedFieldCodesGroup) {
 
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("musicFormats", storageService.getCodesList(lang, MSC_FORMAT).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("musicFormatCode", storageService.getCodesList(lang, MSC_FORMAT).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("musicFormOfCompositions", storageService.getCodesList(lang, MSC_PARTS).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("musicParts", storageService.getCodesList(lang, MSC_PARTS).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("targetAudienceCode", storageService.getCodesList(lang, TARGET_AUDIENCE).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement(FORM_OF_ITEM_CODE, storageService.getCodesList(lang, FORM_OF_ITEM).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("musicTextualMaterialCodes", storageService.getCodesList(lang, MSC_TEXTUAL_MAT_CODE).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("musicLiteraryTextCodes", storageService.getCodesList(lang, MSC_LITERARY_TEXT).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("musicLiteraryTextCode", storageService.getCodesList(lang, MSC_LITERARY_TEXT).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("musicTranspositionArrangementCode", storageService.getCodesList(lang, MSC_TRANSPOSITION_CODE).stream().map(toPairItem).collect(toList())));
 
   }
