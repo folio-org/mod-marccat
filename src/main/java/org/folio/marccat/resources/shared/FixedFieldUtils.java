@@ -392,8 +392,8 @@ public class FixedFieldUtils {
    * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
    */
   public static void setComputerMaterialCodes(final String lang, final StorageService storageService, final FixedFieldCodesGroup fixedFieldCodesGroup) {
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("targetAudienceCode", storageService.getCodesList(lang, COMPUTER_TARGET_AUDIENCE).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("formOfItemCode", storageService.getCodesList(lang, COMPUTER_FORM_OF_ITEM).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("computerTargetAudienceCode", storageService.getCodesList(lang, COMPUTER_TARGET_AUDIENCE).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("computerFileFormCode", storageService.getCodesList(lang, COMPUTER_FORM_OF_ITEM).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("computerFileTypeCode", storageService.getCodesList(lang, COMPUTER_TYPE_MATERIAL).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement(GOVERNMENT_PUBLICATION_CODE, storageService.getCodesList(lang, GOV_PUBLICATION).stream().map(toPairItem).collect(toList())));
   }
@@ -406,11 +406,11 @@ public class FixedFieldUtils {
    * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
    */
   public static void setVisualMaterialCodes(final String lang, final StorageService storageService, final FixedFieldCodesGroup fixedFieldCodesGroup) {
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("visualTargetAudienceCodes", storageService.getCodesList(lang, VSL_TARGET_AUDIENCE).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("visualTargetAudienceCode", storageService.getCodesList(lang, VSL_TARGET_AUDIENCE).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement(GOVERNMENT_PUBLICATION_CODE, storageService.getCodesList(lang, GOV_PUBLICATION).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement(FORM_OF_ITEM_CODE, storageService.getCodesList(lang, FORM_OF_ITEM).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("visualTypeMaterialCodes", storageService.getCodesList(lang, VSL_TYPE_MATERIAL).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("visualTechnique", storageService.getCodesList(lang, VSL_TECHNIQUE).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("visualTypeMaterialCode", storageService.getCodesList(lang, VSL_TYPE_MATERIAL).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("visualTechniqueCode", storageService.getCodesList(lang, VSL_TECHNIQUE).stream().map(toPairItem).collect(toList())));
   }
 
   /**
@@ -421,13 +421,17 @@ public class FixedFieldUtils {
    * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
    */
   public static void setMapMaterialCodes(final String lang, final StorageService storageService, final FixedFieldCodesGroup fixedFieldCodesGroup) {
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("mapReliefCodes", storageService.getCodesList(lang, MAP_RELIEF).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("mapProjectionCodes", storageService.getCodesList(lang, MAP_PROJECTION).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("mapTypeCartographicMaterialCodes", storageService.getCodesList(lang, MAP_TYPE_MATERIAL).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("cartographicReliefCode1", storageService.getCodesList(lang, MAP_RELIEF).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("cartographicReliefCode2", storageService.getCodesList(lang, MAP_RELIEF).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("cartographicReliefCode3", storageService.getCodesList(lang, MAP_RELIEF).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("cartographicReliefCode4", storageService.getCodesList(lang, MAP_RELIEF).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("cartographicProjectionCode", storageService.getCodesList(lang, MAP_PROJECTION).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("cartographicMaterial", storageService.getCodesList(lang, MAP_TYPE_MATERIAL).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement(GOVERNMENT_PUBLICATION_CODE, storageService.getCodesList(lang, GOV_PUBLICATION).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement(FORM_OF_ITEM_CODE, storageService.getCodesList(lang, FORM_OF_ITEM).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("mapIndexCodes", storageService.getCodesList(lang, MAP_INDEX).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("mapSpecialFormatCharacteristicCodes", storageService.getCodesList(lang, MAP_SPECIAL_FORMAT_CHARACTERISTIC).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("cartographicIndexAvailabilityCode", storageService.getCodesList(lang, MAP_INDEX).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("cartographicFormatCode1", storageService.getCodesList(lang, MAP_SPECIAL_FORMAT_CHARACTERISTIC).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("cartographicFormatCode2", storageService.getCodesList(lang, MAP_SPECIAL_FORMAT_CHARACTERISTIC).stream().map(toPairItem).collect(toList())));
   }
 
   /**
@@ -438,14 +442,19 @@ public class FixedFieldUtils {
    * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
    */
   public static void setMusicMaterialCodes(final String lang, final StorageService storageService, final FixedFieldCodesGroup fixedFieldCodesGroup) {
-
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("musicFormOfCompositionCode", storageService.getCodesList(lang, MSC_PARTS).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("musicFormatCode", storageService.getCodesList(lang, MSC_FORMAT).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("musicFormOfCompositions", storageService.getCodesList(lang, MSC_PARTS).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("musicParts", storageService.getCodesList(lang, MSC_PARTS).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("musicPartsCode", storageService.getCodesList(lang, MSC_PARTS).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("targetAudienceCode", storageService.getCodesList(lang, TARGET_AUDIENCE).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement(FORM_OF_ITEM_CODE, storageService.getCodesList(lang, FORM_OF_ITEM).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("musicTextualMaterialCodes", storageService.getCodesList(lang, MSC_TEXTUAL_MAT_CODE).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("musicLiteraryTextCode", storageService.getCodesList(lang, MSC_LITERARY_TEXT).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("musicTextualMaterialCode1", storageService.getCodesList(lang, MSC_TEXTUAL_MAT_CODE).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("musicTextualMaterialCode2", storageService.getCodesList(lang, MSC_TEXTUAL_MAT_CODE).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("musicTextualMaterialCode3", storageService.getCodesList(lang, MSC_TEXTUAL_MAT_CODE).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("musicTextualMaterialCode4", storageService.getCodesList(lang, MSC_TEXTUAL_MAT_CODE).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("musicTextualMaterialCode5", storageService.getCodesList(lang, MSC_TEXTUAL_MAT_CODE).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("musicTextualMaterialCode6", storageService.getCodesList(lang, MSC_TEXTUAL_MAT_CODE).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("musicLiteraryTextCode1", storageService.getCodesList(lang, MSC_LITERARY_TEXT).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("musicLiteraryTextCode2", storageService.getCodesList(lang, MSC_LITERARY_TEXT).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("musicTranspositionArrangementCode", storageService.getCodesList(lang, MSC_TRANSPOSITION_CODE).stream().map(toPairItem).collect(toList())));
 
   }
@@ -463,17 +472,17 @@ public class FixedFieldUtils {
 
     fixedFieldCodesGroup.addResults(new FixedFieldElement("serialFrequencyCode", storageService.getCodesList(lang, SRL_FREQUENCY).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("serialRegularityCode", storageService.getCodesList(lang, SRL_REGULARITY).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("serialTypeOfContinuingResourceCodes", storageService.getCodesList(lang, SRL_REGULARITY).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("serialFormOriginalCodes", storageService.getCodesList(lang, SRL_FORM_ORGNL_ITEM).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("serialTypeCode", storageService.getCodesList(lang, SRL_REGULARITY).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("serialFormOriginalItemCode", storageService.getCodesList(lang, SRL_FORM_ORGNL_ITEM).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement(FORM_OF_ITEM_CODE, storageService.getCodesList(lang, FORM_OF_ITEM).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("natureOfContent1", natureOfContents));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("natureOfContent2", natureOfContents));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("natureOfContent3", natureOfContents));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("serialNatureOfWorkCodes", natureOfContents));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("natureOfContent4", natureOfContents));
     fixedFieldCodesGroup.addResults(new FixedFieldElement(GOVERNMENT_PUBLICATION_CODE, storageService.getCodesList(lang, GOV_PUBLICATION).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("conferencePublicationCode", storageService.getCodesList(lang, CONF_PUBLICATION).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("serialOriginAlphabetCodes", storageService.getCodesList(lang, SRL_ORIGIN_ALPHABET).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("serialEntryConvCodes", storageService.getCodesList(lang, SRL_ENTRY_CONVENTION).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("serialOriginalAlphabetOfTitleCode", storageService.getCodesList(lang, SRL_ORIGIN_ALPHABET).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("serialSuccessiveLatestCode", storageService.getCodesList(lang, SRL_ENTRY_CONVENTION).stream().map(toPairItem).collect(toList())));
 
   }
 

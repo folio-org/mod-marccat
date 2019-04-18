@@ -98,7 +98,7 @@ public class ConversionFieldUtils {
       fixedField.setGovernmentPublicationCode(String.valueOf(displayValue.charAt(startPosition + 10)));
       fixedField.setConferencePublicationCode(String.valueOf(displayValue.charAt(startPosition + 11)));
       fixedField.setSerialOriginalAlphabetOfTitleCode(String.valueOf(displayValue.charAt(startPosition + 15)));
-      fixedField.setSerialEntryConventionCode(String.valueOf(displayValue.charAt(startPosition + 16)));
+      fixedField.setSerialSuccessiveLatestCode(String.valueOf(displayValue.charAt(startPosition + 16)));
       fixedField.setMaterialType(FixedField.MaterialType.CONTINUING_RESOURCE);
     } else if (gi.isComputerFile()) {
       fixedField.setTargetAudienceCode(String.valueOf(displayValue.charAt(startPosition + 4)));
@@ -339,11 +339,11 @@ public class ConversionFieldUtils {
       sb.append(fixedField.getConferencePublicationCode());
       sb.append("   ");
       sb.append(fixedField.getSerialOriginalAlphabetOfTitleCode());
-      sb.append(fixedField.getSerialEntryConventionCode());
+      sb.append(fixedField.getSerialSuccessiveLatestCode());
     } else if (gi.isComputerFile()) {
       sb.append("    ");
-      sb.append(fixedField.getTargetAudienceCode());
-      sb.append(fixedField.getFormOfItemCode());
+      sb.append(fixedField.getComputerTargetAudienceCode());
+      sb.append(fixedField.getComputerFileFormCode());
       sb.append("  ");
       sb.append(fixedField.getComputerFileTypeCode());
       sb.append(" ");
