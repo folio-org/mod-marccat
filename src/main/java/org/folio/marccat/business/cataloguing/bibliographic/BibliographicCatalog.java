@@ -315,8 +315,8 @@ public class BibliographicCatalog extends Catalog {
         materialDescription.setSerialFormOriginalItemCode(ff.getSerialFormOriginalItemCode());
       if (isNotNull(ff.getSerialOriginalAlphabetOfTitleCode()))
         materialDescription.setSerialOriginalAlphabetOfTitleCode(ff.getSerialOriginalAlphabetOfTitleCode());
-      if (isNotNull(ff.getSerialEntryConventionCode()))
-        materialDescription.setSerialSuccessiveLatestCode(ff.getSerialEntryConventionCode());
+      if (isNotNull(ff.getSerialSuccessiveLatestCode()))
+        materialDescription.setSerialSuccessiveLatestCode(ff.getSerialSuccessiveLatestCode());
       materialDescription.setSerialTitlePageExistenceCode(" ");
       materialDescription.setSerialIndexAvailabilityCode(" ");
     } else if (materialDescription.isMixedMaterial()) {

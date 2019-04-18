@@ -19,9 +19,9 @@ import java.util.Map;
   "cartographicReliefCode1", "cartographicReliefCode2", "cartographicReliefCode3", "cartographicReliefCode4", "cartographicProjectionCode", "cartographicMaterial",
   "cartographicIndexAvailabilityCode", "cartographicFormatCode1", "cartographicFormatCode2", "musicFormOfCompositionCode", "musicFormatCode", "musicPartsCode",
   "musicTextualMaterialCode1", "musicTextualMaterialCode2", "musicTextualMaterialCode3", "musicTextualMaterialCode4", "musicTextualMaterialCode5",
-  "musicTextualMaterialCode6", "musicLiteraryTextCode1", "musicLiteraryTextCode2", "musicTranspositionArrangementCode", "computerFileTypeCode", "visualRunningTime",
-  "visualMaterialTypeCode", "visualTechniqueCode", "serialFrequencyCode", "serialRegularityCode", "serialTypeCode", "serialFormOriginalItemCode",
-  "serialOriginalAlphabetOfTitleCode", "serialEntryConventionCode", "languageCode", "recordModifiedCode", "recordCataloguingSourceCode", "itemRecordStatusCode",
+  "musicTextualMaterialCode6", "musicLiteraryTextCode1", "musicLiteraryTextCode2", "musicTranspositionArrangementCode", "computerFileTypeCode", "computerTargetAudienceCode",
+  "computerFileFormCode", "visualRunningTime", "visualMaterialTypeCode", "visualTechniqueCode", "serialFrequencyCode", "serialRegularityCode", "serialTypeCode", "serialFormOriginalItemCode",
+  "serialOriginalAlphabetOfTitleCode", "serialSuccessiveLatestCode", "languageCode", "recordModifiedCode", "recordCataloguingSourceCode", "itemRecordStatusCode",
   "itemRecordTypeCode", "itemBibliographicLevelCode", "itemControlTypeCode", "characterCodingSchemeCode", "encodingLevel", "descriptiveCataloguingCode",
   "linkedRecordCode", "materialTypeCode", "categoryOfMaterial", "specificMaterialDesignationCode", "colorCode", "physicalMediumCode", "typeOfReproductionCode",
   "polarityCode", "dimensionsCode", "generationCode", "baseOfFilmCode", "includesSoundCode", "mediumForSoundCode", "secondarySupportMaterialCode",
@@ -188,6 +188,12 @@ public class FixedField {
   @JsonProperty("musicTranspositionArrangementCode")
   private String musicTranspositionArrangementCode;
 
+  @JsonProperty("computerTargetAudienceCode")
+  private String computerTargetAudienceCode;
+
+  @JsonProperty("computerFileFormCode")
+  private String computerFileFormCode;
+
   @JsonProperty("computerFileTypeCode")
   private String computerFileTypeCode;
 
@@ -215,8 +221,8 @@ public class FixedField {
   @JsonProperty("serialOriginalAlphabetOfTitleCode")
   private String serialOriginalAlphabetOfTitleCode;
 
-  @JsonProperty("serialEntryConventionCode")
-  private String serialEntryConventionCode;
+  @JsonProperty("serialSuccessiveLatestCode")
+  private String serialSuccessiveLatestCode;
 
   @JsonProperty("languageCode")
   private String languageCode;
@@ -1523,6 +1529,51 @@ public class FixedField {
   }
 
   /**
+   * @return The computerTargetAudienceCode
+   */
+  @JsonProperty("computerTargetAudienceCode")
+  public String getComputerTargetAudienceCode() {
+    return computerTargetAudienceCode;
+  }
+
+  /**
+   * @param computerTargetAudienceCode The computerTargetAudienceCode
+   */
+  @JsonProperty("computerTargetAudienceCode")
+  public void setComputerTargetAudienceCode(String computerTargetAudienceCode) {
+    this.attributes.put("computerTargetAudienceCode", computerTargetAudienceCode);
+    this.computerTargetAudienceCode = computerTargetAudienceCode;
+  }
+
+  public FixedField withComputerTargetAudienceCode(String computerTargetAudienceCode) {
+    this.attributes.put("computerTargetAudienceCode", computerTargetAudienceCode);
+    this.computerTargetAudienceCode = computerTargetAudienceCode;
+    return this;
+  }
+
+  /**
+   * @return The computerFileFormCode
+   */
+  @JsonProperty("computerFileFormCode")
+  public String getComputerFileFormCode() {
+    return computerFileFormCode;
+  }
+
+  /**
+   * @param computerFileFormCode The computerFileFormCode
+   */
+  @JsonProperty("computerFileFormCode")
+  public void setComputerFileFormCode(String computerFileFormCode) {
+    this.attributes.put("computerFileFormCode", computerFileFormCode);
+    this.computerFileFormCode = computerFileFormCode;
+  }
+
+  public FixedField withComputerFileFormCode(String computerFileFormCode) {
+    this.attributes.put("computerFileFormCode", computerFileFormCode);
+    this.computerFileFormCode = computerFileFormCode;
+    return this;
+  }
+  /**
    * @return The visualRunningTime
    */
   @JsonProperty("visualRunningTime")
@@ -1707,25 +1758,25 @@ public class FixedField {
   }
 
   /**
-   * @return The serialEntryConventionCode
+   * @return The serialSuccessiveLatestCode
    */
-  @JsonProperty("serialEntryConventionCode")
-  public String getSerialEntryConventionCode() {
-    return serialEntryConventionCode;
+  @JsonProperty("serialSuccessiveLatestCode")
+  public String getSerialSuccessiveLatestCode() {
+    return serialSuccessiveLatestCode;
   }
 
   /**
-   * @param serialEntryConventionCode The serialEntryConventionCode
+   * @param serialSuccessiveLatestCode The serialSuccessiveLatestCode
    */
-  @JsonProperty("serialEntryConventionCode")
-  public void setSerialEntryConventionCode(String serialEntryConventionCode) {
-    this.attributes.put("serialEntryConventionCode", serialEntryConventionCode);
-    this.serialEntryConventionCode = serialEntryConventionCode;
+  @JsonProperty("serialSuccessiveLatestCode")
+  public void setSerialSuccessiveLatestCode(String serialSuccessiveLatestCode) {
+    this.attributes.put("serialSuccessiveLatestCode", serialSuccessiveLatestCode);
+    this.serialSuccessiveLatestCode = serialSuccessiveLatestCode;
   }
 
-  public FixedField withSerialEntryConventionCode(String serialEntryConventionCode) {
-    this.attributes.put("serialEntryConventionCode", serialEntryConventionCode);
-    this.serialEntryConventionCode = serialEntryConventionCode;
+  public FixedField withSerialSuccessiveLatestCode(String serialSuccessiveLatestCode) {
+    this.attributes.put("serialSuccessiveLatestCode", serialSuccessiveLatestCode);
+    this.serialSuccessiveLatestCode = serialSuccessiveLatestCode;
     return this;
   }
 
