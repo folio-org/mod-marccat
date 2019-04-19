@@ -78,15 +78,6 @@ public class RemoteConfiguration implements Configuration {
             ? withDatasource ? "(datasource or " : "("
             : "",
           ")&limit=" + LIMIT));
-    /*return  BASE_CQUERY +
-      stream(values)
-        .filter(Objects::nonNull)
-        .collect(joining(
-          " or ",
-          values.length != 0
-            ? withDatasource ? "(datasource or " : "("
-            : "",
-          ")&limit=" + LIMIT));*/
   }
 
 }
