@@ -68,7 +68,7 @@ public class RemoteConfiguration implements Configuration {
   private String cQuery(boolean withDatasource, final String... configurationsSets) {
     final String[] values = safe(configurationsSets);
     return (values.length == 0 && withDatasource)
-      ? BASE_CQUERY + "datasource"
+      ? BASE_CQUERY + "datasource" + "&limit=" + LIMIT
       : BASE_CQUERY +
       stream(values)
         .filter(Objects::nonNull)
@@ -78,5 +78,15 @@ public class RemoteConfiguration implements Configuration {
             ? withDatasource ? "(datasource or " : "("
             : "",
           ")&limit=" + LIMIT));
+    /*return  BASE_CQUERY +
+      stream(values)
+        .filter(Objects::nonNull)
+        .collect(joining(
+          " or ",
+          values.length != 0
+            ? withDatasource ? "(datasource or " : "("
+            : "",
+          ")&limit=" + LIMIT));*/
   }
+
 }
