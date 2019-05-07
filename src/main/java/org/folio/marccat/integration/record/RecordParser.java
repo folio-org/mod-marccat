@@ -102,7 +102,7 @@ public class RecordParser {
           }
         }
       });
-    } else if (field.getFixedField().getKeyNumber() == null && field.getFieldStatus() == Field.FieldStatus.NEW) {
+    } else if (field.getFixedField().getKeyNumber() == 0 && field.getFieldStatus() == Field.FieldStatus.NEW) {
       addPhysicalDescriptionTag(item, field.getFixedField(), bibItemNumber);
     }
   }
@@ -132,7 +132,7 @@ public class RecordParser {
           }
         }
       });
-    } else if (field.getVariableField().getKeyNumber() == null && field.getFieldStatus() == Field.FieldStatus.NEW) {
+    } else if (field.getVariableField().getKeyNumber() == 0 && field.getFieldStatus() == Field.FieldStatus.NEW) {
       insertNewVariableField(item, field.getVariableField(), bibItemNumber, correlationValues, configuration, null, view);
     }
 
@@ -166,7 +166,7 @@ public class RecordParser {
           }
         }
       });
-    } else if (field.getFixedField().getKeyNumber() == null && field.getFieldStatus() == Field.FieldStatus.NEW) {
+    } else if (field.getFixedField().getKeyNumber() == 0 && field.getFieldStatus() == Field.FieldStatus.NEW) {
       addMaterialDescriptionToCatalog(Global.OTHER_MATERIAL_TAG_CODE, item, field.getFixedField(), generalInformation, formOfMaterial);
     }
   }
