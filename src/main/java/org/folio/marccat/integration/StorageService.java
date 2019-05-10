@@ -1746,5 +1746,36 @@ public class StorageService implements Closeable {
     }
   }
 
+  /**
+   *  Loads tags list using the like operator on tag.
+   *
+   * @param tagNumber the tag number used as filter criterion.
+   * @return
+   * @throws DataAccessException
+   */
+  public List <String> getFilteredTagsList (final String tagNumber) {
+    try {
+      return new BibliographicCorrelationDAO().getFilteredTagsList(tagNumber, session);
+    } catch (HibernateException exception) {
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
+    }
+  }
+
+  /**
+   *  Loads tag list using the like operator on tag.
+   *
+   * @param tagNumber the tag number used as filter criterion.
+   * @return
+   * @throws DataAccessException
+   */
+  public List <String> getFilteredTag (final String tagNumber) {
+    try {
+      return new BibliographicCorrelationDAO().getFilteredTag(tagNumber, session);
+    } catch (HibernateException exception) {
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
+    }
+  }
 
 }

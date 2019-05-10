@@ -18,7 +18,6 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,8 +63,6 @@ public abstract class CatalogDAO extends AbstractDAO {
   abstract void updateFullRecordCacheTable(Session session, CatalogItem item) throws HibernateException;
 
   protected abstract void updateItemDisplayCacheTable(final CatalogItem item, final Session session) throws HibernateException;
-
-  protected abstract void insertDeleteTable(final CatalogItem item, final UserProfile user);
 
   /**
    * For each heading in tag, load and set owner descriptor.

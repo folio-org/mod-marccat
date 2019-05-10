@@ -26,19 +26,7 @@ import static java.util.stream.Collectors.toList;
  */
 public class BibliographicCorrelationDAO extends DAOCorrelation {
 
-  public static final String SELECT_CLASSIFICATION_TAG_LABELS =
-    "SELECT AA.TBL_SEQ_NBR, AA.TYP_VLU_CDE, aa.FNCTN_VLU_CDE, AA.TBL_VLU_OBSLT_IND, AA.SHORT_STRING_TEXT, AA.STRING_TEXT, AA.LANGID"
-      + " FROM "
-      + " olisuite.S_BIB_CLSTN_TYP_FNCTN AA,"
-      + " olisuite.S_BIB_MARC_IND_DB_CRLTN BC"
-      + " WHERE BC.MARC_TAG_CAT_CDE = ?"
-      + " AND BC.MARC_TAG_1ST_IND <> '@'"
-      + " AND BC.MARC_TAG_2ND_IND <> '@'"
-      + " AND BC.MARC_TAG_IND_VLU_1_CDE = ?"
-      + " AND BC.MARC_TAG_IND_VLU_2_CDE = AA.FNCTN_VLU_CDE"
-      + " AND BC.MARC_TAG_IND_VLU_1_CDE = AA.TYP_VLU_CDE"
-      + " AND AA.TBL_VLU_OBSLT_IND = '0'"
-      + " ORDER BY AA.TBL_SEQ_NBR";
+
   final private Log logger = new Log(BibliographicCorrelationDAO.class);
   private String queryPartOne = " as ct, BibliographicCorrelation as bc ";
   private String queryWhereCategory = " where bc.key.marcTagCategoryCode = ? and ";
@@ -50,6 +38,8 @@ public class BibliographicCorrelationDAO extends DAOCorrelation {
   private String queryWhereTag = "where bc.key.marcTag = ? and ";
   private String queryOrFistInd = "(bc.key.marcFirstIndicator = ? or bc.key.marcFirstIndicator = 'S' )and ";
   private String queryOrSecondInd = "(bc.key.marcSecondIndicator = ? or bc.key.marcSecondIndicator = 'S')and ";
+
+
 
   /**
    * Returns the BibliographicCorrelation from BibliographicCorrelationKey.
@@ -445,4 +435,45 @@ public class BibliographicCorrelationDAO extends DAOCorrelation {
       return Collections.emptyList();
     }
   }
+
+  /**
+   *  Loads tags list using the like operator on tag.
+   *
+   * @param session   the session of hibernate
+   * @param tagNumber the tag number used as filter criterion.
+   * @return
+   * @throws DataAccessException
+   */
+  public List <String> getFilteredTagsList (final String tagNumber, final Session session) throws HibernateException {
+    final StringBuilder sqlFilter = new StringBuilder("select bc.key.marcTag ")
+      .append(queryFrom)
+      .append(" where bc.key.marcTag like ? " + "'%'" + " + and ")
+      .append(queryFirstInd)
+      .append(querySecondInd);
+    return session.find(sqlFilter.toString(),
+      new Object[]{tagNumber},
+      new Type[]{Hibernate.INTEGER});
+  }
+
+  /**
+   * Loads the indicators and the subfields of a tag.
+   *
+   * @param session   the session of hibernate
+   * @param tagNumber the tag number used as filter criterion.
+   * @return
+   * @throws DataAccessException
+   */
+  public List <String> getFilteredTag (final String tagNumber, final Session session) throws HibernateException {
+    final StringBuilder sqlFilter = new StringBuilder(
+      "select distinct bc.key.marcTag, bc.key.marcFirstIndicator, bc.key.marcSecondIndicator, bv.marcValidSubfieldStringCode from ")
+      .append(" BibliographicValidation as bv, BibliographicCorrelation as bc ")
+      .append(queryWhereTag)
+      .append(queryFirstInd)
+      .append(querySecondInd)
+      .append(" bv.key.marcTag = bc.key.marcTag");
+    return session.find(sqlFilter.toString(),
+      new Object[]{tagNumber},
+      new Type[]{Hibernate.INTEGER});
+  }
+
 }
