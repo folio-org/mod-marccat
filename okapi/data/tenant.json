@@ -1,0 +1,26 @@
+[
+  {
+    "id": "c0c14e3d-f731-4094-b40b-16e32b5e1a22",
+    "tenant": "diku",
+    "username": "diku_admin",
+    "password": "admin"
+  },
+  {
+    "id": "c0c14e3d-f731-4094-b40b-16e32b5e1a23",
+    "tenant": "tnx",
+    "username": "diku_admin",
+    "password": "admin"
+  },
+  {
+    "id": "c0c14e3d-f731-4094-b40b-16e32b5e1a24",
+    "tenant": "folio",
+    "username": "diku_admin",
+    "password": "admin"
+  },
+  {
+    "id": "c0c14e3d-f731-4094-b40b-16e32b5e1a25",
+    "tenant": "tnx_mod_conf",
+    "username": "diku_admin",
+    "password": "admin"
+  }
+]

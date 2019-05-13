@@ -18,6 +18,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -157,8 +158,8 @@ public abstract class CatalogDAO extends AbstractDAO {
     persistByStatus(itemEntity, session);
     final List<Tag> tagList = item.getTags().stream().map(aTag -> {
       try {
-        if (aTag.isNew()) {
-          aTag.setItemNumber(item.getAmicusNumber());
+          if (aTag.isNew()) {
+            aTag.setItemNumber(item.getAmicusNumber());
           if (aTag instanceof PersistentObjectWithView)
             ((PersistentObjectWithView) aTag).setUserViewString(myView);
           if (!aTag.isBrowsable())
@@ -193,6 +194,7 @@ public abstract class CatalogDAO extends AbstractDAO {
         }
       }
       item.getDeletedTags().remove(aTag);
+      item.getTags().remove(aTag);
     });
 
     if (item.getModelItem() != null) {
