@@ -2,6 +2,6 @@
   "srvcId": "${artifactId}-${version}",
   "nodeId": "localhost",
   "descriptor": {
-    "exec": "java -Dport=%p -jar -Dstorage=postgres ../mod-marccat/target/mod-marccat.jar"
+    "exec": "java -jar ../mod-marccat/target/mod-marccat.jar -Dhttp.port=%p"
   }
 }

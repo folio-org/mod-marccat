@@ -1,5 +1,5 @@
 configuration:
-  endpoint: http://151.1.165.20:8085/configurations/entries
+  endpoint: http://127.0.0.1:8085/configurations/entries
   port: 8085
   local: 151.1.165.20
   baseUrl: marccat
