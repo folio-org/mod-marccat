@@ -9,12 +9,10 @@
 # Date   : 10/04/2019
 #########################################################
 
-token=`cat dikuToken`
+TENANT=${1:-diku}
+TOKEN=${1:-diku}
 
-curl -D - -w '\n' -H "X-Okapi-Tenant: diku" -H "X-Okapi-Token: $token" http://localhost:9130/owners
-curl -D - -w '\n' -H "X-Okapi-Tenant: diku" -H "X-Okapi-Token: $token" http://localhost:9130/feefines
-# /accounts Require add
-curl -D - -w '\n' -H "X-Okapi-Tenant: diku" -H "X-Okapi-Token: $token" http://localhost:9130/accounts
-#Depend to accounts
-curl -D - -w '\n' -H "X-Okapi-Tenant: diku" -H "X-Okapi-Token: $token" http://localhost:9130/feefinehistory
-curl -D - -w '\n' -H "X-Okapi-Tenant: diku" -H "X-Okapi-Token: $token" http://localhost:9130/chargeitem
+curl -D - -w '\n' -H "X-Okapi-Tenant: ${TENANT}" -H "X-Okapi-Token: ${TOKEN}" http://localhost:9130/templates
+curl -D - -w '\n' -H "X-Okapi-Tenant: ${TENANT}" -H "X-Okapi-Token: ${TOKEN}" http://localhost:9130/heading-types
+curl -D - -w '\n' -H "X-Okapi-Tenant: ${TENANT}" -H "X-Okapi-Token: ${TOKEN}" http://localhost:9130/bibliographic-record
+
