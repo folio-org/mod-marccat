@@ -24,16 +24,11 @@ public class FilteredTag {
 
   @JsonProperty("ind1")
   @Size(min = 1, max = 1)
-  private String ind1;
+  private List<String> ind1 = new ArrayList <>();
 
   @JsonProperty("ind2")
   @Size(min = 1, max = 1)
-  private String ind2;
-
-  @JsonProperty("subfields")
-  @Valid
-  private String subfields;
-
+  private List<String> ind2 = new ArrayList <>();
 
   /**
    * @return The tag
@@ -60,7 +55,7 @@ public class FilteredTag {
    * @return The ind1
    */
   @JsonProperty("ind1")
-  public String getInd1() {
+  public List<String> getInd1() {
     return ind1;
   }
 
@@ -68,11 +63,11 @@ public class FilteredTag {
    * @param ind1 The ind1
    */
   @JsonProperty("ind1")
-  public void setInd1(String ind1) {
+  public void setInd1(List<String> ind1) {
     this.ind1 = ind1;
   }
 
-  public FilteredTag withInd1(String ind1) {
+  public FilteredTag withInd1(List<String> ind1) {
     this.ind1 = ind1;
     return this;
   }
@@ -81,7 +76,7 @@ public class FilteredTag {
    * @return The ind2
    */
   @JsonProperty("ind2")
-  public String getInd2() {
+  public List<String> getInd2() {
     return ind2;
   }
 
@@ -89,32 +84,14 @@ public class FilteredTag {
    * @param ind2 The ind2
    */
   @JsonProperty("ind2")
-  public void setInd2(String ind2) {
+  public void setInd2(List<String> ind2) {
     this.ind2 = ind2;
   }
 
-  public FilteredTag withInd2(String ind2) {
+  public FilteredTag withInd2(List<String> ind2) {
     this.ind2 = ind2;
     return this;
   }
 
-  /**
-   * @return The subfields
-   * @param s
-   */
-  public String getSubfields(String s) {
-    return subfields;
-  }
 
-  /**
-   * @param subfields The subfields
-   */
-  public void setSubfields(String subfields) {
-    this.subfields = subfields;
-  }
-
-  public FilteredTag withSubfields(String subfields) {
-    this.subfields = subfields;
-    return this;
-  }
 }

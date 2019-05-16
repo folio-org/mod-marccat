@@ -27,7 +27,7 @@ import static java.util.stream.Collectors.toList;
 public class BibliographicCorrelationDAO extends DAOCorrelation {
 
 
-  final private Log logger = new Log(BibliographicCorrelationDAO.class);
+  private final Log logger = new Log(BibliographicCorrelationDAO.class);
   private String queryPartOne = " as ct, BibliographicCorrelation as bc ";
   private String queryWhereCategory = " where bc.key.marcTagCategoryCode = ? and ";
   private String queryFirstInd = " bc.key.marcFirstIndicator <> '@' and ";
@@ -445,14 +445,17 @@ public class BibliographicCorrelationDAO extends DAOCorrelation {
    * @throws DataAccessException
    */
   public List <String> getFilteredTagsList (final String tagNumber, final Session session) throws HibernateException {
-    final StringBuilder sqlFilter = new StringBuilder("select bc.key.marcTag ")
-      .append(queryFrom)
-      .append(" where bc.key.marcTag like ? " + "'%'" + " + and ")
+    final StringBuilder sqlFilter = new StringBuilder("select distinct bc.key.marcTag ")
+      .append(" from BibliographicCorrelation as bc, BibliographicValidation as v ")
+      .append(" where bc.key.marcTag like ? ||'%' and ")
+      .append(" bc.key.marcTag not like '%@%' and ")
       .append(queryFirstInd)
-      .append(querySecondInd);
+      .append(querySecondInd)
+      .append(" v.key.marcTag = bc.key.marcTag and ")
+      .append(" v.marcTagObsoleteIndicator = '0' order by bc.key.marcTag ");
     return session.find(sqlFilter.toString(),
       new Object[]{tagNumber},
-      new Type[]{Hibernate.INTEGER});
+      new Type[]{Hibernate.STRING});
   }
 
   /**
@@ -463,17 +466,16 @@ public class BibliographicCorrelationDAO extends DAOCorrelation {
    * @return
    * @throws DataAccessException
    */
-  public List <String> getFilteredTag (final String tagNumber, final Session session) throws HibernateException {
-    final StringBuilder sqlFilter = new StringBuilder(
-      "select distinct bc.key.marcTag, bc.key.marcFirstIndicator, bc.key.marcSecondIndicator, bv.marcValidSubfieldStringCode from ")
-      .append(" BibliographicValidation as bv, BibliographicCorrelation as bc ")
+  public List <CorrelationKey> getFilteredTag (final String tagNumber, final Session session) throws HibernateException {
+    final StringBuilder sqlFilter = new StringBuilder(" select bc.key from BibliographicCorrelation as bc, BibliographicValidation as v  ")
       .append(queryWhereTag)
       .append(queryFirstInd)
       .append(querySecondInd)
-      .append(" bv.key.marcTag = bc.key.marcTag");
-    return session.find(sqlFilter.toString(),
+      .append(" v.key.marcTag = bc.key.marcTag and ")
+      .append(" v.marcTagObsoleteIndicator = '0'");
+   return session.find(sqlFilter.toString(),
       new Object[]{tagNumber},
-      new Type[]{Hibernate.INTEGER});
-  }
+      new Type[]{Hibernate.STRING});
+   }
 
 }
