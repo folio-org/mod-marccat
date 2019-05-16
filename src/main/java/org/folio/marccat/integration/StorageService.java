@@ -44,8 +44,10 @@ import java.util.*;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static java.lang.String.*;
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
+import static org.folio.marccat.config.constants.Global.BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC;
 import static org.folio.marccat.config.constants.Global.EMPTY_STRING;
 import static org.folio.marccat.config.constants.Global.EMPTY_VALUE;
 import static org.folio.marccat.util.F.isNotNullOrEmpty;
@@ -1087,8 +1089,8 @@ public class StorageService implements Closeable {
     leader.setValue(((org.folio.marccat.dao.persistence.Leader) item.getTag(0)).getDisplayString());
     bibliographicRecord.setLeader(leader);
     final char canadianIndicator = ((BibliographicItem) item).getBibItmData().getCanadianContentIndicator();
-    bibliographicRecord.setCanadianContentIndicator(String.valueOf(canadianIndicator));
-    bibliographicRecord.setVerificationLevel(String.valueOf(item.getItemEntity().getVerificationLevel()));
+    bibliographicRecord.setCanadianContentIndicator(valueOf(canadianIndicator));
+    bibliographicRecord.setVerificationLevel(valueOf(item.getItemEntity().getVerificationLevel()));
 
     item.getTags().stream().skip(1).forEach(aTag -> {
       int keyNumber = 0;
@@ -1622,7 +1624,7 @@ public class StorageService implements Closeable {
     }
   }
 
-  private int createOrReplaceDescriptor(final Map<String, String> configuration, final Descriptor descriptor, final int view) throws HibernateException, SQLException {
+  private int createOrReplaceDescriptor(final Map <String, String> configuration, final Descriptor descriptor, final int view) throws HibernateException, SQLException {
     descriptor.setUserViewString(View.makeSingleViewString(view));
     descriptor.setConfigValues(configuration);
     final Descriptor dup = ((DAODescriptor) (descriptor.getDAO())).getMatchingHeading(descriptor, session);
@@ -1630,8 +1632,9 @@ public class StorageService implements Closeable {
       descriptor.generateNewKey(session);
       descriptor.getDAO().save(descriptor, session);
       return descriptor.getHeadingNumber();
-    } else
+    } else {
       return dup.getHeadingNumber();
+    }
 
   }
 
@@ -1657,10 +1660,10 @@ public class StorageService implements Closeable {
    */
   private int updateIndicatorNotNumeric(final CorrelationKey coKey, final String indicator1, final String indicator2) {
     final int skipInFiling = 0;
-    if (coKey.getMarcFirstIndicator() == Global.BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC)
+    if (coKey.getMarcFirstIndicator() == BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC)
       return (!indicator1.isEmpty()) ? Integer.parseInt(indicator1) : skipInFiling;
-    else if (coKey.getMarcSecondIndicator() == Global.BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC)
-      if (!indicator2.isEmpty()) return (!indicator2.equals(EMPTY_VALUE)) ? Integer.parseInt(indicator2) : skipInFiling;
+    else if (coKey.getMarcSecondIndicator() == BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC && !indicator2.isEmpty())
+      return (!indicator2.equals(EMPTY_VALUE)) ? Integer.parseInt(indicator2) : skipInFiling;
     return skipInFiling;
   }
 
@@ -1746,5 +1749,66 @@ public class StorageService implements Closeable {
     }
   }
 
+  /**
+   *  Loads tags list using the like operator on tag.
+   *
+   * @param tagNumber the tag number used as filter criterion.
+   * @return
+   * @throws DataAccessException
+   */
+  public List <String> getFilteredTagsList (final String tagNumber) throws DataAccessException {
+    try {
+      return new BibliographicCorrelationDAO().getFilteredTagsList(tagNumber, session);
+    } catch (HibernateException exception) {
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
+    }
+  }
+
+  /**
+   *  Loads tag list using the like operator on tag.
+   *
+   * @param tagNumber the tag number used as filter criterion.
+   * @return
+   * @throws DataAccessException
+   */
+  public FilteredTag getFilteredTag(final String tagNumber) throws DataAccessException {
+    try {
+      final FilteredTag filteredTag = new FilteredTag();
+      final List <String> firstIndicators = new ArrayList <>();
+      final List <String> secondIndicators = new ArrayList <>();
+      new BibliographicCorrelationDAO().getFilteredTag(tagNumber, session)
+        .stream().forEach((CorrelationKey key) -> {
+        setIndicators(firstIndicators, secondIndicators, key);
+      });
+      filteredTag.setTag(tagNumber);
+      filteredTag.setInd1(firstIndicators.stream().sorted().distinct().collect(Collectors.toList()));
+      filteredTag.setInd2(secondIndicators.stream().sorted().distinct().collect(Collectors.toList()));
+      return filteredTag;
+    } catch (HibernateException exception) {
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
+    }
+  }
+
+  /**
+   * Set the list of the first and second indicators or the skip in filing on the tag.
+   *
+   * @param firtIndicators the list of the first indicators number used as filter criterion.
+   * @param secondIndicators the list of the second indicators used as filter criterion.
+   * @param key the key used as filter criterion.
+   * @return
+   * @throws DataAccessException
+   */
+  private void setIndicators(final List <String> firtIndicators, final List <String> secondIndicators, final CorrelationKey key) {
+    if (BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC != key.getMarcFirstIndicator())
+      firtIndicators.add(valueOf(key.getMarcFirstIndicator()));
+    else
+     firtIndicators.addAll(Global.SKIP_IN_FILING_CODES);
+    if(BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC != key.getMarcSecondIndicator()) {
+      secondIndicators.add(valueOf(key.getMarcSecondIndicator()));
+    } else
+      secondIndicators.addAll(Global.SKIP_IN_FILING_CODES);
+  }
 
 }

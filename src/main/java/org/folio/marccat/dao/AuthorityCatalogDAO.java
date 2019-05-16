@@ -197,11 +197,6 @@ public class AuthorityCatalogDAO extends CatalogDAO {
       new Type[]{Hibernate.STRING, Hibernate.STRING});
   }
 
-  @Override
-  protected void insertDeleteTable(CatalogItem item, UserProfile user) {
-    // do nothing -- Authorities don't have a cache table (yet)
-
-  }
 
   public List findNotes(Integer amicusNumber) {
     List notes = new ArrayList();
