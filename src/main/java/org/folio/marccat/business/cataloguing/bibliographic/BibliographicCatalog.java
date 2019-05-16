@@ -512,8 +512,8 @@ public class BibliographicCatalog extends Catalog {
     if (physicalDescription instanceof ElectronicResource) {
       if (isNotNull(ff.getColorCode()))
         ((ElectronicResource) physicalDescription).setColourCode(ff.getColorCode().charAt(0));
-      if (isNotNull(ff.getDimensionsCode()))
-        ((ElectronicResource) physicalDescription).setDimensionsCode(ff.getDimensionsCode().charAt(0));
+      if (isNotNull(ff.getDimensionCode()))
+        ((ElectronicResource) physicalDescription).setDimensionsCode(ff.getDimensionCode().charAt(0));
       if (isNotNull(ff.getIncludesSoundCode()))
         ((ElectronicResource) physicalDescription).setIncludesSoundCode(ff.getIncludesSoundCode().charAt(0));
       if (isNotNull(ff.getImageBitDepth()))
@@ -566,15 +566,15 @@ public class BibliographicCatalog extends Catalog {
         ((ProjectedGraphic) physicalDescription).setSoundOnMediumOrSeparateCode(ff.getSoundOnMediumOrSeparateCode().charAt(0));
       if (isNotNull(ff.getMediumForSoundCode()))
         ((ProjectedGraphic) physicalDescription).setMediumForSoundCode(ff.getMediumForSoundCode().charAt(0));
-      if (isNotNull(ff.getDimensionsCode()))
-        ((ProjectedGraphic) physicalDescription).setDimensionsCode(ff.getDimensionsCode().charAt(0));
+      if (isNotNull(ff.getDimensionCode()))
+        ((ProjectedGraphic) physicalDescription).setDimensionsCode(ff.getDimensionCode().charAt(0));
       if (isNotNull(ff.getSecondarySupportMaterialCode()))
         ((ProjectedGraphic) physicalDescription).setSecondarySupportMaterialCode(ff.getSecondarySupportMaterialCode().charAt(0));
     } else if (physicalDescription instanceof Microform) {
       if (isNotNull(ff.getPolarityCode()))
         ((Microform) physicalDescription).setPolarityCode(ff.getPolarityCode().charAt(0));
-      if (isNotNull(ff.getDimensionsCode()))
-        ((Microform) physicalDescription).setDimensionsCode(ff.getDimensionsCode().charAt(0));
+      if (isNotNull(ff.getDimensionCode()))
+        ((Microform) physicalDescription).setDimensionsCode(ff.getDimensionCode().charAt(0));
       if (isNotNull(ff.getReductionRatioRangeCode()))
         ((Microform) physicalDescription).setReductionRatioRangeCode(ff.getReductionRatioRangeCode().charAt(0));
       if (isNotNull(ff.getReductionRatioCode()))
@@ -603,8 +603,8 @@ public class BibliographicCatalog extends Catalog {
         ((MotionPicture) physicalDescription).setIncludesSoundCode(ff.getSoundOnMediumOrSeparateCode().charAt(0));
       if (isNotNull(ff.getMediumForSoundCode()))
         ((MotionPicture) physicalDescription).setMediumForSoundCode(ff.getMediumForSoundCode().charAt(0));
-      if (isNotNull(ff.getDimensionsCode()))
-        ((MotionPicture) physicalDescription).setDimensionsCode(ff.getDimensionsCode().charAt(0));
+      if (isNotNull(ff.getDimensionCode()))
+        ((MotionPicture) physicalDescription).setDimensionsCode(ff.getDimensionCode().charAt(0));
       if (isNotNull(ff.getConfigurationCode()))
         ((MotionPicture) physicalDescription).setConfigurationCode(ff.getConfigurationCode().charAt(0));
       if (isNotNull(ff.getProductionElementsCode()))
@@ -647,8 +647,8 @@ public class BibliographicCatalog extends Catalog {
         ((SoundRecording) physicalDescription).setConfigurationCode(ff.getConfigurationCode().charAt(0));
       if (isNotNull(ff.getGrooveWidthCode()))
         ((SoundRecording) physicalDescription).setGrooveWidthCode(ff.getGrooveWidthCode().charAt(0));
-      if (isNotNull(ff.getDimensionsCode()))
-        ((SoundRecording) physicalDescription).setDimensionsCode(ff.getDimensionsCode().charAt(0));
+      if (isNotNull(ff.getDimensionCode()))
+        ((SoundRecording) physicalDescription).setDimensionsCode(ff.getDimensionCode().charAt(0));
       if (isNotNull(ff.getTapeWidthCode()))
         ((SoundRecording) physicalDescription).setTapeWidthCode(ff.getTapeWidthCode().charAt(0));
       if (isNotNull(ff.getTapeConfigurationCode()))
@@ -672,8 +672,8 @@ public class BibliographicCatalog extends Catalog {
         ((VideoRecording) physicalDescription).setIncludesSoundCode(ff.getIncludesSoundCode().charAt(0));
       if (isNotNull(ff.getMediumForSoundCode()))
         ((VideoRecording) physicalDescription).setMediumForSoundCode(ff.getMediumForSoundCode().charAt(0));
-      if (isNotNull(ff.getDimensionsCode()))
-        ((VideoRecording) physicalDescription).setDimensionsCode(ff.getDimensionsCode().charAt(0));
+      if (isNotNull(ff.getDimensionCode()))
+        ((VideoRecording) physicalDescription).setDimensionsCode(ff.getDimensionCode().charAt(0));
       if (isNotNull(ff.getConfigurationCode()))
         ((VideoRecording) physicalDescription).setConfigurationCode(ff.getConfigurationCode().charAt(0));
     }

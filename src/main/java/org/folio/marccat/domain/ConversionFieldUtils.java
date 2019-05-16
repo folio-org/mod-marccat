@@ -172,7 +172,7 @@ public class ConversionFieldUtils {
     fixedField.setSpecificMaterialDesignationCode(String.valueOf(valueField.charAt(1)));
     if (categoryOfMaterial.equals(Global.ELECTRONIC_RESOURCE)) {
       fixedField.setColorCode(String.valueOf(valueField.charAt(3)));
-      fixedField.setDimensionsCode(String.valueOf(valueField.charAt(4)));
+      fixedField.setDimensionCode(String.valueOf(valueField.charAt(4)));
       fixedField.setIncludesSoundCode(String.valueOf(valueField.charAt(5)));
       fixedField.setImageBitDepth(valueField.substring(6, 9));
       fixedField.setFileFormatsCode(String.valueOf(valueField.charAt(9)));
@@ -204,12 +204,12 @@ public class ConversionFieldUtils {
       fixedField.setBaseOfEmulsionCode(String.valueOf(valueField.charAt(4)));
       fixedField.setSoundOnMediumOrSeparateCode(String.valueOf(valueField.charAt(5)));
       fixedField.setMediumForSoundCode(String.valueOf(valueField.charAt(6)));
-      fixedField.setDimensionsCode(String.valueOf(valueField.charAt(7)));
+      fixedField.setDimensionCode(String.valueOf(valueField.charAt(7)));
       fixedField.setSecondarySupportMaterialCode(String.valueOf(valueField.charAt(8)));
       fixedField.setPhysicalType(FixedField.PhysicalType.PROJECTED_GRAPHIC);
     } else if (categoryOfMaterial.equals(Global.MICROFORM)) {
       fixedField.setPolarityCode(String.valueOf(valueField.charAt(3)));
-      fixedField.setDimensionsCode(String.valueOf(valueField.charAt(4)));
+      fixedField.setDimensionCode(String.valueOf(valueField.charAt(4)));
       fixedField.setReductionRatioRangeCode(String.valueOf(valueField.charAt(5)));
       fixedField.setReductionRatioCode(valueField.substring(6, 9));
       fixedField.setColorCode(String.valueOf(valueField.charAt(9)));
@@ -227,7 +227,7 @@ public class ConversionFieldUtils {
       fixedField.setPresentationFormatCode(String.valueOf(valueField.charAt(4)));
       fixedField.setSoundOnMediumOrSeparateCode(String.valueOf(valueField.charAt(5)));
       fixedField.setMediumForSoundCode(String.valueOf(valueField.charAt(6)));
-      fixedField.setDimensionsCode(String.valueOf(valueField.charAt(7)));
+      fixedField.setDimensionCode(String.valueOf(valueField.charAt(7)));
       fixedField.setConfigurationCode(String.valueOf(valueField.charAt(8)));
       fixedField.setProductionElementsCode(String.valueOf(valueField.charAt(9)));
       fixedField.setPolarityCode(String.valueOf(valueField.charAt(10)));
@@ -256,7 +256,7 @@ public class ConversionFieldUtils {
       fixedField.setSpeedCode(String.valueOf(valueField.charAt(3)));
       fixedField.setConfigurationCode(String.valueOf(valueField.charAt(4)));
       fixedField.setGrooveWidthCode(String.valueOf(valueField.charAt(5)));
-      fixedField.setDimensionsCode(String.valueOf(valueField.charAt(6)));
+      fixedField.setDimensionCode(String.valueOf(valueField.charAt(6)));
       fixedField.setTapeWidthCode(String.valueOf(valueField.charAt(7)));
       fixedField.setTapeConfigurationCode(String.valueOf(valueField.charAt(8)));
       fixedField.setDiscTypeCode(String.valueOf(valueField.charAt(9)));
@@ -274,7 +274,7 @@ public class ConversionFieldUtils {
       fixedField.setFormatCode(String.valueOf(valueField.charAt(4)));
       fixedField.setIncludesSoundCode(String.valueOf(valueField.charAt(5)));
       fixedField.setMediumForSoundCode(String.valueOf(valueField.charAt(6)));
-      fixedField.setDimensionsCode(String.valueOf(valueField.charAt(7)));
+      fixedField.setDimensionCode(String.valueOf(valueField.charAt(7)));
       fixedField.setConfigurationCode(String.valueOf(valueField.charAt(8)));
       fixedField.setPhysicalType(FixedField.PhysicalType.VIDEO_RECORDING);
     }
@@ -426,7 +426,7 @@ public class ConversionFieldUtils {
     if (categoryOfMaterial.equals(Global.ELECTRONIC_RESOURCE)) {
       sb.append(" ");
       sb.append(fixedField.getColorCode());
-      sb.append(fixedField.getDimensionsCode());
+      sb.append(fixedField.getDimensionCode());
       sb.append(fixedField.getIncludesSoundCode());
       sb.append(fixedField.getImageBitDepth());
       sb.append(fixedField.getFileFormatsCode());
@@ -458,12 +458,12 @@ public class ConversionFieldUtils {
       sb.append(fixedField.getBaseOfEmulsionCode());
       sb.append(fixedField.getSoundOnMediumOrSeparateCode());
       sb.append(fixedField.getMediumForSoundCode());
-      sb.append(fixedField.getDimensionsCode());
+      sb.append(fixedField.getDimensionCode());
       sb.append(fixedField.getSecondarySupportMaterialCode());
     } else if (categoryOfMaterial.equals(Global.MICROFORM)) {
       sb.append(" ");
       sb.append(fixedField.getPolarityCode());
-      sb.append(fixedField.getDimensionsCode());
+      sb.append(fixedField.getDimensionCode());
       sb.append(fixedField.getReductionRatioRangeCode());
       sb.append(fixedField.getReductionRatioCode());
       sb.append(fixedField.getColorCode());
@@ -481,7 +481,7 @@ public class ConversionFieldUtils {
       sb.append(fixedField.getPresentationFormatCode());
       sb.append(fixedField.getSoundOnMediumOrSeparateCode());
       sb.append(fixedField.getMediumForSoundCode());
-      sb.append(fixedField.getDimensionsCode());
+      sb.append(fixedField.getDimensionCode());
       sb.append(fixedField.getConfigurationCode());
       sb.append(fixedField.getProductionElementsCode());
       sb.append(fixedField.getPolarityCode());
@@ -506,7 +506,7 @@ public class ConversionFieldUtils {
       sb.append(fixedField.getSpeedCode());
       sb.append(fixedField.getConfigurationCode());
       sb.append(fixedField.getGrooveWidthCode());
-      sb.append(fixedField.getDimensionsCode());
+      sb.append(fixedField.getDimensionCode());
       sb.append(fixedField.getTapeWidthCode());
       sb.append(fixedField.getTapeConfigurationCode());
       sb.append(fixedField.getDiscTypeCode());
@@ -520,7 +520,7 @@ public class ConversionFieldUtils {
       sb.append(fixedField.getFormatCode());
       sb.append(fixedField.getIncludesSoundCode());
       sb.append(fixedField.getMediumForSoundCode());
-      sb.append(fixedField.getDimensionsCode());
+      sb.append(fixedField.getDimensionCode());
       sb.append(fixedField.getConfigurationCode());
     }
     fixedField.setDisplayValue(sb.toString());

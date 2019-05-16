@@ -10,7 +10,6 @@ import org.folio.marccat.business.cataloguing.bibliographic.BibliographicTagImpl
 import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
 import org.folio.marccat.business.cataloguing.common.Tag;
 import org.folio.marccat.business.common.PersistentObjectWithView;
-import org.folio.marccat.business.controller.UserProfile;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
@@ -20,17 +19,13 @@ import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.exception.RecordNotFoundException;
 import org.folio.marccat.util.XmlUtils;
-
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import static org.folio.marccat.util.F.isNotNullOrEmpty;
 
 
@@ -472,17 +467,6 @@ public class BibliographicCatalogDAO extends CatalogDAO {
     return singleView;
   }
 
-  /**
-   * @param apfClass
-   * @param id
-   * @param userView
-   * @return
-   * @deprecated
-   */
-  @Deprecated
-  public List loadAccessPointTags(Class apfClass, int id, int userView) {
-    return Collections.emptyList();
-  }
 
   /**
    * Loads the BIB_ITM data into a new BibliographicItem.
@@ -603,15 +587,6 @@ public class BibliographicCatalogDAO extends CatalogDAO {
     }
   }
 
-  /**
-   * @param item
-   * @return
-   * @deprecated
-   */
-  @Deprecated
-  public Collection<SubjectAccessPoint> getEquivalentSubjects(final CatalogItem item) {
-    return Collections.emptyList();
-  }
 
   @SuppressWarnings("unchecked")
   private List<PublisherManager> getPublisherTags(final int amicusNumber, final int userView, final Session session) throws HibernateException {
@@ -620,26 +595,6 @@ public class BibliographicCatalogDAO extends CatalogDAO {
   }
 
 
-  /**
-   * @param key
-   * @return
-   * @deprecated
-   */
-  @Deprecated
-  public CatalogItem getCatalogItemByKey(Object[] key) {
-    return null;
-  }
-
-  /**
-   * @param id
-   * @param userView
-   * @return
-   * @deprecated
-   */
-  @Deprecated
-  public BibliographicItem getBibliographicItemWithoutRelationships(final int id, int userView) {
-    return null;
-  }
 
   /**
    * @param bibItemNumber
@@ -652,11 +607,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
     final int cataloguingView) {
   }
 
-  @Override
-  protected void insertDeleteTable(CatalogItem item, UserProfile user) {
-    // Empty
 
-  }
 
 
 }

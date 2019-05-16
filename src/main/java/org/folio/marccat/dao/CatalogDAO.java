@@ -64,8 +64,6 @@ public abstract class CatalogDAO extends AbstractDAO {
 
   protected abstract void updateItemDisplayCacheTable(final CatalogItem item, final Session session) throws HibernateException;
 
-  protected abstract void insertDeleteTable(final CatalogItem item, final UserProfile user);
-
   /**
    * For each heading in tag, load and set owner descriptor.
    *
@@ -157,8 +155,8 @@ public abstract class CatalogDAO extends AbstractDAO {
     persistByStatus(itemEntity, session);
     final List<Tag> tagList = item.getTags().stream().map(aTag -> {
       try {
-        if (aTag.isNew()) {
-          aTag.setItemNumber(item.getAmicusNumber());
+          if (aTag.isNew()) {
+            aTag.setItemNumber(item.getAmicusNumber());
           if (aTag instanceof PersistentObjectWithView)
             ((PersistentObjectWithView) aTag).setUserViewString(myView);
           if (!aTag.isBrowsable())
@@ -193,6 +191,7 @@ public abstract class CatalogDAO extends AbstractDAO {
         }
       }
       item.getDeletedTags().remove(aTag);
+      item.getTags().remove(aTag);
     });
 
     if (item.getModelItem() != null) {

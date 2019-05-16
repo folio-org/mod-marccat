@@ -137,7 +137,7 @@ public abstract class Global {
   public static final String COLOR_CODE = "colorCode";
   public static final String SOUND_ON_MEDIUM_OR_SEPARATE_CODE = "soundOnMediumOrSeparateCode";
   public static final String MEDIUM_FOR_SOUND_CODE = "mediumForSoundCode";
-  public static final String DIMENSION_CODE = "dimensionCodes";
+  public static final String DIMENSION_CODE = "dimensionCode";
   public static final String CONFIGURATION_CODE = "configurationCode";
   public static final String POLARITY_CODE = "polarityCode";
   public static final String GOVERNMENT_PUBLICATION_CODE = "governmentPublicationCode";
@@ -171,6 +171,7 @@ public abstract class Global {
   public static final Map<String, String> TAGS = new HashMap<>();
   private static final String UNASSIGNED = "unassigned";
   private static final String TAG_9XX = "9XX";
+  public static final List<String> SKIP_IN_FILING_CODES = Arrays.asList("0","1","2","3","4","5","6","7","8","9");
 
   static {
     TAGS.put("001", "Control Number  (NR)");

@@ -24,7 +24,7 @@ import java.util.Map;
   "serialOriginalAlphabetOfTitleCode", "serialSuccessiveLatestCode", "languageCode", "recordModifiedCode", "recordCataloguingSourceCode", "itemRecordStatusCode",
   "itemRecordTypeCode", "itemBibliographicLevelCode", "itemControlTypeCode", "characterCodingSchemeCode", "encodingLevel", "descriptiveCataloguingCode",
   "linkedRecordCode", "materialTypeCode", "categoryOfMaterial", "specificMaterialDesignationCode", "colorCode", "physicalMediumCode", "typeOfReproductionCode",
-  "polarityCode", "dimensionsCode", "generationCode", "baseOfFilmCode", "includesSoundCode", "mediumForSoundCode", "secondarySupportMaterialCode",
+  "polarityCode", "dimensionCode", "generationCode", "baseOfFilmCode", "includesSoundCode", "mediumForSoundCode", "secondarySupportMaterialCode",
   "configurationCode", "obsolete1", "obsolete2", "imageBitDepth", "fileFormatsCode", "qualityAssuranceTargetCode", "antecedentSourceCode",
   "levelOfCompressionCode", "reformattingQualityCode", "productionDetailsCode", "reductionRatioRangeCode", "reductionRatioCode", "emulsionOnFilmCode",
   "presentationFormatCode", "productionElementsCode", "refinedCategoriesOfColorCode", "kindOfColorStockCode", "deteriorationStageCode", "completenessCode",
@@ -278,8 +278,8 @@ public class FixedField {
   @JsonProperty("polarityCode")
   private String polarityCode;
 
-  @JsonProperty("dimensionsCode")
-  private String dimensionsCode;
+  @JsonProperty("dimensionCode")
+  private String dimensionCode;
 
   @JsonProperty("generationCode")
   private String generationCode;
@@ -2195,25 +2195,25 @@ public class FixedField {
   }
 
   /**
-   * @return The dimensionsCode
+   * @return The dimensionCode
    */
-  @JsonProperty("dimensionsCode")
-  public String getDimensionsCode() {
-    return dimensionsCode;
+  @JsonProperty("dimensionCode")
+  public String getDimensionCode() {
+    return dimensionCode;
   }
 
   /**
-   * @param dimensionsCode The dimensionsCode
+   * @param dimensionCode The dimensionsCode
    */
-  @JsonProperty("dimensionsCode")
-  public void setDimensionsCode(String dimensionsCode) {
-    this.attributes.put("dimensionsCode", dimensionsCode);
-    this.dimensionsCode = dimensionsCode;
+  @JsonProperty("dimensionCode")
+  public void setDimensionCode(String dimensionCode) {
+    this.attributes.put("dimensionCode", dimensionCode);
+    this.dimensionCode = dimensionCode;
   }
 
-  public FixedField withDimensionsCode(String dimensionsCode) {
-    this.attributes.put("dimensionsCode", dimensionsCode);
-    this.dimensionsCode = dimensionsCode;
+  public FixedField withDimensionCode(String dimensionCode) {
+    this.attributes.put("dimensionCode", dimensionCode);
+    this.dimensionCode = dimensionCode;
     return this;
   }
 
