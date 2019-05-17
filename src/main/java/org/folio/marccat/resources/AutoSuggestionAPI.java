@@ -3,6 +3,7 @@ package org.folio.marccat.resources;
 import org.folio.marccat.ModMarccat;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Message;
+import org.folio.marccat.resources.domain.FilteredTag;
 import org.folio.marccat.resources.domain.FilteredTagsCollection;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class AutoSuggestionAPI extends BaseResource{
   @GetMapping("/filteredTagsList")
   public FilteredTagsCollection getFilteredTagsList(
     @RequestParam final String tagNumber,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME)  final String tenant) {
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
     return doGet((storageService, configuration) -> {
       final FilteredTagsCollection container = new FilteredTagsCollection();
       container.setTags(storageService.getFilteredTagsList(tagNumber));
@@ -34,8 +35,7 @@ public class AutoSuggestionAPI extends BaseResource{
     @RequestParam final String tagNumber,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
     return doGet((storageService, configuration) -> {
-        final FilteredTagsCollection container = new FilteredTagsCollection();
-        container.setFilteredTag(storageService.getFilteredTag(tagNumber));
+       final FilteredTag container = storageService.getFilteredTag(tagNumber);
         return new ResponseEntity(container, HttpStatus.OK);
     }, tenant, configurator);
   }

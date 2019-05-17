@@ -11,23 +11,9 @@ import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({"tag", "tags"})
+@JsonPropertyOrder({"tags"})
 public class FilteredTagsCollection {
 
-  @JsonProperty("tag")
-  @Valid
-  @NotNull
-  private FilteredTag tag = new FilteredTag();
-
-  @JsonProperty("tag")
-  public FilteredTag getTag() {
-    return tag;
-  }
-
-  @JsonProperty("tag")
-  public void setFilteredTag(FilteredTag tag) {
-    this.tag = tag;
-  }
   /**
    * (Required)
    */

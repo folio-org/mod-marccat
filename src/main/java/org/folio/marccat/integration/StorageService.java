@@ -1775,8 +1775,8 @@ public class StorageService implements Closeable {
   public FilteredTag getFilteredTag(final String tagNumber) throws DataAccessException {
     try {
       final FilteredTag filteredTag = new FilteredTag();
-      final List <String> firstIndicators = new ArrayList <>();
-      final List <String> secondIndicators = new ArrayList <>();
+      final List<String> firstIndicators = new ArrayList<>();
+      final List<String> secondIndicators = new ArrayList<>();
       new BibliographicCorrelationDAO().getFilteredTag(tagNumber, session)
         .stream().forEach((CorrelationKey key) -> {
         setIndicators(firstIndicators, secondIndicators, key);
