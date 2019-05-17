@@ -28,10 +28,11 @@ import java.util.Map;
   "configurationCode", "obsolete1", "obsolete2", "imageBitDepth", "fileFormatsCode", "qualityAssuranceTargetCode", "antecedentSourceCode",
   "levelOfCompressionCode", "reformattingQualityCode", "productionDetailsCode", "reductionRatioRangeCode", "reductionRatioCode", "emulsionOnFilmCode",
   "presentationFormatCode", "productionElementsCode", "refinedCategoriesOfColorCode", "kindOfColorStockCode", "deteriorationStageCode", "completenessCode",
-  "inspectionDate", "primarySupportMaterialCode", "baseOfEmulsionCode", "soundOnMediumOrSeparateCode", "altitudeOfSensorCode", "attitudeOfSensorCode",
+  "inspectionDate", "primarySupportMaterialCode", "baseOfEmulsionCode", "videoRecordingFormatCode","remoteSensingDataTypeCode","soundOnMediumOrSeparateCode", "altitudeOfSensorCode", "attitudeOfSensorCode",
   "cloudCoverCode", "platformConstructionTypeCode", "platformUseCode", "sensorTypeCode", "remoteDataTypeCode", "speedCode", "grooveWidthCode",
   "tapeWidthCode", "tapeConfigurationCode", "discTypeCode", "sndMaterialTypeCode", "cuttingTypeCode", "specialPlaybackCharacteristicsCode",
-  "storageTechniqueCode", "classOfBrailleWritingCodes", "levelOfContractionCode", "brailleMusicFormatCodes", "specificPhysicalCharacteristicsCode",
+  "storageTechniqueCode", "classOfBrailleWritingCode1", "classOfBrailleWritingCode2", "levelOfContractionCode", "brailleMusicFormatCode1",
+  "brailleMusicFormatCode2", "brailleMusicFormatCode3","specificPhysicalCharacteristicsCode",
   "formatCode", "sequenceNumber", "attributes"})
 public class FixedField {
 
@@ -359,8 +360,15 @@ public class FixedField {
   @JsonProperty("primarySupportMaterialCode")
   private String primarySupportMaterialCode;
 
+
   @JsonProperty("baseOfEmulsionCode")
   private String baseOfEmulsionCode;
+
+  @JsonProperty("videoRecordingFormatCode")
+  private String videoRecordingFormatCode;
+
+  @JsonProperty("remoteSensingDataTypeCode")
+  private String remoteSensingDataTypeCode;
 
   @JsonProperty("soundOnMediumOrSeparateCode")
   private String soundOnMediumOrSeparateCode;
@@ -413,14 +421,23 @@ public class FixedField {
   @JsonProperty("storageTechniqueCode")
   private String storageTechniqueCode;
 
-  @JsonProperty("classOfBrailleWritingCodes")
-  private String classOfBrailleWritingCodes;
+  @JsonProperty("classOfBrailleWritingCode1")
+  private String classOfBrailleWritingCode1;
+
+  @JsonProperty("classOfBrailleWritingCode2")
+  private String classOfBrailleWritingCode2;
 
   @JsonProperty("levelOfContractionCode")
   private String levelOfContractionCode;
 
-  @JsonProperty("brailleMusicFormatCodes")
-  private String brailleMusicFormatCodes;
+  @JsonProperty("brailleMusicFormatCode1")
+  private String brailleMusicFormatCode1;
+
+  @JsonProperty("brailleMusicFormatCode2")
+  private String brailleMusicFormatCode2;
+
+  @JsonProperty("brailleMusicFormatCode3")
+  private String brailleMusicFormatCode3;
 
   @JsonProperty("specificPhysicalCharacteristicsCode")
   private String specificPhysicalCharacteristicsCode;
@@ -2838,6 +2855,53 @@ public class FixedField {
     return this;
   }
 
+
+  //DA QUI
+  /**
+   * @return The videoRecordingFormatCode
+   */
+  @JsonProperty("videoRecordingFormatCode")
+  public String getVideoRecordingFormatCode() {
+    return videoRecordingFormatCode ;
+  }
+
+  /**
+   * @param videoRecordingFormatCode  The videoRecordingFormatCode
+   */
+  @JsonProperty("videoRecordingFormatCode")
+  public void setVideoRecordingFormatCode(String videoRecordingFormatCode) {
+    this.attributes.put("videoRecordingFormatCode", videoRecordingFormatCode);
+    this.videoRecordingFormatCode  = videoRecordingFormatCode ;
+  }
+
+  public FixedField withVideoRecordingFormatCode(String videoRecordingFormatCode) {
+    this.attributes.put("videoRecordingFormatCode", videoRecordingFormatCode );
+    this.videoRecordingFormatCode  = videoRecordingFormatCode ;
+    return this;
+  }
+
+  /**
+   * @return The remoteSensingDataTypeCode
+   */
+  @JsonProperty("remoteSensingDataTypeCode")
+  public String getRemoteSensingDataTypeCode() {
+    return remoteSensingDataTypeCode;
+  }
+
+  /**
+   * @param remoteSensingDataTypeCode   The remoteSensingDataTypeCode
+   */
+  @JsonProperty("remoteSensingDataTypeCode")
+  public void setRemoteSensingDataTypeCodee (String remoteSensingDataTypeCode) {
+    this.attributes.put("remoteSensingDataTypeCode", remoteSensingDataTypeCode);
+    this.remoteSensingDataTypeCode  = remoteSensingDataTypeCode ;
+  }
+
+  public FixedField withRemoteSensingDataTypeCode(String remoteSensingDataTypeCode ) {
+    this.attributes.put("remoteSensingDataTypeCode", remoteSensingDataTypeCode );
+    this.remoteSensingDataTypeCode  = remoteSensingDataTypeCode ;
+    return this;
+  }
   /**
    * @return The soundOnMediumOrSeparateCode
    */
@@ -3224,25 +3288,48 @@ public class FixedField {
   }
 
   /**
-   * @return The classOfBrailleWritingCodes
+   * @return The classOfBrailleWritingCode1
    */
-  @JsonProperty("classOfBrailleWritingCodes")
-  public String getClassOfBrailleWritingCodes() {
-    return classOfBrailleWritingCodes;
+  @JsonProperty("classOfBrailleWritingCode1")
+  public String getClassOfBrailleWritingCode1() {
+    return classOfBrailleWritingCode1;
   }
 
   /**
-   * @param classOfBrailleWritingCodes The classOfBrailleWritingCodes
+   * @param classOfBrailleWritingCode1 The classOfBrailleWritingCode1
    */
-  @JsonProperty("classOfBrailleWritingCodes")
-  public void setClassOfBrailleWritingCodes(String classOfBrailleWritingCodes) {
-    this.attributes.put("classOfBrailleWritingCodes", classOfBrailleWritingCodes);
-    this.classOfBrailleWritingCodes = classOfBrailleWritingCodes;
+  @JsonProperty("classOfBrailleWritingCode1")
+  public void setClassOfBrailleWritingCode1(String classOfBrailleWritingCode1) {
+    this.attributes.put("classOfBrailleWritingCode1", classOfBrailleWritingCode1);
+    this.classOfBrailleWritingCode1 = classOfBrailleWritingCode1;
   }
 
-  public FixedField withClassOfBrailleWritingCodes(String classOfBrailleWritingCodes) {
-    this.attributes.put("classOfBrailleWritingCodes", classOfBrailleWritingCodes);
-    this.classOfBrailleWritingCodes = classOfBrailleWritingCodes;
+  public FixedField withClassOfBrailleWritingCode1(String classOfBrailleWritingCode1) {
+    this.attributes.put("classOfBrailleWritingCode1", classOfBrailleWritingCode1);
+    this.classOfBrailleWritingCode1 = classOfBrailleWritingCode1;
+    return this;
+  }
+
+  /**
+   * @return The classOfBrailleWritingCode2
+   */
+  @JsonProperty("classOfBrailleWritingCode2")
+  public String getClassOfBrailleWritingCode2() {
+    return classOfBrailleWritingCode2;
+  }
+
+  /**
+   * @param classOfBrailleWritingCode2 The classOfBrailleWritingCode2
+   */
+  @JsonProperty("classOfBrailleWritingCode2")
+  public void setClassOfBrailleWritingCode2(String classOfBrailleWritingCode2) {
+    this.attributes.put("classOfBrailleWritingCode2", classOfBrailleWritingCode2);
+    this.classOfBrailleWritingCode2 = classOfBrailleWritingCode2;
+  }
+
+  public FixedField withClassOfBrailleWritingCode2(String classOfBrailleWritingCode2) {
+    this.attributes.put("classOfBrailleWritingCode2", classOfBrailleWritingCode2);
+    this.classOfBrailleWritingCode2 = classOfBrailleWritingCode2;
     return this;
   }
 
@@ -3270,27 +3357,74 @@ public class FixedField {
   }
 
   /**
-   * @return The brailleMusicFormatCodes
+   * @return The brailleMusicFormatCode1
    */
-  @JsonProperty("brailleMusicFormatCodes")
-  public String getBrailleMusicFormatCodes() {
-    return brailleMusicFormatCodes;
+  @JsonProperty("brailleMusicFormatCode1")
+  public String getBrailleMusicFormatCode1() {
+    return brailleMusicFormatCode1;
   }
 
   /**
-   * @param brailleMusicFormatCodes The brailleMusicFormatCodes
+   * @param brailleMusicFormatCode1 The brailleMusicFormatCode1
    */
-  @JsonProperty("brailleMusicFormatCodes")
-  public void setBrailleMusicFormatCodes(String brailleMusicFormatCodes) {
-    this.attributes.put("brailleMusicFormatCodes", brailleMusicFormatCodes);
-    this.brailleMusicFormatCodes = brailleMusicFormatCodes;
+  @JsonProperty("brailleMusicFormatCode1")
+  public void setBrailleMusicFormatCode1(String brailleMusicFormatCode1) {
+    this.attributes.put("brailleMusicFormatCode1", brailleMusicFormatCode1);
+    this.brailleMusicFormatCode1 = brailleMusicFormatCode1;
   }
 
-  public FixedField withBrailleMusicFormatCodes(String brailleMusicFormatCodes) {
-    this.attributes.put("brailleMusicFormatCodes", brailleMusicFormatCodes);
-    this.brailleMusicFormatCodes = brailleMusicFormatCodes;
+  public FixedField withBrailleMusicFormatCode1(String brailleMusicFormatCode1) {
+    this.attributes.put("brailleMusicFormatCode1", brailleMusicFormatCode1);
+    this.brailleMusicFormatCode1 = brailleMusicFormatCode1;
     return this;
   }
+
+  /**
+   * @return The brailleMusicFormatCode2
+   */
+  @JsonProperty("brailleMusicFormatCode2")
+  public String getBrailleMusicFormatCode2() {
+    return brailleMusicFormatCode2;
+  }
+
+  /**
+   * @param brailleMusicFormatCode2 The brailleMusicFormatCode2
+   */
+  @JsonProperty("brailleMusicFormatCode2")
+  public void setBrailleMusicFormatCode2(String brailleMusicFormatCode2) {
+    this.attributes.put("brailleMusicFormatCode2", brailleMusicFormatCode2);
+    this.brailleMusicFormatCode2 = brailleMusicFormatCode2;
+  }
+
+  public FixedField withBrailleMusicFormatCode2(String brailleMusicFormatCode2) {
+    this.attributes.put("brailleMusicFormatCode2", brailleMusicFormatCode2);
+    this.brailleMusicFormatCode2 = brailleMusicFormatCode2;
+    return this;
+  }
+
+  /**
+   * @return The brailleMusicFormatCode3
+   */
+  @JsonProperty("brailleMusicFormatCode3")
+  public String getBrailleMusicFormatCode3() {
+    return brailleMusicFormatCode3;
+  }
+
+  /**
+   * @param brailleMusicFormatCode3 The brailleMusicFormatCode3
+   */
+  @JsonProperty("brailleMusicFormatCode3")
+  public void setBrailleMusicFormatCode3(String brailleMusicFormatCode3) {
+    this.attributes.put("brailleMusicFormatCode3", brailleMusicFormatCode3);
+    this.brailleMusicFormatCode3 = brailleMusicFormatCode3;
+  }
+
+  public FixedField withBrailleMusicFormatCode3(String brailleMusicFormatCode3) {
+    this.attributes.put("brailleMusicFormatCode3", brailleMusicFormatCode3);
+    this.brailleMusicFormatCode3 = brailleMusicFormatCode3;
+    return this;
+  }
+
 
   /**
    * @return The specificPhysicalCharacteristicsCode
