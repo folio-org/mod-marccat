@@ -68,9 +68,9 @@ public class ModConfigurationAPI extends BaseResource {
   public ResponseEntity<Object> saveConfigurationEntries(
     @RequestParam(name = "lang", defaultValue = "en") final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
-    @RequestHeader(name = Global.OKAPI_TOKEN_HEADER_NAME, defaultValue = "folio_dmarccat") final String token) throws Exception {
+    @RequestHeader(name = Global.OKAPI_TOKEN_HEADER_NAME, defaultValue = "folio_marccat") final String token) throws Exception {
     String content = getFile("sample/marccat_configuration.sample");
-    cc = new ConfigurationsClient(local, 8085, tenant, token);
+    cc = new ConfigurationsClient(local, 8085, tenant, "folio_demo");
     Config conf = new ObjectMapper().readValue(content, Config.class);
     cc.postConfigurationsEntries(lang, conf, response -> {
       response.bodyHandler(handler -> {
@@ -128,7 +128,7 @@ public class ModConfigurationAPI extends BaseResource {
   @PostMapping("/tenant")
   public void createTenant(
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) throws Exception {
-    TenantClient tenantClient = new TenantClient(local, 8085, "tnx", "tnx");
+    TenantClient tenantClient = new TenantClient(local, 8085, "tdnx", "tndx");
     TenantAttributes ta = new TenantAttributes();
     ta.setModuleTo(Global.MODULE_NAME);
     tenantClient.postTenant(ta, response -> {
