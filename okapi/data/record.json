@@ -1,0 +1,135 @@
+{
+  "bibliographicRecord": {
+    "id": 1,
+    "canadianContentIndicator": "0",
+    "verificationLevel": "r",
+    "leader": {
+      "code": "000",
+      "value": "00000nam  2200000   4500"
+    },
+    "fields": [
+      {
+        "code": "001",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "fixedField": {
+          "categoryCode": 1,
+          "headerTypeCode": 39,
+          "code": "001",
+          "displayValue": "00017781321",
+          "sequenceNumber": 0
+        },
+        "added": false
+      },
+      {
+        "code": "005",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "fixedField": {
+          "categoryCode": 1,
+          "description": "005 - Transaction Date/Time",
+          "headerTypeCode": 41,
+          "code": "005",
+          "displayValue": "20181212094242.",
+          "sequenceNumber": 0
+        },
+        "added": false
+      },
+      {
+        "code": "008",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "fixedField": {
+          "categoryCode": 1,
+          "headerTypeCode": 31,
+          "code": "008",
+          "displayValue": "180924s        enk           000 u eng r",
+          "sequenceNumber": 0
+        },
+        "added": false
+      },
+      {
+        "code": "040",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "variableField": {
+          "description": "Cataloguing Source",
+          "ind1": " ",
+          "ind2": " ",
+          "code": "040",
+          "displayValue": "\u001faItFiC\u001fbita",
+          "subfields": [],
+          "sequenceNumber": 0
+        },
+        "added": true
+      }
+    ],
+    "recordView": 0
+  },
+  "recordTemplate": {
+    "id": 1,
+    "name": "Monografia",
+    "type": "B",
+    "leader": {
+      "code": "000",
+      "value": "00000nam  2200000   4500"
+    },
+    "fields": [
+      {
+        "code": "001",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "fixedField": {
+          "categoryCode": 1,
+          "headerTypeCode": 39,
+          "code": "001",
+          "displayValue": "00017781321",
+          "sequenceNumber": 0
+        },
+        "added": false
+      },
+      {
+        "code": "005",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "fixedField": {
+          "categoryCode": 1,
+          "description": "005 - Transaction Date/Time",
+          "headerTypeCode": 41,
+          "code": "005",
+          "displayValue": "20181212094242.",
+          "sequenceNumber": 0
+        },
+        "added": false
+      },
+      {
+        "code": "008",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "fixedField": {
+          "categoryCode": 1,
+          "headerTypeCode": 31,
+          "code": "008",
+          "displayValue": "180924s        enk           000 u eng r",
+          "sequenceNumber": 0
+        },
+        "added": false
+      },
+      {
+        "code": "040",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "variableField": {
+          "description": "Cataloguing Source",
+          "ind1": " ",
+          "ind2": " ",
+          "code": "040",
+          "displayValue": "\u001faItFiC\u001fbita",
+          "subfields": [],
+          "sequenceNumber": 0
+        },
+        "added": true
+      }
+    ]
+  }
+}
