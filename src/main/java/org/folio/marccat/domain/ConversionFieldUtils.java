@@ -194,9 +194,12 @@ public class ConversionFieldUtils {
       fixedField.setPolarityCode(String.valueOf(valueField.charAt(7)));
       fixedField.setPhysicalType(FixedField.PhysicalType.MAP);
     } else if (categoryOfMaterial.equals(Global.TACTILE_MATERIAL)) {
-      fixedField.setClassOfBrailleWritingCodes(valueField.substring(3, 5));
+      fixedField.setClassOfBrailleWritingCode1(String.valueOf(valueField.charAt(3)));
+      fixedField.setClassOfBrailleWritingCode2(String.valueOf(valueField.charAt(4)));
       fixedField.setLevelOfContractionCode(String.valueOf(valueField.charAt(5)));
-      fixedField.setBrailleMusicFormatCodes(valueField.substring(6, 9));
+      fixedField.setBrailleMusicFormatCode1(String.valueOf(valueField.charAt(6)));
+      fixedField.setBrailleMusicFormatCode2(String.valueOf(valueField.charAt(7)));
+      fixedField.setBrailleMusicFormatCode3(String.valueOf(valueField.charAt(8)));
       fixedField.setSpecificPhysicalCharacteristicsCode(String.valueOf(valueField.charAt(9)));
       fixedField.setPhysicalType(FixedField.PhysicalType.TACTILE_MATERIAL);
     } else if (categoryOfMaterial.equals(Global.PROJECTED_GRAPHIC)) {
@@ -448,9 +451,12 @@ public class ConversionFieldUtils {
       sb.append(fixedField.getPolarityCode());
     } else if (categoryOfMaterial.equals(Global.TACTILE_MATERIAL)) {
       sb.append(" ");
-      sb.append(fixedField.getClassOfBrailleWritingCodes());
+      sb.append(fixedField.getClassOfBrailleWritingCode1());
+      sb.append(fixedField.getClassOfBrailleWritingCode2());
       sb.append(fixedField.getLevelOfContractionCode());
-      sb.append(fixedField.getBrailleMusicFormatCodes());
+      sb.append(fixedField.getBrailleMusicFormatCode1());
+      sb.append(fixedField.getBrailleMusicFormatCode2());
+      sb.append(fixedField.getBrailleMusicFormatCode3());
       sb.append(fixedField.getSpecificPhysicalCharacteristicsCode());
     } else if (categoryOfMaterial.equals(Global.PROJECTED_GRAPHIC)) {
       sb.append(" ");

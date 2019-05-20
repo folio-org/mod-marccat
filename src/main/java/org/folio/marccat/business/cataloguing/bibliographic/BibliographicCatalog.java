@@ -549,12 +549,15 @@ public class BibliographicCatalog extends Catalog {
       if (isNotNull(ff.getPolarityCode()))
         ((Map) physicalDescription).setMapPolarityCode(ff.getPolarityCode().charAt(0));
     } else if (physicalDescription instanceof TactileMaterial) {
-      if (isNotNull(ff.getClassOfBrailleWritingCodes()))
-        ((TactileMaterial) physicalDescription).setClassOfBrailleWritingCodes(ff.getClassOfBrailleWritingCodes());
+      String classOfBrailleWritingCodes = (isNotNull(ff.getClassOfBrailleWritingCode1()) ? ff.getClassOfBrailleWritingCode1() : "")
+        + (isNotNull(ff.getClassOfBrailleWritingCode2()) ? ff.getClassOfBrailleWritingCode2() : "");
+      ((TactileMaterial) physicalDescription).setClassOfBrailleWritingCodes(classOfBrailleWritingCodes);
       if (isNotNull(ff.getLevelOfContractionCode()))
         ((TactileMaterial) physicalDescription).setLevelOfContractionCode(ff.getLevelOfContractionCode().charAt(0));
-      if (isNotNull(ff.getBrailleMusicFormatCodes()))
-        ((TactileMaterial) physicalDescription).setBrailleMusicFormatCodes(ff.getBrailleMusicFormatCodes());
+      String brailleMusicFormatCodes = (isNotNull(ff.getBrailleMusicFormatCode1()) ? ff.getBrailleMusicFormatCode1() : "")
+        + (isNotNull(ff.getBrailleMusicFormatCode2()) ? ff.getBrailleMusicFormatCode2() : "")
+        + (isNotNull(ff.getBrailleMusicFormatCode3()) ? ff.getBrailleMusicFormatCode3() : "");
+      ((TactileMaterial) physicalDescription).setBrailleMusicFormatCodes(brailleMusicFormatCodes);
       if (isNotNull(ff.getSpecificPhysicalCharacteristicsCode()))
         ((TactileMaterial) physicalDescription).setSpecificPhysicalCharacteristicsCode(ff.getSpecificPhysicalCharacteristicsCode().charAt(0));
     } else if (physicalDescription instanceof ProjectedGraphic) {

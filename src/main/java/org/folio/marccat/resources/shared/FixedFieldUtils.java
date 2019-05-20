@@ -56,7 +56,7 @@ public class FixedFieldUtils {
   public static void setPhysicalInfoVRcodes(final String lang, final StorageService storageService, final FixedFieldCodesGroup fixedFieldCodesGroup) {
     fixedFieldCodesGroup.addResults(new FixedFieldElement(SPECIFIC_MATERIAL_DESIGNAION_ON_CODE, storageService.getCodesList(lang, VR_SPEC_DESIGN).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement(COLOR_CODE, storageService.getCodesList(lang, VR_COLOR).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("videoRecordingFormatCodes", storageService.getCodesList(lang, VR_FORMAT).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("videoRecordingFormatCode", storageService.getCodesList(lang, VR_FORMAT).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement(SOUND_ON_MEDIUM_OR_SEPARATE_CODE, storageService.getCodesList(lang, SOUND_MEDIUM_OR_SEP).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement(MEDIUM_FOR_SOUND_CODE, storageService.getCodesList(lang, MEDIUM_FOR_SOUND).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement(DIMENSION_CODE, storageService.getCodesList(lang, VR_DIMENSIONS).stream().map(toPairItem).collect(toList())));
@@ -122,7 +122,7 @@ public class FixedFieldUtils {
     fixedFieldCodesGroup.addResults(new FixedFieldElement("platformConstructionTypeCode", storageService.getCodesList(lang, RSI_PLAT_CONSTRUCTION).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("platformUseCode", storageService.getCodesList(lang, RSI_PLAT_USE).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("sensorTypeCode", storageService.getCodesList(lang, RSI_SENSOR_TYPE).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("remoteSensingDataTypeCodes", storageService.getCodesList(lang, RSI_DATA_TYPE).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("remoteSensingDataTypeCode", storageService.getCodesList(lang, RSI_DATA_TYPE).stream().map(toPairItem).collect(toList())));
   }
 
   /**
@@ -261,9 +261,12 @@ public class FixedFieldUtils {
    */
   public static void setPhysicalInfoTCTcodes(final String lang, final StorageService storageService, final FixedFieldCodesGroup fixedFieldCodesGroup) {
     fixedFieldCodesGroup.addResults(new FixedFieldElement("specificMaterialDesignationCode", storageService.getCodesList(lang, TCT_SPEC_DESIGN).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("classOfBrailleWritingCodes", storageService.getCodesList(lang, TCT_CLASS_BRAILLE_WRITING).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("classOfBrailleWritingCode1", storageService.getCodesList(lang, TCT_CLASS_BRAILLE_WRITING).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("classOfBrailleWritingCode2", storageService.getCodesList(lang, TCT_CLASS_BRAILLE_WRITING).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("levelOfContractionCode", storageService.getCodesList(lang, TCT_CONTRACTION_LVL).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("brailleMusicFormatCodes", storageService.getCodesList(lang, TCT_BRAILLE_MUSIC_FORMAT).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("brailleMusicFormatCode1", storageService.getCodesList(lang, TCT_BRAILLE_MUSIC_FORMAT).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("brailleMusicFormatCode2", storageService.getCodesList(lang, TCT_BRAILLE_MUSIC_FORMAT).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("brailleMusicFormatCode3", storageService.getCodesList(lang, TCT_BRAILLE_MUSIC_FORMAT).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("specificPhysicalCharacteristicsCode", storageService.getCodesList(lang, TCT_SPECIAL_PHYSICAL_CHAR).stream().map(toPairItem).collect(toList())));
   }
 
