@@ -17,7 +17,6 @@ import static org.folio.marccat.integration.MarccatHelper.doGet;
 @RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class AutoSuggestionAPI extends BaseResource{
 
-  @ResponseStatus
   @GetMapping("/filteredTagsList")
   public FilteredTagsCollection getFilteredTagsList(
     @RequestParam final String tagNumber,
