@@ -194,12 +194,12 @@ public class ConversionFieldUtils {
       fixedField.setPolarityCode(String.valueOf(valueField.charAt(7)));
       fixedField.setPhysicalType(FixedField.PhysicalType.MAP);
     } else if (categoryOfMaterial.equals(Global.TACTILE_MATERIAL)) {
-      fixedField.setClassOfBrailleWritingCode1(valueField.substring(3));
-      fixedField.setClassOfBrailleWritingCode2(valueField.substring(4));
+      fixedField.setClassOfBrailleWritingCode1(String.valueOf(valueField.charAt(3)));
+      fixedField.setClassOfBrailleWritingCode2(String.valueOf(valueField.charAt(4)));
       fixedField.setLevelOfContractionCode(String.valueOf(valueField.charAt(5)));
-      fixedField.setBrailleMusicFormatCode1(valueField.substring(6));
-      fixedField.setBrailleMusicFormatCode1(valueField.substring(7));
-      fixedField.setBrailleMusicFormatCode1(valueField.substring(8));
+      fixedField.setBrailleMusicFormatCode1(String.valueOf(valueField.charAt(6)));
+      fixedField.setBrailleMusicFormatCode2(String.valueOf(valueField.charAt(7)));
+      fixedField.setBrailleMusicFormatCode3(String.valueOf(valueField.charAt(8)));
       fixedField.setSpecificPhysicalCharacteristicsCode(String.valueOf(valueField.charAt(9)));
       fixedField.setPhysicalType(FixedField.PhysicalType.TACTILE_MATERIAL);
     } else if (categoryOfMaterial.equals(Global.PROJECTED_GRAPHIC)) {
