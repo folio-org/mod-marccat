@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
+import org.apache.commons.lang.StringUtils;
 import org.folio.marccat.business.cataloguing.bibliographic.*;
 import org.folio.marccat.business.cataloguing.bibliographic.FixedField;
 import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
@@ -32,7 +33,6 @@ import org.folio.marccat.shared.Validation;
 import org.folio.marccat.util.F;
 import org.folio.marccat.util.StringText;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,7 +43,6 @@ import java.sql.Statement;
 import java.util.*;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import static java.lang.String.*;
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
@@ -1775,20 +1774,35 @@ public class StorageService implements Closeable {
   public FilteredTag getFilteredTag(final String tagNumber) throws DataAccessException {
     try {
       final FilteredTag filteredTag = new FilteredTag();
-      final List<String> firstIndicators = new ArrayList<>();
-      final List<String> secondIndicators = new ArrayList<>();
+      final List <String> firstIndicators = new ArrayList <>();
+      final List <String> secondIndicators = new ArrayList <>();
       new BibliographicCorrelationDAO().getFilteredTag(tagNumber, session)
         .stream().forEach((CorrelationKey key) -> {
         setIndicators(firstIndicators, secondIndicators, key);
       });
       filteredTag.setTag(tagNumber);
-      filteredTag.setInd1(firstIndicators.stream().sorted().distinct().collect(Collectors.toList()));
-      filteredTag.setInd2(secondIndicators.stream().sorted().distinct().collect(Collectors.toList()));
+      filteredTag.setInd1(getDistinctIndicators(firstIndicators));
+      filteredTag.setInd2(getDistinctIndicators(secondIndicators));
       return filteredTag;
     } catch (HibernateException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
     }
+  }
+
+  /**
+   * Return a distinct list of the numeric indicators including space character.
+   *
+   * @param indicators the list of the indicators used as filter criterion.
+   * @return
+    */
+  public List <String> getDistinctIndicators(List <String> indicators) {
+    return indicators
+      .stream()
+      .sorted()
+      .distinct()
+      .filter(StringUtils::isNumericSpace)
+      .collect(Collectors.toList());
   }
 
   /**
