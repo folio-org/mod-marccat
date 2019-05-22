@@ -117,7 +117,7 @@ public class RecordParser {
    * @param view              -- the view.
    * @param configuration     -- the configuration.
    */
-  public void changeNoteTag(final CatalogItem item, final Field field, final CorrelationValues correlationValues, final int bibItemNumber, final int view, final Map<String, String> configuration) {
+  public void changeNoteTag(final CatalogItem item, final Field field, final CorrelationValues correlationValues, final int bibItemNumber, final int view, final Map<String, String> configuration) throws HibernateException {
     if (field.getFieldStatus() == Field.FieldStatus.CHANGED || field.getFieldStatus() == Field.FieldStatus.DELETED) {
       item.getTags().stream().skip(1).filter(aTag -> !aTag.isFixedField() && aTag instanceof BibliographicNoteTag).forEach(aTag -> {
         final BibliographicNoteTag noteTag = (BibliographicNoteTag) aTag;
@@ -338,7 +338,7 @@ public class RecordParser {
         }
       });
     } else if (field.getVariableField().getKeyNumber() != null && field.getFieldStatus() == Field.FieldStatus.NEW) {
-      insertNewVariableField(item, field.getVariableField(), bibItemNumber, correlationValues, configuration, session, view);
+        insertNewVariableField(item, field.getVariableField(), bibItemNumber, correlationValues, configuration, session, view);
     }
   }
 
@@ -394,23 +394,23 @@ public class RecordParser {
                                      final CorrelationValues correlationValues,
                                      Map<String, String> configuration,
                                      final Session session,
-                                     final int view) {
+                                     final int view) throws HibernateException {
 
     if (variableField.getCategoryCode() == Global.TITLE_CATEGORY) {
       if (!checkIfAlreadyExist(variableField.getKeyNumber(), item, TitleAccessPoint.class))
-        addTitleToCatalog(item, correlationValues, variableField, bibItemNumber);
+        addTitleToCatalog(item, correlationValues, variableField, bibItemNumber, session, view);
     } else if (variableField.getCategoryCode() == Global.NAME_CATEGORY) {
       if (!checkIfAlreadyExist(variableField.getKeyNumber(), item, NameAccessPoint.class))
-        addNameToCatalog(item, correlationValues, variableField, bibItemNumber);
+        addNameToCatalog(item, correlationValues, variableField, bibItemNumber, session, view);
     } else if (variableField.getCategoryCode() == Global.CONTROL_NUMBER_CATEGORY) {
       if (!checkIfAlreadyExist(variableField.getKeyNumber(), item, ControlNumberAccessPoint.class))
-        addControlFieldToCatalog(item, correlationValues, variableField, bibItemNumber);
+        addControlFieldToCatalog(item, correlationValues, variableField, bibItemNumber, session, view);
     } else if (variableField.getCategoryCode() == Global.CLASSIFICATION_CATEGORY) {
       if (!checkIfAlreadyExist(variableField.getKeyNumber(), item, ClassificationAccessPoint.class))
-        addClassificationToCatalog(item, correlationValues, variableField, bibItemNumber);
+        addClassificationToCatalog(item, correlationValues, variableField, bibItemNumber, session, view);
     } else if (variableField.getCategoryCode() == Global.SUBJECT_CATEGORY) {
       if (!checkIfAlreadyExist(variableField.getKeyNumber(), item, SubjectAccessPoint.class))
-        addSubjectToCatalog(item, correlationValues, variableField, bibItemNumber);
+        addSubjectToCatalog(item, correlationValues, variableField, bibItemNumber, session, view);
     } else if (variableField.getCategoryCode() == Global.BIB_NOTE_CATEGORY && !Global.PUBLISHER_CODES.contains(correlationValues.getValue(1))) {
       if (!checkIfAlreadyExistNote(variableField.getKeyNumber(), item, BibliographicNoteTag.class))
         addNoteToCatalog(item, correlationValues, variableField, bibItemNumber);
@@ -546,8 +546,12 @@ public class RecordParser {
   private void addSubjectToCatalog(final CatalogItem item,
                                    final CorrelationValues correlationValues,
                                    final org.folio.marccat.resources.domain.VariableField variableField,
-                                   final int bibItemNumber) {
+                                   final int bibItemNumber,
+                                   final Session session,
+                                   final int view) throws HibernateException {
     final SubjectAccessPoint sap = catalog.createSubjectAccessPoint(item, correlationValues);
+    final Descriptor newDescriptor = sap.getDAODescriptor().findOrCreateMyView(variableField.getKeyNumber(), View.makeSingleViewString(item.getUserView()), view, session);
+    sap.setDescriptor(newDescriptor);
     sap.setAccessPointStringText(new StringText(variableField.getValue()));
     sap.setHeadingNumber(variableField.getKeyNumber());
     sap.setItemNumber(bibItemNumber);
@@ -566,8 +570,12 @@ public class RecordParser {
   private void addClassificationToCatalog(final CatalogItem item,
                                           final CorrelationValues correlationValues,
                                           final org.folio.marccat.resources.domain.VariableField variableField,
-                                          final int bibItemNumber) {
+                                          final int bibItemNumber,
+                                          final Session session,
+                                          final int view ) throws HibernateException {
     final ClassificationAccessPoint clap = catalog.createClassificationAccessPoint(item, correlationValues);
+    final Descriptor newDescriptor = clap.getDAODescriptor().findOrCreateMyView(variableField.getKeyNumber(), View.makeSingleViewString(item.getUserView()), view, session);
+    clap.setDescriptor(newDescriptor);
     clap.setAccessPointStringText(new StringText(variableField.getValue()));
     clap.setHeadingNumber(variableField.getKeyNumber());
     clap.setItemNumber(bibItemNumber);
@@ -586,8 +594,12 @@ public class RecordParser {
   private void addControlFieldToCatalog(final CatalogItem item,
                                         final CorrelationValues correlationValues,
                                         final org.folio.marccat.resources.domain.VariableField variableField,
-                                        final int bibItemNumber) {
+                                        final int bibItemNumber,
+                                        final Session session,
+                                        final int view ) throws HibernateException {
     final ControlNumberAccessPoint cnap = catalog.createControlNumberAccessPoint(item, correlationValues);
+    final Descriptor newDescriptor = cnap.getDAODescriptor().findOrCreateMyView(variableField.getKeyNumber(), View.makeSingleViewString(item.getUserView()), view, session);
+    cnap.setDescriptor(newDescriptor);
     cnap.setAccessPointStringText(new StringText(variableField.getValue()));
     cnap.setHeadingNumber(variableField.getKeyNumber());
     cnap.setItemNumber(bibItemNumber);
@@ -606,8 +618,12 @@ public class RecordParser {
   private void addNameToCatalog(final CatalogItem item,
                                 final CorrelationValues correlationValues,
                                 final org.folio.marccat.resources.domain.VariableField variableField,
-                                final int bibItemNumber) {
+                                final int bibItemNumber,
+                                final Session session,
+                                final int view ) throws HibernateException {
     final NameAccessPoint nap = catalog.createNameAccessPointTag(item, correlationValues);
+    final Descriptor newDescriptor = nap.getDAODescriptor().findOrCreateMyView(variableField.getKeyNumber(), View.makeSingleViewString(item.getUserView()), view, session);
+    nap.setDescriptor(newDescriptor);
     nap.setAccessPointStringText(new StringText(variableField.getValue()));
     nap.setHeadingNumber(variableField.getKeyNumber());
     nap.setItemNumber(bibItemNumber);
@@ -626,9 +642,12 @@ public class RecordParser {
   private void addTitleToCatalog(final CatalogItem item,
                                  final CorrelationValues correlationValues,
                                  final org.folio.marccat.resources.domain.VariableField variableField,
-                                 final int bibItemNumber) {
+                                 final int bibItemNumber, final Session session,
+                                 final int view ) throws HibernateException {
 
     final TitleAccessPoint tap = catalog.createTitleAccessPointTag(item, correlationValues);
+    final Descriptor newDescriptor = tap.getDAODescriptor().findOrCreateMyView(variableField.getKeyNumber(), View.makeSingleViewString(item.getUserView()), view, session);
+    tap.setDescriptor(newDescriptor);
     tap.setAccessPointStringText(new StringText(variableField.getValue()));
     tap.setHeadingNumber(variableField.getKeyNumber());
     tap.setItemNumber(bibItemNumber);

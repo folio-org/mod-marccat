@@ -125,7 +125,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
    * @param value3 the value 3
    * @return true, if successful
    */
-  final public boolean correlationChangeAffectsKey(
+ public final boolean correlationChangeAffectsKey(
     int value1,
     int value2,
     int value3) {
@@ -198,7 +198,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
    * @param s - the new stringValue
    * @since 1.0
    */
-  final public void setCorrelation(int i, int s) {
+  public final  void setCorrelation(int i, int s) {
     setCorrelationValues(getCorrelationValues().change(i, s));
   }
 

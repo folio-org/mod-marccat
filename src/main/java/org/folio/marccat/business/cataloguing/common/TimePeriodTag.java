@@ -33,7 +33,7 @@ public abstract class TimePeriodTag extends VariableHeaderUsingItemEntity {
   public TimePeriodTag() {
     super();
   }
-
+ @Override
   public StringText getStringText() {
     StringText result = null;
     String source = (getItemEntity()).getTimePeriodStringText();
@@ -46,6 +46,7 @@ public abstract class TimePeriodTag extends VariableHeaderUsingItemEntity {
     return result;
   }
 
+ @Override
   public void setStringText(StringText st) {
     if (st.toString().equals(Subfield.SUBFIELD_DELIMITER + "a")) {
       getItemEntity().setTimePeriodStringText(null);
@@ -68,6 +69,7 @@ public abstract class TimePeriodTag extends VariableHeaderUsingItemEntity {
     }
   }
 
+@Override
   public void setCorrelationValues(CorrelationValues v) {
     super.setCorrelationValues(v);
     setHeaderType(v.getValue(1));

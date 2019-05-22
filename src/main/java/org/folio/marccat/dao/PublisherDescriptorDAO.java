@@ -63,7 +63,7 @@ public class PublisherDescriptorDAO extends DAODescriptor {
         Hibernate.INTEGER,
         Hibernate.INTEGER,
         Hibernate.STRING});
-    if (l.size() >= 1) {
+    if (!l.isEmpty()) {
       return l.get(0);
     } else {
       return null;

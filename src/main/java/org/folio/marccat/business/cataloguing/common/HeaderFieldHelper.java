@@ -12,7 +12,7 @@ public abstract class HeaderFieldHelper implements HeaderField, Serializable {
 
   protected int headerType = -1;
 
-  abstract public int getCategory();
+ public abstract int getCategory();
 
 
   public List getFirstCorrelationList() throws DataAccessException {

@@ -15,13 +15,16 @@ public abstract class TransactionalHibernateOperation {
 
   private static final Log logger = new Log(TransactionalHibernateOperation.class);
   private static final HibernateUtil util = new HibernateUtil();
+
   private static ThreadLocal nestingLevel = new ThreadLocal() {
+    @Override
     protected synchronized Object initialValue() {
-      return new Integer(0);
+      return Integer.valueOf(0);
     }
   };
 
   private static ThreadLocal stateManager = new ThreadLocal() {
+    @Override
     protected synchronized Object initialValue() {
       return new PersistentStateManager();
     }
@@ -32,7 +35,7 @@ public abstract class TransactionalHibernateOperation {
   }
 
   public static void setNestingLevel(int i) {
-    nestingLevel.set(new Integer(i));
+    nestingLevel.set(Integer.valueOf(i));
   }
 
   private static PersistentStateManager getPersistentStateManager() {
@@ -50,7 +53,6 @@ public abstract class TransactionalHibernateOperation {
       tx = session.beginTransaction();
       setNestingLevel(getNestingLevel() + 1);
       if (getNestingLevel() == 1) {
-        //	logger.info("reset before...");
         getPersistentStateManager().begin();
       }
       doInHibernateTransaction(session);
@@ -58,22 +60,12 @@ public abstract class TransactionalHibernateOperation {
         tx.commit();
         getPersistentStateManager().commit();
         getPersistentStateManager().end();
-        //		logger.info("committed");
       }
       setNestingLevel((getNestingLevel() - 1));
-    } catch (HibernateException e) {
+    } catch (HibernateException | SQLException | IOException | ReferentialIntegrityException e) {
       cleanup(tx);
       util.logAndWrap(e);
-    } catch (SQLException e) {
-      cleanup(tx);
-      util.logAndWrap(e);
-    } catch (IOException e) {
-      cleanup(tx);
-      util.logAndWrap(e);
-    } catch (ReferentialIntegrityException e) {
-      cleanup(tx);
-      util.logAndWrap(e);
-    } catch (DataAccessException e) {
+    }  catch (DataAccessException e) {
       cleanup(tx);
       throw e;
     } catch (Throwable e) {
@@ -89,7 +81,6 @@ public abstract class TransactionalHibernateOperation {
       tx = session.beginTransaction();
       setNestingLevel(getNestingLevel() + 1);
       if (getNestingLevel() == 1) {
-        //	logger.info("reset before...");
         getPersistentStateManager().begin();
       }
       doInHibernateTransaction(session);
@@ -97,19 +88,9 @@ public abstract class TransactionalHibernateOperation {
         tx.commit();
         getPersistentStateManager().commit();
         getPersistentStateManager().end();
-        //		logger.info("committed");
       }
       setNestingLevel((getNestingLevel() - 1));
-    } catch (HibernateException e) {
-      cleanup(tx);
-      util.logAndWrap(e);
-    } catch (SQLException e) {
-      cleanup(tx);
-      util.logAndWrap(e);
-    } catch (IOException e) {
-      cleanup(tx);
-      util.logAndWrap(e);
-    } catch (ReferentialIntegrityException e) {
+    } catch (HibernateException | SQLException | IOException | ReferentialIntegrityException e ) {
       cleanup(tx);
       util.logAndWrap(e);
     } catch (DataAccessException e) {
@@ -151,6 +132,6 @@ public abstract class TransactionalHibernateOperation {
     }
   }
 
-  abstract public void doInHibernateTransaction(Session session)
+ public abstract void doInHibernateTransaction(Session session)
     throws HibernateException, SQLException, DataAccessException, IOException;
 }

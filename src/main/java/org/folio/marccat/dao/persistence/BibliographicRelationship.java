@@ -62,10 +62,6 @@ public class BibliographicRelationship extends VariableField implements Persiste
    */
   private StringText stringText = null;
 
-  /**
-   * The string text string.
-   */
-  private String stringTextString = null;
 
   /**
    * The material specific text.
@@ -107,7 +103,7 @@ public class BibliographicRelationship extends VariableField implements Persiste
    * @param userView the user view
    * @return the string text
    */
-  public StringText BuildStringText(int userView) {
+  public StringText buildStringText(int userView) {
     StringText s = new StringText();
     DAOBibliographicRelationship b = new DAOBibliographicRelationship();
     try {
@@ -465,7 +461,6 @@ public class BibliographicRelationship extends VariableField implements Persiste
    */
   public void setStringTextString(String string) {
     if (string != null) {
-      stringTextString = string;
       setStringText(new StringText(string));
     }
   }

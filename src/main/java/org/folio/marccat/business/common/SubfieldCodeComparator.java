@@ -28,7 +28,7 @@ public class SubfieldCodeComparator implements Comparator {
     } else if (Character.isDigit(c2) && !Character.isDigit(c1)) {
       return -1;
     } else {
-      return (new Character(c1)).compareTo(new Character(c2));
+      return (Character.valueOf(c1).compareTo(Character.valueOf(c2)));
     }
   }
 

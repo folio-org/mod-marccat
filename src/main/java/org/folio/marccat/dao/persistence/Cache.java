@@ -29,8 +29,8 @@ public class Cache implements Persistence {
   private boolean relationshipCode;
   private boolean locationCode;
   private String titleVolumeNumberDescription;
-  private String Date1;
-  private String Date2;
+  private String date1;
+  private String date2;
   private String titleHeadingMainSortForm;
   private String mainEntrySortForm;
   private String codeTableAbreviatedName;
@@ -218,22 +218,22 @@ public class Cache implements Persistence {
 
 
   public String getDate1() {
-    return Date1;
+    return date1;
   }
 
 
   public void setDate1(String string) {
-    Date1 = string;
+    date1 = string;
   }
 
 
   public String getDate2() {
-    return Date2;
+    return date2;
   }
 
 
   public void setDate2(String string) {
-    Date2 = string;
+    date2 = string;
   }
 
 

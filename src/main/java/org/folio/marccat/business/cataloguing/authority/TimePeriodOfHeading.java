@@ -11,20 +11,20 @@ public class TimePeriodOfHeading extends TimePeriodTag {
     setHeaderField(new AuthorityHeaderFieldHelper());
     setHeaderType((short) 5);
   }
-
-  public void setItemEntity(ItemEntity aut_itm) {
-    super.setItemEntity(aut_itm);
-    if (" ".equals(aut_itm.getTypeOfDateTimeCode())) {
+ @Override
+  public void setItemEntity(ItemEntity autItm) {
+    super.setItemEntity(autItm);
+    if (" ".equals(autItm.getTypeOfDateTimeCode())) {
       setHeaderType((short) 5);
-    } else if ("0".equals(aut_itm.getTypeOfDateTimeCode())) {
+    } else if ("0".equals(autItm.getTypeOfDateTimeCode())) {
       setHeaderType((short) 6);
-    } else if ("1".equals(aut_itm.getTypeOfDateTimeCode())) {
+    } else if ("1".equals(autItm.getTypeOfDateTimeCode())) {
       setHeaderType((short) 7);
-    } else if ("2".equals(aut_itm.getTypeOfDateTimeCode())) {
+    } else if ("2".equals(autItm.getTypeOfDateTimeCode())) {
       setHeaderType((short) 8);
     }
   }
-
+ @Override
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
     return v.isValueDefined(1) && ((v.getValue(1) < 5) || (v.getValue(1) > 8));
   }

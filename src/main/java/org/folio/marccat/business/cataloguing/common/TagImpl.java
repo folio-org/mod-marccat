@@ -26,32 +26,32 @@ import java.util.Set;
  */
 public abstract class TagImpl implements Serializable {
 
-  abstract public String getHeadingType(Tag t);
+  public abstract String getHeadingType(Tag t);
 
-  abstract public Catalog getCatalog();
+  public abstract Catalog getCatalog();
 
   /**
    * @return the MARC tag and indicators for this tag
    */
   @Deprecated
-  abstract public CorrelationKey getMarcEncoding(final Tag t) throws DataAccessException;
+  public abstract CorrelationKey getMarcEncoding(final Tag t) throws DataAccessException;
 
   /**
    * @return the MARC tag and indicators for this tag
    */
-  abstract public CorrelationKey getMarcEncoding(final Tag t, final Session session) throws DataAccessException;
+  public abstract CorrelationKey getMarcEncoding(final Tag t, final Session session) throws DataAccessException;
 
   @Deprecated
-  abstract public Validation getValidation(Tag t) throws DataAccessException;
+  public abstract Validation getValidation(Tag t) throws DataAccessException;
 
-  abstract public Validation getValidation(final Tag t, final Session session) throws DataAccessException;
+  public abstract Validation getValidation(final Tag t, final Session session) throws DataAccessException;
 
   /**
    * return the list of subfields that can be edited on the worksheet
    *
    * @since 1.0
    */
-  abstract public Set getValidEditableSubfields(int category);
+  public abstract Set getValidEditableSubfields(int category);
 
-  abstract public Correlation getCorrelation(String tagNumber, char indicator1, char indicator2, int category, Session session) throws DataAccessException;
+  public abstract Correlation getCorrelation(String tagNumber, char indicator1, char indicator2, int category, Session session) throws DataAccessException;
 }
