@@ -85,6 +85,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
       cache.setItemNumber(item.getAmicusNumber());
       cache.setUserView(item.getUserView());
     }
+    item.sortTags();
     cache.setRecordData(XmlUtils.documentToString(item.toExternalMarcSlim(session)));
     cache.markChanged();
     persistByStatus(cache, session);

@@ -114,6 +114,7 @@ public abstract class VariableHeader extends VariableField implements HeaderFiel
   /* (non-Javadoc)
    * @see librisuite.business.cataloguing.bibliographic.Tag#getRequiredEditPermission()
    */
+  @Override
   public String getRequiredEditPermission() {
     return "editHeader";
   }

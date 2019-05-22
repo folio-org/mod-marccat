@@ -19,7 +19,7 @@ public class View {
    * @param viewString      -- the original view String
    * @param cataloguingView -- the position to be set to '0' (1 indexing)
    */
-  static public String maskOutViewString(String viewString, int cataloguingView) {
+  public static String maskOutViewString(String viewString, int cataloguingView) {
     if (cataloguingView < 0)
       throw new IllegalArgumentException("view " + cataloguingView + " cannot be converted in string");
     char[] newArray = viewString.toCharArray();
@@ -38,7 +38,7 @@ public class View {
    * @param cataloguingView -- the position to be set to '1' (1 indexing)
    */
 
-  static public String maskOnViewString(String viewString, int cataloguingView) {
+ public static String maskOnViewString(String viewString, int cataloguingView) {
     if (cataloguingView < 0)
       throw new IllegalArgumentException("view " + cataloguingView + " cannot be converted in string");
 
@@ -60,7 +60,7 @@ public class View {
    * @param cataloguingView -- the position to be set to '1' (1 indexing)
    */
 
-  static public String makeSingleViewString(int cataloguingView) {
+  public static String makeSingleViewString(int cataloguingView) {
     return maskOnViewString("0000000000000000", cataloguingView);
   }
 
@@ -69,8 +69,8 @@ public class View {
    *
    * @param userViewString -- the position to be set to '1' (1 indexing)
    */
-  static public short toIntView(String userViewString) {
-    return (short) (1 + userViewString.indexOf("1"));
+  public static short toIntView(String userViewString) {
+    return (short) (1 + userViewString.indexOf('1'));
   }
 
 

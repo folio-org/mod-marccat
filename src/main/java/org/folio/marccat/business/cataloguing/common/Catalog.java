@@ -85,7 +85,7 @@ public abstract class Catalog {
                                 CorrelationValues correlationValues);
 
   public CatalogItem getCatalogItem(final Session session, final int... key) {
-    // FIXME: In case this method is needed the following line should be moved on the persistence layer.
+
     final CatalogItem b = getCatalogDao().getCatalogItemByKey(session, key);
 
     for (int i = 0; i < b.getNumberOfTags(); i++) {

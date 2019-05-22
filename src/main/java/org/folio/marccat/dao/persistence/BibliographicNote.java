@@ -183,6 +183,7 @@ public class BibliographicNote extends VariableField implements PersistentObject
    * @deprecated
    */
   @Deprecated
+  @Override
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
     if (v.getValue(1) == Global.PUBLISHER_DEFAULT_NOTE_TYPE) {
       return true;

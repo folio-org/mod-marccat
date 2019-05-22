@@ -66,9 +66,9 @@ import static org.folio.marccat.util.F.locale;
 public class StorageService implements Closeable {
 
   private static final Log logger = new Log(StorageService.class);
-  private final static Map<Integer, Class> FIRST_CORRELATION_HEADING_CLASS_MAP = new HashMap<>();
-  private final static Map<Integer, Class> SECOND_CORRELATION_CLASS_MAP = new HashMap<>();
-  private final static Map<Integer, Class> THIRD_CORRELATION_HEADING_CLASS_MAP = new HashMap<>();
+  private static final Map<Integer, Class> FIRST_CORRELATION_HEADING_CLASS_MAP = new HashMap<>();
+  private static final Map<Integer, Class> SECOND_CORRELATION_CLASS_MAP = new HashMap<>();
+  private static final Map<Integer, Class> THIRD_CORRELATION_HEADING_CLASS_MAP = new HashMap<>();
 
   static {
     FIRST_CORRELATION_HEADING_CLASS_MAP.put(1, T_BIB_HDR.class);
@@ -1492,7 +1492,12 @@ public class StorageService implements Closeable {
           logger.error(Message.MOD_MARCCAT_00018_NO_HEADING_TYPE_CODE, variableField.getCode());
           throw new DataAccessException();
         }
-        recordParser.insertNewVariableField(item, variableField, bibItemNumber, correlationValues, configuration, session, view);
+        try {
+          recordParser.insertNewVariableField(item, variableField, bibItemNumber, correlationValues, configuration, session, view);
+        } catch (HibernateException exception) {
+          logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
+          throw new DataAccessException(exception);
+        }
       }
 
     });
@@ -1821,8 +1826,9 @@ public class StorageService implements Closeable {
      firtIndicators.addAll(Global.SKIP_IN_FILING_CODES);
     if(BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC != key.getMarcSecondIndicator()) {
       secondIndicators.add(valueOf(key.getMarcSecondIndicator()));
-    } else
+    } else {
       secondIndicators.addAll(Global.SKIP_IN_FILING_CODES);
+    }
   }
 
 }

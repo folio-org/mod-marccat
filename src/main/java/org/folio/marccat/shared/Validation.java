@@ -89,5 +89,5 @@ public abstract class Validation {
       .collect(toList());
   }
 
-  abstract public ValidationKey getKey();
+  public abstract ValidationKey getKey();
 }

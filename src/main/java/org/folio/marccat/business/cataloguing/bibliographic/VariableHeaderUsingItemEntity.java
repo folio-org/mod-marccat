@@ -24,7 +24,7 @@ public abstract class VariableHeaderUsingItemEntity extends VariableHeader imple
    */
   @Override
   public boolean equals(Object obj) {
-    if (obj.getClass() == this.getClass()) {
+    if (obj != null && obj.getClass() == this.getClass()) {
       return super.equals(obj);
     } else {
       return false;
