@@ -252,6 +252,15 @@ public class NameTitleAccessPoint extends NameTitleComponent implements OrderedT
     super.setSequenceNumber(sequenceNumber);
   }
 
+  /**
+   * Gets default implementation.
+   *
+   * @return true.
+   */
+  @Override
+  public boolean isNameTitle() {
+    return true;
+  }
 
   /**
    * Adds the punctuation.

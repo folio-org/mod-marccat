@@ -17,11 +17,9 @@ import org.folio.marccat.resources.domain.VariableField;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.shared.GeneralInformation;
 import org.folio.marccat.util.StringText;
-
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-
 import static java.util.Optional.ofNullable;
 
 
