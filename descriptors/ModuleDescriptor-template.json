@@ -57,6 +57,11 @@
           "pathPattern": "/headings-by-tag",
           "permissionsRequired": ["marccat.records.collection.get"],
           "modulePermissions": []
+        },{
+          "methods": ["GET"],
+          "pathPattern": "/filteredTagsList",
+          "permissionsRequired": ["marccat.tag.collection.get"],
+          "modulePermissions": []
         }
       ]
     }
@@ -71,6 +76,10 @@
       "permissionName": "marccat.record.count.get",
       "displayName": "MARCcat - get count of document by id",
       "description": "Get count of MARC document by id"
+    }, {
+      "permissionName": "marccat.tag.collection.get",
+      "displayName": "MARCcat - get marc tag collection for auto suggest",
+      "description": "Get marc tag collection for auto suggest"
     }
   ],
   "launchDescriptor": {
