@@ -205,6 +205,12 @@ public class BibliographicCatalog extends Catalog {
       correlationValues);
   }
 
+  public NameTitleAccessPoint createNameTitleAccessPointTag(final CatalogItem item, final CorrelationValues correlationValues) {
+    return (NameTitleAccessPoint) getNewTag(item,
+      Global.NAME_TITLE_CATEGORY,
+      correlationValues);
+  }
+
   public PublisherManager createPublisherTag(final CatalogItem item, final CorrelationValues correlationValues) {
     return (PublisherManager) getNewTag(item,
       Global.PUBLISHER_CATEGORY,

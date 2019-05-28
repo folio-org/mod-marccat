@@ -162,6 +162,16 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
   }
 
   /**
+   * return true if tag is a name title.
+   *
+   * @return true, if is name title
+   */
+  public boolean isNameTitle() {
+    return false;
+  }
+
+
+  /**
    * return true if tag is a relationship.
    *
    * @return true, if is relationship

@@ -48,7 +48,7 @@ public class BrowseAPI extends BaseResource {
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
     return doGet((storageService, configuration) -> {
-      List<MapHeading> headings = storageService.getNextPage(query, view, mainLibrary, pageSize, lang);
+      final List<MapHeading> headings = storageService.getNextPage(query, view, mainLibrary, pageSize, lang);
       final HeadingDecoratorCollection headingCollection = new HeadingDecoratorCollection();
       headingCollection.setHeadings(headings
         .stream()
@@ -92,7 +92,7 @@ public class BrowseAPI extends BaseResource {
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
     return doGet((storageService, configuration) -> {
-      List<MapHeading> headings = storageService.getHeadingsByTag(tag, indicator1, indicator2, stringText, view, mainLibrary, pageSize, lang);
+      final List<MapHeading> headings = storageService.getHeadingsByTag(tag, indicator1, indicator2, stringText, view, mainLibrary, pageSize, lang);
       final HeadingDecoratorCollection headingCollection = new HeadingDecoratorCollection();
       headingCollection.setHeadings(headings
         .stream()
