@@ -36,7 +36,7 @@ public class NameTitleAccessPoint extends NameTitleComponent implements OrderedT
   /**
    * The secondary function code.
    */
-  private int secondaryFunctionCode;
+  private Integer secondaryFunctionCode;
 
   /**
    * The series issn heading number.
@@ -155,7 +155,7 @@ public class NameTitleAccessPoint extends NameTitleComponent implements OrderedT
    *
    * @return secondaryFunctionCode.
    */
-  public int getSecondaryFunctionCode() {
+  public Integer getSecondaryFunctionCode() {
     return secondaryFunctionCode;
   }
 
@@ -164,7 +164,7 @@ public class NameTitleAccessPoint extends NameTitleComponent implements OrderedT
    *
    * @param s -- secondary function code associated.
    */
-  public void setSecondaryFunctionCode(final int s) {
+  public void setSecondaryFunctionCode(final Integer s) {
     secondaryFunctionCode = s;
   }
 
@@ -298,7 +298,7 @@ public class NameTitleAccessPoint extends NameTitleComponent implements OrderedT
             last.setContent(last.getContent() + ".");
           }
         } else {
-          result.addPrecedingPunctuation("t", Global.TERMINAL_PUNCTUATION, ".");
+          result.addPrecedingPunctuation("t", ".", ".");
         }
       }
       return result;
