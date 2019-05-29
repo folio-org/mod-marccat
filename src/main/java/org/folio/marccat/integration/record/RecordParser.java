@@ -13,14 +13,13 @@ import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.resources.domain.Field;
+import org.folio.marccat.resources.domain.VariableField;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.shared.GeneralInformation;
 import org.folio.marccat.util.StringText;
-
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-
 import static java.util.Optional.ofNullable;
 
 
@@ -411,7 +410,10 @@ public class RecordParser {
     } else if (variableField.getCategoryCode() == Global.SUBJECT_CATEGORY) {
       if (!checkIfAlreadyExist(variableField.getKeyNumber(), item, SubjectAccessPoint.class))
         addSubjectToCatalog(item, correlationValues, variableField, bibItemNumber, session, view);
-    } else if (variableField.getCategoryCode() == Global.BIB_NOTE_CATEGORY && !Global.PUBLISHER_CODES.contains(correlationValues.getValue(1))) {
+    }  else if (variableField.getCategoryCode() == Global.NAME_TITLE_CATEGORY) {
+      if (!checkIfAlreadyExist(variableField.getKeyNumber(), item, NameTitleAccessPoint.class))
+        addNameTitleToCatalog(item, correlationValues, variableField, bibItemNumber, session, view);
+    }    else if (variableField.getCategoryCode() == Global.BIB_NOTE_CATEGORY && !Global.PUBLISHER_CODES.contains(correlationValues.getValue(1))) {
       if (!checkIfAlreadyExistNote(variableField.getKeyNumber(), item, BibliographicNoteTag.class))
         addNoteToCatalog(item, correlationValues, variableField, bibItemNumber);
     } else if (variableField.getCategoryCode() == Global.BIB_NOTE_CATEGORY && Global.PUBLISHER_CODES.contains(correlationValues.getValue(1))) {
@@ -542,6 +544,8 @@ public class RecordParser {
    * @param correlationValues -- the selection of correlation values.
    * @param variableField     -- the variable field containing data.
    * @param bibItemNumber     -- the bibliographic item number.
+   * @param session           -- the current hibernate session.
+   * @param view              -- the view.
    */
   private void addSubjectToCatalog(final CatalogItem item,
                                    final CorrelationValues correlationValues,
@@ -550,13 +554,28 @@ public class RecordParser {
                                    final Session session,
                                    final int view) throws HibernateException {
     final SubjectAccessPoint sap = catalog.createSubjectAccessPoint(item, correlationValues);
-    final Descriptor newDescriptor = sap.getDAODescriptor().findOrCreateMyView(variableField.getKeyNumber(), View.makeSingleViewString(item.getUserView()), view, session);
-    sap.setDescriptor(newDescriptor);
-    sap.setAccessPointStringText(new StringText(variableField.getValue()));
-    sap.setHeadingNumber(variableField.getKeyNumber());
-    sap.setItemNumber(bibItemNumber);
-    sap.markNew();
-    item.addTag(sap);
+    createTag(item, variableField, bibItemNumber, sap, session, view);
+  }
+
+
+  /**
+   * Creates and add to catalog a new persistent {@link NameTitleAccessPoint} object for saving record.
+   *
+   * @param item              -- the item to add tags.
+   * @param correlationValues -- the selection of correlation values.
+   * @param variableField     -- the variable field containing data.
+   * @param bibItemNumber     -- the bibliographic item number.
+   * @param session           -- the current hibernate session.
+   * @param view              -- the view.
+   */
+  private void addNameTitleToCatalog(final CatalogItem item,
+                                   final CorrelationValues correlationValues,
+                                   final org.folio.marccat.resources.domain.VariableField variableField,
+                                   final int bibItemNumber,
+                                   final Session session,
+                                   final int view) throws HibernateException {
+    final NameTitleAccessPoint ntp = catalog.createNameTitleAccessPointTag(item, correlationValues);
+    createTag(item, variableField, bibItemNumber,ntp, session, view);
   }
 
   /**
@@ -566,6 +585,8 @@ public class RecordParser {
    * @param correlationValues -- the selection of correlation values.
    * @param variableField     -- the variable field containing data.
    * @param bibItemNumber     -- the bibliographic item number.
+   * @param session           -- the current hibernate session.
+   * @param view              -- the view.
    */
   private void addClassificationToCatalog(final CatalogItem item,
                                           final CorrelationValues correlationValues,
@@ -574,13 +595,7 @@ public class RecordParser {
                                           final Session session,
                                           final int view ) throws HibernateException {
     final ClassificationAccessPoint clap = catalog.createClassificationAccessPoint(item, correlationValues);
-    final Descriptor newDescriptor = clap.getDAODescriptor().findOrCreateMyView(variableField.getKeyNumber(), View.makeSingleViewString(item.getUserView()), view, session);
-    clap.setDescriptor(newDescriptor);
-    clap.setAccessPointStringText(new StringText(variableField.getValue()));
-    clap.setHeadingNumber(variableField.getKeyNumber());
-    clap.setItemNumber(bibItemNumber);
-    clap.markNew();
-    item.addTag(clap);
+    createTag(item, variableField, bibItemNumber, clap, session, view);
   }
 
   /**
@@ -590,6 +605,8 @@ public class RecordParser {
    * @param correlationValues -- the selection of correlation values.
    * @param variableField     -- the variable field containing data.
    * @param bibItemNumber     -- the bibliographic item number.
+   * @param session           -- the current hibernate session.
+   * @param view              -- the view.
    */
   private void addControlFieldToCatalog(final CatalogItem item,
                                         final CorrelationValues correlationValues,
@@ -598,13 +615,7 @@ public class RecordParser {
                                         final Session session,
                                         final int view ) throws HibernateException {
     final ControlNumberAccessPoint cnap = catalog.createControlNumberAccessPoint(item, correlationValues);
-    final Descriptor newDescriptor = cnap.getDAODescriptor().findOrCreateMyView(variableField.getKeyNumber(), View.makeSingleViewString(item.getUserView()), view, session);
-    cnap.setDescriptor(newDescriptor);
-    cnap.setAccessPointStringText(new StringText(variableField.getValue()));
-    cnap.setHeadingNumber(variableField.getKeyNumber());
-    cnap.setItemNumber(bibItemNumber);
-    cnap.markNew();
-    item.addTag(cnap);
+    createTag(item, variableField, bibItemNumber, cnap, session, view);
   }
 
   /**
@@ -614,6 +625,8 @@ public class RecordParser {
    * @param correlationValues -- the selection of correlation values.
    * @param variableField     -- the variable field containing data.
    * @param bibItemNumber     -- the bibliographic item number.
+   * @param session           -- the current hibernate session.
+   * @param view              -- the view.
    */
   private void addNameToCatalog(final CatalogItem item,
                                 final CorrelationValues correlationValues,
@@ -622,13 +635,7 @@ public class RecordParser {
                                 final Session session,
                                 final int view ) throws HibernateException {
     final NameAccessPoint nap = catalog.createNameAccessPointTag(item, correlationValues);
-    final Descriptor newDescriptor = nap.getDAODescriptor().findOrCreateMyView(variableField.getKeyNumber(), View.makeSingleViewString(item.getUserView()), view, session);
-    nap.setDescriptor(newDescriptor);
-    nap.setAccessPointStringText(new StringText(variableField.getValue()));
-    nap.setHeadingNumber(variableField.getKeyNumber());
-    nap.setItemNumber(bibItemNumber);
-    nap.markNew();
-    item.addTag(nap);
+    createTag(item, variableField, bibItemNumber, nap, session, view);
   }
 
   /**
@@ -638,6 +645,8 @@ public class RecordParser {
    * @param correlationValues -- the selection of correlation values.
    * @param variableField     -- the variable field containing data.
    * @param bibItemNumber     -- the bibliographic item number.
+   * @param session           -- the current hibernate session.
+   * @param view              -- the view.
    */
   private void addTitleToCatalog(final CatalogItem item,
                                  final CorrelationValues correlationValues,
@@ -646,13 +655,29 @@ public class RecordParser {
                                  final int view ) throws HibernateException {
 
     final TitleAccessPoint tap = catalog.createTitleAccessPointTag(item, correlationValues);
-    final Descriptor newDescriptor = tap.getDAODescriptor().findOrCreateMyView(variableField.getKeyNumber(), View.makeSingleViewString(item.getUserView()), view, session);
-    tap.setDescriptor(newDescriptor);
-    tap.setAccessPointStringText(new StringText(variableField.getValue()));
-    tap.setHeadingNumber(variableField.getKeyNumber());
-    tap.setItemNumber(bibItemNumber);
-    tap.markNew();
-    item.addTag(tap);
+    createTag(item, variableField, bibItemNumber, tap, session, view);
   }
+
+  /**
+   * Create a new tag for different categories.
+   *
+   * @param item              -- the item to add tags.
+   * @param variableField     -- the variable field containing data.
+   * @param bibItemNumber     -- the bibliographic item number.
+   * @param acs               -- the access point.
+   * @param session           -- the current hibernate session.
+   * @param view              -- the view.
+   */
+  private void createTag(CatalogItem item, VariableField variableField, int bibItemNumber, AccessPoint acs, Session session, int view) throws HibernateException {
+    final Descriptor newDescriptor = acs.getDAODescriptor().findOrCreateMyView(variableField.getKeyNumber(), View.makeSingleViewString(item.getUserView()), view, session);
+    acs.setDescriptor(newDescriptor);
+    acs.setAccessPointStringText(new StringText(variableField.getValue()));
+    acs.setHeadingNumber(variableField.getKeyNumber());
+    acs.setItemNumber(bibItemNumber);
+    acs.markNew();
+    item.addTag(acs);
+  }
+
+
 
 }

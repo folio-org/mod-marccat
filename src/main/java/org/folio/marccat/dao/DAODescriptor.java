@@ -48,6 +48,7 @@ public abstract class DAODescriptor extends AbstractDAO {
    * The max sort sortform length.
    */
   private static final int MAX_SORTFORM_LENGTH = 250;
+  private static final String FROM = " from ";
   private String queryAccessPoint = " AND hdg.accessPointLanguage=? ";
   private String queryTarget = " AND ref.key.target=hdg.key.headingNumber ";
   private String queryType = " AND ref.key.type=5 ";
@@ -60,6 +61,7 @@ public abstract class DAODescriptor extends AbstractDAO {
   private String queryWhereRefSource = " where ref.key.source = ? ";
   private String querySelectCount = "select count(*) from ";
   private String querySelectRefFrom = "select ref from ";
+
 
   /**
    * Gets the name of the associated Persistent class.
@@ -239,7 +241,7 @@ public abstract class DAODescriptor extends AbstractDAO {
   public Descriptor load(final int headingNumber, final int cataloguingView,
                          final Class persistentClass, final Session session) throws HibernateException {
 
-    final List<Descriptor> descriptorList = session.find("from " + persistentClass.getName()
+    final List<Descriptor> descriptorList = session.find(FROM + persistentClass.getName()
         + " as hdg where hdg.key.headingNumber = ? "
         + queryAndHdg + View.makeSingleViewString(cataloguingView) + "'",
       new Object[]{
@@ -267,7 +269,7 @@ public abstract class DAODescriptor extends AbstractDAO {
   @SuppressWarnings("unchecked")
   public Descriptor load(final int headingNumber, final Class persistentClass, final Session session)
     throws HibernateException {
-    List<Descriptor> l = session.find("from " + persistentClass.getName()
+    List<Descriptor> l = session.find(FROM + persistentClass.getName()
         + " as hdg where hdg.key.headingNumber = ? ",
       new Object[]{
         headingNumber},
@@ -528,7 +530,7 @@ public abstract class DAODescriptor extends AbstractDAO {
     throws HibernateException, SQLException {
     descriptor.setSortForm(calculateSortForm(descriptor, session));
     final List<Descriptor> descriptorList = session.find(
-      "from " + getPersistentClass().getName() + queryAsC
+      FROM + getPersistentClass().getName() + queryAsC
         + " where c.sortForm = ? and c.stringText = ? "
         + " and c.key.userViewString = ? ",
       new Object[]{
@@ -595,7 +597,7 @@ public abstract class DAODescriptor extends AbstractDAO {
   private int getAuthorityApfReferenceCount(final Descriptor descriptor, final Session session) throws HibernateException {
     if (View.toIntView(descriptor.getUserViewString()) != 1 || descriptor.getAuthorityAccessPointClass() == null)
       return 0;
-    List<Integer> countList = session.find("from " + descriptor.getAuthorityAccessPointClass().getName() + " as apf where apf.headingNumber = ?",
+    List<Integer> countList = session.find(FROM + descriptor.getAuthorityAccessPointClass().getName() + " as apf where apf.headingNumber = ?",
       new Object[]{
         descriptor.getHeadingNumber()},
       new Type[]{
