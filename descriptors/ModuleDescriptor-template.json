@@ -1,11 +1,7 @@
 {
-  "id": "${artifactId}:${version}",
-  "name": "MARCcat Module",
+  "id": "mod-marccat-1.4.0",
+  "name": "MARCcat",
   "requires": [
-    {
-      "id": "configuration",
-      "version": "2.0"
-    }
   ],
   "provides": [
     {
@@ -78,7 +74,7 @@
         },
         {
           "methods": ["GET"],
-          "pathPattern": "/bibliographic-record/from-template/",
+          "pathPattern": "/bibliographic-record/from-template",
           "permissionsRequired": ["marccat.records.collection.get"],
           "modulePermissions": []
         },
@@ -120,15 +116,54 @@
         },
         {
           "methods": ["PUT"],
-          "pathPattern": "/bibliographic-record/lock/",
+          "pathPattern": "/bibliographic-record/lock",
           "permissionsRequired": ["marccat.record.lock.put"],
           "modulePermissions": []
         },
         {
           "methods": ["DELETE"],
-          "pathPattern": "/bibliographic-record/unlock/",
+          "pathPattern": "/bibliographic-record/unlock",
           "permissionsRequired": ["marccat.record.unlock.delete"],
           "modulePermissions": []
+        }
+      ]
+    },
+    {
+      "id": "_jsonSchemas",
+      "version": "1.0",
+      "interfaceType" : "multiple",
+      "handlers" : [
+        {
+          "methods" : [ "GET" ],
+          "pathPattern" : "/_/jsonSchemas"
+        }
+      ]
+    }, {
+      "id": "_ramls",
+      "version": "1.0",
+      "interfaceType" : "multiple",
+      "handlers" : [
+        {
+          "methods" : [ "GET" ],
+          "pathPattern" : "/_/ramls"
+        }
+      ]
+    }, {
+      "id": "_tenant",
+      "version": "1.0",
+      "interfaceType": "system",
+      "handlers": [
+        {
+          "methods": [
+            "POST"
+          ],
+          "pathPattern": "/_/tenant"
+        },
+        {
+          "methods": [
+            "DELETE"
+          ],
+          "pathPattern": "/_/tenant"
         }
       ]
     }
@@ -143,7 +178,7 @@
       "permissionName": "marccat.record.count.get",
       "displayName": "MARCcat - get count of document by id",
       "description": "Get count of MARC document by id"
-    }, 
+    },
     {
       "permissionName": "marccat.tag.collection.get",
       "displayName": "MARCcat - get marc tag collection for auto suggest",
@@ -176,10 +211,18 @@
     }
   ],
   "launchDescriptor": {
-    "dockerImage": "${artifactId}:${version}",
+    "dockerImage": "mod-marccat:1.4.0",
     "dockerArgs": {
-      "HostConfig": { "PortBindings": { "9403/tcp":  [{ "HostPort": "%p" }] } }
+      "HostConfig": {
+        "PortBindings": {
+          "8081/tcp": [
+            {
+              "HostPort": "%p"
+            }
+          ]
+        }
+      }
     },
-    "dockerPull" : false
+    "dockerPull": false
   }
 }
