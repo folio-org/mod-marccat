@@ -1,7 +1,7 @@
 {
-  "srvcId": "${artifactId}-${version}",
+  "srvcId": "mod-marccat-1.4.0",
   "nodeId": "localhost",
   "descriptor": {
-    "exec": "java -jar ../mod-marccat/target/mod-marccat.jar -Dhttp.port=%p"
+    "exec": "java -Dport=%p -jar ../mod-marccat/target/mod-marccat-1.4.0.jar -Dhttp.port=%p"
   }
 }
