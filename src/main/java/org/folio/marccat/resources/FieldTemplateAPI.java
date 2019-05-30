@@ -20,7 +20,6 @@ import static org.folio.marccat.resources.shared.RecordUtils.getVariableField;
  * @since 1.0
  */
 @RestController
-@RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class FieldTemplateAPI extends BaseResource implements CatalogingInformation {
 
 

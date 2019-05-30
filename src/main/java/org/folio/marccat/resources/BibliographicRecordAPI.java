@@ -32,7 +32,6 @@ import static org.folio.marccat.util.F.isNotNullOrEmpty;
  */
 
 @RestController
-@RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class BibliographicRecordAPI extends BaseResource {
 
 

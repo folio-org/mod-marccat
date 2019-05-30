@@ -15,7 +15,6 @@ import static org.folio.marccat.integration.MarccatHelper.doGet;
  * @since 1.0
  */
 @RestController
-@RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class CountDocumentAPI extends BaseResource {
 
   /**

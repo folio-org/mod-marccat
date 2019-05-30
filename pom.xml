@@ -46,7 +46,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <raml-module-builder.version>19.0.0</raml-module-builder.version>
+    <raml-module-builder.version>23.12.0</raml-module-builder.version>
     <ramlfiles_util_path>${basedir}/raml-storage</ramlfiles_util_path>
     <descriptors_path>${basedir}/descriptors</descriptors_path>
     <mod-configuration-version>5.0.2-SNAPSHOT</mod-configuration-version>
@@ -95,6 +95,11 @@
 
 
   <dependencies>
+    <dependency>
+      <groupId>org.folio</groupId>
+      <artifactId>domain-models-runtime</artifactId>
+      <version>${raml-module-builder.version}</version>
+    </dependency>
     <dependency>
       <groupId>org.folio</groupId>
       <artifactId>mod-configuration-client</artifactId>
@@ -155,6 +160,12 @@
       <groupId>net.sf.hibernate</groupId>
       <artifactId>hibernate</artifactId>
       <version>2.1.8</version>
+    </dependency>
+    <dependency>
+      <groupId>org.folio</groupId>
+      <artifactId>folio-di-support</artifactId>
+      <version>1.0.0</version>
+      <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -304,8 +315,20 @@
                   <destinationFile>${project.build.directory}/ModuleDescriptor.json</destinationFile>
                 </fileSet>
                 <fileSet>
-                  <sourceFile>${project.build.directory}/DeploymentDescriptor-template.json</sourceFile>
+                  <sourceFile>${project.build.directory}/DeploymentModuleDescriptor-template.json</sourceFile>
                   <destinationFile>${project.build.directory}/DeploymentDescriptor.json</destinationFile>
+                </fileSet>
+                <fileSet>
+                  <sourceFile>${project.build.directory}/TenantModuleDescriptor-template.json</sourceFile>
+                  <destinationFile>${project.build.directory}/TenantDescriptor.json</destinationFile>
+                </fileSet>
+                <fileSet>
+                  <sourceFile>${project.build.directory}/ActivateTenantModuleDescriptor-template.json</sourceFile>
+                  <destinationFile>${project.build.directory}/ActivateTenantDescriptor.json</destinationFile>
+                </fileSet>
+                <fileSet>
+                  <sourceFile>${project.build.directory}/UpdateTenantModuleDescriptor-template.json</sourceFile>
+                  <destinationFile>${project.build.directory}/UpdateTenantDescriptor.json</destinationFile>
                 </fileSet>
               </fileSets>
             </configuration>

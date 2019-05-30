@@ -183,15 +183,11 @@ public abstract class MarccatHelper {
    * @return a new datasource reference.
    */
   private static DataSource newDataSourceInstance(final ObjectNode value) {
-    final Map<String, String> config = StreamSupport.stream(value.withArray("configs").spliterator(), false)
-      .filter(node -> "datasource".equals(node.get("configName").asText()))
-      .map(node -> new AbstractMap.SimpleEntry<>(node.get("code").asText(), node.get("value").asText()))
-      .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
     return DataSourceBuilder
       .create()
-      .username(config.get("user"))
-      .password(config.get("password"))
-      .url(config.get("url"))
+      .username("folio_test")
+      .password("test")
+      .url("jdbc:postgresql://localhost:5432/folio_marccat")
       .build();
   }
 

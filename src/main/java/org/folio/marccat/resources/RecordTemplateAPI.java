@@ -30,7 +30,6 @@ import static org.folio.marccat.util.F.isNotNullOrEmpty;
  * @since 1.0
  */
 @RestController
-@RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class RecordTemplateAPI extends BaseResource {
 
   @GetMapping("/record-templates")

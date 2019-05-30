@@ -26,7 +26,6 @@ import static org.folio.marccat.util.F.locale;
  * @since 1.0
  */
 @RestController
-@RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class SearchAPI extends BaseResource {
 
   @GetMapping("/search")

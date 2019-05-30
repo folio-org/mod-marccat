@@ -19,11 +19,10 @@ import static org.folio.marccat.resources.shared.FixedFieldUtils.*;
  * Fixed-Field Codes Groups RESTful APIs.
  */
 @RestController
-@RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class FixedFieldCodesGroupAPI extends BaseResource implements CatalogingInformation {
 
   @GetMapping("/fixed-fields-code-groups-by-leader")
-  public FixedFieldCodesGroup getFixedFieldCodesGroupsByLeader(
+  public FixedFieldCodesGroup leader(
     @RequestParam final String leader,
     @RequestParam(name = "code", defaultValue = Global.MATERIAL_TAG_CODE) final String code,
     @RequestParam final String lang,

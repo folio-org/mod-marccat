@@ -25,7 +25,6 @@ import static org.folio.marccat.resources.shared.MappingUtils.setMapToResult;
  */
 
 @RestController
-@RequestMapping(value = ModMarccat.BASE_URI)
 public class LoadFromFileAPI extends BaseResource {
 
 

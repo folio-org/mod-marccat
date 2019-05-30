@@ -16,7 +16,6 @@ import static org.folio.marccat.resources.shared.MappingUtils.toHeading;
  * Headings RESTful APIs.
  */
 @RestController
-@RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class BrowseAPI extends BaseResource {
 
   @GetMapping("/browse")

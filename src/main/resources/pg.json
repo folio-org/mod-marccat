@@ -1,0 +1,9 @@
+{
+  "host": "localhost",
+  "port": 5432,
+  "maxPoolSize": 50,
+  "username": "folio_test",
+  "password": "folio",
+  "database": "folio_marccat",
+  "queryTimeout": 10000
+}

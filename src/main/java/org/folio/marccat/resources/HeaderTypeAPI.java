@@ -16,7 +16,6 @@ import static org.folio.marccat.resources.shared.MappingUtils.mapToHeading;
  * @since 1.0
  */
 @RestController
-@RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class HeaderTypeAPI extends BaseResource {
 
 
