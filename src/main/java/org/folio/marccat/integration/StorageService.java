@@ -65,6 +65,7 @@ import static org.folio.marccat.util.F.locale;
  */
 public class StorageService implements Closeable {
 
+  public static final String HDG_MAIN_LIBRARY_NUMBER = " and hdg.mainLibraryNumber = ";
   private static final Log logger = new Log(StorageService.class);
   private static final Map<Integer, Class> FIRST_CORRELATION_HEADING_CLASS_MAP = new HashMap<>();
   private static final Map<Integer, Class> SECOND_CORRELATION_CLASS_MAP = new HashMap<>();
@@ -599,8 +600,9 @@ public class StorageService implements Closeable {
       final DAODescriptor dao = (DAODescriptor) c.newInstance();
       String filter = Global.FILTER_MAP.get(key);
       if (dao instanceof ShelfListDAO) {
-        filter += " and hdg.mainLibraryNumber = " + mainLibrary;
+        filter += HDG_MAIN_LIBRARY_NUMBER + mainLibrary;
       }
+
       browseTerm = dao.calculateSearchTerm(browseTerm, key, session);
 
       descriptorsList = dao.getHeadingsBySortform("<", "desc", browseTerm, filter, view, 1, session);
@@ -655,7 +657,7 @@ public class StorageService implements Closeable {
       final DAODescriptor dao = (DAODescriptor) c.newInstance();
       String filter = Global.FILTER_MAP.get(key);
       if (dao instanceof ShelfListDAO) {
-        filter = filter + " and hdg.mainLibraryNumber = " + mainLibrary;
+        filter = filter + HDG_MAIN_LIBRARY_NUMBER + mainLibrary;
       }
       browseTerm = dao.calculateSearchTerm(browseTerm, key, session);
       if (dao instanceof PublisherDescriptorDAO || dao instanceof NameTitleNameDescriptorDAO)
@@ -708,7 +710,7 @@ public class StorageService implements Closeable {
       final DAODescriptor dao = (DAODescriptor) c.newInstance();
       String filter = Global.FILTER_MAP.get(key);
       if (dao instanceof ShelfListDAO) {
-        filter = filter + " and hdg.mainLibraryNumber = " + mainLibrary;
+        filter = filter + HDG_MAIN_LIBRARY_NUMBER + mainLibrary;
       }
       browseTerm = dao.calculateSearchTerm(browseTerm, key, session);
       if (dao instanceof PublisherDescriptorDAO || dao instanceof NameTitleNameDescriptorDAO)
@@ -1044,7 +1046,7 @@ public class StorageService implements Closeable {
           final DAODescriptor dao = (DAODescriptor) descriptor.getDAO();
           String filter = Global.FILTER_MAP.get(key);
           if (dao instanceof ShelfListDAO) {
-            filter = filter + " and hdg.mainLibraryNumber = " + mainLibrary;
+            filter = filter + HDG_MAIN_LIBRARY_NUMBER + mainLibrary;
           }
           browseTerm = descriptor.getDisplayText();
           browseTerm = dao.calculateSearchTerm(browseTerm, key, session);
@@ -1133,8 +1135,7 @@ public class StorageService implements Closeable {
         }
       }
 
-      if (!aTag.isFixedField() && aTag instanceof PublisherManager) {
-        if (!((PublisherManager) aTag).getPublisherTagUnits().isEmpty())
+      if (!aTag.isFixedField() && aTag instanceof PublisherManager && !((PublisherManager) aTag).getPublisherTagUnits().isEmpty()) {
           keyNumber = ((PublisherManager) aTag).getPublisherTagUnits().get(0).getPublisherHeadingNumber(); //add gestione multi publisher
       }
 
@@ -1590,14 +1591,13 @@ public class StorageService implements Closeable {
                           final Map<String, String> configuration) throws DataAccessException {
     try {
       final BibliographicCatalog catalog = new BibliographicCatalog();
-      CatalogItem item = catalog.newCatalogItem(new Object[]{view});
+      final CatalogItem item = catalog.newCatalogItem(new Object[]{view});
       final TagImpl impl = new BibliographicTagImpl();
-      boolean isInd1IsEmpty = heading.getInd1().equals(EMPTY_VALUE);
-      boolean isInd2IsEmpty = heading.getInd2().equals(EMPTY_VALUE);
-      final Correlation corr = impl.getCorrelation(heading.getTag(), (isInd1IsEmpty) ? " ".charAt(0) : heading.getInd1().charAt(0), (isInd2IsEmpty) ? " ".charAt(0) : heading.getInd2().charAt(0), 0, session);
+      final boolean isInd1IsEmpty = heading.getInd1().equals(EMPTY_VALUE);
+      final boolean isInd2IsEmpty = heading.getInd2().equals(EMPTY_VALUE);
+      final Correlation corr = impl.getCorrelation(heading.getTag(), (isInd1IsEmpty) ? " ".charAt(0) : heading.getInd1().charAt(0), (isInd2IsEmpty) ? " ".charAt(0) : heading.getInd2().charAt(0), heading.getCategoryCode(), session);
       final Tag newTag = catalog.getNewTag(item, corr.getKey().getMarcTagCategoryCode(), corr.getValues());
-      final List<Integer> headingNumberList = new ArrayList<>();
-      if (newTag != null) {
+       if (newTag != null) {
         final StringText st = new StringText(heading.getDisplayValue());
         ((VariableField) newTag).setStringText(st);
         if (newTag instanceof Browsable) {
@@ -1605,21 +1605,13 @@ public class StorageService implements Closeable {
           ((Browsable) newTag).setDescriptorStringText(st);
           final Descriptor descriptor = ((Browsable) newTag).getDescriptor();
           descriptor.setSkipInFiling(skipInFiling);
-          int headingNumber = createOrReplaceDescriptor(configuration, descriptor, view);
-          headingNumberList.add(headingNumber);
-          heading.setKeyNumber(headingNumber);
-          heading.setCategoryCode(newTag.getCategory());
-        } else if (newTag.isPublisher()) {
-          List<PUBL_TAG> publisherTagUnits = ((PublisherManager) newTag).getPublisherTagUnits();
-          for (PUBL_TAG publisherTag : publisherTagUnits) {
-            Descriptor descriptor = publisherTag.getDescriptor();
-            int headingNumber = createOrReplaceDescriptor(configuration, descriptor, view);
-            headingNumberList.add(headingNumber);
-            heading.setKeyNumber(headingNumber);
-            heading.setCategoryCode(newTag.getCategory());
+          if(newTag.isNameTitle()) {
+            createNameAndTitleDescriptor(configuration,descriptor,view);
           }
-        } else {
-          heading.setCategoryCode(newTag.getCategory());
+          final int headingNumber = createOrReplaceDescriptor(configuration, descriptor, view);
+          heading.setKeyNumber(headingNumber);
+        } else if (newTag.isPublisher()) {
+           createPublisherDescriptor(heading, view, configuration, newTag);
         }
       }
     } catch (HibernateException | SQLException exception) {
@@ -1628,7 +1620,51 @@ public class StorageService implements Closeable {
     }
   }
 
-  private int createOrReplaceDescriptor(final Map <String, String> configuration, final Descriptor descriptor, final int view) throws HibernateException, SQLException {
+  /**
+   * Save a publisher heading, if the capture already exists
+   *
+   * @param heading       the heading.
+   * @param view          the view.
+   * @param configuration the configuration.
+   * @param newTag        the new tag.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public void createPublisherDescriptor(final Heading heading, final int view, Map <String, String> configuration, final Tag newTag) throws HibernateException, SQLException {
+    final List<PUBL_TAG> publisherTagUnits = ((PublisherManager) newTag).getPublisherTagUnits();
+    for (PUBL_TAG publisherTag : publisherTagUnits) {
+      final Descriptor descriptor = publisherTag.getDescriptor();
+      final int headingNumber = createOrReplaceDescriptor(configuration, descriptor, view);
+      heading.setKeyNumber(headingNumber);
+    }
+  }
+
+  /**
+   * Save a name title heading, if the capture already exists
+   *
+   * @param view          the view.
+   * @param configuration the configuration.
+   * @param descriptor    the descriptor.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public void createNameAndTitleDescriptor(final Map <String, String> configuration, final Descriptor descriptor, int view) throws HibernateException, SQLException {
+    final NME_TTL_HDG nameTitleHeading  = (NME_TTL_HDG) descriptor;
+    final int nameHeadingNumber = createOrReplaceDescriptor(configuration, nameTitleHeading.getNameHeading(), view);
+    final int titleHeadingNumber = createOrReplaceDescriptor(configuration,nameTitleHeading.getTitleHeading() , view);
+    nameTitleHeading.getNameHeading().setHeadingNumber(nameHeadingNumber);
+    nameTitleHeading.setNameHeadingNumber(nameHeadingNumber);
+    nameTitleHeading.getTitleHeading().setHeadingNumber(titleHeadingNumber);
+    nameTitleHeading.setTitleHeadingNumber(titleHeadingNumber);
+  }
+
+  /**
+   * Save a heading, if the capture already exists
+   *
+   * @param configuration the configuration.
+   * @param descriptor    the descriptor.
+   * @param view          the view.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public int createOrReplaceDescriptor(final Map <String, String> configuration, final Descriptor descriptor, final int view) throws HibernateException, SQLException {
     descriptor.setUserViewString(View.makeSingleViewString(view));
     descriptor.setConfigValues(configuration);
     final Descriptor dup = ((DAODescriptor) (descriptor.getDAO())).getMatchingHeading(descriptor, session);
@@ -1639,7 +1675,6 @@ public class StorageService implements Closeable {
     } else {
       return dup.getHeadingNumber();
     }
-
   }
 
   /**

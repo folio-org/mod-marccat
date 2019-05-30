@@ -100,7 +100,7 @@ public class RecordUtils {
    */
   public static boolean isMandatory(final Field field, final RecordTemplate template) {
     if (ofNullable(template).isPresent()) {
-      return template.getFields().stream().filter(f -> f.getCode().equals(field.getCode())).anyMatch(f -> f.isMandatory());
+      return template.getFields().stream().filter(f -> f.getCode().equals(field.getCode())).anyMatch(Field::isMandatory);
     }
 
     return Global.MANDATORY_FIELDS.contains(field.getCode());
@@ -116,15 +116,47 @@ public class RecordUtils {
     if (isFixedField(field))
       field.getFixedField().setCategoryCode(Global.HEADER_CATEGORY);
     else if (getCategory(field) == 0) {
-      boolean hasTitle = ((field.getCode().endsWith("00") || field.getCode().endsWith("10") || field.getCode().endsWith("11"))
-        && field.getVariableField().getValue().contains(Global.SUBFIELD_DELIMITER + "t"));
-
-      final int category = storageService.getTagCategory(field.getCode(),
-        field.getVariableField().getInd1().charAt(0), field.getVariableField().getInd2().charAt(0), hasTitle);
+      final int category = getTagCategory(field, storageService);
       field.getVariableField().setCategoryCode(category);
     }
 
   }
+  /**
+   * Return category code on field.
+   *
+   * @param field          -- the field to set category.
+   * @param storageService -- the storageService module.
+   * @return a category code.
+   */
+  public static int getTagCategory(final Field field, final StorageService storageService) {
+    boolean hasTitle = isNameTitle(field.getCode(), field.getVariableField().getValue());
+    return storageService.getTagCategory(field.getCode(),field.getVariableField().getInd1().charAt(0), field.getVariableField().getInd2().charAt(0), hasTitle);
+  }
+
+  /**
+   * Return category code of a heading by tag number.
+   *
+   * @param heading          -- the heading
+   * @param storageService   -- the storageService module.
+   * @return a category code.
+   */
+  public static int getTagCategory(final Heading heading, final StorageService storageService) {
+    boolean hasTitle = isNameTitle(heading.getTag(), heading.getDisplayValue());
+    return storageService.getTagCategory(heading.getTag(), heading.getInd1().charAt(0), heading.getInd2().charAt(0), hasTitle);
+  }
+
+  /**
+   * Check if present a tag of type title name.
+   *
+   * @param tag            --  the tag number
+   * @param displayValue   -- the display value of a tag
+   * @return true if name title, false otherwise.
+   */
+  public static boolean isNameTitle(String tag, String displayValue) {
+    return ((tag.endsWith("00") || tag.endsWith("10") || tag.endsWith("11"))
+      && displayValue.contains(Global.SUBFIELD_DELIMITER + "t"));
+  }
+
 
   /**
    * Creates a cataloging source field (tag 040) using default values.
